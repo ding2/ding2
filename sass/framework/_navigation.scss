@@ -48,6 +48,7 @@
     }
   }
 
+
   i[class^="icon-"] {
     margin-right: 5px;
   }
@@ -72,6 +73,12 @@
     span {
       display: none;
     }
+
+    /* Show mobile link menu item */
+    .menu-item.topbar-link-menu {
+      display: inline-block;
+    }
+
   }
 }
 
@@ -484,7 +491,7 @@
 /* User topbar menu
    ========================================================================== */
 
-.js-user-top-menu {
+.topbar .mobile-user-top-menu {
   @extend .navigation-wrapper;
 
   padding-left: 30px;

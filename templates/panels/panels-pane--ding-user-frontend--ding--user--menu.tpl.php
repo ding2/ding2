@@ -23,7 +23,7 @@
 <?php if ($pane_prefix): ?>
   <?php print $pane_prefix; ?>
 <?php endif; ?>
-<div class="js-user-top-menu" <?php print $id; ?>>
+<div class="js-user-top-menu mobile-user-top-menu" <?php print $id; ?>>
   <?php if ($admin_links): ?>
     <?php print $admin_links; ?>
   <?php endif; ?>

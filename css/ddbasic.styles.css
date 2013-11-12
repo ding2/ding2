@@ -1,4 +1,3 @@
-@charset "UTF-8";
 @import url(../font/source-sans/stylesheet.css);
 /**
  * Variables
@@ -60,7 +59,7 @@
 
 /* Navigation background color */
 /* line 23, ../sass/configuration/_configuration.scss */
-.navigation-wrapper, .js-user-top-menu {
+.navigation-wrapper, .topbar .mobile-user-top-menu {
   background-color: #fffffc;
 }
 
@@ -1721,12 +1720,12 @@ button.button {
 .topbar-menu .menu-item.topbar-link-menu {
   display: none;
 }
-/* line 51, ../sass/framework/_navigation.scss */
+/* line 52, ../sass/framework/_navigation.scss */
 .topbar-menu i[class^="icon-"] {
   margin-right: 5px;
 }
 @media only screen and (max-width: 480px) {
-  /* line 57, ../sass/framework/_navigation.scss */
+  /* line 58, ../sass/framework/_navigation.scss */
   .topbar-menu .menu-item {
     padding: 10px 9px;
   }
@@ -1751,21 +1750,26 @@ button.button {
     _overflow-y: visible;
     margin-top: 0;
     padding: 0;
+    /* Show mobile link menu item */
   }
-  /* line 68, ../sass/framework/_navigation.scss */
+  /* line 69, ../sass/framework/_navigation.scss */
   .topbar-menu i[class^="icon-"] {
     margin-right: 0;
   }
-  /* line 72, ../sass/framework/_navigation.scss */
+  /* line 73, ../sass/framework/_navigation.scss */
   .topbar-menu span {
     display: none;
+  }
+  /* line 78, ../sass/framework/_navigation.scss */
+  .topbar-menu .menu-item.topbar-link-menu {
+    display: inline-block;
   }
 }
 
 /* Navigation, main menu and secondary menu
    ========================================================================== */
-/* line 82, ../sass/framework/_navigation.scss */
-.navigation-wrapper, .js-user-top-menu {
+/* line 89, ../sass/framework/_navigation.scss */
+.navigation-wrapper, .topbar .mobile-user-top-menu {
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -1775,8 +1779,8 @@ button.button {
   /* Media queries */
 }
 @media only screen and (max-width: 768px) {
-  /* line 82, ../sass/framework/_navigation.scss */
-  .navigation-wrapper, .js-user-top-menu {
+  /* line 89, ../sass/framework/_navigation.scss */
+  .navigation-wrapper, .topbar .mobile-user-top-menu {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1790,7 +1794,7 @@ button.button {
   }
 }
 
-/* line 104, ../sass/framework/_navigation.scss */
+/* line 111, ../sass/framework/_navigation.scss */
 .navigation-inner {
   margin-left: auto;
   margin-right: auto;
@@ -1798,7 +1802,7 @@ button.button {
   overflow: hidden;
 }
 
-/* line 111, ../sass/framework/_navigation.scss */
+/* line 118, ../sass/framework/_navigation.scss */
 .main-menu-wrapper {
   float: left;
   width: 66.66667%;
@@ -1817,7 +1821,7 @@ button.button {
   _overflow-y: visible;
 }
 
-/* line 115, ../sass/framework/_navigation.scss */
+/* line 122, ../sass/framework/_navigation.scss */
 .secondary-menu-wrapper {
   float: right;
   width: 33.33333%;
@@ -1837,7 +1841,7 @@ button.button {
 }
 
 @media only screen and (max-width: 768px) {
-  /* line 120, ../sass/framework/_navigation.scss */
+  /* line 127, ../sass/framework/_navigation.scss */
   .main-menu-wrapper,
   .secondary-menu-wrapper {
     float: left;
@@ -1859,98 +1863,98 @@ button.button {
   }
 }
 
-/* line 127, ../sass/framework/_navigation.scss */
-.main-menu, .js-user-top-menu .sub-menu, .js-user-top-menu .library-menu .links, .library-menu .js-user-top-menu .links {
+/* line 134, ../sass/framework/_navigation.scss */
+.main-menu, .topbar .mobile-user-top-menu .sub-menu, .topbar .mobile-user-top-menu .library-menu .links, .library-menu .topbar .mobile-user-top-menu .links {
   font-size: 130%;
   /* For now Drupal's menu_tree function adds the class "main-menu" so sub-menus
    * as well.
    */
   /* Media queries */
 }
-/* line 133, ../sass/framework/_navigation.scss */
-.main-menu .main-menu, .js-user-top-menu .sub-menu .main-menu, .js-user-top-menu .library-menu .links .main-menu, .library-menu .js-user-top-menu .links .main-menu, .main-menu .js-user-top-menu .sub-menu, .js-user-top-menu .main-menu .sub-menu, .js-user-top-menu .sub-menu .sub-menu, .js-user-top-menu .library-menu .links .sub-menu, .library-menu .js-user-top-menu .links .sub-menu, .main-menu .js-user-top-menu .library-menu .links, .js-user-top-menu .library-menu .main-menu .links, .js-user-top-menu .sub-menu .library-menu .links, .js-user-top-menu .library-menu .sub-menu .links, .js-user-top-menu .library-menu .links .links, .main-menu .library-menu .js-user-top-menu .links, .library-menu .js-user-top-menu .main-menu .links, .library-menu .js-user-top-menu .sub-menu .links, .library-menu .js-user-top-menu .links .links {
+/* line 140, ../sass/framework/_navigation.scss */
+.main-menu .main-menu, .topbar .mobile-user-top-menu .sub-menu .main-menu, .topbar .mobile-user-top-menu .library-menu .links .main-menu, .library-menu .topbar .mobile-user-top-menu .links .main-menu, .main-menu .topbar .mobile-user-top-menu .sub-menu, .topbar .mobile-user-top-menu .main-menu .sub-menu, .topbar .mobile-user-top-menu .sub-menu .sub-menu, .topbar .mobile-user-top-menu .library-menu .links .sub-menu, .library-menu .topbar .mobile-user-top-menu .links .sub-menu, .main-menu .topbar .mobile-user-top-menu .library-menu .links, .topbar .mobile-user-top-menu .library-menu .main-menu .links, .topbar .mobile-user-top-menu .sub-menu .library-menu .links, .topbar .mobile-user-top-menu .library-menu .sub-menu .links, .topbar .mobile-user-top-menu .library-menu .links .links, .main-menu .library-menu .topbar .mobile-user-top-menu .links, .library-menu .topbar .mobile-user-top-menu .main-menu .links, .library-menu .topbar .mobile-user-top-menu .sub-menu .links, .library-menu .topbar .mobile-user-top-menu .links .links {
   display: none;
 }
 @media only screen and (max-width: 768px) {
-  /* line 139, ../sass/framework/_navigation.scss */
-  .main-menu .main-menu, .js-user-top-menu .sub-menu .main-menu, .js-user-top-menu .library-menu .links .main-menu, .library-menu .js-user-top-menu .links .main-menu, .main-menu .js-user-top-menu .sub-menu, .js-user-top-menu .main-menu .sub-menu, .js-user-top-menu .sub-menu .sub-menu, .js-user-top-menu .library-menu .links .sub-menu, .library-menu .js-user-top-menu .links .sub-menu, .main-menu .js-user-top-menu .library-menu .links, .js-user-top-menu .library-menu .main-menu .links, .js-user-top-menu .sub-menu .library-menu .links, .js-user-top-menu .library-menu .sub-menu .links, .js-user-top-menu .library-menu .links .links, .main-menu .library-menu .js-user-top-menu .links, .library-menu .js-user-top-menu .main-menu .links, .library-menu .js-user-top-menu .sub-menu .links, .library-menu .js-user-top-menu .links .links {
+  /* line 146, ../sass/framework/_navigation.scss */
+  .main-menu .main-menu, .topbar .mobile-user-top-menu .sub-menu .main-menu, .topbar .mobile-user-top-menu .library-menu .links .main-menu, .library-menu .topbar .mobile-user-top-menu .links .main-menu, .main-menu .topbar .mobile-user-top-menu .sub-menu, .topbar .mobile-user-top-menu .main-menu .sub-menu, .topbar .mobile-user-top-menu .sub-menu .sub-menu, .topbar .mobile-user-top-menu .library-menu .links .sub-menu, .library-menu .topbar .mobile-user-top-menu .links .sub-menu, .main-menu .topbar .mobile-user-top-menu .library-menu .links, .topbar .mobile-user-top-menu .library-menu .main-menu .links, .topbar .mobile-user-top-menu .sub-menu .library-menu .links, .topbar .mobile-user-top-menu .library-menu .sub-menu .links, .topbar .mobile-user-top-menu .library-menu .links .links, .main-menu .library-menu .topbar .mobile-user-top-menu .links, .library-menu .topbar .mobile-user-top-menu .main-menu .links, .library-menu .topbar .mobile-user-top-menu .sub-menu .links, .library-menu .topbar .mobile-user-top-menu .links .links {
     display: block;
     font-size: 100%;
     margin-left: 20px;
   }
 }
 
-/* line 147, ../sass/framework/_navigation.scss */
+/* line 154, ../sass/framework/_navigation.scss */
 .secondary-menu {
   float: right;
 }
-/* line 150, ../sass/framework/_navigation.scss */
+/* line 157, ../sass/framework/_navigation.scss */
 .secondary-menu li {
   border-right: 1px solid #d5d5d5;
 }
-/* line 154, ../sass/framework/_navigation.scss */
+/* line 161, ../sass/framework/_navigation.scss */
 .secondary-menu .menu-item {
   margin-left: 15px;
 }
 @media only screen and (min-width: 769px) and (max-width: 940px) {
-  /* line 159, ../sass/framework/_navigation.scss */
+  /* line 166, ../sass/framework/_navigation.scss */
   .secondary-menu .menu-item {
     font-size: 85%;
     margin-left: 10px;
   }
 }
 @media only screen and (max-width: 768px) {
-  /* line 147, ../sass/framework/_navigation.scss */
+  /* line 154, ../sass/framework/_navigation.scss */
   .secondary-menu {
     float: none;
   }
-  /* line 168, ../sass/framework/_navigation.scss */
+  /* line 175, ../sass/framework/_navigation.scss */
   .secondary-menu li {
     border-right: 0;
   }
 }
 
-/* line 176, ../sass/framework/_navigation.scss */
-.main-menu, .js-user-top-menu .sub-menu, .js-user-top-menu .library-menu .links, .library-menu .js-user-top-menu .links,
+/* line 183, ../sass/framework/_navigation.scss */
+.main-menu, .topbar .mobile-user-top-menu .sub-menu, .topbar .mobile-user-top-menu .library-menu .links, .library-menu .topbar .mobile-user-top-menu .links,
 .secondary-menu,
 .system-user-menu {
   margin: 0;
   padding-left: 0;
 }
-/* line 180, ../sass/framework/_navigation.scss */
-.main-menu li, .js-user-top-menu .sub-menu li, .js-user-top-menu .library-menu .links li, .library-menu .js-user-top-menu .links li,
+/* line 187, ../sass/framework/_navigation.scss */
+.main-menu li, .topbar .mobile-user-top-menu .sub-menu li, .topbar .mobile-user-top-menu .library-menu .links li, .library-menu .topbar .mobile-user-top-menu .links li,
 .secondary-menu li,
 .system-user-menu li {
   /* Add the icon here so we can show it in other breakpoints */
   display: inline;
   /* Make sure the icon is not displayed in this breakpoint */
 }
-/* line 187, ../sass/framework/_navigation.scss */
-.main-menu li:before, .js-user-top-menu .sub-menu li:before, .js-user-top-menu .library-menu .links li:before, .library-menu .js-user-top-menu .links li:before,
+/* line 194, ../sass/framework/_navigation.scss */
+.main-menu li:before, .topbar .mobile-user-top-menu .sub-menu li:before, .topbar .mobile-user-top-menu .library-menu .links li:before, .library-menu .topbar .mobile-user-top-menu .links li:before,
 .secondary-menu li:before,
 .system-user-menu li:before {
   display: none;
 }
-/* line 193, ../sass/framework/_navigation.scss */
-.main-menu .first .menu-item, .js-user-top-menu .sub-menu .first .menu-item, .js-user-top-menu .library-menu .links .first .menu-item, .library-menu .js-user-top-menu .links .first .menu-item,
+/* line 200, ../sass/framework/_navigation.scss */
+.main-menu .first .menu-item, .topbar .mobile-user-top-menu .sub-menu .first .menu-item, .topbar .mobile-user-top-menu .library-menu .links .first .menu-item, .library-menu .topbar .mobile-user-top-menu .links .first .menu-item,
 .secondary-menu .first .menu-item,
 .system-user-menu .first .menu-item {
   margin-left: 0;
 }
-/* line 198, ../sass/framework/_navigation.scss */
-.main-menu .last, .js-user-top-menu .sub-menu .last, .js-user-top-menu .library-menu .links .last, .library-menu .js-user-top-menu .links .last,
+/* line 205, ../sass/framework/_navigation.scss */
+.main-menu .last, .topbar .mobile-user-top-menu .sub-menu .last, .topbar .mobile-user-top-menu .library-menu .links .last, .library-menu .topbar .mobile-user-top-menu .links .last,
 .secondary-menu .last,
 .system-user-menu .last {
   border-right: 0;
 }
-/* line 201, ../sass/framework/_navigation.scss */
-.main-menu .last .menu-item, .js-user-top-menu .sub-menu .last .menu-item, .js-user-top-menu .library-menu .links .last .menu-item, .library-menu .js-user-top-menu .links .last .menu-item,
+/* line 208, ../sass/framework/_navigation.scss */
+.main-menu .last .menu-item, .topbar .mobile-user-top-menu .sub-menu .last .menu-item, .topbar .mobile-user-top-menu .library-menu .links .last .menu-item, .library-menu .topbar .mobile-user-top-menu .links .last .menu-item,
 .secondary-menu .last .menu-item,
 .system-user-menu .last .menu-item {
   margin-right: 0;
 }
-/* line 206, ../sass/framework/_navigation.scss */
-.main-menu .menu-item, .js-user-top-menu .sub-menu .menu-item, .js-user-top-menu .library-menu .links .menu-item, .library-menu .js-user-top-menu .links .menu-item,
+/* line 213, ../sass/framework/_navigation.scss */
+.main-menu .menu-item, .topbar .mobile-user-top-menu .sub-menu .menu-item, .topbar .mobile-user-top-menu .library-menu .links .menu-item, .library-menu .topbar .mobile-user-top-menu .links .menu-item,
 .secondary-menu .menu-item,
 .system-user-menu .menu-item {
   color: #959595;
@@ -1959,22 +1963,22 @@ button.button {
   padding-top: 20px;
   padding-bottom: 20px;
 }
-/* line 213, ../sass/framework/_navigation.scss */
-.main-menu .menu-item:hover, .js-user-top-menu .sub-menu .menu-item:hover, .js-user-top-menu .library-menu .links .menu-item:hover, .library-menu .js-user-top-menu .links .menu-item:hover,
+/* line 220, ../sass/framework/_navigation.scss */
+.main-menu .menu-item:hover, .topbar .mobile-user-top-menu .sub-menu .menu-item:hover, .topbar .mobile-user-top-menu .library-menu .links .menu-item:hover, .library-menu .topbar .mobile-user-top-menu .links .menu-item:hover,
 .secondary-menu .menu-item:hover,
 .system-user-menu .menu-item:hover {
   color: black;
 }
-/* line 217, ../sass/framework/_navigation.scss */
-.main-menu .menu-item.active, .js-user-top-menu .sub-menu .menu-item.active, .js-user-top-menu .library-menu .links .menu-item.active, .library-menu .js-user-top-menu .links .menu-item.active,
+/* line 224, ../sass/framework/_navigation.scss */
+.main-menu .menu-item.active, .topbar .mobile-user-top-menu .sub-menu .menu-item.active, .topbar .mobile-user-top-menu .library-menu .links .menu-item.active, .library-menu .topbar .mobile-user-top-menu .links .menu-item.active,
 .secondary-menu .menu-item.active,
 .system-user-menu .menu-item.active {
   color: black;
   text-decoration: underline;
 }
 @media only screen and (min-width: 769px) and (max-width: 940px) {
-  /* line 224, ../sass/framework/_navigation.scss */
-  .main-menu .menu-item, .js-user-top-menu .sub-menu .menu-item, .js-user-top-menu .library-menu .links .menu-item, .library-menu .js-user-top-menu .links .menu-item,
+  /* line 231, ../sass/framework/_navigation.scss */
+  .main-menu .menu-item, .topbar .mobile-user-top-menu .sub-menu .menu-item, .topbar .mobile-user-top-menu .library-menu .links .menu-item, .library-menu .topbar .mobile-user-top-menu .links .menu-item,
   .secondary-menu .menu-item,
   .system-user-menu .menu-item {
     font-size: 85%;
@@ -1984,21 +1988,21 @@ button.button {
   }
 }
 @media only screen and (max-width: 768px) {
-  /* line 176, ../sass/framework/_navigation.scss */
-  .main-menu, .js-user-top-menu .sub-menu, .js-user-top-menu .library-menu .links, .library-menu .js-user-top-menu .links,
+  /* line 183, ../sass/framework/_navigation.scss */
+  .main-menu, .topbar .mobile-user-top-menu .sub-menu, .topbar .mobile-user-top-menu .library-menu .links, .library-menu .topbar .mobile-user-top-menu .links,
   .secondary-menu,
   .system-user-menu {
     font-size: 100%;
   }
-  /* line 235, ../sass/framework/_navigation.scss */
-  .main-menu li, .js-user-top-menu .sub-menu li, .js-user-top-menu .library-menu .links li, .library-menu .js-user-top-menu .links li,
+  /* line 242, ../sass/framework/_navigation.scss */
+  .main-menu li, .topbar .mobile-user-top-menu .sub-menu li, .topbar .mobile-user-top-menu .library-menu .links li, .library-menu .topbar .mobile-user-top-menu .links li,
   .secondary-menu li,
   .system-user-menu li {
     border-bottom: 1px solid rgba(255, 255, 255, 0.25);
     display: block;
   }
-  /* line 239, ../sass/framework/_navigation.scss */
-  .main-menu li:before, .js-user-top-menu .sub-menu li:before, .js-user-top-menu .library-menu .links li:before, .library-menu .js-user-top-menu .links li:before,
+  /* line 246, ../sass/framework/_navigation.scss */
+  .main-menu li:before, .topbar .mobile-user-top-menu .sub-menu li:before, .topbar .mobile-user-top-menu .library-menu .links li:before, .library-menu .topbar .mobile-user-top-menu .links li:before,
   .secondary-menu li:before,
   .system-user-menu li:before {
     color: white;
@@ -2008,14 +2012,14 @@ button.button {
     margin-top: 9px;
     margin-right: 5px;
   }
-  /* line 249, ../sass/framework/_navigation.scss */
-  .main-menu li.first .menu-item, .js-user-top-menu .sub-menu li.first .menu-item, .js-user-top-menu .library-menu .links li.first .menu-item, .library-menu .js-user-top-menu .links li.first .menu-item,
+  /* line 256, ../sass/framework/_navigation.scss */
+  .main-menu li.first .menu-item, .topbar .mobile-user-top-menu .sub-menu li.first .menu-item, .topbar .mobile-user-top-menu .library-menu .links li.first .menu-item, .library-menu .topbar .mobile-user-top-menu .links li.first .menu-item,
   .secondary-menu li.first .menu-item,
   .system-user-menu li.first .menu-item {
     margin-left: -12px;
   }
-  /* line 254, ../sass/framework/_navigation.scss */
-  .main-menu li .menu-item, .js-user-top-menu .sub-menu li .menu-item, .js-user-top-menu .library-menu .links li .menu-item, .library-menu .js-user-top-menu .links li .menu-item,
+  /* line 261, ../sass/framework/_navigation.scss */
+  .main-menu li .menu-item, .topbar .mobile-user-top-menu .sub-menu li .menu-item, .topbar .mobile-user-top-menu .library-menu .links li .menu-item, .library-menu .topbar .mobile-user-top-menu .links li .menu-item,
   .secondary-menu li .menu-item,
   .system-user-menu li .menu-item {
     color: white;
@@ -2027,8 +2031,8 @@ button.button {
     padding-left: 12px;
     width: 95%;
   }
-  /* line 264, ../sass/framework/_navigation.scss */
-  .main-menu li .menu-item:hover, .js-user-top-menu .sub-menu li .menu-item:hover, .js-user-top-menu .library-menu .links li .menu-item:hover, .library-menu .js-user-top-menu .links li .menu-item:hover,
+  /* line 271, ../sass/framework/_navigation.scss */
+  .main-menu li .menu-item:hover, .topbar .mobile-user-top-menu .sub-menu li .menu-item:hover, .topbar .mobile-user-top-menu .library-menu .links li .menu-item:hover, .library-menu .topbar .mobile-user-top-menu .links li .menu-item:hover,
   .secondary-menu li .menu-item:hover,
   .system-user-menu li .menu-item:hover {
     font-family: "SourceSansProSemibold";
@@ -2036,8 +2040,8 @@ button.button {
     color: white;
     text-decoration: none;
   }
-  /* line 271, ../sass/framework/_navigation.scss */
-  .main-menu li .menu-item.active, .js-user-top-menu .sub-menu li .menu-item.active, .js-user-top-menu .library-menu .links li .menu-item.active, .library-menu .js-user-top-menu .links li .menu-item.active,
+  /* line 278, ../sass/framework/_navigation.scss */
+  .main-menu li .menu-item.active, .topbar .mobile-user-top-menu .sub-menu li .menu-item.active, .topbar .mobile-user-top-menu .library-menu .links li .menu-item.active, .library-menu .topbar .mobile-user-top-menu .links li .menu-item.active,
   .secondary-menu li .menu-item.active,
   .system-user-menu li .menu-item.active {
     font-family: "SourceSansProSemibold";
@@ -2047,18 +2051,18 @@ button.button {
   }
 }
 
-/* line 284, ../sass/framework/_navigation.scss */
+/* line 291, ../sass/framework/_navigation.scss */
 .system-user-menu .last .menu-item {
   margin-right: 0;
 }
-/* line 288, ../sass/framework/_navigation.scss */
+/* line 295, ../sass/framework/_navigation.scss */
 .system-user-menu .menu-item {
   color: white;
   padding-top: 0;
   padding-bottom: 0;
 }
 @media only screen and (max-width: 768px) {
-  /* line 295, ../sass/framework/_navigation.scss */
+  /* line 302, ../sass/framework/_navigation.scss */
   .system-user-menu .menu-item {
     padding-top: 20px;
     padding-bottom: 20px;
@@ -2069,14 +2073,14 @@ button.button {
    ========================================================================== */
 /* The submenu is moved to main menu in responsive design @see ddbasic/scripts/ddbasic.topbar.menu.js */
 @media only screen and (max-width: 768px) {
-  /* line 309, ../sass/framework/_navigation.scss */
+  /* line 316, ../sass/framework/_navigation.scss */
   .pane-taxonomy-menu,
   .sub-menu-wrapper {
     display: none;
   }
 }
 
-/* line 315, ../sass/framework/_navigation.scss */
+/* line 322, ../sass/framework/_navigation.scss */
 .sub-menu-title, .library-menu h2 {
   font-family: "SourceSansProRegular", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
   font-weight: normal;
@@ -2086,17 +2090,17 @@ button.button {
   padding-bottom: 10px;
 }
 
-/* line 324, ../sass/framework/_navigation.scss */
+/* line 331, ../sass/framework/_navigation.scss */
 .sub-menu, .library-menu .links {
   padding-left: 0;
 }
-/* line 327, ../sass/framework/_navigation.scss */
+/* line 334, ../sass/framework/_navigation.scss */
 .sub-menu > li, .library-menu .links > li {
   border-bottom: 1px solid #efefef;
   padding-top: 0;
   padding-right: 0;
 }
-/* line 332, ../sass/framework/_navigation.scss */
+/* line 339, ../sass/framework/_navigation.scss */
 .sub-menu > li a, .library-menu .links > li a {
   color: #00b7e7;
   display: block;
@@ -2105,17 +2109,17 @@ button.button {
   padding-bottom: 8px;
   padding-left: 35px;
 }
-/* line 340, ../sass/framework/_navigation.scss */
+/* line 347, ../sass/framework/_navigation.scss */
 .sub-menu > li a.active, .library-menu .links > li a.active {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
 }
-/* line 345, ../sass/framework/_navigation.scss */
+/* line 352, ../sass/framework/_navigation.scss */
 .sub-menu > li a:hover, .library-menu .links > li a:hover {
   text-decoration: none;
   color: #006681;
 }
-/* line 355, ../sass/framework/_navigation.scss */
+/* line 362, ../sass/framework/_navigation.scss */
 .sub-menu li:before, .library-menu .links li:before {
   color: #00b7e7;
   float: left;
@@ -2124,25 +2128,25 @@ button.button {
   margin-top: 8px;
   margin-left: 1px;
 }
-/* line 366, ../sass/framework/_navigation.scss */
+/* line 373, ../sass/framework/_navigation.scss */
 .sub-menu ul li, .library-menu .links ul li {
   border-left: 7px solid #efefef;
   padding-left: 10px;
 }
-/* line 370, ../sass/framework/_navigation.scss */
+/* line 377, ../sass/framework/_navigation.scss */
 .sub-menu ul li li, .library-menu .links ul li li {
   border-top: 1px solid #efefef;
   border-left: 0;
   padding-left: 25px;
 }
-/* line 379, ../sass/framework/_navigation.scss */
+/* line 386, ../sass/framework/_navigation.scss */
 .sub-menu ul li.last, .library-menu .links ul li.last {
   border-bottom: 0;
 }
 
 /* Footer menus
    ========================================================================== */
-/* line 392, ../sass/framework/_navigation.scss */
+/* line 399, ../sass/framework/_navigation.scss */
 .footer .pane-title {
   color: white;
   margin-bottom: 10px;
@@ -2150,12 +2154,12 @@ button.button {
   border-bottom: 1px solid #5b5b5b;
   cursor: pointer;
 }
-/* line 401, ../sass/framework/_navigation.scss */
+/* line 408, ../sass/framework/_navigation.scss */
 .footer .pane-title:before {
   float: right;
   font-family: "FontAwesome";
 }
-/* line 411, ../sass/framework/_navigation.scss */
+/* line 418, ../sass/framework/_navigation.scss */
 .footer .menu {
   margin-top: 0;
   margin-right: 0;
@@ -2163,28 +2167,28 @@ button.button {
   margin-left: 0;
   padding: 0;
 }
-/* line 418, ../sass/framework/_navigation.scss */
+/* line 425, ../sass/framework/_navigation.scss */
 .footer .menu li {
   margin: 0;
   margin-bottom: 10px;
 }
-/* line 424, ../sass/framework/_navigation.scss */
+/* line 431, ../sass/framework/_navigation.scss */
 .footer .menu li:before {
   float: left;
   color: white;
   font-family: "FontAwesome";
 }
-/* line 430, ../sass/framework/_navigation.scss */
+/* line 437, ../sass/framework/_navigation.scss */
 .footer .menu li a {
   color: white;
   padding-left: 10px;
 }
-/* line 434, ../sass/framework/_navigation.scss */
+/* line 441, ../sass/framework/_navigation.scss */
 .footer .menu li a.active {
   color: white;
 }
 @media only screen and (max-width: 768px) {
-  /* line 442, ../sass/framework/_navigation.scss */
+  /* line 449, ../sass/framework/_navigation.scss */
   .footer .menu {
     display: none;
   }
@@ -2192,20 +2196,20 @@ button.button {
 
 /* Action Links
    ========================================================================== */
-/* line 453, ../sass/framework/_navigation.scss */
+/* line 460, ../sass/framework/_navigation.scss */
 .action-links {
   padding-top: 10px;
   padding-right: 20px;
   padding-bottom: 10px;
   padding-left: 20px;
 }
-/* line 459, ../sass/framework/_navigation.scss */
+/* line 466, ../sass/framework/_navigation.scss */
 .action-links li {
   color: #00b7e7;
   display: inline-block;
   padding: 0 10px;
 }
-/* line 466, ../sass/framework/_navigation.scss */
+/* line 473, ../sass/framework/_navigation.scss */
 .action-links li:before {
   color: #00b7e7;
   float: left;
@@ -2214,7 +2218,7 @@ button.button {
   margin-top: 2px;
   margin-left: 1px;
 }
-/* line 475, ../sass/framework/_navigation.scss */
+/* line 482, ../sass/framework/_navigation.scss */
 .action-links li a {
   font-family: "SourceSansProRegular", "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
   margin-left: -20px;
@@ -2223,8 +2227,8 @@ button.button {
 
 /* User topbar menu
    ========================================================================== */
-/* line 487, ../sass/framework/_navigation.scss */
-.js-user-top-menu {
+/* line 494, ../sass/framework/_navigation.scss */
+.topbar .mobile-user-top-menu {
   padding-left: 30px;
   float: left;
   width: 100%;
@@ -3908,7 +3912,7 @@ ul.icons li [class*=" icon-"] {
 }
 
 /* line 518, ../sass/framework/_fontawesome.scss */
-.icon-angle-right:before, .main-menu li:before, .js-user-top-menu .sub-menu li:before,
+.icon-angle-right:before, .main-menu li:before, .topbar .mobile-user-top-menu .sub-menu li:before, .topbar .mobile-user-top-menu .library-menu .links li:before, .library-menu .topbar .mobile-user-top-menu .links li:before,
 .secondary-menu li:before,
 .system-user-menu li:before, .sub-menu li:before, .library-menu .links li:before, .footer .menu li:before {
   content: "\f105";
@@ -9296,9 +9300,10 @@ input#edit-search-block-form--2.spinner {
 }
 /* line 355, ../sass/module/_user.scss */
 .user .user-field-wrapper {
+  padding: 10px 20px 30px;
   position: relative;
 }
-/* line 359, ../sass/module/_user.scss */
+/* line 360, ../sass/module/_user.scss */
 .user .form-item-name {
   float: left;
   width: 50%;
@@ -9316,11 +9321,11 @@ input#edit-search-block-form--2.spinner {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 362, ../sass/module/_user.scss */
+/* line 363, ../sass/module/_user.scss */
 .user .form-item-name .form-text {
   padding-left: 45px;
 }
-/* line 367, ../sass/module/_user.scss */
+/* line 368, ../sass/module/_user.scss */
 .user .form-item-pass {
   float: right;
   width: 50%;
@@ -9338,16 +9343,16 @@ input#edit-search-block-form--2.spinner {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 370, ../sass/module/_user.scss */
+/* line 371, ../sass/module/_user.scss */
 .user .form-item-pass .form-text {
   padding-left: 42px;
 }
-/* line 375, ../sass/module/_user.scss */
+/* line 376, ../sass/module/_user.scss */
 .user .block-title {
   display: none;
 }
 @media only screen and (max-width: 480px) {
-  /* line 381, ../sass/module/_user.scss */
+  /* line 382, ../sass/module/_user.scss */
   .user .form-item-name,
   .user .form-item-pass {
     float: left;
@@ -9367,11 +9372,11 @@ input#edit-search-block-form--2.spinner {
     _overflow-y: visible;
     clear: left;
   }
-  /* line 386, ../sass/module/_user.scss */
+  /* line 387, ../sass/module/_user.scss */
   .user .form-actions {
     margin-bottom: 0;
   }
-  /* line 390, ../sass/module/_user.scss */
+  /* line 391, ../sass/module/_user.scss */
   .user .form-submit {
     margin-top: 10px;
   }
@@ -9381,7 +9386,7 @@ input#edit-search-block-form--2.spinner {
   .user {
     text-align: left;
   }
-  /* line 398, ../sass/module/_user.scss */
+  /* line 399, ../sass/module/_user.scss */
   .user .block-title {
     display: block;
     color: white;
@@ -9392,24 +9397,24 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
-/* line 410, ../sass/module/_user.scss */
+/* line 411, ../sass/module/_user.scss */
 .user-name {
   color: white;
 }
-/* line 413, ../sass/module/_user.scss */
+/* line 414, ../sass/module/_user.scss */
 .user-name .user-name-title {
   font-size: 160%;
   overflow: hidden;
   max-height: 45px;
 }
 @media only screen and (max-width: 768px) {
-  /* line 420, ../sass/module/_user.scss */
+  /* line 421, ../sass/module/_user.scss */
   .user-name .user-name-title {
     margin-bottom: 0;
   }
 }
 
-/* line 428, ../sass/module/_user.scss */
+/* line 429, ../sass/module/_user.scss */
 .user-name,
 .user-menu-loans,
 .user-menu {
@@ -9420,7 +9425,7 @@ input#edit-search-block-form--2.spinner {
   text-align: right;
 }
 @media only screen and (max-width: 768px) {
-  /* line 428, ../sass/module/_user.scss */
+  /* line 429, ../sass/module/_user.scss */
   .user-name,
   .user-menu-loans,
   .user-menu {
@@ -9430,20 +9435,20 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
-/* line 443, ../sass/module/_user.scss */
+/* line 444, ../sass/module/_user.scss */
 .user-menu-loans,
 .user-menu {
   padding-top: 10px;
 }
 @media only screen and (max-width: 768px) {
-  /* line 443, ../sass/module/_user.scss */
+  /* line 444, ../sass/module/_user.scss */
   .user-menu-loans,
   .user-menu {
     padding-top: 0;
   }
 }
 
-/* line 451, ../sass/module/_user.scss */
+/* line 452, ../sass/module/_user.scss */
 .user-menu {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
@@ -9451,13 +9456,13 @@ input#edit-search-block-form--2.spinner {
 
 /* User profile
    ========================================================================== */
-/* line 460, ../sass/module/_user.scss */
+/* line 461, ../sass/module/_user.scss */
 .user-loan-status-wrapper {
   border-top: 1px solid #efefef;
   padding-top: 20px;
 }
 
-/* line 468, ../sass/module/_user.scss */
+/* line 469, ../sass/module/_user.scss */
 .user-status-loan,
 .user-status-reservation,
 .user-status-debt,
@@ -9471,14 +9476,14 @@ input#edit-search-block-form--2.spinner {
   margin-bottom: 10px;
   padding: 10px 20px;
 }
-/* line 477, ../sass/module/_user.scss */
+/* line 478, ../sass/module/_user.scss */
 .user-status-loan:hover,
 .user-status-reservation:hover,
 .user-status-debt:hover,
 .user-status-ready-pickup:hover {
   text-decoration: none;
 }
-/* line 481, ../sass/module/_user.scss */
+/* line 482, ../sass/module/_user.scss */
 .user-status-loan:before,
 .user-status-reservation:before,
 .user-status-debt:before,
@@ -9487,20 +9492,20 @@ input#edit-search-block-form--2.spinner {
   font-family: "FontAwesome";
 }
 
-/* line 489, ../sass/module/_user.scss */
+/* line 490, ../sass/module/_user.scss */
 .user-status-loan,
 .user-status-reservation {
   background-color: #efefef;
   color: #00b7e7;
 }
-/* line 494, ../sass/module/_user.scss */
+/* line 495, ../sass/module/_user.scss */
 .user-status-loan:focus, .user-status-loan:hover,
 .user-status-reservation:focus,
 .user-status-reservation:hover {
   background-color: #e2e2e2;
 }
 
-/* line 504, ../sass/module/_user.scss */
+/* line 505, ../sass/module/_user.scss */
 .user-status-debt:link, .user-status-debt:visited, .user-status-debt:focus, .user-status-debt:active,
 .user-status-ready-pickup:link,
 .user-status-ready-pickup:visited,
@@ -9509,36 +9514,36 @@ input#edit-search-block-form--2.spinner {
   color: white;
 }
 
-/* line 509, ../sass/module/_user.scss */
+/* line 510, ../sass/module/_user.scss */
 .user-status-debt {
   background-color: #a32e10;
 }
-/* line 513, ../sass/module/_user.scss */
+/* line 514, ../sass/module/_user.scss */
 .user-status-debt:focus, .user-status-debt:hover {
   background-color: #8c270e;
 }
 
-/* line 518, ../sass/module/_user.scss */
+/* line 519, ../sass/module/_user.scss */
 .user-status-ready-pickup {
   background-color: #528c10;
 }
-/* line 522, ../sass/module/_user.scss */
+/* line 523, ../sass/module/_user.scss */
 .user-status-ready-pickup:focus, .user-status-ready-pickup:hover {
   background-color: #45750d;
 }
 
-/* line 527, ../sass/module/_user.scss */
+/* line 528, ../sass/module/_user.scss */
 .pane-profile2 {
   border-top: 1px solid #efefef;
   /* Media queries */
 }
-/* line 530, ../sass/module/_user.scss */
+/* line 531, ../sass/module/_user.scss */
 .pane-profile2 .field {
   border-right: 1px solid #efefef;
   border-bottom: 1px solid #efefef;
   border-left: 1px solid #efefef;
 }
-/* line 537, ../sass/module/_user.scss */
+/* line 538, ../sass/module/_user.scss */
 .pane-profile2 .field-label,
 .pane-profile2 .field-item {
   -webkit-box-sizing: border-box;
@@ -9550,17 +9555,17 @@ input#edit-search-block-form--2.spinner {
   padding-bottom: 10px;
   padding-left: 10px;
 }
-/* line 547, ../sass/module/_user.scss */
+/* line 548, ../sass/module/_user.scss */
 .pane-profile2 .field-label {
   min-width: 200px;
 }
-/* line 551, ../sass/module/_user.scss */
+/* line 552, ../sass/module/_user.scss */
 .pane-profile2 .notice-sms {
   font-style: italic;
   padding-left: .5em;
 }
 @media only screen and (max-width: 480px) {
-  /* line 558, ../sass/module/_user.scss */
+  /* line 559, ../sass/module/_user.scss */
   .pane-profile2 .field-label {
     margin-bottom: -8px;
     padding-bottom: 0;
@@ -9569,14 +9574,14 @@ input#edit-search-block-form--2.spinner {
 
 /* User loans
    ========================================================================== */
-/* line 571, ../sass/module/_user.scss */
+/* line 572, ../sass/module/_user.scss */
 .pane-loans ul,
 .pane-reservations ul,
 .pane-bookmarks ul {
   margin: 0;
   padding: 0;
 }
-/* line 576, ../sass/module/_user.scss */
+/* line 577, ../sass/module/_user.scss */
 .pane-loans .form-checkbox,
 .pane-reservations .form-checkbox,
 .pane-bookmarks .form-checkbox {
@@ -9585,7 +9590,7 @@ input#edit-search-block-form--2.spinner {
   margin-bottom: 0;
   margin-left: 0;
 }
-/* line 583, ../sass/module/_user.scss */
+/* line 584, ../sass/module/_user.scss */
 .pane-loans .order-id,
 .pane-reservations .order-id,
 .pane-bookmarks .order-id {
@@ -9594,12 +9599,12 @@ input#edit-search-block-form--2.spinner {
   margin-left: 47px;
 }
 
-/* line 591, ../sass/module/_user.scss */
+/* line 592, ../sass/module/_user.scss */
 .pane-bookmarks td {
   text-align: left;
   vertical-align: middle;
 }
-/* line 596, ../sass/module/_user.scss */
+/* line 597, ../sass/module/_user.scss */
 .pane-bookmarks .ding-entity-button {
   float: right;
   margin-right: 20px;
@@ -9607,14 +9612,14 @@ input#edit-search-block-form--2.spinner {
 
 /* User top-menu
    ========================================================================== */
-/* line 621, ../sass/module/_user.scss */
+/* line 622, ../sass/module/_user.scss */
 .topbar .js-user-top-menu {
   background: #00caff;
   clear: both;
   display: none;
 }
 @media only screen and (max-width: 768px) {
-  /* line 627, ../sass/module/_user.scss */
+  /* line 628, ../sass/module/_user.scss */
   .topbar .js-user-top-menu.open {
     display: block;
   }

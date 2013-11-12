@@ -8,12 +8,19 @@
    * Toggle the search form from the top-bar menu.
    *
    * @param bool open
-   *   If true the form and link are active/open.
+   *   If true we want to open the form and link else we want to close it.
    */
   function ddbasic_search(open) {
     if (open) {
-      $('.topbar-menu .leaf .topbar-link-search').toggleClass('active');
-      $('.js-topbar-search').css("display", "block");
+      // If the user clicked the active link, close it instead.
+      if ( $('.topbar-menu .leaf .topbar-link-search').hasClass('active') ) {
+        $('.topbar-menu .leaf .topbar-link-search').toggleClass('active');
+        $('.js-topbar-search').css("display", "none");
+      } else {
+        // Display the element.
+        $('.topbar-menu .leaf .topbar-link-search').toggleClass('active');
+        $('.js-topbar-search').css("display", "block");
+      }
     } else {
       $('.topbar-menu .leaf .topbar-link-search').removeClass('active');
       $('.js-topbar-search').css("display", "none");
@@ -24,12 +31,19 @@
    * Toggle the mobile menu from the top-bar menu.
    *
    * @param bool open
-   *   If true the form and link are active/open.
+   *   If true we want to open the form and link else we want to close it.
    */
   function ddbasic_mobile_menu(open) {
     if (open) {
-      $('.topbar-menu .leaf .topbar-link-menu').toggleClass('active');
-      $('.js-topbar-menu').css("display", "block");
+      // If the user clicked the active link, close it instead.
+      if ( $('.topbar-menu .leaf .topbar-link-menu').hasClass('active') ) {
+        $('.topbar-menu .leaf .topbar-link-menu').toggleClass('active');
+        $('.js-topbar-menu').css("display", "none");
+      } else {
+        // Display the element.
+        $('.topbar-menu .leaf .topbar-link-menu').toggleClass('active');
+        $('.js-topbar-menu').css("display", "block");
+      }
     } else {
       $('.topbar-menu .leaf .topbar-link-menu').removeClass('active');
       $('.js-topbar-menu').css("display", "none");
@@ -40,12 +54,19 @@
    * Toggle the user login form from the top-bar menu.
    *
    * @param bool open
-   *   If true the form and link are active/open.
+   *   If true we want to open the form and link else we want to close it.
    */
   function ddbasic_user_login(open) {
     if (open) {
-      $('.topbar-menu .leaf .topbar-link-user').toggleClass('active');
-      $('.js-topbar-user').css("display", "block");
+      // If the user clicked the active link, close it instead.
+      if ( $('.topbar-menu .leaf .topbar-link-user').hasClass('active') ) {
+        $('.topbar-menu .leaf .topbar-link-user').toggleClass('active');
+        $('.js-topbar-user').css("display", "none");
+      } else {
+        // Display the element.
+        $('.topbar-menu .leaf .topbar-link-user').toggleClass('active');
+        $('.js-topbar-user').css("display", "block");
+      }
     } else {
       $('.topbar-menu .leaf .topbar-link-user').removeClass('active');
       $('.js-topbar-user').css("display", "none");
@@ -56,25 +77,23 @@
    * Toggle the user menu when logged in
    *
    * @param bool open
-   *   If true the form and link are active/open.
+   *   If true we want to open the form and link else we want to close it.
    */
   function ddbasic_user_account(open) {
     if (open) {
-      $('.topbar-menu .leaf .topbar-link-user-account').toggleClass('active');
-      $('.js-user-top-menu').css("display", "block");
+      // If the user clicked the active link, close it instead.
+      if ( $('.topbar-menu .leaf .topbar-link-user-account').hasClass('active') ) {
+        $('.topbar-menu .leaf .topbar-link-user-account').toggleClass('active');
+        $('.js-user-top-menu').css("display", "none");
+      } else {
+        // Display the element.
+        $('.topbar-menu .leaf .topbar-link-user-account').toggleClass('active');
+        $('.js-user-top-menu').css("display", "block");
+      }
     } else {
       $('.topbar-menu .leaf .topbar-link-user-account').removeClass('active');
       $('.js-user-top-menu').css("display", "none");
     }
-  }
-
-  /**
-   * Strip active open classes.
-   */
-  function ddbasic_strip_active() {
-    $('.js-topbar-search').removeClass('open');
-    $('.js-topbar-menu').removeClass('open');
-    $('.js-user-top-menu').removeClass('open');
   }
 
   /**
@@ -83,6 +102,7 @@
   $(document).ready(function () {
     // Open search as default on frontpage.
     $('.front .js-topbar-search').css("display", "block");
+    $('.front .js-topbar-search').toggleClass('open');
 
     //Hide user login on load.
     $('.js-topbar-user').css("display", "none");
