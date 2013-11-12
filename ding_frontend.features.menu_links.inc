@@ -64,6 +64,24 @@ function ding_frontend_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -48,
   );
+  // Exported menu link: menu-tabs-menu:user/1
+  $menu_links['menu-tabs-menu:user/1'] = array(
+    'menu_name' => 'menu-tabs-menu',
+    'link_path' => 'user/1',
+    'router_path' => 'user/%',
+    'link_title' => 'User menu (mobile)',
+    'options' => array(
+      'attributes' => array(
+        'title' => '',
+      ),
+    ),
+    'module' => 'menu',
+    'hidden' => 0,
+    'external' => 0,
+    'has_children' => 0,
+    'expanded' => 0,
+    'weight' => -47,
+  );
   // Exported menu link: menu-tabs-menu:user/logout
   $menu_links['menu-tabs-menu:user/logout'] = array(
     'menu_name' => 'menu-tabs-menu',
@@ -80,7 +98,7 @@ function ding_frontend_menu_default_menu_links() {
     'external' => 0,
     'has_children' => 0,
     'expanded' => 0,
-    'weight' => -47,
+    'weight' => -46,
   );
   // Translatables
   // Included for use with string extractors like potx.
@@ -88,6 +106,7 @@ function ding_frontend_menu_default_menu_links() {
   t('Logout');
   t('Menu');
   t('Search');
+  t('User menu (mobile)');
 
 
   return $menu_links;
