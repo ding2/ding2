@@ -75,6 +75,7 @@ function ding_availability_theme($existing, $type, $theme, $path) {
     'ding_availability_type' => array(
       'template' => 'ding-availability-type',
       'variables' => array(
+        'class' => NULL,
         'label' => NULL,
         'links' => array(),
       ),

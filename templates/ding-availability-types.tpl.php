@@ -8,5 +8,5 @@
  */
 ?>
 <?php foreach ($types as $type) : ?>
-  <p><?php print render($type); ?></p>
+  <p class="<?php print $type['#class']; ?>"><?php print render($type); ?></p>
 <?php endforeach; ?>

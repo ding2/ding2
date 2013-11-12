@@ -202,6 +202,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
               // Add label "online" to output.
               $output['#types']['online'] = array(
                 '#theme' => 'ding_availability_type',
+                '#class' => 'js-online',
                 '#label' => t('Online'),
                 '#links' => array(),
               );
@@ -222,6 +223,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
               // Add label "Pending" to output as in waiting for information.
               $output['#types']['pending'] = array(
                 '#theme' => 'ding_availability_type',
+                '#class' => 'js-pending',
                 '#label' => t('Pending availability'),
                 '#links' => array(),
               );
