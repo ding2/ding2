@@ -46,6 +46,10 @@
     &.topbar-link-menu {
       display: none;
     }
+    /* Only show default override on mobile*/
+    &.default-override {
+      display: none;
+    }
   }
 
 
@@ -79,6 +83,14 @@
       display: inline-block;
     }
 
+    .topbar-link-user-account.menu-item {
+      display: none;
+    }
+
+    .topbar-link-user-account.default-override {
+      display:inline-block;
+    }
+
   }
 }
 
@@ -105,6 +117,10 @@
     /* Extra space needed below the menu for device stuff (e.g. iOS) */
     padding-bottom: 30px;
     padding-left: 20px;
+  }
+
+  @include large-x-large {
+    display: block!important;
   }
 }
 
@@ -487,21 +503,30 @@
   }
 }
 
-
 /* User topbar menu
    ========================================================================== */
 
-.topbar .mobile-user-top-menu {
+.header-wrapper .mobile-user-top-menu {
   @extend .navigation-wrapper;
-
+  background: $header-background-color;
+  clear: both;
   padding-left: 30px;
   float: left;
   width: 100%;
+  margin-bottom: 20px;
   margin-left: 0%;
   margin-right: -100%;
   padding-right: 10px;
+  display: none;
 
   .sub-menu {
     @extend .main-menu;
   }
+
+  @include large-x-large {
+    display: none!important;
+  }
 }
+
+
+

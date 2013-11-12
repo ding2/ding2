@@ -38,15 +38,15 @@
       // If the user clicked the active link, close it instead.
       if ( $('.topbar-menu .leaf .topbar-link-menu').hasClass('active') ) {
         $('.topbar-menu .leaf .topbar-link-menu').toggleClass('active');
-        $('.js-topbar-menu').css("display", "none");
+        $('.site-header .js-topbar-menu').css("display", "none");
       } else {
         // Display the element.
         $('.topbar-menu .leaf .topbar-link-menu').toggleClass('active');
-        $('.js-topbar-menu').css("display", "block");
+        $('.site-header .js-topbar-menu').css("display", "block");
       }
     } else {
       $('.topbar-menu .leaf .topbar-link-menu').removeClass('active');
-      $('.js-topbar-menu').css("display", "none");
+      $('.site-header .js-topbar-menu').css("display", "none");
     }
   }
 
@@ -100,9 +100,9 @@
    * When ready start the magic and handle the menu.
    */
   $(document).ready(function () {
-    // Open search as default on frontpage.
+    // Open search as default on frontpage, close on others.
+    $('.js-topbar-search').css("display", "none");
     $('.front .js-topbar-search').css("display", "block");
-    $('.front .js-topbar-search').toggleClass('open');
 
     //Hide user login on load.
     $('.js-topbar-user').css("display", "none");
@@ -138,7 +138,7 @@
     });
 
     // If the user login is clicked toggle user and show/hide user menu.
-    $('.js-topbar-link.topbar-link-user-account').on('click touchstart', function(e) {
+    $('.js-topbar-link.topbar-link-user-account.default-override').on('click touchstart', function(e) {
       ddbasic_user_account(true);
       ddbasic_mobile_menu(false);
       ddbasic_search(false);

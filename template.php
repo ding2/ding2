@@ -560,8 +560,12 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
 
     case 'user':
       $title_prefix = '<i class="icon-user"></i>';
-      // If a user is logged in, we change the menu item title.
-      // @todo: change this to two menu items with access rules to hide them.
+      $visited = &drupal_static(__FUNCTION__, FALSE);
+      if (!$visited) {
+        $visited = TRUE;
+        $element['#localized_options']['attributes']['class'][] = 'default-override';
+      }
+      // If a user is logged in we change the menu item title.
       if (user_is_logged_in()) {
         $element['#title'] = t('My Account');
         $element['#attributes']['class'][] = 'topbar-link-user-account';

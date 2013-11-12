@@ -349,11 +349,9 @@
 
 .user {
   @extend %search-user-header;
-
   overflow: hidden;
 
   .user-field-wrapper {
-    padding: 10px 20px 30px;
     position: relative;
   }
 
@@ -403,6 +401,11 @@
       border-bottom: 1px solid transparentize($white, .75);
       padding-top: 10px;
       padding-bottom: 10px;
+    }
+
+    .user-field-wrapper {
+      padding: 10px 20px 30px;
+      position: relative;
     }
   }
 }
@@ -613,20 +616,5 @@
 #ding-bookmark-remove-form {
   .form-submit {
     @extend %button-danger;
-  }
-}
-
-/* User top-menu
-   ========================================================================== */
-
-.topbar .js-user-top-menu {
-  background: $header-background-color;
-  clear: both;
-  display: none;
-
-  @include small-medium() {
-    &.open {
-      display:block;
-    }
   }
 }
