@@ -56,8 +56,8 @@ function ddbasic_preprocess_html(&$vars) {
 function ddbasic_process_html(&$vars) {
   $theme_name = $GLOBALS['theme_key'];
   // Build an array of poly-filling scripts.
-  $vars['polyfills_array'] = '';
   $vars['polyfills_array'] = ddbasic_load_polyfills($theme_name, $vars);
+
   // This code is copied from Adaptive Theme, at_core/inc/process.inc.
   // It wraps the required polyfills scripts into a conditional comment.
   if (!empty($vars['polyfills_array'])) {
@@ -651,7 +651,7 @@ function ddbasic_remove_default_link_classes($classes) {
  * Ex. add a javascript depending on the settings in the theme.
  */
 function ddbasic_load_plugins() {
-  $path_to_ddbasic_core = $GLOBALS['theme_path'];
+  global $theme_path;
 
   // If sticky menus is enabled in the theme load it.
   if (theme_get_setting('main_menu_sticky')) {
@@ -664,7 +664,7 @@ function ddbasic_load_plugins() {
   if (theme_get_setting('load_equalize')) {
 
     // Add the script.
-    drupal_add_js($path_to_ddbasic_core . '/scripts/equalize.min.js');
+    drupal_add_js($theme_path . '/scripts/equalize.min.js');
 
     // Add variable to js so we can check if it is set.
     drupal_add_js(array('ddbasic' => array('load_equalize' => theme_get_setting('load_equalize'))), 'setting');
@@ -733,8 +733,6 @@ function ddbasic_theme_conditional_scripts($ie_scripts) {
  * @param string $theme_name  :   Name of the theme.
  */
 function ddbasic_load_polyfills($theme_name) {
-  $path_to_ddbasic_core = $GLOBALS['theme_path'];
-
   // Get the info file data.
   $info = ddbasic_get_info($theme_name);
 
@@ -753,11 +751,12 @@ function ddbasic_load_polyfills($theme_name) {
     }
 
     // Ddbasic Core Polyfills.
+    global $theme_path;
     $polly = '';
     $polly_settings_array = array(
       'load_html5js',
       'load_selectivizr',
-      // loaded directly by polly_wants_a_cracker(), its never returned.
+      // Loaded directly by polly_wants_a_cracker(), its never returned.
       'load_scalefixjs',
     );
     foreach ($polly_settings_array as $polly_setting) {
@@ -766,7 +765,7 @@ function ddbasic_load_polyfills($theme_name) {
     $backed_crackers = ddbasic_polly_wants_a_cracker($polly);
     foreach ($backed_crackers as $cupboard => $flavors) {
       foreach ($flavors as $key => $value) {
-        $filepath = $path_to_ddbasic_core . '/' . $value;
+        $filepath = $theme_path . '/' . $value;
         $polyfills_array['ddbasic'][$cupboard][] = ddbasic_theme_script($filepath);
       }
     }
@@ -790,7 +789,7 @@ function ddbasic_load_polyfills($theme_name) {
  *   Array of ?.
  */
 function ddbasic_polly_wants_a_cracker($polly) {
-  $path_to_ddbasic_core = $GLOBALS['theme_path'];
+  global $theme_path;
 
   $baked_crackers = drupal_static(__FUNCTION__, array());
   if (empty($baked_crackers)) {
@@ -816,7 +815,7 @@ function ddbasic_polly_wants_a_cracker($polly) {
         // "all" - no conditional comment needed, use drupal_add_js().
         if (isset($crackers['all'])) {
           foreach ($crackers['all'] as $script) {
-            drupal_add_js($path_to_ddbasic_core . '/' . $script, array(
+            drupal_add_js($theme_path . '/' . $script, array(
               'type' => 'file',
               'scope' => 'header',
               'group' => JS_THEME,
