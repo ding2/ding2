@@ -64,11 +64,11 @@ function ding_frontend_menu_default_menu_links() {
     'expanded' => 0,
     'weight' => -48,
   );
-  // Exported menu link: menu-tabs-menu:user/1
+  // Exported menu link: menu-tabs-menu:node
   $menu_links['menu-tabs-menu:user/1'] = array(
     'menu_name' => 'menu-tabs-menu',
-    'link_path' => 'user/1',
-    'router_path' => 'user/%',
+    'link_path' => 'node',
+    'router_path' => 'node',
     'link_title' => 'User menu (mobile)',
     'options' => array(
       'attributes' => array(
