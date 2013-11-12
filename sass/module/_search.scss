@@ -591,6 +591,7 @@ input#edit-search-block-form--2.spinner {
 
       .search-result--heading-type {
         color: $gray-darker;
+        padding-right: 5px;
       }
 
       .search-result--meta {
@@ -599,6 +600,10 @@ input#edit-search-block-form--2.spinner {
 
       .search-result--content {
         margin-top: 20px;
+      }
+
+      .search-result--availability {
+        @extend .ting-object-right;
       }
 
       .search-result--availability,
