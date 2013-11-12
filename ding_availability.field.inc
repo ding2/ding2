@@ -66,15 +66,6 @@ function ding_availability_field_formatter_info() {
         'ting_type',
       ),
     ),
-    'ding_availability_types' => array(
-      'label' => t('With availability information'),
-      'field types' => array(
-        'ting_collection_types',
-      ),
-      'settings'  => array(
-        'link' => FALSE,
-      ),
-    ),
     'ding_availability_with_labels' => array(
       'label' => t('Availability information with labels'),
       'field types' => array(
@@ -82,57 +73,6 @@ function ding_availability_field_formatter_info() {
       ),
     ),
   );
-}
-
-
-
-/**
- * Implements hook_field_formatter_settings_form().
- */
-function ding_availability_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
-  // Get display and current (or default) settings.
-  $display = $instance['display'][$view_mode];
-  $settings = $display['settings'];
-
-  // Initialize the return element (settings form).
-  $element = array();
-
-  switch ($field['type']) {
-    case 'ting_collection_types':
-      $element['link'] = array(
-        '#type' => 'checkbox',
-        '#title' => t('Links'),
-        '#description' => t('Convert the availability texts into links.'),
-        '#default_value' => $settings['link'],
-      );
-      break;
-  }
-
-  return $element;
-}
-
-/**
- * Implements hook_field_formatter_settings_summary().
- */
-function ding_availability_field_formatter_settings_summary($field, $instance, $view_mode) {
-  // Get settings information for the field instance.
-  $display = $instance['display'][$view_mode];
-  $settings = $display['settings'];
-  $summary = NULL;
-
-  if ($display['type'] == 'ding_collection_types') {
-    $linking = t('false');
-    if ($settings['link']) {
-      $linking = t('true');
-    }
-
-    // Check if linking to the object have been selected.
-    $summary = t('Link to ting objects: @link', array(
-      '@link' => $linking,
-    ));
-  }
-
-  return $summary;
 }
 
 /**
@@ -228,81 +168,6 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
               ),
             ),
           ),
-        );
-        break;
-
-      case 'ding_availability_types':
-        $id_mapping = array();
-        $typed_entities = array();
-        // Sort entities into type -> ids.
-        foreach ($entity->entities as $ent) {
-          $typed_entities[$ent->type][] = $ent;
-        }
-
-        foreach ($typed_entities as $type => $entities) {
-          // Generate an unique id.
-          $id = drupal_html_id('availability-' . $entities[0]->id . '-' . $type);
-
-          // Extract records' source.
-          $ac_source = $entities[0]->reply->record['ac:source'][''][0];
-
-          // Mark as available if it is an online resource.
-          $available_online = (in_array(drupal_strtolower($type), $online_types)) ? 'available' : '';
-          $available_online_label = ($available_online) ? '<span class="availability-status">' . t('online') . '</span>' : '';
-
-          // Convert type into link.
-          if ($display['settings']['link']) {
-            // If there is only 1 object there is a direct link
-            // else there is a link to the collection.
-            if (count($entities) == 1) {
-              $url = entity_uri('ting_object', $entities[0]);
-            }
-            else {
-              $url = entity_uri('ting_collection', $entities[0]);
-            }
-
-            // The online url can't be used with l(), has it will encode it.
-            $typelink = '<a href="/' . $url['path'] . '">' . check_plain($type) . $available_online_label . '</a>';
-          }
-
-          // Create a list element for each type.
-          $types[] = array(
-            'data' => $typelink,
-            'id' => $id,
-            'class' => array(
-              'availability',
-              drupal_html_class($type),
-              $available_online,
-              'pending',
-            ),
-          );
-
-          $ids = array();
-          foreach ($entities as $object_entity) {
-            $ids[] = $object_entity->localId;
-          }
-
-          // If item is of type 'library materials' (where we can lookup holding
-          // data), map the HTML id to the list of entity ids.
-          if (in_array($ac_source, $lib_materials_types) && !$available_online) {
-            $id_mapping[$id] = $ids;
-          }
-        }
-
-        // Prepare to check holding on the item.
-        // It's important that this is attached even if empty, else javascript
-        // will fail because it gets an empty object.
-        $attached['js'][1] = array(
-          'data' => array(
-            'ding_availability' => $id_mapping,
-            'ding_availability_link' => $display['settings']['link'],
-          ), 'type' => 'setting',
-        );
-
-        $element[$delta] = array(
-          '#theme' => 'item_list',
-          '#attached' => $attached,
-          '#items' => $types,
         );
         break;
 
