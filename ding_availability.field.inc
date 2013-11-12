@@ -86,9 +86,6 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
   // Attach front-end style and JS to the element.
   foreach ($items as $delta => $item) {
     $attached = array(
-      'js' => array(
-        drupal_get_path('module', 'ding_availability') . '/js/ding_availability.js',
-      ),
       'css' => array(
         drupal_get_path('module', 'ding_availability') . '/css/ding_availability.css',
       ),
@@ -103,6 +100,11 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
       case 'ding_availability_default':
         // Generate an unique id.
         $id = drupal_html_id('holdings-' . $entity->id);
+
+        // Add javascript.
+        $attached['js'] = array(
+          drupal_get_path('module', 'ding_availability') . '/js/ding_availability.js',
+        );
 
         // If item is of type 'library materials' (where we can lookup holding
         // data), prepare to check holding on the item.
@@ -127,6 +129,11 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         break;
 
       case 'ding_availability_item':
+        // Add javascript.
+        $attached['js'] = array(
+          drupal_get_path('module', 'ding_availability') . '/js/ding_availability.js',
+        );
+
         $element[$delta] = array(
           '#markup' => '<div class="availability availability-' . $item['provider_id'] . '"></div>',
           '#attached' => $attached,
@@ -139,6 +146,11 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
 
         // Mark as available if it is an online resource,
         $available_online = (in_array(drupal_strtolower($entity->type), $online_types)) ? 'available' : 'not-available-online';
+
+        // Add javascript.
+        $attached['js'] = array(
+          drupal_get_path('module', 'ding_availability') . '/js/ding_availability.js',
+        );
 
         // If item is of type 'library materials' (where we can lookup holding
         // data), prepare to check holding on the item.
@@ -180,12 +192,14 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           $typed_entities[$ent->type][] = $ent;
         }
 
+        // Build basic output render array.
         $output = array(
           '#theme' => 'ding_availability_types',
           '#types' => array(),
           '#attached' => $attached,
         );
 
+        // Loop over the different material types.
         foreach ($typed_entities as $type => $entities) {
           // Generate an unique id.
           $id = drupal_html_id('availability-' . $entities[0]->id . '-' . $type);
@@ -275,7 +289,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
             'ding_availability' => $id_mapping,
           ), 'type' => 'setting',
         );
-        $output['#attached']['js'][] = drupal_get_path('module', 'ding_availability') . '/js/ding_availability.js';
+        $output['#attached']['js'][] = drupal_get_path('module', 'ding_availability') . '/js/ding_availability_labels.js';
 
         $element[$delta] = $output;
         break;

@@ -1,8 +1,8 @@
 /**
- * @file
- * JavaScript behaviours for fetching and displaying availability and holdings
- * information on TingEntities.
+ * @file ding.availability.js
+ * JavaScript behaviours for fetching and displaying availability.
  */
+
 (function($) {
   "use strict";
 
@@ -14,7 +14,7 @@
       var ids = [];
       var html_ids = [];
 
-      // Extract entity ids from Drupal settings array.
+      // Extract entity ids and add them to the settings array.
       if (settings.hasOwnProperty('ding_availability')) {
         $.each(settings.ding_availability, function(id, entity_ids) {
           $.each(entity_ids, function(index, entity_id) {
@@ -26,6 +26,10 @@
           });
         });
       }
+
+      $.each(html_ids, function(index, id) {
+        $('#' + id).addClass('pending');
+      });
 
       // Fetch availability.
       if (ids.length > 0) {
@@ -50,7 +54,6 @@
                 update_holdings(id, entity_ids);
               }
             });
-            update_availability_remove_pending();
           }
         });
       }
@@ -60,149 +63,63 @@
           $.each(settings.ding_availability, function(id, entity_ids) {
             update_availability(id, entity_ids);
           });
-          update_availability_remove_pending();
         }
       }
 
-      /**
-       * Update availability on the page.
-       *
-       * The array of entity_ids is an array as we only show one availability
-       * label per material type. So if one of these have an available status
-       * the label have to reflect this.
-       *
-       * @param id
-       *   The element id that this should target.
-       * @param entity_ids
-       *   Array of entities.
-       */
       function update_availability(id, entity_ids) {
-        // Default the status to not available and not reservable.
         var available = false;
         var reservable = false;
-
-        // Loop over the entity ids and if one has available or reservable
-        // true save that value.
+        var is_internet = false;
         $.each(entity_ids, function(index, entity_id) {
           if (Drupal.DADB[entity_id]) {
             available = available || Drupal.DADB[entity_id]['available'];
             reservable = reservable || Drupal.DADB[entity_id]['reservable'];
+            is_internet = is_internet || Drupal.DADB[entity_id]['is_internet'];
           }
         });
 
         var element = $('#' + id);
         element.removeClass('pending').addClass('processed');
 
-        // Get hold of the reserve button (it hidden as default, so we may need
-        // to show it).
+        // Reserve button
         var reserver_btn = element.parents('.ting-object:first').find('[id^=ding-reservation-reserve-form]');
 
         if (available) {
-          update_availability_elements(element, reserver_btn, 'available');
-        }
-        else if (reservable) {
-          update_availability_elements(element, reserver_btn, 'reservable');
-        }
-        else if (!available && !reservable) {
-          update_availability_elements(element, reserver_btn, 'not-reservable');
+          element.addClass('available');
+
+          // Add class to reserve button
+          if (reserver_btn.length) {
+            reserver_btn.addClass('available');
+          }
         }
         else {
-          update_availability_elements(element, reserver_btn, 'unavailable');
-        }
-      }
+          element.addClass('unavailable');
 
-      /**
-       * Helper function to crate labels groups and move the materials based on
-       * availability.
-       *
-       * @param element
-       *   The target element (material that should be moved).
-       * @param type
-       *   The type of availability the element has.
-       */
-      function update_availability_type(element, type) {
-        // Select type, if any or create the type.
-        var groups_wrapper = element.closest('.search-result--availability');
-        var group = $('.js-' + type, groups_wrapper);
-        if (group.length !== 1) {
-          // Create group.
-          if (type === 'available') {
-            // Add as first line.
-            group = $('<p class="js-' + type + '">' + Drupal.t('Available') + ': </p>');
-            groups_wrapper.prepend(group);
+          // Add class to reserve button
+          if (reserver_btn.length) {
+            reserver_btn.addClass('unavailable');
           }
-          else if (type === 'unavailable') {
-            // Add last.
-            group = $('<p class="js-' + type + '">' + Drupal.t('Unavailable') + ': </p>');
-            group.insertBefore('.js-pending', groups_wrapper);
-          }
-          else if (type === 'reservable') {
-            // First or after available.
-            group = $('<p class="js-' + type + '">' + Drupal.t('Reservable') + ': </p>');
-            if ($('.js-available', groups_wrapper).length) {
-              group.insertAfter($('.js-available', groups_wrapper));
-            }
-            else {
-              groups_wrapper.prepend(group);
-            }
-          }
-          else {
-            // Add last to not-reservable.
-            group = $('<p class="js-not-reservable">' + Drupal.t('Not reservable') + ': </p>');
-            groups_wrapper.append(group);
+        }
+        
+        if (reservable) {
+          element.addClass('reservable');
+
+          // Add class to reserve button
+          if (reserver_btn.length) {
+            reserver_btn.addClass('reservable');
           }
         }
 
-        // Move the element into that type.
-        group.append(element);
-      }
+        if (!available && !reservable) {
+          element.addClass('not-reservable');
 
-      /**
-       * Removes js-pending groups (labels) if they are empty or changes the
-       * label to "Can be obtained". This should be called as the last function
-       * in updating availability information and see as a clean-up function.
-       */
-      function update_availability_remove_pending() {
-        // Loop over all pending availability groups.
-        $('.js-pending').each(function() {
-          var elm = $(this);
-          var children = elm.children();
-          if (children.length) {
-            // Change the label from pending.
-            elm.contents().first()[0].textContent = Drupal.t('Can be obtained:') + ' ';
+          // Add class to reserve button
+          if (reserver_btn.length) {
+            reserver_btn.addClass('not-reservable');
           }
-          else {
-            // The current pending group is empty, so simply remove it.
-            elm.remove();
-          }
-        });
-      }
-
-      /**
-       * Add class to both an element and the reservation button.
-       *
-       * @param element
-       *   jQuery availability element to add the class to.
-       * @param btn
-       *   Reservation button to add the class to.
-       * @param class_name
-       *   The class to add to the elements.
-       */
-      function update_availability_elements(element, btn, class_name) {
-        element.addClass(class_name);
-        if (btn.length) {
-          btn.addClass(class_name);
         }
-
-        update_availability_type(element, class_name);
       }
 
-      /**
-       * Insert holdings information.
-       *
-       * @param id
-       * @param entity_ids
-       */
       function update_holdings(id, entity_ids) {
         var entity_id = entity_ids.pop();
         if (Drupal.DADB[entity_id] && (Drupal.DADB[entity_id]['holdings'])) {
