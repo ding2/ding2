@@ -558,13 +558,12 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       $element['#attributes']['class'][] = 'topbar-link-search';
       break;
 
+    case 'node':
+      // Special placeholder for mobile user menu. Fall through to next case.
+      $element['#localized_options']['attributes']['class'][] = 'default-override';
+
     case 'user':
       $title_prefix = '<i class="icon-user"></i>';
-      $visited = &drupal_static(__FUNCTION__, FALSE);
-      if (!$visited) {
-        $visited = TRUE;
-        $element['#localized_options']['attributes']['class'][] = 'default-override';
-      }
       // If a user is logged in we change the menu item title.
       if (user_is_logged_in()) {
         $element['#title'] = t('My Account');
