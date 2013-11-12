@@ -1,4 +1,3 @@
-@charset "UTF-8";
 @import url(../font/source-sans/stylesheet.css);
 /**
  * Variables
@@ -4045,12 +4044,12 @@ body {
   *position: relative;
   *zoom: 1;
 }
-/* line 46, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 #page:before, #page:after {
   content: "";
   display: table;
 }
-/* line 50, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 #page:after {
   clear: both;
 }
@@ -4333,12 +4332,12 @@ body {
   clear: left;
   margin-bottom: 20px;
 }
-/* line 46, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 .frontpage-layout .attachments-wrapper:before, .frontpage-layout .attachments-wrapper:after {
   content: "";
   display: table;
 }
-/* line 50, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 .frontpage-layout .attachments-wrapper:after {
   clear: both;
 }
@@ -5153,12 +5152,12 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
   *position: relative;
   *zoom: 1;
 }
-/* line 46, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 .view-node-search-result .list-item:before, .ting-reference-reverse-list .list-item:before, .view-node-search-result .list-item:after, .ting-reference-reverse-list .list-item:after {
   content: "";
   display: table;
 }
-/* line 50, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 .view-node-search-result .list-item:after, .ting-reference-reverse-list .list-item:after {
   clear: both;
 }
@@ -7304,12 +7303,12 @@ input#edit-search-block-form--2.spinner {
   *position: relative;
   *zoom: 1;
 }
-/* line 46, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 .rs-carousel-wrapper:before, .rs-carousel-wrapper:after {
   content: "";
   display: table;
 }
-/* line 50, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 .rs-carousel-wrapper:after {
   clear: both;
 }
@@ -9431,29 +9430,28 @@ input#edit-search-block-form--2.spinner {
   }
   /* line 406, ../sass/module/_user.scss */
   .user .user-field-wrapper {
-    padding: 10px 20px 30px;
     position: relative;
   }
 }
 
-/* line 414, ../sass/module/_user.scss */
+/* line 413, ../sass/module/_user.scss */
 .user-name {
   color: white;
 }
-/* line 417, ../sass/module/_user.scss */
+/* line 416, ../sass/module/_user.scss */
 .user-name .user-name-title {
   font-size: 160%;
   overflow: hidden;
   max-height: 45px;
 }
 @media only screen and (max-width: 768px) {
-  /* line 424, ../sass/module/_user.scss */
+  /* line 423, ../sass/module/_user.scss */
   .user-name .user-name-title {
     margin-bottom: 0;
   }
 }
 
-/* line 432, ../sass/module/_user.scss */
+/* line 431, ../sass/module/_user.scss */
 .user-name,
 .user-menu-loans,
 .user-menu {
@@ -9464,7 +9462,7 @@ input#edit-search-block-form--2.spinner {
   text-align: right;
 }
 @media only screen and (max-width: 768px) {
-  /* line 432, ../sass/module/_user.scss */
+  /* line 431, ../sass/module/_user.scss */
   .user-name,
   .user-menu-loans,
   .user-menu {
@@ -9474,20 +9472,20 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
-/* line 447, ../sass/module/_user.scss */
+/* line 446, ../sass/module/_user.scss */
 .user-menu-loans,
 .user-menu {
   padding-top: 10px;
 }
 @media only screen and (max-width: 768px) {
-  /* line 447, ../sass/module/_user.scss */
+  /* line 446, ../sass/module/_user.scss */
   .user-menu-loans,
   .user-menu {
     padding-top: 0;
   }
 }
 
-/* line 455, ../sass/module/_user.scss */
+/* line 454, ../sass/module/_user.scss */
 .user-menu {
   font-family: "SourceSansProSemibold";
   font-weight: normal;
@@ -9495,13 +9493,13 @@ input#edit-search-block-form--2.spinner {
 
 /* User profile
    ========================================================================== */
-/* line 464, ../sass/module/_user.scss */
+/* line 463, ../sass/module/_user.scss */
 .user-loan-status-wrapper {
   border-top: 1px solid #efefef;
   padding-top: 20px;
 }
 
-/* line 472, ../sass/module/_user.scss */
+/* line 471, ../sass/module/_user.scss */
 .user-status-loan,
 .user-status-reservation,
 .user-status-debt,
@@ -9515,14 +9513,14 @@ input#edit-search-block-form--2.spinner {
   margin-bottom: 10px;
   padding: 10px 20px;
 }
-/* line 481, ../sass/module/_user.scss */
+/* line 480, ../sass/module/_user.scss */
 .user-status-loan:hover,
 .user-status-reservation:hover,
 .user-status-debt:hover,
 .user-status-ready-pickup:hover {
   text-decoration: none;
 }
-/* line 485, ../sass/module/_user.scss */
+/* line 484, ../sass/module/_user.scss */
 .user-status-loan:before,
 .user-status-reservation:before,
 .user-status-debt:before,
@@ -9531,20 +9529,20 @@ input#edit-search-block-form--2.spinner {
   font-family: "FontAwesome";
 }
 
-/* line 493, ../sass/module/_user.scss */
+/* line 492, ../sass/module/_user.scss */
 .user-status-loan,
 .user-status-reservation {
   background-color: #efefef;
   color: #00b7e7;
 }
-/* line 498, ../sass/module/_user.scss */
+/* line 497, ../sass/module/_user.scss */
 .user-status-loan:focus, .user-status-loan:hover,
 .user-status-reservation:focus,
 .user-status-reservation:hover {
   background-color: #e2e2e2;
 }
 
-/* line 508, ../sass/module/_user.scss */
+/* line 507, ../sass/module/_user.scss */
 .user-status-debt:link, .user-status-debt:visited, .user-status-debt:focus, .user-status-debt:active,
 .user-status-ready-pickup:link,
 .user-status-ready-pickup:visited,
@@ -9553,36 +9551,36 @@ input#edit-search-block-form--2.spinner {
   color: white;
 }
 
-/* line 513, ../sass/module/_user.scss */
+/* line 512, ../sass/module/_user.scss */
 .user-status-debt {
   background-color: #a32e10;
 }
-/* line 517, ../sass/module/_user.scss */
+/* line 516, ../sass/module/_user.scss */
 .user-status-debt:focus, .user-status-debt:hover {
   background-color: #8c270e;
 }
 
-/* line 522, ../sass/module/_user.scss */
+/* line 521, ../sass/module/_user.scss */
 .user-status-ready-pickup {
   background-color: #528c10;
 }
-/* line 526, ../sass/module/_user.scss */
+/* line 525, ../sass/module/_user.scss */
 .user-status-ready-pickup:focus, .user-status-ready-pickup:hover {
   background-color: #45750d;
 }
 
-/* line 531, ../sass/module/_user.scss */
+/* line 530, ../sass/module/_user.scss */
 .pane-profile2 {
   border-top: 1px solid #efefef;
   /* Media queries */
 }
-/* line 534, ../sass/module/_user.scss */
+/* line 533, ../sass/module/_user.scss */
 .pane-profile2 .field {
   border-right: 1px solid #efefef;
   border-bottom: 1px solid #efefef;
   border-left: 1px solid #efefef;
 }
-/* line 541, ../sass/module/_user.scss */
+/* line 540, ../sass/module/_user.scss */
 .pane-profile2 .field-label,
 .pane-profile2 .field-item {
   -webkit-box-sizing: border-box;
@@ -9594,17 +9592,17 @@ input#edit-search-block-form--2.spinner {
   padding-bottom: 10px;
   padding-left: 10px;
 }
-/* line 551, ../sass/module/_user.scss */
+/* line 550, ../sass/module/_user.scss */
 .pane-profile2 .field-label {
   min-width: 200px;
 }
-/* line 555, ../sass/module/_user.scss */
+/* line 554, ../sass/module/_user.scss */
 .pane-profile2 .notice-sms {
   font-style: italic;
   padding-left: .5em;
 }
 @media only screen and (max-width: 480px) {
-  /* line 562, ../sass/module/_user.scss */
+  /* line 561, ../sass/module/_user.scss */
   .pane-profile2 .field-label {
     margin-bottom: -8px;
     padding-bottom: 0;
@@ -9613,14 +9611,14 @@ input#edit-search-block-form--2.spinner {
 
 /* User loans
    ========================================================================== */
-/* line 575, ../sass/module/_user.scss */
+/* line 574, ../sass/module/_user.scss */
 .pane-loans ul,
 .pane-reservations ul,
 .pane-bookmarks ul {
   margin: 0;
   padding: 0;
 }
-/* line 580, ../sass/module/_user.scss */
+/* line 579, ../sass/module/_user.scss */
 .pane-loans .form-checkbox,
 .pane-reservations .form-checkbox,
 .pane-bookmarks .form-checkbox {
@@ -9629,7 +9627,7 @@ input#edit-search-block-form--2.spinner {
   margin-bottom: 0;
   margin-left: 0;
 }
-/* line 587, ../sass/module/_user.scss */
+/* line 586, ../sass/module/_user.scss */
 .pane-loans .order-id,
 .pane-reservations .order-id,
 .pane-bookmarks .order-id {
@@ -9638,12 +9636,12 @@ input#edit-search-block-form--2.spinner {
   margin-left: 47px;
 }
 
-/* line 595, ../sass/module/_user.scss */
+/* line 594, ../sass/module/_user.scss */
 .pane-bookmarks td {
   text-align: left;
   vertical-align: middle;
 }
-/* line 600, ../sass/module/_user.scss */
+/* line 599, ../sass/module/_user.scss */
 .pane-bookmarks .ding-entity-button {
   float: right;
   margin-right: 20px;
@@ -10202,12 +10200,12 @@ input#edit-search-block-form--2.spinner {
   padding-bottom: 20px;
   padding-left: 10px;
 }
-/* line 46, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 46, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 .group-blocks--wrapper:before, .group-blocks--wrapper:after {
   content: "";
   display: table;
 }
-/* line 50, ../../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
+/* line 50, ../../../../../../../../../../../Library/Ruby/Gems/1.8/gems/zen-grids-1.4/stylesheets/zen/_grids.scss */
 .group-blocks--wrapper:after {
   clear: both;
 }
