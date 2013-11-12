@@ -12,7 +12,13 @@
       search.find('.label-search').remove();
 
       // Add the search field.
-      search.insertAfter('.pane-search-result-count');
+      var element = $('.pane-search-result-count');
+      if (element.length) {
+        search.insertAfter('.pane-search-result-count');
+      }
+      else {
+        search.insertBefore('.view-node-search-result .search-results');
+      }
 
       // Ensure that the spinner and other stuff works by wrapping it in a
       // search div.

@@ -601,6 +601,10 @@ input#edit-search-block-form--2.spinner {
         margin-top: 20px;
       }
 
+      .search-result--availability {
+        @extend .ting-object-right;
+      }
+
       .search-result--availability,
       .search-result--series {
         border-top: 1px solid $gray-light;
