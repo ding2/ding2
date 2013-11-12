@@ -194,7 +194,13 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           $ac_source = $entities[0]->reply->record['ac:source'][''][0];
 
           // Get link to first element in the collection of the current type.
-          $url = entity_uri('ting_object', $entities[0]);
+          // If more than one exists link to the collection.
+          if (count($entities) == 1) {
+            $url = entity_uri('ting_object', $entities[0]);
+          }
+          else {
+            $url = entity_uri('ting_collection', $entities[0]);
+          }
 
           // Mark as available if it is an online resource.
           if (in_array(drupal_strtolower($type), $online_types)) {
