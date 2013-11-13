@@ -38,6 +38,7 @@ features[variable][] = expire_flush_front
 features[variable][] = expire_flush_menu_items
 features[variable][] = expire_flush_node_terms
 features[variable][] = expire_include_base_url
+features[variable][] = globalredirect_settings
 features[variable][] = i18n_language_list
 features[variable][] = jquery_update_compression_type
 features[variable][] = jquery_update_jquery_cdn
