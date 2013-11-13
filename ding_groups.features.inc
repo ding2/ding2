@@ -23,6 +23,13 @@ function ding_groups_ctools_plugin_api() {
 }
 
 /**
+ * Implements hook_views_api().
+ */
+function ding_groups_views_api() {
+  return array("api" => "3.0");
+}
+
+/**
  * Implements hook_node_info().
  */
 function ding_groups_node_info() {
