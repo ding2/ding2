@@ -18,3 +18,12 @@ projects[jquery_update][version] = "2.3"
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
+
+projects[pathauto][subdir] = "contrib"
+projects[pathauto][version] = "1.2"
+
+projects[transliteration][subdir] = "contrib"
+projects[transliteration][version] = "3.1"
+
+projects[token][subdir] = "contrib"
+projects[token][version] = "1.5"
