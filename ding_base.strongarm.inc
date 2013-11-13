@@ -181,15 +181,6 @@ search/ting/*';
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'globalredirect_settings';
-  $strongarm->value = array(
-    'language_redirect' => 1,
-  );
-  $export['globalredirect_settings'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'i18n_language_list';
   $strongarm->value = '4';
   $export['i18n_language_list'] = $strongarm;
