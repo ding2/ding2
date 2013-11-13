@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Ding groups feature.
+ */
+
+include_once 'ding_groups.features.inc';
