@@ -14,9 +14,6 @@ dependencies[] = toolbar
 dependencies[] = overlay
 dependencies[] = color
 dependencies[] = translation
-dependencies[] = pathauto
-dependencies[] = transliteration
-dependencies[] = token
 
 ; Helper modules.
 dependencies[] = module_filter
