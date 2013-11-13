@@ -1,7 +1,7 @@
 name = Ding groups
 description = Ding groups are used to group content together (temapages)
 core = 7.x
-package = Ding
+package = Ding!
 dependencies[] = ctools
 dependencies[] = ding_library
 dependencies[] = features
