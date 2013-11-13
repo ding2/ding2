@@ -137,20 +137,22 @@ function ding2_import_translation(&$install_state) {
 }
 
 /**
- * Implement hook_install_tasks_alter().
+ * Implements hook_install_tasks_alter().
  *
- * Remove defualt locale imports.
+ * Remove default locale imports.
  */
 function ding2_install_tasks_alter(&$tasks, $install_state) {
   // Remove core steps for translation imports.
   unset($tasks['install_import_locales']);
   unset($tasks['install_import_locales_remaining']);
 
-  // Callback for languageg selection.
+  // Callback for language selection.
   $tasks['install_select_locale']['function'] = 'ding2_locale_selection';
 }
 
-// Set default language to english.
+/**
+ * Set default language to english.
+ */
 function ding2_locale_selection(&$install_state) {
   $install_state['parameters']['locale'] = 'en';
 }
@@ -180,7 +182,7 @@ function _ding2_remove_form_requirements(&$value, $key) {
  * default ding2 installation.
  *
  * @return array
- *  Form with selection of different modules.
+ *   Form with selection of different modules.
  */
 function ding2_module_selection_form($form, &$form_state) {
   // Available providers.
