@@ -29,7 +29,9 @@ function ding_groups_views_default_views() {
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['style_plugin'] = 'list';
-  $handler->display->display_options['style_options']['default_row_class'] = FALSE;
+  $handler->display->display_options['style_options']['row_class'] = 'groups-list-item';
+  $handler->display->display_options['style_options']['class'] = 'list groups-list';
+  $handler->display->display_options['style_options']['wrapper_class'] = '';
   $handler->display->display_options['row_plugin'] = 'fields';
   /* Field: Content: List image */
   $handler->display->display_options['fields']['field_ding_group_list_image']['id'] = 'field_ding_group_list_image';
