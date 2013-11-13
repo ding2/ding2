@@ -101,19 +101,19 @@ a:focus {
 
 /* Article background extends */
 /* line 67, ../sass/configuration/_configuration.scss */
-.field-name-field-ding-news-materials .field-item, .library-list .views-row, .news-list .news-list-item, #ding-library-front .opening-hours-week .header {
+.field-name-field-ding-news-materials .field-item, .library-list .views-row, .news-list .news-list-item, #ding-library-front .opening-hours-week .header, .groups-list .groups-list-item {
   background-color: #ebebeb;
 }
 
 /* line 71, ../sass/configuration/_configuration.scss */
 .field-name-field-ding-news-materials .field-item:nth-child(odd), .library-list .views-row:nth-child(odd), .news-list .news-list-item:nth-child(odd), .event-list .event-list-item:nth-child(odd), .opening-hours-week .days .odd, .staff-list .staff-list-item:nth-child(odd),
-.staff-list-all .staff-list-item:nth-child(odd) {
+.staff-list-all .staff-list-item:nth-child(odd), .groups-list .groups-list-item:nth-child(odd) {
   background-color: #e8e8e8;
 }
 
 /* line 75, ../sass/configuration/_configuration.scss */
 .field-name-field-ding-news-materials .field-item:nth-child(even), .library-list .views-row:nth-child(even), .news-list .news-list-item:nth-child(even), .event-list .event-list-item:nth-child(even), .opening-hours-week .days .even, .staff-list .staff-list-item:nth-child(even),
-.staff-list-all .staff-list-item:nth-child(even) {
+.staff-list-all .staff-list-item:nth-child(even), .groups-list .groups-list-item:nth-child(even) {
   background-color: #f2f2f2;
 }
 
@@ -5342,17 +5342,17 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
 /* Extends for page elements
    ========================================================================== */
 /* line 14, ../sass/module/_module.scss */
-.field-name-field-ding-news-materials .field-item, .library-list .views-row, .news-list .news-list-item {
+.field-name-field-ding-news-materials .field-item, .library-list .views-row, .news-list .news-list-item, .groups-list .groups-list-item {
   margin-bottom: 10px;
 }
 
 /* line 18, ../sass/module/_module.scss */
-.field-name-field-ding-news-materials .field-item, .library-list .views-row, .news-list .news-list-item {
+.field-name-field-ding-news-materials .field-item, .library-list .views-row, .news-list .news-list-item, .groups-list .groups-list-item {
   padding: 20px;
 }
 
 /* line 26, ../sass/module/_module.scss */
-.news-list .news-heading {
+.news-list .news-heading, .groups-list .groups-heading {
   font-size: 130%;
 }
 
@@ -9972,11 +9972,11 @@ input#edit-search-block-form--2.spinner {
 /**
  * Groups
  *
- * @author magnify, zorp
+ * @author magnify
  */
-/* Group blocks
+/* Groups blocks
    ========================================================================== */
-/* line 12, ../sass/module/_groups.scss */
+/* line 10, ../sass/module/_groups.scss */
 .group-blocks--inner {
   clear: both;
   padding-left: 0;
@@ -9987,7 +9987,7 @@ input#edit-search-block-form--2.spinner {
   padding-top: 20px;
 }
 @media only screen and (max-width: 768px) {
-  /* line 12, ../sass/module/_groups.scss */
+  /* line 10, ../sass/module/_groups.scss */
   .group-blocks--inner {
     border-top: 0;
     margin-top: 0;
@@ -9995,7 +9995,7 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
-/* line 29, ../sass/module/_groups.scss */
+/* line 27, ../sass/module/_groups.scss */
 .group-blocks--one .group-blocks--first {
   float: left;
   width: 100%;
@@ -10016,7 +10016,7 @@ input#edit-search-block-form--2.spinner {
   padding-right: 0;
 }
 
-/* line 38, ../sass/module/_groups.scss */
+/* line 36, ../sass/module/_groups.scss */
 .group-blocks--two .group-blocks--first {
   float: left;
   width: 50%;
@@ -10035,7 +10035,7 @@ input#edit-search-block-form--2.spinner {
   _overflow-y: visible;
   padding-left: 0;
 }
-/* line 44, ../sass/module/_groups.scss */
+/* line 42, ../sass/module/_groups.scss */
 .group-blocks--two .group-blocks--second {
   float: right;
   width: 50%;
@@ -10055,7 +10055,7 @@ input#edit-search-block-form--2.spinner {
   padding-right: 0;
 }
 
-/* line 52, ../sass/module/_groups.scss */
+/* line 50, ../sass/module/_groups.scss */
 .group-blocks--three .group-blocks--first {
   float: left;
   width: 33.33333%;
@@ -10074,7 +10074,7 @@ input#edit-search-block-form--2.spinner {
   _overflow-y: visible;
   padding-left: 0;
 }
-/* line 58, ../sass/module/_groups.scss */
+/* line 56, ../sass/module/_groups.scss */
 .group-blocks--three .group-blocks--second {
   float: left;
   width: 33.33333%;
@@ -10092,7 +10092,7 @@ input#edit-search-block-form--2.spinner {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 62, ../sass/module/_groups.scss */
+/* line 60, ../sass/module/_groups.scss */
 .group-blocks--three .group-blocks--third {
   float: right;
   width: 33.33333%;
@@ -10112,7 +10112,7 @@ input#edit-search-block-form--2.spinner {
   padding-right: 0;
 }
 
-/* line 70, ../sass/module/_groups.scss */
+/* line 68, ../sass/module/_groups.scss */
 .group-blocks--four .group-blocks--first {
   float: left;
   width: 25%;
@@ -10131,7 +10131,7 @@ input#edit-search-block-form--2.spinner {
   _overflow-y: visible;
   padding-left: 0;
 }
-/* line 76, ../sass/module/_groups.scss */
+/* line 74, ../sass/module/_groups.scss */
 .group-blocks--four .group-blocks--second {
   float: left;
   width: 25%;
@@ -10149,7 +10149,7 @@ input#edit-search-block-form--2.spinner {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 80, ../sass/module/_groups.scss */
+/* line 78, ../sass/module/_groups.scss */
 .group-blocks--four .group-blocks--third {
   float: right;
   width: 25%;
@@ -10167,7 +10167,7 @@ input#edit-search-block-form--2.spinner {
   _overflow: hidden;
   _overflow-y: visible;
 }
-/* line 84, ../sass/module/_groups.scss */
+/* line 82, ../sass/module/_groups.scss */
 .group-blocks--four .group-blocks--fourth {
   float: right;
   width: 25%;
@@ -10187,7 +10187,7 @@ input#edit-search-block-form--2.spinner {
   padding-right: 0;
 }
 
-/* line 91, ../sass/module/_groups.scss */
+/* line 89, ../sass/module/_groups.scss */
 .group-blocks--wrapper {
   *position: relative;
   *zoom: 1;
@@ -10205,7 +10205,7 @@ input#edit-search-block-form--2.spinner {
   clear: both;
 }
 @media only screen and (max-width: 768px) {
-  /* line 102, ../sass/module/_groups.scss */
+  /* line 100, ../sass/module/_groups.scss */
   .group-blocks--wrapper .group-blocks--first,
   .group-blocks--wrapper .group-blocks--second,
   .group-blocks--wrapper .group-blocks--third,
@@ -10232,7 +10232,7 @@ input#edit-search-block-form--2.spinner {
     margin-bottom: 20px;
     padding-bottom: 20px;
   }
-  /* line 111, ../sass/module/_groups.scss */
+  /* line 109, ../sass/module/_groups.scss */
   .group-blocks--wrapper .group-blocks--first.last,
   .group-blocks--wrapper .group-blocks--second.last,
   .group-blocks--wrapper .group-blocks--third.last,
@@ -10240,5 +10240,54 @@ input#edit-search-block-form--2.spinner {
     border-bottom: 0;
     margin-bottom: 0;
     padding-bottom: 0;
+  }
+}
+
+/* Groups lists
+   ========================================================================== */
+/* line 121, ../sass/module/_groups.scss */
+.groups-list {
+  margin: 0;
+  padding: 0;
+  /* Media queries */
+}
+/* line 125, ../sass/module/_groups.scss */
+.groups-list .groups-list-item {
+  overflow: hidden;
+  position: relative;
+}
+/* line 146, ../sass/module/_groups.scss */
+.groups-list .groups-image-wrapper {
+  float: left;
+  margin-right: 20px;
+  max-width: 75px;
+}
+/* line 151, ../sass/module/_groups.scss */
+.groups-list .groups-image-wrapper a {
+  display: block;
+}
+/* line 157, ../sass/module/_groups.scss */
+.groups-list .groups-heading,
+.groups-list .groups-list-content {
+  margin-left: 95px;
+}
+/* line 161, ../sass/module/_groups.scss */
+.groups-list .groups-list-content {
+  max-height: 50px;
+  overflow: hidden;
+}
+/* line 166, ../sass/module/_groups.scss */
+.groups-list .groups-link {
+  float: right;
+}
+@media only screen and (max-width: 768px) {
+  /* line 172, ../sass/module/_groups.scss */
+  .groups-list .groups-list-content {
+    display: none;
+  }
+  /* line 176, ../sass/module/_groups.scss */
+  .groups-list .groups-heading {
+    font-size: 130%;
+    margin-right: 35px;
   }
 }

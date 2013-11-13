@@ -1,12 +1,10 @@
 /**
  * Groups
  *
- * @author magnify, zorp
+ * @author magnify
  */
 
-
-
-/* Group blocks
+/* Groups blocks
    ========================================================================== */
 
 .group-blocks--inner {
@@ -113,6 +111,71 @@
         margin-bottom: 0;
         padding-bottom: 0;
       }
+    }
+  }
+}
+
+/* Groups lists
+   ========================================================================== */
+
+.groups-list {
+  margin: 0;
+  padding: 0;
+
+  .groups-list-item {
+    @extend %article-background;
+    @extend %article-padding;
+    @extend %article-margin;
+
+    overflow: hidden;
+    position: relative;
+  }
+
+  .groups-list-item:nth-child(odd) {
+    @extend %article-background--odd;
+  }
+
+  .groups-list-item:nth-child(even) {
+    @extend %article-background--even;
+  }
+
+  .groups-heading {
+    @extend %article-heading;
+  }
+
+  .groups-image-wrapper {
+    float: left;
+    margin-right: $large-spacing;
+    max-width: 75px;
+
+    a {
+      display: block;
+    }
+  }
+
+  .groups-heading,
+  .groups-list-content {
+    margin-left: 95px;
+  }
+
+  .groups-list-content {
+    max-height: 50px;
+    overflow: hidden;
+  }
+
+  .groups-link {
+    float: right;
+  }
+
+  /* Media queries */
+  @include small-medium() {
+    .groups-list-content {
+      display: none;
+    }
+
+    .groups-heading {
+      font-size: $font-size-large;
+      margin-right: 35px;
     }
   }
 }
