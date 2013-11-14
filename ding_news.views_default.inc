@@ -22,7 +22,7 @@ function ding_news_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Library news';
+  $handler->display->display_options['title'] = 'Group news';
   $handler->display->display_options['css_class'] = 'news-list';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['use_more_text'] = 'Læs mere';
@@ -1313,7 +1313,9 @@ function ding_news_views_default_views() {
   );
 
   /* Display: Groups news list */
-  $handler = $view->new_display('panel_pane', 'Groups news list', 'panel_pane_1');
+  $handler = $view->new_display('panel_pane', 'Groups news list', 'ding_news_groups_list');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Group news';
   $handler->display->display_options['defaults']['css_class'] = FALSE;
   $handler->display->display_options['defaults']['link_display'] = FALSE;
   $handler->display->display_options['link_display'] = 'custom_url';
@@ -1332,6 +1334,15 @@ function ding_news_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'fields';
   $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['empty'] = FALSE;
+  /* No results behavior: Global: Text area */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['label'] = 'Empty text';
+  $handler->display->display_options['empty']['area']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area']['content'] = 'No news where found for this group.';
+  $handler->display->display_options['empty']['area']['format'] = 'ding_wysiwyg';
   $handler->display->display_options['defaults']['relationships'] = FALSE;
   /* Relationship: OG membership: OG membership from Node */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
@@ -1483,7 +1494,7 @@ function ding_news_views_default_views() {
   );
   $translatables['ding_news'] = array(
     t('Master'),
-    t('Library news'),
+    t('Group news'),
     t('Læs mere'),
     t('Udfør'),
     t('Gendan'),
@@ -1521,6 +1532,7 @@ function ding_news_views_default_views() {
     t('User news list'),
     t('news list by user'),
     t('Groups news list'),
+    t('No news where found for this group.'),
     t('Groups panes'),
   );
   $export['ding_news'] = $view;
