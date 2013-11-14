@@ -22,7 +22,7 @@ function ding_news_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Group news';
+  $handler->display->display_options['title'] = 'Library news';
   $handler->display->display_options['css_class'] = 'news-list';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['use_more_text'] = 'Læs mere';
@@ -546,6 +546,17 @@ function ding_news_views_default_views() {
   $handler->display->display_options['fields']['view_node_1']['element_class'] = 'news-arrow-link';
   $handler->display->display_options['fields']['view_node_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['view_node_1']['element_default_classes'] = FALSE;
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Content: Sticky */
+  $handler->display->display_options['sorts']['sticky']['id'] = 'sticky';
+  $handler->display->display_options['sorts']['sticky']['table'] = 'node';
+  $handler->display->display_options['sorts']['sticky']['field'] = 'sticky';
+  $handler->display->display_options['sorts']['sticky']['order'] = 'DESC';
+  /* Sort criterion: Content: Post date */
+  $handler->display->display_options['sorts']['created']['id'] = 'created';
+  $handler->display->display_options['sorts']['created']['table'] = 'node';
+  $handler->display->display_options['sorts']['created']['field'] = 'created';
+  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
   /* Contextual filter: OG membership: Group ID */
   $handler->display->display_options['arguments']['gid']['id'] = 'gid';
@@ -1526,7 +1537,7 @@ function ding_news_views_default_views() {
   );
   $translatables['ding_news'] = array(
     t('Master'),
-    t('Group news'),
+    t('Library news'),
     t('Læs mere'),
     t('Udfør'),
     t('Gendan'),
@@ -1564,6 +1575,7 @@ function ding_news_views_default_views() {
     t('User news list'),
     t('news list by user'),
     t('Groups news list'),
+    t('Group news'),
     t('No news where found for this group.'),
     t('Groups panes'),
   );
