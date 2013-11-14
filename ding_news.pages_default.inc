@@ -17,7 +17,7 @@ function ding_news_default_page_manager_handlers() {
   $handler->task = 'node_view';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
-  $handler->weight = -27;
+  $handler->weight = -30;
   $handler->conf = array(
     'title' => 'News story',
     'no_blocks' => 0,
