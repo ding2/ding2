@@ -30,6 +30,13 @@ function ding_groups_views_default_views() {
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['style_plugin'] = 'list';
+  $handler->display->display_options['style_options']['grouping'] = array(
+    0 => array(
+      'field' => 'field_ding_group_category',
+      'rendered' => 1,
+      'rendered_strip' => 0,
+    ),
+  );
   $handler->display->display_options['style_options']['row_class'] = 'groups-list-item';
   $handler->display->display_options['style_options']['class'] = 'list groups-list';
   $handler->display->display_options['style_options']['wrapper_class'] = '';
@@ -45,6 +52,18 @@ function ding_groups_views_default_views() {
     'ding_tabroll' => 0,
     'ding_tabroll_for_libraries' => 0,
   );
+  /* Field: Category (groups rows) */
+  $handler->display->display_options['fields']['field_ding_group_category']['id'] = 'field_ding_group_category';
+  $handler->display->display_options['fields']['field_ding_group_category']['table'] = 'field_data_field_ding_group_category';
+  $handler->display->display_options['fields']['field_ding_group_category']['field'] = 'field_ding_group_category';
+  $handler->display->display_options['fields']['field_ding_group_category']['ui_name'] = 'Category (groups rows)';
+  $handler->display->display_options['fields']['field_ding_group_category']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_group_category']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_ding_group_category']['element_type'] = 'h2';
+  $handler->display->display_options['fields']['field_ding_group_category']['element_class'] = 'groups-list-group';
+  $handler->display->display_options['fields']['field_ding_group_category']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_group_category']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_group_category']['type'] = 'taxonomy_term_reference_plain';
   /* Field: Content: List image */
   $handler->display->display_options['fields']['field_ding_group_list_image']['id'] = 'field_ding_group_list_image';
   $handler->display->display_options['fields']['field_ding_group_list_image']['table'] = 'field_data_field_ding_group_list_image';
