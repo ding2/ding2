@@ -15,7 +15,7 @@ function ding_news_field_default_field_instances() {
     'bundle' => 'ding_news',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Display this event in the selected group (team page).',
+    'description' => 'Display this event in the selected group (temapage).',
     'display' => array(
       'default' => array(
         'label' => 'hidden',
@@ -676,7 +676,7 @@ function ding_news_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('Body');
   t('Category');
-  t('Display this event in the selected group (team page).');
+  t('Display this event in the selected group (temapage).');
   t('Files');
   t('Groups');
   t('Lead');
