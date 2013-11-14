@@ -146,7 +146,7 @@
   .groups-image-wrapper {
     float: left;
     margin-right: $large-spacing;
-    max-width: 75px;
+    max-width: 130px;
 
     a {
       display: block;
@@ -163,19 +163,23 @@
     overflow: hidden;
   }
 
-  .groups-link {
-    float: right;
+  .groups-arrow-link {
+    @extend %arrow-link;
   }
 
   /* Media queries */
   @include small-medium() {
-    .groups-list-content {
+    .groups-image-wrapper {
       display: none;
     }
 
     .groups-heading {
       font-size: $font-size-large;
-      margin-right: 35px;
+      margin-left: 0px;
+    }
+
+    .groups-list-content {
+      margin-left: 0px;
     }
   }
 }

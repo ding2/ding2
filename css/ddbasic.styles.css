@@ -5621,7 +5621,7 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
 /* Extends
    ========================================================================== */
 /* line 309, ../sass/module/_module.scss */
-.view-node-search-result .node-ding-event .group-right-col-search .event-arrow-link, .ting-reference-reverse-list .node-ding-event .group-right-col-search .event-arrow-link, .event-list .event-arrow-link {
+.view-node-search-result .node-ding-event .group-right-col-search .event-arrow-link, .ting-reference-reverse-list .node-ding-event .group-right-col-search .event-arrow-link, .event-list .event-arrow-link, .groups-list .groups-arrow-link {
   display: inline-block;
   position: absolute;
   right: 0;
@@ -7885,7 +7885,7 @@ input#edit-search-block-form--2.spinner {
 /* Event list
    ========================================================================== */
 /* line 75, ../sass/module/_event.scss */
-.view-node-search-result .node-ding-event .group-right-col-search .event-arrow-link, .ting-reference-reverse-list .node-ding-event .group-right-col-search .event-arrow-link, .event-list .event-arrow-link {
+.view-node-search-result .node-ding-event .group-right-col-search .event-arrow-link, .ting-reference-reverse-list .node-ding-event .group-right-col-search .event-arrow-link, .event-list .event-arrow-link, .groups-list .groups-arrow-link {
   display: inline-block;
   position: absolute;
   right: 0;
@@ -10260,7 +10260,7 @@ input#edit-search-block-form--2.spinner {
 .groups-list .groups-image-wrapper {
   float: left;
   margin-right: 20px;
-  max-width: 75px;
+  max-width: 130px;
 }
 /* line 151, ../sass/module/_groups.scss */
 .groups-list .groups-image-wrapper a {
@@ -10276,18 +10276,18 @@ input#edit-search-block-form--2.spinner {
   max-height: 50px;
   overflow: hidden;
 }
-/* line 166, ../sass/module/_groups.scss */
-.groups-list .groups-link {
-  float: right;
-}
 @media only screen and (max-width: 768px) {
   /* line 172, ../sass/module/_groups.scss */
-  .groups-list .groups-list-content {
+  .groups-list .groups-image-wrapper {
     display: none;
   }
   /* line 176, ../sass/module/_groups.scss */
   .groups-list .groups-heading {
     font-size: 130%;
-    margin-right: 35px;
+    margin-left: 0px;
+  }
+  /* line 181, ../sass/module/_groups.scss */
+  .groups-list .groups-list-content {
+    margin-left: 0px;
   }
 }
