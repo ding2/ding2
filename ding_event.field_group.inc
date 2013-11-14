@@ -21,7 +21,7 @@ function ding_event_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Attachments',
-    'weight' => '5',
+    'weight' => '6',
     'children' => array(
       0 => 'field_ding_event_files',
       1 => 'field_ding_event_materials',
@@ -84,8 +84,8 @@ function ding_event_field_group_info() {
       0 => 'field_ding_event_date',
       1 => 'field_ding_event_location',
       2 => 'field_ding_event_price',
-      3 => 'field_ding_event_library',
-      4 => 'og_group_ref',
+      3 => 'og_group_ref',
+      4 => 'ding_event_groups_ref',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
