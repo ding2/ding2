@@ -1852,14 +1852,6 @@ function ding_event_views_default_views() {
       'fixed' => '',
       'label' => 'OG membership: Group ID',
     ),
-    'tid' => array(
-      'type' => 'context',
-      'context' => 'entity:taxonomy_term.tid',
-      'context_optional' => 1,
-      'panel' => '1',
-      'fixed' => '%tid',
-      'label' => 'Content: Has taxonomy term ID',
-    ),
   );
   $translatables['ding_event'] = array(
     t('Master'),
