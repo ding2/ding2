@@ -162,6 +162,7 @@ function ding_news_field_group_info() {
     'weight' => '6',
     'children' => array(
       0 => 'og_group_ref',
+      1 => 'ding_news_groups_ref',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(

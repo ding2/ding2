@@ -10,6 +10,78 @@
 function ding_news_field_default_field_instances() {
   $field_instances = array();
 
+  // Exported field_instance: 'node-ding_news-ding_news_groups_ref'
+  $field_instances['node-ding_news-ding_news_groups_ref'] = array(
+    'bundle' => 'ding_news',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Display this event in the selected group (team page).',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'og_ui',
+        'settings' => array(),
+        'type' => 'og_list_default',
+        'weight' => 10,
+      ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'ding_news_groups_ref',
+    'label' => 'Groups',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'og_widget' => array(
+          'admin' => array(
+            'widget_type' => 'entityreference_autocomplete',
+          ),
+          'default' => array(
+            'widget_type' => 'options_select',
+          ),
+          'status' => TRUE,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'view modes' => array(
+      'full' => array(
+        'custom settings' => FALSE,
+        'label' => 'Full',
+        'type' => 'og_list_default',
+      ),
+      'teaser' => array(
+        'custom settings' => FALSE,
+        'label' => 'Teaser',
+        'type' => 'og_list_default',
+      ),
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 32,
+    ),
+  );
+
   // Exported field_instance: 'node-ding_news-field_ding_news_body'
   $field_instances['node-ding_news-field_ding_news_body'] = array(
     'bundle' => 'ding_news',
@@ -604,7 +676,9 @@ function ding_news_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('Body');
   t('Category');
+  t('Display this event in the selected group (team page).');
   t('Files');
+  t('Groups');
   t('Lead');
   t('Library');
   t('List image');
