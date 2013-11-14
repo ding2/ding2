@@ -22,6 +22,11 @@ projects[ding_frontend][download][type] = "git"
 projects[ding_frontend][download][url] = "git@github.com:ding2tal/ding_frontend.git"
 projects[ding_frontend][download][branch] = "development"
 
+projects[ding_groups][type] = "module"
+projects[ding_groups][download][type] = "git"
+projects[ding_groups][download][url] = "git@github.com:ding2tal/ding_groups.git"
+projects[ding_groups][download][branch] = "development"
+
 projects[ding_user_frontend][type] = "module"
 projects[ding_user_frontend][download][type] = "git"
 projects[ding_user_frontend][download][url] = "git@github.com:ding2tal/ding_user_frontend.git"
