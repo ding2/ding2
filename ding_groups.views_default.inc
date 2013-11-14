@@ -141,6 +141,8 @@ function ding_groups_views_default_views() {
   /* Display: Group overview (simple) */
   $handler = $view->new_display('panel_pane', 'Group overview (simple)', 'ding_group_overview_simple');
   $handler->display->display_options['display_description'] = 'Simply list all groups';
+  $handler->display->display_options['pane_category']['name'] = 'Groups panes';
+  $handler->display->display_options['pane_category']['weight'] = '0';
   $translatables['ding_groups'] = array(
     t('Master'),
     t('Groups'),
@@ -161,7 +163,7 @@ function ding_groups_views_default_views() {
     t('<i class="icon-chevron-right"></i>'),
     t('Group overview (simple)'),
     t('Simply list all groups'),
-    t('View panes'),
+    t('Groups panes'),
   );
   $export['ding_groups'] = $view;
 
