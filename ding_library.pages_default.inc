@@ -17,7 +17,7 @@ function ding_library_default_page_manager_handlers() {
   $handler->task = 'node_view';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
-  $handler->weight = 2;
+  $handler->weight = -27;
   $handler->conf = array(
     'title' => 'Library (organic group)',
     'no_blocks' => 0,
