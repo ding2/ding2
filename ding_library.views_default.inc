@@ -220,6 +220,27 @@ function ding_library_views_default_views() {
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'node';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  /* Relationship: Nodequeue: Queue */
+  $handler->display->display_options['relationships']['nodequeue_rel']['id'] = 'nodequeue_rel';
+  $handler->display->display_options['relationships']['nodequeue_rel']['table'] = 'node';
+  $handler->display->display_options['relationships']['nodequeue_rel']['field'] = 'nodequeue_rel';
+  $handler->display->display_options['relationships']['nodequeue_rel']['limit'] = 0;
+  $handler->display->display_options['relationships']['nodequeue_rel']['names'] = array(
+    'ding_tabroll' => 0,
+    'ding_groups_listning' => 0,
+    'ding_library_listing' => 0,
+  );
+  $handler->display->display_options['defaults']['sorts'] = FALSE;
+  /* Sort criterion: Nodequeue: Queue ID */
+  $handler->display->display_options['sorts']['qid']['id'] = 'qid';
+  $handler->display->display_options['sorts']['qid']['table'] = 'nodequeue_nodes';
+  $handler->display->display_options['sorts']['qid']['field'] = 'qid';
+  $handler->display->display_options['sorts']['qid']['relationship'] = 'nodequeue_rel';
+  /* Sort criterion: Content: Title */
+  $handler->display->display_options['sorts']['title']['id'] = 'title';
+  $handler->display->display_options['sorts']['title']['table'] = 'node';
+  $handler->display->display_options['sorts']['title']['field'] = 'title';
   $handler->display->display_options['pane_category']['name'] = 'Library panes';
   $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
@@ -324,6 +345,7 @@ function ding_library_views_default_views() {
     t('Opening Hours'),
     t('Libraries list'),
     t('more'),
+    t('queue'),
     t('Library panes'),
     t('OpenLayers Data Overlay'),
   );
