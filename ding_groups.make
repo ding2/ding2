@@ -14,6 +14,9 @@ projects[ctools][patch][0] = "http://drupal.org/files/ctools-n1925018-12.patch"
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.0-beta2"
 
+projects[features_extra][subdir] = "contrib"
+projects[features_extra][version] = "1.0-beta1"
+
 projects[cs_adaptive_image][subdir] = "contrib"
 projects[cs_adaptive_image][version] = "1.0"
 
