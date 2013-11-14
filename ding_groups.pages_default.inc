@@ -155,7 +155,7 @@ function ding_groups_default_page_manager_pages() {
     'type' => 'normal',
     'title' => 'Grupper',
     'name' => 'main-menu',
-    'weight' => '50',
+    'weight' => '0',
     'parent' => array(
       'type' => 'none',
       'title' => '',

@@ -59,7 +59,7 @@ function ding_groups_views_default_views() {
   $handler->display->display_options['fields']['field_ding_group_category']['ui_name'] = 'Category (groups rows)';
   $handler->display->display_options['fields']['field_ding_group_category']['label'] = '';
   $handler->display->display_options['fields']['field_ding_group_category']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_ding_group_category']['element_type'] = 'h2';
+  $handler->display->display_options['fields']['field_ding_group_category']['element_type'] = 'h3';
   $handler->display->display_options['fields']['field_ding_group_category']['element_class'] = 'groups-list-group';
   $handler->display->display_options['fields']['field_ding_group_category']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_group_category']['element_default_classes'] = FALSE;
