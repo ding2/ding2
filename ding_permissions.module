@@ -15,13 +15,15 @@ include_once 'ding_permissions.features.inc';
  * @return
  *   An array defining all the roles for the site.
  */
-function ding_permissions_secure_permissions_roles() {
+function secure_permissions_data_secure_permissions_roles() {
   return array(
-    'guest blogger',
-    'facilitator',
-    'local editor',
+    'anonymous user',
+    'authenticated user',
     'editor',
+    'guest blogger',
+    'local editor',
     'staff',
+    'facilitator',
   );
 }
 
@@ -37,7 +39,7 @@ function ding_permissions_secure_permissions_roles() {
  * @return
  *   An array defining all the permissions for the site.
  */
-function ding_permissions_secure_permissions($role) {
+function secure_permissions_data_secure_permissions($role) {
   $permissions = array(
     'anonymous user' => array(
       'access comments',
@@ -46,7 +48,9 @@ function ding_permissions_secure_permissions($role) {
       'access user profiles',
       'search content',
       'view any ding_staff_profile profile',
+      'view any staff profile',
       'view files',
+      'view own staff profile',
     ),
     'authenticated user' => array(
       'access comments',
@@ -59,27 +63,51 @@ function ding_permissions_secure_permissions($role) {
       'search content',
       'skip comment approval',
       'view any ding_staff_profile profile',
+      'view any staff profile',
       'view files',
       'view own files',
       'view own private files',
+      'view own staff profile',
+    ),
+    'editor' => array(
+      'access overlay',
+      'access toolbar',
+      'administer blocks',
+      'administer contact forms',
+      'assign guest blogger role',
+      'assign local editor role',
+      'assign staff role',
+      'clone node',
+      'create ding_event content',
+      'create ding_library content',
+      'create ding_news content',
+      'create ding_page content',
+      'create files',
+      'delete any ding_event content',
+      'delete any ding_library content',
+      'delete any ding_news content',
+      'delete any ding_page content',
+      'delete own ding_event content',
+      'delete own ding_library content',
+      'delete own ding_news content',
+      'delete own ding_page content',
+      'edit any ding_event content',
+      'edit any ding_library content',
+      'edit any ding_news content',
+      'edit any ding_page content',
+      'edit any ding_staff_profile profile',
+      'edit own ding_event content',
+      'edit own ding_library content',
+      'edit own ding_news content',
+      'edit own ding_page content',
+      'edit own ding_staff_profile profile',
+      'view the administration theme',
     ),
     'guest blogger' => array(
       'access workbench',
       'clone node',
       'create ding_news content',
       'create files',
-      'edit own ding_news content',
-      'view own private files',
-    ),
-    'facilitator' => array(
-      'access workbench',
-      'clone node',
-      'create ding_event content',
-      'create ding_news content',
-      'create files',
-      'delete own ding_event content',
-      'delete own ding_news content',
-      'edit own ding_event content',
       'edit own ding_news content',
       'view own private files',
     ),
@@ -108,40 +136,9 @@ function ding_permissions_secure_permissions($role) {
       'edit own ding_news content',
       'edit own ding_page content',
     ),
-    'editor' => array(
-      'access overlay',
-      'access toolbar',
-      'administer blocks',
-      'administer contact forms',
-      'assign provider role',
-      'assign guest blogger role',
-      'assign local editor role',
-      'assign staff role',
-      'clone node',
-      'create ding_event content',
-      'create ding_library content',
-      'create ding_news content',
-      'create ding_page content',
-      'create files',
-      'delete any ding_event content',
-      'delete any ding_library content',
-      'delete any ding_news content',
-      'delete any ding_page content',
-      'delete own ding_event content',
-      'delete own ding_library content',
-      'delete own ding_news content',
-      'delete own ding_page content',
-      'edit any ding_event content',
-      'edit any ding_library content',
-      'edit any ding_news content',
-      'edit any ding_page content',
-      'edit any ding_staff_profile profile',
-      'edit own ding_staff_profile profile',
-      'edit own ding_event content',
-      'edit own ding_library content',
-      'edit own ding_news content',
-      'edit own ding_page content',
-      'view the administration theme',
+    'staff' => array(
+    ),
+    'facilitator' => array(
     ),
   );
   if (isset($permissions[$role])) {
