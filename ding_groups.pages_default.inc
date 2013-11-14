@@ -147,7 +147,10 @@ function ding_groups_default_page_manager_pages() {
   $page->admin_title = 'Groups listing';
   $page->admin_description = '';
   $page->path = 'grupper';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array(
     'type' => 'normal',
     'title' => 'Grupper',
@@ -206,7 +209,7 @@ function ding_groups_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Groups';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();

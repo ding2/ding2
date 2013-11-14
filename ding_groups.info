@@ -39,7 +39,6 @@ features[field_instance][] = node-ding_group-field_ding_group_lead
 features[field_instance][] = node-ding_group-field_ding_group_list_image
 features[field_instance][] = node-ding_group-field_ding_group_title_image
 features[field_instance][] = node-ding_group-group_group
-features[menu_links][] = main-menu:menu-position/3
 features[node][] = ding_group
 features[page_manager_handlers][] = node_view_panel_context_5
 features[page_manager_pages][] = groups_listing
