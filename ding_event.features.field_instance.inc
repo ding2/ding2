@@ -15,7 +15,7 @@ function ding_event_field_default_field_instances() {
     'bundle' => 'ding_event',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Display this event in the selected group (team page).',
+    'description' => 'Display this event in the selected group (temapage).',
     'display' => array(
       'default' => array(
         'label' => 'hidden',
@@ -946,7 +946,7 @@ function ding_event_field_default_field_instances() {
   t('Body');
   t('Category');
   t('Date');
-  t('Display this event in the selected group (team page).');
+  t('Display this event in the selected group (temapage).');
   t('Files');
   t('Groups');
   t('Lead');
