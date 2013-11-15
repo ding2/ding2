@@ -49,7 +49,7 @@ function ding_staff_rules_action_info() {
     ),
   );
 }
-/*
+/**
  * Action to add the staff role to a user.
  *
  * Since we cannot know which role ID the staff role has been assigned,
@@ -87,6 +87,29 @@ function ding_staff_add_role_staff($profile_user) {
         user_save($user, array('roles' => $all_roles));
         drupal_set_message(t('@username has been assigned the staff role.', array('@username' => $profile_user->name)), 'status');
       }
+    }
+  }
+}
+
+
+/**
+* Implements hook_views_default_views_alter().
+* 
+* Since we cannot know which role ID the staff role has been assigned,
+* we overwrite the rids in the staff view
+*/
+function ding_staff_views_default_views_alter(&$views) {
+  if ($views['ding_staff']) {
+    $roles = user_roles(TRUE);
+    $rid = array_search("staff", $roles);
+
+    if ($rid) {
+      $rids = array();
+      $rids[$rid] = $rid;
+
+      // Replace exising rid defined in the view with the actual rid of role "staff"
+      $views['ding_staff']->display['ding_staff_list_all']->display_options['filters']['rid']['value'] = $rids;
+      $views['ding_staff']->display['ding_staff_library_departments']->display_options['filters']['rid']['value'] = $rids;
     }
   }
 }
