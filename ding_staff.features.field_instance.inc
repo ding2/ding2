@@ -473,10 +473,11 @@ function ding_staff_field_default_field_instances() {
   t('Email');
   t('Forename');
   t('Image');
+  t('Library');
   t('Phone');
   t('Position');
-  t('Surname');
   t('Select the libraries this content should be associated with.');
+  t('Surname');
 
   return $field_instances;
 }
