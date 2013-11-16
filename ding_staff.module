@@ -24,7 +24,7 @@ function ding_staff_ctools_plugin_directory($module, $plugin) {
  */
 function ding_staff_ding_library_menu_links() {
   return array(
-    'staff' => array(
+    'personale' => array(
       'linktype' => 'general_view_linktype',
       'title' => 'Staff',
       'weight' => 15,

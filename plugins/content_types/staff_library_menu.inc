@@ -48,7 +48,7 @@ function ding_staff_library_menu_content_type_render($subtype, $conf, $panel_arg
     if ($selected_library && $selected_library == $row->slug) {
       $options = array('attributes' => array('class' => array('active')));
     }
-    $items[] = l($row->title, 'bibliotek/' . $row->slug . '/staff', $options);
+    $items[] = l($row->title, 'bibliotek/' . $row->slug . '/personale', $options);
   }
 
   $block->content = array(

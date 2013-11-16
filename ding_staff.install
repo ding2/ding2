@@ -17,6 +17,24 @@ function ding_staff_install() {
   }
 }
 
+
+/**
+ * Implements hook_enable().
+ */
+function ding_staff_enable() {
+  $path = array(
+    'source' => 'staff',
+    'language' => 'und',
+  );
+
+  // Create Danish alias for staff if needed.
+  if (!path_load($path)) {
+    $path['alias'] = 'personale';
+    path_save($path);
+  }
+}
+
+
 /**
  * Update the staff profile - prefix with module name.
  */
