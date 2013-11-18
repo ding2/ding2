@@ -68,6 +68,12 @@ function ting_get_object($object_id, $collection = FALSE, $with_relations = FALS
 
       // Execute the request.
       $object = ting_execute_cache($request);
+
+      // If this was a collection request store the collection reply to ensure
+      // that there is no empty cache entry.
+      if ($collection) {
+        ting_cache_set($object_id, $object, $type);
+      }
     }
 
     // If not asking for a collection, and the object is, return the
@@ -111,7 +117,7 @@ function ting_get_objects($ids) {
   $objects = array();
   // Pre-fill from cache.
   foreach ($ids as $id) {
-    $objects[$id] = ting_cache_get($id);
+    $objects[$id] = ting_cache_get($id, TING_CACHE_TING_OBJECT);
     if (isset($objects[$id]) && isset($objects[$id]->objects)) {
       foreach ($objects[$id]->objects as $sub_object) {
         if ($sub_object->id == $id) {
@@ -136,17 +142,17 @@ function ting_get_objects($ids) {
   foreach ($objects as $id => $object) {
     if ($object === FALSE) {
       if (preg_match('/^' . $agency . '/', $id)) {
-        $query[] = 'rec.id=' . $id;
-      }
-      else {
         // Get objects.
         $objects[$id] = ting_get_object($id);
+      }
+      else {
+        $query[] = 'rec.id=' . $id;
       }
     }
   }
   // Open search is limited to 50 results per call, so iterate until all results
-  // have been fetched.
-  // Also it has a limit on the size of the query (>187 rec.id= ORed together seems to break it).
+  // have been fetched. It has a limit on the size of the query (>187 rec.id=
+  // ORed together seems to break it).
   $query_chunks = array_chunk($query, 50);
   foreach ($query_chunks as $query_chunk) {
     $request = ting_get_request_factory()->getSearchRequest();
@@ -235,7 +241,7 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
     'facet.acSource',
   );
   $request->setFacets((isset($options['facets'])) ? $options['facets'] : $default_facets);
-  $request->setNumFacets((isset($options['numFacets'])) ? $options['numFacets'] : ((sizeof($request->getFacets()) == 0) ? 0 : 10));
+  $request->setNumFacets((isset($options['numFacets'])) ? $options['numFacets'] : ((count($request->getFacets()) == 0) ? 0 : 10));
   if (isset($options['sort']) && $options['sort']) {
     $request->setSort($options['sort']);
   }
@@ -353,7 +359,7 @@ function ting_execute_cache($request) {
     // Cache any sub-objects (mostly true for collections).
     if (isset($reply->objects)) {
       foreach ($reply->objects as $object) {
-        ting_cache_set($object->id, $object, $type);
+        ting_cache_set($object->id, $object, TING_CACHE_TING_OBJECT);
         // Cache any relations.
         if (isset($object->relations)) {
           foreach ($object->relations as $relation) {
@@ -389,7 +395,7 @@ function ting_execute_cache($request) {
     // Cache any relations.
     if (isset($reply->relations)) {
       foreach ($reply->relations as $relation) {
-        ting_cache_set($relation->id, $relation);
+        ting_cache_set($relation->id, $relation, TING_CACHE_TING_OBJECT);
       }
     }
 
