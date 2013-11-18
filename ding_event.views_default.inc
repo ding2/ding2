@@ -231,6 +231,14 @@ function ding_event_views_default_views() {
     'field_data_field_ding_event_date.field_ding_event_date_value' => 'field_data_field_ding_event_date.field_ding_event_date_value',
     'field_data_field_ding_event_date.field_ding_event_date_value2' => 'field_data_field_ding_event_date.field_ding_event_date_value2',
   );
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type_1']['id'] = 'type_1';
+  $handler->display->display_options['filters']['type_1']['table'] = 'node';
+  $handler->display->display_options['filters']['type_1']['field'] = 'type';
+  $handler->display->display_options['filters']['type_1']['relationship'] = 'og_membership_related_node_group';
+  $handler->display->display_options['filters']['type_1']['value'] = array(
+    'ding_library' => 'ding_library',
+  );
 
   /* Display: Event list */
   $handler = $view->new_display('panel_pane', 'Event list', 'ding_event_list');
@@ -1612,16 +1620,32 @@ function ding_event_views_default_views() {
   $handler->display->display_options['empty']['area']['content'] = 'No events where found in the group.';
   $handler->display->display_options['empty']['area']['format'] = 'ding_wysiwyg';
   $handler->display->display_options['defaults']['relationships'] = FALSE;
-  /* Relationship: OG membership: OG membership from Node */
+  /* Relationship: OG membership group */
   $handler->display->display_options['relationships']['og_membership_rel']['id'] = 'og_membership_rel';
   $handler->display->display_options['relationships']['og_membership_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['og_membership_rel']['field'] = 'og_membership_rel';
-  /* Relationship: OG membership: Group Node from OG membership */
+  $handler->display->display_options['relationships']['og_membership_rel']['ui_name'] = 'OG membership group';
+  $handler->display->display_options['relationships']['og_membership_rel']['label'] = 'OG membership group';
+  /* Relationship: OG group */
   $handler->display->display_options['relationships']['og_membership_related_node_group']['id'] = 'og_membership_related_node_group';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['table'] = 'og_membership';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['field'] = 'og_membership_related_node_group';
   $handler->display->display_options['relationships']['og_membership_related_node_group']['relationship'] = 'og_membership_rel';
-  $handler->display->display_options['relationships']['og_membership_related_node_group']['label'] = 'OG node group';
+  $handler->display->display_options['relationships']['og_membership_related_node_group']['ui_name'] = 'OG group';
+  $handler->display->display_options['relationships']['og_membership_related_node_group']['label'] = 'OG group';
+  /* Relationship: OG membership from node (Library) */
+  $handler->display->display_options['relationships']['og_membership_rel_1']['id'] = 'og_membership_rel_1';
+  $handler->display->display_options['relationships']['og_membership_rel_1']['table'] = 'node';
+  $handler->display->display_options['relationships']['og_membership_rel_1']['field'] = 'og_membership_rel';
+  $handler->display->display_options['relationships']['og_membership_rel_1']['ui_name'] = 'OG membership from node (Library)';
+  $handler->display->display_options['relationships']['og_membership_rel_1']['label'] = 'OG membership from node (Library)';
+  /* Relationship: OG Library */
+  $handler->display->display_options['relationships']['og_membership_related_node_group_1']['id'] = 'og_membership_related_node_group_1';
+  $handler->display->display_options['relationships']['og_membership_related_node_group_1']['table'] = 'og_membership';
+  $handler->display->display_options['relationships']['og_membership_related_node_group_1']['field'] = 'og_membership_related_node_group';
+  $handler->display->display_options['relationships']['og_membership_related_node_group_1']['relationship'] = 'og_membership_rel_1';
+  $handler->display->display_options['relationships']['og_membership_related_node_group_1']['ui_name'] = 'OG Library';
+  $handler->display->display_options['relationships']['og_membership_related_node_group_1']['label'] = 'OG Library';
   $handler->display->display_options['defaults']['fields'] = FALSE;
   /* Field: Date (for group header) (excluded) */
   $handler->display->display_options['fields']['field_ding_event_date_1']['id'] = 'field_ding_event_date_1';
@@ -1743,11 +1767,12 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_lead']['element_class'] = 'event-list-description';
   $handler->display->display_options['fields']['field_ding_event_lead']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_event_lead']['element_default_classes'] = FALSE;
-  /* Field: Content: Title */
+  /* Field: Library title */
   $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
   $handler->display->display_options['fields']['title_1']['table'] = 'node';
   $handler->display->display_options['fields']['title_1']['field'] = 'title';
-  $handler->display->display_options['fields']['title_1']['relationship'] = 'og_membership_related_node_group';
+  $handler->display->display_options['fields']['title_1']['relationship'] = 'og_membership_related_node_group_1';
+  $handler->display->display_options['fields']['title_1']['ui_name'] = 'Library title';
   $handler->display->display_options['fields']['title_1']['label'] = '';
   $handler->display->display_options['fields']['title_1']['element_type'] = 'span';
   $handler->display->display_options['fields']['title_1']['element_class'] = 'event-list-location';
@@ -1832,6 +1857,40 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['defaults']['filter_groups'] = FALSE;
+  $handler->display->display_options['defaults']['filters'] = FALSE;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 0;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'node';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'ding_event' => 'ding_event',
+  );
+  /* Filter criterion: Date: Date (node) */
+  $handler->display->display_options['filters']['date_filter']['id'] = 'date_filter';
+  $handler->display->display_options['filters']['date_filter']['table'] = 'node';
+  $handler->display->display_options['filters']['date_filter']['field'] = 'date_filter';
+  $handler->display->display_options['filters']['date_filter']['operator'] = '>=';
+  $handler->display->display_options['filters']['date_filter']['default_date'] = 'now';
+  $handler->display->display_options['filters']['date_filter']['date_fields'] = array(
+    'field_data_field_ding_event_date.field_ding_event_date_value' => 'field_data_field_ding_event_date.field_ding_event_date_value',
+    'field_data_field_ding_event_date.field_ding_event_date_value2' => 'field_data_field_ding_event_date.field_ding_event_date_value2',
+  );
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type_1']['id'] = 'type_1';
+  $handler->display->display_options['filters']['type_1']['table'] = 'node';
+  $handler->display->display_options['filters']['type_1']['field'] = 'type';
+  $handler->display->display_options['filters']['type_1']['relationship'] = 'og_membership_related_node_group_1';
+  $handler->display->display_options['filters']['type_1']['value'] = array(
+    'ding_library' => 'ding_library',
+  );
   $handler->display->display_options['pane_category']['name'] = 'Groups panes';
   $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
@@ -1901,6 +1960,10 @@ function ding_event_views_default_views() {
     t('Groups event list'),
     t('Group events'),
     t('No events where found in the group.'),
+    t('OG membership group'),
+    t('OG group'),
+    t('OG membership from node (Library)'),
+    t('OG Library'),
     t('Groups panes'),
   );
   $export['ding_event'] = $view;
