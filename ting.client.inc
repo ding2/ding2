@@ -141,12 +141,14 @@ function ting_get_objects($ids) {
   $query = array();
   foreach ($objects as $id => $object) {
     if ($object === FALSE) {
+      // So if the agency match lets search theme as that's faster then fetching
+      // them one by one.
       if (preg_match('/^' . $agency . '/', $id)) {
-        // Get objects.
-        $objects[$id] = ting_get_object($id);
+        $query[] = 'rec.id=' . $id;
       }
       else {
-        $query[] = 'rec.id=' . $id;
+        // Get objects as it was not local.
+        $objects[$id] = ting_get_object($id);
       }
     }
   }
