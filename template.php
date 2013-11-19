@@ -321,7 +321,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     $variables['theme_hook_suggestions'][] = 'node__view_mode__' . $variables['view_mode'];
   }
 
-  // Add "read more" links to event and news in search result view mode.
+  // Add "read more" links to event, news and e-resource in search result view mode.
   if ($variables['view_mode'] == 'search_result') {
     switch ($variables['node']->type) {
       case 'ding_event':
@@ -360,6 +360,25 @@ function ddbasic_preprocess_node(&$variables, $hook) {
         );
 
 //        <span class="news-link"><span><a href="/nyheder/anbefalinger/test-nyhed">Læs mere</a></span></span>
+
+        $variables['content']['group_right_col_search']['more_link'] = $more_link;
+        break;
+      
+      case 'ding_eresource':
+        $more_link = array(
+          '#theme' => 'link',
+          '#text' => t('Read more'),
+          '#path' => 'node/' . $variables['nid'],
+          '#options' => array(
+            'attributes' => array(
+              'title' => $variables['title'],
+            ),
+            'html' => FALSE,
+          ),
+          '#prefix' => '<span class="eresource-link">',
+          '#surfix' => '</span>',
+          '#weight' => 6,
+        );
 
         $variables['content']['group_right_col_search']['more_link'] = $more_link;
         break;
