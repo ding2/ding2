@@ -83,6 +83,16 @@ function ding_page_default_page_manager_handlers() {
       'left_sidebar' => NULL,
       'main_content' => NULL,
       'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
     ),
   );
   $display->cache = array();
@@ -112,6 +122,27 @@ function ding_page_default_page_manager_handlers() {
     $display->panels['left_sidebar'][0] = 'new-1';
     $pane = new stdClass();
     $pane->pid = 'new-2';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'block';
+    $pane->subtype = 'og_menu-og_single_menu_block';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-2'] = $pane;
+    $display->panels['left_sidebar'][1] = 'new-2';
+    $pane = new stdClass();
+    $pane->pid = 'new-3';
     $pane->panel = 'main_content';
     $pane->type = 'node_content';
     $pane->subtype = 'node_content';
@@ -140,10 +171,10 @@ function ding_page_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-2'] = $pane;
-    $display->panels['main_content'][0] = 'new-2';
+    $display->content['new-3'] = $pane;
+    $display->panels['main_content'][0] = 'new-3';
     $pane = new stdClass();
-    $pane->pid = 'new-3';
+    $pane->pid = 'new-4';
     $pane->panel = 'right_sidebar';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
@@ -175,10 +206,10 @@ function ding_page_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-3'] = $pane;
-    $display->panels['right_sidebar'][0] = 'new-3';
+    $display->content['new-4'] = $pane;
+    $display->panels['right_sidebar'][0] = 'new-4';
     $pane = new stdClass();
-    $pane->pid = 'new-4';
+    $pane->pid = 'new-5';
     $pane->panel = 'right_sidebar';
     $pane->type = 'block';
     $pane->subtype = 'similarterms-ding_content_tags';
@@ -196,10 +227,10 @@ function ding_page_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = '';
-    $display->content['new-4'] = $pane;
-    $display->panels['right_sidebar'][1] = 'new-4';
+    $display->content['new-5'] = $pane;
+    $display->panels['right_sidebar'][1] = 'new-5';
   $display->hide_title = PANELS_TITLE_PANE;
-  $display->title_pane = 'new-2';
+  $display->title_pane = 'new-3';
   $handler->conf['display'] = $display;
   $export['node_view_panel_context_4'] = $handler;
 
