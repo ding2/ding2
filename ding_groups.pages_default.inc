@@ -17,7 +17,7 @@ function ding_groups_default_page_manager_handlers() {
   $handler->task = 'node_view';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
-  $handler->weight = 5;
+  $handler->weight = -25;
   $handler->conf = array(
     'title' => 'Groups',
     'no_blocks' => 0,
@@ -71,6 +71,27 @@ function ding_groups_default_page_manager_handlers() {
   $display->panels = array();
     $pane = new stdClass();
     $pane->pid = 'new-1';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'block';
+    $pane->subtype = 'og_menu-og_single_menu_block';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-1'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-1';
+    $pane = new stdClass();
+    $pane->pid = 'new-2';
     $pane->panel = 'main_content';
     $pane->type = 'node_content';
     $pane->subtype = 'node_content';
@@ -95,10 +116,10 @@ function ding_groups_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-1'] = $pane;
-    $display->panels['main_content'][0] = 'new-1';
+    $display->content['new-2'] = $pane;
+    $display->panels['main_content'][0] = 'new-2';
     $pane = new stdClass();
-    $pane->pid = 'new-2';
+    $pane->pid = 'new-3';
     $pane->panel = 'right_sidebar';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
@@ -125,8 +146,8 @@ function ding_groups_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-2'] = $pane;
-    $display->panels['right_sidebar'][0] = 'new-2';
+    $display->content['new-3'] = $pane;
+    $display->panels['right_sidebar'][0] = 'new-3';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
