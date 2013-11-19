@@ -237,10 +237,6 @@ function ding_library_views_default_views() {
   $handler->display->display_options['sorts']['qid']['table'] = 'nodequeue_nodes';
   $handler->display->display_options['sorts']['qid']['field'] = 'qid';
   $handler->display->display_options['sorts']['qid']['relationship'] = 'nodequeue_rel';
-  /* Sort criterion: Content: Title */
-  $handler->display->display_options['sorts']['title']['id'] = 'title';
-  $handler->display->display_options['sorts']['title']['table'] = 'node';
-  $handler->display->display_options['sorts']['title']['field'] = 'title';
   $handler->display->display_options['pane_category']['name'] = 'Library panes';
   $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
