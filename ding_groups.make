@@ -41,6 +41,13 @@ projects[file_entity][version] = "2.0-alpha2"
 projects[og][subdir] = "contrib"
 projects[og][version] = "2.3"
 
+# This version of og menu contains patches from ding2tal.
+projects[og_menu][type] = "module"
+projects[og_menu][subdir] = "contrib"
+projects[og_menu][download][type] = "git"
+projects[og_menu][download][url] = "http://git.drupal.org/project/og_menu.git"
+projects[og_menu][download][revision] = "48719287857535a3db6acadf8c40462ce4c17a18"
+
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
 
