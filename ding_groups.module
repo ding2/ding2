@@ -5,3 +5,42 @@
  */
 
 include_once 'ding_groups.features.inc';
+
+/**
+ * Implements hook_og_context_negotiation_info().
+ *
+ * Enabled ding groups to find group context panel pages where the group node is
+ * loaded as argument. E.g. grupper/156/nyheder.
+ */
+function ding_groups_og_context_negotiation_info() {
+  $providers = array();
+
+  $providers['ding-groups-panels'] = array(
+    'name' => t('Ding groups'),
+    'description' => t("Determine context panels node."),
+    'callback' => 'ding_groups_og_context_handler',
+  );
+
+  return $providers;
+}
+
+/**
+ * Callback for OG context negotiation that tries to find ding group node.
+ *
+ * This is based on the current menu item (path) and that it is a panel.
+ *
+ * @return array
+ *   Node ids.
+ */
+function ding_groups_og_context_handler() {
+  $nids = array();
+
+  $item = menu_get_item();
+  if (isset($item['page_arguments'][1]->data->type) && $item['page_arguments'][1]->data->type == 'ding_group') {
+    $nids[] = $item['page_arguments'][1]->data->nid;
+  }
+
+  return array(
+    'node' => $nids,
+  );
+}
