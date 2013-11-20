@@ -46,6 +46,7 @@ features[variable][] = jquery_update_jquery_version
 features[variable][] = og_menu_assignment
 features[variable][] = og_menu_block_links
 features[variable][] = og_menu_create_by_default
+features[variable][] = og_menu_hide_create_option
 features[variable][] = og_menu_max_menus_per_group
 features[variable][] = og_menu_show_blocks
 features[variable][] = og_menu_show_menuposition

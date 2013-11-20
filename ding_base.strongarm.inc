@@ -243,6 +243,13 @@ search/ting/*';
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'og_menu_hide_create_option';
+  $strongarm->value = 1;
+  $export['og_menu_hide_create_option'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'og_menu_max_menus_per_group';
   $strongarm->value = '1';
   $export['og_menu_max_menus_per_group'] = $strongarm;
