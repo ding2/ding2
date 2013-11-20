@@ -183,3 +183,25 @@
     }
   }
 }
+
+.ding-group-news {
+  @include zen-clear(both);
+  @include zen-grid-item(7, 1);
+  padding-left: 0;
+}
+
+.ding-group-events {
+  @include zen-grid-item(5, 1, right);
+  padding-right: 0;
+}
+
+.ding-group-news,
+.ding-group-events {
+  border-top: 1px solid $gray-light;
+  padding-top: $large-spacing;
+
+  @include small-medium() {
+    @include zen-clear(both);
+    @include zen-grid-item(12, 1);
+  }
+}

@@ -10291,3 +10291,73 @@ input#edit-search-block-form--2.spinner {
     margin-left: 0px;
   }
 }
+
+/* line 187, ../sass/module/_groups.scss */
+.ding-group-news {
+  clear: both;
+  float: left;
+  width: 58.33333%;
+  margin-left: 0%;
+  margin-right: -58.33333%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  padding-left: 0;
+}
+
+/* line 193, ../sass/module/_groups.scss */
+.ding-group-events {
+  float: right;
+  width: 41.66667%;
+  margin-right: 0%;
+  margin-left: -41.66667%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+  padding-right: 0;
+}
+
+/* line 199, ../sass/module/_groups.scss */
+.ding-group-news,
+.ding-group-events {
+  border-top: 1px solid #efefef;
+  padding-top: 20px;
+}
+@media only screen and (max-width: 768px) {
+  /* line 199, ../sass/module/_groups.scss */
+  .ding-group-news,
+  .ding-group-events {
+    clear: both;
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
+    _display: inline;
+    _overflow: hidden;
+    _overflow-y: visible;
+  }
+}
