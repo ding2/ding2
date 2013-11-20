@@ -308,12 +308,26 @@ function ddbasic_preprocess_node(&$variables, $hook) {
 
     // Add event date to variables. A render array is created based on the date
     // format "date_only".
-    $event_date_ra = field_view_field('node', $variables['node'], 'field_ding_event_date', array('label' => 'hidden', 'type' => 'date_default', 'settings' => array('format_type' => 'date_only', 'fromto' => 'both')));
+    $event_date_ra = field_view_field('node', $variables['node'], 'field_ding_event_date', array(
+      'label' => 'hidden',
+      'type' => 'date_default',
+      'settings' => array(
+        'format_type' => 'date_only',
+        'fromto' => 'both',
+      ),
+    ));
     $variables['ddbasic_event_date'] = $event_date_ra[0]['#markup'];
 
     // Add event time to variables. A render array is created based on the date
     // format "time_only".
-    $event_time_ra = field_view_field('node', $variables['node'], 'field_ding_event_date', array('label' => 'hidden', 'type' => 'date_default', 'settings' => array('format_type' => 'time_only', 'fromto' => 'both')));
+    $event_time_ra = field_view_field('node', $variables['node'], 'field_ding_event_date', array(
+      'label' => 'hidden',
+      'type' => 'date_default',
+      'settings' => array(
+        'format_type' => 'time_only',
+        'fromto' => 'both',
+      ),
+    ));
     $variables['ddbasic_event_time'] = $event_time_ra[0]['#markup'];
   }
 
@@ -322,7 +336,8 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     $variables['theme_hook_suggestions'][] = 'node__view_mode__' . $variables['view_mode'];
   }
 
-  // Add "read more" links to event, news and e-resource in search result view mode.
+  // Add "read more" links to event, news and e-resource in search result view
+  // mode.
   if ($variables['view_mode'] == 'search_result') {
     switch ($variables['node']->type) {
       case 'ding_event':
@@ -360,11 +375,9 @@ function ddbasic_preprocess_node(&$variables, $hook) {
           '#weight' => 6,
         );
 
-//        <span class="news-link"><span><a href="/nyheder/anbefalinger/test-nyhed">Læs mere</a></span></span>
-
         $variables['content']['group_right_col_search']['more_link'] = $more_link;
         break;
-      
+
       case 'ding_eresource':
         $more_link = array(
           '#theme' => 'link',
@@ -537,11 +550,11 @@ function ddbasic_menu_link($vars) {
   );
 
   // Make sure text string is treated as html by l function.
-  $element['#localized_options']['html'] = true;
+  $element['#localized_options']['html'] = TRUE;
 
-  $output = l('<span>' . $element['#title'] . '</span>', $element['#href'], $element['#localized_options']);
+  $link = l('<span>' . $element['#title'] . '</span>', $element['#href'], $element['#localized_options']);
 
-  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+  return '<li' . drupal_attributes($element['#attributes']) . '>' . $link . $sub_menu . "</li>\n";
 }
 
 /**
@@ -633,7 +646,6 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
  *   Classes that are left.
  */
 function ddbasic_remove_default_link_classes($classes) {
-
   if (!isset($classes)) {
     return FALSE;
   }
@@ -752,12 +764,14 @@ function ddbasic_theme_conditional_scripts($ie_scripts) {
 
 /**
  * Polyfill is used to enable HTML5 on browsers who doesn't natively support it.
+ *
  * Polyfill adds the missing functionality by 'filling' in scripts that add the
  * HTML5 functionality the browser doesn't offer.
  *
  * Return an array of filenames (scripts) to include.
  *
- * @param string $theme_name  :   Name of the theme.
+ * @param string $theme_name
+ *   Name of the theme.
  */
 function ddbasic_load_polyfills($theme_name) {
   // Get the info file data.
