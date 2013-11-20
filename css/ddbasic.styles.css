@@ -10292,7 +10292,9 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
-/* line 187, ../sass/module/_groups.scss */
+/* Groups node view
+   ========================================================================== */
+/* line 191, ../sass/module/_groups.scss */
 .ding-group-news {
   clear: both;
   float: left;
@@ -10313,7 +10315,7 @@ input#edit-search-block-form--2.spinner {
   padding-left: 0;
 }
 
-/* line 193, ../sass/module/_groups.scss */
+/* line 197, ../sass/module/_groups.scss */
 .ding-group-events {
   float: right;
   width: 41.66667%;
@@ -10333,14 +10335,14 @@ input#edit-search-block-form--2.spinner {
   padding-right: 0;
 }
 
-/* line 199, ../sass/module/_groups.scss */
+/* line 203, ../sass/module/_groups.scss */
 .ding-group-news,
 .ding-group-events {
   border-top: 1px solid #efefef;
   padding-top: 20px;
 }
 @media only screen and (max-width: 768px) {
-  /* line 199, ../sass/module/_groups.scss */
+  /* line 203, ../sass/module/_groups.scss */
   .ding-group-news,
   .ding-group-events {
     clear: both;
