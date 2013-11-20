@@ -1,8 +1,7 @@
 <?php
-
 /**
  * @file
- *
+ * Panels argument plugin that loads the library node base on slug name.
  */
 
 $plugin = array(
@@ -13,7 +12,7 @@ $plugin = array(
 );
 
 /**
- *
+ * Loads context (library node) base on slug name.
  */
 function ding_library_slug_context($arg = NULL, $conf = NULL, $empty = FALSE) {
   // If $empty == TRUE it wants a generic, unfilled context.
