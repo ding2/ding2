@@ -1,8 +1,8 @@
-<div class="date-display-header <?php if ($today) {print('today');} ?>">
-  <div class="ding-event-date">
-    <p class="ding-event-weekday"><?php print($weekday); ?></p>
-    <p class="ding-event-day"><?php print($day); ?></p>
-    <p class="ding-event-month"><?php print($month); ?></p>
+<div class="event-list-date-wrapper <?php if ($today) {print 'today';} ?>">
+  <span class="event-list-day"><?php print $weekday; ?></span>
+  <div class="event-list-inner-wrapper">
+    <span class="event-list-date"><?php print $day; ?></span>
+    <span class="event-list-month"><?php print $month; ?></span>
   </div>
-  <span class="ding-event-fulldate"><?php print($weekday); ?> <?php print($day); ?>. <?php print($month); ?> <?php print($year); ?></span>
 </div>
+<span class="event-list-fulldate"><?php print($weekday); ?> <?php print($day); ?>. <?php print($month); ?> <?php print($year); ?></span>
