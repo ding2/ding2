@@ -10,7 +10,7 @@ include_once 'ding_groups.features.inc';
  * Implements hook_og_context_negotiation_info().
  *
  * Enabled ding groups to find group context panel pages where the group node is
- * loaded as argument. E.g. grupper/156/nyheder.
+ * loaded as argument. E.g. grupper/%gid/nyheder.
  */
 function ding_groups_og_context_negotiation_info() {
   $providers = array();

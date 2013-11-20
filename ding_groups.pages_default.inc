@@ -222,7 +222,10 @@ function ding_groups_default_page_manager_pages() {
   $page->admin_title = 'Groups news';
   $page->admin_description = '';
   $page->path = 'grupper/%gid/nyheder';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array();
   $page->arguments = array(
     'gid' => array(
@@ -230,6 +233,7 @@ function ding_groups_default_page_manager_pages() {
       'identifier' => 'Node: ID',
       'name' => 'entity_id:node',
       'settings' => array(),
+      'keyword' => 'gid',
     ),
   );
   $page->conf = array(
@@ -334,6 +338,122 @@ function ding_groups_default_page_manager_pages() {
   $page = new stdClass();
   $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
   $page->api_version = 1;
+  $page->name = 'groups_events';
+  $page->task = 'page';
+  $page->admin_title = 'Groups events';
+  $page->admin_description = '';
+  $page->path = 'grupper/%gid/arrangementer';
+  $page->access = array();
+  $page->menu = array();
+  $page->arguments = array(
+    'gid' => array(
+      'id' => 1,
+      'identifier' => 'Node: ID',
+      'name' => 'entity_id:node',
+      'settings' => array(),
+    ),
+  );
+  $page->conf = array(
+    'admin_paths' => FALSE,
+  );
+  $page->default_handlers = array();
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'page_groups_events_panel_context';
+  $handler->task = 'page';
+  $handler->subtask = 'groups_events';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Panel',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+  );
+  $display = new panels_display();
+  $display->layout = '25_50_25';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'left_sidebar' => NULL,
+      'main_content' => NULL,
+      'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-3';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'block';
+    $pane->subtype = 'og_menu-og_single_menu_block';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-3'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-3';
+    $pane = new stdClass();
+    $pane->pid = 'new-4';
+    $pane->panel = 'main_content';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'ding_event-ding_event_groups_list_group';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'argument_entity_id:node_1',
+        1 => 'empty',
+      ),
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-4'] = $pane;
+    $display->panels['main_content'][0] = 'new-4';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = '0';
+  $handler->conf['display'] = $display;
+  $page->default_handlers[$handler->name] = $handler;
+  $pages['groups_events'] = $page;
+
+  $page = new stdClass();
+  $page->disabled = FALSE; /* Edit this to true to make a default page disabled initially */
+  $page->api_version = 1;
   $page->name = 'groups_listing';
   $page->task = 'page';
   $page->admin_title = 'Groups listing';
@@ -405,7 +525,7 @@ function ding_groups_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-3';
+    $pane->pid = 'new-5';
     $pane->panel = 'main_content';
     $pane->type = 'views_panes';
     $pane->subtype = 'ding_groups-ding_group_overview_simple';
@@ -420,10 +540,10 @@ function ding_groups_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-3'] = $pane;
-    $display->panels['main_content'][0] = 'new-3';
+    $display->content['new-5'] = $pane;
+    $display->panels['main_content'][0] = 'new-5';
     $pane = new stdClass();
-    $pane->pid = 'new-4';
+    $pane->pid = 'new-6';
     $pane->panel = 'right_sidebar';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
@@ -450,10 +570,10 @@ function ding_groups_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-4'] = $pane;
-    $display->panels['right_sidebar'][0] = 'new-4';
+    $display->content['new-6'] = $pane;
+    $display->panels['right_sidebar'][0] = 'new-6';
   $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = 'new-3';
+  $display->title_pane = 'new-5';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['groups_listing'] = $page;
