@@ -477,6 +477,7 @@ function ding_library_default_page_manager_pages() {
       'identifier' => 'Library node',
       'name' => 'slug',
       'settings' => array(),
+      'keyword' => 'slug',
     ),
   );
   $page->conf = array(
