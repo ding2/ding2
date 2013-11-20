@@ -25,6 +25,7 @@ features[variable][] = date_format_date_only
 features[variable][] = date_format_day_of_the_month_without_leading_zeros
 features[variable][] = date_format_day_text_full
 features[variable][] = date_format_ding_material_lists_date
+features[variable][] = date_format_ding_event_lists_date
 features[variable][] = date_format_long
 features[variable][] = date_format_long_date_only
 features[variable][] = date_format_medium

@@ -124,6 +124,7 @@ function ding_base_date_format_types() {
     'time_only' => t('Time only'),
     'long_date_only' => t('Long date only'),
     'ding_meterial_lists_date' => t('Ding marterial lists date'),
+    'ding_event_list_date' => t('Ding event lists date'),
   );
 }
 
@@ -280,7 +281,12 @@ function theme_tableselect_form($variables) {
     }
   }
 
-  return theme('table', array('header' => $header, 'rows' => $rows, 'empty' => $element['#empty'], 'attributes' => $element['#attributes']));
+  return theme('table', array(
+    'header' => $header,
+    'rows' => $rows,
+    'empty' => $element['#empty'],
+    'attributes' => $element['#attributes'],
+  ));
 }
 
 /**
@@ -325,8 +331,8 @@ function ding_base_preprocess_material_item(&$variables) {
 }
 
 /**
-* Implements hook_pathauto_alias_alter().
-*/
+ * Implements hook_pathauto_alias_alter().
+ */
 function ding_base_pathauto_alias_alter(&$alias, array &$context) {
   // Force all aliases to be saved as language neutral.
   $context['language'] = LANGUAGE_NONE;
