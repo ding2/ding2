@@ -69,16 +69,16 @@ function ding_base_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'date_format_ding_material_lists_date';
-  $strongarm->value = 'j. F Y';
-  $export['date_format_ding_material_lists_date'] = $strongarm;
+  $strongarm->name = 'date_format_ding_event_lists_date';
+  $strongarm->value = 'l j. F Y';
+  $export['date_format_ding_event_lists_date'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'date_format_ding_event_lists_date';
-  $strongarm->value = 'l j. F Y';
-  $export['date_format_ding_event_lists_date'] = $strongarm;
+  $strongarm->name = 'date_format_ding_material_lists_date';
+  $strongarm->value = 'j. F Y';
+  $export['date_format_ding_material_lists_date'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -225,6 +225,31 @@ search/ting/*';
   $strongarm->name = 'jquery_update_jquery_version';
   $strongarm->value = '1.7';
   $export['jquery_update_jquery_version'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'og_context_negotiation_group_context';
+  $strongarm->value = array(
+    'url' => array(),
+    'node' => array(),
+    'ding-groups-panels' => array(),
+  );
+  $export['og_context_negotiation_group_context'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'og_context_providers_weight_group_context';
+  $strongarm->value = array(
+    'url' => '-10',
+    'node' => '-9',
+    'comment' => '-7',
+    'user-edit' => '-6',
+    'ding-groups-panels' => '-8',
+    'user-view' => '-5',
+  );
+  $export['og_context_providers_weight_group_context'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
