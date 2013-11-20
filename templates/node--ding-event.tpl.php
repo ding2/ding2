@@ -159,7 +159,7 @@
         <span class="library-ref label label-info"><?php print render($content['og_group_ref']); ?></span>
       <?php endif; ?>
       <?php if (isset($content['ding_event_groups_ref']['#items'])) : ?>
-        <span class="groups-ref label label-info"><?php print render($content['ding_event_groups_ref']); ?></span>
+        <span class="groups-ref"><?php print render($content['ding_event_groups_ref']); ?></span>
       <?php endif; ?>
     </section>
 
