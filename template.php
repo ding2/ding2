@@ -169,43 +169,57 @@ function ddbasic_preprocess_panels_pane(&$vars) {
 
   // Suggestions on panel pane.
   $vars['theme_hook_suggestions'][] = 'panels_pane__' . $vars['pane']->panel;
-}
 
+  // Suggestions on menus panes.
+  if ($vars['pane']->subtype == 'og_menu-og_single_menu_block' || $vars['pane']->subtype == 'menu_block-3') {
+    $vars['theme_hook_suggestions'][] = 'panels_pane__sub_menu';
+    $vars['classes_array'][] = 'sub-menu-wrapper';
+
+    // Change the theme wrapper for both menu-block and OG menu.
+    if (isset($vars['content']['#content'])) {
+      // Menu-block.
+      $vars['content']['#content']['#theme_wrappers'] = array('menu_tree__sub_menu');
+    }
+    else {
+      // OG menu.
+      $vars['content']['#theme_wrappers'] = array('menu_tree__sub_menu');
+    }
+  }
+}
 
 /**
  * Implements theme_menu_tree().
- *
- * Addes wrapper clases for the main menu and secondary menu.
  */
-
-// Main menu
 function ddbasic_menu_tree__menu_block__1($vars) {
   return '<ul class="main-menu">' . $vars['tree'] . '</ul>';
 }
 
-// Secondary menu
+/**
+ * Implements theme_menu_tree().
+ */
 function ddbasic_menu_tree__menu_block__2($vars) {
   return '<ul class="secondary-menu">' . $vars['tree'] . '</ul>';
 }
 
-// Sub menu
-function ddbasic_menu_tree__menu_block__3($vars) {
+/**
+ * Implements theme_menu_tree().
+ */
+function ddbasic_menu_tree__sub_menu($vars) {
   return '<ul class="sub-menu">' . $vars['tree'] . '</ul>';
 }
 
-// Tabs menu
+/**
+ * Implements theme_menu_tree().
+ */
 function ddbasic_menu_tree__menu_tabs_menu($vars) {
   return '<ul class="topbar-menu">' . $vars['tree'] . '</ul>';
 }
 
-// System user menu
+/**
+ * Implements theme_menu_tree().
+ */
 function ddbasic_menu_tree__user_menu($vars) {
   return '<ul class="system-user-menu">' . $vars['tree'] . '</ul>';
-}
-
-// User provider menu (status, loans, etc.).
-function ddbasic_menu_tree__ding_user_frontend__ding_user_menu($vars) {
-  return '<ul class="sub-menu">' . $vars['tree'] . '</ul>';
 }
 
 /**
@@ -531,15 +545,10 @@ function ddbasic_panels_default_style_render_region($vars) {
  * Implements theme_menu_link().
  */
 function ddbasic_menu_link($vars) {
-  // Check if the class array is empty.
-  if (empty($vars['element']['#attributes']['class'])) {
-    unset($vars['element']['#attributes']['class']);
-  }
-
   $element = $vars['element'];
 
+  // Render any sub-links/menus.
   $sub_menu = '';
-
   if ($element['#below']) {
     $sub_menu = drupal_render($element['#below']);
   }
@@ -548,6 +557,9 @@ function ddbasic_menu_link($vars) {
   $element['#localized_options']['attributes']['class'] = array(
     'menu-item',
   );
+
+  // Filter classes.
+  $element['#attributes']['class'] = ddbasic_remove_default_link_classes($element['#attributes']['class']);
 
   // Make sure text string is treated as html by l function.
   $element['#localized_options']['html'] = TRUE;
