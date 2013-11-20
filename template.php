@@ -5,13 +5,13 @@
  */
 
 // Includes frequently used theme functions that gets theme info, css files etc.
-include_once $GLOBALS['theme_path'] . '/inc/functions.inc';
+include_once drupal_get_path('theme', 'ddbasic') . '/inc/functions.inc';
 
 /**
  * Implements hook_preprocess_html().
  */
 function ddbasic_preprocess_html(&$vars) {
-  $language = $GLOBALS['language'];
+  global $language;
 
   // Setup iOS logo if it's set.
   $vars['ios_logo'] = theme_get_setting('iosicon_upload');
@@ -54,7 +54,8 @@ function ddbasic_preprocess_html(&$vars) {
  * Process variables for html.tpl.php
  */
 function ddbasic_process_html(&$vars) {
-  $theme_name = $GLOBALS['theme_key'];
+  $theme_name = 'ddbasic';
+
   // Build an array of poly-filling scripts.
   $vars['polyfills_array'] = ddbasic_load_polyfills($theme_name, $vars);
 
@@ -658,7 +659,7 @@ function ddbasic_remove_default_link_classes($classes) {
  * Ex. add a javascript depending on the settings in the theme.
  */
 function ddbasic_load_plugins() {
-  global $theme_path;
+  $theme_path = drupal_get_path('theme', 'ddbasic');
 
   // If sticky menus is enabled in the theme load it.
   if (theme_get_setting('main_menu_sticky')) {
@@ -758,7 +759,7 @@ function ddbasic_load_polyfills($theme_name) {
     }
 
     // Ddbasic Core Polyfills.
-    global $theme_path;
+    $theme_path = drupal_get_path('theme', 'ddbasic');
     $polly = '';
     $polly_settings_array = array(
       'load_html5js',
@@ -796,7 +797,7 @@ function ddbasic_load_polyfills($theme_name) {
  *   Array of ?.
  */
 function ddbasic_polly_wants_a_cracker($polly) {
-  global $theme_path;
+  $theme_path = drupal_get_path('theme', 'ddbasic');
 
   $baked_crackers = drupal_static(__FUNCTION__, array());
   if (empty($baked_crackers)) {
