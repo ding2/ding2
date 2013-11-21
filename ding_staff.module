@@ -20,19 +20,6 @@ function ding_staff_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
- * Implements hook_ding_library_menu_links().
- */
-function ding_staff_ding_library_menu_links() {
-  return array(
-    'personale' => array(
-      'linktype' => 'general_view_linktype',
-      'title' => 'Staff',
-      'weight' => 15,
-    ),
-  );
-}
-
-/**
  * Implements of hook_rules_action_info().
  */
 function ding_staff_rules_action_info() {
@@ -55,7 +42,7 @@ function ding_staff_rules_action_info() {
  * Since we cannot know which role ID the staff role has been assigned,
  * this function is used instead of the "add user role" action
  *
- * @param $profile_user
+ * @param object $profile_user
  *   User object.
  */
 function ding_staff_add_role_staff($profile_user) {
@@ -93,11 +80,11 @@ function ding_staff_add_role_staff($profile_user) {
 
 
 /**
-* Implements hook_views_default_views_alter().
-* 
-* Since we cannot know which role ID the staff role has been assigned,
-* we overwrite the rids in the staff view
-*/
+ * Implements hook_views_default_views_alter().
+ *
+ * Since we cannot know which role ID the staff role has been assigned,
+ * we overwrite the rids in the staff view
+ */
 function ding_staff_views_default_views_alter(&$views) {
   if ($views['ding_staff']) {
     $roles = user_roles(TRUE);
@@ -107,7 +94,8 @@ function ding_staff_views_default_views_alter(&$views) {
       $rids = array();
       $rids[$rid] = $rid;
 
-      // Replace exising rid defined in the view with the actual rid of role "staff"
+      // Replace existing rid defined in the view with the actual rid of role
+      // "staff".
       $views['ding_staff']->display['ding_staff_list_all']->display_options['filters']['rid']['value'] = $rids;
       $views['ding_staff']->display['ding_staff_library_departments']->display_options['filters']['rid']['value'] = $rids;
     }
