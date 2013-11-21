@@ -4,26 +4,14 @@
  * Create news content type and displays.
  */
 
-/**
- * Implements hook_ding_library_menu_links().
- */
-function ding_news_ding_library_menu_links() {
-  return array(
-    'nyheder' => array(
-      'linktype' => 'general_view_linktype',
-      'title' => 'News',
-    ),
-  );
-}
+include_once 'ding_news.features.inc';
 
 /**
-* Implements hook_entity_info_alter().
-*/
+ * Implements hook_entity_info_alter().
+ */
 function ding_news_entity_info_alter(&$entity_info) {
   $entity_info['node']['view modes']['teaser_highlight'] = array(
     'label' => t('Teaser highlight'),
     'custom settings' => TRUE,
   );
 }
-
-include_once('ding_news.features.inc');
