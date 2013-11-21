@@ -9,7 +9,7 @@
  * - $css_id: unique id if present.
  */
 ?>
-<div <?php if (!empty($css_id)) { print " id=\"$css_id\""; } ?> class="frontpage-layout">
+<div <?php if (!empty($css_id)) { print ' id="$css_id"'; } ?> class="frontpage-layout">
 
   <?php if (!empty($content['primary'])): ?>
     <div class="primary-content">
@@ -73,10 +73,8 @@
     <?php endif ?>
 
     <?php if (!empty($content['attachment_1_1'])): ?>
-      <div class="attachments-wrapper attachments-1-1">
-        <div class="attachment-first">
-          <div class="grid-inner"><?php print $content['attachment_1_1']; ?></div>
-        </div>
+      <div class="group-blocks--wrapper attachments-wrapper attachments-1-1">
+          <?php print $content['attachment_1_1']; ?>
       </div>
     <?php endif ?>
   </div>
