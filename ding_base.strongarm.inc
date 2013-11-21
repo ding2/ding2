@@ -234,6 +234,7 @@ search/ting/*';
     'url' => array(),
     'node' => array(),
     'ding-groups-panels' => array(),
+    'ding-library-panels' => array(),
   );
   $export['og_context_negotiation_group_context'] = $strongarm;
 
@@ -244,10 +245,11 @@ search/ting/*';
   $strongarm->value = array(
     'url' => '-10',
     'node' => '-9',
-    'comment' => '-7',
-    'user-edit' => '-6',
     'ding-groups-panels' => '-8',
-    'user-view' => '-5',
+    'comment' => '-6',
+    'user-edit' => '-5',
+    'user-view' => '-4',
+    'ding-library-panels' => '-7',
   );
   $export['og_context_providers_weight_group_context'] = $strongarm;
 
