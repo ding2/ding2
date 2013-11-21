@@ -152,8 +152,8 @@ function ding_groups_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'og_menu_default_links_node_ding_group';
-  $strongarm->value = 'grupper/[node:nid]/nyheder
-grupper/[node:nid]/arrangementer';
+  $strongarm->value = 'News|grupper/[node:nid]/nyheder
+Events|grupper/[node:nid]/arrangementer';
   $export['og_menu_default_links_node_ding_group'] = $strongarm;
 
   $strongarm = new stdClass();
