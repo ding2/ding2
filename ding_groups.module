@@ -17,7 +17,7 @@ function ding_groups_og_context_negotiation_info() {
 
   $providers['ding-groups-panels'] = array(
     'name' => t('Ding groups'),
-    'description' => t("Determine context panels node."),
+    'description' => t("Determine context in panels node."),
     'callback' => 'ding_groups_og_context_handler',
   );
 
