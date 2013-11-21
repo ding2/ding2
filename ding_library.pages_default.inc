@@ -82,7 +82,7 @@ function ding_library_default_page_manager_handlers() {
     $pane->pid = 'new-1';
     $pane->panel = 'left_sidebar';
     $pane->type = 'block';
-    $pane->subtype = 'ding_library-ding_library_menu';
+    $pane->subtype = 'og_menu-og_single_menu_block';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -556,7 +556,7 @@ function ding_library_default_page_manager_pages() {
     $pane->pid = 'new-4';
     $pane->panel = 'left_sidebar';
     $pane->type = 'block';
-    $pane->subtype = 'ding_library-ding_library_menu';
+    $pane->subtype = 'og_menu-og_single_menu_block';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(

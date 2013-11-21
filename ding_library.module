@@ -4,6 +4,8 @@
  * Code for the Ding library feature.
  */
 
+include_once 'ding_library.features.inc';
+
 /**
  * Implements hook_init().
  */
@@ -328,5 +330,41 @@ function ding_library_menu_ding_library_menu_links() {
   );
 }
 
-include_once 'ding_library.features.inc';
+/**
+ * Implements hook_og_context_negotiation_info().
+ *
+ * Enabled ding library to find group context panel pages where the group node
+ * is loaded as argument. E.g. bibliotek/%slug/nyheder.
+ */
+function ding_library_og_context_negotiation_info() {
+  $providers = array();
 
+  $providers['ding-library-panels'] = array(
+    'name' => t('Ding library'),
+    'description' => t("Determine context in panels node."),
+    'callback' => 'ding_library_og_context_handler',
+  );
+
+  return $providers;
+}
+
+/**
+ * Callback for OG context negotiation that tries to find ding group node.
+ *
+ * This is based on the current menu item (path) and that it is a panel.
+ *
+ * @return array
+ *   Node ids.
+ */
+function ding_library_og_context_handler() {
+  $nids = array();
+
+  $item = menu_get_item();
+  if (isset($item['page_arguments'][1]->data->type) && $item['page_arguments'][1]->data->type == 'ding_library') {
+    $nids[] = $item['page_arguments'][1]->data->nid;
+  }
+
+  return array(
+    'node' => $nids,
+  );
+}

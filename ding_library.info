@@ -15,6 +15,7 @@ dependencies[] = field_group
 dependencies[] = geocoder
 dependencies[] = geofield
 dependencies[] = link
+dependencies[] = list
 dependencies[] = media
 dependencies[] = og
 dependencies[] = og_menu
