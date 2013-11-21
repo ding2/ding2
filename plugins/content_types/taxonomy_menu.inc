@@ -17,7 +17,8 @@ $plugin = array(
   ),
   'defaults' => array(
     'slug' => '',
-    'default_link_text' => '',
+    'default_link_text' => t('All terms'),
+    'dropdown' => FALSE,
   ),
 );
 
@@ -39,18 +40,22 @@ function ding_frontend_taxonomy_menu_content_type_render($subtype, $conf, $panel
 
   // If default link text is set.
   if (!empty($conf['default_link_text'])) {
-    // If first context don't exists (tid not given) the the "All link" should be
-    // used.
-    $options = array('attributes' => array('class' => array('active')));
-    if (isset($context[0]->data)) {
-      $selected_term = $context[0]->data;
-      $options = array();
+    if ($conf['dropdown']) {
+      $items[$base . $conf['slug']] = t($conf['default_link_text']);
     }
-    $items[] = l(t($conf['default_link_text']), $base . $conf['slug'], $options);
+    else {
+      // If first context don't exists (tid not given) the the "All link" should
+      // be used.
+      $options = array('attributes' => array('class' => array('active')));
+      if (isset($context[0]->data)) {
+        $selected_term = $context[0]->data;
+        $options = array();
+      }
+      $items[] = l(t($conf['default_link_text']), $base . $conf['slug'], $options);
+    }
   }
 
   // Find the vocabulary id based on context and load the terms.
-  $vid = '';
   if (isset($context[0]->data)) {
     $vid = $context[0]->data->vid;
   }
@@ -61,15 +66,8 @@ function ding_frontend_taxonomy_menu_content_type_render($subtype, $conf, $panel
   $terms = taxonomy_get_tree($vid);
 
   foreach ($terms as $term) {
-    $alias = drupal_lookup_path('alias', 'taxonomy/term/' . $term->tid);
-
-    $options = array('attributes' => array('class' => array('menu-item')));
-    if ($selected_term && $selected_term->tid == $term->tid) {
-      // Add active menu class.
-      $options['attributes']['class'][] = 'active';
-    }
-
     // Try to find the correct uri based on the context/configuration.
+    $alias = drupal_lookup_path('alias', 'taxonomy/term/' . $term->tid);
     $uri = $base . $conf['slug'] . '/' . $term->tid;
     if (!$base) {
       $uri = $conf['slug'] . '/' . $term->tid;
@@ -77,19 +75,72 @@ function ding_frontend_taxonomy_menu_content_type_render($subtype, $conf, $panel
         $uri = $alias;
       }
     }
-    $items[] = l($term->name, $uri, $options);
+
+    if ($conf['dropdown']) {
+      // Build drop-down items.
+      $items[$uri] = $term->name;
+    }
+    else {
+      // Build links to use in item list.
+      $options = array('attributes' => array('class' => array('menu-item')));
+      if ($selected_term && $selected_term->tid == $term->tid) {
+        // Add active menu class.
+        $options['attributes']['class'][] = 'active';
+      }
+      $items[] = l($term->name, $uri, $options);
+    }
   }
 
-  // Return render array with item list as theme function.
-  $block->content = array(
-    '#theme' => 'item_list',
-    '#items' => $items,
-    '#attributes' => array(
-      'class' => array('sub-menu')
-    ),
-  );
+  // Use the items generated to format the block content.
+  if ($conf['dropdown']) {
+    $block->content = drupal_get_form('ding_frontend_taxonomy_menu_select_dropdown', $items, '');
+  }
+  else {
+    // Return render array with item list as theme function.
+    $block->content = array(
+      '#theme' => 'item_list',
+      '#items' => $items,
+      '#attributes' => array(
+        'class' => array(
+          'sub-menu',
+        ),
+      ),
+    );
+  }
 
   return $block;
+}
+
+/**
+ * Form which creates a select box with available taxonomy terms.
+ */
+function ding_frontend_taxonomy_menu_select_dropdown($form, &$form_state, $items, $default_value) {
+  $form = array();
+
+  $form['select_term'] = array(
+    '#type' => 'select',
+    '#options' => $items,
+    '#attributes' => array('onchange' => "form.submit('select_term');"),
+    '#default_value' => $default_value,
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#attributes' => array(
+      'class' => array(
+        'button',
+      ),
+    ),
+    '#value' => t('Show'),
+  );
+  return $form;
+}
+
+/**
+ * Submit handler for the taxonomy drop-down menu form.
+ */
+function ding_frontend_taxonomy_menu_select_dropdown_submit($form, &$form_state) {
+  drupal_goto($form_state['values']['select_term']);
 }
 
 /**
@@ -110,6 +161,13 @@ function ding_frontend_taxonomy_menu_content_type_edit_form($form, &$form_state)
     '#description' => t('Text string to used as link text. If not given default link will be omited.'),
     '#required' => TRUE,
     '#default_value' => $form_state['conf']['default_link_text'],
+  );
+
+  $form['dropdown'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Display as dropdown menu'),
+    '#description' => t('Change the taxonomy into a dropdown select box.'),
+    '#default_value' => $form_state['conf']['dropdown'],
   );
 
   return $form;
