@@ -11,6 +11,21 @@ projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.3"
 projects[ctools][patch][0] = "http://drupal.org/files/ctools-n1925018-12.patch"
 
+projects[ding_news][type] = "module"
+projects[ding_news][download][type] = "git"
+projects[ding_news][download][url] = "git@github.com:ding2tal/ding_news.git"
+projects[ding_news][download][branch] = "development"
+
+projects[ding_event][type] = "module"
+projects[ding_event][download][type] = "git"
+projects[ding_event][downloal][url] = "git@github.com:ding2tal/ding_event.git"
+projects[ding_event][download][branch] = "development"
+
+projects[ding_groups][type] = "module"
+projects[ding_groups][download][type] = "git"
+projects[ding_groups][download][url] = "git@github.com:ding2tal/ding_groups.git"
+projects[ding_groups][download][branch] = "development"
+
 projects[ting_search_carousel][type] = "module"
 projects[ting_search_carousel][download][type] = "git"
 projects[ting_search_carousel][download][url] = "git@github.com:ding2tal/ting_search_carousel.git"
