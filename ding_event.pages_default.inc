@@ -138,10 +138,11 @@ function ding_event_default_page_manager_handlers() {
       'default_link_text' => 'All categories',
       'context' => array(
         0 => 'relationship_entity_from_field:field_ding_event_category-node-taxonomy_term_1',
-        1 => 'relationship_og_node_from_group_1',
+        1 => 'empty',
       ),
       'override_title' => 0,
       'override_title_text' => '',
+      'dropdown' => 0,
     );
     $pane->cache = array();
     $pane->style = array(
