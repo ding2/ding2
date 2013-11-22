@@ -343,7 +343,10 @@ function ding_groups_default_page_manager_pages() {
   $page->admin_title = 'Groups events';
   $page->admin_description = '';
   $page->path = 'grupper/%gid/arrangementer';
-  $page->access = array();
+  $page->access = array(
+    'type' => 'none',
+    'settings' => NULL,
+  );
   $page->menu = array();
   $page->arguments = array(
     'gid' => array(
