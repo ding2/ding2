@@ -166,6 +166,7 @@ function ddbasic_form_alter(&$form, &$form_state, $form_id) {
 function ddbasic_preprocess_panels_pane(&$vars) {
   // Suggestions base on sub-type.
   $vars['theme_hook_suggestions'][] = 'panels_pane__' . str_replace('-', '__', $vars['pane']->subtype);
+  $vars['theme_hook_suggestions'][] = 'panels_pane__'  . $vars['pane']->panel . '__ ' . str_replace('-', '__', $vars['pane']->subtype);
 
   // Suggestions on panel pane.
   $vars['theme_hook_suggestions'][] = 'panels_pane__' . $vars['pane']->panel;

@@ -1,6 +1,6 @@
 <?php
 /**
- * @file panels-pane--taxonomy-menu.tpl.php
+ * @file
  * Panel pane for display of taxonomy menus.
  *
  * Variables available:
@@ -17,7 +17,6 @@
  *   data including the contexts and all of the other panes being displayed.
  * 
  * Changed: Add menu classes.
- * 
  */
 ?>
 <?php if ($pane_prefix): ?>

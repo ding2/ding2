@@ -5498,41 +5498,60 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
   padding: 20px;
   /* Media queries */
 }
-/* line 185, ../sass/module/_module.scss */
-.pane-library-list .choose-library-label,
-.pane-library-list .form-item-select-library {
-  display: inline;
-  margin-right: 5px;
-}
-/* line 190, ../sass/module/_module.scss */
+/* line 184, ../sass/module/_module.scss */
 .pane-library-list .button {
   /* Make sure the button aligns vertically with the select */
   margin-top: -2px;
 }
 @media only screen and (max-width: 480px) {
-  /* line 197, ../sass/module/_module.scss */
+  /* line 191, ../sass/module/_module.scss */
   .pane-library-list .choose-library-label {
     display: none;
   }
-  /* line 200, ../sass/module/_module.scss */
+  /* line 194, ../sass/module/_module.scss */
   .pane-library-list .form-select {
+    max-width: 75%;
+  }
+}
+
+/* Filter by taxonomy box
+   ========================================================================== */
+/* line 202, ../sass/module/_module.scss */
+.taxonomy-dropdown {
+  background-color: #efefef;
+  margin-bottom: 20px;
+  padding: 20px;
+  /* Media queries */
+}
+/* line 207, ../sass/module/_module.scss */
+.taxonomy-dropdown .button {
+  /* Make sure the button aligns vertically with the select */
+  margin-top: -2px;
+}
+@media only screen and (max-width: 480px) {
+  /* line 214, ../sass/module/_module.scss */
+  .taxonomy-dropdown .choose-library-label {
+    display: none;
+  }
+  /* line 217, ../sass/module/_module.scss */
+  .taxonomy-dropdown .form-select {
     max-width: 75%;
   }
 }
 
 /* Pager
    ========================================================================== */
-/* line 210, ../sass/module/_module.scss */
+/* line 225, ../sass/module/_module.scss */
 .pager {
   padding-left: 0;
 }
-/* line 213, ../sass/module/_module.scss */
+/* line 228, ../sass/module/_module.scss */
 .pager li {
   display: inline-block;
   margin-left: -4px;
   margin-right: 4px;
 }
-/* line 219, ../sass/module/_module.scss */
+/* line 234, ../sass/module/_module.scss */
 .pager li.pager-current,
 .pager li a {
   background-color: #efefef;
@@ -5542,17 +5561,17 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
   padding-bottom: 5px;
   padding-left: 15px;
 }
-/* line 230, ../sass/module/_module.scss */
+/* line 245, ../sass/module/_module.scss */
 .pager .active a,
 .pager .active a:hover {
   cursor: default;
   text-decoration: underline;
 }
-/* line 235, ../sass/module/_module.scss */
+/* line 250, ../sass/module/_module.scss */
 .pager .disabled {
   background-color: #fbfbfb;
 }
-/* line 238, ../sass/module/_module.scss */
+/* line 253, ../sass/module/_module.scss */
 .pager .disabled a:hover {
   cursor: default;
   text-decoration: none;
@@ -5560,7 +5579,7 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
 
 /* Signature
    ========================================================================== */
-/* line 248, ../sass/module/_module.scss */
+/* line 263, ../sass/module/_module.scss */
 .signature {
   border-top: 1px solid #efefef;
   border-bottom: 1px solid #efefef;
@@ -5568,32 +5587,32 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
   padding-top: 20px;
   padding-bottom: 20px;
 }
-/* line 257, ../sass/module/_module.scss */
+/* line 272, ../sass/module/_module.scss */
 .signature .signature-image img {
   float: left;
   margin-top: 5px;
   margin-right: 20px;
 }
-/* line 264, ../sass/module/_module.scss */
+/* line 279, ../sass/module/_module.scss */
 .signature .signature-label {
   display: inline-block;
   min-width: 125px;
 }
 
-/* line 270, ../sass/module/_module.scss */
+/* line 285, ../sass/module/_module.scss */
 .signature .tags a {
   display: inline-block;
   margin-right: 0.3em;
 }
 
-/* line 275, ../sass/module/_module.scss */
+/* line 290, ../sass/module/_module.scss */
 .signature .tags a:not(:last-child):after {
   content: ",";
 }
 
 /* Action buttons
    ========================================================================== */
-/* line 283, ../sass/module/_module.scss */
+/* line 298, ../sass/module/_module.scss */
 .action-buttons {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -5602,13 +5621,13 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
   padding: 20px;
 }
 
-/* line 291, ../sass/module/_module.scss */
+/* line 306, ../sass/module/_module.scss */
 .action-buttons-is-visible {
   background: rgba(0, 0, 0, 0.15);
   display: block;
 }
 
-/* line 297, ../sass/module/_module.scss */
+/* line 312, ../sass/module/_module.scss */
 .action-buttons-is-scrolling {
   background: rgba(0, 0, 0, 0.85);
   left: 0;
@@ -5620,7 +5639,7 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
 
 /* Extends
    ========================================================================== */
-/* line 309, ../sass/module/_module.scss */
+/* line 324, ../sass/module/_module.scss */
 .view-node-search-result .node-ding-event .group-right-col-search .event-arrow-link, .ting-reference-reverse-list .node-ding-event .group-right-col-search .event-arrow-link, .event-list .event-arrow-link, .groups-list .groups-arrow-link {
   display: inline-block;
   position: absolute;
