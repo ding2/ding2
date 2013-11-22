@@ -221,7 +221,7 @@ function ding_groups_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Groups news';
   $page->admin_description = '';
-  $page->path = 'grupper/%gid/nyheder';
+  $page->path = 'grupper/%gid/nyheder/!tid';
   $page->access = array(
     'type' => 'none',
     'settings' => NULL,
@@ -234,6 +234,25 @@ function ding_groups_default_page_manager_pages() {
       'name' => 'entity_id:node',
       'settings' => array(),
       'keyword' => 'gid',
+    ),
+    'tid' => array(
+      'id' => 1,
+      'identifier' => 'Taxonomy term: ID',
+      'name' => 'term',
+      'settings' => array(
+        'input_form' => 'tid',
+        'vids' => array(
+          5 => '5',
+          1 => 0,
+          6 => 0,
+          3 => 0,
+          4 => 0,
+          7 => 0,
+          2 => 0,
+        ),
+        'breadcrumb' => 1,
+        'transform' => 0,
+      ),
     ),
   );
   $page->conf = array(
@@ -281,7 +300,7 @@ function ding_groups_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Group news';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
@@ -308,14 +327,11 @@ function ding_groups_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-2';
     $pane->panel = 'main_content';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'ding_news-panel_pane_1';
+    $pane->type = 'menu_title';
+    $pane->subtype = 'menu_title';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'context' => array(
-        0 => 'argument_entity_id:node_1',
-      ),
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -329,6 +345,58 @@ function ding_groups_default_page_manager_pages() {
     $pane->locks = array();
     $display->content['new-2'] = $pane;
     $display->panels['main_content'][0] = 'new-2';
+    $pane = new stdClass();
+    $pane->pid = 'new-3';
+    $pane->panel = 'main_content';
+    $pane->type = 'taxonomy_menu';
+    $pane->subtype = 'taxonomy_menu';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'slug' => 'nyheder',
+      'default_link_text' => 'All terms',
+      'dropdown' => 1,
+      'context' => array(
+        0 => 'argument_term_1',
+        1 => 'argument_entity_id:node_1',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-3'] = $pane;
+    $display->panels['main_content'][1] = 'new-3';
+    $pane = new stdClass();
+    $pane->pid = 'new-4';
+    $pane->panel = 'main_content';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'ding_news-panel_pane_1';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'argument_entity_id:node_1',
+      ),
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $display->content['new-4'] = $pane;
+    $display->panels['main_content'][2] = 'new-4';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -342,7 +410,7 @@ function ding_groups_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Groups events';
   $page->admin_description = '';
-  $page->path = 'grupper/%gid/arrangementer';
+  $page->path = 'grupper/%gid/arrangementer/!tid';
   $page->access = array(
     'type' => 'none',
     'settings' => NULL,
@@ -354,6 +422,25 @@ function ding_groups_default_page_manager_pages() {
       'identifier' => 'Node: ID',
       'name' => 'entity_id:node',
       'settings' => array(),
+    ),
+    'tid' => array(
+      'id' => 1,
+      'identifier' => 'Taxonomy term: ID',
+      'name' => 'term',
+      'settings' => array(
+        'input_form' => 'tid',
+        'vids' => array(
+          3 => '3',
+          1 => 0,
+          6 => 0,
+          4 => 0,
+          7 => 0,
+          5 => 0,
+          2 => 0,
+        ),
+        'breadcrumb' => 1,
+        'transform' => 0,
+      ),
     ),
   );
   $page->conf = array(
@@ -401,11 +488,11 @@ function ding_groups_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Group event';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-3';
+    $pane->pid = 'new-5';
     $pane->panel = 'left_sidebar';
     $pane->type = 'block';
     $pane->subtype = 'og_menu-og_single_menu_block';
@@ -423,20 +510,18 @@ function ding_groups_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-3'] = $pane;
-    $display->panels['left_sidebar'][0] = 'new-3';
+    $display->content['new-5'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-5';
     $pane = new stdClass();
-    $pane->pid = 'new-4';
+    $pane->pid = 'new-6';
     $pane->panel = 'main_content';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'ding_event-ding_event_groups_list_group';
+    $pane->type = 'menu_title';
+    $pane->subtype = 'menu_title';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'context' => array(
-        0 => 'argument_entity_id:node_1',
-        1 => 'empty',
-      ),
+      'override_title' => 0,
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -446,8 +531,60 @@ function ding_groups_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-4'] = $pane;
-    $display->panels['main_content'][0] = 'new-4';
+    $display->content['new-6'] = $pane;
+    $display->panels['main_content'][0] = 'new-6';
+    $pane = new stdClass();
+    $pane->pid = 'new-7';
+    $pane->panel = 'main_content';
+    $pane->type = 'taxonomy_menu';
+    $pane->subtype = 'taxonomy_menu';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'slug' => 'arrangementer',
+      'default_link_text' => 'All categories',
+      'dropdown' => 1,
+      'context' => array(
+        0 => 'argument_term_1',
+        1 => 'argument_entity_id:node_1',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $display->content['new-7'] = $pane;
+    $display->panels['main_content'][1] = 'new-7';
+    $pane = new stdClass();
+    $pane->pid = 'new-8';
+    $pane->panel = 'main_content';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'ding_event-ding_event_groups_list_group';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'argument_entity_id:node_1',
+      ),
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $display->content['new-8'] = $pane;
+    $display->panels['main_content'][2] = 'new-8';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -528,7 +665,7 @@ function ding_groups_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-5';
+    $pane->pid = 'new-9';
     $pane->panel = 'main_content';
     $pane->type = 'views_panes';
     $pane->subtype = 'ding_groups-ding_group_overview_simple';
@@ -543,10 +680,10 @@ function ding_groups_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-5'] = $pane;
-    $display->panels['main_content'][0] = 'new-5';
+    $display->content['new-9'] = $pane;
+    $display->panels['main_content'][0] = 'new-9';
     $pane = new stdClass();
-    $pane->pid = 'new-6';
+    $pane->pid = 'new-10';
     $pane->panel = 'right_sidebar';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
@@ -573,10 +710,10 @@ function ding_groups_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-6'] = $pane;
-    $display->panels['right_sidebar'][0] = 'new-6';
+    $display->content['new-10'] = $pane;
+    $display->panels['right_sidebar'][0] = 'new-10';
   $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = 'new-5';
+  $display->title_pane = 'new-9';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['groups_listing'] = $page;
