@@ -333,6 +333,7 @@ taxonomy/term/%term:tid',
       ),
       'override_title' => 0,
       'override_title_text' => '',
+      'dropdown' => 0,
     );
     $pane->cache = array();
     $pane->style = array(
@@ -585,6 +586,7 @@ events
       'slug' => 'arrangementer',
       'default_link' => 'All categories',
       'default_link_text' => 'All categories',
+      'dropdown' => 0,
     );
     $pane->cache = array();
     $pane->style = array(
