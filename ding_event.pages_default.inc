@@ -845,17 +845,11 @@ node/%node:nid/events
     $pane = new stdClass();
     $pane->pid = 'new-6';
     $pane->panel = 'left_sidebar';
-    $pane->type = 'taxonomy_menu';
-    $pane->subtype = 'taxonomy_menu';
+    $pane->type = 'block';
+    $pane->subtype = 'og_menu-og_single_menu_block';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'slug' => 'arrangementer',
-      'default_link_text' => 'All categories',
-      'context' => array(
-        0 => 'argument_term_1',
-        1 => 'argument_slug_1',
-      ),
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -893,29 +887,20 @@ node/%node:nid/events
     $pane = new stdClass();
     $pane->pid = 'new-8';
     $pane->panel = 'main_content';
-    $pane->type = 'library_list';
-    $pane->subtype = 'library_list';
+    $pane->type = 'taxonomy_menu';
+    $pane->subtype = 'taxonomy_menu';
     $pane->shown = TRUE;
-    $pane->access = array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'library_count',
-          'settings' => array(
-            'count' => '1',
-          ),
-          'not' => TRUE,
-        ),
-      ),
-    );
+    $pane->access = array();
     $pane->configuration = array(
-      'type' => 'ding_event',
+      'slug' => 'arrangementer',
+      'default_link_text' => 'All categories',
       'context' => array(
         0 => 'argument_term_1',
         1 => 'argument_slug_1',
       ),
       'override_title' => 0,
       'override_title_text' => '',
-      'slug' => 'arrangementer',
+      'dropdown' => 1,
     );
     $pane->cache = array();
     $pane->style = array(
@@ -924,7 +909,7 @@ node/%node:nid/events
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 1;
-    $pane->locks = '';
+    $pane->locks = array();
     $display->content['new-8'] = $pane;
     $display->panels['main_content'][1] = 'new-8';
     $pane = new stdClass();
