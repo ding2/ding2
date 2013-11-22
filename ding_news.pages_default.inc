@@ -325,12 +325,16 @@ taxonomy/term/%term:tid',
       ),
       'override_title' => 0,
       'override_title_text' => '',
+      'dropdown' => 0,
     );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => '',
+    );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
