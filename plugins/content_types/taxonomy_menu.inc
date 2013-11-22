@@ -63,6 +63,9 @@ function ding_frontend_taxonomy_menu_content_type_render($subtype, $conf, $panel
     $vids = array_filter($context[0]->placeholder['conf']['vids']);
     $vid = reset($vids);
   }
+
+  // Set block title.
+  $vocab = taxonomy_vocabulary_load($vid);
   $terms = taxonomy_get_tree($vid);
 
   foreach ($terms as $term) {
@@ -93,10 +96,11 @@ function ding_frontend_taxonomy_menu_content_type_render($subtype, $conf, $panel
 
   // Use the items generated to format the block content.
   if ($conf['dropdown']) {
-    $block->content = drupal_get_form('ding_frontend_taxonomy_menu_select_dropdown', $items, '');
+    $block->content = drupal_get_form('ding_frontend_taxonomy_menu_select_dropdown', $items, '', $vocab->name);
   }
   else {
     // Return render array with item list as theme function.
+    $block->title = t($vocab->name);
     $block->content = array(
       '#theme' => 'item_list',
       '#items' => $items,
@@ -114,11 +118,18 @@ function ding_frontend_taxonomy_menu_content_type_render($subtype, $conf, $panel
 /**
  * Form which creates a select box with available taxonomy terms.
  */
-function ding_frontend_taxonomy_menu_select_dropdown($form, &$form_state, $items, $default_value) {
-  $form = array();
+function ding_frontend_taxonomy_menu_select_dropdown($form, &$form_state, $items, $default_value, $title) {
+  $form = array(
+    '#attributes' => array(
+      'class' => array(
+        'taxonomy-dropdown',
+      ),
+    ),
+  );
 
   $form['select_term'] = array(
     '#type' => 'select',
+    '#title' => check_plain($title),
     '#options' => $items,
     '#attributes' => array('onchange' => "form.submit('select_term');"),
     '#default_value' => $default_value,
