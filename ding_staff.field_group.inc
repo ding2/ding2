@@ -13,6 +13,40 @@ function ding_staff_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_contactinfo|profile2|ding_staff_profile|default';
+  $field_group->group_name = 'group_contactinfo';
+  $field_group->entity_type = 'profile2';
+  $field_group->bundle = 'ding_staff_profile';
+  $field_group->mode = 'default';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'contact info',
+    'weight' => '4',
+    'children' => array(
+      0 => 'og_group_ref',
+      1 => 'field_ding_staff_department',
+      2 => 'field_ding_staff_email',
+      3 => 'field_ding_staff_phone',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'contact info',
+      'instance_settings' => array(
+        'classes' => '',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $export['group_contactinfo|profile2|ding_staff_profile|default'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_ding_staff_contact|profile2|staff|form';
   $field_group->group_name = 'group_ding_staff_contact';
   $field_group->entity_type = 'profile2';
@@ -80,7 +114,7 @@ function ding_staff_field_group_info() {
     'weight' => '2',
     'children' => array(
       0 => 'field_ding_staff_department',
-      1 => 'field_ding_staff_library',
+      1 => 'og_group_ref',
       2 => 'field_ding_staff_position',
     ),
     'format_type' => 'fieldset',

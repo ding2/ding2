@@ -31,13 +31,11 @@ function ding_staff_default_page_manager_handlers() {
     'access' => array(
       'plugins' => array(
         0 => array(
-          'name' => 'role',
-          'settings' => array(
-            'rids' => array(
-              0 => 8,
-            ),
+          'name' => 'has_staff_role',
+          'settings' => NULL,
+          'context' => array(
+            0 => 'argument_entity_id:user_1',
           ),
-          'context' => 'argument_entity_id:user_1',
           'not' => FALSE,
         ),
         1 => array(
@@ -85,16 +83,16 @@ function ding_staff_default_page_manager_handlers() {
   $display->panels = array();
     $pane = new stdClass();
     $pane->pid = 'new-1';
-    $pane->panel = 'main_content';
-    $pane->type = 'entity_field_extra';
-    $pane->subtype = 'user:profile_ding_staff_profile';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'staff_name_menu';
+    $pane->subtype = 'staff_name_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'view_mode' => 'full',
+      'menu_levels' => '1',
       'context' => 'argument_entity_id:user_1',
-      'override_title' => 1,
-      'override_title_text' => '%user:name %profile:field-ding-staff-forename %profile:field_ding_staff_surname',
+      'override_title' => 0,
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -105,18 +103,16 @@ function ding_staff_default_page_manager_handlers() {
     $pane->position = 0;
     $pane->locks = array();
     $display->content['new-1'] = $pane;
-    $display->panels['main_content'][0] = 'new-1';
+    $display->panels['left_sidebar'][0] = 'new-1';
     $pane = new stdClass();
     $pane->pid = 'new-2';
     $pane->panel = 'main_content';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'ding_news-ding_news_list_user';
+    $pane->type = 'staff_profile';
+    $pane->subtype = 'staff_profile';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'context' => array(
-        0 => 'argument_entity_id:user_1',
-      ),
+      'context' => 'argument_entity_id:user_1',
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -126,21 +122,21 @@ function ding_staff_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 0;
     $pane->locks = array();
     $display->content['new-2'] = $pane;
-    $display->panels['main_content'][1] = 'new-2';
+    $display->panels['main_content'][0] = 'new-2';
     $pane = new stdClass();
     $pane->pid = 'new-3';
     $pane->panel = 'right_sidebar';
-    $pane->type = 'staff_contact';
-    $pane->subtype = 'staff_contact';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'ding_news-ding_news_simple_list_user';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'context' => 'argument_entity_id:user_1',
-      'override_title' => 0,
-      'override_title_text' => '',
+      'context' => array(
+        0 => 'argument_entity_id:user_1',
+      ),
     );
     $pane->cache = array();
     $pane->style = array(
@@ -153,7 +149,7 @@ function ding_staff_default_page_manager_handlers() {
     $display->content['new-3'] = $pane;
     $display->panels['right_sidebar'][0] = 'new-3';
   $display->hide_title = PANELS_TITLE_PANE;
-  $display->title_pane = 'new-1';
+  $display->title_pane = 'new-2';
   $handler->conf['display'] = $display;
   $export['user_view_panel_context_3'] = $handler;
 
@@ -223,7 +219,7 @@ function ding_staff_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'All libraries: staff';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
@@ -251,7 +247,7 @@ function ding_staff_default_page_manager_pages() {
     $pane->pid = 'new-2';
     $pane->panel = 'main_content';
     $pane->type = 'views_panes';
-    $pane->subtype = 'ding_staff-ding_staff_list';
+    $pane->subtype = 'ding_staff-ding_staff_list_all';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
@@ -266,7 +262,7 @@ function ding_staff_default_page_manager_pages() {
     $display->content['new-2'] = $pane;
     $display->panels['main_content'][0] = 'new-2';
   $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = 'new-2';
+  $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['ding_staff'] = $page;
@@ -278,19 +274,19 @@ function ding_staff_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Ding staff library';
   $page->admin_description = '';
-  $page->path = 'bibliotek/%node/staff';
+  $page->path = 'bibliotek/%slug/staff';
   $page->access = array(
     'type' => 'none',
     'settings' => NULL,
   );
   $page->menu = array();
   $page->arguments = array(
-    'node' => array(
+    'slug' => array(
       'id' => 1,
-      'identifier' => 'Library node',
-      'name' => 'entity_id:node',
+      'identifier' => 'Node: Ding library slug',
+      'name' => 'slug',
       'settings' => array(),
-      'keyword' => 'node',
+      'keyword' => 'slug',
     ),
   );
   $page->conf = array(
@@ -314,15 +310,7 @@ function ding_staff_default_page_manager_pages() {
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
-    'relationships' => array(
-      0 => array(
-        'identifier' => 'OG group from library node',
-        'keyword' => 'group',
-        'name' => 'og_group_from_node',
-        'context' => 'argument_entity_id:node_1',
-        'id' => 1,
-      ),
-    ),
+    'relationships' => array(),
   );
   $display = new panels_display();
   $display->layout = '25_50_25';
@@ -380,7 +368,7 @@ function ding_staff_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'override_title' => 1,
-      'override_title_text' => '%node:title : departments & staff',
+      'override_title_text' => '%slug:title : departments & staff',
     );
     $pane->cache = array();
     $pane->style = array(
