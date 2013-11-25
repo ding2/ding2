@@ -13,12 +13,13 @@ $plugin = array(
   'category' => t('Ding!'),
   'required context' => array(
     new ctools_context_required(t('Taxonomy term id'), array('term', 'taxonomy_term')),
-    new ctools_context_optional(t('Library'), 'node'),
+    new ctools_context_optional(t('Group'), 'node'),
   ),
   'defaults' => array(
     'slug' => '',
     'default_link_text' => t('All terms'),
     'dropdown' => FALSE,
+    'base' => '',
   ),
 );
 
@@ -35,13 +36,14 @@ function ding_frontend_taxonomy_menu_content_type_render($subtype, $conf, $panel
   if (isset($context[1]->data)) {
     $node = $context[1]->data;
     $uri = entity_uri('node', $node);
-    $base = drupal_lookup_path('alias', $uri['path']) . '/';
+    $base = $conf['base'] . '/' . $node->nid . '/';
   }
 
   // If default link text is set.
   if (!empty($conf['default_link_text'])) {
+    $uri = drupal_get_path_alias($base . $conf['slug']);
     if ($conf['dropdown']) {
-      $items[$base . $conf['slug']] = t($conf['default_link_text']);
+      $items[$uri] = t($conf['default_link_text']);
     }
     else {
       // If first context don't exists (tid not given) the the "All link" should
@@ -51,7 +53,7 @@ function ding_frontend_taxonomy_menu_content_type_render($subtype, $conf, $panel
         $selected_term = $context[0]->data;
         $options = array();
       }
-      $items[] = l(t($conf['default_link_text']), $base . $conf['slug'], $options);
+      $items[] = l(t($conf['default_link_text']), $uri, $options);
     }
   }
 
@@ -71,7 +73,7 @@ function ding_frontend_taxonomy_menu_content_type_render($subtype, $conf, $panel
   foreach ($terms as $term) {
     // Try to find the correct uri based on the context/configuration.
     $alias = drupal_lookup_path('alias', 'taxonomy/term/' . $term->tid);
-    $uri = $base . $conf['slug'] . '/' . $term->tid;
+    $uri = drupal_get_path_alias($base . $conf['slug'] . '/' . $term->tid);
     if (!$base) {
       $uri = $conf['slug'] . '/' . $term->tid;
       if (isset($alias)) {
@@ -164,6 +166,14 @@ function ding_frontend_taxonomy_menu_content_type_edit_form($form, &$form_state)
     '#description' => t('The slug could be "arrangementer" or "nyheder" and will be inserted based on the context.'),
     '#required' => TRUE,
     '#default_value' => $form_state['conf']['slug'],
+  );
+
+  $form['base'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Base URL'),
+    '#description' => t('Base URL used to create context in OG e.g. bibliotek, temaer.'),
+    '#required' => TRUE,
+    '#default_value' => $form_state['conf']['base'],
   );
 
   $form['default_link_text'] = array(
