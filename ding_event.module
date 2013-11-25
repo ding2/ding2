@@ -4,17 +4,7 @@
  * Code for the Ding event feature.
  */
 
-/**
- * Implements hook_ding_library_menu_links().
- */
-function ding_event_ding_library_menu_links() {
-  return array(
-    'arrangementer' => array(
-      'linktype' => 'general_view_linktype',
-      'title' => 'Events',
-    ),
-  );
-}
+include_once 'ding_event.features.inc';
 
 /**
  * Implements hook_field_formatter_info().
@@ -53,12 +43,20 @@ function ding_event_field_formatter_view($entity_type, $entity, $field, $instanc
 function ding_event_theme() {
   return array(
     'date_time_seperate_lines' => array(
-      'variables' => array('variables' => array('timezone' => NULL, 'dates' => NULL, 'attributes' => NULL)),
+      'variables' => array(
+        'variables' => array(
+          'timezone' => NULL,
+          'dates' => NULL,
+          'attributes' => NULL,
+        ),
+      ),
     ),
   );
 }
 
 /**
+ * Default theme implementation of date_time_seperate_lines.
+ *
  * Theme function which shows to lines with date and time.
  * Used on ding_events.
  */
@@ -73,7 +71,6 @@ function theme_date_time_seperate_lines($vars) {
       '<div class="date field-label-inline clearfix"><div class="field-label">' . t('Date:') . '</div>' .
       '<div class="field-items">' . $date . '</div></div>';
   }
+
   return FALSE;
 }
-
-include_once('ding_event.features.inc');

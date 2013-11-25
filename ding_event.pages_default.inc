@@ -17,7 +17,7 @@ function ding_event_default_page_manager_handlers() {
   $handler->task = 'node_view';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
-  $handler->weight = 1;
+  $handler->weight = -28;
   $handler->conf = array(
     'title' => 'Event',
     'no_blocks' => 0,
@@ -138,10 +138,11 @@ function ding_event_default_page_manager_handlers() {
       'default_link_text' => 'All categories',
       'context' => array(
         0 => 'relationship_entity_from_field:field_ding_event_category-node-taxonomy_term_1',
-        1 => 'relationship_og_node_from_group_1',
+        1 => 'empty',
       ),
       'override_title' => 0,
       'override_title_text' => '',
+      'dropdown' => 0,
     );
     $pane->cache = array();
     $pane->style = array(
@@ -194,7 +195,7 @@ function ding_event_default_page_manager_handlers() {
     $pane->access = array();
     $pane->configuration = array(
       'context' => array(
-        1 => 'empty',
+        0 => 'relationship_entity_from_field:field_ding_event_category-node-taxonomy_term_1',
       ),
       'override_title' => 0,
       'override_title_text' => '',
@@ -333,6 +334,7 @@ taxonomy/term/%term:tid',
       ),
       'override_title' => 0,
       'override_title_text' => '',
+      'dropdown' => 0,
     );
     $pane->cache = array();
     $pane->style = array(
@@ -585,6 +587,7 @@ events
       'slug' => 'arrangementer',
       'default_link' => 'All categories',
       'default_link_text' => 'All categories',
+      'dropdown' => 0,
     );
     $pane->cache = array();
     $pane->style = array(
@@ -623,7 +626,17 @@ events
     $pane->type = 'library_list';
     $pane->subtype = 'library_list';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'library_count',
+          'settings' => array(
+            'count' => '1',
+          ),
+          'not' => TRUE,
+        ),
+      ),
+    );
     $pane->configuration = array(
       'type' => 'ding_event',
       'context' => array(
@@ -770,15 +783,7 @@ events
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
-    'relationships' => array(
-      0 => array(
-        'identifier' => 'OG group from library node',
-        'keyword' => 'group',
-        'name' => 'og_group_from_node',
-        'context' => 'argument_entity_id:node_1',
-        'id' => 1,
-      ),
-    ),
+    'relationships' => array(),
     'access' => array(
       'plugins' => array(
         0 => array(
@@ -843,17 +848,11 @@ node/%node:nid/events
     $pane = new stdClass();
     $pane->pid = 'new-6';
     $pane->panel = 'left_sidebar';
-    $pane->type = 'taxonomy_menu';
-    $pane->subtype = 'taxonomy_menu';
+    $pane->type = 'block';
+    $pane->subtype = 'og_menu-og_single_menu_block';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'slug' => 'arrangementer',
-      'default_link_text' => 'All categories',
-      'context' => array(
-        0 => 'argument_term_1',
-        1 => 'argument_slug_1',
-      ),
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -891,19 +890,21 @@ node/%node:nid/events
     $pane = new stdClass();
     $pane->pid = 'new-8';
     $pane->panel = 'main_content';
-    $pane->type = 'library_list';
-    $pane->subtype = 'library_list';
+    $pane->type = 'taxonomy_menu';
+    $pane->subtype = 'taxonomy_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'type' => 'ding_event',
+      'slug' => 'arrangementer',
+      'default_link_text' => 'All categories',
       'context' => array(
         0 => 'argument_term_1',
         1 => 'argument_slug_1',
       ),
       'override_title' => 0,
       'override_title_text' => '',
-      'slug' => 'arrangementer',
+      'dropdown' => 1,
+      'base' => 'bibliotek',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -912,7 +913,7 @@ node/%node:nid/events
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 1;
-    $pane->locks = '';
+    $pane->locks = array();
     $display->content['new-8'] = $pane;
     $display->panels['main_content'][1] = 'new-8';
     $pane = new stdClass();

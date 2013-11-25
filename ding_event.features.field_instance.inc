@@ -10,6 +10,80 @@
 function ding_event_field_default_field_instances() {
   $field_instances = array();
 
+  // Exported field_instance: 'node-ding_event-ding_event_groups_ref'
+  $field_instances['node-ding_event-ding_event_groups_ref'] = array(
+    'bundle' => 'ding_event',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Display this event in the selected group (temapage).',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => 1,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 6,
+      ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'ding_event_groups_ref',
+    'label' => 'Groups',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'og_widget' => array(
+          'admin' => array(
+            'widget_type' => 'entityreference_autocomplete',
+          ),
+          'default' => array(
+            'widget_type' => 'options_select',
+          ),
+          'status' => TRUE,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'view modes' => array(
+      'full' => array(
+        'custom settings' => FALSE,
+        'label' => 'Full',
+        'type' => 'og_list_default',
+      ),
+      'teaser' => array(
+        'custom settings' => FALSE,
+        'label' => 'Teaser',
+        'type' => 'og_list_default',
+      ),
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 7,
+    ),
+  );
+
   // Exported field_instance: 'node-ding_event-field_ding_event_body'
   $field_instances['node-ding_event-field_ding_event_body'] = array(
     'bundle' => 'ding_event',
@@ -22,7 +96,7 @@ function ding_event_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 8,
+        'weight' => 9,
       ),
       'search_result' => array(
         'label' => 'hidden',
@@ -205,7 +279,7 @@ function ding_event_field_default_field_instances() {
         'module' => 'file',
         'settings' => array(),
         'type' => 'file_default',
-        'weight' => 9,
+        'weight' => 10,
       ),
       'rss' => array(
         'label' => 'above',
@@ -334,7 +408,7 @@ function ding_event_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 12,
+        'weight' => 13,
       ),
       'search_result' => array(
         'label' => 'hidden',
@@ -440,7 +514,7 @@ function ding_event_field_default_field_instances() {
           'use_widget_handlers' => 1,
         ),
         'type' => 'addressfield_default',
-        'weight' => 6,
+        'weight' => 7,
       ),
       'search_result' => array(
         'label' => 'hidden',
@@ -484,7 +558,7 @@ function ding_event_field_default_field_instances() {
         ),
       ),
       'type' => 'addressfield_standard',
-      'weight' => 6,
+      'weight' => 4,
     ),
   );
 
@@ -502,7 +576,7 @@ function ding_event_field_default_field_instances() {
           'view_mode' => 'teaser',
         ),
         'type' => 'ting_reference_default',
-        'weight' => 10,
+        'weight' => 11,
       ),
       'search_result' => array(
         'label' => 'above',
@@ -557,7 +631,7 @@ function ding_event_field_default_field_instances() {
           'thousand_separator' => ' ',
         ),
         'type' => 'number_integer',
-        'weight' => 7,
+        'weight' => 8,
       ),
       'search_result' => array(
         'label' => 'hidden',
@@ -595,7 +669,7 @@ function ding_event_field_default_field_instances() {
       'module' => 'number',
       'settings' => array(),
       'type' => 'number',
-      'weight' => 7,
+      'weight' => 5,
     ),
   );
 
@@ -611,7 +685,7 @@ function ding_event_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 11,
+        'weight' => 12,
       ),
       'search_result' => array(
         'label' => 'hidden',
@@ -863,7 +937,7 @@ function ding_event_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 31,
+      'weight' => 6,
     ),
   );
 
@@ -872,7 +946,9 @@ function ding_event_field_default_field_instances() {
   t('Body');
   t('Category');
   t('Date');
+  t('Display this event in the selected group (temapage).');
   t('Files');
+  t('Groups');
   t('Lead');
   t('Library');
   t('List image');
