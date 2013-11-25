@@ -221,7 +221,7 @@ function ding_groups_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Groups news';
   $page->admin_description = '';
-  $page->path = 'grupper/%gid/nyheder/!tid';
+  $page->path = 'temaer/%gid/nyheder/!tid';
   $page->access = array(
     'type' => 'none',
     'settings' => NULL,
@@ -410,7 +410,7 @@ function ding_groups_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Groups events';
   $page->admin_description = '';
-  $page->path = 'grupper/%gid/arrangementer/!tid';
+  $page->path = 'temaer/%gid/arrangementer/!tid';
   $page->access = array(
     'type' => 'none',
     'settings' => NULL,
@@ -598,14 +598,14 @@ function ding_groups_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Groups listing';
   $page->admin_description = '';
-  $page->path = 'grupper';
+  $page->path = 'temaer';
   $page->access = array(
     'type' => 'none',
     'settings' => NULL,
   );
   $page->menu = array(
     'type' => 'normal',
-    'title' => 'Grupper',
+    'title' => 'Temaer',
     'name' => 'main-menu',
     'weight' => '0',
     'parent' => array(
