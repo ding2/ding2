@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- *
+ * Handles installation and un-installation for ding libraries.
  */
 
 /**
@@ -16,6 +16,53 @@ function ding_library_install() {
     ->condition('name', 'rules_og_member_pending')
     ->condition('name', 'rules_og_group_content_notification'))
     ->execute();
+
+  // Install node queue for libraries.
+  ding_library_install_nodequeue();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_library_uninstall() {
+  $qids = nodequeue_get_qids('ding_library');
+  foreach ($qids as $qid) {
+    nodequeue_delete($qid);
+  }
+}
+
+/**
+ * Helper function to create node queue used in groups listing pages.
+ */
+function ding_library_install_nodequeue() {
+  $nodequeue = new stdClass();
+  $nodequeue->name = 'ding_library_listing';
+  $nodequeue->title = 'Library listing';
+  $nodequeue->subqueue_title = '';
+  $nodequeue->owner = 'nodequeue';
+  $nodequeue->api_version = 2;
+  $nodequeue->link = 'Add to listing';
+  $nodequeue->link_remove = 'Remove from listing';
+  $nodequeue->show_in_ui = TRUE;
+  $nodequeue->show_in_tab = TRUE;
+  $nodequeue->show_in_links = FALSE;
+  $nodequeue->i18n = 0;
+  $nodequeue->roles = array();
+  $nodequeue->size = 0;
+  $nodequeue->reverse = 0;
+  $nodequeue->new = TRUE;
+  $nodequeue->types = array(
+    0 => 'ding_library',
+  );
+  $nodequeue->subqueues = array();
+  $nodequeue->submit = 'Submit';
+  $nodequeue->reverse = 0;
+  $nodequeue->reference = 0;
+  $nodequeue->add_subqueue = array(
+    $nodequeue->title,
+  );
+
+  nodequeue_save($nodequeue);
 }
 
 /**
@@ -184,5 +231,15 @@ function ding_library_update_7006() {
   $entity_info = entity_get_info('user');
   foreach (array_keys($entity_info['bundles']) as $user_bundle) {
     og_create_field('og_user_node', 'user', $user_bundle, $og_field);
+  }
+}
+
+/**
+ * Add groups node queue if it do not exists.
+ */
+function ding_library_update_7007() {
+  $qids = nodequeue_get_qids('ding_library');
+  if (empty($qids)) {
+    ding_library_install_nodequeue();
   }
 }

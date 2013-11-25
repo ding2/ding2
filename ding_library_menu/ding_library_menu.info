@@ -1,6 +1,0 @@
-name = Ding library menu
-description = Provides navigation menus for each library.
-core = 7.x
-package = Ding!
-dependencies[] = ding_library
-
