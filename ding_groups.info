@@ -19,6 +19,7 @@ dependencies[] = og_menu_default_links
 dependencies[] = og_ui
 dependencies[] = options
 dependencies[] = page_manager
+dependencies[] = pathauto
 dependencies[] = strongarm
 dependencies[] = taxonomy
 dependencies[] = text

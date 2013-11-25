@@ -44,3 +44,67 @@ function ding_groups_og_context_handler() {
     'node' => $nids,
   );
 }
+
+/**
+ * Implements hook_node_insert().
+ *
+ * Create alias for group news and events.
+ */
+function ding_groups_node_insert($node) {
+  if ($node->type == 'ding_group') {
+    ding_groups_node_update($node);
+  }
+}
+
+/**
+ * Implements hook_node_update().
+ *
+ * Create new alias for group news and events, if the nodes alias have changed.
+ */
+function ding_groups_node_update($node) {
+  if ($node->type == 'ding_group') {
+    $alias = 'node/' . $node->nid;
+
+    // Find node pattern from path auto.
+    module_load_include('inc', 'pathauto');
+    $pattern = pathauto_pattern_load_by_entity('node', 'ding_group');
+    if ($pattern) {
+      // Create node alias using token replace.
+      $alias = token_replace($pattern, array('node' => $node), array(
+        'sanitize' => FALSE,
+        'clear' => TRUE,
+        'callback' => 'pathauto_clean_token_values',
+        'language' => (object) array('language' => LANGUAGE_NONE),
+        'pathauto' => TRUE,
+      ));
+    }
+
+    // Update/create alias for the current ding groups news and events.
+    foreach (array('nyheder', 'arrangementer') as $slug) {
+      if (!path_load(array('alias' => $alias . '/' . $slug))) {
+        $source = 'grupper/' . $node->nid . '/' . $slug;
+        $existing_alias = _pathauto_existing_alias_data($source, LANGUAGE_NONE);
+        $path = array(
+          'source' => $source,
+          'alias' => $alias . '/' . $slug,
+          'language' => LANGUAGE_NONE,
+        );
+
+        // Set the alias or update it.
+        _pathauto_set_alias($path, $existing_alias);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_node_delete().
+ *
+ * Delete alias for group news and events.
+ */
+function ding_groups_node_delete($node) {
+  if ($node->type == 'ding_group') {
+    module_load_include('inc', 'pathauto');
+    pathauto_path_delete_all('grupper/' . $node->nid);
+  }
+}
