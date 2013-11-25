@@ -35,8 +35,14 @@ function ding_frontend_taxonomy_menu_content_type_render($subtype, $conf, $panel
   $base = '';
   if (isset($context[1]->data)) {
     $node = $context[1]->data;
-    $uri = entity_uri('node', $node);
-    $base = $conf['base'] . '/' . $node->nid . '/';
+    // Set base path based on configuration.
+    if (isset($conf['base'])) {
+      $base = $conf['base'] . '/' . $node->nid . '/';
+    }
+    else {
+      $uri = entity_uri('node', $node);
+      $base = drupal_lookup_path('alias', $uri['path']) . '/';
+    }
   }
 
   // If default link text is set.
@@ -172,7 +178,7 @@ function ding_frontend_taxonomy_menu_content_type_edit_form($form, &$form_state)
     '#type' => 'textfield',
     '#title' => t('Base URL'),
     '#description' => t('Base URL used to create context in OG e.g. bibliotek, temaer.'),
-    '#required' => TRUE,
+    '#required' => FALSE,
     '#default_value' => $form_state['conf']['base'],
   );
 
