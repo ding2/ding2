@@ -93,6 +93,16 @@ function ding_groups_node_update($node) {
         // Set the alias or update it.
         _pathauto_set_alias($path, $existing_alias);
       }
+
+      // Create alias for news and event terms.
+      if ($slug == 'nyheder') {
+        $vocabulary = taxonomy_vocabulary_machine_name_load('news_category');
+      }
+      else {
+        $vocabulary = taxonomy_vocabulary_machine_name_load('event_category');
+      }
+      $terms = taxonomy_term_load_multiple(array(), array('vid' => $vocabulary->vid));
+      ding_base_updated_taxonomy_aliases($node, 'temaer', $terms, array($slug));
     }
   }
 }
@@ -106,5 +116,57 @@ function ding_groups_node_delete($node) {
   if ($node->type == 'ding_group') {
     module_load_include('inc', 'pathauto');
     pathauto_path_delete_all('temaer/' . $node->nid);
+  }
+}
+
+/**
+ * Implements hook_taxonomy_term_insert().
+ *
+ * Ensures that URL alias for news and events are create for groups.
+ */
+function ding_groups_taxonomy_term_insert($term) {
+  ding_groups_taxonomy_term_update($term);
+}
+
+/**
+ * Implements hook_taxonomy_term_update().
+ *
+ * Ensures that URL alias are updated for groups news and events.
+ */
+function ding_groups_taxonomy_term_update($term) {
+  if ($term->vocabulary_machine_name == 'news_category' || $term->vocabulary_machine_name == 'event_category') {
+    // Load all ding_groups nodes. Entity cache should help on the performance.
+    $nodes = node_load_multiple(array(), array('type' => 'ding_group'));
+
+    $type = 'arrangementer';
+    if ($term->vocabulary_machine_name == 'news_category') {
+      $type = 'nyheder';
+    }
+
+    foreach ($nodes as $node) {
+      ding_base_updated_taxonomy_aliases($node, 'temaer', array($term), array($type));
+    }
+  }
+}
+
+/**
+ * Implements hook_taxonomy_term_delete().
+ *
+ * Delete alias for group news and events.
+ */
+function hook_taxonomy_term_delete($term) {
+  if ($term->vocabulary_machine_name == 'news_category' || $term->vocabulary_machine_name == 'event_category') {
+    // Load all ding_groups nodes. Entity cache should help on the performance.
+    $nodes = node_load_multiple(array(), array('type' => 'ding_group'));
+
+    $type = 'arrangementer';
+    if ($term->vocabulary_machine_name == 'news_category') {
+      $type = 'nyheder';
+    }
+    module_load_include('inc', 'pathauto');
+
+    foreach ($nodes as $node) {
+      pathauto_path_delete_all('temaer/' . $node->nid . '/' . $type . '/' . $term->tid);
+    }
   }
 }
