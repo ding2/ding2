@@ -577,7 +577,7 @@ input#edit-search-block-form--2.spinner {
       .view-mode-teaser {
         padding: 20px;
 
-        background-color: transparentize($white, .25);
+        background-color: transparentize($white, .1);
       }
 
       .heading h2 {
@@ -769,9 +769,8 @@ input#edit-search-block-form--2.spinner {
 }
 
 .pane-ting-collection {
-
   h2 {
-    margin-bottom: 20px;
+    margin-bottom: 0;
     margin-top: 40px;
 
     &:first-child {
@@ -797,6 +796,19 @@ input#edit-search-block-form--2.spinner {
     h2 {
       margin-top: 0;
     }
+  }
+
+  .field.field-name-ting-author,
+  .field.field-name-ting-abstract,
+  .field.field-name-ting-series {
+    margin-bottom: 20px;
+  }
+
+  .field.field-name-ting-abstract,
+  .field.field-name-ting-series {
+    border-bottom: 1px solid $gray-light;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
   }
 
   .field-name-ting-type {
@@ -886,23 +898,51 @@ input#edit-search-block-form--2.spinner {
 .pane-ting-object {
   @extend .pane-ting-collection;
 
+  .ting-object-wrapper {
+    margin-bottom: 20px;
+    overflow: hidden;
+    padding: 15px;
+
+    background: url('../images/pw_maze_white.png');
+  }
+
+  .ting-object-inner-wrapper {
+    overflow: hidden;
+    padding: 20px;
+
+    background-color: transparentize($white, .1);
+  }
+
   .ting-object-left {
     @include zen-grid-item(3, 1);
 
     min-height: 200px;
-    margin-bottom: 20px;
+    padding-left: 0;
   }
 
   .ting-object-right {
     @include zen-grid-item(9, 1, right);
 
+    padding-right: 0;
+  }
+
+  .ting-object-related-item {
+    border-bottom: 1px solid $gray-light;
+
     margin-bottom: 20px;
+    padding-bottom: 20px;
+
+    &.last {
+      border-bottom: 0;
+
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
   }
 
   .field {
     margin: 0;
     padding: 0;
-    margin-bottom: 10px;
   }
 
   .subjects {
@@ -917,16 +957,16 @@ input#edit-search-block-form--2.spinner {
   .ding-periodical-fold {
     &:before {
       color: $link-color;
+      float: left;
       font-family: $base-icon-library-font;
       font-size: $font-size-medium;
+      margin-top: -2px;
       padding-right: 6px;
     }
   }
 
   .collapsible .field-group-format-title {
     @extend .icon-minus-sign;
-
-    display: inline-block;
   }
 
   .collapsible.collapsed .field-group-format-title {
@@ -950,6 +990,10 @@ input#edit-search-block-form--2.spinner {
   .group-material-details {
     clear: both;
 
+    h2 {
+      margin-bottom: 0;
+    }
+
     .field-label {
       width: 25%;
       min-width: 200px;
@@ -967,6 +1011,10 @@ input#edit-search-block-form--2.spinner {
 
   .group-holdings-available {
     clear: both;
+
+    h2 {
+      margin-bottom: 0;
+    }
   }
 
   .field-name-ding-availability-holdings {
