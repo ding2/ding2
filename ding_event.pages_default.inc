@@ -904,6 +904,7 @@ node/%node:nid/events
       'override_title' => 0,
       'override_title_text' => '',
       'dropdown' => 1,
+      'base' => 'bibliotek',
     );
     $pane->cache = array();
     $pane->style = array(
