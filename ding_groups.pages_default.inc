@@ -362,6 +362,7 @@ function ding_groups_default_page_manager_pages() {
       ),
       'override_title' => 0,
       'override_title_text' => '',
+      'base' => 'temaer',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -550,6 +551,7 @@ function ding_groups_default_page_manager_pages() {
       ),
       'override_title' => 0,
       'override_title_text' => '',
+      'base' => 'temaer',
     );
     $pane->cache = array();
     $pane->style = array(
