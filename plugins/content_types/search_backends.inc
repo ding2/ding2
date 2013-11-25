@@ -1,9 +1,10 @@
 <?php
 /**
  * @file
- * Panels pane to display the different search engine(s) available as radio input
- * fields (facets).
+ * Panels pane to display the different search engine(s) available as radio
+ * input fields (facets).
  */
+
 $plugin = array(
   'title' => t('Ting search - backend engines'),
   'description' => t("Display the search engines as facets."),
@@ -79,10 +80,17 @@ function ting_search_backend_engines_content_type_render($subtype, $conf, $panel
   return $block;
 }
 
+/**
+ * Implements hook_form().
+ *
+ * Defines the select search engine backend with radio buttons.
+ */
 function ting_search_backend_engines_form($form, &$form_state, $options, $default) {
   $form = array(
+    '#token' => FALSE,
     '#attached' => array(
       'js' => array(
+        // Script to handle usability in the frontend (clicks).
         drupal_get_path('module', 'ting_search') . '/js/ting_search_backends.js',
       ),
     ),
