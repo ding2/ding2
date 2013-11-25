@@ -22,17 +22,17 @@ function ding_facetbrowser_content_type_render($subtype, $conf, $panel_args, $co
   $block->module = 'ding_facetbrowser';
   $block->delta  = 'ding_facetbrowser';
 
-  drupal_add_css(drupal_get_path('module', 'ding_facetbrowser') . '/css/facetbrowser.css');
-  drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/jquery.cookie.min.js');
-  drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/facetbrowser.js');
+  $path = drupal_get_path('module', 'ding_facetbrowser');
+  drupal_add_js($path . '/js/jquery.cookie.min.js');
+  drupal_add_js($path . '/js/facetbrowser.js');
   drupal_add_js(array(
     'dingFacetBrowser' => array(
       'facetElement' => '.js-facet-browser-toggle',
       'number_of_terms' => variable_get('ding_facetbrowser_number_of_terms', 5),
-    )
+    ),
   ), 'setting');
 
-  // Invoke ding_facetbrowser() from executed search module
+  // Invoke ding_facetbrowser() from executed search module.
   $executed_search = menu_get_item();
   if (!empty($executed_search['page_arguments'])) {
     list($executed_search_module, ) = $executed_search['page_arguments'];
@@ -57,7 +57,7 @@ function ding_facetbrowser_content_type_render($subtype, $conf, $panel_args, $co
 }
 
 /**
- * Returns an edit form for settings
+ * Returns an edit form for settings.
  */
 function ding_facetbrowser_ding_facetbrowser_content_type_edit_form($form, &$form_state) {
   return $form;

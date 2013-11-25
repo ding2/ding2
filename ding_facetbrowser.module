@@ -104,7 +104,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
     '#value' => $search,
   );
 
-  // Building the facets fieldsets
+  // Building the facets fieldsets.
   $i = 0;
   $facet_show_count = variable_get('ding_facetbrowser_showcount');
   foreach (variable_get('ding_facetbrowser_facets', array()) as $configured_facet) {
@@ -112,7 +112,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
     if (isset($facets[$configured_facet['name']])) {
       $facet = $facets[$configured_facet['name']];
 
-      // Decide if the facet is to have the hidden class or not
+      // Decide if the facet is to have the hidden class or not.
       $facet_class = ($i >= $facet_show_count) ? 'hidden' : 'visible';
 
       if (count($facet->terms) > 0) {
@@ -129,19 +129,23 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
 
         if (!empty($configured_facet['sorting'])) {
           switch ($configured_facet['sorting']) {
-            case 'alphabetical' :
+            case 'alphabetical':
               ksort($facet->terms);
               break;
-            case 'alphabetical_reverse' :
+
+            case 'alphabetical_reverse':
               krsort($facet->terms);
               break;
-            case 'numeric' :
+
+            case 'numeric':
               ksort($facet->terms, SORT_NUMERIC);
               break;
-            case 'numeric_reverse' :
+
+            case 'numeric_reverse':
               krsort($facet->terms, SORT_NUMERIC);
               break;
-            default :
+
+            default:
               break;
           }
         }
@@ -194,10 +198,10 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
           );
         }
       }
-      $i++; // Loop is done so time to up that counter
+      $i++; // Loop is done so time to up that counter.
     }
 
-    // Reset previous set variables
+    // Reset previous set variables.
     $checkboxes = array();
     $default_values = array();
     $selected = array();
@@ -258,9 +262,11 @@ function _parseRequestUri() {
 }
 
 /**
- * Parse the selected facets from the $form_state to a readable string for the ting_search
+ * Parse the selected facets from the $form_state to a readable string for the
+ * ting_search.
  *
  * @param array $form_state
+ *
  * @return string
  */
 function _facetString($form_state = NULL) {
@@ -270,7 +276,7 @@ function _facetString($form_state = NULL) {
       if (is_array($data)) {
         foreach ($data as $key => $value) {
           if ($key == $value && $value !== 0) {
-          $facets[] = 'facet.' . $name . ':' . $value;
+            $facets[] = 'facet.' . $name . ':' . $value;
           }
         }
       }
@@ -309,9 +315,8 @@ function ding_facetbrowser_block_view($delta = FALSE) {
 
   drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/jquery.cookie.min.js');
   drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/facetbrowser.js');
-  drupal_add_css(drupal_get_path('module', 'ding_facetbrowser') . '/css/facetbrowser.css');
 
-  // TODO: Get the facetbrowser dom id automatic
+  // @todo: Get the facetbrowser dom id automatic.
   drupal_add_js(array(
     'dingFacetBrowser' => array(
     'facetElement' => '.js-facet-browser-toggle',

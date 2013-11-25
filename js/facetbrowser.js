@@ -43,7 +43,7 @@
 
       // Check for click in checkbox, and execute search.
       main_element.find('.form-type-checkbox input').change(function(e) {
-        $('body').prepend('<div class="facetbrowser_overlay"><div class="spinner"></div></div>');
+        $('body').prepend('<div class="search-overlay--wrapper"><div class="search-overlay--inner"><i class="icon-spinner icon-spin search-overlay--icon"></i><p class="search-overlay--text">' + Drupal.t('Searching please wait...') + '</p></div></div>');
         window.location = $(e.target).parent().find('a').attr('href');
       });
     }
@@ -143,14 +143,14 @@
       var checkedFacets = '';
       facetGroup.find('.form-type-checkbox.selected-checkbox').each(function() {
         var element = $(this);
-        // Uncheck checkboxes (for the visual effect).
+        // Un-check checkboxes (for the visual effect).
         element.find('input').click();
 
         // Find the facets to be deselected and generate new URL.
         var facetMatch = element.find('a').attr('href').match(/&facets\[\]=-facet.*/);
         checkedFacets += facetMatch[0];
         if (checkedFacets) {
-          $('body').prepend('<div class="facetbrowser_overlay"><div class="spinner"></div></div>');
+          $('body').prepend('<div class="search-overlay--wrapper"><div class="search-overlay--inner"><i class="icon-spinner icon-spin search-overlay--icon"></i><p class="search-overlay--text">' + Drupal.t('Searching please wait...') + '</p></div></div>');
           window.location.href += checkedFacets;
         }
       });
