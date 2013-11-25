@@ -215,8 +215,9 @@ function ding_user_frontend_build_menu() {
     '#weight' => 0,
   );
 
-  // Get current menu path.
-  $router_item = menu_get_item();
+  // Get menu path to user profile.
+  global $user;
+  $router_item = menu_get_item('user/' . $user->uid);
 
   // Get all tabs (also known as local tasks) and the root page.
   $result = db_select('menu_router', NULL, array('fetch' => PDO::FETCH_ASSOC))
