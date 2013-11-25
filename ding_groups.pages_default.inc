@@ -250,7 +250,7 @@ function ding_groups_default_page_manager_pages() {
           7 => 0,
           2 => 0,
         ),
-        'breadcrumb' => 1,
+        'breadcrumb' => 0,
         'transform' => 0,
       ),
     ),
@@ -384,6 +384,7 @@ function ding_groups_default_page_manager_pages() {
     $pane->configuration = array(
       'context' => array(
         0 => 'argument_entity_id:node_1',
+        1 => 'argument_term_1',
       ),
       'override_title' => 1,
       'override_title_text' => '',
@@ -573,6 +574,7 @@ function ding_groups_default_page_manager_pages() {
     $pane->configuration = array(
       'context' => array(
         0 => 'argument_entity_id:node_1',
+        1 => 'argument_term_1',
       ),
       'override_title' => 1,
       'override_title_text' => '',
