@@ -90,6 +90,21 @@ function ding_frontend_default_page_manager_handlers() {
     'css' => '',
     'contexts' => array(),
     'relationships' => array(),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'role',
+          'settings' => array(
+            'rids' => array(
+              0 => 1,
+            ),
+          ),
+          'context' => 'logged-in-user',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
+    ),
   );
   $display = new panels_display();
   $display->layout = '25_50_25';
@@ -576,7 +591,7 @@ search/node',
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_title' => 0,
+      'override_title' => 1,
       'override_title_text' => '',
     );
     $pane->cache = array();
@@ -592,6 +607,40 @@ search/node',
     $display->panels['header'][1] = 'new-16';
     $pane = new stdClass();
     $pane->pid = 'new-17';
+    $pane->panel = 'header';
+    $pane->type = 'block';
+    $pane->subtype = 'ding_user_frontend-ding-user-menu';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'role',
+          'settings' => array(
+            'rids' => array(
+              0 => 2,
+            ),
+          ),
+          'context' => 'logged-in-user',
+          'not' => FALSE,
+        ),
+      ),
+    );
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $display->content['new-17'] = $pane;
+    $display->panels['header'][2] = 'new-17';
+    $pane = new stdClass();
+    $pane->pid = 'new-18';
     $pane->panel = 'navigation';
     $pane->type = 'block';
     $pane->subtype = 'menu_block-1';
@@ -610,10 +659,10 @@ search/node',
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-17'] = $pane;
-    $display->panels['navigation'][0] = 'new-17';
+    $display->content['new-18'] = $pane;
+    $display->panels['navigation'][0] = 'new-18';
     $pane = new stdClass();
-    $pane->pid = 'new-18';
+    $pane->pid = 'new-19';
     $pane->panel = 'navigation';
     $pane->type = 'block';
     $pane->subtype = 'menu_block-2';
@@ -632,8 +681,8 @@ search/node',
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-18'] = $pane;
-    $display->panels['navigation'][1] = 'new-18';
+    $display->content['new-19'] = $pane;
+    $display->panels['navigation'][1] = 'new-19';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

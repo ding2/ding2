@@ -4,7 +4,32 @@
  * Code for the ding frontend feature.
  */
 
-include_once('ding_frontend.features.inc');
+include_once 'ding_frontend.features.inc';
+
+/**
+ * Implements hook_theme().
+ *
+ * Field formatter theme function mainly used in event views to create the nice
+ * calendar header in event lists.
+ */
+function ding_frontend_theme() {
+  return array(
+    'calendar_header' => array(
+      'variables' => array(
+        'date' => array(
+          'day' => NULL,
+          'month' => NULL,
+          'weekday' => NULL,
+          'year' => NULL,
+        ),
+        'timestamp' => NULL,
+        'timezone' => NULL,
+        'today' => FALSE,
+      ),
+      'template' => 'templates/calendar-header',
+    ),
+  );
+}
 
 /**
  * Implements hook_ctools_plugin_directory().
@@ -22,12 +47,6 @@ function ding_frontend_ctools_plugin_directory($owner, $plugin_type) {
  */
 function ding_frontend_field_formatter_info() {
   return array(
-    'calendar_page' => array(
-      'label' => t('Calendar page'),
-      'field types' => array(
-        'datetime',
-      ),
-    ),
     'calendar_header' => array(
       'label' => t('Calendar header'),
       'field types' => array(
@@ -42,76 +61,37 @@ function ding_frontend_field_formatter_info() {
  */
 function ding_frontend_field_formatter_view($entity_type, $entity, $field, $instances, $langcode, $items, $display) {
   $element = array();
-  $timezone = variable_get('date_default_timezone', 0);
-  foreach ($items as $delta => $item) {
-    switch ($display['type']) {
-      case 'calendar_page':
-        $date = new DateObject(
-          $item['value'],
-          $item['timezone_db'],
-          date_type_format($item['date_type'])
-        );
-        $timestamp = $date->format(DATE_FORMAT_UNIX);
-        $vars = array(
-          'day' => format_date($timestamp, 'custom', 'j', $timezone),
-          'month' => format_date($timestamp, 'custom', 'F', $timezone),
-          'weekday' => format_date($timestamp, 'custom', 'l', $timezone),
-          'today' => date('j.F.l') == date('j.F.l', $timestamp),
-        );
-        $element[$delta] = array(
-          '#markup' => theme('calendar_page', $vars),
-        );
-        break;
 
-      case 'calendar_header':
-        $date = new DateObject(
-          $item['value'],
-          $item['timezone_db'],
-          date_type_format($item['date_type'])
-        );
-        $timestamp = $date->format(DATE_FORMAT_UNIX);
-        $vars = array(
+  // Get current timezone from configuration.
+  $timezone = date_default_timezone_get();
+
+  foreach ($items as $delta => $item) {
+    if ($display['type'] == 'calendar_header') {
+      // Create timestamp base on current timezone.
+      $date = new DateObject(
+        $item['value'],
+        $item['timezone_db'],
+        date_type_format($item['date_type'])
+      );
+      $timestamp = $date->format(DATE_FORMAT_UNIX);
+
+      // Added render array to output element.
+      $element[$delta] = array(
+        '#theme' => 'calendar_header',
+        '#date' => array(
           'day' => format_date($timestamp, 'custom', 'j', $timezone),
           'month' => format_date($timestamp, 'custom', 'F', $timezone),
           'weekday' => format_date($timestamp, 'custom', 'l', $timezone),
           'year' => format_date($timestamp, 'custom', 'Y', $timezone),
-          'today' => date('j.F.l') == date('j.F.l', $timestamp),
-        );
-        $element[$delta] = array(
-          '#markup' => theme('calendar_header', $vars),
-        );
-        break;
+        ),
+        '#timestamp' => $timestamp,
+        '#timezone' => $timezone,
+        '#today' => date('j.F.l') == date('j.F.l', $timestamp) ? TRUE : FALSE,
+      );
     }
   }
 
   return $element;
-}
-
-/**
- * Implements hook_theme().
- */
-function ding_frontend_theme() {
-  return array(
-    'calendar_page' => array(
-      'template' => 'calendar-page',
-      'variables' => array(
-        'day' => '',
-        'month' => '',
-        'weekday' => '',
-        '' => FALSE,
-      ),
-    ),
-    'calendar_header' => array(
-      'template' => 'calendar-header',
-      'variables' => array(
-        'day' => '',
-        'month' => '',
-        'weekday' => '',
-        'year' => '',
-        '' => FALSE,
-      ),
-    ),
-  );
 }
 
 /**
