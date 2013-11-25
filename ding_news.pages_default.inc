@@ -17,7 +17,7 @@ function ding_news_default_page_manager_handlers() {
   $handler->task = 'node_view';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
-  $handler->weight = -27;
+  $handler->weight = -30;
   $handler->conf = array(
     'title' => 'News story',
     'no_blocks' => 0,
@@ -133,10 +133,11 @@ function ding_news_default_page_manager_handlers() {
       'default_link_text' => 'All categories',
       'context' => array(
         0 => 'relationship_entity_from_field:field_ding_news_category-node-taxonomy_term_1',
-        1 => 'relationship_og_node_from_group_1',
+        1 => 'empty',
       ),
       'override_title' => 0,
       'override_title_text' => '',
+      'dropdown' => 0,
     );
     $pane->cache = array();
     $pane->style = array(
@@ -325,12 +326,16 @@ taxonomy/term/%term:tid',
       ),
       'override_title' => 0,
       'override_title_text' => '',
+      'dropdown' => 0,
     );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => '',
+    );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
@@ -568,7 +573,8 @@ news/%tid:name',
         1 => 'empty',
       ),
       'override_title' => 0,
-      'override_title_text' => '',
+      'override_title_text' => 'News categories',
+      'dropdown' => 0,
     );
     $pane->cache = array();
     $pane->style = array(
@@ -607,14 +613,25 @@ news/%tid:name',
     $pane->type = 'library_list';
     $pane->subtype = 'library_list';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'library_count',
+          'settings' => array(
+            'count' => '1',
+          ),
+          'not' => TRUE,
+        ),
+      ),
+      'logic' => 'and',
+    );
     $pane->configuration = array(
       'type' => 'ding_news',
       'context' => array(
         0 => 'argument_term_1',
         1 => 'empty',
       ),
-      'override_title' => 0,
+      'override_title' => 1,
       'override_title_text' => '',
       'slug' => 'nyheder',
     );
@@ -635,7 +652,10 @@ news/%tid:name',
     $pane->subtype = 'ding_news-ding_news_list';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => '',
+    );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
@@ -648,27 +668,6 @@ news/%tid:name',
     $display->panels['main_content'][2] = 'new-4';
     $pane = new stdClass();
     $pane->pid = 'new-5';
-    $pane->panel = 'right_sidebar';
-    $pane->type = 'block';
-    $pane->subtype = 'similarterms-ding_content_tags';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = '';
-    $display->content['new-5'] = $pane;
-    $display->panels['right_sidebar'][0] = 'new-5';
-    $pane = new stdClass();
-    $pane->pid = 'new-6';
     $pane->panel = 'right_sidebar';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
@@ -698,10 +697,10 @@ news/%tid:name',
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-6'] = $pane;
-    $display->panels['right_sidebar'][1] = 'new-6';
+    $display->content['new-5'] = $pane;
+    $display->panels['right_sidebar'][0] = 'new-5';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = 'new-2';
   $handler->conf['display'] = $display;
@@ -849,19 +848,13 @@ node/%node:nid/news
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-7';
+    $pane->pid = 'new-6';
     $pane->panel = 'left_sidebar';
-    $pane->type = 'taxonomy_menu';
-    $pane->subtype = 'taxonomy_menu';
+    $pane->type = 'block';
+    $pane->subtype = 'og_menu-og_single_menu_block';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'slug' => 'nyheder',
-      'default_link_text' => 'All categories',
-      'context' => array(
-        0 => 'argument_term_1',
-        1 => 'argument_slug_1',
-      ),
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -873,10 +866,10 @@ node/%node:nid/news
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-7'] = $pane;
-    $display->panels['left_sidebar'][0] = 'new-7';
+    $display->content['new-6'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-6';
     $pane = new stdClass();
-    $pane->pid = 'new-8';
+    $pane->pid = 'new-7';
     $pane->panel = 'main_content';
     $pane->type = 'menu_title';
     $pane->subtype = 'menu_title';
@@ -894,37 +887,42 @@ node/%node:nid/news
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-8'] = $pane;
-    $display->panels['main_content'][0] = 'new-8';
+    $display->content['new-7'] = $pane;
+    $display->panels['main_content'][0] = 'new-7';
     $pane = new stdClass();
-    $pane->pid = 'new-9';
+    $pane->pid = 'new-8';
     $pane->panel = 'main_content';
-    $pane->type = 'library_list';
-    $pane->subtype = 'library_list';
+    $pane->type = 'taxonomy_menu';
+    $pane->subtype = 'taxonomy_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'type' => 'ding_news',
+      'slug' => 'nyheder',
+      'default_link_text' => 'All categories',
       'context' => array(
         0 => 'argument_term_1',
         1 => 'argument_slug_1',
       ),
       'override_title' => 0,
       'override_title_text' => '',
-      'slug' => 'nyheder',
+      'dropdown' => 1,
+      'base' => 'bibliotek',
     );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => '',
+    );
     $pane->extras = array();
     $pane->position = 1;
-    $pane->locks = '';
-    $display->content['new-9'] = $pane;
-    $display->panels['main_content'][1] = 'new-9';
+    $pane->locks = array();
+    $display->content['new-8'] = $pane;
+    $display->panels['main_content'][1] = 'new-8';
     $pane = new stdClass();
-    $pane->pid = 'new-10';
+    $pane->pid = 'new-9';
     $pane->panel = 'main_content';
     $pane->type = 'views_panes';
     $pane->subtype = 'ding_news-ding_news_list_library';
@@ -935,6 +933,8 @@ node/%node:nid/news
         0 => 'argument_slug_1',
         1 => 'argument_term_1',
       ),
+      'override_title' => 1,
+      'override_title_text' => '',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -944,10 +944,10 @@ node/%node:nid/news
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
-    $display->content['new-10'] = $pane;
-    $display->panels['main_content'][2] = 'new-10';
+    $display->content['new-9'] = $pane;
+    $display->panels['main_content'][2] = 'new-9';
     $pane = new stdClass();
-    $pane->pid = 'new-11';
+    $pane->pid = 'new-10';
     $pane->panel = 'right_sidebar';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
@@ -980,8 +980,8 @@ node/%node:nid/news
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-11'] = $pane;
-    $display->panels['right_sidebar'][0] = 'new-11';
+    $display->content['new-10'] = $pane;
+    $display->panels['right_sidebar'][0] = 'new-10';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
