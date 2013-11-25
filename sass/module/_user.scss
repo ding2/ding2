@@ -349,7 +349,6 @@
 
 .user {
   @extend %search-user-header;
-
   overflow: hidden;
 
   .user-field-wrapper {
@@ -402,6 +401,10 @@
       border-bottom: 1px solid transparentize($white, .75);
       padding-top: 10px;
       padding-bottom: 10px;
+    }
+
+    .user-field-wrapper {
+      position: relative;
     }
   }
 }
@@ -466,15 +469,23 @@
 .user-status-reservation,
 .user-status-debt,
 .user-status-ready-pickup {
+  @include border-radius(8px);
   @include font-bold();
+  @extend .icon-chevron-right;
 
   display: block;
-  margin-bottom: $medium-spacing;
-  padding: $medium-spacing;
+  margin-bottom: 10px;
+  padding: 10px 20px;
 
   &:hover {
     text-decoration: none;
   }
+
+  &:before {
+    float: right;
+    font-family: $base-icon-library-font;
+  }
+
 }
 
 .user-status-loan,
@@ -553,7 +564,6 @@
     }
   }
 }
-
 
 /* User loans
    ========================================================================== */

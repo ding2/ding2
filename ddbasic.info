@@ -24,6 +24,7 @@
   scripts[] = scripts/respond.min.js
   scripts[] = scripts/jquery.scrollto.js
   scripts[] = scripts/ddbasic.facet.js
+  scripts[] = scripts/ddbasic.search.js
 
 
 ;----------// Regions

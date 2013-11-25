@@ -2,34 +2,16 @@
 /**
  * @file
  * Preprocess and Process Functions.
- *
- * 1. Rename each function and instance of "adaptivetheme_subtheme" to match
- *    your subthemes name, e.g. if your theme name is "footheme" then the
- *    function name will be "footheme_preprocess_hook". Tip - you can
- *    search/replace on "adaptivetheme_subtheme".
- * 2. Uncomment the required function to use.
- * 3. Read carefully, especially within adaptivetheme_subtheme_preprocess_html()
- *    , there are extra goodies you might want to leverage such as a very simple
- *    way of adding stylesheets for Internet Explorer and a browser detection
- *    script to add body classes.
- *
- * @see http://drupal.org/node/254940#variables-processor
  */
 
-global $theme_key, $path_to_ddbasic_core;
-$theme_key = $GLOBALS['theme_key'];
-$path_to_ddbasic_core = drupal_get_path('theme', 'ddbasic');
-
 // Includes frequently used theme functions that gets theme info, css files etc.
-include_once $path_to_ddbasic_core . '/inc/functions.inc';
-
+include_once drupal_get_path('theme', 'ddbasic') . '/inc/functions.inc';
 
 /**
  * Implements hook_preprocess_html().
  */
 function ddbasic_preprocess_html(&$vars) {
-  global $theme_key, $language;
-  $theme_name = $theme_key;
+  global $language;
 
   // Setup iOS logo if it's set.
   $vars['ios_logo'] = theme_get_setting('iosicon_upload');
@@ -39,10 +21,6 @@ function ddbasic_preprocess_html(&$vars) {
 
   // Clean up the lang attributes.
   $vars['html_attributes'] = 'lang="' . $language->language . '" dir="' . $language->dir . '"';
-
-  // Build an array of poly-filling scripts.
-  $vars['polyfills_array'] = '';
-  $vars['polyfills_array'] = ddbasic_load_polyfills($theme_name, $vars);
 
   // Load ddbasic plugins.
   ddbasic_load_plugins();
@@ -70,13 +48,17 @@ function ddbasic_preprocess_html(&$vars) {
   ));
 }
 
-
 /**
  * Implements hook_process_html().
  *
  * Process variables for html.tpl.php
  */
 function ddbasic_process_html(&$vars) {
+  $theme_name = 'ddbasic';
+
+  // Build an array of poly-filling scripts.
+  $vars['polyfills_array'] = ddbasic_load_polyfills($theme_name, $vars);
+
   // This code is copied from Adaptive Theme, at_core/inc/process.inc.
   // It wraps the required polyfills scripts into a conditional comment.
   if (!empty($vars['polyfills_array'])) {
@@ -184,46 +166,61 @@ function ddbasic_form_alter(&$form, &$form_state, $form_id) {
 function ddbasic_preprocess_panels_pane(&$vars) {
   // Suggestions base on sub-type.
   $vars['theme_hook_suggestions'][] = 'panels_pane__' . str_replace('-', '__', $vars['pane']->subtype);
+  $vars['theme_hook_suggestions'][] = 'panels_pane__'  . $vars['pane']->panel . '__' . str_replace('-', '__', $vars['pane']->subtype);
 
   // Suggestions on panel pane.
   $vars['theme_hook_suggestions'][] = 'panels_pane__' . $vars['pane']->panel;
-}
 
+  // Suggestions on menus panes.
+  if ($vars['pane']->subtype == 'og_menu-og_single_menu_block' || $vars['pane']->subtype == 'menu_block-3') {
+    $vars['theme_hook_suggestions'][] = 'panels_pane__sub_menu';
+    $vars['classes_array'][] = 'sub-menu-wrapper';
+
+    // Change the theme wrapper for both menu-block and OG menu.
+    if (isset($vars['content']['#content'])) {
+      // Menu-block.
+      $vars['content']['#content']['#theme_wrappers'] = array('menu_tree__sub_menu');
+    }
+    else {
+      // OG menu.
+      $vars['content']['#theme_wrappers'] = array('menu_tree__sub_menu');
+    }
+  }
+}
 
 /**
  * Implements theme_menu_tree().
- *
- * Addes wrapper clases for the main menu and secondary menu.
  */
-
-// Main menu
 function ddbasic_menu_tree__menu_block__1($vars) {
   return '<ul class="main-menu">' . $vars['tree'] . '</ul>';
 }
 
-// Secondary menu
+/**
+ * Implements theme_menu_tree().
+ */
 function ddbasic_menu_tree__menu_block__2($vars) {
   return '<ul class="secondary-menu">' . $vars['tree'] . '</ul>';
 }
 
-// Sub menu
-function ddbasic_menu_tree__menu_block__3($vars) {
+/**
+ * Implements theme_menu_tree().
+ */
+function ddbasic_menu_tree__sub_menu($vars) {
   return '<ul class="sub-menu">' . $vars['tree'] . '</ul>';
 }
 
-// Tabs menu
+/**
+ * Implements theme_menu_tree().
+ */
 function ddbasic_menu_tree__menu_tabs_menu($vars) {
   return '<ul class="topbar-menu">' . $vars['tree'] . '</ul>';
 }
 
-// System user menu
+/**
+ * Implements theme_menu_tree().
+ */
 function ddbasic_menu_tree__user_menu($vars) {
   return '<ul class="system-user-menu">' . $vars['tree'] . '</ul>';
-}
-
-// User provider menu (status, loans, etc.).
-function ddbasic_menu_tree__ding_user_frontend__ding_user_menu($vars) {
-  return '<ul class="sub-menu">' . $vars['tree'] . '</ul>';
 }
 
 /**
@@ -326,12 +323,26 @@ function ddbasic_preprocess_node(&$variables, $hook) {
 
     // Add event date to variables. A render array is created based on the date
     // format "date_only".
-    $event_date_ra = field_view_field('node', $variables['node'], 'field_ding_event_date', array('label' => 'hidden', 'type' => 'date_default', 'settings' => array('format_type' => 'date_only', 'fromto' => 'both')));
+    $event_date_ra = field_view_field('node', $variables['node'], 'field_ding_event_date', array(
+      'label' => 'hidden',
+      'type' => 'date_default',
+      'settings' => array(
+        'format_type' => 'date_only',
+        'fromto' => 'both',
+      ),
+    ));
     $variables['ddbasic_event_date'] = $event_date_ra[0]['#markup'];
 
     // Add event time to variables. A render array is created based on the date
     // format "time_only".
-    $event_time_ra = field_view_field('node', $variables['node'], 'field_ding_event_date', array('label' => 'hidden', 'type' => 'date_default', 'settings' => array('format_type' => 'time_only', 'fromto' => 'both')));
+    $event_time_ra = field_view_field('node', $variables['node'], 'field_ding_event_date', array(
+      'label' => 'hidden',
+      'type' => 'date_default',
+      'settings' => array(
+        'format_type' => 'time_only',
+        'fromto' => 'both',
+      ),
+    ));
     $variables['ddbasic_event_time'] = $event_time_ra[0]['#markup'];
   }
 
@@ -340,7 +351,8 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     $variables['theme_hook_suggestions'][] = 'node__view_mode__' . $variables['view_mode'];
   }
 
-  // Add "read more" links to event and news in search result view mode.
+  // Add "read more" links to event, news and e-resource in search result view
+  // mode.
   if ($variables['view_mode'] == 'search_result') {
     switch ($variables['node']->type) {
       case 'ding_event':
@@ -378,7 +390,24 @@ function ddbasic_preprocess_node(&$variables, $hook) {
           '#weight' => 6,
         );
 
-//        <span class="news-link"><span><a href="/nyheder/anbefalinger/test-nyhed">Læs mere</a></span></span>
+        $variables['content']['group_right_col_search']['more_link'] = $more_link;
+        break;
+
+      case 'ding_eresource':
+        $more_link = array(
+          '#theme' => 'link',
+          '#text' => t('Read more'),
+          '#path' => 'node/' . $variables['nid'],
+          '#options' => array(
+            'attributes' => array(
+              'title' => $variables['title'],
+            ),
+            'html' => FALSE,
+          ),
+          '#prefix' => '<span class="eresource-link">',
+          '#surfix' => '</span>',
+          '#weight' => 6,
+        );
 
         $variables['content']['group_right_col_search']['more_link'] = $more_link;
         break;
@@ -449,6 +478,11 @@ function ddbasic_preprocess_field(&$vars, $hook) {
     $vars['theme_hook_suggestions'][] = 'field__ddbasic_tags__' . $view_mode;
   }
 
+  // Ensure that all OG group ref field are the same.
+  if ($field_name == 'ding_event_groups_ref' || $field_name == 'ding_news_groups_ref') {
+    $vars['theme_hook_suggestions'][] = 'field__og_group_ref';
+  }
+
   // Clean up fields in search result view mode aka. search result page.
   if ($view_mode == 'search_result') {
     // Add suggestion that only hits the search result page.
@@ -469,9 +503,11 @@ function ddbasic_preprocess_field(&$vars, $hook) {
 
   // Make suggestion for the availability on the search result page.
   if ($vars['element']['#field_type'] == 'ting_collection_types' &&
-      $vars['element']['#formatter'] == 'ding_availability_types') {
+      $vars['element']['#formatter'] == 'ding_availability_with_labels') {
     $vars['theme_hook_suggestions'][] = 'field__' . $vars['element']['#field_type'] . '__' . 'search_result';
   }
+
+
 }
 
 /**
@@ -510,15 +546,10 @@ function ddbasic_panels_default_style_render_region($vars) {
  * Implements theme_menu_link().
  */
 function ddbasic_menu_link($vars) {
-  // Check if the class array is empty.
-  if (empty($vars['element']['#attributes']['class'])) {
-    unset($vars['element']['#attributes']['class']);
-  }
-
   $element = $vars['element'];
 
+  // Render any sub-links/menus.
   $sub_menu = '';
-
   if ($element['#below']) {
     $sub_menu = drupal_render($element['#below']);
   }
@@ -528,12 +559,15 @@ function ddbasic_menu_link($vars) {
     'menu-item',
   );
 
+  // Filter classes.
+  $element['#attributes']['class'] = ddbasic_remove_default_link_classes($element['#attributes']['class']);
+
   // Make sure text string is treated as html by l function.
-  $element['#localized_options']['html'] = true;
+  $element['#localized_options']['html'] = TRUE;
 
-  $output = l('<span>' . $element['#title'] . '</span>', $element['#href'], $element['#localized_options']);
+  $link = l('<span>' . $element['#title'] . '</span>', $element['#href'], $element['#localized_options']);
 
-  return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+  return '<li' . drupal_attributes($element['#attributes']) . '>' . $link . $sub_menu . "</li>\n";
 }
 
 /**
@@ -577,10 +611,13 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       $element['#attributes']['class'][] = 'topbar-link-search';
       break;
 
+    case 'node':
+      // Special placeholder for mobile user menu. Fall through to next case.
+      $element['#localized_options']['attributes']['class'][] = 'default-override';
+
     case 'user':
       $title_prefix = '<i class="icon-user"></i>';
-      // If a user is logged in, we change the menu item title.
-      // @todo: change this to two menu items with access rules to hide them.
+      // If a user is logged in we change the menu item title.
       if (user_is_logged_in()) {
         $element['#title'] = t('My Account');
         $element['#attributes']['class'][] = 'topbar-link-user-account';
@@ -622,7 +659,6 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
  *   Classes that are left.
  */
 function ddbasic_remove_default_link_classes($classes) {
-
   if (!isset($classes)) {
     return FALSE;
   }
@@ -667,7 +703,7 @@ function ddbasic_remove_default_link_classes($classes) {
  * Ex. add a javascript depending on the settings in the theme.
  */
 function ddbasic_load_plugins() {
-  global $path_to_ddbasic_core;
+  $theme_path = drupal_get_path('theme', 'ddbasic');
 
   // If sticky menus is enabled in the theme load it.
   if (theme_get_setting('main_menu_sticky')) {
@@ -680,7 +716,7 @@ function ddbasic_load_plugins() {
   if (theme_get_setting('load_equalize')) {
 
     // Add the script.
-    drupal_add_js($path_to_ddbasic_core . '/scripts/equalize.min.js');
+    drupal_add_js($theme_path . '/scripts/equalize.min.js');
 
     // Add variable to js so we can check if it is set.
     drupal_add_js(array('ddbasic' => array('load_equalize' => theme_get_setting('load_equalize'))), 'setting');
@@ -741,16 +777,16 @@ function ddbasic_theme_conditional_scripts($ie_scripts) {
 
 /**
  * Polyfill is used to enable HTML5 on browsers who doesn't natively support it.
+ *
  * Polyfill adds the missing functionality by 'filling' in scripts that add the
  * HTML5 functionality the browser doesn't offer.
  *
  * Return an array of filenames (scripts) to include.
  *
- * @param string $theme_name  :   Name of the theme.
+ * @param string $theme_name
+ *   Name of the theme.
  */
 function ddbasic_load_polyfills($theme_name) {
-  global $path_to_ddbasic_core;
-
   // Get the info file data.
   $info = ddbasic_get_info($theme_name);
 
@@ -769,11 +805,12 @@ function ddbasic_load_polyfills($theme_name) {
     }
 
     // Ddbasic Core Polyfills.
+    $theme_path = drupal_get_path('theme', 'ddbasic');
     $polly = '';
     $polly_settings_array = array(
       'load_html5js',
       'load_selectivizr',
-      // loaded directly by polly_wants_a_cracker(), its never returned.
+      // Loaded directly by polly_wants_a_cracker(), its never returned.
       'load_scalefixjs',
     );
     foreach ($polly_settings_array as $polly_setting) {
@@ -782,7 +819,7 @@ function ddbasic_load_polyfills($theme_name) {
     $backed_crackers = ddbasic_polly_wants_a_cracker($polly);
     foreach ($backed_crackers as $cupboard => $flavors) {
       foreach ($flavors as $key => $value) {
-        $filepath = $path_to_ddbasic_core . '/' . $value;
+        $filepath = $theme_path . '/' . $value;
         $polyfills_array['ddbasic'][$cupboard][] = ddbasic_theme_script($filepath);
       }
     }
@@ -806,7 +843,7 @@ function ddbasic_load_polyfills($theme_name) {
  *   Array of ?.
  */
 function ddbasic_polly_wants_a_cracker($polly) {
-  global $path_to_ddbasic_core;
+  $theme_path = drupal_get_path('theme', 'ddbasic');
 
   $baked_crackers = drupal_static(__FUNCTION__, array());
   if (empty($baked_crackers)) {
@@ -832,7 +869,7 @@ function ddbasic_polly_wants_a_cracker($polly) {
         // "all" - no conditional comment needed, use drupal_add_js().
         if (isset($crackers['all'])) {
           foreach ($crackers['all'] as $script) {
-            drupal_add_js($path_to_ddbasic_core . '/' . $script, array(
+            drupal_add_js($theme_path . '/' . $script, array(
               'type' => 'file',
               'scope' => 'header',
               'group' => JS_THEME,

@@ -16,8 +16,8 @@
  * - $name: Themed username of node author output from theme_username().
  * - $node_url: Direct url of the current node.
  * - $display_submitted: Whether submission information should be displayed.
- * - $submitted: Submission information created from $date (NOTE: modified for ddbasic
- *   during ddbasic_preprocess_node in templates.php)
+ * - $submitted: Submission information created from $date (NOTE: modified for
+ *   ddbasic during ddbasic_preprocess_node in templates.php)
  * - $classes: String of classes that can be used to style contextually through
  *   CSS. It can be manipulated through the variable $classes_array from
  *   preprocess functions. The default values can be one or more of the
@@ -74,12 +74,15 @@
  * rule that was previously applied.
  *
  * ddbasic specific variables:
- * - $ddbasic_updated: Information about latest update on the node created from $date during
+ * - $ddbasic_updated: Information about latest update on the node created from
+ *   $date during
  *   ddbasic_preprocess_node().
  * - $ddbasic_event_date: Event date or period, printed as date(s) 
  * - $ddbasic_event_time: Event time, printed as time(s) 
- * - $ddbasic_ding_event_tags: Tags, as a comma-separated list of links with leading text "Tags: "
- * - $ddbasic_event_location: String containing adress info for either field_address or group_audience,
+ * - $ddbasic_ding_event_tags: Tags, as a comma-separated list of links with
+ *   leading text "Tags: "
+ * - $ddbasic_event_location: String containing adress info for either
+ *   field_address or group_audience,
  *   as relevant for the event node
  * - $ddbasic_byline: outputs byline to be used before $name
  * - $ddbasic_place2book_tickets: flag for field_place2book_tickets
@@ -126,6 +129,7 @@
       // Hide fields we have already rendered.
       hide($content['field_ding_event_category']);
       hide($content['og_group_ref']);
+      hide($content['ding_event_groups_ref']);
 
       // Field provided by optional module ding_place2book
       hide($content['field_place2book_tickets']);
@@ -153,6 +157,9 @@
       <?php endif; ?>
       <?php if (isset($content['og_group_ref']['#items'])) : ?>
         <span class="library-ref label label-info"><?php print render($content['og_group_ref']); ?></span>
+      <?php endif; ?>
+      <?php if (isset($content['ding_event_groups_ref']['#items'])) : ?>
+        <span class="groups-ref"><?php print render($content['ding_event_groups_ref']); ?></span>
       <?php endif; ?>
     </section>
 

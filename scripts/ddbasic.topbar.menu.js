@@ -7,151 +7,157 @@
   /**
    * Toggle the search form from the top-bar menu.
    *
-   * @param bool init
-   *   If true the form and link is set to initialized state.
+   * @param bool open
+   *   If true we want to open the form and link else we want to close it.
    */
-  function ddbasic_search(init) {
-    var link = $('.js-topbar-link.topbar-link-search');
-    var header = $('.header-wrapper');
-    var form = $('.js-topbar-search');
-
-    // Handle default init value (false);
-    init = typeof init !== 'undefined' ? init : false;
-
-    if (init) {
-      // If on front-page display search.
-      if ($('body').hasClass('front')) {
-        link.addClass('active');
-        form.show();
-        header.show();
+  function ddbasic_search(open) {
+    if (open) {
+      // If the user clicked the active link, close it instead.
+      if ( $('.topbar-menu .leaf .topbar-link-search').hasClass('active') ) {
+        $('.topbar-menu .leaf .topbar-link-search').toggleClass('active');
+        $('.js-topbar-search').css("display", "none");
+      } else {
+        // Display the element.
+        $('.topbar-menu .leaf .topbar-link-search').toggleClass('active');
+        $('.js-topbar-search').css("display", "block");
       }
-      else {
-        link.removeClass('active');
-        form.hide();
-        header.hide();
-      }
-    }
-    else {
-      link.toggleClass('active');
-      form.toggle();
-      header.toggle();
+    } else {
+      $('.topbar-menu .leaf .topbar-link-search').removeClass('active');
+      $('.js-topbar-search').css("display", "none");
     }
   }
 
   /**
    * Toggle the mobile menu from the top-bar menu.
    *
-   * @param bool init
-   *   If true the form and link is set to initialized state.
+   * @param bool open
+   *   If true we want to open the form and link else we want to close it.
    */
-  function ddbasic_mobile_menu(init) {
-    var menu_link = $('.js-topbar-link.topbar-link-menu');
-    var menu = $('.js-topbar-menu');
-
-    // Handle default init value (false);
-    init = typeof init !== 'undefined' ? init : false;
-
-    if (init) {
-      menu_link.removeClass('active');
-    }
-    else {
-      menu_link.toggleClass('active');
-      menu.toggleClass('js-topbar-toggled');
+  function ddbasic_mobile_menu(open) {
+    if (open) {
+      // If the user clicked the active link, close it instead.
+      if ( $('.topbar-menu .leaf .topbar-link-menu').hasClass('active') ) {
+        $('.topbar-menu .leaf .topbar-link-menu').toggleClass('active');
+        $('.site-header .js-topbar-menu').css("display", "none");
+      } else {
+        // Display the element.
+        $('.topbar-menu .leaf .topbar-link-menu').toggleClass('active');
+        $('.site-header .js-topbar-menu').css("display", "block");
+      }
+    } else {
+      $('.topbar-menu .leaf .topbar-link-menu').removeClass('active');
+      $('.site-header .js-topbar-menu').css("display", "none");
     }
   }
 
   /**
    * Toggle the user login form from the top-bar menu.
    *
-   * @param bool init
-   *   If true the form and link is set to initialized state.
+   * @param bool open
+   *   If true we want to open the form and link else we want to close it.
    */
-  function ddbasic_user_login(init) {
-    var link = $('.js-topbar-link.topbar-link-user');
-    var header = $('.header-wrapper');
-    var form = $('.js-topbar-user');
-
-    // Handle default init value (false);
-    init = typeof init !== 'undefined' ? init : false;
-
-    if (init) {
-        form.hide();
-        header.hide();
+  function ddbasic_user_login(open) {
+    if (open) {
+      // If the user clicked the active link, close it instead.
+      if ( $('.topbar-menu .leaf .topbar-link-user').hasClass('active') ) {
+        $('.topbar-menu .leaf .topbar-link-user').toggleClass('active');
+        $('.js-topbar-user').css("display", "none");
+      } else {
+        // Display the element.
+        $('.topbar-menu .leaf .topbar-link-user').toggleClass('active');
+        $('.js-topbar-user').css("display", "block");
+      }
+    } else {
+      $('.topbar-menu .leaf .topbar-link-user').removeClass('active');
+      $('.js-topbar-user').css("display", "none");
     }
-    else {
-      link.toggleClass('active');
-      form.toggle();
-      header.toggle();
+  }
+
+  /**
+   * Toggle the user menu when logged in
+   *
+   * @param bool open
+   *   If true we want to open the form and link else we want to close it.
+   */
+  function ddbasic_user_account(open) {
+    if (open) {
+      // If the user clicked the active link, close it instead.
+      if ( $('.topbar-menu .leaf .topbar-link-user-account').hasClass('active') ) {
+        $('.topbar-menu .leaf .topbar-link-user-account').toggleClass('active');
+        $('.js-user-top-menu').css("display", "none");
+      } else {
+        // Display the element.
+        $('.topbar-menu .leaf .topbar-link-user-account').toggleClass('active');
+        $('.js-user-top-menu').css("display", "block");
+      }
+    } else {
+      $('.topbar-menu .leaf .topbar-link-user-account').removeClass('active');
+      $('.js-user-top-menu').css("display", "none");
     }
   }
 
   /**
    * When ready start the magic and handle the menu.
-   *
-   * @todo: We might be able to group some of the stuff together in the logic
-   *        below, but for now we just need to have it working.
    */
   $(document).ready(function () {
-    // Init the top bar.
-    ddbasic_mobile_menu(true);
-    ddbasic_user_login(true);
-    ddbasic_search(true);
+    // Open search as default on frontpage, close on others.
+    $('.js-topbar-search').css("display", "none");
+    $('.front .js-topbar-search').css("display", "block");
 
-    // If the search link is click toggle mobile menu if shown and display search.
+    //Hide user login on load.
+    $('.js-topbar-user').css("display", "none");
+
+    // Set active classes on menu.
+    $('.front .leaf .topbar-link-menu').removeClass('active');
+    $('.front .leaf .topbar-link-search').addClass('active');
+
+    // If the search link is clicked toggle mobile menu and show/hide search.
     $('.js-topbar-link.topbar-link-search').on('click touchstart', function(e) {
-      if ($('.js-topbar-link.topbar-link-menu').hasClass('active')) {
-        // Mobile menu is open, so close it.
-        ddbasic_mobile_menu();
-      }
-      if ($('.js-topbar-link.topbar-link-user').hasClass('active')) {
-        // User menu is open, so close it.
-        ddbasic_user_login();
-      }
-
-      ddbasic_search();
+      ddbasic_search(true);
+      ddbasic_mobile_menu(false);
+      ddbasic_user_login(false);
+      ddbasic_user_account(false);
       e.preventDefault();
     });
 
-    // If the mobile menu is click toggle search if displayed and display menu.
+    // If the mobile menu is clicked toggle search and show/hide menu.
     $('.js-topbar-link.topbar-link-menu').on('click touchstart', function(e) {
-      if ($('.js-topbar-link.topbar-link-search').hasClass('active')) {
-        // Search is open, so close it.
-        ddbasic_search();
-      }
-      if ($('.js-topbar-link.topbar-link-user').hasClass('active')) {
-        // Mobile menu is open, so close it.
-        ddbasic_user_login();
-      }
-      ddbasic_mobile_menu();
+      ddbasic_mobile_menu(true);
+      ddbasic_search(false);
+      ddbasic_user_login(false);
+      ddbasic_user_account(false);
       e.preventDefault();
     });
 
-    // User login.
+    // If the user login is clicked toggle user and show/hide user menu.
     $('.js-topbar-link.topbar-link-user').on('click touchstart', function(e) {
-      if ($('.js-topbar-link.topbar-link-search').hasClass('active')) {
-        // Search is open, so close it.
-        ddbasic_search();
-      }
-      if ($('.js-topbar-link.topbar-link-menu').hasClass('active')) {
-        // Mobile menu is open, so close it.
-        ddbasic_mobile_menu();
-      }
-      ddbasic_user_login();
+      ddbasic_user_login(true);
+      ddbasic_mobile_menu(false);
+      ddbasic_search(false);
       e.preventDefault();
     });
 
+    // If the user login is clicked toggle user and show/hide user menu.
+    $('.js-topbar-link.topbar-link-user-account.default-override').on('click touchstart', function(e) {
+      ddbasic_user_account(true);
+      ddbasic_mobile_menu(false);
+      ddbasic_search(false);
+      e.preventDefault();
+    });
 
     /**
      * Add news category menu as sub-menu to news in main menu
      */
-    if ($(".pane-taxonomy-menu").length > 0) {
-      $(".pane-taxonomy-menu .sub-menu").clone().appendTo('.active-trail');
-      // Do some class magic to get the sub-menu reacting like drupal standard sub-menus.
-      $(".main-menu .sub-menu").addClass('main-menu');
+
+    if ($(".sub-menu-wrapper").length > 0) {
+      $(".sub-menu-wrapper > .sub-menu").clone().appendTo('.main-menu > .active-trail');
+
+      // Switch a few classes for style purposes.
       $(".main-menu .sub-menu a").addClass('menu-item');
+      $(".main-menu .sub-menu").addClass('main-menu');
       $(".main-menu .sub-menu").removeClass('sub-menu');
-      // Add sub-menu-wrapper class to taxonomy menu
-      $(".pane-news-category-menu").addClass('sub-menu-wrapper');
+
+      // The old menu is hidden by css on minor media queries.
     }
 
     /**

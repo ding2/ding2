@@ -181,12 +181,6 @@
   margin-bottom: $large-spacing;
   padding: $large-spacing;
 
-  .choose-library-label,
-  .form-item-select-library {
-    display: inline;
-    margin-right: $small-spacing;
-  }
-
   .button {
     /* Make sure the button aligns vertically with the select */
     margin-top: -2px;
@@ -203,7 +197,28 @@
   }
 }
 
+/* Filter by taxonomy box
+   ========================================================================== */
+.taxonomy-dropdown {
+  background-color: $gray-light;
+  margin-bottom: $large-spacing;
+  padding: $large-spacing;
 
+  .button {
+    /* Make sure the button aligns vertically with the select */
+    margin-top: -2px;
+  }
+
+  /* Media queries */
+  @include small() {
+    .choose-library-label {
+      display: none;
+    }
+    .form-select {
+      max-width: 75%;
+    }
+  }
+}
 /* Pager
    ========================================================================== */
 

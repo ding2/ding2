@@ -15,6 +15,52 @@ $search-border-type: solid;
 
 
 
+/* Search overlay
+   ========================================================================== */
+
+.search-overlay--wrapper {
+  background-color: transparentize($black, .25);
+
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  bottom: 0px;
+  position: fixed;
+  z-index: 99;
+
+  color: rgb(255, 255, 255);
+  text-align: center;
+}
+
+.search-overlay--inner {
+  @include box-sizing(border-box);
+  @include border-radius(8px);
+
+  left: 50%;
+  margin-top: -150px;
+  margin-left: -150px;
+  max-width: 300px;
+  padding: 20px;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+
+  background-color: transparentize($black, .25);
+}
+
+.search-overlay--icon {
+  height: auto;
+  width: auto;
+
+  font-size: $font-size-largest;
+}
+
+.search-overlay--text {
+  @include font-bold();
+
+  margin-bottom: 0;
+}
+
 /* Search in header
    ========================================================================== */
 
@@ -34,20 +80,38 @@ $search-border-type: solid;
     i[class^="icon-"] {
       @extend .icon-spin;
       @extend .icon-spinner;
-
       height: auto;
     }
   }
 
   .form-item {
-    width: 100%
+    width: 100%;
   }
 
   .form-text {
     padding-left: 49px;
   }
+
+  @include small-medium {
+    padding-top: 30px;
+    padding-right: 20px;
+    padding-bottom: 30px;
+    padding-left: 20px;
+    width: auto;
+  }
 }
 
+
+/* Search in content
+   ========================================================================== */
+
+.search-field-in-content {
+  @include large-x-large() {
+    .form-submit {
+      margin-top: 0;
+    }
+  }
+}
 
 .search-field-in-content--amount {
   color: $gray-dark;
@@ -66,30 +130,61 @@ $search-border-type: solid;
 }
 
 
-/* Search field in content */
 .search-field-in-content--message {
+  @include font-bold();
+
   margin-bottom: 30px;
+  padding: 20px;
+
+  background-color: lighten($yellow, 20%);
 }
 
-.search-field-in-content--sort-wrapper {
-  .search-field-in-content--sort-results,
-  .search-field-in-content--sort-best-match {
-    display: inline-block;
-    min-width: 0;
-    max-width: 49%;
-  }
+.search-field-in-content--sort-results,
+.search-field-in-content--sort-best-match,
+.page-search .pane-search-per-page,
+.page-search .pane-ting-search-sort-form {
+  display: inline-block;
+  min-width: 0;
+  max-width: 49%;
 
-  .search-field-in-content--sort-results {
-    @include zen-grid-item(6, 1);
+  .form-select {
+    width: 100%;
   }
+}
 
-  .search-field-in-content--sort-best-match {
-    @include zen-grid-item(6, 1, right);
+.search-field-in-content--sort-results,
+.page-search .pane-search-per-page {
+  @include zen-grid-item(6, 1, right);
+}
+
+.search-field-in-content--sort-best-match,
+.page-search .pane-ting-search-sort-form {
+  @include zen-grid-item(6, 1);
+}
+
+.page-search .pane-ting-search-sort-form {
+  clear: none;
+
+  overflow: visible;
+}
+
+.page-search .pane-search-per-page,
+.page-search .pane-ting-search-sort-form {
+  @include zen-nested-container();
+
+  @include small-medium() {
+    @include zen-clear(both);
+    @include zen-grid-item(12, 1);
+    @include zen-nested-container();
+
+    max-width: 100%;
   }
 }
 
 
-/* No search results */
+/* No search results
+   ========================================================================== */
+
 .search-no-results--message {
   margin-bottom: 30px;
 }
@@ -106,9 +201,6 @@ input#edit-search-block-form--2.spinner {
 .field-name-ding-entity-buttons {
   .reserve-button {
     @extend %button-action;
-
-    padding-top: 11px;
-    padding-bottom: 11px;
   }
 }
 
@@ -465,7 +557,7 @@ input#edit-search-block-form--2.spinner {
 
 
 
-/* Seach results list
+/* Search results list
    ========================================================================== */
 
 .pane-search-result {
@@ -478,12 +570,59 @@ input#edit-search-block-form--2.spinner {
       padding-left: 0;
 
       .list-item {
-        background-color: $gray-light;
-        padding: 20px;
+        background: url('../images/pw_maze_white.png');
+        padding: 15px;
       }
 
-      .heading {
+      .view-mode-teaser {
+        padding: 20px;
+
+        background-color: transparentize($white, .1);
+      }
+
+      .heading h2 {
         margin-bottom: 10px;
+
+        font-size: $font-size-large;
+      }
+
+      .search-result--heading-type {
+        color: $gray-darker;
+        padding-right: 5px;
+      }
+
+      .search-result--meta {
+        color: $gray-dark;
+      }
+
+      .search-result--content {
+        margin-top: 20px;
+      }
+
+      .search-result--availability {
+        @extend .ting-object-right;
+      }
+
+      .search-result--availability,
+      .search-result--series {
+        border-top: 1px solid $gray-light;
+        margin-top: 20px;
+        padding-top: 20px;
+      }
+
+      .search-result--availability-link {
+        margin-right: 8px;
+        padding-right: 11px;
+
+        border-right: 1px solid $gray;
+      }
+
+      .search-result--availability-link:last-child {
+        border-right: 0;
+      }
+
+      .meta {
+        margin-bottom: 20px;
       }
 
       .content,
@@ -630,9 +769,8 @@ input#edit-search-block-form--2.spinner {
 }
 
 .pane-ting-collection {
-
   h2 {
-    margin-bottom: 20px;
+    margin-bottom: 0;
     margin-top: 40px;
 
     &:first-child {
@@ -658,6 +796,19 @@ input#edit-search-block-form--2.spinner {
     h2 {
       margin-top: 0;
     }
+  }
+
+  .field.field-name-ting-author,
+  .field.field-name-ting-abstract,
+  .field.field-name-ting-series {
+    margin-bottom: 20px;
+  }
+
+  .field.field-name-ting-abstract,
+  .field.field-name-ting-series {
+    border-bottom: 1px solid $gray-light;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
   }
 
   .field-name-ting-type {
@@ -691,8 +842,6 @@ input#edit-search-block-form--2.spinner {
   .form-submit,
   .ding-entity-button {
     @extend %button;
-
-    padding: 11px 14px;
   }
 }
 
@@ -749,23 +898,51 @@ input#edit-search-block-form--2.spinner {
 .pane-ting-object {
   @extend .pane-ting-collection;
 
+  .ting-object-wrapper {
+    margin-bottom: 20px;
+    overflow: hidden;
+    padding: 15px;
+
+    background: url('../images/pw_maze_white.png');
+  }
+
+  .ting-object-inner-wrapper {
+    overflow: hidden;
+    padding: 20px;
+
+    background-color: transparentize($white, .1);
+  }
+
   .ting-object-left {
     @include zen-grid-item(3, 1);
 
     min-height: 200px;
-    margin-bottom: 20px;
+    padding-left: 0;
   }
 
   .ting-object-right {
     @include zen-grid-item(9, 1, right);
 
+    padding-right: 0;
+  }
+
+  .ting-object-related-item {
+    border-bottom: 1px solid $gray-light;
+
     margin-bottom: 20px;
+    padding-bottom: 20px;
+
+    &.last {
+      border-bottom: 0;
+
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
   }
 
   .field {
     margin: 0;
     padding: 0;
-    margin-bottom: 10px;
   }
 
   .subjects {
@@ -780,16 +957,16 @@ input#edit-search-block-form--2.spinner {
   .ding-periodical-fold {
     &:before {
       color: $link-color;
+      float: left;
       font-family: $base-icon-library-font;
       font-size: $font-size-medium;
+      margin-top: -2px;
       padding-right: 6px;
     }
   }
 
   .collapsible .field-group-format-title {
     @extend .icon-minus-sign;
-
-    display: inline-block;
   }
 
   .collapsible.collapsed .field-group-format-title {
@@ -813,6 +990,10 @@ input#edit-search-block-form--2.spinner {
   .group-material-details {
     clear: both;
 
+    h2 {
+      margin-bottom: 0;
+    }
+
     .field-label {
       width: 25%;
       min-width: 200px;
@@ -830,6 +1011,10 @@ input#edit-search-block-form--2.spinner {
 
   .group-holdings-available {
     clear: both;
+
+    h2 {
+      margin-bottom: 0;
+    }
   }
 
   .field-name-ding-availability-holdings {

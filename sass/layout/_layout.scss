@@ -45,21 +45,23 @@ body {
     display: inline-block;
   }
 
-  padding-top: 30px;
-  padding-right: 20px;
-  padding-bottom: 30px;
-  padding-left: 20px;
-
   .header-inner {
     margin-left: auto;
     margin-right: auto;
     max-width: 1200px;
+
+    .panel-pane {
+      padding-top: 30px;
+      padding-right: 20px;
+      padding-bottom: 30px;
+      padding-left: 20px;
+      width: auto;
+    }
   }
 
   //Media queries
-  @include small() {
-    padding-top: 20px;
-    padding-bottom: 20px;
+  @include small-medium() {
+    padding: 0;
   }
 }
 
@@ -190,10 +192,6 @@ body {
     @include zen-clear();
 
     margin-bottom: $large-spacing;
-
-    .grid-inner {
-      padding: $large-spacing;
-    }
   }
 
   /* Media queries */

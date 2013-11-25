@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @file field--ddbasic-field-ding-event-category.tpl.php
- * Template for ddbasic field implementation to display the value of a field.
+ * @file field--og-group-ref--ding-event.tpl.php
+ * Removed default field wrapper. Add label classes.
  *
  * Available variables:
  * - $items: An array of field values. Use render() to output them.
