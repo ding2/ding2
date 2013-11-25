@@ -124,6 +124,7 @@ function ding_base_date_format_types() {
     'time_only' => t('Time only'),
     'long_date_only' => t('Long date only'),
     'ding_meterial_lists_date' => t('Ding marterial lists date'),
+    'ding_event_list_date' => t('Ding event lists date'),
   );
 }
 
@@ -280,7 +281,12 @@ function theme_tableselect_form($variables) {
     }
   }
 
-  return theme('table', array('header' => $header, 'rows' => $rows, 'empty' => $element['#empty'], 'attributes' => $element['#attributes']));
+  return theme('table', array(
+    'header' => $header,
+    'rows' => $rows,
+    'empty' => $element['#empty'],
+    'attributes' => $element['#attributes'],
+  ));
 }
 
 /**
@@ -325,9 +331,65 @@ function ding_base_preprocess_material_item(&$variables) {
 }
 
 /**
-* Implements hook_pathauto_alias_alter().
-*/
+ * Implements hook_pathauto_alias_alter().
+ */
 function ding_base_pathauto_alias_alter(&$alias, array &$context) {
   // Force all aliases to be saved as language neutral.
   $context['language'] = LANGUAGE_NONE;
+}
+
+/**
+ * When using clean urls and OG this function helps create alias for taxonomy.
+ *
+ * Mainly used by ding_groups.
+ *
+ * @todo: used it in ding_libraries to remove the "slug" field.
+ *
+ * @param Entity $node
+ *   Node entity object for the OG group that should have alias updated.
+ * @param string $base
+ *   Base path for the group (e.g. library or temaer).
+ * @param array $terms
+ *   The taxonomy terms objects to generate paths for.
+ * @param array $slugs
+ *   The sulg to use in the path (e.g. nyheder or arragementer).
+ */
+function ding_base_updated_taxonomy_aliases($node, $base, $terms, $slugs) {
+  $group_alias = 'node/' . $node->nid;
+
+  // Find node pattern from path auto.
+  module_load_include('inc', 'pathauto');
+  $pattern = pathauto_pattern_load_by_entity('node', $node->type);
+  if ($pattern) {
+    // Create node alias using token replace.
+    $group_alias = token_replace($pattern, array('node' => $node), array(
+      'sanitize' => FALSE,
+      'clear' => TRUE,
+      'callback' => 'pathauto_clean_token_values',
+      'language' => (object) array('language' => LANGUAGE_NONE),
+      'pathauto' => TRUE,
+    ));
+  }
+
+  foreach ($slugs as $slug) {
+    foreach ($terms as $term) {
+      $source = $base . '/' . $node->nid . '/' . $slug . '/' . $term->tid;
+      $existing_alias = _pathauto_existing_alias_data($source, LANGUAGE_NONE);
+      $alias = $group_alias . '/' . $slug . '/' . $term->name;
+      $alias = pathauto_cleanstring($alias);
+      $alias = pathauto_clean_alias($alias);
+      pathauto_alias_uniquify($alias, $source, LANGUAGE_NONE);
+
+      if ($alias != $existing_alias['alias']) {
+        $path = array(
+          'source' => $source,
+          'alias' => $alias,
+          'language' => LANGUAGE_NONE,
+        );
+
+        // Set the alias or update it.
+        _pathauto_set_alias($path, $existing_alias);
+      }
+    }
+  }
 }
