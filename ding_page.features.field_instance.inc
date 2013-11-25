@@ -10,6 +10,78 @@
 function ding_page_field_default_field_instances() {
   $field_instances = array();
 
+  // Exported field_instance: 'node-ding_page-ding_page_group_ref'
+  $field_instances['node-ding_page-ding_page_group_ref'] = array(
+    'bundle' => 'ding_page',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'og_ui',
+        'settings' => array(),
+        'type' => 'og_list_default',
+        'weight' => 7,
+      ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'ding_page_group_ref',
+    'label' => 'Groups',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'og_widget' => array(
+          'admin' => array(
+            'widget_type' => 'entityreference_autocomplete',
+          ),
+          'default' => array(
+            'widget_type' => 'options_select',
+          ),
+          'status' => TRUE,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'view modes' => array(
+      'full' => array(
+        'custom settings' => FALSE,
+        'label' => 'Full',
+        'type' => 'og_list_default',
+      ),
+      'teaser' => array(
+        'custom settings' => FALSE,
+        'label' => 'Teaser',
+        'type' => 'og_list_default',
+      ),
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 7,
+    ),
+  );
+
   // Exported field_instance: 'node-ding_page-field_ding_page_body'
   $field_instances['node-ding_page-field_ding_page_body'] = array(
     'bundle' => 'ding_page',
@@ -251,11 +323,11 @@ function ding_page_field_default_field_instances() {
           'public' => 'public',
         ),
         'allowed_types' => array(
-          'audio' => 0,
-          'default' => 0,
-          0 => 0,
           'image' => 'image',
           'video' => 0,
+          0 => 0,
+          'audio' => 0,
+          'default' => 0,
         ),
         'browser_plugins' => array(
           'ding_content' => 0,
@@ -440,11 +512,11 @@ function ding_page_field_default_field_instances() {
           'public' => 'public',
         ),
         'allowed_types' => array(
-          'image' => 'image',
-          'video' => 0,
-          0 => 0,
           'audio' => 0,
           'default' => 0,
+          0 => 0,
+          'image' => 'image',
+          'video' => 0,
         ),
         'browser_plugins' => array(
           'ding_content' => 0,
@@ -464,6 +536,7 @@ function ding_page_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('Body');
   t('Files');
+  t('Groups');
   t('Lead');
   t('List image');
   t('Materials');
