@@ -33,36 +33,40 @@
 
       // Fetch availability.
       if (ids.length > 0) {
-        $.getJSON(settings.basePath + 'ding_availability/' + (settings.ding_availability_mode ? settings.ding_availability_mode : 'items') + '/' + ids.join(','), {}, update);
+        var mode = settings.ding_availability_mode ? settings.ding_availability_mode : 'items';
+        var path = settings.basePath + 'ding_availability/' + mode + '/' + ids.join(',');
+        $.ajax({
+          dataType: "json",
+          url: path,
+          success: function(data) {
+            $.each(data, function(id, item) {
+              // Update cache.
+              Drupal.DADB[id] = item;
+            });
+
+            $.each(settings.ding_availability, function(id, entity_ids) {
+              if (id.match(/^availability-/)) {
+                // Update availability indicators.
+                update_availability(id, entity_ids);
+              }
+              else {
+                // Update holding information.
+                update_holdings(id, entity_ids);
+              }
+            });
+          }
+        });
       }
       else {
         // Apply already fetched availability, if any.
         if (settings.hasOwnProperty('ding_availability')) {
           $.each(settings.ding_availability, function(id, entity_ids) {
-            updateAvailability(id, entity_ids);
+            update_availability(id, entity_ids);
           });
         }
       }
 
-      function update(data, textData) {
-        $.each(data, function(id, item) {
-          // Update cache.
-          Drupal.DADB[id] = item;
-        });
-
-        $.each(settings.ding_availability, function(id, entity_ids) {
-          if (id.match(/^availability-/)) {
-            // Update availability indicators.
-            updateAvailability(id, entity_ids);
-          }
-          else {
-            // Update holding information.
-            updateHoldings(id, entity_ids);
-          }
-        });
-      }
-
-      function updateAvailability(id, entity_ids) {
+      function update_availability(id, entity_ids) {
         var available = false;
         var reservable = false;
         var is_internet = false;
@@ -114,37 +118,9 @@
             reserver_btn.addClass('not-reservable');
           }
         }
-
-        if (available || is_internet) {
-          element.attr('title', Drupal.t('available'));
-          // If availability is a link append the status inside the link.
-          if (settings.ding_availability_link === 1) {
-            $('a', element).append('<span class="availability-status">' + Drupal.t('available') + '<span>');
-          }
-        }
-        else if (!available && reservable) {
-          element.attr('title', Drupal.t('on loan'));
-          // If availability is a link append the status inside the link.
-          if (settings.ding_availability_link === 1) {
-            $('a', element).append('<span class="availability-status">' + Drupal.t('on loan') + '<span>');
-          }}
-        else if (available && ! reservable) {
-          element.attr('title', Drupal.t('not reservable'));
-          // If availability is a link append the status inside the link.
-          if (settings.ding_availability_link === 1) {
-            $('a', element).append('<span class="availability-status">' + Drupal.t('not reservable') + '<span>');
-          }
-        }
-        else if (!available && !reservable) {
-          element.attr('title', Drupal.t('unavailable'));
-          // If availability is a link append the status inside the link.
-          if (settings.ding_availability_link === 1) {
-            $('a', element).append('<span class="availability-status">' + Drupal.t('unavailable') + '<span>');
-          }
-        }
       }
 
-      function updateHoldings(id, entity_ids) {
+      function update_holdings(id, entity_ids) {
         var entity_id = entity_ids.pop();
         if (Drupal.DADB[entity_id] && (Drupal.DADB[entity_id]['holdings'])) {
           // Show status for material.

@@ -1,5 +1,6 @@
 
-.pending, .availability.processed {
+.availability.pending,
+.availability.processed {
   color: #959595; /* Grey */
 }
 
