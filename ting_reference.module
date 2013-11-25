@@ -30,16 +30,20 @@ function ting_reference_menu() {
  * pages.
  */
 function ting_reference_entity_info_alter(&$entity_info) {
-  $ding_entity_info = ding_entity_info('ding_entity');
-  // Entity might not be defined yet (is the case in the installer).
-  if (isset($entity_info[$ding_entity_info['entity_type']]['view modes'])) {
-    // Add a user_list display mode for add-on modules to use.
-    $entity_info[$ding_entity_info['entity_type']]['view modes'] += array(
-      'ting_reference_preview' => array(
-        'label' => t('Reference preview'),
-        'custom settings' => TRUE,
-      ),
-    );
+  // Test that the function exists as it may not during installation, but as
+  // cache is cleared later on this is not a problem.
+  if (function_exists('ding_entity_info')) {
+    $ding_entity_info = ding_entity_info('ding_entity');
+    // Entity might not be defined yet (is the case in the installer).
+    if (isset($entity_info[$ding_entity_info['entity_type']]['view modes'])) {
+      // Add a user_list display mode for add-on modules to use.
+      $entity_info[$ding_entity_info['entity_type']]['view modes'] += array(
+        'ting_reference_preview' => array(
+          'label' => t('Reference preview'),
+          'custom settings' => TRUE,
+        ),
+      );
+    }
   }
 }
 
