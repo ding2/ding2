@@ -36,7 +36,7 @@ projects[og_menu][type] = "module"
 projects[og_menu][subdir] = "contrib"
 projects[og_menu][download][type] = "git"
 projects[og_menu][download][url] = "http://git.drupal.org/project/og_menu.git"
-projects[og_menu][download][revision] = "48719287857535a3db6acadf8c40462ce4c17a18"
+projects[og_menu][download][revision] = "4c1d8dd4c18dc25df12f5e7fabd4dde52dd286f0"
 projects[og_menu][patch][0] = "http://drupal.org/files/issues/option_to_hide_create_menu-2139819-2.patch"
 
 projects[strongarm][subdir] = "contrib"
