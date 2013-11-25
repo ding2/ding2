@@ -45,18 +45,22 @@ function ding_frontend_taxonomy_menu_content_type_render($subtype, $conf, $panel
     }
   }
 
+  if (isset($context[0]->data)) {
+    $selected_term = $context[0]->data;
+  }
+
   // If default link text is set.
   if (!empty($conf['default_link_text'])) {
     $uri = drupal_get_path_alias($base . $conf['slug']);
     if ($conf['dropdown']) {
       $items[$uri] = t($conf['default_link_text']);
+      $default_value = $uri;
     }
     else {
       // If first context don't exists (tid not given) the the "All link" should
       // be used.
       $options = array('attributes' => array('class' => array('active')));
-      if (isset($context[0]->data)) {
-        $selected_term = $context[0]->data;
+      if ($selected_term) {
         $options = array();
       }
       $items[] = l(t($conf['default_link_text']), $uri, $options);
@@ -90,6 +94,9 @@ function ding_frontend_taxonomy_menu_content_type_render($subtype, $conf, $panel
     if ($conf['dropdown']) {
       // Build drop-down items.
       $items[$uri] = $term->name;
+      if ($selected_term && $selected_term->tid == $term->tid) {
+        $default_value = drupal_get_path_alias($uri);
+      }
     }
     else {
       // Build links to use in item list.
@@ -104,7 +111,7 @@ function ding_frontend_taxonomy_menu_content_type_render($subtype, $conf, $panel
 
   // Use the items generated to format the block content.
   if ($conf['dropdown']) {
-    $block->content = drupal_get_form('ding_frontend_taxonomy_menu_select_dropdown', $items, '', $vocab->name);
+    $block->content = drupal_get_form('ding_frontend_taxonomy_menu_select_dropdown', $items, $default_value, $vocab->name);
   }
   else {
     // Return render array with item list as theme function.
@@ -152,6 +159,7 @@ function ding_frontend_taxonomy_menu_select_dropdown($form, &$form_state, $items
     ),
     '#value' => t('Show'),
   );
+
   return $form;
 }
 
