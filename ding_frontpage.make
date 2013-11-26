@@ -29,10 +29,10 @@ projects[ding_groups][download][tag] = "7.x-1.0-beta3"
 projects[ting_search_carousel][type] = "module"
 projects[ting_search_carousel][download][type] = "git"
 projects[ting_search_carousel][download][url] = "git@github.com:ding2tal/ting_search_carousel.git"
-projects[ting_search_carousel][download][tag] = "7.x-1.0-beta2"
+projects[ting_search_carousel][download][tag] = "7.x-1.0-beta3"
 
 projects[ding_tabroll][type] = "module"
 projects[ding_tabroll][download][type] = "git"
 projects[ding_tabroll][download][url] = "git@github.com:ding2tal/ding_tabroll.git"
-projects[ding_tabroll][download][tag] = "7.x-1.0-beta2"
+projects[ding_tabroll][download][tag] = "7.x-1.0-beta3"
 
