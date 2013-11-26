@@ -22,7 +22,7 @@ function ding_groups_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'Groups';
+  $handler->display->display_options['title'] = 'Themes';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -238,7 +238,7 @@ function ding_groups_views_default_views() {
   $handler->display->display_options['pane_category']['weight'] = '0';
   $translatables['ding_groups'] = array(
     t('Master'),
-    t('Groups'),
+    t('Themes'),
     t('more'),
     t('Apply'),
     t('Reset'),

@@ -609,7 +609,7 @@ function ding_groups_default_page_manager_pages() {
   );
   $page->menu = array(
     'type' => 'normal',
-    'title' => 'Temaer',
+    'title' => 'Themes',
     'name' => 'main-menu',
     'weight' => '0',
     'parent' => array(
@@ -665,7 +665,7 @@ function ding_groups_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = 'Groups';
+  $display->title = 'Themes';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
