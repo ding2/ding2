@@ -34,13 +34,14 @@ function ding_campaign_ctype_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => '180',
+          'width' => 180,
           'height' => '',
           'upscale' => 1,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
+    'label' => 'ding_campaign_w_180',
   );
 
   // Exported image style: ding_campaign_w_280.
@@ -57,13 +58,14 @@ function ding_campaign_ctype_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => '280',
+          'width' => 280,
           'height' => '',
           'upscale' => 1,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
+    'label' => 'ding_campaign_w_280',
   );
 
   // Exported image style: ding_campaign_w_380.
@@ -80,13 +82,14 @@ function ding_campaign_ctype_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => '380',
+          'width' => 380,
           'height' => '',
           'upscale' => 1,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
+    'label' => 'ding_campaign_w_380',
   );
 
   // Exported image style: ding_campaign_w_480.
@@ -103,13 +106,14 @@ function ding_campaign_ctype_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => '480',
+          'width' => 480,
           'height' => '',
           'upscale' => 1,
         ),
-        'weight' => '1',
+        'weight' => 1,
       ),
     ),
+    'label' => 'ding_campaign_w_480',
   );
 
   return $styles;

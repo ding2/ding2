@@ -1,8 +1,0 @@
-<?php
-
-/**
- * @file
- * Code for the Ding Campaign feature.
- */
-
-include_once('ding_campaign_ctype.features.inc');

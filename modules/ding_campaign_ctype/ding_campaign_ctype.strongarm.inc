@@ -141,13 +141,6 @@ function ding_campaign_ctype_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'og_group_content_type_ding_campaign';
-  $strongarm->value = 'omitted';
-  $export['og_group_content_type_ding_campaign'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'opening_hours_enabled_ding_campaign';
   $strongarm->value = 0;
   $export['opening_hours_enabled_ding_campaign'] = $strongarm;
