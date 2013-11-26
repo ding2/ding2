@@ -5,27 +5,27 @@ api = 2
 projects[ding_page][type] = "module"
 projects[ding_page][download][type] = "git"
 projects[ding_page][download][url] = "git@github.com:ding2tal/ding_page.git"
-projects[ding_page][download][tag] = "7.x-1.0-beta2"
+projects[ding_page][download][tag] = "7.x-1.0-beta3"
 
 projects[ding_base][type] = "module"
 projects[ding_base][download][type] = "git"
 projects[ding_base][download][url] = "git@github.com:ding2tal/ding_base.git"
-projects[ding_base][download][tag] = "7.x-1.0-beta2"
+projects[ding_base][download][tag] = "7.x-1.0-beta3"
 
 projects[ding_content][type] = "module"
 projects[ding_content][download][type] = "git"
 projects[ding_content][download][url] = "git@github.com:ding2tal/ding_content.git"
-projects[ding_content][download][tag] = "7.x-1.0-beta2"
+projects[ding_content][download][tag] = "7.x-1.0-beta3"
 
 projects[ding_frontend][type] = "module"
 projects[ding_frontend][download][type] = "git"
 projects[ding_frontend][download][url] = "git@github.com:ding2tal/ding_frontend.git"
-projects[ding_frontend][download][tag] = "7.x-1.0-beta2"
+projects[ding_frontend][download][tag] = "7.x-1.0-beta3"
 
 projects[ting_reference][type] = "module"
 projects[ting_reference][download][type] = "git"
 projects[ting_reference][download][url] = "git@github.com:ding2tal/ting_reference.git"
-projects[ting_reference][download][tag] = "7.x-1.0-beta2"
+projects[ting_reference][download][tag] = "7.x-1.0-beta3"
 
 projects[ding_place2book][type] = "module"
 projects[ding_place2book][download][type] = "git"
