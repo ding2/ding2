@@ -88,7 +88,6 @@ features[variable][] = dynamic_background_setting
 features[variable][] = i18n_string_allowed_formats
 features[variable][] = i18n_string_source_language
 features[variable][] = language_count
-features[variable][] = language_default
 features[variable][] = language_negotiation_language
 features[variable][] = language_negotiation_language_content
 features[variable][] = language_negotiation_language_url
