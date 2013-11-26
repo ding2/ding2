@@ -14,7 +14,7 @@ projects[virtual_field][version] = "1.1"
 
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "git@github.com:ding2tal/ting-client.git"
-libraries[ting-client][download][branch] = "development"
+libraries[ting-client][download][tag] = "7.x-1.0-beta3"
 libraries[ting-client][destination] = "modules/ting/lib"
 
 ; Ding 2 modules
