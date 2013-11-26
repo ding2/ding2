@@ -5,7 +5,7 @@ api = 2
 projects[ding_page][type] = "module"
 projects[ding_page][download][type] = "git"
 projects[ding_page][download][url] = "git@github.com:ding2tal/ding_page.git"
-projects[ding_page][download][tag] = "7.x-1.0-beta2"
+projects[ding_page][download][tag] = "7.x-1.0-beta3"
 
 projects[cache_actions][subdir] = "contrib"
 projects[cache_actions][version] = "2.0-alpha5"
