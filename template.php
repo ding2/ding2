@@ -983,3 +983,52 @@ function ddbasic_process_page(&$vars) {
     _color_page_alter($vars);
   }
 }
+
+/**
+ * Implements hook_preprocess_views_view_responsive_grid().
+ *
+ * Adds the correct classes to rows and columns to the ding groups front page
+ * view based on the number of groups promoted to the front page.
+ */
+function ddbasic_preprocess_views_view_responsive_grid(&$vars) {
+  if ($vars['view']->name == 'ding_groups') {
+    // Defined column classes.
+    $columns_classes = array(
+      ' group-blocks--first',
+      ' group-blocks--second',
+      ' group-blocks--third',
+      ' group-blocks--fourth',
+    );
+
+    // Loop over the rows to add the correct classes to the row based on the
+    // number of columns in the row.
+    foreach ($vars['rows'] as $row_number => $row) {
+      switch (count($row)) {
+        case 1:
+          $vars['row_classes'][$row_number] .= ' group-blocks--one';
+          break;
+
+        case 2:
+          $vars['row_classes'][$row_number] .= ' group-blocks--two';
+          break;
+
+        case 3:
+          $vars['row_classes'][$row_number] .= ' group-blocks--three';
+          break;
+
+        case 4:
+          $vars['row_classes'][$row_number] .= ' group-blocks--four';
+          break;
+      }
+
+      // Add column classes to the current row.
+      $column_id = 0;
+      foreach ($row as $column_id => $column) {
+        $vars['rows'][$row_number][$column_id]['classes'] .= $columns_classes[$column_id];
+      }
+
+      // Add last class to last column.
+      $vars['rows'][$row_number][$column_id]['classes'] .= ' last';
+    }
+  }
+}
