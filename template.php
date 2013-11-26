@@ -1002,7 +1002,7 @@ function ddbasic_preprocess_views_view_responsive_grid(&$vars) {
 
     // Loop over the rows to add the correct classes to the row based on the
     // number of columns in the row.
-    foreach ($vars['rows'] as $row_number => $row) {
+    foreach ($vars['rows'] as $row_number => &$row) {
       switch (count($row)) {
         case 1:
           $vars['row_classes'][$row_number] .= ' group-blocks--one';
@@ -1021,6 +1021,9 @@ function ddbasic_preprocess_views_view_responsive_grid(&$vars) {
           break;
       }
 
+      // Reverse columns to make the most important at top (make --one at top).
+      $row = array_reverse($row);
+
       // Add column classes to the current row.
       $column_id = 0;
       foreach ($row as $column_id => $column) {
@@ -1030,5 +1033,9 @@ function ddbasic_preprocess_views_view_responsive_grid(&$vars) {
       // Add last class to last column.
       $vars['rows'][$row_number][$column_id]['classes'] .= ' last';
     }
+
+    // Reverse rows.
+    $vars['rows'] = array_reverse($vars['rows']);
+    $vars['row_classes'] = array_reverse($vars['row_classes']);
   }
 }
