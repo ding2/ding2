@@ -238,19 +238,6 @@ function ding_library_slug_validate(&$form, &$form_state) {
 }
 
 /**
- * Implements hook_ding_library_menu_links().
- */
-function ding_library_menu_ding_library_menu_links() {
-  return array(
-    'om' => array(
-      'linktype' => 'general_view_linktype',
-      'title' => 'About the library',
-      'weight' => 11,
-    ),
-  );
-}
-
-/**
  * Implements hook_og_context_negotiation_info().
  *
  * Enabled ding library to find group context panel pages where the group node
