@@ -148,8 +148,15 @@ function ding_groups_views_default_views() {
   $handler = $view->new_display('panel_pane', 'Front page groups listing', 'panel_pane_1');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'default';
-  $handler->display->display_options['style_options']['row_class'] = 'group-blocks--inner';
+  $handler->display->display_options['style_plugin'] = 'responsive_grid';
+  $handler->display->display_options['style_options']['wrapper_classes'] = 'group-blocks--wrapper';
+  $handler->display->display_options['style_options']['column_classes'] = '';
+  $handler->display->display_options['style_options']['first_column_classes'] = '';
+  $handler->display->display_options['style_options']['last_column_classes'] = '';
+  $handler->display->display_options['style_options']['row_classes'] = 'group-blocks--inner';
+  $handler->display->display_options['style_options']['first_row_classes'] = '';
+  $handler->display->display_options['style_options']['last_row_classes'] = '';
+  $handler->display->display_options['style_options']['default_classes'] = 1;
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['row_plugin'] = 'fields';

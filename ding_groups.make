@@ -55,5 +55,8 @@ projects[strongarm][version] = "2.0"
 projects[views][subdir] = "contrib"
 projects[views][version] = "3.7"
 
+projects[views_responsive_grid][subdir] = "contrib"
+projects[views_responsive_grid][version] = "1.3"
+
 projects[nodequeue][subdir] = "contrib"
 projects[nodequeue][version] = "2.0-beta1"
