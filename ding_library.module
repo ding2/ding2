@@ -80,10 +80,6 @@ function ding_library_block_info() {
       'info' => 'Library address',
       'cache' => DRUPAL_CACHE_GLOBAL,
     ),
-    'ding_sidebar_menu' => array(
-      'info' => 'Ding sidebar menu',
-      'cache' => DRUPAL_CACHE_PER_PAGE,
-    ),
   );
 }
 
@@ -140,35 +136,6 @@ function ding_library_block_view($delta = '') {
     );
   }
 
-  if ($delta == 'ding_sidebar_menu') {
-    $trail = menu_get_active_trail();
-    if (!empty($trail[1])) {
-      $tree = menu_tree_page_data($trail[1]['menu_name']);
-      $level = 1;
-      // If we have at least 3 levels in the trail and the second item is
-      // libraries, we're inside the library 'subsite'.
-      if (!empty($trail[1]) && !empty($trail[2]) && $trail[1]['router_path'] == 'libraries') {
-        $level = 3;
-      }
-      // Logic borrowed from menu_navigation_links();
-      while ($level-- && $tree) {
-        // Loop through the current levels items until we find one that is in
-        // trail.
-        while ($item = array_shift($tree)) {
-          if ($item['link']['in_active_trail']) {
-            // If the item is in the active trail, we continue in the subtree.
-            $tree = empty($item['below']) ? array() : $item['below'];
-            break;
-          }
-        }
-      }
-
-      // If we have a tree, render it.
-      if (!empty($tree)) {
-        $block['content'] = menu_tree_output($tree);
-      }
-    }
-  }
   return $block;
 }
 
