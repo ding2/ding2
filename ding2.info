@@ -15,6 +15,9 @@ dependencies[] = overlay
 dependencies[] = color
 dependencies[] = translation
 
+; If this module is not enabled OG will not work correctly.
+dependencies[] = field_ui
+
 ; Helper modules.
 dependencies[] = module_filter
 dependencies[] = menu_position
