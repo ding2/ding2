@@ -880,7 +880,9 @@ function ddbasic_preprocess_views_view_responsive_grid(&$vars) {
  * Adds wrapper classes to the different groups on the ting object.
  */
 function ddbasic_preprocess_ting_object(&$vars) {
-  if (isset($vars['elements']['#view_mode']) && $vars['elements']['#view_mode'] == 'full') {
+  if (isset($vars['elements']['#view_mode']) &&
+    $vars['elements']['#view_mode'] == 'full' &&
+    $vars['elements']['#entity_type'] == 'ting_object') {
     // Only make these changes on the ting object view.
     $content = $vars['content'];
     $vars['content'] = array(
