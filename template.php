@@ -884,8 +884,10 @@ function ddbasic_preprocess_ting_object(&$vars) {
     switch ($vars['elements']['#entity_type']) {
       case 'ting_object':
         $content = $vars['content'];
-        $vars['content'] = array(
-          'ting-object' => array(
+        $vars['content'] = array();
+
+        if (isset($content['group_ting_object_left_column']) && $content['group_ting_object_left_column']) {
+          $vars['content']['ting-object'] = array(
             '#prefix' => '<div class="ting-object-wrapper">',
             '#suffix' => '</div>',
             'content' => array(
@@ -894,8 +896,11 @@ function ddbasic_preprocess_ting_object(&$vars) {
               'left_column' => $content['group_ting_object_left_column'],
               'right_column' => $content['group_ting_object_right_column'],
             ),
-          ),
-          'material-details' => array(
+          );
+        }
+
+        if (isset($content['group_material_details']) && $content['group_material_details']) {
+          $vars['content']['material-details'] = array(
             '#prefix' => '<div class="ting-object-wrapper">',
             '#suffix' => '</div>',
             'content' => array(
@@ -903,8 +908,11 @@ function ddbasic_preprocess_ting_object(&$vars) {
               '#suffix' => '</div>',
               'details' => $content['group_material_details'],
             ),
-          ),
-          'holdings-available' => array(
+          );
+        }
+
+        if (isset($content['group_holdings_available']) && $content['group_holdings_available']) {
+          $vars['content']['holdings-available'] = array(
             '#prefix' => '<div class="ting-object-wrapper">',
             '#suffix' => '</div>',
             'content' => array(
@@ -912,13 +920,28 @@ function ddbasic_preprocess_ting_object(&$vars) {
               '#suffix' => '</div>',
               'details' => $content['group_holdings_available'],
             ),
-          ),
-          'ting-relations' => array(
+          );
+        }
+
+        if (isset($content['group_on_this_site']) && $content['group_on_this_site']) {
+          $vars['content']['on_this_site'] = array(
+            '#prefix' => '<div class="ting-object-wrapper">',
+            '#suffix' => '</div>',
+            'content' => array(
+              '#prefix' => '<div id="ting_reference" class="ting-object-inner-wrapper">',
+              '#suffix' => '</div>',
+              'details' => $content['group_on_this_site'],
+            ),
+          );
+        }
+
+        if (isset($content['ting_relations']) && $content['ting_relations']) {
+          $vars['content']['ting-relations'] = array(
             'content' => array(
               'details' => $content['ting_relations'],
             ),
-          ),
-        );
+          );
+        }
         break;
 
       case 'ting_collection':
