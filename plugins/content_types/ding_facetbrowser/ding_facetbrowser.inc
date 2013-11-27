@@ -7,11 +7,11 @@ $plugin = array(
   'content_types' => array('ding_facetbrowser'),
   'render callback' => 'ding_facetbrowser_content_type_render',
   'category' => t('Ting'),
-  'render last' => TRUE, # Force the facetbrowser to be generated after the ting_search
+  'render last' => TRUE,
 );
 
 /**
- * Callback function for the ctools content_type
+ * Callback function for the ctools content_type.
  */
 function ding_facetbrowser_content_type_render($subtype, $conf, $panel_args, $context) {
   $block_content = FALSE;
@@ -24,10 +24,10 @@ function ding_facetbrowser_content_type_render($subtype, $conf, $panel_args, $co
 
   $path = drupal_get_path('module', 'ding_facetbrowser');
   drupal_add_js($path . '/js/jquery.cookie.min.js');
-  drupal_add_js($path . '/js/facetbrowser.js');
+  drupal_add_js($path . '/js/ding_facetbrowser.js');
   drupal_add_js(array(
-    'dingFacetBrowser' => array(
-      'facetElement' => '.js-facet-browser-toggle',
+    'ding_facetbrowser' => array(
+      'selector' => '.js-facet-browser-toggle',
       'number_of_terms' => variable_get('ding_facetbrowser_number_of_terms', 5),
     ),
   ), 'setting');
