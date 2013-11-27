@@ -141,6 +141,73 @@ function ding_groups_views_default_views() {
   /* Display: Group overview (simple) */
   $handler = $view->new_display('panel_pane', 'Group overview (simple)', 'ding_group_overview_simple');
   $handler->display->display_options['display_description'] = 'Simply list all groups';
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Category (groups rows) */
+  $handler->display->display_options['fields']['field_ding_group_category']['id'] = 'field_ding_group_category';
+  $handler->display->display_options['fields']['field_ding_group_category']['table'] = 'field_data_field_ding_group_category';
+  $handler->display->display_options['fields']['field_ding_group_category']['field'] = 'field_ding_group_category';
+  $handler->display->display_options['fields']['field_ding_group_category']['ui_name'] = 'Category (groups rows)';
+  $handler->display->display_options['fields']['field_ding_group_category']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_group_category']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['field_ding_group_category']['element_type'] = 'h3';
+  $handler->display->display_options['fields']['field_ding_group_category']['element_class'] = 'groups-list-group';
+  $handler->display->display_options['fields']['field_ding_group_category']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_group_category']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_group_category']['type'] = 'taxonomy_term_reference_plain';
+  /* Field: Content: List image */
+  $handler->display->display_options['fields']['field_ding_group_list_image']['id'] = 'field_ding_group_list_image';
+  $handler->display->display_options['fields']['field_ding_group_list_image']['table'] = 'field_data_field_ding_group_list_image';
+  $handler->display->display_options['fields']['field_ding_group_list_image']['field'] = 'field_ding_group_list_image';
+  $handler->display->display_options['fields']['field_ding_group_list_image']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_group_list_image']['element_type'] = 'div';
+  $handler->display->display_options['fields']['field_ding_group_list_image']['element_class'] = 'groups-image-wrapper';
+  $handler->display->display_options['fields']['field_ding_group_list_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_group_list_image']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_group_list_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_ding_group_list_image']['type'] = 'cs_adaptive_image';
+  $handler->display->display_options['fields']['field_ding_group_list_image']['settings'] = array(
+    'image_link' => 'content',
+    'styles' => array(
+      'breakpoint_1' => '768',
+      'style_1' => 'ding_list_medium',
+      'breakpoint_2' => '500',
+      'style_2' => 'ding_list_small',
+      'max_style' => 'ding_list_medium',
+      'fallback_style' => 'ding_list_medium',
+    ),
+  );
+  /* Field: Content: Title */
+  $handler->display->display_options['fields']['title']['id'] = 'title';
+  $handler->display->display_options['fields']['title']['table'] = 'node';
+  $handler->display->display_options['fields']['title']['field'] = 'title';
+  $handler->display->display_options['fields']['title']['label'] = '';
+  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_type'] = 'h3';
+  $handler->display->display_options['fields']['title']['element_class'] = 'groups-heading';
+  $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
+  /* Field: Content: Lead */
+  $handler->display->display_options['fields']['field_ding_group_lead']['id'] = 'field_ding_group_lead';
+  $handler->display->display_options['fields']['field_ding_group_lead']['table'] = 'field_data_field_ding_group_lead';
+  $handler->display->display_options['fields']['field_ding_group_lead']['field'] = 'field_ding_group_lead';
+  $handler->display->display_options['fields']['field_ding_group_lead']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_group_lead']['element_type'] = 'div';
+  $handler->display->display_options['fields']['field_ding_group_lead']['element_class'] = 'groups-list-content';
+  $handler->display->display_options['fields']['field_ding_group_lead']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_group_lead']['element_default_classes'] = FALSE;
+  /* Field: Link (arrow) */
+  $handler->display->display_options['fields']['view_node']['id'] = 'view_node';
+  $handler->display->display_options['fields']['view_node']['table'] = 'views_entity_node';
+  $handler->display->display_options['fields']['view_node']['field'] = 'view_node';
+  $handler->display->display_options['fields']['view_node']['ui_name'] = 'Link (arrow)';
+  $handler->display->display_options['fields']['view_node']['label'] = '';
+  $handler->display->display_options['fields']['view_node']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['view_node']['alter']['text'] = '<i class="icon-chevron-right"></i>';
+  $handler->display->display_options['fields']['view_node']['element_type'] = 'div';
+  $handler->display->display_options['fields']['view_node']['element_class'] = 'groups-arrow-link';
+  $handler->display->display_options['fields']['view_node']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['view_node']['element_default_classes'] = FALSE;
   $handler->display->display_options['pane_category']['name'] = 'Groups panes';
   $handler->display->display_options['pane_category']['weight'] = '0';
 
@@ -171,7 +238,6 @@ function ding_groups_views_default_views() {
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_type'] = 'h2';
-  $handler->display->display_options['fields']['title']['element_class'] = 'group-heading';
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
   /* Field: Content: List image */
@@ -200,7 +266,7 @@ function ding_groups_views_default_views() {
   $handler->display->display_options['fields']['field_ding_group_lead']['table'] = 'field_data_field_ding_group_lead';
   $handler->display->display_options['fields']['field_ding_group_lead']['field'] = 'field_ding_group_lead';
   $handler->display->display_options['fields']['field_ding_group_lead']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_group_lead']['element_type'] = 'div';
+  $handler->display->display_options['fields']['field_ding_group_lead']['element_type'] = 'p';
   $handler->display->display_options['fields']['field_ding_group_lead']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_group_lead']['element_default_classes'] = FALSE;
   /* Field: Link to group */
