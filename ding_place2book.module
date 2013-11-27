@@ -384,9 +384,9 @@ function place2book_event_op($op, $node, $place2book_id = NULL) {
   }
 
   //get the library id for the event
-  $field_ding_event_library = field_get_items('node', $node, 'field_ding_event_library');
-  $library_id = db_query('SELECT etid FROM {og} WHERE gid = :gid', array(':gid' => $field_ding_event_library[0]['gid']))->fetchField();
-  
+  $og_group_ref = field_get_items('node', $node, 'og_group_ref');
+  $library_id = $og_group_ref[0]['target_id'];
+ 
   // Build XML headers.
   $api_key = place2book_get_api_key($library_id); 
   if ($api_key == NULL) {
@@ -545,7 +545,7 @@ function place2book_build_xml($node, $service_settings) {
   // Set event name with title.
   $xml->event->name = $node->title;
 
-// Set short description.
+  // Set short description.
   $field_ding_event_lead = field_get_items('node', $node, 'field_ding_event_lead');
   $xml->event->description_short = $field_ding_event_lead[0]['value'];
   
@@ -559,9 +559,9 @@ function place2book_build_xml($node, $service_settings) {
 
   //-- set location data --
   // If library has been selected, use location data from the library.
-  $field_ding_event_library = field_get_items('node', $node, 'field_ding_event_library');
-  $library_id = db_query('SELECT etid FROM {og} WHERE gid = :gid', array(':gid' => $field_ding_event_library[0]['gid']))->fetchField();
-  
+  $og_group_ref = field_get_items('node', $node, 'og_group_ref');
+  $library_id = $og_group_ref[0]['target_id'];
+
   if ($library_id) {
     $libloc_result = db_query('SELECT   n.title, 
                   a.field_ding_library_addresse_thoroughfare AS street,
