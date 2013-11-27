@@ -1,11 +1,9 @@
 <?php
-
 /**
  * @file
  * Handles relations for Ting entities.
  */
 
-// Load Field module hooks.
 require_once 'includes/ting_relation.field.inc';
 
 /**
@@ -36,6 +34,7 @@ function ting_relation_theme() {
         'online' => NULL,
         'fulltext_link' => FALSE,
         'relation' => NULL,
+        'attributes' => array(),
       ),
       'file' => 'includes/ting_relation.theme.inc',
     ),

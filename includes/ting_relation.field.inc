@@ -69,7 +69,7 @@ function ting_relation_field_formatter_view($entity_type, $entity, $field, $inst
   $groups = array();
   $relation_types = ting_relation_inline();
   $entity->getRelations();
-  foreach ($entity->relations as $relation) {
+  foreach ($entity->relations as $rid => $relation) {
     if (isset($relation_types[$relation->type])) {
       // The isPartOfManifestion relation has all relation to other libraries
       // copies of the relation, so we filter the ones that do not belong to
@@ -103,8 +103,18 @@ function ting_relation_field_formatter_view($entity_type, $entity, $field, $inst
         '#abstract' => ting_relation_get_abstract($relation),
         '#online' => ting_relation_get_online_url($relation),
         '#relation' => $relation,
+        '#attributes' => array(
+          'class' => array(
+            'ting-object-related-item',
+          ),
+        ),
       );
     }
+  }
+
+  // Add "last" class to last relation in group.
+  foreach ($groups as &$group) {
+    $group['#relations'][count($group['#relations']) - 1]['#attributes']['class'][] = 'last';
   }
 
   // Wrap the whole render array into array with an element render theme
