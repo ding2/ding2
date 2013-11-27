@@ -179,21 +179,6 @@
 /* Library page
    ========================================================================== */
 
-/* Library menu */
-.library-menu {
-  h2 {
-    @extend .sub-menu-title;
-  }
-
-  .links {
-    @extend .sub-menu;
-  }
-
-  @include small-medium() {
-    display: none;
-  };
-}
-
 /* Using id, can't remove and add better wrapper class */
 #ding-library-front {
   .ding-library-image {
@@ -314,4 +299,3 @@
     padding-bottom: $medium-spacing;
   }
 }
-
