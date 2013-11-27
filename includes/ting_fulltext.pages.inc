@@ -12,17 +12,12 @@ function ting_fulltext_page_view($xml) {
     'ting_fulltext' => array(
       '#theme' => 'ting_fulltext',
       '#fields' => ting_fulltext_parse($xml),
-      '#attached' => array(
-        'css' => array(
-          drupal_get_path('module', 'ting_fulltext') . '/css/ting_fulltext.css',
-        ),
-      ),
     ),
   );
 }
 
 /**
- * Parse given xml. Return an array holding selected values
+ * Parse given xml. Return an array holding selected values.
  */
 function ting_fulltext_parse($xml) {
   static $xpath;
@@ -83,6 +78,8 @@ function ting_fulltext_parse($xml) {
  * @todo: make this parse complete
  */
 function ting_fulltext_get_section($node) {
+  $ret = array();
+
   foreach ($node->childNodes as $child) {
     switch ($child->nodeName) {
       case 'docbook:title':
@@ -113,10 +110,10 @@ function ting_fulltext_get_section($node) {
 }
 
 function ting_fulltext_get_xpath($xml) {
-  // @todo: errorhandling
+  // @todo: error handling.
   $dom = new DOMDocument();
   $dom->loadXML($xml);
   $xpath = new DOMXPath($dom);
-  $xpath->registerNamespace('docbook','http://docbook.org/ns/docbook');
+  $xpath->registerNamespace('docbook', 'http://docbook.org/ns/docbook');
   return $xpath;
 }

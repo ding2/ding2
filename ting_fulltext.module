@@ -65,7 +65,7 @@ function ting_fulltext_preprocess_ting_relation(&$variables) {
 
   if (!$variables['online'] && (isset($relation->object->reply) && isset($relation->object->reply->formatsAvailable))) {
     if (in_array('docbook', $relation->object->reply->formatsAvailable)) {
-      $variables['fulltext_link'] = l(t('Full-text version'), 'ting/object/' . $relation->uri . '/fulltext');
+      $variables['fulltext_link'] = l(t('See the full-text version'), 'ting/object/' . $relation->uri . '/fulltext');
     }
   }
 }
