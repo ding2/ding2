@@ -56,6 +56,7 @@ function ting_fulltext_parse($xml) {
       $sections[] = ting_fulltext_get_section($node);
     }
     $ret['section'] = $sections;
+    $ret['section_count'] = count($sections);
   }
 
   // <docbook:subjectset><docbook:subject><docbook:subjectitem>
