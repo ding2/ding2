@@ -39,7 +39,7 @@
         <?php foreach ($searches as $i => $search): ?>
           <option class="rs-carousel-item">
             <a href="#"><?php echo $search['title'] ?></a>
-          </>
+          </option>
         <?php endforeach; ?>
       </select>
     </div>
