@@ -873,3 +873,51 @@ function ddbasic_preprocess_views_view_responsive_grid(&$vars) {
     $vars['row_classes'] = array_reverse($vars['row_classes']);
   }
 }
+
+/**
+ * Implements hook_preprocess_ting_object().
+ *
+ * Adds wrapper classes to the different groups on the ting object.
+ */
+function ddbasic_preprocess_ting_object(&$vars) {
+  $content = $vars['content'];
+  $vars['content'] = array(
+    'ting-object' => array(
+      '#prefix' => '<div class="ting-object-wrapper">',
+      '#suffix' => '</div>',
+      'content' => array(
+        '#prefix' => '<div class="ting-object-inner-wrapper">',
+        '#suffix' => '</div>',
+        'left_column' => $content['group_ting_object_left_column'],
+        'right_column' => $content['group_ting_object_right_column'],
+      ),
+    ),
+    'material-details' => array(
+      '#prefix' => '<div class="ting-object-wrapper">',
+      '#suffix' => '</div>',
+      'content' => array(
+        '#prefix' => '<div class="ting-object-inner-wrapper">',
+        '#suffix' => '</div>',
+        'details' => $content['group_material_details'],
+      ),
+    ),
+    'holdings-available' => array(
+      '#prefix' => '<div class="ting-object-wrapper">',
+      '#suffix' => '</div>',
+      'content' => array(
+        '#prefix' => '<div class="ting-object-inner-wrapper">',
+        '#suffix' => '</div>',
+        'details' => $content['group_holdings_available'],
+      ),
+    ),
+    'ting-relations' => array(
+      '#prefix' => '<div class="ting-object-wrapper">',
+      '#suffix' => '</div>',
+      'content' => array(
+        '#prefix' => '<div class="ting-object-inner-wrapper">',
+        '#suffix' => '</div>',
+        'details' => $content['ting_relations'],
+      ),
+    ),
+  );
+}
