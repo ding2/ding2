@@ -12,9 +12,7 @@
  *     be rendered as ting_relation.
  */
 ?>
-<div<?php print $attributes; ?>>
-  <h2><?php print $title; ?></h2>
-  <?php foreach ($relations as $relation) : ?>
-    <?php print render($relation); ?>
-  <?php endforeach; ?>
-</div>
+<h2><?php print $title; ?>:</h2>
+<?php foreach ($relations as $relation) : ?>
+  <?php print render($relation); ?>
+<?php endforeach; ?>

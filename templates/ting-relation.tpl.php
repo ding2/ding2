@@ -11,7 +11,7 @@
  *   - $fulltext_link: Link to docbook format inserted by ting_fulltext module.
  */
 ?>
-<div class="meta">
+<div class="ting-object-related-item">
   <h4><?php print $title ?></h4>
   <?php if (isset($abstract)) :?>
     <div class="abstract"><?php print $abstract; ?></div>
