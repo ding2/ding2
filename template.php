@@ -911,11 +911,7 @@ function ddbasic_preprocess_ting_object(&$vars) {
       ),
     ),
     'ting-relations' => array(
-      '#prefix' => '<div class="ting-object-wrapper">',
-      '#suffix' => '</div>',
       'content' => array(
-        '#prefix' => '<div class="ting-object-inner-wrapper">',
-        '#suffix' => '</div>',
         'details' => $content['ting_relations'],
       ),
     ),
