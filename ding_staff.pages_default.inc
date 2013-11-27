@@ -274,7 +274,7 @@ function ding_staff_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'Ding staff library';
   $page->admin_description = '';
-  $page->path = 'bibliotek/%slug/staff';
+  $page->path = 'bibliotek/%slug/personale';
   $page->access = array(
     'type' => 'none',
     'settings' => NULL,
