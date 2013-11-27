@@ -7,15 +7,14 @@
 include_once 'ding_permissions.features.inc';
 
 /**
- * Define site roles in code.
- *
- * Create a secure_permissions_data module directory and place this function
- * in secure_permissions_data.module.
+ * Implements hook_secure_permissions_roles().
+ * 
+ * Define site roles in code. See secure_permissions module.
  *
  * @return
  *   An array defining all the roles for the site.
  */
-function secure_permissions_data_secure_permissions_roles() {
+function ding_permissions_secure_permissions_roles() {
   return array(
     'anonymous user',
     'authenticated user',
@@ -28,10 +27,9 @@ function secure_permissions_data_secure_permissions_roles() {
 }
 
 /**
- * Define site permissions in code.
- *
- * Create a secure_permissions_data module directory and place this function
- * in secure_permissions_data.module.
+ * Implements hook_secure_permissions().
+ * 
+ * Define site permissions in code. See secure_permissions module.
  *
  * @param $role
  *   The role for which the permissions are being requested.
@@ -39,7 +37,7 @@ function secure_permissions_data_secure_permissions_roles() {
  * @return
  *   An array defining all the permissions for the site.
  */
-function secure_permissions_data_secure_permissions($role) {
+function ding_permissions_secure_permissions($role) {
   $permissions = array(
     'anonymous user' => array(
       'access comments',
