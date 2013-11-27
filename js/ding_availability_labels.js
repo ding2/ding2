@@ -165,7 +165,8 @@
           var children = elm.children();
           if (children.length) {
             // Change the label from pending.
-            elm.contents().first()[0].textContent = Drupal.t('Can be obtained:') + ' ';
+            var label = elm.contents().first()[0];
+            label.nodeValue = Drupal.t('Can be obtained:') + ' ';
           }
           else {
             // The current pending group is empty, so simply remove it.
