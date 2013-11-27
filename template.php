@@ -880,45 +880,54 @@ function ddbasic_preprocess_views_view_responsive_grid(&$vars) {
  * Adds wrapper classes to the different groups on the ting object.
  */
 function ddbasic_preprocess_ting_object(&$vars) {
-  if (isset($vars['elements']['#view_mode']) &&
-    $vars['elements']['#view_mode'] == 'full' &&
-    $vars['elements']['#entity_type'] == 'ting_object') {
-    // Only make these changes on the ting object view.
-    $content = $vars['content'];
-    $vars['content'] = array(
-      'ting-object' => array(
-        '#prefix' => '<div class="ting-object-wrapper">',
-        '#suffix' => '</div>',
-        'content' => array(
-          '#prefix' => '<div class="ting-object-inner-wrapper">',
-          '#suffix' => '</div>',
-          'left_column' => $content['group_ting_object_left_column'],
-          'right_column' => $content['group_ting_object_right_column'],
-        ),
-      ),
-      'material-details' => array(
-        '#prefix' => '<div class="ting-object-wrapper">',
-        '#suffix' => '</div>',
-        'content' => array(
-          '#prefix' => '<div class="ting-object-inner-wrapper">',
-          '#suffix' => '</div>',
-          'details' => $content['group_material_details'],
-        ),
-      ),
-      'holdings-available' => array(
-        '#prefix' => '<div class="ting-object-wrapper">',
-        '#suffix' => '</div>',
-        'content' => array(
-          '#prefix' => '<div class="ting-object-inner-wrapper">',
-          '#suffix' => '</div>',
-          'details' => $content['group_holdings_available'],
-        ),
-      ),
-      'ting-relations' => array(
-        'content' => array(
-          'details' => $content['ting_relations'],
-        ),
-      ),
-    );
+  if (isset($vars['elements']['#view_mode']) && $vars['elements']['#view_mode'] == 'full') {
+    switch ($vars['elements']['#entity_type']) {
+      case 'ting_object':
+        $content = $vars['content'];
+        $vars['content'] = array(
+          'ting-object' => array(
+            '#prefix' => '<div class="ting-object-wrapper">',
+            '#suffix' => '</div>',
+            'content' => array(
+              '#prefix' => '<div class="ting-object-inner-wrapper">',
+              '#suffix' => '</div>',
+              'left_column' => $content['group_ting_object_left_column'],
+              'right_column' => $content['group_ting_object_right_column'],
+            ),
+          ),
+          'material-details' => array(
+            '#prefix' => '<div class="ting-object-wrapper">',
+            '#suffix' => '</div>',
+            'content' => array(
+              '#prefix' => '<div class="ting-object-inner-wrapper">',
+              '#suffix' => '</div>',
+              'details' => $content['group_material_details'],
+            ),
+          ),
+          'holdings-available' => array(
+            '#prefix' => '<div class="ting-object-wrapper">',
+            '#suffix' => '</div>',
+            'content' => array(
+              '#prefix' => '<div class="ting-object-inner-wrapper">',
+              '#suffix' => '</div>',
+              'details' => $content['group_holdings_available'],
+            ),
+          ),
+          'ting-relations' => array(
+            'content' => array(
+              'details' => $content['ting_relations'],
+            ),
+          ),
+        );
+        break;
+
+      case 'ting_collection':
+        // Assumes that field only has one value.
+        foreach ($vars['content']['ting_entities'][0] as &$type) {
+          $type['#prefix'] = '<div class="ting-collection-wrapper"><div class="ting-collection-inner-wrapper">' . $type['#prefix'];
+          $type['#suffix'] = '</div></div>';
+        }
+        break;
+    }
   }
 }
