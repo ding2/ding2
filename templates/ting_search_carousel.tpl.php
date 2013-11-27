@@ -38,7 +38,7 @@
       <select class="rs-carousel-select-tabs">
         <?php foreach ($searches as $i => $search): ?>
           <option class="rs-carousel-item">
-            <a href="#"><?php echo $search['title'] ?></a>
+            <?php echo $search['title'] ?>
           </option>
         <?php endforeach; ?>
       </select>
