@@ -1,7 +1,7 @@
 <?php
 /**
- * @file panels-pane--ding-user-frontend--ding--user--menu.tpl.tpl.php
- * Panel pain for user topbar menu.
+ * @file
+ * Panel pain for user top-bar menu.
  *
  * Variables available:
  * - $pane->type: the content type inside this pane
@@ -17,7 +17,6 @@
  *   data including the contexts and all of the other panes being displayed.
  * 
  * Removed wrapper and changed classes.
- * 
  */
 ?>
 <?php if ($pane_prefix): ?>

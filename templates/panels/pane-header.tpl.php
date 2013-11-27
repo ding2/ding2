@@ -1,3 +1,9 @@
+<?php
+/**
+ * @file
+ * Defines the page header for the theme.
+ */
+?>
 <?php if ($logo || $site_name || $site_slogan): ?>
   <?php if ($logo): ?>
     <div class="logo">
@@ -9,7 +15,7 @@
   <?php if ($site_name || $site_slogan): ?>
     <div class="site-name-wrapper">
       <?php if ($site_name): ?>
-        <h1 class="site-name<?php if ($site_slogan) print '-with-slogan' ?>">
+        <h1 class="site-name<?php if ($site_slogan) { print '-with-slogan'; } ?>">
           <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home">
             <?php print $site_name; ?>
           </a>
@@ -22,5 +28,4 @@
       <?php endif; ?>
     </div>
   <?php endif; ?>
-</ul>
 <?php endif; ?>
