@@ -6,6 +6,18 @@
 
 include_once 'ding_user_frontend.features.inc';
 
+/**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * It simply tells panels where to find the .inc files that define various
+ * args, contexts, content_types. In this case the subdirectories of
+ * ctools_plugin_example/panels are used.
+ */
+function ding_user_frontend_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
 
 /**
  * Implements hook_menu_alter().
@@ -38,11 +50,6 @@ function ding_user_frontend_block_info() {
   $blocks['ding-user-ajax-login'] = array(
     'info' => t('Ding ajax login button'),
     'cache' => DRUPAL_NO_CACHE,
-  );
-
-  $blocks['ding-user-menu'] = array(
-    'info' => t('Ding user menu'),
-    'cache' => DRUPAL_CACHE_PER_USER,
   );
 
   return $blocks;
@@ -180,11 +187,6 @@ function ding_user_frontend_block_view($delta) {
 
       $block['content'] = $render_array;
       break;
-
-    case 'ding-user-menu':
-      $block['subject'] = t('My account');
-      $block['content'] = ding_user_frontend_build_menu();
-      break;
   }
 
   return $block;
@@ -193,10 +195,14 @@ function ding_user_frontend_block_view($delta) {
 /**
  * Finds all local tasks (tabs) under /user/% and builds a menu based on that.
  *
+ * @param mixed $path
+ *   Path that should be used to generate the menu. Defaults using current menu
+ *   path.
+ *
  * @return array
  *   Render array with the menu.
  */
-function ding_user_frontend_build_menu() {
+function ding_user_frontend_build_menu($path = NULL) {
   // Default menu item render array.
   $menu_item_defaults = array(
     '#theme' => 'menu_link',
@@ -216,8 +222,8 @@ function ding_user_frontend_build_menu() {
   );
 
   // Get menu path to user profile.
-  global $user;
-  $router_item = menu_get_item('user/' . $user->uid);
+  $router_item = menu_get_item($path);
+
 
   // Get all tabs (also known as local tasks) and the root page.
   $result = db_select('menu_router', NULL, array('fetch' => PDO::FETCH_ASSOC))
@@ -247,7 +253,9 @@ function ding_user_frontend_build_menu() {
   // Default menu wrapper.
   $menu = array(
     '#theme_wrappers' => array(
-      'theme_hook_suggestion' => 'menu_tree__ding_user_frontend__ding_user_menu',
+      'theme_hook_suggestions' => array(
+        'menu_tree__sub_menu',
+      ),
     ),
   );
 
@@ -272,7 +280,9 @@ function ding_user_frontend_build_menu() {
           if ($pos !== FALSE && !$pos) {
             $current['#below'] = array(
               '#theme_wrappers' => array(
-                'theme_hook_suggestion' => 'menu_tree__ding_user_frontend__ding_user_menu',
+                'theme_hook_suggestions' => array(
+                  'menu_tree__sub_menu',
+                ),
               ),
             );
 
@@ -292,5 +302,6 @@ function ding_user_frontend_build_menu() {
       }
     }
   }
+
   return $menu;
 }
