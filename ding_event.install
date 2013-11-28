@@ -5,10 +5,45 @@
  */
 
 /**
+ * Implements hook_install().
+ */
+function ding_event_install() {
+  ding_event_install_menu_position();
+}
+
+/**
+ * Helper function to install menu position rule.
+ */
+function ding_event_install_menu_position() {
+  // Define conditions.
+  $conditions = array(
+    'content_type' => array(
+      'content_type' => array(
+        'ding_group' => 'ding_event',
+      ),
+    ),
+  );
+
+  // Find the parent element.
+  $plid = db_select('menu_links', 'ml')
+    ->fields('ml', array('mlid'))
+    ->condition('link_path', 'arrangementer', '=')
+    ->execute()->fetchField();
+
+  // Add the rule.
+  module_load_include('inc', 'menu_position', 'menu_position.admin');
+  menu_position_add_rule(array(
+    'admin_title' => 'Events',
+    'conditions'  => serialize($conditions),
+    'menu_name'   => 'main-menu',
+    'plid'        => $plid,
+  ));
+}
+/**
  * Remove old ting reference field table from events. 
  */
 function ding_event_update_7000() {
-  // The tables are left over after change to virtual field, hence we have to 
+  // The tables are left over after change to virtual field, hence we have to
   // remove them the hard way without deleting the field.
   db_drop_table('field_data_field_ding_event_materials');
   db_drop_table('field_revision_field_ding_event_materials');
@@ -93,4 +128,11 @@ function ding_event_update_7004() {
       ))
       ->execute();
   }
+}
+
+/**
+ * Install menu position rule.
+ */
+function ding_event_update_7005() {
+  ding_event_install_menu_position();
 }
