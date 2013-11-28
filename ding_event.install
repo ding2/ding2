@@ -39,6 +39,7 @@ function ding_event_install_menu_position() {
     'plid'        => $plid,
   ));
 }
+
 /**
  * Remove old ting reference field table from events. 
  */
