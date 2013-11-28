@@ -7,10 +7,11 @@
 /**
  * Implements provider availability, holdings.
  *
- * @param $provider_ids
- *  Array of provider ids that should be fetched information for.
+ * @param array $provider_ids
+ *   Array of provider ids that should be fetched information for.
+ *
  * @return mixed
- *  An empty array, information about the holdings or even FALSE.
+ *   An empty array, information about the holdings or even FALSE.
  */
 function openruth_availability_holdings($provider_ids) {
   $res = openruth_client_invoke('get_holdings', $provider_ids);
@@ -25,10 +26,11 @@ function openruth_availability_holdings($provider_ids) {
 /**
  * Get information about holdings.
  *
- * @param $res
- *  A json encoded response from openruth-client (get_holdings).
+ * @param StdClass $res
+ *   A json encoded response from openruth-client (get_holdings).
+ *
  * @return mixed
- *  An array with holding-information OR an errorstring OR FALSE.
+ *   An array with holding-information OR an error string OR FALSE.
  */
 function _openruth_get_holdings($res) {
   if (isset($res->agencyError)) {
@@ -45,9 +47,9 @@ function _openruth_get_holdings($res) {
 /**
  *
  * @param $res
- *  A json encoded response from openruth-client (get_holdings).
+ *   A json encoded response from openruth-client (get_holdings).
  * @return array
- *  An array with holding-information.
+ *   An array with holding-information.
  */
 function _openruth_set_holdings($res) {
   $holdings = array();
@@ -62,7 +64,7 @@ function _openruth_set_holdings($res) {
 
     if (isset($item_holdings)) {
       foreach ($item_holdings as $item_holding) {
-        // remember to count ordersCount
+        // Remember to count ordersCount.
         $h['reserved_count'] += $item_holding->ordersCount;
         _openruth_set_locations($h, $item_holding);
         _openruth_set_periodicals($h, $item_holding);
@@ -80,9 +82,9 @@ function _openruth_set_holdings($res) {
 /**
  *
  * @param $holding
- *  A JSON encoded holdingpart from openruth-client (get_holdings).
+ *   A JSON encoded holdingpart from openruth-client (get_holdings).
  * @return array
- *  Initialized holding array set with default values
+ *   Initialized holding array set with default values
  */
 function _openruth_init_holding($holding) {
   $holdings = isset($holding->agencyHoldings) ? $holding->agencyHoldings : NULL;
@@ -114,7 +116,8 @@ function _openruth_init_holding($holding) {
     'is_periodical' => FALSE,
   );
 
-  // check if number of copies available (copiesAvailableCount) is > 0; if not set available to false
+  // check if number of copies available (copiesAvailableCount) is > 0; if not
+  // set available to false
   if ($holding['available'] && ($available < 1)) {
     $holding['available'] = FALSE;
   }
@@ -129,7 +132,7 @@ function _openruth_init_holding($holding) {
  *  Holding information for a given material
  */
 function _openruth_set_table_html(&$holdings) {
-  // Set a classname for styling the table.
+  // Set a class name for styling the table.
   $variables['attributes'] = array(
     'class' => array(
       drupal_html_class('availability_holdings_table'),
@@ -157,9 +160,10 @@ function _openruth_set_table_html(&$holdings) {
  * Set table rows for given holdings.
  *
  * @param $holdings
- *  Holding information for a given material
+ *   Holding information for a given material
+ *
  * @return array
- *  An array with tabel rows, which can be used by theme table.
+ *   An array with table rows, which can be used by theme table.
  */
 function _openruth_set_rows($holdings) {
   $rows = array();
@@ -195,9 +199,9 @@ function _openruth_set_rows($holdings) {
  * for each branch.
  *
  * @param $holdings
- *  Array of holdings for a periodical.
+ *   Array of holdings for a periodical.
  * @return array
- *  With unique holdings for each branch.
+ *   With unique holdings for each branch.
  */
 function _openruth_periodicals_unique_holdings($holdings) {
   $uh = array();
@@ -322,12 +326,12 @@ function _openruth_set_locations(&$holdings, $item_holding) {
         }
 
         if ($parts) {
-          $data['placement'] = join(' → ', $parts);
+          $data['placement'] = implode(' → ', $parts);
           $holdings['holdings'][] = $data;
         }
 
         if ($parts && ($location_available > 0)) {
-          $holdings['holdings_available'][] = join(' → ', $parts);
+          $holdings['holdings_available'][] = implode(' → ', $parts);
         }
       }
     }

@@ -38,7 +38,7 @@ class OpenruthClient {
   private static $salt;
 
   /**
-   * Constructor
+   * Constructor.
    */
   public function __construct($wsdl_url, $agency_id) {
     $this->wsdl_url = $wsdl_url;
@@ -106,7 +106,8 @@ class OpenruthClient {
   }
 
   /**
-   * Holdings information (agency info, location, availability etc.) about an given item.
+   * Holdings information (agency info, location, availability etc.) about an
+   * given item.
    */
   public function get_holdings($ids) {
     $this->log_start();
@@ -121,7 +122,7 @@ class OpenruthClient {
   }
 
   /**
-   * Renewing one or more loans
+   * Renewing one or more loans.
    */
   public function renew_loan($username, $copy_ids) {
     $this->log_start();
@@ -136,8 +137,8 @@ class OpenruthClient {
     }
     elseif (isset($res->renewLoan)) {
       $result = array();
-      foreach ($res->renewLoan as $renewLoan) {
-        $result[$renewLoan->copyId] = isset($renewLoan->renewLoanError) ? $renewLoan->renewLoanError : TRUE;
+      foreach ($res->renewLoan as $renew_loan) {
+        $result[$renew_loan->copyId] = isset($renew_loan->renewLoanError) ? $renew_loan->renewLoanError : TRUE;
       }
       return $result;
     }
@@ -147,7 +148,7 @@ class OpenruthClient {
   }
 
   /**
-   * Booking an item
+   * Booking an item.
    */
   public function book_item($username, $provider_id, $count, $start_date, $end_date, $pickup_branch) {
     $this->log_start();
@@ -174,7 +175,7 @@ class OpenruthClient {
   }
 
   /**
-   * Making a reservation in the local system
+   * Making a reservation in the local system.
    */
   public function order_item($username, $item_id, $count, $order_date, $expiry, $pickup_branch) {
     // Support periodicals.
@@ -206,8 +207,8 @@ class OpenruthClient {
     }
     elseif (isset($res->orderItem)) {
       $result = array();
-      foreach ($res->orderItem as $orderItem) {
-        $result[$orderItem->orderItemId->itemId] = isset($orderItem->orderItemError) ? $orderItem->orderItemError : TRUE;
+      foreach ($res->orderItem as $order_item) {
+        $result[$order_item->orderItemId->itemId] = isset($order_item->orderItemError) ? $order_item->orderItemError : TRUE;
       }
       return $result;
     }
@@ -217,19 +218,20 @@ class OpenruthClient {
   }
 
   /**
-   * Get information about number of copies in a booking available at various times
+   * Get information about number of copies in a booking available at various
+   * times.
    */
   public function booking_info() {
   }
 
   /**
-   * Updating details about a booking
+   * Updating details about a booking.
    */
   public function update_booking() {
   }
 
   /**
-   * Cancelling a booking of an item
+   * Cancelling a booking of an item.
    */
   public function cancel_booking($bookings_id) {
     $this->log_start();
@@ -250,7 +252,7 @@ class OpenruthClient {
   }
 
   /**
-   * Get information about an Agency
+   * Get information about an Agency.
    */
   public function get_agency_info() {
     $agency_info = array();
@@ -270,7 +272,7 @@ class OpenruthClient {
 
   }
   /**
-   * Get list of agencycounters
+   * Get list of agencycounters,
    *
    * @return Array
    */
@@ -291,7 +293,7 @@ class OpenruthClient {
   }
 
   /**
-   * Updating details about a reservation in the local system
+   * Updating details about a reservation in the local system.
    */
   public function update_order($order_id, $pickup_branch, $expiry) {
     $this->log_start();
@@ -315,7 +317,7 @@ class OpenruthClient {
   }
 
   /**
-   * Deleting a reservation
+   * Deleting a reservation.
    */
   public function cancel_order($order_id) {
     $this->log_start();
@@ -336,7 +338,7 @@ class OpenruthClient {
   }
 
   /**
-   * Changing userinfo (pincode, contact, preferences etc.)
+   * Changing userinfo (pin-code, contact, preferences etc.)
    */
   public function update_userinfo($name, $pass, $changes) {
     static $mapping = array(
@@ -377,7 +379,15 @@ class OpenruthClient {
   }
 
   /**
-   * Performing a user check (whether the user exists in the system and user's various rights and parameters)
+   * Performing a user check.
+   *
+   * Checks whether the user exists in the system and user's various rights
+   * and parameters.
+   *
+   * @param string $username
+   *   The users login name/number.
+   * @param string $pin_code
+   *   The users pin-code.
    *
    * @return mixed
    *   UserCheck response object, a string error message or FALSE.
@@ -402,7 +412,7 @@ class OpenruthClient {
   }
 
   /**
-   * User's status, includings loans, orders, ILLs and fines
+   * User's status, includings loans, orders, ILLs and fines.
    */
   public function user_status($username, $pin_code) {
     $this->log_start();
@@ -425,7 +435,7 @@ class OpenruthClient {
   }
 
   /**
-   * paying user fines
+   * Paying user fines.
    */
   public function add_payment($username, $amount, $transaction_id = NULL) {
     $params = array(
@@ -453,5 +463,4 @@ class OpenruthClient {
       return FALSE;
     }
   }
-
 }

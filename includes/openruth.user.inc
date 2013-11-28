@@ -1,21 +1,26 @@
 <?php
 /**
  * @file
- * Handels user authentication and update for OpenRuth.
+ * Handles user authentication and update for OpenRuth.
  */
 
 /**
  * Implements provider user, authenticate.
  *
- * @param type $name
- * @param type $pass
- * @return boolean
+ * @param string $name
+ *   The users name/card number.
+ * @param string $pincode
+ *   The users pin-code.
+ *
+ * @return array
+ *   User information.
+ *
  */
-function openruth_user_authenticate($name, $pass) {
+function openruth_user_authenticate($name, $pincode) {
   $return = array(
     'success' => FALSE,
   );
-  $res = openruth_client_invoke('user_check', $name, $pass);
+  $res = openruth_client_invoke('user_check', $name, $pincode);
 
   if (is_string($res)) {
     watchdog('openruth', 'Error in user_check: @error', array('@error' => $res), WATCHDOG_ERROR);
@@ -33,7 +38,7 @@ function openruth_user_authenticate($name, $pass) {
   $return['success'] = TRUE;
   $return['creds'] = array(
     'name' => $name,
-    'pass' => $pass,
+    'pass' => $pincode,
   );
 
   $status = _openruth_user_status($return['creds'], TRUE);
@@ -58,7 +63,8 @@ function openruth_user_authenticate($name, $pass) {
 /**
  * Clear user cache.
  *
- * @param type $account
+ * @param StdClass $account
+ *   Drupal user account object.
  */
 function openruth_user_clear_cache($account) {
   $creds = ding_user_get_creds($account);
@@ -70,12 +76,12 @@ function openruth_user_clear_cache($account) {
  * Update pin code at openruth.
  *
  * @param object $account
- *  User account object or the user provider profile2.
+ *   User account object or the user provider profile2.
  * @param string $new_pincode
- *  The users new pincode.
+ *   The users new pincode.
  *
  * @return array
- *  Updated credential array.
+ *   Updated credential array.
  */
 function openruth_user_update_pincode($account, $new_pincode) {
   $result = array();

@@ -1,11 +1,11 @@
 <?php
 /**
  * @file
- * Handles fees and payment informtion in relation to OpenRuth.
+ * Handles fees and payment information in relation to OpenRuth.
  */
 
 /**
- * Get list of unpayed fees
+ * Get list of unpayed fees.
  */
 function openruth_debt_list($account) {
   $creds = ding_user_get_creds($account);
@@ -36,13 +36,14 @@ function openruth_debt_list($account) {
  * Callback function used to update OpenRuth after a payment have been received.
  *
  * @param string $amount
- *  The amount that have to be payed.
+ *   The amount that have to be payed.
  * @param array $debt_ids
- *  The payment id's.
+ *   The payment id's.
  * @param string $order_id
- *  The payments oroder id.
- * @return boolean
- *  If TRUE the payment was received or FALSE on failur.
+ *   The payments order id.
+ *
+ * @return bool
+ *   If TRUE the payment was received or FALSE on failure.
  */
 function openruth_debt_payment_received($amount, $debt_ids = array(), $order_id = NULL) {
   $creds = ding_user_get_creds();
