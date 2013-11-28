@@ -90,17 +90,17 @@
       // If the user clicked the active link, close it instead.
       if ( $('.topbar-menu .leaf .topbar-link-user-account').hasClass('active') ) {
         $('.topbar-menu .leaf .topbar-link-user-account').toggleClass('active');
-        $('.js-user-top-menu').css("display", "none");
+        $('.js-mobile-user-menu').css("display", "none");
       }
       else {
         // Display the element.
         $('.topbar-menu .leaf .topbar-link-user-account').toggleClass('active');
-        $('.js-user-top-menu').css("display", "block");
+        $('.js-mobile-user-menu').css("display", "block");
       }
     }
     else {
       $('.topbar-menu .leaf .topbar-link-user-account').removeClass('active');
-      $('.js-user-top-menu').css("display", "none");
+      $('.js-mobile-user-menu').css("display", "none");
     }
   }
 

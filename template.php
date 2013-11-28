@@ -146,6 +146,11 @@ function ddbasic_preprocess_panels_pane(&$vars) {
   // Suggestions on panel pane.
   $vars['theme_hook_suggestions'][] = 'panels_pane__' . $vars['pane']->panel;
 
+  // Suggestion for mobile user menu in the header.
+  if ($vars['pane']->panel == 'header' && $vars['pane']->subtype == 'user_menu') {
+    $vars['theme_hook_suggestions'] = array('panels_pane__sub_menu__mobile');
+  }
+
   // Suggestions on menus panes.
   if ($vars['pane']->subtype == 'og_menu-og_single_menu_block' || $vars['pane']->subtype == 'menu_block-3') {
     $vars['theme_hook_suggestions'][] = 'panels_pane__sub_menu';

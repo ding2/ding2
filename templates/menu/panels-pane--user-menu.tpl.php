@@ -22,7 +22,7 @@
     <?php print $admin_links; ?>
   <?php endif; ?>
 
-  <?php if ($title): ?>
+  <?php if (!empty($title)): ?>
     <h2 class="sub-menu-title"><?php print $title; ?></h2>
   <?php endif; ?>
   <?php print render($content); ?>

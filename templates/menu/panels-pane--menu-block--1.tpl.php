@@ -21,7 +21,7 @@
   <?php if ($admin_links): ?>
     <?php print $admin_links; ?>
   <?php endif; ?>
-  <?php if ($title): ?>
+  <?php if (!empty($title)): ?>
     <h2 class="nav-title"><?php print $title; ?></h2>
   <?php endif; ?>
   <?php print render($content); ?>
