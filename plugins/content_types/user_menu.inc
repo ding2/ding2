@@ -14,6 +14,9 @@ $plugin = array(
   'content_types' => array('list'),
   'required context' => new ctools_context_required(t('User'), 'user'),
   'category' => t('User'),
+  'defaults' => array(
+    'path' => NULL,
+  ),
 );
 
 /**
@@ -22,8 +25,15 @@ $plugin = array(
 function ding_user_frontend_user_menu_content_type_render($subtype, $conf, $panel_args, $context = NULL) {
   $block = new stdClass();
 
-  $block->title = t('My account');
-  $block->content = ding_user_frontend_build_menu();
+  // Try to get configuration.
+  $path = NULL;
+  if (!empty($conf['path'])) {
+    global $user;
+    $path = token_replace($conf['path'], array('user' => $user));
+  }
+
+  $block->title = '<a href="/user">' . t('My account') . '</a>';
+  $block->content = ding_user_frontend_build_menu($path);
 
   return $block;
 }
@@ -32,5 +42,40 @@ function ding_user_frontend_user_menu_content_type_render($subtype, $conf, $pane
  * Edit form callback for the content type.
  */
 function ding_user_frontend_user_menu_edit_form($form, &$form_state) {
+  $form['path'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Path'),
+    '#description' => t('The path to generate the menu based on. Defaults to current path.'),
+    '#required' => FALSE,
+    '#default_value' => $form_state['conf']['path'],
+  );
+
+  $form['token_help'] = array(
+    '#title' => t('Replacement patterns'),
+    '#type' => 'fieldset',
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#description' => t('Prefer raw-text replacements for text to avoid problems with HTML entities!'),
+  );
+
+  $form['token_help']['help'] = array(
+    '#theme' => 'token_tree',
+    '#token_types' => array('user'),
+  );
+
   return $form;
 }
+
+/**
+ * Submit handler for the settings form.
+ */
+function ding_user_frontend_user_menu_edit_form_submit($form, &$form_state) {
+  $form_state['conf']['path'] = $form_state['values']['path'];
+}
+
+///**
+// * Returns the administrative title for a type.
+// */
+//function ding_user_frontend_user_menu_content_type_admin_title($subtype, $conf, $context) {
+//  return t('"@context" sub-menu', array('@context' => $context[0]->identifier));
+//}
