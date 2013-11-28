@@ -327,6 +327,19 @@ search/ting
       'left' => NULL,
       'middle' => NULL,
       'right' => NULL,
+      'left_sidebar' => NULL,
+      'main_content' => NULL,
+      'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
     ),
   );
   $display->cache = array();
@@ -341,7 +354,7 @@ search/ting
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'override_title' => 1,
+      'override_title' => 0,
       'override_title_text' => '',
     );
     $pane->cache = array();
