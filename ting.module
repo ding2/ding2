@@ -301,7 +301,7 @@ function ting_block_view($delta = '') {
 
     case 'ting_collection_types':
       if ($collection = menu_get_object('ting_collection', 2)) {
-        $block->subject = t('Types');
+        $block->subject = t('Other materialtypes');
         $items = array();
         foreach ($collection->types as $type) {
           $items[] = l($type . ' (' . $collection->types_count[$type] . ')', '#' . $type, array('external' => TRUE));
