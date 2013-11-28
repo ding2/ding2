@@ -118,10 +118,6 @@
     padding-bottom: 30px;
     padding-left: 20px;
   }
-
-  @include large-x-large {
-    display: block!important;
-  }
 }
 
 .navigation-inner {
@@ -506,7 +502,7 @@
 /* User topbar menu
    ========================================================================== */
 
-.header-wrapper .mobile-user-top-menu {
+.header-wrapper .pane-user-menu {
   @extend .navigation-wrapper;
   background: $header-background-color;
   clear: both;
@@ -522,11 +518,4 @@
   .sub-menu {
     @extend .main-menu;
   }
-
-  @include large-x-large {
-    display: none!important;
-  }
 }
-
-
-

@@ -7,21 +7,23 @@
   /**
    * Toggle the search form from the top-bar menu.
    *
-   * @param bool open
+   * @param Boolean open
    *   If true we want to open the form and link else we want to close it.
    */
   function ddbasic_search(open) {
     if (open) {
       // If the user clicked the active link, close it instead.
-      if ( $('.topbar-menu .leaf .topbar-link-search').hasClass('active') ) {
+      if ($('.topbar-menu .leaf .topbar-link-search').hasClass('active')) {
         $('.topbar-menu .leaf .topbar-link-search').toggleClass('active');
         $('.js-topbar-search').css("display", "none");
-      } else {
+      }
+      else {
         // Display the element.
         $('.topbar-menu .leaf .topbar-link-search').toggleClass('active');
         $('.js-topbar-search').css("display", "block");
       }
-    } else {
+    }
+    else {
       $('.topbar-menu .leaf .topbar-link-search').removeClass('active');
       $('.js-topbar-search').css("display", "none");
     }
@@ -39,12 +41,14 @@
       if ( $('.topbar-menu .leaf .topbar-link-menu').hasClass('active') ) {
         $('.topbar-menu .leaf .topbar-link-menu').toggleClass('active');
         $('.site-header .js-topbar-menu').css("display", "none");
-      } else {
+      }
+      else {
         // Display the element.
         $('.topbar-menu .leaf .topbar-link-menu').toggleClass('active');
         $('.site-header .js-topbar-menu').css("display", "block");
       }
-    } else {
+    }
+    else {
       $('.topbar-menu .leaf .topbar-link-menu').removeClass('active');
       $('.site-header .js-topbar-menu').css("display", "none");
     }
@@ -62,12 +66,14 @@
       if ( $('.topbar-menu .leaf .topbar-link-user').hasClass('active') ) {
         $('.topbar-menu .leaf .topbar-link-user').toggleClass('active');
         $('.js-topbar-user').css("display", "none");
-      } else {
+      }
+      else {
         // Display the element.
         $('.topbar-menu .leaf .topbar-link-user').toggleClass('active');
         $('.js-topbar-user').css("display", "block");
       }
-    } else {
+    }
+    else {
       $('.topbar-menu .leaf .topbar-link-user').removeClass('active');
       $('.js-topbar-user').css("display", "none");
     }
@@ -85,12 +91,14 @@
       if ( $('.topbar-menu .leaf .topbar-link-user-account').hasClass('active') ) {
         $('.topbar-menu .leaf .topbar-link-user-account').toggleClass('active');
         $('.js-user-top-menu').css("display", "none");
-      } else {
+      }
+      else {
         // Display the element.
         $('.topbar-menu .leaf .topbar-link-user-account').toggleClass('active');
         $('.js-user-top-menu').css("display", "block");
       }
-    } else {
+    }
+    else {
       $('.topbar-menu .leaf .topbar-link-user-account').removeClass('active');
       $('.js-user-top-menu').css("display", "none");
     }
@@ -100,7 +108,7 @@
    * When ready start the magic and handle the menu.
    */
   $(document).ready(function () {
-    // Open search as default on frontpage, close on others.
+    // Open search as default on front page, close on others.
     $('.js-topbar-search').css("display", "none");
     $('.front .js-topbar-search').css("display", "block");
 
@@ -150,47 +158,61 @@
      */
 
     if ($(".sub-menu-wrapper").length > 0) {
-      $(".sub-menu-wrapper > .sub-menu").clone().appendTo('.main-menu > .active-trail');
+      $('.sub-menu-wrapper > .sub-menu').clone().appendTo('.main-menu > .active-trail');
 
       // Switch a few classes for style purposes.
-      $(".main-menu .sub-menu a").addClass('menu-item');
-      $(".main-menu .sub-menu").addClass('main-menu');
-      $(".main-menu .sub-menu").removeClass('sub-menu');
+      $('.main-menu .sub-menu a').addClass('menu-item');
+      $('.main-menu .sub-menu').addClass('main-menu');
+      $('.main-menu .sub-menu').removeClass('sub-menu');
 
       // The old menu is hidden by css on minor media queries.
     }
 
     /**
-     * Adds library menu above content on local library pages.
+     * Adds sub menu above content in Organic groups with OG menu.
      */
-    if ($(".library-menu").length > 0) {
-      // Move/copy the  library menu.
-      $(".library-menu").clone().insertAfter('.primary-content .ding-library-image');
+    var sub_menu = $(".pane-og-menu-og-single-menu-block");
+    if (sub_menu.length) {
+      var select = $('<select class="js-og-sub-menu"/>');
+      select.addClass('js-og-sub-menu-responsive');
 
-      //Change add selection markup and fix the classes.
-      $(".primary-content .library-menu").addClass('js-library-menu-responsive');
-      $(".primary-content .library-menu").removeClass('library-menu');
-      $(".js-library-menu-responsive .links").wrap("<select></select>");
-      $(".js-library-menu-responsive .links").removeClass('links');
-      $(".js-library-menu-responsive select li").wrap("<option class='select-item'></option>");
-      $(".js-library-menu-responsive select .select-item").unwrap();
-      // Move a href to select value.
-      $(".primary-content .js-library-menu-responsive select .select-item").each(function() {
-        $ (this).attr("value", function() {
-          return $(this).find("a").attr("href");
+      // Populate drop-down with menu items
+      $('a', sub_menu).each(function() {
+        var el = $(this);
+        $('<option />', {
+          "value" : el.attr('href'),
+          "text" : el.text(),
+          "selected" : el.hasClass('active')
+        }).appendTo(select);
+      });
+
+      // Detect where to insert the menu. Start with under the library image.
+      var target = $('.primary-content .ding-library-image');
+      if (!target.length) {
+        target = $('.pane-menu-title');
+      }
+
+      if (!target.length) {
+        // Groups (temaer) pages.
+        target = $('.field-name-field-ding-group-title-image');
+      }
+
+
+      if (!target.length) {
+        // Static page in OG group and library about page.
+        target = $('article.page .page-title');
+      }
+
+      // Insert the drop-down if target where found.
+      if (target.length) {
+        // Attach the menu to the page.
+        select.insertAfter(target);
+
+        // Attach "on change" handle to new drop-down menu.
+        $(select).change(function () {
+         document.location.href = $(this).val();
         });
-      });
-      // Now that path is preserved remove the li and a tags.
-      $(".primary-content .js-library-menu-responsive select li a").unwrap();
-      $(".primary-content .js-library-menu-responsive select a").replaceWith(function() {
-        // Return the stripped text of the link.
-        return $(this).contents();
-      });
-    };
-
-    // Goto action.
-    $(".js-library-menu-responsive select").change(function () {
-      document.location.href = $(this).val();
-    });
+      }
+    }
   });
 })(jQuery);

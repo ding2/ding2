@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Panel pain for user top-bar menu.
+ * Main panel pane template
  *
  * Variables available:
  * - $pane->type: the content type inside this pane
@@ -15,44 +15,15 @@
  * - $feeds: Any feed icons or associated with the content
  * - $display: The complete panels display object containing all kinds of
  *   data including the contexts and all of the other panes being displayed.
- * 
- * Removed wrapper and changed classes.
  */
 ?>
-<?php if ($pane_prefix): ?>
-  <?php print $pane_prefix; ?>
-<?php endif; ?>
-<div class="js-user-top-menu mobile-user-top-menu" <?php print $id; ?>>
+<div class="<?php print $classes; ?>" <?php print $id; ?>>
   <?php if ($admin_links): ?>
     <?php print $admin_links; ?>
   <?php endif; ?>
 
-  <?php print render($title_prefix); ?>
   <?php if ($title): ?>
-    <h2<?php print $title_attributes; ?>><?php print t($title); ?></h2>
+    <h2 class="sub-menu-title"><?php print $title; ?></h2>
   <?php endif; ?>
-  <?php print render($title_suffix); ?>
-
-  <?php if ($feeds): ?>
-    <div class="feed">
-      <?php print $feeds; ?>
-    </div>
-  <?php endif; ?>
-
   <?php print render($content); ?>
-
-  <?php if ($links): ?>
-    <div class="links">
-      <?php print $links; ?>
-    </div>
-  <?php endif; ?>
-
-  <?php if ($more): ?>
-    <div class="more-link">
-      <?php print $more; ?>
-    </div>
-  <?php endif; ?>
 </div>
-<?php if ($pane_suffix): ?>
-  <?php print $pane_suffix; ?>
-<?php endif; ?>
