@@ -1,11 +1,57 @@
 <?php
 /**
  * @file
- * Handles installation and uninstallation of the node queue used by this
+ * Handles installation and un-installation of the node queue used by this
  * module.
  *
  * Also contains update functions to install the node queue on existing sites.
  */
+
+/**
+ * Implements hook_install().
+ */
+function ding_groups_install() {
+  ding_groups_install_nodequeue();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_groups_uninstall() {
+  $qids = nodequeue_get_qids('ding_group');
+  foreach ($qids as $qid) {
+    nodequeue_delete($qid);
+  }
+}
+
+/**
+ * Helper function to install menu position rule.
+ */
+function ding_groups_install_menu_position() {
+  // Define conditions.
+  $conditions = array(
+    'content_type' => array(
+      'content_type' => array(
+        'ding_group' => 'ding_group',
+      ),
+    ),
+  );
+
+  // Find the parent element.
+  $plid = db_select('menu_links', 'ml')
+    ->fields('ml', array('mlid'))
+    ->condition('link_path', 'temaer', '=')
+    ->execute()->fetchField();
+
+  // Add the rule.
+  module_load_include('inc', 'menu_position', 'menu_position.admin');
+  menu_position_add_rule(array(
+    'admin_title' => 'Groups',
+    'conditions'  => serialize($conditions),
+    'menu_name'   => 'main-menu',
+    'plid'        => $plid,
+  ));
+}
 
 /**
  * Helper function to create node queue used in groups listing pages.
@@ -41,23 +87,6 @@ function ding_groups_install_nodequeue() {
   nodequeue_save($nodequeue);
 }
 
- /**
-  * Implements hook_install().
-  */
-function ding_groups_install() {
-  ding_groups_install_nodequeue();
-}
-
-/**
- * Implements hook_uninstall().
- */
-function ding_groups_uninstall() {
-  $qids = nodequeue_get_qids('ding_group');
-  foreach ($qids as $qid) {
-    nodequeue_delete($qid);
-  }
-}
-
 /**
  * Add groups node queue if it do not exists.
  */
@@ -66,4 +95,11 @@ function ding_groups_update_7001() {
   if (empty($qids)) {
     ding_groups_install_nodequeue();
   }
+}
+
+/**
+ * Add menu-position rule.
+ */
+function ding_groups_update_7002() {
+  ding_groups_install_menu_position();
 }
