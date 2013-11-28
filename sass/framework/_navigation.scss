@@ -504,6 +504,8 @@
    ========================================================================== */
 
 .header-wrapper .pane-user-menu {
+  display: none;
+
   .sub-menu {
     @extend .main-menu;
 
