@@ -34,7 +34,7 @@ function ding_event_install_menu_position() {
   module_load_include('inc', 'menu_position', 'menu_position.admin');
   menu_position_add_rule(array(
     'admin_title' => 'Events',
-    'conditions'  => serialize($conditions),
+    'conditions'  => $conditions,
     'menu_name'   => 'main-menu',
     'plid'        => $plid,
   ));
