@@ -243,3 +243,67 @@ function ding_library_update_7007() {
     ding_library_install_nodequeue();
   }
 }
+
+/**
+ * Remove all old library links from the menus (news, event and about).
+ */
+function ding_library_update_7008() {
+  db_delete('menu_links')
+    ->condition('menu_name', 'main-menu')
+    ->condition('link_path', 'bibliotek%', 'LIKE')
+    ->execute();
+}
+
+/**
+ * Move all other library custom links into OG menu.
+ */
+function ding_library_update_7009() {
+  // Find all library nid's.
+  $nids = db_select('node', 'n')
+    ->fields('n', array('nid'))
+    ->condition('type', 'ding_library')
+    ->execute()
+    ->fetchAllKeyed();
+
+  foreach (array_keys($nids) as $nid) {
+    // Get library mlid.
+    $mlid = db_select('menu_links', 'ml')
+      ->fields('ml', array('mlid'))
+      ->condition('link_path', 'node/' . $nid)
+      ->execute()
+      ->fetchField();
+
+    // Find every menu link with $mlid as plid.
+    $links = db_select('menu_links', 'ml')
+      ->fields('ml', array('mlid', 'p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8', 'p9'))
+      ->condition('plid', $mlid)
+      ->execute()
+      ->fetchAllAssoc('mlid');
+
+    // Get OG menu mlid to get parent mlid.
+    foreach ($links as $link => $data) {
+      // Move menu link in to OG menu and remove the parents (library/name/)
+      db_update('menu_links')
+        ->fields(array(
+          'menu_name' => 'menu-og-' . $nid,
+          'p1' => $data->p3,
+          'p2' => $data->p4,
+          'p3' => $data->p5,
+          'p4' => $data->p6,
+          'p5' => $data->p7,
+          'p6' => $data->p8,
+          'p7' => $data->p9,
+          'p8' => 0,
+          'p9' => 0,
+          ))
+        ->condition('mlid', $link)
+        ->execute();
+    }
+
+    // Delete old library link.
+    db_delete('menu_links')
+      ->condition('menu_name', 'main-menu')
+      ->condition('link_path', 'node/' . $nid)
+      ->execute();
+  }
+}
