@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Wrappes profile2 ding staff profile into a panels pane.
+ * Wraps profile2 ding staff profile into a panels pane.
  */
 
 $plugin = array(
@@ -21,24 +21,24 @@ function ding_staff_profile_content_type_render($subtype, $conf, $panel_args, $c
   $block = new stdClass();
   $block->title = '';
   $block->content = '';
-  
+
   if (!empty($context->data)) {
 
     // Try to load the profile and extract field values.
     $profile = profile2_load_by_user($context->data, 'ding_staff_profile');
-  
-    if ($profile) {
 
+    if ($profile) {
       // Set title based on forename and surname in staff profile.
       $forename = field_view_field('profile2', $profile, 'field_ding_staff_forename');
       if (!empty($forename)) {
         $block->title .= $forename[0]['#markup'] . ' ';
       }
+
       $surname = field_view_field('profile2', $profile, 'field_ding_staff_surname');
       if (!empty($surname)) {
         $block->title .= $surname[0]['#markup'];
       }
-      
+
       // View profile to get render array with profile content.
       $block->content = $profile->view('account');
     }
@@ -48,7 +48,7 @@ function ding_staff_profile_content_type_render($subtype, $conf, $panel_args, $c
 }
 
 /**
- * 'Edit form' callback for the content type.
+ * Edit form callback for the content type.
  */
 function ding_staff_profile_content_type_edit_form($form, &$form_state) {
   return $form;

@@ -340,12 +340,11 @@ function ding_staff_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-3';
     $pane->panel = 'left_sidebar';
-    $pane->type = 'staff_library_menu';
-    $pane->subtype = 'staff_library_menu';
+    $pane->type = 'block';
+    $pane->subtype = 'og_menu-og_single_menu_block';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
       'override_title_text' => '',
     );
