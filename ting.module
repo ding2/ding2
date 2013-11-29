@@ -296,7 +296,6 @@ function ting_block_view($delta = '') {
           );
         }
       }
-
       break;
 
     case 'ting_collection_types':
@@ -320,6 +319,7 @@ function ting_block_view($delta = '') {
         foreach ($collection->types as $type) {
           $uri = entity_uri('ting_collection', $collection);
           $uri['options']['fragment'] = _ting_anchor_name($type);
+          $uri['options']['attributes'] = array('class' => array('js-search-overlay'));
           $items[] = l($type . ' (' . $collection->types_count[$type] . ')', $uri['path'], $uri['options']);
         }
 
@@ -330,6 +330,9 @@ function ting_block_view($delta = '') {
             '#theme' => 'item_list',
             '#items' => $items,
           );
+
+          // Add search overlay trigger.
+          drupal_add_js(drupal_get_path('module', 'ting') . '/js/ting.js');
         }
       }
       break;
