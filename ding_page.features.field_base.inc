@@ -51,6 +51,7 @@ function ding_page_field_default_field_bases() {
         ),
         'target_bundles' => array(
           'ding_group' => 'ding_group',
+          'ding_library' => 'ding_library',
         ),
       ),
       'handler_submit' => 'Change handler',
