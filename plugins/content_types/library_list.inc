@@ -16,7 +16,7 @@ $plugin = array(
     new ctools_context_optional(t('Library'), 'node'),
   ),
   'defaults' => array(
-    'type' => '',
+    'hide_default' => FALSE,
     'slug' => '',
   ),
 );
@@ -57,9 +57,12 @@ function ding_library_library_list_content_type_render($subtype, $conf, $panel_a
   if (!empty($nodes)) {
     uasort($nodes, 'ding_library_library_list_sort_title');
 
-    $items = array($conf['slug'] . $suffix => t('All libraries'));
-    if (isset($alias)) {
-      $items = array($alias => t('All libraries'));
+    $items = array();
+    if (isset($conf['hide_default']) && !$conf['hide_default']) {
+      $items = array($conf['slug'] . $suffix => t('All libraries'));
+      if (isset($alias)) {
+        $items = array($alias => t('All libraries'));
+      }
     }
 
     foreach ($nodes as $node) {
@@ -126,21 +129,17 @@ function ding_library_library_list_select_library_submit($form, &$form_state) {
  * Edit form callback for the content type.
  */
 function ding_library_library_list_content_type_edit_form($form, &$form_state) {
-  $conf = $form_state['conf'];
-
   // Get node types.
   $options = array();
   $types = node_type_get_types();
   foreach ($types as $type) {
     $options[$type->type] = $type->name;
   }
-
-  $form['type'] = array(
-    '#type' => 'select',
-    '#title' => t('Type of list to link to'),
-    '#options' => $options,
-    '#default_value' => $conf['type'],
-    '#required' => TRUE,
+  $form['hide_default'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Hide default'),
+    '#description' => t('Should the drop-down hide the "All libraries" option.'),
+    '#default_value' => $form_state['conf']['hide_default'],
   );
 
   $form['slug'] = array(
