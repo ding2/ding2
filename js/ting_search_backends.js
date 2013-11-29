@@ -5,6 +5,7 @@
     // Click the label link when a radio button is clicked.
     $('#ting-search-backend-engines-form input[type="radio"]').change(function() {
       var link = $(this).parent().find('a');
+      Drupal.TingSearchOverlay();
       window.location = link.attr('href');
     });
 
@@ -19,6 +20,7 @@
       else {
         // Check the radio button and continue handling the click event.
         radio.attr('checked', 'checked');
+        Drupal.TingSearchOverlay();
         return true;
       }
     });
