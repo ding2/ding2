@@ -37,6 +37,14 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['pager']['options']['tags']['last'] = 'sidste »';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
+  /* No results behavior: Global: Text area */
+  $handler->display->display_options['empty']['area']['id'] = 'area';
+  $handler->display->display_options['empty']['area']['table'] = 'views';
+  $handler->display->display_options['empty']['area']['field'] = 'area';
+  $handler->display->display_options['empty']['area']['label'] = 'Empty text';
+  $handler->display->display_options['empty']['area']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area']['content'] = 'No staff was found related to the library selected.';
+  $handler->display->display_options['empty']['area']['format'] = 'ding_wysiwyg';
   /* Field: User uid (excluded) */
   $handler->display->display_options['fields']['user']['id'] = 'user';
   $handler->display->display_options['fields']['user']['table'] = 'profile';
@@ -503,6 +511,8 @@ function ding_staff_views_default_views() {
     t('‹ forrige'),
     t('næste ›'),
     t('sidste »'),
+    t('Empty text'),
+    t('No staff was found related to the library selected.'),
     t('.'),
     t(','),
     t('Name'),

@@ -361,6 +361,33 @@ function ding_staff_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-4';
     $pane->panel = 'main_content';
+    $pane->type = 'library_list';
+    $pane->subtype = 'library_list';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'slug' => 'personale',
+      'context' => array(
+        0 => 'empty',
+        1 => 'argument_slug_1',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+      'hide_default' => 1,
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-4'] = $pane;
+    $display->panels['main_content'][0] = 'new-4';
+    $pane = new stdClass();
+    $pane->pid = 'new-5';
+    $pane->panel = 'main_content';
     $pane->type = 'views_panes';
     $pane->subtype = 'ding_staff-ding_staff_library_departments';
     $pane->shown = TRUE;
@@ -375,12 +402,12 @@ function ding_staff_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-4'] = $pane;
-    $display->panels['main_content'][0] = 'new-4';
+    $display->content['new-5'] = $pane;
+    $display->panels['main_content'][1] = 'new-5';
   $display->hide_title = PANELS_TITLE_PANE;
-  $display->title_pane = 'new-4';
+  $display->title_pane = 'new-5';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['ding_staff_library'] = $page;
