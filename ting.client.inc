@@ -401,6 +401,11 @@ function ting_execute_cache($request) {
       }
     }
 
+    // Cache the object self
+    if ($reply instanceof TingClientObject) {
+      ting_cache_set($reply->id, $reply);
+    }
+
     // Store the reply for the request itself in the cache.
     if (is_null($reply)) {
       // Handle empty data well replies.

@@ -616,9 +616,19 @@ function ting_ting_object_load($objects) {
 /**
  * Load a ting object.
  *
- * Don't use this, use ding_entity_load().
+ * Don't use this, use ding_entity_load(). Default menu callback load of ting
+ * object.
+ *
+ * Handles redirect from data well version 2 to version 3.
  */
 function ting_object_load($id) {
+  $agency = variable_get('ting_agency', FALSE);
+  if ($agency && preg_match('/^(\d{6}):(\w+)$/', $id, $matches)) {
+    // Matched to data well version 2, to redirect to version 3.
+    $id = ding_provider_build_entity_id($matches[2], $matches[1]);
+    drupal_goto('ting/object/' . $id, array(), 301);
+  }
+
   return ding_entity_load($id, 'ting_object');
 }
 
@@ -634,9 +644,19 @@ function ting_object_load_multiple($ids) {
 /**
  * Load a ting collection.
  *
- * Don't use this, use ding_collection_load().
+ * Don't use this, use ding_collection_load(). Default menu callback load of
+ * ting collections.
+ *
+ * Handles redirect from data well version 2 to version 3.
  */
 function ting_collection_load($id) {
+  $agency = variable_get('ting_agency', FALSE);
+  if ($agency && preg_match('/^(\d{6}):(\w+)$/', $id, $matches)) {
+    // Matched to data well version 2, to redirect to version 3.
+    $id = ding_provider_build_entity_id($matches[2], $matches[1]);
+    drupal_goto('ting/collection/' . $id, array(), 301);
+  }
+
   return ding_entity_load($id, 'ting_collection');
 }
 
