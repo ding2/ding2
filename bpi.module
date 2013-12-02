@@ -285,7 +285,17 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
     $current_language = $form['language']['#value'];
 
     foreach($bpi_content['material'] as $key => $material_number) {
-      ting_reference_field_widget_form($form, $form_state, 'field_materials', array(), $current_language, array(), 0, &$form[$materials_field][$current_language][$key]);
+      $form[$materials_field][$current_language][$key] = ting_reference_field_widget_form(
+        $form,
+        $form_state,
+        'field_materials',
+        array(),
+        $current_language,
+        array(),
+        0,
+        $form[$materials_field][$current_language][$key]
+      );
+
       // Overwrite agency id by local value.
       $number_parts = explode(':', $material_number);
       $form[$materials_field][$current_language][$key]['#default_value'] = variable_get('bpi_agency_id', '') . ':' . $number_parts[1];
