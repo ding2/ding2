@@ -36,7 +36,7 @@ function alma_loan_list($account, $reset = FALSE) {
       $results = array();
       foreach ($loans as $loan) {
         $results[$loan['id']] = new DingProviderLoan($loan['id'], array(
-          'ding_entity_id' => variable_get('ting_agency', '') . ':' . $loan['record_id'],
+          'ding_entity_id' => ding_provider_build_entity_id($loan['record_id']),
           'loan_date' => $loan['loan_date'],
           'expiry' => $loan['due_date'],
           'renewable' => $loan['is_renewable'],
