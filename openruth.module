@@ -432,13 +432,11 @@ function _openruth_user_status($creds = NULL, $reset = FALSE) {
  */
 function openruth_seek_reserved_item($faust_number) {
   global $user;
-  $agency = variable_get('openruth_agency_id', '');
   $orders = openruth_reservation_list($user);
-  $ding_id = $agency . ':' . $faust_number;
   $item = FALSE;
 
   foreach ($orders as $order) {
-    if ($order->ding_entity_id == $ding_id) {
+    if ($order->ding_entity_id == ding_provider_build_entity_id($faust_number)) {
       $item = $order;
       break;
     }
