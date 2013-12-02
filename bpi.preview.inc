@@ -24,13 +24,15 @@ function admin_bpi_preview_ajax_callback($type = 'ajax', $bpi_id) {
   module_load_include('inc', 'bpi', 'bpi.syndicate');
 
   if (!isset($bpi_id)) {
-    return;
+    return _admin_bpi_preview_output($type, t('Incorrect BPI ID.'));
   }
+
   $bpi_ctype = variable_get('bpi_content_type', '');
   // This could lead to unexpected behavior. Just a note.
   if (empty($bpi_ctype)) {
-    return;
+    return _admin_bpi_preview_output($type, t('BPI is not mapped to any content type.'));
   }
+
   $endpoint = variable_get('bpi_service_url', '');
   $agency_id = variable_get('bpi_agency_id', '');
   $api_key = variable_get('bpi_api_key', '');
@@ -52,12 +54,29 @@ function admin_bpi_preview_ajax_callback($type = 'ajax', $bpi_id) {
       ),
       WATCHDOG_ERROR
     );
-    drupal_set_message(t('Failed to fetch the article from BPI well.'), 'error');
+
+    return _admin_bpi_preview_output($type, t('Failed to fetch the article from BPI well.'));
   }
 
   $body = variable_get('bpi_field_body', '');
   $bpi_teaser = isset($bpi_content['teaser']) ? $bpi_content['teaser'] : '';
   $output = theme('bpi_preview_item', array('item' => $bpi_content));
+
+  return _admin_bpi_preview_output($type, $output);
+}
+
+/**
+ * Output preview content.
+ *
+ * @param string $type
+ *   Response type (akax or standart).
+ * @param string $output
+ *   Content to output.
+ *
+ * @return mixed
+ *   Response based on type.
+ */
+function _admin_bpi_preview_output($type, $output) {
   if ($type == 'ajax') {
     $commands = array();
     $commands[] = ajax_command_ding_popup(
