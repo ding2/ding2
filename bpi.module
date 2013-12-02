@@ -247,13 +247,8 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
     $bpi_id = isset($_SESSION['bpi']['syndicate_id']) ? $_SESSION['bpi']['syndicate_id'] : 0;
 
     if ($bpi_id) {
-      $endpoint = variable_get('bpi_service_url', '');
-      $agency_id = variable_get('bpi_agency_id', '');
-      $api_key = variable_get('bpi_api_key', '');
-      $secret_key = variable_get('bpi_secret_key', '');
-
       try {
-        $bpi = new Bpi($endpoint, $agency_id, $api_key, $secret_key);
+        $bpi = bpi_client_instance();
         $bpi_node = $bpi->getNode($bpi_id);
         $bpi_content = $bpi_node->getProperties();
         $bpi_assets = $bpi_node->getAssets();
@@ -584,13 +579,8 @@ function bpi_node_insert($node) {
       ->condition('nid', $node_id, '=')
       ->execute();
 
-    $endpoint = variable_get('bpi_service_url', '');
-    $agency_id = variable_get('bpi_agency_id', '');
-    $api_key = variable_get('bpi_api_key', '');
-    $secret_key = variable_get('bpi_secret_key', '');
-
     try {
-      $bpi = new Bpi($endpoint, $agency_id, $api_key, $secret_key);
+      $bpi = bpi_client_instance();
       $bpi->syndicateNode($bpi_id);
     }
     catch (Exception $e) {
@@ -758,4 +748,20 @@ function bpi_push_available($nid) {
   }
 
   return $status;
+}
+
+/**
+ * Creates new Bpi client instance.
+ * It shouldn't behave as singleton.
+ *
+ * @return Bpi
+ *   Webservice client.
+ */
+function bpi_client_instance() {
+  $endpoint = variable_get('bpi_service_url', '');
+  $agency_id = variable_get('bpi_agency_id', '');
+  $api_key = variable_get('bpi_api_key', '');
+  $secret_key = variable_get('bpi_secret_key', '');
+
+  return new Bpi($endpoint, $agency_id, $api_key, $secret_key);
 }

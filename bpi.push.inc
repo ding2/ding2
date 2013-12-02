@@ -154,13 +154,8 @@ function http_bpi_push_action_form_submit($form, &$form_state) {
   $node = node_load($nid);
   $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, $authorship, $editable);
 
-  $endpoint = variable_get('bpi_service_url', '');
-  $agency_id = variable_get('bpi_agency_id', '');
-  $api_key = variable_get('bpi_api_key', '');
-  $secret_key = variable_get('bpi_secret_key', '');
-
   try {
-    $bpi = new Bpi($endpoint, $agency_id, $api_key, $secret_key);
+    $bpi = bpi_client_instance();
     $push_result = $bpi->push($bpi_content)->getProperties();
 
     if (!empty($push_result['id'])) {
@@ -290,13 +285,8 @@ function bpi_push_form_submit($form, &$form_state) {
   $node = node_load($nid);
   $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, $authorship, $editable);
 
-  $endpoint = variable_get('bpi_service_url', '');
-  $agency_id = variable_get('bpi_agency_id', '');
-  $api_key = variable_get('bpi_api_key', '');
-  $secret_key = variable_get('bpi_secret_key', '');
-
   try {
-    $bpi = new Bpi($endpoint, $agency_id, $api_key, $secret_key);
+    $bpi = bpi_client_instance();
     $push_result = $bpi->push($bpi_content)->getProperties();
 
     if (!empty($push_result['id'])) {
@@ -504,14 +494,10 @@ function bpi_fetch_image_fields($bundle) {
  *   type.
  */
 function bpi_get_bpi_dictionaries() {
-  $dictionaries = array();
-  $endpoint = variable_get('bpi_service_url', '');
-  $agency_id = variable_get('bpi_agency_id', '');
-  $api_key = variable_get('bpi_api_key', '');
-  $secret_key = variable_get('bpi_secret_key', '');
+  $dictionaries = array('category' => array(), 'audience' => array());
 
   try {
-    $bpi = new Bpi($endpoint, $agency_id, $api_key, $secret_key);
+    $bpi = bpi_client_instance();
     $dictionaries = $bpi->getDictionaries();
   }
   catch (Exception $e) {
