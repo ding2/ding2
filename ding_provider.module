@@ -660,10 +660,11 @@ function ding_provider_build_entity_id($faust) {
       drupal_set_message(t('Agency was not set when trying to build entity id.'), 'error');
     }
 
-    // Local
+    // Local posts.
     $ting_entity_id = $agency . '-katalog:' . $faust;
   }
   else {
+    // Global posts.
     $ting_entity_id = '870970-basis:' . $faust;
   }
 
