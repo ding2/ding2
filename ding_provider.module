@@ -638,34 +638,146 @@ function ding_provider_get_pseudo_entity($ding_entity_id) {
 }
 
 /**
- * Helper function to build "basis" and "katalog" data well ID's (pids).
+ * Helper function to create data well 3 PID's.
  *
- * Not that this is only for basis and katalog posts. NOT addi posts.
+ * This function is placed in the provider and not "ting" module as the
+ * providers uses it and we don't want to have a binding from providers to ting.
  *
- * @param $faust
- *   The materials faust number (local id).
+ * @param $id
+ *   The materials local id number (faust).
+ * @param $agency
+ *   Agency ID to which the entity belongs.
  *
  * @return string
  *   The PID for the faust in the data well.
  */
-function ding_provider_build_entity_id($faust) {
-  // Get local library material ID range
+function ding_provider_build_entity_id($id, $agency = -1) {
+  // Get local library faust ID range
   $local_range = '9';
 
-  if (preg_match('/^' . $local_range . '/', $faust)) {
-    // Get agency ID.
-    $agency = variable_get('ting_agency', '');
-    if (!empty($agency)) {
-      watchdog('ding_provider', 'Agency was not set when trying to build entity id.', array(), WATCHDOG_ERROR);
-      drupal_set_message(t('Agency was not set when trying to build entity id.'), 'error');
-    }
+  // Get agency ID.
+  $local_agency = variable_get('ting_agency', '');
 
-    // Local posts.
-    $ting_entity_id = $agency . '-katalog:' . $faust;
-  }
-  else {
-    // Global posts.
-    $ting_entity_id = '870970-basis:' . $faust;
+  switch ($agency) {
+    case $local_agency:
+    case -1:
+    if (preg_match('/^' . $local_range . '/', $id)) {
+      if (!empty($agency)) {
+          watchdog('ding_provider', 'Agency was not set when trying to build entity id.', array(), WATCHDOG_ERROR);
+          drupal_set_message(t('Agency was not set when trying to build entity id.'), 'error');
+        }
+
+        // Local posts.
+        $ting_entity_id = $agency . '-katalog:' . $id;
+      }
+      else {
+        // Global posts.
+        $ting_entity_id = '870970-basis:' . $id;
+      }
+      break;
+
+    case '150021':
+      $ting_entity_id = '150021-bibliotek:' . $id;
+      break;
+
+    case '150027':
+      $ting_entity_id = '150021-fjern:' . $id;
+      break;
+
+    case '150030':
+      $ting_entity_id = '150030-spilmedier:' . $id;
+      break;
+
+    case '870973':
+      $ting_entity_id = '870973-anmeld:' . $id;
+      break;
+
+    case '150039':
+      $ting_entity_id = '150015-forlag:' . $id;
+      break;
+
+    case '870976':
+      $ting_entity_id = '870976-anmeld:' . $id;
+      break;
+
+    case '150048':
+      $ting_entity_id = '150048-basis:' . $id;
+      break;
+
+    case '150028':
+      $ting_entity_id = '150028-basis:' . $id;
+      break;
+
+    case '150015':
+      $ting_entity_id = '150015-basis:' . $id;
+      break;
+
+    case '150033':
+      $ting_entity_id = '150033-dandyr:' . $id;
+      break;
+
+    case '150040':
+      $ting_entity_id = '150040-verdyr:' . $id;
+      break;
+
+    case '150018':
+      $ting_entity_id = '150018-danhist:' . $id;
+      break;
+
+    case '150032':
+      $ting_entity_id = '150018-samfund:' . $id;
+      break;
+
+    case '150034':
+      $ting_entity_id = '150018-religion:' . $id;
+      break;
+
+    case '150054':
+      $ting_entity_id = '150018-biologi:' . $id;
+      break;
+
+    case '150055':
+      $ting_entity_id = '150018-fysikkemi:' . $id;
+      break;
+
+    case '150056':
+      $ting_entity_id = '150056-geografi:' . $id;
+      break;
+
+    case '150008':
+      $ting_entity_id = '150008-academic:' . $id;
+      break;
+
+    case '150043':
+      $ting_entity_id = '150043-atlas:' . $id;
+      break;
+
+    case '150023':
+      $ting_entity_id = '150023-sicref:' . $id;
+      break;
+
+    case '150025':
+      $ting_entity_id = '150008-public:' . $id;
+      break;
+
+    case '150052':
+      $ting_entity_id = '870970-basis:' . $id;
+      break;
+
+    case '159002':
+      $ting_entity_id = '159002-lokalbibl:' . $id;
+      break;
+
+    case '150012':
+      $ting_entity_id = '150012-leksikon:' . $id;
+      break;
+
+    default:
+      // The agency ID was not translatable, do to one-to-may match from old pid
+      // to new pid. Or the agency ID is not known. So simply log it under a
+      // filterable type.
+      watchdog('ding_provider_pid', 'PID creation failed with agency (%agency) and ID (%id)', array('%agency' => $agency, '%id' => $id), WATCHDOG_ERROR);
+      break;
   }
 
   return $ting_entity_id;
