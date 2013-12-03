@@ -5,6 +5,13 @@
  */
 
 /**
+ * Define reservation types.
+ */
+define('DING_RESERVATION_READY', 'ready_for_pickup');
+define('DING_RESERVATION_NOT_READY', 'not_ready_for_pickup');
+define('DING_RESERVATION_INTERLIBRARY_LOANS', 'interlibrary_loans');
+
+/**
  * Implements hook_ctools_plugin_directory().
  *
  * It simply tells panels where to find the .inc files that define various
@@ -311,7 +318,7 @@ function ding_reservation_reserve_form_callback($form, &$form_state) {
 /**
  * Show a reservation list form.
  */
-function ding_reservation_reservations_form($form, &$form_state, $reservations, $type = 'not_ready_for_pickup', $conf = array()) {
+function ding_reservation_reservations_form($form, &$form_state, $reservations, $type = DING_RESERVATION_NOT_READY, $conf = array()) {
   $form = array(
     '#tree' => TRUE,
   );
@@ -347,8 +354,8 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
     $title = l($entity->getTitle() ? $entity->getTitle() : $reservation->display_name, $uri['path']);
 
     $pickup_branch = ding_provider_invoke('reservation', 'branch_name', $reservation->pickup_branch_id);
-    switch ($type) {
-      case 'ready_for_pickup':
+    switch ($reservation->reservation_type) {
+      case DING_RESERVATION_READY:
         $item = array(
           '#type' => 'material_item',
           '#id' => $reservation->id,
@@ -383,7 +390,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
         );
         break;
 
-      case 'not_ready_for_pickup':
+      case DING_RESERVATION_NOT_READY:
         $item = array(
           '#type' => 'material_item',
           '#id' => $reservation->id,
@@ -424,11 +431,12 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
         );
         break;
 
-      case 'interlibrary_loans':
+      case DING_RESERVATION_INTERLIBRARY_LOANS:
+        $title = $entity ? $entity->getTitle() : $reservation->display_name;
         $item = array(
           '#type' => 'material_item',
           '#id' => $reservation->id,
-          '#title' => $entity ? $entity->getTitle() : $reservation->display_name,
+          '#title' => $title ? $title : $reservation->display_name,
           '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
           '#information' => array(
             'ill_status' => array(
@@ -444,7 +452,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
               '#weight' => 4,
             ),
             'library' => array(
-              'label' => t('Library'),
+              'label' => t('Pickup branch'),
               'data' => $pickup_branch ? check_plain($pickup_branch) : '',
               'class' => 'pickup-branch',
               '#weight' => 8,
@@ -455,12 +463,18 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
               'class' => 'created-date',
               '#weight' => 16,
             ),
+            'order_nr' => array(
+              'label' => t('Order nr.'),
+              'data' => ding_reservation_get_order_nr($reservation),
+              'class' => 'pickup-id',
+              '#weight' => 32,
+            ),
           ),
         );
         break;
     }
 
-    if (in_array($type, array('not_ready_for_pickup', 'interlibrary_loans'))) {
+    if (in_array($type, array(DING_RESERVATION_NOT_READY, DING_RESERVATION_INTERLIBRARY_LOANS))) {
       // Set reservation expire message.
       $expire = strtotime(check_plain($reservation->expiry));
       if ($expire - variable_get('reservation_expire', 604800) <= time()) {
@@ -475,7 +489,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
     // Add extra information if it's a periodical. There is an exception because
     // the notes field is also used to set library information for ill's but
     // only when they are ready for pick-up.
-    if (!empty($reservation->notes) && !($reservation->ill_status && $type == 'ready_for_pickup')) {
+    if (!empty($reservation->notes) && !($reservation->ill_status && $type == DING_RESERVATION_READY)) {
       $item['#information']['periodical_number'] = array(
         'label' => t('Periodical no.'),
         'data' => check_plain($reservation->notes),
@@ -509,7 +523,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
     );
   }
 
-  if ($type == 'not_ready_for_pickup') {
+  if ($type == DING_RESERVATION_NOT_READY) {
     $form['actions_top']['update'] = array(
       '#prefix' => '<div class="update-reservations action-button">',
       '#suffix' => '</div>',
