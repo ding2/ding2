@@ -38,72 +38,93 @@ function openruth_reservation_pickup_branches($account) {
  *   Array with DingProviderReservation objects.
  */
 function openruth_reservation_list($account, $type = NULL) {
-  $result = &drupal_static(__FUNCTION__, array(
-    'ready_for_pickup' => array(),
-    'not_ready_for_pickup' => array(),
-    'interlibrary_loans' => array(),
-  ));
-
-  if (empty($result)) {
-    $creds = ding_user_get_creds($account);
-    $status = _openruth_user_status($creds);
-
-    if (isset($status->orders->orderReady)) {
-      foreach ($status->orders->orderReady as $res) {
-        $result['ready_for_pickup'][$res->orderId] = new DingProviderReservation($res->orderId, array(
-          'order_id' => $res->orderId,
-          'ding_entity_id' => variable_get('ting_agency', '') . ':' . $res->itemId,
-          'display_name' => $res->itemDisplayTitle,
-          // For some reason, we might not get a pickup date back.
-          'pickup_date' => (!empty($res->orderPickUpDate)) ? $res->orderPickUpDate : NULL,
-          // Only items that has been set aside for the user has a pickup order
-          // ID. Also, not all libraries use it.
-          'pickup_order_id' => (!empty($res->orderPickUpId)) ? $res->orderPickUpId : NULL,
-          'pickup_branch_id' => $res->agencyCounter,
-          'order_arrived' => $res->orderArrived,
-          'created' => $res->orderDate,
-          'author' => $res->itemAuthor,
-          'title' => $res->itemTitle,
-          'publication_year' => $res->itemPublicationYear,
-          'ready_for_pickup' => 1,
-          'notes' => isset($res->itemSerialPartTitle) ? $res->itemSerialPartTitle : '',
-        ));
-      }
+  // Use a static cache to speed up the process of getting reservations from
+  // OpenRuth, when call more than once in a single HTTP request.
+  $result = &drupal_static(__FUNCTION__);
+  if (!isset($result)) {
+    // Check if ding_session_cache is available.
+    if (module_exists('ding_session_cache')) {
+      $result = ding_session_cache_get('openruth', 'reservations');
     }
-    if (isset($status->orders->orderNotReady)) {
-      foreach ($status->orders->orderNotReady as $res) {
-        $result['not_ready_for_pickup'][$res->orderId] = new DingProviderReservation($res->orderId, array(
-          'order_id' => $res->orderId,
-          'ding_entity_id' => variable_get('ting_agency', '') . ':' . $res->itemId,
-          'display_name' => $res->itemDisplayTitle,
-          'pickup_order_id' => (!empty($res->orderPickUpId)) ? $res->orderPickUpId : NULL,
-          'pickup_branch_id' => $res->agencyCounter,
-          'expiry' => $res->orderLastInterestDate,
-          'created' => $res->orderDate,
-          'queue_number' => $res->orderQueuePosition,
-          'ready_for_pickup' => 0,
-          'author' => isset($res->itemAuthor) ? $res->itemAuthor : '',
-          'title' => $res->itemTitle,
-          'publication_year' => isset($res->itemPublicationYear) ? $res->itemPublicationYear : '',
-          'notes' => isset($res->itemSerialPartTitle) ? $res->itemSerialPartTitle : '',
-        ));
+
+    // If both static cache and session cache failed, try reloading information
+    // from OpenRuth.
+    if (empty($result)) {
+      // Set default reservation types.
+      $result = array(
+        'ready_for_pickup' => array(),
+        'not_ready_for_pickup' => array(),
+        'interlibrary_loans' => array(),
+      );
+
+      // Get information for OpenRuth.
+      $creds = ding_user_get_creds($account);
+      $status = _openruth_user_status($creds);
+
+      if (isset($status->orders->orderReady)) {
+        foreach ($status->orders->orderReady as $res) {
+          $result['ready_for_pickup'][$res->orderId] = new DingProviderReservation($res->orderId, array(
+            'order_id' => $res->orderId,
+            'ding_entity_id' => variable_get('ting_agency', '') . ':' . $res->itemId,
+            'display_name' => $res->itemDisplayTitle,
+            // For some reason, we might not get a pickup date back.
+            'pickup_date' => (!empty($res->orderPickUpDate)) ? $res->orderPickUpDate : NULL,
+            // Only items that has been set aside for the user has a pickup order
+            // ID. Also, not all libraries use it.
+            'pickup_order_id' => (!empty($res->orderPickUpId)) ? $res->orderPickUpId : NULL,
+            'pickup_branch_id' => $res->agencyCounter,
+            'order_arrived' => $res->orderArrived,
+            'created' => $res->orderDate,
+            'author' => $res->itemAuthor,
+            'title' => $res->itemTitle,
+            'publication_year' => $res->itemPublicationYear,
+            'ready_for_pickup' => 1,
+            'notes' => isset($res->itemSerialPartTitle) ? $res->itemSerialPartTitle : '',
+          ));
+        }
       }
-    }
-    if (isset($status->illOrders->illOrder)) {
-      foreach ($status->illOrders->illOrder as $res) {
-        $result['interlibrary_loans'][$res->orderId] = new DingProviderReservation($res->orderId, array(
-          'order_id' => $res->orderId,
-          'ding_entity_id' => variable_get('ting_agency', '') . ':' . $res->itemId,
-          'display_name' => $res->itemDisplayTitle,
-          'pickup_branch_id' => $res->agencyCounter,
-          'expiry' => $res->orderLastInterestDate,
-          'created' => $res->orderDate,
-          'author' => isset($res->itemAuthor) ? $res->itemAuthor : '',
-          'title' => $res->itemTitle,
-          'publication_year' => isset($res->itemPublicationYear) ? $res->itemPublicationYear : '',
-          'ill_status' => $res->illStatus,
-          'notes' => isset($res->itemSerialPartTitle) ? $res->itemSerialPartTitle : '',
-        ));
+
+      if (isset($status->orders->orderNotReady)) {
+        foreach ($status->orders->orderNotReady as $res) {
+          $result['not_ready_for_pickup'][$res->orderId] = new DingProviderReservation($res->orderId, array(
+            'order_id' => $res->orderId,
+            'ding_entity_id' => variable_get('ting_agency', '') . ':' . $res->itemId,
+            'display_name' => $res->itemDisplayTitle,
+            'pickup_order_id' => (!empty($res->orderPickUpId)) ? $res->orderPickUpId : NULL,
+            'pickup_branch_id' => $res->agencyCounter,
+            'expiry' => $res->orderLastInterestDate,
+            'created' => $res->orderDate,
+            'queue_number' => $res->orderQueuePosition,
+            'ready_for_pickup' => 0,
+            'author' => isset($res->itemAuthor) ? $res->itemAuthor : '',
+            'title' => $res->itemTitle,
+            'publication_year' => isset($res->itemPublicationYear) ? $res->itemPublicationYear : '',
+            'notes' => isset($res->itemSerialPartTitle) ? $res->itemSerialPartTitle : '',
+          ));
+        }
+      }
+
+      if (isset($status->illOrders->illOrder)) {
+        foreach ($status->illOrders->illOrder as $res) {
+          $result['interlibrary_loans'][$res->orderId] = new DingProviderReservation($res->orderId, array(
+            'order_id' => $res->orderId,
+            'ding_entity_id' => variable_get('ting_agency', '') . ':' . $res->itemId,
+            'display_name' => $res->itemDisplayTitle,
+            'pickup_branch_id' => $res->agencyCounter,
+            'expiry' => $res->orderLastInterestDate,
+            'created' => $res->orderDate,
+            'author' => isset($res->itemAuthor) ? $res->itemAuthor : '',
+            'title' => $res->itemTitle,
+            'publication_year' => isset($res->itemPublicationYear) ? $res->itemPublicationYear : '',
+            'ill_status' => $res->illStatus,
+            'notes' => isset($res->itemSerialPartTitle) ? $res->itemSerialPartTitle : '',
+          ));
+        }
+      }
+
+      // Store the reservations into ding session cache.
+      if (module_exists('ding_session_cache')) {
+        ding_session_cache_set('openruth', 'reservations', $result);
       }
     }
   }
