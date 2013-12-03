@@ -71,8 +71,8 @@ class OpenruthClient {
   private function log_start() {
     if ($this->logging) {
       $this->log_timestamp = microtime(TRUE);
+      timer_start('openruth_net');
     }
-    timer_start('openruth_net');
   }
 
   /**
@@ -82,8 +82,8 @@ class OpenruthClient {
    *   A variable number of arguments, whose values will be redacted.
    */
   private function log() {
-    timer_stop('openruth_net');
     if ($this->logging) {
+      timer_stop('openruth_net');
       if ($this->log_timestamp) {
         $time = round(microtime(TRUE) - $this->log_timestamp, 2);
         $this->log_timestamp = NULL;
@@ -339,13 +339,12 @@ class OpenruthClient {
   }
 
   /**
-   * Changing userinfo (pin-code, contact, preferences etc.)
+   * Changing user info (pin-code, contact, preferences etc.)
    */
   public function update_userinfo($name, $pass, $changes) {
     static $mapping = array(
       'pass' => 'userPinCodeNew',
       'mail' => 'userEmail',
-      // 'phone' => 'userTelephone', // No?
       'mobile_phone' => 'userMobilePhone',
       'reminder' => 'userPreReturnReminder',
       'first_name' => 'userFirstName',
@@ -450,7 +449,7 @@ class OpenruthClient {
 
     $this->log_start();
     $res = $this->client->userPayment($params);
-    $this->log($creds['name']);
+    $this->log();
     if (isset($res->userPaymentError)) {
       watchdog('openruth', 'openRuth error: %response', array(
         '%response' => $res->userPaymentError,
