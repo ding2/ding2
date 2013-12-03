@@ -119,13 +119,8 @@ function bpi_syndicate_page_form_submit($form, &$form_state) {
  *   Array of filters/sorting.
  */
 function bpi_search_content($query = '', $page = 1, $filters = array(), $sort = 'desc') {
-  $endpoint = variable_get('bpi_service_url', '');
-  $agency_id = variable_get('bpi_agency_id', '');
-  $api_key = variable_get('bpi_api_key', '');
-  $secret_key = variable_get('bpi_secret_key', '');
-
   try {
-    $bpi = new Bpi($endpoint, $agency_id, $api_key, $secret_key);
+    $bpi = bpi_client_instance();
     $amount = variable_get('bpi_content_per_page', BPI_CONTENT_PER_PAGE);
     $offset = $page * $amount;
 

@@ -144,13 +144,8 @@ function bpi_delete_action_ajax_callback($form, &$form_state) {
  *   Status, success or failure.
  */
 function bpi_well_delete($bpi_id) {
-  $endpoint = variable_get('bpi_service_url', '');
-  $agency_id = variable_get('bpi_agency_id', '');
-  $api_key = variable_get('bpi_api_key', '');
-  $secret_key = variable_get('bpi_secret_key', '');
-
   try {
-    $bpi = new Bpi($endpoint, $agency_id, $api_key, $secret_key);
+    $bpi = bpi_client_instance();
 
     db_delete('bpi_syndicated')
       ->condition('bid', $bpi_id, '=')
