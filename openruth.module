@@ -393,7 +393,7 @@ function _openruth_user_status($creds = NULL, $reset = FALSE) {
   $status = &drupal_static(__FUNCTION__, FALSE);
   if (!$status || $reset) {
     // Check if ding_session_cache is available.
-    if (module_exists('ding_session_cache')) {
+    if (module_exists('ding_session_cache') && !$reset) {
       $status = ding_session_cache_get('openruth', 'status');
     }
 

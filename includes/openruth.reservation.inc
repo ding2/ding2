@@ -42,11 +42,6 @@ function openruth_reservation_list($account, $type = NULL) {
   // OpenRuth, when call more than once in a single HTTP request.
   $result = &drupal_static(__FUNCTION__);
   if (!isset($result)) {
-    // Check if ding_session_cache is available.
-    if (module_exists('ding_session_cache')) {
-      $result = ding_session_cache_get('openruth', 'reservations');
-    }
-
     // If both static cache and session cache failed, try reloading information
     // from OpenRuth.
     if (empty($result)) {
@@ -120,11 +115,6 @@ function openruth_reservation_list($account, $type = NULL) {
             'notes' => isset($res->itemSerialPartTitle) ? $res->itemSerialPartTitle : '',
           ));
         }
-      }
-
-      // Store the reservations into ding session cache.
-      if (module_exists('ding_session_cache')) {
-        ding_session_cache_set('openruth', 'reservations', $result);
       }
     }
   }
@@ -279,7 +269,6 @@ function openruth_reservation_create($account, $id, $options = array(), $expiry 
 
   // Get creds and user status.
   $creds = ding_user_get_creds($account);
-  _openruth_user_status($creds, TRUE);
 
   // Create the reservation at openruth.
   $order_res = openruth_client_invoke('order_item', $creds['name'], $id, 1, date('c', time()), date('Y-m-d', $expiry), $branch);
