@@ -44,6 +44,8 @@ function bpi_admin_settings_form($form, $form_state) {
     '#title' => t('BPI Service settings'),
   );
 
+  // TODO We already  have a variable containing the agency id, ting_agency.
+  // Is there a reason to keep a separate variable for this for BPI?
   $form['bpi_service_settings']['bpi_agency_id'] = array(
     '#type' => 'textfield',
     '#title' => t('Agency ID'),
@@ -138,9 +140,9 @@ function bpi_admin_settings_form_validate(&$form, &$form_state) {
  * @ingroup forms
  */
 function bpi_admin_content_mapping_form($form, $form_state) {
+  // TODO Why not use node_type_get_names()?
   $node_types = bpi_get_node_types();
   $node_types_names = array_keys($node_types);
-  $field_instances = array();
 
   $form['bpi_content_type'] = array(
     '#type' => 'select',
@@ -264,6 +266,7 @@ function bpi_get_node_types() {
  */
 function bpi_get_field_instances($node_type) {
   $fields = array();
+  // TODO If the is a reason for restriction on widgets instead of field types an comment explaining this would be nice.
   $allowed_widgets = array(
     'text_textfield',
     'text_textarea',

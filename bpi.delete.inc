@@ -21,6 +21,7 @@ function bpi_delete_action($type = 'ajax', $nid) {
     return;
   }
 
+  // TODO There are access checks here and in the hook_menu() definition. Why not keep it all in hook_menu or here?
   if (!bpi_ability($nid, 'delete')) {
     drupal_access_denied();
     drupal_exit();
@@ -61,18 +62,21 @@ function bpi_delete_action($type = 'ajax', $nid) {
  */
 function bpi_delete_form($form, $form_state, $nid) {
   $node_title = '';
+  // TODO If $nid is empty this seems like a poor fix.
   if (!empty($nid)) {
     $node = node_load($nid);
     $node_title = $node->title;
   }
 
   $form['bpi_delete_bpi_id'] = array(
+    // TODO Why use hidden instead of value here?
     '#type' => 'hidden',
     '#value' => isset($node->bpi_id) ? $node->bpi_id : 0,
   );
 
   return confirm_form(
     $form,
+    // TODO Why include strong tag? %title should already add <em>.
     t('Are you sure u want to delete <strong>%title</strong> from bpi well?', array('%title' => $node_title)),
     'admin/content'
   );
@@ -156,6 +160,7 @@ function bpi_well_delete($bpi_id) {
     return TRUE;
   }
   catch (Exception $e) {
+    // TODO Please use watchdog_exception here.
     watchdog(
       'bpi',
       t('Failed to delete node %title, with message %message.'),

@@ -24,6 +24,7 @@ function bpi_push_action($type, $nid) {
     return;
   }
 
+  // TODO There are access checks here and in the hook_menu() definition. Why not keep it all in hook_menu or here?
   if (!bpi_ability($nid, 'push')) {
     drupal_access_denied();
     drupal_exit();
@@ -57,6 +58,7 @@ function bpi_push_action($type, $nid) {
  *   Form structure.
  *
  */
+//TODO Please prefix all function names with the module name to avoid name clashes.
 function http_bpi_push_action($nid) {
   return drupal_get_form('http_bpi_push_action_form', $nid);
 }
@@ -75,14 +77,17 @@ function http_bpi_push_action($nid) {
  *
  * @ingroup forms
  */
+//TODO Please prefix all function names with the module name to avoid name clashes.
 function http_bpi_push_action_form($form, &$form_state, $nid) {
   $node_title = '';
+  // TODO If $nid is empty this seems like a poor fix.
   if (!empty($nid)) {
     $node = node_load($nid);
     $node_title = $node->title;
   }
 
   $form['bpi_push_nid'] = array(
+    // TODO Why not use value here?
     '#type' => 'hidden',
     '#value' => isset($nid) ? $nid : 0,
   );
@@ -94,6 +99,7 @@ function http_bpi_push_action_form($form, &$form_state, $nid) {
     '#type' => 'select',
     '#title' => t('Category'),
     '#options' => array_combine($categories, $categories),
+    // TODO: There is no #descroption here. Is this intentional?
     '#default_value' => ','
   );
 
@@ -102,35 +108,40 @@ function http_bpi_push_action_form($form, &$form_state, $nid) {
     '#type' => 'select',
     '#title' => t('Audience'),
     '#options' => array_combine($audiences, $audiences),
+    // TODO: There is no #descroption here. Is this intentional?
     '#default_value' => ','
   );
 
   $form['bpi_push_images'] = array(
     '#type' => 'checkbox',
     '#title' => t('Push with images'),
+    // TODO: There is no #descroption here. Is this intentional?
   );
 
   $form['bpi_push_ccl'] = array(
     '#type' => 'checkbox',
     '#title' => t('I want be anonymous'),
+    // TODO: There is no #descroption here. Is this intentional?
     '#default_value' => FALSE,
   );
 
   $form['bpi_push_editable'] = array(
     '#type' => 'checkbox',
     '#title' => t('Editable'),
+    // TODO: There is no #descroption here. Is this intentional?
     '#default_value' => '1',
   );
 
   return confirm_form(
     $form,
+    // TODO Why include strong tag? %title should already add <em>.
     t('Are you sure u want to push content <strong>%title</strong> to BPI well?', array('%title' => $node_title)),
     'admin/content'
   );
 }
 
 /**
- * Submit handler for the  push node form on node/edit page.
+ * Submit handler for the push node form on node/edit page.
  *
  * @see bpi_push_form()
  *
@@ -141,6 +152,7 @@ function http_bpi_push_action_form($form, &$form_state, $nid) {
  *
  * @ingroup forms
  */
+//TODO Please prefix all function names with the module name to avoid name clashes.
 function http_bpi_push_action_form_submit($form, &$form_state) {
   $nid = $form_state['input']['bpi_push_nid'];
   $category = $form_state['input']['bpi_push_category'];
@@ -170,10 +182,12 @@ function http_bpi_push_action_form_submit($form, &$form_state) {
         ->execute();
       drupal_set_message(t('Node %title was successfully pushed to BPI well.', array('%title' => $node->title)));
     }
+    // TODO Using $base_url should not be necessary here.
     global $base_url;
     drupal_goto($base_url . '/admin/bpi');
   }
   catch (Exception $e) {
+    // TODO Please use watchdog_exception here.
     watchdog(
       'bpi',
       t('Failed to push node %title, with message %message.'),
@@ -201,6 +215,8 @@ function http_bpi_push_action_form_submit($form, &$form_state) {
  *
  * @ingroup forms
  */
+// TODO There seems to be a lot of duplicated code between this function and http_bpi_push_action_form().
+// Can this be refactored?
 function bpi_push_form($form, $form_state, $nid) {
   $node_title = '';
   if (!empty($nid)) {
@@ -270,6 +286,8 @@ function bpi_push_form($form, $form_state, $nid) {
  *
  * @ingroup forms
  */
+// TODO There seems to be a lot of duplicated code between this function and http_bpi_push_action_form_submit().
+// Can this be refactored?
 function bpi_push_form_submit($form, &$form_state) {
   $nid = $form_state['input']['bpi_push_nid'];
   $category = $form_state['input']['bpi_push_category'];
@@ -365,11 +383,19 @@ function bpi_push_action_ajax_callback($form, &$form_state) {
 function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $authorship = FALSE, $editable = 1) {
   $bpi_content = array();
 
+  // TODO Why would node not be a standard class this deep down?
   if ($node instanceof stdClass) {
+    // TODO This code seems messy to me. The structure is set some simple values to BPI object , set some user values,
+    // extract a lot of variables and field information, extract values for most fields, assign more values to BPI,
+    // extract images and assign images to BPI. It would make more sense to me if the code dealt with one aspect all
+    // the way from variable retrieval to BPI object value setting one at a time.
     $bpi_content['agency_id'] = variable_get('bpi_agency_id', '');
     $bpi_content['local_id'] = $node->nid;
     $bpi_content['bpi_id'] = isset($node->bpi_id) ? $node->bpi_id : NULL;
     $user = user_load($node->uid);
+    // TODO Setting the name field for the user to the firstname of the BPI object is a start but seems a bit naive
+    // If we have the persons full name, nickname etc. from a profile this is not added. How about adding an alter hook
+    // allowing other modules to change the values before they are sent to BPI?
     $bpi_content['firstname'] = $user->name;
     $bpi_content['lastname'] = '';
     $bpi_content['title'] = $node->title;
@@ -451,6 +477,7 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
     }
   }
 
+  // TODO No content has actually been pushed here. The watchdog statement seems misleading?
   watchdog(
     'bpi',
     'Pushed to server !content',
@@ -501,6 +528,7 @@ function bpi_get_bpi_dictionaries() {
     $dictionaries = $bpi->getDictionaries();
   }
   catch (Exception $e) {
+    // TODO Please use watchdog_exception here.
     watchdog(
       'bpi',
       t('Failed to fetch dictionaries, with message %message.'),

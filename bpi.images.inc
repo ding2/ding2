@@ -58,6 +58,7 @@ function bpi_assets_form($form = array(), $form_state, $assets = array()) {
       $form['bpi_assets'][$asset] = array(
         '#type' => 'checkbox',
         '#default_value' => 1,
+        // TODO Consider moving this to a theme function instead.
         '#prefix' => '<div class="bpi-syndicate-asset"><img src="' . $url .'" width="100" height="100" />',
         '#suffix' => '</div>',
       );
