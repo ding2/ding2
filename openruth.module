@@ -384,38 +384,36 @@ function openruth_profile2_presave($entity) {
  * Session cached for efficiency.
  */
 function _openruth_user_status($creds = NULL, $reset = FALSE) {
-  // Flush cache if creds is not specified.
-  if ($reset || !is_array($_SESSION['openruth_user_status']) || !$creds) {
-    $_SESSION['openruth_user_status'] = array();
-  }
-  if (!$creds) {
-    return;
+  if (is_null($creds)) {
+    // Get creds, which may throw an exception that login is required.
+    global $user;
+    $creds = ding_user_get_creds($user);
   }
 
-  // Why is this indexed by id in the session... the session only belongs to the
-  // current user.
-  $id = hash('sha512', $creds['name'] . $creds['pass']);
+  $status = &drupal_static(__FUNCTION__, FALSE);
+  if (!$status || $reset) {
+    // Check if ding_session_cache is available.
+    if (module_exists('ding_session_cache')) {
+      $status = ding_session_cache_get('openruth', 'status');
+    }
 
-  if (!isset($_SESSION['openruth_user_status'][$id]) || $_SESSION['openruth_user_status'][$id]['time'] < (REQUEST_TIME - 300)) {
-    $status = openruth_client_invoke('user_status', $creds['name'], $creds['pass']);
-    if ($status && !is_string($status)) {
-      if (isset($status->userInfo) && isset($status->userInfo->userPinCode)) {
-        // Don't cache user pass.
-        unset($status->userInfo->userPinCode);
+    if (empty($status) || $reset) {
+      $status = openruth_client_invoke('user_status', $creds['name'], $creds['pass']);
+      if ($status && !is_string($status)) {
+        if (isset($status->userInfo) && isset($status->userInfo->userPinCode)) {
+          // Don't cache user pass.
+          unset($status->userInfo->userPinCode);
+        }
       }
-      $_SESSION['openruth_user_status'][$id] = array(
-        'time' => REQUEST_TIME,
-        'data' => $status,
-      );
-    }
-    elseif (is_string($status)) {
-      watchdog('openruth', 'Error fetching user status @error', array('@error' => $status), WATCHDOG_ERROR);
-      return;
+
+      // Store the status into ding session cache.
+      if (module_exists('ding_session_cache')) {
+        ding_session_cache_set('openruth', 'status', $status);
+      }
     }
   }
-  if ($_SESSION['openruth_user_status'][$id]) {
-    return $_SESSION['openruth_user_status'][$id]['data'];
-  }
+
+  return $status;
 }
 
 /**
@@ -503,4 +501,18 @@ function openruth_profile2_load($entities) {
       $wrapper->field_openruth_mail->set($patron->userEmail);
     }
   }
+}
+
+/**
+ * Implements hook_ding_session_cache_defaults().
+ *
+ * Set default ding_session_cache settings and tell ding_session_cache that this
+ * module supports it.
+ */
+function openruth_ding_session_cache_defaults() {
+  return array(
+    'titel' => 'Alma (reservations, loans)',
+    'enabled' => TRUE,
+    'expire' => 3600,
+  );
 }
