@@ -18,7 +18,7 @@ function alma_loan_list($account, $reset = FALSE) {
   $results = &drupal_static(__FUNCTION__, FALSE);
   if (!$results || $reset) {
     // Check if ding_session_cache is available.
-    if (module_exists('ding_session_cache')) {
+    if (module_exists('ding_session_cache') && !$reset) {
       $results = ding_session_cache_get('alma', 'loans');
     }
 
