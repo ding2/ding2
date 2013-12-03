@@ -125,7 +125,7 @@ function ding_user_frontend_block_view($delta) {
       }
 
       // Get reservations ready for pick-up.
-      $count = count(ding_provider_invoke_page('reservation', 'list', $user, 'ready_for_pickup'));
+      $count = count(ding_provider_invoke_page('reservation', 'list', $user, DING_RESERVATION_READY));
       if ($count) {
         $content[] = array(
           '#theme' => 'ding_user_frontend_user_status',
