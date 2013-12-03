@@ -32,7 +32,7 @@ function bpi_syndicate_page_form($form, &$form_state) {
 
   $form['bpi_search_query'] = array(
     '#type' => 'textfield',
-    '#default_value' =>$search_phrase,
+    '#default_value' => $search_phrase,
   );
 
   $form['bpi_search_submit'] = array(
@@ -102,9 +102,11 @@ function bpi_syndicate_page_form_submit($form, &$form_state) {
     );
   }
   else {
+    // TODO Consider moving this to bpi_syndicate_page_form_validate().
     drupal_set_message(t('Enter some keywords.'), 'error');
   }
 
+  // TODO Why this loop instead of setting $form['#method'] = 'get'?
   drupal_goto('admin/bpi', $query_parameters);
 }
 
@@ -146,12 +148,14 @@ function bpi_search_content($query = '', $page = 1, $filters = array(), $sort = 
     }
   }
   catch (Exception $e) {
+    // TODO Please use watchdog_exception.
     watchdog(
       'bpi',
       t('Failed to fetch content from BPI well with message %message'),
       array('%message' => $e->getMessage()),
       WATCHDOG_ERROR
     );
+    // TODO How about providing some feedback to the user?
   }
 
   return array();
@@ -193,6 +197,10 @@ function bpi_search_get_items() {
     $current_item = $item->getProperties();
     $assets = $item->getAssets();
 
+    // TODO Why is this structure simpler than a BPI object? The following code
+    // simply seems to move values from one array to another with the same names etc.
+    // If we actually have a classes object to pass around I think it would be much
+    // simpler to grok what it contains.
     $bpi_nodes[] = array(
       'bpi_id' => isset($current_item['id']) ? $current_item['id'] : '',
       'title' =>  isset($current_item['title']) ? $current_item['title'] : '',
@@ -222,6 +230,8 @@ function bpi_search_get_items() {
  * @ingroup themable
  */
 function bpi_search_get_markup($items) {
+  // TODO Why not create this as a real theme function?
+  // The current form does not seem very @themable.
   $data = array();
 
   // Iterate through items and theme them.
@@ -246,22 +256,25 @@ function bpi_search_get_markup($items) {
       $rows[$i]['title'] = '<b>' . $item['title'] . "</b><br/>" . $item['teaser'];
       $rows[$i]['date'] = date_format(new DateTime($item['date']), 'Y-m-d H:i:s');
       $rows[$i]['details'] =
-        bpi_label_mapper('category') . " " . l($item['category'], 'admin/bpi', array('query' => _bpi_build_query('category', $item['category']))) .
-        "<br/>" . bpi_label_mapper('author') . " " . l($item['author'], 'admin/bpi', array('query' => _bpi_build_query('author', $item['author']))) .
-        "<br/>" . bpi_label_mapper('agency') . " " . l($item['agency'], 'admin/bpi', array('query' => _bpi_build_query('agency', $item['agency_id']))) .
-        "<br/>" . bpi_label_mapper('audience') . " " . l($item['audience'], 'admin/bpi', array('query' => _bpi_build_query('audience', $item['audience'])));
+        bpi_label_mapper('category') . " " . l($item['category'], 'admin/bpi', array('query' => _bpi_build_query('category', $item['category']))) . "<br/>" .
+        bpi_label_mapper('author') . " " . l($item['author'], 'admin/bpi', array('query' => _bpi_build_query('author', $item['author']))) . "<br/>" .
+        bpi_label_mapper('agency') . " " . l($item['agency'], 'admin/bpi', array('query' => _bpi_build_query('agency', $item['agency_id']))) . "<br/>" .
+        bpi_label_mapper('audience') . " " . l($item['audience'], 'admin/bpi', array('query' => _bpi_build_query('audience', $item['audience'])));
+
       $variables = array();
+      // TODO Why implement this as an image instead of just replacing text with image in the style sheet?
+      // I think this could make the code much simpler
       $photos_str = (count($item['assets']) > 0) ? t('Photos available for content') : t('No photos available for content');
       $variables['path'] = drupal_get_path('module', 'bpi') . '/images/' . ((count($item['assets']) > 0) ? 'photos' : 'no_photos') . '.png' ;
       $variables['alt'] = $photos_str;
       $variables['title'] = $photos_str;
       $variables['attributes'] = array();
-
       $rows[$i]['photo'] = array('data' => theme_image($variables), 'class' => 'bpi-photo');
 
-      $editable_image = drupal_get_path('module', 'bpi') . '/images/' .
-        ($item['editable']? '' : 'not-') . 'editable.png';
-      $editable_text = $item['editable'] ? t('Editable') : t('Not editable');
+      // TODO Why implement this as an image instead of just replacing text with image in the style sheet?
+      // I think this could make the code much simpler
+      $editable_image = drupal_get_path('module', 'bpi') . '/images/' . ($item['editable']? '' : 'not-') . 'editable.png';
+      $editable_text = ($item['editable']) ? t('Editable') : t('Not editable');
       $editable = array(
         'alt' => $editable_text,
         'path' => $editable_image,
@@ -294,6 +307,7 @@ function bpi_search_get_markup($items) {
  *   Parameter key.
  * @param string $value
  *   Parameter value.
+ * // TODO Please add documentation of $ignore
  * @return array
  *   An array, in structure:
  *   - key: value
@@ -362,12 +376,12 @@ function bpi_available_filters() {
 }
 
 /**
- * Createa filters markup, based on current query string.
+ * Creates filters markup, based on current query string.
  *
  * @return string
  *   HTMl markup.
  *
- * @ingroup themable
+ * @ingroup themeable
  */
 function bpi_build_filters() {
   $components = _bpi_build_query();
@@ -392,7 +406,7 @@ function bpi_build_filters() {
 }
 
 /**
- * Maps BPI keys to translatables.
+ * Maps BPI keys to translatable.
  *
  * @param string $key
  *   Label identifier.
@@ -410,7 +424,7 @@ function bpi_label_mapper($key) {
  * BPI related translatables definition.
  *
  * @return array
- *   An array of transaltables in structure:
+ *   An array of translatables in structure:
  *   - bpi_key: translatable
  */
 function bpi_available_map() {
@@ -420,7 +434,7 @@ function bpi_available_map() {
     'category' => t('Category'),
     'agency' => t('Agency'),
     'audience' => t('Audience'),
-    'material' => 'Related materials',
+    'material' => t('Related materials'),
   );
 }
 

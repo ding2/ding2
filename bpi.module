@@ -9,6 +9,8 @@
 /**
  * URL search query key.
  */
+// Why are all these if (!defined(CONSTANT needed? The module file should only be included once per request?
+// TODO Please prefix all constants with the module name to avoid name clashes.
 if (!defined('SEARCH_PHRASE_KEY')) {
   define('SEARCH_PHRASE_KEY', 'text');
 }
@@ -16,6 +18,7 @@ if (!defined('SEARCH_PHRASE_KEY')) {
 /**
  * Ascending sorting identifier.
  */
+// TODO Please prefix all constants with the module name to avoid name clashes.
 if (!defined('SORT_ASCENDING')) {
   define('SORT_ASCENDING', 'asc');
 }
@@ -23,6 +26,7 @@ if (!defined('SORT_ASCENDING')) {
 /**
  * Descending sorting identifier.
  */
+// TODO Please prefix all constants with the module name to avoid name clashes.
 if (!defined('SORT_DESCENDING')) {
   define('SORT_DESCENDING', 'desc');
 }
@@ -186,6 +190,7 @@ function bpi_permission() {
     'title' => t('Administer BPI settings'),
   );
 
+  //TODO Please refer to BPI in permission ids.
   $perm['syndicate content'] = array(
     'title' => t('Syndicate content'),
   );
@@ -244,9 +249,14 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
   }
   // Checking nid for NULL would say that this is create node form, not edit.
   if ($form_id == $bpi_ctype . '_node_form' && $form['nid']['#value'] == NULL && $from_bpi) {
+    // TODO Why is the syndicate id keept in the session when we already have information about BPI in the URL?
+    // Could this be reduced to a $_GET variable called bpi_syndicate_id?
+    // Furthermore this could be added as a form value for processing down the line instead of clinging to the
+    // GET/SESSION combo.
     $bpi_id = isset($_SESSION['bpi']['syndicate_id']) ? $_SESSION['bpi']['syndicate_id'] : 0;
 
     if ($bpi_id) {
+      //TODO This variable_get/new Bpi is duplicated throughout the codebase. Please refactor to a single function.
       $endpoint = variable_get('bpi_service_url', '');
       $agency_id = variable_get('bpi_agency_id', '');
       $api_key = variable_get('bpi_api_key', '');
@@ -265,6 +275,7 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
         )));
       }
       catch (Exception $e) {
+        //TODO Use watchdog_exception for logging execeptions.
         watchdog(
           'bpi',
           t('Error when syndicating node %title with message %message'),
@@ -278,13 +289,16 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
       }
     }
 
+    //TODO If the BPI request failed the $bpi_* variables will not be defined resulting in PHP notices and the like.
+    // Move this inside the Try block to avoid this or add more isset checks.
     $form['title']['#default_value'] = isset($bpi_content['title']) ? $bpi_content['title'] : '';
     $teaser = variable_get('bpi_field_teaser', '');
     $body = variable_get('bpi_field_body', '');
     $materials_field = variable_get('bpi_field_materials', '');
     $current_language = $form['language']['#value'];
 
-    foreach($bpi_content['material'] as $key => $material_number) {
+    foreach ($bpi_content['material'] as $key => $material_number) {
+      // TODO ting_reference is not included as a dependency. Is this intentional?
       ting_reference_field_widget_form($form, $form_state, 'field_materials', array(), $current_language, array(), 0, &$form[$materials_field][$current_language][$key]);
       // Overwrite agency id by local value.
       $number_parts = explode(':', $material_number);
@@ -293,6 +307,8 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
 
     // EXPERIMENTAL.
     // Just oversee all the variants where the value could fit.
+    // TODO This seems convoluted. A comment explaining why this is necessary would be nice.
+    // The comment says experimental but the module offers no other solution to mapping the values so this must be it?
     $bpi_teaser = isset($bpi_content['teaser']) ? $bpi_content['teaser'] : '';
     if (isset($form[$teaser][$current_language][0]['summary'])) {
       $form[$teaser][$current_language][0]['summary']['#default_value'] = $bpi_teaser;
@@ -306,6 +322,8 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
 
     // EXPERIMENTAL.
     // Just oversee all the variants where the value could fit.
+    // TODO This seems convoluted. A comment explaining why this is necessary would be nice.
+    // The comment says experimental but the module offers no other solution to mapping the values so this must be it?
     $bpi_body = isset($bpi_content['body']) ? $bpi_content['body'] : '';
     if (isset($form[$body][$current_language][0]['value'])) {
       $form[$body][$current_language][0]['value']['#default_value'] = $bpi_body;
@@ -324,7 +342,29 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
       $_SESSION['bpi']['assets'] = $bpi_assets;
     }
   }
+  // TODO If targeting a specific form then please move to bpi_form_node_admin_content_alter().
+  // bpi_form_alter() is long enough as it is.
   elseif ($form_id == 'node_admin_content' && isset($form['admin']['nodes'])) {
+    // TODO I do not agree with this implementation of adding BPI status to the administration
+    // content listing:
+    //
+    // 1. The scope of this implementation is limited due to the fact that it only works on a
+    //    single page/form which already has many shortcomings.
+    // 2. The code for handling this is convoluted (note the "cheats", use of $_SESSION and hook_query_alter()
+    //
+    // I think a better solution could be implemented in a way that also plays better with the
+    // Drupal ecosystem by in general. I see two possible solutions:
+    //
+    // A. Exposing the BPI data for nodes as Views data and BPI operations as Drupal actions.
+    //    That would allow us to implement the administrative content listing in a clean way using
+    //    Views to display BPI state and Views Bulk Operations to push and delete nodes to BPI.
+    //    This would also allow us to show BPI data and apply actions in other contexts - e.g.
+    //    using Rules to automatically push nodes to BPI after creating/updating them.
+    // B. Using a Workflow engine such as the Workflow module to model state and performing
+    //    calls to the BPI webservice based on state changes. It is a much larger and more complex
+    //    framework but we would also get functionality for free e.g. Views, Actions, permission
+    //    handling, logging of state changes, buttons for workflow actions, scheduling of state
+    //    changes that we we already have or will have to write code for ourselves.
     $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-pages.styles.css';
     //Mark BPI nodes.
     $nodes_in_table = array_keys($form['admin']['nodes']['#options']);
@@ -442,11 +482,13 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
     }
     // END content grid columns.
   }
+  // TODO Consider moving this to a separate form_ID_alter function.
   elseif ($form_id == 'bpi_delete_form') {
    $form['actions']['submit']['#ajax'] = array(
      'callback' => 'bpi_delete_action_ajax_callback',
    );
   }
+  // TODO Consider moving this to a separate form_ID_alter function.
   elseif ($form_id == 'bpi_push_form') {
     $form['actions']['submit']['#ajax'] = array(
      'callback' => 'bpi_push_action_ajax_callback',
@@ -454,10 +496,13 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
   }
 
   // Restricting where "Save && Push" appears.
+  // TODO Why not use the method for detecting create/edit forms used elsewhere
+  // $form_id == $bpi_ctype . '_node_form' && $form['nid']['#value'] == NULL
   if (arg(0) == 'node' && is_numeric(arg(1)) && arg(2) == 'edit') {
+    // TODO This refers to a specific content type. Is this intentional?
     if (node_load(arg(1))->type == 'ding_news') {
       $form['actions']['push'] = $form['actions']['submit'];
-      $form['actions']['push']['#value'] = t('Save && Push');
+      $form['actions']['push']['#value'] = t('Save and push');
       $form['actions']['push']['#submit'][] = 'push_directly_callback_action';
     }
   }
@@ -471,9 +516,12 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
  * @param array $form_state
  *   Form state values.
  */
+//TODO Please prefix function names with the module name to avoid name clashes.
 function push_directly_callback_action(&$form, &$form_state) {
+  // TODO Why is this check necessary?
   if (arg(0) == 'node' && is_numeric(arg(1))) {
       // arg(1) is the node id.
+      // TODO are these includes necessary when bpi.push.inc is references in bpi.info?
       module_load_include('inc', 'bpi', 'bpi.push');
       // Unset and re-set destination.
       unset($_GET['destination']);
@@ -535,6 +583,8 @@ function bpi_ability($nid, $op) {
   $ability = FALSE;
 
   // Common check for ownership.
+  // TODO This seems to infer that only the creator of a node can perform operations on a node which is rather limiting.
+  // How about using permissions instead e.g. can push own content, can delete any content?
   if (is_object($node)) {
     if ($node->uid == $user->uid) {
       $ability = TRUE;
@@ -560,6 +610,7 @@ function bpi_ability($nid, $op) {
  */
 function bpi_node_insert($node) {
   $node_id = $node->nid;
+  // TODO As mentioned previously consider moving this to a attribute on the node instead of using GET/SESSION.
   $from_bpi = (isset($_GET['from']) && $_GET['from'] == 'bpi') ? TRUE : FALSE;
 
   if (!empty($_SESSION['bpi']['syndicate_id']) && $from_bpi) {
@@ -584,6 +635,7 @@ function bpi_node_insert($node) {
       $bpi->syndicateNode($bpi_id);
     }
     catch (Exception $e) {
+      // TODO Use watchdog_exception here. How about notifying the user?
       watchdog(
         'bpi',
         t('Error when marking node %title as syndicated with message %message'),
@@ -734,8 +786,13 @@ function bpi_push_available($nid) {
         ->execute()
         ->fetchAllAssoc('nid');
 
+      // TODO For efficiently checking on the mapped type can be done before querying bpi_syndicated.
       $mapped_type = variable_get('bpi_content_type', '');
 
+      // TODO It would be nice to have the logic spelled out here: A node can be pushed if it is either
+      // - new to BPI
+      // - has been syndicated (not pushed)
+      // - has been modified after the last push
       $bpi_action = isset($result[$nid]);
       $was_pushed = ($bpi_action && $result[$nid]->status == BPI_PUSHED);
       $modified_after_push = $was_pushed && ($node->changed > $result[$nid]->timestamp);

@@ -132,6 +132,7 @@ function bpi_statistics_data($from = '', $to = '') {
     $stats = $bpi->getStatistics($from, $to)->getProperties();
   }
   catch (Exception $e) {
+    // TODO Please use watchdog_exception here.
     watchdog(
       'bpi',
       t('Failed to fetch statistics, with message %message.'),
@@ -140,6 +141,7 @@ function bpi_statistics_data($from = '', $to = '') {
       ),
       WATCHDOG_ERROR
     );
+    // TODO How about notifying the user?
   }
 
   return $stats;

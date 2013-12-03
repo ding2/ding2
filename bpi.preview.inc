@@ -6,6 +6,7 @@
  */
 
 /**
+ * TODO A foo?
  * Returns HTML for a foo.
  *
  * @param string $type
@@ -21,6 +22,7 @@
  */
 function admin_bpi_preview_ajax_callback($type = 'ajax', $bpi_id) {
   drupal_add_js(drupal_get_path('module', 'ding_popup') . '/ding_popup.js');
+  // TODO Is this needed? bpi.syndicate.inc is already in bpi.info.
   module_load_include('inc', 'bpi', 'bpi.syndicate');
 
   if (!isset($bpi_id)) {
@@ -55,8 +57,8 @@ function admin_bpi_preview_ajax_callback($type = 'ajax', $bpi_id) {
     drupal_set_message(t('Failed to fetch the article from BPI well.'), 'error');
   }
 
-  $body = variable_get('bpi_field_body', '');
-  $bpi_teaser = isset($bpi_content['teaser']) ? $bpi_content['teaser'] : '';
+  // TODO If an error occurs this means that the BPI content will be undefined.
+  // Is this intentional?
   $output = theme('bpi_preview_item', array('item' => $bpi_content));
   if ($type == 'ajax') {
     $commands = array();
