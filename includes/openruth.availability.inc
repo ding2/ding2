@@ -9,67 +9,85 @@
  *
  * @param array $provider_ids
  *   Array of provider ids that should be fetched information for.
+ * @param bool $reset
+ *   If TRUE the cache will be reset. Default FALSE.
  *
  * @return mixed
  *   An empty array, information about the holdings or even FALSE.
  */
-function openruth_availability_holdings($provider_ids) {
-  $holdings = array();
+function openruth_availability_holdings($provider_ids, $reset = FALSE) {
+  $results = array();
 
-  $details = openruth_client_invoke('get_holdings', $provider_ids);
-  if (is_string($details->holding)) {
-    watchdog('openruth', '@method error: “@message”', array('@method' => 'get_holdings', '@message' => $details->holding), WATCHDOG_ERROR);
+  // Create cache id.
+  $cid = md5(serialize($provider_ids));
+
+  // Check the check to speed up the process, it's only cached for 10 min. to
+  // ensure freshness.
+  $cache = cache_get($cid, 'cache');
+  if (!$reset && $cache && $cache->expire > REQUEST_TIME) {
+    $results = $cache->data;
   }
   else {
-    if (is_array($details->holding)) {
-      foreach ($details->holding as $holding) {
-        // Find the holdings availability.
-        $available = FALSE;
-        $reservable = FALSE;
-        if (isset($holding)) {
-          $available = $holding->agencyHoldings->itemAvailability == 'copies available for loan and reservation';
-          $reservable = $available || $holding->agencyHoldings->itemAvailability == 'no copies available, but item can be reserved';
-        }
+    $details = openruth_client_invoke('get_holdings', $provider_ids);
+    if (is_string($details->holding)) {
+      watchdog('openruth', '@method error: “@message”', array('@method' => 'get_holdings', '@message' => $details->holding), WATCHDOG_ERROR);
+    }
+    else {
+      if (is_array($details->holding)) {
+        foreach ($details->holding as $holding) {
+          // Find the holdings availability.
+          $available = FALSE;
+          $reservable = FALSE;
+          if (isset($holding)) {
+            $available = $holding->agencyHoldings->itemAvailability == 'copies available for loan and reservation';
+            $reservable = $available || $holding->agencyHoldings->itemAvailability == 'no copies available, but item can be reserved';
+          }
 
-        $data = array(
-          'local_id' => $holding->itemId,
-          'available' => $available,
-          'reservable' => $reservable,
-          'show_reservation_button' => $reservable,
-          'holdings' => array(),
-          'reserved_count' => 0,
-          'deferred_period' => FALSE,
-          'issues' => array(),
-          'is_periodical' => FALSE,
-          'is_internet' => FALSE,
-        );
+          $data = array(
+            'local_id' => $holding->itemId,
+            'available' => $available,
+            'reservable' => $reservable,
+            'show_reservation_button' => $reservable,
+            'holdings' => array(),
+            'reserved_count' => 0,
+            'deferred_period' => FALSE,
+            'issues' => array(),
+            'is_periodical' => FALSE,
+            'is_internet' => FALSE,
+          );
 
-        if (isset($holding->itemHoldings)) {
-          foreach ($holding->itemHoldings as $item_holding) {
-            // Add reservation count.
-            $data['reserved_count'] += $item_holding->ordersCount;
+          if (isset($holding->itemHoldings)) {
+            foreach ($holding->itemHoldings as $item_holding) {
+              // Add reservation count.
+              $data['reserved_count'] += $item_holding->ordersCount;
 
-            // Check if it's a periodical.
-            if (isset($item_holding->itemSerialPartId) || isset($item_holding->itemSerialPartVolume) || isset($item_holding->itemSerialPartIssue)) {
-              $data['is_periodical'] = TRUE;
-              _openruth_populate_issues($data, $item_holding);
-              $data['holdings'] = _openruth_periodicals_unique_holdings($data['holdings']);
-            }
-            else {
-              // Parse holdings information.
-              $stats = _openruth_populate_holdings($item_holding);;
-              $data['total_count'] = $stats['total_count'];
-              $data['reservable_count'] = $stats['reservable_count'];
-              $data['holdings'] = $stats['holdings'];
+              // Check if it's a periodical.
+              if (isset($item_holding->itemSerialPartId) || isset($item_holding->itemSerialPartVolume) || isset($item_holding->itemSerialPartIssue)) {
+                $data['is_periodical'] = TRUE;
+                _openruth_populate_issues($data, $item_holding);
+                $data['holdings'] = _openruth_periodicals_unique_holdings($data['holdings']);
+              }
+              else {
+                // Parse holdings information.
+                $holdings = _openruth_populate_holdings($item_holding);;
+                $data['total_count'] = $holdings['total_count'];
+                $data['reservable_count'] = $holdings['reservable_count'];
+                $data['holdings'] = $holdings['holdings'];
+              }
             }
           }
+          $results[$holding->itemId] = $data;
         }
-        $holdings[$holding->itemId] = $data;
+
+        // Cache the result for 10 min. This will speed up materials with many
+        // copies and loans.
+        cache_set($cid, $results, 'cache', REQUEST_TIME + 600);
       }
     }
   }
 
-  return $holdings;
+
+  return $results;
 }
 
 /**
