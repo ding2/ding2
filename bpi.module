@@ -323,9 +323,9 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
       drupal_add_library('system', 'drupal.ajax');
       drupal_add_library('system', 'jquery.form');
       drupal_add_library('system', 'ui.dialog');
-      $form['#attached']['js'][] = drupal_get_path('module', 'ding_popup') . '/ding_popup.js';
-      $form['#attached']['js'][] = drupal_get_path('module', 'bpi') . '/js/bpi.scripts.js';
-      $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-images.styles.css';
+      drupal_add_js(drupal_get_path('module', 'bpi') . '/js/bpi.scripts.js', 'file');
+      drupal_add_js(drupal_get_path('module', 'ding_popup') . '/ding_popup.js', 'file');
+      drupal_add_css(drupal_get_path('module', 'bpi') . '/css/bpi-images.styles.css', 'file');
       $_SESSION['bpi']['assets'] = $bpi_assets;
     }
   }
