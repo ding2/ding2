@@ -151,7 +151,13 @@ function _openruth_populate_issues(&$holdings, $item_holding) {
     );
   }
 
-  $holdings['issues'][$item_holding->itemSerialPartVolume][$item_holding->itemSerialPartIssue] = $issue;
+  // Handle year books.
+  $issue_no = 0;
+  if (isset($item_holding->itemSerialPartIssue)) {
+    $issue_no = $item_holding->itemSerialPartIssue;
+  }
+
+  $holdings['issues'][$item_holding->itemSerialPartVolume][$issue_no] = $issue;
 }
 
 /**
