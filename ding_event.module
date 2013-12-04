@@ -110,7 +110,7 @@ function ding_event_install_menu_position($op = 'install') {
     ->fetchField();
 
   if ($exists && $op == 'revert') {
-    // The rule exists, so we delete it
+    // The rule exists, so we delete it.
     menu_position_delete_rule($exists);
 
     // Activate installation of the rule.
@@ -149,7 +149,7 @@ function ding_event_install_menu_position($op = 'install') {
   }
 
   if ($exists && $op == 'delete') {
-    // The rule exists, so we delete it
+    // The rule exists, so we delete it.
     menu_position_delete_rule($exists);
   }
 }
