@@ -19,9 +19,6 @@ function ding_library_install() {
 
   // Install node queue for libraries.
   ding_library_install_nodequeue();
-
-  // Install menu position rule.
-  ding_library_install_menu_position();
 }
 
 /**
@@ -32,35 +29,6 @@ function ding_library_uninstall() {
   foreach ($qids as $qid) {
     nodequeue_delete($qid);
   }
-}
-
-/**
- * Helper function to install menu position rule.
- */
-function ding_library_install_menu_position() {
-  // Define conditions.
-  $conditions = array(
-    'content_type' => array(
-      'content_type' => array(
-        'ding_group' => 'ding_library',
-      ),
-    ),
-  );
-
-  // Find the parent element.
-  $plid = db_select('menu_links', 'ml')
-    ->fields('ml', array('mlid'))
-    ->condition('link_path', 'libraries', '=')
-    ->execute()->fetchField();
-
-  // Add the rule.
-  module_load_include('inc', 'menu_position', 'menu_position.admin');
-  menu_position_add_rule(array(
-    'admin_title' => 'Libraries',
-    'conditions'  => $conditions,
-    'menu_name'   => 'main-menu',
-    'plid'        => $plid,
-  ));
 }
 
 /**
