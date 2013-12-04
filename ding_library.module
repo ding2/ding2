@@ -316,10 +316,9 @@ function ding_library_install_menu_position($op = 'install') {
 
     // Activate installation of the rule.
     $exists = FALSE;
-    $op = 'install';
   }
 
-  if (!$exists && $op == 'install') {
+  if (!$exists && ($op == 'install' || $op == 'revert')) {
     // Define conditions.
     $conditions = array(
       'content_type' => array(
@@ -336,13 +335,17 @@ function ding_library_install_menu_position($op = 'install') {
       ->execute()->fetchField();
 
     // Add the rule.
-    module_load_include('inc', 'menu_position', 'menu_position.admin');
-    menu_position_add_rule(array(
-      'admin_title' => 'Libraries',
-      'conditions'  => $conditions,
-      'menu_name'   => 'main-menu',
-      'plid'        => $plid,
-    ));
+    if ($plid) {
+      menu_position_add_rule(array(
+        'admin_title' => 'Libraries',
+        'conditions'  => $conditions,
+        'menu_name'   => 'main-menu',
+        'plid'        => $plid,
+      ));
+    }
+    else {
+      watchdog('ding_library', 'Unable to create menu position rule for ding library', array(), WATCHDOG_WARNING);
+    }
   }
 
   if ($exists && $op == 'delete') {
