@@ -90,6 +90,13 @@ function ding_event_post_features_disable_feature() {
 }
 
 /**
+ * Implements hook_post_features_enable_feature().
+ */
+function ding_event_post_features_enable_feature() {
+  ding_event_install_menu_position('install');
+}
+
+/**
  * Helper function to install menu position rule.
  */
 function ding_event_install_menu_position($op = 'install') {
