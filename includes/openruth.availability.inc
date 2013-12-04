@@ -123,28 +123,28 @@ function _openruth_periodicals_unique_holdings($holdings) {
 function _openruth_populate_issues(&$holdings, $item_holding) {
   $issue = array(
     'local_id' => $item_holding->itemSerialPartId,
-    'orders_count' => $item_holding->ordersCount,
+    'ordered_count' => $item_holding->ordersCount,
     'provider' => 'openruth',
   );
 
   $item_loc = isset($item_holding->itemLocation) ? $item_holding->itemLocation : $item_holding->itemComingLocation;
 
   foreach ($item_loc as $location) {
-    $loc = array();
+    $placement = array();
     if (isset($location->agencyBranchId->agencyBranchName)) {
-      $loc[] = $location->agencyBranchId->agencyBranchName;
+      $placement[] = $location->agencyBranchId->agencyBranchName;
     }
 
     if (isset($location->agencyCollectionId->agencyCollectionName)) {
-      $loc[] = $location->agencyCollectionId->agencyCollectionName;
+      $placement[] = $location->agencyCollectionId->agencyCollectionName;
     }
 
     if (isset($location->agencyPlacementId->agencyPlacementName)) {
-      $loc[] = $location->agencyPlacementId->agencyPlacementName;
+      $placement[] = $location->agencyPlacementId->agencyPlacementName;
     }
 
     $issue['placement'][] = array(
-      'location' => implode(' > ', $loc),
+      'location' => implode(' > ', $placement),
       'available_count' => isset($location->copiesAvailableCount) ? $location->copiesAvailableCount : 0,
       'total_count' => $location->copiesCount,
       'reservable' => $location->orderAllowed,
