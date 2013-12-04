@@ -15,3 +15,71 @@ function ding_news_entity_info_alter(&$entity_info) {
     'custom settings' => TRUE,
   );
 }
+
+/**
+ * Implements hook_post_features_revert().
+ */
+function ding_news_post_features_revert() {
+  ding_newst_install_menu_position('revert');
+}
+
+/**
+ * Implements hook_post_features_disable_feature().
+ */
+function ding_news_post_features_disable_feature() {
+  ding_news_install_menu_position('delete');
+}
+
+/**
+ * Helper function to install menu position rule.
+ */
+function ding_news_install_menu_position($op = 'install') {
+  module_load_include('inc', 'menu_position', 'menu_position.admin');
+
+  // Check if rule exists.
+  $exists = db_select('menu_position_rules', 'mpr')
+    ->fields('mpr', array('rid'))
+    ->condition('admin_title', 'News')
+    ->execute()
+    ->fetchField();
+
+  if ($exists && $op == 'revert') {
+    // The rule exists, so we delete it
+    menu_position_delete_rule($exists);
+
+    // Activate installation of the rule.
+    $exists = FALSE;
+    $op = 'install';
+  }
+
+  if (!$exists && $op == 'install') {
+    // Define conditions.
+    $conditions = array(
+      'content_type' => array(
+        'content_type' => array(
+          'ding_group' => 'ding_news',
+        ),
+      ),
+    );
+
+    // Find the parent element.
+    $plid = db_select('menu_links', 'ml')
+      ->fields('ml', array('mlid'))
+      ->condition('link_path', 'nyheder', '=')
+      ->execute()->fetchField();
+
+    // Add the rule.
+    module_load_include('inc', 'menu_position', 'menu_position.admin');
+    menu_position_add_rule(array(
+      'admin_title' => 'News',
+      'conditions'  => $conditions,
+      'menu_name'   => 'main-menu',
+      'plid'        => $plid,
+    ));
+  }
+
+  if ($exists && $op == 'delete') {
+    // The rule exists, so we delete it
+    menu_position_delete_rule($exists);
+  }
+}
