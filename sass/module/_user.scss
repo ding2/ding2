@@ -126,6 +126,10 @@
     }
   }
 
+  .form-checkbox[disabled^="disabled"] {
+    display: none;
+  }
+
   /* BUTTONS */
 
   .renew-loan-button  {
@@ -173,10 +177,6 @@
     &.due {
       background-color: $yellow;
     }
-  }
-
-  .form-checkbox[disabled^="disabled"] {
-    display: none;
   }
 }
 
