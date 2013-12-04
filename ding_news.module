@@ -20,7 +20,7 @@ function ding_news_entity_info_alter(&$entity_info) {
  * Implements hook_post_features_revert().
  */
 function ding_news_post_features_revert() {
-  ding_newst_install_menu_position('revert');
+  ding_news_install_menu_position('revert');
 }
 
 /**
