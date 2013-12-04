@@ -902,6 +902,9 @@ function ddbasic_preprocess_ting_object(&$vars) {
               'right_column' => $content['group_ting_object_right_column'],
             ),
           );
+
+          unset($content['group_ting_object_left_column']);
+          unset($content['group_ting_object_right_column']);
         }
 
         if (isset($content['group_material_details']) && $content['group_material_details']) {
@@ -914,6 +917,7 @@ function ddbasic_preprocess_ting_object(&$vars) {
               'details' => $content['group_material_details'],
             ),
           );
+          unset($content['group_material_details']);
         }
 
         if (isset($content['group_holdings_available']) && $content['group_holdings_available']) {
@@ -926,18 +930,20 @@ function ddbasic_preprocess_ting_object(&$vars) {
               'details' => $content['group_holdings_available'],
             ),
           );
+          unset($content['group_holdings_available']);
         }
 
-        if (isset($content['ding_periodical_issues']) && $content['ding_periodical_issues']) {
+        if (isset($content['group_periodical_issues']) && $content['group_periodical_issues']) {
           $vars['content']['periodical-issues'] = array(
             '#prefix' => '<div class="ting-object-wrapper">',
             '#suffix' => '</div>',
             'content' => array(
               '#prefix' => '<div class="ting-object-inner-wrapper">',
               '#suffix' => '</div>',
-              'details' => $content['ding_periodical_issues'],
+              'details' => $content['group_periodical_issues'],
             ),
           );
+          unset($content['group_periodical_issues']);
         }
 
         if (isset($content['group_on_this_site']) && $content['group_on_this_site']) {
@@ -950,6 +956,7 @@ function ddbasic_preprocess_ting_object(&$vars) {
               'details' => $content['group_on_this_site'],
             ),
           );
+          unset($content['group_on_this_site']);
         }
 
         if (isset($content['ting_relations']) && $content['ting_relations']) {
@@ -958,6 +965,12 @@ function ddbasic_preprocess_ting_object(&$vars) {
               'details' => $content['ting_relations'],
             ),
           );
+          unset($content['ting_relations']);
+        }
+
+        // Move the reset over if any have been defined in the UI.
+        if (!empty($content)) {
+          $vars['content'] += $content;
         }
         break;
 
