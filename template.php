@@ -928,6 +928,18 @@ function ddbasic_preprocess_ting_object(&$vars) {
           );
         }
 
+        if (isset($content['ding_periodical_issues']) && $content['ding_periodical_issues']) {
+          $vars['content']['periodical-issues'] = array(
+            '#prefix' => '<div class="ting-object-wrapper">',
+            '#suffix' => '</div>',
+            'content' => array(
+              '#prefix' => '<div class="ting-object-inner-wrapper">',
+              '#suffix' => '</div>',
+              'details' => $content['ding_periodical_issues'],
+            ),
+          );
+        }
+
         if (isset($content['group_on_this_site']) && $content['group_on_this_site']) {
           $vars['content']['on_this_site'] = array(
             '#prefix' => '<div class="ting-object-wrapper">',
