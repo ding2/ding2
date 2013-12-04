@@ -50,6 +50,7 @@ features[field_base][] = ting_title
 features[field_base][] = ting_type
 features[field_group][] = group_holdings_available|ting_object|ting_object|default
 features[field_group][] = group_on_this_site|ting_object|ting_object|default
+features[field_group][] = group_periodical_issues|ting_object|ting_object|default
 features[field_group][] = group_ting_left_col_collection|ting_object|ting_object|collection_list
 features[field_group][] = group_ting_left_col_primary|ting_object|ting_object|collection_primary
 features[field_group][] = group_ting_left_col_search|ting_object|ting_object|search_result
