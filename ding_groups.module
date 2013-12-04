@@ -214,7 +214,7 @@ function ding_groups_install_menu_position($op = 'install') {
     $op = 'install';
   }
 
-  if (!$exists && $op == 'install') {
+  if (!$exists && ($op == 'install' || $op == 'revert')) {
     // Define conditions.
     $conditions = array(
       'content_type' => array(
@@ -231,13 +231,17 @@ function ding_groups_install_menu_position($op = 'install') {
       ->execute()->fetchField();
 
     // Add the rule.
-    module_load_include('inc', 'menu_position', 'menu_position.admin');
-    menu_position_add_rule(array(
-      'admin_title' => 'Groups',
-      'conditions'  => $conditions,
-      'menu_name'   => 'main-menu',
-      'plid'        => $plid,
-    ));
+    if ($plid) {
+      menu_position_add_rule(array(
+        'admin_title' => 'Groups',
+        'conditions'  => $conditions,
+        'menu_name'   => 'main-menu',
+        'plid'        => $plid,
+      ));
+    }
+    else {
+      watchdog('ding_groups', 'Unable to create menu position rule for ding groups', array(), WATCHDOG_WARNING);
+    }
   }
 
   if ($exists && $op == 'delete') {
