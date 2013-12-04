@@ -118,7 +118,7 @@ function ding_event_install_menu_position($op = 'install') {
     $op = 'install';
   }
 
-  if (!$exists && $op == 'install') {
+  if (!$exists && ($op == 'install' || $op == 'revert')) {
     // Define conditions.
     $conditions = array(
       'content_type' => array(
@@ -135,12 +135,17 @@ function ding_event_install_menu_position($op = 'install') {
       ->execute()->fetchField();
 
     // Add the rule.
-    menu_position_add_rule(array(
-      'admin_title' => 'Events',
-      'conditions'  => $conditions,
-      'menu_name'   => 'main-menu',
-      'plid'        => $plid,
-    ));
+    if ($plid) {
+      menu_position_add_rule(array(
+        'admin_title' => 'Events',
+        'conditions'  => $conditions,
+        'menu_name'   => 'main-menu',
+        'plid'        => $plid,
+      ));
+    }
+    else {
+      watchdog('ding_event', 'Unable to create menu position rule for ding event', array(), WATCHDOG_WARNING);
+    }
   }
 
   if ($exists && $op == 'delete') {
