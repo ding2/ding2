@@ -31,6 +31,13 @@ function ding_news_post_features_disable_feature() {
 }
 
 /**
+ * Implements hook_post_features_enable_feature().
+ */
+function ding_news_post_features_enable_feature() {
+  ding_news_install_menu_position('install');
+}
+
+/**
  * Helper function to install menu position rule.
  */
 function ding_news_install_menu_position($op = 'install') {
