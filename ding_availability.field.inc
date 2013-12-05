@@ -81,7 +81,7 @@ function ding_availability_field_formatter_info() {
 function ding_availability_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
   $online_types = variable_get('ting_online_types', _ting_default_online_types());
-  $lib_materials_types = array('Bibliotekets materialer', 'Bibliotekskatalog');
+  $lib_materials_types = variable_get('ting_reservable_sources', _ting_default_reservable_sources());
 
   // Attach front-end style and JS to the element.
   foreach ($items as $delta => $item) {
