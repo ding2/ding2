@@ -1071,6 +1071,22 @@ input#edit-search-block-form--2.spinner {
       margin-bottom: 0;
     }
 
+    .loader {
+      .icon {
+        height: auto;
+        width: auto;
+
+        font-size: $font-size-large;
+      }
+
+      .loader-text {
+        display: inline;
+        position: relative;
+        top: -1px;
+        left: 8px;
+      }
+    }
+
     .holdings:empty {
       margin: 0;
       padding: 0;
