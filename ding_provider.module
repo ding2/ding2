@@ -646,16 +646,16 @@ function ding_provider_get_pseudo_entity($ding_entity_id) {
  * This function is placed in the provider and not "ting" module as the
  * providers uses it and we don't want to have a binding from providers to ting.
  *
- * @param $id
+ * @param string $id
  *   The materials local id number (faust).
- * @param $agency
+ * @param string $agency
  *   Agency ID to which the entity belongs.
  *
  * @return string
  *   The PID for the faust in the data well.
  */
 function ding_provider_build_entity_id($id, $agency = -1) {
-  // Get local library faust ID range
+  // Get local library faust ID range.
   $local_range = '9';
 
   // Get agency ID.
@@ -664,8 +664,8 @@ function ding_provider_build_entity_id($id, $agency = -1) {
   switch ($agency) {
     case $local_agency:
     case -1:
-    if (preg_match('/^' . $local_range . '/', $id)) {
-      if (!empty($agency)) {
+      if (preg_match('/^' . $local_range . '/', $id)) {
+        if (!empty($agency)) {
           watchdog('ding_provider', 'Agency was not set when trying to build entity id.', array(), WATCHDOG_ERROR);
           drupal_set_message(t('Agency was not set when trying to build entity id.'), 'error');
         }
@@ -688,7 +688,7 @@ function ding_provider_build_entity_id($id, $agency = -1) {
       break;
 
     case '150030':
-      $ting_entity_id = '150030-spilmedier:' . $id;
+      $ting_entity_id = '870970-spilmedier:' . $id;
       break;
 
     case '870973':
@@ -704,15 +704,15 @@ function ding_provider_build_entity_id($id, $agency = -1) {
       break;
 
     case '150048':
-      $ting_entity_id = '150048-basis:' . $id;
+      $ting_entity_id = '870970-basis:' . $id;
       break;
 
     case '150028':
-      $ting_entity_id = '150028-basis:' . $id;
+      $ting_entity_id = '870970-basis:' . $id;
       break;
 
     case '150015':
-      $ting_entity_id = '150015-basis:' . $id;
+      $ting_entity_id = '870970-basis:' . $id;
       break;
 
     case '150033':
