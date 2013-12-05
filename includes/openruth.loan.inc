@@ -17,7 +17,7 @@ function openruth_loan_list($account) {
   if (isset($status->loans->loan)) {
     foreach ($status->loans->loan as $loan) {
       $result[$loan->copyId] = new DingProviderLoan($loan->copyId, array(
-        'ding_entity_id' => variable_get('ting_agency', '') . ':' . $loan->itemId,
+        'ding_entity_id' => ding_provider_build_entity_id($loan->itemId),
         'display_name' => isset($loan->itemDisplayTitle) ? $loan->itemDisplayTitle : DingEntityBase::NULL,
         'loan_date' => isset($loan->loanDate) ? $loan->loanDate : DingEntityBase::NULL,
         'expiry' => isset($loan->loanReturnDate) ? $loan->loanReturnDate : DingEntityBase::NULL,
