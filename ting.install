@@ -297,3 +297,10 @@ function ting_update_7004() {
       ->execute();
   }
 }
+
+/**
+ * Update default ac.source from 'bibliotekets materialer' to 'bibliotekskatalog'.
+ */
+function ting_update_7005() {
+  variable_set('ting_reservable_sources', _ting_default_reservable_sources());
+}

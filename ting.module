@@ -892,7 +892,7 @@ function _ting_default_online_types() {
  */
 function _ting_default_reservable_sources() {
   return array(
-    'bibliotekets materialer',
+    'bibliotekskatalog',
   );
 }
 
@@ -986,6 +986,7 @@ function _ting_fetch_well_sources() {
  *
  * @param string $type
  *   Name of the anchor.
+ *
  * @return string
  *   HTML safe name.
  */
