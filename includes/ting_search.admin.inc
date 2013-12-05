@@ -37,7 +37,7 @@ function ting_search_admin_settings($form_state) {
     '#default_value' => variable_get('ting_search_number_of_facets', 25),
   );
 
-  $form['ting_search']['ting_admin_register_serie_title'] = array(
+  $form['ting_search']['ting_search_register_serie_title'] = array(
     '#type' => 'textfield',
     '#title' => t('Serie title'),
     '#description' => t('Specify the searchstring to be used for searching against serie titles. Use @serietitle as a placeholder for the serietitle'),

@@ -716,7 +716,7 @@ function ting_search_block_view($delta = '') {
 
       // Only display form if there are any search results.
       $search_result = drupal_static('ting_search_results');
-      if (isset($search_result) && $search_result->numTotalObjects > 0) {
+      if (isset($search_result->numTotalObjects) && $search_result->numTotalObjects > 0) {
         $block['content'] = drupal_get_form('ting_search_sort_form');
       }
       break;
