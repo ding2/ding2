@@ -144,7 +144,7 @@ function alma_reservation_list($account, $type = NULL) {
         // Build standard array which matches all types of reservations.
         $data = array(
           'order_id' => $reservation['id'],
-          'ding_entity_id' => variable_get('ting_agency', '') . ':' . $reservation['record_id'],
+          'ding_entity_id' => ding_provider_build_entity_id($reservation['record_id']),
           'pickup_branch_id' => $reservation['pickup_branch'],
           'order_arrived' => NULL,
           'pickup_order_id' => NULL,
