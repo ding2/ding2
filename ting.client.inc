@@ -401,7 +401,7 @@ function ting_execute_cache($request) {
       }
     }
 
-    // Cache the object self
+    // Cache the object self.
     if ($reply instanceof TingClientObject) {
       ting_cache_set($reply->id, $reply);
     }

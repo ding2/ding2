@@ -224,3 +224,64 @@ function ting_update_7001() {
   $ret[] = db_create_table('cache_ting', $schema['cache_ting']);
   return $ret;
 }
+
+/**
+ * Update ding_entity_id's to match new data well format (basis and katalog).
+ */
+function ting_update_7002() {
+  // Convert "katalog" PID's first.
+  $agency = variable_get('ting_agency', '');
+  db_query("UPDATE ting_object
+            SET ding_entity_id = CONCAT(SUBSTRING_INDEX(ding_entity_id, ':', 1), '-katalog:', SUBSTRING_INDEX(ding_entity_id, ':', -1))
+            WHERE ding_entity_id LIKE '" . $agency . ":9%'")
+    ->execute();
+
+  // Convert basic PID's
+  db_query("UPDATE ting_object
+            SET ding_entity_id = CONCAT(SUBSTRING_INDEX(ding_entity_id, ':', 1), '-basis:', SUBSTRING_INDEX(ding_entity_id, ':', -1))
+            WHERE ding_entity_id LIKE '" . $agency . ":%'")
+    ->execute();
+}
+
+/**
+ * Update all other ding_entity_id's where possible to data well version 3.
+ */
+function ting_update_7003() {
+  $translation = array(
+    '150021' => '150021-bibliotek',
+    '150027' => '150021-fjern',
+    '150030' => '150030-spilmedier',
+    '870973' => '870973-anmeld',
+    '150039' => '150015-forlag',
+    '870976' => '870976-anmeld',
+    '150048' => '150048-basis',
+    '150028' => '150028-basis',
+    '150015' => '150015-basis',
+    '150033' => '150033-dandyr',
+    '150040' => '150040-verdyr',
+    '150018' => '150018-danhist',
+    '150032' => '150018-samfund',
+    '150034' => '150018-religion',
+    '150054' => '150018-biologi',
+    '150055' => '150018-fysikkemi',
+    '150056' => '150056-geografi',
+    '150008' => '150008-academic',
+    '150043' => '150043-atlas',
+    '150023' => '150023-sicref',
+    '150025' => '150008-public',
+    '150052' => '870970-basis',
+    '159002' => '159002-lokalbibl',
+    '150012' => '150012-leksikon',
+  );
+
+  foreach ($translation as $id => $new_id) {
+    db_query("UPDATE ting_object
+              SET ding_entity_id = CONCAT('" . $new_id . ":', SUBSTRING_INDEX(ding_entity_id, ':', -1))
+              WHERE ding_entity_id LIKE '" . $id . ":%'")
+      ->execute();
+  }
+}
+
+/**
+ * Remove the last data well version 2 that could not be translated.
+ */
