@@ -254,7 +254,7 @@ function ting_update_7003() {
 
   // Convert basic PID's
   db_query("UPDATE ting_object
-            SET ding_entity_id = CONCAT('780970-basis:', SUBSTRING_INDEX(ding_entity_id, ':', -1))
+            SET ding_entity_id = CONCAT('870970-basis:', SUBSTRING_INDEX(ding_entity_id, ':', -1))
             WHERE ding_entity_id LIKE '7%:%'")
     ->execute();
 }
