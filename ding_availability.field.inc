@@ -121,7 +121,8 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           );
 
           $element[$delta] = array(
-            '#markup' => '<div id="' . $id . '" class="holdings holdings-' . $entity->localId . '"></div>',
+            // @todo: move this into tpl file.
+            '#markup' => '<div id="' . $id . '" class="holdings holdings-' . $entity->localId . '"><div class="loader"><i class="icon icon-spinner icon-spin"></i><p class="loader-text">' . t('Fetching holdings information.') . '<p></div></div>',
             '#attached' => $attached,
           );
         }

@@ -147,7 +147,7 @@
     var entity_id = entity_ids.pop();
     if (Drupal.DADB[entity_id] && (Drupal.DADB[entity_id]['holdings'])) {
       // Show status for material.
-      $('#' + id).append(Drupal.DADB[entity_id].html);
+      $('#' + id).html(Drupal.DADB[entity_id].html);
     }
   }
 
