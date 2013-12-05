@@ -226,7 +226,7 @@ function ting_update_7001() {
 }
 
 /**
- * Update ding_entity_id's to match new data well format (basis and katalog).
+ * Update own agency ding_entity_id's to match new data well format (basis and katalog).
  */
 function ting_update_7002() {
   // Convert "katalog" PID's first.
@@ -244,9 +244,25 @@ function ting_update_7002() {
 }
 
 /**
- * Update all other ding_entity_id's where possible to data well version 3.
+ * Update other agencies ding_entity_id's to match new data well format (basis and katalog).
  */
 function ting_update_7003() {
+  db_query("UPDATE ting_object
+            SET ding_entity_id = CONCAT(SUBSTRING_INDEX(ding_entity_id, ':', 1), '-katalog:', SUBSTRING_INDEX(ding_entity_id, ':', -1))
+            WHERE ding_entity_id LIKE '7%:9%'")
+    ->execute();
+
+  // Convert basic PID's
+  db_query("UPDATE ting_object
+            SET ding_entity_id = CONCAT(SUBSTRING_INDEX(ding_entity_id, ':', 1), '-basis:', SUBSTRING_INDEX(ding_entity_id, ':', -1))
+            WHERE ding_entity_id LIKE '7%:%'")
+    ->execute();
+}
+
+/**
+ * Update all other ding_entity_id's where possible to data well version 3.
+ */
+function ting_update_7004() {
   $translation = array(
     '150021' => '150021-bibliotek',
     '150027' => '150021-fjern',
@@ -281,7 +297,3 @@ function ting_update_7003() {
       ->execute();
   }
 }
-
-/**
- * Remove the last data well version 2 that could not be translated.
- */
