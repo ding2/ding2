@@ -13,18 +13,17 @@ function openruth_debt_list($account) {
   $status = _openruth_user_status($creds);
 
   if (isset($status->fees->fee)) {
-    foreach ($status->fees->fee as $res) {
+    foreach ($status->fees->fee as $fee) {
       // OpenRuth doesn't provide any unique id. Construct one.
-      $id = md5($res->feeDate . $res->agencyCounter . $res->itemDisplayTitle . $res->feeAmount . $res->feeAmountPaid . $res->feeType);
-      $result[$id] = new DingProviderDebt($res->feeDate, array(
-        'id' => $id,
-        'date' => $res->feeDate,
-        'display_name' => $res->itemDisplayTitle,
-        'pickup_branch_id' => $res->agencyCounter,
-        'amount' => $res->feeAmount,
-        'amount_paid' => isset($res->feeAmountPaid) ? $res->feeAmountPaid : 0,
-        'invoice_number' => isset($res->feeInvoiceNumber) ? $res->feeInvoiceNumber : FALSE,
-        'type' => $res->feeType,
+      $id = md5(serialize($fee));
+      $result[$id] = new DingProviderDebt($id, array(
+        'date' => $fee->feeDate,
+        'display_name' => $fee->itemDisplayTitle,
+        'pickup_branch_id' => $fee->agencyCounter,
+        'amount' => $fee->feeAmount,
+        'amount_paid' => isset($fee->feeAmountPaid) ? $fee->feeAmountPaid : 0,
+        'invoice_number' => isset($fee->feeInvoiceNumber) ? $fee->feeInvoiceNumber : FALSE,
+        'type' => $fee->feeType,
       ));
     }
   }
