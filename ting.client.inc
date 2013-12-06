@@ -72,6 +72,9 @@ function ting_get_object($object_id, $collection = FALSE, $with_relations = FALS
       // If this was a collection request store the collection reply to ensure
       // that there is no empty cache entry.
       if ($collection) {
+        if (is_null($object)) {
+          $object = TING_CACHE_EMPTY_ENTRY;
+        }
         ting_cache_set($object_id, $object, $type);
       }
     }
@@ -143,7 +146,7 @@ function ting_get_objects($ids) {
     if ($object === FALSE) {
       // So if the agency match lets search theme as that's faster then fetching
       // them one by one.
-      if (preg_match('/^' . $agency . '/', $id)) {
+      if (preg_match('/^(890790-basis|' . $agency . '-katalog|' . $agency . ')/', $id)) {
         $query[] = 'rec.id=' . $id;
       }
       else {
@@ -403,11 +406,13 @@ function ting_execute_cache($request) {
 
     // Cache the object self.
     if ($reply instanceof TingClientObject) {
-      ting_cache_set($reply->id, $reply);
+      if (!empty($reply->record)) {
+        ting_cache_set($reply->id, $reply);
+      }
     }
 
     // Store the reply for the request itself in the cache.
-    if (is_null($reply)) {
+    if (is_null($reply) || empty($reply->record)) {
       // Handle empty data well replies.
       $reply = TING_CACHE_EMPTY_ENTRY;
     }
