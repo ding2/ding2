@@ -209,14 +209,22 @@ function ting_relation_get_online_url($relation) {
     case 'dbcaddi:hasReview':
     case 'dbcaddi:hasSubjectDescription':
     case 'dbcaddi:hasCreatorDescription':
-      $title = $relation->object->getAc_source();
-      $url = $relation->object->getOnline_url();
-      $url = empty($url) ? FALSE : $url;
+      // Reservable sources is library material.
+      $reservable_sources = variable_get('ting_reservable_sources', _ting_default_reservable_sources());
+      if (in_array(strtolower($relation->object->getAc_source()), $reservable_sources)) {
+        $title = t('Read more about the material');
+        $url = '/ting/object/' . $relation->object->id;
+      }
+      else {
+        $title = t('Read more at') . ' ' . $relation->object->getAc_source();
+        $url = $relation->object->getOnline_url();
+        $url = empty($url) ? FALSE : $url;
 
-      // Try to make a better link text.
-      $is_part_of = $relation->object->getIsPartOf();
-      if (!empty($is_part_of)) {
-        $title = reset($is_part_of);
+        // Try to make a better link text.
+        $is_part_of = $relation->object->getIsPartOf();
+        if (!empty($is_part_of)) {
+          $title = reset($is_part_of);
+        }
       }
       break;
 
