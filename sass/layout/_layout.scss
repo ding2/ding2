@@ -41,6 +41,7 @@ body {
 .header-wrapper {
   @include box-sizing(border-box);
 
+
   &.js-topbar-toggled {
     display: inline-block;
   }
