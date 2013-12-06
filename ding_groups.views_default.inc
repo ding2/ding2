@@ -254,11 +254,11 @@ function ding_groups_views_default_views() {
     'image_link' => 'content',
     'styles' => array(
       'breakpoint_1' => '768',
-      'style_1' => 'ding_panorama_tetiary_large',
+      'style_1' => 'ding_panorama_primary_small',
       'breakpoint_2' => '500',
-      'style_2' => 'ding_panorama_tetiary_medium',
-      'max_style' => 'ding_panorama_tetiary_medium',
-      'fallback_style' => 'ding_list_medium',
+      'style_2' => 'ding_panorama_primary_small',
+      'max_style' => 'ding_panorama_primary_small',
+      'fallback_style' => 'ding_panorama_primary_small',
     ),
   );
   /* Field: Content: Lead */

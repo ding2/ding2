@@ -13,7 +13,6 @@ dependencies[] = image
 dependencies[] = list
 dependencies[] = media
 dependencies[] = menu_position
-dependencies[] = menu
 dependencies[] = nodequeue
 dependencies[] = og_context
 dependencies[] = og_menu
