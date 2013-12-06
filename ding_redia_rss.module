@@ -1,0 +1,50 @@
+<?php
+/**
+ * @file
+ * Code for the Ding Redia RSS feature.
+ */
+
+include_once 'ding_redia_rss.features.inc';
+
+/**
+ * Implements hook_views_rss_namespaces().
+ *
+ * @return Array
+ */
+function ding_redia_rss_views_rss_namespaces() {
+  $namespaces['redia-rss'] = array(
+    'prefix' => 'xmlns',
+    'uri' => 'http://xml.redia.dk/rss',
+  );
+  return $namespaces;
+}
+
+/**
+ * Implements hook_views_rss_item_elements().
+ *
+ * @return Array
+ */
+function ding_redia_rss_views_rss_item_elements() {
+  return array(
+    'redia-rss:subheadline' => array(
+      'title' => t('Subheadline'),
+      'description' => t('The subheadline'),
+    ),
+    'redia-rss:arrangement-starttime' => array(
+      'title' => t('Event starttime'),
+      'description' => t('When does the event start (UTC Timestamp)'),
+    ),
+    'redia-rss:arrangement-endtime' => array(
+      'title' => t('Event endtime'),
+      'description' => t('When does the event end (UTC Timestamp)'),
+    ),
+    'redia-rss:arrangement-location' => array(
+      'title' => t('Event location'),
+      'description' => t('The location of the event'),
+    ),
+    'redia-rss:arrangement-price' => array(
+      'title' => t('Event price'),
+      'description' => t('The price of the event.'),
+    ),
+  );
+}

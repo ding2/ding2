@@ -1,0 +1,14 @@
+name = Ding Redia RSS
+description = Ding Redia RSS feeds
+core = 7.x
+package = Ding!
+php = 5.2.4
+version = 7.x-0.1
+project = ding_redia_rss
+dependencies[] = ctools
+dependencies[] = views
+dependencies[] = views_rss
+features[ctools][] = views:views_default:3.0
+features[features_api][] = api:1
+features[views_view][] = ding_redia_event_rss
+features[views_view][] = ding_redia_news_rss
