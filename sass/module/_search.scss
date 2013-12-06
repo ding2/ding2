@@ -61,8 +61,18 @@ $search-border-type: solid;
   margin-bottom: 0;
 }
 
-/* Search in header
+/* Search
    ========================================================================== */
+
+.header-wrapper {
+  /* Add padding if the search is in the header */
+  .search {
+    padding-top: 30px;
+    padding-right: 20px;
+    padding-bottom: 30px;
+    padding-left: 20px;
+  }
+}
 
 .search {
   @extend %search-user-header;
@@ -93,10 +103,6 @@ $search-border-type: solid;
   }
 
   @include small-medium {
-    padding-top: 30px;
-    padding-right: 20px;
-    padding-bottom: 30px;
-    padding-left: 20px;
     width: auto;
   }
 }
