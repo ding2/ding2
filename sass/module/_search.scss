@@ -121,7 +121,7 @@ $search-border-type: solid;
   @extend .search;
 
   margin-bottom: 20px;
-
+  padding: 0;
   position: relative;
 
   .form-text {
@@ -399,8 +399,6 @@ input#edit-search-block-form--2.spinner {
 }
 
 .facet-browser-toggle {
-  @extend %button-default;
-
   display: none;
 
   /* Media queries */
@@ -408,6 +406,7 @@ input#edit-search-block-form--2.spinner {
     clear: both;
     display: block;
     margin-bottom: 20px;
+    text-align: center;
   }
 }
 
