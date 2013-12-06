@@ -409,10 +409,13 @@ function ting_execute_cache($request) {
       if (!empty($reply->record)) {
         ting_cache_set($reply->id, $reply);
       }
+      else {
+        $reply = TING_CACHE_EMPTY_ENTRY;
+      }
     }
 
     // Store the reply for the request itself in the cache.
-    if (is_null($reply) || empty($reply->record)) {
+    if (is_null($reply)) {
       // Handle empty data well replies.
       $reply = TING_CACHE_EMPTY_ENTRY;
     }
