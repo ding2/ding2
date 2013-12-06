@@ -232,7 +232,7 @@ function ting_update_7002() {
   // Convert "katalog" PID's first.
   $agency = variable_get('ting_agency', '');
   db_query("UPDATE ting_object
-            SET ding_entity_id = CONCAT(SUBSTRING_INDEX(ding_entity_id, ':', 1), '-katalog:', SUBSTRING_INDEX(ding_entity_id, ':', -1))
+            SET ding_entity_id = CONCAT('" . $agency . "-katalog:', SUBSTRING_INDEX(ding_entity_id, ':', -1))
             WHERE ding_entity_id LIKE '" . $agency . ":9%'")
     ->execute();
 
@@ -249,13 +249,17 @@ function ting_update_7002() {
 function ting_update_7003() {
   db_query("UPDATE ting_object
             SET ding_entity_id = CONCAT(SUBSTRING_INDEX(ding_entity_id, ':', 1), '-katalog:', SUBSTRING_INDEX(ding_entity_id, ':', -1))
-            WHERE ding_entity_id LIKE '7%:9%'")
+            WHERE ding_entity_id LIKE '7%:9%'
+              AND ding_entity_id NOT LIKE '%-basis:%'
+              AND ding_entity_id NOT LIKE '%-katalog:%'")
     ->execute();
 
   // Convert basic PID's
   db_query("UPDATE ting_object
             SET ding_entity_id = CONCAT('870970-basis:', SUBSTRING_INDEX(ding_entity_id, ':', -1))
-            WHERE ding_entity_id LIKE '7%:%'")
+            WHERE ding_entity_id LIKE '7%:%'
+              AND ding_entity_id NOT LIKE '%-basis:%'
+              AND ding_entity_id NOT LIKE '%-katalog:%'")
     ->execute();
 }
 
