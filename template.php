@@ -54,8 +54,6 @@ function ddbasic_preprocess_html(&$vars) {
  * Process variables for html.tpl.php
  */
 function ddbasic_process_html(&$vars) {
-  $theme_name = 'ddbasic';
-
   // Classes for body element. Allows advanced theming based on context
   // (home page, node of certain type, etc.)
   if (!$vars['is_front']) {
@@ -209,7 +207,6 @@ function ddbasic_menu_tree__user_menu($vars) {
  * Overwrite views row classes
  */
 function ddbasic_preprocess_views_view_unformatted(&$vars) {
-
   // Class names for overwriting.
   $row_first = "first";
   $row_last  = "last";
@@ -486,8 +483,6 @@ function ddbasic_preprocess_field(&$vars, $hook) {
       $vars['element']['#formatter'] == 'ding_availability_with_labels') {
     $vars['theme_hook_suggestions'][] = 'field__' . $vars['element']['#field_type'] . '__' . 'search_result';
   }
-
-
 }
 
 /**
@@ -556,7 +551,6 @@ function ddbasic_menu_link($vars) {
  * Add specific markup for top-bar menu exposed as menu_block_4.
  */
 function ddbasic_menu_link__menu_tabs_menu($vars) {
-
   // Run classes array through our custom stripper.
   $vars['element']['#attributes']['class'] = ddbasic_remove_default_link_classes($vars['element']['#attributes']['class']);
 
@@ -676,7 +670,6 @@ function ddbasic_remove_default_link_classes($classes) {
   return $classes;
 }
 
-
 /**
  * Allows us to add script plugins to the theme via theme settings.
  *
@@ -703,7 +696,6 @@ function ddbasic_load_plugins() {
   }
 }
 
-
 /**
  * Implements hook_theme_script().
  *
@@ -724,7 +716,6 @@ function ddbasic_theme_script($filepath) {
 
   return $script;
 }
-
 
 /**
  * Return the info file array for a particular theme, usually the active theme.
@@ -747,7 +738,6 @@ function ddbasic_get_info($theme_name) {
 
   return $info;
 }
-
 
 /**
  * Implements theme_item_list().
@@ -876,6 +866,44 @@ function ddbasic_preprocess_views_view_responsive_grid(&$vars) {
     // Reverse rows.
     $vars['rows'] = array_reverse($vars['rows']);
     $vars['row_classes'] = array_reverse($vars['row_classes']);
+  }
+}
+
+/**
+ * Implements hook_preprocess_views_view_fields().
+ *
+ * Ensure that the image styles used in responsive images for ding groups are
+ * optimized in relation to the number of promoted groups.
+ */
+function ddbasic_preprocess_views_view_fields(&$vars) {
+  if ($vars['view']->name == 'ding_groups' && $vars['view']->current_display == 'panel_pane_1') {
+    $total = (int) $vars['view']->total_rows;
+    $rows = ceil($total / 4);
+    $current = $vars['id'];
+
+    if ((($rows - 1) * 4) < $current) {
+      // Last row (top row).
+      $count = (($total - 1) % 4) + 1;
+      switch ($count) {
+        case '1';
+          // One image.
+          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#max_style'] = 'ding_panorama_primary_large';
+          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#fallback_style'] = 'ding_panorama_primary_medium';
+          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#breakpoint_styles']['768'] = 'ding_panorama_primary_large';
+          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#breakpoint_styles']['500'] = 'ding_panorama_primary_medium';
+          $vars['fields']['field_ding_group_list_image']->content = drupal_render($vars['row']->field_field_ding_group_list_image[0]['rendered']);
+          break;
+
+        case '2';
+          // Two image.
+          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#max_style'] = 'ding_panorama_primary_medium';
+          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#fallback_style'] = 'ding_panorama_primary_small';
+          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#breakpoint_styles']['768'] = 'ding_panorama_primary_medium';
+          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#breakpoint_styles']['500'] = 'ding_panorama_primary_small';
+          $vars['fields']['field_ding_group_list_image']->content = drupal_render($vars['row']->field_field_ding_group_list_image[0]['rendered']);
+          break;
+      }
+    }
   }
 }
 
