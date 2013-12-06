@@ -61,8 +61,18 @@ $search-border-type: solid;
   margin-bottom: 0;
 }
 
-/* Search in header
+/* Search
    ========================================================================== */
+
+.header-wrapper {
+  /* Add padding if the search is in the header */
+  .search {
+    padding-top: 30px;
+    padding-right: 20px;
+    padding-bottom: 30px;
+    padding-left: 20px;
+  }
+}
 
 .search {
   @extend %search-user-header;
@@ -93,10 +103,6 @@ $search-border-type: solid;
   }
 
   @include small-medium {
-    padding-top: 30px;
-    padding-right: 20px;
-    padding-bottom: 30px;
-    padding-left: 20px;
     width: auto;
   }
 }
@@ -121,7 +127,7 @@ $search-border-type: solid;
   @extend .search;
 
   margin-bottom: 20px;
-
+  padding: 0;
   position: relative;
 
   .form-text {
@@ -399,8 +405,6 @@ input#edit-search-block-form--2.spinner {
 }
 
 .facet-browser-toggle {
-  @extend %button-default;
-
   display: none;
 
   /* Media queries */
@@ -408,6 +412,7 @@ input#edit-search-block-form--2.spinner {
     clear: both;
     display: block;
     margin-bottom: 20px;
+    text-align: center;
   }
 }
 

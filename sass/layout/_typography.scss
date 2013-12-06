@@ -11,6 +11,10 @@
   @include font-bold();
   
   font-size: $font-size-giga;
+
+  @include small() {
+    font-size: $font-size-large;
+  }
 }
 
 %section-heading {
