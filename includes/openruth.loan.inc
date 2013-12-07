@@ -16,17 +16,34 @@ function openruth_loan_list($account) {
 
   if (isset($status->loans->loan)) {
     foreach ($status->loans->loan as $loan) {
+      // Try to parse display title to get periodical information.
+      $notes = DingEntityBase::NULL;
+      preg_match('/(\d+\.\d+).+(\[\d+\]).+(\d{4}),\s(\d+)/', $loan->itemDisplayTitle, $matches);
+      if ($matches) {
+        $notes = $matches[3] . ', ' . $matches[4];
+      }
+
+      // Try to parse display title to get year of year book.
+      preg_match('/(\d+\.\d+)(.+)(\d{4})$/', $loan->itemDisplayTitle, $matches);
+      if ($matches) {
+        $notes = $matches[3];
+      }
+
+      // Create DingProviderLoad object with the information.
       $result[$loan->copyId] = new DingProviderLoan($loan->copyId, array(
         'ding_entity_id' => ding_provider_build_entity_id($loan->itemId),
-        'display_name' => isset($loan->itemDisplayTitle) ? $loan->itemDisplayTitle : DingEntityBase::NULL,
+        'display_name' => isset($loan->itemTitle) ? $loan->itemTitle : DingEntityBase::NULL,
         'loan_date' => isset($loan->loanDate) ? $loan->loanDate : DingEntityBase::NULL,
         'expiry' => isset($loan->loanReturnDate) ? $loan->loanReturnDate : DingEntityBase::NULL,
         'renewable' => isset($loan->loanRenewable) ? $loan->loanRenewable == 'renewable' : DingEntityBase::NULL,
         'materials_number' => isset($loan->copyId) ? $loan->copyId : DingEntityBase::NULL,
         'author' => isset($loan->itemAuthor) ? $loan->itemAuthor : DingEntityBase::NULL,
-        'title' => isset($loan->itemTitle) ? $loan->itemTitle : DingEntityBase::NULL,
         'publication_year' => isset($loan->itemPublicationYear) ? $loan->itemPublicationYear : DingEntityBase::NULL,
+        'notes' => $notes,
       ));
+
+      // Reset matches.
+      $matches = NULL;
     }
   }
 
