@@ -111,10 +111,7 @@ function ding_wayf_admin_settings_form() {
     '#title' => t('Login types'),
     '#description' => t('Enable login types'),
     '#required' => TRUE,
-    '#options' => array(
-      'wayf' => 'WAYF',
-      'nemlogin' => 'Nem-login',
-    ),
+    '#options' => ding_wayf_idps(),
     '#default_value' => variable_get('ding_wayf_login_type', array()),
     '#states' => array(
       'invisible' => array(

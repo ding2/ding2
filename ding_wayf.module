@@ -47,6 +47,7 @@ function ding_wayf_menu() {
   );
 
   // Accept page.
+  // @todo why is this needed, WAYF have an accept page?
   $items['wayf/accept'] = array(
     'title' => 'WAYF accept page',
     'description' => 'Provides WAYF login.',
@@ -56,6 +57,21 @@ function ding_wayf_menu() {
   );
 
   return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_wayf_theme($existing, $type, $theme, $path) {
+  return array(
+    'ding_wayf_login' => array(
+      'template' => 'ding-wayf-login',
+      'variables' => array(
+        'link' => NULL,
+      ),
+      'path' => $path . '/templates',
+    ),
+  );
 }
 
 /**
@@ -287,33 +303,51 @@ function ding_wayf_block_info() {
 /**
  * Implements hook_block_view().
  */
-function ding_wayf_block_view($delta) {
-  $block = array('content' => '');
-  if ($delta == 'login') {
-    global $user;
-    // Only show login link for anon. users.
-    if ($user->uid == 0) {
-      $config = variable_get('ding_wayf', NULL);
-      $wayf = isset($config['wayflogin']) ? $config['wayflogin'] : FALSE;
-      $nemlogin = isset($config['nemlogin']) ? $config['nemlogin'] : FALSE;
-      if ($wayf or $nemlogin) {
-        $block['content'] .= '<div class=ding-wayf-logon-block> <span class = ding-wayf-logoninfo>' . t('Log in to WAYF or NemId') . '</span>';
-      }
-      if ($wayf) {
-        $logo_path = base_path() . drupal_get_path('theme', $GLOBALS['theme']);
-        $logo_path .= '/img/wayf.png';
-        // @todo WAYF image is no longer in the module.
-        $block['content'] .= l('<img src="' . $logo_path . '" alt="wayf_logo"/>', 'wayf/login', array('html' => TRUE, 'attributes' => array('class' => 'link-ding-wayf-wayf-login'), 'query' => array('idp' => 'wayf', drupal_get_destination())));
-      }
-      if ($nemlogin) {
-        $logo_path = base_path() . drupal_get_path('theme', $GLOBALS['theme']);
-        $logo_path .= '/img/nemid_logo.png';
-        // @todo WAYF image is no longer in the module.
-        $block['content'] .= l('<img src="' . $logo_path . '" alt="nemid_logo"/>', 'wayf/login', array('html' => TRUE, 'attributes' => array('class' => 'link-ding-wayf-wayf-login'), 'query' => array('idp' => 'nemlogin', drupal_get_destination())));
-      }
-      if ($wayf or $nemlogin) {
-        $block['content'] .= '</div>';
-      }
+function ding_wayf_block_view() {
+  $block = new stdClass();
+
+  // Only show login link for anonymous users.
+  if (user_is_anonymous()) {
+    // Build default content.
+    $block->content = array(
+      '#theme' => 'ding_wayf_login',
+      '#link' => array(
+        '#theme' => 'link',
+        '#text' => 'Login',
+        '#path' => 'wayf/login',
+        '#options' => array(
+          'attributes' => array(
+            'class' => array(),
+          ),
+          'query' => array(
+            'idp' => '',
+              drupal_get_destination(),
+          ),
+          'html' => TRUE,
+        ),
+      ),
+    );
+
+    // Update the default block content based on the login type selected.
+    $login_type = array_values(array_filter(variable_get('ding_wayf_login_type', array())));
+    switch ($login_type[0]) {
+      case 'test':
+        $block->content['#link']['#text'] = t('Login with test');
+        $block->content['#link']['#options']['attributes']['class'][] = 'ding-wayf--test';
+        $block->content['#link']['#options']['query']['idp'] = 'test';
+        break;
+
+      case 'wayf':
+        $block->content['#link']['#text'] = t('Login with WAYF');
+        $block->content['#link']['#options']['attributes']['class'][] = 'ding-wayf--wayf';
+        $block->content['#link']['#options']['query']['idp'] = 'wayf';
+        break;
+
+      case 'nemlogin':
+        $block->content['#link']['#text'] = t('Login with NemID');
+        $block->content['#link']['#options']['attributes']['class'][] = 'ding-wayf--nemid';
+        $block->content['#link']['#options']['query']['idp'] = 'nemlogin';
+        break;
     }
   }
 
@@ -325,9 +359,9 @@ function ding_wayf_block_view($delta) {
  */
 function ding_wayf_idps() {
   $ret = array(
-    'test' => 'test',
-    'wayf' => 'wayf',
-    'nemlogin' => 'nemlogin',
+    'test' => 'Test',
+    'wayf' => 'WAYF',
+    'nemlogin' => 'Nem-login',
   );
 
   return $ret;
