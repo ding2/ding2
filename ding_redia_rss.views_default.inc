@@ -124,9 +124,10 @@ function ding_redia_rss_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_body']['table'] = 'field_data_field_ding_event_body';
   $handler->display->display_options['fields']['field_ding_event_body']['field'] = 'field_ding_event_body';
   $handler->display->display_options['fields']['field_ding_event_body']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_event_body']['alter']['strip_tags'] = TRUE;
+  $handler->display->display_options['fields']['field_ding_event_body']['alter']['preserve_tags'] = '<a><b><em><u><i><li><ul><ol><h2><h3><strong><p><br/>';
   $handler->display->display_options['fields']['field_ding_event_body']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_event_body']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_event_body']['type'] = 'text_plain';
   /* Field: Content: List image */
   $handler->display->display_options['fields']['field_ding_event_list_image']['id'] = 'field_ding_event_list_image';
   $handler->display->display_options['fields']['field_ding_event_list_image']['table'] = 'field_data_field_ding_event_list_image';
@@ -295,6 +296,22 @@ function ding_redia_rss_views_default_views() {
   $handler->display->display_options['fields']['name']['label'] = '';
   $handler->display->display_options['fields']['name']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['name']['link_to_user'] = FALSE;
+  /* Field: Content: Body */
+  $handler->display->display_options['fields']['field_ding_news_body']['id'] = 'field_ding_news_body';
+  $handler->display->display_options['fields']['field_ding_news_body']['table'] = 'field_data_field_ding_news_body';
+  $handler->display->display_options['fields']['field_ding_news_body']['field'] = 'field_ding_news_body';
+  $handler->display->display_options['fields']['field_ding_news_body']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_news_body']['alter']['strip_tags'] = TRUE;
+  $handler->display->display_options['fields']['field_ding_news_body']['alter']['preserve_tags'] = '<a><b><em><u><i><li><ul><ol><h2><h3><strong><p><br/>';
+  $handler->display->display_options['fields']['field_ding_news_body']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_news_body']['element_default_classes'] = FALSE;
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['label'] = '';
+  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['nid']['element_default_classes'] = FALSE;
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -339,17 +356,37 @@ function ding_redia_rss_views_default_views() {
     ),
   );
   $handler->display->display_options['style_options']['item'] = array(
+    'redia-rss' => array(
+      'ding_redia_rss' => array(
+        'subheadline' => '',
+        'arrangement-starttime' => '',
+        'arrangement-endtime' => '',
+        'arrangement-location' => '',
+        'arrangement-price' => '',
+        'resources' => '',
+      ),
+    ),
     'core' => array(
       'views_rss_core' => array(
         'title' => 'title',
         'link' => '',
-        'description' => '',
+        'description' => 'field_ding_news_body',
         'author' => 'name',
         'category' => '',
         'comments' => '',
         'enclosure' => '',
-        'guid' => '',
+        'guid' => 'nid',
         'pubDate' => 'created',
+      ),
+    ),
+    'media' => array(
+      'views_rss_media' => array(
+        'content' => '',
+        'title' => '',
+        'description' => '',
+        'keywords' => '',
+        'thumbnail' => '',
+        'category' => '',
       ),
     ),
   );
