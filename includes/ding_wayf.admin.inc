@@ -33,9 +33,12 @@ function ding_wayf_admin_settings_form() {
       'gateway' => t('Gateway/proxy'),
     ),
     '#required' => TRUE,
-    '#default' => variable_get('ding_wayf_type', array()),
+    '#default_value' => variable_get('ding_wayf_type', array()),
   );
 
+  $default = variable_get('ding_wayf_local', array(
+    'installdir' => '/var/simplesamlphp',
+  ));
   $form['ding_wayf']['ding_wayf_local'] = array(
     '#type' => 'fieldset',
     '#title' => t('Local installation'),
@@ -55,7 +58,10 @@ function ding_wayf_admin_settings_form() {
     '#description' => t('Absolute path with no trailing slash to simple SAML installation.'),
   );
 
-  $form['ding_wayf']['ding_wayf_gatewayf'] = array(
+  $default = variable_get('ding_wayf_gateway', array(
+    'address' => '"https://dringo-ssl.dbc.dk/gatewayf',
+  ));
+  $form['ding_wayf']['ding_wayf_gateway'] = array(
     '#type' => 'fieldset',
     '#title' => t('WAYF gateway installation'),
     '#description' => t('Communications through a SimpleSAML gateway (ask DBC).'),
@@ -67,17 +73,17 @@ function ding_wayf_admin_settings_form() {
     ),
   );
 
-  $form['ding_wayf']['ding_wayf_gatewayf']['address'] = array(
+  $form['ding_wayf']['ding_wayf_gateway']['address'] = array(
     '#type' => 'textfield',
     '#title' => t('URL to wayf gateway'),
-    '#default_value' => $default['gatewayf'],
+    '#default_value' => $default['address'],
     '#description' => t('Gateway/proxy address to use in authentication.'),
   );
 
-  $form['ding_wayf']['sp'] = array(
+  $form['ding_wayf']['ding_wayf_sp'] = array(
     '#type' => 'textfield',
     '#title' => t('Autenticaton source for this SP'),
-    '#default_value' => $default['sp'],
+    '#default_value' => variable_get('ding_wayf_sp', 'default-sp'),
     '#description' => t('The name of the service provider (SP) to use from /var/simplesamlphp/config/authsources.php.'),
     '#required' => TRUE,
     '#states' => array(
@@ -87,10 +93,10 @@ function ding_wayf_admin_settings_form() {
     ),
   );
 
-  $form['ding_wayf']['redirect'] = array(
+  $form['ding_wayf']['ding_wayf_redirect'] = array(
     '#type' => 'textfield',
     '#title' => t('Redirect fallback URL'),
-    '#default_value' => $default['redirect'],
+    '#default_value' => variable_get('ding_wayf_redirect', 'user/%uid/status'),
     '#description' => t('Redirect to this fallback URL after login. This URL is only used if the distination parameter is not found.'),
     '#required' => TRUE,
     '#states' => array(
@@ -106,10 +112,10 @@ function ding_wayf_admin_settings_form() {
     '#description' => t('Enable login types'),
     '#required' => TRUE,
     '#options' => array(
-      'wayf',
-      'nemlogin',
+      'wayf' => 'WAYF',
+      'nemlogin' => 'Nem-login',
     ),
-    '#default_value' => array('nemlogin'),
+    '#default_value' => variable_get('ding_wayf_login_type', array()),
     '#states' => array(
       'invisible' => array(
         ':input[name="ding_wayf_type"]' => array('value' => FALSE),
