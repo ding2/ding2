@@ -56,19 +56,19 @@ class SimpleSAML_Auth_Simple {
 
   private function setAttributes($attributes) {
     //enrich attriubutes with login_type
-    $loginType = isset($_GET['logintype']) ? $_GET['logintype'] : NULL;
-    if ($loginType == 'wayf') {
-      $loginType = 'wayf_id';
+    $login_type = isset($_GET['logintype']) ? $_GET['logintype'] : NULL;
+    if ($login_type == 'wayf') {
+      $login_type = 'wayf_id';
     }
-    elseif ($loginType == 'nemlogin') {
-      $loginType = 'nem_id';
+    elseif ($login_type == 'nemlogin') {
+      $login_type = 'nem_id';
     }
     else {
       // default
-      $loginType = 'wayf_id';
+      $login_type = 'wayf_id';
     }
 
-    $attributes['login_type'] = $loginType;
+    $attributes['login_type'] = $login_type;
     $_SESSION['wayf_login'] = $attributes;
   }
 

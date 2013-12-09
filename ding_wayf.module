@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Adds support for login with WAYF (mainly used to allow login with nemid).
+ */
 
 /**
  * Delimiter for extracting a part of a field.
@@ -108,8 +112,6 @@ function ding_wayf_init() {
 function ding_wayf_login($authentication_attributes, $notify_by_mail = NULL) {
   global $user;
   if ($user->uid == 0) {
-    $form_state = array();
-
     // Get form_state from provider.
     $form_state = ding_provider_invoke('wayf', 'login_creds', $authentication_attributes, $notify_by_mail);
 
@@ -117,10 +119,12 @@ function ding_wayf_login($authentication_attributes, $notify_by_mail = NULL) {
     drupal_form_submit('user_login_block', $form_state);
     $errors = form_get_errors();
     if (!empty($errors)) {
+      // @todo user default redirect to the current page.
       drupal_goto('user');
     }
   }
   else {
+    // @todo user default redirect to the current page.
     drupal_goto('user/' . $user->uid . '/edit');
   }
 }
@@ -233,6 +237,7 @@ function ding_wayf_redirect_user($url = NULL) {
     $url = str_replace('%uid', $user->uid, $url);
   }
 
+  // @todo user default redirect to the current page.
   drupal_goto($url);
 }
 
@@ -249,9 +254,6 @@ function ding_wayf_user_delete($account) {
  * Implements hook_user_logout().
  *
  * Ensures that the WAYF logout function is called on user logout.
- *
- * @param $account
- *   account of logged in user.
  */
 function ding_wayf_user_logout($account = NULL, $origin = NULL) {
   global $base_url;
@@ -260,6 +262,7 @@ function ding_wayf_user_logout($account = NULL, $origin = NULL) {
   $saml = ding_wayf_get_saml_connection();
   if (!empty($saml)) {
     if ($saml->isAuthenticated()) {
+      // @todo session is removed by std. Drupal logout.
       if (isset($_SESSION['accept_wayf'])) {
         // Unset _SESSION variables.
         unset($_SESSION['accept_wayf']);
@@ -363,11 +366,13 @@ function ding_wayf_block_view($delta) {
       if ($wayf) {
         $logo_path = base_path() . drupal_get_path('theme', $GLOBALS['theme']);
         $logo_path .= '/img/wayf.png';
+        // @todo WAYF image is no longer in the module.
         $block['content'] .= l('<img src="' . $logo_path . '" alt="wayf_logo"/>', 'wayf/login', array('html' => TRUE, 'attributes' => array('class' => 'link-ding-wayf-wayf-login'), 'query' => array('idp' => 'wayf', drupal_get_destination())));
       }
       if ($nemlogin) {
         $logo_path = base_path() . drupal_get_path('theme', $GLOBALS['theme']);
         $logo_path .= '/img/nemid_logo.png';
+        // @todo WAYF image is no longer in the module.
         $block['content'] .= l('<img src="' . $logo_path . '" alt="nemid_logo"/>', 'wayf/login', array('html' => TRUE, 'attributes' => array('class' => 'link-ding-wayf-wayf-login'), 'query' => array('idp' => 'nemlogin', drupal_get_destination())));
       }
       if ($wayf or $nemlogin) {
@@ -435,6 +440,7 @@ function ding_wayf_get_required_attributes($wayf_attributes, $required_attribute
 
   $attribute_list = array();
 
+  // @todo session variable?
   if (isset($_SESSION['accept_wayf']['name'])) {
     $wayf_attributes['mail'][0] = $_SESSION['accept_wayf']['name'];
   }
