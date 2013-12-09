@@ -7,6 +7,76 @@
 include_once 'ding_redia_rss.features.inc';
 
 /**
+ * Implements hook_field_formatter_info().
+ */
+function ding_redia_rss_field_formatter_info() {
+  return array(
+    'ding_redia_rss_location' => array(
+      'label' => t('RSS friendly location'),
+      'field types' => array('addressfield'),
+      'description' => t('Output address information on a single HTML stripped line.'),
+    ),
+    'ding_redia_rss_date_time' => array(
+      'label' => t('RFC-2822 formatted date'),
+      'field types' => array('datetime'),
+      'description' => t('Format date and time as RFC-2822 date/time string.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function ding_redia_rss_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  switch ($display['type']) {
+    case 'ding_redia_rss_date_time':
+      foreach ($items as $delta => $item) {
+        $element[$delta] = array(
+          '#markup' => strtotime($item[$display['settings']['fromto']]),
+        );
+      }
+      break;
+    case 'ding_redia_rss_location':
+      foreach ($items as $delta => $item) {
+        foreach ($item as $part) {
+          if (!empty($part)) {
+            $location[] = $part;
+          }
+        }
+        $element[$delta] = array(
+          '#markup' => implode(', ', $location),
+        );
+      }
+      break;
+  }
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function ding_redia_rss_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $form = array();
+  $form['fromto'] = array(
+    '#title' => t('Display:'),
+    '#type' => 'select',
+    '#options' => array(
+      'both' => t('Both Start and End dates'),
+      'value' => t('Start date only'),
+      'value2' => t('End date only'),
+    ),
+    '#access' => $field['settings']['todate'],
+    '#default_value' => $settings['fromto'],
+    '#weight' => 1,
+  );
+
+  return $form;
+}
+
+/**
  * Implements hook_views_rss_namespaces().
  *
  * @return Array
