@@ -128,32 +128,6 @@ function ding_wayf_login($authentication_attributes, $notify_by_mail = NULL) {
 }
 
 /**
- * Implements hook_form_FORM_ID_alter().
- *
- * User login form and add wayf login block to form['actions'].
- *
- * @todo: why do we do this?
- */
-function ding_wayf_form_user_login_alter(&$form, &$form_state) {
-  $form['actions']['wayf_login'] = array(
-    '#markup' => ding_wayf_render_login_block(),
-  );
-}
-
-/**
- * Custom render function for ding_wayf_login block.
- *
- * @todo: why do we do this?
- *
- * @return string
- *   The rendered block
- */
-function ding_wayf_render_login_block() {
-  $block = block_load('ding_wayf', 'login');
-  return drupal_render(_block_get_renderable_array(_block_render_blocks(array($block))));
-}
-
-/**
  * Helper function that handles the login procedure.
  *
  * If the user is not yet authenticated by WAYF - the user will be redirected to
