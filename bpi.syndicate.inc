@@ -143,14 +143,7 @@ function bpi_search_content($query = '', $page = 1, $filters = array(), $sort = 
     }
   }
   catch (Exception $e) {
-    // TODO Please use watchdog_exception.
-    watchdog(
-      'bpi',
-      t('Failed to fetch content from BPI well with message %message'),
-      array('%message' => $e->getMessage()),
-      WATCHDOG_ERROR
-    );
-    // TODO How about providing some feedback to the user?
+    watchdog_exception('bpi', $e);
   }
 
   return array();
