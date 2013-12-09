@@ -127,6 +127,20 @@ function ding_redia_rss_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_body']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_event_body']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_ding_event_body']['type'] = 'text_plain';
+  /* Field: Content: List image */
+  $handler->display->display_options['fields']['field_ding_event_list_image']['id'] = 'field_ding_event_list_image';
+  $handler->display->display_options['fields']['field_ding_event_list_image']['table'] = 'field_data_field_ding_event_list_image';
+  $handler->display->display_options['fields']['field_ding_event_list_image']['field'] = 'field_ding_event_list_image';
+  $handler->display->display_options['fields']['field_ding_event_list_image']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_event_list_image']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_ding_event_list_image']['alter']['text'] = '[field_ding_event_list_image]';
+  $handler->display->display_options['fields']['field_ding_event_list_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_event_list_image']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_event_list_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_ding_event_list_image']['type'] = 'media_thumbnail';
+  $handler->display->display_options['fields']['field_ding_event_list_image']['settings'] = array(
+    'image_style' => '',
+  );
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -193,6 +207,16 @@ function ding_redia_rss_views_default_views() {
         'pubDate' => 'created',
       ),
     ),
+    'media' => array(
+      'views_rss_media' => array(
+        'content' => '',
+        'title' => '',
+        'description' => '',
+        'keywords' => '',
+        'thumbnail' => 'field_ding_event_list_image',
+        'category' => '',
+      ),
+    ),
   );
   $handler->display->display_options['style_options']['feed_settings'] = array(
     'absolute_paths' => 1,
@@ -215,6 +239,7 @@ function ding_redia_rss_views_default_views() {
     t('next ›'),
     t('last »'),
     t('author'),
+    t('[field_ding_event_list_image]'),
     t('Feed'),
   );
   $export['ding_redia_event_rss'] = $view;
