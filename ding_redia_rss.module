@@ -45,7 +45,7 @@ function ding_redia_rss_field_formatter_view($entity_type, $entity, $field, $ins
           }
         }
         $element[$delta] = array(
-          '#markup' => implode(', ', $location),
+          '#markup' => implode(', ', array_reverse($location)),
         );
       }
       break;
