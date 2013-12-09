@@ -1,11 +1,11 @@
 <?php
-
 /**
  * @file
  * Mock implementation of simpleSAML.
  */
-class SimpleSAML_Auth_Simple {
 
+
+class SimpleSAML_Auth_Simple {
   /**
    * Constructor, empty for now.
    */
@@ -14,14 +14,13 @@ class SimpleSAML_Auth_Simple {
   }
 
   public function isAuthenticated() {
-    // @TODO handle errors
+    // @TODO handle errors.
     $error = isset($_GET['error']) ? $_GET['error'] : FALSE;
     if ($error) {
-
-      // handle this
+      // Handle this.
     }
 
-    // gateway returns attributes in $_POST if authentication goes well
+    // Gateway returns attributes in $_POST if authentication goes well.
     if (!empty($_POST['eduPersonTargetedID'])) {
       $this->setAttributes($_POST);
       return TRUE;
