@@ -80,11 +80,16 @@ function ding_wayf_admin_settings_form() {
     '#description' => t('Gateway/proxy address to use in authentication.'),
   );
 
-  $form['ding_wayf']['ding_wayf_sp'] = array(
+  $form['ding_wayf']['redirect'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Redirect fallback URL'),
+    '#description' => t('Redirect to this fallback URL after login. This URL is only used if the distination parameter is not found.'),
+  );
+
+  $form['ding_wayf']['redirect']['ding_wayf_redirect'] = array(
     '#type' => 'textfield',
-    '#title' => t('Autenticaton source for this SP'),
-    '#default_value' => variable_get('ding_wayf_sp', 'default-sp'),
-    '#description' => t('The name of the service provider (SP) to use from /var/simplesamlphp/config/authsources.php.'),
+    '#title' => t('URL'),
+    '#default_value' => variable_get('ding_wayf_redirect', 'user/[user:uid]/status'),
     '#required' => TRUE,
     '#states' => array(
       'invisible' => array(
@@ -93,11 +98,16 @@ function ding_wayf_admin_settings_form() {
     ),
   );
 
-  $form['ding_wayf']['ding_wayf_redirect'] = array(
+  $form['ding_wayf']['redirect']['help'] = array(
+    '#theme' => 'token_tree',
+    '#token_types' => array('user'),
+  );
+
+  $form['ding_wayf']['ding_wayf_sp'] = array(
     '#type' => 'textfield',
-    '#title' => t('Redirect fallback URL'),
-    '#default_value' => variable_get('ding_wayf_redirect', 'user/%uid/status'),
-    '#description' => t('Redirect to this fallback URL after login. This URL is only used if the distination parameter is not found.'),
+    '#title' => t('Autenticaton source for this SP'),
+    '#default_value' => variable_get('ding_wayf_sp', 'default-sp'),
+    '#description' => t('The name of the service provider (SP) to use from /var/simplesamlphp/config/authsources.php.'),
     '#required' => TRUE,
     '#states' => array(
       'invisible' => array(

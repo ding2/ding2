@@ -328,23 +328,38 @@ function ding_wayf_block_view() {
       ),
     );
 
+    // Default image tag.
+    $img = array(
+      '#theme' => 'image',
+      '#path' => drupal_get_path('module', 'ding_wayf') . '/images/',
+    );
+
     // Update the default block content based on the login type selected.
     $login_type = array_values(array_filter(variable_get('ding_wayf_login_type', array())));
     switch ($login_type[0]) {
       case 'test':
-        $block->content['#link']['#text'] = t('Login with test');
+        $img['#path'] .= 'wayf_logo.png';
+        $img['#alt'] = t('Login with WAYF test');
+        $img['#title'] = $img['#alt'];
+        $block->content['#link']['#text'] = drupal_render($img);
         $block->content['#link']['#options']['attributes']['class'][] = 'ding-wayf--test';
         $block->content['#link']['#options']['query']['idp'] = 'test';
         break;
 
       case 'wayf':
-        $block->content['#link']['#text'] = t('Login with WAYF');
+        $img['#path'] .= 'wayf_logo.png';
+        $img['#alt'] = t('Login with WAYF');
+        $img['#title'] = $img['#alt'];
+        $block->content['#link']['#text'] = drupal_render($img);
         $block->content['#link']['#options']['attributes']['class'][] = 'ding-wayf--wayf';
         $block->content['#link']['#options']['query']['idp'] = 'wayf';
         break;
 
       case 'nemlogin':
-        $block->content['#link']['#text'] = t('Login with NemID');
+        $img['#path'] .= 'nemid_logo.png';
+        $img['#alt'] = t('Login with NemID');
+        $img['#title'] = $img['#alt'];
+        $block->content['#link']['#text'] = drupal_render($img);
         $block->content['#link']['#options']['attributes']['class'][] = 'ding-wayf--nemid';
         $block->content['#link']['#options']['query']['idp'] = 'nemlogin';
         break;
