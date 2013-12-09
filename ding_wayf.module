@@ -30,7 +30,7 @@ function ding_wayf_menu() {
   // Administration config page.
   $items['admin/config/ding/wayf'] = array(
     'title' => 'WAYF',
-    'description' => 'Configure WAYF',
+    'description' => 'Configure WAYF access (NemID)',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_wayf_admin_settings_form'),
     'access arguments' => array('configure wayf'),
@@ -48,7 +48,7 @@ function ding_wayf_menu() {
 
   // Accept page.
   $items['wayf/accept'] = array(
-    'title' => 'WAYF_ACCEPT',
+    'title' => 'WAYF accept page',
     'description' => 'Provides WAYF login.',
     'page callback' => 'ding_wayf_accept',
     'access callback' => TRUE,
@@ -76,13 +76,11 @@ function ding_wayf_accept() {
 /**
  * Implements hook_init().
  *
- * Special case; user was authenticated with wayf, but for some reason
+ * Special case; user was authenticated with WAYF, but for some reason
  * not with drupal - maybe user aborted while logging in.
- * make sure SESSION variables are removed, and user is logged out of wayf
+ * make sure SESSION variables are removed, and user is logged out of WAYF.
  */
 function ding_wayf_init() {
-  // @todo is the use of SESSION really needed (makes the page not cacheable for
-  // the reset of the session).
   if (isset($_SESSION['wayf_login'])) {
     if (isset($_GET['idp'])) {
       $login_type = $_GET['idp'];
@@ -101,13 +99,13 @@ function ding_wayf_init() {
 }
 
 /**
- * Login a wayf user.
+ * Login a WAYF user.
  *
  * As they where logged in by the library system. Easy solution; fake form_state
  * and submit user_login form. In that way ding_user handles user-login as
  * always.
  *
- * User is authenticated via wayf or we would not be here.
+ * User is authenticated via WAYF or we would not be here.
  */
 function ding_wayf_login($authentication_attributes, $notify_by_mail = NULL) {
   global $user;
@@ -153,36 +151,6 @@ function ding_wayf_form_user_login_alter(&$form, &$form_state) {
 function ding_wayf_render_login_block() {
   $block = block_load('ding_wayf', 'login');
   return drupal_render(_block_get_renderable_array(_block_render_blocks(array($block))));
-}
-
-/**
- * Implements hook_form_alter().
- *
- * Alter user_login, user_login_block.
- *
- * Add hidden field to set authentication provider.
- * Add validate handler for wayf login.
- */
-function ding_wayf_form_alter(&$form, $form_state, $form_id) {
-  switch ($form_id) {
-    case 'user_login':
-    case 'user_login_block':
-      // Option to set authentication provider for ding user
-      // (@see ding_user_user_login_validate)
-      $form['authentication_provider'] = array(
-        '#type' => 'hidden',
-      );
-
-      // Add a validation handler (if provider implements it).
-      $provider = ding_provider_get_provider_module_name('wayf');
-      if (isset($provider)) {
-        $function = $provider . '_wayf_validate';
-        if (function_exists($function)) {
-          array_unshift($form['#validate'], $function);
-        }
-      }
-      break;
-  }
 }
 
 /**
@@ -313,19 +281,13 @@ function ding_wayf_extract_data($data, $field = FALSE) {
  * @return SimpleSAML_Auth_Simple
  */
 function ding_wayf_get_saml_connection($sp = NULL) {
-  $simplesaml = variable_get('ding_wayf', array());
+  $service_provider = variable_get('ding_wayf_sp', FALSE);
 
-  if (empty($simplesaml)) {
-    drupal_set_message(t('The WAYF login module is not configured yet, plase contact the site administrator.'), 'error', FALSE);
-    ding_wayf_redirect_user('<front>');
+  if (!empty($service_provider)) {
+    return new SimpleSAML_Auth_Simple($service_provider);
   }
 
-  // @todo is this test or ?????
-  if (!empty($simplesaml)) {
-    module_load_include('php', 'ding_wayf', 'lib/_autoload');
-    $sp = $simplesaml['sp'];
-    return new SimpleSAML_Auth_Simple($sp);
-  }
+  drupal_set_message(t('The WAYF login module is not configured yet, plase contact the site administrator.'), 'error', FALSE);
 
   return FALSE;
 }
@@ -334,7 +296,7 @@ function ding_wayf_get_saml_connection($sp = NULL) {
  * Check that simpleSAMLphp is installed at the location given.
  */
 function ding_wayf_check_simplesamlphp($path) {
-  return file_exists($path . '/lib/_autoload.php');
+  //return file_exists($path . '/lib/_autoload.php');
 }
 
 /**

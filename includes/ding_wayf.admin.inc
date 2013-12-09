@@ -59,7 +59,7 @@ function ding_wayf_admin_settings_form() {
   );
 
   $default = variable_get('ding_wayf_gateway', array(
-    'address' => '"https://dringo-ssl.dbc.dk/gatewayf',
+    'address' => 'https://dringo-ssl.dbc.dk/gatewayf',
   ));
   $form['ding_wayf']['ding_wayf_gateway'] = array(
     '#type' => 'fieldset',

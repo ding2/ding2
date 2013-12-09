@@ -55,7 +55,7 @@ class SimpleSAML_Auth_Simple {
   }
 
   private function setAttributes($attributes) {
-    //enrich attriubutes with login_type
+    // Enrich attriubutes with login_type.
     $login_type = isset($_GET['logintype']) ? $_GET['logintype'] : NULL;
     if ($login_type == 'wayf') {
       $login_type = 'wayf_id';
@@ -64,7 +64,7 @@ class SimpleSAML_Auth_Simple {
       $login_type = 'nem_id';
     }
     else {
-      // default
+      // Default.
       $login_type = 'wayf_id';
     }
 
@@ -95,8 +95,7 @@ class SimpleSAML_Auth_Simple {
    * must fake a drupal-user logout to log drupal user out in a proper way
    */
   public function logout($url = NULL) {
-
-    // unset session variables
+    // Unset session variables.
     if (isset($_SESSION['wayf_login'])) {
       unset($_SESSION['wayf_login']);
     }
@@ -115,9 +114,8 @@ class SimpleSAML_Auth_Simple {
     module_invoke_all('user_logout', $user);
     // Destroy the current session, and reset $user to the anonymous user.
     session_destroy();
-    // redirect to gatewayf; pass returnUrl for simplesaml to redirect
+    // Redirect to gate-wayf; pass returnUrl for simplesaml to redirect.
     header('Location:' . $gateway . '?returnUrl=' . $base_url . '&op=logout');
     exit;
   }
-
 }
