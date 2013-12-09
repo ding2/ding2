@@ -312,6 +312,28 @@ function ding_redia_rss_views_default_views() {
   $handler->display->display_options['fields']['nid']['label'] = '';
   $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['nid']['element_default_classes'] = FALSE;
+  /* Field: Content: List image */
+  $handler->display->display_options['fields']['field_ding_news_list_image']['id'] = 'field_ding_news_list_image';
+  $handler->display->display_options['fields']['field_ding_news_list_image']['table'] = 'field_data_field_ding_news_list_image';
+  $handler->display->display_options['fields']['field_ding_news_list_image']['field'] = 'field_ding_news_list_image';
+  $handler->display->display_options['fields']['field_ding_news_list_image']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_news_list_image']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_ding_news_list_image']['alter']['text'] = '[field_ding_news_list_image]';
+  $handler->display->display_options['fields']['field_ding_news_list_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_news_list_image']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_news_list_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_ding_news_list_image']['type'] = 'media_thumbnail';
+  $handler->display->display_options['fields']['field_ding_news_list_image']['settings'] = array(
+    'image_style' => '',
+  );
+  /* Field: Content: Lead */
+  $handler->display->display_options['fields']['field_ding_news_lead']['id'] = 'field_ding_news_lead';
+  $handler->display->display_options['fields']['field_ding_news_lead']['table'] = 'field_data_field_ding_news_lead';
+  $handler->display->display_options['fields']['field_ding_news_lead']['field'] = 'field_ding_news_lead';
+  $handler->display->display_options['fields']['field_ding_news_lead']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_news_lead']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_news_lead']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_news_lead']['type'] = 'text_plain';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -340,7 +362,7 @@ function ding_redia_rss_views_default_views() {
     'core' => array(
       'views_rss_core' => array(
         'description' => '',
-        'language' => '',
+        'language' => 'da',
         'category' => '',
         'image' => '',
         'copyright' => '',
@@ -358,7 +380,7 @@ function ding_redia_rss_views_default_views() {
   $handler->display->display_options['style_options']['item'] = array(
     'redia-rss' => array(
       'ding_redia_rss' => array(
-        'subheadline' => '',
+        'subheadline' => 'field_ding_news_lead',
         'arrangement-starttime' => '',
         'arrangement-endtime' => '',
         'arrangement-location' => '',
@@ -385,7 +407,7 @@ function ding_redia_rss_views_default_views() {
         'title' => '',
         'description' => '',
         'keywords' => '',
-        'thumbnail' => '',
+        'thumbnail' => 'field_ding_news_list_image',
         'category' => '',
       ),
     ),
@@ -411,6 +433,7 @@ function ding_redia_rss_views_default_views() {
     t('next ›'),
     t('last »'),
     t('author'),
+    t('[field_ding_news_list_image]'),
     t('Feed'),
   );
   $export['ding_redia_news_rss'] = $view;
