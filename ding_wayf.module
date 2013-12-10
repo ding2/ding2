@@ -139,13 +139,23 @@ function ding_wayf_init() {
 function ding_wayf_login($authentication_attributes) {
   if (user_is_anonymous()) {
     if (ding_provider_implements('wayf', 'login_creds')) {
-      // Get form_state from provider.
-      $form_state = ding_provider_invoke('wayf', 'login_creds', $authentication_attributes);
+      // Get credentials from the provider.
+      $credentials = ding_provider_invoke('wayf', 'login_credentials', $authentication_attributes);
 
-      // Submit login form.
-      drupal_form_submit('user_login_block', $form_state);
-      $errors = form_get_errors();
-      if (!empty($errors)) {
+      if (!empty($credentials)) {
+        // Set values to send with the login form.
+        $form_state = array(
+          'values' => $credentials,
+        );
+
+        // Submit login form.
+        drupal_form_submit('user_login_block', $form_state);
+        $errors = form_get_errors();
+        if (!empty($errors)) {
+          drupal_set_message(t('Something went wrong. Please try again or !url of WAYF.', array('!url' => l(t('logout'), "wayf/logout"))), 'warning');
+        }
+      }
+      else {
         drupal_set_message(t('Something went wrong. Please try again or !url of WAYF.', array('!url' => l(t('logout'), "wayf/logout"))), 'warning');
       }
     }
