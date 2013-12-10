@@ -394,7 +394,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
         $item = array(
           '#type' => 'material_item',
           '#id' => $reservation->id,
-          '#title' => $entity ? $entity->getTitle() : $reservation->display_name,
+          '#title' => $title,
           '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
           '#information' => array(
             'queue_number' => array(
@@ -432,11 +432,10 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
         break;
 
       case DING_RESERVATION_INTERLIBRARY_LOANS:
-        $title = $entity ? $entity->getTitle() : $reservation->display_name;
         $item = array(
           '#type' => 'material_item',
           '#id' => $reservation->id,
-          '#title' => $title ? $title : $reservation->display_name,
+          '#title' => $title,
           '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
           '#information' => array(
             'ill_status' => array(
