@@ -257,7 +257,11 @@ function ding_wayf_user_logout() {
       // We pass simple saml the url to return to - you can pass
       // simplesaml::logout an array of values ['ReturnTo', 'ReturnCallback'].
       global $base_url;
-      $saml->logout($base_url);
+      $url = $base_url;
+      if (user_is_logged_in()) {
+        $url = $base_url . '/user/logout';
+      }
+      $saml->logout($url);
     }
   }
 }
