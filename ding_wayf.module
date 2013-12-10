@@ -388,6 +388,9 @@ function ding_wayf_block_view() {
 
 /**
  * Get the valid idp's.
+ *
+ * @return array
+ *   Array indexed by the identity provider names.
  */
 function ding_wayf_idps() {
   $ret = array(
@@ -440,23 +443,43 @@ function ding_wayf_get_credentials() {
  *   Will be empty if not all required attributes is present.
  */
 function ding_wayf_get_required_attributes($saml_attributes, $required_attributes) {
-
   $attribute_list = array();
-
-  // @todo session variable?
-//  if (isset($_SESSION['accept_wayf']['name'])) {
-//    $saml_attributes['mail'][0] = $_SESSION['accept_wayf']['name'];
-//  }
 
   if (isset($saml_attributes) && is_array($required_attributes)) {
     foreach ($required_attributes as $attribute => $value) {
       if (isset($saml_attributes[$attribute])) {
-        $attribute_list[$attribute] = $saml_attributes[$attribute];
+        $attribute_list[$attribute] = ding_wayf_extract_data($saml_attributes[$attribute], $value['field']);
       }
     }
 
-    return $attribute_list;
   }
 
   return $attribute_list;
+}
+
+/**
+ * Helper function that extracts a field from a saml attribute string.
+ *
+ * @param string $data
+ *   The attribute form the authentication provider.
+ * @param string $field
+ *   The field to extract from the string.
+ *
+ * @return string
+ *   The value of the field.
+ */
+function ding_wayf_extract_data($data, $field = '') {
+  if (empty($field)) {
+    return $data[0];
+  }
+  else {
+    $field .= DING_WAYF_FIELD_DELIMITER;
+
+    if (($pos = strpos($data[0], $field)) !== FALSE) {
+      return substr($data[0], $pos + strlen($field));
+    }
+    else {
+      return '';
+    }
+  }
 }
