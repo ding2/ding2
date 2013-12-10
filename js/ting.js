@@ -16,12 +16,16 @@
 
     // Ensure overlay on collection view links.
     $('.ting-collection-wrapper a[href*="/ting/"]').live('click', function() {
-      Drupal.TingSearchOverlay();
+      if ($(this).not('[target="_blank"]').length) {
+        Drupal.TingSearchOverlay();
+      }
     });
 
     // Ensure overlay on object view links.
     $('.ting-object-wrapper a[href*="/ting/"]').live('click', function() {
-      Drupal.TingSearchOverlay();
+      if ($(this).not('[target="_blank"]').length) {
+        Drupal.TingSearchOverlay();
+      }
     });
   });
 }(jQuery));
