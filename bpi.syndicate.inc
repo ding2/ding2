@@ -46,7 +46,7 @@ function bpi_syndicate_page_form($form, &$form_state) {
   );
 
   $sort_direction = bpi_get_next_sorting();
-  $sort_text = ($sort_direction == SORT_DESCENDING) ?  t('Show latest on top') : t('Show oldest on top');
+  $sort_text = ($sort_direction == SORT_DESCENDING) ? t('Show latest on top') : t('Show oldest on top');
   $sort_url_components = _bpi_build_query('sort', $sort_direction);
   $form['bpi_search_sort'] = array(
     '#type' => 'item',
@@ -146,7 +146,7 @@ function bpi_search_content($query = '', $page = 1, $filters = array(), $sort = 
     // TODO Please use watchdog_exception.
     watchdog(
       'bpi',
-      t('Failed to fetch content from BPI well with message %message'),
+      'Failed to fetch content from BPI well with message %message',
       array('%message' => $e->getMessage()),
       WATCHDOG_ERROR
     );
