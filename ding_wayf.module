@@ -146,11 +146,11 @@ function ding_wayf_login($authentication_attributes) {
       drupal_form_submit('user_login_block', $form_state);
       $errors = form_get_errors();
       if (!empty($errors)) {
-        drupal_set_message(t('Something went wrong. Please try again or !url.', array('!url' => l(t('logout her'), "wayf/logout"))), 'warning');
+        drupal_set_message(t('Something went wrong. Please try again or !url of WAYF.', array('!url' => l(t('logout'), "wayf/logout"))), 'warning');
       }
     }
     else {
-      drupal_set_message(t('Something went wrong. Please try again or !url.', array('!url' => l(t('logout her'), "wayf/logout"))), 'warning');
+      drupal_set_message(t('Something went wrong. Please try again or !url of WAYF.', array('!url' => l(t('logout'), "wayf/logout"))), 'warning');
     }
   }
 
@@ -247,30 +247,6 @@ function ding_wayf_user_logout() {
       // simplesaml::logout an array of values ['ReturnTo', 'ReturnCallback'].
       global $base_url;
       $saml->logout($base_url);
-    }
-  }
-}
-
-/**
- * Helper function that extracts a field from a saml attribute string.
- *
- * @param string $data
- * @param string $field
- *
- * @return string
- */
-function ding_wayf_extract_data($data, $field = FALSE) {
-  if (empty($field)) {
-    return $data[0];
-  }
-  else {
-    $field .= DING_WAYF_FIELD_DELIMITER;
-
-    if (($pos = strpos($data[0], $field)) !== FALSE) {
-      return substr($data[0], $pos + strlen($field));
-    }
-    else {
-      return '';
     }
   }
 }
