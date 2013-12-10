@@ -8,6 +8,8 @@
  * Implements hook_menu().
  */
 function ding_provider_menu() {
+  $items = array();
+
   $items['ding_provider_error'] = array(
     'title' => 'Internal error',
     'page callback' => 'ding_provider_error_page',
@@ -16,6 +18,7 @@ function ding_provider_menu() {
 
   $items['admin/config/ding/provider'] = array(
     'title' => 'Ding provider',
+    'description' => 'Configure the provider used to communicate with the library system.',
     'page callback' => 'ding_provider_admin_overview',
     'access arguments' => array('administer ding provider'),
     'file' => 'ding_provider.admin.inc',
