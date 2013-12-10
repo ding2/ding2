@@ -58,15 +58,13 @@ function bpi_delete_action($type = 'ajax', $node) {
  */
 function bpi_delete_form($form, $form_state, $node) {
   $form['bpi_delete_bpi_id'] = array(
-    // TODO Why use hidden instead of value here?
-    '#type' => 'hidden',
+    '#type' => 'value',
     '#value' => isset($node->bpi_id) ? $node->bpi_id : 0,
   );
 
   return confirm_form(
     $form,
-    // TODO Why include strong tag? %title should already add <em>.
-    t('Are you sure u want to delete <strong>%title</strong> from bpi well?', array('%title' => $node->title)),
+    t('Are you sure u want to delete %title from bpi well?', array('%title' => $node->title)),
     'admin/content'
   );
 }
@@ -84,7 +82,7 @@ function bpi_delete_form($form, $form_state, $node) {
  * @ingroup forms
  */
 function bpi_delete_form_submit($form, &$form_state) {
-  $bpi_id = $form_state['input']['bpi_delete_bpi_id'];
+  $bpi_id = $form_state['values']['bpi_delete_bpi_id'];
 
   if (empty($bpi_id)) {
     drupal_set_message(t('Selected content could not be deleted from the BPI well.'), 'error');
