@@ -45,13 +45,13 @@ Drupal.behaviors.ding_facetbrowser = {
 
     // Check for click in checkbox, and execute search.
     fact_browser.find('.form-type-checkbox input').change(function(e) {
-      ding_facetbrowser_show_overlay();
+      Drupal.TingSearchOverlay();
       window.location = $(e.target).parent().find('a').attr('href');
     });
 
     // Check factet links for click events.
     fact_browser.find('.form-type-checkbox a').click(function(e) {
-      ding_facetbrowser_show_overlay();
+      Drupal.TingSearchOverlay();
     });
   }
 };
@@ -157,7 +157,7 @@ function ding_facetbrowser_fold_facet_group() {
       var facetMatch = element.find('a').attr('href').match(/&facets\[\]=-facet.*/);
       checkedFacets += facetMatch[0];
       if (checkedFacets) {
-        ding_facetbrowser_show_overlay();
+        Drupal.TingSearchOverlay();
         window.location.href += checkedFacets;
       }
     });
@@ -165,10 +165,6 @@ function ding_facetbrowser_fold_facet_group() {
     return false;
   });
 };
-
-function ding_facetbrowser_show_overlay() {
-  $('body').prepend('<div class="search-overlay--wrapper"><div class="search-overlay--inner"><i class="icon-spinner icon-spin search-overlay--icon"></i><p class="search-overlay--text">' + Drupal.t('Searching please wait...') + '</p></div></div>');
-}
 
 })(jQuery);
 
