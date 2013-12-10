@@ -187,17 +187,9 @@ function http_bpi_push_action_form_submit($form, &$form_state) {
     drupal_goto($base_url . '/admin/bpi');
   }
   catch (Exception $e) {
-    // TODO Please use watchdog_exception here.
-    watchdog(
-      'bpi',
-      t('Failed to push node %title, with message %message.'),
-      array(
-        '%title' => $node->title,
-        '%message' => $e->getMessage()
-      ),
-      WATCHDOG_ERROR
-    );
-    drupal_set_message(t('Error occurred when pushing %title to BPI well. Check reports for more information.', array('%title' => $node->title)), 'error');
+    watchdog_exception('bpi', $e);
+    $msg = t('Error occurred when pushing %title to BPI well. Check reports for more information.', array('%title' => $node->title));
+    drupal_set_message($msg, 'error');
   }
 }
 
@@ -322,16 +314,9 @@ function bpi_push_form_submit($form, &$form_state) {
     }
   }
   catch (Exception $e) {
-    watchdog(
-      'bpi',
-      t('Failed to push node %title, with message %message.'),
-      array(
-        '%title' => $node->title,
-        '%message' => $e->getMessage()
-      ),
-      WATCHDOG_ERROR
-    );
-    drupal_set_message(t('Error occured when pushing %title to BPI well. Check reports for more information.', array('%title' => $node->title)), 'error');
+    watchdog_exception('bpi', $e);
+    $msg = t('Error occured when pushing %title to BPI well. Check reports for more information.', array('%title' => $node->title));
+    drupal_set_message($msg, 'error');
   }
 }
 
@@ -528,15 +513,7 @@ function bpi_get_bpi_dictionaries() {
     $dictionaries = $bpi->getDictionaries();
   }
   catch (Exception $e) {
-    // TODO Please use watchdog_exception here.
-    watchdog(
-      'bpi',
-      t('Failed to fetch dictionaries, with message %message.'),
-      array(
-        '%message' => $e->getMessage()
-      ),
-      WATCHDOG_ERROR
-    );
+    watchdog('bpi', $e);
   }
 
   return $dictionaries;

@@ -269,16 +269,7 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
         )));
       }
       catch (Exception $e) {
-        //TODO Use watchdog_exception for logging execeptions.
-        watchdog(
-          'bpi',
-          t('Error when syndicating node %title with message %message'),
-          array(
-            '%title' => $bpi_content['title'],
-            '%message' => $e->getMessage(),
-          ),
-          WATCHDOG_ERROR
-        );
+        watchdog('bpi', $e);
         drupal_set_message(t('Failed to fetch the article from BPI well.'), 'error');
       }
     }
@@ -291,21 +282,23 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
     $materials_field = variable_get('bpi_field_materials', '');
     $current_language = $form['language']['#value'];
 
-    foreach((array) $bpi_content['material'] as $key => $material_number) {
-      $form[$materials_field][$current_language][$key] = ting_reference_field_widget_form(
-        $form,
-        $form_state,
-        $materials_field,
-        array(),
-        $current_language,
-        array(),
-        0,
-        $form[$materials_field][$current_language][$key]
-      );
+    if (isset($bpi_content['material'])) {
+      foreach((array) $bpi_content['material'] as $key => $material_number) {
+        $form[$materials_field][$current_language][$key] = ting_reference_field_widget_form(
+          $form,
+          $form_state,
+          $materials_field,
+          array(),
+          $current_language,
+          array(),
+          0,
+          $form[$materials_field][$current_language][$key]
+        );
 
-      // Overwrite agency id by local value.
-      $number_parts = explode(':', $material_number);
-      $form[$materials_field][$current_language][$key]['#default_value'] = variable_get('bpi_agency_id', '') . ':' . $number_parts[1];
+        // Overwrite agency id by local value.
+        $number_parts = explode(':', $material_number);
+        $form[$materials_field][$current_language][$key]['#default_value'] = variable_get('bpi_agency_id', '') . ':' . $number_parts[1];
+      }
     }
 
     // EXPERIMENTAL.
@@ -617,35 +610,29 @@ function bpi_node_insert($node) {
   $from_bpi = (isset($_GET['from']) && $_GET['from'] == 'bpi') ? TRUE : FALSE;
 
   if (!empty($_SESSION['bpi']['syndicate_id']) && $from_bpi) {
-    $bpi_id = $_SESSION['bpi']['syndicate_id'];
-    db_merge('bpi_syndicated')
-      ->fields(array(
-        'nid' => $node_id,
-        'bid' => $bpi_id,
-        'status' => BPI_SYNDICATED,
-        'timestamp' => time(),
-      ))
-      ->condition('nid', $node_id, '=')
-      ->execute();
-
     try {
+      $bpi_id = $_SESSION['bpi']['syndicate_id'];
       $bpi = bpi_client_instance();
       $bpi->syndicateNode($bpi_id);
+
+      db_merge('bpi_syndicated')
+        ->fields(array(
+          'nid' => $node_id,
+          'bid' => $bpi_id,
+          'status' => BPI_SYNDICATED,
+          'timestamp' => time(),
+        ))
+        ->condition('nid', $node_id, '=')
+        ->execute();
+      unset($_SESSION['bpi']['syndicate_id']);
     }
     catch (Exception $e) {
-      // TODO Use watchdog_exception here. How about notifying the user?
-      watchdog(
-        'bpi',
-        t('Error when marking node %title as syndicated with message %message'),
-        array(
-          '%title' => $node->title,
-          '%message' => $e->getMessage(),
-        ),
-        WATCHDOG_ERROR
-      );
+      watchdog_exception('bpi', $e);
+      drupal_set_message(t('Syndication error. Check reports for more information.'), 'error');
+      // We should prevent creation of node due to handled exception.
+      // Maybe there is better solution than deletetion of newly created node.
+      node_delete($node_id);
     }
-
-    unset($_SESSION['bpi']['syndicate_id']);
   }
 }
 

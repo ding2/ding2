@@ -97,18 +97,19 @@ function bpi_delete_form($form, $form_state, $nid) {
 function bpi_delete_form_submit($form, &$form_state) {
   $bpi_id = $form_state['input']['bpi_delete_bpi_id'];
 
-  if (!empty($bpi_id)) {
-    $status = bpi_well_delete($bpi_id);
+  if (empty($bpi_id)) {
+    drupal_set_message(t('Selected content could not be deleted from the BPI well.'), 'error');
 
-    if ($status) {
-      drupal_set_message(t('Selected content deleted from BPI well.'));
-    }
-    else {
-      drupal_set_message(t('Failed to delete selected content from BPI well.'), 'error');
-    }
+    return;
+  }
+
+  $status = bpi_well_delete($bpi_id);
+
+  if ($status) {
+    drupal_set_message(t('Selected content deleted from BPI well.'));
   }
   else {
-    drupal_set_message(t('Selected content could not be deleted from the BPI well.'), 'error');
+    drupal_set_message(t('Failed to delete selected content from BPI well.'), 'error');
   }
 }
 
@@ -160,16 +161,7 @@ function bpi_well_delete($bpi_id) {
     return TRUE;
   }
   catch (Exception $e) {
-    // TODO Please use watchdog_exception here.
-    watchdog(
-      'bpi',
-      t('Failed to delete node %title, with message %message.'),
-      array(
-        '%title' => $node->title,
-        '%message' => $e->getMessage()
-      ),
-      WATCHDOG_ERROR
-    );
+    watchdog_exception('bpi', $e);
 
     return FALSE;
   }
