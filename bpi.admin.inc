@@ -140,8 +140,7 @@ function bpi_admin_settings_form_validate(&$form, &$form_state) {
  * @ingroup forms
  */
 function bpi_admin_content_mapping_form($form, $form_state) {
-  // TODO Why not use node_type_get_names()?
-  $node_types = bpi_get_node_types();
+  $node_types = node_type_get_names();
   $node_types_names = array_keys($node_types);
 
   $form['bpi_content_type'] = array(
@@ -228,27 +227,6 @@ function bpi_admin_content_mapping_form($form, $form_state) {
  */
 function _bpi_content_mapper_ctype_fields(&$form, &$form_state) {
   return $form['bpi_mapper'];
-}
-
-/**
- * Get a list of available node types in the system.
- *
- * Simplifies the output returned by the core node_type_get_types()
- * function.
- *
- * @return array
- *   An associative array containing:
- *     - Node type machine name: Node type human name.
- */
-function bpi_get_node_types() {
-  $node_types = node_type_get_types();
-  $types = array();
-
-  foreach ($node_types as $type) {
-    $types[$type->type] = $type->name;
-  }
-
-  return $types;
 }
 
 /**
