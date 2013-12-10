@@ -16,7 +16,7 @@
     var overlay = $('.search-overlay--wrapper');
     if (!overlay.length) {
       // Overlay not found so create is and display.
-      overlay = $('<div class="search-overlay--wrapper"><div class="search-overlay--inner"><i class="icon-spinner icon-spin search-overlay--icon"></i><p class="search-overlay--text">' + Drupal.t('Searching please wait...') + '</p><p class="close"><a href="#">' + Drupal.t('Close') + '</a></p></div></div>');
+      overlay = $('<div class="search-overlay--wrapper"><div class="search-overlay--inner"><i class="icon-spinner icon-spin search-overlay--icon"></i><p class="search-overlay--text">' + Drupal.t('Searching please wait...') + '</p><p class="cancel"><a href="#">' + Drupal.t('Cancel') + '</a></p></div></div>');
       $('body').prepend(overlay);
     }
     else {
@@ -28,9 +28,9 @@
     }
   };
 
-  // Hook into the overlays "Close" link and stop page loading if clicked.
+  // Hook into the overlays "Cancel" link and stop page loading if clicked.
   $(document).ready(function() {
-    $('.search-overlay--wrapper .close').live('click', function() {
+    $('.search-overlay--wrapper .cancel').live('click', function() {
       window.stop();
       Drupal.TingSearchOverlay(true);
     });
