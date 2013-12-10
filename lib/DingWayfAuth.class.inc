@@ -55,7 +55,7 @@ class DingWayfAuth {
   public function isAuthenticated() {
     if (user_is_logged_in()) {
       // User logged into Drupal.
-      if ($this->saml->isAuthenticated()) {
+      if ($this->saml && $this->saml->isAuthenticated()) {
         // User is logged into WAYF.
         return TRUE;
       }
