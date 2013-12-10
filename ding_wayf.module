@@ -124,22 +124,30 @@ function ding_wayf_init() {
  * always.
  *
  * User is authenticated via WAYF or we would not be here.
+ *
+ * @param array $authentication_attributes
+ *   Attributes retrieved from the authentication provider.
  */
-function ding_wayf_login($authentication_attributes, $notify_by_mail = NULL) {
+function ding_wayf_login($authentication_attributes) {
   if (user_is_anonymous()) {
-    // Get form_state from provider.
-    $form_state = ding_provider_invoke('wayf', 'login_creds', $authentication_attributes, $notify_by_mail);
+    if (ding_provider_implements('wayf', 'login_creds')) {
+      // Get form_state from provider.
+      $form_state = ding_provider_invoke('wayf', 'login_creds', $authentication_attributes);
 
-    // Submit login form.
-    drupal_form_submit('user_login_block', $form_state);
-    $errors = form_get_errors();
-    if (!empty($errors)) {
-      ding_wayf_redirect_user();
+      // Submit login form.
+      drupal_form_submit('user_login_block', $form_state);
+      $errors = form_get_errors();
+      if (!empty($errors)) {
+        drupal_set_message(t('Something went wrong with the login attempt. Please try another login method.'), 'error');
+        ding_wayf_user_logout();
+      }
+    }
+    else {
+      drupal_set_message(t('The provider do not support login with WAYF. Please contact the site administrator.'), 'status');
     }
   }
-  else {
-    ding_wayf_redirect_user();
-  }
+
+  ding_wayf_redirect_user();
 }
 
 /**
