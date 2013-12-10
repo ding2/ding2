@@ -80,6 +80,10 @@ function alma_ding_provider() {
         'prefix' => 'user',
         'file' => $path . '/includes/alma.user.inc',
       ),
+      'wayf' => array(
+        'prefix' => 'wayf',
+        'file' => $path . '/includes/alma.wayf.inc',
+      ),
     ),
   );
 }
