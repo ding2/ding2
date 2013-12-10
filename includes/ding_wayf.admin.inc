@@ -51,6 +51,7 @@ function ding_wayf_admin_settings_form() {
 
   $default = variable_get('ding_wayf_gateway', array(
     'address' => 'https://dringo-ssl.dbc.dk/gatewayf',
+    'ding_wayf_login_type' => 'nemlogin',
   ));
   $form['ding_wayf']['ding_wayf_gateway'] = array(
     '#type' => 'fieldset',
@@ -77,7 +78,7 @@ function ding_wayf_admin_settings_form() {
     '#description' => t('Enable login types'),
     '#required' => TRUE,
     '#options' => ding_wayf_idps(),
-    '#default_value' => variable_get('ding_wayf_login_type', array()),
+    '#default_value' => $default['ding_wayf_login_type'],
   );
 
   $form['ding_wayf']['redirect'] = array(
