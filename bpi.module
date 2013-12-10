@@ -499,15 +499,10 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
   }
 
   // Restricting where "Save && Push" appears.
-  // TODO Why not use the method for detecting create/edit forms used elsewhere
-  // $form_id == $bpi_ctype . '_node_form' && $form['nid']['#value'] == NULL
-  if (arg(0) == 'node' && is_numeric(arg(1)) && arg(2) == 'edit') {
-    // TODO This refers to a specific content type. Is this intentional?
-    if (node_load(arg(1))->type == 'ding_news') {
-      $form['actions']['push'] = $form['actions']['submit'];
-      $form['actions']['push']['#value'] = t('Save and push');
-      $form['actions']['push']['#submit'][] = 'push_directly_callback_action';
-    }
+  if ($form_id == $bpi_ctype . '_node_form') {
+    $form['actions']['push'] = $form['actions']['submit'];
+    $form['actions']['push']['#value'] = t('Save and push');
+    $form['actions']['push']['#submit'][] = 'bpi_push_directly_callback_action';
   }
 }
 
@@ -519,18 +514,11 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
  * @param array $form_state
  *   Form state values.
  */
-//TODO Please prefix function names with the module name to avoid name clashes.
-function push_directly_callback_action(&$form, &$form_state) {
-  // TODO Why is this check necessary?
-  if (arg(0) == 'node' && is_numeric(arg(1))) {
-      // arg(1) is the node id.
-      // TODO are these includes necessary when bpi.push.inc is references in bpi.info?
-      module_load_include('inc', 'bpi', 'bpi.push');
-      // Unset and re-set destination.
-      unset($_GET['destination']);
-      drupal_static_reset('drupal_get_destination');
-      $_GET['destination'] = 'admin/bpi/push_http/' . arg(1);
-    }
+function bpi_push_directly_callback_action(&$form, &$form_state) {
+  // Reset destination.
+  unset($_GET['destination']);
+  drupal_static_reset('drupal_get_destination');
+  $_GET['destination'] = 'admin/bpi/push_http/' . $form_state['node']->nid;
 }
 
 /**
