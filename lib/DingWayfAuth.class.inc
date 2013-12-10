@@ -90,17 +90,32 @@ class DingWayfAuth {
   /**
    * Redirects the user to the authentication providers login page.
    *
+   * Note: that the TRUE return value used not be used as a redirect will happen
+   * if the saml connection exists.
+   *
    * @param string $idp
    *   If using a gateway the identity provider string can be sent with the
    *   redirect.
+   *
+   * @return bool
+   *   If the connection to saml have not been created FALSE is returned else
+   *   TRUE.
    */
   public function requireAuth($idp = NULL) {
-    if ($this->saml instanceof DingWayfAuthGateway) {
-      $this->saml->requireAuth($idp);
+    if ($this->saml) {
+      if ($this->saml instanceof DingWayfAuthGateway) {
+        $this->saml->requireAuth($idp);
+      }
+      else {
+        $this->saml->requireAuth();
+      }
     }
     else {
-      $this->saml->requireAuth();
+      watchdog('ding_wayf', 'SAML connection not found in DingWayfAuth requireAuth function.', array(), WATCHDOG_ERROR);
+      return FALSE;
     }
+
+    return TRUE;
   }
 
   /**

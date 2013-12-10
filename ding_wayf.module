@@ -46,7 +46,7 @@ function ding_wayf_menu() {
     'type' => MENU_CALLBACK,
   );
 
-  // Accept page.
+  // Accept page. Only used by test at this moment.
   // @todo why is this needed, WAYF have an accept page?
   $items['wayf/accept'] = array(
     'title' => 'WAYF accept page',
@@ -174,13 +174,21 @@ function ding_wayf_redirect_login() {
       // The clicked link have the identity provider type.
       $idp = isset($_GET['idp']) ? check_plain($_GET['idp']) : 'NOT FOUND';
       $idps = ding_wayf_idps();
-      if (in_array($idp, $idps)) {
+      if (isset($idps[$idp])) {
         // Redirect the user to the WAYF login page.
-        $saml->requireAuth($idps[$idp]);
+        if (!$saml->requireAuth($idps[$idp])) {
+          drupal_set_message(t('Something went wrong with the login attempt. Please try another login method.'), 'error');
+
+          // Send the user back.
+          ding_wayf_redirect_user();
+        }
       }
       else {
         drupal_set_message(t('Something went wrong with the login attempt. Please try another login method.'), 'error');
         watchdog('ding_wayf', 'The IDP given in the URL was not valid: %idp', array('%idp' => $idp), WATCHDOG_NOTICE);
+
+        // Send the user back.
+        ding_wayf_redirect_user();
       }
     }
   }
