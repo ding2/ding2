@@ -138,7 +138,7 @@ function ding_wayf_init() {
  */
 function ding_wayf_login($authentication_attributes) {
   if (user_is_anonymous()) {
-    if (ding_provider_implements('wayf', 'login_creds')) {
+    if (ding_provider_implements('wayf', 'login_credentials')) {
       // Get credentials from the provider.
       $credentials = ding_provider_invoke('wayf', 'login_credentials', $authentication_attributes);
 
@@ -160,6 +160,7 @@ function ding_wayf_login($authentication_attributes) {
       }
     }
     else {
+      watchdog('ding_wayf', 'The currently selected provider do not have support for WAYF.', array(), WATCHDOG_ERROR);
       drupal_set_message(t('Something went wrong. Please try again or !url of WAYF.', array('!url' => l(t('logout'), "wayf/logout"))), 'warning');
     }
   }
