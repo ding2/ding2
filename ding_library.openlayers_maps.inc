@@ -44,7 +44,7 @@ function ding_library_openlayers_maps() {
       ),
       'openlayers_behavior_keyboarddefaults' => array(),
       'openlayers_behavior_navigation' => array(
-        'zoomWheelEnabled' => 1,
+        'zoomWheelEnabled' => 0,
         'documentDrag' => 0,
       ),
       'openlayers_behavior_panzoom' => array(),
