@@ -8,20 +8,11 @@
  * Menu callback that builds the administration interface for the module.
  */
 function ding_wayf_admin_settings_form() {
-  $form = array();
-
-  $default = variable_get('ding_wayf', array(
-    'installdir' => '/var/simplesamlphp',
-    'redirect' => 'user/%uid/status',
-    'sp' => 'default-sp',
-    'gatewayf' => 'https://dringo-ssl.dbc.dk/gatewayf',
-    'wayflogin' => 0,
-    'nemlogin' => 1,
-  ));
-
-  $form['ding_wayf'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Ding WAYF configuration'),
+  $form = array(
+    'ding_wayf' => array(
+      '#type' => 'fieldset',
+      '#title' => t('Ding WAYF configuration'),
+    ),
   );
 
   $form['ding_wayf']['ding_wayf_type'] = array(
@@ -80,6 +71,15 @@ function ding_wayf_admin_settings_form() {
     '#description' => t('Gateway/proxy address to use in authentication.'),
   );
 
+  $form['ding_wayf']['ding_wayf_gateway']['ding_wayf_login_type'] = array(
+    '#type' => 'radios',
+    '#title' => t('Login types'),
+    '#description' => t('Enable login types'),
+    '#required' => TRUE,
+    '#options' => ding_wayf_idps(),
+    '#default_value' => variable_get('ding_wayf_login_type', array()),
+  );
+
   $form['ding_wayf']['redirect'] = array(
     '#type' => 'fieldset',
     '#title' => t('Redirect fallback URL'),
@@ -109,20 +109,6 @@ function ding_wayf_admin_settings_form() {
     '#default_value' => variable_get('ding_wayf_sp', 'default-sp'),
     '#description' => t('The name of the service provider (SP) to use from /var/simplesamlphp/config/authsources.php.'),
     '#required' => TRUE,
-    '#states' => array(
-      'invisible' => array(
-        ':input[name="ding_wayf_type"]' => array('value' => FALSE),
-      ),
-    ),
-  );
-
-  $form['ding_wayf']['ding_wayf_login_type'] = array(
-    '#type' => 'checkboxes',
-    '#title' => t('Login types'),
-    '#description' => t('Enable login types'),
-    '#required' => TRUE,
-    '#options' => ding_wayf_idps(),
-    '#default_value' => variable_get('ding_wayf_login_type', array()),
     '#states' => array(
       'invisible' => array(
         ':input[name="ding_wayf_type"]' => array('value' => FALSE),

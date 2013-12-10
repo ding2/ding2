@@ -92,6 +92,8 @@ function ding_wayf_accept() {
 /**
  * Implements hook_init().
  *
+ * @todo Move this session handling into class.
+ *
  * Special case; user was authenticated with WAYF, but for some reason
  * not with drupal - maybe user aborted while logging in.
  * make sure SESSION variables are removed, and user is logged out of WAYF.
@@ -125,7 +127,7 @@ function ding_wayf_init() {
  */
 function ding_wayf_login($authentication_attributes, $notify_by_mail = NULL) {
   global $user;
-  if ($user->uid == 0) {
+  if (user_is_anonymous()) {
     // Get form_state from provider.
     $form_state = ding_provider_invoke('wayf', 'login_creds', $authentication_attributes, $notify_by_mail);
 
@@ -157,46 +159,58 @@ function ding_wayf_login($authentication_attributes, $notify_by_mail = NULL) {
  * pre-configured URL.
  */
 function ding_wayf_redirect_login() {
-  global $user;
-  if ($user->uid == 0) {
+  if (user_is_anonymous()) {
     $saml = ding_wayf_get_saml_connection();
     if ($saml->isAuthenticated()) {
-      $wayf_data = $saml->getAttributes();
+      // The user is authenticated at WAYF, but not in Drupal. So get
+      // credentials from WAYF and the provider if required (ALMA uses a default
+      // password hash).
+      $credentials = ding_wayf_get_credentials();
 
-      $authentication_attributes = ding_wayf_get_authentication_attributes($wayf_data);
-      // Log user in.
-      ding_wayf_login($authentication_attributes);
+      // Log user into Drupal.
+      ding_wayf_login($credentials);
     }
     else {
-      $idp = $_GET['idp'];
+      // The clicked link have the identity provider type.
+      $idp = isset($_GET['idp']) ? check_plain($_GET['idp']) : 'NOT FOUND';
       $idps = ding_wayf_idps();
-      // Redirect the user to the WAYF login page.
-      $saml->requireAuth($idps[$idp]);
+      if (in_array($idp, $idps)) {
+        // Redirect the user to the WAYF login page.
+        $saml->requireAuth($idps[$idp]);
+      }
+      else {
+        drupal_set_message(t('Something went wrong with the login attempt. Please try another login method.'), 'error');
+        watchdog('ding_wayf', 'The IDP given in the URL was not valid: %idp', array('%idp' => $idp), WATCHDOG_NOTICE);
+      }
     }
   }
   else {
-    // Send the user back to her context or use the fallback URL.
+    // The user is already logged in to simple send the user back.
     ding_wayf_redirect_user();
   }
 }
 
 /**
- * Helper function that redirectes the user to previous context or the fallback
- * URL given as parameter.
+ * Helper function to redirect the user.
  *
- * @param string $url
+ * If destination query string exists the user is redirect to it else the
+ * fallback URL given is used.
+ *
+ * @param string $fallback_url
+ *   URL used if the destination query sting is not set.
  */
-function ding_wayf_redirect_user($url = NULL) {
+function ding_wayf_redirect_user($fallback_url = NULL) {
   if (!empty($_REQUEST['destination'])) {
-    $url = $_REQUEST['destination'];
+    // We do not user drupal_get_destination here as it will set the destination
+    // if one do not exists.
+    $fallback_url = $_REQUEST['destination'];
   }
   else {
     global $user;
-    $url = str_replace('%uid', $user->uid, $url);
+    $fallback_url = token_replace($fallback_url, array('user' => $user));
   }
 
-  // @todo user default redirect to the current page.
-  drupal_goto($url);
+  drupal_goto($fallback_url);
 }
 
 /**
@@ -231,9 +245,8 @@ function ding_wayf_user_logout($account = NULL, $origin = NULL) {
       if (isset($origin)) {
         $url = $base_url . '/' . $origin;
       }
-      // We pass simplesaml the url to return to -
-      // you can pass simplesaml::logout an array of values ['ReturnTo', 'ReturnCallback'] etc.
-      // if only a string is passed it will be handled as 'ReturnTo'
+      // We pass simple saml the url to return to - you can pass
+      // simplesaml::logout an array of values ['ReturnTo', 'ReturnCallback'].
       $saml->logout($url);
     }
   }
@@ -264,29 +277,56 @@ function ding_wayf_extract_data($data, $field = FALSE) {
 }
 
 /**
- * Gets a connection to simple saml php.
+ * Gets a connection to authentication source.
  *
- * @param string $sp
+ * The source can either be a local installation or a gateway.
  *
- * @return SimpleSAML_Auth_Simple
+ * @return DingWayfAuth
+ *   DingWayfAuth object to communicate with the authentication source.
  */
-function ding_wayf_get_saml_connection($sp = NULL) {
-  $service_provider = variable_get('ding_wayf_sp', FALSE);
-
-  if (!empty($service_provider)) {
-    return new SimpleSAML_Auth_Simple($service_provider);
+function ding_wayf_get_saml_connection() {
+  $saml = &drupal_static(__FUNCTION__, FALSE);
+  if (!$saml) {
+    $service_provider = variable_get('ding_wayf_sp', FALSE);
+    if ($service_provider) {
+      $saml = new DingWayfAuth($service_provider);
+    }
+    else {
+      drupal_set_message(t('The WAYF login module is not configured yet, plase contact the site administrator.'), 'error', FALSE);
+    }
   }
 
-  drupal_set_message(t('The WAYF login module is not configured yet, plase contact the site administrator.'), 'error', FALSE);
-
-  return FALSE;
+  return $saml;
 }
 
 /**
  * Check that simpleSAMLphp is installed at the location given.
+
+ * @return bool|string
+ *   The path to SimpleSAMLphp if it is a local installation else TRUE if
+ *   gateway class exists else FALSE.
  */
-function ding_wayf_check_simplesamlphp($path) {
-  //return file_exists($path . '/lib/_autoload.php');
+function ding_wayf_check_simplesamlphp() {
+  $exists = FALSE;
+  $type = variable_get('ding_wayf_local', array());
+  switch ($type) {
+    case 'local':
+      $local_conf = variable_get('ding_wayf_local', array());
+      $auto_loader = $local_conf['installdir'] . '/lib/_autoload.php';
+      if (file_exists($auto_loader)) {
+        $exists = $auto_loader;
+      }
+      break;
+
+    case 'gateway':
+      if (class_exists('DingWayfAuthGateway')) {
+        // @TODO check if the connection exists.
+        $exists = TRUE;
+      }
+      break;
+  }
+
+  return $exists;
 }
 
 /**
@@ -383,63 +423,63 @@ function ding_wayf_idps() {
 }
 
 /**
- * Sets attributes if specified by Ding provider.
- */
-function ding_wayf_get_provider_attributes(&$simplesaml) {
-  $wayf_attributes = module_invoke_all('ding_wayf_attributes');
-
-  if ($wayf_attributes) {
-    $simplesaml['attributes'] = $wayf_attributes;
-  }
-}
-
-/**
- * Get authentication attributes.
- *
- * @param $wayf_data
+ * Get user credentials from SAML attributes and the user provider.
  *
  * @return array
+ *   Attributes filter based on the active provider. Defaults to
+ *   'schacPersonalUniqueID' with social security number (CPR).
  */
-function ding_wayf_get_authentication_attributes($wayf_data) {
-  // Required attributes.
-  $simplesaml = variable_get('ding_wayf', array());
-  ding_wayf_get_provider_attributes($simplesaml);
-  $required_attributes = $simplesaml['attributes'];
+function ding_wayf_get_credentials() {
+  $saml = ding_wayf_get_saml_connection();
+  $saml_attributes = $saml->getAttributes();
 
-  return ding_wayf_get_required_attributes($wayf_data, $required_attributes);
+  // Set default required attributes.
+  $required_attributes = array(
+    'schacPersonalUniqueID' => array(
+      'field' => 'CPR',
+      'authname' => TRUE,
+    ),
+  );
+
+  // Ask the provider about required attributes and give it a change to override
+  // defaults.
+  if (ding_provider_implements('wayf', 'attributes')) {
+    $required_attributes = ding_provider_invoke('wayf', 'attributes', $required_attributes);
+  }
+
+  // Filter the attributes from WAYF/SAML and only return required once.
+  return ding_wayf_get_required_attributes($saml_attributes, $required_attributes);
 }
 
 /**
  * Extract required attributes from available WAYF attributes.
  *
- * @param array $wayf_attributes
+ * @param array $saml_attributes
  *   WAYF attributes.
  * @param array $required_attributes
  *   Required attributes.
  *
  * @return array
- *   Attributes which will be empty if not all required attributes is
- *   present.
+ *   Will be empty if not all required attributes is present.
  */
-function ding_wayf_get_required_attributes($wayf_attributes, $required_attributes) {
+function ding_wayf_get_required_attributes($saml_attributes, $required_attributes) {
 
   $attribute_list = array();
 
   // @todo session variable?
-  if (isset($_SESSION['accept_wayf']['name'])) {
-    $wayf_attributes['mail'][0] = $_SESSION['accept_wayf']['name'];
-  }
+//  if (isset($_SESSION['accept_wayf']['name'])) {
+//    $saml_attributes['mail'][0] = $_SESSION['accept_wayf']['name'];
+//  }
 
-  if (isset($wayf_attributes) && is_array($required_attributes)) {
+  if (isset($saml_attributes) && is_array($required_attributes)) {
     foreach ($required_attributes as $attribute => $value) {
-      if (isset($wayf_attributes[$attribute])) {
-        $attribute_list[$attribute] = $wayf_attributes[$attribute];
+      if (isset($saml_attributes[$attribute])) {
+        $attribute_list[$attribute] = $saml_attributes[$attribute];
       }
     }
 
     return $attribute_list;
   }
-  else {
-    return array();
-  }
+
+  return $attribute_list;
 }

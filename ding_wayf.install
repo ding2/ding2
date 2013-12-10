@@ -37,7 +37,7 @@ function ding_wayf_requirements($phase) {
     }
     else {
       // Check that simpleSAMLphp is found at the location given.
-      if (!ding_wayf_check_simplesamlphp($config['installdir'])) {
+      if (!ding_wayf_check_simplesamlphp()) {
         $requirements['ding_wayf_install'] = array(
           'title' => $t('SimpleSAMLphp installation has disappeared'),
           'description' => t('The installation of simpleSAMLphp was not found.'),
