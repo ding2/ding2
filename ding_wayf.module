@@ -46,6 +46,15 @@ function ding_wayf_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  // Logout callback. If called from code all drupal messages are lost.
+  $items['wayf/logout'] = array(
+    'title' => 'Logon to the site',
+    'description' => 'Provides WAYF logout.',
+    'page callback' => 'ding_wayf_user_logout',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
   // Accept page. Only used by test at this moment.
   // @todo why is this needed, WAYF have an accept page?
   $items['wayf/accept'] = array(
@@ -109,8 +118,7 @@ function ding_wayf_init() {
         $login_type = 'nem_id';
       }
       if ($_SESSION['wayf_login']['login_type'] != $login_type) {
-        drupal_set_message(t('Something went wrong. Please try again', array(), array('context' => 'ding_wayf')), 'warning');
-        ding_wayf_user_logout();
+        drupal_set_message(t('Something went wrong. Please try again or !url.', array('!url' => l(t('logout her'), "wayf/logout"))), 'warning');
       }
     }
   }
@@ -138,13 +146,11 @@ function ding_wayf_login($authentication_attributes) {
       drupal_form_submit('user_login_block', $form_state);
       $errors = form_get_errors();
       if (!empty($errors)) {
-        drupal_set_message(t('Something went wrong with the login attempt. Please try another login method.'), 'error');
-        ding_wayf_user_logout();
+        drupal_set_message(t('Something went wrong. Please try again or !url.', array('!url' => l(t('logout her'), "wayf/logout"))), 'warning');
       }
     }
     else {
-      drupal_set_message(t('The provider do not support login with WAYF. Please contact the site administrator.'), 'error');
-      ding_wayf_user_logout();
+      drupal_set_message(t('Something went wrong. Please try again or !url.', array('!url' => l(t('logout her'), "wayf/logout"))), 'warning');
     }
   }
 
@@ -233,26 +239,14 @@ function ding_wayf_redirect_user($fallback_url = NULL) {
  * Ensures that the WAYF logout function is called on user logout.
  */
 function ding_wayf_user_logout() {
-  global $base_url;
-
-  $url = NULL;
+  // Get connection to WAYF.
   $saml = ding_wayf_get_saml_connection();
-  if (!empty($saml)) {
+  if ($saml) {
     if ($saml->isAuthenticated()) {
-      // @todo session is removed by std. Drupal logout OR MOVE INTO CLASS.
-      if (isset($_SESSION['accept_wayf'])) {
-        // Unset _SESSION variables.
-        unset($_SESSION['accept_wayf']);
-      }
-      if (isset($_SESSION['wayf_login'])) {
-        unset($_SESSION['wayf_login']);
-      }
-      if (isset($origin)) {
-        $url = $base_url . '/' . $origin;
-      }
       // We pass simple saml the url to return to - you can pass
       // simplesaml::logout an array of values ['ReturnTo', 'ReturnCallback'].
-      $saml->logout($url);
+      global $base_url;
+      $saml->logout($base_url);
     }
   }
 }
