@@ -51,7 +51,6 @@ function ding_wayf_admin_settings_form() {
 
   $default = variable_get('ding_wayf_gateway', array(
     'address' => 'https://dringo-ssl.dbc.dk/gatewayf',
-    'ding_wayf_login_type' => 'nemlogin',
   ));
   $form['ding_wayf']['ding_wayf_gateway'] = array(
     '#type' => 'fieldset',
@@ -70,15 +69,6 @@ function ding_wayf_admin_settings_form() {
     '#title' => t('URL to wayf gateway'),
     '#default_value' => $default['address'],
     '#description' => t('Gateway/proxy address to use in authentication.'),
-  );
-
-  $form['ding_wayf']['ding_wayf_gateway']['ding_wayf_login_type'] = array(
-    '#type' => 'radios',
-    '#title' => t('Login types'),
-    '#description' => t('Enable login types'),
-    '#required' => TRUE,
-    '#options' => ding_wayf_idps(),
-    '#default_value' => $default['ding_wayf_login_type'],
   );
 
   $form['ding_wayf']['redirect'] = array(
@@ -110,6 +100,20 @@ function ding_wayf_admin_settings_form() {
     '#default_value' => variable_get('ding_wayf_sp', 'default-sp'),
     '#description' => t('The name of the service provider (SP) to use from /var/simplesamlphp/config/authsources.php.'),
     '#required' => TRUE,
+    '#states' => array(
+      'invisible' => array(
+        ':input[name="ding_wayf_type"]' => array('value' => FALSE),
+      ),
+    ),
+  );
+
+  $form['ding_wayf']['ding_wayf_login_type'] = array(
+    '#type' => 'radios',
+    '#title' => t('Login types'),
+    '#description' => t('Enable login types'),
+    '#required' => TRUE,
+    '#options' => ding_wayf_idps(),
+    '#default_value' => variable_get('ding_wayf_login_type', 'nemlogin'),
     '#states' => array(
       'invisible' => array(
         ':input[name="ding_wayf_type"]' => array('value' => FALSE),

@@ -354,8 +354,11 @@ function ding_wayf_block_info() {
 function ding_wayf_block_view() {
   $block = new stdClass();
 
+  // Get configuration.
+  $login_type = variable_get('ding_wayf_login_type', FALSE);
+
   // Only show login link for anonymous users.
-  if (user_is_anonymous()) {
+  if (user_is_anonymous() && $login_type) {
     // Build default content.
     $block->content = array(
       '#theme' => 'ding_wayf_login',
@@ -369,7 +372,7 @@ function ding_wayf_block_view() {
           ),
           'query' => array(
             'idp' => '',
-              drupal_get_destination(),
+            drupal_get_destination(),
           ),
           'html' => TRUE,
         ),
@@ -383,8 +386,7 @@ function ding_wayf_block_view() {
     );
 
     // Update the default block content based on the login type selected.
-    $login_type = array_values(array_filter(variable_get('ding_wayf_login_type', array())));
-    switch ($login_type[0]) {
+    switch ($login_type) {
       case 'test':
         $img['#path'] .= 'wayf_logo.png';
         $img['#alt'] = t('Login with WAYF test');
