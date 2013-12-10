@@ -143,7 +143,8 @@ function ding_wayf_login($authentication_attributes) {
       }
     }
     else {
-      drupal_set_message(t('The provider do not support login with WAYF. Please contact the site administrator.'), 'status');
+      drupal_set_message(t('The provider do not support login with WAYF. Please contact the site administrator.'), 'error');
+      ding_wayf_user_logout();
     }
   }
 
@@ -227,27 +228,18 @@ function ding_wayf_redirect_user($fallback_url = NULL) {
 }
 
 /**
- * Implements hook_user_delete().
- *
- * Log user out of simplesaml.
- */
-function ding_wayf_user_delete($account) {
-  ding_wayf_user_logout($account);
-}
-
-/**
  * Implements hook_user_logout().
  *
  * Ensures that the WAYF logout function is called on user logout.
  */
-function ding_wayf_user_logout($account = NULL, $origin = NULL) {
+function ding_wayf_user_logout() {
   global $base_url;
 
   $url = NULL;
   $saml = ding_wayf_get_saml_connection();
   if (!empty($saml)) {
     if ($saml->isAuthenticated()) {
-      // @todo session is removed by std. Drupal logout.
+      // @todo session is removed by std. Drupal logout OR MOVE INTO CLASS.
       if (isset($_SESSION['accept_wayf'])) {
         // Unset _SESSION variables.
         unset($_SESSION['accept_wayf']);
