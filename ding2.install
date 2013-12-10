@@ -153,6 +153,7 @@ function ding2_install() {
     'ding_event',
     'ding_library',
     'ding_news',
+    'ding_groups',
     'ding_campaign_ctype',
     'ding_frontpage',
   );
