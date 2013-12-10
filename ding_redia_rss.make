@@ -5,6 +5,7 @@ api = 2
 projects[views_rss][subdir] = "contrib"
 projects[views_rss][version] = "2.0-rc3"
 
+; This specific checkout is only because of the module is dev branch only.
 projects[views_rss_media][type] = "module"
 projects[views_rss_media][subdir] = "contrib"
 projects[views_rss_media][download][type] = "git"
