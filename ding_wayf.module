@@ -316,7 +316,7 @@ function ding_wayf_get_saml_connection() {
  */
 function ding_wayf_check_simplesamlphp() {
   $exists = FALSE;
-  $type = variable_get('ding_wayf_local', array());
+  $type = variable_get('ding_wayf_type', array());
   switch ($type) {
     case 'local':
       $local_conf = variable_get('ding_wayf_local', array());
