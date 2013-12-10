@@ -126,7 +126,6 @@ function ding_wayf_init() {
  * User is authenticated via WAYF or we would not be here.
  */
 function ding_wayf_login($authentication_attributes, $notify_by_mail = NULL) {
-  global $user;
   if (user_is_anonymous()) {
     // Get form_state from provider.
     $form_state = ding_provider_invoke('wayf', 'login_creds', $authentication_attributes, $notify_by_mail);
@@ -135,13 +134,11 @@ function ding_wayf_login($authentication_attributes, $notify_by_mail = NULL) {
     drupal_form_submit('user_login_block', $form_state);
     $errors = form_get_errors();
     if (!empty($errors)) {
-      // @todo user default redirect to the current page.
-      drupal_goto('user');
+      ding_wayf_redirect_user();
     }
   }
   else {
-    // @todo user default redirect to the current page.
-    drupal_goto('user/' . $user->uid . '/edit');
+    ding_wayf_redirect_user();
   }
 }
 
