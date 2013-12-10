@@ -46,7 +46,7 @@ function bpi_syndicate_page_form($form, &$form_state) {
   );
 
   $sort_direction = bpi_get_next_sorting();
-  $sort_text = ($sort_direction == SORT_DESCENDING) ? t('Show latest on top') : t('Show oldest on top');
+  $sort_text = ($sort_direction == BPI_SORT_DESCENDING) ? t('Show latest on top') : t('Show oldest on top');
   $sort_url_components = _bpi_build_query('sort', $sort_direction);
   $form['bpi_search_sort'] = array(
     '#type' => 'item',
@@ -97,7 +97,7 @@ function bpi_syndicate_page_form_submit($form, &$form_state) {
   if (!empty($query)) {
     $query_parameters = array(
       'query' => array(
-        SEARCH_PHRASE_KEY => $query
+        BPI_SEARCH_PHRASE_KEY => $query
       )
     );
   }
@@ -169,9 +169,9 @@ function bpi_search_content($query = '', $page = 1, $filters = array(), $sort = 
  */
 function bpi_search_get_items() {
   $params = _bpi_build_query();
-  $phrase = isset($params[SEARCH_PHRASE_KEY]) ? $params[SEARCH_PHRASE_KEY] : '';
+  $phrase = isset($params[BPI_SEARCH_PHRASE_KEY]) ? $params[BPI_SEARCH_PHRASE_KEY] : '';
   $page = pager_find_page();
-  $sort = isset($_GET['sort']) ? $_GET['sort'] : SORT_DESCENDING;
+  $sort = isset($_GET['sort']) ? $_GET['sort'] : BPI_SORT_DESCENDING;
   $filters = array(
     'category' => isset($params['category']) ? $params['category'] : '',
     'audience' => isset($params['audience']) ? $params['audience'] : '',
@@ -343,7 +343,7 @@ function _bpi_build_query($key = '', $value = '', $ignore = NULL) {
  *   Searched string.
  */
 function _bpi_current_search_phrase() {
-  return isset($_GET[SEARCH_PHRASE_KEY]) ? check_plain($_GET[SEARCH_PHRASE_KEY]) : '';
+  return isset($_GET[BPI_SEARCH_PHRASE_KEY]) ? check_plain($_GET[BPI_SEARCH_PHRASE_KEY]) : '';
 }
 
 /**
@@ -356,7 +356,7 @@ function _bpi_current_search_phrase() {
  */
 function bpi_available_filters() {
   return array(
-    SEARCH_PHRASE_KEY,
+    BPI_SEARCH_PHRASE_KEY,
     'author',
     'category',
     'agency',
@@ -418,7 +418,7 @@ function bpi_label_mapper($key) {
  */
 function bpi_available_map() {
   return array(
-    SEARCH_PHRASE_KEY => t('Query'),
+    BPI_SEARCH_PHRASE_KEY => t('Query'),
     'author' => t('Author'),
     'category' => t('Category'),
     'agency' => t('Agency'),
@@ -438,7 +438,7 @@ function bpi_available_map() {
 function bpi_get_next_sorting() {
   $sort_dir = isset($_GET['sort']) ? $_GET['sort'] : '';
 
-  return ($sort_dir == SORT_ASCENDING) ? SORT_DESCENDING : SORT_ASCENDING;
+  return ($sort_dir == BPI_SORT_ASCENDING) ? BPI_SORT_DESCENDING : BPI_SORT_ASCENDING;
 }
 
 /**

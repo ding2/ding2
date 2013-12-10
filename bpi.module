@@ -9,62 +9,42 @@
 /**
  * URL search query key.
  */
-// Why are all these if (!defined(CONSTANT needed? The module file should only be included once per request?
-// TODO Please prefix all constants with the module name to avoid name clashes.
-if (!defined('SEARCH_PHRASE_KEY')) {
-  define('SEARCH_PHRASE_KEY', 'text');
-}
+define('BPI_SEARCH_PHRASE_KEY', 'text');
 
 /**
  * Ascending sorting identifier.
  */
-// TODO Please prefix all constants with the module name to avoid name clashes.
-if (!defined('SORT_ASCENDING')) {
-  define('SORT_ASCENDING', 'asc');
-}
+define('BPI_SORT_ASCENDING', 'asc');
 
 /**
  * Descending sorting identifier.
  */
-// TODO Please prefix all constants with the module name to avoid name clashes.
-if (!defined('SORT_DESCENDING')) {
-  define('SORT_DESCENDING', 'desc');
-}
+define('BPI_SORT_DESCENDING', 'desc');
 
 /**
  * Syndicated node identifier.
  */
-if (!defined('BPI_SYNDICATED')) {
-  define('BPI_SYNDICATED', 1);
-}
+define('BPI_SYNDICATED', 1);
 
 /**
  * Pushed node identifier.
  */
-if (!defined('BPI_PUSHED')) {
-  define('BPI_PUSHED', 2);
-}
+define('BPI_PUSHED', 2);
 
 /**
  * Default number of BPI content per page when searching.
  */
-if (!defined('BPI_CONTENT_PER_PAGE')) {
-  define('BPI_CONTENT_PER_PAGE', 10);
-}
+define('BPI_CONTENT_PER_PAGE', 10);
 
 /**
  * Default number of BPI content per page when searching.
  */
-if (!defined('BPI_DATE_PICKER_FORMAT')) {
-  define('BPI_DATE_PICKER_FORMAT', 'Y-m-d');
-}
+ define('BPI_DATE_PICKER_FORMAT', 'Y-m-d');
 
 /**
  * Default number of BPI content per page when searching.
  */
-if (!defined('BPI_ONE_MONTH')) {
-  define('BPI_ONE_MONTH', 86400 * 30);
-}
+define('BPI_ONE_MONTH', 86400 * 30);
 
 /**
  * Implements hook_menu().
