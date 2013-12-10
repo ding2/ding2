@@ -5,59 +5,6 @@
  */
 
 /**
- * Implements hook_requirements().
- */
-function ding_provider_requirements($phase) {
-  $requirements = array();
-  $t            = get_t();
-  $providers    = array();
-  $conflicting  = FALSE;
-
-  // Check if we have conflicting provider types
-  foreach (module_implements('ding_provider') as $module) {
-    $provider_module = module_invoke($module, 'ding_provider');
-    if (array_key_exists('provides', $provider_module)) {
-      foreach ($provider_module['provides'] as $provides) {
-        $providers[$provides['prefix']][] = $module;
-      }
-    }
-  }
-
-  foreach ($providers as $providertype => $providermodules) {
-    if (count($providermodules) > 1) {
-      $conflicting[] = t('%type implemented by @providers. Using @module.', array(
-        '@providers' => implode(', ', $providermodules),
-        '%type'      => $providertype,
-        '@module'    => end($providermodules),
-      )
-      );
-    }
-  }
-
-  switch ($phase) {
-    case 'runtime':
-      if ($callback = variable_get('ding_provider_ajax_disabled', FALSE)) {
-        $requirements['ding_provider_ajax_conflict'] = array(
-          'title'       => $t('Ding provider AJAX authentication'),
-          'description' => $t('Disabled'),
-          'severity'    => REQUIREMENT_ERROR,
-          'value'       => t('Ding Provider is unable to override the system/ajax page, because some other module already has overridden it with %callback.', array('%callback' => $callback)),
-        );
-      }
-      if ($conflicting == TRUE) {
-        $requirements['ding_provider_conflict'] = array(
-          'title'       => $t('Ding provider Information'),
-          'description' => $t('Possible provider conflict'),
-          'severity'    => REQUIREMENT_WARNING,
-          'value'       => implode('<br />', $conflicting),
-        );
-      }
-      break;
-  }
-  return $requirements;
-}
-
-/**
  * Implements hook_menu().
  */
 function ding_provider_menu() {
@@ -71,7 +18,7 @@ function ding_provider_menu() {
     'title' => 'Ding provider',
     'page callback' => 'ding_provider_admin_overview',
     'access arguments' => array('administer ding provider'),
-    'file' => 'ding_provider.admin.inc'
+    'file' => 'ding_provider.admin.inc',
   );
 
   $items['admin/config/ding/provider/overview'] = array(
@@ -144,7 +91,7 @@ function ding_provider_ding_install_tasks() {
   $return = array();
   foreach ($users as $provider => $info) {
     // Add global provider settings if required.
-    if ($info['ding_profile'] && sizeof($info['required']) && isset($providers[$provider]) && $form_id = $providers[$provider]['global settings']) {
+    if ($info['ding_profile'] && count($info['required']) && isset($providers[$provider]) && $form_id = $providers[$provider]['global settings']) {
       $return[$form_id] = array(
         // TODO: This doesn't work for potx, we need the generated strings in
         // plain form somewhere.
@@ -159,7 +106,7 @@ function ding_provider_ding_install_tasks() {
 
     // Add settings for individual providers to installer if someone asked for
     // it and there's modules that requires this provider.
-    if ($info['ding_profile'] && sizeof($info['required']) && $form_id = ding_provider_implements($provider, 'settings')) {
+    if ($info['ding_profile'] && count($info['required']) && $form_id = ding_provider_implements($provider, 'settings')) {
       $return[$form_id] = array(
         // TODO: This doesn't work for potx, we need the generated stings in
         // plain form somewhere.
@@ -261,7 +208,7 @@ function ding_provider_invoke_page($type, $hook) {
       throw $e;
     }
     elseif ($e instanceof DingProviderAuthException) {
-      // Redirect to auth page
+      // Redirect to auth page.
       if (module_exists('ding_user') && ($authpage = ding_user_auth_page())) {
         // @todo redirect to auth page
         drupal_goto($authpage, array('query' => ding_provider_get_destination()));
@@ -487,7 +434,7 @@ function ding_provider_get_destination($query_args = array()) {
  * Get the provider type.
  *
  * @param string $type
- *  The type of module e.g reservation, availibility etc.
+ *   The type of module e.g reservation, availibility etc.
  */
 function ding_provider_get_provider_module_name($type) {
   $providers = _ding_provider_get_provider();
@@ -655,6 +602,8 @@ function ding_provider_get_pseudo_entity($ding_entity_id) {
  *   The PID for the faust in the data well.
  */
 function ding_provider_build_entity_id($id, $agency = -1) {
+  $ting_entity_id = FALSE;
+
   // Get local library faust ID range.
   $local_range = '9';
 
