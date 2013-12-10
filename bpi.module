@@ -291,7 +291,8 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
     $materials_field = variable_get('bpi_field_materials', '');
     $current_language = $form['language']['#value'];
 
-    foreach((array) $bpi_content['material'] as $key => $material_number) {
+    foreach ((array) $bpi_content['material'] as $key => $material_number) {
+      // TODO ting_reference is not included as a dependency. Is this intentional?
       $form[$materials_field][$current_language][$key] = ting_reference_field_widget_form(
         $form,
         $form_state,
