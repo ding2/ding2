@@ -7,6 +7,26 @@
 include_once 'ding_redia_rss.features.inc';
 
 /**
+ * Implements hook_views_pre_render().
+ *
+ * Search and replace internal ting object links to bappsp links.
+ *
+ * @param $view Object
+ */
+function ding_redia_rss_views_pre_render(&$view) {
+  if ($view->name == 'ding_redia_event_rss' || $view->name == 'ding_redia_news_rss') {
+    foreach ($view->result as $key => $result) {
+      if ($view->name == 'ding_redia_event_rss') {
+        $view->result[$key]->field_field_ding_event_body[0]['rendered'] = preg_replace('#http://([\w\.])+(/ting)/(.+)#Ui', 'bappsp://$3', $result->field_field_ding_event_body[0]['rendered']);
+      }
+      elseif ($view->name == 'ding_redia_news_rss') {
+        $view->result[$key]->field_field_ding_news_body[0]['rendered'] = preg_replace('#http://([\w\.])+(/ting)/(.+)#Ui', 'bappsp://$3', $result->field_field_ding_news_body[0]['rendered']);
+      }
+    }
+  }
+}
+
+/**
  * Implements hook_field_formatter_info().
  */
 function ding_redia_rss_field_formatter_info() {
