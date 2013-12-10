@@ -102,7 +102,8 @@ class DingWayfAuth {
   public function requireAuth($idp = NULL) {
     if ($this->saml) {
       if ($this->saml instanceof DingWayfAuthGateway) {
-        $this->saml->requireAuth($idp);
+        $gateway = variable_get('ding_wayf_gateway', array('address' => 'https://dringo-ssl.dbc.dk/gatewayf'));
+        $this->saml->requireAuth($idp, $gateway['address']);
       }
       else {
         $this->saml->requireAuth();
@@ -123,7 +124,16 @@ class DingWayfAuth {
    *   If given the user will be redirect to this URL after logout.
    */
   public function logout($url = NULL) {
-    $this->saml->logout($url);
+    if ($this->saml) {
+      if ($this->saml instanceof DingWayfAuthGateway) {
+        // Get configuration.
+        $gateway = variable_get('ding_wayf_gateway', array('address' => 'https://dringo-ssl.dbc.dk/gatewayf'));
+        $this->saml->logout($url, $gateway['address']);
+      }
+      else {
+        $this->saml->logout($url);
+      }
+    }
   }
 }
 
@@ -180,7 +190,7 @@ class DingWayfAuthGateway {
    * @param array $attributes
    *   Attributes from the gateway responce.
    */
-  private function setAttributes($attributes) {
+  protected function setAttributes($attributes) {
     // Enrich attributes with login_type.
     $login_type = isset($_GET['logintype']) ? $_GET['logintype'] : NULL;
 
@@ -226,38 +236,23 @@ class DingWayfAuthGateway {
     global $base_url;
     $home = $base_url . '/' . current_path();
 
-    // Get configuration.
-    $gateway = variable_get('ding_wayf_gateway', array('address' => 'https://dringo-ssl.dbc.dk/gatewayf'));
-
     // Redirect the user by setting the location header.
-    header('Location:' . $gateway['address'] . '?returnUrl=' . $home . '&idp=' . $idp);
-
-    // @todo should a shutdown function be used to give Drupal a change to
-    // finish.
+    header('Location:' . $gateway . '?returnUrl=' . $home . '&idp=' . $idp);
     exit;
   }
 
   /**
    * Logout the user from the gateway.
    *
-   * NOTICE: this logout does a redirect to log out of wayf, and thus
-   * must fake a drupal-user logout to log drupal user out in a proper way
+   * If the user is logged into drupal the URL given is "/user/logout". So this
+   * function do not need to think about drupal logout.
+   *
+   * @param string $url
+   *   URL to redirect to after WAYF logout.
+   * @param string $gateway
+   *   The address of the gateway.
    */
   public function logout($url = NULL, $gateway = NULL) {
-    // Run Drupal logout before the redirect takes place. The user_logout()
-    // function is not called directly, because it will do a redirect.
-    if (user_is_logged_in()) {
-      /**
-       * @todo move this to hook_user_logout, which then should call this
-       *       function.
-       */
-      global $user;
-      watchdog('wayf', 'Session closed for %name.', array('%name' => $user->mail));
-      module_invoke_all('user_logout', $user);
-      // Destroy the current session, and reset $user to the anonymous user.
-      session_destroy();
-    }
-
     // Unset session variables.
     if (isset($_SESSION['wayf_login'])) {
       unset($_SESSION['wayf_login']);
@@ -269,14 +264,8 @@ class DingWayfAuthGateway {
       $url = $base_url;
     }
 
-    // Get configuration.
-    $gateway = variable_get('ding_wayf_gateway', array('address' => 'https://dringo-ssl.dbc.dk/gatewayf'));
-
     // Redirect to the gateway.
-    header('Location:' . $gateway['address'] . '?returnUrl=' . $url . '&op=logout');
-
-    // @todo should a shutdown function be used to give Drupal a change to
-    // finish.
+    header('Location:' . $gateway . '?returnUrl=' . $url . '&op=logout');
     exit;
   }
 }
