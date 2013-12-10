@@ -96,7 +96,7 @@ function bpi_menu() {
     'delivery callback' => 'ajax_deliver',
   ) + $menu['admin/bpi/push/nojs/%'];
 
-  $menu['admin/bpi/delete/nojs/%'] = array(
+  $menu['admin/bpi/delete/nojs/%node'] = array(
     'title' => 'Delete from BPI',
     'page callback' => 'bpi_delete_action',
     'page arguments' => array(3, 4),
@@ -104,9 +104,9 @@ function bpi_menu() {
     'file' => 'bpi.delete.inc',
   );
 
-  $menu['admin/bpi/delete/ajax/%'] = array(
+  $menu['admin/bpi/delete/ajax/%node'] = array(
     'delivery callback' => 'ajax_deliver',
-  ) + $menu['admin/bpi/delete/nojs/%'];
+  ) + $menu['admin/bpi/delete/nojs/%node'];
 
   $menu['admin/bpi/statistics/nojs'] = array(
     'page callback' => 'bpi_statistics',

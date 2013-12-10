@@ -9,25 +9,21 @@
  *
  * @param string $type
  *   Request type, ajax or not.
- * @param int $nid
- *   Node id.
+ * @param object $node
+ *   Node object.
  * @return array
  *   A set of ajax commands or form structure.
  */
-function bpi_delete_action($type = 'ajax', $nid) {
+function bpi_delete_action($type = 'ajax', $node) {
   $ajax = ($type == 'ajax');
 
-  if (empty($nid)) {
-    return;
-  }
-
   // TODO There are access checks here and in the hook_menu() definition. Why not keep it all in hook_menu or here?
-  if (!bpi_ability($nid, 'delete')) {
+  if (!bpi_ability($node->nid, 'delete')) {
     drupal_access_denied();
     drupal_exit();
   }
 
-  $delete_form = drupal_get_form('bpi_delete_form', $nid);
+  $delete_form = drupal_get_form('bpi_delete_form', $node);
 
   if ($ajax) {
     $commands = array();
@@ -53,21 +49,14 @@ function bpi_delete_action($type = 'ajax', $nid) {
  *   Form structure.
  * @param array $form_state
  *   Form state values.
- * @param int $nid
- *   Node id, which content is to be deleted from the well.
+ * @param object $node
+ *   Node object.
  * @return array
  *   Form structure.
  *
  * @ingroup forms
  */
-function bpi_delete_form($form, $form_state, $nid) {
-  $node_title = '';
-  // TODO If $nid is empty this seems like a poor fix.
-  if (!empty($nid)) {
-    $node = node_load($nid);
-    $node_title = $node->title;
-  }
-
+function bpi_delete_form($form, $form_state, $node) {
   $form['bpi_delete_bpi_id'] = array(
     // TODO Why use hidden instead of value here?
     '#type' => 'hidden',
@@ -77,7 +66,7 @@ function bpi_delete_form($form, $form_state, $nid) {
   return confirm_form(
     $form,
     // TODO Why include strong tag? %title should already add <em>.
-    t('Are you sure u want to delete <strong>%title</strong> from bpi well?', array('%title' => $node_title)),
+    t('Are you sure u want to delete <strong>%title</strong> from bpi well?', array('%title' => $node->title)),
     'admin/content'
   );
 }
