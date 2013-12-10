@@ -665,9 +665,9 @@ function ding_provider_build_entity_id($id, $agency = -1) {
     case $local_agency:
     case -1:
       if (preg_match('/^' . $local_range . '/', $id)) {
-        if (!empty($agency)) {
-          watchdog('ding_provider', 'Agency was not set when trying to build entity id.', array(), WATCHDOG_ERROR);
-          drupal_set_message(t('Agency was not set when trying to build entity id.'), 'error');
+        // If agency is not given fallback to local agency.
+        if (empty($agency) || $agency == -1) {
+          $agency = $local_agency;
         }
 
         // Local posts.
