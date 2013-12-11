@@ -24,7 +24,7 @@ $tabroll-tab-color:                       $white;
 }
 
 
-/* Tabroll tabs
+/* Tabroll tabs navigation
    ========================================================================== */
 
 .ding-tabroll-select-tabs {
@@ -36,6 +36,9 @@ $tabroll-tab-color:                       $white;
     display: block;
   }
 }
+
+/* Tabroll tabs
+   ========================================================================== */
 
 .ding-tabroll-wrapper {
   position: relative;
@@ -123,6 +126,22 @@ $tabroll-tab-color:                       $white;
   }
 
   @include small-medium() {
+    .ui-tabs-nav {
+      display: none;
+    }
 
+    .ui-tabs .ui-tabs-panel {
+      @include zen-grid-item(12, 1);
+
+      margin: 0 0 20px 0;
+      padding: 0;
+
+      .info {
+        position: relative;
+        width: 100%;
+        right: 0;
+        bottom: 0;
+      }
+    }
   }
 }
