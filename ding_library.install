@@ -25,10 +25,8 @@ function ding_library_install() {
  * Implements hook_uninstall().
  */
 function ding_library_uninstall() {
-  $qids = nodequeue_get_qids('ding_library');
-  foreach ($qids as $qid) {
-    nodequeue_delete($qid);
-  }
+  $queue = nodequeue_load_queue_by_name('ding_library_listing');
+  nodequeue_delete($queue->qid);
 }
 
 /**
