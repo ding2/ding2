@@ -14,7 +14,6 @@ dependencies[] = media
 dependencies[] = nodequeue
 dependencies[] = og_ui
 dependencies[] = options
-dependencies[] = smartqueue_nodetypes
 dependencies[] = strongarm
 dependencies[] = text
 dependencies[] = views
