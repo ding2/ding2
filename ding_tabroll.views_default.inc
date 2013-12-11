@@ -43,8 +43,10 @@ function ding_tabroll_views_default_views() {
   $handler->display->display_options['relationships']['nodequeue_rel']['required'] = TRUE;
   $handler->display->display_options['relationships']['nodequeue_rel']['limit'] = 1;
   $handler->display->display_options['relationships']['nodequeue_rel']['names'] = array(
-    'ding_tabroll' => 'ding_tabroll',
-    'ding_tabroll_for_libraries' => 0,
+    'ding_tabroll_frontpage' => 'ding_tabroll_frontpage',
+    'ding_groups_listning' => 0,
+    'ding_library_listing' => 0,
+    'ding_tabroll_libraries' => 0,
   );
   /* Relationship: Entity Reference: Referenced Entity */
   $handler->display->display_options['relationships']['field_ding_tabroll_link_target_id']['id'] = 'field_ding_tabroll_link_target_id';
@@ -219,9 +221,12 @@ function ding_tabroll_views_default_views() {
   $handler->display->display_options['relationships']['nodequeue_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['nodequeue_rel']['field'] = 'nodequeue_rel';
   $handler->display->display_options['relationships']['nodequeue_rel']['required'] = TRUE;
-  $handler->display->display_options['relationships']['nodequeue_rel']['limit'] = TRUE;
+  $handler->display->display_options['relationships']['nodequeue_rel']['limit'] = 1;
   $handler->display->display_options['relationships']['nodequeue_rel']['names'] = array(
-    'ding_tabroll_for_libraries' => 'ding_tabroll_for_libraries',
+    'ding_tabroll_libraries' => 'ding_tabroll_libraries',
+    'ding_groups_listning' => 0,
+    'ding_library_listing' => 0,
+    'ding_tabroll_frontpage' => 0,
   );
   /* Relationship: Entity Reference: Referenced Entity */
   $handler->display->display_options['relationships']['field_ding_tabroll_link_target_id']['id'] = 'field_ding_tabroll_link_target_id';

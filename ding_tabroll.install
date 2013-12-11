@@ -1,78 +1,101 @@
 <?php
 /**
- * @file installs frontpage and libraries nodequeue.
- * 
+ * @file
+ * Handles installation/un-installation of node queues used by the module.
  */
 
 /**
- * implements create_nodequeues
+ * Implements hook_install().
  */
-function ding_tabroll_create_nodequeues() {
-
-  variable_set('nodequeue_view_per_queue', 0);
-  $export = array();
-
-  $nodequeue = new stdClass();
-  $nodequeue->name = 'ding_tabroll';
-  $nodequeue->title = 'frontpage tabroll';
-  $nodequeue->subqueue_title = '';
-  $nodequeue->subqueues = '1';
-  $nodequeue->owner = 'nodequeue';
-  $nodequeue->add_subqueue = array(
-    0 => '',
-  );
-  $export['ding_tabroll'] = $nodequeue;
-
-  $nodequeue = new stdClass();
-  $nodequeue->name = 'ding_tabroll_for_libraries';
-  $nodequeue->title = 'libraries';
-  $nodequeue->owner = 'smartqueue_nodetypes';
-  $nodequeue->reference = 'ding_library';
-  $nodequeue->subqueue_title = 'biblioteker';
-  $export['ding_tabroll_for_libraries'] = $nodequeue;
-
-  foreach ($export as $name => $nodequeue) {
-    // $nodequeue->name = $name;
-    $nodequeue->api_version = 2;
-    $nodequeue->link = '';
-    $nodequeue->link_remove = '';
-    $nodequeue->show_in_ui = 1;
-    $nodequeue->show_in_tab = 1;
-    $nodequeue->show_in_links = 0;
-    $nodequeue->i18n = 0;
-    $nodequeue->roles = array();
-    $nodequeue->size = 5;
-    $nodequeue->reverse = 0;
-    $nodequeue->new = TRUE;
-    $nodequeue->types = array(
-      0 => 'ding_rolltab',
-    );
-    $nodequeue->reverse = 0;
-
-    nodequeue_save($nodequeue);
-  }
-   $queues = nodequeue_load_queues(nodequeue_get_all_qids(200));
-  foreach ($queues as $queue) {
-    if ($queue->owner == 'smartqueue_nodetypes') {
-      nodequeue_api_subqueues($queue, $node);
-    }
-  }
-}
-
-
- /**
-  * Implements hook_install().
-  */
 function ding_tabroll_install() {
-  ding_tabroll_create_nodequeues();
-
+  ding_tabroll_install_frontpage_nodequeue();
+  ding_tabroll_install_library_nodequeue();
 }
 
-
 /**
- * Implementation of hook_uninstall().
+ * Implements hook_uninstall().
  */
 function ding_tabroll_uninstall() {
-  nodequeue_delete('ding_tabroll');
-  nodequeue_delete('ding_tabroll_for_libraries');
+  // Remove front page node queue.
+  $queue = nodequeue_load_queue_by_name('ding_tabroll_frontpage');
+  nodequeue_delete($queue->qid);
+
+  // Remove library node queue.
+  $queue = nodequeue_load_queue_by_name('ding_tabroll_libraries');
+  nodequeue_delete($queue->qid);
+}
+
+/**
+ * Helper function to create node queue used to order the tab-rolls.
+ */
+function ding_tabroll_install_frontpage_nodequeue() {
+  $nodequeue = new stdClass();
+  $nodequeue->name = 'ding_tabroll_frontpage';
+  $nodequeue->title = 'Front page tabroll';
+  $nodequeue->subqueue_title = '';
+  $nodequeue->owner = 'nodequeue';
+  $nodequeue->api_version = 2;
+  $nodequeue->link = 'Add to front page';
+  $nodequeue->link_remove = 'Remove from front page';
+  $nodequeue->show_in_ui = TRUE;
+  $nodequeue->show_in_tab = TRUE;
+  $nodequeue->show_in_links = FALSE;
+  $nodequeue->i18n = 0;
+  $nodequeue->roles = array();
+  $nodequeue->size = 5;
+  $nodequeue->reverse = 0;
+  $nodequeue->new = TRUE;
+  $nodequeue->types = array(
+    0 => 'ding_rolltab',
+  );
+  $nodequeue->subqueues = array();
+  $nodequeue->submit = 'Submit';
+  $nodequeue->reverse = 0;
+  $nodequeue->reference = 0;
+  $nodequeue->add_subqueue = array(
+    $nodequeue->title,
+  );
+
+  nodequeue_save($nodequeue);
+}
+
+/**
+ * Helper function to create node queue used to order the library tab-rolls.
+ */
+function ding_tabroll_install_library_nodequeue() {
+  $nodequeue = new stdClass();
+  $nodequeue->name = 'ding_tabroll_libraries';
+  $nodequeue->title = 'Libraries tabroll';
+  $nodequeue->subqueue_title = 'Libraries';
+  $nodequeue->owner = 'smartqueue_nodetypes';
+  $nodequeue->api_version = 2;
+  $nodequeue->link = 'Add to front page';
+  $nodequeue->link_remove = 'Remove from front page';
+  $nodequeue->show_in_ui = TRUE;
+  $nodequeue->show_in_tab = TRUE;
+  $nodequeue->show_in_links = FALSE;
+  $nodequeue->i18n = 0;
+  $nodequeue->roles = array();
+  $nodequeue->size = 5;
+  $nodequeue->reverse = 0;
+  $nodequeue->new = TRUE;
+  $nodequeue->types = array(
+    0 => 'ding_rolltab',
+  );
+  $nodequeue->subqueues = array();
+  $nodequeue->submit = 'Submit';
+  $nodequeue->reverse = 0;
+  $nodequeue->reference = 0;
+  $nodequeue->add_subqueue = array(
+    $nodequeue->title,
+  );
+
+  nodequeue_save($nodequeue);
+
+//  $queues = nodequeue_load_queues(nodequeue_get_all_qids(200));
+//  foreach ($queues as $queue) {
+//    if ($queue->owner == 'smartqueue_nodetypes') {
+      nodequeue_api_subqueues($queue, $node);
+//    }
+//  }
 }

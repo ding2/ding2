@@ -1,8 +1,7 @@
 <?php
-
 /**
  * @file
- * Code for the tabroll feature.
+ * Code for the tab-roll feature.
  */
 
 include_once 'ding_tabroll.features.inc';
@@ -12,12 +11,15 @@ include_once 'ding_tabroll.features.inc';
  *
  * @see http://views-help.doc.logrus.com/help/views/api-default-views
  */
-function ding_tabroll_theme() {
-  $path = drupal_get_path('module', 'ding_tabroll') . '/templates';
-
+function ding_tabroll_theme($existing, $type, $theme, $path) {
   return array(
     'views_view_unformatted__ding_tabroll' => array(
-      'arguments' => array('view' => NULL, 'options' => NULL, 'rows' => NULL, 'title' => NULL),
+      'arguments' => array(
+        'view' => NULL,
+        'options' => NULL,
+        'rows' => NULL,
+        'title' => NULL,
+      ),
       'template' => 'views-view-unformatted--ding-tabroll',
       'original hook' => 'views_view_unformatted',
       'path' => $path,
@@ -40,7 +42,12 @@ function ding_tabroll_theme() {
       ),
     ),
     'views_view_unformatted__libraries_tabroll' => array(
-      'arguments' => array('view' => NULL, 'options' => NULL, 'rows' => NULL, 'title' => NULL),
+      'arguments' => array(
+        'view' => NULL,
+        'options' => NULL,
+        'rows' => NULL,
+        'title' => NULL,
+      ),
       'template' => 'views-view-unformatted--libraries-tabroll',
       'original hook' => 'views_view_unformatted',
       'path' => $path,
@@ -66,10 +73,10 @@ function ding_tabroll_theme() {
 }
 
 /**
- * Default ding_tabroll_preprocess().
+ * Implements ding_tabroll_preprocess().
  *
- * Adds jQuert UI tabs and default JavaScript/CSS for the frontpage and
- * libraries tabroll.
+ * Adds jQuery UI tabs and default JavaScript/CSS for the front page and
+ * libraries tab-roll.
  */
 function ding_tabroll_preprocess($variables) {
   // Add jQuery UI tabs library.
@@ -83,12 +90,12 @@ function ding_tabroll_preprocess($variables) {
 /**
  * Implements hook_node_insert().
  *
- * Insert the rolltab node into the right nod equeue.
+ * Insert the roll-tab node into the right node queue.
  */
 function ding_tabroll_node_insert($node) {
   if ($node->type == 'ding_rolltab') {
     // Check if library reference is set, if it is set the variable to add it
-    // to the library's tabroll queue.
+    // to the library's tab-roll queue.
     $item = field_get_items('node', $node, 'field_ding_tabroll_library_ref');
     $library_ref = NULL;
     if (!empty($item)) {
@@ -152,7 +159,7 @@ function ding_tabroll_node_delete($node) {
  * Removes a given node from all node queues.
  *
  * @param string $nid
- *  The rolltab node id to remove from the node queues.
+ *   The rolltab node id to remove from the node queues.
  */
 function _ding_tabroll_queues_remove_node($nid) {
   // Retrieve sub-queue ids for the queues containing node being updated.
@@ -172,14 +179,14 @@ function _ding_tabroll_queues_remove_node($nid) {
  * Add rolltab node to an queue.
  *
  * @param sting $nid
- *  The rolltab node id.
+ *   The rolltab node id.
  * @param string $library_ref
- *  If the library reference is given the node will be add the the correct
- *  library tabroll else it will be added to the frontpage tabroll.
+ *   If the library reference is given the node will be add the the correct
+ *   library tabroll else it will be added to the front page tabroll.
  */
 function _ding_tabroll_queue_add($nid, $library_ref = NULL) {
   if (!is_null($library_ref)) {
-    // The library reference was set, hence get the library tabroll queue.
+    // The library reference was set, hence get the library tab-roll queue.
     $queue = nodequeue_load_queue_by_name('ding_tabroll_for_libraries');
     $sub_queues = nodequeue_load_subqueues_by_reference(array($queue->qid => array($library_ref)));
   }
@@ -189,7 +196,7 @@ function _ding_tabroll_queue_add($nid, $library_ref = NULL) {
     $sub_queues = nodequeue_load_subqueues_by_queue($queue->qid);
   }
 
-  // Get the first queue only, as ther always should only be one queue.
+  // Get the first queue only, as there always should only be one queue.
   $sub_queue = reset($sub_queues);
 
   // Add the node to the queue, if not in the queue.
