@@ -10,6 +10,72 @@
 function ding_tabroll_field_default_field_instances() {
   $field_instances = array();
 
+  // Exported field_instance: 'node-ding_rolltab-ding_rolltab_group_ref'
+  $field_instances['node-ding_rolltab-ding_rolltab_group_ref'] = array(
+    'bundle' => 'ding_rolltab',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'og_ui',
+        'settings' => array(),
+        'type' => 'og_list_default',
+        'weight' => 5,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'ding_rolltab_group_ref',
+    'label' => 'Library',
+    'required' => 0,
+    'settings' => array(
+      'behaviors' => array(
+        'og_widget' => array(
+          'admin' => array(
+            'widget_type' => 'entityreference_autocomplete',
+          ),
+          'default' => array(
+            'widget_type' => 'options_select',
+          ),
+          'status' => TRUE,
+        ),
+      ),
+      'user_register_form' => FALSE,
+    ),
+    'view modes' => array(
+      'full' => array(
+        'custom settings' => FALSE,
+        'label' => 'Full',
+        'type' => 'og_list_default',
+      ),
+      'teaser' => array(
+        'custom settings' => FALSE,
+        'label' => 'Teaser',
+        'type' => 'og_list_default',
+      ),
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 35,
+    ),
+  );
+
   // Exported field_instance: 'node-ding_rolltab-field_ding_tabroll_image'
   $field_instances['node-ding_rolltab-field_ding_tabroll_image'] = array(
     'bundle' => 'ding_rolltab',
@@ -147,51 +213,6 @@ function ding_tabroll_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_rolltab-field_ding_tabroll_library_ref'
-  $field_instances['node-ding_rolltab-field_ding_tabroll_library_ref'] = array(
-    'bundle' => 'ding_rolltab',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => 'If the a library is selected the tab will be shown on that libraries page. If non is selected the tab will be added to the front page tabroll.',
-    'display' => array(
-      'default' => array(
-        'label' => 'inline',
-        'module' => 'entityreference',
-        'settings' => array(
-          'link' => FALSE,
-        ),
-        'type' => 'entityreference_label',
-        'weight' => 5,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser_highlight' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_ding_tabroll_library_ref',
-    'label' => 'Library',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_select',
-      'weight' => 35,
-    ),
-  );
-
   // Exported field_instance: 'node-ding_rolltab-field_ding_tabroll_link'
   $field_instances['node-ding_rolltab-field_ding_tabroll_link'] = array(
     'bundle' => 'ding_rolltab',
@@ -249,7 +270,6 @@ function ding_tabroll_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('If the a library is selected the tab will be shown on that libraries page. If non is selected the tab will be added to the front page tabroll.');
   t('Image');
   t('Lead');
   t('Library');
