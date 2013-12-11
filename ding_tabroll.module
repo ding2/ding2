@@ -56,5 +56,4 @@ function ding_tabroll_preprocess($variables) {
 
   // Add default CSS and JavaScript.
   drupal_add_js(drupal_get_path('module', 'ding_tabroll') . '/js/ding_tabroll.js');
-  drupal_add_css(drupal_get_path('module', 'ding_tabroll') . '/css/ding_tabroll.css');
 }

@@ -6,33 +6,49 @@
 (function ($) {
 
   $(document).ready(function($) {
-    var tabroll = $("#ding-tabroll");
+    var tabroll = $('.ding-tabroll');
+    var tabroll_select = $('.ding-tabroll-select-tabs');
+
+    // Hack to check if tab have been tab_selected, as unbind event will not work.
+    var tab_selected = false;
 
     // Check if the tabs lib is loaded before trying to call it.
     if ($.fn.tabs) {
-      tabroll.tabs().tabs("rotate", 5000, false);
+      tabroll.tabs({
+        select: function(event, ui) {
+          // Update the mobile navigation drop down.
+          tabroll_select.prop('selectedIndex', ui.index);
+        }
+      }).tabs("rotate", 5000);
 
       // Stop tabs rotate when mouse is over the tab roll.
-      tabroll.mouseover(function(){
-        tabroll.tabs('rotate', 0, false);
+      tabroll.mouseenter(function() {
+        tabroll.tabs('rotate', 0);
       });
 
       // Start tabs rotate when mouse is out.
-      tabroll.mouseout(function(){
-        tabroll.tabs().tabs("rotate", 5000, false);
+      tabroll.mouseleave(function() {
+        if (!tab_selected) {
+          tabroll.tabs().tabs("rotate", 5000);
+        }
       });
     }
 
     // Add click event to select tabs options.
-    $('.tabroll-tabs-item', tabroll).click(function(e) {
+    $('.ui-tabs-nav-item a', tabroll).click(function(e) {
       e.preventDefault();
-      tabroll.tabs("select", $(this).index());
+      tabroll.tabs().tabs('rotate', 0);
+      tab_selected = true;
       return false;
     });
 
     // Hook into click events in the responsive mobile selector.
-    $('.ding-tabroll-select-tabs').live('change', function() {
-      tabroll.tabs("select", $(this).prop('selectedIndex'));
+    tabroll_select.live('change', function() {
+      if (!tab_selected) {
+        tabroll.tabs("select", $(this).prop('selectedIndex'));
+        tabroll.tabs().tabs('rotate', 0);
+        tab_selected = true;
+      }
     });
   });
 
