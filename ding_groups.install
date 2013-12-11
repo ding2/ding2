@@ -18,10 +18,8 @@ function ding_groups_install() {
  * Implements hook_uninstall().
  */
 function ding_groups_uninstall() {
-  $qids = nodequeue_get_qids('ding_group');
-  foreach ($qids as $qid) {
-    nodequeue_delete($qid);
-  }
+  $queue = nodequeue_load_queue_by_name('ding_groups_listning');
+  nodequeue_delete($queue->qid);
 }
 
 /**
