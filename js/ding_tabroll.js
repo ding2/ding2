@@ -44,11 +44,9 @@
 
     // Hook into click events in the responsive mobile selector.
     tabroll_select.live('change', function() {
-      if (!tab_selected) {
-        tabroll.tabs("select", $(this).prop('selectedIndex'));
-        tabroll.tabs().tabs('rotate', 0);
-        tab_selected = true;
-      }
+      tabroll.tabs("select", $(this).prop('selectedIndex'));
+      tabroll.tabs().tabs('rotate', 0);
+      tab_selected = true;
     });
   });
 
