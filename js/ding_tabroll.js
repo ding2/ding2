@@ -27,6 +27,7 @@
     $('.tabroll-tabs-item', tabroll).click(function(e) {
       e.preventDefault();
       tabroll.tabs("select", $(this).index());
+      return false;
     });
 
     // Hook into click events in the responsive mobile selector.
