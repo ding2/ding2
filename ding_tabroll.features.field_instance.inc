@@ -10,72 +10,6 @@
 function ding_tabroll_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-ding_rolltab-ding_rolltab_group_ref'
-  $field_instances['node-ding_rolltab-ding_rolltab_group_ref'] = array(
-    'bundle' => 'ding_rolltab',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'og_ui',
-        'settings' => array(),
-        'type' => 'og_list_default',
-        'weight' => 5,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser_highlight' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'ding_rolltab_group_ref',
-    'label' => 'Library',
-    'required' => 0,
-    'settings' => array(
-      'behaviors' => array(
-        'og_widget' => array(
-          'admin' => array(
-            'widget_type' => 'entityreference_autocomplete',
-          ),
-          'default' => array(
-            'widget_type' => 'options_select',
-          ),
-          'status' => TRUE,
-        ),
-      ),
-      'user_register_form' => FALSE,
-    ),
-    'view modes' => array(
-      'full' => array(
-        'custom settings' => FALSE,
-        'label' => 'Full',
-        'type' => 'og_list_default',
-      ),
-      'teaser' => array(
-        'custom settings' => FALSE,
-        'label' => 'Teaser',
-        'type' => 'og_list_default',
-      ),
-    ),
-    'widget' => array(
-      'active' => 0,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_select',
-      'weight' => 35,
-    ),
-  );
-
   // Exported field_instance: 'node-ding_rolltab-field_ding_tabroll_image'
   $field_instances['node-ding_rolltab-field_ding_tabroll_image'] = array(
     'bundle' => 'ding_rolltab',
@@ -272,7 +206,6 @@ function ding_tabroll_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('Image');
   t('Lead');
-  t('Library');
   t('Link');
   t('Link to content that the tab should go to when clicked.');
   t('Short description displayed inside the tab in a overlay. ');
