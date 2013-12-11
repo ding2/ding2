@@ -99,3 +99,11 @@ function ding_tabroll_install_library_nodequeue() {
 //    }
 //  }
 }
+
+/**
+ * Remove old library reference field.
+ */
+function ding_tabroll_update_7001() {
+  field_delete_field('field_ding_tabroll_library_ref');
+  field_purge_batch(1000);
+}
