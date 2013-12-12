@@ -283,7 +283,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'weight' => 18,
       ),
       'default' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'ding_periodical',
         'settings' => array(),
         'type' => 'ding_periodical_issues_default',
