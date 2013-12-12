@@ -10,6 +10,8 @@ define('ALMA_AUTH_BLOCKED', '4e5531951f55ab8f6895684999c69c2');
 define('ALMA_DATE', 'Y-m-d');
 define('ALMA_DATE_LONG', 'Y-m-d m:i:s');
 
+include_once 'alma.features.inc';
+
 /**
  * Get list of pickup branches.
  */
@@ -77,6 +79,10 @@ function alma_ding_provider() {
       'user' => array(
         'prefix' => 'user',
         'file' => $path . '/includes/alma.user.inc',
+      ),
+      'wayf' => array(
+        'prefix' => 'wayf',
+        'file' => $path . '/includes/alma.wayf.inc',
       ),
     ),
   );
@@ -153,7 +159,7 @@ function alma_client() {
 /**
  * Calls the Alma backend, possibly caching the result.
  *
- * @param $method
+ * @param string $method
  *   The desired method.
  *
  * @return array
@@ -421,12 +427,12 @@ function alma_update_provider($changes, $entity) {
   }
 
   // Update reservation pause (absentPeriod).
-  if (!empty( $changes['absent_id']) &&
-      !empty($changes['reservation_pause_start']) &&
-      !empty($changes['reservation_pause_stop'])) {
+  if (!empty($changes['absent_id']) &&
+    !empty($changes['reservation_pause_start']) &&
+    !empty($changes['reservation_pause_stop'])) {
 
     try {
-      $res =  alma_client_invoke('change_absent_period', $creds['name'], $creds['pass'], $changes['absent_id'], $changes['reservation_pause_start'], $changes['reservation_pause_stop']);
+      $res = alma_client_invoke('change_absent_period', $creds['name'], $creds['pass'], $changes['absent_id'], $changes['reservation_pause_start'], $changes['reservation_pause_stop']);
     }
     catch (Exception $exception) {
       watchdog_exception('Alma provider', $exception);
@@ -643,6 +649,3 @@ function alma_ding_session_cache_defaults() {
     'expire' => 3600,
   );
 }
-
-// Include the feature code.
-include_once 'alma.features.inc';

@@ -109,8 +109,9 @@ function alma_reservation_options_submit($account, $values) {
  * @param stdClass $account
  *   Drupal user account object.
  * @param string $type
- *   Reservation type to return. The sting should be one of 'ready_for_pickup',
- *   'not_ready_for_pickup' or 'interlibrary_loans'.
+ *   Reservation type to return. The sting should be one of
+ *   'DING_RESERVATION_READY', 'DING_RESERVATION_NOT_READY' or
+ *   'DING_RESERVATION_INTERLIBRARY_LOANS'.
  *
  * @return array
  *   An empty array or an array of DingProviderReservation objects.
@@ -130,9 +131,9 @@ function alma_reservation_list($account, $type = NULL) {
     if (empty($result)) {
       // Set default reservation types.
       $result = array(
-        'ready_for_pickup' => array(),
-        'not_ready_for_pickup' => array(),
-        'interlibrary_loans' => array(),
+        DING_RESERVATION_READY => array(),
+        DING_RESERVATION_NOT_READY => array(),
+        DING_RESERVATION_INTERLIBRARY_LOANS => array(),
       );
 
       // Get reservations from ALMA for the current account.
@@ -143,7 +144,7 @@ function alma_reservation_list($account, $type = NULL) {
         // Build standard array which matches all types of reservations.
         $data = array(
           'order_id' => $reservation['id'],
-          'ding_entity_id' => variable_get('ting_agency', '') . ':' . $reservation['record_id'],
+          'ding_entity_id' => ding_provider_build_entity_id($reservation['record_id']),
           'pickup_branch_id' => $reservation['pickup_branch'],
           'order_arrived' => NULL,
           'pickup_order_id' => NULL,
@@ -154,6 +155,7 @@ function alma_reservation_list($account, $type = NULL) {
           'queue_number' => $reservation['queue_number'],
           'ill_status' => FALSE,
           'notes' => isset($reservation['notes']) ? $reservation['notes'] : '',
+          'reservation_type' => DING_RESERVATION_NOT_READY,
         );
 
         // If the reservation is ready for pick-up, we fill in that data.
@@ -162,6 +164,7 @@ function alma_reservation_list($account, $type = NULL) {
           $data['pickup_order_id'] = $reservation['pickup_number'];
           $data['pickup_date'] = $reservation['pickup_expire_date'];
           $data['ready_for_pickup'] = TRUE;
+          $data['reservation_type'] = DING_RESERVATION_READY;
 
           // Ready for pick-up can also be a inter-library loan.
           if ($reservation['id'] < 0) {
@@ -171,19 +174,20 @@ function alma_reservation_list($account, $type = NULL) {
           }
 
           // Create reservation object.
-          $result['ready_for_pickup'][$reservation['id']] = new DingProviderReservation($reservation['id'], $data);
+          $result[DING_RESERVATION_READY][$reservation['id']] = new DingProviderReservation($reservation['id'], $data);
         }
         elseif ($reservation['id'] < 0) {
           // Inter-library loan reservations have negative IDs (undocumented
           // Axiell "feature").
           $data['ill_status'] = TRUE;
+          $data['reservation_type'] = DING_RESERVATION_INTERLIBRARY_LOANS;
 
           // Create reservation object.
-          $result['interlibrary_loans'][$reservation['id']] = new DingProviderReservation($reservation['id'], $data);;
+          $result[DING_RESERVATION_INTERLIBRARY_LOANS][$reservation['id']] = new DingProviderReservation($reservation['id'], $data);
         }
         else {
           // Default case with, so just create the reservation object.
-          $result['not_ready_for_pickup'][$reservation['id']] = new DingProviderReservation($reservation['id'], $data);;
+          $result[DING_RESERVATION_NOT_READY][$reservation['id']] = new DingProviderReservation($reservation['id'], $data);
         }
       }
 
