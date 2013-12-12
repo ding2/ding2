@@ -239,8 +239,8 @@ function ding_news_views_default_views() {
     'ding_news' => 'ding_news',
   );
 
-  /* Display: Frontpage news list */
-  $handler = $view->new_display('panel_pane', 'Frontpage news list', 'ding_news_frontpage_list');
+  /* Display: News list (frontpage) */
+  $handler = $view->new_display('panel_pane', 'News list (frontpage)', 'ding_news_frontpage_list');
   $handler->display->display_options['defaults']['css_class'] = FALSE;
   $handler->display->display_options['defaults']['link_display'] = FALSE;
   $handler->display->display_options['link_display'] = 'custom_url';
@@ -399,6 +399,8 @@ function ding_news_views_default_views() {
   $handler->display->display_options['filters']['promote']['table'] = 'node';
   $handler->display->display_options['filters']['promote']['field'] = 'promote';
   $handler->display->display_options['filters']['promote']['value'] = '1';
+  $handler->display->display_options['pane_category']['name'] = 'News panes';
+  $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
   $handler->display->display_options['allow']['offset'] = 0;
@@ -568,6 +570,8 @@ function ding_news_views_default_views() {
   $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['pane_category']['name'] = 'Library panes';
+  $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
   $handler->display->display_options['allow']['offset'] = 0;
@@ -792,6 +796,8 @@ function ding_news_views_default_views() {
   $handler->display->display_options['arguments']['tid']['validate_options']['vocabularies'] = array(
     'news_category' => 'news_category',
   );
+  $handler->display->display_options['pane_category']['name'] = 'News panes';
+  $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
   $handler->display->display_options['allow']['offset'] = 0;
@@ -876,6 +882,8 @@ function ding_news_views_default_views() {
   $handler->display->display_options['fields']['title']['element_class'] = 'heading';
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
+  $handler->display->display_options['pane_category']['name'] = 'News panes';
+  $handler->display->display_options['pane_category']['weight'] = '0';
 
   /* Display: News list (library) */
   $handler = $view->new_display('panel_pane', 'News list (library)', 'ding_news_list_library');
@@ -1101,6 +1109,8 @@ function ding_news_views_default_views() {
   $handler->display->display_options['arguments']['tid']['validate_options']['vocabularies'] = array(
     'news_category' => 'news_category',
   );
+  $handler->display->display_options['pane_category']['name'] = 'Library panes';
+  $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
   $handler->display->display_options['allow']['offset'] = 0;
@@ -1179,6 +1189,8 @@ function ding_news_views_default_views() {
   $handler->display->display_options['arguments']['uid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['uid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['uid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['pane_category']['name'] = 'News panes';
+  $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['argument_input'] = array(
     'uid' => array(
       'type' => 'context',
@@ -1335,6 +1347,8 @@ function ding_news_views_default_views() {
   $handler->display->display_options['arguments']['uid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['uid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['uid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['pane_category']['name'] = 'News panes';
+  $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
   $handler->display->display_options['allow']['offset'] = 0;
@@ -1799,14 +1813,15 @@ function ding_news_views_default_views() {
     t('author'),
     t('<span class="news-label">[field_ding_news_category]</span> <span class="news-date">[created]</span>  |  <span class="news-author">af [name]</span>'),
     t('Alle'),
-    t('Frontpage news list'),
+    t('News list (frontpage)'),
     t('more'),
     t('<i class="icon-chevron-right"></i>'),
-    t('View panes'),
+    t('News panes'),
     t('Library news list'),
     t('OG membership from node'),
     t('OG node group'),
     t('All'),
+    t('Library panes'),
     t('News list'),
     t('Antal elementer'),
     t('- Alle -'),
