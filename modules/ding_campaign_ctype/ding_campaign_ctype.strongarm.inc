@@ -21,7 +21,7 @@ function ding_campaign_ctype_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_default_mode_ding_campaign';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['comment_default_mode_ding_campaign'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -35,28 +35,28 @@ function ding_campaign_ctype_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_ding_campaign';
-  $strongarm->value = '0';
+  $strongarm->value = '1';
   $export['comment_ding_campaign'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_form_location_ding_campaign';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['comment_form_location_ding_campaign'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_preview_ding_campaign';
-  $strongarm->value = '1';
+  $strongarm->value = '0';
   $export['comment_preview_ding_campaign'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_subject_field_ding_campaign';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['comment_subject_field_ding_campaign'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -88,7 +88,14 @@ function ding_campaign_ctype_strongarm() {
       ),
     ),
     'extra_fields' => array(
-      'form' => array(),
+      'form' => array(
+        'title' => array(
+          'weight' => '0',
+        ),
+        'path' => array(
+          'weight' => '4',
+        ),
+      ),
       'display' => array(),
     ),
   );
@@ -98,7 +105,7 @@ function ding_campaign_ctype_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'language_content_type_ding_campaign';
-  $strongarm->value = '2';
+  $strongarm->value = '0';
   $export['language_content_type_ding_campaign'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -128,14 +135,14 @@ function ding_campaign_ctype_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_preview_ding_campaign';
-  $strongarm->value = '1';
+  $strongarm->value = '0';
   $export['node_preview_ding_campaign'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_submitted_ding_campaign';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['node_submitted_ding_campaign'] = $strongarm;
 
   $strongarm = new stdClass();

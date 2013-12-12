@@ -1,10 +1,8 @@
 <?php
-
 /**
  * @file
  * Campaign template for blue theme.
  */
 
 ?>
-
-  <?php print ($content); ?>
+<?php print ($content); ?>

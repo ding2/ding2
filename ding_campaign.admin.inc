@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Contains admin backend related code.
@@ -7,14 +6,6 @@
 
 /**
  * Module main settings lay here.
- *
- * @param $form
- *   Form.
- * @param $form_state
- *   Form state.
- *
- * @return
- *   Form structure array.
  */
 function ding_campaign_configure($form, $form_state) {
   $types = node_type_get_names();
@@ -244,6 +235,7 @@ function ding_campaign_admin_autocomplete($type, $input) {
         $matches['[nid:' . $v->nid . ']'] = $v->title;
       }
       break;
+
     case 'rule_taxonomy':
       $q = db_query_range("SELECT tid, name FROM {taxonomy_term_data} WHERE name LIKE(:term)", 0, 5, array(':term' => '%%' . $input . '%%'))->fetchAll();
 
@@ -251,6 +243,7 @@ function ding_campaign_admin_autocomplete($type, $input) {
         $matches['[tid:' . $v->tid . ']'] = $v->name;
       }
       break;
+
     case 'rule_library':
       $q = db_query_range("SELECT nid, title FROM {node} WHERE type='ding_library' AND title LIKE(:term)", 0, 5, array(':term' => '%%' . $input . '%%'))->fetchAll();
 
@@ -258,6 +251,7 @@ function ding_campaign_admin_autocomplete($type, $input) {
         $matches['[nid:' . $v->nid . ']'] = $v->title;
       }
       break;
+
     case 'rule_event':
       $q = db_query_range("SELECT nid, title FROM {node} WHERE type='ding_event' AND title LIKE(:term)", 0, 5, array(':term' => '%%' . $input . '%%'))->fetchAll();
 
@@ -265,6 +259,7 @@ function ding_campaign_admin_autocomplete($type, $input) {
         $matches['[nid:' . $v->nid . ']'] = $v->title;
       }
       break;
+
     case 'rule_news':
       $q = db_query_range("SELECT nid, title FROM {node} WHERE type='ding_news' AND title LIKE(:term)", 0, 5, array(':term' => '%%' . $input . '%%'))->fetchAll();
 
@@ -273,5 +268,6 @@ function ding_campaign_admin_autocomplete($type, $input) {
       }
       break;
   }
+
   drupal_json_output($matches);
 }

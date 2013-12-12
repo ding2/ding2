@@ -80,7 +80,7 @@ function ding_campaign_campaign_content_type_edit_form($form, &$form_state) {
     '#default_value' => (isset($form_state['conf']['ding_campaign_image_style'])) ? $form_state['conf']['ding_campaign_image_style'] : 'medium',
   );
 
-  drupal_add_css(drupal_get_path('module', 'ding_campaign') . '/css/ding_campaign_admin.css');
+  drupal_add_css(drupal_get_path('module', 'ding_campaign') . '/css/ding_campaign.admin.css');
 
   return $form;
 }

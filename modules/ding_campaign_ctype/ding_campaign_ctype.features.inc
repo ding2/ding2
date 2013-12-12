@@ -127,7 +127,7 @@ function ding_campaign_ctype_node_info() {
     'ding_campaign' => array(
       'name' => t('Campaign'),
       'base' => 'node_content',
-      'description' => '',
+      'description' => t('Create a new campaign that based on different rules will be shown in a given context on the site.'),
       'has_title' => '1',
       'title_label' => t('Campaign name'),
       'help' => '',

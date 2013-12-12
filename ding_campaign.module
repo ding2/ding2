@@ -53,7 +53,7 @@ function ding_campaign_menu() {
  * Used to define access to ding campaign rules. Limits the menu item only for
  * ding_campaign node types.
  *
- * @return boolean
+ * @return bool
  *   TRUE or FALSE value.
  */
 function ding_campaign_rules_access() {
@@ -72,7 +72,7 @@ function ding_campaign_rules_access() {
 }
 
 /**
- * Implements hook_perimission().
+ * Implements hook_permission().
  */
 function ding_campaign_permission() {
   $perm = array();
@@ -119,11 +119,12 @@ function ding_campaign_theme($existing, $type, $theme, $path) {
  *   Count of campaigns to display.
  * @param $offset
  *   Offset of the first campaign in the database.
+ * @param string $style
+ *   The image style to use.
  *
  * @return
  *   HTML formatted string.
  */
-
 function ding_campaign_display($context, $count, $offset, $style = 'medium') {
   $campaigns = ding_campaign_get_campaigns($context, $count, $offset);
 
@@ -211,8 +212,8 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
       ORDER BY d.weight DESC', array(':nid' => (int) $nid))
       ->fetchAll();
 
-    foreach ($result as $k => $v) {
-      @$campaigns[$v->cid] += 11;
+    foreach ($result as $key => $value) {
+      @$campaigns[$value->cid] += 11;
     }
   }
 
@@ -230,13 +231,13 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
       ORDER BY d.weight DESC', array(':nid' => (int) $nid))
       ->fetchAll();
 
-    foreach ($result as $k => $v) {
-      @$campaigns[$v->cid] += 10;
+    foreach ($result as $key => $value) {
+      @$campaigns[$value->cid] += 10;
     }
   }
 
   // Process page campaigns.
-  if ($context['page'] != NULL && isset($context['page']->nid))  {
+  if ($context['page'] != NULL && isset($context['page']->nid)) {
     $nid = $context['page']->nid;
 
     $result = db_query('SELECT r.cid
@@ -246,11 +247,11 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
         AND n.status = 1
         AND r.cid = d.cid
         AND r.cid = n.nid
-      ORDER BY d.weight DESC', array(':nid' => (int)$nid))
+      ORDER BY d.weight DESC', array(':nid' => (int) $nid))
       ->fetchAll();
 
-    foreach ($result as $k => $v) {
-      @$campaigns[$v->cid] += 9;
+    foreach ($result as $key => $value) {
+      @$campaigns[$value->cid] += 9;
     }
   }
 
@@ -265,22 +266,21 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
     ->fetchAll();
 
   $path = drupal_get_path_alias($_GET['q']);
-  foreach ($result as $k => $v) {
-    $page_match = drupal_match_path($path, $v->rule);
+  foreach ($result as $key => $value) {
+    $page_match = drupal_match_path($path, $value->rule);
 
     if ($path != $_GET['q']) {
-      $page_match = $page_match || drupal_match_path($_GET['q'], $v->rule);
+      $page_match = $page_match || drupal_match_path($_GET['q'], $value->rule);
     }
 
     if ($page_match) {
-      @$campaigns[$v->cid] += 8;
+      @$campaigns[$value->cid] += 8;
     }
   }
 
   // Process search campaigns.
   if ($context['search_term'] != NULL) {
     $terms = trim(drupal_strtolower(check_plain($context['search_term'])));
-    $condition = '';
 
     // Multiple keywords, comma and/or space separated.
     if (strpos($terms, ',') || strpos($terms, ' ')) {
@@ -303,8 +303,8 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
       ORDER BY d.weight DESC')
       ->fetchAll();
 
-    foreach ($result as $k => $v) {
-      @$campaigns[$v->cid] += 7;
+    foreach ($result as $key => $value) {
+      @$campaigns[$value->cid] += 7;
     }
   }
 
@@ -319,11 +319,11 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
         AND n.status = 1
         AND r.cid = d.cid
         AND r.cid = n.nid
-      ORDER BY d.weight DESC', array(':nid' => (int)$nid))
+      ORDER BY d.weight DESC', array(':nid' => (int) $nid))
       ->fetchAll();
 
-    foreach ($result as $k => $v) {
-      @$campaigns[$v->cid] += 5;
+    foreach ($result as $key => $value) {
+      @$campaigns[$value->cid] += 5;
     }
   }
 
@@ -338,11 +338,11 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
         AND n.status = 1
         AND r.cid = d.cid
         AND r.cid = n.nid
-      ORDER BY d.weight DESC', array(':tid' => (int)$tid))
+      ORDER BY d.weight DESC', array(':tid' => (int) $tid))
       ->fetchAll();
 
-    foreach ($result as $k => $v) {
-      @$campaigns[$v->cid] += 3;
+    foreach ($result as $key => $value) {
+      @$campaigns[$value->cid] += 3;
     }
   }
 
@@ -356,9 +356,9 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
     ORDER BY d.weight DESC')
     ->fetchAll();
 
-  foreach ($result as $k => $v) {
-    if (!isset($campaigns[$v->cid]) || $campaigns[$v->cid] == 0) {
-      $campaigns[$v->cid] = (mt_rand(1, 10) / 10);
+  foreach ($result as $key => $value) {
+    if (!isset($campaigns[$value->cid]) || $campaigns[$value->cid] == 0) {
+      $campaigns[$value->cid] = (mt_rand(1, 10) / 10);
     }
   }
 
@@ -372,9 +372,9 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
 function ding_campaign_form_alter(&$form, &$form_state, $form_id) {
   // Alter the Campaign addition form.
   if ($form_id == 'ding_campaign_node_form') {
-    // Remove the 'N/A' type radiobox.
+    // Remove the 'N/A' type radio box.
     unset($form['field_camp_settings'][$form['field_camp_settings']['#language']]['#options']['_none']);
-    // Remove the 'None' value from weight dropdown.
+    // Remove the 'None' value from weight drop-down.
     unset($form['field_camp_weight'][$form['field_camp_weight']['#language']]['#options']['_none']);
 
     $form['#validate'] = array('ding_campaign_campaign_node_form_validate');
@@ -571,7 +571,7 @@ function ding_campaign_node_delete($node) {
 /**
  * Fetch available campaigns.
  *
- * @return
+ * @return array
  *   Array of campaigns with ids and titles.
  */
 function ding_campaign_get_list() {
@@ -608,26 +608,33 @@ function ding_campaign_campaign_node_form_validate($form, &$form_state) {
 }
 /**
  * Get rule name by node type.
+ *
  * @param string $node_type
  *   Node type.
+ *
  * @return string
  *   Rule name.
  */
 function _ding_campaign_rule_by_type($node_type) {
-  // Set rule type
+  // Set rule type.
   switch ($node_type) {
     case 'library':
       $type = 'rule_library';
       break;
+
     case 'ding_event':
       $type = 'rule_event';
       break;
+
     case 'ding_news':
       $type = 'rule_news';
       break;
+
     default:
       $type = 'rule_page';
+      break;
   }
+
   return $type;
 }
 
