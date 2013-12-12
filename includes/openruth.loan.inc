@@ -8,23 +8,42 @@
  * Get list of user loans.
  */
 function openruth_loan_list($account) {
-  $creds = ding_user_get_creds($account);
   $result = array();
+
+  // Get credentials and user status.
+  $creds = ding_user_get_creds($account);
   $status = _openruth_user_status($creds);
 
   if (isset($status->loans->loan)) {
     foreach ($status->loans->loan as $loan) {
+      // Try to parse display title to get periodical information.
+      $notes = DingEntityBase::NULL;
+      preg_match('/(\d+\.\d+).+(\[\d+\]).+(\d{4}),\s(\d+)/', $loan->itemDisplayTitle, $matches);
+      if ($matches) {
+        $notes = $matches[3] . ', ' . $matches[4];
+      }
+
+      // Try to parse display title to get year of year book.
+      preg_match('/(\d+\.\d+)(.+)(\d{4})$/', $loan->itemDisplayTitle, $matches);
+      if ($matches) {
+        $notes = $matches[3];
+      }
+
+      // Create DingProviderLoad object with the information.
       $result[$loan->copyId] = new DingProviderLoan($loan->copyId, array(
-        'ding_entity_id' => variable_get('ting_agency', '') . ':' . $loan->itemId,
-        'display_name' => $loan->itemDisplayTitle,
-        'loan_date' => $loan->loanDate,
-        'expiry' => $loan->loanReturnDate,
-        'renewable' => $loan->loanRenewable == 'renewable',
-        'materials_number' => $loan->copyId,
-        'author' => $loan->itemAuthor,
-        'title' => $loan->itemTitle,
-        'publication_year' => $loan->itemPublicationYear,
+        'ding_entity_id' => ding_provider_build_entity_id($loan->itemId),
+        'display_name' => isset($loan->itemTitle) ? $loan->itemTitle : DingEntityBase::NULL,
+        'loan_date' => isset($loan->loanDate) ? $loan->loanDate : DingEntityBase::NULL,
+        'expiry' => isset($loan->loanReturnDate) ? $loan->loanReturnDate : DingEntityBase::NULL,
+        'renewable' => isset($loan->loanRenewable) ? $loan->loanRenewable == 'renewable' : DingEntityBase::NULL,
+        'materials_number' => isset($loan->copyId) ? $loan->copyId : DingEntityBase::NULL,
+        'author' => isset($loan->itemAuthor) ? $loan->itemAuthor : DingEntityBase::NULL,
+        'publication_year' => isset($loan->itemPublicationYear) ? $loan->itemPublicationYear : DingEntityBase::NULL,
+        'notes' => $notes,
       ));
+
+      // Reset matches.
+      $matches = NULL;
     }
   }
 
@@ -32,13 +51,15 @@ function openruth_loan_list($account) {
 }
 
 /**
- * Renew of loans
+ * Renew of loans.
  *
- * @param object $account
- *  The user account the should have renewed loans
+ * @param StdClass $account
+ *   The user account the should have renewed loans.
  * @param array $ids
- *  The ids of the loans to renew
- * @return type
+ *   The ids of the loans to renew.
+ *
+ * @return string
+ *   DingProviderLoan::STATUS_RENEWED or DingProviderLoan::STATUS_NOT_RENEWED.
  */
 function openruth_loan_renew($account, $ids) {
   $creds = ding_user_get_creds($account);
@@ -65,9 +86,10 @@ function openruth_loan_renew($account, $ids) {
  * Replace entity for the reservation in the case object in not in Ting anymore
  * or the reservation is an remote reservation.
  *
- * @param $ting_entity
+ * @param DingEntity $ting_entity
  *   Provider reservation object.
- * @return
+ *
+ * @return DingEntity
  *   Ting entity object, filled with data from provider service.
  */
 function openruth_loan_populate_pseudo_entity($ting_entity) {
