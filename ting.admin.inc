@@ -356,35 +356,6 @@ function _ting_boost_field_sort($a, $b) {
   return ($a['weight'] > $b['weight']) ? -1 : 1;
 }
 
-function ting_admin_register_settings() {
-  // Should use phrase.title instead of dc.title but at the moment open search
-  // does not support the use of phrase.title.
-  $form['ting_admin_register_serie_title'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Serie title'),
-    '#description' => t('Specify the searchstring to be used for searching against serie titles. Use @serietitle as a placeholder for the serietitle'),
-    '#default_value' => variable_get('ting_admin_register_serie_title', 'bib.titleSeries="@serietitle" OR dc.description="@serietitle"')
-  );
-
-  $form['#submit'][] = 'ting_search_extendform_admin_settings_submit';
-  return system_settings_form($form);
-}
-
-function ting_admin_register_settings_validate($form, &$form_state) {
-  $s = '';
-  if (isset($form_state['values']['ting_admin_register_serie_title'])) {
-    $s = $form_state['values']['ting_admin_register_serie_title'];
-  }
-
-  if ($s == '') {
-    form_set_error('ting_admin_register_serie_title', t('Please specify a register for serie titles.'));
-  }
-}
-
-function ting_search_extendform_admin_settings_submit($form, $form_state) {
-  variable_set('ting_admin_register_serie_title', $form_state['values']['ting_admin_register_serie_title']);
-}
-
 /**
  * Form builder; Configure online resource types and their URL labels.
  *
@@ -399,7 +370,7 @@ function ting_admin_online_types_settings($form_state) {
   $form['update'] = array(
     '#type' => 'fieldset',
     '#title' => t('Update from datawell'),
-    '#description' => t('Update the list of known types by asking the datawell for all types.')
+    '#description' => t('Update the list of known types by asking the datawell for all types.'),
   );
 
   $form['update']['update'] = array(

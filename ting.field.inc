@@ -377,7 +377,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           // the series title register and the description field because many
           // series only have data in the description field. This will probably
           // change with new versions of the data well.
-          $search_term = str_replace('@serietitle', drupal_strtolower($entity->serieTitle), variable_get('ting_admin_register_serie_title', 'bib.titleSeries="@serietitle" OR dc.description="@serietitle"'));
+          $search_term = str_replace('@serietitle', drupal_strtolower($entity->serieTitle), variable_get('ting_search_register_serie_title', 'dkcclphrase.lse="@serietitle" OR dkcclphrase.lso="@serietitle"'));
           $element[$delta] = array(
             '#markup' => l($entity->serieTitle, 'search/ting/' . $search_term, array('attributes' => array('class' => array('series')))) . ' : ' . check_plain($entity->serieNumber),
           );
@@ -398,7 +398,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
       case 'ting_author_default':
         $creators = array();
         foreach ($entity->creators as $i => $creator) {
-          $creators[] = l($creator, 'search/ting/dc.creator=' . $creator, array('attributes' => array('class' => array('author'))));
+          $creators[] = l($creator, 'search/ting/phrase.creator=' . $creator, array('attributes' => array('class' => array('author'))));
         }
         $markup_string = '';
         if (count($creators)) {
@@ -427,7 +427,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         if (count($entity->subjects) == TRUE) {
           $subjects = array();
           foreach ($entity->subjects as $subject) {
-            $subjects[] = l($subject, 'search/ting/dc.subject=' . $subject, array('attributes' => array('class' => array('subject'))));
+            $subjects[] = l($subject, 'search/ting/dkcclterm.em=' . $subject, array('attributes' => array('class' => array('subject'))));
           }
           $element[$delta] = array(
             '#markup' => implode(' ', $subjects),

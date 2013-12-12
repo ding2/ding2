@@ -115,15 +115,6 @@ function ting_menu() {
     'file' => 'ting.admin.inc',
   );
 
-  $items['admin/config/ting/registers'] = array(
-    'title' => 'Open search register settings',
-    'description' => 'Configure registers to use for specific open search searches.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ting_admin_register_settings'),
-    'access arguments' => array('administer ting settings'),
-    'file' => 'ting.admin.inc',
-  );
-
   $items['admin/config/ting/online_types'] = array(
     'title' => 'Online types and URL labels',
     'description' => 'Define online resource types and their corresponding URL labels.',
@@ -296,12 +287,11 @@ function ting_block_view($delta = '') {
           );
         }
       }
-
       break;
 
     case 'ting_collection_types':
       if ($collection = menu_get_object('ting_collection', 2)) {
-        $block->subject = t('Types');
+        $block->subject = t('Other materialtypes');
         $items = array();
         foreach ($collection->types as $type) {
           $items[] = l($type . ' (' . $collection->types_count[$type] . ')', '#' . $type, array('external' => TRUE));
@@ -320,6 +310,7 @@ function ting_block_view($delta = '') {
         foreach ($collection->types as $type) {
           $uri = entity_uri('ting_collection', $collection);
           $uri['options']['fragment'] = _ting_anchor_name($type);
+          $uri['options']['attributes'] = array('class' => array('js-search-overlay'));
           $items[] = l($type . ' (' . $collection->types_count[$type] . ')', $uri['path'], $uri['options']);
         }
 
@@ -330,6 +321,9 @@ function ting_block_view($delta = '') {
             '#theme' => 'item_list',
             '#items' => $items,
           );
+
+          // Add search overlay trigger.
+          drupal_add_js(drupal_get_path('module', 'ting') . '/js/ting.js');
         }
       }
       break;
@@ -613,9 +607,19 @@ function ting_ting_object_load($objects) {
 /**
  * Load a ting object.
  *
- * Don't use this, use ding_entity_load().
+ * Don't use this, use ding_entity_load(). Default menu callback load of ting
+ * object.
+ *
+ * Handles redirect from data well version 2 to version 3.
  */
 function ting_object_load($id) {
+  $agency = variable_get('ting_agency', FALSE);
+  if ($agency && preg_match('/^(\d{6}):(\w+)$/', $id, $matches)) {
+    // Matched to data well version 2, to redirect to version 3.
+    $id = ding_provider_build_entity_id($matches[2], $matches[1]);
+    drupal_goto('ting/object/' . $id, array(), 301);
+  }
+
   return ding_entity_load($id, 'ting_object');
 }
 
@@ -631,9 +635,19 @@ function ting_object_load_multiple($ids) {
 /**
  * Load a ting collection.
  *
- * Don't use this, use ding_collection_load().
+ * Don't use this, use ding_collection_load(). Default menu callback load of
+ * ting collections.
+ *
+ * Handles redirect from data well version 2 to version 3.
  */
 function ting_collection_load($id) {
+  $agency = variable_get('ting_agency', FALSE);
+  if ($agency && preg_match('/^(\d{6}):(\w+)$/', $id, $matches)) {
+    // Matched to data well version 2, to redirect to version 3.
+    $id = ding_provider_build_entity_id($matches[2], $matches[1]);
+    drupal_goto('ting/collection/' . $id, array(), 301);
+  }
+
   return ding_entity_load($id, 'ting_collection');
 }
 
@@ -878,7 +892,7 @@ function _ting_default_online_types() {
  */
 function _ting_default_reservable_sources() {
   return array(
-    'bibliotekets materialer',
+    'bibliotekskatalog',
   );
 }
 
@@ -972,6 +986,7 @@ function _ting_fetch_well_sources() {
  *
  * @param string $type
  *   Name of the anchor.
+ *
  * @return string
  *   HTML safe name.
  */
