@@ -5,6 +5,16 @@
  */
 
 /**
+ * Implements hook_init().
+ *
+ * Make the ting search overlay available for all other JavaScripts around the
+ * site.
+ */
+function ting_search_init() {
+  drupal_add_js(drupal_get_path('module', 'ting_search') . '/js/ting_search_overlay.js');
+}
+
+/**
  * Implements hook_ctools_plugin_directory().
  *
  * It simply tells panels where to find the .inc files that define various
@@ -706,7 +716,7 @@ function ting_search_block_view($delta = '') {
 
       // Only display form if there are any search results.
       $search_result = drupal_static('ting_search_results');
-      if (isset($search_result) && $search_result->numTotalObjects > 0) {
+      if (isset($search_result->numTotalObjects) && $search_result->numTotalObjects > 0) {
         $block['content'] = drupal_get_form('ting_search_sort_form');
       }
       break;

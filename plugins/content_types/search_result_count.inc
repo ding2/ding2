@@ -22,13 +22,14 @@ function ting_search_result_count_content_type_render($subtype, $conf, $panel_ar
 
   $search_result = drupal_static('ting_search_results');
   if (isset($search_result)) {
+    $results = isset($search_result->numTotalObjects) ? (int) $search_result->numTotalObjects : 0;
     $block->content = array(
       '#prefix' => '<h1 class="page-title">',
-      '#surfix' => '</h1>',
-      '#markup' => format_plural((int) $search_result->numTotalObjects,
-        'Search result <span class="search-field-in-content--amount">(1 result)</span>',
+      '#suffix' => '</h1>',
+      '#markup' => format_plural($results > 1 ? $results : 1,
+        'Search result <span class="search-field-in-content--amount">(' . $results . ' result)</span>',
         'Search result <span class="search-field-in-content--amount">(!count results)</span>', array(
-          '!count' => $search_result->numTotalObjects,
+          '!count' => $results,
         )
       ),
     );
