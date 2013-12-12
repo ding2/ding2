@@ -81,7 +81,7 @@ function ding_availability_field_formatter_info() {
 function ding_availability_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
   $online_types = variable_get('ting_online_types', _ting_default_online_types());
-  $lib_materials_types = array('Bibliotekets materialer', 'Bibliotekskatalog');
+  $reservable_sources = variable_get('ting_reservable_sources', _ting_default_reservable_sources());
 
   // Attach front-end style and JS to the element.
   foreach ($items as $delta => $item) {
@@ -109,7 +109,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
         // If item is of type 'library materials' (where we can lookup holding
         // data), prepare to check holding on the item.
         $holding_types = variable_get('ding_availability_holdings_types', _ding_availability_holdings_default_types());
-        if (in_array($ac_source, $lib_materials_types) && in_array(strtolower($entity->type), $holding_types)) {
+        if (in_array(strtolower($ac_source), $reservable_sources) && in_array(strtolower($entity->type), $holding_types)) {
           $attached['js'][] = array(
             'data' => array(
               'ding_availability_mode' => 'holdings',
@@ -121,7 +121,8 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           );
 
           $element[$delta] = array(
-            '#markup' => '<div id="' . $id . '" class="holdings holdings-' . $entity->localId . '"></div>',
+            // @todo: move this into tpl file.
+            '#markup' => '<div id="' . $id . '" class="holdings holdings-' . $entity->localId . '"><div class="loader"><i class="icon icon-spinner icon-spin"></i><p class="loader-text">' . t('Fetching holdings information.') . '<p></div></div>',
             '#attached' => $attached,
           );
         }
@@ -154,7 +155,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
 
         // If item is of type 'library materials' (where we can lookup holding
         // data), prepare to check holding on the item.
-        if (in_array($ac_source, $lib_materials_types)) {
+        if (in_array(strtolower($ac_source), $reservable_sources)) {
           $attached['js'][1] = array(
             'data' => array(
               'ding_availability' => array(
@@ -273,7 +274,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           // If item is of type 'library materials' (where we can lookup
           // availability data), map the HTML id to the list of entity ids.
           // This is for the current material type group (book, cd, etc.).
-          if (in_array($ac_source, $lib_materials_types) && !in_array(drupal_strtolower($type), $online_types)) {
+          if (in_array(strtolower($ac_source), $reservable_sources) && !in_array(drupal_strtolower($type), $online_types)) {
             $id_mapping[$id] = array();
             foreach ($entities as $object_entity) {
               $id_mapping[$id][] = $object_entity->localId;
