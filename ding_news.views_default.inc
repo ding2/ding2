@@ -24,8 +24,9 @@ function ding_news_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'Library news';
   $handler->display->display_options['css_class'] = 'news-list';
+  $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'Læs mere';
+  $handler->display->display_options['use_more_text'] = 'See all news';
   $handler->display->display_options['link_display'] = 'custom_url';
   $handler->display->display_options['link_url'] = 'nyheder';
   $handler->display->display_options['access']['type'] = 'perm';
@@ -1802,7 +1803,7 @@ function ding_news_views_default_views() {
   $translatables['ding_news'] = array(
     t('Master'),
     t('Library news'),
-    t('Læs mere'),
+    t('See all news'),
     t('Udfør'),
     t('Gendan'),
     t('Sortér efter'),
@@ -1812,6 +1813,7 @@ function ding_news_views_default_views() {
     t('No news where found.'),
     t('author'),
     t('<span class="news-label">[field_ding_news_category]</span> <span class="news-date">[created]</span>  |  <span class="news-author">af [name]</span>'),
+    t('Læs mere'),
     t('Alle'),
     t('News list (frontpage)'),
     t('more'),
