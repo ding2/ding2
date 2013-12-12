@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Ctools access plugin to provide access if user has role: staff.
