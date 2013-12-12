@@ -27,7 +27,7 @@ function ding_campaign_menu() {
     'description' => 'Edit campaign rules',
     'page callback' => 'ding_campaign_rules_admin',
     'page arguments' => array(1),
-    'access arguments' => array('access campaign rules'),
+    'access arguments' => array(1),
     'access callback' => array('ding_campaign_rules_access'),
     'file' => 'ding_campaign.admin.inc',
     'type' => MENU_LOCAL_TASK,
@@ -56,16 +56,9 @@ function ding_campaign_menu() {
  * @return bool
  *   TRUE or FALSE value.
  */
-function ding_campaign_rules_access() {
-  $item = menu_get_item();
-  $node = NULL;
-
-  if (isset($item['page_arguments'][0]->type)) {
-    $node = $item['page_arguments'][0];
-
-    if ($node->type == 'ding_campaign') {
-      return TRUE;
-    }
+function ding_campaign_rules_access($node) {
+  if ($node->type == 'ding_campaign') {
+    return TRUE;
   }
 
   return FALSE;
