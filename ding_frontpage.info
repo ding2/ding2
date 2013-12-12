@@ -3,7 +3,6 @@ description = Provides a panel for the front page
 core = 7.x
 package = Ding!
 php = 5.2.4
-version = 7.x-0.8
 project = ding_frontpage
 dependencies[] = cache_actions
 dependencies[] = ctools
