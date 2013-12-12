@@ -127,6 +127,14 @@ class DingProviderReservation extends DingEntityBase {
   protected $notes = DingEntityBase::NULL;
 
   /**
+   * Reservation_type - the type of reservation.
+   *   - DING_RESERVATION_READY
+   *   - DING_RESERVATION_NOT_READY
+   *   - DING_RESERVATION_INTERLIBRARY_LOANS
+   */
+  protected $reservation_type = DingEntityBase::NULL;
+
+  /**
    * Status - status for interlibrary loans
    */
   protected $ill_status = DingEntityBase::NULL;
@@ -165,6 +173,7 @@ class DingProviderReservation extends DingEntityBase {
       'notes',
       'order_arrived',
       'ready_for_pickup',
+      'reservation_type',
       'author',
       'title',
       'publication_year',
