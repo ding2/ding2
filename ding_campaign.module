@@ -4,7 +4,6 @@
  * Provides campaign feature to various node types in Ding.
  */
 
-define('DING_CAMPAIGN_PATH', drupal_get_path('module', 'ding_campaign'));
 define('DING_CAMPAIGN_DEFAULT_COUNT', 3);
 
 /**
@@ -53,6 +52,9 @@ function ding_campaign_menu() {
  * Used to define access to ding campaign rules. Limits the menu item only for
  * ding_campaign node types.
  *
+ * @param entity $node
+ *   The node loaded in the menu callback.
+ *
  * @return bool
  *   TRUE or FALSE value.
  */
@@ -68,115 +70,169 @@ function ding_campaign_rules_access($node) {
  * Implements hook_permission().
  */
 function ding_campaign_permission() {
-  $perm = array();
-
-  $perm['access campaign rules'] = array(
-    'title' => t('Access campaign rules'),
-    'description' => t('Enable access to campaign nodes display rules'),
+  return array(
+    'access campaign rules' => array(
+      'title' => t('Access campaign rules'),
+      'description' => t('Enable access to campaign nodes display rules'),
+    ),
   );
-
-  return $perm;
 }
 
 /**
  * Implements hook_admin_paths().
+ *
+ * Ensures that the paths given is handled in the administration overlay.
  */
 function ding_campaign_admin_paths() {
-  $paths = array(
+  return array(
     'node/*/campaign_rules' => TRUE,
   );
-  return $paths;
 }
 
 /**
  * Implements hook_theme().
  */
 function ding_campaign_theme($existing, $type, $theme, $path) {
-  $hooks = array();
-
-  $hooks['ding_campaign'] = array(
-    'variables' => array('content' => NULL),
-    'template' => 'ding_campaign',
-    'path' => DING_CAMPAIGN_PATH . '/templates/',
+  return array(
+    'ding_campaign_wrapper' => array(
+      'variables' => array(
+        'content' => NULL,
+      ),
+      'template' => 'ding-campaign-wrapper',
+      'path' => $path . '/templates',
+    ),
+    'ding_campaign' => array(
+      'variables' => array(
+        'type' => NULL,
+        'link' => NULL,
+        'image' => NULL,
+        'text' => NULL,
+      ),
+      'template' => 'ding-campaign',
+      'path' => $path . '/templates',
+    ),
   );
-
-  return $hooks;
 }
 
 /**
- * Displays certain campaigns.
+ * Implements hook_preprocess_ding_campaign().
  *
- * @param $context
- *   Display context used.
- * @param $count
- *   Count of campaigns to display.
- * @param $offset
+ * Add template suggestions that can be used by the base theme.
+ */
+function template_preprocess_ding_campaign(&$variables) {
+  $variables['theme_hook_suggestions'][] = 'ding_campaign__' . $variables['type'];
+}
+
+/**
+ * Create a render array campaigns to display in a given context.
+ *
+ * @param array $context
+ *   Defines the context that the campaign should be displayed in.
+ * @param int $count
+ *   The number of campaigns to display.
+ * @param int $offset
  *   Offset of the first campaign in the database.
  * @param string $style
- *   The image style to use.
+ *   The image style to use for the campaigns.
  *
- * @return
- *   HTML formatted string.
+ * @return array
+ *   Render array with the campaigns found.
  */
 function ding_campaign_display($context, $count, $offset, $style = 'medium') {
+  $content = array(
+    '#theme' => 'ding_campaign_wrapper',
+    '#content' => array(),
+  );
+
+  // Get node id's for the campaign nodes matching the context.
   $campaigns = ding_campaign_get_campaigns($context, $count, $offset);
 
-  // There is at least one result.
-  if (is_array($campaigns) && count($campaigns) > 0) {
-    $block = '';
+  // @todo whey is context null on front page.
+
+  // @todo add cache based on the three parameters given.
+
+  // If any campaigns where found.
+  if (!empty($campaigns)) {
+    // Load campaign nodes (use entity load to utilize entity cache).
+    $campaigns = entity_load('node', array_values($campaigns));
 
     // Loop through campaigns.
-    foreach ($campaigns as $k => $v) {
-      $node = node_load($v);
-      $content = '';
+    foreach ($campaigns as $campaign) {
+      // User entity wrapper to access fields.
+      $wrapper = entity_metadata_wrapper('node', $campaign);
 
-      $camp_settings = field_get_items('node', $node, 'field_camp_settings');
+      // Get campaign type.
+      $type = $wrapper->field_camp_settings->value();
 
-      $base_class = 'ding-campaign-item';
-      // Select the display for campaign type.
-      switch ($camp_settings[0]['value']) {
-        case 'plain':
-          $camp_link = field_get_items('node', $node, 'field_camp_link');
-          $camp_text_plain = field_get_items('node', $node, 'field_camp_text_plain');
-          $content = '<div class="' . $base_class . ' ding-campaign-item-plain"><a href="' . $camp_link[0]['value'] . '">' . $camp_text_plain[0]['value'] . '</a></div>';
-          break;
+      // Default render array.
+      $current = array(
+        '#theme' => 'ding_campaign',
+        '#type' => $type,
+        '#weight' => 0,
+      );
 
-        case 'image':
-          $camp_link = field_get_items('node', $node, 'field_camp_link');
-          $camp_image = field_get_items('node', $node, 'field_camp_image');
-
-          $image_title = field_get_items('file', (object) ($camp_image[0]), 'field_file_image_title_text');
-          $image_title = $image_title[0]['safe_value'];
-          $image_alt = field_get_items('file', (object) ($camp_image[0]), 'field_file_image_alt_text');
-          $image_alt = $image_alt[0]['safe_value'];
-
-          if (empty($image_alt)) {
-            $image_alt = $image_title;
-          }
-
-          $image_tag = theme('image_style', array(
-            'style_name' => $style,
-            'path' => $camp_image[0]['uri'],
-            'alt' => $image_alt,
-            'title' => $image_title,
-          ));
-
-          $link_tag = l($image_tag, $camp_link[0]['value'], array('html' => TRUE, 'absolute' => TRUE, 'attributes' => array('target' => '_blank')));
-          $content = '<div class="' . $base_class . ' ' . $base_class . '-id-' . $v . ' ding-campaign-item-image">' . $link_tag . '</div>';
-          break;
-
-        case 'full':
-          $camp_text_full = field_get_items('node', $node, 'field_camp_text_full');
-          $content = '<div class="' . $base_class . ' ding-campaign-item-full">' . $camp_text_full[0]['safe_value'] . '</div>';
-          break;
-
+      // Get link value.
+      $link = $wrapper->field_camp_link->value();
+      if (!empty($link)) {
+        $current['#link'] = array(
+          '#theme' => 'link',
+          '#text' => $campaign->title,
+          '#path' => $link,
+          '#options' => array(
+            'attributes' => array(
+              'class' => array(
+                'ding-campaing--link',
+              ),
+              'target' => '_blank',
+            ),
+            'html' => FALSE,
+            'absolute' => TRUE,
+          ),
+        );
       }
 
-      $theme = 'ding_campaign';
-      $block .= theme($theme, array('content' => $content));
+      // Get text both plain and full.
+      $text = $wrapper->field_camp_text_plain->value();
+      $text = !empty($text) ? $text : $wrapper->field_camp_text_full->value();
+      if (!empty($text)) {
+        $current['#text'] = array(
+          'content' => $text,
+        );
+      }
+
+      // Get image.
+      $image = $wrapper->field_camp_image->value();
+      if (!empty($image)) {
+        $current['#image'] = array(
+          '#theme' => 'image_style',
+          '#style_name' => $style,
+          '#path' => $image['uri'],
+          '#title' => isset($image['title']) ? $image['title'] : $campaign->title,
+          '#alt' => isset($image['alt']) ? $image['alt'] : $campaign->title,
+        );
+
+        // Check if a link around the image is possible.
+        if (!empty($link)) {
+          // Sadly the link theme function do not generate children.
+          $image = $current['#image'];
+          $current['#image'] = $current['#link'];
+          $current['#image']['#text'] = drupal_render($image);
+          $current['#image']['#options']['html'] = TRUE;
+        }
+      }
+
+      // Get weight.
+      $weight = $wrapper->field_camp_weight->value();
+      if (!empty($weight)) {
+        $current['#weight'] = $weight;
+      }
+
+      // Add current campaign to content array.
+      $content['#content'][] = $current;
     }
-    return $block;
   }
+
+  return $content;
 }
 
 /**
