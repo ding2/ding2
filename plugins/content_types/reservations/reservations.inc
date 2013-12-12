@@ -62,19 +62,26 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
         $preloaded_reservations[$type] = TRUE;
       }
 
-      // Add the current type to the items we want.
-      $items += $reservations[$type];
-
       // Sort the reservations based on type.
+      $sorted = array();
       switch ($type) {
-        case 'ready_for_pickup':
-          uasort($items, 'ding_reservation_sort_queue_by_pickup_date');
+        case DING_RESERVATION_READY:
+          $sorted = $reservations[$type];
+          uasort($sorted, 'ding_reservation_sort_queue_by_pickup_date');
           break;
 
-        case 'not_ready_for_pickup':
-          uasort($items, 'ding_reservation_sort_queue_by_queue_number');
+        case DING_RESERVATION_NOT_READY:
+          $sorted = $reservations[$type];
+          uasort($sorted, 'ding_reservation_sort_queue_by_queue_number');
+          break;
+
+        case DING_RESERVATION_INTERLIBRARY_LOANS:
+          $sorted = $reservations[$type];
           break;
       }
+
+      // Add the current type to the items we want.
+      $items += $sorted;
     }
 
     // Add the pre-load entity to each loan (side effect of getting the entity).
@@ -94,7 +101,7 @@ function ding_reservation_reservations_content_type_render($subtype, $conf, $pan
     if (count($types) > 1) {
       // If more than one type is selected we will fallback to the most generic
       // form type.
-      $block->content = ding_provider_get_form($form_id, $content[$form_id], 'not_ready_for_pickup', $conf);
+      $block->content = ding_provider_get_form($form_id, $content[$form_id], DING_RESERVATION_NOT_READY, $conf);
     }
     else {
       $block->content = ding_provider_get_form($form_id, $content[$form_id], array_shift($types), $conf);
@@ -113,9 +120,9 @@ function ding_reservation_reservations_content_type_edit_form($form, &$form_stat
     '#type' => 'checkboxes',
     '#title' => t('Reservation list type(s)'),
     '#options' => array(
-      'not_ready_for_pickup' => t('Not ready for pickup'),
-      'ready_for_pickup' => t('Ready for pickup'),
-      'interlibrary_loans' => t('Interlibrary loans'),
+      DING_RESERVATION_NOT_READY => t('Not ready for pickup'),
+      DING_RESERVATION_READY => t('Ready for pickup'),
+      DING_RESERVATION_INTERLIBRARY_LOANS => t('Interlibrary loans'),
     ),
     '#default_value' => !empty($conf['reservation_type_list']) ? $conf['reservation_type_list'] : NULL,
   );
