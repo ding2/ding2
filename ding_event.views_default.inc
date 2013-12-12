@@ -449,6 +449,8 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['tid']['validate_options']['vocabularies'] = array(
     'event_category' => 'event_category',
   );
+  $handler->display->display_options['pane_category']['name'] = 'Event panes';
+  $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
   $handler->display->display_options['allow']['offset'] = 0;
@@ -633,7 +635,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['view_node']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['view_node']['text'] = 'Læs mere';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  $handler->display->display_options['pane_category']['name'] = 'Ding!';
+  $handler->display->display_options['pane_category']['name'] = 'Event panes';
   $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
@@ -833,6 +835,8 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['gid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['gid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['gid']['summary_options']['items_per_page'] = '25';
+  $handler->display->display_options['pane_category']['name'] = 'Library panes';
+  $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
   $handler->display->display_options['allow']['offset'] = 0;
@@ -1129,6 +1133,8 @@ function ding_event_views_default_views() {
   $handler->display->display_options['arguments']['tid']['validate_options']['vocabularies'] = array(
     'event_category' => 'event_category',
   );
+  $handler->display->display_options['pane_category']['name'] = 'Library panes';
+  $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['argument_input'] = array(
     'gid' => array(
       'type' => 'context',
@@ -1758,16 +1764,6 @@ function ding_event_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'rss';
   $handler->display->display_options['row_plugin'] = 'node_rss';
   $handler->display->display_options['defaults']['arguments'] = FALSE;
-  /* Contextual filter: Broken/missing handler */
-  $handler->display->display_options['arguments']['ding_library_nid_1']['id'] = 'ding_library_nid_1';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['table'] = 'field_data_field_ding_event_library';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['field'] = 'ding_library_nid';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['default_action'] = 'not found';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['exception']['title'] = 'Alle';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['default_argument_type'] = 'fixed';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['summary']['number_of_records'] = '0';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['summary']['format'] = 'default_summary';
-  $handler->display->display_options['arguments']['ding_library_nid_1']['summary_options']['items_per_page'] = '25';
   $handler->display->display_options['path'] = 'node/%/events/feed';
   $handler->display->display_options['displays'] = array(
     'ding_event_library_page_list' => 'ding_event_library_page_list',
@@ -1869,6 +1865,7 @@ function ding_event_views_default_views() {
     'event_category' => 'event_category',
   );
   $handler->display->display_options['arguments']['tid']['validate']['fail'] = 'ignore';
+  $handler->display->display_options['pane_category']['name'] = 'Event panes';
   $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
@@ -2218,6 +2215,8 @@ function ding_event_views_default_views() {
     'field_data_field_ding_event_date.field_ding_event_date_value' => 'field_data_field_ding_event_date.field_ding_event_date_value',
     'field_data_field_ding_event_date.field_ding_event_date_value2' => 'field_data_field_ding_event_date.field_ding_event_date_value2',
   );
+  $handler->display->display_options['pane_category']['name'] = 'Event panes';
+  $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
   $handler->display->display_options['allow']['items_per_page'] = 0;
   $handler->display->display_options['allow']['offset'] = 0;
@@ -2273,12 +2272,12 @@ function ding_event_views_default_views() {
     t('OG node group'),
     t('<i class="icon-chevron-right"></i>'),
     t('Læs mere'),
-    t('View panes'),
+    t('Event panes'),
     t('Event list (frontpage)'),
     t('Events'),
-    t('Ding!'),
     t('Library event list'),
     t('All'),
+    t('Library panes'),
     t('Event list (library)'),
     t('Groups event list'),
     t('Group events'),
