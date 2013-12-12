@@ -608,24 +608,13 @@ search/node',
     $pane = new stdClass();
     $pane->pid = 'new-17';
     $pane->panel = 'header';
-    $pane->type = 'block';
-    $pane->subtype = 'ding_user_frontend-ding-user-menu';
+    $pane->type = 'user_menu';
+    $pane->subtype = 'user_menu';
     $pane->shown = TRUE;
-    $pane->access = array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'role',
-          'settings' => array(
-            'rids' => array(
-              0 => 2,
-            ),
-          ),
-          'context' => 'logged-in-user',
-          'not' => FALSE,
-        ),
-      ),
-    );
+    $pane->access = array();
     $pane->configuration = array(
+      'path' => 'user/[user:uid]',
+      'context' => 'logged-in-user',
       'override_title' => 1,
       'override_title_text' => '',
     );
@@ -633,7 +622,10 @@ search/node',
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'js-mobile-user-menu',
+    );
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = array();
