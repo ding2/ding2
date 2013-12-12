@@ -159,7 +159,7 @@ function ding_library_strongarm() {
   $strongarm->name = 'og_menu_default_links_node_ding_library';
   $strongarm->value = 'News|bibliotek/[node:field_ding_library_slug]/nyheder
 Events|bibliotek/[node:field_ding_library_slug]/arrangementer
-Staff|bibliotek/[node:field_ding_library_slug]/staff
+Staff|bibliotek/[node:field_ding_library_slug]/personale
 About|bibliotek/[node:field_ding_library_slug]/om';
   $export['og_menu_default_links_node_ding_library'] = $strongarm;
 

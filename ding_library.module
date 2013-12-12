@@ -275,3 +275,81 @@ function ding_library_og_context_handler() {
     'node' => $nids,
   );
 }
+
+/**
+ * Implements hook_post_features_revert().
+ */
+function ding_library_post_features_revert() {
+  ding_library_install_menu_position('revert');
+}
+
+/**
+ * Implements hook_post_features_disable_feature().
+ */
+function ding_library_post_features_disable_feature() {
+  ding_library_install_menu_position('delete');
+}
+
+/**
+ * Implements hook_post_features_enable_feature().
+ */
+function ding_library_post_features_enable_feature() {
+  ding_library_install_menu_position('install');
+}
+
+/**
+ * Helper function to install menu position rule.
+ */
+function ding_library_install_menu_position($op = 'install') {
+  module_load_include('inc', 'menu_position', 'menu_position.admin');
+
+  // Check if rule exists.
+  $exists = db_select('menu_position_rules', 'mpr')
+    ->fields('mpr', array('rid'))
+    ->condition('admin_title', 'Libraries')
+    ->execute()
+    ->fetchField();
+
+  if ($exists && $op == 'revert') {
+    // The rule exists, so we delete it.
+    menu_position_delete_rule($exists);
+
+    // Activate installation of the rule.
+    $exists = FALSE;
+  }
+
+  if (!$exists && ($op == 'install' || $op == 'revert')) {
+    // Define conditions.
+    $conditions = array(
+      'content_type' => array(
+        'content_type' => array(
+          'ding_group' => 'ding_library',
+        ),
+      ),
+    );
+
+    // Find the parent element.
+    $plid = db_select('menu_links', 'ml')
+      ->fields('ml', array('mlid'))
+      ->condition('link_path', 'libraries', '=')
+      ->execute()->fetchField();
+
+    // Add the rule.
+    if ($plid) {
+      menu_position_add_rule(array(
+        'admin_title' => 'Libraries',
+        'conditions'  => $conditions,
+        'menu_name'   => 'main-menu',
+        'plid'        => $plid,
+      ));
+    }
+    else {
+      watchdog('ding_library', 'Unable to create menu position rule for ding library', array(), WATCHDOG_WARNING);
+    }
+  }
+
+  if ($exists && $op == 'delete') {
+    // The rule exists, so we delete it.
+    menu_position_delete_rule($exists);
+  }
+}

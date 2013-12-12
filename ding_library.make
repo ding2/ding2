@@ -69,7 +69,7 @@ projects[og_menu][download][revision] = "4c1d8dd4c18dc25df12f5e7fabd4dde52dd286f
 projects[og_menu][patch][0] = "http://drupal.org/files/issues/option_to_hide_create_menu-2139819-2.patch"
 
 projects[openlayers][subdir] = "contrib"
-projects[openlayers][version] = "2.0-beta5"
+projects[openlayers][version] = "2.0-beta7"
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
