@@ -152,6 +152,18 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
         );
       }
 
+      // Add extra information if it's a periodical. There is an exception because
+      // the notes field is also used to set library information for ill's but
+      // only when they are ready for pick-up.
+      if (!empty($loan->notes) && !($loan->ill_status)) {
+        $item['#information']['periodical_number'] = array(
+          'label' => t('Periodical no.'),
+          'data' => check_plain($loan->notes),
+          'class' => 'periodical-number',
+          '#weight' => -4,
+        );
+      }
+
       // If not renewable set message.
       if (empty($loan->renewable)) {
         $disabled_count++;
