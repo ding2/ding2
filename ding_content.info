@@ -3,7 +3,6 @@ description = Create panels panes for Ding!
 core = 7.x
 package = Ding!
 php = 5.2.4
-version = 7.x-0.15
 project = ding_content
 dependencies[] = comment
 dependencies[] = clone
