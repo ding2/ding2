@@ -121,10 +121,13 @@
     margin-bottom: 10px;
 
     &:before {
-      top: 7px;
       left: 7px;
       font-size: $font-size-medium;
     }
+  }
+
+  .form-checkbox[disabled^="disabled"] {
+    display: none;
   }
 
   /* BUTTONS */
@@ -174,10 +177,6 @@
     &.due {
       background-color: $yellow;
     }
-  }
-
-  .form-checkbox[disabled^="disabled"] {
-    display: none;
   }
 }
 
@@ -347,6 +346,16 @@
 /* User login in header
    ========================================================================== */
 
+.header-wrapper {
+  /* Add padding if the search is in the header */
+  .user {
+    padding-top: 30px;
+    padding-right: 20px;
+    padding-bottom: 30px;
+    padding-left: 20px;
+  }
+}
+
 .user {
   @extend %search-user-header;
   overflow: hidden;
@@ -406,6 +415,10 @@
     .user-field-wrapper {
       position: relative;
     }
+  }
+
+  @include small-medium {
+    width: auto;
   }
 }
 

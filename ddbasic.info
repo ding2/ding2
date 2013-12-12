@@ -4,7 +4,9 @@
   core        = 7.x
   release     = 7.x-1.x
 
+
 ;----------// Stylesheets
+  stylesheets[all][] = css/ddbasic.styles.css
 
   ; Override stylesheets
   stylesheets[all][] = css/system.menus.css
@@ -15,14 +17,18 @@
   stylesheets[all][] = css/jquery.ui.theme.min.css
   stylesheets[all][] = css/jquery.ui.dialog.css
   stylesheets[all][] = css/jquery.ui.dialog.min.css
-  stylesheets[all][] = css/ddbasic.styles.css
+
 
 ;----------// JavaScripts
   scripts[] = scripts/jquery.cookie.js
-  scripts[] = scripts/ddbasic.topbar.menu.js
-  scripts[] = scripts/ddbasic.common.js
   scripts[] = scripts/respond.min.js
   scripts[] = scripts/jquery.scrollto.js
+  scripts[] = scripts/html5shiv.js
+  scripts[] = scripts/equalize.min.js
+  scripts[] = scripts/scalefix.js
+  scripts[] = scripts/selectivizr-min.js
+  scripts[] = scripts/ddbasic.topbar.menu.js
+  scripts[] = scripts/ddbasic.common.js
   scripts[] = scripts/ddbasic.facet.js
   scripts[] = scripts/ddbasic.search.js
 
@@ -40,4 +46,3 @@
   regions[attachment_fourth] = Attachment fourth
   regions[footer]            = Footer
   regions[bottom]            = Bottom
-

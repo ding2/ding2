@@ -118,10 +118,6 @@
     padding-bottom: 30px;
     padding-left: 20px;
   }
-
-  @include large-x-large {
-    display: block!important;
-  }
 }
 
 .navigation-inner {
@@ -327,7 +323,8 @@
 /* Sub menu
    ========================================================================== */
 
-/* The submenu is moved to main menu in responsive design @see ddbasic/scripts/ddbasic.topbar.menu.js */
+/* The sub menu is moved to main menu in responsive design
+   @see ddbasic/scripts/ddbasic.topbar.menu.js */
 .pane-taxonomy-menu,
 .sub-menu-wrapper {
   @include small-medium() {
@@ -503,30 +500,17 @@
   }
 }
 
-/* User topbar menu
+/* User top bar menu
    ========================================================================== */
 
-.header-wrapper .mobile-user-top-menu {
-  @extend .navigation-wrapper;
-  background: $header-background-color;
-  clear: both;
-  padding-left: 30px;
-  float: left;
-  width: 100%;
-  margin-bottom: 20px;
-  margin-left: 0%;
-  margin-right: -100%;
-  padding-right: 10px;
+.header-wrapper .pane-user-menu {
   display: none;
 
   .sub-menu {
     @extend .main-menu;
-  }
 
-  @include large-x-large {
-    display: none!important;
+    ul li {
+      border-left: none;
+    }
   }
 }
-
-
-

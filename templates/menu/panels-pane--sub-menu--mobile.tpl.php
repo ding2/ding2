@@ -15,15 +15,15 @@
  * - $feeds: Any feed icons or associated with the content
  * - $display: The complete panels display object containing all kinds of
  *   data including the contexts and all of the other panes being displayed.
+ * 
+ * Clean out the divs and matched the design.
  */
 ?>
-<div class="secondary-menu-wrapper <?php print $classes; ?>" <?php print $id; ?>>
-  <?php if ($admin_links): ?>
-    <?php print $admin_links; ?>
-  <?php endif; ?>
-
-  <?php if (!empty($title)): ?>
-    <h2 class="nav-title"><?php print $title; ?></h2>
-  <?php endif; ?>
-  <?php print render($content); ?>
-</div>
+<section class="navigation-wrapper <?php print $classes; ?>">
+  <div class="navigation-inner">
+    <?php if ($admin_links): ?>
+      <?php print $admin_links; ?>
+    <?php endif; ?>
+    <?php print render($content); ?>
+  </div>
+</section>

@@ -327,3 +327,20 @@
   right: 0;
   top: 45%;
 }
+
+/* Sub-menu "drop-down" menu in Organic groups
+   ========================================================================== */
+
+.js-og-sub-menu-responsive {
+  background-color: $gray-light;
+  display: none;
+  margin-bottom: $large-spacing;
+  padding: $large-spacing;
+
+
+  @include small-medium() {
+    display: block;
+    padding-top: $medium-spacing;
+    padding-bottom: $medium-spacing;
+  }
+}

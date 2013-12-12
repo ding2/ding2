@@ -54,33 +54,6 @@ function ddbasic_preprocess_html(&$vars) {
  * Process variables for html.tpl.php
  */
 function ddbasic_process_html(&$vars) {
-  $theme_name = 'ddbasic';
-
-  // Build an array of poly-filling scripts.
-  $vars['polyfills_array'] = ddbasic_load_polyfills($theme_name, $vars);
-
-  // This code is copied from Adaptive Theme, at_core/inc/process.inc.
-  // It wraps the required polyfills scripts into a conditional comment.
-  if (!empty($vars['polyfills_array'])) {
-    $vars['polyfills'] = drupal_static('ddbasic_process_html_polyfills');
-    if (empty($vars['polyfills'])) {
-      $polyfills = array();
-      foreach ($vars['polyfills_array'] as $key => $value) {
-        foreach ($value as $k => $v) {
-          $polyfills[$k][] = implode("\n", $v);
-        }
-      }
-      $polyfills_scripts = array();
-      foreach ($polyfills as $kv => $kvp) {
-        $polyfills_scripts[$kv] = implode("\n", $kvp);
-      }
-      $vars['polyfills'] = ddbasic_theme_conditional_scripts($polyfills_scripts);
-    }
-  }
-  else {
-    $vars['polyfills'] = '';
-  }
-
   // Classes for body element. Allows advanced theming based on context
   // (home page, node of certain type, etc.)
   if (!$vars['is_front']) {
@@ -171,6 +144,11 @@ function ddbasic_preprocess_panels_pane(&$vars) {
   // Suggestions on panel pane.
   $vars['theme_hook_suggestions'][] = 'panels_pane__' . $vars['pane']->panel;
 
+  // Suggestion for mobile user menu in the header.
+  if ($vars['pane']->panel == 'header' && $vars['pane']->subtype == 'user_menu') {
+    $vars['theme_hook_suggestions'] = array('panels_pane__sub_menu__mobile');
+  }
+
   // Suggestions on menus panes.
   if ($vars['pane']->subtype == 'og_menu-og_single_menu_block' || $vars['pane']->subtype == 'menu_block-3') {
     $vars['theme_hook_suggestions'][] = 'panels_pane__sub_menu';
@@ -229,7 +207,6 @@ function ddbasic_menu_tree__user_menu($vars) {
  * Overwrite views row classes
  */
 function ddbasic_preprocess_views_view_unformatted(&$vars) {
-
   // Class names for overwriting.
   $row_first = "first";
   $row_last  = "last";
@@ -506,8 +483,6 @@ function ddbasic_preprocess_field(&$vars, $hook) {
       $vars['element']['#formatter'] == 'ding_availability_with_labels') {
     $vars['theme_hook_suggestions'][] = 'field__' . $vars['element']['#field_type'] . '__' . 'search_result';
   }
-
-
 }
 
 /**
@@ -576,7 +551,6 @@ function ddbasic_menu_link($vars) {
  * Add specific markup for top-bar menu exposed as menu_block_4.
  */
 function ddbasic_menu_link__menu_tabs_menu($vars) {
-
   // Run classes array through our custom stripper.
   $vars['element']['#attributes']['class'] = ddbasic_remove_default_link_classes($vars['element']['#attributes']['class']);
 
@@ -696,7 +670,6 @@ function ddbasic_remove_default_link_classes($classes) {
   return $classes;
 }
 
-
 /**
  * Allows us to add script plugins to the theme via theme settings.
  *
@@ -723,7 +696,6 @@ function ddbasic_load_plugins() {
   }
 }
 
-
 /**
  * Implements hook_theme_script().
  *
@@ -744,148 +716,6 @@ function ddbasic_theme_script($filepath) {
 
   return $script;
 }
-
-
-/**
- * Return themed scripts in Conditional Comments.
- *
- * Since Drupal 7 does not (yet) support the 'browser' option in drupal_add_js()
- * Adaptivetheme provides a way to load scripts inside conditional comments.
- * This function will return a string for printing into a template, its
- * akin to a real theme_function but its not.
- *
- * @param array $ie_scripts
- *   An array of themed scripts.
- *
- * @return string
- *   Themed scripts.
- */
-function ddbasic_theme_conditional_scripts($ie_scripts) {
-  $themed_scripts = drupal_static(__FUNCTION__, array());
-  if (empty($themed_scripts)) {
-    $cc_scripts = array();
-
-    foreach ($ie_scripts as $conditional_comment => $conditional_scripts) {
-      $cc_scripts[] = '<!--[if ' . $conditional_comment . ']>' . "\n" . $conditional_scripts . "\n" . '<![endif]-->' . "\n";
-    }
-    $themed_scripts = implode("\n", $cc_scripts);
-  }
-
-  return $themed_scripts;
-}
-
-
-/**
- * Polyfill is used to enable HTML5 on browsers who doesn't natively support it.
- *
- * Polyfill adds the missing functionality by 'filling' in scripts that add the
- * HTML5 functionality the browser doesn't offer.
- *
- * Return an array of filenames (scripts) to include.
- *
- * @param string $theme_name
- *   Name of the theme.
- */
-function ddbasic_load_polyfills($theme_name) {
-  // Get the info file data.
-  $info = ddbasic_get_info($theme_name);
-
-  // Build an array of polyfilling scripts.
-  $polyfills_array = drupal_static('ddbasic_preprocess_html_polyfills_array');
-  if (empty($polyfills_array)) {
-    // Info file loaded conditional scripts.
-    $theme_path = drupal_get_path('theme', $theme_name);
-    if (array_key_exists('ie_scripts', $info)) {
-      foreach ($info['ie_scripts'] as $condition => $ie_scripts_path) {
-        foreach ($ie_scripts_path as $key => $value) {
-          $filepath = $theme_path . '/' . $value;
-          $polyfills_array['info'][$condition][] = ddbasic_theme_script($filepath);
-        }
-      }
-    }
-
-    // Ddbasic Core Polyfills.
-    $theme_path = drupal_get_path('theme', 'ddbasic');
-    $polly = '';
-    $polly_settings_array = array(
-      'load_html5js',
-      'load_selectivizr',
-      // Loaded directly by polly_wants_a_cracker(), its never returned.
-      'load_scalefixjs',
-    );
-    foreach ($polly_settings_array as $polly_setting) {
-      $polly[$polly_setting] = theme_get_setting($polly_setting, $theme_name);
-    }
-    $backed_crackers = ddbasic_polly_wants_a_cracker($polly);
-    foreach ($backed_crackers as $cupboard => $flavors) {
-      foreach ($flavors as $key => $value) {
-        $filepath = $theme_path . '/' . $value;
-        $polyfills_array['ddbasic'][$cupboard][] = ddbasic_theme_script($filepath);
-      }
-    }
-  }
-
-  return $polyfills_array;
-}
-
-
-/**
- * Polyfills.
- *
- * This function does two seperate operations. First it attaches a condition
- * to each Polyfill which can be either an IE conditional comment or 'all'.
- * Polyfills with 'all' are loaded immediatly via drupal_add_js(), those with
- * an IE CC are returned for further processing. This function is hard coded
- * to support only those scripts supplied by the core theme, if you need to load
- * a script for IE use the info file feature.
- *
- * @param array $polly
- *   Array of ?.
- */
-function ddbasic_polly_wants_a_cracker($polly) {
-  $theme_path = drupal_get_path('theme', 'ddbasic');
-
-  $baked_crackers = drupal_static(__FUNCTION__, array());
-  if (empty($baked_crackers)) {
-    if (in_array(1, $polly)) {
-
-      $crackers = array();
-
-      // HTML5 Shiv.
-      if ($polly['load_html5js'] === 1) {
-        $crackers['all'][] = 'scripts/html5shiv.js';
-      }
-      // Selectivizr.
-      if ($polly['load_selectivizr'] === 1) {
-        $crackers['all'][] = 'scripts/selectivizr-min.js';
-      }
-      // Scalefix.js.
-      if ($polly['load_scalefixjs'] === 1) {
-        $crackers['all'][] = 'scripts/scalefix.js';
-      }
-
-      // Load Polyfills.
-      if (!empty($crackers)) {
-        // "all" - no conditional comment needed, use drupal_add_js().
-        if (isset($crackers['all'])) {
-          foreach ($crackers['all'] as $script) {
-            drupal_add_js($theme_path . '/' . $script, array(
-              'type' => 'file',
-              'scope' => 'header',
-              'group' => JS_THEME,
-              'preprocess' => TRUE,
-              'cache' => TRUE,
-              )
-            );
-          }
-        }
-      }
-    }
-  }
-
-  return $baked_crackers;
-}
-
 
 /**
  * Return the info file array for a particular theme, usually the active theme.
@@ -908,7 +738,6 @@ function ddbasic_get_info($theme_name) {
 
   return $info;
 }
-
 
 /**
  * Implements theme_item_list().
@@ -981,5 +810,205 @@ function ddbasic_process_page(&$vars) {
   // Hook into color.module
   if (module_exists('color')) {
     _color_page_alter($vars);
+  }
+}
+
+/**
+ * Implements hook_preprocess_views_view_responsive_grid().
+ *
+ * Adds the correct classes to rows and columns to the ding groups front page
+ * view based on the number of groups promoted to the front page.
+ */
+function ddbasic_preprocess_views_view_responsive_grid(&$vars) {
+  if ($vars['view']->name == 'ding_groups') {
+    // Defined column classes.
+    $columns_classes = array(
+      ' group-blocks--first',
+      ' group-blocks--second',
+      ' group-blocks--third',
+      ' group-blocks--fourth',
+    );
+
+    // Loop over the rows to add the correct classes to the row based on the
+    // number of columns in the row.
+    foreach ($vars['rows'] as $row_number => &$row) {
+      switch (count($row)) {
+        case 1:
+          $vars['row_classes'][$row_number] .= ' group-blocks--one';
+          break;
+
+        case 2:
+          $vars['row_classes'][$row_number] .= ' group-blocks--two';
+          break;
+
+        case 3:
+          $vars['row_classes'][$row_number] .= ' group-blocks--three';
+          break;
+
+        case 4:
+          $vars['row_classes'][$row_number] .= ' group-blocks--four';
+          break;
+      }
+
+      // Reverse columns to make the most important at top (make --one at top).
+      $row = array_reverse($row);
+
+      // Add column classes to the current row.
+      $column_id = 0;
+      foreach ($row as $column_id => $column) {
+        $vars['rows'][$row_number][$column_id]['classes'] .= $columns_classes[$column_id];
+      }
+
+      // Add last class to last column.
+      $vars['rows'][$row_number][$column_id]['classes'] .= ' last';
+    }
+
+    // Reverse rows.
+    $vars['rows'] = array_reverse($vars['rows']);
+    $vars['row_classes'] = array_reverse($vars['row_classes']);
+  }
+}
+
+/**
+ * Implements hook_preprocess_views_view_fields().
+ *
+ * Ensure that the image styles used in responsive images for ding groups are
+ * optimized in relation to the number of promoted groups.
+ */
+function ddbasic_preprocess_views_view_fields(&$vars) {
+  if ($vars['view']->name == 'ding_groups' && $vars['view']->current_display == 'panel_pane_1') {
+    $total = (int) $vars['view']->total_rows;
+    $rows = ceil($total / 4);
+    $current = $vars['id'];
+
+    if ((($rows - 1) * 4) < $current) {
+      // Last row (top row).
+      $count = (($total - 1) % 4) + 1;
+      switch ($count) {
+        case '1';
+          // One image.
+          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#max_style'] = 'ding_panorama_primary_large';
+          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#fallback_style'] = 'ding_panorama_primary_medium';
+          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#breakpoint_styles']['768'] = 'ding_panorama_primary_large';
+          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#breakpoint_styles']['500'] = 'ding_panorama_primary_medium';
+          $vars['fields']['field_ding_group_list_image']->content = drupal_render($vars['row']->field_field_ding_group_list_image[0]['rendered']);
+          break;
+
+        case '2';
+          // Two image.
+          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#max_style'] = 'ding_panorama_primary_medium';
+          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#fallback_style'] = 'ding_panorama_primary_small';
+          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#breakpoint_styles']['768'] = 'ding_panorama_primary_medium';
+          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#breakpoint_styles']['500'] = 'ding_panorama_primary_small';
+          $vars['fields']['field_ding_group_list_image']->content = drupal_render($vars['row']->field_field_ding_group_list_image[0]['rendered']);
+          break;
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_ting_object().
+ *
+ * Adds wrapper classes to the different groups on the ting object.
+ */
+function ddbasic_preprocess_ting_object(&$vars) {
+  if (isset($vars['elements']['#view_mode']) && $vars['elements']['#view_mode'] == 'full') {
+    switch ($vars['elements']['#entity_type']) {
+      case 'ting_object':
+        $content = $vars['content'];
+        $vars['content'] = array();
+
+        if (isset($content['group_ting_object_left_column']) && $content['group_ting_object_left_column']) {
+          $vars['content']['ting-object'] = array(
+            '#prefix' => '<div class="ting-object-wrapper">',
+            '#suffix' => '</div>',
+            'content' => array(
+              '#prefix' => '<div class="ting-object-inner-wrapper">',
+              '#suffix' => '</div>',
+              'left_column' => $content['group_ting_object_left_column'],
+              'right_column' => $content['group_ting_object_right_column'],
+            ),
+          );
+
+          unset($content['group_ting_object_left_column']);
+          unset($content['group_ting_object_right_column']);
+        }
+
+        if (isset($content['group_material_details']) && $content['group_material_details']) {
+          $vars['content']['material-details'] = array(
+            '#prefix' => '<div class="ting-object-wrapper">',
+            '#suffix' => '</div>',
+            'content' => array(
+              '#prefix' => '<div class="ting-object-inner-wrapper">',
+              '#suffix' => '</div>',
+              'details' => $content['group_material_details'],
+            ),
+          );
+          unset($content['group_material_details']);
+        }
+
+        if (isset($content['group_holdings_available']) && $content['group_holdings_available']) {
+          $vars['content']['holdings-available'] = array(
+            '#prefix' => '<div class="ting-object-wrapper">',
+            '#suffix' => '</div>',
+            'content' => array(
+              '#prefix' => '<div class="ting-object-inner-wrapper">',
+              '#suffix' => '</div>',
+              'details' => $content['group_holdings_available'],
+            ),
+          );
+          unset($content['group_holdings_available']);
+        }
+
+        if (isset($content['group_periodical_issues']) && $content['group_periodical_issues']) {
+          $vars['content']['periodical-issues'] = array(
+            '#prefix' => '<div class="ting-object-wrapper">',
+            '#suffix' => '</div>',
+            'content' => array(
+              '#prefix' => '<div class="ting-object-inner-wrapper">',
+              '#suffix' => '</div>',
+              'details' => $content['group_periodical_issues'],
+            ),
+          );
+          unset($content['group_periodical_issues']);
+        }
+
+        if (isset($content['group_on_this_site']) && $content['group_on_this_site']) {
+          $vars['content']['on_this_site'] = array(
+            '#prefix' => '<div class="ting-object-wrapper">',
+            '#suffix' => '</div>',
+            'content' => array(
+              '#prefix' => '<div id="ting_reference" class="ting-object-inner-wrapper">',
+              '#suffix' => '</div>',
+              'details' => $content['group_on_this_site'],
+            ),
+          );
+          unset($content['group_on_this_site']);
+        }
+
+        if (isset($content['ting_relations']) && $content['ting_relations']) {
+          $vars['content']['ting-relations'] = array(
+            'content' => array(
+              'details' => $content['ting_relations'],
+            ),
+          );
+          unset($content['ting_relations']);
+        }
+
+        // Move the reset over if any have been defined in the UI.
+        if (!empty($content)) {
+          $vars['content'] += $content;
+        }
+        break;
+
+      case 'ting_collection':
+        // Assumes that field only has one value.
+        foreach ($vars['content']['ting_entities'][0] as &$type) {
+          $type['#prefix'] = '<div class="ting-collection-wrapper"><div class="ting-collection-inner-wrapper">' . $type['#prefix'];
+          $type['#suffix'] = '</div></div>';
+        }
+        break;
+    }
   }
 }

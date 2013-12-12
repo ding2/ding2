@@ -17,7 +17,6 @@
  *   data including the contexts and all of the other panes being displayed.
  * 
  * Changed: Add t() function to pane title.
- * 
  */
 ?>
 <?php if ($pane_prefix): ?>
@@ -29,7 +28,7 @@
   <?php endif; ?>
 
   <?php print render($title_prefix); ?>
-  <?php if ($title): ?>
+  <?php if (!empty($title)): ?>
     <h2<?php print $title_attributes; ?>><?php print t($title); ?></h2>
   <?php endif; ?>
   <?php print render($title_suffix); ?>
