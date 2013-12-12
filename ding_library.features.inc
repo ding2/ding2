@@ -41,7 +41,7 @@ function ding_library_node_info() {
     'ding_library' => array(
       'name' => t('Library'),
       'base' => 'node_content',
-      'description' => '',
+      'description' => t('Add a new library to the site.'),
       'has_title' => '1',
       'title_label' => t('Navn'),
       'help' => '',
