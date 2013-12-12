@@ -4,6 +4,8 @@
  * Enables listing the newest materials .
  */
 
+include_once 'ting_new_materials.features.inc';
+
 /**
  * Implements hook_ctools_plugin_directory().
  *
@@ -22,7 +24,12 @@ function ting_new_materials_ctools_plugin_directory($module, $plugin) {
 function ting_new_materials_theme($existing, $type, $theme, $path) {
   return array(
     'ting_new_materials' => array(
-      'variables' => array('title' => NULL, 'legend' => NULL, 'availability_legend' => NULL, 'results' => NULL),
+      'variables' => array(
+        'title' => NULL,
+        'legend' => NULL,
+        'availability_legend' => NULL,
+        'results' => NULL,
+      ),
       'template'  => 'ting-new-materials',
       'path' => $path . '/templates',
     ),
@@ -118,7 +125,7 @@ function ting_new_materials_make_limit_query($limit = 0) {
     $date = new DateTime();
     $query = ' AND sort.acquisitionDate=(' . $date->format('Ym') . '*';
     for ($i = 1; $i <= $limit; $i++) {
-      $date->sub(date_interval_create_from_date_string('1 month'));
+      $date->sub(DateInterval::createFromDateString('1 month'));
       $query .= ' OR ' . $date->format('Ym') . '*';
     }
     $query .= ')';
@@ -161,5 +168,3 @@ function ting_new_materials_do_search($query, $page = 0, $num_per_page = 10) {
 
   return $search_result;
 }
-
-include_once 'ting_new_materials.features.inc';
