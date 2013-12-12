@@ -42,8 +42,6 @@ function ding_facetbrowser_menu() {
 
 /**
  * Implements hook_theme().
- *
- * @return array
  */
 function ding_facetbrowser_theme() {
   return array(
@@ -94,7 +92,6 @@ function ding_facetbrowser_ctools_plugin_api($module, $api) {
 function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = FALSE) {
   global $base_root;
 
-  $checkboxes = array();
   $default_values = array();
   $selected = array();
   $not_selected = array();
@@ -104,7 +101,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
     '#value' => $search,
   );
 
-  // Building the facets fieldsets.
+  // Building the facets field sets.
   $i = 0;
   $facet_show_count = variable_get('ding_facetbrowser_showcount');
   foreach (variable_get('ding_facetbrowser_facets', array()) as $configured_facet) {
@@ -156,20 +153,21 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
           $facets_string = $facet->name . ':' . $term_name;
           $term_name_title = $term_name;
           // Check if term name is longer than 14 chars,
-          // if so, short it down to fit facetbrowser
+          // if so, short it down to fit facet browser.
           $substr_length = 19
             + substr_count(drupal_substr($term_name, 0, 20), 'l')
-            + drupal_strtolower(substr_count(drupal_substr($term_name, 0, 20), 'i'))
+            + substr_count(drupal_substr($term_name, 0, 20), 'i')
             - drupal_strlen((string)$term_count);
           if (drupal_strlen($term_name) > $substr_length + 3) {
             $term_name_title = drupal_substr($term_name, 0, $substr_length) . '...';
           }
 
-          if (_isFacetSet($facet->name, $term_name) === TRUE) {
+          if (_ding_factbrowser__isFacetSet($facet->name, $term_name) === TRUE) {
             $default_values[] = $term_name;
             $facets_string = '-' . $facets_string;
 
-            $selected[$term_name] = l($term_name_title . ' <span class="count">(' . $term_count . ')</span>',  $base_root . _parseRequestUri(), array(
+            $uri = $base_root . _ding_factbrowser_parseRequestUri();
+            $selected[$term_name] = l($term_name_title . ' <span class="count">(' . $term_count . ')</span>', $uri, array(
               'html' => TRUE,
               'query' => array(
                 'facets' => array('' => $facets_string),
@@ -180,7 +178,8 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
             ));
           }
           else {
-            $not_selected[$term_name] = l($term_name_title . ' <span class="count">(' . $term_count . ')</span>',  $base_root . _parseRequestUri(), array(
+            $uri = $base_root . _ding_factbrowser_parseRequestUri();
+            $not_selected[$term_name] = l($term_name_title . ' <span class="count">(' . $term_count . ')</span>', $uri, array(
               'html' => TRUE,
               'query' => array(
                 'facets' => array('' => $facets_string),
@@ -198,11 +197,11 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
           );
         }
       }
-      $i++; // Loop is done so time to up that counter.
+      // Loop is done so time to up that counter.
+      $i++;
     }
 
     // Reset previous set variables.
-    $checkboxes = array();
     $default_values = array();
     $selected = array();
     $not_selected = array();
@@ -219,7 +218,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
  * @return Boolean
  */
 
-function _isFacetSet($term_cat, $term_name) {
+function _ding_factbrowser__isFacetSet($term_cat, $term_name) {
   $facets = &drupal_static('ding_facetbrowser_facets');
   if (!isset($facets)) {
     $request_uri_parts = explode('?', request_uri());
@@ -239,7 +238,7 @@ function _isFacetSet($term_cat, $term_name) {
  *
  * @return String
  */
-function _parseRequestUri() {
+function _ding_factbrowser_parseRequestUri() {
   $new_query_part = array();
   if (stristr(request_uri(), '?')) {
     $request_uri_parts = explode('?', request_uri());
@@ -269,7 +268,7 @@ function _parseRequestUri() {
  *
  * @return string
  */
-function _facetString($form_state = NULL) {
+function _ding_factbrowser_facetString($form_state = NULL) {
   $facets = array();
   if (!empty($form_state['values']) && is_array($form_state['values'])) {
     foreach ($form_state['values'] as $name => $data) {
@@ -286,12 +285,11 @@ function _facetString($form_state = NULL) {
 }
 
 /**
- * Facetbrowser theming function.
+ * Implements theme_facetbrowser().
  *
- * @param array $all_facets
- * @return string
+ * Default theme function for the facet browser.
  */
-function theme_facetbrowser($search_result = FALSE) {
+function theme_facetbrowser($search_result = array()) {
   $all_facets = array_shift($search_result);
   $searchkey = array_shift($search_result);
   $elements = array();
@@ -304,8 +302,6 @@ function theme_facetbrowser($search_result = FALSE) {
 
 /**
  * Implements hook_block_view().
- *
- * @return Array
  */
 function ding_facetbrowser_block_view($delta = FALSE) {
   $block = array();
@@ -314,17 +310,17 @@ function ding_facetbrowser_block_view($delta = FALSE) {
   $executed_search_module = FALSE;
 
   drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/jquery.cookie.min.js');
-  drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/facetbrowser.js');
+  drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/ding_facetbrowser.js');
 
-  // @todo: Get the facetbrowser dom id automatic.
+  // @todo: Get the facet browser dom id automatic.
   drupal_add_js(array(
-    'dingFacetBrowser' => array(
-    'facetElement' => '.js-facet-browser-toggle',
-    'showCount' => variable_get('ding_facetbrowser_number_of_terms', 5)),
+    'ding_facetbrowser' => array(
+      'selector' => '.js-facet-browser-toggle',
+      'number_of_terms' => variable_get('ding_facetbrowser_number_of_terms', 5)),
   ), 'setting');
 
 
-  // Invoke ding_facetbrowser() from executed search module
+  // Invoke ding_facetbrowser() from executed search module.
   $executed_search = menu_get_item();
   if (!empty($executed_search['page_arguments'])) {
     list($executed_search_module, ) = $executed_search['page_arguments'];
@@ -348,7 +344,7 @@ function ding_facetbrowser_block_view($delta = FALSE) {
         $block['subject'] = t('Facet browser');
         $block['content'] = $block_content;
         break;
-      }
+    }
   }
 
   return $block;
