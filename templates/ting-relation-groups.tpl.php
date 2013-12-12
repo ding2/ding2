@@ -25,15 +25,10 @@
  * @ingroup themeable
  */
 ?>
-<div class="pane-search-result">
-  <div class="search-results"<?php print $attributes; ?>>
-    <?php if (!$label_hidden): ?>
-      <div class="field-label"<?php print $title_attributes; ?>><?php print $title ?>:</div>
-    <?php endif; ?>
-    <ul class="list"<?php print $content_attributes; ?>>
-      <?php foreach ($groups as $ns => $relations): ?>
-        <li class="list-item"><?php print render($relations); ?></li>
-      <?php endforeach; ?>
-    </ul>
+<?php foreach ($groups as $ns => $relations): ?>
+  <div id="<?php print $ns ?>" class="ting-object-wrapper"<?php print $attributes; ?>>
+    <div class="ting-object-inner-wrapper">
+      <?php print render($relations); ?>
+    </div>
   </div>
-</div>
+<?php endforeach; ?>

@@ -31,3 +31,13 @@ function template_preprocess_ting_relations(&$variables) {
   $variables['attributes_array'] += $variables['attributes'];
   $variables['attributes'] = drupal_attributes($variables['attributes']);
 }
+
+/**
+ * Implements hook_preprocess_ting_relation().
+ *
+ * Ensures that attributes are formatted correctly.
+ */
+function template_preprocess_ting_relation(&$variables) {
+  $variables['attributes_array'] += $variables['attributes'];
+  $variables['attributes'] = drupal_attributes($variables['attributes']);
+}

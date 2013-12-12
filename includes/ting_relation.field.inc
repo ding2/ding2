@@ -69,7 +69,7 @@ function ting_relation_field_formatter_view($entity_type, $entity, $field, $inst
   $groups = array();
   $relation_types = ting_relation_inline();
   $entity->getRelations();
-  foreach ($entity->relations as $relation) {
+  foreach ($entity->relations as $rid => $relation) {
     if (isset($relation_types[$relation->type])) {
       // The isPartOfManifestion relation has all relation to other libraries
       // copies of the relation, so we filter the ones that do not belong to
@@ -103,8 +103,18 @@ function ting_relation_field_formatter_view($entity_type, $entity, $field, $inst
         '#abstract' => ting_relation_get_abstract($relation),
         '#online' => ting_relation_get_online_url($relation),
         '#relation' => $relation,
+        '#attributes' => array(
+          'class' => array(
+            'ting-object-related-item',
+          ),
+        ),
       );
     }
+  }
+
+  // Add "last" class to last relation in group.
+  foreach ($groups as &$group) {
+    $group['#relations'][count($group['#relations']) - 1]['#attributes']['class'][] = 'last';
   }
 
   // Wrap the whole render array into array with an element render theme
@@ -199,14 +209,22 @@ function ting_relation_get_online_url($relation) {
     case 'dbcaddi:hasReview':
     case 'dbcaddi:hasSubjectDescription':
     case 'dbcaddi:hasCreatorDescription':
-      $title = $relation->object->getAc_source();
-      $url = $relation->object->getOnline_url();
-      $url = empty($url) ? FALSE : $url;
+      // Reservable sources is library material.
+      $reservable_sources = variable_get('ting_reservable_sources', _ting_default_reservable_sources());
+      if (in_array(strtolower($relation->object->getAc_source()), $reservable_sources)) {
+        $title = t('Read more about the material');
+        $url = '/ting/object/' . $relation->object->id;
+      }
+      else {
+        $title = t('Read more at') . ' ' . $relation->object->getAc_source();
+        $url = $relation->object->getOnline_url();
+        $url = empty($url) ? FALSE : $url;
 
-      // Try to make a better link text.
-      $is_part_of = $relation->object->getIsPartOf();
-      if (!empty($is_part_of)) {
-        $title = reset($is_part_of);
+        // Try to make a better link text.
+        $is_part_of = $relation->object->getIsPartOf();
+        if (!empty($is_part_of)) {
+          $title = reset($is_part_of);
+        }
       }
       break;
 
