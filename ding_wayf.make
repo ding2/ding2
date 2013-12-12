@@ -18,4 +18,4 @@ projects[ding_base][download][url] = "git@github.com:ding2tal/ding_base.git"
 projects[ding_base][download][tag] = "7.x-1.0-beta3"
 
 projects[securepages][subdir] = "contrib"
-projects[securepages][version] = "1.0-beta2
+projects[securepages][version] = "1.0-beta2"
