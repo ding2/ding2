@@ -47,6 +47,7 @@ function ding_tabroll_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_tabroll_large',
   );
 
   // Exported image style: ding_tabroll_medium.
@@ -69,6 +70,7 @@ function ding_tabroll_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_tabroll_medium',
   );
 
   // Exported image style: ding_tabroll_small.
@@ -91,6 +93,7 @@ function ding_tabroll_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_tabroll_small',
   );
 
   return $styles;

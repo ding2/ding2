@@ -32,11 +32,3 @@ projects[views][version] = "3.7"
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
-
-projects[smartqueue_nodetypes][type] = "module"
-projects[smartqueue_nodetypes][subdir] = "contrib"
-projects[smartqueue_nodetypes][download][type] = "git"
-projects[smartqueue_nodetypes][download][url] = "http://git.drupal.org/project/smartqueue_nodetypes.git"
-projects[smartqueue_nodetypes][download][branch] = "6.x-1.x"
-projects[smartqueue_nodetypes][patch][0] = "http://drupal.org/files/smartqueue_nodetypes-drupal7-1381540-14.patch"
-

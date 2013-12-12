@@ -21,7 +21,7 @@ function ding_tabroll_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_default_mode_ding_rolltab';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['comment_default_mode_ding_rolltab'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -35,28 +35,28 @@ function ding_tabroll_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_ding_rolltab';
-  $strongarm->value = '2';
+  $strongarm->value = '1';
   $export['comment_ding_rolltab'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_form_location_ding_rolltab';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['comment_form_location_ding_rolltab'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_preview_ding_rolltab';
-  $strongarm->value = '1';
+  $strongarm->value = '0';
   $export['comment_preview_ding_rolltab'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_subject_field_ding_rolltab';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['comment_subject_field_ding_rolltab'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -88,7 +88,14 @@ function ding_tabroll_strongarm() {
       ),
     ),
     'extra_fields' => array(
-      'form' => array(),
+      'form' => array(
+        'title' => array(
+          'weight' => '-5',
+        ),
+        'path' => array(
+          'weight' => '30',
+        ),
+      ),
       'display' => array(),
     ),
   );
@@ -105,9 +112,7 @@ function ding_tabroll_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'menu_options_ding_rolltab';
-  $strongarm->value = array(
-    0 => 'main-menu',
-  );
+  $strongarm->value = array();
   $export['menu_options_ding_rolltab'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -123,7 +128,6 @@ function ding_tabroll_strongarm() {
   $strongarm->name = 'node_options_ding_rolltab';
   $strongarm->value = array(
     0 => 'status',
-    1 => 'promote',
   );
   $export['node_options_ding_rolltab'] = $strongarm;
 
@@ -131,14 +135,14 @@ function ding_tabroll_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_preview_ding_rolltab';
-  $strongarm->value = '1';
+  $strongarm->value = '0';
   $export['node_preview_ding_rolltab'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_submitted_ding_rolltab';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['node_submitted_ding_rolltab'] = $strongarm;
 
   return $export;
