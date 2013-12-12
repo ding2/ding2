@@ -117,6 +117,7 @@ libraries[profiler][patch][0] = "http://drupal.org/files/profiler-reverse.patch"
 ; Contrib modules
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = "1.1"
+projects[entitycache][patch][0] = "http://drupal.org/files/issues/2146543-ensure-entity-inserts-clears-caches.1.patch"
 
 projects[fontyourface][subdir] = "contrib"
 projects[fontyourface][version] = "2.7"

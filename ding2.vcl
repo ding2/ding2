@@ -20,6 +20,11 @@ sub vcl_recv {
     return (pass);
   }
 
+  # Ensure that ding_wayf and SimpleSAMLphp is not cached.
+  if (req.url ~ "^/simplesaml" || req.url ~ "^/wayf") {
+    return (pipe);
+  }
+
   # We'll always restart once. Therefore, when restarts == 0 we can ensure
   # that the HTTP headers haven't been tampered with by the client.
   if (req.restarts == 0) {
