@@ -31,11 +31,6 @@ function ting_fulltext_type_render($subtype, $conf, $panel_args, $context) {
     $block->content = array(
       '#theme' => 'ting_fulltext',
       '#fields' => ting_fulltext_parse($panel_args[1][0]),
-      '#attached' => array(
-        'css' => array(
-          $path . '/css/ting_fulltext.css',
-        ),
-      ),
     );
   }
 
