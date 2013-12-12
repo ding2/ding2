@@ -3,7 +3,6 @@ description = Defines a reference field for relating content to Ting objects.
 core = 7.x
 package = Ding!
 php = 5.2.4
-version = 7.x-0.18
 project = ting_reference
 dependencies[] = ctools
 dependencies[] = ding_entity
