@@ -6,6 +6,18 @@
 
 include_once 'ding_user_frontend.features.inc';
 
+/**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * It simply tells panels where to find the .inc files that define various
+ * args, contexts, content_types. In this case the subdirectories of
+ * ctools_plugin_example/panels are used.
+ */
+function ding_user_frontend_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
 
 /**
  * Implements hook_menu_alter().
@@ -38,11 +50,6 @@ function ding_user_frontend_block_info() {
   $blocks['ding-user-ajax-login'] = array(
     'info' => t('Ding ajax login button'),
     'cache' => DRUPAL_NO_CACHE,
-  );
-
-  $blocks['ding-user-menu'] = array(
-    'info' => t('Ding user menu'),
-    'cache' => DRUPAL_CACHE_PER_USER,
   );
 
   return $blocks;
@@ -118,7 +125,7 @@ function ding_user_frontend_block_view($delta) {
       }
 
       // Get reservations ready for pick-up.
-      $count = count(ding_provider_invoke_page('reservation', 'list', $user, 'ready_for_pickup'));
+      $count = count(ding_provider_invoke_page('reservation', 'list', $user, DING_RESERVATION_READY));
       if ($count) {
         $content[] = array(
           '#theme' => 'ding_user_frontend_user_status',
@@ -180,11 +187,6 @@ function ding_user_frontend_block_view($delta) {
 
       $block['content'] = $render_array;
       break;
-
-    case 'ding-user-menu':
-      $block['subject'] = t('My account');
-      $block['content'] = ding_user_frontend_build_menu();
-      break;
   }
 
   return $block;
@@ -193,104 +195,119 @@ function ding_user_frontend_block_view($delta) {
 /**
  * Finds all local tasks (tabs) under /user/% and builds a menu based on that.
  *
+ * @param mixed $path
+ *   Path that should be used to generate the menu. Defaults using current menu
+ *   path.
+ *
  * @return array
  *   Render array with the menu.
  */
-function ding_user_frontend_build_menu() {
-  // Default menu item render array.
-  $menu_item_defaults = array(
-    '#theme' => 'menu_link',
-    '#below' => array(),
-    '#localized_options' => array(
-      'attributes' => array(
+function ding_user_frontend_build_menu($path = NULL) {
+  // User static cache as this menu is inserted more than once in ddbasic
+  // (mobile menu thing).
+  $menu = &drupal_static(__FUNCTION__);
+  if (!isset($menu)) {
+
+    // Default menu item render array.
+    $menu_item_defaults = array(
+      '#theme' => 'menu_link',
+      '#below' => array(),
+      '#localized_options' => array(
+        'attributes' => array(
+          'class' => array(),
+        ),
+      ),
+      '#attributes' => array(
         'class' => array(),
       ),
-    ),
-    '#attributes' => array(
-      'class' => array(),
-    ),
-    '#title' => '',
-    '#href' => '',
-    '#active' => FALSE,
-    '#weight' => 0,
-  );
+      '#title' => '',
+      '#href' => '',
+      '#active' => FALSE,
+      '#weight' => 0,
+    );
 
-  // Get menu path to user profile.
-  global $user;
-  $router_item = menu_get_item('user/' . $user->uid);
+    // Get menu path to user profile.
+    $router_item = menu_get_item($path);
 
-  // Get all tabs (also known as local tasks) and the root page.
-  $result = db_select('menu_router', NULL, array('fetch' => PDO::FETCH_ASSOC))
-    ->fields('menu_router')
-    ->condition('tab_root', $router_item['tab_root'])
-    ->condition('context', MENU_CONTEXT_INLINE, '<>')
-    ->orderBy('weight')
-    ->orderBy('title')
-    ->execute();
-  $map = $router_item['original_map'];
-  $children = array();
-  $tasks = array();
 
-  // Process menu items and add access state.
-  foreach ($result as $item) {
-    _menu_translate($item, $map, TRUE);
-    if ($item['access']) {
-      if ($item['tab_parent']) {
-        // All tabs, but not the root page.
-        $children[$item['tab_parent']][$item['path']] = $item;
-      }
-      // Store the translated item for later use.
-      $tasks[$item['path']] = $item;
-    }
-  }
+    // Get all tabs (also known as local tasks) and the root page.
+    $result = db_select('menu_router', NULL, array('fetch' => PDO::FETCH_ASSOC))
+      ->fields('menu_router')
+      ->condition('tab_root', $router_item['tab_root'])
+      ->condition('context', MENU_CONTEXT_INLINE, '<>')
+      ->orderBy('weight')
+      ->orderBy('title')
+      ->execute();
+    $map = $router_item['original_map'];
+    $children = array();
+    $tasks = array();
 
-  // Default menu wrapper.
-  $menu = array(
-    '#theme_wrappers' => array(
-      'theme_hook_suggestion' => 'menu_tree__ding_user_frontend__ding_user_menu',
-    ),
-  );
-
-  // Build menu (render array).
-  if (isset($children[$router_item['tab_root']])) {
-    foreach ($children[$router_item['tab_root']] as $item) {
-      $current = array();
-      // Check access.
+    // Process menu items and add access state.
+    foreach ($result as $item) {
+      _menu_translate($item, $map, TRUE);
       if ($item['access']) {
-        $item = $tasks[$item['path']];
-        if ($item['tab_parent'] == $router_item['tab_root']) {
-          $current += $menu_item_defaults;
-          $current['#title'] = $item['title'];
-          $current['#href'] = $item['href'];
-          $current['#weight'] = $item['weight'];
+        if ($item['tab_parent']) {
+          // All tabs, but not the root page.
+          $children[$item['tab_parent']][$item['path']] = $item;
         }
+        // Store the translated item for later use.
+        $tasks[$item['path']] = $item;
+      }
+    }
 
-        // Check if this is secondary.
-        if (isset($children[$item['path']]) && count($children[$item['path']]) > 1) {
-          // Check that the sub-menu should be display, based on the path.
-          $pos = stripos($router_item['href'], $item['href']);
-          if ($pos !== FALSE && !$pos) {
-            $current['#below'] = array(
-              '#theme_wrappers' => array(
-                'theme_hook_suggestion' => 'menu_tree__ding_user_frontend__ding_user_menu',
-              ),
-            );
+    // Default menu wrapper.
+    $menu = array(
+      '#theme_wrappers' => array(
+        'theme_hook_suggestions' => array(
+          'menu_tree__sub_menu',
+        ),
+      ),
+    );
 
-            // Build sub-menu items.
-            $items = $children[$item['path']];
-            foreach ($items as $item) {
-              $below = array() + $menu_item_defaults;
-              $below['#title'] = $item['title'];
-              $below['#href'] = $item['href'];
-              $current['#below'][] = $below;
+    // Build menu (render array).
+    if (isset($children[$router_item['tab_root']])) {
+      foreach ($children[$router_item['tab_root']] as $item) {
+        $current = array();
+        // Check access.
+        if ($item['access']) {
+          $item = $tasks[$item['path']];
+          if ($item['tab_parent'] == $router_item['tab_root']) {
+            $current += $menu_item_defaults;
+            $current['#title'] = $item['title'];
+            $current['#href'] = $item['href'];
+            $current['#weight'] = $item['weight'];
+          }
+
+          // Check if this is secondary.
+          if (isset($children[$item['path']]) && count($children[$item['path']]) > 1) {
+            // Check that the sub-menu should be display, based on the path.
+            $pos = stripos($router_item['href'], $item['href']);
+            if ($pos !== FALSE && !$pos) {
+              $current['#below'] = array(
+                '#theme_wrappers' => array(
+                  'theme_hook_suggestions' => array(
+                    'menu_tree__sub_menu',
+                  ),
+                ),
+              );
+
+              // Build sub-menu items.
+              $items = $children[$item['path']];
+              foreach ($items as $item) {
+                $below = array() + $menu_item_defaults;
+                $below['#title'] = $item['title'];
+                $below['#href'] = $item['href'];
+                $current['#below'][] = $below;
+              }
             }
           }
-        }
 
-        // Add current item and sub-menu to the menu.
-        $menu[] = $current;
+          // Add current item and sub-menu to the menu.
+          $menu[] = $current;
+        }
       }
     }
   }
+
   return $menu;
 }

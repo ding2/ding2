@@ -168,11 +168,12 @@ function ding_user_frontend_default_page_manager_handlers() {
     $pane = new stdClass();
     $pane->pid = 'new-2';
     $pane->panel = 'left_sidebar';
-    $pane->type = 'block';
-    $pane->subtype = 'ding_user_frontend-ding-user-menu';
+    $pane->type = 'user_menu';
+    $pane->subtype = 'user_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
+      'context' => 'argument_user_edit_1',
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -345,11 +346,12 @@ function ding_user_frontend_default_page_manager_handlers() {
     $pane = new stdClass();
     $pane->pid = 'new-5';
     $pane->panel = 'left_sidebar';
-    $pane->type = 'block';
-    $pane->subtype = 'ding_user_frontend-ding-user-menu';
+    $pane->type = 'user_menu';
+    $pane->subtype = 'user_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
+      'context' => 'argument_entity_id:user_1',
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -515,11 +517,12 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-1';
     $pane->panel = 'left_sidebar';
-    $pane->type = 'block';
-    $pane->subtype = 'ding_user_frontend-ding-user-menu';
+    $pane->type = 'user_menu';
+    $pane->subtype = 'user_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
+      'context' => 'argument_entity_id:user_1',
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -671,11 +674,12 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-3';
     $pane->panel = 'left_sidebar';
-    $pane->type = 'block';
-    $pane->subtype = 'ding_user_frontend-ding-user-menu';
+    $pane->type = 'user_menu';
+    $pane->subtype = 'user_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
+      'context' => 'argument_entity_id:user_1',
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -869,11 +873,12 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-7';
     $pane->panel = 'left_sidebar';
-    $pane->type = 'block';
-    $pane->subtype = 'ding_user_frontend-ding-user-menu';
+    $pane->type = 'user_menu';
+    $pane->subtype = 'user_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
+      'context' => 'argument_entity_id:user_1',
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -1025,11 +1030,12 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-9';
     $pane->panel = 'left_sidebar';
-    $pane->type = 'block';
-    $pane->subtype = 'ding_user_frontend-ding-user-menu';
+    $pane->type = 'user_menu';
+    $pane->subtype = 'user_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
+      'context' => 'argument_entity_id:user_1',
       'override_title' => 0,
       'override_title_text' => '',
     );

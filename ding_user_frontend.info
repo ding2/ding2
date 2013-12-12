@@ -3,7 +3,6 @@ description = Configuration and panels for user profile and blocks
 core = 7.x
 package = Ding!
 php = 5.2.4
-version = 7.x-0.27
 project = ding_user_frontend
 dependencies[] = ctools
 dependencies[] = date
