@@ -1,7 +1,77 @@
 <?php
 /**
  * @file
- * Code for the Ding frontpage feature.
+ * Code for the Ding front page feature.
  */
 
-include_once('ding_frontpage.features.inc');
+include_once 'ding_frontpage.features.inc';
+
+/**
+ * Implements hook_permission().
+ */
+function ding_frontpage_permission() {
+  return array(
+    'administer frontpage settings' => array(
+      'title' => t('Administer front page settings'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_frontpage_menu() {
+  $items = array();
+
+  $items['admin/config/ding/frontend'] = array(
+    'title' => 'Ding front page',
+    'description' => 'Define content on the front page.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_frontpage_admin_settings'),
+    'access arguments' => array('administer frontpage settings'),
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ding_frontpage_ctools_plugin_directory($owner, $plugin_type) {
+  return 'plugins/' . $plugin_type;
+}
+
+/**
+ * Menu callback for the administration form.
+ */
+function ding_frontpage_admin_settings() {
+  $form = array();
+
+  $form['ding_frontpage'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Front page configuration'),
+  );
+
+  $form['ding_frontpage']['ding_frontpage_promoter'] = array(
+    '#type' => 'radios',
+    '#title' => t('Promoter'),
+    '#description' => t('Select the type of content promoter that should be displayed on the sites front page.'),
+    '#options' => ding_frontpage_promotors(),
+    '#default_value' => variable_get('ding_frontpage_promoter', 'ting_search_carousel'),
+  );
+
+  return system_settings_form($form);
+}
+
+/**
+ * Defines the different types of promoters available.
+ *
+ * @return array
+ *   Indexed by promoter module name.
+ */
+function ding_frontpage_promotors() {
+  return array(
+    'ting_search_carousel' => t('Ting search carousel'),
+    'ding_tabroll' => t('Ding tab-roll'),
+  );
+}
