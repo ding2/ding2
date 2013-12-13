@@ -61,7 +61,7 @@ projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][version] = "2.0-rc3"
 
 projects[node_clone][subdir] = "contrib"
-projects[node_clone][version] = "1.0-rc1"
+projects[node_clone][version] = "1.0-rc2"
 
 ; Libraries
 libraries[ckeditor][download][type] = "get"
