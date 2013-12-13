@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Syndication logic here.
@@ -10,9 +9,6 @@
  *
  * This includes search form, filtering and found content.
  *
- * @return array
- *   Form structure.
- *
  * @ingroup forms
  */
 function bpi_syndicate_page_form($form, &$form_state) {
@@ -22,10 +18,17 @@ function bpi_syndicate_page_form($form, &$form_state) {
 
   $form['bpi_actions'] = array(
     '#type' => 'item',
-    '#markup' => implode('', array(
-      l(t('Settings'), 'admin/config/bpi'),
-      l(t('Statistics'), 'admin/bpi/statistics/nojs', array('attributes' => array('class' => array('use-ajax')))),
-    )),
+    '#markup' => implode(
+      '',
+      array(
+        l(t('Settings'), 'admin/config/bpi'),
+        l(
+          t('Statistics'),
+          'admin/bpi/statistics/nojs',
+          array('attributes' => array('class' => array('use-ajax')))
+        ),
+      )
+    ),
     '#prefix' => '<div class="bpi-admin-actions">',
     '#suffix' => '</div>',
   );
@@ -54,10 +57,9 @@ function bpi_syndicate_page_form($form, &$form_state) {
   );
 
   $items = bpi_search_get_items();
-  $markup = bpi_search_get_markup($items);
   $form['bpi_search_results'] = array(
     '#type' => 'item',
-    '#markup' => $markup,
+    '#markup' => theme('bpi_search_results', array('items' => $items)),
   );
 
   pager_default_initialize(
@@ -72,10 +74,19 @@ function bpi_syndicate_page_form($form, &$form_state) {
     '#markup' => $pager,
   );
 
-  $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-pages.styles.css';
+  $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-admin.styles.css';
   $form['#submit'][] = 'bpi_syndicate_page_form_submit';
 
   return $form;
+}
+
+/**
+ * Syndication page form validator.
+ */
+function bpi_syndicate_page_form_validate($form, &$form_state) {
+  if (empty($form_state['values']['bpi_search_query'])) {
+    form_set_error('bpi_search_query', t('Enter some keywords.'));
+  }
 }
 
 /**
@@ -91,22 +102,13 @@ function bpi_syndicate_page_form($form, &$form_state) {
  * @ingroup forms
  */
 function bpi_syndicate_page_form_submit($form, &$form_state) {
-  $query = $form_state['values']['bpi_search_query'];
-  $query_parameters = array();
+  $query_parameters = array(
+    'query' => array(
+      BPI_SEARCH_PHRASE_KEY => $form_state['values']['bpi_search_query'],
+    ),
+  );
 
-  if (!empty($query)) {
-    $query_parameters = array(
-      'query' => array(
-        BPI_SEARCH_PHRASE_KEY => $query
-      )
-    );
-  }
-  else {
-    // TODO Consider moving this to bpi_syndicate_page_form_validate().
-    drupal_set_message(t('Enter some keywords.'), 'error');
-  }
-
-  // TODO Why this loop instead of setting $form['#method'] = 'get'?
+  // Redirect to search results.
   drupal_goto('admin/bpi', $query_parameters);
 }
 
@@ -119,6 +121,11 @@ function bpi_syndicate_page_form_submit($form, &$form_state) {
  *   Page offset.
  * @param array $filters
  *   Array of filters/sorting.
+ * @param string $sort
+ *   Sorting order.
+ *
+ * @return \Bpi\Sdk\NodeList|array
+ *   Search result items.
  */
 function bpi_search_content($query = '', $page = 1, $filters = array(), $sort = 'desc') {
   try {
@@ -183,26 +190,24 @@ function bpi_search_get_items() {
   $bpi_nodes = array();
 
   foreach ($response as $item) {
+    /* @var $item \Bpi\Sdk\Item\Node */
     $current_item = $item->getProperties();
     $assets = $item->getAssets();
 
-    // TODO Why is this structure simpler than a BPI object? The following code
-    // simply seems to move values from one array to another with the same names etc.
-    // If we actually have a classes object to pass around I think it would be much
-    // simpler to grok what it contains.
+    // Transform \Bpi\Sdk\Document properties items into array.
     $bpi_nodes[] = array(
       'bpi_id' => isset($current_item['id']) ? $current_item['id'] : '',
-      'title' =>  isset($current_item['title']) ? $current_item['title'] : '',
-      'date' =>  isset($current_item['pushed']) ? $current_item['pushed'] : '',
-      'teaser' =>  isset($current_item['teaser']) ? $current_item['teaser'] : '',
-      'body' =>  isset($current_item['body']) ? $current_item['body'] : '',
-      'author' =>  isset($current_item['author']) ? $current_item['author'] : '',
-      'category' =>  isset($current_item['category']) ? $current_item['category'] : '',
-      'agency' =>  isset($current_item['agency_name']) ? $current_item['agency_name'] : '',
+      'title' => isset($current_item['title']) ? $current_item['title'] : '',
+      'date' => isset($current_item['pushed']) ? $current_item['pushed'] : '',
+      'teaser' => isset($current_item['teaser']) ? $current_item['teaser'] : '',
+      'body' => isset($current_item['body']) ? $current_item['body'] : '',
+      'author' => isset($current_item['author']) ? $current_item['author'] : '',
+      'category' => isset($current_item['category']) ? $current_item['category'] : '',
+      'agency' => isset($current_item['agency_name']) ? $current_item['agency_name'] : '',
       'agency_id' => isset($current_item['agency_id']) ? $current_item['agency_id'] : '',
-      'audience' =>  isset($current_item['audience']) ? $current_item['audience'] : '',
+      'audience' => isset($current_item['audience']) ? $current_item['audience'] : '',
       'total_count' => isset($response->total) ? $response->total : 0,
-      'assets' => (count($assets)>0) ? $item->getAssets() : array(),
+      'assets' => (count($assets) > 0) ? $assets : array(),
       'editable' => !empty($current_item['editable']),
     );
   }
@@ -211,92 +216,110 @@ function bpi_search_get_items() {
 }
 
 /**
- * Creates markup from found content during search.
- *
- * @return string
- *   HTML markup.
- *
- * @ingroup themable
+ * Implements theme_HOOK().
  */
-function bpi_search_get_markup($items) {
-  // TODO Why not create this as a real theme function?
-  // The current form does not seem very @themable.
-  $data = array();
+function theme_bpi_search_results($variables) {
+  return theme('table', $variables);
+}
 
-  // Iterate through items and theme them.
-  if (is_array($items)) {
-    $table_head = array(
-      array(
-        'data' => t('Title'),
-        'class' => 'bpi-title',
-      ),
-      'Date',
-      array(
-        'data' => t('Details'),
-        'class' => 'bpi-details',
-      ),
-      t('Photo'),
-      t('Editable'),
-      t('Actions'),
-    );
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function bpi_preprocess_bpi_search_results(&$variables) {
+  $items = $variables['items'];
 
-    $rows = array();
-    foreach ($items as $i => $item) {
-      $rows[$i]['title'] = '<b>' . $item['title'] . "</b><br/>" . $item['teaser'];
-      $rows[$i]['date'] = date_format(new DateTime($item['date']), 'Y-m-d H:i:s');
-      $rows[$i]['details'] =
-        bpi_label_mapper('category') . " " . l($item['category'], 'admin/bpi', array('query' => _bpi_build_query('category', $item['category']))) . "<br/>" .
-        bpi_label_mapper('author') . " " . l($item['author'], 'admin/bpi', array('query' => _bpi_build_query('author', $item['author']))) . "<br/>" .
-        bpi_label_mapper('agency') . " " . l($item['agency'], 'admin/bpi', array('query' => _bpi_build_query('agency', $item['agency_id']))) . "<br/>" .
-        bpi_label_mapper('audience') . " " . l($item['audience'], 'admin/bpi', array('query' => _bpi_build_query('audience', $item['audience'])));
-
-      $variables = array();
-      // TODO Why implement this as an image instead of just replacing text with image in the style sheet?
-      // I think this could make the code much simpler
-      $photos_str = (count($item['assets']) > 0) ? t('Photos available for content') : t('No photos available for content');
-      $variables['path'] = drupal_get_path('module', 'bpi') . '/images/' . ((count($item['assets']) > 0) ? 'photos' : 'no_photos') . '.png' ;
-      $variables['alt'] = $photos_str;
-      $variables['title'] = $photos_str;
-      $variables['attributes'] = array();
-      $rows[$i]['photo'] = array('data' => theme_image($variables), 'class' => 'bpi-photo');
-
-      // TODO Why implement this as an image instead of just replacing text with image in the style sheet?
-      // I think this could make the code much simpler
-      $editable_image = drupal_get_path('module', 'bpi') . '/images/' . ($item['editable']? '' : 'not-') . 'editable.png';
-      $editable_text = ($item['editable']) ? t('Editable') : t('Not editable');
-      $editable = array(
-        'alt' => $editable_text,
-        'path' => $editable_image,
-        'title' => $editable_text,
-        'attributes' => array(),
-      );
-      $rows[$i]['editable'] = array('data' => theme_image($editable), 'class' => 'bpi-photo');
-
-      $rows[$i]['actions'] = l(t('Preview'), 'admin/bpi/preview/nojs/' . $item['bpi_id'], array('attributes' => array('class' => 'use-ajax'))) . " " . l(t('Syndicate'), 'admin/bpi/syndicate/' . $item['bpi_id']);
-    }
-
-    $data = theme('table', array(
-      'header' => $table_head,
-      'rows' => $rows,
-      'sticky' => TRUE,
-    ));
+  if (empty($items)) {
+    return;
   }
 
-  return $data;
+  $table_head = array(
+    array(
+      'data' => t('Title'),
+      'class' => 'bpi-title',
+    ),
+    'Date',
+    array(
+      'data' => t('Details'),
+      'class' => 'bpi-details',
+    ),
+    t('Photo'),
+    t('Editable'),
+    t('Actions'),
+  );
+
+  $rows = array();
+  foreach ($items as $i => $item) {
+    $rows[$i]['title'] = sprintf(
+      '<b>%s</b><br />%s',
+      $item['title'],
+      $item['teaser']
+    );
+
+    $rows[$i]['date'] = date_format(new DateTime($item['date']), 'Y-m-d H:i:s');
+
+    // Add details.
+    $rows[$i]['details'] = '';
+    $details = array(
+      'category',
+      'author',
+      'agency',
+      'audience',
+    );
+    foreach ($details as $detail) {
+      $rows[$i]['details'] .= bpi_label_mapper($detail) . " " . l(
+          $item[$detail],
+          'admin/bpi',
+          array('query' => _bpi_build_query($detail, $item[$detail]))
+        ) . "<br/>";
+    }
+
+    // Add photos icon as css class.
+    $class = count($item['assets']) > 0 ? 'photos' : 'no-photos';
+    $rows[$i]['photo'] = array('data' => '', 'class' => "bpi-photo $class");
+
+    // Add editable icon as css class.
+    $class = $item['editable'] ? 'editable' : 'not-editable';
+    $rows[$i]['editable'] = array('data' => '', 'class' => "bpi-photo $class");
+
+    // Add action links.
+    $actions = array(
+      l(
+        t('Preview'),
+        'admin/bpi/preview/nojs/' . $item['bpi_id'],
+        array('attributes' => array('class' => 'use-ajax'))
+      ),
+      l(
+        t('Syndicate'),
+        'admin/bpi/syndicate/' . $item['bpi_id']
+      ),
+    );
+    $rows[$i]['actions'] = implode(' ', $actions);
+  }
+
+  // Unset old data.
+  unset($variables['items']);
+
+  // Set table data.
+  $variables['header'] = $table_head;
+  $variables['sticky'] = TRUE;
+  $variables['rows'] = $rows;
 }
 
 /**
  * Create key/value pairs from the query string.
  *
  * This is a helper function for drupal core l() function.
- * Munges the query string into key/value pairs array, so it is accepted by the l() function.
+ * Munges the query string into key/value pairs array, so it is accepted
+ * by the l() function.
  * Ex. admin/bpi?key1=value1&key2=value2
  *
  * @param string $key
  *   Parameter key.
  * @param string $value
  *   Parameter value.
- * // TODO Please add documentation of $ignore
+ * @param string $ignore
+ *   Key to be ignored. Used in removing filters.
+ *
  * @return array
  *   An array, in structure:
  *   - key: value
@@ -315,13 +338,13 @@ function _bpi_build_query($key = '', $value = '', $ignore = NULL) {
     foreach ($components as $component) {
       $temp = explode('=', $component);
 
-      // Certain keys we don't want to be in resulting array.
-      if ($ignore == $temp[0]) {
+      // Ignore a key from query string.
+      if ($temp[0] == $ignore) {
         continue;
       }
 
-      // It's required to decode some values here, since Drupal's url() encodes it
-      // weird, munging the 'space' entity value (%20).
+      // It's required to decode some values here, since Drupal's url()
+      // encodes it weird, munging the 'space' entity value (%20).
       $new_query_pairs[$temp[0]] = urldecode($temp[1]);
     }
   }
@@ -399,9 +422,9 @@ function bpi_build_filters() {
  *
  * @param string $key
  *   Label identifier.
+ *
  * @return string
  *   Translatable human-readable label value.
- *
  */
 function bpi_label_mapper($key) {
   $map = bpi_available_map();

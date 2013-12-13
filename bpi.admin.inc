@@ -44,8 +44,6 @@ function bpi_admin_settings_form($form, $form_state) {
     '#title' => t('BPI Service settings'),
   );
 
-  // TODO We already  have a variable containing the agency id, ting_agency.
-  // Is there a reason to keep a separate variable for this for BPI?
   $form['bpi_service_settings']['bpi_agency_id'] = array(
     '#type' => 'textfield',
     '#title' => t('Agency ID'),
@@ -239,12 +237,16 @@ function _bpi_content_mapper_ctype_fields(&$form, &$form_state) {
  *
  * @param string $node_type
  *   Node type machine name, whose fields list is expected.
+ *
  * @return array
  *   An array with the fields, for the specified node type.
  */
 function bpi_get_field_instances($node_type) {
+  if (empty($node_type)) {
+    return array();
+  }
+
   $fields = array();
-  // TODO If the is a reason for restriction on widgets instead of field types an comment explaining this would be nice.
   $allowed_widgets = array(
     'text_textfield',
     'text_textarea',
@@ -252,13 +254,11 @@ function bpi_get_field_instances($node_type) {
     'ting_reference_simple',
   );
 
-  if (!empty($node_type)) {
-    $field_instances = field_info_instances('node', $node_type);
+  $field_instances = field_info_instances('node', $node_type);
 
-    foreach ($field_instances as $instance) {
-      if (in_array($instance['widget']['type'], $allowed_widgets)) {
-        $fields[$instance['field_name']] = $instance['label'];
-      }
+  foreach ($field_instances as $instance) {
+    if (in_array($instance['widget']['type'], $allowed_widgets)) {
+      $fields[$instance['field_name']] = $instance['label'];
     }
   }
 

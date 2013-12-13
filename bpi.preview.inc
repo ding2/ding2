@@ -16,7 +16,7 @@
  *   Either an ajax-popup or an HTML representation of the item's preview.
  */
 function admin_bpi_preview_ajax_callback($type, $bpi_id) {
-  if (!isset($bpi_id)) {
+  if (empty($bpi_id)) {
     return _admin_bpi_preview_output($type, t('Incorrect BPI ID.'));
   }
 
@@ -35,22 +35,10 @@ function admin_bpi_preview_ajax_callback($type, $bpi_id) {
     $bpi_content = $bpi_node->getProperties();
   }
   catch (Exception $e) {
-    watchdog_exception(
-      'bpi',
-      $e,
-      t('Error when syndicating node %title with message %message'),
-      array(
-        '%title' => $bpi_content['title'],
-        '%message' => $e->getMessage(),
-      ),
-      WATCHDOG_ERROR
-    );
-
+    watchdog_exception('bpi', $e);
     return _admin_bpi_preview_output($type, t('Failed to fetch the article from BPI well.'));
   }
 
-  // TODO If an error occurs this means that the BPI content will be undefined.
-  // Is this intentional?
   $output = theme('bpi_preview_item', array('item' => $bpi_content));
 
   return _admin_bpi_preview_output($type, $output);

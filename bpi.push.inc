@@ -13,6 +13,7 @@
  *   Request type, simple http or ajax.
  * @param int $nid
  *   Node id, whose content is to be pushed.
+ *
  * @return Array/string
  *   Ajax command set in case of ajax request, push content page
  *   markup otherwise.
@@ -24,8 +25,7 @@ function bpi_push_action($type, $nid) {
     return;
   }
 
-  // TODO There are access checks here and in the hook_menu() definition. Why not keep it all in hook_menu or here?
-  if (!bpi_ability($nid, 'push')) {
+  if (!bpi_push_available($nid)) {
     drupal_access_denied();
     drupal_exit();
   }
@@ -54,13 +54,12 @@ function bpi_push_action($type, $nid) {
  *
  * @param int $nid
  *   The node id, waiting to be pushed.
+ *
  * @return array
  *   Form structure.
- *
  */
-//TODO Please prefix all function names with the module name to avoid name clashes.
-function http_bpi_push_action($nid) {
-  return drupal_get_form('http_bpi_push_action_form', $nid);
+function bpi_http_push_action($nid) {
+  return drupal_get_form('bpi_http_push_action_form', $nid);
 }
 
 /**
@@ -72,22 +71,22 @@ function http_bpi_push_action($nid) {
  *   Form state values.
  * @param int $nid
  *   The node id, waiting to be pushed.
+ *
  * @return array
  *   Form structure.
  *
  * @ingroup forms
  */
-//TODO Please prefix all function names with the module name to avoid name clashes.
-function http_bpi_push_action_form($form, &$form_state, $nid) {
+function bpi_http_push_action_form($form, &$form_state, $nid) {
   $node_title = '';
-  // TODO If $nid is empty this seems like a poor fix.
+  // @todo If $nid is empty this seems like a poor fix.
   if (!empty($nid)) {
     $node = node_load($nid);
     $node_title = $node->title;
   }
 
   $form['bpi_push_nid'] = array(
-    // TODO Why not use value here?
+    // @todo Why not use value here?
     '#type' => 'hidden',
     '#value' => isset($nid) ? $nid : 0,
   );
@@ -99,8 +98,7 @@ function http_bpi_push_action_form($form, &$form_state, $nid) {
     '#type' => 'select',
     '#title' => t('Category'),
     '#options' => array_combine($categories, $categories),
-    // TODO: There is no #descroption here. Is this intentional?
-    '#default_value' => ','
+    '#default_value' => ',',
   );
 
   $audiences = array_values($dictionaries['audience']);
@@ -108,34 +106,29 @@ function http_bpi_push_action_form($form, &$form_state, $nid) {
     '#type' => 'select',
     '#title' => t('Audience'),
     '#options' => array_combine($audiences, $audiences),
-    // TODO: There is no #descroption here. Is this intentional?
-    '#default_value' => ','
+    '#default_value' => ',',
   );
 
   $form['bpi_push_images'] = array(
     '#type' => 'checkbox',
     '#title' => t('Push with images'),
-    // TODO: There is no #descroption here. Is this intentional?
   );
 
   $form['bpi_push_ccl'] = array(
     '#type' => 'checkbox',
     '#title' => t('I want be anonymous'),
-    // TODO: There is no #descroption here. Is this intentional?
     '#default_value' => FALSE,
   );
 
   $form['bpi_push_editable'] = array(
     '#type' => 'checkbox',
     '#title' => t('Editable'),
-    // TODO: There is no #descroption here. Is this intentional?
     '#default_value' => '1',
   );
 
   return confirm_form(
     $form,
-    // TODO Why include strong tag? %title should already add <em>.
-    t('Are you sure u want to push content <strong>%title</strong> to BPI well?', array('%title' => $node_title)),
+    t('Are you sure u want to push content <em>%title</em> to BPI well?', array('%title' => $node_title)),
     'admin/content'
   );
 }
@@ -152,8 +145,7 @@ function http_bpi_push_action_form($form, &$form_state, $nid) {
  *
  * @ingroup forms
  */
-//TODO Please prefix all function names with the module name to avoid name clashes.
-function http_bpi_push_action_form_submit($form, &$form_state) {
+function bpi_push_action_form_submit($form, &$form_state) {
   $nid = $form_state['input']['bpi_push_nid'];
   $category = $form_state['input']['bpi_push_category'];
   $audience = $form_state['input']['bpi_push_audience'];
@@ -182,9 +174,7 @@ function http_bpi_push_action_form_submit($form, &$form_state) {
         ->execute();
       drupal_set_message(t('Node %title was successfully pushed to BPI well.', array('%title' => $node->title)));
     }
-    // TODO Using $base_url should not be necessary here.
-    global $base_url;
-    drupal_goto($base_url . '/admin/bpi');
+    drupal_goto('/admin/bpi');
   }
   catch (Exception $e) {
     watchdog_exception('bpi', $e);
@@ -206,9 +196,10 @@ function http_bpi_push_action_form_submit($form, &$form_state) {
  *   Form structure.
  *
  * @ingroup forms
+ *
+ * @todo There seems to be a lot of duplicated code between this function and
+ * http_bpi_push_action_form(). Can this be refactored?
  */
-// TODO There seems to be a lot of duplicated code between this function and http_bpi_push_action_form().
-// Can this be refactored?
 function bpi_push_form($form, $form_state, $nid) {
   $node_title = '';
   if (!empty($nid)) {
@@ -228,7 +219,7 @@ function bpi_push_form($form, $form_state, $nid) {
     '#type' => 'select',
     '#title' => t('Category'),
     '#options' => array_combine($categories, $categories),
-    '#default_value' => ','
+    '#default_value' => ',',
   );
 
   $audiences = array_values($dictionaries['audience']);
@@ -236,7 +227,7 @@ function bpi_push_form($form, $form_state, $nid) {
     '#type' => 'select',
     '#title' => t('Audience'),
     '#options' => array_combine($audiences, $audiences),
-    '#default_value' => ','
+    '#default_value' => ',',
   );
 
   $form['bpi_push_images'] = array(
@@ -277,9 +268,10 @@ function bpi_push_form($form, $form_state, $nid) {
  *   Form state values.
  *
  * @ingroup forms
+ *
+ * @todo There seems to be a lot of duplicated code between this function
+ * and http_bpi_push_action_form_submit(). Can this be refactored?
  */
-// TODO There seems to be a lot of duplicated code between this function and http_bpi_push_action_form_submit().
-// Can this be refactored?
 function bpi_push_form_submit($form, &$form_state) {
   $nid = $form_state['input']['bpi_push_nid'];
   $category = $form_state['input']['bpi_push_category'];
@@ -361,112 +353,122 @@ function bpi_push_action_ajax_callback($form, &$form_state) {
  *   Selected category at the BPI side.
  * @param string $audience
  *   Selected audience at the BPI side.
+ * @param bool $with_images
+ *   Include images or not.
+ * @param bool $authorship
+ *   Include author name or not.
+ * @param int $editable
+ *   1 - to mark as editable, 0 - not editable.
  *
  * @return array
- *   An array of node values, used by the BPI ws.
+ *   An array of node values, used by the BPI web service.
+ *
+ * @todo Add a hook allowing changing the values before they are sent to BPI.
+ * @todo Split this function into smaller parts (ex: images, texts).
  */
 function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $authorship = FALSE, $editable = 1) {
   $bpi_content = array();
 
-  // TODO Why would node not be a standard class this deep down?
-  if ($node instanceof stdClass) {
-    // TODO This code seems messy to me. The structure is set some simple values to BPI object , set some user values,
-    // extract a lot of variables and field information, extract values for most fields, assign more values to BPI,
-    // extract images and assign images to BPI. It would make more sense to me if the code dealt with one aspect all
-    // the way from variable retrieval to BPI object value setting one at a time.
-    $bpi_content['agency_id'] = variable_get('bpi_agency_id', '');
-    $bpi_content['local_id'] = $node->nid;
-    $bpi_content['bpi_id'] = isset($node->bpi_id) ? $node->bpi_id : NULL;
-    $user = user_load($node->uid);
-    // TODO Setting the name field for the user to the firstname of the BPI object is a start but seems a bit naive
-    // If we have the persons full name, nickname etc. from a profile this is not added. How about adding an alter hook
-    // allowing other modules to change the values before they are sent to BPI?
-    $bpi_content['firstname'] = $user->name;
-    $bpi_content['lastname'] = '';
-    $bpi_content['title'] = $node->title;
+  $bpi_content['agency_id'] = variable_get('bpi_agency_id', '');
+  $bpi_content['local_id'] = $node->nid;
+  $bpi_content['bpi_id'] = isset($node->bpi_id) ? $node->bpi_id : NULL;
 
-    $teaser_map = variable_get('bpi_field_teaser', '');
-    $body_map = variable_get('bpi_field_body', '');
-    $materials_map = variable_get('bpi_field_materials', '');
-    $materials_map = field_view_field('node', $node, $materials_map);
-    $teaser_field = field_view_field('node', $node, $teaser_map);
-    $body_field = field_view_field('node', $node, $body_map);
+  $user = user_load($node->uid);
+  $bpi_content['firstname'] = $user->name;
+  $bpi_content['lastname'] = '';
+
+  $bpi_content['title'] = $node->title;
+
+  $teaser_map = variable_get('bpi_field_teaser', '');
+  $body_map = variable_get('bpi_field_body', '');
+  $materials_map = variable_get('bpi_field_materials', '');
+  $materials_map = field_view_field('node', $node, $materials_map);
+  $teaser_field = field_view_field('node', $node, $teaser_map);
+  $body_field = field_view_field('node', $node, $body_map);
+  $teaser = '';
+  $body = '';
+
+  // Whether the field is a textarea with summary, fetch the summary, if not -
+  // fetch it's safe value.
+  if (!empty($teaser_field) && isset($teaser_field['#items'][0]['safe_summary'])) {
+    $teaser = $teaser_field['#items'][0]['safe_summary'];
+  }
+  elseif (isset($teaser_field['#items'][0]['safe_value'])) {
+    $teaser = $teaser_field['#items'][0]['safe_value'];
+  }
+
+  $materials_drupal = array();
+  foreach ($materials_map as $key => $value) {
+    if (is_numeric($key)) {
+      $record = $value['#object']->getRecord();
+      $ac_identifier_array = array_shift(
+        array_values($record['ac:identifier'])
+      );
+      $parts = explode('|', $ac_identifier_array[0]);
+      $materials_drupal[] = $parts[1] . ':' . $parts[0];
+    }
+  }
+
+  if (!empty($body_field) && isset($body_field['#items'][0]['safe_value'])) {
+    $body = $body_field['#items'][0]['safe_value'];
+  }
+
+  // Empty the teaser, if body and teaser are mapped to same fields
+  // and the values are identical.
+  if ($teaser_map == $body_map && $teaser == $body) {
     $teaser = '';
-    $body = '';
+  }
 
-    // Whether the field is a textarea with summary, fetch the summary, if not -
-    // fetch it's safe value.
-    if (!empty($teaser_field) && isset($teaser_field['#items'][0]['safe_summary'])) {
-      $teaser = $teaser_field['#items'][0]['safe_summary'];
-    }
-    elseif (isset($teaser_field['#items'][0]['safe_value'])) {
-      $teaser = $teaser_field['#items'][0]['safe_value'];
-    }
+  $bpi_content['body'] = html_entity_decode($body);
+  $bpi_content['teaser'] = html_entity_decode($teaser);
+  $dt = new DateTime();
+  $dt->setTimestamp($node->changed);
+  $bpi_content['creation'] = $dt->format(DateTime::W3C);
+  $bpi_content['type'] = $node->type;
+  $bpi_content['category'] = $category;
+  $bpi_content['audience'] = $audience;
+  $bpi_content['related_materials'] = $materials_drupal;
+  $bpi_content['editable'] = (int) $editable;
+  $bpi_content['authorship'] = ($authorship) ? FALSE : TRUE;
+  $bpi_content['images'] = array();
 
-    $materials_drupal = array();
-    foreach ($materials_map as $key => $value) {
-      if (is_numeric($key)) {
-        $record = $value['#object']->getRecord();
-        $ac_identifier_array = array_shift(array_values($record['ac:identifier']));
-        $parts = explode('|', $ac_identifier_array[0]);
-        $materials_drupal[] = $parts[1] . ':' . $parts[0];
-      }
-    }
+  if ($with_images) {
+    $image_fields = bpi_fetch_image_fields($node->type);
 
-    if (!empty($body_field) && isset($body_field['#items'][0]['safe_value'])) {
-      $body = $body_field['#items'][0]['safe_value'];
-    }
+    if (!empty($image_fields)) {
+      foreach ($image_fields as $field_name) {
+        $field_value = field_view_field('node', $node, $field_name);
 
-    // Empty the teaser, if body and teaser are mapped to same fields, and the values
-    // are identical.
-    if ($teaser_map == $body_map && md5($teaser) == md5($body)) {
-      $teaser  = '';
-    }
-
-    $bpi_content['body'] = html_entity_decode($body);
-    $bpi_content['teaser'] = html_entity_decode($teaser);
-    $dt = new DateTime();
-    $dt->setTimestamp($node->changed);
-    $bpi_content['creation'] = $dt->format(DateTime::W3C);
-    $bpi_content['type'] = $node->type;
-    $bpi_content['category'] = $category;
-    $bpi_content['audience'] = $audience;
-    $bpi_content['related_materials'] = $materials_drupal;
-    $bpi_content['editable'] = (int) $editable;
-    $bpi_content['authorship'] = ($authorship) ? FALSE : TRUE;
-    $bpi_content['images'] = array();
-
-    if ($with_images) {
-      $image_fields = bpi_fetch_image_fields($node->type);
-
-      if (!empty($image_fields)) {
-        foreach ($image_fields as $field_name) {
-          $field_value = field_view_field('node', $node, $field_name);
-
-          if (!empty($field_value['#items'][0]['uri'])) {
-            $file_url = file_create_url($field_value['#items'][0]['uri']);
-            // Image pseudo-check.
-            if (@getimagesize($file_url)) {
-              $bpi_content['images'][] = array(
-                'path' => $file_url,
-                'alt' => '',
-                'title' => '',
-              );
-            }
+        if (!empty($field_value['#items'][0]['uri'])) {
+          $file_url = file_create_url($field_value['#items'][0]['uri']);
+          // Image pseudo-check.
+          if (@getimagesize($file_url)) {
+            $bpi_content['images'][] = array(
+              'path' => $file_url,
+              'alt' => '',
+              'title' => '',
+            );
           }
         }
       }
     }
-    else {
-      $bpi_content['body'] = preg_replace('~(<p>)?<img.+?/>(</p>)?~is', '', $bpi_content['body']);
-    }
+  }
+  else {
+    $bpi_content['body'] = preg_replace(
+      '~(<p>)?<img.+?/>(</p>)?~is',
+      '',
+      $bpi_content['body']
+    );
   }
 
-  // TODO No content has actually been pushed here. The watchdog statement seems misleading?
   watchdog(
     'bpi',
-    'Pushed to server !content',
-    array('!content' => '<pre>' . htmlspecialchars(print_r($bpi_content, TRUE)) . '</pre>'),
+    'Transformed node to BPI content: !content',
+    array(
+      '!content' => '<pre>' . htmlspecialchars(
+          print_r($bpi_content, TRUE)
+        ) . '</pre>'
+    ),
     WATCHDOG_DEBUG
   );
 

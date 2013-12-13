@@ -17,7 +17,7 @@
 function bpi_delete_action($type = 'ajax', $node) {
   $ajax = ($type == 'ajax');
 
-  // TODO There are access checks here and in the hook_menu() definition. Why not keep it all in hook_menu or here?
+  // Only author can delete his node.
   if (!bpi_ability($node->nid, 'delete')) {
     drupal_access_denied();
     drupal_exit();

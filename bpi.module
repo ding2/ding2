@@ -3,7 +3,7 @@
  * @file
  * BPI main module file.
  *
- * @todo General description needed here.
+ * Defines BPI specific constants, menu, theme and node hooks.
  */
 
 /**
@@ -57,7 +57,7 @@ function bpi_menu() {
     'description' => 'Syndicate content from the well.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('bpi_syndicate_page_form'),
-    'access arguments' => array('syndicate content'),
+    'access arguments' => array('bpi syndicate content'),
     'file' => 'bpi.syndicate.inc',
   );
 
@@ -72,15 +72,15 @@ function bpi_menu() {
   $menu['admin/bpi/syndicate/%'] = array(
     'page callback' => 'bpi_syndicate_action',
     'page arguments' => array(3),
-    'access arguments' => array('syndicate content'),
+    'access arguments' => array('bpi syndicate content'),
     'file' => 'bpi.syndicate.inc',
   );
 
   $menu['admin/bpi/push_http/%'] = array(
     'title' => 'Push to BPI',
     'page arguments' => array(3),
-    'page callback' => 'http_bpi_push_action',
-    'access arguments' => array('push content'),
+    'page callback' => 'bpi_http_push_action',
+    'access arguments' => array('bpi push content'),
     'file' => 'bpi.push.inc',
   );
 
@@ -88,7 +88,7 @@ function bpi_menu() {
     'title' => 'Push to BPI',
     'page callback' => 'bpi_push_action',
     'page arguments' => array(3, 4),
-    'access arguments' => array('push content'),
+    'access arguments' => array('bpi push content'),
     'file' => 'bpi.push.inc',
   );
 
@@ -122,7 +122,7 @@ function bpi_menu() {
   $menu['admin/bpi/images/nojs'] = array(
     'page callback' => 'bpi_syndicate_images',
     'page arguments' => array(3),
-    'access arguments' => array('syndicate content'),
+    'access arguments' => array('bpi syndicate content'),
     'file' => 'bpi.images.inc',
   );
 
@@ -170,12 +170,11 @@ function bpi_permission() {
     'title' => t('Administer BPI settings'),
   );
 
-  //TODO Please refer to BPI in permission ids.
-  $perm['syndicate content'] = array(
+  $perm['bpi syndicate content'] = array(
     'title' => t('Syndicate content'),
   );
 
-  $perm['push content'] = array(
+  $perm['bpi push content'] = array(
     'title' => t('Push content'),
   );
 
@@ -208,6 +207,11 @@ function bpi_theme($existing, $type, $theme, $path) {
     'template' => 'bpi-preview-item',
   );
 
+  $hooks['bpi_search_results'] = array(
+    'variables' => array('items' => array()),
+    'file' => 'bpi.syndicate.inc',
+  );
+
   return $hooks;
 }
 
@@ -217,45 +221,55 @@ function bpi_theme($existing, $type, $theme, $path) {
  * Set some default values for the fields, when syndicating content,
  * according to mapped settings.
  */
-function bpi_form_alter(&$form , &$form_state, $form_id) {
+function bpi_form_alter(&$form, &$form_state, $form_id) {
   $bpi_ctype = variable_get('bpi_content_type', '');
-  $from_bpi = (isset($_GET['from']) && $_GET['from'] == 'bpi') ? TRUE : FALSE;
-  $nodes_to_mark = array();
-
-  // @todo
-  // This could lead to unexpected behavior. Just a note.
+  // @todo This could lead to unexpected behavior. Just a note.
   if (empty($bpi_ctype)) {
     return;
   }
+
+  $from_bpi = (isset($_GET['from']) && $_GET['from'] == 'bpi') ? TRUE : FALSE;
+  $nodes_to_mark = array();
+
   // Checking nid for NULL would say that this is create node form, not edit.
   if ($form_id == $bpi_ctype . '_node_form' && $form['nid']['#value'] == NULL && $from_bpi) {
-    // TODO Why is the syndicate id keept in the session when we already have information about BPI in the URL?
+    // @todo Why is the syndicate id keept in the session when we already have information about BPI in the URL?
     // Could this be reduced to a $_GET variable called bpi_syndicate_id?
     // Furthermore this could be added as a form value for processing down the line instead of clinging to the
     // GET/SESSION combo.
     $bpi_id = isset($_SESSION['bpi']['syndicate_id']) ? $_SESSION['bpi']['syndicate_id'] : 0;
 
-    if ($bpi_id) {
-      try {
-        $bpi = bpi_client_instance();
-        $bpi_node = $bpi->getNode($bpi_id);
-        $bpi_content = $bpi_node->getProperties();
-        $bpi_assets = $bpi_node->getAssets();
-
-        drupal_set_message(t('Syndicating content <strong>@title</strong>, from category <strong>@category</strong> and audience <strong>@audience</strong>.', array(
-          '@title' => $bpi_content['title'],
-          '@category' => $bpi_content['category'],
-          '@audience' => $bpi_content['audience'],
-        )));
-      }
-      catch (Exception $e) {
-        watchdog('bpi', $e);
-        drupal_set_message(t('Failed to fetch the article from BPI well.'), 'error');
-      }
+    if (!$bpi_id) {
+      return;
     }
 
-    //TODO If the BPI request failed the $bpi_* variables will not be defined resulting in PHP notices and the like.
-    // Move this inside the Try block to avoid this or add more isset checks.
+    try {
+      $bpi = bpi_client_instance();
+      $bpi_node = $bpi->getNode($bpi_id);
+      $bpi_content = $bpi_node->getProperties();
+      $bpi_assets = $bpi_node->getAssets();
+
+      drupal_set_message(
+        t(
+          'Syndicating content <strong>@title</strong>, from category <strong>@category</strong> and audience <strong>@audience</strong>.',
+          array(
+            '@title' => $bpi_content['title'],
+            '@category' => $bpi_content['category'],
+            '@audience' => $bpi_content['audience'],
+          )
+        )
+      );
+    }
+    catch (Exception $e) {
+      watchdog('bpi', $e);
+      drupal_set_message(
+        t('Failed to fetch the article from BPI well.'),
+        'error'
+      );
+
+      return;
+    }
+
     $form['title']['#default_value'] = isset($bpi_content['title']) ? $bpi_content['title'] : '';
     $teaser = variable_get('bpi_field_teaser', '');
     $body = variable_get('bpi_field_body', '');
@@ -263,7 +277,7 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
     $current_language = $form['language']['#value'];
 
     if (isset($bpi_content['material'])) {
-      foreach((array) $bpi_content['material'] as $key => $material_number) {
+      foreach ((array) $bpi_content['material'] as $key => $material_number) {
         $form[$materials_field][$current_language][$key] = ting_reference_field_widget_form(
           $form,
           $form_state,
@@ -283,7 +297,7 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
 
     // EXPERIMENTAL.
     // Just oversee all the variants where the value could fit.
-    // TODO This seems convoluted. A comment explaining why this is necessary would be nice.
+    // @todo This seems convoluted. A comment explaining why this is necessary would be nice.
     // The comment says experimental but the module offers no other solution to mapping the values so this must be it?
     $bpi_teaser = isset($bpi_content['teaser']) ? $bpi_content['teaser'] : '';
     if (isset($form[$teaser][$current_language][0]['summary'])) {
@@ -298,7 +312,7 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
 
     // EXPERIMENTAL.
     // Just oversee all the variants where the value could fit.
-    // TODO This seems convoluted. A comment explaining why this is necessary would be nice.
+    // @todo This seems convoluted. A comment explaining why this is necessary would be nice.
     // The comment says experimental but the module offers no other solution to mapping the values so this must be it?
     $bpi_body = isset($bpi_content['body']) ? $bpi_content['body'] : '';
     if (isset($form[$body][$current_language][0]['value'])) {
@@ -314,14 +328,14 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
       drupal_add_library('system', 'ui.dialog');
       drupal_add_js(drupal_get_path('module', 'bpi') . '/js/bpi.scripts.js', 'file');
       drupal_add_js(drupal_get_path('module', 'ding_popup') . '/ding_popup.js', 'file');
-      drupal_add_css(drupal_get_path('module', 'bpi') . '/css/bpi-images.styles.css', 'file');
+      drupal_add_css(drupal_get_path('module', 'bpi') . '/css/bpi-admin.styles.css', 'file');
       $_SESSION['bpi']['assets'] = $bpi_assets;
     }
   }
-  // TODO If targeting a specific form then please move to bpi_form_node_admin_content_alter().
+  // @todo If targeting a specific form then please move to bpi_form_node_admin_content_alter().
   // bpi_form_alter() is long enough as it is.
   elseif ($form_id == 'node_admin_content' && isset($form['admin']['nodes'])) {
-    // TODO I do not agree with this implementation of adding BPI status to the administration
+    // @todo I do not agree with this implementation of adding BPI status to the administration
     // content listing:
     //
     // 1. The scope of this implementation is limited due to the fact that it only works on a
@@ -341,8 +355,9 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
     //    framework but we would also get functionality for free e.g. Views, Actions, permission
     //    handling, logging of state changes, buttons for workflow actions, scheduling of state
     //    changes that we we already have or will have to write code for ourselves.
-    $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-pages.styles.css';
-    //Mark BPI nodes.
+    $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-admin.styles.css';
+
+    // Mark BPI nodes.
     $nodes_in_table = array_keys($form['admin']['nodes']['#options']);
     $bpi_nodes = bpi_get_bpi_nodes($nodes_in_table);
     if (!empty($nodes_in_table)) {
@@ -354,7 +369,6 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
         }
       }
     }
-    // End mark BPI nodes.
 
     // BPI filter.
     if (isset($form['filter']['filters']['status']['filters'])) {
@@ -379,7 +393,7 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
 
       // If a BPI filter is set, prepend an active BPI filter marker.
       if ($current_bpi_filter != 'all') {
-        $drupal_filters =  isset($_SESSION['node_overview_filter']) ? $_SESSION['node_overview_filter'] : array();
+        $drupal_filters = isset($_SESSION['node_overview_filter']) ? $_SESSION['node_overview_filter'] : array();
         $t_args = array(
           '%property' => 'bpi',
           '%value' => $bpi_filters[$current_bpi_filter],
@@ -401,7 +415,6 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
         $filter_actions['reset'] = array('#type' => 'submit', '#value' => t('Reset'));
       }
     }
-    // END BPI filter.
 
     // Content grid columns.
     $form['admin']['nodes']['#header']['bpi_timestamp'] = t('BPI import/export');
@@ -424,7 +437,7 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
       unset($row['operations']);
       $row['operations'] = $tmp;
 
-      $push_permission = bpi_ability($key, 'push');
+      $push_permission = user_access('bpi push content');
 
       // Adds a push link to operations.
       if ($push_permission && bpi_push_available($key)) {
@@ -458,30 +471,38 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
     }
     // END content grid columns.
   }
-  // TODO Consider moving this to a separate form_ID_alter function.
-  elseif ($form_id == 'bpi_delete_form') {
-   $form['actions']['submit']['#ajax'] = array(
-     'callback' => 'bpi_delete_action_ajax_callback',
-   );
-  }
-  // TODO Consider moving this to a separate form_ID_alter function.
-  elseif ($form_id == 'bpi_push_form') {
-    $form['actions']['submit']['#ajax'] = array(
-     'callback' => 'bpi_push_action_ajax_callback',
-   );
-  }
 
-  // Restricting where "Save && Push" appears.
-  // TODO Why not use the method for detecting create/edit forms used elsewhere
-  // $form_id == $bpi_ctype . '_node_form' && $form['nid']['#value'] == NULL
-  if (arg(0) == 'node' && is_numeric(arg(1)) && arg(2) == 'edit') {
-    // TODO This refers to a specific content type. Is this intentional?
-    if (node_load(arg(1))->type == 'ding_news') {
+  // Add "Save & Push" button.
+  if ($form_id == $bpi_ctype . '_node_form') {
+    $push_permission = user_access('bpi push content');
+    if ($push_permission) {
       $form['actions']['push'] = $form['actions']['submit'];
       $form['actions']['push']['#value'] = t('Save and push');
-      $form['actions']['push']['#submit'][] = 'push_directly_callback_action';
+      $form['actions']['push']['#submit'][] = 'bpi_push_directly_callback_action';
     }
   }
+}
+
+/**
+ * Implements hook_form_ID_alter().
+ *
+ * Add ajax submit handler.
+ */
+function bpi_form_bpi_push_form_alter(&$form, &$form_state) {
+  $form['actions']['submit']['#ajax'] = array(
+    'callback' => 'bpi_push_action_ajax_callback',
+  );
+}
+
+/**
+ * Implements hook_form_ID_alter().
+ *
+ * Add ajax submit handler.
+ */
+function bpi_form_bpi_delete_form_alter(&$form, &$form_state) {
+  $form['actions']['submit']['#ajax'] = array(
+    'callback' => 'bpi_delete_action_ajax_callback',
+  );
 }
 
 /**
@@ -492,12 +513,11 @@ function bpi_form_alter(&$form , &$form_state, $form_id) {
  * @param array $form_state
  *   Form state values.
  */
-//TODO Please prefix function names with the module name to avoid name clashes.
-function push_directly_callback_action(&$form, &$form_state) {
-  // TODO Why is this check necessary?
+function bpi_push_directly_callback_action(&$form, &$form_state) {
+  // @todo Why is this check necessary?
   if (arg(0) == 'node' && is_numeric(arg(1))) {
       // arg(1) is the node id.
-      // TODO are these includes necessary when bpi.push.inc is references in bpi.info?
+      // @todo are these includes necessary when bpi.push.inc is references in bpi.info?
       module_load_include('inc', 'bpi', 'bpi.push');
       // Unset and re-set destination.
       unset($_GET['destination']);
@@ -559,7 +579,7 @@ function bpi_ability($nid, $op) {
   $ability = FALSE;
 
   // Common check for ownership.
-  // TODO This seems to infer that only the creator of a node can perform operations on a node which is rather limiting.
+  // @todo This seems to infer that only the creator of a node can perform operations on a node which is rather limiting.
   // How about using permissions instead e.g. can push own content, can delete any content?
   if (is_object($node)) {
     if ($node->uid == $user->uid) {
@@ -571,6 +591,7 @@ function bpi_ability($nid, $op) {
     case 'push':
       return $ability && bpi_push_available($nid);
       break;
+
     case 'delete':
       break;
   }
@@ -586,7 +607,7 @@ function bpi_ability($nid, $op) {
  */
 function bpi_node_insert($node) {
   $node_id = $node->nid;
-  // TODO As mentioned previously consider moving this to a attribute on the node instead of using GET/SESSION.
+  // @todo As mentioned previously consider moving this to a attribute on the node instead of using GET/SESSION.
   $from_bpi = (isset($_GET['from']) && $_GET['from'] == 'bpi') ? TRUE : FALSE;
 
   if (!empty($_SESSION['bpi']['syndicate_id']) && $from_bpi) {
@@ -733,43 +754,41 @@ function bpi_get_bpi_nodes($nodes) {
  *   TRUE/FALSE whether the node can be pushed.
  */
 function bpi_push_available($nid) {
-  $status = FALSE;
-
-  if (!empty($nid)) {
-    $node = node_load($nid);
-
-    if ($node instanceof stdClass) {
-      // Rule - only allow pushing of nodes, to which bpi was mapped
-      // in the BE.
-      $result = db_select('bpi_syndicated', 'bs')
-        ->fields('bs', array(
-          'nid',
-          'timestamp',
-          'status'
-        ))
-        ->condition('nid', $nid, '=')
-        ->execute()
-        ->fetchAllAssoc('nid');
-
-      // TODO For efficiently checking on the mapped type can be done before querying bpi_syndicated.
-      $mapped_type = variable_get('bpi_content_type', '');
-
-      // TODO It would be nice to have the logic spelled out here: A node can be pushed if it is either
-      // - new to BPI
-      // - has been syndicated (not pushed)
-      // - has been modified after the last push
-      $bpi_action = isset($result[$nid]);
-      $was_pushed = ($bpi_action && $result[$nid]->status == BPI_PUSHED);
-      $modified_after_push = $was_pushed && ($node->changed > $result[$nid]->timestamp);
-      $can_be_pushed = (!$was_pushed || $modified_after_push || !$bpi_action);
-
-      if ($node->type == $mapped_type && $can_be_pushed) {
-        $status = TRUE;
-      }
-    }
+  // No nid given.
+  if (empty($nid)) {
+    return FALSE;
   }
 
-  return $status;
+  $node = node_load($nid);
+
+  // Node not found.
+  if ($node === FALSE) {
+    return FALSE;
+  }
+
+  $mapped_type = variable_get('bpi_content_type', '');
+
+  // Allow pushing of nodes, to which bpi was mapped in the BE.
+  if ($node->type != $mapped_type) {
+    return FALSE;
+  }
+
+  $result = db_select('bpi_syndicated', 'bs')
+    ->fields('bs', array('nid', 'timestamp', 'status'))
+    ->condition('nid', $nid, '=')
+    ->execute()
+    ->fetchAllAssoc('nid');
+
+  // A node can be pushed if it is either:
+  // - new to BPI
+  // - has been syndicated (not pushed)
+  // - has been modified after the last push
+  $bpi_action = isset($result[$nid]);
+  $was_pushed = ($bpi_action && $result[$nid]->status == BPI_PUSHED);
+  $modified_after_push = $was_pushed && ($node->changed > $result[$nid]->timestamp);
+  $can_be_pushed = (!$was_pushed || $modified_after_push || !$bpi_action);
+
+  return $can_be_pushed;
 }
 
 /**
