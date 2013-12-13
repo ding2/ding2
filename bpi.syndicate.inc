@@ -477,8 +477,7 @@ function bpi_syndicate_action($bpi_id) {
   $bpi_ctype = variable_get('bpi_content_type', '');
 
   if (!empty($bpi_ctype)) {
-    $_SESSION['bpi']['syndicate_id'] = $bpi_id;
-    drupal_goto(str_replace('_', '-', 'node/add/' . $bpi_ctype), array('query' => array('from' => 'bpi')));
+    drupal_goto(str_replace('_', '-', 'node/add/' . $bpi_ctype), array('query' => array('bpi_id' => $bpi_id)));
   }
   else {
     drupal_goto('admin/bpi');

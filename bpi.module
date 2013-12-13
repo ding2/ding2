@@ -228,20 +228,14 @@ function bpi_form_alter(&$form, &$form_state, $form_id) {
     return;
   }
 
-  $from_bpi = (isset($_GET['from']) && $_GET['from'] == 'bpi') ? TRUE : FALSE;
+  $bpi_id = isset($_GET['bpi_id']) ? (string) $_GET['bpi_id'] : FALSE;
   $nodes_to_mark = array();
+  $form_state['node']->bpi_id = $bpi_id;
 
   // Checking nid for NULL would say that this is create node form, not edit.
-  if ($form_id == $bpi_ctype . '_node_form' && $form['nid']['#value'] == NULL && $from_bpi) {
-    // @todo Why is the syndicate id keept in the session when we already have information about BPI in the URL?
-    // Could this be reduced to a $_GET variable called bpi_syndicate_id?
+  if ($form_id == $bpi_ctype . '_node_form' && $form['nid']['#value'] == NULL && $bpi_id) {
     // Furthermore this could be added as a form value for processing down the line instead of clinging to the
     // GET/SESSION combo.
-    $bpi_id = isset($_SESSION['bpi']['syndicate_id']) ? $_SESSION['bpi']['syndicate_id'] : 0;
-
-    if (!$bpi_id) {
-      return;
-    }
 
     try {
       $bpi = bpi_client_instance();
@@ -322,7 +316,7 @@ function bpi_form_alter(&$form, &$form_state, $form_id) {
       $form[$body][$current_language][0]['#default_value'] = $bpi_body;
     }
 
-    if ($from_bpi) {
+    if ($bpi_id) {
       drupal_add_library('system', 'drupal.ajax');
       drupal_add_library('system', 'jquery.form');
       drupal_add_library('system', 'ui.dialog');
@@ -606,33 +600,27 @@ function bpi_ability($nid, $op) {
  * write a record about it.
  */
 function bpi_node_insert($node) {
-  $node_id = $node->nid;
-  // @todo As mentioned previously consider moving this to a attribute on the node instead of using GET/SESSION.
-  $from_bpi = (isset($_GET['from']) && $_GET['from'] == 'bpi') ? TRUE : FALSE;
-
-  if (!empty($_SESSION['bpi']['syndicate_id']) && $from_bpi) {
+  if (!empty($node->bpi_id)) {
     try {
-      $bpi_id = $_SESSION['bpi']['syndicate_id'];
       $bpi = bpi_client_instance();
-      $bpi->syndicateNode($bpi_id);
+      $bpi->syndicateNode($node->bpi_id);
 
       db_merge('bpi_syndicated')
         ->fields(array(
-          'nid' => $node_id,
-          'bid' => $bpi_id,
+          'nid' => $node->nid,
+          'bid' => $node->bpi_id,
           'status' => BPI_SYNDICATED,
           'timestamp' => time(),
         ))
-        ->condition('nid', $node_id, '=')
+        ->condition('nid', $node->nid, '=')
         ->execute();
-      unset($_SESSION['bpi']['syndicate_id']);
     }
     catch (Exception $e) {
       watchdog_exception('bpi', $e);
-      drupal_set_message(t('Syndication error. Check reports for more information.'), 'error');
+      drupal_set_message(t('Syndication error, node was not created. Check reports for more information.'), 'error');
       // We should prevent creation of node due to handled exception.
       // Maybe there is better solution than deletetion of newly created node.
-      node_delete($node_id);
+      node_delete($node->nid);
     }
   }
 }
