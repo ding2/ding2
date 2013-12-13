@@ -228,21 +228,12 @@ function bpi_form_alter(&$form, &$form_state, $form_id) {
     return;
   }
 
-  $from_bpi = (isset($_GET['from']) && $_GET['from'] == 'bpi') ? TRUE : FALSE;
+  $bpi_id = isset($_GET['bpi_id']) ? (string) $_GET['bpi_id'] : FALSE;
   $nodes_to_mark = array();
+  $form_state['node']->bpi_id = $bpi_id;
 
   // Checking nid for NULL would say that this is create node form, not edit.
-  if ($form_id == $bpi_ctype . '_node_form' && $form['nid']['#value'] == NULL && $from_bpi) {
-    // @todo Why is the syndicate id keept in the session when we already have information about BPI in the URL?
-    // Could this be reduced to a $_GET variable called bpi_syndicate_id?
-    // Furthermore this could be added as a form value for processing down the line instead of clinging to the
-    // GET/SESSION combo.
-    $bpi_id = isset($_SESSION['bpi']['syndicate_id']) ? $_SESSION['bpi']['syndicate_id'] : 0;
-
-    if (!$bpi_id) {
-      return;
-    }
-
+  if ($form_id == $bpi_ctype . '_node_form' && $form['nid']['#value'] == NULL && $bpi_id) {
     try {
       $bpi = bpi_client_instance();
       $bpi_node = $bpi->getNode($bpi_id);
@@ -322,7 +313,7 @@ function bpi_form_alter(&$form, &$form_state, $form_id) {
       $form[$body][$current_language][0]['#default_value'] = $bpi_body;
     }
 
-    if ($from_bpi) {
+    if ($bpi_id) {
       drupal_add_library('system', 'drupal.ajax');
       drupal_add_library('system', 'jquery.form');
       drupal_add_library('system', 'ui.dialog');
@@ -331,145 +322,6 @@ function bpi_form_alter(&$form, &$form_state, $form_id) {
       drupal_add_css(drupal_get_path('module', 'bpi') . '/css/bpi-admin.styles.css', 'file');
       $_SESSION['bpi']['assets'] = $bpi_assets;
     }
-  }
-  // @todo If targeting a specific form then please move to bpi_form_node_admin_content_alter().
-  // bpi_form_alter() is long enough as it is.
-  elseif ($form_id == 'node_admin_content' && isset($form['admin']['nodes'])) {
-    // @todo I do not agree with this implementation of adding BPI status to the administration
-    // content listing:
-    //
-    // 1. The scope of this implementation is limited due to the fact that it only works on a
-    //    single page/form which already has many shortcomings.
-    // 2. The code for handling this is convoluted (note the "cheats", use of $_SESSION and hook_query_alter()
-    //
-    // I think a better solution could be implemented in a way that also plays better with the
-    // Drupal ecosystem by in general. I see two possible solutions:
-    //
-    // A. Exposing the BPI data for nodes as Views data and BPI operations as Drupal actions.
-    //    That would allow us to implement the administrative content listing in a clean way using
-    //    Views to display BPI state and Views Bulk Operations to push and delete nodes to BPI.
-    //    This would also allow us to show BPI data and apply actions in other contexts - e.g.
-    //    using Rules to automatically push nodes to BPI after creating/updating them.
-    // B. Using a Workflow engine such as the Workflow module to model state and performing
-    //    calls to the BPI webservice based on state changes. It is a much larger and more complex
-    //    framework but we would also get functionality for free e.g. Views, Actions, permission
-    //    handling, logging of state changes, buttons for workflow actions, scheduling of state
-    //    changes that we we already have or will have to write code for ourselves.
-    $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-admin.styles.css';
-
-    // Mark BPI nodes.
-    $nodes_in_table = array_keys($form['admin']['nodes']['#options']);
-    $bpi_nodes = bpi_get_bpi_nodes($nodes_in_table);
-    if (!empty($nodes_in_table)) {
-      $nodes_to_mark = array_keys($bpi_nodes);
-
-      foreach ($form['admin']['nodes']['#options'] as $node_id => &$row) {
-        if (in_array($node_id, $nodes_to_mark)) {
-          $row['title']['data']['#suffix'] .= '<sup class="bpi-marker">BPI</sup>';
-        }
-      }
-    }
-
-    // BPI filter.
-    if (isset($form['filter']['filters']['status']['filters'])) {
-      $current_bpi_filter = isset($_SESSION['bpi']['filter']) ? $_SESSION['bpi']['filter'] : 'all';
-
-      $bpi_filters = array(
-        'all' => t('any'),
-        'bpi_only' => t('BPI only'),
-        'bpi_syndicated' => t('Syndicated'),
-        'bpi_pushed' => t('Pushed'),
-      );
-
-      $form['filter']['filters']['status']['filters']['bpi'] = array(
-        '#type' => 'select',
-        '#title' => t('bpi'),
-        '#options' => $bpi_filters,
-        '#default_value' => $current_bpi_filter,
-      );
-
-      // It's viable that this module hooks, are fired before the standard ones.
-      array_unshift($form['#submit'], '_bpi_node_admin_content_submit');
-
-      // If a BPI filter is set, prepend an active BPI filter marker.
-      if ($current_bpi_filter != 'all') {
-        $drupal_filters = isset($_SESSION['node_overview_filter']) ? $_SESSION['node_overview_filter'] : array();
-        $t_args = array(
-          '%property' => 'bpi',
-          '%value' => $bpi_filters[$current_bpi_filter],
-        );
-        $bpi_filter_marker['#markup'] = t('where %property is %value', $t_args);
-
-        // Whether there are some filters active, prepend a plural form.
-        if (count($drupal_filters)) {
-          $bpi_filter_marker['#prefix'] = t('and') . ' ';
-        }
-
-        // Add a BPI filter marker to active filters.
-        $form['filter']['filters']['current'][] = $bpi_filter_marker;
-        // Add standard filter buttons,
-        // since those are showed only if drupal filters array is not empty.
-        $filter_actions = &$form['filter']['filters']['status']['actions'];
-        $filter_actions['submit']['#value'] = t('Refine');
-        $filter_actions['undo'] = array('#type' => 'submit', '#value' => t('Undo'));
-        $filter_actions['reset'] = array('#type' => 'submit', '#value' => t('Reset'));
-      }
-    }
-
-    // Content grid columns.
-    $form['admin']['nodes']['#header']['bpi_timestamp'] = t('BPI import/export');
-
-    // Cheat!
-    // Make the operations column last.
-    $tmp = $form['admin']['nodes']['#header']['operations'];
-    unset($form['admin']['nodes']['#header']['operations']);
-    $form['admin']['nodes']['#header']['operations'] = $tmp;
-
-    foreach ($form['admin']['nodes']['#options'] as $key => &$row) {
-      $row['bpi_timestamp'] = '';
-      if (in_array($key, $nodes_to_mark)) {
-        $row['bpi_timestamp'] = format_date($bpi_nodes[$key]->timestamp, 'short');
-      }
-
-      // Cheat!
-      // Make the operations column value last.
-      $tmp = $row['operations'];
-      unset($row['operations']);
-      $row['operations'] = $tmp;
-
-      $push_permission = user_access('bpi push content');
-
-      // Adds a push link to operations.
-      if ($push_permission && bpi_push_available($key)) {
-        $row['operations']['data']['#links']['push'] = array(
-          'title' => t('push'),
-          'href' => 'admin/bpi/push/nojs/' . $key,
-          'attributes' => array(
-            'class' => array(
-              'use-ajax',
-            ),
-          ),
-        );
-      }
-
-      $delete_permission = bpi_ability($key, 'delete');
-
-      // Adds a delete from bpi link.
-      if ($delete_permission && isset($bpi_nodes[$key]) && $bpi_nodes[$key]->status == BPI_PUSHED) {
-        $row['operations']['data']['#links']['delete_from_bpi'] = array(
-          'title' => t('delete from bpi'),
-          'href' => 'admin/bpi/delete/nojs/' . $key,
-          'attributes' => array(
-            'class' => array(
-              'use-ajax',
-            ),
-          ),
-        );
-      }
-
-      drupal_add_library('system', 'drupal.ajax');
-    }
-    // END content grid columns.
   }
 
   // Add "Save & Push" button.
@@ -481,6 +333,149 @@ function bpi_form_alter(&$form, &$form_state, $form_id) {
       $form['actions']['push']['#submit'][] = 'bpi_push_directly_callback_action';
     }
   }
+}
+
+/**
+ * Implements hook_form_ID_alter().
+ *
+ * Adds BPI specific labels and actions to content items.
+ */
+function bpi_form_node_admin_content_alter(&$form, &$form_state) {
+  // @todo I do not agree with this implementation of adding BPI status to the administration
+  // content listing:
+  //
+  // 1. The scope of this implementation is limited due to the fact that it only works on a
+  //    single page/form which already has many shortcomings.
+  // 2. The code for handling this is convoluted (note the "cheats", use of $_SESSION and hook_query_alter()
+  //
+  // I think a better solution could be implemented in a way that also plays better with the
+  // Drupal ecosystem by in general. I see two possible solutions:
+  //
+  // A. Exposing the BPI data for nodes as Views data and BPI operations as Drupal actions.
+  //    That would allow us to implement the administrative content listing in a clean way using
+  //    Views to display BPI state and Views Bulk Operations to push and delete nodes to BPI.
+  //    This would also allow us to show BPI data and apply actions in other contexts - e.g.
+  //    using Rules to automatically push nodes to BPI after creating/updating them.
+  // B. Using a Workflow engine such as the Workflow module to model state and performing
+  //    calls to the BPI webservice based on state changes. It is a much larger and more complex
+  //    framework but we would also get functionality for free e.g. Views, Actions, permission
+  //    handling, logging of state changes, buttons for workflow actions, scheduling of state
+  //    changes that we we already have or will have to write code for ourselves.
+  $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-admin.styles.css';
+
+  // Mark BPI nodes.
+  $nodes_in_table = array_keys($form['admin']['nodes']['#options']);
+  $bpi_nodes = bpi_get_bpi_nodes($nodes_in_table);
+  if (!empty($nodes_in_table)) {
+    $nodes_to_mark = array_keys($bpi_nodes);
+
+    foreach ($form['admin']['nodes']['#options'] as $node_id => &$row) {
+      if (in_array($node_id, $nodes_to_mark)) {
+        $row['title']['data']['#suffix'] .= '<sup class="bpi-marker">BPI</sup>';
+      }
+    }
+  }
+
+  // BPI filter.
+  if (isset($form['filter']['filters']['status']['filters'])) {
+    $current_bpi_filter = isset($_SESSION['bpi']['filter']) ? $_SESSION['bpi']['filter'] : 'all';
+
+    $bpi_filters = array(
+      'all' => t('any'),
+      'bpi_only' => t('BPI only'),
+      'bpi_syndicated' => t('Syndicated'),
+      'bpi_pushed' => t('Pushed'),
+    );
+
+    $form['filter']['filters']['status']['filters']['bpi'] = array(
+      '#type' => 'select',
+      '#title' => t('bpi'),
+      '#options' => $bpi_filters,
+      '#default_value' => $current_bpi_filter,
+    );
+
+    // It's viable that this module hooks, are fired before the standard ones.
+    array_unshift($form['#submit'], '_bpi_node_admin_content_submit');
+
+    // If a BPI filter is set, prepend an active BPI filter marker.
+    if ($current_bpi_filter != 'all') {
+      $drupal_filters = isset($_SESSION['node_overview_filter']) ? $_SESSION['node_overview_filter'] : array();
+      $t_args = array(
+        '%property' => 'bpi',
+        '%value' => $bpi_filters[$current_bpi_filter],
+      );
+      $bpi_filter_marker['#markup'] = t('where %property is %value', $t_args);
+
+      // Whether there are some filters active, prepend a plural form.
+      if (count($drupal_filters)) {
+        $bpi_filter_marker['#prefix'] = t('and') . ' ';
+      }
+
+      // Add a BPI filter marker to active filters.
+      $form['filter']['filters']['current'][] = $bpi_filter_marker;
+      // Add standard filter buttons,
+      // since those are showed only if drupal filters array is not empty.
+      $filter_actions = &$form['filter']['filters']['status']['actions'];
+      $filter_actions['submit']['#value'] = t('Refine');
+      $filter_actions['undo'] = array('#type' => 'submit', '#value' => t('Undo'));
+      $filter_actions['reset'] = array('#type' => 'submit', '#value' => t('Reset'));
+    }
+  }
+
+  // Content grid columns.
+  $form['admin']['nodes']['#header']['bpi_timestamp'] = t('BPI import/export');
+
+  // Cheat!
+  // Make the operations column last.
+  $tmp = $form['admin']['nodes']['#header']['operations'];
+  unset($form['admin']['nodes']['#header']['operations']);
+  $form['admin']['nodes']['#header']['operations'] = $tmp;
+
+  foreach ($form['admin']['nodes']['#options'] as $key => &$row) {
+    $row['bpi_timestamp'] = '';
+    if (in_array($key, $nodes_to_mark)) {
+      $row['bpi_timestamp'] = format_date($bpi_nodes[$key]->timestamp, 'short');
+    }
+
+    // Cheat!
+    // Make the operations column value last.
+    $tmp = $row['operations'];
+    unset($row['operations']);
+    $row['operations'] = $tmp;
+
+    $push_permission = user_access('bpi push content');
+
+    // Adds a push link to operations.
+    if ($push_permission && bpi_push_available($key)) {
+      $row['operations']['data']['#links']['push'] = array(
+        'title' => t('push'),
+        'href' => 'admin/bpi/push/nojs/' . $key,
+        'attributes' => array(
+          'class' => array(
+            'use-ajax',
+          ),
+        ),
+      );
+    }
+
+    $delete_permission = bpi_ability($key, 'delete');
+
+    // Adds a delete from bpi link.
+    if ($delete_permission && isset($bpi_nodes[$key]) && $bpi_nodes[$key]->status == BPI_PUSHED) {
+      $row['operations']['data']['#links']['delete_from_bpi'] = array(
+        'title' => t('delete from bpi'),
+        'href' => 'admin/bpi/delete/nojs/' . $key,
+        'attributes' => array(
+          'class' => array(
+            'use-ajax',
+          ),
+        ),
+      );
+    }
+
+    drupal_add_library('system', 'drupal.ajax');
+  }
+  // END content grid columns.
 }
 
 /**
@@ -606,33 +601,27 @@ function bpi_ability($nid, $op) {
  * write a record about it.
  */
 function bpi_node_insert($node) {
-  $node_id = $node->nid;
-  // @todo As mentioned previously consider moving this to a attribute on the node instead of using GET/SESSION.
-  $from_bpi = (isset($_GET['from']) && $_GET['from'] == 'bpi') ? TRUE : FALSE;
-
-  if (!empty($_SESSION['bpi']['syndicate_id']) && $from_bpi) {
+  if (!empty($node->bpi_id)) {
     try {
-      $bpi_id = $_SESSION['bpi']['syndicate_id'];
       $bpi = bpi_client_instance();
-      $bpi->syndicateNode($bpi_id);
+      $bpi->syndicateNode($node->bpi_id);
 
       db_merge('bpi_syndicated')
         ->fields(array(
-          'nid' => $node_id,
-          'bid' => $bpi_id,
+          'nid' => $node->nid,
+          'bid' => $node->bpi_id,
           'status' => BPI_SYNDICATED,
           'timestamp' => time(),
         ))
-        ->condition('nid', $node_id, '=')
+        ->condition('nid', $node->nid, '=')
         ->execute();
-      unset($_SESSION['bpi']['syndicate_id']);
     }
     catch (Exception $e) {
       watchdog_exception('bpi', $e);
-      drupal_set_message(t('Syndication error. Check reports for more information.'), 'error');
+      drupal_set_message(t('Syndication error, node was not created. Check reports for more information.'), 'error');
       // We should prevent creation of node due to handled exception.
       // Maybe there is better solution than deletetion of newly created node.
-      node_delete($node_id);
+      node_delete($node->nid);
     }
   }
 }
