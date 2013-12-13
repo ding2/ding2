@@ -145,7 +145,7 @@ function bpi_http_push_action_form($form, &$form_state, $nid) {
  *
  * @ingroup forms
  */
-function bpi_push_action_form_submit($form, &$form_state) {
+function bpi_http_push_action_form_submit($form, &$form_state) {
   $nid = $form_state['input']['bpi_push_nid'];
   $category = $form_state['input']['bpi_push_category'];
   $audience = $form_state['input']['bpi_push_audience'];
@@ -174,7 +174,7 @@ function bpi_push_action_form_submit($form, &$form_state) {
         ->execute();
       drupal_set_message(t('Node %title was successfully pushed to BPI well.', array('%title' => $node->title)));
     }
-    drupal_goto('/admin/bpi');
+    drupal_goto('admin/bpi');
   }
   catch (Exception $e) {
     watchdog_exception('bpi', $e);
@@ -192,6 +192,7 @@ function bpi_push_action_form_submit($form, &$form_state) {
  *   Form state values.
  * @param int $nid
  *   The node id, waiting to be pushed.
+ *
  * @return array
  *   Form structure.
  *
