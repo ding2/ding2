@@ -252,7 +252,7 @@ function bpi_form_alter(&$form, &$form_state, $form_id) {
       );
     }
     catch (Exception $e) {
-      watchdog('bpi', $e);
+      watchdog_exception('bpi', $e);
       drupal_set_message(
         t('Failed to fetch the article from BPI well.'),
         'error'
