@@ -92,9 +92,13 @@
   @include small-medium() {
     .news-label,
     .news-sub-heading,
-    .news-list-content,
-    .news-link {
+    .news-image-wrapper {
       display: none;
+    }
+
+    .news-heading,
+    .news-list-content {
+      margin-left: 0;
     }
 
     .news-heading {
