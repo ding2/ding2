@@ -52,7 +52,7 @@ function ding_campaign_campaign_content_type_edit_form($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Campaign count'),
     '#description' => t('The maximum number of campaigns to display'),
-    '#default_value' => (isset($form_state['conf']['ding_campaign_count'])) ? $form_state['conf']['ding_campaign_count'] : DING_CAMPAIGN_DEFAULT_COUNT,
+    '#default_value' => (isset($form_state['conf']['ding_campaign_count'])) ? $form_state['conf']['ding_campaign_count'] : 3,
     '#size' => 2,
     '#maxlength' => 2,
   );

@@ -4,20 +4,18 @@
  * Provides campaign feature to various node types in Ding.
  */
 
-define('DING_CAMPAIGN_DEFAULT_COUNT', 3);
-
 /**
  * Implements hook_menu().
  */
 function ding_campaign_menu() {
   $items = array();
 
-  $items['admin/config/ding/campaign'] = array(
-    'title' => 'Ding! Campaign',
-    'description' => 'Configure the Ding! campaign system.',
+  $items['admin/config/ding/campaigns'] = array(
+    'title' => 'Campaigns',
+    'description' => 'Configure the campaigns.',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('ding_campaign_configure'),
-    'access arguments' => array('access administration pages'),
+    'page arguments' => array('ding_campaign_admin_settings'),
+    'access arguments' => array('administer site configuration'),
     'file' => 'ding_campaign.admin.inc',
   );
 
@@ -147,10 +145,6 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
   // Get node id's for the campaign nodes matching the context.
   $campaigns = ding_campaign_get_campaigns($context, $count, $offset);
 
-  // @todo whey is context null on front page.
-
-  // @todo add cache based on the three parameters given.
-
   // If any campaigns where found.
   if (!empty($campaigns)) {
     // Load campaign nodes (use entity load to utilize entity cache).
@@ -246,6 +240,8 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
  */
 function ding_campaign_get_campaigns($context, $limit, $offset) {
   $campaigns = array();
+
+  // @todo add cache based on the three parameters given.
 
   // Process event campaigns.
   if ($context['page'] != NULL && isset($context['page']->nid) && $context['page']->type == 'ding_event') {
