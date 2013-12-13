@@ -3,7 +3,7 @@ api = 2
 
 ; Projects
 projects[addressfield][subdir] = "contrib"
-projects[addressfield][version] = "1.0-beta3"
+projects[addressfield][version] = "1.0-beta5"
 
 projects[cache_actions][subdir] = "contrib"
 projects[cache_actions][version] = "2.0-alpha5"
