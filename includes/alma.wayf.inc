@@ -11,7 +11,7 @@
  * login.
  */
 function alma_wayf_login_credentials($authentication_attributes) {
-  $hash = variable_get('alma_wayf_hash', '');
+  $hash = variable_get('wayf_hash', '');
   $credentials = array();
 
   if ($hash) {
@@ -22,7 +22,7 @@ function alma_wayf_login_credentials($authentication_attributes) {
   }
   else {
     // Set message that hash value was not found.
-    watchdog('alma', 'The WAYF hash value has not been set in setting.php as $conf[\'alma_wayf_hash\'] and WAYF login will fail', WATCHDOG_ERROR);
+    watchdog('alma', 'The WAYF hash value has not been set in setting.php as $conf[\'wayf_hash\'] and WAYF login will fail.', WATCHDOG_ERROR);
   }
 
   return $credentials;
