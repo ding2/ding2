@@ -137,16 +137,19 @@ function template_preprocess_ding_campaign(&$variables) {
  *   Render array with the campaigns found.
  */
 function ding_campaign_display($context, $count, $offset, $style = 'medium') {
-  $content = array(
-    '#theme' => 'ding_campaign_wrapper',
-    '#content' => array(),
-  );
+  $content = array();
 
   // Get node id's for the campaign nodes matching the context.
   $campaigns = ding_campaign_get_campaigns($context, $count, $offset);
 
   // If any campaigns where found.
   if (!empty($campaigns)) {
+    // Set outer wrapper.
+    $content = array(
+      '#theme' => 'ding_campaign_wrapper',
+      '#content' => array(),
+    );
+
     // Load campaign nodes (use entity load to utilize entity cache).
     $campaigns = entity_load('node', array_values($campaigns));
 
