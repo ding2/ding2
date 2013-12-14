@@ -198,3 +198,14 @@ from a performance point it's more what you are use to setup.
     'cache' => 'default',
   );
 ```
+
+## WAYF - NemID
+The ding_wayf module that is used to connect to WAYF services through
+SimpleSAMLphp requires that the providers (alma and openruth) set a special
+hash value as default password togehter with the social security number from
+WAYF.
+
+This is done in settings.php by setting.
+```php
+  $conf['wayf_hash'] = "HASH_VALUE";
+```
