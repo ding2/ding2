@@ -29,18 +29,13 @@
  */
 ?>
 <div class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
-  
   <div class="content"<?php print $content_attributes; ?>>
     <?php
-      // Hide name fields - they are present in the panel pane title 
+      // Hide name fields - they are present in the panel pane title.
       hide($content['field_ding_staff_forename']);
       hide($content['field_ding_staff_surname']);
-      
-      // Hide fields 
-      //hide($content['field_ding_staff_email']);
-      //hide($content['field_ding_staff_phone']);
 
-      // Render remaining fields
+      // Render fields.
       print render($content);
     ?>
   </div>
