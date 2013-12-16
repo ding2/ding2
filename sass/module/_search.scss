@@ -940,6 +940,10 @@ input#edit-search-block-form--2.spinner {
     padding: 20px;
 
     background-color: transparentize($white, .1);
+
+    h2 {
+      margin-bottom: 10px;
+    }
   }
 
   .ting-object-left {
