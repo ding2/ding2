@@ -128,13 +128,14 @@ function ding_base_strongarm() {
   $strongarm->name = 'ding_varnish_content_types';
   $strongarm->value = array(
     'ding_event' => 'ding_event',
+    'ding_group' => 'ding_group',
     'ding_library' => 'ding_library',
     'ding_news' => 'ding_news',
     'ding_page' => 'ding_page',
     'new_materials' => 'new_materials',
     'ding_campaign' => 0,
-    'panel' => 0,
     'ding_rolltab' => 0,
+    'panel' => 0,
   );
   $export['ding_varnish_content_types'] = $strongarm;
 
@@ -147,7 +148,8 @@ arrangementer/*
 biblioteker/*
 nyematerialer/*
 nyheder/*
-search/ting/*';
+search/*
+temaer/*';
   $export['ding_varnish_paths'] = $strongarm;
 
   $strongarm = new stdClass();
