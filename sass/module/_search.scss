@@ -390,11 +390,6 @@ input#edit-search-block-form--2.spinner {
   .expand-facets-hidden {
     @extend .icon-plus-sign;
   }
-
-  /* Media queries */
-  @include small-medium() {
-    display: none;
-  }
 }
 
 
@@ -414,8 +409,24 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
-.facet-browser-responsive {
+
+.pane-ding-facetbrowser {
   @extend .pane-ding-facetbrowser;
+}
+
+/* Responsive styling for facet browser depending on context */
+.primary-content {
+  .pane-ding-facetbrowser {
+    display: none;
+  }
+}
+
+.secondary-content {
+  .pane-ding-facetbrowser {
+    @include small-medium() {
+      display: none;
+    }
+  }
 }
 
 
