@@ -168,7 +168,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['nothing']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['nothing']['element_default_classes'] = FALSE;
-  /* Field: Content: Opening hours */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['id'] = 'field_ding_library_opening_hours';
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['table'] = 'field_data_field_ding_library_opening_hours';
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['field'] = 'field_ding_library_opening_hours';
@@ -181,7 +181,6 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['element_wrapper_type'] = 'div';
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['element_wrapper_class'] = 'opening-hours';
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_library_opening_hours']['type'] = 'text_plain';
   /* Sort criterion: Content: Title */
   $handler->display->display_options['sorts']['title']['id'] = 'title';
   $handler->display->display_options['sorts']['title']['table'] = 'node';
@@ -316,7 +315,7 @@ function ding_library_views_default_views() {
       'address' => 'address',
     ),
   );
-  /* Field: Content: Opening hours */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['id'] = 'field_ding_library_opening_hours';
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['table'] = 'field_data_field_ding_library_opening_hours';
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['field'] = 'field_ding_library_opening_hours';
