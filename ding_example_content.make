@@ -3,8 +3,8 @@ core = 7.x
 
 projects[node_export][subdir] = "contrib"
 projects[node_export][version] = "3.0"
-projects[node_export][patch][] = "https://drupal.org/files/suppress-feature-install-profile-import.patch"
-projects[node_export][patch][] = "https://drupal.org/files/check-field.patch"
+projects[node_export][patch][] = "http://drupal.org/files/suppress-feature-install-profile-import.patch"
+projects[node_export][patch][] = "http://drupal.org/files/check-field.patch"
 
 # Using dev release, as the "stable" version is making errors on install profile.
 projects[uuid][subdir] = "contrib"
