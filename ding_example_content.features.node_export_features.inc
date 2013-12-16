@@ -10,9 +10,9 @@
 function ding_example_content_node_export_features_default() {
   $node_export = array(
   'code_string' => '<?xml version="1.0" encoding="UTF-8" ?>
-<node_export created="Mon, 16 Dec 2013 08:04:58 +0100">
+<node_export created="Mon, 16 Dec 2013 08:17:50 +0100">
   <node>
-    <vid>2</vid>
+    <vid>20</vid>
     <uid>1</uid>
     <title>Parkour – Biblioteket i bevægelse</title>
     <log></log>
@@ -24,12 +24,12 @@ function ding_example_content_node_export_features_default() {
     <nid>2</nid>
     <type>ding_event</type>
     <language>und</language>
-    <created>1387175162</created>
-    <changed>1387175162</changed>
+    <created>1387177763</created>
+    <changed>1387177763</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>1995926f-39d4-4e33-8013-d8e4d2152dfc</uuid>
-    <revision_timestamp>1387175162</revision_timestamp>
+    <revision_timestamp>1387177763</revision_timestamp>
     <revision_uid>1</revision_uid>
     <ding_event_groups_ref _numeric_keys="1"></ding_event_groups_ref>
     <field_ding_event_body>
@@ -87,7 +87,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>5847</filesize>
           <status>1</status>
-          <timestamp>1387175162</timestamp>
+          <timestamp>1387177763</timestamp>
           <type>image</type>
           <uuid>a5275a25-f2bd-4121-919c-6f51961c5bf9</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -150,7 +150,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>61408</filesize>
           <status>1</status>
-          <timestamp>1387175162</timestamp>
+          <timestamp>1387177763</timestamp>
           <type>image</type>
           <uuid>f8b59a30-65dd-4ca6-9efb-7cd5d85229e7</uuid>
           <field_file_image_alt_text>
@@ -198,7 +198,7 @@ function ding_example_content_node_export_features_default() {
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>3</vid>
+    <vid>21</vid>
     <uid>1</uid>
     <title>Fantastiske rejser</title>
     <log></log>
@@ -210,12 +210,12 @@ function ding_example_content_node_export_features_default() {
     <nid>3</nid>
     <type>ding_news</type>
     <language>und</language>
-    <created>1387175162</created>
-    <changed>1387175162</changed>
+    <created>1387177763</created>
+    <changed>1387177763</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>1c54a7aa-49b8-45a4-bb32-9bf9c77ae77e</uuid>
-    <revision_timestamp>1387175162</revision_timestamp>
+    <revision_timestamp>1387177763</revision_timestamp>
     <revision_uid>1</revision_uid>
     <ding_news_groups_ref _numeric_keys="1"></ding_news_groups_ref>
     <field_ding_news_body>
@@ -260,7 +260,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>5721</filesize>
           <status>1</status>
-          <timestamp>1387175162</timestamp>
+          <timestamp>1387177763</timestamp>
           <type>image</type>
           <uuid>0ee0dcc6-a0e2-4528-950e-018e689fea6d</uuid>
           <field_file_image_alt_text>
@@ -311,7 +311,7 @@ function ding_example_content_node_export_features_default() {
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>4</vid>
+    <vid>22</vid>
     <uid>1</uid>
     <title>Tove Ditlevsens liv i litteratur og musik</title>
     <log></log>
@@ -323,12 +323,12 @@ function ding_example_content_node_export_features_default() {
     <nid>4</nid>
     <type>ding_event</type>
     <language>und</language>
-    <created>1387175162</created>
-    <changed>1387175162</changed>
+    <created>1387177763</created>
+    <changed>1387177763</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>24ec65cb-ea62-4065-95b3-136cccf1cdf0</uuid>
-    <revision_timestamp>1387175162</revision_timestamp>
+    <revision_timestamp>1387177763</revision_timestamp>
     <revision_uid>1</revision_uid>
     <ding_event_groups_ref _numeric_keys="1"></ding_event_groups_ref>
     <field_ding_event_body>
@@ -384,7 +384,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>4188</filesize>
           <status>1</status>
-          <timestamp>1387175162</timestamp>
+          <timestamp>1387177763</timestamp>
           <type>image</type>
           <uuid>f1441750-9a6f-4b76-8821-734487f9ca79</uuid>
           <field_file_image_alt_text>
@@ -463,7 +463,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>16583</filesize>
           <status>1</status>
-          <timestamp>1387175162</timestamp>
+          <timestamp>1387177763</timestamp>
           <type>image</type>
           <uuid>23d30d1a-46cc-4bae-908e-a04286a87328</uuid>
           <field_file_image_alt_text>
@@ -511,7 +511,7 @@ function ding_example_content_node_export_features_default() {
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>5</vid>
+    <vid>23</vid>
     <uid>1</uid>
     <title>Internet på biblioteket</title>
     <log></log>
@@ -523,12 +523,12 @@ function ding_example_content_node_export_features_default() {
     <nid>5</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1387175162</created>
-    <changed>1387175162</changed>
+    <created>1387177763</created>
+    <changed>1387177763</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>31f30e60-40df-453d-a2cc-cd6bc6535a8f</uuid>
-    <revision_timestamp>1387175162</revision_timestamp>
+    <revision_timestamp>1387177763</revision_timestamp>
     <revision_uid>1</revision_uid>
     <ding_page_group_ref _numeric_keys="1"></ding_page_group_ref>
     <field_ding_page_body _numeric_keys="1"></field_ding_page_body>
@@ -567,7 +567,7 @@ function ding_example_content_node_export_features_default() {
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>6</vid>
+    <vid>24</vid>
     <uid>1</uid>
     <title>Language café</title>
     <log></log>
@@ -579,12 +579,12 @@ function ding_example_content_node_export_features_default() {
     <nid>6</nid>
     <type>ding_news</type>
     <language>und</language>
-    <created>1387175162</created>
-    <changed>1387175162</changed>
+    <created>1387177763</created>
+    <changed>1387177763</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>3665c05a-1f05-48e4-a542-1b28e113e521</uuid>
-    <revision_timestamp>1387175162</revision_timestamp>
+    <revision_timestamp>1387177763</revision_timestamp>
     <revision_uid>1</revision_uid>
     <ding_news_groups_ref _numeric_keys="1"></ding_news_groups_ref>
     <field_ding_news_body>
@@ -629,7 +629,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>5692</filesize>
           <status>1</status>
-          <timestamp>1387175162</timestamp>
+          <timestamp>1387177763</timestamp>
           <type>image</type>
           <uuid>af1b163d-ff84-414c-b0ec-d139a93d1051</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -658,7 +658,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>145934</filesize>
           <status>1</status>
-          <timestamp>1387175162</timestamp>
+          <timestamp>1387177763</timestamp>
           <type>image</type>
           <uuid>393f498e-866f-4eaa-8213-7ade96cb649c</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -690,7 +690,7 @@ function ding_example_content_node_export_features_default() {
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>7</vid>
+    <vid>25</vid>
     <uid>1</uid>
     <title>Spørgsmål og svar</title>
     <log></log>
@@ -702,12 +702,12 @@ function ding_example_content_node_export_features_default() {
     <nid>7</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1387175162</created>
-    <changed>1387175162</changed>
+    <created>1387177763</created>
+    <changed>1387177763</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>49da3093-5f15-4501-b601-9de3c0310ecf</uuid>
-    <revision_timestamp>1387175162</revision_timestamp>
+    <revision_timestamp>1387177763</revision_timestamp>
     <revision_uid>1</revision_uid>
     <ding_page_group_ref _numeric_keys="1"></ding_page_group_ref>
     <field_ding_page_body _numeric_keys="1"></field_ding_page_body>
@@ -746,7 +746,7 @@ function ding_example_content_node_export_features_default() {
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>8</vid>
+    <vid>26</vid>
     <uid>1</uid>
     <title>Lån et lokale</title>
     <log></log>
@@ -758,12 +758,12 @@ function ding_example_content_node_export_features_default() {
     <nid>8</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1387175162</created>
-    <changed>1387175162</changed>
+    <created>1387177763</created>
+    <changed>1387177763</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>51b8b28c-d52a-4e38-b26f-9cd12d4bc616</uuid>
-    <revision_timestamp>1387175162</revision_timestamp>
+    <revision_timestamp>1387177763</revision_timestamp>
     <revision_uid>1</revision_uid>
     <ding_page_group_ref _numeric_keys="1"></ding_page_group_ref>
     <field_ding_page_body>
@@ -844,7 +844,7 @@ function ding_example_content_node_export_features_default() {
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>9</vid>
+    <vid>27</vid>
     <uid>1</uid>
     <title>Biblioteket på din telefon</title>
     <log></log>
@@ -856,12 +856,12 @@ function ding_example_content_node_export_features_default() {
     <nid>9</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1387175162</created>
-    <changed>1387175162</changed>
+    <created>1387177763</created>
+    <changed>1387177763</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>5386750d-f9d5-4be5-bfcd-9f75105107cb</uuid>
-    <revision_timestamp>1387175162</revision_timestamp>
+    <revision_timestamp>1387177763</revision_timestamp>
     <revision_uid>1</revision_uid>
     <ding_page_group_ref _numeric_keys="1"></ding_page_group_ref>
     <field_ding_page_body>
@@ -910,7 +910,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>25441</filesize>
           <status>1</status>
-          <timestamp>1387175162</timestamp>
+          <timestamp>1387177763</timestamp>
           <type>image</type>
           <uuid>5f8d34c9-2c1a-462c-85eb-aad2f2d90d3f</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -972,7 +972,7 @@ function ding_example_content_node_export_features_default() {
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>18</vid>
+    <vid>28</vid>
     <uid>1</uid>
     <title>Test bibliotek</title>
     <log></log>
@@ -984,12 +984,12 @@ function ding_example_content_node_export_features_default() {
     <nid>10</nid>
     <type>ding_library</type>
     <language>und</language>
-    <created>1387175162</created>
-    <changed>1387175435</changed>
+    <created>1387177763</created>
+    <changed>1387177763</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>5cb900a0-e318-4eb6-af13-9daf6e7c748c</uuid>
-    <revision_timestamp>1387175435</revision_timestamp>
+    <revision_timestamp>1387177763</revision_timestamp>
     <revision_uid>1</revision_uid>
     <field_ding_library_addresse>
       <und _numeric_keys="1">
@@ -1076,7 +1076,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>4524</filesize>
           <status>1</status>
-          <timestamp>1387175162</timestamp>
+          <timestamp>1387177763</timestamp>
           <type>image</type>
           <uuid>d2b544d2-71fd-4d87-8bff-c8dcbdf1d2ae</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -1129,7 +1129,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>65309</filesize>
           <status>1</status>
-          <timestamp>1387175162</timestamp>
+          <timestamp>1387177763</timestamp>
           <type>image</type>
           <uuid>c84c5289-bf85-45af-9a5d-1a2110e383ee</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -1168,7 +1168,7 @@ function ding_example_content_node_export_features_default() {
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>11</vid>
+    <vid>29</vid>
     <uid>1</uid>
     <title>Cookies</title>
     <log></log>
@@ -1180,12 +1180,12 @@ function ding_example_content_node_export_features_default() {
     <nid>11</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1387175162</created>
-    <changed>1387175162</changed>
+    <created>1387177763</created>
+    <changed>1387177763</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>7b05feff-1012-40ef-a5fc-2a9f37fa82aa</uuid>
-    <revision_timestamp>1387175162</revision_timestamp>
+    <revision_timestamp>1387177763</revision_timestamp>
     <revision_uid>1</revision_uid>
     <ding_page_group_ref _numeric_keys="1"></ding_page_group_ref>
     <field_ding_page_body>
@@ -1270,7 +1270,7 @@ function ding_example_content_node_export_features_default() {
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>12</vid>
+    <vid>30</vid>
     <uid>1</uid>
     <title>Vejledninger</title>
     <log></log>
@@ -1282,12 +1282,12 @@ function ding_example_content_node_export_features_default() {
     <nid>12</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1387175162</created>
-    <changed>1387175162</changed>
+    <created>1387177763</created>
+    <changed>1387177763</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>8a64a5f1-f0e0-4db6-9602-d7f6c306ef5d</uuid>
-    <revision_timestamp>1387175162</revision_timestamp>
+    <revision_timestamp>1387177763</revision_timestamp>
     <revision_uid>1</revision_uid>
     <ding_page_group_ref _numeric_keys="1"></ding_page_group_ref>
     <field_ding_page_body _numeric_keys="1"></field_ding_page_body>
@@ -1346,7 +1346,7 @@ function ding_example_content_node_export_features_default() {
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>13</vid>
+    <vid>31</vid>
     <uid>1</uid>
     <title>Om hjemmesiden</title>
     <log></log>
@@ -1358,12 +1358,12 @@ function ding_example_content_node_export_features_default() {
     <nid>13</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1387175162</created>
-    <changed>1387175162</changed>
+    <created>1387177763</created>
+    <changed>1387177763</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>c181d47e-7c98-442a-9c3b-e23ed7b178ab</uuid>
-    <revision_timestamp>1387175162</revision_timestamp>
+    <revision_timestamp>1387177763</revision_timestamp>
     <revision_uid>1</revision_uid>
     <ding_page_group_ref _numeric_keys="1"></ding_page_group_ref>
     <field_ding_page_body>
@@ -1432,7 +1432,7 @@ function ding_example_content_node_export_features_default() {
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>14</vid>
+    <vid>32</vid>
     <uid>1</uid>
     <title>Det kan du</title>
     <log></log>
@@ -1444,12 +1444,12 @@ function ding_example_content_node_export_features_default() {
     <nid>14</nid>
     <type>ding_page</type>
     <language>und</language>
-    <created>1387175162</created>
-    <changed>1387175162</changed>
+    <created>1387177763</created>
+    <changed>1387177763</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>e2388c84-6d60-4d8d-86e2-26972131914f</uuid>
-    <revision_timestamp>1387175162</revision_timestamp>
+    <revision_timestamp>1387177763</revision_timestamp>
     <revision_uid>1</revision_uid>
     <ding_page_group_ref _numeric_keys="1"></ding_page_group_ref>
     <field_ding_page_body>
@@ -1525,7 +1525,7 @@ function ding_example_content_node_export_features_default() {
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>15</vid>
+    <vid>33</vid>
     <uid>1</uid>
     <title>Biblioteket anbefaler: Fagbøger</title>
     <log></log>
@@ -1537,12 +1537,12 @@ function ding_example_content_node_export_features_default() {
     <nid>15</nid>
     <type>ding_news</type>
     <language>und</language>
-    <created>1387175162</created>
-    <changed>1387175162</changed>
+    <created>1387177763</created>
+    <changed>1387177763</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>eb7382f8-2d8f-4bd1-b920-e81aa79d4bb5</uuid>
-    <revision_timestamp>1387175162</revision_timestamp>
+    <revision_timestamp>1387177763</revision_timestamp>
     <revision_uid>1</revision_uid>
     <ding_news_groups_ref _numeric_keys="1"></ding_news_groups_ref>
     <field_ding_news_body>
@@ -1586,7 +1586,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>47772</filesize>
           <status>1</status>
-          <timestamp>1387175162</timestamp>
+          <timestamp>1387177763</timestamp>
           <type>image</type>
           <uuid>8286cd5b-452a-4a63-9d29-1aa06280baca</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -1621,7 +1621,7 @@ function ding_example_content_node_export_features_default() {
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>16</vid>
+    <vid>34</vid>
     <uid>1</uid>
     <title>Landsdækkende novellekonkurrence</title>
     <log></log>
@@ -1633,12 +1633,12 @@ function ding_example_content_node_export_features_default() {
     <nid>16</nid>
     <type>ding_news</type>
     <language>und</language>
-    <created>1387175162</created>
-    <changed>1387175775</changed>
+    <created>1387177763</created>
+    <changed>1387177763</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>ed698a02-32f3-4516-a293-6a6a8dc3dec1</uuid>
-    <revision_timestamp>1387175775</revision_timestamp>
+    <revision_timestamp>1387177763</revision_timestamp>
     <revision_uid>1</revision_uid>
     <ding_news_groups_ref _numeric_keys="1"></ding_news_groups_ref>
     <field_ding_news_body>
@@ -1685,7 +1685,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>93569</filesize>
           <status>1</status>
-          <timestamp>1387175162</timestamp>
+          <timestamp>1387177763</timestamp>
           <type>image</type>
           <uuid>85c4494f-f38c-4a80-bd15-53880894023b</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -1714,7 +1714,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>93569</filesize>
           <status>1</status>
-          <timestamp>1387175162</timestamp>
+          <timestamp>1387177763</timestamp>
           <type>image</type>
           <uuid>651b19c4-c922-443b-a7e2-5a3640a4c29c</uuid>
           <field_file_image_alt_text>
@@ -1768,7 +1768,7 @@ function ding_example_content_node_export_features_default() {
     <node_export_drupal_version>7</node_export_drupal_version>
   </node>
   <node>
-    <vid>19</vid>
+    <vid>35</vid>
     <uid>1</uid>
     <title>Hovedbiblioteket</title>
     <log></log>
@@ -1780,12 +1780,12 @@ function ding_example_content_node_export_features_default() {
     <nid>17</nid>
     <type>ding_library</type>
     <language>und</language>
-    <created>1387175162</created>
-    <changed>1387175443</changed>
+    <created>1387177763</created>
+    <changed>1387177763</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>f666fb17-4216-4fea-a5b2-5c9b9ad030ec</uuid>
-    <revision_timestamp>1387175443</revision_timestamp>
+    <revision_timestamp>1387177763</revision_timestamp>
     <revision_uid>1</revision_uid>
     <field_ding_library_addresse>
       <und _numeric_keys="1">
@@ -1870,7 +1870,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>4116</filesize>
           <status>1</status>
-          <timestamp>1387175162</timestamp>
+          <timestamp>1387177763</timestamp>
           <type>image</type>
           <uuid>2f5cef11-193f-474f-958b-c2239b862da6</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
@@ -1923,7 +1923,7 @@ function ding_example_content_node_export_features_default() {
           <filemime>image/jpeg</filemime>
           <filesize>35376</filesize>
           <status>1</status>
-          <timestamp>1387175162</timestamp>
+          <timestamp>1387177763</timestamp>
           <type>image</type>
           <uuid>f5f4f78c-2316-4790-bb2c-42a796810fa8</uuid>
           <field_file_image_alt_text _numeric_keys="1"></field_file_image_alt_text>
