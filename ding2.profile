@@ -109,7 +109,7 @@ function ding2_install_tasks(&$install_state) {
 /**
  * Translation callback.
  *
- * @param $install_state
+ * @param string $install_state
  *   An array of information about the current installation state.
  *
  * @return array
@@ -208,10 +208,11 @@ function ding2_module_selection_form($form, &$form_state) {
   // Optional modules.
   //
   $modules = array(
-    'ding_adhl_frontend' => st('ADHL (Other that have borrowed)'),
+//    'ding_adhl_frontend' => st('ADHL (Other that have borrowed)'),
     'ding_campaign' => st('Add ding campaigns'),
     'ding_contact' => st('Contact module'),
     'ding_example_content' => st('Add example content'),
+    'ting_new_materials' => st('Ting New Materials'),
   );
 
   $form['modules'] = array(
