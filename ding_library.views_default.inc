@@ -225,18 +225,18 @@ function ding_library_views_default_views() {
   $handler->display->display_options['relationships']['nodequeue_rel']['id'] = 'nodequeue_rel';
   $handler->display->display_options['relationships']['nodequeue_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['nodequeue_rel']['field'] = 'nodequeue_rel';
-  $handler->display->display_options['relationships']['nodequeue_rel']['limit'] = 0;
+  $handler->display->display_options['relationships']['nodequeue_rel']['limit'] = 1;
   $handler->display->display_options['relationships']['nodequeue_rel']['names'] = array(
-    'ding_tabroll' => 0,
+    'ding_library_listing' => 'ding_library_listing',
     'ding_groups_listning' => 0,
-    'ding_library_listing' => 0,
+    'ding_tabroll_frontpage' => 0,
   );
   $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Sort criterion: Nodequeue: Queue ID */
-  $handler->display->display_options['sorts']['qid']['id'] = 'qid';
-  $handler->display->display_options['sorts']['qid']['table'] = 'nodequeue_nodes';
-  $handler->display->display_options['sorts']['qid']['field'] = 'qid';
-  $handler->display->display_options['sorts']['qid']['relationship'] = 'nodequeue_rel';
+  /* Sort criterion: Nodequeue: Position */
+  $handler->display->display_options['sorts']['position']['id'] = 'position';
+  $handler->display->display_options['sorts']['position']['table'] = 'nodequeue_nodes';
+  $handler->display->display_options['sorts']['position']['field'] = 'position';
+  $handler->display->display_options['sorts']['position']['relationship'] = 'nodequeue_rel';
   $handler->display->display_options['pane_category']['name'] = 'Library panes';
   $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
