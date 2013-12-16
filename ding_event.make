@@ -80,7 +80,7 @@ projects[scheduler][version] = "1.1"
 
 projects[taxonomy_menu][subdir] = "contrib"
 projects[taxonomy_menu][version] = "1.4"
-projects[taxonomy_menu][patch][] = "https://drupal.org/files/issues/taxonomy_menu-variable-and-array-check.patch"
+projects[taxonomy_menu][patch][] = "http://drupal.org/files/issues/taxonomy_menu-variable-and-array-check.patch"
 
 projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"
