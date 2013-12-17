@@ -440,16 +440,18 @@ function ting_reference_get_relations($entity_type, $entity) {
   // false for a newly created entity that has not been saved to the
   // database yet.
   if (!empty($entity_id)) {
-    $query = new EntityFieldQuery();
-    $result = $query
-      ->entityCondition('entity_type', 'relation')
-      ->entityCondition('bundle', 'ting_reference')
-      ->fieldCondition('endpoints', 'entity_type', $entity_type)
-      ->fieldCondition('endpoints', 'entity_id', $entity_id)
-      ->execute();
+    // For some unknown reason EntityFieldQuery fails and loads both endpoint
+    // types, resulting in false relations. So we are forced to use a db_select.
+    $result = db_select('field_data_endpoints', 'endpoints')
+      ->fields('endpoints', array('entity_id'))
+      ->condition('bundle', 'ting_reference')
+      ->condition('endpoints_entity_type', $entity_type)
+      ->condition('endpoints_entity_id', $entity_id)
+      ->execute()
+      ->fetchAllAssoc('entity_id');
 
     if ($result) {
-      return relation_load_multiple(array_keys($result['relation']));
+      return relation_load_multiple(array_keys($result));
     }
   }
 
