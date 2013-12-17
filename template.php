@@ -482,6 +482,12 @@ function ddbasic_preprocess_field(&$vars, $hook) {
       $vars['element']['#formatter'] == 'ding_availability_with_labels') {
     $vars['theme_hook_suggestions'][] = 'field__' . $vars['element']['#field_type'] . '__' . 'search_result';
   }
+
+  if ($vars['element']['#bundle'] == 'ding_staff_profile') {
+    if ($vars['element']['#field_name'] == 'og_group_ref') {
+      $vars['classes_array'][] = 'field-name-ding-library-name';
+    }
+  }
 }
 
 /**
