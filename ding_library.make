@@ -86,11 +86,3 @@ projects[tipsy][version] = "1.0-rc1"
 projects[opening_hours][subdir] = "contrib"
 projects[opening_hours][version] = "1.4-beta1"
 projects[opening_hours][patch][0] = "http://drupal.org/files/node-type-test-isset-2011684-2.patch"
-
-; Libraries
-libraries[openlayers][download][type] = "get"
-libraries[openlayers][download][url] = "http://openlayers.org/download/OpenLayers-2.12.tar.gz"
-
-libraries[openlayers_themes][download][type] = "git"
-libraries[openlayers_themes][download][url] = "git@github.com:developmentseed/openlayers_themes.git"
-

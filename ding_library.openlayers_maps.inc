@@ -19,7 +19,7 @@ function ding_library_openlayers_maps() {
   $openlayers_maps->data = array(
     'width' => 'auto',
     'height' => '275px',
-    'image_path' => 'profiles/ding2/libraries/openlayers_themes/dark/',
+    //'image_path' => 'profiles/ding2/libraries/openlayers_themes/dark/',
     'css_path' => '',
     'proxy_host' => '',
     'hide_empty_map' => 0,
