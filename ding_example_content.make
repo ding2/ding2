@@ -36,3 +36,8 @@ projects[ding_content][type] = "module"
 projects[ding_content][download][type] = "git"
 projects[ding_content][download][url] = "git@github.com:ding2tal/ding_content.git"
 projects[ding_content][download][branch] = "development"
+
+projects[ding_example_content_groups][type] = "module"
+projects[ding_example_content_groups][download][type] = "git"
+projects[ding_example_content_groups][download][url] = "git@github.com:ding2tal/ding_example_content_groups.git"
+projects[ding_example_content_groups][download][branch] = "development"
