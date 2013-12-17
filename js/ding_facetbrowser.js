@@ -106,9 +106,10 @@ function ding_facetbrowser_fold_facet_group() {
     facetGroup.find('.form-type-checkbox.unselected-checkbox:' + (clickedKey.id == 'expand_more' ? 'hidden': 'visible')).each(function(count, facetElement) {
       if (clickedKey.id == 'expand_more' && count < Drupal.settings.ding_facetbrowser.number_of_terms) {
         $(facetElement).slideDown('fast', function() {
-          if (facetGroup.find('.form-type-checkbox.unselected-checkbox:visible').size() >= Drupal.settings.dingFacetBrowser.number_of_terms &&
+            console.log(Drupal.settings.ding_facetbrowser.number_of_terms);
+          if (facetGroup.find('.form-type-checkbox.unselected-checkbox:visible').size() >= Drupal.settings.ding_facetbrowser.number_of_terms &&
               facetGroup.find('#expand_less').size() === 0 &&
-              count % Drupal.settings.dingFacetBrowser.number_of_terms === 0) {
+              count % Drupal.settings.ding_facetbrowser.number_of_terms === 0) {
             facetGroup.append('<a href="javascript:void;" class="expand expand-less" id="expand_less">' + Drupal.t('Show less') + '</a>');
           }
         });
