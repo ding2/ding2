@@ -237,7 +237,7 @@ class DingWayfAuthGateway {
     $home = $base_url . '/' . current_path();
 
     // Redirect the user by setting the location header.
-    header('Location:' . $gateway . 'gatewayf.php?returnUrl=' . $home . '&idp=' . $idp);
+    header('Location:' . $gateway . '?returnUrl=' . $home . '&idp=' . $idp);
     exit;
   }
 
@@ -265,7 +265,7 @@ class DingWayfAuthGateway {
     }
 
     // Redirect to the gateway.
-    header('Location:' . $gateway . 'gatewayf.php?returnUrl=' . $url . '&op=logout');
+    header('Location:' . $gateway . '?returnUrl=' . $url . '&op=logout');
     exit;
   }
 }
