@@ -242,12 +242,12 @@ function ding_groups_default_page_manager_pages() {
       'settings' => array(
         'input_form' => 'tid',
         'vids' => array(
-          5 => '5',
           1 => 0,
           6 => 0,
           3 => 0,
           4 => 0,
           7 => 0,
+          5 => 0,
           2 => 0,
         ),
         'breadcrumb' => 0,
@@ -363,6 +363,7 @@ function ding_groups_default_page_manager_pages() {
       'override_title' => 0,
       'override_title_text' => '',
       'base' => 'temaer',
+      'vocabulary' => 'news_category',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -553,6 +554,7 @@ function ding_groups_default_page_manager_pages() {
       'override_title' => 0,
       'override_title_text' => '',
       'base' => 'temaer',
+      'vocabulary' => 'event_category',
     );
     $pane->cache = array();
     $pane->style = array(
