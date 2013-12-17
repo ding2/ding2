@@ -132,6 +132,9 @@ administration interface.
   // Ensures that form data is not moved out of the database. It's important to
   // keep this in non-volatile memory (e.g. the database).
   $conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
+
+  // Ensure fast tracks for files not found.
+  drupal_fast_404();
 ```
 
 ## Varnish
