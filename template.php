@@ -395,7 +395,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
   if (isset($variables['content']['group_right_col_search'])) {
     $variables['content']['group_right_col_search']['title'] = array(
       '#theme' => 'link',
-      '#text' => $variables['title'],
+      '#text' => decode_entities($variables['title']),
       '#path' => 'node/' . $variables['nid'],
       '#options' => array(
         'attributes' => array(
