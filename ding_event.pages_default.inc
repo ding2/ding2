@@ -143,6 +143,8 @@ function ding_event_default_page_manager_handlers() {
       'override_title' => 0,
       'override_title_text' => '',
       'dropdown' => 0,
+      'vocabulary' => 'event_category',
+      'base' => '',
     );
     $pane->cache = array();
     $pane->style = array(
