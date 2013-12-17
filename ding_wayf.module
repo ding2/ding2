@@ -199,7 +199,7 @@ function ding_wayf_redirect_login() {
       $idps = ding_wayf_idps();
       if (isset($idps[$idp])) {
         // Redirect the user to the WAYF login page.
-        if (!$saml->requireAuth($idps[$idp])) {
+        if (!$saml->requireAuth($idp)) {
           drupal_set_message(t('Something went wrong with the login attempt. Please try another login method.'), 'error');
 
           // Send the user back.
