@@ -1,0 +1,68 @@
+<?php
+/**
+ * @file
+ * Code for the Ding example content groups feature.
+ */
+
+include_once 'ding_example_content_groups.features.inc';
+
+/**
+ * Implements hook_enable().
+ */
+function ding_example_content_groups_enable() {
+  $items = array();
+
+  // Define terms for the groups categories.
+  $vocab = taxonomy_vocabulary_machine_name_load('group_category');
+  $items[$vocab->vid] = array(
+    'Aktuelt',
+    'Arkive'
+  );
+
+  // Save terms in the database.
+  foreach ($items as $vid => $terms) {
+    foreach($terms as $term) {
+      taxonomy_term_save((object) array(
+        'name' => $term,
+        'vid' => $vid,
+        'format' => 'ding_wysiwyg',
+      ));
+    }
+  }
+}
+
+/**
+ * Implements hook_node_export_import_alter().
+ *
+ * Ensure that (themes) groups has taxonomy term.
+ */
+function ding_example_content_groups_node_export_import_alter(&$nodes, $format, $save) {
+  // Load the taxonomy.
+  $vocabulary = taxonomy_vocabulary_machine_name_load('group_category');
+  $terms = taxonomy_get_tree($vocabulary->vid);
+
+  foreach ($nodes as $node) {
+    if (in_array($node->type, array('ding_group'))) {
+      // Use a metadata wrapper to access the data.
+      $wrapper = entity_metadata_wrapper('node', $node);
+
+      // Set the new taxonomy id.
+      $wrapper->field_ding_group_category->set($terms[0]->tid);
+    }
+  }
+}
+
+/**
+ * Implements hook_node_export_after_import_alter().
+ *
+ * Ensure that OG menus are create for the groups.
+ */
+function ding_example_content_groups_node_export_after_import_alter(&$nodes, $format, $save) {
+  foreach ($nodes as $node) {
+    if (in_array($node->type, array('ding_library', 'ding_group'))) {
+      og_menu_node_prepare($node);
+      $node->og_menu = TRUE;
+      og_menu_node_insert($node);
+    }
+  }
+}
