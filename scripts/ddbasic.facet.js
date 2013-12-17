@@ -1,6 +1,8 @@
 (function($) {
   // When ready start the magic.
   $(document).ready(function () {
+
+    if ($('.pane-ding-facetbrowser').length) {
       // Create toggle link.
       $('<a />', {
           'class' : 'facet-browser-toggle js-facet-browser-hide',
@@ -14,5 +16,6 @@
           //var facet_browser_clone = $('.facet-browser-responsive');
           $(this).next().toggle();
       });
+    }
   });
 })(jQuery);

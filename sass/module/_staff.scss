@@ -78,6 +78,18 @@
     margin-top: 20px;
     padding-top: 30px;
   }
+
+  @include small-medium() {
+    .field-name-field-ding-staff-image {
+      @include zen-grid-item(6, 1);
+    }
+
+    .group-contactinfo,
+    .field-name-field-ding-staff-description {
+      @include zen-grid-item(12, 1);
+      @include zen-clear(both);
+    }
+  }
 }
 
 
