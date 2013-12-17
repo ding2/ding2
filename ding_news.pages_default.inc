@@ -491,10 +491,12 @@ function ding_news_default_page_manager_pages() {
       'settings' => array(
         'input_form' => 'tid',
         'vids' => array(
-          5 => '5',
+          6 => '6',
           1 => 0,
+          7 => 0,
           3 => 0,
           4 => 0,
+          5 => 0,
           2 => 0,
         ),
         'breadcrumb' => 0,
@@ -575,6 +577,7 @@ news/%tid:name',
       'override_title' => 0,
       'override_title_text' => 'News categories',
       'dropdown' => 0,
+      'base' => '',
     );
     $pane->cache = array();
     $pane->style = array(
