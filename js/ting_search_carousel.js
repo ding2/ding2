@@ -11,7 +11,6 @@
 (function ($) {
   "use strict";
 
-
   var TingSearchCarousel = (function() {
 
     var cache = [];
