@@ -45,7 +45,7 @@ function ding_page_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'field_name' => 'ding_page_group_ref',
-    'label' => 'Groups',
+    'label' => 'Libraries and Groups',
     'required' => 0,
     'settings' => array(
       'behaviors' => array(
@@ -536,8 +536,8 @@ function ding_page_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('Body');
   t('Files');
-  t('Groups');
   t('Lead');
+  t('Libraries and Groups');
   t('List image');
   t('Materials');
   t('Tags');
