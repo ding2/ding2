@@ -5,12 +5,12 @@ api = 2
 projects[ding_base][type] = "module"
 projects[ding_base][download][type] = "git"
 projects[ding_base][download][url] = "git@github.com:ding2tal/ding_base.git"
-projects[ding_base][download][tag] = "7.x-1.0-beta4"
+projects[ding_base][download][tag] = "7.x-1.0-beta5"
 
 projects[ting_reference][type] = "module"
 projects[ting_reference][download][type] = "git"
 projects[ting_reference][download][url] = "git@github.com:ding2tal/ting_reference.git"
-projects[ting_reference][download][tag] = "7.x-1.0-beta4"
+projects[ting_reference][download][tag] = "7.x-1.0-beta5"
 
 projects[cache_actions][subdir] = "contrib"
 projects[cache_actions][version] = "2.0-alpha5"
