@@ -20,7 +20,7 @@ projects[ding_library][download][tag] = "7.x-1.0-beta4"
 projects[ding_groups][type] = "module"
 projects[ding_groups][download][type] = "git"
 projects[ding_groups][download][url] = "git@github.com:ding2tal/ding_groups.git"
-projects[ding_groups][download][branch] = "development"
+projects[ding_groups][download][tag] = "7.x-1.0-beta5"
 
 projects[ding_event][type] = "module"
 projects[ding_event][download][type] = "git"
