@@ -312,3 +312,11 @@ function ding_library_update_7009() {
 function ding_library_update_7010() {
   ding_library_install_menu_position();
 }
+
+/**
+ * Remove old library opening hours field.
+ */
+function ding_library_update_7011() {
+  field_delete_field('field_ding_library_opening_hours');
+  field_purge_batch(1000);
+}

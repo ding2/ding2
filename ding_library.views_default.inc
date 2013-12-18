@@ -168,7 +168,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['nothing']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['nothing']['element_default_classes'] = FALSE;
-  /* Field: Content: Opening hours */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['id'] = 'field_ding_library_opening_hours';
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['table'] = 'field_data_field_ding_library_opening_hours';
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['field'] = 'field_ding_library_opening_hours';
@@ -181,7 +181,6 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['element_wrapper_type'] = 'div';
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['element_wrapper_class'] = 'opening-hours';
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_library_opening_hours']['type'] = 'text_plain';
   /* Sort criterion: Content: Title */
   $handler->display->display_options['sorts']['title']['id'] = 'title';
   $handler->display->display_options['sorts']['title']['table'] = 'node';
@@ -225,18 +224,18 @@ function ding_library_views_default_views() {
   $handler->display->display_options['relationships']['nodequeue_rel']['id'] = 'nodequeue_rel';
   $handler->display->display_options['relationships']['nodequeue_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['nodequeue_rel']['field'] = 'nodequeue_rel';
-  $handler->display->display_options['relationships']['nodequeue_rel']['limit'] = 0;
+  $handler->display->display_options['relationships']['nodequeue_rel']['limit'] = 1;
   $handler->display->display_options['relationships']['nodequeue_rel']['names'] = array(
-    'ding_tabroll' => 0,
+    'ding_library_listing' => 'ding_library_listing',
     'ding_groups_listning' => 0,
-    'ding_library_listing' => 0,
+    'ding_tabroll_frontpage' => 0,
   );
   $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Sort criterion: Nodequeue: Queue ID */
-  $handler->display->display_options['sorts']['qid']['id'] = 'qid';
-  $handler->display->display_options['sorts']['qid']['table'] = 'nodequeue_nodes';
-  $handler->display->display_options['sorts']['qid']['field'] = 'qid';
-  $handler->display->display_options['sorts']['qid']['relationship'] = 'nodequeue_rel';
+  /* Sort criterion: Nodequeue: Position */
+  $handler->display->display_options['sorts']['position']['id'] = 'position';
+  $handler->display->display_options['sorts']['position']['table'] = 'nodequeue_nodes';
+  $handler->display->display_options['sorts']['position']['field'] = 'position';
+  $handler->display->display_options['sorts']['position']['relationship'] = 'nodequeue_rel';
   $handler->display->display_options['pane_category']['name'] = 'Library panes';
   $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['allow']['use_pager'] = 0;
@@ -316,7 +315,7 @@ function ding_library_views_default_views() {
       'address' => 'address',
     ),
   );
-  /* Field: Content: Opening hours */
+  /* Field: Broken/missing handler */
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['id'] = 'field_ding_library_opening_hours';
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['table'] = 'field_data_field_ding_library_opening_hours';
   $handler->display->display_options['fields']['field_ding_library_opening_hours']['field'] = 'field_ding_library_opening_hours';

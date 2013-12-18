@@ -9,7 +9,7 @@ include_once 'ding_library.features.inc';
 /**
  * Implements hook_init().
  */
-function ding_library_init() {
+/*function ding_library_init() {
   // Load ding library map javascript code if we have loaded the library
   // overview page.
   if ($_GET['q'] == 'libraries') {
@@ -19,7 +19,7 @@ function ding_library_init() {
       'weight' => 42,
     ));
   }
-}
+}*/
 
 /**
  * Implements hook_menu_alter().
@@ -351,5 +351,39 @@ function ding_library_install_menu_position($op = 'install') {
   if ($exists && $op == 'delete') {
     // The rule exists, so we delete it.
     menu_position_delete_rule($exists);
+  }
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function ding_library_node_insert($node) {
+  if ($node->type == 'ding_library') {
+    // Get front page queue.
+    $queue = nodequeue_load_queue_by_name('ding_library_listing');
+
+    // Load sub-queue.
+    $sub_queue = nodequeue_load_subqueues_by_queue($queue->qid);
+    $sub_queue = reset($sub_queue);
+
+    // Add the node to the queue.
+    nodequeue_subqueue_add($queue, $sub_queue, $node->nid);
+  }
+}
+
+/**
+ * Implements hook_node_delete().
+ */
+function ding_library_node_delete($node) {
+  if ($node->type == 'ding_library') {
+    // Get front page queue.
+    $queue = nodequeue_load_queue_by_name('ding_library_listing');
+
+    // Load sub-queue.
+    $sub_queue = nodequeue_load_subqueues_by_queue($queue->qid);
+    $sub_queue = reset($sub_queue);
+
+    // Remove the node to the queue.
+    nodequeue_subqueue_remove_node($sub_queue->sqid, $node->nid);
   }
 }
