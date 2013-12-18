@@ -138,6 +138,8 @@ function ding_news_default_page_manager_handlers() {
       'override_title' => 0,
       'override_title_text' => '',
       'dropdown' => 0,
+      'vocabulary' => 'news_category',
+      'base' => '',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -327,6 +329,8 @@ taxonomy/term/%term:tid',
       'override_title' => 0,
       'override_title_text' => '',
       'dropdown' => 0,
+      'vocabulary' => 'news_category',
+      'base' => '',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -491,10 +495,12 @@ function ding_news_default_page_manager_pages() {
       'settings' => array(
         'input_form' => 'tid',
         'vids' => array(
-          5 => '5',
           1 => 0,
+          6 => 0,
           3 => 0,
           4 => 0,
+          7 => 0,
+          5 => 0,
           2 => 0,
         ),
         'breadcrumb' => 0,
@@ -575,6 +581,8 @@ news/%tid:name',
       'override_title' => 0,
       'override_title_text' => 'News categories',
       'dropdown' => 0,
+      'base' => '',
+      'vocabulary' => 'news_category',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -746,10 +754,12 @@ news/%tid:name',
       'settings' => array(
         'input_form' => 'tid',
         'vids' => array(
-          5 => '5',
           1 => 0,
+          6 => 0,
           3 => 0,
           4 => 0,
+          7 => 0,
+          5 => 0,
           2 => 0,
         ),
         'breadcrumb' => 0,
@@ -907,6 +917,7 @@ node/%node:nid/news
       'override_title_text' => '',
       'dropdown' => 1,
       'base' => 'bibliotek',
+      'vocabulary' => 'news_category',
     );
     $pane->cache = array();
     $pane->style = array(
