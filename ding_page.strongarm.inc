@@ -121,6 +121,7 @@ function ding_page_strongarm() {
   $strongarm->name = 'menu_options_ding_page';
   $strongarm->value = array(
     0 => 'main-menu',
+    1 => 'menu-secondary-menu',
   );
   $export['menu_options_ding_page'] = $strongarm;
 
