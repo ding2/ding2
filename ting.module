@@ -942,7 +942,7 @@ function _ting_fetch_well_types() {
     'sort' => 'random',
   );
   module_load_include('client.inc', 'ting');
-  $result = ting_do_search("*=*", 0, 0, $options);
+  $result = ting_do_search("*", 0, 0, $options);
 
   $types = array();
   foreach ($result->facets['facet.type']->terms as $term => $count) {
@@ -968,7 +968,7 @@ function _ting_fetch_well_sources() {
     'sort' => 'random',
   );
   module_load_include('client.inc', 'ting');
-  $result = ting_do_search("*=*", 0, 0, $options);
+  $result = ting_do_search("*", 0, 0, $options);
 
   $sources = array();
   foreach ($result->facets['facet.acSource']->terms as $term => $count) {
