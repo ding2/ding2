@@ -10,7 +10,7 @@
 function ding_example_content_node_export_features_default() {
   $node_export = array(
   'code_string' => '<?xml version="1.0" encoding="UTF-8" ?>
-<node_export created="Wed, 18 Dec 2013 03:04:20 +0100">
+<node_export created="Wed, 18 Dec 2013 03:31:21 +0100">
   <node>
     <vid>30</vid>
     <uid>1</uid>
@@ -25,19 +25,13 @@ function ding_example_content_node_export_features_default() {
     <type>ding_page</type>
     <language>en</language>
     <created>1387278491</created>
-    <changed>1387278491</changed>
+    <changed>1387332971</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>28a23768-f367-4528-895c-97379f58cc3f</uuid>
-    <revision_timestamp>1387278491</revision_timestamp>
+    <revision_timestamp>1387332971</revision_timestamp>
     <revision_uid>1</revision_uid>
-    <ding_page_group_ref>
-      <und _numeric_keys="1">
-        <n0>
-          <target_id>2</target_id>
-        </n0>
-      </und>
-    </ding_page_group_ref>
+    <ding_page_group_ref _numeric_keys="1"></ding_page_group_ref>
     <field_ding_page_body>
       <und _numeric_keys="1">
         <n0>
@@ -75,14 +69,14 @@ function ding_example_content_node_export_features_default() {
     <path>
       <pid>171</pid>
       <source>node/29</source>
-      <alias>node/28/sadan-bliver-du-bruger-af-biblioteket</alias>
+      <alias>faq-sadan-gor-du/sadan-bliver-du-bruger-af-biblioteket</alias>
       <language>und</language>
     </path>
     <menu>
       <link_title>Sådan bliver du bruger af Biblioteket</link_title>
       <mlid>0</mlid>
       <plid>945</plid>
-      <menu_name>menu-og-2</menu_name>
+      <menu_name>main-menu</menu_name>
       <weight>0</weight>
       <options _numeric_keys="1"></options>
       <module>menu</module>
@@ -177,19 +171,13 @@ function ding_example_content_node_export_features_default() {
     <type>ding_page</type>
     <language>en</language>
     <created>1387277746</created>
-    <changed>1387278408</changed>
+    <changed>1387332960</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>78b16855-cf19-4b03-bc04-96768268533c</uuid>
-    <revision_timestamp>1387278408</revision_timestamp>
+    <revision_timestamp>1387332960</revision_timestamp>
     <revision_uid>1</revision_uid>
-    <ding_page_group_ref>
-      <und _numeric_keys="1">
-        <n0>
-          <target_id>2</target_id>
-        </n0>
-      </und>
-    </ding_page_group_ref>
+    <ding_page_group_ref _numeric_keys="1"></ding_page_group_ref>
     <field_ding_page_body>
       <und _numeric_keys="1">
         <n0>
@@ -222,12 +210,17 @@ function ding_example_content_node_export_features_default() {
     <name>admin</name>
     <picture>0</picture>
     <data>b:0;</data>
-    <path type="boolean">FALSE</path>
+    <path>
+      <pid>225</pid>
+      <source>node/28</source>
+      <alias>faq-sadan-gor-du</alias>
+      <language>und</language>
+    </path>
     <menu>
       <link_title>FAQ - sådan gør du</link_title>
       <mlid>0</mlid>
       <plid>0</plid>
-      <menu_name>menu-og-2</menu_name>
+      <menu_name>main-menu</menu_name>
       <weight>4</weight>
       <options _numeric_keys="1"></options>
       <module>menu</module>
@@ -255,19 +248,13 @@ function ding_example_content_node_export_features_default() {
     <type>ding_page</type>
     <language>en</language>
     <created>1387278618</created>
-    <changed>1387278618</changed>
+    <changed>1387332983</changed>
     <tnid>0</tnid>
     <translate>0</translate>
     <uuid>d389eb2a-2e74-4d2f-be26-6473cb770459</uuid>
-    <revision_timestamp>1387278618</revision_timestamp>
+    <revision_timestamp>1387332983</revision_timestamp>
     <revision_uid>1</revision_uid>
-    <ding_page_group_ref>
-      <und _numeric_keys="1">
-        <n0>
-          <target_id>2</target_id>
-        </n0>
-      </und>
-    </ding_page_group_ref>
+    <ding_page_group_ref _numeric_keys="1"></ding_page_group_ref>
     <field_ding_page_body>
       <und _numeric_keys="1">
         <n0>
@@ -305,14 +292,14 @@ function ding_example_content_node_export_features_default() {
     <path>
       <pid>172</pid>
       <source>node/30</source>
-      <alias>node/28/sadan-er-reglerne-aflevering-af-lante-materialer</alias>
+      <alias>faq-sadan-gor-du/sadan-er-reglerne-aflevering-af-lante-materialer</alias>
       <language>und</language>
     </path>
     <menu>
       <link_title>Sådan er reglerne for aflevering af lånte materialer</link_title>
       <mlid>0</mlid>
       <plid>945</plid>
-      <menu_name>menu-og-2</menu_name>
+      <menu_name>main-menu</menu_name>
       <weight>2</weight>
       <options _numeric_keys="1"></options>
       <module>menu</module>
