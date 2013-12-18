@@ -33,7 +33,7 @@ projects[ding_place2book][download][url] = "git@github.com:vejlebib/ding_place2b
 projects[ding_place2book][download][branch] = "ding2tal_compatibility"
 
 projects[addressfield][subdir] = "contrib"
-projects[addressfield][version] = "1.0-beta3"
+projects[addressfield][version] = "1.0-beta5"
 
 projects[cache_actions][subdir] = "contrib"
 projects[cache_actions][version] = "2.0-alpha5"
@@ -80,7 +80,7 @@ projects[scheduler][version] = "1.1"
 
 projects[taxonomy_menu][subdir] = "contrib"
 projects[taxonomy_menu][version] = "1.4"
-projects[taxonomy_menu][patch][] = "https://drupal.org/files/issues/taxonomy_menu-variable-and-array-check.patch"
+projects[taxonomy_menu][patch][] = "http://drupal.org/files/issues/taxonomy_menu-variable-and-array-check.patch"
 
 projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"

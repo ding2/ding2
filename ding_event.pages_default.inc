@@ -143,6 +143,8 @@ function ding_event_default_page_manager_handlers() {
       'override_title' => 0,
       'override_title_text' => '',
       'dropdown' => 0,
+      'vocabulary' => 'event_category',
+      'base' => '',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -335,6 +337,8 @@ taxonomy/term/%term:tid',
       'override_title' => 0,
       'override_title_text' => '',
       'dropdown' => 0,
+      'vocabulary' => 'event_category',
+      'base' => '',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -502,10 +506,11 @@ function ding_event_default_page_manager_pages() {
       'settings' => array(
         'input_form' => 'tid',
         'vids' => array(
-          3 => '3',
           1 => 0,
           6 => 0,
+          3 => 0,
           4 => 0,
+          7 => 0,
           5 => 0,
           2 => 0,
         ),
@@ -588,6 +593,8 @@ events
       'default_link' => 'All categories',
       'default_link_text' => 'All categories',
       'dropdown' => 0,
+      'vocabulary' => 'event_category',
+      'base' => '',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -760,9 +767,12 @@ events
       'settings' => array(
         'input_form' => 'tid',
         'vids' => array(
-          3 => '3',
           1 => 0,
+          6 => 0,
+          3 => 0,
           4 => 0,
+          7 => 0,
+          5 => 0,
           2 => 0,
         ),
         'breadcrumb' => 0,
@@ -911,6 +921,7 @@ node/%node:nid/events
       'override_title_text' => '',
       'dropdown' => 1,
       'base' => 'bibliotek',
+      'vocabulary' => 'event_category',
     );
     $pane->cache = array();
     $pane->style = array(
