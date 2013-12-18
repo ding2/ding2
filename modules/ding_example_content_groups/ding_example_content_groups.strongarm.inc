@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * ding_example_content.strongarm.inc
+ * ding_example_content_groups.strongarm.inc
  */
 
 /**
  * Implements hook_strongarm().
  */
-function ding_example_content_strongarm() {
+function ding_example_content_groups_strongarm() {
   $export = array();
 
   $strongarm = new stdClass();
@@ -809,31 +809,6 @@ function ding_example_content_strongarm() {
   $strongarm->name = 'node_export_reset_sticky_panel';
   $strongarm->value = 0;
   $export['node_export_reset_sticky_panel'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'ting_carousel_search_queries';
-  $strongarm->value = array(
-    0 => array(
-      'title' => 'Hobitten',
-      'subtitle' => 'Hobitten',
-      'query' => '870970-basis:29727759',
-    ),
-    1 => array(
-      'title' => 'Harry potter',
-      'subtitle' => 'Harry potter',
-      'query' => 'dc.type=bog AND harry potter',
-    ),
-  );
-  $export['ting_carousel_search_queries'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'ting_carousel_search_queries_hidden';
-  $strongarm->value = array();
-  $export['ting_carousel_search_queries_hidden'] = $strongarm;
 
   return $export;
 }

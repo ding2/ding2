@@ -12,28 +12,6 @@ include_once 'ding_example_content.features.inc';
 function ding_example_content_enable() {
   $items = array();
 
-  // Define terms for the event category.
-  $vocab = taxonomy_vocabulary_machine_name_load('event_category');
-  $items[$vocab->vid] = array(
-    'Børn',
-    'Foredrag & debat',
-    'Internet & undervisning',
-    'Litteratur',
-    'Musik',
-    'Udstilling',
-  );
-
-  // Define terms for the event target.
-  $vocab = taxonomy_vocabulary_machine_name_load('event_target');
-  $items[$vocab->vid] = array(
-    'For børn',
-    'For unge',
-    'For voksne',
-    'For ældre',
-    'For alle',
-    'For studerende',
-  );
-
   // Define terms for the news categories.
   $vocab = taxonomy_vocabulary_machine_name_load('news_category');
   $items[$vocab->vid] = array(

@@ -16,7 +16,53 @@ function ding_example_content_groups_enable() {
   $vocab = taxonomy_vocabulary_machine_name_load('group_category');
   $items[$vocab->vid] = array(
     'Aktuelt',
-    'Arkive'
+    'Arkive',
+  );
+
+  // Set content tags.
+  $vocab = taxonomy_vocabulary_machine_name_load('ding_content_tags');
+  $items[$vocab->vid] = array(
+    'Åsne Seierstad',
+    'Bamsedag',
+    'bamser',
+    'Big Bandet',
+    'billedbøger',
+    'Biografier',
+    'Børn',
+    'Danskfaget',
+    'Digital post',
+    'Elsebeth Egholm',
+    'Englen i Groznyj',
+    'eventyr',
+    'eventyrere',
+    'Fantasy',
+    'Filmatiserede bøger',
+    'fodbold',
+    'Fremtidsroman',
+    'globetrottere',
+    'Jazz',
+    'Jussi Adler-Olsen',
+    'Klassisk musik',
+    'koncert',
+    'kunst',
+    'Kunstklubben',
+    'livsstil',
+    'madlavning',
+    'Malerier',
+    'musik',
+    'nordisk mad',
+    'Nordiske romaner',
+    'Opgaveskrivning',
+    'Parkour',
+    'pop',
+    'rejsebeskrivelser',
+    'rejser',
+    'rock',
+    'Romaner',
+    'Sara Blædel',
+    'Spil',
+    'sportsstjerner',
+    'sundhed',
   );
 
   // Save terms in the database.
@@ -65,4 +111,60 @@ function ding_example_content_groups_node_export_after_import_alter(&$nodes, $fo
       og_menu_node_insert($node);
     }
   }
+}
+
+
+/**
+ * Helper function to map old OG group nids to UUID.
+ *
+ * This function is and when node export is fixed with export of OG, this hack
+ * should be removed. But for now, this is the best solution that I could dream
+ * up after 01:00 :-).
+ *
+ * @param int $ref_entity_id
+ *   The old nid found in the OG ref field.
+ * @param string $entity_type
+ *   The OG type to translate for.
+ *
+ * @return int
+ *   The node id (nid) for the new OG group.
+ */
+function ding_example_content_groups_ref_translate($ref_entity_id, $entity_type) {
+  switch ((int) $ref_entity_id) {
+    case 2:
+      // Library (HB).
+      $uuid = '8caa3468-3ed0-4a09-aa37-3e593ad11fea';
+      break;
+
+    case 33:
+      // Library (LB).
+      $uuid = 'f7327446-52fc-4c64-b7fd-22fe4eff46bd';
+      break;
+
+    case 11:
+      // Fantasy (groups).
+      $uuid = 'c68434db-12e8-498b-b850-e4b48e02e7f7';
+      break;
+
+    case 7:
+      // Faglitteratur (groups).
+      $uuid = 'c9f05c43-1676-491c-b4d9-45a636fd97c6';
+      break;
+
+    default:
+      // Select random group within the current groups entity type.
+      $result = db_select('node', 'n')
+        ->fields('n', 'uuid')
+        ->condition('type', $entity_type)
+        ->range(0, 1)
+        ->orderRandom()
+        ->execute()
+        ->fetchAssoc();
+      $uuid = $result['uuid'];
+      break;
+  }
+
+  $entities = entity_uuid_load('node', array($uuid));
+  $entity = reset($entities);
+  return $entity->nid;
 }
