@@ -12,7 +12,7 @@ projects[ctools][version] = "1.3"
 projects[ctools][patch][0] = "http://drupal.org/files/ctools-n1925018-12.patch"
 
 projects[conditional_styles][subdir] = "contrib"
-projects[conditional_styles][version] = "2.1"
+projects[conditional_styles][version] = "2.2"
 
 projects[dynamic_background][subdir] = "contrib"
 projects[dynamic_background][version] = "2.0-rc4"

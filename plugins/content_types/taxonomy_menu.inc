@@ -19,6 +19,7 @@ $plugin = array(
     'slug' => '',
     'default_link_text' => t('All terms'),
     'dropdown' => FALSE,
+    'vocabulary' => array(),
     'base' => '',
   ),
 );
@@ -67,18 +68,9 @@ function ding_frontend_taxonomy_menu_content_type_render($subtype, $conf, $panel
     }
   }
 
-  // Find the vocabulary id based on context and load the terms.
-  if (isset($context[0]->data)) {
-    $vid = $context[0]->data->vid;
-  }
-  else {
-    $vids = array_filter($context[0]->placeholder['conf']['vids']);
-    $vid = reset($vids);
-  }
-
   // Set block title.
-  $vocab = taxonomy_vocabulary_load($vid);
-  $terms = taxonomy_get_tree($vid);
+  $vocab = taxonomy_vocabulary_machine_name_load($conf['vocabulary']);
+  $terms = taxonomy_get_tree($vocab->vid);
 
   foreach ($terms as $term) {
     // Try to find the correct uri based on the context/configuration.
@@ -203,6 +195,20 @@ function ding_frontend_taxonomy_menu_content_type_edit_form($form, &$form_state)
     '#title' => t('Display as dropdown menu'),
     '#description' => t('Change the taxonomy into a dropdown select box.'),
     '#default_value' => $form_state['conf']['dropdown'],
+  );
+
+  $options = array();
+  $vocabularies = taxonomy_vocabulary_get_names();
+  foreach ($vocabularies as $vocabulary) {
+    $options[$vocabulary->machine_name] = $vocabulary->name;
+  }
+
+  $form['vocabulary'] = array(
+    '#type' => 'select',
+    '#title' => t('Vocabulary'),
+    '#description' => t('Select the vocabulary to use.'),
+    '#options' => $options,
+    '#default_value' => $form_state['conf']['vocabulary'],
   );
 
   return $form;
