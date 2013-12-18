@@ -57,3 +57,37 @@ function ding_tabroll_preprocess($variables) {
   // Add default CSS and JavaScript.
   drupal_add_js(drupal_get_path('module', 'ding_tabroll') . '/js/ding_tabroll.js');
 }
+
+/**
+ * Implements hook_node_insert().
+ */
+function ding_tabroll_node_insert($node) {
+  if ($node->type == 'ding_rolltab') {
+    // Get front page queue.
+    $queue = nodequeue_load_queue_by_name('ding_tabroll_frontpage');
+
+    // Load sub-queue.
+    $sub_queue = nodequeue_load_subqueues_by_queue($queue->qid);
+    $sub_queue = reset($sub_queue);
+
+    // Add the node to the queue.
+    nodequeue_subqueue_add($queue, $sub_queue, $node->nid);
+  }
+}
+
+/**
+ * Implements hook_node_delete().
+ */
+function ding_tabroll_node_delete($node) {
+  if ($node->type == 'ding_rolltab') {
+    // Get front page queue.
+    $queue = nodequeue_load_queue_by_name('ding_tabroll_frontpage');
+
+    // Load sub-queue.
+    $sub_queue = nodequeue_load_subqueues_by_queue($queue->qid);
+    $sub_queue = reset($sub_queue);
+
+    // Remove the node to the queue.
+    nodequeue_subqueue_remove_node($sub_queue->sqid, $node->nid);
+  }
+}
