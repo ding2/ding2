@@ -243,6 +243,13 @@ function ding_news_views_default_views() {
   /* Display: News list (frontpage) */
   $handler = $view->new_display('panel_pane', 'News list (frontpage)', 'ding_news_frontpage_list');
   $handler->display->display_options['defaults']['css_class'] = FALSE;
+  $handler->display->display_options['defaults']['use_more'] = FALSE;
+  $handler->display->display_options['use_more'] = TRUE;
+  $handler->display->display_options['defaults']['use_more_always'] = FALSE;
+  $handler->display->display_options['defaults']['use_more_always'] = FALSE;
+  $handler->display->display_options['use_more_always'] = TRUE;
+  $handler->display->display_options['defaults']['use_more_text'] = FALSE;
+  $handler->display->display_options['use_more_text'] = 'See all news';
   $handler->display->display_options['defaults']['link_display'] = FALSE;
   $handler->display->display_options['link_display'] = 'custom_url';
   $handler->display->display_options['link_url'] = 'nyheder';
@@ -1816,10 +1823,10 @@ function ding_news_views_default_views() {
     t('Læs mere'),
     t('Alle'),
     t('News list (frontpage)'),
-    t('more'),
     t('<i class="icon-chevron-right"></i>'),
     t('News panes'),
     t('Library news list'),
+    t('more'),
     t('OG membership from node'),
     t('OG node group'),
     t('All'),
