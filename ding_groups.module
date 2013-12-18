@@ -104,6 +104,14 @@ function ding_groups_node_update($node) {
       $terms = taxonomy_term_load_multiple(array(), array('vid' => $vocabulary->vid));
       ding_base_updated_taxonomy_aliases($node, 'temaer', $terms, array($slug));
     }
+
+    // Update OG_menu title if group title is changed.
+    if ($node->title != $node->original->title) {
+      $menu = menu_load('menu-og-' . $node->nid);
+      $menu['title'] = $node->title;
+      $menu['description'] = 'OG Menu for ' . $node->title;
+      menu_save($menu);
+    }
   }
 }
 
