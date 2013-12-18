@@ -67,7 +67,7 @@ function ding_example_content_groups_enable() {
 
   // Save terms in the database.
   foreach ($items as $vid => $terms) {
-    foreach($terms as $term) {
+    foreach ($terms as $term) {
       taxonomy_term_save((object) array(
         'name' => $term,
         'vid' => $vid,

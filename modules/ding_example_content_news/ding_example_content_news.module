@@ -1,37 +1,24 @@
 <?php
 /**
  * @file
- * Code for the Ding example content events feature.
+ * Code for the Ding example content news feature.
  */
 
-include_once 'ding_example_content_events.features.inc';
+include_once 'ding_example_content_news.features.inc';
 
 /**
  * Implements hook_enable().
  */
-function ding_example_content_events_enable() {
+function ding_example_content_news_enable() {
   $items = array();
 
-  // Define terms for the event category.
-  $vocab = taxonomy_vocabulary_machine_name_load('event_category');
+  // Define terms for the news categories.
+  $vocab = taxonomy_vocabulary_machine_name_load('news_category');
   $items[$vocab->vid] = array(
-    'Børn',
-    'Foredrag & debat',
-    'Internet & undervisning',
-    'Litteratur',
-    'Musik',
-    'Udstilling',
-  );
-
-  // Define terms for the event target.
-  $vocab = taxonomy_vocabulary_machine_name_load('event_target');
-  $items[$vocab->vid] = array(
-    'For børn',
-    'For unge',
-    'For voksne',
-    'For ældre',
-    'For alle',
-    'For studerende',
+    'Anbefalinger',
+    'Bøger',
+    'Film',
+    'Kort nyt',
   );
 
   // Save terms in the database.
@@ -49,39 +36,32 @@ function ding_example_content_events_enable() {
 /**
  * Implements hook_node_export_import_alter().
  *
- * Ensure that (themes) groups has taxonomy term.
+ * Ensure that (themes) news has taxonomy term.
  */
-function ding_example_content_events_node_export_import_alter(&$nodes, $format, $save) {
+function ding_example_content_news_node_export_import_alter(&$nodes, $format, $save) {
   // Load the taxonomy.
-  $vocabulary = taxonomy_vocabulary_machine_name_load('event_category');
+  $vocabulary = taxonomy_vocabulary_machine_name_load('news_category');
   $categories = taxonomy_get_tree($vocabulary->vid);
-
-  $vocabulary = taxonomy_vocabulary_machine_name_load('event_target');
-  $targets = taxonomy_get_tree($vocabulary->vid);
 
   $vocabulary = taxonomy_vocabulary_machine_name_load('ding_content_tags');
   $tags = taxonomy_get_tree($vocabulary->vid);
 
   foreach ($nodes as $node) {
-    if (in_array($node->type, array('ding_event'))) {
+    if (in_array($node->type, array('ding_news'))) {
       // Use a metadata wrapper to access the data.
       $wrapper = entity_metadata_wrapper('node', $node);
 
       // Set the new taxonomy id (random).
-      $value = $wrapper->field_ding_event_category->value();
+      $value = $wrapper->field_ding_news_category->value();
       if (!empty($value)) {
-        $wrapper->field_ding_event_category->set($categories[array_rand($categories)]->tid);
-      }
-      $value = $wrapper->field_ding_event_target->value();
-      if (!empty($value)) {
-        $wrapper->field_ding_event_target->set($targets[array_rand($targets)]->tid);
+        $wrapper->field_ding_news_category->set($categories[array_rand($categories)]->tid);
       }
 
       // Set tags (random). Do not use the entity wrapper here as it
       // will try to load the entity/term, which may not exists.
-      if (!empty($node->field_ding_event_tags)) {
+      if (!empty($node->field_ding_news_tags)) {
         $random_tags = array();
-        for ($i = 0; count($node->field_ding_event_tags[LANGUAGE_NONE]) > $i; $i++) {
+        for ($i = 0; count($node->field_ding_news_tags[LANGUAGE_NONE]) > $i; $i++) {
           $tag = $tags[array_rand($tags)]->tid;
           if (!in_array($tag, $random_tags)) {
             $random_tags[] = $tag;
@@ -90,7 +70,7 @@ function ding_example_content_events_node_export_import_alter(&$nodes, $format, 
             $i--;
           }
         }
-        $wrapper->field_ding_event_tags->set($random_tags);
+        $wrapper->field_ding_news_tags->set($random_tags);
       }
 
       // Set OG group id (library). Do not use the entity wrapper here as it
@@ -102,10 +82,10 @@ function ding_example_content_events_node_export_import_alter(&$nodes, $format, 
       }
 
       // Set OG group id (groups).
-      if (!empty($node->ding_event_groups_ref)) {
-        $group = $node->ding_event_groups_ref[LANGUAGE_NONE][0]['target_id'];
+      if (!empty($node->ding_news_groups_ref)) {
+        $group = $node->ding_news_groups_ref[LANGUAGE_NONE][0]['target_id'];
         $nid = ding_example_content_groups_ref_translate($group, 'ding_group');
-        $wrapper->ding_event_groups_ref->set(array($nid));
+        $wrapper->ding_news_groups_ref->set(array($nid));
       }
     }
   }
