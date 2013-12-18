@@ -132,6 +132,9 @@ administration interface.
   // Ensures that form data is not moved out of the database. It's important to
   // keep this in non-volatile memory (e.g. the database).
   $conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
+
+  // Ensure fast tracks for files not found.
+  drupal_fast_404();
 ```
 
 ## Varnish
@@ -197,4 +200,15 @@ from a performance point it's more what you are use to setup.
   $conf['memcache_bins'] = array(
     'cache' => 'default',
   );
+```
+
+## WAYF - NemID
+The ding_wayf module that is used to connect to WAYF services through
+SimpleSAMLphp requires that the providers (alma and openruth) set a special
+hash value as default password togehter with the social security number from
+WAYF.
+
+This is done in settings.php by setting.
+```php
+  $conf['wayf_hash'] = "HASH_VALUE";
 ```

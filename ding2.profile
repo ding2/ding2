@@ -109,7 +109,7 @@ function ding2_install_tasks(&$install_state) {
 /**
  * Translation callback.
  *
- * @param $install_state
+ * @param string $install_state
  *   An array of information about the current installation state.
  *
  * @return array
@@ -122,6 +122,12 @@ function ding2_import_translation(&$install_state) {
   // Enable danish language.
   include_once DRUPAL_ROOT . '/includes/locale.inc';
   locale_add_language('da', NULL, NULL, NULL, '', NULL, TRUE, FALSE);
+
+  // Import our own translations.
+  $file = new stdClass;
+  $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/ding2tal_da.po';
+  $file->filename = basename($file->uri);
+  _locale_import_po($file, 'da', LOCALE_IMPORT_OVERWRITE, 'default');
 
   // Build batch with l10n_update module.
   $history = l10n_update_get_history();
@@ -208,10 +214,11 @@ function ding2_module_selection_form($form, &$form_state) {
   // Optional modules.
   //
   $modules = array(
-    'ding_adhl_frontend' => st('ADHL (Other that have borrowed)'),
+//    'ding_adhl_frontend' => st('ADHL (Other that have borrowed)'),
     'ding_campaign' => st('Add ding campaigns'),
     'ding_contact' => st('Contact module'),
     'ding_example_content' => st('Add example content'),
+    'ting_new_materials' => st('Ting New Materials'),
   );
 
   $form['modules'] = array(
