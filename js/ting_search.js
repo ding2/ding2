@@ -14,8 +14,6 @@
     $('#search-block-form input[type="submit"]').click(function() {
       Drupal.TingSearchOverlay();
 
-      // Continue normal click event.
-      $(this).trigger('click');
       return true;
     });
 
