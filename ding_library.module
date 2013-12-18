@@ -372,6 +372,21 @@ function ding_library_node_insert($node) {
 }
 
 /**
+ * Implements hook_node_update().
+ */
+function ding_library_node_update($node) {
+  if ($node->type == 'ding_library') {
+    // Update OG_menu title if group title is changed.
+    if ($node->title != $node->original->title) {
+      $menu = menu_load('menu-og-' . $node->nid);
+      $menu['title'] = $node->title;
+      $menu['description'] = 'OG Menu for ' . $node->title;
+      menu_save($menu);
+    }
+  }
+}
+
+/**
  * Implements hook_node_delete().
  */
 function ding_library_node_delete($node) {
