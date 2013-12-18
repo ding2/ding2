@@ -1,20 +1,20 @@
 <?php
 /**
  * @file
- * ding_example_content.strongarm.inc
+ * ding_example_content_groups.strongarm.inc
  */
 
 /**
  * Implements hook_strongarm().
  */
-function ding_example_content_strongarm() {
+function ding_example_content_groups_strongarm() {
   $export = array();
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_export_code';
-  $strongarm->value = 'file';
+  $strongarm->value = 'all';
   $export['node_export_code'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -92,11 +92,14 @@ function ding_example_content_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'node_export_file_types';
   $strongarm->value = array(
-    'ding_campaign' => 'ding_campaign',
     'ding_event' => 'ding_event',
+    'ding_group' => 'ding_group',
     'ding_library' => 'ding_library',
     'ding_news' => 'ding_news',
+    'ding_rolltab' => 'ding_rolltab',
     'ding_page' => 'ding_page',
+    'ding_campaign' => 0,
+    'new_materials' => 0,
     'panel' => 0,
   );
   $export['node_export_file_types'] = $strongarm;
@@ -131,6 +134,13 @@ function ding_example_content_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_author_ding_group';
+  $strongarm->value = 1;
+  $export['node_export_reset_author_ding_group'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'node_export_reset_author_ding_library';
   $strongarm->value = 1;
   $export['node_export_reset_author_ding_library'] = $strongarm;
@@ -148,6 +158,20 @@ function ding_example_content_strongarm() {
   $strongarm->name = 'node_export_reset_author_ding_page';
   $strongarm->value = 1;
   $export['node_export_reset_author_ding_page'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_author_ding_rolltab';
+  $strongarm->value = 1;
+  $export['node_export_reset_author_ding_rolltab'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_author_new_materials';
+  $strongarm->value = 1;
+  $export['node_export_reset_author_new_materials'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -173,6 +197,13 @@ function ding_example_content_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_book_mlid_ding_group';
+  $strongarm->value = 1;
+  $export['node_export_reset_book_mlid_ding_group'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'node_export_reset_book_mlid_ding_library';
   $strongarm->value = 1;
   $export['node_export_reset_book_mlid_ding_library'] = $strongarm;
@@ -194,6 +225,20 @@ function ding_example_content_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_book_mlid_ding_rolltab';
+  $strongarm->value = 1;
+  $export['node_export_reset_book_mlid_ding_rolltab'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_book_mlid_new_materials';
+  $strongarm->value = 1;
+  $export['node_export_reset_book_mlid_new_materials'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'node_export_reset_book_mlid_panel';
   $strongarm->value = 1;
   $export['node_export_reset_book_mlid_panel'] = $strongarm;
@@ -209,29 +254,50 @@ function ding_example_content_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_export_reset_changed_ding_event';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['node_export_reset_changed_ding_event'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_changed_ding_group';
+  $strongarm->value = 0;
+  $export['node_export_reset_changed_ding_group'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'node_export_reset_changed_ding_library';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['node_export_reset_changed_ding_library'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_export_reset_changed_ding_news';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['node_export_reset_changed_ding_news'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_export_reset_changed_ding_page';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['node_export_reset_changed_ding_page'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_changed_ding_rolltab';
+  $strongarm->value = 0;
+  $export['node_export_reset_changed_ding_rolltab'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_changed_new_materials';
+  $strongarm->value = 1;
+  $export['node_export_reset_changed_new_materials'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -251,29 +317,50 @@ function ding_example_content_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_export_reset_created_ding_event';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['node_export_reset_created_ding_event'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_created_ding_group';
+  $strongarm->value = 0;
+  $export['node_export_reset_created_ding_group'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'node_export_reset_created_ding_library';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['node_export_reset_created_ding_library'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_export_reset_created_ding_news';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['node_export_reset_created_ding_news'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_export_reset_created_ding_page';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['node_export_reset_created_ding_page'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_created_ding_rolltab';
+  $strongarm->value = 0;
+  $export['node_export_reset_created_ding_rolltab'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_created_new_materials';
+  $strongarm->value = 1;
+  $export['node_export_reset_created_new_materials'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -299,6 +386,13 @@ function ding_example_content_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_last_comment_timestamp_ding_group';
+  $strongarm->value = 1;
+  $export['node_export_reset_last_comment_timestamp_ding_group'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'node_export_reset_last_comment_timestamp_ding_library';
   $strongarm->value = 1;
   $export['node_export_reset_last_comment_timestamp_ding_library'] = $strongarm;
@@ -316,6 +410,20 @@ function ding_example_content_strongarm() {
   $strongarm->name = 'node_export_reset_last_comment_timestamp_ding_page';
   $strongarm->value = 1;
   $export['node_export_reset_last_comment_timestamp_ding_page'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_last_comment_timestamp_ding_rolltab';
+  $strongarm->value = 1;
+  $export['node_export_reset_last_comment_timestamp_ding_rolltab'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_last_comment_timestamp_new_materials';
+  $strongarm->value = 1;
+  $export['node_export_reset_last_comment_timestamp_new_materials'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -341,6 +449,13 @@ function ding_example_content_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_menu_ding_group';
+  $strongarm->value = 1;
+  $export['node_export_reset_menu_ding_group'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'node_export_reset_menu_ding_library';
   $strongarm->value = 1;
   $export['node_export_reset_menu_ding_library'] = $strongarm;
@@ -358,6 +473,20 @@ function ding_example_content_strongarm() {
   $strongarm->name = 'node_export_reset_menu_ding_page';
   $strongarm->value = 1;
   $export['node_export_reset_menu_ding_page'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_menu_ding_rolltab';
+  $strongarm->value = 1;
+  $export['node_export_reset_menu_ding_rolltab'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_menu_new_materials';
+  $strongarm->value = 1;
+  $export['node_export_reset_menu_new_materials'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -383,6 +512,13 @@ function ding_example_content_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_path_ding_group';
+  $strongarm->value = 1;
+  $export['node_export_reset_path_ding_group'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'node_export_reset_path_ding_library';
   $strongarm->value = 1;
   $export['node_export_reset_path_ding_library'] = $strongarm;
@@ -400,6 +536,20 @@ function ding_example_content_strongarm() {
   $strongarm->name = 'node_export_reset_path_ding_page';
   $strongarm->value = 1;
   $export['node_export_reset_path_ding_page'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_path_ding_rolltab';
+  $strongarm->value = 1;
+  $export['node_export_reset_path_ding_rolltab'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_path_new_materials';
+  $strongarm->value = 1;
+  $export['node_export_reset_path_new_materials'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -425,6 +575,13 @@ function ding_example_content_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_promote_ding_group';
+  $strongarm->value = 0;
+  $export['node_export_reset_promote_ding_group'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'node_export_reset_promote_ding_library';
   $strongarm->value = 0;
   $export['node_export_reset_promote_ding_library'] = $strongarm;
@@ -442,6 +599,20 @@ function ding_example_content_strongarm() {
   $strongarm->name = 'node_export_reset_promote_ding_page';
   $strongarm->value = 0;
   $export['node_export_reset_promote_ding_page'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_promote_ding_rolltab';
+  $strongarm->value = 0;
+  $export['node_export_reset_promote_ding_rolltab'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_promote_new_materials';
+  $strongarm->value = 0;
+  $export['node_export_reset_promote_new_materials'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -467,6 +638,13 @@ function ding_example_content_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_revision_timestamp_ding_group';
+  $strongarm->value = 1;
+  $export['node_export_reset_revision_timestamp_ding_group'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'node_export_reset_revision_timestamp_ding_library';
   $strongarm->value = 1;
   $export['node_export_reset_revision_timestamp_ding_library'] = $strongarm;
@@ -484,6 +662,20 @@ function ding_example_content_strongarm() {
   $strongarm->name = 'node_export_reset_revision_timestamp_ding_page';
   $strongarm->value = 1;
   $export['node_export_reset_revision_timestamp_ding_page'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_revision_timestamp_ding_rolltab';
+  $strongarm->value = 1;
+  $export['node_export_reset_revision_timestamp_ding_rolltab'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_revision_timestamp_new_materials';
+  $strongarm->value = 1;
+  $export['node_export_reset_revision_timestamp_new_materials'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -509,6 +701,13 @@ function ding_example_content_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_status_ding_group';
+  $strongarm->value = 0;
+  $export['node_export_reset_status_ding_group'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'node_export_reset_status_ding_library';
   $strongarm->value = 0;
   $export['node_export_reset_status_ding_library'] = $strongarm;
@@ -526,6 +725,20 @@ function ding_example_content_strongarm() {
   $strongarm->name = 'node_export_reset_status_ding_page';
   $strongarm->value = 0;
   $export['node_export_reset_status_ding_page'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_status_ding_rolltab';
+  $strongarm->value = 0;
+  $export['node_export_reset_status_ding_rolltab'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_status_new_materials';
+  $strongarm->value = 0;
+  $export['node_export_reset_status_new_materials'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -551,6 +764,13 @@ function ding_example_content_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_sticky_ding_group';
+  $strongarm->value = 0;
+  $export['node_export_reset_sticky_ding_group'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'node_export_reset_sticky_ding_library';
   $strongarm->value = 0;
   $export['node_export_reset_sticky_ding_library'] = $strongarm;
@@ -572,48 +792,23 @@ function ding_example_content_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_sticky_ding_rolltab';
+  $strongarm->value = 0;
+  $export['node_export_reset_sticky_ding_rolltab'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'node_export_reset_sticky_new_materials';
+  $strongarm->value = 0;
+  $export['node_export_reset_sticky_new_materials'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'node_export_reset_sticky_panel';
   $strongarm->value = 0;
   $export['node_export_reset_sticky_panel'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'ting_carousel_search_queries';
-  $strongarm->value = array(
-    0 => array(
-      'title' => 'Krimi',
-      'subtitle' => 'Krimi 2013',
-      'query' => 'bog AND krimi AND 2013 AND dansk',
-    ),
-    1 => array(
-      'title' => 'Italiensk film',
-      'subtitle' => 'Italiensk film fra 2013',
-      'query' => 'spillefilm AND 2013 AND italiensk',
-    ),
-  );
-  $export['ting_carousel_search_queries'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'ting_carousel_search_queries_hidden';
-  $strongarm->value = array();
-  $export['ting_carousel_search_queries_hidden'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'ting_search_carousel_description_toggle';
-  $strongarm->value = 1;
-  $export['ting_search_carousel_description_toggle'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'ting_search_carousel_tabs_position';
-  $strongarm->value = 'bottom';
-  $export['ting_search_carousel_tabs_position'] = $strongarm;
 
   return $export;
 }
