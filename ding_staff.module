@@ -86,7 +86,7 @@ function ding_staff_add_role_staff($profile_user) {
  * we overwrite the rids in the staff view
  */
 function ding_staff_views_default_views_alter(&$views) {
-  if ($views['ding_staff']) {
+  if (!empty($views['ding_staff'])) {
     $roles = user_roles(TRUE);
     $rid = array_search("staff", $roles);
 
