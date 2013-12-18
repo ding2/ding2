@@ -653,6 +653,7 @@ events
       'override_title' => 0,
       'override_title_text' => '',
       'slug' => 'arrangementer',
+      'hide_default' => 0,
     );
     $pane->cache = array();
     $pane->style = array(
