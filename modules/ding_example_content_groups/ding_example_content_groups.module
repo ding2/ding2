@@ -133,22 +133,22 @@ function ding_example_content_groups_ref_translate($ref_entity_id, $entity_type)
   switch ((int) $ref_entity_id) {
     case 2:
       // Library (HB).
-      $uuid = '8caa3468-3ed0-4a09-aa37-3e593ad11fea';
+      $uuid = 'c32d8d09-bb66-43e0-b346-e3526b5afe2f';
       break;
 
     case 33:
       // Library (LB).
-      $uuid = 'f7327446-52fc-4c64-b7fd-22fe4eff46bd';
+      $uuid = 'f78aad90-8cf1-465c-97e5-e9dcd8be0c0e';
       break;
 
     case 11:
       // Fantasy (groups).
-      $uuid = 'c68434db-12e8-498b-b850-e4b48e02e7f7';
+      $uuid = '1894b58c-2ee6-4fd6-a823-b576e2440f2e';
       break;
 
     case 7:
       // Faglitteratur (groups).
-      $uuid = 'c9f05c43-1676-491c-b4d9-45a636fd97c6';
+      $uuid = '321eda36-771d-406d-8efe-477a283475db';
       break;
 
     default:
