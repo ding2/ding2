@@ -390,11 +390,6 @@ input#edit-search-block-form--2.spinner {
   .expand-facets-hidden {
     @extend .icon-plus-sign;
   }
-
-  /* Media queries */
-  @include small-medium() {
-    display: none;
-  }
 }
 
 
@@ -414,8 +409,24 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
-.facet-browser-responsive {
+
+.pane-ding-facetbrowser {
   @extend .pane-ding-facetbrowser;
+}
+
+/* Responsive styling for facet browser depending on context */
+.primary-content {
+  .pane-ding-facetbrowser {
+    display: none;
+  }
+}
+
+.secondary-content {
+  .pane-ding-facetbrowser {
+    @include small-medium() {
+      display: none;
+    }
+  }
 }
 
 
@@ -617,7 +628,7 @@ input#edit-search-block-form--2.spinner {
         margin-right: 8px;
         padding-right: 11px;
 
-        border-right: 1px solid $gray;
+        right: 1px solid $gray;
       }
 
       .search-result--availability-link:last-child {
@@ -929,6 +940,10 @@ input#edit-search-block-form--2.spinner {
     padding: 20px;
 
     background-color: transparentize($white, .1);
+
+    h2 {
+      margin-bottom: 10px;
+    }
   }
 
   .ting-object-left {

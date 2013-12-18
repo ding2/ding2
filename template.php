@@ -107,7 +107,6 @@ function ddbasic_form_alter(&$form, &$form_state, $form_id) {
       $form['search_block_form']['#attributes']['placeholder'] = t('Search the library');
       $form['search_block_form']['#field_prefix'] = '<i class="icon-search"></i>';
       $form['search_block_form']['#title'] = t('Search the library database and the website');
-      $form['search_block_form']['#title_attribute'] = array('label-search');
 
       // Remove element-invisible
       unset($form['search_block_form']['#title_display']);
@@ -395,7 +394,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
   if (isset($variables['content']['group_right_col_search'])) {
     $variables['content']['group_right_col_search']['title'] = array(
       '#theme' => 'link',
-      '#text' => $variables['title'],
+      '#text' => decode_entities($variables['title']),
       '#path' => 'node/' . $variables['nid'],
       '#options' => array(
         'attributes' => array(
@@ -482,6 +481,12 @@ function ddbasic_preprocess_field(&$vars, $hook) {
   if ($vars['element']['#field_type'] == 'ting_collection_types' &&
       $vars['element']['#formatter'] == 'ding_availability_with_labels') {
     $vars['theme_hook_suggestions'][] = 'field__' . $vars['element']['#field_type'] . '__' . 'search_result';
+  }
+
+  if ($vars['element']['#bundle'] == 'ding_staff_profile') {
+    if ($vars['element']['#field_name'] == 'og_group_ref') {
+      $vars['classes_array'][] = 'field-name-ding-library-name';
+    }
   }
 }
 
@@ -810,100 +815,6 @@ function ddbasic_process_page(&$vars) {
   // Hook into color.module
   if (module_exists('color')) {
     _color_page_alter($vars);
-  }
-}
-
-/**
- * Implements hook_preprocess_views_view_responsive_grid().
- *
- * Adds the correct classes to rows and columns to the ding groups front page
- * view based on the number of groups promoted to the front page.
- */
-function ddbasic_preprocess_views_view_responsive_grid(&$vars) {
-  if ($vars['view']->name == 'ding_groups') {
-    // Defined column classes.
-    $columns_classes = array(
-      ' group-blocks--first',
-      ' group-blocks--second',
-      ' group-blocks--third',
-      ' group-blocks--fourth',
-    );
-
-    // Loop over the rows to add the correct classes to the row based on the
-    // number of columns in the row.
-    foreach ($vars['rows'] as $row_number => &$row) {
-      switch (count($row)) {
-        case 1:
-          $vars['row_classes'][$row_number] .= ' group-blocks--one';
-          break;
-
-        case 2:
-          $vars['row_classes'][$row_number] .= ' group-blocks--two';
-          break;
-
-        case 3:
-          $vars['row_classes'][$row_number] .= ' group-blocks--three';
-          break;
-
-        case 4:
-          $vars['row_classes'][$row_number] .= ' group-blocks--four';
-          break;
-      }
-
-      // Reverse columns to make the most important at top (make --one at top).
-      $row = array_reverse($row);
-
-      // Add column classes to the current row.
-      $column_id = 0;
-      foreach ($row as $column_id => $column) {
-        $vars['rows'][$row_number][$column_id]['classes'] .= $columns_classes[$column_id];
-      }
-
-      // Add last class to last column.
-      $vars['rows'][$row_number][$column_id]['classes'] .= ' last';
-    }
-
-    // Reverse rows.
-    $vars['rows'] = array_reverse($vars['rows']);
-    $vars['row_classes'] = array_reverse($vars['row_classes']);
-  }
-}
-
-/**
- * Implements hook_preprocess_views_view_fields().
- *
- * Ensure that the image styles used in responsive images for ding groups are
- * optimized in relation to the number of promoted groups.
- */
-function ddbasic_preprocess_views_view_fields(&$vars) {
-  if ($vars['view']->name == 'ding_groups' && $vars['view']->current_display == 'panel_pane_1') {
-    $total = (int) $vars['view']->total_rows;
-    $rows = ceil($total / 4);
-    $current = $vars['id'];
-
-    if ((($rows - 1) * 4) < $current) {
-      // Last row (top row).
-      $count = (($total - 1) % 4) + 1;
-      switch ($count) {
-        case '1';
-          // One image.
-          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#max_style'] = 'ding_panorama_primary_large';
-          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#fallback_style'] = 'ding_panorama_primary_medium';
-          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#breakpoint_styles']['768'] = 'ding_panorama_primary_large';
-          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#breakpoint_styles']['500'] = 'ding_panorama_primary_medium';
-          $vars['fields']['field_ding_group_list_image']->content = drupal_render($vars['row']->field_field_ding_group_list_image[0]['rendered']);
-          break;
-
-        case '2';
-          // Two image.
-          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#max_style'] = 'ding_panorama_primary_medium';
-          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#fallback_style'] = 'ding_panorama_primary_small';
-          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#breakpoint_styles']['768'] = 'ding_panorama_primary_medium';
-          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#breakpoint_styles']['500'] = 'ding_panorama_primary_small';
-          $vars['fields']['field_ding_group_list_image']->content = drupal_render($vars['row']->field_field_ding_group_list_image[0]['rendered']);
-          break;
-      }
-    }
   }
 }
 
