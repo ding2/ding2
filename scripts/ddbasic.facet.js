@@ -7,7 +7,7 @@
       $('<a />', {
           'class' : 'facet-browser-toggle js-facet-browser-hide',
           'href' : '#toggle-facet-browser',
-          'text' : Drupal.t('Show search filters')
+          'text' : Drupal.t('Limit search results')
       }).prependTo('.primary-content');
 
       // Move and show filters on click.
