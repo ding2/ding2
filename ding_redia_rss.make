@@ -2,6 +2,9 @@ core = 7.x
 api = 2
 
 ; Projects
+projects[flag][subdir] = "contrib"
+projects[flag][version] = "2.0"
+
 projects[views_rss][subdir] = "contrib"
 projects[views_rss][version] = "2.0-rc3"
 
