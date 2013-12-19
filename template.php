@@ -483,7 +483,27 @@ function ddbasic_preprocess_field(&$vars, $hook) {
     $vars['theme_hook_suggestions'][] = 'field__' . $vars['element']['#field_type'] . '__' . 'search_result';
   }
 
+  // Add class to library OG ref on staff profiles only.
   if ($vars['element']['#bundle'] == 'ding_staff_profile') {
+    $staff_fields = array(
+      'og_group_ref',
+      'field_ding_staff_department',
+      'field_ding_staff_email',
+      'field_ding_staff_phone',
+    );
+
+    if (in_array($field_name, $staff_fields)) {
+      $vars['theme_hook_suggestions'][] = 'field__ding_staff__content_field';
+
+      // Ensure that department is not add label info.
+      if ($field_name == 'field_ding_staff_department') {
+        foreach ($vars['items'] as $id => $item) {
+          // This as little hack to make the user interface look better.
+          $vars['items'][$id]['#options']['no_label'] = TRUE;
+        }
+      }
+    }
+
     if ($field_name == 'og_group_ref') {
       $vars['classes_array'][] = 'field-name-ding-library-name';
     }
@@ -499,13 +519,16 @@ function ddbasic_preprocess_field(&$vars, $hook) {
  */
 function ddbasic_link($variables) {
   if (isset($variables['options']['entity_type']) && $variables['options']['entity_type'] == 'taxonomy_term') {
-    // Add classes label and label-info.
-    if (!isset($variables['options']['attributes']['class'])) {
-      $variables['options']['attributes']['class'] = array();
+    if (!isset($variables['options']['no_label'])) {
+      // Add classes label and label-info.
+      if (!isset($variables['options']['attributes']['class'])) {
+        $variables['options']['attributes']['class'] = array();
+      }
+      $variables['options']['attributes']['class'][] = 'label';
+      $variables['options']['attributes']['class'][] = 'label-info';
     }
-    $variables['options']['attributes']['class'][] = 'label';
-    $variables['options']['attributes']['class'][] = 'label-info';
   }
+
   return '<a href="' . check_plain(url($variables['path'], $variables['options'])) . '"' . drupal_attributes($variables['options']['attributes']) . '>' . ($variables['options']['html'] ? $variables['text'] : check_plain($variables['text'])) . '</a>';
 }
 
