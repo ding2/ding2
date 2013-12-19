@@ -237,6 +237,7 @@ temaer/*';
     'node' => array(),
     'ding-groups-panels' => array(),
     'ding-library-panels' => array(),
+    'ding-staff' => array(),
   );
   $export['og_context_negotiation_group_context'] = $strongarm;
 
@@ -248,10 +249,11 @@ temaer/*';
     'url' => '-10',
     'node' => '-9',
     'ding-groups-panels' => '-8',
-    'comment' => '-6',
-    'user-edit' => '-5',
-    'user-view' => '-4',
     'ding-library-panels' => '-7',
+    'comment' => '-5',
+    'user-edit' => '-4',
+    'user-view' => '-3',
+    'ding-staff' => '-6',
   );
   $export['og_context_providers_weight_group_context'] = $strongarm;
 
