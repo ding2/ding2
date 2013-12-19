@@ -1,4 +1,7 @@
-
+/**
+ * @file
+ * Implementation of the facet browser front-end to make the facet collapsible.
+ */
 (function($) {
 
 Drupal.behaviors.ding_facetbrowser = {
@@ -6,51 +9,70 @@ Drupal.behaviors.ding_facetbrowser = {
     // Fold facet groups as default.
     ding_facetbrowser_fold_facet_group();
 
-    // Select the fact browser HTML element.
-    var fact_browser = $(Drupal.settings.ding_facetbrowser.selector);
+    // Select the fact browser(s) HTML element.
+    var fact_browsers = $(Drupal.settings.ding_facetbrowser.selector);
 
-    // Wrap all facet field sets marked as hidden in a container so we can
-    // hide em. The link text is show less and will be changed to show more
-    // if the cookie is false.
-    var show_more = $('<a href="#" class="expand-facets expand-facets-visible">' + Drupal.t('Show less filters') + '</a>');
-    fact_browser.find('fieldset.hidden').wrapAll('<div id="hidden-facets" class="hidden-facets-group" />');
-    fact_browser.find('#hidden-facets').after(show_more);
-
-    // Check the cookie.
-    if ($.cookie("ding_factbrowers_toggle") != 'true') {
-      fact_browser.find('#hidden-facets').hide();
-      show_more.text(Drupal.t('Show more filters'));
-      show_more.removeClass().addClass("expand-facets expand-facets-hidden");
-    }
-
-    show_more.click(function(e) {
-      e.preventDefault();
-
-      // Toggle facts groups and update link/button text.
-      fact_browser.find('#hidden-facets').toggle('fast', function () {
-        var visible = $(this).is(':visible');
-        show_more.text(
-          visible ? Drupal.t('Show less filters') : Drupal.t('Show more filters')
-        );
-        show_more.removeClass().addClass(
-          visible ? "expand-facets expand-facets-visible" : "expand-facets expand-facets-hidden"
-        );
-
-        // Set cookie, so to remember if they where shown.
-        $.cookie("ding_factbrowers_toggle", visible);
+    // Hide extra facet groups (groups that have js-hidden class).
+    fact_browsers.each(function(index, facet_browser) {
+      // Create show more link.
+      var show_more_groups = $('<a />', {
+        href: '#',
+        text:  Drupal.t('Show more filters'),
+        class: 'expand expand-more'
       });
 
-      return false;
+      // Create facet group wrapper.
+      var wrapper = $('<div />', {
+        class: 'hidden-facets-group'
+      });
+
+      // Add the wrapper and link to the browser.
+      var browser = $(facet_browser);
+      browser.find('.js-hidden').wrapAll(wrapper);
+      wrapper = browser.find('.hidden-facets-group');
+      wrapper.after(show_more_groups);
+
+      // Add event handler to show more links.
+      show_more_groups.click(function(e) {
+        e.preventDefault();
+
+        // Get the link clicked.
+        var self = $(this);
+
+        // Toggle facts groups and update link/button text.
+        wrapper.toggle('fast', function () {
+          var cookie = 0;
+          if (self.hasClass('expand-more')) {
+            show_more_groups.text(Drupal.t('Show less filters'));
+            show_more_groups.removeClass('expand-more').addClass('expand-less');
+            cookie = 1;
+          }
+          else {
+            show_more_groups.text(Drupal.t('Show more filters'));
+            show_more_groups.removeClass('expand-less').addClass('expand-more');
+          }
+
+          // Set cookie, so to remember if they where shown.
+          $.cookie('ding_factbrowers_groups_shown', cookie);
+        });
+
+        return false;
+      });
+
+      // Check the cookie, if facet groups should be hidden or shown as default.
+      if (parseInt($.cookie('ding_factbrowers_groups_shown'), 10) === 1) {
+        show_more_groups.trigger('click');
+      }
     });
 
     // Check for click in checkbox, and execute search.
-    fact_browser.find('.form-type-checkbox input').change(function(e) {
+    fact_browsers.find('.form-type-checkbox input').change(function(e) {
       Drupal.TingSearchOverlay();
       window.location = $(e.target).parent().find('a').attr('href');
     });
 
-    // Check factet links for click events.
-    fact_browser.find('.form-type-checkbox a').click(function(e) {
+    // Check facet links for click events.
+    fact_browsers.find('.form-type-checkbox a').click(function(e) {
       Drupal.TingSearchOverlay();
     });
   }
