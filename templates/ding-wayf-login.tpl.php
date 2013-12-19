@@ -8,8 +8,8 @@
  *  - $link: link to the login as a render array.
  */
 ?>
-<div class="ding-wayf--logon-block">
-  <span class="ding-wayf--logon-info">
+<div class="ding-wayf--login-block">
+  <span class="ding-wayf--login-info">
     <?php print drupal_render($link); ?>
   </span>
 </div>
