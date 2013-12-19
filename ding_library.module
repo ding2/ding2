@@ -7,21 +7,6 @@
 include_once 'ding_library.features.inc';
 
 /**
- * Implements hook_init().
- */
-/*function ding_library_init() {
-  // Load ding library map javascript code if we have loaded the library
-  // overview page.
-  if ($_GET['q'] == 'libraries') {
-    drupal_add_js(drupal_get_path('module', 'ding_library') .  '/js/ding_library.map.js', array(
-      'defer' => TRUE,
-      'scope' => 'footer',
-      'weight' => 42,
-    ));
-  }
-}*/
-
-/**
  * Implements hook_menu_alter().
  *
  * Rewrite the main menus library link to redirect to a single library if only
