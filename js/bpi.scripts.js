@@ -1,6 +1,6 @@
 /**
  * @file
- * Trigger drupals ajax on page load.
+ * Trigger Drupal's ajax on page load.
  */
 
 (function($){
@@ -16,8 +16,6 @@
       $.ajax(ajax.options);
     }
     catch (err) {
-      console.log('An error occurred while attempting to process ' + ajax.options.url);
-      return false;
     }
 
     return false;

@@ -138,9 +138,8 @@ function bpi_admin_settings_form_validate(&$form, &$form_state) {
  * @ingroup forms
  */
 function bpi_admin_content_mapping_form($form, $form_state) {
-  $node_types = bpi_get_node_types();
+  $node_types = node_type_get_names();
   $node_types_names = array_keys($node_types);
-  $field_instances = array();
 
   $form['bpi_content_type'] = array(
     '#type' => 'select',
@@ -229,27 +228,6 @@ function _bpi_content_mapper_ctype_fields(&$form, &$form_state) {
 }
 
 /**
- * Get a list of available node types in the system.
- *
- * Simplifies the output returned by the core node_type_get_types()
- * function.
- *
- * @return array
- *   An associative array containing:
- *     - Node type machine name: Node type human name.
- */
-function bpi_get_node_types() {
-  $node_types = node_type_get_types();
-  $types = array();
-
-  foreach ($node_types as $type) {
-    $types[$type->type] = $type->name;
-  }
-
-  return $types;
-}
-
-/**
  * Get a list of fields, for a certain node type.
  *
  * Simplifies and filters the output of the core field_info_instances()
@@ -259,10 +237,15 @@ function bpi_get_node_types() {
  *
  * @param string $node_type
  *   Node type machine name, whose fields list is expected.
+ *
  * @return array
  *   An array with the fields, for the specified node type.
  */
 function bpi_get_field_instances($node_type) {
+  if (empty($node_type)) {
+    return array();
+  }
+
   $fields = array();
   $allowed_widgets = array(
     'text_textfield',
@@ -271,13 +254,11 @@ function bpi_get_field_instances($node_type) {
     'ting_reference_simple',
   );
 
-  if (!empty($node_type)) {
-    $field_instances = field_info_instances('node', $node_type);
+  $field_instances = field_info_instances('node', $node_type);
 
-    foreach ($field_instances as $instance) {
-      if (in_array($instance['widget']['type'], $allowed_widgets)) {
-        $fields[$instance['field_name']] = $instance['label'];
-      }
+  foreach ($field_instances as $instance) {
+    if (in_array($instance['widget']['type'], $allowed_widgets)) {
+      $fields[$instance['field_name']] = $instance['label'];
     }
   }
 

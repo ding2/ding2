@@ -13,6 +13,7 @@
  *   Request type, simple http or ajax.
  * @param int $nid
  *   Node id, whose content is to be pushed.
+ *
  * @return Array/string
  *   Ajax command set in case of ajax request, push content page
  *   markup otherwise.
@@ -24,7 +25,7 @@ function bpi_push_action($type, $nid) {
     return;
   }
 
-  if (!bpi_ability($nid, 'push')) {
+  if (!bpi_push_available($nid)) {
     drupal_access_denied();
     drupal_exit();
   }
@@ -53,12 +54,12 @@ function bpi_push_action($type, $nid) {
  *
  * @param int $nid
  *   The node id, waiting to be pushed.
+ *
  * @return array
  *   Form structure.
- *
  */
-function http_bpi_push_action($nid) {
-  return drupal_get_form('http_bpi_push_action_form', $nid);
+function bpi_http_push_action($nid) {
+  return drupal_get_form('bpi_http_push_action_form', $nid);
 }
 
 /**
@@ -70,19 +71,22 @@ function http_bpi_push_action($nid) {
  *   Form state values.
  * @param int $nid
  *   The node id, waiting to be pushed.
+ *
  * @return array
  *   Form structure.
  *
  * @ingroup forms
  */
-function http_bpi_push_action_form($form, &$form_state, $nid) {
+function bpi_http_push_action_form($form, &$form_state, $nid) {
   $node_title = '';
+  // @todo If $nid is empty this seems like a poor fix.
   if (!empty($nid)) {
     $node = node_load($nid);
     $node_title = $node->title;
   }
 
   $form['bpi_push_nid'] = array(
+    // @todo Why not use value here?
     '#type' => 'hidden',
     '#value' => isset($nid) ? $nid : 0,
   );
@@ -94,7 +98,7 @@ function http_bpi_push_action_form($form, &$form_state, $nid) {
     '#type' => 'select',
     '#title' => t('Category'),
     '#options' => array_combine($categories, $categories),
-    '#default_value' => ','
+    '#default_value' => ',',
   );
 
   $audiences = array_values($dictionaries['audience']);
@@ -102,7 +106,7 @@ function http_bpi_push_action_form($form, &$form_state, $nid) {
     '#type' => 'select',
     '#title' => t('Audience'),
     '#options' => array_combine($audiences, $audiences),
-    '#default_value' => ','
+    '#default_value' => ',',
   );
 
   $form['bpi_push_images'] = array(
@@ -124,13 +128,13 @@ function http_bpi_push_action_form($form, &$form_state, $nid) {
 
   return confirm_form(
     $form,
-    t('Are you sure u want to push content <strong>%title</strong> to BPI well?', array('%title' => $node_title)),
+    t('Are you sure u want to push content <em>%title</em> to BPI well?', array('%title' => $node_title)),
     'admin/content'
   );
 }
 
 /**
- * Submit handler for the  push node form on node/edit page.
+ * Submit handler for the push node form on node/edit page.
  *
  * @see bpi_push_form()
  *
@@ -141,7 +145,7 @@ function http_bpi_push_action_form($form, &$form_state, $nid) {
  *
  * @ingroup forms
  */
-function http_bpi_push_action_form_submit($form, &$form_state) {
+function bpi_http_push_action_form_submit($form, &$form_state) {
   $nid = $form_state['input']['bpi_push_nid'];
   $category = $form_state['input']['bpi_push_category'];
   $audience = $form_state['input']['bpi_push_audience'];
@@ -154,13 +158,8 @@ function http_bpi_push_action_form_submit($form, &$form_state) {
   $node = node_load($nid);
   $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, $authorship, $editable);
 
-  $endpoint = variable_get('bpi_service_url', '');
-  $agency_id = variable_get('bpi_agency_id', '');
-  $api_key = variable_get('bpi_api_key', '');
-  $secret_key = variable_get('bpi_secret_key', '');
-
   try {
-    $bpi = new Bpi($endpoint, $agency_id, $api_key, $secret_key);
+    $bpi = bpi_client_instance();
     $push_result = $bpi->push($bpi_content)->getProperties();
 
     if (!empty($push_result['id'])) {
@@ -175,20 +174,12 @@ function http_bpi_push_action_form_submit($form, &$form_state) {
         ->execute();
       drupal_set_message(t('Node %title was successfully pushed to BPI well.', array('%title' => $node->title)));
     }
-    global $base_url;
-    drupal_goto($base_url . '/admin/bpi');
+    drupal_goto('admin/bpi');
   }
   catch (Exception $e) {
-    watchdog(
-      'bpi',
-      t('Failed to push node %title, with message %message.'),
-      array(
-        '%title' => $node->title,
-        '%message' => $e->getMessage()
-      ),
-      WATCHDOG_ERROR
-    );
-    drupal_set_message(t('Error occurred when pushing %title to BPI well. Check reports for more information.', array('%title' => $node->title)), 'error');
+    watchdog_exception('bpi', $e);
+    $msg = t('Error occurred when pushing %title to BPI well. Check reports for more information.', array('%title' => $node->title));
+    drupal_set_message($msg, 'error');
   }
 }
 
@@ -201,10 +192,14 @@ function http_bpi_push_action_form_submit($form, &$form_state) {
  *   Form state values.
  * @param int $nid
  *   The node id, waiting to be pushed.
+ *
  * @return array
  *   Form structure.
  *
  * @ingroup forms
+ *
+ * @todo There seems to be a lot of duplicated code between this function and
+ * http_bpi_push_action_form(). Can this be refactored?
  */
 function bpi_push_form($form, $form_state, $nid) {
   $node_title = '';
@@ -225,7 +220,7 @@ function bpi_push_form($form, $form_state, $nid) {
     '#type' => 'select',
     '#title' => t('Category'),
     '#options' => array_combine($categories, $categories),
-    '#default_value' => ','
+    '#default_value' => ',',
   );
 
   $audiences = array_values($dictionaries['audience']);
@@ -233,7 +228,7 @@ function bpi_push_form($form, $form_state, $nid) {
     '#type' => 'select',
     '#title' => t('Audience'),
     '#options' => array_combine($audiences, $audiences),
-    '#default_value' => ','
+    '#default_value' => ',',
   );
 
   $form['bpi_push_images'] = array(
@@ -274,6 +269,9 @@ function bpi_push_form($form, $form_state, $nid) {
  *   Form state values.
  *
  * @ingroup forms
+ *
+ * @todo There seems to be a lot of duplicated code between this function
+ * and http_bpi_push_action_form_submit(). Can this be refactored?
  */
 function bpi_push_form_submit($form, &$form_state) {
   $nid = $form_state['input']['bpi_push_nid'];
@@ -290,13 +288,8 @@ function bpi_push_form_submit($form, &$form_state) {
   $node = node_load($nid);
   $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, $authorship, $editable);
 
-  $endpoint = variable_get('bpi_service_url', '');
-  $agency_id = variable_get('bpi_agency_id', '');
-  $api_key = variable_get('bpi_api_key', '');
-  $secret_key = variable_get('bpi_secret_key', '');
-
   try {
-    $bpi = new Bpi($endpoint, $agency_id, $api_key, $secret_key);
+    $bpi = bpi_client_instance();
     $push_result = $bpi->push($bpi_content)->getProperties();
 
     if (!empty($push_result['id'])) {
@@ -314,16 +307,9 @@ function bpi_push_form_submit($form, &$form_state) {
     }
   }
   catch (Exception $e) {
-    watchdog(
-      'bpi',
-      t('Failed to push node %title, with message %message.'),
-      array(
-        '%title' => $node->title,
-        '%message' => $e->getMessage()
-      ),
-      WATCHDOG_ERROR
-    );
-    drupal_set_message(t('Error occured when pushing %title to BPI well. Check reports for more information.', array('%title' => $node->title)), 'error');
+    watchdog_exception('bpi', $e);
+    $msg = t('Error occured when pushing %title to BPI well. Check reports for more information.', array('%title' => $node->title));
+    drupal_set_message($msg, 'error');
   }
 }
 
@@ -368,103 +354,122 @@ function bpi_push_action_ajax_callback($form, &$form_state) {
  *   Selected category at the BPI side.
  * @param string $audience
  *   Selected audience at the BPI side.
+ * @param bool $with_images
+ *   Include images or not.
+ * @param bool $authorship
+ *   Include author name or not.
+ * @param int $editable
+ *   1 - to mark as editable, 0 - not editable.
  *
  * @return array
- *   An array of node values, used by the BPI ws.
+ *   An array of node values, used by the BPI web service.
+ *
+ * @todo Add a hook allowing changing the values before they are sent to BPI.
+ * @todo Split this function into smaller parts (ex: images, texts).
  */
 function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $authorship = FALSE, $editable = 1) {
   $bpi_content = array();
 
-  if ($node instanceof stdClass) {
-    $bpi_content['agency_id'] = variable_get('bpi_agency_id', '');
-    $bpi_content['local_id'] = $node->nid;
-    $bpi_content['bpi_id'] = isset($node->bpi_id) ? $node->bpi_id : NULL;
-    $user = user_load($node->uid);
-    $bpi_content['firstname'] = $user->name;
-    $bpi_content['lastname'] = '';
-    $bpi_content['title'] = $node->title;
+  $bpi_content['agency_id'] = variable_get('bpi_agency_id', '');
+  $bpi_content['local_id'] = $node->nid;
+  $bpi_content['bpi_id'] = isset($node->bpi_id) ? $node->bpi_id : NULL;
 
-    $teaser_map = variable_get('bpi_field_teaser', '');
-    $body_map = variable_get('bpi_field_body', '');
-    $materials_map = variable_get('bpi_field_materials', '');
-    $materials_map = field_view_field('node', $node, $materials_map);
-    $teaser_field = field_view_field('node', $node, $teaser_map);
-    $body_field = field_view_field('node', $node, $body_map);
+  $user = user_load($node->uid);
+  $bpi_content['firstname'] = $user->name;
+  $bpi_content['lastname'] = '';
+
+  $bpi_content['title'] = $node->title;
+
+  $teaser_map = variable_get('bpi_field_teaser', '');
+  $body_map = variable_get('bpi_field_body', '');
+  $materials_map = variable_get('bpi_field_materials', '');
+  $materials_map = field_view_field('node', $node, $materials_map);
+  $teaser_field = field_view_field('node', $node, $teaser_map);
+  $body_field = field_view_field('node', $node, $body_map);
+  $teaser = '';
+  $body = '';
+
+  // Whether the field is a textarea with summary, fetch the summary, if not -
+  // fetch it's safe value.
+  if (!empty($teaser_field) && isset($teaser_field['#items'][0]['safe_summary'])) {
+    $teaser = $teaser_field['#items'][0]['safe_summary'];
+  }
+  elseif (isset($teaser_field['#items'][0]['safe_value'])) {
+    $teaser = $teaser_field['#items'][0]['safe_value'];
+  }
+
+  $materials_drupal = array();
+  foreach ($materials_map as $key => $value) {
+    if (is_numeric($key)) {
+      $record = $value['#object']->getRecord();
+      $ac_identifier_array = array_shift(
+        array_values($record['ac:identifier'])
+      );
+      $parts = explode('|', $ac_identifier_array[0]);
+      $materials_drupal[] = $parts[1] . ':' . $parts[0];
+    }
+  }
+
+  if (!empty($body_field) && isset($body_field['#items'][0]['safe_value'])) {
+    $body = $body_field['#items'][0]['safe_value'];
+  }
+
+  // Empty the teaser, if body and teaser are mapped to same fields
+  // and the values are identical.
+  if ($teaser_map == $body_map && $teaser == $body) {
     $teaser = '';
-    $body = '';
+  }
 
-    // Whether the field is a textarea with summary, fetch the summary, if not -
-    // fetch it's safe value.
-    if (!empty($teaser_field) && isset($teaser_field['#items'][0]['safe_summary'])) {
-      $teaser = $teaser_field['#items'][0]['safe_summary'];
-    }
-    elseif (isset($teaser_field['#items'][0]['safe_value'])) {
-      $teaser = $teaser_field['#items'][0]['safe_value'];
-    }
+  $bpi_content['body'] = html_entity_decode($body);
+  $bpi_content['teaser'] = html_entity_decode($teaser);
+  $dt = new DateTime();
+  $dt->setTimestamp($node->changed);
+  $bpi_content['creation'] = $dt->format(DateTime::W3C);
+  $bpi_content['type'] = $node->type;
+  $bpi_content['category'] = $category;
+  $bpi_content['audience'] = $audience;
+  $bpi_content['related_materials'] = $materials_drupal;
+  $bpi_content['editable'] = (int) $editable;
+  $bpi_content['authorship'] = ($authorship) ? FALSE : TRUE;
+  $bpi_content['images'] = array();
 
-    $materials_drupal = array();
-    foreach ($materials_map as $key => $value) {
-      if (is_numeric($key)) {
-        $record = $value['#object']->getRecord();
-        $ac_identifier_array = array_shift(array_values($record['ac:identifier']));
-        $parts = explode('|', $ac_identifier_array[0]);
-        $materials_drupal[] = $parts[1] . ':' . $parts[0];
-      }
-    }
+  if ($with_images) {
+    $image_fields = bpi_fetch_image_fields($node->type);
 
-    if (!empty($body_field) && isset($body_field['#items'][0]['safe_value'])) {
-      $body = $body_field['#items'][0]['safe_value'];
-    }
+    if (!empty($image_fields)) {
+      foreach ($image_fields as $field_name) {
+        $field_value = field_view_field('node', $node, $field_name);
 
-    // Empty the teaser, if body and teaser are mapped to same fields, and the values
-    // are identical.
-    if ($teaser_map == $body_map && md5($teaser) == md5($body)) {
-      $teaser  = '';
-    }
-
-    $bpi_content['body'] = html_entity_decode($body);
-    $bpi_content['teaser'] = html_entity_decode($teaser);
-    $dt = new DateTime();
-    $dt->setTimestamp($node->changed);
-    $bpi_content['creation'] = $dt->format(DateTime::W3C);
-    $bpi_content['type'] = $node->type;
-    $bpi_content['category'] = $category;
-    $bpi_content['audience'] = $audience;
-    $bpi_content['related_materials'] = $materials_drupal;
-    $bpi_content['editable'] = (int) $editable;
-    $bpi_content['authorship'] = ($authorship) ? FALSE : TRUE;
-    $bpi_content['images'] = array();
-
-    if ($with_images) {
-      $image_fields = bpi_fetch_image_fields($node->type);
-
-      if (!empty($image_fields)) {
-        foreach ($image_fields as $field_name) {
-          $field_value = field_view_field('node', $node, $field_name);
-
-          if (!empty($field_value['#items'][0]['uri'])) {
-            $file_url = file_create_url($field_value['#items'][0]['uri']);
-            // Image pseudo-check.
-            if (@getimagesize($file_url)) {
-              $bpi_content['images'][] = array(
-                'path' => $file_url,
-                'alt' => '',
-                'title' => '',
-              );
-            }
+        if (!empty($field_value['#items'][0]['uri'])) {
+          $file_url = file_create_url($field_value['#items'][0]['uri']);
+          // Image pseudo-check.
+          if (@getimagesize($file_url)) {
+            $bpi_content['images'][] = array(
+              'path' => $file_url,
+              'alt' => '',
+              'title' => '',
+            );
           }
         }
       }
     }
-    else {
-      $bpi_content['body'] = preg_replace('~(<p>)?<img.+?/>(</p>)?~is', '', $bpi_content['body']);
-    }
+  }
+  else {
+    $bpi_content['body'] = preg_replace(
+      '~(<p>)?<img.+?/>(</p>)?~is',
+      '',
+      $bpi_content['body']
+    );
   }
 
   watchdog(
     'bpi',
-    'Pushed to server !content',
-    array('!content' => '<pre>' . htmlspecialchars(print_r($bpi_content, TRUE)) . '</pre>'),
+    'Transformed node to BPI content: !content',
+    array(
+      '!content' => '<pre>' . htmlspecialchars(
+          print_r($bpi_content, TRUE)
+        ) . '</pre>'
+    ),
     WATCHDOG_DEBUG
   );
 
@@ -504,25 +509,14 @@ function bpi_fetch_image_fields($bundle) {
  *   type.
  */
 function bpi_get_bpi_dictionaries() {
-  $dictionaries = array();
-  $endpoint = variable_get('bpi_service_url', '');
-  $agency_id = variable_get('bpi_agency_id', '');
-  $api_key = variable_get('bpi_api_key', '');
-  $secret_key = variable_get('bpi_secret_key', '');
+  $dictionaries = array('category' => array(), 'audience' => array());
 
   try {
-    $bpi = new Bpi($endpoint, $agency_id, $api_key, $secret_key);
+    $bpi = bpi_client_instance();
     $dictionaries = $bpi->getDictionaries();
   }
   catch (Exception $e) {
-    watchdog(
-      'bpi',
-      t('Failed to fetch dictionaries, with message %message.'),
-      array(
-        '%message' => $e->getMessage()
-      ),
-      WATCHDOG_ERROR
-    );
+    watchdog_exception('bpi', $e);
   }
 
   return $dictionaries;

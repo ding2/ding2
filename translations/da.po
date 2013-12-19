@@ -24,7 +24,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.5.7\n"
 
 #: bpi.admin.inc:22
@@ -185,7 +185,7 @@ msgstr "Kategori"
 
 #: bpi.push.inc:101;223 bpi.syndicate.inc:372
 msgid "Audience"
-msgstr "Målgrupp"
+msgstr "Målgruppe"
 
 #: bpi.push.inc:108;230
 msgid "Push with images"
@@ -367,7 +367,7 @@ msgstr "Ændret hos/med BPI"
 
 #: bpi.module:414
 msgid "push"
-msgstr "send til PBI"
+msgstr "Send til PBI"
 
 #: bpi.module:429
 msgid "delete from bpi"
@@ -434,3 +434,11 @@ msgstr "Der er ingen billeder tilgængelige for det valgte indhold."
 #: templates/bpi-well-item.tpl.php:49
 msgid "Preview"
 msgstr "Forhåndsvisning"
+
+#: bpi.push.inc:130;263 bpi.syndicate.inc:245;272
+msgid "Editable"
+msgstr "Indhold må redigeres"
+
+#: bpi.push.inc:123;257
+msgid "I want be anonymous"
+msgstr "Jeg ønsker at være anonym"

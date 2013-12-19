@@ -31,7 +31,7 @@
       </p>
       <p class="item-details-material">
         <span class="details-label"><?php echo bpi_label_mapper('material'); ?>: </span>
-        <span class="details-value"><?php echo implode(', ', (array) $item['material']) ?></span>
+        <span class="details-value"><?php if (!empty($item['material'])): echo implode(', ', (array) $item['material']); endif; ?></span>
       </p>
     </div>
   </div>

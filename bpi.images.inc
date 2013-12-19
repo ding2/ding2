@@ -9,12 +9,12 @@
  *
  * @param string $type
  *   Whether it's an ajax call.
+ *
  * @return array
  *   A set of ajax commands.
  */
 function bpi_syndicate_images($type = 'ajax') {
-  // @todo
-  // Implement non-ajax workflow.
+  // @todo Implement non-ajax workflow.
   $assets = isset($_SESSION['bpi']['assets']) ? $_SESSION['bpi']['assets'] : array();
 
   if (empty($assets)) {
@@ -42,6 +42,7 @@ function bpi_syndicate_images($type = 'ajax') {
  *   Form state values.
  * @param array $assets
  *   Array of assets to be downloaded.
+ *
  * @return array
  *   Form structure.
  *
@@ -58,7 +59,7 @@ function bpi_assets_form($form = array(), $form_state, $assets = array()) {
       $form['bpi_assets'][$asset] = array(
         '#type' => 'checkbox',
         '#default_value' => 1,
-        '#prefix' => '<div class="bpi-syndicate-asset"><img src="' . $url .'" width="100" height="100" />',
+        '#prefix' => '<div class="bpi-syndicate-asset"><img src="' . $url . '" width="100" height="100" />',
         '#suffix' => '</div>',
       );
     }
