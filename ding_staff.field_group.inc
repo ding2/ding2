@@ -23,10 +23,11 @@ function ding_staff_field_group_info() {
     'label' => 'contact info',
     'weight' => '4',
     'children' => array(
-      0 => 'og_group_ref',
-      1 => 'field_ding_staff_department',
-      2 => 'field_ding_staff_email',
-      3 => 'field_ding_staff_phone',
+      0 => 'field_ding_staff_department',
+      1 => 'field_ding_staff_email',
+      2 => 'field_ding_staff_phone',
+      3 => 'og_group_ref',
+      4 => 'field_ding_staff_work_areas',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -114,8 +115,9 @@ function ding_staff_field_group_info() {
     'weight' => '2',
     'children' => array(
       0 => 'field_ding_staff_department',
-      1 => 'og_group_ref',
-      2 => 'field_ding_staff_position',
+      1 => 'field_ding_staff_position',
+      2 => 'og_group_ref',
+      3 => 'field_ding_staff_work_areas',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
