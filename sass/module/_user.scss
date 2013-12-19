@@ -180,6 +180,7 @@
   }
 }
 
+
 /* User debts specific
    ========================================================================== */
 
@@ -338,11 +339,6 @@
 }
 
 
-
- /* BELOW IS CODE FROM BEFORE REFACTORING */
-
-
-
 /* User login in header
    ========================================================================== */
 
@@ -351,7 +347,7 @@
   .user {
     padding-top: 30px;
     padding-right: 20px;
-    padding-bottom: 30px;
+    padding-bottom: 60px;
     padding-left: 20px;
   }
 }
@@ -468,6 +464,22 @@
   @include font-bold();
 }
 
+
+/* User WAYF login
+   ========================================================================== */
+.ding-wayf--login-block {
+  bottom: 25px;
+  position: absolute;
+  right: -15px;
+}
+
+.ding-wayf--login-info {
+  padding-right: 20px;
+
+  img {
+    height: 20px;
+  }
+}
 
 
 /* User profile
