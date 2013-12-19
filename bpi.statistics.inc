@@ -69,12 +69,19 @@ function bpi_statistics_form($form, &$form_state) {
     '#default_value' => $to,
   );
 
-  $bpi_stats_data = bpi_statistics_data($form_formatted, $to_formatted);
-  $bpi_stats_markup = bpi_statistics_markup($bpi_stats_data);
+  try {
+    $bpi = bpi_client_instance();
+    $bpi_stats_data = $bpi->getStatistics($form_formatted, $to_formatted)->getProperties();
+    $bpi_stats_markup = bpi_statistics_markup($bpi_stats_data);
+
+  }
+  catch (Exception $e) {
+    drupal_set_message(t('Failed to fetch statistics. Check reports for more information.'), 'error');
+  }
 
   $form['bpi_stats_results'] = array(
     '#type' => 'item',
-    '#markup' => $bpi_stats_markup,
+    '#markup' => isset($bpi_stats_markup) ? $bpi_stats_markup : '',
     '#prefix' => '<div id="bpi-statistics-results">',
     '#suffix' => '</div>',
   );
@@ -90,7 +97,7 @@ function bpi_statistics_form($form, &$form_state) {
     ),
   );
 
-  $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-statistics.styles.css';
+  $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-admin.styles.css';
   $form['#prefix'] = '<div class="bpi-stats-form">';
   $form['#suffix'] = '</div>';
 
@@ -107,40 +114,6 @@ function bpi_statistics_form($form, &$form_state) {
  */
 function _bpi_statistics_ajax_callback(&$form, &$form_state) {
   return $form['bpi_stats_results'];
-}
-
-/**
- * @todo
- * Dummy stuff
- * @param string $from
- *   Start date, in Y-m-d format.
- * @param string $to
- *   End date, in Y-m-d format.
- * @return array
- *   Array of keys and values with various information.
- *   Keys denote the type of stat, and value - stat value.
- */
-function bpi_statistics_data($from = '', $to = '') {
-  $stats = array();
-
-  try {
-    $bpi = bpi_client_instance();
-    $stats = $bpi->getStatistics($from, $to)->getProperties();
-  }
-  catch (Exception $e) {
-    // TODO Please use watchdog_exception here.
-    watchdog(
-      'bpi',
-      t('Failed to fetch statistics, with message %message.'),
-      array(
-        '%message' => $e->getMessage()
-      ),
-      WATCHDOG_ERROR
-    );
-    // TODO How about notifying the user?
-  }
-
-  return $stats;
 }
 
 /**

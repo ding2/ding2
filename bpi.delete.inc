@@ -9,25 +9,21 @@
  *
  * @param string $type
  *   Request type, ajax or not.
- * @param int $nid
- *   Node id.
+ * @param object $node
+ *   Node object.
  * @return array
  *   A set of ajax commands or form structure.
  */
-function bpi_delete_action($type = 'ajax', $nid) {
+function bpi_delete_action($type = 'ajax', $node) {
   $ajax = ($type == 'ajax');
 
-  if (empty($nid)) {
-    return;
-  }
-
-  // TODO There are access checks here and in the hook_menu() definition. Why not keep it all in hook_menu or here?
-  if (!bpi_ability($nid, 'delete')) {
+  // Only author can delete his node.
+  if (!bpi_ability($node->nid, 'delete')) {
     drupal_access_denied();
     drupal_exit();
   }
 
-  $delete_form = drupal_get_form('bpi_delete_form', $nid);
+  $delete_form = drupal_get_form('bpi_delete_form', $node);
 
   if ($ajax) {
     $commands = array();
@@ -53,31 +49,22 @@ function bpi_delete_action($type = 'ajax', $nid) {
  *   Form structure.
  * @param array $form_state
  *   Form state values.
- * @param int $nid
- *   Node id, which content is to be deleted from the well.
+ * @param object $node
+ *   Node object.
  * @return array
  *   Form structure.
  *
  * @ingroup forms
  */
-function bpi_delete_form($form, $form_state, $nid) {
-  $node_title = '';
-  // TODO If $nid is empty this seems like a poor fix.
-  if (!empty($nid)) {
-    $node = node_load($nid);
-    $node_title = $node->title;
-  }
-
+function bpi_delete_form($form, $form_state, $node) {
   $form['bpi_delete_bpi_id'] = array(
-    // TODO Why use hidden instead of value here?
-    '#type' => 'hidden',
+    '#type' => 'value',
     '#value' => isset($node->bpi_id) ? $node->bpi_id : 0,
   );
 
   return confirm_form(
     $form,
-    // TODO Why include strong tag? %title should already add <em>.
-    t('Are you sure u want to delete <strong>%title</strong> from bpi well?', array('%title' => $node_title)),
+    t('Are you sure u want to delete %title from bpi well?', array('%title' => $node->title)),
     'admin/content'
   );
 }
@@ -95,20 +82,21 @@ function bpi_delete_form($form, $form_state, $nid) {
  * @ingroup forms
  */
 function bpi_delete_form_submit($form, &$form_state) {
-  $bpi_id = $form_state['input']['bpi_delete_bpi_id'];
+  $bpi_id = $form_state['values']['bpi_delete_bpi_id'];
 
-  if (!empty($bpi_id)) {
-    $status = bpi_well_delete($bpi_id);
+  if (empty($bpi_id)) {
+    drupal_set_message(t('Selected content could not be deleted from the BPI well.'), 'error');
 
-    if ($status) {
-      drupal_set_message(t('Selected content deleted from BPI well.'));
-    }
-    else {
-      drupal_set_message(t('Failed to delete selected content from BPI well.'), 'error');
-    }
+    return;
+  }
+
+  $status = bpi_well_delete($bpi_id);
+
+  if ($status) {
+    drupal_set_message(t('Selected content deleted from BPI well.'));
   }
   else {
-    drupal_set_message(t('Selected content could not be deleted from the BPI well.'), 'error');
+    drupal_set_message(t('Failed to delete selected content from BPI well.'), 'error');
   }
 }
 
@@ -160,16 +148,7 @@ function bpi_well_delete($bpi_id) {
     return TRUE;
   }
   catch (Exception $e) {
-    // TODO Please use watchdog_exception here.
-    watchdog(
-      'bpi',
-      t('Failed to delete node %title, with message %message.'),
-      array(
-        '%title' => $node->title,
-        '%message' => $e->getMessage()
-      ),
-      WATCHDOG_ERROR
-    );
+    watchdog_exception('bpi', $e);
 
     return FALSE;
   }
