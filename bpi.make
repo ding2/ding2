@@ -1,10 +1,6 @@
 api = 2
 core = 7.x
 
-; Ctools
-projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.3"
-
 ; Date
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.6"
@@ -29,7 +25,6 @@ projects[ding_popup][download][type] = "git"
 projects[ding_popup][download][url]  = "git@github.com:ding2/ding_popup.git"
 projects[ding_popup][download][branch] = "master"
 
-; This library is not publicly available. Is this intentional?
 libraries[bpi-client][destination]      = "modules/bpi/lib"
 libraries[bpi-client][download][type]   = "git"
 libraries[bpi-client][download][url]    = "git@github.com:bpi-dk/bpi-client.git"
