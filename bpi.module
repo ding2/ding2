@@ -325,7 +325,7 @@ function bpi_form_alter(&$form, &$form_state, $form_id) {
   }
 
   // Add "Save & Push" button.
-  if ($form_id == $bpi_ctype . '_node_form') {
+  if ($form_id == $bpi_ctype . '_node_form' && !$bpi_id) {
     $push_permission = user_access('bpi push content');
     if ($push_permission) {
       $form['actions']['push'] = $form['actions']['submit'];
