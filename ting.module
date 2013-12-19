@@ -882,6 +882,7 @@ function _ting_default_online_types() {
     'periodikum (net)',
     'pc-spil (net)',
     'avis (net)',
+    'e-node',
   );
 }
 
