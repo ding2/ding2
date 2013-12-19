@@ -469,13 +469,10 @@ function bpi_form_node_admin_content_alter(&$form, &$form_state) {
           'class' => array(
             'use-ajax',
           ),
-        ),
+        )
       );
     }
-
-    drupal_add_library('system', 'drupal.ajax');
   }
-  // END content grid columns.
 }
 
 /**
@@ -509,16 +506,10 @@ function bpi_form_bpi_delete_form_alter(&$form, &$form_state) {
  *   Form state values.
  */
 function bpi_push_directly_callback_action(&$form, &$form_state) {
-  // @todo Why is this check necessary?
-  if (arg(0) == 'node' && is_numeric(arg(1))) {
-      // arg(1) is the node id.
-      // @todo are these includes necessary when bpi.push.inc is references in bpi.info?
-      module_load_include('inc', 'bpi', 'bpi.push');
-      // Unset and re-set destination.
-      unset($_GET['destination']);
-      drupal_static_reset('drupal_get_destination');
-      $_GET['destination'] = 'admin/bpi/push_http/' . arg(1);
-    }
+  // Reset destination.
+  unset($_GET['destination']);
+  drupal_static_reset('drupal_get_destination');
+  $_GET['destination'] = 'admin/bpi/push_http/' . $form_state['node']->nid;
 }
 
 /**

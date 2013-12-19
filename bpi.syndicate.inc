@@ -9,6 +9,9 @@
  *
  * This includes search form, filtering and found content.
  *
+ * @return array
+ *   Form structure.
+ *
  * @ingroup forms
  */
 function bpi_syndicate_page_form($form, &$form_state) {
