@@ -484,7 +484,7 @@ function ddbasic_preprocess_field(&$vars, $hook) {
   }
 
   if ($vars['element']['#bundle'] == 'ding_staff_profile') {
-    if ($vars['element']['#field_name'] == 'og_group_ref') {
+    if ($field_name == 'og_group_ref') {
       $vars['classes_array'][] = 'field-name-ding-library-name';
     }
   }
