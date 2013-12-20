@@ -27,7 +27,7 @@ projects[media][type] = "module"
 projects[media][subdir] = "contrib"
 projects[media][download][type] = "git"
 projects[media][download][url] = "http://git.drupal.org/project/media.git"
-projects[media][download][revision] = "e7be30f"
+projects[media][download][revision] = "c3cda2b"
 
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-alpha2"
@@ -57,11 +57,18 @@ projects[wysiwyg][version] = "2.2"
 projects[media_vimeo][subdir] = "contrib"
 projects[media_vimeo][version] = "2.0-rc1"
 
+projects[media_youtube][type] = "module"
 projects[media_youtube][subdir] = "contrib"
-projects[media_youtube][version] = "2.0-rc3"
+projects[media_youtube][download][type] = "git"
+projects[media_youtube][download][url] = "http://git.drupal.org/project/media_youtube.git"
+projects[media_youtube][download][revision] = "ca46aba"
+projects[media_youtube][patch][] = "https://drupal.org/files/issues/provide-access-wrapper-1823376-6.patch"
 
 projects[node_clone][subdir] = "contrib"
 projects[node_clone][version] = "1.0-rc2"
+
+projects[image_resize_filter][subdir] = "contrib"
+projects[image_resize_filter][version] = "1.13"
 
 ; Libraries
 libraries[ckeditor][download][type] = "get"
