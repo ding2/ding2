@@ -36,7 +36,7 @@ function ding_content_filter_default_formats() {
         'weight' => 2,
         'status' => 1,
         'settings' => array(
-          'allowed_html' => '<a> <p> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd> <table> <tr> <th> <td> <br>',
+          'allowed_html' => '<a> <p> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd> <table> <tr> <th> <td> <br> <img>',
           'filter_html_help' => 1,
           'filter_html_nofollow' => 0,
         ),
