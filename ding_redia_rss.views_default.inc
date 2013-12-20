@@ -142,6 +142,23 @@ function ding_redia_rss_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_list_image']['settings'] = array(
     'image_style' => '',
   );
+  /* Field: Content: Files */
+  $handler->display->display_options['fields']['field_ding_event_files']['id'] = 'field_ding_event_files';
+  $handler->display->display_options['fields']['field_ding_event_files']['table'] = 'field_data_field_ding_event_files';
+  $handler->display->display_options['fields']['field_ding_event_files']['field'] = 'field_ding_event_files';
+  $handler->display->display_options['fields']['field_ding_event_files']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_event_files']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_ding_event_files']['alter']['text'] = '[field_ding_event_files]';
+  $handler->display->display_options['fields']['field_ding_event_files']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_event_files']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_ding_event_files']['settings'] = array(
+    'group_multiple_values' => 0,
+    'medium' => '',
+    'expression' => '',
+    'generate_hash' => 0,
+    'hash_algo' => 'md5',
+  );
+  $handler->display->display_options['fields']['field_ding_event_files']['delta_offset'] = '0';
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -193,6 +210,7 @@ function ding_redia_rss_views_default_views() {
         'arrangement-endtime' => 'field_ding_event_date_1',
         'arrangement-location' => 'field_ding_event_location',
         'arrangement-price' => 'field_ding_event_price',
+        'resources' => 'field_ding_event_files',
       ),
     ),
     'core' => array(
@@ -224,6 +242,82 @@ function ding_redia_rss_views_default_views() {
     'feed_in_links' => 0,
   );
   $handler->display->display_options['path'] = 'ding-redia-rss/event';
+
+  /* Display: Feed 2 */
+  $handler = $view->new_display('feed', 'Feed 2', 'feed_2');
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['style_plugin'] = 'rss_fields';
+  $handler->display->display_options['style_options']['channel'] = array(
+    'core' => array(
+      'views_rss_core' => array(
+        'description' => '',
+        'language' => 'da',
+        'category' => '',
+        'image' => '',
+        'copyright' => '',
+        'managingEditor' => '',
+        'webMaster' => '',
+        'generator' => '',
+        'docs' => '',
+        'cloud' => '',
+        'ttl' => '',
+        'skipHours' => '',
+        'skipDays' => '',
+      ),
+    ),
+  );
+  $handler->display->display_options['style_options']['item'] = array(
+    'redia-rss' => array(
+      'ding_redia_rss' => array(
+        'subheadline' => 'field_ding_event_lead',
+        'arrangement-starttime' => 'field_ding_event_date',
+        'arrangement-endtime' => 'field_ding_event_date_1',
+        'arrangement-location' => 'field_ding_event_location',
+        'arrangement-price' => 'field_ding_event_price',
+        'resources' => '',
+      ),
+    ),
+    'core' => array(
+      'views_rss_core' => array(
+        'title' => 'title',
+        'link' => '',
+        'description' => 'field_ding_event_body',
+        'author' => 'name',
+        'category' => '',
+        'comments' => '',
+        'enclosure' => '',
+        'guid' => 'nid',
+        'pubDate' => 'created',
+      ),
+    ),
+    'media' => array(
+      'views_rss_media' => array(
+        'content' => '',
+        'title' => '',
+        'description' => '',
+        'keywords' => '',
+        'thumbnail' => 'field_ding_event_list_image',
+        'category' => '',
+      ),
+    ),
+  );
+  $handler->display->display_options['style_options']['feed_settings'] = array(
+    'absolute_paths' => 1,
+    'feed_in_links' => 0,
+  );
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  /* Relationship: Content: Author */
+  $handler->display->display_options['relationships']['uid']['id'] = 'uid';
+  $handler->display->display_options['relationships']['uid']['table'] = 'node';
+  $handler->display->display_options['relationships']['uid']['field'] = 'uid';
+  $handler->display->display_options['relationships']['uid']['required'] = TRUE;
+  /* Relationship: Flags: mobile_app */
+  $handler->display->display_options['relationships']['flag_content_rel']['id'] = 'flag_content_rel';
+  $handler->display->display_options['relationships']['flag_content_rel']['table'] = 'node';
+  $handler->display->display_options['relationships']['flag_content_rel']['field'] = 'flag_content_rel';
+  $handler->display->display_options['relationships']['flag_content_rel']['flag'] = 'mobile_app';
+  $handler->display->display_options['relationships']['flag_content_rel']['user_scope'] = 'any';
+  $handler->display->display_options['path'] = 'ding-redia-rss-app/event';
   $translatables['ding_redia_event_rss'] = array(
     t('Master'),
     t('more'),
@@ -241,7 +335,10 @@ function ding_redia_rss_views_default_views() {
     t('last »'),
     t('author'),
     t('[field_ding_event_list_image]'),
+    t('[field_ding_event_files]'),
     t('Feed'),
+    t('Feed 2'),
+    t('flag'),
   );
   $export['ding_redia_event_rss'] = $view;
 
@@ -417,6 +514,82 @@ function ding_redia_rss_views_default_views() {
     'feed_in_links' => 0,
   );
   $handler->display->display_options['path'] = 'ding-redia-rss/news';
+
+  /* Display: Feed 2 */
+  $handler = $view->new_display('feed', 'Feed 2', 'feed_2');
+  $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['style_plugin'] = 'rss_fields';
+  $handler->display->display_options['style_options']['channel'] = array(
+    'core' => array(
+      'views_rss_core' => array(
+        'description' => '',
+        'language' => 'da',
+        'category' => '',
+        'image' => '',
+        'copyright' => '',
+        'managingEditor' => '',
+        'webMaster' => '',
+        'generator' => '',
+        'docs' => '',
+        'cloud' => '',
+        'ttl' => '',
+        'skipHours' => '',
+        'skipDays' => '',
+      ),
+    ),
+  );
+  $handler->display->display_options['style_options']['item'] = array(
+    'redia-rss' => array(
+      'ding_redia_rss' => array(
+        'subheadline' => 'field_ding_news_lead',
+        'arrangement-starttime' => '',
+        'arrangement-endtime' => '',
+        'arrangement-location' => '',
+        'arrangement-price' => '',
+        'resources' => '',
+      ),
+    ),
+    'core' => array(
+      'views_rss_core' => array(
+        'title' => 'title',
+        'link' => '',
+        'description' => 'field_ding_news_body',
+        'author' => 'name',
+        'category' => '',
+        'comments' => '',
+        'enclosure' => '',
+        'guid' => 'nid',
+        'pubDate' => 'created',
+      ),
+    ),
+    'media' => array(
+      'views_rss_media' => array(
+        'content' => '',
+        'title' => '',
+        'description' => '',
+        'keywords' => '',
+        'thumbnail' => 'field_ding_news_list_image',
+        'category' => '',
+      ),
+    ),
+  );
+  $handler->display->display_options['style_options']['feed_settings'] = array(
+    'absolute_paths' => 1,
+    'feed_in_links' => 0,
+  );
+  $handler->display->display_options['defaults']['relationships'] = FALSE;
+  /* Relationship: Content: Author */
+  $handler->display->display_options['relationships']['uid']['id'] = 'uid';
+  $handler->display->display_options['relationships']['uid']['table'] = 'node';
+  $handler->display->display_options['relationships']['uid']['field'] = 'uid';
+  $handler->display->display_options['relationships']['uid']['required'] = TRUE;
+  /* Relationship: Flags: mobile_app */
+  $handler->display->display_options['relationships']['flag_content_rel']['id'] = 'flag_content_rel';
+  $handler->display->display_options['relationships']['flag_content_rel']['table'] = 'node';
+  $handler->display->display_options['relationships']['flag_content_rel']['field'] = 'flag_content_rel';
+  $handler->display->display_options['relationships']['flag_content_rel']['flag'] = 'mobile_app';
+  $handler->display->display_options['relationships']['flag_content_rel']['user_scope'] = 'any';
+  $handler->display->display_options['path'] = 'ding-redia-rss-app/news';
   $translatables['ding_redia_news_rss'] = array(
     t('Master'),
     t('more'),
@@ -435,6 +608,8 @@ function ding_redia_rss_views_default_views() {
     t('author'),
     t('[field_ding_news_list_image]'),
     t('Feed'),
+    t('Feed 2'),
+    t('flag'),
   );
   $export['ding_redia_news_rss'] = $view;
 
