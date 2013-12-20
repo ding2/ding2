@@ -27,10 +27,10 @@
   scripts[] = scripts/equalize.min.js
   scripts[] = scripts/scalefix.js
   scripts[] = scripts/selectivizr-min.js
-  scripts[] = scripts/ddbasic.topbar.menu.js
-  scripts[] = scripts/ddbasic.common.js
-  scripts[] = scripts/ddbasic.facet.js
-  scripts[] = scripts/ddbasic.search.js
+  scripts[] = scripts/ddbasic.topbar.menu.min.js
+  scripts[] = scripts/ddbasic.common.min.js
+  scripts[] = scripts/ddbasic.facet.min.js
+  scripts[] = scripts/ddbasic.search.min.js
 
 
 ;----------// Regions

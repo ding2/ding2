@@ -212,6 +212,7 @@ input#edit-search-block-form--2.spinner {
   @extend %button-action;
 
   margin-left: 10px;
+  line-height: 125%;
 }
 
 
@@ -372,6 +373,7 @@ input#edit-search-block-form--2.spinner {
   /* Group with hidden facets */
   .hidden-facets-group {
     margin-bottom: 20px;
+    display: none;
   }
 
   .expand-facets {
@@ -383,12 +385,6 @@ input#edit-search-block-form--2.spinner {
     padding-top: 20px;
     margin-top: 10px;
     border-top: $search-border-size $search-border-type $gray;
-  }
-  .expand-facets-visible {
-    @extend .icon-minus-sign;
-  }
-  .expand-facets-hidden {
-    @extend .icon-plus-sign;
   }
 }
 
@@ -418,6 +414,8 @@ input#edit-search-block-form--2.spinner {
 .primary-content {
   .pane-ding-facetbrowser {
     display: none;
+    overflow: hidden;
+    margin-bottom: 20px;
   }
 }
 
