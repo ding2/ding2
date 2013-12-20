@@ -40,7 +40,7 @@ projects[media][type] = "module"
 projects[media][subdir] = "contrib"
 projects[media][download][type] = "git"
 projects[media][download][url] = "http://git.drupal.org/project/media.git"
-projects[media][download][revision] = "e7be30f"
+projects[media][download][revision] = "c3cda2b"
 
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-alpha2"
