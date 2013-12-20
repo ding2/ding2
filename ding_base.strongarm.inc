@@ -237,6 +237,7 @@ temaer/*';
     'node' => array(),
     'ding-groups-panels' => array(),
     'ding-library-panels' => array(),
+    'ding-staff' => array(),
   );
   $export['og_context_negotiation_group_context'] = $strongarm;
 
@@ -248,10 +249,11 @@ temaer/*';
     'url' => '-10',
     'node' => '-9',
     'ding-groups-panels' => '-8',
-    'comment' => '-6',
-    'user-edit' => '-5',
-    'user-view' => '-4',
     'ding-library-panels' => '-7',
+    'comment' => '-5',
+    'user-edit' => '-4',
+    'user-view' => '-3',
+    'ding-staff' => '-6',
   );
   $export['og_context_providers_weight_group_context'] = $strongarm;
 
@@ -569,6 +571,93 @@ temaer/*';
   $strongarm->name = 'pathauto_verbose';
   $strongarm->value = 0;
   $export['pathauto_verbose'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'securepages_basepath';
+  $strongarm->value = '';
+  $export['securepages_basepath'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'securepages_basepath_ssl';
+  $strongarm->value = '';
+  $export['securepages_basepath_ssl'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'securepages_debug';
+  $strongarm->value = 0;
+  $export['securepages_debug'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'securepages_enable';
+  $strongarm->value = '0';
+  $export['securepages_enable'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'securepages_forms';
+  $strongarm->value = 'user_login
+user_login_block';
+  $export['securepages_forms'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'securepages_ignore';
+  $strongarm->value = '';
+  $export['securepages_ignore'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'securepages_pages';
+  $strongarm->value = 'node/add*
+node/*/edit
+node/*/delete
+user
+user/*
+admin
+admin/*
+wayf
+wayf/*';
+  $export['securepages_pages'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'securepages_roles';
+  $strongarm->value = array(
+    2 => 0,
+    3 => 0,
+    11 => 0,
+    12 => 0,
+    13 => 0,
+    14 => 0,
+    16 => 0,
+  );
+  $export['securepages_roles'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'securepages_secure';
+  $strongarm->value = '1';
+  $export['securepages_secure'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'securepages_switch';
+  $strongarm->value = 0;
+  $export['securepages_switch'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
