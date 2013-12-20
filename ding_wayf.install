@@ -66,26 +66,6 @@ function ding_wayf_requirements($phase) {
       );
     }
 
-    $securepages_basepath = variable_get('securepages_basepath');
-    if (empty($securepages_basepath)) {
-      $requirements['ding_wayf_securepages_basepath'] = array(
-        'title' => $t('Secure Pages non-secure base path missing'),
-        'description' => $t('WAYF requires Secure Pages to have non-secure base path set: !url.', array('!url' => l('admin/config/system/securepages', 'admin/config/system/securepages'))),
-        'severity' => REQUIREMENT_ERROR,
-        'value' => '',
-      );
-    }
-
-    $securepages_basepath_ssl = variable_get('securepages_basepath_ssl');
-    if (empty($securepages_basepath_ssl)) {
-      $requirements['ding_wayf_securepages_basepath_ssl'] = array(
-        'title' => $t('Secure Pages secure base path missing'),
-        'description' => $t('WAYF requires Secure Pages to have secure base path set: !url.', array('!url' => l('admin/config/system/securepages', 'admin/config/system/securepages'))),
-        'severity' => REQUIREMENT_ERROR,
-        'value' => '',
-      );
-    }
-
     if (variable_get('securepages_secure')) {
       $securepages_pages = variable_get('securepages_pages');
       if (!(preg_match(ding_wayf_regex_line('wayf'), $securepages_pages) && preg_match(ding_wayf_regex_line('wayf/*'), $securepages_pages))) {
