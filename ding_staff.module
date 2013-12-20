@@ -101,3 +101,46 @@ function ding_staff_views_default_views_alter(&$views) {
     }
   }
 }
+
+/**
+ * Implements hook_og_context_negotiation_info().
+ */
+function ding_staff_og_context_negotiation_info() {
+  $providers = array();
+
+  $providers['ding-staff'] = array(
+    'name' => t('Ding Staff'),
+    'description' => t("Determine context user node."),
+    'callback' => 'ding_staff_og_context_handler',
+  );
+
+  return $providers;
+}
+
+/**
+ * Callback for OG context negotiation that tries to find library context.
+ *
+ *
+ * @return array
+ *   Node ids.
+ */
+function ding_staff_og_context_handler() {
+  $nids = array();
+
+  $item = menu_get_item();
+  if (isset($item['page_arguments'][0]->roles) && isset($item['page_arguments'][0]->roles[16])) {
+    // Look up staff profile and check if there is a connection to a library
+    // group.
+    $profile = profile2_load_by_user($item['page_arguments'][0], 'ding_staff_profile');
+    if (isset($profile) && isset($profile->og_group_ref[LANGUAGE_NONE])) {
+      $values = $profile->og_group_ref[LANGUAGE_NONE];
+      foreach ($values as $value) {
+        $nids[] = $value['target_id'];
+      }
+    }
+  }
+
+  return array(
+    'node' => $nids,
+  );
+}
