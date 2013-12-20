@@ -7,21 +7,6 @@
 include_once 'ding_library.features.inc';
 
 /**
- * Implements hook_init().
- */
-/*function ding_library_init() {
-  // Load ding library map javascript code if we have loaded the library
-  // overview page.
-  if ($_GET['q'] == 'libraries') {
-    drupal_add_js(drupal_get_path('module', 'ding_library') .  '/js/ding_library.map.js', array(
-      'defer' => TRUE,
-      'scope' => 'footer',
-      'weight' => 42,
-    ));
-  }
-}*/
-
-/**
  * Implements hook_menu_alter().
  *
  * Rewrite the main menus library link to redirect to a single library if only
@@ -368,6 +353,21 @@ function ding_library_node_insert($node) {
 
     // Add the node to the queue.
     nodequeue_subqueue_add($queue, $sub_queue, $node->nid);
+  }
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function ding_library_node_update($node) {
+  if ($node->type == 'ding_library') {
+    // Update OG_menu title if group title is changed.
+    if ($node->title != $node->original->title) {
+      $menu = menu_load('menu-og-' . $node->nid);
+      $menu['title'] = $node->title;
+      $menu['description'] = 'OG Menu for ' . $node->title;
+      menu_save($menu);
+    }
   }
 }
 
