@@ -69,7 +69,7 @@ function ding_frontend_menu_default_menu_links() {
     'menu_name' => 'menu-tabs-menu',
     'link_path' => 'user',
     'router_path' => 'user',
-    'link_title' => 'Log in / Create user',
+    'link_title' => 'Login',
     'options' => array(
       'attributes' => array(
         'title' => '',
@@ -102,7 +102,7 @@ function ding_frontend_menu_default_menu_links() {
   );
   // Translatables
   // Included for use with string extractors like potx.
-  t('Log in / Create user');
+  t('Login');
   t('Logout');
   t('Menu');
   t('Search');
