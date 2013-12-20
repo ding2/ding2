@@ -352,6 +352,7 @@ function _ding_availability_holdings_default_types() {
     'gameboy advance',
     'xbox',
     'grammofonplade',
+    'wii u',
     'serie',
     'avis',
     'spil',
@@ -376,5 +377,6 @@ function _ding_availability_holdings_default_types() {
     'arkitekturtegning',
     'emnekasse',
     'spolelydbånd',
+    'udstillingsmontage',
   );
 }
