@@ -362,6 +362,7 @@ function bpi_form_node_admin_content_alter(&$form, &$form_state) {
   //    handling, logging of state changes, buttons for workflow actions, scheduling of state
   //    changes that we we already have or will have to write code for ourselves.
   $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-admin.styles.css';
+  drupal_add_library('system', 'drupal.ajax');
 
   // Mark BPI nodes.
   $nodes_in_table = array_keys($form['admin']['nodes']['#options']);
