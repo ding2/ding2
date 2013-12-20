@@ -303,7 +303,17 @@ function ding2_update_7001() {
  * Import our own translations.
  */
 function ding_2_update_7002() {
-  $file = new stdClass;
+  $file = new stdClass();
+  $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/ding2tal_da.po';
+  $file->filename = basename($file->uri);
+  _locale_import_po($file, 'da', LOCALE_IMPORT_OVERWRITE, 'default');
+}
+
+/**
+ * Update translations.
+ */
+function ding_2_update_7003() {
+  $file = new stdClass();
   $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/ding2tal_da.po';
   $file->filename = basename($file->uri);
   _locale_import_po($file, 'da', LOCALE_IMPORT_OVERWRITE, 'default');
