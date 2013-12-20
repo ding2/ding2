@@ -110,7 +110,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
       $facet = $facets[$configured_facet['name']];
 
       // Decide if the facet is to have the hidden class or not.
-      $facet_class = ($i >= $facet_show_count) ? 'hidden' : 'visible';
+      $facet_class = ($i >= $facet_show_count) ? 'js-hidden' : 'js-visible';
 
       if (count($facet->terms) > 0) {
         $form[$facet->name] = array(
@@ -118,9 +118,13 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
           '#title' => check_plain($configured_facet['title']),
           '#attributes'  => array(
             'id' => str_replace('.', '-', $facet->name),
-            'data' => array($facet->name),
+            'data' => array(
+              $facet->name,
+            ),
             'count' => count($facet->terms),
-            'class' => array($facet_class),
+            'class' => array(
+              $facet_class,
+            ),
           ),
         );
 
