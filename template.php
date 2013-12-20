@@ -490,13 +490,14 @@ function ddbasic_preprocess_field(&$vars, $hook) {
       'field_ding_staff_department',
       'field_ding_staff_email',
       'field_ding_staff_phone',
+      'field_ding_staff_work_areas',
     );
 
     if (in_array($field_name, $staff_fields)) {
       $vars['theme_hook_suggestions'][] = 'field__ding_staff__content_field';
 
       // Ensure that department is not add label info.
-      if ($field_name == 'field_ding_staff_department') {
+      if ($field_name == 'field_ding_staff_department' || $field_name == 'og_group_ref') {
         foreach ($vars['items'] as $id => $item) {
           // This as little hack to make the user interface look better.
           $vars['items'][$id]['#options']['no_label'] = TRUE;
