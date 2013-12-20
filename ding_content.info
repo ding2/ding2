@@ -17,6 +17,7 @@ dependencies[] = media
 dependencies[] = media_internet
 dependencies[] = media_vimeo
 dependencies[] = media_youtube
+dependencies[] = media_wysiwyg
 dependencies[] = menu
 dependencies[] = nodequeue
 dependencies[] = opening_hours
