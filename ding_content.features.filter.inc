@@ -33,8 +33,8 @@ function ding_content_filter_default_formats() {
         'weight' => 1
       ),
       'filter_html' => array(
-        'weight' => -10,
-        'status' => 2,
+        'weight' => 2,
+        'status' => 1,
         'settings' => array(
           'allowed_html' => '<a> <p> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd> <table> <tr> <th> <td> <br>',
           'filter_html_help' => 1,
