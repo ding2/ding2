@@ -367,14 +367,14 @@ msgstr "Ændret hos/med BPI"
 
 #: bpi.module:414
 msgid "push"
-msgstr "Send til PBI"
+msgstr "Send til BPI"
 
 #: bpi.module:429
 msgid "delete from bpi"
-msgstr "slet fra BPI"
+msgstr "Slet fra BPI"
 
 #: bpi.module:458
-msgid "Save && Push"
+msgid "Save and push"
 msgstr "Gem & send til BPI"
 
 #: bpi.module:587

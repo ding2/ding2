@@ -1,10 +1,9 @@
 name = BPI
 description = Remote content syndication and pushing.
-version = 0.1
+version = 7.x-0.10
 core = 7.x
 configure = admin/config/bpi/settings
 package = BPI
-; CTools is included in bpi.make but not listed as a dependency. Is this intentional?
 dependencies[] = date
 dependencies[] = date_popup
 dependencies[] = ding_popup
