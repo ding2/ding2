@@ -520,10 +520,12 @@ function ting_ding_entity_buttons($type, $entity) {
     $type = drupal_strtolower($entity->type);
     $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
     return array(
-      // The link can't use l() as it will encode the url from ting_proxy.
+      // The link can't use l() as it will encode the url from ting_proxy. Use
+      // get online as the dc:identifier in $entity->online is not always the
+      // correct url.
       array(
         '#type' => 'markup',
-        '#markup' => '<a class="button-see-online" target="_new" href="' . $entity->online_url . '">' . $label . '</a>',
+        '#markup' => '<a class="button-see-online" target="_new" href="' . $entity->getOnline_url() . '">' . $label . '</a>',
       ),
     );
   }
@@ -882,6 +884,7 @@ function _ting_default_online_types() {
     'periodikum (net)',
     'pc-spil (net)',
     'avis (net)',
+    'e-node',
   );
 }
 
