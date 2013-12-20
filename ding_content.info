@@ -12,6 +12,7 @@ dependencies[] = ding_page
 dependencies[] = features
 dependencies[] = file_entity
 dependencies[] = filter
+dependencies[] = image_resize_filter
 dependencies[] = media
 dependencies[] = media_internet
 dependencies[] = media_vimeo

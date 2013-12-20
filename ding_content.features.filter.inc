@@ -18,9 +18,23 @@ function ding_content_filter_default_formats() {
     'status' => 1,
     'weight' => 0,
     'filters' => array(
+      'media_filter' => array(
+        'weight' => 0,
+        'status' => 1,
+        'settings' => array(),
+      ),
+      'image_resize_filter' => array(
+        'settings' => array(
+          'image_locations' => array(
+            'local' => 'local'
+          )
+        ),
+        'status' => 1,
+        'weight' => 1
+      ),
       'filter_html' => array(
         'weight' => -10,
-        'status' => 1,
+        'status' => 2,
         'settings' => array(
           'allowed_html' => '<a> <p> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd> <table> <tr> <th> <td> <br>',
           'filter_html_help' => 1,
@@ -28,24 +42,20 @@ function ding_content_filter_default_formats() {
         ),
       ),
       'filter_autop' => array(
-        'weight' => 0,
+        'weight' => 3,
         'status' => 1,
         'settings' => array(),
       ),
       'filter_url' => array(
-        'weight' => 0,
+        'weight' => 4,
         'status' => 1,
         'settings' => array(
           'filter_url_length' => 72,
         ),
       ),
-      'media_filter' => array(
-        'weight' => 2,
-        'status' => 1,
-        'settings' => array(),
-      ),
+
       'filter_htmlcorrector' => array(
-        'weight' => 10,
+        'weight' => 5,
         'status' => 1,
         'settings' => array(),
       ),
