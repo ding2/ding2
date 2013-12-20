@@ -62,13 +62,13 @@ projects[media_youtube][subdir] = "contrib"
 projects[media_youtube][download][type] = "git"
 projects[media_youtube][download][url] = "http://git.drupal.org/project/media_youtube.git"
 projects[media_youtube][download][revision] = "ca46aba"
+projects[media_youtube][patch][] = "https://drupal.org/files/issues/provide-access-wrapper-1823376-6.patch"
 
 projects[node_clone][subdir] = "contrib"
 projects[node_clone][version] = "1.0-rc2"
 
 projects[image_resize_filter][subdir] = "contrib"
 projects[image_resize_filter][version] = "1.13"
-projects[image_resize_filter][patch][] = "https://drupal.org/files/issues/provide-access-wrapper-1823376-6.patch"
 
 ; Libraries
 libraries[ckeditor][download][type] = "get"
