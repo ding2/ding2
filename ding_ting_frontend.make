@@ -56,7 +56,7 @@ projects[ting_search][download][tag] = "7.x-1.0-rc1"
 projects[ting_search_autocomplete][type] = "module"
 projects[ting_search_autocomplete][download][type] = "git"
 projects[ting_search_autocomplete][download][url] = "git@github.com:ding2tal/ting_search_autocomplete.git"
-projects[ting_search_autocomplete][tag] = "7.x-1.0-rc1"
+projects[ting_search_autocomplete][download][tag] = "7.x-1.0-rc1"
 
 projects[ding_availability][type] = "module"
 projects[ding_availability][download][type] = "git"
