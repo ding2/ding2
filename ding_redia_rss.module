@@ -128,6 +128,14 @@ function ding_redia_rss_views_rss_item_elements() {
       'title' => t('Event endtime'),
       'description' => t('When does the event end (UTC Timestamp)'),
     ),
+    'redia-rss:display-starttime' => array(
+      'title' => t('Display starttime'),
+      'description' => t('Start displaying the event at (UTC Timestamp)'),
+    ),
+    'redia-rss:display-endtime' => array(
+      'title' => t('Display endtime'),
+      'description' => t('End displaying the event at (UTC Timestamp)'),
+    ),
     'redia-rss:arrangement-location' => array(
       'title' => t('Event location'),
       'description' => t('The location of the event'),

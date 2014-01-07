@@ -83,11 +83,11 @@ function ding_redia_rss_views_default_views() {
   $handler->display->display_options['fields']['nid']['field'] = 'nid';
   $handler->display->display_options['fields']['nid']['label'] = '';
   $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
-  /* Field: Start Date */
+  /* Field: Event - Start Date */
   $handler->display->display_options['fields']['field_ding_event_date']['id'] = 'field_ding_event_date';
   $handler->display->display_options['fields']['field_ding_event_date']['table'] = 'field_data_field_ding_event_date';
   $handler->display->display_options['fields']['field_ding_event_date']['field'] = 'field_ding_event_date';
-  $handler->display->display_options['fields']['field_ding_event_date']['ui_name'] = 'Start Date';
+  $handler->display->display_options['fields']['field_ding_event_date']['ui_name'] = 'Event - Start Date';
   $handler->display->display_options['fields']['field_ding_event_date']['label'] = '';
   $handler->display->display_options['fields']['field_ding_event_date']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_event_date']['element_default_classes'] = FALSE;
@@ -95,11 +95,11 @@ function ding_redia_rss_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_date']['settings'] = array(
     'fromto' => 'value',
   );
-  /* Field: End Date */
+  /* Field: Event - End Date */
   $handler->display->display_options['fields']['field_ding_event_date_1']['id'] = 'field_ding_event_date_1';
   $handler->display->display_options['fields']['field_ding_event_date_1']['table'] = 'field_data_field_ding_event_date';
   $handler->display->display_options['fields']['field_ding_event_date_1']['field'] = 'field_ding_event_date';
-  $handler->display->display_options['fields']['field_ding_event_date_1']['ui_name'] = 'End Date';
+  $handler->display->display_options['fields']['field_ding_event_date_1']['ui_name'] = 'Event - End Date';
   $handler->display->display_options['fields']['field_ding_event_date_1']['label'] = '';
   $handler->display->display_options['fields']['field_ding_event_date_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_event_date_1']['element_default_classes'] = FALSE;
@@ -208,6 +208,8 @@ function ding_redia_rss_views_default_views() {
         'subheadline' => 'field_ding_event_lead',
         'arrangement-starttime' => 'field_ding_event_date',
         'arrangement-endtime' => 'field_ding_event_date_1',
+        'display-starttime' => 'field_ding_event_date',
+        'display-endtime' => 'field_ding_event_date_1',
         'arrangement-location' => 'field_ding_event_location',
         'arrangement-price' => 'field_ding_event_price',
         'resources' => 'field_ding_event_files',
@@ -272,6 +274,8 @@ function ding_redia_rss_views_default_views() {
         'subheadline' => 'field_ding_event_lead',
         'arrangement-starttime' => 'field_ding_event_date',
         'arrangement-endtime' => 'field_ding_event_date_1',
+        'display-starttime' => 'field_ding_event_date',
+        'display-endtime' => 'field_ding_event_date_1',
         'arrangement-location' => 'field_ding_event_location',
         'arrangement-price' => 'field_ding_event_price',
         'resources' => '',
