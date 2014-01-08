@@ -1,4 +1,9 @@
 <?php
+/**
+ * @file
+ * The installation profile which is called after the profile have been enabled
+ * so .install is called first.
+ */
 
 // Initialise profiler.
 !function_exists('profiler_v2') ? require_once 'libraries/profiler/profiler.inc' : FALSE;
@@ -48,6 +53,18 @@ function ding2_form_alter(&$form, &$form_state, $form_id) {
   if (defined('MAINTENANCE_MODE') && MAINTENANCE_MODE == 'install' &&
       $form_id != 'install_configure_form') {
     array_walk_recursive($form, '_ding2_remove_form_requirements');
+
+    // Set default values in ting search form to help aegir/bulk installations.
+    if ($form_id == 'ting_admin_ting_settings') {
+      $form['ting']['ting_search_url']['#default_value'] = 'http://opensearch.addi.dk/3.0/';
+      $form['ting']['ting_scan_url']['#default_value'] = 'http://openscan.addi.dk/1.7/';
+      $form['ting']['ting_spell_url']['#default_value'] = 'http://openspell.addi.dk/1.2/';
+      $form['ting']['ting_recommendation_url']['#default_value'] = 'http://openadhl.addi.dk/1.1/';
+    }
+
+    if ($form_id == 'ting_covers_admin_addi_settings_form') {
+      $form['addi']['addi_wsdl_url']['#default_value'] = 'http://moreinfo.addi.dk/2.1/';
+    }
   }
 }
 
@@ -72,6 +89,26 @@ function ding2_install_tasks(&$install_state) {
   // Clean up if were finished.
   if ($install_state['installation_finished']) {
     variable_del('ding_install_tasks');
+
+    // Revert features to ensure they are all installed as default.
+    $features = array(
+      'ting_reference',
+      'ting_material_details',
+      'ding_base',
+      'ding_user_frontend',
+      'ding_path_alias',
+      'ding_content',
+      'ding_page',
+      'ding_frontend',
+      'ding_ting_frontend',
+      'ding_event',
+      'ding_library',
+      'ding_news',
+      'ding_groups',
+      'ding_campaign_ctype',
+      'ding_frontpage',
+    );
+    ding2_features_revert($features);
   }
 
   include_once 'libraries/profiler/profiler_api.inc';
@@ -124,7 +161,7 @@ function ding2_import_translation(&$install_state) {
   locale_add_language('da', NULL, NULL, NULL, '', NULL, TRUE, FALSE);
 
   // Import our own translations.
-  $file = new stdClass;
+  $file = new stdClass();
   $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/ding2tal_da.po';
   $file->filename = basename($file->uri);
   _locale_import_po($file, 'da', LOCALE_IMPORT_OVERWRITE, 'default');
@@ -164,9 +201,9 @@ function ding2_locale_selection(&$install_state) {
 }
 
 /**
- * Install task fetching ding install tasks from modules implementing
- * hook_ding_install_tasks. This install task is invoked when Drupal is
- * fully functional.
+ * Fetch ding install tasks from modules implementing hook_ding_install_tasks().
+ *
+ * This install task is invoked when Drupal is fully functional.
  */
 function ding2_fetch_ding_install_tasks(&$install_state) {
   $ding_tasks = module_invoke_all('ding_install_tasks');
@@ -184,11 +221,7 @@ function _ding2_remove_form_requirements(&$value, $key) {
 }
 
 /**
- * Installation task that handle selection of provider and modules to extend
- * default ding2 installation.
- *
- * @return array
- *   Form with selection of different modules.
+ * Installation task that handle selection of provider and modules.
  */
 function ding2_module_selection_form($form, &$form_state) {
   // Available providers.
@@ -208,14 +241,13 @@ function ding2_module_selection_form($form, &$form_state) {
     '#title' => '',
     '#type' => 'radios',
     '#options' => $providers,
+    '#default_value' => 'alma',
   );
 
   //
   // Optional modules.
   //
   $modules = array(
-//    'ding_adhl_frontend' => st('ADHL (Other that have borrowed)'),
-//    'ding_campaign' => st('Add ding campaigns'),
     'ding_contact' => st('Contact module'),
     'ding_example_content' => st('Add example content'),
     'ting_new_materials' => st('Ting New Materials'),
@@ -232,6 +264,10 @@ function ding2_module_selection_form($form, &$form_state) {
     '#title' => '',
     '#type' => 'checkboxes',
     '#options' => $modules,
+    '#default_value' => array(
+      'ding_contact',
+      'ding_example_content',
+    ),
   );
 
   //
@@ -247,6 +283,7 @@ function ding2_module_selection_form($form, &$form_state) {
     '#description' => st('If toggled on, the following logo will be displayed.'),
     '#attributes' => array('class' => array('theme-settings-bottom')),
   );
+
   $form['logo']['default_logo'] = array(
     '#type' => 'checkbox',
     '#title' => st('Use the default logo'),
@@ -254,6 +291,7 @@ function ding2_module_selection_form($form, &$form_state) {
     '#tree' => FALSE,
     '#description' => st('Check here if you want the theme to use the logo supplied with it.'),
   );
+
   $form['logo']['settings'] = array(
     '#type' => 'container',
     '#states' => array(
@@ -263,12 +301,14 @@ function ding2_module_selection_form($form, &$form_state) {
       ),
     ),
   );
+
   $form['logo']['settings']['logo_path'] = array(
     '#type' => 'textfield',
     '#title' => st('Path to custom logo'),
     '#description' => st('The path to the file you would like to use as your logo file instead of the default logo.'),
     '#default_value' => '',
   );
+
   $form['logo']['settings']['logo_upload'] = array(
     '#type' => 'file',
     '#title' => st('Upload logo image'),
@@ -282,12 +322,14 @@ function ding2_module_selection_form($form, &$form_state) {
     '#title' => st('Shortcut icon settings'),
     '#description' => st("Your shortcut icon, or 'favicon', is displayed in the address bar and bookmarks of most browsers."),
   );
+
   $form['favicon']['default_favicon'] = array(
     '#type' => 'checkbox',
     '#title' => st('Use the default shortcut icon.'),
     '#default_value' => TRUE,
     '#description' => st('Check here if you want the theme to use the default shortcut icon.'),
   );
+
   $form['favicon']['settings'] = array(
     '#type' => 'container',
     '#states' => array(
@@ -297,12 +339,14 @@ function ding2_module_selection_form($form, &$form_state) {
       ),
     ),
   );
+
   $form['favicon']['settings']['favicon_path'] = array(
     '#type' => 'textfield',
     '#title' => st('Path to custom icon'),
     '#description' => st('The path to the image file you would like to use as your custom shortcut icon.'),
     '#default_value' => '',
   );
+
   $form['favicon']['settings']['favicon_upload'] = array(
     '#type' => 'file',
     '#title' => st('Upload icon image'),
@@ -315,12 +359,14 @@ function ding2_module_selection_form($form, &$form_state) {
     '#title' => st('iOS icon settings'),
     '#description' => st("Your iOS icon, is displayed at the homescreen."),
   );
+
   $form['iosicon']['default_iosicon'] = array(
     '#type' => 'checkbox',
     '#title' => st('Use the default iOS icon.'),
     '#default_value' => TRUE,
     '#description' => st('Check here if you want the theme to use the default iOS icon.'),
   );
+
   $form['iosicon']['settings'] = array(
     '#type' => 'container',
     '#states' => array(
@@ -330,11 +376,13 @@ function ding2_module_selection_form($form, &$form_state) {
       ),
     ),
   );
+
   $form['iosicon']['settings']['iosicon_path'] = array(
     '#type' => 'textfield',
     '#title' => st('Path to custom iOS icon'),
     '#description' => st('The path to the image file you would like to use as your custom iOS icon.'),
   );
+
   $form['iosicon']['settings']['iosicon_upload'] = array(
     '#type' => 'file',
     '#title' => st('Upload iOS icon image'),
@@ -440,4 +488,25 @@ function ding2_module_selection_form_submit($form, &$form_state) {
 
   // Enable the provider (if selected) and modules.
   module_enable($module_list, TRUE);
+}
+
+/**
+ * Reverts a given set of feature modules.
+ *
+ * @param array $modules
+ *   Names of the modules to revert.
+ */
+function ding2_features_revert($modules = array()) {
+  foreach ($modules as $module) {
+    // Load the feature.
+    if (($feature = features_load_feature($module, TRUE)) && module_exists($module)) {
+      // Get all components of the feature.
+      foreach (array_keys($feature->info['features']) as $component) {
+        if (features_hook($component, 'features_revert')) {
+          // Revert each component (force).
+          features_revert(array($module => array($component)));
+        }
+      }
+    }
+  }
 }
