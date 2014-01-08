@@ -308,3 +308,13 @@ function ting_update_7004() {
 function ting_update_7005() {
   variable_set('ting_reservable_sources', _ting_default_reservable_sources());
 }
+
+/**
+ * Ensure default cache expire for the data-well is set correctly.
+ */
+function ting_update_7006() {
+  $ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME);
+  if ($ttl <= 0) {
+    variable_set('ting_cache_lifetime', 900);
+  }
+}
