@@ -53,6 +53,18 @@ function ding2_form_alter(&$form, &$form_state, $form_id) {
   if (defined('MAINTENANCE_MODE') && MAINTENANCE_MODE == 'install' &&
       $form_id != 'install_configure_form') {
     array_walk_recursive($form, '_ding2_remove_form_requirements');
+
+    // Set default values in ting search form to help aegir/bulk installations.
+    if ($form_id == 'ting_admin_ting_settings') {
+      $form['ting']['ting_search_url']['#default_value'] = 'http://opensearch.addi.dk/3.0/';
+      $form['ting']['ting_scan_url']['#default_value'] = 'http://openscan.addi.dk/1.7/';
+      $form['ting']['ting_spell_url']['#default_value'] = 'http://openspell.addi.dk/1.2/';
+      $form['ting']['ting_recommendation_url']['#default_value'] = 'http://openadhl.addi.dk/1.1/';
+    }
+
+    if ($form_id == 'ting_covers_admin_addi_settings_form') {
+      $form['addi']['addi_wsdl_url']['#default_value'] = 'http://moreinfo.addi.dk/2.1/';
+    }
   }
 }
 
