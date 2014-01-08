@@ -6,6 +6,7 @@ php = 5.2.4
 version = 7.x-0.2
 project = ding_redia_rss
 dependencies[] = ctools
+dependencies[] = entity
 dependencies[] = flag
 dependencies[] = views
 dependencies[] = views_rss

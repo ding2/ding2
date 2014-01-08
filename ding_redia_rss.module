@@ -146,7 +146,7 @@ function ding_redia_rss_views_rss_item_elements() {
     ),
     'redia-rss:resources' => array(
       'title' => t('Redia resources'),
-      'description' => t('A collection of Redia specific ting objects - field mapping is ignored.'),
+      'description' => t('The node id of a type which has a relation to ting objects.'),
       'preprocess functions' => array('ding_redia_rss_preprocess_item_resources'),
     ),
   );
@@ -156,31 +156,26 @@ function ding_redia_rss_views_rss_item_elements() {
  * Preprocess function for item <resources> elements.
  */
 function ding_redia_rss_preprocess_item_resources(&$variables) {
-  $node = node_load($variables['view']->result[0]->nid);
+  // Load the node via entity metadata wrapper.
+  $node = entity_metadata_wrapper('node', node_load($variables['elements'][0]['value']));
   $value = array();
 
-  if (!empty($node->field_ding_event_materials) || !empty($node->field_ding_news_materials)) {
-    if (!empty($node->field_ding_event_materials)) {
-      foreach ($node->field_ding_event_materials[LANGUAGE_NONE] as $reference) {
-        $result = db_query('SELECT ding_entity_id FROM {ting_object} WHERE tid = :tid', array(':tid' => $reference['value']->endpoints[LANGUAGE_NONE][1]['entity_id']))->fetchAssoc();
-
-        $value[] = array(
-          'key' => 'redia-rss:resource',
-          'value' => end(explode(':', $result['ding_entity_id'])),
-        );
-      }
-    }
-    elseif (!empty($node->field_ding_news_materials)) {
-      foreach ($node->field_ding_news_materials[LANGUAGE_NONE] as $reference) {
-        $result = db_query('SELECT ding_entity_id FROM {ting_object} WHERE tid = :tid', array(':tid' => $reference['value']->endpoints[LANGUAGE_NONE][1]['entity_id']))->fetchAssoc();
-
-        $value[] = array(
-          'key' => 'redia-rss:resource',
-          'value' => end(explode(':', $result['ding_entity_id'])),
-        );
-      }
+  // The relation name is the same even though field names differ between
+  // content types.
+  if ($node->relation_ting_reference_ting_object) {
+    foreach ($node->relation_ting_reference_ting_object->value() as $ting_object) {
+      $value[] = array(
+        // This must be the name of the tag wrapping each value.
+        'key' => 'redia-rss:resource',
+        // The id should be in the format 870970-basis:24945669 where the
+        // last part constitutes the FAUST-number which is required by the
+        // Redia format.
+        'value' => end(explode(':', $ting_object->id)),
+      );
     }
 
-    $variables['elements']['0']['value'] = $value;
   }
+
+  // Replace the existing values with the new array.
+  $variables['elements']['0']['value'] = $value;
 }
