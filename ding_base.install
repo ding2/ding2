@@ -33,6 +33,10 @@ function ding_base_requirements($phase) {
     preg_match("|\d+|", $memory, $value);
     $severity_time = ($time <= $min_time && $min_time == 0) ? REQUIREMENT_ERROR : REQUIREMENT_OK;
     $severity_memory = ($value[0] < $min_memory) ? REQUIREMENT_ERROR : REQUIREMENT_OK;
+
+    // PHP cli (drush) many have a memory limit of -1 (unlimited).
+    $severity_memory = ($memory == -1) ? REQUIREMENT_OK : $severity_memory;
+
     $t = get_t();
     if ($phase == 'install') {
       $requirements['max_execution_time'] = array(
