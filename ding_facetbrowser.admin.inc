@@ -19,7 +19,7 @@ function ding_facetbrowser_settings($form_state) {
     '#markup' => '<p>' . t('Configure facets shown in the facetbrowser. Facet names can be found at <a href="http://oss.dbc.dk/wiki/bin/view/Databroend/OpenSearchDocIndexes">DBC wiki</a> and is usually named <em>facet.something</em>.') . '</p>',
   );
 
-  $showcount = variable_get('ding_facetbrowser_showcount', count($facets));
+  $showcount = variable_get('ding_facetbrowser_showcount', 5);
   $form['ding_facetbrowser_showcount'] = array(
     '#type' => 'select',
     '#title' => t('Visible facets amount'),
