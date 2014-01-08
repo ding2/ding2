@@ -229,14 +229,13 @@ function ding2_module_selection_form($form, &$form_state) {
     '#title' => '',
     '#type' => 'radios',
     '#options' => $providers,
+    '#default_value' => 'alma',
   );
 
   //
   // Optional modules.
   //
   $modules = array(
-//    'ding_adhl_frontend' => st('ADHL (Other that have borrowed)'),
-//    'ding_campaign' => st('Add ding campaigns'),
     'ding_contact' => st('Contact module'),
     'ding_example_content' => st('Add example content'),
     'ting_new_materials' => st('Ting New Materials'),
@@ -253,6 +252,10 @@ function ding2_module_selection_form($form, &$form_state) {
     '#title' => '',
     '#type' => 'checkboxes',
     '#options' => $modules,
+    '#default_value' => array(
+      'ding_contact',
+      'ding_example_content',
+    ),
   );
 
   //
