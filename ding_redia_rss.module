@@ -158,14 +158,27 @@ function ding_redia_rss_views_rss_item_elements() {
 function ding_redia_rss_preprocess_item_resources(&$variables) {
   $node = node_load($variables['view']->result[0]->nid);
   $value = array();
-  if (!empty($node->field_ding_event_materials)) {
-    foreach ($node->field_ding_event_materials[LANGUAGE_NONE] as $reference) {
-      $result = db_query('SELECT ding_entity_id FROM {ting_object} WHERE tid = :tid', array(':tid' => $reference['value']->endpoints[LANGUAGE_NONE][1]['entity_id']))->fetchAssoc();
 
-      $value[] = array(
-        'key' => 'redia-rss:resource',
-        'value' => end(explode(':', $result['ding_entity_id'])),
-      );
+  if (!empty($node->field_ding_event_materials) || !empty($node->field_ding_news_materials)) {
+    if (!empty($node->field_ding_event_materials)) {
+      foreach ($node->field_ding_event_materials[LANGUAGE_NONE] as $reference) {
+        $result = db_query('SELECT ding_entity_id FROM {ting_object} WHERE tid = :tid', array(':tid' => $reference['value']->endpoints[LANGUAGE_NONE][1]['entity_id']))->fetchAssoc();
+
+        $value[] = array(
+          'key' => 'redia-rss:resource',
+          'value' => end(explode(':', $result['ding_entity_id'])),
+        );
+      }
+    }
+    elseif (!empty($node->field_ding_news_materials)) {
+      foreach ($node->field_ding_news_materials[LANGUAGE_NONE] as $reference) {
+        $result = db_query('SELECT ding_entity_id FROM {ting_object} WHERE tid = :tid', array(':tid' => $reference['value']->endpoints[LANGUAGE_NONE][1]['entity_id']))->fetchAssoc();
+
+        $value[] = array(
+          'key' => 'redia-rss:resource',
+          'value' => end(explode(':', $result['ding_entity_id'])),
+        );
+      }
     }
 
     $variables['elements']['0']['value'] = $value;
