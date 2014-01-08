@@ -78,10 +78,8 @@ function ting_admin_ting_settings($form_state) {
     259200,
     604800,
   );
-  $options = array(
-    0 => t('No caching'),
-  );
 
+  $options = array();
   foreach ($intervals as $interval) {
     $options[$interval] = format_interval($interval, 2);
   }

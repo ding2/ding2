@@ -24,7 +24,6 @@ function ting_drush_cache_clear(&$types) {
 
   // Ting reply cache.
   $types['ting_reply'] = 'ting_reply_cache_clear';
-
 }
 
 /**
