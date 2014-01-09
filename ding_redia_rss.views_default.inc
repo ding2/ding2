@@ -142,35 +142,33 @@ function ding_redia_rss_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_list_image']['settings'] = array(
     'image_style' => '',
   );
-  /* Field: Content: Files */
-  $handler->display->display_options['fields']['field_ding_event_files']['id'] = 'field_ding_event_files';
-  $handler->display->display_options['fields']['field_ding_event_files']['table'] = 'field_data_field_ding_event_files';
-  $handler->display->display_options['fields']['field_ding_event_files']['field'] = 'field_ding_event_files';
-  $handler->display->display_options['fields']['field_ding_event_files']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_event_files']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_ding_event_files']['alter']['text'] = '[field_ding_event_files]';
-  $handler->display->display_options['fields']['field_ding_event_files']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_event_files']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_ding_event_files']['settings'] = array(
-    'group_multiple_values' => 0,
-    'medium' => '',
-    'expression' => '',
-    'generate_hash' => 0,
-    'hash_algo' => 'md5',
+  /* Field: Scheduler: Publish on */
+  $handler->display->display_options['fields']['publish_on']['id'] = 'publish_on';
+  $handler->display->display_options['fields']['publish_on']['table'] = 'scheduler';
+  $handler->display->display_options['fields']['publish_on']['field'] = 'publish_on';
+  $handler->display->display_options['fields']['publish_on']['label'] = '';
+  $handler->display->display_options['fields']['publish_on']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['publish_on']['date_format'] = 'custom';
+  $handler->display->display_options['fields']['publish_on']['custom_date_format'] = 'U';
+  $handler->display->display_options['fields']['publish_on']['timezone'] = 'UTC';
+  /* Field: Scheduler: Unpublish on */
+  $handler->display->display_options['fields']['unpublish_on']['id'] = 'unpublish_on';
+  $handler->display->display_options['fields']['unpublish_on']['table'] = 'scheduler';
+  $handler->display->display_options['fields']['unpublish_on']['field'] = 'unpublish_on';
+  $handler->display->display_options['fields']['unpublish_on']['label'] = '';
+  $handler->display->display_options['fields']['unpublish_on']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['unpublish_on']['date_format'] = 'custom';
+  $handler->display->display_options['fields']['unpublish_on']['custom_date_format'] = 'U';
+  $handler->display->display_options['fields']['unpublish_on']['timezone'] = 'UTC';
+  /* Sort criterion: Content: Updated date */
+  $handler->display->display_options['sorts']['changed']['id'] = 'changed';
+  $handler->display->display_options['sorts']['changed']['table'] = 'node';
+  $handler->display->display_options['sorts']['changed']['field'] = 'changed';
+  $handler->display->display_options['sorts']['changed']['order'] = 'DESC';
+  $handler->display->display_options['filter_groups']['groups'] = array(
+    1 => 'AND',
+    2 => 'OR',
   );
-  $handler->display->display_options['fields']['field_ding_event_files']['delta_offset'] = '0';
-  /* Sort criterion: Content: Post date */
-  $handler->display->display_options['sorts']['created']['id'] = 'created';
-  $handler->display->display_options['sorts']['created']['table'] = 'node';
-  $handler->display->display_options['sorts']['created']['field'] = 'created';
-  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
-  /* Filter criterion: Content: Published */
-  $handler->display->display_options['filters']['status']['id'] = 'status';
-  $handler->display->display_options['filters']['status']['table'] = 'node';
-  $handler->display->display_options['filters']['status']['field'] = 'status';
-  $handler->display->display_options['filters']['status']['value'] = 1;
-  $handler->display->display_options['filters']['status']['group'] = 1;
-  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
   /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
@@ -178,10 +176,26 @@ function ding_redia_rss_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'ding_event' => 'ding_event',
   );
+  $handler->display->display_options['filters']['type']['group'] = 1;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 2;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Scheduler: Publish on */
+  $handler->display->display_options['filters']['publish_on']['id'] = 'publish_on';
+  $handler->display->display_options['filters']['publish_on']['table'] = 'scheduler';
+  $handler->display->display_options['filters']['publish_on']['field'] = 'publish_on';
+  $handler->display->display_options['filters']['publish_on']['operator'] = 'not empty';
+  $handler->display->display_options['filters']['publish_on']['group'] = 2;
 
   /* Display: Feed */
   $handler = $view->new_display('feed', 'Feed', 'feed_1');
   $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '100';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'rss_fields';
   $handler->display->display_options['style_options']['channel'] = array(
     'core' => array(
@@ -208,11 +222,11 @@ function ding_redia_rss_views_default_views() {
         'subheadline' => 'field_ding_event_lead',
         'arrangement-starttime' => 'field_ding_event_date',
         'arrangement-endtime' => 'field_ding_event_date_1',
-        'display-starttime' => 'field_ding_event_date',
-        'display-endtime' => 'field_ding_event_date_1',
+        'display-starttime' => 'publish_on',
+        'display-endtime' => 'unpublish_on',
         'arrangement-location' => 'field_ding_event_location',
         'arrangement-price' => 'field_ding_event_price',
-        'resources' => 'field_ding_event_files',
+        'resources' => 'nid',
       ),
     ),
     'core' => array(
@@ -248,6 +262,8 @@ function ding_redia_rss_views_default_views() {
   /* Display: Feed 2 */
   $handler = $view->new_display('feed', 'Feed 2', 'feed_2');
   $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '100';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'rss_fields';
   $handler->display->display_options['style_options']['channel'] = array(
     'core' => array(
@@ -321,7 +337,7 @@ function ding_redia_rss_views_default_views() {
   $handler->display->display_options['relationships']['flag_content_rel']['field'] = 'flag_content_rel';
   $handler->display->display_options['relationships']['flag_content_rel']['flag'] = 'mobile_app';
   $handler->display->display_options['relationships']['flag_content_rel']['user_scope'] = 'any';
-  $handler->display->display_options['path'] = 'ding-redia-rss-app/event';
+  $handler->display->display_options['path'] = 'ding-redia-rss/event/app';
   $translatables['ding_redia_event_rss'] = array(
     t('Master'),
     t('more'),
@@ -339,7 +355,6 @@ function ding_redia_rss_views_default_views() {
     t('last »'),
     t('author'),
     t('[field_ding_event_list_image]'),
-    t('[field_ding_event_files]'),
     t('Feed'),
     t('Feed 2'),
     t('flag'),
@@ -435,18 +450,33 @@ function ding_redia_rss_views_default_views() {
   $handler->display->display_options['fields']['field_ding_news_lead']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_news_lead']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_ding_news_lead']['type'] = 'text_plain';
-  /* Sort criterion: Content: Post date */
-  $handler->display->display_options['sorts']['created']['id'] = 'created';
-  $handler->display->display_options['sorts']['created']['table'] = 'node';
-  $handler->display->display_options['sorts']['created']['field'] = 'created';
-  $handler->display->display_options['sorts']['created']['order'] = 'DESC';
-  /* Filter criterion: Content: Published */
-  $handler->display->display_options['filters']['status']['id'] = 'status';
-  $handler->display->display_options['filters']['status']['table'] = 'node';
-  $handler->display->display_options['filters']['status']['field'] = 'status';
-  $handler->display->display_options['filters']['status']['value'] = 1;
-  $handler->display->display_options['filters']['status']['group'] = 1;
-  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Field: Scheduler: Publish on */
+  $handler->display->display_options['fields']['publish_on']['id'] = 'publish_on';
+  $handler->display->display_options['fields']['publish_on']['table'] = 'scheduler';
+  $handler->display->display_options['fields']['publish_on']['field'] = 'publish_on';
+  $handler->display->display_options['fields']['publish_on']['label'] = '';
+  $handler->display->display_options['fields']['publish_on']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['publish_on']['date_format'] = 'custom';
+  $handler->display->display_options['fields']['publish_on']['custom_date_format'] = 'U';
+  $handler->display->display_options['fields']['publish_on']['timezone'] = 'UTC';
+  /* Field: Scheduler: Unpublish on */
+  $handler->display->display_options['fields']['unpublish_on']['id'] = 'unpublish_on';
+  $handler->display->display_options['fields']['unpublish_on']['table'] = 'scheduler';
+  $handler->display->display_options['fields']['unpublish_on']['field'] = 'unpublish_on';
+  $handler->display->display_options['fields']['unpublish_on']['label'] = '';
+  $handler->display->display_options['fields']['unpublish_on']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['unpublish_on']['date_format'] = 'custom';
+  $handler->display->display_options['fields']['unpublish_on']['custom_date_format'] = 'U';
+  $handler->display->display_options['fields']['unpublish_on']['timezone'] = 'UTC';
+  /* Sort criterion: Content: Updated date */
+  $handler->display->display_options['sorts']['changed']['id'] = 'changed';
+  $handler->display->display_options['sorts']['changed']['table'] = 'node';
+  $handler->display->display_options['sorts']['changed']['field'] = 'changed';
+  $handler->display->display_options['sorts']['changed']['order'] = 'DESC';
+  $handler->display->display_options['filter_groups']['groups'] = array(
+    1 => 'AND',
+    2 => 'OR',
+  );
   /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
@@ -454,10 +484,26 @@ function ding_redia_rss_views_default_views() {
   $handler->display->display_options['filters']['type']['value'] = array(
     'ding_news' => 'ding_news',
   );
+  $handler->display->display_options['filters']['type']['group'] = 1;
+  /* Filter criterion: Content: Published */
+  $handler->display->display_options['filters']['status']['id'] = 'status';
+  $handler->display->display_options['filters']['status']['table'] = 'node';
+  $handler->display->display_options['filters']['status']['field'] = 'status';
+  $handler->display->display_options['filters']['status']['value'] = 1;
+  $handler->display->display_options['filters']['status']['group'] = 2;
+  $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+  /* Filter criterion: Scheduler: Publish on */
+  $handler->display->display_options['filters']['publish_on']['id'] = 'publish_on';
+  $handler->display->display_options['filters']['publish_on']['table'] = 'scheduler';
+  $handler->display->display_options['filters']['publish_on']['field'] = 'publish_on';
+  $handler->display->display_options['filters']['publish_on']['operator'] = 'not empty';
+  $handler->display->display_options['filters']['publish_on']['group'] = 2;
 
   /* Display: Feed */
   $handler = $view->new_display('feed', 'Feed', 'feed_1');
   $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '100';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'rss_fields';
   $handler->display->display_options['style_options']['channel'] = array(
     'core' => array(
@@ -484,9 +530,11 @@ function ding_redia_rss_views_default_views() {
         'subheadline' => 'field_ding_news_lead',
         'arrangement-starttime' => '',
         'arrangement-endtime' => '',
+        'display-starttime' => 'publish_on',
+        'display-endtime' => 'unpublish_on',
         'arrangement-location' => '',
         'arrangement-price' => '',
-        'resources' => '',
+        'resources' => 'nid',
       ),
     ),
     'core' => array(
@@ -522,6 +570,8 @@ function ding_redia_rss_views_default_views() {
   /* Display: Feed 2 */
   $handler = $view->new_display('feed', 'Feed 2', 'feed_2');
   $handler->display->display_options['pager']['type'] = 'some';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '100';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['style_plugin'] = 'rss_fields';
   $handler->display->display_options['style_options']['channel'] = array(
     'core' => array(
@@ -548,9 +598,11 @@ function ding_redia_rss_views_default_views() {
         'subheadline' => 'field_ding_news_lead',
         'arrangement-starttime' => '',
         'arrangement-endtime' => '',
+        'display-starttime' => 'publish_on',
+        'display-endtime' => 'unpublish_on',
         'arrangement-location' => '',
         'arrangement-price' => '',
-        'resources' => '',
+        'resources' => 'nid',
       ),
     ),
     'core' => array(
@@ -593,7 +645,7 @@ function ding_redia_rss_views_default_views() {
   $handler->display->display_options['relationships']['flag_content_rel']['field'] = 'flag_content_rel';
   $handler->display->display_options['relationships']['flag_content_rel']['flag'] = 'mobile_app';
   $handler->display->display_options['relationships']['flag_content_rel']['user_scope'] = 'any';
-  $handler->display->display_options['path'] = 'ding-redia-rss-app/news';
+  $handler->display->display_options['path'] = 'ding-redia-rss/news/app';
   $translatables['ding_redia_news_rss'] = array(
     t('Master'),
     t('more'),
