@@ -248,7 +248,6 @@ function ding2_module_selection_form($form, &$form_state) {
     '#options' => $modules,
     '#default_value' => array(
       'ding_contact',
-      'ding_example_content',
     ),
   );
 
