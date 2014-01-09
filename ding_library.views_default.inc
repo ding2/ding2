@@ -168,19 +168,6 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['nothing']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['nothing']['element_default_classes'] = FALSE;
-  /* Field: Broken/missing handler */
-  $handler->display->display_options['fields']['field_ding_library_opening_hours']['id'] = 'field_ding_library_opening_hours';
-  $handler->display->display_options['fields']['field_ding_library_opening_hours']['table'] = 'field_data_field_ding_library_opening_hours';
-  $handler->display->display_options['fields']['field_ding_library_opening_hours']['field'] = 'field_ding_library_opening_hours';
-  $handler->display->display_options['fields']['field_ding_library_opening_hours']['label'] = 'Opening Hours';
-  $handler->display->display_options['fields']['field_ding_library_opening_hours']['element_type'] = 'div';
-  $handler->display->display_options['fields']['field_ding_library_opening_hours']['element_class'] = 'opening-hours-content';
-  $handler->display->display_options['fields']['field_ding_library_opening_hours']['element_label_type'] = 'h3';
-  $handler->display->display_options['fields']['field_ding_library_opening_hours']['element_label_class'] = 'opening-hours-title';
-  $handler->display->display_options['fields']['field_ding_library_opening_hours']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_library_opening_hours']['element_wrapper_type'] = 'div';
-  $handler->display->display_options['fields']['field_ding_library_opening_hours']['element_wrapper_class'] = 'opening-hours';
-  $handler->display->display_options['fields']['field_ding_library_opening_hours']['element_default_classes'] = FALSE;
   /* Sort criterion: Content: Title */
   $handler->display->display_options['sorts']['title']['id'] = 'title';
   $handler->display->display_options['sorts']['title']['table'] = 'node';
@@ -198,14 +185,6 @@ function ding_library_views_default_views() {
   $handler->display->display_options['filters']['type']['field'] = 'type';
   $handler->display->display_options['filters']['type']['value'] = array(
     'ding_library' => 'ding_library',
-  );
-  /* Filter criterion: Content: Language */
-  $handler->display->display_options['filters']['language']['id'] = 'language';
-  $handler->display->display_options['filters']['language']['table'] = 'node';
-  $handler->display->display_options['filters']['language']['field'] = 'language';
-  $handler->display->display_options['filters']['language']['value'] = array(
-    '***CURRENT_LANGUAGE***' => '***CURRENT_LANGUAGE***',
-    'und' => 'und',
   );
 
   /* Display: Libraries list */
@@ -315,13 +294,6 @@ function ding_library_views_default_views() {
       'address' => 'address',
     ),
   );
-  /* Field: Broken/missing handler */
-  $handler->display->display_options['fields']['field_ding_library_opening_hours']['id'] = 'field_ding_library_opening_hours';
-  $handler->display->display_options['fields']['field_ding_library_opening_hours']['table'] = 'field_data_field_ding_library_opening_hours';
-  $handler->display->display_options['fields']['field_ding_library_opening_hours']['field'] = 'field_ding_library_opening_hours';
-  $handler->display->display_options['fields']['field_ding_library_opening_hours']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_library_opening_hours']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_ding_library_opening_hours']['element_label_colon'] = FALSE;
   $translatables['ding_library'] = array(
     t('Master'),
     t('mere'),
@@ -337,7 +309,6 @@ function ding_library_views_default_views() {
     t('E-mail'),
     t('<i class="icon-chevron-right"></i> [title_1]'),
     t('</div>'),
-    t('Opening Hours'),
     t('Libraries list'),
     t('more'),
     t('queue'),
