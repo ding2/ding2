@@ -24,7 +24,7 @@ function ding_redia_rss_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
-  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['cache']['type'] = 'rules';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'full';
@@ -192,7 +192,7 @@ function ding_redia_rss_views_default_views() {
   $handler->display->display_options['filters']['publish_on']['group'] = 2;
 
   /* Display: Feed */
-  $handler = $view->new_display('feed', 'Feed', 'feed_1');
+  $handler = $view->new_display('feed', 'Feed', 'feed');
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '100';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -259,8 +259,8 @@ function ding_redia_rss_views_default_views() {
   );
   $handler->display->display_options['path'] = 'ding-redia-rss/event';
 
-  /* Display: Feed 2 */
-  $handler = $view->new_display('feed', 'Feed 2', 'feed_2');
+  /* Display: App Feed */
+  $handler = $view->new_display('feed', 'App Feed', 'feed_app');
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '100';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -294,7 +294,7 @@ function ding_redia_rss_views_default_views() {
         'display-endtime' => 'field_ding_event_date_1',
         'arrangement-location' => 'field_ding_event_location',
         'arrangement-price' => 'field_ding_event_price',
-        'resources' => '',
+        'resources' => 'nid',
       ),
     ),
     'core' => array(
@@ -356,7 +356,7 @@ function ding_redia_rss_views_default_views() {
     t('author'),
     t('[field_ding_event_list_image]'),
     t('Feed'),
-    t('Feed 2'),
+    t('App Feed'),
     t('flag'),
   );
   $export['ding_redia_event_rss'] = $view;
@@ -375,7 +375,7 @@ function ding_redia_rss_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
-  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['cache']['type'] = 'rules';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
   $handler->display->display_options['pager']['type'] = 'full';
@@ -500,7 +500,7 @@ function ding_redia_rss_views_default_views() {
   $handler->display->display_options['filters']['publish_on']['group'] = 2;
 
   /* Display: Feed */
-  $handler = $view->new_display('feed', 'Feed', 'feed_1');
+  $handler = $view->new_display('feed', 'Feed', 'feed');
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '100';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -567,8 +567,8 @@ function ding_redia_rss_views_default_views() {
   );
   $handler->display->display_options['path'] = 'ding-redia-rss/news';
 
-  /* Display: Feed 2 */
-  $handler = $view->new_display('feed', 'Feed 2', 'feed_2');
+  /* Display: App Feed */
+  $handler = $view->new_display('feed', 'App Feed', 'feed_app');
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '100';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -664,7 +664,7 @@ function ding_redia_rss_views_default_views() {
     t('author'),
     t('[field_ding_news_list_image]'),
     t('Feed'),
-    t('Feed 2'),
+    t('App Feed'),
     t('flag'),
   );
   $export['ding_redia_news_rss'] = $view;
