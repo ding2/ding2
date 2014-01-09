@@ -164,13 +164,16 @@ function ding_redia_rss_preprocess_item_resources(&$variables) {
   // content types.
   if ($node->relation_ting_reference_ting_object) {
     foreach ($node->relation_ting_reference_ting_object->value() as $ting_object) {
+      // The id should be in the format 870970-basis:24945669 where the
+      // last part constitutes the FAUST-number which is required by the
+      // Redia format.
+      $id_parts = explode(':', $ting_object->id);
+      $faust_number = end($id_parts);
+      
       $value[] = array(
         // This must be the name of the tag wrapping each value.
         'key' => 'redia-rss:resource',
-        // The id should be in the format 870970-basis:24945669 where the
-        // last part constitutes the FAUST-number which is required by the
-        // Redia format.
-        'value' => end(explode(':', $ting_object->id)),
+        'value' => $faust_number,
       );
     }
 
