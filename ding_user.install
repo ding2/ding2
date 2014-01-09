@@ -5,6 +5,15 @@
  */
 
 /**
+ * Implements hook_install().
+ *
+ * Ensure that entity cache table is create for profile2 (ding users).
+ */
+function ding_user_install() {
+  ding_user_update_7005();
+}
+
+/**
  * Create table for credential caching.
  */
 function ding_user_update_7000() {
@@ -41,4 +50,16 @@ function ding_user_update_7003() {
  */
 function ding_user_update_7004() {
   db_drop_table('cache_ding_user_credentials');
+}
+
+/**
+ * Create possibly missing Entity Cache table for profile2 entities.
+ */
+function ding_user_update_7005() {
+  // Create cache table if it doesn't exist.
+  if (!db_table_exists('cache_entity_profile2')) {
+    $schema = drupal_get_schema_unprocessed('system', 'cache');
+    $schema['description'] = 'Cache table used to store profile2 entity records.';
+    db_create_table('cache_entity_profile2', $schema);
+  }
 }
