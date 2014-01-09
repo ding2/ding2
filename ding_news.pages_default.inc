@@ -642,6 +642,7 @@ news/%tid:name',
       'override_title' => 1,
       'override_title_text' => '',
       'slug' => 'nyheder',
+      'hide_default' => 0,
     );
     $pane->cache = array();
     $pane->style = array(
