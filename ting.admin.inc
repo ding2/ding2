@@ -38,7 +38,7 @@ function ting_admin_ting_settings($form_state) {
   $form['ting']['ting_scan_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Scan service URL'),
-    '#description' => t('URL to the Ting scan webservice, e.g. http://openscan.addi.dk/1.7/'),
+    '#description' => t('URL to the Ting scan webservice, e.g. http://openscan.addi.dk/2.0/'),
     '#required' => TRUE,
     '#default_value' => variable_get('ting_scan_url', ''),
   );
