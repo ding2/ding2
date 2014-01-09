@@ -99,7 +99,6 @@ function ding_example_content_groups_strongarm() {
     'ding_rolltab' => 'ding_rolltab',
     'ding_page' => 'ding_page',
     'ding_campaign' => 0,
-    'new_materials' => 0,
     'panel' => 0,
   );
   $export['node_export_file_types'] = $strongarm;
@@ -128,42 +127,42 @@ function ding_example_content_groups_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_export_reset_author_ding_event';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['node_export_reset_author_ding_event'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_export_reset_author_ding_group';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['node_export_reset_author_ding_group'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_export_reset_author_ding_library';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['node_export_reset_author_ding_library'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_export_reset_author_ding_news';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['node_export_reset_author_ding_news'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_export_reset_author_ding_page';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['node_export_reset_author_ding_page'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_export_reset_author_ding_rolltab';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['node_export_reset_author_ding_rolltab'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -177,7 +176,7 @@ function ding_example_content_groups_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_export_reset_author_panel';
-  $strongarm->value = 1;
+  $strongarm->value = 0;
   $export['node_export_reset_author_panel'] = $strongarm;
 
   $strongarm = new stdClass();
