@@ -8,7 +8,7 @@
  * Creates an administrative block on the configuration page
  * for grouping various settings.
  *
- * @return type
+ * @return string
  *   HTML for the block.
  */
 function bpi_admin_menu_block_page() {
@@ -25,7 +25,6 @@ function bpi_admin_menu_block_page() {
   return $output;
 }
 
-
 /**
  * Administrative settings form.
  *
@@ -33,6 +32,7 @@ function bpi_admin_menu_block_page() {
  *   Form structure.
  * @param array $form_state
  *   Form state values.
+ *
  * @return array
  *   Form structure prepared for admin settings.
  *
@@ -132,6 +132,7 @@ function bpi_admin_settings_form_validate(&$form, &$form_state) {
  *   Form structure.
  * @param array $form_state
  *   Form state values.
+ *
  * @return array
  *   Form structure prepared for admin settings.
  *
@@ -218,6 +219,7 @@ function bpi_admin_content_mapping_form($form, $form_state) {
  *   Form structure.
  * @param array $form_state
  *   Form state values.
+ *
  * @return array
  *   Element to be altered via AJAX.
  *

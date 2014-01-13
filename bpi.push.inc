@@ -315,6 +315,7 @@ function bpi_push_form_submit($form, &$form_state) {
  *   Form structure.
  * @param array $form_state
  *   Form state values.
+ *
  * @return array
  *   A set of ajax commands.
  *
@@ -323,7 +324,7 @@ function bpi_push_form_submit($form, &$form_state) {
 function bpi_push_action_ajax_callback($form, &$form_state) {
   $response = array(
     '#type' => 'ajax',
-    '#commands' => array()
+    '#commands' => array(),
   );
 
   $html = theme('status_messages');
@@ -338,8 +339,8 @@ function bpi_push_action_ajax_callback($form, &$form_state) {
 }
 
 /**
- * Convert node object to bpi-related array structure,
- * suitable for pushing to the well.
+ * Convert node object to bpi-related array structure, suitable for pushing to
+ * the well.
  *
  * @param stdClass $node
  *   Node object being processed.
@@ -391,6 +392,8 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
     $teaser = $teaser_field['#items'][0]['safe_value'];
   }
 
+  // @todo: Why are the record accessed and not the ting_reference functions
+  // used to get the information.
   $materials_drupal = array();
   foreach ($materials_map as $key => $value) {
     if (is_numeric($key)) {
@@ -459,9 +462,7 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
     'bpi',
     'Transformed node to BPI content: !content',
     array(
-      '!content' => '<pre>' . htmlspecialchars(
-          print_r($bpi_content, TRUE)
-        ) . '</pre>'
+      '!content' => '<pre>' . htmlspecialchars(print_r($bpi_content, TRUE)) . '</pre>',
     ),
     WATCHDOG_DEBUG
   );
@@ -474,12 +475,13 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
  *
  * @param string $bundle
  *   Node type.
+ *
  * @return array
  *   Array of field names which are actually image fields.
  */
 function bpi_fetch_image_fields($bundle) {
   $potential_image_fields = array('image_image', 'media_generic');
-  $field_instances = field_info_instances('node', (string)$bundle);
+  $field_instances = field_info_instances('node', (string) $bundle);
 
   $image_fields = array();
 

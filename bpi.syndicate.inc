@@ -331,13 +331,11 @@ function bpi_preprocess_bpi_search_results(&$variables) {
 
     // Add action links.
     $actions = array(
-      l(
-        t('Preview'),
+      l(t('Preview'),
         'admin/bpi/preview/nojs/' . $item['bpi_id'],
         array('attributes' => array('class' => 'use-ajax'))
       ),
-      l(
-        t('Syndicate'),
+      l(t('Syndicate'),
         'admin/bpi/syndicate/' . $item['bpi_id']
       ),
     );

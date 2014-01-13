@@ -229,6 +229,7 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
   }
 
   $bpi_id = isset($_GET['bpi_id']) ? (string) $_GET['bpi_id'] : FALSE;
+  $form_state['node']->bpi_id = $bpi_id;
 
   // Checking nid for NULL would say that this is create node form, not edit.
   if ($form_id == $bpi_ctype . '_node_form' && $form['nid']['#value'] == NULL && $bpi_id) {
@@ -527,11 +528,13 @@ function _bpi_node_admin_content_submit(&$form, &$form_state) {
  *
  * @global object $user
  *   Current user object.
+ *
  * @param int $nid
  *   Node id.
  * @param string $op
  *   Operation to check permissions for.
- * @return boolean
+ *
+ * @return bool
  *   Status.
  */
 function bpi_ability($nid, $op) {
@@ -549,7 +552,6 @@ function bpi_ability($nid, $op) {
   switch ($op) {
     case 'push':
       return $ability && bpi_push_available($nid);
-      break;
 
     case 'delete':
       break;
@@ -584,7 +586,7 @@ function bpi_node_insert($node) {
       watchdog_exception('bpi', $e);
       drupal_set_message(t('Syndication error, node was not created. Check reports for more information.'), 'error');
       // We should prevent creation of node due to handled exception.
-      // Maybe there is better solution than deletetion of newly created node.
+      // Maybe there is better solution than deletion of newly created node.
       node_delete($node->nid);
     }
   }
@@ -600,7 +602,7 @@ function bpi_node_load($nodes) {
 
   $result = db_select('bpi_syndicated', 'bs')
     ->fields('bs', array(
-      'nid', 'bid'
+      'nid', 'bid',
     ))
     ->condition('nid', $nids, 'IN')
     ->execute()
@@ -616,8 +618,10 @@ function bpi_node_load($nodes) {
 /**
  * Implements hook_query_alter().
  *
- * Alters the query for node retrieval in the content grid,
- * so it now takes into account the BPI filtering settings.
+ * Alters the query for node retrieval in the content grid, so it now takes into
+ * account the BPI filtering settings.
+ *
+ * @todo: is this query alter always run on every tablesort query?
  */
 function bpi_query_alter($query) {
   $filter = isset($_SESSION['bpi']['filter']) ? $_SESSION['bpi']['filter'] : 'all';
@@ -677,12 +681,13 @@ function bpi_query_alter($query) {
  *
  * @param array/int $nodes
  *   An array of node id's or a single id.
- * @return
+ *
+ * @return array
  *   An array of node id's matching the criteria.
  */
 function bpi_get_bpi_nodes($nodes) {
   $query = db_select('bpi_syndicated', 'bs')
-    ->fields('bs', array('nid', 'bid', 'timestamp', 'status',));
+    ->fields('bs', array('nid', 'bid', 'timestamp', 'status'));
 
   if (is_array($nodes) && count($nodes) > 0) {
     $query->condition('nid', $nodes, 'IN');
@@ -703,7 +708,8 @@ function bpi_get_bpi_nodes($nodes) {
  *
  * @param int $nid
  *   Node id.
- * @return boolean
+ *
+ * @return bool
  *   TRUE/FALSE whether the node can be pushed.
  */
 function bpi_push_available($nid) {
@@ -733,9 +739,9 @@ function bpi_push_available($nid) {
     ->fetchAllAssoc('nid');
 
   // A node can be pushed if it is either:
-  // - new to BPI
-  // - has been syndicated (not pushed)
-  // - has been modified after the last push
+  // - new to BPI.
+  // - has been syndicated (not pushed).
+  // - has been modified after the last push.
   $bpi_action = isset($result[$nid]);
   $was_pushed = ($bpi_action && $result[$nid]->status == BPI_PUSHED);
   $modified_after_push = $was_pushed && ($node->changed > $result[$nid]->timestamp);
@@ -746,7 +752,8 @@ function bpi_push_available($nid) {
 
 /**
  * Creates new Bpi client instance.
- * It shouldn't behave as singleton.
+ *
+ * It should not behave as singleton.
  *
  * @return Bpi
  *   Webservice client.

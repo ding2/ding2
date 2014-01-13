@@ -14,7 +14,7 @@ function bpi_schema() {
     'description' => 'Holds the correspondence between bpi id and node id.',
     'fields' => array(
       'id' => array(
-        'type' => 'serial'
+        'type' => 'serial',
       ),
       'nid' => array(
         'type' => 'int',
@@ -37,7 +37,7 @@ function bpi_schema() {
         'length' => '128',
         'not null' => TRUE,
         'default' => '',
-      )
+      ),
     ),
     'primary key' => array('id'),
     'indexes' => array(

@@ -9,6 +9,7 @@
  *
  * @param string $type
  *   Request type, whether it's ajax or not.
+ *
  * @return array
  *   Set of ajax commands if request is ajax, renderable form array otherwise.
  */
@@ -39,6 +40,7 @@ function bpi_statistics($type) {
  *   Form structure.
  * @param array $form_state
  *   Form state values.
+ *
  * @return array
  *   Form structure.
  *
@@ -123,6 +125,7 @@ function _bpi_statistics_ajax_callback(&$form, &$form_state) {
  * @param array $items
  *   Statistic properties, in structure:
  *   - prop name: prop value
+ *
  * @return string
  *   HTML markup.
  */
