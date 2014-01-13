@@ -164,55 +164,48 @@ function bpi_menu() {
  * Implements hook_permission().
  */
 function bpi_permission() {
-  $perm = array();
-
-  $perm['administer bpi'] = array(
-    'title' => t('Administer BPI settings'),
+  return array(
+    'administer bpi' => array(
+      'title' => t('Administer BPI settings'),
+      'description' => t('Set the web-service end-point and configure the service.'),
+    ),
+    'bpi syndicate content' => array(
+      'title' => t('Syndicate content'),
+      'description' => t('Pull content from the service.'),
+    ),
+    'bpi push content' => array(
+      'title' => t('Push content'),
+      'description' => t('Push content to the service.'),
+    ),
+    'delete bpi content' => array(
+      'title' => t('Delete content'),
+      'description' => t('Delete content at the service.'),
+    ),
+    'view bpi statistics' => array(
+      'title' => t('View statistics'),
+      'description' => t('View usage statistics.'),
+    ),
   );
-
-  $perm['bpi syndicate content'] = array(
-    'title' => t('Syndicate content'),
-  );
-
-  $perm['bpi push content'] = array(
-    'title' => t('Push content'),
-  );
-
-  $perm['view bpi statistics'] = array(
-    'title' => t('View statistics'),
-  );
-
-  $perm['delete bpi content'] = array(
-    'title' => t('Delete from bpi'),
-  );
-
-  return $perm;
 }
 
 /**
  * Implements hook_theme().
  */
 function bpi_theme($existing, $type, $theme, $path) {
-  $hooks = array();
-
-  $hooks['bpi_filter_item'] = array(
-    'variables' => array(),
-    'path' => $path . '/templates/',
-    'template' => 'bpi-filter-item',
+  return array(
+    'bpi_filter_item' => array(
+      'path' => $path . '/templates/',
+      'template' => 'bpi-filter-item',
+    ),
+    'bpi_preview_item' => array(
+      'path' => $path . '/templates/',
+      'template' => 'bpi-preview-item',
+    ),
+    'bpi_search_results' => array(
+      'variables' => array('items' => array()),
+      'file' => 'bpi.syndicate.inc',
+    ),
   );
-
-  $hooks['bpi_preview_item'] = array(
-    'variables' => array(),
-    'path' => $path . '/templates/',
-    'template' => 'bpi-preview-item',
-  );
-
-  $hooks['bpi_search_results'] = array(
-    'variables' => array('items' => array()),
-    'file' => 'bpi.syndicate.inc',
-  );
-
-  return $hooks;
 }
 
 /**
@@ -629,10 +622,9 @@ function bpi_query_alter($query) {
 
   // Alter the pagination query.
   if ($query->hasTag('tablesort')) {
-    $tables = &$query->getTables();
-
     // In any case, when BPI filter is used, attach the BPI table.
     if (in_array($filter, $available_filters)) {
+      $tables = &$query->getTables();
       $tables['bs'] = array(
         'join type' => 'INNER',
         'table' => 'bpi_syndicated',
@@ -645,11 +637,11 @@ function bpi_query_alter($query) {
 
   // Alter the content query.
   if ($query->hasTag('node_load_multiple')) {
-    $tables = &$query->getTables();
     $conditions = &$query->conditions();
 
     // In any case, when BPI filter is used, attach the BPI table.
     if (in_array($filter, $available_filters)) {
+      $tables = &$query->getTables();
       $tables['bs'] = array(
         'join type' => 'INNER',
         'table' => 'bpi_syndicated',
@@ -680,7 +672,7 @@ function bpi_query_alter($query) {
  * Get the node id's which were actually syndicated/pushed from/to bpi.
  *
  * @param array/int $nodes
- *   An array of node id's or a single id.
+ *   An array of node id's or a single node id.
  *
  * @return array
  *   An array of node id's matching the criteria.
@@ -718,16 +710,14 @@ function bpi_push_available($nid) {
     return FALSE;
   }
 
+  // Load node and check is exists.
   $node = node_load($nid);
-
-  // Node not found.
   if ($node === FALSE) {
     return FALSE;
   }
 
-  $mapped_type = variable_get('bpi_content_type', '');
-
   // Allow pushing of nodes, to which bpi was mapped in the BE.
+  $mapped_type = variable_get('bpi_content_type', '');
   if ($node->type != $mapped_type) {
     return FALSE;
   }
