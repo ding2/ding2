@@ -821,3 +821,36 @@ function bpi_service_is_configured() {
 
   return $configure;
 }
+
+/**
+ * Helper function to send user friendly feedback message based on exception
+ * error codes.
+ *
+ * @param Exception $exception
+ *   Exception throw by the BPI client.
+ * @param string $level
+ *   The level the message should be displayed - "error" or "notice'.
+ */
+function bpi_error_message($exception, $level) {
+  // Build message based on error code.
+  $c = $exception->getCode();
+  switch ($exception->getCode()) {
+    case 422:
+      $msg = t('Similar resource allready exists in the BPI service.');
+      break;
+
+    case 500;
+      $msg = t('Internal server error. Please try once more or contact your site administrator.');
+      break;
+
+    default:
+      $msg = t('Error occurred when pushing content to the BPI data well. Check reports for more information.');
+      break;
+  }
+
+  // Set user friendly message.
+  drupal_set_message($msg, $level);
+
+  // Send the exception to logger.
+  watchdog_exception('bpi', $exception);
+}

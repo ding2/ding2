@@ -212,10 +212,8 @@ function bpi_http_push_action_form_submit($form, &$form_state) {
       drupal_goto('admin/bpi');
     }
   }
-  catch (Exception $e) {
-    watchdog_exception('bpi', $e);
-    $msg = t('Error occurred when pushing %title to BPI well. Check reports for more information.', array('%title' => $node->title));
-    drupal_set_message($msg, 'error');
+  catch (Exception $exception) {
+    bpi_error_message($exception, 'error');
   }
 }
 
@@ -337,10 +335,8 @@ function bpi_push_form_submit($form, &$form_state) {
       drupal_set_message(t('Node %title was successuflly pushed to BPI well.', array('%title' => $node->title)));
     }
   }
-  catch (Exception $e) {
-    watchdog_exception('bpi', $e);
-    $msg = t('Error occured when pushing %title to BPI well. Check reports for more information.', array('%title' => $node->title));
-    drupal_set_message($msg, 'error');
+  catch (Exception $exception) {
+    bpi_error_message($exception, 'error');
   }
 }
 
@@ -377,8 +373,7 @@ function bpi_push_action_ajax_callback($form, &$form_state) {
 }
 
 /**
- * Convert node object to bpi-related array structure, suitable for pushing to
- * the well.
+ * Convert node object to array structure, suitable for pushing to the well.
  *
  * @param stdClass $node
  *   Node object being processed.
