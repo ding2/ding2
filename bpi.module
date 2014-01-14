@@ -823,8 +823,7 @@ function bpi_service_is_configured() {
 }
 
 /**
- * Helper function to send user friendly feedback message based on exception
- * error codes.
+ * Set user friendly feedback message based on exception error codes.
  *
  * @param Exception $exception
  *   Exception throw by the BPI client.

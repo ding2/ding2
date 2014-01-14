@@ -496,15 +496,6 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
     );
   }
 
-  watchdog(
-    'bpi',
-    'Transformed node to BPI content: !content',
-    array(
-      '!content' => '<pre>' . htmlspecialchars(print_r($bpi_content, TRUE)) . '</pre>',
-    ),
-    WATCHDOG_DEBUG
-  );
-
   return $bpi_content;
 }
 
