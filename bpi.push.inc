@@ -78,58 +78,80 @@ function bpi_http_push_action($nid) {
  * @ingroup forms
  */
 function bpi_http_push_action_form($form, &$form_state, $nid) {
-  $node_title = '';
-
+  // Check that a nid was part of the callback.
   if (!empty($nid)) {
+    $form['#tree'] = FALSE;
+    $form['bpi_push_nid'] = array(
+      '#type' => 'hidden',
+      '#value' => isset($nid) ? $nid : 0,
+    );
+
+    // Get BPI vocabularies (category and audience).
+    $vocabularies = bpi_get_bpi_dictionaries();
+
+    $form['vocabularies'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('BPI vocabularies'),
+      '#description' => t('BPI vocabularies is used to categories the pushed content, so searching for content later is easier and related content can be found.'),
+    );
+
+    $categories = array_values($vocabularies['category']);
+    $form['vocabularies']['bpi_push_category'] = array(
+      '#type' => 'select',
+      '#title' => t('Category'),
+      '#options' => array_combine($categories, $categories),
+      '#required' => TRUE,
+    );
+
+    $audiences = array_values($vocabularies['audience']);
+    $form['vocabularies']['bpi_push_audience'] = array(
+      '#type' => 'select',
+      '#title' => t('Audience'),
+      '#options' => array_combine($audiences, $audiences),
+      '#required' => TRUE,
+    );
+
+    $form['configurations'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('BPI options'),
+    );
+
+    $form['configurations']['bpi_push_images'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Push with images'),
+      '#description' => t('You should have permission to publish the images before selecting this option.'),
+      '#default_value' => FALSE,
+    );
+
+    $form['configurations']['bpi_push_ccl'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('I want be anonymous'),
+      '#description' => t('If checked the content will be push as anonymous to BPI.'),
+      '#default_value' => FALSE,
+    );
+
+    $form['configurations']['bpi_push_editable'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Editable'),
+      '#description' => t('If checked the content will be marked as not editable (It is not enforced but only recommanded that the content is not changed after syndication).'),
+      '#default_value' => '1',
+    );
+
     $node = node_load($nid);
-    $node_title = $node->title;
+
+    // Add confirmation button.
+    return confirm_form(
+      $form,
+      t('Push content to BPI?'),
+      'admin/content',
+      t('Are you sure you want to push content %title to BPI?', array('%title' => $node->title))
+    );
   }
-
-  $form['bpi_push_nid'] = array(
-    '#type' => 'hidden',
-    '#value' => isset($nid) ? $nid : 0,
-  );
-
-  $dictionaries = bpi_get_bpi_dictionaries();
-
-  $categories = array_values($dictionaries['category']);
-  $form['bpi_push_category'] = array(
-    '#type' => 'select',
-    '#title' => t('Category'),
-    '#options' => array_combine($categories, $categories),
-    '#default_value' => ',',
-  );
-
-  $audiences = array_values($dictionaries['audience']);
-  $form['bpi_push_audience'] = array(
-    '#type' => 'select',
-    '#title' => t('Audience'),
-    '#options' => array_combine($audiences, $audiences),
-    '#default_value' => ',',
-  );
-
-  $form['bpi_push_images'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Push with images'),
-  );
-
-  $form['bpi_push_ccl'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('I want be anonymous'),
-    '#default_value' => FALSE,
-  );
-
-  $form['bpi_push_editable'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Editable'),
-    '#default_value' => '1',
-  );
-
-  return confirm_form(
-    $form,
-    t('Are you sure you want to push content %title to BPI well?', array('%title' => $node_title)),
-    'admin/content'
-  );
+  else {
+    // Node id was not defined in the callback to display error message.
+    drupal_set_message(t('Node id was not found and content can not be pushed to BPI.'), 'error');
+    watchdog('bpi', 'Node id was not found in admin page to push content to BPI', array(), WATCHDOG_ERROR);
+  }
 }
 
 /**
@@ -151,9 +173,8 @@ function bpi_http_push_action_form_submit($form, &$form_state) {
   $with_images = $form_state['input']['bpi_push_images'];
   $authorship = $form_state['input']['bpi_push_ccl'];
   $editable = $form_state['input']['bpi_push_editable'];
-  if (empty($nid)) {
-    return;
-  }
+
+  // Extract information from the node.
   $node = node_load($nid);
   $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, $authorship, $editable);
 
@@ -383,7 +404,7 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
   $teaser = '';
   $body = '';
 
-  // Whether the field is a textarea with summary, fetch the summary, if not -
+  // Whether the field is a text area with summary, fetch the summary, if not -
   // fetch it's safe value.
   if (!empty($teaser_field) && isset($teaser_field['#items'][0]['safe_summary'])) {
     $teaser = $teaser_field['#items'][0]['safe_summary'];
