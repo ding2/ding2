@@ -126,8 +126,15 @@ function bpi_http_push_action_form($form, &$form_state, $nid) {
     $form['configurations']['bpi_push_ccl'] = array(
       '#type' => 'checkbox',
       '#title' => t('I want be anonymous'),
-      '#description' => t('If checked the content will be push as anonymous to BPI.'),
+      '#description' => t('If checked the content will be pushed as anonymous to BPI.'),
       '#default_value' => FALSE,
+    );
+
+    $form['configurations']['bpi_push_refs'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Push with references'),
+      '#description' => t('If checked the content will be pushed with material reference to the data well. Note that posts with the katalog keyword will not be pushed.'),
+      '#default_value' => TRUE,
     );
 
     $form['configurations']['bpi_push_editable'] = array(
@@ -137,6 +144,8 @@ function bpi_http_push_action_form($form, &$form_state, $nid) {
       '#default_value' => '1',
     );
 
+    // Load node to get title
+    // @todo there must be another way to do this.
     $node = node_load($nid);
 
     // Add confirmation button.
@@ -173,10 +182,11 @@ function bpi_http_push_action_form_submit($form, &$form_state) {
   $with_images = $form_state['input']['bpi_push_images'];
   $authorship = $form_state['input']['bpi_push_ccl'];
   $editable = $form_state['input']['bpi_push_editable'];
+  $with_refs = $form_state['input']['bpi_push_refs'];
 
   // Extract information from the node.
   $node = node_load($nid);
-  $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, $authorship, $editable);
+  $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, $authorship, $editable, $with_refs);
 
   try {
     $bpi = bpi_client_instance();
@@ -194,7 +204,13 @@ function bpi_http_push_action_form_submit($form, &$form_state) {
         ->execute();
       drupal_set_message(t('Node %title was successfully pushed to BPI well.', array('%title' => $node->title)));
     }
-    drupal_goto('admin/bpi');
+
+    if (isset($_GET['prev_destination'])) {
+      drupal_goto($_GET['prev_destination']);
+    }
+    else {
+      drupal_goto('admin/bpi');
+    }
   }
   catch (Exception $e) {
     watchdog_exception('bpi', $e);
@@ -294,13 +310,14 @@ function bpi_push_form_submit($form, &$form_state) {
   $with_images = $form_state['input']['bpi_push_images'];
   $authorship = $form_state['input']['bpi_push_ccl'];
   $editable = $form_state['input']['bpi_push_editable'];
+  $with_refs = $form_state['input']['bpi_push_refs'];
 
   if (empty($nid)) {
     return;
   }
 
   $node = node_load($nid);
-  $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, $authorship, $editable);
+  $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, $authorship, $editable, $with_refs);
 
   try {
     $bpi = bpi_client_instance();
@@ -375,6 +392,8 @@ function bpi_push_action_ajax_callback($form, &$form_state) {
  *   Include author name or not.
  * @param int $editable
  *   1 - to mark as editable, 0 - not editable.
+ * @param bool $with_refs
+ *   If TRUE ting material reference are extracted.
  *
  * @return array
  *   An array of node values, used by the BPI web service.
@@ -382,7 +401,7 @@ function bpi_push_action_ajax_callback($form, &$form_state) {
  * @todo Add a hook allowing changing the values before they are sent to BPI.
  * @todo Split this function into smaller parts (ex: images, texts).
  */
-function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $authorship = FALSE, $editable = 1) {
+function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $authorship = FALSE, $editable = 1, $with_refs = FALSE) {
   $bpi_content = array();
 
   $bpi_content['agency_id'] = variable_get('bpi_agency_id', '');
@@ -395,12 +414,9 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
 
   $bpi_content['title'] = $node->title;
 
-  $teaser_map = variable_get('bpi_field_teaser', '');
-  $body_map = variable_get('bpi_field_body', '');
-  $materials_map = variable_get('bpi_field_materials', '');
-  $materials_map = field_view_field('node', $node, $materials_map);
-  $teaser_field = field_view_field('node', $node, $teaser_map);
-  $body_field = field_view_field('node', $node, $body_map);
+
+  $teaser_field = field_view_field('node', $node, variable_get('bpi_field_teaser', ''));
+  $body_field = field_view_field('node', $node, variable_get('bpi_field_body', ''));
   $teaser = '';
   $body = '';
 
@@ -413,17 +429,23 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
     $teaser = $teaser_field['#items'][0]['safe_value'];
   }
 
-  // @todo: Why are the record accessed and not the ting_reference functions
-  // used to get the information.
+  // Find the references to the ting date well.
   $materials_drupal = array();
-  foreach ($materials_map as $key => $value) {
-    if (is_numeric($key)) {
-      $record = $value['#object']->getRecord();
-      $ac_identifier_array = array_shift(
-        array_values($record['ac:identifier'])
-      );
-      $parts = explode('|', $ac_identifier_array[0]);
-      $materials_drupal[] = $parts[1] . ':' . $parts[0];
+  if ($with_refs) {
+    $materials_map = field_view_field('node', $node, variable_get('bpi_field_materials', ''));
+    if (isset($materials_map['#items'])) {
+      foreach ($materials_map['#items'] as $key => $value) {
+        if (!empty($materials_map[$key]['#object'])) {
+          $ting_entity = $materials_map[$key]['#object'];
+          $id = $ting_entity->ding_entity_id;
+
+          // Filter out id's with "katalog" PID, as they only makes sens on
+          // current site.
+          if (!preg_match('/katalog/', $id)) {
+            $materials_drupal[] = $id;
+          }
+        }
+      }
     }
   }
 
@@ -433,7 +455,7 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
 
   // Empty the teaser, if body and teaser are mapped to same fields
   // and the values are identical.
-  if ($teaser_map == $body_map && $teaser == $body) {
+  if ($teaser === $body) {
     $teaser = '';
   }
 
