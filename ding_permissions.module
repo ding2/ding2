@@ -19,7 +19,7 @@ function ding_permissions_secure_permissions_roles() {
   return array(
     'anonymous user',
     'authenticated user',
-    'lokal administrator',
+    'local administrator',
     'editor',
     'local editor',
     'guest blogger',
@@ -71,7 +71,7 @@ function ding_permissions_secure_permissions($role) {
       'view own private files',
       'view own staff profile',
     ),
-    'lokal administrator' => array(
+    'local administrator' => array(
       'access administration pages',
       'access campaign rules',
       'access content overview',
