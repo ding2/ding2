@@ -76,8 +76,10 @@ body {
 }
 
 .logo {
-  margin-top: 20px;
-  max-height: 50px;
+  img {
+    height: 70px;
+    margin-top: 10px;
+  }
 }
 
 .site-name-wrapper {
