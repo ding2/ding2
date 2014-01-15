@@ -130,3 +130,7 @@ projects[memcache][version] = "1.0"
 
 projects[apc][subdir] = "contrib"
 projects[apc][version] = "1.0-beta4"
+
+projects[cookiecontrol][subdir] = "contrib"
+projects[cookiecontrol][version] = "1.6"
+
