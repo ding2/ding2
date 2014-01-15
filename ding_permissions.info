@@ -6,6 +6,7 @@ php = 5.2.4
 dependencies[] = ctools
 dependencies[] = secure_permissions
 dependencies[] = strongarm
+dependencies[] = role_delegation
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:1
 features[variable][] = secure_permissions_active
