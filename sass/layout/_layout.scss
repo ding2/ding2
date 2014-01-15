@@ -75,6 +75,11 @@ body {
   position: relative;
 }
 
+.logo {
+  margin-top: 20px;
+  max-height: 50px;
+}
+
 .site-name-wrapper {
   @include zen-grid-item(4, 1);
 
