@@ -24,13 +24,16 @@ function ding_content_filter_default_formats() {
         'settings' => array(),
       ),
       'image_resize_filter' => array(
-        'settings' => array(
-          'image_locations' => array(
-            'local' => 'local'
-          )
-        ),
+        'weight' => 1,
         'status' => 1,
-        'weight' => 1
+        'settings' => array(
+          'link' => 0,
+          'link_class' => '',
+          'link_rel' => '',
+          'image_locations' => array(
+            'local' => 'local',
+          ),
+        ),
       ),
       'filter_html' => array(
         'weight' => 2,
@@ -53,7 +56,6 @@ function ding_content_filter_default_formats() {
           'filter_url_length' => 72,
         ),
       ),
-
       'filter_htmlcorrector' => array(
         'weight' => 5,
         'status' => 1,
