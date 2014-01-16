@@ -598,6 +598,10 @@ function ding2_set_cookie_page() {
   // Set the node as read more node.
   variable_set('cookiecontrol_privacynode', $node->nid);
 
+  // Set short texts (cookie popup).
+  variable_set('cookiecontrol_text', '<p>Dette site bruger cookies til at gemme oplysninger på din computer.</p>');
+  variable_set('cookiecontrol_fulltext', '<p>Vi vil gerne tilbyde vores brugere en overskuelig og brugervenlig hjemmeside. For at sikre os, at indholdet på siden er relevant og til at finde rundt i, benytter vi os af cookies. Cookies giver os vigtige informationer om, hvordan vores side bliver brugt, hvilke sider der bliver set mest, hvor længe vores brugere bliver på siderne osv.</p>');
+
   // Add node as link to menu.
   $uri = entity_uri('node', $node);
   $link = array(
