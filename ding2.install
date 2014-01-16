@@ -161,13 +161,13 @@ function ding2_theme_settings() {
 function ding2_translation_update() {
   // Update build-in translation group.
   $file = new stdClass();
-  $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/ding2tal_da.po';
+  $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/da.po';
   $file->filename = basename($file->uri);
   _locale_import_po($file, 'da', LOCALE_IMPORT_KEEP, 'default');
 
   // Update field translation group.
   $file = new stdClass();
-  $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/ding2tal_fields_da.po';
+  $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/fields_da.po';
   $file->filename = basename($file->uri);
   _locale_import_po($file, 'da', LOCALE_IMPORT_KEEP, 'field');
 }
@@ -211,7 +211,7 @@ function ding2_update_7001() {
 /**
  * Import our own translations.
  */
-function ding2_update_7002() {
+function ding2_update_7004() {
   ding2_translation_update();
 }
 

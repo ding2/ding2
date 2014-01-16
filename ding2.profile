@@ -144,13 +144,13 @@ function ding2_import_translation(&$install_state) {
 
   // Import our own translations.
   $file = new stdClass();
-  $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/ding2tal_da.po';
+  $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/da.po';
   $file->filename = basename($file->uri);
   _locale_import_po($file, 'da', LOCALE_IMPORT_OVERWRITE, 'default');
 
   // Import field translation group.
   $file = new stdClass();
-  $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/ding2tal_fields_da.po';
+  $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/fields_da.po';
   $file->filename = basename($file->uri);
   _locale_import_po($file, 'da', LOCALE_IMPORT_OVERWRITE, 'field');
 
