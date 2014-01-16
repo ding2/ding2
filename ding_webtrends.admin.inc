@@ -24,7 +24,7 @@ function ding_webtrends_admin_settings_form($form_state) {
     '#default_value' => variable_get('webtrends_dcs_id', FALSE),
   );
 
-  // Delete the generated file js/webtrends_include1.js.
+  // Clear JS cache to ensure the news version is used.
   $form['#submit'][] = 'drupal_clear_js_cache';
 
   return system_settings_form($form);
