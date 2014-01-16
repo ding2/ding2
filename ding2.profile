@@ -148,6 +148,12 @@ function ding2_import_translation(&$install_state) {
   $file->filename = basename($file->uri);
   _locale_import_po($file, 'da', LOCALE_IMPORT_OVERWRITE, 'default');
 
+  // Import field translation group.
+  $file = new stdClass();
+  $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/ding2tal_fields_da.po';
+  $file->filename = basename($file->uri);
+  _locale_import_po($file, 'da', LOCALE_IMPORT_OVERWRITE, 'field');
+
   // Build batch with l10n_update module.
   $history = l10n_update_get_history();
   module_load_include('check.inc', 'l10n_update');

@@ -156,6 +156,23 @@ function ding2_theme_settings() {
 }
 
 /**
+ * Update the database with the newest translations.
+ */
+function ding2_translation_update() {
+  // Update build-in translation group.
+  $file = new stdClass();
+  $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/ding2tal_da.po';
+  $file->filename = basename($file->uri);
+  _locale_import_po($file, 'da', LOCALE_IMPORT_KEEP, 'default');
+
+  // Update field translation group.
+  $file = new stdClass();
+  $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/ding2tal_fields_da.po';
+  $file->filename = basename($file->uri);
+  _locale_import_po($file, 'da', LOCALE_IMPORT_KEEP, 'field');
+}
+
+/**
  * Enable new shortcuts.
  */
 function ding2_update_7000() {
@@ -195,10 +212,7 @@ function ding2_update_7001() {
  * Import our own translations.
  */
 function ding2_update_7002() {
-  $file = new stdClass();
-  $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/ding2tal_da.po';
-  $file->filename = basename($file->uri);
-  _locale_import_po($file, 'da', LOCALE_IMPORT_OVERWRITE, 'default');
+  ding2_translation_update();
 }
 
 /**
