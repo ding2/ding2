@@ -211,7 +211,7 @@ function ding2_update_7001() {
 /**
  * Import our own translations.
  */
-function ding2_update_7004() {
+function ding2_update_7002() {
   ding2_translation_update();
 }
 
