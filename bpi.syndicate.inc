@@ -25,24 +25,6 @@ function bpi_syndicate_page_form($form, &$form_state) {
     drupal_add_library('system', 'drupal.ajax');
 
     $search_phrase = _bpi_current_search_phrase();
-    $form['bpi_actions'] = array(
-      '#type' => 'item',
-      '#markup' => implode(
-        '',
-        array(
-          l(t('Settings'), 'admin/config/bpi'),
-          l(t('Statistics'), 'admin/bpi/statistics/nojs', array(
-            'attributes' => array(
-              'class' => array(
-                'use-ajax',
-              ),
-            ),
-          )),
-        )
-      ),
-      '#prefix' => '<div class="bpi-admin-actions">',
-      '#suffix' => '</div>',
-    );
 
     $form['bpi_search_query'] = array(
       '#type' => 'textfield',
@@ -511,10 +493,10 @@ function bpi_label_mapper($key) {
 }
 
 /**
- * BPI related translatables definition.
+ * BPI related translatable definition.
  *
  * @return array
- *   An array of translatables in structure:
+ *   An array of translatable in structure:
  *   - bpi_key: translatable
  */
 function bpi_available_map() {

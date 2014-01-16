@@ -273,10 +273,7 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
           0,
           $form[$materials_field][$current_language][$key]
         );
-
-        // Overwrite agency id by local value.
-        $number_parts = explode(':', $material_number);
-        $form[$materials_field][$current_language][$key]['#default_value'] = variable_get('bpi_agency_id', '') . ':' . $number_parts[1];
+        $form[$materials_field][$current_language][$key]['#default_value'] = $material_number;
       }
     }
 
