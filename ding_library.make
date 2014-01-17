@@ -67,6 +67,7 @@ projects[og_menu][download][type] = "git"
 projects[og_menu][download][url] = "http://git.drupal.org/project/og_menu.git"
 projects[og_menu][download][revision] = "4c1d8dd4c18dc25df12f5e7fabd4dde52dd286f0"
 projects[og_menu][patch][0] = "http://drupal.org/files/issues/option_to_hide_create_menu-2139819-2.patch"
+projects[og_menu][patch][1] = "http://drupal.org/files/issues/translatable_og_menu_labels-2175589-1.patch"
 
 projects[openlayers][subdir] = "contrib"
 projects[openlayers][version] = "2.0-beta7"
