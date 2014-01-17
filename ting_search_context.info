@@ -1,0 +1,6 @@
+name = Ting search context
+description = Provides search context ctools plugins.
+package = Ding!
+core = 7.x
+
+files[] = ting_search_context.module

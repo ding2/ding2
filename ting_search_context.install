@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * @file
+ *
+ * Install file the Ting search context.
+ */
+
+/**
+ * Implements hook_field_schema().
+ *
+ * Magic callback invoked when a new field is created.
+ */
+function ting_search_context_field_schema($field) {
+	if ($field['type'] == 'ting_search_context') {
+		$columns = array(
+			'category' => array(
+				'type' => 'varchar',
+				'length' => 255,
+				'not null' => FALSE,
+			),
+			'weight' => array(
+				'type' => 'int',
+				'not null' => FALSE,
+			),
+		);
+		$indexes = array(
+			'category' => array('category'),
+			'weight' => array('weight'),
+		);
+		return array(
+			'columns' => $columns,
+			'indexes' => $indexes,
+		);
+	}
+}
+
+/**
+ * Implements hook_install().
+ */
+function ting_search_context_install() {
+	
+}

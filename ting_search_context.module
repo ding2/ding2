@@ -1,0 +1,126 @@
+<?php
+
+/**
+ * @file
+ *
+ * Module file for the Ting search context module.
+ */
+
+define('MAX_CATEGORY_WEIGHT', 10);
+
+/**
+ * Implements hook_field_info().
+ *
+ * Provides a desription of our search_context_category field.
+ */
+function ting_search_context_field_info() {
+	return array(
+		'ting_search_context' => array(
+			'label' => t('Search context'),
+			'description' => t('Associate ding nodes with different search contexts.'),
+			'default_widget' => 'ting_search_context_select',
+			'default_formatter' => 'ting_search_context_default',
+			// This field is not meant to be controlled through the admin UI, but
+			// instead is setup programmatically when this module is enabled.
+			//'no_ui' => TRUE,
+		),
+	);
+}
+
+/**
+ * Implements hook_field_widget_info().
+ */
+function ting_search_context_field_widget_info() {
+	return array(
+		'ting_search_context_select' => array(
+		  'label' => t('Select boxes'),
+		  'description' => t('Select category and weight with select boxes.'),
+		  'field types' => array('ting_search_context'),
+		  'behaviors' => array(
+		  	'multiple values' => FIELD_BEHAVIOR_DEFAULT,
+		  	'default value' => FIELD_BEHAVIOR_DEFAULT,
+		  ),
+		),
+	);
+}
+
+/**
+ * Implements hook_field_widget_form().
+ */
+function ting_search_context_field_widget_form(&$form, &$form_state, $field, $instance,
+																				 $langcode, $items, $delta, $element) {
+	$category_value = isset($items[$delta]['category']) ? 
+										$items[$delta]['category'] : NULL;
+	$weight_value = isset($items[$delta]['weight']) ? 
+									$items[$delta]['weight'] : NULL;
+	$base = $element;
+
+	if ($instance['widget']['type'] == 'ting_search_context_select') {
+		$options = _ting_search_context_context_categories();
+		$element['category'] = array(
+			'#type' => 'select',
+			'#title' => t('Search context category'),
+			'#description' => t('Select a category for the search context.'),
+			'#options' => $options,
+			'#default_value' => $category_value,
+		) + $base;
+		$options = range(1, MAX_CATEGORY_WEIGHT);
+		$element['weight'] = array(
+			'#type' => 'select',
+			'#title' => t('Search context weight'),
+			'#description' => t('Select a weight for the search context.'),
+			'#options' => $options,
+			'#default_value' => $weight_value,
+		) + $base;		
+	}
+	return $element;
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function ting_search_context_field_formatter_info() {
+	return array(
+		'ting_search_context_default' => array(
+			'label' => t('Default'),
+			'field types' => array('ting_search_context'),
+		),
+	);
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function ting_search_context_field_formatter_view($entity_type, $entity, $field,
+																		$instance, $langcode, $items, $display) {
+	$element = array();
+	if ($display['type'] == 'ting_search_context_default') {
+		foreach ($items as $delta => $item) {
+			$element[$delta]['category'] = array(
+				'#type' => 'html_tag',
+				'#tag' => 'p',
+				'#value' => t('Category: @category | Weight: @weight', array(
+					'@category' => $item['category'],
+					'@weight' => $item['weight'],
+				)),
+			);
+		}
+	}
+}
+
+/**
+ * Returns an array with the supported search context categories.
+ */
+function _ting_search_context_context_categories() {
+	return array(
+		'krimi',
+		'skønlitteratur',
+		'faglitteratur',
+		'voksen',
+		'børn',
+		'fiktion',
+		'non-fiktion',
+	);
+}
+
+
