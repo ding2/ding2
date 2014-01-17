@@ -227,16 +227,8 @@ function ding2_update_7003() {
  * Update default OG menu links to make translation work.
  */
 function ding2_update_7004() {
-  // Get OG menus from the database.
-  $query = db_select('menu_custom', 'mc');
-  $query->join('og_menu', 'om', 'mc.menu_name = om.menu_name');
-  $query->fields('mc')
-    ->fields('om')
-    ->orderBy('title');
-  $menus = $query->execute()->fetchCol('menu_name');
-
-  // Loop the menus resetting default links.
-  foreach ($menus as $menu) {
-    _og_menu_default_links_set_default_links($menu, 'update');
+  $results = db_query("SELECT menu_name AS menu_name FROM {og_menu}");
+  foreach ($results as $row) {
+    _og_menu_default_links_set_default_links($row->menu_name, 'update');
   }
 }
