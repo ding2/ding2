@@ -61,28 +61,6 @@ function ding2_install() {
   );
   shortcut_set_save($shortcut_set);
 
-  //
-  // User installation.
-  //
-  // Check if the role from ding_user_roles have been created.
-  $admin_role = user_role_load_by_name('administrator');
-  if ($admin_role == FALSE) {
-    $admin_role = new stdClass();
-    $admin_role->name = 'administrator';
-    $admin_role->weight = 10;
-    user_role_save($admin_role);
-  }
-  user_role_grant_permissions($admin_role->rid, array_keys(module_invoke_all('permission')));
-  // Set this as the administrator role.
-  variable_set('user_admin_role', $admin_role->rid);
-
-  // Assign user 1 the "administrator" role.
-  db_insert('users_roles')
-    ->fields(array('uid' => 1, 'rid' => $admin_role->rid))
-    ->execute();
-  // Update the menu router information (new permissions).
-  menu_rebuild();
-
   // Set default source language for i18n module.
   variable_set('i18n_string_source_language', 'en');
 
@@ -178,6 +156,23 @@ function ding2_theme_settings() {
 }
 
 /**
+ * Update the database with the newest translations.
+ */
+function ding2_translation_update() {
+  // Update build-in translation group.
+  $file = new stdClass();
+  $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/da.po';
+  $file->filename = basename($file->uri);
+  _locale_import_po($file, 'da', LOCALE_IMPORT_KEEP, 'default');
+
+  // Update field translation group.
+  $file = new stdClass();
+  $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/fields_da.po';
+  $file->filename = basename($file->uri);
+  _locale_import_po($file, 'da', LOCALE_IMPORT_KEEP, 'field');
+}
+
+/**
  * Enable new shortcuts.
  */
 function ding2_update_7000() {
@@ -216,19 +211,24 @@ function ding2_update_7001() {
 /**
  * Import our own translations.
  */
-function ding_2_update_7002() {
-  $file = new stdClass();
-  $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/ding2tal_da.po';
-  $file->filename = basename($file->uri);
-  _locale_import_po($file, 'da', LOCALE_IMPORT_OVERWRITE, 'default');
+function ding2_update_7002() {
+  ding2_translation_update();
 }
 
 /**
- * Update translations.
+ * Enable and configure the cookie module.
  */
-function ding_2_update_7003() {
-  $file = new stdClass();
-  $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/ding2tal_da.po';
-  $file->filename = basename($file->uri);
-  _locale_import_po($file, 'da', LOCALE_IMPORT_OVERWRITE, 'default');
+function ding2_update_7003() {
+  module_enable(array('cookiecontrol'));
+  ding2_set_cookie_page();
 }
+
+/**
+ * Update default OG menu links to make translation work.
+ */
+//function ding2_update_7004() {
+//  $results = db_query("SELECT menu_name AS menu_name FROM {og_menu}");
+//  foreach ($results as $row) {
+//    _og_menu_default_links_set_default_links($row->menu_name, 'update');
+//  }
+//}

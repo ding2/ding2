@@ -144,9 +144,15 @@ function ding2_import_translation(&$install_state) {
 
   // Import our own translations.
   $file = new stdClass();
-  $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/ding2tal_da.po';
+  $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/da.po';
   $file->filename = basename($file->uri);
   _locale_import_po($file, 'da', LOCALE_IMPORT_OVERWRITE, 'default');
+
+  // Import field translation group.
+  $file = new stdClass();
+  $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/fields_da.po';
+  $file->filename = basename($file->uri);
+  _locale_import_po($file, 'da', LOCALE_IMPORT_OVERWRITE, 'field');
 
   // Build batch with l10n_update module.
   $history = l10n_update_get_history();
@@ -494,6 +500,9 @@ function ding2_final_settings() {
 
   // Set page not found.
   ding2_set_page_not_found();
+
+  // Set cookie page.
+  ding2_set_cookie_page();
 }
 
 /**
@@ -554,4 +563,61 @@ function ding2_set_page_not_found() {
 
   // Set the 404 page.
   variable_set('site_404', 'siden-ikke-fundet');
+}
+
+/**
+ * Add page with std. cookie information.
+ */
+function ding2_set_cookie_page() {
+  $node = new stdClass();
+  $node->uid = 1;
+
+  $node->title = 'Cookie- og privatlivspolitik';
+  $node->type = 'ding_page';
+  $node->language = 'und';
+  $node->field_ding_page_body = array(
+    'und' => array(
+      array(
+        'value' => '<p><strong>Hvad er en cookie?</strong></p><p>En cookie er en lille tekstfil, der lagres i din browser for at kunne genkende din computer ved tilbagevendende besøg. Cookies er ikke aktive filer; de kan altså ikke udvikle virus eller spore indhold på din computer. Det eneste, de gør, er at sende anonyme oplysninger tilbage til os om fx besøgstidspunkt, -varighed osv.</p><p><strong>På denne hjemmeside bruger vi cookies til følgende formål:</strong></p><ul><li>Statistik: Vi bruger Google Analytics og Webtrends til at føre statistik over trafikken på siden, sådan at vi bedst muligt kan tilpasse den brugernes behov. Vi får blandt andet oplysninger om antal besøg, gennemsnitlig besøgsvarighed og færden rundt på siden.</li><li>Login: Når du logger ind for at se lånerstatus, reservere m.m. sættes en sessions-cookie. Denne cookie forsvinder når du lukker browseren.</li></ul><p><strong>Hvis du ikke vil tillade cookies</strong></p><p>Hvis du ikke vil tillade brugen af cookies på din computer, kan du ændre i indstillingerne i din browser, så den husker det fremover. Du kan også slette cookies, der allerede er lagret.<br />Se vejledning og læs mere om cookies på <a href="http://minecookies.org/cookiehandtering" target="_blank" title="Cookiehåndtering">http://minecookies.org/cookiehandtering</a>.<br />Vær opmærksom på, at du ved at spærre for cookies besværliggør brugen af hjemmesiden.</p><p><strong>Brug af personoplysninger</strong><br />Personoplysninger bliver på intet tidspunkt videregivet eller solgt til tredjepart, og vi indsamler ikke personoplysninger, uden du selv har givet os disse.</p>',
+        'format' => 'ding_wysiwyg',
+        'safe_value' => '<p><strong>Hvad er en cookie?</strong></p><p>En cookie er en lille tekstfil, der lagres i din browser for at kunne genkende din computer ved tilbagevendende besøg. Cookies er ikke aktive filer; de kan altså ikke udvikle virus eller spore indhold på din computer. Det eneste, de gør, er at sende anonyme oplysninger tilbage til os om fx besøgstidspunkt, -varighed osv.</p><p><strong>På denne hjemmeside bruger vi cookies til følgende formål:</strong></p><ul><li>Statistik: Vi bruger Google Analytics og Webtrends til at føre statistik over trafikken på siden, sådan at vi bedst muligt kan tilpasse den brugernes behov. Vi får blandt andet oplysninger om antal besøg, gennemsnitlig besøgsvarighed og færden rundt på siden.</li><li>Login: Når du logger ind for at se lånerstatus, reservere m.m. sættes en sessions-cookie. Denne cookie forsvinder når du lukker browseren.</li></ul><p><strong>Hvis du ikke vil tillade cookies</strong></p><p>Hvis du ikke vil tillade brugen af cookies på din computer, kan du ændre i indstillingerne i din browser, så den husker det fremover. Du kan også slette cookies, der allerede er lagret.<br />Se vejledning og læs mere om cookies på <a href="http://minecookies.org/cookiehandtering" target="_blank" title="Cookiehåndtering">http://minecookies.org/cookiehandtering</a>.<br />Vær opmærksom på, at du ved at spærre for cookies besværliggør brugen af hjemmesiden.</p><p><strong>Brug af personoplysninger</strong><br />Personoplysninger bliver på intet tidspunkt videregivet eller solgt til tredjepart, og vi indsamler ikke personoplysninger, uden du selv har givet os disse.</p>',
+      ),
+    ),
+  );
+  $node->field_ding_page_lead = array(
+    'und' => array(
+      array(
+        'value' => 'Vi vil gerne tilbyde vores brugere en overskuelig og brugervenlig hjemmeside. For at sikre os, at indholdet på siden er relevant og til at finde rundt i, benytter vi os af cookies. Cookies giver os vigtige informationer om, hvordan vores side bliver brugt, hvilke sider der bliver set mest, hvor længe vores brugere bliver på siderne osv.',
+        'format' => NULL,
+        'safe_value' => 'Vi vil gerne tilbyde vores brugere en overskuelig og brugervenlig hjemmeside. For at sikre os, at indholdet på siden er relevant og til at finde rundt i, benytter vi os af cookies. Cookies giver os vigtige informationer om, hvordan vores side bliver brugt, hvilke sider der bliver set mest, hvor længe vores brugere bliver på siderne osv.',
+      ),
+    ),
+  );
+  $node->path = array(
+    'alias' => 'cookies',
+    'language' => 'und',
+  );
+
+  // Create the node.
+  node_save($node);
+
+  // Set the node as read more node.
+  variable_set('cookiecontrol_privacynode', $node->nid);
+
+  // Set short texts (cookie popup).
+  variable_set('cookiecontrol_text', '<p>Dette site bruger cookies til at gemme oplysninger på din computer.</p>');
+  variable_set('cookiecontrol_fulltext', '<p>Vi vil gerne tilbyde vores brugere en overskuelig og brugervenlig hjemmeside. For at sikre os, at indholdet på siden er relevant og til at finde rundt i, benytter vi os af cookies. Cookies giver os vigtige informationer om, hvordan vores side bliver brugt, hvilke sider der bliver set mest, hvor længe vores brugere bliver på siderne osv.</p>');
+
+  // Add node as link to menu.
+  $uri = entity_uri('node', $node);
+  $link = array(
+    'menu_name' => 'menu-secondary-menu',
+    'weight' => 50,
+    'link_title' => 'Cookies',
+    'link_path' => $uri['path'],
+    'language' => LANGUAGE_NONE,
+  );
+
+  // Save the item to database.
+  menu_link_save($link);
 }
