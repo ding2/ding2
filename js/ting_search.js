@@ -51,4 +51,15 @@
         break;
     }
   };
+
+  /**
+   * Override default auto-complete behavior that prevents form submit
+   */
+  Drupal.autocompleteSubmit = function () {
+    $('#autocomplete').each(function () {
+      this.owner.hidePopup();
+    })
+
+    return true;
+  };
 }(jQuery));
