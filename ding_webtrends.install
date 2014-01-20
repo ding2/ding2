@@ -14,5 +14,4 @@ function ding_webtrends_install() {
     ->fields(array('weight' => 99))
     ->condition('name', 'ding_webtrends', '=')
     ->execute();
-
 }
