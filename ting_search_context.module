@@ -28,6 +28,20 @@ function ting_search_context_field_info() {
 }
 
 /**
+ * Implements hook_field_is_empty().
+ */
+function ting_search_context_field_is_empty($item, $field) {
+	if ($field['type'] == 'ting_search_context') {
+		// If one of our subfields is empty the field is also empty. We need both
+		// values or none at all.
+		if (empty($item['category']) || empty($item['weight'])) {
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+/**
  * Implements hook_field_widget_info().
  */
 function ting_search_context_field_widget_info() {
@@ -38,7 +52,7 @@ function ting_search_context_field_widget_info() {
 		  'field types' => array('ting_search_context'),
 		  'behaviors' => array(
 		  	'multiple values' => FIELD_BEHAVIOR_DEFAULT,
-		  	'default value' => FIELD_BEHAVIOR_DEFAULT,
+		  	'default value' => FIELD_BEHAVIOR_NONE,
 		  ),
 		),
 	);
@@ -49,12 +63,9 @@ function ting_search_context_field_widget_info() {
  */
 function ting_search_context_field_widget_form(&$form, &$form_state, $field, $instance,
 																				 $langcode, $items, $delta, $element) {
-	$category_value = isset($items[$delta]['category']) ? 
-										$items[$delta]['category'] : NULL;
-	$weight_value = isset($items[$delta]['weight']) ? 
-									$items[$delta]['weight'] : NULL;
+	$cat = isset($items[$delta]['category']) ? $items[$delta]['category'] : NULL;
+	$weight = isset($items[$delta]['weight']) ? $items[$delta]['weight'] : NULL;
 	$base = $element;
-
 	if ($instance['widget']['type'] == 'ting_search_context_select') {
 		$options = _ting_search_context_context_categories();
 		$element['category'] = array(
@@ -62,15 +73,16 @@ function ting_search_context_field_widget_form(&$form, &$form_state, $field, $in
 			'#title' => t('Search context category'),
 			'#description' => t('Select a category for the search context.'),
 			'#options' => $options,
-			'#default_value' => $category_value,
+			'#default_value' => $cat,
 		) + $base;
-		$options = range(1, MAX_CATEGORY_WEIGHT);
+		$options = range(0, MAX_CATEGORY_WEIGHT);
+		$options[0] = '- None -';
 		$element['weight'] = array(
 			'#type' => 'select',
 			'#title' => t('Search context weight'),
 			'#description' => t('Select a weight for the search context.'),
 			'#options' => $options,
-			'#default_value' => $weight_value,
+			'#default_value' => $weight,
 		) + $base;		
 	}
 	return $element;
@@ -95,17 +107,19 @@ function ting_search_context_field_formatter_view($entity_type, $entity, $field,
 																		$instance, $langcode, $items, $display) {
 	$element = array();
 	if ($display['type'] == 'ting_search_context_default') {
+		$categories = _ting_search_context_context_categories();
 		foreach ($items as $delta => $item) {
 			$element[$delta]['category'] = array(
 				'#type' => 'html_tag',
 				'#tag' => 'p',
 				'#value' => t('Category: @category | Weight: @weight', array(
-					'@category' => $item['category'],
+					'@category' => $categories[$item['category']],
 					'@weight' => $item['weight'],
-				)),
+				)),	
 			);
 		}
 	}
+	return $element;
 }
 
 /**
@@ -113,13 +127,15 @@ function ting_search_context_field_formatter_view($entity_type, $entity, $field,
  */
 function _ting_search_context_context_categories() {
 	return array(
-		'krimi',
-		'skønlitteratur',
-		'faglitteratur',
-		'voksen',
-		'børn',
-		'fiktion',
-		'non-fiktion',
+		0 => '- None -',
+		'generelt' => 'Generelt',
+		'film' => 'Film',
+		'musik' => 'Musik',
+		'bog' => 'Bog',
+		'spil' => 'Spil',
+		'skøn' => 'Skøn',
+		'fag' => 'Fag',
+		'børn' => 'børn',
 	);
 }
 
