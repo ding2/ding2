@@ -6,7 +6,34 @@
  * Module file for the Ting search context module.
  */
 
-define('MAX_CATEGORY_WEIGHT', 10);
+// Constants
+define('TING_SEARCH_CONTEXT_PATH', drupal_get_path('module', 'ting_search_context'));
+define('TING_SEARCH_CONTEXT_MAX_WEIGHT', 10);
+define('TING_SEARCH_CONTEXT_NODE_TYPES', serialize(array(
+	'ding_library', 
+	'ding_campaign', 
+	'ding_page', 
+	'ding_news', 
+	'ding_event',
+)));
+
+/**
+ * Get node content associated with the specified context category.
+ *
+ * @param $category
+ *   The name of the context to get content from.
+ * @param $node_count
+ *   The max number of nodes to return.
+ * @param $node_types
+ *   An array of node types to include. Can either be a string with a single
+ *   node type, or an array of node types. Defaults to 'all' which includes
+ *   all supported node types.
+ * @return
+ *   An array of nodes with content that relates to the specified context.
+ */
+function ting_search_context_get_context($category, $node_count, $node_types) {
+	
+}
 
 /**
  * Implements hook_field_info().
@@ -70,8 +97,7 @@ function ting_search_context_field_widget_form(&$form, &$form_state, $field, $in
 		$options = _ting_search_context_context_categories();
 		$element['category'] = array(
 			'#type' => 'select',
-			'#title' => t('Search context category'),
-			'#description' => t('Select a category for the search context.'),
+			'#title' => t('Category'),
 			'#options' => $options,
 			'#default_value' => $cat,
 		) + $base;
@@ -79,11 +105,12 @@ function ting_search_context_field_widget_form(&$form, &$form_state, $field, $in
 		$options[0] = '- None -';
 		$element['weight'] = array(
 			'#type' => 'select',
-			'#title' => t('Search context weight'),
-			'#description' => t('Select a weight for the search context.'),
+			'#title' => t('Weight'),
 			'#options' => $options,
 			'#default_value' => $weight,
-		) + $base;		
+		) + $base;
+		$css_path = TING_SEARCH_CONTEXT_PATH . '/ting_search_context.css';
+		$element['#attached']['css'][] = $css_path;		
 	}
 	return $element;
 }
@@ -135,7 +162,7 @@ function _ting_search_context_context_categories() {
 		'spil' => 'Spil',
 		'skøn' => 'Skøn',
 		'fag' => 'Fag',
-		'børn' => 'børn',
+		'børn' => 'Børn',
 	);
 }
 
