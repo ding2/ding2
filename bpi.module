@@ -229,11 +229,10 @@ function bpi_form_alter(&$form, &$form_state, $form_id) {
   }
 
   $bpi_id = isset($_GET['bpi_id']) ? (string) $_GET['bpi_id'] : FALSE;
-  $nodes_to_mark = array();
-  $form_state['node']->bpi_id = $bpi_id;
 
   // Checking nid for NULL would say that this is create node form, not edit.
   if ($form_id == $bpi_ctype . '_node_form' && $form['nid']['#value'] == NULL && $bpi_id) {
+    $form_state['node']->bpi_id = $bpi_id;
     try {
       $bpi = bpi_client_instance();
       $bpi_node = $bpi->getNode($bpi_id);
