@@ -22,7 +22,7 @@ function ting_search_context_field_info() {
 			'default_formatter' => 'ting_search_context_default',
 			// This field is not meant to be controlled through the admin UI, but
 			// instead is setup programmatically when this module is enabled.
-			// 'no_ui' => TRUE,
+			'no_ui' => TRUE,
 		),
 	);
 }
