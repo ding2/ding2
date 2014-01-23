@@ -18,6 +18,20 @@ define('TING_SEARCH_CONTEXT_NODE_TYPES', serialize(array(
 )));
 
 /**
+ * Implements hook_init().
+ *
+ * For test purposes.
+ */
+function ting_search_context_init() {
+	static $called = FALSE;
+	if (!$called) {
+		$called = TRUE;
+		$node_types = array('ding_event', 'ding_news', 'LOL');
+		ting_search_context_get_context('test', 5, 'ding_event');
+	}
+}
+
+/**
  * Get node content associated with the specified context category.
  *
  * @param $category
@@ -32,8 +46,25 @@ define('TING_SEARCH_CONTEXT_NODE_TYPES', serialize(array(
  *   An array of nodes with content that relates to the specified context.
  */
 function ting_search_context_get_context($category, $node_count, $node_types) {
-	
-}
+	// Get the node types we support from the constant.
+	$supported = unserialize(TING_SEARCH_CONTEXT_NODE_TYPES);
+	if (!is_array($node_types)) {
+		$node_types = ($node_types === 'all' ? $supported : array($node_types));
+	}
+	// Remove unsupported node types.
+	foreach ($node_types as $key => $node_type) {
+		if (!in_array($node_type, $supported)) {
+			unset($node_types[$key]);
+		}
+	}
+	$query = new EntityFieldQuery();
+	$query->entityCondition('entity_type', 'node')
+	      ->entityCondition('bundle', 'article');
+	$result = $query->execute();
+	if (isset($result['node'])) {
+		file_put_contents("/home/drupalpro/debug/debug.txt", print_r($result , TRUE), FILE_APPEND);
+	}
+}	
 
 /**
  * Implements hook_field_info().
