@@ -101,7 +101,7 @@ function ting_search_context_field_widget_form(&$form, &$form_state, $field, $in
 			'#options' => $options,
 			'#default_value' => $cat,
 		) + $base;
-		$options = range(0, MAX_CATEGORY_WEIGHT);
+		$options = range(0, TING_SEARCH_CONTEXT_MAX_WEIGHT);
 		$options[0] = '- None -';
 		$element['weight'] = array(
 			'#type' => 'select',
