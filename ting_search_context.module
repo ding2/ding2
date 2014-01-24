@@ -52,59 +52,46 @@ function ting_search_context_get_context($category, $node_count, $node_types) {
 	if (!is_array($node_types)) {
 		$node_types = ($node_types === 'all' ? $supported : array($node_types));
 	}
-	// Nodes that match specified context with max weight.
-	$nodes_match_max = array();
-	// Nodes that match specified context with a weight below max.
-	$nodes_match = array();
+  // Nodes that match specified context with max weight.
+  $nodes_match_max = array();
+  // Nodes that match specified context with a weight below max.
+  $nodes_match = array();	
 	foreach ($node_types as $key => $node_type) {
 		// Only include supported node types.
 		if (in_array($node_type, $supported)) {
-			$query_common = new EntityFieldQuery();
-			$query_common->entityCondition('entity_type', 'node')
-				->entityCondition('bundle', $node_type)
-				->fieldCondition('field_ting_search_context', 'category', $category);
-			$query = clone $query_common;
-			$query->fieldCondition('field_ting_search_context', 'weight', 
-				TING_SEARCH_CONTEXT_MAX_WEIGHT);		
+			$query = new EntityFieldQuery();
+			$query->entityCondition('entity_type', 'node')
+			      ->entityCondition('bundle', $node_type)
+			      ->fieldCondition('field_ting_search_context', 'category', $category);
 			$result = $query->execute();
 			if (isset($result['node'])) {
 				$nids = array_keys($result['node']);
-				$nodes_match_max = node_load_multiple($nids);
-			}
-			$query = clone $query_common;
-			$query->fieldCondition('field_ting_search_context', 'weight', 
-				TING_SEARCH_CONTEXT_MAX_WEIGHT, '<')
-				->addTag('order_random');
-			$result = $query->execute();
-			if (isset($result['node'])) {
-				$nids = array_keys($result['node']);
-				$nodes_match = node_load_multiple($nids);				
+				$result = node_load_multiple($nids);
+				foreach ($result as $nid => $node) {
+					$field_items = field_get_items('node', $node, 'field_ting_search_context');
+					$found = FALSE;
+					while (!$found) {
+						$field_item = array_shift($field_items);
+						if ($field_item['category'] == $category) {
+							$found = TRUE;
+							if ($field_item['weight'] == TING_SEARCH_CONTEXT_MAX_WEIGHT) {
+								$nodes_match_max[$nid] = $node;
+							}
+							else {
+								$nodes_match[$nid] = $node;
+							}							
+						}
+					}
+				}
 			}
 		}
 	}
-	$nodes = array_slice($nodes_match_max, 0, $node_count);
-	if (count($nodes) < $node_count) {
-		$nodes += array_slice($nodes_match, 0, ($node_count - count($nodes)));
-	}
-	return $nodes;
+	// TODO: Make shuffle function that doesn't change the keys. (ROFL).
+	// http://stackoverflow.com/questions/4102777/php-random-shuffle-array-maintaining-key-value
+	shuffle($nodes_match_max);
+	shuffle($nodes_match);
 }	
 
-/**
- * Implements hook_query_tag_alter().
- */
-function ting_search_context_query_order_random_alter($query) {
-	$query->orderRandom();
-}
-
-/**
- * Helper function that sets up an entity field query with common conditions.
- */
-function ting_search_context_get_field_query() {
-	$query = new EntityFieldQuery();
-	$query->entityCondition('entity_type', 'node')
-	      ->fieldCondition('field_ting_search_context', 'category', $category);
-	return $query;
-}
 
 /**
  * Implements hook_field_info().
