@@ -28,7 +28,6 @@ function ting_search_context_init() {
 	static $called = FALSE;
 	if (!$called) {
 		$called = TRUE;
-		$node_types = array('ding_event', 'ding_news', 'LOL');
 		ting_search_context_get_context('musik', 5, array('article', 'page'));
 	}
 }
@@ -53,39 +52,39 @@ function ting_search_context_get_context($category, $node_count, $node_types) {
 	if (!is_array($node_types)) {
 		$node_types = ($node_types === 'all' ? $supported : array($node_types));
 	}
-	// First get all nodes with max weight in the specified context.
-	$nodes = array();
+	// Nodes that match specified context with max weight.
+	$nodes_match_max = array();
+	// Nodes that match specified context with a weight below max.
+	$nodes_match = array();
 	foreach ($node_types as $key => $node_type) {
 		// Only include supported node types.
 		if (in_array($node_type, $supported)) {
-			$query = ting_search_context_get_field_query();
-			$query->entityCondition('bundle', $node_type)			
-			      ->fieldCondition('field_ting_search_context', 'weight', 
-			      	TING_SEARCH_CONTEXT_MAX_WEIGHT);		
+			$query_common = new EntityFieldQuery();
+			$query_common->entityCondition('entity_type', 'node')
+				->entityCondition('bundle', $node_type)
+				->fieldCondition('field_ting_search_context', 'category', $category);
+			$query = clone $query_common;
+			$query->fieldCondition('field_ting_search_context', 'weight', 
+				TING_SEARCH_CONTEXT_MAX_WEIGHT);		
 			$result = $query->execute();
 			if (isset($result['node'])) {
 				$nids = array_keys($result['node']);
-				$nodes = node_load_multiple($nids);
+				$nodes_match_max = node_load_multiple($nids);
+			}
+			$query = clone $query_common;
+			$query->fieldCondition('field_ting_search_context', 'weight', 
+				TING_SEARCH_CONTEXT_MAX_WEIGHT, '<')
+				->addTag('order_random');
+			$result = $query->execute();
+			if (isset($result['node'])) {
+				$nids = array_keys($result['node']);
+				$nodes_match = node_load_multiple($nids);				
 			}
 		}
 	}
-	// Get all nodes with less than max weight in the specified context.
+	$nodes = array_slice($nodes_match_max, 0, $node_count);
 	if (count($nodes) < $node_count) {
-		foreach ($node_types as $key => $node_type) {
-			// Only include supported node types.
-			if (in_array($node_type, $supported)) {
-				$query = ting_search_context_get_field_query();
-				$query->entityCondition('bundle', $node_type)			
-				      ->fieldCondition('field_ting_search_context', 'weight', 
-				      	TING_SEARCH_CONTEXT_MAX_WEIGHT, '<')
-				      ->addTag('order_random');							      
-				$result = $query->execute();
-				if (isset($result['node'])) {
-					$nids = array_keys($result['node']);
-					$nodes += node_load_multiple($nids);
-				}
-			}
-		}		
+		$nodes += array_slice($nodes_match, 0, ($node_count - count($nodes)));
 	}
 	return $nodes;
 }	
