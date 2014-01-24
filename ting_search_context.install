@@ -64,7 +64,7 @@ function ting_search_context_install() {
 			),
 		),
 	);
-	$bundles = array('article', 'page');
+	$bundles = unserialize(TING_SEARCH_CONTEXT_NODE_TYPES);
 	foreach ($bundles as $bundle) {
 		if (!field_info_instance('node', 'field_ting_search_context', $bundle)) {
 			$instance = array(
