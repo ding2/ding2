@@ -97,7 +97,7 @@ function ting_search_context_get_context($category, $node_count, $node_types) {
 			$nodes_match[$record->nid] = node_load($record->nid);			
 		}
 	}
-	file_put_contents("/home/drupalpro/debug/debug.txt", print_r($nodes_match , TRUE), FILE_APPEND);
+	
 	return $nodes_match;
 }	
 
@@ -180,6 +180,42 @@ function ting_search_context_field_widget_form(&$form, &$form_state, $field, $in
 		$element['#attached']['css'][] = $css_path;		
 	}
 	return $element;
+}
+
+/**
+ * Implements hook_field_validate().
+ *
+ * Make sure that each node only has one weight in each context.
+ */
+function ting_search_context_field_validate($entity_type, $entity, $field,
+																		$instance, $langcode, $items, &$errors) {
+	if ($field['type'] == 'ting_search_context') {
+		$categories = array();
+		foreach ($items as $delta => $item) {
+			$category = $item['category'];
+			if (!in_array($category, $categories)) {
+				$categories[] = $category;
+			}
+			else {
+				$errors[$field['field_name']][$langcode][$delta][] = array(
+					'error' => 'field_ting_search_context_multiple_weight',
+					'message' => t('This node allready has a weight in that context.'), 
+				);
+			}
+		}
+	}
+}
+
+/**
+ * Implements hook_field_widget_error().
+ */
+function ting_search_context_field_widget_error($element, $error, $form, 
+																		&$form_state) {
+	switch ($error['error']) {
+		case 'field_ting_search_context_multiple_weight':
+			form_error($element, $error['message']);
+			break;
+	}
 }
 
 /**
