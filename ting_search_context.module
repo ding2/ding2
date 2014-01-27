@@ -61,6 +61,7 @@ function ting_search_context_get_context($category, $node_count, $node_types) {
 	$query_common->condition('fd.entity_type', 'node'); 
 	$query_common->condition('fd.field_ting_search_context_category', $category);
 	$query_common->orderRandom();
+	$query_common->addTag('node_access');
 	// The node types should have an 'or' conjuction.
 	$node_types_condition = db_or();
 	foreach ($node_types as $key => $node_type) {
