@@ -76,7 +76,7 @@ function ting_search_context_get_context($category, $node_count, $node_types) {
 	// First we look for nodes with max weight in the specified context.
 	$query = clone $query_common;
 	$query->condition('fd.field_ting_search_context_weight', 
-		TING_SEARCH_CONTEXT_MAX_WEIGHT);
+		TING_SEARCH_CONTEXT_MAX_WEIGHT, '=');
 	$query->range(0, $node_count);
 	$result = $query->execute();
 	foreach ($result as $record) {
@@ -167,6 +167,7 @@ function ting_search_context_field_widget_form(&$form, &$form_state, $field, $in
 			'#title' => t('Category'),
 			'#options' => $options,
 			'#default_value' => $cat,
+			'#weight' => -25,
 		) + $base;
 		$options = range(0, TING_SEARCH_CONTEXT_MAX_WEIGHT);
 		$options[0] = '- None -';
@@ -175,9 +176,20 @@ function ting_search_context_field_widget_form(&$form, &$form_state, $field, $in
 			'#title' => t('Weight'),
 			'#options' => $options,
 			'#default_value' => $weight,
+			'#weight' => -24,
+		) + $base;
+		$element['reset'] = array(
+			'#type' => 'button',
+			'#value' => t('Reset'),
+			'#weight' => -23,
+			'#attributes' => array(
+				'class' => array('field_ting_search_context_reset_field'),
+			),
 		) + $base;
 		$css_path = TING_SEARCH_CONTEXT_PATH . '/ting_search_context.css';
-		$element['#attached']['css'][] = $css_path;		
+		$js_path = TING_SEARCH_CONTEXT_PATH . '/ting_search_context.js';
+		$element['#attached']['css'][] = $css_path;
+		$element['#attached']['js'][] = $js_path;		
 	}
 	return $element;
 }
@@ -193,14 +205,14 @@ function ting_search_context_field_validate($entity_type, $entity, $field,
 		$categories = array();
 		foreach ($items as $delta => $item) {
 			$category = $item['category'];
-			if (!in_array($category, $categories)) {
-				$categories[] = $category;
-			}
-			else {
+			if (in_array($category, $categories)) {
 				$errors[$field['field_name']][$langcode][$delta][] = array(
 					'error' => 'field_ting_search_context_multiple_weight',
-					'message' => t('This node allready has a weight in that context.'), 
-				);
+					'message' => t('This node already has a weight in that context.'), 
+				);				
+			}
+			else if ($category) {
+				$categories[] = $category;
 			}
 		}
 	}
