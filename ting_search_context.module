@@ -22,14 +22,14 @@ define('TING_SEARCH_CONTEXT_NODE_TYPES', serialize(array(
 /**
  * Implements hook_init().
  *
- * For test purposes.
+ * For test purposes only.
  */
 function ting_search_context_init() {
-	static $called = FALSE;
+	/*static $called = FALSE;
 	if (!$called) {
 		$called = TRUE;
 		ting_search_context_get_context('fag', 6, array('article', 'page'));
-	}
+	}*/
 }
 
 /**
