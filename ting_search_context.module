@@ -15,8 +15,6 @@ define('TING_SEARCH_CONTEXT_NODE_TYPES', serialize(array(
 	'ding_page', 
 	'ding_news', 
 	'ding_event',
-	'article',
-	'page',
 )));
 
 /**
