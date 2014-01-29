@@ -174,6 +174,9 @@ function ting_search_context_field_widget_form(&$form, &$form_state, $field, $in
 			'#options' => $options,
 			'#default_value' => $name,
 			'#weight' => -25,
+			'#attributes' => array(
+				'class' => array('field_ting_search_context_name'),
+			),				
 		) + $base;
 		$options = array();
 		for ($i = 1; $i <= TING_SEARCH_CONTEXT_MAX_RATING; $i++) {
