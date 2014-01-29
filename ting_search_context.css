@@ -1,6 +1,10 @@
 
-#edit-field-ting-search-context td .form-item {
+#field-ting-search-context-values .form-item {
 	display: inline-block;
 	margin-right: 1.5em;
 	margin-bottom: 0.5em;
+}
+
+#edit-field-ting-search-context td .form-item:last-of-type {
+
 }

@@ -9,24 +9,26 @@
 /**
  * Implements hook_field_schema().
  *
- * Magic callback invoked when a new field is created.
+ * Describes the database coloumns needed by our custom context field.
  */
 function ting_search_context_field_schema($field) {
 	if ($field['type'] == 'ting_search_context') {
 		$columns = array(
-			'category' => array(
+			// The name of the context.
+			'name' => array(
 				'type' => 'varchar',
 				'length' => 255,
 				'not null' => FALSE,
 			),
-			'weight' => array(
+			// The rating of the context on the node of the field.
+			'rating' => array(
 				'type' => 'int',
 				'not null' => FALSE,
 			),
 		);
 		$indexes = array(
-			'category' => array('category'),
-			'weight' => array('weight'),
+			'name' => array('name'),
+			'rating' => array('rating'),
 		);
 		return array(
 			'columns' => $columns,
@@ -55,7 +57,7 @@ function ting_search_context_install() {
 		'field_name' => 'field_ting_search_context',
 		'entity_type' => 'node',
 		'label' => t('Search context'),
-		'description' => t('Associate search contexts with the node.'),
+		'description' => t('Rate the node in different contexts.'),
 		'display' => array(
 			'default' => array(
 				'label' => 'hidden',

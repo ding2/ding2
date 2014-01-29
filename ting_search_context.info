@@ -1,5 +1,5 @@
 name = Ting search context
-description = Provides search context ctools plugins.
+description = Provides a context rating system for nodes.
 package = Ding!
 core = 7.x
 
