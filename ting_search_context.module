@@ -23,11 +23,11 @@ define('TING_SEARCH_CONTEXT_NODE_TYPES', serialize(array(
  * For test purposes only.
  */
 function ting_search_context_init() {
-	/*static $called = FALSE;
+	static $called = FALSE;
 	if (!$called) {
 		$called = TRUE;
-		ting_search_context_get_context('fag', 6, array('article', 'page'));
-	}*/
+		ting_search_context_get_context('fag', 10, 'ding_page');
+	}
 }
 
 /**
@@ -42,22 +42,56 @@ function ting_search_context_menu() {
  *
  * @param $name
  *   The machine-name of the context to get content from.
- * @param $node_count
- *   The max number of nodes to return.
- * @param $node_types
+ * @param $count (optional)
+ *   The max number of nodes to return. Defaults to 5.
+ * @param $node_types (optional)
  *   Can either be a string with a single node type, or an array of node types. 
  *   Defaults to 'all' which includes all supported node types.
  * @return
  *   An array of nodes with a rating in the specified context.
  */
-function ting_search_context_get_context($name, $node_types, $count) {
-	// Get the node types we support from the constant.
-	$supported = unserialize(TING_SEARCH_CONTEXT_NODE_TYPES);
-	if (!is_array($node_types)) {
-		$node_types = ($node_types === 'all' ? $supported : array($node_types));
+function ting_search_context_get_context($name, $count = 5, $node_types = 'all') {
+	// Normailize $node_types to an array of supported types.
+	$supported_types = unserialize(TING_SEARCH_CONTEXT_NODE_TYPES);
+	if ($node_types === 'all') {
+		$node_types = $supported_types;
 	}
+	else {
+		$node_types = (is_array($node_types) ? $node_types : array($node_types));
+		// Make sure we only include supported node types.
+		$node_types_temp = array();
+		foreach ($node_types as $node_type) {
+			if (in_array($node_type, $supported_types)) {
+				$node_types_temp[] = $node_type;
+			}
+		}
+		$node_types = $node_types_temp;			
+	}
+	if (empty($node_types)) {
+		return array();
+	}
+	
+	// Intialize the return array.
+  $nodes = array();	
+	// Build a query that fetch all nodes with a rating in the context.
+	$query = db_select('field_data_field_ting_search_context', 'fd');
+	$query->addField('fd', 'entity_id', 'nid');
+	$query->addField('fd', 'field_ting_search_context_rating', 'rating');
+	$query->condition('fd.entity_type', 'node')
+		->condition('fd.field_ting_search_context_name', $name)
+		->addTag('node_access');
+	// The node types should have an 'or' conjuction.
+	$node_types_condition = db_or();
+	foreach ($node_types as $key => $node_type) {
+		// Only include supported node types.
+		if (in_array($node_type, $supported_types)) {
+			$node_types_condition->condition('fd.bundle', $node_type);
+		}
+	}
+	$query->condition($node_types_condition);
+	$result = $query->execute();
 
-  // Initialize our return array with nodes rated in the specified context.
+  /*// Initialize our return array with nodes rated in the specified context.
   $nodes = array();	
 
   // Setup the common parts used by both queries.
@@ -102,7 +136,7 @@ function ting_search_context_get_context($name, $node_types, $count) {
 		}
 	}
 	
-	return $nodes;
+	return $nodes;*/
 }	
 
 
@@ -159,8 +193,8 @@ function ting_search_context_field_widget_info() {
 /**
  * Implements hook_field_widget_form().
  */
-function ting_search_context_field_widget_form(&$form, &$form_state, $field, $instance,
-																				 $langcode, $items, $delta, $element) {
+function ting_search_context_field_widget_form(&$form, &$form_state, $field, 
+		$instance, $langcode, $items, $delta, $element) {
 	$name = isset($items[$delta]['name']) ? $items[$delta]['name'] : 0;
 	$rating = isset($items[$delta]['rating']) ? $items[$delta]['rating'] : 1;
 	$base = $element;
@@ -200,10 +234,10 @@ function ting_search_context_field_widget_form(&$form, &$form_state, $field, $in
 				'class' => array('field_ting_search_context_remove'),
 			),
 		) + $base;
-		$css_path = TING_SEARCH_CONTEXT_PATH . '/ting_search_context.css';
-		$js_path = TING_SEARCH_CONTEXT_PATH . '/ting_search_context.js';
-		$element['#attached']['css'][] = $css_path;
-		$element['#attached']['js'][] = $js_path;		
+			$css_path = TING_SEARCH_CONTEXT_PATH . '/ting_search_context.css';
+			$js_path = TING_SEARCH_CONTEXT_PATH . '/ting_search_context.js';
+			$element['#attached']['css'][] = $css_path;
+			$element['#attached']['js'][] = $js_path;		
 	}
 	return $element;
 }
@@ -214,7 +248,7 @@ function ting_search_context_field_widget_form(&$form, &$form_state, $field, $in
  * Make sure that each node only has one weight in each context.
  */
 function ting_search_context_field_validate($entity_type, $entity, $field,
-																		$instance, $langcode, $items, &$errors) {
+		$instance, $langcode, $items, &$errors) {
 	if ($field['type'] == 'ting_search_context') {
 		$context_names = array();
 		foreach ($items as $delta => $item) {
@@ -228,7 +262,7 @@ function ting_search_context_field_validate($entity_type, $entity, $field,
 			}
 			else if ($context_name) {
 				$context_names[] = $context_name;
-			}
+			}	
 		}
 	}
 }
@@ -236,8 +270,7 @@ function ting_search_context_field_validate($entity_type, $entity, $field,
 /**
  * Implements hook_field_widget_error().
  */
-function ting_search_context_field_widget_error($element, $error, $form, 
-																		&$form_state) {
+function ting_search_context_field_widget_error($element, $error, $form, &$form_state) {
 	switch ($error['error']) {
 		case 'field_ting_search_context_multiple':
 			form_error($element, $error['message']);
@@ -261,7 +294,7 @@ function ting_search_context_field_formatter_info() {
  * Implements hook_field_formatter_view().
  */
 function ting_search_context_field_formatter_view($entity_type, $entity, $field,
-																		$instance, $langcode, $items, $display) {
+		$instance, $langcode, $items, $display) {
 	$element = array();
 	if ($display['type'] == 'ting_search_context_default') {
 		$contexts = _ting_search_context_get_contexts();
