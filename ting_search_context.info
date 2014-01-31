@@ -4,3 +4,5 @@ package = Ding!
 core = 7.x
 
 files[] = ting_search_context.module
+
+dependencies[] = field

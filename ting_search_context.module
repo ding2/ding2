@@ -15,6 +15,7 @@ define('TING_SEARCH_CONTEXT_NODE_TYPES', serialize(array(
 	'ding_page', 
 	'ding_news', 
 	'ding_event',
+	'genre_page',
 )));
 
 /**
@@ -23,10 +24,15 @@ define('TING_SEARCH_CONTEXT_NODE_TYPES', serialize(array(
  * For test purposes only.
  */
 function ting_search_context_init() {
-	static $called = FALSE;
+	$called = &drupal_Static(__FUNCTION__);
 	if (!$called) {
 		$called = TRUE;
-		ting_search_context_get_context('fag', 10, 'ding_page');
+		$return = ting_search_context_get_context('musik', 2);
+		$test_array = array(2, 3, 5, 7, 11, 13, 17, 17, 17, 17);
+		unset($test_array[0]);
+		unset($test_array[2]);
+		$random_element = array_rand($test_array);
+		$array_keys = array_keys($test_array, 17);
 	}
 }
 
@@ -51,8 +57,11 @@ function ting_search_context_menu() {
  *   An array of nodes with a rating in the specified context.
  */
 function ting_search_context_get_context($name, $count = 5, $node_types = 'all') {
-	// Normailize $node_types to an array of supported types.
+	// Intialize our return array.
+	$return = array();	
+	// Get the node types we support.
 	$supported_types = unserialize(TING_SEARCH_CONTEXT_NODE_TYPES);
+	// Normalize the $node_types parameter.
 	if ($node_types === 'all') {
 		$node_types = $supported_types;
 	}
@@ -67,13 +76,14 @@ function ting_search_context_get_context($name, $count = 5, $node_types = 'all')
 		}
 		$node_types = $node_types_temp;			
 	}
-	if (empty($node_types)) {
-		return array();
+
+	// Return an empty array in case of invalid input.
+	if (empty($node_types) || $count < 1) {
+		return $return;
 	}
 	
-	// Intialize the return array.
-  $nodes = array();	
-	// Build a query that fetch all nodes with a rating in the context.
+	// Setup an array with nodes that has a rating in the specified context. 
+  $nodes = array();
 	$query = db_select('field_data_field_ting_search_context', 'fd');
 	$query->addField('fd', 'entity_id', 'nid');
 	$query->addField('fd', 'field_ting_search_context_rating', 'rating');
@@ -82,61 +92,44 @@ function ting_search_context_get_context($name, $count = 5, $node_types = 'all')
 		->addTag('node_access');
 	// The node types should have an 'or' conjuction.
 	$node_types_condition = db_or();
-	foreach ($node_types as $key => $node_type) {
-		// Only include supported node types.
-		if (in_array($node_type, $supported_types)) {
-			$node_types_condition->condition('fd.bundle', $node_type);
-		}
+	foreach ($node_types as $node_type) {
+		$node_types_condition->condition('fd.bundle', $node_type);
 	}
 	$query->condition($node_types_condition);
+	$node_count = $query->countQuery()->execute()->fetchField();
 	$result = $query->execute();
 
-  /*// Initialize our return array with nodes rated in the specified context.
-  $nodes = array();	
-
-  // Setup the common parts used by both queries.
-	$query_common = db_select('field_data_field_ting_search_context', 'fd');
-	$query_common->addField('fd', 'entity_id', 'nid');
-	$query_common->condition('fd.entity_type', 'node'); 
-	$query_common->condition('fd.field_ting_search_context_name', $name);
-	$query_common->orderRandom();
-	$query_common->addTag('node_access');
-	// The node types should have an 'or' conjuction.
-	$node_types_condition = db_or();
-	foreach ($node_types as $key => $node_type) {
-		// Only include supported node types.
-		if (in_array($node_type, $supported)) {
-			$node_types_condition->condition('fd.bundle', $node_type);
-		}
-	}
-	$query_common->condition($node_types_condition);
-
-	// First we look for nodes with max rating in the specified context.
-	$query = clone $query_common;
-	$query->condition('fd.field_ting_search_context_rating', 
-		TING_SEARCH_CONTEXT_MAX_RATING, '=');
-	$query->range(0, $count);
-	$result = $query->execute();
-	foreach ($result as $record) {
-		$nodes[$record->nid] = node_load($record->nid);
-	}
-
-	// If we have room for more nodes, look for ndoes with less than max rating
-	// in the specified context.
-	$count -= count($nodes_match);
-	if ($count > 0) {
-		$query = clone $query_common;
-		$query->condition('fd.field_ting_search_context_rating', 
-			TING_SEARCH_CONTEXT_MAX_RATING, '<');
-		$query->condition('fd.field_ting_search_context_rating', 0, '>'); 
-		$query->range(0, $count);
-		$result = $query->execute();
+	// If there was more nodes than requested, we must randomly select which 
+	// nodes to include, so that nodes with higher rating has a higher chance of 
+	// being selected.
+	if ($node_count > $count) {
 		foreach ($result as $record) {
-			$nodes[$record->nid] = node_load($record->nid);			
+			$rating = $record->rating;
+			for ($i = 0; $i < $rating; $i++) {
+				$nodes[] = $record->nid;
+			}
+		}
+		// Pick out nodes randomly to include in the return array.
+		while ($count > 0 && count($nodes) > 0) {
+			$random_key = array_rand($nodes);
+			$nid = $nodes[$random_key];
+			// Remove the node completely from the array.
+			$keys = array_keys($nodes, $nid);
+			foreach ($keys as $key) {
+				unset($nodes[$key]);
+			}
+			$return[$nid] = node_load($nid);
+			$count--;
+		}		
+	}
+	// Else we just return every node fecthed from the query.
+	else  {
+		foreach ($result as $record) {
+			$return[$record->nid] = node_load($record->nid);
 		}
 	}
-	
-	return $nodes;*/
+
+	return $return;
 }	
 
 
