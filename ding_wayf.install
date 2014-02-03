@@ -1,13 +1,17 @@
 <?php
+/**
+ * @file
+ * Ensures that requirements are meet for the module.
+ */
 
 /**
- * Implementation of hook_requirements().
+ * Implements hook_requirements().
  */
 function ding_wayf_requirements($phase) {
   global $conf;
   $requirements = array();
 
-  // Ensure translations don't break at install time
+  // Ensure translations don't break at install time.
   $t = get_t();
 
   if ($phase == 'runtime') {
@@ -16,7 +20,7 @@ function ding_wayf_requirements($phase) {
     if (!$config) {
       $requirements['ding_wayf_config'] = array(
         'title' => $t('Ding wayf configuration'),
-        'description' => t('You have not yet confirmed the configuration at !url.', array('!url' => l('/admin/settings/ding/wayf', 'admin/settings/ding/wayf'))),
+        'description' => $t('You have not yet confirmed the configuration at !url.', array('!url' => l('admin/config/ding/wayf', 'admin/config/ding/wayf'))),
         'severity' => REQUIREMENT_WARNING,
         'value' => '',
       );
@@ -26,17 +30,17 @@ function ding_wayf_requirements($phase) {
     if (!$config || !isset($config['installdir'])) {
       $requirements['ding_wayf_install'] = array(
         'title' => $t('SimpleSAMLphp installation not defined'),
-        'description' => t('The installation of simpleSAMLphp was not found.'),
+        'description' => $t('The installation of simpleSAMLphp was not found.'),
         'severity' => REQUIREMENT_ERROR,
         'value' => '',
       );
     }
     else {
       // Check that simpleSAMLphp is found at the location given.
-      if (!ding_wayf_check_simplesamlphp($config['installdir'])) {
+      if (!ding_wayf_check_simplesamlphp()) {
         $requirements['ding_wayf_install'] = array(
           'title' => $t('SimpleSAMLphp installation has disappeared'),
-          'description' => t('The installation of simpleSAMLphp was not found.'),
+          'description' => $t('The installation of simpleSAMLphp was not found.'),
           'severity' => REQUIREMENT_ERROR,
           'value' => '',
         );
@@ -46,7 +50,7 @@ function ding_wayf_requirements($phase) {
     if (empty($conf['https'])) {
       $requirements['ding_wayf_https'] = array(
         'title' => $t('HTTPS configuration'),
-        'description' => t('WAYF requires activation of HTTPS by adding "$conf[\'https\'] = TRUE" to settings.php.'),
+        'description' => $t('WAYF requires activation of HTTPS by adding "$conf[\'https\'] = TRUE" to settings.php.'),
         'severity' => REQUIREMENT_ERROR,
         'value' => '',
       );
@@ -56,27 +60,7 @@ function ding_wayf_requirements($phase) {
     if (empty($securepages_enabled)) {
       $requirements['ding_wayf_securepages_enable'] = array(
         'title' => $t('Activation of Secure Pages needed'),
-        'description' => t('WAYF requires Secure Pages to be activated: !url.', array('!url' => l('admin/config/system/securepages', 'admin/config/system/securepages'))),
-        'severity' => REQUIREMENT_ERROR,
-        'value' => '',
-      );
-    }
-
-    $securepages_basepath = variable_get('securepages_basepath');
-    if (empty($securepages_basepath)) {
-      $requirements['ding_wayf_securepages_basepath'] = array(
-        'title' => $t('Secure Pages non-secure base path missing'),
-        'description' => t('WAYF requires Secure Pages to have non-secure base path set: !url.', array('!url' => l('admin/config/system/securepages', 'admin/config/system/securepages'))),
-        'severity' => REQUIREMENT_ERROR,
-        'value' => '',
-      );
-    }
-
-    $securepages_basepath_ssl = variable_get('securepages_basepath_ssl');
-    if (empty($securepages_basepath_ssl)) {
-      $requirements['ding_wayf_securepages_basepath_ssl'] = array(
-        'title' => $t('Secure Pages secure base path missing'),
-        'description' => t('WAYF requires Secure Pages to have secure base path set: !url.', array('!url' => l('admin/config/system/securepages', 'admin/config/system/securepages'))),
+        'description' => $t('WAYF requires Secure Pages to be activated: !url.', array('!url' => l('admin/config/system/securepages', 'admin/config/system/securepages'))),
         'severity' => REQUIREMENT_ERROR,
         'value' => '',
       );
@@ -87,9 +71,9 @@ function ding_wayf_requirements($phase) {
       if (!(preg_match(ding_wayf_regex_line('wayf'), $securepages_pages) && preg_match(ding_wayf_regex_line('wayf/*'), $securepages_pages))) {
         $requirements['ding_wayf_secured'] = array(
           'title' => $t('WAYF not secured'),
-          'description' => t('WAYF requires "wayf" and "wayf/*" added to Pages at Secure Pages configuration page: !url.', array('!url' => l('admin/config/system/securepages', 'admin/config/system/securepages'))),
+          'description' => $t('WAYF requires "wayf" and "wayf/*" added to Pages at Secure Pages configuration page: !url.', array('!url' => l('admin/config/system/securepages', 'admin/config/system/securepages'))),
           'severity' => REQUIREMENT_ERROR,
-          'value' => $securepages_pages, #'',
+          'value' => $securepages_pages,
         );
       }
     }
@@ -98,7 +82,7 @@ function ding_wayf_requirements($phase) {
       if (preg_match(ding_wayf_regex_line('wayf'), $securepages_ignore) || preg_match(ding_wayf_regex_line('wayf/*'), $securepages_ignore)) {
         $requirements['ding_wayf_secured'] = array(
           'title' => $t('WAYF not secured'),
-          'description' => t('WAYF requires that "wayf" and "wayf/*" are not included in Ignore Pages at Secure Pages configuration page: !url.', array('!url' => l('admin/config/system/securepages', 'admin/config/system/securepages'))),
+          'description' => $t('WAYF requires that "wayf" and "wayf/*" are not included in Ignore Pages at Secure Pages configuration page: !url.', array('!url' => l('admin/config/system/securepages', 'admin/config/system/securepages'))),
           'severity' => REQUIREMENT_ERROR,
           'value' => '',
         );
@@ -113,9 +97,10 @@ function ding_wayf_requirements($phase) {
  * Transforms a Drupal path to a PCRE pattern matching whole lines from textarea
  * fields.
  *
- * @param $string
+ * @param string $string
  *   String describing a drupal path.
- * @return
+ *
+ * @return string
  *   PCRE pattern of $string.
  */
 function ding_wayf_regex_line($string) {

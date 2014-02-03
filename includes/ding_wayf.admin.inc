@@ -1,79 +1,125 @@
 <?php
+/**
+ * @file
+ * Implements the administration UI for the module.
+ */
 
+/**
+ * Menu callback that builds the administration interface for the module.
+ */
 function ding_wayf_admin_settings_form() {
   $form = array(
-    '#tree' => TRUE,
+    'ding_wayf' => array(
+      '#type' => 'fieldset',
+      '#title' => t('Ding WAYF configuration'),
+    ),
   );
 
-  $default = variable_get('ding_wayf', array(
-    'installdir' => '/var/simplesamlphp',
-    'redirect' => 'user/%uid/status',
-  ));
+  $form['ding_wayf']['ding_wayf_type'] = array(
+    '#type' => 'radios',
+    '#title' => t('Installation type'),
+    '#description' => t('Which type of installation are you using'),
+    '#options' => array(
+      'local' => t('Local (same server)'),
+      'gateway' => t('Gateway/proxy'),
+    ),
+    '#required' => TRUE,
+    '#default_value' => variable_get('ding_wayf_type', array()),
+  );
 
-  $form['ding_wayf']['installdir'] = array(
+  $default = variable_get('ding_wayf_local', array(
+    'installdir' => '/var/simplesamlphp',
+  ));
+  $form['ding_wayf']['ding_wayf_local'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Local installation'),
+    '#description' => t('SimpleSAML PHP is installed locally.'),
+    '#tree' => TRUE,
+    '#states' => array(
+      'visible' => array(
+        ':input[name="ding_wayf_type"]' => array('value' => 'local'),
+      ),
+    ),
+  );
+
+  $form['ding_wayf']['ding_wayf_local']['installdir'] = array(
     '#type' => 'textfield',
     '#title' => t('Simple SAML php installation directory'),
     '#default_value' => $default['installdir'],
     '#description' => t('Absolute path with no trailing slash to simple SAML installation.'),
-    '#required' => FALSE,
   );
 
-  $form['ding_wayf']['sp'] = array(
+  $default = variable_get('ding_wayf_gateway', array(
+    'address' => 'https://dringo-ssl.dbc.dk/gatewayf',
+  ));
+  $form['ding_wayf']['ding_wayf_gateway'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('WAYF gateway installation'),
+    '#description' => t('Communications through a SimpleSAML gateway (ask DBC).'),
+    '#tree' => TRUE,
+    '#states' => array(
+      'visible' => array(
+        ':input[name="ding_wayf_type"]' => array('value' => 'gateway'),
+      ),
+    ),
+  );
+
+  $form['ding_wayf']['ding_wayf_gateway']['address'] = array(
     '#type' => 'textfield',
-    '#title' => t('Autenticaton source for this SP'),
-    '#default_value' => isset($default['sp']) ? $default['sp'] : 'default-sp',
-    '#description' => t('The name of the service provider (SP) to use from /var/simplesamlphp/config/authsources.php.'),
-    '#required' => TRUE,
+    '#title' => t('URL to wayf gateway'),
+    '#default_value' => $default['address'],
+    '#description' => t('Gateway/proxy address to use in authentication.'),
   );
 
   $form['ding_wayf']['redirect'] = array(
-    '#type' => 'textfield',
+    '#type' => 'fieldset',
     '#title' => t('Redirect fallback URL'),
-    '#default_value' => $default['redirect'],
-    '#description' => t('Redirect to this fallback URL after login. This URL is only used if distination is not found. The token %uid is avaliable'),
-    '#required' => TRUE,
+    '#description' => t('Redirect to this fallback URL after login. This URL is only used if the distination parameter is not found.'),
   );
-  
-  $form['ding_wayf']['gatewayf'] = array(
+
+  $form['ding_wayf']['redirect']['ding_wayf_redirect'] = array(
     '#type' => 'textfield',
-    '#title' => t('URL to wayf gateway'),
-    '#default_value' => isset($default['gatewayf']) ? $default['gatewayf'] : 'https://dringo-ssl.dbc.dk/gatewayf',
-    '#description' => t('Where to go for authentication via wayf',array(),array('context'=>'ding_wayf')),
+    '#title' => t('URL'),
+    '#default_value' => variable_get('ding_wayf_redirect', 'user/[user:uid]/status'),
     '#required' => TRUE,
+    '#states' => array(
+      'invisible' => array(
+        ':input[name="ding_wayf_type"]' => array('value' => FALSE),
+      ),
+    ),
   );
-  
-  // checkboxes wayf- and nemid-login
-  $form['ding_wayf']['wayflogin'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Wayf login', array(), array('context'=>'ding_wayf')),
-    '#description' => t('Enable wayflogin',array(),array('context'=>'ding_wayf')),
-    '#default_value' => isset($default['wayflogin']) ? $default['wayflogin'] : 0,
-  );  
-  
 
-  $form['ding_wayf']['nemlogin'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Nemlogin', array(), array('context'=>'ding_wayf')),
-    '#description' => t('Enable Nemlogin',array(),array('context'=>'ding_wayf')),
-    '#default_value' => isset($default['nemlogin']) ? $default['nemlogin'] : 0,
+  $form['ding_wayf']['redirect']['help'] = array(
+    '#theme' => 'token_tree',
+    '#token_types' => array('user'),
   );
-  
-  
- 
+
+  $form['ding_wayf']['ding_wayf_sp'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Autenticaton source for this SP'),
+    '#default_value' => variable_get('ding_wayf_sp', 'default-sp'),
+    '#description' => t('The name of the service provider (SP) to use from /var/simplesamlphp/config/authsources.php.'),
+    '#required' => TRUE,
+    '#states' => array(
+      'invisible' => array(
+        ':input[name="ding_wayf_type"]' => array('value' => FALSE),
+      ),
+    ),
+  );
+
+  $form['ding_wayf']['ding_wayf_login_type'] = array(
+    '#type' => 'radios',
+    '#title' => t('Login types'),
+    '#description' => t('Enable login types'),
+    '#required' => TRUE,
+    '#options' => ding_wayf_idps(),
+    '#default_value' => variable_get('ding_wayf_login_type', 'nemlogin'),
+    '#states' => array(
+      'invisible' => array(
+        ':input[name="ding_wayf_type"]' => array('value' => FALSE),
+      ),
+    ),
+  );
+
   return system_settings_form($form);
-}
-
-/**
- * Validation function for the administration settings form above.
- */
-function ding_wayf_admin_settings_form_validate($form, $form_state) {
-  $wayf = isset($form_state['values']['ding_wayf']['wayflogin']) ? $form_state['values']['ding_wayf']['wayflogin'] : NULL;
-  $nemlogin = isset($form_state['values']['ding_wayf']['nemlogin']) ? $form_state['values']['ding_wayf']['nemlogin'] : NULL;
-  if( empty($wayf) && empty($nemlogin) ){
-    form_set_error('wayflogin', t('Either check wayf, nemlogin or both.',array(),array('context' => 'ding_wayf')));
-  }
-  
- /* if (!ding_wayf_check_simplesamlphp($form_state['values']['ding_wayf']['installdir'])) {
-    form_set_error('installdir', t('Simple SAML php was not found at the location given.'));
-  }*/
 }
