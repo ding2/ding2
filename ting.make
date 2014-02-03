@@ -21,5 +21,5 @@ libraries[ting-client][destination] = "modules/ting/lib"
 
 projects[ding_entity][type] = "module"
 projects[ding_entity][download][type] = "git"
-projects[ding_entity][download][url] = "git@github.com:ding2tal/ding_entity.git"
-projects[ding_entity][download][tag] = "7.x-1.0-rc3"
+projects[ding_entity][download][url] = "git@github.com:ding2/ding_entity.git"
+projects[ding_entity][download][branch] = "master"
