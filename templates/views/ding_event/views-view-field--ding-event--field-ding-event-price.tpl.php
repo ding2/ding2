@@ -1,5 +1,6 @@
 <?php
  /**
+  * @file
   * This template is used to print a single field in a view. It is not
   * actually used in default Views, as this is registered as a theme
   * function which has better performance. For single overrides, the
@@ -19,5 +20,4 @@
   * the view is modified.
   */
 $price = (intval($output) < 1) ? t('Free') : intval($output) . ' kr.';
-?>
-<?php print $price; ?>
+print $price;

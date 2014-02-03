@@ -1,6 +1,6 @@
 (function($) {
 
-  /*
+  /**
    * Toggle opening hours
    */
   function toggle_opening_hours() {
@@ -60,12 +60,12 @@
     });
   }
 
-  // When ready start the magic
+  // When ready start the magic.
   $(document).ready(function () {
-    // Toggle opening hours
+    // Toggle opening hours.
     toggle_opening_hours();
 
-    // Toggle footer menu
+    // Toggle footer menu.
     $('.footer .pane-title').on('click', function() {
       var element = $(this).parent();
       $('.menu', element).toggle();

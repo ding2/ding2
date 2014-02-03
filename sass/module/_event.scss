@@ -36,7 +36,7 @@
   }
 
   .event-list-day {
-    background-color: $base-primary-color;
+    background-color: $blue;
     color: $white;
     display: block;
     text-shadow: 0 -1px 0 rgba(0,0,0,.25);
@@ -72,21 +72,39 @@
 /* Event list
    ========================================================================== */
 
+%arrow-link {
+  display: inline-block;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  margin-top: -10px;
+}
+
 .pane-ding-event-ding-event-list {
   margin-bottom: 20px;
 }
 
 .event-list {
-  background: $gray-light;
   margin-top: 0;
-  margin-bottom: 10px;
-  padding-top: 10px;
-  padding-right: 10px;
-  padding-bottom: 10px;
-  padding-left: 10px;
+  margin-bottom: $large-spacing;
+  padding-left: 0;
 
   .event-list-item {
+    margin-bottom: $medium-spacing;
+    overflow: hidden;
+    padding-top: $medium-spacing;
+    padding-right: $medium-spacing;
+    padding-bottom: $medium-spacing;
+    padding-left: $medium-spacing;
     position: relative;
+  }
+
+  .event-list-item:nth-child(odd) {
+    @extend %article-background--odd;
+  }
+
+  .event-list-item:nth-child(even) {
+    @extend %article-background--even;
   }
 
  .event-image-wrapper {
@@ -112,10 +130,14 @@
   }
 
   .event-arrow-link {
-    display: inline-block;
-    position: absolute;
-    right: 0;
-    top: 45%;
+    @extend %arrow-link;
+  }
+  
+  /* Media queries */  
+  @include small-medium() {
+    .event-list-description {
+      display: none;
+    }
   }
 }
 

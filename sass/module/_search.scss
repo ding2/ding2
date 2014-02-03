@@ -6,7 +6,6 @@
  */
 
 
-
 /* Variables
    ========================================================================== */
 
@@ -14,9 +13,64 @@ $search-border-size: 1px;
 $search-border-type: solid;
 
 
-
-/* Search in header
+/* Search overlay
    ========================================================================== */
+
+.search-overlay--wrapper {
+  background-color: transparentize($black, .25);
+
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  bottom: 0px;
+  position: fixed;
+  z-index: 99;
+
+  color: rgb(255, 255, 255);
+  text-align: center;
+}
+
+.search-overlay--inner {
+  @include box-sizing(border-box);
+  @include border-radius(8px);
+
+  left: 50%;
+  margin-top: -150px;
+  margin-left: -150px;
+  max-width: 300px;
+  padding: 20px;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+
+  background-color: transparentize($black, .25);
+}
+
+.search-overlay--icon {
+  height: auto;
+  width: auto;
+
+  font-size: $font-size-largest;
+}
+
+.search-overlay--text {
+  @include font-bold();
+
+  margin-bottom: 0;
+}
+
+/* Search
+   ========================================================================== */
+
+.header-wrapper {
+  /* Add padding if the search is in the header */
+  .search {
+    padding-top: 30px;
+    padding-right: 20px;
+    padding-bottom: 30px;
+    padding-left: 20px;
+  }
+}
 
 .search {
   @extend %search-user-header;
@@ -25,25 +79,123 @@ $search-border-type: solid;
     position: relative;
   }
 
+  [class^="icon-"] {
+    bottom: 14px;
+    left: 14px;
+  }
+
   .spinner {
     i[class^="icon-"] {
       @extend .icon-spin;
       @extend .icon-spinner;
-
       height: auto;
     }
   }
 
   .form-item {
-    @include zen-grid-item(12, 1);
+    width: 100%;
   }
 
   .form-text {
     padding-left: 49px;
   }
+
+  @include small-medium {
+    width: auto;
+  }
 }
 
 
+/* Search in content
+   ========================================================================== */
+
+.search-field-in-content {
+  @include large-x-large() {
+    .form-submit {
+      margin-top: 0;
+    }
+  }
+}
+
+.search-field-in-content--amount {
+  color: $gray-dark;
+}
+
+.search-field-in-content {
+  @extend .search;
+
+  margin-bottom: 20px;
+  padding: 0;
+  position: relative;
+
+  .form-text {
+    border: 1px solid $gray;
+  }
+}
+
+
+.search-field-in-content--message {
+  @include font-bold();
+
+  margin-bottom: 30px;
+  padding: 20px;
+
+  background-color: lighten($yellow, 20%);
+}
+
+.search-field-in-content--sort-results,
+.search-field-in-content--sort-best-match,
+.page-search .pane-search-per-page,
+.page-search .pane-ting-search-sort-form {
+  display: inline-block;
+  min-width: 0;
+  max-width: 49%;
+
+  .form-select {
+    width: 100%;
+  }
+}
+
+.search-field-in-content--sort-results,
+.page-search .pane-search-per-page {
+  @include zen-grid-item(6, 1, right);
+}
+
+.search-field-in-content--sort-best-match,
+.page-search .pane-ting-search-sort-form {
+  @include zen-grid-item(6, 1);
+}
+
+.page-search .pane-ting-search-sort-form {
+  clear: none;
+
+  overflow: visible;
+}
+
+.page-search .pane-search-per-page,
+.page-search .pane-ting-search-sort-form {
+  @include zen-nested-container();
+
+  @include small-medium() {
+    @include zen-clear(both);
+    @include zen-grid-item(12, 1);
+    @include zen-nested-container();
+
+    max-width: 100%;
+  }
+}
+
+
+/* No search results
+   ========================================================================== */
+
+.search-no-results--message {
+  margin-bottom: 30px;
+}
+
+.search-no-results--text {
+  margin-bottom: 20px;
+}
 
 input#edit-search-block-form--2.spinner {
   background-image: none;
@@ -53,14 +205,14 @@ input#edit-search-block-form--2.spinner {
 .field-name-ding-entity-buttons {
   .reserve-button {
     @extend %button-action;
-
-    padding-top: 11px;
-    padding-bottom: 11px;
   }
 }
 
 .button-see-online {
   @extend %button-action;
+
+  margin-left: 10px;
+  line-height: 125%;
 }
 
 
@@ -73,6 +225,10 @@ input#edit-search-block-form--2.spinner {
 
   padding-left: 0;
   min-height: 100px;
+
+  @include small() {
+    @include zen-grid-item(4, 1);
+  }
 }
 
 .ding-format-short {
@@ -85,6 +241,10 @@ input#edit-search-block-form--2.spinner {
   @include zen-grid-item(10, 1, right);
 
   padding-right: 0;
+
+  @include small() {
+    @include zen-grid-item(8, 1, right);
+  }
 }
 
 .ding-format-short {
@@ -98,60 +258,22 @@ input#edit-search-block-form--2.spinner {
 /* Facet browser styling
    ========================================================================== */
 
-.pane-ding-facetbrowser {
-
-  .pane-ding-facetbrowser input.form-checkbox {
-    margin-top: 4px;
-    margin-right: 8px;
-    vertical-align: baseline;
-  }
-
-  .pane-ding-facetbrowser label.option {
-    font-weight: inherit;
-  }
-
-  /* General link rules for facet browser */
-  a:link {
-    text-decoration:none;
-  }
-  a:visited {
-    color: $link-color;
-  }
-
-  legend {
-    line-height: inherit;
-    padding-top: 20px;
-    padding-bottom: 10px;
-  }
-
-  /* Specific font color for headings and result count */
-  h2,
-  .fieldset-legend,
-  .count {
-    color: $gray-darker;
-  }
-
-  /* Facet group spacing */
-  .form-wrapper {
-    margin-bottom: 20px;
-
-    .fieldset-wrapper {
-      .form-checkboxes .form-item {
-        margin: 5px 0;
-      }
-    }
-  }
-
+%search-facet-expand {
   /* Expand facets link */
   .expand {
+    margin-top: 5px;
     margin-right: 10px;
-    margin-left: 5px;
+    vertical-align: top;
 
     &:before {
-      font-family: $base-icon-library-font;
+      float: left;
+      margin-right: 3px;
+      margin-top: -1px;
       padding-right: 5px;
+
+      font-family: $base-icon-library-font;
+      font-size: $font-size-large;
       text-decoration: none;
-      font-size: $font-size-largest;
     }
   }
 
@@ -166,6 +288,62 @@ input#edit-search-block-form--2.spinner {
 
     display: block;
     float: left;
+  }
+}
+
+.pane-ding-facetbrowser {
+  @extend %search-facet-expand;
+
+  .fieldset-wrapper {
+    margin-top: -15px;
+  }
+
+  input.form-radio,
+  input.form-checkbox {
+    float: left;
+
+    margin-top: 4px;
+    margin-right: 8px;
+    height: 16px;
+    width: 16px;
+
+    vertical-align: baseline;
+  }
+
+  label.option {
+    font-weight: inherit;
+  }
+
+  /* General link rules for facet browser */
+  a:link {
+    text-decoration:none;
+  }
+  a:visited {
+    color: $link-color;
+  }
+
+  legend {
+    line-height: inherit;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  /* Specific font color for headings and result count */
+  h2,
+  .fieldset-legend,
+  .count {
+    color: $gray-darkest;
+  }
+
+  /* Facet group spacing */
+  .form-wrapper {
+    margin-bottom: 20px;
+
+    .fieldset-wrapper {
+      .form-checkboxes .form-item {
+        margin: 5px 0;
+      }
+    }
   }
 
   /* Group for selected facets */
@@ -195,6 +373,7 @@ input#edit-search-block-form--2.spinner {
   /* Group with hidden facets */
   .hidden-facets-group {
     margin-bottom: 20px;
+    display: none;
   }
 
   .expand-facets {
@@ -207,14 +386,46 @@ input#edit-search-block-form--2.spinner {
     margin-top: 10px;
     border-top: $search-border-size $search-border-type $gray;
   }
-  .expand-facets-visible {
-    @extend .icon-minus-sign;
-  }
-  .expand-facets-hidden {
-    @extend .icon-plus-sign;
+}
+
+
+.pane-search-backends {
+  @extend .pane-ding-facetbrowser;
+}
+
+.facet-browser-toggle {
+  display: none;
+
+  /* Media queries */
+  @include small-medium() {
+    clear: both;
+    display: block;
+    margin-bottom: 20px;
+    text-align: center;
   }
 }
 
+
+.pane-ding-facetbrowser {
+  @extend .pane-ding-facetbrowser;
+}
+
+/* Responsive styling for facet browser depending on context */
+.primary-content {
+  .pane-ding-facetbrowser {
+    display: none;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+}
+
+.secondary-content {
+  .pane-ding-facetbrowser {
+    @include small-medium() {
+      display: none;
+    }
+  }
+}
 
 
 /* Search results list
@@ -242,11 +453,14 @@ input#edit-search-block-form--2.spinner {
    ========================================================================== */
 
 .pane-ting-search-search-display-extended-query {
-  float: left;
+  @include zen-grid-item(8, 1);
+
   overflow: hidden;
   margin-bottom: 20px;
 
   #search-query-display {
+    margin: 0;
+
     #search-query-label {
       color: $gray-darker;
     }
@@ -258,7 +472,9 @@ input#edit-search-block-form--2.spinner {
 }
 
 .pane-ting-search {
-  float: right;
+  @include zen-grid-item(4, 1, right);
+
+  text-align: right;
 
   .ting-search-amount-block {
     color: $gray-darker;
@@ -337,6 +553,11 @@ input#edit-search-block-form--2.spinner {
     .availability-legend-item {
       margin: 0;
       margin-left: 10px;
+      line-height: normal;
+
+      img {
+        vertical-align: middle;
+      }
 
       .availability-label {
         font-weight: normal;
@@ -348,7 +569,7 @@ input#edit-search-block-form--2.spinner {
 
 
 
-/* Seach results list
+/* Search results list
    ========================================================================== */
 
 .pane-search-result {
@@ -357,17 +578,63 @@ input#edit-search-block-form--2.spinner {
   padding-top: 20px;
 
   .search-results {
-    padding-top: 20px;
-    border-top: $search-border-size $search-border-type $gray;
-
     .list {
+      padding-left: 0;
+
       .list-item {
-        background-color: $gray-light;
-        padding: 20px;
+        background: url('../images/pw_maze_white.png');
+        padding: 15px;
       }
 
-      .heading {
+      .view-mode-teaser {
+        padding: 20px;
+
+        background-color: transparentize($white, .1);
+      }
+
+      .heading h2 {
         margin-bottom: 10px;
+
+        font-size: $font-size-large;
+      }
+
+      .search-result--heading-type {
+        color: $gray-darker;
+        padding-right: 5px;
+      }
+
+      .search-result--meta {
+        color: $gray-dark;
+      }
+
+      .search-result--content {
+        margin-top: 20px;
+      }
+
+      .search-result--availability {
+        @extend .ting-object-right;
+      }
+
+      .search-result--availability,
+      .search-result--series {
+        border-top: 1px solid $gray-light;
+        margin-top: 20px;
+        padding-top: 20px;
+      }
+
+      .search-result--availability-link {
+        margin-right: 8px;
+        padding-right: 11px;
+
+        right: 1px solid $gray;
+      }
+
+      .search-result--availability-link:last-child {
+        border-right: 0;
+      }
+
+      .meta {
+        margin-bottom: 20px;
       }
 
       .content,
@@ -429,6 +696,14 @@ input#edit-search-block-form--2.spinner {
         }
       }
     }
+
+    @include small() {
+      .list {
+        .heading {
+          font-size: $font-size-tiny;
+        }
+      }
+    }
   }
 }
 
@@ -468,6 +743,14 @@ input#edit-search-block-form--2.spinner {
       @include availability($availability-available-not-reservable);
     }
 
+    &.availability.unavailable.reservable {
+      @include availability($availability-reservable);
+    }
+
+    &.availability.unavailable.not-reservable {
+      @include availability($availability-available-not-reservable);
+    }
+
     .availability-status {
       &:before {
         content: " - ";
@@ -498,9 +781,8 @@ input#edit-search-block-form--2.spinner {
 }
 
 .pane-ting-collection {
-
   h2 {
-    margin-bottom: 20px;
+    margin-bottom: 0;
     margin-top: 40px;
 
     &:first-child {
@@ -508,24 +790,52 @@ input#edit-search-block-form--2.spinner {
     }
   }
 
-  .view-mode-collection-list {
-    background-color: $gray-light;
+  .ting-collection-wrapper {
+    background: url('../images/pw_maze_white.png');
+    padding: 15px;
     margin-bottom: 20px;
-    padding: 20px;
   }
 
-  .field {
-    margin-bottom: 10px;
+  .ting-collection-inner-wrapper {
+    padding: 20px;
+
+    background-color: transparentize($white, .1);
+
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    .view-mode-collection-list {
+      border-bottom: 1px solid $gray-light;
+
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+
+      &:last-child {
+        border-bottom: 0;
+
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+    }
   }
+
   .field-name-ting-entities {
     margin: 0;
     padding: 0;
   }
 
-  .field-name-ting-title {
-    h2 {
-      margin-top: 0;
-    }
+  .field.field-name-ting-author,
+  .field.field-name-ting-abstract,
+  .field.field-name-ting-series {
+    margin-bottom: 20px;
+  }
+
+  .field.field-name-ting-abstract,
+  .field.field-name-ting-series {
+    border-bottom: 1px solid $gray-light;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
   }
 
   .field-name-ting-type {
@@ -553,26 +863,12 @@ input#edit-search-block-form--2.spinner {
 
     .form-actions {
       margin: 0;
-      margin-right: 10px;
     }
   }
 
   .form-submit,
   .ding-entity-button {
     @extend %button;
-
-    padding: 11px 14px;
-  }
-
-  .ting-cover {
-    width: 100%;
-    min-height: 250px;
-
-    &:before {
-      font-size: 74px;
-      left: 25px;
-      top: 35px;
-    }
   }
 }
 
@@ -591,7 +887,19 @@ input#edit-search-block-form--2.spinner {
   &:before {
     color: $gray-dark;
     font-family: $base-icon-library-font;
+    font-size: $font-size-giga;
     position: absolute;
+    top: 50%;
+    left: 30%;
+  }
+
+  /* Media queries */
+  @include small {
+    &:before {
+      font-size: $font-size-large;
+      left: 20%;
+      top: 30%;
+    }
   }
 }
 
@@ -617,23 +925,55 @@ input#edit-search-block-form--2.spinner {
 .pane-ting-object {
   @extend .pane-ting-collection;
 
+  .ting-object-wrapper {
+    margin-bottom: 20px;
+    overflow: hidden;
+    padding: 15px;
+
+    background: url('../images/pw_maze_white.png');
+  }
+
+  .ting-object-inner-wrapper {
+    overflow: hidden;
+    padding: 20px;
+
+    background-color: transparentize($white, .1);
+
+    h2 {
+      margin-bottom: 10px;
+    }
+  }
+
   .ting-object-left {
     @include zen-grid-item(3, 1);
 
     min-height: 200px;
-    margin-bottom: 20px;
+    padding-left: 0;
   }
 
   .ting-object-right {
     @include zen-grid-item(9, 1, right);
 
+    padding-right: 0;
+  }
+
+  .ting-object-related-item {
+    border-bottom: 1px solid $gray-light;
+
     margin-bottom: 20px;
+    padding-bottom: 20px;
+
+    &.last {
+      border-bottom: 0;
+
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
   }
 
   .field {
     margin: 0;
     padding: 0;
-    margin-bottom: 10px;
   }
 
   .subjects {
@@ -648,16 +988,16 @@ input#edit-search-block-form--2.spinner {
   .ding-periodical-fold {
     &:before {
       color: $link-color;
+      float: left;
       font-family: $base-icon-library-font;
       font-size: $font-size-medium;
+      margin-top: -2px;
       padding-right: 6px;
     }
   }
 
   .collapsible .field-group-format-title {
     @extend .icon-minus-sign;
-
-    display: inline-block;
   }
 
   .collapsible.collapsed .field-group-format-title {
@@ -681,6 +1021,15 @@ input#edit-search-block-form--2.spinner {
   .group-material-details {
     clear: both;
 
+    .field-group-format-wrapper {
+      margin-left: 34px;
+      padding-top: 10px;
+    }
+
+    h2 {
+      margin-bottom: 0;
+    }
+
     .field-label {
       width: 25%;
       min-width: 200px;
@@ -698,6 +1047,22 @@ input#edit-search-block-form--2.spinner {
 
   .group-holdings-available {
     clear: both;
+
+    h2 {
+      margin-bottom: 0;
+    }
+  }
+
+  .group-periodical-issues {
+
+    .field-group-format-wrapper {
+      margin-top: 10px;
+    }
+
+    .reserve-button {
+      margin-top: 10px;
+      float: right;
+    }
   }
 
   .field-name-ding-availability-holdings {
@@ -720,6 +1085,22 @@ input#edit-search-block-form--2.spinner {
     .holdings {
       margin-top: 20px;
       margin-bottom: 0;
+    }
+
+    .loader {
+      .icon {
+        height: auto;
+        width: auto;
+
+        font-size: $font-size-large;
+      }
+
+      .loader-text {
+        display: inline;
+        position: relative;
+        top: -1px;
+        left: 8px;
+      }
     }
 
     .holdings:empty {
@@ -767,23 +1148,20 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
-
-
 /* Search autocomplete
    ========================================================================== */
 
-ul.ui-autocomplete {
+#autocomplete {
   @include box-shadow(rgba(black, 0.35) 0 0 10px);
   @include border-radius(8px);
   @include box-sizing(border-box);
 
   background-color: $white;
   margin-top: 10px;
-  max-width: 580px;
+  max-width: 100%;
   padding: 10px;
-  width: 580px;
 
-  .ui-menu-item {
+  li {
     a {
       @include border-radius(8px);
 

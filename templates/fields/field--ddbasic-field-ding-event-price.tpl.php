@@ -2,9 +2,7 @@
 
 /**
  * @file field--ddbasic-field-ding-event-price.tpl.php
- *
- * This file is not used and is here as a starting point for customization only.
- * @see theme_field()
+ * Stripped all wrappers for this field.
  *
  * Available variables:
  * - $items: An array of field values. Use render() to output them.
@@ -41,4 +39,4 @@
  * @see theme_field()
  */
 $price = (intval($element['#items'][0]['value']) < 1) ? t('Free') : intval($element['#items'][0]['value']) . ' kr.';
-print $price; 
+print $price;

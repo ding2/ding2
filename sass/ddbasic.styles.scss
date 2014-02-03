@@ -14,8 +14,13 @@
 @import "zen";
 
 
+// Include configuration
+@import "configuration/_variables";
+@import "configuration/_colors";
+@import "configuration/_configuration";
+
+
 // Include framework
-@import "framework/_variables";
 @import "framework/_mixins";
 @import "framework/_normalize";
 @import "framework/_base";
@@ -39,14 +44,21 @@
 
 // Include modules
 @import "module/_module";
+@import "module/_availability";
+@import "module/_campaign";
 @import "module/_search";
+@import "module/_newmaterials";
 @import "module/_carousel";
 @import "module/_news";
 @import "module/_event";
+@import "module/_fulltext";
 @import "module/_libraries";
 @import "module/_openinghours";
 @import "module/_user";
 @import "module/_comment";
+@import "module/_staff";
+@import "module/_tabroll";
+@import "module/_groups";
 
 
 // Custom font

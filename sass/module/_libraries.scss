@@ -179,17 +179,6 @@
 /* Library page
    ========================================================================== */
 
-/* Library menu */
-.library-menu {
-  h2 {
-    @extend .sub-menu-title;
-  }
-
-  .links {
-    @extend .sub-menu;
-  }
-}
-
 /* Using id, can't remove and add better wrapper class */
 #ding-library-front {
   .ding-library-image {
@@ -218,6 +207,15 @@
       font-size: $font-size-reset;
       margin-bottom: $small-spacing;
     }
+
+    @include small-medium() {
+      @include zen-clear();
+      @include zen-grid-item(12, 1);
+
+      padding: 20px;
+
+      background-color: $gray-light;
+    }
   }
 
   .library-address-postal-code {
@@ -230,6 +228,10 @@
 
     margin-bottom: $large-spacing;
     width: auto;
+
+    @include small-medium() {
+      display: none;
+    }
   }
 
   .ding-library-opening-hours {
@@ -238,6 +240,12 @@
     /* Toggle opening hours with javascript */
     display: none;
     margin-bottom: $medium-spacing;
+
+    @include small-medium() {
+      // Show opening hours in small and medium breakpoints
+      display: block;
+      padding-top: 20px;
+    }
   }
 
   .opening-hours-week {
@@ -258,14 +266,6 @@
     }
   }
 
-  .ding-library-news,
-  .ding-library-events {
-    //@include zen-clear(both);
-
-    border-top: 1px solid $gray-light;
-    padding-top: $large-spacing;
-  }
-
   .ding-library-news {
     @include zen-clear(both);
     @include zen-grid-item(7, 1);
@@ -275,5 +275,16 @@
   .ding-library-events {
     @include zen-grid-item(5, 1, right);
     padding-right: 0;
+  }
+
+  .ding-library-news,
+  .ding-library-events {
+    border-top: 1px solid $gray-light;
+    padding-top: $large-spacing;
+
+    @include small-medium() {
+      @include zen-clear(both);
+      @include zen-grid-item(12, 1);
+    }
   }
 }

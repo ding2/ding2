@@ -6,8 +6,6 @@
 
 
 ;----------// Stylesheets
-  stylesheets[all][] = css/ddbasic.reset.css
-  stylesheets[all][] = css/ddbasic.font.awesome.css
   stylesheets[all][] = css/ddbasic.styles.css
 
   ; Override stylesheets
@@ -23,10 +21,16 @@
 
 ;----------// JavaScripts
   scripts[] = scripts/jquery.cookie.js
-  scripts[] = scripts/ddbasic.topbar.menu.js
-  scripts[] = scripts/ddbasic.common.js
   scripts[] = scripts/respond.min.js
   scripts[] = scripts/jquery.scrollto.js
+  scripts[] = scripts/html5shiv.js
+  scripts[] = scripts/equalize.min.js
+  scripts[] = scripts/scalefix.js
+  scripts[] = scripts/selectivizr-min.js
+  scripts[] = scripts/ddbasic.topbar.menu.min.js
+  scripts[] = scripts/ddbasic.common.min.js
+  scripts[] = scripts/ddbasic.facet.min.js
+  scripts[] = scripts/ddbasic.search.min.js
 
 
 ;----------// Regions
@@ -42,9 +46,3 @@
   regions[attachment_fourth] = Attachment fourth
   regions[footer]            = Footer
   regions[bottom]            = Bottom
-
-;----------// Information added by drush on 2013-04-24
-version = "development-dev"
-project = "ddbasic"
-datestamp = "1366825015"
-

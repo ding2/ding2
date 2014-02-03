@@ -45,23 +45,17 @@ $gray-light:                     lighten($gray, 10%) !default;
 $gray-lighter:                   lighten($gray, 15%) !default;
 $gray-dark:                      darken($gray, 10%) !default;
 $gray-darker:                    darken($gray, 25%) !default;
+$gray-darkest:                   darken($gray, 35%) !default;
 $red:                            #a32e10;
 $green:                          #528c10;
 $yellow:                         #f0cb28;
-
-/* Theme color definitions
-   ========================================================================== */
-
-$base-primary-color:             #00caff;
-$base-secondary-color:           #d94110;
-$base-teritary-color:            #ecbe00;
+$blue:                           #00caff;
 
 
 /* Font library
    ========================================================================== */
 
 $base-icon-library-font:         "FontAwesome";
-
 
 
 /* Typography
@@ -82,7 +76,7 @@ $font-color-primary:              transparentize($black, .3);
 
 $base-font-size:                  16px;
 $base-line-height:                24px;
-$base-font-family:                $font-light, "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
+$base-font-family:                $font-regular, "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
 $base-font-weight-normal:         normal;
 $base-font-weight-bold:           normal;
 
@@ -101,13 +95,12 @@ $font-size-small:                 85%;
 $font-size-tiny:                  75%;
 
 
-
-/* Links
+/* Labels
    ========================================================================== */
 
-$link-color:                      #00b7e7;
-$link-color-hover:                darken($link-color, 20%);
-
+$label-border-radius:             8px;
+$label-shadow:                    0 -1px 0 rgba(0,0,0,.25);
+$label-padding:                   3px 10px;
 
 
 /* Navigation
@@ -119,23 +112,12 @@ $navbar-text-color:               lighten($black, 30%);
 $navbar-text-color-active:        lighten($black, 30%);
 
 
-
-/* Articles (used in modules e.g. news, events)
-   ========================================================================== */
-
-$article-background:              #ebebeb;
-$article-background-odd:          #e8e8e8;
-$article-background-even:         #f2f2f2;
-$article-text:                    #4c4c4c;
-
-
-
 /* Availability
    ========================================================================== */
 
-$availability-pending:                  #696a69;
-$availability-processed:                #ed1e88;
-$availability-available:                #4c9f45;
-$availability-reservable:               #ea9123;
-$availability-available-reservable:     #4c9f45;
-$availability-available-not-reservable: #0072bc;
+$availability-pending:                  $gray-darker;
+$availability-processed:                $gray-darker;
+$availability-available:                $green;
+$availability-reservable:               $yellow;
+$availability-available-reservable:     $green;
+$availability-available-not-reservable: $red;

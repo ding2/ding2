@@ -13,16 +13,6 @@
 body {
   background-attachment: fixed;
   background-size: cover;
-
-  @include small-medium-low() {
-    &.js-fixed-body {
-      bottom: 0;
-      left: 0;
-      position: fixed;
-      right: 0;
-      top: 0;
-    }
-  }
 }
 
 
@@ -51,78 +41,44 @@ body {
 .header-wrapper {
   @include box-sizing(border-box);
 
-  background-color: $base-primary-color;
-  padding-top: 30px;
-  padding-right: 20px;
-  padding-bottom: 30px;
-  padding-left: 20px;
+
+  &.js-topbar-toggled {
+    display: inline-block;
+  }
 
   .header-inner {
+    position: relative;
+
     margin-left: auto;
     margin-right: auto;
     max-width: 1200px;
-    overflow: visible;
   }
 
-  /* Media queries */
-  @include small() {
-    padding-top: 20px;
-    padding-bottom: 20px;
-  }
-
-  /* Make sure the header wrapper get position fixed when low device height */
-  @include small-medium-low() {
-    position: fixed;
-    overflow: auto;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: 44px;
-    z-index: 99;
+  //Media queries
+  @include small-medium() {
+    padding: 0;
   }
 }
-
 
 /* Site header
    ========================================================================== */
-
-.site-header {
-  /* Large to x-large breakpoint */
-  @include large-x-large() {
-    &.js-fixed {
-      position: fixed;
-      z-index: 99;
-      width: 100%;
-    }
-  }
-
-  /* Small to medium breakpoint */
-  @include small-medium() {
-    &.js-fixed {
-      min-height: 44px;
-
-      .topbar {
-        position: fixed;
-        z-index: 99;
-        width: 100%;
-      }
-    }
-  }
-}
 
 
 /* Site name, slogan and logo
    ========================================================================== */
 
-.topbar {
-  background-color: transparentize($black, .15);
+.topbar-inner {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1200px;
+  overflow: hidden;
+  position: relative;
+}
 
-  .topbar-inner {
-    margin-left: auto;
-    margin-right: auto;
-    max-width: 1200px;
-    overflow: hidden;
-    position: relative;
+.logo {
+  img {
+    height: 70px;
+    margin-top: 10px;
   }
 }
 
@@ -217,7 +173,6 @@ body {
   .layout-wrapper {
     @include zen-clear();
 
-    background-color: $white;
     margin-right: 10px;
     margin-left: 10px;
     overflow: hidden;
@@ -239,10 +194,6 @@ body {
     @include zen-clear();
 
     margin-bottom: $large-spacing;
-
-    .grid-inner {
-      padding: $large-spacing;
-    }
   }
 
   /* Media queries */
@@ -458,7 +409,6 @@ body {
    ========================================================================== */
 
 .footer {
-  background-color: #262626;
   overflow: hidden;
   padding-top: 30px;
 
@@ -480,7 +430,8 @@ body {
 }
 
 .bottom {
-  background-color: #191919;
+  background-color: darken($footer-background-color, 5%);
+  clear: both;
   color: white;
   padding-top: 20px;
   padding-bottom: 20px;

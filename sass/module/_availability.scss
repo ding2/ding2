@@ -1,0 +1,35 @@
+/**
+ * Availability
+ *
+ * @author zorp
+ */
+
+.unavailable,
+.unavailable:link,
+.unavailable:visited,
+.unavailable:hover,
+.unavailable:active {
+  color: darken($yellow, 10%);
+}
+
+form[id^='ding-reservation-reserve-form'] {
+  display: none;
+
+  &.reservable {
+    display: block;
+    margin-left: 10px;
+
+  }
+
+  &.available {
+    .reserve-button {
+      @extend %button-action;
+    }
+  }
+
+  &.unavailable.reservable {
+    .reserve-button {
+      @include create-gradient-button($white, $yellow, darken($yellow, 15%));
+    }
+  }
+}

@@ -29,11 +29,14 @@
 
   &:before {
     position: absolute;
-    top: 35%;
+    top: 50%;
     left: 20px;
+
+    margin-top: -11px;
+    margin-right: 15px;
+
     font-family: $base-icon-library-font;
     font-size: $font-size-giga;
-    margin-right: 15px;
   }
 
   &.status {

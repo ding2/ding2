@@ -59,6 +59,15 @@ label {
   width: 50px;
 }
 
+html.js .search input.form-autocomplete {
+  background-image: none;
+  margin-bottom: 0;
+}
+
+.search .form-item, .form-actions {
+  margin-bottom: 0;
+}
+
 .field {
   .field-label {
     @include font-bold();
@@ -67,4 +76,58 @@ label {
 
 .field-label {
   margin-right: $small-spacing;
+}
+
+/**
+ * Homepage search result listing
+ */
+.view-node-search-result {
+  @extend .pane-search-result;
+
+  .list-item {
+    @include zen-grid-container();
+
+    .field-type-taxonomy-term-reference a {
+      @extend .label;
+    }
+
+    .search-left {
+      @extend .ting-object-left;
+    }
+
+    .search-right {
+      @extend .ting-object-right;
+    }
+  }
+
+  // Get events read more correct.
+  .node-ding-event .group-right-col-search {
+    position: relative;
+
+    .event-arrow-link {
+      @extend %arrow-link;
+    }
+  }
+
+  .news-link {
+    float: right;
+  }
+}
+
+/**
+ * Ting reference reverse listing (view mode search-result)
+ */
+.pane-ting-object .ting-reference-reverse-list .list .list-item .node .search-left,
+.pane-ting-object .ting-reference-reverse-list .list .list-item .node .search-right {
+  min-height: 0px;
+  margin-bottom: 0px;
+}
+
+.pane-ting-object .ting-reference-reverse-list .search-results {
+  border-top: none;
+  padding-top: 0px;
+}
+
+.ting-reference-reverse-list {
+  @extend .view-node-search-result;
 }

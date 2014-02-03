@@ -1,0 +1,240 @@
+/**
+ * Staff
+ *
+ * @author wiredloose
+ */
+
+/* FooTable staff list
+   ========================================================================== */
+
+.footable {
+  margin-bottom: $large-spacing;
+  border-radius: 0;
+}
+
+.footable .staff-name {
+  
+  img {
+    position: absolute;
+  }
+  
+  a {
+    display: block;
+    margin-left: 60px;
+    min-height: 60px;
+    padding-left: $medium-spacing;
+  }
+
+}
+
+
+/* Staff page
+   ========================================================================== */
+
+.pane-staff-profile {
+  .field-name-field-ding-staff-position {
+    margin-bottom: 30px;
+
+    font-size: 125%;
+  }
+
+  .field-name-field-ding-staff-image {
+    @include zen-grid-item(2, 1);
+    @include zen-nested-container();
+
+    margin-right: 26px;
+    margin-bottom: 30px;
+    padding-right: $zen-gutter-width / 2;
+  }
+
+  .group-contactinfo,
+  .field-name-field-ding-staff-description {
+    @include zen-grid-item(10, 1, right);
+
+    .field {
+      border-top: 1px solid $gray-light;
+
+      margin-bottom: 20px;
+      padding-top: 20px;
+    }
+
+    .field-label {
+      width: 125px;
+    }
+
+    .field-label,
+    .field-items {
+      display: inline-block;
+    }
+  }
+
+  .field-name-field-ding-staff-description {
+    @include zen-clear(both);
+  }
+
+  .pane-ding-news-ding-news-simple-list-user {
+    border-top: 1px solid $gray-light;
+
+    margin-top: 20px;
+    padding-top: 30px;
+  }
+
+  @include small-medium() {
+    .field-name-field-ding-staff-image {
+      @include zen-grid-item(6, 1);
+    }
+
+    .group-contactinfo,
+    .field-name-field-ding-staff-description {
+      @include zen-grid-item(12, 1);
+      @include zen-clear(both);
+    }
+  }
+}
+
+
+
+/* Staff list
+   ========================================================================== */
+
+.department-title,
+.staff-department-head,
+.staff-library-head {
+  background: $gray;
+  padding: $medium-spacing;
+  color: transparentize($black, .3);
+  font-family: $font-bold;
+  font-size: $font-size-large;
+  font-weight: $base-font-weight-bold;
+  text-align: left;
+}
+
+.staff-list,
+.staff-list-all {
+  margin-top: 0;
+  margin-bottom: $large-spacing;
+  padding-left: 0;
+
+  .staff-list-item {
+    overflow: hidden;
+    padding-top: $medium-spacing;
+    padding-right: $medium-spacing;
+    padding-bottom: $medium-spacing;
+    padding-left: $medium-spacing;
+    position: relative;
+  }
+
+  .staff-list-item:nth-child(odd) {
+    @extend %article-background--odd;
+  }
+
+  .staff-list-item:nth-child(even) {
+    @extend %article-background--even;
+  }
+}
+
+
+.staff-list {
+  .staff-image-wrapper {
+    position: absolute;
+    width: 10%;
+  }
+
+  .staff-name-title {
+    margin-left:12%;
+  }
+
+  .staff-name-title,
+  .staff-contact {
+    float: left;
+    padding-bottom: $medium-spacing;
+    width: 40%;
+    max-width: 40%;
+  }
+
+  /* Media queries */  
+  @include small() {
+    .staff-image-wrapper {
+      width: 20%;
+    }
+        
+    .staff-name-title,
+    .staff-contact {
+      margin-left:25%;
+      width: 75%;
+      max-width: 75%;
+    }
+  }
+
+  @include medium() {
+    .staff-image-wrapper {
+      width: 15%;
+    }
+        
+    .staff-name-title {
+      margin-left:18%;
+    }
+  }
+}
+
+
+.staff-list-all {
+  .staff-image-wrapper {
+    position: absolute;
+    width: 10%;
+  }
+
+  .staff-name-title {
+    margin-left:12%;
+  }
+
+  .staff-name-title,
+  .staff-contact,
+  .staff-departments {
+    float: left;
+    padding-bottom: $medium-spacing;
+    width: 29%;
+    max-width: 29%;
+  }
+
+  .staff-departments strong {
+    display:block;
+  }
+
+  /* Media queries */  
+  @include small() {
+    .staff-image-wrapper {
+      width: 20%;
+    }
+        
+    .staff-name-title,
+    .staff-contact,
+    .staff-departments {
+      margin-left:25%;
+      width: 75%;
+      max-width: 75%;
+    }
+  }
+
+  @include medium() {
+    .staff-image-wrapper {
+      width: 15%;
+    }
+        
+    .staff-name-title,
+    .staff-departments {
+      margin-left:18%;
+    }
+    
+    .staff-name-title,
+    .staff-contact {
+      width: 38%;
+      max-width: 38%;
+    }
+    
+    .staff-departments {
+      width: 75%;
+      max-width: 75%;
+    }
+  }
+}

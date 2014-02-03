@@ -1,7 +1,7 @@
 <?php
-
 /**
- * @file field--ddbasic-field-ding-event-library.tpl.php
+ * @file field-ding-body.tpl.php
+ * Removed all field wrappers.
  *
  * Available variables:
  * - $items: An array of field values. Use render() to output them.
@@ -38,14 +38,5 @@
  * @see theme_field()
  */
 ?>
-<?php if (!$label_hidden): ?>
-  <div class="field-label"<?php print $title_attributes; ?>><?php print $label ?>:&nbsp;</div>
-<?php endif; ?>
-<?php 
-    foreach ($items as $delta => $item) {
-    if ($item["#type"]=='link') {
-      print l($item['#title'], $item['#href'], array('attributes' => array('class' => array('label', 'label-info'))));
-    } else {
-      print '<span class="label label-info">' . $item['#title'] . '</span>';
-    }
-  }
+<?php print render($items[0]); ?>
+ 

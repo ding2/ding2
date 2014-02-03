@@ -26,7 +26,7 @@
     display: inline-block;
     font-size: $font-size-medium;
     margin-left: -4px;
-    padding: 10px 15px;
+    padding: 10px 14px;
     outline: 0;
 
     &:hover {
@@ -39,20 +39,31 @@
     &.active {
       color: $white;
       text-decoration: none;
-      background-color: $base-primary-color;
+      background-color: $blue;
     }
 
     /* Hide mobile link menu item */
     &.topbar-link-menu {
       display: none;
     }
+    /* Only show default override on mobile*/
+    &.default-override {
+      display: none;
+    }
   }
+
 
   i[class^="icon-"] {
     margin-right: 5px;
   }
 
   /* Media queries */
+  @include small() {
+    .menu-item {
+      padding: 10px 9px;
+    }
+  }
+
   @include small-medium() {
     @include zen-grid-item(6, 1, right);
 
@@ -67,32 +78,27 @@
       display: none;
     }
 
-    .menu-item {
-      /* Show mobile link menu item */
-      &.topbar-link-menu {
-        display: inline-block;
-      }
+    /* Show mobile link menu item */
+    .menu-item.topbar-link-menu {
+      display: inline-block;
     }
+
+    .topbar-link-user-account.menu-item {
+      display: none;
+    }
+
+    .topbar-link-user-account.default-override {
+      display:inline-block;
+    }
+
   }
 }
-
-.js-fixed {
-  @include small-medium() {
-    .menu-item {
-      &.active {
-        background-color: transparent;
-      }
-    }
-  }
-}
-
 
 
 /* Navigation, main menu and secondary menu
    ========================================================================== */
 
 .navigation-wrapper {
- 	background-color: transparentize($white, .05);
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -100,38 +106,17 @@
   overflow: hidden;
   width: 100%;
 
-  &.js-topbar-toggled {
-    display: block;
-  }
-
   /* Media queries */
-  @include small() {
-    &.js-fixed {
-      position: relative;
-      margin-top: 0;
-    }
-  }
-
   @include small-medium() {
     @include box-sizing(border-box);
 
-    background-color: $base-primary-color;
+    background-color: $blue;
     display: none;
     padding-top: 10px;
     padding-right: 20px;
     /* Extra space needed below the menu for device stuff (e.g. iOS) */
     padding-bottom: 30px;
     padding-left: 20px;
-  }
-
-  @include small-medium-low() {
-    position: fixed;
-    overflow: auto;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: 44px;
-    z-index: 99;
   }
 }
 
@@ -293,6 +278,7 @@
         padding-top: 10px;
         padding-bottom: 10px;
         padding-left: 12px;
+        width: 95%;
 
         &:hover {
           @include font-bold();
@@ -337,6 +323,9 @@
 /* Sub menu
    ========================================================================== */
 
+/* The sub menu is moved to main menu in responsive design
+   @see ddbasic/scripts/ddbasic.topbar.menu.js */
+.pane-taxonomy-menu,
 .sub-menu-wrapper {
   @include small-medium() {
     display: none;
@@ -507,6 +496,21 @@
       font-family: $base-font-family;
       margin-left: -$large-spacing;
       padding-left: 25px;
+    }
+  }
+}
+
+/* User top bar menu
+   ========================================================================== */
+
+.header-wrapper .pane-user-menu {
+  display: none;
+
+  .sub-menu {
+    @extend .main-menu;
+
+    ul li {
+      border-left: none;
     }
   }
 }

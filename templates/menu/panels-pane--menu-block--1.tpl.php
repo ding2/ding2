@@ -1,6 +1,6 @@
 <?php
 /**
- * @file panels-pane--primary-links.tpl.php
+ * @file
  * Main panel pane template
  *
  * Variables available:
@@ -17,16 +17,12 @@
  *   data including the contexts and all of the other panes being displayed.
  */
 ?>
-<div class="sub-menu-wrapper <?php print $classes; ?>" <?php print $id; ?>>
-   
+<div class="main-menu-wrapper <?php print $classes; ?>" <?php print $id; ?>>
   <?php if ($admin_links): ?>
     <?php print $admin_links; ?>
   <?php endif; ?>
-
-  <?php if ($title): ?>
-    <h2 class="sub-menu-title"><?php print $title; ?></h2>
+  <?php if (!empty($title)): ?>
+    <h2 class="nav-title"><?php print $title; ?></h2>
   <?php endif; ?>
-
   <?php print render($content); ?>
-
 </div>
