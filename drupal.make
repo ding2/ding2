@@ -15,5 +15,5 @@ projects[drupal][patch][] = http://drupal.org/files/issues/autocomplete-1232416-
 ; Get the profile, which will contain the next makefile.
 projects[ding2][type] = "profile"
 projects[ding2][download][type] = "git"
-projects[ding2][download][url] = "git@github.com:ding2tal/ding2.git"
-projects[ding2][download][tag] = "7.x-1.0-rc3"
+projects[ding2][download][url] = "git@github.com:ding2/ding2.git"
+projects[ding2][download][branch] = "master"
