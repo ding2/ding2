@@ -51,6 +51,7 @@ function ding_staff_image_default_styles() {
         'weight' => 1,
       ),
     ),
+    'label' => 'ding_staff_thumbnail',
   );
 
   return $styles;

@@ -153,35 +153,6 @@ function ding_staff_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_ding_staff_library'
-  $field_bases['field_ding_staff_library'] = array(
-    'active' => 1,
-    'cardinality' => -1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_ding_staff_library',
-    'foreign keys' => array(
-      'og' => array(
-        'columns' => array(
-          'gid' => 'gid',
-        ),
-        'table' => 'og',
-      ),
-    ),
-    'indexes' => array(
-      'gid' => array(
-        0 => 'gid',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'og',
-    'settings' => array(
-      'profile2_private' => 0,
-    ),
-    'translatable' => 0,
-    'type' => 'group',
-  );
-
   // Exported field_base: 'field_ding_staff_phone'
   $field_bases['field_ding_staff_phone'] = array(
     'active' => 1,
@@ -249,6 +220,36 @@ function ding_staff_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_staff_surname',
+    'foreign keys' => array(
+      'format' => array(
+        'columns' => array(
+          'format' => 'format',
+        ),
+        'table' => 'filter_format',
+      ),
+    ),
+    'indexes' => array(
+      'format' => array(
+        0 => 'format',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'text',
+    'settings' => array(
+      'max_length' => 255,
+      'profile2_private' => 0,
+    ),
+    'translatable' => 0,
+    'type' => 'text',
+  );
+
+  // Exported field_base: 'field_ding_staff_work_areas'
+  $field_bases['field_ding_staff_work_areas'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_ding_staff_work_areas',
     'foreign keys' => array(
       'format' => array(
         'columns' => array(

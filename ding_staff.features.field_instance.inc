@@ -29,7 +29,7 @@ function ding_staff_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_link',
-        'weight' => 5,
+        'weight' => 2,
       ),
       'token' => array(
         'label' => 'hidden',
@@ -51,7 +51,7 @@ function ding_staff_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 4,
+      'weight' => 2,
     ),
   );
 
@@ -74,7 +74,7 @@ function ding_staff_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 6,
+        'weight' => 5,
       ),
       'token' => array(
         'label' => 'hidden',
@@ -119,9 +119,10 @@ function ding_staff_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'inline',
+        'module' => 'email',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 7,
+        'type' => 'email_default',
+        'weight' => 3,
       ),
       'token' => array(
         'label' => 'hidden',
@@ -165,9 +166,11 @@ function ding_staff_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'hidden',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
+        'module' => 'ding_base',
+        'settings' => array(
+          'body_snippet_length' => 100,
+        ),
+        'type' => 'body_snippet',
         'weight' => 0,
       ),
       'token' => array(
@@ -228,7 +231,7 @@ function ding_staff_field_default_field_instances() {
           ),
         ),
         'type' => 'cs_adaptive_image',
-        'weight' => 2,
+        'weight' => 3,
       ),
       'token' => array(
         'label' => 'hidden',
@@ -282,51 +285,6 @@ function ding_staff_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'profile2-ding_staff_profile-field_ding_staff_library'
-  $field_instances['profile2-ding_staff_profile-field_ding_staff_library'] = array(
-    'bundle' => 'ding_staff_profile',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'account' => array(
-        'label' => 'hidden',
-        'module' => 'og',
-        'settings' => array(),
-        'type' => 'og_list_default',
-        'weight' => 3,
-      ),
-      'default' => array(
-        'label' => 'inline',
-        'module' => 'og',
-        'settings' => array(),
-        'type' => 'og_list_default',
-        'weight' => 4,
-      ),
-      'token' => array(
-        'label' => 'hidden',
-        'module' => 'og',
-        'settings' => array(),
-        'type' => 'og_list_default',
-        'weight' => 3,
-      ),
-    ),
-    'entity_type' => 'profile2',
-    'field_name' => 'field_ding_staff_library',
-    'label' => 'Library',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 0,
-      'module' => 'ding_content',
-      'settings' => array(),
-      'type' => 'ding_content_group_audience_library',
-      'weight' => 3,
-    ),
-  );
-
   // Exported field_instance: 'profile2-ding_staff_profile-field_ding_staff_phone'
   $field_instances['profile2-ding_staff_profile-field_ding_staff_phone'] = array(
     'bundle' => 'ding_staff_profile',
@@ -343,9 +301,12 @@ function ding_staff_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'inline',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 8,
+        'module' => 'ding_base',
+        'settings' => array(
+          'body_snippet_length' => 100,
+        ),
+        'type' => 'body_snippet',
+        'weight' => 4,
       ),
       'token' => array(
         'label' => 'above',
@@ -392,8 +353,8 @@ function ding_staff_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'text',
         'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 3,
+        'type' => 'text_plain',
+        'weight' => 2,
       ),
       'token' => array(
         'label' => 'hidden',
@@ -418,7 +379,7 @@ function ding_staff_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 5,
+      'weight' => 3,
     ),
   );
 
@@ -438,9 +399,11 @@ function ding_staff_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'hidden',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
+        'module' => 'ding_base',
+        'settings' => array(
+          'body_snippet_length' => 100,
+        ),
+        'type' => 'body_snippet',
         'weight' => 1,
       ),
       'token' => array(
@@ -470,8 +433,76 @@ function ding_staff_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'profile2-ding_staff_profile-field_ding_staff_work_areas'
+  $field_instances['profile2-ding_staff_profile-field_ding_staff_work_areas'] = array(
+    'bundle' => 'ding_staff_profile',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'A list of areas that you work in/with they should be separated by commas.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 5,
+      ),
+    ),
+    'entity_type' => 'profile2',
+    'field_name' => 'field_ding_staff_work_areas',
+    'label' => 'Work areas',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 4,
+    ),
+  );
+
+  // Exported field_instance: 'profile2-ding_staff_profile-og_group_ref'
+  $field_instances['profile2-ding_staff_profile-og_group_ref'] = array(
+    'bundle' => 'ding_staff_profile',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Select the libraries this content should be associated with.',
+    'display' => array(
+      'default' => array(
+        'label' => 'inline',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => 1,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => 1,
+      ),
+    ),
+    'entity_type' => 'profile2',
+    'field_name' => 'og_group_ref',
+    'label' => 'Library',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 1,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
+  t('A list of areas that you work in/with they should be separated by commas.');
   t('Department');
   t('Description');
   t('Email');
@@ -480,7 +511,9 @@ function ding_staff_field_default_field_instances() {
   t('Library');
   t('Phone');
   t('Position');
+  t('Select the libraries this content should be associated with.');
   t('Surname');
+  t('Work areas');
 
   return $field_instances;
 }
