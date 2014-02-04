@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Defines the individual rolltab content layout.
+ * Defines the individual roll tab content layout.
  *
  * @ingroup views_templates
  */

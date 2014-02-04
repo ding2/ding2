@@ -76,8 +76,8 @@ function ding_tabroll_field_default_field_instances() {
           'public' => 'public',
         ),
         'allowed_types' => array(
-          0 => 0,
           'audio' => 0,
+          0 => 0,
           'document' => 0,
           'image' => 'image',
           'video' => 0,
@@ -147,51 +147,6 @@ function ding_tabroll_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_rolltab-field_ding_tabroll_library_ref'
-  $field_instances['node-ding_rolltab-field_ding_tabroll_library_ref'] = array(
-    'bundle' => 'ding_rolltab',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => 'If the a library is selected the tab will be shown on that libraries page. If non is selected the tab will be added to the front page tabroll.',
-    'display' => array(
-      'default' => array(
-        'label' => 'inline',
-        'module' => 'entityreference',
-        'settings' => array(
-          'link' => FALSE,
-        ),
-        'type' => 'entityreference_label',
-        'weight' => 5,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser_highlight' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_ding_tabroll_library_ref',
-    'label' => 'Library',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_select',
-      'weight' => 35,
-    ),
-  );
-
   // Exported field_instance: 'node-ding_rolltab-field_ding_tabroll_link'
   $field_instances['node-ding_rolltab-field_ding_tabroll_link'] = array(
     'bundle' => 'ding_rolltab',
@@ -249,10 +204,8 @@ function ding_tabroll_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('If the a library is selected the tab will be shown on that libraries page. If non is selected the tab will be added to the front page tabroll.');
   t('Image');
   t('Lead');
-  t('Library');
   t('Link');
   t('Link to content that the tab should go to when clicked.');
   t('Short description displayed inside the tab in a overlay. ');
