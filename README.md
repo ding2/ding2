@@ -23,11 +23,11 @@ to run a Ding2 based site.
 Ding2uses nested makefiles (each module have its own dependencies), which
 results in projects and libraries being download more than once with the
 default drush installation. You can work around this by cloning the
-[drush-ding2-utils](http://github.com/ding2tal/drush-ding2-utils) into your
+[drush-ding2-utils](http://github.com/ding2/drush-ding2-utils) into your
 .drush folder.
 ```sh
   ~$ cd ~/.drush
-  ~$ git clone http://github.com/ding2tal/drush-ding2-utils.git drush-ding2-utils
+  ~$ git clone http://github.com/ding2/drush-ding2-utils.git drush-ding2-utils
 ```
 
 ## Drupal
@@ -72,15 +72,15 @@ to build that profile. So go into your Drupal installations _profiles_ folder.
   ~$ cd DRUPAL/profiles
 ```
 
-Clone the ding2 repository from http://github.com/ding2tal/ding2.
+Clone the ding2 repository from http://github.com/ding2/ding2.
 ```sh
-  ~$ git clone git@github.com:ding2tal/ding2.git ding2
+  ~$ git clone git@github.com:ding2/ding2.git ding2
 ```
 
 ### Production
 Now that you have cloned the installation profile you need to run the build
 process using drush make. It will download all the modules and the theme from
-the different repositories at http://github.com/ding2tal
+the different repositories at http://github.com/ding2
 ```sh
   ~$ cd DRUPAL/profiles/ding2
   ~$ drush --ding2-only-once --strict=0 make --concurrency=1 --no-core --contrib-destination=. ding2.make
@@ -99,7 +99,7 @@ Next goto your sites URL and run the ding2 installation profile and fill out
 all the questions.
 
 ### Note
-The fix in [drush-ding2-utils](http://github.com/ding2tal/drush-ding2-utils)
+The fix in [drush-ding2-utils](http://github.com/ding2/drush-ding2-utils)
 uses drush cache and to build the site more than once within 10 min of each
 other you will need to clear the cache. This also applies if the build fails
 and you need to rebuild.
@@ -111,7 +111,7 @@ and you need to rebuild.
 If you are using an deployment system you may not want to patch Drupal core
 manually in a production environment.
 ```sh
-  ~$ wget https://raw.github.com/ding2tal/ding2/release/drupal.make
+  ~$ wget https://raw.github.com/ding2/ding2/release/drupal.make
   ~$ drush --ding2-only-once --strict=0 make --concurrency=1 --working-copy --contrib-destination=profiles/ding2/ drupal.make htdocs
 ```
 
