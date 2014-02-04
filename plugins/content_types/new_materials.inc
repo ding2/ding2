@@ -1,4 +1,4 @@
-  <?php
+<?php
 /**
  * @file
  * This plugin generates a search result based on a new materials node. It's
@@ -32,93 +32,67 @@ function ting_new_materials_content_type_render($subtype, $conf, $panel_args, $c
     // As we are using a pager, we need to find the current page.
     $pager_page = pager_find_page();
 
-    /**
-     * @TODO check cache... for current page
-     */
-    // Check if cache holds a version of the current pager page and node.
-    $cid = 'ting_new_materials_' . $node->nid . $pager_page;
-    $cache = cache_get($cid);
-    if ($cache && $cache->expire > REQUEST_TIME) {
-      $data = $cache->data;
+    // Get number of results.
+    $items = field_get_items('node', $node, 'field_ting_new_materials_items');
+    $num_per_page = empty($items[0]['value']) ? 10 : $items[0]['value'];
 
-      // Start the pager.
-      pager_default_initialize($data['total_objects'], $data['num_per_page']);
+    // Build search query based on node fields.
+    $query = ting_new_materials_build_search_query($node);
 
-      // Restore content.
-      $content = $data['content'];
-    }
-    else {
-      // Get number of results.
-      $items = field_get_items('node', $node, 'field_ting_new_materials_items');
-      $num_per_page = empty($items[0]['value']) ? 10 : $items[0]['value'];
+    // Search the data well with the query and pager page.
+    $search_result = ting_new_materials_do_search($query, $pager_page, $num_per_page);
 
-      // Build search query based on node fields.
-      $query = ting_new_materials_build_search_query($node);
+    // Check if the search return any results.
+    $results = NULL;
+    if ($search_result->numTotalObjects > 0) {
+      // Now that we have a result set, initialize the pager.
+      pager_default_initialize($search_result->numTotalObjects, $num_per_page);
 
-      // Search the data well with the query and pager page.
-      $search_result = ting_new_materials_do_search($query, $pager_page, $num_per_page);
-
-      // Check if the search return any results.
-      $results = NULL;
-      if ($search_result->numTotalObjects > 0) {
-        // Now that we have a result set, initialize the pager.
-        pager_default_initialize($search_result->numTotalObjects, $num_per_page);
-
-        // Create legend with "Show y-x of result(s)", but only if pager is active
-        // for the current result.
-        if ($search_result->numTotalObjects > $num_per_page) {
-          $from = ($pager_page * $num_per_page) + 1;
-          $to = $from + ($search_result->numTotalCollections - 1);
-          $total = $search_result->numTotalObjects;
-          $legend = format_plural($total, 'Show %from-%to of 1 result', 'Show %from-%to of <span class="placeholder">@count</span> results', array(
-            '%from' => $from,
-            '%to' => $to,
-          ));
-        }
-
-        // We want to build the result as a normal search result. So we have to
-        // build the collections as search results "objects".
-        $results = array();
-        foreach ($search_result->collections as $collection) {
-          // Build the collection.
-          $build = ting_collection_view($collection, 'teaser');
-
-          // Get link to link the result back to the collection.
-          $uri = entity_uri('ting_collection', $collection);
-
-          // Add the result to an array for the "ting_search_results" theme
-          // function.
-          $results[] = array(
-            'link' => url($uri['path'], $uri['options']),
-            'title' => $collection->title,
-            'snippet' => drupal_render($build),
-          );
-        }
+      // Create legend with "Show y-x of result(s)", but only if pager is active
+      // for the current result.
+      if ($search_result->numTotalObjects > $num_per_page) {
+        $from = ($pager_page * $num_per_page) + 1;
+        $to = $from + ($search_result->numTotalCollections - 1);
+        $total = $search_result->numTotalObjects;
+        $legend = format_plural($total, 'Show %from-%to of 1 result', 'Show %from-%to of <span class="placeholder">@count</span> results', array(
+          '%from' => $from,
+          '%to' => $to,
+        ));
       }
 
-      // Set default page result.
-      $content = array(
-        '#theme' => 'ting_new_materials',
-        '#title' => $node->title,
-        '#legend' => isset($legend) ? $legend : NULL,
-      );
+      // We want to build the result as a normal search result. So we have to
+      // build the collections as search results "objects".
+      $results = array();
+      foreach ($search_result->collections as $collection) {
+        // Build the collection.
+        $build = ting_collection_view($collection, 'teaser');
 
-      // If any search result have been found add them to the array.
-      if (!is_null($results)) {
-        $content['#results'] = array(
-          '#theme' => 'ting_search_results',
-          '#results' => $results,
+        // Get link to link the result back to the collection.
+        $uri = entity_uri('ting_collection', $collection);
+
+        // Add the result to an array for the "ting_search_results" theme
+        // function.
+        $results[] = array(
+          'link' => url($uri['path'], $uri['options']),
+          'title' => $collection->title,
+          'snippet' => drupal_render($build),
         );
       }
+    }
 
-      // Set cache entry with the content found and the variables need to get
-      // the pager running.
-      cache_set($cid, array(
-        'total_objects' => $search_result->numTotalObjects,
-        'num_per_page' => $num_per_page,
-        'content' => $content,
-      ), 'cache', REQUEST_TIME + (24 * 60 * 60));
-      // @todo make cache expire time configurable.
+    // Set default page result.
+    $content = array(
+      '#theme' => 'ting_new_materials',
+      '#title' => $node->title,
+      '#legend' => isset($legend) ? $legend : NULL,
+    );
+
+    // If any search result have been found add them to the array.
+    if (!is_null($results)) {
+      $content['#results'] = array(
+        '#theme' => 'ting_search_results',
+        '#results' => $results,
+      );
     }
 
     // Set block content.

@@ -5,6 +5,7 @@ package = Ding!
 php = 5.2.4
 project = ting_new_materials
 dependencies[] = ctools
+dependencies[] = ding_availability
 dependencies[] = features
 dependencies[] = number
 dependencies[] = page_manager

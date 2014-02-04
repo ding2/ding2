@@ -2,15 +2,18 @@
 /**
  * @file
  * Default theme implementation for displaying ting new materials results.
- *
  */
 ?>
 <?php if ($title) : ?>
   <div class="new-materials-header">
-    <h2><?php print $title; ?></h2>
+    <div class="new-materials-title">
+      <h1><?php print $title; ?></h1>
+    </div>
     <?php if ($legend) : ?>
-      <div class="ting-search-amount-block">
-        <?php print $legend; ?>
+      <div class="ting-search-amount">
+        <div class="ting-search-amount-block">
+          <?php print $legend; ?>
+        </div>
       </div>
     <?php endif; ?>
   </div>
@@ -22,4 +25,3 @@
     <?php print t('There were no new materials in this period'); ?>
   </div>
 <?php endif; ?>
-
