@@ -105,7 +105,7 @@ function ting_search_context_theme_output($nodes) {
   foreach ($columns_classes as $columns_class) {
     if (!empty($nodes)) {
       $node = array_shift($nodes);
-      $image = theme('image_style', array('style_name' => 'large', 'path' => $node->field_ding_news_list_image['und'][0]['uri'], 'alt' => ''));
+      $image = theme('image_style', array('style_name' => 'ting_search_context', 'path' => $node->field_ding_news_list_image['und'][0]['uri'], 'alt' => ''));
       $url = url(drupal_get_path_alias('node/' . $node->nid), array('absolute' => TRUE));
       $columns[$columns_class] = array(
         'title' => $node->title,
