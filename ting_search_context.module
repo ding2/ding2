@@ -303,7 +303,7 @@ function ting_search_context_field_widget_form(&$form, &$form_state, $field,
 			),
 		) + $base;
 			$css_path = TING_SEARCH_CONTEXT_PATH . '/ting_search_context.css';
-			$js_path = TING_SEARCH_CONTEXT_PATH . '/ting_search_context.js';
+			$js_path = TING_SEARCH_CONTEXT_PATH . '/js/ting_search_context_admin.js';
 			$element['#attached']['css'][] = $css_path;
 			$element['#attached']['js'][] = $js_path;		
 	}
