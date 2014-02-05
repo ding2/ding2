@@ -16,7 +16,9 @@ $plugin = array(
 function search_context_content_type_render($subtype, $conf, $panel_args, $context) {
   $block = new stdClass();
   $search_results = drupal_static('ting_search_results');
-  ting_search_context_set_search_context($search_results);
+  if ($search_results) {
+    ting_search_context_set_search_context($search_results);
+  }
   $block->content = '<div id="ting-search-context"> </div>';
   return $block;
 }
@@ -30,6 +32,7 @@ function ting_search_context_set_search_context($search_results) {
   );
   drupal_add_js(drupal_get_path('module', 'ting_search_context') . '/js/ting_search_context.js');
   drupal_add_js(array('ting_search_context' => $context), 'setting');
+  var_dump($context);
 }
 
 /**
