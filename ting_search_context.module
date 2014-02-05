@@ -40,7 +40,82 @@ function ting_search_context_init() {
  * Implements hook_menu().
  */
 function ting_search_context_menu() {
+  
+    $items['ting/searchcontext/ajax'] = array(
+    'title' => 'Get search context blog post list',
+    'page callback' => 'ting_search_context_ajax_get_blogposts',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
 
+  return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ting_search_context_theme($existing, $type, $theme, $path) {
+  return array(
+    'ting_search_context' => array(
+      'variables' => array('columns' => NULL),
+      'template'  => 'ting-search-context',
+      'path' => $path . '/templates',
+    ),
+  );
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * It simply tells panels where to find the .inc files that define various
+ * args, contexts, content_types.
+ */
+function ting_search_context_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
+ * Implement hook_ctools_plugin_api().
+ */
+function ting_search_context_ctools_plugin_api($module, $api) {
+  if ($module == 'page_manager' && $api == 'pages_default') {
+    return array('version' => 1);
+  }
+}
+
+function ting_search_context_ajax_get_blogposts() {
+  $search_context = $_POST['search_context'];
+  $nodes = ting_search_context_get_context($search_context, $count = 5, $node_types = 'all');
+  $outpu = '';
+  if (!empty($nodes)) {
+    $output = ting_search_context_theme_output ($nodes);
+  }
+  return drupal_json_output($output);
+}
+
+function ting_search_context_theme_output($nodes) {
+  $columns = array();
+  $columns_classes = array(
+    ' group-blocks--first',
+    ' group-blocks--second',
+    ' group-blocks--third',
+    ' group-blocks--fourth',
+  );
+  foreach ($columns_classes as $columns_class) {
+    if (!empty($nodes)) {
+      $node = array_shift($nodes);
+      $image = theme('image_style', array('style_name' => 'ding_list_large', 'path' => $node->field_ding_news_list_image['und'][0]['filename'], 'alt' => ''));
+      $url = url(drupal_get_path_alias('node/' . $node->nid), array('absolute' => TRUE));
+      $columns[$columns_class] = array(
+        'title' => $node->title,
+        'image' => $image,
+        'url' => $url,
+      );
+    }
+  }
+  return theme('ting_search_context', array('columns' => $columns));
 }
 
 /**
@@ -310,14 +385,18 @@ function ting_search_context_field_formatter_view($entity_type, $entity, $field,
  */
 function _ting_search_context_get_contexts() {
 	return array(
-		'generelt' => 'Generelt',
 		'film' => 'Film',
-		'musik' => 'Musik',
-		'bog' => 'Bog',
-		'spil' => 'Spil',
-		'skøn' => 'Skøn',
-		'fag' => 'Fag',
-		'børn' => 'Børn',
+		'music' => 'Musik',
+		'fiction' => 'Skøn',
+		'nonfiction' => 'Fag',
+		'children' => 'Børn',
+    'drenge' => 'Drenge',
+    'krimi' => 'Krimi',
+    'kærlighed' => 'Kærlighed',
+    'fantasy' => 'Fantasy',
+    'haver' => 'Havebøger',
+    'kogebøger' => 'Kogebøger',
+    
 	);
 }
 
