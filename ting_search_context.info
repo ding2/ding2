@@ -6,3 +6,4 @@ core = 7.x
 files[] = ting_search_context.module
 
 dependencies[] = field
+dependencies[] = ting_search
