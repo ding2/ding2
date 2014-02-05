@@ -395,6 +395,7 @@ function _ting_search_context_get_contexts() {
     'fantasy' => 'Fantasy',
     'haver' => 'Havebøger',
     'kogebøger' => 'Kogebøger',
+    'piger' => 'Piger',
     
 	);
 }
