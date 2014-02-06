@@ -216,12 +216,12 @@ function bpi_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Implements hook_form_alter().
+ * Implements hook_form_BASE_FORM_ID_alter().
  *
  * Set some default values for the fields, when syndicating content,
  * according to mapped settings.
  */
-function bpi_form_alter(&$form, &$form_state, $form_id) {
+function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
   $bpi_ctype = variable_get('bpi_content_type', '');
   // @todo This could lead to unexpected behavior. Just a note.
   if (empty($bpi_ctype)) {
