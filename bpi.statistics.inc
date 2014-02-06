@@ -17,11 +17,12 @@ function bpi_statistics($type) {
 
   if ($ajax) {
     $commands = array();
+    $form = drupal_get_form('bpi_statistics_form');
 
     $commands[] = ajax_command_ding_popup(
       'bpi-stats',
       t('BPI statistics'),
-      drupal_render(drupal_get_form('bpi_statistics_form'))
+      drupal_render($form)
     );
 
     return array('#type' => 'ajax', '#commands' => $commands);
