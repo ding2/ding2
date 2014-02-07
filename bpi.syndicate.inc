@@ -458,12 +458,10 @@ function bpi_build_filters() {
 
     // Get agency name from cache.
     if ($key == 'agency') {
-      $agency_cache = array();
       $cache = cache_get(BPI_AGENCY_CACHE);
-      if ($cache) {
-        $agency_cache = $cache->data;
+      if ($cache && isset($cache->data[$value])) {
+        $value_text = $cache->data[$value];
       }
-      $value_text = $agency_cache[$value];
     }
 
     $item['name'] = $key;
