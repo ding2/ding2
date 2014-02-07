@@ -268,6 +268,7 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
 
     if (isset($bpi_content['material'])) {
       foreach ((array) $bpi_content['material'] as $key => $material_number) {
+        $form[$materials_field][$current_language][$key] = array();
         $form[$materials_field][$current_language][$key] = ting_reference_field_widget_form(
           $form,
           $form_state,
