@@ -5,6 +5,11 @@
  */
 
 /**
+ * Cache ID for agency_id => agency_name mapping.
+ */
+define('BPI_AGENCY_CACHE', 'bpi_agency_cache');
+
+/**
  * Define syndication page markup.
  *
  * This includes search form, filtering and found content.
@@ -51,18 +56,27 @@ function bpi_syndicate_page_form($form, &$form_state) {
     '#markup' => bpi_build_filters(),
   );
 
-  $sort_direction = bpi_get_next_sorting();
-  $sort_text = ($sort_direction == BPI_SORT_DESCENDING) ? t('Show latest on top') : t('Show oldest on top');
-  $sort_url_components = _bpi_build_query('sort', $sort_direction);
-  $form['bpi_search_sort'] = array(
-    '#type' => 'item',
-    '#markup' => l($sort_text, 'admin/bpi', array('query' => $sort_url_components)),
-  );
-
   $items = bpi_search_get_items();
+
+  if (!empty($items)) {
+    $sort_direction = bpi_get_next_sorting();
+    $sort_text = ($sort_direction == BPI_SORT_DESCENDING) ? t('Show latest on top') : t('Show oldest on top');
+    $sort_url_components = _bpi_build_query('sort', $sort_direction);
+    $form['bpi_search_sort'] = array(
+      '#type' => 'item',
+      '#markup' => l($sort_text, 'admin/bpi', array('query' => $sort_url_components)),
+    );
+  }
+
   $form['bpi_search_results'] = array(
     '#type' => 'item',
-    '#markup' => theme('bpi_search_results', array('items' => $items)),
+    '#markup' => theme(
+      'bpi_search_results',
+      array(
+        'items' => $items,
+        'empty' => t('No results'),
+      )
+    ),
   );
 
   pager_default_initialize(
@@ -192,10 +206,25 @@ function bpi_search_get_items() {
   $response = bpi_search_content($phrase, $page, $filters, $sort);
   $bpi_nodes = array();
 
+  // Get agency_id=>agency cache.
+  $agency_cache = array();
+  $cache = cache_get(BPI_AGENCY_CACHE);
+  if ($cache) {
+    $agency_cache = $cache->data;
+  }
+
   foreach ($response as $item) {
     /* @var $item \Bpi\Sdk\Item\Node */
     $current_item = $item->getProperties();
     $assets = $item->getAssets();
+
+    $agency = isset($current_item['agency_name']) ? $current_item['agency_name'] : '';
+    $agency_id = isset($current_item['agency_id']) ? $current_item['agency_id'] : '';
+
+    // Set agency into cache.
+    if (!empty($agency) && empty($agency_cache[$agency_id])) {
+      $agency_cache[$agency_id] = $agency;
+    }
 
     // Transform \Bpi\Sdk\Document properties items into array.
     $bpi_nodes[] = array(
@@ -206,13 +235,18 @@ function bpi_search_get_items() {
       'body' => isset($current_item['body']) ? $current_item['body'] : '',
       'author' => isset($current_item['author']) ? $current_item['author'] : '',
       'category' => isset($current_item['category']) ? $current_item['category'] : '',
-      'agency' => isset($current_item['agency_name']) ? $current_item['agency_name'] : '',
-      'agency_id' => isset($current_item['agency_id']) ? $current_item['agency_id'] : '',
+      'agency' => $agency,
+      'agency_id' => $agency_id,
       'audience' => isset($current_item['audience']) ? $current_item['audience'] : '',
       'total_count' => isset($response->total) ? $response->total : 0,
       'assets' => (count($assets) > 0) ? $assets : array(),
       'editable' => !empty($current_item['editable']),
     );
+  }
+
+  // Save changes in agency cache.
+  if (empty($cache) || (!empty($cache) && $agency_cache != $cache->data)) {
+    cache_set(BPI_AGENCY_CACHE, $agency_cache);
   }
 
   return $bpi_nodes;
@@ -231,16 +265,12 @@ function theme_bpi_search_results($variables) {
 function bpi_preprocess_bpi_search_results(&$variables) {
   $items = $variables['items'];
 
-  if (empty($items)) {
-    return;
-  }
-
   $table_head = array(
     array(
       'data' => t('Title'),
       'class' => 'bpi-title',
     ),
-    'Date',
+    t('Date'),
     array(
       'data' => t('Details'),
       'class' => 'bpi-details',
@@ -249,6 +279,16 @@ function bpi_preprocess_bpi_search_results(&$variables) {
     t('Editable'),
     t('Actions'),
   );
+
+  // Set table defaults.
+  $variables['header'] = $table_head;
+  $variables['sticky'] = TRUE;
+  $variables['rows'] = array();
+
+  // If no data, do not process anything.
+  if (empty($items)) {
+    return;
+  }
 
   $rows = array();
   foreach ($items as $i => $item) {
@@ -262,18 +302,23 @@ function bpi_preprocess_bpi_search_results(&$variables) {
 
     // Add details.
     $rows[$i]['details'] = '';
+    // Map link text => data.
     $details = array(
-      'category',
-      'author',
-      'agency',
-      'audience',
+      'category' => 'category',
+      'author' => 'author',
+      'agency' => 'agency_id',
+      'audience' => 'audience',
     );
-    foreach ($details as $detail) {
-      $rows[$i]['details'] .= bpi_label_mapper($detail) . " " . l(
-          $item[$detail],
+    foreach ($details as $text => $data) {
+      $rows[$i]['details'] .= sprintf(
+        '%s %s<br/>',
+        bpi_label_mapper($data),
+        l(
+          $item[$text],
           'admin/bpi',
-          array('query' => _bpi_build_query($detail, $item[$detail]))
-        ) . "<br/>";
+          array('query' => _bpi_build_query($text, $item[$data], 'page'))
+        )
+      );
     }
 
     // Add photos icon as css class.
@@ -303,8 +348,6 @@ function bpi_preprocess_bpi_search_results(&$variables) {
   unset($variables['items']);
 
   // Set table data.
-  $variables['header'] = $table_head;
-  $variables['sticky'] = TRUE;
   $variables['rows'] = $rows;
 }
 
@@ -331,6 +374,7 @@ function _bpi_build_query($key = '', $value = '', $ignore = NULL) {
   $destination = drupal_get_destination();
   $current_path = parse_url(reset($destination));
   $query = isset($current_path['query']) ? $current_path['query'] : '';
+
   $new_query_pairs = array();
 
   if (!empty($query)) {
@@ -409,10 +453,43 @@ function bpi_build_filters() {
       continue;
     }
 
+    // Used in link.
+    $value_text = $value;
+
+    // Get agency name from cache.
+    if ($key == 'agency') {
+      $cache = cache_get(BPI_AGENCY_CACHE);
+      if ($cache && isset($cache->data[$value])) {
+        $value_text = $cache->data[$value];
+      }
+    }
+
     $item['name'] = $key;
+    $item['label'] = bpi_label_mapper($key);
     $item['value'] = $value;
     $item['search_value'] = $value;
     $item['search_stripped_filter'] = _bpi_build_query('', '', $key);
+
+    $item['link'] = l($value_text, 'admin/bpi', array('query' => array($key => $value)));
+    $item['remove'] = l(
+      theme_image(
+        array(
+          'path' => drupal_get_path('module', 'bpi') . '/images/cross.png',
+          'width' => 16,
+          'height' => 16,
+          'alt' => '',
+          'attributes' => array(),
+        )
+      ),
+      'admin/bpi',
+      array(
+        'query' => $item['search_stripped_filter'],
+        'html' => TRUE,
+        'attributes' => array(
+          'class' => array('bpi-filter-remove-cross'),
+        ),
+      )
+    );
 
     $filters_markup[] = theme('bpi_filter_item', array('filter' => $item));
   }
