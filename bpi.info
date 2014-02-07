@@ -1,6 +1,6 @@
 name = BPI
 description = Remote content syndication and pushing.
-version = 7.x-0.10
+version = 7.x-0.11
 core = 7.x
 configure = admin/config/bpi/settings
 package = BPI
