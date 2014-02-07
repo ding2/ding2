@@ -127,7 +127,7 @@ function bpi_http_push_action_form($form, &$form_state, $nid) {
 
   return confirm_form(
     $form,
-    t('Are you sure u want to push content <em>%title</em> to BPI well?', array('%title' => $node_title)),
+    t('Are you sure you want to push content %title to BPI well?', array('%title' => $node_title)),
     'admin/content'
   );
 }
