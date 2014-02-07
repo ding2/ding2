@@ -223,7 +223,7 @@ function bpi_theme($existing, $type, $theme, $path) {
  */
 function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
   $bpi_ctype = variable_get('bpi_content_type', '');
-  // @todo This could lead to unexpected behavior. Just a note.
+
   if (empty($bpi_ctype)) {
     return;
   }
@@ -285,10 +285,7 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
       }
     }
 
-    // EXPERIMENTAL.
-    // Just oversee all the variants where the value could fit.
-    // @todo This seems convoluted. A comment explaining why this is necessary would be nice.
-    // The comment says experimental but the module offers no other solution to mapping the values so this must be it?
+    // Guessing where to put 'teaser' text in the form.
     $bpi_teaser = isset($bpi_content['teaser']) ? $bpi_content['teaser'] : '';
     if (isset($form[$teaser][$current_language][0]['summary'])) {
       $form[$teaser][$current_language][0]['summary']['#default_value'] = $bpi_teaser;
@@ -300,10 +297,7 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
       $form[$teaser][$current_language][0]['#default_value'] = $bpi_teaser;
     }
 
-    // EXPERIMENTAL.
-    // Just oversee all the variants where the value could fit.
-    // @todo This seems convoluted. A comment explaining why this is necessary would be nice.
-    // The comment says experimental but the module offers no other solution to mapping the values so this must be it?
+    // Guessing where to put 'body' text in the form.
     $bpi_body = isset($bpi_content['body']) ? $bpi_content['body'] : '';
     if (isset($form[$body][$current_language][0]['value'])) {
       $form[$body][$current_language][0]['value']['#default_value'] = $bpi_body;
@@ -340,26 +334,6 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
  * Adds BPI specific labels and actions to content items.
  */
 function bpi_form_node_admin_content_alter(&$form, &$form_state) {
-  // @todo I do not agree with this implementation of adding BPI status to the administration
-  // content listing:
-  //
-  // 1. The scope of this implementation is limited due to the fact that it only works on a
-  //    single page/form which already has many shortcomings.
-  // 2. The code for handling this is convoluted (note the "cheats", use of $_SESSION and hook_query_alter()
-  //
-  // I think a better solution could be implemented in a way that also plays better with the
-  // Drupal ecosystem by in general. I see two possible solutions:
-  //
-  // A. Exposing the BPI data for nodes as Views data and BPI operations as Drupal actions.
-  //    That would allow us to implement the administrative content listing in a clean way using
-  //    Views to display BPI state and Views Bulk Operations to push and delete nodes to BPI.
-  //    This would also allow us to show BPI data and apply actions in other contexts - e.g.
-  //    using Rules to automatically push nodes to BPI after creating/updating them.
-  // B. Using a Workflow engine such as the Workflow module to model state and performing
-  //    calls to the BPI webservice based on state changes. It is a much larger and more complex
-  //    framework but we would also get functionality for free e.g. Views, Actions, permission
-  //    handling, logging of state changes, buttons for workflow actions, scheduling of state
-  //    changes that we we already have or will have to write code for ourselves.
   $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-admin.styles.css';
   drupal_add_library('system', 'drupal.ajax');
 
@@ -564,9 +538,7 @@ function bpi_ability($nid, $op) {
   $node = node_load($nid);
   $ability = FALSE;
 
-  // Common check for ownership.
-  // @todo This seems to infer that only the creator of a node can perform operations on a node which is rather limiting.
-  // How about using permissions instead e.g. can push own content, can delete any content?
+  // Check for ownership.
   if (is_object($node)) {
     if ($node->uid == $user->uid) {
       $ability = TRUE;

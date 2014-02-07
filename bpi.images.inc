@@ -14,7 +14,6 @@
  *   A set of ajax commands.
  */
 function bpi_syndicate_images($type = 'ajax') {
-  // @todo Implement non-ajax workflow.
   $assets = isset($_SESSION['bpi']['assets']) ? $_SESSION['bpi']['assets'] : array();
 
   if (empty($assets)) {

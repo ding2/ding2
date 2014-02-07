@@ -79,14 +79,13 @@ function bpi_http_push_action($nid) {
  */
 function bpi_http_push_action_form($form, &$form_state, $nid) {
   $node_title = '';
-  // @todo If $nid is empty this seems like a poor fix.
+
   if (!empty($nid)) {
     $node = node_load($nid);
     $node_title = $node->title;
   }
 
   $form['bpi_push_nid'] = array(
-    // @todo Why not use value here?
     '#type' => 'hidden',
     '#value' => isset($nid) ? $nid : 0,
   );
@@ -197,9 +196,6 @@ function bpi_http_push_action_form_submit($form, &$form_state) {
  *   Form structure.
  *
  * @ingroup forms
- *
- * @todo There seems to be a lot of duplicated code between this function and
- * http_bpi_push_action_form(). Can this be refactored?
  */
 function bpi_push_form($form, $form_state, $nid) {
   $node_title = '';
@@ -269,9 +265,6 @@ function bpi_push_form($form, $form_state, $nid) {
  *   Form state values.
  *
  * @ingroup forms
- *
- * @todo There seems to be a lot of duplicated code between this function
- * and http_bpi_push_action_form_submit(). Can this be refactored?
  */
 function bpi_push_form_submit($form, &$form_state) {
   $nid = $form_state['input']['bpi_push_nid'];
