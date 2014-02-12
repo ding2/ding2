@@ -142,5 +142,3 @@ function ting_search_context_evalute_condition($number_of_terms, $total_number, 
   }
 }
 
-
-?>
