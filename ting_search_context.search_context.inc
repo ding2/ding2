@@ -4,7 +4,6 @@ function ting_search_context_calculate_context($facets, $numTotalObjects) {
   $bib_zoom_count = $number_of_library_materials = ting_search_context_get_term_count($facets, 'facet.acSource', array('bibzoom (album)')); 
   $numTotalObjects = $numTotalObjects - $bib_zoom_count;
   $material_type = ting_search_context_get_material_type($facets, $numTotalObjects);
-  //file_put_contents("/home/quickstart/work/debug/debugsearchcontext20.txt", print_r($facets , TRUE), FILE_APPEND);
   if ($material_type != 'book') {
     return $material_type; 
   }
@@ -14,7 +13,6 @@ function ting_search_context_calculate_context($facets, $numTotalObjects) {
   } else {
     $genre_category = ting_search_context_get_genre_category($facets);
     if ($genre_category == 'fiction') {
-      //file_put_contents("/home/quickstart/work/debug/debugsearchcontext9.txt", print_r(get_fiction_genres($facets) . ' ', TRUE), FILE_APPEND);
       return ting_search_context_get_fiction_genres($facets);
     } else if ($genre_category == 'nonfiction') {
       return ting_search_context_get_non_fiction_genres($facets);
