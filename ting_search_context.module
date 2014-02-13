@@ -251,7 +251,7 @@ function ting_search_context_get_context($name, $count = 5, $node_types = 'all')
 		// Else, if we have more room than needed, we include all nodes returned
 		// from the query.
 		else  {
-			foreach ($result as $record) {
+			foreach ($query_less_result as $record) {
 				$return[$record->nid] = node_load($record->nid);
 			}
 		}		
