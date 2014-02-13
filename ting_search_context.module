@@ -131,8 +131,24 @@ function ting_search_context_init() {
 }
 
 /**
- * 
+ * Get all nodes with a rating in the specified contexts.
+ *
+ * @param $names (optional)
+ *   Can either be a string specifying the machine-name of a single context, or
+ *   an array of context machine-names. Defaults to 'all' which returns all 
+ *   nodes that is rated in the context system.
+ *   
+ * @return
+ *   An array of node objects keyd by nid.
+ *   
+ * @see _ting_search_context_get_contexts()
  */
+function ting_search_context_get_all($names = 'all') {
+	// We can use EntityFieldQuery here since we dont need a condition on context
+	// name and rating at the same time.
+	// See: ting_search_context_get_context
+  $query = new EntityFieldQuery();
+}
 
 /**
  * Get node content in the specified context.
@@ -144,8 +160,11 @@ function ting_search_context_init() {
  * @param $node_types (optional)
  *   Can either be a string with a single node type, or an array of node types. 
  *   Defaults to 'all' which includes all supported node types.
+ *   
  * @return
- *   An array of nodes with a rating in the specified context.
+ *   An array of node objects keyd by nid.
+ *   
+ * @see _ting_search_context_get_contexts()   
  */
 function ting_search_context_get_context($name, $count = 5, $node_types = 'all') {
 	// Intialize our return array.
