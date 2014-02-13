@@ -22,14 +22,22 @@ define('TING_SEARCH_CONTEXT_NODE_TYPES', serialize(array(
 /**
  * Implements hook_menu().
  */
-function ting_search_context_menu() {  
-    $items['ting/searchcontext/ajax'] = array(
+function ting_search_context_menu() {
+	$items['admin/content/ting-search-context'] = array(
+		'title' => 'Search context',
+		'description' => t('Manage the state of the context rating system.'),
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array('ting_search_context_admin_form'),
+		'access arguments' => array('administer content'), // Todo: Make own permission?
+		'type' => MENU_LOCAL_TASK | MENU_NORMAL_ITEM,
+		'file' => 'ting_search_context.admin.inc',
+	);  
+  $items['ting/searchcontext/ajax'] = array(
     'title' => 'Get search context blog post list',
     'page callback' => 'ting_search_context_ajax_get_blogposts',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
-
   return $items;
 }
 
@@ -123,6 +131,10 @@ function ting_search_context_init() {
 }
 
 /**
+ * 
+ */
+
+/**
  * Get node content in the specified context.
  *
  * @param $name
@@ -175,36 +187,37 @@ function ting_search_context_get_context($name, $count = 5, $node_types = 'all')
 	}		
 	$query->condition($node_types_condition);
 
-	// Fetch nodes with max rating in the specified context.
+	// Fetch nodes with max rating.
 	$query_max = clone $query;
 	$query_max->condition('fd.field_ting_search_context_rating', 
-		TING_SEARCH_CONTEXT_MAX_RATING, '=');
-	$result = $query_max->orderRandom()->execute()->fetchAll();
-	while ($count > 0 && !empty($result)) {
-		$record = array_shift($result);
+		TING_SEARCH_CONTEXT_MAX_RATING, '=')->range(0, $count);
+	$query_max_count = $query_max->countQuery()->execute()->fetchField();
+	$query_max_result = $query_max->orderRandom()->execute();
+	foreach ($query_max_result as $record) {
 		$return[$record->nid] = node_load($record->nid);
-		$count--;
 	}
+	// Update the $count variable so we know how much there's left.
+	$count -= $query_max_count;
 
-	// If we have room for more, look for nodes with less than max rating.
+	// If there's room for more, look for nodes with less than max rating.
 	if ($count > 0) {
 		$query_less = clone $query;
 		$query_less->condition('fd.field_ting_search_context_rating', 
 			TING_SEARCH_CONTEXT_MAX_RATING, '<');
-		$result_count = $query_less->countQuery()->execute()->fetchField();
-		$result = $query_less->execute();
-		// If there's more nodes rated in the context than we have room for, we 
-		// pick which ones to include randomly so that nodes with higher rating has
-		// a higher chance.
-		if ($result_count > $count) {
+		$query_less_count = $query_less->countQuery()->execute()->fetchField();
+		$query_less_result = $query_less->execute();
+		// If there's more nodes rated in the context than we have room for, pick
+		// which ones to include randomly so that nodes with higher rating has a
+		// higher chance.
+		if ($query_less_count > $count) {
 			$nodes = array();
-			foreach ($result as $record) {
+			foreach ($query_less_result as $record) {
 				$rating = $record->rating;
 				for ($i = 0; $i < $rating; $i++) {
 					$nodes[] = $record->nid;
 				}
 			}
-			while (count($return) < $count && !empty($nodes)) {
+			while ($count > 0) {
 				$random_key = array_rand($nodes);
 				$nid = $nodes[$random_key];
 				// Remove the node completely from the array.
@@ -213,6 +226,7 @@ function ting_search_context_get_context($name, $count = 5, $node_types = 'all')
 					unset($nodes[$key]);
 				}
 				$return[$nid] = node_load($nid);
+				$count--;
 			}		
 		}
 		// Else, if we have more room than needed, we include all nodes returned
