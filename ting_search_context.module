@@ -26,8 +26,7 @@ function ting_search_context_menu() {
 	$items['admin/content/ting-search-context'] = array(
 		'title' => 'Search context',
 		'description' => t('Manage the state of the context rating system.'),
-		'page callback' => 'drupal_get_form',
-		'page arguments' => array('ting_search_context_admin_form'),
+		'page callback' => 'ting_search_context_admin_overview',
 		'access arguments' => array('administer content'), // Todo: Make own permission?
 		'type' => MENU_LOCAL_TASK | MENU_NORMAL_ITEM,
 		'file' => 'ting_search_context.admin.inc',
@@ -116,16 +115,7 @@ function ting_search_context_theme_output($nodes) {
 function ting_search_context_init() {
 	$called = &drupal_Static(__FUNCTION__);
 	if (!$called) {
-		// $nodes = ting_search_context_get_context('krimi');
-		$query = db_select('field_data_field_ting_search_context', 'fd');
-		$query->addField('fd', 'entity_id', 'nid');
-		$query->addField('fd', 'field_ting_search_context_rating', 'rating');
-		$query->condition('fd.entity_type', 'node')
-			->orderBy('rating', 'DESC')
-			->orderRandom()
-			->addTag('node_access');
-		$nodes = array();
-		$result = $query->execute()->fetchAll();
+		
 		$nodes = ting_search_context_get_context('kærlighed');
 	}
 }
@@ -139,15 +129,43 @@ function ting_search_context_init() {
  *   nodes that is rated in the context system.
  *   
  * @return
- *   An array of node objects keyd by nid.
+ *   An array of node IDs.
  *   
  * @see _ting_search_context_get_contexts()
  */
 function ting_search_context_get_all($names = 'all') {
-	// We can use EntityFieldQuery here since we dont need a condition on context
-	// name and rating at the same time.
-	// See: ting_search_context_get_context
-  $query = new EntityFieldQuery();
+	$return = array();	
+	$query = db_select('field_data_field_ting_search_context', 'fd')
+	  ->fields('fd', array('nid'))
+	  ->condition('fd.entity_type', 'node');
+	// If all context was requested we don't need any conditions on context name.
+	if ($names != 'all') {
+		$names = (is_array($names) ? $names : array($names));
+
+		$query->condition('fd.field_ting_search_context_name', $name);		
+	}
+	// TODO: Not done...
+}
+
+/**
+ * Get information about the current state of the context system.
+ *
+ * @return 
+ *   An array of each context defined in the system keyed context machine name.
+ *   Each entry contains contains information about the number of nodes that is
+ *   rated in the context. 
+ */
+function ting_search_context_get_context_info() {
+	$return = array();
+	// Retrieve the contexts defined in the system.
+	$contexts = ting_search_context_get_contexts();
+	// Loop through each context and set up the information
+	foreach ($contexts as $name => $label) {
+		$return[$name] = array();
+		for ($rating = TING_SEARCH_CONTEXT_MAX_RATING; $rating >= 0; $rating--) {
+
+		}
+	}
 }
 
 /**
@@ -197,8 +215,7 @@ function ting_search_context_get_context($name, $count = 5, $node_types = 'all')
 	$query->addField('fd', 'entity_id', 'nid');
 	$query->addField('fd', 'field_ting_search_context_rating', 'rating');
 	$query->condition('fd.entity_type', 'node')
-		->condition('fd.field_ting_search_context_name', $name)	
-		->addTag('node_access');
+		->condition('fd.field_ting_search_context_name', $name);
 	// The node types should have an 'or' conjuction.
 	$node_types_condition = db_or();
 	foreach ($node_types as $node_type) {
