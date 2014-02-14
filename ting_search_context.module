@@ -65,15 +65,6 @@ function ting_search_context_ctools_plugin_directory($module, $plugin) {
   }
 }
 
-/**
- * Implement hook_ctools_plugin_api().
- */
-function ting_search_context_ctools_plugin_api($module, $api) {
-  if ($module == 'page_manager' && $api == 'pages_default') {
-    return array('version' => 1);
-  }
-}
-
 function ting_search_context_ajax_get_blogposts() {
   $search_context = $_POST['search_context'];
   $nodes = ting_search_context_get_context($search_context, $count = 5, $node_types = 'all');
@@ -163,7 +154,7 @@ function ting_search_context_get_context_info() {
 	foreach ($contexts as $name => $label) {
 		$return[$name] = array();
 		for ($rating = TING_SEARCH_CONTEXT_MAX_RATING; $rating >= 0; $rating--) {
-
+			
 		}
 	}
 }
