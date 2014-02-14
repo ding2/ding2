@@ -8,7 +8,7 @@ projects[secure_permissions][subdir] = "contrib"
 projects[secure_permissions][download][type] = "git"
 projects[secure_permissions][download][url] = "http://git.drupal.org/project/secure_permissions.git"
 projects[secure_permissions][download][revision] = "ef5eec5"
-projects[secure_permissions][patch][] = "https://drupal.org/files/issues/2188491-features-multilingual-2.patch"
+projects[secure_permissions][patch][] = "http://drupal.org/files/issues/2188491-features-multilingual-2.patch"
 
 projects[role_delegation][subdir] = "contrib"
 projects[role_delegation][version] = "1.1"
