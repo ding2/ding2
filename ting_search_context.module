@@ -106,19 +106,18 @@ function ting_search_context_theme_output($nodes) {
 function ting_search_context_init() {
 	$called = &drupal_Static(__FUNCTION__);
 	if (!$called) {
-		
-		$nodes = ting_search_context_get_context('kærlighed');
-		file_put_contents("/home/drupalpro/debug/debug.txt", print_r($nodes , TRUE), FILE_APPEND);
+		$context_info = ting_search_context_get_context_info();
+		//$nodes = ting_search_context_get_context('kærlighed');
+		//file_put_contents("/home/drupalpro/debug/debug.txt", print_r($nodes , TRUE), FILE_APPEND);
 	}
 }
 
 /**
- * Get information about the current state of the context system.
+ * Get information about the current state of the context rating system.
  *
  * @return 
- *   An array of each context defined in the system keyed context machine name.
- *   Each entry contains contains information about the number of nodes that is
- *   rated in the context. 
+ *   An array of each context defined in the system keyed context machine name,
+ *   with information about label and ratings.
  */
 function ting_search_context_get_context_info() {
 	$return = array();
@@ -128,11 +127,16 @@ function ting_search_context_get_context_info() {
 	foreach ($contexts as $name => $label) {
 		$query_common = db_select('field_data_field_ting_search_context', 'fd')
 			->condition('fd.field_ting_search_context_name', $name, '=');
-		$return[$name] = array();
-		for ($rating = TING_SEARCH_CONTEXT_MAX_RATING; $rating >= 0; $rating--) {
-
+		$return[$name]['label'] = $label;
+		$return[$name]['ratings'] = array();
+ 		for ($rating = TING_SEARCH_CONTEXT_MAX_RATING; $rating > 0; $rating--) {
+			$query = clone $query_common;
+			$query->condition('fd.field_ting_search_context_rating', $rating, '=');
+			$count = $query->countQuery()->execute()->fetchField();
+			$return[$name]['ratings'][$rating] = $count;
 		}
 	}
+	return $return;
 }
 
 /**
@@ -167,14 +171,6 @@ function ting_search_context_get_context($name, $count = 5, $node_types = 'all')
 	}
 	else {
 		$node_types = (is_array($node_types) ? $node_types : array($node_types));
-		// Make sure we only include supported node types.
-		$node_types_temp = array();
-		foreach ($node_types as $node_type) {
-			if (in_array($node_type, $supported_types)) {
-				$node_types_temp[] = $node_type;
-			}
-		}
-		$node_types = $node_types_temp;			
 	}
 
 	// Return an empty array in case of invalid input.
@@ -318,7 +314,7 @@ function ting_search_context_field_widget_form(&$form, &$form_state, $field,
 	if ($instance['widget']['type'] == 'ting_search_context_select') {
 		$options = array();
 		$options[0] = '- ' . t('None') . ' -';
-		$options += _ting_search_context_get_contexts();
+		$options += ting_search_context_get_contexts();
 		$element['name'] = array(
 			'#type' => 'select',
 			'#title' => t('Name'),
@@ -432,7 +428,7 @@ function ting_search_context_field_formatter_view($entity_type, $entity, $field,
 /**
  * Returns an array with the contexts we support.
  */	
-function _ting_search_context_get_contexts() {
+function ting_search_context_get_contexts() {
 	return array(
 		'film' => 'Film',
 		'music' => 'Musik',
