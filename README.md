@@ -9,7 +9,7 @@ working Apache/Nginx, APC, Memcached, PHP 5.4 and Varnish 3.x (optional). The
 stack should be optimized to run a Drupal site.
 
 ## Dependencies
-* [Drupal 7.23](https://drupal.org/drupal-7.23-release-notes) - latest stable
+* [Drupal 7.26](https://drupal.org/drupal-7.26-release-notes) - latest stable
   version of Drupal Core that ding2 have been tested on and the last stable
   release when this was written.
 * [Drush 6.1.0](https://github.com/drush-ops/drush) - latest release when this
@@ -19,7 +19,7 @@ stack should be optimized to run a Drupal site.
 The reset of this document explains how to download Drupal and patch the core
 to run a Ding2 based site.
 
-## Drush utils (this is a most)
+## Drush utils (this is a must)
 Ding2uses nested makefiles (each module have its own dependencies), which
 results in projects and libraries being download more than once with the
 default drush installation. You can work around this by cloning the
@@ -32,13 +32,13 @@ default drush installation. You can work around this by cloning the
 
 ## Drupal
 Go into your web-root (from now on named DRUPAL) and execute this drush command
-to download a fresh copy of Drupal version 7.23. IF you omit the version number
+to download a fresh copy of Drupal version 7.26. IF you omit the version number
 the newest version of Drupal will be downloaded.
 ```sh
-  ~$ drush dl drupal-7.23
-  ~$ mv drupal-7.23/* .
-  ~$ mv drupal-7.23/.* .
-  ~$ rm -r drupal-7.23
+  ~$ drush dl drupal-7.26
+  ~$ mv drupal-7.26/* .
+  ~$ mv drupal-7.26/.* .
+  ~$ rm -r drupal-7.26
 ```
 
 ### Patches
