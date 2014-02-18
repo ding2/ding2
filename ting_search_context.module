@@ -119,11 +119,16 @@ function ting_search_context_init() {
 /**
  * Get information about the current state of the context rating system.
  *
+ * @param $context_names (TODO)
+ *   Can either be a string specifying a single context name or an array of 
+ *   context names. Defaults to all which returns info on all contexts defined
+ *   in the system.       
+ * 
  * @return 
  *   An array of each context defined in the system keyed context machine name,
  *   with information about label and ratings.
  */
-function ting_search_context_get_context_info() {
+function ting_search_context_get_context_info($context_names = 'all') {
 	$return = array();
 	// Retrieve the contexts defined in the system.
 	$contexts = ting_search_context_get_contexts();
