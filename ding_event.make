@@ -42,7 +42,7 @@ projects[cs_adaptive_image][subdir] = "contrib"
 projects[cs_adaptive_image][version] = "1.0"
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.3"
+projects[ctools][version] = "1.4"
 projects[ctools][patch][0] = "http://drupal.org/files/ctools-n1925018-12.patch"
 
 projects[date][subdir] = "contrib"
@@ -67,7 +67,7 @@ projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-alpha2"
 
 projects[og][subdir] = "contrib"
-projects[og][version] = "2.3"
+projects[og][version] = "2.5"
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
