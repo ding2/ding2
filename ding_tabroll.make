@@ -8,7 +8,7 @@ projects[nodequeue][subdir] = "contrib"
 projects[nodequeue][version] = "2.0-beta1"
 
 projects[entityreference][subdir] = "contrib"
-projects[entityreference][version] = "1.0"
+projects[entityreference][version] = "1.1"
 
 projects[ding_library][type] = "module"
 projects[ding_library][download][type] = "git"
