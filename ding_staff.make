@@ -2,7 +2,7 @@ api = 2
 core = 7.x
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.3"
+projects[ctools][version] = "1.4"
 projects[ctools][patch][0] = "http://drupal.org/files/ctools-n1925018-12.patch"
 
 projects[cs_adaptive_image][subdir] = "contrib"
@@ -27,7 +27,7 @@ projects[email][subdir] = "contrib"
 projects[email][version] = "1.2"
 
 projects[entity][subdir] = "contrib"
-projects[entity][version] = "1.1"
+projects[entity][version] = "1.3"
 
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.0-beta2"
@@ -51,7 +51,7 @@ projects[media][download][url] = "http://git.drupal.org/project/media.git"
 projects[media][download][revision] = "c3cda2b"
 
 projects[og][subdir] = "contrib"
-projects[og][version] = "2.3"
+projects[og][version] = "2.5"
 
 projects[profile2][subdir] = "contrib"
 projects[profile2][version] = "1.3"
