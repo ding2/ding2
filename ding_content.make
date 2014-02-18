@@ -11,11 +11,11 @@ projects[cache_actions][subdir] = "contrib"
 projects[cache_actions][version] = "2.0-alpha5"
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.3"
+projects[ctools][version] = "1.4"
 projects[ctools][patch][0] = "http://drupal.org/files/ctools-n1925018-12.patch"
 
 projects[entity][subdir] = "contrib"
-projects[entity][version] = "1.1"
+projects[entity][version] = "1.3"
 
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.0-beta2"
@@ -68,7 +68,7 @@ projects[node_clone][subdir] = "contrib"
 projects[node_clone][version] = "1.0-rc2"
 
 projects[image_resize_filter][subdir] = "contrib"
-projects[image_resize_filter][version] = "1.13"
+projects[image_resize_filter][version] = "1.14"
 
 ; Libraries
 libraries[ckeditor][download][type] = "get"
