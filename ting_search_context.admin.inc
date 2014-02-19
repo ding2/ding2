@@ -55,7 +55,7 @@ function ting_search_context_overview_form($form, &$form_state) {
 		'#header' => $header,
 		'#options' => $rows,
 		'#default_value' => $default_values,
-		'#advanced_select' => FALSE,
+		'#attributes' => array('id' => array('ting-search-context-overview-table')),
 		'#empty' => t('No ratings found in the system'),
 	);
 	$form['submit'] = array(
@@ -124,7 +124,7 @@ function ting_search_context_overview_form($form, &$form_state) {
 			'#theme' => 'table',
 			'#header' => $header,
 			'#rows' => $rows,
-			'#attributes' => array('class' => 'ting-search-context-table-overview'),
+			'#attributes' => array('id' => array('ting-search-context-detail-table')),
 			'#empty' => t('There was no nodes rated in the selected contexts'),
 		);
 		// Attach admin javascript.
