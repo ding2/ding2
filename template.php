@@ -46,6 +46,12 @@ function ddbasic_preprocess_html(&$vars) {
     'weight' => 999,
     'preprocess' => FALSE,
   ));
+
+  // Cache control for user pages.
+  if (arg(0) == 'user') {
+    drupal_add_http_header('Cache-Control', 'no-cache, no-store, must-revalidate');
+    drupal_add_http_header('Pragma', 'no-cache');
+  }
 }
 
 /**
