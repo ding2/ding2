@@ -101,7 +101,7 @@ function ting_search_context_overview_form($form, &$form_state) {
 					'data' => array(
 						// Use #type link. See https://drupal.org/node/745272
 						'#type' => 'link',
-						'#title' => $row['title'],
+						'#title' => check_plain($row['title']),
 						// We currently only support nodes so we can safely link to 'node/'
 						'#href' => 'node/' . $row['nid'] . '/edit',
 						'#options' => $l_options,
@@ -124,8 +124,12 @@ function ting_search_context_overview_form($form, &$form_state) {
 			'#theme' => 'table',
 			'#header' => $header,
 			'#rows' => $rows,
+			'#attributes' => array('class' => 'ting-search-context-table-overview'),
 			'#empty' => t('There was no nodes rated in the selected contexts'),
 		);
+		// Attach admin javascript.
+		$js_path = TING_SEARCH_CONTEXT_PATH . '/js/ting_search_context.admin.js';
+		$form['#attached']['js'][] = $js_path;
 		// file_put_contents("/home/drupalpro/debug/debug.txt", print_r($selected_contexts , TRUE), FILE_APPEND);
 	}
 

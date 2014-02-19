@@ -1,6 +1,6 @@
 (function($) {
 
-	Drupal.behaviors.tingSearchContext = {
+	Drupal.behaviors.tingSearchContextForm = {
 
 		attach: function(context, settings) {
 			// Hide rating select box on the last field item.
