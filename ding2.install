@@ -224,11 +224,9 @@ function ding2_update_7003() {
 }
 
 /**
- * Update default OG menu links to make translation work.
+ * Update our own translations.
  */
-//function ding2_update_7004() {
-//  $results = db_query("SELECT menu_name AS menu_name FROM {og_menu}");
-//  foreach ($results as $row) {
-//    _og_menu_default_links_set_default_links($row->menu_name, 'update');
-//  }
-//}
+function ding2_update_7004() {
+  // Fixed month translation.
+  ding2_translation_update();
+}
