@@ -792,7 +792,7 @@ msgstr ""
 #: field:field_openruth_interest_period:#allowed_values:30
 msgctxt "field_openruth_interest_period:#allowed_values:30"
 msgid "1 month"
-msgstr "2 måned"
+msgstr "1 måned"
 
 #: field:field_openruth_interest_period:#allowed_values:60
 msgctxt "field_openruth_interest_period:#allowed_values:60"
