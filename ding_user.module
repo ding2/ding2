@@ -12,6 +12,17 @@ include_once 'ding_user_comments.inc';
 define('DING_USER_ACTIVITY', 'DING_USER_LAST_ACTIVITY');
 
 /**
+ * Implements hook_preprocess_page().
+ */
+function ding_user_preprocess_html(&$variables) {
+  // Cache control for user pages.
+  if (arg(0) == 'user') {
+    drupal_add_http_header('Cache-Control', 'no-cache, no-store, must-revalidate');
+    drupal_add_http_header('Pragma', 'no-cache');
+  }
+}
+
+/**
  * Implements hook_ctools_plugin_directory().
  *
  * It simply tells panels where to find the .inc files that define various
