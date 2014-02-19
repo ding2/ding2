@@ -13,7 +13,13 @@
  * @see ting_search_context_overview_form_validate()
  */
 function ting_search_context_overview_form($form, &$form_state) {
-	// Title
+	// Get needed information
+	$selected_contexts = array();
+	if (isset($_SESSION['ting_search_context_selected_contexts'])) {
+		$selected_contexts = $_SESSION['ting_search_context_selected_contexts'];
+	}
+  $context_info = ting_search_context_get_context_info();
+  // Build the form
 	$form['title_overview'] = array(
 		'#type' => 'html_tag',
 		'#suffix' => '<hr/>',
@@ -26,7 +32,6 @@ function ting_search_context_overview_form($form, &$form_state) {
 		'readable_label' => t('Readable label'),
 		'rating_count' => t('Rating count'),
 	);
-	$context_info = ting_search_context_get_context_info();
 	$rows = array();
 	foreach ($context_info as $name => $context) {
 		$rows[$name] = array(
@@ -34,12 +39,22 @@ function ting_search_context_overview_form($form, &$form_state) {
 			'readable_label' => $context['label'],
 			'rating_count' => $context['total_count'],
 		);
+		// Add the selected class to selected rows.
+		if (in_array($name, $selected_contexts)) {
+			$rows[$name]['#attributes'] = array('class' => array('selected'));
+		}
+	}	
+	// Make sure the selected contexts is checked in the overview table.
+	$default_values = array();
+	foreach ($selected_contexts as $context_name) {
+		$default_values[$context_name] = 1;
 	}
 	$form['overview'] = array(
 		'#prefix' => '<br/>',
 		'#type' => 'tableselect',
 		'#header' => $header,
 		'#options' => $rows,
+		'#default_value' => $default_values,
 		'#empty' => t('No ratings found in the system'),
 	);
 	$form['submit'] = array(
@@ -50,16 +65,9 @@ function ting_search_context_overview_form($form, &$form_state) {
 		'#submit' =>  array('ting_search_context_overview_form_submit'),
 	);
 
-	// If the context was selected we set up the detail table with rated nodes.
-	if (!empty($_SESSION['ting_search_context_selected_contexts'])) {
-		$selected_contexts = $_SESSION['ting_search_context_selected_contexts'];
-		// Check the selected values in the table.
-		$default_value = array();
-		foreach ($selected_contexts as $context_name) {
-			$default_value[$context_name] = 1;
-		}
-		$form['overview']['#default_value'] = $default_value;
-		// Set up the table
+	// If any contexts is selected in the overview table, we show the detail
+	// table with all the nodes rated in the selected contexts.
+	if (!empty($selected_contexts)) {
 		$header = array(
 			array('data' => t('Title'), 'field' => 'n.title'),
 			array('data' => t('Type'), 'field' => 'n.type'),
@@ -72,6 +80,11 @@ function ting_search_context_overview_form($form, &$form_state) {
 		$query->fields('n', array('title', 'type', 'status'));
 		$query->addField('fd', 'field_ting_search_context_name', 'name');
 		$query->addField('fd', 'field_ting_search_context_rating', 'rating');
+		$or_condition = db_or();
+		foreach ($selected_contexts as $context_name) {
+			$or_condition->condition('field_ting_search_context_name', $context_name);
+		}
+		$query->condition($or_condition);
 		$result = $query->orderByHeader($header)->execute();
 		$rows = array();
 		foreach ($result as $row) {
