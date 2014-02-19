@@ -39,7 +39,7 @@ function ting_search_context_overview_form($form, &$form_state) {
 			'readable_label' => $context['label'],
 			'rating_count' => $context['total_count'],
 		);
-		// Add the selected class to selected rows.
+		// Add the selected class if this row is selected.
 		if (in_array($name, $selected_contexts)) {
 			$rows[$name]['#attributes'] = array('class' => array('selected'));
 		}
@@ -50,11 +50,12 @@ function ting_search_context_overview_form($form, &$form_state) {
 		$default_values[$context_name] = 1;
 	}
 	$form['overview'] = array(
-		'#prefix' => '<br/>',
+		'#prefix' => '<br/>',	
 		'#type' => 'tableselect',
 		'#header' => $header,
 		'#options' => $rows,
 		'#default_value' => $default_values,
+		'#advanced_select' => FALSE,
 		'#empty' => t('No ratings found in the system'),
 	);
 	$form['submit'] = array(
@@ -69,15 +70,16 @@ function ting_search_context_overview_form($form, &$form_state) {
 	// table with all the nodes rated in the selected contexts.
 	if (!empty($selected_contexts)) {
 		$header = array(
-			array('data' => t('Title'), 'field' => 'n.title'),
-			array('data' => t('Type'), 'field' => 'n.type'),
-			array('data' => t('Status'), 'field' => 'n.status'),
-			array('data' => t('Context'), 'field' => 'name'),
-			array('data' => t('Rating'), 'field' => 'rating'),
+			'title' => array('data' => t('Title'), 'field' => 'n.title'),
+			'type' => array('data' => t('Type'), 'field' => 'n.type'),
+			'status' => array('data' => t('Status'), 'field' => 'n.status'),
+			'name' => array('data' => t('Context'), 'field' => 'name'),
+			'rating' => array('data' => t('Rating'), 'field' => 'rating'),
 		);
 		$query = db_select('node', 'n')->extend('TableSort');
-		$query->join('field_data_field_ting_search_context', 'fd', 'n.nid = fd.entity_id');
-		$query->fields('n', array('title', 'type', 'status'));
+		$query->join('field_data_field_ting_search_context', 'fd', 
+			'n.nid = fd.entity_id');
+		$query->fields('n', array('nid', 'title', 'type', 'status'));
 		$query->addField('fd', 'field_ting_search_context_name', 'name');
 		$query->addField('fd', 'field_ting_search_context_rating', 'rating');
 		$or_condition = db_or();
@@ -86,9 +88,30 @@ function ting_search_context_overview_form($form, &$form_state) {
 		}
 		$query->condition($or_condition);
 		$result = $query->orderByHeader($header)->execute();
+		$languages = language_list();
 		$rows = array();
 		foreach ($result as $row) {
-			$rows[] = array('data' => (array) $row);
+			$row = (array) $row;
+			$node = node_load($row['nid']);
+			$langcode = entity_language('node', $node);
+			$l_options = $langcode != LANGUAGE_NONE && isset($languages[$langcode]) ? 
+				array('language' => $languages[$langcode]) : array();
+			$rows[] = array(
+				'title' => array(
+					'data' => array(
+						// Use #type link. See https://drupal.org/node/745272
+						'#type' => 'link',
+						'#title' => $row['title'],
+						// We currently only support nodes so we can safely link to 'node/'
+						'#href' => 'node/' . $row['nid'] . '/edit',
+						'#options' => $l_options,
+					),
+				),
+				'type' => check_plain(node_type_get_name($row['type'])),
+				'status' => $row['status'] ? t('published') : t('not published'),
+				'name' => $context_info[$row['name']]['label'],
+				'rating' => $row['rating'],
+			);
 		}
 		$form['title_detail'] = array(
 			'#type' => 'html_tag',
