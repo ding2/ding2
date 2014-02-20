@@ -58,12 +58,11 @@ function ting_search_context_overview_form($form, &$form_state) {
 		'#attributes' => array('id' => array('ting-search-context-overview-table')),
 		'#empty' => t('No ratings found in the system'),
 	);
-	$form['submit'] = array(
+	$form['update'] = array(
 		'#type' => 'submit',
 		'#value' => t('Update'),
 		'#description' => t('Updates the detail table'),
-		'#validate' => array('ting_search_context_overview_form_validate'),
-		'#submit' =>  array('ting_search_context_overview_form_submit'),
+		'#submit' =>  array('ting_search_context_overview_form_update'),
 	);
 
 	// If any contexts is selected in the overview table, we show the detail
@@ -74,6 +73,7 @@ function ting_search_context_overview_form($form, &$form_state) {
 			'type' => array('data' => t('Type'), 'field' => 'n.type'),
 			'status' => array('data' => t('Status'), 'field' => 'n.status'),
 			'name' => array('data' => t('Context'), 'field' => 'name'),
+			'label' => t('Label'),
 			'rating' => array('data' => t('Rating'), 'field' => 'rating'),
 		);
 		$query = db_select('node', 'n')->extend('TableSort');
@@ -103,13 +103,14 @@ function ting_search_context_overview_form($form, &$form_state) {
 						'#type' => 'link',
 						'#title' => check_plain($row['title']),
 						// We currently only support nodes so we can safely link to 'node/'
-						'#href' => 'node/' . $row['nid'] . '/edit',
+						'#href' => 'node/' . $node->nid . '/edit',
 						'#options' => $l_options,
 					),
 				),
 				'type' => check_plain(node_type_get_name($row['type'])),
 				'status' => $row['status'] ? t('published') : t('not published'),
-				'name' => $context_info[$row['name']]['label'],
+				'name' => $row['name'],
+				'label' => $context_info[$row['name']]['label'],
 				'rating' => $row['rating'],
 			);
 		}
@@ -121,11 +122,20 @@ function ting_search_context_overview_form($form, &$form_state) {
 		);		
 		$form['detail'] = array(
 			'#prefix' => '<br/>',
-			'#theme' => 'table',
+			'#type' => 'tableselect',
 			'#header' => $header,
-			'#rows' => $rows,
+			'#options' => $rows,
 			'#attributes' => array('id' => array('ting-search-context-detail-table')),
 			'#empty' => t('There was no nodes rated in the selected contexts'),
+		);
+		$form['remove_selected'] = array(
+			'#type' => 'submit',
+			'#value' => t('Remove selected'),
+			'#description' => t('Remove the selected context ratings.'),
+			'#ajax' => array(
+				'callback' => 'ting_search_context_overview_form_remove',
+
+			),
 		);
 		// Attach admin javascript.
 		$js_path = TING_SEARCH_CONTEXT_PATH . '/js/ting_search_context.admin.js';
@@ -137,11 +147,11 @@ function ting_search_context_overview_form($form, &$form_state) {
 }
 
 /**
- * Submit callback for the ting_search_context_overview_form.
+ * Submit callback for the update button on the ting serach context admin form.
  *
  * @see ting_search_context_overview_form()
  */
-function ting_search_context_overview_form_submit($form, &$form_state) {
+function ting_search_context_overview_form_update($form, &$form_state) {
 	// Filter out unchecked contexts.
 	$selected_contexts = array_filter($form_state['values']['overview']);
 	if (!empty($selected_contexts)) {
@@ -153,10 +163,9 @@ function ting_search_context_overview_form_submit($form, &$form_state) {
 }
 
 /**
- * Validate callback for the ting_search_context_overview_form.
- *
- * @see ting_search_context_overview_form() 
+ * Submit callback for remove selected button on the ting search context admin
+ * form.
  */
-function ting_search_context_overview_form_validate($form, &$form_state) {
-	// Nothing to do yet.
+function ting_search_context_overview_form_remove($form, &$form_state) {
+	file_put_contents("/home/drupalpro/debug/debug.txt", print_r($form_state , TRUE), FILE_APPEND);
 }

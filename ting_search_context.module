@@ -31,10 +31,7 @@ function ting_search_context_menu() {
 		'access arguments' => array('administer content'), // Todo: Make own permission?
 		'type' => MENU_LOCAL_TASK | MENU_NORMAL_ITEM,
 		'file' => 'ting_search_context.admin.inc',
-	);
-	/*$items['admin/content/ting-search-context/nodes'] = array(
-		'title callback' => ''
-	);*/ 	 
+	);	 
   $items['ting/searchcontext/ajax'] = array(
     'title' => 'Get search context blog post list',
     'page callback' => 'ting_search_context_ajax_get_blogposts',
@@ -110,7 +107,7 @@ function ting_search_context_theme_output($nodes) {
 function ting_search_context_init() {
 	$called = &drupal_Static(__FUNCTION__);
 	if (!$called) {
-		$context_info = ting_search_context_get_context_info();
+		//$context_info = ting_search_context_get_context_info();
 		//$nodes = ting_search_context_get_context('kærlighed');
 		//file_put_contents("/home/drupalpro/debug/debug.txt", print_r($nodes , TRUE), FILE_APPEND);
 	}
