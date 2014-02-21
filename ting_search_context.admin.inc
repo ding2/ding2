@@ -96,7 +96,7 @@ function ting_search_context_overview_form($form, &$form_state) {
 			$langcode = entity_language('node', $node);
 			$l_options = $langcode != LANGUAGE_NONE && isset($languages[$langcode]) ? 
 				array('language' => $languages[$langcode]) : array();
-			$rows[] = array(
+			$rows[$row['name'] . '__' . $node->nid] = array(
 				'title' => array(
 					'data' => array(
 						// Use #type link. See https://drupal.org/node/745272
@@ -132,10 +132,7 @@ function ting_search_context_overview_form($form, &$form_state) {
 			'#type' => 'submit',
 			'#value' => t('Remove selected'),
 			'#description' => t('Remove the selected context ratings.'),
-			'#ajax' => array(
-				'callback' => 'ting_search_context_overview_form_remove',
-
-			),
+			'#submit' => array('ting_search_context_overview_form_remove'),
 		);
 		// Attach admin javascript.
 		$js_path = TING_SEARCH_CONTEXT_PATH . '/js/ting_search_context.admin.js';
