@@ -50,7 +50,6 @@
     }
     else {
       $('.topbar-menu .leaf .topbar-link-menu').removeClass('active');
-      $('.site-header .js-topbar-menu').css("display", "none");
     }
   }
 
