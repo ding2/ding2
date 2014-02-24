@@ -52,6 +52,13 @@ function ding_reservation_menu() {
     'access arguments' => array(1),
   );
 
+  $items['ting/object/%ting_object/reserve'] = array(
+    'page callback' => 'ding_reservation_reserve_ajax',
+    'page arguments' => array(2),
+    'delivery callback' => 'ajax_deliver',
+    'access arguments' => array('access content'),
+  );
+
   return $items;
 }
 
@@ -80,12 +87,89 @@ function ding_reservation_ding_entity_menu(&$items, $type, $path, $index) {
 /**
  * Implements hook_ding_entity_buttons().
  */
-function ding_reservation_ding_entity_buttons($type, $entity) {
+function ding_reservation_ding_entity_buttons($type, $entity, $widget = 'default') {
+  $button = '';
+
   if ($type == 'ding_entity' && $entity->is('reservable')) {
-    // The last parameter to the form below (TRUE) hides the provider options in
-    // the form (interest period and branch).
-    return array(ding_provider_get_form('ding_reservation_reserve_form', new DingReservationReservableEntity($entity), TRUE));
+    switch ($widget) {
+      case 'ajax':
+        drupal_add_library('system', 'drupal.ajax');
+
+        $button = array(
+          array(
+            '#theme' => 'link',
+            '#text' => t('Reserve'),
+            '#path' => 'ting/object/' . $entity->id . '/reserve',
+            '#options' => array(
+              'attributes' => array(
+                'class' => array(
+                  'action-button',
+                  'reserve-button',
+                  'use-ajax',
+                ),
+                'id' => 'reservation-' . $entity->id,
+              ),
+              'html' => FALSE,
+            ),
+          ),
+        );
+        break;
+
+      default:
+        // The last parameter to the form below (TRUE) hides the provider
+        // options in the form (interest period and branch).
+        $button = array(ding_provider_get_form('ding_reservation_reserve_form', new DingReservationReservableEntity($entity), TRUE));
+        break;
+    }
   }
+
+  return $button;
+}
+
+/**
+ * Ajax entry callback.
+ *
+ * Try to reserve the material, if the user is not logged in trigger a ajax
+ * login.
+ *
+ * @param TingEntity
+ *   Ting entity object.
+ *
+ * @return array
+ *   Render array with Ajax commands.
+ */
+function ding_reservation_reserve_ajax($entity) {
+  $commands = array();
+
+  // Check if the logged in user is a library user.
+  global $user;
+  if (user_is_logged_in()) {
+    if (ding_user_is_provider_user($user)) {
+      if (is_object($entity) && $entity instanceof TingEntity) {
+        // Try to make reservation.
+        $form_state = array('values' => array());
+        drupal_form_submit('ding_reservation_reserve_form', $form_state, new DingReservationReservableEntity($entity));
+
+        // Return any status messages set by the form.
+        $commands[] = ajax_command_ding_popup('ding_reservation', t('Reservation'), theme('status_messages'));
+      }
+      else {
+        // Error not ting entity.
+        $commands[] = ajax_command_ding_popup('ding_reservation', t('Error'), '<p>' . t('Unable to load information about the material.') . '</p>');
+      }
+    }
+    else {
+      // Error not library user.
+      $commands[] = ajax_command_ding_popup('ding_reservation', t('Error'), '<p>' . t('Only library user can make reservations.') . '</p>');
+    }
+  }
+  else {
+    // Trigger log-in (the reservation link will be triggered on success).
+    $commands[] = ajax_command_ding_user_authenticate('');
+  }
+
+  // Return the ajax commands as an render array.
+  return array('#type' => 'ajax', '#commands' => $commands);
 }
 
 /**
