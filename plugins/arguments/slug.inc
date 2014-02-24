@@ -35,6 +35,7 @@ function ding_library_slug_context($arg = NULL, $conf = NULL, $empty = FALSE) {
   }
 
   if (!$node) {
+    $nid = FALSE;
     // Cast argument to an integer to see if it looks like a node ID.
     $num = intval($arg);
     if (is_numeric($num) && $num > 0) {
@@ -49,8 +50,11 @@ function ding_library_slug_context($arg = NULL, $conf = NULL, $empty = FALSE) {
         ->fieldCondition('field_ding_library_slug', 'value', $arg);
 
       $result = $query->execute();
-      $nid = array_keys($result['node']);
-      $nid = reset($nid);
+
+      if (isset($result['node'])) {
+        $nid = array_keys($result['node']);
+        $nid = reset($nid);
+      }
     }
     else {
       return FALSE;
