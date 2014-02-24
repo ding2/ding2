@@ -352,6 +352,19 @@ function ding_library_default_page_manager_pages() {
       'middle' => NULL,
       'right' => NULL,
       'bottom' => NULL,
+      'left_sidebar' => NULL,
+      'main_content' => NULL,
+      'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
     ),
   );
   $display->cache = array();
@@ -361,25 +374,19 @@ function ding_library_default_page_manager_pages() {
     $pane = new stdClass();
     $pane->pid = 'new-1';
     $pane->panel = 'main_content';
-    $pane->type = 'openlayers_map';
-    $pane->subtype = 'ding_library_map';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'ding_library-ding_library_leaflet';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array(
-      'method' => '0',
-      'settings' => array(),
-    );
+    $pane->configuration = array();
+    $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
     );
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $pane->locks = '';
+    $pane->locks = array();
     $display->content['new-1'] = $pane;
     $display->panels['main_content'][0] = 'new-1';
     $pane = new stdClass();

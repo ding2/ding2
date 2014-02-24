@@ -50,17 +50,6 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['nid']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['nid']['hide_alter_empty'] = FALSE;
-  /* Field: div class=libraries-content */
-  $handler->display->display_options['fields']['nothing_1']['id'] = 'nothing_1';
-  $handler->display->display_options['fields']['nothing_1']['table'] = 'views';
-  $handler->display->display_options['fields']['nothing_1']['field'] = 'nothing';
-  $handler->display->display_options['fields']['nothing_1']['ui_name'] = 'div class=libraries-content';
-  $handler->display->display_options['fields']['nothing_1']['label'] = '';
-  $handler->display->display_options['fields']['nothing_1']['alter']['text'] = '<div class="libraries-content">';
-  $handler->display->display_options['fields']['nothing_1']['element_type'] = '0';
-  $handler->display->display_options['fields']['nothing_1']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['nothing_1']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['nothing_1']['element_default_classes'] = FALSE;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -157,17 +146,6 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['title_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title_1']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['title_1']['element_default_classes'] = FALSE;
-  /* Field: /div */
-  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
-  $handler->display->display_options['fields']['nothing']['table'] = 'views';
-  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
-  $handler->display->display_options['fields']['nothing']['ui_name'] = '/div';
-  $handler->display->display_options['fields']['nothing']['label'] = '';
-  $handler->display->display_options['fields']['nothing']['alter']['text'] = '</div>';
-  $handler->display->display_options['fields']['nothing']['element_type'] = '0';
-  $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['nothing']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['nothing']['element_default_classes'] = FALSE;
   /* Sort criterion: Content: Title */
   $handler->display->display_options['sorts']['title']['id'] = 'title';
   $handler->display->display_options['sorts']['title']['table'] = 'node';
@@ -227,66 +205,42 @@ function ding_library_views_default_views() {
   $handler->display->display_options['allow']['exposed_form'] = 0;
   $handler->display->display_options['allow']['fields_override'] = 0;
 
-  /* Display: OpenLayers Data Overlay */
-  $handler = $view->new_display('openlayers', 'OpenLayers Data Overlay', 'openlayers_1');
+  /* Display: Leaflet Pane */
+  $handler = $view->new_display('panel_pane', 'Leaflet Pane', 'ding_library_leaflet');
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-  $handler->display->display_options['style_plugin'] = 'openlayers_data';
-  $handler->display->display_options['style_options']['data_source'] = array(
-    'value' => 'wkt',
-    'other_lat' => 'nid',
-    'other_lon' => 'nid',
-    'wkt' => 'field_ding_library_geocode',
-    'other_top' => 'nid',
-    'other_right' => 'nid',
-    'other_bottom' => 'nid',
-    'other_left' => 'nid',
-    'name_field' => 'title',
-    'description_field' => '#row',
-  );
+  $handler->display->display_options['style_plugin'] = 'leaflet';
+  $handler->display->display_options['style_options']['data_source'] = 'field_ding_library_geocode';
+  $handler->display->display_options['style_options']['name_field'] = 'title';
+  $handler->display->display_options['style_options']['description_field'] = 'field_ding_library_addresse';
+  $handler->display->display_options['style_options']['view_mode'] = 'teaser';
+  $handler->display->display_options['style_options']['map'] = 'OSM Mapnik';
+  $handler->display->display_options['style_options']['height'] = '275';
+  $handler->display->display_options['style_options']['zoom']['initialZoom'] = '-1';
+  $handler->display->display_options['style_options']['zoom']['minZoom'] = '0';
+  $handler->display->display_options['style_options']['zoom']['maxZoom'] = '18';
+  $handler->display->display_options['style_options']['vector_display']['stroke'] = 0;
+  $handler->display->display_options['style_options']['vector_display']['fill'] = 0;
+  $handler->display->display_options['style_options']['vector_display']['clickable'] = 0;
   $handler->display->display_options['defaults']['style_options'] = FALSE;
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
-  $handler->display->display_options['row_plugin'] = 'fields';
-  $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Nid */
-  $handler->display->display_options['fields']['nid']['id'] = 'nid';
-  $handler->display->display_options['fields']['nid']['table'] = 'node';
-  $handler->display->display_options['fields']['nid']['field'] = 'nid';
-  $handler->display->display_options['fields']['nid']['label'] = '';
-  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['nid']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['nid']['hide_alter_empty'] = FALSE;
+  /* Field: Content: Body */
+  $handler->display->display_options['fields']['field_ding_library_body']['id'] = 'field_ding_library_body';
+  $handler->display->display_options['fields']['field_ding_library_body']['table'] = 'field_data_field_ding_library_body';
+  $handler->display->display_options['fields']['field_ding_library_body']['field'] = 'field_ding_library_body';
+  $handler->display->display_options['fields']['field_ding_library_body']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_library_body']['element_label_colon'] = FALSE;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['label'] = '';
-  $handler->display->display_options['fields']['title']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
-  $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['title']['hide_alter_empty'] = FALSE;
-  $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-  /* Field: Content: Geocode */
-  $handler->display->display_options['fields']['field_ding_library_geocode']['id'] = 'field_ding_library_geocode';
-  $handler->display->display_options['fields']['field_ding_library_geocode']['table'] = 'field_data_field_ding_library_geocode';
-  $handler->display->display_options['fields']['field_ding_library_geocode']['field'] = 'field_ding_library_geocode';
-  $handler->display->display_options['fields']['field_ding_library_geocode']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_library_geocode']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_ding_library_geocode']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_library_geocode']['click_sort_column'] = 'wkt';
-  $handler->display->display_options['fields']['field_ding_library_geocode']['settings'] = array(
-    'data' => 'full',
-  );
   /* Field: Content: Address */
   $handler->display->display_options['fields']['field_ding_library_addresse']['id'] = 'field_ding_library_addresse';
   $handler->display->display_options['fields']['field_ding_library_addresse']['table'] = 'field_data_field_ding_library_addresse';
   $handler->display->display_options['fields']['field_ding_library_addresse']['field'] = 'field_ding_library_addresse';
-  $handler->display->display_options['fields']['field_ding_library_addresse']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_library_addresse']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_library_addresse']['click_sort_column'] = 'country';
   $handler->display->display_options['fields']['field_ding_library_addresse']['settings'] = array(
     'use_widget_handlers' => 1,
@@ -294,6 +248,63 @@ function ding_library_views_default_views() {
       'address' => 'address',
     ),
   );
+  /* Field: Content: Geocode */
+  $handler->display->display_options['fields']['field_ding_library_geocode']['id'] = 'field_ding_library_geocode';
+  $handler->display->display_options['fields']['field_ding_library_geocode']['table'] = 'field_data_field_ding_library_geocode';
+  $handler->display->display_options['fields']['field_ding_library_geocode']['field'] = 'field_ding_library_geocode';
+  $handler->display->display_options['fields']['field_ding_library_geocode']['click_sort_column'] = 'geom';
+  $handler->display->display_options['fields']['field_ding_library_geocode']['type'] = 'geofield_leaflet';
+  $handler->display->display_options['fields']['field_ding_library_geocode']['settings'] = array(
+    'leaflet_map' => 'OSM Mapnik',
+    'height' => '400',
+    'popup' => array(
+      'show' => 0,
+      'text' => '',
+    ),
+    'zoom' => array(
+      'initialZoom' => '-1',
+      'minZoom' => '1',
+      'maxZoom' => '-1',
+    ),
+    'icon' => array(
+      'iconType' => 'marker',
+      'iconUrl' => '',
+      'shadowUrl' => '',
+      'html' => '',
+      'iconImageStyle' => 'ding_campaign_w_180',
+      'htmlClass' => '',
+      'iconSize' => array(
+        'x' => '',
+        'y' => '',
+      ),
+      'iconAnchor' => array(
+        'x' => '',
+        'y' => '',
+      ),
+      'shadowAnchor' => array(
+        'x' => '',
+        'y' => '',
+      ),
+      'popupAnchor' => array(
+        'x' => '',
+        'y' => '',
+      ),
+    ),
+    'vector_display' => array(
+      'stroke_override' => 0,
+      'stroke' => 1,
+      'color' => '',
+      'weight' => '',
+      'opacity' => '',
+      'dashArray' => '',
+      'fill' => 1,
+      'fillColor' => '',
+      'fillOpacity' => '',
+      'clickable' => 1,
+    ),
+  );
+  $handler->display->display_options['pane_category']['name'] = 'Library panes';
+  $handler->display->display_options['pane_category']['weight'] = '0';
   $translatables['ding_library'] = array(
     t('Master'),
     t('mere'),
@@ -302,18 +313,18 @@ function ding_library_views_default_views() {
     t('Sortér efter'),
     t('Stigende'),
     t('Faldende'),
-    t('<div class="libraries-content">'),
     t('Adresse'),
     t('Phone'),
     t('Fax'),
     t('E-mail'),
     t('<i class="icon-chevron-right"></i> [title_1]'),
-    t('</div>'),
     t('Libraries list'),
     t('more'),
     t('queue'),
     t('Library panes'),
-    t('OpenLayers Data Overlay'),
+    t('Leaflet Pane'),
+    t('Address'),
+    t('Geocode'),
   );
   $export['ding_library'] = $view;
 
