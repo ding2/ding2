@@ -614,26 +614,13 @@
   }
 }
 
-.pane-bookmarks {
-  td {
-    text-align: left;
-    vertical-align: middle;
-  }
+.bookmark-button {
+  @extend %button-default;
+}
 
-  .ding-entity-button {
-    float: right;
-    margin-right: $large-spacing;
-
-    a {
-      @extend %button-danger;
-    }
-
-    &.ding-bookmark-reservation-button {
-      a {
-        @extend %button-action;
-      }
-    }
-  }
+.pane-bookmarks .action-button {
+  margin-top: 10px;
+  margin-right: 0;
 }
 
 #ding-bookmark-remove-form {

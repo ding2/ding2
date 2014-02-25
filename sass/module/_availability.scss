@@ -12,13 +12,12 @@
   color: darken($yellow, 10%);
 }
 
-form[id^='ding-reservation-reserve-form'] {
+.field-name-ding-entity-buttons .reserve-button {
   display: none;
 
   &.reservable {
-    display: block;
+    display: inline-block;
     margin-left: 10px;
-
   }
 
   &.available {
