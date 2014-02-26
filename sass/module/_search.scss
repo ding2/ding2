@@ -707,61 +707,6 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
-.availability {
-  margin-bottom: 0;
-
-  &.content {
-    float: right;
-  }
-
-  li {
-    display: inline-block;
-    margin-bottom: 5px;
-    padding: 0;
-
-    &.pending {
-      @include availability($availability-pending);
-    }
-
-    &.availability.processed {
-      @include availability($availability-processed);
-    }
-
-    &.availability.available {
-      @include availability($availability-available);
-    }
-
-    &.availability.reservable {
-      @include availability($availability-reservable);
-    }
-
-    &.availability.available.reservable {
-      @include availability($availability-available-reservable);
-    }
-
-    &.availability.available.not-reservable {
-      @include availability($availability-available-not-reservable);
-    }
-
-    &.availability.unavailable.reservable {
-      @include availability($availability-reservable);
-    }
-
-    &.availability.unavailable.not-reservable {
-      @include availability($availability-available-not-reservable);
-    }
-
-    .availability-status {
-      &:before {
-        content: " - ";
-        margin-left: 5px;
-      }
-    }
-  }
-}
-
-
-
 /* Collection display
    ========================================================================== */
 
