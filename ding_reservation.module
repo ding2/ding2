@@ -132,13 +132,17 @@ function ding_reservation_ding_entity_buttons($type, $entity, $widget = 'default
  * Try to reserve the material, if the user is not logged in trigger a ajax
  * login.
  *
- * @param TingEntity
+ * @param TingEntity $entity
  *   Ting entity object.
+ * @param DingReservationReservable $reservable
+ *   Object with information about the entity to reserve. Used to make
+ *   reservation of periodical, where volume and issue is part of the
+ *   reservation.
  *
  * @return array
  *   Render array with Ajax commands.
  */
-function ding_reservation_reserve_ajax($entity) {
+function ding_reservation_reserve_ajax($entity, $reservable = NULL) {
   $commands = array();
 
   // Check if the logged in user is a library user.
@@ -146,9 +150,15 @@ function ding_reservation_reserve_ajax($entity) {
   if (user_is_logged_in()) {
     if (ding_user_is_provider_user($user)) {
       if (is_object($entity) && $entity instanceof TingEntity) {
+        // Check if reservable object was paste.
+        if (is_null($reservable)) {
+          // If no object passed assume "normal" reservation (not periodical).
+          new DingReservationReservableEntity($entity);
+        }
+
         // Try to make reservation.
         $form_state = array('values' => array());
-        drupal_form_submit('ding_reservation_reserve_form', $form_state, new DingReservationReservableEntity($entity));
+        drupal_form_submit('ding_reservation_reserve_form', $form_state, $reservable);
 
         // Return any status messages set by the form.
         $commands[] = ajax_command_ding_popup('ding_reservation', t('Reservation'), theme('status_messages'));
