@@ -670,10 +670,3 @@ function ding_permissions_secure_permissions($role) {
     return $permissions[$role];
   }
 }
-
-/**
- * Rebuild permissions.
- */
-function ding_permissions_update_7000() {
-  secure_permissions_rebuild();
-}
