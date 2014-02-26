@@ -102,6 +102,11 @@ projects[ding_contact][download][type] = "git"
 projects[ding_contact][download][url] = "git@github.com:ding2tal/ding_contact.git"
 projects[ding_contact][download][branch] = "development"
 
+projects[bpi][type] = "module"
+projects[bpi][download][type] = "git"
+projects[bpi][download][url] = "git@github.com:ding2tal/bpi.git"
+projects[bpi][download][branch] = "development"
+
 ; Base theme
 projects[ddbasic][type] = "theme"
 projects[ddbasic][download][type] = "git"
