@@ -11,7 +11,7 @@
  */
 function ding_base_drush_command() {
   return array(
-    'color-generate' => array(
+    'css-generate' => array(
       'description' => dt('Generates the current themes color css file.'),
       'arguments' => array(),
       'options' => array(),
