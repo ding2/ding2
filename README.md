@@ -51,6 +51,12 @@ This [patch](https://drupal.org/node/1232346) fixes a problem with recursive men
   ~$ wget -qO- http://drupal.org/files/menu-get-item-rebuild-1232346-22_0.patch | patch -p1
 ```
 
+This [patch](https://drupal.org/node/2205581) fixes issue with permissions and
+translation of role names.
+```sh
+  ~$ wget -qO- http://drupal.org/files/issues/translate_role_names-2205581-1.patch | patch -p1
+```
+
 This [patch](https://drupal.org/node/1879970) ensure that communication with
 web-services that runs OpenSSL v1.0.x or newer works.
 ```sh
