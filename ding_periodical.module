@@ -135,7 +135,6 @@ function theme_ding_periodical_issues($variables) {
 
       // Check if the volume is reservable and add reservation button.
       if (!empty($issue_id) && ding_periodical_is_reservable($issues[$key])) {
-        $reservation = new DingPeriodicalReservable($issue_id, $volume, $key, $variables['entity']);
         $path = array($issue_id, $volume, $key);
         $button = array(
           array(
