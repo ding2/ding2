@@ -790,15 +790,23 @@ function ding_user_get_creds($user = NULL) {
       // User who are authenticated but has no other roles (i.e. ding user).
       if (count($roles) == 1 && $roles[0] == 'authenticated user' && $timeout != 0) {
         // Check if session is expired.
+        $t = time() - $_SESSION[DING_USER_ACTIVITY];
         if (isset($_SESSION[DING_USER_ACTIVITY]) && (time() - $_SESSION[DING_USER_ACTIVITY] > variable_get('ding_user_session_expire', 900))) {
           watchdog('user', 'Session timeout for %name.', array('%name' => $user->name));
+
+          // Logout the user and switch to anonymous.
           user_module_invoke('logout', $user, 'user');
-
           session_destroy();
-
           $user = drupal_anonymous_user();
-          drupal_set_message(t('Your session has timed out.', array(), array('context' => 'ding_user')));
-          drupal_goto();
+
+          // Handle ajax requests.
+          if (isset($_REQUEST['js']) && $_REQUEST['js'] == 'true') {
+            throw new DingProviderAuthException();
+          }
+          else {
+            drupal_set_message(t('Your session has timed out.', array(), array('context' => 'ding_user')));
+            drupal_goto();
+          }
         }
       }
     }
