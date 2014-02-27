@@ -99,7 +99,9 @@ function ding_library_field_default_field_bases() {
     'locked' => 0,
     'module' => 'geofield',
     'settings' => array(
+      'backend' => 'default',
       'profile2_private' => FALSE,
+      'srid' => 4326,
     ),
     'translatable' => 0,
     'type' => 'geofield',

@@ -11,9 +11,6 @@ projects[cache_actions][version] = "2.0-alpha5"
 projects[cs_adaptive_image][subdir] = "contrib"
 projects[cs_adaptive_image][version] = "1.0"
 
-projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.4"
-
 projects[email][subdir] = "contrib"
 projects[email][version] = "1.2"
 
@@ -41,6 +38,9 @@ projects[nodequeue][version] = "2.0-beta1"
 projects[proj4js][subdir] = "contrib"
 projects[proj4js][version] = "1.2"
 
+projects[leaflet][subdir] = "contrib"
+projects[leaflet][version] = "1.1"
+
 projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.1"
 
@@ -62,11 +62,15 @@ projects[og][version] = "2.5"
 projects[og_menu][subdir] = "contrib"
 projects[og_menu][version] = "3.0-rc4"
 
-projects[openlayers][subdir] = "contrib"
-projects[openlayers][version] = "2.0-beta7"
+projects[opening_hours][subdir] = "contrib"
+projects[opening_hours][version] = "1.4-beta1"
+projects[opening_hours][patch][0] = "http://drupal.org/files/node-type-test-isset-2011684-2.patch"
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
+
+projects[tipsy][subdir] = "contrib"
+projects[tipsy][version] = "1.0-rc1"
 
 projects[views][subdir] = "contrib"
 projects[views][version] = "3.7"
@@ -74,9 +78,7 @@ projects[views][version] = "3.7"
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.1"
 
-projects[tipsy][subdir] = "contrib"
-projects[tipsy][version] = "1.0-rc1"
-
-projects[opening_hours][subdir] = "contrib"
-projects[opening_hours][version] = "1.4-beta1"
-projects[opening_hours][patch][0] = "http://drupal.org/files/node-type-test-isset-2011684-2.patch"
+libraries[leaflet][download][type] = "get"
+libraries[leaflet][download][url] = "http://leaflet-cdn.s3.amazonaws.com/build/leaflet-0.7.2.zip"
+libraries[leaflet][directory_name] = "leaflet"
+libraries[leaflet][destination] = "libraries"
