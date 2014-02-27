@@ -153,7 +153,7 @@ function ding_reservation_reserve_ajax($entity, $reservable = NULL) {
         // Check if reservable object was paste.
         if (is_null($reservable)) {
           // If no object passed assume "normal" reservation (not periodical).
-          new DingReservationReservableEntity($entity);
+          $reservable = new DingReservationReservableEntity($entity);
         }
 
         // Try to make reservation.
