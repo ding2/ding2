@@ -30,13 +30,8 @@ projects[field_group][version] = "1.1"
 projects[og][subdir] = "contrib"
 projects[og][version] = "2.5"
 
-# This version of og menu contains patches from ding2tal.
-projects[og_menu][type] = "module"
 projects[og_menu][subdir] = "contrib"
-projects[og_menu][download][type] = "git"
-projects[og_menu][download][url] = "http://git.drupal.org/project/og_menu.git"
-projects[og_menu][download][revision] = "4c1d8dd4c18dc25df12f5e7fabd4dde52dd286f0"
-projects[og_menu][patch][0] = "http://drupal.org/files/issues/option_to_hide_create_menu-2139819-2.patch"
+projects[og_menu][version] = "3.0-rc4"
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
