@@ -1,15 +1,15 @@
-backend default { 
+backend default {
   .host = "127.0.0.1";
   .port = "80";
 }
- 
+
 # Respond to incoming requests.
 sub vcl_recv {
   # Make sure that the client ip is forward to the client.
   if (req.restarts == 0) {
     if (req.http.x-forwarded-for) {
       set req.http.X-Forwarded-For = req.http.X-Forwarded-For + ", " + client.ip;
-    } 
+    }
     else {
       set req.http.X-Forwarded-For = client.ip;
     }
@@ -50,7 +50,7 @@ sub vcl_recv {
     req.url ~ "^.*/ding_availability.*$") {
     return (pass);
   }
- 
+
   # Pipe these paths directly to Apache for streaming.
   if (req.url ~ "^/admin/content/backup_migrate/export") {
     return (pipe);
@@ -58,14 +58,14 @@ sub vcl_recv {
 
   # Allow the backend to serve up stale content if it is responding slowly.
   set req.grace = 6h;
- 
+
   # Use anonymous, cached pages if all backends are down.
   if (!req.backend.healthy) {
     unset req.http.Cookie;
   }
- 
+
   # Always cache the following file types for all users.
-  if (req.url ~ "(?i)\.(pdf|asc|dat|txt|doc|xls|ppt|tgz|csv|png|gif|jpeg|jpg|ico|swf|css|js)(\?[a-z0-9]+)?$") {
+  if (req.url ~ "(?i)\.(pdf|asc|dat|txt|doc|xls|ppt|tgz|csv|png|gif|jpeg|jpg|ico|swf|css|js)(\?[\w\d=\.\-]+)?$") {
     unset req.http.Cookie;
   }
 
@@ -80,7 +80,7 @@ sub vcl_recv {
     set req.http.Cookie = regsuball(req.http.Cookie, ";(SESS[a-z0-9]+|NO_CACHE)=", "; \1=");
     set req.http.Cookie = regsuball(req.http.Cookie, ";[^ ][^;]*", "");
     set req.http.Cookie = regsuball(req.http.Cookie, "^[; ]+|[; ]+$", "");
- 
+
     if (req.http.Cookie == "") {
       # If there are no remaining cookies, remove the cookie header. If there
       # aren't any cookie headers, Varnish's default behavior will be to cache
@@ -111,7 +111,7 @@ sub vcl_recv {
       # Unknown algorithm. Remove it and send unencoded.
       unset req.http.Accept-Encoding;
     }
-  }  
+  }
   return (lookup);
 }
 
@@ -157,7 +157,7 @@ sub vcl_fetch {
   # (?i) denotes case insensitive in PCRE (perl compatible regular expressions).
   # This list of extensions appears twice, once here and again in vcl_recv so
   # make sure you edit both and keep them equal.
-  if (req.url ~ "(?i)\.(pdf|asc|dat|txt|doc|xls|ppt|tgz|csv|png|gif|jpeg|jpg|ico|swf|css|js)(\?.*)?$") {
+  if (req.url ~ "(?i)\.(pdf|asc|dat|txt|doc|xls|ppt|tgz|csv|png|gif|jpeg|jpg|ico|swf|css|js)(\?[\w\d=\.\-]+)?$") {
     unset beresp.http.set-cookie;
   }
 
