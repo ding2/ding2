@@ -21,6 +21,7 @@ function ding_provider_menu() {
     'description' => 'Configure the provider used to communicate with the library system.',
     'page callback' => 'ding_provider_admin_overview',
     'access arguments' => array('administer ding provider'),
+    'type' => MENU_NORMAL_ITEM,
     'file' => 'ding_provider.admin.inc',
   );
 
@@ -81,6 +82,7 @@ function ding_provider_permission() {
   return array(
     'administer ding provider' => array(
       'title' => t('Administer Ding provider'),
+      'description' => t('Allow role to configure provider settings.'),
     ),
   );
 }
