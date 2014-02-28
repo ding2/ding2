@@ -237,6 +237,7 @@ function ding_permissions_secure_permissions($role) {
       'administer opening hours configuration',
       'administer search',
       'administer shortcuts',
+      'administer taxonomy',
       'administer themes',
       'administer ting settings',
       'administer url aliases',
