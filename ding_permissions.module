@@ -193,6 +193,9 @@ function ding_permissions_secure_permissions($role) {
       'view own unpublished content',
       'view revisions',
       'view the administration theme',
+      'bpi syndicate content',
+      'bpi push content',
+      'delete bpi content',
     ),
     'guest blogger' => array(
       'access overlay',
@@ -358,6 +361,11 @@ function ding_permissions_secure_permissions($role) {
       'view private files',
       'view revisions',
       'view the administration theme',
+      'administer bpi',
+      'bpi syndicate content',
+      'bpi push content',
+      'delete bpi content',
+      'view bpi statistics',
     ),
     'local editor' => array(
       'access campaign rules',
@@ -406,6 +414,10 @@ function ding_permissions_secure_permissions($role) {
       'view own unpublished content',
       'view revisions',
       'view the administration theme',
+      'bpi syndicate content',
+      'bpi push content',
+      'delete bpi content',
+      'view bpi statistics',
     ),
     'provider' => array(
       'create files',
@@ -665,6 +677,11 @@ function ding_permissions_secure_permissions($role) {
       'view private files',
       'view revisions',
       'view the administration theme',
+      'administer bpi',
+      'bpi syndicate content',
+      'bpi push content',
+      'delete bpi content',
+      'view bpi statistics',
     ),
   );
   if (isset($permissions[$role])) {
