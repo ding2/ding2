@@ -17,7 +17,9 @@ function alma_user_authenticate($uid, $pass) {
 
   try {
     $res = alma_client_invoke('get_patron_info', $uid, $pass, TRUE);
-    $return['success'] = TRUE;
+    if ($res) {
+      $return['success'] = TRUE;
+    }
   }
   catch (Exception $e) {
     return $return;
