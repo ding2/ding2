@@ -215,8 +215,8 @@
     }
 
     // Check if #login fragment is in url.
-    var url = window.location.hash;
-    if (url === "#login") {
+    var hash = window.location.hash;
+    if (hash === "#login") {
       //Show login box.
       ddbasic_user_login(true);
       ddbasic_mobile_menu(false);
