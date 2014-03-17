@@ -237,6 +237,7 @@ function ding_permissions_secure_permissions($role) {
       'administer ding provider',
       'administer frontpage settings',
       'administer menu',
+      'administer nodes',
       'administer opening hours configuration',
       'administer search',
       'administer shortcuts',
