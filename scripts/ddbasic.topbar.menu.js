@@ -223,5 +223,20 @@
       ddbasic_search(false);
     }
 
+    // Figure out if login failed by URL and messaages.
+    var url = window.location.toString();
+    if (url.indexOf('ding_frontpage') > -1) {
+      // Looks like a redirect after a failed login.
+      var message = $('.messages');
+      if (message.length > 0) {
+        // We got messages, positive.
+        if (message.hasClass('error')) {
+          // And errors. We are guessting the login failed.
+          ddbasic_user_login(true);
+          ddbasic_mobile_menu(false);
+          ddbasic_search(false);
+        }
+      }
+    }
   });
 })(jQuery);
