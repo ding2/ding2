@@ -3,8 +3,10 @@ core = 7.x
 
 ; Contrib
 
+// The patch allows extra CURL parameters.
 projects[nanosoap][subdir] = "contrib"
 projects[nanosoap][version] = "1.0"
+projects[nanosoap][patch][] = "http://drupal.org/files/nanosoap-curloptions-1943732.patch"
 
 projects[virtual_field][subdir] = "contrib"
 projects[virtual_field][version] = "1.1"
