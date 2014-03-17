@@ -588,7 +588,7 @@ function ding_user_user_login_validate($form, &$form_state) {
  * @param array $auth_res
  *   Authentication information from the provider.
  *
- * @return string
+ * @return entity
  *   Drupal user object.
  */
 function _ding_user_create_account($auth_name, $auth_res) {
