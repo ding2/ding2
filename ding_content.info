@@ -46,6 +46,7 @@ features[filter][] = ding_wysiwyg
 features[page_manager_handlers][] = term_view_panel_context_3
 features[taxonomy][] = category
 features[taxonomy][] = ding_content_tags
+features[variable][] = media_wysiwyg_wysiwyg_browser_plugins
 features[variable][] = page_manager_node_view_disabled
 features[variable][] = page_manager_term_view_disabled
 features[views_view][] = tags_list
