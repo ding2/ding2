@@ -1,31 +1,30 @@
 api = 2
 core = 7.x
 
-; Date
+; Projects
+projects[ding_content][type] = "module"
+projects[ding_content][download][type] = "git"
+projects[ding_content][download][url] = "git@github.com:ding2tal/ding_content.git"
+projects[ding_content][download][branch] = "development"
+
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.6"
 
-; Media
+projects[media][type] = "module"
 projects[media][subdir] = "contrib"
-projects[media][version] = "1.3"
+projects[media][download][type] = "git"
+projects[media][download][url] = "http://git.drupal.org/project/media.git"
+projects[media][download][revision] = "c3cda2b"
 
-; Wysiwyg
-projects[wysiwyg][subdir] = "contrib"
-projects[wysiwyg][version] = "2.2"
+projects[file_entity][subdir] = "contrib"
+projects[file_entity][version] = "2.0-alpha2"
 
-; CKEditor lib for wysiwyg
-libraries[ckeditor][destination]    = "libraries"
-libraries[ckeditor][directory_name] = "ckeditor"
-libraries[ckeditor][download][type] = "get"
-libraries[ckeditor][download][url]  = "http://download.cksource.com/CKEditor/CKEditor/CKEditor%203.6.6.1/ckeditor_3.6.6.1.zip"
-
-; Ding popup
 projects[ding_popup][type] = "module"
 projects[ding_popup][download][type] = "git"
-projects[ding_popup][download][url]  = "git@github.com:ding2/ding_popup.git"
-projects[ding_popup][download][branch] = "master"
+projects[ding_popup][download][url] = "git@github.com:ding2tal/ding_popup.git"
+projects[ding_popup][download][branch] = "development"
 
-libraries[bpi-client][destination]      = "modules/bpi/lib"
-libraries[bpi-client][download][type]   = "git"
-libraries[bpi-client][download][url]    = "git@github.com:bpi-dk/bpi-client.git"
-libraries[bpi-client][download][tag]    = "0.8"
+libraries[bpi-client][destination] = "modules/bpi/lib"
+libraries[bpi-client][download][type] = "git"
+libraries[bpi-client][download][url] = "git@github.com:ding2tal/bpi-client.git"
+libraries[bpi-client][download][branch] = "development"
