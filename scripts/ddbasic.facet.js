@@ -14,7 +14,7 @@
       $('.facet-browser-toggle').live('click', function() {
           // Clone facet browser if it does not exist.
           //var facet_browser_clone = $('.facet-browser-responsive');
-          $(this).next().toggle();
+        $('.pane-search-backends, .pane-ding-facetbrowser').toggle();
       });
     }
   });
