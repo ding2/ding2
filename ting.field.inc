@@ -398,7 +398,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
       case 'ting_author_default':
         $creators = array();
         foreach ($entity->creators as $i => $creator) {
-          $creators[] = l($creator, 'search/ting/phrase.creator=' . $creator, array('attributes' => array('class' => array('author'))));
+          $creators[] = l($creator, 'search/ting/phrase.creator="' . $creator . '"', array('attributes' => array('class' => array('author'))));
         }
         $markup_string = '';
         if (count($creators)) {
