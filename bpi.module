@@ -593,12 +593,12 @@ function bpi_node_insert($node) {
         ->condition('nid', $node->nid, '=')
         ->execute();
     }
-    catch (Exception $e) {
-      watchdog_exception('bpi', $e);
-      drupal_set_message(t('Syndication error, node was not created. Check reports for more information.'), 'error');
+    catch (Exception $exception) {
+      bpi_error_message($exception, 'error');
       // We should prevent creation of node due to handled exception.
       // Maybe there is better solution than deletion of newly created node.
       node_delete($node->nid);
+      drupal_goto('/admin/bpi');
     }
   }
 }
@@ -828,6 +828,10 @@ function bpi_error_message($exception, $level) {
   switch ($exception->getCode()) {
     case 422:
       $msg = t('Similar resource allready exists in the BPI service.');
+      break;
+
+    case 406:
+      $msg = t('Trying to syndicate content by owner who already did that is not allowed.');
       break;
 
     case 500;
