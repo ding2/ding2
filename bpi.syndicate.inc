@@ -20,79 +20,61 @@ define('BPI_AGENCY_CACHE', 'bpi_agency_cache');
  * @ingroup forms
  */
 function bpi_syndicate_page_form($form, &$form_state) {
-  drupal_add_library('system', 'drupal.ajax');
+  // Check configuration have been,
+  if (bpi_service_is_configured()) {
+    drupal_add_library('system', 'drupal.ajax');
 
-  $search_phrase = _bpi_current_search_phrase();
+    $search_phrase = _bpi_current_search_phrase();
 
-  $form['bpi_actions'] = array(
-    '#type' => 'item',
-    '#markup' => implode(
-      '',
-      array(
-        l(t('Settings'), 'admin/config/bpi'),
-        l(
-          t('Statistics'),
-          'admin/bpi/statistics/nojs',
-          array('attributes' => array('class' => array('use-ajax')))
-        ),
-      )
-    ),
-    '#prefix' => '<div class="bpi-admin-actions">',
-    '#suffix' => '</div>',
-  );
-
-  $form['bpi_search_query'] = array(
-    '#type' => 'textfield',
-    '#default_value' => $search_phrase,
-  );
-
-  $form['bpi_search_submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Search'),
-  );
-
-  $form['bpi_search_filters'] = array(
-    '#type' => 'item',
-    '#markup' => bpi_build_filters(),
-  );
-
-  $items = bpi_search_get_items();
-
-  if (!empty($items)) {
-    $sort_direction = bpi_get_next_sorting();
-    $sort_text = ($sort_direction == BPI_SORT_DESCENDING) ? t('Show latest on top') : t('Show oldest on top');
-    $sort_url_components = _bpi_build_query('sort', $sort_direction);
-    $form['bpi_search_sort'] = array(
-      '#type' => 'item',
-      '#markup' => l($sort_text, 'admin/bpi', array('query' => $sort_url_components)),
+    $form['bpi_search_query'] = array(
+      '#type' => 'textfield',
+      '#default_value' => $search_phrase,
     );
-  }
 
-  $form['bpi_search_results'] = array(
-    '#type' => 'item',
-    '#markup' => theme(
-      'bpi_search_results',
-      array(
+    $form['bpi_search_submit'] = array(
+      '#type' => 'submit',
+      '#value' => t('Search'),
+    );
+
+    $form['bpi_search_filters'] = array(
+      '#type' => 'item',
+      '#markup' => bpi_build_filters(),
+    );
+
+    $items = bpi_search_get_items();
+    if (!empty($items)) {
+      $sort_direction = bpi_get_next_sorting();
+      $sort_text = ($sort_direction == BPI_SORT_DESCENDING) ? t('Show latest on top') : t('Show oldest on top');
+      $sort_url_components = _bpi_build_query('sort', $sort_direction);
+      $form['bpi_search_sort'] = array(
+        '#type' => 'item',
+        '#markup' => l($sort_text, 'admin/bpi', array('query' => $sort_url_components)),
+      );
+    }
+
+    $form['bpi_search_results'] = array(
+      '#type' => 'item',
+      '#markup' => theme('bpi_search_results', array(
         'items' => $items,
         'empty' => t('No results'),
-      )
-    ),
-  );
+      )),
+    );
 
-  pager_default_initialize(
-    isset($items[0]['total_count']) ? $items[0]['total_count'] : 0,
-    variable_get('bpi_content_per_page', BPI_CONTENT_PER_PAGE)
-  );
+    pager_default_initialize(
+      isset($items[0]['total_count']) ? $items[0]['total_count'] : 0,
+      variable_get('bpi_content_per_page', BPI_CONTENT_PER_PAGE)
+    );
 
-  $pager = theme('pager');
+    $pager = theme('pager');
 
-  $form['bpi_search_pager'] = array(
-    '#type' => 'item',
-    '#markup' => $pager,
-  );
+    $form['bpi_search_pager'] = array(
+      '#type' => 'item',
+      '#markup' => $pager,
+    );
 
-  $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-admin.styles.css';
-  $form['#submit'][] = 'bpi_syndicate_page_form_submit';
+    $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-admin.styles.css';
+    $form['#submit'][] = 'bpi_syndicate_page_form_submit';
+  }
 
   return $form;
 }
@@ -331,13 +313,11 @@ function bpi_preprocess_bpi_search_results(&$variables) {
 
     // Add action links.
     $actions = array(
-      l(
-        t('Preview'),
+      l(t('Preview'),
         'admin/bpi/preview/nojs/' . $item['bpi_id'],
         array('attributes' => array('class' => 'use-ajax'))
       ),
-      l(
-        t('Syndicate'),
+      l(t('Syndicate'),
         'admin/bpi/syndicate/' . $item['bpi_id']
       ),
     );
@@ -513,10 +493,10 @@ function bpi_label_mapper($key) {
 }
 
 /**
- * BPI related translatables definition.
+ * BPI related translatable definition.
  *
  * @return array
- *   An array of translatables in structure:
+ *   An array of translatable in structure:
  *   - bpi_key: translatable
  */
 function bpi_available_map() {

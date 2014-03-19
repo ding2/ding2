@@ -78,58 +78,89 @@ function bpi_http_push_action($nid) {
  * @ingroup forms
  */
 function bpi_http_push_action_form($form, &$form_state, $nid) {
-  $node_title = '';
-
+  // Check that a nid was part of the callback.
   if (!empty($nid)) {
+    $form['#tree'] = FALSE;
+    $form['bpi_push_nid'] = array(
+      '#type' => 'hidden',
+      '#value' => isset($nid) ? $nid : 0,
+    );
+
+    // Get BPI vocabularies (category and audience).
+    $vocabularies = bpi_get_bpi_dictionaries();
+
+    $form['vocabularies'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('BPI vocabularies'),
+      '#description' => t('BPI vocabularies is used to categories the pushed content, so searching for content later is easier and related content can be found.'),
+    );
+
+    $categories = array_values($vocabularies['category']);
+    $form['vocabularies']['bpi_push_category'] = array(
+      '#type' => 'select',
+      '#title' => t('Category'),
+      '#options' => array_combine($categories, $categories),
+      '#required' => TRUE,
+    );
+
+    $audiences = array_values($vocabularies['audience']);
+    $form['vocabularies']['bpi_push_audience'] = array(
+      '#type' => 'select',
+      '#title' => t('Audience'),
+      '#options' => array_combine($audiences, $audiences),
+      '#required' => TRUE,
+    );
+
+    $form['configurations'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('BPI options'),
+    );
+
+    $form['configurations']['bpi_push_images'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Push with images'),
+      '#description' => t('You should have permission to publish the images before selecting this option.'),
+      '#default_value' => FALSE,
+    );
+
+    $form['configurations']['bpi_push_ccl'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('I want be anonymous'),
+      '#description' => t('If checked the content will be pushed as anonymous to BPI.'),
+      '#default_value' => FALSE,
+    );
+
+    $form['configurations']['bpi_push_refs'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Push with references'),
+      '#description' => t('If checked the content will be pushed with material reference to the data well. Note that posts with the katalog keyword will not be pushed.'),
+      '#default_value' => TRUE,
+    );
+
+    $form['configurations']['bpi_push_editable'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Editable'),
+      '#description' => t('If checked the content will be marked as not editable (It is not enforced but only recommanded that the content is not changed after syndication).'),
+      '#default_value' => '1',
+    );
+
+    // Load node to get title
+    // @todo there must be another way to do this.
     $node = node_load($nid);
-    $node_title = $node->title;
+
+    // Add confirmation button.
+    return confirm_form(
+      $form,
+      t('Push content to BPI?'),
+      'admin/content',
+      t('Are you sure you want to push content %title to BPI?', array('%title' => $node->title))
+    );
   }
-
-  $form['bpi_push_nid'] = array(
-    '#type' => 'hidden',
-    '#value' => isset($nid) ? $nid : 0,
-  );
-
-  $dictionaries = bpi_get_bpi_dictionaries();
-
-  $categories = array_values($dictionaries['category']);
-  $form['bpi_push_category'] = array(
-    '#type' => 'select',
-    '#title' => t('Category'),
-    '#options' => array_combine($categories, $categories),
-    '#default_value' => ',',
-  );
-
-  $audiences = array_values($dictionaries['audience']);
-  $form['bpi_push_audience'] = array(
-    '#type' => 'select',
-    '#title' => t('Audience'),
-    '#options' => array_combine($audiences, $audiences),
-    '#default_value' => ',',
-  );
-
-  $form['bpi_push_images'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Push with images'),
-  );
-
-  $form['bpi_push_ccl'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('I want be anonymous'),
-    '#default_value' => FALSE,
-  );
-
-  $form['bpi_push_editable'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Editable'),
-    '#default_value' => '1',
-  );
-
-  return confirm_form(
-    $form,
-    t('Are you sure you want to push content %title to BPI well?', array('%title' => $node_title)),
-    'admin/content'
-  );
+  else {
+    // Node id was not defined in the callback to display error message.
+    drupal_set_message(t('Node id was not found and content can not be pushed to BPI.'), 'error');
+    watchdog('bpi', 'Node id was not found in admin page to push content to BPI', array(), WATCHDOG_ERROR);
+  }
 }
 
 /**
@@ -151,11 +182,11 @@ function bpi_http_push_action_form_submit($form, &$form_state) {
   $with_images = $form_state['input']['bpi_push_images'];
   $authorship = $form_state['input']['bpi_push_ccl'];
   $editable = $form_state['input']['bpi_push_editable'];
-  if (empty($nid)) {
-    return;
-  }
+  $with_refs = $form_state['input']['bpi_push_refs'];
+
+  // Extract information from the node.
   $node = node_load($nid);
-  $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, $authorship, $editable);
+  $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, $authorship, $editable, $with_refs);
 
   try {
     $bpi = bpi_client_instance();
@@ -173,12 +204,16 @@ function bpi_http_push_action_form_submit($form, &$form_state) {
         ->execute();
       drupal_set_message(t('Node %title was successfully pushed to BPI well.', array('%title' => $node->title)));
     }
-    drupal_goto('admin/bpi');
+
+    if (isset($_GET['prev_destination'])) {
+      drupal_goto($_GET['prev_destination']);
+    }
+    else {
+      drupal_goto('admin/bpi');
+    }
   }
-  catch (Exception $e) {
-    watchdog_exception('bpi', $e);
-    $msg = t('Error occurred when pushing %title to BPI well. Check reports for more information.', array('%title' => $node->title));
-    drupal_set_message($msg, 'error');
+  catch (Exception $exception) {
+    bpi_error_message($exception, 'error');
   }
 }
 
@@ -238,6 +273,13 @@ function bpi_push_form($form, $form_state, $nid) {
     '#default_value' => FALSE,
   );
 
+  $form['bpi_push_refs'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Push with references'),
+    '#description' => t('Note that posts with the katalog keyword will not be pushed.'),
+    '#default_value' => TRUE,
+  );
+
   $form['bpi_push_editable'] = array(
     '#type' => 'checkbox',
     '#title' => t('Editable'),
@@ -273,13 +315,14 @@ function bpi_push_form_submit($form, &$form_state) {
   $with_images = $form_state['input']['bpi_push_images'];
   $authorship = $form_state['input']['bpi_push_ccl'];
   $editable = $form_state['input']['bpi_push_editable'];
+  $with_refs = $form_state['input']['bpi_push_refs'];
 
   if (empty($nid)) {
     return;
   }
 
   $node = node_load($nid);
-  $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, $authorship, $editable);
+  $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, $authorship, $editable, $with_refs);
 
   try {
     $bpi = bpi_client_instance();
@@ -299,10 +342,8 @@ function bpi_push_form_submit($form, &$form_state) {
       drupal_set_message(t('Node %title was successuflly pushed to BPI well.', array('%title' => $node->title)));
     }
   }
-  catch (Exception $e) {
-    watchdog_exception('bpi', $e);
-    $msg = t('Error occured when pushing %title to BPI well. Check reports for more information.', array('%title' => $node->title));
-    drupal_set_message($msg, 'error');
+  catch (Exception $exception) {
+    bpi_error_message($exception, 'error');
   }
 }
 
@@ -315,6 +356,7 @@ function bpi_push_form_submit($form, &$form_state) {
  *   Form structure.
  * @param array $form_state
  *   Form state values.
+ *
  * @return array
  *   A set of ajax commands.
  *
@@ -323,7 +365,7 @@ function bpi_push_form_submit($form, &$form_state) {
 function bpi_push_action_ajax_callback($form, &$form_state) {
   $response = array(
     '#type' => 'ajax',
-    '#commands' => array()
+    '#commands' => array(),
   );
 
   $html = theme('status_messages');
@@ -338,8 +380,7 @@ function bpi_push_action_ajax_callback($form, &$form_state) {
 }
 
 /**
- * Convert node object to bpi-related array structure,
- * suitable for pushing to the well.
+ * Convert node object to array structure, suitable for pushing to the well.
  *
  * @param stdClass $node
  *   Node object being processed.
@@ -353,6 +394,8 @@ function bpi_push_action_ajax_callback($form, &$form_state) {
  *   Include author name or not.
  * @param int $editable
  *   1 - to mark as editable, 0 - not editable.
+ * @param bool $with_refs
+ *   If TRUE ting material reference are extracted.
  *
  * @return array
  *   An array of node values, used by the BPI web service.
@@ -360,7 +403,7 @@ function bpi_push_action_ajax_callback($form, &$form_state) {
  * @todo Add a hook allowing changing the values before they are sent to BPI.
  * @todo Split this function into smaller parts (ex: images, texts).
  */
-function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $authorship = FALSE, $editable = 1) {
+function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $authorship = FALSE, $editable = 1, $with_refs = FALSE) {
   $bpi_content = array();
 
   $bpi_content['agency_id'] = variable_get('bpi_agency_id', '');
@@ -373,16 +416,13 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
 
   $bpi_content['title'] = $node->title;
 
-  $teaser_map = variable_get('bpi_field_teaser', '');
-  $body_map = variable_get('bpi_field_body', '');
-  $materials_map = variable_get('bpi_field_materials', '');
-  $materials_map = field_view_field('node', $node, $materials_map);
-  $teaser_field = field_view_field('node', $node, $teaser_map);
-  $body_field = field_view_field('node', $node, $body_map);
+
+  $teaser_field = field_view_field('node', $node, variable_get('bpi_field_teaser', ''));
+  $body_field = field_view_field('node', $node, variable_get('bpi_field_body', ''));
   $teaser = '';
   $body = '';
 
-  // Whether the field is a textarea with summary, fetch the summary, if not -
+  // Whether the field is a text area with summary, fetch the summary, if not -
   // fetch it's safe value.
   if (!empty($teaser_field) && isset($teaser_field['#items'][0]['safe_summary'])) {
     $teaser = $teaser_field['#items'][0]['safe_summary'];
@@ -391,15 +431,23 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
     $teaser = $teaser_field['#items'][0]['safe_value'];
   }
 
+  // Find the references to the ting date well.
   $materials_drupal = array();
-  foreach ($materials_map as $key => $value) {
-    if (is_numeric($key)) {
-      $record = $value['#object']->getRecord();
-      $ac_identifier_array = array_shift(
-        array_values($record['ac:identifier'])
-      );
-      $parts = explode('|', $ac_identifier_array[0]);
-      $materials_drupal[] = $parts[1] . ':' . $parts[0];
+  if ($with_refs) {
+    $materials_map = field_view_field('node', $node, variable_get('bpi_field_materials', ''));
+    if (isset($materials_map['#items'])) {
+      foreach ($materials_map['#items'] as $key => $value) {
+        if (!empty($materials_map[$key]['#object'])) {
+          $ting_entity = $materials_map[$key]['#object'];
+          $id = $ting_entity->ding_entity_id;
+
+          // Filter out id's with "katalog" PID, as they only makes sens on
+          // current site.
+          if (!preg_match('/katalog/', $id)) {
+            $materials_drupal[] = $id;
+          }
+        }
+      }
     }
   }
 
@@ -409,7 +457,7 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
 
   // Empty the teaser, if body and teaser are mapped to same fields
   // and the values are identical.
-  if ($teaser_map == $body_map && $teaser == $body) {
+  if ($teaser === $body) {
     $teaser = '';
   }
 
@@ -455,17 +503,6 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
     );
   }
 
-  watchdog(
-    'bpi',
-    'Transformed node to BPI content: !content',
-    array(
-      '!content' => '<pre>' . htmlspecialchars(
-          print_r($bpi_content, TRUE)
-        ) . '</pre>'
-    ),
-    WATCHDOG_DEBUG
-  );
-
   return $bpi_content;
 }
 
@@ -474,12 +511,13 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
  *
  * @param string $bundle
  *   Node type.
+ *
  * @return array
  *   Array of field names which are actually image fields.
  */
 function bpi_fetch_image_fields($bundle) {
   $potential_image_fields = array('image_image', 'media_generic');
-  $field_instances = field_info_instances('node', (string)$bundle);
+  $field_instances = field_info_instances('node', (string) $bundle);
 
   $image_fields = array();
 

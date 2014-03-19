@@ -5,10 +5,10 @@
  */
 
 /**
- * Creates an administrative block on the configuration page
- * for grouping various settings.
+ * Creates an administrative block on the configuration page for grouping
+ * various settings.
  *
- * @return type
+ * @return string
  *   HTML for the block.
  */
 function bpi_admin_menu_block_page() {
@@ -25,7 +25,6 @@ function bpi_admin_menu_block_page() {
   return $output;
 }
 
-
 /**
  * Administrative settings form.
  *
@@ -33,6 +32,7 @@ function bpi_admin_menu_block_page() {
  *   Form structure.
  * @param array $form_state
  *   Form state values.
+ *
  * @return array
  *   Form structure prepared for admin settings.
  *
@@ -47,14 +47,16 @@ function bpi_admin_settings_form($form, $form_state) {
   $form['bpi_service_settings']['bpi_agency_id'] = array(
     '#type' => 'textfield',
     '#title' => t('Agency ID'),
-    '#default_value' => variable_get('bpi_agency_id', ''),
+    '#description' => t('The 6-digit code representing the library organization'),
+    '#default_value' => variable_get('bpi_agency_id', variable_get('ting_agency', '')),
     '#required' => TRUE,
   );
 
   $form['bpi_service_settings']['bpi_service_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Service URL'),
-    '#default_value' => variable_get('bpi_service_url', ''),
+    '#description' => t('The location of the web-service (http://bpi1.inlead.dk)'),
+    '#default_value' => variable_get('bpi_service_url', 'http://bpi1.inlead.dk'),
     '#required' => TRUE,
   );
 
@@ -67,7 +69,7 @@ function bpi_admin_settings_form($form, $form_state) {
 
   $form['bpi_service_settings']['bpi_api_key'] = array(
     '#type' => 'textfield',
-    '#title' => t('API key'),
+    '#title' => t('Public key'),
     '#default_value' => variable_get('bpi_api_key', ''),
     '#required' => TRUE,
   );
@@ -84,37 +86,39 @@ function bpi_admin_settings_form($form, $form_state) {
     '#default_value' => variable_get('bpi_content_per_page', BPI_CONTENT_PER_PAGE),
   );
 
-
-  $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-admin.styles.css';
-  $form['#validate'][] = 'bpi_admin_settings_form_validate';
-
   return system_settings_form($form);
 }
 
 /**
- * Custom validate handler for common settings form.
- *
- * Used for url validation, for now.
- *
- * @see bpi_admin_settings_form()
- *
- * @param array $form
- *   Form structure.
- * @param array $form_state
- *   Form state values.
- *
- * @ingroup forms
+ * Implements hook_FROM_ID_validate().
  */
 function bpi_admin_settings_form_validate(&$form, &$form_state) {
-  $url = $form_state['values']['bpi_service_url'];
-
-  // Check if ting agency matches bpi agency.
+  // Check if ting agency matches BPI agency, if not give a warning message.
   if (module_exists('ting') && variable_get('ting_agency', FALSE) != $form_state['values']['bpi_agency_id']) {
     drupal_set_message(t('T!NG agency ID %id does not match BPI agency ID', array('%id' => variable_get('ting_agency', FALSE))), 'warning');
   }
 
+  // Check that the service URL is a valid URL.
+  $url = $form_state['values']['bpi_service_url'];
   if (!valid_url($url, TRUE)) {
     form_set_error('bpi_service_url', t('Please enter a valid url.'));
+  }
+  else {
+    // Check that the client can connect to the service.
+    try {
+      $values = $form_state['values'];
+      new Bpi($values['bpi_service_url'], $values['bpi_agency_id'], $values['bpi_api_key'], $values['bpi_secret_key']);;
+    }
+    catch (\Guzzle\Http\Exception\CurlException $exception) {
+      // Communication error e.i. not correct end-point.
+      form_set_error('bpi_service_url', t($exception->getError()));
+    }
+    catch (Exception $exception) {
+      // Unknown error.
+      drupal_set_message(t('Communication with the servies failed. Check the log for more information.'), 'error');
+      watchdog_exception('bpi', $exception);
+    }
+
   }
 }
 
@@ -132,6 +136,7 @@ function bpi_admin_settings_form_validate(&$form, &$form_state) {
  *   Form structure.
  * @param array $form_state
  *   Form state values.
+ *
  * @return array
  *   Form structure prepared for admin settings.
  *
@@ -155,6 +160,7 @@ function bpi_admin_content_mapping_form($form, $form_state) {
     ),
   );
 
+  // Get filter list of field instances.
   $selected_node_type = $form['bpi_content_type']['#default_value'];
 
   if (isset($form_state['values']['bpi_content_type'])) {
@@ -183,7 +189,7 @@ function bpi_admin_content_mapping_form($form, $form_state) {
   $form['bpi_mapper']['bpi_field_teaser'] = array(
     '#type' => 'select',
     '#title' => t('BPI teaser'),
-    '#description' => t('Assign to body field, if it has summary enabled.'),
+    '#description' => t('The field to extract the teaser from. If the content type have a body summary, assign it to the body field.'),
     '#options' => $field_instances,
     '#default_value' => variable_get('bpi_field_teaser', ''),
   );
@@ -191,7 +197,7 @@ function bpi_admin_content_mapping_form($form, $form_state) {
   $form['bpi_mapper']['bpi_field_body'] = array(
     '#type' => 'select',
     '#title' => t('BPI body'),
-    '#description' => '',
+    '#description' => t('Field to extract the main cotenten from (body field).'),
     '#options' => $field_instances,
     '#default_value' => variable_get('bpi_field_body', ''),
   );
@@ -199,7 +205,7 @@ function bpi_admin_content_mapping_form($form, $form_state) {
   $form['bpi_mapper']['bpi_field_materials'] = array(
     '#type' => 'select',
     '#title' => t('BPI materials'),
-    '#description' => '',
+    '#description' => t('Field used to get reference to the T!NG data well.'),
     '#options' => $field_instances,
     '#default_value' => variable_get('bpi_field_materials', ''),
   );
@@ -218,6 +224,7 @@ function bpi_admin_content_mapping_form($form, $form_state) {
  *   Form structure.
  * @param array $form_state
  *   Form state values.
+ *
  * @return array
  *   Element to be altered via AJAX.
  *
@@ -252,6 +259,7 @@ function bpi_get_field_instances($node_type) {
     'text_textarea',
     'text_textarea_with_summary',
     'ting_reference_simple',
+    'ting_reference_advanced',
   );
 
   $field_instances = field_info_instances('node', $node_type);

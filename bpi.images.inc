@@ -47,7 +47,7 @@ function bpi_syndicate_images($type = 'ajax') {
  *
  * @ingroup forms
  */
-function bpi_assets_form($form = array(), $form_state, $assets = array()) {
+function bpi_assets_form($form, $form_state, $assets = array()) {
   if (!empty($assets)) {
     $form['bpi_assets'] = array(
       '#type' => 'fieldset',
@@ -112,7 +112,7 @@ function bpi_assets_form_submit($form, &$form_state) {
     }
   }
 
-  if ($status) {
+  if (isset($status) && $status) {
     drupal_set_message(t('Images downloaded successfully.'));
   }
   else {
@@ -123,12 +123,13 @@ function bpi_assets_form_submit($form, &$form_state) {
 /**
  * Images form download action ajax callback.
  *
- * @see  bpi_assets_form()
+ * @see bpi_assets_form()
  *
  * @param array $form
  *   Form structure.
  * @param array $form_state
  *   Form state values.
+ *
  * @return array
  *   Set of ajax commands.
  *
@@ -151,12 +152,13 @@ function bpi_asset_action_ajax_callback($form, &$form_state) {
 /**
  * Images form cancel action ajax callback.
  *
- * @see  bpi_assets_form()
+ * @see bpi_assets_form()
  *
  * @param array $form
  *   Form structure.
  * @param array $form_state
  *   Form state values.
+ *
  * @return array
  *   Set of ajax commands.
  *
@@ -179,6 +181,7 @@ function bpi_asset_cancel_ajax_callback($form, &$form_state) {
  *   Filename, with extension. An URI is optional.
  * @param string $image_url
  *   File URL form where to download.
+ *
  * @return object
  *   File object or FALSE on failure.
  */
