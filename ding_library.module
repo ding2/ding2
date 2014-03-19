@@ -181,6 +181,13 @@ function template_preprocess_ding_library_address(&$vars) {
 }
 
 /**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ding_library_ctools_plugin_directory($owner, $plugin_type) {
+  return 'plugins/' . $plugin_type;
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function ding_library_form_ding_library_node_form_alter(&$form, &$form_state) {
@@ -190,13 +197,6 @@ function ding_library_form_ding_library_node_form_alter(&$form, &$form_state) {
   elseif (isset($form['field_ding_library_slug']['und'])) {
     $form['field_ding_library_slug']['und'][0]['#element_validate'][] = 'ding_library_slug_validate';
   }
-}
-
-/**
- * Implements hook_ctools_plugin_directory().
- */
-function ding_library_ctools_plugin_directory($owner, $plugin_type) {
-  return 'plugins/' . $plugin_type;
 }
 
 /**
