@@ -224,8 +224,8 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
   $bpi_id = isset($_GET['bpi_id']) ? (string) $_GET['bpi_id'] : FALSE;
   $form_state['node']->bpi_id = $bpi_id;
 
-  // Checking nid for NULL would say that this is create node form, not edit.
-  if ($form_id == $bpi_ctype . '_node_form' && $form['nid']['#value'] == NULL && $bpi_id) {
+  // Checking is_new to see if it's a create node form, not edit.
+  if ($form_id == $bpi_ctype . '_node_form' && !isset($form_state['node']->is_new) && $bpi_id) {
     $form_state['node']->bpi_id = $bpi_id;
     try {
       $bpi = bpi_client_instance();
@@ -261,19 +261,14 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
     $current_language = $form['language']['#value'];
 
     if (module_exists('ting_reference') && isset($bpi_content['material'])) {
-      foreach ((array) $bpi_content['material'] as $key => $material_number) {
-        $form[$materials_field][$current_language][$key] = array();
-        $form[$materials_field][$current_language][$key] = ting_reference_field_widget_form(
-          $form,
-          $form_state,
-          $materials_field,
-          array(),
-          $current_language,
-          array(),
-          0,
-          $form[$materials_field][$current_language][$key]
-        );
-        $form[$materials_field][$current_language][$key]['#default_value'] = $material_number;
+      // Make a copy of the default field settings and values.
+      $default_field = $form[$materials_field][$current_language][0];
+
+      // Loop over materials from BPI inserting new default field for each.
+      foreach ($bpi_content['material'] as $key => $material_number) {
+        $form[$materials_field][$current_language][$key] = $default_field;
+        $form[$materials_field][$current_language][$key]['#weight'] = $key;
+        $form[$materials_field][$current_language][$key]['ting_object_id']['#default_value'] = $material_number;
       }
     }
 
@@ -450,13 +445,13 @@ function bpi_form_node_admin_content_alter(&$form, &$form_state) {
     // Adds a delete from bpi link.
     if ($delete_permission && isset($bpi_nodes[$key]) && $bpi_nodes[$key]->status == BPI_PUSHED) {
       $row['operations']['data']['#links']['delete_from_bpi'] = array(
-        'title' => t('delete from bpi'),
+        'title' => t('DELETE FROM bpi'),
         'href' => 'admin/bpi/delete/nojs/' . $key,
         'attributes' => array(
           'class' => array(
             'use-ajax',
           ),
-        )
+        ),
       );
     }
   }
