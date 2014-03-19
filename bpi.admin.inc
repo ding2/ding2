@@ -160,6 +160,7 @@ function bpi_admin_content_mapping_form($form, $form_state) {
     ),
   );
 
+  // Get filter list of field instances.
   $selected_node_type = $form['bpi_content_type']['#default_value'];
 
   if (isset($form_state['values']['bpi_content_type'])) {
@@ -188,7 +189,7 @@ function bpi_admin_content_mapping_form($form, $form_state) {
   $form['bpi_mapper']['bpi_field_teaser'] = array(
     '#type' => 'select',
     '#title' => t('BPI teaser'),
-    '#description' => t('Assign to body field, if it has summary enabled.'),
+    '#description' => t('The field to extract the teaser from. If the content type have a body summary, assign it to the body field.'),
     '#options' => $field_instances,
     '#default_value' => variable_get('bpi_field_teaser', ''),
   );
@@ -196,7 +197,7 @@ function bpi_admin_content_mapping_form($form, $form_state) {
   $form['bpi_mapper']['bpi_field_body'] = array(
     '#type' => 'select',
     '#title' => t('BPI body'),
-    '#description' => '',
+    '#description' => t('Field to extract the main cotenten from (body field).'),
     '#options' => $field_instances,
     '#default_value' => variable_get('bpi_field_body', ''),
   );
@@ -204,7 +205,7 @@ function bpi_admin_content_mapping_form($form, $form_state) {
   $form['bpi_mapper']['bpi_field_materials'] = array(
     '#type' => 'select',
     '#title' => t('BPI materials'),
-    '#description' => '',
+    '#description' => t('Field used to get reference to the T!NG data well.'),
     '#options' => $field_instances,
     '#default_value' => variable_get('bpi_field_materials', ''),
   );
@@ -258,6 +259,7 @@ function bpi_get_field_instances($node_type) {
     'text_textarea',
     'text_textarea_with_summary',
     'ting_reference_simple',
+    'ting_reference_advanced',
   );
 
   $field_instances = field_info_instances('node', $node_type);
