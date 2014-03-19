@@ -273,6 +273,13 @@ function bpi_push_form($form, $form_state, $nid) {
     '#default_value' => FALSE,
   );
 
+  $form['bpi_push_refs'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Push with references'),
+    '#description' => t('Note that posts with the katalog keyword will not be pushed.'),
+    '#default_value' => TRUE,
+  );
+
   $form['bpi_push_editable'] = array(
     '#type' => 'checkbox',
     '#title' => t('Editable'),
