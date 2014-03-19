@@ -34,6 +34,10 @@
       window.stop();
       Drupal.TingSearchOverlay(true);
     });
+
+    $(window).unload(function() {
+      Drupal.TingSearchOverlay(true);
+    });
   });
 
 }(jQuery));
