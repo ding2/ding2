@@ -11,12 +11,11 @@
  *   Request type, ajax or not.
  * @param object $node
  *   Node object.
+ *
  * @return array
  *   A set of ajax commands or form structure.
  */
-function bpi_delete_action($type = 'ajax', $node) {
-  $ajax = ($type == 'ajax');
-
+function bpi_delete_action($type = 'ajax', $node = NULL) {
   // Only author can delete his node.
   if (!bpi_ability($node->nid, 'delete')) {
     drupal_access_denied();
@@ -25,7 +24,7 @@ function bpi_delete_action($type = 'ajax', $node) {
 
   $delete_form = drupal_get_form('bpi_delete_form', $node);
 
-  if ($ajax) {
+  if ($type == 'ajax') {
     $commands = array();
 
     $commands[] = ajax_command_ding_popup(
@@ -51,6 +50,7 @@ function bpi_delete_action($type = 'ajax', $node) {
  *   Form state values.
  * @param object $node
  *   Node object.
+ *
  * @return array
  *   Form structure.
  *
@@ -64,7 +64,7 @@ function bpi_delete_form($form, $form_state, $node) {
 
   return confirm_form(
     $form,
-    t('Are you sure u want to delete %title from bpi well?', array('%title' => $node->title)),
+    t('Are you sure you want to delete %title from bpi well?', array('%title' => $node->title)),
     'admin/content'
   );
 }
@@ -86,7 +86,6 @@ function bpi_delete_form_submit($form, &$form_state) {
 
   if (empty($bpi_id)) {
     drupal_set_message(t('Selected content could not be deleted from the BPI well.'), 'error');
-
     return;
   }
 
@@ -107,13 +106,14 @@ function bpi_delete_form_submit($form, &$form_state) {
  *   Form structure.
  * @param array $form_state
  *   Form state values.
+ *
  * @return array
  *   A set of AJAX commands.
  */
 function bpi_delete_action_ajax_callback($form, &$form_state) {
   $response = array(
     '#type' => 'ajax',
-    '#commands' => array()
+    '#commands' => array(),
   );
 
   $html = theme('status_messages');
@@ -132,7 +132,8 @@ function bpi_delete_action_ajax_callback($form, &$form_state) {
  *
  * @param string $bpi_id
  *   BPI content id to be deleted.
- * @return boolean
+ *
+ * @return bool
  *   Status, success or failure.
  */
 function bpi_well_delete($bpi_id) {
