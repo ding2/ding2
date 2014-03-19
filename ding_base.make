@@ -28,7 +28,7 @@ projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.2"
 
 projects[transliteration][subdir] = "contrib"
-projects[transliteration][version] = "3.1"
+projects[transliteration][version] = "3.2"
 
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.5"
