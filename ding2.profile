@@ -233,6 +233,36 @@ function ding2_module_selection_form($form, &$form_state) {
   );
 
   //
+  // SSL proxy settings.
+  //
+  $form['proxy'] = array(
+    '#title' => st('SSL proxy'),
+    '#type' => 'fieldset',
+    '#description' => st('If the sysytem is running behind an SSL reverse proxy such as nginx.'),
+  );
+
+  $form['proxy']['sslproxy_enable'] = array(
+    '#type' => 'checkbox',
+    '#title' => 'Enable SSL proxy',
+    '#description' => 'Enable the SSL proxy module.',
+    '#default_value' => TRUE,
+  );
+
+  $form['proxy']['sslproxy_var'] = array(
+    '#type' => 'textfield',
+    '#title' => t('SSL Proxy Variable'),
+    '#description' => t('The variable being set by the SSL proxy server.'),
+    '#default_value' => 'X-FORWARDED-PROTO',
+  );
+
+  $form['proxy']['sslproxy_var_value'] = array(
+    '#type' => 'textfield',
+    '#title' => t('SSL Proxy Variable Value'),
+    '#description' => t('The value of the variable being set by the SSL proxy server.'),
+    '#default_value' => 'https',
+  );
+
+  //
   // Optional modules.
   //
   $modules = array(
@@ -475,6 +505,13 @@ function ding2_module_selection_form_submit($form, &$form_state) {
 
   // Enable the provider (if selected) and modules.
   module_enable($module_list, TRUE);
+
+  // Enable ssl proxy.
+  if (isset($values['sslproxy_enable']) && $values['sslproxy_enable']) {
+    module_enable(array('sslproxy'), TRUE);
+    variable_set('sslproxy_var', $values['sslproxy_var']);
+    variable_set('sslproxy_var_value', $values['sslproxy_var_value']);
+  }
 }
 
 function ding2_final_settings() {
