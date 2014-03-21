@@ -3,11 +3,17 @@ backend default {
   .port = "80";
 }
 
+# List of upstream proxies we trust to set X-Forwarded-For correctly.
+acl upstream_proxy {
+  "127.0.0.1";
+  "172.21.0.0"/24;
+}
+
 # Respond to incoming requests.
 sub vcl_recv {
   # Make sure that the client ip is forward to the client.
   if (req.restarts == 0) {
-    if (req.http.x-forwarded-for) {
+    if (client.ip ~ upstream_proxy && req.http.x-forwarded-for) {
       set req.http.X-Forwarded-For = req.http.X-Forwarded-For + ", " + client.ip;
     }
     else {
