@@ -25777,21 +25777,6 @@ msgid ""
 msgstr ""
 
 #: /ting/object/870970-basis%3A26752566
-msgid "<p>This site uses cookies to store information on your computer.</p>"
-msgstr ""
-
-#: /ting/object/870970-basis%3A26752566
-msgid ""
-"<p>Some cookies on this site are essential, and the site won't work as "
-"expected without them. These cookies are set when you submit a form, "
-"login or interact with the site by doing something that goes beyond "
-"clicking on simple links.</p><p>We also use some non-essential cookies "
-"to anonymously track visitors or enhance your experience of the site. "
-"If you're not happy with this, we won't set these cookies but some "
-"nice features of the site may be unavailable.</p>"
-msgstr ""
-
-#: /ting/object/870970-basis%3A26752566
 msgid "Cookie Control"
 msgstr ""
 
@@ -69737,22 +69722,20 @@ msgstr ""
 "Ændrer termens navn (hvis det er aktiveret ovenfor). Lad feltet stå "
 "tomt for at bruge ordforrådets navn."
 
-msgid "This site uses cookies to store information on your computer."
+msgid "<p>This site uses cookies to store information on your computer.</p>"
 msgstr ""
-"Denne hjemmeside bruger cookies til at gemme information på din "
-"computer."
+"<p>Denne hjemmeside bruger cookies til at gemme information på din "
+"computer.</p>"
 
-msgid ""
-"Some cookies on this site are essential, and the site won't work as "
+msgid "<p>Some cookies on this site are essential, and the site won't work as "
 "expected without them. These cookies are set when you submit a form, "
 "login or interact with the site by doing something that goes beyond "
-"clicking on simple links."
-msgstr ""
-"Nogen cookies på en hjemmeside er nødvendige, og hjemmesiden "
+"clicking on simple links.</p>"
+msgstr "<p>Nogen cookies på en hjemmeside er nødvendige, og hjemmesiden "
 "fungerer ikke som forventet uden dem. Disse cookies bliver fx gemt, "
 "når du logger ind, gemmer en formular eller på anden måde "
 "interagerer med hjemmesiden ud over bare at klikke rundt på simple "
-"links."
+"links.</p>"
 
 #: /ting/object/870970-basis%3A26752566
 msgid "Privacy Policy Link"
