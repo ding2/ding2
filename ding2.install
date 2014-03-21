@@ -230,3 +230,12 @@ function ding2_update_7004() {
   // Fixed month translation.
   ding2_translation_update();
 }
+
+/**
+ * Enable and configure SSL proxy variables.
+ */
+function ding2_update_7005() {
+  module_enable(array('sslproxy'), TRUE);
+  variable_set('sslproxy_var', 'X-FORWARDED-PROTO');
+  variable_set('sslproxy_var_value', 'https');
+}
