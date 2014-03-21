@@ -934,6 +934,9 @@ function _ting_default_reservable_types() {
 
 /**
  * Fetch known types from the datawell.
+ *
+ * @return array
+ *   Array with data well material types.
  */
 function _ting_fetch_well_types() {
   // Get a list of types by executing a null query and look at the facets
@@ -956,10 +959,15 @@ function _ting_fetch_well_types() {
   if (!empty($types)) {
     variable_set('ting_well_types', $types);
   }
+
+  return $types;
 }
 
 /**
  * Fetch known sources from the datawell.
+ *
+ * @return array
+ *   Array with the sources.
  */
 function _ting_fetch_well_sources() {
   // Get a list of sources by executing a null query and look at the facets
@@ -982,6 +990,8 @@ function _ting_fetch_well_sources() {
   if (!empty($sources)) {
     variable_set('ting_well_sources', $sources);
   }
+
+  return $sources;
 }
 
 /**
