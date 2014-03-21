@@ -177,7 +177,6 @@ This optimization assumes that you have APC installed on your server.
 
 __More information on the way__
 
-
 ## Memcache
 This optimization assumes that you have memcached installed on your server.
 Alternatively you can use redis as a key/value store, but it will not give you
@@ -218,3 +217,25 @@ This is done in settings.php by setting.
 ```php
   $conf['wayf_hash'] = "HASH_VALUE";
 ```
+
+# SSL Proxy
+It is recommended that you run the site behind an https end-point proxy and with varnish.
+
+<pre>
+  Client -> Nginx -> Varnish -> Apache
+</pre>
+
+## Nginx
+The installation profile contains an example configuration (_example-nginx.conf_) for nginx that works as an SSL Proxy.
+
+## Varnish
+The installation profile also contains a Vanish configuration file (_ding2.vcl_), which is created to match the ding_varnish module's communication with varnish about which pages to cache for users (even logged in users).
+
+The configuration file also limits which server are authenticated/allowed to be upstream proxy for Varnish. This is to ensure that sensitive information is not forwarded to an un-secure proxy as until the SSL proxy the information is not encrypted.
+
+## Apache 
+Apache do not have the SSL module enabled, so it will not set the "_X-Forwarded-Proto_" header from the SSL proxy and Drupal will not be able to detect that it's behind a SSL Proxy. So you have to set the HTTPS flag in your vhost configuration file as shown below.
+
+<pre>
+ SetEnvIf X-Forwarded-Proto https HTTPS=on
+</pre>
