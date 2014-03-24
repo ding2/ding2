@@ -89,13 +89,15 @@ function ting_search_context_overview_form($form, &$form_state) {
 		$query->condition($or_condition);
 		$result = $query->orderByHeader($header)->execute();
 		$languages = language_list();
+		$destination = drupal_get_destination();
+		$options = array('query' => $destination);
 		$rows = array();
 		foreach ($result as $row) {
 			$row = (array) $row;
 			$node = node_load($row['nid']);
 			$langcode = entity_language('node', $node);
-			$l_options = $langcode != LANGUAGE_NONE && isset($languages[$langcode]) ? 
-				array('language' => $languages[$langcode]) : array();
+			$options += ($langcode != LANGUAGE_NONE && isset($languages[$langcode]) ? 
+				array('language' => $languages[$langcode]) : array());
 			$rows[$row['name'] . '__' . $node->nid] = array(
 				'title' => array(
 					'data' => array(
@@ -103,8 +105,9 @@ function ting_search_context_overview_form($form, &$form_state) {
 						'#type' => 'link',
 						'#title' => check_plain($row['title']),
 						// We currently only support nodes so we can safely link to 'node/'
+						// Otherwise we could have used entity_uri() ?.
 						'#href' => 'node/' . $node->nid . '/edit',
-						'#options' => $l_options,
+						'#options' => $options,
 					),
 				),
 				'type' => check_plain(node_type_get_name($row['type'])),
@@ -164,5 +167,5 @@ function ting_search_context_overview_form_update($form, &$form_state) {
  * form.
  */
 function ting_search_context_overview_form_remove($form, &$form_state) {
-	file_put_contents("/home/drupalpro/debug/debug.txt", print_r($form_state , TRUE), FILE_APPEND);
+	
 }

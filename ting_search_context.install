@@ -16,7 +16,7 @@ function ting_search_context_field_schema($field) {
 		$columns = array(
 			// The name of the context.
 			'name' => array(
-				'type' => 'varchar',
+				'type' => 'varchar',	
 				'length' => 255,
 				'not null' => FALSE,
 			),
