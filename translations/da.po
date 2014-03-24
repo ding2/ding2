@@ -58564,7 +58564,7 @@ msgstr "Vælg bibliotek"
 
 #: /system/ajax
 msgid "Update reservations"
-msgstr "Opdatér reserveringer\r\n"
+msgstr "Opdatér reserveringer"
 
 #: /bibliotek/hovedbiblioteket/personale
 msgid "Hovedbiblioteket : departments &amp; staff"

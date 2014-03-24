@@ -29,7 +29,6 @@ function ding2_install() {
 
   // Enable $default_theme.
   variable_set('theme_default', $default_theme);
-  variable_set('theme_' . $default_theme . '_settings', ding2_theme_settings());
 
   // Enable $admin_theme.
   variable_set('admin_theme', $admin_theme);
@@ -113,6 +112,7 @@ function ding2_install() {
   $form_state['values'] = array();
   $form_state['values']['scheme'] = 'classic';
   drupal_form_submit('system_theme_settings', $form_state);
+  variable_set('theme_' . $default_theme . '_settings', ding2_theme_settings());
 
   // Ignore any rebuild messages.
   node_access_needs_rebuild(FALSE);
