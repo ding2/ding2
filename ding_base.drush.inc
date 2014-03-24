@@ -25,10 +25,5 @@ function ding_base_drush_command() {
  * Regenerate color stylesheet base on current theme.
  */
 function drush_ding_base_css_generate() {
-  // Submit theme settings.
-  module_load_include('inc', 'system', 'system.admin');
-  $form_state = form_state_defaults();
-  $form_state['build_info']['args'][0] = $GLOBALS['theme'];
-  $form_state['values'] = array();
-  drupal_form_submit('system_theme_settings', $form_state);
+  ding_base_rewrite_color_stylesheet();
 }
