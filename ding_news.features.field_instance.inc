@@ -194,9 +194,11 @@ function ding_news_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'hidden',
-        'module' => 'file',
-        'settings' => array(),
-        'type' => 'file_url_plain',
+        'module' => 'file_entity',
+        'settings' => array(
+          'text' => '[file:name]',
+        ),
+        'type' => 'file_download_link',
         'weight' => 6,
       ),
       'search_result' => array(
