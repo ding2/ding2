@@ -21,7 +21,6 @@ dependencies[] = field_ui
 ; Helper modules.
 dependencies[] = module_filter
 dependencies[] = menu_position
-dependencies[] = securepages
 dependencies[] = cookiecontrol
 
 ; Ding modules.
@@ -32,6 +31,7 @@ dependencies[] = ding_frontpage
 dependencies[] = ding_session_cache
 dependencies[] = ding_bookmark
 dependencies[] = ding_staff
+dependencies[] = bpi
 
 ; Cache/performance modules
 dependencies[] = entitycache
