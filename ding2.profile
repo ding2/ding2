@@ -290,8 +290,6 @@ function ding2_module_selection_form($form, &$form_state) {
   //
   // Favicon, logo & iOS icon upload.
   //
-  // Setup a hidden field, that system_setting_form knows.
-  $form['var'] = array('#type' => 'hidden', '#value' => 'theme_ddbasic_settings');
 
   // Logo settings.
   $form['logo'] = array(
@@ -469,10 +467,8 @@ function ding2_module_selection_form_submit($form, &$form_state) {
   $values = $form_state['values'];
   $module_list = array();
 
-  // Extract the name of the theme from the submitted form values, then remove
-  // it from the array so that it is not saved as part of the variable.
-  $key = $values['var'];
-  unset($values['var']);
+  // Load existing theme settings and update theme with extra information.
+  $settings = variable_get('theme_ddbasic_settings', array());
 
   // If the user uploaded a iOS icon, save it to a permanent location
   // and use it in place of the default theme-provided file.
@@ -491,7 +487,7 @@ function ding2_module_selection_form_submit($form, &$form_state) {
   }
 
   // Save iOS logo to theme settings.
-  variable_set($key, $values);
+  variable_set('theme_ddbasic_settings', array_merge($settings, $values));
 
   // Get selected provider.
   if (!empty($values['providers_selection'])) {
