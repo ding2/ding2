@@ -127,11 +127,11 @@ function ding2_install() {
  */
 function ding2_theme_settings() {
   return array(
-    'toggle_logo' => 0,
+    'toggle_logo' => 1,
     'toggle_name' => 0,
     'toggle_slogan' => 0,
-    'toggle_node_user_picture' => 1,
-    'toggle_comment_user_picture' => 1,
+    'toggle_node_user_picture' => 0,
+    'toggle_comment_user_picture' => 0,
     'toggle_comment_user_verification' => 1,
     'toggle_favicon' => 1,
     'toggle_main_menu' => 1,
