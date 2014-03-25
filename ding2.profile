@@ -415,9 +415,7 @@ function ding2_module_selection_form($form, &$form_state) {
 
   // Validate and submit logo, iOS logo and favicon.
   $form['#validate'][] = 'ding2_module_selection_form_validate';
-  $form['#validate'][] = 'system_theme_settings_validate';
   $form['#submit'][] = 'ding2_module_selection_form_submit';
-  $form['#submit'][] = 'system_theme_settings_submit';
 
   return $form;
 }
