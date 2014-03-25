@@ -918,7 +918,6 @@ function _ting_default_reservable_types() {
     'sammensat materiale',
     'cd',
     'bog stor skrift',
-    'årbog',
     'video',
     'blu-ray',
     'cd-rom',
