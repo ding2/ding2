@@ -16,6 +16,3 @@ projects[ding_base][type] = "module"
 projects[ding_base][download][type] = "git"
 projects[ding_base][download][url] = "git@github.com:ding2tal/ding_base.git"
 projects[ding_base][download][download][branch] = "development"
-
-projects[securepages][subdir] = "contrib"
-projects[securepages][version] = "1.0-beta2"
