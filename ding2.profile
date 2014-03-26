@@ -88,8 +88,6 @@ function ding2_install_tasks(&$install_state) {
 
   // Clean up if were finished.
   if ($install_state['installation_finished']) {
-    ding2_final_settings();
-
     variable_del('ding_install_tasks');
   }
 
@@ -120,6 +118,14 @@ function ding2_install_tasks(&$install_state) {
       'display' => TRUE,
       'run' => INSTALL_TASK_RUN_IF_NOT_COMPLETED,
       'type' => 'batch',
+    ),
+
+    // Configure and revert features.
+    'ding2_add_settings' => array(
+      'display_name' => st('Add default page and settings'),
+      'display' => TRUE,
+      'run' => INSTALL_TASK_RUN_IF_NOT_COMPLETED,
+      'type' => 'normal',
     ),
   ) + $tasks + array('profiler_install_profile_complete' => array());
   return $ret;
@@ -165,6 +171,53 @@ function ding2_import_translation(&$install_state) {
   $updates = _l10n_update_prepare_updates($updates, NULL, array());
   $batch = l10n_update_batch_multiple($updates, LOCALE_IMPORT_KEEP);
   return $batch;
+}
+
+/**
+ * Helper function to configure the last parts.
+ *
+ * Reverts features and adds some basic pages.
+ */
+function ding2_add_settings(&$install_state) {
+  // Revert features to ensure they are all installed as default.
+  $features = array(
+    'ting_reference',
+    'ting_material_details',
+    'ding_base',
+    'ding_user_frontend',
+    'ding_path_alias',
+    'ding_content',
+    'ding_page',
+    'ding_frontend',
+    'ding_ting_frontend',
+    'ding_event',
+    'ding_library',
+    'ding_news',
+    'ding_groups',
+    'ding_campaign_ctype',
+    'ding_frontpage',
+  );
+  ding2_features_revert($features);
+
+  // Set page not found.
+  ding2_set_page_not_found();
+
+  // Set cookie page.
+  ding2_set_cookie_page();
+
+  // Add menu item to secondary menu.
+  $link = array(
+    'menu_name' => 'menu-secondary-menu',
+    'weight' => 50,
+    'link_title' => 'Kontakt',
+    'link_path' => 'contact',
+    'language' => LANGUAGE_NONE,
+  );
+  menu_link_save($link);
+
+  // Give admin user the administrators role to fix varnish cache of logged in
+  // users.
+  ding2_add_administrators_role(1);
 }
 
 /**
@@ -506,53 +559,6 @@ function ding2_module_selection_form_submit($form, &$form_state) {
     variable_set('sslproxy_var', $values['sslproxy_var']);
     variable_set('sslproxy_var_value', $values['sslproxy_var_value']);
   }
-}
-
-/**
- * Helper function to configure the last parts.
- *
- * Reverts features and adds some basic pages.
- */
-function ding2_final_settings() {
-  // Revert features to ensure they are all installed as default.
-  $features = array(
-    'ting_reference',
-    'ting_material_details',
-    'ding_base',
-    'ding_user_frontend',
-    'ding_path_alias',
-    'ding_content',
-    'ding_page',
-    'ding_frontend',
-    'ding_ting_frontend',
-    'ding_event',
-    'ding_library',
-    'ding_news',
-    'ding_groups',
-    'ding_campaign_ctype',
-    'ding_frontpage',
-  );
-  ding2_features_revert($features);
-
-  // Set page not found.
-  ding2_set_page_not_found();
-
-  // Set cookie page.
-  ding2_set_cookie_page();
-
-  // Add menu item to secondary menu.
-  $link = array(
-    'menu_name' => 'menu-secondary-menu',
-    'weight' => 50,
-    'link_title' => 'Kontakt',
-    'link_path' => 'contact',
-    'language' => LANGUAGE_NONE,
-  );
-  menu_link_save($link);
-
-  // Give admin user the administrators role to fix varnish cache of logged in
-  // users.
-  ding2_add_administrators_role(1);
 }
 
 /**
