@@ -535,6 +535,17 @@ function ding2_final_settings() {
   // Set cookie page.
   ding2_set_cookie_page();
 
+
+  // Add menu item to secondary menu.
+  $link = array(
+    'menu_name' => 'menu-secondary-menu',
+    'weight' => 50,
+    'link_title' => 'Kontakt',
+    'link_path' => 'contact',
+    'language' => LANGUAGE_NONE,
+  );
+  menu_link_save($link);
+
   // Give admin user the administrators role to fix varnish cache of logged in
   // users.
   ding2_add_administrators_role(1);
@@ -660,17 +671,4 @@ function ding2_set_cookie_page() {
   // Set short texts (cookie popup).
   variable_set('cookiecontrol_text', '<p>Dette site bruger cookies til at gemme oplysninger på din computer.</p>');
   variable_set('cookiecontrol_fulltext', '<p>Vi vil gerne tilbyde vores brugere en overskuelig og brugervenlig hjemmeside. For at sikre os, at indholdet på siden er relevant og til at finde rundt i, benytter vi os af cookies. Cookies giver os vigtige informationer om, hvordan vores side bliver brugt, hvilke sider der bliver set mest, hvor længe vores brugere bliver på siderne osv.</p>');
-
-  // Add node as link to menu.
-  $uri = entity_uri('node', $node);
-  $link = array(
-    'menu_name' => 'menu-secondary-menu',
-    'weight' => 50,
-    'link_title' => 'Cookies',
-    'link_path' => $uri['path'],
-    'language' => LANGUAGE_NONE,
-  );
-
-  // Save the item to database.
-  menu_link_save($link);
 }
