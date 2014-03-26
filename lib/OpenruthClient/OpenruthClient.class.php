@@ -96,8 +96,10 @@ class OpenruthClient {
         $replace_values['>' . $value . '<'] = '>' . drupal_substr(md5($value . self::$salt), 0, drupal_strlen($value)) . '<';
       }
       if (isset($time)) {
-        watchdog('openruth', 'Sending request (@seconds sec): @xml', array('@xml' => strtr($this->client->__getLastRequest(), $replace_values), '@seconds' => $time), WATCHDOG_DEBUG);
-
+        watchdog('openruth', 'Sending request (@seconds sec): @xml', array(
+          '@xml' => strtr($this->client->__getLastRequest(), $replace_values),
+          '@seconds' => $time,
+        ), WATCHDOG_DEBUG);
       }
       else {
         watchdog('openruth', 'Sending request: @xml', array('@xml' => strtr($this->client->__getLastRequest(), $replace_values)), WATCHDOG_DEBUG);
@@ -339,7 +341,7 @@ class OpenruthClient {
   }
 
   /**
-   * Changing user info (pin-code, contact, preferences etc.)
+   * Changing user info (pin-code, contact, preferences etc.).
    */
   public function update_userinfo($name, $pass, $changes) {
     static $mapping = array(
