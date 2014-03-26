@@ -496,7 +496,9 @@ function openruth_profile2_load($entities) {
 
       // Mobile; also here openRuth supports multiple phones - again we pick the
       // first.
-      $wrapper->field_openruth_mobile_phone->set($patron->userMobilePhone);
+      if (!empty($patron->userMobilePhone)) {
+        $wrapper->field_openruth_mobile_phone->set($patron->userMobilePhone);
+      }
 
       // Preferred_branch.
       $preferred_branch = !empty($patron->agencyCounter) ? $patron->agencyCounter : FALSE;
