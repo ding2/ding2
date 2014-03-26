@@ -316,30 +316,26 @@ function openruth_profile2_presave($entity) {
 
     // Mobile phone.
     $original_value = $wrapper_original->field_openruth_mobile_phone->value();
-    if (!empty($original_value)) {
-      $value = $wrapper->field_openruth_mobile_phone->value();
-      if (isset($value)) {
-        if ($value != $original_value) {
-          $changes['mobile_phone'] = $value;
-        }
+    $value = $wrapper->field_openruth_mobile_phone->value();
+    if (isset($value)) {
+      if ($value != $original_value) {
+        $changes['mobile_phone'] = $value;
       }
-      else {
-        $changes['mobile_phone'] = '';
-      }
+    }
+    else {
+      $changes['mobile_phone'] = '';
     }
 
     // Mail.
     $original_value = $wrapper_original->field_openruth_mail->value();
-    if (!empty($original_value)) {
-      $value = $wrapper->field_openruth_mail->value();
-      if (isset($value)) {
-        if ($value != $original_value) {
-          $changes['mail'] = $value;
-        }
+    $value = $wrapper->field_openruth_mail->value();
+    if (isset($value)) {
+      if ($value != $original_value) {
+        $changes['mail'] = $value;
       }
-      else {
-        $changes['mail'] = '';
-      }
+    }
+    else {
+      $changes['mail'] = '';
     }
 
     // Check if there where any changes and save them in the provider.
