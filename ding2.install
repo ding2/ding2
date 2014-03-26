@@ -234,3 +234,10 @@ function ding2_update_7005() {
   variable_set('sslproxy_var', 'X-FORWARDED-PROTO');
   variable_set('sslproxy_var_value', 'https');
 }
+
+/**
+ * Add "administrators" role to admin user.
+ */
+function ding2_update_7006() {
+  ding2_add_administrators_role(1);
+}

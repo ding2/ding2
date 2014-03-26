@@ -534,6 +534,28 @@ function ding2_final_settings() {
 
   // Set cookie page.
   ding2_set_cookie_page();
+
+  // Give admin user the administrators role to fix varnish cache of logged in
+  // users.
+  ding2_add_administrators_role(1);
+}
+
+/**
+ * Add administrators role to a user.
+ *
+ * @param int $uid
+ *   Users Drupal id.
+ */
+function ding2_add_administrators_role($uid) {
+  $roles = user_roles(TRUE);
+  $rid = array_search('administrators', $roles);
+
+  $account = user_load($uid);
+  $edit['roles'] = array(
+    DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+    $rid => 'administrators',
+  );
+  user_save($account, $edit);
 }
 
 /**

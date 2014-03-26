@@ -79,7 +79,7 @@ sub vcl_recv {
   # cookie will cause the request to pass-through to Apache. For the most part
   # we always set the NO_CACHE cookie after any POST request, disabling the
   # Varnish cache temporarily. Cookies are only removed for not logged in users
-  # theme with role 1.
+  # theme with role 1 (anonymous user).
   if (req.http.Cookie && req.http.X-Drupal-Roles == "1") {
     set req.http.Cookie = ";" + req.http.Cookie;
     set req.http.Cookie = regsuball(req.http.Cookie, "; +", ";");
