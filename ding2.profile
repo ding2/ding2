@@ -88,9 +88,9 @@ function ding2_install_tasks(&$install_state) {
 
   // Clean up if were finished.
   if ($install_state['installation_finished']) {
-    variable_del('ding_install_tasks');
-
     ding2_final_settings();
+
+    variable_del('ding_install_tasks');
   }
 
   include_once 'libraries/profiler/profiler_api.inc';
@@ -508,6 +508,11 @@ function ding2_module_selection_form_submit($form, &$form_state) {
   }
 }
 
+/**
+ * Helper function to configure the last parts.
+ *
+ * Reverts features and adds some basic pages.
+ */
 function ding2_final_settings() {
   // Revert features to ensure they are all installed as default.
   $features = array(
@@ -534,7 +539,6 @@ function ding2_final_settings() {
 
   // Set cookie page.
   ding2_set_cookie_page();
-
 
   // Add menu item to secondary menu.
   $link = array(
