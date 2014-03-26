@@ -181,7 +181,6 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
       array_splice($form['#validate'], $pos, 0, 'ding_user_user_login_validate');
       break;
 
-      // Falling through on purpose.
     case 'ding_user_authenticate_form':
       if (isset($form_state['ajaxify'])) {
         $form['actions']['submit']['#ajax'] = array(
@@ -606,7 +605,7 @@ function _ding_user_create_account($auth_name, $auth_res) {
   $account = user_external_load($auth_name);
   if (!$account) {
     // Register this new user.
-    $userinfo = array(
+    $fields = array(
       // Name is only 60 chars, and authname is longer. Use a shorter SHA1
       // hash.
       'name' => hash('sha1', $auth_name),
@@ -618,11 +617,19 @@ function _ding_user_create_account($auth_name, $auth_res) {
     );
 
     if (isset($auth_res['user'])) {
-      $userinfo['mail'] = $auth_res['user']['mail'];
-      $userinfo['data'] = array('display_name' => $auth_res['user']['data']['display_name']);
+      $fields['mail'] = $auth_res['user']['mail'];
+      $fields['data'] = array('display_name' => $auth_res['user']['data']['display_name']);
     }
 
-    $account = user_save(drupal_anonymous_user(), $userinfo);
+    // Set provider role.
+    $roles = user_roles(TRUE);
+    $rid = array_search('provider', $roles);
+    $fields['roles'] = array(
+      DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+      $rid => 'provider',
+    );
+
+    $account = user_save('', $fields);
     // Terminate if an error occurred during user_save().
     if (!$account) {
       watchdog('ding_user', "User account could not be created for: %name.", array('%name' => $auth_res['user']['data']['display_name']), WATCHDOG_ERROR);
@@ -640,7 +647,7 @@ function _ding_user_create_account($auth_name, $auth_res) {
     user_save($account, $edit);
   }
 
-  // Save credentials in the session.
+  // Save credentials for the session.
   ding_user_save_creds($auth_res);
 
   return $account;
