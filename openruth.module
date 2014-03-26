@@ -290,37 +290,26 @@ function openruth_profile2_presave($entity) {
     $value = $wrapper->field_openruth_reservation_pause->value();
     $start = '';
     if (!is_null($value['value'])) {
-      $start = date(ALMA_DATE, strtotime($value['value']));
+      $start = date('Y-m-d', strtotime($value['value']));
     }
     $stop = '';
     if (!is_null($value['value2'])) {
-      $stop = date(ALMA_DATE, strtotime($value['value2']));
+      $stop = date('Y-m-d', strtotime($value['value2']));
     }
 
     // Reservation pause (Stop).
     $value = $wrapper_original->field_openruth_reservation_pause->value();
     $org_start = '';
     if (!is_null($value['value'])) {
-      $org_start = date(ALMA_DATE, strtotime($value['value']));
+      $org_start = date('Y-m-d', strtotime($value['value']));
     }
     $org_stop = '';
     if (!is_null($value['value2'])) {
-      $org_stop = date(ALMA_DATE, strtotime($value['value2']));
+      $org_stop = date('Y-m-d', strtotime($value['value2']));
     }
 
     // Check if the reservation pause have changed.
     if ($start != $org_start || $stop != $org_stop) {
-      // Remove trailing T00:00:00 OpenRuth doesn't understand that.
-      $start = '';
-      if (!is_null($value['value'])) {
-        $start = date('Y-m-d', $value['value']);
-      }
-      $stop = '';
-      if (!is_null($value['value2'])) {
-        $stop = date('Y-m-d', $value['value2']);
-      }
-
-      // Update values.
       $changes['reservation_pause_start'] = $start;
       $changes['reservation_pause_stop'] = $stop;
     }
