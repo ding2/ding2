@@ -70,6 +70,8 @@
 %search-user-header {
   width: 100%;
 
+  @include box-sizing(border-box);
+
   label {
     @include font-bold();
 
