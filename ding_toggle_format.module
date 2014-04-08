@@ -4,7 +4,6 @@
  * Ding - toggle short/long format
  */
 
-
 /**
  * Implements hook_block_info().
  */
@@ -37,27 +36,36 @@ function ding_toggle_format_block_view($delta = '') {
  * Return rendered image link to toggle format, and label.
  */
 function ding_toggle_format_render_link() {
-  // construct the image's path (.gif stored in a module subdir)
+  // Construct the image's path (.gif stored in a module sub-dir).
   $image_path = drupal_get_path('module', 'ding_toggle_format') . '/images/blank.gif';
 
-  // make some text for the image's alt & title tags (SEO, accessibility)
+  // Make some text for the image's alt & title tags (SEO, accessibility).
   $image_alt = t('Toggle format');
   $image_title = t('Toggle format link');
-  $format_prefix = '<span class="ding-toggle-format-label">' . t('Display format: ' . '</span>');
+  $format_prefix = '<span class="ding-toggle-format-label">' . t('Display format:') . '</span>';
 
-  // render image html using theme_image (returns NULL if file doesn't exist)
+  // Render image html using theme_image (returns NULL if file doesn't exist).
   $format_image = theme('image', array(
     'path' => $image_path,
     'alt' => $image_alt,
     'title' => $image_title,
     'attributes' => array(
-      'id' => 'ding-toggle-format-image'
+      'id' => 'ding-toggle-format-image',
     ),
   ));
 
-  // if the image rendered ok, render link using above variables
-  $format_link = ( $format_image ) ? $format_prefix . l($format_image, '#', array('html' => TRUE, 'attributes' => array( 'title' => $image_title, 'id' => 'ding-toggle-format', 'class' => 'ding-toggle-format-short'))) : NULL;
+  // If the image rendered ok, render link using above variables.
+  $format_link = array();
+  if ($format_image) {
+    $format_link = $format_prefix . l($format_image, '#', array(
+      'html' => TRUE,
+      'attributes' => array(
+        'title' => $image_title,
+        'id' => 'ding-toggle-format',
+        'class' => 'ding-toggle-format-short',
+      ),
+    ));
+  }
 
   return $format_link;
 }
-
