@@ -131,7 +131,7 @@ function ding2_install_tasks(&$install_state) {
       'display_name' => st('Add default page and settings'),
       'display' => TRUE,
       'run' => INSTALL_TASK_RUN_IF_NOT_COMPLETED,
-      'type' => 'normal',
+      'type' => 'batch',
     ),
 
     // Add extra tasks based on hook_ding_install_task, which may be provided by
@@ -216,26 +216,6 @@ function ding2_import_module_translations(&$install_state) {
  * Reverts features and adds some basic pages.
  */
 function ding2_add_settings(&$install_state) {
-  // Revert features to ensure they are all installed as default.
-  $features = array(
-    'ting_reference',
-    'ting_material_details',
-    'ding_base',
-    'ding_user_frontend',
-    'ding_path_alias',
-    'ding_content',
-    'ding_page',
-    'ding_frontend',
-    'ding_ting_frontend',
-    'ding_event',
-    'ding_library',
-    'ding_news',
-    'ding_groups',
-    'ding_campaign_ctype',
-    'ding_frontpage',
-  );
-  ding2_features_revert($features);
-
   // Set page not found.
   ding2_set_page_not_found();
 
@@ -263,6 +243,42 @@ function ding2_add_settings(&$install_state) {
   // Give admin user the administrators role to fix varnish cache of logged in
   // users.
   ding2_add_administrators_role(1);
+
+  // Add features to a batch job to get them reverted.
+  $operations = array();
+  $features = array(
+    'ting_reference',
+    'ting_material_details',
+    'ding_base',
+    'ding_user_frontend',
+    'ding_path_alias',
+    'ding_content',
+    'ding_page',
+    'ding_frontend',
+    'ding_ting_frontend',
+    'ding_event',
+    'ding_library',
+    'ding_news',
+    'ding_groups',
+    'ding_campaign_ctype',
+    'ding_frontpage',
+  );
+
+  // Add import of ding2 translations.
+  foreach ($features as $feature) {
+    $operations[] = array(
+      '_ding2_features_revert',
+      array($feature),
+    );
+  }
+
+  $batch = array(
+    'title' => st('Reverting features'),
+    'operations' => $operations,
+    'file' => drupal_get_path('profile', 'ding2') . '/ding2.install_callbacks.inc',
+  );
+
+  return $batch;
 }
 
 /**
@@ -702,27 +718,6 @@ function ding2_add_administrators_role($uid) {
     $rid => 'administrators',
   );
   user_save($account, $edit);
-}
-
-/**
- * Reverts a given set of feature modules.
- *
- * @param array $modules
- *   Names of the modules to revert.
- */
-function ding2_features_revert($modules = array()) {
-  foreach ($modules as $module) {
-    // Load the feature.
-    if (($feature = features_load_feature($module, TRUE)) && module_exists($module)) {
-      // Get all components of the feature.
-      foreach (array_keys($feature->info['features']) as $component) {
-        if (features_hook($component, 'features_revert')) {
-          // Revert each component (force).
-          features_revert(array($module => array($component)));
-        }
-      }
-    }
-  }
 }
 
 /**
