@@ -188,7 +188,7 @@ Om|bibliotek/[node:field_ding_library_slug]/om';
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_ding_library_en_pattern';
-  $strongarm->value = '';
+  $strongarm->value = 'bibliotek/[node:field_ding_library_slug]';
   $export['pathauto_node_ding_library_en_pattern'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -202,7 +202,7 @@ Om|bibliotek/[node:field_ding_library_slug]/om';
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_ding_library_und_pattern';
-  $strongarm->value = '';
+  $strongarm->value = 'bibliotek/[node:field_ding_library_slug]';
   $export['pathauto_node_ding_library_und_pattern'] = $strongarm;
 
   return $export;
