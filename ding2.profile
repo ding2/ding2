@@ -134,6 +134,14 @@ function ding2_install_tasks(&$install_state) {
       'type' => 'batch',
     ),
 
+    // Configure and revert features.
+    'ding2_render_og_menus' => array(
+      'display_name' => st('OG Menus'),
+      'display' => module_exists('ding_example_content'),
+      'run' => module_exists('ding_example_content') ? INSTALL_TASK_RUN_IF_NOT_COMPLETED : INSTALL_TASK_SKIP,
+      'type' => 'batch',
+    ),
+
     // Add extra tasks based on hook_ding_install_task, which may be provided by
     // the selection task above.
     'ding2_fetch_ding_install_tasks' => array(
@@ -232,14 +240,6 @@ function ding2_add_settings(&$install_state) {
   );
   menu_link_save($link);
 
-  // Generate all OG menus (mostly do to Aegir - headless install).
-  $menus = array();
-  $results = db_query("SELECT menu_name FROM {og_menu}");
-  foreach ($results as $row) {
-    $menus[] = $row->menu_name;
-  }
-  og_menu_default_links_batch_default_links($menus);
-
   // Give admin user the administrators role to fix varnish cache of logged in
   // users.
   ding2_add_administrators_role(1);
@@ -264,7 +264,7 @@ function ding2_add_settings(&$install_state) {
     'ding_frontpage',
   );
 
-  // Add import of ding2 translations.
+  // Revert features.
   foreach ($features as $feature) {
     $operations[] = array(
       '_ding2_features_revert',
@@ -276,6 +276,30 @@ function ding2_add_settings(&$install_state) {
     'title' => st('Reverting features'),
     'operations' => $operations,
     'file' => drupal_get_path('profile', 'ding2') . '/ding2.install_callbacks.inc',
+  );
+
+  return $batch;
+}
+
+/**
+ * Install task to build default og menu values for example content.
+ */
+function ding2_render_og_menus(&$install_state) {
+  $results = db_query("select menu_name as menu_name from {og_menu}");
+  foreach ($results as $row) {
+    $menus[] = $row->menu_name;
+  }
+
+  $batch = array(
+    'title' => t('Updating Default link'),
+    'operations' => array(
+      array('og_menu_default_links_batch_default_links_process', array($menus)),
+    ),
+    'finished' => 'og_menu_default_links_batch_default_links_finished',
+    'init_message' => t('Update of OG Menu default links is starting...'),
+    'progress_message' => t('Processed @current out of @total.'),
+    'error_message' => t('An error was encountered updating OG Menu Default Links.'),
+    'file' => drupal_get_path('module', 'og_menu_default_links') . '/og_menu_default_links.batch.inc',
   );
 
   return $batch;
