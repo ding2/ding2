@@ -285,6 +285,7 @@ function ding2_add_settings(&$install_state) {
  * Install task to build default og menu values for example content.
  */
 function ding2_render_og_menus(&$install_state) {
+  $menus = array();
   $results = db_query("select menu_name as menu_name from {og_menu}");
   foreach ($results as $row) {
     $menus[] = $row->menu_name;
@@ -295,10 +296,6 @@ function ding2_render_og_menus(&$install_state) {
     'operations' => array(
       array('og_menu_default_links_batch_default_links_process', array($menus)),
     ),
-    'finished' => 'og_menu_default_links_batch_default_links_finished',
-    'init_message' => t('Update of OG Menu default links is starting...'),
-    'progress_message' => t('Processed @current out of @total.'),
-    'error_message' => t('An error was encountered updating OG Menu Default Links.'),
     'file' => drupal_get_path('module', 'og_menu_default_links') . '/og_menu_default_links.batch.inc',
   );
 
