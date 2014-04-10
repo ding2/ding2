@@ -112,15 +112,7 @@ function ding2_install_tasks(&$install_state) {
 
     // Import ding2 translations.
     'ding2_import_ding2_translations' => array(
-      'display_name' => st('Import ding2 translations'),
-      'display' => TRUE,
-      'run' => INSTALL_TASK_RUN_IF_NOT_COMPLETED,
-      'type' => 'batch',
-    ),
-
-    // Update module translations.
-    'ding2_import_module_translations' => array(
-      'display_name' => st('Import module translations'),
+      'display_name' => st('Import translations'),
       'display' => TRUE,
       'run' => INSTALL_TASK_RUN_IF_NOT_COMPLETED,
       'type' => 'batch',
@@ -194,26 +186,6 @@ function ding2_import_ding2_translations(&$install_state) {
     'operations' => $operations,
     'file' => drupal_get_path('profile', 'ding2') . '/ding2.install_callbacks.inc',
   );
-
-  return $batch;
-}
-
-/**
- * Translation callback.
- *
- * @param string $install_state
- *   An array of information about the current installation state.
- *
- * @return array
- *   List of batches.
- */
-function ding2_import_module_translations(&$install_state) {
-  // Build batch with l10n_update module.
-  module_load_include('batch.inc', 'l10n_update');
-  module_load_include('check.inc', 'l10n_update');
-  $updates = l10n_update_build_updates(l10n_update_get_history(), l10n_update_available_releases());
-  $updates = _l10n_update_prepare_updates($updates, NULL, array());
-  $batch = l10n_update_batch_multiple($updates, LOCALE_IMPORT_KEEP);
 
   return $batch;
 }
@@ -404,6 +376,7 @@ function ding2_module_selection_form($form, &$form_state) {
     'ding_contact' => st('Contact module'),
     'ding_example_content' => st('Add example content'),
     'ting_new_materials' => st('Ting New Materials'),
+    'bpi' => st('BPI'),
   );
 
   $form['modules'] = array(
