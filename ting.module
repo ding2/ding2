@@ -927,7 +927,7 @@ function _ting_default_reservable_types() {
     'wii',
     'playstation 2',
     'playstation 4',
-    'graphic novel ',
+    'graphic novel',
     'nintendo ds',
     'dvd-rom',
     'kort',
@@ -938,7 +938,7 @@ function _ting_default_reservable_types() {
     'playstation',
     'lydbog',
     'spil',
-    'puslespil ',
+    'puslespil',
     'diskette',
   );
 }
