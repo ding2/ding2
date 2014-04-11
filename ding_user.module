@@ -812,7 +812,9 @@ function ding_user_get_creds($user = NULL) {
           // Logout the user and switch to anonymous.
           user_module_invoke('logout', $user, 'user');
           session_destroy();
-          drupal_anonymous_user();
+
+          // Set the global user to anonymous.
+          $user = drupal_anonymous_user();
 
           // Handle ajax requests.
           if (isset($_REQUEST['js']) && $_REQUEST['js'] == 'true') {
