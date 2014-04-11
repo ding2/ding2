@@ -476,16 +476,14 @@ function process_series_info($series) {
   $result = '';
   $parts = explode(':', $series);
 
-  if (is_array($parts) && count($parts >= 2)) {
+  if (is_array($parts) && count($parts) >= 2) {
     $prefix = $parts[0] . ': ';
 
     if (stripos($prefix, 'del af:') !== FALSE) {
       $title = $parts[1];
       $result = $prefix . l($title, 'search/ting/"' . $title . '"');
-
     }
     elseif (stripos($prefix, 'Samhørende:') !== FALSE) {
-
       $titles = $parts[1];
       // Multiple titles are separated by ' ; '. Explode to iterate over them.
       $titles = explode(' ; ', $titles);
