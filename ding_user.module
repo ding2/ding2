@@ -179,7 +179,8 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
         $pos += 1;
       }
       array_splice($form['#validate'], $pos, 0, 'ding_user_user_login_validate');
-      break;
+    // Falling through on purpose (if not reservation and login via ajax will
+    // fail.).
 
     case 'ding_user_authenticate_form':
       if (isset($form_state['ajaxify'])) {
