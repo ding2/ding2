@@ -171,6 +171,7 @@ function ding_place2book_node_view($node, $view_mode, $langcode) {
     if (isset($node->nid) && $node->nid) {
 
       //modify the existing placeholder field_place2book_tickets
+      $node->content['field_place2book_tickets']['#weight'] = 50;
       $node->content['field_place2book_tickets'][0]['#markup'] = '<input type="hidden" class="place2book-ticketinfo" value="' . $node->nid . '"/>';
     }
   }
