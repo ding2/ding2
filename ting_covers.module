@@ -1,17 +1,18 @@
 <?php
-
 /**
- * @file ting_covers.module
- * Provide functionality and page callbacks for retrieving covers for Ting objects and collections
+ * @file
+ * Provide functionality and page callbacks for retrieving covers for Ting
+ * objects and collections
  */
 
+// Default cache lifetime for covers (24 timer).
 define('TING_COVERS_DEFAULT_CACHE_LIFETIME', 86400);
 
 // Load field module hooks.
 module_load_include('inc', 'ting_covers', 'ting_covers.field');
 
 /**
- * Implementation of hook_menu().
+ * Implements hook_menu().
  */
 function ting_covers_menu() {
   $items = array();
@@ -27,7 +28,7 @@ function ting_covers_menu() {
   $items['admin/config/ting/covers'] = array(
     'title' => 'Covers',
     'description' => 'Configure how covers are handled.',
-  	'page callback' => 'drupal_get_form',
+    'page callback' => 'drupal_get_form',
     'page arguments' => array('ting_covers_admin_settings_form'),
     'access arguments' => array('administer site configuration'),
     'file' => 'ting_covers.admin.inc',
@@ -43,7 +44,7 @@ function ting_covers_menu() {
   $items['admin/config/ting/covers/addi'] = array(
     'title' => 'ADDI service',
     'description' => 'Configure integration with the ADDI service.',
-  	'page callback' => 'drupal_get_form',
+    'page callback' => 'drupal_get_form',
     'page arguments' => array('ting_covers_admin_addi_settings_form'),
     'access arguments' => array('administer site configuration'),
     'file' => 'ting_covers.admin.inc',
@@ -54,7 +55,7 @@ function ting_covers_menu() {
 }
 
 /**
- * Implementation of hook_theme().
+ * Implements hook_theme().
  */
 function ting_covers_theme() {
   return array(
@@ -66,16 +67,9 @@ function ting_covers_theme() {
 }
 
 /**
- * Implementation of hook_cron().
+ * Implements hook_cron().
  */
 function ting_covers_cron() {
-  _ting_covers_delete_old_files($_SERVER['REQUEST_TIME'] - variable_get('ting_covers_cache_lifetime', TING_COVERS_DEFAULT_CACHE_LIFETIME));
-}
-
-/**
- * Implementation of hook_cache_clear().
- */
-function ting_covers_flush_caches() {
   _ting_covers_delete_old_files($_SERVER['REQUEST_TIME'] - variable_get('ting_covers_cache_lifetime', TING_COVERS_DEFAULT_CACHE_LIFETIME));
 }
 
@@ -110,66 +104,43 @@ function ting_covers_preprocess_ting_object(&$variables) {
  *
  * @todo: handle image styles better and use API to flush expired images.
  *
- * @param int $time Timestamp where older files will be deleted.
- * 	Obmit or set to NULL to delete all files.
+ * @param int $time
+ *   Timestamp where older files will be deleted.	Omit or set to NULL to delete
+ *   all files.
  */
 function _ting_covers_delete_old_files($time = NULL) {
-  // Collect potential locations of cover folders
+  // Collect potential locations of cover folders.
   $files_dir = file_default_scheme() . '://';
   $image_dirs = array($files_dir);
 
   $styles_dir = $files_dir . 'styles';
   foreach (scandir($styles_dir) as $style_dir) {
-    $style_dir = $styles_dir . DIRECTORY_SEPARATOR . $style_dir . DIRECTORY_SEPARATOR . 'public';
+    $style_dir = $styles_dir . DIRECTORY_SEPARATOR . $style_dir . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR;
     if (is_dir($style_dir)) {
       $image_dirs[] = $style_dir;
     }
   }
 
-  // Collect cover files
+  // Collect cover files.
   $cover_files = array();
   foreach ($image_dirs as $uri) {
-    $ting_covers_dir = $uri . DIRECTORY_SEPARATOR . 'ting' . DIRECTORY_SEPARATOR . 'covers';
+    $ting_covers_dir = $uri . 'ting' . DIRECTORY_SEPARATOR . 'covers';
     if (is_dir($ting_covers_dir)) {
-      $cover_files = array_merge($cover_files, _ting_covers_get_files($ting_covers_dir));
+      $cover_files = array_merge($cover_files, file_scan_directory($ting_covers_dir, "/./"));
     }
   }
 
-  //Delete obsolete files
+  // Delete obsolete files.
   foreach ($cover_files as $file) {
-    if (!$time || (filemtime($file) < $time)) {
-      file_unmanaged_delete($file);
+    if (!$time || (filemtime($file->uri) < $time)) {
+      file_unmanaged_delete($file->uri);
     }
   }
-}
-
-/**
- * Retrieve all files under a path recursively
- *
- * @param string $files_path Path or URI
- * @return array An array of file paths or URIs
- */
-function _ting_covers_get_files($files_path) {
-  $files = array();
-
-  foreach (scandir($files_path) as $path) {
-    $file_path = $files_path . DIRECTORY_SEPARATOR . $path;
-    if (is_dir($file_path)) {
-      if (!in_array($path, array('.', '..'))) {
-        $files = array_merge($files, _ting_covers_get_files($file_path));
-      }
-    }
-    else {
-      $files[] = $file_path;
-    }
-  }
-
-  return $files;
 }
 
 /**
  * Return the path to the cover of the object.
  */
 function ting_covers_object_path($object_id) {
-  return file_default_scheme() . '://ting/covers/object/' . md5($object_id) . '.jpg';
+  return file_default_scheme() . '://ting' . DIRECTORY_SEPARATOR . 'covers' . DIRECTORY_SEPARATOR . 'object' . DIRECTORY_SEPARATOR . md5($object_id) . '.jpg';
 }
