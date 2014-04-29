@@ -442,7 +442,10 @@ function alma_reservation_get_reservations($account, $reset = FALSE) {
  * Clear reservations stored in the current session cache.
  */
 function alma_reservation_clear_cache() {
-  ding_session_cache_clear('alma', 'reservations');
+  // Check if ding_session_cache is available.
+  if (module_exists('ding_session_cache')) {
+    ding_session_cache_clear('alma', 'reservations');
+  }
 }
 
 /**
