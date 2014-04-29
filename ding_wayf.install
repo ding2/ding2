@@ -46,6 +46,14 @@ function ding_wayf_requirements($phase) {
         );
       }
     }
+
+    if (!variable_get('wayf_hash', FALSE)) {
+      $requirements['wayf_hash'] = array(
+        'value' => $t('WAYF not configured correctly'),
+        'description' => $t('WAYF is not properly configured, you need to set $conf[\'wayf_hash\'] in setttings.php.'),
+        'severity' => REQUIREMENT_ERROR,
+      );
+    }
   }
 
   return $requirements;
