@@ -18,14 +18,14 @@
 function alma_debt_list($account, $reset = FALSE) {
   $creds = ding_user_get_creds($account);
 
-  // Use session cache to speed up communication with Alma.
+  // Use static cache to speed up communication with Alma.
   $results = &drupal_static(__FUNCTION__, FALSE);
   if (!$results || $reset) {
     // Get debts from Alma.
     $debts = alma_client_invoke('get_debts', $creds['name'], $creds['pass']);
 
     // Create DingProviderDebt instances from Alma's list.
-    $result = array();
+    $results = array();
     foreach ($debts['debts'] as $debt) {
       // Get the material number from the display name and remove it form it.
       preg_match('/^(\w+)\s+(.+)/', $debt['display_name'], $matchs);
@@ -38,11 +38,11 @@ function alma_debt_list($account, $reset = FALSE) {
       $debt['type'] = alma_debt_translate_debt_type($debt['type']);
 
       $debt_object = new DingProviderDebt($debt['id'], $debt);
-      $result[$debt['id']] = $debt_object;
+      $results[$debt['id']] = $debt_object;
     }
   }
 
-  return $result;
+  return $results;
 }
 
 /**
