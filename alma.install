@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Handles requirements, installation and uninstall for the module.
+ */
 
 /**
  * Implements hook_requirements().
@@ -25,16 +29,6 @@ function alma_requirements($phase) {
     if (!variable_get('alma_base_url', FALSE) || !variable_get('ting_agency', FALSE)) {
       $requirements['alma']['value'] = $t('Alma not configured');
       $requirements['alma']['description'] = $t('Alma is not properly configured, please visit <a href="@link">the settings page</a>.', array('@link' => url('admin/config/ding/provider/alma')));
-      $requirements['alma']['severity'] = REQUIREMENT_ERROR;
-    }
-    $requirements['alma_wayf'] = array(
-      'title' => $t('Alma WAYF'),
-      'value' => $t('Alma WAYF configured'),
-      'severity' => REQUIREMENT_OK,
-    );
-    if (!variable_get('wayf_hash', FALSE)) {
-      $requirements['alma']['value'] = $t('Alma WAYF not configured');
-      $requirements['alma']['description'] = $t('Alma WAYF is not properly configured, you need to set $conf[\'wayf_hash\'] in setttings.php.');
       $requirements['alma']['severity'] = REQUIREMENT_ERROR;
     }
   }
