@@ -332,6 +332,9 @@ function ding_base_preprocess_material_item(&$variables) {
 
 /**
  * Implements hook_pathauto_alias_alter().
+ *
+ * Try to force all content to language neutral to fix issues with content not
+ * being display for all users.
  */
 function ding_base_pathauto_alias_alter(&$alias, array &$context) {
   // Force all aliases to be saved as language neutral.
