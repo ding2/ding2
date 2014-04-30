@@ -50,7 +50,7 @@ function ding_content_wysiwyg_default_profiles() {
       'remove_linebreaks' => 1,
       'apply_source_formatting' => 0,
       'paste_auto_cleanup_on_paste' => 0,
-      'block_formats' => 'p,address,pre,h2,h3,h4,h5,h6,div',
+      'block_formats' => 'p,blockquote,cite,h2,h3,h4,h5,h6,div',
       'css_setting' => 'theme',
       'css_path' => '',
       'css_classes' => '',
