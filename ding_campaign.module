@@ -25,7 +25,7 @@ function ding_campaign_menu() {
     'page callback' => 'ding_campaign_rules_admin',
     'page arguments' => array(1),
     'access arguments' => array(1),
-    'access callback' => array('ding_campaign_rules_access'),
+    'access callback' => 'ding_campaign_rules_access',
     'file' => 'ding_campaign.admin.inc',
     'type' => MENU_LOCAL_TASK,
     'weight' => 2,
