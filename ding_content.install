@@ -8,13 +8,13 @@
  * Implements hook_install().
  */
 function ding_content_install() {
-  ding_content_remove_html5_video_display();
+  ding_content_insert_html5_video_presets();
 }
 
 /**
  * Default settings for file display.
  */
-function ding_content_remove_html5_video_display() {
+function ding_content_insert_html5_video_presets() {
   $video_inserts = array(
     array(
       'name' => 'video__default__file_field_file_audio',
@@ -175,5 +175,5 @@ function ding_content_update_7000() {
  * Remove HTML5 video.
  */
 function ding_content_upadte_7001() {
-  ding_content_remove_html5_video_display();
+  ding_content_insert_html5_video_presets();
 }
