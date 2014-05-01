@@ -57,8 +57,9 @@ function ding_example_content_news_node_export_import_alter(&$nodes, $format, $s
         $wrapper->field_ding_news_category->set($categories[array_rand($categories)]->tid);
       }
 
-      // Set tags (random). Do not use the entity wrapper here as it
-      // will try to load the entity/term, which may not exists.
+      // Set tags (random). It do not use the entity wrapper here to get values
+      // as it will load the entity/term, which may not exists, which the will
+      // result in an error.
       if (!empty($node->field_ding_news_tags)) {
         $random_tags = array();
         for ($i = 0; count($node->field_ding_news_tags[LANGUAGE_NONE]) > $i; $i++) {
@@ -73,8 +74,8 @@ function ding_example_content_news_node_export_import_alter(&$nodes, $format, $s
         $wrapper->field_ding_news_tags->set($random_tags);
       }
 
-      // Set OG group id (library). Do not use the entity wrapper here as it
-      // will try to load the entity, which may not exists.
+      // Set OG group id (library). Do not use the entity wrapper here to get
+      // values as it will try to load the entity, which may not exists.
       if (!empty($node->og_group_ref)) {
         $group = $node->og_group_ref[LANGUAGE_NONE][0]['target_id'];
         $nid = ding_example_content_groups_ref_translate($group, 'ding_library');
