@@ -98,6 +98,10 @@ function ding_event_post_features_enable_feature() {
 
 /**
  * Helper function to install menu position rule.
+ *
+ * Menu position rules do not have features support, so we use this function
+ * to install theme when the feature (this module) is enable, disable or
+ * reverted.
  */
 function ding_event_install_menu_position($op = 'install') {
   module_load_include('inc', 'menu_position', 'menu_position.admin');
