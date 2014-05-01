@@ -117,9 +117,10 @@ function ding_example_content_groups_node_export_after_import_alter(&$nodes, $fo
 /**
  * Helper function to map old OG group nids to UUID.
  *
- * This function is and when node export is fixed with export of OG, this hack
- * should be removed. But for now, this is the best solution that I could dream
- * up after 01:00 :-).
+ * This function is hopefully temporary until node export is fixed with support
+ * to export OG. Work is going on in the issues queues at D.O. So this hack
+ * should be removed when node export supports OG version 2.x. But for now,
+ * this is the best solution that I could dream up after 01:00 :-).
  *
  * @param int $ref_entity_id
  *   The old nid found in the OG ref field.
