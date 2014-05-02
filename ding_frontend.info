@@ -10,7 +10,6 @@ dependencies[] = ctools
 dependencies[] = ding_campaign
 dependencies[] = ding_page
 dependencies[] = dynamic_background
-dependencies[] = fe_block
 dependencies[] = features
 dependencies[] = image
 dependencies[] = languageicons
