@@ -35,6 +35,7 @@ projects[jquery_update][version] = "2.3"
 projects[languageicons][subdir] = "contrib"
 projects[languageicons][version] = "1.0"
 
+# Get a this special version that has support for features export.
 projects[menu_block][type] = "module"
 projects[menu_block][subdir] = "contrib"
 projects[menu_block][download][type] = "git"
