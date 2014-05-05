@@ -364,7 +364,8 @@ function ding_bookmark_load_bookmarks($account) {
     // Library code can be changed at any time by the site administrator.
     // Every time when bookmark item is loaded,
     // module should check, whether item is available in the current library.
-    // If item does not exists in the library it should be deleted from bookmark.
+    // If item does not exists in the library it should be deleted from
+    // bookmark.
     if (!$entity) {
       // Remove item.
       $flag = flag_get_flag('bookmark');

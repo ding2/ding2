@@ -75,7 +75,7 @@ function ding_bookmark_remove_form($form, &$form_state, $entities) {
           '#weight' => 0,
         ),
         'reserve' => array(
-          'class' => 'tis',
+          'class' => 'reserve',
           'data' => drupal_render($button),
           '#weight' => 4,
         ),
