@@ -42,6 +42,7 @@ projects[og_menu][patch][0] = "http://drupal.org/files/issues/option_to_hide_cre
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
 
+; This version of media is tested to work with both images and videos.
 projects[media][type] = "module"
 projects[media][subdir] = "contrib"
 projects[media][download][type] = "git"
@@ -51,6 +52,7 @@ projects[media][download][revision] = "c3cda2b"
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-alpha2"
 
+; This version of menu block have ctools support and works with features.
 projects[menu_block][type] = "module"
 projects[menu_block][subdir] = "contrib"
 projects[menu_block][download][type] = "git"
