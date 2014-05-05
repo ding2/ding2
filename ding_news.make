@@ -35,6 +35,7 @@ projects[features_extra][version] = "1.0-beta1"
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.1"
 
+; This version of media is tested to work with both images and videos.
 projects[media][type] = "module"
 projects[media][subdir] = "contrib"
 projects[media][download][type] = "git"
