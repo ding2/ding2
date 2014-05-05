@@ -10,6 +10,7 @@ projects[ding_content][download][branch] = "development"
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.6"
 
+; This version of media is tested to work with both images and videos.
 projects[media][type] = "module"
 projects[media][subdir] = "contrib"
 projects[media][download][type] = "git"
