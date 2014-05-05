@@ -38,7 +38,7 @@ function ding_frontpage_promoter_ctools_access_settings($form, &$form_state, $co
     '#type' => 'radios',
     '#title' => t('Promoter'),
     '#description' => t('Select the promoter this access rule is attached to.'),
-    '#options' => ding_frontpage_promotors(),
+    '#options' => ding_frontpage_promoters(),
     '#default_value' => $conf['promoter'],
   );
 
