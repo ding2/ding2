@@ -8,4 +8,3 @@ dependencies[] = ding_popup
 dependencies[] = ding_entity
 dependencies[] = profile2
 dependencies[] = ctools
-configure = admin/config/ding/user
