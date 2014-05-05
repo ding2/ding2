@@ -208,7 +208,7 @@ function ding_reservation_reserve_form_validate($form, &$form_state) {
         if (empty($default) && empty($form_state['values']['provider_options'][$key])) {
           // Set form error to trigger display of the form in ding pop-up. The
           // message will not be shown and the user will have to select values.
-          form_error($key, t('Please select a valied value.'));
+          form_error($key, t('Please select a valid value.'));
           $form_state['rebuild'] = TRUE;
         }
         else {
