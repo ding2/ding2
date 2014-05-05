@@ -18,6 +18,7 @@ projects[ding_library][download][branch] = "development"
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.0-beta2"
 
+; This version of media is tested to work with both images and videos.
 projects[media][type] = "module"
 projects[media][subdir] = "contrib"
 projects[media][download][type] = "git"
