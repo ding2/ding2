@@ -24,10 +24,7 @@ $plugin = array(
  * Check for access.
  */
 function ding_frontpage_promoter_ctools_access_check($conf, $context) {
-  if ($conf['promoter'] == variable_get('ding_frontpage_promoter', 'ting_search_carousel')) {
-    return TRUE;
-  }
-  return FALSE;
+  return $conf['promoter'] == variable_get('ding_frontpage_promoter', 'ting_search_carousel');
 }
 
 /**
