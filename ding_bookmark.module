@@ -380,6 +380,27 @@ function ding_bookmark_load_bookmarks($account) {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add the option to hide the import bookmark form.
+ */
+function ding_bookmark_form_user_admin_settings_alter(&$form, &$form_state, $form_id) {
+  $form['bookmark'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Ding bookmark'),
+    '#weight' => -1,
+    '#tree' => FALSE,
+  );
+
+  $form['bookmark']['ding_bookmark_display_import'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Display import'),
+    '#description' => t('Display the bookmark import form on the users bookmark page.'),
+    '#default_value' => TRUE,
+  );
+}
+
+/**
  * Implements hook_ctools_plugin_directory().
  */
 function ding_bookmark_ctools_plugin_directory($module, $plugin) {

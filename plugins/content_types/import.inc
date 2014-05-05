@@ -22,9 +22,11 @@ function ding_bookmark_import_content_type_render($subtype, $conf, $panel_args, 
   $block->module = 'ding_bookmark';
   $block->delta = 'import';
 
-  // Render the form as the block content.
-  $bookmark_form = drupal_get_form('ding_bookmark_import_form');
-  $block->content = drupal_render($bookmark_form);;
+  // Render the form as the block content, if it should be displayed.
+  if (variable_get('ding_bookmark_display_import', TRUE)) {
+    $form = drupal_get_form('ding_bookmark_import_form');
+    $block->content = drupal_render($form);;
+  }
 
   return $block;
 }
