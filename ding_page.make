@@ -28,10 +28,10 @@ projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.1"
 
 projects[og][subdir] = "contrib"
-projects[og][version] = "2.5"
+projects[og][version] = "2.6"
 
 projects[og_menu][subdir] = "contrib"
-projects[og_menu][version] = "3.0-rc4"
+projects[og_menu][version] = "3.0-rc5"
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
