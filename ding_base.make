@@ -16,10 +16,10 @@ projects[jquery_update][subdir] = "contrib"
 projects[jquery_update][version] = "2.3"
 
 projects[og][subdir] = "contrib"
-projects[og][version] = "2.5"
+projects[og][version] = "2.6"
 
 projects[og_menu][subdir] = "contrib"
-projects[og_menu][version] = "3.0-rc4"
+projects[og_menu][version] = "3.0-rc5"
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
