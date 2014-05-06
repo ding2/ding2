@@ -12,7 +12,7 @@ projects[relation][subdir] = "contrib"
 projects[relation][version] = "1.0-rc4"
 
 projects[virtual_field][subdir] = "contrib"
-projects[virtual_field][version] = "1.1"
+projects[virtual_field][version] = "1.2"
 
 projects[ding_entity][type] = "module"
 projects[ding_entity][download][type] = "git"
