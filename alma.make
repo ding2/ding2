@@ -10,7 +10,7 @@ projects[email][subdir] = "contrib"
 projects[email][version] = "1.2"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.0-beta2"
+projects[features][version] = "2.0"
 
 projects[profile2][subdir] = "contrib"
 projects[profile2][version] = "1.3"
