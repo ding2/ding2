@@ -15,7 +15,7 @@ projects[profile2][subdir] = "contrib"
 projects[profile2][version] = "1.3"
 
 projects[virtual_field][subdir] = "contrib"
-projects[virtual_field][version] = "1.1"
+projects[virtual_field][version] = "1.2"
 
 projects[ding_provider][type] = "module"
 projects[ding_provider][download][type] = "git"
