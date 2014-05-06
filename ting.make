@@ -9,8 +9,7 @@ projects[nanosoap][version] = "1.0"
 projects[nanosoap][patch][] = "http://drupal.org/files/nanosoap-curloptions-1943732.patch"
 
 projects[virtual_field][subdir] = "contrib"
-projects[virtual_field][version] = "1.1"
-
+projects[virtual_field][version] = "1.2"
 
 ; Libraries
 
