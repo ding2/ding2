@@ -12,7 +12,7 @@ projects[cs_adaptive_image][subdir] = "contrib"
 projects[cs_adaptive_image][version] = "1.0"
 
 projects[email][subdir] = "contrib"
-projects[email][version] = "1.2"
+projects[email][version] = "1.3"
 
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.0"
