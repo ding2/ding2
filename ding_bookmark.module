@@ -396,7 +396,7 @@ function ding_bookmark_form_user_admin_settings_alter(&$form, &$form_state, $for
     '#type' => 'checkbox',
     '#title' => t('Display import'),
     '#description' => t('Display the bookmark import form on the users bookmark page.'),
-    '#default_value' => TRUE,
+    '#default_value' => variable_get('ding_bookmark_display_import', TRUE),
   );
 }
 
