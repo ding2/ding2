@@ -58,10 +58,10 @@ projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-alpha2"
 
 projects[og][subdir] = "contrib"
-projects[og][version] = "2.5"
+projects[og][version] = "2.6"
 
 projects[og_menu][subdir] = "contrib"
-projects[og_menu][version] = "3.0-rc4"
+projects[og_menu][version] = "3.0-rc5"
 
 projects[opening_hours][subdir] = "contrib"
 projects[opening_hours][version] = "1.4-beta1"
