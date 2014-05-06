@@ -6,7 +6,7 @@ projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.4"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.0-beta2"
+projects[features][version] = "2.0"
 
 projects[globalredirect][subdir] = "contrib"
 projects[globalredirect][version] = "1.5"
