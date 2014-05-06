@@ -17,7 +17,7 @@ projects[features_extra][subdir] = "contrib"
 projects[features_extra][version] = "1.0-beta1"
 
 projects[i18n][subdir] = "contrib"
-projects[i18n][version] = "1.8"
+projects[i18n][version] = "1.11"
 
 projects[panels][subdir] = "contrib"
 projects[panels][version] = "3.3"
