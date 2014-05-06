@@ -66,4 +66,4 @@ projects[views][subdir] = "contrib"
 projects[views][version] = "3.7"
 
 projects[views_bulk_operations][subdir] = "contrib"
-projects[views_bulk_operations][version] = "3.1"
+projects[views_bulk_operations][version] = "3.2"
