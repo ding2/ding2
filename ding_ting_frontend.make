@@ -24,7 +24,7 @@ projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
 
 projects[variable][subdir] = "contrib"
-projects[variable][version] = "2.2"
+projects[variable][version] = "2.5"
 
 projects[relation][subdir] = "contrib"
 projects[relation][version] = "1.0-rc4"
