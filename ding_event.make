@@ -86,4 +86,4 @@ projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"
 
 projects[views_bulk_operations][subdir] = "contrib"
-projects[views_bulk_operations][version] = "3.1"
+projects[views_bulk_operations][version] = "3.2"
