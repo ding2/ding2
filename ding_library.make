@@ -65,7 +65,6 @@ projects[og_menu][version] = "3.0-rc5"
 
 projects[opening_hours][subdir] = "contrib"
 projects[opening_hours][version] = "1.4"
-projects[opening_hours][patch][0] = "http://drupal.org/files/node-type-test-isset-2011684-2.patch"
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
