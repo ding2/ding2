@@ -77,7 +77,7 @@ projects[fences][patch][0] = "http://drupal.org/files/field_for_wrapper_css_clas
 
 projects[l10n_update][type] = "module"
 projects[l10n_update][subdir] = "contrib"
-projects[l10n_update][version] = "1.0-beta3"
+projects[l10n_update][version] = "1.0"
 
 projects[ding_campaign][type] = "module"
 projects[ding_campaign][download][type] = "git"
