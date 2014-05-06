@@ -58,7 +58,7 @@ projects[views][subdir] = "contrib"
 projects[views][version] = "3.7"
 
 projects[scheduler][subdir] = "contrib"
-projects[scheduler][version] = "1.1"
+projects[scheduler][version] = "1.2"
 
 projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"
