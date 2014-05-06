@@ -4,7 +4,7 @@ core = 7.x
 ; Contrib
 
 projects[date][subdir] = "contrib"
-projects[date][version] = "2.6"
+projects[date][version] = "2.7"
 
 projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
