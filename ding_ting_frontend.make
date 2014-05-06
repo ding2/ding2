@@ -30,7 +30,7 @@ projects[relation][subdir] = "contrib"
 projects[relation][version] = "1.0-rc5"
 
 projects[field_group][subdir] = "contrib"
-projects[field_group][version] = "1.1"
+projects[field_group][version] = "1.3"
 
 projects[ding_adhl_frontend][type] = "module"
 projects[ding_adhl_frontend][download][type] = "git"
