@@ -23,7 +23,7 @@ projects[ding_event][download][url] = "git@github.com:ding2tal/ding_event.git"
 projects[ding_event][download][branch] = "development"
 
 projects[email][subdir] = "contrib"
-projects[email][version] = "1.2"
+projects[email][version] = "1.3"
 
 projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.5"
