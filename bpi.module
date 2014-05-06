@@ -341,120 +341,128 @@ function bpi_form_node_admin_content_alter(&$form, &$form_state) {
   //    framework but we would also get functionality for free e.g. Views, Actions, permission
   //    handling, logging of state changes, buttons for workflow actions, scheduling of state
   //    changes that we we already have or will have to write code for ourselves.
-//  $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-admin.styles.css';
-//  drupal_add_library('system', 'drupal.ajax');
-//
-//  // Mark BPI nodes.
-//  $nodes_to_mark = array();
-//  $nodes_in_table = array_keys($form['admin']['nodes']['#options']);
-//  $bpi_nodes = bpi_get_bpi_nodes($nodes_in_table);
-//  if (!empty($nodes_in_table)) {
-//    $nodes_to_mark = array_keys($bpi_nodes);
-//
-//    foreach ($form['admin']['nodes']['#options'] as $node_id => &$row) {
-//      if (in_array($node_id, $nodes_to_mark)) {
-//        $row['title']['data']['#suffix'] .= '<sup class="bpi-marker">BPI</sup>';
-//      }
-//    }
-//  }
-//
-//  // BPI filter.
-//  if (isset($form['filter']['filters']['status']['filters'])) {
-//    $current_bpi_filter = isset($_SESSION['bpi']['filter']) ? $_SESSION['bpi']['filter'] : 'all';
-//
-//    $bpi_filters = array(
-//      'all' => t('any'),
-//      'bpi_only' => t('BPI only'),
-//      'bpi_syndicated' => t('Syndicated'),
-//      'bpi_pushed' => t('Pushed'),
-//    );
-//
-//    $form['filter']['filters']['status']['filters']['bpi'] = array(
-//      '#type' => 'select',
-//      '#title' => t('bpi'),
-//      '#options' => $bpi_filters,
-//      '#default_value' => $current_bpi_filter,
-//    );
-//
-//    // It's viable that this module hooks, are fired before the standard ones.
-//    array_unshift($form['#submit'], '_bpi_node_admin_content_submit');
-//
-//    // If a BPI filter is set, prepend an active BPI filter marker.
-//    if ($current_bpi_filter != 'all') {
-//      $drupal_filters = isset($_SESSION['node_overview_filter']) ? $_SESSION['node_overview_filter'] : array();
-//      $t_args = array(
-//        '%property' => 'bpi',
-//        '%value' => $bpi_filters[$current_bpi_filter],
-//      );
-//      $bpi_filter_marker['#markup'] = t('where %property is %value', $t_args);
-//
-//      // Whether there are some filters active, prepend a plural form.
-//      if (count($drupal_filters)) {
-//        $bpi_filter_marker['#prefix'] = t('and') . ' ';
-//      }
-//
-//      // Add a BPI filter marker to active filters.
-//      $form['filter']['filters']['current'][] = $bpi_filter_marker;
-//      // Add standard filter buttons,
-//      // since those are showed only if drupal filters array is not empty.
-//      $filter_actions = &$form['filter']['filters']['status']['actions'];
-//      $filter_actions['submit']['#value'] = t('Refine');
-//      $filter_actions['undo'] = array('#type' => 'submit', '#value' => t('Undo'));
-//      $filter_actions['reset'] = array('#type' => 'submit', '#value' => t('Reset'));
-//    }
-//  }
-//
-//  // Content grid columns.
-//  $form['admin']['nodes']['#header']['bpi_timestamp'] = t('BPI import/export');
-//
-//  // Cheat!
-//  // Make the operations column last.
-//  $tmp = $form['admin']['nodes']['#header']['operations'];
-//  unset($form['admin']['nodes']['#header']['operations']);
-//  $form['admin']['nodes']['#header']['operations'] = $tmp;
-//
-//  foreach ($form['admin']['nodes']['#options'] as $key => &$row) {
-//    $row['bpi_timestamp'] = '';
-//    if (in_array($key, $nodes_to_mark)) {
-//      $row['bpi_timestamp'] = format_date($bpi_nodes[$key]->timestamp, 'short');
-//    }
-//
-//    // Cheat!
-//    // Make the operations column value last.
-//    $tmp = $row['operations'];
-//    unset($row['operations']);
-//    $row['operations'] = $tmp;
-//
-//    $push_permission = user_access('bpi push content');
-//
-//    // Adds a push link to operations.
-//    if ($push_permission && bpi_push_available($key)) {
-//      $row['operations']['data']['#links']['push'] = array(
-//        'title' => t('push'),
-//        'href' => 'admin/bpi/push/nojs/' . $key,
-//        'attributes' => array(
-//          'class' => array(
-//            'use-ajax',
-//          ),
-//        ),
-//      );
-//    }
-//
-//    $delete_permission = bpi_ability($key, 'delete');
-//
-//    // Adds a delete from bpi link.
-//    if ($delete_permission && isset($bpi_nodes[$key]) && $bpi_nodes[$key]->status == BPI_PUSHED) {
-//      $row['operations']['data']['#links']['delete_from_bpi'] = array(
-//        'title' => t('DELETE FROM bpi'),
-//        'href' => 'admin/bpi/delete/nojs/' . $key,
-//        'attributes' => array(
-//          'class' => array(
-//            'use-ajax',
-//          ),
-//        ),
-//      );
-//    }
-//  }
+  $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-admin.styles.css';
+  drupal_add_library('system', 'drupal.ajax');
+
+  // Figure out where our node information is.
+  if (isset($form['admin']['nodes']['#rows'])) {
+    $rows = &$form['admin']['nodes']['#rows'];
+  }
+  else {
+    $rows = &$form['admin']['nodes']['#options'];
+  }
+
+  // Mark BPI nodes.
+  $nodes_to_mark = array();
+  $nodes_in_table = array_keys($rows);
+  $bpi_nodes = bpi_get_bpi_nodes($nodes_in_table);
+  if (!empty($nodes_in_table)) {
+    $nodes_to_mark = array_keys($bpi_nodes);
+
+    foreach ($rows as $node_id => &$row) {
+      if (in_array($node_id, $nodes_to_mark)) {
+        $row['title']['data']['#suffix'] .= '<sup class="bpi-marker">BPI</sup>';
+      }
+    }
+  }
+
+  // BPI filter.
+  if (isset($form['filter']['filters']['status']['filters'])) {
+    $current_bpi_filter = isset($_SESSION['bpi']['filter']) ? $_SESSION['bpi']['filter'] : 'all';
+
+    $bpi_filters = array(
+      'all' => t('any'),
+      'bpi_only' => t('BPI only'),
+      'bpi_syndicated' => t('Syndicated'),
+      'bpi_pushed' => t('Pushed'),
+    );
+
+    $form['filter']['filters']['status']['filters']['bpi'] = array(
+      '#type' => 'select',
+      '#title' => t('bpi'),
+      '#options' => $bpi_filters,
+      '#default_value' => $current_bpi_filter,
+    );
+
+    // It's viable that this module hooks, are fired before the standard ones.
+    array_unshift($form['#submit'], '_bpi_node_admin_content_submit');
+
+    // If a BPI filter is set, prepend an active BPI filter marker.
+    if ($current_bpi_filter != 'all') {
+      $drupal_filters = isset($_SESSION['node_overview_filter']) ? $_SESSION['node_overview_filter'] : array();
+      $t_args = array(
+        '%property' => 'bpi',
+        '%value' => $bpi_filters[$current_bpi_filter],
+      );
+      $bpi_filter_marker['#markup'] = t('where %property is %value', $t_args);
+
+      // Whether there are some filters active, prepend a plural form.
+      if (count($drupal_filters)) {
+        $bpi_filter_marker['#prefix'] = t('and') . ' ';
+      }
+
+      // Add a BPI filter marker to active filters.
+      $form['filter']['filters']['current'][] = $bpi_filter_marker;
+      // Add standard filter buttons,
+      // since those are showed only if drupal filters array is not empty.
+      $filter_actions = &$form['filter']['filters']['status']['actions'];
+      $filter_actions['submit']['#value'] = t('Refine');
+      $filter_actions['undo'] = array('#type' => 'submit', '#value' => t('Undo'));
+      $filter_actions['reset'] = array('#type' => 'submit', '#value' => t('Reset'));
+    }
+  }
+
+  // Content grid columns.
+  $form['admin']['nodes']['#header']['bpi_timestamp'] = t('BPI import/export');
+
+  // Cheat!
+  // Make the operations column last.
+  $tmp = $form['admin']['nodes']['#header']['operations'];
+  unset($form['admin']['nodes']['#header']['operations']);
+  $form['admin']['nodes']['#header']['operations'] = $tmp;
+
+  foreach ($rows as $key => &$row) {
+    $row['bpi_timestamp'] = '';
+    if (in_array($key, $nodes_to_mark)) {
+      $row['bpi_timestamp'] = format_date($bpi_nodes[$key]->timestamp, 'short');
+    }
+
+    // Cheat!
+    // Make the operations column value last.
+    $tmp = $row['operations'];
+    unset($row['operations']);
+    $row['operations'] = $tmp;
+
+    $push_permission = user_access('bpi push content');
+
+    // Adds a push link to operations.
+    if ($push_permission && bpi_push_available($key)) {
+      $row['operations']['data']['#links']['push'] = array(
+        'title' => t('push'),
+        'href' => 'admin/bpi/push/nojs/' . $key,
+        'attributes' => array(
+          'class' => array(
+            'use-ajax',
+          ),
+        ),
+      );
+    }
+
+    $delete_permission = bpi_ability($key, 'delete');
+
+    // Adds a delete from bpi link.
+    if ($delete_permission && isset($bpi_nodes[$key]) && $bpi_nodes[$key]->status == BPI_PUSHED) {
+      $row['operations']['data']['#links']['delete_from_bpi'] = array(
+        'title' => t('DELETE FROM bpi'),
+        'href' => 'admin/bpi/delete/nojs/' . $key,
+        'attributes' => array(
+          'class' => array(
+            'use-ajax',
+          ),
+        ),
+      );
+    }
+  }
 }
 
 /**
