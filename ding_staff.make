@@ -41,7 +41,7 @@ projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-alpha2"
 
 projects[jquery_update][subdir] = "contrib"
-projects[jquery_update][version] = "2.3"
+projects[jquery_update][version] = "2.4"
 
 ; This version of media is tested to work with both images and videos.
 projects[media][type] = "module"
