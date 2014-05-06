@@ -30,7 +30,7 @@ projects[geophp][subdir] = "contrib"
 projects[geophp][version] = "1.7"
 
 projects[geofield][subdir] = "contrib"
-projects[geofield][version] = "1.1"
+projects[geofield][version] = "1.2"
 
 projects[nodequeue][subdir] = "contrib"
 projects[nodequeue][version] = "2.0-beta1"
