@@ -42,7 +42,7 @@ projects[leaflet][subdir] = "contrib"
 projects[leaflet][version] = "1.1"
 
 projects[libraries][subdir] = "contrib"
-projects[libraries][version] = "2.1"
+projects[libraries][version] = "2.2"
 
 projects[link][subdir] = "contrib"
 projects[link][version] = "1.2"
