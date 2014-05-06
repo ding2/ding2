@@ -27,7 +27,7 @@ projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
 
 projects[relation][subdir] = "contrib"
-projects[relation][version] = "1.0-rc4"
+projects[relation][version] = "1.0-rc5"
 
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.1"
