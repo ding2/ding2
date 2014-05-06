@@ -7,7 +7,7 @@ projects[date][subdir] = "contrib"
 projects[date][version] = "2.6"
 
 projects[email][subdir] = "contrib"
-projects[email][version] = "1.2"
+projects[email][version] = "1.3"
 
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.0"
