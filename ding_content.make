@@ -37,7 +37,7 @@ projects[panels][version] = "3.3"
 projects[panels][patch][0] = "http://drupal.org/files/1649046-form-wrapper-is-where-form-is-now.patch"
 
 projects[rules][subdir] = "contrib"
-projects[rules][version] = "2.3"
+projects[rules][version] = "2.7"
 
 projects[similarterms][subdir] = "contrib"
 projects[similarterms][version] = "2.3"
