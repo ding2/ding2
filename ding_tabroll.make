@@ -16,7 +16,7 @@ projects[ding_library][download][url] = "git@github.com:ding2tal/ding_library.gi
 projects[ding_library][download][branch] = "development"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.0-beta2"
+projects[features][version] = "2.0"
 
 ; This version of media is tested to work with both images and videos.
 projects[media][type] = "module"
