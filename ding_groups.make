@@ -10,9 +10,6 @@ projects[ding_base][download][branch] = "development"
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.4"
 
-projects[features][subdir] = "contrib"
-projects[features][version] = "2.0-beta2"
-
 projects[features_extra][subdir] = "contrib"
 projects[features_extra][version] = "1.0-beta1"
 
@@ -20,7 +17,7 @@ projects[cs_adaptive_image][subdir] = "contrib"
 projects[cs_adaptive_image][version] = "1.0"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.0-beta2"
+projects[features][version] = "2.0"
 
 projects[features_extra][subdir] = "contrib"
 projects[features_extra][version] = "1.0-beta1"
