@@ -13,7 +13,7 @@ projects[globalredirect][version] = "1.5"
 projects[globalredirect][patch][] = "http://drupal.org/files/language_redirect_view_node-1399506-2.patch"
 
 projects[jquery_update][subdir] = "contrib"
-projects[jquery_update][version] = "2.3"
+projects[jquery_update][version] = "2.4"
 
 projects[og][subdir] = "contrib"
 projects[og][version] = "2.6"
