@@ -455,8 +455,20 @@ function ddbasic_preprocess_field(&$vars, $hook) {
   }
 
   // Ensure that all OG group ref field are the same.
-  if ($field_name == 'ding_event_groups_ref' || $field_name == 'ding_news_groups_ref') {
+  if ($field_name == 'ding_event_groups_ref' || $field_name == 'ding_news_groups_ref' || $field_name == 'og_group_ref') {
     $vars['theme_hook_suggestions'][] = 'field__og_group_ref';
+
+    // Add classes to get label correctly formatted.
+    foreach ($vars['items'] as $id => $item) {
+      $vars['items'][$id]['#options'] = array(
+        'attributes' => array(
+          'class' => array(
+            'label',
+            'label_info',
+          ),
+        ),
+      );
+    }
   }
 
   // Clean up fields in search result view mode aka. search result page.
