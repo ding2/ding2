@@ -44,7 +44,7 @@ projects[menu_block][download][revision] = "32ab1cf08b729c93302455d67dd05f64ad2f
 projects[menu_block][patch][0] = "http://drupal.org/files/menu_block-ctools-693302-96.patch"
 
 projects[menu_breadcrumb][subdir] = "contrib"
-projects[menu_breadcrumb][version] = "1.3"
+projects[menu_breadcrumb][version] = "1.5"
 
 projects[menu_position][subdir] = "contrib"
 projects[menu_position][version] = "1.1"
