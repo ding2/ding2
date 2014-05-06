@@ -20,4 +20,4 @@ projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.1"
 
 projects[virtual_field][subdir] = "contrib"
-projects[virtual_field][version] = "1.1"
+projects[virtual_field][version] = "1.2"
