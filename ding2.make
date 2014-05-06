@@ -131,7 +131,7 @@ projects[fontyourface][subdir] = "contrib"
 projects[fontyourface][version] = "2.7"
 
 projects[module_filter][subdir] = "contrib"
-projects[module_filter][version] = "1.7"
+projects[module_filter][version] = "1.8"
 
 projects[memcache][subdir] = "contrib"
 projects[memcache][version] = "1.0"
