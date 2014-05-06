@@ -45,7 +45,7 @@ projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.1"
 
 projects[link][subdir] = "contrib"
-projects[link][version] = "1.1"
+projects[link][version] = "1.2"
 
 ; This version of media is tested to work with both images and videos.
 projects[media][type] = "module"
