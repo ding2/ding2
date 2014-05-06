@@ -13,4 +13,4 @@ projects[ding_entity][download][url] = "git@github.com:ding2tal/ding_entity.git"
 projects[ding_entity][download][branch] = "development"
 
 projects[virtual_field][subdir] = "contrib"
-projects[virtual_field][version] = "1.1"
+projects[virtual_field][version] = "1.2"
