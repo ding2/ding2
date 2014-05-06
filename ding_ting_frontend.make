@@ -15,7 +15,7 @@ projects[panels][version] = "3.4"
 projects[panels][patch][] =  "http://drupal.org/files/1649046-form-wrapper-is-where-form-is-now.patch"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.0-beta2"
+projects[features][version] = "2.0"
 
 projects[features_extra][subdir] = "contrib"
 projects[features_extra][version] = "1.0-beta1"
