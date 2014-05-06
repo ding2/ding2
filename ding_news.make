@@ -64,7 +64,7 @@ projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"
 
 projects[taxonomy_menu][subdir] = "contrib"
-projects[taxonomy_menu][version] = "1.4"
+projects[taxonomy_menu][version] = "1.5"
 projects[taxonomy_menu][patch][] = "http://drupal.org/files/issues/taxonomy_menu-variable-and-array-check.patch"
 
 projects[views_bulk_operations][subdir] = "contrib"
