@@ -29,4 +29,4 @@ projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.4"
 
 projects[entity][subdir] = "contrib"
-projects[entity][version] = "1.3"
+projects[entity][version] = "1.5"
