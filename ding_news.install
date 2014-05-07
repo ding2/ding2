@@ -105,7 +105,7 @@ function ding_news_update_7005() {
 /**
  * Remove old news path auto patterns.
  */
-function ding_event_update_7012() {
+function ding_news_update_7006() {
   variable_del('pathauto_node_ding_news_da_pattern');
   variable_del('pathauto_node_ding_news_en_pattern');
   variable_del('pathauto_node_ding_news_und_pattern');
