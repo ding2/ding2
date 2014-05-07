@@ -162,30 +162,10 @@ function ding_event_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_ding_event_da_pattern';
-  $strongarm->value = 'arrangementer/[node:field_ding_event_category]/[node:title]';
-  $export['pathauto_node_ding_event_da_pattern'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_ding_event_en_pattern';
-  $strongarm->value = '';
-  $export['pathauto_node_ding_event_en_pattern'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_ding_event_pattern';
   $strongarm->value = 'arrangementer/[node:field_ding_event_category]/[node:title]';
   $export['pathauto_node_ding_event_pattern'] = $strongarm;
 
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_ding_event_und_pattern';
-  $strongarm->value = 'arrangementer/[node:field_ding_event_category]/[node:title]';
-  $export['pathauto_node_ding_event_und_pattern'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
