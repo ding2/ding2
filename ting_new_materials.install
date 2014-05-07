@@ -1,0 +1,13 @@
+<?php
+/**
+ * @file
+ * Handles update tasks for the module. 
+ */
+
+/**
+ * Remove old new materials path auto patterns.
+ */
+function ting_new_materials_update_7001() {
+  variable_del('pathauto_node_new_materials_da_pattern');
+  variable_del('pathauto_node_new_materials_en_pattern');
+}
