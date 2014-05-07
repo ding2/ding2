@@ -241,3 +241,11 @@ function ding2_update_7005() {
 function ding2_update_7006() {
   ding2_add_administrators_role(1);
 }
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7007() {
+  // Fixed month translation.
+  ding2_translation_update();
+}
