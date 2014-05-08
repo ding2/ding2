@@ -299,7 +299,7 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['filters']['rid']['field'] = 'rid';
   $handler->display->display_options['filters']['rid']['relationship'] = 'user';
   $handler->display->display_options['filters']['rid']['value'] = array(
-    16 => 16,
+    9 => 9,
   );
   $handler->display->display_options['pane_category']['name'] = 'Bruger';
   $handler->display->display_options['pane_category']['weight'] = '0';
@@ -472,7 +472,7 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['filters']['rid']['field'] = 'rid';
   $handler->display->display_options['filters']['rid']['relationship'] = 'user';
   $handler->display->display_options['filters']['rid']['value'] = array(
-    16 => 16,
+    9 => 9,
   );
   $handler->display->display_options['pane_category']['name'] = 'Bruger';
   $handler->display->display_options['pane_category']['weight'] = '0';
@@ -1013,6 +1013,12 @@ function ding_staff_views_default_views() {
     t('No users available.'),
     t('Profile'),
     t('User'),
+    t('- Choose an operation -'),
+    t('Edit user roles'),
+    t('Change user roles'),
+    t('Ret brugerindstillinger'),
+    t('Send e-mail'),
+    t('Slet'),
     t('Name'),
     t('Roles'),
     t('Name (in Staff)'),
