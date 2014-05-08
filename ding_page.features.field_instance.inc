@@ -322,11 +322,11 @@ function ding_page_field_default_field_instances() {
           'public' => 'public',
         ),
         'allowed_types' => array(
-          'image' => 'image',
-          'video' => 0,
           0 => 0,
           'audio' => 0,
           'default' => 0,
+          'image' => 'image',
+          'video' => 0,
         ),
         'browser_plugins' => array(
           'ding_content' => 0,
@@ -511,9 +511,9 @@ function ding_page_field_default_field_instances() {
           'public' => 'public',
         ),
         'allowed_types' => array(
+          0 => 0,
           'audio' => 0,
           'default' => 0,
-          0 => 0,
           'image' => 'image',
           'video' => 0,
         ),
