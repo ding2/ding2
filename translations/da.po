@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2014-05-07 14:45+0200\n"
-"PO-Revision-Date: 2014-05-07 14:45+0200\n"
+"POT-Creation-Date: 2014-05-08 13:03+0200\n"
+"PO-Revision-Date: 2014-05-08 13:03+0200\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -7146,6 +7146,215 @@ msgstr ""
 msgid "Request new password form"
 msgstr ""
 
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "UUID"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "The universally unique ID."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Revision UUID"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "The revision's universally unique ID."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "@type UUID"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "The universally unique ID of the @type."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Administer UUID"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Allows configuration of the UUID module and APIs."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Node export link"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Provide a link to export the node with Node export."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Export nodes"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Export own nodes"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Use PHP to import nodes"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Required for importing, but can allow execution of PHP."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Node export filename"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Tokens related to the Node export filename."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Node ID list"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Comma seperated list of Node IDs in square brackets (if available)."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "The number of nodes exported."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "The timestamp when the file was generated."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "The format used to export."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "@entity_type UUID"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "The universally unique ID of the @entity"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "@entity_type revision UUID"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "The universally unique revision ID of the @entity"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Node export"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "UUID entities"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "JSON"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "<a href=\"!json\">JavaScript Object Notation</a> code."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Drupal var export"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "<a href=\"!drupal\">Drupal var export</a> code."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Serialize"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid ""
+"Very robust, though not human readable, representation through <a "
+"href=\"!wiki\">Serialization</a> using the PHP <a "
+"href=\"!php\">serialize</a> function."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid ""
+"<a href=\"!xml\">XML 1.0</a> representation which is good for "
+"machine-readability and human-readability."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "DSV"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid ""
+"Configurable <a href=\"!dsv\">Delimiter-separated values</a> code. "
+"Export and import sites must be configured the same."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Nyheder"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Imported node !nid: !node"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "OG Menu for"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Fantasy"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Faglitteratur - uhmm!"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Hovedbiblioteket"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Lokalbiblioteket"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid ""
+"!count of !total nodes were imported.  Some values may have been reset "
+"depending on Node export's configuration."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Added term %term to taxonomy menu %menu_name."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Forsiden"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Test I"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Test II"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Test III"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Test IIII"
+msgstr ""
+
 #: /install.php?profile=ding2&locale=en&id=2&op=finished
 msgid "Translation files."
 msgstr ""
@@ -7207,7 +7416,11 @@ msgid "Hent indholdet fra en indholdsversion."
 msgstr ""
 
 #: /install.php?profile=ding2&locale=en
-msgid "Nyheder"
+msgid "Updating Default link"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=5&op=do
+msgid "Now processing %menu"
 msgstr ""
 
 #: /install.php?profile=ding2&locale=en
@@ -7360,6 +7573,30 @@ msgstr ""
 
 #: /install.php?profile=ding2&locale=en
 msgid "OG orphans"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en
+msgid "<none>"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en
+msgid "Address form (country-specific)"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en
+msgid "Hide the country when only one is available"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en
+msgid "Name (First name, Last name)"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en
+msgid "Name (single line)"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en
+msgid "Organisation (single line)"
 msgstr ""
 
 #: /
@@ -7715,6 +7952,10 @@ msgid ""
 msgstr ""
 
 #: /admin/config?render=overlay
+msgid "Configure the settings for Node export."
+msgstr ""
+
+#: /admin/config?render=overlay
 msgid "jQuery update"
 msgstr ""
 
@@ -7766,6 +8007,14 @@ msgstr ""
 
 #: /admin/config?render=overlay
 msgid "Configure extended options for multilingual content and translations."
+msgstr ""
+
+#: /admin/config?render=overlay
+msgid "Universally unique identifiers"
+msgstr ""
+
+#: /admin/config?render=overlay
+msgid "Configure universally unique identifiers."
 msgstr ""
 
 #: /admin/config?render=overlay
@@ -7940,4182 +8189,70 @@ msgstr ""
 msgid "Refresh user defined strings."
 msgstr ""
 
-#: /ting/autocomplete/harry
-msgid "Did you mean '@query' ?"
+#: /admin/reports/dblog
+msgid "ding_event"
 msgstr ""
 
-#: /search/ting/harry%20potter
-msgid "Internal error"
+#: /admin/reports/dblog
+msgid "ding_groups"
 msgstr ""
 
-#: /search/ting/harry%20potter
-msgid "Pending availability"
+#: /admin/reports/dblog
+msgid "ding_library"
 msgstr ""
 
-#: /search/ting/harry%20potter
-msgid "(@year)"
+#: /admin/reports/dblog
+msgid "ding_news"
 msgstr ""
 
-#: /search/ting/harry%20potter
-msgid "Online"
+#: /admin/reports/dblog
+msgid "expire"
 msgstr ""
 
-#: /search/ting/harry%20potter
-msgid "Ting search sort controls"
+#: /admin/reports/dblog
+msgid "i18n_string"
 msgstr ""
 
-#: /search/ting/harry%20potter
-msgid "Well"
+#: /admin/reports/dblog
+msgid "node_export"
 msgstr ""
 
-#: /search/ting/harry%20potter
-msgid "%keywords:html_safe"
+#: /admin/reports/dblog
+msgid "og_menu"
 msgstr ""
 
-#: profiles/ding2/modules/ding_availability/js/ding_availability_labels.js
-msgid "Can be obtained"
+#: /admin/reports/dblog
+msgid "page not found"
 msgstr ""
 
-#: profiles/ding2/modules/ting_search/js/ting_search_extendform.js
-msgid " AND "
+#: /admin/reports/dblog
+msgid "ting client"
 msgstr ""
 
-#: /ting/covers
-msgid "Retreives cover for Ting objects"
+#: /admin/reports/dblog
+msgid "varnish"
 msgstr ""
 
-#: /ding_availability/items/42512621,24039978
-msgid "Availability status"
+#: /admin/config/regional/translate/edit/12943?destination=admin/config/regional/translate/translate
+msgid "Source string not found."
 msgstr ""
 
-#: /ting/collection/870970-basis%3A42512621
-msgid "Ting collection id"
+#: /biblioteker
+msgid "Opening time"
 msgstr ""
 
-#: /ting/collection/870970-basis%3A42512621
-msgid "Ting collection: ID"
+#: /biblioteker
+msgid "Closing time"
 msgstr ""
 
-#: /ting/collection/870970-basis%3A42512621
-msgid "Show a ting collection"
+#: /biblioteker
+msgid "!datetime"
 msgstr ""
 
-#: /ting/collection/870970-basis%3A42512621
-msgid "Enter a Ting collection ID for this argument"
-msgstr ""
-
-#: /ting/collection/870970-basis%3A42512621
-msgid ""
-"An collection from the Ting database – books, CD-ROMs, magazines, "
-"etc."
-msgstr ""
-
-#: /ting/collection/870970-basis%3A42512621
-msgid "Enter the collection ID for this context"
-msgstr ""
-
-#: /ting/object/870970-basis%3A42512621
-msgid "Ting object id"
-msgstr ""
-
-#: /ting/object/870970-basis%3A42512621
-msgid "Ting object: ID"
-msgstr ""
-
-#: /ting/object/870970-basis%3A42512621
-msgid "Show a ting object"
-msgstr ""
-
-#: /ting/object/870970-basis%3A42512621
-msgid "Enter a Ting object ID for this argument"
-msgstr ""
-
-#: /ting/object/870970-basis%3A42512621
-msgid "An object from the Ting database – books, CD-ROMs, magazines, etc."
-msgstr ""
-
-#: /ting/object/870970-basis%3A42512621
-msgid "Enter the object ID for this context"
-msgstr ""
-
-#: /ting/object/870970-basis%3A42512621
-msgid "Fetching holdings information."
-msgstr ""
-
-#: /ting/object/870970-basis%3A42512621
-msgid "Creator homepage"
-msgstr ""
-
-#: /ding_availability/holdings/42512621
-msgid "Availability and holding status"
-msgstr ""
-
-#: /admin/config/ting/covers?render=overlay
-msgid "ADDI service"
-msgstr ""
-
-#: /admin/config/ting/covers?render=overlay
-msgid "Configure integration with the ADDI service."
-msgstr ""
-
-#: /admin/config/ting/covers?render=overlay
-msgid "Cover settings"
-msgstr ""
-
-#: /admin/config/ting/covers?render=overlay
-msgid "Cover cache lifetime"
-msgstr ""
-
-#: /admin/config/ting/covers?render=overlay
-msgid "Disable cache"
-msgstr ""
-
-#: /admin/config/ting/covers?render=overlay
-msgid "24 hours"
-msgstr ""
-
-#: /index.php
-msgid "Cache !mess cid: !cid"
-msgstr ""
-
-#: /index.php
-msgid "Cache SET cid: !cid"
-msgstr ""
-
-#: /index.php
-msgid "Drush bootstrap phase : !function()"
-msgstr ""
-
-#: /index.php
-msgid "Successfully logged into Drupal as !name"
-msgstr ""
-
-#: /index.php
-msgid "Found command: !command (commandfile=!commandfile)"
-msgstr ""
-
-#: /index.php
-msgid "Backup your code, files, and database into a single file."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Optional. Site specifications, delimited by commas. Typically, list "
-"subdirectory name(s) under /sites."
-msgstr ""
-
-#: /index.php
-msgid "Describe the archive contents."
-msgstr ""
-
-#: /index.php
-msgid "Add tags to the archive manifest. Delimit multiple by commas."
-msgstr ""
-
-#: /index.php
-msgid ""
-"The full path and filename in which the archive should be stored. If "
-"omitted, it will be saved to the drush-backups directory and a "
-"filename will be generated."
-msgstr ""
-
-#: /index.php
-msgid "Do not fail if the destination file exists; overwrite it instead."
-msgstr ""
-
-#: /index.php
-msgid ""
-"The generator name to store in the MANIFEST file. The default is "
-"\"Drush archive-dump\"."
-msgstr ""
-
-#: /index.php
-msgid ""
-"The generator version number to store in the MANIFEST file. The "
-"default is 6.2.0."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Only print the destination of the archive. Useful for scripts that "
-"don't pass --destination."
-msgstr ""
-
-#: /index.php
-msgid "Preserve symbolic links."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Exclude Drupal core, so the backup only contains the site specific "
-"stuff."
-msgstr ""
-
-#: /index.php
-msgid "Options passed thru to the tar command."
-msgstr ""
-
-#: /index.php
-msgid "Write an archive containing 3 sites in it."
-msgstr ""
-
-#: /index.php
-msgid "Save archive containing all sites in a multi-site."
-msgstr ""
-
-#: /index.php
-msgid "Save archive to custom location."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Omits any .git directories found in the tree as well as "
-"sites/default/files."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Placeholder %files is replaced with the real path for the current "
-"site, and that path is excluded."
-msgstr ""
-
-#: /index.php
-msgid "Expand a site archive into a Drupal web site."
-msgstr ""
-
-#: /index.php
-msgid "The site archive file that should be expanded."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Optional. Which site within the archive you want to restore. Defaults "
-"to all."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Specify where the Drupal site should be expanded, including the "
-"docroot. Defaults to the current working directory."
-msgstr ""
-
-#: /index.php
-msgid "An optional table prefix to use during restore."
-msgstr ""
-
-#: /index.php
-msgid ""
-"A Drupal 6 style database URL indicating the target for database "
-"restore. If not provided, the archived settings.php is used."
-msgstr ""
-
-#: /index.php
-msgid "Account to use when creating the new database. Optional."
-msgstr ""
-
-#: /index.php
-msgid "Password for the \"db-su\" account. Optional."
-msgstr ""
-
-#: /index.php
-msgid "Allow drush to overwrite any files in the destination."
-msgstr ""
-
-#: /index.php
-msgid "Restore the files and databases for all sites in the archive."
-msgstr ""
-
-#: /index.php
-msgid "Restore the files and database for example.com site."
-msgstr ""
-
-#: /index.php
-msgid "Restore archive to a custom location."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Restore archive to a new database (and customize settings.php to point "
-"there.)."
-msgstr ""
-
-#: /index.php
-msgid "Available: "
-msgstr ""
-
-#: /index.php
-msgid "Default is !default."
-msgstr ""
-
-#: /index.php
-msgid "Fetch a cached object and display it."
-msgstr ""
-
-#: /index.php
-msgid "The id of the object to fetch."
-msgstr ""
-
-#: /index.php
-msgid "Optional. The cache bin to fetch from."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Select output format. Available: print-r, json, var_export, yaml. "
-"Default is print-r."
-msgstr ""
-
-#: /index.php
-msgid "Fields to output."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Specify how elements in a list should be separated. In lists of lists, "
-"this applies to the elements in the inner lists."
-msgstr ""
-
-#: /index.php
-msgid ""
-"In nested lists of lists, specify how the outer lists (\"lines\") "
-"should be separated."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Add field labels before first line of data. Default is on; "
-"--field-labels=0 to disable."
-msgstr ""
-
-#: /index.php
-msgid "Output via php print_r function."
-msgstr ""
-
-#: /index.php
-msgid "Javascript Object Notation."
-msgstr ""
-
-#: /index.php
-msgid "A serialized php string."
-msgstr ""
-
-#: /index.php
-msgid "An array in executable php format."
-msgstr ""
-
-#: /index.php
-msgid "Yaml output format."
-msgstr ""
-
-#: /index.php
-msgid "Display the data for the cache id \"schema\" from the \"cache\" bin."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Display the data for the cache id \"update_available_releases\" from "
-"the \"update\" bin."
-msgstr ""
-
-#: /index.php
-msgid "Clear a specific cache, or all drupal caches."
-msgstr ""
-
-#: /index.php
-msgid ""
-"The particular cache to clear. Omit this argument to choose from "
-"available caches."
-msgstr ""
-
-#: /index.php
-msgid "Cache an object expressed in JSON or var_export() format."
-msgstr ""
-
-#: /index.php
-msgid "The id of the object to set."
-msgstr ""
-
-#: /index.php
-msgid "The object to set in the cache. Use '-' to read the object from STDIN."
-msgstr ""
-
-#: /index.php
-msgid "Optional. The cache bin to store the object in."
-msgstr ""
-
-#: /index.php
-msgid "Optional. CACHE_PERMANENT, CACHE_TEMPORARY, or a Unix timestamp."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Format to parse the object. Use \"string\" for string (default), and "
-"\"json\" for JSON."
-msgstr ""
-
-#: /index.php
-msgid ""
-"If the object is the result a previous fetch from the cache, only "
-"store the value in the \"data\" property of the object in the cache."
-msgstr ""
-
-#: /index.php
-msgid "Display releasenotes in HTML rather than plain text."
-msgstr ""
-
-#: /index.php
-msgid "Print this help message. See `drush help help` for more options."
-msgstr ""
-
-#: /index.php
-msgid "A command name, or command alias."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Sort commands in alphabetical order. Drush waits for full bootstrap "
-"before printing any commands when this option is used."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Restrict command list to those commands defined in the specified file. "
-"Omit value to choose from a list of names."
-msgstr ""
-
-#: /index.php
-msgid "Format to output . Allowed values are: json, var_export, html."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Print help for all commands in HTML format. Deprecated - see --format "
-"option."
-msgstr ""
-
-#: /index.php
-msgid "A list of available commands, one per line."
-msgstr ""
-
-#: /index.php
-msgid "List all commands."
-msgstr ""
-
-#: /index.php
-msgid "Show only commands defined in devel_generate.drush.inc"
-msgstr ""
-
-#: /index.php
-msgid "Show help for one command."
-msgstr ""
-
-#: /index.php
-msgid "Show help for one command using an alias."
-msgstr ""
-
-#: /index.php
-msgid "Show drush version."
-msgstr ""
-
-#: /index.php
-msgid "Print just the version number, and nothing else."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Select output format. Available: json, string, var_export, yaml. "
-"Default is key-value."
-msgstr ""
-
-#: /index.php
-msgid "A simple string."
-msgstr ""
-
-#: /index.php
-msgid "Run all cron hooks in all active modules for specified site."
-msgstr ""
-
-#: /index.php
-msgid "Apply any database updates required (as with running update.php)."
-msgstr ""
-
-#: /index.php
-msgid "List any pending database updates."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Select output format. Available: table, csv, json, list, var_export, "
-"yaml. Default is table."
-msgstr ""
-
-#: /index.php
-msgid "A formatted, word-wrapped table."
-msgstr ""
-
-#: /index.php
-msgid ""
-"A configuration file in executable php format. The variable name is "
-"\"config\", and the variable keys are taken from the output data "
-"array's keys."
-msgstr ""
-
-#: /index.php
-msgid ""
-"A list of values, one per row, each of which is a comma-separated list "
-"of values."
-msgstr ""
-
-#: /index.php
-msgid "A list of php exports, labeled with a name."
-msgstr ""
-
-#: /index.php
-msgid "A simple list of values."
-msgstr ""
-
-#: /index.php
-msgid "A list of php variable assignments."
-msgstr ""
-
-#: /index.php
-msgid "Edit drushrc, site alias, and Drupal settings.php files."
-msgstr ""
-
-#: /index.php
-msgid ""
-"A substring for filtering the list of files. Omit this argument to "
-"choose from loaded files."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Run editor in the background. Does not work with editors such as `vi` "
-"that run in the terminal."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Pick from a list of config/alias/settings files. Open selected in "
-"editor."
-msgstr ""
-
-#: /index.php
-msgid "Return to shell prompt as soon as the editor window opens."
-msgstr ""
-
-#: /index.php
-msgid "Edit the global configuration file."
-msgstr ""
-
-#: /index.php
-msgid "Edit a particular alias file."
-msgstr ""
-
-#: /index.php
-msgid "Edit settings.php for the current Drupal site."
-msgstr ""
-
-#: /index.php
-msgid "Edit the second file in the choice list."
-msgstr ""
-
-#: /index.php
-msgid "Provides a birds-eye view of the current Drupal installation, if any."
-msgstr ""
-
-#: /index.php
-msgid "Optional.  The status item line(s) to display."
-msgstr ""
-
-#: /index.php
-msgid "Show database password."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Show all file paths and drush aliases in the report, even if there are "
-"a lot."
-msgstr ""
-
-#: /index.php
-msgid "One or more projects that should be added to the path list"
-msgstr ""
-
-#: /index.php
-msgid ""
-"Select output format. Available: json, list, var_export, yaml. Default "
-"is key-value."
-msgstr ""
-
-#: /index.php
-msgid "Show all status lines that contain version information."
-msgstr ""
-
-#: /index.php
-msgid "A list key=value items separated by line breaks."
-msgstr ""
-
-#: /index.php
-msgid "Emit just the drush version with no label."
-msgstr ""
-
-#: /index.php
-msgid "Emit just the active Config directory with no label."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Provides information about things that may be wrong in your Drupal "
-"installation, if any."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Only show status report messages with a severity greater than or equal "
-"to the specified value."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Comma-separated list of requirements to remove from output. Run with "
-"--pipe to see key values to use."
-msgstr ""
-
-#: /index.php
-msgid "Show all status lines from the Status Report admin page."
-msgstr ""
-
-#: /index.php
-msgid "Show only the red lines from the Status Report admin page."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Print out a short report in JSON format, where severity 2=error, "
-"1=warning, and 0/-1=OK"
-msgstr ""
-
-#: /index.php
-msgid "Evaluate arbitrary php code after bootstrapping Drupal (if available)."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Select output format. Available: var_export, csv, json, list, string, "
-"table, yaml. Default is var_export."
-msgstr ""
-
-#: /index.php
-msgid "Sets the hello variable using Drupal API."
-msgstr ""
-
-#: /index.php
-msgid "Run php script(s)."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Optional. The file you wish to execute (without extension). If "
-"omitted, list files ending in .php in the current working directory "
-"and specified script-path. Some might not be real drush scripts. "
-"Beware."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Additional paths to search for scripts, separated by : (Unix-based "
-"systems) or ; (Windows)."
-msgstr ""
-
-#: /index.php
-msgid "Run scratch.php script. See commands/core directory."
-msgstr ""
-
-#: /index.php
-msgid "Run script from specified paths"
-msgstr ""
-
-#: /index.php
-msgid "List all available scripts."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Execute php code with a full Drupal bootstrap directly from a shell "
-"script."
-msgstr ""
-
-#: /index.php
-msgid "Execute a shell command. Usually used with a site alias."
-msgstr ""
-
-#: /index.php
-msgid "The shell command to be executed."
-msgstr ""
-
-#: /index.php
-msgid ""
-"A string of extra options that will be passed to the ssh command (e.g. "
-"\"-p 100\")"
-msgstr ""
-
-#: /index.php
-msgid "Create a tty (e.g. to run an interactive program)."
-msgstr ""
-
-#: /index.php
-msgid "Command string already escaped; do not add additional quoting."
-msgstr ""
-
-#: /index.php
-msgid "Retrieve latest code from git"
-msgstr ""
-
-#: /index.php
-msgid "Rsync the Drupal tree to/from another server using ssh."
-msgstr ""
-
-#: /index.php
-msgid ""
-"May be rsync path or site alias. See rsync documentation and "
-"example.aliases.drushrc.php."
-msgstr ""
-
-#: /index.php
-msgid ""
-"The unary flags to pass to rsync; --mode=rultz implies rsync -rultz.  "
-"Default is -akz."
-msgstr ""
-
-#: /index.php
-msgid "Excludes settings.php from being rsynced.  Default."
-msgstr ""
-
-#: /index.php
-msgid "Allow settings.php to be rsynced. Default is to exclude settings.php."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Include special version control directories (e.g. .svn).  Default is "
-"to exclude vcs files."
-msgstr ""
-
-#: /index.php
-msgid "Exclude the files directory."
-msgstr ""
-
-#: /index.php
-msgid "Exclude all directories in \"sites/\" except for \"sites/all\"."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Exclude all directories in \"sites/\" except for \"sites/all\" and the "
-"site directory for the site being synced.  Note: if the site directory "
-"is different between the source and destination, use --exclude-sites "
-"followed by \"drush rsync @from:%site @to:%site\""
-msgstr ""
-
-#: /index.php
-msgid ""
-"List of paths to exclude, seperated by : (Unix-based systems) or ; "
-"(Windows)."
-msgstr ""
-
-#: /index.php
-msgid ""
-"List of paths to include, seperated by : (Unix-based systems) or ; "
-"(Windows)."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Replace {rsync-option-name} with the rsync option (or option='value') "
-"that you would like to pass through to rsync. Examples include "
-"--delete, --exclude=*.sql, --filter='merge /etc/rsync/default.rules', "
-"etc. See the rsync documentation for a complete explaination of all "
-"the rsync options and values."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Rsync Drupal root from Drush alias dev to the alias stage (one of "
-"which must be local)."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Rsync all files in the current directory to the 'img' directory in the "
-"file storage folder on the Drush alias stage."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Simulate Rsync Drupal root from the Drush alias dev to the alias stage "
-"(one of which must be local), excluding all files that match the "
-"filter '*.sql' and delete all files on the destination that are no "
-"longer on the source."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Install Drupal along with modules/themes/configuration using the "
-"specified install profile."
-msgstr ""
-
-#: /index.php
-msgid ""
-"the install profile you wish to run. defaults to 'default' in D6, "
-"'standard' in D7+"
-msgstr ""
-
-#: /index.php
-msgid ""
-"any additional settings you wish to pass to the profile. Fully "
-"supported on D7+, partially supported on D6 (single step configure "
-"forms only). The key is in the form [form name].[parameter name] on D7 "
-"or just [parameter name] on D6."
-msgstr ""
-
-#: /index.php
-msgid ""
-"A Drupal 6 style database URL. Only required for initial install - not "
-"re-install."
-msgstr ""
-
-#: /index.php
-msgid ""
-"An optional table prefix to use for initial install.  Can be a "
-"key-value array of tables/prefixes in a drushrc file (not the command "
-"line)."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Account to use when creating a new database. Must have Grant "
-"permission (mysql only). Optional."
-msgstr ""
-
-#: /index.php
-msgid "uid1 name. Defaults to admin"
-msgstr ""
-
-#: /index.php
-msgid ""
-"uid1 pass. Defaults to a randomly generated password. If desired, set "
-"a fixed password in drushrc.php."
-msgstr ""
-
-#: /index.php
-msgid "uid1 email. Defaults to admin@example.com"
-msgstr ""
-
-#: /index.php
-msgid ""
-"A short language code. Sets the default site language. Language files "
-"must already be present. You may use download command to get them."
-msgstr ""
-
-#: /index.php
-msgid "Defaults to 1"
-msgstr ""
-
-#: /index.php
-msgid "Defaults to Site-Install"
-msgstr ""
-
-#: /index.php
-msgid "From: for system mailings. Defaults to admin@example.com"
-msgstr ""
-
-#: /index.php
-msgid ""
-"Name of directory under 'sites' which should be created. Only needed "
-"when the subdirectory does not already exist. Defaults to 'default'"
-msgstr ""
-
-#: /index.php
-msgid ""
-"(Re)install using the expert install profile. Set default language to "
-"Ukranian."
-msgstr ""
-
-#: /index.php
-msgid "Install using the specified DB params."
-msgstr ""
-
-#: /index.php
-msgid "Install using SQLite (D7+ only)."
-msgstr ""
-
-#: /index.php
-msgid "Re-install with specified uid1 credentials."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Pass additional arguments to the profile (D7 example shown here - for "
-"D6, omit the form id)."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Disable email notification during install and later. If your server "
-"has no smtp, this gets rid of an error during install."
-msgstr ""
-
-#: /index.php
-msgid "Return path to a given module/theme directory."
-msgstr ""
-
-#: /index.php
-msgid ""
-"A module/theme name, or special names like root, files, private, or an "
-"alias : path alias string such as @alias:%files. Defaults to root."
-msgstr ""
-
-#: /index.php
-msgid ""
-"The portion of the evaluated path to return.  Defaults to 'path'; "
-"'name' returns the site alias of the target."
-msgstr ""
-
-#: /index.php
-msgid "Reject any target that specifies a remote site."
-msgstr ""
-
-#: /index.php
-msgid "Navigate into the devel module directory"
-msgstr ""
-
-#: /index.php
-msgid "Navigate to the root of your Drupal site"
-msgstr ""
-
-#: /index.php
-msgid "Navigate to the files directory."
-msgstr ""
-
-#: /index.php
-msgid "Print the path to the files directory on the site @alias."
-msgstr ""
-
-#: /index.php
-msgid "Open devel module in your editor (customize 'edit' for your editor)"
-msgstr ""
-
-#: /index.php
-msgid "Process operations in the specified batch set"
-msgstr ""
-
-#: /index.php
-msgid "The batch id that will be processed."
-msgstr ""
-
-#: /index.php
-msgid "Perform update functions"
-msgstr ""
-
-#: /index.php
-msgid "The batch id that will be processed"
-msgstr ""
-
-#: /index.php
-msgid "All global options"
-msgstr ""
-
-#: /index.php
-msgid "Default !type engine."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Download, install, serve and login to Drupal with minimal "
-"configuration and dependencies."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Short name for the site to be created - used as a directory name and "
-"as sqlite file name. Optional - if omitted timestamped "
-"\"quick-drupal\" directory will be used instead."
-msgstr ""
-
-#: /index.php
-msgid ""
-"A list of projects to download into the new site. If projects contain "
-"extensions (modules or themes) with the same name they will be enabled "
-"by default. See --enable option to control this behaviour further."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Drupal core to download. Defaults to \"drupal\" (latest stable "
-"version)."
-msgstr ""
-
-#: /index.php
-msgid "Use an existing Drupal root, specified with --root. Overrides --core."
-msgstr ""
-
-#: /index.php
-msgid "The install profile to use. Defaults to standard."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Specific extensions (modules or themes) to enable. By default, "
-"extensions with the same name as requested projects will be enabled "
-"automatically."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Runserver option: Which http server to use - either: \"cgi\" for a CGI "
-"based httpserver (default, requires php 5.3 and php-cgi binary) or "
-"\"builtin\" for php 5.4 built in http server."
-msgstr ""
-
-#: /index.php
-msgid "Avoid starting runserver (and browser) for the created Drupal site."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Runserver option: If opening a web browser, which browser to user "
-"(defaults to operating system default)."
-msgstr ""
-
-#: /index.php
-msgid "Overrides \"name\" argument."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Makefile to use. Makefile must specify which version of Drupal core to "
-"build."
-msgstr ""
-
-#: /index.php
-msgid "Path to Drupal root."
-msgstr ""
-
-#: /index.php
-msgid "Download option: Show release notes after each project is downloaded."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Download option: Only useful for install profiles. Possible values: "
-"'full', 'projects', 'profile-only'."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Download option: Select the version to download interactively from a "
-"list of available releases."
-msgstr ""
-
-#: /index.php
-msgid "Download option: Skip automatic downloading of libraries (c.f. devel)."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Download option: Returns a list of the names of the extensions "
-"(modules and themes) contained in the downloaded projects."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Site install option: A Drupal 6 style database URL. Only required for "
-"initial install - not re-install."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Site install option: An optional table prefix to use for initial "
-"install.  Can be a key-value array of tables/prefixes in a drushrc "
-"file (not the command line)."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Site install option: Account to use when creating a new database. Must "
-"have Grant permission (mysql only). Optional."
-msgstr ""
-
-#: /index.php
-msgid "Site install option: Password for the \"db-su\" account. Optional."
-msgstr ""
-
-#: /index.php
-msgid "Site install option: uid1 name. Defaults to admin"
-msgstr ""
-
-#: /index.php
-msgid ""
-"Site install option: uid1 pass. Defaults to a randomly generated "
-"password. If desired, set a fixed password in drushrc.php."
-msgstr ""
-
-#: /index.php
-msgid "Site install option: uid1 email. Defaults to admin@example.com"
-msgstr ""
-
-#: /index.php
-msgid ""
-"Site install option: A short language code. Sets the default site "
-"language. Language files must already be present. You may use download "
-"command to get them."
-msgstr ""
-
-#: /index.php
-msgid "Site install option: Defaults to 1"
-msgstr ""
-
-#: /index.php
-msgid "Site install option: Defaults to Site-Install"
-msgstr ""
-
-#: /index.php
-msgid ""
-"Site install option: From: for system mailings. Defaults to "
-"admin@example.com"
-msgstr ""
-
-#: /index.php
-msgid ""
-"Runserver option: Name of the php-cgi binary. If it is not on your "
-"current $PATH you should include the full path. You can include "
-"command line parameters to pass into php-cgi."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Runserver option: Key-value array of variables to override in the "
-"$conf array for the running site. By default disables "
-"drupal_http_request_fails to avoid errors on Windows (which supports "
-"only one connection at a time). Comma delimited list of name=value "
-"pairs (or array in drushrc)."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Runserver option: A default addr:port/path to use for any values not "
-"specified as an argument."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Runserver option: Resolve hostnames/IPs using DNS/rDNS (if possible) "
-"to determine binding IPs and/or human friendly hostnames for URLs and "
-"browser."
-msgstr ""
-
-#: /index.php
-msgid "Backup all project files before updates."
-msgstr ""
-
-#: /index.php
-msgid "Quickly add/remove/commit your project changes to Bazaar."
-msgstr ""
-
-#: /index.php
-msgid "Quickly add/remove/commit your project changes to Subversion."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Cache release XML and tarballs or git clones. Git clones use git's "
-"--reference option."
-msgstr ""
-
-#: /index.php
-msgid "Download project packages using wget or curl."
-msgstr ""
-
-#: /index.php
-msgid "Use git.drupal.org to checkout and update projects."
-msgstr ""
-
-#: /index.php
-msgid ""
-"The base URL which provides project release history in XML. Defaults "
-"to http://updates.drupal.org/release-history."
-msgstr ""
-
-#: /index.php
-msgid "Work with development releases solely."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Download and install stable release of Drupal into a timestamped "
-"directory, start server, and open the site logged in as admin."
-msgstr ""
-
-#: /index.php
-msgid "Fire up dev release of Drupal site with minimal install profile."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Fire up stable release (using the cache) of Drupal site called "
-"\"testsite\", download and enable devel module, start a server on port "
-"8081 and open /admin in firefox."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Download and install the \"Commerce Kickstart\" distribution/install "
-"profile, display watchdog messages on the server console."
-msgstr ""
-
-#: /index.php
-msgid "Create and install a site from a makefile."
-msgstr ""
-
-#: /index.php
-msgid "Output formatting options selection and use."
-msgstr ""
-
-#: /index.php
-msgid "Export multiple CTools exportable objects directly to code."
-msgstr ""
-
-#: /index.php
-msgid "Name of your module."
-msgstr ""
-
-#: /index.php
-msgid ""
-"The name of the sub directory to create the module in. Defaults to "
-"ctools_export which will be placed into sites/all/modules."
-msgstr ""
-
-#: /index.php
-msgid "Remove existing files before writing, except the .module file."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Filter the list of exportables by status. Available options are "
-"enabled, disabled, overridden, database, code and all. Defaults to "
-"enabled."
-msgstr ""
-
-#: /index.php
-msgid "Comma separated list of exportable table names to filter by."
-msgstr ""
-
-#: /index.php
-msgid "Export CTools exportables to a module called \"export_module\"."
-msgstr ""
-
-#: /index.php
-msgid "Same as above, but into the sites/all/modules/exports directory."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Same as above, but automatically removing all files, except for the "
-".module file."
-msgstr ""
-
-#: /index.php
-msgid "Filter export selection to the views_view table only."
-msgstr ""
-
-#: /index.php
-msgid "Show available CTools exportable objects."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Display exportables info in a different format such as print_r, json, "
-"export. The default is to show in a tabular format."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Only show list of exportable types/table names and not available "
-"objects."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Filter the list of exportables by status. Available options are "
-"enabled, disabled, overridden, database, and code."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Filter the list of exportables by module. This will come from the "
-"'export_module' key on the exportable."
-msgstr ""
-
-#: /index.php
-msgid "View export info on all exportables."
-msgstr ""
-
-#: /index.php
-msgid "View export info for views_view and variable exportable types only."
-msgstr ""
-
-#: /index.php
-msgid "Show all enabled exportables."
-msgstr ""
-
-#: /index.php
-msgid "Show all exportables provided by/on behalf of the node module."
-msgstr ""
-
-#: /index.php
-msgid "View CTools exportable object code output."
-msgstr ""
-
-#: /index.php
-msgid "Base table of the exportable you want to view."
-msgstr ""
-
-#: /index.php
-msgid "Space separated list of exportables you want to view."
-msgstr ""
-
-#: /index.php
-msgid ""
-"The string to use for indentation when dispalying the exportable "
-"export code. Defaults to ''."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Remove any colour formatting from export string output. Ideal if you "
-"are sending the output of this command to a file."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Perform this operation all CTools exportables available on the system "
-"(all tables)."
-msgstr ""
-
-#: /index.php
-msgid "View all views exportable objects."
-msgstr ""
-
-#: /index.php
-msgid "View default views archive view."
-msgstr ""
-
-#: /index.php
-msgid "Revert CTools exportables from changes overridden in the database."
-msgstr ""
-
-#: /index.php
-msgid "Base table of the exportable you want to revert."
-msgstr ""
-
-#: /index.php
-msgid "Space separated list of exportables you want to revert."
-msgstr ""
-
-#: /index.php
-msgid "Revert all overridden views exportable objects."
-msgstr ""
-
-#: /index.php
-msgid "Revert overridden default views archive view."
-msgstr ""
-
-#: /index.php
-msgid "Revert all exportables on the system."
-msgstr ""
-
-#: /index.php
-msgid "Enable CTools exportables."
-msgstr ""
-
-#: /index.php
-msgid "Base table of the exportable you want to enable."
-msgstr ""
-
-#: /index.php
-msgid "Space separated list of exportables you want to enable."
-msgstr ""
-
-#: /index.php
-msgid "Enable all overridden views exportable objects."
-msgstr ""
-
-#: /index.php
-msgid "Enable overridden default views archive view."
-msgstr ""
-
-#: /index.php
-msgid "Disable CTools exportables."
-msgstr ""
-
-#: /index.php
-msgid "Base table of the exportable you want to disable."
-msgstr ""
-
-#: /index.php
-msgid "Space separated list of exportables you want to disable."
-msgstr ""
-
-#: /index.php
-msgid "Disable all overridden views exportable objects."
-msgstr ""
-
-#: /index.php
-msgid "Disable overridden default views archive view."
-msgstr ""
-
-#: /index.php
-msgid "Generates the current themes color css file."
-msgstr ""
-
-#: /index.php
-msgid "Update all entity fields."
-msgstr ""
-
-#: /index.php
-msgid "README.md"
-msgstr ""
-
-#: /index.php
-msgid "Bashrc customization examples for Drush."
-msgstr ""
-
-#: /index.php
-msgid "Configuration overview with examples from example.drushrc.php."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Site aliases overview on creating your own aliases for commonly used "
-"Drupal sites with examples from example.aliases.drushrc.php."
-msgstr ""
-
-#: /index.php
-msgid ""
-"php.ini or drush.ini configuration to set PHP values for use with "
-"Drush."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Bastion server configuration: remotely operate on a Drupal sites "
-"behind a firewall."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Bootstrap explanation: how Drush starts up and prepares the Drupal "
-"environment for use with the command."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Crontab instructions for running your Drupal cron tasks via `drush "
-"cron`."
-msgstr ""
-
-#: /index.php
-msgid "Shell script overview on writing simple sequences of Drush statements."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Shell alias overview on creating your own aliases for commonly used "
-"Drush commands."
-msgstr ""
-
-#: /index.php
-msgid "Drush command instructions on creating your own Drush commands."
-msgstr ""
-
-#: /index.php
-msgid "Error code list containing all identifiers used with drush_set_error."
-msgstr ""
-
-#: /index.php
-msgid "Drush API"
-msgstr ""
-
-#: /index.php
-msgid ""
-"Contexts overview explaining how Drush manages command line options "
-"and configuration file settings."
-msgstr ""
-
-#: /index.php
-msgid "Example Drush script."
-msgstr ""
-
-#: /index.php
-msgid "Example Drush command file."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Example Drush commandfile that extends sql-sync to enable development "
-"modules in the post-sync hook."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Example Drush commandfile that extends sql-sync to allow transfer of "
-"the sql dump file via http rather than ssh and rsync."
-msgstr ""
-
-#: /index.php
-msgid "Example policy file."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Strict option handling, and how commands that use it differ from "
-"regular Drush commands."
-msgstr ""
-
-#: /index.php
-msgid "Expire fully qualified URLs."
-msgstr ""
-
-#: /index.php
-msgid "URLs to expire separated by spaces."
-msgstr ""
-
-#: /index.php
-msgid "Expire a single URL."
-msgstr ""
-
-#: /index.php
-msgid "Expire multiple URLs."
-msgstr ""
-
-#: /index.php
-msgid "Expire a drupal path."
-msgstr ""
-
-#: /index.php
-msgid "A list drupal paths to expire separated by spaces."
-msgstr ""
-
-#: /index.php
-msgid "Expire a single drupal path."
-msgstr ""
-
-#: /index.php
-msgid "Expire the front page."
-msgstr ""
-
-#: /index.php
-msgid "Expire multiple drupal paths."
-msgstr ""
-
-#: /index.php
-msgid "Expire a node by node-id."
-msgstr ""
-
-#: /index.php
-msgid "Numeric node-ids to expire separated by spaces."
-msgstr ""
-
-#: /index.php
-msgid "Expire drupal nodes by node id"
-msgstr ""
-
-#: /index.php
-msgid "List all the available features for your site."
-msgstr ""
-
-#: /index.php
-msgid "Feature status, can be 'enabled', 'disabled'  or 'all'"
-msgstr ""
-
-#: /index.php
-msgid "Export a feature from your site into a module."
-msgstr ""
-
-#: /index.php
-msgid "Feature name to export."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Patterns of components to include, see features-components for the "
-"format of patterns."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Destination path (from Drupal root) of the exported feature. Defaults "
-"to 'sites/all/modules'."
-msgstr ""
-
-#: /index.php
-msgid "Specify a version number for the feature."
-msgstr ""
-
-#: /index.php
-msgid "Increment the feature's version number."
-msgstr ""
-
-#: /index.php
-msgid "Add a component to a feature module. (DEPRECATED: use features-export)"
-msgstr ""
-
-#: /index.php
-msgid "Feature name to add to."
-msgstr ""
-
-#: /index.php
-msgid "List of components to add."
-msgstr ""
-
-#: /index.php
-msgid "List features components."
-msgstr ""
-
-#: /index.php
-msgid ""
-"The features components type to list. Omit this argument to list all "
-"components."
-msgstr ""
-
-#: /index.php
-msgid "Show only components that have been exported."
-msgstr ""
-
-#: /index.php
-msgid "Show only components that have not been exported."
-msgstr ""
-
-#: /index.php
-msgid "Update a feature module on your site."
-msgstr ""
-
-#: /index.php
-msgid "A space delimited list of features."
-msgstr ""
-
-#: /index.php
-msgid "Update all feature modules on your site."
-msgstr ""
-
-#: /index.php
-msgid "A space-delimited list of features to exclude from being updated."
-msgstr ""
-
-#: /index.php
-msgid "Revert a feature module on your site."
-msgstr ""
-
-#: /index.php
-msgid "A space delimited list of features or feature.component pairs."
-msgstr ""
-
-#: /index.php
-msgid "Force revert even if Features assumes components' state are default."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Revert node and taxonomy components of feature \"foo\", but only if "
-"they are overriden. Revert all overriden components of feature "
-"\"bar\"."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Revert node and taxonomy components of feature \"foo\". Revert all "
-"components of feature \"bar\"."
-msgstr ""
-
-#: /index.php
-msgid "Revert all enabled feature module on your site."
-msgstr ""
-
-#: /index.php
-msgid "A space-delimited list of features to exclude from being reverted."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Show the difference between the default and overridden state of a "
-"feature."
-msgstr ""
-
-#: /index.php
-msgid "The feature in question."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Comma separated list of component types to limit the output to. "
-"Defaults to all types."
-msgstr ""
-
-#: /index.php
-msgid "Generate diffs with <n> lines of context instead of the usual two."
-msgstr ""
-
-#: /index.php
-msgid "Create fields and instances. Returns urls for field editing."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Content type (for nodes). Name of bundle to attach fields to. "
-"Required."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Comma delimited triple in the form: field_name,field_type,widget_name. "
-"If widget_name is omitted, the default widget will be used. Separate "
-"multiple fields by space. If omitted, a wizard will prompt you."
-msgstr ""
-
-#: /index.php
-msgid "Type of entity (e.g. node, user, comment). Defaults to node."
-msgstr ""
-
-#: /index.php
-msgid "Define new article fields via interactive prompts."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Define new article fields and then open field edit form for "
-"refinement."
-msgstr ""
-
-#: /index.php
-msgid "Create two new fields."
-msgstr ""
-
-#: /index.php
-msgid "Return URL for field editing web page."
-msgstr ""
-
-#: /index.php
-msgid "Name of field that needs updating."
-msgstr ""
-
-#: /index.php
-msgid "Quickly navigate to a field edit web page."
-msgstr ""
-
-#: /index.php
-msgid "Delete a field and its instances."
-msgstr ""
-
-#: /index.php
-msgid "Name of field to delete."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Only delete the instance attached to this bundle. If omitted, admin "
-"can choose to delete one instance or whole field."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Disambiguate a particular bundle from identically named bundles. "
-"Usually not needed."
-msgstr ""
-
-#: /index.php
-msgid "Delete the city field and any instances it might have."
-msgstr ""
-
-#: /index.php
-msgid "Delete the city instance on the article bundle"
-msgstr ""
-
-#: /index.php
-msgid "Clone a field and all its instances."
-msgstr ""
-
-#: /index.php
-msgid "Name of field that will be cloned"
-msgstr ""
-
-#: /index.php
-msgid "Name of new, cloned field."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Copy 'tags' field into a new field 'labels' field which has same "
-"instances."
-msgstr ""
-
-#: /index.php
-msgid "Clone field and then open field edit forms for refinement."
-msgstr ""
-
-#: /index.php
-msgid "View information about fields, field_types, and widgets."
-msgstr ""
-
-#: /index.php
-msgid "Recognized values: fields, types. If omitted, a choice list appears."
-msgstr ""
-
-#: /index.php
-msgid "Show a table which lists all field types and their available widgets"
-msgstr ""
-
-#: /index.php
-msgid "Displays general @font-your-face status information"
-msgstr ""
-
-#: /index.php
-msgid "Imports fonts from one or more providers"
-msgstr ""
-
-#: /index.php
-msgid "(optional) A space delimited list of providers."
-msgstr ""
-
-#: /index.php
-msgid "Import fonts from all enabled providers."
-msgstr ""
-
-#: /index.php
-msgid "Import fonts from Google Fonts API and Fontdeck."
-msgstr ""
-
-#: /index.php
-msgid "Geocodes all nodes that have a geocoder widget but no geodata."
-msgstr ""
-
-#: /index.php
-msgid "Flush all derived images for a given style."
-msgstr ""
-
-#: /index.php
-msgid ""
-"An image style machine name. If not provided, user may choose from a "
-"list of names."
-msgstr ""
-
-#: /index.php
-msgid "Flush all derived images"
-msgstr ""
-
-#: /index.php
-msgid "Pick an image style and then delete its images."
-msgstr ""
-
-#: /index.php
-msgid "Delete all thumbnail images."
-msgstr ""
-
-#: /index.php
-msgid "Flush all derived images. They will be regenerated on the fly."
-msgstr ""
-
-#: /index.php
-msgid "Refresh available information."
-msgstr ""
-
-#: /index.php
-msgid "Show translation status of available projects."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Comma separated list of languages. Defaults to all available "
-"languages."
-msgstr ""
-
-#: /index.php
-msgid "Update translations."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Determine if existing translations are overwitten during import. Use "
-"\"overwrite\" to overwrite any existing translation, \"replace\" to "
-"replace previously imported translations but not overwrite edited "
-"strings, \"keep\" to keep any existing translation and only add new "
-"translations. Default value: keep"
-msgstr ""
-
-#: /index.php
-msgid "Lists registered library information."
-msgstr ""
-
-#: /index.php
-msgid "Turns a makefile into a working Drupal codebase."
-msgstr ""
-
-#: /index.php
-msgid "Filename of the makefile to use for this build."
-msgstr ""
-
-#: /index.php
-msgid "The path at which to build the makefile."
-msgstr ""
-
-#: /index.php
-msgid "Print the make API version and exit."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Set the number of concurrent projects that will be processed at the "
-"same time. The default is 1."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Specify a path under which modules and themes should be placed. "
-"Defaults to sites/all for Drupal 6,7 and the corresponding directory "
-"in the Drupal root for Drupal 8 and above."
-msgstr ""
-
-#: /index.php
-msgid "Force a complete build even if errors occur."
-msgstr ""
-
-#: /index.php
-msgid "Ignore md5 checksums for downloads."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Output an md5 hash of the current build after completion. Use "
-"--md5=print to print to stdout."
-msgstr ""
-
-#: /index.php
-msgid "The default location to load the XML update information from."
-msgstr ""
-
-#: /index.php
-msgid "Do not use the pm-download caching (defaults to cache enabled)."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Leave temporary build directories in place instead of cleaning up "
-"after completion."
-msgstr ""
-
-#: /index.php
-msgid "Do not require a Drupal core project to be specified."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Do not write a PATCHES.txt file in the directory of each patched "
-"project."
-msgstr ""
-
-#: /index.php
-msgid "Do not modify .info files when cloning from Git."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Prepare the built site for installation. Generate a properly "
-"permissioned settings.php and files directory."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Generate a tar archive of the build. The output filename will be "
-"[build path].tar.gz."
-msgstr ""
-
-#: /index.php
-msgid "Run a temporary test build and clean up."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Retrieve translations for the specified comma-separated list of "
-"language(s) if available for all projects."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Preserves VCS directories, like .git, for projects downloaded using "
-"such methods."
-msgstr ""
-
-#: /index.php
-msgid ""
-"How to download files. Should be autodetected, but this is an override "
-"if it doesn't work. Options are \"curl\" and \"make\" (a native "
-"download method)."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Restrict the make to this comma-separated list of projects. To specify "
-"all projects, pass *."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Restrict the make to this comma-separated list of libraries. To "
-"specify all libraries, pass *."
-msgstr ""
-
-#: /index.php
-msgid "Restrict the make options to this comma-separated list of options."
-msgstr ""
-
-#: /index.php
-msgid "Build the example.make makefile in the example directory."
-msgstr ""
-
-#: /index.php
-msgid "Build an installation profile within an existing Drupal site"
-msgstr ""
-
-#: /index.php
-msgid "Build the remote example.make makefile in the example directory."
-msgstr ""
-
-#: /index.php
-msgid "Generate a makefile from the current Drupal site."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Exclude all version numbers (default is include all version numbers) "
-"or optionally specify a list of projects to exclude from versioning"
-msgstr ""
-
-#: /index.php
-msgid ""
-"Include a specific list of projects, while all other projects remain "
-"unversioned in the makefile (so implies --exclude-versions)"
-msgstr ""
-
-#: /index.php
-msgid ""
-"Generate a makefile with ALL projects versioned (should a project have "
-"a known version number)"
-msgstr ""
-
-#: /index.php
-msgid "Generate a makefile with NO projects versioned"
-msgstr ""
-
-#: /index.php
-msgid ""
-"Generate a makefile with ALL projects versioned EXCEPT core, Views and "
-"CCK"
-msgstr ""
-
-#: /index.php
-msgid ""
-"Generate a makefile with NO projects versioned EXCEPT Admin Menu, OG "
-"and CTools."
-msgstr ""
-
-#: /index.php
-msgid "The temporary working directory to use"
-msgstr ""
-
-#: /index.php
-msgid "An array of projects generated by make_projects()"
-msgstr ""
-
-#: /index.php
-msgid "An array of projects already being processed"
-msgstr ""
-
-#: /index.php
-msgid "Drush Make overview with examples"
-msgstr ""
-
-#: /index.php
-msgid "Drush Make example makefile"
-msgstr ""
-
-#: /index.php
-msgid "Export nodes using Node export."
-msgstr ""
-
-#: /index.php
-msgid "A list of space-separated node IDs to export."
-msgstr ""
-
-#: /index.php
-msgid ""
-"The filename of the output file.  If supplied, the node code will be "
-"exported to that file, otherwise it will export to stdout."
-msgstr ""
-
-#: /index.php
-msgid ""
-"If supplied, node code will be output using a particular export "
-"format, if available. (e.g. serialize)"
-msgstr ""
-
-#: /index.php
-msgid ""
-"Filter for 'status'; A boolean value (0 or 1) indicating whether the "
-"node is published (visible to non-administrators)."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Filter for 'promote'; A boolean value (0 or 1) indicating whether the "
-"node should be displayed on the front page."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Filter for 'sticky'; A boolean value (0 or 1) indicating whether the "
-"node should be displayed at the top of lists in which it appears."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Filter for 'translate'; A boolean value (0 or 1) indicating whether "
-"the node translation needs to be updated."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Filter for 'language'; The language code (e.g. de or en-US) of this "
-"node."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Filter for 'type'; The machine-readable name (e.g. story or page) of "
-"the type of this node."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Filter by SQL (EXPERIMENTAL); An SQL query string that returns nids "
-"(e.g. \"SELECT nid FROM nodes WHERE nid < 10\")."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Filter by PHP code (EXPERIMENTAL); PHP code that prints or returns, an "
-"array or CSV string of nids (e.g. \"custom_get_my_nids();\"). Don't "
-"include PHP tags."
-msgstr ""
-
-#: /index.php
-msgid ""
-"export nodes with node IDs 45, 46, and 47 to the file with the "
-"supplied filename."
-msgstr ""
-
-#: /index.php
-msgid ""
-"export nodes of type story and page to the file with the supplied "
-"filename."
-msgstr ""
-
-#: /index.php
-msgid "Import nodes previously exported with Node export."
-msgstr ""
-
-#: /index.php
-msgid ""
-"User ID of user to save nodes as. If not given will use the user with "
-"an ID of 1. You may specify 0 for the Anonymous user."
-msgstr ""
-
-#: /index.php
-msgid ""
-"The filename of the input file.  If supplied, the node code will be "
-"imported from that file, otherwise it will import to stdin."
-msgstr ""
-
-#: /index.php
-msgid "Import nodes from the file with the given filename."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Import nodes from the file with the given filename.  The author of the "
-"nodes will be set to the user that has the user ID of 2."
-msgstr ""
-
-#: /index.php
-msgid "Re-populates specified nodequeues with random nodes."
-msgstr ""
-
-#: /index.php
-msgid "Machine name of queue to be re-populated."
-msgstr ""
-
-#: /index.php
-msgid "Re-populates nodequeues with random nodes."
-msgstr ""
-
-#: /index.php
-msgid "Rehashes smartqueue subqueues for taxonomy smartqueue."
-msgstr ""
-
-#: /index.php
-msgid "Enable one or more extensions (modules or themes)."
-msgstr ""
-
-#: /index.php
-msgid ""
-"A list of modules or themes. You can use the * wildcard at the end of "
-"extension names to enable all matches."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Attempt to download any missing dependencies. At the moment, only "
-"works when the module name is the same as the project name."
-msgstr ""
-
-#: /index.php
-msgid "Skip automatic downloading of libraries (c.f. devel)."
-msgstr ""
-
-#: /index.php
-msgid "Disable one or more extensions (modules or themes)."
-msgstr ""
-
-#: /index.php
-msgid ""
-"A list of modules or themes. You can use the * wildcard at the end of "
-"extension names to disable multiple matches."
-msgstr ""
-
-#: /index.php
-msgid "Show detailed info for one or more extensions (modules or themes)."
-msgstr ""
-
-#: /index.php
-msgid ""
-"A list of modules or themes. You can use the * wildcard at the end of "
-"extension names to show info for multiple matches. If no argument is "
-"provided it will show info for all available extensions."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Select output format. Available: csv, json, list, table, var_export, "
-"yaml. Default is key-value-list."
-msgstr ""
-
-#: /index.php
-msgid "Uninstall one or more modules."
-msgstr ""
-
-#: /index.php
-msgid "A list of modules."
-msgstr ""
-
-#: /index.php
-msgid "Show a list of available extensions (modules and themes)."
-msgstr ""
-
-#: /index.php
-msgid "Filter by extension type. Choices: module, theme."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Filter by extension status. Choices: enabled, disabled and/or 'not "
-"installed'. You can use multiple comma separated values. (i.e. "
-"--status=\"disabled,not installed\")."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Filter by project packages. You can use multiple comma separated "
-"values. (i.e. --package=\"Core - required,Other\")."
-msgstr ""
-
-#: /index.php
-msgid "Filter out extensions that are not in drupal core."
-msgstr ""
-
-#: /index.php
-msgid "Filter out extensions that are provided by drupal core."
-msgstr ""
-
-#: /index.php
-msgid "Refresh update status information."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Show a report of available minor updates to Drupal core and contrib "
-"projects."
-msgstr ""
-
-#: /index.php
-msgid "Optional. A list of installed projects to show."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Return a list of the projects with any extensions enabled that need "
-"updating, one project per line."
-msgstr ""
-
-#: /index.php
-msgid "Only update modules that have security updates available."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Add a persistent lock to remove the specified projects from "
-"consideration during updates.  Locks may be removed with the --unlock "
-"parameter, or overridden by specifically naming the project as a "
-"parameter to pm-update or pm-updatecode.  The lock does not affect "
-"pm-download.  See also the update_advanced project for similar and "
-"improved functionality."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Update Drupal core and contrib projects to latest recommended "
-"releases."
-msgstr ""
-
-#: /index.php
-msgid "Optional. A list of installed projects to update."
-msgstr ""
-
-#: /index.php
-msgid "Show release notes for each project to be updated."
-msgstr ""
-
-#: /index.php
-msgid "Only update modules and skip the core update."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Check to see if an updatedb is needed after updating the code. Default "
-"is on; use --check-updatedb=0 to disable."
-msgstr ""
-
-#: /index.php
-msgid "Update contrib projects, but skip core."
-msgstr ""
-
-#: /index.php
-msgid ""
-"To show a list of projects with their update status, use "
-"pm-updatestatus instead of pm-updatecode."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Update Drupal core and contrib projects and apply any pending database "
-"updates (Same as pm-updatecode + updatedb)."
-msgstr ""
-
-#: /index.php
-msgid "Notify of pending db updates."
-msgstr ""
-
-#: /index.php
-msgid "Print release notes for given projects."
-msgstr ""
-
-#: /index.php
-msgid "A list of project names, with optional version. Defaults to 'drupal'"
-msgstr ""
-
-#: /index.php
-msgid "Prints the release notes for the recommended version of CCK project."
-msgstr ""
-
-#: /index.php
-msgid ""
-"View release notes of a specfic version of the Token project for my "
-"version of Drupal."
-msgstr ""
-
-#: /index.php
-msgid ""
-"View release notes for the recommended version of Pathauto and Zen "
-"projects."
-msgstr ""
-
-#: /index.php
-msgid "Print release information for given projects."
-msgstr ""
-
-#: /index.php
-msgid "A list of drupal.org project names. Defaults to 'drupal'"
-msgstr ""
-
-#: /index.php
-msgid "View releases for cck and Zen projects for your Drupal version."
-msgstr ""
-
-#: /index.php
-msgid "Download projects from drupal.org or other sources."
-msgstr ""
-
-#: /index.php
-msgid ""
-"A comma delimited list of drupal.org project names, with optional "
-"version. Defaults to 'drupal'"
-msgstr ""
-
-#: /index.php
-msgid ""
-"Path to which the project will be copied. If you're providing a "
-"relative path, note it is relative to the drupal root (if "
-"bootstrapped)."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Force to use the site specific directory. It will create the directory "
-"if it doesn't exist. If --destination is also present this option will "
-"be ignored."
-msgstr ""
-
-#: /index.php
-msgid "Show release notes after each project is downloaded."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Only useful for install profiles. Possible values: 'full', 'projects', "
-"'profile-only'."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Select the version to download interactively from a list of available "
-"releases."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Alternate name for \"drupal-x.y\" directory when downloading Drupal "
-"project. Defaults to \"drupal\"."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Specify the default major version of modules to download when there is "
-"no bootstrapped Drupal site.  Defaults to \"7\"."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Returns a list of the names of the extensions (modules and themes) "
-"contained in the downloaded projects."
-msgstr ""
-
-#: /index.php
-msgid "Download latest recommended release of Drupal core."
-msgstr ""
-
-#: /index.php
-msgid "Download latest 7.x development version of Drupal core."
-msgstr ""
-
-#: /index.php
-msgid "Download latest recommended release of Drupal 6.x."
-msgstr ""
-
-#: /index.php
-msgid "Download latest versions of CCK and Zen projects."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Download a specfic version of Organic groups module for my version of "
-"Drupal."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Download a specific development branch of diff module for a specific "
-"Drupal version."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Show a list of recent releases of the views project, prompt for which "
-"one to download."
-msgstr ""
-
-#: /index.php
-msgid "Download the latest dev release of webform."
-msgstr ""
-
-#: /index.php
-msgid "Download webform. Fetch and populate the download cache as needed."
-msgstr ""
-
-#: /index.php
-msgid "Download and install the Proj4JS library."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Optional. A path where to install the Proj4JS library. If omitted "
-"Drush will use the default location."
-msgstr ""
-
-#: /index.php
-msgid "Run a specific queue by name"
-msgstr ""
-
-#: /index.php
-msgid ""
-"The name of the queue to run, as defined in either hook_queue_info or "
-"hook_cron_queue_info."
-msgstr ""
-
-#: /index.php
-msgid "Returns a list of all defined queues"
-msgstr ""
-
-#: /index.php
-msgid "Generates relations."
-msgstr ""
-
-#: /index.php
-msgid "The number of relations to generate."
-msgstr ""
-
-#: /index.php
-msgid "Delete all relations before generating new ones."
-msgstr ""
-
-#: /index.php
-msgid "A comma delimited list of relation types to create."
-msgstr ""
-
-#: /index.php
-msgid "Create a new role."
-msgstr ""
-
-#: /index.php
-msgid "The symbolic machine name for the role. Required."
-msgstr ""
-
-#: /index.php
-msgid ""
-"A descriptive name for the role. Optional; Drupal 8 only.  Ignored in "
-"D6 and D7."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Create a new role 'test role' on D6 or D7; auto-assign the rid. On D8, "
-"'test role' is the rid, and the human-readable name is set to 'Test "
-"role'."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Create a new role with a machine name of 'test role', and a "
-"human-readable name of 'Test role'. On D6 and D7, behaves as the "
-"previous example."
-msgstr ""
-
-#: /index.php
-msgid "Delete a role."
-msgstr ""
-
-#: /index.php
-msgid ""
-"The symbolic machine name for the role. Required.  In D6 and D7, this "
-"may also be a numeric role ID."
-msgstr ""
-
-#: /index.php
-msgid "Delete the role 'test role'."
-msgstr ""
-
-#: /index.php
-msgid "Grant a specified permission to a role."
-msgstr ""
-
-#: /index.php
-msgid "The role to modify.  Required."
-msgstr ""
-
-#: /index.php
-msgid "The permission to grant. Required, unless the --module option is used."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Select the permission to modify from an interactive list of all "
-"permissions available in the specified module."
-msgstr ""
-
-#: /index.php
-msgid "Allow anonymous users to put their own advertisements on your site."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Select a permission from \"node\" permissions to add to authenticated "
-"users."
-msgstr ""
-
-#: /index.php
-msgid "Remove a specified permission from a role."
-msgstr ""
-
-#: /index.php
-msgid "The role to modify."
-msgstr ""
-
-#: /index.php
-msgid ""
-"The permission to remove. Required, unless the --module option is "
-"used."
-msgstr ""
-
-#: /index.php
-msgid "Hide content from anonymous users."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Display a list of all roles defined on the system.  If a role name is "
-"provided as an argument, then all of the permissions of that role will "
-"be listed.  If a permission name is provided as an option, then all of "
-"the roles that have been granted that permission will be listed."
-msgstr ""
-
-#: /index.php
-msgid ""
-"The role to list.  Optional; if specified, lists all permissions "
-"assigned to that role.  If no role is specified, lists all of the "
-"roles available on the system."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Limits the list of roles to only those that have been assigned the "
-"specified permission. Optional; may not be specified if a role "
-"argument is provided."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Display a list of roles that have the administer nodes permission "
-"assigned."
-msgstr ""
-
-#: /index.php
-msgid "Display all of the permissions assigned to the anonymous user role."
-msgstr ""
-
-#: /index.php
-msgid "Checks for scheduled tasks to be added to the queue."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Optionally claim tasks from the queue to work on. Any value set will "
-"override the default time spent on this queue."
-msgstr ""
-
-#: /index.php
-msgid "Add scheduled tasks to the queue."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Add scheduled tasks to the queue and claim items for the default "
-"amount of time."
-msgstr ""
-
-#: /index.php
-msgid "Add schedules tasks to the queue and claim items for 30 seconds."
-msgstr ""
-
-#: /index.php
-msgid "Runs a lightweight built in http server for development."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Host IP address and port number to bind to and path to open in web "
-"browser. Format is addr:port/path, default 127.0.0.1:8888, all "
-"elements optional. See examples for shorthand."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Which http server to use - either: \"cgi\" for a CGI based httpserver "
-"(default, requires php 5.3 and php-cgi binary) or \"builtin\" for php "
-"5.4 built in http server."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Name of the php-cgi binary. If it is not on your current $PATH you "
-"should include the full path. You can include command line parameters "
-"to pass into php-cgi."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Key-value array of variables to override in the $conf array for the "
-"running site. By default disables drupal_http_request_fails to avoid "
-"errors on Windows (which supports only one connection at a time). "
-"Comma delimited list of name=value pairs (or array in drushrc)."
-msgstr ""
-
-#: /index.php
-msgid ""
-"A default addr:port/path to use for any values not specified as an "
-"argument."
-msgstr ""
-
-#: /index.php
-msgid ""
-"If opening a web browser, automatically log in as this user (user ID "
-"or username)."
-msgstr ""
-
-#: /index.php
-msgid ""
-"If opening a web browser, which browser to user (defaults to operating "
-"system default)."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Resolve hostnames/IPs using DNS/rDNS (if possible) to determine "
-"binding IPs and/or human friendly hostnames for URLs and browser."
-msgstr ""
-
-#: /index.php
-msgid "Start runserver on 127.0.0.1, port 8080."
-msgstr ""
-
-#: /index.php
-msgid "Start runserver on 10.0.0.28, port 80."
-msgstr ""
-
-#: /index.php
-msgid "Start runserver on IPv6 localhost ::1, port 80."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Start runserver on localhost (using rDNS to determine binding IP), "
-"port 8888, and open /user in browser. Use \"php5-cgi\" as the php-cgi "
-"binary."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Start runserver on default IP/port (127.0.0.1, port 8888), and open / "
-"in browser."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Use a default (would be specified in your drushrc) that starts "
-"runserver on port 8080, and opens a browser to the front page. Set "
-"path to a single hyphen path in argument to prevent opening browser "
-"for this session."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Start builtin php 5.4 runserver on 127.0.0.1, port 9000, and open "
-"/admin in browser. Note that you need a colon when you specify port "
-"and path, but no IP."
-msgstr ""
-
-#: /index.php
-msgid "Show how many items remain to be indexed out of the total."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Select output format. Available: json, list, var_export, yaml. Default "
-"is message."
-msgstr ""
-
-#: /index.php
-msgid "Index the remaining search items without wiping the index."
-msgstr ""
-
-#: /index.php
-msgid "Force the search index to be rebuilt."
-msgstr ""
-
-#: /index.php
-msgid "Rebuild the index immediately, instead of waiting for cron."
-msgstr ""
-
-#: /index.php
-msgid "Rebuild the site's roles and permissions with Secure Permissions."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Control the settings of the Secure Permissions module from the command "
-"line."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Required. Currently has two states - set to \"on\" to activate Secure "
-"Permissions and \"off\" to deactivate."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Activates the Secure Permissions module from the command line, note "
-"this is distinct and different from enabling the module."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Deactivates the Secure Permissions module from the command line, note "
-"this is distinct and different from disabling the module."
-msgstr ""
-
-#: /index.php
-msgid "Print all known shell alias records."
-msgstr ""
-
-#: /index.php
-msgid "Shell alias to print"
-msgstr ""
-
-#: /index.php
-msgid "List all alias records known to drush."
-msgstr ""
-
-#: /index.php
-msgid "Print the value of the shell alias 'pull'."
-msgstr ""
-
-#: /index.php
-msgid "Print site alias records for all known site aliases and local sites."
-msgstr ""
-
-#: /index.php
-msgid "Site specification to print"
-msgstr ""
-
-#: /index.php
-msgid "Include the databases structure in the full alias record."
-msgstr ""
-
-#: /index.php
-msgid "Include the short-form db-url in the full alias record."
-msgstr ""
-
-#: /index.php
-msgid "Do not include the database record in the full alias record (default)."
-msgstr ""
-
-#: /index.php
-msgid "Include optional default items."
-msgstr ""
-
-#: /index.php
-msgid "For a single alias, set the name to use in the output."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Only display sites that are available on the local system (remote-site "
-"not set, and Drupal root exists)."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Select output format. Available: config, csv, json, list, table, "
-"var_export, yaml. Default is config."
-msgstr ""
-
-#: /index.php
-msgid "Print an alias record for the alias 'dev'."
-msgstr ""
-
-#: /index.php
-msgid "Set a site alias to work on that will persist for the current session."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Site specification to use, or \"-\" for previous site. Omit this "
-"argument to \"unset\""
-msgstr ""
-
-#: /index.php
-msgid "Set the current session to use the @dev alias."
-msgstr ""
-
-#: /index.php
-msgid "Set the current session to use a site specification."
-msgstr ""
-
-#: /index.php
-msgid "Go back to the previously-set site (like `cd -`)."
-msgstr ""
-
-#: /index.php
-msgid "Without an argument, any existing site becomes unset."
-msgstr ""
-
-#: /index.php
-msgid "Reset a persistently set site."
-msgstr ""
-
-#: /index.php
-msgid "Drop all tables in a given database."
-msgstr ""
-
-#: /index.php
-msgid "Skip confirmation and proceed."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Save to a file. The file should be relative to Drupal root. "
-"Recommended."
-msgstr ""
-
-#: /index.php
-msgid "The DB connection key if using multiple connections in settings.php."
-msgstr ""
-
-#: /index.php
-msgid ""
-"The name of a target within the specified database connection. "
-"Defaults to 'default'."
-msgstr ""
-
-#: /index.php
-msgid "A Drupal 6 style database URL."
-msgstr ""
-
-#: /index.php
-msgid "Print database connection details using print_r()."
-msgstr ""
-
-#: /index.php
-msgid "Show all database connections, instead of just one."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Select output format. Available: print-r, csv, json, list, string, "
-"table, var_export, yaml. Default is print-r."
-msgstr ""
-
-#: /index.php
-msgid "A string for connecting to the DB."
-msgstr ""
-
-#: /index.php
-msgid "Import sql statements from a file into the current database."
-msgstr ""
-
-#: /index.php
-msgid "Create a database."
-msgstr ""
-
-#: /index.php
-msgid "Account to use when creating a new database. Optional."
-msgstr ""
-
-#: /index.php
-msgid "Create the database for the current site."
-msgstr ""
-
-#: /index.php
-msgid "Create the database as specified for @site.test."
-msgstr ""
-
-#: /index.php
-msgid "Create the database as specified in the db-url option."
-msgstr ""
-
-#: /index.php
-msgid "Exports the Drupal DB as SQL using mysqldump or equivalent."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Save to a file. The file should be relative to Drupal root. If "
-"--result-file is provided with no value, then date based filename will "
-"be created under ~/drush-backups directory."
-msgstr ""
-
-#: /index.php
-msgid "A key in the $skip_tables array. @see example.drushrc.php. Optional."
-msgstr ""
-
-#: /index.php
-msgid ""
-"A key in the $structure_tables array. @see example.drushrc.php. "
-"Optional."
-msgstr ""
-
-#: /index.php
-msgid "A key in the $tables array. Optional."
-msgstr ""
-
-#: /index.php
-msgid "A comma-separated list of tables to exclude completely. Optional."
-msgstr ""
-
-#: /index.php
-msgid ""
-"A comma-separated list of tables to include for structure, but not "
-"data. Optional."
-msgstr ""
-
-#: /index.php
-msgid "A comma-separated list of tables to transfer. Optional."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Order by primary key and add line breaks for efficient diff in "
-"revision control. Also, faster rsync. Slows down the dump. Mysql only."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Omit DROP TABLE statements. Postgres and Oracle only.  Used by "
-"sql-sync, since including the DROP TABLE statements interfere with the "
-"import when the database is created."
-msgstr ""
-
-#: /index.php
-msgid "Dump data without statements to create any of the schema."
-msgstr ""
-
-#: /index.php
-msgid "Compress the dump using the gzip program which must be in your $PATH."
-msgstr ""
-
-#: /index.php
-msgid "Save SQL dump to the directory above Drupal root."
-msgstr ""
-
-#: /index.php
-msgid "Skip standard tables. @see example.drushrc.php"
-msgstr ""
-
-#: /index.php
-msgid "Execute a query against the site database."
-msgstr ""
-
-#: /index.php
-msgid "An SQL query. Ignored if 'file' is provided."
-msgstr ""
-
-#: /index.php
-msgid "Save to a file. The file should be relative to Drupal root. Optional."
-msgstr ""
-
-#: /index.php
-msgid "Path to a file containing the SQL to be run."
-msgstr ""
-
-#: /index.php
-msgid "Add custom options to the mysql command."
-msgstr ""
-
-#: /index.php
-msgid "Enable replacement of braces in your query."
-msgstr ""
-
-#: /index.php
-msgid "A database specification"
-msgstr ""
-
-#: /index.php
-msgid ""
-"Browse user record. Table prefixes, if used, must be added to table "
-"names by hand."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Browse user record. Table prefixes are honored.  Caution: curly-braces "
-"will be stripped from all portions of the query."
-msgstr ""
-
-#: /index.php
-msgid "Alternate way to import sql statements from a file."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Copy and import source database to target database. Transfers via "
-"rsync."
-msgstr ""
-
-#: /index.php
-msgid "Name of subdirectory within /sites or a site-alias."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Skip dump if result file exists and is less than \"cache\" hours old. "
-"Optional; default is 24 hours."
-msgstr ""
-
-#: /index.php
-msgid "Do not cache the sql-dump file."
-msgstr ""
-
-#: /index.php
-msgid "Do not dump the sql database; always use an existing dump file."
-msgstr ""
-
-#: /index.php
-msgid "Database specification for source system to dump from."
-msgstr ""
-
-#: /index.php
-msgid "Override sql database port number in source-db-url. Optional."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Remote machine to run sql-dump file on. Optional; default is local "
-"machine."
-msgstr ""
-
-#: /index.php
-msgid "Path to dump file. Optional; default is to create a temporary file."
-msgstr ""
-
-#: /index.php
-msgid ""
-"A key in the $db_url (D6) or $databases (D7+) array which provides the "
-"data."
-msgstr ""
-
-#: /index.php
-msgid ""
-"A key within the SOURCE database identifying a particular server in "
-"the database group."
-msgstr ""
-
-#: /index.php
-msgid ""
-"A key in the $db_url (D6) or $databases (D7+) array which shall "
-"receive the data."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Oy. A key within the TARGET database identifying a particular server "
-"in the database group."
-msgstr ""
-
-#: /index.php
-msgid "Use a temporary file to hold dump files.  Implies --no-cache."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Directory to store sql dump files in when --source-dump or "
-"--target-dump are not used."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Create a new database before importing the database dump on the target "
-"machine."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Do not pass --ordered-dump to sql-dump.  sql-sync orders the dumpfile "
-"by default in order to increase the efficiency of rsync."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Obscure email addresses and reset passwords in the user table "
-"post-sync. Optional."
-msgstr ""
-
-#: /index.php
-msgid "Copy the DB defined in sites/prod to the DB in sites/dev."
-msgstr ""
-
-#: /index.php
-msgid "Open a SQL command-line interface using Drupal's credentials."
-msgstr ""
-
-#: /index.php
-msgid "Skip reading table information. This gives a quicker start of mysql."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Open a SQL command-line interface using Drupal's credentials and skip "
-"reading table information."
-msgstr ""
-
-#: /index.php
-msgid "Run sanitization operations on the current database."
-msgstr ""
-
-#: /index.php
-msgid ""
-"The password to assign to all accounts in the sanitization operation, "
-"or \"no\" to keep passwords unchanged.  Default is \"password\"."
-msgstr ""
-
-#: /index.php
-msgid ""
-"The pattern for test email addresses in the sanitization operation, or "
-"\"no\" to keep email addresses unchanged.  May contain replacement "
-"patterns %uid, %mail or %name.  Default is \"user+%uid@localhost\"."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Connect to a Drupal site's server via SSH for an interactive session "
-"or to run a shell command"
-msgstr ""
-
-#: /index.php
-msgid "A remote site alias. Can be an alias list."
-msgstr ""
-
-#: /index.php
-msgid "Bash to execute on target. Optional, except when site-alias is a list."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Directory to change to. Use a full path, TRUE for the site's Drupal "
-"root directory, or FALSE for the remote user's home directory. "
-"Defaults to the Drupal root."
-msgstr ""
-
-#: /index.php
-msgid "Open an interactive shell on @mysite's server."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Run \"ls /tmp\" on @prod site. If @prod is a site list, then ls will "
-"be executed on each site."
-msgstr ""
-
-#: /index.php
-msgid "Run \"git pull\" on the Drupal root directory on the @prod site."
-msgstr ""
-
-#: /index.php
-msgid "Revert all strongarmed variables from code to the database."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Reset all variables, including those that are marked as already being "
-"set to the database."
-msgstr ""
-
-#: /index.php
-msgid "Run tests. Note that you must use the --uri option."
-msgstr ""
-
-#: /index.php
-msgid ""
-"A test class, a test group. If omitted, a list of test classes and "
-"test groups is presented. Delimit multiple targets using commas."
-msgstr ""
-
-#: /index.php
-msgid "Run all available tests"
-msgstr ""
-
-#: /index.php
-msgid ""
-"A comma delimited list of methods that should be run within the test "
-"class. Defaults to all methods."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Skip cleanup of temporary tables and files. Helpful for reading "
-"debug() messages and other post-mortem forensics."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Output verbose test results to a specified directory using the JUnit "
-"test reporting format. Useful for integrating with Jenkins."
-msgstr ""
-
-#: /index.php
-msgid "List all available classes and groups."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Run all available tests. Avoid permission related failures by running "
-"as web server user."
-msgstr ""
-
-#: /index.php
-msgid "Run one test class."
-msgstr ""
-
-#: /index.php
-msgid "Run all classes in a XML-RPC group."
-msgstr ""
-
-#: /index.php
-msgid "Run all tests from multiple groups/classes."
-msgstr ""
-
-#: /index.php
-msgid "Run particular methods in the specified class or group."
-msgstr ""
-
-#: /index.php
-msgid "Clean temporary tables and files."
-msgstr ""
-
-#: /index.php
-msgid "Read detailed documentation on a given topic."
-msgstr ""
-
-#: /index.php
-msgid ""
-"The name of the topic you wish to view. If omitted, list all topic "
-"descriptions (and names in parenthesis)."
-msgstr ""
-
-#: /index.php
-msgid "Show all available topics."
-msgstr ""
-
-#: /index.php
-msgid "Show documentation for the drush context API"
-msgstr ""
-
-#: /index.php
-msgid ""
-"Show Drush usage information that has been logged but not sent.  Usage "
-"statistics contain the Drush command name and the Drush option names, "
-"but no arguments or option values."
-msgstr ""
-
-#: /index.php
-msgid "Show cached usage statistics."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Specify in a .drushrc.php file that usage information should be logged "
-"locally in a usage statistics file."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Send anonymous Drush usage information to statistics logging site.  "
-"Usage statistics contain the Drush command name and the Drush option "
-"names, but no arguments or option values."
-msgstr ""
-
-#: /index.php
-msgid "Immediately send cached usage statistics."
-msgstr ""
-
-#: /index.php
-msgid "Specify in a .drushrc.php file that usage information should be sent."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Specify the frequency (file size) that usage information should be "
-"sent."
-msgstr ""
-
-#: /index.php
-msgid "Print information about the specified user(s)."
-msgstr ""
-
-#: /index.php
-msgid "A comma delimited list of uids, user names, or email addresses."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Display information about any users with uids, names, or mail "
-"addresses matching the strings between commas."
-msgstr ""
-
-#: /index.php
-msgid "Block the specified user(s)."
-msgstr ""
-
-#: /index.php
-msgid "A comma delimited list of uids to block"
-msgstr ""
-
-#: /index.php
-msgid "A comma delimited list of user names to block"
-msgstr ""
-
-#: /index.php
-msgid "A comma delimited list of user mail addresses to block"
-msgstr ""
-
-#: /index.php
-msgid ""
-"Block the users with name, id, or email 5 or user3, uids 2 and 3, "
-"names someguy and somegal, and email address of "
-"billgates@microsoft.com"
-msgstr ""
-
-#: /index.php
-msgid "Unblock the specified user(s)."
-msgstr ""
-
-#: /index.php
-msgid "A comma delimited list of uids to unblock"
-msgstr ""
-
-#: /index.php
-msgid "A comma delimited list of user names to unblock"
-msgstr ""
-
-#: /index.php
-msgid "A comma delimited list of user mail addresses to unblock"
-msgstr ""
-
-#: /index.php
-msgid ""
-"Unblock the users with name, id, or email 5 or user3, uids 2 and 3, "
-"names someguy and somegal, and email address of "
-"billgates@microsoft.com"
-msgstr ""
-
-#: /index.php
-msgid "Add a role to the specified user accounts."
-msgstr ""
-
-#: /index.php
-msgid "The name of the role to add"
-msgstr ""
-
-#: /index.php
-msgid ""
-"(optional) A comma delimited list of uids, user names, or email "
-"addresses."
-msgstr ""
-
-#: /index.php
-msgid "A comma delimited list of uids"
-msgstr ""
-
-#: /index.php
-msgid "A comma delimited list of user names"
-msgstr ""
-
-#: /index.php
-msgid "A comma delimited list of user mail addresses"
-msgstr ""
-
-#: /index.php
-msgid ""
-"Add the \"power user\" role to the accounts with name, id, or email 5 "
-"or user3, uids 2 and 3, names someguy and somegal, and email address "
-"of billgates@microsoft.com"
-msgstr ""
-
-#: /index.php
-msgid "Remove a role from the specified user accounts."
-msgstr ""
-
-#: /index.php
-msgid "The name of the role to remove"
-msgstr ""
-
-#: /index.php
-msgid ""
-"Remove the \"power user\" role from the accounts with name, id, or "
-"email 5 or user3, uids 2 and 3, names someguy and somegal, and email "
-"address of billgates@microsoft.com"
-msgstr ""
-
-#: /index.php
-msgid "Create a user account with the specified name."
-msgstr ""
-
-#: /index.php
-msgid "The name of the account to add"
-msgstr ""
-
-#: /index.php
-msgid "The password for the new account"
-msgstr ""
-
-#: /index.php
-msgid "The email address for the new account"
-msgstr ""
-
-#: /index.php
-msgid ""
-"Create a new user account with the name newuser, the email address "
-"person@example.com, and the password letmein"
-msgstr ""
-
-#: /index.php
-msgid "Cancel a user account with the specified name."
-msgstr ""
-
-#: /index.php
-msgid "The name of the account to cancel"
-msgstr ""
-
-#: /index.php
-msgid ""
-"Cancel the user account with the name username and anonymize all "
-"content created by that user."
-msgstr ""
-
-#: /index.php
-msgid "(Re)Set the password for the user account with the specified name."
-msgstr ""
-
-#: /index.php
-msgid "The name of the account to modify."
-msgstr ""
-
-#: /index.php
-msgid "The new password for the account."
-msgstr ""
-
-#: /index.php
-msgid "Set the password for the username someuser. @see xkcd.com/936"
-msgstr ""
-
-#: /index.php
-msgid ""
-"Display a one time login link for the given user account (defaults to "
-"uid 1)."
-msgstr ""
-
-#: /index.php
-msgid ""
-"An optional uid, user name, or email address for the user to log in "
-"as. Default is to log in as uid 1. The uid/name/mail options take "
-"priority if specified."
-msgstr ""
-
-#: /index.php
-msgid "Optional path to redirect to after logging in."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Optional value denotes which browser to use (defaults to operating "
-"system default). Set to 0 to suppress opening a browser."
-msgstr ""
-
-#: /index.php
-msgid "A uid to log in as."
-msgstr ""
-
-#: /index.php
-msgid "A user name to log in as."
-msgstr ""
-
-#: /index.php
-msgid "A user mail address to log in as."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Displays and opens default web browser (if configured or detected) for "
-"a one-time login link for the user with the username ryan and redirect "
-"to the path node/add/blog."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Open firefox web browser, login as the user with the e-mail address "
-"drush@example.org and redirect to the path admin/settings/performance."
-msgstr ""
-
-#: /index.php
-msgid "Create missing UUIDs for enabled entities."
-msgstr ""
-
-#: /index.php
-msgid "Get a list of some or all site variables and values."
-msgstr ""
-
-#: /index.php
-msgid ""
-"A string to filter the variables by. Variables whose name contains the "
-"string will be listed."
-msgstr ""
-
-#: /index.php
-msgid "Only get the one variable that exactly matches the specified name."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Select output format. Available: labeled-export, csv, json, list, "
-"string, table, var_export, yaml. Default is labeled-export."
-msgstr ""
-
-#: /index.php
-msgid "List all variables and values."
-msgstr ""
-
-#: /index.php
-msgid "List all variables containing the string \"user\"."
-msgstr ""
-
-#: /index.php
-msgid "Show the variable with the exact key \"site_mail\"."
-msgstr ""
-
-#: /index.php
-msgid "Set a variable."
-msgstr ""
-
-#: /index.php
-msgid "The name of a variable or the first few letters of its name."
-msgstr ""
-
-#: /index.php
-msgid ""
-"The value to assign to the variable. Use '-' to read the object from "
-"STDIN."
-msgstr ""
-
-#: /index.php
-msgid "Skip confirmation if only one variable name matches."
-msgstr ""
-
-#: /index.php
-msgid "Older synonym for --exact; deprecated."
-msgstr ""
-
-#: /index.php
-msgid ""
-"The exact name of the variable to set has been provided; do not prompt "
-"for similarly-named variables."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Format to parse the object. Use \"auto\" to detect format from value "
-"(default), \"string\", \"integer\" or \"boolean\" for corresponding "
-"primitive type, and \"json\" for JSON."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Set the preprocess_css variable to true. Skip confirmation if variable "
-"already exists."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Take the site offline; skips confirmation even if maintenance_mode "
-"variable does not exist. Variable is rewritten to site_offline for "
-"Drupal 6."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Choose from a list of variables beginning with \"pr\" to set to "
-"(bool)true."
-msgstr ""
-
-#: /index.php
-msgid "Set a variable to a complex value (e.g. array)"
-msgstr ""
-
-#: /index.php
-msgid "Delete a variable."
-msgstr ""
-
-#: /index.php
-msgid "Only delete the one variable that exactly matches the specified name."
-msgstr ""
-
-#: /index.php
-msgid "Delete the user_pictures variable."
-msgstr ""
-
-#: /index.php
-msgid "Choose from a list of variables beginning with \"u\" to delete."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Bring the site back online, skipping confirmation. Variable is "
-"rewritten to site_offline for Drupal 6."
-msgstr ""
-
-#: /index.php
-msgid "Get a variable for a specific realm and key."
-msgstr ""
-
-#: /index.php
-msgid "The realm name for the variable."
-msgstr ""
-
-#: /index.php
-msgid "The domain key for the variable."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Optional variable name variable to get. If not present list all "
-"variables for that realm and key."
-msgstr ""
-
-#: /index.php
-msgid "drush variable-realm-get language es site_frontpage"
-msgstr ""
-
-#: /index.php
-msgid "drush variable-realm-get language es"
-msgstr ""
-
-#: /index.php
-msgid "Set a variable for a specific realm and key."
-msgstr ""
-
-#: /index.php
-msgid "The name variable to set (e.g. site_frontpage)."
-msgstr ""
-
-#: /index.php
-msgid "The value to set for this variable."
-msgstr ""
-
-#: /index.php
-msgid "drush variable-realm-set language es site_frontpage /home "
-msgstr ""
-
-#: /index.php
-msgid "Delete a variable for a specific realm and key."
-msgstr ""
-
-#: /index.php
-msgid "drush variable-realm-del language es site_frontpage"
-msgstr ""
-
-#: /index.php
-msgid "Purge all pages in varnish."
-msgstr ""
-
-#: /index.php
-msgid "Purge a list of URLs in varnish."
-msgstr ""
-
-#: /index.php
-msgid ""
-"A list of paths to purge separated by spaces. Regular expressions "
-"allowed."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Revert overridden views to their default state. Make sure to backup "
-"first."
-msgstr ""
-
-#: /index.php
-msgid "A space delimited list of view names."
-msgstr ""
-
-#: /index.php
-msgid "Reverts the \"archive\" view."
-msgstr ""
-
-#: /index.php
-msgid "Reverts the \"archive\" and \"frontpage\" view."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Will present you with a list of overridden views to choose from, and "
-"an option to revert all overridden views."
-msgstr ""
-
-#: /index.php
-msgid "Set the Views settings to more developer-oriented values."
-msgstr ""
-
-#: /index.php
-msgid "Get a list of all views in the system."
-msgstr ""
-
-#: /index.php
-msgid "String contained in view's name by which filter the results."
-msgstr ""
-
-#: /index.php
-msgid "A comma-separated list of views tags by which to filter the results."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Status of the views by which to filter the results. Choices: enabled, "
-"disabled."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Type of the views by which to filter the results. Choices: normal, "
-"default or overridden."
-msgstr ""
-
-#: /index.php
-msgid "Show a list of all available views."
-msgstr ""
-
-#: /index.php
-msgid "Show a list of views which names contain \"blog\"."
-msgstr ""
-
-#: /index.php
-msgid "Show a list of views tagged with \"tag1\" or \"tag2\"."
-msgstr ""
-
-#: /index.php
-msgid "Show a list of enabled views."
-msgstr ""
-
-#: /index.php
-msgid "Show a list of overridden views."
-msgstr ""
-
-#: /index.php
-msgid "Get a list of all Views analyze warnings"
-msgstr ""
-
-#: /index.php
-msgid "Enable the specified views."
-msgstr ""
-
-#: /index.php
-msgid "Enable the frontpage and taxonomy_term views."
-msgstr ""
-
-#: /index.php
-msgid "Disable the specified views."
-msgstr ""
-
-#: /index.php
-msgid "Disable the frontpage and taxonomy_term views."
-msgstr ""
-
-#: /index.php
-msgid ""
-"List all Views Bulk Operations (VBO) views, along with the operations "
-"associated with each."
-msgstr ""
-
-#: /index.php
-msgid "Execute a bulk operation based on a Views Bulk Operations (VBO) view."
-msgstr ""
-
-#: /index.php
-msgid "ID or name of the view to be executed."
-msgstr ""
-
-#: /index.php
-msgid "ID of the operation to be applied on the view results."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Parameters to be passed as view input filters, view arguments or "
-"operation arguments, where type is respectively {input, argument, "
-"operation}."
-msgstr ""
-
-#: /index.php
-msgid "Publish nodes returned by view admin_content."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Change node ownership on nodes returned by view #44, passing argument "
-"owner_uid=3 to the action."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Unpublish nodes returned by view admin_content, filtering results of "
-"type expense and passing value 3 as first view argument."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Show available message types and severity levels. A prompt will ask "
-"for a choice to show watchdog messages."
-msgstr ""
-
-#: /index.php
-msgid "Show watchdog messages."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Optional id of a watchdog message to show in detail. If not provided, "
-"a listing of most recent 10 messages will be displayed. Alternatively "
-"if a string is provided, watchdog messages will be filtered by it."
-msgstr ""
-
-#: /index.php
-msgid "The number of messages to show. Defaults to 10."
-msgstr ""
-
-#: /index.php
-msgid "Restrict to messages of a given severity level."
-msgstr ""
-
-#: /index.php
-msgid "Restrict to messages of a given type."
-msgstr ""
-
-#: /index.php
-msgid "Continuously show new watchdog messages until interrupted."
-msgstr ""
-
-#: /index.php
-msgid ""
-"To be used in conjunction with --tail. This is the number of seconds "
-"to wait between each poll to the database. Delay is 1 second by "
-"default."
-msgstr ""
-
-#: /index.php
-msgid "Return extended information about each message."
-msgstr ""
-
-#: /index.php
-msgid "Show a listing of most recent 10 messages."
-msgstr ""
-
-#: /index.php
-msgid "Show in detail message with id 64."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Show a listing of most recent 10 messages containing the string \"cron "
-"run succesful\"."
-msgstr ""
-
-#: /index.php
-msgid "Show a listing of most recent 46 messages."
-msgstr ""
-
-#: /index.php
-msgid "Show a listing of most recent 10 messages with a severity of notice."
-msgstr ""
-
-#: /index.php
-msgid "Show a listing of most recent 10 messages of type php."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Show a listing of most recent 10 messages with extended information "
-"about each one and continue showing messages as they are registered in "
-"the watchdog."
-msgstr ""
-
-#: /index.php
-msgid ""
-"Do a tail of the watchdog with a delay of two seconds between each "
-"poll to the database."
-msgstr ""
-
-#: /index.php
-msgid "Delete watchdog messages."
-msgstr ""
-
-#: /index.php
-msgid "Delete messages of a given severity level."
-msgstr ""
-
-#: /index.php
-msgid "Delete messages of a given type."
-msgstr ""
-
-#: /index.php
-msgid "Delete all messages."
-msgstr ""
-
-#: /index.php
-msgid "Delete messages with id 64."
-msgstr ""
-
-#: /index.php
-msgid "Delete messages containing the string \"cron run succesful\"."
-msgstr ""
-
-#: /index.php
-msgid "Delete all messages with a severity of notice."
-msgstr ""
-
-#: /index.php
-msgid "Delete all messages of type cron."
-msgstr ""
-
-#: /index.php
-msgid "Calling hook !hook"
-msgstr ""
-
-#: /index.php
-msgid "'!name' cache was cleared."
-msgstr ""
-
-#: /index.php
-msgid "Returned from hook !hook"
-msgstr ""
-
-#: /index.php
-msgid "Command dispatch complete"
-msgstr ""
-
-#: /index.php
-msgid "Peak memory usage was !peak"
-msgstr ""
-
-#: /ting/object/775100-katalog%3A95410553
-msgid "Om materialet"
-msgstr ""
-
-#: /user
-msgid "User: has staff role"
-msgstr ""
-
-#: /user
-msgid "Check if user has the staff role."
-msgstr ""
-
-#: /user
-msgid "admin"
-msgstr ""
-
-#: /ting/object/870970-basis%3A42061115/reserve
-msgid "Only library user can make reservations."
-msgstr ""
-
-#: /admin/config/ting/holdings?render=overlay
-msgid "Update from datawell"
-msgstr ""
-
-#: /admin/config/ting/holdings?render=overlay
-msgid ""
-"Update the lists of known types and sources by asking the datawell for "
-"all types and sorces."
-msgstr ""
-
-#: /admin/config/ting/holdings?render=overlay
-msgid ""
-"Which ting object types should display provider holdings information "
-"in the holding field e.g. on the ting object view"
-msgstr ""
-
-#: /admin/config/ding/provider?render=overlay
-msgid "Providers overview"
-msgstr ""
-
-#: /admin/config/ding/provider?render=overlay
-msgid "Alma provider"
-msgstr ""
-
-#: /admin/config/ding/provider?render=overlay
-msgid "Provider type '@type'"
-msgstr ""
-
-#: /admin/config/ding/provider?render=overlay
-msgid "Provided by @title"
-msgstr ""
-
-#: /ding_frontpage
-msgid "Lån, reserveringer og mellemværende"
-msgstr ""
-
-#: /user
-msgid "Title not available"
-msgstr ""
-
-#: /user
-msgid "Lånerstatus"
-msgstr ""
-
-#: /user/6/status/reservations
-msgid "There are no reservations."
-msgstr ""
-
-#: /user/6/status/reservations
-msgid "Order nr."
-msgstr ""
-
-#: /user/6/bookmarks
-msgid "Import bookmarks"
-msgstr ""
-
-#: /user/6/bookmarks
-msgid "Insert link provided to you by your local library."
-msgstr ""
-
-#: /user/6/status/debts
-msgid "Mellemværende"
-msgstr ""
-
-#: /user/6/status/debts
-msgid "Betalingsbetingelser"
-msgstr ""
-
-#: /user/6/status/debts
-msgid "Vi modtager følgende kort"
-msgstr ""
-
-#: /ding_provider_error
+#: /biblioteker
 msgid ""
-"Internal error. Please contact the site administrator if the problem "
-"persists."
+"Simple caching is a time-based cache. This is a hard limit, and once "
+"cached it will remain that way until the time limit expires."
 msgstr ""
 
 msgid "Public files"
@@ -17398,11 +13535,6 @@ msgstr "Indhold som kan flages"
 msgid "Flaggable user"
 msgstr "Bruger som kan flages"
 
-msgid "1 sec"
-msgid_plural "@count sec"
-msgstr[0] "1 sek."
-msgstr[1] "@count sekunder"
-
 msgid "@type has flagging count"
 msgstr "Antal flag på @type"
 
@@ -17643,8 +13775,9 @@ msgstr "Første sidepanel"
 msgid "0 sec"
 msgstr "0 sek."
 
-msgid "Wednesday"
-msgstr "Onsdag"
+#: ; modules/locale/locale.datepicker.js
+msgid "Thursday"
+msgstr "Torsdag"
 
 msgctxt "Long month name"
 msgid "May"
@@ -17653,8 +13786,13 @@ msgstr "maj"
 msgid "@zone: @date"
 msgstr "@zone: @date"
 
-msgid "Tuesday"
-msgstr "Tirsdag"
+#: ; modules/locale/locale.datepicker.js
+msgid "Friday"
+msgstr "Fredag"
+
+#: ; modules/locale/locale.datepicker.js
+msgid "Wednesday"
+msgstr "Onsdag"
 
 msgid "Password"
 msgstr "Adgangskode"
@@ -17725,35 +13863,27 @@ msgstr "Fejlmeddelelse"
 msgid "Warning message"
 msgstr "Advarselsmeddelelse"
 
-#: ; misc/drupal.js
 msgid "An AJAX HTTP error occurred."
 msgstr "Der opstod en AJAX HTTP-fejl."
 
-#: ; misc/drupal.js
 msgid "HTTP Result Code: !status"
 msgstr "HTTP resultatkode: !status"
 
-#: ; misc/drupal.js
 msgid "An AJAX HTTP request terminated abnormally."
 msgstr "En AJAX HTTP-forespørgsel afsluttede på unormal vis."
 
-#: ; misc/drupal.js
 msgid "Debugging information follows."
 msgstr "Information til fejlsøgning følger."
 
-#: ; misc/drupal.js
 msgid "Path: !uri"
 msgstr "Sti: !uri"
 
-#: ; misc/drupal.js
 msgid "StatusText: !statusText"
 msgstr "StatusText: !statusText"
 
-#: ; misc/drupal.js
 msgid "ResponseText: !responseText"
 msgstr "ResponseText: !responseText"
 
-#: ; misc/drupal.js
 msgid "ReadyState: !readyState"
 msgstr "ReadyState: !readyState"
 
@@ -17761,7 +13891,6 @@ msgstr "ReadyState: !readyState"
 msgid "Searching please wait..."
 msgstr "Søger - vent venligst.."
 
-#: ; profiles/ding2/modules/ting_search/js/ting_search_overlay.js
 msgid "Cancel"
 msgstr "Annullér"
 
@@ -18406,7 +14535,6 @@ msgstr "Skråstreg"
 msgid "Backslash"
 msgstr "Backslash"
 
-#: ; modules/overlay/overlay-parent.js
 msgid "@title dialog"
 msgstr "@title dialog"
 
@@ -18500,16 +14628,122 @@ msgstr ""
 msgid "Block settings"
 msgstr "Blokindstillinger"
 
+msgid "XML"
+msgstr "XML"
+
+msgid "GD2 image manipulation toolkit"
+msgstr "GD2 billedbehandling"
+
+msgid "Resize"
+msgstr "Tilpas størrelse"
+
+msgid ""
+"Resizing will make images an exact set of dimensions. This may cause "
+"images to be stretched or shrunk disproportionately."
+msgstr ""
+"Ændring af størrelsen vil give billedet disse eksakte dimensioner. "
+"Det kan betyde at billedet bliver strukket eller formindsket "
+"uforholdsmæssigt."
+
+msgid "Scale"
+msgstr "Skalér"
+
+msgid ""
+"Scaling will maintain the aspect-ratio of the original image. If only "
+"a single dimension is specified, the other dimension will be "
+"calculated."
+msgstr ""
+"Skalering bevarer billedets højde-bredde-forhold. Hvis kun den ene "
+"dimension angives vil den anden blive beregnet."
+
+msgid "Scale and crop"
+msgstr "Skalér og beskær"
+
+msgid ""
+"Scale and crop will maintain the aspect-ratio of the original image, "
+"then crop the larger dimension. This is most useful for creating "
+"perfectly square thumbnails without stretching the image."
+msgstr ""
+"Skalering og beskæring bevarer billedets højde-bredde-forhold og "
+"beskærer derefter den største dimension. Det er nyttigt til at "
+"generere kvadratiske thumbnails uden at forvrænge billedet."
+
+msgid "Crop"
+msgstr "Beskær"
+
+msgid ""
+"Cropping will remove portions of an image to make it the specified "
+"dimensions."
+msgstr ""
+"Beskæring fjerner dele af billedet for at give det de angivne "
+"dimensioner."
+
+msgid "Desaturate"
+msgstr "Afmæt"
+
+msgid "Desaturate converts an image to grayscale."
+msgstr "Afmæt konverterer et billede til gråtoner."
+
+msgid "Rotate"
+msgstr "Rotér"
+
+msgid ""
+"Rotating an image may cause the dimensions of an image to increase to "
+"fit the diagonal."
+msgstr ""
+"Rotering af et billede kan resultere i, at dimensionerne øges for at "
+"passe til diagonalen."
+
+msgid "Libraries"
+msgstr "Biblioteker"
+
+msgid "Entity object."
+msgstr "Entitetsobjekt."
+
+msgid "Enter the ID of an entity for this context."
+msgstr "Indtast IDet på en identitet for denne kontekst."
+
+msgid "Creates @entity context from an entity ID."
+msgstr "Opretter @entity kontekst fra en entity ID."
+
+msgid "A single user object."
+msgstr "Et enkelt brugerobjekt."
+
+msgid "Unknown context"
+msgstr "Ukendt kontekst"
+
+msgid "User: permission"
+msgstr "Bruger: tilladelse"
+
+msgid "Control access by permission string."
+msgstr "Adgang på basis af tilladelsesstreng."
+
+msgid ""
+"The automatically generated alias %original_alias conflicted with an "
+"existing alias. Alias changed to %alias."
+msgstr ""
+"Det automatisk genererede alias %original er i konflikt med et "
+"eksisterende alias. Alias ændret til %alias."
+
+msgid "1 min"
+msgid_plural "@count min"
+msgstr[0] "1 minut"
+msgstr[1] "@count minutter"
+
 msgid "English"
 msgstr "Engelsk"
 
 msgid "Translation files"
 msgstr "Oversættelsesfiler"
 
-msgid "1 min"
-msgid_plural "@count min"
-msgstr[0] "1 minut"
-msgstr[1] "@count minutter"
+msgid "1 sec"
+msgid_plural "@count sec"
+msgstr[0] "1 sek."
+msgstr[1] "@count sekunder"
+
+#: ; modules/locale/locale.datepicker.js
+msgid "Tuesday"
+msgstr "Tirsdag"
 
 msgid "Logo"
 msgstr "Logo"
@@ -18620,123 +14854,18 @@ msgctxt "Long month name"
 msgid "March"
 msgstr "marts"
 
-msgid "Thursday"
-msgstr "Torsdag"
-
-msgid "Entity object."
-msgstr "Entitetsobjekt."
-
-msgid "Enter the ID of an entity for this context."
-msgstr "Indtast IDet på en identitet for denne kontekst."
-
-msgid "Creates @entity context from an entity ID."
-msgstr "Opretter @entity kontekst fra en entity ID."
-
-msgid "A single user object."
-msgstr "Et enkelt brugerobjekt."
-
-msgid "Unknown context"
-msgstr "Ukendt kontekst"
-
-msgid "User: permission"
-msgstr "Bruger: tilladelse"
-
-msgid "Control access by permission string."
-msgstr "Adgang på basis af tilladelsesstreng."
-
-msgid "XML"
-msgstr "XML"
-
-msgid "GD2 image manipulation toolkit"
-msgstr "GD2 billedbehandling"
-
-msgid "Resize"
-msgstr "Tilpas størrelse"
-
-msgid ""
-"Resizing will make images an exact set of dimensions. This may cause "
-"images to be stretched or shrunk disproportionately."
-msgstr ""
-"Ændring af størrelsen vil give billedet disse eksakte dimensioner. "
-"Det kan betyde at billedet bliver strukket eller formindsket "
-"uforholdsmæssigt."
-
-msgid "Scale"
-msgstr "Skalér"
-
-msgid ""
-"Scaling will maintain the aspect-ratio of the original image. If only "
-"a single dimension is specified, the other dimension will be "
-"calculated."
-msgstr ""
-"Skalering bevarer billedets højde-bredde-forhold. Hvis kun den ene "
-"dimension angives vil den anden blive beregnet."
-
-msgid "Scale and crop"
-msgstr "Skalér og beskær"
-
-msgid ""
-"Scale and crop will maintain the aspect-ratio of the original image, "
-"then crop the larger dimension. This is most useful for creating "
-"perfectly square thumbnails without stretching the image."
-msgstr ""
-"Skalering og beskæring bevarer billedets højde-bredde-forhold og "
-"beskærer derefter den største dimension. Det er nyttigt til at "
-"generere kvadratiske thumbnails uden at forvrænge billedet."
-
-msgid "Crop"
-msgstr "Beskær"
-
-msgid ""
-"Cropping will remove portions of an image to make it the specified "
-"dimensions."
-msgstr ""
-"Beskæring fjerner dele af billedet for at give det de angivne "
-"dimensioner."
-
-msgid "Desaturate"
-msgstr "Afmæt"
-
-msgid "Desaturate converts an image to grayscale."
-msgstr "Afmæt konverterer et billede til gråtoner."
-
-msgid "Rotate"
-msgstr "Rotér"
-
-msgid ""
-"Rotating an image may cause the dimensions of an image to increase to "
-"fit the diagonal."
-msgstr ""
-"Rotering af et billede kan resultere i, at dimensionerne øges for at "
-"passe til diagonalen."
-
-msgid "Libraries"
-msgstr "Biblioteker"
-
-msgid ""
-"The automatically generated alias %original_alias conflicted with an "
-"existing alias. Alias changed to %alias."
-msgstr ""
-"Det automatisk genererede alias %original er i konflikt med et "
-"eksisterende alias. Alias ændret til %alias."
-
-#: ; modules/contextual/contextual.js
 msgid "Configure"
 msgstr "Konfigurér"
 
-#: ; modules/toolbar/toolbar.js
 msgid "Show shortcuts"
 msgstr "Vis genveke"
 
-#: ; modules/toolbar/toolbar.js
 msgid "Hide shortcuts"
 msgstr "Gem genveje"
 
-#: ; modules/overlay/overlay-child.js
 msgid "Loading"
 msgstr "Indlæser"
 
-#: ; modules/overlay/overlay-child.js
 msgid "(active tab)"
 msgstr "(aktiv fane)"
 
@@ -18759,15 +14888,12 @@ msgstr "Kan ikke udlånes"
 msgid "Holdings available on the shelf"
 msgstr "Se alle eksemplarer"
 
-#: ; misc/ajax.js
 msgid "Please wait..."
 msgstr "Vent venligst…"
 
-#: ; misc/collapse.js
 msgid "Hide"
 msgstr "Skjul"
 
-#: ; misc/collapse.js
 msgid "Show"
 msgstr "Vis"
 
@@ -18826,11 +14952,9 @@ msgstr ""
 "Den valgte fil %filename kan ikke uploades. Kun filer med følgende "
 "filendelser er tilladt: %extensions."
 
-#: ; misc/autocomplete.js
 msgid "Autocomplete popup"
 msgstr "Autocomplete popup"
 
-#: ; misc/autocomplete.js
 msgid "Searching for matches..."
 msgstr "Søger efter resultater..."
 
@@ -18873,6 +14997,7 @@ msgstr "Anvend (dette display)"
 msgid "Customize dashboard"
 msgstr "Tilpas dashboard"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Done"
 msgstr "Færdig"
 
@@ -18991,6 +15116,7 @@ msgstr "Fjern"
 msgid "User interface"
 msgstr "Brugergrænseflade"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Next"
 msgstr "Næste"
 
@@ -19039,6 +15165,7 @@ msgstr "Udvikling"
 msgid "Closed"
 msgstr "Lukket"
 
+#: ; profiles/ding2/modules/contrib/opening_hours/js/opening_hours.presentation.js
 msgid "closed"
 msgstr "lukket"
 
@@ -19245,15 +15372,15 @@ msgstr "Opdatér"
 msgid "Open"
 msgstr "Åben"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Sunday"
 msgstr "Søndag"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Monday"
 msgstr "Mandag"
 
-msgid "Friday"
-msgstr "Fredag"
-
+#: ; modules/locale/locale.datepicker.js
 msgid "Saturday"
 msgstr "Lørdag"
 
@@ -19751,6 +15878,7 @@ msgstr "Kontrol"
 msgid "Last reply"
 msgstr "Seneste svar"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Prev"
 msgstr "Forrige"
 
@@ -19847,60 +15975,79 @@ msgstr "Tyrkiet"
 msgid "Day"
 msgstr "Dag"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Mon"
 msgstr "man"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Tue"
 msgstr "tir"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Wed"
 msgstr "ons"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Thu"
 msgstr "tor"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Fri"
 msgstr "fre"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Sat"
 msgstr "lør"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Sun"
 msgstr "søn"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "January"
 msgstr "Januar"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "February"
 msgstr "Februar"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "March"
 msgstr "Marts"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "April"
 msgstr "April"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "May"
 msgstr "maj"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "June"
 msgstr "Juni"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "July"
 msgstr "Juli"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "August"
 msgstr "August"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "September"
 msgstr "September"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "October"
 msgstr "Oktober"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "November"
 msgstr "November"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "December"
 msgstr "December"
 
@@ -20847,6 +16994,7 @@ msgstr "Emne"
 msgid "Allowed values list"
 msgstr "Liste af tilladte værdier"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Today"
 msgstr "I dag"
 
@@ -20877,36 +17025,47 @@ msgstr "Indstil blok"
 msgid "How many content items to display in \"day\" list."
 msgstr "Hvor mange indlæg der vises i listen \"Dagens\"."
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Jan"
 msgstr "jan"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Feb"
 msgstr "feb"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Mar"
 msgstr "mar"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Apr"
 msgstr "apr"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Jun"
 msgstr "jun"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Jul"
 msgstr "jul"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Aug"
 msgstr "aug"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Sep"
 msgstr "sep"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Oct"
 msgstr "okt"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Nov"
 msgstr "nov"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Dec"
 msgstr "dec"
 
@@ -20970,24 +17129,31 @@ msgstr "tegn"
 msgid "profile"
 msgstr "profil"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Su"
 msgstr "Sø"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Mo"
 msgstr "Ma"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Tu"
 msgstr "Ti"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "We"
 msgstr "On"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Th"
 msgstr "To"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Fr"
 msgstr "Fr"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Sa"
 msgstr "Lø"
 
@@ -22662,6 +18828,7 @@ msgstr "Forældet oversættelse"
 msgid "Some required modules must be enabled"
 msgstr "Nogle påkrævede moduler skal aktiveres"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "mm/dd/yy"
 msgstr "mm/dd/yy"
 
@@ -37225,7 +33392,6 @@ msgstr ""
 msgid "Not configured"
 msgstr "Ikke konfigureret"
 
-#: ; profiles/ding2/modules/ding_availability/js/ding_availability_labels.js
 msgid "Available"
 msgstr "Tilgængelig"
 
@@ -37574,7 +33740,6 @@ msgstr "DIBS"
 msgid "Date/Time"
 msgstr "Dato/tid"
 
-#: ; profiles/ding2/modules/ding_availability/js/ding_availability_labels.js
 msgid "Unavailable"
 msgstr "Ikke tilgængelig"
 
@@ -47709,9 +43874,9 @@ msgid "All items"
 msgstr "Alle elementer"
 
 msgid "@count item, skip @skip"
-msgid_plural "Paged, @count items, skip @skip"
+msgid_plural "@count items, skip @skip"
 msgstr[0] "@count element, spring over @skip"
-msgstr[1] "Sideinddelt, @count elementer, spring over @skip"
+msgstr[1] "@count elementer, spring over @skip"
 
 msgid "@count item"
 msgid_plural "Paged, @count items"
@@ -56796,4 +52961,8 @@ msgstr "Materialet er på vej til dit afhentningsbibliotek"
 #: /user/6/bookmarks
 msgid "Delete selected (@count)"
 msgstr "Slet valgte (@count)"
+
+#: /
+msgid "by"
+msgstr "af"
 
