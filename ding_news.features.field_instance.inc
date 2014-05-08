@@ -239,9 +239,9 @@ function ding_news_field_default_field_instances() {
           'public' => 'public',
         ),
         'allowed_types' => array(
+          0 => 0,
           'audio' => 0,
           'default' => 0,
-          0 => 0,
           'image' => 'image',
           'video' => 0,
         ),
@@ -582,9 +582,9 @@ function ding_news_field_default_field_instances() {
           'public' => 'public',
         ),
         'allowed_types' => array(
+          0 => 0,
           'audio' => 0,
           'default' => 0,
-          0 => 0,
           'image' => 'image',
           'video' => 0,
         ),
