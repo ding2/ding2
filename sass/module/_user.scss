@@ -149,6 +149,10 @@
     margin-right: $large-spacing;
   }
 
+  .reserve-button {
+    @extend %button-action;
+  }
+
   .delete-reservation,
   .delete-reservations {
     .form-submit {
