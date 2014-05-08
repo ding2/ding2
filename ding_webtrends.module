@@ -36,12 +36,6 @@ function ding_webtrends_page_alter(&$page) {
     return;
   }
 
-  // Check if this is a user page.
-  $arg = arg(0);
-  if ($arg == 'user') {
-    return;
-  }
-
   // Create custom inline script.
   $script = <<<EOT
 var _tag=new WebTrends();
