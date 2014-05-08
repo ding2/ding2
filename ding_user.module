@@ -16,6 +16,9 @@ define('DING_USER_ACTIVITY', 'DING_USER_LAST_ACTIVITY');
  */
 function ding_user_preprocess_html(&$variables) {
   if (arg(0) == 'user') {
+    // Set default title.
+    drupal_set_title('Account');
+
     // Check if current user is logged in.
     global $user;
     if ($user->uid > 0) {
