@@ -143,3 +143,8 @@ projects[cookiecontrol][subdir] = "contrib"
 projects[cookiecontrol][version] = "1.6"
 projects[cookiecontrol][patch][0] = "http://drupal.org/files/issues/translatable_link_title-2174955-1.patch"
 
+# Using dev release, as the "stable" version is making errors in the install profile.
+projects[uuid][subdir] = "contrib"
+projects[uuid][download][type] = "git"
+projects[uuid][download][url] = "http://git.drupal.org/project/uuid.git"
+projects[uuid][download][revision] = "3f4d9fb"
