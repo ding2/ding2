@@ -116,6 +116,59 @@ function ding_base_field_formatter_settings_summary($field, $instance, $view_mod
 }
 
 /**
+ * Implements hook_date_formats().
+ */
+function ding_base_date_formats() {
+  return array(
+    array(
+      'type' => 'date_first_day',
+      'format' => '1',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'date_format_date_only',
+      'format' => 'l j. F',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'date_format_day_of_the_month_without_leading_zeros',
+      'format' => 'j',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'date_format_day_text_full',
+      'format' => 'l',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'date_format_ding_event_lists_date',
+      'format' => 'l j. F Y',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'date_format_ding_material_lists_date',
+      'format' => 'j. F Y',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'date_format_long_date_only',
+      'format' => 'l j. F Y',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'date_format_month_text_full',
+      'format' => 'F',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'date_format_time_only',
+      'format' => 'G:i',
+      'locales' => array(),
+    ),
+  );
+}
+
+/**
  * Implements hook_date_format_types().
  */
 function ding_base_date_format_types() {
