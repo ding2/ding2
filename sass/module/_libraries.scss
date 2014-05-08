@@ -135,7 +135,8 @@
       .street-block,
       .addressfield-container-inline {
         &:after {
-          content: ', ';
+          content: ',';
+          padding-right: 0.2em;
         }
       }
     }
