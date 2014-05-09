@@ -62,6 +62,11 @@ function ding_base_requirements($phase) {
  * Implements hook_install().
  */
 function ding_base_install() {
+  // Set default formats to ding formats.
+  variable_set('date_format_short', 'd-m-Y H:i');
+  variable_set('date_format_medium', 'D, d-m-Y H:i');
+  variable_set('date_format_long', 'l, j. F, Y H:i');
+
   // Submit the date time setting form to make the formats available for views
   // and field formatters.
   module_load_include('inc', 'system', 'system.admin');
@@ -109,7 +114,5 @@ function ding_base_update_7001() {
 
   // Submit the date time setting form to make the formats available for views
   // and field formatters.
-  module_load_include('inc', 'system', 'system.admin');
-  $form_state = array();
-  drupal_form_submit('system_date_time_settings', $form_state);
+  ding_base_install();
 }

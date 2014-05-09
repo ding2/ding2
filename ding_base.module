@@ -149,7 +149,25 @@ function ding_base_date_formats() {
       'format' => 'G:i',
       'locales' => array(),
     ),
-  );
+    array(
+       // New default drupal selectable short format.
+      'type' => 'short',
+      'format' => 'd-m-Y H:i',
+      'locales' => array(),
+    ),
+    array(
+      // New default drupal selectable medium format.
+      'type' => 'medium',
+      'format' => 'D, d-m-Y H:i',
+      'locales' => array(),
+    ),
+    array(
+      // New default drupal selectable long format.
+      'type' => 'long',
+      'format' => 'l, j. F, Y H:i',
+      'locales' => array(),
+    ),
+);
 }
 
 /**
