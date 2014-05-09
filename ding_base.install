@@ -56,3 +56,42 @@ function ding_base_requirements($phase) {
 
   return $requirements;
 }
+
+/**
+ * Restore default dates to Drupal standard.
+ */
+function ding_base_update_7000() {
+  // Default types.
+  variable_del('date_format_long');
+  variable_del('date_format_medium');
+  variable_del('date_format_short');
+
+  // Let Drupal use the new values.
+  drupal_flush_all_caches();
+}
+
+/**
+ * Remove old custom date formats.
+ */
+function ding_base_update_7002() {
+  variable_del('date_format_date_only');
+  variable_del('date_format_day_of_the_month_without_leading_zeros');
+  variable_del('date_format_day_text_full');
+  variable_del('date_format_ding_event_lists_date');
+  variable_del('date_format_ding_material_lists_date');
+  variable_del('date_format_long_date_only');
+  variable_del('date_format_month_text_full');
+  variable_del('date_format_time_only');
+
+  // Remove leftover date formats.
+  $types = array(
+    'date_only',
+    'long_date_only',
+    'time_only',
+    'ding_meterial_lists_date',
+    'ding_event_list_date',
+  );
+  db_delete('date_format_type')
+    ->condition('type', $types, 'IN')
+    ->execute();
+}
