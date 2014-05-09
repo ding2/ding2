@@ -78,7 +78,11 @@ function ding_base_field_formatter_view($entity_type, $entity, $field, $instance
   $elements = array();
   foreach ($items as $delta => $item) {
     $elements[$delta] = array(
-      '#markup' => theme('body_snippet', array('element' => $item, 'field' => $instance, 'display' => $display)),
+      '#markup' => theme('body_snippet', array(
+        'element' => $item,
+        'field' => $instance,
+        'display' => $display,
+      )),
     );
   }
   return $elements;
@@ -121,47 +125,27 @@ function ding_base_field_formatter_settings_summary($field, $instance, $view_mod
 function ding_base_date_formats() {
   return array(
     array(
-      'type' => 'date_first_day',
-      'format' => '1',
-      'locales' => array(),
-    ),
-    array(
-      'type' => 'date_format_date_only',
+      'type' => 'ding_date_only',
       'format' => 'l j. F',
       'locales' => array(),
     ),
     array(
-      'type' => 'date_format_day_of_the_month_without_leading_zeros',
-      'format' => 'j',
-      'locales' => array(),
-    ),
-    array(
-      'type' => 'date_format_day_text_full',
-      'format' => 'l',
-      'locales' => array(),
-    ),
-    array(
-      'type' => 'date_format_ding_event_lists_date',
+      'type' => 'ding_event_lists_date',
       'format' => 'l j. F Y',
       'locales' => array(),
     ),
     array(
-      'type' => 'date_format_ding_material_lists_date',
+      'type' => 'ding_material_lists_date',
       'format' => 'j. F Y',
       'locales' => array(),
     ),
     array(
-      'type' => 'date_format_long_date_only',
+      'type' => 'ding_long_date_only',
       'format' => 'l j. F Y',
       'locales' => array(),
     ),
     array(
-      'type' => 'date_format_month_text_full',
-      'format' => 'F',
-      'locales' => array(),
-    ),
-    array(
-      'type' => 'date_format_time_only',
+      'type' => 'ding_time_only',
       'format' => 'G:i',
       'locales' => array(),
     ),
@@ -173,11 +157,11 @@ function ding_base_date_formats() {
  */
 function ding_base_date_format_types() {
   return array(
-    'date_only' => t('Date only'),
-    'time_only' => t('Time only'),
-    'long_date_only' => t('Long date only'),
-    'ding_meterial_lists_date' => t('Ding marterial lists date'),
-    'ding_event_list_date' => t('Ding event lists date'),
+    'ding_date_only' => t('Date only (mainly used in events)'),
+    'ding_time_only' => t('Time only (mainly used in events)'),
+    'ding_long_date_only' => t('Long date only (mainly used in news)'),
+    'ding_material_lists_date' => t('Ding marterial lists date'),
+    'ding_event_lists_date' => t('Ding event lists date'),
   );
 }
 
