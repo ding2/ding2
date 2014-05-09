@@ -303,7 +303,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
       'label' => 'hidden',
       'type' => 'date_default',
       'settings' => array(
-        'format_type' => 'date_only',
+        'format_type' => 'ding_date_only',
         'fromto' => 'both',
       ),
     ));
@@ -315,7 +315,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
       'label' => 'hidden',
       'type' => 'date_default',
       'settings' => array(
-        'format_type' => 'time_only',
+        'format_type' => 'ding_time_only',
         'fromto' => 'both',
       ),
     ));
