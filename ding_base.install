@@ -1,7 +1,8 @@
 <?php
 /**
  * @file
- * Check that requirements are valid during installation.
+ * Check that requirements are valid during installation and ensure date formats
+ * work correctly.
  */
 
 /**
@@ -58,6 +59,17 @@ function ding_base_requirements($phase) {
 }
 
 /**
+ * Implements hook_install().
+ */
+function ding_base_install() {
+  // Submit the date time setting form to make the formats available for views
+  // and field formatters.
+  module_load_include('inc', 'system', 'system.admin');
+  $form_state = array();
+  drupal_form_submit('system_date_time_settings', $form_state);
+}
+
+/**
  * Restore default dates to Drupal standard.
  */
 function ding_base_update_7000() {
@@ -94,4 +106,10 @@ function ding_base_update_7001() {
   db_delete('date_format_type')
     ->condition('type', $types, 'IN')
     ->execute();
+
+  // Submit the date time setting form to make the formats available for views
+  // and field formatters.
+  module_load_include('inc', 'system', 'system.admin');
+  $form_state = array();
+  drupal_form_submit('system_date_time_settings', $form_state);
 }
