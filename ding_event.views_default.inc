@@ -123,7 +123,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_date_3']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_ding_event_date_3']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_event_date_3']['settings'] = array(
-    'format_type' => 'time_only',
+    'format_type' => 'ding_time_only',
     'fromto' => 'both',
     'multiple_number' => '',
     'multiple_from' => '',
@@ -398,7 +398,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_date']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['field_ding_event_date']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_ding_event_date']['settings'] = array(
-    'format_type' => 'time_only',
+    'format_type' => 'ding_time_only',
     'fromto' => 'both',
     'multiple_number' => '',
     'multiple_from' => '',
@@ -599,7 +599,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_date']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['field_ding_event_date']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_ding_event_date']['settings'] = array(
-    'format_type' => 'time_only',
+    'format_type' => 'ding_time_only',
     'fromto' => 'both',
     'multiple_number' => '',
     'multiple_from' => '',
@@ -789,7 +789,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_date']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['field_ding_event_date']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_ding_event_date']['settings'] = array(
-    'format_type' => 'time_only',
+    'format_type' => 'ding_time_only',
     'fromto' => 'both',
     'multiple_number' => '',
     'multiple_from' => '',
@@ -1040,7 +1040,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_date']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['field_ding_event_date']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_ding_event_date']['settings'] = array(
-    'format_type' => 'time_only',
+    'format_type' => 'ding_time_only',
     'fromto' => 'both',
     'multiple_number' => '',
     'multiple_from' => '',
@@ -1306,7 +1306,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_date']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['field_ding_event_date']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_ding_event_date']['settings'] = array(
-    'format_type' => 'time_only',
+    'format_type' => 'ding_time_only',
     'fromto' => 'both',
     'multiple_number' => '',
     'multiple_from' => '',
@@ -1638,7 +1638,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_date']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['field_ding_event_date']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_ding_event_date']['settings'] = array(
-    'format_type' => 'time_only',
+    'format_type' => 'ding_time_only',
     'fromto' => 'both',
     'multiple_number' => '',
     'multiple_from' => '',
@@ -2120,7 +2120,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_date']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['field_ding_event_date']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_ding_event_date']['settings'] = array(
-    'format_type' => 'time_only',
+    'format_type' => 'ding_time_only',
     'fromto' => 'both',
     'multiple_number' => '',
     'multiple_from' => '',
