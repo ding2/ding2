@@ -112,13 +112,18 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
 
       // Try to get entity for the loan.
       $entity = $loan->entity;
-      if (!is_object($entity)) {
+      if (!is_object($entity) || $entity->reply == FALSE) {
         $entity = ding_provider_get_pseudo_entity($loan->ding_entity_id);
+        // Don't link the title as the data well do not known this title. It may
+        // be a inter library loan.
+        $title = $entity->getTitle() ? $entity->getTitle() : $loan->display_name;
+      }
+      else {
+        // Create title that links to the object.
+        $uri = entity_uri('ting_object', $entity);
+        $title = l($entity->getTitle(), $uri['path']);
       }
 
-      // Create title that links to the object.
-      $uri = entity_uri('ting_object', $entity);
-      $title = l($entity->getTitle() ? $entity->getTitle() : $loan->display_name, $uri['path']);
 
       $item = array(
         '#type' => 'material_item',
@@ -152,9 +157,9 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
         );
       }
 
-      // Add extra information if it's a periodical. There is an exception because
-      // the notes field is also used to set library information for ill's but
-      // only when they are ready for pick-up.
+      // Add extra information if it's a periodical. There is an exception
+      // because the notes field is also used to set library information for
+      // inter library loans but only when they are ready for pick-up.
       if (!empty($loan->notes) && !($loan->ill_status)) {
         $item['#information']['periodical_number'] = array(
           'label' => t('Periodical no.'),
