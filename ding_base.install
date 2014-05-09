@@ -73,7 +73,7 @@ function ding_base_update_7000() {
 /**
  * Remove old custom date formats.
  */
-function ding_base_update_7002() {
+function ding_base_update_7001() {
   variable_del('date_format_date_only');
   variable_del('date_format_day_of_the_month_without_leading_zeros');
   variable_del('date_format_day_text_full');
