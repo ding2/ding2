@@ -68,6 +68,8 @@ $modal-border-radius:             12px;
       padding: 0;
       top: $medium-spacing;
       width: auto;
+      background: none;
+      border: none;
 
       .ui-icon {
         @include font-bold();
@@ -102,6 +104,10 @@ $modal-border-radius:             12px;
         color: $modal-text-color;
         text-decoration: none;
       }
+    }
+
+    .ui-dialog-title {
+      float: none;
     }
 
     .form-item {
