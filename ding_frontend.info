@@ -6,7 +6,6 @@ project = ding_frontend
 dependencies[] = comment
 dependencies[] = conditional_styles
 dependencies[] = ctools
-dependencies[] = ding_campaign
 dependencies[] = ding_page
 dependencies[] = dynamic_background
 dependencies[] = features
