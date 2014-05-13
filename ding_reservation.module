@@ -159,8 +159,8 @@ function ding_reservation_reserve_ajax($entity, $reservable = NULL) {
         // Try to make reservation.
         try {
           // Check if user have preferred branch and interest period, if so
-          // submit the reservation form. If not display another for with the
-          // options to select branch and period.
+          // submit the reservation form. If not display another form for with
+          // the options to select branch and period.
           $defaults = ding_provider_invoke('reservation', 'default_options', $user);
           $matches = preg_grep("/preferred_branch$/", array_keys($defaults));
           if (empty($defaults[array_shift($matches)])) {
