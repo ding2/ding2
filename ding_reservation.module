@@ -158,11 +158,22 @@ function ding_reservation_reserve_ajax($entity, $reservable = NULL) {
 
         // Try to make reservation.
         try {
-          $form_state = array('values' => array());
-          drupal_form_submit('ding_reservation_reserve_form', $form_state, $reservable);
+          // Check if user have preferred branch and interest period, if so
+          // submit the reservation form. If not display another for with the
+          // options to select branch and period.
+          $defaults = ding_provider_invoke('reservation', 'default_options', $user);
+          $matches = preg_grep("/preferred_branch$/", array_keys($defaults));
+          if (empty($defaults[array_shift($matches)])) {
+            $form = ding_provider_get_form('ding_reservation_reserve_form', $reservable, FALSE);
+            $commands[] = ajax_command_ding_popup('ding_reservation', t('Reservation'), render($form));
+          }
+          else {
+            $form_state = array('values' => array());
+            drupal_form_submit('ding_reservation_reserve_form', $form_state, $reservable);
 
-          // Return any status messages set by the form.
-          $commands[] = ajax_command_ding_popup('ding_reservation', t('Reservation'), theme('status_messages'));
+            // Return any status messages set by the form.
+            $commands[] = ajax_command_ding_popup('ding_reservation', t('Reservation'), theme('status_messages'));
+          }
         }
         catch (DingProviderAuthException $exception) {
           // The form may have thrown an Auth exception, so display login. (the
@@ -321,7 +332,7 @@ function ding_reservation_reserve_form_validate($form, &$form_state) {
           $form_state['rebuild'] = TRUE;
         }
         else {
-          if (empty($default)) {
+          if (empty($default) || !empty($form_state['values']['provider_options'][$key])) {
             // If default value id not defined, try using the forms value.
             $provider_options[$key] = $form_state['values']['provider_options'][$key];
           }
