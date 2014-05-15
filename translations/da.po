@@ -52575,7 +52575,7 @@ msgstr "Afgræns din søgning"
 
 #: profiles/ding2/modules/ding_availability/js/ding_availability_labels.js
 msgid "Reservable"
-msgstr "Tilængelig"
+msgstr "Tilgængelig"
 
 #: profiles/ding2/modules/ding_facetbrowser/js/ding_facetbrowser.js
 msgid "Remove all selected"
@@ -52717,7 +52717,7 @@ msgstr "Syndikér billeder"
 
 #: bpi.images.inc:54
 msgid "Available images"
-msgstr "Tilængelige billeder"
+msgstr "Tilgængelige billeder"
 
 #: bpi.images.inc:116
 msgid "Images downloaded successfully."
