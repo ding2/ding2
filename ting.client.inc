@@ -380,7 +380,7 @@ function ting_execute_cache($request) {
     // precedence.
     if (isset($reply->collections)) {
       foreach ($reply->collections as &$collection) {
-        if (isset($collection->objects[0])) {
+        if (is_array($collection->objects)) {
           foreach ($collection->objects as $object) {
             // Cache any relations.
             if (isset($object->relations)) {
