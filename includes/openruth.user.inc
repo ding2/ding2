@@ -31,8 +31,9 @@ function openruth_user_authenticate($name, $pincode) {
     return $return;
   }
 
+  $return['user']['blocked'] = FALSE;
   if ($res->userBlocked) {
-    // @todo Tell the user...
+    $return['user']['blocked'] = TRUE;
   }
 
   $return['success'] = TRUE;
