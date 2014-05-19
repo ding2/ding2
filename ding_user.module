@@ -27,7 +27,7 @@ function ding_user_preprocess_html(&$variables) {
       drupal_add_http_header('Pragma', 'no-cache');
     }
     else {
-      // Redirect anoymous user to front page.
+      // Redirect anonymous user to front page.
       drupal_goto('', array('fragment' => 'login'));
     }
   }
@@ -132,7 +132,7 @@ function ding_user_entity_info_alter(&$entity_info) {
   $ding_entity_info = ding_entity_info('ding_entity');
   // Entity might not be defined yet (is the case in the installer).
   if (isset($entity_info[$ding_entity_info['entity_type']]['view modes'])) {
-    // Add a user_list display mode for addon modules to use.
+    // Add a user_list display mode for add-on modules to use.
     $entity_info[$ding_entity_info['entity_type']]['view modes'] += array(
       'user_list' => array(
         'label' => t('User lists'),
@@ -231,6 +231,14 @@ function ding_user_form_user_admin_settings_alter(&$form, &$form_state, $form_id
     '#default_value' => variable_get('ding_user_session_expire', 900),
     '#options' => $period,
     '#description' => t('Uses that have not been active for this period will be automatically logged out.'),
+  );
+
+  // Blocked user information page.
+  $form['ding_user']['ding_user_blocked_user_node'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Link to blocked page'),
+    '#default_value' => variable_get('ding_user_blocked_user_node', 'node/1'),
+    '#description' => t("Link to the node containing explanation about the library's blocked user policies."),
   );
 
   // Tax for SMS.
@@ -622,7 +630,10 @@ function _ding_user_create_account($auth_name, $auth_res) {
 
     if (isset($auth_res['user'])) {
       $fields['mail'] = $auth_res['user']['mail'];
-      $fields['data'] = array('display_name' => $auth_res['user']['data']['display_name']);
+      $fields['data'] = array(
+        'display_name' => $auth_res['user']['data']['display_name'],
+        'blocked' => $auth_res['user']['blocked'],
+      );
     }
 
     // Set provider role.
@@ -647,7 +658,10 @@ function _ding_user_create_account($auth_name, $auth_res) {
     // library system.
     $edit = array();
     $edit['mail'] = $auth_res['user']['mail'];
-    $edit['data'] = array('display_name' => $auth_res['user']['data']['display_name']);
+    $edit['data'] = array(
+      'display_name' => $auth_res['user']['data']['display_name'],
+      'blocked' => $auth_res['user']['blocked'],
+    );
     user_save($account, $edit);
   }
 
