@@ -25,8 +25,6 @@ function alma_user_authenticate($uid, $pass) {
     return $return;
   }
 
-  // @todo Check block status.
-
   // Set creds.
   $return['creds'] = array(
     'name' => $uid,
@@ -58,6 +56,11 @@ function alma_user_authenticate($uid, $pass) {
       'city' => $res['addresses'][0]['city'],
       'country' => $res['addresses'][0]['country'],
     );
+  }
+
+  $return['user']['blocked'] = FALSE;
+  if (!empty($res['blocks'])) {
+    $return['user']['blocked'] = TRUE;
   }
 
   return $return;
