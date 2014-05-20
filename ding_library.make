@@ -70,6 +70,7 @@ projects[opening_hours][download][type] = "git"
 projects[opening_hours][download][url] = "http://git.drupal.org/project/opening_hours.git"
 projects[opening_hours][download][revision] = "81146d1e8ab63ca70976596d928e4ec46dfdfd57"
 projects[opening_hours][patch][] = "http://drupal.org/files/issues/is-string-check-2260505-2.patch"
+projects[opening_hours][patch][] = "http://drupal.org/files/issues/change-path-2270935-1.patch"
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
