@@ -186,7 +186,10 @@ search/ting
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'js-mobile-facets',
+    );
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
@@ -208,7 +211,10 @@ search/ting
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array();
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'js-mobile-facets',
+    );
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
