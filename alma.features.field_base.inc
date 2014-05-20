@@ -385,6 +385,88 @@ function alma_field_default_field_bases() {
     ),
   );
 
+  // Exported field_base: 'field_alma_sms'
+  $field_bases['field_alma_sms'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_alma_sms',
+    'foreign keys' => array(
+      'format' => array(
+        'columns' => array(
+          'format' => 'format',
+        ),
+        'table' => 'filter_format',
+      ),
+    ),
+    'indexes' => array(
+      'format' => array(
+        0 => 'format',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'text',
+    'settings' => array(
+      'max_length' => 255,
+      'profile2_private' => 0,
+    ),
+    'storage' => array(
+      'active' => 1,
+      'module' => 'virtual_field',
+      'settings' => array(),
+      'type' => 'virtual_field',
+    ),
+    'translatable' => 0,
+    'type' => 'text',
+    'virtual_field' => array(
+      'entity_types' => array(
+        0 => 'profile2',
+      ),
+    ),
+  );
+
+  // Exported field_base: 'field_alma_sms_id'
+  $field_bases['field_alma_sms_id'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_alma_sms_id',
+    'foreign keys' => array(
+      'format' => array(
+        'columns' => array(
+          'format' => 'format',
+        ),
+        'table' => 'filter_format',
+      ),
+    ),
+    'indexes' => array(
+      'format' => array(
+        0 => 'format',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'text',
+    'settings' => array(
+      'max_length' => 255,
+      'profile2_private' => 0,
+    ),
+    'storage' => array(
+      'active' => 1,
+      'module' => 'virtual_field',
+      'settings' => array(),
+      'type' => 'virtual_field',
+    ),
+    'translatable' => 0,
+    'type' => 'text',
+    'virtual_field' => array(
+      'entity_types' => array(
+        0 => 'profile2',
+      ),
+    ),
+  );
+
   // Exported field_base: 'field_alma_street_name'
   $field_bases['field_alma_street_name'] = array(
     'active' => 1,

@@ -21,7 +21,7 @@ function alma_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 9,
+        'weight' => 10,
       ),
     ),
     'entity_type' => 'profile2',
@@ -36,7 +36,7 @@ function alma_field_default_field_instances() {
       'module' => 'virtual_field',
       'settings' => array(),
       'type' => 'hidden',
-      'weight' => 9,
+      'weight' => 10,
     ),
   );
 
@@ -118,7 +118,7 @@ function alma_field_default_field_instances() {
         'module' => 'list',
         'settings' => array(),
         'type' => 'list_default',
-        'weight' => 8,
+        'weight' => 9,
       ),
     ),
     'entity_type' => 'profile2',
@@ -182,7 +182,7 @@ function alma_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 5,
+        'weight' => 6,
       ),
     ),
     'entity_type' => 'profile2',
@@ -200,7 +200,7 @@ function alma_field_default_field_instances() {
         'size' => 12,
       ),
       'type' => 'text_textfield',
-      'weight' => 8,
+      'weight' => 9,
     ),
   );
 
@@ -215,7 +215,7 @@ function alma_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 10,
+        'weight' => 11,
       ),
     ),
     'entity_type' => 'profile2',
@@ -230,7 +230,7 @@ function alma_field_default_field_instances() {
       'module' => 'virtual_field',
       'settings' => array(),
       'type' => 'hidden',
-      'weight' => 10,
+      'weight' => 12,
     ),
   );
 
@@ -277,7 +277,7 @@ function alma_field_default_field_instances() {
         'module' => 'list',
         'settings' => array(),
         'type' => 'list_default',
-        'weight' => 6,
+        'weight' => 7,
       ),
     ),
     'entity_type' => 'profile2',
@@ -313,7 +313,7 @@ function alma_field_default_field_instances() {
           'multiple_to' => '',
         ),
         'type' => 'date_default',
-        'weight' => 7,
+        'weight' => 8,
       ),
     ),
     'entity_type' => 'profile2',
@@ -342,6 +342,70 @@ function alma_field_default_field_instances() {
       ),
       'type' => 'date_popup',
       'weight' => 6,
+    ),
+  );
+
+  // Exported field_instance: 'profile2-provider_alma-field_alma_sms'
+  $field_instances['profile2-provider_alma-field_alma_sms'] = array(
+    'bundle' => 'provider_alma',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'inline',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 5,
+      ),
+    ),
+    'entity_type' => 'profile2',
+    'field_name' => 'field_alma_sms',
+    'label' => 'SMS',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 8,
+    ),
+  );
+
+  // Exported field_instance: 'profile2-provider_alma-field_alma_sms_id'
+  $field_instances['profile2-provider_alma-field_alma_sms_id'] = array(
+    'bundle' => 'provider_alma',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 12,
+      ),
+    ),
+    'entity_type' => 'profile2',
+    'field_name' => 'field_alma_sms_id',
+    'label' => 'SMS id',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'virtual_field',
+      'settings' => array(),
+      'type' => 'hidden',
+      'weight' => 11,
     ),
   );
 
@@ -388,6 +452,8 @@ function alma_field_default_field_instances() {
   t('Postal code');
   t('Preferred branch');
   t('Reservation pause');
+  t('SMS');
+  t('SMS id');
   t('Set your reservations on pause.');
   t('Street name');
   t('The e-mail address is not made public and will only be used if you wish to receive certain news or notifications by e-mail.');
