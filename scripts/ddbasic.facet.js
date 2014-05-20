@@ -12,9 +12,7 @@
 
       // Move and show filters on click.
       $('.facet-browser-toggle').live('click', function() {
-          // Clone facet browser if it does not exist.
-          //var facet_browser_clone = $('.facet-browser-responsive');
-        $('.pane-search-backends, .pane-ding-facetbrowser').toggle();
+        $('.js-mobile-facets').toggle();
       });
     }
   });
