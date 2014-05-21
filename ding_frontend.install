@@ -19,4 +19,25 @@ function ding_frontend_install() {
       'format' => 'ding_wysiwyg',
     ))
     ->execute();
+
+  // Add role settings for custom footer block.
+  db_insert('block_access_roles')
+    ->fields(array(
+      'module' => 'block',
+      'delta' => 1,
+      'rid' => 6,
+      'permission' => 'config_body'
+    ))
+    ->execute();
+
+  // Add shortcut for cutomer footer block.
+  $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
+  $shortcut_set->links = array(
+    array(
+      'link_path' => 'admin/structure/block/manage/block/1/configure',
+      'link_title' => t('Footer address'),
+      'weight' => -15,
+    ),
+  );
+  shortcut_set_save($shortcut_set);
 }

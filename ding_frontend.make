@@ -4,6 +4,9 @@ core = 7.x
 api = 2
 
 ; Projects
+projects[block_access][subdir] = "contrib"
+projects[block_access][version] = "1.5"
+
 projects[cs_adaptive_image][subdir] = "contrib"
 projects[cs_adaptive_image][version] = "1.0"
 
