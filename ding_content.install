@@ -172,8 +172,8 @@ function ding_content_update_7000() {
 }
 
 /**
- * Remove HTML5 video.
+ * Add HTML5 video.
  */
-function ding_content_upadte_7001() {
+function ding_content_update_7001() {
   ding_content_insert_html5_video_presets();
 }
