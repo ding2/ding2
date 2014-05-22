@@ -22,23 +22,21 @@
 }
 
 .availability-legend-item.available img {
-  background-color: #4c9f45;
+  background-color: #528c10; /* Green */
 }
 
 .availability-legend-item.on-loan img {
-  background-color: #ea9123;
+  background-color: #f0cb28; /* Yellow */
 }
 
 .availability-legend-item.unavailable img {
-  background-color: #ED1E88;
+  background-color: #a32e10; /* Red */
 }
 
 .availability-legend-item.unavailable.netdokument img {
-  background-color: #2e2e2e;
+  background-color: #a32e10; /* Red */
 }
 
 .availability-legend-item.unreservable img {
-  background-color: #0072bc;
+  background-color: #a32e10; /* Red */
 }
-
-

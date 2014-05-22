@@ -33,7 +33,7 @@ function ding_availability_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_availability_admin_holdings_settings'),
     'access arguments' => array('administer ting settings'),
-    'file' => 'ding_availability.admin.inc'
+    'file' => 'ding_availability.admin.inc',
   );
 
   return $items;
@@ -52,21 +52,66 @@ function ding_availability_ding_provider_user() {
 }
 
 /**
+ * Implements hook_theme().
+ */
+function ding_availability_theme($existing, $type, $theme, $path) {
+  return array(
+    'ding_holdings' => array(
+      'template' => 'ding-holdings',
+      'variables' => array(
+        'holdings' => NULL,
+        'total_count' => NULL,
+        'reserved_count' => NULL,
+      ),
+      'path' => $path . '/templates',
+    ),
+    'ding_availability_types' => array(
+      'template' => 'ding-availability-types',
+      'variables' => array(
+        'types' => array(),
+      ),
+      'path' => $path . '/templates',
+    ),
+    'ding_availability_type' => array(
+      'template' => 'ding-availability-type',
+      'variables' => array(
+        'class' => NULL,
+        'label' => NULL,
+        'links' => array(),
+      ),
+      'path' => $path . '/templates',
+    ),
+  );
+}
+
+/**
+ * Output the availability information as json.
  *
+ * @param array $provider_ids
+ *   Providers ID's to fetch availability information for.
  */
 function ding_availability_js($provider_ids) {
   drupal_json_output(ding_availability_items(explode(',', $provider_ids)));
 }
 
 /**
+ * Output holdings information as json.
  *
+ * @param array $provider_ids
+ *   Providers ID's to fetch holdings information for.
  */
 function ding_availability_holdings_js($provider_ids) {
   drupal_json_output(ding_availability_holdings(explode(',', $provider_ids)));
 }
 
 /**
+ * Get availability from the provider.
  *
+ * @param array $provider_ids
+ *   ID's to fetch data for.
+ *
+ * @return array
+ *   Availability information.
  */
 function ding_availability_items($provider_ids) {
   if (ding_provider_implements('availability', 'items')) {
@@ -81,7 +126,7 @@ function ding_availability_items($provider_ids) {
       );
 
       // Marks internet resources as available.
-      if ($item['is_internet']) {
+      if (isset($item['is_internet']) && $item['is_internet']) {
         $item['available'] = TRUE;
       }
 
@@ -96,7 +141,13 @@ function ding_availability_items($provider_ids) {
 }
 
 /**
+ * Get holdings from the provider.
  *
+ * @param array $provider_ids
+ *   ID's to fetch data for.
+ *
+ * @return array
+ *   Holdings information.
  */
 function ding_availability_holdings($provider_ids) {
   $items = ding_provider_invoke('availability', 'holdings', $provider_ids);
@@ -116,16 +167,71 @@ function ding_availability_holdings($provider_ids) {
     }
 
     _ding_availability_text($item);
+
+    // Support for creating the html here instead of in the provider.
+    // The provider contains a location array, total_count, available_count,
+    // reserved_count, reservable_count.
+    // We assume that the provider supports this, if it didn't deliver html.
+    if (!isset($item['html'])) {
+      $header = array(
+        'placement' => t('Placement'),
+        'copies' => t('Copies'),
+        'home' => t('At home'),
+      );
+
+      $attributes = array(
+        'class' => array('availability-holdings-table'),
+      );
+
+      $rows = array();
+      foreach ($item['holdings'] as $holding) {
+        $rows[] = ding_availability_holdings_row($holding);
+      }
+
+      // Theme the output.
+      $item['html'] = theme('ding_holdings', array(
+        'holdings' => array(
+          '#theme' => 'table',
+          '#header' => $header,
+          '#rows' => $rows,
+          '#attributes' => $attributes,
+        ),
+        'total_count' => $item['total_count'],
+        'reserved_count' => $item['reserved_count'],
+      ));
+    }
   }
 
   return $items;
 }
 
 /**
+ * @param $holding
+ *
+ * @return array
+ */
+function ding_availability_holdings_row($holding) {
+  $row = array();
+
+  // Create placement string.
+  $row['placement'] = implode(' > ', $holding['placement']);
+
+  // Library copies.
+  $row['copies'] = isset($holding['total_count']) ? (int) $holding['total_count'] : 0;
+
+  // Calculate copies home.
+  $home = isset($holding['available_count']) ? (int) $holding['available_count'] : 0;
+  $home += isset($holding['reference_count']) ? (int) $holding['reference_count'] : 0;
+  $row['home'] = $home;
+
+  return $row;
+}
+
+/**
  * Adds the human readable status text of an item.
  */
 function _ding_availability_text(&$item) {
-  if ($item['available'] && $item['reservable'] || $item['is_internet']) {
+  if ($item['available'] || (isset($item['is_internet']) && $item['is_internet'])) {
     $item['status'] = t('available');
   }
   elseif (!$item['available'] && $item['reservable']) {
@@ -142,6 +248,7 @@ function _ding_availability_text(&$item) {
 
 /**
  * Implements hook_block_info().
+ *
  * Define availability legend block.
  */
 function ding_availability_block_info() {
@@ -155,9 +262,10 @@ function ding_availability_block_info() {
 
 /**
  * Implements hook_block_view().
+ *
  * Define availability legend block.
  */
-function ding_availability_block_view($delta = '') {
+function ding_availability_block_view($delta) {
   $block = array();
   $block['subject'] = t('Ding availability legend');
   $block['content'] = ding_availability_render_legend();
@@ -171,17 +279,17 @@ function ding_availability_render_legend() {
 
   drupal_add_css(drupal_get_path('module', 'ding_availability') . '/css/ding_availability_legend.css');
 
-  // construct the image's path (.gif stored in a module subdir)
+  // Construct the image's path (.gif stored in a module subdir).
   $image_path = drupal_get_path('module', 'ding_availability') . '/images/blank.gif';
 
-  // make some text, image's alt & title tags (SEO, accessibility)
+  // Make some text, image's alt & title tags (SEO, accessibility).
   $availability_legend['available']     = t('Available');
   $availability_legend['on-loan']       = t('On loan');
   $availability_legend['unavailable']   = t('Unavailable');
   $availability_legend['unreservable']   = t('Not reservable');
 
-  // render image html using theme_image (returns NULL if file doesn't exist)
-  foreach ( $availability_legend as $key => $val ) {
+  // Render image html using theme_image (returns NULL if file doesn't exist).
+  foreach ($availability_legend as $key => $val) {
     $format_label = '<span class="availability-label">' . $val . '</span>';
     $format_image = theme('image', array('path' => $image_path, 'alt' => $val, 'title' => $val));
     $format_items[] = '<div class="availability-legend-item ' . $key . '">' . $format_image . $format_label . '</div>';
@@ -193,7 +301,7 @@ function ding_availability_render_legend() {
 }
 
 /**
- * ting_object_entities preprocessor.
+ * Implements hook_preprocessor_ting_object_entities().
  */
 function ding_availability_preprocess_ting_object_entities(&$variables) {
   if (!empty($variables['content']) && function_exists('ding_availability_render_legend')) {
@@ -208,8 +316,8 @@ function ding_availability_preprocess_ting_object_entities(&$variables) {
  * The defaults types that should display provider holdings information.
  *
  * @return array
- *  List of datawell types that should be fetched holdings information if they
- *  have the library marterial or katalog source.
+ *   List of data well types that should be fetched holdings information if they
+ *   have the library material or catalog source.
  */
 function _ding_availability_holdings_default_types() {
   return array(
@@ -244,6 +352,7 @@ function _ding_availability_holdings_default_types() {
     'gameboy advance',
     'xbox',
     'grammofonplade',
+    'wii u',
     'serie',
     'avis',
     'spil',
@@ -268,5 +377,6 @@ function _ding_availability_holdings_default_types() {
     'arkitekturtegning',
     'emnekasse',
     'spolelydbånd',
+    'udstillingsmontage',
   );
 }
