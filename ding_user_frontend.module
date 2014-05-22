@@ -105,7 +105,7 @@ function ding_user_frontend_block_view($delta) {
         // use the database.)
         ding_user_get_creds($user);
       }
-      catch (Exception $e) {
+      catch (DingProviderAuthException $e) {
         return;
       }
 
