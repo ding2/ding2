@@ -55,6 +55,10 @@ function ding_user_update_7004(&$sandbox) {
 
 /**
  * Create possibly missing Entity Cache table for profile2 entities.
+ *
+ * There is an issue in entity cache where the cache table is not always
+ * created for entity types that are not nodes. This fixes that issue for
+ * profile2 profiles (library users).
  */
 function ding_user_update_7005(&$sandbox) {
   // Create cache table if it doesn't exist.
