@@ -279,10 +279,10 @@ function ding_user_frontend_build_menu($path = NULL) {
           }
 
           // Check if this is secondary.
-          if (isset($children[$item['path']]) && count($children[$item['path']]) > 1) {
+          if (!empty($children[$item['path']])) {
             // Check that the sub-menu should be display, based on the path.
             $pos = stripos($router_item['href'], $item['href']);
-            if ($pos !== FALSE && !$pos) {
+            if (!empty($pos)) {
               $current['#below'] = array(
                 '#theme_wrappers' => array(
                   'theme_hook_suggestions' => array(
