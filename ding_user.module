@@ -241,12 +241,12 @@ function ding_user_form_user_admin_settings_alter(&$form, &$form_state, $form_id
     '#description' => t("Link to the node containing explanation about the library's blocked user policies."),
   );
 
-  // Tax for SMS.
-  $form['ding_user']['ding_user_tax_sms'] = array(
+  // Fee for SMS.
+  $form['ding_user']['ding_user_fee_sms'] = array(
     '#type' => 'textfield',
-    '#title' => t('Tax for SMS'),
-    '#default_value' => variable_get('ding_user_tax_sms', t('Notice that there is a fee for receiving a SMS')),
-    '#description' => t('Description to show user if a TAX for SMS is defined.'),
+    '#title' => t('Fee for SMS'),
+    '#default_value' => variable_get('ding_user_fee_sms', t('Notice that there is a fee for receiving a SMS')),
+    '#description' => t('Description to show user if a fee for SMS is defined.'),
   );
 }
 
@@ -297,10 +297,10 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
     }
   }
 
-  $tax_sms = variable_get('ding_user_tax_sms', t('Notice that there is a fee for receiving a SMS'));
-  $form['ding_user_tax_sms'] = array(
+  $fee_sms = variable_get('ding_user_fee_sms', t('Notice that there is a fee for receiving a SMS'));
+  $form['ding_user_fee_sms'] = array(
     '#type' => 'item',
-    '#markup' => $tax_sms,
+    '#markup' => $fee_sms,
     '#weight' => 0,
   );
 }
