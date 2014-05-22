@@ -577,7 +577,9 @@ function ding_user_user_login_validate($form, &$form_state) {
         }
       }
 
-      // Check if name and pass where filled out.
+      // Check if name and pass where filled out. These fields are not required
+      // in the form to prevent the default form validation from displaying the
+      // reset password link, which would not make sens for provider users.
       foreach (array('name', 'pass') as $field) {
         if (empty($form_state['values'][$field])) {
           form_set_error($field, t('!name field is required.', array('!name' => $form[$field]['#title'])));
