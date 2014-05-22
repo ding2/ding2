@@ -65,7 +65,10 @@ class TingEntity extends DingEntity {
       if ($dk5 == 'sk') {
         return '';
       }
+
+      return $dk5;
     }
+
     return FALSE;
   }
 
