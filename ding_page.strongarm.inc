@@ -35,7 +35,7 @@ function ding_page_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_ding_page';
-  $strongarm->value = '2';
+  $strongarm->value = '1';
   $export['comment_ding_page'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -69,13 +69,6 @@ function ding_page_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'date_format_long_date_only';
-  $strongarm->value = 'l j. F Y';
-  $export['date_format_long_date_only'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_node__ding_page';
   $strongarm->value = array(
     'view_modes' => array(
@@ -95,7 +88,7 @@ function ding_page_strongarm() {
         'custom_settings' => FALSE,
       ),
       'search_result' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'token' => array(
         'custom_settings' => FALSE,
@@ -125,65 +118,10 @@ function ding_page_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'menu_block_3_admin_title';
-  $strongarm->value = 'Submenu (menu block)';
-  $export['menu_block_3_admin_title'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'menu_block_3_depth';
-  $strongarm->value = '0';
-  $export['menu_block_3_depth'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'menu_block_3_expanded';
-  $strongarm->value = 0;
-  $export['menu_block_3_expanded'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'menu_block_3_follow';
-  $strongarm->value = 0;
-  $export['menu_block_3_follow'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'menu_block_3_level';
-  $strongarm->value = '2';
-  $export['menu_block_3_level'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'menu_block_3_parent';
-  $strongarm->value = 'main-menu:0';
-  $export['menu_block_3_parent'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'menu_block_3_sort';
-  $strongarm->value = 0;
-  $export['menu_block_3_sort'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'menu_block_3_title_link';
-  $strongarm->value = 1;
-  $export['menu_block_3_title_link'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'menu_options_ding_page';
   $strongarm->value = array(
     0 => 'main-menu',
+    1 => 'menu-secondary-menu',
   );
   $export['menu_options_ding_page'] = $strongarm;
 
@@ -216,6 +154,13 @@ function ding_page_strongarm() {
   $strongarm->name = 'node_submitted_ding_page';
   $strongarm->value = 0;
   $export['node_submitted_ding_page'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'og_menu_enable_ding_page';
+  $strongarm->value = 1;
+  $export['og_menu_enable_ding_page'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
