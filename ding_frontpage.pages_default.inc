@@ -78,15 +78,12 @@ function ding_frontpage_default_page_manager_pages() {
   $display->panels = array();
     $pane = new stdClass();
     $pane->pid = 'new-1';
-    $pane->panel = 'primary';
-    $pane->type = 'carousel';
-    $pane->subtype = 'carousel';
+    $pane->panel = 'attachment_1_1';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'ding_groups-panel_pane_1';
     $pane->shown = TRUE;
     $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
+    $pane->configuration = array();
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
@@ -96,14 +93,24 @@ function ding_frontpage_default_page_manager_pages() {
     $pane->position = 0;
     $pane->locks = array();
     $display->content['new-1'] = $pane;
-    $display->panels['primary'][0] = 'new-1';
+    $display->panels['attachment_1_1'][0] = 'new-1';
     $pane = new stdClass();
     $pane->pid = 'new-2';
-    $pane->panel = 'secondary';
+    $pane->panel = 'primary';
     $pane->type = 'views_panes';
-    $pane->subtype = 'ding_news-ding_news_frontpage_list';
+    $pane->subtype = 'ding_tabroll-ding_frontpage_tabroll';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'frontpage_promoter',
+          'settings' => array(
+            'promoter' => 'ding_tabroll',
+          ),
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array();
     $pane->cache = array();
     $pane->style = array(
@@ -114,41 +121,25 @@ function ding_frontpage_default_page_manager_pages() {
     $pane->position = 0;
     $pane->locks = array();
     $display->content['new-2'] = $pane;
-    $display->panels['secondary'][0] = 'new-2';
+    $display->panels['primary'][0] = 'new-2';
     $pane = new stdClass();
     $pane->pid = 'new-3';
-    $pane->panel = 'tertiary';
-    $pane->type = 'views_panes';
-    $pane->subtype = 'ding_event-ding_event_frontpage_list';
+    $pane->panel = 'primary';
+    $pane->type = 'carousel';
+    $pane->subtype = 'carousel';
     $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array();
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $display->content['new-3'] = $pane;
-    $display->panels['tertiary'][0] = 'new-3';
-    $pane = new stdClass();
-    $pane->pid = 'new-4';
-    $pane->panel = 'tertiary';
-    $pane->type = 'campaign';
-    $pane->subtype = 'campaign';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'ding_campaign_count' => 5,
-      'ding_campaign_offset' => 0,
-      'context' => array(
-        0 => 'empty',
-        1 => 'empty',
-        2 => 'empty',
-        3 => 'empty',
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'frontpage_promoter',
+          'settings' => array(
+            'promoter' => 'ting_search_carousel',
+          ),
+          'not' => FALSE,
+        ),
       ),
+    );
+    $pane->configuration = array(
       'override_title' => 1,
       'override_title_text' => '',
     );
@@ -160,8 +151,50 @@ function ding_frontpage_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
+    $display->content['new-3'] = $pane;
+    $display->panels['primary'][1] = 'new-3';
+    $pane = new stdClass();
+    $pane->pid = 'new-4';
+    $pane->panel = 'secondary';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'ding_news-ding_news_frontpage_list';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => 'Library news',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
     $display->content['new-4'] = $pane;
-    $display->panels['tertiary'][1] = 'new-4';
+    $display->panels['secondary'][0] = 'new-4';
+    $pane = new stdClass();
+    $pane->pid = 'new-5';
+    $pane->panel = 'tertiary';
+    $pane->type = 'views_panes';
+    $pane->subtype = 'ding_event-ding_event_list_frontpage';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-5'] = $pane;
+    $display->panels['tertiary'][0] = 'new-5';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
