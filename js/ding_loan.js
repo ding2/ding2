@@ -19,8 +19,7 @@
       var checkboxes = $('input[type=checkbox]', $(this).closest('.select-all').nextUntil('.select-all'));
       if ($(this).prop('checked')) {
         // Only checkboxes that are enabled.
-        checkboxes.each(function(i) {
-          var box = $(checkboxes[i]);
+        checkboxes.each(function(i, box) {
           if (!box.is(':disabled')) {
             box.prop('checked', true);
             box.change();
@@ -51,8 +50,7 @@
 
       // Find all checked checkboxes found above and count theme
       var checked = 0;
-      checkboxes.each(function(index) {
-        var checkbox = $(checkboxes[index]);
+      checkboxes.each(function(index, checkbox) {
         if (checkbox.is(':checked')) {
           checked++;
         }
@@ -69,8 +67,7 @@
 
     // Update count string on the buttons.
     function update_buttons(buttons, count) {
-     buttons.each(function(index) {
-       var btn = $(buttons[index]);
+     buttons.each(function(index, btn) {
        btn.val(btn.val().replace(/\(\d+\)/, '(' + count + ')'));
 
        // Toggle buttons based on count.
