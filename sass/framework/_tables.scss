@@ -162,17 +162,34 @@ tr.odd {
     tr:nth-child(odd) td,
     tr:nth-child(odd) th {
       background-color: $gray-lighter;
+
+      &:hover {
+        background-color: auto;
+      }
     }
   }
 }
 
-/* Hover effect.
-   ========================================================================== */
 
-/* Placed here because it has to come after zebra striping */
-.table {
-  tbody tr:hover td,
-  tbody tr:hover th {
-    background-color: $gray-light;
+/* Borderless table.
+   ========================================================================== */
+.table-borderless {
+  border: 0;
+
+  tbody {
+    border: 0;
+
+    tr {
+      background-color: auto;
+      border: 0;
+
+      &:hover {
+        background-color: initial;
+      }
+    }
+
+    & td {
+      border: 0;
+    }
   }
 }
