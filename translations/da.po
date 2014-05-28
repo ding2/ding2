@@ -50995,7 +50995,7 @@ msgid "Material no."
 msgstr "Materialenummer"
 
 #: /user/36/status
-msgid "This material can not be re-newed"
+msgid "This material can not be renewed"
 msgstr "Materialet kan ikke fornyes"
 
 #: /user/36/status
