@@ -101,11 +101,11 @@ function ding_facetbrowser_fold_facet_group() {
       facetGroup.append('<a href="javascript:void;" class="expand expand-more" id="expand_more">' + Drupal.t('Show more') + '</a>');
     }
 
-    // Add some classes to checkbox wrappers.
+    // Add classes to checkbox wrappers used to handle visibility.
     facetGroup.find('.form-type-checkbox input:checked').parent().addClass('selected-checkbox');
     facetGroup.find('.form-type-checkbox input:not(:checked)').parent().addClass('unselected-checkbox');
 
-    // Add some div wrappers around selected and unselected checkboxes.
+    // Add div wrappers around selected and unselected checkboxes to handle visibility.
     facetGroup.find('.selected-checkbox').wrapAll('<div class="selected-checkbox-group" />');
     facetGroup.find('.unselected-checkbox').wrapAll('<div class="unselected-checkbox-group" />');
 
