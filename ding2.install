@@ -93,19 +93,6 @@ function ding2_install() {
   //
   variable_set('user_register', USER_REGISTER_ADMINISTRATORS_ONLY);
 
-  //
-  // Enable default permissions for system roles.
-  //
-  try {
-    user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array('access content', 'search content'));
-    user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('access content', 'search content'));
-  }
-  catch (Exception $e) {
-    // If not all modules have been enabled, this may throw an exception. It
-    // should not happen, but its better to carry on then halt the installation
-    // at this point.
-  }
-
   // Submit theme settings.
   module_load_include('inc', 'system', 'system.admin');
   $form_state = form_state_defaults();
