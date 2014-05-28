@@ -8,11 +8,17 @@
 /**
  * The main settings form.
  */
-function ding_place2book_admin_settings_form(&$form_state) {
+function ding_place2book_admin_settings_form($form_state) {
   global $user;
 
   $form = array(
     '#tree' => TRUE,
+  );
+
+  $form['ding_place2book_ticketinfo_labels'] = array(
+    '#type' => 'item',
+    '#title' => t('Labels for display of ticket information'),
+    '#markup' => t('<p>5 texts exist for displaying ticket information:</p><ul><li>"The event has already taken place"</li><li>"The event is closed for admission"</li><li>"Ticket sale has not yet started for this event"</li><li>"Sold out"</li><li>"Book a ticket"</li></ul><p>These can all be translated to local needs - just paste the exact texts into the search box at <a href="/admin/config/regional/translate/translate">/admin/config/regional/translate/translate</a>.</p>'),
   );
 
   // Load default settings
@@ -79,15 +85,15 @@ function ding_place2book_admin_settings_form(&$form_state) {
   $defaults = variable_get('ding_place2book_libraries', array());
 
   // Find all libraries and order them by title.
-  $query = db_query("SELECT n.nid, n.title FROM {node} n
-                      WHERE type = 'library'
+  $result = db_query("SELECT n.nid, n.title FROM {node} n
+                      WHERE type = 'ding_library'
                       ORDER BY title");
 
-  while ($row = db_fetch_object($query)) {
-    $form['ding_place2book_libraries'][$row->nid] = array(
+  foreach ($result as $record) {
+    $form['ding_place2book_libraries'][$record->nid] = array(
       '#type' => 'textfield',
-      '#title' => 'API key ' . check_plain($row->title),
-      '#default_value' => isset($defaults[$row->nid]) ? $defaults[$row->nid] : '',
+      '#title' => 'API key ' . check_plain($record->title),
+      '#default_value' => isset($defaults[$record->nid]) ? $defaults[$record->nid] : '',
       '#description' => t('Optional. If you have several accounts at Place2book, each library can have their own API key. In that case, the base API key will be overridden by the provided key when sending data on events related to this library.'),
     );
   }
@@ -116,10 +122,221 @@ function ding_place2book_admin_settings_form(&$form_state) {
     '#options' => array(
       'maintain_copy' => t('Maintain copy'),
       'kultunaut_export' => t('Kultunaut export'),
-			'passive' => t('Passive event'),
+      'passive' => t('Passive event'),
     ),
     '#default_value' => isset($defaults['defaults']) ? $defaults['defaults'] : array(),
   );
 
   return system_settings_form($form);
+}
+
+/**
+ * The kultunaut form.
+ */
+function ding_place2book_kultunaut_form($form_state) {
+  $form = array(
+    '#tree' => TRUE,
+  );
+
+  $form['ding_place2book_category_mappings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Mappings of Event Category to Kultunaut categories'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+
+  $kultunaut_category_options = array('' => t('Choose')) + place2book_get_kultunaut_categories();
+
+  // Find all terms in the event category vocabulary
+  $result = db_query("SELECT t.tid, t.name FROM {taxonomy_term_data} t JOIN {taxonomy_vocabulary} v
+                      ON t.vid = v.vid
+                      WHERE v.machine_name = 'event_category'
+                      ORDER BY name");
+
+  // Load default settings
+  $defaults = variable_get('ding_place2book_category_mappings', array());
+
+  foreach ($result as $record) {
+    $form['ding_place2book_category_mappings'][$record->tid] = array(
+      '#type' => 'select',
+      '#title' => 'Term ' . check_plain($record->name),
+      '#default_value' => isset($defaults[$record->tid]) ? $defaults[$record->tid] : '',
+      '#options' => $kultunaut_category_options,
+      '#description' => t('Optional. Select the kultunaut category to map the Ding! event category term to.'),
+    );
+  }
+
+  $form['ding_place2book_target_mappings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Mappings of Event Target to Kultunaut Target'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+
+  $kultunaut_target_options = array('' => t('Choose'), 'Alle' => 'Alle', 'Børn' => 'Børn', 'Unge' => 'Unge', 'Voksne' => 'Voksne', 'Ældre' => 'Ældre');
+
+  // Find all terms in the event target vocabulary
+  $result = db_query("SELECT t.tid, t.name FROM {taxonomy_term_data} t JOIN {taxonomy_vocabulary} v
+                      ON t.vid = v.vid
+                      WHERE v.machine_name = 'event_target'
+                      ORDER BY name");
+
+  // Load default settings
+  $defaults = variable_get('ding_place2book_target_mappings', array());
+
+  foreach ($result as $record) {
+    $form['ding_place2book_target_mappings'][$record->tid] = array(
+      '#type' => 'select',
+      '#title' => 'Term ' . check_plain($record->name),
+      '#default_value' => isset($defaults[$record->tid]) ? $defaults[$record->tid] : '',
+      '#options' => $kultunaut_target_options,
+      '#description' => t('Optional. Select the kultunaut target to map the Ding! event target term to.'),
+    );
+  }
+
+  $form['ding_place2book_kultunaut_categories'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Kultunaut categories'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+
+  // Load default settings
+  $defaults = variable_get('ding_place2book_kultunaut_categories', array('kultunaut_cat_array' => ding_place2book_kultunaut_cat_json()));
+
+  $form['ding_place2book_kultunaut_categories']['kultunaut_cat_array'] = array(
+      '#type' => 'textarea',
+      '#title' => t('Kultunaut category terms'),
+      '#default_value' => $defaults['kultunaut_cat_array'],
+      '#rows' => 5,
+      '#description' => t("A valid <a target=\"_blank\" href=\"http://en.wikipedia.org/wiki/JSON\">JSON</a> array containing Kultunaut category terms. The included default should not have to be changed - the values have been derived from the Kultunaut category term definitions at <a target=\"_blank\" href=\"http://www.kultunaut.dk/perl/export/nautgenrerxml\">http://www.kultunaut.dk/perl/export/nautgenrerxml</a>."),
+      '#required' => TRUE,
+    );
+
+  return system_settings_form($form);
+}
+
+function ding_place2book_kultunaut_form_validate($form, &$form_state) {
+  $field = $form_state['values']['ding_place2book_kultunaut_categories']['kultunaut_cat_array'];
+  if (!is_array(json_decode($field, TRUE))) {
+    form_set_error($field, t('Kultunaut categories has malformed JSON: Does not transform to array.'));
+  }
+}
+
+/*
+ * Returns a JSON string containing the default Kultunaut category terms found at http://www.kultunaut.dk/perl/export/nautgenrerxml
+ */
+function ding_place2book_kultunaut_cat_json() {
+  $json  = '{
+    "Andet/Ukendt":"(Musik) Andet/Ukendt",
+    "Rock/Pop":"(Musik) Rock/Pop",
+    "Elektronisk":"(Musik) Elektronisk",
+    "Club/DJ":"(Musik) Club/DJ",
+    "Funk/Blues/R&B":"(Musik) Funk/Blues/R&B",
+    "Jazz":"(Musik) Jazz",
+    "Verdensmusik/Latin":"(Musik) Verdensmusik/Latin",
+    "Folk/Vise/Country":"(Musik) Folk/Vise/Country",
+    "Dansktop/underholdning":"(Musik) Dansktop/underholdning",
+    "Hip-Hop/Reggae":"(Musik) Hip-Hop/Reggae",
+    "Gospel/Kor/Fællessang":"(Musik) Gospel/Kor/Fællessang",
+    "Klassisk":"(Musik) Klassisk",
+    "Dansegulv":"(Musik) Dansegulv",
+    "Anden forestilling":"(Teater) Anden forestilling",
+    "Ballet":"(Teater) Ballet",
+    "Dans":"(Teater) Dans",
+    "Musical":"(Teater) Musical",
+    "Revy/kabaret":"(Teater) Revy/kabaret",
+    "Opera/Operette":"(Teater) Opera/Operette",
+    "Show/stand up":"(Teater) Show/stand up",
+    "Skuespil":"(Teater) Skuespil",
+    "Blandet/Ukendt":"(Udstilling) Blandet/Ukendt",
+    "Arkitektur":"(Udstilling) Arkitektur",
+    "Billedkunst":"(Udstilling) Billedkunst",
+    "Foto":"(Udstilling) Foto",
+    "Historisk":"(Udstilling) Historisk",
+    "Kunsthåndværk":"(Udstilling) Kunsthåndværk",
+    "Omvisning":"(Udstilling) Omvisning",
+    "Skulptur":"(Udstilling) Skulptur",
+    "Messe":"(Udstilling) Messe",
+    "Installation":"(Udstilling) Installation",
+    "Fernisering":"(Udstilling) Fernisering",
+    "Andre Film":"(Film) Andre Film",
+    "Komedie/Romantik":"(Film) Komedie/Romantik",
+    "Dokumentar":"(Film) Dokumentar",
+    "Action/Drama":"(Film) Action/Drama",
+    "Tegnefilm/Animation":"(Film) Tegnefilm/Animation",
+    "Science Fiction":"(Film) Science Fiction",
+    "Thriller/Gyser":"(Film) Thriller/Gyser",
+    "Familiefilm":"(Film) Familiefilm",
+    "Løb/atletikstævne":"(Sportsturnering) Løb/atletikstævne",
+    "Badmintonkamp":"(Sportsturnering) Badmintonkamp",
+    "Basketballkamp":"(Sportsturnering) Basketballkamp",
+    "Cykelløb":"(Sportsturnering) Cykelløb",
+    "Fodboldkamp":"(Sportsturnering) Fodboldkamp",
+    "Golfturnering":"(Sportsturnering) Golfturnering",
+    "Gymnastikstævne":"(Sportsturnering) Gymnastikstævne",
+    "Håndboldkamp":"(Sportsturnering) Håndboldkamp",
+    "Ishockeykamp":"(Sportsturnering) Ishockeykamp",
+    "Boksestævne":"(Sportsturnering) Boksestævne",
+    "Motorsport":"(Sportsturnering) Motorsport",
+    "Hestesport":"(Sportsturnering) Hestesport",
+    "Svømmestævne":"(Sportsturnering) Svømmestævne",
+    "Kapsejlads":"(Sportsturnering) Kapsejlads",
+    "Øvrige sportsturneringer":"(Sportsturnering) Øvrige sportsturneringer",
+    "Bordtennis":"(Motion) Bordtennis",
+    "Løbetræning/jogging":"(Motion) Løbetræning/jogging",
+    "Ketchersport":"(Motion) Ketchersport",
+    "Cykeltur":"(Motion) Cykeltur",
+    "Fodboldtræning":"(Motion) Fodboldtræning",
+    "Gymnastik/aerobic":"(Motion) Gymnastik/aerobic",
+    "Håndboldtræning":"(Motion) Håndboldtræning",
+    "Skøjteløb":"(Motion) Skøjteløb",
+    "Kampsporttræning":"(Motion) Kampsporttræning",
+    "Ridning":"(Motion) Ridning",
+    "Svømmetræning":"(Motion) Svømmetræning",
+    "Sejlads/roning":"(Motion) Sejlads/roning",
+    "Vandretur/stavgang":"(Motion) Vandretur/stavgang",
+    "Danseundervisning":"(Motion) Danseundervisning",
+    "Fitness/styrketræning":"(Motion) Fitness/styrketræning",
+    "Skate/rulleskøjte":"(Motion) Skate/rulleskøjte",
+    "Skydning":"(Motion) Skydning",
+    "Andet boldspil":"(Motion) Andet boldspil",
+    "Andet motionstilbud":"(Motion) Andet motionstilbud",
+    "Andet":"(Diverse) Andet",
+    "Auktioner":"(Diverse) Auktioner",
+    "Banko":"(Diverse) Banko",
+    "Ekskursion":"(Diverse) Ekskursion",
+    "Foredrag":"(Diverse) Foredrag",
+    "Konference/seminar":"(Diverse) Konference/seminar",
+    "Gastronomi":"(Diverse) Gastronomi",
+    "Lyrik/oplæsning":"(Diverse) Lyrik/oplæsning",
+    "Marked/byfest":"(Diverse) Marked/byfest",
+    "Møder":"(Diverse) Møder",
+    "Natur":"(Diverse) Natur",
+    "Undervisning":"(Diverse) Undervisning",
+    "Gudstjeneste":"(Diverse) Gudstjeneste",
+    "Workshop":"(Diverse) Workshop",
+    "Shopping":"(Diverse) Shopping",
+    "Medlemsmøde":"(Lukket) Medlemsmøde",
+    "Koncert":"(Lukket) Koncert",
+    "Generalforsamling":"(Lukket) Generalforsamling",
+    "Ferie/ombygning":"(Lukket) Ferie/ombygning",
+    "Intern meddelelse":"(Lukket) Intern meddelelse",
+    "Del af aktivitet":"(Lukket) Del af aktivitet"
+  }';
+  return $json;
+}
+
+/*
+ * Returns an array of all Kultunaut category terms
+ */
+function place2book_get_kultunaut_categories() {
+  $categories = array();
+  $var_kultunaut = variable_get('ding_place2book_kultunaut_categories', array('kultunaut_cat_array' => ding_place2book_kultunaut_cat_json()));
+
+  if (is_array(json_decode($var_kultunaut['kultunaut_cat_array'], TRUE))) {
+    $categories = json_decode($var_kultunaut['kultunaut_cat_array'], TRUE);
+  }
+
+  return $categories;
 }

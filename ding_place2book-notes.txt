@@ -1,3 +1,27 @@
+NOTES for CONVERTING to ding2/drupal7
+-------------------------------------
+- Translate the module again (install potx first to ease this)
+- Core Review the module again
+
+
+# Changed context in ding2 to consider:
+
+- There is only one taxonomy - Category. I might have to create event target and 
+event category-taxonomies to have data for the kultunaut part. But the better solution would be to
+implement the term mapping feature now, and map terms from Category taxonomy to Kultunaut target and
+category. Then we can avoid adding extra vocabularies + give better control to the ding administrator.
+
+- fieldgroup module changed in drupal 7. It might not be needed anymore? Same with 
+optionwidgets - included in core now?
+
+- ding_event now has no end time enabled, but it is in the output. If todate= fromdate is a problem, 
+make check to ensure that todate-value is only used when it is different from fromdate.
+
+- ding_event now has no field for price. Must add it, this also means adding it to the db table
+
+- Libraries are now implemented as organic groups. Getting the id (now, the etid, entity ID) of the library 
+is a matter of querying "field_group_audience" and "og" tables.
+
 NOTER FOR VERSION 2 mod den nye API
 -----------------------------------
 
@@ -5,13 +29,13 @@ authentification:
 ekstra felt til admin-indstillinger til secret api key.
 
 til auth-procedure:
-søg på "php s3 authentication", find PHP library eller functions.
+sï¿½g pï¿½ "php s3 authentication", find PHP library eller functions.
 
-læs http://developer.place2book.com/v1/authentication/ igen.. Request-headers skal sorteres.
+lï¿½s http://developer.place2book.com/v1/authentication/ igen.. Request-headers skal sorteres.
 
 Nu bruges JSON istedet for XML... find et drupal eller PHP library.
 
-nyt obligatorisk felt: husk at medsende oplysning om ønsket API-version, se
+nyt obligatorisk felt: husk at medsende oplysning om ï¿½nsket API-version, se
 "A custom mime type is used in the API as a way to support versioning. So to use the API you have to add this custom mime type to the Accept header when you make a request.
 
 At current only one mime type is supported:
@@ -19,19 +43,31 @@ At current only one mime type is supported:
 application/vnd.place2book.v1+json"
 
 
-NB: Gennemgå alle dates der sendes - skal være nedenstående format.
+NB: Gennemgï¿½ alle dates der sendes - skal vï¿½re nedenstï¿½ende format.
 Timestamps will be sent in ISO 8601 format:
 YYYY-MM-DDTHH:MM:SSZ
-+ se også http://php.net/manual/en/function.date.php, det er "c"-formatet
++ se ogsï¿½ http://php.net/manual/en/function.date.php, det er "c"-formatet
 
-NB: Vær opmærksom på reponse-koder - dem for delete og update er anderledes.
+NB: Vï¿½r opmï¿½rksom pï¿½ reponse-koder - dem for delete og update er anderledes.
 
 
-FEJL, der skal kigges på i ding_place2book:
-Arni: "Men jeg opdagede en alvorlig fejl. Hvis man har angivet en salgsperiode på place2book og derefter laver en ændring i arrangementet på hjemmesiden (hvilken som helst ændring f.eks. ændre teksten) så bliver salgsperioden slettet på place2book. Jeg har testet par andre settings (Bankforbindelse og Max antal billetter) og de blev ikke påvirket på denne måde."
--> Ved update, aflæs salgsperiode, og hvis der er en defineret (og det er der altid), så send den med tilbage. Jeg SKAL sende en GET først for at aflse, og derefter kan jeg sende en PUT.
--> NÅR JEG ALLIGEVEL gør det, så aflæs alle oprettede tickets på eventet og list dem i ding - ved siden af entre-prisen.
+FEJL, der skal kigges pï¿½ i ding_place2book:
+Arni: "Men jeg opdagede en alvorlig fejl. Hvis man har angivet en salgsperiode pï¿½ place2book og derefter laver en ï¿½ndring i arrangementet pï¿½ hjemmesiden (hvilken som helst ï¿½ndring f.eks. ï¿½ndre teksten) sï¿½ bliver salgsperioden slettet pï¿½ place2book. Jeg har testet par andre settings (Bankforbindelse og Max antal billetter) og de blev ikke pï¿½virket pï¿½ denne mï¿½de."
+-> Ved update, aflï¿½s salgsperiode, og hvis der er en defineret (og det er der altid), sï¿½ send den med tilbage. Jeg SKAL sende en GET fï¿½rst for at aflse, og derefter kan jeg sende en PUT.
+-> Nï¿½R JEG ALLIGEVEL gï¿½r det, sï¿½ aflï¿½s alle oprettede tickets pï¿½ eventet og list dem i ding - ved siden af entre-prisen.
 
+
+IMPLEMENTERING af TERM MAPPING til KULTUNAUT
+--------------------------------------------
+ny tabel: ding_place2book_kultunaut (rel_id, term, kultunaut_term)
+
+inspiration til admin-interface fra ThemeKey modulet.
+
+IdÃ© er at alle vocabularies forbundet med event typen listes i en drop-down menu, hvorfra de kan vÃ¦lges.
+En tilsvarende drop-down menu er dannet pÃ¥ baggrund af kultunaut xml filen med deres termer.
+Relationen gemmes, og der kan mappes videre.
+Termer i drop-down har * ved sig, for at indikere at de er brugt.
+NÃ¥r tabellen er dannet, er den basis for opslag nÃ¥r ding_place2book skal sende data til Place2Book.
 
 
 ---------------
@@ -92,15 +128,15 @@ Event-node create, edit or delete with no contact to place2book server = write m
 * VISNING:
 ----------
 Hvis event-node har place2book-ID og ikke har fundet sted, 
-så
-	- indsæt place2book section samt javascript i event-noden.
-	Javascript-kode kalder place2book op for status på event:
+sï¿½
+	- indsï¿½t place2book section samt javascript i event-noden.
+	Javascript-kode kalder place2book op for status pï¿½ event:
 		- har ikke fundet sted + ledige billetter = order ticket link
 		- har ikke fundet sted + ikke flere billetter = sold-out text
-		- har fundet sted = events passed text (status kun med for fejlhåndteringen skyld)
+		- har fundet sted = events passed text (status kun med for fejlhï¿½ndteringen skyld)
 		- Any errors returned = generic error text a la "technical error, we're sorry"
 ellers hvis event-node har fundet sted,
-så
+sï¿½
 	- show <div>events passed text</div>
 ellers
 	- no output
@@ -127,7 +163,7 @@ noter vedr. xml-skabelonen og mapping af felter:
     <email>psj@place2book.com</email>
     <phone>70232550</phone>
   </provider>
-=> trækkes fra admin-kontoen
+=> trï¿½kkes fra admin-kontoen
 
 
   <event>
@@ -145,13 +181,13 @@ noter vedr. xml-skabelonen og mapping af felter:
 => field-date-from. "UTC" kan evt. erstattes med "CET", men default er CET
 
     <end_at>2014-08-17 12:00 UTC</end_at>
-=> field-date-to, og se note ovenfor. Place2book tager ikke værdien, Peter kigger på det.
+=> field-date-to, og se note ovenfor. Place2book tager ikke vï¿½rdien, Peter kigger pï¿½ det.
 
     <sale_open>2011-08-17 12:00 UTC</sale_open>
-=> NULL, så er den aktiv med det samme
+=> NULL, sï¿½ er den aktiv med det samme
 
     <sale_close>2014-08-17 11:00 UTC</sale_close>
-=> NULL, så sættes den til 1 time før
+=> NULL, sï¿½ sï¿½ttes den til 1 time fï¿½r
 
     <venue>
       <name>Testhallen</name>
@@ -161,31 +197,31 @@ noter vedr. xml-skabelonen og mapping af felter:
       <city>Testby</city>
       <country_code>DK</country_code>
     </venue>
-=> jeg har felterne, træk fra Bibl. hvis muligt, ellers tag indtastningerne fra nodefelter.
+=> jeg har felterne, trï¿½k fra Bibl. hvis muligt, ellers tag indtastningerne fra nodefelter.
 
     <capacity>100</capacity>
 => lav ekstra felt i nodeform til det. Er det tomt, slettes det fra xml-skabelonen der sendes til place2book.
 
     <unlimited_capacity>0</unlimited_capacity>
-=> sættes til 1 som standard. Hvis det nye felt til capacity ovenfor har en værdi, sættes denne nul i xml-skabelonen til place2book. 
+=> sï¿½ttes til 1 som standard. Hvis det nye felt til capacity ovenfor har en vï¿½rdi, sï¿½ttes denne nul i xml-skabelonen til place2book. 
 
     <price>
       <name>Voksen</name>
       <value_dollar>100</value_dollar>
     </price>
-=> field_price. Sæt f.eks. name til "Adgang" - det er så standardbilletprisen/typen.
+=> field_price. Sï¿½t f.eks. name til "Adgang" - det er sï¿½ standardbilletprisen/typen.
 
     <kultunaut_export>1</kultunaut_export>
-=> ny felt til nodeform, lav også en standard-setting på admin-siden. 1 eller 0?
+=> ny felt til nodeform, lav ogsï¿½ en standard-setting pï¿½ admin-siden. 1 eller 0?
 
     <kultunaut_age_group>Boern</kultunaut_age_group>
-=> mapper lige over med taksonomien Event Target. Bemærk, at kultunaut kører med specifikke værdier, som muligvis ikke matcher ding-bibliotekets. Send det, det giver ingen fejl, muligvis en forvirret kultunaut-mand.
+=> mapper lige over med taksonomien Event Target. Bemï¿½rk, at kultunaut kï¿½rer med specifikke vï¿½rdier, som muligvis ikke matcher ding-bibliotekets. Send det, det giver ingen fejl, muligvis en forvirret kultunaut-mand.
 
     <kultunaut_picture_uri>http://dinserver.dk/billede.png</kultunaut_picture_uri>
 => brug listebilledets url
 
     <kultunaut_export_category>Elektronisk</kultunaut_export_category>
-=> mapper lige over med taksonomien Event Categori. Samme regler gælder som ovenfor med ".. age group".
+=> mapper lige over med taksonomien Event Categori. Samme regler gï¿½lder som ovenfor med ".. age group".
 
   </event>
     </data>
