@@ -48,13 +48,8 @@
       $.merge(checkboxes, $('input[type=checkbox]', item.nextUntil('.select-all'))).not(':disabled');
       $.merge(checkboxes, $('input[type=checkbox]', item)).not(':disabled');
 
-      // Find all checked checkboxes found above and count theme
-      var checked = 0;
-      checkboxes.each(function(index, checkbox) {
-        if (checkbox.is(':checked')) {
-          checked++;
-        }
-      });
+      // Find all checked checkboxes found above and count theme.
+      var checked = checkboxes.find(':checked').size();
 
       // Change the select all based on the count found above.
       if (checked !== checkboxes.length) {
