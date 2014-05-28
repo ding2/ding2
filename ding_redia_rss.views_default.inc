@@ -128,19 +128,37 @@ function ding_redia_rss_views_default_views() {
   $handler->display->display_options['fields']['field_ding_event_body']['alter']['preserve_tags'] = '<a><b><em><u><i><li><ul><ol><h2><h3><strong><p><br/>';
   $handler->display->display_options['fields']['field_ding_event_body']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_event_body']['element_default_classes'] = FALSE;
-  /* Field: Content: List image */
+  /* Field: Indhold: List image (content) */
   $handler->display->display_options['fields']['field_ding_event_list_image']['id'] = 'field_ding_event_list_image';
   $handler->display->display_options['fields']['field_ding_event_list_image']['table'] = 'field_data_field_ding_event_list_image';
   $handler->display->display_options['fields']['field_ding_event_list_image']['field'] = 'field_ding_event_list_image';
+  $handler->display->display_options['fields']['field_ding_event_list_image']['ui_name'] = 'Indhold: List image (content)';
   $handler->display->display_options['fields']['field_ding_event_list_image']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_event_list_image']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_ding_event_list_image']['alter']['text'] = '[field_ding_event_list_image]';
   $handler->display->display_options['fields']['field_ding_event_list_image']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_event_list_image']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_ding_event_list_image']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_ding_event_list_image']['type'] = 'media_thumbnail';
+  $handler->display->display_options['fields']['field_ding_event_list_image']['type'] = 'media_content';
   $handler->display->display_options['fields']['field_ding_event_list_image']['settings'] = array(
     'image_style' => '',
+    'group_multiple_values' => 0,
+    'medium' => 'image',
+    'expression' => '',
+    'generate_hash' => 1,
+    'hash_algo' => 'md5',
+  );
+  /* Field: Indhold: List image (thumbnail) */
+  $handler->display->display_options['fields']['field_ding_event_list_image_1']['id'] = 'field_ding_event_list_image_1';
+  $handler->display->display_options['fields']['field_ding_event_list_image_1']['table'] = 'field_data_field_ding_event_list_image';
+  $handler->display->display_options['fields']['field_ding_event_list_image_1']['field'] = 'field_ding_event_list_image';
+  $handler->display->display_options['fields']['field_ding_event_list_image_1']['ui_name'] = 'Indhold: List image (thumbnail)';
+  $handler->display->display_options['fields']['field_ding_event_list_image_1']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_event_list_image_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_event_list_image_1']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_event_list_image_1']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_ding_event_list_image_1']['type'] = 'media_thumbnail';
+  $handler->display->display_options['fields']['field_ding_event_list_image_1']['settings'] = array(
+    'image_style' => 'medium',
   );
   /* Field: Scheduler: Publish on */
   $handler->display->display_options['fields']['publish_on']['id'] = 'publish_on';
@@ -244,11 +262,11 @@ function ding_redia_rss_views_default_views() {
     ),
     'media' => array(
       'views_rss_media' => array(
-        'content' => '',
+        'content' => 'field_ding_event_list_image',
         'title' => '',
         'description' => '',
         'keywords' => '',
-        'thumbnail' => 'field_ding_event_list_image',
+        'thumbnail' => 'field_ding_event_list_image_1',
         'category' => '',
       ),
     ),
@@ -312,11 +330,11 @@ function ding_redia_rss_views_default_views() {
     ),
     'media' => array(
       'views_rss_media' => array(
-        'content' => '',
+        'content' => 'field_ding_event_list_image',
         'title' => '',
         'description' => '',
         'keywords' => '',
-        'thumbnail' => 'field_ding_event_list_image',
+        'thumbnail' => 'field_ding_event_list_image_1',
         'category' => '',
       ),
     ),
@@ -428,20 +446,6 @@ function ding_redia_rss_views_default_views() {
   $handler->display->display_options['fields']['nid']['label'] = '';
   $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['nid']['element_default_classes'] = FALSE;
-  /* Field: Content: List image */
-  $handler->display->display_options['fields']['field_ding_news_list_image']['id'] = 'field_ding_news_list_image';
-  $handler->display->display_options['fields']['field_ding_news_list_image']['table'] = 'field_data_field_ding_news_list_image';
-  $handler->display->display_options['fields']['field_ding_news_list_image']['field'] = 'field_ding_news_list_image';
-  $handler->display->display_options['fields']['field_ding_news_list_image']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_news_list_image']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_ding_news_list_image']['alter']['text'] = '[field_ding_news_list_image]';
-  $handler->display->display_options['fields']['field_ding_news_list_image']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_news_list_image']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_news_list_image']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_ding_news_list_image']['type'] = 'media_thumbnail';
-  $handler->display->display_options['fields']['field_ding_news_list_image']['settings'] = array(
-    'image_style' => '',
-  );
   /* Field: Content: Lead */
   $handler->display->display_options['fields']['field_ding_news_lead']['id'] = 'field_ding_news_lead';
   $handler->display->display_options['fields']['field_ding_news_lead']['table'] = 'field_data_field_ding_news_lead';
@@ -450,6 +454,39 @@ function ding_redia_rss_views_default_views() {
   $handler->display->display_options['fields']['field_ding_news_lead']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_news_lead']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_ding_news_lead']['type'] = 'text_plain';
+  /* Field: Indhold: List image (content) */
+  $handler->display->display_options['fields']['field_ding_news_list_image']['id'] = 'field_ding_news_list_image';
+  $handler->display->display_options['fields']['field_ding_news_list_image']['table'] = 'field_data_field_ding_news_list_image';
+  $handler->display->display_options['fields']['field_ding_news_list_image']['field'] = 'field_ding_news_list_image';
+  $handler->display->display_options['fields']['field_ding_news_list_image']['ui_name'] = 'Indhold: List image (content)';
+  $handler->display->display_options['fields']['field_ding_news_list_image']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_news_list_image']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_ding_news_list_image']['alter']['text'] = '[field_ding_news_list_image]';
+  $handler->display->display_options['fields']['field_ding_news_list_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_news_list_image']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_news_list_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_ding_news_list_image']['type'] = 'media_content';
+  $handler->display->display_options['fields']['field_ding_news_list_image']['settings'] = array(
+    'image_style' => '',
+    'group_multiple_values' => 0,
+    'medium' => 'image',
+    'expression' => '',
+    'generate_hash' => 1,
+    'hash_algo' => 'md5',
+  );
+  /* Field: Indhold: List image (thumbnail) */
+  $handler->display->display_options['fields']['field_ding_news_list_image_1']['id'] = 'field_ding_news_list_image_1';
+  $handler->display->display_options['fields']['field_ding_news_list_image_1']['table'] = 'field_data_field_ding_news_list_image';
+  $handler->display->display_options['fields']['field_ding_news_list_image_1']['field'] = 'field_ding_news_list_image';
+  $handler->display->display_options['fields']['field_ding_news_list_image_1']['ui_name'] = 'Indhold: List image (thumbnail)';
+  $handler->display->display_options['fields']['field_ding_news_list_image_1']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_news_list_image_1']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_news_list_image_1']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_news_list_image_1']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_ding_news_list_image_1']['type'] = 'media_thumbnail';
+  $handler->display->display_options['fields']['field_ding_news_list_image_1']['settings'] = array(
+    'image_style' => 'medium',
+  );
   /* Field: Scheduler: Publish on */
   $handler->display->display_options['fields']['publish_on']['id'] = 'publish_on';
   $handler->display->display_options['fields']['publish_on']['table'] = 'scheduler';
@@ -552,11 +589,11 @@ function ding_redia_rss_views_default_views() {
     ),
     'media' => array(
       'views_rss_media' => array(
-        'content' => '',
+        'content' => 'field_ding_news_list_image',
         'title' => '',
         'description' => '',
         'keywords' => '',
-        'thumbnail' => 'field_ding_news_list_image',
+        'thumbnail' => 'field_ding_news_list_image_1',
         'category' => '',
       ),
     ),
