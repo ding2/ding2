@@ -86,7 +86,7 @@ function ting_get_object($object_id, $collection = FALSE, $with_relations = FALS
         if ($sub_object->id == $object_id) {
           // If not asking for a collection, and the object is, return the
           // sub-object with the same id.
-          _ting_cache_no_relations($sub_object, $with_relations);
+          _ting_cache_update_relations_status($sub_object, $with_relations);
           return $sub_object;
         }
       }
@@ -96,7 +96,7 @@ function ting_get_object($object_id, $collection = FALSE, $with_relations = FALS
 
     // Mark the object in cache as relations have been loaded.
     if (!$collection) {
-      _ting_cache_no_relations($object, $with_relations);
+      _ting_cache_update_relations_status($object, $with_relations);
     }
 
     // If not asking for a collection, and the object is, return the
@@ -531,7 +531,7 @@ function ting_cache_set($id, $value, $type = TING_CACHE_TING_OBJECT) {
  * @param bool $with_relations
  *   If TRUE relations will be marked.
  */
-function _ting_cache_no_relations($object, $with_relations) {
+function _ting_cache_update_relations_status($object, $with_relations = FALSE) {
   if ($with_relations && $object instanceof TingClientObject) {
     if (empty($object->relations)) {
       // Mark this object as having no relations.
