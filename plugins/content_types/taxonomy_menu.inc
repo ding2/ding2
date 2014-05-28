@@ -2,6 +2,10 @@
 /**
  * @file
  * Create sub-menu based on taxonomy.
+ *
+ * With example content added, this would etc create sub menus for the link
+ * /arrangementer. These links would be build from event_category.
+ * Every sub-menu is setup in Panels.
  */
 
 $plugin = array(
