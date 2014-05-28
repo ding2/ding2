@@ -133,5 +133,6 @@ projects[apc][version] = "1.0-beta4"
 
 projects[cookiecontrol][subdir] = "contrib"
 projects[cookiecontrol][version] = "1.6"
+# https://drupal.org/node/2174955, fix translatable link.
 projects[cookiecontrol][patch][0] = "http://drupal.org/files/issues/translatable_link_title-2174955-1.patch"
 
