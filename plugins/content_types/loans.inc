@@ -173,7 +173,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
       if (empty($loan->renewable)) {
         $disabled_count++;
         $item['#material_message'] = array(
-          'message' => t('This material can not be re-newed'),
+          'message' => t('This material can not be renewed'),
           'class' => 'messages warning',
         );
       }
