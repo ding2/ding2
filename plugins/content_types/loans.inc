@@ -283,7 +283,7 @@ function _ding_loan_loans_group_loans_by_date($loans) {
       // Loans that should be handed in today.
       if (!isset($groups['due'])) {
         $groups['due'] = array(
-          'title' => t('Loans due'),
+          'title' => t('Loans due today'),
           'loans' => array(),
         );
       }
