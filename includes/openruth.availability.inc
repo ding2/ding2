@@ -69,7 +69,7 @@ function openruth_availability_holdings($provider_ids, $reset = FALSE) {
               }
               else {
                 // Parse holdings information.
-                $holdings = _openruth_populate_holdings($item_holding);;
+                $holdings = _openruth_populate_holdings($item_holding);
                 $data['total_count'] = $holdings['total_count'];
                 $data['reservable_count'] = $holdings['reservable_count'];
                 $data['holdings'] = $holdings['holdings'];
