@@ -158,6 +158,7 @@ function ding_content_media_browser_plugin_view($plugin_name, $params) {
  */
 function ding_content_wysiwyg_editor_settings_alter(&$settings, $context) {
   if ($context['profile']->editor == 'ckeditor') {
-    $settings['forceEnterMode'] = TRUE;
+    $path = drupal_get_path('module', 'ding_content');
+    $settings['customConfig'] = '/' . $path . '/js/ding_content.editor_config.js';
   }
 }
