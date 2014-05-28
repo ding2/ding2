@@ -98,7 +98,7 @@ function ding_facetbrowser_fold_facet_group() {
 
     // Add expand button, if there are more to show.
     if (terms_not_checked.length > number_of_terms) {
-      facetGroup.append('<a href="javascript:void;" class="expand expand-more" id="expand_more">' + Drupal.t('Show more') + '</a>');
+      facetGroup.append('<a href="javascript:void;" class="expand expand-more">' + Drupal.t('Show more') + '</a>');
     }
 
     // Add classes to checkbox wrappers used to handle visibility.
@@ -122,24 +122,24 @@ function ding_facetbrowser_fold_facet_group() {
   fact_browser.find('.expand').live('click', function(e) {
     e.preventDefault();
 
-    var clickedKey = this;
+    var clickedKey = $(this);
     var facetGroup = $(clickedKey).parent();
 
-    facetGroup.find('.form-type-checkbox.unselected-checkbox:' + (clickedKey.id == 'expand_more' ? 'hidden': 'visible')).each(function(count, facetElement) {
-      if (clickedKey.id == 'expand_more' && count < Drupal.settings.ding_facetbrowser.number_of_terms) {
+    facetGroup.find('.form-type-checkbox.unselected-checkbox:' + (clickedKey.hasClass('expand-more') ? 'hidden': 'visible')).each(function(count, facetElement) {
+      if (clickedKey.hasClass('expand-more') && count < Drupal.settings.ding_facetbrowser.number_of_terms) {
         $(facetElement).slideDown('fast', function() {
           if (facetGroup.find('.form-type-checkbox.unselected-checkbox:visible').size() >= Drupal.settings.ding_facetbrowser.number_of_terms &&
-              facetGroup.find('#expand_less').size() === 0 &&
+              facetGroup.find('.expand-less').size() === 0 &&
               count % Drupal.settings.ding_facetbrowser.number_of_terms === 0) {
-            facetGroup.append('<a href="javascript:void;" class="expand expand-less" id="expand_less">' + Drupal.t('Show less') + '</a>');
+            facetGroup.append('<a href="javascript:void;" class="expand expand-less">' + Drupal.t('Show less') + '</a>');
           }
         });
       }
-      else if (clickedKey.id == 'expand_less' && count >= Drupal.settings.ding_facetbrowser.number_of_terms) {
+      else if (clickedKey.hasClass('expand-less') && count >= Drupal.settings.ding_facetbrowser.number_of_terms) {
         $(facetElement).slideUp('fast', function() {
           if (facetGroup.find('.form-type-checkbox.unselected-checkbox:visible').size() == Drupal.settings.ding_facetbrowser.number_of_terms &&
-              facetGroup.find('#expand_less:visible')) {
-            facetGroup.find('#expand_less').fadeOut().remove();
+              facetGroup.find('.expand-less:visible')) {
+            facetGroup.find('.expand-less').fadeOut().remove();
           }
         });
       }
@@ -148,13 +148,13 @@ function ding_facetbrowser_fold_facet_group() {
     // Need to make sure we have the correct amount of unselected checkboxes to check against when wanting to remove the show more link.
     var unselectedSize = facetGroup.attr('count')-facetGroup.find('.form-type-checkbox.selected-checkbox').size();
 
-    if ((facetGroup.find('.form-type-checkbox.unselected-checkbox:visible').size() >= unselectedSize) && (clickedKey.id == 'expand_more')) {
-        facetGroup.find('#expand_more').remove();
+    if ((facetGroup.find('.form-type-checkbox.unselected-checkbox:visible').size() >= unselectedSize) && (clickedKey.hasClass('expand-more'))) {
+        facetGroup.find('.expand-more').remove();
     }
 
-    if (clickedKey.id == 'expand_less'){
-      if (!(facetGroup.find('#expand_more').length)) {
-        facetGroup.append('<a href="javascript:void;" class="expand expand-more" id="expand_more">' + Drupal.t('Show more') + '</a>');
+    if (clickedKey.hasClass('expand-less')){
+      if (!(facetGroup.find('.expand-more').length)) {
+        facetGroup.append('<a href="javascript:void;" class="expand expand-more">' + Drupal.t('Show more') + '</a>');
       }
     }
 
