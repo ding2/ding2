@@ -141,6 +141,7 @@ projects[sslproxy][version] = "1.0"
 
 projects[cookiecontrol][subdir] = "contrib"
 projects[cookiecontrol][version] = "1.6"
+# https://drupal.org/node/2174955, fix translatable link.
 projects[cookiecontrol][patch][0] = "http://drupal.org/files/issues/translatable_link_title-2174955-1.patch"
 
 # Using dev release, as the "stable" version is making errors in the install profile.
