@@ -52,12 +52,7 @@
       var checked = checkboxes.find(':checked').size();
 
       // Change the select all based on the count found above.
-      if (checked !== checkboxes.length) {
-        item.prevAll('.select-all').find('input[type=checkbox]:not(:disabled)').prop('checked', false);
-      }
-      else {
-        item.prevAll('.select-all').find('input[type=checkbox]:not(:disabled)').prop('checked', true);
-      }
+      item.prevAll('.select-all').find('input[type=checkbox]:not(:disabled)').prop('checked', checked === checkboxes.length);
     });
 
     // Update count string on the buttons.
