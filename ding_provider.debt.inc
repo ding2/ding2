@@ -29,6 +29,9 @@ class DingProviderDebt extends DingEntityBase {
 
   /**
    * Display name.
+   *
+   * Used to display material title when one could not be fetched from the
+   * datawell, so used to store a fallback title e.g. the library system.
    */
   protected $display_name = DingEntityBase::NULL;
 
@@ -43,7 +46,7 @@ class DingProviderDebt extends DingEntityBase {
   protected $amount = DingEntityBase::NULL;
 
   /**
-   * Material number for which the debt is about.
+   * Material number for which the debt is about also known as faust number.
    */
   protected $material_number = DingEntityBase::NULL;
 
