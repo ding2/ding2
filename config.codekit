@@ -1255,6 +1255,17 @@
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
+	"\/scripts\/ddbasic.search.min.js": {
+		"fileType": 64,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/scripts\/ddbasic.search.min.js",
+		"outputAbbreviatedPath": "\/scripts\/ddbasic.search.min.min.js",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 1,
+		"syntaxCheckerStyle": 1
+		},
 	"\/scripts\/ddbasic.topbar.menu.js": {
 		"fileType": 64,
 		"ignore": 0,
@@ -2097,7 +2108,7 @@
 	},
 "hooks": [
 	],
-"lastSavedByUser": "Jesper Kristensen",
+"lastSavedByUser": "Martin Yde Granath",
 "manualImportLinks": {
 	},
 "projectAttributes": {
