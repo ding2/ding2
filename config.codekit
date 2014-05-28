@@ -1880,6 +1880,15 @@
 		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
+	"\/templates\/user-profile-category.tpl.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/templates\/user-profile-category.tpl.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
 	"\/templates\/views\/ding_event\/frontpage-list\/views-view-fields--ding-event--ding-event-frontpage-list.tpl.php": {
 		"fileType": 8192,
 		"ignore": 0,

@@ -34,9 +34,7 @@
       // Hide name fields - they are present in the panel pane title.
       hide($content['field_ding_staff_forename']);
       hide($content['field_ding_staff_surname']);
-
-      // Render fields.
-      print render($content);
+      hide($user_profile['summary']);
     ?>
-  </div>
+  <?php print render($content); ?>
 </div>
