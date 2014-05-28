@@ -71,7 +71,8 @@
     }
 
     .times {
-      margin-right: 0;
+      padding-right: 1em;
+      margin-right: .5em
     }
 
     .odd {
@@ -107,8 +108,8 @@
     @extend .icon-info-sign;
 
     visibility: hidden;
-    margin-right: 0;
-    padding-left: $small-spacing;
+    margin-right: -2em;
+    padding-left: .5em;
 
     // Icon placement and font-face.
     &:before {
