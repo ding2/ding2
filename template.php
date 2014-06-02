@@ -140,8 +140,10 @@ function ddbasic_preprocess_panels_pane(&$vars) {
   $vars['theme_hook_suggestions'][] = 'panels_pane__' . str_replace('-', '__', $vars['pane']->subtype);
   $vars['theme_hook_suggestions'][] = 'panels_pane__'  . $vars['pane']->panel . '__' . str_replace('-', '__', $vars['pane']->subtype);
 
-  if (!empty($vars['content']['profile_ding_staff_profile']) && $vars['content']['profile_ding_staff_profile']['#title'] == 'Staff') {
-    $vars['theme_hook_suggestions'][] = 'panels_pane__user_profile_staff';
+  if (isset($vars['content'])) {
+    if (isset($vars['content']['profile_ding_staff_profile']) && $vars['content']['profile_ding_staff_profile']['#title'] == 'Staff') {
+      $vars['theme_hook_suggestions'][] = 'panels_pane__user_profile_staff';
+    }
   }
 
   // Suggestions on panel pane.
@@ -559,6 +561,40 @@ function ddbasic_panels_default_style_render_region($vars) {
   $output .= implode('', $vars['panes']);
 
   return $output;
+}
+
+
+/**
+ * Implements template_preprocess_user_profile().
+ */
+function ddbasic_preprocess_user_profile(&$variables) {
+  $variables['user_profile']['summary']['member_for']['#access'] = FALSE;
+}
+
+
+/**
+ * Implements template_preprocess_entity().
+ *
+ * Runs an entity specific preprocess function, if it exists.
+ */
+function ddbasic_preprocess_entity(&$variables, $hook) {
+  $function = __FUNCTION__ . '_' . $variables['entity_type'];
+  if (function_exists($function)) {
+    $function($variables, $hook);
+  }
+}
+
+
+/**
+ * Profile2 specific implementation of template_preprocess_entity().
+ */
+function ddbasic_preprocess_entity_profile2(&$variables) {
+  // Add staff position as a renderable field without label for subheader.
+  if ($variables['profile2']->type == 'ding_staff_profile') {
+    $staff_position = $variables['content']['group_contactinfo']['field_ding_staff_position'];
+    $staff_position['#label_display'] = 'hidden';
+    $variables['position_no_label'] = $staff_position;
+  }
 }
 
 
