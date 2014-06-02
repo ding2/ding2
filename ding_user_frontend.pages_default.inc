@@ -229,7 +229,7 @@ function ding_user_frontend_default_page_manager_handlers() {
   $handler->task = 'user_view';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
-  $handler->weight = 0;
+  $handler->weight = -28;
   $handler->conf = array(
     'title' => 'Use profile',
     'no_blocks' => 0,
@@ -290,7 +290,7 @@ function ding_user_frontend_default_page_manager_handlers() {
   $handler->task = 'user_view';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
-  $handler->weight = -30;
+  $handler->weight = -29;
   $handler->conf = array(
     'title' => 'Provider profile',
     'no_blocks' => 0,
@@ -317,6 +317,17 @@ function ding_user_frontend_default_page_manager_handlers() {
           'settings' => NULL,
           'context' => array(
             0 => 'logged-in-user',
+          ),
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'compare_users',
+          'settings' => array(
+            'equality' => '1',
+          ),
+          'context' => array(
+            0 => 'argument_entity_id:user_1',
+            1 => 'logged-in-user',
           ),
           'not' => FALSE,
         ),
