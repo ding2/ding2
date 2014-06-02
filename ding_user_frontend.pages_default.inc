@@ -248,10 +248,23 @@ function ding_user_frontend_default_page_manager_handlers() {
       'left' => NULL,
       'right' => NULL,
       'middle' => NULL,
+      'left_sidebar' => NULL,
+      'main_content' => NULL,
+      'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Account';
   $display->uuid = '2bee1e6c-8cb9-489a-9b3e-9e80b6417074';
   $display->content = array();
   $display->panels = array();
@@ -358,7 +371,7 @@ function ding_user_frontend_default_page_manager_handlers() {
     ),
   );
   $display->cache = array();
-  $display->title = 'Welcome %logged_in_user:name';
+  $display->title = 'Account';
   $display->uuid = 'b4301b96-c745-4fea-8ae9-41cc346cb2cf';
   $display->content = array();
   $display->panels = array();
