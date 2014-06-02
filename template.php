@@ -142,7 +142,9 @@ function ddbasic_preprocess_panels_pane(&$vars) {
 
   if (isset($vars['content'])) {
     if (isset($vars['content']['profile_ding_staff_profile']) && $vars['content']['profile_ding_staff_profile']['#title'] == 'Staff') {
-      $vars['theme_hook_suggestions'][] = 'panels_pane__user_profile_staff';
+      if (isset($vars['content']['profile_ding_staff_profile']['#title']) && $vars['content']['profile_ding_staff_profile']['#title'] == 'Staff') {
+        $vars['theme_hook_suggestions'][] = 'panels_pane__user_profile_staff';
+      }
     }
   }
 
@@ -591,9 +593,14 @@ function ddbasic_preprocess_entity(&$variables, $hook) {
 function ddbasic_preprocess_entity_profile2(&$variables) {
   // Add staff position as a renderable field without label for subheader.
   if ($variables['profile2']->type == 'ding_staff_profile') {
-    $staff_position = $variables['content']['group_contactinfo']['field_ding_staff_position'];
-    $staff_position['#label_display'] = 'hidden';
-    $variables['position_no_label'] = $staff_position;
+    if (isset($variables['content']['group_contactinfo']['field_ding_staff_position'])) {
+      $staff_position = $variables['content']['group_contactinfo']['field_ding_staff_position'];
+      $staff_position['#label_display'] = 'hidden';
+      $variables['position_no_label'] = $staff_position;
+    }
+    else {
+      $variables['position_no_label'] = FALSE;
+    }
   }
 }
 
