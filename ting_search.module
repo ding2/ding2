@@ -405,8 +405,10 @@ function ting_search_search_execute($keys = NULL, $conditions = NULL) {
       if (isset($search_result->collections)) {
         $search_result->search_key = $keys;
 
-        // @todo: caching highs total_result know value of specific search
-        // at the moment we only know if there is one more page
+        // So we got the total amount of results, but the joker here is that
+        // we have no clue how many collections we got.
+        // Rounded up, this will display 'one more page' if $search-result->more
+        // is true.
         $total_results = ($page + 1) * $results_per_page + ($search_result->more ? 1 : 0);
 
         pager_default_initialize($total_results, $results_per_page);
