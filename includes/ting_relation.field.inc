@@ -219,7 +219,8 @@ function ting_relation_get_online_url($relation) {
         $url = $relation->object->getOnline_url();
         $url = empty($url) ? FALSE : $url;
 
-        // Try to make a better link text.
+        // Try to make a better link text as part of can contain series
+        // information etc.
         $is_part_of = $relation->object->getIsPartOf();
         if (!empty($is_part_of)) {
           $title = reset($is_part_of);
