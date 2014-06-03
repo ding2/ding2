@@ -241,8 +241,8 @@ function ting_relation_get_online_url($relation) {
       break;
 
     case 'isPartOfManifestation':
-      $url = entity_uri('ting_object', $relation->getObject());
-      $url = '/' . $url['path'];
+      $uri = entity_uri('ting_object', $relation->getObject());
+      $url = '/' . $uri['path'];
       $title = $relation->object->getTitle();
       break;
   }
