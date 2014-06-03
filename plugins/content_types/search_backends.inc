@@ -44,11 +44,9 @@ function ting_search_backend_engines_content_type_render($subtype, $conf, $panel
 
     // Create search path.
     $path = 'search/' . $backend['path'] . '/' . $keys;
-    if (!empty($conditions)) {
-      if (empty($conditions['sort'])) {
-        // Remove sort condition, if is the empty string.
-        unset($conditions['sort']);
-      }
+    if (empty($conditions['sort'])) {
+      // Remove sort condition, if is the empty string.
+      unset($conditions['sort']);
     }
 
     // Create the option as a link.
