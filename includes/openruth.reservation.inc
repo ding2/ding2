@@ -224,6 +224,8 @@ function openruth_reservation_options_submit($account, $values) {
   // one selected.
   if (!$profile_branch) {
     $wrapper->field_openruth_preferred_branch->set($values['openruth_preferred_branch']);
+
+    // Save the profile it's field have been updated in the wrapper.
     $profile->save();
   }
 }
