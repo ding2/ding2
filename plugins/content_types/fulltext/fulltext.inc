@@ -12,7 +12,7 @@ $plugin = array(
   'title' => t('Ting fulltext'),
   'description' => t('Fulltext display of ting object docdook relation.'),
   'single' => TRUE,
-  'content_types' => array('fulltest'),
+  'content_types' => array('fulltext'),
   'render callback' => 'ting_fulltext_type_render',
   'category' => t('Ting'),
 );
