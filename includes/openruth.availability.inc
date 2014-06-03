@@ -101,7 +101,7 @@ function _openruth_periodicals_unique_holdings($holdings) {
     $key = $holding['agencyBranchCode'];
 
     // First iteration or new branch code.
-    if (empty($unique_holdings) || !isset($unique_holdings[$key])) {
+    if (!isset($unique_holdings[$key])) {
       $unique_holdings[$key] = $holding;
       continue;
     }
