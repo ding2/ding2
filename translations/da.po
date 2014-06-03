@@ -59708,8 +59708,8 @@ msgid "Number of search result per page: !num"
 msgstr "Søgeresultater pr. side: !num "
 
 #: /ting/object/775100%3A23213664
-msgid "Read more at"
-msgstr "Læs mere på"
+msgid "Read more at %source"
+msgstr "Læs mere på %source"
 
 #: /search/ting/harry%20potter
 msgid "Material collection"
