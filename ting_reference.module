@@ -503,10 +503,11 @@ function _ting_reference_autocomplete($string) {
   // Load ting client.
   module_load_include('client.inc', 'ting');
 
+  // Only use auto-complete if more that 3 chars have been written.
   if ($string && (strlen($string) > 3)) {
-    // Try to build the best search query based on the inputed string.
+    // Try to build the best search query based on the inputted string.
     if (preg_match('/(^\d+$)|(^\d+:\d+$)|(=)/', $string)) {
-      // The query is either ISBN, tid or SQL search expression.
+      // The query is either ISBN, tid or CQL search expression.
       $query = $string;
     }
     else {
@@ -517,7 +518,7 @@ function _ting_reference_autocomplete($string) {
     // Search the data well.
     $result = ting_do_search($query, 1, 10, array('facets' => array(), 'allObjects' => FALSE));
 
-    // If there is no usable result, exit immediately, providng no reply.
+    // If there is no usable result, exit immediately, providing no reply.
     if ($result && $result->numTotalObjects) {
       foreach ($result->collections as $collection) {
         $object = array_shift($collection->reply->objects);
