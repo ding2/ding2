@@ -118,7 +118,7 @@ function ting_search_per_page_form_submit($form, &$form_state) {
     $query = array('size' => $form_state['input']['size']) + $query;
   }
 
-  $form_state['redirect'] = array($_GET['q'], array('query' => $query));
+  $form_state['redirect'] = array(current_path(), array('query' => $query));
 }
 
 /**
