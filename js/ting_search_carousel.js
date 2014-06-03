@@ -213,7 +213,7 @@
 
       // Maybe add support for touch devices (will only be applied on touch
       // enabled devices).
-        _add_touch_support();
+      _add_touch_support();
 
       // Will get content for the first tab.
       _change_tab(0);
