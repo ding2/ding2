@@ -21,7 +21,7 @@ $plugin = array(
  * Render the ting search results amount block.
  */
 function ting_search_per_page_content_type_render($subtype, $conf, $panel_args, $context) {
-  $sizes = records_per_page_controls_content();
+  $sizes = ting_search_records_per_page_controls_content();
 
   $content = '';
   if (!empty($sizes) && isset($conf['select_type'])) {
