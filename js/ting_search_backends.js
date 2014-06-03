@@ -1,6 +1,11 @@
 (function($) {
   "use strict";
 
+  /**
+   * This script handle the changes from the different backends, which
+   * currently is the data-well and the homepage. This in sures that action
+   * is taken when the labels or radios are clicked.
+   */
   $(document).ready(function() {
     // Click the label link when a radio button is clicked.
     $('#ting-search-backend-engines-form input[type="radio"]').change(function() {
