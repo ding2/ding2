@@ -38,17 +38,6 @@ function ding_staff_default_page_manager_handlers() {
           ),
           'not' => FALSE,
         ),
-        1 => array(
-          'name' => 'compare_users',
-          'settings' => array(
-            'equality' => '0',
-          ),
-          'context' => array(
-            0 => 'argument_entity_id:user_1',
-            1 => 'logged-in-user',
-          ),
-          'not' => FALSE,
-        ),
       ),
       'logic' => 'and',
     ),
@@ -78,7 +67,7 @@ function ding_staff_default_page_manager_handlers() {
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Account';
   $display->uuid = '7724df15-c005-4221-8048-5fc88fead69b';
   $display->content = array();
   $display->panels = array();
@@ -152,7 +141,7 @@ function ding_staff_default_page_manager_handlers() {
     $pane->uuid = '8de3be43-6942-4dca-a179-edf434dc63d9';
     $display->content['new-8de3be43-6942-4dca-a179-edf434dc63d9'] = $pane;
     $display->panels['main_content'][1] = 'new-8de3be43-6942-4dca-a179-edf434dc63d9';
-  $display->hide_title = PANELS_TITLE_PANE;
+  $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = 'new-c4b06a7e-01a0-4551-803f-1b654ae9ffbb';
   $handler->conf['display'] = $display;
   $export['user_view_panel_context_3'] = $handler;
