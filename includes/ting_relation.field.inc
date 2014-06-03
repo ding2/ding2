@@ -215,7 +215,7 @@ function ting_relation_get_online_url($relation) {
         $url = '/ting/object/' . $relation->object->id;
       }
       else {
-        $title = t('Read more at') . ' ' . $relation->object->getAc_source();
+        $title = t('Read more at %source', array('%source' => $relation->object->getAc_source()));
         $url = $relation->object->getOnline_url();
         $url = empty($url) ? FALSE : $url;
 
