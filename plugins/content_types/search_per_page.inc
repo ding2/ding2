@@ -21,7 +21,7 @@ $plugin = array(
  * Render the ting search results amount block.
  */
 function ting_search_per_page_content_type_render($subtype, $conf, $panel_args, $context) {
-  $sizes = records_per_page_controls_content();
+  $sizes = ting_search_records_per_page_controls_content();
 
   $content = '';
   if (!empty($sizes) && isset($conf['select_type'])) {
@@ -30,7 +30,7 @@ function ting_search_per_page_content_type_render($subtype, $conf, $panel_args, 
         $items = array();
         foreach ($sizes as $size) {
           $items[] = array(
-            'data' => l($size['text'], $_GET['q'], array(
+            'data' => l($size['text'], current_path(), array(
               'query' => $size['query'],
               'attributes' => array(
                 'class' => ($size['selected'] == TRUE ? array('selected') : array('')),
@@ -118,7 +118,7 @@ function ting_search_per_page_form_submit($form, &$form_state) {
     $query = array('size' => $form_state['input']['size']) + $query;
   }
 
-  $form_state['redirect'] = array($_GET['q'], array('query' => $query));
+  $form_state['redirect'] = array(current_path(), array('query' => $query));
 }
 
 /**

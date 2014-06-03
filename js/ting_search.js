@@ -30,12 +30,7 @@
    *   If TRUE the class spinner is added, FALSE it's removed.
    */
   function ting_search_toggle_spinner(state) {
-    if (state === true) {
-      $('.search-field-wrapper').addClass('spinner');
-    }
-    else {
-      $('.search-field-wrapper').removeClass('spinner');
-    }
+    $('.search-field-wrapper').toggleClass('spinner', state);
   }
 
   // Override default auto-complete to add spinner class.
@@ -58,7 +53,7 @@
   Drupal.autocompleteSubmit = function () {
     $('#autocomplete').each(function () {
       this.owner.hidePopup();
-    })
+    });
 
     return true;
   };
