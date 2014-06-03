@@ -273,7 +273,7 @@ class OpenruthClient {
 
   }
   /**
-   * Get list of agencycounters,
+   * Get list of agencycounters.
    *
    * @return Array
    */
