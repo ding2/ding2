@@ -176,7 +176,6 @@ function ting_relation_get_abstract($relation) {
       if (empty($abstract)) {
         $abstract = $relation->object->getAbstract();
       }
-      $abstract = empty($abstract) ? FALSE : $abstract;
       break;
 
     case 'dbcaddi:hasCreatorHomePage':
@@ -190,7 +189,7 @@ function ting_relation_get_abstract($relation) {
       break;
   }
 
-  return $abstract;
+  return empty($abstract) ? FALSE : $abstract;
 }
 
 /**
