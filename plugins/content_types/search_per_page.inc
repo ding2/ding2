@@ -30,7 +30,7 @@ function ting_search_per_page_content_type_render($subtype, $conf, $panel_args, 
         $items = array();
         foreach ($sizes as $size) {
           $items[] = array(
-            'data' => l($size['text'], $_GET['q'], array(
+            'data' => l($size['text'], current_path(), array(
               'query' => $size['query'],
               'attributes' => array(
                 'class' => ($size['selected'] == TRUE ? array('selected') : array('')),
