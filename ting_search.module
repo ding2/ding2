@@ -805,7 +805,7 @@ function ting_search_sort_form_submit($form, &$form_state) {
  *
  * In panels "render last" option can help in the plugin array.
  */
-function records_per_page_controls_content() {
+function ting_search_records_per_page_controls_content() {
   // Get search results.
   $search_result = drupal_static('ting_search_results');
 
