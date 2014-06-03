@@ -513,7 +513,7 @@ function openruth_profile2_load($entities) {
  */
 function openruth_ding_session_cache_defaults() {
   return array(
-    'titel' => 'Alma (reservations, loans)',
+    'titel' => 'Openruth (reservations, loans)',
     'enabled' => TRUE,
     'expire' => 3600,
   );
