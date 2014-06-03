@@ -33,7 +33,7 @@ function ting_search_admin_settings($form_state) {
   $form['ting_search']['ting_search_number_of_facets'] = array(
     '#type' => 'textfield',
     '#title' => t('Number of facets'),
-    '#description' => t('Enter the number of facets the search engine should use.'),
+    '#description' => t('Enter the number of facets the search engine should show.'),
     '#default_value' => variable_get('ting_search_number_of_facets', 25),
   );
 
