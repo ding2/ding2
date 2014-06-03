@@ -272,7 +272,7 @@ search/ting
     $pane->pid = 'new-dd50ebf9-a0f1-499b-b389-49f178f5e242';
     $pane->panel = 'main_content';
     $pane->type = 'block';
-    $pane->subtype = 'ting_search-sort-form';
+    $pane->subtype = 'ting_search-sort_form';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
