@@ -697,11 +697,11 @@ function theme_ting_search_mini_pager($variables) {
  */
 function ting_search_block_info() {
   return array(
-    'sort-form' => array(
+    'sort_form' => array(
       'info' => t('Ting search "sort by" form'),
       'cache' => DRUPAL_CACHE_PER_PAGE,
     ),
-    'search-display-extended-query' => array(
+    'search_display_extended_query' => array(
       'info' => t('Ting search extended query display'),
       'cache' => DRUPAL_CACHE_PER_PAGE,
     ),
@@ -715,7 +715,7 @@ function ting_search_block_view($delta = '') {
   $block = array();
 
   switch ($delta) {
-    case 'sort-form':
+    case 'sort_form':
       drupal_add_js(drupal_get_path('module', 'ting_search') . '/js/ting_search_extendform.js');
       $block['subject'] = t('Ting search sort controls');
 
@@ -726,7 +726,7 @@ function ting_search_block_view($delta = '') {
       }
       break;
 
-    case 'search-display-extended-query':
+    case 'search_display_extended_query':
       drupal_add_js(drupal_get_path('module', 'ting_search') . '/js/ting_search_extendform.js');
       $block['content'] = theme('ting_search_display_extended_query', array('query_label' => t('Your query:'), 'query_string' => NULL));
       break;
