@@ -57,7 +57,7 @@ function ting_search_admin_settings($form_state) {
   $form['ting_search']['ting_search_result_message'] = array(
     '#type' => 'textarea',
     '#title' => t('Display message'),
-    '#default_value' => variable_get('ting_search_result_message', 'Your search gave more than %s results. Try to search more specific or use the facets to filter the result.'),
+    '#default_value' => variable_get('ting_search_result_message', t('Your search gave more than %s results. Try to search more specific or use the facets to filter the result.')),
     '#description' => t('Message to display when search has more than x results. The token %s will by substitute by the number choosen.'),
   );
 
