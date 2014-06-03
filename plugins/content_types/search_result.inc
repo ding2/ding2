@@ -1,29 +1,31 @@
 <?php
+/**
+ * @file
+ * Panels render to display search results.
+ */
 
-if (module_exists('search')) {
-  $plugin = array(
-    'single' => TRUE,
-    'title' => t('Ting search - Search results'),
-    'description' => t('The results of a search using keywords.'),
-    'required context' => new ctools_context_required(t('Keywords'), 'string'),
-    'category' => t('Widgets'),
-    'content_types' => array('search_result'),
-    'defaults' => array(
-      'type' => 'node',
-      'log' => TRUE,
-      'override_empty' => FALSE,
-      'empty_title' => '',
-      'empty' => '',
-      'empty_format' => filter_fallback_format(),
-      'override_no_key' => FALSE,
-      'no_key_title' => '',
-      'no_key' => '',
-      'no_key_format' => filter_fallback_format(),
-    ),
-    'render first' => TRUE,
-    'render last' => FALSE,
-  );
-}
+$plugin = array(
+  'single' => TRUE,
+  'title' => t('Ting search - Search results'),
+  'description' => t('The results of a search using keywords.'),
+  'required context' => new ctools_context_required(t('Keywords'), 'string'),
+  'category' => t('Widgets'),
+  'content_types' => array('search_result'),
+  'defaults' => array(
+    'type' => 'node',
+    'log' => TRUE,
+    'override_empty' => FALSE,
+    'empty_title' => '',
+    'empty' => '',
+    'empty_format' => filter_fallback_format(),
+    'override_no_key' => FALSE,
+    'no_key_title' => '',
+    'no_key' => '',
+    'no_key_format' => filter_fallback_format(),
+  ),
+  'render first' => TRUE,
+  'render last' => FALSE,
+);
 
 /**
  * Render the custom content type.
