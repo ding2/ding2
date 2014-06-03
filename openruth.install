@@ -9,7 +9,7 @@
  */
 function openruth_requirements($phase) {
   $requirements = array();
-  // Ensure translations don't break at install time
+  // Ensure translations don't break at install time.
   $t = get_t();
 
   if ($phase == 'runtime') {
@@ -21,16 +21,6 @@ function openruth_requirements($phase) {
     if (!variable_get('openruth_wsdl_url', FALSE) || !variable_get('openruth_agency_id', FALSE)) {
       $requirements['openruth']['value'] = $t('Openruth not configured');
       $requirements['openruth']['description'] = $t('Openruth is not properly configured, please visit <a href="@link">the settings page</a>.', array('@link' => url('admin/config/ding/provider/openruth')));
-      $requirements['openruth']['severity'] = REQUIREMENT_ERROR;
-    }
-    $requirements['openruth_wayf'] = array(
-      'title' => $t('Openruth WAYF'),
-      'value' => $t('Openruth WAYF configured'),
-      'severity' => REQUIREMENT_OK,
-    );
-    if (!variable_get('wayf_hash', FALSE)) {
-      $requirements['openruth']['value'] = $t('Openruth WAYF not configured');
-      $requirements['openruth']['description'] = $t('Openruth WAYF is not properly configured, you need to set $conf[\'wayf_hash\'] in setttings.php.');
       $requirements['openruth']['severity'] = REQUIREMENT_ERROR;
     }
   }
