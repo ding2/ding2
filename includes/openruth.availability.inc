@@ -36,12 +36,8 @@ function openruth_availability_holdings($provider_ids, $reset = FALSE) {
       if (is_array($details->holding)) {
         foreach ($details->holding as $holding) {
           // Find the holdings availability.
-          $available = FALSE;
-          $reservable = FALSE;
-          if (isset($holding)) {
-            $available = $holding->agencyHoldings->itemAvailability == 'copies available for loan and reservation';
-            $reservable = $available || $holding->agencyHoldings->itemAvailability == 'no copies available, but item can be reserved';
-          }
+          $available = $holding->agencyHoldings->itemAvailability == 'copies available for loan and reservation';
+          $reservable = $available || $holding->agencyHoldings->itemAvailability == 'no copies available, but item can be reserved';
 
           $data = array(
             'local_id' => $holding->itemId,
