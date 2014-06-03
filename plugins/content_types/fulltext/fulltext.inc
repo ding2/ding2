@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Handles some tabs on the user profile page ?
+ * Renders a parsed data-well fulltext XML document as content.
  */
 
 /**
