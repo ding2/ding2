@@ -279,7 +279,7 @@ function openruth_reservation_create($account, $id, $options = array(), $expiry 
   $order_res = openruth_client_invoke('order_item', $creds['name'], $id, 1, date('c', time()), date('Y-m-d', $expiry), $branch);
   $order = array_shift($order_res);
   if ($order == 1) {
-    // =rder success; refresh cache.
+    // Order success; refresh cache.
     _openruth_user_status($creds, TRUE);
     $order_res['branch'] = $branch;
     // @todo: It seems like this function returns a response directly from the
