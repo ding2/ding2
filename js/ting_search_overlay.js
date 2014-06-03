@@ -8,9 +8,7 @@
   /**
    * Add search overlay function, so all search related JavaScripts can call it.
    */
-  Drupal.TingSearchOverlay = function(toggle) {
-    // Default toggle to false.
-    toggle = typeof toggle !== 'undefined' ? toggle : false;
+  Drupal.TingSearchOverlay = function(remove_overlay) {
 
     // Try to get overlay
     var overlay = $('.search-overlay--wrapper');
@@ -21,7 +19,7 @@
     }
     else {
       // Overlay found.
-      if (toggle) {
+      if (typeof remove_overlay !== 'undefined') {
         // If toggle remove it.
         overlay.remove();
       }
