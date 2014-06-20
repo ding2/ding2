@@ -81,7 +81,7 @@ function ding_library_strongarm() {
         'custom_settings' => FALSE,
       ),
       'search_result' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'token' => array(
         'custom_settings' => FALSE,
@@ -149,9 +149,12 @@ function ding_library_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'og_group_content_type_ding_library';
-  $strongarm->value = 'omitted';
-  $export['og_group_content_type_ding_library'] = $strongarm;
+  $strongarm->name = 'og_menu_default_links_node_ding_library';
+  $strongarm->value = 'Nyheder|bibliotek/[node:field_ding_library_slug]/nyheder
+Arrangementer|bibliotek/[node:field_ding_library_slug]/arrangementer
+Personale|bibliotek/[node:field_ding_library_slug]/personale
+Om|bibliotek/[node:field_ding_library_slug]/om';
+  $export['og_menu_default_links_node_ding_library'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -199,7 +202,7 @@ function ding_library_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_ding_library_pattern';
-  $strongarm->value = 'biblioteker/[node:field_ding_library_slug]';
+  $strongarm->value = 'bibliotek/[node:field_ding_library_slug]';
   $export['pathauto_node_ding_library_pattern'] = $strongarm;
 
   $strongarm = new stdClass();

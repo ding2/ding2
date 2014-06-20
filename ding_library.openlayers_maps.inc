@@ -18,14 +18,14 @@ function ding_library_openlayers_maps() {
   $openlayers_maps->description = 'Map of libraries ';
   $openlayers_maps->data = array(
     'width' => 'auto',
-    'height' => '225px',
-    'image_path' => 'profiles/ding2/libraries/openlayers_themes/dark/',
+    'height' => '275px',
+    'image_path' => '',
     'css_path' => '',
     'proxy_host' => '',
     'hide_empty_map' => 0,
     'center' => array(
       'initial' => array(
-        'centerpoint' => '12.543640136217, 55.68726232509',
+        'centerpoint' => '10.201468, 56.156099',
         'zoom' => '12',
       ),
       'restrict' => array(
@@ -44,7 +44,7 @@ function ding_library_openlayers_maps() {
       ),
       'openlayers_behavior_keyboarddefaults' => array(),
       'openlayers_behavior_navigation' => array(
-        'zoomWheelEnabled' => 1,
+        'zoomWheelEnabled' => 0,
         'documentDrag' => 0,
       ),
       'openlayers_behavior_panzoom' => array(),
