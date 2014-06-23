@@ -55,6 +55,25 @@ CKEDITOR.on( 'dialogDefinition', function( ev ) {
       tableTab.remove( 'txtSummary' );
       tableTab.remove( 'txtCaption' );
       break;
+
+    // Edit table
+    case 'tableProperties' :
+      // Remove tab.
+      dialogDefinition.removeContents( 'advanced' );
+
+      // Get fields from info tab.
+      var tableTab = dialogDefinition.getContents( 'info' );
+      // Remove fields.
+      tableTab.remove( 'cmbAlign' );
+      tableTab.remove( 'selHeaders' );
+      tableTab.remove( 'txtBorder' );
+      tableTab.remove( 'txtWidth' );
+      tableTab.remove( 'txtHeight' );
+      tableTab.remove( 'txtCellSpace' );
+      tableTab.remove( 'txtCellPad' );
+      tableTab.remove( 'txtSummary' );
+      tableTab.remove( 'txtCaption' );
+      break;
   }
 });
 
