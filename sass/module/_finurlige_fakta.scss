@@ -1,0 +1,42 @@
+/**
+ * Finurlige fakta styling.
+ */
+
+
+.finurlig-widget {
+  background: #5b9848;
+
+  & a {
+    color: #ff6600;
+  }
+}
+
+
+.fffW-title {
+  font-size: 130%;
+  padding: 10px;
+}
+
+
+.fffw-button-reload {
+  bottom: 10px;
+  position: absolute;
+  right: 10px;
+}
+
+
+.fffW-text,
+.fffW-innerwrapper > div {
+  padding: 0 10px;
+}
+
+
+.fffW-label {
+  margin-right: 8px;
+}
+
+
+
+.fffw-slogan-text {
+  padding-bottom: 40px;
+}

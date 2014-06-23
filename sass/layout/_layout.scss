@@ -191,7 +191,7 @@ body {
 
   .attachments-wrapper {
     @include zen-grid-container;
-    @include zen-clear();
+    @include zen-clear(both);
 
     margin-bottom: $large-spacing;
   }
@@ -200,7 +200,7 @@ body {
   @include small-medium() {
     .primary-content,
     .secondary-content,
-    .tertiary-content {
+    .tertiary-content, {
       @include zen-grid-item(12, 1);
       @include zen-clear();
     }

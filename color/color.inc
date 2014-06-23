@@ -22,6 +22,8 @@ $info = array(
     'list_background_color_even' => t('List item background color (even)'),
     'list_text_color' => t('List text color'),
     'footer_background_color' => t('Footer background color'),
+    'facts_background' => t('Facts background color'),
+    'facts_link' => t('Facts background color'),
   ),
   // Pre-defined color schemes.
   'schemes' => array(
@@ -46,6 +48,8 @@ $info = array(
         'list_background_color_even' => '#f2f2f2',
         'list_text_color' => '#4c4c4c',
         'footer_background_color' => '#262626',
+        'facts_background' => '#00caff',
+        'facts_link' => '#ffffff',
       ),
     ),
     'classic' => array(
@@ -69,6 +73,8 @@ $info = array(
         'list_background_color_even' => '#f2f2f2',
         'list_text_color' => '#4c4c4c',
         'footer_background_color' => '#262626',
+        'facts_background' => '#00caff',
+        'facts_link' => '#ffffff',
       ),
     ),
   ),
