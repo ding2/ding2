@@ -201,6 +201,28 @@ function ding_frontpage_default_page_manager_pages() {
     $pane->uuid = '1235d134-3c15-4d11-86e4-a48f9c8737b3';
     $display->content['new-1235d134-3c15-4d11-86e4-a48f9c8737b3'] = $pane;
     $display->panels['tertiary'][0] = 'new-1235d134-3c15-4d11-86e4-a48f9c8737b3';
+    $pane = new stdClass();
+    $pane->pid = 'new-b14f0ccc-f81c-4267-b843-2fd333f260f8';
+    $pane->panel = 'tertiary';
+    $pane->type = 'block';
+    $pane->subtype = 'finurlig_widget-fffWidget';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 1,
+      'override_title_text' => 'Finurlige fakta',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $pane->uuid = 'b14f0ccc-f81c-4267-b843-2fd333f260f8';
+    $display->content['new-b14f0ccc-f81c-4267-b843-2fd333f260f8'] = $pane;
+    $display->panels['tertiary'][1] = 'new-b14f0ccc-f81c-4267-b843-2fd333f260f8';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
