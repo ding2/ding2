@@ -177,3 +177,21 @@ function ding_content_update_7000() {
 function ding_content_update_7001() {
   ding_content_insert_html5_video_presets();
 }
+
+/**
+ * Update wysiwyg CSS.
+ */
+function ding_content_update_7002() {
+  $profile = wysiwyg_profile_load('ding_wysiwyg');
+  $profile->settings['css_setting'] = 'self';
+  $profile->settings['css_path'] = '/profiles/ding2/themes/ddbasic/css/ddbasic.wysiwyg.css';
+
+
+  db_update('wysiwyg')
+    ->fields(array(
+      'settings' => serialize($profile->settings),
+    ))
+    ->condition('format', $profile->format)
+    ->execute();
+  wysiwyg_profile_cache_clear();
+}
