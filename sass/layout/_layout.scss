@@ -77,8 +77,9 @@ body {
 
 .logo {
   img {
-    height: 70px;
-    margin-top: 10px;
+    max-height: 70px;
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
 }
 
@@ -135,7 +136,7 @@ body {
 }
 
 .logo {
-  @include zen-grid-item(4, 1);
+  @include zen-grid-item(5, 1);
 }
 
 
