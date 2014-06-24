@@ -16,7 +16,7 @@ include_once 'ding_permissions.features.inc';
  */
 function ding_permissions_menu_alter(&$items) {
   $items['user/%user/edit']['access callback'] = 'ding_permissions_user_access_level';
-  $items['user/%user/roles']['access callback'] = 'ding_permissions_user_access_level';
+  $items['user/%user/roles']['access callback'] = 'ding_permission_check_roles_access';
   $items['user/%user/roles']['access arguments'] = array(1);
 }
 
@@ -46,7 +46,10 @@ function ding_permissions_permission() {
 }
 
 /**
- * Access callback that checks user role edit permissions.
+ * Access callback that checks user has access to edit profile.
+ *
+ * Next calls to check that the user is allowed to edit roles and thereby
+ * having the roles tab shown.
  *
  * @param Object $account
  *   The user being edited.
@@ -64,23 +67,38 @@ function ding_permissions_user_access_level($account) {
       return TRUE;
     }
     else {
-      // Check that the user have "administer users" permission.
-      if (user_access('administer users')) {
-        // Get the roles of the account we are trying to edit.
-        $rids = array_keys($account->roles);
-        foreach ($rids as $rid) {
-          // Check if the user logged in has permission to edit the accounts
-          // role. If we are allowed to edit just one of the roles access is
-          // granted.
-          if (user_access('administer user role ' . $rid)) {
-            return TRUE;
-          }
-        }
-      }
+      ding_permission_check_roles_access($account);
     }
   }
 
   return FALSE;
+}
+
+/**
+ * Access callback that checks user role edit permissions.
+ *
+ * @param Object $account
+ *   The user being edited.
+ *
+ * @see ding_permissions_menu_alter()
+ *
+ * @return bool
+ *   If the user is allowed to edit the account TRUE is returned else FALSE.
+ */
+function ding_permission_check_roles_access($account) {
+  // Check that the user have "administer users" permission.
+  if (user_access('administer users')) {
+    // Get the roles of the account we are trying to edit.
+    $rids = array_keys($account->roles);
+    foreach ($rids as $rid) {
+      // Check if the user logged in has permission to edit the accounts
+      // role. If we are allowed to edit just one of the roles access is
+      // granted.
+      if (user_access('administer user role ' . $rid)) {
+        return TRUE;
+      }
+    }
+  }
 }
 
 /**
