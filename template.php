@@ -141,10 +141,8 @@ function ddbasic_preprocess_panels_pane(&$vars) {
   $vars['theme_hook_suggestions'][] = 'panels_pane__'  . $vars['pane']->panel . '__' . str_replace('-', '__', $vars['pane']->subtype);
 
   if (isset($vars['content'])) {
-    if (isset($vars['content']['profile_ding_staff_profile']) && $vars['content']['profile_ding_staff_profile']['#title'] == 'Staff') {
-      if (isset($vars['content']['profile_ding_staff_profile']['#title']) && $vars['content']['profile_ding_staff_profile']['#title'] == 'Staff') {
-        $vars['theme_hook_suggestions'][] = 'panels_pane__user_profile_staff';
-      }
+    if (isset($vars['content']['profile_ding_staff_profile']['#title']) && $vars['content']['profile_ding_staff_profile']['#title'] == 'Staff') {
+      $vars['theme_hook_suggestions'][] = 'panels_pane__user_profile_staff';
     }
   }
 
