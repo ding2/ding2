@@ -162,6 +162,9 @@ function alma_client() {
  * @param string $method
  *   The desired method.
  *
+ * @throws Exception
+ *   Provider exception if communication fails.
+ *
  * @return array
  *   NULL on error, or the result of the method call.
  */
@@ -568,6 +571,11 @@ function alma_update_provider($changes, $entity) {
       $user->mail = $changes['mail'];
       user_save($user);
     }
+  }
+
+  // Update patron information and update cache.
+  if (!empty($changes)) {
+    alma_get_patron($creds, TRUE);
   }
 }
 
