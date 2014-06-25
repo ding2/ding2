@@ -737,3 +737,14 @@ function ding_provider_build_entity_id($id, $agency = -1) {
 
   return $ting_entity_id;
 }
+
+/**
+ * Implements hook_entity_info_alter().
+ *
+ * Disable entity cache for profile2 entities, so provider profiles are not
+ * cached.
+ */
+function ding_provider_entity_info_alter(&$entity_info) {
+  $entity_info['profile2']['entity cache'] = FALSE;
+  $entity_info['profile2_type']['entity cache'] = FALSE;
+}
