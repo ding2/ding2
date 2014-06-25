@@ -8,12 +8,15 @@
 
 /* Topbar */
 $topbar-background-color:         #000001 !default;
+$topbar-text-color:               #fffffa !default;
 
 /* Header */
-$header-background-color:         #00caff;
+$header-background-color:         #00caff !default;
 
 /* Navigation */
 $navigation-background-color:     #fffffc !default;
+$navigation-text-color:           #959594 !default;
+$navigation-text-color-active:    #000002 !default;
 
 /* Tabroll */
 $tabroll-background-color:        #a32e10 !default;
@@ -39,3 +42,12 @@ $list-text-color:                 #4c4c4c !default;
 
 /* Footer */
 $footer-background-color:         #262626 !default;
+$footer-text-color:               #fffff9 !default;
+
+/* Buttons */
+$button-default-background:       #444443 !default;
+$button-default-background-gradient: #1e1e1f !default;
+$button-default-color-hover:      #1e1e1e !default;
+$button-default-text-color:       #fffff8 !default;
+
+/* Funny facts */

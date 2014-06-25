@@ -91,11 +91,22 @@ $button-danger-color:             #fff;
 }
 
 
-/* Default button */
+/* Default button, we dont use gradiant mixin sin since it's part of color module */
 .button,
 a.button,
 %button-default {
-  @include create-gradient-button($button-default-color, $button-default-bg, darken($button-default-bg, 15%));
+  background-color: $button-default-background;
+  border: 1px;
+  color: $button-default-text-color;
+
+  @include background-image(linear-gradient($button-default-background, $button-default-background-gradient));
+
+  &:focus,
+  &:hover,
+  &:active {
+    background-image: none;
+    background-color: $button-default-color-hover;
+  }
 }
 
 /* Theme button */

@@ -111,6 +111,10 @@ img {
 /* Lists
    ========================================================================== */
 
+ol {
+  padding-left: 20px;
+}
+
 ul {
   margin: 0;
   padding-left: 20px;
@@ -122,9 +126,12 @@ ul {
 
 
 /* Make sure lists in content get the icon */
+.field-type-text-long,
 .page-content {
-  li {
-    list-style: disc outside;
+  ul {
+    li {
+      list-style: disc outside;
+    }
   }
 }
 

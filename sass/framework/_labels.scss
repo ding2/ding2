@@ -7,34 +7,28 @@
 
 .label {
   @include border-radius($label-border-radius);
-
-  background-color: $label-bg-color;
-  color: $label-text-color;
   font-size: $font-size-small;
-  padding: $label-padding;
   text-shadow: $label-shadow;
   vertical-align: baseline;
   white-space: nowrap;
 
+
   /* Make sure it works with a wrapper */
   a {
+    background-color: $label-bg-color;
+    color: $label-text-color;
+    padding: $label-padding;
+
     &:link,
-    &:visited,
-    &:hover {
+    &:visited {
       color: $label-text-color;
       text-decoration: none;
     }
-  }
 
-  /* Make sure it works on a link */
-  &:link,
-  &:visited {
-    color: $label-text-color;
-  }
-
-  &:hover {
-    background-color: $label-bg-color-hover;
-    color: $label-text-color-hover;
-    text-decoration: none;
+    &:hover {
+      background-color: $label-bg-color-hover;
+      color: $label-text-color-hover;
+      text-decoration: none;
+    }
   }
 }

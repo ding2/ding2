@@ -75,7 +75,7 @@
   label {
     @include font-bold();
 
-    color: transparentize($white, .25);
+    color: $topbar-text-color;
     font-size: $font-size-reset;
     margin-top: 2px;
     margin-bottom: 5px;
