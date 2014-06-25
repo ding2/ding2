@@ -14,7 +14,7 @@ CKEDITOR.on( 'dialogDefinition', function( ev ) {
   switch(dialogName) {
     case 'link':
       // Remove tabs.
-      dialogDefinition.removeContents( 'target' );
+      //dialogDefinition.removeContents( 'target' );
       dialogDefinition.removeContents( 'advanced' );
       break;
 
