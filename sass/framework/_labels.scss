@@ -6,7 +6,6 @@
 
 
 .label {
-  @include border-radius($label-border-radius);
   font-size: $font-size-small;
   text-shadow: $label-shadow;
   vertical-align: baseline;
@@ -18,6 +17,8 @@
     background-color: $label-bg-color;
     color: $label-text-color;
     padding: $label-padding;
+
+    @include border-radius($label-border-radius);
 
     &:link,
     &:visited {

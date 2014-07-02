@@ -98,7 +98,9 @@ a.button,
   background-color: $button-default-background;
   border: 1px;
   color: $button-default-text-color;
-
+  line-height: 100%;
+  padding: 8px 14px;
+  @include border-radius(8px);
   @include background-image(linear-gradient($button-default-background, $button-default-background-gradient));
 
   &:focus,
