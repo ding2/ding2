@@ -27,7 +27,8 @@ function ding_user_preprocess_html(&$variables) {
       drupal_add_http_header('Pragma', 'no-cache');
     }
     elseif (count($args) == 1 || isset($args[1]) && in_array($args[1], array('login', 'password'))) {
-      // Redirect anonymous user to front page login.
+      // Redirect anonymous user to front page login. This is to prevent the
+      // library user from seeing /user, login and password page.
       drupal_goto('', array('fragment' => 'login'));
     }
   }
