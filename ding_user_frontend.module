@@ -27,6 +27,9 @@ function ding_user_frontend_menu_alter(&$items) {
   $provider = _ding_provider_get_provider('user');
   $items['user/%user/edit/provider_' . $provider['module']]['access'] = FALSE;
 
+  // Disable account sub-menu link.
+  $items['user/%user/edit/account']['access'] = FALSE;
+
   // Change weight of user edit link, so it always second menu item.
   $items['user/%user/edit']['weight'] = -5;
 }
