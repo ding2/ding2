@@ -15,16 +15,20 @@ define('DING_USER_ACTIVITY', 'DING_USER_LAST_ACTIVITY');
  * Implements hook_preprocess_page().
  */
 function ding_user_preprocess_html(&$variables) {
-  if (arg(0) == 'user') {
+  $args = arg();
+  if ($args[0] == 'user') {
     // Set default title.
     drupal_set_title('Account');
 
     // Check if current user is logged in.
-    global $user;
-    if ($user->uid > 0) {
+    if (user_is_logged_in()) {
       // Cache control for user pages.
       drupal_add_http_header('Cache-Control', 'no-store, must-revalidate');
       drupal_add_http_header('Pragma', 'no-cache');
+    }
+    elseif (count($args) == 1 || isset($args[1]) && in_array($args[1], array('login', 'password'))) {
+      // Redirect anonymous user to front page login.
+      drupal_goto('', array('fragment' => 'login'));
     }
   }
 }
