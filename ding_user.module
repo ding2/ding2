@@ -26,10 +26,6 @@ function ding_user_preprocess_html(&$variables) {
       drupal_add_http_header('Cache-Control', 'no-store, must-revalidate');
       drupal_add_http_header('Pragma', 'no-cache');
     }
-    else {
-      // Redirect anonymous user to front page.
-      drupal_goto('', array('fragment' => 'login'));
-    }
   }
 }
 
