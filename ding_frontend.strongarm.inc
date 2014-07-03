@@ -44,7 +44,7 @@ background-attachment: fixed;',
   $strongarm->name = 'dynamic_background_setting';
   $strongarm->value = array(
     'num_of_pictures' => 'unlimited',
-    'path' => '/backgrounds',
+    'path' => 'backgrounds',
     'extensions' => 'jpg jpeg png',
   );
   $export['dynamic_background_setting'] = $strongarm;
