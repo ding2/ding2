@@ -1,8 +1,26 @@
 <?php
 /**
  * @file
- * Setup default theme, shortcusts, roles, language, search and features.
+ * Setup default theme, shortcuts, roles, language, search and features.
  */
+
+/**
+ * Implements hook_requirements().
+ *
+ * Display 
+ */
+function ding2_requirements($phase) {
+  $t = get_t();
+  if ($phase == 'runtime') {
+    return array(
+      'ddb_version' => array(
+        'title' => $t('DDB Version'),
+        'value' => 'development',
+        'severity' => REQUIREMENT_INFO,
+      ),
+    );
+  }
+}
 
 /**
  * Implements hook_install().
