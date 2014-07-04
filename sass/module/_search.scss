@@ -431,6 +431,12 @@ input#edit-search-block-form--2.spinner {
     font-weight: inherit;
   }
 
+  a {
+    display: inline-block;
+    margin-right: 5px;
+    margin-bottom: 5px;
+  }
+
   .subject {
     @extend .label;
   }
