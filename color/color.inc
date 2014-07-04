@@ -33,6 +33,10 @@ $info = array(
     'default_button_text' => t('Default button text color'),
     'default_button_hover' => t('Default button hover'),
     'default_button_gradient' => t('Default button gradient'),
+    'default_button_gradient' => t('Default button gradient'),
+    'popup_background' => t('Popup background'),
+    'popup_text' => t('Popup text'),
+
   ),
   // Pre-defined color schemes.
   'schemes' => array(
@@ -68,6 +72,8 @@ $info = array(
         'default_button_text' => '#fffff8',
         'default_button_hover' => '#1e1e1e',
         'default_button_gradient' => '#1e1e1f',
+        'popup_background' => '#00cafd',
+        'popup_text' => t('000003'),
       ),
     ),
     'classic' => array(
@@ -102,6 +108,8 @@ $info = array(
         'default_button_text' => '#fffff8',
         'default_button_hover' => '#1e1e1e',
         'default_button_gradient' => '#1e1e1f',
+        'popup_background' => '#00cafd',
+        'popup_text' => t('000003'),
       ),
     ),
   ),
