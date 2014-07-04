@@ -73,7 +73,7 @@ $info = array(
         'default_button_hover' => '#1e1e1e',
         'default_button_gradient' => '#1e1e1f',
         'popup_background' => '#00cafd',
-        'popup_text' => t('#000003'),
+        'popup_text' => '#000003',
       ),
     ),
     'classic' => array(
@@ -109,7 +109,7 @@ $info = array(
         'default_button_hover' => '#1e1e1e',
         'default_button_gradient' => '#1e1e1f',
         'popup_background' => '#00cafd',
-        'popup_text' => t('#000003'),
+        'popup_text' => '#000003',
       ),
     ),
   ),
