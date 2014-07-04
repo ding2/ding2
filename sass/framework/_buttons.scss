@@ -81,6 +81,8 @@ $button-danger-color:             #fff;
     }
   }
 
+  &:link,
+  &:visited,
   &:focus,
   &:hover,
   &:active {
@@ -100,14 +102,23 @@ a.button,
   color: $button-default-text-color;
   line-height: 100%;
   padding: 8px 14px;
+
   @include border-radius(8px);
   @include background-image(linear-gradient($button-default-background, $button-default-background-gradient));
 
+  &:link,
+  &:visited,
   &:focus,
-  &:hover,
   &:active {
+    color: $button-default-text-color;
+    text-decoration: none;
     background-image: none;
+    background-color: $button-default-background;
+  }
+
+  &:hover {
     background-color: $button-default-color-hover;
+    background-image: none;
   }
 }
 
