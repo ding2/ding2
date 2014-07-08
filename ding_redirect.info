@@ -1,0 +1,5 @@
+name = Ding redirect
+description = Enabling to redirect some searches and login form to external sites.
+package = Ding!
+core = 7.x
+configure = admin/config/ding/redirect
