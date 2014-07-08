@@ -33,7 +33,7 @@ function ding_redirect_init() {
         'login_url' => $login_url,
       ),
     ), 'setting');
-    drupal_add_js(drupal_get_path('module', 'ding_redirect') . '/ding_redirect_login.js');
+    drupal_add_js(drupal_get_path('module', 'ding_redirect') . '/js/ding_redirect_login.js');
   }
 }
 
@@ -65,7 +65,7 @@ function ding_redirect_form_search_block_form_alter(&$form, &$form_state, $form_
       'type' => 'setting',
     );
     // Add JS to handeling redirecting the search form.
-    $form['#attached']['js'][] = drupal_get_path('module', 'ding_redirect') . '/ding_redirect_search.js';
+    $form['#attached']['js'][] = drupal_get_path('module', 'ding_redirect') . '/js/ding_redirect_search.js';
   }
 
   return $form;
