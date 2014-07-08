@@ -9,7 +9,6 @@
  */
 function ding_redirect_admin_settings($form, $form_state) {
 
-
   $form['ding_redirect_settings_search'] = array(
     '#type' => 'fieldset',
     '#title' => t('Redirect searches'),
