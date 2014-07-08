@@ -13,4 +13,5 @@ function ding_redirect_uninstall() {
   variable_del('ding_redirect_settings_search_well');
   variable_del('ding_redirect_settings_search_web');
   variable_del('ding_redirect_settings_search_default');
+  variable_del('ding_redirect_settings_login_url');
 }
