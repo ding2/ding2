@@ -1,11 +1,11 @@
 <?php
 /**
  * @file
- * Contains admin backend related code for search redirect.
+ * Contains admin backend related code for ding redirect.
  */
 
 /**
- * Module main settings lay here.
+ * Settings fields for search and login redirect.
  */
 function ding_redirect_admin_settings($form, $form_state) {
 

@@ -1,0 +1,14 @@
+.search #edit-ding-redirect-redirect-radios {
+  position: absolute;
+  right: 0;
+  top: 36px;
+}
+.search .search-field-in-content #edit-ding-redirect-redirect-radios {
+  top: 5px;
+}
+.search #edit-ding-redirect-redirect-radios .form-item {
+  margin-top: 0;
+}
+.search #edit-ding-redirect-redirect-radios .form-item label{
+  color: rgba(0,0,0,0.7);
+}

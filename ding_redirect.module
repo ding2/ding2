@@ -26,6 +26,8 @@ function ding_redirect_menu() {
  * Implements of hook_init().
  */
 function ding_redirect_init() {
+
+  // Add the login URL and JS to the page, if an url is provided.
   $login_url = variable_get('ding_redirect_settings_login_url');
   if (!empty($login_url)) {
     drupal_add_js(array(
@@ -64,8 +66,11 @@ function ding_redirect_form_search_block_form_alter(&$form, &$form_state, $form_
       ),
       'type' => 'setting',
     );
-    // Add JS to handeling redirecting the search form.
+
+    // Add JS to handeling redirecting the search form and CSS to style the
+    // radio buttons.
     $form['#attached']['js'][] = drupal_get_path('module', 'ding_redirect') . '/js/ding_redirect_search.js';
+    $form['#attached']['css'][] = drupal_get_path('module', 'ding_redirect') . '/ding_redirect_search.css';
   }
 
   return $form;
