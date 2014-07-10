@@ -9,11 +9,11 @@
   $(document).ready(function(){
     // To remove the quick flicker of the login form from the theme, we remove
     // it here. Alternative is to make the theme overrideable.
-    $('.js-topbar-user').remove();
 
     // The URL the user should get redirected to.
     var login_url = Drupal.settings.ding_redirect.login_url;
     $('.topbar-link-user').on('click touchstart', function(e) {
+      $('.js-topbar-user').remove();
       window.location = login_url;
       e.preventDefault();
     });
