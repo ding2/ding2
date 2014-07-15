@@ -193,7 +193,7 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
       $text = !empty($text) ? $text : $wrapper->field_camp_text_full->value();
       if (!empty($text)) {
         $current['#text'] = array(
-          'content' => $text,
+          '#markup' => is_array($text) ? $text['safe_value'] : $text,
         );
       }
 
