@@ -51,5 +51,26 @@ function ding_redirect_admin_settings($form, $form_state) {
     '#description' => t('Enter the URL where to redirect users when they tries to log in. Keep blank to disable.'),
   );
 
+  $form['ding_redirect_settings_login']['ding_redirect_settings_login_delay'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Delay time in miliseconds'),
+    '#default_value' => variable_get('ding_redirect_settings_login_delay', 3000),
+    '#description' => t('Miliseconds to delay the redirection. Default 3000 miliseconds = 3 seconds. Use -1 to disable dialog and delay.'),
+  );
+
+  $form['ding_redirect_settings_login']['ding_redirect_settings_dialog_title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title of dialog shown to the user before redirecting.'),
+    '#default_value' => variable_get('ding_redirect_settings_dialog_title', t('Redirecting...')),
+  );
+
+  $form['ding_redirect_settings_login']['ding_redirect_settings_dialog_text'] = array(
+    '#type' => 'textarea',
+    '#rows' => 15,
+    '#title' => t('Content of dialog shown to the user before redirecting.'),
+    '#default_value' => variable_get('ding_redirect_settings_dialog_text', t('You are being redirected to an external login page. Close this dialog to stop redirecting.')),
+    '#description' => t('Enter the content to show in the dialog to the user, before they are getting redirected. You can use HTML.'),
+  );
+
   return system_settings_form($form);
 }
