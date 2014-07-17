@@ -29,20 +29,46 @@ function ding_redirect_init() {
 
   // Add the login URL and JS to the page, if an url is provided.
   $login_url     = variable_get('ding_redirect_settings_login_url');
-  $delay         = variable_get('ding_redirect_settings_login_delay', 3000);
+  $delay         = variable_get('ding_redirect_settings_dialog_delay', 3000);
   $dialog_title  = variable_get('ding_redirect_settings_dialog_title', t('Redirecting...'));
   $dialog_text   = variable_get('ding_redirect_settings_dialog_text', t('You are being redirected to an external login page. Close this dialog to stop redirecting.'));
+
+  $redirect_well_url = variable_get('ding_redirect_settings_search_well');
+  $redirect_web_url  = variable_get('ding_redirect_settings_search_web');
+
   if (!empty($login_url)) {
     drupal_add_js(array(
       'ding_redirect' => array(
         'login_url' => $login_url,
+      ),
+    ), 'setting');
+    drupal_add_js(drupal_get_path('module', 'ding_redirect') . '/js/ding_redirect_login.js');
+  }
+
+  if ($redirect_web_url || $redirect_well_url) {
+    // Add the URLs to redirect as JS settings.
+    drupal_add_js(array(
+      'ding_redirect' => array(
+        'well' => $redirect_well_url,
+        'web' => $redirect_web_url,
+      ),
+    ), 'setting');
+
+    // Add JS to handeling redirecting the search form and CSS to style the
+    // radio buttons.
+    drupal_add_js(drupal_get_path('module', 'ding_redirect') . '/js/ding_redirect_search.js');
+    drupal_add_css(drupal_get_path('module', 'ding_redirect') . '/ding_redirect_search.css');
+  }
+  // Add settings if we should show a dialog when redirecting.
+  if ($delay > 0) {
+    drupal_add_js(array(
+      'ding_redirect' => array(
         'delay' => $delay,
         'dialog_title' => $dialog_title,
         'dialog_text' => $dialog_text,
       ),
     ), 'setting');
     drupal_add_library('system', 'ui.dialog');
-    drupal_add_js(drupal_get_path('module', 'ding_redirect') . '/js/ding_redirect_login.js');
   }
 }
 
@@ -62,22 +88,6 @@ function ding_redirect_form_search_block_form_alter(&$form, &$form_state, $form_
       '#default_value' => variable_get('ding_redirect_settings_search_default', 'well'),
       '#options' => _ding_redirect_get_options(),
     );
-
-    // Add the URLs to redirect as JS settings.
-    $form['ding_redirect_redirect_radios']['#attached']['js'][] = array(
-      'data' => array(
-        'ding_redirect' => array(
-          'well' => $well_url,
-          'web' => $web_url,
-        ),
-      ),
-      'type' => 'setting',
-    );
-
-    // Add JS to handeling redirecting the search form and CSS to style the
-    // radio buttons.
-    $form['#attached']['js'][] = drupal_get_path('module', 'ding_redirect') . '/js/ding_redirect_search.js';
-    $form['#attached']['css'][] = drupal_get_path('module', 'ding_redirect') . '/ding_redirect_search.css';
   }
 
   return $form;
