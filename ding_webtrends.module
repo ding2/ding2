@@ -1,7 +1,11 @@
 <?php
+/**
+ * @file
+ * Adds the web-trends tracking code to the site.
+ */
 
 /**
- * Implementation of hook_menu().
+ * Implements hook_menu().
  */
 function ding_webtrends_menu() {
   $items = array();
@@ -19,19 +23,21 @@ function ding_webtrends_menu() {
 }
 
 /**
-* Implements hook_page_alter().
-*/
+ * Implements hook_page_alter().
+ */
 function ding_webtrends_page_alter(&$page) {
-
+  // Get configuration variables set in the administration interface.
   $domain = variable_get('webtrends_domain', FALSE);
   $dcs_id = variable_get('webtrends_dcs_id', FALSE);
 
+  // Check that webtrends have been configured.
   if (!$domain || !$dcs_id) {
     watchdog('ding_webtrends', 'Ding Webtrends module not configured.', array(), WATCHDOG_NOTICE);
     return;
   }
 
-    $script = <<<EOT
+  // Create custom inline script.
+  $script = <<<EOT
 var _tag=new WebTrends();
 _tag.fpcdom = ".$domain";
 _tag.dcsid = "$dcs_id";
@@ -47,18 +53,20 @@ _tag.dcsCustom=function(){
 _tag.dcsCollect();
 EOT;
 
-    $html = <<<EOT
-<noscript>
-<div><img alt="DCSIMG" id="DCSIMG" width="1" height="1" src="http://visionize10.visionize.dk/$dcs_id/njs.gif?dcsuri=/nojavascript&amp;WT.js=No&amp;WT.tv=9.3.0&amp;WT.dcssip=$domain"/></div>
-</noscript>
-EOT;
+  drupal_add_js($script, array(
+    'type' => 'inline',
+    'scope' => 'footer',
+    'weight' => 99,
+    'cache' => TRUE,
+  ));
 
-  drupal_add_js($script,
-    array('type' => 'inline', 'scope' => 'footer', 'weight' => 99, 'cache' => TRUE)
+  // Fallback HTML if JS is not enabled.
+  $html = '<noscript>
+             <div><img alt="DCSIMG" id="DCSIMG" width="1" height="1" src="http://visionize10.visionize.dk/$dcs_id/njs.gif?dcsuri=/nojavascript&amp;WT.js=No&amp;WT.tv=9.3.0&amp;WT.dcssip=$domain"/></div>
+           </noscript>';
+
+  $page['footer']['webtrends'] = array(
+    '#type' => 'markup',
+    '#markup' => $html,
   );
-
-  $page['footer']['webtrends']= array(
-      '#type' => 'markup',
-      '#markup' => $html,
-   );
 }

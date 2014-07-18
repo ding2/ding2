@@ -2,18 +2,16 @@
 
 /**
  * @file
- * Install file providing install and upgrade functions for the
- * webtrends module.
+ * Install file providing install and upgrade functions for the webtrends
+ * module.
  */
 
 /**
- * Implementation of hook_install().
+ * Update the modules weight.
  */
 function ding_webtrends_install() {
-
   db_update('system')
     ->fields(array('weight' => 99))
     ->condition('name', 'ding_webtrends', '=')
     ->execute();
-
 }
