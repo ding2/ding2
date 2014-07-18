@@ -1,43 +1,61 @@
 <?php
-
 /**
  * @file
  * Handles relations for Ting entities.
  */
 
-// Load Field module hooks.
-module_load_include('field.inc', 'ting_relation');
+require_once 'includes/ting_relation.field.inc';
 
 /**
  * Implements hook_theme().
  */
 function ting_relation_theme() {
   return array(
-    'ting_relation' => array(
-      'template' => 'ting_relation',
+    'ting_relation_groups' => array(
+      'template' => 'templates/ting-relation-groups',
       'render element' => 'elements',
-      'file' => 'ting_relation.theme.inc',
+      'file' => 'includes/ting_relation.theme.inc',
+    ),
+    'ting_relations' => array(
+      'template' => 'templates/ting-relations',
+      'variables' => array(
+        'title' => NULL,
+        'source' => NULL,
+        'relations' => NULL,
+        'attributes' => array(),
+      ),
+      'file' => 'includes/ting_relation.theme.inc',
+    ),
+    'ting_relation' => array(
+      'template' => 'templates/ting-relation',
+      'variables' => array(
+        'title' => NULL,
+        'abstract' => NULL,
+        'online' => NULL,
+        'fulltext_link' => FALSE,
+        'relation' => NULL,
+        'attributes' => array(),
+      ),
+      'file' => 'includes/ting_relation.theme.inc',
     ),
   );
 }
 
 /**
- * kind of a hook - called from ting.module
+ * Implements hook_ding_anchor_info().
+ *
+ * Builds the lists of relations to use as anchors when display a ting entity.
  */
 function ting_relation_ding_anchor_info() {
   $relations = ting_relation_inline();
-  // We need to know what kind of hasOnlineAccess
-  // is provided with this object and return relevant anchor information.
-  $object = menu_get_object('ting_object', 2);
-  if ($object->getAc_source() != 'Ebrary') {
-    unset($relations['dbcaddi:hasOnlineAccess']);
-  }
-  unset($relations['dbcaddi:isReviewOf']);
   return $relations;
 }
 
 /**
  * Inline relation types and their titles.
+ *
+ * @return array
+ *   Indexed by the relation types with a translatable string as data.
  */
 function ting_relation_inline() {
   static $types;
@@ -46,28 +64,10 @@ function ting_relation_inline() {
       'dbcaddi:hasCreatorDescription' => t('Author portrait'),
       'dbcaddi:hasReview' => t('Review'),
       'dbcaddi:hasSubjectDescription' => t('Subject description'),
+      'dbcaddi:hasDescriptionFromPublisher' => t('Description from publisher'),
+      'dbcaddi:hasCreatorHomePage' => t('Creator homepage'),
       'isPartOfManifestation' => t('Is part of manifestation'),
-      'dbcaddi:isReviewOf' => t('Is review of'),
-      'dbcaddi:hasOnlineAccess' => t('Online access'),
     );
   }
   return $types;
-}
-
-/**
- * Implements hook_form_FORM_ID_alter()
- * Adding ebrary url form field to Ting configurating form
- * Set required to FALSE - this is a part of the relation-module, and not everybody wants or has access to ebrary
- * TODO this field requires configuration. Maybe it should be moved to a module of its own?
- * this url is restricted ;'http://site.ebrary.com/lib/metropol/docDetail.action?docID=';
- * - probably for metropol access.
- */
-function ting_relation_form_ting_admin_ting_settings_alter(&$form, &$form_state) {
-  $form['ting']['ting_ebrary_url'] = array(
-    '#type' => 'textfield',
-    '#title' => t(' URL to ebrary '),
-    '#description' => t('BASE URL to site.ebrary.com e.g.http://site.ebrary.com/lib/librarytitles/docDetail.action?docID='),
-    '#required' => FALSE,
-    '#default_value' => variable_get('ting_ebrary_url', ''),
-  );
 }
