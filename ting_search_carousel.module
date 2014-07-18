@@ -21,7 +21,7 @@ function ting_search_carousel_menu() {
   $items['admin/config/ting/ting_search_carousel'] = array(
     'title' => 'Ting search carousel',
     'description' => 'Manage content for frontpage carousel.',
-  	'page callback' => 'ting_search_carousel_admin_page',
+    'page callback' => 'ting_search_carousel_admin_page',
     'page arguments' => array(),
     'access arguments' => array('access administration pages'),
     'file' => 'ting_search_carousel.admin.inc',
@@ -74,8 +74,9 @@ function ting_search_carousel_theme($existing, $type, $theme, $path) {
 function ting_search_carousel_block_info() {
   return array(
     'ting_search_carousel' => array(
-      'info' => 'Ting search carousel, block'
-  ));
+      'info' => 'Ting search carousel, block',
+    ),
+  );
 }
 
 /**
@@ -105,7 +106,7 @@ function ting_search_carousel_ctools_plugin_directory($module, $plugin) {
  * Perform a ting search, retrieve covers and store some of data in cache.
  *
  * @param int $index
- *  Search carsousel tab index.
+ *   Search carsousel tab index.
  */
 function ting_search_carousel_do_request($index) {
   // Get query based in the index parameter.
@@ -174,7 +175,8 @@ function ting_search_carousel_do_request($index) {
       $source_url = FALSE;
       if ($cover->detailUrl) {
         $source_url = $cover->detailUrl;
-      } elseif ($cover->thumbnailUrl) {
+      }
+      elseif ($cover->thumbnailUrl) {
         $source_url = $cover->thumbnailUrl;
       }
 
@@ -208,13 +210,13 @@ function ting_search_carousel_do_request($index) {
  * an empty string is returned.
  *
  * @param int $index
- *  Search carsousel tab index.
+ *   Search carsousel tab index.
  *
  * @param bool $search
- *  If FALSE an attempt to fetch data _not_ be tried. Defaults to TRUE.
+ *   If FALSE an attempt to fetch data _not_ be tried. Defaults to TRUE.
  *
  * @return mixed
- *  Returns an array with ting covers or the empty string if non is found.
+ *   Returns an array with ting covers or the empty string if non is found.
  */
 function _ting_search_carousel_get_content($index, $search = TRUE) {
   // Utilize the static cache.
@@ -250,10 +252,10 @@ function _ting_search_carousel_get_content($index, $search = TRUE) {
  * Set database cache base on tab index in the front-end.
  *
  * @param int $index
- *  Search carsousel tab index.
+ *   Search carousel tab index.
  *
  * @param mixed $items
- *  Search carousel items, containing id, title, creator and image url.
+ *   Search carousel items, containing id, title, creator and image url.
  */
 function _ting_search_carousel_set_cache($index, $items) {
   $data = array();
@@ -296,6 +298,8 @@ function _ting_search_carousel_add_javascript() {
   $path = drupal_get_path('module', 'ting_search_carousel');
 
   drupal_add_library('system', 'ui.widget');
+  drupal_add_library('system', 'ui.draggable');
+  drupal_add_js($path . '/js/jquery.ui.touch-punch.min.js');
   drupal_add_js($path . '/js/jquery.rs.carousel.js');
   drupal_add_js($path . '/js/ting_search_carousel.js');
 }

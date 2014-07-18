@@ -1,18 +1,6 @@
 /* ==========================================================================
    ting search carousel styling
    ========================================================================== */
-/* Compass includes
-   ========================================================================== */
-/* Mixins
-   ========================================================================== */
-/* RGBa background (https://gist.github.com/1949202) */
-/* Variables
-   ========================================================================== */
-/* Spacing used to position arrows, below the carousel etc. */
-/* Max width and height for the cover images */
-/* Colors */
-/* Text */
-/* Tabs */
 .rs-carousel,
 .rs-carousel-mask,
 .rs-carousel-runner {
@@ -24,40 +12,43 @@
   overflow: hidden;
 }
 
-.ui-state-disabled {
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
-  opacity: 1;
+.rs-carousel-inner {
+  overflow: hidden;
+}
+
+rs-carousel-runner {
+  -moz-transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+
+.rs-carousel-transition .rs-carousel-runner {
+  -moz-transition: -moz-transform .400s ease;
+  -webkit-transition: -webkit-transform .400s ease;
+  -o-transition: -o-transform .400s ease;
+  -ms-transition: -ms-transform .400s ease;
+  transition: transform .400s ease;
 }
 
 /* Pagination and previous and next buttons
    ========================================================================== */
-.rs-carousel-pagination {
-  display: none;
-}
-
 .rs-carousel-action-prev,
 .rs-carousel-action-next {
-  background-image: url("../images/arrows.png");
-  height: 41px;
+  background-image: url('../images/arrows.png');
+  height: 55px;
   overflow: hidden;
+  margin-top: -27px;
   position: absolute;
-  text-indent: -9999px;
-  top: 30%;
-  width: 41px;
-}
-
-.rs-carousel-action-prev {
-  left: 25%;
+  text-indent: -1000px;
+  top: 50%;
+  width: 55px;
 }
 
 .rs-carousel-action-next {
   background-position: right 0;
-  right: 20px;
-}
-
-.rs-carousel-action-disabled {
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
-  opacity: 0.25;
+  right: 0;
 }
 
 .rs-carousel-disabled .rs-carousel-action-prev,
@@ -65,49 +56,28 @@
   display: none;
 }
 
+
 /* Carousel content, mask, title etc.
    ========================================================================== */
-.rs-carousel-inner {
-  background-color: rgba(0, 0, 0, 0.1);
-  zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#1A000000,endColorstr=#1A000000);
-  min-height: 170px;
-  padding-top: 40px;
-  padding-bottom: 40px;
-}
-.rs-carousel-inner .ajax-loader {
-  background: transparent url("../images/ajax-loader.gif") no-repeat right top;
-  left: 53%;
+.ajax-loader {
+  background: transparent url('../images/ajax-loader.gif') no-repeat center center;
+  left: 50%;
   height: 20px;
+  margin-top: -10px;
+  margin-left: -110px;
   position: absolute;
-  top: 34%;
+  top: 50%;
   width: 220px;
 }
 
-.rs-carousel-title,
 .rs-carousel-mask,
 .rs-carousel-mask ul {
   display: inline-block;
   vertical-align: top;
 }
 
-.rs-carousel-title {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  font-size: 30px;
-  line-height: 100%;
-  max-width: 30%;
-  padding-top: 40px;
-  padding-left: 40px;
-  padding-right: 70px;
-}
-
 .rs-carousel-mask {
-  max-height: 185px;
-  max-width: 70%;
-  position: absolute;
-  right: 3%;
+  width: 100%;
 }
 
 .rs-carousel-mask ul {
@@ -115,22 +85,13 @@
   list-style: none;
 }
 
-.rs-carousel-mask ul li {
+.rs-carousel-mask li {
   float: left;
-  max-width: 100px;
-  padding-right: 20px;
+  width: 100px;
   text-align: center;
 }
 
 .rs-carousel-item-image {
-  background-color: rgba(0, 0, 0, 0.1);
-  zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#1A000000,endColorstr=#1A000000);
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  -ms-border-radius: 4px;
-  -o-border-radius: 4px;
-  border-radius: 4px;
   display: block;
 }
 
@@ -138,22 +99,8 @@
   display: block;
   margin-left: auto;
   margin-right: auto;
-  padding: 5px;
 }
 
-.rs-carousel-item-title {
-  display: block;
-  padding-top: 5px;
-}
-
-/* If description is not displayed make sure the mask and prev button a
-   positioned correct */
-.rs-carousel-compact .rs-carousel-mask {
-  max-width: 94%;
-}
-.rs-carousel-compact .rs-carousel-action-prev {
-  left: 2%;
-}
 
 /* Carousel tabs
    ========================================================================== */
@@ -164,91 +111,11 @@
 }
 
 .rs-carousel-tabs ul li {
-  border-top: 1px solid #cccccc;
-  border-right: 1px solid #cccccc;
-  border-bottom: 1px solid #cccccc;
   display: table-cell;
-  min-width: 10%;
-  /* Appearantly this make them have equal width in Firefox */
   vertical-align: top;
   text-align: center;
 }
 
-.rs-carousel-tabs ul li a {
-  background-color: white;
-  display: block;
-  padding: 20px 40px;
-}
-
-.rs-carousel-tabs ul li.active {
-  border-color: #404040;
-}
-
 .rs-carousel-tabs ul li.active a {
-  background-color: rgba(0, 0, 0, 0.75);
-  zoom: 1;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#BF000000,endColorstr=#BF000000);
-  color: white;
   position: relative;
-}
-
-/* Create the active arrow using a pseudo element */
-.rs-carousel-tabs ul li.active a:before {
-  content: "";
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-bottom: 8px solid #404040;
-  height: 0;
-  margin-left: -4px;
-  left: 50%;
-  position: absolute;
-  top: -9px;
-  width: 0;
-}
-
-/* Mediaqueries
-   ========================================================================== */
-@media screen and (max-width: 960px) {
-  .rs-carousel-inner {
-    min-height: 250px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-  }
-  .rs-carousel-inner .ajax-loader {
-    left: 35%;
-  }
-
-  .rs-carousel-title {
-    display: block;
-    padding-top: 0;
-    padding-right: 20px;
-    padding-bottom: 20px;
-    padding-left: 20px;
-    max-width: 94%;
-  }
-
-  .rs-carousel-mask {
-    max-width: 94%;
-  }
-
-  .rs-carousel-action-prev {
-    left: 20px;
-  }
-
-  .rs-carousel-action-prev,
-  .rs-carousel-action-next {
-    top: 35%;
-  }
-
-  .rs-carousel-tabs ul li a {
-    padding: 20px 10px;
-  }
-
-  .rs-carousel-compact .rs-carousel-inner {
-    min-height: 200px;
-  }
-  .rs-carousel-compact .rs-carousel-action-prev,
-  .rs-carousel-compact .rs-carousel-action-next {
-    top: 25%;
-  }
 }
