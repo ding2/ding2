@@ -4,10 +4,10 @@
  * Drupal implementation of OpenRuth provider for the T!NG project.
  */
 
-include_once('openruth.features.inc');
+include_once 'openruth.features.inc';
 
 /**
- * Implement hook_ding_provider().
+ * Implements hook_ding_provider().
  */
 function openruth_ding_provider() {
   return array(
@@ -34,6 +34,10 @@ function openruth_ding_provider() {
         'prefix' => 'debt',
         'file' => drupal_get_path('module', 'openruth') . '/includes/openruth.debt.inc',
       ),
+      'wayf' => array(
+        'prefix' => 'debt',
+        'file' => drupal_get_path('module', 'openruth') . '/includes/openruth.wayf.inc',
+      ),
     ),
   );
 }
@@ -55,16 +59,14 @@ function openruth_ding_devel_timers() {
 
 /**
  * Implements hook_form_FORM_ID_alter().
- * Add in pincode validation.
- * Attach profile2 form
+ *
+ * Add in pin-code validation and attach profile2 form
  */
 function openruth_form_user_profile_form_alter(&$form, &$form_state) {
   // Ensure that we're dealing with a provider user.
   if (!ding_user_is_provider_user($form_state['user'])) {
     return;
   }
-
-  // custom validator
   $form['#validate'][] = 'openruth_profile_form_validate';
 }
 
@@ -128,13 +130,13 @@ function openruth_settings_form() {
   // to 180 days.
   $periods = openruth_get_interest_periods();
   $default = variable_get('openruth_default_interest_period', 180);
-  $form['openruth'] += ding_reservation_interest_period_selector('', 'openruth_default_interest_period', $default, $periods);
+  $form['openruth'] += ding_reservation_interest_period_selector('openruth_default_interest_period', $default, $periods);
 
   $default_proxy = variable_get('openruth_proxy', array('host' => '', 'port' => ''));
   $form['openruth']['openruth_proxy'] = array(
     '#type' => 'fieldset',
     '#title' => t('Proxy'),
-    '#description' => t('If you don\'t have direct access to OpenRuth (e.g. debug during development) proxy can help you get access'),
+    '#description' => t("If you don't have direct access to OpenRuth (e.g. debug during development) proxy can help you get access"),
     '#collapsed' => TRUE,
     '#collapsible' => TRUE,
     '#tree' => TRUE,
@@ -180,17 +182,26 @@ function openruth_settings_form_submit($form, &$form_state) {
 }
 
 /**
+ * Helper function that returns the interest periods from the field options.
+ *
+ * @return array
+ *   Array of interest periods that can be used as default value in form
+ *   selects.
+ */
+function openruth_get_interest_periods() {
+  $field_info = field_info_field('field_openruth_interest_period');
+  $interest_periods = isset($field_info['settings']['allowed_values']) ? $field_info['settings']['allowed_values'] : FALSE;
+
+  return $interest_periods;
+}
+
+/**
  * Return an OpenruthClient instance.
  */
 function openruth_client() {
-  // This is basically a singleton. We also wait until right before
-  // instantiating to include our required classes. That seems like a
-  // decent performance tradeoff instead of loading everything on every
-  // page load.
+  // This is basically a singleton.
   static $client;
   if (!isset($client)) {
-    $path = drupal_get_path('module', 'openruth');
-    require_once($path . '/lib/OpenruthClient/OpenruthClient.class.php');
     $wsdl = variable_get('openruth_wsdl_url', '');
     $agency_id = variable_get('openruth_agency_id', '');
     if (!empty($wsdl) && !empty($agency_id)) {
@@ -212,7 +223,7 @@ function openruth_client() {
 /**
  * Calls the Openruth backend.
  *
- * @param $method
+ * @param string $method
  *   The desired method.
  * @param ...
  *   Arguments to the method.
@@ -222,7 +233,8 @@ function openruth_client() {
  */
 function openruth_client_invoke($method) {
   $args = func_get_args();
-  array_shift($args); // Lose the method.
+  // Lose the method.
+  array_shift($args);
   $client = openruth_client();
   if (!$client) {
     return NULL;
@@ -266,7 +278,7 @@ function openruth_profile2_presave($entity) {
     $wrapper = entity_metadata_wrapper('profile2', $entity);
 
     // Preferred branch.
-    $original_value =  $wrapper_original->field_openruth_preferred_branch->value();
+    $original_value = $wrapper_original->field_openruth_preferred_branch->value();
     if (!is_null($original_value)) {
       $value = $wrapper->field_openruth_preferred_branch->value();
       if ($value != $original_value) {
@@ -283,7 +295,7 @@ function openruth_profile2_presave($entity) {
       $value = $entity->field_openruth_reservation_pause[$language][0];
       if ($value['value'] != $original_value['value'] || $value['value2'] != $original_value['value2']) {
 
-        // Remove trailing T00:00:00 OpenRuth doesn't understand that
+        // Remove trailing T00:00:00 OpenRuth doesn't understand that.
         $start = '';
         if (!is_null($value['value'])) {
           $start = date('Y-m-d', $value['value']);
@@ -376,60 +388,57 @@ function openruth_profile2_presave($entity) {
  * Session cached for efficiency.
  */
 function _openruth_user_status($creds = NULL, $reset = FALSE) {
-  // Flush cache if creds is not specified.
-  if ($reset || !is_array($_SESSION['openruth_user_status']) || !$creds) {
-    $_SESSION['openruth_user_status'] = array();
-  }
-  if (!$creds) {
-    return;
+  if (is_null($creds)) {
+    // Get creds, which may throw an exception that login is required.
+    global $user;
+    $creds = ding_user_get_creds($user);
   }
 
-  // Why is this indexed by id in the session... the session only belongs to the
-  //current user.
-  $id = hash('sha512', $creds['name'] . $creds['pass']);
+  $status = &drupal_static(__FUNCTION__, FALSE);
+  if (!$status || $reset) {
+    // Check if ding_session_cache is available.
+    if (module_exists('ding_session_cache') && !$reset) {
+      $status = ding_session_cache_get('openruth', 'status');
+    }
 
-  if (!isset($_SESSION['openruth_user_status'][$id]) || $_SESSION['openruth_user_status'][$id]['time'] < (REQUEST_TIME - 300)) {
-    $status = openruth_client_invoke('user_status', $creds['name'], $creds['pass']);
-    if ($status && !is_string($status)) {
-      if (isset($status->userInfo) && isset($status->userInfo->userPinCode)) {
-        // Don't cache user pass.
-        unset($status->userInfo->userPinCode);
+    if (empty($status) || $reset) {
+      $status = openruth_client_invoke('user_status', $creds['name'], $creds['pass']);
+      if ($status && !is_string($status)) {
+        if (isset($status->userInfo) && isset($status->userInfo->userPinCode)) {
+          // Don't cache user pass.
+          unset($status->userInfo->userPinCode);
+        }
       }
-      $_SESSION['openruth_user_status'][$id] = array(
-        'time' => REQUEST_TIME,
-        'data' => $status,
-      );
-    }
-    elseif (is_string($status)) {
-      watchdog('openruth', 'Error fetching user status @error', array('@error' => $status), WATCHDOG_ERROR);
-      return;
+
+      // Store the status into ding session cache.
+      if (module_exists('ding_session_cache')) {
+        ding_session_cache_set('openruth', 'status', $status);
+      }
     }
   }
-  if ($_SESSION['openruth_user_status'][$id]) {
-    return $_SESSION['openruth_user_status'][$id]['data'];
-  }
+
+  return $status;
 }
 
 /**
  * Get a specific reserved item from reservation list.
  *
- * Since openruth doesnt have a direct query mechanism for fetching a loan by
+ * Since openruth does not have a direct query mechanism for fetching a loan by
  * a certain id, we munge all the users loans every time it's needed.
  *
- * @param $faust_number
- *   Seeked item faust number.
- * @return
+ * @param string $faust_number
+ *   Sought item faust number.
+ *
+ * @return DingProviderReservation
  *   Provider reservation object, containing data about the specific loan.
  */
 function openruth_seek_reserved_item($faust_number) {
   global $user;
-  $agency = variable_get('openruth_agency_id', '');
   $orders = openruth_reservation_list($user);
-  $ding_id = $agency . ':' . $faust_number;
   $item = FALSE;
 
   foreach ($orders as $order) {
-    if ($order->ding_entity_id == $ding_id) {
+    if ($order->ding_entity_id == ding_provider_build_entity_id($faust_number)) {
       $item = $order;
       break;
     }
@@ -482,14 +491,30 @@ function openruth_profile2_load($entities) {
       $wrapper->field_openruth_postal_code->set($patron->userPostCode);
       $wrapper->field_openruth_city->set($patron->userCity);
 
-      // Mobile; also here openruth supports multiple phones - again we pick the first.
+      // Mobile; also here openRuth supports multiple phones - again we pick the
+      // first.
       $wrapper->field_openruth_mobile_phone->set($patron->userMobilePhone);
 
       // Preferred_branch.
-      $wrapper->field_openruth_preferred_branch->set($patron->agencyCounter);
+      $preferred_branch = !empty($patron->agencyCounter) ? $patron->agencyCounter : FALSE;
+      $wrapper->field_openruth_preferred_branch->set($preferred_branch);
 
       // Mail address.
       $wrapper->field_openruth_mail->set($patron->userEmail);
     }
   }
+}
+
+/**
+ * Implements hook_ding_session_cache_defaults().
+ *
+ * Set default ding_session_cache settings and tell ding_session_cache that this
+ * module supports it.
+ */
+function openruth_ding_session_cache_defaults() {
+  return array(
+    'titel' => 'Openruth (reservations, loans)',
+    'enabled' => TRUE,
+    'expire' => 3600,
+  );
 }
