@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Contains admin backend related code.
@@ -7,16 +6,8 @@
 
 /**
  * Module main settings lay here.
- *
- * @param $form
- *   Form.
- * @param $form_state
- *   Form state.
- *
- * @return
- *   Form structure array.
  */
-function ding_campaign_configure($form, $form_state) {
+function ding_campaign_admin_settings($form, $form_state) {
   $types = node_type_get_names();
 
   // Some key renaming routine, required in further module checks.
@@ -50,8 +41,8 @@ function ding_campaign_configure($form, $form_state) {
  */
 function ding_campaign_rules_admin($node) {
   drupal_add_js(array('ding_campaing_init' => array(
-          'autocompleteUrl' => url('ding_campaign/autocomplete/'),
-          )), 'setting');
+    'autocompleteUrl' => url('ding_campaign/autocomplete/'),
+  )), 'setting');
   return drupal_get_form('ding_campaign_edit_rules_form', $node);
 }
 
@@ -116,6 +107,11 @@ function ding_campaign_edit_rules_form($form, &$form_state, $node = NULL) {
 
   $form['#submit'] = array('ding_campaign_campaign_rule_form_submit');
 
+  drupal_add_js(
+    drupal_get_path('module', 'ding_campaign') . '/js/ding_campaign_scripts.js',
+    array('weight' => 10)
+  );
+
   return $form;
 }
 
@@ -152,13 +148,15 @@ function ding_campaign_campaign_rule_form_submit($form, &$form_state) {
       if ($form_state['input']['rule_value'][$i] != '' || $form_state['input']['rule_type'][$i] == 'rule_generic') {
 
         $nid = NULL;
-        if ($form_state['input']['rule_type'][$i] == 'rule_page' || $form_state['input']['rule_type'][$i] == 'rule_taxonomy' || $form_state['input']['rule_type'][$i] == 'rule_library') {
-          $nid = array();
-          preg_match('/\d{1,9}/', $form_state['input']['rule_value'][$i], $nid);
+        if (in_array($form_state['input']['rule_type'][$i], array('rule_page', 'rule_news', 'rule_event', 'rule_taxonomy', 'rule_library'))) {
+          preg_match('/\d{1,9}/', $form_state['input']['rule_value'][$i], $matches);
+          if (!empty($matches[0])) {
+            $nid = $matches[0];
+          }
         }
 
         $dt = array(
-          'nid' => isset($nid[0]) ? $nid[0] : NULL,
+          'nid' => $nid,
           'cid' => $form_state['build_info']['args'][0]->nid,
           'rule' => ($form_state['input']['rule_type'][$i] == 'rule_generic') ? '' : $form_state['input']['rule_value'][$i],
           'type' => $form_state['input']['rule_type'][$i],
@@ -184,12 +182,16 @@ function ding_campaign_campaign_rule_form_submit($form, &$form_state) {
  *   Rule fields structure.
  */
 function ding_campaign_rule_form($rule = NULL, $type = NULL) {
+  $form = array();
+
   $form['rule_type[]'] = array(
     '#type' => 'select',
     '#title' => t('Rule type'),
     '#default_value' => ($type) ? $type : 'rule_page',
     '#options' => array(
       'rule_page' => 'Page',
+      'rule_event' => 'Event',
+      'rule_news' => 'News',
       'rule_path' => 'Path',
       'rule_term' => 'Search term',
       'rule_taxonomy' => 'Taxonomy term',
@@ -208,12 +210,8 @@ function ding_campaign_rule_form($rule = NULL, $type = NULL) {
     '#maxlength' => 24,
     '#prefix' => '<div class="rule-value">',
     '#suffix' => '</div><div class="clear"></div></div>',
-    // '#autocomplete_path' => 'ding_campaign/autocomplete/567',
+    '#autocomplete_path' => 'ding_campaign/autocomplete/' . $type,
   );
-
-  if ($type == 'rule_page' || $type == 'rule_taxonomy') {
-    $form['rule_value[]']['#autocomplete_path'] = 'ding_campaign/autocomplete/' . $type;
-  }
 
   return $form;
 }
@@ -237,6 +235,7 @@ function ding_campaign_admin_autocomplete($type, $input) {
         $matches['[nid:' . $v->nid . ']'] = $v->title;
       }
       break;
+
     case 'rule_taxonomy':
       $q = db_query_range("SELECT tid, name FROM {taxonomy_term_data} WHERE name LIKE(:term)", 0, 5, array(':term' => '%%' . $input . '%%'))->fetchAll();
 
@@ -244,8 +243,25 @@ function ding_campaign_admin_autocomplete($type, $input) {
         $matches['[tid:' . $v->tid . ']'] = $v->name;
       }
       break;
+
     case 'rule_library':
-      $q = db_query_range("SELECT nid, title FROM {node} WHERE type='library' AND title LIKE(:term)", 0, 5, array(':term' => '%%' . $input . '%%'))->fetchAll();
+      $q = db_query_range("SELECT nid, title FROM {node} WHERE type='ding_library' AND title LIKE(:term)", 0, 5, array(':term' => '%%' . $input . '%%'))->fetchAll();
+
+      foreach ($q as $k => $v) {
+        $matches['[nid:' . $v->nid . ']'] = $v->title;
+      }
+      break;
+
+    case 'rule_event':
+      $q = db_query_range("SELECT nid, title FROM {node} WHERE type='ding_event' AND title LIKE(:term)", 0, 5, array(':term' => '%%' . $input . '%%'))->fetchAll();
+
+      foreach ($q as $k => $v) {
+        $matches['[nid:' . $v->nid . ']'] = $v->title;
+      }
+      break;
+
+    case 'rule_news':
+      $q = db_query_range("SELECT nid, title FROM {node} WHERE type='ding_news' AND title LIKE(:term)", 0, 5, array(':term' => '%%' . $input . '%%'))->fetchAll();
 
       foreach ($q as $k => $v) {
         $matches['[nid:' . $v->nid . ']'] = $v->title;

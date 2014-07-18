@@ -9,12 +9,16 @@ $plugin = array(
   'title' => t('Relevant campaigns'),
   'description' => t('Display ad-like campaigns'),
   'single' => TRUE,
-  'defaults' => array('ding_campaign_count' => 3, 'ding_campaign_offset' => 0),
+  'defaults' => array(
+    'ding_campaign_count' => 3,
+    'ding_campaign_offset' => 0,
+  ),
   'required context' => array(
-      new ctools_context_optional(t('Page node'), 'node'),
-      new ctools_context_optional(t('Related library'), 'node'),
-      new ctools_context_optional(t('Search term'), 'string'),
-      new ctools_context_optional(t('Taxonomy terms'), 'terms')),
+    new ctools_context_optional(t('Page node'), 'node'),
+    new ctools_context_optional(t('Related library'), 'node'),
+    new ctools_context_optional(t('Search term'), 'string'),
+    new ctools_context_optional(t('Taxonomy term'), array('entity:taxonomy_term', 'taxonomy_term')),
+  ),
   'category' => t('Ding!'),
 );
 
@@ -31,8 +35,10 @@ function ding_campaign_campaign_content_type_render($subtype, $conf, $panel_args
   );
   $count = $conf['ding_campaign_count'];
   $offset = $conf['ding_campaign_offset'];
+  // Set default value if it was not set in panel settings.
+  $style = (!empty($conf['ding_campaign_image_style'])) ? $conf['ding_campaign_image_style'] : 'medium';
 
-  $block->content = ding_campaign_display($context_data, $count, $offset);
+  $block->content = ding_campaign_display($context_data, $count, $offset, $style);
 
   return $block;
 }
@@ -46,7 +52,7 @@ function ding_campaign_campaign_content_type_edit_form($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Campaign count'),
     '#description' => t('The maximum number of campaigns to display'),
-    '#default_value' => (isset($form_state['conf']['ding_campaign_count'])) ? $form_state['conf']['ding_campaign_count'] : DING_CAMPAIGN_DEFAULT_COUNT,
+    '#default_value' => (isset($form_state['conf']['ding_campaign_count'])) ? $form_state['conf']['ding_campaign_count'] : 3,
     '#size' => 2,
     '#maxlength' => 2,
   );
@@ -60,6 +66,22 @@ function ding_campaign_campaign_content_type_edit_form($form, &$form_state) {
     '#maxlength' => 3,
   );
 
+  $form['ding_campaign_image_style'] = array(
+    '#type' => 'select',
+    '#title' => t('Campaign image width'),
+    '#description' => t('Applicable for image campaigns. Image will be resized to selected width, height will be selected automatically.'),
+    '#options' => array(
+      'medium' => t('Default (medium)'),
+      'ding_campaign_w_180' => t('180px'),
+      'ding_campaign_w_280' => t('280px'),
+      'ding_campaign_w_380' => t('380px'),
+      'ding_campaign_w_480' => t('480px'),
+    ),
+    '#default_value' => (isset($form_state['conf']['ding_campaign_image_style'])) ? $form_state['conf']['ding_campaign_image_style'] : 'medium',
+  );
+
+  drupal_add_css(drupal_get_path('module', 'ding_campaign') . '/css/ding_campaign.admin.css');
+
   return $form;
 }
 
@@ -68,7 +90,10 @@ function ding_campaign_campaign_content_type_edit_form($form, &$form_state) {
  */
 function ding_campaign_campaign_content_type_edit_form_validate($form, &$form_state) {
   // Sanitise the submitted values.
-  $values = array('ding_campaign_count' => 1, 'ding_campaign_offset' => 0);
+  $values = array(
+    'ding_campaign_count' => 1,
+    'ding_campaign_offset' => 0,
+  );
   foreach ($values as $value => $min_value) {
     $val = trim($form_state['values'][$value]);
     $count = intval($val);
@@ -90,4 +115,5 @@ function ding_campaign_campaign_content_type_edit_form_validate($form, &$form_st
 function ding_campaign_campaign_content_type_edit_form_submit($form, &$form_state) {
   $form_state['conf']['ding_campaign_count'] = $form_state['values']['ding_campaign_count'];
   $form_state['conf']['ding_campaign_offset'] = $form_state['values']['ding_campaign_offset'];
+  $form_state['conf']['ding_campaign_image_style'] = $form_state['values']['ding_campaign_image_style'];
 }
