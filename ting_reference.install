@@ -5,28 +5,6 @@
  */
 
 /**
- * Implements hook_field_schema().
- */
-function ting_reference_field_schema($field) {
-  $columns = array();
-  switch ($field['type']) {
-    case 'ting_reference':
-      $columns = array(
-        'value' => array(
-          'type' => 'varchar',
-          'length' => 31,
-          'not null' => FALSE,
-        ),
-      );
-      break;
-  }
-
-  return array(
-    'columns' => $columns,
-  );
-}
-
-/**
  * Implements hook_ding_entity_fields().
  */
 function ting_reference_ding_entity_fields() {
@@ -44,7 +22,6 @@ function ting_reference_ding_entity_fields() {
     ),
   );
 }
-
 
 /**
  * Convert blackhole field storage to virtual field.
