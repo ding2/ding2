@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Ding bookmark pages.
@@ -9,52 +8,98 @@
  * Menu callback; Display user bookmark items.
  */
 function ding_bookmark_user_bookmark_page($account) {
-  $content_ids = flag_load('bookmark')->get_user_content_ids($account->uid);
+  $output = t('You do not have any bookmarks yet.');
 
-  if ($content_ids) {
-    $rendered_form = drupal_get_form('ding_bookmark_remove_form', $content_ids);
-    if (!empty($rendered_form)) {
-      return $rendered_form;
-    }
+  // Try to load all bookmarks for the user.
+  $entities = ding_bookmark_load_bookmarks($account);
+  if (!empty($entities)) {
+    // Bookmarks found, so render them as a material list form.
+    $bookmark_form = drupal_get_form('ding_bookmark_remove_form', $entities);
+    $output = drupal_render($bookmark_form);
   }
 
-  return ding_bookmark_user_bookmark_empty_page();
-}
-
-/**
- * Bookmark page empty text.
- */
-function ding_bookmark_user_bookmark_empty_page() {
-  return t('Bookmarks is empty');
+  return $output;
 }
 
 /**
  * Bookmark manage form.
  */
 function ding_bookmark_remove_form($form, &$form_state, $entities) {
-  $item_options = array();
-  foreach ($entities as $entity_id => $entity_type) {
-    // Build item view.
-    $item_view_build = ding_bookmark_item_view($entity_type, $entity_id);
-    if ($item_view_build) {
-      $item_options[$entity_id] = $entity_id;
-      $form['#builded_entities'][$entity_id] = $item_view_build;
-    }
+  $form['bookmarks'] = array(
+    '#tree' => TRUE,
+  );
+
+  // Add select all title.
+  $form['title'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Select all bookmarks'),
+    '#prefix' => '<div class="select-all bookmarks">',
+    '#suffix' => '</div>',
+    '#attached' => array(
+      'js' => array(
+        drupal_get_path('module', 'ding_bookmark') . '/js/ding_bookmark.js',
+      ),
+    ),
+    '#weight' => -10,
+  );
+
+  foreach ($entities as $entity) {
+    // Create title that links to the object.
+    $uri = entity_uri('ting_object', $entity);
+    $title = l($entity->getTitle(), $uri['path']);
+
+    // Create basic information.
+    $author = field_view_field('ting_object', $entity, 'ting_author', 'user_list');
+    $type = field_view_field('ting_object', $entity, 'ting_type', 'user_list');
+
+    // Build the material item element.
+    $item = array(
+      '#type' => 'material_item',
+      '#id' => $entity->tid,
+      '#title' => $title,
+      '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
+      '#information' => array(
+        'author' => array(
+          'label' => t('Author'),
+          'data' => drupal_render($author),
+          'class' => 'author',
+          '#weight' => 2,
+        ),
+        'type' => array(
+          'label' => t('Type'),
+          'data' => drupal_render($type),
+          'class' => 'type',
+          '#weight' => 0,
+        ),
+      ),
+    );
+
+    // Add the reservation to the form.
+    $form['bookmarks'][$entity->id] = $item;
   }
 
-  $form['items'] = array(
-    '#type' => 'checkboxes',
-    '#options' => $item_options,
-    '#required' => TRUE,
+  // Add action buttons to the top of the form.
+  $form['actions_top'] = array(
+    '#prefix' => '<div class="action-buttons">',
+    '#suffix' => '</div>',
+    '#weight' => -20,
   );
 
-  $form['actions'] = array(
-    '#type' => 'actions',
+  // Add action buttons to the bottom of the form.
+  $form['actions_bottom'] = array(
+    '#prefix' => '<div class="action-buttons">',
+    '#suffix' => '</div>',
+    '#weight' => 10,
   );
-  $form['actions']['submit'] = array(
+
+  // Add the delete button to both top and bottom.
+  $form['actions_top']['delete'] = array(
+    '#prefix' => '<div class="delete-bookmarks action-button">',
+    '#suffix' => '</div>',
     '#type' => 'submit',
-    '#value' => t('Delete selected'),
+    '#value' => t('Delete selected (@count)', array('@count' => 0)),
   );
+  $form['actions_bottom']['delete'] = $form['actions_top']['delete'];
 
   return $form;
 }
@@ -63,68 +108,14 @@ function ding_bookmark_remove_form($form, &$form_state, $entities) {
  * Submit handler.
  */
 function ding_bookmark_remove_form_submit($form, &$form_state) {
-  // Filter selected items.
-  $items_to_delete = array_filter($form_state['values']['items']);
-  if ($items_to_delete) {
-    // Unflag all selected items.
-    $flag = flag_get_flag('bookmark');
-    foreach ($items_to_delete as $item_wid) {
-      $flag->flag('unflag', $item_wid);
-    }
-  }
-}
-
-/**
- * Theme form as a table.
- */
-function theme_ding_bookmark_remove_form($variables) {
-  $output = "";
-  $form = $variables['form'];
+  // Un-flag all selected items.
   $flag = flag_get_flag('bookmark');
 
-  // Add 'select all' checkbox.
-  drupal_add_js('misc/tableselect.js');
-  $header = array(
-    array('class' => array('select-all')),
-    t('Title'),
-    '',
-  );
-
-  // Create table rows.
-  $rows = array();
-  if (!empty($form['items']['#options'])) {
-    foreach (element_children($form['items']) as $key) {
-      $item_wid = $key;
-      // Clean checkbox
-      unset($form['items'][$key]['#title']) ;
-      // Create delete link.
-      $delete_link_query = drupal_get_destination() + array('token' => flag_get_token($item_wid));
-      $delete_link = array(
-      '#prefix' => '<p class="ding-entity-button">',
-        '#suffix' => '</p>',
-        '#type' => 'markup',
-          '#markup' => l(t($flag->unflag_short), 'flag/unflag/bookmark/' . $item_wid, array('query' => $delete_link_query)),
-      );
-
-      //Add row.
-      $rows[] = array(
-        drupal_render($form['items'][$key]),
-        drupal_render($form['#builded_entities'][$item_wid]), // Theme item as a teaser.
-        drupal_render($delete_link),
-      );
+  // Filter selected items.
+  foreach ($form_state['values']['bookmarks'] as $item) {
+    $tid = array_pop($item);
+    if ($tid) {
+      $flag->flag('unflag', $tid);
     }
   }
-
-  if (count($rows)) {
-    $output .= theme('table', array(
-      'header' => $header,
-      'rows' => $rows,
-      'attributes' => array('width' => '100%'),
-    ));
-
-    // Render all remaining elements.
-    $output .= drupal_render_children($form);
-  }
-
-  return $output;
 }

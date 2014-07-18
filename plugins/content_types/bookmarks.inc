@@ -14,16 +14,17 @@ $plugin = array(
 );
 
 /**
- * Implements MODULE_CONTENT_content_type_render().
+ * Implements hook_content_type_render().
  *
- * Render the block.
+ * Create block with a list of all the materials currently in the users bookmark
+ * list.
  */
 function ding_bookmark_bookmarks_content_type_render($subtype, $conf, $panel_args, $context) {
   $account = $context->data;
 
-  $block         = new stdClass();
+  $block = new stdClass();
   $block->module = 'ding_bookmark';
-  $block->delta  = 'bookmark';
+  $block->delta = 'bookmark';
 
   module_load_include('inc', 'ding_bookmark', 'ding_bookmark.pages');
   $block->content = ding_bookmark_user_bookmark_page($account);

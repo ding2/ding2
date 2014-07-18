@@ -8,6 +8,7 @@
  * Implements a ding_entity_flag.
  */
 class flag_ding_entity extends flag_flag {
+
   function options() {
     $options = parent::options();
     $options += array(
@@ -30,8 +31,6 @@ class flag_ding_entity extends flag_flag {
     $form['messages']['unflag_short']['#weight'] = 5;
     $form['messages']['unflag_long']['#weight'] = 6;
     $form['messages']['unflag_message']['#weight'] = 7;
-
-    /* unset($form['messages']['tokens_help']); */
   }
 
   function _load_content($content_id) {
@@ -67,7 +66,7 @@ class flag_ding_entity extends flag_flag {
   }
 
   function get_user_count_number($uid, $sid = NULL) {
-    return parent::get_user_count($uid, $sid)->fetchField();
+    return parent::get_user_count($uid, $sid);
   }
 
   /**
@@ -79,11 +78,11 @@ class flag_ding_entity extends flag_flag {
     }
     return db_select('flag_content', 'fc')
       ->fields('fc', array('content_id', 'content_type'))
-            ->condition('fid', $this->fid)
-            ->condition('uid', $uid)
-            ->condition('sid', $sid)
-            ->orderBy('fcid', 'DESC')
-            ->execute()
-            ->fetchAllKeyed();
+      ->condition('fid', $this->fid)
+      ->condition('uid', $uid)
+      ->condition('sid', $sid)
+      ->orderBy('fcid', 'DESC')
+      ->execute()
+      ->fetchAllKeyed();
   }
 }
