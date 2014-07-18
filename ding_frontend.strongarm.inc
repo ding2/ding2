@@ -20,41 +20,6 @@ function ding_frontend_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'date_first_day';
-  $strongarm->value = '1';
-  $export['date_first_day'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'date_format_day_of_the_month_without_leading_zeros';
-  $strongarm->value = 'j';
-  $export['date_format_day_of_the_month_without_leading_zeros'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'date_format_day_text_full';
-  $strongarm->value = 'l';
-  $export['date_format_day_text_full'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'date_format_month_text_full';
-  $strongarm->value = 'F';
-  $export['date_format_month_text_full'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'date_format_time_only';
-  $strongarm->value = 'G:i';
-  $export['date_format_time_only'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'dynamic_background_css';
   $strongarm->value = array(
     'selector' => '#page.ding2-site-template',
@@ -152,13 +117,13 @@ background-attachment: fixed;',
     'name' => 'Danish',
     'native' => 'Dansk',
     'direction' => '0',
-    'enabled' => 1,
+    'enabled' => '1',
     'plurals' => '2',
     'formula' => '($n!=1)',
     'domain' => '',
     'prefix' => 'da',
     'weight' => '-10',
-    'javascript' => 'DlydI_ZhnaXAaN_ckP-aJJdBAYmYfMFtF-mj1vCalxw',
+    'javascript' => 'Fkh0QkvBEWWnm6g_nWkpAH5TKkKGcMpP0hLf4ArCiYs',
   );
   $export['language_default'] = $strongarm;
 
@@ -276,6 +241,41 @@ background-attachment: fixed;',
   $strongarm->name = 'menu_breadcrumb_hide_on_single_item';
   $strongarm->value = 1;
   $export['menu_breadcrumb_hide_on_single_item'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'panels_everywhere_override_theme_ddbasic';
+  $strongarm->value = 0;
+  $export['panels_everywhere_override_theme_ddbasic'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'panels_everywhere_override_theme_seven';
+  $strongarm->value = 0;
+  $export['panels_everywhere_override_theme_seven'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'panels_everywhere_site_template_enabled';
+  $strongarm->value = 1;
+  $export['panels_everywhere_site_template_enabled'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'panels_everywhere_site_template_enabled_admin';
+  $strongarm->value = 0;
+  $export['panels_everywhere_site_template_enabled_admin'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'panels_everywhere_site_template_per_theme';
+  $strongarm->value = 0;
+  $export['panels_everywhere_site_template_per_theme'] = $strongarm;
 
   return $export;
 }

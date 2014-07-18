@@ -30,21 +30,22 @@ else if (!empty($content['left_sidebar']) && !empty($content['right_sidebar'])) 
   $add_class = 'sidebars';
 }
 ?>
-<div <?php if (!empty($css_id)) { print " id=\"$css_id\""; } ?> class="<?php echo $add_class; ?> ding-default-layout panel-content-wrapper">
-  <div class="primary-content">
-    <div class="grid-inner"><?php print $content['main_content']; ?></div>
+<div <?php if (!empty($css_id)) { print 'id="' . $css_id . '"'; } ?> class="<?php echo $add_class; ?> default-layout">
+  <div class="layout-wrapper">
+    <div class="primary-content">
+      <?php print $content['main_content']; ?>
+    </div>
+    <?php if (!empty($content['left_sidebar'])): ?>
+      <aside class="secondary-content">
+        <?php print $content['left_sidebar']; ?>
+      </aside>
+    <?php endif ?>
+    <?php if (!empty($content['right_sidebar'])): ?>
+      <aside class="tertiary-content">
+        <?php print $content['right_sidebar']; ?>
+      </aside>
+    <?php endif ?>
   </div>
-  <?php if (!empty($content['left_sidebar'])): ?>
-    <aside class="secondary-content">
-      <div class="grid-inner"><?php print $content['left_sidebar']; ?></div>
-    </aside>
-  <?php endif ?>
-  <?php if (!empty($content['right_sidebar'])): ?>
-    <aside class="tertiary-content">
-      <div class="grid-inner"><?php print $content['right_sidebar']; ?></div>
-    </aside>
-  <?php endif ?>
-
   <?php if (!empty($content['attachment_4_1']) || !empty($content['attachment_4_2']) || !empty($content['attachment_4_3']) || !empty($content['attachment_4_4'])): ?>
     <div class="attachments-wrapper attachments-4-4">
       <div class="attachment-first">
