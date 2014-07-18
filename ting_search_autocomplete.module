@@ -1,37 +1,129 @@
 <?php
+/**
+ * @file
+ * Implements the search auto-complete functions to the ting search field by
+ * using open search.
+ */
 
 /**
- * Implementation of hook_menu().
+ * Implements hook_menu().
  */
 function ting_search_autocomplete_menu() {
   $items = array();
 
   $items['ting/autocomplete'] = array(
-    'title'            => 'Ting search autocomplete',
-    'description'      => 'Returns a list of suggestions to use for autocompletion',
+    'title' => 'Ting search autocomplete',
+    'description' => 'Returns a list of suggestions to use for autocompletion',
     'access arguments' => array('search content'),
-    'page callback'    => 'ting_search_autocomplete',
-    'type'             => MENU_CALLBACK,
-    'file'             => 'ting_search_autocomplete.pages.inc',
+    'page callback' => 'ting_search_autocomplete',
+    'type' => MENU_CALLBACK,
   );
 
   return $items;
 }
 
 /**
- * Implementation of hook_flush_caches().
+ * Implements hook_flush_caches().
  */
 function ting_search_autocomplete_flush_caches() {
   return array('cache_ting_search_autocomplete');
 }
 
 /**
- * Implements hook_form_alter() for the ting_search_autocomplete form.
+ * Implements hook_form_alter().
+ *
+ * Adds CSS and JS to the ting search form.
  */
 function ting_search_autocomplete_form_search_block_form_alter(&$form, &$form_state) {
-  drupal_add_library('system', 'ui.autocomplete');
-  drupal_add_css(drupal_get_path('module', 'ting_search_autocomplete') . '/css/ting_search_autocomplete.css');
-  drupal_add_js(drupal_get_path('module', 'ting_search_autocomplete') . '/js/ting_search_autocomplete.js');
+  $form['search_block_form']['#autocomplete_path'] = 'ting/autocomplete';
 
+  // Add class to make sure that the form is auto-submitted.
+  $form['search_block_form']['#attributes']['class'] = array('auto-submit');
+
+  // Modify the core auto-complete behaviour to search on enter. It has a high
+  // weight to ensure that it's include after core auto complete script.
+  drupal_add_js(drupal_get_path('module', 'ting_search_autocomplete') . '/js/ting_search_autocomplete.js', array('weight' => 1000));
 }
 
+/**
+ * Auto-complete callback for the ting search block.
+ *
+ * The function returns JSON and ending execution.
+ *
+ * @param string $string
+ *   The string to search open scan and spell with.
+ * @param bool $reset
+ *   If TRUE the cache is reset. Defaults to FALSE.
+ */
+function ting_search_autocomplete($string = '', $reset = FALSE) {
+  $matches = array();
+
+  // Try to use cache for the search string.
+  $cid = md5($string);
+  if (!$reset && $cache = cache_get($cid, 'cache_ting_search_autocomplete')) {
+    $matches = $cache->data;
+  }
+  else {
+    require_once drupal_get_path('module', 'ting') . '/ting.client.inc';
+
+    // Scan for search results.
+    $scan_results = ting_do_scan($string, 'anyIndexes', 10);
+
+    if ($scan_results instanceof TingClientScanResult) {
+      // Sort based on count.
+      $terms = $scan_results->terms;
+      uasort($terms, 'ting_search_autocomplete_term_sort');
+
+      // Add the results to the matches array, but truncate it to ensure that it
+      // is displayed correctly in the frontend.
+      foreach ($terms as $term) {
+        // The term is truncate to 128 chars as this is the default max-length
+        // for the search field.
+        $name = truncate_utf8($term->name, 128, TRUE);
+        $matches[drupal_strtolower($name)] = $name;
+      }
+    }
+
+    // Scan for spell suggestions.
+    $spell_suggestions = ting_get_spell_suggestions($string, 3);
+    if ($spell_suggestions) {
+      foreach ($spell_suggestions as $spell_word) {
+        // Check that the spell suggestion was not the word sent to the service.
+        if (drupal_strtolower($spell_word->word) == drupal_strtolower($string)) {
+          continue;
+        }
+        $matches[drupal_strtolower($spell_word->word)] = t("Did you mean '@query' ?", array('@query' => $spell_word->word));
+      }
+    }
+
+    // Store the matches in cache for faster lookup next time.
+    cache_set($cid, $matches, 'cache_ting_search_autocomplete', CACHE_TEMPORARY);
+  }
+
+  drupal_json_output($matches);
+}
+
+/**
+ * Sort scan results based on their count.
+ *
+ * Used as callback for the usort function. The result is sorted with the
+ * highest count first and falling.
+ *
+ * @param TingClientScanTerm $first_term
+ *   A TingClientScanTerm object.
+ * @param TingClientScanTerm $second_term
+ *   A TingClientScanTerm object.
+ *
+ * @return int
+ *   It $first_term is largest -1, if $second_term then 1 else 0 is returned.
+ */
+function ting_search_autocomplete_term_sort($first_term, $second_term) {
+  if ($first_term->count > $second_term->count) {
+    return -1;
+  }
+  elseif ($second_term > $first_term->count) {
+    return 1;
+  }
+
+  return 0;
+}

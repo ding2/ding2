@@ -1,33 +1,36 @@
-(function($) {
-  Drupal.behaviors.tingSearchAutocomplete = {
-    attach: function(context) {
-
-      $('#edit-search-block-form--2').autocomplete({
-        minLength: 3,
-        source: function(request, response) {
-          $.getJSON(Drupal.settings.basePath + 'ting/autocomplete', {
-            query: request.term
-          }, response);
-        },
-        search: function(event, ui) {
-          // When a search is beginning, show the spinner
-          $('#edit-search-block-form--2').parent().addClass('spinner');
-          $('#edit-search-block-form--2').addClass('spinner');
-        },
-        open: function(event, ui) {
-          // When a search is done, use this, to hide the spinner.
-          $('#edit-search-block-form--2').parent().removeClass('spinner');
-          $('#edit-search-block-form--2').removeClass('spinner');
-        },
-        select: function(event, ui) {
-          // Add the chosen value to the searchbox and submit.
-          if (ui.item) {
-            $('#edit-search-block-form--2').val(ui.item.value);
-            $('#search-block-form').submit();
-          }
+/**
+ * Handler for the "onkeydown" event.
+ *
+ * Overwritten from Drupal's autocomplete.js to automatically selects
+ * the highlighted item if the input has the auto-submit call and the
+ * user presses enter.
+ *
+ * @see https://drupal.org/node/309088
+ */
+(function ($) {
+  Drupal.jsAC.prototype.onkeydown = function (input, e) {
+    if (!e) {
+      e = window.event;
+    }
+    switch (e.keyCode) {
+      case 13: // Enter.
+        if ($(input).hasClass('auto-submit')) {
+          this.hidePopup(e.keyCode);
+          this.db.cancel();
+          this.input.form.submit();
         }
-      });
+        return true;
+
+      case 40: // down arrow.
+        this.selectDown();
+        return false;
+
+      case 38: // up arrow.
+        this.selectUp();
+        return false;
+
+      default: // All other keys.
+        return true;
     }
   };
-} (jQuery));
-
+})(jQuery);
