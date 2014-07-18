@@ -5,62 +5,11 @@
  */
 
 /**
- * Implements hook_requirements().
- */
-function ding_provider_requirements($phase) {
-  $requirements = array();
-  $t            = get_t();
-  $providers    = array();
-  $conflicting  = FALSE;
-
-  // Check if we have conflicting provider types
-  foreach (module_implements('ding_provider') as $module) {
-    $provider_module = module_invoke($module, 'ding_provider');
-    if (array_key_exists('provides', $provider_module)) {
-      foreach ($provider_module['provides'] as $provides) {
-        $providers[$provides['prefix']][] = $module;
-      }
-    }
-  }
-
-  foreach ($providers as $providertype => $providermodules) {
-    if (count($providermodules) > 1) {
-      $conflicting[] = t('%type implemented by @providers. Using @module.', array(
-        '@providers' => implode(', ', $providermodules),
-        '%type'      => $providertype,
-        '@module'    => end($providermodules),
-      )
-      );
-    }
-  }
-
-  switch ($phase) {
-    case 'runtime':
-      if ($callback = variable_get('ding_provider_ajax_disabled', FALSE)) {
-        $requirements['ding_provider_ajax_conflict'] = array(
-          'title'       => $t('Ding provider AJAX authentication'),
-          'description' => $t('Disabled'),
-          'severity'    => REQUIREMENT_ERROR,
-          'value'       => t('Ding Provider is unable to override the system/ajax page, because some other module already has overridden it with %callback.', array('%callback' => $callback)),
-        );
-      }
-      if ($conflicting == TRUE) {
-        $requirements['ding_provider_conflict'] = array(
-          'title'       => $t('Ding provider Information'),
-          'description' => $t('Possible provider conflict'),
-          'severity'    => REQUIREMENT_WARNING,
-          'value'       => implode('<br />', $conflicting),
-        );
-      }
-      break;
-  }
-  return $requirements;
-}
-
-/**
  * Implements hook_menu().
  */
 function ding_provider_menu() {
+  $items = array();
+
   $items['ding_provider_error'] = array(
     'title' => 'Internal error',
     'page callback' => 'ding_provider_error_page',
@@ -69,9 +18,10 @@ function ding_provider_menu() {
 
   $items['admin/config/ding/provider'] = array(
     'title' => 'Ding provider',
+    'description' => 'Configure the provider used to communicate with the library system.',
     'page callback' => 'ding_provider_admin_overview',
     'access arguments' => array('administer ding provider'),
-    'file' => 'ding_provider.admin.inc'
+    'file' => 'ding_provider.admin.inc',
   );
 
   $items['admin/config/ding/provider/overview'] = array(
@@ -144,7 +94,7 @@ function ding_provider_ding_install_tasks() {
   $return = array();
   foreach ($users as $provider => $info) {
     // Add global provider settings if required.
-    if ($info['ding_profile'] && sizeof($info['required']) && isset($providers[$provider]) && $form_id = $providers[$provider]['global settings']) {
+    if ($info['ding_profile'] && count($info['required']) && isset($providers[$provider]) && $form_id = $providers[$provider]['global settings']) {
       $return[$form_id] = array(
         // TODO: This doesn't work for potx, we need the generated strings in
         // plain form somewhere.
@@ -159,7 +109,7 @@ function ding_provider_ding_install_tasks() {
 
     // Add settings for individual providers to installer if someone asked for
     // it and there's modules that requires this provider.
-    if ($info['ding_profile'] && sizeof($info['required']) && $form_id = ding_provider_implements($provider, 'settings')) {
+    if ($info['ding_profile'] && count($info['required']) && $form_id = ding_provider_implements($provider, 'settings')) {
       $return[$form_id] = array(
         // TODO: This doesn't work for potx, we need the generated stings in
         // plain form somewhere.
@@ -212,8 +162,11 @@ function ding_provider_invoke($type, $hook) {
   array_shift($args);
 
   $function = _ding_provider_function($type, $hook);
-  if ($function) {
+  if (is_callable($function)) {
     return call_user_func_array($function, $args);
+  }
+  else {
+    watchdog('ding_provider', 'Provider invoke request to unknown fucntion (%function)', array('%function' => $function), WATCHDOG_ERROR);
   }
 }
 
@@ -258,7 +211,7 @@ function ding_provider_invoke_page($type, $hook) {
       throw $e;
     }
     elseif ($e instanceof DingProviderAuthException) {
-      // Redirect to auth page
+      // Redirect to auth page.
       if (module_exists('ding_user') && ($authpage = ding_user_auth_page())) {
         // @todo redirect to auth page
         drupal_goto($authpage, array('query' => ding_provider_get_destination()));
@@ -422,12 +375,20 @@ function ding_provider_ajax_form_callback() {
         return array(
           '#type' => 'ajax',
           '#commands' => array(
-            ajax_command_ding_user_authenticate(array('dp_form_id' => $form_id))
+            ajax_command_ding_user_authenticate(array('dp_form_id' => $form_id)),
           ),
         );
       }
     }
+    else {
+      // Send the exception into watchdog to help debug.
+      watchdog_exception('ding_provider', $e);
+    }
   }
+
+  // Log message to watchdog to help debug the problem.
+  watchdog('ding_provider', 'Internal error exception unhandled in ajax request.', array(), WATCHDOG_ERROR);
+
 
   // Else show internal error.
   return array(
@@ -476,7 +437,7 @@ function ding_provider_get_destination($query_args = array()) {
  * Get the provider type.
  *
  * @param string $type
- *  The type of module e.g reservation, availibility etc.
+ *   The type of module e.g reservation, availibility etc.
  */
 function ding_provider_get_provider_module_name($type) {
   $providers = _ding_provider_get_provider();
@@ -593,11 +554,14 @@ function _ding_provider_function($type, $hook, $quiet = FALSE) {
 /**
  * Wrapper function used to create an pseudo ting entity, which mainly is used
  * when the provider returns reservation, loans or debts that do not have a ting
- * entity in the datewell, but will stil wishes to use it in lists together with
- * real ting entities.
+ * entity in the date well, but will stile wishes to use it in lists together
+ * with real ting entities.
  *
- * @param type $ding_entity_id
- * @return type
+ * @param string $ding_entity_id
+ *   Ding entity ID for the data well object.
+ *
+ * @return TingEntity
+ *   Ting entity object based on the entity ID given.
  */
 function ding_provider_get_pseudo_entity($ding_entity_id) {
   $local_id = drupal_substr($ding_entity_id, strpos($ding_entity_id, ':') + 1);
@@ -613,7 +577,7 @@ function ding_provider_get_pseudo_entity($ding_entity_id) {
   $ting_entity->reply->id = $ding_entity_id;
   $ting_entity->reply->localId = $local_id;
   $ting_entity->reply->relations = array();
-  $ting_entity->reply->ownerId = drupal_substr($ding_entity_id, 0, strpos($ding_entity_id, ':'));
+  $ting_entity->reply->ownerId = drupal_substr($ding_entity_id, 0, strpos($ding_entity_id, '-'));
 
   // See if the provider have any information about the entity.
   if (ding_provider_implements('loan', 'populate_pseudo_entity')) {
@@ -624,4 +588,152 @@ function ding_provider_get_pseudo_entity($ding_entity_id) {
   $ting_entity->is_available = FALSE;
 
   return $ting_entity;
+}
+
+/**
+ * Helper function to create data well 3 PID's.
+ *
+ * This function is placed in the provider and not "ting" module as the
+ * providers uses it and we don't want to have a binding from providers to ting.
+ *
+ * @param string $id
+ *   The materials local id number (faust).
+ * @param string $agency
+ *   Agency ID to which the entity belongs.
+ *
+ * @return string
+ *   The PID for the faust in the data well.
+ */
+function ding_provider_build_entity_id($id, $agency = -1) {
+  $ting_entity_id = FALSE;
+
+  // Get local library faust ID range.
+  $local_range = '9';
+
+  // Get agency ID.
+  $local_agency = variable_get('ting_agency', '');
+
+  switch ($agency) {
+    case $local_agency:
+    case -1:
+      if (preg_match('/^' . $local_range . '/', $id)) {
+        // If agency is not given fallback to local agency.
+        if (empty($agency) || $agency == -1) {
+          $agency = $local_agency;
+        }
+
+        // Local posts.
+        $ting_entity_id = $agency . '-katalog:' . $id;
+      }
+      else {
+        // Global posts.
+        $ting_entity_id = '870970-basis:' . $id;
+      }
+      break;
+
+    case '150021':
+      $ting_entity_id = '150021-bibliotek:' . $id;
+      break;
+
+    case '150027':
+      $ting_entity_id = '150021-fjern:' . $id;
+      break;
+
+    case '150030':
+      $ting_entity_id = '870970-spilmedier:' . $id;
+      break;
+
+    case '870973':
+      $ting_entity_id = '870973-anmeld:' . $id;
+      break;
+
+    case '150039':
+      $ting_entity_id = '150015-forlag:' . $id;
+      break;
+
+    case '870976':
+      $ting_entity_id = '870976-anmeld:' . $id;
+      break;
+
+    case '150048':
+      $ting_entity_id = '870970-basis:' . $id;
+      break;
+
+    case '150028':
+      $ting_entity_id = '870970-basis:' . $id;
+      break;
+
+    case '150015':
+      $ting_entity_id = '870970-basis:' . $id;
+      break;
+
+    case '150033':
+      $ting_entity_id = '150033-dandyr:' . $id;
+      break;
+
+    case '150040':
+      $ting_entity_id = '150040-verdyr:' . $id;
+      break;
+
+    case '150018':
+      $ting_entity_id = '150018-danhist:' . $id;
+      break;
+
+    case '150032':
+      $ting_entity_id = '150018-samfund:' . $id;
+      break;
+
+    case '150034':
+      $ting_entity_id = '150018-religion:' . $id;
+      break;
+
+    case '150054':
+      $ting_entity_id = '150018-biologi:' . $id;
+      break;
+
+    case '150055':
+      $ting_entity_id = '150018-fysikkemi:' . $id;
+      break;
+
+    case '150056':
+      $ting_entity_id = '150056-geografi:' . $id;
+      break;
+
+    case '150008':
+      $ting_entity_id = '150008-academic:' . $id;
+      break;
+
+    case '150043':
+      $ting_entity_id = '150043-atlas:' . $id;
+      break;
+
+    case '150023':
+      $ting_entity_id = '150023-sicref:' . $id;
+      break;
+
+    case '150025':
+      $ting_entity_id = '150008-public:' . $id;
+      break;
+
+    case '150052':
+      $ting_entity_id = '870970-basis:' . $id;
+      break;
+
+    case '159002':
+      $ting_entity_id = '159002-lokalbibl:' . $id;
+      break;
+
+    case '150012':
+      $ting_entity_id = '150012-leksikon:' . $id;
+      break;
+
+    default:
+      // The agency ID was not translatable, do to one-to-may match from old pid
+      // to new pid. Or the agency ID is not known. So simply log it under a
+      // filterable type.
+      watchdog('ding_provider_pid', 'PID creation failed with agency (%agency) and ID (%id)', array('%agency' => $agency, '%id' => $id), WATCHDOG_ERROR);
+      break;
+  }
+
+  return $ting_entity_id;
 }

@@ -127,6 +127,14 @@ class DingProviderReservation extends DingEntityBase {
   protected $notes = DingEntityBase::NULL;
 
   /**
+   * Reservation_type - the type of reservation.
+   *   - DING_RESERVATION_READY
+   *   - DING_RESERVATION_NOT_READY
+   *   - DING_RESERVATION_INTERLIBRARY_LOANS
+   */
+  protected $reservation_type = DingEntityBase::NULL;
+
+  /**
    * Status - status for interlibrary loans
    */
   protected $ill_status = DingEntityBase::NULL;
@@ -165,6 +173,7 @@ class DingProviderReservation extends DingEntityBase {
       'notes',
       'order_arrived',
       'ready_for_pickup',
+      'reservation_type',
       'author',
       'title',
       'publication_year',
@@ -173,12 +182,23 @@ class DingProviderReservation extends DingEntityBase {
     $this->_populate($properties, $data);
   }
 
+  public function __wakeup() {
+    foreach (get_object_vars($this) as $prop => $val) {
+      if (isset($this->properties[$prop]) && $this->properties[$prop] === self::NULL) {
+        $this->properties[$prop] = $val;
+      }
+      else if (isset($this->properties[$prop])) {
+        $this->$prop = $this->properties[$prop];
+      }
+    }
+  }
+
   function getPickup_branch() {
     return ding_provider_invoke('reservation', 'branch_name', $this->pickup_branch);
   }
 
   function getEntity() {
-    if (!isset($this->entity)) {
+    if (!isset($this->entity) || $this->entity === self::NULL) {
       if (!empty($this->ding_entity_id)) {
         $this->entity = ding_entity_load($this->ding_entity_id);
       }
