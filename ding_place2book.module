@@ -912,8 +912,7 @@ function render_place2book_ticketsinfo($node) {
       }
     }
   }
-
-  return theme('place2book_ticketsinfo', array('place2book_id' => $place2book_id, 'url' => $url, 'type' => $type));
+  return theme('place2book_ticketsinfo', array('place2book_id' => $place2book_id, 'url' => $url, 'type' => $type));;
 }
 
 /*
@@ -955,9 +954,12 @@ function theme_place2book_ticketsinfo($variables) {
 function ding_place2book_theme() {
   $items = array(
     'place2book_ticketsinfo' => array(
-      'render element' => 'element',
+      'variables' => array(
+        'place2book_id' => NULL,
+        'url' => NULL,
+        'type' => NULL,
+      ),
     ),
   );
-
   return $items;
 }
