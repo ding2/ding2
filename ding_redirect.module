@@ -102,7 +102,7 @@ function ding_redirect_form_search_block_form_alter(&$form, &$form_state, $form_
 function _ding_redirect_get_options() {
   $options = array(
     'well' => t('Search in materials'),
-    'web' => t('Search in events'),
+    'web' => t('Search on website'),
   );
 
   $first_item = $options[variable_get('ding_redirect_settings_search_default', 'well')];
