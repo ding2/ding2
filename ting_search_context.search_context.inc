@@ -53,11 +53,11 @@ function ting_search_context_get_age_group($facets) {
 function ting_search_context_get_genre_category($facets) {
   $top_number_of_fiction = 0;
   $top_number_of_non_fiction = 0;
-  if (isset($facets['facet.fiction']) && is_array($facets['facet.fiction']->terms)) {
-    $top_number_of_fiction = reset($facets['facet.fiction']->terms);
+  if (isset($facets['facet.fictionSubject']) && is_array($facets['facet.fictionSubject']->terms)) {
+    $top_number_of_fiction = reset($facets['facet.fictionSubject']->terms);
   }
-  if (isset($facets['facet.nonFiction']) && is_array($facets['facet.nonFiction']->terms)) {
-    $top_number_of_non_fiction = reset($facets['facet.nonFiction']->terms);
+  if (isset($facets['facet.nonFictionSubject']) && is_array($facets['facet.nonFictionSubject']->terms)) {
+    $top_number_of_non_fiction = reset($facets['facet.nonFictionSubject']->terms);
   }
   return ($top_number_of_fiction > $top_number_of_non_fiction ) ? 'fiction' : 'nonfiction';
 }
@@ -68,7 +68,7 @@ function ting_search_context_get_fiction_genres($facets) {
     'kærlighed' => array('kærlighed', 'erotik', 'sex'),
     'fantasy' => array('science fiction', 'fantasy'),
   );
-  return ting_search_context_get_detail_genre($facets, $fiction_genres, 'facet.fiction', 'fiction');
+  return ting_search_context_get_detail_genre($facets, $fiction_genres, 'facet.fictionSubject', 'fiction');
 }
 
 function ting_search_context_get_non_fiction_genres($facets) {
@@ -76,7 +76,7 @@ function ting_search_context_get_non_fiction_genres($facets) {
     'haver' => array('haver'),
     'kogebøger' => array('slankeretter', 'ernæring', 'diætretter', 'vegetarretter', 'kost'),
   );
-  return ting_search_context_get_detail_genre($facets, $fiction_genres, 'facet.nonFiction', 'nonfiction');
+  return ting_search_context_get_detail_genre($facets, $fiction_genres, 'facet.nonFictionSubject', 'nonfiction');
 }
 
 function ting_search_context_get_children_genres($facets) {
@@ -84,7 +84,7 @@ function ting_search_context_get_children_genres($facets) {
     'piger' => array('piger'),
     'drenge' => array('drenge'),
   );
-  return ting_search_context_get_detail_genre($facets, $fiction_genres, 'facet.fiction', 'children');
+  return ting_search_context_get_detail_genre($facets, $fiction_genres, 'facet.fictionSubject', 'children');
 }
 
 function ting_search_context_get_detail_genre($facets, $genres, $facet_name, $default_value) {
