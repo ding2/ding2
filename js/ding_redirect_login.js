@@ -22,7 +22,7 @@
       if (delay > 0) {
         // Pop a dialog when there is a delay on redirect.
         var canceled = false;
-        var $dialog = $('<div class="os2web-redirect-modal">' + dialog_text + '</div>').dialog({
+        var $dialog = $('<div class="ding-redirect-modal">' + dialog_text + '</div>').dialog({
           'modal': true,
           'title': dialog_title,
           'closeText' : Drupal.t('close'),
