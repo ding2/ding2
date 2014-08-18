@@ -822,10 +822,8 @@ function ding_user_get_creds($user = NULL) {
     // Sometimes the $user object will be the users profile which do not have
     // roles.
     if (isset($user->roles)) {
-      $timeout = variable_get('ding_user_session_expire', 900);
-      $roles = array_values($user->roles);
-      // User who are authenticated but has no other roles (i.e. ding user).
-      if (count($roles) == 1 && $roles[0] == 'authenticated user' && $timeout != 0) {
+      // Only check if the user is member of 'provider' role.
+      if (in_array('provider', $user->roles)) {
         // Check if session is expired.
         if (isset($_SESSION[DING_USER_ACTIVITY]) && (time() - $_SESSION[DING_USER_ACTIVITY] > variable_get('ding_user_session_expire', 900))) {
           watchdog('user', 'Session timeout for %name.', array('%name' => $user->name));
