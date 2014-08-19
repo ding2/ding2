@@ -170,17 +170,17 @@ function ting_search_get_extended_actions() {
 function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id) {
   // Define advanced fields.
   $advanced_fields = array(
-    'dc.creator' => array(
+    'term.creator' => array(
       'key' => 'creator',
       'title' => t('Author'),
       'description' => t('Enter the author name'),
     ),
-    'dc.title' => array(
+    'term.title' => array(
       'key' => 'title',
       'title' => t('Title'),
       'description' => t('Enter title'),
     ),
-    'dc.subject' => array(
+    'term.subject' => array(
       'key' => 'subject',
       'title' => t('Subject'),
       'description' => t('Enter subject keywords'),
@@ -899,9 +899,9 @@ function ting_search_submit($form, &$form_state) {
   $fields = array();
 
   $extended_fields = array(
-    'creator' => 'dc.creator',
-    'title' => 'dc.title',
-    'subject' => 'dc.subject',
+    'creator' => 'term.creator',
+    'title' => 'term.title',
+    'subject' => 'term.subject',
   );
 
   foreach ($extended_fields as $name => $index) {
