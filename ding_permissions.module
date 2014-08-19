@@ -616,6 +616,7 @@ function ding_permissions_secure_permissions($role) {
       'administer users',
       'assign editor role',
       'assign guest blogger role',
+      'assign local administrator role',
       'assign local editor role',
       'assign staff role',
       'bpi push content',
