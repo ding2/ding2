@@ -68,11 +68,12 @@ window.webtrendsAsyncInit=function(){
         }
         });
 
-        // @TODO: Prepare for search-data 
-        // if (SEARCH_ACTIVATED) {
-        //   dcs.WT.oss = '';  // search query
-        //   dcs.WT.oss_r = 1; // search hits
-        // }
+        // @TODO: Prepare for search-data
+        var count = $('.js-count');
+        if $('.js-count).length > 0) {
+          dcs.WT.oss = $('.form-type-textfield input').val();  // search query
+          dcs.WT.oss_r = count.attr('data-js-count'); // search hits
+        }
         
         dcs.track();
 };
