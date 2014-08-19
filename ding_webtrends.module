@@ -45,7 +45,6 @@ function ding_webtrends_page_alter(&$page) {
     watchdog('ding_webtrends', 'Ding Webtrends module not configured.', array(), WATCHDOG_NOTICE);
     return;
   }
-  $script_path = drupal_get_path('module', 'ding_webtrends');
 
   // Create custom inline script.
   $script = <<<EOT
@@ -77,15 +76,11 @@ window.webtrendsAsyncInit=function(){
         
         dcs.track();
 };
-(function(){
-    var s=document.createElement("script"); s.async=true; s.src="/$script_path/js/webtrends.min.js";
-    var s2=document.getElementsByTagName("script")[0]; s2.parentNode.insertBefore(s,s2);
-}());
 EOT;
 
   drupal_add_js($script, array(
     'type' => 'inline',
-    'scope' => 'footer',
+    'scope' => 'header',
     'weight' => 99,
     'cache' => TRUE,
   ));
