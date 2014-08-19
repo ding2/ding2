@@ -35,7 +35,7 @@ function ding_webtrends_page_alter(&$page) {
     watchdog('ding_webtrends', 'Ding Webtrends module not configured.', array(), WATCHDOG_NOTICE);
     return;
   }
-  $script_path = drupal_get_path('module', 'webtrends');
+  $script_path = drupal_get_path('module', 'ding_webtrends');
 
   // Create custom inline script.
   $script = <<<EOT
