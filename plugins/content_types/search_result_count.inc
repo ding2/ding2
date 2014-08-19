@@ -27,7 +27,7 @@ function ting_search_result_count_content_type_render($subtype, $conf, $panel_ar
     $block->content = array(
       '#prefix' => '<h1 class="page-title">',
       '#suffix' => '</h1>',
-      '#markup' => t('Search result <span class="search-field-in-content--amount">(!count !string)</span>', array(
+      '#markup' => t('Search result <span class="js-count" data-js-count="!count" class="search-field-in-content--amount">(!count !string)</span>', array(
         '!count' => $results,
         '!string' => $string,
       )),
