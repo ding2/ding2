@@ -35,22 +35,42 @@ function ding_webtrends_page_alter(&$page) {
     watchdog('ding_webtrends', 'Ding Webtrends module not configured.', array(), WATCHDOG_NOTICE);
     return;
   }
+  $script_path = drupal_get_path('module', 'webtrends');
 
   // Create custom inline script.
   $script = <<<EOT
-var _tag=new WebTrends();
-_tag.fpcdom = ".$domain";
-_tag.dcsid = "$dcs_id";
-_tag.dcsGetId();
+window.webtrendsAsyncInit=function(){
+    var dcs=new Webtrends.dcs().init({
+        dcsid:"$dcs_id",
+        domain:"statse.webtrendslive.com",
+        timezone:1,
+        i18n:true,
+        adimpressions:true,
+        adsparam:"WT.ac",
+        offsite:true,
+        download:true,
+        downloadtypes:"avi,csv,doc,docx,exe,gzip,mp3,mp4,pdf,ppt,pptx,rar,txt,wav,xls,xlsx,zip",
+        onsitedoms:"$domain",
+        fpcdom:".$domain",
+        plugins:{
+            hm:{src:"//s.webtrends.com/js/webtrends.hm.js"},
+            facebook:{src:"//s.webtrends.com/js/webtrends.fb.js"},
+            yt:{src:"//s.webtrends.com/js/webtrends.yt.js"}
+        }
+        });
 
-_tag.dcsCustom=function(){
-  if (typeof Drupal.settings.tingSearch != 'undefined') {
-    _tag.WT.oss = encodeURIComponent(Drupal.settings.tingSearch.keys);
-    // The result count is unknown when the page is loaded, so we just say 1.
-    _tag.WT.oss_r = 1;
-  }
-}
-_tag.dcsCollect();
+        // @TODO: Prepare for search-data 
+        // if (SEARCH_ACTIVATED) {
+        //   dcs.WT.oss = '';  // search query
+        //   dcs.WT.oss_r = 1; // search hits
+        // }
+        
+        dcs.track();
+};
+(function(){
+    var s=document.createElement("script"); s.async=true; s.src="/$script_path/js/webtrends.min.js";
+    var s2=document.getElementsByTagName("script")[0]; s2.parentNode.insertBefore(s,s2);
+}());
 EOT;
 
   drupal_add_js($script, array(
@@ -62,7 +82,7 @@ EOT;
 
   // Fallback HTML if JS is not enabled.
   $html = '<noscript>
-             <div><img alt="DCSIMG" id="DCSIMG" width="1" height="1" src="http://visionize10.visionize.dk/$dcs_id/njs.gif?dcsuri=/nojavascript&amp;WT.js=No&amp;WT.tv=9.3.0&amp;WT.dcssip=$domain"/></div>
+             <div><img alt="dcsimg" id="dcsimg" width="1" height="1" src="//statse.webtrendslive.com/$dcs_id/njs.gif?dcsuri=/nojavascript&amp;WT.js=No&amp;WT.tv=10.4.1&amp;dcssip=$domain"/></div>
            </noscript>';
 
   $page['footer']['webtrends'] = array(
