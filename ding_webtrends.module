@@ -29,9 +29,10 @@ function ding_webtrends_page_alter(&$page) {
   // Get configuration variables set in the administration interface.
   $domain = variable_get('webtrends_domain', FALSE);
   $dcs_id = variable_get('webtrends_dcs_id', FALSE);
+  $onsitedoms = variable_get('webtrends_onsitedoms', FALSE);  
 
   // Check that webtrends have been configured.
-  if (!$domain || !$dcs_id) {
+  if (!$domain || !$dcs_id || !$onsitedoms) {
     watchdog('ding_webtrends', 'Ding Webtrends module not configured.', array(), WATCHDOG_NOTICE);
     return;
   }
@@ -50,7 +51,7 @@ window.webtrendsAsyncInit=function(){
         offsite:true,
         download:true,
         downloadtypes:"avi,csv,doc,docx,exe,gzip,mp3,mp4,pdf,ppt,pptx,rar,txt,wav,xls,xlsx,zip",
-        onsitedoms:"$domain",
+        onsitedoms:"$onsitedoms",
         fpcdom:".$domain",
         plugins:{
             hm:{src:"//s.webtrends.com/js/webtrends.hm.js"},
