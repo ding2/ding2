@@ -22,7 +22,7 @@ function ding_webtrends_admin_settings_form($form_state) {
     '#type' => 'textfield',
     '#title' => t('Hostname (onsitedoms)'),
     '#description' => t('The hostname(s) of on-site domains, inserts onsitedoms value.'),
-    '#default_value' => variable_get('webtrends_onsitedoms', $base_url),
+    '#default_value' => variable_get('webtrends_onsitedoms'),
   );
 
   $form['webtrends_dcs_id'] = array(
