@@ -26,13 +26,22 @@ function ding_webtrends_menu() {
  * Implements hook_page_alter().
  */
 function ding_webtrends_page_alter(&$page) {
+  // Load webtrend script.
+  if (variable_get('preprocess_js', FALSE)) {
+    // Aggregate JS, load minified version.
+    drupal_add_js(drupal_get_path('module', 'ding_webtrends') . '/js/webtrends.min.js');
+  }
+  else {
+    drupal_add_js(drupal_get_path('module', 'ding_webtrends') . '/js/webtrends.js');
+  }
+
   // Get configuration variables set in the administration interface.
   $domain = variable_get('webtrends_domain', FALSE);
   $dcs_id = variable_get('webtrends_dcs_id', FALSE);
-  $onsitedoms = variable_get('webtrends_onsitedoms', FALSE);  
+  $onsitedoms = variable_get('webtrends_onsitedoms', NULL);
 
   // Check that webtrends have been configured.
-  if (!$domain || !$dcs_id || !$onsitedoms) {
+  if (!$domain || !$dcs_id) {
     watchdog('ding_webtrends', 'Ding Webtrends module not configured.', array(), WATCHDOG_NOTICE);
     return;
   }
@@ -90,4 +99,5 @@ EOT;
     '#type' => 'markup',
     '#markup' => $html,
   );
+
 }
