@@ -7,7 +7,7 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase
     $this->setBrowserUrl("http://ding2tal.easyting.dk/");
   }
 
-  public function testSoringAnonymous()
+  public function testSortingAnonymous()
   {
     $this->open("/");
     $this->type("id=edit-search-block-form--2", "45154211 OR 43615513 OR 000305954");
@@ -54,7 +54,7 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase
     $this->assertEquals("Sprache als Herrschaft : semiotische Kritik des \"Guten Menschen von Sezuan\", der Theorie Brechts und der literarischen Wertung", $this->getText("//div[@id='page']/div/div/div/div/div/div/div/div[7]/div/div/ul/li[4]/div/div/div[2]/div/h2/a"));
   }
 
-  public function testSoringLoggedIn()
+  public function testSortingLoggedIn()
   {
     $this->open("/");
     $this->click("link=Login");
