@@ -7,7 +7,7 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase
     $this->setBrowserUrl("http://ding2tal.easyting.dk/");
   }
 
-  public function testCovers()
+  public function testCoversAnonymous()
   {
     $this->open("/");
     $this->open("/search/ting/harry potter?page=2");
@@ -15,7 +15,7 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase
     $this->assertTrue($this->isElementPresent("css=.search-results .search-result:nth-child(5) img"));
   }
 
-  public function testCovertAuth()
+  public function testCoversLoggedIn()
   {
     $this->open("/");
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
