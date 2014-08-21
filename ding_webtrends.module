@@ -27,12 +27,13 @@ function ding_webtrends_menu() {
  */
 function ding_webtrends_page_alter(&$page) {
   // Load webtrend script.
+  // Should be loaded after the inline-configuration
   if (variable_get('preprocess_js', FALSE)) {
     // Aggregate JS, load minified version.
-    drupal_add_js(drupal_get_path('module', 'ding_webtrends') . '/js/webtrends.min.js');
+    drupal_add_js(drupal_get_path('module', 'ding_webtrends') . '/js/webtrends.min.js', array('scope' => 'footer'));
   }
   else {
-    drupal_add_js(drupal_get_path('module', 'ding_webtrends') . '/js/webtrends.js');
+    drupal_add_js(drupal_get_path('module', 'ding_webtrends') . '/js/webtrends.js', array('scope' => 'footer'));
   }
 
   // Get configuration variables set in the administration interface.
@@ -81,9 +82,6 @@ EOT;
 
   drupal_add_js($script, array(
     'type' => 'inline',
-    'scope' => 'header',
-    'weight' => 99,
-    'cache' => TRUE,
   ));
 
   // Fallback HTML if JS is not enabled.
