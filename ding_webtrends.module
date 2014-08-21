@@ -70,9 +70,9 @@ window.webtrendsAsyncInit=function(){
         });
 
         // @TODO: Prepare for search-data
-        var count = $('.js-count');
-        if($('.js-count').length > 0) {
-          dcs.WT.oss = $('.form-type-textfield input').val();  // search query
+        var count = jQuery('.js-count');
+        if(count.length > 0) {
+          dcs.WT.oss = jQuery('.form-type-textfield input').val();  // search query
           dcs.WT.oss_r = count.attr('data-js-count'); // search hits
         }
         
