@@ -24,7 +24,7 @@ class ItemPage extends PHPUnit_Extensions_SeleniumTestCase
     $this->assertTrue($this->isElementPresent("//div[@id='page']/div/div/div/div/div/div/aside/div[2]/h2"));
     $this->assertTrue($this->isElementPresent("link=Holdings available on the shelf"));
     $this->click("link=Holdings available on the shelf");
-    $this->assertEquals("We have 1 copy. There is 1 user in queue to loan the material.", $this->getText("css=#holdings-870970-basis50676927 > p"));
+    $this->assertTrue($this->isElementPresent("css=#holdings-870970-basis50676927 > p"));
     $this->assertTrue($this->isElementPresent("css=th"));
     $this->assertTrue($this->isElementPresent("//div[@id='holdings-870970-basis50676927']/table/thead/tr/th[2]"));
     $this->assertTrue($this->isElementPresent("//div[@id='holdings-870970-basis50676927']/table/thead/tr/th[3]"));
@@ -53,7 +53,7 @@ class ItemPage extends PHPUnit_Extensions_SeleniumTestCase
     $this->assertTrue($this->isElementPresent("//div[@id='page']/div/div/div/div/div/div/aside/div[2]/h2"));
     $this->assertTrue($this->isElementPresent("link=Holdings available on the shelf"));
     $this->click("link=Holdings available on the shelf");
-    $this->assertEquals("We have 1 copy. There is 1 user in queue to loan the material.", $this->getText("css=#holdings-870970-basis50676927 > p"));
+    $this->assertTrue($this->isElementPresent("css=#holdings-870970-basis50676927 > p"));
     $this->assertTrue($this->isElementPresent("css=th"));
     $this->assertTrue($this->isElementPresent("//div[@id='holdings-870970-basis50676927']/table/thead/tr/th[2]"));
     $this->assertTrue($this->isElementPresent("//div[@id='holdings-870970-basis50676927']/table/thead/tr/th[3]"));
