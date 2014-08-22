@@ -7,7 +7,7 @@ class ItemPageRelations extends PHPUnit_Extensions_SeleniumTestCase
     $this->setBrowserUrl("http://ding2tal.easyting.dk/");
   }
 
-  public function testOtherMaterialsAnon()
+  public function testOtherMaterialsAnonymous()
   {
     $this->open("/");
     $this->type("id=edit-search-block-form--2", "Rom : i Vilhelm Bergsøes");
@@ -89,4 +89,3 @@ class ItemPageRelations extends PHPUnit_Extensions_SeleniumTestCase
     $this->waitForPageToLoad("30000");
   }
 }
-?>

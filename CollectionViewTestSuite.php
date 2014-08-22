@@ -6,7 +6,7 @@ class collectionView  extends PHPUnit_Extensions_SeleniumTestCase
     $this->setBrowser("*firefox");
     $this->setBrowserUrl("http://ding2tal.easyting.dk/");
   }
-  /*
+
   public function testCollectionCoversAnonymous()
   {
     $this->open("/");
@@ -82,7 +82,7 @@ class collectionView  extends PHPUnit_Extensions_SeleniumTestCase
     $this->assertTrue((bool)preg_match('/^.*ting\/collection\/870970-basis%3A28443471#Lydbog%20\(net\)$/', $this->getLocation()));
     $this->click("link=Lydbog (bånd) (5)");
     $this->assertTrue((bool)preg_match('/^.*ting\/collection\/870970-basis%3A28443471#Lydbog%20\(b%C3%A5nd\)$/', $this->getLocation()));
-  }*/
+  }
   
   public function testcollectionViewActionsAnonymous()
   {
@@ -175,4 +175,3 @@ class collectionView  extends PHPUnit_Extensions_SeleniumTestCase
     $this->mouseDownAt("//div[5]/div/button");
   }
 }
-?>
