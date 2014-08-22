@@ -72,6 +72,12 @@ class TingEntity extends DingEntity {
     return FALSE;
   }
 
+  function getClassificationText() {
+    $dk5_text = !empty($this->reply->record['dc:subject']['dkdcplus:DK5-Text'][0]) ? $this->reply->record['dc:subject']['dkdcplus:DK5-Text'][0] : '';
+
+    return $dk5_text;
+  }
+
   function getIsPartOf() {
     $this->isPartOf = array();
     if( !empty($this->reply->record['dcterms:isPartOf']) ) {
