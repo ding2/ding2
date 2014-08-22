@@ -10,9 +10,10 @@ class OpenScan extends PHPUnit_Extensions_SeleniumTestCase
   public function testAutosuggestionAnon()
   {
     $this->open("/");
-    $this->sendKeys("id=edit-search-block-form--2", "star wa");
+    $this->type("id=edit-search-block-form--2", "star wa");
+    $this->fireEvent("id=edit-search-block-form--2", "keyup");
     $this->assertTrue($this->isElementPresent("id=autocomplete"));
-    $this->waitForPopUp("id=autocomplete", "2000");
+    sleep(3);
     $this->assertEquals("star wars", $this->getText("//*[@id=\"autocomplete\"]/ul/li[1]"));
     $this->mouseDown("//div[@id='autocomplete']/ul/li/div");
     try {
@@ -21,9 +22,10 @@ class OpenScan extends PHPUnit_Extensions_SeleniumTestCase
         array_push($this->verificationErrors, $e->toString());
     }
     $this->type("id=edit-search-block-form--2", "");
-    $this->sendKeys("id=edit-search-block-form--2", "star wa");
+    $this->type("id=edit-search-block-form--2", "star wa");
+    $this->fireEvent("id=edit-search-block-form--2", "keyup");
     $this->assertTrue($this->isElementPresent("id=autocomplete"));
-    $this->waitForPopUp("id=autocomplete", "2000");
+    sleep(3);
     $this->keyDown("id=edit-search-block-form--2", "\\40");
     $this->assertEquals("selected", $this->getAttribute("//*[@id=\"autocomplete\"]/ul/li[1]@class"));
     $this->click("id=edit-submit");
@@ -34,7 +36,8 @@ class OpenScan extends PHPUnit_Extensions_SeleniumTestCase
         array_push($this->verificationErrors, $e->toString());
     }
     $this->type("id=edit-search-block-form--2", "");
-    $this->sendKeys("id=edit-search-block-form--2", "star wa");
+    $this->type("id=edit-search-block-form--2", "star wa");
+    $this->fireEvent("id=edit-search-block-form--2", "keyup");
     $this->assertTrue($this->isElementPresent("id=autocomplete"));
     $this->click("css=#ding-facetbrowser-form > div > #facet-type > #expand_more");
     try {
@@ -53,9 +56,10 @@ class OpenScan extends PHPUnit_Extensions_SeleniumTestCase
     $this->click("id=edit-submit--2");
     $this->waitForPageToLoad("30000");
     $this->assertEquals("My Account", $this->getText("//div[@id='page']/header/section/div/ul/li[3]/a/span"));
-    $this->sendKeys("id=edit-search-block-form--2", "star wa");
+    $this->type("id=edit-search-block-form--2", "star wa");
+    $this->fireEvent("id=edit-search-block-form--2", "keyup");
     $this->assertTrue($this->isElementPresent("id=autocomplete"));
-    $this->waitForPopUp("id=autocomplete", "2000");
+    sleep(3);
     $this->assertEquals("star wars", $this->getText("//*[@id=\"autocomplete\"]/ul/li[1]"));
     $this->mouseDown("//div[@id='autocomplete']/ul/li/div");
     try {
@@ -64,9 +68,10 @@ class OpenScan extends PHPUnit_Extensions_SeleniumTestCase
         array_push($this->verificationErrors, $e->toString());
     }
     $this->type("id=edit-search-block-form--2", "");
-    $this->sendKeys("id=edit-search-block-form--2", "star wa");
+    $this->type("id=edit-search-block-form--2", "star wa");
+    $this->fireEvent("id=edit-search-block-form--2", "keyup");
     $this->assertTrue($this->isElementPresent("id=autocomplete"));
-    $this->waitForPopUp("id=autocomplete", "2000");
+    sleep(3);
     $this->keyDown("id=edit-search-block-form--2", "\\40");
     $this->assertEquals("selected", $this->getAttribute("//*[@id=\"autocomplete\"]/ul/li[1]@class"));
     $this->click("id=edit-submit");
@@ -77,7 +82,8 @@ class OpenScan extends PHPUnit_Extensions_SeleniumTestCase
         array_push($this->verificationErrors, $e->toString());
     }
     $this->type("id=edit-search-block-form--2", "");
-    $this->sendKeys("id=edit-search-block-form--2", "star wa");
+    $this->type("id=edit-search-block-form--2", "star wa");
+    $this->fireEvent("id=edit-search-block-form--2", "keyup");
     $this->assertTrue($this->isElementPresent("id=autocomplete"));
     $this->click("css=#ding-facetbrowser-form > div > #facet-type > #expand_more");
     try {
