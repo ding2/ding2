@@ -65,7 +65,7 @@ class collectionView  extends PHPUnit_Extensions_SeleniumTestCase
     $this->mouseDownAt("//body/div[4]");
     $this->click("id=reservation-870970-basis:05306809");
     $this->assertEquals("css=div.messages.status > ul > li", "\"Klit\" reserved and will be available for pickup at Hjørring.");
-    $this->mouseDownAt("//div[4]/div/button');
+    $this->mouseDownAt("//div[4]/div/button");
     $this->click("id=reservation-870970-basis:05306809");
     $this->assertEquals("Error message \"You have already reserved \"Klit\".", $this->getText("css=div.messages.error"));
     $this->click("//div[4]/div/button");
