@@ -170,6 +170,7 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
 
       // Get link value.
       $link = $wrapper->field_camp_link->value();
+
       if (!empty($link)) {
         $current['#link'] = array(
           '#theme' => 'link',
@@ -180,12 +181,15 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
               'class' => array(
                 'ding-campaing--link',
               ),
-              'target' => '_blank',
             ),
             'html' => FALSE,
             'absolute' => TRUE,
           ),
         );
+
+        if ($wrapper->field_camp_behavior->value()) {
+          $current['#link']['#options']['attributes']['target'] = '_blank';
+        }
       }
 
       // Get text both plain and full.

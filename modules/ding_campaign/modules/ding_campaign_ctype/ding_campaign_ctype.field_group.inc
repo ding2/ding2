@@ -26,6 +26,7 @@ function ding_campaign_ctype_field_group_info() {
       0 => 'field_camp_link',
       1 => 'field_camp_text_full',
       2 => 'field_camp_text_plain',
+      3 => 'field_camp_behavior',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -79,9 +80,9 @@ function ding_campaign_ctype_field_group_info() {
     'label' => 'Settings',
     'weight' => '1',
     'children' => array(
-      0 => 'field_camp_settings',
-      1 => 'field_camp_weight',
-      2 => 'ding_campaign_group_ref',
+      0 => 'ding_campaign_group_ref',
+      1 => 'field_camp_settings',
+      2 => 'field_camp_weight',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
