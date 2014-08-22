@@ -91,7 +91,7 @@ function ding_campaign_ctype_field_default_field_instances() {
       ),
     ),
     'deleted' => 0,
-    'description' => 'If set, the clicked campaign will open in a new tab/window.',
+    'description' => 'If set, the clicked campaign will open in a new tab/window',
     'display' => array(
       'default' => array(
         'label' => 'above',
