@@ -25,21 +25,33 @@ class itemPage extends PHPUnit_Extensions_SeleniumTestCase
     $this->assertTrue($this->isElementPresent("id=bookmark-870970-basis:50676927"));
     $this->assertTrue($this->isElementPresent("id=reservation-870970-basis:50676927"));
     $this->click("id=bookmark-870970-basis:50676927");
-    sleep(2);
-    $msgs = array("Added to bookmarks", "This item is in bookmarks already.");
+    sleep(4);
+    $msgs = array(
+      "Added to bookmarks",
+      "This item is in bookmarks already.",
+    );
     $this->assertTrue(in_array($this->getText("css=div.ding-bookmark-message"), $msgs));
     $this->mouseDownAt("//body/div[4]");
     $this->click("id=bookmark-870970-basis:50676927");
+    sleep(4);
     $this->assertEquals("This item is in bookmarks already.", $this->getText("css=div.ding-bookmark-message"));
     $this->mouseDownAt("//body/div[4]");
     $this->click("id=reservation-870970-basis:50676927");
-    sleep(2);
-    $msgs = array("\"Rom\" reserved and will be available for pickup at Hjørring.", "Error message \"You have already reserved \"Rom\".");
+    sleep(4);
+    $msgs = array(
+      "\"Rom\" reserved and will be available for pickup at Hjørring.",
+      "Error message \"You have already reserved \"Rom\".",
+      "Error message \"Rom\" is not available for reservation.",
+    );
     $this->assertTrue(in_array($this->getText("css=div.messages"), $msgs));
     $this->mouseDownAt("//div[4]/div/button");
     $this->click("id=reservation-870970-basis:50676927");
-    sleep(2);
-    $this->assertEquals("Error message \"You have already reserved \"Rom\".", $this->getText("css=div.messages.error"));
+    sleep(4);
+    $msgs = array(
+      "Error message \"You have already reserved \"Rom\".",
+      "Error message \"Rom\" is not available for reservation.",
+    );
+    $this->assertTrue(in_array($this->getText("css=div.messages"), $msgs));
     $this->mouseDownAt("//div[5]/div/button");
   }
 
@@ -56,25 +68,37 @@ class itemPage extends PHPUnit_Extensions_SeleniumTestCase
     $this->assertTrue($this->isElementPresent("id=bookmark-870970-basis:50676927"));
     $this->assertTrue($this->isElementPresent("id=reservation-870970-basis:50676927"));
     $this->click("id=bookmark-870970-basis:50676927");
-    sleep(2);
+    sleep(4);
     $this->type("//form[@id='user-login']/div/div[1]/input", "1111110022");
     $this->type("//form[@id='user-login']/div/div[2]/input", "5555");
     $this->mouseDownAt("//form[@id='user-login']/div/div[3]/input");
-    sleep(3);
-    $msgs = array("Added to bookmarks", "This item is in bookmarks already.");
+    sleep(4);
+    $msgs = array(
+      "Added to bookmarks",
+      "This item is in bookmarks already.",
+    );
     $this->assertTrue(in_array($this->getText("css=div.ding-bookmark-message"), $msgs));
     $this->mouseDownAt("//body/div[4]");
     $this->click("id=bookmark-870970-basis:50676927");
+    sleep(4);
     $this->assertEquals("This item is in bookmarks already.", $this->getText("css=div.ding-bookmark-message"));
     $this->mouseDownAt("//body/div[4]");
     $this->click("id=reservation-870970-basis:50676927");
-    sleep(2);
-    $msgs = array("\"Rom\" reserved and will be available for pickup at Hjørring.", "Error message \"You have already reserved \"Rom\".");
+    sleep(4);
+    $msgs = array(
+      "\"Rom\" reserved and will be available for pickup at Hjørring.",
+      "Error message \"You have already reserved \"Rom\".",
+      "Error message \"Rom\" is not available for reservation.",
+    );
     $this->assertTrue(in_array($this->getText("css=div.messages"), $msgs));
     $this->mouseDownAt("//div[5]/div/button");
     $this->click("id=reservation-870970-basis:50676927");
-    sleep(2);
-    $this->assertEquals("Error message \"You have already reserved \"Rom\".", $this->getText("css=div.messages.error"));
+    sleep(4);
+    $msgs = array(
+      "Error message \"You have already reserved \"Rom\".",
+      "Error message \"Rom\" is not available for reservation.",
+    );
+    $this->assertTrue(in_array($this->getText("css=div.messages"), $msgs));
     $this->mouseDownAt("//div[6]/div/button");
   }
 }
