@@ -7,14 +7,9 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase
     $this->setBrowserUrl("http://ding2tal.easyting.dk/");
   }
 
-  public function testSearchBox()
+  public function testSearchBoxAnonymous()
   {
     $this->open("/");
-    $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-    $this->type("id=edit-name", "1111110022");
-    $this->type("id=edit-pass", "5555");
-    $this->click("id=edit-submit--2");
-    $this->waitForPageToLoad("30000");
     $this->type("id=edit-search-block-form--2", "Dune");
     $this->click("id=edit-submit");
     $this->waitForPageToLoad("30000");
@@ -37,9 +32,15 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase
     $this->assertTrue($this->isElementPresent("id=edit-search-block-form--2"));
     $this->assertTrue($this->isElementPresent("link=Star Wars : The Essential Guide to the Force"));
     $this->assertTrue($this->isElementPresent("link=Star Wars (Random House Paperback)"));
-    $this->click("css=img[alt=\"Home\"]");
-    $this->waitForPageToLoad("30000");
-    $this->click("//div[@id='page']/header/section/div/ul/li[5]/a/span");
+  }
+
+  public function testSearchBoxLoggedIn()
+  {
+    $this->open("/");
+    $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
+    $this->type("id=edit-name", "1111110022");
+    $this->type("id=edit-pass", "5555");
+    $this->click("id=edit-submit--2");
     $this->waitForPageToLoad("30000");
     $this->type("id=edit-search-block-form--2", "Dune");
     $this->click("id=edit-submit");
