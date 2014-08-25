@@ -363,11 +363,10 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testCoversAnonymous() {
-    $this->open("/en");
-    $this->open("search/ting/harry potter?page=2");
+    $this->open("/en/search/ting/harry potter?page=2");
     sleep(10);
     $this->assertFalse($this->isElementPresent("css=.search-results .search-result:nth-child(1) img"));
-    $this->assertTrue($this->isElementPresent("css=.search-results .search-result:nth-child(5) img"));
+    $this->assertTrue($this->isElementPresent("css=.search-results .search-result:nth-child(4) img"));
   }
 
   public function testCoversLoggedIn() {
@@ -377,9 +376,10 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
     $this->type("id=edit-pass", TARGET_URL_USER_PASS);
     $this->click("id=edit-submit--2");
     $this->waitForPageToLoad("30000");
-    $this->open("/search/ting/harry potter?page=2");
+    $this->open("/en/search/ting/harry potter?page=2");
+    sleep(10);
     $this->assertFalse($this->isElementPresent("css=.search-results .search-result:nth-child(1) img"));
-    $this->assertTrue($this->isElementPresent("css=.search-results .search-result:nth-child(5) img"));
+    $this->assertTrue($this->isElementPresent("css=.search-results .search-result:nth-child(4) img"));
     $this->click("//div[@id='page']/header/section/div/ul/li[5]/a/span");
     $this->waitForPageToLoad("30000");
   }
