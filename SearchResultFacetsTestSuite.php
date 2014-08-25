@@ -10,7 +10,7 @@ class SearchResultFacets extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testFacetBrowserAnonymous() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->type("id=edit-search-block-form--2", "45154211 OR 59999397");
     $this->click("id=edit-submit");
     $this->waitForPageToLoad("30000");
@@ -39,7 +39,7 @@ class SearchResultFacets extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testFacetBrowserLoggedIn() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
     $this->type("id=edit-name", TARGET_URL_USER);
     $this->type("id=edit-pass", TARGET_URL_USER_PASS);
@@ -73,7 +73,7 @@ class SearchResultFacets extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testSearchResultFacetsAnonymous() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->type("id=edit-search-block-form--2", "dune messiah");
     $this->click("id=edit-submit");
     $this->waitForPageToLoad("30000");
@@ -126,7 +126,7 @@ class SearchResultFacets extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testSearchResultFacetsLoggedIn() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->click("link=Login");
     $this->type("id=edit-name", TARGET_URL_USER);
     $this->type("id=edit-pass", TARGET_URL_USER_PASS);

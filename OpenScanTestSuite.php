@@ -10,7 +10,7 @@ class OpenScan extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testAutosuggestionAnonymous() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->type("id=edit-search-block-form--2", "star wa");
     $this->fireEvent("id=edit-search-block-form--2", "keyup");
     $this->assertTrue($this->isElementPresent("id=autocomplete"));
@@ -52,7 +52,7 @@ class OpenScan extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testAutosuggestionLoggedIn() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
     $this->type("id=edit-name", TARGET_URL_USER);
     $this->type("id=edit-pass", TARGET_URL_USER_PASS);
@@ -102,7 +102,7 @@ class OpenScan extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testSpecialCharactersAnonymous() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->type("id=edit-search-block-form--2", "Afskrivning på maskiner");
     $this->click("id=edit-submit");
     $this->waitForPageToLoad("30000");
@@ -129,7 +129,7 @@ class OpenScan extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testSpecialCharactersLoggedIn() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
     $this->type("id=edit-name", TARGET_URL_USER);
     $this->type("id=edit-pass", TARGET_URL_USER_PASS);
@@ -163,7 +163,7 @@ class OpenScan extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testSubmitAnonymous() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->type("id=edit-search-block-form--2", "harry potter");
     $this->click("id=edit-submit");
     $this->waitForPageToLoad("30000");
@@ -175,7 +175,7 @@ class OpenScan extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testSubmitLoggedIn() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
     $this->type("id=edit-name", TARGET_URL_USER);
     $this->type("id=edit-pass", TARGET_URL_USER_PASS);

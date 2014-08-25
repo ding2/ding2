@@ -10,7 +10,7 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testCollectionCoversAnonymous() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->waitForPageToLoad("30000");
     $this->open("ting/collection/870970-basis%3A27267912");
     sleep(10);
@@ -19,7 +19,7 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testCollectionCoversAuthenticated() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
     $this->type("id=edit-name", TARGET_URL_USER);
     $this->type("id=edit-pass", TARGET_URL_USER_PASS);
@@ -34,7 +34,7 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testCollectionViewAnonymous() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
     $this->type("id=edit-search-block-form--2", "frank herbert klit");
     $this->click("id=edit-submit");
@@ -56,7 +56,7 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testCollectionViewLoggedIn() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
     $this->type("id=edit-name", TARGET_URL_USER);
     $this->type("id=edit-pass", TARGET_URL_USER_PASS);
@@ -83,7 +83,7 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testcollectionViewActionsAnonymous() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
     $this->type("id=edit-search-block-form--2", "frank herbert klit");
     $this->click("id=edit-submit");
@@ -128,7 +128,7 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testcollectionViewActionsLoggedIn() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
     $this->type("id=edit-name", TARGET_URL_USER);
     $this->type("id=edit-pass", TARGET_URL_USER_PASS);
