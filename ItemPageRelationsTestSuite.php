@@ -1,15 +1,16 @@
 <?php
-class ItemPageRelations extends PHPUnit_Extensions_SeleniumTestCase
-{
-  protected function setUp()
-  {
-    $this->setBrowser("*firefox");
-    $this->setBrowserUrl("http://ding2tal.easyting.dk/");
+
+require_once(dirname(__FILE__) . '/config.inc');
+
+class ItemPageRelations extends PHPUnit_Extensions_SeleniumTestCase {
+
+  protected function setUp() {
+    $this->setBrowser(TARGET_BROWSER);
+    $this->setBrowserUrl(TARGET_URL);
   }
 
-  public function testOtherMaterialsAnonymous()
-  {
-    $this->open("/");
+  public function testOtherMaterialsAnonymous() {
+    $this->open("/en");
     $this->type("id=edit-search-block-form--2", "Rom : i Vilhelm Bergsøes");
     $this->click("id=edit-submit");
     $this->waitForPageToLoad("30000");
@@ -37,19 +38,18 @@ class ItemPageRelations extends PHPUnit_Extensions_SeleniumTestCase
     $this->selectWindow("null");
     $this->click("//*[@id=\"dbcaddi:hasReview\"]/div/div[3]/a");
     sleep(3);
-    $this->assertTrue($this->isElementPresent("//*[@id=\"page\"]/div[1]/div/div/div/div/div/div/div/div/div/div"));
-    $this->assertEquals("Lektørudtalelse", $this->getText("//div[@id='page']/div/div/div/div/div/div/div/div/div/div/div/h1"));
+    $this->assertTrue($this->isElementPresent("//div[@id='page']/div[1]/div/div/div/div/div/div/div/div/div/div/h1"));
+    $this->assertEquals("Lektørudtalelse", $this->getText("//div[@id='page']/div[1]/div/div/div/div/div/div/div/div/div/div/h1"));
     $this->open("/ting/object/870970-basis%3A50676927");
     $this->click("//*[@id=\"page\"]/div[1]/div/div/div/div/div/aside/div[2]/div/ul/li/a");
-    $this->assertTrue((bool)preg_match('/^[\s\S]*ting\/object\/870970-basis%3A50676927#dbcaddi:hasReview$/',$this->getLocation()));
+    $this->assertTrue((bool) preg_match('/^[\s\S]*ting\/object\/870970-basis%3A50676927#dbcaddi:hasReview$/', $this->getLocation()));
   }
 
-  public function testOtherMaterialsLoggedIn()
-  {
-    $this->open("/");
+  public function testOtherMaterialsLoggedIn() {
+    $this->open("/en");
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-    $this->type("id=edit-name", "1111110022");
-    $this->type("id=edit-pass", "5555");
+    $this->type("id=edit-name", TARGET_URL_USER);
+    $this->type("id=edit-pass", TARGET_URL_USER_PASS);
     $this->click("id=edit-submit--2");
     $this->waitForPageToLoad("30000");
     $this->assertEquals("My Account", $this->getText("//div[@id='page']/header/section/div/ul/li[3]/a/span"));
@@ -80,11 +80,11 @@ class ItemPageRelations extends PHPUnit_Extensions_SeleniumTestCase
     $this->selectWindow("null");
     $this->click("//*[@id=\"dbcaddi:hasReview\"]/div/div[3]/a");
     sleep(3);
-    $this->assertTrue($this->isElementPresent("//*[@id=\"page\"]/div[1]/div/div/div/div/div/div/div/div/div/div"));
-    $this->assertEquals("Lektørudtalelse", $this->getText("//div[@id='page']/div/div/div/div/div/div/div/div/div/div/div/h1"));
+    $this->assertTrue($this->isElementPresent("//div[@id='page']/div[1]/div/div/div/div/div/div/div/div/div/div/h1"));
+    $this->assertEquals("Lektørudtalelse", $this->getText("//div[@id='page']/div[1]/div/div/div/div/div/div/div/div/div/div/h1"));
     $this->open("/ting/object/870970-basis%3A50676927");
     $this->click("//*[@id=\"page\"]/div[1]/div/div/div/div/div/aside/div[2]/div/ul/li/a");
-    $this->assertTrue((bool)preg_match('/^[\s\S]*ting\/object\/870970-basis%3A50676927#dbcaddi:hasReview$/',$this->getLocation()));
+    $this->assertTrue((bool) preg_match('/^[\s\S]*ting\/object\/870970-basis%3A50676927#dbcaddi:hasReview$/', $this->getLocation()));
     $this->click("//div[@id='page']/header/section/div/ul/li[5]/a/span");
     $this->waitForPageToLoad("30000");
   }

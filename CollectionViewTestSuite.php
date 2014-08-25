@@ -1,15 +1,16 @@
 <?php
-class collectionView  extends PHPUnit_Extensions_SeleniumTestCase
-{
-  protected function setUp()
-  {
-    $this->setBrowser("*firefox");
-    $this->setBrowserUrl("http://ding2tal.easyting.dk/");
+
+require_once(dirname(__FILE__) . '/config.inc');
+
+class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
+
+  protected function setUp() {
+    $this->setBrowser(TARGET_BROWSER);
+    $this->setBrowserUrl(TARGET_URL);
   }
 
-  public function testCollectionCoversAnonymous()
-  {
-    $this->open("/");
+  public function testCollectionCoversAnonymous() {
+    $this->open("/en");
     $this->waitForPageToLoad("30000");
     $this->open("ting/collection/870970-basis%3A27267912");
     sleep(10);
@@ -17,12 +18,11 @@ class collectionView  extends PHPUnit_Extensions_SeleniumTestCase
     $this->assertFalse($this->isElementPresent("css=.ting-collection-wrapper:nth-child(2) .ting-cover img"));
   }
 
-  public function testCollectionCoversAuthenticated()
-  {
-    $this->open("/");
+  public function testCollectionCoversAuthenticated() {
+    $this->open("/en");
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-    $this->type("id=edit-name", "1111110022");
-    $this->type("id=edit-pass", "5555");
+    $this->type("id=edit-name", TARGET_URL_USER);
+    $this->type("id=edit-pass", TARGET_URL_USER_PASS);
     $this->click("id=edit-submit--2");
     $this->waitForPageToLoad("30000");
     $this->open("ting/collection/870970-basis%3A27267912");
@@ -32,10 +32,9 @@ class collectionView  extends PHPUnit_Extensions_SeleniumTestCase
     $this->click("//div[@id='page']/header/section/div/ul/li[5]/a/span");
     $this->waitForPageToLoad("30000");
   }
-  
-  public function testCollectionViewAnonymous()
-  {
-    $this->open("/");
+
+  public function testCollectionViewAnonymous() {
+    $this->open("/en");
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
     $this->type("id=edit-search-block-form--2", "frank herbert klit");
     $this->click("id=edit-submit");
@@ -49,19 +48,18 @@ class collectionView  extends PHPUnit_Extensions_SeleniumTestCase
     $this->assertTrue($this->isElementPresent("link=Lydbog (net) (1)"));
     $this->assertTrue($this->isElementPresent("link=Lydbog (bånd) (5)"));
     $this->click("link=Bog (8)");
-    $this->assertTrue((bool)preg_match('/^.*ting\/collection\/870970-basis%3A28443471#Bog$/', $this->getLocation()));
+    $this->assertTrue((bool) preg_match('/^.*ting\/collection\/870970-basis%3A28443471#Bog$/', $this->getLocation()));
     $this->click("link=Lydbog (net) (1)");
-    $this->assertTrue((bool)preg_match('/^.*ting\/collection\/870970-basis%3A28443471#Lydbog%20\(net\)$/', $this->getLocation()));
+    $this->assertTrue((bool) preg_match('/^.*ting\/collection\/870970-basis%3A28443471#Lydbog%20\(net\)$/', $this->getLocation()));
     $this->click("link=Lydbog (bånd) (5)");
-    $this->assertTrue((bool)preg_match('/^.*ting\/collection\/870970-basis%3A28443471#Lydbog%20\(b%C3%A5nd\)$/', $this->getLocation()));
+    $this->assertTrue((bool) preg_match('/^.*ting\/collection\/870970-basis%3A28443471#Lydbog%20\(b%C3%A5nd\)$/', $this->getLocation()));
   }
 
-  public function testCollectionViewLoggedIn()
-  {
-    $this->open("/");
+  public function testCollectionViewLoggedIn() {
+    $this->open("/en");
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-    $this->type("id=edit-name", "1111110022");
-    $this->type("id=edit-pass", "5555");
+    $this->type("id=edit-name", TARGET_URL_USER);
+    $this->type("id=edit-pass", TARGET_URL_USER_PASS);
     $this->click("id=edit-submit--2");
     $this->waitForPageToLoad("30000");
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
@@ -77,16 +75,15 @@ class collectionView  extends PHPUnit_Extensions_SeleniumTestCase
     $this->assertTrue($this->isElementPresent("link=Lydbog (net) (1)"));
     $this->assertTrue($this->isElementPresent("link=Lydbog (bånd) (5)"));
     $this->click("link=Bog (8)");
-    $this->assertTrue((bool)preg_match('/^.*ting\/collection\/870970-basis%3A28443471#Bog$/', $this->getLocation()));
+    $this->assertTrue((bool) preg_match('/^.*ting\/collection\/870970-basis%3A28443471#Bog$/', $this->getLocation()));
     $this->click("link=Lydbog (net) (1)");
-    $this->assertTrue((bool)preg_match('/^.*ting\/collection\/870970-basis%3A28443471#Lydbog%20\(net\)$/', $this->getLocation()));
+    $this->assertTrue((bool) preg_match('/^.*ting\/collection\/870970-basis%3A28443471#Lydbog%20\(net\)$/', $this->getLocation()));
     $this->click("link=Lydbog (bånd) (5)");
-    $this->assertTrue((bool)preg_match('/^.*ting\/collection\/870970-basis%3A28443471#Lydbog%20\(b%C3%A5nd\)$/', $this->getLocation()));
+    $this->assertTrue((bool) preg_match('/^.*ting\/collection\/870970-basis%3A28443471#Lydbog%20\(b%C3%A5nd\)$/', $this->getLocation()));
   }
-  
-  public function testcollectionViewActionsAnonymous()
-  {
-    $this->open("/");
+
+  public function testcollectionViewActionsAnonymous() {
+    $this->open("/en");
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
     $this->type("id=edit-search-block-form--2", "frank herbert klit");
     $this->click("id=edit-submit");
@@ -97,8 +94,8 @@ class collectionView  extends PHPUnit_Extensions_SeleniumTestCase
     $this->assertContains('klit', $this->getText("css=div.ting-object"), '', true);
     $this->click("id=bookmark-870970-basis:05306809");
     sleep(4);
-    $this->type("//form[@id='user-login']/div/div[1]/input", "1111110022");
-    $this->type("//form[@id='user-login']/div/div[2]/input", "5555");
+    $this->type("//form[@id='user-login']/div/div[1]/input", TARGET_URL_USER);
+    $this->type("//form[@id='user-login']/div/div[2]/input", TARGET_URL_USER_PASS);
     $this->mouseDownAt("//form[@id='user-login']/div/div[3]/input");
     sleep(4);
     $msgs = array(
@@ -129,12 +126,11 @@ class collectionView  extends PHPUnit_Extensions_SeleniumTestCase
     $this->mouseDownAt("//div[6]/div/button");
   }
 
-  public function testcollectionViewActionsLoggedIn()
-  {
-    $this->open("/");
+  public function testcollectionViewActionsLoggedIn() {
+    $this->open("/en");
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-    $this->type("id=edit-name", "1111110022");
-    $this->type("id=edit-pass", "5555");
+    $this->type("id=edit-name", TARGET_URL_USER);
+    $this->type("id=edit-pass", TARGET_URL_USER_PASS);
     $this->click("id=edit-submit--2");
     $this->waitForPageToLoad("30000");
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
