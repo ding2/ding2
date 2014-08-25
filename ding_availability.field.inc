@@ -291,7 +291,6 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           ), 'type' => 'setting',
         );
         $output['#attached']['js'][] = drupal_get_path('module', 'ding_availability') . '/js/ding_availability_labels.js';
-        $output['#attached']['js'][] = drupal_get_path('module', 'ding_availability') . '/js/ding_availability.js';
 
         $element[$delta] = $output;
         break;
