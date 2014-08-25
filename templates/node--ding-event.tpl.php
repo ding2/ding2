@@ -85,7 +85,6 @@
  *   field_address or group_audience,
  *   as relevant for the event node
  * - $ddbasic_byline: outputs byline to be used before $name
- * - $ddbasic_place2book_tickets: flag for field_place2book_tickets
  *
  * @see template_preprocess()
  * @see template_preprocess_node()
@@ -131,8 +130,6 @@
       hide($content['og_group_ref']);
       hide($content['ding_event_groups_ref']);
 
-      // Field provided by optional module ding_place2book
-      hide($content['field_place2book_tickets']);
       hide($content['field_ding_event_date']);
       hide($content['field_ding_event_location']);
       hide($content['field_ding_event_target']);
