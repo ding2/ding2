@@ -131,3 +131,11 @@ html.js .search input.form-autocomplete {
 .ting-reference-reverse-list {
   @extend .view-node-search-result;
 }
+
+.field-type-file {
+  margin-bottom: 10px;
+
+  .file-icon {
+    vertical-align: top;
+  }
+}
