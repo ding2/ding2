@@ -9,7 +9,7 @@
       search.addClass('js-search-field-in-content');
 
       // Remove label.
-      search.find('label').remove();
+      search.find('.form-item-search-block-form label').remove();
 
       // Add the search field.
       var element = $('.pane-search-result-count');
