@@ -10,7 +10,7 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testSearchBoxAnonymous() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->type("id=edit-search-block-form--2", "Dune");
     $this->click("id=edit-submit");
     $this->waitForPageToLoad("30000");
@@ -36,7 +36,7 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testSearchBoxLoggedIn() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
     $this->type("id=edit-name", TARGET_URL_USER);
     $this->type("id=edit-pass", TARGET_URL_USER_PASS);
@@ -67,7 +67,7 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testSortingAnonymous() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->type("id=edit-search-block-form--2", "45154211 OR 43615513 OR 000305954");
     $this->click("id=edit-submit");
     $this->waitForPageToLoad("30000");
@@ -113,14 +113,14 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testSortingLoggedIn() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->click("link=Login");
     $this->type("id=edit-name", TARGET_URL_USER);
     $this->type("id=edit-pass", TARGET_URL_USER_PASS);
     $this->click("id=edit-submit--2");
     $this->waitForPageToLoad("30000");
     $this->assertEquals("My Account", $this->getText("//div[@id='page']/header/section/div/ul/li[3]/a/span"));
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->type("id=edit-search-block-form--2", "45154211 OR 43615513 OR 000305954");
     $this->click("id=edit-submit");
     $this->waitForPageToLoad("30000");
@@ -168,7 +168,7 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testAvailabilityMarkers() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
     $this->type("id=edit-name", TARGET_URL_USER);
     $this->type("id=edit-pass", TARGET_URL_USER_PASS);
@@ -215,7 +215,7 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testPagination() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->type("id=edit-name", TARGET_URL_USER);
     $this->type("id=edit-pass", TARGET_URL_USER_PASS);
     $this->click("id=edit-submit--2");
@@ -230,16 +230,16 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
     $this->click("link=2");
     $this->waitForPageToLoad("30000");
     $this->click("link=1");
-    $this->assertEquals("/en/search/ting/jazz", $this->getAttribute("link=‹ previous@href"));
-    $this->assertEquals("/en/search/ting/jazz", $this->getAttribute("link=1@href"));
+    $this->assertEquals("/" . TARGET_URL_LANG . "/search/ting/jazz", $this->getAttribute("link=‹ previous@href"));
+    $this->assertEquals("/" . TARGET_URL_LANG . "/search/ting/jazz", $this->getAttribute("link=1@href"));
     $this->assertEquals("2", $this->getText("css=li.pager-current"));
     $this->assertTrue((bool) preg_match('/\/search\/ting\/jazz[\s\S]page=2$/', $this->getAttribute("link=3@href")));
     $this->assertTrue((bool) preg_match('/\/search\/ting\/jazz[\s\S]page=2$/', $this->getAttribute("link=next ›@href")));
     $this->click("link=next ›");
     $this->waitForPageToLoad("30000");
-    $this->assertEquals("/en/search/ting/jazz", $this->getAttribute("link=« first@href"));
+    $this->assertEquals("/" . TARGET_URL_LANG . "/search/ting/jazz", $this->getAttribute("link=« first@href"));
     $this->assertTrue((bool) preg_match('/\/search\/ting\/jazz[\s\S]page=1$/', $this->getAttribute("link=‹ previous@href")));
-    $this->assertEquals("/en/search/ting/jazz", $this->getAttribute("link=1@href"));
+    $this->assertEquals("/" . TARGET_URL_LANG . "/search/ting/jazz", $this->getAttribute("link=1@href"));
     $this->assertTrue((bool) preg_match('/\/search\/ting\/jazz[\s\S]page=1$/', $this->getAttribute("link=2@href")));
     $this->assertEquals("3", $this->getText("css=li.pager-current"));
     $this->assertTrue((bool) preg_match('/\/search\/ting\/jazz[\s\S]page=3$/', $this->getAttribute("link=4@href")));
@@ -260,16 +260,16 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
     $this->click("link=2");
     $this->waitForPageToLoad("30000");
     $this->click("link=1");
-    $this->assertEquals("/en/search/ting/jazz", $this->getAttribute("link=‹ previous@href"));
-    $this->assertEquals("/en/search/ting/jazz", $this->getAttribute("link=1@href"));
+    $this->assertEquals("/" . TARGET_URL_LANG . "/search/ting/jazz", $this->getAttribute("link=‹ previous@href"));
+    $this->assertEquals("/" . TARGET_URL_LANG . "/search/ting/jazz", $this->getAttribute("link=1@href"));
     $this->assertEquals("2", $this->getText("css=li.pager-current"));
     $this->assertTrue((bool) preg_match('/\/search\/ting\/jazz[\s\S]page=2$/', $this->getAttribute("link=3@href")));
     $this->assertTrue((bool) preg_match('/\/search\/ting\/jazz[\s\S]page=2$/', $this->getAttribute("link=next ›@href")));
     $this->click("link=next ›");
     $this->waitForPageToLoad("30000");
-    $this->assertEquals("/en/search/ting/jazz", $this->getAttribute("link=« first@href"));
+    $this->assertEquals("/" . TARGET_URL_LANG . "/search/ting/jazz", $this->getAttribute("link=« first@href"));
     $this->assertTrue((bool) preg_match('/\/search\/ting\/jazz[\s\S]page=1$/', $this->getAttribute("link=‹ previous@href")));
-    $this->assertEquals("/en/search/ting/jazz", $this->getAttribute("link=1@href"));
+    $this->assertEquals("/" . TARGET_URL_LANG . "/search/ting/jazz", $this->getAttribute("link=1@href"));
     $this->assertTrue((bool) preg_match('/\/search\/ting\/jazz[\s\S]page=1$/', $this->getAttribute("link=2@href")));
     $this->assertEquals("3", $this->getText("css=li.pager-current"));
     $this->assertTrue((bool) preg_match('/\/search\/ting\/jazz[\s\S]page=3$/', $this->getAttribute("link=4@href")));
@@ -281,7 +281,7 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testMaterialCollection() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
     $this->type("id=edit-name", TARGET_URL_USER);
     $this->type("id=edit-pass", TARGET_URL_USER_PASS);
@@ -316,7 +316,7 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testSeriesAnonymous() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->waitForPageToLoad("30000");
     $this->type("id=edit-search-block-form--2", "islandica eggert olafsson");
     $this->click("id=edit-submit");
@@ -337,7 +337,7 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testSeriesLoggedIn() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
     $this->type("id=edit-name", TARGET_URL_USER);
     $this->type("id=edit-pass", TARGET_URL_USER_PASS);
@@ -363,20 +363,20 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testCoversAnonymous() {
-    $this->open("/en/search/ting/harry potter?page=2");
+    $this->open("/" . TARGET_URL_LANG . "/search/ting/harry potter?page=2");
     sleep(10);
     $this->assertFalse($this->isElementPresent("css=.search-results .search-result:nth-child(1) img"));
     $this->assertTrue($this->isElementPresent("css=.search-results .search-result:nth-child(4) img"));
   }
 
   public function testCoversLoggedIn() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
     $this->type("id=edit-name", TARGET_URL_USER);
     $this->type("id=edit-pass", TARGET_URL_USER_PASS);
     $this->click("id=edit-submit--2");
     $this->waitForPageToLoad("30000");
-    $this->open("/en/search/ting/harry potter?page=2");
+    $this->open("/" . TARGET_URL_LANG . "/search/ting/harry potter?page=2");
     sleep(10);
     $this->assertFalse($this->isElementPresent("css=.search-results .search-result:nth-child(1) img"));
     $this->assertTrue($this->isElementPresent("css=.search-results .search-result:nth-child(4) img"));
@@ -385,7 +385,7 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testRecordViewAnonymous() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->type("id=edit-search-block-form--2", "klit");
     $this->click("id=edit-submit");
     $this->waitForPageToLoad("30000");
@@ -405,7 +405,7 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testRecordViewLoggedIn() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
     $this->type("id=edit-name", TARGET_URL_USER);
     $this->type("id=edit-pass", TARGET_URL_USER_PASS);

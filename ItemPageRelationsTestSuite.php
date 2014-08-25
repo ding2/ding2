@@ -10,7 +10,7 @@ class ItemPageRelations extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testOtherMaterialsAnonymous() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->type("id=edit-search-block-form--2", "Rom : i Vilhelm Bergsøes");
     $this->click("id=edit-submit");
     $this->waitForPageToLoad("30000");
@@ -46,7 +46,7 @@ class ItemPageRelations extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   public function testOtherMaterialsLoggedIn() {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
     $this->type("id=edit-name", TARGET_URL_USER);
     $this->type("id=edit-pass", TARGET_URL_USER_PASS);
