@@ -1,15 +1,16 @@
 <?php
-class SearchResultFacets extends PHPUnit_Extensions_SeleniumTestCase
-{
-  protected function setUp()
-  {
-    $this->setBrowser("*firefox");
-    $this->setBrowserUrl("http://ding2tal.easyting.dk/");
+
+require_once(dirname(__FILE__) . '/config.inc');
+
+class SearchResultFacets extends PHPUnit_Extensions_SeleniumTestCase {
+
+  protected function setUp() {
+    $this->setBrowser(TARGET_BROWSER);
+    $this->setBrowserUrl(TARGET_URL);
   }
 
-  public function testFacetBrowserAnonymous()
-  {
-    $this->open("/");
+  public function testFacetBrowserAnonymous() {
+    $this->open("/en");
     $this->type("id=edit-search-block-form--2", "45154211 OR 59999397");
     $this->click("id=edit-submit");
     $this->waitForPageToLoad("30000");
@@ -37,12 +38,11 @@ class SearchResultFacets extends PHPUnit_Extensions_SeleniumTestCase
     $this->verifyText("link=Inferno", "Inferno");
   }
 
-  public function testFacetBrowserLoggedIn()
-  {
-    $this->open("/");
+  public function testFacetBrowserLoggedIn() {
+    $this->open("/en");
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-    $this->type("id=edit-name", "1111110022");
-    $this->type("id=edit-pass", "5555");
+    $this->type("id=edit-name", TARGET_URL_USER);
+    $this->type("id=edit-pass", TARGET_URL_USER_PASS);
     $this->click("id=edit-submit--2");
     $this->waitForPageToLoad("30000");
     $this->type("id=edit-search-block-form--2", "45154211 OR 59999397");
@@ -72,9 +72,8 @@ class SearchResultFacets extends PHPUnit_Extensions_SeleniumTestCase
     $this->verifyText("link=Inferno", "Inferno");
   }
 
-  public function testSearchResultFacetsAnonymous()
-  {
-    $this->open("/");
+  public function testSearchResultFacetsAnonymous() {
+    $this->open("/en");
     $this->type("id=edit-search-block-form--2", "dune messiah");
     $this->click("id=edit-submit");
     $this->waitForPageToLoad("30000");
@@ -126,12 +125,11 @@ class SearchResultFacets extends PHPUnit_Extensions_SeleniumTestCase
     $this->assertGreaterThan(0, $this->getCssCount("ul.list"));
   }
 
-  public function testSearchResultFacetsLoggedIn()
-  {
-    $this->open("/");
+  public function testSearchResultFacetsLoggedIn() {
+    $this->open("/en");
     $this->click("link=Login");
-    $this->type("id=edit-name", "1111110022");
-    $this->type("id=edit-pass", "5555");
+    $this->type("id=edit-name", TARGET_URL_USER);
+    $this->type("id=edit-pass", TARGET_URL_USER_PASS);
     $this->click("id=edit-submit--2");
     $this->waitForPageToLoad("30000");
     $this->type("id=edit-search-block-form--2", "dune messiah");
@@ -185,4 +183,3 @@ class SearchResultFacets extends PHPUnit_Extensions_SeleniumTestCase
     $this->assertGreaterThan(0, $this->getCssCount("ul.list"));
   }
 }
-?>

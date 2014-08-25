@@ -1,15 +1,16 @@
 <?php
-class ItemPage extends PHPUnit_Extensions_SeleniumTestCase
-{
-  protected function setUp()
-  {
-    $this->setBrowser("*firefox");
-    $this->setBrowserUrl("http://ding2tal.easyting.dk/");
+
+require_once(dirname(__FILE__) . '/config.inc');
+
+class ItemPage extends PHPUnit_Extensions_SeleniumTestCase {
+
+  protected function setUp() {
+    $this->setBrowser(TARGET_BROWSER);
+    $this->setBrowserUrl(TARGET_URL);
   }
 
-  public function testDefaultCoversAnonymous()
-  {
-    $this->open("/");
+  public function testDefaultCoversAnonymous() {
+    $this->open("/en");
     $this->type("id=edit-search-block-form--2", "Rom : i Vilhelm Bergsøes");
     $this->click("id=edit-submit");
     $this->waitForPageToLoad("30000");
@@ -21,12 +22,11 @@ class ItemPage extends PHPUnit_Extensions_SeleniumTestCase
     $this->assertEquals("Rom : i Vilhelm Bergsøes fodspor fra Piazza del Popolo", $this->getText("link=Rom : i Vilhelm Bergsøes fodspor fra Piazza del Popolo"));
   }
 
-  public function testDefaultCoversLoggedIn()
-  {
-    $this->open("/");
+  public function testDefaultCoversLoggedIn() {
+    $this->open("/en");
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-    $this->type("id=edit-name", "1111110022");
-    $this->type("id=edit-pass", "5555");
+    $this->type("id=edit-name", TARGET_URL_USER);
+    $this->type("id=edit-pass", TARGET_URL_USER_PASS);
     $this->click("id=edit-submit--2");
     $this->waitForPageToLoad("30000");
     $this->assertEquals("My Account", $this->getText("//div[@id='page']/header/section/div/ul/li[3]/a/span"));
@@ -42,10 +42,9 @@ class ItemPage extends PHPUnit_Extensions_SeleniumTestCase
     $this->click("//div[@id='page']/header/section/div/ul/li[5]/a/span");
     $this->waitForPageToLoad("30000");
   }
-  
-  public function testAvailabilityAnonymous()
-  {
-    $this->open("/");
+
+  public function testAvailabilityAnonymous() {
+    $this->open("/en");
     $this->type("id=edit-search-block-form--2", "Rom : i Vilhelm Bergsøes");
     $this->click("id=edit-submit");
     $this->waitForPageToLoad("30000");
@@ -65,12 +64,11 @@ class ItemPage extends PHPUnit_Extensions_SeleniumTestCase
     $this->assertTrue($this->isElementPresent("link=Bog (1)"));
   }
 
-  public function testAvailabilityLoggedIn()
-  {
-    $this->open("/");
+  public function testAvailabilityLoggedIn() {
+    $this->open("/en");
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-    $this->type("id=edit-name", "1111110022");
-    $this->type("id=edit-pass", "5555");
+    $this->type("id=edit-name", TARGET_URL_USER);
+    $this->type("id=edit-pass", TARGET_URL_USER_PASS);
     $this->click("id=edit-submit--2");
     $this->waitForPageToLoad("30000");
     $this->type("id=edit-search-block-form--2", "Rom : i Vilhelm Bergsøes");
@@ -91,10 +89,9 @@ class ItemPage extends PHPUnit_Extensions_SeleniumTestCase
     $this->assertTrue($this->isElementPresent("css=h2.pane-title"));
     $this->assertTrue($this->isElementPresent("link=Bog (1)"));
   }
-  
-  public function testHoldingsAnonymous()
-  {
-    $this->open("/");
+
+  public function testHoldingsAnonymous() {
+    $this->open("/en");
     $this->type("id=edit-search-block-form--2", "Rom : i Vilhelm Bergsøes");
     $this->click("id=edit-submit");
     $this->waitForPageToLoad("30000");
@@ -116,12 +113,11 @@ class ItemPage extends PHPUnit_Extensions_SeleniumTestCase
     $this->assertEquals("Hirtshals > Voksensamling > > 47.57 Rom > Rom", $this->getText("css=td"));
   }
 
-  public function testHoldingsLoggedIn()
-  {
-    $this->open("/");
+  public function testHoldingsLoggedIn() {
+    $this->open("/en");
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-    $this->type("id=edit-name", "1111110022");
-    $this->type("id=edit-pass", "5555");
+    $this->type("id=edit-name", TARGET_URL_USER);
+    $this->type("id=edit-pass", TARGET_URL_USER_PASS);
     $this->click("id=edit-submit--2");
     $this->waitForPageToLoad("30000");
     $this->type("id=edit-search-block-form--2", "Rom : i Vilhelm Bergsøes");
@@ -144,13 +140,12 @@ class ItemPage extends PHPUnit_Extensions_SeleniumTestCase
     $this->assertTrue($this->isElementPresent("//div[@id='holdings-870970-basis50676927']/table/thead/tr/th[3]"));
     $this->assertEquals("Hirtshals > Voksensamling > > 47.57 Rom > Rom", $this->getText("css=td"));
   }
-  
-  public function testItemPageActionsLoggedIn()
-  {
-    $this->open("/");
+
+  public function testItemPageActionsLoggedIn() {
+    $this->open("/en");
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-    $this->type("id=edit-name", "1111110022");
-    $this->type("id=edit-pass", "5555");
+    $this->type("id=edit-name", TARGET_URL_USER);
+    $this->type("id=edit-pass", TARGET_URL_USER_PASS);
     $this->click("id=edit-submit--2");
     $this->waitForPageToLoad("30000");
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
@@ -193,9 +188,8 @@ class ItemPage extends PHPUnit_Extensions_SeleniumTestCase
     $this->mouseDownAt("//div[5]/div/button");
   }
 
-  public function testitemPageActionsAnonymous()
-  {
-    $this->open("/");
+  public function testitemPageActionsAnonymous() {
+    $this->open("/en");
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
     $this->type("id=edit-search-block-form--2", "Rom : i Vilhelm Bergsøes");
     $this->click("id=edit-submit");
@@ -207,8 +201,8 @@ class ItemPage extends PHPUnit_Extensions_SeleniumTestCase
     $this->assertTrue($this->isElementPresent("id=reservation-870970-basis:50676927"));
     $this->click("id=bookmark-870970-basis:50676927");
     sleep(4);
-    $this->type("//form[@id='user-login']/div/div[1]/input", "1111110022");
-    $this->type("//form[@id='user-login']/div/div[2]/input", "5555");
+    $this->type("//form[@id='user-login']/div/div[1]/input", TARGET_URL_USER);
+    $this->type("//form[@id='user-login']/div/div[2]/input", TARGET_URL_USER_PASS);
     $this->mouseDownAt("//form[@id='user-login']/div/div[3]/input");
     sleep(4);
     $msgs = array(
@@ -240,4 +234,3 @@ class ItemPage extends PHPUnit_Extensions_SeleniumTestCase
     $this->mouseDownAt("//div[6]/div/button");
   }
 }
-?>
