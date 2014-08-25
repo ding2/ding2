@@ -171,7 +171,7 @@ function ding_page_field_default_field_instances() {
     'required' => 0,
     'settings' => array(
       'description_field' => 1,
-      'file_directory' => 'ding_page_files',
+      'file_directory' => 'files/page',
       'file_extensions' => 'jpg jpeg gif png txt doc docx xls xlsx pdf ppt pptx pps odt ods odp',
       'max_filesize' => '',
       'user_register_form' => FALSE,
