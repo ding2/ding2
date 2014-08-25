@@ -105,6 +105,7 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
     $this->assertTrue(in_array($this->getText("css=div.ding-bookmark-message"), $msgs));
     $this->mouseDownAt("//body/div[4]");
     $this->click("id=bookmark-870970-basis:05306809");
+    sleep(4);
     $this->assertEquals("This item is in bookmarks already.", $this->getText("css=div.ding-bookmark-message"));
     $this->mouseDownAt("//body/div[4]");
     $this->click("id=reservation-870970-basis:05306809");
