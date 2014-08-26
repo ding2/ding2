@@ -120,6 +120,17 @@ libraries[profiler][download][branch] = "7.x-2.0-beta1"
 # https://drupal.org/node/1328796, keep dependency order of base profile.
 libraries[profiler][patch][0] = "http://drupal.org/files/profiler-reverse.patch"
 
+; DDB Modules that should be removed when FBS is ready
+projects[ding_redirect][type] = "module"
+projects[ding_redirect][download][type] = "git"
+projects[ding_redirect][download][url] = "git@github.com:ding2tal/ding_redirect.git"
+projects[ding_redirect][download][branch] = "development"
+
+projects[ding_dummy_provider][type] = "module"
+projects[ding_dummy_provider][download][type] = "git"
+projects[ding_dummy_provider][download][url] = "git@github.com:ding2tal/ding_dummy_provider.git"
+projects[ding_dummy_provider][download][branch] = "development"
+
 ; Contrib modules
 projects[apc][subdir] = "contrib"
 projects[apc][version] = "1.0-beta4"
