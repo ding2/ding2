@@ -9,6 +9,11 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
     $this->setBrowserUrl(TARGET_URL);
   }
 
+  /**
+   * Test search box as anonymous.
+   *
+   * Check the search workflow from frontpage and inner pages.
+   */
   public function testSearchBoxAnonymous() {
     $this->open("/" . TARGET_URL_LANG);
     $this->type("id=edit-search-block-form--2", "Dune");
@@ -35,6 +40,11 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
     $this->assertTrue($this->isElementPresent("link=Star Wars (Random House Paperback)"));
   }
 
+  /**
+   * Test search functionality as logged in user.
+   *
+   * @see testSearchBoxAnonymous()
+   */
   public function testSearchBoxLoggedIn() {
     $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
@@ -66,6 +76,11 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
     $this->assertTrue($this->isElementPresent("link=Star Wars (Random House Paperback)"));
   }
 
+  /**
+   * Test various sorting options as anonymous.
+   *
+   * Assume the pre-defined search result and known order after sorting.
+   */
   public function testSortingAnonymous() {
     $this->open("/" . TARGET_URL_LANG);
     $this->type("id=edit-search-block-form--2", "45154211 OR 43615513 OR 000305954");
@@ -112,6 +127,11 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
     $this->assertEquals("Sprache als Herrschaft : semiotische Kritik des \"Guten Menschen von Sezuan\", der Theorie Brechts und der literarischen Wertung", $this->getText("//div[@id='page']/div/div/div/div/div/div/div/div[7]/div/div/ul/li[4]/div/div/div[2]/div/h2/a"));
   }
 
+  /**
+   * Test various sorting options as logged in user.
+   *
+   * @see testSortingAnonymous()
+   */
   public function testSortingLoggedIn() {
     $this->open("/" . TARGET_URL_LANG);
     $this->click("link=Login");
@@ -167,6 +187,9 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
     $this->waitForPageToLoad("30000");
   }
 
+  /**
+   * Test availability markers for various search results.
+   */
   public function testAvailabilityMarkers() {
     $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
@@ -214,6 +237,12 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
     $this->assertTrue($this->isElementPresent("id=availability-870970-basis28443471-bog"));
   }
 
+  /**
+   * Test the pagination.
+   *
+   * Assume links to lead to correct url, be in correct order
+   * and new links (prev/first/next/last) appear.
+   */
   public function testPagination() {
     $this->open("/" . TARGET_URL_LANG);
     $this->type("id=edit-name", TARGET_URL_USER);
@@ -280,6 +309,9 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
     $this->assertTrue((bool) preg_match('/\/search\/ting\/jazz[\s\S]page=4$/', $this->getAttribute("link=5@href")));
   }
 
+  /**
+   * Test the collection search result.
+   */
   public function testMaterialCollection() {
     $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
@@ -315,6 +347,9 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
     }
   }
 
+  /**
+   * Test search result with "series" items as anonymous.
+   */
   public function testSeriesAnonymous() {
     $this->open("/" . TARGET_URL_LANG);
     $this->waitForPageToLoad("30000");
@@ -336,6 +371,9 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
     $this->assertTrue($this->isElementPresent("link=Islandica"));
   }
 
+  /**
+   * Test search result with "series" as logged in user.
+   */
   public function testSeriesLoggedIn() {
     $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
@@ -362,6 +400,9 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
     $this->click("//div[@id='page']/header/section/div/ul/li[5]/a/span");
   }
 
+  /**
+   * Check covers at search result as anonymous.
+   */
   public function testCoversAnonymous() {
     $this->open("/" . TARGET_URL_LANG . "/search/ting/harry potter?page=2");
     sleep(10);
@@ -369,6 +410,9 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
     $this->assertTrue($this->isElementPresent("css=.search-results .search-result:nth-child(4) img"));
   }
 
+  /**
+   * Check covers at search result as logged in user.
+   */
   public function testCoversLoggedIn() {
     $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
@@ -384,6 +428,11 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
     $this->waitForPageToLoad("30000");
   }
 
+  /**
+   * Test the item landing page as anonymous.
+   *
+   * Assume pre-defined elements be visible.
+   */
   public function testRecordViewAnonymous() {
     $this->open("/" . TARGET_URL_LANG);
     $this->type("id=edit-search-block-form--2", "klit");
@@ -404,6 +453,11 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
     $this->assertTrue($this->isElementPresent("id=bookmark-870971-avis:71179532"));
   }
 
+  /**
+   * Test the item landing page as logged in user.
+   *
+   * @see testRecordViewAnonymous()
+   */
   public function testRecordViewLoggedIn() {
     $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");

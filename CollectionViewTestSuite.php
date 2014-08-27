@@ -9,6 +9,12 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
     $this->setBrowserUrl(TARGET_URL);
   }
 
+  /**
+   * Test covers as anonymous.
+   *
+   * Check that certain elements should have an image tag,
+   * whilst others do not.
+   */
   public function testCollectionCoversAnonymous() {
     $this->open("/" . TARGET_URL_LANG);
     $this->waitForPageToLoad("30000");
@@ -18,6 +24,11 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
     $this->assertFalse($this->isElementPresent("css=.ting-collection-wrapper:nth-child(2) .ting-cover img"));
   }
 
+  /**
+   * Check covers as logged in user.
+   *
+   * @see testCollectionCoversAnonymous()
+   */
   public function testCollectionCoversAuthenticated() {
     $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
@@ -33,6 +44,11 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
     $this->waitForPageToLoad("30000");
   }
 
+  /**
+   * Test the collection page as anonymous.
+   *
+   * Assume the page should contain some links to other material types.
+   */
   public function testCollectionViewAnonymous() {
     $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
@@ -55,6 +71,11 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
     $this->assertTrue((bool) preg_match('/^.*ting\/collection\/870970-basis%3A28443471#Lydbog%20\(b%C3%A5nd\)$/', $this->getLocation()));
   }
 
+  /**
+   * Test the collections page as logged in user.
+   *
+   * @see testCollectionViewAnonymous()
+   */
   public function testCollectionViewLoggedIn() {
     $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
@@ -82,7 +103,17 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
     $this->assertTrue((bool) preg_match('/^.*ting\/collection\/870970-basis%3A28443471#Lydbog%20\(b%C3%A5nd\)$/', $this->getLocation()));
   }
 
-  public function testcollectionViewActionsAnonymous() {
+  /**
+   * Test the ability to bookmark/reserve as anonymous
+   * on collection page.
+   *
+   * Anonymous in this context means that user authenticates in a
+   * popup, when clicking bookmark/reserve as anonymous.
+   *
+   * Assume that the test might be run several times for same user,
+   * so different responses are checked as valid.
+   */
+  public function testCollectionViewActionsAnonymous() {
     $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
     $this->type("id=edit-search-block-form--2", "frank herbert klit");
@@ -127,7 +158,15 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
     $this->mouseDownAt("//div[6]/div/button");
   }
 
-  public function testcollectionViewActionsLoggedIn() {
+  /**
+   * Test the ability to reserve/bookmark.
+   *
+   * The use is logged in, goes to collection page and tries to
+   * reserve/bookmark.
+   *
+   * @see testCollectionViewActionsAnonymous()
+   */
+  public function testCollectionViewActionsLoggedIn() {
     $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
     $this->type("id=edit-name", TARGET_URL_USER);

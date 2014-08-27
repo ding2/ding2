@@ -9,6 +9,12 @@ class OpenScan extends PHPUnit_Extensions_SeleniumTestCase {
     $this->setBrowserUrl(TARGET_URL);
   }
 
+  /**
+   * Test the autosuggestion functionality in search form for
+   * anonymous user.
+   *
+   * Check some pre-tested values to be autosuggested.
+   */
   public function testAutosuggestionAnonymous() {
     $this->open("/" . TARGET_URL_LANG);
     $this->type("id=edit-search-block-form--2", "star wa");
@@ -51,6 +57,12 @@ class OpenScan extends PHPUnit_Extensions_SeleniumTestCase {
     }
   }
 
+  /**
+   * Test the autosuggestion functionality in search form for
+   * logged in user.
+   *
+   * @see testAutosuggestionAnonymous()
+   */
   public function testAutosuggestionLoggedIn() {
     $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
@@ -101,6 +113,9 @@ class OpenScan extends PHPUnit_Extensions_SeleniumTestCase {
     $this->waitForPageToLoad("30000");
   }
 
+  /**
+   * Test autosuggestion with utf8 characters as anonymous.
+   */
   public function testSpecialCharactersAnonymous() {
     $this->open("/" . TARGET_URL_LANG);
     $this->type("id=edit-search-block-form--2", "Afskrivning på maskiner");
@@ -128,6 +143,11 @@ class OpenScan extends PHPUnit_Extensions_SeleniumTestCase {
     $this->assertEquals("gæk, gæk, gæk", $this->getText("//*[@id=\"autocomplete\"]/ul/li[2]/div"));
   }
 
+  /**
+   * Test autosuggestion with utf8 characters as logged in user.
+   *
+   * @see testSpecialCharactersAnonymous()
+   */
   public function testSpecialCharactersLoggedIn() {
     $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
@@ -162,6 +182,11 @@ class OpenScan extends PHPUnit_Extensions_SeleniumTestCase {
     $this->waitForPageToLoad("30000");
   }
 
+  /**
+   * Test search functionality as anonymous.
+   *
+   * Check when filled and empty search is made.
+   */
   public function testSubmitAnonymous() {
     $this->open("/" . TARGET_URL_LANG);
     $this->type("id=edit-search-block-form--2", "harry potter");
@@ -174,6 +199,11 @@ class OpenScan extends PHPUnit_Extensions_SeleniumTestCase {
     $this->assertTrue($this->isElementPresent("css=div.messages.error"));
   }
 
+  /**
+   * Test search functionality as logged in user.
+   *
+   * @see testSubmitAnonymous()
+   */
   public function testSubmitLoggedIn() {
     $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
@@ -190,7 +220,5 @@ class OpenScan extends PHPUnit_Extensions_SeleniumTestCase {
     $this->click("id=edit-submit--3");
     $this->waitForPageToLoad("30000");
     $this->assertTrue($this->isElementPresent("css=div.messages.error"));
-    $this->click("//div[@id='page']/header/section/div/ul/li[5]/a/span");
-    $this->waitForPageToLoad("30000");
   }
 }
