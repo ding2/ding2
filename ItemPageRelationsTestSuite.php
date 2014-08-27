@@ -9,6 +9,12 @@ class ItemPageRelations extends PHPUnit_Extensions_SeleniumTestCase {
     $this->setBrowserUrl(TARGET_URL);
   }
 
+  /**
+   * Test related materials of a certain item as anonymous.
+   *
+   * Assume item has related materials (reviews, etc.), pointing
+   * to remote resources.
+   */
   public function testOtherMaterialsAnonymous() {
     $this->open("/" . TARGET_URL_LANG);
     $this->type("id=edit-search-block-form--2", "Rom : i Vilhelm Bergsøes");
@@ -45,6 +51,11 @@ class ItemPageRelations extends PHPUnit_Extensions_SeleniumTestCase {
     $this->assertTrue((bool) preg_match('/^[\s\S]*ting\/object\/870970-basis%3A50676927#dbcaddi:hasReview$/', $this->getLocation()));
   }
 
+  /**
+   * Test related materials as logged in user.
+   *
+   * @see testOtherMaterialsAnonymous()
+   */
   public function testOtherMaterialsLoggedIn() {
     $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");

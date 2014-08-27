@@ -9,6 +9,12 @@ class SearchResultFacets extends PHPUnit_Extensions_SeleniumTestCase {
     $this->setBrowserUrl(TARGET_URL);
   }
 
+  /**
+   * Test the search result facet filtering as anonymous.
+   *
+   * Assume pre-defined search result output with several item types.
+   * Check each item type after a type facet is used.
+   */
   public function testFacetBrowserAnonymous() {
     $this->open("/" . TARGET_URL_LANG);
     $this->type("id=edit-search-block-form--2", "45154211 OR 59999397");
@@ -38,6 +44,9 @@ class SearchResultFacets extends PHPUnit_Extensions_SeleniumTestCase {
     $this->verifyText("link=Inferno", "Inferno");
   }
 
+  /**
+   * Test the search result facet filtering as logged in user.
+   */
   public function testFacetBrowserLoggedIn() {
     $this->open("/" . TARGET_URL_LANG);
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
@@ -72,6 +81,10 @@ class SearchResultFacets extends PHPUnit_Extensions_SeleniumTestCase {
     $this->verifyText("link=Inferno", "Inferno");
   }
 
+  /**
+   * Test the search result facet filtering as anonymous when used in
+   * combination of facets.
+   */
   public function testSearchResultFacetsAnonymous() {
     $this->open("/" . TARGET_URL_LANG);
     $this->type("id=edit-search-block-form--2", "dune messiah");
@@ -125,6 +138,9 @@ class SearchResultFacets extends PHPUnit_Extensions_SeleniumTestCase {
     $this->assertGreaterThan(0, $this->getCssCount("ul.list"));
   }
 
+  /**
+   * Test facet filtering combination as logged in user.
+   */
   public function testSearchResultFacetsLoggedIn() {
     $this->open("/" . TARGET_URL_LANG);
     $this->click("link=Login");
