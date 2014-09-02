@@ -22,6 +22,7 @@ dependencies[] = field_ui
 dependencies[] = module_filter
 dependencies[] = menu_position
 dependencies[] = cookiecontrol
+dependencies[] = view_unpublished
 
 ; Ding modules.
 dependencies[] = ding_base
