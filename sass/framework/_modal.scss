@@ -15,8 +15,8 @@ $modal-text-color:                $black;
 $modal-background-color:          $black;
 $modal-background-transparency:   .25;
 $modal-min-width:                 450px;
+$modal-max-width:                 450px;
 $modal-border-radius:             12px;
-
 
 .ui-widget-overlay {
   @include opacity(1);
@@ -30,6 +30,7 @@ $modal-border-radius:             12px;
 
   background: $dialog-background;
   min-width: $modal-min-width;
+  max-width: $modal-max-width;
 
   /* Media queries */
   @include small-medium() {
@@ -60,6 +61,10 @@ $modal-border-radius:             12px;
   @include box-sizing(border-box);
 
   padding: $large-spacing;
+
+  &:focus {
+    outline: none;
+  }
 
   .ui-dialog-titlebar {
     .ui-dialog-titlebar-close {
