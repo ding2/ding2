@@ -29,7 +29,7 @@ projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-alpha3"
 
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.7"
+projects[views][version] = "3.8"
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
