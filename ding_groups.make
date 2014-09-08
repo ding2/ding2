@@ -36,7 +36,7 @@ projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-alpha3"
 
 projects[og][subdir] = "contrib"
-projects[og][version] = "2.6"
+projects[og][version] = "2.7"
 
 projects[og_menu][subdir] = "contrib"
 projects[og_menu][version] = "3.0-rc5"
