@@ -81,7 +81,7 @@ projects[tipsy][subdir] = "contrib"
 projects[tipsy][version] = "1.0-rc1"
 
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.7"
+projects[views][version] = "3.8"
 
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.2"
