@@ -8,7 +8,7 @@ projects[ding_content][download][url] = "git@github.com:ding2tal/ding_content.gi
 projects[ding_content][download][branch] = "development"
 
 projects[date][subdir] = "contrib"
-projects[date][version] = "2.7"
+projects[date][version] = "2.8"
 
 ; This version of media is tested to work with both images and videos.
 projects[media][type] = "module"
