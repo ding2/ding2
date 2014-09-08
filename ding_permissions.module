@@ -99,6 +99,8 @@ function ding_permission_check_roles_access($account) {
       }
     }
   }
+
+  return FALSE;
 }
 
 /**
