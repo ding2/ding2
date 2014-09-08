@@ -152,6 +152,9 @@ projects[memcache][version] = "1.0"
 projects[sslproxy][subdir] = "contrib"
 projects[sslproxy][version] = "1.0"
 
+projects[redirect][subdir] = "contrib"
+projects[redirect][version] = "1.0-rc1"
+
 projects[cookiecontrol][subdir] = "contrib"
 projects[cookiecontrol][version] = "1.6"
 # https://drupal.org/node/2174955, fix translatable link.
