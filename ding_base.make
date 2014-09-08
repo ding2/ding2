@@ -2,6 +2,9 @@ core = 7.x
 api = 2
 
 ; Projects
+projects[autologout][subdir] = "contrib"
+projects[autologout][version] = "4.3"
+
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.4"
 
