@@ -16,7 +16,7 @@ projects[jquery_update][subdir] = "contrib"
 projects[jquery_update][version] = "2.4"
 
 projects[og][subdir] = "contrib"
-projects[og][version] = "2.6"
+projects[og][version] = "2.7"
 
 projects[og_menu][subdir] = "contrib"
 projects[og_menu][version] = "3.0-rc5"
