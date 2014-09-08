@@ -68,9 +68,8 @@ projects[pm_existing_pages][version] = "1.4"
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
 
-projects[views][type] = "module"
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.7"
+projects[views][version] = "3.8"
 
 projects[fences][type] = "module"
 projects[fences][subdir] = "contrib"
