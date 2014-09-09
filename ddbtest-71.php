@@ -1,5 +1,5 @@
 <?php
-class Example extends PHPUnit_Extensions_SeleniumTestCase
+class UserProfile extends PHPUnit_Extensions_SeleniumTestCase
 {
   protected function setUp()
   {
@@ -7,7 +7,7 @@ class Example extends PHPUnit_Extensions_SeleniumTestCase
     $this->setBrowserUrl("http://ding2tal.easyting.dk/");
   }
 
-  public function testMyTestCase()
+  public function testReservationAtPause()
   {
     $this->open("/");
     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
