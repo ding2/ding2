@@ -41,3 +41,4 @@ class Interactions extends PHPUnit_Extensions_SeleniumTestCase
   }
 }
 ?>
+
