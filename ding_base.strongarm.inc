@@ -21,7 +21,9 @@ function ding_base_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'autologout_inactivity_message';
-  $strongarm->value = 'You have been logged out due to inactivity.';
+  $strongarm->value = 'Af sikkerhedsmæssige årsager er du blevet logget ud, da du har været inaktiv de seneste 15 minutter
+
+';
   $export['autologout_inactivity_message'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -35,7 +37,9 @@ function ding_base_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'autologout_message';
-  $strongarm->value = 'Your session is about to expire. Do you want to reset it?';
+  $strongarm->value = 'Af sikkerhedsmæssige årsager vil du automatisk blive logget ud om et øjeblik. Vil du fortsætte med at være logget ind?
+
+';
   $export['autologout_message'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -49,7 +53,7 @@ function ding_base_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'autologout_padding';
-  $strongarm->value = '10';
+  $strongarm->value = '15';
   $export['autologout_padding'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -266,7 +270,7 @@ function ding_base_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'date_default_timezone';
-  $strongarm->value = 'Europe/Copenhagen';
+  $strongarm->value = 'Europe/Berlin';
   $export['date_default_timezone'] = $strongarm;
 
   $strongarm = new stdClass();
