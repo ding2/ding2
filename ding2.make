@@ -166,5 +166,12 @@ projects[uuid][download][type] = "git"
 projects[uuid][download][url] = "http://git.drupal.org/project/uuid.git"
 projects[uuid][download][revision] = "3f4d9fb"
 
+# Development version where the "unpublished" status have been fixed on the content edit page.
+projects[view_unpublished][subdir] = "contrib"
+projects[view_unpublished][download][type] = "git"
+projects[view_unpublished][download][url] = "http://git.drupal.org/project/view_unpublished.git"
+projects[view_unpublished][download][revision] = "e9df1d3"
+
+
 projects[view_unpublished][subdir] = "contrib"
 projects[view_unpublished][version] = "1.1"
