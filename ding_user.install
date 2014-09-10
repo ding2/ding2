@@ -5,26 +5,34 @@
  */
 
 /**
+ * Implements hook_install().
+ *
+ * Ensure that entity cache table is create for profile2 (ding users).
+ */
+function ding_user_install() {
+  ding_user_update_7005();
+}
+
+/**
  * Create table for credential caching.
  */
-function ding_user_update_7000(&$sandbox) {
-  $res = drupal_install_schema('ding_user');
-  return $res;
+function ding_user_update_7000() {
+  drupal_install_schema('ding_user');
 }
 
 /**
  * Use DingUserCredentialsCache instead of default DrupalDatabaseCache.
  */
-function ding_user_update_7001(&$sandbox) {
+function ding_user_update_7001() {
   variable_set('cache_class_cache_ding_user_credentials', 'DingUserCredentialsCache');
 }
 
 /**
  * Set weight of ding_user to -1 to ensure it is called first.
  */
-function ding_user_update_7002(&$sandbox) {
+function ding_user_update_7002() {
   $ret = db_update('system')
-    ->fields (array('weight' => -1))
+    ->fields(array('weight' => -1))
     ->condition('name', 'ding_user', '=')
     ->execute();
   return $ret;
@@ -42,4 +50,20 @@ function ding_user_update_7003() {
  */
 function ding_user_update_7004() {
   db_drop_table('cache_ding_user_credentials');
+}
+
+/**
+ * Create possibly missing Entity Cache table for profile2 entities.
+ *
+ * There is an issue in entity cache where the cache table is not always
+ * created for entity types that are not nodes. This fixes that issue for
+ * profile2 profiles (library users).
+ */
+function ding_user_update_7005() {
+  // Create cache table if it doesn't exist.
+  if (!db_table_exists('cache_entity_profile2')) {
+    $schema = drupal_get_schema_unprocessed('system', 'cache');
+    $schema['description'] = 'Cache table used to store profile2 entity records.';
+    db_create_table('cache_entity_profile2', $schema);
+  }
 }

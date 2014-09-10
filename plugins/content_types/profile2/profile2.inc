@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Wrappes profile2 provider profile into a panels pane.
+ * Wrappers profile2 provider profile into a panels pane.
  */
 
 /**
@@ -19,7 +19,7 @@ $plugin = array(
 );
 
 /**
- * Render callback function
+ * Render callback function.
  */
 function ding_user_profile2_type_render($subtype, $conf, $panel_args, $context) {
   $block = new stdClass();
@@ -28,6 +28,11 @@ function ding_user_profile2_type_render($subtype, $conf, $panel_args, $context) 
   if (isset($context->data)) {
     $account = $context->data;
     $profile = ding_user_provider_profile($account);
+
+    // Change the label for this profile type.
+    $profile->label = t('Your information');
+
+    // View profile to get render array with profile content.
     $block->content = $profile->view('account');
   }
 
@@ -35,7 +40,7 @@ function ding_user_profile2_type_render($subtype, $conf, $panel_args, $context) 
 }
 
 /**
- * Plugin settings form
+ * Plugin settings form.
  */
 function ding_user_profile2_content_type_edit_form($form, &$form_state) {
   return $form;
