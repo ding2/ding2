@@ -4,12 +4,16 @@
  * Base setup and functions for Ding!.
  */
 
+include_once 'ding_base.features.inc';
+
 /**
  * Implements hook_menu().
  *
  * Provides the Configuration page block for all Ding modules.
  */
 function ding_base_menu() {
+  $items = array();
+
   $items['admin/config/ding'] = array(
     'title' => 'Ding',
     'description' => 'Manage Ding.',
@@ -29,6 +33,11 @@ function ding_base_menu() {
  */
 function ding_base_theme() {
   return array(
+    // Used on the user library status pages.
+    'material_item' => array(
+      'render element' => 'element',
+      'template' => 'templates/material_item',
+    ),
     'tableselect_form' => array(
       'render element' => 'element',
     ),
@@ -105,55 +114,26 @@ function ding_base_field_formatter_settings_summary($field, $instance, $view_mod
 
   return $summary;
 }
+
 /**
  * Implements hook_date_format_types().
  */
 function ding_base_date_format_types() {
   return array(
     'date_only' => t('Date only'),
+    'time_only' => t('Time only'),
+    'long_date_only' => t('Long date only'),
+    'ding_meterial_lists_date' => t('Ding marterial lists date'),
+    'ding_event_list_date' => t('Ding event lists date'),
   );
-}
-
-/**
-* Implements hook_date_formats().
-* Provides specific extra formats used by Ding! modules and assigning them to specific date types
-*/
-function ding_base_date_formats() {
-  $formats = array();
-
-  $formats[] = array(
-    'type'    => 'medium',
-    'format'  => 'l j. F', 
-    'locales' => array(),
-  );
-
-  $formats[] = array(
-    'type'    => 'long',
-    'format'  => 'l j. F Y', 
-    'locales' => array(),
-  );
-  
-  $formats[] = array(
-    'type'    => 'short',
-    'format'  => 'G:i', 
-    'locales' => array(),
-  );
-
-  // save certain date formats into variables
-  foreach ($formats as $format) {
-    variable_set('date_format_' . $format['type'], $format['format']);
-  }
-  variable_set('date_format_long_date_only', 'l j. F Y');
-  variable_set('date_format_date_only', 'l j. F');
-  variable_set('date_format_time_only', 'G:i');
-
-  return $formats;
 }
 
 /**
  * Implements hook_element_info().
  */
 function ding_base_element_info() {
+  $types = array();
+
   $types['tableselect_form'] = array(
     '#input' => TRUE,
     '#js_select' => TRUE,
@@ -162,6 +142,12 @@ function ding_base_element_info() {
     '#options' => array(),
     '#empty' => '',
     '#theme' => 'tableselect_form',
+  );
+
+  $types['material_item'] = array(
+    '#input' => TRUE,
+    '#process' => array('ding_base_element_process_material_item'),
+    '#theme' => 'material_item',
   );
 
   return $types;
@@ -274,7 +260,7 @@ function theme_tableselect_form($variables) {
       // correct order by iterating over the header fields.
       foreach ($element['#header'] as $fieldname => $title) {
         $row['data'][] = $element['#options'][$key][$fieldname];
-        
+
         // Add classes to table header columns.
         $translated_title = $element['#header'][$fieldname];
         $header[$fieldname] = array('data' => $translated_title, 'class' => $fieldname);
@@ -295,5 +281,118 @@ function theme_tableselect_form($variables) {
     }
   }
 
-  return theme('table', array('header' => $header, 'rows' => $rows, 'empty' => $element['#empty'], 'attributes' => $element['#attributes']));
+  return theme('table', array(
+    'header' => $header,
+    'rows' => $rows,
+    'empty' => $element['#empty'],
+    'attributes' => $element['#attributes'],
+  ));
+}
+
+/**
+ * Default implementation of the process function for the material item.
+ *
+ * Adds a checkbox to with a cover, title and extra information supplied in the
+ * render array.
+ */
+function ding_base_element_process_material_item($element) {
+  // Add the checkbox to the element.
+  $element[$element['#id']] = array(
+    '#type' => 'checkbox',
+    '#return_value' => $element['#id'],
+    '#attributes' => isset($element['#attributes']) ? $element['#attributes'] : array(),
+    '#disabled' => isset($element['#disabled']) ? $element['#disabled'] : FALSE,
+  );
+
+  return $element;
+}
+
+/**
+ * Default preprocess function for material_item theme function.
+ */
+function ding_base_preprocess_material_item(&$variables) {
+  $element = $variables['element'];
+
+  // Render the checkbox.
+  $variables['checkbox'] = drupal_render($element[$element['#id']]);
+
+  // Get the title and cover.
+  $variables['title'] = $element['#title'];
+  $variables['cover'] = drupal_render($element['#cover']);
+
+  // Sort the information elements based on weight.
+  uasort($element['#information'], 'element_sort');
+  $variables['information'] = $element['#information'];
+
+  // Check if material message have been set.
+  if (isset($element['#material_message'])) {
+    $variables['material_message'] = $element['#material_message'];
+  }
+}
+
+/**
+ * Implements hook_pathauto_alias_alter().
+ *
+ * Try to force all content to language neutral to fix issues with content not
+ * being display for all users.
+ */
+function ding_base_pathauto_alias_alter(&$alias, array &$context) {
+  // Force all aliases to be saved as language neutral.
+  $context['language'] = LANGUAGE_NONE;
+}
+
+/**
+ * When using clean urls and OG this function helps create alias for taxonomy.
+ *
+ * Mainly used by ding_groups.
+ *
+ * @todo: used it in ding_libraries to remove the "slug" field.
+ *
+ * @param Entity $node
+ *   Node entity object for the OG group that should have alias updated.
+ * @param string $base
+ *   Base path for the group (e.g. library or temaer).
+ * @param array $terms
+ *   The taxonomy terms objects to generate paths for.
+ * @param array $slugs
+ *   The sulg to use in the path (e.g. nyheder or arragementer).
+ */
+function ding_base_updated_taxonomy_aliases($node, $base, $terms, $slugs) {
+  $group_alias = 'node/' . $node->nid;
+
+  // Find node pattern from path auto.
+  module_load_include('inc', 'pathauto');
+  $pattern = pathauto_pattern_load_by_entity('node', $node->type);
+  if ($pattern) {
+    // Create node alias using token replace.
+    $group_alias = token_replace($pattern, array('node' => $node), array(
+      'sanitize' => FALSE,
+      'clear' => TRUE,
+      'callback' => 'pathauto_clean_token_values',
+      'language' => (object) array('language' => LANGUAGE_NONE),
+      'pathauto' => TRUE,
+    ));
+  }
+
+  foreach ($slugs as $slug) {
+    foreach ($terms as $term) {
+      $source = $base . '/' . $node->nid . '/' . $slug . '/' . $term->tid;
+      $existing_alias = _pathauto_existing_alias_data($source, LANGUAGE_NONE);
+      $alias = $group_alias . '/' . $slug . '/' . $term->name;
+      $alias = pathauto_cleanstring($alias);
+      $alias = pathauto_clean_alias($alias);
+      pathauto_alias_uniquify($alias, $source, LANGUAGE_NONE);
+
+      if ($alias != $existing_alias['alias']) {
+        $path = array(
+          'source' => $source,
+          'alias' => $alias,
+          'language' => LANGUAGE_NONE,
+        );
+
+        // Set the alias or update it.
+        _pathauto_set_alias($path, $existing_alias);
+      }
+    }
+  }
 }
