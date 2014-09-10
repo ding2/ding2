@@ -4,8 +4,8 @@
  * Implements hook_install().
  */
 function ding_dibs_install() {
-  // Inserting default order id setting
-  $db_id = db_insert('dibs_order_id_settings')
+  // Inserting default order id setting.
+  db_insert('dibs_order_id_settings')
     ->fields(array(
       'api_module' => 'ding_dibs',
       'api_delta' => '1',
@@ -20,7 +20,7 @@ function ding_dibs_install() {
     'length' => 1,
     'size' => 'tiny',
     'default' => 0,
-    'description' => st('0 = payment not recieved, 1 = payment recieved'),
+    'description' => '0 = payment not recieved, 1 = payment recieved',
   ));
 
   db_add_field('dibs_transactions', 'dibs_capture_status', array(
@@ -28,7 +28,7 @@ function ding_dibs_install() {
     'length' => 1,
     'size' => 'tiny',
     'default' => 0,
-    'description' => st('0 = capture failed, 1 = capture succeeded'),
+    'description' => '0 = capture failed, 1 = capture succeeded',
   ));
 }
 
