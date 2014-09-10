@@ -52,9 +52,10 @@ class UserProfile extends PHPUnit_Extensions_SeleniumTestCase
     $this->click("css=div.layout-wrapper");
     $this->click("id=edit-submit--2");
     $this->waitForPageToLoad("30000");
-    $this->assertTrue((bool)preg_match('/^[\s\S]*\/users\/fagreferentcs$/',$this->getLocation()));
+    $this->assertTrue((bool)preg_match('/^[\s\S]*\/users\/[a-z\-0-9]+$/',$this->getLocation()));
     $this->assertEquals("Status message The changes have been saved.", $this->getText("css=div.messages.status"));
     $this->assertEquals("Thursday, 4. September, 2014", $this->getText("css=span.date-display-start"));
+    $this->assertEquals("Friday, 12. September, 2014", $this->getText("css=span.date-display-end"));
   }
 }
 ?>
