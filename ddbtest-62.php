@@ -25,7 +25,7 @@ class Payments extends PHPUnit_Extensions_SeleniumTestCase
     $this->assertTrue($this->isElementPresent("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li[3]/a/span"));
     $this->click("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li/a/span");
     $this->waitForPageToLoad("30000");
-    $this->assertTrue((bool)preg_match('/^[\s\S]*\/user\/18\/status\/debts$/',$this->getLocation()));
+    $this->assertTrue((bool)preg_match('/^[\s\S]*\/user\/\d+\/status\/debts$/',$this->getLocation()));
     $this->click("id=edit-pay-all");
     $this->waitForPageToLoad("30000");
     $url = $this->getLocation();
