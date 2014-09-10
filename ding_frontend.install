@@ -6,9 +6,12 @@
 
 /**
  * Implements hook_install().
+ *
+ * The address block is added here as it is used in the site template and needs
+ * to exists. Therefor it's not inserted with the example content modules.
  */
 function ding_frontend_install() {
-  // Insert custom block with library address in the footer.
+  // Insert custom block with address in the footer.
   db_insert('block_custom')
     ->fields(array(
       'body' => '<p>Bibliotek - Gadenavn 1 - 1234 Bynavn - Telefon: 12 34 56 78 - <a href="mailto:bibliotek@example.com">bibliotek@example.com</a></p>',
@@ -16,4 +19,25 @@ function ding_frontend_install() {
       'format' => 'ding_wysiwyg',
     ))
     ->execute();
+
+  // Add role settings for custom footer block.
+  db_insert('block_access_roles')
+    ->fields(array(
+      'module' => 'block',
+      'delta' => 1,
+      'rid' => 6,
+      'permission' => 'config_body'
+    ))
+    ->execute();
+
+  // Add shortcut for cutomer footer block.
+  $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
+  $shortcut_set->links = array(
+    array(
+      'link_path' => 'admin/structure/block/manage/block/1/configure',
+      'link_title' => t('Footer address'),
+      'weight' => -15,
+    ),
+  );
+  shortcut_set_save($shortcut_set);
 }

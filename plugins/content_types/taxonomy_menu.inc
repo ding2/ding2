@@ -2,6 +2,10 @@
 /**
  * @file
  * Create sub-menu based on taxonomy.
+ *
+ * With example content added, this would etc create sub menus for the link
+ * /arrangementer. These links would be build from event_category.
+ * Every sub-menu is setup in Panels.
  */
 
 $plugin = array(
@@ -59,7 +63,8 @@ function ding_frontend_taxonomy_menu_content_type_render($subtype, $conf, $panel
     }
     else {
       // If first context don't exists (tid not given) the the "All link" should
-      // be used.
+      // have the active class. The context many no exists if no links in the
+      // sub-menu have been clicked yet.
       $options = array('attributes' => array('class' => array('active')));
       if ($selected_term) {
         $options = array();
