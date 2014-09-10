@@ -24,7 +24,17 @@ function ding_user_frontend_default_page_manager_handlers() {
     'pipeline' => 'standard',
     'css_id' => '',
     'css' => '',
-    'contexts' => array(),
+    'contexts' => array(
+      0 => array(
+        'identifier' => 'Profile2 type',
+        'keyword' => 'user_2',
+        'name' => 'profile2',
+        'type' => 'select',
+        'uid' => '',
+        'default_type' => 'provider_alma',
+        'id' => 1,
+      ),
+    ),
     'relationships' => array(),
     'access' => array(
       'plugins' => array(),
@@ -43,6 +53,16 @@ function ding_user_frontend_default_page_manager_handlers() {
       'left_sidebar' => NULL,
       'main_content' => NULL,
       'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
     ),
   );
   $display->cache = array();
@@ -52,12 +72,15 @@ function ding_user_frontend_default_page_manager_handlers() {
     $pane = new stdClass();
     $pane->pid = 'new-1';
     $pane->panel = 'main_content';
-    $pane->type = 'form';
-    $pane->subtype = 'form';
+    $pane->type = 'profile2_form';
+    $pane->subtype = 'profile2_form';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'context' => 'argument_user_edit_1',
+      'context' => array(
+        0 => 'argument_user_edit_1',
+        1 => 'context_profile2_1',
+      ),
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -92,7 +115,16 @@ function ding_user_frontend_default_page_manager_handlers() {
     'body_classes_to_add' => '',
     'css_id' => '',
     'css' => '',
-    'contexts' => array(),
+    'contexts' => array(
+      0 => array(
+        'identifier' => 'Profile2 type',
+        'keyword' => 'user_2',
+        'name' => 'profile2',
+        'type' => 'select',
+        'uid' => '',
+        'id' => 1,
+      ),
+    ),
     'relationships' => array(),
     'access' => array(
       'plugins' => array(
@@ -117,6 +149,16 @@ function ding_user_frontend_default_page_manager_handlers() {
       'left_sidebar' => NULL,
       'main_content' => NULL,
       'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
     ),
   );
   $display->cache = array();
@@ -125,9 +167,9 @@ function ding_user_frontend_default_page_manager_handlers() {
   $display->panels = array();
     $pane = new stdClass();
     $pane->pid = 'new-2';
-    $pane->panel = 'main_content';
-    $pane->type = 'profile2_form';
-    $pane->subtype = 'profile2_form';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'user_menu';
+    $pane->subtype = 'user_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
@@ -144,7 +186,32 @@ function ding_user_frontend_default_page_manager_handlers() {
     $pane->position = 0;
     $pane->locks = array();
     $display->content['new-2'] = $pane;
-    $display->panels['main_content'][0] = 'new-2';
+    $display->panels['left_sidebar'][0] = 'new-2';
+    $pane = new stdClass();
+    $pane->pid = 'new-3';
+    $pane->panel = 'main_content';
+    $pane->type = 'profile2_form';
+    $pane->subtype = 'profile2_form';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'argument_user_edit_1',
+        1 => 'context_profile2_1',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-3'] = $pane;
+    $display->panels['main_content'][0] = 'new-3';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -183,7 +250,7 @@ function ding_user_frontend_default_page_manager_handlers() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-3';
+    $pane->pid = 'new-4';
     $pane->panel = 'main_content';
     $pane->type = 'user_profile';
     $pane->subtype = 'user_profile';
@@ -202,8 +269,8 @@ function ding_user_frontend_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-3'] = $pane;
-    $display->panels['main_content'][0] = 'new-3';
+    $display->content['new-4'] = $pane;
+    $display->panels['main_content'][0] = 'new-4';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -225,7 +292,16 @@ function ding_user_frontend_default_page_manager_handlers() {
     'body_classes_to_add' => '',
     'css_id' => '',
     'css' => '',
-    'contexts' => array(),
+    'contexts' => array(
+      0 => array(
+        'identifier' => 'Indlogget bruger',
+        'keyword' => 'logged_in_user',
+        'name' => 'user',
+        'type' => 'current',
+        'uid' => '',
+        'id' => 1,
+      ),
+    ),
     'relationships' => array(),
     'access' => array(
       'plugins' => array(
@@ -251,14 +327,70 @@ function ding_user_frontend_default_page_manager_handlers() {
       'left_sidebar' => NULL,
       'main_content' => NULL,
       'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Welcome %logged_in_user:name';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-4';
+    $pane->pid = 'new-5';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'user_menu';
+    $pane->subtype = 'user_menu';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_entity_id:user_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-5'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-5';
+    $pane = new stdClass();
+    $pane->pid = 'new-6';
+    $pane->panel = 'main_content';
+    $pane->type = 'block';
+    $pane->subtype = 'ding_user_frontend-ding-user-loan-number';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => 'sdfsdf',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array(
+      'css_id' => '',
+      'css_class' => 'user-loan-status-wrapper',
+    );
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-6'] = $pane;
+    $display->panels['main_content'][0] = 'new-6';
+    $pane = new stdClass();
+    $pane->pid = 'new-7';
     $pane->panel = 'main_content';
     $pane->type = 'profile2';
     $pane->subtype = 'profile2';
@@ -271,10 +403,10 @@ function ding_user_frontend_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-4'] = $pane;
-    $display->panels['main_content'][0] = 'new-4';
+    $display->content['new-7'] = $pane;
+    $display->panels['main_content'][1] = 'new-7';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -366,6 +498,16 @@ function ding_user_frontend_default_page_manager_pages() {
       'left_sidebar' => NULL,
       'main_content' => NULL,
       'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
     ),
   );
   $display->cache = array();
@@ -374,6 +516,28 @@ function ding_user_frontend_default_page_manager_pages() {
   $display->panels = array();
     $pane = new stdClass();
     $pane->pid = 'new-1';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'user_menu';
+    $pane->subtype = 'user_menu';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_entity_id:user_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-1'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-1';
+    $pane = new stdClass();
+    $pane->pid = 'new-2';
     $pane->panel = 'main_content';
     $pane->type = 'bookmarks';
     $pane->subtype = 'bookmarks';
@@ -392,8 +556,8 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-1'] = $pane;
-    $display->panels['main_content'][0] = 'new-1';
+    $display->content['new-2'] = $pane;
+    $display->panels['main_content'][0] = 'new-2';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -491,6 +655,16 @@ function ding_user_frontend_default_page_manager_pages() {
       'left_sidebar' => NULL,
       'main_content' => NULL,
       'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
     ),
   );
   $display->cache = array();
@@ -498,7 +672,29 @@ function ding_user_frontend_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-2';
+    $pane->pid = 'new-3';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'user_menu';
+    $pane->subtype = 'user_menu';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_entity_id:user_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-3'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-3';
+    $pane = new stdClass();
+    $pane->pid = 'new-4';
     $pane->panel = 'main_content';
     $pane->type = 'debts';
     $pane->subtype = 'debts';
@@ -517,10 +713,10 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-2'] = $pane;
-    $display->panels['main_content'][0] = 'new-2';
+    $display->content['new-4'] = $pane;
+    $display->panels['main_content'][0] = 'new-4';
     $pane = new stdClass();
-    $pane->pid = 'new-3';
+    $pane->pid = 'new-5';
     $pane->panel = 'main_content';
     $pane->type = 'block';
     $pane->subtype = 'ding_dibs-dibs-terms-of-sale';
@@ -538,10 +734,10 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = '';
-    $display->content['new-3'] = $pane;
-    $display->panels['main_content'][1] = 'new-3';
+    $display->content['new-5'] = $pane;
+    $display->panels['main_content'][1] = 'new-5';
     $pane = new stdClass();
-    $pane->pid = 'new-4';
+    $pane->pid = 'new-6';
     $pane->panel = 'main_content';
     $pane->type = 'block';
     $pane->subtype = 'ding_dibs-dibs-cards-supported';
@@ -559,10 +755,10 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = '';
-    $display->content['new-4'] = $pane;
-    $display->panels['main_content'][2] = 'new-4';
+    $display->content['new-6'] = $pane;
+    $display->panels['main_content'][2] = 'new-6';
   $display->hide_title = PANELS_TITLE_PANE;
-  $display->title_pane = 'new-2';
+  $display->title_pane = 'new-4';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['user_debts'] = $page;
@@ -658,6 +854,16 @@ function ding_user_frontend_default_page_manager_pages() {
       'left_sidebar' => NULL,
       'main_content' => NULL,
       'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
     ),
   );
   $display->cache = array();
@@ -665,7 +871,29 @@ function ding_user_frontend_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-5';
+    $pane->pid = 'new-7';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'user_menu';
+    $pane->subtype = 'user_menu';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_entity_id:user_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $display->content['new-7'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-7';
+    $pane = new stdClass();
+    $pane->pid = 'new-8';
     $pane->panel = 'main_content';
     $pane->type = 'loans';
     $pane->subtype = 'loans';
@@ -684,8 +912,8 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-5'] = $pane;
-    $display->panels['main_content'][0] = 'new-5';
+    $display->content['new-8'] = $pane;
+    $display->panels['main_content'][0] = 'new-8';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -783,25 +1011,31 @@ function ding_user_frontend_default_page_manager_pages() {
       'left_sidebar' => NULL,
       'main_content' => NULL,
       'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
     ),
   );
   $display->cache = array();
-  $display->title = 'Mine reserveringer';
+  $display->title = '';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-6';
-    $pane->panel = 'main_content';
-    $pane->type = 'reservations';
-    $pane->subtype = 'reservations';
+    $pane->pid = 'new-9';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'user_menu';
+    $pane->subtype = 'user_menu';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
       'context' => 'argument_entity_id:user_1',
-      'reservation_type_list' => 'ready_for_pickup',
-      'form_build_id' => 'form-G6s64gjUFJ0Bhts4dwSIySYzormSwxY9gzniPrAKIUU',
-      'form_token' => 'k5YvrXuVEXOL31_hpy0IrSa_Cw8c4cSGJPpZjQhEftw',
-      'form_id' => 'ding_reservation_reservations_content_type_edit_form',
       'override_title' => 0,
       'override_title_text' => '',
     );
@@ -812,11 +1046,11 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
-    $pane->locks = '';
-    $display->content['new-6'] = $pane;
-    $display->panels['main_content'][0] = 'new-6';
+    $pane->locks = array();
+    $display->content['new-9'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-9';
     $pane = new stdClass();
-    $pane->pid = 'new-7';
+    $pane->pid = 'new-10';
     $pane->panel = 'main_content';
     $pane->type = 'reservations';
     $pane->subtype = 'reservations';
@@ -824,12 +1058,52 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->access = array();
     $pane->configuration = array(
       'context' => 'argument_entity_id:user_1',
-      'reservation_type_list' => 'not_ready_for_pickup',
-      'form_build_id' => 'form-wicrwm_b27DxswOxAMqn3vNlC0kfxrmJkOvH8JMklY0',
-      'form_token' => 'k5YvrXuVEXOL31_hpy0IrSa_Cw8c4cSGJPpZjQhEftw',
+      'reservation_type_list' => array(
+        'ready_for_pickup' => 'ready_for_pickup',
+        'not_ready_for_pickup' => 0,
+        'interlibrary_loans' => 0,
+      ),
+      'form_build_id' => 'form-uqYqilRuJU-L4AtuQ398zk1P8y_lZwasKq93qm91EI8',
+      'form_token' => 'LrQ90mfel5sMMkKaFHXxQ64WU37lYRizqlHrit9CT18',
       'form_id' => 'ding_reservation_reservations_content_type_edit_form',
       'override_title' => 0,
       'override_title_text' => '',
+      'reservation_title' => 'Reservations ready for pickup',
+      'reservation_empty_text' => 'There are no reservations ready for pickup.',
+      'reservation_form_id' => 'ding_reservation_reservations_ready_form',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = '';
+    $display->content['new-10'] = $pane;
+    $display->panels['main_content'][0] = 'new-10';
+    $pane = new stdClass();
+    $pane->pid = 'new-11';
+    $pane->panel = 'main_content';
+    $pane->type = 'reservations';
+    $pane->subtype = 'reservations';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_entity_id:user_1',
+      'reservation_type_list' => array(
+        'not_ready_for_pickup' => 'not_ready_for_pickup',
+        'interlibrary_loans' => 'interlibrary_loans',
+        'ready_for_pickup' => 0,
+      ),
+      'form_build_id' => 'form-QXSASI2sYP2qugnpOrh1aIrd6K-0Sj_sycEHjH96APE',
+      'form_token' => 'yMH3jgoKwdgE1jAihu7_Xlkwph9PhG1qk5-pG304fqc',
+      'form_id' => 'ding_reservation_reservations_content_type_edit_form',
+      'override_title' => 1,
+      'override_title_text' => '',
+      'reservation_title' => 'Reservations',
+      'reservation_empty_text' => 'There are no reservations.',
+      'reservation_form_id' => 'ding_reservation_reservations_notready_form',
     );
     $pane->cache = array();
     $pane->style = array(
@@ -839,10 +1113,10 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = '';
-    $display->content['new-7'] = $pane;
-    $display->panels['main_content'][1] = 'new-7';
-  $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = '0';
+    $display->content['new-11'] = $pane;
+    $display->panels['main_content'][1] = 'new-11';
+  $display->hide_title = PANELS_TITLE_PANE;
+  $display->title_pane = 'new-10';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['user_reservations'] = $page;
