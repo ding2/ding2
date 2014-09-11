@@ -19,7 +19,7 @@ class Interactions extends PHPUnit_Extensions_SeleniumTestCase
     $this->click("id=edit-submit");
     $this->waitForPageToLoad("30000");
     $this->assertContains('Folkepension og delpension', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->click("link=Folkepension og delpension");
+    $this->click("id=availability-870970-basis10122945-periodikum");
     $this->waitForPageToLoad("30000");
     $this->assertEquals("Folkepension og delpension", $this->getText("link=Folkepension og delpension"));
     $this->click("link=Issues");
@@ -31,12 +31,7 @@ class Interactions extends PHPUnit_Extensions_SeleniumTestCase
     $this->assertTrue($this->isElementPresent("css=div.periodical-holdings > table > tbody > tr.odd > td"));
     $this->click("id=reservation-10122945ZXZX130. udgaveZX2014ZXZX");
     sleep(4);
-    $msgs = array(
-      "\"Folkepension og delpension, vol 2014, issue 130. udgave\" reserved and will be available for pickup at Hjørring.",
-      "Error message \"You have already reserved \"Folkepension og delpension, vol 2014, issue 130. udgave\".",
-      "Error message \"Folkepension og delpension, vol 2014, issue 130. udgave\" is not available for reservation.",
-    );
-    $this->assertTrue(in_array($this->getText("css=div.messages"), $msgs));
+    $this->assertEquals('Status message "Folkepension og delpension, vol 2014, issue 130. udgave" reserved and will be available for pickup at Sindal. You are number 1 in queue.', $this->getText("css=div.messages"));
     $this->click("//div[4]/div/button");
   }
 }
