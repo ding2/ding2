@@ -18,7 +18,6 @@ function ting_search_context_calculate_context($facets, $numTotalObjects) {
       return ting_search_context_get_non_fiction_genres($facets);
     } 
   }
-
 }
 
 function ting_search_context_get_material_type($facets, $total_number) {
@@ -40,7 +39,7 @@ function ting_search_context_is_films($facets, $total_number) {
 function ting_search_context_is_music($facets, $total_number) {
    $music_types = array('cd (musik)', 'grammofonplade', 'node');
    $number_of_music = ting_search_context_get_term_count($facets, 'facet.type', $music_types );
-   $number_of_library_materials = ting_search_context_get_term_count($facets, 'facet.acSource', array('bibliotekets materialer'));
+   $number_of_library_materials = ting_search_context_get_term_count($facets, 'facet.acSource', array('bibliotekskatalog'));
    return ting_search_context_evalute_condition($number_of_music, $number_of_library_materials, 0.5);
 }
 
