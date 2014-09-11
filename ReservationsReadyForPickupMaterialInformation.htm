@@ -1,0 +1,32 @@
+<?php
+class ReservationsReadyForPickup extends PHPUnit_Extensions_SeleniumTestCase
+{
+  protected function setUp()
+  {
+    $this->setBrowser("*firefox");
+    $this->setBrowserUrl("http://d2t.am.ci.inlead.dk//");
+  }
+
+  public function testReservationsReadyForPickupMaterialInformation()
+  {
+    $this->open("/en");
+    $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
+    $this->type("id=edit-name", "1111110022");
+    $this->type("id=edit-pass", "5555");
+    $this->click("id=edit-submit--2");
+    $this->waitForPageToLoad("30000");
+    $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
+    $this->waitForPageToLoad("30000");
+    $this->assertTrue($this->isElementPresent("css=h2.pane-title"));
+    $this->assertTrue($this->isElementPresent("css=a.user-status.user-status-ready-pickup > span.user-status-label"));
+    $this->click("css=a.user-status.user-status-ready-pickup > span.user-status-label");
+    $this->waitForPageToLoad("30000");
+    $this->assertTrue($this->isElementPresent("css=h2.pane-title"));
+    $this->assertTrue($this->isElementPresent("css=label.option"));
+    $this->assertTrue($this->isElementPresent("link=The lady"));
+    $this->assertTrue($this->isElementPresent("link=Angels and demons"));
+    $this->click("link=Logout");
+    $this->waitForPageToLoad("30000");
+  }
+}
+?>
