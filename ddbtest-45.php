@@ -10,6 +10,11 @@ class Interactions extends PHPUnit_Extensions_SeleniumTestCase
   public function testYearbookReservation()
   {
     $this->open("/en");
+    // Reset mock object.
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://alma.am.ci.inlead.dk/web/reset.php");
+    curl_exec($ch);
+    curl_close($ch);
     $this->click("link=Login");
     $this->type("id=edit-name", "1111110022");
     $this->type("id=edit-pass", "5555");
@@ -35,5 +40,3 @@ class Interactions extends PHPUnit_Extensions_SeleniumTestCase
     $this->click("//div[4]/div/button");
   }
 }
-?>
-
