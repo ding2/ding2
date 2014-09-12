@@ -50,15 +50,18 @@ class Payments extends PHPUnit_Extensions_SeleniumTestCase {
       $this->assertTrue($result->length == 1);
 
       $debtDate = date('d-m-Y H:s', strtotime((string)$d->attributes()->debtDate));
-      $result = $xpath->query("//form[@id='ding-debt-debts-form']//li[contains(@class, 'fee-date')]//div[contains(., '{$debtDate}')]");
+      $result = $xpath->query("//form[@id='ding-debt-debts-form']/div[div[//li[contains(@class, 'fee-date')]//div[contains(., '{$debtDate}')]
+        and //li[contains(@class, 'material-number')]//div[contains(., '{$debtNote[0]}')]]]");
       $this->assertTrue($result->length == 1);
 
       $debtAmountFormatted = trim((string)$d->attributes()->debtAmountFormatted);
-      $result = $xpath->query("//form[@id='ding-debt-debts-form']//li[contains(@class, 'fee_amount')]//div[contains(., '{$debtAmountFormatted} Kr')]");
+      $result = $xpath->query("//form[@id='ding-debt-debts-form']/div[div[//li[contains(@class, 'fee_amount')]//div[contains(., '{$debtAmountFormatted} Kr')]
+        and //li[contains(@class, 'material-number')]//div[contains(., '{$debtNote[0]}')]]]");
       $this->assertTrue($result->length == 1);
 
       preg_match('/(.*)Debt$/', trim((string)$d->attributes()->debtType), $debtType);
-      $result = $xpath->query("//form[@id='ding-debt-debts-form']//li[contains(@class, 'fee-type')]//div[2]")->item(0)->nodeValue;
+      $result = $xpath->query("//form[@id='ding-debt-debts-form'][//li[contains(@class, 'fee-type')]
+        and //li[contains(@class, 'material-number')]//div[contains(., '{$debtNote[0]}')]]//div[2]/ul")->item(0)->nodeValue;
       $result =  strtolower(str_replace(' ', '', $result));
       $debtType = strtolower($debtType[1]);
       $this->assertTrue($result == $debtType);
