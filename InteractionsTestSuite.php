@@ -1,23 +1,31 @@
 <?php
+
+require_once(dirname(__FILE__) . '/config.inc');
+
 class Interactions extends PHPUnit_Extensions_SeleniumTestCase
 {
-  protected function setUp()
-  {
-    $this->setBrowser("*firefox");
-    $this->setBrowserUrl("http://ding2tal.easyting.dk/");
+
+  protected function setUp() {
+    $this->setBrowser(TARGET_BROWSER);
+    $this->setBrowserUrl(TARGET_URL);
   }
 
+  /**
+   * Test yearbook reservation.
+   *
+   * Checks that reservation available and user gets correct message.
+   */
   public function testYearbookReservation()
   {
-    $this->open("/en");
+    $this->open("/" . TARGET_URL_LANG);
     // Reset mock object.
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "http://alma.am.ci.inlead.dk/web/reset.php");
     curl_exec($ch);
     curl_close($ch);
     $this->click("link=Login");
-    $this->type("id=edit-name", "1111110022");
-    $this->type("id=edit-pass", "5555");
+    $this->type("id=edit-name", TARGET_URL_USER);
+    $this->type("id=edit-pass", TARGET_URL_USER_PASS);
     $this->click("id=edit-submit--2");
     $this->waitForPageToLoad("30000");
     $this->type("id=edit-search-block-form--2", "Folkepension og delpension");
