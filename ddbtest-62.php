@@ -28,6 +28,7 @@ class Payments extends PHPUnit_Extensions_SeleniumTestCase
     $this->assertTrue((bool)preg_match('/^[\s\S]*\/user\/\d+\/status\/debts$/',$this->getLocation()));
     $this->click("id=edit-pay-all");
     $this->waitForPageToLoad("30000");
+    sleep(4);
     $url = $this->getLocation();
     $this->assertTrue($url == "https://payment.architrade.com/payment/paytype.pml");
   }
