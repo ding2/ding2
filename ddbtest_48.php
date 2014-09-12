@@ -23,46 +23,31 @@ class Loans extends PHPUnit_Extensions_SeleniumTestCase
     $this->click("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/a/span");
     $this->waitForPageToLoad("30000");
     $this->assertEquals("Loan list", $this->getText("//div[@id='page']/div/div/div/div/div/div/div/div/h2"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[3]/div[2]/h3/a"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[3]/div[2]/ul/li/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[3]/div[2]/ul/li[2]/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[3]/div[2]/ul/li[3]/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[5]/div[2]/h3/a"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[5]/div[2]/ul/li/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[5]/div[2]/ul/li[2]/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[5]/div[2]/ul/li[3]/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[7]/div[2]/h3/a"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[7]/div[2]/ul/li/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[7]/div[2]/ul/li[2]/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[7]/div[2]/ul/li[3]/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[8]/div[2]/h3/a"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[8]/div[2]/ul/li/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[8]/div[2]/ul/li[2]/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[8]/div[2]/ul/li[3]/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[10]/div[2]/h3/a"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[10]/div[2]/ul/li/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[10]/div[2]/ul/li[2]/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[10]/div[2]/ul/li[3]/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[12]/div[2]/h3/a"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[12]/div[2]/ul/li/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[12]/div[2]/ul/li[2]/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[12]/div[2]/ul/li[3]/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[14]/div[2]/h3/a"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[14]/div[2]/ul/li/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[14]/div[2]/ul/li[2]/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[14]/div[2]/ul/li[3]/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[15]/div[2]/h3/a"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[15]/div[2]/ul/li/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[15]/div[2]/ul/li[2]/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[15]/div[2]/ul/li[3]/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[16]/div[2]/h3/a"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[16]/div[2]/ul/li/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[16]/div[2]/ul/li[2]/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[16]/div[2]/ul/li[3]/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[17]/div[2]/h3/a"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[17]/div[2]/ul/li/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[17]/div[2]/ul/li[2]/div[2]"));
-    $this->assertTrue($this->isElementPresent("//form[@id='ding-loan-loans-form']/div/div[17]/div[2]/ul/li[3]/div[2]"));
+    // Get mock object.
+    $url = "http://alma.am.ci.inlead.dk/web/alma/patron/loans?borrCard=1111110022&pinCode=5555";
+    $mock = new SimpleXMLElement($url, 0, TRUE);
+    //Get DOM
+    $dom = new DOMDocument();
+    // Disable warnings, cause we have wrong html.
+    libxml_use_internal_errors(true);
+    $dom->loadHTML($this->getHtmlSource());
+    $xpath = new DOMXPath($dom);
+    foreach ($mock->getLoansResponse->loans->children() as $l) {
+
+      $id = (string)$l->attributes()->id;
+      $result = $xpath->query("//form[@id='ding-loan-loans-form']//li[contains(@class, 'material-number')]//div[contains(., '{$id}')]");
+      $this->assertTrue($result->length == 1);
+
+      $loanDate = date('d-m-Y H:s', strtotime((string)$l->attributes()->loanDate));
+      $result = $xpath->query("//form[@id='ding-loan-loans-form'][//li[contains(@class, 'loan-date')]//div[contains(., '{$loanDate}')]
+        and //li[contains(@class, 'material-number')]//div[contains(., '{$id}')]]");
+      $this->assertTrue($result->length == 1);
+
+      $loanDueDate = date('d-m-Y H:s', strtotime((string)$l->attributes()->loanDueDate));
+      $result = $xpath->query("//form[@id='ding-loan-loans-form'][//li[contains(@class, 'expire-date')]//div[contains(., '{$loanDueDate}')]
+        and //li[contains(@class, 'material-number')]//div[contains(., '{$id}')]]");
+      $this->assertTrue($result->length == 1);
+    }
     $this->click("//div[@id='page']/header/section/div/ul/li[5]/a/span");
     $this->waitForPageToLoad("30000");
   }
