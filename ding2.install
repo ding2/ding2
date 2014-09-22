@@ -254,3 +254,10 @@ function ding2_update_7007() {
   // Fixed month translation.
   ding2_translation_update();
 }
+
+/**
+ * Enable view unpublished module.
+ */
+function ding2_update_7008() {
+  module_enable(array('view_unpublished'), TRUE);
+}
