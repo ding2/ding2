@@ -58,8 +58,15 @@ function alma_user_authenticate($uid, $pass) {
     );
   }
 
+  // Set the users categories.
+  if (!empty($res['category'])) {
+    $return['user']['category'] = $res['category'];
+  }
+
   $return['user']['blocked'] = FALSE;
   if (!empty($res['blocks'])) {
+    // Send block codes back with the user.
+    $return['user']['blocks'] = $res['blocks'];
     $return['user']['blocked'] = TRUE;
   }
 
