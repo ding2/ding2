@@ -73,7 +73,6 @@ Drupal.behaviors.ding_facetbrowser = {
 
     // Check facet links for click events.
     fact_browsers.find('.form-type-checkbox a').click(function(e) {
-      Drupal.TingSearchOverlay();
       if ($(this).not('[target="_blank"]').length) {
         Drupal.TingSearchOverlay();
       }
