@@ -32,7 +32,6 @@ function ting_search_context_set_search_context($search_results) {
   );
   drupal_add_js(drupal_get_path('module', 'ting_search_context') . '/js/ting_search_context.js');
   drupal_add_js(array('ting_search_context' => $context), 'setting');
-  var_dump($context);
 }
 
 /**
