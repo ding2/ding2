@@ -1,8 +1,6 @@
 <?php
-// $Id$
 /**
- * @file ting_object.tpl.php
- *
+ * @file
  * Template to render objects from the Ting database.
  *
  * Available variables:

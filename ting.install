@@ -10,7 +10,7 @@
  */
 function ting_schema() {
   $schema = array();
-  
+
   $schema['ting_object'] = array(
     'description' => 'Local proxy table for ting objects.',
     'fields' => array(
@@ -30,7 +30,7 @@ function ting_schema() {
       'ding_entity_id' => array(
         'description' => 'The ting object id.',
         'type' => 'varchar',
-        'length' => 256,
+        'length' => 255,
         'not null' => TRUE,
         'default' => '',
       ),
@@ -84,6 +84,9 @@ function ting_schema() {
       ),
     ),
   );
+
+  // Cache table used by ting_execute_cache.
+  $schema['cache_ting'] = drupal_get_schema_unprocessed('system', 'cache');
 
   return $schema;
 }
@@ -210,4 +213,108 @@ function ting_update_7000() {
     ))
     ->condition('module', 'ting')
     ->execute();
+}
+
+/**
+ * Add cache table to use with ting_execute_cache().
+ */
+function ting_update_7001() {
+  $schema = ting_schema();
+  $ret = array();
+  $ret[] = db_create_table('cache_ting', $schema['cache_ting']);
+  return $ret;
+}
+
+/**
+ * Update own agency ding_entity_id's to match new data well format (basis and katalog).
+ */
+function ting_update_7002() {
+  // Convert "katalog" PID's first.
+  $agency = variable_get('ting_agency', '');
+  db_query("UPDATE ting_object
+            SET ding_entity_id = CONCAT('" . $agency . "-katalog:', SUBSTRING_INDEX(ding_entity_id, ':', -1))
+            WHERE ding_entity_id LIKE '" . $agency . ":9%'")
+    ->execute();
+
+  // Convert basic PID's
+  db_query("UPDATE ting_object
+            SET ding_entity_id = CONCAT('870970-basis:', SUBSTRING_INDEX(ding_entity_id, ':', -1))
+            WHERE ding_entity_id LIKE '" . $agency . ":%'")
+    ->execute();
+}
+
+/**
+ * Update other agencies ding_entity_id's to match new data well format (basis and katalog).
+ */
+function ting_update_7003() {
+  db_query("UPDATE ting_object
+            SET ding_entity_id = CONCAT(SUBSTRING_INDEX(ding_entity_id, ':', 1), '-katalog:', SUBSTRING_INDEX(ding_entity_id, ':', -1))
+            WHERE ding_entity_id LIKE '7%:9%'
+              AND ding_entity_id NOT LIKE '%-basis:%'
+              AND ding_entity_id NOT LIKE '%-katalog:%'")
+    ->execute();
+
+  // Convert basic PID's
+  db_query("UPDATE ting_object
+            SET ding_entity_id = CONCAT('870970-basis:', SUBSTRING_INDEX(ding_entity_id, ':', -1))
+            WHERE ding_entity_id LIKE '7%:%'
+              AND ding_entity_id NOT LIKE '%-basis:%'
+              AND ding_entity_id NOT LIKE '%-katalog:%'")
+    ->execute();
+}
+
+/**
+ * Update all other ding_entity_id's where possible to data well version 3.
+ */
+function ting_update_7004() {
+  $translation = array(
+    '150021' => '150021-bibliotek',
+    '150027' => '150021-fjern',
+    '150030' => '870970-spilmedier',
+    '870973' => '870973-anmeld',
+    '150039' => '150015-forlag',
+    '870976' => '870976-anmeld',
+    '150048' => '870970-basis',
+    '150028' => '870970-basis',
+    '150015' => '870970-basis',
+    '150033' => '150033-dandyr',
+    '150040' => '150040-verdyr',
+    '150018' => '150018-danhist',
+    '150032' => '150018-samfund',
+    '150034' => '150018-religion',
+    '150054' => '150018-biologi',
+    '150055' => '150018-fysikkemi',
+    '150056' => '150056-geografi',
+    '150008' => '150008-academic',
+    '150043' => '150043-atlas',
+    '150023' => '150023-sicref',
+    '150025' => '150008-public',
+    '150052' => '870970-basis',
+    '159002' => '159002-lokalbibl',
+    '150012' => '150012-leksikon',
+  );
+
+  foreach ($translation as $id => $new_id) {
+    db_query("UPDATE ting_object
+              SET ding_entity_id = CONCAT('" . $new_id . ":', SUBSTRING_INDEX(ding_entity_id, ':', -1))
+              WHERE ding_entity_id LIKE '" . $id . ":%'")
+      ->execute();
+  }
+}
+
+/**
+ * Update default ac.source from 'bibliotekets materialer' to 'bibliotekskatalog'.
+ */
+function ting_update_7005() {
+  variable_set('ting_reservable_sources', _ting_default_reservable_sources());
+}
+
+/**
+ * Ensure default cache expire for the data-well is set correctly.
+ */
+function ting_update_7006() {
+  $ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME);
+  if ($ttl <= 0) {
+    variable_set('ting_cache_lifetime', 900);
+  }
 }

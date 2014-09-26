@@ -30,7 +30,7 @@ function ting_admin_ting_settings($form_state) {
   $form['ting']['ting_search_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Search service URL'),
-    '#description' => t('URL to the Ting search webservice, e.g. http://opensearch.addi.dk/2.1/'),
+    '#description' => t('URL to the Ting search webservice, e.g. http://opensearch.addi.dk/3.0/'),
     '#required' => TRUE,
     '#default_value' => variable_get('ting_search_url', ''),
   );
@@ -38,7 +38,7 @@ function ting_admin_ting_settings($form_state) {
   $form['ting']['ting_scan_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Scan service URL'),
-    '#description' => t('URL to the Ting scan webservice, e.g. http://openscan.addi.dk/1.7/'),
+    '#description' => t('URL to the Ting scan webservice, e.g. http://openscan.addi.dk/2.0/'),
     '#required' => TRUE,
     '#default_value' => variable_get('ting_scan_url', ''),
   );
@@ -78,10 +78,8 @@ function ting_admin_ting_settings($form_state) {
     259200,
     604800,
   );
-  $options = array(
-    0 => t('No caching'),
-  );
 
+  $options = array();
   foreach ($intervals as $interval) {
     $options[$interval] = format_interval($interval, 2);
   }
@@ -130,7 +128,7 @@ function ting_admin_ranking_settings($form, &$form_state) {
     $form_state['ranking_field_count'] = count($field_data) + 1;
   }
 
-  // Wrapper, so that the AJAX callback have some place to put new elements
+  // Wrapper, so that the AJAX callback have some place to put new elements.
   $form['ting_ranking_fields'] = array(
     '#title' => t('Custom ranking fields'),
     '#type' => 'fieldset',
@@ -203,7 +201,7 @@ function ting_admin_ranking_add_more_js($form, &$form_state) {
 function ting_admin_ranking_form_after_build($form, &$form_state) {
   $path = drupal_get_path('module', 'ting');
 
-  drupal_add_css($path .'/css/ting_admin_ranking_form.css');
+  drupal_add_css($path . '/css/ting_admin_ranking_form.css');
 
   return $form;
 }
@@ -223,18 +221,18 @@ function ting_admin_ranking_settings_submit($form, &$form_state) {
 }
 
 /**
- * array_filter() callback to remove empty/deleted elements.
+ * Array_filter() callback to remove empty/deleted elements.
  */
 function _ting_ranking_field_filter($element) {
   return !empty($element['field_name']);
 }
 
 /**
- * usort() callback to remove empty/deleted elements.
+ * Usort() callback to remove empty/deleted elements.
  */
 function _ting_ranking_field_sort($a, $b) {
   if ($a['weight'] == $b['weight']) {
-      return 0;
+    return 0;
   }
   return ($a['weight'] > $b['weight']) ? -1 : 1;
 }
@@ -255,7 +253,7 @@ function ting_admin_boost_settings($form, &$form_state) {
     $form_state['boost_field_count'] = count($field_data);
   }
 
-  // Wrapper, so that the AJAX callback have some place to put new elements
+  // Wrapper, so that the AJAX callback have some place to put new elements.
   $form['ting_boost_fields'] = array(
     '#title' => t('Custom fields boost values'),
     '#type' => 'fieldset',
@@ -322,7 +320,7 @@ function ting_admin_boost_add_more_js($form, &$form_state) {
 function ting_admin_boost_form_after_build($form, &$form_state) {
   $path = drupal_get_path('module', 'ting');
 
-  drupal_add_css($path .'/css/ting_admin_boost_form.css');
+  drupal_add_css($path . '/css/ting_admin_boost_form.css');
 
   return $form;
 }
@@ -340,53 +338,20 @@ function ting_admin_boost_settings_submit($form, &$form_state) {
 }
 
 /**
- * array_filter() callback to remove empty/deleted elements.
+ * Array_filter() callback to remove empty/deleted elements.
  */
 function _ting_boost_field_filter($element) {
   return !(empty($element['field_name']) || empty($element['field_value']));
 }
 
 /**
- * usort() callback to remove empty/deleted elements.
+ * Callback for usort() to remove empty/deleted elements.
  */
 function _ting_boost_field_sort($a, $b) {
   if ($a['weight'] == $b['weight']) {
-      return 0;
+    return 0;
   }
   return ($a['weight'] > $b['weight']) ? -1 : 1;
-}
-
-/**
- * @brief Implementation of hook_menu()
- *
- * Felter: Forfatter, titel, emneord,
- */
-function ting_admin_register_settings() {
-  // should use phrase.title instead of dc.title but at the moment opensearch does not support the use of phrase.title
-  $form['ting_admin_register_serie_title'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Serie title'),
-    '#description' => t('Specify the searchstring to be used for searching against serie titles. Use @serietitle as a placeholder for the serietitle'),
-    '#default_value' => variable_get('ting_admin_register_serie_title', 'bib.titleSeries="@serietitle" OR dc.description="@serietitle"')
-  );
-
-  $form['#submit'][] = 'ting_search_extendform_admin_settings_submit';
-  return system_settings_form($form);
-}
-
-function ting_admin_register_settings_validate($form, &$form_state) {
-  $s = '';
-  if (isset($form_state['values']['ting_admin_register_serie_title'])) {
-    $s = $form_state['values']['ting_admin_register_serie_title'];
-  }
-
-  if ($s == '') {
-    form_set_error('ting_admin_register_serie_title', t('Please specify a register for serie titles.'));
-  }
-}
-
-function ting_search_extendform_admin_settings_submit($form, $form_state) {
-  variable_set('ting_admin_register_serie_title', $form_state['values']['ting_admin_register_serie_title']);
 }
 
 /**
@@ -403,7 +368,7 @@ function ting_admin_online_types_settings($form_state) {
   $form['update'] = array(
     '#type' => 'fieldset',
     '#title' => t('Update from datawell'),
-    '#description' => t('Update the list of known types by asking the datawell for all types.')
+    '#description' => t('Update the list of known types by asking the datawell for all types.'),
   );
 
   $form['update']['update'] = array(
@@ -413,22 +378,22 @@ function ting_admin_online_types_settings($form_state) {
   );
 
   $types = variable_get('ting_well_types', array());
-  
+
   $form['ting_online'] = array(
     '#type' => 'fieldset',
     '#title' => t('Online types'),
     '#description' => t('Ting objects defined as found online (not in the library collection).'),
-    '#tree' => TRUE,
+    '#tree' => FALSE,
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
-  
-  $form['ting_online']['types'] = array(
+
+  $form['ting_online']['ting_online_types'] = array(
     '#type' => 'checkboxes',
     '#options' => drupal_map_assoc(array_keys($types)),
     '#default_value' => variable_get('ting_online_types', _ting_default_online_types()),
   );
-  
+
   $settings = variable_get('ting_url_labels', _ting_default_url_labels());
   $form['ting_url_labels'] = array(
     '#type' => 'fieldset',
@@ -443,7 +408,7 @@ function ting_admin_online_types_settings($form_state) {
     '#description' => t('Default label used for types that is not specifically set below.'),
   );
 
-  if (sizeof($types)) {
+  if (count($types)) {
     $form['ting_url_labels']['types'] = array(
       '#type' => 'fieldset',
       '#title' => t('Type specific labels'),
@@ -470,7 +435,7 @@ function ting_admin_online_types_settings($form_state) {
 }
 
 /**
- * Submit handler. Updates the list of known types from the datawell.
+ * Submit handler. Updates the list of known types from the data well.
  */
 function ting_admin_online_types_settings_update_types($form, &$form_state) {
   _ting_fetch_well_types();
@@ -489,13 +454,43 @@ function ting_admin_reservable_settings($form_state) {
   $form['update'] = array(
     '#type' => 'fieldset',
     '#title' => t('Update from datawell'),
-    '#description' => t('Update the lists of known types and sources by asking the datawell for all types and sorces.')
+    '#description' => t('Update the lists of known types and sources by asking the datawell for all types and sorces.'),
   );
 
   $form['update']['update'] = array(
     '#type' => 'submit',
     '#value' => t('Update'),
     '#submit' => array('ting_admin_reservable_settings_update'),
+  );
+
+  $form['reservation_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Reservation settings'),
+    '#tree' => FALSE,
+  );
+
+  $options = array();
+  $intervals = array(
+    86400,
+    172800,
+    259200,
+    345600,
+    432000,
+    518400,
+    604800,
+    1209600,
+    1814400,
+  );
+  foreach ($intervals as $interval) {
+    $options[$interval] = format_interval($interval, 2);
+  }
+
+  $form['reservation_settings']['reservation_expire'] = array(
+    '#type' => 'select',
+    '#title' => t('Reservation expire message'),
+    '#options' => $options,
+    '#default_value' => variable_get('reservation_expire', 604800),
+    '#description' => t('Time before an reservation expires that a message should be shown to the user.'),
   );
 
   $types = variable_get('ting_well_types', array());
@@ -505,7 +500,7 @@ function ting_admin_reservable_settings($form_state) {
     '#type' => 'fieldset',
     '#title' => t('Reservation buttons'),
     '#tree' => FALSE,
-    '#description' => t("A Ting object will get a reservation button, if it's source and type is <em>both</em> selected ."),
+    '#description' => t("A Ting object will get a reservation button, if it's source and type is <em>both</em> selected."),
   );
 
   $form['ting_reservable']['ting_reservable_sources'] = array(
@@ -529,7 +524,7 @@ function ting_admin_reservable_settings($form_state) {
 
 /**
  * Submit handler. Updates the list of known types and sources from the
- * datawell.
+ * data well.
  */
 function ting_admin_reservable_settings_update($form, &$form_state) {
   _ting_fetch_well_types();

@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Panels pane to display a ting collection.
+ */
 
 $plugin = array(
   'title' => t('Ting collection'),
@@ -10,17 +14,19 @@ $plugin = array(
   'category' => t('Ting'),
 );
 
-function ting_ting_collection_content_type_edit_form($form, &$form_state) {
-  return $form;
-}
-
+/**
+ * Implements hook_ID_content_type_render().
+ */
 function ting_collection_content_type_render($subtype, $conf, $args, $context) {
   $block = new stdClass();
   $object = isset($context->data) ? ($context->data) : NULL;
   if ($object instanceOf TingCollection) {
-    if (sizeof($object->entities) < 2) {
+    if (count($object->entities) < 2) {
       drupal_goto('ting/object/' . $object->id);
     }
+
+    // Add search overlay trigger.
+    drupal_add_js(drupal_get_path('module', 'ting') . '/js/ting.js');
 
     $block->title = check_plain($object->title);
     $block->content = ting_collection_view($object);
@@ -29,3 +35,9 @@ function ting_collection_content_type_render($subtype, $conf, $args, $context) {
   return $block;
 }
 
+/**
+ * Implements hook_ID_content_type_edit_form().
+ */
+function ting_ting_collection_content_type_edit_form($form, &$form_state) {
+  return $form;
+}

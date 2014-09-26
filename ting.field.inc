@@ -109,7 +109,8 @@ function ting_field_load($entity_type, $entities, $field, $instances, $langcode,
         );
       }
     }
-  } else {
+  }
+  else {
     foreach ($entities as $id => $entity) {
       $items[$id][0] = array(
         'id' => $entity->id,
@@ -130,6 +131,7 @@ function ting_field_formatter_info() {
       ),
       'settings' => array(
         'link_type' => 'none',
+        'prefix_type' => 'no',
       ),
     ),
     'ting_type_default' => array(
@@ -210,7 +212,18 @@ function ting_field_formatter_settings_form($field, $instance, $view_mode, $form
         ),
         '#default_value' => $settings['link_type'],
       );
+
+      $element['prefix_type'] = array(
+        '#type' => 'radios',
+        '#title' => t('Prefix with "ting type"'),
+        '#options' => array(
+          'no' => t('No'),
+          'yes' => t('Yes'),
+        ),
+        '#default_value' => $settings['prefix_type'],
+      );
       break;
+
     case 'ting_entities':
       $element['hide_primary'] = array(
         '#type' => 'checkbox',
@@ -218,6 +231,7 @@ function ting_field_formatter_settings_form($field, $instance, $view_mode, $form
         '#description' => t("Don't show the primary object as part of the list."),
         '#default_value' => $settings['hide_primary'],
       );
+
     case 'ting_primary_object':
       $entity_info = entity_get_info('ting_object');
       $view_modes = array();
@@ -246,10 +260,14 @@ function ting_field_formatter_settings_summary($field, $instance, $view_mode) {
   $summary = '';
   switch ($field['type']) {
     case 'ting_title':
-      $summary .= t('Link type: @type', array('@type' => $settings['link_type']));
+      $summary .= t('<strong>Link type:</strong> @type', array('@type' => $settings['link_type']));
+      $summary .= '</br>';
+      $summary .= t('<strong>Prefix with type</strong>: @type', array('@type' => $settings['prefix_type']));
       break;
+
     case 'ting_entities':
       $summary .= $settings['hide_primary'] ? t("Don't show primary. ") : t("Include primary. ");
+
     case 'ting_primary_object':
       $view_mode = $settings['view_mode'];
       $entity_info = entity_get_info('ting_object');
@@ -275,7 +293,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
     $entities = $entity->entities;
     // Skip the first.
     if ($display['settings']['hide_primary']) {
-      $primary = array_shift($entities);
+      array_shift($entities);
     }
 
     foreach ($entity->types as $type) {
@@ -301,13 +319,9 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
          */
         $type = 'ting_object';
         if ($display['settings']['link_type'] == 'collection') {
-          //   // Check if the cache contains an collection for this id.
-          //   $x = ting_cache_get($entity->id);
-          //   if ($x instanceof TingClientObjectCollection) {
           $type = 'ting_collection';
-          //   }
         }
-        // Only create the link if the object is available in the datawell.
+        // Only create the link if the object is available in the data well.
         if ($display['settings']['link_type'] != 'none' && !isset($entity->is_available)) {
           $url = entity_uri($type, $entity);
           $title = l($entity->title, $url['path'], $url['options']);
@@ -315,11 +329,33 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         else {
           $title = check_plain($entity->title);
         }
-        $element[$delta] = array(
-          '#prefix' => '<h2>',
-          '#suffix' => '</h2>',
-          '#markup' => $title,
-        );
+
+        // Check if element should be prefixed with type.
+        if ($display['settings']['prefix_type'] == 'yes') {
+          $collction = ting_collection_load($entity->id);
+          $ting_type = $entity->getType();
+          if (count($collction->types) > 1) {
+            $ting_type = t('Material collection');
+          }
+
+          $element[$delta] = array(
+            '#prefix' => '<h2>',
+            '#suffix' => '</h2>',
+            'title' => array(
+              // @todo: this could be moved into a theme function to be more
+              // generic.
+              '#prefix' => '<span class="search-result--heading-type">' . $ting_type . ':</span>',
+              '#markup' => $title,
+            ),
+          );
+        }
+        else {
+          $element[$delta] = array(
+            '#prefix' => '<h2>',
+            '#suffix' => '</h2>',
+            '#markup' => $title,
+          );
+        }
         break;
 
       case 'ting_type_default':
@@ -329,22 +365,24 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
             array(
               'data' => $entity->type,
               'class' => array(drupal_html_class($entity->type)),
-            )
+            ),
           ),
         );
         break;
 
       case 'ting_series_default':
         if ($entity->serieTitle) {
-          // The search string used is configurable because the datawell is not fully implemented regarding series.
-          // As default we search both in the serietitle register and the description field because many series only have data in the description field.
-          // This will problably change with new versions of the datawell.
-          $search_term = str_replace('@serietitle' , drupal_strtolower($entity->serieTitle),variable_get('ting_admin_register_serie_title', 'bib.titleSeries="@serietitle" OR dc.description="@serietitle"'));
+          // The search string used is configurable because the data well is not
+          // fully implemented regarding series. As default we search both in
+          // the series title register and the description field because many
+          // series only have data in the description field. This will probably
+          // change with new versions of the data well.
+          $search_term = str_replace('@serietitle', drupal_strtolower($entity->serieTitle), variable_get('ting_search_register_serie_title', 'dkcclphrase.lse="@serietitle" OR dkcclphrase.lso="@serietitle"'));
           $element[$delta] = array(
-            '#markup' => l(check_plain($entity->serieTitle), 'search/ting/' . $search_term , array('attributes' => array('class' => array('series')))) . ' : ' . check_plain($entity->serieNumber),
+            '#markup' => l($entity->serieTitle, 'search/ting/' . $search_term, array('attributes' => array('class' => array('series')))) . ' : ' . check_plain($entity->serieNumber),
           );
         }
-        else if ($entity->serieDescription) {
+        elseif ($entity->serieDescription) {
           $element[$delta] = array(
             '#markup' => $entity->serieDescription,
           );
@@ -360,15 +398,15 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
       case 'ting_author_default':
         $creators = array();
         foreach ($entity->creators as $i => $creator) {
-          $creators[] = l($creator, 'search/ting/dc.creator=' . $creator, array('attributes' => array('class' => array('author'))));
+          $creators[] = l($creator, 'search/ting/phrase.creator=' . $creator, array('attributes' => array('class' => array('author'))));
         }
         $markup_string = '';
         if (count($creators)) {
           if ($entity->date != '') {
             $markup_string = t('By !author_link (@year)', array(
               '!author_link' => implode(', ', $creators),
-              '@year' => $entity->date, // So wrong, but appears to
-              // be the way the data is.
+              // So wrong, but appears to be the way the data is.
+              '@year' => $entity->date,
               ));
           }
           else {
@@ -377,7 +415,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
             ));
           }
         }
-        else if ($entity->date != '') {
+        elseif ($entity->date != '') {
           $markup_string = t('(@year)', array('@year' => $entity->date));
         }
         $element[$delta] = array(
@@ -389,7 +427,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         if (count($entity->subjects) == TRUE) {
           $subjects = array();
           foreach ($entity->subjects as $subject) {
-            $subjects[] = l($subject, 'search/ting/dc.subject=' . $subject, array('attributes' => array('class' => array('subject'))));
+            $subjects[] = l($subject, 'search/ting/dkcclterm.em=' . $subject, array('attributes' => array('class' => array('subject'))));
           }
           $element[$delta] = array(
             '#markup' => implode(' ', $subjects),
