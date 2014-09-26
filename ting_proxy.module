@@ -189,6 +189,8 @@ function ting_proxy_rewrite_download_url($url, $proxy_url, $hostnames) {
 
       // Add prefix, if chosen.
       if (!$config['disable_prefix']) {
+        // The URL is not encoded as it's send on to online resources proxies
+        // (ezproxy), which fails if the url is encoded.
         $url = $proxy_url . $url;
       }
 
