@@ -1,15 +1,16 @@
 <?php
+/**
+ * @file
+ * Implements a proxy to rewrite online material urls to library specific urls.
+ */
 
 /**
- * Implementation of hook_menu().
+ * Implements hook_menu().
  */
 function ting_proxy_menu() {
   $items = array();
 
-  // Get the module path
-  $path = drupal_get_path('module', 'ting_proxy') . '/includes';
-
-  // Administration UI
+  // Administration UI.
   $items['admin/config/ting/proxy'] = array(
     'title' => 'Proxy settings',
     'description' => 'Ting Proxy settings.',
@@ -17,15 +18,16 @@ function ting_proxy_menu() {
     'page arguments' => array('ting_proxy_settings_form'),
     'access arguments' => array('administer ting settings'),
     'file' => 'ting_proxy.admin.inc',
-  	'file path' => $path,
+    'file path' => drupal_get_path('module', 'ting_proxy') . '/includes',
   );
 
   return $items;
 }
 
 /**
- * Implementation of hook_element_info() that defines a new form element named
- * ting_proxy_hostname.
+ * Implements of hook_element_info().
+ *
+ * It defines a new form element named ting_proxy_hostname.
  *
  * It calls the theme function theme_ting_proxy_hostname, if not defined
  * no elements will be displayed.
@@ -33,20 +35,21 @@ function ting_proxy_menu() {
  */
 function ting_proxy_element_info() {
   $types = array();
+
   $types['ting_proxy_hostname'] = array(
     '#input' => TRUE,
     '#process' => array('ting_proxy_hostname_element_process'),
     '#element_validate' => array('ting_proxy_hostname_element_validate'),
   );
+
   return $types;
 }
 
 /**
- * Implementation of hook_theme().
+ * Implements hook_theme().
  *
  * Defines the new form element "ting_proxy_hostname" theme function. Which is
  * required by hook_elements.
- *
  */
 function ting_proxy_theme() {
   return array(
@@ -79,7 +82,7 @@ function ting_proxy_hostname_element_process($element, $form_state) {
     '#attributes' => array('class' => array('url-text-field')),
   );
 
-  // Create collapible fieldset, because only a small subset will use these
+  // Create collapsible field set, because only a small subset will use these
   // options.
   $element['expression'] = array(
     '#type' => 'fieldset',
@@ -105,14 +108,14 @@ function ting_proxy_hostname_element_process($element, $form_state) {
   );
 
   // Enables the option of not prefixing the url.
-  // In some cases it's not needed and replacements still work
+  // In some cases it's not needed and replacements still work.
   $element['disable_prefix'] = array(
     '#type' => 'checkbox',
     '#title' => t('Do not use proxy prefix for this hostname'),
     '#default_value' => (isset($element['#value']['disable_prefix']) ? $element['#value']['disable_prefix'] : FALSE),
   );
 
-  // Placeholder to mark proxies for removal
+  // Placeholder to mark proxies for removal.
   $element['removed'] = array(
     '#type' => 'hidden',
     '#default_value' => 0,
@@ -136,12 +139,14 @@ function ting_proxy_hostname_element_validate($element, &$form_state) {
 }
 
 /**
- * Implementation of hook_ting_online_url_alter().
+ * Implements hook_ting_online_url_alter().
+ *
+ * Hooks into the url and rewrites it based on the configuration.
  */
 function ting_proxy_ting_online_url_alter(&$url) {
-  $configuration = variable_get('ting_proxy', array());
+  $proxy = variable_get('ting_proxy', array());
 
-  //Alter the url if we have a valid proxy configuration
+  // Alter the url if we have a valid proxy configuration,
   if (isset($proxy['prefix']) && $proxy['prefix'] &&
       isset($proxy['hostnames']) && is_array($proxy['hostnames'])) {
     $url = ting_proxy_rewrite_download_url($url, $proxy['prefix'], $proxy['hostnames']);
@@ -149,26 +154,32 @@ function ting_proxy_ting_online_url_alter(&$url) {
 }
 
 /**
- * Rewrite the URL of external restricted-access ressources.
+ * Rewrite the URL of external restricted-access resources.
  *
- * This allow access to the ressources through the library's proxy server.
+ * This allow access to the resources through the library's proxy server.
  *
- * @param $url The url to rewrite
- * @param $proxy_url The url to the proxy server to prepend to the url
- * @param $hostnames_config An array of hostname configurations containing keys
- * 	- hostname: The hostname for which the configuration applies in the format
- * 		www.example.com
- *  - expression: An array with a regex and a replacement to support replacing
- *  	values in the url e.g. replace /librarycode/ with /123456/
- *  - disable_prefix: Do not prefix the url with the proxy url
+ * @param string $url
+ *   The url to rewrite
+ * @param string $proxy_url
+ *   The url to the proxy server to prepend to the url
+ * @param array $hostnames
+ *   Array of hostname configurations containing keys
+ * 	   - hostname: The hostname for which the configuration applies in the
+ *       format www.example.com
+ *     - expression: An array with a regex and a replacement to support
+ *       replacing values in the url e.g. replace /librarycode/ with /123456/
+ *     - disable_prefix: Do not prefix the url with the proxy url
+ *
+ * @return string
+ *   The rewritten url.
  */
-function ting_proxy_rewrite_download_url($url, $proxy_url, $hostnames_config) {
+function ting_proxy_rewrite_download_url($url, $proxy_url, $hostnames) {
   $host = parse_url($url, PHP_URL_HOST);
 
-  // Search hostnames (can this be optimized ? yes - save data in other format)
-  foreach ($hostnames_config as $config) {
+  // Search host names (can this be optimized ? yes - save data in other format).
+  foreach ($hostnames as $config) {
     if ($host == $config['hostname']) {
-      // Rewrite/convert url using regex
+      // Rewrite/convert url using regex.
       if ((isset($config['expression']['regex']) && !empty($config['expression']['regex'])) &&
           (isset($config['expression']['replacement']) && !empty($config['expression']['replacement']))) {
         $url = preg_replace($config['expression']['regex'],
@@ -176,12 +187,14 @@ function ting_proxy_rewrite_download_url($url, $proxy_url, $hostnames_config) {
                             $url);
       }
 
-      // Add prefix, if choosen
+      // Add prefix, if chosen.
       if (!$config['disable_prefix']) {
-        $url = $proxy_url . urlencode($url);
+        // The URL is not encoded as it's send on to online resources proxies
+        // (ezproxy), which fails if the url is encoded.
+        $url = $proxy_url . $url;
       }
 
-      // Exit the foreach loop
+      // Exit the foreach loop.
       break;
     }
   }
