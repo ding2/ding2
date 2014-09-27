@@ -548,11 +548,13 @@ function place2book_build_xml($node, $service_settings) {
 
   // Set short description.
   $field_ding_event_lead = field_get_items('node', $node, 'field_ding_event_lead');
-  $xml->event->description_short = $field_ding_event_lead[0]['value'];
-
-  // Set long description.
+  $xml->event->description_short = $field_ding_event_lead[0]['value'];  
+  
+  // Set long description. We use field_view_value to make sure the field value 
+  // is taken through the media_filter to convert special media tags to markup.
   $field_ding_event_body = field_get_items('node', $node, 'field_ding_event_body');
-  $xml->event->description_long = media_wysiwyg_filter($field_ding_event_body[0]['value']);
+  $render_array = field_view_value('node', $node, 'field_ding_event_body', $field_ding_event_body[0]);
+  $xml->event->description_long = drupal_render($render_array);
 
   // Set sales window times empty - and they will use the defaults in place2book.
   $xml->event->sale_open = '';
