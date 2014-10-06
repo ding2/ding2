@@ -19,9 +19,9 @@
         var choosen_search = $('#search-block-form input[name=ding_redirect_redirect_radios]:checked').val();
 
         // Get settings for showing a dialog.
-        var delay        = settings.ding_redirect.delay || -1,
+        var delay = settings.ding_redirect.delay || -1,
             dialog_title = settings.ding_redirect.dialog_title,
-            dialog_text  = settings.ding_redirect.dialog_text;
+            dialog_text = settings.ding_redirect.dialog_text;
 
         if (settings.ding_redirect[choosen_search] !== '') {
           // Redirect the user to the new URL from settings. Add the query to
@@ -33,7 +33,7 @@
           if (delay > 0) {
             // Pop a dialog when there is a delay on redirect.
             var canceled = false;
-            var $dialog = $('<div class="os2web-redirect-modal">' + dialog_text + '</div>').dialog({
+            var $dialog = $('<div class="ding-redirect-modal">' + dialog_text + '</div>').dialog({
               'modal': true,
               'title': dialog_title,
               'closeText' : Drupal.t('close'),
@@ -48,12 +48,13 @@
                 window.location = url;
               }
             }, delay);
-          } else {
+          }
+          else {
             // No dialog and delay used, redirect user.
             window.location = url;
           }
-          e.stopImmediatePropagation();
 
+          e.stopImmediatePropagation();
           return false;
         }
       };
