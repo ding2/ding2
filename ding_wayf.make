@@ -14,8 +14,6 @@ projects[ding_provider][download][download][branch] = "master"
 
 projects[ding_base][type] = "module"
 projects[ding_base][download][type] = "git"
+
 projects[ding_base][download][url] = "git@github.com:ding2/ding_base.git"
 projects[ding_base][download][download][branch] = "master"
-
-projects[securepages][subdir] = "contrib"
-projects[securepages][version] = "1.0-beta2"

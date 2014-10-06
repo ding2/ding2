@@ -6,5 +6,4 @@ files[] = lib/DingWayfAuth.class.inc
 files[] = ding_wayf.module
 dependencies[] = ding_provider
 dependencies[] = ding_user
-dependencies[] = securepages
 dependencies[] = ding_base

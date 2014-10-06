@@ -47,46 +47,12 @@ function ding_wayf_requirements($phase) {
       }
     }
 
-    if (empty($conf['https'])) {
-      $requirements['ding_wayf_https'] = array(
-        'title' => $t('HTTPS configuration'),
-        'description' => $t('WAYF requires activation of HTTPS by adding "$conf[\'https\'] = TRUE" to settings.php.'),
+    if (!variable_get('wayf_hash', FALSE)) {
+      $requirements['wayf_hash'] = array(
+        'value' => $t('WAYF not configured correctly'),
+        'description' => $t('WAYF is not properly configured, you need to set $conf[\'wayf_hash\'] in setttings.php.'),
         'severity' => REQUIREMENT_ERROR,
-        'value' => '',
       );
-    }
-
-    $securepages_enabled = variable_get('securepages_enable');
-    if (empty($securepages_enabled)) {
-      $requirements['ding_wayf_securepages_enable'] = array(
-        'title' => $t('Activation of Secure Pages needed'),
-        'description' => $t('WAYF requires Secure Pages to be activated: !url.', array('!url' => l('admin/config/system/securepages', 'admin/config/system/securepages'))),
-        'severity' => REQUIREMENT_ERROR,
-        'value' => '',
-      );
-    }
-
-    if (variable_get('securepages_secure')) {
-      $securepages_pages = variable_get('securepages_pages');
-      if (!(preg_match(ding_wayf_regex_line('wayf'), $securepages_pages) && preg_match(ding_wayf_regex_line('wayf/*'), $securepages_pages))) {
-        $requirements['ding_wayf_secured'] = array(
-          'title' => $t('WAYF not secured'),
-          'description' => $t('WAYF requires "wayf" and "wayf/*" added to Pages at Secure Pages configuration page: !url.', array('!url' => l('admin/config/system/securepages', 'admin/config/system/securepages'))),
-          'severity' => REQUIREMENT_ERROR,
-          'value' => $securepages_pages,
-        );
-      }
-    }
-    else {
-      $securepages_ignore = variable_get('securepages_ignore');
-      if (preg_match(ding_wayf_regex_line('wayf'), $securepages_ignore) || preg_match(ding_wayf_regex_line('wayf/*'), $securepages_ignore)) {
-        $requirements['ding_wayf_secured'] = array(
-          'title' => $t('WAYF not secured'),
-          'description' => $t('WAYF requires that "wayf" and "wayf/*" are not included in Ignore Pages at Secure Pages configuration page: !url.', array('!url' => l('admin/config/system/securepages', 'admin/config/system/securepages'))),
-          'severity' => REQUIREMENT_ERROR,
-          'value' => '',
-        );
-      }
     }
   }
 
