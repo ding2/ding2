@@ -18,17 +18,17 @@ function ding_groups_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 4,
+        'weight' => 1,
       ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 5,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -65,16 +65,15 @@ function ding_groups_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'taxonomy',
         'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 5,
+        'type' => 'hidden',
+        'weight' => 4,
       ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 4,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -107,17 +106,19 @@ function ding_groups_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'above',
-        'module' => 'text',
+        'label' => 'hidden',
         'settings' => array(),
-        'type' => 'text_default',
+        'type' => 'hidden',
         'weight' => 3,
       ),
       'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
+        'label' => 'hidden',
+        'module' => 'ding_base',
+        'settings' => array(
+          'body_snippet_length' => 100,
+        ),
+        'type' => 'body_snippet',
+        'weight' => 1,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -153,18 +154,25 @@ function ding_groups_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'image',
-        'settings' => array(
-          'image_link' => '',
-          'image_style' => '',
-        ),
-        'type' => 'image',
-        'weight' => 2,
-      ),
-      'teaser' => array(
-        'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
+        'weight' => 5,
+      ),
+      'teaser' => array(
+        'label' => 'hidden',
+        'module' => 'cs_adaptive_image',
+        'settings' => array(
+          'image_link' => '',
+          'styles' => array(
+            'breakpoint_1' => 768,
+            'breakpoint_2' => 500,
+            'fallback_style' => 'ding_list_large',
+            'max_style' => 'ding_list_large',
+            'style_1' => 'ding_list_large',
+            'style_2' => 'ding_list_small',
+          ),
+        ),
+        'type' => 'cs_adaptive_image',
         'weight' => 0,
       ),
       'teaser_highlight' => array(
@@ -228,20 +236,27 @@ function ding_groups_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'above',
-        'module' => 'image',
+        'label' => 'hidden',
+        'module' => 'cs_adaptive_image',
         'settings' => array(
           'image_link' => '',
-          'image_style' => '',
+          'styles' => array(
+            'breakpoint_1' => 768,
+            'breakpoint_2' => 500,
+            'fallback_style' => 'ding_panorama_primary_large',
+            'max_style' => 'ding_panorama_primary_large',
+            'style_1' => 'ding_panorama_primary_medium',
+            'style_2' => 'ding_panorama_primary_small',
+          ),
         ),
-        'type' => 'image',
-        'weight' => 1,
+        'type' => 'cs_adaptive_image',
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 2,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -310,18 +325,15 @@ function ding_groups_field_default_field_instances() {
     'display' => array(
       'default' => array(
         'label' => 'above',
-        'module' => 'og_ui',
-        'settings' => array(
-          'field_name' => FALSE,
-        ),
-        'type' => 'og_group_subscribe',
-        'weight' => 0,
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 2,
       ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 0,
+        'weight' => 3,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
