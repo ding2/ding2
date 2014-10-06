@@ -2,10 +2,6 @@ core = 7.x
 api = 2
 
 ; Projects
-projects[ding_page][type] = "module"
-projects[ding_page][download][type] = "git"
-projects[ding_page][download][url] = "git@github.com:ding2tal/ding_page.git"
-projects[ding_page][download][branch] = "development"
 
 projects[cache_actions][subdir] = "contrib"
 projects[cache_actions][version] = "2.0-alpha5"
@@ -74,3 +70,11 @@ libraries[ckeditor][download][type] = "get"
 libraries[ckeditor][download][url] = "http://download.cksource.com/CKEditor/CKEditor/CKEditor%203.6.6.1/ckeditor_3.6.6.1.zip"
 libraries[ckeditor][directory_name] = "ckeditor"
 libraries[ckeditor][destination] = "libraries"
+
+; ding2
+
+projects[ding_page][type] = "module"
+projects[ding_page][download][type] = "git"
+projects[ding_page][download][url] = "git@github.com:ding2/ding_page.git"
+projects[ding_page][download][branch] = "development"
+
