@@ -51,11 +51,17 @@ function ding_tabroll_theme($existing, $type, $theme, $path) {
  * libraries tab-roll.
  */
 function ding_tabroll_preprocess($variables) {
+  $path = drupal_get_path('module', 'ding_tabroll');
+
   // Add jQuery UI tabs library.
   drupal_add_library('system', 'ui.tabs');
 
   // Add default CSS and JavaScript.
-  drupal_add_js(drupal_get_path('module', 'ding_tabroll') . '/js/ding_tabroll.js');
+  drupal_add_js($path . '/js/ding_tabroll.js');
+
+  // Add fix to get tabs rotate back.
+  // @see http://jqueryui.com/upgrade-guide/1.9/#removed-rotate-method
+  drupal_add_js($path . '/js/jquery-ui-tabs-rotate.js');
 }
 
 /**
