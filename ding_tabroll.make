@@ -13,7 +13,7 @@ projects[entityreference][version] = "1.1"
 projects[ding_library][type] = "module"
 projects[ding_library][download][type] = "git"
 projects[ding_library][download][url] = "git@github.com:ding2tal/ding_library.git"
-projects[ding_library][download][tag] = "7.x-1.0-rc3"
+projects[ding_library][download][tag] = "master"
 
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.0"
