@@ -3,3 +3,5 @@
  * @file
  * Placeholder file.
  */
+
+include_once 'ding_contact.features.inc';
