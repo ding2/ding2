@@ -60,8 +60,6 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['fields']['field_ding_staff_forename']['ui_name'] = 'Forename (excluded)';
   $handler->display->display_options['fields']['field_ding_staff_forename']['label'] = '';
   $handler->display->display_options['fields']['field_ding_staff_forename']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_ding_staff_forename']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['field_ding_staff_forename']['alter']['path'] = 'user/[user]';
   $handler->display->display_options['fields']['field_ding_staff_forename']['element_label_colon'] = FALSE;
   /* Field: Profile: Image */
   $handler->display->display_options['fields']['field_ding_staff_image']['id'] = 'field_ding_staff_image';
@@ -90,8 +88,6 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['fields']['field_ding_staff_surname']['label'] = 'Name';
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['text'] = '[field_ding_staff_surname], [field_ding_staff_forename]';
-  $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['path'] = 'user/[user]';
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['trim_whitespace'] = TRUE;
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['strip_tags'] = TRUE;
   $handler->display->display_options['fields']['field_ding_staff_surname']['element_class'] = 'staff-name';
@@ -198,8 +194,6 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['fields']['field_ding_staff_forename']['ui_name'] = 'Forename (excluded)';
   $handler->display->display_options['fields']['field_ding_staff_forename']['label'] = '';
   $handler->display->display_options['fields']['field_ding_staff_forename']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_ding_staff_forename']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['field_ding_staff_forename']['alter']['path'] = 'user/[user]';
   $handler->display->display_options['fields']['field_ding_staff_forename']['element_label_colon'] = FALSE;
   /* Field: Profile: Image */
   $handler->display->display_options['fields']['field_ding_staff_image']['id'] = 'field_ding_staff_image';
@@ -224,8 +218,6 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['fields']['field_ding_staff_surname']['label'] = '';
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['text'] = '[field_ding_staff_surname], [field_ding_staff_forename]';
-  $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['path'] = 'user/[user]';
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['trim_whitespace'] = TRUE;
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['strip_tags'] = TRUE;
   $handler->display->display_options['fields']['field_ding_staff_surname']['element_type'] = '0';
@@ -299,7 +291,7 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['filters']['rid']['field'] = 'rid';
   $handler->display->display_options['filters']['rid']['relationship'] = 'user';
   $handler->display->display_options['filters']['rid']['value'] = array(
-    16 => 16,
+    9 => 9,
   );
   $handler->display->display_options['pane_category']['name'] = 'Bruger';
   $handler->display->display_options['pane_category']['weight'] = '0';
@@ -370,8 +362,6 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['fields']['field_ding_staff_forename']['ui_name'] = 'Forename (excluded)';
   $handler->display->display_options['fields']['field_ding_staff_forename']['label'] = '';
   $handler->display->display_options['fields']['field_ding_staff_forename']['exclude'] = TRUE;
-  $handler->display->display_options['fields']['field_ding_staff_forename']['alter']['make_link'] = TRUE;
-  $handler->display->display_options['fields']['field_ding_staff_forename']['alter']['path'] = 'user/[user]';
   $handler->display->display_options['fields']['field_ding_staff_forename']['element_label_colon'] = FALSE;
   /* Field: Profile: Image */
   $handler->display->display_options['fields']['field_ding_staff_image']['id'] = 'field_ding_staff_image';
@@ -397,14 +387,13 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['text'] = '[field_ding_staff_forename] [field_ding_staff_surname]';
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['make_link'] = TRUE;
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['path'] = 'user/[user]';
+  $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['absolute'] = TRUE;
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['alt'] = '[field_ding_staff_forename] [field_ding_staff_surname]';
-  $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['strip_tags'] = TRUE;
   $handler->display->display_options['fields']['field_ding_staff_surname']['element_type'] = '0';
   $handler->display->display_options['fields']['field_ding_staff_surname']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_staff_surname']['element_wrapper_type'] = 'div';
   $handler->display->display_options['fields']['field_ding_staff_surname']['element_wrapper_class'] = 'staff-name';
   $handler->display->display_options['fields']['field_ding_staff_surname']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_staff_surname']['type'] = 'text_plain';
   /* Field: Profile: Position */
   $handler->display->display_options['fields']['field_ding_staff_position']['id'] = 'field_ding_staff_position';
   $handler->display->display_options['fields']['field_ding_staff_position']['table'] = 'field_data_field_ding_staff_position';
@@ -472,7 +461,7 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['filters']['rid']['field'] = 'rid';
   $handler->display->display_options['filters']['rid']['relationship'] = 'user';
   $handler->display->display_options['filters']['rid']['value'] = array(
-    16 => 16,
+    9 => 9,
   );
   $handler->display->display_options['pane_category']['name'] = 'Bruger';
   $handler->display->display_options['pane_category']['weight'] = '0';
@@ -1013,6 +1002,12 @@ function ding_staff_views_default_views() {
     t('No users available.'),
     t('Profile'),
     t('User'),
+    t('- Choose an operation -'),
+    t('Edit user roles'),
+    t('Change user roles'),
+    t('Ret brugerindstillinger'),
+    t('Send e-mail'),
+    t('Slet'),
     t('Name'),
     t('Roles'),
     t('Name (in Staff)'),

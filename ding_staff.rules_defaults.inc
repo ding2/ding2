@@ -12,9 +12,10 @@ function ding_staff_default_rules_configuration() {
   $items['rules_role_staff_assign'] = entity_import('rules_config', '{ "rules_role_staff_assign" : {
       "LABEL" : "assign staff role",
       "PLUGIN" : "reaction rule",
+      "OWNER" : "rules",
       "TAGS" : [ "ding_staff" ],
       "REQUIRES" : [ "rules", "ding_staff", "profile2" ],
-      "ON" : [ "profile2_insert" ],
+      "ON" : { "profile2_insert" : [] },
       "IF" : [
         { "data_is" : { "data" : [ "profile2:type:type" ], "value" : "ding_staff_profile" } }
       ],
