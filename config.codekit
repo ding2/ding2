@@ -1,6 +1,6 @@
 {
 "CodeKitInfo": "This is a CodeKit 2.x project configuration file. It is designed to sync project settings across multiple machines. MODIFYING THE CONTENTS OF THIS FILE IS A POOR LIFE DECISION. If you do so, you will likely cause CodeKit to crash. This file is not useful unless accompanied by the project that created it in CodeKit 2. This file is not backwards-compatible with CodeKit 1.x. For more information, see: http:\/\/incident57.com\/codekit",
-"creatorBuild": "16844",
+"creatorBuild": "17682",
 "files": {
 	"\/color\/base.png": {
 		"fileType": 32768,
@@ -9,6 +9,7 @@
 		"initialSize": 20894,
 		"inputAbbreviatedPath": "\/color\/base.png",
 		"outputAbbreviatedPath": "\/color\/base.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -18,6 +19,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/color\/disable.css",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/color\/preview.css": {
@@ -26,6 +28,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/color\/preview.css",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/color\/preview.png": {
@@ -35,6 +38,7 @@
 		"initialSize": 9965,
 		"inputAbbreviatedPath": "\/color\/preview.png",
 		"outputAbbreviatedPath": "\/color\/preview.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -44,6 +48,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/config.rb",
 		"outputAbbreviatedPath": "\/config.rb",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/css\/ddbasic.ie8.css": {
@@ -52,6 +57,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/css\/ddbasic.ie8.css",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/css\/ddbasic.ie9.css": {
@@ -60,6 +66,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/css\/ddbasic.ie9.css",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/css\/ddbasic.styles.css": {
@@ -68,6 +75,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/css\/ddbasic.styles.css",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/css\/ddbasic.wysiwyg.css": {
@@ -76,6 +84,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/css\/ddbasic.wysiwyg.css",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/design\/ddbasic-search-facet-selected.png": {
@@ -85,6 +94,7 @@
 		"initialSize": 1.14215e+06,
 		"inputAbbreviatedPath": "\/design\/ddbasic-search-facet-selected.png",
 		"outputAbbreviatedPath": "\/design\/ddbasic-search-facet-selected.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -95,6 +105,7 @@
 		"initialSize": 82769,
 		"inputAbbreviatedPath": "\/design\/ddbasic-template.png",
 		"outputAbbreviatedPath": "\/design\/ddbasic-template.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -105,6 +116,7 @@
 		"initialSize": 951459,
 		"inputAbbreviatedPath": "\/design\/event.png",
 		"outputAbbreviatedPath": "\/design\/event.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -115,6 +127,7 @@
 		"initialSize": 1.06992e+06,
 		"inputAbbreviatedPath": "\/design\/events.png",
 		"outputAbbreviatedPath": "\/design\/events.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -125,6 +138,7 @@
 		"initialSize": 2.27071e+06,
 		"inputAbbreviatedPath": "\/design\/frontpage-blue.png",
 		"outputAbbreviatedPath": "\/design\/frontpage-blue.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -135,6 +149,7 @@
 		"initialSize": 2.43687e+06,
 		"inputAbbreviatedPath": "\/design\/frontpage-labels.png",
 		"outputAbbreviatedPath": "\/design\/frontpage-labels.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -145,6 +160,7 @@
 		"initialSize": 2.4807e+06,
 		"inputAbbreviatedPath": "\/design\/frontpage-logged-in.png",
 		"outputAbbreviatedPath": "\/design\/frontpage-logged-in.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -155,6 +171,7 @@
 		"initialSize": 2.27088e+06,
 		"inputAbbreviatedPath": "\/design\/frontpage.png",
 		"outputAbbreviatedPath": "\/design\/frontpage.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -165,6 +182,7 @@
 		"initialSize": 1.27292e+06,
 		"inputAbbreviatedPath": "\/design\/libraries.png",
 		"outputAbbreviatedPath": "\/design\/libraries.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -175,6 +193,7 @@
 		"initialSize": 1.55077e+06,
 		"inputAbbreviatedPath": "\/design\/library.png",
 		"outputAbbreviatedPath": "\/design\/library.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -185,6 +204,7 @@
 		"initialSize": 2.27411e+06,
 		"inputAbbreviatedPath": "\/design\/modal.png",
 		"outputAbbreviatedPath": "\/design\/modal.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -195,6 +215,7 @@
 		"initialSize": 2.34784e+06,
 		"inputAbbreviatedPath": "\/design\/page-logged-in.png",
 		"outputAbbreviatedPath": "\/design\/page-logged-in.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -205,6 +226,7 @@
 		"initialSize": 1.53966e+06,
 		"inputAbbreviatedPath": "\/design\/page-search-suggestions.png",
 		"outputAbbreviatedPath": "\/design\/page-search-suggestions.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -215,6 +237,7 @@
 		"initialSize": 1.06403e+06,
 		"inputAbbreviatedPath": "\/design\/search-collection-blue.png",
 		"outputAbbreviatedPath": "\/design\/search-collection-blue.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -225,6 +248,7 @@
 		"initialSize": 1.06782e+06,
 		"inputAbbreviatedPath": "\/design\/search-collection.png",
 		"outputAbbreviatedPath": "\/design\/search-collection.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -235,6 +259,7 @@
 		"initialSize": 1.01458e+06,
 		"inputAbbreviatedPath": "\/design\/search-object.png",
 		"outputAbbreviatedPath": "\/design\/search-object.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -245,6 +270,7 @@
 		"initialSize": 1.09848e+06,
 		"inputAbbreviatedPath": "\/design\/search-result.png",
 		"outputAbbreviatedPath": "\/design\/search-result.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -255,6 +281,7 @@
 		"initialSize": 2.3498e+06,
 		"inputAbbreviatedPath": "\/design\/sub-page-logged-in.png",
 		"outputAbbreviatedPath": "\/design\/sub-page-logged-in.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -265,6 +292,7 @@
 		"initialSize": 1.67324e+06,
 		"inputAbbreviatedPath": "\/design\/user-profile.png",
 		"outputAbbreviatedPath": "\/design\/user-profile.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -274,6 +302,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/font\/source-sans\/stylesheet.css",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/images\/arrows.png": {
@@ -283,6 +312,7 @@
 		"initialSize": 2692,
 		"inputAbbreviatedPath": "\/images\/arrows.png",
 		"outputAbbreviatedPath": "\/images\/arrows.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -293,6 +323,7 @@
 		"initialSize": 12223,
 		"inputAbbreviatedPath": "\/images\/block-image-1.jpg",
 		"outputAbbreviatedPath": "\/images\/block-image-1.jpg",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -303,6 +334,7 @@
 		"initialSize": 9878,
 		"inputAbbreviatedPath": "\/images\/block-image-2.jpg",
 		"outputAbbreviatedPath": "\/images\/block-image-2.jpg",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -313,6 +345,7 @@
 		"initialSize": 8928,
 		"inputAbbreviatedPath": "\/images\/block-image-3.jpg",
 		"outputAbbreviatedPath": "\/images\/block-image-3.jpg",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -323,6 +356,7 @@
 		"initialSize": 7092,
 		"inputAbbreviatedPath": "\/images\/block-image-4.jpg",
 		"outputAbbreviatedPath": "\/images\/block-image-4.jpg",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -333,6 +367,7 @@
 		"initialSize": 81255,
 		"inputAbbreviatedPath": "\/images\/boern-familie.jpg",
 		"outputAbbreviatedPath": "\/images\/boern-familie.jpg",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -343,6 +378,7 @@
 		"initialSize": 20577,
 		"inputAbbreviatedPath": "\/images\/carousel-image-1.jpg",
 		"outputAbbreviatedPath": "\/images\/carousel-image-1.jpg",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -353,6 +389,7 @@
 		"initialSize": 30462,
 		"inputAbbreviatedPath": "\/images\/carousel-image-2.jpg",
 		"outputAbbreviatedPath": "\/images\/carousel-image-2.jpg",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -363,6 +400,7 @@
 		"initialSize": 20917,
 		"inputAbbreviatedPath": "\/images\/carousel-image-3.jpg",
 		"outputAbbreviatedPath": "\/images\/carousel-image-3.jpg",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -373,6 +411,7 @@
 		"initialSize": 18832,
 		"inputAbbreviatedPath": "\/images\/carousel-image-4.jpg",
 		"outputAbbreviatedPath": "\/images\/carousel-image-4.jpg",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -383,6 +422,7 @@
 		"initialSize": 39660,
 		"inputAbbreviatedPath": "\/images\/cover-harry-potter.jpg",
 		"outputAbbreviatedPath": "\/images\/cover-harry-potter.jpg",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -393,6 +433,7 @@
 		"initialSize": 15663,
 		"inputAbbreviatedPath": "\/images\/film.jpg",
 		"outputAbbreviatedPath": "\/images\/film.jpg",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -403,6 +444,7 @@
 		"initialSize": 14038,
 		"inputAbbreviatedPath": "\/images\/kommunalvalg-2013.jpg",
 		"outputAbbreviatedPath": "\/images\/kommunalvalg-2013.jpg",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -413,6 +455,7 @@
 		"initialSize": 14063,
 		"inputAbbreviatedPath": "\/images\/litteratur.jpg",
 		"outputAbbreviatedPath": "\/images\/litteratur.jpg",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -423,6 +466,7 @@
 		"initialSize": 1010,
 		"inputAbbreviatedPath": "\/images\/nemid-logo.png",
 		"outputAbbreviatedPath": "\/images\/nemid-logo.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -433,6 +477,7 @@
 		"initialSize": 1635,
 		"inputAbbreviatedPath": "\/images\/pattern.png",
 		"outputAbbreviatedPath": "\/images\/pattern.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -443,6 +488,18 @@
 		"initialSize": 600,
 		"inputAbbreviatedPath": "\/images\/pw_maze_white.png",
 		"outputAbbreviatedPath": "\/images\/pw_maze_white.png",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"processed": 0
+		},
+	"\/images\/reload.png": {
+		"fileType": 32768,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"initialSize": 1708,
+		"inputAbbreviatedPath": "\/images\/reload.png",
+		"outputAbbreviatedPath": "\/images\/reload.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -453,6 +510,7 @@
 		"initialSize": 3945,
 		"inputAbbreviatedPath": "\/logo.png",
 		"outputAbbreviatedPath": "\/logo.png",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"processed": 0
 		},
@@ -462,6 +520,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/mockups\/frontpage.html",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/mockups\/object.html": {
@@ -470,6 +529,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/mockups\/object.html",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/mockups\/search-no-results.html": {
@@ -478,6 +538,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/mockups\/search-no-results.html",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/mockups\/search.html": {
@@ -486,6 +547,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/mockups\/search.html",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/mockups\/staff.html": {
@@ -494,6 +556,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/mockups\/staff.html",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/README.md": {
@@ -505,6 +568,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/README.md",
 		"outputAbbreviatedPath": "\/README.html",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/sass\/configuration\/_colors.scss": {
@@ -516,6 +580,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/configuration\/_colors.scss",
 		"outputAbbreviatedPath": "\/css\/_colors.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -531,6 +596,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/configuration\/_configuration.scss",
 		"outputAbbreviatedPath": "\/css\/_configuration.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -546,6 +612,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/configuration\/_variables.scss",
 		"outputAbbreviatedPath": "\/css\/_variables.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -561,6 +628,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/ddbasic.ie8.scss",
 		"outputAbbreviatedPath": "\/css\/ddbasic.ie8.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -576,6 +644,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/ddbasic.ie9.scss",
 		"outputAbbreviatedPath": "\/css\/ddbasic.ie9.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -591,6 +660,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/ddbasic.styles.scss",
 		"outputAbbreviatedPath": "\/css\/ddbasic.styles.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -606,6 +676,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/ddbasic.wysiwyg.scss",
 		"outputAbbreviatedPath": "\/css\/ddbasic.wysiwyg.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -621,6 +692,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/framework\/_base.scss",
 		"outputAbbreviatedPath": "\/css\/_base.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -636,6 +708,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/framework\/_buttons.scss",
 		"outputAbbreviatedPath": "\/css\/_buttons.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -651,6 +724,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/framework\/_fontawesome.scss",
 		"outputAbbreviatedPath": "\/css\/_fontawesome.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -666,6 +740,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/framework\/_forms.scss",
 		"outputAbbreviatedPath": "\/css\/_forms.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -681,6 +756,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/framework\/_framework.scss",
 		"outputAbbreviatedPath": "\/css\/_framework.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -696,6 +772,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/framework\/_labels.scss",
 		"outputAbbreviatedPath": "\/css\/_labels.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -711,6 +788,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/framework\/_mixins.scss",
 		"outputAbbreviatedPath": "\/css\/_mixins.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -726,6 +804,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/framework\/_modal.scss",
 		"outputAbbreviatedPath": "\/css\/_modal.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -741,6 +820,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/framework\/_navigation.scss",
 		"outputAbbreviatedPath": "\/css\/_navigation.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -756,6 +836,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/framework\/_normalize.scss",
 		"outputAbbreviatedPath": "\/css\/_normalize.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -771,6 +852,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/framework\/_tables.scss",
 		"outputAbbreviatedPath": "\/css\/_tables.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -786,6 +868,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/framework\/_tabs.scss",
 		"outputAbbreviatedPath": "\/css\/_tabs.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -801,6 +884,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/layout\/_drupal.scss",
 		"outputAbbreviatedPath": "\/css\/_drupal.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -816,6 +900,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/layout\/_drupal_system_messages.scss",
 		"outputAbbreviatedPath": "\/css\/_drupal_system_messages.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -831,6 +916,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/layout\/_layout.scss",
 		"outputAbbreviatedPath": "\/css\/_layout.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -846,6 +932,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/layout\/_typography.scss",
 		"outputAbbreviatedPath": "\/css\/_typography.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -861,6 +948,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/module\/_availability.scss",
 		"outputAbbreviatedPath": "\/css\/_availability.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -876,6 +964,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/module\/_campaign.scss",
 		"outputAbbreviatedPath": "\/css\/_campaign.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -891,6 +980,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/module\/_carousel.scss",
 		"outputAbbreviatedPath": "\/css\/_carousel.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -906,6 +996,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/module\/_comment.scss",
 		"outputAbbreviatedPath": "\/css\/_comment.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -921,6 +1012,23 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/module\/_event.scss",
 		"outputAbbreviatedPath": "\/css\/_event.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 0,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/sass\/module\/_finurlige_fakta.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 0,
+		"decimalPrecision": 5,
+		"fileType": 4,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/sass\/module\/_finurlige_fakta.scss",
+		"outputAbbreviatedPath": "\/css\/_finurlige_fakta.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -936,6 +1044,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/module\/_fulltext.scss",
 		"outputAbbreviatedPath": "\/css\/_fulltext.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -951,6 +1060,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/module\/_groups.scss",
 		"outputAbbreviatedPath": "\/css\/_groups.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -966,6 +1076,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/module\/_libraries.scss",
 		"outputAbbreviatedPath": "\/css\/_libraries.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -981,6 +1092,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/module\/_module.scss",
 		"outputAbbreviatedPath": "\/css\/_module.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -996,6 +1108,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/module\/_newmaterials.scss",
 		"outputAbbreviatedPath": "\/css\/_newmaterials.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -1011,6 +1124,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/module\/_news.scss",
 		"outputAbbreviatedPath": "\/css\/_news.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -1026,6 +1140,23 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/module\/_openinghours.scss",
 		"outputAbbreviatedPath": "\/css\/_openinghours.css",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0,
+		"outputStyle": 0,
+		"shouldRunAutoprefixer": 0,
+		"shouldRunBless": 0,
+		"useLibsass": 0
+		},
+	"\/sass\/module\/_page.scss": {
+		"createSourceMap": 0,
+		"debugStyle": 0,
+		"decimalPrecision": 5,
+		"fileType": 4,
+		"ignore": 1,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/sass\/module\/_page.scss",
+		"outputAbbreviatedPath": "\/css\/_page.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -1041,6 +1172,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/module\/_search.scss",
 		"outputAbbreviatedPath": "\/css\/_search.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -1056,6 +1188,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/module\/_staff.scss",
 		"outputAbbreviatedPath": "\/css\/_staff.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -1071,6 +1204,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/module\/_tabroll.scss",
 		"outputAbbreviatedPath": "\/css\/_tabroll.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -1086,6 +1220,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/sass\/module\/_user.scss",
 		"outputAbbreviatedPath": "\/css\/_user.css",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 0,
 		"shouldRunAutoprefixer": 0,
@@ -1097,17 +1232,19 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/scripts\/ddbasic.common.js",
-		"outputAbbreviatedPath": "\/scripts\/min\/ddbasic.common-ck.js",
+		"outputAbbreviatedPath": "\/scripts\/ddbasic.common.min.js",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
 	"\/scripts\/ddbasic.common.min.js": {
 		"fileType": 64,
-		"ignore": 0,
+		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/scripts\/ddbasic.common.min.js",
-		"outputAbbreviatedPath": "\/scripts\/min\/ddbasic.common.min-ck.js",
+		"outputAbbreviatedPath": "\/scripts\/ddbasic.common.min.min.js",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
@@ -1117,17 +1254,19 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/scripts\/ddbasic.facet.js",
-		"outputAbbreviatedPath": "\/scripts\/min\/ddbasic.facet-ck.js",
+		"outputAbbreviatedPath": "\/scripts\/ddbasic.facet.min.js",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
 	"\/scripts\/ddbasic.facet.min.js": {
 		"fileType": 64,
-		"ignore": 0,
+		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/scripts\/ddbasic.facet.min.js",
-		"outputAbbreviatedPath": "\/scripts\/min\/ddbasic.facet.min-ck.js",
+		"outputAbbreviatedPath": "\/scripts\/ddbasic.facet.min.min.js",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
@@ -1137,17 +1276,19 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/scripts\/ddbasic.search.js",
-		"outputAbbreviatedPath": "\/scripts\/min\/ddbasic.search-ck.js",
+		"outputAbbreviatedPath": "\/scripts\/ddbasic.search.min.js",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
 	"\/scripts\/ddbasic.search.min.js": {
 		"fileType": 64,
-		"ignore": 0,
+		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/scripts\/ddbasic.search.min.js",
-		"outputAbbreviatedPath": "\/scripts\/min\/ddbasic.search.min-ck.js",
+		"outputAbbreviatedPath": "\/scripts\/ddbasic.search.min.min.js",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
@@ -1157,17 +1298,19 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/scripts\/ddbasic.topbar.menu.js",
-		"outputAbbreviatedPath": "\/scripts\/min\/ddbasic.topbar.menu-ck.js",
+		"outputAbbreviatedPath": "\/scripts\/ddbasic.topbar.menu.min.js",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
 		},
 	"\/scripts\/ddbasic.topbar.menu.min.js": {
 		"fileType": 64,
-		"ignore": 0,
+		"ignore": 1,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/scripts\/ddbasic.topbar.menu.min.js",
-		"outputAbbreviatedPath": "\/scripts\/min\/ddbasic.topbar.menu.min-ck.js",
+		"outputAbbreviatedPath": "\/scripts\/ddbasic.topbar.menu.min.min.js",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
@@ -1177,7 +1320,8 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/scripts\/equalize.min.js",
-		"outputAbbreviatedPath": "\/scripts\/min\/equalize.min-ck.js",
+		"outputAbbreviatedPath": "\/scripts\/equalize.min.min.js",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
@@ -1187,7 +1331,8 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/scripts\/html5shiv.js",
-		"outputAbbreviatedPath": "\/scripts\/min\/html5shiv-ck.js",
+		"outputAbbreviatedPath": "\/scripts\/html5shiv.min.js",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
@@ -1197,7 +1342,8 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/scripts\/jquery.cookie.js",
-		"outputAbbreviatedPath": "\/scripts\/min\/jquery.cookie-ck.js",
+		"outputAbbreviatedPath": "\/scripts\/jquery.cookie.min.js",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
@@ -1207,7 +1353,8 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/scripts\/jquery.scrollto.js",
-		"outputAbbreviatedPath": "\/scripts\/min\/jquery.scrollto-ck.js",
+		"outputAbbreviatedPath": "\/scripts\/jquery.scrollto.min.js",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
@@ -1217,7 +1364,8 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/scripts\/respond.min.js",
-		"outputAbbreviatedPath": "\/scripts\/min\/respond.min-ck.js",
+		"outputAbbreviatedPath": "\/scripts\/respond.min.min.js",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
@@ -1227,7 +1375,8 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/scripts\/respond.src.js",
-		"outputAbbreviatedPath": "\/scripts\/min\/respond.src-ck.js",
+		"outputAbbreviatedPath": "\/scripts\/respond.src.min.js",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
@@ -1237,7 +1386,8 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/scripts\/scalefix.js",
-		"outputAbbreviatedPath": "\/scripts\/min\/scalefix-ck.js",
+		"outputAbbreviatedPath": "\/scripts\/scalefix.min.js",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
@@ -1247,7 +1397,8 @@
 		"ignore": 0,
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/scripts\/selectivizr-min.js",
-		"outputAbbreviatedPath": "\/scripts\/min\/selectivizr-min-ck.js",
+		"outputAbbreviatedPath": "\/scripts\/selectivizr-min.min.js",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0,
 		"outputStyle": 1,
 		"syntaxCheckerStyle": 1
@@ -1258,6 +1409,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/template.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/campaigns\/ding-campaign--image.tpl.php": {
@@ -1266,6 +1418,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/campaigns\/ding-campaign--image.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/comment\/comment-wrapper.tpl.php": {
@@ -1274,6 +1427,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/comment\/comment-wrapper.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/date\/date-display-single.tpl.php": {
@@ -1282,6 +1436,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/date\/date-display-single.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/ding-wayf-login.tpl.php": {
@@ -1290,6 +1445,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/ding-wayf-login.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/fields\/field--ddbasic-field-ding-event-category.tpl.php": {
@@ -1298,6 +1454,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/fields\/field--ddbasic-field-ding-event-category.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/fields\/field--ddbasic-field-ding-event-price.tpl.php": {
@@ -1306,6 +1463,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/fields\/field--ddbasic-field-ding-event-price.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/fields\/field--ddbasic-field-ding-news-category.tpl.php": {
@@ -1314,6 +1472,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/fields\/field--ddbasic-field-ding-news-category.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/fields\/field--ddbasic-tags--full.tpl.php": {
@@ -1322,6 +1481,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/fields\/field--ddbasic-tags--full.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/fields\/field--ddbasic-tags--search-result.tpl.php": {
@@ -1330,6 +1490,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/fields\/field--ddbasic-tags--search-result.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/fields\/field--ding-staff--content-field.tpl.php": {
@@ -1338,6 +1499,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/fields\/field--ding-staff--content-field.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/fields\/field--field-alma-interest-period.tpl.php": {
@@ -1346,6 +1508,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/fields\/field--field-alma-interest-period.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/fields\/field--field-ding-body.tpl.php": {
@@ -1354,6 +1517,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/fields\/field--field-ding-body.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/fields\/field--og-group-ref--ding-event.tpl.php": {
@@ -1362,6 +1526,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/fields\/field--og-group-ref--ding-event.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/fields\/field--og-group-ref.tpl.php": {
@@ -1370,6 +1535,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/fields\/field--og-group-ref.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/fields\/field--ting-abstract--ting-object.tpl.php": {
@@ -1378,6 +1544,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/fields\/field--ting-abstract--ting-object.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/fields\/field--ting-author--ting-object.tpl.php": {
@@ -1386,6 +1553,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/fields\/field--ting-author--ting-object.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/fields\/field--ting-collection-types--search-result.tpl.php": {
@@ -1394,6 +1562,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/fields\/field--ting-collection-types--search-result.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/fields\/field--ting-cover--ting-object.tpl.php": {
@@ -1402,6 +1571,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/fields\/field--ting-cover--ting-object.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/fields\/field--ting-primary-object.tpl.php": {
@@ -1410,6 +1580,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/fields\/field--ting-primary-object.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/fields\/field--ting-reference-reverse--ting-object.tpl.php": {
@@ -1418,6 +1589,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/fields\/field--ting-reference-reverse--ting-object.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/fields\/field--ting-subjects--ting-object.tpl.php": {
@@ -1426,6 +1598,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/fields\/field--ting-subjects--ting-object.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/fields\/field--ting-title--ting-object.tpl.php": {
@@ -1434,6 +1607,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/fields\/field--ting-title--ting-object.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/fields\/field.tpl.php": {
@@ -1442,6 +1616,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/fields\/field.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/html.tpl.php": {
@@ -1450,6 +1625,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/html.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/maintenance-page--offline.tpl.php": {
@@ -1458,6 +1634,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/maintenance-page--offline.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/maintenance-page.tpl.php": {
@@ -1466,6 +1643,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/maintenance-page.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/menu-block-wrapper.tpl.php": {
@@ -1474,6 +1652,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/menu-block-wrapper.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/menu\/panels-pane--menu-block--1.tpl.php": {
@@ -1482,6 +1661,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/menu\/panels-pane--menu-block--1.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/menu\/panels-pane--menu-block--2.tpl.php": {
@@ -1490,6 +1670,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/menu\/panels-pane--menu-block--2.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/menu\/panels-pane--sub-menu--mobile.tpl.php": {
@@ -1498,6 +1679,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/menu\/panels-pane--sub-menu--mobile.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/menu\/panels-pane--sub-menu.tpl.php": {
@@ -1506,6 +1688,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/menu\/panels-pane--sub-menu.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/menu\/panels-pane--user-menu.tpl.php": {
@@ -1514,6 +1697,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/menu\/panels-pane--user-menu.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/node--ding-event.tpl.php": {
@@ -1522,6 +1706,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/node--ding-event.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/node--ding-library.tpl.php": {
@@ -1530,6 +1715,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/node--ding-library.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/node--ding-news.tpl.php": {
@@ -1538,6 +1724,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/node--ding-news.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/node--ding-page.tpl.php": {
@@ -1546,6 +1733,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/node--ding-page.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/node--view-mode--search-result.tpl.php": {
@@ -1554,6 +1742,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/node--view-mode--search-result.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/node.tpl.php": {
@@ -1562,6 +1751,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/node.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/opening-hours\/opening_hours_week.tpl.php": {
@@ -1570,6 +1760,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/opening-hours\/opening_hours_week.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/panels\/pane-header.tpl.php": {
@@ -1578,6 +1769,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/panels\/pane-header.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/panels\/panels-pane--block--ding-wayf-login.tpl.php": {
@@ -1586,6 +1778,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/panels\/panels-pane--block--ding-wayf-login.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/panels\/panels-pane--block--menu-block-ding-menu-sidebar.tpl.php": {
@@ -1594,6 +1787,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/panels\/panels-pane--block--menu-block-ding-menu-sidebar.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/panels\/panels-pane--ding-user-frontend--ding--username.tpl.php": {
@@ -1602,6 +1796,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/panels\/panels-pane--ding-user-frontend--ding--username.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/panels\/panels-pane--left-sidebar--taxonomy-menu.tpl.php": {
@@ -1610,6 +1805,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/panels\/panels-pane--left-sidebar--taxonomy-menu.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/panels\/panels-pane--search--form.tpl.php": {
@@ -1618,6 +1814,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/panels\/panels-pane--search--form.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/panels\/panels-pane--system--user--menu.tpl.php": {
@@ -1626,6 +1823,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/panels\/panels-pane--system--user--menu.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/panels\/panels-pane--user--login.tpl.php": {
@@ -1634,6 +1832,16 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/panels\/panels-pane--user--login.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/templates\/panels\/panels-pane--user-profile-staff.tpl.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/templates\/panels\/panels-pane--user-profile-staff.tpl.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/panels\/panels-pane.tpl.php": {
@@ -1642,6 +1850,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/panels\/panels-pane.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/place2book_ticketsinfo.tpl.php": {
@@ -1650,6 +1859,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/place2book_ticketsinfo.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/profile2--ding-staff-profile.tpl.php": {
@@ -1658,6 +1868,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/profile2--ding-staff-profile.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/profile2.tpl.php": {
@@ -1666,6 +1877,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/profile2.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/search-block-form.tpl.php": {
@@ -1674,6 +1886,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/search-block-form.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/search-result.tpl.php": {
@@ -1682,6 +1895,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/search-result.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/ting-search-results.tpl.php": {
@@ -1690,6 +1904,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/ting-search-results.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/user-picture.tpl.php": {
@@ -1698,6 +1913,16 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/user-picture.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
+		"outputPathIsSetByUser": 0
+		},
+	"\/templates\/user-profile-category.tpl.php": {
+		"fileType": 8192,
+		"ignore": 0,
+		"ignoreWasSetByUser": 0,
+		"inputAbbreviatedPath": "\/templates\/user-profile-category.tpl.php",
+		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/views\/ding_event\/frontpage-list\/views-view-fields--ding-event--ding-event-frontpage-list.tpl.php": {
@@ -1706,6 +1931,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/views\/ding_event\/frontpage-list\/views-view-fields--ding-event--ding-event-frontpage-list.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/views\/ding_event\/frontpage-list\/views-view-list--ding-event--ding-event-list-frontpage.tpl.php": {
@@ -1714,6 +1940,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/views\/ding_event\/frontpage-list\/views-view-list--ding-event--ding-event-list-frontpage.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/views\/ding_event\/group-list\/views-view-fields--ding-event--ding-event-groups-list-group.tpl.php": {
@@ -1722,6 +1949,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/views\/ding_event\/group-list\/views-view-fields--ding-event--ding-event-groups-list-group.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/views\/ding_event\/group-list\/views-view-fields--ding-event--ding-event-groups-list.tpl.php": {
@@ -1730,6 +1958,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/views\/ding_event\/group-list\/views-view-fields--ding-event--ding-event-groups-list.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/views\/ding_event\/group-list\/views-view-list--ding-event--ding-event-groups-list-group.tpl.php": {
@@ -1738,6 +1967,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/views\/ding_event\/group-list\/views-view-list--ding-event--ding-event-groups-list-group.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/views\/ding_event\/group-list\/views-view-list--ding-event--ding-event-groups-list.tpl.php": {
@@ -1746,6 +1976,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/views\/ding_event\/group-list\/views-view-list--ding-event--ding-event-groups-list.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/views\/ding_event\/library-list\/views-view-fields--ding-event--ding-event-library-list.tpl.php": {
@@ -1754,6 +1985,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/views\/ding_event\/library-list\/views-view-fields--ding-event--ding-event-library-list.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/views\/ding_event\/library-list\/views-view-list--ding-event--ding-event-library-list.tpl.php": {
@@ -1762,6 +1994,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/views\/ding_event\/library-list\/views-view-list--ding-event--ding-event-library-list.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/views\/ding_event\/list\/views-view-fields--ding-event--ding-event-list.tpl.php": {
@@ -1770,6 +2003,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/views\/ding_event\/list\/views-view-fields--ding-event--ding-event-list.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/views\/ding_event\/list\/views-view-list--ding-event--ding-event-list.tpl.php": {
@@ -1778,6 +2012,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/views\/ding_event\/list\/views-view-list--ding-event--ding-event-list.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/views\/ding_event\/list_library\/views-view-fields--ding-event--ding-event-list-library.tpl.php": {
@@ -1786,6 +2021,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/views\/ding_event\/list_library\/views-view-fields--ding-event--ding-event-list-library.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/views\/ding_event\/list_library\/views-view-list--ding-event--ding-event-list-library.tpl.php": {
@@ -1794,6 +2030,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/views\/ding_event\/list_library\/views-view-list--ding-event--ding-event-list-library.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/views\/ding_event\/same-tag\/views-view-list--ding-event--ding-event-list-same-tag.tpl.php": {
@@ -1802,6 +2039,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/views\/ding_event\/same-tag\/views-view-list--ding-event--ding-event-list-same-tag.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/views\/ding_event\/views-view-field--ding-event--field-ding-event-price.tpl.php": {
@@ -1810,6 +2048,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/views\/ding_event\/views-view-field--ding-event--field-ding-event-price.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/views\/ding_event\/views-view-list--ding-event.tpl.php": {
@@ -1818,6 +2057,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/views\/ding_event\/views-view-list--ding-event.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/views\/ding_news\/views-view-field--ding-news--name.tpl.php": {
@@ -1826,6 +2066,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/views\/ding_news\/views-view-field--ding-news--name.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/views\/ding_news\/views-view-fields--ding-news.tpl.php": {
@@ -1834,6 +2075,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/views\/ding_news\/views-view-fields--ding-news.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/views\/ding_news\/views-view-list--ding-news.tpl.php": {
@@ -1842,6 +2084,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/views\/ding_news\/views-view-list--ding-news.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/views\/ding_node_search\/views-view--ding-node-search.tpl.php": {
@@ -1850,6 +2093,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/views\/ding_node_search\/views-view--ding-node-search.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/views\/ding_staff\/views-view--ding-staff--panel-pane.tpl.php": {
@@ -1858,6 +2102,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/views\/ding_staff\/views-view--ding-staff--panel-pane.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/views\/ding_staff\/views-view-fields--ding-staff--ding-staff-library-departments.tpl.php": {
@@ -1866,6 +2111,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/views\/ding_staff\/views-view-fields--ding-staff--ding-staff-library-departments.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/views\/ding_staff\/views-view-fields--ding-staff--ding-staff-list-all.tpl.php": {
@@ -1874,6 +2120,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/views\/ding_staff\/views-view-fields--ding-staff--ding-staff-list-all.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/views\/ding_staff\/views-view-list--ding-staff--ding-staff-library-departments.tpl.php": {
@@ -1882,6 +2129,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/views\/ding_staff\/views-view-list--ding-staff--ding-staff-library-departments.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/templates\/views\/ding_staff\/views-view-list--ding-staff--ding-staff-list-all.tpl.php": {
@@ -1890,6 +2138,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/templates\/views\/ding_staff\/views-view-list--ding-staff--ding-staff-list-all.tpl.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		},
 	"\/theme-settings.php": {
@@ -1898,6 +2147,7 @@
 		"ignoreWasSetByUser": 0,
 		"inputAbbreviatedPath": "\/theme-settings.php",
 		"outputAbbreviatedPath": "No Output Path",
+		"outputPathIsOutsideProject": 0,
 		"outputPathIsSetByUser": 0
 		}
 	},
@@ -1909,7 +2159,7 @@
 "projectAttributes": {
 	"bowerAbbreviatedPath": "",
 	"displayValue": "ddbasic",
-	"displayValueWasSetByUser": 0,
+	"displayValueWasSetByUser": 1,
 	"iconImageName": "harddrive_brown"
 	},
 "projectSettings": {
@@ -1919,6 +2169,8 @@
 	"autoprefixerBrowserString": "> 1%, last 2 versions, ff 17, opera 12.1",
 	"autoSyncProjectSettingsFile": 1,
 	"browserRefreshDelay": 0,
+	"coffeeAutoOutputPathEnabled": 1,
+	"coffeeAutoOutputPathFilenamePattern": "*.js",
 	"coffeeAutoOutputPathRelativePath": "",
 	"coffeeAutoOutputPathReplace1": "",
 	"coffeeAutoOutputPathReplace2": "",
@@ -1969,12 +2221,16 @@
 			"active": 0,
 			"flagValue": 3
 			},
-		"no-unnecessary_fat_arrows": {
+		"no_backticks": {
 			"active": 1,
 			"flagValue": -1
 			},
-		"no_backticks": {
+		"no_debugger": {
 			"active": 1,
+			"flagValue": -1
+			},
+		"no_empty_functions": {
+			"active": 0,
 			"flagValue": -1
 			},
 		"no_empty_param_list": {
@@ -1986,6 +2242,10 @@
 			"flagValue": -1
 			},
 		"no_implicit_parens": {
+			"active": 0,
+			"flagValue": -1
+			},
+		"no_interpolation_in_single_quotes": {
 			"active": 0,
 			"flagValue": -1
 			},
@@ -2013,6 +2273,14 @@
 			"active": 1,
 			"flagValue": -1
 			},
+		"no_unnecessary_double_quotes": {
+			"active": 0,
+			"flagValue": -1
+			},
+		"no_unnecessary_fat_arrows": {
+			"active": 1,
+			"flagValue": -1
+			},
 		"non_empty_constructor_needs_parens": {
 			"active": 0,
 			"flagValue": -1
@@ -2028,6 +2296,8 @@
 	"externalServerAddress": "http:\/\/localhost:8888",
 	"externalServerPreviewPathAddition": "",
 	"genericWebpageFileExtensionsString": "html, htm, shtml, shtm, xhtml, php, jsp, asp, aspx, erb, ctp",
+	"hamlAutoOutputPathEnabled": 1,
+	"hamlAutoOutputPathFilenamePattern": "*.html",
 	"hamlAutoOutputPathRelativePath": "",
 	"hamlAutoOutputPathReplace1": "",
 	"hamlAutoOutputPathReplace2": "",
@@ -2039,19 +2309,22 @@
 	"hamlUseCDATA": 0,
 	"hamlUseDoubleQuotes": 0,
 	"hamlUseUnixNewlines": 0,
+	"jadeAutoOutputPathEnabled": 1,
+	"jadeAutoOutputPathFilenamePattern": "*.html",
 	"jadeAutoOutputPathRelativePath": "",
 	"jadeAutoOutputPathReplace1": "",
 	"jadeAutoOutputPathReplace2": "",
 	"jadeAutoOutputPathStyle": 0,
 	"jadeCompileDebug": 1,
 	"jadeOutputStyle": 0,
+	"javascriptAutoOutputPathEnabled": 1,
+	"javascriptAutoOutputPathFilenamePattern": "*-min.js",
 	"javascriptAutoOutputPathRelativePath": "\/min",
 	"javascriptAutoOutputPathReplace1": "",
 	"javascriptAutoOutputPathReplace2": "",
-	"javascriptAutoOutputPathStyle": 2,
+	"javascriptAutoOutputPathStyle": 0,
 	"javascriptCreateSourceMap": 1,
 	"javascriptOutputStyle": 1,
-	"javascriptOutputSuffix": "-ck",
 	"javascriptSyntaxCheckerStyle": 1,
 	"jsCheckerReservedNamesString": "",
 	"jsHintFlags2": {
@@ -2128,10 +2401,6 @@
 			"flagValue": -1
 			},
 		"funcscope": {
-			"active": 0,
-			"flagValue": -1
-			},
-		"gcl": {
 			"active": 0,
 			"flagValue": -1
 			},
@@ -2247,10 +2516,6 @@
 			"active": 0,
 			"flagValue": -1
 			},
-		"onevar": {
-			"active": 0,
-			"flagValue": -1
-			},
 		"phantom": {
 			"active": 0,
 			"flagValue": -1
@@ -2287,10 +2552,6 @@
 			"active": 0,
 			"flagValue": -1
 			},
-		"smarttabs": {
-			"active": 0,
-			"flagValue": -1
-			},
 		"strict": {
 			"active": 0,
 			"flagValue": -1
@@ -2303,10 +2564,6 @@
 			"active": 0,
 			"flagValue": -1
 			},
-		"trailing": {
-			"active": 1,
-			"flagValue": -1
-			},
 		"typed": {
 			"active": 0,
 			"flagValue": -1
@@ -2317,10 +2574,6 @@
 			},
 		"unused": {
 			"active": 1,
-			"flagValue": -1
-			},
-		"white": {
-			"active": 0,
 			"flagValue": -1
 			},
 		"withstmt": {
@@ -2446,11 +2699,15 @@
 			"flagValue": -1
 			}
 		},
+	"kitAutoOutputPathEnabled": 1,
+	"kitAutoOutputPathFilenamePattern": "*.html",
 	"kitAutoOutputPathRelativePath": "",
 	"kitAutoOutputPathReplace1": "",
 	"kitAutoOutputPathReplace2": "",
 	"kitAutoOutputPathStyle": 0,
 	"lessAllowInsecureImports": 0,
+	"lessAutoOutputPathEnabled": 1,
+	"lessAutoOutputPathFilenamePattern": "*.css",
 	"lessAutoOutputPathRelativePath": "..\/css",
 	"lessAutoOutputPathReplace1": "less",
 	"lessAutoOutputPathReplace2": "css",
@@ -2463,6 +2720,8 @@
 	"lessStrictImports": 0,
 	"lessStrictMath": 0,
 	"lessStrictUnits": 0,
+	"markdownAutoOutputPathEnabled": 1,
+	"markdownAutoOutputPathFilenamePattern": "*.html",
 	"markdownAutoOutputPathRelativePath": "",
 	"markdownAutoOutputPathReplace1": "",
 	"markdownAutoOutputPathReplace2": "",
@@ -2471,6 +2730,8 @@
 	"markdownEnableSmartyPants": 1,
 	"markdownExpandTabs": 1,
 	"reloadFileURLs": 0,
+	"sassAutoOutputPathEnabled": 1,
+	"sassAutoOutputPathFilenamePattern": "*.css",
 	"sassAutoOutputPathRelativePath": "..\/css",
 	"sassAutoOutputPathReplace1": "sass",
 	"sassAutoOutputPathReplace2": "css",
@@ -2483,6 +2744,8 @@
 	"shouldRunAutoprefixer": 0,
 	"shouldRunBless": 0,
 	"skippedItemsString": ".svn, .git, .hg, log, _logs, _cache, cache, logs",
+	"slimAutoOutputPathEnabled": 1,
+	"slimAutoOutputPathFilenamePattern": "*.html",
 	"slimAutoOutputPathRelativePath": "",
 	"slimAutoOutputPathReplace1": "",
 	"slimAutoOutputPathReplace2": "",
@@ -2491,6 +2754,8 @@
 	"slimLogicless": 0,
 	"slimOutputStyle": 1,
 	"slimRailsCompatible": 0,
+	"stylusAutoOutputPathEnabled": 1,
+	"stylusAutoOutputPathFilenamePattern": "*.css",
 	"stylusAutoOutputPathRelativePath": "..\/css",
 	"stylusAutoOutputPathReplace1": "stylus",
 	"stylusAutoOutputPathReplace2": "css",
@@ -2499,6 +2764,8 @@
 	"stylusImportCSS": 0,
 	"stylusOutputStyle": 0,
 	"stylusResolveRelativeURLS": 0,
+	"typescriptAutoOutputPathEnabled": 1,
+	"typescriptAutoOutputPathFilenamePattern": "*.js",
 	"typescriptAutoOutputPathRelativePath": "\/js",
 	"typescriptAutoOutputPathReplace1": "",
 	"typescriptAutoOutputPathReplace2": "",

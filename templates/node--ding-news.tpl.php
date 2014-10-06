@@ -94,15 +94,15 @@
       <?php print render($content['field_ding_news_title_image']); ?>
     </div>
     <div class="super-heading">
-      <span class="news-category"><?php print render($content['field_ding_news_category']); ?></span>
+      <span class="news-category label"><?php print render($content['field_ding_news_category']); ?></span>
       <?php if (isset($content['og_group_ref']['#items'])) : ?>
-        <span class="library-ref"><?php print render($content['og_group_ref']); ?></span>
+        <span class="library-ref label"><?php print render($content['og_group_ref']); ?></span>
       <?php endif; ?>
       <?php if (isset($content['ding_news_groups_ref']['#items'])) : ?>
-        <span class="groups-ref"><?php print render($content['ding_news_groups_ref']); ?></span>
+        <span class="groups-ref label"><?php print render($content['ding_news_groups_ref']); ?></span>
       <?php endif; ?>
       <?php if (isset($content['field_ding_news_tags'])) : ?>
-        <span class="news-tags">
+        <span class="news-tags label">
             <?php print render($content['field_ding_news_tags']); ?>
           </span>
       <?php endif; ?>

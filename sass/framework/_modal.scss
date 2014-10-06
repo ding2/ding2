@@ -15,8 +15,8 @@ $modal-text-color:                $black;
 $modal-background-color:          $black;
 $modal-background-transparency:   .25;
 $modal-min-width:                 450px;
+$modal-max-width:                 450px;
 $modal-border-radius:             12px;
-
 
 .ui-widget-overlay {
   @include opacity(1);
@@ -28,8 +28,9 @@ $modal-border-radius:             12px;
   @include box-shadow(rgba(black, 0.35) 0 0 10px);
   @include border-radius($button-border-radius);
 
-  background: $blue;
+  background: $dialog-background;
   min-width: $modal-min-width;
+  max-width: $modal-max-width;
 
   /* Media queries */
   @include small-medium() {
@@ -42,12 +43,12 @@ $modal-border-radius:             12px;
 .ui-dialog-title {
   @extend .page-title;
   
-  color: $modal-text-color;
+  color: $dialog-text;
 }
 
 
 .ui-widget-content {
-  color: $modal-text-color;
+  color: $dialog-text;
   padding: 0;
 }
 
@@ -61,6 +62,10 @@ $modal-border-radius:             12px;
 
   padding: $large-spacing;
 
+  &:focus {
+    outline: none;
+  }
+
   .ui-dialog-titlebar {
     .ui-dialog-titlebar-close {
       float: right;
@@ -68,11 +73,14 @@ $modal-border-radius:             12px;
       padding: 0;
       top: $medium-spacing;
       width: auto;
+      background: none;
+      border: none;
 
       .ui-icon {
         @include font-bold();
         @extend .icon-remove;
 
+        color: $dialog-text;
         background: none;
         height: 24px;
         text-indent: 0;
@@ -81,7 +89,7 @@ $modal-border-radius:             12px;
         &:hover {
           background: none;
           border: 0;
-          color: $white;
+          color: $dialog-text;
         }
       }
 
@@ -94,14 +102,18 @@ $modal-border-radius:             12px;
       &:link,
       &:visited,
       &:active {
-        color: $modal-text-color;
+        color: $dialog-text;
         text-decoration: none;
       }
 
       &:hover {
-        color: $modal-text-color;
+        color: $dialog-text;
         text-decoration: none;
       }
+    }
+
+    .ui-dialog-title {
+      float: none;
     }
 
     .form-item {

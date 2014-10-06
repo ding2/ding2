@@ -405,11 +405,6 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
-
-.pane-ding-facetbrowser {
-  @extend .pane-ding-facetbrowser;
-}
-
 /* Responsive styling for facet browser depending on context */
 .primary-content {
   .pane-ding-facetbrowser {
@@ -444,6 +439,9 @@ input#edit-search-block-form--2.spinner {
 
   .subject {
     @extend .label;
+
+    font-size: 14px;
+    white-space: normal;
   }
 }
 

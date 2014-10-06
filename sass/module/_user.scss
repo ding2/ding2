@@ -122,7 +122,7 @@
 
     &:before {
       left: 7px;
-      font-size: $font-size-medium;
+      font-size: 16px;
     }
   }
 
@@ -147,6 +147,10 @@
   .action-button {
     display: inline-block;
     margin-right: $large-spacing;
+  }
+
+  .reserve-button {
+    @extend %button-action;
   }
 
   .delete-reservation,

@@ -85,7 +85,6 @@
  *   field_address or group_audience,
  *   as relevant for the event node
  * - $ddbasic_byline: outputs byline to be used before $name
- * - $ddbasic_place2book_tickets: flag for field_place2book_tickets
  *
  * @see template_preprocess()
  * @see template_preprocess_node()
@@ -131,8 +130,6 @@
       hide($content['og_group_ref']);
       hide($content['ding_event_groups_ref']);
 
-      // Field provided by optional module ding_place2book
-      hide($content['field_place2book_tickets']);
       hide($content['field_ding_event_date']);
       hide($content['field_ding_event_location']);
       hide($content['field_ding_event_target']);
@@ -151,15 +148,15 @@
 
   <footer class="event-footer">
     <section class="event-tags">
-      <span class="event-category"><?php print render($content['field_ding_event_category']); ?></span>
+      <span class="event-category label"><?php print render($content['field_ding_event_category']); ?></span>
       <?php if (isset($content['field_ding_event_tags'])) : ?>
-        <span class="event-tags"><?php print render($content['field_ding_event_tags']); ?></span>
+        <span class="event-tags label"><?php print render($content['field_ding_event_tags']); ?></span>
       <?php endif; ?>
       <?php if (isset($content['og_group_ref']['#items'])) : ?>
         <span class="library-ref label label-info"><?php print render($content['og_group_ref']); ?></span>
       <?php endif; ?>
       <?php if (isset($content['ding_event_groups_ref']['#items'])) : ?>
-        <span class="groups-ref"><?php print render($content['ding_event_groups_ref']); ?></span>
+        <span class="groups-ref label"><?php print render($content['ding_event_groups_ref']); ?></span>
       <?php endif; ?>
     </section>
 

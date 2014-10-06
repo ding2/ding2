@@ -77,8 +77,8 @@ body {
 
 .logo {
   img {
-    height: 70px;
     margin-top: 10px;
+    max-height: 70px;
   }
 }
 
@@ -135,7 +135,7 @@ body {
 }
 
 .logo {
-  @include zen-grid-item(4, 1);
+  @include zen-grid-item(5, 1);
 }
 
 
@@ -191,7 +191,7 @@ body {
 
   .attachments-wrapper {
     @include zen-grid-container;
-    @include zen-clear();
+    @include zen-clear(both);
 
     margin-bottom: $large-spacing;
   }
@@ -200,7 +200,7 @@ body {
   @include small-medium() {
     .primary-content,
     .secondary-content,
-    .tertiary-content {
+    .tertiary-content, {
       @include zen-grid-item(12, 1);
       @include zen-clear();
     }
