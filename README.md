@@ -91,5 +91,5 @@ Version information
 
 Version-specific information can be seen in connection with the available downloads (tagged versions) at:
 
-[https://github.com/vejlebib/ding_place2book/tags](https://github.com/vejlebib/ding_place2book/tags)
+https://github.com/ding2/ding_place2book/tags
 
