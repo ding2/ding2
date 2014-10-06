@@ -344,14 +344,22 @@ function bpi_form_node_admin_content_alter(&$form, &$form_state) {
   $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-admin.styles.css';
   drupal_add_library('system', 'drupal.ajax');
 
+  // Figure out where our node information is.
+  if (isset($form['admin']['nodes']['#rows'])) {
+    $rows = &$form['admin']['nodes']['#rows'];
+  }
+  else {
+    $rows = &$form['admin']['nodes']['#options'];
+  }
+
   // Mark BPI nodes.
   $nodes_to_mark = array();
-  $nodes_in_table = array_keys($form['admin']['nodes']['#options']);
+  $nodes_in_table = array_keys($rows);
   $bpi_nodes = bpi_get_bpi_nodes($nodes_in_table);
   if (!empty($nodes_in_table)) {
     $nodes_to_mark = array_keys($bpi_nodes);
 
-    foreach ($form['admin']['nodes']['#options'] as $node_id => &$row) {
+    foreach ($rows as $node_id => &$row) {
       if (in_array($node_id, $nodes_to_mark)) {
         $row['title']['data']['#suffix'] .= '<sup class="bpi-marker">BPI</sup>';
       }
@@ -413,7 +421,7 @@ function bpi_form_node_admin_content_alter(&$form, &$form_state) {
   unset($form['admin']['nodes']['#header']['operations']);
   $form['admin']['nodes']['#header']['operations'] = $tmp;
 
-  foreach ($form['admin']['nodes']['#options'] as $key => &$row) {
+  foreach ($rows as $key => &$row) {
     $row['bpi_timestamp'] = '';
     if (in_array($key, $nodes_to_mark)) {
       $row['bpi_timestamp'] = format_date($bpi_nodes[$key]->timestamp, 'short');
