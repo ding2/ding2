@@ -1,0 +1,12 @@
+<?php
+/**
+ * @file
+ * Handles update functions for the module.
+ */
+
+/**
+ * Rebuild permissions.
+ */
+function ding_permissions_update_7000() {
+  secure_permissions_rebuild();
+}

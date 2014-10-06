@@ -3,6 +3,7 @@ api = 2
 
 ; Projects
 
+; Patched with "Secure Permissions fails with features and multilingual"
 projects[secure_permissions][type] = "module"
 projects[secure_permissions][subdir] = "contrib"
 projects[secure_permissions][download][type] = "git"
