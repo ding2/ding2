@@ -44,6 +44,8 @@ function ding_loan_loans_content_type_render($subtype, $conf, $panel_args, $cont
 
     // Add the pre-load entity to each loan, if the entity exists.
     foreach ($loans as $id => &$item) {
+      // Accessing the entity ref. will load the entity from the data well. So
+      // this is intentional not assigned to any thing.
       $item->entity;
     }
 
