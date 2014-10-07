@@ -118,3 +118,19 @@ function ding_base_update_7001() {
   // and field formatters.
   ding_base_install();
 }
+
+/** Update locally stored color palette with settings from theme
+ *
+ */
+function ding_base_update_7002() {
+  $theme = variable_get('theme_default', FALSE);
+  $info = color_get_info($theme);
+  // this is the color_palette from the theme
+  $palette = $info['schemes']['default']['colors'];
+  // this is the local color palette
+  $variable = variable_get('color_' . $theme . '_palette', $palette);
+  // merge
+  $variable += $palette;
+  // set variable
+  variable_set('color_' . $theme . '_palette', $variable);
+}
