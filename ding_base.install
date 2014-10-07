@@ -124,6 +124,9 @@ function ding_base_update_7001() {
  */
 function ding_base_update_7002() {
   $theme = variable_get('theme_default', FALSE);
+  if (empty($theme)) {
+    return;
+  }
   $info = color_get_info($theme);
   // this is the color_palette from the theme
   $palette = $info['schemes']['default']['colors'];
