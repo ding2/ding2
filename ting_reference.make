@@ -16,11 +16,11 @@ projects[virtual_field][version] = "1.2"
 
 projects[ding_entity][type] = "module"
 projects[ding_entity][download][type] = "git"
-projects[ding_entity][download][url] = "git@github.com:ding2tal/ding_entity.git"
-projects[ding_entity][download][branch] = "development"
+projects[ding_entity][download][url] = "git@github.com:ding2/ding_entity.git"
+projects[ding_entity][download][branch] = "master"
 
 projects[ting][type] = "module"
 projects[ting][download][type] = "git"
-projects[ting][download][url] = "git@github.com:ding2tal/ting.git"
-projects[ting][download][branch] = "development"
+projects[ting][download][url] = "git@github.com:ding2/ting.git"
+projects[ting][download][branch] = "master"
 
