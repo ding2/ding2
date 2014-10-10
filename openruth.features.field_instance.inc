@@ -94,7 +94,7 @@ function openruth_field_default_field_instances() {
     'entity_type' => 'profile2',
     'field_name' => 'field_openruth_interest_period',
     'label' => 'Interest period',
-    'required' => 1,
+    'required' => 0,
     'settings' => array(
       'text_processing' => 0,
       'user_register_form' => FALSE,
