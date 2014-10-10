@@ -124,7 +124,7 @@ function alma_field_default_field_instances() {
     'entity_type' => 'profile2',
     'field_name' => 'field_alma_interest_period',
     'label' => 'Interest period',
-    'required' => 1,
+    'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
     ),
