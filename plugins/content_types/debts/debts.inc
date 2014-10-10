@@ -76,21 +76,24 @@ function ding_debt_debts_form($form, &$form_state, $debts, $has_invoiced_fees, $
       '#value' => $debts,
     );
 
-    $form['pay_selected'] = array(
-      '#type' => 'submit',
-      '#prefix' => '<div class="pay-button">',
-      '#value' => t('Pay selected debts'),
-      '#suffix' => '</div>',
-      '#submit' => array('ding_debt_debts_form_submit_pay_selected'),
-    );
+    $provider = _ding_provider_get_provider('payment');
+    if (!empty($provider)) {
+      $form['pay_selected'] = array(
+        '#type' => 'submit',
+        '#prefix' => '<div class="pay-button">',
+        '#value' => t('Pay selected debts'),
+        '#suffix' => '</div>',
+        '#submit' => array('ding_debt_debts_form_submit_pay_selected'),
+      );
 
-    $form['pay_all'] = array(
-      '#type' => 'submit',
-      '#prefix' => '<div class="pay-button">',
-      '#value' => t('Pay all debts'),
-      '#suffix' => '</div>',
-      '#submit' => array('ding_debt_debts_form_submit_pay_all'),
-    );
+      $form['pay_all'] = array(
+        '#type' => 'submit',
+        '#prefix' => '<div class="pay-button">',
+        '#value' => t('Pay all debts'),
+        '#suffix' => '</div>',
+        '#submit' => array('ding_debt_debts_form_submit_pay_all'),
+      );
+    }
   }
 
   return $form;
