@@ -161,7 +161,7 @@ function openruth_reservation_options($account, $default_value) {
 
     // Get values.
     $preferred_branch = $wrapper->field_openruth_preferred_branch->value();
-    $interest_period = $wrapper->field_openruth_interest_period->value();
+    $interest_period = (variable_get('openruth_default_interest_period',FALSE)) ? variable_get('openruth_default_interest_period') : $wrapper->field_openruth_interest_period->value();
   }
 
   // Set default value in the selection box if given else use preferred_branch.
