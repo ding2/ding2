@@ -433,13 +433,20 @@ function _openruth_user_status($creds = NULL, $reset = FALSE) {
  */
 function openruth_seek_reserved_item($faust_number) {
   global $user;
+
+  if (!function_exists('openruth_reservation_list')) {
+    include_once(drupal_get_path('module', 'openruth') . '/includes/openruth.reservation.inc');
+  }
+
   $orders = openruth_reservation_list($user);
   $item = FALSE;
 
   foreach ($orders as $order) {
-    if ($order->ding_entity_id == ding_provider_build_entity_id($faust_number)) {
-      $item = $order;
-      break;
+    foreach ($order as $reservation) {
+      if ($reservation->ding_entity_id == ding_provider_build_entity_id($faust_number)) {
+        $item = $reservation;
+        break 2;
+      }
     }
   }
 

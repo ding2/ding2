@@ -105,6 +105,7 @@ function openruth_field_default_field_bases() {
         0 => 'value',
       ),
     ),
+    'locked' => 0,
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
