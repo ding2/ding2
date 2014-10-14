@@ -9,4 +9,4 @@ dependencies[] = ding_base
 dependencies[] = ding_provider
 dependencies[] = ding_user
 dependencies[] = ding_popup
-dependencies[] = ding_dibs
+
