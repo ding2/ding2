@@ -33,7 +33,7 @@ function alma_reservation_options($account, $default_value = '') {
 
     // Get values.
     $preferred_branch = $wrapper->field_alma_preferred_branch->value();
-    $interest_period = $wrapper->field_alma_interest_period->value();
+    $interest_period = alma_reservation_default_interest_period($profile);
   }
 
   // Set default value in the selection box if given else use preferred_branch.
