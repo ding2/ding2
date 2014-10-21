@@ -10,8 +10,23 @@
  * Ensure that entity cache table is create for profile2 (ding users).
  */
 function ding_user_install() {
-  $sandbox = '';
-  ding_user_update_7005($sandbox);
+  ding_user_create_entity_cache_table();
+}
+
+/**
+ * Creates the entity cache table for profile2 entities.
+ *
+ * There is an issue in entity cache where the cache table is not always
+ * created for entity types that are not nodes. This fixes that issue for
+ * profile2 profiles (library users).
+ */
+function ding_user_create_entity_cache_table() {
+  // Create cache table if it doesn't exist.
+  if (!db_table_exists('cache_entity_profile2')) {
+    $schema = drupal_get_schema_unprocessed('system', 'cache');
+    $schema['description'] = 'Cache table used to store profile2 entity records.';
+    db_create_table('cache_entity_profile2', $schema);
+  }
 }
 
 /**
@@ -55,18 +70,9 @@ function ding_user_update_7004(&$sandbox) {
 
 /**
  * Create possibly missing Entity Cache table for profile2 entities.
- *
- * There is an issue in entity cache where the cache table is not always
- * created for entity types that are not nodes. This fixes that issue for
- * profile2 profiles (library users).
  */
 function ding_user_update_7005(&$sandbox) {
-  // Create cache table if it doesn't exist.
-  if (!db_table_exists('cache_entity_profile2')) {
-    $schema = drupal_get_schema_unprocessed('system', 'cache');
-    $schema['description'] = 'Cache table used to store profile2 entity records.';
-    db_create_table('cache_entity_profile2', $schema);
-  }
+  ding_user_create_entity_cache_table();
 }
 
 /**
