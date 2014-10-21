@@ -34,10 +34,11 @@ Drupal.ding_popup = {
     var self = this;
     if (this.dialogs[response.name] == undefined) {
       this.dialogs[response.name] = $('<div class="ding-popup-content"></div>').dialog({
-          'autoOpen': false,
-          'modal': true,
-          'closeText' : Drupal.t('close'),
-          'close': function(event, ui) {
+          autoOpen: false,
+          modal: true,
+          draggable: false,
+          closeText : Drupal.t('close'),
+          close: function(event, ui) {
             if (response['refresh'] || self.refresh === true) {
               // Ensure that the page is not reload, when the log in dialog is
               // closed.
@@ -51,6 +52,7 @@ Drupal.ding_popup = {
     }
     this.dialogs[response.name].dialog('option', {'title': response.title});
     this.dialogs[response.name].html(response.data);
+
     Drupal.attachBehaviors(this.dialogs[response.name]);
     this.dialogs[response.name].dialog('open');
   },
@@ -87,15 +89,12 @@ Drupal.ding_popup = {
   }
 };
 
-// Drupal.ding_popup = []
-
 /**
  * Command to create a popup.
  */
 Drupal.ajax.prototype.commands['ding_popup'] = function (ajax, response, status) {
   response['orig_ajax'] = ajax;
   Drupal.ding_popup.open(response);
-  return;
 };
 
 /**
@@ -103,7 +102,6 @@ Drupal.ajax.prototype.commands['ding_popup'] = function (ajax, response, status)
  */
 Drupal.ajax.prototype.commands['ding_popup_close'] = function (ajax, response, status) {
   Drupal.ding_popup.close(response);
-  return;
 };
 
 
