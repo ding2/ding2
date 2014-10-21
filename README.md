@@ -33,6 +33,20 @@ configuration options, such as cache clear, url alias and taxonomies. They have
 access to handle basic site configuration and are able to change the site basic
 behavior.
 
+## Local administrator
+This groups of user have premissions to make basic site configuration and the
+same access as the above groups. So this should only be given to trusted super
+users.
+
+## Provider
+Providers are the library users, which normally logges into the system using
+library card or CPR number an they are only allowed to view content not create
+new.
+
+## Staff
+This users are the library staff, which have limit premissions to edit there
+profile2 profile with basic information about there role at their library.
+
 ## Administrator
 This group of users have full access to all parts for the site and access to
 alter any configuration they want.
