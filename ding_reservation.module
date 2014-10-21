@@ -56,7 +56,7 @@ function ding_reservation_menu() {
     'page callback' => 'ding_reservation_reserve_ajax',
     'page arguments' => array(2),
     'delivery callback' => 'ajax_deliver',
-    'access arguments' => array('access content'),
+    'access arguments' => array('preform reservation'),
   );
 
   return $items;
@@ -68,6 +68,18 @@ function ding_reservation_menu() {
 function ding_reservation_access($account) {
   global $user;
   return $user->uid == $account->uid;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_reservation_permission() {
+  return array(
+    'preform reservation' => array(
+      'title' => t('Preform reservation'),
+      'description' => t('Perform reservation in the library system.'),
+    ),
+  );
 }
 
 /**
