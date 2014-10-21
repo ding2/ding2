@@ -9,7 +9,7 @@
  */
 function ding_staff_install() {
   // Make sure that entity cache table for profile2 has been created
-  // if entitycache is enabled.
+  // if entity cache is enabled.
   if (module_exists('entitycache') && !db_table_exists('cache_entity_profile2')) {
     $schema = drupal_get_schema_unprocessed('system', 'cache');
     $schema['description'] = 'Cache table used to store profile2 entity records.';
@@ -32,9 +32,9 @@ function ding_staff_enable() {
     $path['alias'] = 'personale';
     path_save($path);
   }
-  
+
   // Make sure that entity cache table for profile2 has been created
-  // if entitycache is enabled.
+  // if entity cache is enabled.
   if (module_exists('entitycache') && !db_table_exists('cache_entity_profile2')) {
     $schema = drupal_get_schema_unprocessed('system', 'cache');
     $schema['description'] = 'Cache table used to store profile2 entity records.';
