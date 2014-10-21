@@ -25,10 +25,22 @@ function ding_bookmark_menu() {
     'page callback' => 'ding_bookmark_add_ajax',
     'page arguments' => array(2),
     'delivery callback' => 'ajax_deliver',
-    'access arguments' => array('access content'),
+    'access arguments' => array('preform bookmark'),
   );
 
   return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_bookmark_permission() {
+  return array(
+    'preform bookmark' => array(
+      'title' => t('Preform bookmark'),
+      'description' => t('Perform bookmark of ting objects.'),
+    ),
+  );
 }
 
 /**
@@ -206,7 +218,7 @@ function ding_bookmark_ding_entity_buttons($type, $entity, $widget = 'default') 
  *
  * Bookmark ting object/entity with ajax callback.
  *
- * @param TingEntity
+ * @param TingEntity $entity
  *   Ting entity object.
  *
  * @return array
