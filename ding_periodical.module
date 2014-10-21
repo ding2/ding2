@@ -22,12 +22,43 @@ function ding_periodical_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  // Ajax link reservation callback (with local_id, volume and issue).
+  $items['ting/object/%ting_object/reserve/%/%/%'] = array(
+    'page callback' => 'ding_periodical_reserve_ajax',
+    'page arguments' => array(2, 4, 5, 6),
+    'delivery callback' => 'ajax_deliver',
+    'access arguments' => array('access content'),
+  );
+
   return $items;
 }
 
 /**
- * Callback function that load holdings information for a periodical and returns
- * the information as a HTML table in JSON.
+ * Ajax reservation callback.
+ *
+ * @param TingEntity $entity
+ *   Ting entity for the periodical.
+ * @param string $local_id
+ *   Local library id (faust) for the issue.
+ * @param string $volume
+ *   Volume number (for year books the year).
+ * @param string $issue
+ *   The issue in the volume to reserve.
+ *
+ * @return array
+ *   Render array with Ajax commands.
+ */
+function ding_periodical_reserve_ajax($entity, $local_id, $volume, $issue) {
+  $reservable = new DingPeriodicalReservable($local_id, $volume, $issue, $entity);
+
+  // Use ding reservation logic to create the reservation and ajax commands.
+  return ding_reservation_reserve_ajax($entity, $reservable);
+}
+
+/**
+ * Callback function that load holdings information for a periodical.
+ *
+ * The information returned is a HTML table JSON encoded.
  *
  * @param string $ding_entity_id
  *   Ding entity id for the periodical.
@@ -102,12 +133,31 @@ function theme_ding_periodical_issues($variables) {
       // Build table with holding information for the current volume.
       $holding_data = ding_periodical_build_table($availability);
 
-      // Check if the volume is reservable and add reservation form.
+      // Check if the volume is reservable and add reservation button.
       if (!empty($issue_id) && ding_periodical_is_reservable($issues[$key])) {
-        $reservation = new DingPeriodicalReservable($issue_id, $volume, $key, $variables['entity']);
-        $form = ding_provider_get_form('ding_reservation_reserve_form', $reservation, TRUE);
-        $form['#attributes']['class'] = array('reservable');
-        $holding_data .= render($form);
+        $path = array($issue_id, $volume, $key);
+        $button = array(
+          array(
+            '#theme' => 'link',
+            '#text' => t('Reserve'),
+            '#path' => 'ting/object/' . $variables['entity']->id . '/reserve/' . implode('/', $path),
+            '#options' => array(
+              'attributes' => array(
+                'class' => array(
+                  'action-button',
+                  'reserve-button',
+                  'reservable',
+                  'use-ajax',
+                ),
+                'id' => 'reservation-' . $issue_id,
+              ),
+              'html' => FALSE,
+            ),
+          ),
+        );
+
+        // @todo This should first be render in the template layer.
+        $holding_data .= drupal_render($button);
       }
 
       $holdings = array(
