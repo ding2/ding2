@@ -9,7 +9,7 @@ include_once 'ding_tabroll.features.inc';
 /**
  * Implements hook_theme().
  *
- * @see http://views-help.doc.logrus.com/help/views/api-default-views
+ * @see http://api.drupal.org/api/views/help!api-default-views.html/7
  */
 function ding_tabroll_theme($existing, $type, $theme, $path) {
   return array(

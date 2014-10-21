@@ -208,7 +208,7 @@ function ding_tabroll_field_default_field_instances() {
   t('Lead');
   t('Link');
   t('Link to content that the tab should go to when clicked.');
-  t('Short description displayed inside the tab in a overlay. ');
+  t('Short description displayed inside the tab in a overlay.');
 
   return $field_instances;
 }
