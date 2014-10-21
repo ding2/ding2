@@ -42,7 +42,7 @@ function ding_event_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'comment_ding_event';
-  $strongarm->value = '0';
+  $strongarm->value = '1';
   $export['comment_ding_event'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -162,30 +162,9 @@ function ding_event_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_ding_event_da_pattern';
-  $strongarm->value = 'arrangementer/[node:field_ding_event_category]/[node:title]';
-  $export['pathauto_node_ding_event_da_pattern'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_ding_event_en_pattern';
-  $strongarm->value = '';
-  $export['pathauto_node_ding_event_en_pattern'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'pathauto_node_ding_event_pattern';
   $strongarm->value = 'arrangementer/[node:field_ding_event_category]/[node:title]';
   $export['pathauto_node_ding_event_pattern'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'pathauto_node_ding_event_und_pattern';
-  $strongarm->value = 'arrangementer/[node:field_ding_event_category]/[node:title]';
-  $export['pathauto_node_ding_event_und_pattern'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -214,111 +193,6 @@ function ding_event_strongarm() {
   $strongarm->name = 'scheduler_unpublish_enable_ding_event';
   $strongarm->value = 1;
   $export['scheduler_unpublish_enable_ding_event'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'taxonomy_menu_display_descendants_event_category';
-  $strongarm->value = 0;
-  $export['taxonomy_menu_display_descendants_event_category'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'taxonomy_menu_display_num_event_category';
-  $strongarm->value = 0;
-  $export['taxonomy_menu_display_num_event_category'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'taxonomy_menu_end_all_event_category';
-  $strongarm->value = FALSE;
-  $export['taxonomy_menu_end_all_event_category'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'taxonomy_menu_expanded_event_category';
-  $strongarm->value = 0;
-  $export['taxonomy_menu_expanded_event_category'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'taxonomy_menu_flat_event_category';
-  $strongarm->value = 0;
-  $export['taxonomy_menu_flat_event_category'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'taxonomy_menu_hide_empty_terms_event_category';
-  $strongarm->value = 0;
-  $export['taxonomy_menu_hide_empty_terms_event_category'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'taxonomy_menu_path_event_category';
-  $strongarm->value = 'taxonomy_menu_path_default';
-  $export['taxonomy_menu_path_event_category'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'taxonomy_menu_rebuild_event_category';
-  $strongarm->value = 0;
-  $export['taxonomy_menu_rebuild_event_category'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'taxonomy_menu_sync_event_category';
-  $strongarm->value = 1;
-  $export['taxonomy_menu_sync_event_category'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'taxonomy_menu_term_item_description_event_category';
-  $strongarm->value = 0;
-  $export['taxonomy_menu_term_item_description_event_category'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'taxonomy_menu_vocab_menu_event_category';
-  $strongarm->value = 'main-menu';
-  $export['taxonomy_menu_vocab_menu_event_category'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'taxonomy_menu_vocab_parent_event_category';
-  $strongarm->value = '251';
-  $export['taxonomy_menu_vocab_parent_event_category'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'taxonomy_menu_voc_item_description_event_category';
-  $strongarm->value = 0;
-  $export['taxonomy_menu_voc_item_description_event_category'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'taxonomy_menu_voc_item_event_category';
-  $strongarm->value = FALSE;
-  $export['taxonomy_menu_voc_item_event_category'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'taxonomy_menu_voc_name_event_category';
-  $strongarm->value = FALSE;
-  $export['taxonomy_menu_voc_name_event_category'] = $strongarm;
 
   return $export;
 }

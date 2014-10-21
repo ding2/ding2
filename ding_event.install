@@ -101,3 +101,12 @@ function ding_event_update_7004() {
 function ding_event_update_7005() {
   ding_event_install_menu_position();
 }
+
+/**
+ * Remove old event path auto patterns.
+ */
+function ding_event_update_7006() {
+  variable_del('pathauto_node_ding_event_da_pattern');
+  variable_del('pathauto_node_ding_event_en_pattern');
+  variable_del('pathauto_node_ding_event_und_pattern');
+}

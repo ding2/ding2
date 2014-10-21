@@ -64,7 +64,7 @@ function theme_date_time_seperate_lines($vars) {
   if (isset($vars['dates'])) {
     $dates = $vars['dates'];
     $time = $dates['value']['formatted_time'];
-    $date = format_date(strtotime($dates['value']['formatted_iso']), 'date_only');
+    $date = format_date(strtotime($dates['value']['formatted_iso']), 'ding_date_only');
 
     return '<div class="time field-label-inline clearfix"><div class="field-label">' . t('Time:') . '</div>' .
       '<div class="field-items">' . $time . '</div></div>' .
