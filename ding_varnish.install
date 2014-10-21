@@ -7,7 +7,7 @@
 /**
  * Set configuration variable for varnish module.
  *
- * This is ti ensure that it will not throw connection warnings when cache is
+ * This is to ensure that it will not throw connection warnings when cache is
  * cleared during installation of the ding2. This is an issue when using Aegir
  * and drush.
  */
