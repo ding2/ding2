@@ -7,7 +7,7 @@
 include_once 'ding_user_comments.inc';
 
 /**
- * Implements hook_preprocess_page().
+ * Implements hook_preprocess_html().
  */
 function ding_user_preprocess_html(&$variables) {
   $args = arg();
