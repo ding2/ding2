@@ -5,18 +5,16 @@ api = 2
 
 ; Projects
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.3"
-projects[ctools][patch][0] = "http://drupal.org/files/ctools-n1925018-12.patch"
+projects[ctools][version] = "1.4"
 
 projects[i18n][subdir] = "contrib"
 projects[i18n][version] = "1.8"
 
 projects[panels][subdir] = "contrib"
-projects[panels][version] = "3.3"
-projects[panels][patch][] =  "http://drupal.org/files/1649046-form-wrapper-is-where-form-is-now.patch"
+projects[panels][version] = "3.4"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.0-beta2"
+projects[features][version] = "2.0"
 
 projects[features_extra][subdir] = "contrib"
 projects[features_extra][version] = "1.0-beta1"
@@ -25,10 +23,10 @@ projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
 
 projects[variable][subdir] = "contrib"
-projects[variable][version] = "2.2"
+projects[variable][version] = "2.5"
 
 projects[relation][subdir] = "contrib"
-projects[relation][version] = "1.0-rc4"
+projects[relation][version] = "1.0-rc5"
 
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.1"

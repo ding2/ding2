@@ -206,7 +206,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'ding_entity',
         'settings' => array(),
-        'type' => 'ding_entity_buttons_default',
+        'type' => 'ding_entity_buttons_ajax',
         'weight' => 8,
       ),
       'collection_primary' => array(
@@ -219,7 +219,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'label' => 'hidden',
         'module' => 'ding_entity',
         'settings' => array(),
-        'type' => 'ding_entity_buttons_default',
+        'type' => 'ding_entity_buttons_ajax',
         'weight' => 8,
       ),
       'search_result' => array(
