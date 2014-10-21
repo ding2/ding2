@@ -176,7 +176,7 @@ function ding_availability_holdings($provider_ids) {
       $header = array(
         'placement' => t('Placement'),
         'copies' => t('Copies'),
-        'home' => t('At home'),
+        'available' => t('At home'),
       );
 
       $attributes = array(
@@ -220,9 +220,9 @@ function ding_availability_holdings_row($holding) {
   $row['copies'] = isset($holding['total_count']) ? (int) $holding['total_count'] : 0;
 
   // Calculate copies home.
-  $home = isset($holding['available_count']) ? (int) $holding['available_count'] : 0;
-  $home += isset($holding['reference_count']) ? (int) $holding['reference_count'] : 0;
-  $row['home'] = $home;
+  $available = isset($holding['available_count']) ? (int) $holding['available_count'] : 0;
+  $available += isset($holding['reference_count']) ? (int) $holding['reference_count'] : 0;
+  $row['available'] = $available;
 
   return $row;
 }
@@ -297,7 +297,6 @@ function ding_availability_render_legend() {
   $format_items[] = '<div class="clearfix"></div>';
 
   return '<div class="availability-legend">' . implode($format_items) . '</div>';
-
 }
 
 /**

@@ -10,5 +10,5 @@
 ?>
 <?php print $label ?>:
 <?php foreach ($links as $link) : ?>
-  <?php print render($link); ?>
+  <?php print render($link['link']); ?>
 <?php endforeach; ?>

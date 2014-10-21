@@ -88,49 +88,49 @@
         available = available || Drupal.DADB[entity_id]['available'];
         reservable = reservable || Drupal.DADB[entity_id]['reservable'];
         is_internet = is_internet || Drupal.DADB[entity_id]['is_internet'];
+
+        var element = $('#' + id);
+        element.removeClass('pending').addClass('processed');
+
+        // Reserve button
+        var reserver_btn = element.parents('.ting-object:first').find('.reserve-button');
+
+        if (available) {
+          element.addClass('available');
+
+          // Add class to reserve button
+          if (reserver_btn.length) {
+            reserver_btn.addClass('available');
+          }
+        }
+        else {
+          element.addClass('unavailable');
+
+          // Add class to reserve button
+          if (reserver_btn.length) {
+            reserver_btn.addClass('unavailable');
+          }
+        }
+
+        if (reservable) {
+          element.addClass('reservable');
+
+          // Add class to reserve button
+          if (reserver_btn.length) {
+            reserver_btn.addClass('reservable');
+          }
+        }
+
+        if (!available && !reservable) {
+          element.addClass('not-reservable');
+
+          // Add class to reserve button
+          if (reserver_btn.length) {
+            reserver_btn.addClass('not-reservable');
+          }
+        }
       }
     });
-
-    var element = $('#' + id);
-    element.removeClass('pending').addClass('processed');
-
-    // Reserve button
-    var reserver_btn = element.parents('.ting-object:first').find('[id^=ding-reservation-reserve-form]');
-
-    if (available) {
-      element.addClass('available');
-
-      // Add class to reserve button
-      if (reserver_btn.length) {
-        reserver_btn.addClass('available');
-      }
-    }
-    else {
-      element.addClass('unavailable');
-
-      // Add class to reserve button
-      if (reserver_btn.length) {
-        reserver_btn.addClass('unavailable');
-      }
-    }
-
-    if (reservable) {
-      element.addClass('reservable');
-
-      // Add class to reserve button
-      if (reserver_btn.length) {
-        reserver_btn.addClass('reservable');
-      }
-    }
-
-    if (!available && !reservable) {
-      element.addClass('not-reservable');
-
-      // Add class to reserve button
-      if (reserver_btn.length) {
-        reserver_btn.addClass('not-reservable');
-      }
-    }
   }
 
   /**

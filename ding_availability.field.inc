@@ -80,8 +80,8 @@ function ding_availability_field_formatter_info() {
  */
 function ding_availability_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
-  $online_types = variable_get('ting_online_types', _ting_default_online_types());
-  $reservable_sources = variable_get('ting_reservable_sources', _ting_default_reservable_sources());
+  $online_types = array_filter(variable_get('ting_online_types', _ting_default_online_types()));
+  $reservable_sources = array_filter(variable_get('ting_reservable_sources', _ting_default_reservable_sources()));
 
   // Attach front-end style and JS to the element.
   foreach ($items as $delta => $item) {
@@ -218,7 +218,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
           }
 
           // Mark as available if it is an online resource.
-          if (in_array(drupal_strtolower($type), $online_types) || isset($entities[0]->online_url)) {
+          if (in_array(drupal_strtolower($type), $online_types) || $entities[0]->getOnline_url(FALSE)) {
             if (!isset($output['#types']['online'])) {
               // Add label "online" to output.
               $output['#types']['online'] = array(
