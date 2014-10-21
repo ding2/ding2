@@ -101,3 +101,12 @@ function ding_news_update_7004() {
 function ding_news_update_7005() {
   ding_news_install_menu_position();
 }
+
+/**
+ * Remove old news path auto patterns.
+ */
+function ding_news_update_7006() {
+  variable_del('pathauto_node_ding_news_da_pattern');
+  variable_del('pathauto_node_ding_news_en_pattern');
+  variable_del('pathauto_node_ding_news_und_pattern');
+}
