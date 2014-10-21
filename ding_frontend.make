@@ -2,12 +2,14 @@ core = 7.x
 api = 2
 
 ; Projects
+projects[block_access][subdir] = "contrib"
+projects[block_access][version] = "1.5"
+
 projects[cs_adaptive_image][subdir] = "contrib"
 projects[cs_adaptive_image][version] = "1.0"
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.3"
-projects[ctools][patch][0] = "http://drupal.org/files/ctools-n1925018-12.patch"
+projects[ctools][version] = "1.4"
 
 projects[conditional_styles][subdir] = "contrib"
 projects[conditional_styles][version] = "2.2"
@@ -16,7 +18,7 @@ projects[dynamic_background][subdir] = "contrib"
 projects[dynamic_background][version] = "2.0-rc4"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.0-beta2"
+projects[features][version] = "2.0"
 
 projects[features_extra][subdir] = "contrib"
 projects[features_extra][version] = "1.0-beta1"
@@ -29,7 +31,7 @@ projects[google_analytics][subdir] = "contrib"
 projects[google_analytics][version] = "1.3"
 
 projects[jquery_update][subdir] = "contrib"
-projects[jquery_update][version] = "2.3"
+projects[jquery_update][version] = "2.4"
 
 projects[languageicons][subdir] = "contrib"
 projects[languageicons][version] = "1.0"
@@ -43,17 +45,16 @@ projects[menu_block][download][revision] = "32ab1cf08b729c93302455d67dd05f64ad2f
 projects[menu_block][patch][0] = "http://drupal.org/files/menu_block-ctools-693302-96.patch"
 
 projects[menu_breadcrumb][subdir] = "contrib"
-projects[menu_breadcrumb][version] = "1.3"
+projects[menu_breadcrumb][version] = "1.5"
 
 projects[menu_position][subdir] = "contrib"
 projects[menu_position][version] = "1.1"
 
 projects[panels][subdir] = "contrib"
-projects[panels][version] = "3.3"
-projects[panels][patch][0] = "http://drupal.org/files/1649046-form-wrapper-is-where-form-is-now.patch"
+projects[panels][version] = "3.4"
 
 projects[panels_breadcrumbs][subdir] = "contrib"
-projects[panels_breadcrumbs][version] = "2.0"
+projects[panels_breadcrumbs][version] = "2.1"
 
 projects[panels_everywhere][subdir] = "contrib"
 projects[panels_everywhere][version] = "1.0-rc1"
@@ -65,9 +66,8 @@ projects[pm_existing_pages][version] = "1.4"
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
 
-projects[views][type] = "module"
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.7"
+projects[views][version] = "3.8"
 
 projects[fences][type] = "module"
 projects[fences][subdir] = "contrib"
@@ -76,7 +76,7 @@ projects[fences][patch][0] = "http://drupal.org/files/field_for_wrapper_css_clas
 
 projects[l10n_update][type] = "module"
 projects[l10n_update][subdir] = "contrib"
-projects[l10n_update][version] = "1.0-beta3"
+projects[l10n_update][version] = "1.0"
 
 projects[ding_campaign][type] = "module"
 projects[ding_campaign][download][type] = "git"
