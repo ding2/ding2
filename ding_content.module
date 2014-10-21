@@ -27,79 +27,6 @@ function ding_content_menu() {
 }
 
 /**
- * Implements hook_enable().
- *
- * Create taxonomy vocabolary if needed.
- */
-function ding_content_enable() {
-  // Create wysiwyg profile if needed.
-  if (!wysiwyg_profile_load('ding_wysiwyg')) {
-    $wysiwyg = array(
-      'format' => 'ding_wysiwyg',
-      'editor' => 'ckeditor',
-      'settings' => array(
-        'default' => 1,
-        'user_choose' => 0,
-        'show_toggle' => 1,
-        'theme' => 'advanced',
-        'buttons' => array(
-          'default' => array(
-            'Bold' => 1,
-            'Italic' => 1,
-            'Underline' => 1,
-            'JustifyLeft' => 1,
-            'JustifyCenter' => 1,
-            'JustifyRight' => 1,
-            'BulletedList' => 1,
-            'NumberedList' => 1,
-            'Undo' => 1,
-            'Redo' => 1,
-            'Link' => 1,
-            'Unlink' => 1,
-            'Anchor' => 1,
-            'TextColor' => 1,
-            'BGColor' => 1,
-            'Blockquote' => 1,
-            'Cut' => 1,
-            'Copy' => 1,
-            'Paste' => 1,
-            'PasteText' => 1,
-            'PasteFromWord' => 1,
-            'RemoveFormat' => 1,
-            'Format' => 1,
-            'Font' => 1,
-            'FontSize' => 1,
-            'Styles' => 1,
-            'Table' => 1,
-            'CreateDiv' => 1,
-          ),
-          'drupal' => array(
-            'media' => 1,
-          ),
-        ),
-        'toolbar_loc' => 'top',
-        'toolbar_align' => 'left',
-        'path_loc' => 'bottom',
-        'resizing' => 1,
-        'verify_html' => 1,
-        'preformatted' => 0,
-        'convert_fonts_to_spans' => 1,
-        'remove_linebreaks' => 1,
-        'apply_source_formatting' => 0,
-        'paste_auto_cleanup_on_paste' => 0,
-        'block_formats' => 'p,address,pre,h2,h3,h4,h5,h6,div',
-        'css_setting' => 'theme',
-        'css_path' => '',
-        'css_classes' => '',
-      ),
-    );
-    $wysiwyg['settings'] = serialize($wysiwyg['settings']);
-    drupal_write_record('wysiwyg', $wysiwyg);
-    wysiwyg_profile_cache_clear();
-  }
-}
-
-/**
  * Implements hook_media_browser_plugin_info().
  */
 function ding_content_media_browser_plugin_info() {
@@ -134,7 +61,7 @@ function ding_content_media_browser_plugin_view($plugin_name, $params) {
             $path . '/js/ding_content.media.js',
           ),
           'css' => array(
-            //@todo: should move this.
+            // @todo: should move this.
             $media_path . '/js/plugins/media.library.css',
             $path . '/css/ding_content.media.css',
           ),
@@ -150,4 +77,15 @@ function ding_content_media_browser_plugin_view($plugin_name, $params) {
   }
 
   return array();
+}
+
+
+/**
+ * Implements hook_wysiwyg_editor_settings_alter().
+ */
+function ding_content_wysiwyg_editor_settings_alter(&$settings, $context) {
+  if ($context['profile']->editor == 'ckeditor') {
+    $path = drupal_get_path('module', 'ding_content');
+    $settings['customConfig'] = '/' . $path . '/js/ding_content.editor_config.js';
+  }
 }

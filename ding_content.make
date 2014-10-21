@@ -7,18 +7,18 @@ projects[cache_actions][subdir] = "contrib"
 projects[cache_actions][version] = "2.0-alpha5"
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.3"
-projects[ctools][patch][0] = "http://drupal.org/files/ctools-n1925018-12.patch"
+projects[ctools][version] = "1.4"
 
 projects[entity][subdir] = "contrib"
-projects[entity][version] = "1.1"
+projects[entity][version] = "1.5"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.0-beta2"
+projects[features][version] = "2.0"
 
 projects[features_extra][subdir] = "contrib"
 projects[features_extra][version] = "1.0-beta1"
 
+; This version of media is tested to work with both images and videos.
 projects[media][type] = "module"
 projects[media][subdir] = "contrib"
 projects[media][download][type] = "git"
@@ -26,14 +26,13 @@ projects[media][download][url] = "http://git.drupal.org/project/media.git"
 projects[media][download][revision] = "c3cda2b"
 
 projects[file_entity][subdir] = "contrib"
-projects[file_entity][version] = "2.0-alpha2"
+projects[file_entity][version] = "2.0-alpha3"
 
 projects[panels][subdir] = "contrib"
-projects[panels][version] = "3.3"
-projects[panels][patch][0] = "http://drupal.org/files/1649046-form-wrapper-is-where-form-is-now.patch"
+projects[panels][version] = "3.4"
 
 projects[rules][subdir] = "contrib"
-projects[rules][version] = "2.3"
+projects[rules][version] = "2.7"
 
 projects[similarterms][subdir] = "contrib"
 projects[similarterms][version] = "2.3"
@@ -42,7 +41,7 @@ projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
 
 projects[views][subdir] = "contrib"
-projects[views][version] = "3.7"
+projects[views][version] = "3.8"
 
 projects[workbench][subdir] = "contrib"
 projects[workbench][version] = "1.2"
@@ -64,7 +63,7 @@ projects[node_clone][subdir] = "contrib"
 projects[node_clone][version] = "1.0-rc2"
 
 projects[image_resize_filter][subdir] = "contrib"
-projects[image_resize_filter][version] = "1.13"
+projects[image_resize_filter][version] = "1.14"
 
 ; Libraries
 libraries[ckeditor][download][type] = "get"

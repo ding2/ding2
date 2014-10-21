@@ -142,9 +142,19 @@ function ding_content_insert_html5_video_presets() {
   );
 
   foreach ($video_inserts as $video_insert) {
-    db_insert('file_display')
-      ->fields($video_insert)
-      ->execute();
+    $table = 'file_display';
+    $field = db_select($table, 'fd')
+      ->fields('fd', array('name'))
+      ->condition('name', $video_insert['name'], '=')
+      ->execute()
+      ->fetchField();
+
+    // If field do not exists, insert it.
+    if (empty($field)) {
+      db_insert($table)
+        ->fields($video_insert)
+        ->execute();
+    }
   }
 }
 
@@ -172,8 +182,8 @@ function ding_content_update_7000() {
 }
 
 /**
- * Remove HTML5 video.
+ * Add HTML5 video.
  */
-function ding_content_upadte_7001() {
+function ding_content_update_7001() {
   ding_content_insert_html5_video_presets();
 }

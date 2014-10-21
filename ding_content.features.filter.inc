@@ -32,6 +32,7 @@ function ding_content_filter_default_formats() {
           'link_rel' => '',
           'image_locations' => array(
             'local' => 'local',
+            'remote' => 0,
           ),
         ),
       ),
@@ -39,7 +40,7 @@ function ding_content_filter_default_formats() {
         'weight' => 2,
         'status' => 1,
         'settings' => array(
-          'allowed_html' => '<a> <p> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd> <table> <tr> <th> <td> <br> <img>',
+          'allowed_html' => '<a> <p> <em> <strong> <cite> <blockquote> <ul> <ol> <li> <dl> <dt> <dd> <table> <tr> <th> <td> <br> <img> <iframe> <h2> <h3> <h4> <h5> <h6> <div> <audio> <source>',
           'filter_html_help' => 1,
           'filter_html_nofollow' => 0,
         ),
