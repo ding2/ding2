@@ -3,9 +3,8 @@ api = 2
 
 ; Projects
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.3"
-projects[ctools][patch][0] = "http://drupal.org/files/ctools-n1925018-12.patch"
+projects[ctools][version] = "1.4"
 
 projects[features][subdir] = "contrib"
-projects[features][version] = "2.0-beta2"
+projects[features][version] = "2.0"
 
