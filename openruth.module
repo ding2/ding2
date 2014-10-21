@@ -519,7 +519,7 @@ function openruth_profile2_load($entities) {
  * Alter user profile view with SMS fee.
  */
 function openruth_field_attach_view_alter(&$output, $context) {
-  if (isset($output['field_alma_sms'][0]['#markup'])) {
+  if (isset($output['field_openruth_mobile_phone'][0]['#markup'])) {
     $ding_user_fee_sms = variable_get('ding_user_fee_sms', t('Notice that there is a fee for receiving a SMS'));
     if ($ding_user_fee_sms) {
       $output['field_openruth_mobile_phone'][0]['#markup'] .= '<span class="notice-sms">(' . $ding_user_fee_sms . ')</span>';
