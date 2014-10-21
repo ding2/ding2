@@ -14,17 +14,20 @@
     $('form input[type=checkbox]').prop('checked', false);
     $('.action-buttons input[type=submit]').prop('disabled', 'disabled');
 
+
     // Handle select all checkboxes.
     $('.select-all input[type=checkbox]').click(function() {
       var checkboxes = $('input[type=checkbox]', $(this).closest('.select-all').nextUntil('.select-all'));
       if ($(this).prop('checked')) {
         // Only checkboxes that are enabled.
-        checkboxes.each(function(i, box) {
+        checkboxes.each(function(i) {
+          var box = $(checkboxes[i]);
           if (!box.is(':disabled')) {
             box.prop('checked', true);
             box.change();
           }
         });
+        $(this).prop('checked', true)
       }
       else {
         checkboxes.prop('checked', false);
@@ -55,27 +58,31 @@
       item.prevAll('.select-all').find('input[type=checkbox]:not(:disabled)').prop('checked', checked === checkboxes.length);
     });
 
-    // Update count string on the buttons.
+
+    /**
+     * Update count string on the buttons.
+     */
     function update_buttons(buttons, count) {
-     buttons.each(function(index, btn) {
-       btn.val(btn.val().replace(/\(\d+\)/, '(' + count + ')'));
+      buttons.each(function(index) {
+        var btn = $(buttons[index]);
+        btn.val(btn.val().replace(/\(\d+\)/, '(' + count + ')'));
 
-       // Toggle buttons based on count.
-       if (count > 0) {
-         btn.closest('.action-buttons').addClass('action-buttons-is-visible');
-         if (!actions_offset) {
-           // First time buttons are shown, get their offset value.
-           actions_offset = actions.offset().top;
-         }
-         btn.removeAttr("disabled");
-       }
-       else {
-         btn.closest('.action-buttons').removeClass('action-buttons-is-visible');
-         btn.prop('disabled', 'disabled');
-       }
-     });
+        // Toggle buttons based on count.
+        if (count > 0) {
+          btn.closest('.action-buttons').addClass('action-buttons-is-visible');
+          if (!actions_offset) {
+            // First time buttons are shown, get their offset value.
+            actions_offset = actions.offset().top;
+          }
+          btn.removeAttr("disabled");
+        }
+        else {
+          btn.closest('.action-buttons').removeClass('action-buttons-is-visible');
+          btn.prop('disabled', 'disabled');
+        }
+      });
 
-     toggle_scroll_buttons();
+      toggle_scroll_buttons();
     }
 
     // Enable scroll and toggle of buttons. It uses class to this effect can be
