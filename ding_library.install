@@ -320,3 +320,12 @@ function ding_library_update_7011() {
   field_delete_field('field_ding_library_opening_hours');
   field_purge_batch(1000);
 }
+
+/**
+ * Remove old library path auto patterns.
+ */
+function ding_library_update_7012() {
+  variable_del('pathauto_node_ding_library_da_pattern');
+  variable_del('pathauto_node_ding_library_en_pattern');
+  variable_del('pathauto_node_ding_library_und_pattern');
+}

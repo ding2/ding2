@@ -355,14 +355,15 @@ function ding_library_field_default_field_instances() {
       'attributes' => array(
         'class' => '',
         'configurable_title' => 1,
-        'rel' => '',
-        'target' => 'default',
+        'rel' => 'nofollow',
+        'target' => '_blank',
         'title' => '',
       ),
       'display' => array(
         'url_cutoff' => 80,
       ),
       'enable_tokens' => 1,
+      'rel_remove' => 'default',
       'title' => 'required',
       'title_maxlength' => 255,
       'title_value' => '',
@@ -704,11 +705,11 @@ function ding_library_field_default_field_instances() {
           'public' => 'public',
         ),
         'allowed_types' => array(
-          'image' => 'image',
-          'video' => 0,
           0 => 0,
           'audio' => 0,
           'default' => 0,
+          'image' => 'image',
+          'video' => 0,
         ),
         'browser_plugins' => array(
           'ding_content' => 0,
