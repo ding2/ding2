@@ -18,7 +18,7 @@ function ding_session_cache_form_system_performance_settings_alter(&$form, &$for
   $form['ding_session_cache'] = array(
     '#type' => 'fieldset',
     '#title' => t('Ding user cache'),
-    '#description' => t('Configure the behaviour of the diffect elements cached for ding users.'),
+    '#description' => t('Configure the behaviour of the different elements cached for ding users.'),
     '#weight' => -25,
     '#tree' => TRUE,
   );
