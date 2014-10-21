@@ -805,6 +805,7 @@ function ding_permissions_secure_permissions($role) {
       'edit own provider_alma profile',
       'edit own provider_openruth profile',
       'pay using dibs',
+      'preform bookmark',
       'preform reservation',
       'view own private files',
       'view own provider_alma profile',
