@@ -114,7 +114,7 @@ function openruth_settings_form() {
   $form['openruth']['openruth_wsdl_url'] = array(
     '#type' => 'textfield',
     '#title' => t('OpenRuth WSDL URL'),
-    '#description' => t('The WSDL URL for OpenRuth SOAP service, usually something like http://openruth.addi.dk/1.0/openruth.wsdl'),
+    '#description' => t('The WSDL URL for OpenRuth SOAP service, usually something like https://openruth.addi.dk/1.0.1/openruth.wsdl'),
     '#required' => TRUE,
     '#default_value' => variable_get('openruth_wsdl_url', ''),
   );
@@ -286,57 +286,56 @@ function openruth_profile2_presave($entity) {
       }
     }
 
-    // Reservation pause (date fields do not work with entity wrappers -
-    // https://drupal.org/node/1803286). So we fallback and only take the first
-    // fields value, which should be save here.
-    $language = field_language('profile2', $entity, 'field_openruth_reservation_pause');
-    $original_value = isset($entity->original->field_openruth_reservation_pause[$language][0]) ? $entity->original->field_openruth_reservation_pause[$language][0] : '';
-    if (!empty($original_value) && isset($entity->field_openruth_reservation_pause[$language][0])) {
-      $value = $entity->field_openruth_reservation_pause[$language][0];
-      if ($value['value'] != $original_value['value'] || $value['value2'] != $original_value['value2']) {
+    // Reservation pause (Start).
+    $value = $wrapper->field_openruth_reservation_pause->value();
+    $start = '';
+    if (!is_null($value['value'])) {
+      $start = date('Y-m-d', strtotime($value['value']));
+    }
+    $stop = '';
+    if (!is_null($value['value2'])) {
+      $stop = date('Y-m-d', strtotime($value['value2']));
+    }
 
-        // Remove trailing T00:00:00 OpenRuth doesn't understand that.
-        $start = '';
-        if (!is_null($value['value'])) {
-          $start = date('Y-m-d', $value['value']);
-        }
-        $stop = '';
-        if (!is_null($value['value2'])) {
-          $stop = date('Y-m-d', $value['value2']);
-        }
+    // Reservation pause (Stop).
+    $value = $wrapper_original->field_openruth_reservation_pause->value();
+    $org_start = '';
+    if (!is_null($value['value'])) {
+      $org_start = date('Y-m-d', strtotime($value['value']));
+    }
+    $org_stop = '';
+    if (!is_null($value['value2'])) {
+      $org_stop = date('Y-m-d', strtotime($value['value2']));
+    }
 
-        // Update values.
-        $changes['reservation_pause_start'] = $start;
-        $changes['reservation_pause_stop'] = $stop;
-      }
+    // Check if the reservation pause have changed.
+    if ($start != $org_start || $stop != $org_stop) {
+      $changes['reservation_pause_start'] = $start;
+      $changes['reservation_pause_stop'] = $stop;
     }
 
     // Mobile phone.
     $original_value = $wrapper_original->field_openruth_mobile_phone->value();
-    if (!empty($original_value)) {
-      $value = $wrapper->field_openruth_mobile_phone->value();
-      if (isset($value)) {
-        if ($value != $original_value) {
-          $changes['mobile_phone'] = $value;
-        }
+    $value = $wrapper->field_openruth_mobile_phone->value();
+    if (isset($value)) {
+      if ($value != $original_value) {
+        $changes['mobile_phone'] = $value;
       }
-      else {
-        $changes['mobile_phone'] = '';
-      }
+    }
+    else {
+      $changes['mobile_phone'] = '';
     }
 
     // Mail.
     $original_value = $wrapper_original->field_openruth_mail->value();
-    if (!empty($original_value)) {
-      $value = $wrapper->field_openruth_mail->value();
-      if (isset($value)) {
-        if ($value != $original_value) {
-          $changes['mail'] = $value;
-        }
+    $value = $wrapper->field_openruth_mail->value();
+    if (isset($value)) {
+      if ($value != $original_value) {
+        $changes['mail'] = $value;
       }
-      else {
-        $changes['mail'] = '';
-      }
+    }
+    else {
+      $changes['mail'] = '';
     }
 
     // Check if there where any changes and save them in the provider.
@@ -493,7 +492,9 @@ function openruth_profile2_load($entities) {
 
       // Mobile; also here openRuth supports multiple phones - again we pick the
       // first.
-      $wrapper->field_openruth_mobile_phone->set($patron->userMobilePhone);
+      if (!empty($patron->userMobilePhone)) {
+        $wrapper->field_openruth_mobile_phone->set($patron->userMobilePhone);
+      }
 
       // Preferred_branch.
       $preferred_branch = !empty($patron->agencyCounter) ? $patron->agencyCounter : FALSE;
@@ -501,6 +502,20 @@ function openruth_profile2_load($entities) {
 
       // Mail address.
       $wrapper->field_openruth_mail->set($patron->userEmail);
+    }
+  }
+}
+
+/**
+ * Implements hook_field_attach_view_alter().
+ *
+ * Alter user profile view with SMS fee.
+ */
+function openruth_field_attach_view_alter(&$output, $context) {
+  if (isset($output['field_openruth_mobile_phone'][0]['#markup'])) {
+    $ding_user_fee_sms = variable_get('ding_user_fee_sms', t('Notice that there is a fee for receiving a SMS'));
+    if ($ding_user_fee_sms) {
+      $output['field_openruth_mobile_phone'][0]['#markup'] .= '<span class="notice-sms">(' . $ding_user_fee_sms . ')</span>';
     }
   }
 }
