@@ -109,7 +109,8 @@ function alma_loan_populate_pseudo_entity($ting_entity) {
       $ting_entity->reply->record['dc:creator']['dkdcplus:aut'] = $source['authors'];
     }
 
-    // If it a ill Alma record isbn are not always available.
+    // If it is an inter library loan (ill) Alma record isbn are not always
+    // available.
     if (isset($source['isbns'][0])) {
       $ting_entity->reply->record['dc:identifier']['dkdcplus:ISBN'][0] = str_replace(array('-', ' ', 'ISBN'), '', $source['isbns'][0]);
     }

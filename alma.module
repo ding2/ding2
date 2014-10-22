@@ -162,6 +162,9 @@ function alma_client() {
  * @param string $method
  *   The desired method.
  *
+ * @throws Exception
+ *   Provider exception if communication fails.
+ *
  * @return array
  *   NULL on error, or the result of the method call.
  */
@@ -312,6 +315,22 @@ function alma_profile2_presave($entity) {
       }
     }
 
+    // SMS number.
+    $value = $wrapper->field_alma_sms->value();
+    if (!is_null($wrapper_original->field_alma_sms->value())) {
+      // Update sms phone number.
+      $value = is_null($value) ? 'DELETE' : $value;
+      if ($value != $wrapper_original->field_alma_sms->value()) {
+        $changes['sms'] = $value;
+
+        // Get sms id.
+        $changes['sms_id'] = $wrapper->field_alma_sms_id->value();
+      }
+    }
+    elseif (!is_null($value) && is_null($wrapper_original->field_alma_sms->value())) {
+      $changes['sms'] = $value;
+    }
+
     // Mobile phone.
     $value = $wrapper->field_alma_mobile_phone->value();
     if (!is_null($wrapper_original->field_alma_mobile_phone->value())) {
@@ -400,7 +419,7 @@ function alma_update_provider($changes, $entity) {
     else {
       // Update mobile.
       try {
-        $res = alma_client_invoke('change_phone_number', $creds['name'], $creds['pass'], $changes['phone_id'], $changes['mobile']);
+        $res = alma_client_invoke('change_phone_number', $creds['name'], $creds['pass'], $changes['phone_id'], $changes['mobile'], FALSE);
       }
       catch (Exception $exception) {
         watchdog_exception('Alma provider', $exception);
@@ -415,13 +434,58 @@ function alma_update_provider($changes, $entity) {
   elseif (isset($changes['mobile'])) {
     // Add mobile.
     try {
-      $res = alma_client_invoke('add_phone_number', $creds['name'], $creds['pass'], $changes['mobile']);
+      $res = alma_client_invoke('add_phone_number', $creds['name'], $creds['pass'], $changes['mobile'], FALSE);
     }
     catch (Exception $exception) {
       watchdog_exception('Alma provider', $exception);
     }
     if (!$res) {
       $error_message .= t('mobile not added');
+      drupal_set_message($error_message, 'warning');
+    }
+  }
+
+  // Mobile phone; add, change, delete.
+  if (isset($changes['sms_id'])) {
+    if ($changes['sms'] == 'DELETE') {
+      // Delete mobile.
+      try {
+        $res = alma_client_invoke('remove_phone_number', $creds['name'], $creds['pass'], $changes['sms_id']);
+      }
+      catch (Exception $exception) {
+        watchdog_exception('Alma provider', $exception);
+      }
+
+      if (empty($res)) {
+        $error_message .= t('sms not deleted');
+        drupal_set_message($error_message, 'warning');
+      }
+    }
+    else {
+      // Update mobile.
+      try {
+        $res = alma_client_invoke('change_phone_number', $creds['name'], $creds['pass'], $changes['sms_id'], $changes['sms']);
+      }
+      catch (Exception $exception) {
+        watchdog_exception('Alma provider', $exception);
+      }
+
+      if (!$res) {
+        $error_message .= t('sms not updated');
+        drupal_set_message($error_message, 'warning');
+      }
+    }
+  }
+  elseif (isset($changes['sms'])) {
+    // Add mobile.
+    try {
+      $res = alma_client_invoke('add_phone_number', $creds['name'], $creds['pass'], $changes['sms']);
+    }
+    catch (Exception $exception) {
+      watchdog_exception('Alma provider', $exception);
+    }
+    if (!$res) {
+      $error_message .= t('sms not added');
       drupal_set_message($error_message, 'warning');
     }
   }
@@ -507,6 +571,11 @@ function alma_update_provider($changes, $entity) {
       $user->mail = $changes['mail'];
       user_save($user);
     }
+  }
+
+  // Update patron information and update cache.
+  if (!empty($changes)) {
+    alma_get_patron($creds, TRUE);
   }
 }
 
@@ -625,13 +694,34 @@ function alma_profile2_load($entities) {
       // Preferred_branch.
       $wrapper->field_alma_preferred_branch->set($patron->branch);
 
-      // Mobile; also here alma supports multiple phones - again we pick the
-      // first.
-      $wrapper->field_alma_mobile_phone->set(isset($patron->mobiles[0]['phone']) ? $patron->mobiles[0]['phone'] : '');
-      $wrapper->field_alma_phone_id->set(isset($patron->mobiles[0]['id']) ? $patron->mobiles[0]['id'] : NULL);
+      // Mobile (SMS and telephone).
+      foreach ($patron->mobiles as $mobile) {
+        if ($mobile['sms']) {
+          $wrapper->field_alma_sms->set(isset($mobile['phone']) ? $mobile['phone'] : '');
+          $wrapper->field_alma_sms_id->set(isset($mobile['id']) ? $mobile['id'] : NULL);
+        }
+        else {
+          $wrapper->field_alma_mobile_phone->set(isset($mobile['phone']) ? $mobile['phone'] : '');
+          $wrapper->field_alma_phone_id->set(isset($mobile['id']) ? $mobile['id'] : NULL);
+        }
+      }
 
       // Mail address.
       $wrapper->field_alma_mail->set($patron->email);
+    }
+  }
+}
+
+/**
+ * Implements hook_field_attach_view_alter().
+ *
+ * Alter user profile view with SMS fee.
+ */
+function alma_field_attach_view_alter(&$output, $context) {
+  if (isset($output['field_alma_sms'][0]['#markup'])) {
+    $ding_user_fee_sms = variable_get('ding_user_fee_sms', t('Notice that there is a fee for receiving a SMS'));
+    if ($ding_user_fee_sms) {
+      $output['field_alma_sms'][0]['#markup'] .= '<span class="notice-sms">(' . $ding_user_fee_sms . ')</span>';
     }
   }
 }

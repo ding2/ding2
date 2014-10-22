@@ -17,13 +17,13 @@ function alma_user_authenticate($uid, $pass) {
 
   try {
     $res = alma_client_invoke('get_patron_info', $uid, $pass, TRUE);
-    $return['success'] = TRUE;
+    if ($res) {
+      $return['success'] = TRUE;
+    }
   }
   catch (Exception $e) {
     return $return;
   }
-
-  // @todo Check block status.
 
   // Set creds.
   $return['creds'] = array(
@@ -56,6 +56,18 @@ function alma_user_authenticate($uid, $pass) {
       'city' => $res['addresses'][0]['city'],
       'country' => $res['addresses'][0]['country'],
     );
+  }
+
+  // Set the users categories.
+  if (!empty($res['category'])) {
+    $return['user']['category'] = $res['category'];
+  }
+
+  $return['user']['blocked'] = FALSE;
+  if (!empty($res['blocks'])) {
+    // Send block codes back with the user.
+    $return['user']['blocks'] = $res['blocks'];
+    $return['user']['blocked'] = TRUE;
   }
 
   return $return;

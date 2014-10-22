@@ -179,7 +179,7 @@ function alma_reservation_list($account, $type = NULL) {
         elseif ($reservation['id'] < 0) {
           // Inter-library loan reservations have negative IDs (undocumented
           // Axiell "feature").
-          $data['ill_status'] = TRUE;
+          $data['ill_status'] = $reservation['status'];
           $data['reservation_type'] = DING_RESERVATION_INTERLIBRARY_LOANS;
 
           // Create reservation object.
@@ -442,7 +442,10 @@ function alma_reservation_get_reservations($account, $reset = FALSE) {
  * Clear reservations stored in the current session cache.
  */
 function alma_reservation_clear_cache() {
-  ding_session_cache_clear('alma', 'reservations');
+  // Check if ding_session_cache is available.
+  if (module_exists('ding_session_cache')) {
+    ding_session_cache_clear('alma', 'reservations');
+  }
 }
 
 /**

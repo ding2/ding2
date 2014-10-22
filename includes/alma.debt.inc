@@ -18,14 +18,14 @@
 function alma_debt_list($account, $reset = FALSE) {
   $creds = ding_user_get_creds($account);
 
-  // Use session cache to speed up communication with Alma.
+  // Use static cache to speed up communication with Alma.
   $results = &drupal_static(__FUNCTION__, FALSE);
   if (!$results || $reset) {
     // Get debts from Alma.
     $debts = alma_client_invoke('get_debts', $creds['name'], $creds['pass']);
 
     // Create DingProviderDebt instances from Alma's list.
-    $result = array();
+    $results = array();
     foreach ($debts['debts'] as $debt) {
       // Get the material number from the display name and remove it form it.
       preg_match('/^(\w+)\s+(.+)/', $debt['display_name'], $matchs);
@@ -38,11 +38,11 @@ function alma_debt_list($account, $reset = FALSE) {
       $debt['type'] = alma_debt_translate_debt_type($debt['type']);
 
       $debt_object = new DingProviderDebt($debt['id'], $debt);
-      $result[$debt['id']] = $debt_object;
+      $results[$debt['id']] = $debt_object;
     }
   }
 
-  return $result;
+  return $results;
 }
 
 /**
@@ -78,69 +78,69 @@ function alma_debt_translate_debt_type($debt_type) {
 
   switch ($debt_type) {
     case 'overdueFeeInvoiceDebt':
-      $str = 'Overdue fee invoice';
+      $str = t('Overdue fee invoice');
       break;
 
     case 'overdueFeeDebt':
-      $str = 'Overdue fee';
+      $str = t('Overdue fee');
       break;
 
     case 'loanFeeDebt':
-      $str = 'Loan fee';
+      $str = t('Loan fee');
       break;
 
     case 'reservationPickupFeeDebt':
-      $str = 'Reservation pick-up fee';
+      $str = t('Reservation pick-up fee');
       break;
 
     case 'reservationFeeDebt':
-      $str = 'Reservation fee';
+      $str = t('Reservation fee');
       break;
 
     case 'deleteReservationFeeDebt':
-      $str = 'Delete reservation fee';
+      $str = t('Delete reservation fee');
       break;
 
     case 'illFeeDebt':
-      $str = 'Interlibrary fee';
+      $str = t('Interlibrary fee');
       break;
 
     case 'smsReservationFeeDebt':
-      $str = 'SMS reservation fee';
+      $str = t('SMS reservation fee');
       break;
 
     case 'smsReminderFeeDebt':
-      $str = 'SMS reminder fee';
+      $str = t('SMS reminder fee');
       break;
 
     case 'smsRecall1FeeDebt':
-      $str = 'SMS first recall fee';
+      $str = t('SMS first recall fee');
       break;
 
     case 'smsRecall2FeeDebt':
-      $str = 'SMS second recall fee';
+      $str = t('SMS second recall fee');
       break;
 
     case 'smsRecall3FeeDebt':
-      $str = 'SMS third recall fee';
+      $str = t('SMS third recall fee');
       break;
 
     case 'smsRecall4FeeDebt':
-      $str = 'SMS fourth recall fee';
+      $str = t('SMS fourth recall fee');
       break;
 
     case 'smsRecall5FeeDebt':
-      $str = 'SMS fifth recall fee';
+      $str = t('SMS fifth recall fee');
       break;
 
     case 'emailReminderFeeDebt':
-      $str = 'E-mail reminder fee';
+      $str = t('E-mail reminder fee');
       break;
 
     case 'otherFeeDebt':
-      $str = 'Unknown or other fee';
+      $str = t('Unknown or other fee');
       break;
   };
 
-  return t($str);
+  return $str;
 }
