@@ -2,7 +2,7 @@
   "use strict";
 
   $(document).ready(function() {
-    // Add spinner to search field when searching the data well.
+    // Add overlay with spinner to search input fields while searching.
     $('input[name="search_block_form"]').keydown(function(event) {
       // When enter is hit in the search form.
       if (event.which == 13) {
