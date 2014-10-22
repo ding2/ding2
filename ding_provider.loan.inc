@@ -106,7 +106,7 @@ class DingProviderLoan extends DingEntityBase {
       if (isset($this->properties[$prop]) && $this->properties[$prop] === self::NULL) {
         $this->properties[$prop] = $val;
       }
-      else if (isset($this->properties[$prop])) {
+      elseif (isset($this->properties[$prop])) {
         $this->$prop = $this->properties[$prop];
       }
     }

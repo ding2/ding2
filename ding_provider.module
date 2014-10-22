@@ -21,6 +21,7 @@ function ding_provider_menu() {
     'description' => 'Configure the provider used to communicate with the library system.',
     'page callback' => 'ding_provider_admin_overview',
     'access arguments' => array('administer ding provider'),
+    'type' => MENU_NORMAL_ITEM,
     'file' => 'ding_provider.admin.inc',
   );
 
@@ -28,7 +29,6 @@ function ding_provider_menu() {
     'title' => 'Overview',
     'description' => 'Providers overview',
     'type' => MENU_DEFAULT_LOCAL_TASK,
-    'weight' => -1,
     'file' => 'system.admin.inc',
   );
 
@@ -41,7 +41,6 @@ function ding_provider_menu() {
         'page arguments' => array($provider['global settings']),
         'access arguments' => array('administer ding provider'),
         'type' => MENU_LOCAL_TASK,
-        'weight' => -1,
       );
       if ($provider['global settings file']) {
         $items['admin/config/ding/provider/' . $provider['module']]['file'] = $provider['global settings file'];
@@ -81,6 +80,7 @@ function ding_provider_permission() {
   return array(
     'administer ding provider' => array(
       'title' => t('Administer Ding provider'),
+      'description' => t('Allow role to configure provider settings.'),
     ),
   );
 }
@@ -736,4 +736,16 @@ function ding_provider_build_entity_id($id, $agency = -1) {
   }
 
   return $ting_entity_id;
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ *
+ * Disable entity cache for profile2 entities, so provider profiles are not
+ * cached. The profile should not be cached as they contains sensitive
+ * information about the library users.
+ */
+function ding_provider_entity_info_alter(&$entity_info) {
+  $entity_info['profile2']['entity cache'] = FALSE;
+  $entity_info['profile2_type']['entity cache'] = FALSE;
 }

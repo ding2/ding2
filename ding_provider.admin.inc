@@ -11,6 +11,7 @@
 function ding_provider_admin_overview() {
   $build = array();
   $providers = _ding_provider_get_provider();
+
   if (empty($providers)) {
     $build['no-providers'] = array(
       '#markup' => t('No providers available.'),
@@ -25,5 +26,6 @@ function ding_provider_admin_overview() {
       );
     }
   }
+
   return $build;
 }
