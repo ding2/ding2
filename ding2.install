@@ -11,11 +11,14 @@
  */
 function ding2_requirements($phase) {
   $t = get_t();
+
+  // Get version form the profiles info file.
+  $info = install_profile_info('ding2');
   if ($phase == 'runtime') {
     return array(
       'ddb_version' => array(
         'title' => $t('DDB Version'),
-        'value' => 'development',
+        'value' => !empty($info['version']) ? $info['version'] : 'development',
         'severity' => REQUIREMENT_INFO,
       ),
     );
