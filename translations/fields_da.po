@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2014-09-09 16:59+0200\n"
-"PO-Revision-Date: 2014-09-09 16:59+0200\n"
+"POT-Creation-Date: 2014-10-30 15:38+0100\n"
+"PO-Revision-Date: 2014-10-30 15:38+0100\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -444,11 +444,6 @@ msgctxt "field_ding_staff_image:ding_staff_profile:label"
 msgid "Image"
 msgstr ""
 
-#: field:field_ding_staff_phone:ding_staff_profile:label
-msgctxt "field_ding_staff_phone:ding_staff_profile:label"
-msgid "Phone"
-msgstr ""
-
 #: field:field_ding_staff_position:ding_staff_profile:label
 msgctxt "field_ding_staff_position:ding_staff_profile:label"
 msgid "Position"
@@ -459,21 +454,11 @@ msgctxt "field_ding_staff_surname:ding_staff_profile:label"
 msgid "Surname"
 msgstr ""
 
-#: field:field_ding_staff_work_areas:ding_staff_profile:label
-msgctxt "field_ding_staff_work_areas:ding_staff_profile:label"
-msgid "Work areas"
-msgstr ""
-
 #: field:field_ding_staff_work_areas:ding_staff_profile:description
 msgctxt "field_ding_staff_work_areas:ding_staff_profile:description"
 msgid ""
 "A list of areas that you work in/with they should be separated by "
 "commas."
-msgstr ""
-
-#: field:og_group_ref:ding_staff_profile:label
-msgctxt "og_group_ref:ding_staff_profile:label"
-msgid "Library"
 msgstr ""
 
 #: field:og_group_ref:ding_staff_profile:description
@@ -715,6 +700,21 @@ msgstr "Materialer"
 
 #: field:og_group_ref:ding_news:label
 msgctxt "og_group_ref:ding_news:label"
+msgid "Library"
+msgstr "Bibliotek"
+
+#: field:field_ding_staff_phone:ding_staff_profile:label
+msgctxt "field_ding_staff_phone:ding_staff_profile:label"
+msgid "Phone"
+msgstr "Telefon"
+
+#: field:field_ding_staff_work_areas:ding_staff_profile:label
+msgctxt "field_ding_staff_work_areas:ding_staff_profile:label"
+msgid "Work areas"
+msgstr "Arbejdsområder"
+
+#: field:og_group_ref:ding_staff_profile:label
+msgctxt "og_group_ref:ding_staff_profile:label"
 msgid "Library"
 msgstr "Bibliotek"
 
