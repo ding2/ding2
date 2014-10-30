@@ -1,5 +1,6 @@
 /**
- * 
+ * @file
+ * Javascript file for the DDB CMS Control Panel.
  */
 
 (function($) {

@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * @file
+ * Control Panel for the DDB CMS system.
+ *
+ * DDB CMS is a Drupal based frontend in use by Danish public libraries.
+ */
+
 define('DDB_MSG_ERROR_NO_WEB_SERVICE', 'Cannot communicate with the DDB Webservice.');
 
 
@@ -38,7 +45,8 @@ class ddbService {
     if (!isset($result)) {
       if ($cache = cache_get('ddb_hostnames')) {
         $result = $cache->data;
-      } else {
+      } 
+      else {
         try {
           $data = json_decode($this->make_request('/json/hostnames?site=' . $this->get_hostname(), PHP_URL_HOST));
         } catch (Exception $e) {
@@ -50,7 +58,8 @@ class ddbService {
           $result['stg'] = $data->{'result'}[0]->{'stg'};
           
           cache_set('ddb_hostnames', $result, 'cache', time() + 3600);
-        } else {
+        }
+        else {
           $result = NULL;
         }
       }
@@ -63,8 +72,9 @@ class ddbService {
     $result = drupal_http_request($this->uri . $query);
     if ($result->code == 200) {
       return $result->data;
-    } else {
-      throw new Exception(t('Error calling DDB service: ') . $result->code . ' ' . $result->error);
+    }
+    else {
+      throw new Exception(t('Error calling DDB service:') . ' ' . $result->code . ' ' . $result->error);
     }
   }
   
@@ -72,11 +82,12 @@ class ddbService {
   
   public function __construct($uri = NULL) {
     if ($uri) {
-      if (!parse_url($uri, PHP_URL_HOST)) throw new Exception(t('You must provide a valid URI when creating a new instance of ddbService: ') . $url);
+      if (!parse_url($uri, PHP_URL_HOST)) throw new Exception(t('You must provide a valid URI when creating a new instance of ddbService:') . ' ' . $url);
       $host = parse_url($uri, PHP_URL_HOST);
       $scheme = parse_url($uri, PHP_URL_SCHEME);
       $uri = isset($scheme) ? $scheme . '://' . $host : 'http://' . $host;
-    } else {
+    }
+    else {
       $this->uri = variable_get('ddb_service_url');
     }
     
@@ -138,7 +149,8 @@ class ddbService {
       
       if (isset($data->{'result'})) {
         $result = _ddb_cp_object_to_array($data->{'result'});
-      } else {
+      }
+      else {
         return FALSE;
       }
     }
@@ -156,7 +168,8 @@ class ddbService {
     
     if (isset($data->{'result'})) {
       return $data->{'result'};
-    } else {
+    }
+    else {
       return array();
     }
   }
@@ -208,15 +221,15 @@ function ddb() {
 function ddb_cp_menu() {
   $items['admin/ddb_cp'] = array(
     'title' => 'DDB',
-    'description' => t('Configure and manage the DDB installation.'),
+    'description' => 'Configure and manage the DDB installation.',
     'page callback' => 'ddb_cp_menu_content',
     'access arguments' => array('administer ddb'),
     'file' => 'ddb_cp_admin.inc',
   );
 
   $items['admin/ddb_cp/config'] = array(
-    'title' => t('Configuration'),
-    'description' => t('Configure this DDB instance.'),
+    'title' => 'Configuration',
+    'description' => 'Configure this DDB instance.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ddb_cp_menu_configuration'),
     'access arguments' => array('administer ddb_cp'),
@@ -225,8 +238,8 @@ function ddb_cp_menu() {
 
   if (ddb()->model() == 'webmaster') {
      $items['admin/ddb_cp/development'] = array(
-      'title' => t('Development'),
-      'description' => t('Manage development of this DDB instance.'),
+      'title' => 'Development',
+      'description' => 'Manage development of this DDB instance.',
       'page callback' => 'drupal_get_form',
       'page arguments' => array('ddb_cp_menu_development'),
       'access arguments' => array('administer ddb_cp'),
@@ -286,7 +299,8 @@ function ddb_cp_get_test_result($site = NULL, $number = NULL) {
   
   if (in_array($site, $site_types)) {
     return _ddb_cp_save_test_result($site, $number);
-  } else {
+  }
+  else {
     return MENU_NOT_FOUND;
   }
 }
@@ -295,7 +309,8 @@ function ddb_cp_get_test_result($site = NULL, $number = NULL) {
 function ddb_cp_create_dev_submit($form, &$form_state) {
   if (ddb()->execute('Create developer site', array('SITE' => ddb()->names['prod'], 'TEMPLATE' => $form_state['input']['platform']))) {
     drupal_set_message(t('A job to create a new developer site has been scheduled.'));
-  } else {
+  }
+  else {
     drupal_set_message(t(DDB_MSG_ERROR_NO_WEB_SERVICE), 'error');
   }
   
@@ -306,7 +321,8 @@ function ddb_cp_create_dev_submit($form, &$form_state) {
 function ddb_cp_create_stg_submit($form, &$form_state) {
   if (ddb()->execute('Create staging site', array('SITE' => ddb()->names['prod']))) {
     drupal_set_message(t('A job to create a new staging site has been scheduled.'));
-  } else {
+  }
+  else {
     drupal_set_message(t(DDB_MSG_ERROR_NO_WEB_SERVICE), 'error');
   }
 
@@ -317,7 +333,8 @@ function ddb_cp_create_stg_submit($form, &$form_state) {
 function ddb_cp_update_prod_submit($form, &$form_state) {
   if (ddb()->execute('Update production site', array('SITE' => ddb()->names['prod']))) {
     drupal_set_message(t('A job to update the production site has been scheduled.'));
-  } else {
+  }
+  else {
     drupal_set_message(t(DDB_MSG_ERROR_NO_WEB_SERVICE), 'error');
   }
   
@@ -371,7 +388,8 @@ function ddb_cp_ajax_test_result($site) {
   
   if (in_array($site, $site_types)) {
     return drupal_json_output(_ddb_cp_get_test_result($site));
-  } else {
+  }
+  else {
     return MENU_NOT_FOUND;
   }
 }
@@ -387,13 +405,15 @@ function _ddb_cp_save_test_result($site = NULL, $number = NULL) {
       drupal_add_http_header('Content-Type', 'text/xml; charset=utf-8');
       if (isset($number)) {
         drupal_add_http_header('Content-Disposition', 'attachment; filename="Testreport ' . ddb()->names[$site] . ' build ' . $number . '.xml"');
-      } else {
+      }
+      else {
         drupal_add_http_header('Content-Disposition', 'attachment; filename="Testreport ' . ddb()->names[$site] . '.xml"');
       }
       print '<?xml version="1.0" encoding="UTF-8"?>';
       print $xml;
       drupal_exit();
-    } else {
+    }
+    else {
       drupal_set_message(t('Error fetching testreport'), 'error');
     }
   }
@@ -486,7 +506,8 @@ function _ddb_cp_get_test_result($site = NULL) {
 
       if ($failures > 0) {
         $result .= '<div class="' . $site . '-test-suite collapsed">' . $failed . ' <a href="#">' . $key . '</a>';
-      } else {
+      }
+      else {
         $result .= '<div class="' . $site . '-test-suite collapsed">' . $passed . ' <a href="#">' . $key . '</a>';
       }      
       
@@ -499,14 +520,16 @@ function _ddb_cp_get_test_result($site = NULL) {
       
         if ($failures > 0) {
           $result .= '<div class="' . $site . '-test-case collapsed">' . $failed . ' <a href="#">' . $suite_k . '</a>';
-        } else {
+        }
+        else {
           $result .= '<div class="' . $site . '-test-case collapsed">' . $passed . ' <a href="#">' . $suite_k . '</a>';
         }      
       
         foreach ($case as $case_k => $step) {
           if ($step['status'] == 'FAILED' || $step['status'] == 'REGRESSION') {
             $result .= '<div class="' . $site . '-test-step collapsed">' . $failed . ' <a href="#">' . $case_k . '</a>';
-          } else {
+          }
+          else {
             $result .= '<div class="' . $site . '-test-step collapsed">' . $passed . ' <a href="#">' . $case_k . '</a>';
           }
 
@@ -594,9 +617,11 @@ function _ddb_cp_get_test_status_summary($status) {
   if (isset($status['test']) && isset($status['test']['last'])) {
     if ($status['test']['last']['status'] == 'ABORTED') {
       $result = 'Build ' . $status['test']['last']['number'] . ' - Cancelled.';
-    } else if ($status['test']['last']['status'] == 'FAILURE') {
+    }
+    elseif ($status['test']['last']['status'] == 'FAILURE') {
       $result = 'Build ' . $status['test']['last']['number'] . ' - Failed.';
-    } else if ((!$status['test'] == NULL) && (!$status['test']['last'] == NULL) && (!$status['test']['last']['status'] == NULL)) {
+    }
+    elseif ((!$status['test'] == NULL) && (!$status['test']['last'] == NULL) && (!$status['test']['last']['status'] == NULL)) {
       $result = 'Build ' . $status['test']['last']['number'] . ' - ' . $status['test']['last']['total'] . ' total, ' . $status['test']['last']['failed'] . ' failed, ' . $status['test']['last']['skipped'] . ' skipped.';
     }
   }

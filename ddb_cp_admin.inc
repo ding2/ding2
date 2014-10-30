@@ -1,5 +1,12 @@
 <?php
 
+/**
+ *
+ * @file
+ * Form code for the DDB CMS Control Panel.
+ *
+ */
+
 function ddb_cp_menu_content() {
   $content = array();
 
@@ -147,7 +154,8 @@ function ddb_cp_form_development_dev($form, $form_state) {
       '#prefix' => '<div id="dev-test-report">',
       '#suffix' => '</div>',
     );
-  } else {
+  }
+  else {
     $options = array();
     $default = NULL;
     $templates = NULL;
@@ -263,7 +271,8 @@ function ddb_cp_form_development_stg($form, $form_state) {
       '#prefix' => '<div id="stg-test-report">',
       '#suffix' => '</div>',
     );
-  } else {
+  }
+  else {
     $form['create_stg'] = array(
       '#type' => 'fieldset',
       '#collapsed' => 1,
