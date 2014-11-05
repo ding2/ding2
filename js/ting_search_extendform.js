@@ -8,7 +8,6 @@
   $.TingExtendedForm = {};
   $.TingExtendedForm.showExtended = false;
 
-
   Drupal.behaviors.clearExtendForm = {
       attach:function(context, settings) {
           $('#extend-form-clear', context).click(function() {
@@ -78,5 +77,5 @@
     }
   };
 
-} (jQuery));
+}(jQuery));
 
