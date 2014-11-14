@@ -7,6 +7,8 @@
 
 /**
  * DDB service call to handle communication with the web-service.
+ *
+ * @todo: Classes and interfaces should use UpperCamel naming: DdbSercices.
  */
 class ddbService {
 

@@ -6,6 +6,7 @@
  * DDB CMS is a Drupal based frontend in use by Danish public libraries.
  */
 
+// @todo: Would be nice with a comment here.
 define('DDB_CP_MSG_ERROR_NO_WEB_SERVICE', 'Cannot communicate with the DDB Webservice.');
 
 /**
@@ -15,14 +16,14 @@ define('DDB_CP_MSG_ERROR_NO_WEB_SERVICE', 'Cannot communicate with the DDB Webse
  *        In:
  *         * _ddb_cp_get_site_status_message
  *         * _ddb_cp_get_test_status_message
- *         *
  */
-
 
 /**
  * Returns an instance of the ddbService class.
  *
  * It utilizing Drupal's static cache to implement a singleton pattern.
+ *
+ * @todo: All functions name have to be prefixed with module name.
  */
 function ddb() {
   $result = &drupal_static(__FUNCTION__);
