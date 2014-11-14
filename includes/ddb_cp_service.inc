@@ -17,8 +17,12 @@ class ddbService {
   public $names = NULL;
   public $type = NULL;
 
-
-  // Private methods
+  /**
+   * @todo: Missing function description.
+   *
+   * @return mixed
+   *   @todo: Missing description and type.
+   */
   private function get_hostname() {
     $result = &drupal_static(__FUNCTION__);
 
@@ -30,6 +34,12 @@ class ddbService {
     return $result;
   }
 
+  /**
+   * @todo: Missing function description.
+   *
+   * @return null
+   *   @todo: Missing description and type.
+   */
   private function get_hostnames() {
     $result = &drupal_static(__FUNCTION__);
 
@@ -39,8 +49,12 @@ class ddbService {
       }
       else {
         try {
-          $data = json_decode($this->make_request('/json/hostnames?site=' . $this->get_hostname(), PHP_URL_HOST));
-        } catch (Exception $e) {
+          $data = $this->make_request('/json/hostnames?site=' . $this->get_hostname(), PHP_URL_HOST);
+          $data = json_decode($data);
+        }
+        catch (Exception $e) {
+          // @todo: Empty catch block, please handle errors?
+          // @todo: Use custom exception in make_request and only catch that!
         }
 
         if (isset($data->{'result'})) {
@@ -48,6 +62,8 @@ class ddbService {
           $result['prod'] = $data->{'result'}[0]->{'prod'};
           $result['stg'] = $data->{'result'}[0]->{'stg'};
 
+          // @todo: Should this cache time be hardcoded? As minimum make the
+          // time an constance!
           cache_set('ddb_hostnames', $result, 'cache', time() + 3600);
         }
         else {
@@ -59,24 +75,54 @@ class ddbService {
     return $result;
   }
 
+  /**
+   * @todo: Missing function description.
+   *
+   * @param $query
+   *   @todo: Missing description and type.
+   *
+   * @return mixed
+   *   @todo: Missing description and type.
+   *
+   * @throws Exception
+   *   @todo: Missing description.
+   */
   private function make_request($query) {
     $result = drupal_http_request($this->uri . $query);
-    if ($result->code == 200) {
-      return $result->data;
-    }
-    else {
+    if ($result->code != 200) {
+      // @todo: Maybe this should be a custom exception, so it is easier to
+      // catch this type of error and not all exceptions.
       throw new Exception(t('Error calling DDB service:') . ' ' . $result->code . ' ' . $result->error);
     }
+
+    return $result->data;
   }
 
-  // Public methods
+  /**
+   * @todo: Missing function description.
+   *
+   * @todo: I would normally what this as the first method in the class.
+   *
+   * @param null $uri
+   *   @todo: Missing description and type.
+   *   @todo: I may be missing something, but the parameter is not used? It's
+   *          build but not used in any function calls?
+   *
+   * @throws Exception
+   *   @todo: Missing description and type.
+   */
   public function __construct($uri = NULL) {
     if ($uri) {
       if (!parse_url($uri, PHP_URL_HOST)) {
+        // @todo: Maybe this should be a custom exception, so it is easier to
+        // catch this type of error and not all exceptions.
+        // @todo: The $url in the exception is not defined?
         throw new Exception(t('You must provide a valid URI when creating a new instance of ddbService:') . ' ' . $url);
       }
       $host = parse_url($uri, PHP_URL_HOST);
       $scheme = parse_url($uri, PHP_URL_SCHEME);
+
+      // @todo: The $uri is never used?
       $uri = isset($scheme) ? $scheme . '://' . $host : 'http://' . $host;
     }
     else {
@@ -95,6 +141,17 @@ class ddbService {
     $this->names = $this->get_hostnames();
   }
 
+  /**
+   * @todo: Missing function description.
+   *
+   * @param $job
+   *   @todo: Missing description and type.
+   * @param null $parms
+   *   @todo: Missing description and type.
+   *
+   * @return bool
+   *   @todo: Missing description.
+   */
   public function execute($job, $parms = NULL) {
     $query = '/json/execute?job=' . urlencode($job);
 
@@ -104,13 +161,21 @@ class ddbService {
 
     try {
       $this->make_request($query);
-    } catch (Exception $e) {
+    }
+    catch (Exception $e) {
+      // @todo: Use custom exception in make_request and only catch that!
       return FALSE;
     }
 
     return TRUE;
   }
 
+  /**
+   * @todo: Missing function description.
+   *
+   * @return bool
+   *   @todo: Missing description.
+   */
   public function model() {
     $result = &drupal_static(__FUNCTION__);
 
@@ -119,7 +184,9 @@ class ddbService {
 
       try {
         $data = json_decode($this->make_request('/json/model?site=' . $site));
-      } catch (Exception $e) {
+      }
+      catch (Exception $e) {
+        // @todo: Use custom exception in make_request and only catch that!
         drupal_set_message(t(DDB_CP_MSG_ERROR_NO_WEB_SERVICE), 'error');
         return FALSE;
       }
@@ -132,6 +199,12 @@ class ddbService {
     return $result;
   }
 
+  /**
+   * @todo: Missing function description.
+   *
+   * @return bool
+   *   @todo: Missing description.
+   */
   public function status() {
     $result = &drupal_static(__FUNCTION__);
 
@@ -140,7 +213,9 @@ class ddbService {
 
       try {
         $data = json_decode($this->make_request('/json/status?site=' . $site));
-      } catch (Exception $e) {
+      }
+      catch (Exception $e) {
+        // @todo: Use custom exception in make_request and only catch that!
         drupal_set_message(t(DDB_CP_MSG_ERROR_NO_WEB_SERVICE), 'error');
         return FALSE;
       }
@@ -156,10 +231,21 @@ class ddbService {
     return $result;
   }
 
+  /**
+   * @todo: Missing function description.
+   *
+   * @param $site
+   *  @todo: Missing description and type.
+   *
+   * @return array|bool
+   *  @todo: Missing description.
+   */
   public function templates($site) {
     try {
       $data = json_decode($this->make_request('/json/templates?site=' . $site));
-    } catch (Exception $e) {
+    }
+    catch (Exception $e) {
+      // @todo: Use custom exception in make_request and only catch that!
       drupal_set_message(t(DDB_CP_MSG_ERROR_NO_WEB_SERVICE), 'error');
       return FALSE;
     }
@@ -172,6 +258,17 @@ class ddbService {
     }
   }
 
+  /**
+   * @todo: Missing function description.
+   *
+   * @param $site
+   *   @todo: Missing description and type.
+   * @param null $number
+   *   @todo: Missing description and type.
+
+   * @return bool|mixed
+   *   @todo: Missing description.
+   */
   public function test_report($site, $number = NULL) {
     $query = '/xml/test_report?site=' . $site;
     if (isset($number)) {
@@ -180,11 +277,24 @@ class ddbService {
 
     try {
       return $this->make_request($query);
-    } catch (Exception $e) {
+    }
+    catch (Exception $e) {
+      // @todo: Use custom exception in make_request and only catch that!
       return FALSE;
     }
   }
 
+  /**
+   * @todo: Missing function description.
+   *
+   * @param $site
+   *   @todo: Missing description and type.
+   * @param null $number
+   *   @todo: Missing description and type.
+
+   * @return bool|mixed
+   *   @todo: Missing description.
+   */
   public function test_result($site, $number = NULL) {
     $query = '/xml/test_result?site=' . $site;
     if (isset($number)) {
@@ -193,7 +303,9 @@ class ddbService {
 
     try {
       return $this->make_request($query);
-    } catch (Exception $e) {
+    }
+    catch (Exception $e) {
+      // @todo: Use custom exception in make_request and only catch that!
       return FALSE;
     }
   }
