@@ -38,13 +38,15 @@ function ddb() {
  */
 function ddb_cp_menu() {
   $items = array();
+  $path = drupal_get_path('module', 'ddb_cp');
 
   $items['admin/ddb_cp'] = array(
     'title' => 'DDB',
     'description' => 'Configure and manage the DDB installation.',
     'page callback' => 'ddb_cp_menu_content',
     'access arguments' => array('administer ddb'),
-    'file' => 'ddb_cp_admin.inc',
+    'file' => 'ddb_cp.admin.inc',
+    'file path' => $path . '/includes/',
   );
 
   $items['admin/ddb_cp/config'] = array(
@@ -53,7 +55,8 @@ function ddb_cp_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ddb_cp_menu_configuration'),
     'access arguments' => array('administer ddb_cp'),
-    'file' => 'ddb_cp_admin.inc',
+    'file' => 'ddb_cp.admin.inc',
+    'file path' => $path . '/includes/',
   );
 
   if (ddb()->model() == 'webmaster') {
@@ -63,7 +66,8 @@ function ddb_cp_menu() {
       'page callback' => 'drupal_get_form',
       'page arguments' => array('ddb_cp_menu_development'),
       'access arguments' => array('administer ddb_cp'),
-      'file' => 'ddb_cp_admin.inc',
+      'file' => 'ddb_cp.admin.inc',
+      'file path' => $path . '/includes/',
     );
   }
 
