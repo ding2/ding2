@@ -31,7 +31,7 @@ function ddb_cp_menu_content() {
     $items['title']  = t('Development');
     $items['description'] = t('Manage development of this DDB instance.');
     $items['localized_options'] = array();
-  
+
     $content['dev'] = $items;
   }
 
@@ -52,7 +52,7 @@ function ddb_cp_menu_configuration() {
     '#collapsible' => FALSE,
     '#title' => t('Configuration'),
   );
-  
+
   $form['ddb_config']['model'] = array(
     '#type' => 'item',
     '#markup' => t("You are currently subscribed to the '@model' model.", array('@model' => ddb()->model())),
@@ -92,7 +92,7 @@ function ddb_cp_config_submit($form, &$form_state) {
 
   // @todo: what have been saved in cache under that key.
   cache_clear_all('ddb', 'cache', TRUE);
-  
+
   drupal_set_message(t('Your configuration has been saved.'));
 }
 
@@ -113,7 +113,7 @@ function ddb_cp_menu_development($form, &$form_state) {
   $form += ddb_cp_form_development_dev($form, $form_state);
   $form += ddb_cp_form_development_stg($form, $form_state);
   $form += ddb_cp_form_development_prod($form, $form_state);
-    
+
   $form['#attached']['js'] = array(
     drupal_get_path('module', 'ddb_cp') . '/js/ddb_cp.js',
   );
@@ -135,7 +135,7 @@ function ddb_cp_menu_development($form, &$form_state) {
 function ddb_cp_form_development_dev($form, $form_state) {
   $form = array();
   $status = ddb()->status();
-  
+
   if ($status['dev']['status'] != 'unknown' && $status['dev']['status'] != 'not_exist') {
     $form['create_dev'] = array(
       '#type' => 'fieldset',
@@ -201,16 +201,18 @@ function ddb_cp_form_development_dev($form, $form_state) {
     $options = array();
     $default = NULL;
     $templates = NULL;
-    
+
     if ($templates = ddb()->templates(ddb()->names['prod'])) {
       foreach ($templates as $template) {
         if ($template->{'enabled'} == 'true') {
           $options[$template->{'path'}] = $template->{'name'};
-          if ($template->{'default'} == 'true') $default = $template->{'path'};
+          if ($template->{'default'} == 'true') {
+            $default = $template->{'path'};
+          }
         }
       }
     }
-  
+
     $form['create_dev'] = array(
       '#type' => 'fieldset',
       '#collapsible' => 1,
@@ -222,12 +224,12 @@ function ddb_cp_form_development_dev($form, $form_state) {
       '#type' => 'item',
       '#markup' =>  t('If you want to initialize a new delevopment flow, you can create a development site by clicking the button below.'),
     );
-    
+
     $form['create_dev']['plat_frame'] = array(
       '#type' => 'fieldset',
       '#collapsible' => 0,
     );
-    
+
     $form['create_dev']['plat_frame']['platform'] = array(
       '#type' => 'radios',
       '#title' => t('Platform'),
@@ -262,7 +264,7 @@ function ddb_cp_form_development_stg($form, $form_state) {
   $form = array();
   $status = ddb()->status();
   $install_time = date('j/n Y G:i', variable_get('install_time'));
-  
+
   if ($status['stg']['status'] != 'unknown' && $status['stg']['status'] != 'not_exist') {
     $form['create_stg'] = array(
       '#type' => 'fieldset',
@@ -271,7 +273,7 @@ function ddb_cp_form_development_stg($form, $form_state) {
       '#description' => t('Your staging site can be found at <a href="@url">@url</a>.', array('@url' => url('http://' . ddb()->names['stg']))),
       '#collapsed' => 1,
     );
-    
+
     $form['create_stg']['info'] = array(
       '#type' => 'item',
       '#markup' => 'It was created at ' . $install_time . '. Accordingly, the staging site does not reflect any changes you may done on your developer site since then. You can update your staging site to include the latest development by pressing the button below.',
@@ -332,7 +334,7 @@ function ddb_cp_form_development_stg($form, $form_state) {
       '#title' => t('Staging Site'),
       '#description' => t('Currently you do not have a staging site.'),
     );
-  
+
     $form['create_stg']['stg_url'] = array(
       '#type' => 'item',
       '#markup' => t('The staging site is used for final testing of your development before moving on to production. You can only create a staging site if you have a valid development site with an error free test. To create a new staging site, click the button below.'),
@@ -386,7 +388,7 @@ function ddb_cp_form_development_prod($form, $form_state) {
     '#value' => t('Update'),
     '#submit' => array('ddb_cp_update_prod_submit'),
   );
-  
+
   $form['update_prod']['prod_status'] = array(
     '#type' => 'fieldset',
     '#collapsible' => 1,
