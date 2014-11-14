@@ -76,7 +76,7 @@ function ddb_cp_config_submit($form, &$form_state) {
 
 
 function ddb_cp_menu_development($form, &$form_state) {
-  drupal_add_css(drupal_get_path('module', 'ddb_cp') . '/ddb_cp.css', array('group' => CSS_DEFAULT, 'type' => 'file'));
+  drupal_add_css(drupal_get_path('module', 'ddb_cp') . '/css/ddb_cp.css', array('group' => CSS_DEFAULT, 'type' => 'file'));
 
   $form += ddb_cp_form_development_dev($form, $form_state);
   $form += ddb_cp_form_development_stg($form, $form_state);
