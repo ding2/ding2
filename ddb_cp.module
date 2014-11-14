@@ -124,7 +124,7 @@ function ddb_cp_permission() {
  */
 function ddb_cp_get_test_result($site = NULL, $number = NULL) {
   $site_types = array('dev', 'prod', 'stg');
-  
+
   if (in_array($site, $site_types)) {
     // @todo: Function is void, so it can't be returned?
     return _ddb_cp_save_test_result($site, $number);
@@ -187,7 +187,7 @@ function ddb_cp_ajax_recreate($site) {
     switch ($site) {
       case 'dev':
         $status = ddb()->status()['stg'];
-        
+
         if ($status['status'] == 'running' || $status['status'] == 'building' || $status['status'] == 'disabled') {
           ddb()->execute('Delete staging site', array('SITE' => ddb()->names['prod']));
         }
@@ -539,7 +539,7 @@ function _ddb_cp_get_test_status_message($type, $status) {
       }
       break;
   }
-  
+
   return $prefix . $ball . ' Last test: ' . _ddb_cp_get_test_status_summary($status) . $timestamp . '</div>';
 }
 

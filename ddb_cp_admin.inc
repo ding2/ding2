@@ -83,7 +83,7 @@ function ddb_cp_menu_development($form, &$form_state) {
   $form += ddb_cp_form_development_prod($form, $form_state);
     
   $form['#attached']['js'] = array(
-    drupal_get_path('module', 'ddb_cp') . '/ddb_cp.js',
+    drupal_get_path('module', 'ddb_cp') . '/js/ddb_cp.js',
   );
 
   return $form;
