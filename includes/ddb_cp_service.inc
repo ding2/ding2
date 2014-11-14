@@ -120,7 +120,7 @@ class ddbService {
       try {
         $data = json_decode($this->make_request('/json/model?site=' . $site));
       } catch (Exception $e) {
-        drupal_set_message(t(DDB_MSG_ERROR_NO_WEB_SERVICE), 'error');
+        drupal_set_message(t(DDB_CP_MSG_ERROR_NO_WEB_SERVICE), 'error');
         return FALSE;
       }
 
@@ -141,7 +141,7 @@ class ddbService {
       try {
         $data = json_decode($this->make_request('/json/status?site=' . $site));
       } catch (Exception $e) {
-        drupal_set_message(t(DDB_MSG_ERROR_NO_WEB_SERVICE), 'error');
+        drupal_set_message(t(DDB_CP_MSG_ERROR_NO_WEB_SERVICE), 'error');
         return FALSE;
       }
 
@@ -160,7 +160,7 @@ class ddbService {
     try {
       $data = json_decode($this->make_request('/json/templates?site=' . $site));
     } catch (Exception $e) {
-      drupal_set_message(t(DDB_MSG_ERROR_NO_WEB_SERVICE), 'error');
+      drupal_set_message(t(DDB_CP_MSG_ERROR_NO_WEB_SERVICE), 'error');
       return FALSE;
     }
 
