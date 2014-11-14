@@ -1,41 +1,55 @@
 <?php
-
 /**
- *
  * @file
  * Form code for the DDB CMS Control Panel.
- *
  */
 
+/**
+ * @todo: Missing function description.
+ *
+ * @return string
+ *   @todo: Missing description and type.
+ *
+ * @throws Exception
+ *   @todo: Missing description.
+ */
 function ddb_cp_menu_content() {
+  $items = array();
   $content = array();
 
-  $link['access'] = 1;
-  $link['href']   = 'admin/ddb_cp/config';
-  $link['title']  = t('Configuration');
-  $link['description'] = t('Configure this DDB instance.');
-  $link['localized_options'] = array();
+  $items['access'] = 1;
+  $items['href']   = 'admin/ddb_cp/config';
+  $items['title']  = t('Configuration');
+  $items['description'] = t('Configure this DDB instance.');
+  $items['localized_options'] = array();
 
-  $content['config'] = $link;
+  $content['config'] = $items;
 
   if (ddb()->model() == 'webmaster') {
-    $link['access'] = 1;
-    $link['href']   = 'admin/ddb_cp/development';
-    $link['title']  = t('Development');
-    $link['description'] = t('Manage development of this DDB instance.');
-    $link['localized_options'] = array();
+    $items['access'] = 1;
+    $items['href']   = 'admin/ddb_cp/development';
+    $items['title']  = t('Development');
+    $items['description'] = t('Manage development of this DDB instance.');
+    $items['localized_options'] = array();
   
-    $content['dev'] = $link;
+    $content['dev'] = $items;
   }
 
   return theme('admin_block_content', array('content' => $content));
 }
 
-
+/**
+ * @todo: Missing function description.
+ *
+ * @return mixed
+ *   @todo: Missing description and type.
+ */
 function ddb_cp_menu_configuration() {
+  $form = array();
+
   $form['ddb_config'] = array(
     '#type' => 'fieldset',
-    '#collapsible' => 0,
+    '#collapsible' => FALSE,
     '#title' => t('Configuration'),
   );
   
@@ -46,7 +60,7 @@ function ddb_cp_menu_configuration() {
 
   $form['ddb_config']['servers'] = array(
     '#type' => 'fieldset',
-    '#collapsible' => 1,
+    '#collapsible' => TRUE,
     '#title' => t('Server Addresses'),
   );
 
@@ -65,16 +79,34 @@ function ddb_cp_menu_configuration() {
   return $form;
 }
 
-
+/**
+ * @todo: Missing function description.
+ *
+ * @param $form
+ *   @todo: Missing description and type.
+ * @param $form_state
+ *   @todo: Missing description and type.
+ */
 function ddb_cp_config_submit($form, &$form_state) {
   variable_set('ddb_service_url', $form_state['values']['ddb_service_url']);
-  
+
+  // @todo: what have been saved in cache under that key.
   cache_clear_all('ddb', 'cache', TRUE);
   
   drupal_set_message(t('Your configuration has been saved.'));
 }
 
-
+/**
+ * @todo: Missing function description.
+ *
+ * @param $form
+ *   @todo: Missing description and type.
+ * @param $form_state
+ *   @todo: Missing description and type.
+ *
+ * @return array
+ *   @todo: Missing description and type.
+ */
 function ddb_cp_menu_development($form, &$form_state) {
   drupal_add_css(drupal_get_path('module', 'ddb_cp') . '/css/ddb_cp.css', array('group' => CSS_DEFAULT, 'type' => 'file'));
 
@@ -89,7 +121,17 @@ function ddb_cp_menu_development($form, &$form_state) {
   return $form;
 }
 
-
+/**
+ * @todo: Missing function description.
+ *
+ * @param $form
+ *   @todo: Missing description and type.
+ * @param $form_state
+ *   @todo: Missing description and type.
+ *
+ * @return array
+ *   @todo: Missing description and type.
+ */
 function ddb_cp_form_development_dev($form, $form_state) {
   $form = array();
   $status = ddb()->status();
@@ -205,7 +247,17 @@ function ddb_cp_form_development_dev($form, $form_state) {
   return $form;
 }
 
-
+/**
+ * @todo: Missing function description.
+ *
+ * @param $form
+ *   @todo: Missing description and type.
+ * @param $form_state
+ *   @todo: Missing description and type.
+ *
+ * @return array
+ *   @todo: Missing description and type.
+ */
 function ddb_cp_form_development_stg($form, $form_state) {
   $form = array();
   $status = ddb()->status();
@@ -285,7 +337,8 @@ function ddb_cp_form_development_stg($form, $form_state) {
       '#type' => 'item',
       '#markup' => t('The staging site is used for final testing of your development before moving on to production. You can only create a staging site if you have a valid development site with an error free test. To create a new staging site, click the button below.'),
     );
-  
+
+    // @todo: Missing comment about the abnormal submit function.
     $form['create_stg']['go_create_stg'] = array(
       '#type' => 'submit',
       '#name' => 'create-stg',
@@ -297,7 +350,17 @@ function ddb_cp_form_development_stg($form, $form_state) {
   return $form;
 }
 
-
+/**
+ * @todo: Missing function description.
+ *
+ * @param $form
+ *   @todo: Missing description and type.
+ * @param $form_state
+ *   @todo: Missing description and type.
+ *
+ * @return array
+ *   @todo: Missing description and type.
+ */
 function ddb_cp_form_development_prod($form, $form_state) {
   global $base_url;
   $form = array();
@@ -316,6 +379,7 @@ function ddb_cp_form_development_prod($form, $form_state) {
     '#markup' => t('You must have a valid staging site with an error free test to update your production site. When you click the update button, your production site will be updated with your developments and the development flow will be ended. This means that your development and staging sites will be deleted. You can always start a new flow to do further development.'),
   );
 
+  // @todo: Missing comment about the abnormal submit function.
   $form['update_prod']['go_update_prod'] = array(
     '#type' => 'submit',
     '#name' => 'create-prod',
