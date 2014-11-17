@@ -454,6 +454,15 @@ function ding_base_updated_taxonomy_aliases($node, $base, $terms, $slugs) {
 
 /**
  * Rewrite the color generated stylesheet.
+ *
+ * This function is used by "drush cgen" to regenerate the color modules css
+ * file when the theme have changed it's css. We have tried to trigger the color
+ * module to do this, but without any luck. So this basically do the same as
+ * going into the theme settings page changing the color scheme and change it
+ * back and press save.
+ *
+ * This manual step would create a large overhead in the automatically
+ * deployment and in the development of the theme, so hence this function.
  */
 function ding_base_rewrite_color_stylesheet() {
   $themes = list_themes();
