@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2014-09-09 16:58+0200\n"
-"PO-Revision-Date: 2014-09-09 16:58+0200\n"
+"POT-Creation-Date: 2014-10-30 15:37+0100\n"
+"PO-Revision-Date: 2014-10-30 15:37+0100\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
@@ -93,134 +93,6 @@ msgstr ""
 msgid ""
 "Determine context by checking if the parent content of the comment "
 "belongs to a group"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "Stores dibs transactions"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "API hash value. Used in payment process"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "Order price info. Serialized"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "Payment time"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "Payment retry count that can be used to suffix order number"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "0 = payment not recieved, 1 = payment recieved"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "Currency code for the payment"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "The price paid"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "The payment type the user choose in the payment window."
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "The fee for the transaction"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "Transaction id from DIBS."
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid ""
-"The number of payments the transaction is splited into, 1 for default "
-"usage (no splits)."
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "The customers name"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "The customers address"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "The customers address 2"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "The customers city"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "The customers zipcode"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "The customers country"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "The customers email"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "The customers phone"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid ""
-"Storage of extra parameters from the module which implements the DIBS "
-"API. The data is stored serialized."
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "Logs different events related to a transaction"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "Log record type"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "Log record subtype. Used to thme a certain log line. Not required"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "Log text."
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "Log value. Used in combination with subtype."
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "Used to store order id settings for each dibs implementation"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "Order id counter"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "Order id suffix"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "Used to store split payment transaction ids"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "The transaction delta."
 msgstr ""
 
 #: /install.php?profile=ding2&locale=en&id=1&op=do
@@ -910,22 +782,6 @@ msgid "Clone own nodes."
 msgstr ""
 
 #: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "Administer dibs settings"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "Administer dibs settings."
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "Administer dibs transactions"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "Administer dibs transactions."
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
 msgid "Administer user with role: %role"
 msgstr ""
 
@@ -939,6 +795,14 @@ msgstr ""
 
 #: /install.php?profile=ding2&locale=en&id=1&op=do
 msgid "Allow role to configure provider settings."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=1&op=do
+msgid "Perform reservation"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=1&op=do
+msgid "Perform reservation in the library system."
 msgstr ""
 
 #: /install.php?profile=ding2&locale=en&id=1&op=do
@@ -1099,14 +963,6 @@ msgstr ""
 
 #: /install.php?profile=ding2&locale=en&id=1&op=do
 msgid "A form to add a new comment reply."
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "User debt list"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "The current debts for a user"
 msgstr ""
 
 #: /install.php?profile=ding2&locale=en&id=1&op=do
@@ -1282,10 +1138,6 @@ msgstr ""
 
 #: /install.php?profile=ding2&locale=en&id=1&op=do
 msgid "Display results per page selector."
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "Ting search - Search results"
 msgstr ""
 
 #: /install.php?profile=ding2&locale=en&id=1&op=do
@@ -2592,14 +2444,6 @@ msgstr ""
 
 #: /install.php?profile=ding2&locale=en&id=1&op=do
 msgid "Ding availability legend"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "DIBS: Terms of sale"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "DIBS: Cards supported"
 msgstr ""
 
 #: /install.php?profile=ding2&locale=en&id=1&op=do
@@ -4748,7 +4592,7 @@ msgid "Link to content that the tab should go to when clicked."
 msgstr ""
 
 #: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "Short description displayed inside the tab in a overlay. "
+msgid "Short description displayed inside the tab in a overlay."
 msgstr ""
 
 #: /install.php?profile=ding2&locale=en&id=1&op=do
@@ -4835,10 +4679,6 @@ msgid "User news simple list"
 msgstr ""
 
 #: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "Latest news posts"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
 msgid "simple news list by user"
 msgstr ""
 
@@ -4892,6 +4732,10 @@ msgstr ""
 
 #: /install.php?profile=ding2&locale=en&id=1&op=do
 msgid "Queue 'Front page tabroll'"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=1&op=do
+msgid "Short description displayed inside the tab in a overlay. "
 msgstr ""
 
 #: /install.php?profile=ding2&locale=en&id=1&op=do
@@ -4966,6 +4810,14 @@ msgstr ""
 
 #: /install.php?profile=ding2&locale=en&id=1&op=do
 msgid "@entity_label flag counter"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=1&op=do
+msgid "Perform bookmark"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=1&op=do
+msgid "Perform bookmark of ting objects."
 msgstr ""
 
 #: /install.php?profile=ding2&locale=en&id=1&op=do
@@ -5093,10 +4945,6 @@ msgstr ""
 
 #: /install.php?profile=ding2&locale=en&id=1&op=do
 msgid "Surname"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en&id=1&op=do
-msgid "Work areas"
 msgstr ""
 
 #: /install.php?profile=ding2&locale=en&id=1&op=do
@@ -7350,7 +7198,7 @@ msgstr ""
 msgid "The value of the variable being set by the SSL proxy server."
 msgstr ""
 
-#: /sites/default/files/languages/da_Fkh0QkvBEWWnm6g_nWkpAH5TKkKGcMpP0hLf4ArCiYs.js?nblgtm
+#: /sites/default/files/languages/da_Fkh0QkvBEWWnm6g_nWkpAH5TKkKGcMpP0hLf4ArCiYs.js?ne5pe9
 msgid "@msg"
 msgstr ""
 
@@ -7367,6 +7215,150 @@ msgid "SMS id"
 msgstr ""
 
 #: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Stores dibs transactions"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "API hash value. Used in payment process"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Order price info. Serialized"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Payment time"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Payment retry count that can be used to suffix order number"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "0 = payment not recieved, 1 = payment recieved"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Currency code for the payment"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "The price paid"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "The payment type the user choose in the payment window."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "The fee for the transaction"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Transaction id from DIBS."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid ""
+"The number of payments the transaction is splited into, 1 for default "
+"usage (no splits)."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "The customers name"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "The customers address"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "The customers address 2"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "The customers city"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "The customers zipcode"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "The customers country"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "The customers email"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "The customers phone"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid ""
+"Storage of extra parameters from the module which implements the DIBS "
+"API. The data is stored serialized."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Logs different events related to a transaction"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Log record type"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Log record subtype. Used to thme a certain log line. Not required"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Log text."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Log value. Used in combination with subtype."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Used to store order id settings for each dibs implementation"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Order id counter"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Order id suffix"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Used to store split payment transaction ids"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "The transaction delta."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Administer dibs settings"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Administer dibs settings."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Administer dibs transactions"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "Administer dibs transactions."
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
 msgid "Block contents (boxes)"
 msgstr ""
 
@@ -7380,6 +7372,14 @@ msgstr ""
 
 #: /install.php?profile=ding2&locale=en&id=2&op=do
 msgid "Request new password form"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "User debt list"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "The current debts for a user"
 msgstr ""
 
 #: /install.php?profile=ding2&locale=en&id=2&op=do
@@ -7533,6 +7533,14 @@ msgstr ""
 
 #: /install.php?profile=ding2&locale=en&id=2&op=do
 msgid "Test IIII"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "DIBS: Terms of sale"
+msgstr ""
+
+#: /install.php?profile=ding2&locale=en&id=2&op=do
+msgid "DIBS: Cards supported"
 msgstr ""
 
 #: /install.php?profile=ding2&locale=en&id=2&op=do
@@ -7810,32 +7818,12 @@ msgid ""
 "This will not store any personal information)"
 msgstr ""
 
-#: /varnish/roles
-msgid "Varnish roles header"
-msgstr ""
-
-#: /varnish/roles
-msgid "Returns headers with current role"
-msgstr ""
-
 #: /index.php
 msgid "Cache !mess cid: !cid"
 msgstr ""
 
 #: /index.php
 msgid "Cache SET cid: !cid"
-msgstr ""
-
-#: /index.php
-msgid "Drush bootstrap phase : !function()"
-msgstr ""
-
-#: /index.php
-msgid "Successfully logged into Drupal as !name"
-msgstr ""
-
-#: /index.php
-msgid "Found command: !command (commandfile=!commandfile)"
 msgstr ""
 
 #: /index.php
@@ -11797,11 +11785,15 @@ msgid "Delete all messages of type cron."
 msgstr ""
 
 #: /index.php
-msgid "Calling hook !hook"
+msgid "Bootstrap to phase !phase."
 msgstr ""
 
 #: /index.php
-msgid "'!name' cache was cleared."
+msgid "Found command: !command (commandfile=!commandfile)"
+msgstr ""
+
+#: /index.php
+msgid "Calling hook !hook"
 msgstr ""
 
 #: /index.php
@@ -11834,14 +11826,6 @@ msgstr ""
 
 #: /
 msgid "Renders a panel normally. This is the most common option."
-msgstr ""
-
-#: /
-msgid "%1 members"
-msgstr ""
-
-#: /
-msgid "%1's groups"
 msgstr ""
 
 #: /
@@ -11962,8 +11946,392 @@ msgstr ""
 msgid "#toggle-opening-hours"
 msgstr ""
 
+#: /?q=autologout_ahah_set_last
+msgid "JS Logout AHAH Set Last"
+msgstr ""
+
 #: /ting_search_carousel/results/ajax/0
 msgid "Show search carousel results"
+msgstr ""
+
+#: /varnish/roles
+msgid "Varnish roles header"
+msgstr ""
+
+#: /varnish/roles
+msgid "Returns headers with current role"
+msgstr ""
+
+#: /ting/collection/870970-basis:50618374
+msgid "Internal error"
+msgstr ""
+
+#: /ting/collection/870970-basis:50618374
+msgid "Ting collection id"
+msgstr ""
+
+#: /ting/collection/870970-basis:50618374
+msgid "Ting collection: ID"
+msgstr ""
+
+#: /ting/collection/870970-basis:50618374
+msgid "Show a ting collection"
+msgstr ""
+
+#: /ting/collection/870970-basis:50618374
+msgid "Enter a Ting collection ID for this argument"
+msgstr ""
+
+#: /ting/collection/870970-basis:50618374
+msgid ""
+"An collection from the Ting database – books, CD-ROMs, magazines, "
+"etc."
+msgstr ""
+
+#: /ting/collection/870970-basis:50618374
+msgid "Enter the collection ID for this context"
+msgstr ""
+
+#: /ting/object/870970-basis%3A50618374
+msgid "Ting object id"
+msgstr ""
+
+#: /ting/object/870970-basis%3A50618374
+msgid "Ting object: ID"
+msgstr ""
+
+#: /ting/object/870970-basis%3A50618374
+msgid "Show a ting object"
+msgstr ""
+
+#: /ting/object/870970-basis%3A50618374
+msgid "Enter a Ting object ID for this argument"
+msgstr ""
+
+#: /ting/object/870970-basis%3A50618374
+msgid "An object from the Ting database – books, CD-ROMs, magazines, etc."
+msgstr ""
+
+#: /ting/object/870970-basis%3A50618374
+msgid "Enter the object ID for this context"
+msgstr ""
+
+#: /ting/object/870970-basis%3A50618374
+msgid "Creator homepage"
+msgstr ""
+
+#: /ting/object/870970-basis%3A50618374
+msgid "Om materialet"
+msgstr ""
+
+#: /ting/covers
+msgid "Retreives cover for Ting objects"
+msgstr ""
+
+#: /ding_availability/holdings/50618374
+msgid "Availability and holding status"
+msgstr ""
+
+#: /ting/autocomplete/halo
+msgid "Did you mean '@query' ?"
+msgstr ""
+
+#: /search/ting/haloween
+msgid "Online"
+msgstr ""
+
+#: /search/ting/haloween
+msgid "(@year)"
+msgstr ""
+
+#: /search/ting/haloween
+msgid "Pending availability"
+msgstr ""
+
+#: /search/ting/haloween
+msgid "Ting search sort controls"
+msgstr ""
+
+#: /search/ting/haloween
+msgid "Search @backend"
+msgstr ""
+
+#: /search/ting/haloween
+msgid "Well"
+msgstr ""
+
+#: /search/ting/haloween
+msgid "%keywords:html_safe"
+msgstr ""
+
+#: profiles/ding2/modules/ting_search/js/ting_search_extendform.js
+msgid " AND "
+msgstr ""
+
+#: /ding_availability/items/44169657
+msgid "Availability status"
+msgstr ""
+
+#: /ting/object/870970-basis%3A29189021/reserve
+msgid "Reservation"
+msgstr ""
+
+#: /ting/object/870970-basis%3A29189021
+msgid "Lån, reserveringer og mellemværende"
+msgstr ""
+
+#: /user
+msgid "User: has staff role"
+msgstr ""
+
+#: /user
+msgid "Check if user has the staff role."
+msgstr ""
+
+#: /user
+msgid "reservationFeeDebt"
+msgstr ""
+
+#: /user
+msgid "Reservation fee"
+msgstr ""
+
+#: /user
+msgid "Title not available"
+msgstr ""
+
+#: /user
+msgid "Lånerstatus"
+msgstr ""
+
+#: /user/6/status/debts
+msgid "Kr"
+msgstr ""
+
+#: /user/6/status/debts
+msgid "Total"
+msgstr ""
+
+#: /user/6/status/debts
+msgid "Mellemværende"
+msgstr ""
+
+#: /user/6/status/debts
+msgid "Betalingsbetingelser"
+msgstr ""
+
+#: /user/6/status/debts
+msgid "Vi modtager følgende kort"
+msgstr ""
+
+#: /ting/collection/870970-basis%3A49359616
+msgid "Hear online"
+msgstr ""
+
+#: /ting/object/870970-basis%3A20401206/reserve/20401206ZX12ZXZX2014ZXZX/2014/12
+msgid "@title, vol @volume, issue @issue"
+msgstr ""
+
+#: /user/6/edit
+msgid "Detect profile 2 type (edit form)."
+msgstr ""
+
+#: /user/6/edit
+msgid "Edit @label"
+msgstr ""
+
+#: /user/6/edit
+msgid "Empty 'End date' values will use the 'Start date' values."
+msgstr ""
+
+#: /user/6/edit
+msgid "Reservationer på pause"
+msgstr ""
+
+#: /user/6/edit
+msgid "Error communicating with library system."
+msgstr ""
+
+#: /nyheder/anbefalinger/eventyrere-og-globetrottere
+msgid "Kategori"
+msgstr ""
+
+#: /nyheder/anbefalinger/eventyrere-og-globetrottere
+msgid "!datetime"
+msgstr ""
+
+#: /nyheder/anbefalinger/eventyrere-og-globetrottere
+msgid ""
+"Simple caching is a time-based cache. This is a hard limit, and once "
+"cached it will remain that way until the time limit expires."
+msgstr ""
+
+#: /nyheder/anbefalinger/eventyrere-og-globetrottere
+msgid "%node:title"
+msgstr ""
+
+#: /bibliotek/hovedbiblioteket
+msgid "OG: Node is an OG group"
+msgstr ""
+
+#: /bibliotek/hovedbiblioteket
+msgid "Control access by whether or not a node is of type \"Group\"."
+msgstr ""
+
+#: /bibliotek/hovedbiblioteket
+msgid "Og_membership_type"
+msgstr ""
+
+#: /bibliotek/hovedbiblioteket
+msgid "Og_membership"
+msgstr ""
+
+#: /bibliotek/hovedbiblioteket
+msgid "Request message"
+msgstr ""
+
+#: /bibliotek/hovedbiblioteket
+msgid "Profile2"
+msgstr ""
+
+#: /bibliotek/hovedbiblioteket
+msgid "Profile2_type"
+msgstr ""
+
+#: /bibliotek/hovedbiblioteket
+msgid "endpoints"
+msgstr ""
+
+#: /bibliotek/hovedbiblioteket
+msgid "Alt Text"
+msgstr ""
+
+#: /bibliotek/hovedbiblioteket
+msgid "Title Text"
+msgstr ""
+
+#: /bibliotek/hovedbiblioteket
+msgid "Taxonomy_term"
+msgstr ""
+
+#: /bibliotek/hovedbiblioteket
+msgid "Taxonomy_vocabulary"
+msgstr ""
+
+#: /bibliotek/hovedbiblioteket
+msgid "Ting_object"
+msgstr ""
+
+#: /bibliotek/hovedbiblioteket
+msgid "Ting_collection"
+msgstr ""
+
+#: /bibliotek/hovedbiblioteket
+msgid "Wysiwyg_profile"
+msgstr ""
+
+#: /bibliotek/hovedbiblioteket
+msgid "Rules_config"
+msgstr ""
+
+#: /bibliotek/hovedbiblioteket
+msgid "Kontakt"
+msgstr ""
+
+#: /bibliotek/hovedbiblioteket
+msgid "Opening time"
+msgstr ""
+
+#: /bibliotek/hovedbiblioteket
+msgid "Closing time"
+msgstr ""
+
+#: /bibliotek/hovedbiblioteket
+msgid "Åbningstider"
+msgstr ""
+
+#: /bibliotek/hovedbiblioteket
+msgid "Nyt fra biblioteket"
+msgstr ""
+
+#: /bibliotek/hovedbiblioteket/om
+msgid "Rules-based cache"
+msgstr ""
+
+#: /bibliotek/hovedbiblioteket/om
+msgid "Use rules and Cache Actions to determine when to clear the cache."
+msgstr ""
+
+#: /bibliotek/hovedbiblioteket/personale
+msgid "Bruger uid"
+msgstr ""
+
+#: /bibliotek/hovedbiblioteket/personale
+msgid "term fra field_ding_staff_department"
+msgstr ""
+
+#: /bibliotek/hovedbiblioteket/arrangementer
+msgid "%tid:name"
+msgstr ""
+
+#: /arrangementer/boern/parkour-biblioteket-i-bevaegelse
+msgid "Caribbean Netherlands"
+msgstr ""
+
+#: /arrangementer/boern/parkour-biblioteket-i-bevaegelse
+msgid "Andre spændende arrangementer"
+msgstr ""
+
+#: /arrangementer/musik
+msgid "%term:name"
+msgstr ""
+
+#: /search/ting/dykninger%20ved%20vraget%20af%20st.%20george
+msgid "Result"
+msgstr ""
+
+#: /biblioteker
+msgid "Leaflet default map."
+msgstr ""
+
+#: /temaer
+msgid "Temaer"
+msgstr ""
+
+#: /temaer/fantasy
+msgid "Manage group menus."
+msgstr ""
+
+#: /temaer/fantasy
+msgid "Add people"
+msgstr ""
+
+#: /temaer/fantasy
+msgid "Add group members."
+msgstr ""
+
+#: /temaer/fantasy
+msgid "Manage the group members."
+msgstr ""
+
+#: /temaer/fantasy
+msgid "Roles (read-only)"
+msgstr ""
+
+#: /temaer/fantasy
+msgid "View the group roles."
+msgstr ""
+
+#: /temaer/fantasy
+msgid "Permissions (read-only)"
+msgstr ""
+
+#: /temaer/fantasy
+msgid "View the group permissions."
+msgstr ""
+
+#: /temaer/fantasy
+msgid "Clone content"
 msgstr ""
 
 #: /admin/config?render=overlay
@@ -11995,11 +12363,11 @@ msgid "Manage Ding."
 msgstr ""
 
 #: /admin/config?render=overlay
-msgid "Payment integration modules."
+msgid "Manage Ting integration settings."
 msgstr ""
 
 #: /admin/config?render=overlay
-msgid "Manage Ting integration settings."
+msgid "Payment integration modules."
 msgstr ""
 
 #: /admin/config?render=overlay
@@ -12068,10 +12436,6 @@ msgid ""
 "GeoPHP library installed and OK. However, GEOS is was not found. While "
 "not required, you will see performance improvements if you install the "
 "GEOS PHP extension. See the following link for more information."
-msgstr ""
-
-#: /admin/config?render=overlay
-msgid "Leaflet default map."
 msgstr ""
 
 #: /admin/config?render=overlay
@@ -12173,6 +12537,14 @@ msgid ""
 msgstr ""
 
 #: /admin/config?render=overlay
+msgid "Auto Logout"
+msgstr ""
+
+#: /admin/config?render=overlay
+msgid "Administer Auto Logout settings."
+msgstr ""
+
+#: /admin/config?render=overlay
 msgid "Secure permissions"
 msgstr ""
 
@@ -12229,14 +12601,6 @@ msgid "Define content on the front page."
 msgstr ""
 
 #: /admin/config?render=overlay
-msgid "OG field settings"
-msgstr ""
-
-#: /admin/config?render=overlay
-msgid "Configure Organic groups fields in bundles."
-msgstr ""
-
-#: /admin/config?render=overlay
 msgid "OG menu settings"
 msgstr ""
 
@@ -12253,6 +12617,14 @@ msgid "Administer OG settings."
 msgstr ""
 
 #: /admin/config?render=overlay
+msgid "OG field settings"
+msgstr ""
+
+#: /admin/config?render=overlay
+msgid "Configure Organic groups fields in bundles."
+msgstr ""
+
+#: /admin/config?render=overlay
 msgid "OG permissions overview"
 msgstr ""
 
@@ -12266,18 +12638,6 @@ msgstr ""
 
 #: /admin/config?render=overlay
 msgid "Overview of organic groups roles."
-msgstr ""
-
-#: /admin/config?render=overlay
-msgid "Configure DIBS payment gateway."
-msgstr ""
-
-#: /admin/config?render=overlay
-msgid "Ding DIBS settings"
-msgstr ""
-
-#: /admin/config?render=overlay
-msgid "Configure DIBS payment gateway for Ding."
 msgstr ""
 
 #: /admin/config?render=overlay
@@ -12352,1097 +12712,16 @@ msgstr ""
 msgid "Manage content for frontpage carousel."
 msgstr ""
 
-#: /admin/modules?render=overlay
-msgid "Manages web fonts."
+#: /admin/config?render=overlay
+msgid "Configure DIBS payment gateway."
 msgstr ""
 
-#: /admin/modules?render=overlay
-msgid "Administrative interface for managing fonts."
+#: /admin/config?render=overlay
+msgid "Ding DIBS settings"
 msgstr ""
 
-#: /admin/modules?render=overlay
-msgid ""
-"Provides permission-based access control for actions. Used by Views "
-"Bulk Operations."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Implementation of Axiell’s Alma API for DDELibra."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Enables the Alternative PHP Cache."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Adds automated timed logout"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Saves node edits in the background in case browser dies while editing."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Provides flexible block administration access control."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Enables language selector for blocks and optional block translation."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"This module gives you the ability to clear drupal caches with rules "
-"actions."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Cache Expiration"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Logic for expiring page caches"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Provides an image field formatter that allows you to select "
-"appropriate image styles for various client widths."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Commerce integration for the DIBS payment gateway"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"An example provider module for reference and testing. Not for "
-"production use."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Makes contact categories and replies available for translation."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Enables you to comply with UK and EU law on cookies"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Disabled Google Analytics form tracking until visitor consents"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Adds the class cookies to the html tag if cookies are allowed"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Adds 'All Day' functionality to date fields, including an 'All Day' "
-"theme and 'All Day' checkboxes for the Date select and Date popup "
-"widgets."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Adds an option to the Context module to set a context condition based "
-"on the value of a date field."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Creates the option of Repeating date fields and manages Date fields "
-"that use the Date Repeat API."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"An API module that makes it possible for other modules to receive "
-"payments via DIBS Payment Gateway"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "An example implementation of the DIBS API"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Show differences between content revisions."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Provides Panels panes for displaying ADHL recommendations"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Availability information for Ding objects."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Allows users to bookmark Ding entities."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Campaign system. Displays context-sensitive, ad-like campaigns."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Content type and image styles for ding_campaign module"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Enable contact module and add default categories."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Create panels panes for Ding!"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Allows users to reserve  materials."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Various helpers for Ding! developers."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Enable DIBS as a payment provider for Ding!"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"A dummy provider module for ding provider. This is for use when site "
-"has no integration with an external provider."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Provides a common API for materials information."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Defines event content type and related views"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Provides example content for demo sites"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Provides example content for demo sites (events)"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Provides example content for demo sites (frontpage)"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Provides example content for demo sites (libraries and groups)"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Provides example content for demo sites (news)"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Implements a facetbrowser for search results. If a module implements "
-"hook_facetbrowser() we're trying to create a facetbrowser"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Global frontend module."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Provides a panel for the front page"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Ding groups are used to group content together (temapages)"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Content structure for local libraries."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Allows users to manage their loans."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Defines news content type and related views"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Defines page content type and related views"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Handles listing of issues on periodicals."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Define a default set of permissions"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Integration with the ticket booking service Place2Book"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Provides popup functionallity for ding modules.."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Implements a common interface to backend providers."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Enabling to redirect some searches and login form to external sites. "
-"This helps libraries which aren't using the full well or have "
-"providers implemented."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Cache information for the duration of a session."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Profile for staff with related views and panels"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"provides the content type ding_rolltab and the view ding_tabroll, "
-"presenting 5 tabs in a carousel - fx. for frontpage"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Frontend module for Ding Ting"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Ding - toggle short/long format"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Handles authentication against user provider and other user related "
-"stuff."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Configuration and panels for user profile and blocks"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Allows logged in users to be cached by varnish"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Implementation of login with WAYF (nemlog-in)."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Adds WebTrends JavaScript tracking code to all your site's pages."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Enables administrators to upload images, which are used as background "
-"on the site."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Allows users to select uploaded backgrounds for user blog(s)."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Set different backgrounds based on a given context"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Allows users to select uploaded backgrounds for nodes (different "
-"backgrounds)."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Enables the use of dynamic backgrounds on panels (different "
-"backgrounds)."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Gives users the option to select a dynamic background image as their "
-"background image."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Enable views to use dynamic background image for each display."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"The background image for a given page will be inherited from its "
-"parent page (by path)."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "@font-your-face provider for Edge Fonts."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Enables modules to work with any entity type and to provide entities."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Provides token replacements for all properties that have no tokens and "
-"are known to the entity API."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Build blocks and block settings as features."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Build nodequeues as features."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Export profile field using features."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Adjust settings for using features module."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Provides feature management for Drupal."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Test feature for Features Extra."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Configurable field wrappers"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Translate field properties"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Configure flags for marking content with arbitrary information (such "
-"as <em>offensive</em> or <em>bookmarked</em>)."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Defines a field type for referencing a font from a node."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "@font-your-face provider with Font Squirrel fonts."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "@font-your-face provider of fonts from Fontdeck.com."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "@font-your-face provider of fonts from Fonts.com."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Enables the presentation of node creation forms in blocks. This is "
-"particularly useful for including forms on panels."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"An API and widget to geocode various known data into other GIS data "
-"types."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Stores geographic and location data (points, lines, and polygons)."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Provides a basic mapping interface for Geofield."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Wraps the geoPHP library: advanced geometry operations in PHP"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "@font-your-face provider with Google fonts."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Filter to automatically scale images to their height and width "
-"dimensions."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Extends Drupal support for multilingual features."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Update jQuery and jQuery UI to a more recent version."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Integration with the Leaflet map scripting library."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Views integration for the Leaflet module."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Allows version-dependent and shared usage of external libraries."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"@font-your-face provider with fonts installed locally on the Drupal "
-"server."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Adds support for uploading multiple files at a time."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Adds support for embedding media using client-side WYSIWYG editors."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Enables files inside of the WYSIWYG editor to be displayed using a "
-"separate view mode."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Provides Vimeo support to the Media module."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Provides YouTube support for File Entity and the Media module."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "High performance integration with memcache."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Adds a User Interface to monitor the Memcache for this site."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Allows you to use the menu the current page belongs to for the "
-"breadcrumb."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Menu position rules"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Configure rules for menu positions."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Customize menu position of nodes depending on their content type, "
-"associated terms and others conditions."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Supports translatable custom menu items."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Create mini panels that can be used as blocks by Drupal and panes by "
-"other panel modules."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Filter the modules list."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Extended node options for multilingual content"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Enables multilingual forum, translates names and containers."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "API module for multilingual content selection"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Provides a small and simple library for accessing SOAP webservices "
-"without all the bells and whistles found in many PHP SOAP libraries."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Allows users to export content and then import into another Drupal "
-"installation."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Helps maintain relationships to dependent entities.  Intended to make "
-"Node export relation obsolete."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Adds Features support to Node export, so you can put your exports into "
-"Features modules."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Node export feeds importer.  This is a more advanced importer than the "
-"one built into node export, but tricky to use."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Helps maintain relationships.  Supports node references, taxonomy, and "
-"organic groups."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Bulk assign nodes into queues for quickly populating a site."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Example module to show Organic groups configuration that can be used "
-"as building block."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Allow group creators and site admins to edit their own group menu."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Default Links"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Configuration for OG Menu Default Links"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Allows creation of default links when adding new groups (menus)"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Provides database structure and interfaces for managing the opening "
-"hours for libraries, offices, shops, etc."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Implementation of OpenRuth as library provider."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "API to allow associating content with groups."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Enable access control for private and public groups and group content."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Get a group from a viewed page."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Provide field access based on group."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Allow subscribing to groups during the user registration."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Organic groups UI."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Provides the ability to override existing pages through Page manager."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Get a bird's eye view of items related to Panels."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Create nodes that are divided into areas with selectable content."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Core Panels display functions; provides no external UI, at least one "
-"other Panels module should be enabled."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Adds the ability to set breadcrumbs directly from Panels and takes "
-"advantage of arguments and contexts as placeholder tokens"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Allow your site to use Panels instead of Blocks to lay out your pages."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Provide a UI for managing some Panels directly on the frontend, "
-"instead of having to use the backend."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Supports translatable panels items."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Define translations for generic paths"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Profiltyper"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Manage profiles, including fields."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Adds Organic groups permissions to control profile access on the group "
-"level."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Adds separate pages for viewing and editing profiles."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Translate profile2 types."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Proj4JS library loader."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Allows users to redirect from old URLs to new URLs."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Describes relationships between entities."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Dummy field to display relation data inline on entities."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Helper module for Relation. Defines endpoints field (not usable except "
-"by relation)."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"A block to collect entities loaded on any page(s), and create "
-"relations from them."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Feeds integration module for Relation."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Migrate integration module for Relation."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Administrative interface to relation. Without this module, you cannot "
-"create or edit your relation types."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Allows site administrators to grant some roles the authority to assign "
-"selected roles to users."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "React on events and conditionally evaluate actions."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Schedule the execution of Rules components using actions."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Allows translating rules."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Administrative interface for managing rules."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"This module allows nodes to be published and unpublished on specified "
-"dates and time."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Disables the user interface for creating and assigning roles and "
-"permissions."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Use Views to show similar content based on taxonomy terms"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Enables support for SSL proxies."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Strings"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Options for user defined strings."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Provides support for translation of user defined strings."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Synchronizes taxonomy and fields accross translations of the same "
-"content."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Enables multilingual taxonomy."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Controls access to context based upon term depth"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Displays covers for Ting objects and collections"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Displays the full-text version of documents and articles."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Module for linking and viewing Infomedia articles and reviews."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Integrates Drupal with the Ting search system."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"collection of fields holding material details (type,format language "
-"etc)"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "New materials lists for Ting."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Defines a reference field for relating content to Ting objects."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Rewrite Ting object URLs to use proxies"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Handles relations for ting entities."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Searching for Ting."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Enables autocompletion for the Ting search box."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Show Ting search results in a carousel"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Add link to sfx to ting-object"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Integrates <a "
-"href=\"http://onehackoranother.com/projects/jquery/tipsy/\">Tipsy</a> "
-"jQuery plugin for creating a Facebook-like tooltips effect."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Redirect to translated page when available. SEO for multilingual "
-"sites."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Simple translation sets API for generic objects"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "@font-your-face provider with Typekit.com fonts."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Extends the entity functionality and adds support for universally "
-"unique identifiers."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Translate emails sent from the User module."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Provides export functionality for url aliases."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Provides integration with the Services module, like exposing a UUID "
-"entity resource."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Example feature of a UUID service. Works well with the Deploy Example "
-"feature as a client."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"An example module showing how to use the Variable API and providing "
-"some variables."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Multilingual variables that switch language depending on page "
-"language."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Provides views integration for variable, included a default variable "
-"argument."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Provides integration with the Varnish HTTP accelerator."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Select which roles should be able to see unpublished nodes."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid ""
-"Provides a way of selecting multiple rows and applying operations to "
-"them."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Views plugin for displaying views content in a responsive grid."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Allows for field types without database storage."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Adds list of enabled fonts to WYSIWYG."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "@font-your-face"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Providers"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Multilingual - Internationalization"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Ding! Demo"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Features extra"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Path management"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Services - resources"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Example modules"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Filter list"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "!enabled of !total"
-msgstr ""
-
-#: profiles/ding2/modules/contrib/module_filter/js/module_filter_tab.js
-msgid "+@count"
-msgstr ""
-
-#: profiles/ding2/modules/contrib/module_filter/js/module_filter_tab.js
-msgid "-@count"
-msgstr ""
-
-#: /admin/config/people/secure_permissions?render=overlay
-msgid "Export permissions"
-msgstr ""
-
-#: /admin/config/people/secure_permissions?render=overlay
-msgid "Export site permissions for use by Secure Permissions."
-msgstr ""
-
-#: /admin/config/people/secure_permissions?render=overlay
-msgid "The following modules implement secure permissions: !list !extra"
-msgstr ""
-
-#: /admin/config/people/secure_permissions?render=overlay
-msgid "User interface settings"
-msgstr ""
-
-#: /admin/config/people/secure_permissions?render=overlay
-msgid "Disable permissions and roles forms"
-msgstr ""
-
-#: /admin/config/people/secure_permissions?render=overlay
-msgid ""
-"Disables the ability to edit or add permissions and roles through the "
-"user interface."
-msgstr ""
-
-#: /admin/config/people/secure_permissions?render=overlay
-msgid "Show permissions page"
-msgstr ""
-
-#: /admin/config/people/secure_permissions?render=overlay
-msgid "Allows administrators to view the permissions overview page."
-msgstr ""
-
-#: /admin/config/people/secure_permissions?render=overlay
-msgid "Show roles page"
-msgstr ""
-
-#: /admin/config/people/secure_permissions?render=overlay
-msgid "Allows administrators to view the roles overview page."
-msgstr ""
-
-#: /admin/config/people/secure_permissions?render=overlay
-msgid "Display permissions updates"
-msgstr ""
-
-#: /admin/config/people/secure_permissions?render=overlay
-msgid "Prints a message to the screen whenever permissions are updated."
-msgstr ""
-
-#: /admin/config/people/secure_permissions?render=overlay
-msgid "API settings"
-msgstr ""
-
-#: /admin/config/people/secure_permissions?render=overlay
-msgid ""
-"If the <em>Load permissions from code</em> setting is not enabled, "
-"none of the features below will be enabled."
-msgstr ""
-
-#: /admin/config/people/secure_permissions?render=overlay
-msgid "Load permissions from code"
-msgstr ""
-
-#: /admin/config/people/secure_permissions?render=overlay
-msgid ""
-"Allows permissions and roles to be defined in code, replacing values "
-"set through the user interface."
-msgstr ""
-
-#: /admin/config/people/secure_permissions?render=overlay
-msgid "Reload default permissions on rebuild"
-msgstr ""
-
-#: /admin/config/people/secure_permissions?render=overlay
-msgid ""
-"Sets the default Drupal permissions for anonymous and authenticated "
-"users."
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Auto Logout"
-msgstr ""
-
-#: /admin/modules?render=overlay
-msgid "Administer Auto Logout settings."
+#: /admin/config?render=overlay
+msgid "Configure DIBS payment gateway for Ding."
 msgstr ""
 
 #: /admin/config/people/autologout?render=overlay
@@ -13578,356 +12857,16 @@ msgstr ""
 msgid "staff"
 msgstr ""
 
-#: /admin/structure?render=overlay
-msgid "Add, edit or delete custom content panes."
+#: /admin/config/regional/translate?render=overlay
+msgid "Strings"
 msgstr ""
 
-#: /admin/structure?render=overlay
-msgid "Organic groups menus"
+#: /admin/config/regional/translate?render=overlay
+msgid "Refresh user defined strings."
 msgstr ""
 
-#: /admin/structure?render=overlay
-msgid ""
-"Add new organic groups menus to your site, edit existing ones, and "
-"rename and reorganize menu links."
-msgstr ""
-
-#: /admin/structure?render=overlay
-msgid "Administer Menu Blocks."
-msgstr ""
-
-#: /admin/structure?render=overlay
-msgid "Nodequeues"
-msgstr ""
-
-#: /admin/structure?render=overlay
-msgid "Create and maintain simple nodequeues."
-msgstr ""
-
-#: /admin/structure?render=overlay
-msgid "Manage Ting collection display."
-msgstr ""
-
-#: /admin/structure?render=overlay
-msgid "Ting objects"
-msgstr ""
-
-#: /admin/structure?render=overlay
-msgid "Manage Ting object display."
-msgstr ""
-
-#: /admin/structure/features?render=overlay
-msgid "Needs review"
-msgstr ""
-
-#: /admin/structure/features?render=overlay
-msgid "Rebuilding"
-msgstr ""
-
-#: /admin/structure/features?render=overlay
-msgid "Checking..."
-msgstr ""
-
-#: /admin/structure/features?render=overlay
-msgid "Unmet dependencies: !dependencies"
-msgstr ""
-
-#: /admin/structure/features?render=overlay
-msgid "Required by: !dependents"
-msgstr ""
-
-#: /admin/structure/features?render=overlay
-msgid "@component [@items]"
-msgstr ""
-
-#: /admin/structure/features?render=overlay
-msgid "Conflicts with: !conflicts"
-msgstr ""
-
-#: /admin/structure/features?render=overlay
-msgid "Feature"
-msgstr ""
-
-#: profiles/ding2/modules/contrib/features/features.js
-msgid "Deselect all"
-msgstr ""
-
-#: /admin/structure/features/ding_base/status
-msgid "Javascript status call back."
-msgstr ""
-
-#: /admin/structure/features/ding_groups/status
-msgid "Gruppe"
-msgstr ""
-
-#: /admin/structure/features/ding_groups/status
-msgid "Temaer"
-msgstr ""
-
-#: /admin/structure/features/ding_base?render=overlay
-msgid "Display components of a feature."
-msgstr ""
-
-#: /admin/structure/features/ding_content/status
-msgid "Ord i ordforråd"
-msgstr ""
-
-#: /admin/structure/features/ding_base?render=overlay
-msgid "Revert components"
-msgstr ""
-
-#: /admin/structure/features/ding_base?render=overlay
-msgid "Dependency"
-msgstr ""
-
-#: /admin/structure/features/ding_event/status
-msgid "Begivenhed"
-msgstr ""
-
-#: /admin/structure/features/ding_event/status
-msgid "Se alle arrangementer\r\n"
-msgstr ""
-
-#: /admin/structure/features/ding_event/status
-msgid "Ingen arrangementer"
-msgstr ""
-
-#: /admin/structure/features/ding_event/status
-msgid "Ingen arrangementer til temaet"
-msgstr ""
-
-#: /admin/structure/features/ding_event/status
-msgid "Andre spændende arrangementer"
-msgstr ""
-
-#: /admin/structure/features/ding_news/status
-msgid "Nyt fra biblioteket"
-msgstr ""
-
-#: /admin/structure/features/ding_news/status
-msgid "Se alle nyheder"
-msgstr ""
-
-#: /admin/structure/features/ding_news/status
-msgid "Ingen nyheder"
-msgstr ""
-
-#: /admin/structure/features/ding_news/status
-msgid "Ingen nyheder til temaet"
-msgstr ""
-
-#: /admin/structure/features/ding_library/status
-msgid "Bibliotek"
-msgstr ""
-
-#: /index.php
-msgid "Bootstrap to phase !phase."
-msgstr ""
-
-#: /index.php
-msgid "Do you really want to revert @module.@component?"
-msgstr ""
-
-#: /index.php
-msgid "Reverted @module.@component."
-msgstr ""
-
-#: /nyheder/film
-msgid "Internal error"
-msgstr ""
-
-#: /nyheder/film
-msgid "Og_membership_type"
-msgstr ""
-
-#: /nyheder/film
-msgid "Og_membership"
-msgstr ""
-
-#: /nyheder/film
-msgid "Profile2"
-msgstr ""
-
-#: /nyheder/film
-msgid "Profile2_type"
-msgstr ""
-
-#: /nyheder/film
-msgid "Taxonomy_term"
-msgstr ""
-
-#: /nyheder/film
-msgid "Taxonomy_vocabulary"
-msgstr ""
-
-#: /nyheder/film
-msgid "Ting_object"
-msgstr ""
-
-#: /nyheder/film
-msgid "Ting_collection"
-msgstr ""
-
-#: /nyheder/film
-msgid "Wysiwyg_profile"
-msgstr ""
-
-#: /nyheder/film
-msgid "Rules_config"
-msgstr ""
-
-#: /nyheder/film
-msgid "Kategori"
-msgstr ""
-
-#: /nyheder/film
-msgid "%term:name"
-msgstr ""
-
-#: /arrangementer/musik/moed-forfatteren-sara-blaedel
-msgid "Library: number of libraries"
-msgstr ""
-
-#: /arrangementer/musik/moed-forfatteren-sara-blaedel
-msgid "Control access based on the number of libraries."
-msgstr ""
-
-#: /arrangementer/musik/moed-forfatteren-sara-blaedel
-msgid ""
-"Simple caching is a time-based cache. This is a hard limit, and once "
-"cached it will remain that way until the time limit expires."
-msgstr ""
-
-#: /arrangementer/musik/moed-forfatteren-sara-blaedel
-msgid "%tid:name"
-msgstr ""
-
-#: /ding_frontpage
-msgid "Lån, reserveringer og mellemværende"
-msgstr ""
-
-#: /ting/autocomplete/isla
-msgid "Did you mean '@query' ?"
-msgstr ""
-
-#: /search/ting/island%20vulkaner
-msgid "Pending availability"
-msgstr ""
-
-#: /search/ting/island%20vulkaner
-msgid "Ting search sort controls"
-msgstr ""
-
-#: /search/ting/island%20vulkaner
-msgid ""
-"Search result <span class=\"js-count\" data-js-count=\"!count\" "
-"class=\"search-field-in-content--amount\">(!count !string)</span>"
-msgstr ""
-
-#: /search/ting/island%20vulkaner
-msgid "Well"
-msgstr ""
-
-#: /search/ting/island%20vulkaner
-msgid "%keywords:html_safe"
-msgstr ""
-
-#: profiles/ding2/modules/ting_search/js/ting_search_extendform.js
-msgid " AND "
-msgstr ""
-
-#: /ting/covers
-msgid "Retreives cover for Ting objects"
-msgstr ""
-
-#: /search/ting/island%20vulkaner?facets[]=facet.type%3Abog
-msgid "(@year)"
-msgstr ""
-
-#: /ding_availability/items/07188633,22592963,01656813,21905003,20674512,27002765,28519338,27213626,20610166,21695688
-msgid "Availability status"
-msgstr ""
-
-#: /user
-msgid "User: has staff role"
-msgstr ""
-
-#: /user
-msgid "Check if user has the staff role."
-msgstr ""
-
-#: /user
-msgid "Title not available"
-msgstr ""
-
-#: /user
-msgid "Lånerstatus"
-msgstr ""
-
-#: /?q=autologout_ajax_get_time_left
-msgid "JS Logout AJAX Get Time Until Logout"
-msgstr ""
-
-#: /?q=autologout_ahah_logout
-msgid "JS Logout"
-msgstr ""
-
-#: /search/ting/evangelista%20olsen
-msgid "Online"
-msgstr ""
-
-#: /ting/collection/870970-basis%3A23753804
-msgid "Ting collection id"
-msgstr ""
-
-#: /ting/collection/870970-basis%3A23753804
-msgid "Ting collection: ID"
-msgstr ""
-
-#: /ting/collection/870970-basis%3A23753804
-msgid "Show a ting collection"
-msgstr ""
-
-#: /ting/collection/870970-basis%3A23753804
-msgid "Enter a Ting collection ID for this argument"
-msgstr ""
-
-#: /ting/collection/870970-basis%3A23753804
-msgid ""
-"An collection from the Ting database – books, CD-ROMs, magazines, "
-"etc."
-msgstr ""
-
-#: /ting/collection/870970-basis%3A23753804
-msgid "Enter the collection ID for this context"
-msgstr ""
-
-#: /user/6/status/debts
-msgid "Kr"
-msgstr ""
-
-#: /user/6/status/debts
-msgid "Total"
-msgstr ""
-
-#: /user/6/status/debts
-msgid "Mellemværende"
-msgstr ""
-
-#: /user/6/status/debts
-msgid "Betalingsbetingelser"
-msgstr ""
-
-#: /user/6/status/debts
-msgid "Vi modtager følgende kort"
-msgstr ""
-
-#: /?q=autologout_ahah_set_last
-msgid "JS Logout AHAH Set Last"
-msgstr ""
-
-#: /search/ting/
-msgid "Result"
+#: /users/admin
+msgid "admin"
 msgstr ""
 
 #: /admin/people?render=overlay
@@ -14091,6 +13030,10 @@ msgid "pay using dibs"
 msgstr ""
 
 #: /admin/people?render=overlay
+msgid "perform bookmark"
+msgstr ""
+
+#: /admin/people?render=overlay
 msgid "administer frontpage settings"
 msgstr ""
 
@@ -14132,6 +13075,10 @@ msgstr ""
 
 #: /admin/people?render=overlay
 msgid "administer ding provider"
+msgstr ""
+
+#: /admin/people?render=overlay
+msgid "perform reservation"
 msgstr ""
 
 #: /admin/people?render=overlay
@@ -15052,194 +13999,6 @@ msgid ""
 "<em>not</em> belong to."
 msgstr ""
 
-#: /admin/workbench?render=overlay
-msgid "Billede"
-msgstr ""
-
-#: /ting/collection/870970-basis%3A05072832
-msgid "Hear online"
-msgstr ""
-
-#: /biblioteker
-msgid "Caribbean Netherlands"
-msgstr ""
-
-#: /biblioteker
-msgid "Opening time"
-msgstr ""
-
-#: /biblioteker
-msgid "Closing time"
-msgstr ""
-
-#: /biblioteker
-msgid "!datetime"
-msgstr ""
-
-#: /bibliotek/hovedbiblioteket
-msgid "OG: Node is an OG group"
-msgstr ""
-
-#: /bibliotek/hovedbiblioteket
-msgid "Control access by whether or not a node is of type \"Group\"."
-msgstr ""
-
-#: /bibliotek/hovedbiblioteket
-msgid "Request message"
-msgstr ""
-
-#: /bibliotek/hovedbiblioteket
-msgid "endpoints"
-msgstr ""
-
-#: /bibliotek/hovedbiblioteket
-msgid "Alt Text"
-msgstr ""
-
-#: /bibliotek/hovedbiblioteket
-msgid "Title Text"
-msgstr ""
-
-#: /bibliotek/hovedbiblioteket
-msgid "Kontakt"
-msgstr ""
-
-#: /bibliotek/hovedbiblioteket
-msgid "Åbningstider"
-msgstr ""
-
-#: /bibliotek/hovedbiblioteket
-msgid "Clone content"
-msgstr ""
-
-#: /user/7/edit?destination=admin%2Fpeople%3Frender%3Doverlay&render=overlay
-msgid "Your current logout threshold"
-msgstr ""
-
-#: /user/7/edit?destination=admin%2Fpeople%3Frender%3Doverlay&render=overlay
-msgid "Detect profile 2 type (edit form)."
-msgstr ""
-
-#: /admin/content?render=overlay
-msgid "Bookmark this"
-msgstr ""
-
-#: /admin/content?render=overlay
-msgid "Unbookmark this"
-msgstr ""
-
-#: /node/4/edit?destination=admin%2Fcontent%3Frender%3Doverlay&render=overlay
-msgid "The link title is limited to @maxlength characters maximum."
-msgstr ""
-
-#: /node/4/edit?destination=admin%2Fcontent%3Frender%3Doverlay&render=overlay
-msgid "Attachments"
-msgstr ""
-
-#: /node/4/edit?destination=admin%2Fcontent%3Frender%3Doverlay&render=overlay
-msgid "Images"
-msgstr ""
-
-#: /user
-msgid "reservationFeeDebt"
-msgstr ""
-
-#: /user
-msgid "Reservation fee"
-msgstr ""
-
-#: /user
-msgid "Reservation"
-msgstr ""
-
-#: /bibliotek/hovedbiblioteket/om
-msgid "Rules-based cache"
-msgstr ""
-
-#: /bibliotek/hovedbiblioteket/om
-msgid "Use rules and Cache Actions to determine when to clear the cache."
-msgstr ""
-
-#: /user/6/edit
-msgid "Edit @label"
-msgstr ""
-
-#: /user/6/edit
-msgid "Empty 'End date' values will use the 'Start date' values."
-msgstr ""
-
-#: /user/6/edit
-msgid "Reservationer på pause"
-msgstr ""
-
-#: /tags/fremtidsroman
-msgid ""
-"You do not have permission to perform a Node export on one or more of "
-"these nodes.  No nodes exported."
-msgstr ""
-
-#: /ting/object/870970-basis%3A01506730
-msgid "Ting object id"
-msgstr ""
-
-#: /ting/object/870970-basis%3A01506730
-msgid "Ting object: ID"
-msgstr ""
-
-#: /ting/object/870970-basis%3A01506730
-msgid "Show a ting object"
-msgstr ""
-
-#: /ting/object/870970-basis%3A01506730
-msgid "Enter a Ting object ID for this argument"
-msgstr ""
-
-#: /ting/object/870970-basis%3A01506730
-msgid "An object from the Ting database – books, CD-ROMs, magazines, etc."
-msgstr ""
-
-#: /ting/object/870970-basis%3A01506730
-msgid "Enter the object ID for this context"
-msgstr ""
-
-#: /ting/object/870970-basis%3A01506730
-msgid "Fetching holdings information."
-msgstr ""
-
-#: /ting/object/870970-basis%3A01506730
-msgid "Creator homepage"
-msgstr ""
-
-#: /users/admin
-msgid "admin"
-msgstr ""
-
-#: /ting/object/870970-basis%3A26752388
-msgid "Om materialet"
-msgstr ""
-
-#: /user/6/view
-msgid "Testkort bruger Ting 5"
-msgstr ""
-
-#: /bibliotek/lokalbiblioteket/nyheder/56
-msgid "%node:title"
-msgstr ""
-
-#: /admin/people/permissions?render=overlay
-msgid ""
-"Editing of permissions is not permitted through the user interface. "
-"The table below shows the active permissions for the site."
-msgstr ""
-
-#: /admin/people?render=overlay
-msgid "Add role: !role"
-msgstr ""
-
-#: /admin/people?render=overlay
-msgid "Remove role: !role"
-msgstr ""
-
 #: /node/add/ding-news?render=overlay
 msgid "Enter a query to search for objects or collections to reference"
 msgstr ""
@@ -15257,7 +14016,15 @@ msgid "Leave the date blank for no scheduled unpublishing."
 msgstr ""
 
 #: /node/add/ding-news?render=overlay
+msgid "Attachments"
+msgstr ""
+
+#: /node/add/ding-news?render=overlay
 msgid "Categorization"
+msgstr ""
+
+#: /node/add/ding-news?render=overlay
+msgid "Images"
 msgstr ""
 
 #: profiles/ding2/modules/contrib/autosave/autosave.js
@@ -15296,36 +14063,1037 @@ msgstr ""
 msgid "The referenced group (@type: @id) is invalid."
 msgstr ""
 
-#: /node/4/edit?destination=admin%2Fcontent%3Frender%3Doverlay&render=overlay
-msgid "Manage group menus."
+#: /nyheder
+msgid "Library: number of libraries"
 msgstr ""
 
-#: /node/4/edit?destination=admin%2Fcontent%3Frender%3Doverlay&render=overlay
-msgid "Add people"
+#: /nyheder
+msgid "Control access based on the number of libraries."
 msgstr ""
 
-#: /node/4/edit?destination=admin%2Fcontent%3Frender%3Doverlay&render=overlay
-msgid "Add group members."
+#: /user/7/edit?render=overlay
+msgid "Your current logout threshold"
 msgstr ""
 
-#: /node/4/edit?destination=admin%2Fcontent%3Frender%3Doverlay&render=overlay
-msgid "Manage the group members."
+#: /users/sidse-soehest?render=overlay
+msgid "Sidse Søhest"
 msgstr ""
 
-#: /node/4/edit?destination=admin%2Fcontent%3Frender%3Doverlay&render=overlay
-msgid "Roles (read-only)"
+#: /admin/modules?render=overlay
+msgid "Manages web fonts."
 msgstr ""
 
-#: /node/4/edit?destination=admin%2Fcontent%3Frender%3Doverlay&render=overlay
-msgid "View the group roles."
+#: /admin/modules?render=overlay
+msgid "Administrative interface for managing fonts."
 msgstr ""
 
-#: /node/4/edit?destination=admin%2Fcontent%3Frender%3Doverlay&render=overlay
-msgid "Permissions (read-only)"
+#: /admin/modules?render=overlay
+msgid ""
+"Provides permission-based access control for actions. Used by Views "
+"Bulk Operations."
 msgstr ""
 
-#: /node/4/edit?destination=admin%2Fcontent%3Frender%3Doverlay&render=overlay
-msgid "View the group permissions."
+#: /admin/modules?render=overlay
+msgid "Implementation of Axiell’s Alma API for DDELibra."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Enables the Alternative PHP Cache."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Adds automated timed logout"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Saves node edits in the background in case browser dies while editing."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Provides flexible block administration access control."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Enables language selector for blocks and optional block translation."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"This module gives you the ability to clear drupal caches with rules "
+"actions."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Cache Expiration"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Logic for expiring page caches"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Provides an image field formatter that allows you to select "
+"appropriate image styles for various client widths."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Commerce integration for the DIBS payment gateway"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"An example provider module for reference and testing. Not for "
+"production use."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Makes contact categories and replies available for translation."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Enables you to comply with UK and EU law on cookies"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Disabled Google Analytics form tracking until visitor consents"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Adds the class cookies to the html tag if cookies are allowed"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Adds 'All Day' functionality to date fields, including an 'All Day' "
+"theme and 'All Day' checkboxes for the Date select and Date popup "
+"widgets."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Adds an option to the Context module to set a context condition based "
+"on the value of a date field."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Creates the option of Repeating date fields and manages Date fields "
+"that use the Date Repeat API."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"An API module that makes it possible for other modules to receive "
+"payments via DIBS Payment Gateway"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "An example implementation of the DIBS API"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Show differences between content revisions."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Provides Panels panes for displaying ADHL recommendations"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Availability information for Ding objects."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Allows users to bookmark Ding entities."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Campaign system. Displays context-sensitive, ad-like campaigns."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Content type and image styles for ding_campaign module"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Enable contact module and add default categories."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Create panels panes for Ding!"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Allows users to reserve  materials."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Various helpers for Ding! developers."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Enable DIBS as a payment provider for Ding!"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"A dummy provider module for ding provider. This is for use when site "
+"has no integration with an external provider."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Provides a common API for materials information."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Defines event content type and related views"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Provides example content for demo sites"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Provides example content for demo sites (events)"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Provides example content for demo sites (frontpage)"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Provides example content for demo sites (libraries and groups)"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Provides example content for demo sites (news)"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Implements a facetbrowser for search results. If a module implements "
+"hook_facetbrowser() we're trying to create a facetbrowser"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Global frontend module."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Provides a panel for the front page"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Ding groups are used to group content together (temapages)"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Content structure for local libraries."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Allows users to manage their loans."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Defines news content type and related views"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Defines page content type and related views"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Handles listing of issues on periodicals."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Define a default set of permissions"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Integration with the ticket booking service Place2Book"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Provides popup functionallity for ding modules.."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Implements a common interface to backend providers."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Enabling to redirect some searches and login form to external sites. "
+"This helps libraries which aren't using the full well or have "
+"providers implemented."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Cache information for the duration of a session."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Profile for staff with related views and panels"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"provides the content type ding_rolltab and the view ding_tabroll, "
+"presenting 5 tabs in a carousel - fx. for frontpage"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Frontend module for Ding Ting"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Ding - toggle short/long format"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Handles authentication against user provider and other user related "
+"stuff."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Configuration and panels for user profile and blocks"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Allows logged in users to be cached by varnish"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Implementation of login with WAYF (nemlog-in)."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Adds WebTrends JavaScript tracking code to all your site's pages."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Enables administrators to upload images, which are used as background "
+"on the site."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Allows users to select uploaded backgrounds for user blog(s)."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Set different backgrounds based on a given context"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Allows users to select uploaded backgrounds for nodes (different "
+"backgrounds)."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Enables the use of dynamic backgrounds on panels (different "
+"backgrounds)."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Gives users the option to select a dynamic background image as their "
+"background image."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Enable views to use dynamic background image for each display."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"The background image for a given page will be inherited from its "
+"parent page (by path)."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "@font-your-face provider for Edge Fonts."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Enables modules to work with any entity type and to provide entities."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Provides token replacements for all properties that have no tokens and "
+"are known to the entity API."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Build blocks and block settings as features."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Build nodequeues as features."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Export profile field using features."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Adjust settings for using features module."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Provides feature management for Drupal."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Test feature for Features Extra."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Configurable field wrappers"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Translate field properties"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Configure flags for marking content with arbitrary information (such "
+"as <em>offensive</em> or <em>bookmarked</em>)."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Defines a field type for referencing a font from a node."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "@font-your-face provider with Font Squirrel fonts."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "@font-your-face provider of fonts from Fontdeck.com."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "@font-your-face provider of fonts from Fonts.com."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Enables the presentation of node creation forms in blocks. This is "
+"particularly useful for including forms on panels."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"An API and widget to geocode various known data into other GIS data "
+"types."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Stores geographic and location data (points, lines, and polygons)."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Provides a basic mapping interface for Geofield."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Wraps the geoPHP library: advanced geometry operations in PHP"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "@font-your-face provider with Google fonts."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Filter to automatically scale images to their height and width "
+"dimensions."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Extends Drupal support for multilingual features."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Update jQuery and jQuery UI to a more recent version."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Integration with the Leaflet map scripting library."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Views integration for the Leaflet module."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Allows version-dependent and shared usage of external libraries."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"@font-your-face provider with fonts installed locally on the Drupal "
+"server."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Adds support for uploading multiple files at a time."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Adds support for embedding media using client-side WYSIWYG editors."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Enables files inside of the WYSIWYG editor to be displayed using a "
+"separate view mode."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Provides Vimeo support to the Media module."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Provides YouTube support for File Entity and the Media module."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "High performance integration with memcache."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Adds a User Interface to monitor the Memcache for this site."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Allows you to use the menu the current page belongs to for the "
+"breadcrumb."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Menu position rules"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Configure rules for menu positions."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Customize menu position of nodes depending on their content type, "
+"associated terms and others conditions."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Supports translatable custom menu items."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Create mini panels that can be used as blocks by Drupal and panes by "
+"other panel modules."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Filter the modules list."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Extended node options for multilingual content"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Enables multilingual forum, translates names and containers."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "API module for multilingual content selection"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Provides a small and simple library for accessing SOAP webservices "
+"without all the bells and whistles found in many PHP SOAP libraries."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Allows users to export content and then import into another Drupal "
+"installation."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Helps maintain relationships to dependent entities.  Intended to make "
+"Node export relation obsolete."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Adds Features support to Node export, so you can put your exports into "
+"Features modules."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Node export feeds importer.  This is a more advanced importer than the "
+"one built into node export, but tricky to use."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Helps maintain relationships.  Supports node references, taxonomy, and "
+"organic groups."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Bulk assign nodes into queues for quickly populating a site."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Example module to show Organic groups configuration that can be used "
+"as building block."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Allow group creators and site admins to edit their own group menu."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Default Links"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Configuration for OG Menu Default Links"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Allows creation of default links when adding new groups (menus)"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Provides database structure and interfaces for managing the opening "
+"hours for libraries, offices, shops, etc."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Implementation of OpenRuth as library provider."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "API to allow associating content with groups."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Enable access control for private and public groups and group content."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Get a group from a viewed page."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Provide field access based on group."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Allow subscribing to groups during the user registration."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Organic groups UI."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Provides the ability to override existing pages through Page manager."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Get a bird's eye view of items related to Panels."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Create nodes that are divided into areas with selectable content."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Core Panels display functions; provides no external UI, at least one "
+"other Panels module should be enabled."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Adds the ability to set breadcrumbs directly from Panels and takes "
+"advantage of arguments and contexts as placeholder tokens"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Allow your site to use Panels instead of Blocks to lay out your pages."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Provide a UI for managing some Panels directly on the frontend, "
+"instead of having to use the backend."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Supports translatable panels items."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Define translations for generic paths"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Profiltyper"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Manage profiles, including fields."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Adds Organic groups permissions to control profile access on the group "
+"level."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Adds separate pages for viewing and editing profiles."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Translate profile2 types."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Proj4JS library loader."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Allows users to redirect from old URLs to new URLs."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Describes relationships between entities."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Dummy field to display relation data inline on entities."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Helper module for Relation. Defines endpoints field (not usable except "
+"by relation)."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"A block to collect entities loaded on any page(s), and create "
+"relations from them."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Feeds integration module for Relation."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Migrate integration module for Relation."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Administrative interface to relation. Without this module, you cannot "
+"create or edit your relation types."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Allows site administrators to grant some roles the authority to assign "
+"selected roles to users."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "React on events and conditionally evaluate actions."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Schedule the execution of Rules components using actions."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Allows translating rules."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Administrative interface for managing rules."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"This module allows nodes to be published and unpublished on specified "
+"dates and time."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Disables the user interface for creating and assigning roles and "
+"permissions."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Use Views to show similar content based on taxonomy terms"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Enables support for SSL proxies."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Options for user defined strings."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Provides support for translation of user defined strings."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Synchronizes taxonomy and fields accross translations of the same "
+"content."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Enables multilingual taxonomy."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Controls access to context based upon term depth"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Displays covers for Ting objects and collections"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Displays the full-text version of documents and articles."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Module for linking and viewing Infomedia articles and reviews."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Integrates Drupal with the Ting search system."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"collection of fields holding material details (type,format language "
+"etc)"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "New materials lists for Ting."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Defines a reference field for relating content to Ting objects."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Rewrite Ting object URLs to use proxies"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Handles relations for ting entities."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Searching for Ting."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Enables autocompletion for the Ting search box."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Show Ting search results in a carousel"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Add link to sfx to ting-object"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Integrates <a "
+"href=\"http://onehackoranother.com/projects/jquery/tipsy/\">Tipsy</a> "
+"jQuery plugin for creating a Facebook-like tooltips effect."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Redirect to translated page when available. SEO for multilingual "
+"sites."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Simple translation sets API for generic objects"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "@font-your-face provider with Typekit.com fonts."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Extends the entity functionality and adds support for universally "
+"unique identifiers."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Translate emails sent from the User module."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Provides export functionality for url aliases."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Provides integration with the Services module, like exposing a UUID "
+"entity resource."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Example feature of a UUID service. Works well with the Deploy Example "
+"feature as a client."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"An example module showing how to use the Variable API and providing "
+"some variables."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Multilingual variables that switch language depending on page "
+"language."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Provides views integration for variable, included a default variable "
+"argument."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Provides integration with the Varnish HTTP accelerator."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Select which roles should be able to see unpublished nodes."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid ""
+"Provides a way of selecting multiple rows and applying operations to "
+"them."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Views plugin for displaying views content in a responsive grid."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Allows for field types without database storage."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Adds list of enabled fonts to WYSIWYG."
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "@font-your-face"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Providers"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Multilingual - Internationalization"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Ding! Demo"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Features extra"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Path management"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Services - resources"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Example modules"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "Filter list"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "File field found on node, but file doesn't exist on disk? '!path'"
+msgstr ""
+
+#: /admin/modules?render=overlay
+msgid "!enabled of !total"
+msgstr ""
+
+#: profiles/ding2/modules/contrib/module_filter/js/module_filter_tab.js
+msgid "+@count"
+msgstr ""
+
+#: profiles/ding2/modules/contrib/module_filter/js/module_filter_tab.js
+msgid "-@count"
+msgstr ""
+
+#: /node/add?render=overlay
+msgid "Et panel-layout opdelt i rækker og kolonner."
+msgstr ""
+
+#: /node/add?render=overlay
+msgid "Node export: import"
+msgstr ""
+
+#: /node/add?render=overlay
+msgid "Import content using <em>Node export</em>."
 msgstr ""
 
 #: /node/add/ding-event?render=overlay
@@ -15336,16 +15104,109 @@ msgstr ""
 msgid "Tagging"
 msgstr ""
 
-#: /node/add/ding-event?render=overlay&render=overlay
-msgid "Date Startdato"
+#: /
+msgid "%1 members"
 msgstr ""
 
-#: /node/add/ding-event?render=overlay&render=overlay
-msgid "Date Slutdato"
+#: /
+msgid "%1's groups"
 msgstr ""
 
-#: /node/34/edit?render=overlay&render=overlay
-msgid "This post is unpublished and will be published @publish_time."
+#: /admin/config/development/performance?render=overlay
+msgid "Ding user cache"
+msgstr ""
+
+#: /admin/config/development/performance?render=overlay
+msgid ""
+"Configure the behaviour of the different elements cached for ding "
+"users."
+msgstr ""
+
+#: /admin/config/development/performance?render=overlay
+msgid "Maximum cache lifetime"
+msgstr ""
+
+#: /admin/config/development/performance?render=overlay
+msgid "There where no modules enabled that implements this cache."
+msgstr ""
+
+#: /admin/config/development/performance/expire?render=overlay
+msgid "What to expire"
+msgstr ""
+
+#: /admin/config/development/performance/expire?render=overlay
+msgid "Expire front page"
+msgstr ""
+
+#: /admin/config/development/performance/expire?render=overlay
+msgid "When expiring a node: if promoted to front page, expire front page."
+msgstr ""
+
+#: /admin/config/development/performance/expire?render=overlay
+msgid "Expire node term pages"
+msgstr ""
+
+#: /admin/config/development/performance/expire?render=overlay
+msgid "When expiring a node: expire taxonomy pages for its terms."
+msgstr ""
+
+#: /admin/config/development/performance/expire?render=overlay
+msgid "Expire menus"
+msgstr ""
+
+#: /admin/config/development/performance/expire?render=overlay
+msgid "Entire menu"
+msgstr ""
+
+#: /admin/config/development/performance/expire?render=overlay
+msgid "When expiring a node: expire related menu items or entire menu"
+msgstr ""
+
+#: /admin/config/development/performance/expire?render=overlay
+msgid "Expire protocol"
+msgstr ""
+
+#: /admin/config/development/performance/expire?render=overlay
+msgid "Include base URL in expires"
+msgstr ""
+
+#: /admin/config/development/performance/expire?render=overlay
+msgid "Include the base URL in expire requests. Compatible with Domain Access"
+msgstr ""
+
+#: /tags/malerier
+msgid ""
+"You do not have permission to perform a Node export on one or more of "
+"these nodes.  No nodes exported."
+msgstr ""
+
+#: /varnish/roles
+msgid ""
+"Af sikkerhedsmæssige årsager er du blevet logget ud, da du har "
+"været inaktiv de seneste 15 minutter\r\n"
+"\r\n"
+msgstr ""
+
+#: /ting/object/870976-anmeld%3A30316886/fulltext
+msgid "@type being viewed"
+msgstr ""
+
+#: /?q=autologout_ajax_get_time_left
+msgid "JS Logout AJAX Get Time Until Logout"
+msgstr ""
+
+#: /?q=autologout_ahah_logout
+msgid "JS Logout"
+msgstr ""
+
+#: /user/8/edit
+msgid ""
+"There was a problem communicating with library system. Please contact "
+"the site administrator."
+msgstr ""
+
+#: /user/8/edit
+msgid "New pincode not saved."
 msgstr ""
 
 #: /admin/config/people/accounts?render=overlay
@@ -15390,190 +15251,243 @@ msgstr ""
 msgid "Description to show user if a fee for SMS is defined."
 msgstr ""
 
-#: /node/add?render=overlay
-msgid "Et panel-layout opdelt i rækker og kolonner."
+#: /admin/config/regional/translate/edit/12989?destination=admin%2Fconfig%2Fregional%2Ftranslate%2Ftranslate%3Frender%3Doverlay&render=overlay
+msgid "Source string not found."
 msgstr ""
 
-#: /node/add?render=overlay
-msgid "Node export: import"
+#: /admin/modules?render=overlay
+msgid "WebTrends"
 msgstr ""
 
-#: /node/add?render=overlay
-msgid "Import content using <em>Node export</em>."
+#: /admin/modules?render=overlay
+msgid "Settings for the WebTrends analytics tool."
 msgstr ""
 
-#: /admin/config/regional/translate?render=overlay
-msgid "Refresh user defined strings."
+#: /admin/config/ding/webtrends?render=overlay
+msgid "Hostname (fpcdom)"
 msgstr ""
 
-#: /admin/config/development/performance
-msgid "Ding user cache"
-msgstr ""
-
-#: /admin/config/development/performance
-msgid "Configure the behaviour of the diffect elements cached for ding users."
-msgstr ""
-
-#: /admin/config/development/performance
-msgid "Maximum cache lifetime"
-msgstr ""
-
-#: /admin/config/development/performance
-msgid "There where no modules enabled that implements this cache."
-msgstr ""
-
-#: /bibliotek/hovedbiblioteket/personale
-msgid "Bruger uid"
-msgstr ""
-
-#: /bibliotek/hovedbiblioteket/personale
-msgid "term fra field_ding_staff_department"
-msgstr ""
-
-#: /ding_availability/holdings/24904083
-msgid "Availability and holding status"
-msgstr ""
-
-#: /index.php
-msgid "Loading !engine engine."
-msgstr ""
-
-#: /index.php
-msgid "Including !filename"
-msgstr ""
-
-#: /index.php
-msgid "Extension !extension is fetched from git. Ignoring."
-msgstr ""
-
-#: /index.php
-msgid "Obtaining !project project path."
-msgstr ""
-
-#: /index.php
-msgid "Choose one of the available releases for !project:"
-msgstr ""
-
-#: /index.php
-msgid "Choose one of the available releases for view_unpublished:"
-msgstr ""
-
-#: /index.php
-msgid "Downloading project !name to !dir ..."
-msgstr ""
-
-#: /index.php
-msgid "Mime type for !file is !mt"
-msgstr ""
-
-#: /index.php
-msgid "Using destination directory !dir"
-msgstr ""
-
-#: /index.php
-msgid "Verifying signature for !vcs version control engine."
-msgstr ""
-
-#: /index.php
-msgid "Project !project (!version) downloaded to !dest."
-msgstr ""
-
-#: /index.php
-msgid "Do you wish to run all pending updates?"
-msgstr ""
-
-#: /index.php
-msgid "Backend invoke: !cmd"
-msgstr ""
-
-#: /index.php
+#: /admin/config/ding/webtrends?render=overlay
 msgid ""
-"Batch process has consumed in excess of 50% of available memory. "
-"Starting new thread"
+"The hostname of the tracked site, without subdomain, inserts fpcdom "
+"value."
 msgstr ""
 
-#: /index.php
-msgid "Finished performing updates."
+#: /admin/config/ding/webtrends?render=overlay
+msgid "Hostname (onsitedoms)"
 msgstr ""
 
-#: /admin/people/create?render=overlay
+#: /admin/config/ding/webtrends?render=overlay
+msgid "The hostname(s) of on-site domains, inserts onsitedoms value."
+msgstr ""
+
+#: /admin/config/ding/webtrends?render=overlay
+msgid "Site ID"
+msgstr ""
+
+#: /admin/config/ding/webtrends?render=overlay
+msgid "The site identification key."
+msgstr ""
+
+#: /admin/content?render=overlay
+msgid "Bookmark this"
+msgstr ""
+
+#: /admin/content?render=overlay
+msgid "Unbookmark this"
+msgstr ""
+
+#: /admin/config/ding/provider?render=overlay
+msgid "Providers overview"
+msgstr ""
+
+#: /admin/config/ding/provider?render=overlay
+msgid "Alma provider"
+msgstr ""
+
+#: /admin/config/ding/provider?render=overlay
+msgid "Provider type '@type'"
+msgstr ""
+
+#: /admin/config/ding/provider?render=overlay
+msgid "Provided by @title"
+msgstr ""
+
+#: /admin/structure?render=overlay
+msgid "Add, edit or delete custom content panes."
+msgstr ""
+
+#: /admin/structure?render=overlay
+msgid "Organic groups menus"
+msgstr ""
+
+#: /admin/structure?render=overlay
+msgid ""
+"Add new organic groups menus to your site, edit existing ones, and "
+"rename and reorganize menu links."
+msgstr ""
+
+#: /admin/structure?render=overlay
+msgid "Administer Menu Blocks."
+msgstr ""
+
+#: /admin/structure?render=overlay
+msgid "Nodequeues"
+msgstr ""
+
+#: /admin/structure?render=overlay
+msgid "Create and maintain simple nodequeues."
+msgstr ""
+
+#: /admin/structure?render=overlay
+msgid "Manage Ting collection display."
+msgstr ""
+
+#: /admin/structure?render=overlay
+msgid "Ting objects"
+msgstr ""
+
+#: /admin/structure?render=overlay
+msgid "Manage Ting object display."
+msgstr ""
+
+#: /admin/config/user-interface/backgrounds?render=overlay
+msgid "Background images"
+msgstr ""
+
+#: /admin/config/user-interface/backgrounds?render=overlay
+msgid "Upload background images and select current active background."
+msgstr ""
+
+#: /admin/config/user-interface/backgrounds?render=overlay
+msgid "Indstillinger"
+msgstr ""
+
+#: /admin/config/user-interface/backgrounds?render=overlay
+msgid "Configure dynamic backgrounds extension weight"
+msgstr ""
+
+#: /admin/config/user-interface/backgrounds?render=overlay
+msgid "Upload images"
+msgstr ""
+
+#: /admin/config/user-interface/backgrounds?render=overlay
+msgid "Background image %num"
+msgstr ""
+
+#: /admin/config/user-interface/backgrounds?render=overlay
+msgid "Add one more"
+msgstr ""
+
+#: /admin/config/user-interface/backgrounds?render=overlay
+msgid "Select image file to upload"
+msgstr ""
+
+#: /admin/config/user-interface/backgrounds?render=overlay
+msgid "Use picture as background"
+msgstr ""
+
+#: /admin/config/user-interface/backgrounds?render=overlay
+msgid "Use picture as the site's default background."
+msgstr ""
+
+#: /media/browser?render=media-popup&types%5B%5D=audio&types%5B%5D=image&types%5B%5D=video&types%5B%5D=document&enabledPlugins%5B%5D=ding_content&enabledPlugins%5B%5D=upload&enabledPlugins%5B%5D=media_default--media_browser_1&enabledPlugins%5B%5D=media_default--media_browser_my_files&enabledPlugins%5B%5D=media_internet&file_directory=&id=media_wysiwyg&plugins=undefined
+msgid "YouTube"
+msgstr ""
+
+#: /media/browser?render=media-popup&types%5B%5D=audio&types%5B%5D=image&types%5B%5D=video&types%5B%5D=document&enabledPlugins%5B%5D=ding_content&enabledPlugins%5B%5D=upload&enabledPlugins%5B%5D=media_default--media_browser_1&enabledPlugins%5B%5D=media_default--media_browser_my_files&enabledPlugins%5B%5D=media_internet&file_directory=&id=media_wysiwyg&plugins=undefined
+msgid "Billede"
+msgstr ""
+
+#: /media/browser?render=media-popup&types%5B%5D=audio&types%5B%5D=image&types%5B%5D=video&types%5B%5D=document&enabledPlugins%5B%5D=ding_content&enabledPlugins%5B%5D=upload&enabledPlugins%5B%5D=media_default--media_browser_1&enabledPlugins%5B%5D=media_default--media_browser_my_files&enabledPlugins%5B%5D=media_internet&file_directory=&id=media_wysiwyg&plugins=undefined
+msgid "Lyd"
+msgstr ""
+
+#: /media/browser?render=media-popup&types%5B%5D=audio&types%5B%5D=image&types%5B%5D=video&types%5B%5D=document&enabledPlugins%5B%5D=ding_content&enabledPlugins%5B%5D=upload&enabledPlugins%5B%5D=media_default--media_browser_1&enabledPlugins%5B%5D=media_default--media_browser_my_files&enabledPlugins%5B%5D=media_internet&file_directory=&id=media_wysiwyg&plugins=undefined
+msgid "Dokument"
+msgstr ""
+
+#: /media/browser?render=media-popup&types%5B%5D=audio&types%5B%5D=image&types%5B%5D=video&types%5B%5D=document&enabledPlugins%5B%5D=ding_content&enabledPlugins%5B%5D=upload&enabledPlugins%5B%5D=media_default--media_browser_1&enabledPlugins%5B%5D=media_default--media_browser_my_files&enabledPlugins%5B%5D=media_internet&file_directory=&id=media_wysiwyg&plugins=undefined
+msgid "Bruge som uploadede"
+msgstr ""
+
+#: /media/browser?render=media-popup&types%5B%5D=audio&types%5B%5D=image&types%5B%5D=video&types%5B%5D=document&enabledPlugins%5B%5D=ding_content&enabledPlugins%5B%5D=upload&enabledPlugins%5B%5D=media_default--media_browser_1&enabledPlugins%5B%5D=media_default--media_browser_my_files&enabledPlugins%5B%5D=media_internet&file_directory=&id=media_wysiwyg&plugins=undefined
+msgid "File URL"
+msgstr ""
+
+#: /media/browser?render=media-popup&types%5B%5D=audio&types%5B%5D=image&types%5B%5D=video&types%5B%5D=document&enabledPlugins%5B%5D=ding_content&enabledPlugins%5B%5D=upload&enabledPlugins%5B%5D=media_default--media_browser_1&enabledPlugins%5B%5D=media_default--media_browser_my_files&enabledPlugins%5B%5D=media_internet&file_directory=&id=media_wysiwyg&plugins=undefined
+msgid "Enter a URL to a file."
+msgstr ""
+
+#: /media/browser?render=media-popup&types%5B%5D=audio&types%5B%5D=image&types%5B%5D=video&types%5B%5D=document&enabledPlugins%5B%5D=ding_content&enabledPlugins%5B%5D=upload&enabledPlugins%5B%5D=media_default--media_browser_1&enabledPlugins%5B%5D=media_default--media_browser_my_files&enabledPlugins%5B%5D=media_internet&file_directory=&id=media_wysiwyg&plugins=undefined
+msgid "Vimeo"
+msgstr ""
+
+#: /media/browser?render=media-popup&types%5B%5D=audio&types%5B%5D=image&types%5B%5D=video&types%5B%5D=document&enabledPlugins%5B%5D=ding_content&enabledPlugins%5B%5D=upload&enabledPlugins%5B%5D=media_default--media_browser_1&enabledPlugins%5B%5D=media_default--media_browser_my_files&enabledPlugins%5B%5D=media_internet&file_directory=&id=media_wysiwyg&plugins=undefined
+msgid "File URL or media resource"
+msgstr ""
+
+#: /media/browser?render=media-popup&types%5B%5D=audio&types%5B%5D=image&types%5B%5D=video&types%5B%5D=document&enabledPlugins%5B%5D=ding_content&enabledPlugins%5B%5D=upload&enabledPlugins%5B%5D=media_default--media_browser_1&enabledPlugins%5B%5D=media_default--media_browser_my_files&enabledPlugins%5B%5D=media_internet&file_directory=&id=media_wysiwyg&plugins=undefined
+msgid ""
+"Enter a URL to a file or media resource. Many media providers also "
+"support identifying media via the embed code used to embed the media "
+"into external websites."
+msgstr ""
+
+#: /media/browser?render=media-popup&types%5B%5D=audio&types%5B%5D=image&types%5B%5D=video&types%5B%5D=document&enabledPlugins%5B%5D=ding_content&enabledPlugins%5B%5D=upload&enabledPlugins%5B%5D=media_default--media_browser_1&enabledPlugins%5B%5D=media_default--media_browser_my_files&enabledPlugins%5B%5D=media_internet&file_directory=&id=media_wysiwyg&plugins=undefined
+msgid "Supported providers"
+msgstr ""
+
+#: /media/browser?render=media-popup&types%5B%5D=audio&types%5B%5D=image&types%5B%5D=video&types%5B%5D=document&enabledPlugins%5B%5D=ding_content&enabledPlugins%5B%5D=upload&enabledPlugins%5B%5D=media_default--media_browser_1&enabledPlugins%5B%5D=media_default--media_browser_my_files&enabledPlugins%5B%5D=media_internet&file_directory=&id=media_wysiwyg&plugins=undefined
+msgid "Select a file"
+msgstr ""
+
+#: /media/browser?render=media-popup&types%5B%5D=audio&types%5B%5D=image&types%5B%5D=video&types%5B%5D=document&enabledPlugins%5B%5D=ding_content&enabledPlugins%5B%5D=upload&enabledPlugins%5B%5D=media_default--media_browser_1&enabledPlugins%5B%5D=media_default--media_browser_my_files&enabledPlugins%5B%5D=media_internet&file_directory=&id=media_wysiwyg&plugins=undefined
+msgid "@type %name was uploaded."
+msgstr ""
+
+#: /media/34/format-form?render=media-popup&fields=undefined
+msgid "Display as"
+msgstr ""
+
+#: /media/34/format-form?render=media-popup&fields=undefined
+msgid ""
+"Choose the type of display you would like for this\n"
+"      file. Please be aware that files may display differently than "
+"they do when\n"
+"      they are inserted into an editor."
+msgstr ""
+
+#: /search/node/Lene%20Frandsen
+msgid "Website"
+msgstr ""
+
+#: /admin/people?render=overlay
+msgid "Add role: !role"
+msgstr ""
+
+#: /admin/people?render=overlay
+msgid "Remove role: !role"
+msgstr ""
+
+#: /user/7/edit?destination=admin%2Fpeople%3Frender%3Doverlay&render=overlay
 msgid "Change roles assigned to user."
 msgstr ""
 
-#: /users/lokaladmin
-msgid "lokaladmin"
+#: /node/3/edit?render=overlay
+msgid "The link title is limited to @maxlength characters maximum."
 msgstr ""
 
-#: /admin/config/ting/search?render=overlay
-msgid "Ting search settings"
+#: /user/22/edit/ding_staff_profile?render=overlay&render=overlay&render=overlay
+msgid "@username has been assigned the staff role."
 msgstr ""
 
-#: /admin/config/ting/search?render=overlay
-msgid "Default results per page"
+#: /users/gitte?render=overlay
+msgid "Gitte Barlach"
 msgstr ""
 
-#: /admin/config/ting/search?render=overlay
-msgid "Enter the number of results desplayed on the search page by default."
-msgstr ""
-
-#: /admin/config/ting/search?render=overlay
-msgid "Number of facets"
-msgstr ""
-
-#: /admin/config/ting/search?render=overlay
-msgid "Enter the number of facets the search engine should show."
-msgstr ""
-
-#: /admin/config/ting/search?render=overlay
-msgid "Serie title"
-msgstr ""
-
-#: /admin/config/ting/search?render=overlay
-msgid ""
-"Specify the searchstring to be used for searching against serie "
-"titles. Use @serietitle as a placeholder for the serietitle"
-msgstr ""
-
-#: /admin/config/ting/search?render=overlay
-msgid "Default sorting"
-msgstr ""
-
-#: /admin/config/ting/search?render=overlay
-msgid "Set the default sorting for search results."
-msgstr ""
-
-#: /admin/config/ting/search?render=overlay
-msgid "Display message"
-msgstr ""
-
-#: /admin/config/ting/search?render=overlay
-msgid ""
-"Your search gave more than %s results. Try to search more specific or "
-"use the facets to filter the result."
-msgstr ""
-
-#: /admin/config/ting/search?render=overlay
-msgid ""
-"Message to display when search has more than x results. The token %s "
-"will by substitute by the number choosen."
-msgstr ""
-
-#: /admin/config/ting/search?render=overlay
-msgid "Display message at"
-msgstr ""
-
-#: /admin/config/ting/search?render=overlay
-msgid "The limit at wich the message is to be displayed."
-msgstr ""
-
-#: /admin/config?render=overlay
-msgid "Varnish connection broken"
-msgstr ""
-
-#: /admin/config?render=overlay
-msgid ""
-"The Varnish control terminal is not responding at %server on port "
-"%port."
+#: /users/gitte?render=overlay
+msgid "Vigo  Vandrefalk"
 msgstr ""
 
 msgid "Public files"
@@ -15625,36 +15539,10 @@ msgstr ""
 "En speciel cache som bruges til at gemme objekter som redigeres; "
 "gemmer tilstand i et miljø som normalt er tilstandsløst."
 
-msgid "Transaction ID."
-msgstr "Transaktions-ID"
-
-msgid "API module name"
-msgstr "API modulnavn"
-
-msgid "API delta value"
-msgstr "API deltaværdi"
-
-msgid "Order info short"
-msgstr "Ordreinformation kort"
-
-msgid "Order id"
-msgstr "Ordre ID"
-
-msgid "For later use."
-msgstr "Til senere brug."
-
-msgid "User ID"
-msgstr "Bruger ID"
-
-msgid "Log time"
-msgstr "Log tid"
-
-msgid "Order id prefix"
-msgstr "Præfiks for ordre-ID"
-
 msgid "Table that contains field group entries and settings."
 msgstr "Tabel som indeholder feltgrupper og indstillinger."
 
+#: ; misc/machine-name.js
 msgid "Edit"
 msgstr "Redigér"
 
@@ -16341,12 +16229,6 @@ msgstr "Administrér brugerdefineret indhold"
 msgid "Add, edit and delete CTools custom stored custom content"
 msgstr "Tilføj, redigér og slet brugerdefineret CTools-indhold"
 
-msgid "Pay using dibs"
-msgstr "Betal via dibs"
-
-msgid "Pay using dibs."
-msgstr "Betal via dibs."
-
 msgid "Settings"
 msgstr "Indstillinger"
 
@@ -16769,6 +16651,10 @@ msgstr "Gruppe"
 msgid "Menu tree"
 msgstr "Menutræ"
 
+#: /install.php?profile=ding2&locale=en&id=1&op=do
+msgid "Ting search - Search results"
+msgstr "Søgeresultat"
+
 msgid "All views"
 msgstr "Alle oversigter"
 
@@ -17008,7 +16894,7 @@ msgid "Date and time of when the comment was last updated."
 msgstr "Dato og tid hvor kommentaren blev opdateret."
 
 msgid "Created date"
-msgstr "Reserveringsdato"
+msgstr "Dato"
 
 msgid "Date in the form of CCYYMMDD."
 msgstr "Dato på formen CCYYMMDD."
@@ -17379,6 +17265,9 @@ msgstr "Antal termer"
 msgid "The number of terms belonging to the taxonomy vocabulary."
 msgstr "Antallet af termer i ordforrådet."
 
+msgid "User ID"
+msgstr "Bruger ID"
+
 msgid "The unique ID of the user account."
 msgstr "Brugerkontoens unikke ID."
 
@@ -17676,6 +17565,7 @@ msgstr "Udgivet"
 msgid "Whether or not the content is published."
 msgstr "Hvorvidt indholdet er udgivet eller ej."
 
+#: ; modules/node/node.js
 msgid "Not published"
 msgstr "Ikke udgivet"
 
@@ -20752,6 +20642,11 @@ msgstr "Også kaldet: !also"
 msgid "Ting search carousel"
 msgstr "Forsidekarussel"
 
+msgid "1 sec"
+msgid_plural "@count sec"
+msgstr[0] "1 sek."
+msgstr[1] "@count sekunder"
+
 msgid "Themes"
 msgstr "Temaer"
 
@@ -20766,6 +20661,10 @@ msgstr "Se alle nyheder"
 #: /install.php?profile=ding2&locale=en&id=1&op=do
 msgid "No news where found."
 msgstr "Ingen nyheder"
+
+#: /install.php?profile=ding2&locale=en&id=1&op=do
+msgid "Latest news posts"
+msgstr "Seneste indlæg"
 
 #: /install.php?profile=ding2&locale=en&id=1&op=do
 msgid "Group news"
@@ -20937,6 +20836,10 @@ msgid "A @flag-type has been unflagged, under \"@flag-title\""
 msgstr "Et @flag-type er blevet fjernet, under \"@flag-title\""
 
 #: /install.php?profile=ding2&locale=en&id=1&op=do
+msgid "Work areas"
+msgstr "Arbejdsområder"
+
+#: /install.php?profile=ding2&locale=en&id=1&op=do
 msgid "No staff was found related to the library selected."
 msgstr "Der er ingen medarbejdere tilknyttet biblioteket"
 
@@ -21013,9 +20916,11 @@ msgstr "Lån, reserveringer og mellemværende"
 msgid "True"
 msgstr "Sandt"
 
+#: ; profiles/ding2/modules/contrib/autologout/autologout.js
 msgid "Yes"
 msgstr "Ja"
 
+#: ; profiles/ding2/modules/contrib/autologout/autologout.js
 msgid "No"
 msgstr "Nej"
 
@@ -21103,18 +21008,20 @@ msgstr "Første sidepanel"
 msgid "0 sec"
 msgstr "0 sek."
 
-msgid "Monday"
-msgstr "Mandag"
+#: ; modules/locale/locale.datepicker.js
+msgid "Tuesday"
+msgstr "Tirsdag"
 
 msgctxt "Long month name"
-msgid "September"
-msgstr "september"
+msgid "October"
+msgstr "oktober"
 
 msgid "@zone: @date"
 msgstr "@zone: @date"
 
-msgid "Tuesday"
-msgstr "Tirsdag"
+#: ; modules/locale/locale.datepicker.js
+msgid "Wednesday"
+msgstr "Onsdag"
 
 msgid "Password"
 msgstr "Adgangskode"
@@ -21185,27 +21092,35 @@ msgstr "Fejlmeddelelse"
 msgid "Warning message"
 msgstr "Advarselsmeddelelse"
 
+#: ; misc/drupal.js
 msgid "An AJAX HTTP error occurred."
 msgstr "Der opstod en AJAX HTTP-fejl."
 
+#: ; misc/drupal.js
 msgid "HTTP Result Code: !status"
 msgstr "HTTP resultatkode: !status"
 
+#: ; misc/drupal.js
 msgid "An AJAX HTTP request terminated abnormally."
 msgstr "En AJAX HTTP-forespørgsel afsluttede på unormal vis."
 
+#: ; misc/drupal.js
 msgid "Debugging information follows."
 msgstr "Information til fejlsøgning følger."
 
+#: ; misc/drupal.js
 msgid "Path: !uri"
 msgstr "Sti: !uri"
 
+#: ; misc/drupal.js
 msgid "StatusText: !statusText"
 msgstr "StatusText: !statusText"
 
+#: ; misc/drupal.js
 msgid "ResponseText: !responseText"
 msgstr "ResponseText: !responseText"
 
+#: ; misc/drupal.js
 msgid "ReadyState: !readyState"
 msgstr "ReadyState: !readyState"
 
@@ -21213,6 +21128,7 @@ msgstr "ReadyState: !readyState"
 msgid "Searching please wait..."
 msgstr "Søger - vent venligst.."
 
+#: ; profiles/ding2/modules/ting_search/js/ting_search_overlay.js; profiles/ding2/modules/contrib/media/modules/media_wysiwyg/js/media_wysiwyg.format_form.js
 msgid "Cancel"
 msgstr "Annullér"
 
@@ -21430,8 +21346,9 @@ msgstr "En dato i 'kort' format (%date)"
 msgid "Medium format"
 msgstr "Mellem format"
 
-msgid "Mon"
-msgstr "man"
+#: ; modules/locale/locale.datepicker.js
+msgid "Tue"
+msgstr "tir"
 
 msgid "A date in 'medium' format. (%date)"
 msgstr "En dato i 'mellem' format (%date)"
@@ -21864,9 +21781,11 @@ msgstr "Backslash"
 msgid "@name Alert"
 msgstr "@name Advarsel om time out"
 
+#: ; misc/ajax.js
 msgid "Please wait..."
 msgstr "Vent venligst…"
 
+#: ; modules/overlay/overlay-parent.js
 msgid "@title dialog"
 msgstr "@title dialog"
 
@@ -21912,6 +21831,36 @@ msgid "1 min"
 msgid_plural "@count min"
 msgstr[0] "1 minut"
 msgstr[1] "@count minutter"
+
+msgid "Transaction ID."
+msgstr "Transaktions-ID"
+
+msgid "API module name"
+msgstr "API modulnavn"
+
+msgid "API delta value"
+msgstr "API deltaværdi"
+
+msgid "Order info short"
+msgstr "Ordreinformation kort"
+
+msgid "Order id"
+msgstr "Ordre ID"
+
+msgid "For later use."
+msgstr "Til senere brug."
+
+msgid "Log time"
+msgstr "Log tid"
+
+msgid "Order id prefix"
+msgstr "Præfiks for ordre-ID"
+
+msgid "Pay using dibs"
+msgstr "Betal via dibs"
+
+msgid "Pay using dibs."
+msgstr "Betal via dibs."
 
 msgid "Administer contact forms and contact form settings"
 msgstr "Administrér kontaktformularer og indstillinger for kontaktformularer"
@@ -22068,11 +22017,19 @@ msgstr "Engelsk"
 msgid "Translation files"
 msgstr "Oversættelsesfiler"
 
-msgid "1 sec"
-msgid_plural "@count sec"
-msgstr[0] "1 sek."
-msgstr[1] "@count sekunder"
+#: ; modules/locale/locale.datepicker.js
+msgid "Monday"
+msgstr "Mandag"
 
+msgctxt "Long month name"
+msgid "September"
+msgstr "september"
+
+#: ; modules/locale/locale.datepicker.js
+msgid "Mon"
+msgstr "man"
+
+#: ; modules/locale/locale.datepicker.js
 msgid "Thursday"
 msgstr "Torsdag"
 
@@ -22080,17 +22037,16 @@ msgctxt "Long month name"
 msgid "May"
 msgstr "maj"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Friday"
 msgstr "Fredag"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Thu"
 msgstr "tor"
 
 msgid "Date only"
 msgstr "Kun dato"
-
-msgid "Wednesday"
-msgstr "Onsdag"
 
 msgid "Logo"
 msgstr "Logo"
@@ -22201,18 +22157,23 @@ msgctxt "Long month name"
 msgid "March"
 msgstr "marts"
 
+#: ; modules/contextual/contextual.js
 msgid "Configure"
 msgstr "Konfigurér"
 
+#: ; modules/toolbar/toolbar.js
 msgid "Show shortcuts"
 msgstr "Vis genveke"
 
+#: ; modules/toolbar/toolbar.js
 msgid "Hide shortcuts"
 msgstr "Gem genveje"
 
+#: ; modules/overlay/overlay-child.js
 msgid "Loading"
 msgstr "Indlæser"
 
+#: ; modules/overlay/overlay-child.js; misc/vertical-tabs.js
 msgid "(active tab)"
 msgstr "(aktiv fane)"
 
@@ -22235,15 +22196,19 @@ msgstr "Kan ikke udlånes"
 msgid "Holdings available on the shelf"
 msgstr "Se alle eksemplarer"
 
+#: ; misc/collapse.js
 msgid "Hide"
 msgstr "Skjul"
 
+#: ; misc/collapse.js
 msgid "Show"
 msgstr "Vis"
 
+#: ; misc/tableselect.js
 msgid "Select all rows in this table"
 msgstr "Vælg alle rækker i tabellen"
 
+#: ; misc/tableselect.js
 msgid "Deselect all rows in this table"
 msgstr "Fravælg alle rækker i tabellen"
 
@@ -22266,18 +22231,23 @@ msgstr ""
 msgid "The block cannot be placed in this region."
 msgstr "Blokken kan ikke placeres i denne region."
 
+#: ; misc/tabledrag.js
 msgid "Re-order rows by numerical weight instead of dragging."
 msgstr "Sortér rækker med numeriske vægte i stedet for at trække dem."
 
+#: ; misc/tabledrag.js
 msgid "Show row weights"
 msgstr "Vis rækkevægte"
 
+#: ; misc/tabledrag.js
 msgid "Hide row weights"
 msgstr "Skjul rækkevægte"
 
+#: ; misc/tabledrag.js
 msgid "Drag to re-order"
 msgstr "Træk for at (om)sortere"
 
+#: ; misc/tabledrag.js
 msgid ""
 "Changes made in this table will not be saved until the form is "
 "submitted."
@@ -22289,6 +22259,7 @@ msgstr "Skjul resumé"
 msgid "Edit summary"
 msgstr "Redigér resumé"
 
+#: ; modules/file/file.js
 msgid ""
 "The selected file %filename cannot be uploaded. Only files with the "
 "following extensions are allowed: %extensions."
@@ -22296,33 +22267,43 @@ msgstr ""
 "Den valgte fil %filename kan ikke uploades. Kun filer med følgende "
 "filendelser er tilladt: %extensions."
 
+#: ; misc/autocomplete.js
 msgid "Autocomplete popup"
 msgstr "Autocomplete popup"
 
+#: ; misc/autocomplete.js
 msgid "Searching for matches..."
 msgstr "Søger efter resultater..."
 
+#: ; modules/node/node.js
 msgid "New revision"
 msgstr "Ny version"
 
+#: ; modules/node/node.js
 msgid "No revision"
 msgstr "Ingen version"
 
+#: ; modules/node/node.js
 msgid "By @name on @date"
 msgstr "Af @name, @date"
 
+#: ; modules/node/node.js
 msgid "By @name"
 msgstr "Af @name"
 
+#: ; profiles/ding2/modules/contrib/pathauto/pathauto.js
 msgid "Automatic alias"
 msgstr "Automatisk alias"
 
+#: ; profiles/ding2/modules/contrib/pathauto/pathauto.js
 msgid "Alias: @alias"
 msgstr "Alias: @alias"
 
+#: ; profiles/ding2/modules/contrib/pathauto/pathauto.js
 msgid "No alias"
 msgstr "Intet alias"
 
+#: ; modules/comment/comment-node-form.js
 msgid "@number comments per page"
 msgstr "@number kommentarer pr. side"
 
@@ -22341,6 +22322,7 @@ msgstr "Anvend (dette display)"
 msgid "Customize dashboard"
 msgstr "Tilpas dashboard"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Done"
 msgstr "Færdig"
 
@@ -22359,6 +22341,7 @@ msgstr "Indlæser..."
 msgid "Error getting media."
 msgstr "Fejl ved hentning af media."
 
+#: ; profiles/ding2/modules/contrib/media/modules/media_wysiwyg/js/media_wysiwyg.format_form.js
 msgid "Submit"
 msgstr "Indsend"
 
@@ -22369,9 +22352,11 @@ msgstr "Kan ikke fortsætte, intet valgt"
 msgid "This permission is inherited from the authenticated user role."
 msgstr "Denne tilladelse er arvet fra den godkendte brugerrolle."
 
+#: ; profiles/ding2/modules/contrib/token/token.js
 msgid "Insert this token into your form"
 msgstr "Indsæt dette token i din formular"
 
+#: ; profiles/ding2/modules/contrib/token/token.js
 msgid "First click a text field to insert your tokens into."
 msgstr "Klik på et tekstfelt som tokens skal sættes ind i."
 
@@ -22381,6 +22366,7 @@ msgstr "Kræver en titel"
 msgid "Don't display post information"
 msgstr "Vis ikke information om indlægget"
 
+#: ; profiles/ding2/modules/contrib/media/js/media.popups.js
 msgid "OK"
 msgstr "O.k."
 
@@ -22459,6 +22445,7 @@ msgstr "Fjern"
 msgid "User interface"
 msgstr "Brugergrænseflade"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Next"
 msgstr "Næste"
 
@@ -22507,6 +22494,7 @@ msgstr "Udvikling"
 msgid "Closed"
 msgstr "Lukket"
 
+#: ; profiles/ding2/modules/contrib/opening_hours/js/opening_hours.presentation.js
 msgid "closed"
 msgstr "lukket"
 
@@ -22713,9 +22701,11 @@ msgstr "Opdatér"
 msgid "Open"
 msgstr "Åben"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Sunday"
 msgstr "Søndag"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Saturday"
 msgstr "Lørdag"
 
@@ -23213,6 +23203,7 @@ msgstr "Kontrol"
 msgid "Last reply"
 msgstr "Seneste svar"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Prev"
 msgstr "Forrige"
 
@@ -23309,54 +23300,67 @@ msgstr "Tyrkiet"
 msgid "Day"
 msgstr "Dag"
 
-msgid "Tue"
-msgstr "tir"
-
+#: ; modules/locale/locale.datepicker.js
 msgid "Wed"
 msgstr "ons"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Fri"
 msgstr "fre"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Sat"
 msgstr "lør"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Sun"
 msgstr "søn"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "January"
 msgstr "Januar"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "February"
 msgstr "Februar"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "March"
 msgstr "Marts"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "April"
 msgstr "April"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "May"
 msgstr "maj"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "June"
 msgstr "Juni"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "July"
 msgstr "Juli"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "August"
 msgstr "August"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "September"
 msgstr "September"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "October"
 msgstr "Oktober"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "November"
 msgstr "November"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "December"
 msgstr "December"
 
@@ -24166,10 +24170,10 @@ msgid ""
 "used if you wish to receive a new password or wish to receive certain "
 "news or notifications by e-mail."
 msgstr ""
-"Indtast en gyldig e-mail-adresse. Al e-mail fra sitet sendes til denne "
-"adresse. E-mail-adressen offentliggøres ikke, og bruges kun hvis du "
-"ønsker at modtage en ny adgangskode eller nyheder og opdateringer via "
-"e-mail."
+"Indtast en gyldig e-mail-adresse. Mails fra biblioteket til dig sendes "
+"til denne adresse. E-mail-adressen offentliggøres ikke, og bruges kun "
+"hvis du ønsker at modtage en ny adgangskode eller nyheder og "
+"opdateringer via e-mail."
 
 msgid ""
 "The e-mail address %email is already registered. <a "
@@ -24303,6 +24307,7 @@ msgstr "Emne"
 msgid "Allowed values list"
 msgstr "Liste af tilladte værdier"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Today"
 msgstr "I dag"
 
@@ -24333,36 +24338,47 @@ msgstr "Indstil blok"
 msgid "How many content items to display in \"day\" list."
 msgstr "Hvor mange indlæg der vises i listen \"Dagens\"."
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Jan"
 msgstr "jan"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Feb"
 msgstr "feb"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Mar"
 msgstr "mar"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Apr"
 msgstr "apr"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Jun"
 msgstr "jun"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Jul"
 msgstr "jul"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Aug"
 msgstr "aug"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Sep"
 msgstr "sep"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Oct"
 msgstr "okt"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Nov"
 msgstr "nov"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Dec"
 msgstr "dec"
 
@@ -24426,24 +24442,31 @@ msgstr "tegn"
 msgid "profile"
 msgstr "profil"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Su"
 msgstr "Sø"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Mo"
 msgstr "Ma"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Tu"
 msgstr "Ti"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "We"
 msgstr "On"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Th"
 msgstr "To"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Fr"
 msgstr "Fr"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "Sa"
 msgstr "Lø"
 
@@ -26118,6 +26141,7 @@ msgstr "Forældet oversættelse"
 msgid "Some required modules must be enabled"
 msgstr "Nogle påkrævede moduler skal aktiveres"
 
+#: ; modules/locale/locale.datepicker.js
 msgid "mm/dd/yy"
 msgstr "mm/dd/yy"
 
@@ -33659,10 +33683,6 @@ msgid "August"
 msgstr "august"
 
 msgctxt "Long month name"
-msgid "October"
-msgstr "oktober"
-
-msgctxt "Long month name"
 msgid "November"
 msgstr "november"
 
@@ -40677,6 +40697,7 @@ msgstr ""
 msgid "Not configured"
 msgstr "Ikke konfigureret"
 
+#: ; profiles/ding2/modules/ding_availability/js/ding_availability_labels.js
 msgid "Available"
 msgstr "Tilgængelig"
 
@@ -41025,6 +41046,7 @@ msgstr "DIBS"
 msgid "Date/Time"
 msgstr "Dato/tid"
 
+#: ; profiles/ding2/modules/ding_availability/js/ding_availability_labels.js
 msgid "Unavailable"
 msgstr "Ikke tilgængelig"
 
@@ -42164,6 +42186,7 @@ msgstr "Slet aliaser"
 msgid "Backup the database."
 msgstr "Databasebackup."
 
+#: ; profiles/ding2/modules/contrib/autosave/autosave.js
 msgid "Restore"
 msgstr "Gendan"
 
@@ -54545,9 +54568,11 @@ msgstr ""
 "tilgængeligt bruges den lokale udgave af jQuery og jQuery UI i "
 "stedet."
 
+#: ; profiles/ding2/modules/contrib/token/token.js
 msgid "Loading token browser..."
 msgstr "Indlæser token-browser..."
 
+#: ; profiles/ding2/modules/contrib/token/token.js
 msgid "Available tokens"
 msgstr "Tilgængelige symboler"
 
@@ -58386,12 +58411,15 @@ msgstr "Lad feltet stå tomt for at deaktivere planlagt udgivelse."
 msgid "Leave blank to disable scheduled unpublishing."
 msgstr "Lad feltet stå tomt for at deaktivere planlagt afpublicering."
 
+#: ; profiles/ding2/modules/contrib/scheduler/scheduler_vertical_tabs.js
 msgid "Scheduled for publishing"
 msgstr "Planlagt til publicering"
 
+#: ; profiles/ding2/modules/contrib/scheduler/scheduler_vertical_tabs.js
 msgid "Scheduled for unpublishing"
 msgstr "Planlagt til afpublicering"
 
+#: ; profiles/ding2/modules/contrib/scheduler/scheduler_vertical_tabs.js
 msgid "Not scheduled"
 msgstr "Ikke planlagt"
 
@@ -58406,6 +58434,7 @@ msgstr "Planlagt"
 msgid "Display a list of scheduled nodes"
 msgstr "Vis en liste over planlagte indholdselementer"
 
+#: ; profiles/ding2/modules/contrib/autosave/autosave.js
 msgid "Ignore"
 msgstr "Ignorér"
 
@@ -60321,4 +60350,26 @@ msgstr "Nederst til højre"
 
 msgid "Bottom left"
 msgstr "Nederst til venstre"
+
+#: /ting/object/870970-basis%3A50618374
+msgid "Fetching holdings information."
+msgstr "Henter beholdningsoplysninger."
+
+#: /search/ting/haloween
+msgid ""
+"Search result <span class=\"js-count\" data-js-count=\"!count\" "
+"class=\"search-field-in-content--amount\">(!count !string)</span>"
+msgstr ""
+"Søgeresultater <span class=\"js-count\" data-js-count=\"!count\" "
+"class=\"search-field-in-content--amount\">(!count !string)</span>"
+
+#: /ting/object/870970-basis%3A22073060/reserve
+msgid ""
+"In order to make quick reservations, you must select a default pickup "
+"branch."
+msgstr "Du skal vælge afhentningsfilial før du kan reservere"
+
+#: /user/21/status/reservations
+msgid "This reservation is about to expire."
+msgstr "Denne reservering udløber snart."
 

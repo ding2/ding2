@@ -376,6 +376,8 @@ function ding2_module_selection_form($form, &$form_state) {
     'ding_example_content' => st('Add example content'),
     'ting_new_materials' => st('Ting New Materials'),
     'bpi' => st('BPI'),
+    'ding_debt' => st('Ding payment'),
+    'ding_dibs' => st('Dibs payment gateway'),
   );
 
   $form['modules'] = array(
@@ -391,6 +393,8 @@ function ding2_module_selection_form($form, &$form_state) {
     '#options' => $modules,
     '#default_value' => array(
       'ding_contact',
+      'ding_debt',
+      'ding_dibs',
     ),
   );
 
