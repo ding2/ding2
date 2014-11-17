@@ -75,7 +75,8 @@ function ding_frontpage_admin_settings() {
  * Submit function to clear cache on form submit.
  */
 function ding_frontpage_admin_settings_submit($form, &$form_state) {
-  cache_clear_all();
+  $url = url('<front>',  array('absolute' => TRUE));
+  cache_clear_all($url, 'cache_page');
 }
 
 /**
