@@ -50,7 +50,8 @@ function ting_search_backend_engines_content_type_render($subtype, $conf, $panel
     }
 
     // Create the option as a link.
-    $title = l(t('Search @backend', array('@backend' => $backend['title'])), $path, array('query' => $conditions));
+    $txt = format_string('Search @backend', array('@backend' => $backend['title']));
+    $title = l(t($txt), $path, array('query' => $conditions));
 
     // Set default value.
     if (arg(1) == $backend['module']) {
