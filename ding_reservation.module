@@ -159,61 +159,57 @@ function ding_reservation_reserve_ajax($entity, $reservable = NULL) {
 
   // Check if the logged in user is a library user.
   global $user;
-  if (user_is_logged_in()) {
-    if (ding_user_is_provider_user($user)) {
-      if (is_object($entity) && $entity instanceof TingEntity) {
-        // Check if reservable object was paste.
-        if (is_null($reservable)) {
-          // If no object passed assume "normal" reservation (not periodical).
-          $reservable = new DingReservationReservableEntity($entity);
-        }
-
-        // Try to make reservation.
-        try {
-          // Check if user have preferred branch and interest period, if so
-          // submit the reservation form. If not display another form for with
-          // the options to select branch and period.
-          $defaults = ding_provider_invoke('reservation', 'default_options', $user);
-          $matches = preg_grep("/preferred_branch$/", array_keys($defaults));
-          if (empty($defaults[array_shift($matches)])) {
-            $form = ding_provider_get_form('ding_reservation_reserve_form', $reservable, FALSE);
-            $commands[] = ajax_command_ding_popup('ding_reservation', t('Reservation'), render($form));
-          }
-          else {
-            $form_state = array('values' => array());
-            drupal_form_submit('ding_reservation_reserve_form', $form_state, $reservable);
-
-            // Return any status messages set by the form.
-            $commands[] = ajax_command_ding_popup('ding_reservation', t('Reservation'), theme('status_messages'));
-          }
-        }
-        catch (DingProviderAuthException $exception) {
-          // The form may have thrown an Auth exception, so display login. (the
-          // reservation link will be triggered on success).
-          $commands[] = ajax_command_ding_user_authenticate('');
-        }
-        catch (Exception $exception) {
-          // The form may have thrown an auth exception as the login may have
-          // timed-out (the reservation link will be triggered on success).
-          $commands[] = ajax_command_ding_popup('ding_reservation', t('Error'), '<p>' . t('Unknown error in reservation, please contact the library.') . '</p>');
-
-          // Log exception.
-          watchdog_exception('ding_reservation', $exception);
-        }
-      }
-      else {
-        // Error not ting entity.
-        $commands[] = ajax_command_ding_popup('ding_reservation', t('Error'), '<p>' . t('Unable to load information about the material.') . '</p>');
-      }
-    }
-    else {
-      // Error not library user.
-      $commands[] = ajax_command_ding_popup('ding_reservation', t('Error'), '<p>' . t('Only library user can make reservations.') . '</p>');
-    }
-  }
-  else {
+  if (!user_is_logged_in()) {
     // Trigger log-in (the reservation link will be triggered on success).
     $commands[] = ajax_command_ding_user_authenticate('');
+  }
+  elseif (!ding_user_is_provider_user($user)) {
+    // Error not library user.
+    $commands[] = ajax_command_ding_popup('ding_reservation', t('Error'), '<p>' . t('Only library user can make reservations.') . '</p>');
+  }
+  elseif (!(is_object($entity) && $entity instanceof TingEntity)) {
+    // Error not ting entity.
+    $commands[] = ajax_command_ding_popup('ding_reservation', t('Error'), '<p>' . t('Unable to load information about the material.') . '</p>');
+  }
+  else {
+    // Check if reservable object was paste.
+    if (is_null($reservable)) {
+      // If no object passed assume "normal" reservation (not periodical).
+      $reservable = new DingReservationReservableEntity($entity);
+    }
+
+    // Try to make reservation.
+    try {
+      // Check if user have preferred branch and interest period, if so
+      // submit the reservation form. If not display another form for with
+      // the options to select branch and period.
+      $defaults = ding_provider_invoke('reservation', 'default_options', $user);
+      $matches = preg_grep("/preferred_branch$/", array_keys($defaults));
+      if (empty($defaults[array_shift($matches)])) {
+        $form = ding_provider_get_form('ding_reservation_reserve_form', $reservable, FALSE);
+        $commands[] = ajax_command_ding_popup('ding_reservation', t('Reservation'), render($form));
+      }
+      else {
+        $form_state = array('values' => array());
+        drupal_form_submit('ding_reservation_reserve_form', $form_state, $reservable);
+
+        // Return any status messages set by the form.
+        $commands[] = ajax_command_ding_popup('ding_reservation', t('Reservation'), theme('status_messages'));
+      }
+    }
+    catch (DingProviderAuthException $exception) {
+      // The form may have thrown an Auth exception, so display login. (the
+      // reservation link will be triggered on success).
+      $commands[] = ajax_command_ding_user_authenticate('');
+    }
+    catch (Exception $exception) {
+      // The form may have thrown an auth exception as the login may have
+      // timed-out (the reservation link will be triggered on success).
+      $commands[] = ajax_command_ding_popup('ding_reservation', t('Error'), '<p>' . t('Unknown error in reservation, please contact the library.') . '</p>');
+
+      // Log exception.
+      watchdog_exception('ding_reservation', $exception);
+    }
   }
 
   // Return the ajax commands as an render array.
