@@ -9,7 +9,7 @@ working Apache/Nginx, APC, Memcached, PHP 5.4 and Varnish 3.x (optional). The
 stack should be optimized to run a Drupal site.
 
 ## Dependencies
-* [Drupal 7.23](https://drupal.org/drupal-7.23-release-notes) - latest stable
+* [Drupal 7.26](https://drupal.org/drupal-7.26-release-notes) - latest stable
   version of Drupal Core that ding2 have been tested on and the last stable
   release when this was written.
 * [Drush 6.1.0](https://github.com/drush-ops/drush) - latest release when this
@@ -19,7 +19,7 @@ stack should be optimized to run a Drupal site.
 The reset of this document explains how to download Drupal and patch the core
 to run a Ding2 based site.
 
-## Drush utils (this is a most)
+## Drush utils (this is a must)
 Ding2uses nested makefiles (each module have its own dependencies), which
 results in projects and libraries being download more than once with the
 default drush installation. You can work around this by cloning the
@@ -32,13 +32,13 @@ default drush installation. You can work around this by cloning the
 
 ## Drupal
 Go into your web-root (from now on named DRUPAL) and execute this drush command
-to download a fresh copy of Drupal version 7.23. IF you omit the version number
+to download a fresh copy of Drupal version 7.26. IF you omit the version number
 the newest version of Drupal will be downloaded.
 ```sh
-  ~$ drush dl drupal-7.23
-  ~$ mv drupal-7.23/* .
-  ~$ mv drupal-7.23/.* .
-  ~$ rm -r drupal-7.23
+  ~$ drush dl drupal-7.26
+  ~$ mv drupal-7.26/* .
+  ~$ mv drupal-7.26/.* .
+  ~$ rm -r drupal-7.26
 ```
 
 ### Patches
@@ -49,6 +49,12 @@ root path and execute the commands below.
 This [patch](https://drupal.org/node/1232346) fixes a problem with recursive menu rebuilds.
 ```sh
   ~$ wget -qO- http://drupal.org/files/menu-get-item-rebuild-1232346-22_0.patch | patch -p1
+```
+
+This [patch](https://drupal.org/node/2205581) fixes issue with permissions and
+translation of role names.
+```sh
+  ~$ wget -qO- http://drupal.org/files/issues/translate_role_names-2205581-1.patch | patch -p1
 ```
 
 This [patch](https://drupal.org/node/1879970) ensure that communication with
@@ -171,7 +177,6 @@ This optimization assumes that you have APC installed on your server.
 
 __More information on the way__
 
-
 ## Memcache
 This optimization assumes that you have memcached installed on your server.
 Alternatively you can use redis as a key/value store, but it will not give you
@@ -212,3 +217,25 @@ This is done in settings.php by setting.
 ```php
   $conf['wayf_hash'] = "HASH_VALUE";
 ```
+
+# SSL Proxy
+It is recommended that you run the site behind an https end-point proxy and with varnish.
+
+<pre>
+  Client -> Nginx -> Varnish -> Apache
+</pre>
+
+## Nginx
+The installation profile contains an example configuration (_example-nginx.conf_) for nginx that works as an SSL Proxy.
+
+## Varnish
+The installation profile also contains a Vanish configuration file (_ding2.vcl_), which is created to match the ding_varnish module's communication with varnish about which pages to cache for users (even logged in users).
+
+The configuration file also limits which server are authenticated/allowed to be upstream proxy for Varnish. This is to ensure that sensitive information is not forwarded to an un-secure proxy as until the SSL proxy the information is not encrypted.
+
+## Apache 
+Apache do not have the SSL module enabled, so it will not set the "_X-Forwarded-Proto_" header from the SSL proxy and Drupal will not be able to detect that it's behind a SSL Proxy. So you have to set the HTTPS flag in your vhost configuration file as shown below.
+
+<pre>
+ SetEnvIf X-Forwarded-Proto https HTTPS=on
+</pre>
