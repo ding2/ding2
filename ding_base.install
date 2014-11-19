@@ -1,7 +1,8 @@
 <?php
 /**
  * @file
- * Check that requirements are valid during installation.
+ * Check that requirements are valid during installation and ensure date formats
+ * work correctly.
  */
 
 /**
@@ -55,4 +56,65 @@ function ding_base_requirements($phase) {
   }
 
   return $requirements;
+}
+
+/**
+ * Implements hook_install().
+ */
+function ding_base_install() {
+  // Set default date formats to make them available for views and field
+  // formatters. They are not in strongarm as the sites may wish to change the
+  // date formats.
+  $formats = system_get_date_formats();
+  variable_set('date_format_ding_date_only', array_shift(array_keys($formats['ding_date_only'])));
+  variable_set('date_format_ding_time_only', array_shift(array_keys($formats['ding_time_only'])));
+  variable_set('date_format_ding_long_date_only', array_shift(array_keys($formats['ding_long_date_only'])));
+  variable_set('date_format_ding_material_lists_date', array_shift(array_keys($formats['ding_material_lists_date'])));
+  variable_set('date_format_ding_event_lists_date', array_shift(array_keys($formats['ding_event_lists_date'])));
+  variable_set('date_format_long', 'l, j. F, Y H:i');
+  variable_set('date_format_medium', 'D, d-m-Y H:i');
+  variable_set('date_format_short', 'd-m-Y H:i');
+}
+
+/**
+ * Restore default dates to Drupal standard.
+ */
+function ding_base_update_7000() {
+  // Default types.
+  variable_del('date_format_long');
+  variable_del('date_format_medium');
+  variable_del('date_format_short');
+
+  // Let Drupal use the new values.
+  drupal_flush_all_caches();
+}
+
+/**
+ * Remove old custom date formats.
+ */
+function ding_base_update_7001() {
+  variable_del('date_format_date_only');
+  variable_del('date_format_day_of_the_month_without_leading_zeros');
+  variable_del('date_format_day_text_full');
+  variable_del('date_format_ding_event_lists_date');
+  variable_del('date_format_ding_material_lists_date');
+  variable_del('date_format_long_date_only');
+  variable_del('date_format_month_text_full');
+  variable_del('date_format_time_only');
+
+  // Remove leftover date formats.
+  $types = array(
+    'date_only',
+    'long_date_only',
+    'time_only',
+    'ding_meterial_lists_date',
+    'ding_event_list_date',
+  );
+  db_delete('date_format_type')
+    ->condition('type', $types, 'IN')
+    ->execute();
+
+  // Submit the date time setting form to make the formats available for views
+  // and field formatters.
+  ding_base_install();
 }

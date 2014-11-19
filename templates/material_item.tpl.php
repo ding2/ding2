@@ -16,8 +16,10 @@
     <?php endif; ?>
     <ul class="item-information-list">
       <?php foreach ($information as $info) : ?>
-        <li class="item-information <?php print $info['class']; ?>">
-          <div class="item-information-label"><?php print $info['label']?>:</div>
+        <li class="item-information <?php isset($info['class']) ? print $info['class'] : print ''; ?>">
+          <?php if (isset($info['label'])) : ?>
+            <div class="item-information-label"><?php print $info['label']; ?>:</div>
+          <?php endif; ?>
           <div class="item-information-data"><?php print $info['data']; ?></div>
         </li>
       <?php endforeach; ?>

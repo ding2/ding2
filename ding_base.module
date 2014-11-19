@@ -78,7 +78,11 @@ function ding_base_field_formatter_view($entity_type, $entity, $field, $instance
   $elements = array();
   foreach ($items as $delta => $item) {
     $elements[$delta] = array(
-      '#markup' => theme('body_snippet', array('element' => $item, 'field' => $instance, 'display' => $display)),
+      '#markup' => theme('body_snippet', array(
+        'element' => $item,
+        'field' => $instance,
+        'display' => $display,
+      )),
     );
   }
   return $elements;
@@ -116,15 +120,66 @@ function ding_base_field_formatter_settings_summary($field, $instance, $view_mod
 }
 
 /**
+ * Implements hook_date_formats().
+ */
+function ding_base_date_formats() {
+  return array(
+    array(
+      'type' => 'ding_date_only',
+      'format' => 'l j. F',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'ding_event_lists_date',
+      'format' => 'l j. F Y',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'ding_material_lists_date',
+      'format' => 'j. F Y',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'ding_long_date_only',
+      'format' => 'l j. F Y',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'ding_time_only',
+      'format' => 'G:i',
+      'locales' => array(),
+    ),
+    array(
+       // New default drupal selectable short format.
+      'type' => 'short',
+      'format' => 'd-m-Y H:i',
+      'locales' => array(),
+    ),
+    array(
+      // New default drupal selectable medium format.
+      'type' => 'medium',
+      'format' => 'D, d-m-Y H:i',
+      'locales' => array(),
+    ),
+    array(
+      // New default drupal selectable long format.
+      'type' => 'long',
+      'format' => 'l, j. F, Y H:i',
+      'locales' => array(),
+    ),
+);
+}
+
+/**
  * Implements hook_date_format_types().
  */
 function ding_base_date_format_types() {
   return array(
-    'date_only' => t('Date only'),
-    'time_only' => t('Time only'),
-    'long_date_only' => t('Long date only'),
-    'ding_meterial_lists_date' => t('Ding marterial lists date'),
-    'ding_event_list_date' => t('Ding event lists date'),
+    'ding_date_only' => t('Date only (mainly used in events)'),
+    'ding_time_only' => t('Time only (mainly used in events)'),
+    'ding_long_date_only' => t('Long date only (mainly used in news)'),
+    'ding_material_lists_date' => t('Ding marterial lists date'),
+    'ding_event_lists_date' => t('Ding event lists date'),
   );
 }
 
@@ -395,4 +450,82 @@ function ding_base_updated_taxonomy_aliases($node, $base, $terms, $slugs) {
       }
     }
   }
+}
+
+/**
+ * Rewrite the color generated stylesheet.
+ *
+ * This function is used by "drush cgen" to regenerate the color modules css
+ * file when the theme have changed it's css. We have tried to trigger the color
+ * module to do this, but without any luck. So this basically do the same as
+ * going into the theme settings page changing the color scheme and change it
+ * back and press save.
+ *
+ * This manual step would create a large overhead in the automatically
+ * deployment and in the development of the theme, so hence this function.
+ */
+function ding_base_rewrite_color_stylesheet() {
+  $themes = list_themes();
+  $theme = 'ddbasic';
+  foreach ($themes as $name => $data) {
+    if ($data->status) {
+      $theme = $name;
+      break;
+    }
+  }
+
+  $info = color_get_info($theme);
+  $palette = color_get_palette($theme, TRUE);
+
+  // Prepare target locations for generated files.
+  $id = $theme . '-' . substr(hash('sha256', serialize($palette) . microtime()), 0, 8);
+  $paths['color'] = 'public://color';
+  $paths['target'] = $paths['color'] . '/' . $id;
+  foreach ($paths as $path) {
+    file_prepare_directory($path, FILE_CREATE_DIRECTORY);
+  }
+  $paths['target'] = $paths['target'] . '/';
+  $paths['id'] = $id;
+  $paths['source'] = drupal_get_path('theme', $theme) . '/';
+  $paths['files'] = $paths['map'] = array();
+
+  // Rewrite theme stylesheets.
+  $css = array();
+  foreach ($info['css'] as $stylesheet) {
+    // Build a temporary array with LTR and RTL files.
+    $files = array();
+    if (file_exists($paths['source'] . $stylesheet)) {
+      $files[] = $stylesheet;
+
+      $rtl_file = str_replace('.css', '-rtl.css', $stylesheet);
+      if (file_exists($paths['source'] . $rtl_file)) {
+        $files[] = $rtl_file;
+      }
+    }
+
+    foreach ($files as $file) {
+      // Aggregate @imports recursively for each configured top level CSS file
+      // without optimization. Aggregation and optimization will be
+      // handled by drupal_build_css_cache() only.
+      $style = drupal_load_stylesheet($paths['source'] . $file, FALSE);
+
+      // Return the path to where this CSS file originated from, stripping
+      // off the name of the file at the end of the path.
+      $base = base_path() . dirname($paths['source'] . $file) . '/';
+      _drupal_build_css_path(NULL, $base);
+
+      // Prefix all paths within this CSS file, ignoring absolute paths.
+      $style = preg_replace_callback('/url\([\'"]?(?![a-z]+:|\/+)([^\'")]+)[\'"]?\)/i', '_drupal_build_css_path', $style);
+
+      // Rewrite stylesheet with new colors.
+      $style = _color_rewrite_stylesheet($theme, $info, $paths, $palette, $style);
+      $base_file = drupal_basename($file);
+      $css[] = $paths['target'] . $base_file;
+      _color_save_stylesheet($paths['target'] . $base_file, $style, $paths);
+    }
+  }
+
+  // Maintain list of files.
+  variable_set('color_' . $theme . '_stylesheets', $css);
+  variable_set('color_' . $theme . '_files', $paths['files']);
 }

@@ -13,6 +13,241 @@ function ding_base_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_enforce_admin';
+  $strongarm->value = 1;
+  $export['autologout_enforce_admin'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_inactivity_message';
+  $strongarm->value = 'Af sikkerhedsmæssige årsager er du blevet logget ud, da du har været inaktiv de seneste 15 minutter
+
+';
+  $export['autologout_inactivity_message'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_max_timeout';
+  $strongarm->value = '172800';
+  $export['autologout_max_timeout'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_message';
+  $strongarm->value = 'Af sikkerhedsmæssige årsager vil du automatisk blive logget ud om et øjeblik. Vil du fortsætte med at være logget ind?
+
+';
+  $export['autologout_message'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_no_dialog';
+  $strongarm->value = 0;
+  $export['autologout_no_dialog'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_padding';
+  $strongarm->value = '15';
+  $export['autologout_padding'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_redirect_url';
+  $strongarm->value = 'ding_frontpage';
+  $export['autologout_redirect_url'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_role_1';
+  $strongarm->value = 0;
+  $export['autologout_role_1'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_role_1_timeout';
+  $strongarm->value = '1800';
+  $export['autologout_role_1_timeout'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_role_2';
+  $strongarm->value = 0;
+  $export['autologout_role_2'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_role_2_timeout';
+  $strongarm->value = '1800';
+  $export['autologout_role_2_timeout'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_role_3';
+  $strongarm->value = 0;
+  $export['autologout_role_3'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_role_3_timeout';
+  $strongarm->value = '0';
+  $export['autologout_role_3_timeout'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_role_4';
+  $strongarm->value = 0;
+  $export['autologout_role_4'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_role_4_timeout';
+  $strongarm->value = '1800';
+  $export['autologout_role_4_timeout'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_role_5';
+  $strongarm->value = 0;
+  $export['autologout_role_5'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_role_5_timeout';
+  $strongarm->value = '1800';
+  $export['autologout_role_5_timeout'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_role_6';
+  $strongarm->value = 0;
+  $export['autologout_role_6'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_role_6_timeout';
+  $strongarm->value = '1800';
+  $export['autologout_role_6_timeout'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_role_7';
+  $strongarm->value = 0;
+  $export['autologout_role_7'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_role_7_timeout';
+  $strongarm->value = '1800';
+  $export['autologout_role_7_timeout'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_role_8';
+  $strongarm->value = 1;
+  $export['autologout_role_8'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_role_8_timeout';
+  $strongarm->value = '900';
+  $export['autologout_role_8_timeout'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_role_9';
+  $strongarm->value = 1;
+  $export['autologout_role_9'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_role_9_timeout';
+  $strongarm->value = '1800';
+  $export['autologout_role_9_timeout'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_role_logout';
+  $strongarm->value = 1;
+  $export['autologout_role_logout'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_timeout';
+  $strongarm->value = '1800';
+  $export['autologout_timeout'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'autologout_use_watchdog';
+  $strongarm->value = 0;
+  $export['autologout_use_watchdog'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'bpi_content_type';
+  $strongarm->value = 'ding_news';
+  $export['bpi_content_type'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'bpi_field_body';
+  $strongarm->value = 'field_ding_news_body';
+  $export['bpi_field_body'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'bpi_field_materials';
+  $strongarm->value = 'field_ding_news_materials';
+  $export['bpi_field_materials'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'bpi_field_teaser';
+  $strongarm->value = 'field_ding_news_lead';
+  $export['bpi_field_teaser'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'bpi_field_title';
+  $strongarm->value = 'title';
+  $export['bpi_field_title'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'date_api_use_iso8601';
   $strongarm->value = 1;
   $export['date_api_use_iso8601'] = $strongarm;
@@ -37,90 +272,6 @@ function ding_base_strongarm() {
   $strongarm->name = 'date_default_timezone';
   $strongarm->value = 'Europe/Berlin';
   $export['date_default_timezone'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'date_first_day';
-  $strongarm->value = '1';
-  $export['date_first_day'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'date_format_date_only';
-  $strongarm->value = 'l j. F';
-  $export['date_format_date_only'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'date_format_day_of_the_month_without_leading_zeros';
-  $strongarm->value = 'j';
-  $export['date_format_day_of_the_month_without_leading_zeros'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'date_format_day_text_full';
-  $strongarm->value = 'l';
-  $export['date_format_day_text_full'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'date_format_ding_event_lists_date';
-  $strongarm->value = 'l j. F Y';
-  $export['date_format_ding_event_lists_date'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'date_format_ding_material_lists_date';
-  $strongarm->value = 'j. F Y';
-  $export['date_format_ding_material_lists_date'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'date_format_long';
-  $strongarm->value = 'l j. F Y';
-  $export['date_format_long'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'date_format_long_date_only';
-  $strongarm->value = 'l j. F Y';
-  $export['date_format_long_date_only'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'date_format_medium';
-  $strongarm->value = 'l j. F';
-  $export['date_format_medium'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'date_format_month_text_full';
-  $strongarm->value = 'F';
-  $export['date_format_month_text_full'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'date_format_short';
-  $strongarm->value = 'G:i';
-  $export['date_format_short'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'date_format_time_only';
-  $strongarm->value = 'G:i';
-  $export['date_format_time_only'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
@@ -571,93 +722,6 @@ temaer/*';
   $strongarm->name = 'pathauto_verbose';
   $strongarm->value = 0;
   $export['pathauto_verbose'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'securepages_basepath';
-  $strongarm->value = '';
-  $export['securepages_basepath'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'securepages_basepath_ssl';
-  $strongarm->value = '';
-  $export['securepages_basepath_ssl'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'securepages_debug';
-  $strongarm->value = 0;
-  $export['securepages_debug'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'securepages_enable';
-  $strongarm->value = '0';
-  $export['securepages_enable'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'securepages_forms';
-  $strongarm->value = 'user_login
-user_login_block';
-  $export['securepages_forms'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'securepages_ignore';
-  $strongarm->value = '';
-  $export['securepages_ignore'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'securepages_pages';
-  $strongarm->value = 'node/add*
-node/*/edit
-node/*/delete
-user
-user/*
-admin
-admin/*
-wayf
-wayf/*';
-  $export['securepages_pages'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'securepages_roles';
-  $strongarm->value = array(
-    2 => 0,
-    3 => 0,
-    11 => 0,
-    12 => 0,
-    13 => 0,
-    14 => 0,
-    16 => 0,
-  );
-  $export['securepages_roles'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'securepages_secure';
-  $strongarm->value = '1';
-  $export['securepages_secure'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
-  $strongarm->name = 'securepages_switch';
-  $strongarm->value = 0;
-  $export['securepages_switch'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
