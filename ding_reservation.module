@@ -52,6 +52,13 @@ function ding_reservation_menu() {
     'access arguments' => array(1),
   );
 
+  $items['ting/object/%ting_object/reserve'] = array(
+    'page callback' => 'ding_reservation_reserve_ajax',
+    'page arguments' => array(2),
+    'delivery callback' => 'ajax_deliver',
+    'access arguments' => array('preform reservation'),
+  );
+
   return $items;
 }
 
@@ -61,6 +68,18 @@ function ding_reservation_menu() {
 function ding_reservation_access($account) {
   global $user;
   return $user->uid == $account->uid;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_reservation_permission() {
+  return array(
+    'preform reservation' => array(
+      'title' => t('Preform reservation'),
+      'description' => t('Perform reservation in the library system.'),
+    ),
+  );
 }
 
 /**
@@ -80,12 +99,121 @@ function ding_reservation_ding_entity_menu(&$items, $type, $path, $index) {
 /**
  * Implements hook_ding_entity_buttons().
  */
-function ding_reservation_ding_entity_buttons($type, $entity) {
+function ding_reservation_ding_entity_buttons($type, $entity, $widget = 'default') {
+  $button = '';
+
   if ($type == 'ding_entity' && $entity->is('reservable')) {
-    // The last parameter to the form below (TRUE) hides the provider options in
-    // the form (interest period and branch).
-    return array(ding_provider_get_form('ding_reservation_reserve_form', new DingReservationReservableEntity($entity), TRUE));
+    switch ($widget) {
+      case 'ajax':
+        drupal_add_library('system', 'drupal.ajax');
+
+        $button = array(
+          array(
+            '#theme' => 'link',
+            '#text' => t('Reserve'),
+            '#path' => 'ting/object/' . $entity->id . '/reserve',
+            '#options' => array(
+              'attributes' => array(
+                'class' => array(
+                  'action-button',
+                  'reserve-button',
+                  'use-ajax',
+                ),
+                'id' => 'reservation-' . $entity->id,
+              ),
+              'html' => FALSE,
+            ),
+          ),
+        );
+        break;
+
+      default:
+        // The last parameter to the form below (TRUE) hides the provider
+        // options in the form (interest period and branch).
+        $button = array(ding_provider_get_form('ding_reservation_reserve_form', new DingReservationReservableEntity($entity), TRUE));
+        break;
+    }
   }
+
+  return $button;
+}
+
+/**
+ * Ajax entry callback.
+ *
+ * Try to reserve the material, if the user is not logged in trigger a ajax
+ * login.
+ *
+ * @param TingEntity $entity
+ *   Ting entity object.
+ * @param DingReservationReservable $reservable
+ *   Object with information about the entity to reserve. Used to make
+ *   reservation of periodical, where volume and issue is part of the
+ *   reservation.
+ *
+ * @return array
+ *   Render array with Ajax commands.
+ */
+function ding_reservation_reserve_ajax($entity, $reservable = NULL) {
+  $commands = array();
+
+  // Check if the logged in user is a library user.
+  global $user;
+  if (!user_is_logged_in()) {
+    // Trigger log-in (the reservation link will be triggered on success).
+    $commands[] = ajax_command_ding_user_authenticate('');
+  }
+  elseif (!ding_user_is_provider_user($user)) {
+    // Error not library user.
+    $commands[] = ajax_command_ding_popup('ding_reservation', t('Error'), '<p>' . t('Only library user can make reservations.') . '</p>');
+  }
+  elseif (!(is_object($entity) && $entity instanceof TingEntity)) {
+    // Error not ting entity.
+    $commands[] = ajax_command_ding_popup('ding_reservation', t('Error'), '<p>' . t('Unable to load information about the material.') . '</p>');
+  }
+  else {
+    // Check if reservable object was paste.
+    if (is_null($reservable)) {
+      // If no object passed assume "normal" reservation (not periodical).
+      $reservable = new DingReservationReservableEntity($entity);
+    }
+
+    // Try to make reservation.
+    try {
+      // Check if user have preferred branch and interest period, if so
+      // submit the reservation form. If not display another form for with
+      // the options to select branch and period.
+      $defaults = ding_provider_invoke('reservation', 'default_options', $user);
+      $matches = preg_grep("/preferred_branch$/", array_keys($defaults));
+      if (empty($defaults[array_shift($matches)])) {
+        $form = ding_provider_get_form('ding_reservation_reserve_form', $reservable, FALSE);
+        $commands[] = ajax_command_ding_popup('ding_reservation', t('Reservation'), render($form));
+      }
+      else {
+        $form_state = array('values' => array());
+        drupal_form_submit('ding_reservation_reserve_form', $form_state, $reservable);
+
+        // Return any status messages set by the form.
+        $commands[] = ajax_command_ding_popup('ding_reservation', t('Reservation'), theme('status_messages'));
+      }
+    }
+    catch (DingProviderAuthException $exception) {
+      // The form may have thrown an Auth exception, so display login. (the
+      // reservation link will be triggered on success).
+      $commands[] = ajax_command_ding_user_authenticate('');
+    }
+    catch (Exception $exception) {
+      // The form may have thrown an auth exception as the login may have
+      // timed-out (the reservation link will be triggered on success).
+      $commands[] = ajax_command_ding_popup('ding_reservation', t('Error'), '<p>' . t('Unknown error in reservation, please contact the library.') . '</p>');
+
+      // Log exception.
+      watchdog_exception('ding_reservation', $exception);
+    }
+  }
+
+  // Return the ajax commands as an render array.
+  return array('#type' => 'ajax', '#commands' => $commands);
 }
 
 /**
@@ -212,7 +340,7 @@ function ding_reservation_reserve_form_validate($form, &$form_state) {
           $form_state['rebuild'] = TRUE;
         }
         else {
-          if (empty($default)) {
+          if (empty($default) || !empty($form_state['values']['provider_options'][$key])) {
             // If default value id not defined, try using the forms value.
             $provider_options[$key] = $form_state['values']['provider_options'][$key];
           }
@@ -345,13 +473,17 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
 
   foreach ($reservations as $reservation) {
     $entity = $reservation->entity;
-    if (!is_object($entity)) {
+    if (!is_object($entity) || $entity->reply == FALSE) {
       $entity = ding_provider_get_pseudo_entity($reservation->ding_entity_id);
+      // Don't link the title as the data well do not known this title. It may
+      // be a inter library loan.
+      $title = $entity->getTitle() ? $entity->getTitle() : $reservation->display_name;
     }
-
-    // Create title that links to the object.
-    $uri = entity_uri('ting_object', $entity);
-    $title = l($entity->getTitle() ? $entity->getTitle() : $reservation->display_name, $uri['path']);
+    else {
+      // Create title that links to the object.
+      $uri = entity_uri('ting_object', $entity);
+      $title = l($entity->getTitle(), $uri['path']);
+    }
 
     $pickup_branch = ding_provider_invoke('reservation', 'branch_name', $reservation->pickup_branch_id);
     switch ($reservation->reservation_type) {
