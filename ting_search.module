@@ -967,36 +967,50 @@ function ting_search_submit($form, &$form_state) {
 }
 
 /**
- * Attempt to quote reserved words in a search query.
- *
- * As proper quoting would require a full CQL parser, we cheat and
- * just work on the part we know is the free text part.
- *
- * Also, we don't mess with uppercase reserved words.
+ * Make sure string is strict cql
  */
 function _ting_search_quote($string) {
-  if (preg_match('/^(.*?)(AND \(.*|$)/', $string, $rx)) {
-    $keys = $rx[1];
-    $new_keys = preg_replace_callback('/(?:(".*?(?<!\\\)")|\b(and|or|not|prox)\b)/i', '_ting_search_quote_callback', $keys);
-    $string = preg_replace('/^' . preg_quote($keys, '/') . '/', $new_keys, $string);
+  return ting_search_string_to_cql($string);
+}
+
+/**
+ * Method to convert a string to strict cql (Basically by adding quotes when needed)
+ * @param $string
+ * @return string
+ */
+function ting_search_string_to_cql($string) {
+  $string = trim($string);
+  if (isset($string) && !_ting_search_string_is_cql($string)) {
+    $string = _ting_search_convert_string_to_cql($string);
   }
   return $string;
 }
 
 /**
- *
+ * Add quotes to string and escapes existing quotes
+ * @param $string
+ * @return string
  */
-function _ting_search_quote_callback($matches) {
-  // If $matches[2] is empty, it's because the quote pattern
-  // matched. Don't do anything with it.
-  if (!empty($matches[2])) {
-    // Boolean operator, but not uppercase, quote it.
-    if ($matches[2] != drupal_strtoupper($matches[2])) {
-      return '"' . $matches[2] . '"';
-    }
-    // Uppercase boolean operator, return as is.
-    return $matches[2];
-  }
-  // We have a quote. Just return it.
-  return $matches[1];
+function _ting_search_convert_string_to_cql($string) {
+  // Escape quotes.
+  $string = str_replace('"', '\"', $string);
+  // Remove multiple whitespaces.
+  $string = preg_replace('/\s+/', ' ', $string);
+  // Explode string by whitespace.
+  $expressions = explode(' ', $string);
+  // Join expressions with 'and' operator.
+  return implode(' and ', $expressions);
 }
+
+/**
+ * Tests if a string is cql
+ * @param $string
+ * @return bool|int
+ */
+function _ting_search_string_is_cql($string) {
+  if(strpos($string, '"') !== false && (!preg_match('@ and | or | not |=@', $string) && !(substr($string, 0, 1) === '"' && substr($string, -1) === '"'))){
+    return false;
+  }
+  return preg_match('@"|\(|\)|=@', $string);
+}
+
