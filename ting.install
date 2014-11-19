@@ -318,3 +318,23 @@ function ting_update_7006() {
     variable_set('ting_cache_lifetime', 900);
   }
 }
+
+/**
+ * Update series title search registry setting.
+ */
+function ting_update_7007() {
+  // Only update if set else default value will be used.
+  if (variable_get('ting_search_register_serie_title', FALSE)) {
+    variable_set('ting_search_register_serie_title', 'phrase.titleSeries = "@serietitle"');
+  }
+}
+
+/**
+ * Update series title search registry setting.
+ */
+function ting_update_7008() {
+  // Only update if set else default value will be used.
+  if (variable_get('ting_search_register_serie_title', FALSE)) {
+    variable_set('ting_search_register_serie_title', 'phrase.titleSeries="@serietitle"');
+  }
+}

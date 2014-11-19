@@ -779,12 +779,12 @@ function ting_boost_field_element_process($element, $form_state) {
     '#type' => 'select',
     '#options' => array(
       '' => '- ' . t('Choose') . ' -',
-      'ac.source' => t('Source'),
-      'dc.creator' => t('Author'),
-      'dc.date' => t('Year of publish'),
-      'dc.language' => t('Language'),
-      'dc.type' => t('Material type'),
-      'dc.identifier' => t('ISBN number'),
+      'term.acSource' => t('Source'),
+      'term.creator' => t('Author'),
+      'term.date' => t('Year of publish'),
+      'term.language' => t('Language'),
+      'term.type' => t('Material type'),
+      'term.identifier' => t('ISBN number'),
     ),
     '#default_value' => (isset($element['#value']['field_name'])) ? $element['#value']['field_name'] : NULL,
     '#attributes' => array('class' => array('field-name')),
@@ -840,12 +840,12 @@ function ting_ranking_field_element_process($element, $form_state) {
     '#type' => 'select',
     '#options' => array(
       '' => '- ' . t('Choose') . ' -',
-      'ac.source' => t('Source'),
-      'dc.title' => t('Title'),
-      'dc.creator' => t('Author'),
-      'dc.subject' => t('Subject'),
-      'dc.date' => t('Year of publish'),
-      'dc.type' => t('Material type'),
+      'term.acSource' => t('Source'),
+      'term.title' => t('Title'),
+      'term.creator' => t('Author'),
+      'term.subject' => t('Subject'),
+      'term.date' => t('Year of publish'),
+      'term.type' => t('Material type'),
     ),
     '#default_value' => (isset($element['#value']['field_name'])) ? $element['#value']['field_name'] : NULL,
     '#attributes' => array('class' => array('field-name')),
@@ -906,34 +906,48 @@ function _ting_default_reservable_sources() {
  */
 function _ting_default_reservable_types() {
   return array(
-    'billedbog',
-    'blu-ray disc',
     'bog',
-    'cd',
-    'cd-rom',
-    'diskette',
+    'node',
     'dvd',
-    'dvd-rom',
-    'film',
-    'grammofonplade',
-    'kassettelydbånd',
+    'billedbog',
+    'cd (musik)',
     'lydbog (cd)',
-    'lydbog (cd-mp3)',
-    'playstation2-spil',
-    'playstation3-spil',
-    'playstation-spil',
-    'puslespil',
-    'spil',
+    'lydbog (bånd)',
     'tegneserie',
+    'lydbog (cd-mp3)',
+    'sammensat materiale',
+    'cd',
+    'bog stor skrift',
     'video',
-    'wii-spil',
-    'xbox-spil',
-    'årbog',
+    'blu-ray',
+    'cd-rom',
+    'pc-spil',
+    'playstation 3',
+    'xbox 360',
+    'wii',
+    'playstation 2',
+    'playstation 4',
+    'graphic novel',
+    'nintendo ds',
+    'dvd-rom',
+    'kort',
+    'xbox',
+    'gameboy advance',
+    'wii u',
+    'grammofonplade',
+    'playstation',
+    'lydbog',
+    'spil',
+    'puslespil',
+    'diskette',
   );
 }
 
 /**
  * Fetch known types from the datawell.
+ *
+ * @return array
+ *   Array with data well material types.
  */
 function _ting_fetch_well_types() {
   // Get a list of types by executing a null query and look at the facets
@@ -956,10 +970,15 @@ function _ting_fetch_well_types() {
   if (!empty($types)) {
     variable_set('ting_well_types', $types);
   }
+
+  return $types;
 }
 
 /**
  * Fetch known sources from the datawell.
+ *
+ * @return array
+ *   Array with the sources.
  */
 function _ting_fetch_well_sources() {
   // Get a list of sources by executing a null query and look at the facets
@@ -982,6 +1001,8 @@ function _ting_fetch_well_sources() {
   if (!empty($sources)) {
     variable_set('ting_well_sources', $sources);
   }
+
+  return $sources;
 }
 
 /**

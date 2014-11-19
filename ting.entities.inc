@@ -162,14 +162,15 @@ class TingEntity extends DingEntity {
     $result = '';
     $parts = explode(':', $series);
 
-    if (is_array($parts) && count($parts >= 2)) {
+    if (is_array($parts) && count($parts) >= 2) {
       $prefix = $parts[0] . ': ';
 
       if (stripos($prefix, 'del af:') !== FALSE) {
-        $title = $parts[1];
-        $result = $prefix . l($title, 'search/ting/' . '"' . $title . '"');
+        $title = trim($parts[1]);
+        $path = str_replace('@serietitle', drupal_strtolower($title), variable_get('ting_search_register_serie_title', 'phrase.titleSeries="@serietitle"'));
+        $link = l($title, 'search/ting/' . $path, array('attributes' => array('class' => array('series'))));
+        $result = $prefix . $link;
       } else if (stripos($prefix, 'Samhørende:') !== FALSE) {
-
         $titles = $parts[1];
         // Multiple titles are separated by ' ; '. Explode to iterate over them
         $titles = explode(' ; ', $titles);
@@ -263,37 +264,50 @@ class TingEntity extends DingEntity {
     return !empty($this->reply->record['dc:date']) ? $this->reply->record['dc:date'][''][0] : FALSE;
   }
 
-  function getOnline_url() {
-    // Try to find the online url from relation data, which requires us to get
-    // relations. First check if relations are set; if not do another request
-    // to get relations
-    if (!isset($this->reply->relationsData)) {
-      $tingClientObject = ting_get_object($this->ding_entity_id, FALSE, TRUE);
-      if (isset($tingClientObject->relationsData)) {
-        $this->reply->relationsData = $tingClientObject->relationsData;
+  /**
+   * Try to find the online url.
+   *
+   * @param bool $get_relations
+   *   If TRUE relations will be fetched from the data well else "dc:identifier"
+   *   will be checked.
+   *
+   * @return mixed
+   *   URL to the online resource or the empty string if not found.
+   */
+  function getOnline_url($get_relations = TRUE) {
+    $url = '';
+    if ($get_relations) {
+      // Try to find the online url from relation data, which requires us to get
+      // relations. First check if relations are set; if not do another request
+      // to get relations
+      if (!isset($this->reply->relationsData)) {
+        $tingClientObject = ting_get_object($this->ding_entity_id, FALSE, TRUE);
+        if (isset($tingClientObject->relationsData)) {
+          $this->reply->relationsData = $tingClientObject->relationsData;
+        }
       }
-    }
-    if (isset($this->reply->relationsData)) {
-      foreach ($this->reply->relationsData as $data) {
-        if ($data->relationType == 'dbcaddi:hasOnlineAccess') {
-          $url = preg_replace('/^\[URL\]/', '', $data->relationUri);
-          // Check for correct url - some uri is only an id.
-          if (stripos($url, 'http') === 0) {
-            // Give ting_proxy a change to rewrite the url.
-            drupal_alter('ting_online_url', $url, $this);
-            return $url;
+      if (isset($this->reply->relationsData)) {
+        foreach ($this->reply->relationsData as $data) {
+          if ($data->relationType == 'dbcaddi:hasOnlineAccess') {
+            $url = preg_replace('/^\[URL\]/', '', $data->relationUri);
+            // Check for correct url - some uri is only an id.
+            if (stripos($url, 'http') === 0) {
+              // Give ting_proxy a change to rewrite the url.
+              drupal_alter('ting_online_url', $url, $this);
+            }
           }
         }
       }
     }
 
-    // No hasOnlineAccess found so fallback to dc:identifer.
-    if (isset($this->reply->record['dc:identifier']['dcterms:URI'])) {
+    // No hasOnlineAccess found so fallback to dc:identifier.
+    if (empty($url) && isset($this->reply->record['dc:identifier']['dcterms:URI'])) {
       $url = $this->reply->record['dc:identifier']['dcterms:URI'][0];
       // Give ting_proxy a change to rewrite the url.
       drupal_alter('ting_online_url', $url, $this);
-      return $url;
     }
+
+    return $url;
   }
 
   function getAc_source() {

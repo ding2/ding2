@@ -377,7 +377,7 @@ function ting_admin_online_types_settings($form_state) {
     '#submit' => array('ting_admin_online_types_settings_update_types'),
   );
 
-  $types = variable_get('ting_well_types', array());
+  $types = variable_get('ting_well_types', _ting_fetch_well_types());
 
   $form['ting_online'] = array(
     '#type' => 'fieldset',
@@ -493,8 +493,8 @@ function ting_admin_reservable_settings($form_state) {
     '#description' => t('Time before an reservation expires that a message should be shown to the user.'),
   );
 
-  $types = variable_get('ting_well_types', array());
-  $sources = variable_get('ting_well_sources', array());
+  $types = variable_get('ting_well_types', _ting_fetch_well_types());
+  $sources = variable_get('ting_well_sources', _ting_fetch_well_sources());
 
   $form['ting_reservable'] = array(
     '#type' => 'fieldset',

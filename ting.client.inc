@@ -32,8 +32,13 @@ define('TING_CACHE_EMPTY_ENTRY', '8e4f3ef1784c020bf7afa5b6dd69b421');
 function ting_get_object($object_id, $collection = FALSE, $with_relations = FALSE) {
   if (!empty($object_id)) {
     // Check the cache first.
-    $type = ($collection ? TING_CACHE_COLLECTION : TING_CACHE_TING_OBJECT);
-    $object = ting_cache_get($object_id, $type, $with_relations);
+    $type = TING_CACHE_TING_OBJECT;
+    $cache_key = $object_id;
+    if ($collection) {
+      $type = TING_CACHE_COLLECTION;
+      $cache_key = ting_cache_collection_key($object_id);
+    }
+    $object = ting_cache_get($cache_key, $type, $with_relations);
     if ($object != TING_CACHE_EMPTY_ENTRY && !$object) {
       // Put a negative reply in the cache. It will be overwritten by the
       // object, or ensure that we won't try to fetch this id again.
@@ -380,7 +385,7 @@ function ting_execute_cache($request) {
     // precedence.
     if (isset($reply->collections)) {
       foreach ($reply->collections as &$collection) {
-        if (isset($collection->objects[0])) {
+        if (is_array($collection->objects)) {
           foreach ($collection->objects as $object) {
             // Cache any relations.
             if (isset($object->relations)) {
@@ -392,7 +397,7 @@ function ting_execute_cache($request) {
             }
             ting_cache_set($object->id, $object, $type);
           }
-          ting_cache_set($collection->objects[0]->id, $collection, TING_CACHE_COLLECTION);
+          ting_cache_set(ting_cache_collection_key($collection->objects[0]->id), $collection, TING_CACHE_COLLECTION);
         }
       }
     }
@@ -512,6 +517,29 @@ function ting_cache_set($id, $value, $type = TING_CACHE_TING_OBJECT) {
     }
     $cache[$cid] = $value;
   }
+}
+
+/**
+ * Generates a cache id (cid) for ting collection cache.
+ *
+ * Collections have to be indexed in cache based on the facets selected as the
+ * collections changes content based on facets. This is all due to the fact that
+ * collections don't have unique id's. In fact we use the first object's id in
+ * the collection to id the collection.
+ *
+ * @param string $object_id
+ *   Ting object ID also known as PID.
+ *
+ * @return string
+ *   Cache key to retrieve and set data in the cache,
+ */
+function ting_cache_collection_key($object_id) {
+  $cache_key = $object_id;
+  if (!empty($_GET['facets'])) {
+    $cache_key .= ':' . md5(serialize($_GET['facets']));
+  }
+
+  return $cache_key;
 }
 
 /**
