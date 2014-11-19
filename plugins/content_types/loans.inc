@@ -114,13 +114,18 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
 
       // Try to get entity for the loan.
       $entity = $loan->entity;
-      if (!is_object($entity)) {
+      if (!is_object($entity) || $entity->reply == FALSE) {
         $entity = ding_provider_get_pseudo_entity($loan->ding_entity_id);
+        // Don't link the title as the data well do not known this title. It may
+        // be a inter library loan.
+        $title = $entity->getTitle() ? $entity->getTitle() : $loan->display_name;
+      }
+      else {
+        // Create title that links to the object.
+        $uri = entity_uri('ting_object', $entity);
+        $title = l($entity->getTitle(), $uri['path']);
       }
 
-      // Create title that links to the object.
-      $uri = entity_uri('ting_object', $entity);
-      $title = l($entity->getTitle() ? $entity->getTitle() : $loan->display_name, $uri['path']);
 
       $item = array(
         '#type' => 'material_item',
@@ -154,9 +159,9 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
         );
       }
 
-      // Add extra information if it's a periodical. There is an exception because
-      // the notes field is also used to set library information for ill's but
-      // only when they are ready for pick-up.
+      // Add extra information if it's a periodical. There is an exception
+      // because the notes field is also used to set library information for
+      // inter library loans but only when they are ready for pick-up.
       if (!empty($loan->notes) && !($loan->ill_status)) {
         $item['#information']['periodical_number'] = array(
           'label' => t('Periodical no.'),
@@ -217,12 +222,18 @@ function ding_loan_loans_form_submit($form, &$form_state) {
   if (!empty($ids)) {
     $result = ding_provider_invoke('loan', 'renew', $form_state['values']['account'], $ids);
     foreach ($result as $id => $status) {
-      if ($object = $form_state['values']['items'][$id]->entity) {
-        $title = $object->title;
+      // Try to get entity for the item.
+      $entity = $form_state['values']['items'][$id]->entity;
+      if (!is_object($entity) || $entity->reply == FALSE) {
+        // Build pseudo entity based on provider information.
+        $entity = ding_provider_get_pseudo_entity($item->ding_entity_id);
+        $title = $entity->getTitle() ? $entity->getTitle() : $item->display_name;
       }
       else {
-        $title = $item->display_name;
+        // Create title from entity object.
+        $title = $entity->getTitle();
       }
+
       // @todo Better feedback.
       switch ($status) {
         case DingProviderLoan::STATUS_RENEWED:
@@ -240,7 +251,7 @@ function ding_loan_loans_form_submit($form, &$form_state) {
           else {
             $message = t('Unable to renew material');
           }
-          drupal_set_message(t('"@title not renewed: @message"', array('@title' => $title, '@message' => $message)), 'warning');
+          drupal_set_message(t('"@title: @message"', array('@title' => $title, '@message' => $message)), 'warning');
           break;
 
         default:
