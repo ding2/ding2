@@ -52,6 +52,9 @@ function ding_bookmark_remove_form($form, &$form_state, $entities) {
     $author = field_view_field('ting_object', $entity, 'ting_author', 'user_list');
     $type = field_view_field('ting_object', $entity, 'ting_type', 'user_list');
 
+    // Reservation button.
+    $button = ding_reservation_ding_entity_buttons('ding_entity', $entity, 'ajax');
+
     // Build the material item element.
     $item = array(
       '#type' => 'material_item',
@@ -70,6 +73,11 @@ function ding_bookmark_remove_form($form, &$form_state, $entities) {
           'data' => drupal_render($type),
           'class' => 'type',
           '#weight' => 0,
+        ),
+        'reserve' => array(
+          'class' => 'reserve',
+          'data' => drupal_render($button),
+          '#weight' => 4,
         ),
       ),
     );

@@ -3,7 +3,7 @@ api = 2
 
 ; Projects
 projects[flag][subdir] = "contrib"
-projects[flag][version] = "2.0"
+projects[flag][version] = "2.2"
 
 projects[ding_popup][type] = "module"
 projects[ding_popup][download][type] = "git"
