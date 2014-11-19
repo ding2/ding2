@@ -34,6 +34,12 @@ function ding_user_profile2_type_render($subtype, $conf, $panel_args, $context) 
 
     // View profile to get render array with profile content.
     $block->content = $profile->view('account');
+
+    global $user;
+    if ($user->data['blocked']) {
+      $link = variable_get('ding_user_blocked_user_node', 'node/1');
+      drupal_set_message(t('Your user account is blocked in the library system. See <a href="@link">this</a> page for more information.', array('@link' => $link)), 'error');
+    }
   }
 
   return $block;

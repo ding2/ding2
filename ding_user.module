@@ -7,9 +7,27 @@
 include_once 'ding_user_comments.inc';
 
 /**
- * Index used in sessions to implement logged in use session expire possible.
+ * Implements hook_preprocess_html().
  */
-define('DING_USER_ACTIVITY', 'DING_USER_LAST_ACTIVITY');
+function ding_user_preprocess_html(&$variables) {
+  $args = arg();
+  if ($args[0] == 'user') {
+    // Set default title.
+    drupal_set_title('Account');
+
+    // Check if current user is logged in.
+    if (user_is_logged_in()) {
+      // Cache control for user pages.
+      drupal_add_http_header('Cache-Control', 'no-store, must-revalidate');
+      drupal_add_http_header('Pragma', 'no-cache');
+    }
+    elseif (count($args) == 1 || isset($args[1]) && in_array($args[1], array('login', 'password'))) {
+      // Redirect anonymous user to front page login. This is to prevent the
+      // library user from seeing /user, login and password page.
+      drupal_goto('', array('fragment' => 'login'));
+    }
+  }
+}
 
 /**
  * Implements hook_ctools_plugin_directory().
@@ -110,7 +128,7 @@ function ding_user_entity_info_alter(&$entity_info) {
   $ding_entity_info = ding_entity_info('ding_entity');
   // Entity might not be defined yet (is the case in the installer).
   if (isset($entity_info[$ding_entity_info['entity_type']]['view modes'])) {
-    // Add a user_list display mode for addon modules to use.
+    // Add a user_list display mode for add-on modules to use.
     $entity_info[$ding_entity_info['entity_type']]['view modes'] += array(
       'user_list' => array(
         'label' => t('User lists'),
@@ -160,8 +178,9 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
         $pos += 1;
       }
       array_splice($form['#validate'], $pos, 0, 'ding_user_user_login_validate');
+    // Falling through on purpose (if not reservation and login via ajax will
+    // fail.).
 
-      // Falling through on purpose.
     case 'ding_user_authenticate_form':
       if (isset($form_state['ajaxify'])) {
         $form['actions']['submit']['#ajax'] = array(
@@ -199,23 +218,20 @@ function ding_user_form_user_admin_settings_alter(&$form, &$form_state, $form_id
     '#default_value' => ding_user_get_pincode_length(),
   );
 
-  // Create time interval to set cache expire.
-  $period = drupal_map_assoc(array(0, 60, 180, 300, 600, 900, 1800, 2700, 3600, 10800, 21600, 32400, 43200, 86400), 'format_interval');
-  $period[0] = '<' . t('none') . '>';
-  $form['ding_user']['ding_user_session_expire'] = array(
-    '#type' => 'select',
-    '#title' => t('Session timeout'),
-    '#default_value' => variable_get('ding_user_session_expire', 900),
-    '#options' => $period,
-    '#description' => t('Uses that have not been active for this period will be automatically logged out.'),
+  // Blocked user information page.
+  $form['ding_user']['ding_user_blocked_user_node'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Link to blocked page'),
+    '#default_value' => variable_get('ding_user_blocked_user_node', 'node/1'),
+    '#description' => t("Link to the node containing explanation about the library's blocked user policies."),
   );
 
-  // Tax for SMS.
-  $form['ding_user']['ding_user_tax_sms'] = array(
+  // Fee for SMS.
+  $form['ding_user']['ding_user_fee_sms'] = array(
     '#type' => 'textfield',
-    '#title' => t('Tax for SMS'),
-    '#default_value' => variable_get('ding_user_tax_sms', t('Notice that there is a fee for receiving a SMS')),
-    '#description' => t('Description to show user if a TAX for SMS is defined.'),
+    '#title' => t('Fee for SMS'),
+    '#default_value' => variable_get('ding_user_fee_sms', t('Notice that there is a fee for receiving a SMS')),
+    '#description' => t('Description to show user if a fee for SMS is defined.'),
   );
 }
 
@@ -266,10 +282,10 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
     }
   }
 
-  $tax_sms = variable_get('ding_user_tax_sms', t('Notice that there is a fee for receiving a SMS'));
-  $form['ding_user_tax_sms'] = array(
+  $fee_sms = variable_get('ding_user_fee_sms', t('Notice that there is a fee for receiving a SMS'));
+  $form['ding_user_fee_sms'] = array(
     '#type' => 'item',
-    '#markup' => $tax_sms,
+    '#markup' => $fee_sms,
     '#weight' => 0,
   );
 }
@@ -578,7 +594,7 @@ function ding_user_user_login_validate($form, &$form_state) {
  * @param array $auth_res
  *   Authentication information from the provider.
  *
- * @return string
+ * @return entity
  *   Drupal user object.
  */
 function _ding_user_create_account($auth_name, $auth_res) {
@@ -588,7 +604,7 @@ function _ding_user_create_account($auth_name, $auth_res) {
   $account = user_external_load($auth_name);
   if (!$account) {
     // Register this new user.
-    $userinfo = array(
+    $fields = array(
       // Name is only 60 chars, and authname is longer. Use a shorter SHA1
       // hash.
       'name' => hash('sha1', $auth_name),
@@ -600,11 +616,22 @@ function _ding_user_create_account($auth_name, $auth_res) {
     );
 
     if (isset($auth_res['user'])) {
-      $userinfo['mail'] = $auth_res['user']['mail'];
-      $userinfo['data'] = array('display_name' => $auth_res['user']['data']['display_name']);
+      $fields['mail'] = $auth_res['user']['mail'];
+      $fields['data'] = array(
+        'display_name' => $auth_res['user']['data']['display_name'],
+        'blocked' => $auth_res['user']['blocked'],
+      );
     }
 
-    $account = user_save(drupal_anonymous_user(), $userinfo);
+    // Set provider role.
+    $roles = user_roles(TRUE);
+    $rid = array_search('provider', $roles);
+    $fields['roles'] = array(
+      DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+      $rid => 'provider',
+    );
+
+    $account = user_save('', $fields);
     // Terminate if an error occurred during user_save().
     if (!$account) {
       watchdog('ding_user', "User account could not be created for: %name.", array('%name' => $auth_res['user']['data']['display_name']), WATCHDOG_ERROR);
@@ -618,11 +645,14 @@ function _ding_user_create_account($auth_name, $auth_res) {
     // library system.
     $edit = array();
     $edit['mail'] = $auth_res['user']['mail'];
-    $edit['data'] = array('display_name' => $auth_res['user']['data']['display_name']);
+    $edit['data'] = array(
+      'display_name' => $auth_res['user']['data']['display_name'],
+      'blocked' => $auth_res['user']['blocked'],
+    );
     user_save($account, $edit);
   }
 
-  // Save credentials in the session.
+  // Save credentials for the session.
   ding_user_save_creds($auth_res);
 
   return $account;
@@ -772,33 +802,8 @@ function ding_user_get_creds($user = NULL) {
     global $user;
   }
 
-  if (user_is_logged_in()) {
-    // Sometimes the $user object will be the users profile which do not have
-    // roles.
-    if (isset($user->roles)) {
-      $timeout = variable_get('ding_user_session_expire', 900);
-      $roles = array_values($user->roles);
-      // User who are authenticated but has no other roles (i.e. ding user).
-      if (count($roles) == 1 && $roles[0] == 'authenticated user' && $timeout != 0) {
-        // Check if session is expired.
-        if (isset($_SESSION[DING_USER_ACTIVITY]) && (time() - $_SESSION[DING_USER_ACTIVITY] > variable_get('ding_user_session_expire', 900))) {
-          watchdog('user', 'Session timeout for %name.', array('%name' => $user->name));
-          user_module_invoke('logout', $user, 'user');
-
-          session_destroy();
-
-          $user = drupal_anonymous_user();
-          drupal_set_message(t('Your session has timed out.', array(), array('context' => 'ding_user')));
-          drupal_goto();
-        }
-      }
-    }
-  }
-
   if (isset($_SESSION['ding_user'])) {
-    // User has not timed out and is logged in, so update timestamp and
-    // return credentials.
-    $_SESSION[DING_USER_ACTIVITY] = time();
+    // User has not timed out by auto logout module so return credentials.
     return $_SESSION['ding_user']['creds'];
   }
 
@@ -814,7 +819,6 @@ function ding_user_get_creds($user = NULL) {
  */
 function ding_user_save_creds($auth_res) {
   if (isset($auth_res['creds'])) {
-    $_SESSION[DING_USER_ACTIVITY] = time();
     $_SESSION['ding_user'] = $auth_res;
   }
 }
@@ -903,17 +907,13 @@ function ding_user_comment_load($comments) {
 }
 
 /**
- * Implements hook_field_attach_view_alter().
+ * Implements hook_FROM_ID_alter().
  *
- * Alter user profile view with SMS TAX.
+ * Alters the site wide contact form to allow all users to send a copy to them
+ * self.
  */
-function ding_user_field_attach_view_alter(&$output, $context) {
-  if (isset($output['field_alma_mobile_phone'][0]['#markup'])) {
-    $ding_user_tax_sms = variable_get('ding_user_tax_sms', t('Notice that there is a fee for receiving a SMS'));
-    if ($ding_user_tax_sms) {
-      $output['field_alma_mobile_phone'][0]['#markup'] .= '<span class="notice-sms">(' . $ding_user_tax_sms . ')</span>';
-    }
-  }
+function ding_user_form_contact_site_form_alter(&$form, $form_state, $form_id) {
+  $form['copy']['#access'] = TRUE;
 }
 
 /**
