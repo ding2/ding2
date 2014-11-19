@@ -41,7 +41,7 @@ function ting_search_admin_settings($form_state) {
     '#type' => 'textfield',
     '#title' => t('Serie title'),
     '#description' => t('Specify the searchstring to be used for searching against serie titles. Use @serietitle as a placeholder for the serietitle'),
-    '#default_value' => variable_get('ting_admin_register_serie_title', 'dkcclphrase.lse="@serietitle" OR dkcclphrase.lso="@serietitle"'),
+    '#default_value' => variable_get('ting_search_register_serie_title', 'phrase.titleSeries="@serietitle"'),
   );
 
   // The default sort option. Used by ting search execute to set the default

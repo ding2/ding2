@@ -50,7 +50,26 @@ function ting_search_menu() {
     'file' => 'includes/ting_search.admin.inc',
   );
 
+  $items['search-blank'] = array(
+    'callback' => '_blank_page',
+    'access' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
+}
+
+/**
+ * Menu callback to fix the twice search issue.
+ *
+ * When the search form is submitted back to Drupal it's submitted back to the
+ * same page. So a search performed on the search page will trigger the first
+ * search and the new search (twice search).
+ *
+ * @see http://platform.dandigbib.org/issues/372
+ */
+function _blank_page() {
+  return '';
 }
 
 /**
@@ -151,17 +170,17 @@ function ting_search_get_extended_actions() {
 function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id) {
   // Define advanced fields.
   $advanced_fields = array(
-    'dc.creator' => array(
+    'term.creator' => array(
       'key' => 'creator',
       'title' => t('Author'),
       'description' => t('Enter the author name'),
     ),
-    'dc.title' => array(
+    'term.title' => array(
       'key' => 'title',
       'title' => t('Title'),
       'description' => t('Enter title'),
     ),
-    'dc.subject' => array(
+    'term.subject' => array(
       'key' => 'subject',
       'title' => t('Subject'),
       'description' => t('Enter subject keywords'),
@@ -249,6 +268,11 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
     }
   }
   $form['#submit'] = array('ting_search_submit');
+
+  // This submits the form to a blank page and prevents the search to be
+  // executed twice. See http://platform.dandigbib.org/issues/372 for more
+  // information.
+  $form['#action'] = '?q=search-blank';
 
   return $form;
 }
@@ -877,9 +901,9 @@ function ting_search_submit($form, &$form_state) {
   $fields = array();
 
   $extended_fields = array(
-    'creator' => 'dc.creator',
-    'title' => 'dc.title',
-    'subject' => 'dc.subject',
+    'creator' => 'term.creator',
+    'title' => 'term.title',
+    'subject' => 'term.subject',
   );
 
   foreach ($extended_fields as $name => $index) {

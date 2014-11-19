@@ -32,6 +32,15 @@
       window.stop();
       Drupal.TingSearchOverlay(true);
     });
+
+    // Remove overlay on page unload, so it's not shown when back button is used
+    // in the browser.
+    $(window).unload(function() {
+      var overlay = $('.search-overlay--wrapper');
+      if (overlay.length) {
+        Drupal.TingSearchOverlay(true);
+      }
+    });
   });
 
 }(jQuery));
