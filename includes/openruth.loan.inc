@@ -33,7 +33,7 @@ function openruth_loan_list($account) {
       // Create DingProviderLoad object with the information.
       $result[$loan->copyId] = new DingProviderLoan($loan->copyId, array(
         'ding_entity_id' => ding_provider_build_entity_id($loan->itemId),
-        'display_name' => isset($loan->itemDisplayTitle) ? $loan->itemDisplayTitle : DingEntityBase::NULL,
+        'display_name' => isset($loan->itemTitle) ? $loan->itemTitle : DingEntityBase::NULL,
         'loan_date' => isset($loan->loanDate) ? $loan->loanDate : DingEntityBase::NULL,
         'expiry' => isset($loan->loanReturnDate) ? $loan->loanReturnDate : DingEntityBase::NULL,
         'renewable' => isset($loan->loanRenewable) ? $loan->loanRenewable == 'renewable' : DingEntityBase::NULL,
