@@ -16,9 +16,10 @@ function openruth_loan_list($account) {
 
   if (isset($status->loans->loan)) {
     foreach ($status->loans->loan as $loan) {
+
       // Try to parse display title to get periodical information.
       $notes = DingEntityBase::NULL;
-      preg_match('/(\d+\.\d+).+(\[\d+\]).+(\d{4}),\s(\d+)/', $loan->itemDisplayTitle, $matches);
+      preg_match('/(\d+\.\d+)+\s(.*).+\s(\d{4}),\s(\d+)/', $loan->itemDisplayTitle, $matches);
       if ($matches) {
         $notes = $matches[3] . ', ' . $matches[4];
       }
@@ -32,7 +33,7 @@ function openruth_loan_list($account) {
       // Create DingProviderLoad object with the information.
       $result[$loan->copyId] = new DingProviderLoan($loan->copyId, array(
         'ding_entity_id' => ding_provider_build_entity_id($loan->itemId),
-        'display_name' => isset($loan->itemTitle) ? $loan->itemTitle : DingEntityBase::NULL,
+        'display_name' => isset($loan->itemDisplayTitle) ? $loan->itemDisplayTitle : DingEntityBase::NULL,
         'loan_date' => isset($loan->loanDate) ? $loan->loanDate : DingEntityBase::NULL,
         'expiry' => isset($loan->loanReturnDate) ? $loan->loanReturnDate : DingEntityBase::NULL,
         'renewable' => isset($loan->loanRenewable) ? $loan->loanRenewable == 'renewable' : DingEntityBase::NULL,
