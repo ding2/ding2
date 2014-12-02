@@ -95,6 +95,7 @@ function ting_search_context_theme_output($nodes) {
         ),
       ));
       $url = url(drupal_get_path_alias('node/' . $node->nid), array('absolute' => TRUE));
+      $url .= '?WT.cg_n=searchcontext';
       $columns[$columns_class] = array(
         'title' => $node->title,
         'image' => drupal_render($image),
