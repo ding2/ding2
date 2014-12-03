@@ -13,7 +13,6 @@ $plugin = array(
   'render callback' => 'ting_new_materials_content_type_render',
   'category' => t('Ting'),
   'required context' => array(new ctools_context_required(t('New Materials'), 'node')),
-  'render last' => TRUE,
 );
 
 /**
@@ -54,7 +53,7 @@ function ting_new_materials_content_type_render($subtype, $conf, $panel_args, $c
         $from = ($pager_page * $num_per_page) + 1;
         $to = $from + ($search_result->numTotalCollections - 1);
         $total = $search_result->numTotalObjects;
-        $legend = format_plural($total, 'Show %from-%to of 1 result', 'Show %from-%to of <span class="placeholder">@count</span> results', array(
+        $legend = format_plural($total, 'Show 1 result', 'Show %from-%to of <span class="placeholder">@count</span> results', array(
           '%from' => $from,
           '%to' => $to,
         ));
