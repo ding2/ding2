@@ -57,12 +57,24 @@ function ting_new_materials_node_validate($node, $form, &$form_state) {
         form_set_error('field_ting_new_materials_search', t('The query did not yield any results.'));
       }
       else {
-        // @todo: If we can get any results how about checking the acquicition
-        // date for them and including it in the user. "The lastest acquicition
+        // @todo: If we can get any results how about checking the acquisitions
+        // date for them and including it in the user. "The latest acquisition
         // is from YYYYMM".
         form_set_error('field_ting_new_materials_limit', t('The query did not yield any results with in the limit given.'));
       }
     }
+  }
+}
+
+/**
+ * Implements hook_node_update().
+ *
+ * Clear cache of search results (used in the panels plugin) for the node being
+ * updated.
+ */
+function ting_new_materials_node_update($node) {
+  if ($node->type == 'new_materials') {
+    cache_clear_all('ting_new_materials_' . $node->nid, 'cache', TRUE);
   }
 }
 
@@ -79,16 +91,15 @@ function ting_new_materials_node_validate($node, $form, &$form_state) {
  *   Ting data well search string.
  */
 function ting_new_materials_build_search_query($entity, $limit_query = TRUE) {
-  // Get search query from the entity.
-  // @todo I would use entity_metadata_wrapper here.
-  $items = field_get_items('node', $entity, 'field_ting_new_materials_search');
-  $query = $items[0]['value'];
+  // Get search query from the entity by using a metadata wrapper to access the
+  // data.
+  $wrapper = entity_metadata_wrapper('node', $entity);
+  $query = $wrapper->field_ting_new_materials_search->value();
 
   // Check if limit expression should be added.
   if ($limit_query) {
     // Get the limit (number of months 1 to 12).
-    $items = field_get_items('node', $entity, 'field_ting_new_materials_limit');
-    $limit = $items[0]['value'];
+    $limit = $wrapper->field_ting_new_materials_limit->value();
 
     // Add the limit to the query.
     $query .= ting_new_materials_make_limit_query($limit);
@@ -104,8 +115,6 @@ function ting_new_materials_build_search_query($entity, $limit_query = TRUE) {
  * @param int $limit
  *   The number of months back to limit the results.  Min 1 and max 12 month. 0
  *   means unlimited.
- * @todo Why is there a 12 month limit? It does not seem to be enforced in the
- * code.
  *
  * @return string
  *   The limit by month search query expression.
@@ -116,11 +125,9 @@ function ting_new_materials_make_limit_query($limit = 0) {
   if ($limit > 0) {
     // Get current date (defaults to now).
     $date = new DateTime();
-    // @todo Please elaborate why the query is created as is.
-    // The format "sort.acquisitionDate=(201403* OR 201402*) etc. Is this
-    // because the field does not supprt between?
-    // @todo I do not think it is a good idea that this includes AND. That
-    // makes the process useless if the query has no other criteria.
+    // The format "sort.acquisitionDate=(201403* OR 201402*) used here is due to
+    // limitations in the data well. It simply don't support look up things
+    // between two dates.
     $query = ' AND sort.acquisitionDate=(' . $date->format('Ym') . '*';
     for ($i = 1; $i <= $limit; $i++) {
       $date->sub(DateInterval::createFromDateString('1 month'));

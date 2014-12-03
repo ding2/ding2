@@ -13,13 +13,10 @@ $plugin = array(
   'render callback' => 'ting_new_materials_content_type_render',
   'category' => t('Ting'),
   'required context' => array(new ctools_context_required(t('New Materials'), 'node')),
-  // @todo: Why is render last necessary?
-  'render last' => TRUE,
 );
 
 /**
  * Render the ting new materials results results amount block.
- * @todo: Why is this not just a (default) view mode for the content type?
  */
 function ting_new_materials_content_type_render($subtype, $conf, $panel_args, $context) {
   // Define the return block.
@@ -83,8 +80,6 @@ function ting_new_materials_content_type_render($subtype, $conf, $panel_args, $c
     }
 
     // Set default page result.
-    // @todo: Why is this not part of the block structure? E.g.
-    // $content->title => $node->title.
     $content = array(
       '#theme' => 'ting_new_materials',
       '#title' => $node->title,
