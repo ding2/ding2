@@ -5,23 +5,36 @@
 (function($) {
   "use strict";
 
+  var ctrlKeyIsPressed = false;
+
+  // Do not show overlay if ctrl key is pressed.
+  $('body').live('keydown keyup', function(e) {
+    var keyPressState = e.type == 'keydown' ? true : false;
+    // Define Ctrl key.
+    if(e.which == 17) {
+      ctrlKeyIsPressed = keyPressState;
+    }
+  });
+
   /**
    * Add search overlay function, so all search related JavaScripts can call it.
    */
   Drupal.TingSearchOverlay = function(remove_overlay) {
 
-    // Try to get overlay
-    var overlay = $('.search-overlay--wrapper');
-    if (!overlay.length) {
-      // Overlay not found so create is and display.
-      overlay = $('<div class="search-overlay--wrapper"><div class="search-overlay--inner"><i class="icon-spinner icon-spin search-overlay--icon"></i><p class="search-overlay--text">' + Drupal.t('Searching please wait...') + '</p><p class="cancel"><a href="#">' + Drupal.t('Cancel') + '</a></p></div></div>');
-      $('body').prepend(overlay);
-    }
-    else {
-      // Overlay found.
-      if (typeof remove_overlay !== 'undefined') {
-        // If toggle remove it.
-        overlay.remove();
+    if (ctrlKeyIsPressed === false) {
+      // Try to get overlay
+      var overlay = $('.search-overlay--wrapper');
+      if (!overlay.length) {
+        // Overlay not found so create is and display.
+        overlay = $('<div class="search-overlay--wrapper"><div class="search-overlay--inner"><i class="icon-spinner icon-spin search-overlay--icon"></i><p class="search-overlay--text">' + Drupal.t('Searching please wait...') + '</p><p class="cancel"><a href="#">' + Drupal.t('Cancel') + '</a></p></div></div>');
+        $('body').prepend(overlay);
+      }
+      else {
+        // Overlay found.
+        if (typeof remove_overlay !== 'undefined') {
+          // If toggle remove it.
+          overlay.remove();
+        }
       }
     }
   };
