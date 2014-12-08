@@ -10,29 +10,46 @@
     attach: function (context, settings) {
 
       /**
-       * @todo: Missing function description.
+       * Disables a button.
        *
        *  @param button
-       *    @todo: missing description.
+       *    The button to disable.
        */
       function disableButton(button) {
         button.addClass('form-button-disabled').attr('disabled', 'disabled');
       }
 
       /**
-       * @todo: Missing function description.
+       * Enables a button.
        *
        *  @param button
-       *    @todo: missing description.
+       *    The button to enable.
        */
       function enableButton(button) {
         button.removeClass('form-button-disabled').removeAttr('disabled');
       }
 
-      /**
-       * @todo: Missing function description.
+      /*
+       * Toggles visibility of branches in the test report tree.
+       * 
+       * @param branch
+       *   The branch to toggle.
        */
-      var devStatus = function() {
+      function toggleBranch(branch) {
+        if (branch.parent().hasClass('collapsed')) {
+          branch.parent().css('background-image', "url('/misc/menu-expanded.png')");
+          branch.parent().removeClass('collapsed');
+        }
+        else {
+          branch.parent().css('background-image', "url('/misc/menu-collapsed.png')");
+          branch.parent().addClass('collapsed');
+        }
+      }
+
+      /**
+       * Updates status information in the control panel.
+       */
+      var updateStatus = function() {
         $.getJSON('/ajax/ddb_cp/status', function(data) {
           $.each(data, function(key, val) {
             $(key).replaceWith(val);
@@ -44,8 +61,7 @@
         var stg_site_status = $('#stg-site-status');
         var stg_test_status = $('#stg-test-status');
 
-        // @todo: Would be nice with a comment here about all this if
-        //        statements.
+        // Enables and disables buttons according to current system status
         if (dev_test_status.hasClass('test-ready') && stg_site_status.length === 0) {
           enableButton($('#edit-go-delete-dev'));
         }
@@ -92,24 +108,21 @@
         }  
       };
 
-      // @todo; Why this timeout?
-      setInterval(devStatus, 2000);
+      // Update status every 2 seconds.
+      setInterval(updateStatus, 2000);
 
       /**
-       * @todo: Missing function description.
-       *
-       * @todo: The click event handlers in this function, do a lot of the same
-       *        could it be move to a helper function?
+       * Load a full test report from the Jenkins server. 
        *
        * @param site
-       *   @todo: Missing description.
+       *   'dev' or 'stg' site to load report for.
        */
       function loadTestReport(site) {
         var sitediv = $('#' + site + '-test-report');
         sitediv.html(' ');
         sitediv.addClass('loading');
 
-        // @todo: Would be nice with a comment here.
+        // Load the test report.
         $.ajax({
           method:'get',
           url:'/ajax/ddb_cp/test/result/' + site,
@@ -117,59 +130,27 @@
             sitediv.removeClass('loading');
             sitediv.html(data);
 
-            // @todo: Would be nice with a comment here.
+            // All children should be collapsed after loading.
             $('.' + site + '-stdout').hide();
             $('.' + site + '-test-case').hide();
             $('.' + site + '-test-step').hide();
 
-            // @todo: Would be nice with a comment here.
+            // Add click() functions to all but the leaf children.
             $('div.' + site + '-test-case > a').click(function() {
-              var self = $(this);
-              if (self.parent().hasClass('collapsed')) {
-                self.parent().css('background-image', "url('/misc/menu-expanded.png')");
-                self.parent().removeClass('collapsed');
-              }
-              else {
-                self.parent().css('background-image', "url('/misc/menu-collapsed.png')");
-                self.parent().addClass('collapsed');
-              }
-        
+              toggleBranch($(this));
               $(this).siblings('.' + site + '-test-step').toggle();
-
               return true;
             });
 
-            // @todo: Would be nice with a comment here.
             $('div.' + site + '-test-suite > a').click(function() {
-              var self = $(this);
-              if (self.parent().hasClass('collapsed')) {
-                self.parent().css('background-image', "url('/misc/menu-expanded.png')");
-                self.parent().removeClass('collapsed');
-              }
-              else {
-                self.parent().css('background-image', "url('/misc/menu-collapsed.png')");
-                self.parent().addClass('collapsed');
-              }
-        
+              toggleBranch($(this));
               $(this).siblings('.' + site + '-test-case').toggle();
-        
               return true;
             });
 
-            // @todo: Would be nice with a comment here.
             $('div.' + site + '-test-step > a').click(function() {
-              var self = $(this);
-              if (self.parent().hasClass('collapsed')) {
-                self.parent().css('background-image', "url('/misc/menu-expanded.png')");
-                self.parent().removeClass('collapsed');
-              }
-              else {
-                self.parent().css('background-image', "url('/misc/menu-collapsed.png')");
-                self.parent().addClass('collapsed');
-              }
-        
+              toggleBranch($(this));
               $(this).siblings('.' + site + '-stdout').toggle();
-        
               return true;
             });
         
@@ -180,7 +161,7 @@
       }
 
       /**
-       * @todo: Missing function description.
+       * Check if test report needs to be loaded
        */
       var checkTestReport = function () {
         var element = $('#dev-test-report');
@@ -188,30 +169,35 @@
           loadTestReport('dev');
         }
 
+        element = $('#stg-test-report');
         if (document.getElementById('edit-stg-status') && !element.hasClass('loading') && !element.hasClass('loaded') && !$('#edit-stg-result').hasClass('collapsed')) {
           loadTestReport('stg');
         }
       };
 
-      // @todo: Why is this interval here?
+      /*
+       * As Drupal's Form API doesn't allow attaching events to fieldsets,
+       * we need to check regularly if the test report fieldset is open
+       * or collapsed.
+       */
       setInterval(checkTestReport, 500);
 
-      // @todo: Would be nice with a comment here.
+      // Triggers a recreation of the developer site.
       $('#edit-go-delete-dev').click(function() {
         $.get('/ajax/ddb_cp/recreate/dev');
       });
 
-      // @todo: Would be nice with a comment here.
+      // Triggers a recreation of the staging site.
       $('#edit-go-update-stg').click(function() {
         $.get('/ajax/ddb_cp/recreate/stg');
       });
 
-      // @todo: Would be nice with a comment here.
+      // Triggers an execution of the developer site test.
       $('#edit-go-test-dev').click(function() {
         $.get('/ajax/ddb_cp/test/execute/dev');
       });
 
-      // @todo: Would be nice with a comment here.
+      // Triggers an execution of the staging site test.
       $('#edit-go-test-stg').click(function() {
         $.get('/ajax/ddb_cp/test/execute/stg');
       });

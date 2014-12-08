@@ -5,13 +5,10 @@
  */
 
 /**
- * @todo: Missing function description.
+ * Returns the main menu for the DDB administrative pages.
  *
- * @return string
- *   @todo: Missing description and type.
- *
- * @throws Exception
- *   @todo: Missing description.
+ * @return
+ *   Returns a menu block.
  */
 function ddb_cp_menu_content() {
   $items = array();
@@ -25,7 +22,7 @@ function ddb_cp_menu_content() {
 
   $content['config'] = $items;
 
-  if (ddb()->model() == 'webmaster') {
+  if (ddb_cp_ws()->model() == 'webmaster') {
     $items['access'] = 1;
     $items['href']   = 'admin/ddb_cp/development';
     $items['title']  = t('Development');
@@ -39,10 +36,10 @@ function ddb_cp_menu_content() {
 }
 
 /**
- * @todo: Missing function description.
+ * Returns a form for the configuration menu.
  *
- * @return mixed
- *   @todo: Missing description and type.
+ * @return
+ *   The configuration form.
  */
 function ddb_cp_menu_configuration() {
   $form = array();
@@ -55,7 +52,7 @@ function ddb_cp_menu_configuration() {
 
   $form['ddb_config']['model'] = array(
     '#type' => 'item',
-    '#markup' => t("You are currently subscribed to the '@model' model.", array('@model' => ddb()->model())),
+    '#markup' => t("You are currently subscribed to the '@model' model.", array('@model' => ddb_cp_ws()->model())),
   );
 
   $form['ddb_config']['servers'] = array(
@@ -64,10 +61,10 @@ function ddb_cp_menu_configuration() {
     '#title' => t('Server Addresses'),
   );
 
-  $form['ddb_config']['servers']['ddb_service_url'] = array(
+  $form['ddb_config']['servers']['ddb_cp_service_uri'] = array(
     '#type' => 'textfield',
     '#title' => t('DDB webservice URL'),
-    '#default_value' => variable_get('ddb_service_url'),
+    '#default_value' => variable_get('ddb_cp_service_uri'),
   );
 
   $form['save_config'] = array(
@@ -80,32 +77,28 @@ function ddb_cp_menu_configuration() {
 }
 
 /**
- * @todo: Missing function description.
+ * Submit callback for the configuration menu.
  *
  * @param $form
- *   @todo: Missing description and type.
+ *   The form data.
  * @param $form_state
- *   @todo: Missing description and type.
+ *   Current state of the form.
  */
 function ddb_cp_config_submit($form, &$form_state) {
-  variable_set('ddb_service_url', $form_state['values']['ddb_service_url']);
-
-  // @todo: what have been saved in cache under that key.
-  cache_clear_all('ddb', 'cache', TRUE);
-
+  variable_set('ddb_cp_service_uri', $form_state['values']['ddb_cp_service_uri']);
   drupal_set_message(t('Your configuration has been saved.'));
 }
 
 /**
- * @todo: Missing function description.
+ * Returns a form for the development menu.
  *
  * @param $form
- *   @todo: Missing description and type.
+ *   The form data.
  * @param $form_state
- *   @todo: Missing description and type.
+ *   Current state of the form.
  *
- * @return array
- *   @todo: Missing description and type.
+ * @return
+ *   The form.
  */
 function ddb_cp_menu_development($form, &$form_state) {
   drupal_add_css(drupal_get_path('module', 'ddb_cp') . '/css/ddb_cp.css', array('group' => CSS_DEFAULT, 'type' => 'file'));
@@ -122,26 +115,26 @@ function ddb_cp_menu_development($form, &$form_state) {
 }
 
 /**
- * @todo: Missing function description.
+ * Returns the 'Developer Site' fieldset of the development form.
  *
  * @param $form
- *   @todo: Missing description and type.
+ *   The form data.
  * @param $form_state
- *   @todo: Missing description and type.
+ *   Current state of the form.
  *
- * @return array
- *   @todo: Missing description and type.
+ * @return
+ *   The 'Developer Site' fieldset of the development form.
  */
 function ddb_cp_form_development_dev($form, $form_state) {
   $form = array();
-  $status = ddb()->status();
+  $status = ddb_cp_ws()->status();
 
   if ($status['dev']['status'] != 'unknown' && $status['dev']['status'] != 'not_exist') {
     $form['create_dev'] = array(
       '#type' => 'fieldset',
       '#collapsible' => 1,
       '#title' => t('Developer Site'),
-      '#description' => t('Your developer site can be found at <a href="@url">@url</a>.', array('@url' => url('http://' . ddb()->names['dev']))),
+      '#description' => t('Your developer site can be found at <a href="@url">@url</a>.', array('@url' => url('http://' . ddb_cp_ws()->names['dev']))),
     );
 
     $form['create_dev']['url'] = array(
@@ -202,7 +195,7 @@ function ddb_cp_form_development_dev($form, $form_state) {
     $default = NULL;
     $templates = NULL;
 
-    if ($templates = ddb()->templates(ddb()->names['prod'])) {
+    if ($templates = ddb_cp_ws()->templates(ddb_cp_ws()->names['prod'])) {
       foreach ($templates as $template) {
         if ($template->{'enabled'} == 'true') {
           $options[$template->{'path'}] = $template->{'name'};
@@ -250,27 +243,27 @@ function ddb_cp_form_development_dev($form, $form_state) {
 }
 
 /**
- * @todo: Missing function description.
+ * Returns the 'Staging Site' fieldset of the development form.
  *
  * @param $form
- *   @todo: Missing description and type.
+ *   The form data.
  * @param $form_state
- *   @todo: Missing description and type.
+ *   Current state of the form.
  *
- * @return array
- *   @todo: Missing description and type.
+ * @return
+ *   The 'Staging Site' fieldset of the development form.
  */
 function ddb_cp_form_development_stg($form, $form_state) {
   $form = array();
-  $status = ddb()->status();
-  $install_time = date('j/n Y G:i', variable_get('install_time'));
+  $status = ddb_cp_ws()->status();
+  $install_time = format_date(variable_get('install_time'), 'short');
 
   if ($status['stg']['status'] != 'unknown' && $status['stg']['status'] != 'not_exist') {
     $form['create_stg'] = array(
       '#type' => 'fieldset',
       '#collapsible' => 1,
       '#title' => t('Staging Site'),
-      '#description' => t('Your staging site can be found at <a href="@url">@url</a>.', array('@url' => url('http://' . ddb()->names['stg']))),
+      '#description' => t('Your staging site can be found at <a href="@url">@url</a>.', array('@url' => url('http://' . ddb_cp_ws()->names['stg']))),
       '#collapsed' => 1,
     );
 
@@ -353,20 +346,20 @@ function ddb_cp_form_development_stg($form, $form_state) {
 }
 
 /**
- * @todo: Missing function description.
+ * Returns the 'Production Site' fieldset of the development form.
  *
  * @param $form
- *   @todo: Missing description and type.
+ *   The form data.
  * @param $form_state
- *   @todo: Missing description and type.
+ *   Current state of the form.
  *
- * @return array
- *   @todo: Missing description and type.
+ * @return
+ *   The 'Production Site' fieldset of the development form.
  */
 function ddb_cp_form_development_prod($form, $form_state) {
   global $base_url;
   $form = array();
-  $status = ddb()->status();
+  $status = ddb_cp_ws()->status();
 
   $form['update_prod'] = array(
     '#type' => 'fieldset',

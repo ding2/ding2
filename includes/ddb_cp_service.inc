@@ -4,13 +4,33 @@
  * The ddbService class has the sole responsibility for communicating
  * with the DDB webservice.
  */
+ 
+ /**
+  * A custom exception for the DdbService class.
+  */
+  
+class DdbWsException extends Exception {
+  
+  /*
+   * Constructor
+   */
+  public function __construct($message, $code, Exception $previous = NULL) {
+    parent::__construct($message, $code, $previous);
+  }
+  
+  /*
+   * @return
+   *   A formatted string for display.
+   */
+  public function __toString() {
+    return t('Error calling DDB service:') . ' ' . $this->code . ' ' . $this->message . "\n";
+  }
+}
 
 /**
  * DDB service call to handle communication with the web-service.
- *
- * @todo: Classes and interfaces should use UpperCamel naming: DdbSercices.
  */
-class ddbService {
+class DdbService {
 
   // Private properties
   private $uri = NULL;
@@ -20,12 +40,48 @@ class ddbService {
   public $type = NULL;
 
   /**
-   * @todo: Missing function description.
+   * The constructor.
    *
-   * @return mixed
-   *   @todo: Missing description and type.
+   * @param $uri
+   *   The optional URI of the host running the webservice. If not
+   *   specified, will try to read the URI as a Drupal variable. This
+   *   value can be set through the control panel.
+   *
+   * @throws Exception
+   *   Throws a general exception if an improper URI is specified.
    */
-  private function get_hostname() {
+  public function __construct($uri = NULL) {
+    if ($uri) {
+      if (!parse_url($uri, PHP_URL_HOST)) {
+        throw new Exception(t('You must provide a valid URI when creating a new instance of DdbService:') . ' ' . $uri);
+      }
+      $host = parse_url($uri, PHP_URL_HOST);
+      $scheme = parse_url($uri, PHP_URL_SCHEME);
+
+      $this->uri = isset($scheme) ? $scheme . '://' . $host : 'http://' . $host;
+    }
+    else {
+      $this->uri = variable_get('ddb_cp_service_uri');
+    }
+
+    $this->names = $this->getHostnames();
+    
+    $this->type = 'unknown';
+    if ($this->getHostname() == $this->names['prod']) $this->type = 'prod';
+    if ($this->getHostname() == $this->names['dev']) $this->type = 'dev';
+    if ($this->getHostname() == $this->names['stg']) $this->type = 'stg';
+  }
+
+  /**
+   * This function returns the primary hostname of the site.
+   *
+   * It depends on the current standard for a Drupal multisite setup
+   * in which the hostname is included in the configuration path.
+   *
+   * @return
+   *   A string containing the primary hostname.
+   */
+  private function getHostname() {
     $result = &drupal_static(__FUNCTION__);
 
     if (!isset($result)) {
@@ -37,26 +93,28 @@ class ddbService {
   }
 
   /**
-   * @todo: Missing function description.
+   * This function retrieves a list of hostnames from the webservice.
    *
-   * @return null
-   *   @todo: Missing description and type.
+   * In this way, naming conventions may be changed without changing
+   * the code of the control panel.
+   *
+   * @return
+   *   An array of strings naming the 'prod', 'dev', and 'stg' sites.
    */
-  private function get_hostnames() {
+  private function getHostnames() {
     $result = &drupal_static(__FUNCTION__);
 
     if (!isset($result)) {
-      if ($cache = cache_get('ddb_hostnames')) {
+      if ($cache = cache_get('ddb_cp_hostnames')) {
         $result = $cache->data;
       }
       else {
         try {
-          $data = $this->make_request('/json/hostnames?site=' . $this->get_hostname(), PHP_URL_HOST);
+          $data = $this->makeRequest('/json/hostnames?site=' . $this->getHostname(), PHP_URL_HOST);
           $data = json_decode($data);
         }
-        catch (Exception $e) {
-          // @todo: Empty catch block, please handle errors?
-          // @todo: Use custom exception in make_request and only catch that!
+        catch (DdbWsException $e) {
+          $result = NULL;
         }
 
         if (isset($data->{'result'})) {
@@ -64,9 +122,7 @@ class ddbService {
           $result['prod'] = $data->{'result'}[0]->{'prod'};
           $result['stg'] = $data->{'result'}[0]->{'stg'};
 
-          // @todo: Should this cache time be hardcoded? As minimum make the
-          // time an constance!
-          cache_set('ddb_hostnames', $result, 'cache', time() + 3600);
+          cache_set('ddb_cp_hostnames', $result);
         }
         else {
           $result = NULL;
@@ -78,81 +134,35 @@ class ddbService {
   }
 
   /**
-   * @todo: Missing function description.
+   * This is the function that actually calls the webservice.
    *
    * @param $query
-   *   @todo: Missing description and type.
+   *   The webservice query string.
    *
-   * @return mixed
-   *   @todo: Missing description and type.
+   * @return
+   *   The raw result of the call.
    *
-   * @throws Exception
-   *   @todo: Missing description.
+   * @throws DdbWsException
+   *   Returns HTTP error code/message if unsuccessful.
    */
-  private function make_request($query) {
+  private function makeRequest($query) {
     $result = drupal_http_request($this->uri . $query);
     if ($result->code != 200) {
-      // @todo: Maybe this should be a custom exception, so it is easier to
-      // catch this type of error and not all exceptions.
-      throw new Exception(t('Error calling DDB service:') . ' ' . $result->code . ' ' . $result->error);
+      throw new DdbWsException($result->error, $result->code);
     }
-
     return $result->data;
   }
 
   /**
-   * @todo: Missing function description.
-   *
-   * @todo: I would normally what this as the first method in the class.
-   *
-   * @param null $uri
-   *   @todo: Missing description and type.
-   *   @todo: I may be missing something, but the parameter is not used? It's
-   *          build but not used in any function calls?
-   *
-   * @throws Exception
-   *   @todo: Missing description and type.
-   */
-  public function __construct($uri = NULL) {
-    if ($uri) {
-      if (!parse_url($uri, PHP_URL_HOST)) {
-        // @todo: Maybe this should be a custom exception, so it is easier to
-        // catch this type of error and not all exceptions.
-        // @todo: The $url in the exception is not defined?
-        throw new Exception(t('You must provide a valid URI when creating a new instance of ddbService:') . ' ' . $url);
-      }
-      $host = parse_url($uri, PHP_URL_HOST);
-      $scheme = parse_url($uri, PHP_URL_SCHEME);
-
-      // @todo: The $uri is never used?
-      $uri = isset($scheme) ? $scheme . '://' . $host : 'http://' . $host;
-    }
-    else {
-      $this->uri = variable_get('ddb_service_url');
-    }
-
-    $parts = explode('.', $this->get_hostname());
-    $this->type = 'prod';
-    if (preg_match('/-dev$/', $parts[0])) {
-      $this->type = 'dev';
-    }
-    if (preg_match('/-stg$/', $parts[0])) {
-      $this->type = 'stg';
-    }
-
-    $this->names = $this->get_hostnames();
-  }
-
-  /**
-   * @todo: Missing function description.
+   * Executes a job on the Jenkins server.
    *
    * @param $job
-   *   @todo: Missing description and type.
+   *   A string with the name of the job to execute.
    * @param null $parms
-   *   @todo: Missing description and type.
+   *   Optional parameters to pass to the job.
    *
    * @return bool
-   *   @todo: Missing description.
+   *   Returns TRUE on success, FALSE otherwise.
    */
   public function execute($job, $parms = NULL) {
     $query = '/json/execute?job=' . urlencode($job);
@@ -162,10 +172,9 @@ class ddbService {
     }
 
     try {
-      $this->make_request($query);
+      $this->makeRequest($query);
     }
-    catch (Exception $e) {
-      // @todo: Use custom exception in make_request and only catch that!
+    catch (DdbWsException $e) {
       return FALSE;
     }
 
@@ -173,10 +182,11 @@ class ddbService {
   }
 
   /**
-   * @todo: Missing function description.
+   * Retrieves the subscription model.
    *
-   * @return bool
-   *   @todo: Missing description.
+   * @return
+   *   A string containing the subscription model. FALSE if call
+   *   fails.
    */
   public function model() {
     $result = &drupal_static(__FUNCTION__);
@@ -185,10 +195,9 @@ class ddbService {
       $site = $this->names['prod'];
 
       try {
-        $data = json_decode($this->make_request('/json/model?site=' . $site));
+        $data = json_decode($this->makeRequest('/json/model?site=' . $site));
       }
-      catch (Exception $e) {
-        // @todo: Use custom exception in make_request and only catch that!
+      catch (DdbWsException $e) {
         drupal_set_message(t(DDB_CP_MSG_ERROR_NO_WEB_SERVICE), 'error');
         return FALSE;
       }
@@ -202,10 +211,11 @@ class ddbService {
   }
 
   /**
-   * @todo: Missing function description.
+   * Retrieves the status record for the current site(s).
    *
-   * @return bool
-   *   @todo: Missing description.
+   * @return
+   *   An array of arrays representing the JSON response from the
+   *   webservice. FALSE if call fails.
    */
   public function status() {
     $result = &drupal_static(__FUNCTION__);
@@ -214,10 +224,9 @@ class ddbService {
       $site = $this->names['prod'];
 
       try {
-        $data = json_decode($this->make_request('/json/status?site=' . $site));
+        $data = json_decode($this->makeRequest('/json/status?site=' . $site));
       }
-      catch (Exception $e) {
-        // @todo: Use custom exception in make_request and only catch that!
+      catch (DdbWsException $e) {
         drupal_set_message(t(DDB_CP_MSG_ERROR_NO_WEB_SERVICE), 'error');
         return FALSE;
       }
@@ -234,20 +243,21 @@ class ddbService {
   }
 
   /**
-   * @todo: Missing function description.
+   * Retrieves a list of templates available for creating a new
+   * developer site.
    *
    * @param $site
-   *  @todo: Missing description and type.
+   *   The full DNS name of the current site.
    *
-   * @return array|bool
-   *  @todo: Missing description.
+   * @return
+   *   Returns an array of strings with template names. FALSE if
+   *   call fails.
    */
   public function templates($site) {
     try {
-      $data = json_decode($this->make_request('/json/templates?site=' . $site));
+      $data = json_decode($this->makeRequest('/json/templates?site=' . $site));
     }
-    catch (Exception $e) {
-      // @todo: Use custom exception in make_request and only catch that!
+    catch (DdbWsException $e) {
       drupal_set_message(t(DDB_CP_MSG_ERROR_NO_WEB_SERVICE), 'error');
       return FALSE;
     }
@@ -261,54 +271,69 @@ class ddbService {
   }
 
   /**
-   * @todo: Missing function description.
+   * Retrieves the full test report from the Jenkins server.
    *
    * @param $site
-   *   @todo: Missing description and type.
+   *   The full DNS name of the site.
    * @param null $number
-   *   @todo: Missing description and type.
+   *   The optional build number. Defaults to latest.
 
-   * @return bool|mixed
-   *   @todo: Missing description.
+   * @return
+   *   The XML test report. FALSE if call fails.
    */
   public function test_report($site, $number = NULL) {
     $query = '/xml/test_report?site=' . $site;
     if (isset($number)) {
       $query .= '&number=' . $number;
     }
-
     try {
-      return $this->make_request($query);
+      return $this->makeRequest($query);
     }
-    catch (Exception $e) {
-      // @todo: Use custom exception in make_request and only catch that!
+    catch (DdbWsException $e) {
       return FALSE;
     }
   }
 
   /**
-   * @todo: Missing function description.
+   * Retrieves a brief test report from the Jenkins server.
    *
    * @param $site
-   *   @todo: Missing description and type.
+   *   The full DNS name of the site.
    * @param null $number
-   *   @todo: Missing description and type.
+   *   The optional build number. Defaults to latest.
 
-   * @return bool|mixed
-   *   @todo: Missing description.
+   * @return
+   *   The XML test report. FALSE if call fails.
    */
   public function test_result($site, $number = NULL) {
     $query = '/xml/test_result?site=' . $site;
     if (isset($number)) {
       $query .= '&number=' . $number;
     }
-
     try {
-      return $this->make_request($query);
+      return $this->makeRequest($query);
     }
-    catch (Exception $e) {
-      // @todo: Use custom exception in make_request and only catch that!
+    catch (DdbWsException $e) {
       return FALSE;
     }
   }
+}
+
+/**
+ * Utility function to convert the object format returned by json_decode() to an array of arrays.
+ *
+ * @param $obj
+ *   An object created by json_decode().
+ *
+ * @return mixed
+ *   The json_decode() object converted to an array of arrays.
+ */
+function _ddb_cp_object_to_array($obj) {
+  $arr = [];
+  $_arr = is_object($obj) ? get_object_vars($obj) : $obj;
+  foreach ($_arr as $key => $val) {
+    $val = (is_array($val) || is_object($val)) ? _ddb_cp_object_to_array($val) : $val;
+    $arr[$key] = $val;
+  }
+  return $arr;
 }
