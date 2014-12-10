@@ -124,16 +124,19 @@ function ding_base_update_7001() {
  */
 function ding_base_update_7002() {
   $theme = variable_get('theme_default', FALSE);
-  if (empty($theme)) {
-    return;
+  if (!empty($theme)) {
+    $info = color_get_info($theme);
+
+    // Get the themes color_palette.
+    $palette = $info['schemes']['default']['colors'];
+
+    // Get the local color palette.
+    $variable = variable_get('color_' . $theme . '_palette', $palette);
+
+    // Merge the two palettes.
+    $variable += $palette;
+
+    // Set the new merged color palette variable.
+    variable_set('color_' . $theme . '_palette', $variable);
   }
-  $info = color_get_info($theme);
-  // this is the color_palette from the theme.
-  $palette = $info['schemes']['default']['colors'];
-  // this is the local color palette.
-  $variable = variable_get('color_' . $theme . '_palette', $palette);
-  // merge the palettes.
-  $variable += $palette;
-  // set color_palette variable.
-  variable_set('color_' . $theme . '_palette', $variable);
 }
