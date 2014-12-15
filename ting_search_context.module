@@ -116,6 +116,8 @@ function ting_search_context_get_image_field_name($node) {
     return 'field_ding_eresource_list_image';
   } else if ($type == 'genre_page') {
     return 'field_genre_page_list_image';
+  } else if ($type == 'ding_page') {
+    return 'field_ding_page_list_image';
   }
   return '';
 }
