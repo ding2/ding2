@@ -40,6 +40,10 @@ projects[proj4js][version] = "1.2"
 
 projects[leaflet][subdir] = "contrib"
 projects[leaflet][version] = "1.1"
+; OSM Mapnik is hard-coded to be accessed via http, but some sites may need maps to render under https. 
+; The patch change code to use headless urls ("//" instead of "http://") for map access..
+; Patch from https://www.drupal.org/node/2341015
+projects[leaflet][patch][] = https://www.drupal.org/files/issues/leaflet-https_7x_11-2341015-3.patch
 
 projects[libraries][subdir] = "contrib"
 projects[libraries][version] = "2.2"
