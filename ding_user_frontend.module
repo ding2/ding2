@@ -28,7 +28,7 @@ function ding_user_frontend_menu_alter(&$items) {
   $items['user/%user/edit/provider_' . $provider['module']]['access'] = FALSE;
 
   // Disable account sub-menu link (account and staff tabs).
-  $items['user/%user_category/edit/account']['access callback'] = 'ding_user_frontend_is_provider_user';
+  $items['user/%user_category/edit/account']['access callback'] = 'ding_user_frontend_is_not_provider_user';
   $items['user/%user_category/edit/account']['access arguments'] = array(1);
 
   // Change weight of user edit link, so it always second menu item.
@@ -46,7 +46,7 @@ function ding_user_frontend_menu_alter(&$items) {
  * @return bool
  *   If user is provider FALSE else TRUE.
  */
-function ding_user_frontend_is_provider_user($account) {
+function ding_user_frontend_is_not_provider_user($account) {
   return !ding_user_is_provider_user($account);
 }
 
