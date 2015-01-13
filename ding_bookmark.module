@@ -25,7 +25,7 @@ function ding_bookmark_menu() {
     'page callback' => 'ding_bookmark_add_ajax',
     'page arguments' => array(2),
     'delivery callback' => 'ajax_deliver',
-    'access arguments' => array('preform bookmark'),
+    'access arguments' => array('perform bookmark'),
   );
 
   return $items;
@@ -36,8 +36,8 @@ function ding_bookmark_menu() {
  */
 function ding_bookmark_permission() {
   return array(
-    'preform bookmark' => array(
-      'title' => t('Preform bookmark'),
+    'perform bookmark' => array(
+      'title' => t('Perform bookmark'),
       'description' => t('Perform bookmark of ting objects.'),
     ),
   );
@@ -247,7 +247,7 @@ function ding_bookmark_add_ajax($entity) {
     drupal_form_submit('flag_confirm', $form_state, 'flag', flag_get_flag('bookmark'), $entity->tid);
 
     // Drop messages.
-    theme('status_messages');
+    drupal_get_messages(NULL, TRUE);
 
     // Get generated message.
     $html = '<div class="ding-bookmark-message">' . $form_state['storage']['response_html'] . '</div>';
