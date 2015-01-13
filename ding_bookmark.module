@@ -247,7 +247,7 @@ function ding_bookmark_add_ajax($entity) {
     drupal_form_submit('flag_confirm', $form_state, 'flag', flag_get_flag('bookmark'), $entity->tid);
 
     // Drop messages.
-    theme('status_messages');
+    drupal_get_messages(NULL, TRUE);
 
     // Get generated message.
     $html = '<div class="ding-bookmark-message">' . $form_state['storage']['response_html'] . '</div>';
