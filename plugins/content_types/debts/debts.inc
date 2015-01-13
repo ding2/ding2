@@ -76,7 +76,7 @@ function ding_debt_debts_form($form, &$form_state, $debts, $has_invoiced_fees, $
       '#value' => $debts,
     );
 
-    $provider = _ding_provider_get_provider('payment');
+    $provider = ding_provider_get_provider_module_name('payment');
     if (!empty($provider)) {
       $form['pay_selected'] = array(
         '#type' => 'submit',
