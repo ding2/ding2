@@ -16,9 +16,10 @@ function openruth_loan_list($account) {
 
   if (isset($status->loans->loan)) {
     foreach ($status->loans->loan as $loan) {
+
       // Try to parse display title to get periodical information.
       $notes = DingEntityBase::NULL;
-      preg_match('/(\d+\.\d+).+(\[\d+\]).+(\d{4}),\s(\d+)/', $loan->itemDisplayTitle, $matches);
+      preg_match('/(\d+\.\d+)+\s(.*).+\s(\d{4}),\s(\d+)/', $loan->itemDisplayTitle, $matches);
       if ($matches) {
         $notes = $matches[3] . ', ' . $matches[4];
       }
