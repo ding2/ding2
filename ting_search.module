@@ -975,8 +975,10 @@ function _ting_search_quote($string) {
 
 /**
  * Method to convert a string to strict cql (Basically by adding quotes when needed)
- * @param $string
+ * @param string $string
+ *   The search query
  * @return string
+ *   cql compatible string
  */
 function ting_search_string_to_cql($string) {
   $string = trim($string);
@@ -988,8 +990,10 @@ function ting_search_string_to_cql($string) {
 
 /**
  * Add quotes to string and escapes existing quotes
- * @param $string
+ * @param string $string
+ *   The search query
  * @return string
+ *   cql compatible string
  */
 function _ting_search_convert_string_to_cql($string) {
   // Escape quotes.
@@ -1004,8 +1008,10 @@ function _ting_search_convert_string_to_cql($string) {
 
 /**
  * Tests if a string is cql
- * @param $string
+ * @param string $string
+ *   The search query
  * @return bool|int
+ *   Whether the string is valid cql(TRUE) or not(FALSE)
  */
 function _ting_search_string_is_cql($string) {
   if(strpos($string, '"') !== false && (!preg_match('@ and | or | not |=@', $string) && !(substr($string, 0, 1) === '"' && substr($string, -1) === '"'))){
