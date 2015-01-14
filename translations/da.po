@@ -59274,6 +59274,10 @@ msgid "<a href=\"@url\">Search Content</a>"
 msgstr "<a href=\"@url\">Hjemmesiden</a> "
 
 #: /search/ting/harry%20pott
+msgid "<a href=\"@url\">search content</a>"
+msgstr "<a href=\"@url\">Hjemmesiden</a> "
+
+#: /search/ting/harry%20pott
 msgid "<a href=\"@url\">Search Ting</a>"
 msgstr "<a href=\"@url\">Biblioteksbasen</a> "
 
