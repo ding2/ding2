@@ -77,6 +77,6 @@ libraries[ckeditor][destination] = "libraries"
 
 projects[ding_page][type] = "module"
 projects[ding_page][download][type] = "git"
-projects[ding_page][download][url] = "git@github.com:ding2tal/ding_page.git"
-projects[ding_page][download][branch] = "development"
+projects[ding_page][download][url] = "git@github.com:ding2/ding_page.git"
+projects[ding_page][download][branch] = "master"
 
