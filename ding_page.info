@@ -57,6 +57,7 @@ features[field_instance][] = node-ding_page-field_ding_page_materials
 features[field_instance][] = node-ding_page-field_ding_page_tags
 features[field_instance][] = node-ding_page-field_ding_page_title_image
 features[menu_blocks][] = 3
+features[menu_blocks][] = 4
 features[menu_custom][] = menu-secondary-menu
 features[node][] = ding_page
 features[page_manager_handlers][] = node_view_panel_context_4
