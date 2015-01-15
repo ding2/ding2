@@ -6,7 +6,7 @@
  * DDB CMS is a Drupal based frontend in use by Danish public libraries.
  */
 
-// Standard error message when the webservice does not respond
+// Standard error message when the webservice does not respond.
 define('DDB_CP_MSG_ERROR_NO_WEB_SERVICE', 'Cannot communicate with the DDB Webservice.');
 
 /**
@@ -108,12 +108,12 @@ function ddb_cp_permission() {
 /**
  * Function to return raw Jenkins XML test report or 'Page not found'.
  *
- * @param $site
+ * @param string $site
  *   'dev' or 'stg' to select the site.
  * @param null $number
  *   Optional number to select a specific test run - defaults to latest.
  *
- * @return
+ * @return mixed
  *   XML data or 'Page not found'.
  */
 function ddb_cp_get_test_result($site = NULL, $number = NULL) {
@@ -125,6 +125,8 @@ function ddb_cp_get_test_result($site = NULL, $number = NULL) {
   else {
     return MENU_NOT_FOUND;
   }
+
+  // @TODO: This function never returns any XML data only page not found error code?
 }
 
 /**
@@ -143,6 +145,11 @@ function ddb_cp_create_dev_submit($form, &$form_state) {
 
 /**
  * Form submit routine to create a new staging site.
+ *
+ * @param array $form
+ *   The form that have been submitted.
+ * @param array $form_state
+ *   The forms state information.
  */
 function ddb_cp_create_stg_submit($form, &$form_state) {
   if (ddb_cp_ws()->execute('Create staging site', array('SITE' => ddb_cp_ws()->names['prod']))) {
@@ -156,7 +163,12 @@ function ddb_cp_create_stg_submit($form, &$form_state) {
 }
 
 /**
- * Form submit routine to update production site to current staging site platform.
+ * Form submit to update production site to current staging site platform.
+ *
+ * @param array $form
+ *   The form that have been submitted.
+ * @param array $form_state
+ *   The forms state information.
  */
 function ddb_cp_update_prod_submit($form, &$form_state) {
   if (ddb_cp_ws()->execute('Update production site', array('SITE' => ddb_cp_ws()->names['prod']))) {
@@ -172,7 +184,7 @@ function ddb_cp_update_prod_submit($form, &$form_state) {
 /**
  * Function to recreate a developer and/or staging site.
  *
- * @param $site
+ * @param string $site
  *   'dev' or 'stg' to indicate the site type to recreate.
  */
 function ddb_cp_ajax_recreate($site) {
@@ -210,13 +222,13 @@ function ddb_cp_ajax_status() {
     }
   }
 
-  return drupal_json_output($result);
+  drupal_json_output($result);
 }
 
 /**
  * Ajax callback to initiate a site test.
  *
- * @param $site
+ * @param string $site
  *   Full DNS name of site to test.
  */
 function ddb_cp_ajax_test_execute($site) {
@@ -228,10 +240,10 @@ function ddb_cp_ajax_test_execute($site) {
 /**
  * Ajax callback to fetch test result from Jenkins server.
  *
- * @param $site
+ * @param string $site
  *   'dev' or 'stg' to select test result.
  *
- * @return
+ * @return mixed
  *   JSON encoded HTML to display test result or 'Page not found'.
  */
 function ddb_cp_ajax_test_result($site = NULL) {
@@ -243,19 +255,21 @@ function ddb_cp_ajax_test_result($site = NULL) {
   else {
     return MENU_NOT_FOUND;
   }
+
+  // @todo: Missing return statement it will note return any thing if the if statement is hit?
 }
 
 /**
  * Function to return raw XML result file from Jenkins server.
  *
- * @param $site
+ * @param string $site
  *   'dev' or 'stg' to select the site.
  * @param null $number
  *   Optional number to select a specific test run - defaults to latest.
  */
 function _ddb_cp_save_test_result($site = NULL, $number = NULL) {
   if (isset($site)) {
-    if ($xml = ddb_cp_ws()->test_report(ddb_cp_ws()->names[$site], $number)) {
+    if ($xml = ddb_cp_ws()->testReport(ddb_cp_ws()->names[$site], $number)) {
       drupal_add_http_header('Content-Type', 'text/xml; charset=utf-8');
       if (isset($number)) {
         drupal_add_http_header('Content-Disposition', 'attachment; filename="Testreport ' . ddb_cp_ws()->names[$site] . ' build ' . $number . '.xml"');
@@ -276,10 +290,12 @@ function _ddb_cp_save_test_result($site = NULL, $number = NULL) {
 /**
  * Returns an HTML formatted site status message string.
  *
- * @param $site
+ * @param string $site
  *   'prod', 'dev', or 'stg' site to format message for.
- * @param $status
+ * @param mixed $status
  *   Site-specific status record as selected by ddb_cp_ajax_status()
+ *
+ * @todo: All the HTML in this would be nice to have into tpl's and theme functions.
  *
  * @return string
  *   An HTML formatted site status string.
@@ -327,8 +343,10 @@ function _ddb_cp_get_site_status_message($site, $status) {
 /**
  * Retrieves and formats a full test report from a Jenkins server.
  *
- * @param $site
+ * @param string $site
  *   'dev' or 'stg' site to get test report for.
+ *
+ * @todo: All the HTML in this would be nice to have into tpl's and theme functions.
  *
  * @return string
  *   An HTML formatted <div/> showing Jenkins test report.
@@ -340,7 +358,7 @@ function _ddb_cp_get_test_result($site = NULL) {
     $buildnumber = NULL;
     $buildurl = NULL;
 
-    if ($data = ddb_cp_ws()->test_result(ddb_cp_ws()->names[$site])) {
+    if ($data = ddb_cp_ws()->testResult(ddb_cp_ws()->names[$site])) {
       $xml = simplexml_load_string($data);
       $node = $xml->xpath('/freeStyleBuild/number');
       if (isset($node)) {
@@ -348,6 +366,7 @@ function _ddb_cp_get_test_result($site = NULL) {
       }
       $node = $xml->xpath('/freeStyleBuild/url');
       if (isset($node)) {
+        // @todo: This variable is only being set but never begin used?
         $buildurl = $node[0]->__toString();
       }
     }
@@ -357,7 +376,7 @@ function _ddb_cp_get_test_result($site = NULL) {
 
     $test = array();
 
-    if ($data = ddb_cp_ws()->test_report(ddb_cp_ws()->names[$site])) {
+    if ($data = ddb_cp_ws()->testReport(ddb_cp_ws()->names[$site])) {
       $xml = simplexml_load_string($data);
 
       foreach ($xml->xpath('/testResult/suite/case') as $node) {
@@ -430,10 +449,12 @@ function _ddb_cp_get_test_result($site = NULL) {
 /**
  * Returns an HTML formatted test status message string.
  *
- * @param $site
+ * @param string $site
  *   'dev' or 'stg' site to format message for.
- * @param $status
+ * @param mixed $status
  *   Site-specific status record as selected by ddb_cp_ajax_status()
+ *
+ * @todo: All the HTML in this would be nice to have into tpl's and theme functions.
  *
  * @return string
  *   An HTML formatted test status string.
@@ -530,10 +551,10 @@ function _ddb_cp_get_test_status_message($site, $status) {
 /**
  * Function to format test summary description.
  *
- * @param $status
+ * @param mixed $status
  *   Site-specific status record as selected by ddb_cp_ajax_status()
  *
- * @return
+ * @return string
  *   A formatted test summary string.
  */
 function _ddb_cp_get_test_status_summary($status) {

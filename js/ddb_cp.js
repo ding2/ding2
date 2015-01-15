@@ -29,7 +29,7 @@
         button.removeClass('form-button-disabled').removeAttr('disabled');
       }
 
-      /*
+      /**
        * Toggles visibility of branches in the test report tree.
        * 
        * @param branch
