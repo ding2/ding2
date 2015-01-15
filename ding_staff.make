@@ -2,7 +2,7 @@ api = 2
 core = 7.x
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.4"
+projects[ctools][version] = "1.5"
 
 projects[cs_adaptive_image][subdir] = "contrib"
 projects[cs_adaptive_image][version] = "1.0"
