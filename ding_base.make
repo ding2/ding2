@@ -6,7 +6,7 @@ projects[autologout][subdir] = "contrib"
 projects[autologout][version] = "4.3"
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.4"
+projects[ctools][version] = "1.5"
 
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.0"
