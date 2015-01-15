@@ -7,7 +7,7 @@ projects[cache_actions][subdir] = "contrib"
 projects[cache_actions][version] = "2.0-alpha5"
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.4"
+projects[ctools][version] = "1.5"
 
 projects[entity][subdir] = "contrib"
 projects[entity][version] = "1.5"
