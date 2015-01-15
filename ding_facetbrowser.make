@@ -3,7 +3,7 @@ api = 2
 
 ; Projects
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.4"
+projects[ctools][version] = "1.5"
 
 projects[ting][type] = "module"
 projects[ting][download][type] = "git"
