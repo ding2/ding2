@@ -8,7 +8,7 @@ projects[ding_base][download][branch] = "development"
 
 ; Projects
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.4"
+projects[ctools][version] = "1.5"
 
 projects[features_extra][subdir] = "contrib"
 projects[features_extra][version] = "1.0-beta1"
