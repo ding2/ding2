@@ -24,6 +24,7 @@
  * @ingroup views_templates
  */
 
+// check for well-formed html - position, phone og email may be null.
 $name_title_wrapper = $contact_wrapper = FALSE;
 
 foreach ($fields as $id => $field) {
