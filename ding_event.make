@@ -70,6 +70,7 @@ projects[file_entity][version] = "2.0-alpha3"
 
 projects[og][subdir] = "contrib"
 projects[og][version] = "2.5"
+projects[og][patch][] = "https://www.drupal.org/files/issues/entityreference_fields_do_not_validate-2249261-10.patch"
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
