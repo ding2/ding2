@@ -27,8 +27,27 @@ function ding_user_frontend_menu_alter(&$items) {
   $provider = _ding_provider_get_provider('user');
   $items['user/%user/edit/provider_' . $provider['module']]['access'] = FALSE;
 
+  // Disable account sub-menu link (account and staff tabs).
+  $items['user/%user_category/edit/account']['access callback'] = 'ding_user_frontend_is_provider_user';
+  $items['user/%user_category/edit/account']['access arguments'] = array(1);
+
   // Change weight of user edit link, so it always second menu item.
   $items['user/%user/edit']['weight'] = -5;
+}
+
+/**
+ * Access callback to test if user is provider user.
+ *
+ * This is used to remove account and staff profile tabs on user edit pages.
+ *
+ * @param StdClass $account
+ *   User account.
+ *
+ * @return bool
+ *   If user is provider FALSE else TRUE.
+ */
+function ding_user_frontend_is_provider_user($account) {
+  return !ding_user_is_provider_user($account);
 }
 
 /**
@@ -282,7 +301,7 @@ function ding_user_frontend_build_menu($path = NULL) {
           if (!empty($children[$item['path']])) {
             // Check that the sub-menu should be display, based on the path.
             $pos = stripos($router_item['href'], $item['href']);
-            if (!empty($pos)) {
+            if ($pos === 0) {
               $current['#below'] = array(
                 '#theme_wrappers' => array(
                   'theme_hook_suggestions' => array(

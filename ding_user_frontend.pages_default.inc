@@ -67,10 +67,11 @@ function ding_user_frontend_default_page_manager_handlers() {
   );
   $display->cache = array();
   $display->title = 'Rediger profil';
+  $display->uuid = '554649f4-0529-4783-9b86-51026c768269';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-1';
+    $pane->pid = 'new-8bf84cda-201b-4d35-8df9-54edaf360565';
     $pane->panel = 'main_content';
     $pane->type = 'profile2_form';
     $pane->subtype = 'profile2_form';
@@ -92,8 +93,9 @@ function ding_user_frontend_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-1'] = $pane;
-    $display->panels['main_content'][0] = 'new-1';
+    $pane->uuid = '8bf84cda-201b-4d35-8df9-54edaf360565';
+    $display->content['new-8bf84cda-201b-4d35-8df9-54edaf360565'] = $pane;
+    $display->panels['main_content'][0] = 'new-8bf84cda-201b-4d35-8df9-54edaf360565';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -163,10 +165,11 @@ function ding_user_frontend_default_page_manager_handlers() {
   );
   $display->cache = array();
   $display->title = '';
+  $display->uuid = '87c1ede8-382a-4c1e-aed4-19f750af7522';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-2';
+    $pane->pid = 'new-121673e4-ec13-4123-88da-a3851e600028';
     $pane->panel = 'left_sidebar';
     $pane->type = 'user_menu';
     $pane->subtype = 'user_menu';
@@ -185,10 +188,11 @@ function ding_user_frontend_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-2'] = $pane;
-    $display->panels['left_sidebar'][0] = 'new-2';
+    $pane->uuid = '121673e4-ec13-4123-88da-a3851e600028';
+    $display->content['new-121673e4-ec13-4123-88da-a3851e600028'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-121673e4-ec13-4123-88da-a3851e600028';
     $pane = new stdClass();
-    $pane->pid = 'new-3';
+    $pane->pid = 'new-7a8a1910-8380-44a6-9b6e-6e1fe10cbc2d';
     $pane->panel = 'main_content';
     $pane->type = 'profile2_form';
     $pane->subtype = 'profile2_form';
@@ -210,8 +214,9 @@ function ding_user_frontend_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-3'] = $pane;
-    $display->panels['main_content'][0] = 'new-3';
+    $pane->uuid = '7a8a1910-8380-44a6-9b6e-6e1fe10cbc2d';
+    $display->content['new-7a8a1910-8380-44a6-9b6e-6e1fe10cbc2d'] = $pane;
+    $display->panels['main_content'][0] = 'new-7a8a1910-8380-44a6-9b6e-6e1fe10cbc2d';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -224,7 +229,7 @@ function ding_user_frontend_default_page_manager_handlers() {
   $handler->task = 'user_view';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
-  $handler->weight = 0;
+  $handler->weight = -28;
   $handler->conf = array(
     'title' => 'Use profile',
     'no_blocks' => 0,
@@ -243,14 +248,28 @@ function ding_user_frontend_default_page_manager_handlers() {
       'left' => NULL,
       'right' => NULL,
       'middle' => NULL,
+      'left_sidebar' => NULL,
+      'main_content' => NULL,
+      'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
     ),
   );
   $display->cache = array();
-  $display->title = '';
+  $display->title = 'Account';
+  $display->uuid = '2bee1e6c-8cb9-489a-9b3e-9e80b6417074';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-4';
+    $pane->pid = 'new-dc4b2f5e-f42e-48bd-9f01-f81841042dbf';
     $pane->panel = 'main_content';
     $pane->type = 'user_profile';
     $pane->subtype = 'user_profile';
@@ -269,8 +288,9 @@ function ding_user_frontend_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-4'] = $pane;
-    $display->panels['main_content'][0] = 'new-4';
+    $pane->uuid = 'dc4b2f5e-f42e-48bd-9f01-f81841042dbf';
+    $display->content['new-dc4b2f5e-f42e-48bd-9f01-f81841042dbf'] = $pane;
+    $display->panels['main_content'][0] = 'new-dc4b2f5e-f42e-48bd-9f01-f81841042dbf';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -283,7 +303,7 @@ function ding_user_frontend_default_page_manager_handlers() {
   $handler->task = 'user_view';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
-  $handler->weight = -30;
+  $handler->weight = -29;
   $handler->conf = array(
     'title' => 'Provider profile',
     'no_blocks' => 0,
@@ -310,6 +330,17 @@ function ding_user_frontend_default_page_manager_handlers() {
           'settings' => NULL,
           'context' => array(
             0 => 'logged-in-user',
+          ),
+          'not' => FALSE,
+        ),
+        1 => array(
+          'name' => 'compare_users',
+          'settings' => array(
+            'equality' => '1',
+          ),
+          'context' => array(
+            0 => 'argument_entity_id:user_1',
+            1 => 'logged-in-user',
           ),
           'not' => FALSE,
         ),
@@ -340,11 +371,12 @@ function ding_user_frontend_default_page_manager_handlers() {
     ),
   );
   $display->cache = array();
-  $display->title = 'Welcome %logged_in_user:name';
+  $display->title = 'Account';
+  $display->uuid = 'b4301b96-c745-4fea-8ae9-41cc346cb2cf';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-5';
+    $pane->pid = 'new-c73e6fbd-2403-4298-8cdb-00ed617c8e5d';
     $pane->panel = 'left_sidebar';
     $pane->type = 'user_menu';
     $pane->subtype = 'user_menu';
@@ -363,10 +395,11 @@ function ding_user_frontend_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-5'] = $pane;
-    $display->panels['left_sidebar'][0] = 'new-5';
+    $pane->uuid = 'c73e6fbd-2403-4298-8cdb-00ed617c8e5d';
+    $display->content['new-c73e6fbd-2403-4298-8cdb-00ed617c8e5d'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-c73e6fbd-2403-4298-8cdb-00ed617c8e5d';
     $pane = new stdClass();
-    $pane->pid = 'new-6';
+    $pane->pid = 'new-d8e66878-81ac-4da6-9c30-eb876b25af49';
     $pane->panel = 'main_content';
     $pane->type = 'block';
     $pane->subtype = 'ding_user_frontend-ding-user-loan-number';
@@ -387,10 +420,11 @@ function ding_user_frontend_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-6'] = $pane;
-    $display->panels['main_content'][0] = 'new-6';
+    $pane->uuid = 'd8e66878-81ac-4da6-9c30-eb876b25af49';
+    $display->content['new-d8e66878-81ac-4da6-9c30-eb876b25af49'] = $pane;
+    $display->panels['main_content'][0] = 'new-d8e66878-81ac-4da6-9c30-eb876b25af49';
     $pane = new stdClass();
-    $pane->pid = 'new-7';
+    $pane->pid = 'new-96284cb3-0776-42ec-808d-fbd0707cd346';
     $pane->panel = 'main_content';
     $pane->type = 'profile2';
     $pane->subtype = 'profile2';
@@ -405,8 +439,9 @@ function ding_user_frontend_default_page_manager_handlers() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = array();
-    $display->content['new-7'] = $pane;
-    $display->panels['main_content'][1] = 'new-7';
+    $pane->uuid = '96284cb3-0776-42ec-808d-fbd0707cd346';
+    $display->content['new-96284cb3-0776-42ec-808d-fbd0707cd346'] = $pane;
+    $display->panels['main_content'][1] = 'new-96284cb3-0776-42ec-808d-fbd0707cd346';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -512,10 +547,11 @@ function ding_user_frontend_default_page_manager_pages() {
   );
   $display->cache = array();
   $display->title = 'My bookmarks';
+  $display->uuid = '5c12fb2f-0dd6-4879-8a57-035574cc03fc';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-1';
+    $pane->pid = 'new-73b329e8-9053-4a19-8207-566065ab789a';
     $pane->panel = 'left_sidebar';
     $pane->type = 'user_menu';
     $pane->subtype = 'user_menu';
@@ -534,10 +570,11 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-1'] = $pane;
-    $display->panels['left_sidebar'][0] = 'new-1';
+    $pane->uuid = '73b329e8-9053-4a19-8207-566065ab789a';
+    $display->content['new-73b329e8-9053-4a19-8207-566065ab789a'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-73b329e8-9053-4a19-8207-566065ab789a';
     $pane = new stdClass();
-    $pane->pid = 'new-2';
+    $pane->pid = 'new-3d86446d-d17a-4d20-80c2-72809fca9aa4';
     $pane->panel = 'main_content';
     $pane->type = 'bookmarks';
     $pane->subtype = 'bookmarks';
@@ -556,8 +593,32 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-2'] = $pane;
-    $display->panels['main_content'][0] = 'new-2';
+    $pane->uuid = '3d86446d-d17a-4d20-80c2-72809fca9aa4';
+    $display->content['new-3d86446d-d17a-4d20-80c2-72809fca9aa4'] = $pane;
+    $display->panels['main_content'][0] = 'new-3d86446d-d17a-4d20-80c2-72809fca9aa4';
+    $pane = new stdClass();
+    $pane->pid = 'new-bc51c997-ee62-4d4c-a265-4a33078ef979';
+    $pane->panel = 'main_content';
+    $pane->type = 'import';
+    $pane->subtype = 'import';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => 'argument_entity_id:user_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $pane->uuid = 'bc51c997-ee62-4d4c-a265-4a33078ef979';
+    $display->content['new-bc51c997-ee62-4d4c-a265-4a33078ef979'] = $pane;
+    $display->panels['main_content'][1] = 'new-bc51c997-ee62-4d4c-a265-4a33078ef979';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -669,10 +730,11 @@ function ding_user_frontend_default_page_manager_pages() {
   );
   $display->cache = array();
   $display->title = 'Mine udeståender';
+  $display->uuid = '7df426ee-6800-4124-b929-4391f02d19bd';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-3';
+    $pane->pid = 'new-bc35a6a8-ac4b-4d43-a9ce-5530d19e355f';
     $pane->panel = 'left_sidebar';
     $pane->type = 'user_menu';
     $pane->subtype = 'user_menu';
@@ -691,10 +753,11 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-3'] = $pane;
-    $display->panels['left_sidebar'][0] = 'new-3';
+    $pane->uuid = 'bc35a6a8-ac4b-4d43-a9ce-5530d19e355f';
+    $display->content['new-bc35a6a8-ac4b-4d43-a9ce-5530d19e355f'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-bc35a6a8-ac4b-4d43-a9ce-5530d19e355f';
     $pane = new stdClass();
-    $pane->pid = 'new-4';
+    $pane->pid = 'new-e2022ee9-76c6-459f-a099-31e801455557';
     $pane->panel = 'main_content';
     $pane->type = 'debts';
     $pane->subtype = 'debts';
@@ -713,10 +776,11 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-4'] = $pane;
-    $display->panels['main_content'][0] = 'new-4';
+    $pane->uuid = 'e2022ee9-76c6-459f-a099-31e801455557';
+    $display->content['new-e2022ee9-76c6-459f-a099-31e801455557'] = $pane;
+    $display->panels['main_content'][0] = 'new-e2022ee9-76c6-459f-a099-31e801455557';
     $pane = new stdClass();
-    $pane->pid = 'new-5';
+    $pane->pid = 'new-a02ec119-af14-4c5c-bdf3-f742b32486a7';
     $pane->panel = 'main_content';
     $pane->type = 'block';
     $pane->subtype = 'ding_dibs-dibs-terms-of-sale';
@@ -734,10 +798,11 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = '';
-    $display->content['new-5'] = $pane;
-    $display->panels['main_content'][1] = 'new-5';
+    $pane->uuid = 'a02ec119-af14-4c5c-bdf3-f742b32486a7';
+    $display->content['new-a02ec119-af14-4c5c-bdf3-f742b32486a7'] = $pane;
+    $display->panels['main_content'][1] = 'new-a02ec119-af14-4c5c-bdf3-f742b32486a7';
     $pane = new stdClass();
-    $pane->pid = 'new-6';
+    $pane->pid = 'new-6de0581e-da74-4598-8800-395eee76efdd';
     $pane->panel = 'main_content';
     $pane->type = 'block';
     $pane->subtype = 'ding_dibs-dibs-cards-supported';
@@ -755,10 +820,11 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 2;
     $pane->locks = '';
-    $display->content['new-6'] = $pane;
-    $display->panels['main_content'][2] = 'new-6';
+    $pane->uuid = '6de0581e-da74-4598-8800-395eee76efdd';
+    $display->content['new-6de0581e-da74-4598-8800-395eee76efdd'] = $pane;
+    $display->panels['main_content'][2] = 'new-6de0581e-da74-4598-8800-395eee76efdd';
   $display->hide_title = PANELS_TITLE_PANE;
-  $display->title_pane = 'new-4';
+  $display->title_pane = 'new-e2022ee9-76c6-459f-a099-31e801455557';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['user_debts'] = $page;
@@ -868,10 +934,11 @@ function ding_user_frontend_default_page_manager_pages() {
   );
   $display->cache = array();
   $display->title = 'Mine hjemlån';
+  $display->uuid = '846ee609-1e6e-4c1e-ada9-7009f8684530';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-7';
+    $pane->pid = 'new-95c59944-f02d-4a0c-95c4-a7a854e6a5f3';
     $pane->panel = 'left_sidebar';
     $pane->type = 'user_menu';
     $pane->subtype = 'user_menu';
@@ -890,10 +957,11 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-7'] = $pane;
-    $display->panels['left_sidebar'][0] = 'new-7';
+    $pane->uuid = '95c59944-f02d-4a0c-95c4-a7a854e6a5f3';
+    $display->content['new-95c59944-f02d-4a0c-95c4-a7a854e6a5f3'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-95c59944-f02d-4a0c-95c4-a7a854e6a5f3';
     $pane = new stdClass();
-    $pane->pid = 'new-8';
+    $pane->pid = 'new-375a2a68-afd4-4852-8e12-0b6af310c47a';
     $pane->panel = 'main_content';
     $pane->type = 'loans';
     $pane->subtype = 'loans';
@@ -912,8 +980,9 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-8'] = $pane;
-    $display->panels['main_content'][0] = 'new-8';
+    $pane->uuid = '375a2a68-afd4-4852-8e12-0b6af310c47a';
+    $display->content['new-375a2a68-afd4-4852-8e12-0b6af310c47a'] = $pane;
+    $display->panels['main_content'][0] = 'new-375a2a68-afd4-4852-8e12-0b6af310c47a';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -1025,10 +1094,11 @@ function ding_user_frontend_default_page_manager_pages() {
   );
   $display->cache = array();
   $display->title = '';
+  $display->uuid = 'ccd85251-4afb-4bd6-b41a-da31a734086c';
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-9';
+    $pane->pid = 'new-c142c84d-4448-41f1-b980-bf06bf2e0d38';
     $pane->panel = 'left_sidebar';
     $pane->type = 'user_menu';
     $pane->subtype = 'user_menu';
@@ -1047,10 +1117,11 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $display->content['new-9'] = $pane;
-    $display->panels['left_sidebar'][0] = 'new-9';
+    $pane->uuid = 'c142c84d-4448-41f1-b980-bf06bf2e0d38';
+    $display->content['new-c142c84d-4448-41f1-b980-bf06bf2e0d38'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-c142c84d-4448-41f1-b980-bf06bf2e0d38';
     $pane = new stdClass();
-    $pane->pid = 'new-10';
+    $pane->pid = 'new-422dddfe-35fd-4a5b-824a-cbcc7c68a86e';
     $pane->panel = 'main_content';
     $pane->type = 'reservations';
     $pane->subtype = 'reservations';
@@ -1080,10 +1151,11 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = '';
-    $display->content['new-10'] = $pane;
-    $display->panels['main_content'][0] = 'new-10';
+    $pane->uuid = '422dddfe-35fd-4a5b-824a-cbcc7c68a86e';
+    $display->content['new-422dddfe-35fd-4a5b-824a-cbcc7c68a86e'] = $pane;
+    $display->panels['main_content'][0] = 'new-422dddfe-35fd-4a5b-824a-cbcc7c68a86e';
     $pane = new stdClass();
-    $pane->pid = 'new-11';
+    $pane->pid = 'new-8947b7ce-b3b4-4a9a-8068-9eac82ea9dd3';
     $pane->panel = 'main_content';
     $pane->type = 'reservations';
     $pane->subtype = 'reservations';
@@ -1113,10 +1185,11 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->extras = array();
     $pane->position = 1;
     $pane->locks = '';
-    $display->content['new-11'] = $pane;
-    $display->panels['main_content'][1] = 'new-11';
+    $pane->uuid = '8947b7ce-b3b4-4a9a-8068-9eac82ea9dd3';
+    $display->content['new-8947b7ce-b3b4-4a9a-8068-9eac82ea9dd3'] = $pane;
+    $display->panels['main_content'][1] = 'new-8947b7ce-b3b4-4a9a-8068-9eac82ea9dd3';
   $display->hide_title = PANELS_TITLE_PANE;
-  $display->title_pane = 'new-10';
+  $display->title_pane = 'new-422dddfe-35fd-4a5b-824a-cbcc7c68a86e';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
   $pages['user_reservations'] = $page;
