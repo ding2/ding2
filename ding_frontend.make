@@ -18,6 +18,11 @@ projects[conditional_styles][version] = "2.2"
 
 projects[dynamic_background][subdir] = "contrib"
 projects[dynamic_background][version] = "2.0-rc4"
+// Ensures that file upload patch is created on file upload. It normally
+// created on settings form save, but as we use feature this do not work.
+// See https://www.drupal.org/node/2410241
+projects[dynamic_background][patch][] = "https://www.drupal.org/files/issues/create_file_path-2410241-1.patch"
+
 
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.0"
