@@ -11,7 +11,7 @@ projects[cs_adaptive_image][subdir] = "contrib"
 projects[cs_adaptive_image][version] = "1.0"
 
 projects[ctools][subdir] = "contrib"
-projects[ctools][version] = "1.4"
+projects[ctools][version] = "1.5"
 
 projects[conditional_styles][subdir] = "contrib"
 projects[conditional_styles][version] = "2.2"
