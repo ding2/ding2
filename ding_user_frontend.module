@@ -301,7 +301,7 @@ function ding_user_frontend_build_menu($path = NULL) {
           if (!empty($children[$item['path']])) {
             // Check that the sub-menu should be display, based on the path.
             $pos = stripos($router_item['href'], $item['href']);
-            if ($pos !== FALSE && !$pos) {
+            if ($pos === 0) {
               $current['#below'] = array(
                 '#theme_wrappers' => array(
                   'theme_hook_suggestions' => array(
