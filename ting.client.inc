@@ -280,13 +280,13 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
     if (!empty($fields)) {
       // Add the default anyIndex boosts.
       $fields[] = array(
-        'fieldName' => 'cql.anyIndexes',
+        'fieldName' => 'term.default',
         'fieldType' => 'phrase',
-        'weight' => 1,
+        'weight' => 2,
       );
 
       $fields[] = array(
-        'fieldName' => 'cql.anyIndexes',
+        'fieldName' => 'term.default',
         'fieldType' => 'word',
         'weight' => 1,
       );
