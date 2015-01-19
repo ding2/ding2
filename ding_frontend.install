@@ -35,9 +35,33 @@ function ding_frontend_install() {
   $shortcut_set->links = array(
     array(
       'link_path' => 'admin/structure/block/manage/block/1/configure',
-      'link_title' => t('Footer address'),
+      'link_title' => st('Footer address'),
       'weight' => -15,
     ),
   );
   shortcut_set_save($shortcut_set);
+
+  ding_frontend_dynamic_background_upload_path();
+}
+
+
+/**
+ * Create dynamic_background upload path.
+ */
+function ding_frontend_dynamic_background_upload_path() {
+  $settings = variable_get('dynamic_background_setting', array());
+  $path = isset($settings['path']) ? $settings['path'] : 'backgrounds';
+  $path = file_default_scheme() . '://' . $path;
+  if (!file_prepare_directory($path, FILE_CREATE_DIRECTORY)) {
+    drupal_set_message(t('dynamic_background: The entered path could not be created.'), 'error');
+    watchdog('dynamic_background', 'The entered path (%path) could not be created.', array('%path' => $path), WATCHDOG_ERROR);
+  }
+}
+
+
+/**
+ * Update dynamic_background upload path.
+ */
+function ding_frontend_update_7001(&$sandbox) {
+  ding_frontend_dynamic_background_upload_path();
 }
