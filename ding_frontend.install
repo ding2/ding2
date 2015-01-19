@@ -11,26 +11,71 @@
  * to exists. Therefor it's not inserted with the example content modules.
  */
 function ding_frontend_install() {
-  // Insert custom block with address in the footer.
-  db_insert('block_custom')
-    ->fields(array(
-      'body' => '<p>Bibliotek - Gadenavn 1 - 1234 Bynavn - Telefon: 12 34 56 78 - <a href="mailto:bibliotek@example.com">bibliotek@example.com</a></p>',
-      'info' => 'Footer adresse',
-      'format' => 'ding_wysiwyg',
-    ))
-    ->execute();
+  // Install footer address block.
+  ding_frontend_install_footer_address_block();
+}
+
+/**
+ * Insert footer address block into database.
+ *
+ * It also sets block access and an shortcut link.
+ */
+function ding_frontend_install_footer_address_block() {
+  // Look the table first if the block does exist.
+  $exists = db_query('SELECT bid from {block_custom} WHERE info =: info', array(
+    ':info' => 'Footer adresse',
+  ))->fetchField();
+
+  // Insert the block if the block does not exist.
+  if (!$exists) {
+    // Insert custom block with address in the footer.
+    $bid = db_insert('block_custom')
+      ->fields(array(
+        'body' => '<p>Bibliotek - Gadenavn 1 - 1234 Bynavn - Telefon: 12 34 56 78 - <a href="mailto:bibliotek@example.com">bibliotek@example.com</a></p>',
+        'info' => 'Footer adresse',
+        'format' => 'ding_wysiwyg',
+      ))
+      ->execute();
+
+    // Add role settings for custom footer block.
+    ding_frontend_install_footer_address_block_access($bid, 'local administrator');
+
+    // Add shortcut for customer footer block.
+    ding_frontend_install_footer_address_block_shortcut();
+  }
+}
+
+/**
+ * Set block access for the footer address block.
+ *
+ * @param string $delta
+ *   The blocks delta to add the permission for.
+ * @param string $role
+ *   The role that should access the body element on the block.
+ *
+ * @throws \Exception
+ */
+function ding_frontend_install_footer_address_block_access($delta, $role) {
+  // Find the role id for 'local administrator'.
+  $roles = user_roles(TRUE);
+  $rid = array_search($role, $roles);
 
   // Add role settings for custom footer block.
   db_insert('block_access_roles')
     ->fields(array(
       'module' => 'block',
-      'delta' => 1,
-      'rid' => 6,
-      'permission' => 'config_body'
+      'delta' => $delta,
+      'rid' => $rid,
+      'permission' => 'config_body',
     ))
     ->execute();
+}
 
-  // Add shortcut for cutomer footer block.
+/**
+ * Insert shortcut for easy editing.
+ */
+function ding_frontend_install_footer_address_block_shortcut() {
+  // Add shortcut for customer footer block.
   $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
   $shortcut_set->links = array(
     array(
@@ -39,29 +84,30 @@ function ding_frontend_install() {
       'weight' => -15,
     ),
   );
+
   shortcut_set_save($shortcut_set);
-
-  ding_frontend_dynamic_background_upload_path();
 }
-
-
-/**
- * Create dynamic_background upload path.
- */
-function ding_frontend_dynamic_background_upload_path() {
-  $settings = variable_get('dynamic_background_setting', array());
-  $path = isset($settings['path']) ? $settings['path'] : 'backgrounds';
-  $path = file_default_scheme() . '://' . $path;
-  if (!file_prepare_directory($path, FILE_CREATE_DIRECTORY)) {
-    drupal_set_message(t('dynamic_background: The entered path could not be created.'), 'error');
-    watchdog('dynamic_background', 'The entered path (%path) could not be created.', array('%path' => $path), WATCHDOG_ERROR);
-  }
-}
-
 
 /**
  * Update dynamic_background upload path.
  */
 function ding_frontend_update_7001(&$sandbox) {
-  ding_frontend_dynamic_background_upload_path();
+  // Empty du to changes in the code.
+}
+
+/**
+ * Set access for local administrator.
+ */
+function ding_frontend_update_7002(&$sandbox) {
+  $bid = db_query('SELECT bid from {block_custom} WHERE info =: info', array(
+    ':info' => 'Footer adresse',
+  ))->fetchField();
+
+  if ($bid) {
+    // Set access.
+    ding_frontend_install_footer_address_block_access($bid, 'local administrator');
+
+    // Added shortcut link for easy editing.
+    ding_frontend_install_footer_address_block_shortcut();
+  }
 }
