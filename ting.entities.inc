@@ -281,7 +281,7 @@ class TingEntity extends DingEntity {
    *   will be checked.
    *
    * @return mixed
-   *   URL to the online resource or the empty string if note found.
+   *   URL to the online resource or the empty string if not found.
    */
   function getOnline_url($get_relations = TRUE) {
     $url = '';
