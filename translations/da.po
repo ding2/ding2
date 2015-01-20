@@ -164,11 +164,11 @@ msgid "place2book"
 msgstr ""
 
 #: ding_place2book.module:476
-msgid "Unknown operation to place2book_event_op(): @op"
+msgid "Unknown operation to ding_place2book_event_op(): @op"
 msgstr ""
 
 #: ding_place2book.module:783
-msgid "Unknown operation to _place2book_db_op(): @op"
+msgid "Unknown operation to _ding_place2book_db_op(): @op"
 msgstr ""
 
 #: ding_place2book.module:123;133
