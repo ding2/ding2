@@ -53,6 +53,16 @@ function ding_groups_og_context_handler() {
 function ding_groups_node_insert($node) {
   if ($node->type == 'ding_group') {
     ding_groups_node_update($node);
+
+    // Get groups listing queue.
+    $queue = nodequeue_load_queue_by_name('ding_groups_listning');
+
+    // Load sub-queue.
+    $sub_queue = nodequeue_load_subqueues_by_queue($queue->qid);
+    $sub_queue = reset($sub_queue);
+
+    // Add the node to the queue.
+    nodequeue_subqueue_add($queue, $sub_queue, $node->nid);
   }
 }
 
