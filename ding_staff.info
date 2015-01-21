@@ -9,7 +9,6 @@ dependencies[] = ding_base
 dependencies[] = ding_content
 dependencies[] = ding_event
 dependencies[] = ding_permissions
-dependencies[] = ding_staff
 dependencies[] = email
 dependencies[] = entity
 dependencies[] = entityreference
