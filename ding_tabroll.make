@@ -33,5 +33,5 @@ projects[strongarm][version] = "2.0"
 
 projects[ding_library][type] = "module"
 projects[ding_library][download][type] = "git"
-projects[ding_library][download][url] = "git@github.com:ding2ding_library.git"
+projects[ding_library][download][url] = "git@github.com:ding2/ding_library.git"
 projects[ding_library][download][branch] = "master"
