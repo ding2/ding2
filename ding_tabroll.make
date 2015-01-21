@@ -10,11 +10,6 @@ projects[nodequeue][version] = "2.0-beta1"
 projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.1"
 
-projects[ding_library][type] = "module"
-projects[ding_library][download][type] = "git"
-projects[ding_library][download][url] = "git@github.com:ding2tal/ding_library.git"
-projects[ding_library][download][tag] = "master"
-
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.0"
 
@@ -33,3 +28,8 @@ projects[views][version] = "3.8"
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
+
+projects[ding_library][type] = "module"
+projects[ding_library][download][type] = "git"
+projects[ding_library][download][url] = "git@github.com:ding2ding_library.git"
+projects[ding_library][download][branch] = "master"
