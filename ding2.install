@@ -1,5 +1,29 @@
 <?php
-// $Id$
+/**
+ * @file
+ * Setup default theme, shortcuts, roles, language, search and features.
+ */
+
+/**
+ * Implements hook_requirements().
+ *
+ * Display build version on the status report page.
+ */
+function ding2_requirements($phase) {
+  $t = get_t();
+
+  // Get version form the profiles info file.
+  $info = install_profile_info('ding2');
+  if ($phase == 'runtime') {
+    return array(
+      'ddb_version' => array(
+        'title' => $t('DDB Version'),
+        'value' => !empty($info['version']) ? $info['version'] : 'development',
+        'severity' => REQUIREMENT_INFO,
+      ),
+    );
+  }
+}
 
 /**
  * Implements hook_install().
@@ -7,140 +31,68 @@
  * Perform actions to set up the site for this profile.
  */
 function ding2_install() {
-  // Enable some standard blocks.
-  // Default theme is Bartik in D7
-  $ding2_theme = 'bartik';
+  // Set default variables.
+  $default_theme = 'ddbasic';
+  $admin_theme = 'seven';
 
-  $values = array(
+  $t = get_t();
+
+  //
+  // Disable all themes and only active default and admin themes.
+  //
+  db_update('system')
+    ->fields(array('status' => 0))
+    ->condition('type', 'theme')
+    ->execute();
+
+  // Enable themes.
+  theme_enable(array($default_theme, $admin_theme));
+
+  // Enable $default_theme.
+  variable_set('theme_default', $default_theme);
+
+  // Enable $admin_theme.
+  variable_set('admin_theme', $admin_theme);
+
+  // Activate admin theme when editing a node.
+  variable_set('node_admin_theme', '1');
+
+  //
+  // Add shortcuts to the default set on install.
+  //
+  $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
+  $shortcut_set->links = NULL;
+  $shortcut_set->links = array(
     array(
-      'module' => 'system',
-      'delta' => 'main',
-      'theme' => $ding2_theme,
-      'status' => 1,
-      'weight' => 0,
-      'region' => 'content',
-      'pages' => '',
-      'cache' => -1,
-      'title' => '',
+      'link_path' => 'admin/config/regional/translate',
+      'link_title' => $t('Translation'),
+      'weight' => -17,
     ),
     array(
-      'module' => 'locale',
-      'delta' => 'language',
-      'theme' => $ding2_theme,
-      'status' => 1,
-      'weight' => 1,
-      'region' => 'header',
-      'pages' => '',
-      'cache' => -1,
-      'title' => '<none>',
+      'link_path' => 'admin/appearance/settings/ddbasic',
+      'link_title' => $t('Theme settings'),
+      'weight' => -18,
     ),
     array(
-      'module' => 'search',
-      'delta' => 'form',
-      'theme' => $ding2_theme,
-      'status' => 1,
-      'weight' => 0,
-      'region' => 'highlighted',
-      'pages' => '',
-      'cache' => -1,
-      'title' => '',
-    ),
-    array(
-      'module' => 'user',
-      'delta' => 'login',
-      'theme' => $ding2_theme,
-      'status' => 1,
-      'weight' => 1,
-      'region' => 'sidebar_second',
-      'pages' => '',
-      'cache' => -1,
-      'title' => '<none>',
-    ),
-    array(
-      'module' => 'ding_user_frontend',
-      'delta' => 'ding-username',
-      'theme' => $ding2_theme,
-      'status' => 1,
-      'weight' => 2,
-      'region' => 'sidebar_second',
-      'pages' => '',
-      'cache' => -1,
-      'title' => '<none>',
-    ),
-    array(
-      'module' => 'ding_user_frontend',
-      'delta' => 'ding-user-loan-number',
-      'theme' => $ding2_theme,
-      'status' => 1,
-      'weight' => 3,
-      'region' => 'sidebar_second',
-      'pages' => '',
-      'cache' => -1,
-      'title' => '<none>',
-    ),
-    array(
-      'module' => 'menu',
-      'delta' => 'menu-footer-menu-1',
-      'theme' => $ding2_theme,
-      'status' => 1,
-      'weight' => 1,
-      'region' => 'footer',
-      'pages' => '',
-      'cache' => -1,
-      'title' => '',
-    ),
-    array(
-      'module' => 'menu',
-      'delta' => 'menu-footer-menu-2',
-      'theme' => $ding2_theme,
-      'status' => 1,
-      'weight' => 2,
-      'region' => 'footer',
-      'pages' => '',
-      'cache' => -1,
-      'title' => '',
-    ),
-    array(
-      'module' => 'menu',
-      'delta' => 'menu-footer-menu-3',
-      'theme' => $ding2_theme,
-      'status' => 1,
-      'weight' => 3,
-      'region' => 'footer',
-      'pages' => '',
-      'cache' => -1,
-      'title' => '',
-    ),
-    array(
-      'module' => 'menu',
-      'delta' => 'menu-footer-menu-4',
-      'theme' => $ding2_theme,
-      'status' => 1,
-      'weight' => 4,
-      'region' => 'footer',
-      'pages' => '',
-      'cache' => -1,
-      'title' => '',
-    ),
-    array(
-      'module' => 'ding_library',
-      'delta' => 'library_address',
-      'theme' => $ding2_theme,
-      'status' => 1,
-      'weight' => 5,
-      'region' => 'footer',
-      'pages' => '',
-      'cache' => 8,
-      'title' => '',
+      'link_path' => 'admin/config/user-interface/backgrounds',
+      'link_title' => $t('Backgrounds'),
+      'weight' => -19,
     ),
   );
-  $query = db_insert('block')->fields(array('module', 'delta', 'theme', 'status', 'weight', 'region', 'pages', 'cache', 'title'));
-  foreach ($values as $record) {
-    $query->values($record);
-  }
-  $query->execute();
+  shortcut_set_save($shortcut_set);
 
+  // Set default source language for i18n module.
+  variable_set('i18n_string_source_language', 'en');
+
+  // Disable configurable timezones for users.
+  variable_set('configurable_timezones', 0);
+
+  // Select the ding_frontpage as front page.
+  variable_set('site_frontpage', 'ding_frontpage');
+
+  //
   // Enable ting search as default.
+  //
   variable_set('search_active_modules', array(
       'node' => 'node',
       'ting_search' => 'ting_search',
@@ -149,47 +101,166 @@ function ding2_install() {
     ));
   variable_set('search_default_module', 'ting_search');
 
+  //
   // Enable the panel pages for ting objects and search.
+  //
   variable_set('ting_ting_object_disabled', FALSE);
   variable_set('ting_ting_collection_disabled', FALSE);
   variable_set('page_manager_search_disabled_ting_search', FALSE);
 
+  //
   // Allow visitor account creation, but with administrative approval.
+  //
   variable_set('user_register', USER_REGISTER_ADMINISTRATORS_ONLY);
 
-  // Enable default permissions for system roles.
-  user_role_grant_permissions(DRUPAL_ANONYMOUS_RID, array('access content', 'search content'));
-  user_role_grant_permissions(DRUPAL_AUTHENTICATED_RID, array('access content', 'search content'));
+  // Submit theme settings.
+  variable_set('theme_' . $default_theme . '_settings', ding2_theme_settings());
+  ding_base_rewrite_color_stylesheet();
 
-  // Create a default role for site administrators, with all available permissions assigned.
-  $admin_role = new stdClass();
-  $admin_role->name = 'administrator';
-  $admin_role->weight = 2;
-  user_role_save($admin_role);
-  user_role_grant_permissions($admin_role->rid, array_keys(module_invoke_all('permission')));
-  // Set this as the administrator role.
-  variable_set('user_admin_role', $admin_role->rid);
+  // Ignore any rebuild messages.
+  node_access_needs_rebuild(FALSE);
 
-  // Assign user 1 the "administrator" role.
-  db_insert('users_roles')
-    ->fields(array('uid' => 1, 'rid' => $admin_role->rid))
-    ->execute();
+  // Ignore any other install messages.
+  drupal_get_messages();
 
-  // Enable the admin theme.
-  db_update('system')
-    ->fields(array('status' => 1))
-    ->condition('type', 'theme')
-    ->condition('name', 'seven')
-    ->execute();
-  variable_set('admin_theme', 'seven');
-  variable_set('node_admin_theme', '1');
+  // Clear caches.
+  drupal_flush_all_caches();
+}
 
-  // Set default source language for i18n module
-  variable_set('i18n_string_source_language', 'en');
+/**
+ * Set default theme setting for ddbasic.
+ *
+ * @return array
+ *   The default theme settings.
+ */
+function ding2_theme_settings() {
+  return array(
+    'toggle_logo' => 1,
+    'toggle_name' => 0,
+    'toggle_slogan' => 0,
+    'toggle_node_user_picture' => 0,
+    'toggle_comment_user_picture' => 0,
+    'toggle_comment_user_verification' => 1,
+    'toggle_favicon' => 1,
+    'toggle_main_menu' => 1,
+    'toggle_secondary_menu' => 1,
+    'default_logo' => 1,
+    'default_favicon' => 1,
+    'latto_classes_menu_leaf' => 1,
+    'latto_classes_menu_has_children' => 1,
+    'latto_classes_menu_items_mlid' => 1,
+    'main_menu_sticky' => 0,
+    'load_html5js' => 1,
+    'load_selectivizr' => 1,
+    'load_scalefixjs' => 1,
+    'load_equalize' => 1,
+    'libraries_check_all' => 0,
+  );
+}
 
-  // Disable configurable timezones for users
-  variable_set('configurable_timezones', 0);
+/**
+ * Update the database with the newest translations.
+ */
+function ding2_translation_update() {
+  // Update build-in translation group.
+  $file = new stdClass();
+  $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/da.po';
+  $file->filename = basename($file->uri);
+  _locale_import_po($file, 'da', LOCALE_IMPORT_KEEP, 'default');
 
-  // Select the ding_frontpage as front page.
-  variable_set('site_frontpage', 'ding_frontpage');
+  // Update field translation group.
+  $file = new stdClass();
+  $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/fields_da.po';
+  $file->filename = basename($file->uri);
+  _locale_import_po($file, 'da', LOCALE_IMPORT_KEEP, 'field');
+}
+
+/**
+ * Enable new shortcuts.
+ */
+function ding2_update_7000() {
+  $t = get_t();
+
+  $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
+
+  $shortcut_set->links[] = array(
+    'link_path' => 'admin/appearance/settings/ddbasic',
+    'link_title' => $t('Theme settings'),
+    'weight' => -18,
+  );
+  $shortcut_set->links[] = array(
+    'link_path' => 'admin/config/user-interface/backgrounds',
+    'link_title' => $t('Backgrounds'),
+    'weight' => -19,
+  );
+
+  shortcut_set_save($shortcut_set);
+
+  return array();
+}
+
+/**
+ * Append default ddbasic theme settings.
+ */
+function ding2_update_7001() {
+  module_load_include('inc', 'system', 'system.admin');
+  $form_state = form_state_defaults();
+  $form_state['build_info']['args'][0] = 'ddbasic';
+  $form_state['values'] = array();
+  $form_state['values']['scheme'] = 'classic';
+  drupal_form_submit('system_theme_settings', $form_state);
+}
+
+/**
+ * Import our own translations.
+ */
+function ding2_update_7002() {
+  ding2_translation_update();
+}
+
+/**
+ * Enable and configure the cookie module.
+ */
+function ding2_update_7003() {
+  module_enable(array('cookiecontrol'));
+  ding2_set_cookie_page();
+}
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7004() {
+  // Fixed month translation.
+  ding2_translation_update();
+}
+
+/**
+ * Enable and configure SSL proxy variables.
+ */
+function ding2_update_7005() {
+  module_enable(array('sslproxy'), TRUE);
+  variable_set('sslproxy_var', 'X-FORWARDED-PROTO');
+  variable_set('sslproxy_var_value', 'https');
+}
+
+/**
+ * Add "administrators" role to admin user.
+ */
+function ding2_update_7006() {
+  ding2_add_administrators_role(1);
+}
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7007() {
+  // Fixed month translation.
+  ding2_translation_update();
+}
+
+/**
+ * Enable view unpublished module.
+ */
+function ding2_update_7008() {
+  module_enable(array('view_unpublished'), TRUE);
 }

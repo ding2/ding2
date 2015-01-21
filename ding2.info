@@ -1,9 +1,10 @@
 name = Ding 2
 description = Install a Ding based library site.
-version = 7.x-0.4
 core = 7.x
 distribution_name = "Ding 2"
+exclusive = TRUE
 
+; Core modules.
 dependencies[] = block
 dependencies[] = contextual
 dependencies[] = menu
@@ -14,13 +15,27 @@ dependencies[] = overlay
 dependencies[] = color
 dependencies[] = translation
 
+; If this module is not enabled OG will not work correctly.
+dependencies[] = field_ui
+
+; Helper modules.
+dependencies[] = module_filter
+dependencies[] = menu_position
+dependencies[] = cookiecontrol
+dependencies[] = view_unpublished
+
+; Ding modules.
+dependencies[] = ding_base
 dependencies[] = ding_user_frontend
 dependencies[] = ding_ting_frontend
-
-; CMS (Curate)
-dependencies[] = ding_event
 dependencies[] = ding_frontpage
-dependencies[] = ding_library_menu
-dependencies[] = ding_news
+dependencies[] = ding_session_cache
+dependencies[] = ding_bookmark
+dependencies[] = ding_staff
+dependencies[] = bpi
+
+; Cache/performance modules
+dependencies[] = entitycache
+dependencies[] = ding_varnish
 
 files[] = ding2.profile
