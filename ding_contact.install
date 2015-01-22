@@ -59,11 +59,9 @@ function ding_contact_uninstall() {
 }
 
 /**
- * Categories for contact form.
+ * Cateogries for contact form.
  * @return array
- *
- * @TODO I think this function should be in .module
- * @TODO Should categories not be in english and then translated.
+ *   Categories
  */
 function ding_contact_info() {
   $site_email = variable_get('site_mail', ini_get('sendmail_from'));
