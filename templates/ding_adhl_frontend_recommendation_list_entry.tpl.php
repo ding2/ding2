@@ -1,14 +1,14 @@
 <?php
 /**
  * @file
- * Default template implementation of the individuel items in the recommandation
+ * Default template implementation of the individual items in the recommendation
  * list.
  *
  * Available variables:
- * - $creators: The creators of the recommandation as a comman sperated list or
+ * - $creators: The creators of the recommendation as a comma separated list or
  *   FALSE if no creators where found.
- * - $link: Array with an uri and link title for the recommand Ting entity.
- * - $item: Ting enity with all information available about the recommandated
+ * - $link: Array with an uri and link title for the recommend Ting entity.
+ * - $item: Ting entity with all information available about the recommended
  *   object.
  * - $zebra: The even/odd class.
  *

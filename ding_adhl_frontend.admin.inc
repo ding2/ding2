@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Implements adminstration interface that allows setting of cache duration and
+ * Implements administration interface that allows setting of cache duration and
  * maximum number of recommendation to fetch per ting object.
  */
 
@@ -46,11 +46,11 @@ function ding_adhl_frontend_settings_form($form, $form_state) {
     '#default_value' => variable_get('ding_adhl_frontend_number_to_display', 10),
   );
 
-  $service_link = l('ting service settings', 'admin/config/ting/settings');
+  $service_link = l(t('ting service settings'), 'admin/config/ting/settings');
   $form['information'] = array(
     '#markup' => t('If you are looking for the service configuration see !link, which currently points to %service', array(
       '!link' => $service_link,
-      '%service' => variable_get('ting_recommendation_url', '')
+      '%service' => variable_get('ting_recommendation_url', ''),
     )),
   );
 

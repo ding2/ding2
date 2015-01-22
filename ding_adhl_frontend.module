@@ -51,10 +51,10 @@ function ding_adhl_frontend_theme() {
 }
 
 /**
- * Implements hook_preprocess().
+ * Implements hook_preprocess_HOOK().
  *
- * Default implementation of preprocess function for ding_adhl_frontend_recommendation_list_entry
- * theme function.
+ * Default implementation of preprocess function for
+ * ding_adhl_frontend_recommendation_list_entry theme function.
  */
 function template_preprocess_ding_adhl_frontend_recommendation_list_entry(&$vars) {
   $item = $vars['item'];
@@ -95,12 +95,14 @@ function ding_adhl_frontend_ctools_plugin_directory($module, $plugin) {
 /**
  * Load TingClientObjects for each recommendation.
  *
- * @param ting $objects
- *  Ting objects (ting entities) that repesent a datawell object. (This may be different stuff array, object, collection ?)
+ * @param TingEntity $objects
+ *   Ting objects (ting entities) that represent a datawell object. (This may
+ *   be different stuff array, object, collection?).
  * @param bool $reset
- *  Reset the cache. Defaults to FALSE.
- * @return ting_entities
- *  An array of recommendataions as ting entities.
+ *   Reset the cache. Defaults to FALSE.
+ *
+ * @return TingEntity
+ *   An array of recommendations as ting entities.
  */
 function ding_adhl_frontend_get_recommended_objects($objects, $reset = FALSE) {
   // Check static cache for recommendations.
@@ -138,7 +140,7 @@ function ding_adhl_frontend_get_recommended_objects($objects, $reset = FALSE) {
       $number_of_objects = variable_get('ding_adhl_frontend_number_to_display', 10);
       $agency = variable_get('ting_agency', -1);
       foreach (array_keys($local_ids) as $local_id) {
-        $ting_object = ding_entity_load("$agency:$local_id");
+        $ting_object = ding_entity_load(ding_provider_build_entity_id($local_id));
 
         // Only show objects belonging to our own library.
         if ($ting_object && $ting_object->ownerId == $agency) {
@@ -160,13 +162,15 @@ function ding_adhl_frontend_get_recommended_objects($objects, $reset = FALSE) {
 }
 
 /**
- * Helper function that finds ting objects/entites id's based on the type of
- * input given.
+ * Finds ting entity ids based on the type of input given.
  *
  * @todo: There most be a more clean way to get these ids -- cableman.
  *
  * @param mixed $objects
- *  The parameter can be anything from an array to ting object collections.
+ *   The parameter can be anything from an array to ting object collections.
+ *
+ * @return mixed
+ *   Ting entity ids.
  */
 function ding_adhl_frontend_extract_identifers($objects) {
   if (is_array($objects)) {
@@ -192,12 +196,10 @@ function ding_adhl_frontend_extract_identifers($objects) {
       case 'TingClientObjectCollection':
         // Get ids from each of the objects in the collection.
         return ding_adhl_frontend_extract_identifers($objects->objects);
-        break;
 
       default:
         // Assume a string or integer has been passed and return it.
         return array($objects);
-        break;
     }
   }
 }

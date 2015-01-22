@@ -47,7 +47,7 @@ function ding_adhl_frontend_recommendation_list_content_type_content_types() {
  */
 function ding_adhl_frontend_recommendation_list_content_type_render($subtype, $conf, $panel_args, $contexts) {
   // Get the objects to base the recommendation on based on the first supplied
-  // context
+  // context.
   $object = FALSE;
   foreach ($contexts as $context) {
     $ting_object_id = $context->get_original_argument()->getId();
@@ -65,10 +65,10 @@ function ding_adhl_frontend_recommendation_list_content_type_render($subtype, $c
   // Build the block, if then context was present.
   $block = new stdClass();
   if ($object) {
-    // Get recommandations based on the current object.
+    // Get recommendations based on the current object.
     $entities = ding_adhl_frontend_get_recommended_objects($object);
 
-    // Build render array with the recommandations found.
+    // Build render array with the recommendations found.
     $items = array();
     foreach ($entities as $entity) {
       $items[] = array(
@@ -93,7 +93,7 @@ function ding_adhl_frontend_recommendation_list_content_type_render($subtype, $c
  * Return the pane titles.
  */
 function ding_adhl_frontend_recommendation_list_content_type_admin_title($subtype, $conf, $contexts) {
-  $identifiers =  array();
+  $identifiers = array();
   foreach ($contexts as $context) {
     if ($context->type != 'any') {
       $identifiers[] = $context->identifier;

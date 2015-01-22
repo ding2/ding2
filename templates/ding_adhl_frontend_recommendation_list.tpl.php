@@ -1,10 +1,10 @@
 <?php
 /**
  * @file
- * Default template for the recommandation item list.
+ * Default template for the recommendation item list.
  *
  * Available variables:
- * - $items: Render array with recommandated Ting Entities.
+ * - $items: Render array with recommended Ting Entities.
  * - $type: The list type.
  *
  * Other variables:

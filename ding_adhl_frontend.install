@@ -8,10 +8,10 @@
 /**
  * Implements hook_schema().
  *
- * Defines an new cache table for ADHL recommendations based on the default system
- * cache table. We uses a new table to limit the number of rows and to get
- * faster lookups in a smaller table. It also give better handling of cache to
- * be able to split the cache bins into e.i. different memory cached
+ * Defines an new cache table for ADHL recommendations based on the default
+ * system cache table. We uses a new table to limit the number of rows and to
+ * get faster look ups in a smaller table. It also give better handling of cache
+ * to be able to split the cache bins into e.i. different memory cached
  * technologies.  
  */
 function ding_adhl_frontend_schema() {
