@@ -22,7 +22,7 @@ function ding_frontend_install() {
  */
 function ding_frontend_install_footer_address_block() {
   // Look the table first if the block does exist.
-  $exists = db_query('SELECT bid from {block_custom} WHERE info =: info', array(
+  $exists = db_query('SELECT bid from {block_custom} WHERE info = :info', array(
     ':info' => 'Footer adresse',
   ))->fetchField();
 
