@@ -4,6 +4,8 @@
  * Provides campaign feature to various node types in Ding.
  */
 
+include_once 'ding_campaign.features.inc';
+
 /**
  * Implements hook_menu().
  */

@@ -9,3 +9,15 @@ dependencies[] = image
 dependencies[] = features
 dependencies[] = ctools
 dependencies[] = ding_campaign_ctype
+dependencies[] = scheduler
+dependencies[] = strongarm
+features[ctools][] = strongarm:strongarm:1
+features[features_api][] = api:1
+features[variable][] = scheduler_publish_enable_ding_campaign
+features[variable][] = scheduler_publish_required_ding_campaign
+features[variable][] = scheduler_publish_revision_ding_campaign
+features[variable][] = scheduler_publish_touch_ding_campaign
+features[variable][] = scheduler_unpublish_enable_ding_campaign
+features[variable][] = scheduler_unpublish_required_ding_campaign
+features[variable][] = scheduler_unpublish_revision_ding_campaign
+
