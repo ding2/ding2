@@ -140,3 +140,10 @@ function ding_base_update_7002() {
     variable_set('color_' . $theme . '_palette', $variable);
   }
 }
+
+/**
+ * Enable global redirect module.
+ */
+function ding_base_update_7003() {
+  module_enable(array('globalredirect'));
+}
