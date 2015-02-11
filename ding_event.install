@@ -110,3 +110,13 @@ function ding_event_update_7006() {
   variable_del('pathauto_node_ding_event_en_pattern');
   variable_del('pathauto_node_ding_event_und_pattern');
 }
+
+/**
+ * Update all events to be promoted to front page.
+ */
+function ding_event_update_7007() {
+  db_update('node')
+    ->fields(array('promote' => 1))
+    ->condition('type', 'ding_event')
+    ->execute();
+}
