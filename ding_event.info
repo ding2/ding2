@@ -7,7 +7,6 @@ dependencies[] = addressfield
 dependencies[] = autosave
 dependencies[] = cs_adaptive_image
 dependencies[] = ctools
-dependencies[] = custom_pub
 dependencies[] = date
 dependencies[] = date_all_day
 dependencies[] = date_views
