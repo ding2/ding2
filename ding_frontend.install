@@ -147,7 +147,7 @@ function ding_frontend_update_7001(&$sandbox) {
  * Set access for local administrator.
  */
 function ding_frontend_update_7002(&$sandbox) {
-  $bid = db_query('SELECT bid from {block_custom} WHERE info =: info', array(
+  $bid = db_query('SELECT bid from {block_custom} WHERE info =:info', array(
     ':info' => 'Footer adresse',
   ))->fetchField();
 
