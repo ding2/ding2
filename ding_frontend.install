@@ -63,15 +63,23 @@ function ding_frontend_install_footer_address_block_access($delta, $role) {
   $roles = user_roles(TRUE);
   $rid = array_search($role, $roles);
 
-  // Add role settings for custom footer block.
-  db_insert('block_access_roles')
-    ->fields(array(
-      'module' => 'block',
-      'delta' => $delta,
-      'rid' => $rid,
-      'permission' => 'config_body',
-    ))
-    ->execute();
+  // Check if block access have been set.
+  $exists = db_query("SELECT permission FROM {block_access_roles} WHERE delta = :delta AND rid = :rid", array(
+      ':delta' => $delta,
+      ':rid' => $rid,
+    ))->fetchField();
+
+  if (!$exists) {
+    // Add role settings for custom footer block.
+    db_insert('block_access_roles')
+      ->fields(array(
+        'module' => 'block',
+        'delta' => $delta,
+        'rid' => $rid,
+        'permission' => 'config_body',
+      ))
+      ->execute();
+    }
 }
 
 /**
