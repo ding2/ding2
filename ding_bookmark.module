@@ -25,6 +25,7 @@ function ding_bookmark_menu() {
     'page callback' => 'ding_bookmark_add_ajax',
     'page arguments' => array(2),
     'delivery callback' => 'ajax_deliver',
+    'access arguments' => array('access content'),
   );
 
   return $items;
@@ -227,7 +228,6 @@ function ding_bookmark_add_ajax($entity) {
   $commands = array();
 
   // Check if the logged in user is a library user.
-  global $user;
   if (!user_is_logged_in()) {
     // Trigger log-in (the bookmark link will be triggered on success).
     $commands[] = ajax_command_ding_user_authenticate('');
