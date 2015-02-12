@@ -208,7 +208,7 @@ function ding_place2book_node_insert($node) {
   if ($node->type == "ding_event") {
     if ($node->place2book['maintain_copy'] == 1) {
       // Insert - maintain_copy and new event node.
-      $place2book_id = ding_place2book_event_op('insert', $node);
+      ding_place2book_event_op('insert', $node);
     }
     else {
       // Insert - no copy at place2book, save settings only
@@ -411,12 +411,8 @@ function ding_place2book_event_op($op, $node, $place2book_id = NULL) {
     return;
   }
 
-  //get the library id for the event
-  $og_group_ref = field_get_items('node', $node, 'og_group_ref');
-  $library_id = $og_group_ref[0]['target_id'];
-
   // Build XML headers.
-  $api_key = place2book_get_api_key($library_id);
+  $api_key = place2book_get_api_key(ding_place2book_get_library_nid($node));
   if ($api_key == NULL) {
     return;
   }
@@ -524,6 +520,32 @@ function ding_place2book_event_op($op, $node, $place2book_id = NULL) {
 }
 
 /**
+ * Gets the library node id from event entity
+ *
+ * @param $entity
+ *   The entity to find library node id for.
+ *
+ * @return null|int
+ *   If the no library is selected on the entity NULL is returned else the
+ *   entity id (nid) for the first library found.
+ */
+function ding_place2book_get_library_nid($entity) {
+  // Get the library id for the event using entity metadata wrappers
+  $node_wrapper = entity_metadata_wrapper('node', $entity);
+
+  // This will work even if no library is selected (og wrapper returns FALSE).
+  $library_id = NULL;
+  $libraries = $node_wrapper->og_group_ref->value();
+  if (!empty($libraries)) {
+    // More than one library may be selected to default to the first in the
+    // list.
+    $library_id = reset($libraries)->nid;
+  }
+
+  return $library_id;
+}
+
+/**
  * Builds XML message used to send to the place2book web-service.
  *
  * @param object $node
@@ -595,10 +617,7 @@ function ding_place2book_build_xml($node, $service_settings) {
 
   //-- set location data --
   // If library has been selected, use location data from the library.
-  // @todo: Use entity_metadata_wrapper to retrieve field information in this
-  // function. Especially relevant at this point.
-  $og_group_ref = field_get_items('node', $node, 'og_group_ref');
-  $library_id = $og_group_ref[0]['target_id'];
+  $library_id = ding_place2book_get_library_nid($node);
 
   if ($library_id) {
     $libloc_result = db_query('SELECT   n.title,
