@@ -912,9 +912,8 @@ function ding_place2book_render_place2book_ticketsinfo($node) {
     if ($place2book_id) {
       $service_settings = variable_get('ding_place2book', array());
 
-      //get the library id for the event
-      $og_group_ref = field_get_items('node', $node, 'og_group_ref');
-      $library_id = $og_group_ref[0]['target_id'];
+      // Get the library id for the event.
+      $library_id = ding_place2book_get_library_nid($node);
 
       $api_key = place2book_get_api_key($library_id);
       if ($api_key == NULL) {
