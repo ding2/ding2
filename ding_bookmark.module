@@ -25,7 +25,6 @@ function ding_bookmark_menu() {
     'page callback' => 'ding_bookmark_add_ajax',
     'page arguments' => array(2),
     'delivery callback' => 'ajax_deliver',
-    'access arguments' => array('perform bookmark'),
   );
 
   return $items;
@@ -233,9 +232,8 @@ function ding_bookmark_add_ajax($entity) {
     // Trigger log-in (the bookmark link will be triggered on success).
     $commands[] = ajax_command_ding_user_authenticate('');
   }
-  elseif (!ding_user_is_provider_user($user)) {
-    // Error not library user.
-    $commands[] = ajax_command_ding_popup('ding_bookmark', t('Error'), '<p>' . t('Only library user can make bookmarks.') . '</p>');
+  elseif (!user_access('perform bookmark')) {
+    $commands[] = ajax_command_ding_popup('ding_bookmark', t('Error'), '<p>' . t('You are not allowed to make bookmarks.') . '</p>');
   }
   elseif (!(is_object($entity) && $entity instanceof TingEntity)) {
     // Error not ting entity.
