@@ -54,6 +54,13 @@ function ding_place2book_schema() {
           'not null' => TRUE,
           'default' => 0,
         ),
+        'ticket_type' => array(
+          'description' => t('Ticket type'),
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => TRUE,
+          'default' => '',
+        ),
       ),
       'primary key' => array('nid'),
     ),
@@ -77,4 +84,26 @@ function ding_place2book_uninstall() {
   variable_del('ding_place2book');
   variable_del('ding_place2book_libraries');
   variable_del('ding_place2book_event_nodes');
+}
+
+/**
+ * Add column for storing ticket type
+ */
+function ding_place2book_update_7000() {
+  db_add_field('ding_place2book', 'ticket_type', array(
+    'type' => 'varchar',
+    'length' => 255,
+    'not null' => TRUE,
+    'default' => '',
+    'description' => t('Ticket type'),
+  ));
+}
+
+/**
+ * Update ticket_type in all existing place2book-settings to 'Adgang'.
+ */
+function ding_place2book_update_7001() {
+  $num_upd = db_update('ding_place2book')
+    ->fields(array('ticket_type' => 'Adgang'))
+    ->execute();
 }

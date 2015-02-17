@@ -118,6 +118,15 @@ function ding_place2book_admin_settings_form($form_state) {
     '#description' => t('The default capacity for new events. Set to 0 for unlimited capacity.'),
   );
 
+  $form['ding_place2book_event_nodes']['ticket_type'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Ticket type'),
+    '#default_value' => isset($defaults['ticket_type']) ? $defaults['ticket_type'] : 'Adgang',
+    '#size' => 30,
+    '#maxlength' => 255,
+    '#description' => t('The default ticket type for new events.'),
+  );
+
   $form['ding_place2book_event_nodes']['defaults'] = array(
     '#type' => 'checkboxes',
     '#options' => array(

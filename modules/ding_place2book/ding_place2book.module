@@ -296,6 +296,7 @@ function ding_place2book_node_delete($node) {
       // Insert the place2book settings and special fields into the node object before proceeding with delete
       $node->place2book = $settings;
       $node->capacity = $settings['capacity'];
+      $node->ticket_type = $settings['ticket_type'];
 
       ding_place2book_event_op('delete', $node, $place2book_id);
       _ding_place2book_db_op('delete', $node, $place2book_id);
@@ -331,11 +332,11 @@ function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $
 
   if ($node_settings['place2book_id'] && $node_settings['place2book_id'] != -1) {
     $p2b_link = l($node_settings['place2book_id'], $service_settings['event_url'] . '/' . $node_settings['place2book_id'] . '/edit', array('absolute' => TRUE));
-    $p2b_info = t('Ticket price is submitted to Place2book as the ticket type with name ADGANG. If more ticket types on this event is needed, go to Place2book ID !link. (Note: You may need to log on)', array('!link' => $p2b_link));
+    $p2b_info = t('If more ticket types on this event is needed, go to Place2book ID !link. (Note: You may need to log on)', array('!link' => $p2b_link));
   }
   else {
     $p2b_link = t('None');
-    $p2b_info = t('Ticket price is submitted to Place2book as the ticket type with name ADGANG. If more ticket types on this event is needed, edit the corresponding event on Place2book after this event has been created.');
+    $p2b_info = t('If more ticket types on this event is needed, edit the corresponding event on Place2book after this event has been created.');
   }
 
   //remove field_place2book_tickets from the form - it is only a placeholder and need not be seen nor edited, and it has default value
@@ -360,6 +361,15 @@ function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $
     '#maxlength' => 5,
     '#default_value' => isset($node_settings['capacity']) ? $node_settings['capacity'] : $node_settings['defaults']['capacity'],
     '#description' => t('Optional. Maximum capacity on this event. Set to 0 for unlimited capacity.'),
+  );
+
+  $form['ticket_type'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Ticket type'),
+    '#size' => 30,
+    '#maxlength' => 255,
+    '#default_value' => isset($node_settings['ticket_type']) ? $node_settings['ticket_type'] : $node_settings['defaults']['ticket_type'],
+    '#description' => t('E. g. Adult, Child or Standard. Adgang is the default ticket type.') . " " . $p2b_info,
   );
 
   $form['place2book']['maintain_copy'] = array(
@@ -669,6 +679,11 @@ function ding_place2book_build_xml($node, $service_settings) {
     $xml->event->price->value = $field_ding_event_price[0]['value'] * 100;
   }
 
+  // Set ticket type
+  if (isset($node->ticket_type)) {
+    $xml->event->price->name = $node->ticket_type;
+  }
+
   // -- set event times --
   $field_ding_event_date = field_get_items('node', $node, 'field_ding_event_date');
   // Set event time to begin
@@ -796,13 +811,15 @@ function _ding_place2book_db_op($op, $node, $place2book_id = NULL) {
                                                 maintain_copy,
                                                 capacity,
                                                 kultunaut_export,
-                                                passive)
+                                                passive,
+                                                ticket_type)
                                         VALUES (:nid,
                                                 :place2book_id,
                                                 :maintain_copy,
                                                 :capacity,
                                                 :kultunaut_export,
-                                                :passive)',
+                                                :passive,
+                                                :ticket_type)',
                                           array(
                                                 ':nid' => $node->nid,
                                                 ':place2book_id' => $place2book_id,
@@ -810,6 +827,7 @@ function _ding_place2book_db_op($op, $node, $place2book_id = NULL) {
                                                 ':capacity' => $node->capacity,
                                                 ':kultunaut_export' => $node->place2book['kultunaut_export'],
                                                 ':passive' => $node->place2book['passive'],
+                                                ':ticket_type' => $node->ticket_type,
                                                 )
       );
       break;
@@ -820,7 +838,8 @@ function _ding_place2book_db_op($op, $node, $place2book_id = NULL) {
                     maintain_copy = :maintain_copy,
                     capacity = :capacity,
                     kultunaut_export = :kultunaut_export,
-                    passive = :passive
+                    passive = :passive,
+                    ticket_type = :ticket_type
                 WHERE nid = :nid',
                 array(
                       ':place2book_id' => $place2book_id,
@@ -828,6 +847,7 @@ function _ding_place2book_db_op($op, $node, $place2book_id = NULL) {
                       ':capacity' => $node->capacity,
                       ':kultunaut_export' => $node->place2book['kultunaut_export'],
                       ':passive' => $node->place2book['passive'],
+                      ':ticket_type' => $node->ticket_type,
                       ':nid' => $node->nid,
                      )
       );
