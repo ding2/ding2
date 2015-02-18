@@ -120,3 +120,28 @@ function ding_event_update_7007() {
     ->condition('type', 'ding_event')
     ->execute();
 }
+
+/**
+ * Update all events to be promoted to front page for revisions.
+ */
+function ding_event_update_7008() {
+  // This is need to ensure that the edit node form actually reelects that right
+  // data in to database. If we don't do this is will be promoted but the edit
+  // form may say it's not promoted.
+
+  // Find all node id of ding events that are not promoted in revisions.
+  $query = db_select('node', 'n')
+    ->fields('n', array('nid'))
+    ->condition('type', 'ding_event');
+  $query->join('node_revision', 'nr', 'n.nid = nr.nid');
+  $query->condition('nr.promote', 0);
+  $result = $query->execute();
+
+  // Update the revisions table.
+  foreach ($result as $nid) {
+    db_update('node_revision')
+      ->fields(array('promote' => 1))
+      ->condition('nid', reset($nid))
+      ->execute();
+  }
+}
