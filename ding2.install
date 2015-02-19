@@ -264,3 +264,10 @@ function ding2_update_7007() {
 function ding2_update_7008() {
   module_enable(array('view_unpublished'), TRUE);
 }
+
+/**
+ * Enable redirect module.
+ */
+function ding2_update_7009() {
+  module_enable(array('redirect'));
+}
