@@ -9,7 +9,7 @@ projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.1"
 
 projects[relation][subdir] = "contrib"
-projects[relation][version] = "1.0-rc5"
+projects[relation][version] = "1.0-rc7"
 
 projects[virtual_field][subdir] = "contrib"
 projects[virtual_field][version] = "1.2"
