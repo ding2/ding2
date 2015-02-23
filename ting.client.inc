@@ -311,7 +311,7 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
         'weight' => $boost_field['weight'],
       );
     }
-    $request->userDefinedBoost = array('boostField' => $uboosts);
+    $request->userDefinedBoost = $uboosts;
   }
 
   $search_result = ting_execute_cache($request);
