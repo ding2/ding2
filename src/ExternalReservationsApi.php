@@ -36,7 +36,7 @@ class ExternalReservationsApi extends SwaggerApi
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("path", "patronid", $patronid);
 
-        $request->defineResponse(200, "", array('ReservationDetails'));
+        $request->defineResponse(200, "", array('\\FBS\\Model\\ReservationDetails'));
         $request->defineResponse("400", 'bad request', '\\FBS\\Model\\RestException');
         $request->defineResponse("401", 'client unauthorized', null);
 
@@ -69,7 +69,7 @@ class ExternalReservationsApi extends SwaggerApi
         $request->addParameter("path", "patronid", $patronid);
         $request->addParameter("body", "createReservationBatch", $createReservationBatch);
 
-        $request->defineResponse(200, "", array('ReservationDetails'));
+        $request->defineResponse(200, "", array('\\FBS\\Model\\ReservationDetails'));
         $request->defineResponse("400", 'bad request', '\\FBS\\Model\\RestException');
         $request->defineResponse("401", 'client unauthorized', null);
         $request->defineResponse("404", 'patron not found', null);
@@ -103,7 +103,7 @@ class ExternalReservationsApi extends SwaggerApi
         $request->addParameter("path", "patronid", $patronid);
         $request->addParameter("body", "reservations", $reservations);
 
-        $request->defineResponse(200, "", array('ReservationDetails'));
+        $request->defineResponse(200, "", array('\\FBS\\Model\\ReservationDetails'));
         $request->defineResponse("400", 'bad request', '\\FBS\\Model\\RestException');
         $request->defineResponse("401", 'client unauthorized', null);
 

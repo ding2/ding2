@@ -23,7 +23,7 @@ class ExternalCatalogApi extends SwaggerApi
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("query", "recordid", $recordid);
 
-        $request->defineResponse(200, "", array('Availability'));
+        $request->defineResponse(200, "", array('\\FBS\\Model\\Availability'));
         $request->defineResponse("400", 'bad request', null);
         $request->defineResponse("401", 'client unauthorized', null);
 
@@ -46,7 +46,7 @@ class ExternalCatalogApi extends SwaggerApi
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("query", "recordid", $recordid);
 
-        $request->defineResponse(200, "", array('HoldingsForBibliographicalRecord'));
+        $request->defineResponse(200, "", array('\\FBS\\Model\\HoldingsForBibliographicalRecord'));
         $request->defineResponse("400", 'bad request', null);
         $request->defineResponse("401", 'client unauthorized', null);
 

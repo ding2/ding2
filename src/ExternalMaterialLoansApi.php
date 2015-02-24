@@ -36,7 +36,7 @@ class ExternalMaterialLoansApi extends SwaggerApi
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("path", "patronid", $patronid);
 
-        $request->defineResponse(200, "", array('Loan'));
+        $request->defineResponse(200, "", array('\\FBS\\Model\\Loan'));
         $request->defineResponse("400", 'bad request', '\\FBS\\Model\\RestException');
         $request->defineResponse("401", 'client unauthorized', null);
         $request->defineResponse("404", 'patron not found', null);
@@ -76,7 +76,7 @@ class ExternalMaterialLoansApi extends SwaggerApi
         $request->addParameter("path", "patronid", $patronid);
         $request->addParameter("body", "materialLoanIds", $materialLoanIds);
 
-        $request->defineResponse(200, "", array('RenewedLoan'));
+        $request->defineResponse(200, "", array('\\FBS\\Model\\RenewedLoan'));
         $request->defineResponse("400", 'bad request', '\\FBS\\Model\\RestException');
         $request->defineResponse("401", 'client unauthorized', null);
         $request->defineResponse("404", 'patron not found', null);

@@ -23,7 +23,7 @@ class ExternalPlacementApi extends SwaggerApi
         $request = $this->newRequest("GET", "/external/v1/{agencyid}");
         $request->addParameter("path", "agencyid", $agencyid);
 
-        $request->defineResponse(200, "", array('AgencyBranch'));
+        $request->defineResponse(200, "", array('\\FBS\\Model\\AgencyBranch'));
         $request->defineResponse("400", 'bad request', null);
         $request->defineResponse("401", 'client unauthorized', null);
 
@@ -43,7 +43,7 @@ class ExternalPlacementApi extends SwaggerApi
         $request = $this->newRequest("GET", "/external/v1/{agencyid}");
         $request->addParameter("path", "agencyid", $agencyid);
 
-        $request->defineResponse(200, "", array('AgencyDepartment'));
+        $request->defineResponse(200, "", array('\\FBS\\Model\\AgencyDepartment'));
         $request->defineResponse("400", 'bad request', null);
         $request->defineResponse("401", 'client unauthorized', null);
 
@@ -63,7 +63,7 @@ class ExternalPlacementApi extends SwaggerApi
         $request = $this->newRequest("GET", "/external/v1/{agencyid}");
         $request->addParameter("path", "agencyid", $agencyid);
 
-        $request->defineResponse(200, "", array('AgencyLocation'));
+        $request->defineResponse(200, "", array('\\FBS\\Model\\AgencyLocation'));
         $request->defineResponse("400", 'bad request', null);
         $request->defineResponse("401", 'client unauthorized', null);
 
@@ -83,7 +83,7 @@ class ExternalPlacementApi extends SwaggerApi
         $request = $this->newRequest("GET", "/external/v1/{agencyid}");
         $request->addParameter("path", "agencyid", $agencyid);
 
-        $request->defineResponse(200, "", array('AgencySublocation'));
+        $request->defineResponse(200, "", array('\\FBS\\Model\\AgencySublocation'));
         $request->defineResponse("400", 'bad request', null);
         $request->defineResponse("401", 'client unauthorized', null);
 

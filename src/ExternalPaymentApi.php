@@ -39,7 +39,7 @@ class ExternalPaymentApi extends SwaggerApi
         $request->addParameter("query", "includepaid", $includepaid);
         $request->addParameter("query", "includenonpayable", $includenonpayable);
 
-        $request->defineResponse(200, "", array('Fee'));
+        $request->defineResponse(200, "", array('\\FBS\\Model\\Fee'));
         $request->defineResponse("400", 'bad request', null);
         $request->defineResponse("401", 'client unauthorized', null);
 
@@ -81,7 +81,7 @@ class ExternalPaymentApi extends SwaggerApi
         $request->addParameter("query", "patronid", $patronid);
         $request->addParameter("body", "paymentOrder", $paymentOrder);
 
-        $request->defineResponse(200, "", array('PaymentConfirmation'));
+        $request->defineResponse(200, "", array('\\FBS\\Model\\PaymentConfirmation'));
         $request->defineResponse("400", 'bad request', null);
         $request->defineResponse("401", 'client unauthorized', null);
 
