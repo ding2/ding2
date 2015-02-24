@@ -338,3 +338,19 @@ function ting_update_7008() {
     variable_set('ting_search_register_serie_title', 'phrase.titleSeries="@serietitle"');
   }
 }
+
+/**
+ * Update ting_object table - set foreign key (vid) to ting_object_revision to be null by default thus allowing
+ * multiple NULL values in table
+ */
+function ting_update_7009() {
+  db_drop_unique_key('ting_object', 'vid');
+  db_change_field('ting_object', 'vid', 'vid', array(
+    'description' => 'The current {ting_obuect}.vid version identifier.',
+    'type' => 'int',
+    'unsigned' => TRUE,
+    'not null' => FALSE,
+    'default' => NULL,
+  ));
+  db_add_unique_key('ting_object', 'vid', array('vid'));
+}
