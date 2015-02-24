@@ -996,13 +996,30 @@ function ting_search_string_to_cql($string) {
  *   cql compatible string
  */
 function _ting_search_convert_string_to_cql($string) {
-  // Escape quotes.
-  $string = str_replace('"', '\"', $string);
   // Remove multiple whitespaces.
   $string = preg_replace('/\s+/', ' ', $string);
-  // Explode string by whitespace.
-  $expressions = explode(' ', $string);
-  // Join expressions with 'and' operator.
+  // grab all qouted phrases
+  preg_match_all('$"([^"]*)"$', $string, $phrases);
+  if(!empty($phrases[0])) {
+    // generate a replacement key. We need the key to maintain order of phrases and strings in search string
+    $replace_key = 'zxcv';
+    $count = 1;
+    // replace phrases in search string with the replacement key
+    foreach ($phrases[0] as $phrase) {
+      $patterns[] = '/' . $replace_key . $count . '/';
+      $string = str_replace($phrase, $replace_key . $count++, $string);
+    }
+    // Explode string by whitespace.
+    $expressions = explode(' ', $string);
+    // replace the replacement key with the qouted phrase
+    $expressions = preg_replace($patterns, $phrases[0], $expressions);
+  }
+  else{
+    // no qouted phrase were found
+    $expressions = explode(' ', $string);
+  }
+
+  // Join elements in expressions array with 'and' operator.
   return implode(' and ', $expressions);
 }
 
