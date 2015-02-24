@@ -1,0 +1,14 @@
+<?php
+
+/**
+ */
+function fbs_service() {
+  $service = &drupal_static(__FUNCTION__, NULL);
+  if (!$service) {
+    $service = FBS::get($url);
+  }
+}
+
+function fbs_patron_id($user = NULL) {
+    // throw DingProviderAuthException if no user is logged in.
+}
