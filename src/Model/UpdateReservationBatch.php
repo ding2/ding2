@@ -6,7 +6,7 @@ class UpdateReservationBatch
 {
 
     /**
-     * @property array $reservations
+     * @property UpdateReservation[] $reservations
      */
     public $reservations = null;
 

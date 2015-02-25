@@ -30,6 +30,7 @@ class ExternalPaymentApi extends SwaggerApi
      *                     be included; default=false
      * @param boolean $includenonpayable true if fees that are not payable through a CMS system should be included (for read
      *                           only access); default=false
+     * @return Fee[]
      */
     public function getFees($agencyid, $patronid = null, $includepaid = null, $includenonpayable = null)
     {
@@ -73,6 +74,7 @@ class ExternalPaymentApi extends SwaggerApi
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
      * @param integer $patronid the patron that owns the fees
      * @param PaymentOrder $paymentOrder registration of fees covered by a payment order
+     * @return PaymentConfirmation[]
      */
     public function payFees($agencyid, $patronid = null, Model\PaymentOrder $paymentOrder)
     {

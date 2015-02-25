@@ -17,6 +17,7 @@ class ExternalPlacementApi extends SwaggerApi
      *  reservations.
      *
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
+     * @return AgencyBranch[]
      */
     public function getBranches($agencyid)
     {
@@ -37,6 +38,7 @@ class ExternalPlacementApi extends SwaggerApi
      *  Returns array of departments.
      *
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
+     * @return AgencyDepartment[]
      */
     public function getDepartments($agencyid)
     {
@@ -57,6 +59,7 @@ class ExternalPlacementApi extends SwaggerApi
      *  Returns array of locations.
      *
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
+     * @return AgencyLocation[]
      */
     public function getLocations($agencyid)
     {
@@ -77,6 +80,7 @@ class ExternalPlacementApi extends SwaggerApi
      *  Returns array ofsub-locations.
      *
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
+     * @return AgencySublocation[]
      */
     public function getSublocations($agencyid)
     {

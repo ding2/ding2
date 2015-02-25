@@ -21,6 +21,7 @@ class ExternalAuthenticationApi extends SwaggerApi
      *
      * @param string $agencyid ISIL of the agency to log into (e.g. DK-761500)
      * @param Login $login credentials for the client system
+     * @return ExternalAPIUserInfo
      */
     public function login($agencyid, Model\Login $login)
     {

@@ -32,6 +32,7 @@ class ExternalPatronApi extends SwaggerApi
      *
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
      * @param CreatePatronRequest $createPatronRequest the patron to be created
+     * @return AuthenticatedPatron
      */
     public function create($agencyid, Model\CreatePatronRequest $createPatronRequest)
     {
@@ -66,6 +67,7 @@ class ExternalPatronApi extends SwaggerApi
      *
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
      * @param AuthenticationRequest $authenticationRequest credentials for patron to be authenticated
+     * @return AuthenticatedPatron
      */
     public function authenticate($agencyid, Model\AuthenticationRequest $authenticationRequest)
     {
@@ -100,6 +102,7 @@ class ExternalPatronApi extends SwaggerApi
      *
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
      * @param string $cprNumber CPR-number of the patron
+     * @return AuthenticatedPatron
      */
     public function getPreAuthenticatedPatron($agencyid, $cprNumber)
     {
@@ -136,6 +139,7 @@ class ExternalPatronApi extends SwaggerApi
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
      * @param integer $patronid the patron to be updated
      * @param UpdatePatronRequest $updatePatron updated information about the patron
+     * @return AuthenticatedPatron
      */
     public function update($agencyid, $patronid, Model\UpdatePatronRequest $updatePatron)
     {

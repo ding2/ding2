@@ -11,7 +11,7 @@ class PaymentOrder
     public $orderId = null;
 
     /**
-     * @property array $feeId Array of fees fully covered by the order
+     * @property string[] $feeId Array of fees fully covered by the order
      */
     public $feeId = null;
 

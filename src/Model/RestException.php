@@ -11,8 +11,8 @@ class RestException
     public $errorCode = null;
 
     /**
-     * @property array $validationErrors Array of validation errors found on input to a
-     * service
+     * @property RestValidatorDetails[] $validationErrors Array of validation errors
+     * found on input to a service
      */
     public $validationErrors = null;
 

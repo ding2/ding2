@@ -23,7 +23,7 @@ class Fee
     public $paidDate = null;
 
     /**
-     * @property array $material Set if fee covers materials
+     * @property FeeMaterial[] $material Set if fee covers materials
      */
     public $material = null;
 

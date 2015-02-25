@@ -29,6 +29,7 @@ class ExternalReservationsApi extends SwaggerApi
      *
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
      * @param integer $patronid the patron that owns the reservations
+     * @return ReservationDetails[]
      */
     public function getReservations($agencyid, $patronid)
     {
@@ -61,6 +62,7 @@ class ExternalReservationsApi extends SwaggerApi
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
      * @param integer $patronid the patron that makes the reservations
      * @param CreateReservationBatch $createReservationBatch the reservations to be created
+     * @return ReservationDetails[]
      */
     public function addReservations($agencyid, $patronid, Model\CreateReservationBatch $createReservationBatch)
     {
@@ -95,6 +97,7 @@ class ExternalReservationsApi extends SwaggerApi
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
      * @param integer $patronid the patron that owns the reservations
      * @param UpdateReservationBatch $reservations the reservations to be updated
+     * @return ReservationDetails[]
      */
     public function updateReservations($agencyid, $patronid, Model\UpdateReservationBatch $reservations)
     {
@@ -118,6 +121,7 @@ class ExternalReservationsApi extends SwaggerApi
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
      * @param integer $patronid the patron that owns the reservations
      * @param array $reservationid a list of reservation ids for reservations that are to be deleted
+     * @return void
      */
     public function deleteReservations($agencyid, $patronid, $reservationid = null)
     {

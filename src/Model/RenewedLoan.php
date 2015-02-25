@@ -11,7 +11,7 @@ class RenewedLoan
     public $loanDetails = null;
 
     /**
-     * @property array $renewalStatus indicates if renewal was succesful or denied -
+     * @property string[] $renewalStatus indicates if renewal was succesful or denied -
      * including the reason for denial.
      */
     public $renewalStatus = null;

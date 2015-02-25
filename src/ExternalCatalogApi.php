@@ -16,6 +16,7 @@ class ExternalCatalogApi extends SwaggerApi
      *
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
      * @param array $recordid list of record ids
+     * @return Availability[]
      */
     public function getAvailability($agencyid, $recordid = null)
     {
@@ -39,6 +40,7 @@ class ExternalCatalogApi extends SwaggerApi
      *
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
      * @param array $recordid Identifies the bibliographical records - OpenSearch: //searchresult/collection/object/identifier
+     * @return HoldingsForBibliographicalRecord[]
      */
     public function getHoldings($agencyid, $recordid = null)
     {

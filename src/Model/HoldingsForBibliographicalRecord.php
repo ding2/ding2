@@ -18,8 +18,8 @@ class HoldingsForBibliographicalRecord
     public $reservable = null;
 
     /**
-     * @property array $holdings An array of holdings for the material matching the
-     * bibliographical record, as distributed across branches,
+     * @property Holdings[] $holdings An array of holdings for the material matching
+     * the bibliographical record, as distributed across branches,
      *  departments and locations
      */
     public $holdings = null;

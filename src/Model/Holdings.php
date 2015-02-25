@@ -6,7 +6,7 @@ class Holdings
 {
 
     /**
-     * @property array $materials Materials that belongs to this placement
+     * @property Material[] $materials Materials that belongs to this placement
      */
     public $materials = null;
 

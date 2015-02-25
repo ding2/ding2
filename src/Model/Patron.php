@@ -42,7 +42,7 @@ class Patron
     public $receiveEmail = null;
 
     /**
-     * @property array $blockStatus A list of block statuses -
+     * @property BlockStatus[] $blockStatus A list of block statuses -
      *  if the patron is not blocked then this value is empty or null
      */
     public $blockStatus = null;

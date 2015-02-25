@@ -16,8 +16,8 @@ class Loan
     public $loanDetails = null;
 
     /**
-     * @property array $renewalStatusList if isRenewable == false then this states the
-     * reasons for denial
+     * @property string[] $renewalStatusList if isRenewable == false then this states
+     * the reasons for denial
      */
     public $renewalStatusList = null;
 

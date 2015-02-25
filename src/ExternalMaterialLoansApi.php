@@ -29,6 +29,7 @@ class ExternalMaterialLoansApi extends SwaggerApi
      *
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
      * @param string $patronid the patron that owns the loans
+     * @return Loan[]
      */
     public function getLoans($agencyid, $patronid)
     {
@@ -68,6 +69,7 @@ class ExternalMaterialLoansApi extends SwaggerApi
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
      * @param integer $patronid the patron that owns the loans
      * @param array $materialLoanIds a list of loanId to be renewed
+     * @return RenewedLoan[]
      */
     public function renewLoans($agencyid, $patronid, $materialLoanIds)
     {
