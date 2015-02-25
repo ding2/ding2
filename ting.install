@@ -21,11 +21,11 @@ function ting_schema() {
         'not null' => TRUE,
       ),
       'vid' => array(
-        'description' => 'The current {ting_object_revision}.vid version identifier.',
+        'description' => 'The current {ting_object}.vid version identifier.',
         'type' => 'int',
         'unsigned' => TRUE,
-        'not null' => TRUE,
-        'default' => 0,
+        'not null' => FALSE,
+        'default' => NULL,
       ),
       'ding_entity_id' => array(
         'description' => 'The ting object id.',
@@ -346,7 +346,7 @@ function ting_update_7008() {
 function ting_update_7009() {
   db_drop_unique_key('ting_object', 'vid');
   db_change_field('ting_object', 'vid', 'vid', array(
-    'description' => 'The current {ting_obuect}.vid version identifier.',
+    'description' => 'The current {ting_object}.vid version identifier.',
     'type' => 'int',
     'unsigned' => TRUE,
     'not null' => FALSE,
