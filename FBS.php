@@ -19,106 +19,123 @@ class DrupalHttpClient implements HttpClient {
 
 }
 
-class FBS
-{
-    /**
-     * @var \FBS\ExternalAuthenticationApi;
-     */
-    public $Authentication;
+/**
+ * Master service class.
+ */
+class FBS {
+  public $agencyId;
+  /**
+   * Authentication API.
+   *
+   * @var \FBS\ExternalAuthenticationApi;
+   */
+  public $Authentication;
 
-    /**
-     * @var \FBS\ExternalCatalogApi;
-     */
-    public $Catalog;
+  /**
+   * Catalog API.
+   *
+   * @var \FBS\ExternalCatalogApi;
+   */
+  public $Catalog;
 
-    /**
-     * @var \FBS\ExternalMaterialLoansApi;
-     */
-    public $MaterialLoans;
+  /**
+   * Loans API.
+   *
+   * @var \FBS\ExternalMaterialLoansApi;
+   */
+  public $MaterialLoans;
 
-    /**
-     * @var \FBS\ExternalPatronApi;
-     */
-    public $Patron;
+  /**
+   * Patron API.
+   *
+   * @var \FBS\ExternalPatronApi;
+   */
+  public $Patron;
 
-    /**
-     * @var \FBS\ExternalPaymentApi;
-     */
-    public $Payment;
+  /**
+   * Payments API.
+   *
+   * @var \FBS\ExternalPaymentApi;
+   */
+  public $Payment;
 
-    /**
-     * @var \FBS\ExternalPlacementApi;
-     */
-    public $Placement;
+  /**
+   * Locations API.
+   *
+   * @var \FBS\ExternalPlacementApi;
+   */
+  public $Placement;
 
-    /**
-     * @var \FBS\ExternalReservationsApi;
-     */
-    public $Reservations;
+  /**
+   * Reservation API.
+   *
+   * @var \FBS\ExternalReservationsApi;
+   */
+  public $Reservations;
 
 
-    protected static $instances = array();
+  protected static $instances = array();
 
-    /**
-     * The base URL of the service.
-     */
-    protected $endpoint;
+  /**
+   * The base URL of the service.
+   */
+  protected $endpoint;
 
-    /**
-     * HTTP client used.
-     */
-    protected $httpClient;
+  /**
+   * HTTP client used.
+   */
+  protected $httpClient;
 
-    /**
-     * Serializer used.
-     */
-    protected $serializer;
+  /**
+   * Serializer used.
+   */
+  protected $serializer;
 
-    /**
-     * Get service.
-     *
-     * Yeah, basically a singleton.
-     */
-    public static function get($endpoint, HttpClient $client = null, Serializer $serializer = null)
-    {
-        if (!isset(self::$instances[$endpoint])) {
-            self::$instances[$endpoint] = new self($endpoint, $client, $serializer);
-        }
-
-        return self::$instances[$endpoint];
+  /**
+   * Get service.
+   *
+   * Yeah, basically a singleton.
+   */
+  public static function get($agency_id, $endpoint, HttpClient $client = NULL, Serializer $serializer = NULL) {
+    $key = $agency_id . ';' . $endpoint;
+    if (!isset(self::$instances[$key])) {
+      self::$instances[$key] = new self($agency_id, $endpoint, $client, $serializer);
     }
 
-    /**
-     * Constructor.
-     */
-    protected function __construct($endpoint, HttpClient $client = null, Serializer $serializer = null)
-    {
-        $this->endpoint = $endpoint;
-        if (empty($client)) {
-            $client = new DrupalHttpClient();
-        }
-        $this->httpClient = $client;
+    return self::$instances[$key];
+  }
 
-        if (empty($serializer)) {
-            $serializer = new JsonMapperSerializer(new JsonMapper());
-        }
-        $this->serializer = $serializer;
-
-        // Instantiate API classes.
-        $apis = array(
-            'Authentication',
-            'Catalog',
-            'MaterialLoans',
-            'Patron',
-            'Payment',
-            'Placement',
-            'Reservations',
-        );
-
-        foreach ($apis as $api) {
-            $class = '\FBS\External' . $api . 'Api';
-            $this->{$api} = new  $class($endpoint, $this->httpClient, $this->serializer);
-        }
-
+  /**
+   * Constructor.
+   */
+  protected function __construct($agency_id, $endpoint, HttpClient $client = NULL, Serializer $serializer = NULL) {
+    $this->agencyId = $agency_id;
+    $this->endpoint = $endpoint;
+    if (empty($client)) {
+      $client = new DrupalHttpClient();
     }
+    $this->httpClient = $client;
+
+    if (empty($serializer)) {
+      $serializer = new JsonMapperSerializer(new JsonMapper());
+    }
+    $this->serializer = $serializer;
+
+    // Instantiate API classes.
+    $apis = array(
+      'Authentication',
+      'Catalog',
+      'MaterialLoans',
+      'Patron',
+      'Payment',
+      'Placement',
+      'Reservations',
+    );
+
+    foreach ($apis as $api) {
+      $class = '\FBS\External' . $api . 'Api';
+      $this->{$api} = new $class($endpoint, $this->httpClient, $this->serializer);
+    }
+
+  }
 }

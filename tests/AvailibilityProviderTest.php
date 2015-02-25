@@ -51,7 +51,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
     $httpclient = $this->getHttpClient($json_responses);
 
     // Run through tests.
-    $fbs = FBS::get('', $httpclient);
+    $fbs = fbs_service('1234', '', $httpclient);
 
     // Single item.
     $res = $this->providerInvoke('items', array('123'));
