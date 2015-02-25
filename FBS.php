@@ -92,23 +92,9 @@ class FBS {
   protected $serializer;
 
   /**
-   * Get service.
-   *
-   * Yeah, basically a singleton.
-   */
-  public static function get($agency_id, $endpoint, HttpClient $client = NULL, Serializer $serializer = NULL) {
-    $key = $agency_id . ';' . $endpoint;
-    if (!isset(self::$instances[$key])) {
-      self::$instances[$key] = new self($agency_id, $endpoint, $client, $serializer);
-    }
-
-    return self::$instances[$key];
-  }
-
-  /**
    * Constructor.
    */
-  protected function __construct($agency_id, $endpoint, HttpClient $client = NULL, Serializer $serializer = NULL) {
+  public  function __construct($agency_id, $endpoint, HttpClient $client = NULL, Serializer $serializer = NULL) {
     $this->agencyId = $agency_id;
     $this->endpoint = $endpoint;
     if (empty($client)) {

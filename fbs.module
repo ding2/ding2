@@ -43,13 +43,13 @@ function fbs_ding_provider() {
  *
  * Parameters is for injecting in tests. Don't use.
  */
-function fbs_service($agency_id = NULL, $endpoint = NULL, $client = NULL, $mapper = NULL) {
+function fbs_service($agency_id = NULL, $endpoint = NULL, $client = NULL, $mapper = NULL, $reset = FALSE) {
   // No drupal_static. We want to be callable from tests.
   static $service;
-  if (!$service) {
+  if (!$service || $reset) {
     $agency_id = !is_null($agency_id) ? $agency_id : variable_get('fbs_agency_id', '');
     $endpoint = !is_null($endpoint) ? $endpoint : variable_get('fbs_endpoint', '');
-    $service = FBS::get($agency_id, $endpoint, $client, $mapper);
+    $service = new FBS($agency_id, $endpoint, $client, $mapper);
   }
   return $service;
 }

@@ -42,7 +42,7 @@ class ExternalAuthenticationApiTest extends \PHPUnit_Framework_TestCase
 
         $httpclient = $httpclient->reveal();
         $jsonMapper = new JsonMapperSerializer(new JsonMapper);
-        $fbs = FBS::get('123', 'banana', $httpclient, $jsonMapper);
+        $fbs = new FBS('123', 'banana', $httpclient, $jsonMapper);
 
         $login = new \FBS\Model\Login();
         $login->username = 'banan';
