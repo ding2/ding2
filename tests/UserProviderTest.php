@@ -16,12 +16,6 @@ class UserProviderTest extends ProviderTestCase {
 
   /**
    * Test user authenticate.
-   *
-   * Expected data:
-   * [
-   *   localid => [available: bool, reservable: bool (, is_internet: bool)]
-   *   ...
-   * ]
    */
   public function testAuthenticate() {
     $this->provider = 'user';
