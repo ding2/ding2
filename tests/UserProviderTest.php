@@ -27,7 +27,6 @@ class UserProviderTest extends ProviderTestCase {
           'authenticated' => TRUE,
           'patron' => array(
             // Patron.
-            // Unknown format.
             'birthday' => '1946-10-15',
             'coAddress' => NULL,
             'address' => array(
