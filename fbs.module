@@ -22,10 +22,10 @@ function fbs_ding_provider() {
         'prefix' => 'loan',
         'file' => $path . '/includes/fbs.loan.inc',
       ),
-      // 'reservation' => array(
-      //   'prefix' => 'reservation',
-      //   'file' => $path . '/includes/fbs.reservation.inc',
-      // ),
+      'reservation' => array(
+        'prefix' => 'reservation',
+        'file' => $path . '/includes/fbs.reservation.inc',
+      ),
       'user' => array(
         'prefix' => 'user',
         'file' => $path . '/includes/fbs.user.inc',

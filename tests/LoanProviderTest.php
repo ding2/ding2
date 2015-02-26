@@ -2,25 +2,30 @@
 
 /**
  * @file
- * Test availability provider functions.
+ * Test loan provider functions.
  */
 
 require_once "ProviderTestCase.php";
 require_once 'FBS.php';
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
-/**
- * Loan list calls this, mock it.
- */
-function ding_provider_build_entity_id($id, $agency = '') {
-  return $id . ($agency ? ":" . $agency : '');
+if (!function_exists('ding_provider_build_entity_id')) {
+  /**
+   * Loan list calls this, mock it.
+   */
+  function ding_provider_build_entity_id($id, $agency = '') {
+    return $id . ($agency ? ":" . $agency : '');
+  }
 }
 
-/**
- * DingProviderLoan::__construct() calls this, mock it.
- */
-function t($str) {
-  return $str;
+
+if (!function_exists('t')) {
+  /**
+   * DingProviderLoan::__construct() calls this, mock it.
+   */
+  function t($str) {
+    return $str;
+  }
 }
 
 /**

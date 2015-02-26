@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Test availability provider functions.
+ * Test user provider functions.
  */
 
 require_once "ProviderTestCase.php";
