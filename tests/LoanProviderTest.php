@@ -29,7 +29,7 @@ if (!function_exists('t')) {
 }
 
 /**
- * Test user provider functions.
+ * Test loan provider functions.
  */
 class LoanProviderTest extends ProviderTestCase {
 
@@ -144,6 +144,86 @@ class LoanProviderTest extends ProviderTestCase {
       )),
     );
     $this->assertEquals($expected, $res);
-
   }
+
+  /**
+   * Test loan renew.
+   */
+  public function testRenew() {
+    $this->provider = 'loan';
+    // Define DingEntity.
+    $this->requireDing('ding_entity', 'ding_entity.module');
+    // Define DingProviderUserException.
+    $this->requireDing('ding_provider', 'ding_provider.exceptions.inc');
+    // Define DingProviderLoan.
+    $this->requireDing('ding_provider', 'ding_provider.loan.inc');
+
+    $json_responses = array(
+      new Reply(
+        array(
+          // Array of...
+          array(
+            // RenewedLoan.
+            'loanDetails' => array(
+              // LoanDetails.
+              'recordId'  => 'x',
+              'dueDate' => 'x',
+              'loanDate' => 'x',
+              'materialItemNumber' => 'x',
+              'loanId' => '1',
+            ),
+            'renewalStatus' => array(
+              'renewed',
+            ),
+          ),
+          array(
+            // RenewedLoan.
+            'loanDetails' => array(
+              // LoanDetails.
+              'recordId'  => 'x',
+              'dueDate' => 'x',
+              'loanDate' => 'x',
+              'materialItemNumber' => 'x',
+              'loanId' => '2',
+            ),
+            'renewalStatus' => array(
+              'deniedReserved',
+            ),
+          ),
+          array(
+            // RenewedLoan.
+            'loanDetails' => array(
+              // LoanDetails.
+              'recordId'  => 'x',
+              'dueDate' => 'x',
+              'loanDate' => 'x',
+              'materialItemNumber' => 'x',
+              'loanId' => '3',
+            ),
+            'renewalStatus' => array(
+              'deniedOtherReason',
+            ),
+          ),
+        )
+      ),
+    );
+    $httpclient = $this->getHttpClient($json_responses);
+
+    // Run through tests.
+    $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
+
+    $user = (object) array(
+      'fbs_patron_id' => '123',
+    );
+
+    // Check success.
+    $res = $this->providerInvoke('renew', $user, array(1, 2, 3));
+    $expected = array(
+      1 => DingProviderLoan::STATUS_RENEWED,
+      2 => DingProviderLoan::STATUS_NOT_RENEWED,
+      3 => DingProviderLoan::STATUS_NOT_RENEWED,
+    );
+    $this->assertEquals($expected, $res);
+  }
+
 }
