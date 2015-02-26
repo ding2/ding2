@@ -75,14 +75,15 @@ abstract class ProviderTestCase extends PHPUnit_Framework_TestCase {
   /**
    * Get HTTP Client, possibly preloaded with responses.
    */
-  protected function getHttpClient($json_responses) {
+  protected function getHttpClient($replies) {
     $httpclient = $this->prophesize('Reload\Prancer\HttpClient');
 
     $responses = array();
-    foreach ($json_responses as $json_data) {
-      $response = new Response(new Stream('php://memory', 'w'), 200);
-      $response->getBody()->write(json_encode($json_data));
-      $responses[] = $response;
+    foreach ($replies as $reply) {
+      if (!($reply instanceof Reply)) {
+        $reply = new Reply($reply);
+      }
+      $responses[] = $reply->getResponse();
     }
 
     $httpclient->request(Argument::any())
@@ -90,5 +91,51 @@ abstract class ProviderTestCase extends PHPUnit_Framework_TestCase {
 
     $httpclient->request(Argument::any())->shouldBeCalledTimes(count($responses));
     return $httpclient->reveal();
+  }
+}
+
+/**
+ * Helper class for constructing fake replies from the server.
+ */
+class Reply {
+  protected $data;
+  protected $code = 200;
+  protected $message = '';
+
+  /**
+   * Create reply.
+   *
+   * @param array $data
+   *   Data to return as body.
+   */
+  public function __construct(array $data = NULL) {
+    $this->data = $data;
+  }
+
+  /**
+   * Set the HTTP status code of the reply.
+   */
+  public function code($code) {
+    $this->code = $code;
+    return $this;
+  }
+
+  /**
+   * Set the HTTP message of the reply.
+   */
+  public function message($message) {
+    $this->code = $code;
+    return $this;
+  }
+
+  /**
+   * Return the respone.
+   */
+  public function getResponse() {
+    $response = (new Response(new Stream('php://memory', 'w')))->withStatus($this->code, $this->message);
+    if (!is_null($this->data)) {
+      $response->getBody()->write(json_encode($this->data));
+    }
+    return $response;
   }
 }

@@ -26,10 +26,10 @@ function fbs_ding_provider() {
       //   'prefix' => 'reservation',
       //   'file' => $path . '/includes/fbs.reservation.inc',
       // ),
-      // 'user' => array(
-      //   'prefix' => 'user',
-      //   'file' => $path . '/includes/fbs.user.inc',
-      // ),
+      'user' => array(
+        'prefix' => 'user',
+        'file' => $path . '/includes/fbs.user.inc',
+      ),
       // 'wayf' => array(
       //   'prefix' => 'wayf',
       //   'file' => $path . '/includes/fbs.wayf.inc',
