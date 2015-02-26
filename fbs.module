@@ -18,10 +18,10 @@ function fbs_ding_provider() {
       //   'prefix' => 'debt',
       //   'file' => $path . '/includes/fbs.debt.inc',
       // ),
-      // 'loan' => array(
-      //   'prefix' => 'loan',
-      //   'file' => $path . '/includes/fbs.loan.inc',
-      // ),
+      'loan' => array(
+        'prefix' => 'loan',
+        'file' => $path . '/includes/fbs.loan.inc',
+      ),
       // 'reservation' => array(
       //   'prefix' => 'reservation',
       //   'file' => $path . '/includes/fbs.reservation.inc',
@@ -39,6 +39,21 @@ function fbs_ding_provider() {
 }
 
 /**
+ * Return patron id for user.
+ */
+function fbs_patron_id($account = NULL) {
+  global $user;
+  if (!$account) {
+    $account = $user;
+  }
+
+  if (isset($account->fbs_patron_id)) {
+    return $account->fbs_patron_id;
+  }
+  // throw DingProviderAuthException if no user is logged in.
+  return NULL;
+}
+/**
  * Get the service object.
  *
  * Parameters is for injecting in tests. Don't use.
@@ -52,8 +67,4 @@ function fbs_service($agency_id = NULL, $endpoint = NULL, $client = NULL, $mappe
     $service = new FBS($agency_id, $endpoint, $client, $mapper);
   }
   return $service;
-}
-
-function fbs_patron_id($user = NULL) {
-    // throw DingProviderAuthException if no user is logged in.
 }

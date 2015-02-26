@@ -92,6 +92,22 @@ abstract class ProviderTestCase extends PHPUnit_Framework_TestCase {
     $httpclient->request(Argument::any())->shouldBeCalledTimes(count($responses));
     return $httpclient->reveal();
   }
+
+  /**
+   * Load ding includes.
+   */
+  protected function requireDing($module, $file) {
+    $modules_dir = getenv('DING_MODULES');
+    if (!$modules_dir) {
+      $this->fail("You need to provide the path to ding modules in the DING_MODULES env variable.");
+    }
+    $file = rtrim($modules_dir, '/') . '/' . $module . '/' . $file;
+    if (!file_exists($file)) {
+      $this->fail("Could not load " . $file);
+    }
+
+    require_once $file;
+  }
 }
 
 /**
