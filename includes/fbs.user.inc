@@ -35,3 +35,15 @@ function fbs_user_authenticate($name, $pincode) {
 
   return $result;
 }
+
+/**
+ * Implements provider user, update_pincode.
+ */
+function fbs_user_update_pincode($account, $new_pincode) {
+  $update = new FBS\Model\UpdatePatronRequest();
+  $update->pincodeChange = $new_pincode;
+  $res = fbs_service()->Patron->update(fbs_service()->agencyId, fbs_patron_id($account), $update);
+  // FBS doesn't give any other indication of success than returning rather
+  // than throwing an error.
+  return array('creds' => TRUE);
+}

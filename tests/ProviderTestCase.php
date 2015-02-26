@@ -140,7 +140,7 @@ class Reply {
    * Set the HTTP message of the reply.
    */
   public function message($message) {
-    $this->code = $code;
+    $this->message = $message;
     return $this;
   }
 
