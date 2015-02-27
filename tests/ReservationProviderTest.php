@@ -19,13 +19,6 @@ if (!function_exists('ding_provider_build_entity_id')) {
 }
 
 /**
- * DingProviderLoan::__construct() calls this, mock it.
- */
-// function t($str) {
-//   return $str;
-// }
-
-/**
  * Test user provider functions.
  */
 class ReservationProviderTest extends ProviderTestCase {
