@@ -4,4 +4,4 @@ core = 7.x
 dependencies[] = ding_provider
 package = Providers
 ; configure = admin/config/something/fbs
-files[] = FBS.php
+files[] = includes/classes/FBS.php

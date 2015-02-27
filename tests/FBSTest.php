@@ -1,6 +1,6 @@
 <?php
 
-require_once 'FBS.php';
+require_once 'includes/classes/FBS.php';
 
 use Phly\Http\Response;
 use Phly\Http\Stream;

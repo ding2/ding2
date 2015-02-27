@@ -6,7 +6,7 @@
  */
 
 require_once "ProviderTestCase.php";
-require_once 'FBS.php';
+require_once 'includes/classes/FBS.php';
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 /**
