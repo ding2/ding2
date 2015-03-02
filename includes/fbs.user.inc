@@ -18,9 +18,9 @@ function fbs_user_authenticate($name, $pincode) {
     'success' => $res->authenticated,
   );
   if ($res->authenticated) {
-    // Much ding code relies on creds existing for logged in users. So we
-    // provide a dummy value for it to store.
-    $result['creds'] = TRUE;
+    // We'll call the patronId for "creds", as it makes it easy to dig it out
+    // later.
+    $result['creds'] = $res->patron->patronId;
 
     $result['user'] = array(
       'mail' => $res->patron->emailAddress,

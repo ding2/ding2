@@ -122,7 +122,7 @@ class UserProviderTest extends ProviderTestCase {
         ),
         'blocked' => FALSE,
       ),
-      'creds' => TRUE,
+      'creds' => 234143,
     );
     $this->assertEquals($expected, $res);
 
@@ -150,7 +150,7 @@ class UserProviderTest extends ProviderTestCase {
           'You are dead.',
         ),
       ),
-      'creds' => TRUE,
+      'creds' => 234143,
     );
     $this->assertEquals($expected, $res);
 }
