@@ -30,7 +30,15 @@ function fbs_user_authenticate($name, $pincode) {
       'private' => array(
         'branch' => $res->patron->preferredPickupBranch,
       ),
+      'blocked' => !empty($res->patron->blockStatus),
     );
+
+    if ($res->patron->blockStatus) {
+      $result['user']['blocks'] = array();
+      foreach ($res->patron->blockStatus as $block) {
+        $result['user']['blocks'][] = $block->message;
+      }
+    }
   }
 
   return $result;

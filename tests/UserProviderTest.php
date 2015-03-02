@@ -27,7 +27,7 @@ class UserProviderTest extends ProviderTestCase {
           'authenticated' => TRUE,
           'patron' => array(
             // Patron.
-            'birthday' => '1946-10-15',
+            'birthday' => '1946-03-19',
             'coAddress' => NULL,
             'address' => array(
               // Address
@@ -61,6 +61,47 @@ class UserProviderTest extends ProviderTestCase {
           'patron' => NULL,
         )
       ),
+
+      // Blocked user.
+      new Reply(
+        array(
+          // AuthenticatedPatron.
+          'authenticated' => TRUE,
+          'patron' => array(
+            // Patron.
+            'birthday' => '1946-03-19',
+            'coAddress' => NULL,
+            'address' => array(
+              // Address
+              'country' => 'Danmark',
+              'city' => 'København',
+              'street' => 'Alhambravej 1',
+              'postalCode' => '1826',
+            ),
+            // ISIL of Vesterbro bibliotek
+            'preferredPickupBranch' => '113',
+            'onHold' => NULL,
+            'patronId' => 234143,
+            'recieveEmail' => TRUE,
+            'blockStatus' => array(
+              // Array of...
+              array(
+                // Blockstatus.
+                'blockedReason' => '3424',
+                'blockedSince' => '1993-10-15',
+                'message' => 'You are dead.',
+              ),
+            ),
+            'recieveSms' => FALSE,
+            'emailAddress' => 'onkel@danny.dk',
+            'phoneNumber' => '80345210',
+            'name' => 'Dan Turrell',
+            'receivePostalMail' => FALSE,
+            'defaultInterestPeriod' => 30,
+            'resident' => TRUE,
+          ),
+        )
+      ),
     );
     $httpclient = $this->getHttpClient($json_responses);
 
@@ -79,6 +120,7 @@ class UserProviderTest extends ProviderTestCase {
         'private' => array(
           'branch' => 113,
         ),
+        'blocked' => FALSE,
       ),
       'creds' => TRUE,
     );
@@ -90,7 +132,28 @@ class UserProviderTest extends ProviderTestCase {
       'success' => FALSE,
     );
     $this->assertEquals($expected, $res);
-  }
+
+    // Check blocked.
+    $res = $this->providerInvoke('authenticate', '151019463013', '1234');
+    $expected = array(
+      'success' => TRUE,
+      'user' => array(
+        'mail' => 'onkel@danny.dk',
+        'data' => array(
+          'display_name' => 'Dan Turrell',
+        ),
+        'private' => array(
+          'branch' => 113,
+        ),
+        'blocked' => TRUE,
+        'blocks' => array(
+          'You are dead.',
+        ),
+      ),
+      'creds' => TRUE,
+    );
+    $this->assertEquals($expected, $res);
+}
 
   /**
    * Test user update_pincode.
