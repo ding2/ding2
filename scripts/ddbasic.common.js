@@ -14,7 +14,7 @@
     // Set variables
     var element = $('.js-opening-hours-toggle');
     var siteHeader = $('.site-header');
-    var scrollOffset;
+    var scrollOffset = 0;
     var scrollToTarget;
 
     // Attach click
@@ -31,10 +31,6 @@
         if ($('.site-header.js-fixed').length) {
           // If the site header is fixed use the height
           scrollOffset = $(siteHeader).height();
-        } else {
-          // Else the window is scrolled to the top and we have to multiply the
-          // height by 2 because it get's position fixed
-          scrollOffset = $(siteHeader).height()*2;
         }
 
         // Scroll to the top of the element
