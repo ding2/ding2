@@ -27,24 +27,88 @@ class AvailabilityProviderTest extends ProviderTestCase {
     $this->provider = 'availability';
 
     $json_responses = array(
+      // TC1
+      array(
+      ),
+      // TC2
+      array(
+      ),
+      // TC3
       array(
         array(
-          'recordId' => '123',
+          'recordId' => 'mat1',
+          'available' => FALSE,
+          'reservable' => FALSE,
+        ),
+      ),
+      // TC4
+      array(
+        array(
+          'recordId' => 'mat2',
+          'available' => FALSE,
+          'reservable' => TRUE,
+        ),
+      ),
+      // TC5
+      array(
+        array(
+          'recordId' => 'mat3',
+          'available' => TRUE,
+          'reservable' => FALSE,
+        ),
+      ),
+      // TC6
+      array(
+        array(
+          'recordId' => 'mat4',
           'available' => TRUE,
           'reservable' => TRUE,
         ),
       ),
-
+      // TC7
       array(
         array(
-          'recordId' => '143',
+          'recordId' => 'mat1',
+          'available' => FALSE,
+          'reservable' => FALSE,
+        ),
+        array(
+          'recordId' => 'mat2',
+          'available' => FALSE,
+          'reservable' => TRUE,
+        ),
+        array(
+          'recordId' => 'mat3',
           'available' => TRUE,
           'reservable' => FALSE,
         ),
         array(
-          'recordId' => 'banana',
+          'recordId' => 'mat4',
+          'available' => TRUE,
+          'reservable' => TRUE,
+        ),
+      ),
+      // TC8
+      array(
+        array(
+          'recordId' => 'mat1',
           'available' => FALSE,
           'reservable' => FALSE,
+        ),
+        array(
+          'recordId' => 'mat2',
+          'available' => FALSE,
+          'reservable' => TRUE,
+        ),
+        array(
+          'recordId' => 'mat3',
+          'available' => TRUE,
+          'reservable' => FALSE,
+        ),
+        array(
+          'recordId' => 'mat4',
+          'available' => TRUE,
+          'reservable' => TRUE,
         ),
       ),
     );
@@ -53,22 +117,76 @@ class AvailabilityProviderTest extends ProviderTestCase {
     // Run through tests.
     $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
 
-    // Single item.
-    $res = $this->providerInvoke('items', array('123'));
-    $expected = array('123' => array('available' => TRUE, 'reservable' => TRUE));
+    // TC1: Empty request.
+    $res = $this->providerInvoke('items', array());
+    $expected = array();
     $this->assertEquals($expected, $res);
 
-    // Multiple items, one with a string key.
-    $res = $this->providerInvoke('items', array('143', 'banana'));
+    // TC2: Request availability for non-existing item
+    $res = $this->providerInvoke('items', array('iDontExist'));
+    $expected = array();
+    $this->assertEquals($expected, $res);
+
+    // TC3: Request availability for existing item, non-available, non-reservable
+    $res = $this->providerInvoke('items', array('mat1'));
+    $expected = array('mat1' => array('available' => FALSE, 'reservable' => FALSE));
+    $this->assertEquals($expected, $res);
+
+    // TC4: Request availability for existing item, non-available, reservable
+    $res = $this->providerInvoke('items', array('mat2'));
+    $expected = array('mat2' => array('available' => FALSE, 'reservable' => TRUE));
+    $this->assertEquals($expected, $res);
+
+    // TC5: Request availability for existing item, available, non-reservable
+    $res = $this->providerInvoke('items', array('mat3'));
+    $expected = array('mat3' => array('available' => TRUE, 'reservable' => FALSE));
+    $this->assertEquals($expected, $res);
+
+    // TC6: Request availability for existing item, available, reservable
+    $res = $this->providerInvoke('items', array('mat4'));
+    $expected = array('mat4' => array('available' => TRUE, 'reservable' => TRUE));
+    $this->assertEquals($expected, $res);
+
+    // TC7: Request availability for multiple (valid) items
+    $res = $this->providerInvoke('items', array('mat1','mat2','mat3','mat4'));
     $expected = array(
-      '143' => array(
-        'available' => TRUE,
-        'reservable' => FALSE,
-      ),
-      'banana' => array(
+      'mat1' => array(
         'available' => FALSE,
         'reservable' => FALSE,
       ),
+      'mat2' => array(
+        'available' => FALSE,
+        'reservable' => TRUE,
+      ),
+      'mat3' => array(
+        'available' => TRUE,
+        'reservable' => FALSE,
+      ),
+      'mat4' => array(
+        'available' => TRUE,
+        'reservable' => TRUE,
+      ),
+    );
+
+    // TC8: Request availability for multiple (including invalid) items
+    $res = $this->providerInvoke('items', array('mat1','mat2','mat3','mat4',NULL,'iDontExist'));
+    $expected = array(
+      'mat1' => array(
+        'available' => FALSE,
+        'reservable' => FALSE,
+      ),
+      'mat2' => array(
+        'available' => FALSE,
+        'reservable' => TRUE,
+      ),
+      'mat3' => array(
+        'available' => TRUE,
+        'reservable' => FALSE,
+      ),
+      'mat4' => array(
+        'available' => TRUE,
+        'reservable' => TRUE,
+      )
     );
     $this->assertEquals($expected, $res);
   }
