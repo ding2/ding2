@@ -1,0 +1,78 @@
+<?php
+
+/**
+ * @file
+ * Test debt provider functions.
+ */
+
+require_once "ProviderTestCase.php";
+require_once 'includes/classes/FBS.php';
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+/**
+ * Test debt provider functions.
+ */
+class ProviderTest extends ProviderTestCase {
+
+  /**
+   * Test debt list.
+   */
+  public function testList() {
+    $this->provider = 'debt';
+    // Define DingEntity.
+    $this->requireDing('ding_entity', 'ding_entity.module');
+    // // Define DingProviderUserException.
+    // $this->requireDing('ding_provider', 'ding_provider.exceptions.inc');
+    // Define DingProviderLoan.
+    $this->requireDing('ding_provider', 'ding_provider.debt.inc');
+
+    $json_responses = array(
+      new Reply(
+        array(
+          // Array of...
+          array(
+            // Fee.
+            'payableByClient' => TRUE,
+            'amount' => '99.99',
+            'paidDate' => NULL,
+            'material' => array(
+              // Array of...
+              array(
+                // FeeMaterial.
+                'recordId' => 123,
+                'materialItemNumber' => 321,
+              ),
+            ),
+            'reasonMessage' => 'You were late.',
+            'dueDate' => '2015-09-09',
+            'type' => 'late',
+            'creationDate' => '2015-03-09',
+            'feeId' => 555,
+          ),
+        )
+      ),
+    );
+
+    $httpclient = $this->getHttpClient($json_responses);
+
+    // Run through tests.
+    $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
+
+    $user = (object) array(
+      'fbs_patron_id' => '123',
+    );
+
+    $res = $this->providerInvoke('list', $user);
+    $expected = array(
+      '555' => new DingProviderDebt('555', array(
+        'date' => '2015-03-09',
+        'display_name' => 'You were late.',
+        'amount' => '99.99',
+        'amount_paid' => 0,
+        'invoice_number' => NULL,
+        'type' => 'late',
+      ))
+    );
+    $this->assertEquals($expected, $res);
+  }
+}

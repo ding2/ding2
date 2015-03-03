@@ -34,10 +34,10 @@ function fbs_ding_provider() {
         'prefix' => 'availability',
         'file' => $path . '/includes/fbs.availability.inc',
       ),
-      // 'debt' => array(
-      //   'prefix' => 'debt',
-      //   'file' => $path . '/includes/fbs.debt.inc',
-      // ),
+      'debt' => array(
+        'prefix' => 'debt',
+        'file' => $path . '/includes/fbs.debt.inc',
+      ),
       'loan' => array(
         'prefix' => 'loan',
         'file' => $path . '/includes/fbs.loan.inc',
