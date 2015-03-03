@@ -6,8 +6,6 @@ use \JsonMapper;
 use Reload\Prancer\Serializer;
 use Reload\Prancer\Serializer\JsonMapperSerializer;
 
-require_once 'vendor/autoload.php';
-
 use Psr\Http\Message\RequestInterface;
 // use Psr\Http\Message\ResponseInterface;
 use Phly\Http\Response;

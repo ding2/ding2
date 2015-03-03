@@ -1,6 +1,26 @@
 <?php
 
 /**
+ * @file
+ * FBS provider module.
+ */
+
+// Load Field module hooks. Wrapping in function exists, so we'll still be
+// able to load this file in tests.
+if (function_exists('module_load_include')) {
+  module_load_include('inc', 'fbs', 'fbs.field');
+}
+
+/**
+ * Implements hook_init().
+ *
+ * Register autoloader for our (non-Drupal) classes.
+ */
+function fbs_init() {
+  require_once "vendor/autoload.php";
+}
+
+/**
  * Implements hook_ding_provider().
  */
 function fbs_ding_provider() {
@@ -8,7 +28,7 @@ function fbs_ding_provider() {
 
   return array(
     'title' => 'FBS provider',
-    //'settings' => 'fbs_settings_form',
+    'settings' => 'fbs_settings_form',
     'provides' => array(
       'availability' => array(
         'prefix' => 'availability',
@@ -64,7 +84,64 @@ function fbs_service($agency_id = NULL, $endpoint = NULL, $client = NULL, $mappe
   if (!$service || $reset) {
     $agency_id = !is_null($agency_id) ? $agency_id : variable_get('fbs_agency_id', '');
     $endpoint = !is_null($endpoint) ? $endpoint : variable_get('fbs_endpoint', '');
+    if ($endpoint && preg_match('{localtest}', $endpoint)) {
+      $client = new FakeHttpClient();
+    }
     $service = new FBS($agency_id, $endpoint, $client, $mapper);
   }
   return $service;
+}
+
+/**
+ * Provider settings form.
+ */
+function fbs_settings_form() {
+  $form = array();
+
+  $form['fbs'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('FBS service settings'),
+    '#tree' => FALSE,
+  );
+
+  $form['fbs']['fbs_endpoint'] = array(
+    '#type' => 'textfield',
+    '#title' => t('FBS endpoint URL'),
+    '#description' => t('The URL for the FBS REST service, usually something like https://et.cicero-fbs.com/rest'),
+    '#required' => TRUE,
+    '#default_value' => variable_get('fbs_endpoint', ''),
+  );
+
+  $form['fbs']['fbs_agency'] = array(
+    '#type' => 'textfield',
+    '#title' => t('ISIL'),
+    '#description' => t('ISIL code of the library, for example DK-810015.'),
+    '#default_value' => variable_get('fbs_agency', ''),
+  );
+
+  // $form['fbs']['fbs_enable_reservation_deletion'] = array(
+  //   '#type' => 'checkbox',
+  //   '#title' => t('Enable reservation deletion'),
+  //   '#default_value' => variable_get('fbs_enable_reservation_deletion', FALSE),
+  //   '#description' => t('Allow users to delete their reservations as well as ready for pickup ones.'),
+  // );
+
+  // $form['fbs']['fbs_enable_logging'] = array(
+  //   '#type' => 'checkbox',
+  //   '#title' => t('Enable logging'),
+  //   '#default_value' => variable_get('fbs_enable_logging', FALSE),
+  //   '#description' => t('Logs requests to the OpenRuth webservice. Sensitive information such as CPR number and PIN code is stripped from the requests.'),
+  // );
+
+  return system_settings_form($form);
+}
+
+/**
+ * Submit function. Trim values.
+ */
+function fbs_settings_form_submit($form, &$form_state) {
+  foreach ($form_state['values'] as $name => $value) {
+    $form_state['values'][$name] = trim($value);
+  }
+  system_settings_form_submit($form, $form_state);
 }
