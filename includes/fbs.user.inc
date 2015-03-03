@@ -20,7 +20,11 @@ function fbs_user_authenticate($name, $pincode) {
   if ($res->authenticated) {
     // We'll call the patronId for "creds", as it makes it easy to dig it out
     // later.
-    $result['creds'] = $res->patron->patronId;
+    $result['creds'] = array(
+      'patronId' => $res->patron->patronId,
+      'name' => $res->patron->name,
+      'phone' => $res->patron->phoneNumber,
+    );
 
     $result['user'] = array(
       'mail' => $res->patron->emailAddress,
