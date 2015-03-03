@@ -27,86 +27,86 @@ class AvailabilityProviderTest extends ProviderTestCase {
     $this->provider = 'availability';
 
     $json_responses = array(
-      // TC1
-      array(
-      ),
-      // TC2
-      array(
-      ),
-      // TC3
+      // TCA1: Return empty result for empty request
+      array(),
+      
+      // TCA2: Return empty result for non-existing material
+      array(),
+
+      // TCA3: Return availability for material MAT1
       array(
         array(
-          'recordId' => 'mat1',
+          'recordId' => 'REC1',
           'available' => FALSE,
           'reservable' => FALSE,
         ),
       ),
-      // TC4
+      // TCA4: Return availability for material MAT2
       array(
         array(
-          'recordId' => 'mat2',
+          'recordId' => 'REC2',
           'available' => FALSE,
           'reservable' => TRUE,
         ),
       ),
-      // TC5
+      // TCA5: Return availability for material MAT3
       array(
         array(
-          'recordId' => 'mat3',
+          'recordId' => 'REC3',
           'available' => TRUE,
           'reservable' => FALSE,
         ),
       ),
-      // TC6
+      // TCA6: Return availability for material MAT4
       array(
         array(
-          'recordId' => 'mat4',
+          'recordId' => 'REC4',
           'available' => TRUE,
           'reservable' => TRUE,
         ),
       ),
-      // TC7
+      // TCA7: Return availability for material MAT1, MAT2, MAT3, MAT4
       array(
         array(
-          'recordId' => 'mat1',
+          'recordId' => 'REC1',
           'available' => FALSE,
           'reservable' => FALSE,
         ),
         array(
-          'recordId' => 'mat2',
+          'recordId' => 'REC2',
           'available' => FALSE,
           'reservable' => TRUE,
         ),
         array(
-          'recordId' => 'mat3',
+          'recordId' => 'REC3',
           'available' => TRUE,
           'reservable' => FALSE,
         ),
         array(
-          'recordId' => 'mat4',
+          'recordId' => 'REC4',
           'available' => TRUE,
           'reservable' => TRUE,
         ),
       ),
-      // TC8
+      // TCA8: Return availability for material MAT1, MAT2, MAT3, MAT4 (and % for non-existing material)
       array(
         array(
-          'recordId' => 'mat1',
+          'recordId' => 'REC1',
           'available' => FALSE,
           'reservable' => FALSE,
         ),
         array(
-          'recordId' => 'mat2',
+          'recordId' => 'REC2',
           'available' => FALSE,
           'reservable' => TRUE,
         ),
         array(
-          'recordId' => 'mat3',
+          'recordId' => 'REC3',
           'available' => TRUE,
           'reservable' => FALSE,
         ),
         array(
-          'recordId' => 'mat4',
+          'recordId' => 'REC4',
           'available' => TRUE,
           'reservable' => TRUE,
         ),
@@ -117,73 +117,73 @@ class AvailabilityProviderTest extends ProviderTestCase {
     // Run through tests.
     $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
 
-    // TC1: Empty request.
+    // TCA1: Empty request.
     $res = $this->providerInvoke('items', array());
     $expected = array();
     $this->assertEquals($expected, $res);
 
-    // TC2: Request availability for non-existing item
+    // TCA2: Request availability for non-existing item
     $res = $this->providerInvoke('items', array('iDontExist'));
     $expected = array();
     $this->assertEquals($expected, $res);
 
-    // TC3: Request availability for existing item, non-available, non-reservable
-    $res = $this->providerInvoke('items', array('mat1'));
-    $expected = array('mat1' => array('available' => FALSE, 'reservable' => FALSE));
+    // TCA3: Request availability for existing item, non-available, non-reservable
+    $res = $this->providerInvoke('items', array('REC1'));
+    $expected = array('REC1' => array('available' => FALSE, 'reservable' => FALSE));
     $this->assertEquals($expected, $res);
 
-    // TC4: Request availability for existing item, non-available, reservable
-    $res = $this->providerInvoke('items', array('mat2'));
-    $expected = array('mat2' => array('available' => FALSE, 'reservable' => TRUE));
+    // TCA4: Request availability for existing item, non-available, reservable
+    $res = $this->providerInvoke('items', array('REC2'));
+    $expected = array('REC2' => array('available' => FALSE, 'reservable' => TRUE));
     $this->assertEquals($expected, $res);
 
-    // TC5: Request availability for existing item, available, non-reservable
-    $res = $this->providerInvoke('items', array('mat3'));
-    $expected = array('mat3' => array('available' => TRUE, 'reservable' => FALSE));
+    // TCA5: Request availability for existing item, available, non-reservable
+    $res = $this->providerInvoke('items', array('REC3'));
+    $expected = array('REC3' => array('available' => TRUE, 'reservable' => FALSE));
     $this->assertEquals($expected, $res);
 
-    // TC6: Request availability for existing item, available, reservable
-    $res = $this->providerInvoke('items', array('mat4'));
-    $expected = array('mat4' => array('available' => TRUE, 'reservable' => TRUE));
+    // TCA6: Request availability for existing item, available, reservable
+    $res = $this->providerInvoke('items', array('REC4'));
+    $expected = array('REC4' => array('available' => TRUE, 'reservable' => TRUE));
     $this->assertEquals($expected, $res);
 
-    // TC7: Request availability for multiple (valid) items
-    $res = $this->providerInvoke('items', array('mat1','mat2','mat3','mat4'));
+    // TCA7: Request availability for multiple (valid) items
+    $res = $this->providerInvoke('items', array('REC1','REC2','REC3','REC4'));
     $expected = array(
-      'mat1' => array(
+      'REC1' => array(
         'available' => FALSE,
         'reservable' => FALSE,
       ),
-      'mat2' => array(
+      'REC2' => array(
         'available' => FALSE,
         'reservable' => TRUE,
       ),
-      'mat3' => array(
+      'REC3' => array(
         'available' => TRUE,
         'reservable' => FALSE,
       ),
-      'mat4' => array(
+      'REC4' => array(
         'available' => TRUE,
         'reservable' => TRUE,
       ),
     );
 
-    // TC8: Request availability for multiple (including invalid) items
-    $res = $this->providerInvoke('items', array('mat1','mat2','mat3','mat4',NULL,'iDontExist'));
+    // TCA8: Request availability for multiple (including invalid) items
+    $res = $this->providerInvoke('items', array('REC1','REC2','REC3','REC4',NULL,'iDontExist'));
     $expected = array(
-      'mat1' => array(
+      'REC1' => array(
         'available' => FALSE,
         'reservable' => FALSE,
       ),
-      'mat2' => array(
+      'REC2' => array(
         'available' => FALSE,
         'reservable' => TRUE,
       ),
-      'mat3' => array(
+      'REC3' => array(
         'available' => TRUE,
         'reservable' => FALSE,
       ),
-      'mat4' => array(
+      'REC4' => array(
         'available' => TRUE,
         'reservable' => TRUE,
       )
@@ -211,136 +211,392 @@ class AvailabilityProviderTest extends ProviderTestCase {
   public function testHoldings() {
     $this->provider = 'availability';
 
-    // @todo: multiple materials on same branch/department/etc.
     $json_responses = array(
-      // First response.
+      // TCH1: Empty result for empty request
+      array(),
+
+      // TCH2: Empty result for unknown material
+      array(), 
+      
+      // TCH3: Return holdings for material MAT1: reservable/available=false
       array(
-        // Array of ...
         array(
           // HoldingsForBibliographicalRecord.
-          'recordId' => 'one1234',
-          'reservable' => TRUE,
+          'recordId' => 'REC1',
+          'reservable' => FALSE,
           'holdings' => array(
-            // Array of ...
             array(
-              // Holdings.
+              // Holding.
               'materials' => array(
-                // Array of ...
                 array(
                   // Material.
-                  'itemNumber' => '123456',
+                  'itemNumber' => 'ITEMNUM11',
                   'available' => FALSE,
                 ),
-                array(
-                  // Material.
-                  'itemNumber' => '123457',
-                  'available' => TRUE,
-                ),
               ),
-              'location' => array(
-                // AgencyLocation.
-                'locationId' => 14,
-                'title' => 'Reol 14',
-              ),
-              'sublocation' => array(
-                // AgencySublocation.
-                'sublocationId' => 3,
-                'title' => 'Hylde 3',
+              'branch' => array(
+                // AgencyBranch.
+                'branchId' => 'BRA1',
+                'title' => 'TBRA1',
               ),
               'department' => array(
                 // AgencyDepartment.
-                'departmentId' => 2,
-                'title' => 'Børn',
+                'departmentId' => 'DEP1',
+                'title' => 'TDEP1',
               ),
-              'branch' => array(
-                // AgencyBranch..
-                'branchId' => 1,
-                'title' => 'Hovedbiblioteket',
+              'location' => array(
+                // AgencyLocation.
+                'locationId' => 'LOC1',
+                'title' => 'TLOC1',
+              ),
+              'sublocation' => array(
+                // AgencySublocation.
+                'sublocationId' => 'SUB1',
+                'title' => 'TSUB1',
               ),
             ),
           ),
         ),
       ),
 
-      // Second response.
+      // TCH4: Return holdings for material MAT2: reservable=true/available=false
       array(
-        // Array of ...
         array(
           // HoldingsForBibliographicalRecord.
-          'recordId' => 'two1234',
+          'recordId' => 'REC2',
           'reservable' => TRUE,
           'holdings' => array(
-            // Array of ...
             array(
-              // Holdings.
+              // Holding 1
               'materials' => array(
-                // Array of ...
                 array(
                   // Material.
-                  'itemNumber' => '123456',
+                  'itemNumber' => 'ITEMNUM21',
                   'available' => FALSE,
                 ),
-                array(
-                  // Material.
-                  'itemNumber' => '123457',
-                  'available' => TRUE,
-                ),
               ),
-              'location' => array(
-                // AgencyLocation.
-                'locationId' => 14,
-                'title' => 'Reol 14',
-              ),
-              'sublocation' => array(
-                // AgencySublocation.
-                'sublocationId' => 3,
-                'title' => 'Hylde 3',
+              'branch' => array(
+                // AgencyBranch.
+                'branchId' => 'BRA1',
+                'title' => 'TBRA1',
               ),
               'department' => array(
                 // AgencyDepartment.
-                'departmentId' => 2,
-                'title' => 'Børn',
+                'departmentId' => 'DEP1',
+                'title' => 'TDEP1',
               ),
-              'branch' => array(
-                // AgencyBranch..
-                'branchId' => 1,
-                'title' => 'Hovedbiblioteket',
+              'location' => array(
+                // AgencyLocation.
+                'locationId' => 'LOC1',
+                'title' => 'TLOC1',
+              ),
+              'sublocation' => array(
+                // AgencySublocation.
+                'sublocationId' => 'SUB1',
+                'title' => 'TSUB1',
               ),
             ),
             array(
-              // Holdings.
+              // Holding 2
               'materials' => array(
-                // Array of ...
                 array(
                   // Material.
-                  'itemNumber' => '223456',
+                  'itemNumber' => 'ITEMNUM22',
                   'available' => FALSE,
                 ),
-                array(
-                  // Material.
-                  'itemNumber' => '223457',
-                  'available' => TRUE,
-                ),
               ),
-              'location' => array(
-                // AgencyLocation.
-                'locationId' => 14,
-                'title' => 'Reol 14',
-              ),
-              'sublocation' => array(
-                // AgencySublocation.
-                'sublocationId' => 4,
-                'title' => 'Hylde 4',
+              'branch' => array(
+                // AgencyBranch.
+                'branchId' => 'BRA1',
+                'title' => 'TBRA1',
               ),
               'department' => array(
                 // AgencyDepartment.
-                'departmentId' => 2,
-                'title' => 'Børn',
+                'departmentId' => 'DEP1',
+                'title' => 'TDEP1',
+              ),
+              'location' => array(
+                // AgencyLocation.
+                'locationId' => 'LOC2',
+                'title' => 'TLOC2',
+              ),
+              'sublocation' => array(
+                // AgencySublocation.
+                'sublocationId' => 'SUB2',
+                'title' => 'TSUB2',
+              ),
+            ),
+            array(
+              // Holding 3
+              'materials' => array(
+                array(
+                  // Material.
+                  'itemNumber' => 'ITEMNUM23',
+                  'available' => FALSE,
+                ),
               ),
               'branch' => array(
-                // AgencyBranch..
-                'branchId' => 1,
-                'title' => 'Hovedbiblioteket',
+                // AgencyBranch.
+                'branchId' => 'BRA1',
+                'title' => 'TBRA1',
+              ),
+              'department' => array(
+                // AgencyDepartment.
+                'departmentId' => 'DEP2',
+                'title' => 'TDEP2',
+              ),
+              'location' => array(
+                // AgencyLocation.
+                'locationId' => 'LOC1',
+                'title' => 'TLOC1',
+              ),
+              'sublocation' => array(
+                // AgencySublocation.
+                'sublocationId' => 'SUB3',
+                'title' => 'TSUB3',
+              ),
+            ),
+          ),
+        ),
+      ),
+
+      // TCH5: Return holdings for material MAT3: reservable=false/available=true
+      array(
+        array(
+          // HoldingsForBibliographicalRecord.
+          'recordId' => 'REC3',
+          'reservable' => FALSE,
+          'holdings' => array(
+            array(
+              // Holding
+              'materials' => array(
+                array(
+                  // ITEM
+                  'itemNumber' => 'ITEMNUM31',
+                  'available' => TRUE,
+                ),
+              ),
+              'branch' => array(
+                // AgencyBranch.
+                'branchId' => 'BRA1',
+                'title' => 'TBRA1',
+              ),
+              'department' => array(
+                // AgencyDepartment.
+                'departmentId' => 'DEP2',
+                'title' => 'TDEP2',
+              ),
+              'location' => array(
+                // AgencyLocation.
+                'locationId' => 'LOC2',
+                'title' => 'TLOC2',
+              ),
+              'sublocation' => array(
+                // AgencySublocation.
+                'sublocationId' => 'SUB2',
+                'title' => 'TSUB2',
+              ),
+            ),
+          ),
+        ),
+      ),
+
+      // TCH6: Return holdings for material MAT4: reservable/available=true
+      array(
+        array(
+          // HoldingsForBibliographicalRecord.
+          'recordId' => 'REC4',
+          'reservable' => TRUE,
+          'holdings' => array(
+            array(
+              // Holdings.
+              'materials' => array(
+                array(
+                  // ITEM 1
+                  'itemNumber' => 'ITEMNUM41',
+                  'available' => TRUE,
+                ),
+                array(
+                  // ITEM 2
+                  'itemNumber' => 'ITEMNUM42',
+                  'available' => TRUE,
+                ),
+                array(
+                  // ITEM 3
+                  'itemNumber' => 'ITEMNUM43',
+                  'available' => FALSE,
+                ),
+              ),
+              'branch' => array(
+                // AgencyBranch.
+                'branchId' => 'BRA1',
+                'title' => 'TBRA1',
+              ),
+              'department' => array(
+                // AgencyDepartment.
+                'departmentId' => 'DEP2',
+                'title' => 'TDEP2',
+              ),
+              'location' => array(
+                // AgencyLocation.
+                'locationId' => 'LOC1',
+                'title' => 'TLOC1',
+              ),
+              'sublocation' => array(
+                // AgencySublocation.
+                'sublocationId' => 'SUB4',
+                'title' => 'TSUB4',
+              ),
+            ),
+          ),
+        ),
+      ),
+
+      // TCH7: Return holdings for MAT5
+      array(
+        array(
+          // HoldingsForBibliographicalRecord.
+          'recordId' => 'REC5',
+          'reservable' => TRUE,
+          'holdings' => array(
+            array(
+              // Holdings.
+              'materials' => array(
+                array(
+                  // Material.
+                  'itemNumber' => 'ITEMNUM51',
+                  'available' => TRUE,
+                ),
+              ),
+              'branch' => array(
+                // AgencyBranch.
+                'branchId' => 'BRA1',
+                'title' => 'TBRA1',
+              ),
+              'department' => NULL,
+              'location' => NULL,
+              'sublocation' => NULL,
+            ),
+          ),
+        ),
+      ),
+
+      // TCH8: Return holdings for MAT1 & MAT3
+      array(
+        // MAT1
+        array(
+          // HoldingsForBibliographicalRecord.
+          'recordId' => 'REC1',
+          'reservable' => FALSE,
+          'holdings' => array(
+            array(
+              // Holding.
+              'materials' => array(
+                array(
+                  // Material.
+                  'itemNumber' => 'ITEMNUM11',
+                  'available' => FALSE,
+                ),
+              ),
+              'branch' => array(
+                // AgencyBranch.
+                'branchId' => 'BRA1',
+                'title' => 'TBRA1',
+              ),
+              'department' => array(
+                // AgencyDepartment.
+                'departmentId' => 'DEP1',
+                'title' => 'TDEP1',
+              ),
+              'location' => array(
+                // AgencyLocation.
+                'locationId' => 'LOC1',
+                'title' => 'TLOC1',
+              ),
+              'sublocation' => array(
+                // AgencySublocation.
+                'sublocationId' => 'SUB1',
+                'title' => 'TSUB1',
+              ),
+            ),
+          ),
+        ),
+        // MAT3
+        array(
+          // HoldingsForBibliographicalRecord.
+          'recordId' => 'REC3',
+          'reservable' => FALSE,
+          'holdings' => array(
+            array(
+              // Holding
+              'materials' => array(
+                array(
+                  // ITEM
+                  'itemNumber' => 'ITEMNUM31',
+                  'available' => TRUE,
+                ),
+              ),
+              'branch' => array(
+                // AgencyBranch.
+                'branchId' => 'BRA1',
+                'title' => 'TBRA1',
+              ),
+              'department' => array(
+                // AgencyDepartment.
+                'departmentId' => 'DEP2',
+                'title' => 'TDEP2',
+              ),
+              'location' => array(
+                // AgencyLocation.
+                'locationId' => 'LOC2',
+                'title' => 'TLOC2',
+              ),
+              'sublocation' => array(
+                // AgencySublocation.
+                'sublocationId' => 'SUB2',
+                'title' => 'TSUB2',
+              ),
+            ),
+          ),
+        ),
+      ),
+      
+      // TCH9: Return holdings for MAT1 & iDontExist
+      array(
+        // MAT1
+        array(
+          // HoldingsForBibliographicalRecord.
+          'recordId' => 'REC1',
+          'reservable' => FALSE,
+          'holdings' => array(
+            array(
+              // Holding.
+              'materials' => array(
+                array(
+                  // Material.
+                  'itemNumber' => 'ITEMNUM11',
+                  'available' => FALSE,
+                ),
+              ),
+              'branch' => array(
+                // AgencyBranch.
+                'branchId' => 'BRA1',
+                'title' => 'TBRA1',
+              ),
+              'department' => array(
+                // AgencyDepartment.
+                'departmentId' => 'DEP1',
+                'title' => 'TDEP1',
+              ),
+              'location' => array(
+                // AgencyLocation.
+                'locationId' => 'LOC1',
+                'title' => 'TLOC1',
+              ),
+              'sublocation' => array(
+                // AgencySublocation.
+                'sublocationId' => 'SUB1',
+                'title' => 'TSUB1',
               ),
             ),
           ),
@@ -353,64 +609,248 @@ class AvailabilityProviderTest extends ProviderTestCase {
     // Run through tests.
     $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
 
-    // Single item.
-    $res = $this->providerInvoke('holdings', array('one1234'));
+    // TCH1: Empty request
+    $res = $this->providerInvoke('holdings', array());
+    $expected = array();
+    $this->assertEquals($expected, $res);
+
+    // TCH2: Request holdings for non-existing item
+    $res = $this->providerInvoke('holdings', array('iDontExist'));
+    $expected = array();
+    $this->assertEquals($expected, $res);
+
+    // TCH3: Request holdings for existing item (MAT1), non-available, non-reservable
+    $res = $this->providerInvoke('holdings', array('REC1'));
     $expected = array(
-      'one1234' => array(
-        'reservable' => TRUE,
-        'available' => TRUE,
+      // MAT1
+      'REC1' => array(
+        'reservable' => FALSE,
+        'available' => FALSE,
         'holdings' => array(
+          // ITEM11
           array(
             'placement' => array(
-              'Hovedbiblioteket',
-              'Børn',
-              'Reol 14',
-              'Hylde 3',
+              'TBRA1',
+              'TDEP1',
+              'TLOC1',
+              'TSUB1',
             ),
-            'available_count' => 1,
-            'total_count' => 2,
+            'available_count' => 0,
+            'total_count' => 1,
             'reference_count' => 0,
           ),
         ),
         'is_internet' => FALSE,
-        'total_count' => 2,
+        'total_count' => 1,
         'reserved_count' => 0,
       ),
     );
     $this->assertEquals($expected, $res);
 
-    // More holdings.
-    $res = $this->providerInvoke('holdings', array('one1234'));
+    // TCH4: Request holdings for existing item (MAT2), non-available, reservable
+    $res = $this->providerInvoke('holdings', array('REC2'));
     $expected = array(
-      'two1234' => array(
+      // MAT2
+      'REC2' => array(
+        'reservable' => TRUE,
+        'available' => FALSE,
+        'holdings' => array(
+          array(
+            // ITEM21
+            'placement' => array(
+              'TBRA1',
+              'TDEP1',
+              'TLOC1',
+              'TSUB1',
+            ),
+            'available_count' => 0,
+            'total_count' => 1,
+            'reference_count' => 0,
+          ),
+          // ITEM22
+          array(
+            'placement' => array(
+              'TBRA1',
+              'TDEP1',
+              'TLOC2',
+              'TSUB2',
+            ),
+            'available_count' => 0,
+            'total_count' => 1,
+            'reference_count' => 0,
+          ),
+          // ITEM23
+          array(
+            'placement' => array(
+              'TBRA1',
+              'TDEP2',
+              'TLOC1',
+              'TSUB3',
+            ),
+            'available_count' => 0,
+            'total_count' => 1,
+            'reference_count' => 0,
+          ),
+        ),
+        'is_internet' => FALSE,
+        'total_count' => 3,
+        'reserved_count' => 0,
+      ),
+    );
+    $this->assertEquals($expected, $res);
+    
+    // TCH5: Request holdings for existing item (MAT3), available, non-reservable
+    $res = $this->providerInvoke('holdings', array('REC3'));
+    $expected = array(
+      // MAT3
+      'REC3' => array(
+        'reservable' => FALSE,
+        'available' => TRUE,
+        'holdings' => array(
+          // ITEM31
+          array(
+            'placement' => array(
+              'TBRA1',
+              'TDEP2',
+              'TLOC2',
+              'TSUB2',
+            ),
+            'available_count' => 1,
+            'total_count' => 1,
+            'reference_count' => 0,
+          ),
+        ),
+        'is_internet' => FALSE,
+        'total_count' => 1,
+        'reserved_count' => 0,
+      ),
+    );
+    $this->assertEquals($expected, $res);
+    
+    // TCH6: Request holdings for existing item (MAT4), available, reservable
+    $res = $this->providerInvoke('holdings', array('REC4'));
+    $expected = array(
+      // MAT4
+      'REC4' => array(
+        'reservable' => TRUE,
+        'available' => TRUE,
+        'holdings' => array(
+          // ITEM41 & ITEM42
+          array(
+            'placement' => array(
+              'TBRA1',
+              'TDEP2',
+              'TLOC1',
+              'TSUB4',
+            ),
+            'available_count' => 2,
+            'total_count' => 3,
+            'reference_count' => 0,
+          ),
+        ),
+        'is_internet' => FALSE,
+        'total_count' => 3,
+        'reserved_count' => 0,
+      ),
+    );
+    $this->assertEquals($expected, $res);
+
+    // TCH7: Request holdings for existing item (MAT5) without placement info
+    $res = $this->providerInvoke('holdings', array('REC5'));
+    $expected = array(
+      'REC5' => array(
         'reservable' => TRUE,
         'available' => TRUE,
         'holdings' => array(
           array(
             'placement' => array(
-              'Hovedbiblioteket',
-              'Børn',
-              'Reol 14',
-              'Hylde 3',
+              'TBRA1'
             ),
             'available_count' => 1,
-            'total_count' => 2,
-            'reference_count' => 0,
-          ),
-          array(
-            'placement' => array(
-              'Hovedbiblioteket',
-              'Børn',
-              'Reol 14',
-              'Hylde 4',
-            ),
-            'available_count' => 1,
-            'total_count' => 2,
+            'total_count' => 1,
             'reference_count' => 0,
           ),
         ),
         'is_internet' => FALSE,
-        'total_count' => 4,
+        'total_count' => 1,
+        'reserved_count' => 0,
+      ),
+    );
+    $this->assertEquals($expected, $res);
+
+    // TCH8: Request holdings for multiple (valid) items
+    $res = $this->providerInvoke('holdings', array('REC1', 'REC3'));
+    $expected = array(
+      // MAT1
+      'REC1' => array(
+        'reservable' => FALSE,
+        'available' => FALSE,
+        'holdings' => array(
+          // ITEM11
+          array(
+            'placement' => array(
+              'TBRA1',
+              'TDEP1',
+              'TLOC1',
+              'TSUB1',
+            ),
+            'available_count' => 0,
+            'total_count' => 1,
+            'reference_count' => 0,
+          ),
+        ),
+        'is_internet' => FALSE,
+        'total_count' => 1,
+        'reserved_count' => 0,
+      ),
+      // MAT3
+      'REC3' => array(
+        'reservable' => FALSE,
+        'available' => TRUE,
+        'holdings' => array(
+          // ITEM31
+          array(
+            'placement' => array(
+              'TBRA1',
+              'TDEP2',
+              'TLOC2',
+              'TSUB2',
+            ),
+            'available_count' => 1,
+            'total_count' => 1,
+            'reference_count' => 0,
+          ),
+        ),
+        'is_internet' => FALSE,
+        'total_count' => 1,
+        'reserved_count' => 0,
+      ),
+    );
+    $this->assertEquals($expected, $res);
+    
+    // TCH9: Request holdings for multiple (inclusiv invalid) items
+    $res = $this->providerInvoke('holdings', array('REC1','iDontExist'));
+    $expected = array(
+      // MAT1
+      'REC1' => array(
+        'reservable' => FALSE,
+        'available' => FALSE,
+        'holdings' => array(
+          // ITEM11
+          array(
+            'placement' => array(
+              'TBRA1',
+              'TDEP1',
+              'TLOC1',
+              'TSUB1',
+            ),
+            'available_count' => 0,
+            'total_count' => 1,
+            'reference_count' => 0,
+          ),
+        ),
+        'is_internet' => FALSE,
+        'total_count' => 1,
         'reserved_count' => 0,
       ),
     );
