@@ -34,7 +34,7 @@ class ExternalPaymentApi extends SwaggerApi
      */
     public function getFees($agencyid, $patronid = null, $includepaid = null, $includenonpayable = null)
     {
-        $request = $this->newRequest("GET", "/external/v1/{agencyid}/patron/{patronid}");
+        $request = $this->newRequest("GET", "/external/v1/{agencyid}/patron/{patronid}/fees");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("query", "patronid", $patronid);
         $request->addParameter("query", "includepaid", $includepaid);
@@ -78,7 +78,7 @@ class ExternalPaymentApi extends SwaggerApi
      */
     public function payFees($agencyid, $patronid = null, Model\PaymentOrder $paymentOrder)
     {
-        $request = $this->newRequest("POST", "/external/v1/{agencyid}/patron/{patronid}");
+        $request = $this->newRequest("POST", "/external/v1/{agencyid}/patron/{patronid}/payment");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("query", "patronid", $patronid);
         $request->addParameter("body", "paymentOrder", $paymentOrder);

@@ -71,7 +71,7 @@ class ExternalPatronApi extends SwaggerApi
      */
     public function authenticate($agencyid, Model\AuthenticationRequest $authenticationRequest)
     {
-        $request = $this->newRequest("POST", "/external/v1/{agencyid}/patrons");
+        $request = $this->newRequest("POST", "/external/v1/{agencyid}/patrons/authenticate");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("body", "authenticationRequest", $authenticationRequest);
 
@@ -106,7 +106,7 @@ class ExternalPatronApi extends SwaggerApi
      */
     public function getPreAuthenticatedPatron($agencyid, $cprNumber)
     {
-        $request = $this->newRequest("POST", "/external/v1/{agencyid}/patrons");
+        $request = $this->newRequest("POST", "/external/v1/{agencyid}/patrons/preauthenticated");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("body", "cprNumber", $cprNumber);
 
@@ -143,7 +143,7 @@ class ExternalPatronApi extends SwaggerApi
      */
     public function update($agencyid, $patronid, Model\UpdatePatronRequest $updatePatron)
     {
-        $request = $this->newRequest("PUT", "/external/v1/{agencyid}/patrons");
+        $request = $this->newRequest("PUT", "/external/v1/{agencyid}/patrons/{patronid}");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("path", "patronid", $patronid);
         $request->addParameter("body", "updatePatron", $updatePatron);

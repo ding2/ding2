@@ -73,7 +73,7 @@ class ExternalMaterialLoansApi extends SwaggerApi
      */
     public function renewLoans($agencyid, $patronid, $materialLoanIds)
     {
-        $request = $this->newRequest("POST", "/external/v1/{agencyid}/patrons/{patronid}/loans");
+        $request = $this->newRequest("POST", "/external/v1/{agencyid}/patrons/{patronid}/loans/renew");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("path", "patronid", $patronid);
         $request->addParameter("body", "materialLoanIds", $materialLoanIds);
