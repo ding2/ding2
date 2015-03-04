@@ -4,22 +4,23 @@
  * The ddbService class has the sole responsibility for communicating
  * with the DDB webservice.
  */
- 
+
  /**
   * A custom exception for the DdbService class.
   */
-  
 class DdbWsException extends Exception {
-  
-  /*
-   * Constructor
+
+  /**
+   * Default constructor.
    */
   public function __construct($message, $code, Exception $previous = NULL) {
     parent::__construct($message, $code, $previous);
   }
-  
-  /*
-   * @return
+
+  /**
+   * Implements __toString magic function.
+   *
+   * @return string
    *   A formatted string for display.
    */
   public function __toString() {
@@ -32,17 +33,17 @@ class DdbWsException extends Exception {
  */
 class DdbService {
 
-  // Private properties
+  // Private properties.
   private $uri = NULL;
 
-  // Public properties
+  // Public properties.
   public $names = NULL;
   public $type = NULL;
 
   /**
    * The constructor.
    *
-   * @param $uri
+   * @param string $uri
    *   The optional URI of the host running the webservice. If not
    *   specified, will try to read the URI as a Drupal variable. This
    *   value can be set through the control panel.
@@ -53,6 +54,7 @@ class DdbService {
   public function __construct($uri = NULL) {
     if ($uri) {
       if (!parse_url($uri, PHP_URL_HOST)) {
+        // @todo: Should this be a DdbWsException, it's related to the web-service ?
         throw new Exception(t('You must provide a valid URI when creating a new instance of DdbService:') . ' ' . $uri);
       }
       $host = parse_url($uri, PHP_URL_HOST);
@@ -65,20 +67,26 @@ class DdbService {
     }
 
     $this->names = $this->getHostnames();
-    
+
     $this->type = 'unknown';
-    if ($this->getHostname() == $this->names['prod']) $this->type = 'prod';
-    if ($this->getHostname() == $this->names['dev']) $this->type = 'dev';
-    if ($this->getHostname() == $this->names['stg']) $this->type = 'stg';
+    if ($this->getHostname() == $this->names['prod']) {
+      $this->type = 'prod';
+    }
+    if ($this->getHostname() == $this->names['dev']) {
+      $this->type = 'dev';
+    }
+    if ($this->getHostname() == $this->names['stg']) {
+      $this->type = 'stg';
+    }
   }
 
   /**
    * This function returns the primary hostname of the site.
    *
-   * It depends on the current standard for a Drupal multisite setup
+   * It depends on the current standard for a Drupal multi site setup
    * in which the hostname is included in the configuration path.
    *
-   * @return
+   * @return string
    *   A string containing the primary hostname.
    */
   private function getHostname() {
@@ -98,7 +106,7 @@ class DdbService {
    * In this way, naming conventions may be changed without changing
    * the code of the control panel.
    *
-   * @return
+   * @return string
    *   An array of strings naming the 'prod', 'dev', and 'stg' sites.
    */
   private function getHostnames() {
@@ -117,6 +125,7 @@ class DdbService {
           $result = NULL;
         }
 
+        // @todo: If the exception above is triggered the $data variable will not exists?
         if (isset($data->{'result'})) {
           $result['dev'] = $data->{'result'}[0]->{'dev'};
           $result['prod'] = $data->{'result'}[0]->{'prod'};
@@ -136,9 +145,10 @@ class DdbService {
   /**
    * This is the function that actually calls the webservice.
    *
-   * @param $query
+   * @param string $query
    *   The webservice query string.
    *
+   * // @todo: missing return type?
    * @return
    *   The raw result of the call.
    *
@@ -156,9 +166,9 @@ class DdbService {
   /**
    * Executes a job on the Jenkins server.
    *
-   * @param $job
+   * @param string $job
    *   A string with the name of the job to execute.
-   * @param null $parms
+   * @param array $parms
    *   Optional parameters to pass to the job.
    *
    * @return bool
@@ -184,9 +194,8 @@ class DdbService {
   /**
    * Retrieves the subscription model.
    *
-   * @return
-   *   A string containing the subscription model. FALSE if call
-   *   fails.
+   * @return mixed
+   *   A string containing the subscription model. FALSE if call fails.
    */
   public function model() {
     $result = &drupal_static(__FUNCTION__);
@@ -213,7 +222,7 @@ class DdbService {
   /**
    * Retrieves the status record for the current site(s).
    *
-   * @return
+   * @return mixed
    *   An array of arrays representing the JSON response from the
    *   webservice. FALSE if call fails.
    */
@@ -243,13 +252,12 @@ class DdbService {
   }
 
   /**
-   * Retrieves a list of templates available for creating a new
-   * developer site.
+   * Retrieves a list of templates available for creating a new developer site.
    *
-   * @param $site
+   * @param string $site
    *   The full DNS name of the current site.
    *
-   * @return
+   * @return mixed
    *   Returns an array of strings with template names. FALSE if
    *   call fails.
    */
@@ -273,15 +281,15 @@ class DdbService {
   /**
    * Retrieves the full test report from the Jenkins server.
    *
-   * @param $site
+   * @param string $site
    *   The full DNS name of the site.
-   * @param null $number
+   * @param string $number
    *   The optional build number. Defaults to latest.
-
-   * @return
+   *
+   * @return mixed
    *   The XML test report. FALSE if call fails.
    */
-  public function test_report($site, $number = NULL) {
+  public function testReport($site, $number = NULL) {
     $query = '/xml/test_report?site=' . $site;
     if (isset($number)) {
       $query .= '&number=' . $number;
@@ -297,15 +305,15 @@ class DdbService {
   /**
    * Retrieves a brief test report from the Jenkins server.
    *
-   * @param $site
+   * @param string $site
    *   The full DNS name of the site.
-   * @param null $number
+   * @param string $number
    *   The optional build number. Defaults to latest.
-
-   * @return
+   *
+   * @return mixed
    *   The XML test report. FALSE if call fails.
    */
-  public function test_result($site, $number = NULL) {
+  public function testResult($site, $number = NULL) {
     $query = '/xml/test_result?site=' . $site;
     if (isset($number)) {
       $query .= '&number=' . $number;
@@ -320,9 +328,10 @@ class DdbService {
 }
 
 /**
- * Utility function to convert the object format returned by json_decode() to an array of arrays.
+ * Convert the object format returned by json_decode() to an array of arrays.
  *
- * @param $obj
+ * @todo: This parameter is strange as the function calls it self in line, so it may be a object or an array?
+ * @param mixed $obj
  *   An object created by json_decode().
  *
  * @return mixed

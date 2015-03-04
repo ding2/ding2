@@ -7,7 +7,9 @@
 /**
  * Returns the main menu for the DDB administrative pages.
  *
- * @return
+ * @todo: It would be better to return and render array and have the theme layer call render!
+ *
+ * @return string
  *   Returns a menu block.
  */
 function ddb_cp_menu_content() {
@@ -38,7 +40,7 @@ function ddb_cp_menu_content() {
 /**
  * Returns a form for the configuration menu.
  *
- * @return
+ * @return array
  *   The configuration form.
  */
 function ddb_cp_menu_configuration() {
@@ -79,9 +81,9 @@ function ddb_cp_menu_configuration() {
 /**
  * Submit callback for the configuration menu.
  *
- * @param $form
+ * @param array $form
  *   The form data.
- * @param $form_state
+ * @param array $form_state
  *   Current state of the form.
  */
 function ddb_cp_config_submit($form, &$form_state) {
@@ -92,12 +94,12 @@ function ddb_cp_config_submit($form, &$form_state) {
 /**
  * Returns a form for the development menu.
  *
- * @param $form
+ * @param array $form
  *   The form data.
- * @param $form_state
+ * @param array $form_state
  *   Current state of the form.
  *
- * @return
+ * @return array
  *   The form.
  */
 function ddb_cp_menu_development($form, &$form_state) {
@@ -115,15 +117,15 @@ function ddb_cp_menu_development($form, &$form_state) {
 }
 
 /**
- * Returns the 'Developer Site' fieldset of the development form.
+ * Returns the 'Developer Site' field set of the development form.
  *
- * @param $form
+ * @param array $form
  *   The form data.
- * @param $form_state
+ * @param array $form_state
  *   Current state of the form.
  *
- * @return
- *   The 'Developer Site' fieldset of the development form.
+ * @return array
+ *   The 'Developer Site' field set of the development form.
  */
 function ddb_cp_form_development_dev($form, $form_state) {
   $form = array();
@@ -215,7 +217,7 @@ function ddb_cp_form_development_dev($form, $form_state) {
 
     $form['create_dev']['dev_url'] = array(
       '#type' => 'item',
-      '#markup' =>  t('If you want to initialize a new delevopment flow, you can create a development site by clicking the button below.'),
+      '#markup' => t('If you want to initialize a new delevopment flow, you can create a development site by clicking the button below.'),
     );
 
     $form['create_dev']['plat_frame'] = array(
@@ -243,15 +245,15 @@ function ddb_cp_form_development_dev($form, $form_state) {
 }
 
 /**
- * Returns the 'Staging Site' fieldset of the development form.
+ * Returns the 'Staging Site' field set of the development form.
  *
- * @param $form
+ * @param array $form
  *   The form data.
- * @param $form_state
+ * @param array $form_state
  *   Current state of the form.
  *
- * @return
- *   The 'Staging Site' fieldset of the development form.
+ * @return array
+ *   The 'Staging Site' field set of the development form.
  */
 function ddb_cp_form_development_stg($form, $form_state) {
   $form = array();
@@ -346,15 +348,15 @@ function ddb_cp_form_development_stg($form, $form_state) {
 }
 
 /**
- * Returns the 'Production Site' fieldset of the development form.
+ * Returns the 'Production Site' field set of the development form.
  *
- * @param $form
+ * @param array $form
  *   The form data.
- * @param $form_state
+ * @param array $form_state
  *   Current state of the form.
  *
- * @return
- *   The 'Production Site' fieldset of the development form.
+ * @return array
+ *   The 'Production Site' field set of the development form.
  */
 function ddb_cp_form_development_prod($form, $form_state) {
   global $base_url;
