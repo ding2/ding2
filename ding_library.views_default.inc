@@ -241,6 +241,11 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['field_ding_library_addresse']['id'] = 'field_ding_library_addresse';
   $handler->display->display_options['fields']['field_ding_library_addresse']['table'] = 'field_data_field_ding_library_addresse';
   $handler->display->display_options['fields']['field_ding_library_addresse']['field'] = 'field_ding_library_addresse';
+  $handler->display->display_options['fields']['field_ding_library_addresse']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_library_addresse']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_ding_library_addresse']['alter']['text'] = '[title]
+[field_ding_library_addresse]';
+  $handler->display->display_options['fields']['field_ding_library_addresse']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_library_addresse']['click_sort_column'] = 'country';
   $handler->display->display_options['fields']['field_ding_library_addresse']['settings'] = array(
     'use_widget_handlers' => 1,
@@ -323,7 +328,8 @@ function ding_library_views_default_views() {
     t('queue'),
     t('Library panes'),
     t('Leaflet Pane'),
-    t('Address'),
+    t('[title]
+[field_ding_library_addresse]'),
     t('Geocode'),
   );
   $export['ding_library'] = $view;
