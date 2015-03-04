@@ -10,7 +10,7 @@
     <?php print $cover; ?>
   </div>
   <div class="right-column">
-    <h3 class="item-title"><?php print $title; ?></h3>
+    <h3 id="<?php print $availability_id; ?>" class="item-title"><?php print $title; ?></h3>
     <?php if (isset($material_message)) : ?>
     <div class="<?php print $material_message['class']; ?>"><?php print $material_message['message']; ?></div>
     <?php endif; ?>
