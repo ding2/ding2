@@ -238,10 +238,6 @@ function ding_event_views_default_views() {
   $handler->display->display_options['filters']['type_1']['value'] = array(
     'ding_library' => 'ding_library',
   );
-  /* Filter criterion: Content: Don't show on front page */
-  $handler->display->display_options['filters']['ding_not_on_frontpage']['id'] = 'ding_not_on_frontpage';
-  $handler->display->display_options['filters']['ding_not_on_frontpage']['table'] = 'node';
-  $handler->display->display_options['filters']['ding_not_on_frontpage']['field'] = 'ding_not_on_frontpage';
 
   /* Display: Event list */
   $handler = $view->new_display('panel_pane', 'Event list', 'ding_event_list');
