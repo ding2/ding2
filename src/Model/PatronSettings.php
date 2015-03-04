@@ -19,6 +19,7 @@ class PatronSettings
 
     /**
      * @property string $preferredPickupBranch ISIL-number of preferred pickup branch
+     * @required
      */
     public $preferredPickupBranch = null;
 
@@ -29,16 +30,19 @@ class PatronSettings
 
     /**
      * @property boolean $receiveEmail
+     * @required
      */
     public $receiveEmail = null;
 
     /**
      * @property boolean $receivePostalMail
+     * @required
      */
     public $receivePostalMail = null;
 
     /**
      * @property boolean $receiveSms
+     * @required
      */
     public $receiveSms = null;
 

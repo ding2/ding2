@@ -8,6 +8,7 @@ class CreateReservation
     /**
      * @property string $recordId Identifies the bibliographical record to reserve -
      * DBC OpenSearch: //searchresult/collection/object/identifier
+     * @required
      */
     public $recordId = null;
 

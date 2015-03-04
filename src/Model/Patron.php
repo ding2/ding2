@@ -22,6 +22,7 @@ class Patron
 
     /**
      * @property string $preferredPickupBranch ISIL of preferred pickup branch
+     * @required
      */
     public $preferredPickupBranch = null;
 
@@ -33,11 +34,13 @@ class Patron
     /**
      * @property integer $patronId Patron identifier to be used in subsequent service
      * calls involving the patron
+     * @required
      */
     public $patronId = null;
 
     /**
      * @property boolean $receiveEmail
+     * @required
      */
     public $receiveEmail = null;
 
@@ -49,6 +52,7 @@ class Patron
 
     /**
      * @property boolean $receiveSms
+     * @required
      */
     public $receiveSms = null;
 
@@ -69,18 +73,21 @@ class Patron
 
     /**
      * @property boolean $receivePostalMail
+     * @required
      */
     public $receivePostalMail = null;
 
     /**
      * @property integer $defaultInterestPeriod Length of default interest period in
      * days
+     * @required
      */
     public $defaultInterestPeriod = null;
 
     /**
      * @property boolean $resident True if the user is resident in the same
      * municipality as the library
+     * @required
      */
     public $resident = null;
 

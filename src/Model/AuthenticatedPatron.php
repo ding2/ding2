@@ -10,6 +10,7 @@ class AuthenticatedPatron
      *  If false then either the user is not known in the FBS, or an invalid
      * combination of authentication parameters
      *  has been used.
+     * @required
      */
     public $authenticated = null;
 

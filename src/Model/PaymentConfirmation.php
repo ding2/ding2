@@ -7,6 +7,7 @@ class PaymentConfirmation
 
     /**
      * @property string $orderId Order Id from payment gateway
+     * @required
      */
     public $orderId = null;
 
@@ -18,11 +19,13 @@ class PaymentConfirmation
 
     /**
      * @property string $feeId
+     * @required
      */
     public $feeId = null;
 
     /**
      * @property string $paymentStatus
+     * @required
      */
     public $paymentStatus = null;
 

@@ -8,23 +8,27 @@ class ReservationDetails
     /**
      * @property string $recordId DBC OpenSearch:
      * //searchresult/collection/object/identifier
+     * @required
      */
     public $recordId = null;
 
     /**
      * @property string $pickupBranch ISIL-number of pickup branch
+     * @required
      */
     public $pickupBranch = null;
 
     /**
      * @property string $expiryDate The date when the patron is no longer interested in
      * the reserved material
+     * @required
      */
     public $expiryDate = null;
 
     /**
      * @property integer $reservationId Identifies the reservation for use when
      * updating or deleting the reservation
+     * @required
      */
     public $reservationId = null;
 
@@ -35,11 +39,13 @@ class ReservationDetails
 
     /**
      * @property string $dateOfReservation
+     * @required
      */
     public $dateOfReservation = null;
 
     /**
      * @property string $state
+     * @required
      */
     public $state = null;
 

@@ -8,11 +8,13 @@ class Fee
     /**
      * @property boolean $payableByClient true if the client system is allowed to offer
      * payment for the fee, false if not allowed
+     * @required
      */
     public $payableByClient = null;
 
     /**
      * @property number $amount The amount to pay, in the currency of the agency
+     * @required
      */
     public $amount = null;
 
@@ -24,6 +26,7 @@ class Fee
 
     /**
      * @property FeeMaterial[] $material Set if fee covers materials
+     * @required
      */
     public $material = null;
 
@@ -31,6 +34,7 @@ class Fee
      * @property string $reasonMessage Human readable free text message about the
      * reason for the fee, presentable to an end user (language is likely
      *  to be the mother tongue of the agency)
+     * @required
      */
     public $reasonMessage = null;
 
@@ -42,17 +46,20 @@ class Fee
     /**
      * @property string $type Can be used to distinguish between different types of
      * fees
+     * @required
      */
     public $type = null;
 
     /**
      * @property string $creationDate The date the fee was created
+     * @required
      */
     public $creationDate = null;
 
     /**
      * @property string $feeId Identifies the fee, used when registering a payment that
      * covers the fee
+     * @required
      */
     public $feeId = null;
 

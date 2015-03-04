@@ -21,6 +21,7 @@ class UpdateReservation
 
     /**
      * @property integer $reservationId Identifies the reservation
+     * @required
      */
     public $reservationId = null;
 
