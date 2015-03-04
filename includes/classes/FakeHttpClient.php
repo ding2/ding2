@@ -22,8 +22,9 @@ class FakeHttpClient implements HttpClient {
     $key = $request->getMethod() . ':' . $request->getUri()->getPath();
     $path = $request->getUri()->getPath();
 
-    if (preg_match('{/external/v1/(.*)/patrons}', $path, $matches)) {
-      return $this->authenticate($request, $matches[1]);
+    if (preg_match('{/external/v1/(?P<agency_id>.*)/patrons/authenticate$}', $path, $matches)) {
+      return $this->authenticate($request, $matches);
+    }
     }
 
     return (new Response(new Stream('php://memory', 'w')))->withStatus(501, 'not implemented');
@@ -43,7 +44,7 @@ class FakeHttpClient implements HttpClient {
   /**
    * Fake an authentication request.
    */
-  private function authenticate($request, $agency_id) {
+  private function authenticate($request, $vars) {
     $creds = $this->getPayload($request);
     $response = new Response(new Stream('php://memory', 'w'));
     $auth_patron = array(
