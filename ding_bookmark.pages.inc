@@ -55,12 +55,32 @@ function ding_bookmark_remove_form($form, &$form_state, $entities) {
     // Reservation button.
     $button = ding_reservation_ding_entity_buttons('ding_entity', $entity, 'ajax');
 
+    // Generate an unique id.
+    $id = drupal_html_id('availability-' . $entity->id);
+
+    // Add javascript.
+    $attached['js'] = array(
+      drupal_get_path('module', 'ding_availability') . '/js/ding_availability.js',
+    );
+
+    $attached['js'][] = array(
+      'data' => array(
+        'ding_availability_mode' => 'holdings',
+        'ding_availability' => array(
+          $id => array($entity->localId),
+        ),
+      ),
+      'type' => 'setting',
+    );
+
     // Build the material item element.
     $item = array(
       '#type' => 'material_item',
       '#id' => $entity->tid,
+      '#availability_id' => $id,
       '#title' => $title,
       '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
+      '#attached' => $attached,
       '#information' => array(
         'author' => array(
           'label' => t('Author'),
