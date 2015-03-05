@@ -13,7 +13,7 @@ class Fee
     public $payableByClient = null;
 
     /**
-     * @var number The amount to pay, in the currency of the agency
+     * @var float The amount to pay, in the currency of the agency
      * @required
      */
     public $amount = null;
