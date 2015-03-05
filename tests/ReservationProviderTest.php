@@ -43,7 +43,7 @@ class ReservationProviderTest extends ProviderTestCase {
           array(
             // ReservationDetails.
             'recordId' => '870970-basis:42355089',
-            'pickupBranch' => '113',
+            'pickupBranch' => 113,
             'expiryDate' => '2015-10-30',
             'reservationId' => 45,
             'pickupDeadline' => '2015-04-30',
@@ -55,7 +55,7 @@ class ReservationProviderTest extends ProviderTestCase {
           array(
             // ReservationDetails.
             'recordId' => '870970-basis:40317805',
-            'pickupBranch' => '113',
+            'pickupBranch' => 113,
             'expiryDate' => '2015-10-30',
             'reservationId' => 48,
             'pickupDeadline' => '',
@@ -65,8 +65,19 @@ class ReservationProviderTest extends ProviderTestCase {
           ),
           array(
             // ReservationDetails.
+            'recordId' => '870970-basis:50717437',
+            'pickupBranch' => 113,
+            'expiryDate' => '2015-12-30',
+            'reservationId' => 248,
+            'pickupDeadline' => '',
+            'dateOfReservation' => '2014-01-30',
+            'state' => 'interLibraryReservation',
+            'numberInQueue' => 5,
+          ),
+          array(
+            // ReservationDetails.
             'recordId' => '870970-basis:05197074',
-            'pickupBranch' => '113',
+            'pickupBranch' => 113,
             'expiryDate' => '2015-11-30',
             'reservationId' => 241,
             'pickupDeadline' => '',
@@ -117,7 +128,15 @@ class ReservationProviderTest extends ProviderTestCase {
           'expiry' => '2015-11-30',
         ),
       ),
-      DING_RESERVATION_INTERLIBRARY_LOANS => array(),
+      DING_RESERVATION_INTERLIBRARY_LOANS => array(
+        248 => array(
+          'ding_entity_id' => '870970-basis:50717437',
+          'id' => 248,
+          'pickup_branch_id' => 113,
+          'created' => '2014-01-30',
+          'expiry' => '2015-12-30',
+        )
+      ),
 
     );
     $this->assertEquals($expected, $res);

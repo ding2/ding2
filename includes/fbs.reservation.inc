@@ -19,6 +19,7 @@ function fbs_reservation_list($account) {
 
   foreach ($res as $reservation) {
     $type = $reservation->state == 'readyForPickup' ? DING_RESERVATION_READY : DING_RESERVATION_NOT_READY;
+    $type = $reservation->state == 'interLibraryReservation' ? DING_RESERVATION_INTERLIBRARY_LOANS : $type;
     $ding_reservation = array(
       'ding_entity_id' => $reservation->recordId,
       'id' => $reservation->reservationId,
@@ -32,11 +33,14 @@ function fbs_reservation_list($account) {
 
     if ($type === DING_RESERVATION_NOT_READY) {
       $ding_reservation['queue_number'] = $reservation->numberInQueue;
+    }
+
+    if ($type === DING_RESERVATION_NOT_READY ||
+        $type === DING_RESERVATION_INTERLIBRARY_LOANS) {
       $ding_reservation['expiry'] = $reservation->expiryDate;
     }
 
     $result[$type][$ding_reservation['id']] = $ding_reservation;
-
   }
 
   return $result;
