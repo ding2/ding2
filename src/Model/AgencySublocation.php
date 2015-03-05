@@ -6,13 +6,13 @@ class AgencySublocation
 {
 
     /**
-     * @property string $title Name of the sub-location
+     * @var string Name of the sub-location
      * @required
      */
     public $title = null;
 
     /**
-     * @property string $sublocationId Sub-location identifier
+     * @var string Sub-location identifier
      * @required
      */
     public $sublocationId = null;

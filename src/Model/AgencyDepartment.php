@@ -6,13 +6,13 @@ class AgencyDepartment
 {
 
     /**
-     * @property string $departmentId Department identifier
+     * @var string Department identifier
      * @required
      */
     public $departmentId = null;
 
     /**
-     * @property string $title Name of the department
+     * @var string Name of the department
      * @required
      */
     public $title = null;

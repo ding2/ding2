@@ -6,7 +6,7 @@ class CreateReservationBatch
 {
 
     /**
-     * @property CreateReservation[] $reservations
+     * @var CreateReservation[] 
      * @required
      */
     public $reservations = null;

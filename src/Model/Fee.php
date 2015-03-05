@@ -6,59 +6,58 @@ class Fee
 {
 
     /**
-     * @property boolean $payableByClient true if the client system is allowed to offer
-     * payment for the fee, false if not allowed
+     * @var boolean true if the client system is allowed to offer payment for the fee,
+     * false if not allowed
      * @required
      */
     public $payableByClient = null;
 
     /**
-     * @property number $amount The amount to pay, in the currency of the agency
+     * @var number The amount to pay, in the currency of the agency
      * @required
      */
     public $amount = null;
 
     /**
-     * @property string $paidDate If the fee has been paid in full, this will be set to
-     * the date of the final payment, otherwise not set
+     * @var string If the fee has been paid in full, this will be set to the date of
+     * the final payment, otherwise not set
      */
     public $paidDate = null;
 
     /**
-     * @property FeeMaterial[] $material Set if fee covers materials
+     * @var FeeMaterial[] Set if fee covers materials
      * @required
      */
     public $material = null;
 
     /**
-     * @property string $reasonMessage Human readable free text message about the
-     * reason for the fee, presentable to an end user (language is likely
+     * @var string Human readable free text message about the reason for the fee,
+     * presentable to an end user (language is likely
      *  to be the mother tongue of the agency)
      * @required
      */
     public $reasonMessage = null;
 
     /**
-     * @property string $dueDate Expected payment due date
+     * @var string Expected payment due date
      */
     public $dueDate = null;
 
     /**
-     * @property string $type Can be used to distinguish between different types of
-     * fees
+     * @var string Can be used to distinguish between different types of fees
      * @required
      */
     public $type = null;
 
     /**
-     * @property string $creationDate The date the fee was created
+     * @var string The date the fee was created
      * @required
      */
     public $creationDate = null;
 
     /**
-     * @property string $feeId Identifies the fee, used when registering a payment that
-     * covers the fee
+     * @var string Identifies the fee, used when registering a payment that covers the
+     * fee
      * @required
      */
     public $feeId = null;

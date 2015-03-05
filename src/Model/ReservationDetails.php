@@ -6,51 +6,50 @@ class ReservationDetails
 {
 
     /**
-     * @property string $recordId DBC OpenSearch:
-     * //searchresult/collection/object/identifier
+     * @var string DBC OpenSearch: //searchresult/collection/object/identifier
      * @required
      */
     public $recordId = null;
 
     /**
-     * @property string $pickupBranch ISIL-number of pickup branch
+     * @var string ISIL-number of pickup branch
      * @required
      */
     public $pickupBranch = null;
 
     /**
-     * @property string $expiryDate The date when the patron is no longer interested in
-     * the reserved material
+     * @var string The date when the patron is no longer interested in the reserved
+     * material
      * @required
      */
     public $expiryDate = null;
 
     /**
-     * @property integer $reservationId Identifies the reservation for use when
-     * updating or deleting the reservation
+     * @var integer Identifies the reservation for use when updating or deleting the
+     * reservation
      * @required
      */
     public $reservationId = null;
 
     /**
-     * @property string $pickupDeadline Set if reserved material is available for loan
+     * @var string Set if reserved material is available for loan
      */
     public $pickupDeadline = null;
 
     /**
-     * @property string $dateOfReservation
+     * @var string 
      * @required
      */
     public $dateOfReservation = null;
 
     /**
-     * @property string $state
+     * @var string 
      * @required
      */
     public $state = null;
 
     /**
-     * @property integer $numberInQueue The number in the reservation queue.
+     * @var integer The number in the reservation queue.
      */
     public $numberInQueue = null;
 

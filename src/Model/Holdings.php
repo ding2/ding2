@@ -6,28 +6,28 @@ class Holdings
 {
 
     /**
-     * @property Material[] $materials Materials that belongs to this placement
+     * @var Material[] Materials that belongs to this placement
      * @required
      */
     public $materials = null;
 
     /**
-     * @property AgencyLocation $location Placement location
+     * @var AgencyLocation Placement location
      */
     public $location = null;
 
     /**
-     * @property AgencySublocation $sublocation Placement sublocation
+     * @var AgencySublocation Placement sublocation
      */
     public $sublocation = null;
 
     /**
-     * @property AgencyDepartment $department Placement department
+     * @var AgencyDepartment Placement department
      */
     public $department = null;
 
     /**
-     * @property AgencyBranch $branch Placement branch
+     * @var AgencyBranch Placement branch
      * @required
      */
     public $branch = null;

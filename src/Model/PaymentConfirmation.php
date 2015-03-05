@@ -6,25 +6,25 @@ class PaymentConfirmation
 {
 
     /**
-     * @property string $orderId Order Id from payment gateway
+     * @var string Order Id from payment gateway
      * @required
      */
     public $orderId = null;
 
     /**
-     * @property string $confirmationId set if fee was registered when using the
-     * orderId, unset otherwise (see paymentStatus for reason)
+     * @var string set if fee was registered when using the orderId, unset otherwise
+     * (see paymentStatus for reason)
      */
     public $confirmationId = null;
 
     /**
-     * @property string $feeId
+     * @var string 
      * @required
      */
     public $feeId = null;
 
     /**
-     * @property string $paymentStatus
+     * @var string 
      * @required
      */
     public $paymentStatus = null;

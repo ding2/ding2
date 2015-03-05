@@ -6,13 +6,13 @@ class AgencyBranch
 {
 
     /**
-     * @property string $branchId ISIL of branch (e.g. DK-761501)
+     * @var string ISIL of branch (e.g. DK-761501)
      * @required
      */
     public $branchId = null;
 
     /**
-     * @property string $title Name of branch
+     * @var string Name of branch
      * @required
      */
     public $title = null;

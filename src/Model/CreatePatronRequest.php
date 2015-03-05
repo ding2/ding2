@@ -6,19 +6,19 @@ class CreatePatronRequest
 {
 
     /**
-     * @property string $cprNumber
+     * @var string 
      * @required
      */
     public $cprNumber = null;
 
     /**
-     * @property string $pincode
+     * @var string 
      * @required
      */
     public $pincode = null;
 
     /**
-     * @property PatronSettings $patron
+     * @var PatronSettings 
      * @required
      */
     public $patron = null;

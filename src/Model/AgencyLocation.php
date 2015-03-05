@@ -6,13 +6,13 @@ class AgencyLocation
 {
 
     /**
-     * @property string $locationId Location identifier
+     * @var string Location identifier
      * @required
      */
     public $locationId = null;
 
     /**
-     * @property string $title Name of the location
+     * @var string Name of the location
      * @required
      */
     public $title = null;

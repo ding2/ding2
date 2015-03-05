@@ -6,42 +6,40 @@ class PatronSettings
 {
 
     /**
-     * @property string $emailAddress Required if patron should receive email
-     * notifications
+     * @var string Required if patron should receive email notifications
      */
     public $emailAddress = null;
 
     /**
-     * @property string $phoneNumber Required if patron should receive SMS
-     * notifications
+     * @var string Required if patron should receive SMS notifications
      */
     public $phoneNumber = null;
 
     /**
-     * @property string $preferredPickupBranch ISIL-number of preferred pickup branch
+     * @var string ISIL-number of preferred pickup branch
      * @required
      */
     public $preferredPickupBranch = null;
 
     /**
-     * @property Period $onHold If not set then the patron is not on hold
+     * @var Period If not set then the patron is not on hold
      */
     public $onHold = null;
 
     /**
-     * @property boolean $receiveEmail
+     * @var boolean 
      * @required
      */
     public $receiveEmail = null;
 
     /**
-     * @property boolean $receivePostalMail
+     * @var boolean 
      * @required
      */
     public $receivePostalMail = null;
 
     /**
-     * @property boolean $receiveSms
+     * @var boolean 
      * @required
      */
     public $receiveSms = null;

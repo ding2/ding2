@@ -6,25 +6,25 @@ class Address
 {
 
     /**
-     * @property string $country
+     * @var string 
      * @required
      */
     public $country = null;
 
     /**
-     * @property string $city
+     * @var string 
      * @required
      */
     public $city = null;
 
     /**
-     * @property string $street Street and number
+     * @var string Street and number
      * @required
      */
     public $street = null;
 
     /**
-     * @property string $postalCode
+     * @var string 
      * @required
      */
     public $postalCode = null;

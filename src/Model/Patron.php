@@ -6,87 +6,86 @@ class Patron
 {
 
     /**
-     * @property string $birthday
+     * @var string
      */
     public $birthday = null;
 
     /**
-     * @property Address $coAddress
+     * @var Address
      */
     public $coAddress = null;
 
     /**
-     * @property Address $address
+     * @var Address
      */
     public $address = null;
 
     /**
-     * @property string $preferredPickupBranch ISIL of preferred pickup branch
+     * @var string ISIL of preferred pickup branch
      * @required
      */
     public $preferredPickupBranch = null;
 
     /**
-     * @property Period $onHold If not set then the patron is not on hold
+     * @var Period If not set then the patron is not on hold
      */
     public $onHold = null;
 
     /**
-     * @property integer $patronId Patron identifier to be used in subsequent service
-     * calls involving the patron
+     * @var integer Patron identifier to be used in subsequent service calls involving
+     * the patron
      * @required
      */
     public $patronId = null;
 
     /**
-     * @property boolean $receiveEmail
+     * @var boolean 
      * @required
      */
     public $receiveEmail = null;
 
     /**
-     * @property BlockStatus[] $blockStatus A list of block statuses -
+     * @var BlockStatus[] A list of block statuses -
      *  if the patron is not blocked then this value is empty or null
      */
     public $blockStatus = null;
 
     /**
-     * @property boolean $receiveSms
+     * @var boolean 
      * @required
      */
     public $receiveSms = null;
 
     /**
-     * @property string $emailAddress
+     * @var string
      */
     public $emailAddress = null;
 
     /**
-     * @property string $phoneNumber
+     * @var string
      */
     public $phoneNumber = null;
 
     /**
-     * @property string $name
+     * @var string
      */
     public $name = null;
 
     /**
-     * @property boolean $receivePostalMail
+     * @var boolean 
      * @required
      */
     public $receivePostalMail = null;
 
     /**
-     * @property integer $defaultInterestPeriod Length of default interest period in
-     * days
+     * @var integer Length of default interest period in days
      * @required
      */
     public $defaultInterestPeriod = null;
 
     /**
-     * @property boolean $resident True if the user is resident in the same
-     * municipality as the library
+     * @var boolean True if the user is resident in the same municipality as the
+     * library
      * @required
      */
     public $resident = null;

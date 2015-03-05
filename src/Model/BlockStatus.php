@@ -6,19 +6,19 @@ class BlockStatus
 {
 
     /**
-     * @property string $blockedReason Reason code for block
+     * @var string Reason code for block
      * @required
      */
     public $blockedReason = null;
 
     /**
-     * @property string $blockedSince
+     * @var string 
      * @required
      */
     public $blockedSince = null;
 
     /**
-     * @property string $message Message about block
+     * @var string Message about block
      * @required
      */
     public $message = null;

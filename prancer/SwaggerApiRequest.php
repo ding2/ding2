@@ -126,7 +126,7 @@ class SwaggerApiRequest
         $request = $this->getRequest();
         $response = $this->httpClient->request($request);
 
-        $message = 'Unexpected status code from service.';
+        $message = 'Unexpected status code from service in ' . $request->getUri()->getPath() . '.';
         $model = null;
         if (isset($this->responseDef[$response->getStatusCode()])) {
             $res = $this->responseDef[$response->getStatusCode()];
@@ -149,16 +149,17 @@ class SwaggerApiRequest
     public function getRequest()
     {
         // Handle path parameters.
+        $path_replacements = array();
         foreach ($this->parameters['path'] as $name => $value) {
             // We could coerce the value into a string, but it's not
             // clearly defined how we should do it.
-            if (!is_string($value)) {
-                throw new \RuntimeException('Path parameter "' . $name . '" not string.');
+            if (!is_scalar($value)) {
+                throw new \RuntimeException('Path parameter "' . $name . '" not scalar.');
             }
             $path_replacements['{' . $name . '}' ] = $value;
         }
 
-        $url = $this->endpoint . strtr($this->path, $path_replacements);
+        $url = $this->endpoint . strtr(ltrim($this->path, '/'), $path_replacements);
 
         // Handle query parameters.
         $query = $this->buildQuery($this->parameters['query']);
