@@ -21,6 +21,8 @@ function fbs_field_info() {
         'entity_types' => array('profile2'),
         'add_widget' => TRUE,
       ),
+      'property_type' => 'text',
+      'property_callbacks' => array('fbs_field_property_callback'),
     ),
     'fbs_phone' => array(
       'label' => t('Phone number from FBS'),
@@ -32,10 +34,36 @@ function fbs_field_info() {
       'default_formatter' => 'fbs_default',
       'virtual_field' => array(
         'entity_types' => array('profile2'),
-        'add_widget' => TRUE,
       ),
+      'property_type' => 'text',
+      'property_callbacks' => array('fbs_field_property_callback'),
     ),
   );
+}
+
+/**
+ * Entity API wrapper property callback.
+ *
+ * Tells entity_metadata_wrapper how to get the data out of our fields.
+ */
+function fbs_field_property_callback(&$info, $entity_type, $field, $instance, $field_type) {
+  $name = $field['field_name'];
+  $property = &$info[$entity_type]['bundles'][$instance['bundle']]['properties'][$name];
+  $property['getter callback'] = 'fbs_field_metadata_get';
+  unset($property['setter callback']);
+  unset($property['query callback']);
+}
+
+/**
+ * Callback to get the value of a field.
+ */
+function fbs_field_metadata_get($entity, array $options, $name, $entity_type, &$context) {
+  // Get the raw field value.
+  $val = entity_metadata_field_verbatim_get($entity, $options, $name, $entity_type, $context);
+  if (isset($val['value'])) {
+    return $val['value'];
+  }
+  return NULL;
 }
 
 /**
@@ -54,12 +82,20 @@ function fbs_field_widget_info_alter(&$info) {
  */
 function fbs_field_load($entity_type, $entities, $field, $instances, $langcode, &$items, $age) {
   global $user;
-  if ($field['type'] == 'fbs_name') {
+  if (in_array($field['type'], array('fbs_name', 'fbs_phone'))) {
     $patron = ding_user_get_creds($user);
     foreach ($entities as $id => $entity) {
       // Only populate when the profile is for the current user.
       if ($entity->uid == $user->uid) {
-        $items[$id][0] = array('value' => $patron['name']);
+        switch ($field['type']) {
+          case 'fbs_name':
+            $items[$id][0] = array('value' => $patron['name']);
+            break;
+
+          case 'fbs_phone':
+            $items[$id][0] = array('value' => $patron['phone']);
+            break;
+        }
       }
     }
   }
@@ -84,6 +120,7 @@ function fbs_field_formatter_info() {
       'label' => t('Default'),
       'field types' => array(
         'fbs_name',
+        'fbs_phone',
       ),
     ),
   );
