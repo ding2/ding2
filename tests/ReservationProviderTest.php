@@ -101,6 +101,7 @@ class ReservationProviderTest extends ProviderTestCase {
     // Check success.
     $res = $this->providerInvoke('list', $user);
     $expected = array(
+      // Ready for pickup
       DING_RESERVATION_READY => array(
         45 => array(
           'ding_entity_id' => '870970-basis:42355089',
@@ -110,6 +111,7 @@ class ReservationProviderTest extends ProviderTestCase {
           'created' => '2015-01-30',
         ),
       ),
+      // Reserved
       DING_RESERVATION_NOT_READY => array(
         48 => array(
           'ding_entity_id' => '870970-basis:40317805',
@@ -137,7 +139,6 @@ class ReservationProviderTest extends ProviderTestCase {
           'expiry' => '2015-12-30',
         )
       ),
-
     );
     $this->assertEquals($expected, $res);
 
