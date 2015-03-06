@@ -435,7 +435,7 @@ function openruth_seek_reserved_item($faust_number) {
   global $user;
 
   if (!function_exists('openruth_reservation_list')) {
-    module_load_include('inc', 'openruth', 'openruth.reservation');
+    module_load_include('inc', 'openruth', 'includes/openruth.reservation');
   }
 
   $orders = openruth_reservation_list($user);
