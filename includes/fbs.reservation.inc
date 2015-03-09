@@ -94,3 +94,17 @@ function fbs_reservation_delete($account, $reservation_id) {
 function fbs_reservation_reservation_deletion_enabled() {
   return variable_get('fbs_enable_reservation_deletion', FALSE);
 }
+
+/**
+ * Implements provider reservation, branch_name.
+ */
+function fbs_reservation_branch_name($branch_id) {
+  $res = fbs_service()->Placement->getBranches(fbs_service()->agencyId);
+  foreach ($res as $branch) {
+    if ($branch->branchId == $branch_id) {
+      return $branch->title;
+    }
+  }
+
+  return NULL;
+}
