@@ -37,5 +37,19 @@ function ding_content_strongarm() {
   $strongarm->value = FALSE;
   $export['page_manager_term_view_disabled'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pm_existing_pages_disabled_ding_content_workbench_recent_content';
+  $strongarm->value = FALSE;
+  $export['pm_existing_pages_disabled_ding_content_workbench_recent_content'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'workbench_myworkbench_disabled';
+  $strongarm->value = FALSE;
+  $export['workbench_myworkbench_disabled'] = $strongarm;
+
   return $export;
 }
