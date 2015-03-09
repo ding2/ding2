@@ -27,3 +27,24 @@ function fbs_debt_list($account) {
 
   return $result;
 }
+
+/**
+ * Implements provider debt, payment_received.
+ */
+function fbs_debt_payment_received($account, $debt_ids = array(), $order_id = NULL) {
+  $payment_order = new FBS\Model\PaymentOrder();
+  $payment_order->orderId = $order_id;
+  $payment_order->feeId = array();
+  foreach ($debt_ids as $debt_id) {
+    $payment_order->feeId[] = $debt_id;
+  }
+  $res = fbs_service()->Payment->payFees(fbs_service()->agencyId, fbs_patron_id($account), $payment_order);
+
+  foreach ($res as $confirmation) {
+    if ($confirmation->paymentStatus !== 'paymentRegistered') {
+      return FALSE;
+    }
+  }
+
+  return TRUE;
+}
