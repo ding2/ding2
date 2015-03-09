@@ -49,20 +49,20 @@ class FakeHttpClient implements HttpClient {
   public function request(RequestInterface $request) {
     $path = $request->getUri()->getPath();
 
-    if (preg_match('{/external/v1/(?P<agency_id>.*)/patrons/authenticate$}', $path, $matches)) {
-      return $this->authenticate($request, $matches);
-    }
-    if (preg_match('{/external/v1/(?P<agency_id>.*)/patrons/(?P<patron_id>\d+)$}', $path, $matches)) {
-      return $this->update($request, $matches);
-    }
-    elseif (preg_match('{/external/v1/(?P<agency_id>.*)/patron/(?P<patron_id>\d+)/fees$}', $path, $matches)) {
-      return $this->getFees($request, $matches);
-    }
-    elseif (preg_match('{/external/v1/(?P<agency_id>.*)/patrons/(?P<patron_id>\d+)/loans$}', $path, $matches)) {
-      return $this->getLoans($request, $matches);
-    }
-    elseif (preg_match('{/external/v1/(?P<agency_id>.*)/patrons/(?P<patron_id>\d+)/reservations}', $path, $matches)) {
-      return $this->getReservations($request, $matches);
+    $pathes = array(
+      '(?P<agency_id>.*)/patrons/authenticate$' => 'authenticate',
+      '(?P<agency_id>.*)/patrons/(?P<patron_id>\d+)$' => 'update',
+      '(?P<agency_id>.*)/patron/(?P<patron_id>\d+)/fees$' => 'getFees',
+      '(?P<agency_id>.*)/patrons/(?P<patron_id>\d+)/loans$' => 'getLoans',
+      '(?P<agency_id>.*)/patrons/(?P<patron_id>\d+)/reservations$' => 'getReservations',
+      '(?P<agency_id>.*)/catalog/availability$' => 'getAvailability',
+      '(?P<agency_id>.*)/catalog/holdings$' => 'getHoldings',
+    );
+
+    foreach ($pathes as $request_path => $method) {
+      if (preg_match('{/external/v1/' . $request_path . '$}', $path, $matches)) {
+        return $this->{$method}($request, $matches);
+      }
     }
 
     return (new Response(new Stream('php://memory', 'w')))->withStatus(501, 'not implemented');
@@ -77,6 +77,32 @@ class FakeHttpClient implements HttpClient {
     $stream = $request->getBody();
     $stream->seek(0);
     return json_decode($stream->getContents());
+  }
+
+  /**
+   * Get parsed query string.
+   */
+  private function getQuery($request) {
+    $query = $request->getUri()->getQuery();
+
+    $result = array();
+    // Naive implementation, but I think it'll do.
+    foreach (explode('&', $query) as $part) {
+      list($name, $val) = explode('=', $part);
+      if (isset($result[$name])) {
+        if (is_array($result[$name])) {
+          $result[$name][] = $val;
+        }
+        else {
+          $result[$name] = array($result[$name], $val);
+        }
+      }
+      else {
+        $result[$name] = $val;
+      }
+    }
+
+    return $result;
   }
 
   /**
@@ -148,6 +174,77 @@ class FakeHttpClient implements HttpClient {
     // No reservatons.
     $response = new Response(new Stream('php://memory', 'w'));
     $response->getBody()->write(json_encode(array()));
+    return $response;
+  }
+
+  /**
+   * Fake availability.
+   */
+  private function getAvailability($request, $vars) {
+    $response = new Response(new Stream('php://memory', 'w'));
+
+    $availability = array();
+
+    foreach ((array) $this->getQuery($request)['recordid'] as $record_id) {
+      $availability[] = array(
+        'recordId' => $record_id,
+        'available' => TRUE,
+        'reservable' => TRUE,
+      );
+    }
+
+    $response->getBody()->write(json_encode($availability));
+    return $response;
+  }
+
+  /**
+   * Fake holdings.
+   */
+  private function getHoldings($request, $vars) {
+    $response = new Response(new Stream('php://memory', 'w'));
+
+    $holdings = array();
+
+    foreach ((array) $this->getQuery($request)['recordid'] as $record_id) {
+      $holdings[] = array(
+        'recordId' => $record_id,
+        'reservable' => TRUE,
+        'holdings' => array(
+          array(
+            // Holding.
+            'materials' => array(
+              array(
+                // Material.
+                'itemNumber' => '123456',
+                'available' => TRUE,
+              ),
+            ),
+            'branch' => array(
+              // AgencyBranch.
+              'branchId' => 'BRA1',
+              'title' => 'Andeby Bibliotek',
+            ),
+            'department' => array(
+              // AgencyDepartment.
+              'departmentId' => 'DEP1',
+              'title' => 'Voksne',
+            ),
+            'location' => array(
+              // AgencyLocation.
+              'locationId' => 'LOC1',
+              'title' => 'Reol 3',
+            ),
+            'sublocation' => array(
+              // AgencySublocation.
+              'sublocationId' => 'SUB1',
+              'title' => 'Hylde 2',
+            ),
+          )
+        ),
+      );
+    }
+
+    $response->getBody()->write(json_encode($holdings));
     return $response;
   }
 }
