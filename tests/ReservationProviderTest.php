@@ -510,4 +510,58 @@ class ReservationProviderTest extends ProviderTestCase {
     // any error reponses either (apart from the catchal RestExecption).
 
   }
+
+  /**
+   * Test reservation branch_name.
+   */
+  public function testBranchName() {
+    $this->provider = 'reservation';
+    // // Define DING_RESERVATION_* constants..
+    $this->requireDing('ding_reservation', 'ding_reservation.module');
+
+    $json_responses = array(
+      // Don't expect anything other than an empty success reply.
+      new Reply(
+        array(
+          // Array of...
+          array(
+            // AgencyBranch.
+            'branchId' => 132,
+            'title' => 'Smørum Nedre Bibliotek',
+          ),
+          array(
+            // AgencyBranch.
+            'branchId' => 133,
+            'title' => 'Smørum Omme Bibliotek',
+          ),
+        )
+      ),
+
+      new Reply(
+        array(
+          // Array of...
+          array(
+            // AgencyBranch.
+            'branchId' => 132,
+            'title' => 'Smørum Nedre Bibliotek',
+          ),
+          array(
+            // AgencyBranch.
+            'branchId' => 133,
+            'title' => 'Smørum Omme Bibliotek',
+          ),
+        )
+      ),
+    );
+    $httpclient = $this->getHttpClient($json_responses);
+
+    // Run through tests.
+    $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
+
+    // Check success.
+    $this->assertEquals('Smørum Nedre Bibliotek', $this->providerInvoke('branch_name', '132'));
+
+    // Check that unknown returns NULL.
+    $this->assertNull($this->providerInvoke('branch_name', '152'));
+}
 }
