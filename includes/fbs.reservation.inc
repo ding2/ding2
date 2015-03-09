@@ -48,6 +48,22 @@ function fbs_reservation_list($account) {
 }
 
 /**
+ * Implements provider reservation, create.
+ */
+function fbs_reservation_create($account, $record_ids, $options) {
+  $batch = new FBS\Model\CreateReservationBatch();
+  $batch->reservations = array();
+  foreach ($record_ids as $record_id) {
+    $reservation = new FBS\Model\CreateReservation();
+    $reservation->recordId = $record_id;
+    $reservation->expiryDate = date('Y-m-d', REQUEST_TIME + ($options['interest_period'] * 24 * 60 * 60));
+    $reservation->pickupBranch = $options['preferred_branch'];
+    $batch->reservations[] = $reservation;
+  }
+  $res = fbs_service()->Reservations->addReservations(fbs_service()->agencyId, fbs_patron_id($account), $batch);
+}
+
+/**
  * Implements provider reservation, delete.
  */
 function fbs_reservation_update($account, $reservation_ids, $options) {

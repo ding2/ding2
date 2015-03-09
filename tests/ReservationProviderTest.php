@@ -19,6 +19,11 @@ if (!function_exists('ding_provider_build_entity_id')) {
 }
 
 /**
+ * Some provider functions uses this.
+ */
+define('REQUEST_TIME', time());
+
+/**
  * Test user provider functions.
  */
 class ReservationProviderTest extends ProviderTestCase {
@@ -144,6 +149,67 @@ class ReservationProviderTest extends ProviderTestCase {
   }
 
   /**
+   * Test reservation create.
+   */
+  public function testCreate() {
+    $this->provider = 'reservation';
+    // // Define DING_RESERVATION_* constants..
+    $this->requireDing('ding_reservation', 'ding_reservation.module');
+
+    $expected_expiry = date('Y-m-d', (REQUEST_TIME + 24 * 60 * 60));
+    $json_responses = array(
+      new Reply(
+        array(
+          // Array of...
+          array(
+            // ReservationDetails.
+            'recordId' => '870970-basis:50717437',
+            'pickupBranch' => 123,
+            'expiryDate' => $expected_expiry,
+            'reservationId' => 123,
+            'pickupDeadline' => NULL,
+            'dateOfReservation' => '2015-03-09',
+            'state' => 'reserved',
+            'numberInQueue' => 3,
+          ),
+          array(
+            // ReservationDetails.
+            'recordId' => '870970-basis:42355089',
+            'pickupBranch' => 123,
+            'expiryDate' => $expected_expiry,
+            'reservationId' => 124,
+            'pickupDeadline' => NULL,
+            'dateOfReservation' => '2015-03-09',
+            'state' => 'reserved',
+            'numberInQueue' => 2,
+          ),
+        )
+      ),
+    );
+    $httpclient = $this->getHttpClient($json_responses);
+
+    // Run through tests.
+    $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
+
+    $user = (object) array(
+      'fbs_patron_id' => '123',
+    );
+
+    // Check success.
+
+    $reservation_ids = array(
+      '870970-basis:50717437',
+      '870970-basis:42355089',
+    );
+    $options = array(
+      'preferred_branch' => 123,
+      'interest_period' => 30,
+    );
+    $res = $this->providerInvoke('create', $user, $reservation_ids, $options);
+    // No response is expected.
+  }
+
+  /**
    * Test reservation update.
    */
   public function testUpdate() {
@@ -151,8 +217,6 @@ class ReservationProviderTest extends ProviderTestCase {
     // // Define DING_RESERVATION_* constants..
     $this->requireDing('ding_reservation', 'ding_reservation.module');
 
-    // update relies on this.
-    define('REQUEST_TIME', time());
     $expected_expiry = date('Y-m-d', (REQUEST_TIME + 24 * 60 * 60));
     $json_responses = array(
       new Reply(
@@ -187,9 +251,7 @@ class ReservationProviderTest extends ProviderTestCase {
       'interest_period' => 30,
     );
     $res = $this->providerInvoke('update', $user, array('123'), $options);
-    // No response is expected. Which is good, as the service doesn't define
-    // any error reponses either (apart from the catchal RestExecption).
-
+    // No response is expected.
   }
 
   /**
