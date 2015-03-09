@@ -50,6 +50,22 @@ function fbs_reservation_list($account) {
 /**
  * Implements provider reservation, delete.
  */
+function fbs_reservation_update($account, $reservation_ids, $options) {
+  $batch = new FBS\Model\UpdateReservationBatch();
+  $batch->reservations = array();
+  foreach ($reservation_ids as $reservation_id) {
+    $reservation = new FBS\Model\UpdateReservation();
+    $reservation->reservationId = $reservation_id;
+    $reservation->expiryDate = date('Y-m-d', REQUEST_TIME + ($options['interest_period'] * 24 * 60 * 60));
+    $reservation->pickupBranch = $options['preferred_branch'];
+    $batch->reservations[] = $reservation;
+  }
+  $res = fbs_service()->Reservations->updateReservations(fbs_service()->agencyId, fbs_patron_id($account), $batch);
+}
+
+/**
+ * Implements provider reservation, delete.
+ */
 function fbs_reservation_delete($account, $reservation_id) {
   $res = fbs_service()->Reservations->deleteReservations(fbs_service()->agencyId, fbs_patron_id($account), $reservation_id);
 }
