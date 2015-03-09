@@ -594,7 +594,7 @@ class ReservationProviderTest extends ProviderTestCase {
     $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
 
     // Check success.
-    $this->assertEquals('Endelave Bibliotek', $this->providerInvoke('branch_name', 'DK-761501'));
+    $this->assertEquals('Brædstrup Bibliotek', $this->providerInvoke('branch_name', 'DK-761501'));
 
     // Check that unknown returns NULL.
     $this->assertNull($this->providerInvoke('branch_name', '152'));
