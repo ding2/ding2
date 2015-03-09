@@ -43,7 +43,7 @@ class ExternalAuthenticationApiTest extends \PHPUnit_Framework_TestCase
 
         $httpclient = $httpclient->reveal();
         $jsonMapper = new JsonMapperSerializer(new JsonMapper);
-        $authApi = new ExternalAuthenticationApi('banana', $httpclient, $jsonMapper);
+        $authApi = new ExternalAuthenticationApi('banana/', $httpclient, $jsonMapper);
 
         $login = new Model\Login();
         $login->username = 'banan';
