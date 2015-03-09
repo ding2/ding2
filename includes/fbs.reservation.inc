@@ -85,3 +85,12 @@ function fbs_reservation_update($account, $reservation_ids, $options) {
 function fbs_reservation_delete($account, $reservation_id) {
   $res = fbs_service()->Reservations->deleteReservations(fbs_service()->agencyId, fbs_patron_id($account), $reservation_id);
 }
+
+/**
+ * Implements hook_reservation_deletion_enabled().
+ *
+ * Check where reservation deletion have been enabled in the providers settings.
+ */
+function fbs_reservation_reservation_deletion_enabled() {
+  return variable_get('fbs_enable_reservation_deletion', FALSE);
+}

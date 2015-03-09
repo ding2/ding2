@@ -125,12 +125,12 @@ function fbs_settings_form() {
     '#default_value' => variable_get('fbs_agency', ''),
   );
 
-  // $form['fbs']['fbs_enable_reservation_deletion'] = array(
-  //   '#type' => 'checkbox',
-  //   '#title' => t('Enable reservation deletion'),
-  //   '#default_value' => variable_get('fbs_enable_reservation_deletion', FALSE),
-  //   '#description' => t('Allow users to delete their reservations as well as ready for pickup ones.'),
-  // );
+  $form['fbs']['fbs_enable_reservation_deletion'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable reservation deletion'),
+    '#default_value' => variable_get('fbs_enable_reservation_deletion', FALSE),
+    '#description' => t('Allow users to delete their reservations as well as ready for pickup ones.'),
+  );
 
   // $form['fbs']['fbs_enable_logging'] = array(
   //   '#type' => 'checkbox',
