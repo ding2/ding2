@@ -41,6 +41,84 @@ class ReservationProviderTest extends ProviderTestCase {
     //      - readyForPickup
     //      - interLibraryReservation
     //      - other
+
+    // Reusable response.
+    $tcrl7 = new Reply(
+      array(
+        array(
+          // ReservationDetails: MAT16
+          'recordId' => 'REC16',
+          'pickupBranch' => 'BRA1',
+          'expiryDate' => 'EXPDATE16',
+          'reservationId' => 16,
+          'dateOfReservation' => 'RESDATE16',
+          'numberInQueue' => 1,
+          'state' => 'reserved',
+        ),
+        array(
+          // ReservationDetails: MAT17
+          'recordId' => 'REC17',
+          'pickupBranch' => 'BRA1',
+          'expiryDate' => 'EXPDATE17',
+          'reservationId' => 17,
+          'dateOfReservation' => 'RESDATE17',
+          'pickupDeadline' => 'PICKUP17',
+          'numberInQueue' => 1, // Not expected
+          'state' => 'readyForPickup',
+        ),
+        array(
+          // ReservationDetails: MAT18
+          'recordId' => 'REC18',
+          'pickupBranch' => 'BRA1',
+          'expiryDate' => 'EXPDATE18',
+          'reservationId' => 18,
+          'dateOfReservation' => 'RESDATE18',
+          'numberInQueue' => 1,
+          'state' => 'interLibraryReservation',
+        ),
+        array(
+          // ReservationDetails: Mat19
+          'recordId' => 'REC19',
+          'pickupBranch' => 'BRA1',
+          'expiryDate' => 'EXPDATE19',
+          'reservationId' => 19,
+          'dateOfReservation' => 'RESDATE19',
+          'numberInQueue' => 0,  // Expected?
+          'state' => 'other',
+        ),
+        array(
+          // ReservationDetails: MAT20
+          'recordId' => 'REC20',
+          'pickupBranch' => 'BRA1',
+          'expiryDate' => 'EXPDATE20',
+          'reservationId' => 20,
+          'dateOfReservation' => 'RESDATE20',
+          'numberInQueue' => 1,
+          'state' => 'reserved',
+        ),
+        array(
+          // ReservationDetails.
+          'recordId' => 'REC21',
+          'pickupBranch' => 'BRA1',
+          'expiryDate' => 'EXPDATE21',
+          'reservationId' => 21,
+          'dateOfReservation' => 'RESDATE21',
+          'pickupDeadline' => 'PICKUP21',
+          'state' => 'readyForPickup',
+        ),
+        array(
+          // ReservationDetails.
+          'recordId' => 'REC22',
+          'pickupBranch' => 'BRA1',
+          'expiryDate' => 'EXPDATE22',
+          'reservationId' => 22,
+          'dateOfReservation' => 'RESDATE22',
+          'numberInQueue' => 1,
+          'state' => 'interLibraryReservation',
+        ),
+      )
+    );
+
     $json_responses = array(
       // TCRL1: Return empty result for patron PAT1 without reservations
       new Reply(
@@ -113,81 +191,8 @@ class ReservationProviderTest extends ProviderTestCase {
       ),
       // TCRL7: Return multiple results for patron PAT7 with reservations with different types
       //        (MAT16, MAT17, MAT18, MAT19, MAT20, MAT21, MAT22)
-      new Reply(
-        array(
-          array(
-            // ReservationDetails: MAT16
-            'recordId' => 'REC16',
-            'pickupBranch' => 'BRA1',
-            'expiryDate' => 'EXPDATE16',
-            'reservationId' => 16,
-            'dateOfReservation' => 'RESDATE16',
-            'numberInQueue' => 1,
-            'state' => 'reserved',
-          ),
-          array(
-            // ReservationDetails: MAT17
-            'recordId' => 'REC17',
-            'pickupBranch' => 'BRA1',
-            'expiryDate' => 'EXPDATE17',
-            'reservationId' => 17,
-            'dateOfReservation' => 'RESDATE17',
-            'pickupDeadline' => 'PICKUP17',
-            'numberInQueue' => 1, // Not expected
-            'state' => 'readyForPickup',
-          ),
-          array(
-            // ReservationDetails: MAT18
-            'recordId' => 'REC18',
-            'pickupBranch' => 'BRA1',
-            'expiryDate' => 'EXPDATE18',
-            'reservationId' => 18,
-            'dateOfReservation' => 'RESDATE18',
-            'numberInQueue' => 1,
-            'state' => 'interLibraryReservation',
-          ),
-          array(
-            // ReservationDetails: Mat19
-            'recordId' => 'REC19',
-            'pickupBranch' => 'BRA1',
-            'expiryDate' => 'EXPDATE19',
-            'reservationId' => 19,
-            'dateOfReservation' => 'RESDATE19',
-            'numberInQueue' => 0,  // Expected?
-            'state' => 'other',
-          ),
-          array(
-            // ReservationDetails: MAT20
-            'recordId' => 'REC20',
-            'pickupBranch' => 'BRA1',
-            'expiryDate' => 'EXPDATE20',
-            'reservationId' => 20,
-            'dateOfReservation' => 'RESDATE20',
-            'numberInQueue' => 1,
-            'state' => 'reserved',
-          ),
-          array(
-            // ReservationDetails.
-            'recordId' => 'REC21',
-            'pickupBranch' => 'BRA1',
-            'expiryDate' => 'EXPDATE21',
-            'reservationId' => 21,
-            'dateOfReservation' => 'RESDATE21',
-            'pickupDeadline' => 'PICKUP21',
-            'state' => 'readyForPickup',
-          ),
-          array(
-            // ReservationDetails.
-            'recordId' => 'REC22',
-            'pickupBranch' => 'BRA1',
-            'expiryDate' => 'EXPDATE22',
-            'reservationId' => 22,
-            'dateOfReservation' => 'RESDATE22',
-            'numberInQueue' => 1,
-            'state' => 'interLibraryReservation',
-          ),
-        )
-      ),
+      $tcrl7,
+      $tcrl7,
     );
     $httpclient = $this->getHttpClient($json_responses);
 
@@ -196,7 +201,7 @@ class ReservationProviderTest extends ProviderTestCase {
 
     // TCRL1: Patron without reservations
     $patron1 = (object) array('fbs_patron_id' => 'PATID1');
-    
+
     $res = $this->providerInvoke('list', $patron1);
     $expected = array(
       DING_RESERVATION_READY => array(),
@@ -208,7 +213,7 @@ class ReservationProviderTest extends ProviderTestCase {
 
     // TCRL2: Patron with a single reservation
     $patron2 = (object) array('fbs_patron_id' => 'PATID2');
-    
+
     $res = $this->providerInvoke('list', $patron2);
     $expected = array(
       DING_RESERVATION_READY => array(),
@@ -370,6 +375,36 @@ class ReservationProviderTest extends ProviderTestCase {
           'expiry' => 'EXPDATE22',
           'queue_number' => 1,
         ),
+      ),
+    );
+    $this->assertEquals($expected, $res);
+
+    // Check that requesting a specific list returns just that.
+    $res = $this->providerInvoke('list', $patron7, DING_RESERVATION_NOT_READY);
+    $expected = array(
+      16 => array(
+        'ding_entity_id' => 'REC16',
+        'id' => 16,
+        'pickup_branch_id' => 'BRA1',
+        'created' => 'RESDATE16',
+        'queue_number' => 1,
+        'expiry' => 'EXPDATE16',
+      ),
+      19=> array(
+        'ding_entity_id' => 'REC19',
+        'id' => 19,
+        'pickup_branch_id' => 'BRA1',
+        'created' => 'RESDATE19',
+        'expiry' => 'EXPDATE19',
+        'queue_number' => 0, // kan ikke forvente den er her på en state=other reservering
+      ),
+      20 => array(
+        'ding_entity_id' => 'REC20',
+        'id' => 20,
+        'pickup_branch_id' => 'BRA1',
+        'created' => 'RESDATE20',
+        'queue_number' => 1,
+        'expiry' => 'EXPDATE20',
       ),
     );
     $this->assertEquals($expected, $res);

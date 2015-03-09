@@ -8,7 +8,7 @@
 /**
  * Implements provider reservation, list.
  */
-function fbs_reservation_list($account) {
+function fbs_reservation_list($account, $requested_type = NULL) {
   $result = array(
     DING_RESERVATION_READY => array(),
     DING_RESERVATION_NOT_READY => array(),
@@ -32,12 +32,21 @@ function fbs_reservation_list($account) {
     if ($type === DING_RESERVATION_READY) {
       $ding_reservation['pickup_date'] = $reservation->pickupDeadline;
     }
-
-    else if ($type === DING_RESERVATION_NOT_READY || $type === DING_RESERVATION_INTERLIBRARY_LOANS) {
+    elseif ($type === DING_RESERVATION_NOT_READY || $type === DING_RESERVATION_INTERLIBRARY_LOANS) {
       $ding_reservation['queue_number'] = $reservation->numberInQueue;
     }
 
     $result[$type][$ding_reservation['id']] = $ding_reservation;
+  }
+
+  if ($requested_type) {
+    if (isset($result[$requested_type])) {
+      return $result[$requested_type];
+    }
+    else {
+      watchdog('fbs', 'Unknown reservation type (%type) requested', array('%type' => $type), WATCHDOG_ERROR);
+      return array();
+    }
   }
 
   return $result;
