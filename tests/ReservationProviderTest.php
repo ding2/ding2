@@ -421,7 +421,7 @@ class ReservationProviderTest extends ProviderTestCase {
     $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
 
     $user = (object) array(
-      'fbs_patron_id' => '123',
+      'fbs_patron_id' => 'PAT8',
     );
 
     // Check success.
@@ -471,7 +471,7 @@ class ReservationProviderTest extends ProviderTestCase {
     $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
 
     $user = (object) array(
-      'fbs_patron_id' => '123',
+      'fbs_patron_id' => 'PAT9',
     );
 
     // Check success.
@@ -501,7 +501,7 @@ class ReservationProviderTest extends ProviderTestCase {
     $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
 
     $user = (object) array(
-      'fbs_patron_id' => '123',
+      'fbs_patron_id' => 'PAT10',
     );
 
     // Check success.
@@ -526,13 +526,13 @@ class ReservationProviderTest extends ProviderTestCase {
           // Array of...
           array(
             // AgencyBranch.
-            'branchId' => 132,
-            'title' => 'Smørum Nedre Bibliotek',
+            'branchId' => 'DK-761501',
+            'title' => 'Brædstrup Bibliotek',
           ),
           array(
             // AgencyBranch.
-            'branchId' => 133,
-            'title' => 'Smørum Omme Bibliotek',
+            'branchId' => 'DK-761502',
+            'title' => 'Endelave Bibliotek',
           ),
         )
       ),
@@ -559,7 +559,7 @@ class ReservationProviderTest extends ProviderTestCase {
     $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
 
     // Check success.
-    $this->assertEquals('Smørum Nedre Bibliotek', $this->providerInvoke('branch_name', '132'));
+    $this->assertEquals('Endelave Bibliotek', $this->providerInvoke('branch_name', 'DK-761501'));
 
     // Check that unknown returns NULL.
     $this->assertNull($this->providerInvoke('branch_name', '152'));
