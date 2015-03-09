@@ -46,3 +46,10 @@ function fbs_reservation_list($account) {
 
   return $result;
 }
+
+/**
+ * Implements provider reservation, delete.
+ */
+function fbs_reservation_delete($account, $reservation_id) {
+  $res = fbs_service()->Reservations->deleteReservations(fbs_service()->agencyId, fbs_patron_id($account), $reservation_id);
+}

@@ -141,7 +141,33 @@ class ReservationProviderTest extends ProviderTestCase {
       ),
     );
     $this->assertEquals($expected, $res);
+  }
 
+  /**
+   * Test reservation delete.
+   */
+  public function testDelete() {
+    $this->provider = 'reservation';
+    // // Define DING_RESERVATION_* constants..
+    $this->requireDing('ding_reservation', 'ding_reservation.module');
+
+    $json_responses = array(
+      // Don't expect anything other than an empty success reply.
+      new Reply(),
+    );
+    $httpclient = $this->getHttpClient($json_responses);
+
+    // Run through tests.
+    $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
+
+    $user = (object) array(
+      'fbs_patron_id' => '123',
+    );
+
+    // Check success.
+    $res = $this->providerInvoke('delete', $user, '123');
+    // No response is expected. Which is good, as the service doesn't define
+    // any error reponses either (apart from the catchal RestExecption).
 
   }
 }
