@@ -32,9 +32,9 @@ class FakeHttpClient implements HttpClient {
     'preferredPickupBranch' => '113',
     'onHold' => NULL,
     'patronId' => 234143,
-    'recieveEmail' => TRUE,
+    'receiveEmail' => TRUE,
     'blockStatus' => NULL,
-    'recieveSms' => FALSE,
+    'receiveSms' => FALSE,
     'emailAddress' => 'onkel@danny.dk',
     'phoneNumber' => '80345210',
     'name' => 'Dan Turrell',
@@ -137,6 +137,18 @@ class FakeHttpClient implements HttpClient {
     if ($update_request->patron->phoneNumber) {
       $patron['phoneNumber'] = $update_request->patron->phoneNumber;
     }
+
+    if ($update_request->patron->emailAddress) {
+      $patron['emailAddress'] = $update_request->patron->emailAddress;
+    }
+
+    if ($update_request->patron->preferredPickupBranch) {
+      $patron['preferredPickupBranch'] = $update_request->patron->preferredPickupBranch;
+    }
+
+    $patron['receiveSms'] = (bool) $update_request->patron->receiveSms;
+    $patron['receiveEmail'] = (bool) $update_request->patron->receiveEmail;
+
 
     $auth_patron = array(
       'authenticated' => TRUE,

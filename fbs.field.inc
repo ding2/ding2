@@ -24,13 +24,59 @@ function fbs_field_info() {
       'property_type' => 'text',
       'property_callbacks' => array('fbs_field_property_callback'),
     ),
+
     'fbs_phone' => array(
       'label' => t('Phone number from FBS'),
       'description' => t('The user phone number from the FBS provider'),
       // These two keys are for compatibility with the text_textfield widget.
       'settings' => array('max_length' => 255),
       'instance_settings' => array('text_processing' => 0),
-      'default_widget' => 'textfield',
+      'default_widget' => 'text_textfield',
+      'default_formatter' => 'fbs_default',
+      'virtual_field' => array(
+        'entity_types' => array('profile2'),
+      ),
+      'property_type' => 'text',
+      'property_callbacks' => array('fbs_field_property_callback'),
+    ),
+
+    'fbs_mail' => array(
+      'label' => t('E-mail address from FBS'),
+      'description' => t('The user e-mail address from the FBS provider'),
+      // These two keys are for compatibility with the text_textfield widget.
+      'settings' => array('max_length' => 255),
+      'instance_settings' => array('text_processing' => 0),
+      'default_widget' => 'text_textfield',
+      'default_formatter' => 'fbs_default',
+      'virtual_field' => array(
+        'entity_types' => array('profile2'),
+      ),
+      'property_type' => 'text',
+      'property_callbacks' => array('fbs_field_property_callback'),
+    ),
+
+    'fbs_phone_notification' => array(
+      'label' => t('Phone notification setting from FBS'),
+      'description' => t('The user phone notification setting from the FBS provider'),
+      // These two keys are for compatibility with the text_textfield widget.
+      'settings' => array(),
+      'instance_settings' => array(),
+      'default_widget' => 'options_onoff',
+      'default_formatter' => 'fbs_default',
+      'virtual_field' => array(
+        'entity_types' => array('profile2'),
+      ),
+      'property_type' => 'text',
+      'property_callbacks' => array('fbs_field_property_callback'),
+    ),
+
+    'fbs_mail_notification' => array(
+      'label' => t('E-mail notification setting from FBS'),
+      'description' => t('The user e-mail notification setting from the FBS provider'),
+      // These two keys are for compatibility with the text_textfield widget.
+      'settings' => array(),
+      'instance_settings' => array(),
+      'default_widget' => 'options_onoff',
       'default_formatter' => 'fbs_default',
       'virtual_field' => array(
         'entity_types' => array('profile2'),
@@ -39,6 +85,50 @@ function fbs_field_info() {
       'property_callbacks' => array('fbs_field_property_callback'),
     ),
   );
+}
+
+/**
+ * Implements hook_field_widget_info().
+ *
+ * The standard onoff widget doesn't like our virtual fields as it uses the
+ * fields "columns" to figure out the field array structure.
+ *
+ * So we wrap it thinly.
+ */
+function fbs_field_widget_info() {
+  $return = array();
+
+  if (module_exists('options')) {
+    $return = array(
+      'fbs_options_onoff' => array(
+        'label' => t('Single on/off checkbox (FBS)'),
+        'field types' => array('fbs_phone_notification', 'fbs_mail_notification'),
+        'behaviors' => array(
+          'multiple values' => FIELD_BEHAVIOR_CUSTOM,
+        ),
+        'settings' => array('display_label' => 0),
+      ),
+    );
+  }
+
+  return $return;
+}
+/**
+ * Implements hook_field_widget_form().
+ */
+function fbs_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
+  // Abstract over the actual field columns, to allow different field types to
+  // reuse those widgets.
+  $field['columns'] = array('value' => 'mumble');
+  $instance['widget']['type'] = 'options_onoff';
+  return options_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
+}
+
+/**
+ * Implements hook_field_widget_settings_form().
+ */
+function fbs_field_widget_settings_form($field, $instance) {
+  return options_field_widget_settings_form($field, $instance);
 }
 
 /**
@@ -74,6 +164,11 @@ function fbs_field_metadata_get($entity, array $options, $name, $entity_type, &$
 function fbs_field_widget_info_alter(&$info) {
   if (isset($info['text_textfield'])) {
     $info['text_textfield']['field types'][] = 'fbs_phone';
+    $info['text_textfield']['field types'][] = 'fbs_mail';
+  }
+  if (isset($info['options_onoff'])) {
+    $info['options_onoff']['field types'][] = 'fbs_phone_notification';
+    $info['options_onoff']['field types'][] = 'fbs_mail_notification';
   }
 }
 
@@ -82,7 +177,15 @@ function fbs_field_widget_info_alter(&$info) {
  */
 function fbs_field_load($entity_type, $entities, $field, $instances, $langcode, &$items, $age) {
   global $user;
-  if (in_array($field['type'], array('fbs_name', 'fbs_phone'))) {
+
+  $field_types = array(
+    'fbs_name',
+    'fbs_phone',
+    'fbs_mail',
+    'fbs_phone_notification',
+    'fbs_mail_notification',
+  );
+  if (in_array($field['type'], $field_types)) {
     $patron = ding_user_get_creds($user);
     foreach ($entities as $id => $entity) {
       // Only populate when the profile is for the current user.
@@ -95,9 +198,33 @@ function fbs_field_load($entity_type, $entities, $field, $instances, $langcode, 
           case 'fbs_phone':
             $items[$id][0] = array('value' => $patron['phone']);
             break;
+
+          case 'fbs_mail':
+            $items[$id][0] = array('value' => $patron['mail']);
+            break;
+
+          case 'fbs_phone_notification':
+            $items[$id][0] = array('value' => $patron['phone_notification'] ? 1 : 0);
+            break;
+
+          case 'fbs_mail_notification':
+            $items[$id][0] = array('value' => $patron['mail_notification'] ? 1 : 0);
+            break;
         }
       }
     }
+  }
+}
+
+/**
+ * Implements hook_options_list().
+ */
+function fbs_options_list($field, $instance, $entity_type, $entity) {
+  if (in_array($field['type'], array('fbs_phone_notification', 'fbs_mail_notification'))) {
+    return array(
+      0 => t('No'),
+      1 => t('Yes'),
+    );
   }
 }
 
@@ -121,6 +248,9 @@ function fbs_field_formatter_info() {
       'field types' => array(
         'fbs_name',
         'fbs_phone',
+        'fbs_mail',
+        'fbs_phone_notification',
+        'fbs_mail_notification',
       ),
     ),
   );

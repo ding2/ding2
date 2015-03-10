@@ -172,15 +172,24 @@ function fbs_profile2_presave($entity) {
   $patron = ding_user_get_creds($user);
   $wrapper = entity_metadata_wrapper('profile2', $entity);
 
-  $changes = array();
-  if ($wrapper->field_fbs_phone->value() != $patron['phone']) {
-    $changes['phoneNumber'] = $wrapper->field_fbs_phone->value();
-  }
+  $current = array(
+    'phoneNumber' => $wrapper->field_fbs_phone->value(),
+    'emailAddress' => $wrapper->field_fbs_mail->value(),
+    'receiveSms' => (bool) $wrapper->field_fbs_phone_notification->value(),
+    'receiveEmail' => (bool) $wrapper->field_fbs_mail_notification->value(),
+  );
 
-  if (!empty($changes)) {
+  $existing = array(
+    'phoneNumber' => $patron['phone'],
+    'emailAddress' => $patron['mail'],
+    'receiveSms' => (bool) $patron['phone_notification'],
+    'receiveEmail' => (bool) $patron['mail_notification'],
+  );
+
+  if (array_diff_assoc($current, $existing)) {
     $update = new FBS\Model\UpdatePatronRequest();
     $patron_settings = new FBS\Model\PatronSettings();
-    foreach ($changes as $key => $val) {
+    foreach ($current as $key => $val) {
       $patron_settings->{$key} = $val;
     }
     $update->patron = $patron_settings;
@@ -198,5 +207,10 @@ function _fbs_creds(FBS\Model\Patron $patron) {
     'patronId' => $patron->patronId,
     'name' => $patron->name,
     'phone' => $patron->phoneNumber,
+    'mail' => $patron->emailAddress,
+    'phone_notification' => $patron->receiveSms,
+    'mail_notification' => $patron->receiveEmail,
+    'preferred_branch' => $patron->preferredPickupBranch,
+    'interest_period' => $patron->defaultInterestPeriod,
   );
 }
