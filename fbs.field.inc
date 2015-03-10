@@ -84,22 +84,43 @@ function fbs_field_info() {
       'property_type' => 'text',
       'property_callbacks' => array('fbs_field_property_callback'),
     ),
+
+    'fbs_preferred_branch' => array(
+      'label' => t('Preferred branch from FBS'),
+      'description' => t('The users preferred branch from the FBS provider'),
+      'default_widget' => 'options_select',
+      'default_formatter' => 'fbs_preferred_branch',
+      'virtual_field' => array(
+        'entity_types' => array('profile2'),
+        'add_widget' => TRUE,
+      ),
+      'property_type' => 'text',
+      'property_callbacks' => array('fbs_field_property_callback'),
+    ),
+
   );
 }
 
 /**
  * Implements hook_field_widget_info().
  *
- * The standard onoff widget doesn't like our virtual fields as it uses the
- * fields "columns" to figure out the field array structure.
+ * The standard options widgets doesn't like our virtual fields as they use
+ * the fields "columns" to figure out the field array structure.
  *
- * So we wrap it thinly.
+ * So we wrap them thinly.
  */
 function fbs_field_widget_info() {
   $return = array();
 
   if (module_exists('options')) {
     $return = array(
+      'fbs_options_select' => array(
+        'label' => t('Select list (FBS)'),
+        'field types' => array('fbs_preferred_branch'),
+        'behaviors' => array(
+          'multiple values' => FIELD_BEHAVIOR_CUSTOM,
+        ),
+      ),
       'fbs_options_onoff' => array(
         'label' => t('Single on/off checkbox (FBS)'),
         'field types' => array('fbs_phone_notification', 'fbs_mail_notification'),
@@ -120,7 +141,7 @@ function fbs_field_widget_form(&$form, &$form_state, $field, $instance, $langcod
   // Abstract over the actual field columns, to allow different field types to
   // reuse those widgets.
   $field['columns'] = array('value' => 'mumble');
-  $instance['widget']['type'] = 'options_onoff';
+  $instance['widget']['type'] = preg_replace('/^fbs_/', '', $instance['widget']['type']);
   return options_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
 }
 
@@ -166,9 +187,8 @@ function fbs_field_widget_info_alter(&$info) {
     $info['text_textfield']['field types'][] = 'fbs_phone';
     $info['text_textfield']['field types'][] = 'fbs_mail';
   }
-  if (isset($info['options_onoff'])) {
-    $info['options_onoff']['field types'][] = 'fbs_phone_notification';
-    $info['options_onoff']['field types'][] = 'fbs_mail_notification';
+  if (isset($info['options_select'])) {
+    $info['options_select']['field types'][] = 'fbs_preferred_branch';
   }
 }
 
@@ -184,6 +204,7 @@ function fbs_field_load($entity_type, $entities, $field, $instances, $langcode, 
     'fbs_mail',
     'fbs_phone_notification',
     'fbs_mail_notification',
+    'fbs_preferred_branch',
   );
   if (in_array($field['type'], $field_types)) {
     $patron = ding_user_get_creds($user);
@@ -201,6 +222,10 @@ function fbs_field_load($entity_type, $entities, $field, $instances, $langcode, 
 
           case 'fbs_mail':
             $items[$id][0] = array('value' => $patron['mail']);
+            break;
+
+          case 'fbs_preferred_branch':
+            $items[$id][0] = array('value' => $patron['preferred_branch']);
             break;
 
           case 'fbs_phone_notification':
@@ -225,6 +250,9 @@ function fbs_options_list($field, $instance, $entity_type, $entity) {
       0 => t('No'),
       1 => t('Yes'),
     );
+  }
+  elseif ($field['type'] == 'fbs_preferred_branch') {
+    return fbs_branches();
   }
 }
 
@@ -253,6 +281,13 @@ function fbs_field_formatter_info() {
         'fbs_mail_notification',
       ),
     ),
+
+    'fbs_preferred_branch' => array(
+      'label' => t('Default'),
+      'field types' => array(
+        'fbs_preferred_branch',
+      ),
+    ),
   );
 }
 
@@ -267,6 +302,20 @@ function fbs_field_formatter_view($entity_type, $entity, $field, $instance, $lan
         $element[$delta] = array(
           '#markup' => check_plain($item['value']),
         );
+        break;
+
+      case 'fbs_preferred_branch':
+        $branches = fbs_branches();
+        if (isset($branches[$item['value']])) {
+          $title = $branches[$item['value']];
+        }
+        else {
+          $title = t('Unknown');
+        }
+        $element[$delta] = array(
+          '#markup' => check_plain($title),
+        );
+        break;
     }
   }
 

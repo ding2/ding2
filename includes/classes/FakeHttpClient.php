@@ -57,6 +57,7 @@ class FakeHttpClient implements HttpClient {
       '(?P<agency_id>.*)/patrons/(?P<patron_id>\d+)/reservations$' => 'getReservations',
       '(?P<agency_id>.*)/catalog/availability$' => 'getAvailability',
       '(?P<agency_id>.*)/catalog/holdings$' => 'getHoldings',
+      '(?P<agency_id>.*)/branches$' => 'getBranches',
     );
 
     foreach ($pathes as $request_path => $method) {
@@ -233,7 +234,7 @@ class FakeHttpClient implements HttpClient {
             ),
             'branch' => array(
               // AgencyBranch.
-              'branchId' => 'BRA1',
+              'branchId' => '113',
               'title' => 'Andeby Bibliotek',
             ),
             'department' => array(
@@ -257,6 +258,40 @@ class FakeHttpClient implements HttpClient {
     }
 
     $response->getBody()->write(json_encode($holdings));
+    return $response;
+  }
+
+  /**
+   * Fake holdings.
+   */
+  private function getBranches($request, $vars) {
+    $response = new Response(new Stream('php://memory', 'w'));
+
+    $branches = array(
+      // Messed up ordering, so we'll see if they're properly sorted.
+      array(
+        'branchId' => 114,
+        'title' => 'Gåserød Bibliotek',
+      ),
+      array(
+        'branchId' => 113,
+        'title' => 'Andeby Bibliotek',
+      ),
+      array(
+        'branchId' => 115,
+        'title' => 'Andelev Bibliotek',
+      ),
+      array(
+        'branchId' => 99999999,
+        'title' => 'Langbortistan Bibliotek',
+      ),
+      array(
+        'branchId' => 123,
+        'title' => 'Usleravnekrog Bibliotek',
+      ),
+    );
+
+    $response->getBody()->write(json_encode($branches));
     return $response;
   }
 }

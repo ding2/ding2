@@ -201,6 +201,25 @@ function fbs_profile2_presave($entity) {
 }
 
 /**
+ * Get library branches.
+ *
+ * @return array
+ *   Array of ISIL => branchname.
+ */
+function fbs_branches() {
+  $branches = &drupal_static(__FUNCTION__, NULL);
+  if (is_null($branches)) {
+    $res = fbs_service()->Placement->getBranches(fbs_service()->agencyId);
+    foreach ($res as $branch) {
+      $branches[$branch->branchId] = $branch->title;
+    }
+
+    asort($branches);
+  }
+  return $branches;
+}
+
+/**
  * Create creds from Patron.
  */
 function _fbs_creds(FBS\Model\Patron $patron) {
