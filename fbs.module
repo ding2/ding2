@@ -4,6 +4,7 @@
  * @file
  * FBS provider module.
  */
+include_once 'fbs.features.inc';
 
 // Load Field module hooks. Wrapping in function exists, so we'll still be
 // able to load this file in tests.
