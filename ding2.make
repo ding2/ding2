@@ -107,6 +107,11 @@ projects[bpi][download][type] = "git"
 projects[bpi][download][url] = "git@github.com:ding2/bpi.git"
 projects[bpi][download][branch] = "master"
 
+projects[ddb_cp][type] = "module"
+projects[ddb_cp][download][type] = "git"
+projects[ddb_cp][download][url] = "git@github.com:ding2/ddb_cp.git"
+projects[ddb_cp][download][branch] = "master"
+
 ; Base theme
 projects[ddbasic][type] = "theme"
 projects[ddbasic][download][type] = "git"
