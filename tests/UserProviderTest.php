@@ -126,6 +126,11 @@ class UserProviderTest extends ProviderTestCase {
         'patronId' => 234143,
         'name' => 'Dan Turrell',
         'phone' => '80345210',
+        'mail' => 'onkel@danny.dk',
+        'phone_notification' => NULL,
+        'mail_notification' => NULL,
+        'preferred_branch' => '113',
+        'interest_period' => 30,
       ),
     );
     $this->assertEquals($expected, $res);
@@ -158,6 +163,11 @@ class UserProviderTest extends ProviderTestCase {
         'patronId' => 234143,
         'name' => 'Dan Turrell',
         'phone' => '80345210',
+        'mail' => 'onkel@danny.dk',
+        'phone_notification' => NULL,
+        'mail_notification' => NULL,
+        'preferred_branch' => '113',
+        'interest_period' => 30,
       ),
     );
     $this->assertEquals($expected, $res);
