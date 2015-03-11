@@ -140,3 +140,10 @@ function fbs_reservation_options($account, $default_branch) {
 
   return $form;
 }
+
+/**
+ * Implements provider reservation, options_submit.
+ */
+function fbs_reservation_options_submit($account, $values) {
+  fbs_update_preferred_branch($account, $values['preferred_branch']);
+}

@@ -217,6 +217,27 @@ function fbs_profile2_presave($entity) {
 }
 
 /**
+ * Update preferred branch if it is not set..
+ */
+function fbs_update_preferred_branch($account, $branch_id) {
+  global $user;
+
+  // Only update when it's for the current user.
+  if ($account->uid != $user->uid) {
+    return;
+  }
+
+  $profile = ding_user_provider_profile($account);
+  $wrapper = entity_metadata_wrapper('profile2', $profile);
+
+  if (!$wrapper->field_fbs_preferred_branch->value()) {
+    $wrapper->field_fbs_preferred_branch->set($branch_id);
+
+    $profile->save();
+  }
+}
+
+/**
  * Get library branches.
  *
  * @return array
