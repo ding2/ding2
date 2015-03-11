@@ -24,3 +24,4 @@ features[field_instance][] = profile2-provider_fbs-field_fbs_phone_notification
 features[profile2_type][] = provider_fbs
 files[] = includes/classes/FBS.php
 files[] = includes/classes/FakeHttpClient.php
+files[] = includes/classes/DrupalHttpClient.php

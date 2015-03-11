@@ -6,17 +6,6 @@ use \JsonMapper;
 use Reload\Prancer\Serializer;
 use Reload\Prancer\Serializer\JsonMapperSerializer;
 
-use Psr\Http\Message\RequestInterface;
-// use Psr\Http\Message\ResponseInterface;
-use Phly\Http\Response;
-class DrupalHttpClient implements HttpClient {
-    public function request(RequestInterface $request) {
-        return new Response(
-        );
-    }
-
-}
-
 /**
  * Master service class.
  */

@@ -134,6 +134,20 @@ function fbs_settings_form() {
     '#default_value' => variable_get('fbs_agency', ''),
   );
 
+  $form['fbs']['fbs_username'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Username'),
+    '#description' => t('Username for FBS.'),
+    '#default_value' => variable_get('fbs_username', ''),
+  );
+
+  $form['fbs']['fbs_password'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Password'),
+    '#description' => t('Password for FBS.'),
+    '#default_value' => variable_get('fbs_password', ''),
+  );
+
   // Add the option to select default interest period, which default as default
   // to 180 days.
   $periods = fbs_interest_periods();
