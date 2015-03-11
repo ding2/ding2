@@ -569,7 +569,6 @@ class ReservationProviderTest extends ProviderTestCase {
     $this->requireDing('ding_reservation', 'ding_reservation.module');
 
     $json_responses = array(
-      // Don't expect anything other than an empty success reply.
       new Reply(
         array(
           // Array of...
@@ -612,5 +611,41 @@ class ReservationProviderTest extends ProviderTestCase {
 
     // Check that unknown returns NULL.
     $this->assertNull($this->providerInvoke('branch_name', '152'));
-}
+  }
+
+  /**
+   * Test reservation branch_name.
+   */
+  public function testDefaultOptions() {
+    $this->provider = 'reservation';
+    // // Define DING_RESERVATION_* constants..
+    $this->requireDing('ding_reservation', 'ding_reservation.module');
+
+    // We don't expect any calls to the service.
+    $json_responses = array();
+    $httpclient = $this->getHttpClient($json_responses);
+
+    // Run through tests.
+    $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
+
+    $user = (object) array(
+      'creds' => array(
+        'patronId' => 123,
+        'name' => 'Dan Turell',
+        'phone' => '',
+        'mail' => '',
+        'phone_notification' => TRUE,
+        'mail_notification' => FALSE,
+        'preferred_branch' => 113,
+        'interest_period' => 30,
+      )
+    );
+
+    // Check success.
+    $expected = array(
+      'interest_period' => 30,
+      'preferred_branch' => 113,
+    );
+    $this->assertEquals($expected, $this->providerInvoke('default_options', $user));
+  }
 }

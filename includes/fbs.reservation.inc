@@ -92,7 +92,7 @@ function fbs_reservation_delete($account, $reservation_id) {
 }
 
 /**
- * Implements hook_reservation_deletion_enabled().
+ * Implements provider reservation, reservation_deletion_enabled.
  *
  * Check where reservation deletion have been enabled in the providers settings.
  */
@@ -112,4 +112,15 @@ function fbs_reservation_branch_name($branch_id) {
   }
 
   return NULL;
+}
+
+/**
+ * Implements provider reservation, default_options.
+ */
+function fbs_reservation_default_options($account) {
+  $creds = fbs_get_creds($account);
+  return array(
+    'preferred_branch' => $creds['preferred_branch'],
+    'interest_period' => $creds['interest_period'],
+  );
 }
