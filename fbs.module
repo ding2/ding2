@@ -51,10 +51,6 @@ function fbs_ding_provider() {
         'prefix' => 'user',
         'file' => $path . '/includes/fbs.user.inc',
       ),
-      // 'wayf' => array(
-      //   'prefix' => 'wayf',
-      //   'file' => $path . '/includes/fbs.wayf.inc',
-      // ),
     ),
   );
 }
