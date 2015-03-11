@@ -147,3 +147,15 @@ function fbs_reservation_options($account, $default_branch) {
 function fbs_reservation_options_submit($account, $values) {
   fbs_update_preferred_branch($account, $values['preferred_branch']);
 }
+
+/**
+ * Implements provider reservation, default_interst_period.
+ */
+function fbs_reservation_default_interest_period() {
+  $creds = fbs_get_creds();
+  if (isset($creds['interest_period'])) {
+    return $creds['interest_period'];
+  }
+
+  return variable_get('fbs_default_interest_period', 180);
+}

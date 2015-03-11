@@ -138,19 +138,18 @@ function fbs_settings_form() {
     '#default_value' => variable_get('fbs_agency', ''),
   );
 
+  // Add the option to select default interest period, which default as default
+  // to 180 days.
+  $periods = fbs_interest_periods();
+  $default = variable_get('fbs_default_interest_period', 180);
+  $form['fbs'] += ding_reservation_interest_period_selector('fbs_default_interest_period', $default, $periods);
+
   $form['fbs']['fbs_enable_reservation_deletion'] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable reservation deletion'),
     '#default_value' => variable_get('fbs_enable_reservation_deletion', FALSE),
     '#description' => t('Allow users to delete their reservations as well as ready for pickup ones.'),
   );
-
-  // $form['fbs']['fbs_enable_logging'] = array(
-  //   '#type' => 'checkbox',
-  //   '#title' => t('Enable logging'),
-  //   '#default_value' => variable_get('fbs_enable_logging', FALSE),
-  //   '#description' => t('Logs requests to the OpenRuth webservice. Sensitive information such as CPR number and PIN code is stripped from the requests.'),
-  // );
 
   return system_settings_form($form);
 }
@@ -191,6 +190,7 @@ function fbs_profile2_presave($entity) {
     'receiveSms' => (bool) $wrapper->field_fbs_phone_notification->value(),
     'receiveEmail' => (bool) $wrapper->field_fbs_mail_notification->value(),
     'preferredPickupBranch' => $wrapper->field_fbs_preferred_branch->value(),
+    // Currently not supported. Commented out.
     // 'defaultInterestPeriod' => $wrapper->field_fbs_interest_period->value(),
   );
 
