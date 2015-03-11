@@ -236,6 +236,24 @@ function fbs_branches() {
 }
 
 /**
+ * Get interest periods.
+ */
+function fbs_interest_periods() {
+  $periods = array(
+    1 => 30,
+    2 => 60,
+    3 => 90,
+    6 => 180,
+    12 => 360,
+  );
+  $options = array();
+  foreach ($periods as $months => $days) {
+    $options[$days] = format_plural($months, '1 month', '@count months');
+  }
+  return $options;
+}
+
+/**
  * Create creds from Patron.
  */
 function _fbs_creds(FBS\Model\Patron $patron) {

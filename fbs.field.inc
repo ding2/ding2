@@ -271,18 +271,7 @@ function fbs_options_list($field, $instance, $entity_type, $entity) {
     return fbs_branches();
   }
   elseif ($field['type'] == 'fbs_interest_period') {
-    $periods = array(
-      1 => 30,
-      2 => 60,
-      3 => 90,
-      6 => 180,
-      12 => 360,
-    );
-    $options = array();
-    foreach ($periods as $months => $days) {
-      $options[$days] = format_plural($months, '1 month', '@count months');
-    }
-    return $options;
+    return fbs_interest_periods();
   }
 }
 

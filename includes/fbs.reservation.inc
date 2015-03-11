@@ -124,3 +124,19 @@ function fbs_reservation_default_options($account) {
     'interest_period' => $creds['interest_period'],
   );
 }
+
+/**
+ * Implements provider reservation, options.
+ */
+function fbs_reservation_options($account, $default_branch) {
+  $creds = fbs_get_creds($account);
+
+  $interest_period = $creds['interest_period'];
+  $preferred_branch = empty($default_branch) ? $creds['preferred_branch'] : $default_branch;
+
+  $form = array();
+  $form += ding_reservation_default_options_branch('preferred_branch', $preferred_branch, fbs_branches());
+  $form += ding_reservation_interest_period_selector('interest_period', $interest_period, fbs_interest_periods());
+
+  return $form;
+}
