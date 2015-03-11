@@ -61,7 +61,7 @@ function fbs_field_info() {
       // These two keys are for compatibility with the text_textfield widget.
       'settings' => array(),
       'instance_settings' => array(),
-      'default_widget' => 'options_onoff',
+      'default_widget' => 'fbs_options_onoff',
       'default_formatter' => 'fbs_default',
       'virtual_field' => array(
         'entity_types' => array('profile2'),
@@ -76,7 +76,7 @@ function fbs_field_info() {
       // These two keys are for compatibility with the text_textfield widget.
       'settings' => array(),
       'instance_settings' => array(),
-      'default_widget' => 'options_onoff',
+      'default_widget' => 'fbs_options_onoff',
       'default_formatter' => 'fbs_default',
       'virtual_field' => array(
         'entity_types' => array('profile2'),
@@ -88,7 +88,7 @@ function fbs_field_info() {
     'fbs_preferred_branch' => array(
       'label' => t('Preferred branch from FBS'),
       'description' => t('The users preferred branch from the FBS provider'),
-      'default_widget' => 'options_select',
+      'default_widget' => 'fbs_options_select',
       'default_formatter' => 'fbs_preferred_branch',
       'virtual_field' => array(
         'entity_types' => array('profile2'),
@@ -98,6 +98,18 @@ function fbs_field_info() {
       'property_callbacks' => array('fbs_field_property_callback'),
     ),
 
+    'fbs_interest_period' => array(
+      'label' => t('Interest period from FBS'),
+      'description' => t('The users interest period from the FBS provider'),
+      'default_widget' => 'fbs_options_select',
+      'default_formatter' => 'fbs_interest_period',
+      'virtual_field' => array(
+        'entity_types' => array('profile2'),
+        'add_widget' => TRUE,
+      ),
+      'property_type' => 'text',
+      'property_callbacks' => array('fbs_field_property_callback'),
+    ),
   );
 }
 
@@ -116,7 +128,7 @@ function fbs_field_widget_info() {
     $return = array(
       'fbs_options_select' => array(
         'label' => t('Select list (FBS)'),
-        'field types' => array('fbs_preferred_branch'),
+        'field types' => array('fbs_preferred_branch', 'fbs_interest_period'),
         'behaviors' => array(
           'multiple values' => FIELD_BEHAVIOR_CUSTOM,
         ),
@@ -136,10 +148,10 @@ function fbs_field_widget_info() {
 }
 /**
  * Implements hook_field_widget_form().
+ *
+ * Fixes columns and lets options_field_widget_form() do the work.
  */
 function fbs_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
-  // Abstract over the actual field columns, to allow different field types to
-  // reuse those widgets.
   $field['columns'] = array('value' => 'mumble');
   $instance['widget']['type'] = preg_replace('/^fbs_/', '', $instance['widget']['type']);
   return options_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
@@ -147,6 +159,8 @@ function fbs_field_widget_form(&$form, &$form_state, $field, $instance, $langcod
 
 /**
  * Implements hook_field_widget_settings_form().
+ *
+ * Wraps options_field_widget_settings_form().
  */
 function fbs_field_widget_settings_form($field, $instance) {
   return options_field_widget_settings_form($field, $instance);
@@ -187,9 +201,6 @@ function fbs_field_widget_info_alter(&$info) {
     $info['text_textfield']['field types'][] = 'fbs_phone';
     $info['text_textfield']['field types'][] = 'fbs_mail';
   }
-  if (isset($info['options_select'])) {
-    $info['options_select']['field types'][] = 'fbs_preferred_branch';
-  }
 }
 
 /**
@@ -205,6 +216,7 @@ function fbs_field_load($entity_type, $entities, $field, $instances, $langcode, 
     'fbs_phone_notification',
     'fbs_mail_notification',
     'fbs_preferred_branch',
+    'fbs_interest_period',
   );
   if (in_array($field['type'], $field_types)) {
     $patron = ding_user_get_creds($user);
@@ -226,6 +238,10 @@ function fbs_field_load($entity_type, $entities, $field, $instances, $langcode, 
 
           case 'fbs_preferred_branch':
             $items[$id][0] = array('value' => $patron['preferred_branch']);
+            break;
+
+          case 'fbs_interest_period':
+            $items[$id][0] = array('value' => $patron['interest_period']);
             break;
 
           case 'fbs_phone_notification':
@@ -253,6 +269,20 @@ function fbs_options_list($field, $instance, $entity_type, $entity) {
   }
   elseif ($field['type'] == 'fbs_preferred_branch') {
     return fbs_branches();
+  }
+  elseif ($field['type'] == 'fbs_interest_period') {
+    $periods = array(
+      1 => 30,
+      2 => 60,
+      3 => 90,
+      6 => 180,
+      12 => 360,
+    );
+    $options = array();
+    foreach ($periods as $months => $days) {
+      $options[$days] = format_plural($months, '1 month', '@count months');
+    }
+    return $options;
   }
 }
 
@@ -288,6 +318,13 @@ function fbs_field_formatter_info() {
         'fbs_preferred_branch',
       ),
     ),
+
+    'fbs_interest_period' => array(
+      'label' => t('Default'),
+      'field types' => array(
+        'fbs_interest_period',
+      ),
+    ),
   );
 }
 
@@ -314,6 +351,12 @@ function fbs_field_formatter_view($entity_type, $entity, $field, $instance, $lan
         }
         $element[$delta] = array(
           '#markup' => check_plain($title),
+        );
+        break;
+
+      case 'fbs_interest_period':
+        $element[$delta] = array(
+          '#markup' => format_plural($item['value'], '1 day', '@count days'),
         );
         break;
     }
