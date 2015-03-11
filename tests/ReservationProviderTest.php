@@ -200,7 +200,9 @@ class ReservationProviderTest extends ProviderTestCase {
     $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
 
     // TCRL1: Patron without reservations
-    $patron1 = (object) array('fbs_patron_id' => 'PATID1');
+    $patron1 = (object) array(
+      'creds' => array('patronId' => 'PATID1')
+    );
 
     $res = $this->providerInvoke('list', $patron1);
     $expected = array(
@@ -212,7 +214,9 @@ class ReservationProviderTest extends ProviderTestCase {
 
 
     // TCRL2: Patron with a single reservation
-    $patron2 = (object) array('fbs_patron_id' => 'PATID2');
+    $patron2 = (object) array(
+      'creds' => array('patronId' => 'PATID2')
+    );
 
     $res = $this->providerInvoke('list', $patron2);
     $expected = array(
@@ -234,7 +238,9 @@ class ReservationProviderTest extends ProviderTestCase {
 
 
     // TCRL3: Patron with expired reservation
-    $patron3 = (object) array('fbs_patron_id' => 'PATID3');
+    $patron3 = (object) array(
+      'creds' => array('patronId' => 'PATID3')
+    );
 
     $res = $this->providerInvoke('list', $patron3);
     $expected = array(
@@ -246,7 +252,9 @@ class ReservationProviderTest extends ProviderTestCase {
 
 
     // TCRL4: Patron with interlibrary reservation
-    $patron4 = (object) array('fbs_patron_id' => 'PATID4');
+    $patron4 = (object) array(
+      'creds' => array('patronId' => 'PATID4')
+    );
 
     $res = $this->providerInvoke('list', $patron4);
     $expected = array(
@@ -267,7 +275,9 @@ class ReservationProviderTest extends ProviderTestCase {
 
 
     // TCRL5: Patron with reservation ready for pickup
-    $patron5 = (object) array('fbs_patron_id' => 'PATID5');
+    $patron5 = (object) array(
+      'creds' => array('patronId' => 'PATID5')
+    );
 
     $res = $this->providerInvoke('list', $patron5);
     $expected = array(
@@ -288,7 +298,9 @@ class ReservationProviderTest extends ProviderTestCase {
 
 
     // TCRL6: Patron with reservation with status=other
-    $patron6 = (object) array('fbs_patron_id' => 'PATID6');
+    $patron6 = (object) array(
+      'creds' => array('patronId' => 'PATID6')
+    );
 
     $res = $this->providerInvoke('list', $patron6);
     $expected = array(
@@ -309,7 +321,9 @@ class ReservationProviderTest extends ProviderTestCase {
 
 
     // TCRL7: Patron with muliple reservations with different types
-    $patron7 = (object) array('fbs_patron_id' => 'PATID7');
+    $patron7 = (object) array(
+      'creds' => array('patronId' => 'PATID7')
+    );
 
     // Check success.
     $res = $this->providerInvoke('list', $patron7);
@@ -456,7 +470,7 @@ class ReservationProviderTest extends ProviderTestCase {
     $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
 
     $user = (object) array(
-      'fbs_patron_id' => 'PAT8',
+      'creds' => array('patronId' => 'PATID8')
     );
 
     // Check success.
@@ -506,7 +520,7 @@ class ReservationProviderTest extends ProviderTestCase {
     $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
 
     $user = (object) array(
-      'fbs_patron_id' => 'PAT9',
+      'creds' => array('patronId' => 'PATID9')
     );
 
     // Check success.
@@ -536,7 +550,7 @@ class ReservationProviderTest extends ProviderTestCase {
     $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
 
     $user = (object) array(
-      'fbs_patron_id' => 'PAT10',
+      'creds' => array('patronId' => 'PATID10')
     );
 
     // Check success.

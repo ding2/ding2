@@ -60,23 +60,35 @@ function fbs_ding_provider() {
 }
 
 /**
- * Return patron id for user.
+ * Get creds for user.
+ *
+ * Wrapper around ding_user_get_creds() to facilitate testing.
  */
-function fbs_patron_id($account = NULL) {
+function fbs_get_creds($account = NULL) {
   global $user;
+
   if (!$account) {
     $account = $user;
   }
 
-  if (isset($account->fbs_patron_id)) {
-    return $account->fbs_patron_id;
+  // If set on user, use those. This should only be the case in tests.
+  if (isset($account->creds)) {
+    return $account->creds;
   }
 
   $creds = ding_user_get_creds($user);
-  return $creds['patronId'];
-  // throw DingProviderAuthException if no user is logged in.
-  return NULL;
+  return $creds;
 }
+
+
+/**
+ * Return patron id for user.
+ */
+function fbs_patron_id($account = NULL) {
+  $creds = fbs_get_creds($account);
+  return $creds['patronId'];
+}
+
 /**
  * Get the service object.
  *

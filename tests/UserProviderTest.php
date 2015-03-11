@@ -218,7 +218,9 @@ class UserProviderTest extends ProviderTestCase {
     $httpclient = $this->getHttpClient($json_responses);
 
     $user = (object) array(
-      'fbs_patron_id' => '123',
+      'creds' => array(
+        'patronId' => '123',
+      ),
     );
 
     // Run through tests.

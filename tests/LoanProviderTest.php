@@ -105,7 +105,9 @@ class LoanProviderTest extends ProviderTestCase {
     $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
 
     $user = (object) array(
-      'fbs_patron_id' => '123',
+      'creds' => array(
+        'patronId' => '123',
+      ),
     );
 
     // Check success.
@@ -213,7 +215,9 @@ class LoanProviderTest extends ProviderTestCase {
     $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
 
     $user = (object) array(
-      'fbs_patron_id' => '123',
+      'creds' => array(
+        'patronId' => '123',
+      ),
     );
 
     // Check success.
