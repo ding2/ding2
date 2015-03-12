@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Test loan provider functions.
+ * Test loan flows.
  */
 
 require_once "ProviderTestCase.php";
