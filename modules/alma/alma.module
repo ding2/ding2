@@ -311,7 +311,7 @@ function alma_profile2_presave($entity) {
     $value = $wrapper->field_alma_preferred_branch->value();
     if (!is_null($value)) {
       if ($value != $wrapper_original->field_alma_preferred_branch->value()) {
-        $changes['preferred_branch'] = $value;
+        $changes['preferred_branch'] = $value == '_none' ? '' : $value;
       }
     }
 
@@ -530,7 +530,7 @@ function alma_update_provider($changes, $entity) {
   }
 
   // Update preferred branch (patronBranch).
-  if (!empty($changes['preferred_branch'])) {
+  if (isset($changes['preferred_branch'])) {
     try {
       $res = alma_client_invoke('change_patron_preferences', $creds['name'], $creds['pass'], $changes['preferred_branch']);
     }
