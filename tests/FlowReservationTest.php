@@ -256,7 +256,7 @@ class FlowReservationTest extends ProviderTestCase {
     $this->assertEquals($user->creds['preferred_branch'], $reservation['pickup_branch_id']);
     $this->assertEquals($expected_expiry, $reservation['expiry']);
 
-    // Step 4
+    // Step 6
     // Check that the holdings have updated.
     $json_responses = array(
       new Reply(
