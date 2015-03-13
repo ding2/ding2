@@ -23,6 +23,9 @@ function drupal_get_path($type, $name) {
 abstract class ProviderTestCase extends PHPUnit_Framework_TestCase {
   protected $provider = NULL;
 
+  protected $prophecy = NULL;
+
+  protected $total_calls = 0;
   /**
    * Set up the test.
    */
@@ -75,9 +78,20 @@ abstract class ProviderTestCase extends PHPUnit_Framework_TestCase {
   /**
    * Get HTTP Client, possibly preloaded with responses.
    */
-  protected function getHttpClient($replies) {
-    $httpclient = $this->prophesize('Reload\Prancer\HttpClient');
+  protected function getHttpClient($replies = array()) {
+    if (!$this->prophecy)  {
+      $this->prophecy = $this->prophesize('Reload\Prancer\HttpClient');
+    }
+    if ($replies) {
+      $this->replies($replies);
+    }
+    return $this->prophecy->reveal();
+  }
 
+  /**
+   * Set expected responses.
+   */
+  protected function replies($replies) {
     $responses = array();
     foreach ($replies as $reply) {
       if (!($reply instanceof Reply)) {
@@ -86,11 +100,11 @@ abstract class ProviderTestCase extends PHPUnit_Framework_TestCase {
       $responses[] = $reply->getResponse();
     }
 
-    $httpclient->request(Argument::any())
-            ->will(new ReturnPromise($responses));
+    $this->prophecy->request(Argument::any())
+      ->will(new ReturnPromise($responses));
 
-    $httpclient->request(Argument::any())->shouldBeCalledTimes(count($responses));
-    return $httpclient->reveal();
+    $this->total_calls += count($responses);
+    $this->prophecy->request(Argument::any())->shouldBeCalledTimes($this->total_calls);
   }
 
   /**
