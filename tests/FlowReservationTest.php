@@ -21,7 +21,9 @@ if (!function_exists('ding_provider_build_entity_id')) {
 /**
  * Some provider functions uses this.
  */
-define('REQUEST_TIME', time());
+if (!defined('REQUEST_TIME')) {
+  define('REQUEST_TIME', time());
+}
 
 /**
  * Test user provider functions.
