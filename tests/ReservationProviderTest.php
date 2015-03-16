@@ -556,7 +556,7 @@ class ReservationProviderTest extends ProviderTestCase {
     // Check success.
     $res = $this->providerInvoke('delete', $user, '123');
     // No response is expected. Which is good, as the service doesn't define
-    // any error reponses either (apart from the catchal RestExecption).
+    // any error reponses either (apart from the catchall RestExecption).
 
   }
 
