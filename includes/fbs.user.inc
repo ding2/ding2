@@ -53,5 +53,5 @@ function fbs_user_update_pincode($account, $new_pincode) {
   $res = fbs_service()->Patron->update(fbs_service()->agencyId, fbs_patron_id($account), $update);
   // FBS doesn't give any other indication of success than returning rather
   // than throwing an error.
-  return array('creds' => TRUE);
+  return array('creds' => _fbs_creds($res->patron));
 }

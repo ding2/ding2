@@ -211,9 +211,37 @@ class UserProviderTest extends ProviderTestCase {
           ),
         )
       ),
-
-      // Unknown user.
-      (new Reply())->code(404)->message('patron not found'),
+      new Reply(
+        array(
+          // AuthenticatedPatron.
+          'authenticated' => TRUE,
+          'patron' => array(
+            // Patron.
+            'birthday' => '1946-10-15',
+            'coAddress' => NULL,
+            'address' => array(
+              // Address
+              'country' => 'Danmark',
+              'city' => 'København',
+              'street' => 'Alhambravej 1',
+              'postalCode' => '1826',
+            ),
+            // ISIL of Vesterbro bibliotek
+            'preferredPickupBranch' => '113',
+            'onHold' => NULL,
+            'patronId' => 234143,
+            'recieveEmail' => TRUE,
+            'blockStatus' => NULL,
+            'recieveSms' => FALSE,
+            'emailAddress' => 'onkel@danny.dk',
+            'phoneNumber' => '80345210',
+            'name' => 'Dan Turrell',
+            'receivePostalMail' => FALSE,
+            'defaultInterestPeriod' => 30,
+            'resident' => TRUE,
+          ),
+        )
+      ),
     );
     $httpclient = $this->getHttpClient($json_responses);
 
@@ -226,20 +254,49 @@ class UserProviderTest extends ProviderTestCase {
     // Run through tests.
     $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
 
+
     // Check success.
-    $res = $this->providerInvoke('update_pincode', $user, '1234');
+    $res = $this->providerInvoke('update_pincode', $user, '9999');
     $expected = array(
-      'creds' => TRUE,
+      'creds' => array(
+        'patronId' => 234143,
+        'name' => 'Dan Turrell',
+        'phone' => '80345210',
+        'mail' => 'onkel@danny.dk',
+        'phone_notification' => NULL,
+        'mail_notification' => NULL,
+        'preferred_branch' => '113',
+        'interest_period' => 30,
+      ),
     );
     $this->assertEquals($expected, $res);
 
-    // Check failure.
-    try {
-      $res = $this->providerInvoke('update_pincode', $user, 'banana');
-      $this->fail('No exception thrown.');
-    }
-    catch (Exception $e) {
-      $this->assertEquals('patron not found', $e->getMessage());
-    }
+
+    // Check that the new pincode works.
+    $res = $this->providerInvoke('authenticate', '151019463013', '9999');
+    $expected = array(
+      'success' => TRUE,
+      'user' => array(
+        'mail' => 'onkel@danny.dk',
+        'data' => array(
+          'display_name' => 'Dan Turrell',
+        ),
+        'private' => array(
+          'branch' => 113,
+        ),
+        'blocked' => FALSE,
+      ),
+      'creds' => array(
+        'patronId' => 234143,
+        'name' => 'Dan Turrell',
+        'phone' => '80345210',
+        'mail' => 'onkel@danny.dk',
+        'phone_notification' => NULL,
+        'mail_notification' => NULL,
+        'preferred_branch' => '113',
+        'interest_period' => 30,
+      ),
+    );
+    $this->assertEquals($expected, $res);
   }
 }
