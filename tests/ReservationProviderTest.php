@@ -97,7 +97,7 @@ class ReservationProviderTest extends ProviderTestCase {
           'state' => 'reserved',
         ),
         array(
-          // ReservationDetails.
+          // ReservationDetails: MAT21
           'recordId' => 'REC21',
           'pickupBranch' => 'BRA1',
           'expiryDate' => 'EXPDATE21',
@@ -107,7 +107,7 @@ class ReservationProviderTest extends ProviderTestCase {
           'state' => 'readyForPickup',
         ),
         array(
-          // ReservationDetails.
+          // ReservationDetails: MAT22
           'recordId' => 'REC22',
           'pickupBranch' => 'BRA1',
           'expiryDate' => 'EXPDATE22',
@@ -520,7 +520,7 @@ class ReservationProviderTest extends ProviderTestCase {
     $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
 
     $user = (object) array(
-      'creds' => array('patronId' => 'PATID9')
+      'creds' => array('patronId' => 'PATID8')
     );
 
     // Check success.
@@ -550,7 +550,7 @@ class ReservationProviderTest extends ProviderTestCase {
     $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
 
     $user = (object) array(
-      'creds' => array('patronId' => 'PATID10')
+      'creds' => array('patronId' => 'PATID8')
     );
 
     // Check success.
