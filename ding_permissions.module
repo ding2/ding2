@@ -226,6 +226,7 @@ function ding_permissions_secure_permissions($role) {
       'administer place2book settings',
       'administer profile types',
       'administer profiles',
+      'administer realname',
       'administer redirects',
       'administer relation types',
       'administer relations',
