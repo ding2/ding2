@@ -56,6 +56,9 @@ projects[og][subdir] = "contrib"
 projects[og][version] = "2.5"
 projects[og][patch][] = "https://www.drupal.org/files/issues/entityreference_fields_do_not_validate-2249261-10.patch"
 
+projects[realname][subdir] = "contrib"
+projects[realname][version] = "1.2"
+
 projects[profile2][subdir] = "contrib"
 projects[profile2][version] = "1.3"
 
