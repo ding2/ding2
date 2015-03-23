@@ -67,6 +67,14 @@
       $('.menu', element).toggle();
       $(this).toggleClass('js-toggled');
     });
+
+    // Check group content. If a group does not contain both news and events
+    // then add an additional class to the content lists.
+    $('.ding-group-news,.ding-group-events').each(function() {
+      if ($(this).parent().find('.ding-group-news,.ding-group-events').size() < 2) {
+        $(this).addClass('js-ding-group-single-content-type');
+      }
+    });
   });
 
 })(jQuery);
