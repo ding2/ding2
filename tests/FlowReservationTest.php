@@ -131,16 +131,19 @@ class FlowReservationTest extends ProviderTestCase {
                     // Material.
                     'itemNumber' => '1',
                     'available' => FALSE,
+                    'materialGroupName' => 'Material group',
                   ),
                   array(
                     // Material.
                     'itemNumber' => '2',
                     'available' => TRUE,
+                    'materialGroupName' => 'Material group',
                   ),
                   array(
                     // Material.
                     'itemNumber' => '3',
                     'available' => TRUE,
+                    'materialGroupName' => 'Material group',
                   ),
                 ),
                 'branch' => array(
@@ -270,16 +273,19 @@ class FlowReservationTest extends ProviderTestCase {
                     // Material.
                     'itemNumber' => '1',
                     'available' => FALSE,
+                    'materialGroupName' => 'Material group',
                   ),
                   array(
                     // Material.
                     'itemNumber' => '2',
                     'available' => FALSE,
+                    'materialGroupName' => 'Material group',
                   ),
                   array(
                     // Material.
                     'itemNumber' => '3',
                     'available' => TRUE,
+                    'materialGroupName' => 'Material group',
                   ),
                 ),
                 'branch' => array(
