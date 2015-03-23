@@ -25,6 +25,12 @@ class LoanDetails
     public $loanDate = null;
 
     /**
+     * @var string Name of the material group that the material belongs to
+     * @required
+     */
+    public $materialGroupName = null;
+
+    /**
      * @var string Identifies the exact material that has been loaned
      * @required
      */

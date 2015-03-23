@@ -13,13 +13,13 @@ class Availability
     public $recordId = null;
 
     /**
-     * @var boolean True if material can be reserved
+     * @var boolean True if materials can be reserved
      * @required
      */
     public $reservable = null;
 
     /**
-     * @var boolean True if material is available on-shelf at some placement, false if
+     * @var boolean True if materials is available on-shelf at some placement, false if
      * all materials are lent out
      * @required
      */

@@ -13,7 +13,7 @@ class ExternalReservationsApi extends SwaggerApi
      *
      *
      *  Returns an array of reservation details.
-     *  When the patron picks up the reserved material,
+     *  When the patron picks up the reserved materials,
      *  the reservation will no longer be returned.
      *  Expired or deleted reservations will not be returned.
      *
@@ -123,7 +123,7 @@ class ExternalReservationsApi extends SwaggerApi
      * @param array $reservationid a list of reservation ids for reservations that are to be deleted
      * @return void
      */
-    public function deleteReservations($agencyid, $patronid, $reservationid = null)
+    public function deleteReservations($agencyid, $patronid, $reservationid)
     {
         $request = $this->newRequest("DELETE", "/external/v1/{agencyid}/patrons/{patronid}/reservations");
         $request->addParameter("path", "agencyid", $agencyid);

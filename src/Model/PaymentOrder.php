@@ -12,10 +12,10 @@ class PaymentOrder
     public $orderId = null;
 
     /**
-     * @var string[] Array of fees fully covered by the order
+     * @var integer[] Array of fees fully covered by the order
      * @required
      */
-    public $feeId = null;
+    public $feeIds = null;
 
 
 }

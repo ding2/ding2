@@ -18,7 +18,7 @@ class ExternalCatalogApi extends SwaggerApi
      * @param array $recordid list of record ids
      * @return Availability[]
      */
-    public function getAvailability($agencyid, $recordid = null)
+    public function getAvailability($agencyid, $recordid)
     {
         $request = $this->newRequest("GET", "/external/v1/{agencyid}/catalog/availability");
         $request->addParameter("path", "agencyid", $agencyid);
@@ -42,7 +42,7 @@ class ExternalCatalogApi extends SwaggerApi
      * @param array $recordid Identifies the bibliographical records - OpenSearch: //searchresult/collection/object/identifier
      * @return HoldingsForBibliographicalRecord[]
      */
-    public function getHoldings($agencyid, $recordid = null)
+    public function getHoldings($agencyid, $recordid)
     {
         $request = $this->newRequest("GET", "/external/v1/{agencyid}/catalog/holdings");
         $request->addParameter("path", "agencyid", $agencyid);

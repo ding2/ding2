@@ -32,7 +32,7 @@ class ExternalPaymentApi extends SwaggerApi
      *                           only access); default=false
      * @return Fee[]
      */
-    public function getFees($agencyid, $patronid = null, $includepaid = null, $includenonpayable = null)
+    public function getFees($agencyid, $patronid, $includepaid, $includenonpayable)
     {
         $request = $this->newRequest("GET", "/external/v1/{agencyid}/patron/{patronid}/fees");
         $request->addParameter("path", "agencyid", $agencyid);
@@ -76,11 +76,11 @@ class ExternalPaymentApi extends SwaggerApi
      * @param PaymentOrder $paymentOrder registration of fees covered by a payment order
      * @return PaymentConfirmation[]
      */
-    public function payFees($agencyid, $patronid = null, Model\PaymentOrder $paymentOrder)
+    public function payFees($agencyid, $patronid, Model\PaymentOrder $paymentOrder)
     {
         $request = $this->newRequest("POST", "/external/v1/{agencyid}/patron/{patronid}/payment");
         $request->addParameter("path", "agencyid", $agencyid);
-        $request->addParameter("query", "patronid", $patronid);
+        $request->addParameter("path", "patronid", $patronid);
         $request->addParameter("body", "paymentOrder", $paymentOrder);
 
         $request->defineResponse(200, "", array('\\FBS\\Model\\PaymentConfirmation'));

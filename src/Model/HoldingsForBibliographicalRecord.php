@@ -6,20 +6,20 @@ class HoldingsForBibliographicalRecord
 {
 
     /**
-     * @var string Identifies the bibliographical record for the available material,
+     * @var string Identifies the bibliographical record for the available materials,
      *  DBC OpenSearch: //searchresult/collection/object/identifier
      * @required
      */
     public $recordId = null;
 
     /**
-     * @var boolean True if there is any reservable material
+     * @var boolean True if there is any reservable materials
      * @required
      */
     public $reservable = null;
 
     /**
-     * @var Holdings[] An array of holdings for the material matching the
+     * @var Holdings[] An array of holdings for the materials matching the
      * bibliographical record, as distributed across branches,
      *  departments and locations
      * @required
