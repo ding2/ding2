@@ -255,6 +255,11 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
   if (isset($options['sort']) && $options['sort']) {
     $request->setSort($options['sort']);
   }
+  else{
+    $sort = variable_get('ting_sort_default','rank_frequency');
+    $request->setSort($sort);
+  }
+
   if (isset($options['collectionType'])) {
     $request->setCollectionType($options['collectionType']);
   }
@@ -294,11 +299,6 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
       $request->userDefinedRanking = array('tieValue' => 0.1, 'rankField' => $fields);
     }
   }
-  // Otherwise, use the ranking setting.
-  else {
-    $request->setRank((isset($options['rank']) && $options['rank']) ? $options['rank'] : 'rank_general');
-  }
-
   // Apply custom boosts if any.
   $boosts = variable_get('ting_boost_fields', array());
 

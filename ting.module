@@ -350,7 +350,27 @@ function ting_element_info() {
       '#input' => TRUE,
       '#process' => array('ting_ranking_field_element_process'),
     ),
+    'ting_sort_default' => array(
+      '#input' => TRUE,
+      '#process' => array('ting_sort_default'),
+    )
   );
+}
+
+function ting_sort_default($element, $form_state){
+  $element['#tree'] = TRUE;
+
+  $element['sort_type'] = array(
+    '#title' => t('Type'),
+    '#type' => 'select',
+    '#options' => array(
+      'rank_frequency' => t('rank_frequency'),
+      'rank_general' => t('rank_general'),
+      'rank_none' => t('rank_none'),
+    ),
+    '#default_value' => (isset($element['#value']['sort_type'])) ? $element['#value']['sort_type'] : 'rank_frequency',
+  );
+  return $element;
 }
 
 /**
