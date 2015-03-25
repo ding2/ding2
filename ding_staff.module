@@ -144,3 +144,15 @@ function ding_staff_og_context_handler() {
     'node' => $nids,
   );
 }
+
+/**
+ * Implements hook_preprocess_username().
+ */
+function ding_staff_preprocess_username(&$vars) {
+  // Drupal truncates usernames over 20 chars to 15 chars + ... by default but
+  // keeps the original name in a separate variable.
+  // Using realname module ensures that many usernames are over 20 chars long
+  // and there is no reason to truncate then so reinstitute a safe version of
+  // the original username.
+  $vars['name'] = check_plain($vars['name_raw']);
+}
