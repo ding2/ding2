@@ -12,6 +12,8 @@
  */
 function ting_search_admin_settings($form_state) {
   $form = array();
+  
+  $display_message = 'Your search gave more than %s results. Try to search more specific or use the facets to filter the result.';
 
   $form['ting_search'] = array(
     '#type' => 'fieldset',
@@ -55,11 +57,34 @@ function ting_search_admin_settings($form_state) {
   );
 
   $form['ting_search']['ting_search_result_message'] = array(
-    '#type' => 'textarea',
-    '#title' => t('Display message'),
-    '#default_value' => variable_get('ting_search_result_message', t('Your search gave more than %s results. Try to search more specific or use the facets to filter the result.')),
-    '#description' => t('Message to display when search has more than x results. The token %s will by substitute by the number choosen.'),
+    '#type' => 'container',
+    '#attributes' => array('class' => Array('form-item')),
+    'message' => array(
+      '#type' => 'markup',
+      '#prefix' => '<label>',
+      '#markup' => t('Display message'),
+      '#suffix' => '</label>',
+    ),
+    'ting_search_result_message_text' => array(
+      '#type' => 'container',
+      'message' => array(
+        '#type' => 'markup',
+        '#markup' => t($display_message),
+      ),
+    ),
+    'ting_search_result_message_description' => array(
+      '#type' => 'container',
+      '#attributes' => array('class' => Array('description')),
+      'message' => array(
+        '#type' => 'markup',
+        '#markup' => t('Message to display when search has more than x results. The token %s will be substituted by the number choosen.'),
+      ),
+    ),
   );
+  
+  if ( t($display_message) != $display_message ) {
+    $form['ting_search']['ting_search_result_message']['ting_search_result_message_description']['message']['#markup'] .= '<br/>' . t('Translated from: %n.', array('%n' => $display_message));
+  }
 
   $form['ting_search']['ting_search_result_message_limit'] = array(
     '#type' => 'textfield',
