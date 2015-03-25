@@ -60,7 +60,7 @@ function ding_base_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'autologout_redirect_url';
-  $strongarm->value = 'ding_frontpage';
+  $strongarm->value = '<front>';
   $export['autologout_redirect_url'] = $strongarm;
 
   $strongarm = new stdClass();
