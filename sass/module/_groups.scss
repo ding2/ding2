@@ -205,19 +205,19 @@
   border-top: 1px solid $gray-light;
   padding-top: $large-spacing;
 
+  // News and events are normally presented in a two column layout when
+  // displaying a group. If the group only contains a single kind of content
+  // then display that content in full width.
+  // See ddbasic.common.js for detection.
+  &.js-og-single-content-type {
+    @include zen-clear(both);
+    @include zen-grid-item(12, 1);
+    padding-left: 0;
+    padding-right: 0;
+  }
+
   @include small-medium() {
     @include zen-clear(both);
     @include zen-grid-item(12, 1);
   }
-}
-
-// News and events are normally presented in a two column layout when
-// displaying a group. If the group only contains a single kind of content
-// then display that content in full width.
-// See ddbasic.common.js for detection.
-.js-ding-group-single-content-type {
-  @include zen-clear(both);
-  @include zen-grid-item(12, 1);
-  padding-left: 0;
-  padding-right: 0;
 }

@@ -68,12 +68,19 @@
       $(this).toggleClass('js-toggled');
     });
 
-    // Check group content. If a group does not contain both news and events
+    // Check an organic group and library content.
+    // If a group does not contain both news and events
     // then add an additional class to the content lists.
-    $('.ding-group-news,.ding-group-events').each(function() {
-      if ($(this).parent().find('.ding-group-news,.ding-group-events').size() < 2) {
-        $(this).addClass('js-ding-group-single-content-type');
-      }
+    [
+      '.ding-group-news,.ding-group-events',
+      '.ding-library-news,.ding-library-events'
+    ].forEach(function(e) {
+        var selector = e;
+        $(selector).each(function() {
+          if ($(this).parent().find(selector).size() < 2) {
+            $(this).addClass('js-og-single-content-type');
+          }
+      });
     });
   });
 
