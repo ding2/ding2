@@ -322,9 +322,11 @@ class LoanProviderTest extends ProviderTestCase {
     // Run through tests.
     $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
 
+
+    // TCLR1: Patron renews empty list of loans 
     $user = (object) array(
       'creds' => array(
-        'patronId' => '123',
+        'patronId' => 'PAT14',
       ),
     );
 
@@ -336,6 +338,59 @@ class LoanProviderTest extends ProviderTestCase {
       3 => DingProviderLoan::STATUS_NOT_RENEWED,
     );
     $this->assertEquals($expected, $res);
+
+
+    // TCLR2: Patron renews loan (* OBS STATE CHANGES) 
+    $user = (object) array(
+      'creds' => array(
+        'patronId' => 'PAT14',
+      ),
+    );
+
+    // Check success.
+    $res = $this->providerInvoke('renew', $user, array(1, 2, 3));
+    $expected = array(
+      1 => DingProviderLoan::STATUS_RENEWED,
+      2 => DingProviderLoan::STATUS_NOT_RENEWED,
+      3 => DingProviderLoan::STATUS_NOT_RENEWED,
+    );
+    $this->assertEquals($expected, $res);
+
+
+    // TCLR3: Patron tries to renew un-renewable loan 
+    $user = (object) array(
+      'creds' => array(
+        'patronId' => 'PAT14',
+      ),
+    );
+
+    // Check success.
+    $res = $this->providerInvoke('renew', $user, array(1, 2, 3));
+    $expected = array(
+      1 => DingProviderLoan::STATUS_RENEWED,
+      2 => DingProviderLoan::STATUS_NOT_RENEWED,
+      3 => DingProviderLoan::STATUS_NOT_RENEWED,
+    );
+    $this->assertEquals($expected, $res);
+
+
+    // TCLR4: Patron renews multiple loans, both renewable and not (* OBS STATE CHANGES)
+    $user = (object) array(
+      'creds' => array(
+        'patronId' => 'PAT14',
+      ),
+    );
+
+    // Check success.
+    $res = $this->providerInvoke('renew', $user, array(1, 2, 3));
+    $expected = array(
+      1 => DingProviderLoan::STATUS_RENEWED,
+      2 => DingProviderLoan::STATUS_NOT_RENEWED,
+      3 => DingProviderLoan::STATUS_NOT_RENEWED,
+    );
+    $this->assertEquals($expected, $res);
+
+
   }
 
 }
