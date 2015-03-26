@@ -7688,22 +7688,6 @@ msgid "URL to the Ting search webservice, e.g. http://opensearch.addi.dk/3.0/"
 msgstr ""
 
 #: /install.php?profile=ding2&locale=en
-msgid "Scan service URL"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en
-msgid "URL to the Ting scan webservice, e.g. http://openscan.addi.dk/2.0/"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en
-msgid "Spell service URL"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en
-msgid "URL to the Ting spell webservice, e.g. http://openspell.addi.dk/1.2/"
-msgstr ""
-
-#: /install.php?profile=ding2&locale=en
 msgid "Recommendation service URL"
 msgstr ""
 
