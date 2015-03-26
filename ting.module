@@ -618,9 +618,12 @@ function ting_object_load($id) {
   $agency = variable_get('ting_agency', FALSE);
   if ($agency && preg_match('/^(\d{6}):(\w+)$/', $id, $matches)) {
     // Matched to data well version 2, to redirect to version 3.
-    $id = ding_provider_build_entity_id($matches[2], $matches[1]);
-    if($id === FALSE){
+    $new_id = ding_provider_build_entity_id($matches[2], $matches[1]);
+    if($new_id === FALSE){
       $id = ting_lookup_and_translate($id);
+    }
+    else{
+      $id = $new_id;
     }
     drupal_goto('ting/object/' . $id, array(), 301);
   }
@@ -674,9 +677,12 @@ function ting_collection_load($id) {
   $agency = variable_get('ting_agency', FALSE);
   if ($agency && preg_match('/^(\d{6}):(\w+)$/', $id, $matches)) {
     // Matched to data well version 2, to redirect to version 3.
-    $id = ding_provider_build_entity_id($matches[2], $matches[1]);
-    if($id === FALSE){
+    $new_id = ding_provider_build_entity_id($matches[2], $matches[1]);
+    if($new_id === FALSE){
       $id = ting_lookup_and_translate($id);
+    }
+    else{
+      $id = $new_id;
     }
     drupal_goto('ting/collection/' . $id, array(), 301);
   }
