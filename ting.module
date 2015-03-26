@@ -619,11 +619,39 @@ function ting_object_load($id) {
   if ($agency && preg_match('/^(\d{6}):(\w+)$/', $id, $matches)) {
     // Matched to data well version 2, to redirect to version 3.
     $id = ding_provider_build_entity_id($matches[2], $matches[1]);
+    if($id === FALSE){
+      $id = ting_lookup_and_translate($id);
+    }
     drupal_goto('ting/object/' . $id, array(), 301);
   }
 
   return ding_entity_load($id, 'ting_object');
 }
+
+
+/**
+ * Try to lookup well3 pid via a search on the old pid.
+ * Search query is constructed from old pid eg. 870971:72966643 -> '870971 and 72966643'
+ *
+ * This is NOT foolproof - if more than one result is found the first is returned, and that might not
+ * be the correct one
+ *
+ * @param $old_pid ( eg 870971:72966643)
+ * @return bool|mixed; new pid (eg  870971-tsart:72966643 ) if found; else FALSE
+ */
+function ting_lookup_and_translate($old_pid){
+  $query_elements = explode(':', $old_pid);
+  $query = implode(' and ', $query_elements);
+
+  module_load_include('client.inc', 'ting');
+  $result = ting_do_search($query,1,1,array('facets'=>array()));
+  if(isset($result->collections)) {
+    $id = key($result->collections);
+    return $id;
+  }
+  return FALSE;
+}
+
 
 /**
  * Load multiple ting objects.
@@ -647,6 +675,9 @@ function ting_collection_load($id) {
   if ($agency && preg_match('/^(\d{6}):(\w+)$/', $id, $matches)) {
     // Matched to data well version 2, to redirect to version 3.
     $id = ding_provider_build_entity_id($matches[2], $matches[1]);
+    if($id === FALSE){
+      $id = ting_lookup_and_translate($id);
+    }
     drupal_goto('ting/collection/' . $id, array(), 301);
   }
 
