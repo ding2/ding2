@@ -137,27 +137,18 @@ class TingEntity extends DingEntity {
     return $title;
   }
 
-  function getSerieNumber() {
-    $serie = $this->splitSerie();
-    // Last part is the number.
-    if (empty($serie[1])) {
-      return FALSE;
-    }
-    return $serie[1];
-  }
 
   private function splitSerie() {
-    $serie = !empty($this->reply->record['dc:title']['dkdcplus:series'][0]) ? $this->reply->record['dc:title']['dkdcplus:series'][0] : '';
-    return explode(';', $serie);
+    $series = !empty($this->reply->record['dc:title']['dkdcplus:series']) ? $this->reply->record['dc:title']['dkdcplus:series'] : array();
+    $serie_titles = array();
+    foreach ($series as $serie) {
+      $serie_titles[] = explode(';', $serie);
+    }
+    return $serie_titles;
   }
 
   function getSerieTitle() {
-    $serie = $this->splitSerie();
-    // First part is the title.
-    if (empty($serie[0])) {
-      return FALSE;
-    }
-    return trim($serie[0]);
+    return $this->splitSerie();
   }
   
  function getSerieDescription() {

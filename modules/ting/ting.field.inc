@@ -377,10 +377,13 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           // the series title register and the description field because many
           // series only have data in the description field. This will probably
           // change with new versions of the data well.
-          $search_term = str_replace('@serietitle', drupal_strtolower($entity->serieTitle), variable_get('ting_search_register_serie_title', 'phrase.titleSeries="@serietitle"'));
-          $element[$delta] = array(
-            '#markup' => l($entity->serieTitle, 'search/ting/' . $search_term, array('attributes' => array('class' => array('series')))) . ' : ' . check_plain($entity->serieNumber),
-          );
+          foreach($entity->serieTitle as  $title) {
+            $search_term = str_replace('@serietitle', drupal_strtolower($title[0]), variable_get('ting_search_register_serie_title', 'phrase.titleSeries="@serietitle"'));
+            $series_number = isset($title[1]) ? ' : ' . check_plain($title[1]) . ' ; ' : ' ; ';
+            $element[$delta][] = array(
+              '#markup' => l(trim($title[0]), 'search/ting/' . $search_term, array('attributes' => array('class' => array('series')))) . $series_number,
+            );
+          }
         }
         elseif ($entity->serieDescription) {
           $element[$delta] = array(
