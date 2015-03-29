@@ -2,3 +2,8 @@
 /libraries
 themes/ddbasic/node_modules
 config.php
+.buildpath
+.project
+.settings/
+composer.lock
+vendor/
