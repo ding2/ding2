@@ -1,9 +1,8 @@
 <?php
 
-require_once(dirname(__FILE__) . '/config.inc');
+require_once(__DIR__ . '/config.inc');
 
 class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
-
   protected function setUp() {
     $this->setBrowser(TARGET_BROWSER);
     $this->setBrowserUrl(TARGET_URL);
