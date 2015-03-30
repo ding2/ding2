@@ -10,6 +10,14 @@ use Phly\Http\Stream;
 use Prophecy\Argument;
 use Prophecy\Promise\ReturnPromise;
 
+require_once 'includes/classes/FBS.php';
+require_once 'includes/classes/AuthenticationHandler.php';
+require_once 'includes/classes/GuzzleHttpClient.php';
+require_once 'includes/classes/FBSCacheInterface.php';
+require_once 'includes/classes/FBSCacheMemory.php';
+require_once 'includes/classes/FBSLogInterface.php';
+require_once 'includes/classes/FBSLogStdout.php';
+
 /**
  * Fake it.
  */
@@ -24,6 +32,16 @@ abstract class ProviderTestCase extends PHPUnit_Framework_TestCase {
   protected $fbs = NULL;
   protected $provider = NULL;
 
+  protected $useService = FALSE;
+
+  protected $serviceUsername = NULL;
+
+  protected $servicePassword = NULL;
+
+  protected $serviceAgency = NULL;
+
+  protected $serviceEndpoint = NULL;
+
   protected $prophecy = NULL;
 
   protected $total_calls = 0;
@@ -32,6 +50,16 @@ abstract class ProviderTestCase extends PHPUnit_Framework_TestCase {
    */
   public function setUp() {
     require_once "fbs.module";
+    $service_def = getenv('FBS_SERVICE');
+    if ($service_def) {
+      list($this->serviceUsername, $this->servicePassword, $this->serviceAgency, $this->serviceEndpoint) = explode('|', $service_def);
+      if (!empty($this->serviceUsername) &&
+          !empty($this->servicePassword) &&
+          !empty($this->serviceAgency) &&
+          !empty($this->serviceEndpoint)) {
+        $this->useService = TRUE;
+      }
+    }
   }
 
   /**
@@ -63,7 +91,14 @@ abstract class ProviderTestCase extends PHPUnit_Framework_TestCase {
   protected function initService() {
     $httpclient = $this->getHttpClient();
 
-    $this->fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
+    if ($this->useService) {
+      $client = new GuzzleHttpClient();
+      $client = new AuthenticationHandler($this->serviceUsername, $this->servicePassword, $client, new FBSCacheMemory(), new FBSLogStdout());
+      $this->fbs = fbs_service($this->serviceAgency, $this->serviceEndpoint, $client, NULL, TRUE);
+    }
+    else {
+      $this->fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
+    }
   }
 
   /**
@@ -106,6 +141,10 @@ abstract class ProviderTestCase extends PHPUnit_Framework_TestCase {
    * Set expected responses.
    */
   protected function replies($replies) {
+    if ($this->useService) {
+      return;
+    }
+
     if (!$this->prophecy) {
       $this->getHttpClient();
     }

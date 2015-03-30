@@ -86,6 +86,7 @@ class FBS {
     $this->endpoint = $endpoint;
     if (empty($client)) {
       $client = new DrupalHttpClient();
+      $client = new AuthenticationHandler(variable_get('fbs_username', ''), variable_get('fbs_password', ''), $client, new FBSCacheDrupal(), new FBSLogDrupal());
     }
     $this->httpClient = $client;
 
