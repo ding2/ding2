@@ -7,7 +7,11 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Reload\\Prancer\\' => array($baseDir . '/prancer'),
+    'React\\Promise\\' => array($vendorDir . '/react/promise/src'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
     'Phly\\Http\\' => array($vendorDir . '/phly/http/src'),
+    'GuzzleHttp\\Stream\\' => array($vendorDir . '/guzzlehttp/streams/src'),
+    'GuzzleHttp\\Ring\\' => array($vendorDir . '/guzzlehttp/ringphp/src'),
+    'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
     'FBS\\' => array($baseDir . '/src'),
 );
