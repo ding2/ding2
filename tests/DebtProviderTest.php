@@ -44,11 +44,12 @@ class ProviderTest extends ProviderTestCase {
             'payableByClient' => TRUE,
             'amount' => '99.99',
             'paidDate' => NULL,
-            'material' => array(
+            'materials' => array(
               // Array of...
               array(
                 // FeeMaterial.
                 'recordId' => 123,
+                'materialGroupName' => 'Material group',
                 'materialItemNumber' => 321,
               ),
             ),

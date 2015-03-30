@@ -29,7 +29,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
     $json_responses = array(
       // TCA1: Return empty result for empty request
       array(),
-      
+
       // TCA2: Return empty result for non-existing material
       array(),
 
@@ -216,8 +216,8 @@ class AvailabilityProviderTest extends ProviderTestCase {
       array(),
 
       // TCH2: Empty result for unknown material
-      array(), 
-      
+      array(),
+
       // TCH3: Return holdings for material MAT1: reservable/available=false
       array(
         array(
@@ -232,6 +232,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
                   // Material.
                   'itemNumber' => 'ITEMNUM11',
                   'available' => FALSE,
+                  'materialGroupName' => 'Material group',
                 ),
               ),
               'branch' => array(
@@ -273,6 +274,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
                   // Material.
                   'itemNumber' => 'ITEMNUM21',
                   'available' => FALSE,
+                  'materialGroupName' => 'Material group',
                 ),
               ),
               'branch' => array(
@@ -303,6 +305,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
                   // Material.
                   'itemNumber' => 'ITEMNUM22',
                   'available' => FALSE,
+                  'materialGroupName' => 'Material group',
                 ),
               ),
               'branch' => array(
@@ -333,6 +336,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
                   // Material.
                   'itemNumber' => 'ITEMNUM23',
                   'available' => FALSE,
+                  'materialGroupName' => 'Material group',
                 ),
               ),
               'branch' => array(
@@ -466,6 +470,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
                   // Material.
                   'itemNumber' => 'ITEMNUM51',
                   'available' => TRUE,
+                  'materialGroupName' => 'Material group',
                 ),
               ),
               'branch' => array(
@@ -496,6 +501,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
                   // Material.
                   'itemNumber' => 'ITEMNUM11',
                   'available' => FALSE,
+                  'materialGroupName' => 'Material group',
                 ),
               ),
               'branch' => array(
@@ -560,7 +566,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
           ),
         ),
       ),
-      
+
       // TCH9: Return holdings for MAT1 & iDontExist
       array(
         // MAT1
@@ -576,6 +582,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
                   // Material.
                   'itemNumber' => 'ITEMNUM11',
                   'available' => FALSE,
+                  'materialGroupName' => 'Material group',
                 ),
               ),
               'branch' => array(
@@ -698,7 +705,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
       ),
     );
     $this->assertEquals($expected, $res);
-    
+
     // TCH5: Request holdings for existing item (MAT3), available, non-reservable
     $res = $this->providerInvoke('holdings', array('REC3'));
     $expected = array(
@@ -726,7 +733,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
       ),
     );
     $this->assertEquals($expected, $res);
-    
+
     // TCH6: Request holdings for existing item (MAT4), available, reservable
     $res = $this->providerInvoke('holdings', array('REC4'));
     $expected = array(
@@ -827,7 +834,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
       ),
     );
     $this->assertEquals($expected, $res);
-    
+
     // TCH9: Request holdings for multiple (inclusiv invalid) items
     $res = $this->providerInvoke('holdings', array('REC1','iDontExist'));
     $expected = array(

@@ -18,7 +18,7 @@ class PaymentConfirmation
     public $confirmationId = null;
 
     /**
-     * @var string 
+     * @var integer 
      * @required
      */
     public $feeId = null;

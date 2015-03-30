@@ -28,7 +28,7 @@ class Fee
      * @var FeeMaterial[] Set if fee covers materials
      * @required
      */
-    public $material = null;
+    public $materials = null;
 
     /**
      * @var string Human readable free text message about the reason for the fee,
@@ -56,7 +56,7 @@ class Fee
     public $creationDate = null;
 
     /**
-     * @var string Identifies the fee, used when registering a payment that covers the
+     * @var integer Identifies the fee, used when registering a payment that covers the
      * fee
      * @required
      */

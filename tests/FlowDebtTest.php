@@ -95,11 +95,12 @@ class FlowDebtTest extends ProviderTestCase {
             'payableByClient' => TRUE,
             'amount' => '99.99',
             'paidDate' => NULL,
-            'material' => array(
+            'materials' => array(
               // Array of...
               array(
                 // FeeMaterial.
                 'recordId' => 123,
+                'materialGroupName' => 'Material group',
                 'materialItemNumber' => 321,
               ),
             ),
@@ -114,11 +115,12 @@ class FlowDebtTest extends ProviderTestCase {
             'payableByClient' => TRUE,
             'amount' => '9.99',
             'paidDate' => NULL,
-            'material' => array(
+            'materials' => array(
               // Array of...
               array(
                 // FeeMaterial.
                 'recordId' => 43,
+                'materialGroupName' => 'Material group',
                 'materialItemNumber' => 523,
               ),
             ),
@@ -133,11 +135,12 @@ class FlowDebtTest extends ProviderTestCase {
             'payableByClient' => TRUE,
             'amount' => '9.99',
             'paidDate' => NULL,
-            'material' => array(
+            'materials' => array(
               // Array of...
               array(
                 // FeeMaterial.
                 'recordId' => 24,
+                'materialGroupName' => 'Material group',
                 'materialItemNumber' => 3424,
               ),
             ),
@@ -152,11 +155,12 @@ class FlowDebtTest extends ProviderTestCase {
             'payableByClient' => TRUE,
             'amount' => '9.99',
             'paidDate' => NULL,
-            'material' => array(
+            'materials' => array(
               // Array of...
               array(
                 // FeeMaterial.
                 'recordId' => 423,
+                'materialGroupName' => 'Material group',
                 'materialItemNumber' => 434,
               ),
             ),
@@ -214,11 +218,12 @@ class FlowDebtTest extends ProviderTestCase {
             'payableByClient' => TRUE,
             'amount' => '99.99',
             'paidDate' => NULL,
-            'material' => array(
+            'materials' => array(
               // Array of...
               array(
                 // FeeMaterial.
                 'recordId' => 123,
+                'materialGroupName' => 'Material group',
                 'materialItemNumber' => 321,
               ),
             ),
@@ -233,11 +238,12 @@ class FlowDebtTest extends ProviderTestCase {
             'payableByClient' => TRUE,
             'amount' => '9.99',
             'paidDate' => $paid_date,
-            'material' => array(
+            'materials' => array(
               // Array of...
               array(
                 // FeeMaterial.
                 'recordId' => 43,
+                'materialGroupName' => 'Material group',
                 'materialItemNumber' => 523,
               ),
             ),
@@ -252,11 +258,12 @@ class FlowDebtTest extends ProviderTestCase {
             'payableByClient' => TRUE,
             'amount' => '9.99',
             'paidDate' => $paid_date,
-            'material' => array(
+            'materials' => array(
               // Array of...
               array(
                 // FeeMaterial.
                 'recordId' => 24,
+                'materialGroupName' => 'Material group',
                 'materialItemNumber' => 3424,
               ),
             ),
@@ -271,11 +278,12 @@ class FlowDebtTest extends ProviderTestCase {
             'payableByClient' => TRUE,
             'amount' => '9.99',
             'paidDate' => NULL,
-            'material' => array(
+            'materials' => array(
               // Array of...
               array(
                 // FeeMaterial.
                 'recordId' => 423,
+                'materialGroupName' => 'Material group',
                 'materialItemNumber' => 434,
               ),
             ),

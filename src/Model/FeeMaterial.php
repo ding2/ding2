@@ -13,6 +13,12 @@ class FeeMaterial
     public $recordId = null;
 
     /**
+     * @var string Name of the material group that the material belongs to
+     * @required
+     */
+    public $materialGroupName = null;
+
+    /**
      * @var string Identifies the exact material covered by the fee
      * @required
      */

@@ -46,7 +46,7 @@ class LoanProviderTest extends ProviderTestCase {
     $this->requireDing('ding_provider', 'ding_provider.loan.inc');
 
     $json_responses = array(
-      // TCLL1: Patron has no loans 
+      // TCLL1: Patron has no loans
       new Reply(
         array()
       ),
@@ -63,6 +63,7 @@ class LoanProviderTest extends ProviderTestCase {
               'recordId' => 'RECID30',
               'dueDate' => 'DUEDATE30',
               'loanDate' => 'LOANDATE30',
+              'materialGroupName' => 'Material group',
               'materialItemNumber' => 'ITEMNUM30',
               'loanId' => 30,
             ),
@@ -83,6 +84,7 @@ class LoanProviderTest extends ProviderTestCase {
               'recordId' => 'RECID31',
               'dueDate' => 'DUEDATE31',
               'loanDate' => 'LOANDATE31',
+              'materialGroupName' => 'Material group',
               'materialItemNumber' => 'ITEMNUM31',
               'loanId' => 31,
             ),
@@ -105,6 +107,7 @@ class LoanProviderTest extends ProviderTestCase {
               'recordId' => 'RECID32',
               'dueDate' => 'DUEDATE32',
               'loanDate' => 'LOANDATE32',
+              'materialGroupName' => 'Material group',
               'materialItemNumber' => 'ITEMNUM32',
               'loanId' => 32,
             ),
@@ -118,6 +121,7 @@ class LoanProviderTest extends ProviderTestCase {
               'recordId' => 'RECID33',
               'dueDate' => 'DUEDATE33',
               'loanDate' => 'LOANDATE33',
+              'materialGroupName' => 'Material group',
               'materialItemNumber' => 'ITEMNUM33',
               'loanId' => 33,
             ),
@@ -131,6 +135,7 @@ class LoanProviderTest extends ProviderTestCase {
               'recordId' => 'RECID34',
               'dueDate' => 'DUEDATE34',
               'loanDate' => 'LOANDATE34',
+              'materialGroupName' => 'Material group',
               'materialItemNumber' => 'ITEMNUM34',
               'loanId' => 34,
             ),
@@ -146,6 +151,7 @@ class LoanProviderTest extends ProviderTestCase {
               'recordId' => 'RECID35',
               'dueDate' => 'DUEDATE35',
               'loanDate' => 'LOANDATE35',
+              'materialGroupName' => 'Material group',
               'materialItemNumber' => 'ITEMNUM35',
               'loanId' => 35,
             ),
@@ -279,6 +285,7 @@ class LoanProviderTest extends ProviderTestCase {
               'recordId'  => 'x',
               'dueDate' => 'x',
               'loanDate' => 'x',
+              'materialGroupName' => 'Material group',
               'materialItemNumber' => 'x',
               'loanId' => '1',
             ),
@@ -293,6 +300,7 @@ class LoanProviderTest extends ProviderTestCase {
               'recordId'  => 'x',
               'dueDate' => 'x',
               'loanDate' => 'x',
+              'materialGroupName' => 'Material group',
               'materialItemNumber' => 'x',
               'loanId' => '2',
             ),
@@ -307,6 +315,7 @@ class LoanProviderTest extends ProviderTestCase {
               'recordId'  => 'x',
               'dueDate' => 'x',
               'loanDate' => 'x',
+              'materialGroupName' => 'Material group',
               'materialItemNumber' => 'x',
               'loanId' => '3',
             ),

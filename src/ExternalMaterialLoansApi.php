@@ -50,7 +50,7 @@ class ExternalMaterialLoansApi extends SwaggerApi
      *
      *
      *  Returns an array of the updated loans.
-     *  If the material could not be renewed, the return date will be unchanged.
+     *  If the materials could not be renewed, the return date will be unchanged.
      *
      *  The response field renewalStatus will contain a list of one or more of these values:
      *  

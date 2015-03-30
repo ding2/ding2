@@ -11,7 +11,7 @@
 function fbs_debt_list($account) {
   $result = array();
 
-  $res = fbs_service()->Payment->getFees(fbs_service()->agencyId, fbs_patron_id($account));
+  $res = fbs_service()->Payment->getFees(fbs_service()->agencyId, fbs_patron_id($account), FALSE, FALSE);
 
   foreach ($res as $fee) {
     $id = $fee->feeId;
@@ -34,9 +34,9 @@ function fbs_debt_list($account) {
 function fbs_debt_payment_received($account, $debt_ids = array(), $order_id = NULL) {
   $payment_order = new FBS\Model\PaymentOrder();
   $payment_order->orderId = $order_id;
-  $payment_order->feeId = array();
+  $payment_order->feeIds = array();
   foreach ($debt_ids as $debt_id) {
-    $payment_order->feeId[] = $debt_id;
+    $payment_order->feeIds[] = $debt_id;
   }
   $res = fbs_service()->Payment->payFees(fbs_service()->agencyId, fbs_patron_id($account), $payment_order);
 
