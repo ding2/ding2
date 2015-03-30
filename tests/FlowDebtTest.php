@@ -76,9 +76,8 @@ class FlowDebtTest extends ProviderTestCase {
       ),
     );
 
-    $httpclient = $this->getHttpClient($json_responses);
+    $this->replies($json_responses);
 
-    $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
     $res = $this->providerInvoke('authenticate', '151019463013', '1234');
 
     $this->assertTrue($res['success']);

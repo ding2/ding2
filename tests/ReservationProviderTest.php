@@ -196,10 +196,8 @@ class ReservationProviderTest extends ProviderTestCase {
       $tcrl7,
       $tcrl7,
     );
-    $httpclient = $this->getHttpClient($json_responses);
 
-    // Run through tests.
-    $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
+    $this->replies($json_responses);
 
     // TCRL1: Patron without reservations
     $patron1 = (object) array(
@@ -465,11 +463,7 @@ class ReservationProviderTest extends ProviderTestCase {
         )
       ),
     );
-    $httpclient = $this->getHttpClient($json_responses);
-
-
-    // Run through tests.
-    $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
+    $this->replies($json_responses);
 
     $user = (object) array(
       'creds' => array('patronId' => 'PATID8')
@@ -516,10 +510,7 @@ class ReservationProviderTest extends ProviderTestCase {
         )
       ),
     );
-    $httpclient = $this->getHttpClient($json_responses);
-
-    // Run through tests.
-    $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
+    $this->replies($json_responses);
 
     $user = (object) array(
       'creds' => array('patronId' => 'PATID8')
@@ -546,10 +537,7 @@ class ReservationProviderTest extends ProviderTestCase {
       // Don't expect anything other than an empty success reply.
       new Reply(),
     );
-    $httpclient = $this->getHttpClient($json_responses);
-
-    // Run through tests.
-    $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
+    $this->replies($json_responses);
 
     $user = (object) array(
       'creds' => array('patronId' => 'PATID8')
@@ -603,10 +591,7 @@ class ReservationProviderTest extends ProviderTestCase {
         )
       ),
     );
-    $httpclient = $this->getHttpClient($json_responses);
-
-    // Run through tests.
-    $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
+    $this->replies($json_responses);
 
     // Check success.
     $this->assertEquals('Brædstrup Bibliotek', $this->providerInvoke('branch_name', 'DK-761501'));
@@ -625,10 +610,7 @@ class ReservationProviderTest extends ProviderTestCase {
 
     // We don't expect any calls to the service.
     $json_responses = array();
-    $httpclient = $this->getHttpClient($json_responses);
-
-    // Run through tests.
-    $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
+    $this->replies($json_responses);
 
     $user = (object) array(
       'creds' => array(

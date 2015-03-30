@@ -146,10 +146,9 @@ class FlowLoanTest extends ProviderTestCase {
           ),
         )
       ),
-);
-    $httpclient = $this->getHttpClient($json_responses);
+    );
 
-    $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
+    $this->replies($json_responses);
 
     $user = (object) array(
       'creds' => array(
@@ -318,9 +317,7 @@ class FlowLoanTest extends ProviderTestCase {
         )
       ),
     );
-    $httpclient = $this->getHttpClient($json_responses);
-
-    $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
+    $this->replies($json_responses);
 
     $user = (object) array(
       'creds' => array(

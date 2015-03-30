@@ -103,10 +103,7 @@ class UserProviderTest extends ProviderTestCase {
         )
       ),
     );
-    $httpclient = $this->getHttpClient($json_responses);
-
-    // Run through tests.
-    $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
+    $this->replies($json_responses);
 
     // Check success.
     $res = $this->providerInvoke('authenticate', '151019463013', '1234');
@@ -243,17 +240,13 @@ class UserProviderTest extends ProviderTestCase {
         )
       ),
     );
-    $httpclient = $this->getHttpClient($json_responses);
+    $this->replies($json_responses);
 
     $user = (object) array(
       'creds' => array(
         'patronId' => '123',
       ),
     );
-
-    // Run through tests.
-    $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
-
 
     // Check success.
     $res = $this->providerInvoke('update_pincode', $user, '9999');

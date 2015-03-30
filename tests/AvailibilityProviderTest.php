@@ -112,10 +112,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
         ),
       ),
     );
-    $httpclient = $this->getHttpClient($json_responses);
-
-    // Run through tests.
-    $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
+    $this->replies($json_responses);
 
     // TCA1: Empty request.
     $res = $this->providerInvoke('items', array());
@@ -610,11 +607,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
         ),
       ),
     );
-    $httpclient = $this->getHttpClient($json_responses);
-
-
-    // Run through tests.
-    $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
+    $this->replies($json_responses);
 
     // TCH1: Empty request
     $res = $this->providerInvoke('holdings', array());

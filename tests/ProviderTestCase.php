@@ -21,6 +21,7 @@ function drupal_get_path($type, $name) {
  * Base class for provider tests.
  */
 abstract class ProviderTestCase extends PHPUnit_Framework_TestCase {
+  protected $fbs = NULL;
   protected $provider = NULL;
 
   protected $prophecy = NULL;
@@ -37,6 +38,10 @@ abstract class ProviderTestCase extends PHPUnit_Framework_TestCase {
    * Invoke a provider method.
    */
   protected function providerInvoke($hook) {
+    if (!$this->fbs) {
+      $this->initService();
+    }
+
     if (empty($this->provider)) {
       $this->fail('Provider not set for test.');
     }
@@ -50,6 +55,15 @@ abstract class ProviderTestCase extends PHPUnit_Framework_TestCase {
     }
 
     $this->fail("Provider does not implement " . $this->provider . '_' . $hook . '.');
+  }
+
+  /**
+   * Initialize FBS service.
+   */
+  protected function initService() {
+    $httpclient = $this->getHttpClient();
+
+    $this->fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
   }
 
   /**
@@ -79,7 +93,7 @@ abstract class ProviderTestCase extends PHPUnit_Framework_TestCase {
    * Get HTTP Client, possibly preloaded with responses.
    */
   protected function getHttpClient($replies = array()) {
-    if (!$this->prophecy)  {
+    if (!$this->prophecy) {
       $this->prophecy = $this->prophesize('Reload\Prancer\HttpClient');
     }
     if ($replies) {
@@ -92,6 +106,10 @@ abstract class ProviderTestCase extends PHPUnit_Framework_TestCase {
    * Set expected responses.
    */
   protected function replies($replies) {
+    if (!$this->prophecy) {
+      $this->getHttpClient();
+    }
+
     $responses = array();
     foreach ($replies as $reply) {
       if (!($reply instanceof Reply)) {

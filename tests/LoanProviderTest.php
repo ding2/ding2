@@ -162,10 +162,7 @@ class LoanProviderTest extends ProviderTestCase {
         )
       ),
     );
-    $httpclient = $this->getHttpClient($json_responses);
-
-    // Run through tests.
-    $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
+    $this->replies($json_responses);
 
     // TCLL1: Loaner with no loans
     $user = (object) array(
@@ -326,13 +323,9 @@ class LoanProviderTest extends ProviderTestCase {
         )
       ),
     );
-    $httpclient = $this->getHttpClient($json_responses);
+    $this->replies($json_responses);
 
-    // Run through tests.
-    $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
-
-
-    // TCLR1: Patron renews empty list of loans 
+    // TCLR1: Patron renews empty list of loans
     $user = (object) array(
       'creds' => array(
         'patronId' => 'PAT14',
@@ -349,7 +342,7 @@ class LoanProviderTest extends ProviderTestCase {
     $this->assertEquals($expected, $res);
 
 
-    // TCLR2: Patron renews loan (* OBS STATE CHANGES) 
+    // TCLR2: Patron renews loan (* OBS STATE CHANGES)
     $user = (object) array(
       'creds' => array(
         'patronId' => 'PAT14',
@@ -366,7 +359,7 @@ class LoanProviderTest extends ProviderTestCase {
     $this->assertEquals($expected, $res);
 
 
-    // TCLR3: Patron tries to renew un-renewable loan 
+    // TCLR3: Patron tries to renew un-renewable loan
     $user = (object) array(
       'creds' => array(
         'patronId' => 'PAT14',

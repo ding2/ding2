@@ -78,8 +78,8 @@ class FlowReservationTest extends ProviderTestCase {
       )
     );
 
-    $httpclient = $this->getHttpClient($json_responses);
-    $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
+    $this->replies($json_responses);
+
     $this->provider = 'user';
     $res = $this->providerInvoke('authenticate', '151019463013', '1234');
 
@@ -377,8 +377,8 @@ class FlowReservationTest extends ProviderTestCase {
       ),
     );
 
-    $httpclient = $this->getHttpClient($json_responses);
-    $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
+    $this->replies($json_responses);
+
     $this->provider = 'user';
     $res = $this->providerInvoke('authenticate', '151019463013', '1234');
 
@@ -543,8 +543,8 @@ class FlowReservationTest extends ProviderTestCase {
       ),
     );
 
-    $httpclient = $this->getHttpClient($json_responses);
-    $fbs = fbs_service('1234', '', $httpclient, NULL, TRUE);
+    $this->replies($json_responses);
+
     $this->provider = 'user';
     $res = $this->providerInvoke('authenticate', '151019463013', '1234');
 
