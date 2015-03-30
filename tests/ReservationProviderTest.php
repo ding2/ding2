@@ -558,8 +558,7 @@ class ReservationProviderTest extends ProviderTestCase {
     // // Define DING_RESERVATION_* constants..
     $this->requireDing('ding_reservation', 'ding_reservation.module');
 
-    $json_responses = array(
-      new Reply(
+    $standard_reply = new Reply(
         array(
           // Array of...
            array(
@@ -598,29 +597,28 @@ class ReservationProviderTest extends ProviderTestCase {
             'title' => 'Søvind Bibliotek',
           ),
         )
-      ),
+      );
 
-      new Reply(
-        array(
-          // Array of...
-          array(
-            // AgencyBranch.
-            'branchId' => 132,
-            'title' => 'Smørum Nedre Bibliotek',
-          ),
-          array(
-            // AgencyBranch.
-            'branchId' => 133,
-            'title' => 'Smørum Omme Bibliotek',
-          ),
-        )
-      ),
+    $json_responses = array(
+      $standard_reply,
+      $standard_reply,
+      $standard_reply,
+      $standard_reply,
+      $standard_reply,
+      $standard_reply,
+      $standard_reply,
+      $standard_reply
     );
     $this->replies($json_responses);
 
     // Check success.
+    $this->assertEquals('Horsens Bibliotek', $this->providerInvoke('branch_name', 'DK-761500'));
     $this->assertEquals('Brædstrup Bibliotek', $this->providerInvoke('branch_name', 'DK-761501'));
-
+    $this->assertEquals('Endelave Bibliotek', $this->providerInvoke('branch_name', 'DK-761502'));
+    $this->assertEquals('Hovedgård Bibliotek', $this->providerInvoke('branch_name', 'DK-761503'));
+    $this->assertEquals('Gedved Bibliotek', $this->providerInvoke('branch_name', 'DK-761504'));
+    $this->assertEquals('Østbirk Bibliotek', $this->providerInvoke('branch_name', 'DK-761505'));
+    $this->assertEquals('Søvind Bibliotek', $this->providerInvoke('branch_name', 'DK-761506'));
     // Check that unknown returns NULL.
     $this->assertNull($this->providerInvoke('branch_name', '152'));
   }
