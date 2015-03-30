@@ -562,6 +562,11 @@ class ReservationProviderTest extends ProviderTestCase {
       new Reply(
         array(
           // Array of...
+           array(
+            // AgencyBranch.
+            'branchId' => 'DK-761500',
+            'title' => 'Horsens Bibliotek',
+          ),
           array(
             // AgencyBranch.
             'branchId' => 'DK-761501',
@@ -571,6 +576,26 @@ class ReservationProviderTest extends ProviderTestCase {
             // AgencyBranch.
             'branchId' => 'DK-761502',
             'title' => 'Endelave Bibliotek',
+          ),
+          array(
+            // AgencyBranch.
+            'branchId' => 'DK-761503',
+            'title' => 'Hovedgård Bibliotek',
+          ),
+          array(
+            // AgencyBranch.
+            'branchId' => 'DK-761504',
+            'title' => 'Gedved Bibliotek',
+          ),
+          array(
+            // AgencyBranch.
+            'branchId' => 'DK-761505',
+            'title' => 'Østbirk Bibliotek',
+          ),
+          array(
+            // AgencyBranch.
+            'branchId' => 'DK-761506',
+            'title' => 'Søvind Bibliotek',
           ),
         )
       ),

@@ -164,7 +164,7 @@ class LoanProviderTest extends ProviderTestCase {
     );
     $this->replies($json_responses);
 
-    // TCLL1: Loaner with no loans
+    // TCLL1: Loaner (PAT10) with no loans
     $user = (object) array(
       'creds' => array(
         'patronId' => 'PATID10',
@@ -177,7 +177,7 @@ class LoanProviderTest extends ProviderTestCase {
     $this->assertEquals($expected, $res);
 
 
-    // TCLL2: Loaner with renewable loan
+    // TCLL2: Loaner (PAT11) with renewable loan
     $user = (object) array(
       'creds' => array(
         'patronId' => 'PATID11',
@@ -196,7 +196,7 @@ class LoanProviderTest extends ProviderTestCase {
     );
     $this->assertEquals($expected, $res);
 
-    // TCLL3: Loaner with non-renewable loan (max reached)
+    // TCLL3: Loaner (PAT12) with non-renewable loan (max reached)
     $user = (object) array(
       'creds' => array(
         'patronId' => 'PATID12',
@@ -215,7 +215,7 @@ class LoanProviderTest extends ProviderTestCase {
     );
     $this->assertEquals($expected, $res);
 
-    // TCLL4: Loaner with renewable loan
+    // TCLL4: Loaner (PAT13) with renewable loan
     $user = (object) array(
       'creds' => array(
         'patronId' => 'PATID13',
