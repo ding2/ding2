@@ -44,7 +44,7 @@ class ReservationProviderTest extends ProviderTestCase {
     //      - other
 
     // Reusable response.
-    $tcrl7 = new Reply(
+    /**$tcrl7 = new Reply(
       array(
         array(
           // ReservationDetails: MAT16
@@ -118,7 +118,7 @@ class ReservationProviderTest extends ProviderTestCase {
           'state' => 'interLibraryReservation',
         ),
       )
-    );
+    ); **/
 
     $json_responses = array(
       // TCRL1: Return empty result for patron PAT1 without reservations
@@ -130,22 +130,22 @@ class ReservationProviderTest extends ProviderTestCase {
         array(
           array(
             // ReservationDetails.
-            'recordId' => 'REC11',
-            'pickupBranch' => 'BRA1',
-            'expiryDate' => 'EXPDATE11',
-            'reservationId' => 11,
-            'dateOfReservation' => 'RESDATE11',
-            'numberInQueue' => 1,
+            'recordId' => '870970-basis:06338909',
+            'pickupBranch' => 'DK-761500',
+            'expiryDate' => '2015-09-26',
+            'reservationId' => 158,
+            'dateOfReservation' => '2015-03-30T13:56:30.334',
+            'numberInQueue' => 2,
             'state' => 'reserved',
           ),
         )
       ),
       // TCRL3: Return empty result for patron PAT3 with expired reservation (MAT12)
-      new Reply(
+      /**new Reply(
         array()
-      ),
+      ),**/
       // TCRL4: Return single result for patron PAT4 with interlibrary reservation (MAT13)
-      new Reply(
+      /**new Reply(
         array(
           array(
             // ReservationDetails.
@@ -158,25 +158,25 @@ class ReservationProviderTest extends ProviderTestCase {
             'numberInQueue' => 1,
           ),
         )
-      ),
+      ),**/
       // TCRL5: Return single result for patron PAT5 with reservation ready for pickup (MAT14)
       new Reply(
         array(
           array(
             // ReservationDetails.
-            'recordId' => 'REC14',
-            'pickupBranch' => 'BRA1',
-            'expiryDate' => 'EXPDATE14',
-            'reservationId' => 14,
-            'pickupDeadline' => 'PICKUP14',
-            'dateOfReservation' => 'RESDATE14',
+            'recordId' => '870970-basis:26515297',
+            'pickupBranch' => 'DK-761500',
+            'expiryDate' => '2015-09-26',
+            'reservationId' => 160,
+            'pickupDeadline' => '2015-04-06',
+            'dateOfReservation' => '2015-03-30T14:47:45.711',
             'state' => 'readyForPickup',
             // afhentningsnummer?
           ),
         )
       ),
       // TCRL6: Return single result for patron PAT6 with reservation with status=other (MAT15)
-      new Reply(
+      /**new Reply(
         array(
           array(
             // ReservationDetails.
@@ -189,18 +189,18 @@ class ReservationProviderTest extends ProviderTestCase {
             'numberInQueue' => 0, // Skal ikke være på state=other
           ),
         )
-      ),
+      ),**/
       // TCRL7: Return multiple results for patron PAT7 with reservations with different types
       //        (MAT16, MAT17, MAT18, MAT19, MAT20, MAT21, MAT22)
-      $tcrl7,
-      $tcrl7,
+      //$tcrl7,
+      //$tcrl7,
     );
 
     $this->replies($json_responses);
 
-    // TCRL1: Patron without reservations
+    // TCRL1: Patron PAT1 without reservations
     $patron1 = (object) array(
-      'creds' => array('patronId' => 'PATID1')
+      'creds' => array('patronId' => 72)
     );
 
     $res = $this->providerInvoke('list', $patron1);
@@ -212,9 +212,9 @@ class ReservationProviderTest extends ProviderTestCase {
     $this->assertEquals($expected, $res);
 
 
-    // TCRL2: Patron with a single reservation
+    // TCRL2: Patron PAT2 with a single reservation
     $patron2 = (object) array(
-      'creds' => array('patronId' => 'PATID2')
+      'creds' => array('patronId' => 73)
     );
 
     $res = $this->providerInvoke('list', $patron2);
@@ -222,13 +222,13 @@ class ReservationProviderTest extends ProviderTestCase {
       DING_RESERVATION_READY => array(),
       // Reserved
       DING_RESERVATION_NOT_READY => array(
-        11 => array(
-          'ding_entity_id' => 'REC11',
-          'id' => 11,
-          'pickup_branch_id' => 'BRA1',
-          'created' => 'RESDATE11',
-          'queue_number' => 1,
-          'expiry' => 'EXPDATE11',
+        158 => array(
+          'ding_entity_id' => '870970-basis:06338909',
+          'id' => 158,
+          'pickup_branch_id' => 'DK-761500',
+          'created' => '2015-03-30T13:56:30.334',
+          'queue_number' => 2,
+          'expiry' => '2015-09-26',
         ),
       ),
       DING_RESERVATION_INTERLIBRARY_LOANS => array(),
@@ -237,7 +237,7 @@ class ReservationProviderTest extends ProviderTestCase {
 
 
     // TCRL3: Patron with expired reservation
-    $patron3 = (object) array(
+    /**$patron3 = (object) array(
       'creds' => array('patronId' => 'PATID3')
     );
 
@@ -248,11 +248,11 @@ class ReservationProviderTest extends ProviderTestCase {
       DING_RESERVATION_INTERLIBRARY_LOANS => array(),
     );
     $this->assertEquals($expected, $res);
+**/
 
-
-    // TCRL4: Patron with interlibrary reservation
-    $patron4 = (object) array(
-      'creds' => array('patronId' => 'PATID4')
+    // TCRL4: Patron PAT4 with interlibrary reservation
+    /**$patron4 = (object) array(
+      'creds' => array('patronId' => 75)
     );
 
     $res = $this->providerInvoke('list', $patron4);
@@ -271,23 +271,23 @@ class ReservationProviderTest extends ProviderTestCase {
       ),
     );
     $this->assertEquals($expected, $res);
+**/
 
-
-    // TCRL5: Patron with reservation ready for pickup
+    // TCRL5: Patron PAT5 with reservation ready for pickup
     $patron5 = (object) array(
-      'creds' => array('patronId' => 'PATID5')
+      'creds' => array('patronId' => 76)
     );
 
     $res = $this->providerInvoke('list', $patron5);
     $expected = array(
       DING_RESERVATION_READY => array(
-        14 => array(
-          'ding_entity_id' => 'REC14',
-          'id' => 14,
-          'pickup_branch_id' => 'BRA1',
-          'pickup_date' => 'PICKUP14',
-          'created' => 'RESDATE14',
-          'expiry' => 'EXPDATE14',
+        160 => array(
+          'ding_entity_id' => '870970-basis:26515297',
+          'id' => 160,
+          'pickup_branch_id' => 'DK-761500',
+          'pickup_date' => '2015-04-06',
+          'created' => '2015-03-30T14:47:45.711',
+          'expiry' => '2015-09-26',
         ),
       ),
       DING_RESERVATION_NOT_READY => array(),
@@ -297,7 +297,7 @@ class ReservationProviderTest extends ProviderTestCase {
 
 
     // TCRL6: Patron with reservation with status=other
-    $patron6 = (object) array(
+    /**$patron6 = (object) array(
       'creds' => array('patronId' => 'PATID6')
     );
 
@@ -317,10 +317,10 @@ class ReservationProviderTest extends ProviderTestCase {
       DING_RESERVATION_INTERLIBRARY_LOANS => array(),
     );
     $this->assertEquals($expected, $res);
-
+**/
 
     // TCRL7: Patron with muliple reservations with different types
-    $patron7 = (object) array(
+    /**$patron7 = (object) array(
       'creds' => array('patronId' => 'PATID7')
     );
 
@@ -391,9 +391,9 @@ class ReservationProviderTest extends ProviderTestCase {
       ),
     );
     $this->assertEquals($expected, $res);
-
+**/
     // Check that requesting a specific list returns just that.
-    $res = $this->providerInvoke('list', $patron7, DING_RESERVATION_NOT_READY);
+    /**$res = $this->providerInvoke('list', $patron7, DING_RESERVATION_NOT_READY);
     $expected = array(
       16 => array(
         'ding_entity_id' => 'REC16',
@@ -421,6 +421,7 @@ class ReservationProviderTest extends ProviderTestCase {
       ),
     );
     $this->assertEquals($expected, $res);
+    **/
   }
 
 

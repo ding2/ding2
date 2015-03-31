@@ -43,7 +43,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
       // TCA4: Return availability for material MAT2
       array(
         array(
-          'recordId' => 'REC2',
+          'recordId' => '870970-basis:22629344',
           'available' => FALSE,
           'reservable' => TRUE,
         ),
@@ -129,8 +129,8 @@ class AvailabilityProviderTest extends ProviderTestCase {
     $this->assertEquals($expected, $res);
 
     // TCA4: Request availability for existing item, non-available, reservable
-    $res = $this->providerInvoke('items', array('REC2'));
-    $expected = array('REC2' => array('available' => FALSE, 'reservable' => TRUE));
+    $res = $this->providerInvoke('items', array('870970-basis:22629344'));
+    $expected = array('870970-basis:22629344' => array('available' => FALSE, 'reservable' => TRUE));
     $this->assertEquals($expected, $res);
 
     // TCA5: Request availability for existing item, available, non-reservable
@@ -144,13 +144,13 @@ class AvailabilityProviderTest extends ProviderTestCase {
     $this->assertEquals($expected, $res);
 
     // TCA7: Request availability for multiple (valid) items
-    $res = $this->providerInvoke('items', array('REC1','REC2','REC3','REC4'));
+    $res = $this->providerInvoke('items', array('REC1','870970-basis:22629344','REC3','REC4'));
     $expected = array(
       'REC1' => array(
         'available' => FALSE,
         'reservable' => FALSE,
       ),
-      'REC2' => array(
+      '870970-basis:22629344' => array(
         'available' => FALSE,
         'reservable' => TRUE,
       ),
@@ -165,13 +165,13 @@ class AvailabilityProviderTest extends ProviderTestCase {
     );
 
     // TCA8: Request availability for multiple (including invalid) items
-    $res = $this->providerInvoke('items', array('REC1','REC2','REC3','REC4',NULL,'iDontExist'));
+    $res = $this->providerInvoke('items', array('REC1','870970-basis:22629344','REC3','REC4',NULL,'iDontExist'));
     $expected = array(
       'REC1' => array(
         'available' => FALSE,
         'reservable' => FALSE,
       ),
-      'REC2' => array(
+      '870970-basis:22629344' => array(
         'available' => FALSE,
         'reservable' => TRUE,
       ),
@@ -260,7 +260,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
       array(
         array(
           // HoldingsForBibliographicalRecord.
-          'recordId' => 'REC2',
+          'recordId' => '870970-basis:22629344',
           'reservable' => TRUE,
           'holdings' => array(
             array(
@@ -268,30 +268,30 @@ class AvailabilityProviderTest extends ProviderTestCase {
               'materials' => array(
                 array(
                   // Material.
-                  'itemNumber' => 'ITEMNUM21',
+                  'itemNumber' => '4025559679',
                   'available' => FALSE,
-                  'materialGroupName' => 'Material group',
+                  'materialGroupName' => 'very permissive',
                 ),
               ),
               'branch' => array(
                 // AgencyBranch.
-                'branchId' => 'BRA1',
-                'title' => 'TBRA1',
+                'branchId' => 'DK-761500',
+                'title' => 'Horsens Bibliotek',
               ),
               'department' => array(
                 // AgencyDepartment.
-                'departmentId' => 'DEP1',
-                'title' => 'TDEP1',
+                'departmentId' => 'SKN',
+                'title' => 'Skønlitteratur',
               ),
               'location' => array(
                 // AgencyLocation.
-                'locationId' => 'LOC1',
-                'title' => 'TLOC1',
+                'locationId' => 'MUS',
+                'title' => 'Musik',
               ),
               'sublocation' => array(
                 // AgencySublocation.
-                'sublocationId' => 'SUB1',
-                'title' => 'TSUB1',
+                'sublocationId' => 'JAZZ',
+                'title' => 'Jazz',
               ),
             ),
             array(
@@ -299,61 +299,30 @@ class AvailabilityProviderTest extends ProviderTestCase {
               'materials' => array(
                 array(
                   // Material.
-                  'itemNumber' => 'ITEMNUM22',
+                  'itemNumber' => '4025560677',
                   'available' => FALSE,
-                  'materialGroupName' => 'Material group',
+                  'materialGroupName' => 'very permissive',
                 ),
               ),
-              'branch' => array(
+               'branch' => array(
                 // AgencyBranch.
-                'branchId' => 'BRA1',
-                'title' => 'TBRA1',
+                'branchId' => 'DK-761500',
+                'title' => 'Horsens Bibliotek',
               ),
               'department' => array(
                 // AgencyDepartment.
-                'departmentId' => 'DEP1',
-                'title' => 'TDEP1',
+                'departmentId' => 'SKN',
+                'title' => 'Skønlitteratur',
               ),
               'location' => array(
                 // AgencyLocation.
-                'locationId' => 'LOC2',
-                'title' => 'TLOC2',
+                'locationId' => 'MUS',
+                'title' => 'Musik',
               ),
               'sublocation' => array(
                 // AgencySublocation.
-                'sublocationId' => 'SUB2',
-                'title' => 'TSUB2',
-              ),
-            ),
-            array(
-              // Holding 3
-              'materials' => array(
-                array(
-                  // Material.
-                  'itemNumber' => 'ITEMNUM23',
-                  'available' => FALSE,
-                  'materialGroupName' => 'Material group',
-                ),
-              ),
-              'branch' => array(
-                // AgencyBranch.
-                'branchId' => 'BRA1',
-                'title' => 'TBRA1',
-              ),
-              'department' => array(
-                // AgencyDepartment.
-                'departmentId' => 'DEP2',
-                'title' => 'TDEP2',
-              ),
-              'location' => array(
-                // AgencyLocation.
-                'locationId' => 'LOC1',
-                'title' => 'TLOC1',
-              ),
-              'sublocation' => array(
-                // AgencySublocation.
-                'sublocationId' => 'SUB3',
-                'title' => 'TSUB3',
+                'sublocationId' => 'JAZZ',
+                'title' => 'Jazz',
               ),
             ),
           ),
