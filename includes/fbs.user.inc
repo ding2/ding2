@@ -55,7 +55,7 @@ function fbs_user_update_pincode($account, $new_pincode) {
   $creds = fbs_get_creds($account);
 
   $update = new FBS\Model\UpdatePatronRequest();
-  $pincode_change = FBS\Model\PincodeChange();
+  $pincode_change = new FBS\Model\PincodeChange();
   $pincode_change->pincode = $new_pincode;
   $pincode_change->libraryCardNumber = $creds['library_card_number'];
   $update->pincodeChange = $pincode_change;
@@ -63,5 +63,7 @@ function fbs_user_update_pincode($account, $new_pincode) {
   $res = fbs_service()->Patron->update(fbs_service()->agencyId, fbs_patron_id($account), $update);
   // FBS doesn't give any other indication of success than returning rather
   // than throwing an error.
-  return array('creds' => _fbs_creds($res->patron));
+  $result = array('creds' => _fbs_creds($res->patron));
+  $result['creds']['library_card_number'] = $creds['library_card_number'];
+  return $result;
 }
