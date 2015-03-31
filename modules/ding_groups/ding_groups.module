@@ -342,20 +342,20 @@ function ding_groups_preprocess_views_view_fields(&$vars) {
       switch ($count) {
         case '1';
           // One image.
-          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#max_style'] = 'ding_panorama_primary_large';
-          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#fallback_style'] = 'ding_panorama_primary_medium';
-          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#breakpoint_styles']['768'] = 'ding_panorama_primary_large';
-          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#breakpoint_styles']['500'] = 'ding_panorama_primary_medium';
-          $vars['fields']['field_ding_group_list_image']->content = drupal_render($vars['row']->field_field_ding_group_list_image[0]['rendered']);
+          $vars['row']->field_field_ding_group_title_image[0]['rendered']['#max_style'] = 'ding_panorama_primary_large';
+          $vars['row']->field_field_ding_group_title_image[0]['rendered']['#fallback_style'] = 'ding_panorama_primary_medium';
+          $vars['row']->field_field_ding_group_title_image[0]['rendered']['#breakpoint_styles']['768'] = 'ding_panorama_primary_large';
+          $vars['row']->field_field_ding_group_title_image[0]['rendered']['#breakpoint_styles']['500'] = 'ding_panorama_primary_medium';
+          $vars['fields']['field_ding_group_title_image']->content = drupal_render($vars['row']->field_field_ding_group_title_image[0]['rendered']);
           break;
 
         case '2';
           // Two image.
-          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#max_style'] = 'ding_panorama_primary_medium';
-          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#fallback_style'] = 'ding_panorama_primary_small';
-          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#breakpoint_styles']['768'] = 'ding_panorama_primary_medium';
-          $vars['row']->field_field_ding_group_list_image[0]['rendered']['#breakpoint_styles']['500'] = 'ding_panorama_primary_small';
-          $vars['fields']['field_ding_group_list_image']->content = drupal_render($vars['row']->field_field_ding_group_list_image[0]['rendered']);
+          $vars['row']->field_field_ding_group_title_image[0]['rendered']['#max_style'] = 'ding_panorama_primary_medium';
+          $vars['row']->field_field_ding_group_title_image[0]['rendered']['#fallback_style'] = 'ding_panorama_primary_small';
+          $vars['row']->field_field_ding_group_title_image[0]['rendered']['#breakpoint_styles']['768'] = 'ding_panorama_primary_medium';
+          $vars['row']->field_field_ding_group_title_image[0]['rendered']['#breakpoint_styles']['500'] = 'ding_panorama_primary_small';
+          $vars['fields']['field_ding_group_title_image']->content = drupal_render($vars['row']->field_field_ding_group_title_image[0]['rendered']);
           break;
       }
     }

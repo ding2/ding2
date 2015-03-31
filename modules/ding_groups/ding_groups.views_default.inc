@@ -254,17 +254,17 @@ function ding_groups_views_default_views() {
   $handler->display->display_options['fields']['title']['element_type'] = 'h2';
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
-  /* Field: Content: List image */
-  $handler->display->display_options['fields']['field_ding_group_list_image']['id'] = 'field_ding_group_list_image';
-  $handler->display->display_options['fields']['field_ding_group_list_image']['table'] = 'field_data_field_ding_group_list_image';
-  $handler->display->display_options['fields']['field_ding_group_list_image']['field'] = 'field_ding_group_list_image';
-  $handler->display->display_options['fields']['field_ding_group_list_image']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_group_list_image']['element_type'] = '0';
-  $handler->display->display_options['fields']['field_ding_group_list_image']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_group_list_image']['element_default_classes'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_group_list_image']['click_sort_column'] = 'fid';
-  $handler->display->display_options['fields']['field_ding_group_list_image']['type'] = 'cs_adaptive_image';
-  $handler->display->display_options['fields']['field_ding_group_list_image']['settings'] = array(
+  /* Field: Content: Title image */
+  $handler->display->display_options['fields']['field_ding_group_title_image']['id'] = 'field_ding_group_title_image';
+  $handler->display->display_options['fields']['field_ding_group_title_image']['table'] = 'field_data_field_ding_group_title_image';
+  $handler->display->display_options['fields']['field_ding_group_title_image']['field'] = 'field_ding_group_title_image';
+  $handler->display->display_options['fields']['field_ding_group_title_image']['label'] = '';
+  $handler->display->display_options['fields']['field_ding_group_title_image']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_ding_group_title_image']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_group_title_image']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_ding_group_title_image']['click_sort_column'] = 'fid';
+  $handler->display->display_options['fields']['field_ding_group_title_image']['type'] = 'cs_adaptive_image';
+  $handler->display->display_options['fields']['field_ding_group_title_image']['settings'] = array(
     'image_link' => 'content',
     'styles' => array(
       'breakpoint_1' => '768',
