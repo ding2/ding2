@@ -36,27 +36,54 @@ class ProviderTest extends ProviderTestCase {
 
     $json_responses = array(
       new Reply(
+        array()
+      ),
+      new Reply(
         array(
           // Array of...
           array(
             // Fee.
             'payableByClient' => TRUE,
-            'amount' => '99.99',
+            'amount' => '100',
+            'paidDate' => NULL,
+            'materials' => array(),
+            'reasonMessage' => 'For sent afleveret',
+            'dueDate' => '2015-04-07',
+            'type' => 'fee',
+            'creationDate' => '2015-04-07',
+            'feeId' => 56,
+          ),
+          array(
+            // Fee.
+            'payableByClient' => TRUE,
+            'amount' => '150',
+            'paidDate' => NULL,
+            'materials' => array(),
+            'reasonMessage' => 'Erstatning',
+            'dueDate' => '2015-04-07',
+            'type' => 'compensation',
+            'creationDate' => '2015-04-07',
+            'feeId' => 57,
+          ),
+          array(
+            // Fee.
+            'payableByClient' => TRUE,
+            'amount' => '200',
             'paidDate' => NULL,
             'materials' => array(
               // Array of...
               array(
                 // FeeMaterial.
-                'recordId' => 123,
-                'materialGroupName' => 'Material group',
-                'materialItemNumber' => 321,
+                'recordId' => '870970-basis:29415226',
+                'materialGroupName' => 'somewhat strict',
+                'materialItemNumber' => '3829213434',
               ),
             ),
-            'reasonMessage' => 'You were late.',
-            'dueDate' => '2015-09-09',
-            'type' => 'late',
-            'creationDate' => '2015-03-09',
-            'feeId' => 555,
+            'reasonMessage' => 'bestillingsgebyr',
+            'dueDate' => '2015-04-07',
+            'type' => 'fee',
+            'creationDate' => '2015-04-07',
+            'feeId' => 58,
           ),
         )
       ),
@@ -66,23 +93,44 @@ class ProviderTest extends ProviderTestCase {
 
     $user = (object) array(
       'creds' => array(
-        'patronId' => '123',
+        'patronId' => '72',
       ),
     );
 
+    // TCD1: PAT1 has no debt
+    $res = $this->providerInvoke('list', $user);
+    $expected = array();
+    $this->assertEquals($expected, $res);
+
+    $user = (object) array(
+      'creds' => array(
+        'patronId' => '73',
+      ),
+    );
+
+    // TCD2: PAT2 has two unpaid fees and two paid (not shown fees)
     $res = $this->providerInvoke('list', $user);
     $expected = array(
-      '555' => new DingProviderDebt('555', array(
-        'date' => '2015-03-09',
-        'display_name' => 'You were late.',
-        'amount' => '99.99',
+      '56' => new DingProviderDebt('56', array(
+        'date' => '2015-04-07',
+        'display_name' => 'For sent afleveret',
+        'amount' => '100',
         'amount_paid' => 0,
         'invoice_number' => NULL,
-        'type' => 'late',
+        'type' => 'fee',
+      )),
+      '57' => new DingProviderDebt('57', array(
+        'date' => '2015-04-07',
+        'display_name' => 'Erstatning',
+        'amount' => '150',
+        'amount_paid' => 0,
+        'invoice_number' => NULL,
+        'type' => 'compensation',
       ))
     );
     $this->assertEquals($expected, $res);
   }
+
 
   /**
    * Test debt payment_received.
