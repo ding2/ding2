@@ -15,6 +15,14 @@ function fbs_debt_list($account) {
 
   foreach ($res as $fee) {
     $id = $fee->feeId;
+
+    $material_number = NULL;
+    if (!empty($fee->materials)) {
+      // As ding only support one material number, we just grab the first.
+      $mat = reset($fee->materials);
+      $material_number = $mat->materialItemNumber;
+    }
+
     $result[$id] = new DingProviderDebt($id, array(
       'date' => $fee->creationDate,
       'display_name' => $fee->reasonMessage,
@@ -26,12 +34,9 @@ function fbs_debt_list($account) {
       'amount_paid' => 0,
       'invoice_number' => NULL,
       'type' => $fee->type,
+      'material_number' => $material_number,
     ));
 
-    if (!empty($fee->materials)) {
-      $mat = reset($fee->materials);
-      $result[$id]->material_number = $mat->materialItemNumber;
-    }
   }
 
   return $result;
