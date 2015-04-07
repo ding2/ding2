@@ -95,6 +95,7 @@ class UserProviderTest extends ProviderTestCase {
         'mail_notification' => FALSE,
         'preferred_branch' => 'DK-761500',
         'interest_period' => 0,
+        'library_card_number' => '111111'
       ),
     );
     $this->assertEquals($expected, $res);
