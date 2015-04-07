@@ -23,6 +23,11 @@ function fbs_debt_list($account) {
       'invoice_number' => NULL,
       'type' => $fee->type,
     ));
+
+    if (!empty($fee->materials)) {
+      $mat = reset($fee->materials);
+      $result[$id]->material_number = $mat->materialItemNumber;
+    }
   }
 
   return $result;
