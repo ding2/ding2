@@ -45,12 +45,12 @@ class LoanProviderTest extends ProviderTestCase {
     $this->requireDing('ding_provider', 'ding_provider.loan.inc');
 
     $json_responses = array(
-      // TCLL1: Patron has no loans
+      // TCLL1: Patron (PAT10) has no loans
       new Reply(
         array()
       ),
 
-      // TCLL2: Patron has a renewable loan
+      // TCLL2: Patron (PAT11) has a renewable loan
       new Reply(
         array(
           // Array of...
@@ -59,20 +59,20 @@ class LoanProviderTest extends ProviderTestCase {
             'isRenewable' => TRUE,
             'loanDetails' => array(
               // LoanDetails.
-              'recordId' => 'RECID30',
-              'dueDate' => 'DUEDATE30',
-              'loanDate' => 'LOANDATE30',
-              'materialGroupName' => 'Material group',
-              'materialItemNumber' => 'ITEMNUM30',
-              'loanId' => 30,
+              'recordId' => '870970-basis:06686923',
+              'dueDate' => '2016-04-25',
+              'loanDate' => '2015-04-01T12:05:13.383',
+              'materialGroupName' => 'somewhat strict',
+              'materialItemNumber' => '4025573671',
+              'loanId' => 80,
             ),
-            'renewalStatusList' => array(),
+            'renewalStatusList' => array("renewed"), // Giver ingen mening for et første lån
           ),
         )
       ),
 
-      // TCLL3: Patron has a loan that has reached max limit of renewables
-      new Reply(
+      // TCLL3: Patron (PAT12) has a loan that has reached max limit of renewables
+      /**new Reply(
         array(
           // Array of...
           array(
@@ -92,10 +92,10 @@ class LoanProviderTest extends ProviderTestCase {
             ),
           ),
         )
-      ),
+      ), **/
 
-      // TCLL4: Patron with multiple loans, both renewable and not
-      new Reply(
+      // TCLL4: Patron (PAT13) with multiple loans, both renewable and not
+      /**new Reply(
         array(
           // Array of...
           array(
@@ -159,14 +159,14 @@ class LoanProviderTest extends ProviderTestCase {
             ),
           ),
         )
-      ),
+      ), **/
     );
     $this->replies($json_responses);
 
     // TCLL1: Loaner (PAT10) with no loans
     $user = (object) array(
       'creds' => array(
-        'patronId' => 'PATID10',
+        'patronId' => '81',
       ),
     );
 
@@ -179,26 +179,27 @@ class LoanProviderTest extends ProviderTestCase {
     // TCLL2: Loaner (PAT11) with renewable loan
     $user = (object) array(
       'creds' => array(
-        'patronId' => 'PATID11',
+        'patronId' => '84',
       ),
     );
 
     $res = $this->providerInvoke('list', $user);
     $expected = array(
-      30 => new DingProviderLoan(30, array(
-        'ding_entity_id' => 'RECID30',
-        'loan_date' => 'LOANDATE30',
-        'expiry' => 'DUEDATE30',
+      80 => new DingProviderLoan(80, array(
+        'ding_entity_id' => '870970-basis:06686923',
+        'loan_date' => '2015-04-01T12:05:13.383',
+        'expiry' => '2016-04-25',
         'renewable' => TRUE,
-        'materials_number' => 'ITEMNUM30',
+        'materials_number' => '4025573671',
       )),
     );
     $this->assertEquals($expected, $res);
 
     // TCLL3: Loaner (PAT12) with non-renewable loan (max reached)
-    $user = (object) array(
+    // Kan pt. ikke testes, da materialegrupper/profiler ikke understøtter fornyelsesregler korrekt
+   /** $user = (object) array(
       'creds' => array(
-        'patronId' => 'PATID12',
+        'patronId' => '85',
       ),
     );
 
@@ -212,12 +213,13 @@ class LoanProviderTest extends ProviderTestCase {
         'materials_number' => 'ITEMNUM31',
       )),
     );
-    $this->assertEquals($expected, $res);
+    $this->assertEquals($expected, $res); **/
 
     // TCLL4: Loaner (PAT13) with renewable loan
-    $user = (object) array(
+    // Kan pt. ikke testes, da materialegrupper/profiler ikke understøtter fornyelsesregler korrekt
+   /** $user = (object) array(
       'creds' => array(
-        'patronId' => 'PATID13',
+        'patronId' => '86',
       ),
     );
 
@@ -255,7 +257,7 @@ class LoanProviderTest extends ProviderTestCase {
         'materials_number' => 'ITEMNUM35',
       )),
     );
-    $this->assertEquals($expected, $res);
+    $this->assertEquals($expected, $res); **/
   }
 
   /**
@@ -272,51 +274,24 @@ class LoanProviderTest extends ProviderTestCase {
 
     $json_responses = array(
       new Reply(
+        array()
+      ),
+      new Reply(
         array(
           // Array of...
           array(
             // RenewedLoan.
             'loanDetails' => array(
               // LoanDetails.
-              'recordId'  => 'x',
-              'dueDate' => 'x',
-              'loanDate' => 'x',
-              'materialGroupName' => 'Material group',
-              'materialItemNumber' => 'x',
-              'loanId' => '1',
+              'recordId'  => '870970-basis:25364244',
+              'dueDate' => '2015-04-11',                // ændres
+              'loanDate' => '2015-04-01T14:30:12.499',  // ændres?
+              'materialGroupName' => 'somewhat strict',
+              'materialItemNumber' => '3829213450',
+              'loanId' => '83',
             ),
             'renewalStatus' => array(
               'renewed',
-            ),
-          ),
-          array(
-            // RenewedLoan.
-            'loanDetails' => array(
-              // LoanDetails.
-              'recordId'  => 'x',
-              'dueDate' => 'x',
-              'loanDate' => 'x',
-              'materialGroupName' => 'Material group',
-              'materialItemNumber' => 'x',
-              'loanId' => '2',
-            ),
-            'renewalStatus' => array(
-              'deniedReserved',
-            ),
-          ),
-          array(
-            // RenewedLoan.
-            'loanDetails' => array(
-              // LoanDetails.
-              'recordId'  => 'x',
-              'dueDate' => 'x',
-              'loanDate' => 'x',
-              'materialGroupName' => 'Material group',
-              'materialItemNumber' => 'x',
-              'loanId' => '3',
-            ),
-            'renewalStatus' => array(
-              'deniedOtherReason',
             ),
           ),
         )
@@ -324,10 +299,38 @@ class LoanProviderTest extends ProviderTestCase {
     );
     $this->replies($json_responses);
 
-    // TCLR1: Patron renews empty list of loans
+    // TCLR1: Patron (PAT10)renews empty list of loans
     $user = (object) array(
       'creds' => array(
-        'patronId' => 'PAT14',
+        'patronId' => '81',
+      ),
+    );
+
+    // Check success.
+    $res = $this->providerInvoke('renew', $user, array());
+    $expected = array();
+    $this->assertEquals($expected, $res);
+
+
+    // TCLR2: Patron (PAT14) renews loan (* OBS STATE CHANGES)
+    $user = (object) array(
+      'creds' => array(
+        'patronId' => '87',
+      ),
+    );
+
+    // Check success.
+    $res = $this->providerInvoke('renew', $user, array(83));
+    $expected = array(
+      83 => DingProviderLoan::STATUS_RENEWED
+    );
+    $this->assertEquals($expected, $res);
+
+
+    // TCLR3: Patron (PAT14) tries to renew un-renewable loan
+    /** $user = (object) array(
+      'creds' => array(
+        'patronId' => '87',
       ),
     );
 
@@ -338,13 +341,13 @@ class LoanProviderTest extends ProviderTestCase {
       2 => DingProviderLoan::STATUS_NOT_RENEWED,
       3 => DingProviderLoan::STATUS_NOT_RENEWED,
     );
-    $this->assertEquals($expected, $res);
+    $this->assertEquals($expected, $res); **/
 
 
-    // TCLR2: Patron renews loan (* OBS STATE CHANGES)
-    $user = (object) array(
+    // TCLR4: Patron (PAT14) renews multiple loans, both renewable and not (* OBS STATE CHANGES)
+    /**$user = (object) array(
       'creds' => array(
-        'patronId' => 'PAT14',
+        'patronId' => '87',
       ),
     );
 
@@ -355,41 +358,7 @@ class LoanProviderTest extends ProviderTestCase {
       2 => DingProviderLoan::STATUS_NOT_RENEWED,
       3 => DingProviderLoan::STATUS_NOT_RENEWED,
     );
-    $this->assertEquals($expected, $res);
-
-
-    // TCLR3: Patron tries to renew un-renewable loan
-    $user = (object) array(
-      'creds' => array(
-        'patronId' => 'PAT14',
-      ),
-    );
-
-    // Check success.
-    $res = $this->providerInvoke('renew', $user, array(1, 2, 3));
-    $expected = array(
-      1 => DingProviderLoan::STATUS_RENEWED,
-      2 => DingProviderLoan::STATUS_NOT_RENEWED,
-      3 => DingProviderLoan::STATUS_NOT_RENEWED,
-    );
-    $this->assertEquals($expected, $res);
-
-
-    // TCLR4: Patron renews multiple loans, both renewable and not (* OBS STATE CHANGES)
-    $user = (object) array(
-      'creds' => array(
-        'patronId' => 'PAT14',
-      ),
-    );
-
-    // Check success.
-    $res = $this->providerInvoke('renew', $user, array(1, 2, 3));
-    $expected = array(
-      1 => DingProviderLoan::STATUS_RENEWED,
-      2 => DingProviderLoan::STATUS_NOT_RENEWED,
-      3 => DingProviderLoan::STATUS_NOT_RENEWED,
-    );
-    $this->assertEquals($expected, $res);
+    $this->assertEquals($expected, $res); **/
 
 
   }
