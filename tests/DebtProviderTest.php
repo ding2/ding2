@@ -91,24 +91,24 @@ class ProviderTest extends ProviderTestCase {
 
     $this->replies($json_responses);
 
+    // TCD1: PAT1 has no debt
     $user = (object) array(
       'creds' => array(
         'patronId' => '72',
       ),
     );
 
-    // TCD1: PAT1 has no debt
     $res = $this->providerInvoke('list', $user);
     $expected = array();
     $this->assertEquals($expected, $res);
 
+    // TCD2: PAT2 has three unpaid fees and one paid (not shown fees)
     $user = (object) array(
       'creds' => array(
         'patronId' => '73',
       ),
     );
 
-    // TCD2: PAT2 has two unpaid fees and two paid (not shown fees)
     $res = $this->providerInvoke('list', $user);
     $expected = array(
       '56' => new DingProviderDebt('56', array(
@@ -126,6 +126,15 @@ class ProviderTest extends ProviderTestCase {
         'amount_paid' => 0,
         'invoice_number' => NULL,
         'type' => 'compensation',
+      )),
+      '58' => new DingProviderDebt('58', array(
+        'date' => '2015-04-07',
+        'display_name' => 'bestillingsgebyr',
+        'amount' => '200',
+        'amount_paid' => 0,
+        'invoice_number' => NULL,
+        'type' => 'fee',
+        'material_number' => '3829213434'
       ))
     );
     $this->assertEquals($expected, $res);
