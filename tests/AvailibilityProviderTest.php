@@ -235,14 +235,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
 
     $json_responses = array(
       // TCH1: Empty result for empty request
-       array(
-        array(
-          // HoldingsForBibliographicalRecord.
-          'recordId' => '',
-          'reservable' => FALSE,
-          'holdings' => array(),
-        ),
-      ),
+       array(),
 
       // TCH2: Empty result for unknown material
        array(
