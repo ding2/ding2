@@ -18,8 +18,12 @@ function fbs_debt_list($account) {
     $result[$id] = new DingProviderDebt($id, array(
       'date' => $fee->creationDate,
       'display_name' => $fee->reasonMessage,
+      // FBS only provides the amount left to be paid on each fee, so this
+      // will only reflect that.
       'amount' => $fee->amount,
-      'amount_paid' => $fee->paidDate ? $fee->amount : 0,
+      // And the only thing we can do here is set it to zero, as the original
+      // amount isn't available.
+      'amount_paid' => 0,
       'invoice_number' => NULL,
       'type' => $fee->type,
     ));
