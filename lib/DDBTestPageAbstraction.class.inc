@@ -26,4 +26,10 @@ class DDBTestPageAbstraction {
     $this->phpunit_instance->click("css=#edit-submit--2");
     $this->phpunit_instance->waitForPageToLoad("30000");
   }
+
+  public function userMakeSearch($query) {
+    $this->phpunit_instance->type("css=#edit-search-block-form--2", $query);
+    $this->phpunit_instance->click("id=edit-submit");
+    $this->phpunit_instance->waitForPageToLoad("30000");
+  }
 }
