@@ -20,4 +20,10 @@ features[variable][] = scheduler_publish_touch_ding_campaign
 features[variable][] = scheduler_unpublish_enable_ding_campaign
 features[variable][] = scheduler_unpublish_required_ding_campaign
 features[variable][] = scheduler_unpublish_revision_ding_campaign
+features[image][] = ding_campaign_p_100
+features[image][] = ding_campaign_p_25
+features[image][] = ding_campaign_p_33
+features[image][] = ding_campaign_p_50
+features[image][] = ding_campaign_p_66
+features[image][] = ding_campaign_p_75
 
