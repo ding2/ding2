@@ -30,7 +30,8 @@ function ding_groups_uninstall() {
 function ding_groups_install_nodequeues() {
   foreach (ding_groups_nodequeues() as $queue) {
     // Only save the nodequeue if it does not exist already.
-    if (empty(nodequeue_load_queue_by_name($queue->name))) {
+    $existing_queue = nodequeue_load_queue_by_name($queue->name);
+    if (empty($existing_queue)) {
       nodequeue_save($queue);
     }
   }
