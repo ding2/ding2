@@ -1,6 +1,7 @@
 <?php
 
 require_once(__DIR__ . '/autoload.php');
+require_once(__DIR__ . '/bootstrap.php');
 
 class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
   protected $abstraction;
@@ -22,7 +23,7 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
    */
   public function testCollectionCoversAnonymous() {
     $this->open("/" . $this->config->getLocale() . '/ting/collection/870970-basis:27267912');
-    $this->waitForPageToLoad("30000");
+    $this->abstractedPage->waitForPage();
     // Implicitly wait 10 seconds, since covers come via ajax.
     // It's not possible to use a more elegant solution to wait.
     // Second assertion expects to a FALSE result, which in other implementation
@@ -54,13 +55,14 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
    */
   public function testCollectionViewAnonymous() {
     $this->open("/" . $this->config->getLocale());
+    $this->abstractedPage->waitForPage();
     // Search for potential collection item.
     $this->abstractedPage->userMakeSearch('frank herbert klit');
     // Check the item title.
     $this->assertElementContainsText('css=li.list-item.search-result:first .group_ting_right_col_search .heading a', 'Klit');
     // Click on title.
     $this->click("css=li.list-item.search-result:first .group_ting_right_col_search .heading a");
-    $this->waitForPageToLoad("30000");
+    $this->abstractedPage->waitForPage();
     // If this is truly a collection item is should have certain
     // information about item types and the quantity of those.
     $this->assertTrue($this->isElementPresent("link=Bog (8)"));
@@ -82,115 +84,81 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
    */
   public function testCollectionViewLoggedIn() {
     $this->open("/" . $this->config->getLocale());
+    $this->abstractedPage->waitForPage();
     $this->abstractedPage->userLogin($this->config->getUser(), $this->config->getPass());
     $this->testCollectionViewAnonymous();
   }
 
-//   /**
-//    * Test the ability to bookmark/reserve as anonymous
-//    * on collection page.
-//    *
-//    * Anonymous in this context means that user authenticates in a
-//    * popup, when clicking bookmark/reserve as anonymous.
-//    *
-//    * Assume that the test might be run several times for same user,
-//    * so different responses are checked as valid.
-//    */
-//   public function testCollectionViewActionsAnonymous() {
-//     $this->open("/" . TARGET_URL_LANG);
-//     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-//     $this->type("id=edit-search-block-form--2", "frank herbert klit");
-//     $this->click("id=edit-submit");
-//     $this->waitForPageToLoad("30000");
-//     $this->assertContains('klit', $this->getText("css=li.list-item.search-result"), '', true);
-//     $this->click("xpath=(//a[contains(text(),'Klit')])[2]");
-//     $this->waitForPageToLoad("30000");
-//     $this->assertContains('klit', $this->getText("css=div.ting-object"), '', true);
-//     $this->click("id=bookmark-870970-basis:05306809");
-//     sleep(4);
-//     $this->type("//form[@id='user-login']/div/div[1]/input", TARGET_URL_USER);
-//     $this->type("//form[@id='user-login']/div/div[2]/input", TARGET_URL_USER_PASS);
-//     $this->mouseDownAt("//form[@id='user-login']/div/div[3]/input");
-//     sleep(4);
-//     $msgs = array(
-//       "Added to bookmarks",
-//       "This item is in bookmarks already.",
-//     );
-//     $this->assertTrue(in_array($this->getText("css=div.ding-bookmark-message"), $msgs));
-//     $this->mouseDownAt("//body/div[4]");
-//     $this->click("id=bookmark-870970-basis:05306809");
-//     sleep(4);
-//     $this->assertEquals("This item is in bookmarks already.", $this->getText("css=div.ding-bookmark-message"));
-//     $this->mouseDownAt("//body/div[4]");
-//     $this->click("id=reservation-870970-basis:05306809");
-//     sleep(4);
-//     $msgs = array(
-//       "\"Klit\" reserved and will be available for pickup at Hjørring.",
-//       "Error message \"You have already reserved \"Klit\".",
-//       "Error message \"Klit\" is not available for reservation.",
-//     );
-//     $this->assertTrue(in_array($this->getText("css=div.messages"), $msgs));
-//     $this->mouseDownAt("//div[5]/div/button");
-//     $this->click("id=reservation-870970-basis:05306809");
-//     sleep(4);
-//     $msgs = array(
-//       "Error message \"You have already reserved \"Klit\".",
-//       "Error message \"Klit\" is not available for reservation.",
-//     );
-//     $this->assertTrue(in_array($this->getText("css=div.messages"), $msgs));
-//     $this->mouseDownAt("//div[6]/div/button");
-//   }
+  /**
+   * Test the ability to bookmark/reserve as anonymous
+   * on collection page.
+   *
+   * Anonymous in this context means that user authenticates in a
+   * popup, when clicking bookmark/reserve as anonymous.
+   *
+   * Assume that the test might be run several times for same user,
+   * so different responses are checked as valid.
+   */
+  public function testCollectionViewActionsAnonymous() {
+    resetState();
+    $this->open('/' . $this->config->getLocale());
+    $this->abstractedPage->waitForPage();
+    // Search for potential collection item.
+    $this->abstractedPage->userMakeSearch('frank herbert klit');
+    // Check the item title.
+    $this->assertElementContainsText('css=li.list-item.search-result:first .group_ting_right_col_search .heading a', 'Klit');
+    // Click on title.
+    $this->click('css=li.list-item.search-result:first .group_ting_right_col_search .heading a');
+    $this->abstractedPage->waitForPage();
+    $this->assertElementContainsText('css=div.ting-object.view-mode-collection-list .field-name-ting-title a', 'Klit');
+    // Try to bookmark with logging in, if required.
+    $this->abstractedPage->userBookmark('870970-basis:28443471');
+    // Wait for the login popup, if any.
+    $is_present = $this->abstractedPage->waitForElement('css=.ding-popup-content form#user-login', 5, FALSE);
+    if ($is_present) {
+      $this->abstractedPage->fillDingPopupLogin($this->config->getUser(), $this->config->getPass());
+    }
+    $this->abstractedPage->waitForElement('css=div.ding-bookmark-message');
+    $msgs = array(
+      'Added to bookmarks',
+      'This item is in bookmarks already.',
+    );
+    $this->assertTrue(in_array($this->getText('css=div.ding-bookmark-message'), $msgs));
+    // Since there are issues with selenium by clicking ding popup close button,
+    // simply refresh the page.
+    $this->abstractedPage->refresh();
+    // Bookmark again. Here the use is already logged and the item should
+    // exist in bookmarks.
+    $this->abstractedPage->userBookmark('870970-basis:28443471');
+    $this->abstractedPage->waitForElement('css=div.ding-bookmark-message');
+    $this->assertEquals('This item is in bookmarks already.', $this->getText('css=div.ding-bookmark-message'));
 
-//   /**
-//    * Test the ability to reserve/bookmark.
-//    *
-//    * The use is logged in, goes to collection page and tries to
-//    * reserve/bookmark.
-//    *
-//    * @see testCollectionViewActionsAnonymous()
-//    */
-//   public function testCollectionViewActionsLoggedIn() {
-//     $this->open("/" . TARGET_URL_LANG);
-//     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-//     $this->type("id=edit-name", TARGET_URL_USER);
-//     $this->type("id=edit-pass", TARGET_URL_USER_PASS);
-//     $this->click("id=edit-submit--2");
-//     $this->waitForPageToLoad("30000");
-//     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-//     $this->type("id=edit-search-block-form--2", "frank herbert klit");
-//     $this->click("id=edit-submit");
-//     $this->waitForPageToLoad("30000");
-//     $this->assertContains('klit', $this->getText("css=li.list-item.search-result"), '', true);
-//     $this->click("xpath=(//a[contains(text(),'Klit')])[2]");
-//     $this->waitForPageToLoad("30000");
-//     $this->assertContains('klit', $this->getText("css=div.ting-object"), '', true);
-//     $this->click("id=bookmark-870970-basis:05306809");
-//     sleep(4);
-//     $msgs = array(
-//       "Added to bookmarks",
-//       "This item is in bookmarks already.",
-//     );
-//     $this->assertTrue(in_array($this->getText("css=div.ding-bookmark-message"), $msgs));
-//     $this->mouseDownAt("//body/div[4]");
-//     $this->click("id=bookmark-870970-basis:05306809");
-//     sleep(4);
-//     $this->assertEquals("This item is in bookmarks already.", $this->getText("css=div.ding-bookmark-message"));
-//     $this->mouseDownAt("//body/div[4]");
-//     $this->click("id=reservation-870970-basis:05306809");
-//     sleep(4);
-//     $msgs = array(
-//       "\"Klit\" reserved and will be available for pickup at Hjørring.",
-//       "Error message \"You have already reserved \"Klit\".",
-//       "Error message \"Klit\" is not available for reservation."
-//     );
-//     $this->assertTrue(in_array($this->getText("css=div.messages"), $msgs));
-//     $this->mouseDownAt("//div[4]/div/button");
-//     $this->click("id=reservation-870970-basis:05306809");
-//     $msgs = array(
-//       "Error message \"You have already reserved \"Klit\".",
-//       "Error message \"Klit\" is not available for reservation."
-//     );
-//     $this->assertTrue(in_array($this->getText("css=div.messages"), $msgs));
-//     $this->mouseDownAt("//div[5]/div/button");
-//   }
+    // Refresh and reserve same item.
+    $this->abstractedPage->refresh();
+    $this->abstractedPage->userReserve('870970-basis:28443471');
+    $this->abstractedPage->waitForElement('css=div.ding-popup-content .messages.status');
+    $this->assertTrue($this->isElementPresent('css=div.ding-popup-content .messages.status'));
+
+    // Refresh and try to reserve again, normally this should not be allowed.
+    $this->abstractedPage->refresh();
+    $this->abstractedPage->userReserve('870970-basis:28443471');
+    $this->abstractedPage->waitForElement('css=div.ding-popup-content .messages.error');
+    $this->assertTrue($this->isElementPresent('css=div.ding-popup-content .messages.error'));
+  }
+
+  /**
+   * Test the ability to reserve/bookmark.
+   *
+   * The use is logged in, goes to collection page and tries to
+   * reserve/bookmark.
+   *
+   * @see testCollectionViewActionsAnonymous()
+   */
+  public function testCollectionViewActionsLoggedIn() {
+    resetState();
+    $this->open('/' . $this->config->getLocale());
+    $this->abstractedPage->waitForPage();
+    $this->abstractedPage->userLogin($this->config->getUser(), $this->config->getPass());
+    $this->testCollectionViewActionsAnonymous();
+  }
 }
