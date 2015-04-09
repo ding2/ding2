@@ -1,12 +1,17 @@
 <?php
 
-require_once(dirname(__FILE__) . '/config.inc');
+require_once(__DIR__ . '/autoload.php');
 
 class ItemPageRelations extends PHPUnit_Extensions_SeleniumTestCase {
+  protected $abstraction;
+  protected $config;
 
   protected function setUp() {
-    $this->setBrowser(TARGET_BROWSER);
-    $this->setBrowserUrl(TARGET_URL);
+    $this->abstractedPage = new DDBTestPageAbstraction($this);
+    $this->config = new DDBTestConfig();
+
+    $this->setBrowser($this->config->getBrowser());
+    $this->setBrowserUrl($this->config->getUrl());
   }
 
   /**
@@ -16,38 +21,45 @@ class ItemPageRelations extends PHPUnit_Extensions_SeleniumTestCase {
    * to remote resources.
    */
   public function testOtherMaterialsAnonymous() {
-    $this->open("/" . TARGET_URL_LANG);
-    $this->type("id=edit-search-block-form--2", "Rom : i Vilhelm Bergsøes");
-    $this->click("id=edit-submit");
-    $this->waitForPageToLoad("30000");
-    $this->assertEquals("Rom : i Vilhelm Bergsøes fodspor fra Piazza del Popolo", $this->getText("link=Rom : i Vilhelm Bergsøes fodspor fra Piazza del Popolo"));
-    $this->click("link=Rom : i Vilhelm Bergsøes fodspor fra Piazza del Popolo");
-    $this->waitForPageToLoad("30000");
-    $this->assertEquals("Rom : i Vilhelm Bergsøes fodspor fra Piazza del Popolo", $this->getText("link=Rom : i Vilhelm Bergsøes fodspor fra Piazza del Popolo"));
+    $this->open("/" . $this->config->getLocale() . '/ting/collection/870970-basis:27267912');
+    $this->abstractedPage->waitForPage();
+    $this->abstractedPage->userMakeSearch('Rom : i Vilhelm Bergsøes');
+
+    // Check the item title.
+    $this->assertElementContainsText('css=li.list-item.search-result:first .group_ting_right_col_search .heading a', 'Rom : i Vilhelm Bergsøes fodspor fra Piazza del Popolo');
+    // Click on title.
+    $this->click("css=li.list-item.search-result:first .group_ting_right_col_search .heading a");
+    $this->abstractedPage->waitForPage();
+    // Check the item title on the landing page.
+    $this->assertElementContainsText('css=div.ting-object.view-mode-full .field-name-ting-title a', 'Rom : i Vilhelm Bergsøes fodspor fra Piazza del Popolo');
+
+    // The item should contain three reviews.
+    // CSS selector would return nothing since the ID is malformed (contains ':').
     $this->assertTrue($this->isElementPresent("//div[@id='dbcaddi:hasReview']/div"));
     $this->assertTrue($this->isElementPresent("//*[@id=\"dbcaddi:hasReview\"]/div/div[1]"));
     $this->assertTrue($this->isElementPresent("//*[@id=\"dbcaddi:hasReview\"]/div/div[1]/a"));
     $this->assertTrue($this->isElementPresent("//*[@id=\"dbcaddi:hasReview\"]/div/div[2]"));
     $this->assertTrue($this->isElementPresent("//*[@id=\"dbcaddi:hasReview\"]/div/div[2]/a"));
     $this->assertTrue($this->isElementPresent("//*[@id=\"dbcaddi:hasReview\"]/div/div[3]"));
-    $this->assertTrue($this->isElementPresent("//*[@id=\"dbcaddi:hasReview\"]/div/div[3]/div"));
     $this->assertTrue($this->isElementPresent("//*[@id=\"dbcaddi:hasReview\"]/div/div[3]/a"));
-    $this->assertTrue($this->isElementPresent("//*[@id=\"page\"]/div[1]/div/div/div/div/div/aside/div[2]"));
-    $this->assertTrue($this->isElementPresent("//*[@id=\"page\"]/div[1]/div/div/div/div/div/aside/div[2]/div/ul/li/a"));
-    $this->assertTrue($this->isElementPresent("//*[@id=\"page\"]/div[1]/div/div/div/div/div/aside/div[1]"));
-    $this->assertEquals("Bog (1)", $this->getText("//*[@id=\"page\"]/div[1]/div/div/div/div/div/aside/div[1]/div/ul/li/a"));
-    $this->click("link=Litteratursiden.dk online, 2013-10-15");
-    sleep(3);
-    $this->selectWindow("Rom. I Vilhelm Bergsøes fodspor fra Piazza del Popolo af Ellen Agerskov og Flemming Larsen. | Litteratursiden");
-    $this->assertEquals("Rom. I Vilhelm Bergsøes fodspor fra Piazza del Popolo af Ellen Agerskov og Flemming Larsen.", $this->getText("css=h1.page-title"));
-    $this->close();
-    $this->selectWindow("null");
-    $this->click("//*[@id=\"dbcaddi:hasReview\"]/div/div[3]/a");
-    sleep(3);
-    $this->assertTrue($this->isElementPresent("//div[@id='page']/div[1]/div/div/div/div/div/div/div/div/div/div/h1"));
-    $this->assertEquals("Lektørudtalelse", $this->getText("//div[@id='page']/div[1]/div/div/div/div/div/div/div/div/div/div/h1"));
+
+    // Check relation anchors block.
+    $this->assertTrue($this->isElementPresent('css=.pane-ting-ting-relation-anchors'));
+    // Check that there are actully 3 reviews.
+    $this->assertElementContainsText('css=.pane-ting-ting-relation-anchors .pane-content ul li.first a', 'Review (3)');
+
+    // Check we are located on that single type of that item.
+    $this->assertElementContainsText('css=.pane-ting-ting-object-types .pane-content ul li.first a', 'Bog (1)');
+
+    // Check local review link.
+    $this->click('css=.ting-object-related-item:last a');
+    $this->abstractedPage->waitForPage();
+    $this->assertElementContainsText('css=h1.page-title', 'Lektørudtalelse');
+
+    // Go back and check anchor link.
     $this->open("/ting/object/870970-basis%3A50676927");
-    $this->click("//*[@id=\"page\"]/div[1]/div/div/div/div/div/aside/div[2]/div/ul/li/a");
+    $this->abstractedPage->waitForPage();
+    $this->click('css=.pane-ting-ting-relation-anchors .pane-content ul li.first a');
     $this->assertTrue((bool) preg_match('/^[\s\S]*ting\/object\/870970-basis%3A50676927#dbcaddi:hasReview$/', $this->getLocation()));
   }
 
@@ -57,46 +69,8 @@ class ItemPageRelations extends PHPUnit_Extensions_SeleniumTestCase {
    * @see testOtherMaterialsAnonymous()
    */
   public function testOtherMaterialsLoggedIn() {
-    $this->open("/" . TARGET_URL_LANG);
-    $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-    $this->type("id=edit-name", TARGET_URL_USER);
-    $this->type("id=edit-pass", TARGET_URL_USER_PASS);
-    $this->click("id=edit-submit--2");
-    $this->waitForPageToLoad("30000");
-    $this->assertEquals("My Account", $this->getText("//div[@id='page']/header/section/div/ul/li[3]/a/span"));
-    $this->type("id=edit-search-block-form--2", "Rom : i Vilhelm Bergsøes");
-    $this->click("id=edit-submit");
-    $this->waitForPageToLoad("30000");
-    $this->assertEquals("Rom : i Vilhelm Bergsøes fodspor fra Piazza del Popolo", $this->getText("link=Rom : i Vilhelm Bergsøes fodspor fra Piazza del Popolo"));
-    $this->click("link=Rom : i Vilhelm Bergsøes fodspor fra Piazza del Popolo");
-    $this->waitForPageToLoad("30000");
-    $this->assertEquals("Rom : i Vilhelm Bergsøes fodspor fra Piazza del Popolo", $this->getText("link=Rom : i Vilhelm Bergsøes fodspor fra Piazza del Popolo"));
-    $this->assertTrue($this->isElementPresent("//div[@id='dbcaddi:hasReview']/div"));
-    $this->assertTrue($this->isElementPresent("//*[@id=\"dbcaddi:hasReview\"]/div/div[1]"));
-    $this->assertTrue($this->isElementPresent("//*[@id=\"dbcaddi:hasReview\"]/div/div[1]/a"));
-    $this->assertTrue($this->isElementPresent("//*[@id=\"dbcaddi:hasReview\"]/div/div[2]"));
-    $this->assertTrue($this->isElementPresent("//*[@id=\"dbcaddi:hasReview\"]/div/div[2]/a"));
-    $this->assertTrue($this->isElementPresent("//*[@id=\"dbcaddi:hasReview\"]/div/div[3]"));
-    $this->assertTrue($this->isElementPresent("//*[@id=\"dbcaddi:hasReview\"]/div/div[3]/div"));
-    $this->assertTrue($this->isElementPresent("//*[@id=\"dbcaddi:hasReview\"]/div/div[3]/a"));
-    $this->assertTrue($this->isElementPresent("//*[@id=\"page\"]/div[1]/div/div/div/div/div/aside/div[2]"));
-    $this->assertTrue($this->isElementPresent("//*[@id=\"page\"]/div[1]/div/div/div/div/div/aside/div[2]/div/ul/li/a"));
-    $this->assertTrue($this->isElementPresent("//*[@id=\"page\"]/div[1]/div/div/div/div/div/aside/div[1]"));
-    $this->assertEquals("Bog (1)", $this->getText("//*[@id=\"page\"]/div[1]/div/div/div/div/div/aside/div[1]/div/ul/li/a"));
-    $this->click("link=Litteratursiden.dk online, 2013-10-15");
-    sleep(3);
-    $this->selectWindow("Rom. I Vilhelm Bergsøes fodspor fra Piazza del Popolo af Ellen Agerskov og Flemming Larsen. | Litteratursiden");
-    $this->assertEquals("Rom. I Vilhelm Bergsøes fodspor fra Piazza del Popolo af Ellen Agerskov og Flemming Larsen.", $this->getText("css=h1.page-title"));
-    $this->close();
-    $this->selectWindow("null");
-    $this->click("//*[@id=\"dbcaddi:hasReview\"]/div/div[3]/a");
-    sleep(3);
-    $this->assertTrue($this->isElementPresent("//div[@id='page']/div[1]/div/div/div/div/div/div/div/div/div/div/h1"));
-    $this->assertEquals("Lektørudtalelse", $this->getText("//div[@id='page']/div[1]/div/div/div/div/div/div/div/div/div/div/h1"));
-    $this->open("/ting/object/870970-basis%3A50676927");
-    $this->click("//*[@id=\"page\"]/div[1]/div/div/div/div/div/aside/div[2]/div/ul/li/a");
-    $this->assertTrue((bool) preg_match('/^[\s\S]*ting\/object\/870970-basis%3A50676927#dbcaddi:hasReview$/', $this->getLocation()));
-    $this->click("//div[@id='page']/header/section/div/ul/li[5]/a/span");
-    $this->waitForPageToLoad("30000");
+    $this->open("/" . $this->config->getLocale());
+    $this->abstractedPage->userLogin($this->config->getUser(), $this->config->getPass());
+    $this->testOtherMaterialsAnonymous();
   }
 }
