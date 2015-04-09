@@ -44,6 +44,7 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
    */
   public function testCollectionCoversAuthenticated() {
     $this->open("/" . $this->config->getLocale());
+    $this->abstractedPage->waitForPage();
     $this->abstractedPage->userLogin($this->config->getUser(), $this->config->getPass());
     $this->testCollectionCoversAnonymous();
   }
