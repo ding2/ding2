@@ -16,6 +16,8 @@ class Loans extends PHPUnit_Extensions_SeleniumTestCase {
 
     $url = $this->config->getLms() . '/patron/loans?borrCard=' . $this->config->getUser() . '&pinCode=' . $this->config->getPass();
     $this->mock = new SimpleXMLElement($url, 0, TRUE);
+
+    resetState();
   }
 
   /**
@@ -39,6 +41,7 @@ class Loans extends PHPUnit_Extensions_SeleniumTestCase {
     $this->abstractedPage->waitForPage();
 
     // Go to loans page.
+    $this->assertElementPresent('link=Mine hjemlån');
     $this->click('link=Mine hjemlån');
     $this->abstractedPage->waitForPage();
 
