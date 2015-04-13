@@ -22,7 +22,7 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
    * when others do not.
    */
   public function testCollectionCoversAnonymous() {
-    $this->open("/" . $this->config->getLocale() . '/ting/collection/870970-basis:27267912');
+    $this->open("/" . $this->config->getLocale() . '/ting/collection/870970-basis:24908941');
     $this->abstractedPage->waitForPage();
     // Implicitly wait 10 seconds, since covers come via ajax.
     // It's not possible to use a more elegant solution to wait.
@@ -30,11 +30,11 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
     // will trigger a FALSE result instantly, which is not correct.
     // So have to be sure that the AJAX call has finished first, to know
     // that the actual cover element is not present.
-    sleep(10);
+    sleep(5);
     // The collection item page opened above is expected to have first
     // collection items contain cover images and the second one - no.
-    $this->assertTrue($this->isElementPresent("css=.ting-collection-wrapper:nth-child(1) .ting-cover img"));
-    $this->assertFalse($this->isElementPresent("css=.ting-collection-wrapper:nth-child(2) .ting-cover img"));
+    $this->assertTrue($this->isElementPresent("css=.pane-ting-collection .view-mode-full .ting-collection-wrapper:nth-child(1) .ting-cover img"));
+    $this->assertFalse($this->isElementPresent("css=.pane-ting-collection .view-mode-full .ting-collection-wrapper:nth-child(2) .ting-cover img"));
   }
 
   /**
@@ -58,24 +58,21 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
     $this->open("/" . $this->config->getLocale());
     $this->abstractedPage->waitForPage();
     // Search for potential collection item.
-    $this->abstractedPage->userMakeSearch('frank herbert klit');
+    $this->abstractedPage->userMakeSearch('dorthe nors');
     // Check the item title.
-    $this->assertElementContainsText('css=li.list-item.search-result:first .group_ting_right_col_search .heading a', 'Klit');
+    $this->assertTrue($this->isElementPresent("link=Stormesteren : roman"));
     // Click on title.
-    $this->click("css=li.list-item.search-result:first .group_ting_right_col_search .heading a");
+    $this->click("link=Stormesteren : roman");
     $this->abstractedPage->waitForPage();
     // If this is truly a collection item is should have certain
     // information about item types and the quantity of those.
-    $this->assertTrue($this->isElementPresent("link=Bog (8)"));
-    $this->assertTrue($this->isElementPresent("link=Lydbog (net) (1)"));
-    $this->assertTrue($this->isElementPresent("link=Lydbog (bånd) (5)"));
+    $this->assertTrue($this->isElementPresent("link=Bog (1)"));
+    $this->assertTrue($this->isElementPresent("link=Ebog (1)"));
     // Test the anchor links.
-    $this->click("link=Bog (8)");
-    $this->assertTrue((bool) preg_match('/^.*ting\/collection\/870970-basis%3A28443471#Bog$/', $this->getLocation()));
-    $this->click("link=Lydbog (net) (1)");
-    $this->assertTrue((bool) preg_match('/^.*ting\/collection\/870970-basis%3A28443471#Lydbog%20\(net\)$/', $this->getLocation()));
-    $this->click("link=Lydbog (bånd) (5)");
-    $this->assertTrue((bool) preg_match('/^.*ting\/collection\/870970-basis%3A28443471#Lydbog%20\(b%C3%A5nd\)$/', $this->getLocation()));
+    $this->click("link=Bog (1)");
+    $this->assertTrue((bool) preg_match('/^.*ting\/collection\/870970-basis%3A24908941#Bog$/', $this->getLocation()));
+    $this->click("link=Ebog (1)");
+    $this->assertTrue((bool) preg_match('/^.*ting\/collection\/870970-basis%3A24908941#Ebog$/', $this->getLocation()));
   }
 
   /**
@@ -105,15 +102,16 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
     $this->open('/' . $this->config->getLocale());
     $this->abstractedPage->waitForPage();
     // Search for potential collection item.
-    $this->abstractedPage->userMakeSearch('frank herbert klit');
+    $this->abstractedPage->userMakeSearch('dorthe nors');
     // Check the item title.
-    $this->assertElementContainsText('css=li.list-item.search-result:first .group_ting_right_col_search .heading a', 'Klit');
+    $this->assertTrue($this->isElementPresent("link=Stormesteren : roman"));
     // Click on title.
-    $this->click('css=li.list-item.search-result:first .group_ting_right_col_search .heading a');
+    $this->click("link=Stormesteren : roman");
     $this->abstractedPage->waitForPage();
-    $this->assertElementContainsText('css=div.ting-object.view-mode-collection-list .field-name-ting-title a', 'Klit');
+    // Assume we are on collection page and there is a link to item page.
+    $this->assertTrue($this->isElementPresent("link=Stormesteren : roman"));
     // Try to bookmark with logging in, if required.
-    $this->abstractedPage->userBookmark('870970-basis:28443471');
+    $this->abstractedPage->userBookmark('870970-basis:24908941');
     // Wait for the login popup, if any.
     $is_present = $this->abstractedPage->waitForElement('css=.ding-popup-content form#user-login', 5, FALSE);
     if ($is_present) {
@@ -130,19 +128,19 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
     $this->abstractedPage->refresh();
     // Bookmark again. Here the use is already logged and the item should
     // exist in bookmarks.
-    $this->abstractedPage->userBookmark('870970-basis:28443471');
+    $this->abstractedPage->userBookmark('870970-basis:24908941');
     $this->abstractedPage->waitForElement('css=div.ding-bookmark-message');
     $this->assertEquals('This item is in bookmarks already.', $this->getText('css=div.ding-bookmark-message'));
 
     // Refresh and reserve same item.
     $this->abstractedPage->refresh();
-    $this->abstractedPage->userReserve('870970-basis:28443471');
+    $this->abstractedPage->userReserve('870970-basis:24908941');
     $this->abstractedPage->waitForElement('css=div.ding-popup-content .messages.status');
     $this->assertTrue($this->isElementPresent('css=div.ding-popup-content .messages.status'));
 
     // Refresh and try to reserve again, normally this should not be allowed.
     $this->abstractedPage->refresh();
-    $this->abstractedPage->userReserve('870970-basis:28443471');
+    $this->abstractedPage->userReserve('870970-basis:24908941');
     $this->abstractedPage->waitForElement('css=div.ding-popup-content .messages.error');
     $this->assertTrue($this->isElementPresent('css=div.ding-popup-content .messages.error'));
   }
