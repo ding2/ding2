@@ -1,12 +1,23 @@
 <?php
 
-require_once(dirname(__FILE__) . '/config.inc');
+require_once(__DIR__ . '/autoload.php');
+require_once(__DIR__ . '/bootstrap.php');
 
 class Payments extends PHPUnit_Extensions_SeleniumTestCase {
+  protected $abstraction;
+  protected $config;
 
   protected function setUp() {
-    $this->setBrowser(TARGET_BROWSER);
-    $this->setBrowserUrl(TARGET_URL);
+    $this->abstractedPage = new DDBTestPageAbstraction($this);
+    $this->config = new DDBTestConfig();
+
+    $this->setBrowser($this->config->getBrowser());
+    $this->setBrowserUrl($this->config->getUrl());
+
+    $url = $this->config->getLms() . '/patron/debts?borrCard=' . $this->config->getUser() . '&pinCode=' . $this->config->getPass();
+    $this->mock = new SimpleXMLElement($url, 0, TRUE);
+
+    resetState();
   }
 
   /**
@@ -14,151 +25,59 @@ class Payments extends PHPUnit_Extensions_SeleniumTestCase {
    *
    * Check that each payment in account form equal to payment on server side.
    */
-  public function testPaymentInfo() {
-    $this->open("/" . TARGET_URL_LANG);
-    $this->click("css=i.icon-user");
-    $this->type("id=edit-name", TARGET_URL_USER);
-    $this->type("id=edit-pass", TARGET_URL_USER_PASS);
-    $this->click("id=edit-submit--2");
-    $this->waitForPageToLoad("30000");
-    $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-    $this->waitForPageToLoad("30000");
-    $this->assertTrue($this->isElementPresent("link=My account"));
-    $this->assertTrue($this->isElementPresent("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/a/span"));
-    $this->click("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/a/span");
-    $this->waitForPageToLoad("30000");
-    $this->assertTrue($this->isElementPresent("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li/a/span"));
-    $this->assertTrue($this->isElementPresent("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li[2]/a/span"));
-    $this->assertTrue($this->isElementPresent("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li[3]/a/span"));
-    $this->click("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li/a/span");
-    $this->waitForPageToLoad("30000");
+  public function testPayments() {
+    $this->open('/' . $this->config->getLocale());
+    $this->abstractedPage->waitForPage();
+    $this->abstractedPage->userLogin($this->config->getUser(), $this->config->getPass());
 
-    // Get mock object.
-    $url = "http://alma.am.ci.inlead.dk/web/alma/patron/debts?borrCard=" . TARGET_URL_USER . "&pinCode=" . TARGET_URL_USER_PASS;
-    $mock = new SimpleXMLElement($url, 0, TRUE);
-    //Get DOM
-    $dom = new DOMDocument();
-    // Disable warnings, cause we have wrong html.
-    libxml_use_internal_errors(true);
-    $dom->loadHTML($this->getHtmlSource());
-    $xpath = new DOMXPath($dom);
-    foreach ($mock->getDebtsResponse->debts->children() as $d) {
+    // Check for user account link.
+    $this->assertElementPresent('link=My Account');
+    $this->click('link=My Account');
+    $this->abstractedPage->waitForPage();
 
-      $debtNote = (string)$d->attributes()->debtNote;
-      $debtNote = explode('  ', $debtNote);
-      $result = $xpath->query("//form[@id='ding-debt-debts-form']//li[contains(@class, 'material-number')]//div[contains(., '{$debtNote[0]}')]");
-      $this->assertTrue($result->length == 1);
+    // Check for user status link.
+    $this->assertElementPresent('link=User status');
+    $this->click('link=User status');
+    $this->abstractedPage->waitForPage();
 
-      $debtDate = date('d-m-Y H:s', strtotime((string)$d->attributes()->debtDate));
-      $result = $xpath->query("//form[@id='ding-debt-debts-form']/div[div[//li[contains(@class, 'fee-date')]//div[contains(., '{$debtDate}')]
-        and //li[contains(@class, 'material-number')]//div[contains(., '{$debtNote[0]}')]]]");
-      $this->assertTrue($result->length == 1);
+    // Go to debts page.
+    $this->assertElementPresent('link=Mine bøder');
+    $this->click('link=Mine bøder');
+    $this->abstractedPage->waitForPage();
 
-      $debtAmountFormatted = trim((string)$d->attributes()->debtAmountFormatted);
-      $result = $xpath->query("//form[@id='ding-debt-debts-form']/div[div[//li[contains(@class, 'fee_amount')]//div[contains(., '{$debtAmountFormatted} Kr')]
-        and //li[contains(@class, 'material-number')]//div[contains(., '{$debtNote[0]}')]]]");
-      $this->assertTrue($result->length == 1);
+    // Check for page title.
+    $this->assertElementContainsText('css=h2.pane-title', 'My debts');
 
-      preg_match('/(.*)Debt$/', trim((string)$d->attributes()->debtType), $debtType);
-      $result = $xpath->query("//form[@id='ding-debt-debts-form'][//li[contains(@class, 'fee-type')]
-        and //li[contains(@class, 'material-number')]//div[contains(., '{$debtNote[0]}')]]//div[2]/ul")->item(0)->nodeValue;
-      $result =  strtolower(str_replace(' ', '', $result));
-      $debtType = strtolower($debtType[1]);
-      $this->assertTrue($result == $debtType);
+    // Tricky part.
+    // In order to check the data shown, it's required to have the raw
+    // data from the LMS.
+    $index = 1;
+    foreach ($this->mock->getDebtsResponse->debts->children() as $d) {
+      $note = array_values(array_filter(explode(' ', (string) $d->attributes()->debtNote)));
+      // Compare debt title.
+      $this->assertElementContainsText('css=#ding-debt-debts-form .material-item:nth-child(' . $index . ') .item-title', $note[1]);
+      // Compare material id.
+      $this->assertElementContainsText('css=#ding-debt-debts-form .material-item:nth-child(' . $index . ') .item-information-list .material-number .item-information-label', 'Material no.:');
+      $this->assertElementContainsText('css=#ding-debt-debts-form .material-item:nth-child(' . $index . ') .item-information-list .material-number .item-information-data', $note[0]);
+
+      // Compare created date.
+      $this->assertElementContainsText('css=#ding-debt-debts-form .material-item:nth-child(' . $index . ') .item-information-list .fee-date .item-information-label', 'Created date:');
+      $debtDate = date('j. F Y', strtotime((string) $d->attributes()->debtDate));
+      $this->assertElementContainsText('css=#ding-debt-debts-form .material-item:nth-child(' . $index . ') .item-information-list .fee-date .item-information-data', $debtDate);
+
+      // Compare amount.
+      $this->assertElementContainsText('css=#ding-debt-debts-form .material-item:nth-child(' . $index . ') .item-information-list .fee_amount .item-information-label', 'Amount:');
+      $debtAmount = trim((string) $d->attributes()->debtAmountFormatted);
+      $this->assertElementContainsText('css=#ding-debt-debts-form .material-item:nth-child(' . $index . ') .item-information-list .fee_amount .item-information-data', $debtAmount . ' Kr');
+
+      $index++;
     }
-    $this->click("//div[@id='page']/header/section/div/ul/li[5]/a/span");
-    $this->waitForPageToLoad("30000");
-  }
 
-  /**
-   * Test click to "Pay all balances" button.
-   *
-   * Check that after clicking was valid redirect.
-   */
-  public function testPayAllBalances() {
-    $this->open("/" . TARGET_URL_LANG);
-    $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-    $this->type("id=edit-name", TARGET_URL_USER);
-    $this->type("id=edit-pass", TARGET_URL_USER_PASS);
-    $this->click("id=edit-submit--2");
-    $this->waitForPageToLoad("30000");
-    $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-    $this->waitForPageToLoad("30000");
-    $this->assertTrue((bool)preg_match('/^[\s\S]*\/user$/',$this->getLocation()));
-    $this->click("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/a/span");
-    $this->waitForPageToLoad("30000");
-    $this->assertTrue($this->isElementPresent("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li/a/span"));
-    $this->assertTrue($this->isElementPresent("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li[2]/a/span"));
-    $this->assertTrue($this->isElementPresent("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li[3]/a/span"));
-    $this->click("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li/a/span");
-    $this->waitForPageToLoad("30000");
-    $this->assertTrue((bool)preg_match('/^[\s\S]*\/user\/\d+\/status\/debts$/',$this->getLocation()));
-    $this->click("id=edit-pay-all");
-    $this->waitForPageToLoad("30000");
-    sleep(4);
-    $url = $this->getLocation();
-    $this->assertTrue($url == "https://payment.architrade.com/payment/paytype.pml");
-  }
+    // Test total amount.
+    $total = trim((string) $this->mock->getDebtsResponse->debts->attributes()->totalDebtAmountFormatted);
+    $this->assertElementContainsText('css=#edit-total .amount', $total . ' Kr');
 
-  /**
-   * Test total amount of payments.
-   *
-   * Check that total amount on account page was equal to infomation from server.
-   */
-  public function testTotal() {
-    $this->open("/" . TARGET_URL_LANG);
-    $this->click("css=i.icon-user");
-    $this->type("id=edit-name", TARGET_URL_USER);
-    $this->type("id=edit-pass", TARGET_URL_USER_PASS);
-    $this->click("id=edit-submit--2");
-    $this->waitForPageToLoad("30000");
-    $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-    $this->waitForPageToLoad("30000");
-    $this->assertTrue($this->isElementPresent("link=My account"));
-    $this->assertTrue($this->isElementPresent("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/a/span"));
-    $this->click("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/a/span");
-    $this->waitForPageToLoad("30000");
-    $this->assertTrue($this->isElementPresent("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li/a/span"));
-    $this->assertTrue($this->isElementPresent("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li[2]/a/span"));
-    $this->assertTrue($this->isElementPresent("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li[3]/a/span"));
-    $this->click("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li/a/span");
-    $this->waitForPageToLoad("30000");
-    // Get mock object.
-    $url = "http://alma.am.ci.inlead.dk/web/alma/patron/debts?borrCard=" . TARGET_URL_USER . "&pinCode=" . TARGET_URL_USER_PASS;
-    $mock = new SimpleXMLElement($url, 0, TRUE);
-    $total = trim((string)$mock->getDebtsResponse->debts->attributes()->totalDebtAmountFormatted);
-    $this->assertEquals("{$total} Kr", $this->getText("css=span.amount"));
-  }
-
-  /**
-   * Test click to "Pay selected balances" button.
-   *
-   * Check that after clicking was valid redirect.
-   */
-  public function testPaySelectedBalances() {
-    $this->open("/" . TARGET_URL_LANG);
-    $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-    $this->type("id=edit-name", TARGET_URL_USER);
-    $this->type("id=edit-pass", TARGET_URL_USER_PASS);
-    $this->click("id=edit-submit--2");
-    $this->waitForPageToLoad("30000");
-    $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-    $this->waitForPageToLoad("30000");
-    $this->assertTrue((bool)preg_match('/^[\s\S]*\/user$/',$this->getLocation()));
-    $this->click("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/a/span");
-    $this->waitForPageToLoad("30000");
-    $this->assertTrue($this->isElementPresent("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li/a/span"));
-    $this->assertTrue($this->isElementPresent("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li[2]/a/span"));
-    $this->assertTrue($this->isElementPresent("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li[3]/a/span"));
-    $this->click("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li/a/span");
-    $this->waitForPageToLoad("30000");
-    $this->assertTrue((bool)preg_match('/^[\s\S]*\/user\/\d+\/status\/debts$/',$this->getLocation()));
-    $this->click("id=edit-629042");
-    sleep(2);
-    $this->click("id=edit-pay-selected");
-    $this->waitForPageToLoad("30000");
-    sleep(4);
-    $url = $this->getLocation();
-    $this->assertTrue($url == "https://payment.architrade.com/payment/paytype.pml");
+    // @todo
+    // Test payment procedure.
   }
 }
