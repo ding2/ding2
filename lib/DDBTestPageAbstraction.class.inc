@@ -36,17 +36,17 @@ class DDBTestPageAbstraction {
   }
 
   public function userMakeSearch($query) {
-    $this->phpunit_instance->type('css=#edit-search-block-form--2', $query);
-    $this->phpunit_instance->click('id=edit-submit');
+    $this->phpunit_instance->type('css=#search-block-form input[type="text"]', $query);
+    $this->phpunit_instance->click('css=#search-block-form input[type="submit"]');
     $this->waitForPage();
   }
 
   public function userBookmark($id) {
-    $this->phpunit_instance->click('id=bookmark-' . $id);
+    $this->phpunit_instance->click('css=#bookmark-' . $id);
   }
 
   public function userReserve($id) {
-    $this->phpunit_instance->click('id=reservation-' . $id);
+    $this->phpunit_instance->click('css=#reservation-' . $id);
   }
 
   public function fillDingPopupLogin($user, $pass) {
