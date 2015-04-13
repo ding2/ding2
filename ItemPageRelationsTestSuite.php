@@ -21,46 +21,54 @@ class ItemPageRelations extends PHPUnit_Extensions_SeleniumTestCase {
    * to remote resources.
    */
   public function testOtherMaterialsAnonymous() {
-    $this->open("/" . $this->config->getLocale() . '/ting/collection/870970-basis:27267912');
+    $this->open('/' . $this->config->getLocale());
     $this->abstractedPage->waitForPage();
-    $this->abstractedPage->userMakeSearch('Rom : i Vilhelm Bergsøes');
+    $this->abstractedPage->userMakeSearch('dorthe nors');
 
-    // Check the item title.
-    $this->assertElementContainsText('css=li.list-item.search-result:first .group_ting_right_col_search .heading a', 'Rom : i Vilhelm Bergsøes fodspor fra Piazza del Popolo');
-    // Click on title.
-    $this->click("css=li.list-item.search-result:first .group_ting_right_col_search .heading a");
+    // Check the item title on search result page.
+    $this->assertTrue($this->isElementPresent('link=Stormesteren : roman'));
+    // Click on title. Goes to collection page.
+    $this->click('link=Stormesteren : roman');
     $this->abstractedPage->waitForPage();
-    // Check the item title on the landing page.
-    $this->assertElementContainsText('css=div.ting-object.view-mode-full .field-name-ting-title a', 'Rom : i Vilhelm Bergsøes fodspor fra Piazza del Popolo');
 
-    // The item should contain three reviews.
+    // Check the item title on the collection page.
+    $this->assertTrue($this->isElementPresent('link=Stormesteren : roman'));
+    // Click on title. Goes to item page.
+    $this->click('link=Stormesteren : roman');
+    $this->abstractedPage->waitForPage();
+
+    // The item should contain 1 (one) author portrait.
     // CSS selector would return nothing since the ID is malformed (contains ':').
-    $this->assertTrue($this->isElementPresent("//div[@id='dbcaddi:hasReview']/div"));
-    $this->assertTrue($this->isElementPresent("//*[@id=\"dbcaddi:hasReview\"]/div/div[1]"));
-    $this->assertTrue($this->isElementPresent("//*[@id=\"dbcaddi:hasReview\"]/div/div[1]/a"));
-    $this->assertTrue($this->isElementPresent("//*[@id=\"dbcaddi:hasReview\"]/div/div[2]"));
-    $this->assertTrue($this->isElementPresent("//*[@id=\"dbcaddi:hasReview\"]/div/div[2]/a"));
-    $this->assertTrue($this->isElementPresent("//*[@id=\"dbcaddi:hasReview\"]/div/div[3]"));
-    $this->assertTrue($this->isElementPresent("//*[@id=\"dbcaddi:hasReview\"]/div/div[3]/a"));
+    $this->assertTrue($this->isElementPresent('//div[@id="dbcaddi:hasCreatorDescription"]/div'));
+    $this->assertTrue($this->isElementPresent('//div[@id="dbcaddi:hasCreatorDescription"]/div/div[1]'));
+    $this->assertTrue($this->isElementPresent('//div[@id="dbcaddi:hasCreatorDescription"]/div/div[1]/a'));
+
+    // The item should contain 7 (seven) reviews.
+    // CSS selector would return nothing since the ID is malformed (contains ':').
+    $this->assertTrue($this->isElementPresent('//div[@id="dbcaddi:hasReview"]/div'));
+    for ($i = 1; $i <= 7; $i++) {
+      $this->assertTrue($this->isElementPresent('//div[@id="dbcaddi:hasReview"]/div/div[' . $i . ']'));
+    }
 
     // Check relation anchors block.
     $this->assertTrue($this->isElementPresent('css=.pane-ting-ting-relation-anchors'));
-    // Check that there are actully 3 reviews.
-    $this->assertElementContainsText('css=.pane-ting-ting-relation-anchors .pane-content ul li.first a', 'Review (3)');
-
-    // Check we are located on that single type of that item.
-    $this->assertElementContainsText('css=.pane-ting-ting-object-types .pane-content ul li.first a', 'Bog (1)');
+    // Check that there is one author portrail link.
+    $this->assertTrue($this->isElementPresent('link=Author portrait (1)'));
+    // Check that there are actully 7 (seven) review links.
+    $this->assertTrue($this->isElementPresent('link=Review (7)'));
 
     // Check local review link.
     $this->click('css=.ting-object-related-item:last a');
     $this->abstractedPage->waitForPage();
     $this->assertElementContainsText('css=h1.page-title', 'Lektørudtalelse');
 
-    // Go back and check anchor link.
-    $this->open("/ting/object/870970-basis%3A50676927");
+    // Go back and check anchor links.
+    $this->open('/ting/object/870970-basis%3A24908941');
     $this->abstractedPage->waitForPage();
-    $this->click('css=.pane-ting-ting-relation-anchors .pane-content ul li.first a');
-    $this->assertTrue((bool) preg_match('/^[\s\S]*ting\/object\/870970-basis%3A50676927#dbcaddi:hasReview$/', $this->getLocation()));
+    $this->click('link=Author portrait (1)');
+    $this->assertTrue((bool) preg_match('/^[\s\S]*ting\/object\/870970-basis%3A24908941#dbcaddi:hasCreatorDescription$/', $this->getLocation()));
+    $this->click('link=Review (7)');
+    $this->assertTrue((bool) preg_match('/^[\s\S]*ting\/object\/870970-basis%3A24908941#dbcaddi:hasReview$/', $this->getLocation()));
   }
 
   /**
@@ -69,7 +77,7 @@ class ItemPageRelations extends PHPUnit_Extensions_SeleniumTestCase {
    * @see testOtherMaterialsAnonymous()
    */
   public function testOtherMaterialsLoggedIn() {
-    $this->open("/" . $this->config->getLocale());
+    $this->open('/' . $this->config->getLocale());
     $this->abstractedPage->userLogin($this->config->getUser(), $this->config->getPass());
     $this->testOtherMaterialsAnonymous();
   }
