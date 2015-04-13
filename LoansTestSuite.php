@@ -8,7 +8,7 @@ class Loans extends PHPUnit_Extensions_SeleniumTestCase {
   protected $config;
 
   protected function setUp() {
-  $this->abstractedPage = new DDBTestPageAbstraction($this);
+    $this->abstractedPage = new DDBTestPageAbstraction($this);
     $this->config = new DDBTestConfig();
 
     $this->setBrowser($this->config->getBrowser());
