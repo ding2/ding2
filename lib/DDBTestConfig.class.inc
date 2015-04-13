@@ -11,6 +11,7 @@ class DDBTestConfig {
   private $locale;
   private $user;
   private $pass;
+  private $lms;
 
   public function __construct() {
     $this->browser = isset($_SERVER['DDBTEST_BROWSER']) ? $_SERVER['DDBTEST_BROWSER'] : '*firefox';
@@ -18,6 +19,7 @@ class DDBTestConfig {
     $this->locale = isset($_SERVER['DDBTEST_LOCALE']) ? $_SERVER['DDBTEST_LOCALE'] : 'en';
     $this->user = isset($_SERVER['DDBTEST_USER']) ? $_SERVER['DDBTEST_USER'] : '1111110022';
     $this->pass = isset($_SERVER['DDBTEST_PASS']) ? $_SERVER['DDBTEST_PASS'] : '5555';
+    $this->lms = isset($_SERVER['DDBTEST_LMS']) ? $_SERVER['DDBTEST_LMS'] : '';
   }
 
   /**
@@ -68,5 +70,9 @@ class DDBTestConfig {
    */
   public function getPass() {
     return $this->pass;
+  }
+
+  public function getLms() {
+    return $this->lms;
   }
 }
