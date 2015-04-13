@@ -1,12 +1,17 @@
 <?php
 
-require_once(dirname(__FILE__) . '/config.inc');
+require_once(__DIR__ . '/autoload.php');
 
 class OpenScan extends PHPUnit_Extensions_SeleniumTestCase {
+  protected $abstraction;
+  protected $config;
 
   protected function setUp() {
-    $this->setBrowser(TARGET_BROWSER);
-    $this->setBrowserUrl(TARGET_URL);
+    $this->abstractedPage = new DDBTestPageAbstraction($this);
+    $this->config = new DDBTestConfig();
+
+    $this->setBrowser($this->config->getBrowser());
+    $this->setBrowserUrl($this->config->getUrl());
   }
 
   /**
@@ -15,171 +20,49 @@ class OpenScan extends PHPUnit_Extensions_SeleniumTestCase {
    *
    * Check some pre-tested values to be autosuggested.
    */
-  public function testAutosuggestionAnonymous() {
-    $this->open("/" . TARGET_URL_LANG);
-    $this->type("id=edit-search-block-form--2", "star wa");
-    $this->fireEvent("id=edit-search-block-form--2", "keyup");
-    $this->assertTrue($this->isElementPresent("id=autocomplete"));
-    sleep(3);
-    $this->assertEquals("star wars", $this->getText("//*[@id=\"autocomplete\"]/ul/li[1]"));
-    $this->mouseDown("//div[@id='autocomplete']/ul/li/div");
-    try {
-      $this->assertEquals("star wars", $this->getValue("id=edit-search-block-form--2"));
-    }
-    catch (PHPUnit_Framework_AssertionFailedError $e) {
-      array_push($this->verificationErrors, $e->toString());
-    }
-    $this->type("id=edit-search-block-form--2", "");
-    $this->type("id=edit-search-block-form--2", "star wa");
-    $this->fireEvent("id=edit-search-block-form--2", "keyup");
-    $this->assertTrue($this->isElementPresent("id=autocomplete"));
-    sleep(3);
-    $this->keyDown("id=edit-search-block-form--2", "\\40");
-    $this->assertEquals("selected", $this->getAttribute("//*[@id=\"autocomplete\"]/ul/li[1]@class"));
-    $this->click("id=edit-submit");
-    $this->waitForPageToLoad("30000");
-    try {
-      $this->assertEquals("star wars", $this->getValue("id=edit-search-block-form--2"));
-    }
-    catch (PHPUnit_Framework_AssertionFailedError $e) {
-      array_push($this->verificationErrors, $e->toString());
-    }
-    $this->type("id=edit-search-block-form--2", "");
-    $this->type("id=edit-search-block-form--2", "star wa");
-    $this->fireEvent("id=edit-search-block-form--2", "keyup");
-    $this->assertTrue($this->isElementPresent("id=autocomplete"));
-    $this->click("css=#ding-facetbrowser-form > div > #facet-type > #expand_more");
-    try {
-      $this->assertEquals("star wa", $this->getValue("id=edit-search-block-form--2"));
-    }
-    catch (PHPUnit_Framework_AssertionFailedError $e) {
-      array_push($this->verificationErrors, $e->toString());
-    }
+  public function testSearchAutosuggestionAnonymous() {
+    $this->open('/' . $this->config->getLocale());
+    // Type something in search field and force autocomplete
+    // to be shown. Check simple query.
+    $this->type("css=#edit-search-block-form--2", "star wa");
+    $this->fireEvent("css=#edit-search-block-form--2", "keyup");
+    $this->abstractedPage->waitForElement('css=#autocomplete');
+
+    // Check the first result from autocomplete.
+    $this->abstractedPage->waitForElement('css=#autocomplete ul li:first');
+    $this->assertElementContainsText('css=#autocomplete ul li:first', 'star wars');
+
+    // Check utf8 characters.
+    $this->type("css=#edit-search-block-form--2", "gæ");
+    $this->fireEvent("css=#edit-search-block-form--2", "keyup");
+    $this->abstractedPage->waitForElement('css=#autocomplete');
+
+    // Check the first result from autocomplete.
+    $this->abstractedPage->waitForElement('css=#autocomplete ul li:first');
+    $this->assertElementContainsText('css=#autocomplete ul li:first', 'gækkebreve');
+
+    // Check that active suggestion is highlighted.
+    // Force 'down' key press.
+    $this->keyDown("css=#edit-search-block-form--2", "\\40");
+    $this->assertEquals("selected", $this->getAttribute("css=#autocomplete ul li:first@class"));
+
+    // Click the first result and check the search form to be
+    // populated with this text.
+    $this->mouseDown('css=#autocomplete ul li:first');
+    $this->assertEquals("gækkebreve", $this->getValue("css=#edit-search-block-form--2"));
   }
 
   /**
    * Test the autosuggestion functionality in search form for
    * logged in user.
    *
-   * @see testAutosuggestionAnonymous()
+   * @see testSearchAutosuggestionAnonymous()
    */
-  public function testAutosuggestionLoggedIn() {
-    $this->open("/" . TARGET_URL_LANG);
-    $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-    $this->type("id=edit-name", TARGET_URL_USER);
-    $this->type("id=edit-pass", TARGET_URL_USER_PASS);
-    $this->click("id=edit-submit--2");
-    $this->waitForPageToLoad("30000");
-    $this->assertEquals("My Account", $this->getText("//div[@id='page']/header/section/div/ul/li[3]/a/span"));
-    $this->type("id=edit-search-block-form--2", "star wa");
-    $this->fireEvent("id=edit-search-block-form--2", "keyup");
-    $this->assertTrue($this->isElementPresent("id=autocomplete"));
-    sleep(3);
-    $this->assertEquals("star wars", $this->getText("//*[@id=\"autocomplete\"]/ul/li[1]"));
-    $this->mouseDown("//div[@id='autocomplete']/ul/li/div");
-    try {
-      $this->assertEquals("star wars", $this->getValue("id=edit-search-block-form--2"));
-    }
-    catch (PHPUnit_Framework_AssertionFailedError $e) {
-      array_push($this->verificationErrors, $e->toString());
-    }
-    $this->type("id=edit-search-block-form--2", "");
-    $this->type("id=edit-search-block-form--2", "star wa");
-    $this->fireEvent("id=edit-search-block-form--2", "keyup");
-    $this->assertTrue($this->isElementPresent("id=autocomplete"));
-    sleep(3);
-    $this->keyDown("id=edit-search-block-form--2", "\\40");
-    $this->assertEquals("selected", $this->getAttribute("//*[@id=\"autocomplete\"]/ul/li[1]@class"));
-    $this->click("id=edit-submit");
-    $this->waitForPageToLoad("30000");
-    try {
-      $this->assertEquals("star wars", $this->getValue("id=edit-search-block-form--2"));
-    }
-    catch (PHPUnit_Framework_AssertionFailedError $e) {
-      array_push($this->verificationErrors, $e->toString());
-    }
-    $this->type("id=edit-search-block-form--2", "");
-    $this->type("id=edit-search-block-form--2", "star wa");
-    $this->fireEvent("id=edit-search-block-form--2", "keyup");
-    $this->assertTrue($this->isElementPresent("id=autocomplete"));
-    $this->click("css=#ding-facetbrowser-form > div > #facet-type > #expand_more");
-    try {
-      $this->assertEquals("star wa", $this->getValue("id=edit-search-block-form--2"));
-    }
-    catch (PHPUnit_Framework_AssertionFailedError $e) {
-      array_push($this->verificationErrors, $e->toString());
-    }
-    $this->click("//div[@id='page']/header/section/div/ul/li[5]/a/span");
-    $this->waitForPageToLoad("30000");
-  }
-
-  /**
-   * Test autosuggestion with utf8 characters as anonymous.
-   */
-  public function testSpecialCharactersAnonymous() {
-    $this->open("/" . TARGET_URL_LANG);
-    $this->type("id=edit-search-block-form--2", "Afskrivning på maskiner");
-    $this->click("id=edit-submit");
-    $this->waitForPageToLoad("30000");
-    $this->assertEquals("Afskrivning på maskiner", $this->getValue("id=edit-search-block-form--2"));
-    $this->assertEquals("Afskrivning på maskiner", $this->getText("link=Afskrivning på maskiner"));
-    $this->click("css=img[alt=\"Home\"]");
-    $this->waitForPageToLoad("30000");
-    $this->type("id=edit-search-block-form--2", "gæ");
-    $this->fireEvent("id=edit-search-block-form--2", "keyup");
-    for ($second = 0;; $second++) {
-      if ($second >= 60)
-        $this->fail("timeout");
-      try {
-        if ($this->isElementPresent("//*[@id=\"autocomplete\"]/ul/li"))
-          break;
-      }
-      catch (Exception $e) {
-
-      }
-      sleep(1);
-    }
-
-    $this->assertEquals("gæk, gæk, gæk", $this->getText("//*[@id=\"autocomplete\"]/ul/li[2]/div"));
-  }
-
-  /**
-   * Test autosuggestion with utf8 characters as logged in user.
-   *
-   * @see testSpecialCharactersAnonymous()
-   */
-  public function testSpecialCharactersLoggedIn() {
-    $this->open("/" . TARGET_URL_LANG);
-    $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-    $this->type("id=edit-name", TARGET_URL_USER);
-    $this->type("id=edit-pass", TARGET_URL_USER_PASS);
-    $this->click("id=edit-submit--2");
-    $this->waitForPageToLoad("30000");
-    $this->type("id=edit-search-block-form--2", "Afskrivning på maskiner");
-    $this->click("id=edit-submit");
-    $this->waitForPageToLoad("30000");
-    $this->assertEquals("Afskrivning på maskiner", $this->getValue("id=edit-search-block-form--2"));
-    $this->assertEquals("Afskrivning på maskiner", $this->getText("link=Afskrivning på maskiner"));
-    $this->click("css=img[alt=\"Home\"]");
-    $this->waitForPageToLoad("30000");
-    $this->type("id=edit-search-block-form--2", "gæ");
-    $this->fireEvent("id=edit-search-block-form--2", "keyup");
-    for ($second = 0;; $second++) {
-      if ($second >= 60)
-        $this->fail("timeout");
-      try {
-        if ($this->isElementPresent("//*[@id=\"autocomplete\"]/ul/li"))
-          break;
-      }
-      catch (Exception $e) {
-
-      }
-      sleep(1);
-    }
-
-    $this->assertEquals("gæk, gæk, gæk", $this->getText("//*[@id=\"autocomplete\"]/ul/li[2]/div"));
-    $this->click("//div[@id='page']/header/section/div/ul/li[5]/a/span");
-    $this->waitForPageToLoad("30000");
+  public function testSearchAutosuggestionLoggedIn() {
+    $this->open('/' . $this->config->getLocale());
+    $this->abstractedPage->waitForPage();
+    $this->abstractedPage->userLogin($this->config->getUser(), $this->config->getPass());
+    $this->testSearchAutosuggestionAnonymous();
   }
 
   /**
@@ -187,16 +70,17 @@ class OpenScan extends PHPUnit_Extensions_SeleniumTestCase {
    *
    * Check when filled and empty search is made.
    */
-  public function testSubmitAnonymous() {
-    $this->open("/" . TARGET_URL_LANG);
-    $this->type("id=edit-search-block-form--2", "harry potter");
-    $this->click("id=edit-submit");
-    $this->waitForPageToLoad("30000");
+  public function testSearchSubmitAnonymous() {
+    $this->open('/' . $this->config->getLocale());
+    $this->abstractedPage->waitForPage();
+
+    // Check for search results page.
+    $this->abstractedPage->userMakeSearch('dorthe nors');
     $this->assertTrue($this->isElementPresent("css=li.list-item.search-result"));
-    $this->type("id=edit-search-block-form--2", "");
-    $this->click("id=edit-submit--3");
-    $this->waitForPageToLoad("30000");
-    $this->assertTrue($this->isElementPresent("css=div.messages.error"));
+
+    // Check for no results page.
+    $this->abstractedPage->userMakeSearch('');
+    $this->assertElementContainsText('css=div.messages.error', 'Please enter some keywords.');
   }
 
   /**
@@ -204,21 +88,10 @@ class OpenScan extends PHPUnit_Extensions_SeleniumTestCase {
    *
    * @see testSubmitAnonymous()
    */
-  public function testSubmitLoggedIn() {
-    $this->open("/" . TARGET_URL_LANG);
-    $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-    $this->type("id=edit-name", TARGET_URL_USER);
-    $this->type("id=edit-pass", TARGET_URL_USER_PASS);
-    $this->click("id=edit-submit--2");
-    $this->waitForPageToLoad("30000");
-    $this->assertEquals("My Account", $this->getText("//div[@id='page']/header/section/div/ul/li[3]/a/span"));
-    $this->type("id=edit-search-block-form--2", "inferno dan brown");
-    $this->click("id=edit-submit");
-    $this->waitForPageToLoad("30000");
-    $this->assertTrue($this->isElementPresent("link=Inferno"));
-    $this->type("id=edit-search-block-form--2", "");
-    $this->click("id=edit-submit--3");
-    $this->waitForPageToLoad("30000");
-    $this->assertTrue($this->isElementPresent("css=div.messages.error"));
+  public function testSearchSubmitLoggedIn() {
+    $this->open('/' . $this->config->getLocale());
+    $this->abstractedPage->waitForPage();
+    $this->abstractedPage->userLogin($this->config->getUser(), $this->config->getPass());
+    $this->testSearchSubmitAnonymous();
   }
 }
