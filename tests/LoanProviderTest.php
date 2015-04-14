@@ -22,8 +22,8 @@ if (!function_exists('t')) {
   /**
    * DingProviderLoan::__construct() calls this, mock it.
    */
-  function t($str) {
-    return $str;
+  function t($str, $replace = array()) {
+    return strtr($str, $replace);
   }
 }
 
@@ -160,6 +160,52 @@ class LoanProviderTest extends ProviderTestCase {
           ),
         )
       ), **/
+
+      // Some simple periodical rendering tests.
+      new Reply(
+        array(
+          // Array of...
+          array(
+            // Loan.
+            'isRenewable' => TRUE,
+            'loanDetails' => array(
+              // LoanDetails.
+              'recordId' => '870970-basis:06686923',
+              'dueDate' => '2016-04-25',
+              'loanDate' => '2015-04-01T12:05:13.383',
+              'materialGroupName' => 'somewhat strict',
+              'materialItemNumber' => '4025573671',
+              'loanId' => 80,
+              'periodical' => array(
+                'volume' => 2,
+                'volumeYear' => 2011,
+                'volumeNumber' => 3,
+              ),
+            ),
+            'renewalStatusList' => array(),
+          ),
+          array(
+            // Loan.
+            'isRenewable' => TRUE,
+            'loanDetails' => array(
+              // LoanDetails.
+              'recordId' => '870970-basis:06686923',
+              'dueDate' => '2016-04-25',
+              'loanDate' => '2015-04-01T12:05:13.383',
+              'materialGroupName' => 'somewhat strict',
+              'materialItemNumber' => '4025573671',
+              'loanId' => 81,
+              'periodical' => array(
+                'volume' => 4,
+                'volumeYear' => NULL,
+                'volumeNumber' => NULL,
+              ),
+            ),
+            'renewalStatusList' => array(),
+          )
+        )
+      ),
+
     );
     $this->replies($json_responses);
 
@@ -258,6 +304,34 @@ class LoanProviderTest extends ProviderTestCase {
       )),
     );
     $this->assertEquals($expected, $res); **/
+
+    $user = (object) array(
+      'creds' => array(
+        'patronId' => '84',
+      ),
+    );
+
+    $res = $this->providerInvoke('list', $user);
+    $expected = array(
+      80 => new DingProviderLoan(80, array(
+        'ding_entity_id' => '870970-basis:06686923',
+        'loan_date' => '2015-04-01T12:05:13.383',
+        'expiry' => '2016-04-25',
+        'renewable' => TRUE,
+        'materials_number' => '4025573671',
+        'notes' => 'Issue 2.3, 2011',
+      )),
+      81 => new DingProviderLoan(81, array(
+        'ding_entity_id' => '870970-basis:06686923',
+        'loan_date' => '2015-04-01T12:05:13.383',
+        'expiry' => '2016-04-25',
+        'renewable' => TRUE,
+        'materials_number' => '4025573671',
+        'notes' => 'Issue 4',
+      )),
+    );
+    $this->assertEquals($expected, $res);
+
   }
 
   /**

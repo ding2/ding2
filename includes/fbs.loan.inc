@@ -15,13 +15,31 @@ function fbs_loan_list($account) {
 
   foreach ($res as $loan) {
     $id = $loan->loanDetails->loanId;
-    $result[$id] = new DingProviderLoan($id, array(
+
+    $loan_data = array(
       'ding_entity_id' => $loan->loanDetails->recordId,
       'loan_date' => $loan->loanDetails->loanDate,
       'expiry' => $loan->loanDetails->dueDate,
       'renewable' => $loan->isRenewable,
       'materials_number' => $loan->loanDetails->materialItemNumber,
-    ));
+    );
+
+    // If this is a periodical, add in issue data.
+    if (isset($loan->loanDetails->periodical)) {
+      $periodical = $loan->loanDetails->periodical;
+      $vol = $periodical->volume;
+      if (!empty($periodical->volumeNumber)) {
+        $vol .= '.' . $periodical->volumeNumber;
+      }
+      if (!empty($periodical->volumeYear)) {
+        $loan_data['notes'] = t('Issue @vol, @year', array('@vol' => $vol, '@year' => $periodical->volumeYear));
+      }
+      else {
+        $loan_data['notes'] = t('Issue @vol', array('@vol' => $vol));
+      }
+    }
+
+    $result[$id] = new DingProviderLoan($id, $loan_data);
   }
 
   return $result;
