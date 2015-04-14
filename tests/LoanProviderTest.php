@@ -177,6 +177,7 @@ class LoanProviderTest extends ProviderTestCase {
               'materialItemNumber' => '4025573671',
               'loanId' => 80,
               'periodical' => array(
+                // Periodical.
                 'volume' => 2,
                 'volumeYear' => 2011,
                 'volumeNumber' => 3,
@@ -196,6 +197,7 @@ class LoanProviderTest extends ProviderTestCase {
               'materialItemNumber' => '4025573671',
               'loanId' => 81,
               'periodical' => array(
+                // Periodical.
                 'volume' => 4,
                 'volumeYear' => NULL,
                 'volumeNumber' => NULL,
