@@ -143,7 +143,7 @@ class ItemPage extends PHPUnit_Extensions_SeleniumTestCase {
    * so different responses are checked as valid.
    */
   public function testItemPageActionsAnonymous() {
-    resetState();
+    resetState($this->config->getLms());
     $this->open('/' . $this->config->getLocale());
     $this->abstractedPage->waitForPage();
     // Search for potential collection item.
