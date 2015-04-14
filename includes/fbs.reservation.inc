@@ -36,6 +36,21 @@ function fbs_reservation_list($account, $requested_type = NULL) {
       $ding_reservation['queue_number'] = $reservation->numberInQueue;
     }
 
+    // Add in periodical information if it is one.
+    if ($reservation->periodical) {
+      $periodical = $reservation->periodical;
+      $vol = $periodical->volume;
+      if (!empty($periodical->volumeNumber)) {
+        $vol .= '.' . $periodical->volumeNumber;
+      }
+      if (!empty($periodical->volumeYear)) {
+        $ding_reservation['notes'] = t('Issue @vol, @year', array('@vol' => $vol, '@year' => $periodical->volumeYear));
+      }
+      else {
+        $ding_reservation['notes'] = t('Issue @vol', array('@vol' => $vol));
+      }
+    }
+
     $result[$type][$ding_reservation['id']] = $ding_reservation;
   }
 

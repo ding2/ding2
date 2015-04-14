@@ -17,6 +17,15 @@ if (!function_exists('ding_provider_build_entity_id')) {
   }
 }
 
+if (!function_exists('t')) {
+  /**
+   * DingProviderLoan::__construct() calls this, mock it.
+   */
+  function t($str, $replace = array()) {
+    return strtr($str, $replace);
+  }
+}
+
 /**
  * Some provider functions uses this.
  */
@@ -422,6 +431,81 @@ class ReservationProviderTest extends ProviderTestCase {
     );
     $this->assertEquals($expected, $res);
     **/
+
+    // Few tests to test periodical rendering.
+    $json_responses = array(
+      new Reply(
+        array(
+          array(
+            // ReservationDetails.
+            'recordId' => '870970-basis:06338909',
+            'pickupBranch' => 'DK-761500',
+            'expiryDate' => '2015-09-26',
+            'reservationId' => 158,
+            'dateOfReservation' => '2015-03-30T13:56:30.334',
+            'periodical' => array(
+              // Periodical.
+              'volume' => 2,
+              'volumeYear' => 2011,
+              'volumeNumber' => 3,
+
+            ),
+            'numberInQueue' => 2,
+            'state' => 'reserved',
+          ),
+          array(
+            // ReservationDetails.
+            'recordId' => '870970-basis:06338910',
+            'pickupBranch' => 'DK-761500',
+            'expiryDate' => '2015-09-26',
+            'reservationId' => 159,
+            'dateOfReservation' => '2015-03-30T13:56:30.334',
+            'periodical' => array(
+              // Periodical.
+              'volume' => 4,
+              'volumeYear' => NULL,
+              'volumeNumber' => NULL,
+
+            ),
+            'numberInQueue' => 2,
+            'state' => 'reserved',
+          ),
+        )
+      ),
+    );
+
+    $this->replies($json_responses);
+    $patron = (object) array(
+      'creds' => array('patronId' => 73)
+    );
+
+    $res = $this->providerInvoke('list', $patron);
+    $expected = array(
+      DING_RESERVATION_READY => array(),
+      // Reserved
+      DING_RESERVATION_NOT_READY => array(
+        158 => array(
+          'ding_entity_id' => '870970-basis:06338909',
+          'id' => 158,
+          'pickup_branch_id' => 'DK-761500',
+          'created' => '2015-03-30T13:56:30.334',
+          'queue_number' => 2,
+          'expiry' => '2015-09-26',
+          'notes' => 'Issue 2.3, 2011',
+        ),
+        159 => array(
+          'ding_entity_id' => '870970-basis:06338910',
+          'id' => 159,
+          'pickup_branch_id' => 'DK-761500',
+          'created' => '2015-03-30T13:56:30.334',
+          'queue_number' => 2,
+          'expiry' => '2015-09-26',
+          'notes' => 'Issue 4',
+        ),
+      ),
+      DING_RESERVATION_INTERLIBRARY_LOANS => array(),
+    );
+    $this->assertEquals($expected, $res);
   }
 
 
