@@ -98,7 +98,7 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
    * so different responses are checked as valid.
    */
   public function testCollectionViewActionsAnonymous() {
-    resetState();
+    resetState($this->config->getLms());
     $this->open('/' . $this->config->getLocale());
     $this->abstractedPage->waitForPage();
     // Search for potential collection item.
@@ -154,7 +154,6 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
    * @see testCollectionViewActionsAnonymous()
    */
   public function testCollectionViewActionsLoggedIn() {
-    resetState();
     $this->open('/' . $this->config->getLocale());
     $this->abstractedPage->waitForPage();
     $this->abstractedPage->userLogin($this->config->getUser(), $this->config->getPass());

@@ -12,7 +12,7 @@ class ReservationReadyToPickup extends PHPUnit_Extensions_SeleniumTestCase {
     $this->setBrowser($this->config->getBrowser());
     $this->setBrowserUrl($this->config->getUrl());
 
-    resetState();
+    resetState($this->config->getLms());
   }
 
   /**

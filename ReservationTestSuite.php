@@ -8,11 +8,9 @@ class Reservation extends PHPUnit_Extensions_SeleniumTestCase {
   protected function setUp() {
     $this->abstractedPage = new DDBTestPageAbstraction($this);
     $this->config = new DDBTestConfig();
-
     $this->setBrowser($this->config->getBrowser());
     $this->setBrowserUrl($this->config->getUrl());
-
-    resetState();
+    resetState($this->config->getLms());
   }
 
   /**
@@ -109,8 +107,8 @@ class Reservation extends PHPUnit_Extensions_SeleniumTestCase {
     }
 
     // Test change of reservation period and pickup branch.
-    $this->assertElementPresent('css=#ding-reservation-reservations-notready-form .material-item:nth-child(3) input[type="checkbox"]');
-    $this->click('css=#ding-reservation-reservations-notready-form .material-item:nth-child(3) input[type="checkbox"]');
+    $this->assertElementPresent('css=#ding-reservation-reservations-notready-form .select-all input[type="checkbox"]');
+    $this->click('css=#ding-reservation-reservations-notready-form .select-all input[type="checkbox"]');
 
     // Wait for the buttons to appear.
     $this->abstractedPage->waitForElement('css=.update-reservations input[type="submit"]');
@@ -120,124 +118,64 @@ class Reservation extends PHPUnit_Extensions_SeleniumTestCase {
     $this->abstractedPage->waitForElement('css=.ding-popup-content');
     $this->assertElementPresent('css=#ding-reservation-update-reservations-form #edit-provider-options-alma-preferred-branch');
     $this->assertElementPresent('css=#ding-reservation-update-reservations-form #edit-provider-options-interest-period');
+
+    // Select a different branch.
+    $this->select('css=#ding-reservation-update-reservations-form #edit-provider-options-alma-preferred-branch', 'value=hj~oe');
+
+    // Select a different interest period.
+    $this->select('css=#ding-reservation-update-reservations-form #edit-provider-options-interest-period', 'value=360');
+
+    // Submit the changes.
+    $this->mouseDown('css=#ding-reservation-update-reservations-form input[type="submit"]');
+
+    // Wait for ajax.
+    sleep(5);
+    $this->abstractedPage->refresh();
+
+    // Check the results again.
+    $notready_for_pickup = array(
+      array(
+          'Nøglen til Da Vinci mysteriet',
+          '30. August 2015',
+          'Hjørring',
+      ),
+      array(
+          'Folkepension og delpension',
+          '3. September 2015',
+          'Hjørring',
+      ),
+      array(
+          'Alt for damerne',
+          '28. August 2015',
+          'Hjørring',
+      ),
+    );
+    for ($i = 3, $j = 0; $i <= count($notready_for_pickup) + 2; $i++, $j++) {
+      // Check title field.
+      $this->assertElementContainsText('css=#ding-reservation-reservations-notready-form .material-item:nth-child(' . $i . ') h3.item-title', $notready_for_pickup[$j][0]);
+      // Check expiry date.
+      $this->assertElementContainsText('css=#ding-reservation-reservations-notready-form .material-item:nth-child(' . $i . ') li.expire-date .item-information-data', $notready_for_pickup[$j][1]);
+      // Check branch.
+      $this->assertElementContainsText('css=#ding-reservation-reservations-notready-form .material-item:nth-child(' . $i . ') li.pickup-branch .item-information-data', $notready_for_pickup[$j][2]);
+    }
+
+
+    // Test the ability to delete a reservation .
+    // Check if the checkbox for certain item is present, then click it.
+    $this->assertElementPresent('css=#ding-reservation-reservations-notready-form .material-item:nth-child(5) input[type="checkbox"]');
+    $this->click('css=#ding-reservation-reservations-notready-form .material-item:nth-child(5) input[type="checkbox"]');
+
+    // A delete button should appear.
+    $this->abstractedPage->waitForElement('css=#edit-actions-top-delete--2');
+    $this->mouseDown('css=#edit-actions-top-delete--2');
+
+    // This should trigger a popup confirmation.
+    $this->abstractedPage->waitForElement('css=.ding-popup-content #ding-reservation-delete-reservations-form');
+    $this->mouseDown('css=.ding-popup-content #ding-reservation-delete-reservations-form input[type="submit"]');
+    // Wait for ajax to finish.
+    sleep(5);
+    $this->abstractedPage->refresh();
+    // Check the item is deleted.
+    $this->assertElementNotPresent('css=#ding-reservation-reservations-notready-form .material-item:nth-child(5)');
   }
-
-//   /**
-//    * Check change of interest period on user reservation page.
-//    */
-//   public function testChangeInterestPeriodOnReservation() {
-//     $this->open("/" . TARGET_URL_LANG);
-//     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-//     $this->type("id=edit-name", TARGET_URL_USER);
-//     $this->type("id=edit-pass", TARGET_URL_USER_PASS);
-//     $this->click("id=edit-submit--2");
-//     $this->waitForPageToLoad("30000");
-//     $this->assertEquals("My Account", $this->getText("//div[@id='page']/header/section/div/ul/li[3]/a/span"));
-//     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-//     $this->waitForPageToLoad("30000");
-//     $this->assertEquals("My account", $this->getText("//div[@id='page']/div/div/div/div/div/div/aside/div/h2/a"));
-//     $this->assertEquals("User status", $this->getText("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/a/span"));
-//     $this->click("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/a/span");
-//     $this->waitForPageToLoad("30000");
-//     $this->assertEquals("Mine bøder", $this->getText("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li/a/span"));
-//     $this->assertEquals("Mine reserveringer", $this->getText("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li[2]/a/span"));
-//     $this->assertEquals("Mine hjemlån", $this->getText("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li[3]/a/span"));
-//     $this->click("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li[2]/a/span");
-//     $this->waitForPageToLoad("30000");
-//     $this->assertEquals("My reservations", $this->getText("//div[@id='page']/div/div/div/div/div/div/div/div/h2"));
-//     $this->click("id=edit-reservations-1415027-1415027");
-//     $this->assertTrue($this->isElementPresent("//*[@id=\"edit-actions-top-delete--2\"]"));
-//     $this->assertTrue($this->isElementPresent("//*[@id=\"edit-actions-top-update\"]"));
-//     $this->mouseDown("//*[@id=\"edit-actions-top-update\"]");
-//     sleep(5);
-//     $this->assertTrue($this->isElementPresent("//*[@id=\"ding-reservation-update-reservations-form\"]/div/div[1]"));
-//     $this->assertTrue($this->isElementPresent("//*[@id=\"ding-reservation-update-reservations-form\"]/div/div[2]"));
-//     $this->assertTrue($this->isElementPresent("//*[@id=\"edit-submit--2\"]"));
-//     $this->select("//*[@id=\"edit-provider-options-interest-period\"]", "2 months");
-//     $this->mouseDown("//*[@id=\"edit-submit--2\"]");
-//     sleep(5);
-//     $this->assertEquals("Your reservations has been updated.", $this->getText("id=ui-id-1"));
-//     $this->click("//div[4]/div/button");
-//     $this->waitForPageToLoad("30000");
-//     $this->assertEquals("02-11-2014 00:00", $this->getText("css=li.item-information.expire-date > div.item-information-data"));
-//     $this->click("//div[@id='page']/header/section/div/ul/li[5]/a/span");
-//     $this->waitForPageToLoad("30000");
-//   }
-
-//   /**
-//    * Check change of pickup branch on user reservation page.
-//    */
-//   public function testChangePickupBranchOnReservation() {
-//     $this->open("/" . TARGET_URL_LANG);
-//     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-//     $this->type("id=edit-name", TARGET_URL_USER);
-//     $this->type("id=edit-pass", TARGET_URL_USER_PASS);
-//     $this->click("id=edit-submit--2");
-//     $this->waitForPageToLoad("30000");
-//     $this->assertEquals("My Account", $this->getText("//div[@id='page']/header/section/div/ul/li[3]/a/span"));
-//     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-//     $this->waitForPageToLoad("30000");
-//     $this->assertEquals("My account", $this->getText("link=My account"));
-//     $this->assertEquals("User status", $this->getText("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/a/span"));
-//     $this->click("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/a/span");
-//     $this->waitForPageToLoad("30000");
-//     $this->assertEquals("Mine bøder", $this->getText("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li/a/span"));
-//     $this->assertEquals("Mine reserveringer", $this->getText("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li[2]/a/span"));
-//     $this->assertEquals("Mine hjemlån", $this->getText("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li[3]/a/span"));
-//     $this->click("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li[2]/a/span");
-//     $this->waitForPageToLoad("30000");
-//     $this->assertEquals("My reservations", $this->getText("css=h2.pane-title"));
-//     $this->click("id=edit-reservations-1415027-1415027");
-//     $this->assertTrue($this->isElementPresent("//*[@id=\"ding-reservation-reservations-notready-form\"]/div/div[1]/div[1]"));
-//     $this->assertTrue($this->isElementPresent("//*[@id=\"ding-reservation-reservations-notready-form\"]/div/div[1]/div[2]"));
-//     $this->mouseDown("//*[@id=\"edit-actions-top-update\"]");
-//     sleep(5);
-//     $this->assertTrue($this->isElementPresent("id=ui-id-2"));
-//     $this->assertTrue($this->isElementPresent("id=edit-provider-options-alma-preferred-branch"));
-//     $this->assertTrue($this->isElementPresent("id=edit-provider-options-interest-period"));
-//     $this->select("//*[@id=\"edit-provider-options-alma-preferred-branch\"]", "Bogbus");
-//     $this->mouseDown("//*[@id=\"edit-submit--2\"]");
-//     sleep(5);
-//     $this->assertTrue($this->isElementPresent("id=ui-id-1"));
-//     $this->click("//div[4]/div/button");
-//     sleep(5);
-//     $this->assertEquals("Bogbus", $this->getText('//*[@id="ding-reservation-reservations-notready-form"]/div/div[3]/div[2]/ul/li[3]/div[2]'));
-//     $this->click("//div[@id='page']/header/section/div/ul/li[5]/a/span");
-//     $this->waitForPageToLoad("30000");
-//   }
-
-//   /**
-//    * Check material deletion on user reservation page.
-//    */
-//   public function testDeleteReservation() {
-//     $this->open("/" . TARGET_URL_LANG);
-//     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-//     $this->type("id=edit-name", TARGET_URL_USER);
-//     $this->type("id=edit-pass", TARGET_URL_USER_PASS);
-//     $this->click("id=edit-submit--2");
-//     $this->waitForPageToLoad("30000");
-//     $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-//     $this->waitForPageToLoad("30000");
-//     $this->assertTrue($this->isElementPresent("link=My account"));
-//     $this->assertTrue($this->isElementPresent("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/a/span"));
-//     $this->click("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/a/span");
-//     $this->waitForPageToLoad("30000");
-//     $this->assertTrue($this->isElementPresent("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li/a/span"));
-//     $this->assertTrue($this->isElementPresent("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li[2]/a/span"));
-//     $this->assertTrue($this->isElementPresent("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li[3]/a/span"));
-//     $this->click("//div[@id='page']/div/div/div/div/div/div/aside/div/ul/li[3]/ul/li[2]/a/span");
-//     $this->waitForPageToLoad("30000");
-//     $this->click("id=edit-reservations-1415027-1415027");
-//     $this->assertTrue($this->isElementPresent("id=edit-actions-top-delete--2"));
-//     $this->assertTrue($this->isElementPresent("id=edit-actions-top-update"));
-//     $this->clickAt("id=edit-actions-top-delete--2", "");
-//     sleep(5);
-//     $this->waitForPageToLoad("");
-//     $this->clickAt("id=edit-submit--2", "");
-//     sleep(5);
-//     $this->click("//div[4]/div/button");
-//     $this->waitForPageToLoad("");
-//     $this->click("//div[@id='page']/header/section/div/ul/li[5]/a/span");
-//     $this->waitForPageToLoad("30000");
-//   }
 }

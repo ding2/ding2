@@ -22,7 +22,7 @@ class Interactions extends PHPUnit_Extensions_SeleniumTestCase
    * Checks that reservation available and user gets correct message.
    */
   public function testYearbookReservation() {
-    resetState();
+    resetState($this->config->getLms());
     $this->open("/" . $this->config->getLocale());
     $this->abstractedPage->waitForPage();
     $this->abstractedPage->userLogin($this->config->getUser(), $this->config->getPass());
