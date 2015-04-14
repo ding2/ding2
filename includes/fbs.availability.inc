@@ -22,6 +22,7 @@ function fbs_availability_items($provider_ids) {
 function fbs_availability_holdings($provider_ids) {
   $holdings = fbs_service()->Catalog->getHoldings(fbs_service()->agencyId, $provider_ids);
   $result = array();
+  $tmp_issues = array();
   foreach ($holdings as $item) {
     $result[$item->recordId] = array(
       'reservable' => $item->reservable,
@@ -33,6 +34,7 @@ function fbs_availability_holdings($provider_ids) {
       'is_internet' => FALSE,
       // And FBS can't tell us this.
       'reserved_count' => 0,
+      'is_periodical' => FALSE,
     );
 
 
@@ -52,7 +54,7 @@ function fbs_availability_holdings($provider_ids) {
           $result_holding['placement'][] = $item_holding->{$part}->title;
         }
       }
-
+      $placement_string = implode(' > ', $result_holding['placement']);
       // Count available materials.
       foreach ($item_holding->materials as $material) {
         $result[$item->recordId]['total_count']++;
@@ -61,10 +63,61 @@ function fbs_availability_holdings($provider_ids) {
           $result_holding['available_count']++;
           $result[$item->recordId]['available'] = TRUE;
         }
+
+        if ($material->periodical) {
+          // Add to issues.
+          $key = (!empty($material->periodical->volumeYear) ?
+                  $material->periodical->volumeYear : '') . ':' .
+               $material->periodical->volume . ':' .
+               (!empty($material->periodical->volumeNumber) ?
+               $material->periodical->volumeNumber : '') . ':' .
+               $placement_string;
+          if (isset($tmp_issues[$key])) {
+            $tmp_issues[$key]['available'] += $material->available ? 1 : 0;
+            $tmp_issues[$key]['total'] += 1;
+          }
+          else {
+            $tmp_issues[$key] = array(
+              'vol' => $material->periodical->volume . (!empty($material->periodical->volumeNumber) ? '-' . $material->periodical->volumeNumber : ''),
+              'year' => $material->periodical->volumeYear,
+              'available' => $material->available ? 1 : 0,
+              'total' => 1,
+              'placement' => $placement_string,
+            );
+          }
+        }
       }
 
       $result[$item->recordId]['holdings'][] = $result_holding;
     }
+
+    // Add issues in the right nesting.
+    if (!empty($tmp_issues)) {
+      $issues = array();
+      $result[$item->recordId]['is_periodical'] = TRUE;
+      foreach ($tmp_issues as $issue) {
+        if (!isset($issues[$issue['year']])) {
+          $issues[$issue['year']] = array();
+        }
+
+        $year = &$issues[$issue['year']];
+
+        if (!isset($year[$issue['vol']])) {
+          $year[$issue['vol']] = array(
+            'local_id' => $item->recordId,
+            'placement' => array(),
+          );
+        }
+        $year[$issue['vol']]['placement'] = array(
+          'reservable' => $item->reservable,
+          'available_count' => $issue['available'],
+          'location' => $issue['placement'],
+          'total_count' => $issue['total'],
+        );
+      }
+      $result[$item->recordId]['issues'] = $issues;
+    }
+
   }
   return $result;
 }

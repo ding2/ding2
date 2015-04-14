@@ -303,10 +303,10 @@ class AvailabilityProviderTest extends ProviderTestCase {
             ),
           ),
         ),
-      ), 
+      ),
 
       // TCH5: Return holdings for material MAT3: reservable=false/available=true
-      array(
+       array(
         array(
           // HoldingsForBibliographicalRecord.
           'recordId' => '870970-basis:51299116',
@@ -399,7 +399,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
                   'itemNumber' => '5829213645',
                   'materialGroupName' => 'bookable',
                   'available' => TRUE,
-                ), 
+                ),
               ),
               'branch' => array(
                 // AgencyBranch.
@@ -591,6 +591,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
         'is_internet' => FALSE,
         'total_count' => 0,
         'reserved_count' => 0,
+        'is_periodical' => FALSE,
       ),
     );
     $this->assertEquals($expected, $res);
@@ -607,6 +608,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
         'is_internet' => FALSE,
         'total_count' => 0,
         'reserved_count' => 0,
+        'is_periodical' => FALSE,
       ),
     );
     $this->assertEquals($expected, $res);
@@ -635,6 +637,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
         'is_internet' => FALSE,
         'total_count' => 2,
         'reserved_count' => 0,
+        'is_periodical' => FALSE,
       ),
     );
     $this->assertEquals($expected, $res);
@@ -675,6 +678,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
         'is_internet' => FALSE,
         'total_count' => 10,
         'reserved_count' => 0,
+        'is_periodical' => FALSE,
       ),
     );
     $this->assertEquals($expected, $res);
@@ -703,6 +707,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
         'is_internet' => FALSE,
         'total_count' => 1,
         'reserved_count' => 0,
+        'is_periodical' => FALSE,
       ),
     );
     $this->assertEquals($expected, $res);
@@ -719,6 +724,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
         'is_internet' => FALSE,
         'total_count' => 0,
         'reserved_count' => 0,
+        'is_periodical' => FALSE,
       ),
       // MAT2
       '870970-basis:22629344' => array(
@@ -741,6 +747,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
         'is_internet' => FALSE,
         'total_count' => 2,
         'reserved_count' => 0,
+        'is_periodical' => FALSE,
       ),
     );
     $this->assertEquals($expected, $res);
@@ -769,6 +776,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
         'is_internet' => FALSE,
         'total_count' => 1,
         'reserved_count' => 0,
+        'is_periodical' => FALSE,
       ),
        // MAT iDontExist
       'iDontExist' => array(
@@ -778,9 +786,314 @@ class AvailabilityProviderTest extends ProviderTestCase {
         'is_internet' => FALSE,
         'total_count' => 0,
         'reserved_count' => 0,
+        'is_periodical' => FALSE,
       ),
     );
     $this->assertEquals($expected, $res);
 
+  }
+
+  /**
+   * Test that periodicals are properly represented.
+   */
+  public function testPeriodical() {
+    $this->provider = 'availability';
+
+    // reusing TCH5 somewhat
+    $json_responses = array(
+      array(
+        array(
+          // HoldingsForBibliographicalRecord.
+          'recordId' => '870970-basis:51299116',
+          'reservable' => FALSE,
+          'holdings' => array(
+            array(
+              // Holding 1
+              'materials' => array(
+                array(
+                  // ITEM
+                  'itemNumber' => '5829213644',
+                  'materialGroupName' => 'bookable',
+                  'available' => TRUE,
+                  'periodical' => array(
+                    // Periodical.
+                    'volume' => 1,
+                    'volumeYear' => 2009,
+                    'volumeNumber' => NULL,
+                  ),
+                ),
+              ),
+              'branch' => array(
+                // AgencyBranch.
+                'branchId' => 'DK-761500',
+                'title' => 'Horsens Bibliotek',
+              ),
+              'department' => array(
+                // AgencyDepartment.
+                'departmentId' => 'LOK',
+                'title' => 'Lokal',
+              ),
+              'location' => array(
+                // AgencyLocation.
+                'locationId' => 'MAG',
+                'title' => 'Magasin',
+              ),
+              'sublocation' => array(
+                // AgencySublocation.
+                'sublocationId' => 'LKR',
+                'title' => 'Læsekreds',
+              ),
+            ),
+            array(
+              // Holding 2
+              'materials' => array(
+                array(
+                  // ITEM 0
+                  'itemNumber' => '5829213636',
+                  'materialGroupName' => 'bookable',
+                  'available' => TRUE,
+                  'periodical' => array(
+                    // Periodical.
+                    'volume' => 1,
+                    'volumeYear' => 2010,
+                  ),
+                ),
+                array(
+                  // ITEM 1
+                  'itemNumber' => '5829213637',
+                  'materialGroupName' => 'bookable',
+                  'available' => TRUE,
+                  'periodical' => array(
+                    // Periodical.
+                    'volume' => 2,
+                    'volumeYear' => 2010,
+                  ),
+                ),
+                array(
+                  // ITEM 2
+                  'itemNumber' => '5829213638',
+                  'materialGroupName' => 'bookable',
+                  'available' => TRUE,
+                  'periodical' => array(
+                    // Periodical.
+                    'volume' => 3,
+                    'volumeYear' => 2010,
+                  ),
+                ),
+                array(
+                  // ITEM 3
+                  'itemNumber' => '5829213639',
+                  'materialGroupName' => 'bookable',
+                  'available' => TRUE,
+                  'periodical' => array(
+                    // Periodical.
+                    'volume' => 1,
+                    'volumeYear' => 2011,
+                    'volumeNumber' => 1,
+                  ),
+                ),
+                array(
+                  // ITEM 4
+                  'itemNumber' => '5829213640',
+                  'materialGroupName' => 'bookable',
+                  'available' => TRUE,
+                  'periodical' => array(
+                    // Periodical.
+                    'volume' => 2,
+                    'volumeYear' => 2011,
+                    'volumeNumber' => 1,
+                  ),
+                ),
+                array(
+                  // ITEM 5
+                  'itemNumber' => '5829213641',
+                  'materialGroupName' => 'bookable',
+                  'available' => TRUE,
+                  'periodical' => array(
+                    // Periodical.
+                    'volume' => 2,
+                    'volumeYear' => 2011,
+                    'volumeNumber' => 2,
+                  ),
+                ),
+                array(
+                  // ITEM 6
+                  'itemNumber' => '5829213642',
+                  'materialGroupName' => 'bookable',
+                  'available' => TRUE,
+                  'periodical' => array(
+                    // Periodical.
+                    'volume' => 1,
+                    'volumeYear' => 2012,
+                  ),
+                ),
+                array(
+                  // ITEM 7
+                  'itemNumber' => '5829213643',
+                  'materialGroupName' => 'bookable',
+                  'available' => TRUE,
+                  'periodical' => array(
+                    // Periodical.
+                    'volume' => 2,
+                    'volumeYear' => 2010,
+                  ),
+                ),
+                array(
+                  // ITEM 8
+                  'itemNumber' => '5829213645',
+                  'materialGroupName' => 'bookable',
+                  'available' => TRUE,
+                  'periodical' => null,
+                ),
+              ),
+              'branch' => array(
+                // AgencyBranch.
+                'branchId' => 'DK-761500',
+                'title' => 'Horsens Bibliotek',
+              ),
+              'department' => array(
+                // AgencyDepartment.
+                'departmentId' => 'SKN',
+                'title' => 'Skønlitteratur',
+              ),
+              'location' => array(
+                // AgencyLocation.
+                'locationId' => 'UNG',
+                'title' => 'Ungdom',
+              ),
+              'sublocation' => array(
+                // AgencySublocation.
+                'sublocationId' => 'LKR',
+                'title' => 'Læsekreds',
+              ),
+            ),
+          ),
+        ),
+      )
+    );
+    $this->replies($json_responses);
+
+    // TCH5: Request holdings for existing item (MAT3), available, non-reservable
+    $res = $this->providerInvoke('holdings', array('870970-basis:51299116'));
+    $expected = array(
+      // MAT3
+      '870970-basis:51299116' => array(
+        'reservable' => FALSE,
+        'available' => TRUE,
+        'holdings' => array(
+          // Holding 1
+          array(
+            'placement' => array(
+              'Horsens Bibliotek',
+              'Lokal',
+              'Magasin',
+              'Læsekreds',
+            ),
+            'available_count' => 1,
+            'total_count' => 1,
+            'reference_count' => 0,
+          ),
+          // Holding 2
+          array(
+            'placement' => array(
+              'Horsens Bibliotek',
+              'Skønlitteratur',
+              'Ungdom',
+              'Læsekreds',
+            ),
+            'available_count' => 9,
+            'total_count' => 9,
+            'reference_count' => 0,
+          ),
+        ),
+        'issues' => array(
+          2010 => array(
+            1 => array(
+              'local_id' => '870970-basis:51299116',
+              'placement' => array(
+                'reservable' => FALSE,
+                'available_count' => 1,
+                'location' => 'Horsens Bibliotek > Skønlitteratur > Ungdom > Læsekreds',
+                'total_count' => 1,
+              ),
+            ),
+            2 => array(
+              'local_id' => '870970-basis:51299116',
+              'placement' => array(
+                'reservable' => FALSE,
+                'available_count' => 2,
+                'location' => 'Horsens Bibliotek > Skønlitteratur > Ungdom > Læsekreds',
+                'total_count' => 2,
+              ),
+            ),
+            3 => array(
+              'local_id' => '870970-basis:51299116',
+              'placement' => array(
+                'reservable' => FALSE,
+                'available_count' => 1,
+                'location' => 'Horsens Bibliotek > Skønlitteratur > Ungdom > Læsekreds',
+                'total_count' => 1,
+              ),
+            ),
+          ),
+          2011 => array(
+            '1-1' => array(
+              'local_id' => '870970-basis:51299116',
+              'placement' => array(
+                'reservable' => FALSE,
+                'available_count' => 1,
+                'location' => 'Horsens Bibliotek > Skønlitteratur > Ungdom > Læsekreds',
+                'total_count' => 1,
+              ),
+            ),
+            '2-1' => array(
+              'local_id' => '870970-basis:51299116',
+              'placement' => array(
+                'reservable' => FALSE,
+                'available_count' => 1,
+                'location' => 'Horsens Bibliotek > Skønlitteratur > Ungdom > Læsekreds',
+                'total_count' => 1,
+              ),
+            ),
+            '2-2' => array(
+              'local_id' => '870970-basis:51299116',
+              'placement' => array(
+                'reservable' => FALSE,
+                'available_count' => 1,
+                'location' => 'Horsens Bibliotek > Skønlitteratur > Ungdom > Læsekreds',
+                'total_count' => 1,
+              ),
+            ),
+          ),
+          2012 => array(
+            1 => array(
+              'local_id' => '870970-basis:51299116',
+              'placement' => array(
+                'reservable' => FALSE,
+                'available_count' => 1,
+                'location' => 'Horsens Bibliotek > Skønlitteratur > Ungdom > Læsekreds',
+                'total_count' => 1,
+              ),
+            ),
+          ),
+          2009 => array(
+            1 => array(
+              'local_id' => '870970-basis:51299116',
+              'placement' => array(
+                'reservable' => FALSE,
+                'available_count' => 1,
+                'location' => 'Horsens Bibliotek > Lokal > Magasin > Læsekreds',
+                'total_count' => 1,
+              ),
+            ),
+          ),
+        ),
+        'is_internet' => FALSE,
+        'total_count' => 10,
+        'reserved_count' => 0,
+        'is_periodical' => TRUE,
+      ),
+    );
+    $this->assertEquals($expected, $res);
   }
 }
