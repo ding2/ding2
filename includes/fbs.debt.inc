@@ -16,14 +16,7 @@ function fbs_debt_list($account) {
   foreach ($res as $fee) {
     $id = $fee->feeId;
 
-    $material_number = NULL;
-    if (!empty($fee->materials)) {
-      // As ding only support one material number, we just grab the first.
-      $mat = reset($fee->materials);
-      $material_number = $mat->materialItemNumber;
-    }
-
-    $result[$id] = new DingProviderDebt($id, array(
+    $data = array(
       'date' => $fee->creationDate,
       'display_name' => $fee->reasonMessage,
       // FBS only provides the amount left to be paid on each fee, so this
@@ -34,8 +27,15 @@ function fbs_debt_list($account) {
       'amount_paid' => 0,
       'invoice_number' => NULL,
       'type' => $fee->type,
-      'material_number' => $material_number,
-    ));
+    );
+
+    if (!empty($fee->materials)) {
+      // As ding only support one material number, we just grab the first.
+      $mat = reset($fee->materials);
+      $data['material_number'] = $mat->materialItemNumber;
+    }
+
+    $result[$id] = new DingProviderDebt($id, $data);
 
   }
 

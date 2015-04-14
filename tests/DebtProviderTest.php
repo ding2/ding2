@@ -118,7 +118,6 @@ class ProviderTest extends ProviderTestCase {
         'amount_paid' => 0,
         'invoice_number' => NULL,
         'type' => 'fee',
-        'material_number' => NULL
       )),
       57 => new DingProviderDebt(57, array(
         'date' => '2015-04-07',
@@ -127,7 +126,6 @@ class ProviderTest extends ProviderTestCase {
         'amount_paid' => 0,
         'invoice_number' => NULL,
         'type' => 'compensation',
-        'material_number' => NULL
       )),
       58 => new DingProviderDebt(58, array(
         'date' => '2015-04-07',
@@ -165,7 +163,7 @@ class ProviderTest extends ProviderTestCase {
             'confirmationId' => 2,
             'feeId' => 60,
             'paymentStatus' => 'paymentRegistered',
-          ), 
+          ),
         )
       ),
     );
