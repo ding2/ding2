@@ -234,7 +234,7 @@ class FlowDebtTest extends ProviderTestCase {
           array(
             // Fee.
             'payableByClient' => TRUE,
-            'amount' => '9.99',
+            'amount' => '0',
             'paidDate' => $paid_date,
             'materials' => array(
               // Array of...
@@ -254,7 +254,7 @@ class FlowDebtTest extends ProviderTestCase {
           array(
             // Fee.
             'payableByClient' => TRUE,
-            'amount' => '9.99',
+            'amount' => '0',
             'paidDate' => $paid_date,
             'materials' => array(
               // Array of...
