@@ -565,7 +565,50 @@ class ReservationProviderTest extends ProviderTestCase {
     );
     $res = $this->providerInvoke('create', $user, $reservation_ids, $options);
     // No response is expected.
-  }
+
+    $json_responses = array(
+      new Reply(
+        array(
+          // Array of...
+          array(
+            // ReservationDetails.
+            'recordId' => '870970-basis:50717437',
+            'pickupBranch' => 123,
+            'expiryDate' => $expected_expiry,
+            'reservationId' => 123,
+            'pickupDeadline' => NULL,
+            'dateOfReservation' => '2015-03-09',
+            'state' => 'reserved',
+            'numberInQueue' => 3,
+            'periodical' => array(
+              // Periodical.
+              'volume' => 2,
+              'volumeYear' => 2011,
+              'volumeNumber' => 3,
+            ),
+          ),
+        )
+      ),
+    );
+    $this->replies($json_responses);
+
+    $user = (object) array(
+      'creds' => array('patronId' => 'PATID8')
+    );
+
+    // Check success.
+
+    $reservation_ids = array(
+      'fbs-2:2011:3:870970-basis::50717437',
+    );
+    $options = array(
+      'preferred_branch' => 123,
+      'interest_period' => 30,
+    );
+    $res = $this->providerInvoke('create', $user, $reservation_ids, $options);
+    // No response is expected, but we'll expect things to blow up if it
+    // doesn't understand the given id.
+}
 
   /**
    * Test reservation update.

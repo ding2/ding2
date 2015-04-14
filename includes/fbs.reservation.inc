@@ -75,7 +75,12 @@ function fbs_reservation_create($account, $record_ids, $options) {
   $batch->reservations = array();
   foreach ($record_ids as $record_id) {
     $reservation = new FBS\Model\CreateReservation();
-    $reservation->recordId = $record_id;
+    if (preg_match('/^fbs-/', $record_id)) {
+      list($record_id, $periodical) = _fbs_periodical_parse_local_id($record_id);
+    }
+    else {
+      $reservation->recordId = $record_id;
+    }
     $reservation->expiryDate = date('Y-m-d', REQUEST_TIME + ($options['interest_period'] * 24 * 60 * 60));
     $reservation->pickupBranch = $options['preferred_branch'];
     $batch->reservations[] = $reservation;
