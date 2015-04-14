@@ -79,7 +79,7 @@ class ItemPage extends PHPUnit_Extensions_SeleniumTestCase {
    *
    * @see testAvailabilityMarkerAnonymous()
    */
-  public function testAvailabilityLoggedIn() {
+  public function testAvailabilityMarkerLoggedIn() {
     $this->open('/' . $this->config->getLocale());
     $this->abstractedPage->waitForPage();
     $this->abstractedPage->userLogin($this->config->getUser(), $this->config->getPass());
