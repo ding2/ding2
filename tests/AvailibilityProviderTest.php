@@ -1009,7 +1009,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
         'issues' => array(
           2010 => array(
             1 => array(
-              'local_id' => '870970-basis:51299116',
+              'local_id' => 'fbs-1:2010:-:870970-basis::51299116',
               'placement' => array(
                 'reservable' => FALSE,
                 'available_count' => 1,
@@ -1018,7 +1018,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
               ),
             ),
             2 => array(
-              'local_id' => '870970-basis:51299116',
+              'local_id' => 'fbs-2:2010:-:870970-basis::51299116',
               'placement' => array(
                 'reservable' => FALSE,
                 'available_count' => 2,
@@ -1027,7 +1027,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
               ),
             ),
             3 => array(
-              'local_id' => '870970-basis:51299116',
+              'local_id' => 'fbs-3:2010:-:870970-basis::51299116',
               'placement' => array(
                 'reservable' => FALSE,
                 'available_count' => 1,
@@ -1038,7 +1038,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
           ),
           2011 => array(
             '1-1' => array(
-              'local_id' => '870970-basis:51299116',
+              'local_id' => 'fbs-1:2011:1:870970-basis::51299116',
               'placement' => array(
                 'reservable' => FALSE,
                 'available_count' => 1,
@@ -1047,7 +1047,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
               ),
             ),
             '2-1' => array(
-              'local_id' => '870970-basis:51299116',
+              'local_id' => 'fbs-2:2011:1:870970-basis::51299116',
               'placement' => array(
                 'reservable' => FALSE,
                 'available_count' => 1,
@@ -1056,7 +1056,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
               ),
             ),
             '2-2' => array(
-              'local_id' => '870970-basis:51299116',
+              'local_id' => 'fbs-2:2011:2:870970-basis::51299116',
               'placement' => array(
                 'reservable' => FALSE,
                 'available_count' => 1,
@@ -1067,7 +1067,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
           ),
           2012 => array(
             1 => array(
-              'local_id' => '870970-basis:51299116',
+              'local_id' => 'fbs-1:2012:-:870970-basis::51299116',
               'placement' => array(
                 'reservable' => FALSE,
                 'available_count' => 1,
@@ -1078,7 +1078,7 @@ class AvailabilityProviderTest extends ProviderTestCase {
           ),
           2009 => array(
             1 => array(
-              'local_id' => '870970-basis:51299116',
+              'local_id' => 'fbs-1:2009:-:870970-basis::51299116',
               'placement' => array(
                 'reservable' => FALSE,
                 'available_count' => 1,

@@ -83,6 +83,7 @@ function fbs_availability_holdings($provider_ids) {
               'available' => $material->available ? 1 : 0,
               'total' => 1,
               'placement' => $placement_string,
+              'local_id' => _fbs_periodical_get_local_id($item->recordId, $material->periodical),
             );
           }
         }
@@ -104,7 +105,7 @@ function fbs_availability_holdings($provider_ids) {
 
         if (!isset($year[$issue['vol']])) {
           $year[$issue['vol']] = array(
-            'local_id' => $item->recordId,
+            'local_id' => $issue['local_id'],
             'placement' => array(),
           );
         }
