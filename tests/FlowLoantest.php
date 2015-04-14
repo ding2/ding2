@@ -22,10 +22,10 @@ if (!function_exists('t')) {
   /**
    * DingProviderLoan::__construct() calls this, mock it.
    */
-  function t($str) {
-    return $str;
+  function t($str, $replace = array()) {
+    return strtr($str, $replace);
   }
-    }
+}
 
 /**
  * Test loan provider functions.
