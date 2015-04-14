@@ -51,7 +51,7 @@ function ding_event_admin_currency_validate($form, &$form_state){
 
   $instance = field_read_instance('node', 'field_ding_event_price', 'ding_event');
   if($instance !== FALSE) {
-    $instance['settings']['suffix'] = ' ' . $currency . '.';
+    $instance['settings']['suffix'] = ' ' . $currency;
     field_update_instance($instance);
   }
 }
