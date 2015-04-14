@@ -12,9 +12,6 @@ class ReservationReadyToPickup extends PHPUnit_Extensions_SeleniumTestCase {
     $this->setBrowser($this->config->getBrowser());
     $this->setBrowserUrl($this->config->getUrl());
 
-    $url = $this->config->getLms() . '/patron/debts?borrCard=' . $this->config->getUser() . '&pinCode=' . $this->config->getPass();
-    $this->mock = new SimpleXMLElement($url, 0, TRUE);
-
     resetState();
   }
 
