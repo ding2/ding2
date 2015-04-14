@@ -5,3 +5,34 @@
  */
 
 include_once 'ding_contact.features.inc';
+
+/**
+ * Implements hook_block_view_alter
+ *
+ * check if content on contact site  is a form. If not make it so
+ * @param $data
+ * @param $block
+ */
+function ding_contact_block_view_alter(&$data, $block){
+  if ( $block->delta == 'contact_site') {
+    if(is_string($data['content']['form'])) {
+      $data['content']['form'] = drupal_get_form('ding_contact_flooded_form', $data['content']['form']);
+    }
+  }
+}
+
+/**
+ * A simple form that displays a message
+ *
+ * @param $form
+ * @param $form_state
+ * @param $data
+ * @return array
+ */
+function ding_contact_flooded_form($form, $form_state,  $message) {
+  $form = array();
+  $form['message'] = array(
+    '#markup' => $message,
+  );
+  return $form;
+}
