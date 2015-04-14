@@ -22,22 +22,10 @@ class ExternalAuthenticationApiTest extends \PHPUnit_Framework_TestCase
 
         // Invalid login.
         $httpclient->request(Argument::that(function ($request) {
-            $this->assertEquals('banana/external/v1/1234/authentication/login', $request->getUri());
-            return strpos($request->getBody(), 'badpass') !== false;
+            $this->assertEquals('/banana/external/v1/1234/authentication/login', $request->getUri());
+            return strpos((string) $request->getBody(), 'badpass') !== false;
         }))->will(function ($args) {
             return new Response('php://memory', 403);
-        });
-
-        // Valid login.
-        $httpclient->request(Argument::that(function ($request) {
-            return strpos($request->getBody(), 'goodpass') !== false;
-        }))->will(function ($args) {
-            $userInfo = array(
-                'sessionKey' => md5('randomness'),
-            );
-            $res = new Response(new Stream('php://memory', 'w'), 200);
-            $res->getBody()->write(json_encode($userInfo));
-            return $res;
         });
 
         $httpclient = $httpclient->reveal();
@@ -54,6 +42,23 @@ class ExternalAuthenticationApiTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals('invalid client credentials', $e->getMessage());
         }
 
+        $httpclient = $this->prophesize('Reload\Prancer\HttpClient');
+
+        // Valid login.
+        $httpclient->request(Argument::that(function ($request) {
+          return strpos((string) $request->getBody(), 'goodpass') !== false;
+        }))->will(function ($args) {
+          $userInfo = array(
+            'sessionKey' => md5('randomness'),
+          );
+          $res = new Response(new Stream('php://memory', 'w'), 200);
+          $res->getBody()->write(json_encode($userInfo));
+          return $res;
+        });
+
+        $httpclient = $httpclient->reveal();
+        $jsonMapper = new JsonMapperSerializer(new JsonMapper);
+        $fbs = new FBS('123', 'banana/', $httpclient, $jsonMapper);
 
         $login->password = 'goodpass';
         $res = $fbs->Authentication->login('1234', $login);

@@ -19,30 +19,19 @@ class ExternalAuthenticationApiTest extends \PHPUnit_Framework_TestCase
 
     public function testLogin()
     {
-        $httpclient = $this->prophesize('Reload\Prancer\HttpClient');
+        $prophecy = $this->prophesize('Reload\Prancer\HttpClient');
 
         // Invalid login.
-        $httpclient->request(Argument::that(function ($request) {
-            $this->assertEquals('banana/external/v1/1234/authentication/login', $request->getUri());
-            return strpos($request->getBody(), 'badpass') !== false;
+        $prophecy->request(Argument::that(function ($request) {
+            $this->assertEquals('/banana/external/v1/1234/authentication/login', $request->getUri()->getPath());
+            return strpos((string) $request->getBody(), 'badpass') !== false;
         }))->will(function ($args) {
             return new Response('php://memory', 403);
         });
 
-        // Valid login.
-        $httpclient->request(Argument::that(function ($request) {
-            return strpos($request->getBody(), 'goodpass') !== false;
-        }))->will(function ($args) {
-            $userInfo = array(
-                'sessionKey' => md5('randomness'),
-            );
-            $res = new Response(new Stream('php://memory', 'w'), 200);
-            $res->getBody()->write(json_encode($userInfo));
-            return $res;
-        });
 
-        $httpclient = $httpclient->reveal();
-        $jsonMapper = new JsonMapperSerializer(new JsonMapper);
+        $httpclient = $prophecy->reveal();
+        $jsonMapper = new JsonMapperSerializer(new JsonMapper());
         $authApi = new ExternalAuthenticationApi('banana/', $httpclient, $jsonMapper);
 
         $login = new Model\Login();
@@ -55,6 +44,22 @@ class ExternalAuthenticationApiTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals('invalid client credentials', $e->getMessage());
         }
 
+        // Valid login.
+        $prophecy = $this->prophesize('Reload\Prancer\HttpClient');
+        $prophecy->request(Argument::that(function ($request) {
+            return strpos((string) $request->getBody(), 'goodpass') !== false;
+        }))->will(function ($args) {
+            $userInfo = array(
+                'sessionKey' => md5('randomness'),
+            );
+            $res = new Response(new Stream('php://memory', 'w'), 200);
+            $res->getBody()->write(json_encode($userInfo));
+            return $res;
+        });
+
+        $httpclient = $prophecy->reveal();
+        $jsonMapper = new JsonMapperSerializer(new JsonMapper());
+        $authApi = new ExternalAuthenticationApi('banana/', $httpclient, $jsonMapper);
 
         $login->password = 'goodpass';
         $res = $authApi->login('1234', $login);
