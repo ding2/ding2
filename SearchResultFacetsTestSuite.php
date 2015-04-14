@@ -16,6 +16,7 @@ class SearchResultFacets extends PHPUnit_Extensions_SeleniumTestCase {
    * Check each item type after a type facet is used.
    */
   public function testFacetBrowserAnonymous() {
+    // "23685531" or "29275475"
     $this->open("/" . TARGET_URL_LANG);
     $this->type("id=edit-search-block-form--2", "45154211 OR 59999397");
     $this->click("id=edit-submit");
