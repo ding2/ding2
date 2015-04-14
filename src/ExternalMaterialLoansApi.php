@@ -26,6 +26,13 @@ class ExternalMaterialLoansApi extends SwaggerApi
      *  - deniedOtherReason
      *  
      *  If any other value is encountered then it must be treated as 'deniedOtherReason'.
+     *  The response contains the field loanDetails.loanType, which can be any of these values:
+     *  
+     *      - loan
+     *      - interLibraryLoan
+     *  
+     *  The values are subject to change. If an unregognized value is encountered, it should be treated as 'other'
+     *  .
      *
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
      * @param string $patronid the patron that owns the loans
@@ -65,6 +72,13 @@ class ExternalMaterialLoansApi extends SwaggerApi
      *  - deniedOtherReason
      *  
      *  If any other value is encountered then it must be treated as 'deniedOtherReason'.
+     *  The response contains the field loanDetails.loanType, which can be any of these values:
+     *  
+     *      - loan
+     *      - interLibraryLoan
+     *  
+     *  The values are subject to change. If an unregognized value is encountered, it should be treated as 'other'
+     *  .
      *
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
      * @param integer $patronid the patron that owns the loans

@@ -13,6 +13,17 @@ class LoanDetails
     public $recordId = null;
 
     /**
+     * @var string 
+     * @required
+     */
+    public $loanType = null;
+
+    /**
+     * @var Periodical Present if material is a periodical
+     */
+    public $periodical = null;
+
+    /**
      * @var string The date when the material must be returned
      * @required
      */

@@ -26,6 +26,13 @@ class ExternalReservationsApi extends SwaggerApi
      *  
      *  The values are subject to change. If an unregognized value is encountered, it should be treated as 'other'
      *  .
+     *  The response contains loanType, which can be any of these values:
+     *  
+     *      - loan
+     *      - interLibraryLoan
+     *  
+     *  The values are subject to change. If an unregognized value is encountered, it should be treated as 'other'
+     *  .
      *
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
      * @param integer $patronid the patron that owns the reservations
@@ -57,7 +64,14 @@ class ExternalReservationsApi extends SwaggerApi
      *      - interLibraryReservation
      *      - other
      *  
+     *  The values are subject to change. If an unregognized value is encountered, it should be treated as 'other'.
+     *  The response contains loanType, which can be any of these values:
+     *  
+     *      - loan
+     *      - interLibraryLoan
+     *  
      *  The values are subject to change. If an unregognized value is encountered, it should be treated as 'other'
+     *  .
      *
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
      * @param integer $patronid the patron that makes the reservations
@@ -92,7 +106,14 @@ class ExternalReservationsApi extends SwaggerApi
      *      - interLibraryReservation
      *      - other
      *  
+     *  The values are subject to change. If an unregognized value is encountered, it should be treated as 'other'.
+     *  The response contains loanType, which can be any of these values:
+     *  
+     *      - loan
+     *      - interLibraryLoan
+     *  
      *  The values are subject to change. If an unregognized value is encountered, it should be treated as 'other'
+     *  .
      *
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
      * @param integer $patronid the patron that owns the reservations

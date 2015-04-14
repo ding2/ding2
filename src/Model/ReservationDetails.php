@@ -40,7 +40,18 @@ class ReservationDetails
      * @var string 
      * @required
      */
+    public $loanType = null;
+
+    /**
+     * @var string 
+     * @required
+     */
     public $dateOfReservation = null;
+
+    /**
+     * @var Periodical Present if material is a periodical
+     */
+    public $periodical = null;
 
     /**
      * @var string 

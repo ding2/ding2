@@ -12,6 +12,11 @@ class Material
     public $itemNumber = null;
 
     /**
+     * @var Periodical Present if material is a periodical
+     */
+    public $periodical = null;
+
+    /**
      * @var boolean True if material is available on-shelf, false if lent out
      * @required
      */

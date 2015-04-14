@@ -13,6 +13,11 @@ class FeeMaterial
     public $recordId = null;
 
     /**
+     * @var Periodical Present if material is a periodical
+     */
+    public $periodical = null;
+
+    /**
      * @var string Name of the material group that the material belongs to
      * @required
      */
