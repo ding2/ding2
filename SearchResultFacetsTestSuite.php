@@ -1,12 +1,17 @@
 <?php
 
-require_once(dirname(__FILE__) . '/config.inc');
+require_once(__DIR__ . '/autoload.php');
+require_once(__DIR__ . '/bootstrap.php');
 
 class SearchResultFacets extends PHPUnit_Extensions_SeleniumTestCase {
+  protected $abstractedPage;
+  protected $config;
 
   protected function setUp() {
-    $this->setBrowser(TARGET_BROWSER);
-    $this->setBrowserUrl(TARGET_URL);
+    $this->abstractedPage = new DDBTestPageAbstraction($this);
+    $this->config = new DDBTestConfig();
+    $this->setBrowser($this->config->getBrowser());
+    $this->setBrowserUrl($this->config->getUrl());
   }
 
   /**
@@ -16,187 +21,58 @@ class SearchResultFacets extends PHPUnit_Extensions_SeleniumTestCase {
    * Check each item type after a type facet is used.
    */
   public function testFacetBrowserAnonymous() {
-    // "23685531" or "29275475"
-    $this->open("/" . TARGET_URL_LANG);
-    $this->type("id=edit-search-block-form--2", "45154211 OR 59999397");
-    $this->click("id=edit-submit");
-    $this->waitForPageToLoad("30000");
-    $this->assertEquals("Cd (musik):", $this->getText("css=span.search-result--heading-type"));
-    $this->assertEquals("Trchnicolour", $this->getText("link=Trchnicolour"));
-    $this->assertEquals("Teateropførelse:", $this->getText("//div[@id='page']/div/div/div/div/div/div/div/div[7]/div/div/ul/li[2]/div/div/div[2]/div/h2/span"));
-    $this->verifyText("link=Inferno", "Inferno");
-    $this->assertEquals("Musiktrack (net):", $this->getText("//div[@id='page']/div/div/div/div/div/div/div/div[7]/div/div/ul/li[3]/div/div/div[2]/div/h2/span"));
-    $this->verifyText("link=Kakadu", "Kakadu");
-    $this->click("id=edit-type-cd-musik");
-    $this->waitForPageToLoad("30000");
-    $this->assertEquals("Cd (musik):", $this->getText("css=span.search-result--heading-type"));
-    $this->verifyText("link=Trchnicolour", "Trchnicolour");
-    $this->click("id=edit-type-cd-musik");
-    $this->waitForPageToLoad("30000");
-    $this->click("id=edit-type-musiktrack-net");
-    $this->waitForPageToLoad("30000");
-    $this->assertEquals("Musiktrack (net):", $this->getText("css=span.search-result--heading-type"));
-    $this->verifyText("link=Kakadu", "Kakadu");
-    $this->click("id=edit-type-musiktrack-net");
-    $this->waitForPageToLoad("30000");
-    $this->click("id=edit-type-teateropfrelse");
-    $this->waitForPageToLoad("30000");
-    $this->assertEquals("Teateropførelse:", $this->getText("css=span.search-result--heading-type"));
-    $this->verifyText("link=Inferno", "Inferno");
+    $this->open('/' . $this->config->getLocale());
+
+    // Search for two specific items.
+    $this->abstractedPage->userMakeSearch('"23685531" or "29275475"');
+
+    // Check the pre-defined result.
+    $results = array(
+      'Bog:',
+      'Ebog:',
+    );
+
+    for ($i = 0; $i < count($results); $i++) {
+      $this->assertElementPresent('css=.pane-search-result .search-results li.search-result:eq(' . $i . ')');
+      $this->assertElementContainsText('css=.search-result--heading-type:eq(' . $i . ')', $results[$i]);
+    }
+
+    // Two type facets should be available.
+    $this->assertElementPresent('link=bog (1)');
+    $this->assertElementPresent('link=ebog (1)');
+
+    // Now filter, using a type facet.
+    $this->click('link=bog (1)');
+    $this->abstractedPage->waitForPage();
+
+    // Check that there is no ebog type facet.
+    $this->assertElementNotPresent('link=ebog (1)');
+    // Check that there is no more a second item.
+    $this->assertElementNotPresent('css=.pane-search-result .search-results li.search-result:eq(1)');
+
+    // And the first one is of type Bog.
+    $this->assertElementContainsText('css=.search-result--heading-type:eq(0)', 'Bog:');
+
+    // Click the bog facet again, to uncheck.
+    $this->click('link=bog (1)');
+    $this->abstractedPage->waitForPage();
+
+    // Try the year facet.
+    $this->assertElementPresent('link=2001 (1)');
+    $this->click('link=2001 (1)');
+    $this->abstractedPage->waitForPage();
+
+    // One single items has to have year 2001.
+    $this->assertElementContainsText('css=.pane-search-result .search-results li.search-result:eq(0) .content:first', 'By Dorthe Nors (2001)');
   }
 
   /**
    * Test the search result facet filtering as logged in user.
    */
   public function testFacetBrowserLoggedIn() {
-    $this->open("/" . TARGET_URL_LANG);
-    $this->click("//div[@id='page']/header/section/div/ul/li[3]/a/span");
-    $this->type("id=edit-name", TARGET_URL_USER);
-    $this->type("id=edit-pass", TARGET_URL_USER_PASS);
-    $this->click("id=edit-submit--2");
-    $this->waitForPageToLoad("30000");
-    $this->type("id=edit-search-block-form--2", "45154211 OR 59999397");
-    $this->click("id=edit-submit");
-    $this->waitForPageToLoad("30000");
-    $this->assertEquals("Cd (musik):", $this->getText("css=span.search-result--heading-type"));
-    $this->assertEquals("Trchnicolour", $this->getText("link=Trchnicolour"));
-    $this->assertEquals("Teateropførelse:", $this->getText("//div[@id='page']/div/div/div/div/div/div/div/div[7]/div/div/ul/li[2]/div/div/div[2]/div/h2/span"));
-    $this->verifyText("link=Inferno", "Inferno");
-    $this->assertEquals("Musiktrack (net):", $this->getText("//div[@id='page']/div/div/div/div/div/div/div/div[7]/div/div/ul/li[3]/div/div/div[2]/div/h2/span"));
-    $this->verifyText("link=Kakadu", "Kakadu");
-    $this->click("id=edit-type-cd-musik");
-    $this->waitForPageToLoad("30000");
-    $this->assertEquals("Cd (musik):", $this->getText("css=span.search-result--heading-type"));
-    $this->verifyText("link=Trchnicolour", "Trchnicolour");
-    $this->click("id=edit-type-cd-musik");
-    $this->waitForPageToLoad("30000");
-    $this->click("id=edit-type-musiktrack-net");
-    $this->waitForPageToLoad("30000");
-    $this->assertEquals("Musiktrack (net):", $this->getText("css=span.search-result--heading-type"));
-    $this->verifyText("link=Kakadu", "Kakadu");
-    $this->click("id=edit-type-musiktrack-net");
-    $this->waitForPageToLoad("30000");
-    $this->click("id=edit-type-teateropfrelse");
-    $this->waitForPageToLoad("30000");
-    $this->assertEquals("Teateropførelse:", $this->getText("css=span.search-result--heading-type"));
-    $this->verifyText("link=Inferno", "Inferno");
-  }
-
-  /**
-   * Test the search result facet filtering as anonymous when used in
-   * combination of facets.
-   */
-  public function testSearchResultFacetsAnonymous() {
-    $this->open("/" . TARGET_URL_LANG);
-    $this->type("id=edit-search-block-form--2", "dune messiah");
-    $this->click("id=edit-submit");
-    $this->waitForPageToLoad("30000");
-    $this->assertContains('dune messiah', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->click("//div[@id='edit-type']/div/div/label/a");
-    $this->waitForPageToLoad("30000");
-    $this->assertContains('dune messiah', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('bog', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->click("//div[@id='edit-creator']/div/div/label/a");
-    $this->waitForPageToLoad("30000");
-    $this->assertContains('dune messiah', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('bog', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('frank herbert', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->click("//div[@id='edit-subject']/div/div/label/a");
-    $this->waitForPageToLoad("30000");
-    $this->assertContains('dune messiah', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('bog', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('frank herbert', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('science fiction', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->click("//div[@id='edit-language']/div/div/label/a");
-    $this->waitForPageToLoad("30000");
-    $this->assertContains('dune messiah', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('bog', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('frank herbert', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('science fiction', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertGreaterThan(0, $this->getCssCount("ul.list"));
-    $this->click("//div[@id='edit-category']/div/div/label/a");
-    $this->waitForPageToLoad("30000");
-    $this->assertContains('dune messiah', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('bog', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('frank herbert', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('science fiction', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertGreaterThan(0, $this->getCssCount("ul.list"));
-    $this->click("//div[@id='edit-date']/div/div[2]/label/a");
-    $this->waitForPageToLoad("30000");
-    $this->assertContains('dune messiah', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('bog', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('frank herbert', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('science fiction', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('2002', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertGreaterThan(0, $this->getCssCount("ul.list"));
-    $this->click("//div[@id='edit-acsource']/div/div/label/a");
-    $this->waitForPageToLoad("30000");
-    $this->assertContains('dune messiah', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('bog', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('frank herbert', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('science fiction', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('2002', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertGreaterThan(0, $this->getCssCount("ul.list"));
-  }
-
-  /**
-   * Test facet filtering combination as logged in user.
-   */
-  public function testSearchResultFacetsLoggedIn() {
-    $this->open("/" . TARGET_URL_LANG);
-    $this->click("link=Login");
-    $this->type("id=edit-name", TARGET_URL_USER);
-    $this->type("id=edit-pass", TARGET_URL_USER_PASS);
-    $this->click("id=edit-submit--2");
-    $this->waitForPageToLoad("30000");
-    $this->type("id=edit-search-block-form--2", "dune messiah");
-    $this->click("id=edit-submit");
-    $this->waitForPageToLoad("30000");
-    $this->assertContains('dune messiah', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->click("//div[@id='edit-type']/div/div/label/a");
-    $this->waitForPageToLoad("30000");
-    $this->assertContains('dune messiah', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('bog', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->click("//div[@id='edit-creator']/div/div/label/a");
-    $this->waitForPageToLoad("30000");
-    $this->assertContains('dune messiah', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('bog', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('frank herbert', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->click("//div[@id='edit-subject']/div/div/label/a");
-    $this->waitForPageToLoad("30000");
-    $this->assertContains('dune messiah', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('bog', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('frank herbert', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('science fiction', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->click("//div[@id='edit-language']/div/div/label/a");
-    $this->waitForPageToLoad("30000");
-    $this->assertContains('dune messiah', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('bog', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('frank herbert', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('science fiction', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertGreaterThan(0, $this->getCssCount("ul.list"));
-    $this->click("//div[@id='edit-category']/div/div/label/a");
-    $this->waitForPageToLoad("30000");
-    $this->assertContains('dune messiah', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('bog', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('frank herbert', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('science fiction', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertGreaterThan(0, $this->getCssCount("ul.list"));
-    $this->click("//div[@id='edit-date']/div/div[2]/label/a");
-    $this->waitForPageToLoad("30000");
-    $this->assertContains('dune messiah', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('bog', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('frank herbert', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('science fiction', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('2002', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertGreaterThan(0, $this->getCssCount("ul.list"));
-    $this->click("//div[@id='edit-acsource']/div/div/label/a");
-    $this->waitForPageToLoad("30000");
-    $this->assertContains('dune messiah', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('bog', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('frank herbert', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('science fiction', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertContains('2002', $this->getText("css=li.list-item.search-result"), '', true);
-    $this->assertGreaterThan(0, $this->getCssCount("ul.list"));
+    $this->open('/' . $this->config->getLocale());
+    $this->abstractedPage->waitForPage();
+    $this->abstractedPage->userLogin($this->config->getUser(), $this->config->getPass());
+    $this->testFacetBrowserAnonymous();
   }
 }
