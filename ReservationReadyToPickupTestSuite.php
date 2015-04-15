@@ -4,6 +4,8 @@ require_once(__DIR__ . '/autoload.php');
 require_once(__DIR__ . '/bootstrap.php');
 
 class ReservationReadyToPickup extends PHPUnit_Extensions_SeleniumTestCase {
+  protected $abstraction;
+  protected $config;
 
   protected function setUp() {
     $this->abstractedPage = new DDBTestPageAbstraction($this);
@@ -54,39 +56,39 @@ class ReservationReadyToPickup extends PHPUnit_Extensions_SeleniumTestCase {
         '2. September 2014',
       ),
     );
-    for ($i = 3, $j = 0; $i <= count($ready_for_pickup) + 2; $i++, $j++) {
+    for ($i = 0; $i < count($ready_for_pickup); $i++) {
       // Check title field.
-      $this->assertElementContainsText('css=#ding-reservation-reservations-ready-form .material-item:nth-child(' . $i . ') h3.item-title', $ready_for_pickup[$j][0]);
+      $this->assertElementContainsText('css=#ding-reservation-reservations-ready-form .material-item:eq(' . $i . ') h3.item-title', $ready_for_pickup[$i][0]);
 
       // Check pickup id field.
-      $this->assertElementContainsText('css=#ding-reservation-reservations-ready-form .material-item:nth-child(' . $i . ') li.pickup-id .item-information-label', 'Pickup id:');
-      if (!empty($ready_for_pickup[$j][0])) {
-        $this->assertElementContainsText('css=#ding-reservation-reservations-ready-form .material-item:nth-child(' . $i . ') li.pickup-id .item-information-data', $ready_for_pickup[$j][1]);
+      $this->assertElementContainsText('css=#ding-reservation-reservations-ready-form .material-item:eq(' . $i . ') li.pickup-id .item-information-label', 'Pickup id:');
+      if (!empty($ready_for_pickup[$i][1])) {
+        $this->assertElementContainsText('css=#ding-reservation-reservations-ready-form .material-item:eq(' . $i . ') li.pickup-id .item-information-data', $ready_for_pickup[$i][1]);
       }
 
       // Check pickup date field.
-      $this->assertElementContainsText('css=#ding-reservation-reservations-ready-form .material-item:nth-child(' . $i . ') li.pickup-date .item-information-label', 'Pickup date:');
-      if (!empty($ready_for_pickup[$j][1])) {
-        $this->assertElementContainsText('css=#ding-reservation-reservations-ready-form .material-item:nth-child(' . $i . ') li.pickup-date .item-information-data', $ready_for_pickup[$j][2]);
+      $this->assertElementContainsText('css=#ding-reservation-reservations-ready-form .material-item:eq(' . $i . ') li.pickup-date .item-information-label', 'Pickup date:');
+      if (!empty($ready_for_pickup[$i][2])) {
+        $this->assertElementContainsText('css=#ding-reservation-reservations-ready-form .material-item:eq(' . $i . ') li.pickup-date .item-information-data', $ready_for_pickup[$i][2]);
       }
 
       // Check pickup branch field.
-      $this->assertElementContainsText('css=#ding-reservation-reservations-ready-form .material-item:nth-child(' . $i . ') li.pickup-branch .item-information-label', 'Pickup branch:');
-      if (!empty($ready_for_pickup[$j][2])) {
-        $this->assertElementContainsText('css=#ding-reservation-reservations-ready-form .material-item:nth-child(' . $i . ') li.pickup-branch .item-information-data', $ready_for_pickup[$j][3]);
+      $this->assertElementContainsText('css=#ding-reservation-reservations-ready-form .material-item:eq(' . $i . ') li.pickup-branch .item-information-label', 'Pickup branch:');
+      if (!empty($ready_for_pickup[$i][3])) {
+        $this->assertElementContainsText('css=#ding-reservation-reservations-ready-form .material-item:eq(' . $i . ') li.pickup-branch .item-information-data', $ready_for_pickup[$i][3]);
       }
 
       // Check pickup created field.
-      $this->assertElementContainsText('css=#ding-reservation-reservations-ready-form .material-item:nth-child(' . $i . ') li.created-date .item-information-label', 'Created date:');
-      if (!empty($ready_for_pickup[$j][3])) {
-        $this->assertElementContainsText('css=#ding-reservation-reservations-ready-form .material-item:nth-child(' . $i . ') li.created-date .item-information-data', $ready_for_pickup[$j][4]);
+      $this->assertElementContainsText('css=#ding-reservation-reservations-ready-form .material-item:eq(' . $i . ') li.created-date .item-information-label', 'Created date:');
+      if (!empty($ready_for_pickup[$i][4])) {
+        $this->assertElementContainsText('css=#ding-reservation-reservations-ready-form .material-item:eq(' . $i . ') li.created-date .item-information-data', $ready_for_pickup[$i][4]);
       }
     }
 
     // Test the ability to delete a reservation ready for pickup.
     // Check if the checkbox for certain item is present, then click it.
-    $this->assertElementPresent('css=#ding-reservation-reservations-ready-form .material-item:nth-child(4) input[type="checkbox"]');
-    $this->click('css=#ding-reservation-reservations-ready-form .material-item:nth-child(4) input[type="checkbox"]');
+    $this->assertElementPresent('css=#ding-reservation-reservations-ready-form .material-item:eq(1) input[type="checkbox"]');
+    $this->click('css=#ding-reservation-reservations-ready-form .material-item:eq(1) input[type="checkbox"]');
 
     // A delete button should appear.
     $this->abstractedPage->waitForElement('css=#edit-actions-top-delete');
@@ -99,6 +101,6 @@ class ReservationReadyToPickup extends PHPUnit_Extensions_SeleniumTestCase {
     sleep(5);
     $this->abstractedPage->refresh();
     // Check the item is deleted.
-    $this->assertElementNotPresent('css=#ding-reservation-reservations-ready-form .material-item:nth-child(4)');
+    $this->assertElementNotPresent('css=#ding-reservation-reservations-ready-form .material-item:eq(1)');
   }
 }
