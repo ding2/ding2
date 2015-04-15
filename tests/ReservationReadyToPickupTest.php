@@ -1,9 +1,8 @@
 <?php
 
-require_once(__DIR__ . '/autoload.php');
-require_once(__DIR__ . '/bootstrap.php');
+require_once(__DIR__ . '/../bootstrap.php');
 
-class ReservationReadyToPickup extends PHPUnit_Extensions_SeleniumTestCase {
+class ReservationReadyToPickupTest extends PHPUnit_Extensions_SeleniumTestCase {
   protected $abstraction;
   protected $config;
 

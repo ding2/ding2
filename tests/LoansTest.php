@@ -1,9 +1,8 @@
 <?php
 
-require_once(__DIR__ . '/autoload.php');
-require_once(__DIR__ . '/bootstrap.php');
+require_once(__DIR__ . '/../bootstrap.php');
 
-class Loans extends PHPUnit_Extensions_SeleniumTestCase {
+class LoansTest extends PHPUnit_Extensions_SeleniumTestCase {
   protected $abstractedPage;
   protected $config;
 
@@ -20,12 +19,7 @@ class Loans extends PHPUnit_Extensions_SeleniumTestCase {
     resetState($this->config->getLms());
   }
 
-  /**
-   * Test material information.
-   *
-   * Check that each loan has corrent date, due date and number.
-   */
-  public function testMaterialInformation() {
+  public function testLoansMaterialInformation() {
     $this->open('/' . $this->config->getLocale());
     $this->abstractedPage->waitForPage();
     $this->abstractedPage->userLogin($this->config->getUser(), $this->config->getPass());
@@ -36,12 +30,17 @@ class Loans extends PHPUnit_Extensions_SeleniumTestCase {
     $this->abstractedPage->waitForPage();
 
     // Check for user status link.
-    $this->assertElementPresent('link=User status');
-    $this->click('link=User status');
+    $this->assertElementPresent('link=Lån, reserveringer og mellemværende');
+    $this->click('link=Lån, reserveringer og mellemværende');
     $this->abstractedPage->waitForPage();
 
-    // Go to loans page.
+    // Check for material related links.
+    // Weird, but these are not translated.
+    $this->assertElementPresent('link=Mine bøder');
+    $this->assertElementPresent('link=Mine reserveringer');
     $this->assertElementPresent('link=Mine hjemlån');
+
+    // Go to loans page.
     $this->click('link=Mine hjemlån');
     $this->abstractedPage->waitForPage();
 
@@ -73,5 +72,14 @@ class Loans extends PHPUnit_Extensions_SeleniumTestCase {
 
       $index++;
     }
+
+    // Click on an item title.
+    $this->assertElementPresent('link=Det godes pris : roman');
+    $this->click('link=Det godes pris : roman');
+    $this->abstractedPage->waitForPage();
+
+    // Check the page where link landed.
+    $this->assertTrue((bool) preg_match('/^[\s\S]*ting\/object\/870970-basis%3A50659275$/', $this->getLocation()));
+    $this->assertElementContainsText('css=.pane-ting-object .ting-object.view-mode-full .field-name-ting-title h2', 'Det godes pris : roman');
   }
 }

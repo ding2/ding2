@@ -1,8 +1,6 @@
 <?php
 
-require_once(__DIR__ . '/autoload.php');
-
-class OpenScan extends PHPUnit_Extensions_SeleniumTestCase {
+class OpenScanTest extends PHPUnit_Extensions_SeleniumTestCase {
   protected $abstractedPage;
   protected $config;
 

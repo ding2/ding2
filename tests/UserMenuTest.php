@@ -1,8 +1,6 @@
 <?php
 
-require_once(__DIR__ . '/autoload.php');
-
-class UserMenu extends PHPUnit_Extensions_SeleniumTestCase {
+class UserMenuTest extends PHPUnit_Extensions_SeleniumTestCase {
   protected $abstractedPage;
   protected $config;
 
@@ -30,8 +28,8 @@ class UserMenu extends PHPUnit_Extensions_SeleniumTestCase {
     $this->assertElementContainsText('css=.pane-title', 'Your user loan status');
 
     // Check for the user menu.
-    $this->assertElementPresent('link=User status');
-    $this->click('link=User status');
+    $this->assertElementPresent('link=Lån, reserveringer og mellemværende');
+    $this->click('link=Lån, reserveringer og mellemværende');
     $this->abstractedPage->waitForPage();
 
     // Check for menu items.

@@ -1,9 +1,8 @@
 <?php
 
-require_once(__DIR__ . '/autoload.php');
-require_once(__DIR__ . '/bootstrap.php');
+require_once(__DIR__ . '/../bootstrap.php');
 
-class Payments extends PHPUnit_Extensions_SeleniumTestCase {
+class PaymentsTest extends PHPUnit_Extensions_SeleniumTestCase {
   protected $abstraction;
   protected $config;
 
@@ -36,8 +35,8 @@ class Payments extends PHPUnit_Extensions_SeleniumTestCase {
     $this->abstractedPage->waitForPage();
 
     // Check for user status link.
-    $this->assertElementPresent('link=User status');
-    $this->click('link=User status');
+    $this->assertElementPresent('link=Lån, reserveringer og mellemværende');
+    $this->click('link=Lån, reserveringer og mellemværende');
     $this->abstractedPage->waitForPage();
 
     // Go to debts page.
