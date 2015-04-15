@@ -4,7 +4,7 @@ require_once(__DIR__ . '/autoload.php');
 require_once(__DIR__ . '/bootstrap.php');
 
 class Loans extends PHPUnit_Extensions_SeleniumTestCase {
-  protected $abstraction;
+  protected $abstractedPage;
   protected $config;
 
   protected function setUp() {
@@ -13,6 +13,7 @@ class Loans extends PHPUnit_Extensions_SeleniumTestCase {
 
     $this->setBrowser($this->config->getBrowser());
     $this->setBrowserUrl($this->config->getUrl());
+    resetState($this->config->getLms());
   }
 
   public function testLoansMaterialInformation() {

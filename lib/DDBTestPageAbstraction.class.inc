@@ -6,8 +6,8 @@
 
 class DDBTestPageAbstraction {
   private $phpunit_instance = NULL;
-  const WAIT_FOR_PAGE = 30;
-  const WAIT_FOR_ELEMENT = 10;
+  const WAIT_FOR_PAGE = 10;
+  const WAIT_FOR_ELEMENT = 5;
 
   public function __construct(PHPUnit_Extensions_SeleniumTestCase $instance) {
     $this->phpunit_instance = $instance;
@@ -41,12 +41,12 @@ class DDBTestPageAbstraction {
     $this->waitForPage();
   }
 
-  public function userBookmark($id) {
-    $this->phpunit_instance->click('css=#bookmark-' . $id);
+  public function userBookmark($locator) {
+    $this->phpunit_instance->click('css=' . $locator);
   }
 
-  public function userReserve($id) {
-    $this->phpunit_instance->click('css=#reservation-' . $id);
+  public function userReserve($locator) {
+    $this->phpunit_instance->click('css=' . $locator);
   }
 
   public function fillDingPopupLogin($user, $pass) {

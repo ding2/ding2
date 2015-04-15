@@ -3,7 +3,7 @@
 require_once(__DIR__ . '/autoload.php');
 
 class ItemPageRelations extends PHPUnit_Extensions_SeleniumTestCase {
-  protected $abstraction;
+  protected $abstractedPage;
   protected $config;
 
   protected function setUp() {

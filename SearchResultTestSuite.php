@@ -10,6 +10,36 @@ class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   /**
+   * Test search functionality as anonymous.
+   *
+   * Check when filled and empty search is made.
+   */
+  public function testSearchSubmitAnonymous() {
+    $this->open('/' . $this->config->getLocale());
+    $this->abstractedPage->waitForPage();
+
+    // Check for search results page.
+    $this->abstractedPage->userMakeSearch('dorthe nors');
+    $this->assertTrue($this->isElementPresent("css=li.list-item.search-result"));
+
+    // Check for no results page.
+    $this->abstractedPage->userMakeSearch('');
+    $this->assertElementContainsText('css=div.messages.error', 'Please enter some keywords.');
+  }
+
+  /**
+   * Test search functionality as logged in user.
+   *
+   * @see testSubmitAnonymous()
+   */
+  public function testSearchSubmitLoggedIn() {
+    $this->open('/' . $this->config->getLocale());
+    $this->abstractedPage->waitForPage();
+    $this->abstractedPage->userLogin($this->config->getUser(), $this->config->getPass());
+    $this->testSearchSubmitAnonymous();
+  }
+
+  /**
    * Test search box as anonymous.
    *
    * Check the search workflow from frontpage and inner pages.
