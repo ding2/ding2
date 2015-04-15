@@ -6,7 +6,7 @@
 
 class DDBTestPageAbstraction {
   private $phpunit_instance = NULL;
-  const WAIT_FOR_PAGE = 10;
+  const WAIT_FOR_PAGE = 30;
   const WAIT_FOR_ELEMENT = 5;
 
   public function __construct(PHPUnit_Extensions_SeleniumTestCase $instance) {
