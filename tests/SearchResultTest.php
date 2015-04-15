@@ -1,8 +1,6 @@
 <?php
 
-require_once(__DIR__ . '/autoload.php');
-
-class SearchResult extends PHPUnit_Extensions_SeleniumTestCase {
+class SearchResultTest extends PHPUnit_Extensions_SeleniumTestCase {
   protected $abstractedPage;
   protected $config;
 

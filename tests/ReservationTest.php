@@ -1,9 +1,8 @@
 <?php
 
-require_once(__DIR__ . '/autoload.php');
-require_once(__DIR__ . '/bootstrap.php');
+require_once(__DIR__ . '/../bootstrap.php');
 
-class Reservation extends PHPUnit_Extensions_SeleniumTestCase {
+class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
   protected $abstraction;
   protected $config;
 

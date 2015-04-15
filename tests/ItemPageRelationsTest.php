@@ -1,8 +1,6 @@
 <?php
 
-require_once(__DIR__ . '/autoload.php');
-
-class ItemPageRelations extends PHPUnit_Extensions_SeleniumTestCase {
+class ItemPageRelationsTest extends PHPUnit_Extensions_SeleniumTestCase {
   protected $abstractedPage;
   protected $config;
 
