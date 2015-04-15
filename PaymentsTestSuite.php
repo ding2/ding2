@@ -51,24 +51,24 @@ class Payments extends PHPUnit_Extensions_SeleniumTestCase {
     // Tricky part.
     // In order to check the data shown, it's required to have the raw
     // data from the LMS.
-    $index = 1;
+    $index = 0;
     foreach ($this->mock->getDebtsResponse->debts->children() as $d) {
       $note = array_values(array_filter(explode(' ', (string) $d->attributes()->debtNote)));
       // Compare debt title.
-      $this->assertElementContainsText('css=#ding-debt-debts-form .material-item:nth-child(' . $index . ') .item-title', $note[1]);
+      $this->assertElementContainsText('css=#ding-debt-debts-form .material-item:eq(' . $index . ') .item-title', $note[1]);
       // Compare material id.
-      $this->assertElementContainsText('css=#ding-debt-debts-form .material-item:nth-child(' . $index . ') .item-information-list .material-number .item-information-label', 'Material no.:');
-      $this->assertElementContainsText('css=#ding-debt-debts-form .material-item:nth-child(' . $index . ') .item-information-list .material-number .item-information-data', $note[0]);
+      $this->assertElementContainsText('css=#ding-debt-debts-form .material-item:eq(' . $index . ') .item-information-list .material-number .item-information-label', 'Material no.:');
+      $this->assertElementContainsText('css=#ding-debt-debts-form .material-item:eq(' . $index . ') .item-information-list .material-number .item-information-data', $note[0]);
 
       // Compare created date.
-      $this->assertElementContainsText('css=#ding-debt-debts-form .material-item:nth-child(' . $index . ') .item-information-list .fee-date .item-information-label', 'Created date:');
+      $this->assertElementContainsText('css=#ding-debt-debts-form .material-item:eq(' . $index . ') .item-information-list .fee-date .item-information-label', 'Created date:');
       $debtDate = date('j. F Y', strtotime((string) $d->attributes()->debtDate));
-      $this->assertElementContainsText('css=#ding-debt-debts-form .material-item:nth-child(' . $index . ') .item-information-list .fee-date .item-information-data', $debtDate);
+      $this->assertElementContainsText('css=#ding-debt-debts-form .material-item:eq(' . $index . ') .item-information-list .fee-date .item-information-data', $debtDate);
 
       // Compare amount.
-      $this->assertElementContainsText('css=#ding-debt-debts-form .material-item:nth-child(' . $index . ') .item-information-list .fee_amount .item-information-label', 'Amount:');
+      $this->assertElementContainsText('css=#ding-debt-debts-form .material-item:eq(' . $index . ') .item-information-list .fee_amount .item-information-label', 'Amount:');
       $debtAmount = trim((string) $d->attributes()->debtAmountFormatted);
-      $this->assertElementContainsText('css=#ding-debt-debts-form .material-item:nth-child(' . $index . ') .item-information-list .fee_amount .item-information-data', $debtAmount . ' Kr');
+      $this->assertElementContainsText('css=#ding-debt-debts-form .material-item:eq(' . $index . ') .item-information-list .fee_amount .item-information-data', $debtAmount . ' Kr');
 
       $index++;
     }
