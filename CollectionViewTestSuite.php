@@ -4,7 +4,7 @@ require_once(__DIR__ . '/autoload.php');
 require_once(__DIR__ . '/bootstrap.php');
 
 class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
-  protected $abstraction;
+  protected $abstractedPage;
   protected $config;
 
   protected function setUp() {
@@ -21,9 +21,14 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
    * Check that certain elements should have an image tag,
    * when others do not.
    */
-  public function testCollectionCoversAnonymous() {
-    $this->open("/" . $this->config->getLocale() . '/ting/collection/870970-basis:24908941');
+  public function testCollectionViewAnonymous() {
+    resetState($this->config->getLms());
+    $this->open('/' . $this->config->getLocale() . '/ting/collection/870970-basis%3A24908941');
     $this->abstractedPage->waitForPage();
+
+    // Assume we are on collection page and there is a link to item page.
+    $this->assertTrue($this->isElementPresent('link=Stormesteren : roman'));
+
     // Implicitly wait 10 seconds, since covers come via ajax.
     // It's not possible to use a more elegant solution to wait.
     // Second assertion expects to a FALSE result, which in other implementation
@@ -33,85 +38,11 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
     sleep(5);
     // The collection item page opened above is expected to have first
     // collection items contain cover images and the second one - no.
-    $this->assertTrue($this->isElementPresent("css=.pane-ting-collection .view-mode-full .ting-collection-wrapper:nth-child(1) .ting-cover img"));
-    $this->assertFalse($this->isElementPresent("css=.pane-ting-collection .view-mode-full .ting-collection-wrapper:nth-child(2) .ting-cover img"));
-  }
+    $this->assertElementPresent('css=.pane-ting-collection .view-mode-full .ting-collection-wrapper:eq(0) .ting-cover img');
+    $this->assertElementNotPresent('css=.pane-ting-collection .view-mode-full .ting-collection-wrapper:eq(1) .ting-cover img');
 
-  /**
-   * Check covers as logged in user.
-   *
-   * @see testCollectionCoversAnonymous()
-   */
-  public function testCollectionCoversAuthenticated() {
-    $this->open("/" . $this->config->getLocale());
-    $this->abstractedPage->waitForPage();
-    $this->abstractedPage->userLogin($this->config->getUser(), $this->config->getPass());
-    $this->testCollectionCoversAnonymous();
-  }
-
-  /**
-   * Test the collection page as anonymous.
-   *
-   * Assume the page should contain some links to other material types.
-   */
-  public function testCollectionViewAnonymous() {
-    $this->open("/" . $this->config->getLocale());
-    $this->abstractedPage->waitForPage();
-    // Search for potential collection item.
-    $this->abstractedPage->userMakeSearch('dorthe nors');
-    // Check the item title.
-    $this->assertTrue($this->isElementPresent("link=Stormesteren : roman"));
-    // Click on title.
-    $this->click("link=Stormesteren : roman");
-    $this->abstractedPage->waitForPage();
-    // If this is truly a collection item is should have certain
-    // information about item types and the quantity of those.
-    $this->assertTrue($this->isElementPresent("link=Bog (1)"));
-    $this->assertTrue($this->isElementPresent("link=Ebog (1)"));
-    // Test the anchor links.
-    $this->click("link=Bog (1)");
-    $this->assertTrue((bool) preg_match('/^.*ting\/collection\/870970-basis%3A24908941#Bog$/', $this->getLocation()));
-    $this->click("link=Ebog (1)");
-    $this->assertTrue((bool) preg_match('/^.*ting\/collection\/870970-basis%3A24908941#Ebog$/', $this->getLocation()));
-  }
-
-  /**
-   * Test the collections page as logged in user.
-   *
-   * @see testCollectionViewAnonymous()
-   */
-  public function testCollectionViewLoggedIn() {
-    $this->open("/" . $this->config->getLocale());
-    $this->abstractedPage->waitForPage();
-    $this->abstractedPage->userLogin($this->config->getUser(), $this->config->getPass());
-    $this->testCollectionViewAnonymous();
-  }
-
-  /**
-   * Test the ability to bookmark/reserve as anonymous
-   * on collection page.
-   *
-   * Anonymous in this context means that user authenticates in a
-   * popup, when clicking bookmark/reserve as anonymous.
-   *
-   * Assume that the test might be run several times for same user,
-   * so different responses are checked as valid.
-   */
-  public function testCollectionViewActionsAnonymous() {
-    resetState($this->config->getLms());
-    $this->open('/' . $this->config->getLocale());
-    $this->abstractedPage->waitForPage();
-    // Search for potential collection item.
-    $this->abstractedPage->userMakeSearch('dorthe nors');
-    // Check the item title.
-    $this->assertTrue($this->isElementPresent("link=Stormesteren : roman"));
-    // Click on title.
-    $this->click("link=Stormesteren : roman");
-    $this->abstractedPage->waitForPage();
-    // Assume we are on collection page and there is a link to item page.
-    $this->assertTrue($this->isElementPresent("link=Stormesteren : roman"));
     // Try to bookmark with logging in, if required.
-    $this->abstractedPage->userBookmark('870970-basis:24908941');
+    $this->abstractedPage->userBookmark('.action-button.bookmark-button:eq(0)');
     // Wait for the login popup, if any.
     $is_present = $this->abstractedPage->waitForElement('css=.ding-popup-content form#user-login', 5, FALSE);
     if ($is_present) {
@@ -119,8 +50,8 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
     }
     $this->abstractedPage->waitForElement('css=div.ding-bookmark-message');
     $msgs = array(
-      'Added to bookmarks',
-      'This item is in bookmarks already.',
+        'Added to bookmarks',
+        'This item is in bookmarks already.',
     );
     $this->assertTrue(in_array($this->getText('css=div.ding-bookmark-message'), $msgs));
     // Since there are issues with selenium by clicking ding popup close button,
@@ -128,35 +59,44 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
     $this->abstractedPage->refresh();
     // Bookmark again. Here the use is already logged and the item should
     // exist in bookmarks.
-    $this->abstractedPage->userBookmark('870970-basis:24908941');
+    $this->abstractedPage->userBookmark('.action-button.bookmark-button:eq(0)');
     $this->abstractedPage->waitForElement('css=div.ding-bookmark-message');
     $this->assertEquals('This item is in bookmarks already.', $this->getText('css=div.ding-bookmark-message'));
 
     // Refresh and reserve same item.
     $this->abstractedPage->refresh();
-    $this->abstractedPage->userReserve('870970-basis:24908941');
+    $this->abstractedPage->userReserve('.action-button.reserve-button:eq(0)');
     $this->abstractedPage->waitForElement('css=div.ding-popup-content .messages.status');
     $this->assertTrue($this->isElementPresent('css=div.ding-popup-content .messages.status'));
 
     // Refresh and try to reserve again, normally this should not be allowed.
     $this->abstractedPage->refresh();
-    $this->abstractedPage->userReserve('870970-basis:24908941');
+    $this->abstractedPage->userReserve('.action-button.reserve-button:eq(0)');
     $this->abstractedPage->waitForElement('css=div.ding-popup-content .messages.error');
     $this->assertTrue($this->isElementPresent('css=div.ding-popup-content .messages.error'));
+
+    // Test if this is a collection page.
+    // If this is truly a collection item is should have certain
+    // information about item types and the quantity of those.
+    $this->abstractedPage->refresh();
+    $this->assertElementPresent('link=Bog (1)');
+    $this->assertElementPresent('link=Ebog (1)');
+    // Test the anchor links.
+    $this->click('link=Bog (1)');
+    $this->assertTrue((bool) preg_match('/^.*ting\/collection\/870970-basis%3A24908941#Bog$/', $this->getLocation()));
+    $this->click('link=Ebog (1)');
+    $this->assertTrue((bool) preg_match('/^.*ting\/collection\/870970-basis%3A24908941#Ebog$/', $this->getLocation()));
   }
 
   /**
-   * Test the ability to reserve/bookmark.
+   * Check covers as logged in user.
    *
-   * The use is logged in, goes to collection page and tries to
-   * reserve/bookmark.
-   *
-   * @see testCollectionViewActionsAnonymous()
+   * @see testCollectionCoversAnonymous()
    */
-  public function testCollectionViewActionsLoggedIn() {
+  public function testCollectionViewAuthenticated() {
     $this->open('/' . $this->config->getLocale());
     $this->abstractedPage->waitForPage();
     $this->abstractedPage->userLogin($this->config->getUser(), $this->config->getPass());
-    $this->testCollectionViewActionsAnonymous();
+    $this->testCollectionViewAnonymous();
   }
 }
