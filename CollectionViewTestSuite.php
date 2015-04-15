@@ -50,8 +50,8 @@ class CollectionView extends PHPUnit_Extensions_SeleniumTestCase {
     }
     $this->abstractedPage->waitForElement('css=div.ding-bookmark-message');
     $msgs = array(
-        'Added to bookmarks',
-        'This item is in bookmarks already.',
+      'Added to bookmarks',
+      'This item is in bookmarks already.',
     );
     $this->assertTrue(in_array($this->getText('css=div.ding-bookmark-message'), $msgs));
     // Since there are issues with selenium by clicking ding popup close button,

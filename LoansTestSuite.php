@@ -4,7 +4,7 @@ require_once(__DIR__ . '/autoload.php');
 require_once(__DIR__ . '/bootstrap.php');
 
 class Loans extends PHPUnit_Extensions_SeleniumTestCase {
-  protected $abstraction;
+  protected $abstractedPage;
   protected $config;
 
   protected function setUp() {
@@ -52,24 +52,24 @@ class Loans extends PHPUnit_Extensions_SeleniumTestCase {
     // In order to check the data shown, it's required to have the raw
     // data from the LMS.
 
-    // Start from this number, since nth-child pseuo-selector
+    // Start from this number, since eq pseuo-selector
     // counts from all children, no the direct css selector result.
-    $index = 3;
+    $index = 0;
     foreach ($this->mock->getLoansResponse->loans->children() as $l) {
       // Compare loan date.
-      $this->assertElementContainsText('css=#ding-loan-loans-form .material-item:nth-child(' . $index . ') .item-information-list .loan-date .item-information-label', 'Loan date:');
+      $this->assertElementContainsText('css=#ding-loan-loans-form .material-item:eq(' . $index . ') .item-information-list .loan-date .item-information-label', 'Loan date:');
       $loanDate = date('j. F Y', strtotime((string) $l->attributes()->loanDate));
-      $this->assertElementContainsText('css=#ding-loan-loans-form .material-item:nth-child(' . $index . ') .item-information-list .loan-date .item-information-data', $loanDate);
+      $this->assertElementContainsText('css=#ding-loan-loans-form .material-item:eq(' . $index . ') .item-information-list .loan-date .item-information-data', $loanDate);
 
       // Compare due date.
-      $this->assertElementContainsText('css=#ding-loan-loans-form .material-item:nth-child(' . $index . ') .item-information-list .expire-date .item-information-label', 'Return date:');
+      $this->assertElementContainsText('css=#ding-loan-loans-form .material-item:eq(' . $index . ') .item-information-list .expire-date .item-information-label', 'Return date:');
       $dueDate = date('j. F Y', strtotime((string) $l->attributes()->loanDueDate));
-      $this->assertElementContainsText('css=#ding-loan-loans-form .material-item:nth-child(' . $index . ') .item-information-list .expire-date .item-information-data', $dueDate);
+      $this->assertElementContainsText('css=#ding-loan-loans-form .material-item:eq(' . $index . ') .item-information-list .expire-date .item-information-data', $dueDate);
 
       // Compare item id.
-      $this->assertElementContainsText('css=#ding-loan-loans-form .material-item:nth-child(' . $index . ') .item-information-list .material-number .item-information-label', 'Material no.:');
+      $this->assertElementContainsText('css=#ding-loan-loans-form .material-item:eq(' . $index . ') .item-information-list .material-number .item-information-label', 'Material no.:');
       $id = (string) $l->attributes()->id;
-      $this->assertElementContainsText('css=#ding-loan-loans-form .material-item:nth-child(' . $index . ') .item-information-list .material-number .item-information-data', $id);
+      $this->assertElementContainsText('css=#ding-loan-loans-form .material-item:eq(' . $index . ') .item-information-list .material-number .item-information-data', $id);
 
       $index++;
     }

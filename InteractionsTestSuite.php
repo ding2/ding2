@@ -3,9 +3,8 @@
 require_once(__DIR__ . '/autoload.php');
 require_once(__DIR__ . '/bootstrap.php');
 
-class Interactions extends PHPUnit_Extensions_SeleniumTestCase
-{
-  protected $abstraction;
+class Interactions extends PHPUnit_Extensions_SeleniumTestCase {
+  protected $abstractedPage;
   protected $config;
 
   protected function setUp() {
