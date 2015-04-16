@@ -12,6 +12,7 @@ class CollectionViewTest extends PHPUnit_Extensions_SeleniumTestCase {
 
     $this->setBrowser($this->config->getBrowser());
     $this->setBrowserUrl($this->config->getUrl());
+    resetState($this->config->getLms());
   }
 
   /**
