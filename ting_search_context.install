@@ -41,7 +41,13 @@ function ting_search_context_field_schema($field) {
  * Implements hook_install().
  */
 function ting_search_context_install() {
-	if (!field_info_field('field_ting_search_context')) {
+	
+	// We are moving the search context rating system out of the Field API, so
+	// the code below is outcommmented so we can work with the module without
+	// the field being installed every time the module is reinstalled.
+	// TODO: Do we need update function to removed field from nodes?
+
+	/*if (!field_info_field('field_ting_search_context')) {
 		// Rebuild the field cache to make Drupal aware of our custom field.
 		field_info_cache_clear();
 		$field = array(
@@ -74,5 +80,5 @@ function ting_search_context_install() {
 			);
 			field_create_instance($instance + $instance_common);
 		}
-	}
+	}*/
 }
