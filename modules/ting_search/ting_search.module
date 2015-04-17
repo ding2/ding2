@@ -188,6 +188,13 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
       'description' => t('Enter subject keywords'),
     ),
   );
+  
+  // Remove the form token so the form becomes cachable. If we don't, all
+  // pages with the search form becomes un-cachable, as drupal_validate_form()
+  // will check the token and fail if the current user is not the same as the
+  // one that caused the page to be cached.
+  unset($form['#token']);
+  unset($form['form_token']);
 
   // We're going to disable advanced search in
   // the first version, and implement later on.
