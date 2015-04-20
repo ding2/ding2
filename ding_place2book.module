@@ -902,7 +902,7 @@ function ding_place2book_render_place2book_ticketsinfo($node) {
   //variables for a date comparison
   // @todo Use entity_metadata_wrapper to extract information.
   $field_ding_event_date = field_get_items('node', $node, 'field_ding_event_date');
-  $event_timestamp = strtotime($field_ding_event_date[0]['value']);
+  $event_timestamp = strtotime($field_ding_event_date[0]['value']. ' ' . $field_ding_event_date[0]['timezone_db']);
 
   if (time() > $event_timestamp) {
     // @todo: Move event types into constants instead of magic string values.
