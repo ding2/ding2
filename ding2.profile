@@ -827,7 +827,7 @@ function ding2_set_cookie_page() {
   // Create the node.
   node_save($node);
 
-  # Permissions, see: ding_permissions module
-  # display EU Cookie Compliance popup: anonymous user, authenticated user
-  # administer EU Cookie Compliance popup: administrators, local administrator
+  // Permissions, see: ding_permissions module
+  // display EU Cookie Compliance popup: anonymous user, authenticated user
+  // administer EU Cookie Compliance popup: administrators, local administrator
 }
