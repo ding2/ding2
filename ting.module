@@ -573,8 +573,8 @@ function ting_collection_page_view($object) {
 
 /**
  * Page title callback.
- * 
- * Strips chars '<' and '>' in order to avoid HTML injections. 
+ *
+ * Strips chars '<' and '>' in order to avoid HTML injections.
  */
 function ting_page_title($object) {
   return str_replace('&amp;', '&', htmlspecialchars($object->title, ENT_NOQUOTES, 'UTF-8'));
@@ -619,10 +619,10 @@ function ting_object_load($id) {
   if ($agency && preg_match('/^(\d{6}):(\w+)$/', $id, $matches)) {
     // Matched to data well version 2, to redirect to version 3.
     $new_id = ding_provider_build_entity_id($matches[2], $matches[1]);
-    if($new_id === FALSE){
+    if ($new_id === FALSE) {
       $id = ting_lookup_and_translate($id);
     }
-    else{
+    else {
       $id = $new_id;
     }
     drupal_goto('ting/object/' . $id, array(), 301);
@@ -642,13 +642,13 @@ function ting_object_load($id) {
  * @param $old_pid ( eg 870971:72966643)
  * @return bool|mixed; new pid (eg  870971-tsart:72966643 ) if found; else FALSE
  */
-function ting_lookup_and_translate($old_pid){
+function ting_lookup_and_translate($old_pid) {
   $query_elements = explode(':', $old_pid);
   $query = implode(' and ', $query_elements);
 
   module_load_include('client.inc', 'ting');
-  $result = ting_do_search($query,1,1,array('facets'=>array()));
-  if(isset($result->collections)) {
+  $result = ting_do_search($query, 1, 1, array('facets' => array()));
+  if (!empty($result->collections)) {
     $id = key($result->collections);
     return $id;
   }
@@ -678,10 +678,10 @@ function ting_collection_load($id) {
   if ($agency && preg_match('/^(\d{6}):(\w+)$/', $id, $matches)) {
     // Matched to data well version 2, to redirect to version 3.
     $new_id = ding_provider_build_entity_id($matches[2], $matches[1]);
-    if($new_id === FALSE){
+    if ($new_id === FALSE) {
       $id = ting_lookup_and_translate($id);
     }
-    else{
+    else {
       $id = $new_id;
     }
     drupal_goto('ting/collection/' . $id, array(), 301);
