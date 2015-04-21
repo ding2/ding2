@@ -58,7 +58,7 @@ function ting_search_admin_settings($form_state) {
 
   $form['ting_search']['ting_search_result_message'] = array(
     '#type' => 'container',
-    '#attributes' => array('class' => Array('form-item')),
+    '#attributes' => array('class' => array('form-item')),
     'message' => array(
       '#type' => 'markup',
       '#prefix' => '<label>',
@@ -74,7 +74,7 @@ function ting_search_admin_settings($form_state) {
     ),
     'ting_search_result_message_description' => array(
       '#type' => 'container',
-      '#attributes' => array('class' => Array('description')),
+      '#attributes' => array('class' => array('description')),
       'message' => array(
         '#type' => 'markup',
         '#markup' => t('Message to display when search has more than x results. The token %s will be substituted by the number choosen.'),
