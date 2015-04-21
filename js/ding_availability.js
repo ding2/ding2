@@ -93,7 +93,7 @@
         element.removeClass('pending').addClass('processed');
 
         // Reserve button
-        var reserver_btn = element.parents('.ting-object:first').find('.reserve-button');
+        var reserver_btn = element.parents('.ting-object:first, .material-item:first').find('.reserve-button');
 
         if (available) {
           element.addClass('available');
