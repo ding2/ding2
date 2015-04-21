@@ -201,10 +201,3 @@ function ting_search_autocomplete_admin_validate($form, &$form_state) {
 
 }
 
-
-/**
- * Submt handler for ting_search_autocomplete_admin
- */
-function ting_search_autocomplete_admin_submit($form, &$form_state) {
-  //
-}
