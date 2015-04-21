@@ -167,8 +167,6 @@ function ting_admin_ranking_settings($form, &$form_state) {
   $form['ting_sort_default'] = array(
     '#title' => t('Default sort method (best match)'),
     '#type' => 'fieldset',
-    '#prefix' => '<div id="sort-default-fields-wrapper">',
-    '#suffix' => '</div>',
     '#tree' => TRUE,
   );
 
@@ -235,7 +233,7 @@ function ting_admin_ranking_settings_submit($form, &$form_state) {
   variable_set('ting_ranking_fields', $fields);
 
   $default_sort = $form_state['values']['ting_sort_default']['fields']['sort_type'];
-  variable_set('ting_sort_default',$default_sort);
+  variable_set('ting_sort_default', $default_sort);
 
   drupal_set_message(t('Settings has been saved'), 'status');
 }

@@ -357,6 +357,9 @@ function ting_element_info() {
   );
 }
 
+/**
+ * Processor for the ting_sort_default form element.
+ */
 function ting_sort_default($element, $form_state){
   $element['#tree'] = TRUE;
 
@@ -364,9 +367,9 @@ function ting_sort_default($element, $form_state){
     '#title' => t('Type'),
     '#type' => 'select',
     '#options' => array(
-      'rank_frequency' => t('rank_frequency'),
-      'rank_general' => t('rank_general'),
-      'rank_none' => t('rank_none'),
+      'rank_frequency' => t('Best match'),
+      'rank_general' => t('General Rank'),
+      'rank_none' => t('No rank'),
     ),
     '#default_value' => (isset($element['#value']['sort_type'])) ? $element['#value']['sort_type'] : 'rank_frequency',
   );

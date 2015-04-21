@@ -256,7 +256,7 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
     $request->setSort($options['sort']);
   }
   else{
-    $sort = variable_get('ting_sort_default','rank_frequency');
+    $sort = variable_get('ting_sort_default', 'rank_frequency');
     $request->setSort($sort);
   }
 
