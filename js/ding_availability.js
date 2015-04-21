@@ -83,17 +83,17 @@
     var available = false;
     var reservable = false;
     var is_internet = false;
+    var element = $('#' + id);
+    element.removeClass('pending').addClass('processed');
+
     $.each(entity_ids, function(index, entity_id) {
+      // Reserve button
+      var reserver_btn = element.parents('.ting-object:first').find('a[id$=' + entity_id + '].reserve-button');
+
       if (Drupal.DADB[entity_id]) {
         available = available || Drupal.DADB[entity_id]['available'];
         reservable = reservable || Drupal.DADB[entity_id]['reservable'];
         is_internet = is_internet || Drupal.DADB[entity_id]['is_internet'];
-
-        var element = $('#' + id);
-        element.removeClass('pending').addClass('processed');
-
-        // Reserve button
-        var reserver_btn = element.parents('.ting-object:first, .material-item:first').find('.reserve-button');
 
         if (available) {
           element.addClass('available');
@@ -120,8 +120,7 @@
             reserver_btn.addClass('reservable');
           }
         }
-
-        if (!available && !reservable) {
+        else {
           element.addClass('not-reservable');
 
           // Add class to reserve button
@@ -129,6 +128,10 @@
             reserver_btn.addClass('not-reservable');
           }
         }
+      }
+
+      else {
+        reserver_btn.addClass('not-reservable');
       }
     });
   }
