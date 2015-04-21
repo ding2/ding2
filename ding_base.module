@@ -383,6 +383,12 @@ function ding_base_preprocess_material_item(&$variables) {
   if (isset($element['#material_message'])) {
     $variables['material_message'] = $element['#material_message'];
   }
+
+  // Check if availability_id have been set.
+  $variables['availability_id'] = NULL;
+  if (isset($element['#availability_id'])) {
+    $variables['availability_id'] = $element['#availability_id'];
+  }
 }
 
 /**
