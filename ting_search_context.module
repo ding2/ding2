@@ -460,3 +460,29 @@ function ting_search_context_get_contexts() {
 }
 
 
+function ting_search_context_save_context($type, $name, $context, $subject = NULL) {
+	// Only save contexts of allowed types.
+	$allowed_types = array('system', 'subject', 'search');
+	if (!in_array($type, $allowed_types)) {
+		return FALSE;
+	}	
+	// Ensure that no identical contexts is saved to the system.
+	if (ting_search_context_get_context_id($type, $context, $subject)) {
+		return FALSE;
+	}
+
+	$fields = array(
+		'type' => $type,
+		'name' => $name,
+		'context' => $context,
+	);
+	if ($type === 'subject' && isset($subject)) {
+		$fields += array('subject' => $subject);
+	}
+
+	return db_insert('ting_search_context_contexts')
+		->fields($fields)
+		->execute();
+}
+
+
