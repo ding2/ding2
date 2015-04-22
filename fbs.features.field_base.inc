@@ -10,6 +10,32 @@
 function fbs_field_default_field_bases() {
   $field_bases = array();
 
+  // Exported field_base: 'field_fbs_interest_period'
+  $field_bases['field_fbs_interest_period'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(
+      0 => 'profile2',
+    ),
+    'field_name' => 'field_fbs_interest_period',
+    'foreign keys' => array(),
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'fbs',
+    'settings' => array(
+      'profile2_private' => 0,
+    ),
+    'storage' => array(
+      'active' => 1,
+      'module' => 'virtual_field',
+      'settings' => array(),
+      'type' => 'virtual_field',
+    ),
+    'translatable' => 0,
+    'type' => 'fbs_interest_period',
+  );
+
   // Exported field_base: 'field_fbs_mail'
   $field_bases['field_fbs_mail'] = array(
     'active' => 1,
@@ -140,6 +166,32 @@ function fbs_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'fbs_phone_notification',
+  );
+
+  // Exported field_base: 'field_fbs_preferred_branch'
+  $field_bases['field_fbs_preferred_branch'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(
+      0 => 'profile2',
+    ),
+    'field_name' => 'field_fbs_preferred_branch',
+    'foreign keys' => array(),
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'fbs',
+    'settings' => array(
+      'profile2_private' => 0,
+    ),
+    'storage' => array(
+      'active' => 1,
+      'module' => 'virtual_field',
+      'settings' => array(),
+      'type' => 'virtual_field',
+    ),
+    'translatable' => 0,
+    'type' => 'fbs_preferred_branch',
   );
 
   return $field_bases;

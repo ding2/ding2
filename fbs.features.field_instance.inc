@@ -10,6 +10,37 @@
 function fbs_field_default_field_instances() {
   $field_instances = array();
 
+  // Exported field_instance: 'profile2-provider_fbs-field_fbs_interest_period'
+  $field_instances['profile2-provider_fbs-field_fbs_interest_period'] = array(
+    'bundle' => 'provider_fbs',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'fbs',
+        'settings' => array(),
+        'type' => 'fbs_interest_period',
+        'weight' => 6,
+      ),
+    ),
+    'entity_type' => 'profile2',
+    'field_name' => 'field_fbs_interest_period',
+    'label' => 'Interest period',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'fbs',
+      'settings' => array(),
+      'type' => 'fbs_options_select',
+      'weight' => 13,
+    ),
+  );
+
   // Exported field_instance: 'profile2-provider_fbs-field_fbs_mail'
   $field_instances['profile2-provider_fbs-field_fbs_mail'] = array(
     'bundle' => 'provider_fbs',
@@ -175,13 +206,46 @@ function fbs_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'profile2-provider_fbs-field_fbs_preferred_branch'
+  $field_instances['profile2-provider_fbs-field_fbs_preferred_branch'] = array(
+    'bundle' => 'provider_fbs',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'fbs',
+        'settings' => array(),
+        'type' => 'fbs_preferred_branch',
+        'weight' => 7,
+      ),
+    ),
+    'entity_type' => 'profile2',
+    'field_name' => 'field_fbs_preferred_branch',
+    'label' => 'Preferred branch',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'fbs',
+      'settings' => array(),
+      'type' => 'fbs_options_select',
+      'weight' => 17,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('E-mail');
   t('E-mail notifications');
+  t('Interest period');
   t('Name');
   t('Phone');
   t('Phone notifications');
+  t('Preferred branch');
 
   return $field_instances;
 }
