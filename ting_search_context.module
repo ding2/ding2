@@ -526,4 +526,12 @@ function ting_search_context_get_context_id($type, $context, $subject = NULL) {
 	return $query->execute()->fetchField();
 }
 
+/**
+ * [_ting_search_context_get_system_contexts description]
+ * @param  boolean $extendable [description]
+ * @return [type]              [description]
+ */
+function _ting_search_context_get_system_contexts($extendable = FALSE) {
+
+}
 
