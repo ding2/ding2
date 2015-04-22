@@ -60,7 +60,7 @@ function fbs_reservation_list($account, $requested_type = NULL) {
       return $result[$requested_type];
     }
     else {
-      watchdog('fbs', 'Unknown reservation type (%type) requested', array('%type' => $type), WATCHDOG_ERROR);
+      watchdog('fbs', 'Unknown reservation type (%type) requested', array('%type' => $requested_type), WATCHDOG_ERROR);
       return array();
     }
   }
