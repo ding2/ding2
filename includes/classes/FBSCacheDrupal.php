@@ -19,7 +19,7 @@ class FBSCacheDrupal implements FBSCacheInterface {
    * Get a cache entry.
    */
   public function get($key) {
-    if ($cache = cache_get(self::SESSION_KEY)) {
+    if ($cache = cache_get($key)) {
       return $cache->data;
     }
 
