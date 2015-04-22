@@ -1,4 +1,6 @@
 <?php
+require_once 'includes/ding_place2book.event_validate.inc';
+
 /**
  * Implementation of hook_ctools_plugin_directory().
  */
