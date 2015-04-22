@@ -147,7 +147,7 @@ function ting_search_context_field_schema($field) {
  * Implements hook_install().
  */
 function ting_search_context_install() {
-	
+	_ting_search_context_install_system_contexts();
 	// We are moving the search context rating system out of the Field API, so
 	// the code below is outcommmented so we can work with the module without
 	// the field being installed every time the module is reinstalled.
@@ -187,4 +187,53 @@ function ting_search_context_install() {
 			field_create_instance($instance + $instance_common);
 		}
 	}*/
+}
+
+/**
+ * Install the module's system contexts in the database.
+ * 
+ * System contexts needs to live in the database, so they can be used to rate 
+ * nodes in the same way as user-defined contexts (they need a context_id).
+ */
+function _ting_search_context_install_system_contexts() {
+	$system_contexts = array(
+		'film' => array(
+			'name' => 'Film',
+			'context' => 'film',
+		),
+		'musik' => array(
+			'name' => 'Musik',
+			'context' => 'musik',
+		),
+		'lydbøger' => array(
+			'name' => 'Lydbøger',
+			'context' => 'lydbøger',
+		),
+		'voksen_fag' => array(
+			'name' => 'Voksen faglitteratur',
+			'context' => 'voksen_fag',
+		),
+		'voksen_skøn' => array(
+			'name' => 'Voksen skønlitteratur',
+			'context' => 'voksen_skøn',
+		),
+		'børne_fag' => array(
+			'name' => 'Børne faglitteratur',
+			'context' => 'børne_fag',
+		),
+		'børne_skøn' => array(
+			'name' => 'Børne skønlitteratur',
+			'context' => 'børne_skøn',
+		),
+	);
+
+	foreach ($system_contexts as $system_context) {
+		$system_context += array('type' => 'system');
+		$context_id = db_insert('ting_search_context_contexts')
+			->fields($system_context)
+			->execute();
+		watchdog('ting_search_context', 'Installed system context: %name', array(
+			'%name' => $system_context['name'],
+		), WATCHDOG_INFO);
+	}
 }
