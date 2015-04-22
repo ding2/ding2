@@ -22,8 +22,14 @@ class DrupalHttpClient implements HttpClient {
     $body = $request->getBody();
     $body->seek(0);
     $headers = $request->getHeaders();
+
+    foreach ($headers as $name => $value) {
+      $headers[$name] = implode(', ', $value);
+    }
+
     $headers['Accept'] = 'application/json';
     $headers['Content-Type'] = 'application/json';
+
     $options = array(
       'method' => $request->getMethod(),
       'headers' => $headers,
