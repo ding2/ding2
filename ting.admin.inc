@@ -170,8 +170,14 @@ function ting_admin_ranking_settings($form, &$form_state) {
     '#tree' => TRUE,
   );
 
-  $form['ting_sort_default']['fields'] = array(
-    '#type' => 'ting_sort_default',
+  $form['ting_sort_default']['fields']['sort_type'] = array(
+    '#title' => t('Type'),
+    '#type' => 'select',
+    '#options' => array(
+      'rank_frequency' => t('Best match'),
+      'rank_general' => t('General Rank'),
+      'rank_none' => t('No rank'),
+    ),
     '#default_value' => array('sort_type' => $ting_sort_value),
   );
 
