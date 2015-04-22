@@ -29,10 +29,8 @@ class DrupalHttpClient implements HttpClient {
       'headers' => $headers,
       'data' => $body->getContents(),
     );
-    drupal_debug(array($url, $options), 'request');
     $res = drupal_http_request($url, $options);
 
-    drupal_debug($res, 'reponse');
     $response = (new Response(new Stream('php://memory', 'w')))
               ->withStatus($res->code, $res->status_message);
     $response->getBody()->write($res->data);
