@@ -10,7 +10,7 @@
  * @param $form_state
  * @return mixed
  */
-function ding_event_admin_currency_setting($form, &$form_state) {
+function ding_event_admin_currency_setting_form($form, &$form_state) {
   $currency = variable_get('ding_event_currency_type', 'Kr');
 
   $form['ding_event_currency'] = array(
@@ -20,7 +20,7 @@ function ding_event_admin_currency_setting($form, &$form_state) {
     '#description' => t("Select which currency to use on events"),
   );
 
-  $form['#validate'][] = 'ding_event_admin_currency_validate';
+  $form['#submit'][] = 'ding_event_admin_currency_submit';
 
   $form['ding_event_currency']['ding_event_currency_type'] = array(
     '#type' => 'radios',
@@ -31,7 +31,7 @@ function ding_event_admin_currency_setting($form, &$form_state) {
 
 // Save us the trouble of running array_filter.
   $form['array_filter'] = array('#type' => 'value', '#value' => TRUE);
-  return  system_settings_form($form);
+  return system_settings_form($form);
 }
 
 /**
@@ -40,17 +40,10 @@ function ding_event_admin_currency_setting($form, &$form_state) {
  * @param $form
  * @param $form_state
  */
-function ding_event_admin_currency_validate($form, &$form_state){
+function ding_event_admin_currency_submit($form, &$form_state) {
   $currency = $form_state['values']['ding_event_currency_type'];
-  if(module_exists('ding_place2book') && $currency != 'kr'){
-    drupal_set_message(t('place2book does not support currencies other than Kr. disable ding_place2book module to continue'),'warning');
-    $form_state['input']['ding_event_currency_type'] = 'kr';
-    $form_state['rebuild'] = TRUE;
-    return;
-  }
-
   $instance = field_read_instance('node', 'field_ding_event_price', 'ding_event');
-  if($instance !== FALSE) {
+  if ($instance !== FALSE) {
     $instance['settings']['suffix'] = ' ' . $currency;
     field_update_instance($instance);
   }
