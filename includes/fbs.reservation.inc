@@ -77,6 +77,8 @@ function fbs_reservation_create($account, $record_ids, $options) {
     $reservation = new FBS\Model\CreateReservation();
     if (preg_match('/^fbs-/', $record_id)) {
       list($record_id, $periodical) = _fbs_periodical_parse_local_id($record_id);
+      $reservation->recordId = $record_id;
+      $reservation->preiodical = $periodical;
     }
     else {
       $reservation->recordId = $record_id;
