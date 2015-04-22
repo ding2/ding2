@@ -7,6 +7,112 @@
  */
 
 /**
+ * Implements hook_schema().
+ */
+function ting_search_context_schema() {
+	$schema = array();
+
+	// TODO: Do we need more database indexes?
+
+	$schema['ting_search_context_contexts'] = array(
+		'description' => 'A table to hold the system and user defined contexts',
+		'fields' => array(
+			'context_id' => array(
+				'description' => 'Primary key: Unique context ID',
+				'type' => 'serial',
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+			),
+			'type' => array(
+				'description' => 'The type of this context (machine-readable)',
+				'type' => 'varchar',
+				'length' => 255,
+				'not null' => TRUE,
+				'default' => '',
+			),
+			'name' => array(
+				'description' => 'A human-readable name of the context',
+				'type' => 'varchar',
+				'length' => 255,
+				'not null' => TRUE,
+				'default' => '',
+			),
+			'context' => array(
+				'description' => 'The machine-name of the context.',
+				'type' => 'varchar',
+				'length' => 255,
+			),
+			// We allow administrators to create more specific versions of certain
+			// system contexts, by associating a subject to the context.
+			'subject' => array(
+				'description' => 'The subject of this context.',
+				'type' => 'varchar',
+				'length' => 255,
+			),
+			// Administrators can also extend the system by creating search contexts.
+			// Search contexts doesn't have a context and subject value. The context 
+			// is given by the search string.
+			'search' => array(
+				'description' => 'The search string of this context.',
+				'type' => 'varchar',
+				'length' => 255, // TODO: Is this enough???
+			),
+		),
+		'primary key' => array('context_id'),
+		// Enforce unique contexts on the database level. This will also be enforced
+		// in the UI, but this shows clear intentions.
+		'unique keys' => array(
+			'subject' => array('context', 'subject'),
+			'search' => array('search'),
+		),
+	);
+
+	$schema['ting_search_context_nodes_rated'] = array(
+		'description' => 'Stores information about nodes rated, thus managing the state of the context rating system',
+		'fields' => array(
+			'context_id' => array(
+				'description' => 'The ID of the context the node is rated in',
+				'type' => 'int',
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+				'default' => 0,
+			),
+			'nid' => array(
+				'description' => 'The ID of the node being rated',
+				'type' => 'int',
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+				'default' => 0,
+			),
+			'rating' => array(
+				'description' => 'The rating of the node in the context specified by context_id',
+				'type' => 'int',
+				'size' => 'tiny',
+				'unsigned' => TRUE,
+				'not null' => TRUE,
+				'default' => 1,
+			),
+		),
+		'primary key' => array('context_id', 'nid'),
+		'foreign keys' => array(
+			'context' => array(
+				'table' => 'ting_search_context_contexts',
+				'columns' => array('context_id' => 'context_id'),
+			),
+			'node' => array(
+				'table' => 'node',
+				'columns' => array('nid' => 'nid'),
+			),
+		),
+		'indexes' => array(
+			'nid' => array('nid'),
+		),
+	);
+
+	return $schema;
+}
+
+/**
  * Implements hook_field_schema().
  *
  * Describes the database coloumns needed by our custom context field.
