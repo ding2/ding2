@@ -18,7 +18,6 @@ function fbs_reservation_list($account, $requested_type = NULL) {
   $res = fbs_service()->Reservations->getReservations(fbs_service()->agencyId, fbs_patron_id($account));
 
   foreach ($res as $reservation) {
-    // if $reservation->state == 'other' => DING_RESERVATION_NOT_READY.
     $type = $reservation->state == 'readyForPickup' ? DING_RESERVATION_READY : DING_RESERVATION_NOT_READY;
     $type = $reservation->state == 'interLibraryReservation' ? DING_RESERVATION_INTERLIBRARY_LOANS : $type;
     $ding_reservation = array(
