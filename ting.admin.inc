@@ -162,6 +162,26 @@ function ting_admin_ranking_settings($form, &$form_state) {
     ),
   );
 
+
+  $ting_sort_value = variable_get('ting_sort_default', 'rank_frequency');
+  $form['ting_sort_default'] = array(
+    '#title' => t('Default sort method (best match)'),
+    '#type' => 'fieldset',
+    '#tree' => TRUE,
+  );
+
+  $form['ting_sort_default']['fields']['sort_type'] = array(
+    '#title' => t('Type'),
+    '#type' => 'select',
+    '#options' => array(
+      'rank_frequency' => t('Best match'),
+      'rank_general' => t('General Rank'),
+      'rank_none' => t('No rank'),
+    ),
+    '#default_value' => array('sort_type' => $ting_sort_value),
+  );
+
+
   $form['buttons']['save'] = array(
     '#type' => 'submit',
     '#value' => t('Save changes'),
@@ -200,7 +220,6 @@ function ting_admin_ranking_add_more_js($form, &$form_state) {
  */
 function ting_admin_ranking_form_after_build($form, &$form_state) {
   $path = drupal_get_path('module', 'ting');
-
   drupal_add_css($path . '/css/ting_admin_ranking_form.css');
 
   return $form;
@@ -218,6 +237,11 @@ function ting_admin_ranking_settings_submit($form, &$form_state) {
   usort($fields, '_ting_ranking_field_sort');
 
   variable_set('ting_ranking_fields', $fields);
+
+  $default_sort = $form_state['values']['ting_sort_default']['fields']['sort_type'];
+  variable_set('ting_sort_default', $default_sort);
+
+  drupal_set_message(t('Settings has been saved'), 'status');
 }
 
 /**
