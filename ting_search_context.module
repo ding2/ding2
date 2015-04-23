@@ -549,39 +549,42 @@ function ting_search_context_save_context($type, $name, $context, $subject = NUL
 /**
  * Get the ID of the context (if any) with the specified parameters.
  * 
- * @param $type
- *   The type of the context to look for. Currently we support system, subject
- *   and search type contexts.
- * @param $context
- *   The context string to use in the lookup. For system and subject contexts,
- *   this should be the machine-readable name of the context. For search 
- *   contexts this should be the search string of the context.
+ * @param string $type
+ *   The type of the context to look for.
+ * @param string $context
+ *   For system and subject contexts this should be the machine-readable name
+ *   of the context.
+ *   For subject contexts this should be the search string.
  * @param $subject
- *   If it's a subject type context being searched for, this should be the 
- *   subject string of the context.
+ *   The subject term for subject type contexts
  *   
- * @return
- *   The ID of the context matching the supplied parameters.
- *   False if no match.
+ * @return mixed
+ *   The context_id of the matching context.
+ *   FALSE if no match.
  * 
  * @see ting_search_context_schema()
  */
 function ting_search_context_get_context_id($type, $context, $subject = NULL) {
-	// For search contexts the $context parameter will be a user entered search
-	// string and can therefore contain unexpected capitalized characters.
-	// TODO: Use mb since string can contain unicode??
-	// TODO: Possible to compare ignore case on db level??
-	if ($type === 'search') {
-		$context = mb_strtolower($context);
-	}
-
-	// Build the query
 	$query = db_select('ting_search_context_contexts', 'tsc')
 		->fields('tsc', array('context_id'))
-		->condition('tsc.type', $type)
-		->condition('tsc.context', $context);
-	if ($type === 'subject' && isset($subject)) {
-		$query->condition('tsc.subject', $subject);
+		->condition('tsc.type', $type);
+
+	switch ($type) {
+		case 'subject':
+			$query->condition('tsc.subject', $subject);
+			// Fall through
+		case 'system':
+			$query->condition('tsc.context', $context);
+			break;
+		case 'search':
+			// $context will be a user entered search string, so we convert to upper
+			// to make sure it compares.
+			// NOTE: This will not be needed for collations suffixed with _ci.
+			// See: https://dev.mysql.com/doc/refman/5.0/en/charset-mysql.html
+			$query->where('UPPER(tsc.search) LIKE :context', array(
+				':context' => db_like(mb_strtoupper($context)),
+			));
+			break;
 	}
 
 	return $query->execute()->fetchField();
