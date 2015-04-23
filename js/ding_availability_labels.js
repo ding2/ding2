@@ -74,15 +74,17 @@
        */
       function update_availability(id, entity_ids) {
         // Default the status to not available and not reservable.
-        var available = false;
-        var reservable = false;
+        var status = {
+          available: false,
+          reservable: false
+        };
 
         // Loop over the entity ids and if one has available or reservable
         // true save that value.
         $.each(entity_ids, function(index, entity_id) {
           if (Drupal.DADB[entity_id]) {
-            available = available || Drupal.DADB[entity_id]['available'];
-            reservable = reservable || Drupal.DADB[entity_id]['reservable'];
+            status.available = status.available || Drupal.DADB[entity_id]['available'];
+            status.reservable = status.reservable || Drupal.DADB[entity_id]['reservable'];
           }
         });
 
@@ -93,18 +95,7 @@
         // to show it).
         var reserver_btn = element.parents('.ting-object:first').find('[id^=ding-reservation-reserve-form]');
 
-        if (available) {
-          update_availability_elements(element, reserver_btn, 'available');
-        }
-        else if (reservable) {
-          update_availability_elements(element, reserver_btn, 'reservable');
-        }
-        else if (!available && !reservable) {
-          update_availability_elements(element, reserver_btn, 'not-reservable');
-        }
-        else {
-          update_availability_elements(element, reserver_btn, 'unavailable');
-        }
+        update_availability_elements(element, reserver_btn, status);
       }
 
       /**
@@ -113,38 +104,38 @@
        *
        * @param element
        *   The target element (material that should be moved).
-       * @param type
-       *   The type of availability the element has.
+       * @param status
+       *   Structure with available and reservable state.
        */
-      function update_availability_type(element, type) {
-        // Select type, if any or create the type.
+      function update_availability_type(element, status) {
         var groups_wrapper = element.closest('.search-result--availability');
-        var group = $('.js-' + type, groups_wrapper);
-        if (group.length !== 1) {
-          // Create group.
-          if (type === 'available') {
-            // Add as first line.
-            group = $('<p class="js-' + type + '">' + Drupal.t('Available') + ': </p>');
-            groups_wrapper.prepend(group);
+        var reservable = status['reservable'];
+        var available = status['available'];
+
+        var group = null;
+        if ($('.js-online', groups_wrapper).length !== 0) {
+          group = $('.js-online', groups_wrapper);
+        }
+        else if (available) {
+          group = $('.js-available', groups_wrapper);
+
+          if (group.length === 0) {
+            group = $('<p class="js-available">' + Drupal.t('Available') + ': </p>');
+            groups_wrapper.append(group);
           }
-          else if (type === 'unavailable') {
-            // Add last.
-            group = $('<p class="js-' + type + '">' + Drupal.t('Unavailable') + ': </p>');
-            group.insertBefore('.js-pending', groups_wrapper);
+        }
+        else if (reservable) {
+          group = $('.js-reservable', groups_wrapper);
+          if (group.length === 0) {
+            group = $('<p class="js-reservable">' + Drupal.t('Reservable') + ': </p>');
+            groups_wrapper.append(group);
           }
-          else if (type === 'reservable') {
-            // First or after available.
-            group = $('<p class="js-' + type + '">' + Drupal.t('Reservable') + ': </p>');
-            if ($('.js-available', groups_wrapper).length) {
-              group.insertAfter($('.js-available', groups_wrapper));
-            }
-            else {
-              groups_wrapper.prepend(group);
-            }
-          }
-          else {
-            // Add last to not-reservable.
-            group = $('<p class="js-not-reservable">' + Drupal.t('Not reservable') + ': </p>');
+        }
+        else {
+          group = $('.js-unavailable', groups_wrapper);
+
+          if (group.length === 0) {
+            group = $('<p class="js-unavailable">' + Drupal.t('Not available') + ': </p>');
             groups_wrapper.append(group);
           }
         }
@@ -182,16 +173,32 @@
        *   jQuery availability element to add the class to.
        * @param btn
        *   Reservation button to add the class to.
-       * @param class_name
-       *   The class to add to the elements.
+       * @param status
+       *   Structure with available and reservable state.
        */
-      function update_availability_elements(element, btn, class_name) {
-        element.addClass(class_name);
-        if (btn.length) {
-          btn.addClass(class_name);
+      function update_availability_elements(element, btn, status) {
+        var class_name = null;
+
+        for (var i in status) {
+          if (status[i] === true) {
+            class_name = i;
+          }
+          else {
+            if (i === 'available') {
+              class_name = 'un' + i;
+            }
+            else if (i === 'reservable') {
+              class_name = 'not-' + i;
+            }
+          }
+
+          element.addClass(class_name);
+          if (btn.length) {
+            btn.addClass(class_name);
+          }
         }
 
-        update_availability_type(element, class_name);
+        update_availability_type(element, status);
       }
     }
   };

@@ -235,7 +235,7 @@ function ding_availability_field_formatter_view($entity_type, $entity, $field, $
               'link' => array(
                 // The online url can't be used with l(), has it will encode
                 // it.
-                '#markup' => '<a class="search-result--availability-link availability available" href="/' . $url['path'] . '">' . check_plain($type) . '</a>',
+                '#markup' => '<a id="' . $id . '" class="search-result--availability-link availability available" href="/' . $url['path'] . '">' . check_plain($type) . '</a>',
               ),
             );
           }
