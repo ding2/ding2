@@ -459,17 +459,6 @@ function ting_search_context_get_contexts() {
 	);
 }
 
-	}
-	else {
-		file_put_contents("/home/drupalpro/debug/debug.txt", print_r('There was no such context', TRUE), FILE_APPEND);
-	}*/
-
-	/*$context_id = ting_search_context_save_context('search', 'Søgning på Disse øjeblikke', 'Disse Øjeblikke');
-	file_put_contents("/home/drupalpro/debug/debug.txt", print_r(gettype($context_id), TRUE), FILE_APPEND);*/
-	$return = ting_search_context_rate_node(1, 28, 10);
-	file_put_contents("/home/drupalpro/debug/debug.txt", print_r($return, TRUE), FILE_APPEND);
-}
-
 /**
  * Saves a node rating in the database
  * 
