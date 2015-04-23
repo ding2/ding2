@@ -160,10 +160,8 @@
       $('.rs-carousel .rs-carousel-runner').append(data.content);
 
       // Show navigation arrows.
-      if (!_is_touch_device()) {
-        $('.rs-carousel-action-prev').show();
-        $('.rs-carousel-action-next').show();
-      }
+      $('.rs-carousel-action-prev').show();
+      $('.rs-carousel-action-next').show();
 
       // Get the carousel running.
       carousel.carousel('refresh');
