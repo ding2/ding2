@@ -470,6 +470,40 @@ function ting_search_context_save_context($type, $name, $context, $subject = NUL
 	if (ting_search_context_get_context_id($type, $context, $subject)) {
 		return FALSE;
 	}
+	else {
+		file_put_contents("/home/drupalpro/debug/debug.txt", print_r('There was no such context', TRUE), FILE_APPEND);
+	}*/
+
+	/*$context_id = ting_search_context_save_context('search', 'Søgning på Disse øjeblikke', 'Disse Øjeblikke');
+	file_put_contents("/home/drupalpro/debug/debug.txt", print_r(gettype($context_id), TRUE), FILE_APPEND);*/
+	$return = ting_search_context_rate_node(1, 28, 10);
+	file_put_contents("/home/drupalpro/debug/debug.txt", print_r($return, TRUE), FILE_APPEND);
+}
+
+/**
+ * Saves a node rating in the database
+ * 
+ * @param int $context_id
+ *   The ID of the context to rate in.
+ * @param int $nid
+ *   The ID of node to rate.
+ * @param int $rating
+ *   The number of the rating (E.g. 1 - 10)
+ *   
+ * @return undefined (https://www.drupal.org/node/310079)
+ */
+function ting_search_context_rate_node($context_id, $nid, $rating) {
+	// Merge query ensures that nodes isn't rated in the same context twice. 
+	return db_merge('ting_search_context_nodes_rated')
+		->key(array(
+			'context_id' => $context_id,
+			'nid' => $nid,
+		))
+		->fields(array(
+			'rating' => $rating,
+		))
+		->execute();
+}
 
 	$fields = array(
 		'type' => $type,
