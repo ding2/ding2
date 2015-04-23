@@ -108,7 +108,7 @@ function ding_frontend_taxonomy_menu_content_type_render($subtype, $conf, $panel
 
   // Use the items generated to format the block content.
   if ($conf['dropdown']) {
-    $block->content = drupal_get_form('ding_frontend_taxonomy_menu_select_dropdown', $items, $default_value, $vocab->name);
+    $block->content = drupal_get_form('ding_frontend_taxonomy_menu_select_dropdown', $items, $default_value, t($vocab->name));
   }
   else {
     // Return render array with item list as theme function.
