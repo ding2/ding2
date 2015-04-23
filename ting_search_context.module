@@ -505,18 +505,45 @@ function ting_search_context_rate_node($context_id, $nid, $rating) {
 		->execute();
 }
 
+/**
+ * Saves a context in the database.
+ * 
+ * @param string $type
+ *   The machine-readable type of context.
+ * @param string $name
+ *   The human-readable name of the context.
+ * @param string $context
+ *   If $type is 'system' or 'subject' this should be the machine-readable name
+ *   of the context.
+ *   If $type is 'search' this should be the search string of the context.
+ * @param string $subject
+ *   The subject term for subject type contexts.
+ *   
+ * @return string
+ *   The context_id of the newly created context.
+ *   
+ * @see ting_search_context_schema()
+ */
+function ting_search_context_save_context($type, $name, $context, $subject = NULL) {
 	$fields = array(
 		'type' => $type,
 		'name' => $name,
-		'context' => $context,
 	);
-	if ($type === 'subject' && isset($subject)) {
-		$fields += array('subject' => $subject);
+
+	switch ($type) {
+		case 'subject':
+			$fields += array('subject' => $subject);
+			// Fall through
+		case 'system':
+			$fields += array('context' => $context);
+			break;
+		case 'search':
+		  $fields += array('search' => $context);
+		  break;
 	}
 
-	return db_insert('ting_search_context_contexts')
-		->fields($fields)
-		->execute();
+	// TODO: Should we handle DB exceptions here or in the UI??
+	return db_insert('ting_search_context_contexts')->fields($fields)->execute();
 }
 
 /**
