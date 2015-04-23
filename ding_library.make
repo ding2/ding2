@@ -66,6 +66,9 @@ projects[file_entity][version] = "2.0-alpha3"
 projects[og][subdir] = "contrib"
 projects[og][version] = "2.7"
 projects[og][patch][] = "https://www.drupal.org/files/issues/entityreference_fields_do_not_validate-2249261-10.patch"
+; Fix using organic groups for relationships in views
+; https://www.drupal.org/node/1890370
+projects[og][patch][] = "https://www.drupal.org/files/issues/add-gid-to-relationship-field-1890370-34.patch"
 
 projects[og_menu][subdir] = "contrib"
 projects[og_menu][version] = "3.0-rc5"
