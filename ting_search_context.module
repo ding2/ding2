@@ -460,6 +460,111 @@ function ting_search_context_get_contexts() {
 }
 
 /**
+ * Searches the database for nodes rated in the context specified by 
+ * $context_id and randomly selects $count number of nodes to return. The 
+ * selection is based on the rating number of the ratings. For example, a node 
+ * with a rating of 5, is 5 times more likely to be selected compared to a node 
+ * with a rating of 1.
+ * Note that nodes with a max rating of 10 will always be preferred over nodes
+ * with lesser rating. This allows administrators to push very relevant content 
+ * to the users, giving them some control over the selection process. This has
+ * one limitation: if there's more nodes with max rating than requested by
+ * $count, the nodes to return will be selected randomly with even probability
+ * between the max rated nodes.
+ * 
+ *
+ * @param int $context_id
+ *   The ID of the context to search in.
+ * @param int $count (optional)
+ *   The max number of nodes to return. Defaults to 5.
+ * @param mixed $node_types (optional)
+ *   Can either be a string with a single node type, or an array of node types. 
+ *   Defaults to 'all' which returns nodes of all types.
+ *   
+ * @return
+ *   An array of node objects keyd by nid.
+ */
+function ting_search_context_get_nodes($context_id, $count = 5, $node_types = 'all') {
+	$return = array();
+
+	// No need to conteniue with the following input.
+	if (empty($node_types) || $count < 1) {
+		return $return;
+	}
+
+	// Setup a common query.
+	$query = db_select('node', 'n');
+	$nr_alias = $query->join(
+		'ting_search_context_nodes_rated',
+		'nr',
+		'n.nid = %alias.nid'
+	);
+	$query->addField('n', 'nid', 'nid');
+    ->addField($nr_alias, 'rating', 'rating')
+	  ->condition($nr_alias . '.context_id', $context_id)
+		->condition('n.status', 1, '=')
+		// Lets node access modules alter the query.
+		// See: https://www.drupal.org/node/310077 and hook_query_TAG_alter().
+		->addTag('node_access');
+
+	// Add constraints on node types if specified.
+	if ($node_types !== 'all') {
+		$node_types = is_array($node_types) ? $node_types : array($node_types);
+		$node_types_condition = db_or();
+		foreach ($node_types as $node_type) {
+			$node_types_condition->condition('n.type', $node_type);
+		}		
+		$query->condition($node_types_condition);
+	}
+
+	// Fetch nodes with max rating.
+	$query_max = clone $query;
+	$query_max_result = $query_max->condition($nr_alias . '.rating'̈́, 10)
+	  ->range(0, $count)
+	  ->orderRandom()
+	  ->execute();
+	foreach ($query_max_result as $record) {
+		$return[$record->nid] = node_load($record->nid);
+	}
+	$count -= $query_max->countQuery()->execute()->fetchField();
+
+	// If there's room for more, look for nodes with less than max rating.
+	if ($count > 0) {
+		$query_less = clone $query;
+		$query_less->condition($nr_alias. '.rating', 10, '<')
+		// Only pick random if there's more nodes than we need.
+		if ($query_less->countQuery()->execute()->fetchField() > $count) {
+			$query_less_result = $query_less->execute();
+
+			// Build array to randomly pick nodes from.
+			$nodes = array();
+			foreach ($query_less_result as $record) {
+				$rating = $record->rating;
+				for ($i = 0; $i < $rating; $i++) {
+					$nodes[] = $record->nid;
+				}
+			}
+			
+			while ($count-- > 0) {
+				$random_key = array_rand($nodes);
+				$nid = $nodes[$random_key];
+				$return[$nid] = node_load($nid);
+				// Remove the node completely from the array.
+				$nodes = array_diff_key($nodes, array_flip(array_keys($nodes, $nid)));
+			}		
+		}
+		// Else include all nodes.
+		else  {
+			foreach ($query_less_result as $record) {
+				$return[$record->nid] = node_load($record->nid);
+			}
+		}		
+	}
+
+	return $return;
+}
+
+/**
  * Saves a node rating in the database
  * 
  * @param int $context_id
