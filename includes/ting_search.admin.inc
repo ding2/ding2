@@ -57,33 +57,15 @@ function ting_search_admin_settings($form_state) {
   );
 
   $form['ting_search']['ting_search_result_message'] = array(
-    '#type' => 'container',
-    '#attributes' => array('class' => array('form-item')),
-    'message' => array(
-      '#type' => 'markup',
-      '#prefix' => '<label>',
-      '#markup' => t('Display message'),
-      '#suffix' => '</label>',
-    ),
-    'ting_search_result_message_text' => array(
-      '#type' => 'container',
-      'message' => array(
-        '#type' => 'markup',
-        '#markup' => t($display_message),
-      ),
-    ),
-    'ting_search_result_message_description' => array(
-      '#type' => 'container',
-      '#attributes' => array('class' => array('description')),
-      'message' => array(
-        '#type' => 'markup',
-        '#markup' => t('Message to display when search has more than x results. The token %s will be substituted by the number choosen.'),
-      ),
-    ),
+    '#type' => 'item',
+    '#attributes' => array('class' => array('description')),
+    '#title' => t('Display message'),
+    '#markup' => t($display_message),
+    '#description' => t('Message to display when search has more than x results. The token %s will be substituted by the number choosen.'),
   );
   
   if ( t($display_message) != $display_message ) {
-    $form['ting_search']['ting_search_result_message']['ting_search_result_message_description']['message']['#markup'] .= '<br/>' . t('Translated from: %n.', array('%n' => $display_message));
+    $form['ting_search']['ting_search_result_message']['#description'] .= '<br/>' . t('Translated from: %n.', array('%n' => $display_message));
   }
 
   $form['ting_search']['ting_search_result_message_limit'] = array(
