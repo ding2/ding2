@@ -17,7 +17,7 @@
         search.insertAfter('.pane-search-result-count');
       }
       else {
-        search.insertBefore('.view-ding-node-search');
+        search.insertBefore('.view-node-search-result .search-results');
       }
 
       // Ensure that the spinner and other stuff works by wrapping it in a
