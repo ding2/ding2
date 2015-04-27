@@ -84,7 +84,7 @@ function ting_search_search_result_content_type_render($subtype, $conf, $panel_a
     // Set message.
     $message = '';
     if (isset($search_result) && $limit < $search_result->numTotalObjects) {
-      $msg = variable_get('ting_search_result_message', 'Your search gave more than %s results. Try to search more specific or use the facets to filter the result.');
+      $msg = t('Your search gave more than %s results. Try to search more specific or use the facets to filter the result.');
       $msg = sprintf($msg, $limit);
       $message = '<div class="messages search-field-in-content--message">' . $msg . '</div>';
     }
