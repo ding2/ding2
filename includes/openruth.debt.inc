@@ -23,12 +23,55 @@ function openruth_debt_list($account) {
         'amount' => $fee->feeAmount,
         'amount_paid' => isset($fee->feeAmountPaid) ? $fee->feeAmountPaid : 0,
         'invoice_number' => isset($fee->feeInvoiceNumber) ? $fee->feeInvoiceNumber : FALSE,
-        'type' => $fee->feeType,
+        'type' => openruth_debt_translate_debt_type($fee->feeType),
       ));
     }
   }
 
   return $result;
+}
+
+/**
+ * Translate OpenRuth debt types into a human readable string in english.
+ *
+ * @param string $debt_type
+ *   The OpenRuth debt type.
+ *
+ * @return string
+ *   English translation of the debt type. It has been
+ */
+function openruth_debt_translate_debt_type($debt_type) {
+  // If translation is not found, return the type. So set it as default.
+  $str = t($debt_type);
+
+  switch ($debt_type) {
+    case 'compensation':
+      $str = t('Compensation');
+      break;
+    case 'first recall':
+      $str = t('First recall');
+      break;
+    case 'second recall':
+      $str = t('Second recall');
+      break;
+    case 'third recall':
+      $str = t('Third recall');
+      break;
+    case 'penalty':
+      $str = t('Penalty');
+      break;
+    case 'reminder':
+      $str = t('Reminder');
+      break;
+    case 'reservation':
+      $str = t('Reservation');
+      break;
+    case 'other':
+      $str = t('Other');
+      break;
+  };
+
+  return $str;
 }
 
 /**
