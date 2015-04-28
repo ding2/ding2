@@ -1,7 +1,7 @@
 name = Ding campaign
 description = Campaign system. Displays context-sensitive, ad-like campaigns.
 package = Ding!
-version = "7.x-0.4"
+version = 7.x-2.0.0+easy
 core = 7.x
 configure = admin/config/ding/campaign
 dependencies[] = field
