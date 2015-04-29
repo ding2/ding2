@@ -26,13 +26,15 @@ function fbs_reservation_list($account, $requested_type = NULL) {
       'pickup_branch_id' => $reservation->pickupBranch,
       'created' => $reservation->dateOfReservation,
       'expiry' => $reservation->expiryDate,
+      // Required by ding_reservation.
+      'reservation_type' => $type,
     );
 
     if ($type === DING_RESERVATION_READY) {
       $ding_reservation['pickup_date'] = $reservation->pickupDeadline;
     }
     elseif ($type === DING_RESERVATION_NOT_READY || $type === DING_RESERVATION_INTERLIBRARY_LOANS) {
-      if (!emtpy($reservation->numberInQueue)) {
+      if (!empty($reservation->numberInQueue)) {
         $ding_reservation['queue_number'] = $reservation->numberInQueue;
       }
     }
@@ -52,8 +54,8 @@ function fbs_reservation_list($account, $requested_type = NULL) {
       }
     }
 
-    $result[$type][$ding_reservation['id']] = $ding_reservation;
-  }
+    $result[$type][$ding_reservation['id']] = new DingProviderReservation($ding_reservation['id'], $ding_reservation);
+}
 
   if ($requested_type) {
     if (isset($result[$requested_type])) {
