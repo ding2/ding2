@@ -12,7 +12,7 @@ use Prophecy\Promise\ReturnPromise;
 
 require_once 'includes/classes/FBS.php';
 require_once 'includes/classes/FBSAuthenticationHandler.php';
-require_once 'includes/classes/GuzzleHttpClient.php';
+require_once 'includes/classes/FBSGuzzleHttpClient.php';
 require_once 'includes/classes/FBSCacheInterface.php';
 require_once 'includes/classes/FBSCacheMemory.php';
 require_once 'includes/classes/FBSLogInterface.php';
@@ -92,7 +92,7 @@ abstract class ProviderTestCase extends PHPUnit_Framework_TestCase {
     $httpclient = $this->getHttpClient();
 
     if ($this->useService) {
-      $client = new GuzzleHttpClient();
+      $client = new FBSGuzzleHttpClient();
       $client = new FBSAuthenticationHandler($this->serviceUsername, $this->servicePassword, $client, new FBSCacheMemory(), new FBSLogStdout());
       $this->fbs = fbs_service($this->serviceAgency, $this->serviceEndpoint, $client, NULL, TRUE);
     }

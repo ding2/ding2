@@ -14,8 +14,10 @@ use Phly\Http\Stream;
 
 /**
  * Drupal implementation of HttpClient.
+ *
+ * This is primarily to be able to run tests outside of a bootstrapped Drupal.
  */
-class GuzzleHttpClient implements HttpClient {
+class FBSGuzzleHttpClient implements HttpClient {
 
   /**
    * Constructor.
