@@ -12,7 +12,7 @@ use Psr\Http\Message\RequestInterface;
 /**
  * HttpClient that wraps another HttpClient and handles authentication.
  */
-class AuthenticationHandler implements HttpClient {
+class FBSAuthenticationHandler implements HttpClient {
   const SESSION_KEY = 'drupal_http_client_session_id';
 
   protected $client = NULL;
