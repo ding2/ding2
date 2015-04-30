@@ -9,14 +9,14 @@
  */
 class FBSLogDrupal implements FBSLogInterface {
   /**
-   * Log a notice.
+   * {@inheritdoc}
    */
   public function notice($message) {
     watchdog('fbs', $message, array(), WATCHDOG_NOTICE);
   }
 
   /**
-   * Log a critical.
+   * {@inheritdoc}
    */
   public function critical($message) {
     watchdog('fbs', $message, array(), WATCHDOG_CRITICAL);

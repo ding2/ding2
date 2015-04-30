@@ -17,19 +17,25 @@ class FBSLogStdout implements FBSLogInterface {
     $this->stdout = fopen('php://stdout', 'w');
   }
   /**
-   * Log a notice.
+   * {@inheritdoc}
    */
   public function notice($message) {
     $this->log('[notice] ' . $message);
   }
 
   /**
-   * Log a critical.
+   * {@inheritdoc}
    */
   public function critical($message) {
     $this->log('[critical] ' . $message);
   }
 
+  /**
+   * Log a message to stdout.
+   *
+   * @param string $message
+   *   String to output.
+   */
   protected function log($message) {
     fwrite($this->stdout, $message . "\n");
   }
