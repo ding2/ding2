@@ -107,8 +107,8 @@ function fbs_patron_id($account = NULL) {
  * @param string|null $endpoint
  *   Url of service endpoint. Defalts to fbs_endpoint variable.
  * @param Reload\Prancer\HttpClient|null $client
- *   HTTP client to use. Defaults to new instance of FakeHttpClient if endpoint
- *   matches "localtest".
+ *   HTTP client to use. Defaults to new instance of FBSFakeHttpClient if
+ *   endpoint matches "localtest".
  * @param Reload\Prancer\Serializer|null $serializer
  *   Serializer to use.
  * @param bool $reset
@@ -124,7 +124,7 @@ function fbs_service($agency_id = NULL, $endpoint = NULL, $client = NULL, $seria
     $agency_id = !is_null($agency_id) ? $agency_id : variable_get('fbs_agency', '');
     $endpoint = !is_null($endpoint) ? $endpoint : variable_get('fbs_endpoint', '');
     if ($endpoint && preg_match('{localtest}', $endpoint)) {
-      $client = new FakeHttpClient();
+      $client = new FBSFakeHttpClient();
     }
 
     // Ensure exactly one trailing slash.

@@ -14,7 +14,7 @@ use Phly\Http\Stream;
 /**
  * Fake HTTP client that implements the Reload\Prancer\HttpClient interface.
  */
-class FakeHttpClient implements HttpClient {
+class FBSFakeHttpClient implements HttpClient {
 
   // Our danny patron.
   private $danny = array(
