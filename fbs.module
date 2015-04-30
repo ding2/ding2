@@ -85,18 +85,39 @@ function fbs_get_patron_info($account = NULL) {
 
 /**
  * Return patron id for user.
+ *
+ * @param object|null $account
+ *   User to get patron id for. Optional, defaults to current user.
+ *
+ * @return string|null
+ *   Patron id or null if not found.
  */
 function fbs_patron_id($account = NULL) {
   $creds = fbs_get_patron_info($account);
-  return $creds['patronId'];
+  return isset($creds['patronId']) ? $creds['patronId'] : null;
 }
 
 /**
  * Get the service object.
  *
  * Parameters is for injecting in tests. Don't use.
+ *
+ * @param string|null $agency_id
+ *   Local agency id. Defaults to fbs_agency variable.
+ * @param string|null $endpoint
+ *   Url of service endpoint. Defalts to fbs_endpoint variable.
+ * @param Reload\Prancer\HttpClient|null $client
+ *   HTTP client to use. Defaults to new instance of FakeHttpClient if endpoint
+ *   matches "localtest".
+ * @param Reload\Prancer\Serializer|null $serializer
+ *   Serializer to use.
+ * @param bool $reset
+ *   Don't use cache but return a new instance.
+ *
+ * @return FBS
+ *   Service class.
  */
-function fbs_service($agency_id = NULL, $endpoint = NULL, $client = NULL, $mapper = NULL, $reset = FALSE) {
+function fbs_service($agency_id = NULL, $endpoint = NULL, $client = NULL, $serializer = NULL, $reset = FALSE) {
   // No drupal_static. We want to be callable from tests.
   static $service;
   if (!$service || $reset) {
@@ -108,7 +129,7 @@ function fbs_service($agency_id = NULL, $endpoint = NULL, $client = NULL, $mappe
 
     // Ensure exactly one trailing slash.
     $endpoint = rtrim($endpoint, '/') . '/';
-    $service = new FBS($agency_id, $endpoint, $client, $mapper);
+    $service = new FBS($agency_id, $endpoint, $client, $serializer);
   }
   return $service;
 }
@@ -251,7 +272,12 @@ function fbs_profile2_presave($entity) {
 }
 
 /**
- * Update preferred branch if it is not set..
+ * Update preferred branch if it is not set.
+ *
+ * @param object $account
+ *   User to update preferred branch on.
+ * @param string $branch_id
+ *   Branch id to update to.
  */
 function fbs_update_preferred_branch($account, $branch_id) {
   global $user;
@@ -292,6 +318,9 @@ function fbs_branches() {
 
 /**
  * Get interest periods.
+ *
+ * @return array
+ *   Array of days => human readable string.
  */
 function fbs_interest_periods() {
   $periods = array(
@@ -338,7 +367,18 @@ function _fbs_patron_info(FBS\Model\Patron $patron) {
 }
 
 /**
- * Return a reversible local_id for a periodical;
+ * Return a reversible local_id for a periodical.
+ *
+ * Ding wants an unique id for a periodical. We don't have that, so we pack the
+ * record id and periodical information together in a pseudo id.
+ *
+ * @param string $record_id
+ *   Id of the ting object.
+ * @param FBS\Model\Periodical $periodical
+ *   The Periodical instance.
+ *
+ * @return string
+ *   The pseudo id.
  */
 function _fbs_periodical_get_local_id($record_id, FBS\Model\Periodical $periodical) {
   // We're using - as a placeholder for empty values, it ensures that there'll
@@ -361,6 +401,15 @@ function _fbs_periodical_get_local_id($record_id, FBS\Model\Periodical $periodic
 
 /**
  * Parse local_id into record and periodical.
+ *
+ * Parse the pseudo id created by _fbs_periodical_get_local_id() into a record
+ * id and periodical.
+ *
+ * @param string $local_id
+ *   The pseudo id.
+ *
+ * @return array
+ *   Array of record_id and Periodical.
  */
 function _fbs_periodical_parse_local_id($local_id) {
   $record_id  = NULL;
