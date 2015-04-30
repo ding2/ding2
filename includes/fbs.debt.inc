@@ -7,6 +7,12 @@
 
 /**
  * Implements provider debt, list.
+ *
+ * @param object $account
+ *   User to get debt listing for.
+ *
+ * @return array
+ *   Debt information.
  */
 function fbs_debt_list($account) {
   $result = array();
@@ -44,6 +50,16 @@ function fbs_debt_list($account) {
 
 /**
  * Implements provider debt, payment_received.
+ *
+ * @param object $account
+ *   User to register payment for.
+ * @param array $debt_ids
+ *   Depts paid for.
+ * @param string $order_id
+ *   Transaction id.
+ *
+ * @return bool
+ *   Success or not.
  */
 function fbs_debt_payment_received($account, $debt_ids = array(), $order_id = NULL) {
   $payment_order = new FBS\Model\PaymentOrder();
@@ -56,6 +72,12 @@ function fbs_debt_payment_received($account, $debt_ids = array(), $order_id = NU
 
   foreach ($res as $confirmation) {
     if ($confirmation->paymentStatus !== 'paymentRegistered') {
+      $variables = array(
+        '@patron_id' => fbs_patron_id($account),
+        '@order_id' => $order_id,
+        '@fee_id' => implode(', ', $debt_ids),
+      );
+      watchdog('fbs', 'Could not register payment for patron @patron_id, order id @order_id, fee id @fee_id', $variables, WATCHDOG_ERROR);
       return FALSE;
     }
   }
