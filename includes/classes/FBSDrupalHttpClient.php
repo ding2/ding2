@@ -13,7 +13,7 @@ use Phly\Http\Stream;
 /**
  * Drupal implementation of HttpClient.
  */
-class DrupalHttpClient implements HttpClient {
+class FBSDrupalHttpClient implements HttpClient {
   /**
    * {@inheritdoc}
    */
