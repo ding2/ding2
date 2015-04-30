@@ -7,6 +7,14 @@
 
 /**
  * Implements provider user, authenticate.
+ *
+ * @param string $name
+ *   User name.
+ * @param string $pincode
+ *   Supplied pincode.
+ *
+ * @return array
+ *   Authentication result.
  */
 function fbs_user_authenticate($name, $pincode) {
   $auth = new FBS\Model\AuthenticationRequest();
@@ -49,6 +57,14 @@ function fbs_user_authenticate($name, $pincode) {
 
 /**
  * Implements provider user, update_pincode.
+ *
+ * @param string $name
+ *   User name.
+ * @param string $new_pincode
+ *   New pincode.
+ *
+ * @return array
+ *   Update result.
  */
 function fbs_user_update_pincode($account, $new_pincode) {
   $creds = fbs_get_patron_info($account);
