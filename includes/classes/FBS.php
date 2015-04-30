@@ -60,9 +60,6 @@ class FBS {
    */
   public $Reservations;
 
-
-  protected static $instances = array();
-
   /**
    * The base URL of the service.
    */
@@ -79,7 +76,17 @@ class FBS {
   protected $serializer;
 
   /**
-   * Constructor.
+   * Construct new FBS service handler.
+   *
+   * @param string $agency_id
+   *   Agency id.
+   * @param string $endpoint
+   *   Service endpoint.
+   * @param HttpClient|null $client
+   *   HttpClient to use. Defaults to FBSDrupalHttpClient instance wrapped by
+   *   FBSAuthenticationHandler.
+   * @param Serializer|null $serializer
+   *   Serializer to use. Defaults to JsonMapperSerializer instance.
    */
   public  function __construct($agency_id, $endpoint, HttpClient $client = NULL, Serializer $serializer = NULL) {
     $this->agencyId = $agency_id;
