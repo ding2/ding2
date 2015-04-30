@@ -37,7 +37,7 @@ function fbs_field_default_field_instances() {
       'module' => 'fbs',
       'settings' => array(),
       'type' => 'fbs_options_select',
-      'weight' => 13,
+      'weight' => 6,
     ),
   );
 
@@ -139,6 +139,37 @@ function fbs_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'profile2-provider_fbs-field_fbs_on_hold'
+  $field_instances['profile2-provider_fbs-field_fbs_on_hold'] = array(
+    'bundle' => 'provider_fbs',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'fbs',
+        'settings' => array(),
+        'type' => 'fbs_period_default',
+        'weight' => 8,
+      ),
+    ),
+    'entity_type' => 'profile2',
+    'field_name' => 'field_fbs_on_hold',
+    'label' => 'On hold',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'fbs',
+      'settings' => array(),
+      'type' => 'fbs_period',
+      'weight' => 11,
+    ),
+  );
+
   // Exported field_instance: 'profile2-provider_fbs-field_fbs_phone'
   $field_instances['profile2-provider_fbs-field_fbs_phone'] = array(
     'bundle' => 'provider_fbs',
@@ -233,7 +264,7 @@ function fbs_field_default_field_instances() {
       'module' => 'fbs',
       'settings' => array(),
       'type' => 'fbs_options_select',
-      'weight' => 17,
+      'weight' => 7,
     ),
   );
 
@@ -243,6 +274,7 @@ function fbs_field_default_field_instances() {
   t('E-mail notifications');
   t('Interest period');
   t('Name');
+  t('On hold');
   t('Phone');
   t('Phone notifications');
   t('Preferred branch');

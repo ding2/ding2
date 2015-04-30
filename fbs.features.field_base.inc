@@ -115,6 +115,32 @@ function fbs_field_default_field_bases() {
     'type' => 'fbs_name',
   );
 
+  // Exported field_base: 'field_fbs_on_hold'
+  $field_bases['field_fbs_on_hold'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(
+      0 => 'profile2',
+    ),
+    'field_name' => 'field_fbs_on_hold',
+    'foreign keys' => array(),
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'fbs',
+    'settings' => array(
+      'profile2_private' => 0,
+    ),
+    'storage' => array(
+      'active' => 1,
+      'module' => 'virtual_field',
+      'settings' => array(),
+      'type' => 'virtual_field',
+    ),
+    'translatable' => 0,
+    'type' => 'fbs_on_hold',
+  );
+
   // Exported field_base: 'field_fbs_phone'
   $field_bases['field_fbs_phone'] = array(
     'active' => 1,

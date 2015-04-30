@@ -110,60 +110,111 @@ function fbs_field_info() {
       'property_type' => 'text',
       'property_callbacks' => array('fbs_field_property_callback'),
     ),
+
+    'fbs_on_hold' => array(
+      'label' => t('On hold period from FBS'),
+      'description' => t('Period where user should not get any reservations'),
+      'default_widget' => 'fbs_period',
+      'default_formatter' => 'fbs_period_default',
+      'virtual_field' => array(
+        'entity_types' => array('profile2'),
+        'add_widget' => TRUE,
+      ),
+      'property_type' => 'struct',
+      'property_callbacks' => array('fbs_field_property_callback'),
+    ),
   );
 }
 
 /**
  * Implements hook_field_widget_info().
- *
- * The standard options widgets doesn't like our virtual fields as they use
- * the fields "columns" to figure out the field array structure.
- *
- * So we wrap them thinly.
  */
 function fbs_field_widget_info() {
-  $return = array();
+  $return['fbs_period'] = array(
+    'label' => t('Period'),
+    'field types' => array('fbs_on_hold'),
+    'behaviors' => array(
+      'multiple values' => FIELD_BEHAVIOR_DEFAULT,
+    ),
+  );
 
   if (module_exists('options')) {
-    $return = array(
-      'fbs_options_select' => array(
-        'label' => t('Select list (FBS)'),
-        'field types' => array('fbs_preferred_branch', 'fbs_interest_period'),
-        'behaviors' => array(
-          'multiple values' => FIELD_BEHAVIOR_CUSTOM,
-        ),
+    // The standard options widgets doesn't like our virtual fields as they use
+    // the fields "columns" to figure out the field array structure. So we wrap
+    // them thinly.
+    $return['fbs_options_select'] = array(
+      'label' => t('Select list (FBS)'),
+      'field types' => array('fbs_preferred_branch', 'fbs_interest_period'),
+      'behaviors' => array(
+        'multiple values' => FIELD_BEHAVIOR_CUSTOM,
       ),
-      'fbs_options_onoff' => array(
-        'label' => t('Single on/off checkbox (FBS)'),
-        'field types' => array('fbs_phone_notification', 'fbs_mail_notification'),
-        'behaviors' => array(
-          'multiple values' => FIELD_BEHAVIOR_CUSTOM,
-        ),
-        'settings' => array('display_label' => 0),
+    );
+    $return['fbs_options_onoff'] = array(
+      'label' => t('Single on/off checkbox (FBS)'),
+      'field types' => array('fbs_phone_notification', 'fbs_mail_notification'),
+      'behaviors' => array(
+        'multiple values' => FIELD_BEHAVIOR_CUSTOM,
       ),
+      'settings' => array('display_label' => 0),
     );
   }
 
   return $return;
 }
+
 /**
  * Implements hook_field_widget_form().
- *
- * Fixes columns and lets options_field_widget_form() do the work.
  */
 function fbs_field_widget_form(&$form, &$form_state, $field, $instance, $langcode, $items, $delta, $element) {
-  $field['columns'] = array('value' => 'mumble');
-  $instance['widget']['type'] = preg_replace('/^fbs_/', '', $instance['widget']['type']);
-  return options_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
+
+  switch ($instance['widget']['type']) {
+    case 'fbs_period':
+      $element['#type'] = 'fieldset';
+      $fields = array(
+        'from' => t('Start date'),
+        'to' => t('End date'),
+      );
+
+      foreach ($fields as $key => $title) {
+        $default_value = '';
+        if (!empty($items[$delta][$key])) {
+          $date = new DateObject("@" + $items[$delta][$key]);
+          $default_value = $date->format(DATE_FORMAT_DATETIME);
+        }
+        $element[$key] = array(
+          '#type' => 'date_popup',
+          '#title' => $title,
+          '#date_format' => 'd-m-Y',
+          '#date_label_position' => 'invisible',
+          '#default_value' => $default_value,
+        );
+      }
+
+      return $element;
+
+    case 'fbs_options_onoff':
+    case 'fbs_options_select':
+      // Fixes columns and lets options_field_widget_form() do the work.
+      $field['columns'] = array('value' => 'mumble');
+      $instance['widget']['type'] = preg_replace('/^fbs_/', '', $instance['widget']['type']);
+      return options_field_widget_form($form, $form_state, $field, $instance, $langcode, $items, $delta, $element);
+  }
 }
 
 /**
  * Implements hook_field_widget_settings_form().
- *
- * Wraps options_field_widget_settings_form().
  */
 function fbs_field_widget_settings_form($field, $instance) {
-  return options_field_widget_settings_form($field, $instance);
+
+  switch ($instance['widget']['type']) {
+    case 'fbs_period':
+      return;
+
+    case 'fbs_options_onoff':
+    case 'fbs_options_select':
+      // Thin wrapping.
+      return options_field_widget_settings_form($field, $instance);
+  }
 }
 
 /**
@@ -174,7 +225,12 @@ function fbs_field_widget_settings_form($field, $instance) {
 function fbs_field_property_callback(&$info, $entity_type, $field, $instance, $field_type) {
   $name = $field['field_name'];
   $property = &$info[$entity_type]['bundles'][$instance['bundle']]['properties'][$name];
-  $property['getter callback'] = 'fbs_field_metadata_get';
+  if ($field['type'] == 'fbs_on_hold') {
+    $property['getter callback'] = 'entity_metadata_field_verbatim_get';
+  }
+  else {
+    $property['getter callback'] = 'fbs_field_metadata_get';
+  }
   unset($property['setter callback']);
   unset($property['query callback']);
 }
@@ -187,6 +243,18 @@ function fbs_field_metadata_get($entity, array $options, $name, $entity_type, &$
   $val = entity_metadata_field_verbatim_get($entity, $options, $name, $entity_type, $context);
   if (isset($val['value'])) {
     return $val['value'];
+  }
+  return NULL;
+}
+
+/**
+ * Callback to get the value of a field.
+ */
+function fbs_field_metadata_period_get($entity, array $options, $name, $entity_type, &$context) {
+  // Get the raw field value.
+  $val = entity_metadata_field_verbatim_get($entity, $options, $name, $entity_type, $context);
+  if (isset($val['from']) || isset($val['to'])) {
+    return $val;
   }
   return NULL;
 }
@@ -217,6 +285,7 @@ function fbs_field_load($entity_type, $entities, $field, $instances, $langcode, 
     'fbs_mail_notification',
     'fbs_preferred_branch',
     'fbs_interest_period',
+    'fbs_on_hold',
   );
   if (in_array($field['type'], $field_types)) {
     $patron = ding_user_get_creds($user);
@@ -251,6 +320,24 @@ function fbs_field_load($entity_type, $entities, $field, $instances, $langcode, 
           case 'fbs_mail_notification':
             $items[$id][0] = array('value' => $patron['mail_notification'] ? 1 : 0);
             break;
+
+          case 'fbs_on_hold':
+            $value = array(
+              'from' => '',
+              'to' => '',
+            );
+
+            if ($patron['on_hold']) {
+              if ($patron['on_hold']['from']) {
+                $value['from'] = strtotime($patron['on_hold']['from']);
+              }
+              if ($patron['on_hold']['to']) {
+                $value['to'] = strtotime($patron['on_hold']['to']);
+              }
+            }
+
+            $items[$id][0] = $value;
+            break;
         }
       }
     }
@@ -279,8 +366,15 @@ function fbs_options_list($field, $instance, $entity_type, $entity) {
  * Implements hook_field_is_empty().
  */
 function fbs_field_is_empty($item, $field) {
-  if (empty($item['value']) && (string) $item['value'] !== '0') {
-    return TRUE;
+  if ($field['type'] == 'fbs_on_hold') {
+    if (empty($item['from']) && empty($item['to'])) {
+      return TRUE;
+    }
+  }
+  else {
+    if (empty($item['value']) && (string) $item['value'] !== '0') {
+      return TRUE;
+    }
   }
   return FALSE;
 }
@@ -312,6 +406,13 @@ function fbs_field_formatter_info() {
       'label' => t('Default'),
       'field types' => array(
         'fbs_interest_period',
+      ),
+    ),
+
+    'fbs_period_default'  => array(
+      'label' => t('Default'),
+      'field types' => array(
+        'fbs_on_hold',
       ),
     ),
   );
@@ -346,6 +447,36 @@ function fbs_field_formatter_view($entity_type, $entity, $field, $instance, $lan
       case 'fbs_interest_period':
         $element[$delta] = array(
           '#markup' => format_plural($item['value'], '1 day', '@count days'),
+        );
+        break;
+
+      case 'fbs_period_default':
+        if (empty($item['from']) && empty($item['to'])) {
+          return;
+        }
+        elseif (empty($item['from'])) {
+          $markup = t('To !end-date', array(
+                      '!end-date' => format_date($item['to'],
+                                   'ding_material_lists_date'),
+                    ));
+        }
+        elseif (empty($item['to'])) {
+          $markup = t('From !start-date', array(
+                      '!start-date' => format_date($item['from'],
+                                     'ding_material_lists_date'),
+                    ));
+        }
+        else {
+          $markup = t('From !start-date to !end-date', array(
+                      '!start-date' => format_date($item['from'],
+                                     'ding_material_lists_date'),
+                      '!end-date' => format_date($item['to'],
+                                   'ding_material_lists_date'),
+                    ));
+        }
+
+        $element[$delta] = array(
+          '#markup' => $markup,
         );
         break;
     }

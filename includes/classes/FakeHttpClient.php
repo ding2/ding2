@@ -147,6 +147,10 @@ class FakeHttpClient implements HttpClient {
       $patron['preferredPickupBranch'] = $update_request->patron->preferredPickupBranch;
     }
 
+    if ($update_request->patron->onHold) {
+      $patron['onHold'] = $update_request->patron->onHold;
+    }
+
     $patron['receiveSms'] = (bool) $update_request->patron->receiveSms;
     $patron['receiveEmail'] = (bool) $update_request->patron->receiveEmail;
 

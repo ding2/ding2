@@ -18,7 +18,7 @@ if (function_exists('module_load_include')) {
  * Register autoloader for our (non-Drupal) classes.
  */
 function fbs_init() {
-  require_once "vendor/autoload.php";
+  require_once dirname(__FILE__) . "/vendor/autoload.php";
 }
 
 /**
@@ -190,9 +190,17 @@ function fbs_profile2_presave($entity) {
   if ($entity->uid != $user->uid) {
     // Profile is not the current user's. We can't get the existing values, so
     // we wont try to update.
+    return;
   }
   $patron = ding_user_get_creds($user);
   $wrapper = entity_metadata_wrapper('profile2', $entity);
+
+  $current_on_hold = array();
+  $current_on_hold = $wrapper->field_fbs_on_hold->value();
+  if (!$current_on_hold) {
+    $current_on_hold = array('from' => '', 'to' => '');
+  }
+
 
   $current = array(
     'phoneNumber' => $wrapper->field_fbs_phone->value(),
@@ -204,21 +212,31 @@ function fbs_profile2_presave($entity) {
     // 'defaultInterestPeriod' => $wrapper->field_fbs_interest_period->value(),
   );
 
+  if ($patron['on_hold']) {
+    $existing_on_hold = $patron['on_hold'];
+  }
   $existing = array(
     'phoneNumber' => $patron['phone'],
     'emailAddress' => $patron['mail'],
     'receiveSms' => (bool) $patron['phone_notification'],
     'receiveEmail' => (bool) $patron['mail_notification'],
     'preferredPickupBranch' => $patron['preferred_branch'],
+    'onHold' => $patron['on_hold'],
     // 'defaultInterestPeriod' => $patron['interest_period'],
   );
 
-  if (array_diff_assoc($current, $existing)) {
+  if (array_diff_assoc($current, $existing) || array_diff_assoc($current_on_hold, $existing_on_hold)) {
+    $period = new FBS\Model\Period();
+    $period->from = $current_on_hold['from'];
+    $period->to = $current_on_hold['to'];
+
     $update = new FBS\Model\UpdatePatronRequest();
     $patron_settings = new FBS\Model\PatronSettings();
     foreach ($current as $key => $val) {
       $patron_settings->{$key} = $val;
     }
+    $patron_settings->onHold = $period;
+
     $update->patron = $patron_settings;
     $res = fbs_service()->Patron->update(fbs_service()->agencyId, $patron['patronId'], $update);
     $result['creds'] = _fbs_creds($res->patron);
@@ -297,6 +315,10 @@ function _fbs_creds(FBS\Model\Patron $patron) {
     'mail_notification' => $patron->receiveEmail,
     'preferred_branch' => $patron->preferredPickupBranch,
     'interest_period' => $patron->defaultInterestPeriod,
+    'on_hold' => $patron->onHold ? array(
+      'from' => $patron->onHold->from,
+      'to' => $patron->onHold->to,
+    ) : NULL,
   );
 }
 
