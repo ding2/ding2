@@ -187,10 +187,10 @@ function fbs_reservation_branch_name($branch_id) {
  *   The default options.
  */
 function fbs_reservation_default_options($account) {
-  $creds = fbs_get_patron_info($account);
+  $patron_info = fbs_get_patron_info($account);
   return array(
-    'preferred_branch' => $creds['preferred_branch'],
-    'interest_period' => $creds['interest_period'],
+    'preferred_branch' => $patron_info['preferred_branch'],
+    'interest_period' => $patron_info['interest_period'],
   );
 }
 
@@ -206,10 +206,10 @@ function fbs_reservation_default_options($account) {
  *   The reservation options.
  */
 function fbs_reservation_options($account, $default_branch) {
-  $creds = fbs_get_patron_info($account);
+  $patron_info = fbs_get_patron_info($account);
 
-  $interest_period = $creds['interest_period'];
-  $preferred_branch = empty($default_branch) ? $creds['preferred_branch'] : $default_branch;
+  $interest_period = $patron_info['interest_period'];
+  $preferred_branch = empty($default_branch) ? $patron_info['preferred_branch'] : $default_branch;
 
   $form = array();
   $form += ding_reservation_default_options_branch('preferred_branch', $preferred_branch, fbs_branches());
@@ -237,9 +237,9 @@ function fbs_reservation_options_submit($account, $values) {
  *   Default interest period for user.
  */
 function fbs_reservation_default_interest_period() {
-  $creds = fbs_get_patron_info();
-  if (isset($creds['interest_period'])) {
-    return $creds['interest_period'];
+  $patron_info = fbs_get_patron_info();
+  if (isset($patron_info['interest_period'])) {
+    return $patron_info['interest_period'];
   }
 
   return variable_get('fbs_default_interest_period', 180);

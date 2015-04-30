@@ -90,11 +90,11 @@ function fbs_get_patron_info($account = NULL) {
  *   User to get patron id for. Optional, defaults to current user.
  *
  * @return string|null
- *   Patron id or null if not found.
+ *   Patron id or NULL if not found.
  */
 function fbs_patron_id($account = NULL) {
-  $creds = fbs_get_patron_info($account);
-  return isset($creds['patronId']) ? $creds['patronId'] : null;
+  $patron_info = fbs_get_patron_info($account);
+  return isset($patron_info['patronId']) ? $patron_info['patronId'] : NULL;
 }
 
 /**

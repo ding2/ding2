@@ -67,18 +67,18 @@ function fbs_user_authenticate($name, $pincode) {
  *   Update result.
  */
 function fbs_user_update_pincode($account, $new_pincode) {
-  $creds = fbs_get_patron_info($account);
+  $patron_info = fbs_get_patron_info($account);
 
   $update = new FBS\Model\UpdatePatronRequest();
   $pincode_change = new FBS\Model\PincodeChange();
   $pincode_change->pincode = $new_pincode;
-  $pincode_change->libraryCardNumber = $creds['library_card_number'];
+  $pincode_change->libraryCardNumber = $patron_info['library_card_number'];
   $update->pincodeChange = $pincode_change;
 
   $res = fbs_service()->Patron->update(fbs_service()->agencyId, fbs_patron_id($account), $update);
   // FBS doesn't give any other indication of success than returning rather
   // than throwing an error.
   $result = array('creds' => _fbs_patron_info($res->patron));
-  $result['creds']['library_card_number'] = $creds['library_card_number'];
+  $result['creds']['library_card_number'] = $patron_info['library_card_number'];
   return $result;
 }
