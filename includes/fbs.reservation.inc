@@ -7,6 +7,14 @@
 
 /**
  * Implements provider reservation, list.
+ *
+ * @param object $account
+ *   User to list reservations for.
+ * @param string|null $requested_type
+ *   Type of reservations to list. Null for all.
+ *
+ * @return array
+ *   Reservation info.
  */
 function fbs_reservation_list($account, $requested_type = NULL) {
   $result = array(
@@ -55,8 +63,9 @@ function fbs_reservation_list($account, $requested_type = NULL) {
     }
 
     $result[$type][$ding_reservation['id']] = new DingProviderReservation($ding_reservation['id'], $ding_reservation);
-}
+  }
 
+  // Filter the result based on the requested type of reservations.
   if ($requested_type) {
     if (isset($result[$requested_type])) {
       return $result[$requested_type];
@@ -72,6 +81,14 @@ function fbs_reservation_list($account, $requested_type = NULL) {
 
 /**
  * Implements provider reservation, create.
+ *
+ * @param object $account
+ *   User to reserve for.
+ * @param array $record_ids
+ *   Ids of ting objects to reserve.
+ * @param array $options
+ *   Reservation options.
+ *
  */
 function fbs_reservation_create($account, $record_ids, $options) {
   $batch = new FBS\Model\CreateReservationBatch();
@@ -90,11 +107,18 @@ function fbs_reservation_create($account, $record_ids, $options) {
     $reservation->pickupBranch = $options['preferred_branch'];
     $batch->reservations[] = $reservation;
   }
-  $res = fbs_service()->Reservations->addReservations(fbs_service()->agencyId, fbs_patron_id($account), $batch);
+  fbs_service()->Reservations->addReservations(fbs_service()->agencyId, fbs_patron_id($account), $batch);
 }
 
 /**
- * Implements provider reservation, delete.
+ * Implements provider reservation, update.
+ *
+ * @param object $account
+ *   User to update reservations for.
+ * @param array $reservation_ids
+ *   Reservations to update.
+ * @param array $options
+ *   Update options.
  */
 function fbs_reservation_update($account, $reservation_ids, $options) {
   $batch = new FBS\Model\UpdateReservationBatch();
@@ -106,20 +130,28 @@ function fbs_reservation_update($account, $reservation_ids, $options) {
     $reservation->pickupBranch = $options['preferred_branch'];
     $batch->reservations[] = $reservation;
   }
-  $res = fbs_service()->Reservations->updateReservations(fbs_service()->agencyId, fbs_patron_id($account), $batch);
+  fbs_service()->Reservations->updateReservations(fbs_service()->agencyId, fbs_patron_id($account), $batch);
 }
 
 /**
  * Implements provider reservation, delete.
+ *
+ * @param object $account
+ *   User to delete reservations for.
+ * @param array $reservation_ids
+ *   Reservations to delete.
  */
 function fbs_reservation_delete($account, $reservation_id) {
-  $res = fbs_service()->Reservations->deleteReservations(fbs_service()->agencyId, fbs_patron_id($account), $reservation_id);
+  fbs_service()->Reservations->deleteReservations(fbs_service()->agencyId, fbs_patron_id($account), $reservation_id);
 }
 
 /**
  * Implements provider reservation, reservation_deletion_enabled.
  *
  * Check where reservation deletion have been enabled in the providers settings.
+ *
+ * @return bool
+ *   Whether deletion is enabled.
  */
 function fbs_reservation_reservation_deletion_enabled() {
   return variable_get('fbs_enable_reservation_deletion', FALSE);
@@ -127,6 +159,12 @@ function fbs_reservation_reservation_deletion_enabled() {
 
 /**
  * Implements provider reservation, branch_name.
+ *
+ * @param string $branch_id
+ *   The branch id to look up.
+ *
+ * @return string|null
+ *   The branch name or null if not found.
  */
 function fbs_reservation_branch_name($branch_id) {
   $res = fbs_service()->Placement->getBranches(fbs_service()->agencyId);
@@ -141,6 +179,12 @@ function fbs_reservation_branch_name($branch_id) {
 
 /**
  * Implements provider reservation, default_options.
+ *
+ * @param object $account
+ *   The user to get default options for.
+ *
+ * @return array
+ *   The default options.
  */
 function fbs_reservation_default_options($account) {
   $creds = fbs_get_patron_info($account);
@@ -152,6 +196,14 @@ function fbs_reservation_default_options($account) {
 
 /**
  * Implements provider reservation, options.
+ *
+ * @param object $account
+ *   The user to get reservation options for.
+ * @param string $default_branch
+ *   Default branch to select.
+ *
+ * @return array
+ *   The reservation options.
  */
 function fbs_reservation_options($account, $default_branch) {
   $creds = fbs_get_patron_info($account);
@@ -168,6 +220,11 @@ function fbs_reservation_options($account, $default_branch) {
 
 /**
  * Implements provider reservation, options_submit.
+ *
+ * @param object $account
+ *   The user to get update preferred branch for.
+ * @param array $values
+ *   Form values.
  */
 function fbs_reservation_options_submit($account, $values) {
   fbs_update_preferred_branch($account, $values['preferred_branch']);
@@ -175,6 +232,9 @@ function fbs_reservation_options_submit($account, $values) {
 
 /**
  * Implements provider reservation, default_interst_period.
+ *
+ * @return int
+ *   Default interest period for user.
  */
 function fbs_reservation_default_interest_period() {
   $creds = fbs_get_patron_info();
