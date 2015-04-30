@@ -6,6 +6,12 @@
 
 /**
  * Implements provider availability, items.
+ *
+ * @param array $provider_ids
+ *   Array of ting object ids (faust).
+ *
+ * @return array
+ *   Avaliability info.
  */
 function fbs_availability_items($provider_ids) {
   $avails = fbs_service()->Catalog->getAvailability(fbs_service()->agencyId, $provider_ids);
@@ -18,6 +24,12 @@ function fbs_availability_items($provider_ids) {
 
 /**
  * Implements provider availability, holdings.
+ *
+ * @param array $provider_ids
+ *   Array of ting object ids (faust).
+ *
+ * @return array
+ *   Holdings info.
  */
 function fbs_availability_holdings($provider_ids) {
   $holdings = fbs_service()->Catalog->getHoldings(fbs_service()->agencyId, $provider_ids);
