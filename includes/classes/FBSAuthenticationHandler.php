@@ -29,6 +29,17 @@ class FBSAuthenticationHandler implements HttpClient {
 
   /**
    * Constructor.
+   *
+   * @param string $username
+   *   Username for login.
+   * @param string $password
+   *   Password for login.
+   * @param HttpClient $real
+   *   Real HttpClient to use for communicating with the service.
+   * @param FBSCacheInterface $cache
+   *   Cache backend to store the session token.
+   * @param FBSLogInterface $log
+   *   Where to log errors.
    */
   public function __construct($username, $password, HttpClient $real, FBSCacheInterface $cache, FBSLogInterface $log) {
     $this->username = $username;
@@ -39,6 +50,11 @@ class FBSAuthenticationHandler implements HttpClient {
   }
 
   /**
+   * Passes the request on to the real HttpClient, catches authentication errors
+   * and attempts to log in before retrying.
+   *
+   * One attempt at login is done per request.
+   *
    * {@inheritdoc}
    */
   public function request(RequestInterface $request) {
@@ -46,22 +62,18 @@ class FBSAuthenticationHandler implements HttpClient {
     // add session id.
     $auth_request = preg_match('{/external/v1/[-A-Za-z0-9]+/authentication/login$}', $request->getUri()->getPath());
 
-    $url = (string) $request->getUri();
     $body = $request->getBody();
     $body->seek(0);
-    $headers = $request->getHeaders();
-    $headers['Accept'] = 'application/json';
-    $headers['Content-Type'] = 'application/json';
     if (!$auth_request) {
       $request = $request->withAddedHeader('X-Session', $this->getSessionId());
-      $headers['X-Session'] = $this->getSessionId();
     }
     $response = $this->client->request($request);
 
     // The server wants us to authenticate. Do it and retry the request.
     if (!$auth_request && $response->getStatusCode() == 401) {
-      $this->authenticate();
-      $response = $this->client->request($request);
+      if ($this->authenticate()) {
+        $response = $this->client->request($request);
+      }
     }
 
     return $response;
@@ -69,6 +81,9 @@ class FBSAuthenticationHandler implements HttpClient {
 
   /**
    * Get session id.
+   *
+   * @return string|null
+   *   The current session id or NULL.
    */
   protected function getSessionId() {
     if (!$this->sessionId) {
@@ -84,6 +99,9 @@ class FBSAuthenticationHandler implements HttpClient {
 
   /**
    * Authenticate with FBS and get a session id.
+   *
+   * @return bool
+   *   Whether the attempt was successful.
    */
   protected function authenticate() {
     $this->cache->delete(self::SESSION_KEY);
@@ -95,9 +113,11 @@ class FBSAuthenticationHandler implements HttpClient {
     if (isset($res->sessionKey)) {
       $this->sessionId = $res->sessionKey;
       $this->cache->set(self::SESSION_KEY, $this->sessionId);
+      return TRUE;
     }
     else {
       $this->log->critical('Error athentication with FBS. Check endpoint, agency id, username and password.');
     }
+    return FALSE;
   }
 }
