@@ -7,6 +7,12 @@
 
 /**
  * Implements provider loan, list.
+ *
+ * @param object $account
+ *   User to fetch list for.
+ *
+ * @return array
+ *   Loan information.
  */
 function fbs_loan_list($account) {
   $result = array();
@@ -47,6 +53,14 @@ function fbs_loan_list($account) {
 
 /**
  * Implements provider loan, renew.
+ *
+ * @param object $account
+ *   User to renew loan for.
+ * @param array $loan
+ *   Loan ids to renew.
+ *
+ * @return array
+ *   Result of revewals.
  */
 function fbs_loan_renew($account, $loans) {
   $result = array();
