@@ -56,11 +56,17 @@ function fbs_ding_provider() {
 }
 
 /**
- * Get creds for user.
+ * Get info for patron.
  *
  * Wrapper around ding_user_get_creds() to facilitate testing.
+ *
+ * @param object|null $account
+ *   User to get patron info about. Uses current user if not supplied.
+ *
+ * @return array
+ *   Patron info.
  */
-function fbs_get_creds($account = NULL) {
+function fbs_get_patron_info($account = NULL) {
   global $user;
 
   if (!$account) {
@@ -81,7 +87,7 @@ function fbs_get_creds($account = NULL) {
  * Return patron id for user.
  */
 function fbs_patron_id($account = NULL) {
-  $creds = fbs_get_creds($account);
+  $creds = fbs_get_patron_info($account);
   return $creds['patronId'];
 }
 
@@ -239,7 +245,7 @@ function fbs_profile2_presave($entity) {
 
     $update->patron = $patron_settings;
     $res = fbs_service()->Patron->update(fbs_service()->agencyId, $patron['patronId'], $update);
-    $result['creds'] = _fbs_creds($res->patron);
+    $result['creds'] = _fbs_patron_info($res->patron);
     ding_user_save_creds($result);
   }
 }
@@ -303,9 +309,18 @@ function fbs_interest_periods() {
 }
 
 /**
- * Create creds from Patron.
+ * Pack patron info in an array.
+ *
+ * Saves all the data we'll need for profile editing into an array that can be
+ * serialized in ding_user creds.
+ *
+ * @param FBS\Model\Patron $patron
+ *   Patron data to save.
+ *
+ * @return array
+ *   Data to save.
  */
-function _fbs_creds(FBS\Model\Patron $patron) {
+function _fbs_patron_info(FBS\Model\Patron $patron) {
   return array(
     'patronId' => $patron->patronId,
     'name' => $patron->name,
