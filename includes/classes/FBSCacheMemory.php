@@ -11,14 +11,14 @@ class FBSCacheMemory implements FBSCacheInterface {
   protected $data = array();
 
   /**
-   * Set a cache entry.
+   * {@inheritdoc}
    */
   public function set($key, $value) {
     $this->data[$key] = $value;
   }
 
   /**
-   * Get a cache entry.
+   * {@inheritdoc}
    */
   public function get($key) {
     if (isset($this->data[$key])) {
@@ -29,7 +29,7 @@ class FBSCacheMemory implements FBSCacheInterface {
   }
 
   /**
-   * Delete a cache entry.
+   * {@inheritdoc}
    */
   public function delete($key) {
     unset($this->data[$key]);
