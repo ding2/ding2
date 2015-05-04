@@ -608,7 +608,6 @@ function ting_get_request_factory() {
       'object' => 'ting_search_url',
       'collection' => 'ting_search_url',
       'recommendation' => 'ting_recommendation_url',
-      'suggestion' => 'ting_suggestion_url',
     );
 
     // TODO: This should probably be rethought.
