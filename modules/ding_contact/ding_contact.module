@@ -9,6 +9,10 @@ include_once 'ding_contact.features.inc';
 /**
  * Implements hook_block_view_alter
  *
+ * Contact form is taken over by page_manager - @see ctools/plugins/tasks/contact_site.inc, and
+ * expects a form to render - the contact module [drupal]/modules/contact returns message as a string if eg.
+ * flooding is violated, and thus page_manager fails to render jthe message.
+ *
  * check if content on contact site  is a form. If not make it so
  * @param $data
  * @param $block
