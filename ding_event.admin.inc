@@ -48,3 +48,14 @@ function ding_event_admin_currency_submit($form, &$form_state) {
     field_update_instance($instance);
   }
 }
+
+/**
+ * Implement hook_permission
+ */
+function ding_event_permission() {
+  return array(
+    'administer event settings' => array(
+      'title' => t('Administer event settings')
+    ),
+  );
+}
