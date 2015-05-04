@@ -5,8 +5,26 @@
  */
 
 /**
+ * Implements hook_install().
+ */
+function ding_permissions_install() {
+  // Set folders for secure_permissions.
+  variable_set('secure_permissions_folders', "profiles/ding2/modules/*\nmodules/*");
+  // Set match type for secure_permissions.
+  variable_set('secure_permissions_type', 1);
+}
+
+/**
  * Rebuild permissions.
  */
 function ding_permissions_update_7000() {
   secure_permissions_rebuild();
+}
+
+/**
+ * Set folders and match type for secure_permissions after installing patch.
+ */
+function ding_permissions_update_7001() {
+  variable_set('secure_permissions_folders', "profiles/ding2/modules/*\nmodules/*");
+  variable_set('secure_permissions_type', 1);
 }
