@@ -7,26 +7,7 @@
 
 function ting_search_autocomplete_admin() {
 
-  $base_settings['index'] = NULL;
-  $base_settings['facetIndex'] = NULL;
-  $base_settings['filterQuery'] = NULL;
-  $base_settings['sort'] = 'count';
-
-  $base_settings['agency']  = variable_get('ting_agency', NULL);
-  $base_settings['profile'] = variable_get('ting_search_profile', NULL);
-  $base_settings['maxSuggestions'] = 10;
-  $base_settings['maxTime'] = 2000;
-
-  $base_settings['highlight'] = NULL;
-  $base_settings['highlightPre'] = NULL;
-  $base_settings['highlightPost'] = NULL;
-  $base_settings['minimumString'] = 3;
-
-  $defaults = variable_get('ting_search_autocomplete_settings', array());
-
-  foreach ($base_settings as $key => $base_setting) {
-    $default_settings[$key] = (!empty($defaults[$key])) ? $defaults[$key] : $base_setting;
-  }
+  $default_settings = ting_search_autocomplete_settings();
 
   // Attach the CSS to the form
   $path = drupal_get_path('module', 'ting_search_autocomplete');
@@ -44,12 +25,12 @@ function ting_search_autocomplete_admin() {
     '#collapsible' => TRUE,
   ); 
 
-  $form['ting_search_autocomplete_webservice']['ting_suggestion_url'] = array(
+  $form['ting_search_autocomplete_webservice']['ting_search_autocomplete_suggestion_url'] = array(
     '#type' => 'textfield',
     '#title' => t('Autocomplete URL', array(), array('context' => 'ting_search_autocomplete')),
     '#size' => 73,
     '#description' => t('URL to Autocomplete webservice. F.ex.: http://opensuggestion.addi.dk/1.0/', array(), array('context' => 'ting_search_autocomplete')),
-    '#default_value' => variable_get('ting_suggestion_url', NULL),
+    '#default_value' => variable_get('ting_search_autocomplete_suggestion_url', NULL),
     '#required' => TRUE,
   );
 
@@ -121,27 +102,28 @@ function ting_search_autocomplete_admin() {
     '#title' => t('Highlight', array(), array('context' => 'ting_search_autocomplete')),
     '#description' => t('If checked, search prefix will be enclosed in highlight prefix and suffix', array(), array('context' => 'ting_search_autocomplete')),
     '#default_value' => $default_settings['highlight'],
+    '#return_value' => 'true',
   );
 
-  $form['ting_search_autocomplete_settings']['highlightPre'] = array(
+  $form['ting_search_autocomplete_settings']['highlight.pre'] = array(
     '#type' => 'textfield',
     '#title' => t('Highlight prefix', array(), array('context' => 'ting_search_autocomplete')),
-    '#size' => 20,
-    '#default_value' => $default_settings['highlightPre'],
+    '#size' => 26,
+    '#default_value' => $default_settings['highlight.pre'],
   );
 
-  $form['ting_search_autocomplete_settings']['highlightPost'] = array(
+  $form['ting_search_autocomplete_settings']['highlight.post'] = array(
     '#type' => 'textfield',
     '#title' => t('Highlight suffix', array(), array('context' => 'ting_search_autocomplete')),
-    '#size' => 18,
-    '#default_value' => $default_settings['highlightPost'],
+    '#size' => 26,
+    '#default_value' => $default_settings['highlight.post'],
   );
 
   $form['ting_search_autocomplete_settings']['minimumString'] = array(
     '#type' => 'textfield',
     '#title' => t('Minimum string', array(), array('context' => 'ting_search_autocomplete')),
     '#description' => t('Minimum string length to do autocomplete lookup on.', array(), array('context' => 'ting_search_autocomplete')),
-    '#size' => 18,
+    '#size' => 26,
     '#default_value' => $default_settings['minimumString'],
   );
 
@@ -180,12 +162,12 @@ function ting_search_autocomplete_admin() {
             t('Add prefix and suffix around strings that match the query.', array(), array('context' => 'ting_search_autocomplete'))),
       array(t('Highlight prefix & suffix:', array(), array('context' => 'ting_search_autocomplete')), 
             t('Defaults to &lt;em&gt; & &lt;/em&gt;.', array(), array('context' => 'ting_search_autocomplete'))),
+      array(t('Minimum string:', array(), array('context' => 'ting_search_autocomplete')), 
+            t('Minimum characters the user has to type before the suggestionservice is queried.', array(), array('context' => 'ting_search_autocomplete'))),
     ),
     '#attributes' => array('class' => array('table-class')),
     '#empty' =>t('Your table is empty'),
   );
-
-  $form['#submit'][] = 'ting_search_autocomplete_admin_submit';
 
   return system_settings_form($form);
 
@@ -197,7 +179,7 @@ function ting_search_autocomplete_admin() {
  */
 function ting_search_autocomplete_admin_validate($form, &$form_state) {
 
-  $form_state['values']['ting_suggestion_url'] = trim($form_state['values']['ting_suggestion_url'], $character_mask = " \t\n\r\0\x0B");
+  $form_state['values']['ting_search_autocomplete_suggestion_url'] = trim($form_state['values']['ting_search_autocomplete_suggestion_url']);
 
 }
 

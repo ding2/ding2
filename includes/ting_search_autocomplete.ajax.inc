@@ -10,18 +10,14 @@
  * @param bool $reset
  *   If TRUE the cache is reset. Defaults to FALSE.
  */
-
 function ting_search_autocomplete_callback($query = '', $reset = FALSE) {
 
-  module_load_include('client.inc', 'ting');
-
-  $query = strtolower($query);
+  $query = check_plain(strtolower($query));
 
   $settings = variable_get('ting_search_autocomplete_settings', array());
 
   $minimum_string = (!empty($settings['minimumString'])) ? $settings['minimumString'] : 3;
-
-  if (strlen($query) < $minimum_string) {
+  if (drupal_strlen($query) < $minimum_string) {
     drupal_json_output(array());
     drupal_exit();
   }
@@ -38,10 +34,8 @@ function ting_search_autocomplete_callback($query = '', $reset = FALSE) {
     $matches = $cache->data;
   }
   else {
-
-    // Suggestion service does not yet implement SOAP with a JSON response :-(
-    // Until then, we'll do it as REST
-    $matches = ting_search_autocomplete_get_suggestions_rest($query);
+    // Suggestion service does not implement SOAP with a JSON response
+    $matches = ting_search_autocomplete_get_suggestions($query);
 
     // Store the matches in cache for faster lookup next time.
     cache_set($cid, $matches, 'cache_ting_search_autocomplete', CACHE_TEMPORARY);
@@ -54,47 +48,36 @@ function ting_search_autocomplete_callback($query = '', $reset = FALSE) {
 
 
 /**
- * SuggestionService - retrieve suggestions with REST
+ * SuggestionService - retrieve suggestions with drupal_http_request() 
  *
  * @param string $query
- * @return TingClientSuggestionFacet
+ * @return array
  */
-
-function ting_search_autocomplete_get_suggestions_rest($query) {
+function ting_search_autocomplete_get_suggestions($query) {
 
   $items = array();
-  $request = ting_get_request_factory()->getSuggestionRequest();
-  $settings = variable_get('ting_search_autocomplete_settings', array());
+  $rest_url = variable_get('ting_search_autocomplete_suggestion_url', '');
+  $settings = ting_search_autocomplete_settings();
+
+  // minimumString is not an openSuggestion parameter
   unset($settings['minimumString']);
 
-  foreach ($settings as $parameter => $value) {
-    $setter = 'set' . ucfirst($parameter);
-    if (method_exists('TingClientSuggestionRequest', $setter)) {
-      $request->$setter($value);
+  $rest_url = (!empty($settings['facetIndex'])) ? $rest_url . 'rest/facets' : $rest_url . 'rest/terms';
+  $settings['query'] = $query;
+  $url = url($rest_url, array('query' => $settings));
+  $result = drupal_http_request($url, array());
+
+  if (!empty($result->data)) {
+    $result_data = drupal_json_decode($result->data);
+    if ( empty($result->error) ) {
+      if ( !empty($result_data['suggestions']) ) {
+        foreach ($result_data['suggestions'] as $suggestion) {
+          $items[ting_search_autocomplete_truncate(strip_tags($suggestion['suggestion']), 64)] = $suggestion['suggestion'];
+        }
+      }
     }
     else {
-      watchdog('ting_search_autocomplete', 'Request initialized with nonexisting method: %n', array('%n' => $setter), WATCHDOG_WARNING);
-    }
-  }
- 
-  $request->setQuery($query);
-  $request->getRequest();
-  $rest_url = $request->getWsdlUrl();
-  $parameters = $request->getParameters();
-  unset($parameters['action']);
-  $rest_url = (!empty($parameters['facetIndex'])) ? $rest_url . 'rest/facets' : $rest_url . 'rest/terms';
-  $url = url($rest_url, array('query' => $parameters));
-
-  try {
-    $client = new NanoSOAPClient($url, array());
-    $result = json_decode($client->curlRequest($url));
-  } catch (NanoSOAPcURLException $e) {
-    throw new TingClientException($e->getMessage(), $e->getCode());
-  }
-
-  if (!empty($result->suggestions)) {
-    foreach ($result->suggestions as $suggestion) {
-      $items[ting_search_autocomplete_truncate(html_entity_decode(strip_tags($suggestion->suggestion)), 64)] = $suggestion->suggestion;
+      watchdog('ting_search_autocomplete', 'Autocomplete error: ' . $result->error . ' (' . $result->code . ")\nURL: $url" , array(), $severity = WATCHDOG_ERROR);
     }
   }
 
@@ -104,8 +87,8 @@ function ting_search_autocomplete_get_suggestions_rest($query) {
 
 
 /**
- * helper function for bibdk_autocomplete()
- * truncate $string to $width at whitespace
+ * helper function for ting_search_autocomplete_get_suggestions()
+ * truncate $string to $width (or less) at nearest whitespace
  * @param string $string
  * @param string $width
  * @return array
@@ -117,7 +100,7 @@ function ting_search_autocomplete_truncate($string, $width) {
   $length = 0;
   $last_part = 0;
   for (; $last_part < $parts_count; ++$last_part) {
-    $length += strlen($parts[$last_part]);
+    $length += drupal_strlen($parts[$last_part]);
     if ($length > $width) {
       break;
     }
@@ -125,4 +108,3 @@ function ting_search_autocomplete_truncate($string, $width) {
 
   return implode(array_slice($parts, 0, $last_part));
 }
-

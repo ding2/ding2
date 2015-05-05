@@ -3,3 +3,4 @@ description = Enables autocompletion for the Ting search box.
 package = Ding!
 core = 7.x
 dependencies[] = ting_search
+configure = admin/config/ting/autocomplete

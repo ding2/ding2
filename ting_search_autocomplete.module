@@ -55,3 +55,37 @@ function ting_search_autocomplete_form_search_block_form_alter(&$form, &$form_st
   drupal_add_js(drupal_get_path('module', 'ting_search_autocomplete') . '/js/ting_search_autocomplete.js', array('weight' => 1000));
 }
 
+
+/**
+ * Get settings, and merge with defaults.
+ * @return array
+ */
+function ting_search_autocomplete_settings() {
+
+  $settings = array();
+
+  $base_settings['index'] = NULL;
+  $base_settings['facetIndex'] = NULL;
+  $base_settings['filterQuery'] = NULL;
+  $base_settings['sort'] = 'count';
+
+  $base_settings['agency']  = variable_get('ting_agency', NULL);
+  $base_settings['profile'] = variable_get('ting_search_profile', NULL);
+  $base_settings['maxSuggestions'] = 10;
+  $base_settings['maxTime'] = 2000;
+
+  $base_settings['highlight'] = NULL;
+  $base_settings['highlight.pre'] = NULL;
+  $base_settings['highlight.post'] = NULL;
+  $base_settings['minimumString'] = 3;
+
+  $defaults = variable_get('ting_search_autocomplete_settings', array());
+
+  foreach ($base_settings as $key => $base_setting) {
+    $settings[$key] = (!empty($defaults[$key])) ? $defaults[$key] : $base_setting;
+  }
+  
+  return $settings;
+
+}
+
