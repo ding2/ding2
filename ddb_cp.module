@@ -64,31 +64,31 @@ function ddb_cp_menu() {
   $items['admin/ddb_cp/test/xml'] = array(
     'page callback' => 'ddb_cp_get_test_result',
     'type' => MENU_CALLBACK,
-    'access arguments' => array('access content'),
+    'access arguments' => array('administer ddb_cp''),
   );
 
   $items['ajax/ddb_cp/status'] = array(
     'page callback' => 'ddb_cp_ajax_status',
     'type' => MENU_CALLBACK,
-    'access arguments' => array('access content'),
+    'access arguments' => array('administer ddb_cp''),
   );
 
   $items['ajax/ddb_cp/test/execute'] = array(
     'page callback' => 'ddb_cp_ajax_test_execute',
     'type' => MENU_CALLBACK,
-    'access arguments' => array('access content'),
+    'access arguments' => array('administer ddb_cp''),
   );
 
   $items['ajax/ddb_cp/recreate'] = array(
     'page callback' => 'ddb_cp_ajax_recreate',
     'type' => MENU_CALLBACK,
-    'access arguments' => array('access content'),
+    'access arguments' => array('administer ddb_cp''),
   );
 
   $items['ajax/ddb_cp/test/result'] = array(
     'page callback' => 'ddb_cp_ajax_test_result',
     'type' => MENU_CALLBACK,
-    'access arguments' => array('access content'),
+    'access arguments' => array('administer ddb_cp''),
   );
 
   return $items;
