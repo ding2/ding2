@@ -59,6 +59,9 @@ projects[og][patch][] = "https://www.drupal.org/files/issues/entityreference_fie
 ; https://www.drupal.org/node/1890370
 projects[og][patch][] = "https://www.drupal.org/files/issues/add-gid-to-relationship-field-1890370-34.patch"
 
+projects[realname][subdir] = "contrib"
+projects[realname][version] = "1.2"
+
 projects[profile2][subdir] = "contrib"
 projects[profile2][version] = "1.3"
 

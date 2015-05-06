@@ -169,3 +169,10 @@ function ding_staff_update_7005() {
     db_create_table('cache_entity_profile2', $schema);
   }
 }
+
+/**
+ * Enable realname module to show profile name instead of user name for content.
+ */
+function ding_staff_update_7006() {
+  module_enable(array('realname'));
+}
