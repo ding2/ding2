@@ -31,4 +31,5 @@ features[user_permission][] = edit workflow comment
 features[user_permission][] = participate in workflow
 features[user_permission][] = schedule workflow transitions
 features[user_permission][] = show workflow state form
+features[views_view][] = content
 project path = profiles/ding2/modules/bpi/modules
