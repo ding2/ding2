@@ -25,6 +25,8 @@ function bpi_features_field_group_info() {
     'children' => array(
       0 => 'field_bpi_workflow',
       1 => 'field_bpi_id',
+      2 => 'group_bpi_vocabularies',
+      3 => 'group_bpi_options',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
