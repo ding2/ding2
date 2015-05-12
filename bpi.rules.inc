@@ -41,19 +41,41 @@ function bpi_rules_action_info() {
  *   TRUE on success.
  */
 function bpi_rules_push($node) {
-  $category = 'Indenrigspolitik';
-  $audience = 'Voksne';
-  $with_images = 1;
-  $authorship = 1;
-  $editable = 1;
-  $with_refs = 1;
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $field_name = 'field_bpi_workflow';
+  $transition = workflow_transition_load_single('node', $node->nid, $field_name);
+
+  // Get workflow transitions.
+  $workflows = workflow_get_workflow_names();
+  $workflows_reversed = array_flip($workflows);
+  $wid = $workflows_reversed['BPI'];
+  $states = workflow_get_workflow_state_names($wid);
+  $states_reversed = array_flip($states);
+  $push_sid = $states_reversed['Sent to BPI'];
+
+  // Don't push to BPI, if old and new sids are the same.
+  if (!is_null($transition) && $transition->sid == $push_sid) {
+    return FALSE;
+  }
+
+  $category = $wrapper->field_bpi_category->value();
+  $audience = $wrapper->field_bpi_audience->value();
+  $with_images = $wrapper->field_bpi_with_images->value();
+  $authorship = $wrapper->field_bpi_authorship->value();
+  $editable = $wrapper->field_bpi_editable->value();
+  $with_refs = $wrapper->field_bpi_with_ref->value();
+
+  if (empty($category) || empty($audience)) {
+    $wrapper->field_bpi_workflow->set($transition->old_sid);
+    drupal_set_message(t('Category and audience must be set when pushing to BPI'), 'error');
+    return FALSE;
+  }
 
   $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, $authorship, $editable, $with_refs);
 
   $bpi = bpi_client_instance();
 //  $push_result = $bpi->push($bpi_content)->getProperties();
   $push_result = NULL;
-  $wrapper = entity_metadata_wrapper('node', $node);
   if (!empty($push_result['id'])) {
     $wrapper->field_bpi_id->set($push_result['id']);
     return TRUE;
@@ -61,13 +83,8 @@ function bpi_rules_push($node) {
   else {
     // Content wasn't pushed, so set workflow to 'Local content', before content
     // is saved.
-    $workflows = workflow_get_workflow_names();
-    $workflows_reversed = array_flip($workflows);
-    $wid = $workflows_reversed['BPI'];
-    $states = workflow_get_workflow_state_names($wid);
-    $states_reversed = array_flip($states);
-    $tid = $states_reversed['Local content'];
-    $wrapper->field_bpi_workflow->set($tid);
+    $local_sid = $states_reversed['Local content'];
+    $wrapper->field_bpi_workflow->set($local_sid);
     drupal_set_message(t('Error when pushing content to BPI'), 'error');
     watchdog('bpi', 'An error occurred when pushing content to BPI');
     return FALSE;
