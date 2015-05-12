@@ -15,3 +15,4 @@ files[] = bpi.delete.inc
 files[] = bpi.push.inc
 files[] = bpi.statistics.inc
 files[] = bpi.syndicate.inc
+files[] = bpi.rules.inc
