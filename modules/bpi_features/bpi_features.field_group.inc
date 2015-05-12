@@ -24,6 +24,7 @@ function bpi_features_field_group_info() {
     'weight' => '36',
     'children' => array(
       0 => 'field_bpi_workflow',
+      1 => 'field_bpi_id',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
