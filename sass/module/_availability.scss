@@ -13,6 +13,7 @@
   color: darken($availability-reservable, 10%);
 }
 
+.material-item .action-button.reserve-button,
 .field-name-ding-entity-buttons .reserve-button,
 .ding-periodical-issues .reserve-button {
   display: none;
