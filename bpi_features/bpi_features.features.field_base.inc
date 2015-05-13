@@ -243,7 +243,9 @@ function bpi_features_field_default_field_bases() {
       'allowed_values_string' => '7 | (creation)
 10 | Local content
 8 | Sent to BPI
-9 | Created from BPI',
+11 | Sent, updated locally
+9 | Created from BPI
+12 | Deleted',
       'history' => array(
         'history_tab_show' => 1,
         'roles' => array(
