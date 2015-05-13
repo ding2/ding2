@@ -6,6 +6,34 @@
 
 include_once 'ding_event.features.inc';
 
+
+/**
+ * Implements hook_menu
+ * Setting to administer currency shown on events
+ */
+function ding_event_menu() {
+  $items['admin/config/ding_event'] = array(
+    'title' => 'Event',
+    'description' => 'Manage event settings.',
+    'position' => 'right',
+    'weight' => 20,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('access administration pages'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+
+  $items['admin/config/ding_event/currency'] = array(
+    'title' => 'Event currency',
+    'description' => 'Select which currency to show on events.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_event_admin_currency_setting_form'),
+    'access arguments' => array('administer event settings'),
+    'file' => 'ding_event.admin.inc',
+  );
+  return $items;
+}
+
 /**
  * Implements hook_field_formatter_info().
  */
