@@ -454,6 +454,30 @@ function ding_campaign_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ding_campaign_form_ding_campaign_node_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id = 'ding_campaign_node_form') {
+    // Add states for form elements based on Campaign settings selected options.
+    $form['field_camp_text_full']['#states'] = array(
+      'visible' => array(
+        ':input[name="field_camp_settings[und]"]' => array('value' => 'full'),
+      ),
+    );
+    $form['field_camp_text_plain']['#states'] = array(
+      'visible' => array(
+        ':input[name="field_camp_settings[und]"]' => array('value' => 'plain'),
+      ),
+    );
+    $form['field_camp_image']['#states'] = array(
+      'visible' => array(
+        ':input[name="field_camp_settings[und]"]' => array('value' => 'image'),
+      ),
+    );
+  }
+}
+
+/**
  * Implements hook_node_insert().
  */
 function ding_campaign_node_insert($node) {
