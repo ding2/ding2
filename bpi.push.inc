@@ -78,6 +78,11 @@ function bpi_http_push_action($nid) {
  * @ingroup forms
  */
 function bpi_http_push_action_form($form, &$form_state, $nid) {
+  $form = bpi_http_push_action_form_raw($nid);
+  return $form;
+}
+
+function bpi_http_push_action_form_raw($nid) {
   // Check that a nid was part of the callback.
   if (!empty($nid)) {
     $form['#tree'] = FALSE;
@@ -100,7 +105,6 @@ function bpi_http_push_action_form($form, &$form_state, $nid) {
       '#type' => 'select',
       '#title' => t('Category'),
       '#options' => array_combine($categories, $categories),
-      '#required' => TRUE,
     );
 
     $audiences = array_values($vocabularies['audience']);
@@ -108,7 +112,6 @@ function bpi_http_push_action_form($form, &$form_state, $nid) {
       '#type' => 'select',
       '#title' => t('Audience'),
       '#options' => array_combine($audiences, $audiences),
-      '#required' => TRUE,
     );
 
     $form['configurations'] = array(
@@ -125,7 +128,7 @@ function bpi_http_push_action_form($form, &$form_state, $nid) {
 
     $form['configurations']['bpi_push_ccl'] = array(
       '#type' => 'checkbox',
-      '#title' => t('I want be anonymous'),
+      '#title' => t('I want to be anonymous'),
       '#description' => t('If checked the content will be pushed as anonymous to BPI.'),
       '#default_value' => FALSE,
     );
@@ -144,6 +147,7 @@ function bpi_http_push_action_form($form, &$form_state, $nid) {
       '#default_value' => '1',
     );
 
+    return $form;
     // Load node to get title
     // @todo there must be another way to do this.
     $node = node_load($nid);
@@ -190,7 +194,7 @@ function bpi_http_push_action_form_submit($form, &$form_state) {
 
   try {
     $bpi = bpi_client_instance();
-    $push_result = $bpi->push($bpi_content)->getProperties();
+//    $push_result = $bpi->push($bpi_content)->getProperties();
 
     if (!empty($push_result['id'])) {
       db_merge('bpi_syndicated')
@@ -326,7 +330,7 @@ function bpi_push_form_submit($form, &$form_state) {
 
   try {
     $bpi = bpi_client_instance();
-    $push_result = $bpi->push($bpi_content)->getProperties();
+//    $push_result = $bpi->push($bpi_content)->getProperties();
 
     if (!empty($push_result['id'])) {
       db_merge('bpi_syndicated')
