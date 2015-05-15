@@ -70,7 +70,7 @@ function bpi_rules_push($node) {
   $with_refs = $data['with_refs'];
 
   if (empty($category) || empty($audience)) {
-    $wrapper->field_bpi_workflow->set($transition->old_sid);
+    $wrapper->field_bpi_workflow->set($transition->sid);
     drupal_set_message(t('Category and audience must be set when pushing to BPI'), 'error');
     return FALSE;
   }
