@@ -38,6 +38,10 @@ function bpi_schema() {
         'not null' => TRUE,
         'default' => '',
       ),
+      'data' => array(
+        'type' => 'blob',
+        'description' => 'Data blob for values related to syndication',
+      ),
     ),
     'primary key' => array('id'),
     'indexes' => array(
@@ -47,4 +51,16 @@ function bpi_schema() {
   );
 
   return $schema;
+}
+
+/**
+ * Add BPI data blob to db table.
+ */
+function bpi_update_7001() {
+  $field = array(
+    'type' => 'blob',
+    'description' => 'Data blob for values related to syndication',
+  );
+
+  db_add_field('bpi_syndicated', 'data', $field);
 }
