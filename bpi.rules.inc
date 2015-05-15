@@ -3,7 +3,7 @@
 /**
  * @file
  *
- * BPI actions.
+ * BPI rule actions.
  */
 
 include_once drupal_get_path('module', 'bpi') . '/bpi.push.inc';
@@ -58,12 +58,16 @@ function bpi_rules_push($node) {
     return FALSE;
   }
 
-  $category = $wrapper->field_bpi_category->value();
-  $audience = $wrapper->field_bpi_audience->value();
-  $with_images = $wrapper->field_bpi_with_images->value();
-  $authorship = $wrapper->field_bpi_authorship->value();
-  $editable = $wrapper->field_bpi_editable->value();
-  $with_refs = $wrapper->field_bpi_with_ref->value();
+  $bpi_values = bpi_get_bpi_nodes($node->nid);
+  $bpi_values = $bpi_values[$node->nid];
+  $data = unserialize($bpi_values->data);
+
+  $category = $data['category'];
+  $audience = $data['audience'];
+  $with_images = $data['with_images'];
+  $authorship = $data['authorship'];
+  $editable = $data['editable'];
+  $with_refs = $data['with_refs'];
 
   if (empty($category) || empty($audience)) {
     $wrapper->field_bpi_workflow->set($transition->old_sid);
@@ -76,8 +80,10 @@ function bpi_rules_push($node) {
   $bpi = bpi_client_instance();
 //  $push_result = $bpi->push($bpi_content)->getProperties();
   $push_result = NULL;
+  $push_result = array('id' => '123456987');
   if (!empty($push_result['id'])) {
-    $wrapper->field_bpi_id->set($push_result['id']);
+    $data['bid'] = $push_result['id'];
+    bpi_update_syndicated($node->nid, $push_result['id'], $data);
     return TRUE;
   }
   else {
