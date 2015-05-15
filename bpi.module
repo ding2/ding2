@@ -6,6 +6,8 @@
  * Defines BPI specific constants, menu, theme and node hooks.
  */
 
+include_once drupal_get_path('module', 'bpi') . '/bpi.push.inc';
+
 /**
  * URL search query key.
  */
@@ -705,7 +707,7 @@ function bpi_query_alter($query) {
  */
 function bpi_get_bpi_nodes($nodes) {
   $query = db_select('bpi_syndicated', 'bs')
-    ->fields('bs', array('nid', 'bid', 'timestamp', 'status'));
+    ->fields('bs', array('nid', 'bid', 'timestamp', 'status', 'data'));
 
   if (is_array($nodes) && count($nodes) > 0) {
     $query->condition('nid', $nodes, 'IN');
@@ -764,6 +766,55 @@ function bpi_push_available($nid) {
   $can_be_pushed = (!$was_pushed || $modified_after_push || !$bpi_action);
 
   return $can_be_pushed;
+}
+
+/**
+ * Insert or update BPI data in db.
+ *
+ * @param int $nid
+ *   Node id.
+ * @param string $bid
+ *   BPI id.
+ * @param array $params
+ *   BPI data in array.
+ */
+function bpi_update_syndicated($nid, $bid, array $params) {
+  $count = 0;
+
+  try {
+    $query = db_select('bpi_syndicated', 'bpi');
+    $query->condition('bpi.nid', $nid);
+    $count = $query->countQuery()->execute()->fetchField();
+  }
+  catch (PDOException $e) {
+    watchdog('bpi', 'Error when accessing db. Message: @message', array('@message' => $e->getMessage()));
+  }
+
+  // Initialize query with default parameters.
+  $fields = array(
+    'data' => serialize($params),
+    'timestamp' => time(),
+  );
+  if ($bid) {
+    $fields['bid'] = $bid;
+    $fields['status'] = BPI_PUSHED;
+  }
+
+  $query = NULL;
+  if ($count) {
+    $query = db_update('bpi_syndicated');
+    $query->condition('nid', $nid);
+  }
+  else {
+    $query = db_insert('bpi_syndicated');
+    $fields['nid'] = $nid;
+    // We set status to 0 for insert statements, because they haven't been
+    // sent to BPI yet.
+    $fields['status'] = 0;
+  }
+
+  $query->fields($fields);
+  $query->execute();
 }
 
 /**
@@ -856,4 +907,94 @@ function bpi_error_message($exception, $level) {
 
   // Send the exception to logger.
   watchdog_exception('bpi', $exception);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add custom submit handler for showing BPI specific fields and saving BPI
+ * data in db.
+ */
+function bpi_form_ding_news_node_form_alter(&$form, &$form_state, $form_id) {
+  // Get the 'Sent to BPI' (Save and push) state id to add our custom submit
+  // handler to the correct action.
+  $workflows = workflow_get_workflow_names();
+  $workflows_reversed = array_flip($workflows);
+  $wid = $workflows_reversed['BPI'];
+  $states = workflow_get_workflow_state_names($wid);
+  $states_reversed = array_flip($states);
+  $push_sid = $states_reversed['Sent to BPI'];
+
+  $nid = $form['nid']['#value'];
+  if ($nid > 0) {
+    $form['bpi'] = bpi_http_push_action_form_raw($nid);
+    // We want the form to be added to the workflow group.
+    $form['#group_children']['bpi'] = 'group_workflow';
+    array_unshift($form['actions']['workflow_' . $push_sid]['#submit'], 'bpi_ding_news_node_form_submit');
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add custom submit handler for showing BPI specific fields and saving BPI
+ * data in db.
+ */
+function bpi_form_workflow_transition_form_alter(&$form, &$form_state, $form_id) {
+  // Get the 'Sent to BPI' (Save and push) state id to add our custom submit
+  // handler to the correct action.
+  $workflows = workflow_get_workflow_names();
+  $workflows_reversed = array_flip($workflows);
+  $wid = $workflows_reversed['BPI'];
+  $states = workflow_get_workflow_state_names($wid);
+  $states_reversed = array_flip($states);
+  $push_sid = $states_reversed['Sent to BPI'];
+
+  // We can't get the node id directly from the form, so we get it from the
+  // form_id which is generated with the node id.
+  $match = array();
+  preg_match('/workflow_transition_form_node_(\d+)/', $form['#form_id'], $match);
+  $nid = $match[1];
+  if ($nid > 0) {
+    $form['bpi'] = bpi_http_push_action_form_raw($nid);
+    array_unshift($form['actions']['workflow_' . $push_sid]['#submit'], 'bpi_ding_news_node_form_submit');
+  }
+}
+
+/**
+ * Submit handler for making BPI-specific data available for a rule action.
+ *
+ * We need to save BPI-specific data (such as category, audience, etc), so the
+ * data will be available for our rule action later. This way we can trigger
+ * 'Save and push' actions in a more Drupal-standardized manner.
+ *
+ * @see bpi_rules_push()
+ */
+function bpi_ding_news_node_form_submit($form, &$form_state) {
+  // We only want to update the db if the form is saved via a workflow
+  // Sent to BPI ('Save and push') state.
+  if ($form_state['triggering_element']['#parents'][0] != 'workflow_8') {
+    return;
+  }
+
+  $nid = $form_state['values']['bpi_push_nid'];
+  $category = $form_state['values']['bpi_push_category'];
+  $audience = $form_state['values']['bpi_push_audience'];
+  $with_images = $form_state['values']['bpi_push_images'];
+  $authorship = $form_state['values']['bpi_push_ccl'];
+  $editable = $form_state['values']['bpi_push_editable'];
+  $with_refs = $form_state['values']['bpi_push_refs'];
+
+  $params = array(
+    'nid' => $nid,
+    'category' => $category,
+    'audience' => $audience,
+    'with_images' => $with_images,
+    'authorship' => $authorship,
+    'editable' => $editable,
+    'with_refs' => $with_refs,
+  );
+
+  // Save BPI data in db to be fetched later by a rule action.
+  bpi_update_syndicated($nid, 0, $params);
 }
