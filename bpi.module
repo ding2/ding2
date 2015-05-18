@@ -24,6 +24,11 @@ define('BPI_SORT_ASCENDING', 'asc');
 define('BPI_SORT_DESCENDING', 'desc');
 
 /**
+ * BPI initialized in database.
+ */
+define('BPI_INITIALIZED', 0);
+
+/**
  * Syndicated node identifier.
  */
 define('BPI_SYNDICATED', 1);
@@ -811,7 +816,7 @@ function bpi_update_syndicated($nid, $bid, array $params) {
       $fields['nid'] = $nid;
       // We set status to 0 for insert statements, because they haven't been
       // sent to BPI yet.
-      $fields['status'] = 0;
+      $fields['status'] = BPI_INITIALIZED;
     }
 
     $query->fields($fields);
