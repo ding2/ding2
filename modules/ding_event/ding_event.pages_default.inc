@@ -218,7 +218,7 @@ function ding_event_default_page_manager_handlers() {
     $display->panels['main_content'][1] = 'new-23d5cf27-1799-4f37-9a67-13e1878d7456';
     $pane = new stdClass();
     $pane->pid = 'new-eb8809fa-a45d-4afe-836c-c22a6ed8a064';
-    $pane->panel = 'right_sidebar';
+    $pane->panel = 'left_sidebar';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
     $pane->shown = TRUE;
@@ -251,7 +251,7 @@ function ding_event_default_page_manager_handlers() {
     $pane->locks = '';
     $pane->uuid = 'eb8809fa-a45d-4afe-836c-c22a6ed8a064';
     $display->content['new-eb8809fa-a45d-4afe-836c-c22a6ed8a064'] = $pane;
-    $display->panels['right_sidebar'][0] = 'new-eb8809fa-a45d-4afe-836c-c22a6ed8a064';
+    $display->panels['left_sidebar'][0] = 'new-eb8809fa-a45d-4afe-836c-c22a6ed8a064';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -435,7 +435,7 @@ taxonomy/term/%term:tid',
     $display->panels['main_content'][2] = 'new-3cb95651-0650-42f1-a8bd-e56688d1a4aa';
     $pane = new stdClass();
     $pane->pid = 'new-e96436de-1a68-4813-91aa-63662d84d299';
-    $pane->panel = 'right_sidebar';
+    $pane->panel = 'left_sidebar';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
     $pane->shown = TRUE;
@@ -462,7 +462,7 @@ taxonomy/term/%term:tid',
     $pane->locks = array();
     $pane->uuid = 'e96436de-1a68-4813-91aa-63662d84d299';
     $display->content['new-e96436de-1a68-4813-91aa-63662d84d299'] = $pane;
-    $display->panels['right_sidebar'][0] = 'new-e96436de-1a68-4813-91aa-63662d84d299';
+    $display->panels['left_sidebar'][0] = 'new-e96436de-1a68-4813-91aa-63662d84d299';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -708,7 +708,7 @@ events
     $display->panels['main_content'][2] = 'new-5d683c57-a79e-4d16-9046-d2dc04a557d5';
     $pane = new stdClass();
     $pane->pid = 'new-fb32e006-e3f2-4f14-a1a2-0513758f77e8';
-    $pane->panel = 'right_sidebar';
+    $pane->panel = 'left_sidebar';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
     $pane->shown = TRUE;
@@ -740,7 +740,7 @@ events
     $pane->locks = '';
     $pane->uuid = 'fb32e006-e3f2-4f14-a1a2-0513758f77e8';
     $display->content['new-fb32e006-e3f2-4f14-a1a2-0513758f77e8'] = $pane;
-    $display->panels['right_sidebar'][0] = 'new-fb32e006-e3f2-4f14-a1a2-0513758f77e8';
+    $display->panels['left_sidebar'][0] = 'new-fb32e006-e3f2-4f14-a1a2-0513758f77e8';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -982,7 +982,7 @@ node/%node:nid/events
     $display->panels['main_content'][2] = 'new-9bb644a0-3601-4ce3-a16a-c32dd13c12da';
     $pane = new stdClass();
     $pane->pid = 'new-150601e8-429a-4460-8500-c20fc264900a';
-    $pane->panel = 'right_sidebar';
+    $pane->panel = 'left_sidebar';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
     $pane->shown = TRUE;
@@ -1015,7 +1015,7 @@ node/%node:nid/events
     $pane->locks = '';
     $pane->uuid = '150601e8-429a-4460-8500-c20fc264900a';
     $display->content['new-150601e8-429a-4460-8500-c20fc264900a'] = $pane;
-    $display->panels['right_sidebar'][0] = 'new-150601e8-429a-4460-8500-c20fc264900a';
+    $display->panels['left_sidebar'][0] = 'new-150601e8-429a-4460-8500-c20fc264900a';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
