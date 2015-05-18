@@ -265,6 +265,12 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
     $teaser = variable_get('bpi_field_teaser', '');
     $body = variable_get('bpi_field_body', '');
     $materials_field = variable_get('bpi_field_materials', '');
+
+    // @todo Current language will be set to undefined, because this module is
+    // lexigraphically before the locale module. That makes the implementation
+    // less robust, and maybe this should be changed. When $current_language
+    // is set to the correct current language, the code will not work and the
+    // fields will not be populated with data from BPI Syndication.
     $current_language = $form['language']['#value'];
 
     if (module_exists('ting_reference') && isset($bpi_content['material'])) {
