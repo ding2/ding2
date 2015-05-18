@@ -456,24 +456,41 @@ function ding_campaign_form_alter(&$form, &$form_state, $form_id) {
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function ding_campaign_form_ding_campaign_node_form_alter(&$form, &$form_state, $form_id) {
-  if ($form_id = 'ding_campaign_node_form') {
-    // Add states for form elements based on Campaign settings selected options.
-    $form['field_camp_text_full']['#states'] = array(
-      'visible' => array(
-        ':input[name="field_camp_settings[und]"]' => array('value' => 'full'),
-      ),
-    );
-    $form['field_camp_text_plain']['#states'] = array(
-      'visible' => array(
-        ':input[name="field_camp_settings[und]"]' => array('value' => 'plain'),
-      ),
-    );
-    $form['field_camp_image']['#states'] = array(
-      'visible' => array(
-        ':input[name="field_camp_settings[und]"]' => array('value' => 'image'),
-      ),
-    );
+function ding_campaign_form_ding_campaign_node_form_alter(&$form, &$form_state) {
+  // Add states for form elements based on Campaign settings selected options.
+  $form['field_camp_text_full']['#states'] = array(
+    'visible' => array(
+      ':input[name="field_camp_settings[und]"]' => array('value' => 'full'),
+    ),
+  );
+  $form['field_camp_text_plain']['#states'] = array(
+    'visible' => array(
+      ':input[name="field_camp_settings[und]"]' => array('value' => 'plain'),
+    ),
+  );
+  $form['field_camp_image']['#states'] = array(
+    'visible' => array(
+      ':input[name="field_camp_settings[und]"]' => array('value' => 'image'),
+    ),
+  );
+  array_unshift($form['actions']['submit']['#submit'], 'ding_campaign_form_ding_campaign_node_form_submit');
+}
+
+function ding_campaign_form_ding_campaign_node_form_submit(&$form, &$form_state) {
+  $field_camp_settings = $form_state['values']['field_camp_settings'][LANGUAGE_NONE][0]['value'];
+  switch ($field_camp_settings) {
+    case 'full':
+      $form_state['values']['field_camp_text_plain'][LANGUAGE_NONE][0]['value'] = '';
+      $form_state['values']['field_camp_image'][LANGUAGE_NONE][0]['fid'] = '';
+      break;
+    case 'plain':
+      $form_state['values']['field_camp_text_full'][LANGUAGE_NONE][0]['value'] = '';
+      $form_state['values']['field_camp_image'][LANGUAGE_NONE][0]['fid'] = '';
+      break;
+   case 'image':
+      $form_state['values']['field_camp_text_full'][LANGUAGE_NONE][0]['value'] = '';
+      $form_state['values']['field_camp_text_plain'][LANGUAGE_NONE][0]['value'] = '';
+      break;
   }
 }
 
