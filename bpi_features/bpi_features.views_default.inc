@@ -37,6 +37,7 @@ function bpi_features_views_default_views() {
   $handler->display->display_options['pager']['options']['quantity'] = '9';
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['columns'] = array(
+    'nid' => 'nid',
     'views_bulk_operations' => 'views_bulk_operations',
     'title' => 'title',
     'type' => 'type',
@@ -50,9 +51,17 @@ function bpi_features_views_default_views() {
     'edit_node' => 'workflow_node',
     'clone_node' => 'workflow_node',
     'delete_node' => 'workflow_node',
+    'nothing' => 'workflow_node',
   );
   $handler->display->display_options['style_options']['default'] = 'changed';
   $handler->display->display_options['style_options']['info'] = array(
+    'nid' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
     'views_bulk_operations' => array(
       'align' => '',
       'separator' => '',
@@ -134,11 +143,21 @@ function bpi_features_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
+    'nothing' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
   );
   /* Relationship: Content: Author */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid']['id'] = 'nid';
+  $handler->display->display_options['fields']['nid']['table'] = 'node';
+  $handler->display->display_options['fields']['nid']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid']['exclude'] = TRUE;
   /* Field: Bulk operations: Content */
   $handler->display->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
   $handler->display->display_options['fields']['views_bulk_operations']['table'] = 'node';
@@ -522,6 +541,7 @@ function bpi_features_views_default_views() {
     t('next ›'),
     t('last »'),
     t('author'),
+    t('Nid'),
     t('Update options'),
     t('- Choose an operation -'),
     t('Title'),

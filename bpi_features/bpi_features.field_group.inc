@@ -24,9 +24,6 @@ function bpi_features_field_group_info() {
     'weight' => '36',
     'children' => array(
       0 => 'field_bpi_workflow',
-      1 => 'field_bpi_id',
-      2 => 'group_bpi_vocabularies',
-      3 => 'group_bpi_options',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
@@ -34,7 +31,7 @@ function bpi_features_field_group_info() {
       'instance_settings' => array(
         'required_fields' => 0,
         'classes' => '',
-        'description' => '',
+        'description' => 'Data in this group will only be saved when "Save and push" is used.',
       ),
       'formatter' => 'closed',
     ),
