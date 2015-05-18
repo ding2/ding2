@@ -203,11 +203,11 @@ function ding_groups_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 1;
     $pane->locks = array();
     $pane->uuid = 'c9969c72-cf63-49ed-b371-61bb19780890';
     $display->content['new-c9969c72-cf63-49ed-b371-61bb19780890'] = $pane;
-    $display->panels['left_sidebar'][0] = 'new-c9969c72-cf63-49ed-b371-61bb19780890';
+    $display->panels['left_sidebar'][1] = 'new-c9969c72-cf63-49ed-b371-61bb19780890';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
