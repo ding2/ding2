@@ -7,6 +7,7 @@
  */
 
 include_once drupal_get_path('module', 'bpi') . '/bpi.push.inc';
+include_once drupal_get_path('module', 'bpi') . '/bpi.delete.inc';
 
 /**
  * Implements hook_rules_event_info().
@@ -20,6 +21,16 @@ function bpi_rules_action_info() {
       'entity' => array(
         'type' => 'node',
         'label' => t('Content to send to BPI'),
+      ),
+    ),
+    'group' => t('BPI'),
+  );
+  $info['bpi_rules_delete'] = array(
+    'label' => t('Delete content from BPI'),
+    'parameter' => array(
+      'entity' => array(
+        'type' => 'node',
+        'label' => t('Delete content from BPI'),
       ),
     ),
     'group' => t('BPI'),
@@ -41,6 +52,11 @@ function bpi_rules_action_info() {
  *   TRUE on success.
  */
 function bpi_rules_push($node) {
+  if (!user_access('bpi push content')) {
+    drupal_set_message(t('You are not allowed to push content to BPI'), 'error');
+    return FALSE;
+  }
+
   $wrapper = entity_metadata_wrapper('node', $node);
   $field_name = 'field_bpi_workflow';
   $transition = workflow_transition_load_single('node', $node->nid, $field_name);
@@ -58,10 +74,10 @@ function bpi_rules_push($node) {
     return FALSE;
   }
 
+  // Get BPI values for this node.
   $bpi_values = bpi_get_bpi_nodes($node->nid);
   $bpi_values = $bpi_values[$node->nid];
   $data = unserialize($bpi_values->data);
-
   $category = $data['category'];
   $audience = $data['audience'];
   $with_images = $data['with_images'];
@@ -95,4 +111,22 @@ function bpi_rules_push($node) {
     watchdog('bpi', 'An error occurred when pushing content to BPI');
     return FALSE;
   }
+}
+
+/**
+ * Rules action execution callback for deleting content from BPI.
+ *
+ * @param object $node
+ *   Node object.
+ *
+ * @return bool
+ *   TRUE on success
+ */
+function bpi_rules_delete($node) {
+  if (!user_access('delete bpi content')) {
+    drupal_set_message(t('You are not allowed to delete content from BPI'), 'error');
+    return FALSE;
+  }
+
+  bpi_well_delete($node->nid);
 }
