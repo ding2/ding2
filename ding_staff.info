@@ -20,6 +20,7 @@ dependencies[] = og
 dependencies[] = options
 dependencies[] = page_manager
 dependencies[] = profile2
+dependencies[] = realname
 dependencies[] = role_delegation
 dependencies[] = rules
 dependencies[] = strongarm
