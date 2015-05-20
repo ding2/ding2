@@ -124,5 +124,5 @@ function bpi_rules_delete($node) {
     return FALSE;
   }
 
-  bpi_well_delete($node->nid);
+  bpi_well_delete($node->bpi_id);
 }
