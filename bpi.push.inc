@@ -147,6 +147,9 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
   elseif (isset($teaser_field['#items'][0]['safe_value'])) {
     $teaser = $teaser_field['#items'][0]['safe_value'];
   }
+  elseif (isset($teaser_field[0]['#markup'])) {
+    $teaser = $teaser_field[0]['#markup'];
+  }
 
   // Find the references to the ting date well.
   $materials_drupal = array();
@@ -170,6 +173,9 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
 
   if (!empty($body_field) && isset($body_field['#items'][0]['safe_value'])) {
     $body = $body_field['#items'][0]['safe_value'];
+  }
+  elseif (isset($body_field[0]['#markup'])) {
+    $body = $body_field[0]['#markup'];
   }
 
   // Empty the teaser, if body and teaser are mapped to same fields
