@@ -395,7 +395,7 @@ function bpi_update_syndicated($nid, $bid, array $params) {
     'data' => serialize($params),
     'timestamp' => time(),
   );
-  if ($bid) {
+  if (!empty($bid)) {
     $fields['bid'] = $bid;
     $fields['status'] = BPI_PUSHED;
   }
@@ -518,24 +518,27 @@ function bpi_error_message($exception, $level) {
  * Implements hook_form_FORM_ID_alter().
  *
  * Add custom submit handler for showing BPI specific fields and saving BPI
- * data in db.
+ * data in db and add validate handler, which will add our own submit handler.
  */
 function bpi_form_ding_news_node_form_alter(&$form, &$form_state, $form_id) {
-  // Get the 'Sent to BPI' (Save and push) state id to add our custom submit
-  // handler to the correct action.
+  // Get the 'Sent to BPI' (Save and push) state id.
   $workflows = workflow_get_workflow_names();
   $workflows_reversed = array_flip($workflows);
   $wid = $workflows_reversed['BPI'];
   $states = workflow_get_workflow_state_names($wid);
   $states_reversed = array_flip($states);
   $push_sid = $states_reversed['Sent to BPI'];
+  // Remove 'Save and push' button if the current state is already 'Sent to BPI'.
+  if ($form['field_bpi_workflow'][LANGUAGE_NONE][0]['#default_value'] == $push_sid) {
+    unset($form['field_bpi_workflow'][LANGUAGE_NONE][0]['workflow']['workflow_sid']['#options'][$push_sid]);
+  }
 
   $nid = $form['nid']['#value'];
   if ($nid > 0) {
     $form['bpi'] = bpi_http_push_action_form($nid ? $nid : 0);
     // We want the form to be added to the workflow group.
     $form['#group_children']['bpi'] = 'group_workflow';
-    array_unshift($form['actions']['workflow_' . $push_sid]['#submit'], 'bpi_ding_news_node_form_submit');
+    array_unshift($form['#validate'], 'bpi_form_workflow_transition_form_validate');
   }
 }
 
@@ -543,17 +546,20 @@ function bpi_form_ding_news_node_form_alter(&$form, &$form_state, $form_id) {
  * Implements hook_form_FORM_ID_alter().
  *
  * Add custom submit handler for showing BPI specific fields and saving BPI
- * data in db.
+ * data in db and add validate handler, which will add our own submit handler.
  */
 function bpi_form_workflow_transition_form_alter(&$form, &$form_state, $form_id) {
-  // Get the 'Sent to BPI' (Save and push) state id to add our custom submit
-  // handler to the correct action.
+  // Get the 'Sent to BPI' (Save and push) state id.
   $workflows = workflow_get_workflow_names();
   $workflows_reversed = array_flip($workflows);
   $wid = $workflows_reversed['BPI'];
   $states = workflow_get_workflow_state_names($wid);
   $states_reversed = array_flip($states);
   $push_sid = $states_reversed['Sent to BPI'];
+  // Remove 'Save and push' button if the current state is already 'Sent to BPI'.
+  if ($form['#default_value'] == $push_sid) {
+    unset($form['workflow']['workflow_sid']['#options'][$push_sid]);
+  }
 
   // We can't get the node id directly from the form, so we get it from the
   // form_id which is generated with the node id.
@@ -562,8 +568,23 @@ function bpi_form_workflow_transition_form_alter(&$form, &$form_state, $form_id)
   $nid = $match[1];
   if ($nid > 0) {
     $form['bpi'] = bpi_http_push_action_form($nid);
-    array_unshift($form['actions']['workflow_' . $push_sid]['#submit'], 'bpi_ding_news_node_form_submit');
+    array_unshift($form['#validate'], 'bpi_form_workflow_transition_form_validate');
   }
+}
+
+/**
+ * Validate handler that will add custom submit handler.
+ *
+ * We add the submit handler here, because we need to add the submit handler,
+ * after the Workflow module has modified the form. Alternatively we could
+ * change the weight of the BPI module, but then we have to fix setting of
+ * $current_language in bpi_form_node_form_alter(), as changing the weight
+ * of the BPI module will make $current_language not be 'und', and BPI
+ * Syndication will fail. Also, we would have to test the module properly to
+ * be sure nothing else breaks.
+ */
+function bpi_form_workflow_transition_form_validate(&$form, &$form_state) {
+  array_unshift($form_state['submit_handlers'], 'bpi_ding_news_node_form_submit');
 }
 
 /**
