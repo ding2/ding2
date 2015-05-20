@@ -21,7 +21,7 @@ function bpi_features_default_Workflow() {
       "8" : {"sid":"8","wid":"2","weight":"-18","sysid":"0","state":"Sent to BPI","status":"1","name":"sent_to_bpi"},
       "11" : {"sid":"11","wid":"2","weight":"-17","sysid":"0","state":"Sent, updated locally","status":"1","name":"sent_updated_locally"},
       "9" : {"sid":"9","wid":"2","weight":"-16","sysid":"0","state":"Created from BPI","status":"1","name":"created_from_bpi"},
-      "12" : {"sid":"12","wid":"2","weight":"-15","sysid":"0","state":"Deleted","status":"1","name":"deleted"}
+      "12" : {"sid":"12","wid":"2","weight":"-15","sysid":"0","state":"Deleted from BPI","status":"1","name":"deleted_from_bpi"}
     },
     "transitions" : {
       "25" : {"tid":"25","sid":"7","target_sid":"10","roles":{"-1":-1,"3":3,"4":4,"6":6,"7":7},"wid":"2","name":"7_10","label":"Save"},
@@ -37,6 +37,8 @@ function bpi_features_default_Workflow() {
       "35" : {"tid":"35","sid":"11","target_sid":"12","roles":{"3":3,"4":4,"6":6,"7":7},"wid":"2","name":"11_12","label":"Delete from BPI"},
       "24" : {"tid":"24","sid":"9","target_sid":"9","roles":{"-1":-1,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9},"wid":"2","name":"9_9","label":"Save content from BPI"},
       "36" : {"tid":"36","sid":"9","target_sid":"12","roles":{"3":3,"4":4,"6":6,"7":7},"wid":"2","name":"9_12","label":"Delete from BPI"},
+      "38" : {"tid":"38","sid":"12","target_sid":"8","roles":{"3":3,"4":4,"6":6,"7":7},"wid":"2","name":"12_8","label":"Save and push"},
+      "39" : {"tid":"39","sid":"12","target_sid":"11","roles":{"3":3,"4":4,"6":6,"7":7},"wid":"2","name":"12_11","label":"Save"},
       "37" : {"tid":"37","sid":"12","target_sid":"12","roles":{"-1":-1,"3":3,"4":4,"5":5,"6":6,"7":7,"8":8,"9":9},"wid":"2","name":"12_12","label":"N\\/A"}
     },
     "label" : "BPI",
