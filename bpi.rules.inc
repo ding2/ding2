@@ -57,6 +57,11 @@ function bpi_rules_push($node) {
     return FALSE;
   }
 
+  // Don't push to BPI if new sid (workflow state id) is the same as old sid.
+  if ($node->workflow_transitions['field_bpi_workflow']->old_sid == $node->workflow_transitions['field_bpi_workflow']->new_sid) {
+    return;
+  }
+
   $wrapper = entity_metadata_wrapper('node', $node);
   $field_name = 'field_bpi_workflow';
 
