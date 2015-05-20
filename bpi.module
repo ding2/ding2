@@ -378,7 +378,7 @@ function bpi_get_bpi_nodes($nodes) {
  * @param array $params
  *   BPI data in array.
  */
-function bpi_update_syndicated($nid, $bid, array $params) {
+function bpi_update_syndicated($nid, $bid, array $params, $status = NULL, $set_timestamp = TRUE) {
   $count = 0;
 
   try {
@@ -393,11 +393,14 @@ function bpi_update_syndicated($nid, $bid, array $params) {
   // Initialize query with default parameters.
   $fields = array(
     'data' => serialize($params),
-    'timestamp' => time(),
   );
+  if ($set_timestamp) {
+    $fields['timestamp'] = time();
+  }
+
   if (!empty($bid)) {
     $fields['bid'] = $bid;
-    $fields['status'] = BPI_PUSHED;
+    $fields['status'] = is_null($status) ? BPI_PUSHED : $status;
   }
 
   $query = NULL;
@@ -411,7 +414,7 @@ function bpi_update_syndicated($nid, $bid, array $params) {
       $fields['nid'] = $nid;
       // We set status to 0 for insert statements, because they haven't been
       // sent to BPI yet.
-      $fields['status'] = BPI_INITIALIZED;
+      $fields['status'] = is_null($status) ? BPI_INITIALIZED : $status;
     }
 
     $query->fields($fields);
