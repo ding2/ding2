@@ -64,3 +64,11 @@ function bpi_update_7001() {
 
   db_add_field('bpi_syndicated', 'data', $field);
 }
+
+/**
+ * Enable bpi features module.
+ */
+function bpi_update_7002() {
+  module_enable(array('bpi_features'));
+}
+
