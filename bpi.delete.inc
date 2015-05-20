@@ -17,7 +17,8 @@ function bpi_well_delete($bpi_id) {
   try {
     $bpi = bpi_client_instance();
 
-    db_delete('bpi_syndicated')
+    db_update('bpi_syndicated')
+      ->fields(array('status' => 0))
       ->condition('bid', $bpi_id, '=')
       ->execute();
 
