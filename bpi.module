@@ -531,12 +531,18 @@ function bpi_form_ding_news_node_form_alter(&$form, &$form_state, $form_id) {
   $states = workflow_get_workflow_state_names($wid);
   $states_reversed = array_flip($states);
   $push_sid = $states_reversed['Sent to BPI'];
+  $delete_sid = $states_reversed['Deleted from BPI'];
 
   // Remove 'Save and push' button if the current state is already 'Sent to
   // BPI'. We have to do this, because it's not possible to disallow workflow
   // transitions to the current state.
   if ($form['field_bpi_workflow'][LANGUAGE_NONE][0]['#default_value'] == $push_sid) {
     unset($form['field_bpi_workflow'][LANGUAGE_NONE][0]['workflow']['workflow_sid']['#options'][$push_sid]);
+  }
+
+  // Remove "Delete from BPI" button, when we have already deleted from BPI.
+  if ($form['field_bpi_workflow'][LANGUAGE_NONE][0]['#default_value'] == $delete_sid) {
+    unset($form['field_bpi_workflow'][LANGUAGE_NONE][0]['workflow']['workflow_sid']['#options'][$delete_sid]);
   }
 
   $nid = $form['nid']['#value'];
@@ -586,12 +592,18 @@ function bpi_form_workflow_transition_form_alter(&$form, &$form_state, $form_id)
   $states = workflow_get_workflow_state_names($wid);
   $states_reversed = array_flip($states);
   $push_sid = $states_reversed['Sent to BPI'];
+  $delete_sid = $states_reversed['Deleted from BPI'];
 
   // Remove 'Save and push' button if the current state is already 'Sent to
   // BPI'. We have to do this, because it's not possible to disallow workflow
   // transitions to the current state.
   if ($form['#default_value'] == $push_sid) {
     unset($form['workflow']['workflow_sid']['#options'][$push_sid]);
+  }
+
+  // Remove "Delete from BPI" button, when we have already deleted from BPI.
+  if ($form['#default_value'] == $delete_sid) {
+    unset($form['workflow']['workflow_sid']['#options'][$delete_sid]);
   }
 
   // We can't get the node id directly from the form, so we get it from the
