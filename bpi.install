@@ -89,6 +89,7 @@ function bpi_update_7003(&$sandbox) {
     $sandbox['current'] = 0;
     if ($count == 0) {
       $sandbox['#finished'] = 1;
+      return;
     }
 
     $workflows = workflow_get_workflow_names();
