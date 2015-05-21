@@ -417,6 +417,7 @@ function bpi_features_views_default_views() {
   $handler->display->display_options['fields']['workflow_node']['table'] = 'views_entity_node';
   $handler->display->display_options['fields']['workflow_node']['field'] = 'workflow_node';
   $handler->display->display_options['fields']['workflow_node']['label'] = 'Operations';
+  $handler->display->display_options['fields']['workflow_node']['text'] = 'change BPI state';
   /* Field: Content: Edit link */
   $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
@@ -553,6 +554,7 @@ function bpi_features_views_default_views() {
     t('BPI State'),
     t('Workflow timestamp'),
     t('Operations'),
+    t('change BPI state'),
     t('Edit link'),
     t('Clone'),
     t('Delete'),
