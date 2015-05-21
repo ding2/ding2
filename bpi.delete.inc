@@ -22,7 +22,13 @@ function bpi_well_delete($bpi_id) {
       ->condition('bid', $bpi_id, '=')
       ->execute();
 
-    $bpi->deleteNode($bpi_id);
+    $res = $bpi->deleteNode($bpi_id);
+    if ($res) {
+      drupal_set_message(t('BPI content with id %id was successfully deleted from the BPI well.', array('%id' => $bpi_id)));
+    }
+    else {
+      drupal_set_message(t('BPI content with id %id was NOT deleted from the BPI well.', array('%id' => $bpi_id)), 'error');
+    }
 
     return TRUE;
   }

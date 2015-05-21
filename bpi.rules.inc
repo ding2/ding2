@@ -94,6 +94,7 @@ function bpi_rules_push($node) {
   if (!empty($push_result['id'])) {
     $data['bid'] = $push_result['id'];
     bpi_update_syndicated($node->nid, $push_result['id'], $data);
+    drupal_set_message(t('Node %title was successfully pushed to BPI well.', array('%title' => $node->title)));
     return TRUE;
   }
   else {
