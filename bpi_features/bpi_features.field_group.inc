@@ -20,14 +20,14 @@ function bpi_features_field_group_info() {
   $field_group->mode = 'form';
   $field_group->parent_name = '';
   $field_group->data = array(
-    'label' => 'Workflow',
+    'label' => 'BPI',
     'weight' => '36',
     'children' => array(
       0 => 'field_bpi_workflow',
     ),
     'format_type' => 'tab',
     'format_settings' => array(
-      'label' => 'Workflow',
+      'label' => 'BPI',
       'instance_settings' => array(
         'required_fields' => 0,
         'classes' => '',
