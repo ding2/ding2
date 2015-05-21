@@ -36,14 +36,14 @@ function bpi_http_push_action_form($nid) {
   $form['vocabularies']['bpi_push_category'] = array(
     '#type' => 'select',
     '#title' => t('Category'),
-    '#options' => array_combine($categories, $categories),
+    '#options' => array_merge(array('' => t('- choose -')), array_combine($categories, $categories)),
   );
 
   $audiences = array_values($vocabularies['audience']);
   $form['vocabularies']['bpi_push_audience'] = array(
     '#type' => 'select',
     '#title' => t('Audience'),
-    '#options' => array_combine($audiences, $audiences),
+    '#options' => array_merge(array('' => t('- choose -')), array_combine($audiences, $audiences)),
   );
 
   $form['configurations'] = array(
