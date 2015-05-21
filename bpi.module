@@ -531,7 +531,10 @@ function bpi_form_ding_news_node_form_alter(&$form, &$form_state, $form_id) {
   $states = workflow_get_workflow_state_names($wid);
   $states_reversed = array_flip($states);
   $push_sid = $states_reversed['Sent to BPI'];
-  // Remove 'Save and push' button if the current state is already 'Sent to BPI'.
+
+  // Remove 'Save and push' button if the current state is already 'Sent to
+  // BPI'. We have to do this, because it's not possible to disallow workflow
+  // transitions to the current state.
   if ($form['field_bpi_workflow'][LANGUAGE_NONE][0]['#default_value'] == $push_sid) {
     unset($form['field_bpi_workflow'][LANGUAGE_NONE][0]['workflow']['workflow_sid']['#options'][$push_sid]);
   }
@@ -542,6 +545,30 @@ function bpi_form_ding_news_node_form_alter(&$form, &$form_state, $form_id) {
     // We want the form to be added to the workflow group.
     $form['#group_children']['bpi'] = 'group_workflow';
     array_unshift($form['#validate'], 'bpi_form_workflow_transition_form_validate');
+  }
+  elseif (!empty($_REQUEST['bpi_id'])) {
+    // Hide normal save button, so we only show the "Save from BPI" button.
+    $workflows = workflow_get_workflow_names();
+    $workflows_reversed = array_flip($workflows);
+    $wid = $workflows_reversed['BPI'];
+    $states = workflow_get_workflow_state_names($wid);
+    $states_reversed = array_flip($states);
+    $local_sid = $states_reversed['Local content'];
+
+    // Hide normal save button via css. We can't just unset it, because that
+    // will result in only the normal button to be shown. That will only work
+    // when removing "non-normal" buttons.
+    drupal_add_css('#edit-workflow-' . $local_sid . ' { display: none; }', 'inline');
+  }
+  else {
+    // Hide normal save button, so we only show the "Save from BPI" button.
+    $workflows = workflow_get_workflow_names();
+    $workflows_reversed = array_flip($workflows);
+    $wid = $workflows_reversed['BPI'];
+    $states = workflow_get_workflow_state_names($wid);
+    $states_reversed = array_flip($states);
+    $frombpi_sid = $states_reversed['Created from BPI'];
+    unset($form['field_bpi_workflow'][LANGUAGE_NONE][0]['workflow']['workflow_sid']['#options'][$frombpi_sid]);
   }
 }
 
@@ -559,7 +586,10 @@ function bpi_form_workflow_transition_form_alter(&$form, &$form_state, $form_id)
   $states = workflow_get_workflow_state_names($wid);
   $states_reversed = array_flip($states);
   $push_sid = $states_reversed['Sent to BPI'];
-  // Remove 'Save and push' button if the current state is already 'Sent to BPI'.
+
+  // Remove 'Save and push' button if the current state is already 'Sent to
+  // BPI'. We have to do this, because it's not possible to disallow workflow
+  // transitions to the current state.
   if ($form['#default_value'] == $push_sid) {
     unset($form['workflow']['workflow_sid']['#options'][$push_sid]);
   }
