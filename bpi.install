@@ -73,9 +73,20 @@ function bpi_update_7002() {
 }
 
 /**
+ * Disable admin/content view from admin_views to avoid conflicts with our view.
+ */
+function bpi_update_7003() {
+  $views_defaults = variable_get('views_defaults', array());
+  if (!isset($views_defaults['admin_views_node']) || !$views_defaults['admin_views_node']) {
+    $views_defaults['admin_views_node'] = TRUE;
+  }
+  variable_set('views_defaults', $views_defaults);
+}
+
+/**
  * Convert BPI Syndication data to workflow states.
  */
-function bpi_update_7003(&$sandbox) {
+function bpi_update_7004(&$sandbox) {
   $limit = 10;
   $field_name = 'field_bpi_workflow';
 
