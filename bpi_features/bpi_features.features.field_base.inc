@@ -48,7 +48,7 @@ function bpi_features_field_default_field_bases() {
       ),
       'profile2_private' => FALSE,
       'watchdog_log' => 1,
-      'wid' => 2,
+      'wid' => 1,
       'widget' => array(
         'comment' => 1,
         'hide' => 0,
