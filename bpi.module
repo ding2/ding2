@@ -629,6 +629,22 @@ function bpi_form_workflow_transition_form_alter(&$form, &$form_state, $form_id)
  * be sure nothing else breaks.
  */
 function bpi_form_workflow_transition_form_validate(&$form, &$form_state) {
+  $workflows = workflow_get_workflow_names();
+  $workflows_reversed = array_flip($workflows);
+  $wid = $workflows_reversed['BPI'];
+  $states = workflow_get_workflow_state_names($wid);
+  $states_reversed = array_flip($states);
+  $push_sid = $states_reversed['Sent to BPI'];
+  if (isset($form_state['triggering_element']['#workflow_sid']) && $form_state['triggering_element']['#workflow_sid'] == $push_sid) {
+    // The 'Save and push' button has been chosen, so we will check if the BPI
+    // values are correct.
+    if (empty($form_state['values']['bpi_push_category'])) {
+      form_set_error('bpi_push_category', t('Category must be set when pushing to BPI'));
+    }
+    if (empty($form_state['values']['bpi_push_audience'])) {
+      form_set_error('bpi_push_audience', t('Audience must be set when pushing to BPI'));
+    }
+  }
   array_unshift($form_state['submit_handlers'], 'bpi_ding_news_node_form_submit');
 }
 
