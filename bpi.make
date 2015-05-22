@@ -29,3 +29,9 @@ projects[ding_content][type] = "module"
 projects[ding_content][download][type] = "git"
 projects[ding_content][download][url] = "git@github.com:ding2/ding_content.git"
 projects[ding_content][download][branch] = "master"
+
+projects[admin_views][subdir] = "contrib"
+projects[admin_views][version] = "1.4"
+
+projects[workflow][subdir] = "contrib"
+projects[workflow][version] = "2.5"
