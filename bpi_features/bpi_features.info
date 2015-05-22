@@ -16,7 +16,6 @@ dependencies[] = rules
 dependencies[] = strongarm
 dependencies[] = views
 dependencies[] = workflow
-dependencies[] = workflow_admin_ui
 dependencies[] = workflow_rules
 dependencies[] = workflow_views
 dependencies[] = workflowfield
