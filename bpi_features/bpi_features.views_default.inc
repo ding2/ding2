@@ -405,13 +405,6 @@ function bpi_features_views_default_views() {
   $handler->display->display_options['fields']['sid']['table'] = 'workflow_node_current';
   $handler->display->display_options['fields']['sid']['field'] = 'sid';
   $handler->display->display_options['fields']['sid']['label'] = 'BPI State';
-  /* Field: Workflow current: Timestamp */
-  $handler->display->display_options['fields']['timestamp']['id'] = 'timestamp';
-  $handler->display->display_options['fields']['timestamp']['table'] = 'workflow_node_current';
-  $handler->display->display_options['fields']['timestamp']['field'] = 'timestamp';
-  $handler->display->display_options['fields']['timestamp']['label'] = 'Workflow timestamp';
-  $handler->display->display_options['fields']['timestamp']['date_format'] = 'short';
-  $handler->display->display_options['fields']['timestamp']['second_date_format'] = 'ding_date_only';
   /* Field: Content: Workflow link */
   $handler->display->display_options['fields']['workflow_node']['id'] = 'workflow_node';
   $handler->display->display_options['fields']['workflow_node']['table'] = 'views_entity_node';
@@ -552,7 +545,6 @@ function bpi_features_views_default_views() {
     t('Updated'),
     t('Language'),
     t('BPI State'),
-    t('Workflow timestamp'),
     t('Operations'),
     t('change BPI state'),
     t('Edit link'),
