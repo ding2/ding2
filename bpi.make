@@ -5,8 +5,29 @@ core = 7.x
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.8"
 
+projects[admin_views][subdir] = "contrib"
+projects[admin_views][version] = "1.4"
+
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-alpha3"
+
+projects[workflow][subdir] = "contrib"
+projects[workflow][version] = "2.5"
+
+projects[workflowfield][subdir] = "contrib
+projects[workflowfield][version] = "2.5"
+
+projects[workflow_admin_ui][subdir] = "contrib
+projects[workflow_admin_ui][version] = "2.5"
+
+projects[workflow_rules][subdir] = "contrib
+projects[workflow_rules][version] = "2.5"
+
+projects[workflow_vbo][subdir] = "contrib"
+projects[workflow_vbo][version] = "2.5"
+
+projects[workflow_views][subdir] = "contrib
+projects[workflow_views][version] = "2.5"
 
 ; This version of media is tested to work with both images and videos.
 projects[media][type] = "module"
@@ -29,9 +50,3 @@ projects[ding_content][type] = "module"
 projects[ding_content][download][type] = "git"
 projects[ding_content][download][url] = "git@github.com:ding2/ding_content.git"
 projects[ding_content][download][branch] = "master"
-
-projects[admin_views][subdir] = "contrib"
-projects[admin_views][version] = "1.4"
-
-projects[workflow][subdir] = "contrib"
-projects[workflow][version] = "2.5"
