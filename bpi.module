@@ -597,6 +597,7 @@ function bpi_form_workflow_transition_form_alter(&$form, &$form_state, $form_id)
   $push_sid = $states_reversed['Sent to BPI'];
   $delete_sid = $states_reversed['Deleted from BPI'];
   $created_sid = $states_reversed['Created from BPI'];
+  $presend_sid = $states_reversed['Pre-sending to BPI'];
 
   // Remove 'Save and push' button if the current state is already 'Sent to
   // BPI'. We have to do this, because it's not possible to disallow workflow
@@ -608,6 +609,12 @@ function bpi_form_workflow_transition_form_alter(&$form, &$form_state, $form_id)
   // Remove "Delete from BPI" button, when we have already deleted from BPI.
   if ($form['#default_value'] == $delete_sid) {
     unset($form['workflow']['workflow_sid']['#options'][$delete_sid]);
+  }
+
+  // Remove "Save" button (saving to same workflow state) when the node is
+  // prepared for sending to BPI.
+  if ($form['#default_value'] == $presend_sid) {
+    unset($form['workflow']['workflow_sid']['#options'][$presend_sid]);
   }
 
   // We can't get the node id directly from the form, so we get it from the
