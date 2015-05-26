@@ -16,7 +16,7 @@ function bpi_features_default_rules_configuration() {
       "REQUIRES" : [ "rules", "bpi" ],
       "ON" : { "node_update--ding_news" : { "bundle" : "ding_news" } },
       "IF" : [
-        { "data_is" : { "data" : [ "node:field-bpi-workflow" ], "value" : "8" } }
+        { "data_is" : { "data" : [ "node:field-bpi-workflow" ], "value" : "4" } }
       ],
       "DO" : [ { "bpi_rules_push" : { "entity" : [ "node" ] } } ]
     }
@@ -28,7 +28,7 @@ function bpi_features_default_rules_configuration() {
       "REQUIRES" : [ "rules", "bpi" ],
       "ON" : { "node_update--ding_news" : { "bundle" : "ding_news" } },
       "IF" : [
-        { "data_is" : { "data" : [ "node:field-bpi-workflow" ], "value" : "12" } }
+        { "data_is" : { "data" : [ "node:field-bpi-workflow" ], "value" : "7" } }
       ],
       "DO" : [ { "bpi_rules_delete" : { "entity" : [ "node" ] } } ]
     }
@@ -40,7 +40,7 @@ function bpi_features_default_rules_configuration() {
       "REQUIRES" : [ "rules" ],
       "ON" : { "node_insert--ding_news" : { "bundle" : "ding_news" } },
       "IF" : [
-        { "data_is" : { "data" : [ "node:field-bpi-workflow" ], "value" : "15" } }
+        { "data_is" : { "data" : [ "node:field-bpi-workflow" ], "value" : "3" } }
       ],
       "DO" : [ { "redirect" : { "url" : "node\\/[node:nid]\\/workflow" } } ]
     }
