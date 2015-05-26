@@ -27,7 +27,7 @@ function bpi_well_delete($bpi_id) {
       drupal_set_message(t('BPI content with id %id was successfully deleted from the BPI well.', array('%id' => $bpi_id)));
     }
     else {
-      drupal_set_message(t('BPI content with id %id was NOT deleted from the BPI well.', array('%id' => $bpi_id)), 'error');
+      drupal_set_message(t('BPI content with id %id was NOT deleted from the BPI well. Contact an administrator.', array('%id' => $bpi_id)), 'error');
     }
 
     return TRUE;
@@ -35,6 +35,7 @@ function bpi_well_delete($bpi_id) {
   catch (Exception $e) {
     watchdog_exception('bpi', $e);
 
+    drupal_set_message(t('BPI content with id %id was NOT deleted from the BPI well. Contact an administrator.', array('%id' => $bpi_id)), 'error');
     return FALSE;
   }
 }

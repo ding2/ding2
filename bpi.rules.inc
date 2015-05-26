@@ -120,6 +120,7 @@ function bpi_rules_push($node) {
  *   TRUE on success
  */
 function bpi_rules_delete($node) {
+  $node = node_load($node->nid);
   if (!user_access('delete bpi content')) {
     drupal_set_message(t('You are not allowed to delete content from BPI'), 'error');
     return FALSE;
