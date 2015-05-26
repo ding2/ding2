@@ -69,7 +69,7 @@ function bpi_update_7001() {
  * Enable bpi features module.
  */
 function bpi_update_7002() {
-  module_enable(array('bpi_features'));
+  module_enable(array('bpi_features'), TRUE);
 }
 
 /**

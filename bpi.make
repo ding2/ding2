@@ -15,21 +15,6 @@ projects[workflow][subdir] = "contrib"
 projects[workflow][version] = "2.5"
 projects[workflow][patch][] = "http://www.drupal.org/files/issues/features_import-2484297-10.patch"
 
-projects[workflowfield][subdir] = "contrib
-projects[workflowfield][version] = "2.5"
-
-projects[workflow_admin_ui][subdir] = "contrib
-projects[workflow_admin_ui][version] = "2.5"
-
-projects[workflow_rules][subdir] = "contrib
-projects[workflow_rules][version] = "2.5"
-
-projects[workflow_vbo][subdir] = "contrib"
-projects[workflow_vbo][version] = "2.5"
-
-projects[workflow_views][subdir] = "contrib
-projects[workflow_views][version] = "2.5"
-
 ; This version of media is tested to work with both images and videos.
 projects[media][type] = "module"
 projects[media][subdir] = "contrib"
