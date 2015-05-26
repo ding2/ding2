@@ -13,6 +13,7 @@ projects[file_entity][version] = "2.0-alpha3"
 
 projects[workflow][subdir] = "contrib"
 projects[workflow][version] = "2.5"
+projects[workflow][patch][] = "http://www.drupal.org/files/issues/features_import-2484297-10.patch"
 
 projects[workflowfield][subdir] = "contrib
 projects[workflowfield][version] = "2.5"
