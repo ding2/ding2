@@ -532,6 +532,7 @@ function bpi_form_ding_news_node_form_alter(&$form, &$form_state, $form_id) {
   $states_reversed = array_flip($states);
   $push_sid = $states_reversed['Sent to BPI'];
   $delete_sid = $states_reversed['Deleted from BPI'];
+  $created_sid = $states_reversed['Created from BPI'];
 
   // Remove 'Save and push' button if the current state is already 'Sent to
   // BPI'. We have to do this, because it's not possible to disallow workflow
@@ -546,13 +547,15 @@ function bpi_form_ding_news_node_form_alter(&$form, &$form_state, $form_id) {
   }
 
   $nid = $form['nid']['#value'];
-  if ($nid > 0) {
+  // Only add BPI fields when the node exists, it hasn't just been created from
+  // BPI, and the workflow state isn't "Created from BPI".
+  if ($nid > 0 && !isset($_GET['bpi_id']) && $form['field_bpi_workflow'][LANGUAGE_NONE][0]['#default_value'] != $created_sid) {
     $form['bpi'] = bpi_http_push_action_form($nid ? $nid : 0);
     // We want the form to be added to the workflow group.
     $form['#group_children']['bpi'] = 'group_workflow';
     array_unshift($form['#validate'], 'bpi_form_workflow_transition_form_validate');
   }
-  elseif (!empty($_REQUEST['bpi_id'])) {
+  elseif (!empty($_GET['bpi_id'])) {
     // Hide normal save button, so we only show the "Save from BPI" button.
     $workflows = workflow_get_workflow_names();
     $workflows_reversed = array_flip($workflows);
@@ -593,6 +596,7 @@ function bpi_form_workflow_transition_form_alter(&$form, &$form_state, $form_id)
   $states_reversed = array_flip($states);
   $push_sid = $states_reversed['Sent to BPI'];
   $delete_sid = $states_reversed['Deleted from BPI'];
+  $created_sid = $states_reversed['Created from BPI'];
 
   // Remove 'Save and push' button if the current state is already 'Sent to
   // BPI'. We have to do this, because it's not possible to disallow workflow
@@ -611,7 +615,7 @@ function bpi_form_workflow_transition_form_alter(&$form, &$form_state, $form_id)
   $match = array();
   preg_match('/workflow_transition_form_node_(\d+)/', $form['#form_id'], $match);
   $nid = $match[1];
-  if ($nid > 0) {
+  if ($nid > 0 && $form['#default_value'] != $created_sid) {
     $form['bpi'] = bpi_http_push_action_form($nid);
     array_unshift($form['#validate'], 'bpi_form_workflow_transition_form_validate');
   }
@@ -658,16 +662,20 @@ function bpi_form_workflow_transition_form_validate(&$form, &$form_state) {
  * @see bpi_rules_push()
  */
 function bpi_ding_news_node_form_submit($form, &$form_state) {
-  // We only want to update the db if the form is saved via a workflow
-  // Sent to BPI ('Save and push') state.
-  $workflows = workflow_get_workflow_names();
-  $workflows_reversed = array_flip($workflows);
-  $wid = $workflows_reversed['BPI'];
-  $states = workflow_get_workflow_state_names($wid);
-  $states_reversed = array_flip($states);
-  $push_sid = $states_reversed['Sent to BPI'];
-  if ($form_state['triggering_element']['#parents'][0] != 'workflow_' . $push_sid) {
-    return;
+  // Only save values in BPI db table when the BPI fields are set.
+  $fields = array(
+    'bpi_push_nid',
+    'bpi_push_category',
+    'bpi_push_audience',
+    'bpi_push_images',
+    'bpi_push_ccl',
+    'bpi_push_editable',
+    'bpi_push_refs',
+  );
+  foreach ($fields as $field) {
+    if (!isset($form_state['values'][$field])) {
+      return;
+    }
   }
 
   $nid = $form_state['values']['bpi_push_nid'];
