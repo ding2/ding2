@@ -255,6 +255,7 @@ function ding_permissions_secure_permissions($role) {
       'administer varnish',
       'administer views',
       'administer workbench',
+      'administer workflow',
       'assign administrators role',
       'assign all roles',
       'assign editor role',
