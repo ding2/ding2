@@ -1,6 +1,8 @@
 <?php
 
 function ting_search_context_calculate_context($facets, $numTotalObjects) {
+  $contexts = ting_search_context_get_all_contexts();
+  //file_put_contents("/home/quickstart/work/debug/debugcontexts.txt", print_r($contexts , TRUE), FILE_APPEND);
   $bib_zoom_count = $number_of_library_materials = ting_search_context_get_term_count($facets, 'facet.acSource', array('bibzoom (album)')); 
   $numTotalObjects = $numTotalObjects - $bib_zoom_count;
   $material_type = ting_search_context_get_material_type($facets, $numTotalObjects);

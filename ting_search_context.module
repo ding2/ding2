@@ -499,7 +499,7 @@ function ting_search_context_get_nodes($context_id, $count = 5, $node_types = 'a
 		'nr',
 		'n.nid = %alias.nid'
 	);
-	$query->addField('n', 'nid', 'nid');
+	$query->addField('n', 'nid', 'nid')
     ->addField($nr_alias, 'rating', 'rating')
 	  ->condition($nr_alias . '.context_id', $context_id)
 		->condition('n.status', 1, '=')
@@ -519,7 +519,7 @@ function ting_search_context_get_nodes($context_id, $count = 5, $node_types = 'a
 
 	// Fetch nodes with max rating.
 	$query_max = clone $query;
-	$query_max_result = $query_max->condition($nr_alias . '.rating'̈́, 10)
+	$query_max_result = $query_max->condition($nr_alias . '.rating', 10)
 	  ->range(0, $count)
 	  ->orderRandom()
 	  ->execute();
@@ -531,7 +531,7 @@ function ting_search_context_get_nodes($context_id, $count = 5, $node_types = 'a
 	// If there's room for more, look for nodes with less than max rating.
 	if ($count > 0) {
 		$query_less = clone $query;
-		$query_less->condition($nr_alias. '.rating', 10, '<')
+		$query_less->condition($nr_alias. '.rating', 10, '<');
 		// Only pick random if there's more nodes than we need.
 		if ($query_less->countQuery()->execute()->fetchField() > $count) {
 			$query_less_result = $query_less->execute();
@@ -672,6 +672,21 @@ function ting_search_context_get_context_id($type, $context, $subject = NULL) {
 	}
 
 	return $query->execute()->fetchField();
+}
+
+/**
+ * Get all contexts.
+ * 
+ * @return mixed
+ *   Array representing the context.
+ *   FALSE if no match.
+ * 
+ * @see ting_search_context_schema()
+ */
+function ting_search_context_get_all_contexts() {
+	$query = db_select('ting_search_context_contexts', 'tsc')
+		->fields('tsc');
+	return $query->execute()->fetchAll();
 }
 
 /**
