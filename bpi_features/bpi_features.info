@@ -29,5 +29,6 @@ features[field_group][] = group_workflow|node|ding_news|form
 features[field_instance][] = node-ding_news-field_bpi_workflow
 features[rules_config][] = rules_after_workflow_sent_to_bpi
 features[rules_config][] = rules_before_changing_workflow_to_delete_from_bpi
+features[rules_config][] = rules_new_content_with_save_and_push_
 features[views_view][] = content
 project path = profiles/ding2/modules/bpi
