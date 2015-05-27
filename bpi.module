@@ -563,11 +563,13 @@ function bpi_form_ding_news_node_form_alter(&$form, &$form_state, $form_id) {
     $states = workflow_get_workflow_state_names($wid);
     $states_reversed = array_flip($states);
     $local_sid = $states_reversed['Local content'];
+    $pre_sid = $states_reversed['Pre-sending to BPI'];
 
     // Hide normal save button via css. We can't just unset it, because that
     // will result in only the normal button to be shown. That will only work
     // when removing "non-normal" buttons.
     drupal_add_css('#edit-workflow-' . $local_sid . ' { display: none; }', 'inline');
+    drupal_add_css('#edit-workflow-' . $pre_sid . ' { display: none; }', 'inline');
   }
   else {
     // Hide normal save button, so we only show the "Save from BPI" button.
