@@ -492,7 +492,7 @@ function bpi_features_views_default_views() {
     8 => 0,
     9 => 0,
   );
-  $handler->display->display_options['filters']['sid']['expose']['workflow_reduce_wid'] = '2';
+  $handler->display->display_options['filters']['sid']['expose']['workflow_reduce_wid'] = '1';
   $handler->display->display_options['filters']['sid']['expose']['workflow_include_all'] = TRUE;
   /* Filter criterion: Content: Language */
   $handler->display->display_options['filters']['language']['id'] = 'language';
