@@ -524,6 +524,18 @@ function bpi_error_message($exception, $level) {
  * data in db and add validate handler, which will add our own submit handler.
  */
 function bpi_form_ding_news_node_form_alter(&$form, &$form_state, $form_id) {
+  // Don't show BPI fields if node is new.
+  if (!empty($form['nid']) || !$form['nid']['#value']) {
+    unset($form['field_bpi_workflow']);
+    return;
+  }
+  // Don't show BPI fields if user doesn't have access to the workflow tab.
+  $node = node_load($form['nid']['#value']);
+  if (!workflow_tab_access("node", $node)) {
+    unset($form['field_bpi_workflow']);
+    return;
+  }
+
   // Get the 'Sent to BPI' (Save and push) state id.
   $workflows = workflow_get_workflow_names();
   $workflows_reversed = array_flip($workflows);
