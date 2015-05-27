@@ -37,7 +37,7 @@ function bpi_features_field_default_field_bases() {
       'history' => array(
         'history_tab_show' => 1,
         'roles' => array(
-          -1 => -1,
+          -1 => 0,
           3 => 3,
           4 => 4,
           6 => 6,
