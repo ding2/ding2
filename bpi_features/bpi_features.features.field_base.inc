@@ -27,23 +27,21 @@ function bpi_features_field_default_field_bases() {
     'module' => 'workflowfield',
     'settings' => array(
       'allowed_values_function' => 'workflowfield_allowed_values',
-      'allowed_values_string' => '7 | (creation)
-10 | Local content
-8 | Sent to BPI
-11 | Sent, updated locally
-9 | Created from BPI
-12 | Deleted',
+      'allowed_values_string' => '1 | (creation)
+2 | Local content
+3 | Pre-sending to BPI
+4 | Sent to BPI
+5 | Sent, updated locally
+6 | Created from BPI
+7 | Deleted from BPI',
       'history' => array(
         'history_tab_show' => 1,
         'roles' => array(
-          -1 => 0,
-          3 => 0,
-          4 => 0,
-          5 => 0,
-          6 => 0,
-          7 => 0,
-          8 => 0,
-          9 => 0,
+          -1 => -1,
+          3 => 3,
+          4 => 4,
+          6 => 6,
+          7 => 7,
         ),
       ),
       'profile2_private' => FALSE,
