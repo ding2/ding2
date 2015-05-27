@@ -790,6 +790,7 @@ function ding_permissions_secure_permissions($role) {
       'create files',
       'customize shortcut links',
       'delete any ding_event content',
+      'delete bpi content',
       'delete own ding_event content',
       'delete own ding_news content',
       'delete own ding_page content',
