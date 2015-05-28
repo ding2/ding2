@@ -76,6 +76,9 @@ function ting_oembed_field_formatter_view($entity_type, TingEntity $entity, $fie
   return $element;
 }
 
+/**
+ * Implements hook_field_is_empty().
+ */
 function ting_oembed_field_is_empty($item, $field) {
   return FALSE;
 }
