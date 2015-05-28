@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Add oEmbed support to Ting objects
+ * Add oEmbed support to Ting objects.
  */
 
 /**
@@ -22,19 +22,17 @@ function ting_oembed_field_info() {
   );
 }
 
+/**
+ * Implements hook_field_load().
+ */
 function ting_oembed_field_load($entity_type, $entities, $field, $instance, $langcode, &$items, $age) {
   foreach ($entities as $id => $entity) {
     $items[$id][0] = array(
-      'oembed' => 'pishans',
+      'oembed' => 'empty',
     );
   }
 }
 
-// hook_field_delete
-
-// hook_field_delete_revision
-
-// hook_field_widget_info
 /**
  * Implements hook_field_widget_info().
  */
@@ -44,9 +42,6 @@ function ting_oembed_field_widget_info_alter(&$info) {
   }
 }
 
-// hook_field_widget_form
-
-// hook_field_formater_info
 /**
  * Implements hook_field_formatter_info().
  */
@@ -63,25 +58,17 @@ function ting_oembed_field_formatter_info() {
  * Implements hook_field_formatter_view().
  */
 function ting_oembed_field_formatter_view($entity_type, TingEntity $entity, $field, $instance, $langcode, &$items, $display) {
-  $settings = $display['settings'];
-
-  $element = array(
-//    '#theme' => 'ting_relation_groups',
-//    '#groups' => array(),
-  );
+  $element = array();
+  $matches = array();
   switch ($display['type']) {
     case 'ting_oembed_default':
-/*      foreach ($items as $delta => $item) {
-        $element[$delta] = array(
-          '#markup' => $item,
-        );
-      }*/
-
+      // Get url and if an oembed provider exists, get data and render it.
       $online_url = $entity->getOnline_url();
-      $html = oembed_resolve_link(array(), $online_url);
-      if ($online_url != $html) {
-//        $element['#groups'][0] = $html;
-        $element[0] = $html;
+      if ($provider = oembed_get_provider($online_url, $matches)) {
+        $embed = oembed_get_data($online_url);
+        if ($embed) {
+          $element[0] = oembed_render_element('oembed', $online_url, array());
+        }
       }
       break;
   }
