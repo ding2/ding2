@@ -3,9 +3,9 @@
 function ting_search_context_calculate_context($facets, $numTotalObjects) {
   $contexts = ting_search_context_get_all_contexts();
   //file_put_contents("/home/quickstart/work/debug/debugcontexts.txt", print_r($contexts , TRUE), FILE_APPEND);
-  $bib_zoom_count = $number_of_library_materials = ting_search_context_get_term_count($facets, 'facet.acSource', array('bibzoom (album)')); 
-  $numTotalObjects = $numTotalObjects - $bib_zoom_count;
+ 
   $material_type = ting_search_context_get_material_type($facets, $numTotalObjects);
+  //file_put_contents("/home/quickstart/work/debug/debugcontexts2.txt", print_r($material_type , TRUE), FILE_APPEND);
   if ($material_type != 'book') {
     return $material_type; 
   }
@@ -26,9 +26,17 @@ function ting_search_context_get_material_type($facets, $total_number) {
   if (ting_search_context_is_films($facets, $total_number))
     return 'film';
   else if (ting_search_context_is_music($facets, $total_number))
-    return 'music';
+    return 'musik';
+  else if (ting_search_context_is_audio_book($facets, $total_number))
+    return 'lydbøger';
   else
     return 'book';
+}
+
+function ting_search_context_is_audio_book($facets, $total_number) {
+   $audio_types = array('lydbog (net)', 'lydbog (cd-mp3)', 'lydbog (cd)');
+   $number_of_audio = ting_search_context_get_term_count($facets, 'facet.type', $audio_types);
+   return ting_search_context_evalute_condition($number_of_audio , $total_number, 0.5);
 }
 
 function ting_search_context_is_films($facets, $total_number) {
@@ -37,12 +45,10 @@ function ting_search_context_is_films($facets, $total_number) {
    return ting_search_context_evalute_condition($number_of_films, $total_number, 0.5);
 }
 
-
 function ting_search_context_is_music($facets, $total_number) {
    $music_types = array('cd (musik)', 'grammofonplade', 'node');
    $number_of_music = ting_search_context_get_term_count($facets, 'facet.type', $music_types );
-   $number_of_library_materials = ting_search_context_get_term_count($facets, 'facet.acSource', array('bibliotekskatalog'));
-   return ting_search_context_evalute_condition($number_of_music, $number_of_library_materials, 0.5);
+   return ting_search_context_evalute_condition($number_of_music, $total_number, 0.5);
 }
 
 function ting_search_context_get_age_group($facets) {
