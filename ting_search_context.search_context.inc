@@ -4,10 +4,10 @@ function ting_search_context_calculate_context($facets, $numTotalObjects) {
   $contexts = ting_search_context_get_all_contexts();
   //file_put_contents("/home/quickstart/work/debug/debugcontexts.txt", print_r($contexts , TRUE), FILE_APPEND);
  
-  $material_type = ting_search_context_get_material_type($facets, $numTotalObjects);
+  $system_type = ting_search_context_get_material_type($facets, $numTotalObjects);
   //file_put_contents("/home/quickstart/work/debug/debugcontexts2.txt", print_r($material_type , TRUE), FILE_APPEND);
-  if ($material_type != 'book') {
-    return $material_type; 
+  if ($system_type == 'book') {
+    $system_type = ting_search_context_get_audience_fiction($facets, $total_number); 
   }
   $age_group = ting_search_context_get_age_group($facets);
   if ($age_group == 'children') {
@@ -51,22 +51,29 @@ function ting_search_context_is_music($facets, $total_number) {
    return ting_search_context_evalute_condition($number_of_music, $total_number, 0.5);
 }
 
-function ting_search_context_get_age_group($facets) {
-   $number_of_adult = ting_search_context_get_term_count($facets, 'facet.category',  array('voksenmaterialer'));
-   $number_of_children = ting_search_context_get_term_count($facets, 'facet.category', array('børnematerialer'));
-   return ($number_of_adult > $number_of_children ) ? 'adult' : 'children';
+function ting_search_context_get_audience_fiction($facets, $total_number) {
+  $adult = ting_search_context_is_adult($facets);
+  $fiction = ting_search_context_is_fiction($facets);
+  if ($adult &&  $fiction)
+    return 'voksen_skøn';
+  else if ($adult &&  !$fiction)
+    return 'voksen_fag';
+  else if (!$adult &&  $fiction)
+    return 'børne_skøn';
+  else if (!$adult &&  !$fiction)
+    return 'børne_fag';
 }
 
-function ting_search_context_get_genre_category($facets) {
-  $top_number_of_fiction = 0;
-  $top_number_of_non_fiction = 0;
-  if (isset($facets['facet.fictionSubject']) && is_array($facets['facet.fictionSubject']->terms)) {
-    $top_number_of_fiction = reset($facets['facet.fictionSubject']->terms);
-  }
-  if (isset($facets['facet.nonFictionSubject']) && is_array($facets['facet.nonFictionSubject']->terms)) {
-    $top_number_of_non_fiction = reset($facets['facet.nonFictionSubject']->terms);
-  }
-  return ($top_number_of_fiction > $top_number_of_non_fiction ) ? 'fiction' : 'nonfiction';
+function ting_search_context_is_adult($facets) {
+   $number_of_adult = ting_search_context_get_term_count($facets, 'facet.category',  array('voksenmaterialer'));
+   $number_of_children = ting_search_context_get_term_count($facets, 'facet.category', array('børnematerialer'));
+   return ($number_of_adult > $number_of_children );
+}
+
+function ting_search_context_is_fiction($facets) {
+   $number_of_fiction = ting_search_context_get_term_count($facets, 'facet.genreCategory',  array('fiktion'));
+   $number_of_nonfiction = ting_search_context_get_term_count($facets, 'facet.genreCategory', array('nonfiktion'));
+   return ($number_of_fiction > $number_of_nonfiction );
 }
 
 function ting_search_context_get_fiction_genres($facets) {
