@@ -1,0 +1,94 @@
+<?php
+
+/**
+ * @file
+ * Add oEmbed support to Ting objects
+ */
+
+/**
+ * Implements hook_field_info().
+ */
+function ting_oembed_field_info() {
+  return array(
+    'ting_oembed' => array(
+      'label' => t('Virtual: oEmbed support'),
+      'description' => t('Use oEmbed module to substitute known urls from Ting Object'),
+      'default_widget' => 'hidden',
+      'default_formatter' => 'ting_oembed_default',
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+      ),
+    ),
+  );
+}
+
+function ting_oembed_field_load($entity_type, $entities, $field, $instance, $langcode, &$items, $age) {
+  foreach ($entities as $id => $entity) {
+    $items[$id][0] = array(
+      'oembed' => 'pishans',
+    );
+  }
+}
+
+// hook_field_delete
+
+// hook_field_delete_revision
+
+// hook_field_widget_info
+/**
+ * Implements hook_field_widget_info().
+ */
+function ting_oembed_field_widget_info_alter(&$info) {
+  if (isset($info['hidden'])) {
+    $info['hidden']['field types'][] = 'ting_oembed';
+  }
+}
+
+// hook_field_widget_form
+
+// hook_field_formater_info
+/**
+ * Implements hook_field_formatter_info().
+ */
+function ting_oembed_field_formatter_info() {
+  return array(
+    'ting_oembed_default' => array(
+      'label' => t('oEmbed'),
+      'field types' => array('ting_oembed'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function ting_oembed_field_formatter_view($entity_type, TingEntity $entity, $field, $instance, $langcode, &$items, $display) {
+  $settings = $display['settings'];
+
+  $element = array(
+//    '#theme' => 'ting_relation_groups',
+//    '#groups' => array(),
+  );
+  switch ($display['type']) {
+    case 'ting_oembed_default':
+/*      foreach ($items as $delta => $item) {
+        $element[$delta] = array(
+          '#markup' => $item,
+        );
+      }*/
+
+      $online_url = $entity->getOnline_url();
+      $html = oembed_resolve_link(array(), $online_url);
+      if ($online_url != $html) {
+//        $element['#groups'][0] = $html;
+        $element[0] = $html;
+      }
+      break;
+  }
+
+  return $element;
+}
+
+function ting_oembed_field_is_empty($item, $field) {
+  return FALSE;
+}
