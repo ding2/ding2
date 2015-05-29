@@ -375,14 +375,9 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
       array_unshift($form['#validate'], 'bpi_form_workflow_transition_form_validate');
     }
     elseif (!empty($_GET['bpi_id'])) {
-      // Hide normal save button, so we only show the "Save from BPI" button.
-      $workflows = workflow_get_workflow_names();
-      $workflows_reversed = array_flip($workflows);
-      $wid = $workflows_reversed['BPI'];
-      $states = workflow_get_workflow_state_names($wid);
-      $states_reversed = array_flip($states);
-      $local_sid = $states_reversed['Local content'];
-      $pre_sid = $states_reversed['Pre-sending to BPI'];
+      $states = bpi_workflow_by_machine_names(array('pre_bpi', 'local_content'));
+      $local_sid = $states['local_content']->sid;
+      $pre_sid = $states['pre_bpi']->sid;
 
       // Hide normal save button via css. We can't just unset it, because that
       // will result in only the normal button to be shown. That will only work
@@ -391,13 +386,9 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
       drupal_add_css('#edit-workflow-' . $pre_sid . ' { display: none; }', 'inline');
     }
     else {
-      // Hide normal save button, so we only show the "Save from BPI" button.
-      $workflows = workflow_get_workflow_names();
-      $workflows_reversed = array_flip($workflows);
-      $wid = $workflows_reversed['BPI'];
-      $states = workflow_get_workflow_state_names($wid);
-      $states_reversed = array_flip($states);
-      $frombpi_sid = $states_reversed['Created from BPI'];
+      // Hide 'Save from BPI button'.
+      $states = bpi_workflow_by_machine_names('created_bpi');
+      $frombpi_sid = $states['created_bpi']->sid;
       unset($form['field_bpi_workflow'][LANGUAGE_NONE][0]['workflow']['workflow_sid']['#options'][$frombpi_sid]);
     }
   }
@@ -641,16 +632,16 @@ function bpi_error_message($exception, $level) {
  * data in db and add validate handler, which will add our own submit handler.
  */
 function bpi_form_workflow_transition_form_alter(&$form, &$form_state, $form_id) {
-  // Get the 'Sent to BPI' (Save and push) state id.
-  $workflows = workflow_get_workflow_names();
-  $workflows_reversed = array_flip($workflows);
-  $wid = $workflows_reversed['BPI'];
-  $states = workflow_get_workflow_state_names($wid);
-  $states_reversed = array_flip($states);
-  $push_sid = $states_reversed['Sent to BPI'];
-  $delete_sid = $states_reversed['Deleted from BPI'];
-  $created_sid = $states_reversed['Created from BPI'];
-  $presend_sid = $states_reversed['Pre-sending to BPI'];
+  $states = bpi_workflow_by_machine_names(array(
+    'sent_to_bpi',
+    'deleted_bpi',
+    'created_bpi',
+    'pre_bpi',
+  ));
+  $push_sid = $states['sent_to_bpi']->sid;
+  $delete_sid = $states['deleted_bpi']->sid;
+  $created_sid = $states['created_bpi']->sid;
+  $presend_sid = $states['pre_bpi']->sid;
 
   // Remove 'Save and push' button if the current state is already 'Sent to
   // BPI'. We have to do this, because it's not possible to disallow workflow
@@ -693,12 +684,8 @@ function bpi_form_workflow_transition_form_alter(&$form, &$form_state, $form_id)
  * be sure nothing else breaks.
  */
 function bpi_form_workflow_transition_form_validate(&$form, &$form_state) {
-  $workflows = workflow_get_workflow_names();
-  $workflows_reversed = array_flip($workflows);
-  $wid = $workflows_reversed['BPI'];
-  $states = workflow_get_workflow_state_names($wid);
-  $states_reversed = array_flip($states);
-  $push_sid = $states_reversed['Sent to BPI'];
+  $states = bpi_workflow_by_machine_names('sent_to_bpi');
+  $push_sid = $states['sent_to_bpi']->sid;
   if (isset($form_state['triggering_element']['#workflow_sid']) && $form_state['triggering_element']['#workflow_sid'] == $push_sid) {
     // The 'Save and push' button has been chosen, so we will check if the BPI
     // values are correct.
@@ -758,4 +745,35 @@ function bpi_form_workflow_transition_form_submit($form, &$form_state) {
 
   // Save BPI data in db to be fetched later by a rule action.
   bpi_update_syndicated($nid, 0, $params);
+}
+
+/**
+ * Get workflow states from machine names.
+ *
+ * There isn't any function in the Workflow module that has this option.
+ *
+ * @param array|string $machine_names
+ *   Array of machine names or string of single machine name.
+ *
+ * @return array
+ *   Array of stdClass objects of the workflow states.
+ */
+function bpi_workflow_by_machine_names($machine_names) {
+  if (!is_array($machine_names)) {
+    $machine_names = array($machine_names);
+  }
+
+  try {
+    $query = db_select('workflow_states', 'w');
+    $query->fields('w');
+    $query->leftJoin('workflows', 'ws', 'ws.wid = w.wid');
+    $query->condition('ws.name', 'bpi');
+    $query->condition('w.name', $machine_names, 'IN');
+    $res = $query->execute();
+    $records = $res->fetchAllAssoc('name');
+    return $records;
+  }
+  catch (PDOException $e) {
+    bpi_error_message($e, 'error');
+  }
 }
