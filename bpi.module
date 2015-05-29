@@ -564,7 +564,7 @@ function bpi_error_message($exception, $level) {
  */
 function bpi_form_ding_news_node_form_alter(&$form, &$form_state, $form_id) {
   // Don't show BPI fields if node is new.
-  if (!empty($form['nid']) || !$form['nid']['#value']) {
+  if (empty($form['nid']) || !$form['nid']['#value']) {
     unset($form['field_bpi_workflow']);
     return;
   }
