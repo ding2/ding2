@@ -569,7 +569,7 @@ function bpi_form_ding_news_node_form_alter(&$form, &$form_state, $form_id) {
     return;
   }
   // Don't show BPI fields if user doesn't have access to the workflow tab.
-  $node = node_load($form['nid']['#value']);
+  $node = $form['#node'];
   if (!workflow_tab_access("node", $node)) {
     unset($form['field_bpi_workflow']);
     return;
