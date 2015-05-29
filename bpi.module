@@ -227,6 +227,10 @@ function bpi_theme($existing, $type, $theme, $path) {
  *
  * Set some default values for the fields, when syndicating content,
  * according to mapped settings.
+ *
+ * If the content type is a BPI content type, add custom submit handler for
+ * showing BPI specific fields and saving BPI data in db and add validate
+ * handler, which will add our own submit handler.
  */
 function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
   $bpi_ctype = variable_get('bpi_content_type', '');
@@ -322,6 +326,79 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
       drupal_add_js(drupal_get_path('module', 'ding_popup') . '/ding_popup.js', 'file');
       drupal_add_css(drupal_get_path('module', 'bpi') . '/css/bpi-admin.styles.css', 'file');
       $_SESSION['bpi']['assets'] = $bpi_assets;
+    }
+  }
+
+  // Add BPI fields.
+  if ($form_id == $bpi_ctype . '_node_form') {
+    // Don't show BPI fields if node is new.
+    if (empty($form['nid']) || !$form['nid']['#value']) {
+      unset($form['field_bpi_workflow']);
+      return;
+    }
+    // Don't show BPI fields if user doesn't have access to the workflow tab.
+    $node = $form['#node'];
+    if (!workflow_tab_access("node", $node)) {
+      unset($form['field_bpi_workflow']);
+      return;
+    }
+
+    // Get the 'Sent to BPI' (Save and push) state id.
+    $workflows = workflow_get_workflow_names();
+    $workflows_reversed = array_flip($workflows);
+    $wid = $workflows_reversed['BPI'];
+    $states = workflow_get_workflow_state_names($wid);
+    $states_reversed = array_flip($states);
+    $push_sid = $states_reversed['Sent to BPI'];
+    $delete_sid = $states_reversed['Deleted from BPI'];
+    $created_sid = $states_reversed['Created from BPI'];
+
+    // Remove 'Save and push' button if the current state is already 'Sent to
+    // BPI'. We have to do this, because it's not possible to disallow workflow
+    // transitions to the current state.
+    if ($form['field_bpi_workflow'][LANGUAGE_NONE][0]['#default_value'] == $push_sid) {
+      unset($form['field_bpi_workflow'][LANGUAGE_NONE][0]['workflow']['workflow_sid']['#options'][$push_sid]);
+    }
+
+    // Remove "Delete from BPI" button, when we have already deleted from BPI.
+    if ($form['field_bpi_workflow'][LANGUAGE_NONE][0]['#default_value'] == $delete_sid) {
+      unset($form['field_bpi_workflow'][LANGUAGE_NONE][0]['workflow']['workflow_sid']['#options'][$delete_sid]);
+    }
+
+    $nid = $form['nid']['#value'];
+    // Only add BPI fields when the node exists, it hasn't just been created
+    // from BPI, and the workflow state isn't "Created from BPI".
+    if ($nid && !isset($_GET['bpi_id']) && $form['field_bpi_workflow'][LANGUAGE_NONE][0]['#default_value'] != $created_sid) {
+      $form['bpi'] = bpi_http_push_action_form($nid);
+      // We want the form to be added to the workflow group.
+      $form['#group_children']['bpi'] = 'group_workflow';
+      array_unshift($form['#validate'], 'bpi_form_workflow_transition_form_validate');
+    }
+    elseif (!empty($_GET['bpi_id'])) {
+      // Hide normal save button, so we only show the "Save from BPI" button.
+      $workflows = workflow_get_workflow_names();
+      $workflows_reversed = array_flip($workflows);
+      $wid = $workflows_reversed['BPI'];
+      $states = workflow_get_workflow_state_names($wid);
+      $states_reversed = array_flip($states);
+      $local_sid = $states_reversed['Local content'];
+      $pre_sid = $states_reversed['Pre-sending to BPI'];
+
+      // Hide normal save button via css. We can't just unset it, because that
+      // will result in only the normal button to be shown. That will only work
+      // when removing "non-normal" buttons.
+      drupal_add_css('#edit-workflow-' . $local_sid . ' { display: none; }', 'inline');
+      drupal_add_css('#edit-workflow-' . $pre_sid . ' { display: none; }', 'inline');
+    }
+    else {
+      // Hide normal save button, so we only show the "Save from BPI" button.
+      $workflows = workflow_get_workflow_names();
+      $workflows_reversed = array_flip($workflows);
+      $wid = $workflows_reversed['BPI'];
+      $states = workflow_get_workflow_state_names($wid);
+      $states_reversed = array_flip($states);
+      $frombpi_sid = $states_reversed['Created from BPI'];
+      unset($form['field_bpi_workflow'][LANGUAGE_NONE][0]['workflow']['workflow_sid']['#options'][$frombpi_sid]);
     }
   }
 }
@@ -563,84 +640,6 @@ function bpi_error_message($exception, $level) {
  * Add custom submit handler for showing BPI specific fields and saving BPI
  * data in db and add validate handler, which will add our own submit handler.
  */
-function bpi_form_ding_news_node_form_alter(&$form, &$form_state, $form_id) {
-  // Don't show BPI fields if node is new.
-  if (empty($form['nid']) || !$form['nid']['#value']) {
-    unset($form['field_bpi_workflow']);
-    return;
-  }
-  // Don't show BPI fields if user doesn't have access to the workflow tab.
-  $node = $form['#node'];
-  if (!workflow_tab_access("node", $node)) {
-    unset($form['field_bpi_workflow']);
-    return;
-  }
-
-  // Get the 'Sent to BPI' (Save and push) state id.
-  $workflows = workflow_get_workflow_names();
-  $workflows_reversed = array_flip($workflows);
-  $wid = $workflows_reversed['BPI'];
-  $states = workflow_get_workflow_state_names($wid);
-  $states_reversed = array_flip($states);
-  $push_sid = $states_reversed['Sent to BPI'];
-  $delete_sid = $states_reversed['Deleted from BPI'];
-  $created_sid = $states_reversed['Created from BPI'];
-
-  // Remove 'Save and push' button if the current state is already 'Sent to
-  // BPI'. We have to do this, because it's not possible to disallow workflow
-  // transitions to the current state.
-  if ($form['field_bpi_workflow'][LANGUAGE_NONE][0]['#default_value'] == $push_sid) {
-    unset($form['field_bpi_workflow'][LANGUAGE_NONE][0]['workflow']['workflow_sid']['#options'][$push_sid]);
-  }
-
-  // Remove "Delete from BPI" button, when we have already deleted from BPI.
-  if ($form['field_bpi_workflow'][LANGUAGE_NONE][0]['#default_value'] == $delete_sid) {
-    unset($form['field_bpi_workflow'][LANGUAGE_NONE][0]['workflow']['workflow_sid']['#options'][$delete_sid]);
-  }
-
-  $nid = $form['nid']['#value'];
-  // Only add BPI fields when the node exists, it hasn't just been created from
-  // BPI, and the workflow state isn't "Created from BPI".
-  if ($nid && !isset($_GET['bpi_id']) && $form['field_bpi_workflow'][LANGUAGE_NONE][0]['#default_value'] != $created_sid) {
-    $form['bpi'] = bpi_http_push_action_form($nid);
-    // We want the form to be added to the workflow group.
-    $form['#group_children']['bpi'] = 'group_workflow';
-    array_unshift($form['#validate'], 'bpi_form_workflow_transition_form_validate');
-  }
-  elseif (!empty($_GET['bpi_id'])) {
-    // Hide normal save button, so we only show the "Save from BPI" button.
-    $workflows = workflow_get_workflow_names();
-    $workflows_reversed = array_flip($workflows);
-    $wid = $workflows_reversed['BPI'];
-    $states = workflow_get_workflow_state_names($wid);
-    $states_reversed = array_flip($states);
-    $local_sid = $states_reversed['Local content'];
-    $pre_sid = $states_reversed['Pre-sending to BPI'];
-
-    // Hide normal save button via css. We can't just unset it, because that
-    // will result in only the normal button to be shown. That will only work
-    // when removing "non-normal" buttons.
-    drupal_add_css('#edit-workflow-' . $local_sid . ' { display: none; }', 'inline');
-    drupal_add_css('#edit-workflow-' . $pre_sid . ' { display: none; }', 'inline');
-  }
-  else {
-    // Hide normal save button, so we only show the "Save from BPI" button.
-    $workflows = workflow_get_workflow_names();
-    $workflows_reversed = array_flip($workflows);
-    $wid = $workflows_reversed['BPI'];
-    $states = workflow_get_workflow_state_names($wid);
-    $states_reversed = array_flip($states);
-    $frombpi_sid = $states_reversed['Created from BPI'];
-    unset($form['field_bpi_workflow'][LANGUAGE_NONE][0]['workflow']['workflow_sid']['#options'][$frombpi_sid]);
-  }
-}
-
-/**
- * Implements hook_form_FORM_ID_alter().
- *
- * Add custom submit handler for showing BPI specific fields and saving BPI
- * data in db and add validate handler, which will add our own submit handler.
- */
 function bpi_form_workflow_transition_form_alter(&$form, &$form_state, $form_id) {
   // Get the 'Sent to BPI' (Save and push) state id.
   $workflows = workflow_get_workflow_names();
@@ -710,7 +709,7 @@ function bpi_form_workflow_transition_form_validate(&$form, &$form_state) {
       form_set_error('bpi_push_audience', t('Audience must be set when pushing to BPI'));
     }
   }
-  array_unshift($form_state['submit_handlers'], 'bpi_ding_news_node_form_submit');
+  array_unshift($form_state['submit_handlers'], 'bpi_form_workflow_transition_form_submit');
 }
 
 /**
@@ -722,7 +721,7 @@ function bpi_form_workflow_transition_form_validate(&$form, &$form_state) {
  *
  * @see bpi_rules_push()
  */
-function bpi_ding_news_node_form_submit($form, &$form_state) {
+function bpi_form_workflow_transition_form_submit($form, &$form_state) {
   // Only save values in BPI db table when the BPI fields are set.
   $fields = array(
     'bpi_push_nid',
