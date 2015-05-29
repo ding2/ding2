@@ -331,11 +331,6 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
 
   // Add BPI fields.
   if ($form_id == $bpi_ctype . '_node_form') {
-    // Don't show BPI fields if node is new.
-    if (empty($form['nid']) || !$form['nid']['#value']) {
-      unset($form['field_bpi_workflow']);
-      return;
-    }
     // Don't show BPI fields if user doesn't have access to the workflow tab.
     $node = $form['#node'];
     if (!workflow_tab_access("node", $node)) {
