@@ -88,7 +88,7 @@
 
     $.each(entity_ids, function(index, entity_id) {
       // Reserve button
-      var reserver_btn = element.parents('.ting-object:first').find('a[id$=' + entity_id + '].reserve-button');
+      var reserver_btn = element.parents('.ting-object:first, .material-item:first').find('a[id$=' + entity_id + '].reserve-button');
 
       if (Drupal.DADB[entity_id]) {
         available = available || Drupal.DADB[entity_id]['available'];
