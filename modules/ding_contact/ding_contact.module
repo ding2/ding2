@@ -17,9 +17,9 @@ include_once 'ding_contact.features.inc';
  * @param $data
  * @param $block
  */
-function ding_contact_block_view_alter(&$data, $block){
-  if ( $block->delta == 'contact_site') {
-    if(is_string($data['content']['form'])) {
+function ding_contact_block_view_alter(&$data, $block) {
+  if ($block->delta == 'contact_site') {
+    if (is_string($data['content']['form'])) {
       $data['content']['form'] = drupal_get_form('ding_contact_flooded_form', $data['content']['form']);
     }
   }
@@ -33,10 +33,35 @@ function ding_contact_block_view_alter(&$data, $block){
  * @param $data
  * @return array
  */
-function ding_contact_flooded_form($form, $form_state,  $message) {
+function ding_contact_flooded_form($form, $form_state, $message) {
   $form = array();
   $form['message'] = array(
     '#markup' => $message,
   );
   return $form;
+}
+
+/**
+ * Alter the contact form: make sure no cached page is delivered, and stop redirect
+ * @param $form
+ * @param $form_state
+ */
+function ding_contact_form_contact_site_form_alter(&$form, &$form_state) {
+  if (user_is_anonymous()) {
+    $form['actions']['submit']['#attached'] = array(
+      'drupal_add_http_header' => array(
+        array('Cache-Control', 'no-cache, no-store, must-revalidate')
+      ),
+    );
+    $form['#submit'][] = 'ding_contact_contact_form_stop_redirect';
+  }
+}
+
+/**
+ * Prevent default redirect to frontpage ( @see contact.pages.inc::contact_personal_form_submit() )
+ * @param $form
+ * @param $form_state
+ */
+function ding_contact_contact_form_stop_redirect($form, &$form_state) {
+  unset($form_state['redirect']);
 }
