@@ -25,13 +25,14 @@ function search_context_content_type_render($subtype, $conf, $panel_args, $conte
 
 function ting_search_context_set_search_context($search_results) {
   module_load_include('search_context.inc', 'ting_search_context');
-  $context = ting_search_context_calculate_context($search_results->facets, $search_results->numTotalObjects); 
-  $js_settings = array(
-    'searchcontext' => $context,
-    'path' => '/ting/searchcontext/ajax'
-  );
+  $context_id = ting_search_context_calculate_context($search_results->facets, $search_results->numTotalObjects, $search_results->search_key); 
+  file_put_contents("/home/quickstart/work/debug/debugcontexts16.txt", print_r($context_id , TRUE), FILE_APPEND);
+//  $js_settings = array(
+//    'searchcontext' => $context_id,
+//    'path' => '/ting/searchcontext/ajax'
+//  );
   drupal_add_js(drupal_get_path('module', 'ting_search_context') . '/js/ting_search_context.js');
-  drupal_add_js(array('ting_search_context' => $context), 'setting');
+  drupal_add_js(array('ting_search_context' => $context_id), 'setting');
 }
 
 /**

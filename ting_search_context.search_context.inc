@@ -1,15 +1,25 @@
 <?php
 
-function ting_search_context_calculate_context($facets, $numTotalObjects) {
+function ting_search_context_calculate_context($facets, $numTotalObjects, $search_string) {
+  //Todo this should accept a search object and the relevant data from there.
   $contexts = ting_search_context_get_all_contexts();
+  $search_contexts = array();
+  foreach ($contexts as $context) {
+    if ($context->type == 'search') {
+      $search_contexts [] = $context; 
+    }
+  }
+  $search_context = ting_search_context_check_search_context($search_contexts, $search_string);
+  if ($search_context) {
+    return $search_context->context_id;
+  }
   file_put_contents("/home/quickstart/work/debug/debugcontexts.txt", print_r($contexts , TRUE), FILE_APPEND);
  
   $system_type = ting_search_context_get_material_type($facets, $numTotalObjects);
-  //file_put_contents("/home/quickstart/work/debug/debugcontexts2.txt", print_r($material_type , TRUE), FILE_APPEND);
   if ($system_type == 'book') {
     $system_type = ting_search_context_get_audience_fiction($facets, $numTotalObjects); 
   }
-  file_put_contents("/home/quickstart/work/debug/debugcontexts2.txt", print_r($system_type  , TRUE), FILE_APPEND);
+
   $subject_contexts = array();
   $system_context;
   foreach ($contexts as $context) {
@@ -20,11 +30,22 @@ function ting_search_context_calculate_context($facets, $numTotalObjects) {
       $system_context = $context; 
     }
   }
-  file_put_contents("/home/quickstart/work/debug/debugcontexts3.txt", print_r($subject_contexts , TRUE), FILE_APPEND);
-  file_put_contents("/home/quickstart/work/debug/debugcontexts4.txt", print_r($system_context , TRUE), FILE_APPEND);
   $subject_context = ting_search_context_check_subject_contexts($facets, $subject_contexts, $system_context->context); 
-  file_put_contents("/home/quickstart/work/debug/debugcontexts15.txt", print_r($subject_context , TRUE), FILE_APPEND);
+  if (isset($subject_context)) {
+    return $subject_context->context_id;
+  } else {
+    return $system_context->context_id;
+  }
+}
 
+function ting_search_context_check_search_context($search_contexts, $search_string) {
+  foreach ($search_contexts as $search_context) {
+    if (isset($search_context->search))
+      if (strpos(strtolower($search_string), strtolower($search_context->search)) !== false) {
+        return $search_context;
+      }
+  }
+  return false;
 }
 
 function ting_search_context_get_material_type($facets, $total_number) {
@@ -85,16 +106,12 @@ function ting_search_context_check_subject_contexts($facets, $subject_contexts, 
   $index = ting_search_context_get_subject_index_by_type($type);
   $top_term_count = 0;
   $top_context = null;
-  file_put_contents("/home/quickstart/work/debug/debugcontexts5.txt", print_r($index , TRUE), FILE_APPEND);
   foreach ($subject_contexts as $context) {
     if (isset($context->subject)) {
       $context->subject = preg_replace('/\s+/', '', $context->subject);
       $subjects= explode(',', $context->subject); 
-    file_put_contents("/home/quickstart/work/debug/debugcontexts8.txt", print_r($subjects , TRUE), FILE_APPEND);
       $term_count = ting_search_context_get_top_term_count($facets, $index, $subjects);
       // Check if the current context is a better match than the previous.
-      file_put_contents("/home/quickstart/work/debug/debugcontexts6.txt", print_r($term_count, TRUE), FILE_APPEND);
-       file_put_contents("/home/quickstart/work/debug/debugcontexts7.txt", print_r($top_term_count, TRUE), FILE_APPEND);
       if ($term_count > $top_term_count) {
         $top_term_count = $term_count;
         $top_context = $context;
@@ -159,14 +176,9 @@ function ting_search_context_get_detail_genre($facets, $genres, $facet_name) {
 
 function ting_search_context_get_top_term_count($facets, $facet_name, $term_names = array()) {
   $number_of_terms = 0;
-  file_put_contents("/home/quickstart/work/debug/debugcontexts10.txt", print_r($facets, TRUE), FILE_APPEND);
-  file_put_contents("/home/quickstart/work/debug/debugcontexts11.txt", print_r($term_names, TRUE), FILE_APPEND);
-  file_put_contents("/home/quickstart/work/debug/debugcontexts14.txt", print_r($facet_name, TRUE), FILE_APPEND);
   if (isset($facets[$facet_name])) {
     $top_terms = array_slice($facets[$facet_name]->terms, 0, 3);
-    file_put_contents("/home/quickstart/work/debug/debugcontexts12.txt", print_r($top_terms, TRUE), FILE_APPEND);
     foreach ($top_terms as $top_term => $term) {
-      file_put_contents("/home/quickstart/work/debug/debugcontexts9.txt", print_r($top_term, TRUE), FILE_APPEND);
       if (in_array($top_term, $term_names)) {
         $number_of_terms += $term;
       }
