@@ -1,0 +1,58 @@
+<?php
+/**
+ * @file
+ * Code for the Ding eKurser feature.
+ */
+
+include_once 'ding_ekurser.features.inc';
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Set search type to 'film (net)' and hide facet type from facet browser.
+ * Also hide certain fields via css.
+ */
+function ding_ekurser_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id != 'ding_facetbrowser_form') {
+    return;
+  }
+
+  $action = '/ekurser';
+  if (strpos($form['#action'], $action) === 0) {
+    $form['facet.type']['type']['#default_value'] = array('film (net)');
+    hide($form['facet.type']);
+  }
+
+  drupal_add_css('.search-field-in-content--message { display: none; }', 'inline');
+  drupal_add_css('.search-result--heading-type { display: none; }', 'inline');
+}
+
+/**
+ * Implements hook_search_info().
+ */
+function ding_ekurser_search_info() {
+  return array(
+    'title' => t('Ding eKurser'),
+    'conditions_callback' => 'ding_ekurser_conditions_callback',
+  );
+}
+
+/**
+ * Implements hook_search_execute().
+ *
+ * We don't make our own search, but call ting_search.
+ */
+function ding_ekurser_search_execute($keys = NULL, $conditions = NULL) {
+  return ting_search_search_execute($keys, $conditions);
+}
+
+/**
+ * Search conditions callback.
+ *
+ * Use ting_search's conditions callback and add facet type "film (net)".
+ */
+function ding_ekurser_conditions_callback($keys) {
+  $conditions = ting_search_conditions_callback($keys);
+  $conditions['facets'][] = 'facet.type:film (net)';
+  return $conditions;
+}
