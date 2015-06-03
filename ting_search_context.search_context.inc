@@ -1,7 +1,21 @@
 <?php
 
+/**
+ * Calculate the most relevant context for a search. A search context har the highest priority.
+ * A subject context the second highest priority. Defaults to system context.
+ * 
+ * @param array $facets
+ *   The facets of the search results.
+ * @param int $numTotalObjects
+ *   Number of objects
+ * @param $search_string
+ *   The search query string.
+ *   
+ * @return int
+ *   The context_id of the matching context.
+ */
 function ting_search_context_calculate_context($facets, $numTotalObjects, $search_string) {
-  //Todo this should accept a search object and the relevant data from there.
+  //Todo this should accept a search object and get the relevant data from there.
   $contexts = ting_search_context_get_all_contexts();
   $search_contexts = array();
   foreach ($contexts as $context) {
@@ -17,7 +31,7 @@ function ting_search_context_calculate_context($facets, $numTotalObjects, $searc
  
   $system_type = ting_search_context_get_material_type($facets, $numTotalObjects);
   if ($system_type == 'book') {
-    $system_type = ting_search_context_get_audience_fiction($facets, $numTotalObjects); 
+    $system_type = ting_search_context_get_audience_fiction($facets); 
   }
 
   $subject_contexts = array();
@@ -38,6 +52,19 @@ function ting_search_context_calculate_context($facets, $numTotalObjects, $searc
   }
 }
 
+/**
+ * Check if a search context matches the search query string
+ * 
+ * @param array $search_contexts
+ *   The search contexts.
+ * 
+ * @param string $search_string
+ *   The search query string.
+ *   
+ * @return mixed
+ *   The context object i there is a matching context. Else false
+ * 
+ */
 function ting_search_context_check_search_context($search_contexts, $search_string) {
   foreach ($search_contexts as $search_context) {
     if (isset($search_context->search))
@@ -48,36 +75,61 @@ function ting_search_context_check_search_context($search_contexts, $search_stri
   return false;
 }
 
+/**
+ * Get the material type most prominent in the search result
+ * 
+ * @param array $facets
+ *   The facets of the search results.
+ * 
+ * @param int $total_number
+ *   Number of objects
+ *   
+ * @return string
+ *   The system_contexts context name or book.
+ */
 function ting_search_context_get_material_type($facets, $total_number) {
-  if (ting_search_context_is_films($facets, $total_number))
+  $audio_types = array('lydbog (net)', 'lydbog (cd-mp3)', 'lydbog (cd)');
+  $film_types = array('film (net)', 'dvd', 'blue-ray');
+  $music_types = array('cd (musik)', 'grammofonplade', 'node');
+  if (ting_search_context_matches_material_type($facets, $total_number, $film_types))
     return 'film';
-  else if (ting_search_context_is_music($facets, $total_number))
+  else if (ting_search_context_matches_material_type($facets, $total_number, $music_types))
     return 'musik';
-  else if (ting_search_context_is_audio_book($facets, $total_number))
+  else if (ting_search_context_matches_material_type($facets, $total_number, $audio_types ))
     return 'lydbøger';
   else
     return 'book';
 }
 
-function ting_search_context_is_audio_book($facets, $total_number) {
+/**
+ * Check if a material type matches the material types in the facets.
+ * 
+ * @param array $facets
+ *   The facets of the search results.
+ * 
+ * @param int $total_number
+ *   Number of objects
+ *   
+ * @return boolean
+ *   True if the material type matches.
+ */
+function ting_search_context_matches_material_type($facets, $total_number, $type_array) {
    $audio_types = array('lydbog (net)', 'lydbog (cd-mp3)', 'lydbog (cd)');
-   $number_of_audio = ting_search_context_get_term_count($facets, 'facet.type', $audio_types);
-   return ting_search_context_evalute_condition($number_of_audio , $total_number, 0.5);
+   $number_of_type = ting_search_context_get_term_count($facets, 'facet.type', $type_array);
+   return ting_search_context_evalute_condition($number_of_type , $total_number, 0.5);
 }
 
-function ting_search_context_is_films($facets, $total_number) {
-   $film_types = array('film (net)', 'dvd', 'blue-ray');
-   $number_of_films = ting_search_context_get_term_count($facets, 'facet.type', $film_types);
-   return ting_search_context_evalute_condition($number_of_films, $total_number, 0.5);
-}
 
-function ting_search_context_is_music($facets, $total_number) {
-   $music_types = array('cd (musik)', 'grammofonplade', 'node');
-   $number_of_music = ting_search_context_get_term_count($facets, 'facet.type', $music_types );
-   return ting_search_context_evalute_condition($number_of_music, $total_number, 0.5);
-}
-
-function ting_search_context_get_audience_fiction($facets, $total_number) {
+/**
+ * Get audience and fiction/nonfiction.
+ * 
+ * @param int $total_number
+ *   Number of objects
+ *   
+ * @return string
+ *   The system_contexts context name.
+ */
+function ting_search_context_get_audience_fiction($facets) {
   $adult = ting_search_context_is_adult($facets);
   $fiction = ting_search_context_is_fiction($facets);
   if ($adult &&  $fiction)
@@ -90,18 +142,52 @@ function ting_search_context_get_audience_fiction($facets, $total_number) {
     return 'børne_fag';
 }
 
+/**
+ * Get audience 
+ * 
+ * @param array $facets
+ *   The facets of the search results.
+ *  
+ * @return bolean
+ *   True if adult.
+ */
 function ting_search_context_is_adult($facets) {
    $number_of_adult = ting_search_context_get_term_count($facets, 'facet.category',  array('voksenmaterialer'));
    $number_of_children = ting_search_context_get_term_count($facets, 'facet.category', array('børnematerialer'));
    return ($number_of_adult > $number_of_children );
 }
 
+/**
+ * Get Fiction/nonfiction 
+ * 
+ * @param array $facets
+ *   The facets of the search results.
+ *  
+ * @return bolean
+ *   True if fiction.
+ */
 function ting_search_context_is_fiction($facets) {
    $number_of_fiction = ting_search_context_get_term_count($facets, 'facet.genreCategory',  array('fiktion'));
    $number_of_nonfiction = ting_search_context_get_term_count($facets, 'facet.genreCategory', array('nonfiktion'));
    return ($number_of_fiction > $number_of_nonfiction );
 }
 
+/**
+ * Check if a subject context matches the search result
+ * 
+ * @param array $facets
+ *   The facets of the search results.
+ * 
+ * @param array $subject_contexts
+ *   The search contexts.
+ * 
+ * @param string $type
+ *   The system context type.
+ *   
+ * @return mixed
+ *   The context object i there is a matching context. Else null
+ * 
+ */
 function ting_search_context_check_subject_contexts($facets, $subject_contexts, $type) {
   $index = ting_search_context_get_subject_index_by_type($type);
   $top_term_count = 0;
@@ -121,6 +207,16 @@ function ting_search_context_check_subject_contexts($facets, $subject_contexts, 
   return $top_context;
 }
 
+/**
+ * Get the relevant index name for a given system context type
+ * 
+ * @param string $type
+ *   The system context type.
+ *   
+ * @return string
+ *   The name of the index.
+ * 
+ */
 function ting_search_context_get_subject_index_by_type($type) {
   $indexes = array (
     'film' => 'subject',
@@ -134,46 +230,23 @@ function ting_search_context_get_subject_index_by_type($type) {
   return 'facet.' . $indexes[$type]; 
 }
 
-function ting_search_context_get_fiction_genres($facets) {
-  $fiction_genres = array(
-    'krimi' => array('krimi'),
-    'kærlighed' => array('kærlighed', 'erotik', 'sex'),
-    'fantasy' => array('science fiction', 'fantasy'),
-  );
-  return ting_search_context_get_detail_genre($facets, $fiction_genres, 'facet.fictionSubject', 'fiction');
-}
 
-function ting_search_context_get_non_fiction_genres($facets) {
-  $fiction_genres = array(
-    'haver' => array('haver'),
-    'kogebøger' => array('slankeretter', 'ernæring', 'diætretter', 'vegetarretter', 'kost'),
-  );
-  return ting_search_context_get_detail_genre($facets, $fiction_genres, 'facet.nonFictionSubject', 'nonfiction');
-}
-
-function ting_search_context_get_children_genres($facets) {
-  $fiction_genres = array(
-    'piger' => array('piger'),
-    'drenge' => array('drenge'),
-  );
-  return ting_search_context_get_detail_genre($facets, $fiction_genres, 'facet.fictionSubject', 'children');
-}
-
-function ting_search_context_get_detail_genre($facets, $genres, $facet_name) {
-  $top_genre_count = 0;
-  $top_genre_name = '';
-  foreach ($genres as $genre_name => $genre) {
-    $genre_count = ting_search_context_get_top_term_count($facets, $facet_name, $genre);
-    if ($genre_count > $top_genre_count) {
-      $top_genre_count = $genre_count;
-      $top_genre_name = $genre_name;
-    }
-  }
-  if ($top_genre_count > 0) {
-    return $top_genre_name;
-  } 
-}
-
+/**
+ * Helper function to get the number of term_names which match the top 3 term in the relevant facet.
+ * 
+ * @param array $facets
+ *   The facets of the search results.
+ * 
+ * @param string $facets_name
+ *   The name of the facet to use.
+ * 
+ * @param array $term_names
+ *   The term names to evaluate.
+ *   
+ * @return int
+ *   The sum of the matched terms.
+ * 
+ */
 function ting_search_context_get_top_term_count($facets, $facet_name, $term_names = array()) {
   $number_of_terms = 0;
   if (isset($facets[$facet_name])) {
@@ -187,6 +260,22 @@ function ting_search_context_get_top_term_count($facets, $facet_name, $term_name
   return $number_of_terms;
 }
 
+/**
+ * Helper function to get the number of term_names which match the relevant facet terms.
+ * 
+ * @param array $facets
+ *   The facets of the search results.
+ * 
+ * @param string $facets_name
+ *   The name of the facet to use.
+ * 
+ * @param array $term_names
+ *   The term names to evaluate.
+ *   
+ * @return int
+ *   The sum of the matched terms.
+ * 
+ */
 function ting_search_context_get_term_count($facets, $facet_name, $term_names = array()) {
   $number_of_terms = 0;
   if (isset($facets[$facet_name])) {
@@ -200,6 +289,22 @@ function ting_search_context_get_term_count($facets, $facet_name, $term_names = 
   return $number_of_terms;
 }
 
+/**
+ * Helper function to evalute if number of terms exceeds the treshhold ratio.
+ * 
+ * @param int $number_of_terms
+ *   The number of terms.
+ * 
+ * @param int $total_number
+ *   Total number.
+ * 
+ * @param double $pass_ratio
+ *   The ratio which is has to be exceeded.
+ *   
+ * @return bolean
+ *   True if ratio is exceeded.
+ * 
+ */
 function ting_search_context_evalute_condition($number_of_terms, $total_number, $pass_ratio) {
   if ($total_number != 0) {
   $term_ratio = $number_of_terms/$total_number;

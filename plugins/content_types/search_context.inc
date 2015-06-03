@@ -15,6 +15,9 @@ $plugin = array(
  */
 function search_context_content_type_render($subtype, $conf, $panel_args, $context) {
   $block = new stdClass();
+//  ting_search_context_rate_node(8, 4, 4); 
+//  ting_search_context_rate_node(9, 5, 4); 
+//   ting_search_context_rate_node(5, 6, 4); 
   $search_results = drupal_static('ting_search_results');
   if ($search_results) {
     ting_search_context_set_search_context($search_results);

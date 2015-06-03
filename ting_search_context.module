@@ -68,7 +68,7 @@ function ting_search_context_ctools_plugin_directory($module, $plugin) {
 
 function ting_search_context_ajax_get_blogposts() {
   $search_context = $_POST['search_context'];
-  $nodes = ting_search_context_get_context($search_context);
+  $nodes = ting_search_context_get_nodes($search_context);
   $outpu = '';
   if (!empty($nodes)) {
     $output = ting_search_context_theme_output ($nodes);
@@ -486,7 +486,6 @@ function ting_search_context_get_contexts() {
  */
 function ting_search_context_get_nodes($context_id, $count = 5, $node_types = 'all') {
 	$return = array();
-
 	// No need to conteniue with the following input.
 	if (empty($node_types) || $count < 1) {
 		return $return;
