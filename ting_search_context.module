@@ -500,8 +500,8 @@ function ting_search_context_get_nodes($context_id, $count = 5, $node_types = 'a
 		'n.nid = %alias.nid'
 	);
 	$query->addField('n', 'nid', 'nid');
-    ->addField($nr_alias, 'rating', 'rating')
-	  ->condition($nr_alias . '.context_id', $context_id)
+  $query->addField($nr_alias, 'rating', 'rating');
+	$query->condition($nr_alias . '.context_id', $context_id)
 		->condition('n.status', 1, '=')
 		// Lets node access modules alter the query.
 		// See: https://www.drupal.org/node/310077 and hook_query_TAG_alter().
@@ -519,7 +519,7 @@ function ting_search_context_get_nodes($context_id, $count = 5, $node_types = 'a
 
 	// Fetch nodes with max rating.
 	$query_max = clone $query;
-	$query_max_result = $query_max->condition($nr_alias . '.rating'̈́, 10)
+	$query_max_result = $query_max->condition($nr_alias . '.rating', 10)
 	  ->range(0, $count)
 	  ->orderRandom()
 	  ->execute();
@@ -531,7 +531,7 @@ function ting_search_context_get_nodes($context_id, $count = 5, $node_types = 'a
 	// If there's room for more, look for nodes with less than max rating.
 	if ($count > 0) {
 		$query_less = clone $query;
-		$query_less->condition($nr_alias. '.rating', 10, '<')
+		$query_less->condition($nr_alias. '.rating', 10, '<');
 		// Only pick random if there's more nodes than we need.
 		if ($query_less->countQuery()->execute()->fetchField() > $count) {
 			$query_less_result = $query_less->execute();
@@ -544,7 +544,7 @@ function ting_search_context_get_nodes($context_id, $count = 5, $node_types = 'a
 					$nodes[] = $record->nid;
 				}
 			}
-			
+
 			while ($count-- > 0) {
 				$random_key = array_rand($nodes);
 				$nid = $nodes[$random_key];
