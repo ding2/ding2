@@ -459,6 +459,12 @@ function ting_search_context_get_contexts() {
 	);
 }
 
+function ting_search_context_init() {
+  $cid = ting_search_context_get_context_id('search', 'Disse ØjebLIKKe er en god bog');
+
+  file_put_contents("/home/drupalpro/debug/debug.txt", print_r($cid, TRUE), FILE_APPEND);
+}
+
 /**
  * Searches the database for nodes rated in the context specified by
  * $context_id and randomly selects $count number of nodes to return. The
@@ -664,7 +670,7 @@ function ting_search_context_get_context_id($type, $context, $subject = NULL) {
 			// to make sure it compares.
 			// NOTE: This will not be needed for collations suffixed with _ci.
 			// See: https://dev.mysql.com/doc/refman/5.0/en/charset-mysql.html
-			$query->where('UPPER(tsc.search) LIKE :context', array(
+			$query->where(":context LIKE CONCAT('%', UPPER(tsc.search), '%')", array(
 				':context' => db_like(mb_strtoupper($context)),
 			));
 			break;
