@@ -55,3 +55,39 @@ function ding_ekurser_conditions_callback($keys) {
   $conditions['facets'][] = 'facet.type:film (net)';
   return $conditions;
 }
+
+/**
+ * Set default sort options.
+ *
+ * @return array
+ *   Returns an array of sort options.
+ */
+function ding_ekurser_search_sort_options() {
+  $options = array(
+    'title_ascending' => t('Title (Ascending)'),
+    'title_descending' => t('Title (Descending)'),
+    'acquisitionDate_ascending' => t('Acquisition date (Ascending)'),
+    'acquisitionDate_descending' => t('Acquisition date (Descending)'),
+  );
+
+  // Add label to the front of the options.
+  foreach ($options as $key => $option) {
+    $options[$key] = t('Sort by: !sort', array('!sort' => $option));
+  }
+
+  return $options;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Change sort options when we're on the overview of eKurser.
+ */
+function ding_ekurser_form_ting_search_sort_form_alter(&$form, &$form_state, $form_id) {
+  if (strpos($form['#action'], '/ekurser') !== 0) {
+    return;
+  }
+
+  $form['sort']['#options'] = ding_ekurser_search_sort_options();
+  $form['sort']['#default_value'] = 'acquisitionDate_descending';
+}
