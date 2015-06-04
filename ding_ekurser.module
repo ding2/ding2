@@ -13,7 +13,7 @@ include_once 'ding_ekurser.features.inc';
  * Also hide certain fields via css.
  */
 function ding_ekurser_form_alter(&$form, &$form_state, $form_id) {
-  if ($form_id != 'ding_facetbrowser_form') {
+  if ($form_id != 'ding_facetbrowser_form' || strpos($form['#action'], '/ekurser') !== 0) {
     return;
   }
 
@@ -23,8 +23,7 @@ function ding_ekurser_form_alter(&$form, &$form_state, $form_id) {
     hide($form['facet.type']);
   }
 
-  drupal_add_css('.search-field-in-content--message { display: none; }', 'inline');
-  drupal_add_css('.search-result--heading-type { display: none; }', 'inline');
+  drupal_add_css(drupal_get_path('module', 'ding_ekurser') . '/ding_ekurser.css', 'file');
 }
 
 /**

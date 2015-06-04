@@ -1,0 +1,11 @@
+.search-field-in-content--message,
+.field-group-format .heading .search-result--heading-type,
+.field-group-format > .content,
+.search-result--availability,
+.pane-search-result-count h2 {
+    display: none;
+}
+
+.page-title .js-count {
+    text-transform: lowercase;
+}
