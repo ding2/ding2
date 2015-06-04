@@ -17,12 +17,6 @@ function ding_ekurser_form_alter(&$form, &$form_state, $form_id) {
     return;
   }
 
-  $action = '/ekurser';
-  if (strpos($form['#action'], $action) === 0) {
-    $form['facet.type']['type']['#default_value'] = array('film (net)');
-    hide($form['facet.type']);
-  }
-
   drupal_add_css(drupal_get_path('module', 'ding_ekurser') . '/ding_ekurser.css', 'file');
 }
 
@@ -48,11 +42,13 @@ function ding_ekurser_search_execute($keys = NULL, $conditions = NULL) {
 /**
  * Search conditions callback.
  *
- * Use ting_search's conditions callback and add facet type "film (net)".
+ * Use ting_search's conditions callback and add default sort.
  */
 function ding_ekurser_conditions_callback($keys) {
   $conditions = ting_search_conditions_callback($keys);
-  $conditions['facets'][] = 'facet.type:film (net)';
+  if (empty($conditions['sort'])) {
+    $conditions['sort'] = 'acquisitionDate_descending';
+  }
   return $conditions;
 }
 
@@ -88,6 +84,9 @@ function ding_ekurser_form_ting_search_sort_form_alter(&$form, &$form_state, $fo
     return;
   }
 
+  // Set our own sorting options and set default sort, if it's not set.
   $form['sort']['#options'] = ding_ekurser_search_sort_options();
-  $form['sort']['#default_value'] = 'acquisitionDate_descending';
+  if (empty($form['sort']['#default_value'])) {
+    $form['sort']['#default_value'] = 'acquisitionDate_descending';
+  }
 }
