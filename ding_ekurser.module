@@ -4,6 +4,9 @@
  * Code for the Ding eKurser feature.
  */
 
+// Path of panel page. Remember to change this constant if the panel changes.
+define('DING_EKURSER_PATH', 'ekurser');
+
 include_once 'ding_ekurser.features.inc';
 
 /**
@@ -13,7 +16,7 @@ include_once 'ding_ekurser.features.inc';
  * Also hide certain fields via css.
  */
 function ding_ekurser_form_alter(&$form, &$form_state, $form_id) {
-  if ($form_id != 'ding_facetbrowser_form' || strpos($form['#action'], '/ekurser') !== 0) {
+  if ($form_id != 'ding_facetbrowser_form' || strpos($form['#action'], '/' . DING_EKURSER_PATH) !== 0) {
     return;
   }
 
@@ -80,7 +83,7 @@ function ding_ekurser_search_sort_options() {
  * Change sort options when we're on the overview of eKurser.
  */
 function ding_ekurser_form_ting_search_sort_form_alter(&$form, &$form_state, $form_id) {
-  if (strpos($form['#action'], '/ekurser') !== 0) {
+  if (strpos($form['#action'], '/' . DING_EKURSER_PATH) !== 0) {
     return;
   }
 
