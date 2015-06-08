@@ -24,6 +24,26 @@ function ding_ekurser_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
+ * Remove terms that have a count of 80% or more of total count.
+ *
+ * @param int $total_count
+ *   Total count.
+ * @param array $terms
+ *   Array of term => count.
+ *
+ * @return array
+ *   Return terms
+ */
+function _ding_ekurser_remove_terms($total_count, $terms = array()) {
+  foreach ($terms as $term => $count) {
+    if ($count >= (0.8 * $total_count)) {
+      unset($terms[$term]);
+    }
+  }
+  return $terms;
+}
+
+/**
  * Implements hook_search_info().
  */
 function ding_ekurser_search_info() {
