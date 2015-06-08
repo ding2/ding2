@@ -24,6 +24,48 @@ function ding_ekurser_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
+ * Parse request uri and remove unwanted elements such as page and facets.
+ *
+ * This function is copied from ding_facetbrowser and modified.
+ *
+ * @return array
+ *   Return pair of uri and found facet.subject if any.
+ */
+function _ding_ekurser_facetbrowser_parse_request_uri() {
+  $current_term = '';
+  $new_query_part = array();
+  if (stristr(request_uri(), '?')) {
+    $request_uri_parts = explode('?', request_uri());
+
+    $query = rawurldecode(end($request_uri_parts));
+    $query_parts = explode('&', $query);
+    foreach ($query_parts as $key => $part) {
+      if (preg_match('/^page\=/', $part)) {
+        unset($query_parts[$key]);
+        continue;
+      }
+      elseif (preg_match('/^facets\[\d*\]\=/', $part)) {
+        $match = array();
+        unset($query_parts[$part]);
+        if (preg_match('/^facets\[\d*\]\=facet\.subject:(.*)/', $part, $match)) {
+          $current_term = $match[1];
+        }
+        continue;
+      }
+      $new_query_part[] = $part;
+    }
+    $query = $new_query_part;
+    return array(
+      $request_uri_parts[0] . '?' . implode('&', $query),
+      $current_term,
+    );
+  }
+  else {
+    return array(request_uri(), $current_term);
+  }
+}
+
+/**
  * Remove terms that have a count of 80% or more of total count.
  *
  * @param int $total_count
