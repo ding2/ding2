@@ -18,6 +18,9 @@ function ding_ekurser_install() {
   ding_ekurser_translation_install();
 }
 
+/**
+ * Install translations.
+ */
 function ding_ekurser_translation_install() {
   // Install translations.
   $file = new stdClass();
