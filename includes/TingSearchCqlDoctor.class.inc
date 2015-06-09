@@ -88,8 +88,8 @@ class TingSearchCqlDoctor {
    * @return nothing; alters private member cql_string
    */
   private function escape_reserved_characters() {
-    //$this->cql_string = str_replace('/', ' "/" ', $this->cql_string);
-    //$this->cql_string = str_replace('-', ' "-" ', $this->cql_string);
+    $this->cql_string = str_replace('/', ' "/" ', $this->cql_string);
+    $this->cql_string = str_replace('-', ' "-" ', $this->cql_string);
   }
 
   private function get_replace_key(){
