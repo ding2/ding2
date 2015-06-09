@@ -81,9 +81,7 @@ function ting_search_autocomplete_settings() {
 
   $defaults = variable_get('ting_search_autocomplete_settings', array());
 
-  foreach ($base_settings as $key => $base_setting) {
-    $settings[$key] = (!empty($defaults[$key])) ? $defaults[$key] : $base_setting;
-  }
+  $settings = array_merge($base_settings, $defaults);
   
   return $settings;
 
