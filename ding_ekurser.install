@@ -13,4 +13,15 @@ function ding_ekurser_install() {
   $search_modules = variable_get('search_active_modules');
   $search_modules['ding_ekurser'] = 'ding_ekurser';
   variable_set('search_active_modules', $search_modules);
+
+  // Install translations.
+  ding_ekurser_translation_install();
+}
+
+function ding_ekurser_translation_install() {
+  // Install translations.
+  $file = new stdClass();
+  $file->uri = drupal_get_path('module', 'ding_ekurser') . '/translations/da.po';
+  $file->filename = basename($file->uri);
+  _locale_import_po($file, 'da', LOCALE_IMPORT_KEEP, 'default');
 }
