@@ -90,7 +90,7 @@ function ding_ekurser_form_alter(&$form, &$form_state, $form_id) {
   }
 
   $form['subjects_begin'] = array(
-    '#markup' => '<h2 class="sub-menu-title">' . t('Subjects') . '</h2><ul class="sub-menu">',
+    '#markup' => '<h2 class="sub-menu-title">' . t('Popular subjects') . '</h2><ul class="sub-menu">',
   );
   foreach ($terms as $term) {
     $form[$term] = array(
