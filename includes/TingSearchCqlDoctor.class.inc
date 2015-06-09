@@ -49,7 +49,6 @@ class TingSearchCqlDoctor {
     $this->fix_qoutes();
     // format the string
     $return = $this->format_cql_string();
-    dpm($return);
     return $return;
   }
 
