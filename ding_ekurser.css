@@ -14,3 +14,7 @@
 .page-title .js-count {
     text-transform: lowercase;
 }
+
+#ding-facetbrowser-form .sub-menu a {
+    text-transform: capitalize;
+}
