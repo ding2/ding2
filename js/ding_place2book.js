@@ -7,7 +7,7 @@
 
   Drupal.behaviors.ding_place2book = {
     attach: function (context, settings) {
-      $('.place2book-ticketinfo').each(function () {
+      $('.place2book-ticketinfo').once('place2book-button', function() {
         var request = $.ajax({
           url: Drupal.settings.basePath + 'ding/place2book/ticketinfo/' + this.value,
           type: 'POST',
