@@ -63,7 +63,7 @@ function ting_oembed_features_field_default_field_instances() {
     ),
     'entity_type' => 'ting_object',
     'field_name' => 'field_oembed',
-    'label' => 'oEmbed',
+    'label' => 'Material content',
     'required' => FALSE,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -79,7 +79,7 @@ function ting_oembed_features_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('oEmbed');
+  t('Material content');
 
   return $field_instances;
 }

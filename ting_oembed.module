@@ -48,7 +48,7 @@ function ting_oembed_field_widget_info_alter(&$info) {
 function ting_oembed_field_formatter_info() {
   return array(
     'ting_oembed_default' => array(
-      'label' => t('oEmbed'),
+      'label' => t('Material content'),
       'field types' => array('ting_oembed'),
     ),
   );
