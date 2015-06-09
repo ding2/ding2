@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Ding eKurser module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ding_ekurser_install() {
+  // Enable ding_ekurser search module.
+  $search_modules = variable_get('search_active_modules');
+  $search_modules['ding_ekurser'] = 'ding_ekurser';
+  variable_set('search_active_modules', $search_modules);
+}
