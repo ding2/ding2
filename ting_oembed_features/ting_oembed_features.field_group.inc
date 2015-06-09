@@ -20,14 +20,14 @@ function ting_oembed_features_field_group_info() {
   $field_group->mode = 'default';
   $field_group->parent_name = '';
   $field_group->data = array(
-    'label' => 'oEmbed',
+    'label' => 'Material content',
     'weight' => '6',
     'children' => array(
       0 => 'field_oembed',
     ),
     'format_type' => 'div',
     'format_settings' => array(
-      'label' => 'oEmbed',
+      'label' => 'Material content',
       'instance_settings' => array(
         'classes' => '',
         'description' => '',
