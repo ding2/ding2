@@ -41,11 +41,11 @@ msgstr "Titel å > a"
 
 #: ding_ekurser.module:210
 msgid "Acquisition date (Ascending)"
-msgstr "Sortér efter: ældste først"
+msgstr "ældste først"
 
 #: ding_ekurser.module:211
 msgid "Acquisition date (Descending)"
-msgstr "Sortér efter: nyeste først"
+msgstr "nyeste først"
 
 #: ding_ekurser.module:216
 msgid "Sort by: !sort"

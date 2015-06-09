@@ -26,5 +26,5 @@ function ding_ekurser_translation_install() {
   $file = new stdClass();
   $file->uri = drupal_get_path('module', 'ding_ekurser') . '/translations/da.po';
   $file->filename = basename($file->uri);
-  _locale_import_po($file, 'da', LOCALE_IMPORT_KEEP, 'default');
+  _locale_import_po($file, 'da', LOCALE_IMPORT_OVERWRITE, 'default');
 }
