@@ -8,7 +8,7 @@
  * examples not valid:
  * portland (film) => portland and (film)
  * henning mortensen (f. 1939) => henning and mortensen and "(f. 1939)"
- * harry and (White night) = harry and (White and night)
+ * harry and (White night) = harry and "(White night)"
  *
  *
  * valid cql stays the same eg.
@@ -49,6 +49,7 @@ class TingSearchCqlDoctor {
     $this->fix_qoutes();
     // format the string
     $return = $this->format_cql_string();
+    dpm($return);
     return $return;
   }
 
@@ -88,8 +89,8 @@ class TingSearchCqlDoctor {
    * @return nothing; alters private member cql_string
    */
   private function escape_reserved_characters() {
-    $this->cql_string = str_replace('/', ' "/" ', $this->cql_string);
-    $this->cql_string = str_replace('-', ' "-" ', $this->cql_string);
+    //$this->cql_string = str_replace('/', ' "/" ', $this->cql_string);
+    //$this->cql_string = str_replace('-', ' "-" ', $this->cql_string);
   }
 
   private function get_replace_key(){
