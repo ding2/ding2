@@ -24,8 +24,8 @@ msgid "All"
 msgstr "Alle"
 
 #: ding_ekurser.module:93
-msgid "Subjects"
-msgstr "Emneord"
+msgid "Popular subjects"
+msgstr "Populære emner"
 
 #: ding_ekurser.module:173 ding_ekurser.info:0
 msgid "Ding eKurser"
@@ -41,11 +41,11 @@ msgstr "Titel å > a"
 
 #: ding_ekurser.module:210
 msgid "Acquisition date (Ascending)"
-msgstr "Accessionsdato stigende"
+msgstr "Sortér efter: ældste først"
 
 #: ding_ekurser.module:211
 msgid "Acquisition date (Descending)"
-msgstr "Accessionsdato faldende"
+msgstr "Sortér efter: nyeste først"
 
 #: ding_ekurser.module:216
 msgid "Sort by: !sort"
