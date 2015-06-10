@@ -72,7 +72,7 @@ function ting_search_autocomplete_get_suggestions($query) {
     if ( empty($result->error) ) {
       if ( !empty($result_data['suggestions']) ) {
         foreach ($result_data['suggestions'] as $suggestion) {
-          $items[ting_search_autocomplete_truncate(strip_tags($suggestion['suggestion']), 64)] = $suggestion['suggestion'];
+          $items[truncate_utf8(strip_tags($suggestion['suggestion']), 256, TRUE, FALSE, 1)] = $suggestion['suggestion'];
         }
       }
     }
@@ -82,28 +82,4 @@ function ting_search_autocomplete_get_suggestions($query) {
   }
 
   return $items;
-}
-
-
-/**
- * helper function for ting_search_autocomplete_get_suggestions()
- * truncate $string to $width (or less) at nearest whitespace
- * @param string $string
- * @param string $width
- * @return array
- */
-function ting_search_autocomplete_truncate($string, $width) {
-  $parts = preg_split('/([\s\n\r]+)/', $string, NULL, PREG_SPLIT_DELIM_CAPTURE);
-  $parts_count = count($parts);
-
-  $length = 0;
-  $last_part = 0;
-  for (; $last_part < $parts_count; ++$last_part) {
-    $length += drupal_strlen($parts[$last_part]);
-    if ($length > $width) {
-      break;
-    }
-  }
-
-  return implode(array_slice($parts, 0, $last_part));
 }
