@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * AJAX functions bibliotek.dk autocomplete.
+ */
 
 /**
  * Auto-complete callback for the ting search block.
@@ -11,9 +15,7 @@
  *   If TRUE the cache is reset. Defaults to FALSE.
  */
 function ting_search_autocomplete_callback($query = '', $reset = FALSE) {
-
   $query = check_plain(strtolower($query));
-
   $settings = variable_get('ting_search_autocomplete_settings', array());
 
   $minimum_string = (!empty($settings['minimumString'])) ? $settings['minimumString'] : 3;
@@ -43,7 +45,6 @@ function ting_search_autocomplete_callback($query = '', $reset = FALSE) {
 
   drupal_json_output($matches);
   drupal_exit();
-
 }
 
 
@@ -54,7 +55,6 @@ function ting_search_autocomplete_callback($query = '', $reset = FALSE) {
  * @return array
  */
 function ting_search_autocomplete_get_suggestions($query) {
-
   $items = array();
   $rest_url = variable_get('ting_search_autocomplete_suggestion_url', '');
   $settings = ting_search_autocomplete_settings();
@@ -82,7 +82,6 @@ function ting_search_autocomplete_get_suggestions($query) {
   }
 
   return $items;
-
 }
 
 
@@ -94,7 +93,7 @@ function ting_search_autocomplete_get_suggestions($query) {
  * @return array
  */
 function ting_search_autocomplete_truncate($string, $width) {
-  $parts = preg_split('/([\s\n\r]+)/', $string, null, PREG_SPLIT_DELIM_CAPTURE);
+  $parts = preg_split('/([\s\n\r]+)/', $string, NULL, PREG_SPLIT_DELIM_CAPTURE);
   $parts_count = count($parts);
 
   $length = 0;

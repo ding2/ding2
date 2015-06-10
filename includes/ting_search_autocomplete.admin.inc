@@ -66,7 +66,7 @@ function ting_search_autocomplete_admin() {
   $form['ting_search_autocomplete_settings']['sort'] = array(
     '#type' => 'radios',
     '#title' => t('Output sort order', array(), array('context' => 'ting_search_autocomplete')),
-    '#options' => array('count' => 'count', 'index' => 'index',),
+    '#options' => array('count' => 'count', 'index' => 'index'),
     '#default_value' => $default_settings['sort'],
   );
 
@@ -166,7 +166,7 @@ function ting_search_autocomplete_admin() {
             t('Minimum characters the user has to type before the suggestionservice is queried.', array(), array('context' => 'ting_search_autocomplete'))),
     ),
     '#attributes' => array('class' => array('table-class')),
-    '#empty' =>t('Your table is empty'),
+    '#empty' => t('Your table is empty'),
   );
 
   return system_settings_form($form);
