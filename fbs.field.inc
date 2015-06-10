@@ -390,6 +390,12 @@ function fbs_field_formatter_info() {
         'fbs_name',
         'fbs_phone',
         'fbs_mail',
+      ),
+    ),
+
+    'fbs_notification' => array(
+      'label' => t('Default'),
+      'field types' => array(
         'fbs_phone_notification',
         'fbs_mail_notification',
       ),
@@ -428,6 +434,12 @@ function fbs_field_formatter_view($entity_type, $entity, $field, $instance, $lan
       case 'fbs_default':
         $element[$delta] = array(
           '#markup' => check_plain($item['value']),
+        );
+        break;
+
+      case 'fbs_notification':
+        $element[$delta] = array(
+          '#markup' => $item['value'] ? t('Yes') : t('No'),
         );
         break;
 
