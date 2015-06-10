@@ -238,6 +238,11 @@ function ding_ekurser_form_ting_search_sort_form_alter(&$form, &$form_state, $fo
 
 /**
  * Implements hook_ding_facetbrowser().
+ *
+ * This function is necessary, because the facetbrowser is called by the name
+ * of the panel page. So in order to be able to call the panel page
+ * ding_ekurser, we need this function even though we're jus calling the
+ * ding facetbrowser.
  */
 function ding_ekurser_ding_facetbrowser() {
   return ting_search_ding_facetbrowser();
