@@ -247,3 +247,15 @@ function ding_ekurser_form_ting_search_sort_form_alter(&$form, &$form_state, $fo
 function ding_ekurser_ding_facetbrowser() {
   return ting_search_ding_facetbrowser();
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Hide the ding_ekurser search from search backends.
+ *
+ * It shouldn't be possible for users to search using this backend as it's only
+ * useful for the overview of e-courses.
+ */
+function ding_ekurser_form_ting_search_backend_engines_form_alter(&$form, &$form_state, $form_id) {
+  unset($form['backends']['searches']['#options']['ding_ekurser']);
+}
