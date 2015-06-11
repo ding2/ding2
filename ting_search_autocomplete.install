@@ -40,4 +40,3 @@ function _ting_search_autocomplete_settings() {
   $default['profile'] = (!empty($defaults['profile'])) ? $defaults['profile'] : variable_get('ting_search_profile', NULL);
   variable_set('ting_search_autocomplete_settings', $defaults);
 }
-

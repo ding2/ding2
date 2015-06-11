@@ -61,7 +61,6 @@ function ting_search_autocomplete_form_search_block_form_alter(&$form, &$form_st
  * @return array
  */
 function ting_search_autocomplete_settings() {
-
   $settings = array();
 
   $base_settings['index'] = NULL;
@@ -84,6 +83,4 @@ function ting_search_autocomplete_settings() {
   $settings = array_merge($base_settings, $defaults);
   
   return $settings;
-
 }
-

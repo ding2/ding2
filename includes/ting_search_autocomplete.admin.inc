@@ -6,7 +6,6 @@
  */
 
 function ting_search_autocomplete_admin() {
-
   $default_settings = ting_search_autocomplete_settings();
 
   // Attach the CSS to the form
@@ -170,7 +169,6 @@ function ting_search_autocomplete_admin() {
   );
 
   return system_settings_form($form);
-
 }
 
 
@@ -182,4 +180,3 @@ function ting_search_autocomplete_admin_validate($form, &$form_state) {
   $form_state['values']['ting_search_autocomplete_suggestion_url'] = trim($form_state['values']['ting_search_autocomplete_suggestion_url']);
 
 }
-
