@@ -16,5 +16,6 @@ features[field_base][] = field_oembed
 features[field_group][] = group_oembed|ting_object|ting_object|default
 features[field_group][] = group_oembed|ting_object|ting_object|form
 features[field_instance][] = ting_object-ting_object-field_oembed
-mtime = 1433756552
+features[oembed_provider][] = eKurser
+mtime = 1434012806
 project path = profiles/ding2/modules/ting_oembed
