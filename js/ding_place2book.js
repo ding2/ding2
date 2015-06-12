@@ -18,8 +18,11 @@
     }
   };
 
+  /**
+   * Replace placeholder with place2book data.
+   */
   var ding_place2book_insert = function(ding_place2book) {
-    $('.place2book-ticketinfo').replaceWith(ding_place2book.markup);
+    $(".place2book-ticketinfo[data-ticket='" + ding_place2book.nid + "']").replaceWith(ding_place2book.markup);
   };
  
 })(jQuery);
