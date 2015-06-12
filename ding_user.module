@@ -24,7 +24,10 @@ function ding_user_preprocess_html(&$variables) {
     elseif (count($args) == 1 || isset($args[1]) && in_array($args[1], array('login', 'password'))) {
       // Redirect anonymous user to front page login. This is to prevent the
       // library user from seeing /user, login and password page.
-      drupal_goto('', array('fragment' => 'login'));
+      // Unless in maintenance_mode
+      if ( !variable_get('maintenance_mode', 0) ) {
+        drupal_goto('', array('fragment' => 'login'));
+      }
     }
   }
 }
