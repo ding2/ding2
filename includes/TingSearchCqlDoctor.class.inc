@@ -2,45 +2,76 @@
 
 /**
  * @file
- * Class TingSearchCqlDoctor
- * An attempt to convert non cql search phrases to valid cql.
  *
- * examples not valid:
+ * File holds class to convert not valid searchphrases to valid cql.
+ * Private membet cql_string holds an internal reprensation of the original search string. All parts of the string
+ * is examined to check for healthy cql.
+ *
+ * Enqouted parts of the string stays the same. Parantheses are enqouted if content is not healthy. Blanks are
+ * replaced by 'and'. Mulitple whitespaces are removed. Reserved characters are enqouted.
+ *
+ * Examples not valid:
  * portland (film) => portland and (film)
  * henning mortensen (f. 1939) => henning and mortensen and "(f. 1939)"
  * harry and (White night) = harry and "(White night)"
  *
  *
- * valid cql stays the same eg.
+ * Valid cql stays the same eg.
  * dkcclterm.sf=v and dkcclterm.uu=nt and (term.type=bog) not term.literaryForm=fiktion
  */
 
+/**
+ * Class TingSearchCqlDoctor.
+ *
+ * An attempt to convert non cql search phrases to valid cql.
+ */
 class TingSearchCqlDoctor {
 
+  /**
+   * @var string cql_string.
+   *   Internael representation of the searchphtrase.
+   */
   private $cql_string;
+  /**
+   * @var array pattern.
+   *   The pattern to replace in searchstring.
+   */
   private $pattern;
+  /**
+   * @var array replace.
+   *   The string to replace with.
+   */
   private $replace;
+  /**
+   * @var int replace_key.
+   *   Used to prepend key - @see $this->get_replace_key().
+   */
   private static $replace_key = 10;
 
   /**
-   * constructor,
-   * @param $string
-   * sets private member $cql_string with trimmed string
+   * Constructor,Escape reserved characters, remove multiple whitespaces
+   * and sets private member $cql_string with trimmed string.
+   *
+   * @param string $string
+   *  The search phrase to cure.
    */
   public function __construct($string) {
     $this->cql_string = trim($string);
-    // handle reserved characters
+    // handle reserved characters.
     $this->escape_reserved_characters();
-    // remove multiple whitespaces
+    // Remove multiple whitespaces.
     $this->cql_string = preg_replace('/\s+/', ' ', $this->cql_string);
   }
 
   /**
-   * Method to convert a string to strict cql (Basically by adding quotes when needed)
+   * Method to convert a string to strict cql.
+   *
+   * Basically this method adds quotes when needed.
+   *
    * @param string $string
-   *   The search query
+   *   The search query.
    * @return string
-   *   cql compatible string
+   *   Cql compatible string.
    */
   public function string_to_cql() {
     // hendle parantheses
@@ -54,14 +85,18 @@ class TingSearchCqlDoctor {
 
   /**
    * Format cql string.
-   * @return string; if string is not valid cql it is and'ed
+   *
+   * Use private members $pattern and $replace to replace not valid cql phrases with valid.
+   *
+   * @return string
+   *
    */
-  private function format_cql_string(){
-    // last check. All parts of cql string must be valid
+  private function format_cql_string() {
+    // Last check. All parts of cql string must be valid.
     $valid = TRUE;
     $parts = preg_split($this->get_cql_operators_regexp(), $this->cql_string);
-    foreach($parts as $part){
-      if(!$this->string_is_cql($part)){
+    foreach ($parts as $part) {
+      if (!$this->string_is_cql($part)) {
         $valid = FALSE;
         break;
       }
@@ -70,47 +105,57 @@ class TingSearchCqlDoctor {
     // Explode string by whitespace.
     $expressions = explode(' ', $this->cql_string);
     // replace keys with phrases
-    if(!empty($this->pattern)){
+    if (!empty($this->pattern)) {
       $expressions = preg_replace($this->pattern, $this->replace, $expressions);
     }
 
-    if($valid){
-      // implode by blank
+    if ($valid) {
+      // Implode by blank.
       return implode(' ', $expressions);
     }
 
-    //string is not valid; implode by and
+    //String is not valid; implode by and.
     return implode(' and ', $expressions);
   }
 
   /**
-   * For now enqoute forward slashes and '-'
-   * @return nothing; alters private member cql_string
+   * Enqoute forward slashes and '-'.
+   *
+   * @return nothing
+   *   Alters private member cql_string.
    */
   private function escape_reserved_characters() {
     $this->cql_string = str_replace('/', ' "/" ', $this->cql_string);
     $this->cql_string = str_replace('-', ' "-" ', $this->cql_string);
   }
 
-  private function get_replace_key(){
+  /**
+   * Get a key for replacement in string.
+   *
+   * @return string
+   */
+  private function get_replace_key() {
     $key_prefix = 'zxcv';
-    return $key_prefix. self::$replace_key++;
+    return $key_prefix . self::$replace_key++;
   }
 
   /**
-   * Look for parantheses in string. If any found and content is not
-   * strict cql; enqoute the lot
-   * @param $string
-   * @return nothing; alters private member cql_string
+   * Handle parantheses.
+   *
+   * Look lace parantheses in string. If any found and content is not
+   * strict cql; enqoute the lot.
+   *
+   * @return nothing.
+   *   Alters private member cql_string.
    *
    */
   private function fix_paranthesis() {
     $valid_cql = TRUE;
-    //grab content in paranthesis
+    //Grab content in paranthesis.
     preg_match_all('$\(([^\(\)]*)\)$', $this->cql_string, $phrases);
 
     if (empty($phrases[1])) {
-      // no matching paranthesis
+      // No matching paranthesis.
       return;
     }
     foreach ($phrases[1] as $phrase) {
@@ -125,7 +170,7 @@ class TingSearchCqlDoctor {
       }
     }
     else {
-      // one or more of the parenthesis holds invalid cql; quote the lot
+      // one or more of the parenthesis holds invalid cql; quote the lot.
       foreach ($phrases[0] as $phrase) {
         $this->set_replace_pattern($phrase, TRUE);
       }
@@ -133,9 +178,12 @@ class TingSearchCqlDoctor {
   }
 
   /**
-   * grab content between qoutes
+   * Handle qoutes.
+   *
+   * Look for qouted content. Qouted content is replaced in searchstring.
    */
   private function fix_qoutes() {
+    // Greab qouted content.
     preg_match_all('$["|\)]([^"]*)["\)]$', $this->cql_string, $phrases);
     if (!empty($phrases[0])) {
       foreach ($phrases[0] as $phrase) {
@@ -145,19 +193,25 @@ class TingSearchCqlDoctor {
   }
 
   /**
-   * helper function to set a single replacement key and phrase
-   * @param $phrase
-   * @return nothing; alters private member cql_string
+   * Helper function to set a single replacement key and phrase.
+   *
+   * Adds given phrase to private member $replace. Retrieve a key for the replacement and replace given phrase in
+   * internal representation of search string with the key.
+   *
+   * @param bool $qoute_me.
+   *   If TRUE phrase is enqouted.
+   * @param string $phrase.
+   *   The phrase to add to private member $replace.
+   * @return nothing
+   *   Alters private member cql_string
    */
-  private function set_replace_pattern($phrase, $qoute_me = FALSE){
-    if($qoute_me) {
-      $this->replace[] = '"'.$phrase.'"';
+  private function set_replace_pattern($phrase, $qoute_me = FALSE) {
+    if ($qoute_me) {
+      $this->replace[] = '"' . $phrase . '"';
     }
-    else{
+    else {
       $this->replace[] = $phrase;
     }
-    // generate a replacement key. We need the key to maintain order of phrases and strings in search string
-    // replace phrases in search string with the replacement key
     $replace_key = $this->get_replace_key();
     $this->pattern[] = '/' . $replace_key . '/';
     $this->cql_string = str_replace($phrase, $replace_key, $this->cql_string);
@@ -165,25 +219,30 @@ class TingSearchCqlDoctor {
 
 
   /**
-   * Tests if a string is cql
+   * Tests if a string is cql.
+   *
+   * If string contains a cql operator it is assumed that an attempt to write cql is done.
+   *
    * @param string $string
    *   The search query
    * @return bool|int
    *   Whether the string is valid cql(TRUE) or not(FALSE)
    */
-  private function string_is_cql($string){
-    // single word is valid (no whitespaces)
-    if(strpos($string, ' ') === FALSE){
+  private function string_is_cql($string) {
+    // Single word is valid (no whitespaces).
+    if (strpos($string, ' ') === FALSE) {
       return TRUE;
     }
     return preg_match($this->get_cql_operators_regexp(), $string);
   }
 
   /**
-   * Get reqular expression to ideniify cql operators
-   * @return string
+   * Get reqular expression to ideniify cql operators.
+   *
+   * @return string.
+   *   Reqular expression to identify cql operators.
    */
-  private function get_cql_operators_regexp(){
-   return '@ and | or | not |=|\(|\)@';
+  private function get_cql_operators_regexp() {
+    return '@ and | or | not |=|\(|\)@';
   }
 }
