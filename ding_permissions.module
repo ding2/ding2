@@ -140,6 +140,9 @@ function ding_permissions_secure_permissions_roles() {
  */
 function ding_permissions_secure_permissions($role) {
   $permissions = array(
+    // Permissions to disable that aren't assigned to any roles.
+      0 => array(
+    ),
     'anonymous user' => array(
       'access comments',
       'access content',
