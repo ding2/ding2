@@ -79,8 +79,8 @@ class TingSearchCqlDoctor {
     // handle qoutes
     $this->fix_qoutes();
     // format the string
-    $return = $this->format_cql_string();
-    return $return;
+    return  $this->format_cql_string();
+
   }
 
   /**
@@ -89,6 +89,7 @@ class TingSearchCqlDoctor {
    * Use private members $pattern and $replace to replace not valid cql phrases with valid.
    *
    * @return string
+   *   string in valid cql (hopefully)
    *
    */
   private function format_cql_string() {
@@ -150,7 +151,6 @@ class TingSearchCqlDoctor {
    *
    */
   private function fix_paranthesis() {
-    $valid_cql = TRUE;
     //Grab content in paranthesis.
     preg_match_all('$\(([^\(\)]*)\)$', $this->cql_string, $phrases);
 
@@ -158,21 +158,12 @@ class TingSearchCqlDoctor {
       // No matching paranthesis.
       return;
     }
-    foreach ($phrases[1] as $phrase) {
+    foreach ($phrases[1] as $key => $phrase) {
       if (!$this->string_is_cql($phrase)) {
-        $valid_cql = FALSE;
-        break;
+        $this->set_replace_pattern($phrases[0][$key], TRUE);
       }
-    }
-    if ($valid_cql) {
-      foreach ($phrases[0] as $phrase) {
+      else{
         $this->set_replace_pattern($phrase);
-      }
-    }
-    else {
-      // one or more of the parenthesis holds invalid cql; quote the lot.
-      foreach ($phrases[0] as $phrase) {
-        $this->set_replace_pattern($phrase, TRUE);
       }
     }
   }
@@ -198,10 +189,10 @@ class TingSearchCqlDoctor {
    * Adds given phrase to private member $replace. Retrieve a key for the replacement and replace given phrase in
    * internal representation of search string with the key.
    *
-   * @param bool $qoute_me.
-   *   If TRUE phrase is enqouted.
    * @param string $phrase.
    *   The phrase to add to private member $replace.
+   * @param bool $qoute_me.
+   *   If TRUE phrase is enqouted.
    * @return nothing
    *   Alters private member cql_string
    */
