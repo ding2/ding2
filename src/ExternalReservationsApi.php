@@ -151,7 +151,7 @@ class ExternalReservationsApi extends SwaggerApi
         $request->addParameter("path", "patronid", $patronid);
         $request->addParameter("query", "reservationid", $reservationid);
 
-        $request->defineResponse(200, "", null);
+        $request->defineResponse(204, "", null);
         $request->defineResponse("400", 'bad request', '\\FBS\\Model\\RestException');
         $request->defineResponse("401", 'client unauthorized', null);
 
