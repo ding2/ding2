@@ -23,7 +23,7 @@ function fbs_loan_list($account) {
     $id = $loan->loanDetails->loanId;
 
     $loan_data = array(
-      'ding_entity_id' => $loan->loanDetails->recordId,
+      'ding_entity_id' => ding_provider_build_entity_id($loan->loanDetails->recordId),
       'loan_date' => $loan->loanDetails->loanDate,
       'expiry' => $loan->loanDetails->dueDate,
       'renewable' => $loan->isRenewable,
