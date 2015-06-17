@@ -17,7 +17,9 @@ function ting_oembed_features_default_oembed_provider() {
   $provider->title = 'eKurser';
   $provider->endpoint = 'http://www.ekurser.nu/oembed/';
   $provider->scheme = 'http://www.ekurser.nu/kursus/*
-http://ekurser.nu/kursus/*';
+https://www.ekurser.nu/kursus/*
+http://ekurser.nu/kursus/*
+https://ekurser.nu/kursus/*';
   $export['eKurser'] = $provider;
 
   return $export;
