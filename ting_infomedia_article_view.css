@@ -77,17 +77,9 @@ div.select {
 }
 
 div.infomedia-image {
-  float:right;
-  position:relative;
-  top:0.5em;
-  right:0.5em;
-}
-
-div.infomedia-image {
-  position:absolute;
-  right:1em;
-  top:1em;
-  z-index:1000;
+    float: right;
+    position: relative;
+    margin-left: 10px;
 }
 
 div.infomedia_print {
@@ -98,10 +90,9 @@ div.infomedia_print {
 
 div.infomedia_error {
   border:1px #CCCCCC solid;
-  width:47%;
+  /*width:47%;*/
   margin:1px;
   padding:5px;
-  float:left;
 }
 
 div.infomedia_logo {
