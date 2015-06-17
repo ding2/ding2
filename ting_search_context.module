@@ -10,13 +10,11 @@
 define('TING_SEARCH_CONTEXT_PATH', drupal_get_path('module', 'ting_search_context'));
 define('TING_SEARCH_CONTEXT_MAX_RATING', 10);
 define('TING_SEARCH_CONTEXT_NODE_TYPES', serialize(array(
-	'ding_library', 
-	'ding_campaign', 
-	'ding_page', 
-	'ding_news', 
+	'ding_library',
+	'ding_campaign',
+	'ding_page',
+	'ding_news',
 	'ding_event',
-	'genre_page',
-	'ting_term_list',
 )));
 
 /**
@@ -31,7 +29,7 @@ function ting_search_context_menu() {
 		'access arguments' => array('administer content'), // Todo: Make own permission?
 		'type' => MENU_LOCAL_TASK | MENU_NORMAL_ITEM,
 		'file' => 'ting_search_context.admin.inc',
-	);	 
+	);
   $items['ting/searchcontext/ajax'] = array(
     'title' => 'Get search context blog post list',
     'page callback' => 'ting_search_context_ajax_get_blogposts',
@@ -126,11 +124,11 @@ function ting_search_context_get_image_field_name($node) {
  * Get information about the current state of the context rating system.
  *
  * @param $context_names (TODO: Not implemented yet.)
- *   Can either be a string specifying a single context name or an array of 
+ *   Can either be a string specifying a single context name or an array of
  *   context names. Defaults to all which returns info on all contexts defined
- *   in the system.       
- * 
- * @return 
+ *   in the system.
+ *
+ * @return
  *   An array of each context defined in the system keyed context machine name,
  *   with information about label and ratings.
  */
@@ -166,13 +164,13 @@ function ting_search_context_get_context_info($context_names = 'all') {
  * @param $count (optional)
  *   The max number of nodes to return. Defaults to 5.
  * @param $node_types (optional)
- *   Can either be a string with a single node type, or an array of node types. 
+ *   Can either be a string with a single node type, or an array of node types.
  *   Defaults to 'all' which includes all supported node types.
- *   
+ *
  * @return
  *   An array of node objects keyd by nid.
- *   
- * @see _ting_search_context_get_contexts()   
+ *
+ * @see _ting_search_context_get_contexts()
  */
 function ting_search_context_get_context($name, $count = 5, $node_types = 'all') {
 	// Intialize our return array.
@@ -211,12 +209,12 @@ function ting_search_context_get_context($name, $count = 5, $node_types = 'all')
 	$node_types_condition = db_or();
 	foreach ($node_types as $node_type) {
 		$node_types_condition->condition('fd.bundle', $node_type);
-	}		
+	}
 	$query->condition($node_types_condition);
 
 	// Fetch nodes with max rating.
 	$query_max = clone $query;
-	$query_max->condition('fd.field_ting_search_context_rating', 
+	$query_max->condition('fd.field_ting_search_context_rating',
 		TING_SEARCH_CONTEXT_MAX_RATING, '=')->range(0, $count);
 	$query_max_count = $query_max->countQuery()->execute()->fetchField();
 	$query_max_result = $query_max->orderRandom()->execute();
@@ -229,7 +227,7 @@ function ting_search_context_get_context($name, $count = 5, $node_types = 'all')
 	// If there's room for more, look for nodes with less than max rating.
 	if ($count > 0) {
 		$query_less = clone $query;
-		$query_less->condition('fd.field_ting_search_context_rating', 
+		$query_less->condition('fd.field_ting_search_context_rating',
 			TING_SEARCH_CONTEXT_MAX_RATING, '<');
 		$query_less_count = $query_less->countQuery()->execute()->fetchField();
 		$query_less_result = $query_less->execute();
@@ -253,8 +251,8 @@ function ting_search_context_get_context($name, $count = 5, $node_types = 'all')
 					unset($nodes[$key]);
 				}
 				$return[$nid] = node_load($nid);
-				$count--;	
-			}		
+				$count--;
+			}
 		}
 		// Else, if we have more room than needed, we include all nodes returned
 		// from the query.
@@ -262,17 +260,17 @@ function ting_search_context_get_context($name, $count = 5, $node_types = 'all')
 			foreach ($query_less_result as $record) {
 				$return[$record->nid] = node_load($record->nid);
 			}
-		}		
+		}
 	}
 
 	return $return;
-}	
+}
 
 
 /**
  * Implements hook_field_info().
  *
- * Here we describe our custom context field, which is used to rate nodes in 
+ * Here we describe our custom context field, which is used to rate nodes in
  * the different contexts supported by the module.
  */
 function ting_search_context_field_info() {
@@ -284,7 +282,7 @@ function ting_search_context_field_info() {
 			'default_formatter' => 'ting_search_context_default',
 			// This field is not meant to be controlled through the admin UI, but
 			// is instead added programmatically when this module is enabled.
-			'no_ui' => TRUE,	
+			'no_ui' => TRUE,
 		),
 	);
 }
@@ -338,7 +336,7 @@ function ting_search_context_field_widget_form(&$form, &$form_state, $field, $in
 			'#weight' => -25,
 			'#attributes' => array(
 				'class' => array('field_ting_search_context_name'),
-			),				
+			),
 		) + $base;
 		$options = array();
 		for ($i = 1; $i <= TING_SEARCH_CONTEXT_MAX_RATING; $i++) {
@@ -352,7 +350,7 @@ function ting_search_context_field_widget_form(&$form, &$form_state, $field, $in
 			'#weight' => -24,
 			'#attributes' => array(
 				'class' => array('field_ting_search_context_rating'),
-			),			
+			),
 		) + $base;
 		$element['remove'] = array(
 			'#type' => 'button',
@@ -366,7 +364,7 @@ function ting_search_context_field_widget_form(&$form, &$form_state, $field, $in
 		$js_path = TING_SEARCH_CONTEXT_PATH . '/js/ting_search_context.form.js';
 		// If there are many fields the last JS and CSS will 'win'.
 		$element['#attached']['css'][] = $css_path;
-		$element['#attached']['js'][] = $js_path;		
+		$element['#attached']['js'][] = $js_path;
 	}
 	return $element;
 }
@@ -385,12 +383,12 @@ function ting_search_context_field_validate($entity_type, $entity, $field, $inst
 			if (in_array($context_name, $context_names)) {
 				$errors[$field['field_name']][$langcode][$delta][] = array(
 					'error' => 'field_ting_search_context_multiple',
-					'message' => t('This node is already rated in that context.'), 
-				);				
+					'message' => t('This node is already rated in that context.'),
+				);
 			}
 			else if ($context_name) {
 				$context_names[] = $context_name;
-			}	
+			}
 		}
 	}
 }
@@ -432,7 +430,7 @@ function ting_search_context_field_formatter_view($entity_type, $entity, $field,
 				'#value' => t('Name: @name | Rating: @rating', array(
 					'@name' => $contexts[$item['name']],
 					'@rating' => $item['rating'],
-				)),	
+				)),
 			);
 		}
 	}
@@ -441,7 +439,7 @@ function ting_search_context_field_formatter_view($entity_type, $entity, $field,
 
 /**
  * Returns an array with the contexts we support.
- */	
+ */
 function ting_search_context_get_contexts() {
 	return array(
 		'film' => 'Film',
