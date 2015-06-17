@@ -71,16 +71,32 @@ function ting_infomedia_theme($existing, $type, $theme, $path) {
   return $render_array;
 }
 
-
+/**
+ * Implements infomedia_url_alter (@see ting.entities.inc::getOnline_url
+ *
+ * @param $url
+ *   The original url.
+ * @param $entity *
+ *   The entity the url belongs to.
+ */
 function ting_infomedia_infomedia_url_alter(&$url, $entity){
   $url = ting_infomedia_parse_url($url);
 }
 
+/**
+ * Alter infomedia url.
+ *
+ * @param $url
+ *   The original url.
+ * @return string
+ *   The modified url.
+ */
 function ting_infomedia_parse_url($url){
   $url = parse_url($url, PHP_URL_QUERY);
   parse_str($url, $parts);
   global $user;
   if(!ding_user_is_provider_user($user)) {
+    // IF user is not logged in the login-box should be shown.
     return 'infomedia/' . $parts['faust'].'#login';
   }
   return 'infomedia/' . $parts['faust'];
