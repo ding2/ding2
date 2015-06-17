@@ -53,11 +53,11 @@ class TingSearchCqlDoctor {
    * and sets private member $cql_string with trimmed string.
    *
    * @param string $string
-   *  The search phrase to cure.
+   *   The search phrase to cure.
    */
   public function __construct($string) {
     $this->cql_string = trim($string);
-    // handle reserved characters.
+    // Handle reserved characters.
     $this->escape_reserved_characters();
     // Remove multiple whitespaces.
     $this->cql_string = preg_replace('/\s+/', ' ', $this->cql_string);
@@ -74,13 +74,12 @@ class TingSearchCqlDoctor {
    *   Cql compatible string.
    */
   public function string_to_cql() {
-    // hendle parantheses
+    // Hendle parantheses.
     $this->fix_paranthesis();
-    // handle qoutes
+    // Handle qoutes.
     $this->fix_qoutes();
-    // format the string
+    // Format the string.
     return  $this->format_cql_string();
-
   }
 
   /**
@@ -105,7 +104,7 @@ class TingSearchCqlDoctor {
 
     // Explode string by whitespace.
     $expressions = explode(' ', $this->cql_string);
-    // replace keys with phrases
+    // Replace keys with phrases,
     if (!empty($this->pattern)) {
       $expressions = preg_replace($this->pattern, $this->replace, $expressions);
     }
@@ -115,7 +114,7 @@ class TingSearchCqlDoctor {
       return implode(' ', $expressions);
     }
 
-    //String is not valid; implode by and.
+    // String is not valid; implode by and.
     return implode(' and ', $expressions);
   }
 
