@@ -121,7 +121,7 @@ function fbs_availability_holdings($provider_ids) {
             'placement' => array(),
           );
         }
-        $year[$issue['vol']]['placement'] = array(
+        $year[$issue['vol']]['placement'][] = array(
           'reservable' => $item->reservable,
           'available_count' => $issue['available'],
           'location' => $issue['placement'],
@@ -132,5 +132,6 @@ function fbs_availability_holdings($provider_ids) {
     }
 
   }
+
   return $result;
 }
