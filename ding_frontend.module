@@ -112,3 +112,24 @@ function ding_frontend_query_alter($query) {
     }
   }
 }
+
+/**
+ * Implements hook_boot().
+ *
+ * Clear page cache if maintainance status has changed.
+ */
+function ding_frontend_boot() {
+  $ding_maintenance_toggle = variable_get('ding_maintenance_toggle', 0);
+  if (variable_get('maintenance_mode', 0)) {
+    if (!$ding_maintenance_toggle) {
+      cache_clear_all(NULL, 'cache_page');
+      variable_set('ding_maintenance_toggle', 1);
+    }
+  }
+  else {
+    if ($ding_maintenance_toggle) {
+      cache_clear_all(NULL, 'cache_page');
+      variable_set('ding_maintenance_toggle', 0);
+    }
+  }
+}
