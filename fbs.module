@@ -235,8 +235,6 @@ function fbs_profile2_presave($entity) {
     'receiveSms' => (bool) $wrapper->field_fbs_phone_notification->value(),
     'receiveEmail' => (bool) $wrapper->field_fbs_mail_notification->value(),
     'preferredPickupBranch' => $wrapper->field_fbs_preferred_branch->value(),
-    // Currently not supported. Commented out.
-    // 'defaultInterestPeriod' => $wrapper->field_fbs_interest_period->value(),
   );
 
   if ($patron['on_hold']) {
@@ -249,7 +247,6 @@ function fbs_profile2_presave($entity) {
     'receiveEmail' => (bool) $patron['mail_notification'],
     'preferredPickupBranch' => $patron['preferred_branch'],
     'onHold' => $patron['on_hold'],
-    // 'defaultInterestPeriod' => $patron['interest_period'],
   );
 
   if (array_diff_assoc($current, $existing) || array_diff_assoc($current_on_hold, $existing_on_hold)) {
@@ -358,7 +355,6 @@ function _fbs_patron_info(FBS\Model\Patron $patron) {
     'phone_notification' => $patron->receiveSms,
     'mail_notification' => $patron->receiveEmail,
     'preferred_branch' => $patron->preferredPickupBranch,
-    'interest_period' => $patron->defaultInterestPeriod,
     'on_hold' => NULL,
     'address' => NULL,
   );
