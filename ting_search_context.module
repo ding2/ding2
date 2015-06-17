@@ -23,7 +23,7 @@ define('TING_SEARCH_CONTEXT_NODE_TYPES', serialize(array(
 function ting_search_context_menu() {
 	$items['admin/content/ting-search-context'] = array(
 		'title' => 'Search context',
-		'description' => t('Manage the state of the context rating system.'),
+		'description' => 'Manage the state of the context rating system.',
 		'page callback' => 'drupal_get_form',
 		'page arguments' => array('ting_search_context_overview_form'),
 		'access arguments' => array('administer content'), // Todo: Make own permission?
