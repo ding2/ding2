@@ -90,7 +90,7 @@ function ding_place2book_get_ticketinfo($nid) {
 
   drupal_add_http_header('Content-Type', 'application/json; utf-8');
   echo json_encode($result);
-  return;
+  drupal_exit();
 }
 
 /**
@@ -197,7 +197,7 @@ function ding_place2book_node_view($node, $view_mode, $langcode) {
       $node->content['field_place2book_tickets']['#weight'] = 50;
       // @todo: Replace input with a div with a data-attribute. That is a more
       // appropriate placeholder.
-      $node->content['field_place2book_tickets'][0]['#markup'] = '<input type="hidden" class="place2book-ticketinfo" value="' . $node->nid . '"/>';
+      $node->content['field_place2book_tickets'][0]['#markup'] = '<input type="hidden" class="place2book-ticketinfo" data-ticket="' . $node->nid . '" value="' . $node->nid . '"/>';
     }
   }
 }
@@ -223,6 +223,7 @@ function ding_place2book_node_insert($node) {
  * Implementation of hook_node_update()
  */
 function ding_place2book_node_update($node) {
+
   if ($node->type == "ding_event") {
     // Continue only if node contains place2book data - they will not be there
     // when performing a bulk update, updating via scheduler module etc.
@@ -880,6 +881,7 @@ function place2book_get_api_key($library_id = NULL) {
  * Rendering function for place2book tickets info
  */
 function ding_place2book_render_place2book_ticketsinfo($node) {
+
   $type = '';
   $url = '';
   $place2book_id = 0;
@@ -904,7 +906,7 @@ function ding_place2book_render_place2book_ticketsinfo($node) {
   //variables for a date comparison
   // @todo Use entity_metadata_wrapper to extract information.
   $field_ding_event_date = field_get_items('node', $node, 'field_ding_event_date');
-  $event_timestamp = strtotime($field_ding_event_date[0]['value']. ' ' . $field_ding_event_date[0]['timezone_db']);
+  $event_timestamp = strtotime($field_ding_event_date[0]['value'] . ' ' . $field_ding_event_date[0]['timezone_db']);
 
   if (time() > $event_timestamp) {
     // @todo: Move event types into constants instead of magic string values.
