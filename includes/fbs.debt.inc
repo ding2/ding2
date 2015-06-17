@@ -32,13 +32,22 @@ function fbs_debt_list($account) {
       // amount isn't available.
       'amount_paid' => 0,
       'invoice_number' => NULL,
-      'type' => $fee->type,
+      'type' => $fee->reasonMessage,
     );
 
     if (!empty($fee->materials)) {
       // As ding only support one material number, we just grab the first.
-      $mat = reset($fee->materials);
-      $data['material_number'] = $mat->materialItemNumber;
+      $material_ids = array();
+      foreach ($fee->materials as $material) {
+        $material_ids[] = $material->materialItemNumber;
+      }
+
+      // If there's only one material, use its title as display_name;
+      if (count($material_ids) == 1) {
+        $entity = ding_entity_load(ding_provider_build_entity_id(reset($material_ids)));
+        $data['display_name'] = $entity->getTitle();
+      }
+      $data['material_number'] = implode(', ', $material_ids);
     }
 
     $result[$id] = new DingProviderDebt($id, $data);
