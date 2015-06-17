@@ -10,6 +10,37 @@
 function fbs_field_default_field_instances() {
   $field_instances = array();
 
+  // Exported field_instance: 'profile2-provider_fbs-field_fbs_address'
+  $field_instances['profile2-provider_fbs-field_fbs_address'] = array(
+    'bundle' => 'provider_fbs',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'fbs',
+        'settings' => array(),
+        'type' => 'fbs_address_default',
+        'weight' => 1,
+      ),
+    ),
+    'entity_type' => 'profile2',
+    'field_name' => 'field_fbs_address',
+    'label' => 'Address',
+    'required' => FALSE,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'virtual_field',
+      'settings' => array(),
+      'type' => 'hidden',
+      'weight' => 15,
+    ),
+  );
+
   // Exported field_instance: 'profile2-provider_fbs-field_fbs_interest_period'
   $field_instances['profile2-provider_fbs-field_fbs_interest_period'] = array(
     'bundle' => 'provider_fbs',
@@ -53,7 +84,7 @@ function fbs_field_default_field_instances() {
         'module' => 'fbs',
         'settings' => array(),
         'type' => 'fbs_default',
-        'weight' => 2,
+        'weight' => 3,
       ),
     ),
     'entity_type' => 'profile2',
@@ -87,7 +118,7 @@ function fbs_field_default_field_instances() {
         'module' => 'fbs',
         'settings' => array(),
         'type' => 'fbs_notification',
-        'weight' => 3,
+        'weight' => 4,
       ),
     ),
     'entity_type' => 'profile2',
@@ -182,7 +213,7 @@ function fbs_field_default_field_instances() {
         'module' => 'fbs',
         'settings' => array(),
         'type' => 'fbs_default',
-        'weight' => 1,
+        'weight' => 2,
       ),
     ),
     'entity_type' => 'profile2',
@@ -216,7 +247,7 @@ function fbs_field_default_field_instances() {
         'module' => 'fbs',
         'settings' => array(),
         'type' => 'fbs_notification',
-        'weight' => 4,
+        'weight' => 5,
       ),
     ),
     'entity_type' => 'profile2',
@@ -270,6 +301,7 @@ function fbs_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('Address');
   t('E-mail');
   t('E-mail notifications');
   t('Interest period');
