@@ -7,19 +7,19 @@ module_load_include('inc', 'ting_infomedia' , 'ting_infomedia.wrapper');
 /**
  * Implements hook_menu
  */
-/*
+
 function ting_infomedia_menu() {
-  $items['ting/infomedia/%'] = array(
+  $items['ting/object/infomedia/%'] = array(
     'title' => 'Infomedia',
     'page callback' => 'ting_infomedia_view',
-    'page arguments' => array(2),
+    'page arguments' => array(3),
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
 
   return $items;
 }
-*/
+
 
 /**
  * Page callback function
@@ -27,8 +27,19 @@ function ting_infomedia_menu() {
  * Return a render array
  */
 function ting_infomedia_view($id) {
+  global $user;
+  if( !ding_user_is_provider_user($user)){
+    drupal_set_message(t('Please log in to read infomedia articles'), 'warning');
+    return array(
+      '#prefix' => '<div class="infomedia_error">',
+      '#suffix' => '</div>',
+      '#theme' => 'status_messages',
+    );
+  }
+
+  $render_array = ting_infomedia_parse_article($id);
 return array(
-    '#markup' => '<div id="article-wrapper">' . render(ting_infomedia_parse_article($id)). '</div>',
+    '#markup' => '<div id="article-wrapper">' . render($render_array). '</div>',
     '#theme' => 'ting_infomedia_article',
     '#attached' => array(
       'css' => array(drupal_get_path('module', 'ting_infomedia') . '/ting_infomedia_article_view.css'),
@@ -60,6 +71,20 @@ function ting_infomedia_theme($existing, $type, $theme, $path) {
   return $render_array;
 }
 
+
+function ting_infomedia_infomedia_url_alter(&$url, $entity){
+  $url = ting_infomedia_parse_url($url);
+}
+
+function ting_infomedia_parse_url($url){
+  $url = parse_url($url, PHP_URL_QUERY);
+  parse_str($url, $parts);
+  global $user;
+  if(!ding_user_is_provider_user($user)) {
+    return 'infomedia/' . $parts['faust'].'#login';
+  }
+  return 'infomedia/' . $parts['faust'];
+}
 
 /**
  * Return stripped path. e.g /ting/infomedia/33514212 -> /ting/infomedia
@@ -138,11 +163,14 @@ function ting_infomedia_parse_article($id) {
  * return string; if no errors an empty, if errors html-formatted with error string
  */
 function ting_infomedia_parse_for_errors(TingClientInfomediaResult $result, &$error = FALSE) {
+  $hest = drupal_get_messages();
   if ($result->error) {
-    $error = array(
-      '#markup' => $result->error,
+    watchdog('infomedia', $result->error, array(), WATCHDOG_ERROR);
+    drupal_set_message(t('Internal error please try again later'), 'warning');
+    return array(
       '#prefix' => '<div class="infomedia_error">',
-      '#suffix' => '</div>'
+      '#suffix' => '</div>',
+      '#theme' => 'status_messages',
     );
   }
   return $error;
