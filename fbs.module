@@ -350,7 +350,7 @@ function fbs_interest_periods() {
  *   Data to save.
  */
 function _fbs_patron_info(FBS\Model\Patron $patron) {
-  return array(
+  $creds = array(
     'patronId' => $patron->patronId,
     'name' => $patron->name,
     'phone' => $patron->phoneNumber,
@@ -359,11 +359,27 @@ function _fbs_patron_info(FBS\Model\Patron $patron) {
     'mail_notification' => $patron->receiveEmail,
     'preferred_branch' => $patron->preferredPickupBranch,
     'interest_period' => $patron->defaultInterestPeriod,
-    'on_hold' => $patron->onHold ? array(
+    'on_hold' => NULL,
+    'address' => NULL,
+  );
+
+  if ($patron->onHold) {
+    $creds['on_hold'] = array(
       'from' => $patron->onHold->from,
       'to' => $patron->onHold->to,
-    ) : NULL,
-  );
+    );
+  }
+
+  if ($patron->address) {
+    $creds['address'] = array(
+      'street' => $patron->address->street,
+      'city' => $patron->address->city,
+      'postal' => $patron->address->postalCode,
+      'country' => $patron->address->country,
+    );
+  }
+
+  return $creds;
 }
 
 /**

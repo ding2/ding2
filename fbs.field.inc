@@ -123,7 +123,20 @@ function fbs_field_info() {
       'property_type' => 'struct',
       'property_callbacks' => array('fbs_field_property_callback'),
     ),
-  );
+
+    'fbs_address' => array(
+      'label' => t('User address from FBS'),
+      'description' => t('The address of the user.'),
+      'default_widget' => 'hidden',
+      'default_formatter' => 'fbs_address_default',
+      'virtual_field' => array(
+        'entity_types' => array('profile2'),
+        'add_widget' => TRUE,
+      ),
+      'property_type' => 'struct',
+      'property_callbacks' => array('fbs_field_property_callback'),
+    ),
+);
 }
 
 /**
@@ -286,6 +299,7 @@ function fbs_field_load($entity_type, $entities, $field, $instances, $langcode, 
     'fbs_preferred_branch',
     'fbs_interest_period',
     'fbs_on_hold',
+    'fbs_address',
   );
   if (in_array($field['type'], $field_types)) {
     $patron = ding_user_get_creds($user);
@@ -337,6 +351,10 @@ function fbs_field_load($entity_type, $entities, $field, $instances, $langcode, 
             }
 
             $items[$id][0] = $value;
+            break;
+
+          case 'fbs_address':
+            $items[$id][0] = array('value' => $patron['address']);
             break;
         }
       }
@@ -421,6 +439,13 @@ function fbs_field_formatter_info() {
         'fbs_on_hold',
       ),
     ),
+
+    'fbs_address_default'  => array(
+      'label' => t('Default'),
+      'field types' => array(
+        'fbs_address',
+      ),
+    ),
   );
 }
 
@@ -470,7 +495,7 @@ function fbs_field_formatter_view($entity_type, $entity, $field, $instance, $lan
           $markup = t('To !end-date', array(
                       '!end-date' => format_date($item['to'],
                                    'ding_material_lists_date'),
-                    ));
+          ));
         }
         elseif (empty($item['to'])) {
           $markup = t('From !start-date', array(
@@ -490,6 +515,16 @@ function fbs_field_formatter_view($entity_type, $entity, $field, $instance, $lan
         $element[$delta] = array(
           '#markup' => $markup,
         );
+        break;
+
+      case 'fbs_address_default':
+        if ($item['value']) {
+          $element[$delta] = array(
+            '#markup' => $item['value']['street'] . '<br />' .
+            $item['value']['postal'] . ' ' . $item['value']['city'] . '<br />' .
+            $item['value']['country'],
+          );
+        }
         break;
     }
   }
