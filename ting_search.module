@@ -4,6 +4,8 @@
  * Enables search integration with Ting.
  */
 
+require_once 'includes/TingSearchCqlDoctor.class.inc';
+
 /**
  * Implements hook_init().
  *
@@ -970,70 +972,6 @@ function ting_search_submit($form, &$form_state) {
  * Make sure string is strict cql
  */
 function _ting_search_quote($string) {
-  return ting_search_string_to_cql($string);
+  $cqlDoc = new TingSearchCqlDoctor($string);
+  return $cqlDoc->string_to_cql($string);
 }
-
-/**
- * Method to convert a string to strict cql (Basically by adding quotes when needed)
- * @param string $string
- *   The search query
- * @return string
- *   cql compatible string
- */
-function ting_search_string_to_cql($string) {
-  $string = trim($string);
-  if (isset($string) && !_ting_search_string_is_cql($string)) {
-    $string = _ting_search_convert_string_to_cql($string);
-  }
-  return $string;
-}
-
-/**
- * Add quotes to string and escapes existing quotes
- * @param string $string
- *   The search query
- * @return string
- *   cql compatible string
- */
-function _ting_search_convert_string_to_cql($string) {
-  // Remove multiple whitespaces.
-  $string = preg_replace('/\s+/', ' ', $string);
-  // grab all qouted phrases
-  preg_match_all('$"([^"]*)"$', $string, $phrases);
-  if(!empty($phrases[0])) {
-    // generate a replacement key. We need the key to maintain order of phrases and strings in search string
-    $replace_key = 'zxcv';
-    $count = 1;
-    // replace phrases in search string with the replacement key
-    foreach ($phrases[0] as $phrase) {
-      $patterns[] = '/' . $replace_key . $count . '/';
-      $string = str_replace($phrase, $replace_key . $count++, $string);
-    }
-    // Explode string by whitespace.
-    $expressions = explode(' ', $string);
-    // replace the replacement key with the qouted phrase
-    $expressions = preg_replace($patterns, $phrases[0], $expressions);
-  }
-  else{
-    // no qouted phrase were found
-    $expressions = explode(' ', $string);
-  }
-
-  // Join elements in expressions array with 'and' operator.
-  return implode(' and ', $expressions);
-}
-
-/**
- * Tests if a string is cql
- * @param string $string
- *   The search query
- * @return bool|int
- *   Whether the string is valid cql(TRUE) or not(FALSE)
- */
-function _ting_search_string_is_cql($string) {
-  if(strpos($string, '"') !== false && (!preg_match('@ and | or | not |=@', $string) && !(substr($string, 0, 1) === '"' && substr($string, -1) === '"'))){
-    return false;
-  }
-  return preg_match('@"|\(|\)|=@', $string);
-}
-
