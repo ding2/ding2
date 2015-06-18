@@ -36,6 +36,15 @@ function ting_search_context_menu() {
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
   );
+  $items['admin/config/ting/ting-search-context'] = array(
+    'title' => 'Search context',
+    'description' => 'Choose location of related content on search page',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_search_context_admin_settings_form'),
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'ting_search_context.admin.inc',
+  );
   return $items;
 }
 
@@ -457,4 +466,16 @@ function ting_search_context_get_contexts() {
 	);
 }
 
-
+/**
+ * Defines the positions for placing the related content on the search page.
+ *
+ * @return array
+ *   Indexed by position name.
+ */
+function ting_search_context_get_positions() {
+  return array(
+    'belowfacets' => t('Below facets'),
+    'abovesearchresult' => t('Above search result'),
+    'belowsearchresult' => t('Below search result'),
+  );
+}
