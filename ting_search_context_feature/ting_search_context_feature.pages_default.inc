@@ -1,19 +1,19 @@
 <?php
 /**
  * @file
- * ding_search_context.pages_default.inc
+ * ting_search_context_feature.pages_default.inc
  */
 
 /**
  * Implements hook_default_page_manager_handlers().
  */
-function ding_search_context_default_page_manager_handlers() {
+function ting_search_context_feature_default_page_manager_handlers() {
   $export = array();
 
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'search_ting_search_panel_context_2';
+  $handler->name = 'search_ting_search_panel_context_with_related_content';
   $handler->task = 'search';
   $handler->subtask = 'ting_search';
   $handler->handler = 'panel_context';
@@ -362,7 +362,7 @@ search/ting
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
-  $export['search_ting_search_panel_context_2'] = $handler;
+  $export['search_ting_search_panel_context_with_related_content'] = $handler;
 
   return $export;
 }

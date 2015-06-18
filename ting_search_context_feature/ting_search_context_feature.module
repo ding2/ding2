@@ -4,4 +4,4 @@
  * Code for the Ting search context feature.
  */
 
-include_once 'ding_search_context.features.inc';
+include_once 'ting_search_context_feature.features.inc';
