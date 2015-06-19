@@ -188,7 +188,7 @@ function ting_search_context_admin_settings_form($form, &$form_state) {
     '#title' => t('Position'),
     '#description' => t('Select the position of related content on the search page. On small screens related content is always displayed at the bottom of the page.'),
     '#options' => ting_search_context_get_positions(),
-    '#default_value' => variable_get('ting_search_context_position', 'belowsearchresult'),
+    '#default_value' => variable_get('ting_search_context_position', 'js-below-search-result'),
   );
 
   // Add administration feel and look.
