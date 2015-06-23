@@ -26,6 +26,14 @@ function fbs_user_authenticate($name, $pincode) {
     'success' => $res->authenticated,
   );
   if ($res->authenticated) {
+    // Don't allow users blocked by "O" (library card stolen) or "S" (blocked by
+    // self service automation) statusses log in.
+    if (!empty($res->blockStatus)) {
+      $common = array_intersect(array('O', 'S'), $res->blockStatus);
+      if (!empty($common)) {
+        $result['success'] = FALSE;
+      }
+    }
     // Save patron info in creds.
     $result['creds'] = _fbs_patron_info($res->patron);
 
