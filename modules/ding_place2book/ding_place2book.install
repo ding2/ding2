@@ -64,6 +64,7 @@ function ding_place2book_schema() {
  * Implementation of hook_install().
  */
 function ding_place2book_install() {
+  // Set 'Maintain copy on Place2Book' as default.
   variable_set('ding_place2book_event_nodes', array('defaults' => array('maintain_copy' => 'maintain_copy')));
   // Update moduel weight to make it heavier then CCK field groups.
   db_query("UPDATE {system} SET weight = 10 WHERE name = 'ding_place2book';");
