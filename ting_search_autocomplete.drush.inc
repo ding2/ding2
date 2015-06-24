@@ -13,3 +13,4 @@
 function ting_search_autocomplete_drush_cache_clear(&$types) {
   $types['ting_search_autocomplete'] = 'ting_search_autocomplete_flush_caches';
 }
+
