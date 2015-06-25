@@ -6,8 +6,7 @@ class Availability
 {
 
     /**
-     * @var string Bibliographic record DBC OpenSearch:
-     * //searchresult/collection/object/identifier
+     * @var string The FAUST number of the Bibliographic record
      * @required
      */
     public $recordId = null;

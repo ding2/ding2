@@ -78,6 +78,11 @@ class Patron
     public $receivePostalMail = null;
 
     /**
+     * @var boolean True if the user is allowed to create bookings.
+     */
+    public $allowBookings = null;
+
+    /**
      * @var integer Length of default interest period in days
      * @required
      */

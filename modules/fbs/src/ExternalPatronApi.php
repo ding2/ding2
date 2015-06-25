@@ -118,6 +118,41 @@ class ExternalPatronApi extends SwaggerApi
     }
 
     /**
+     * Returns the patron details of a patron that the client has pre-authenticated using UNIC.
+     *
+     *
+     *  The returned patron details includes a patronId that has to be used by all subsequent
+     *  service calls made on behalf of that patron.
+     *  
+     *  If a patron is blocked the reason is available as a code:
+     *  
+     *      - 'O': library card stolen
+     *      - 'U': exclusion
+     *      - 'F': extended exclusion
+     *      - 'S': blocked by self service automaton
+     *      - 'W': self created at website
+     *  
+     *  The codes are informational, and can be used for looking up end user messages by the client system. However,
+     *  the list is subject to change at any time, so any unexpected values should be interpreted as 'other reason'.
+     *
+     * @param string $agencyid ISIL of the agency (e.g. DK-761500)
+     * @param string $unicUsername UNIC username of the patron
+     * @return AuthenticatedPatron
+     */
+    public function getPreAuthenticatedPatronFromUNIClogin($agencyid, $unicUsername)
+    {
+        $request = $this->newRequest("POST", "/external/v1/{agencyid}/patrons/preauthenticated/unic");
+        $request->addParameter("path", "agencyid", $agencyid);
+        $request->addParameter("body", "unicUsername", $unicUsername);
+
+        $request->defineResponse(200, "", '\\FBS\\Model\\AuthenticatedPatron');
+        $request->defineResponse("400", 'bad request', '\\FBS\\Model\\RestException');
+        $request->defineResponse("401", 'client unauthorized', null);
+
+        return $request->execute();
+    }
+
+    /**
      * Update information about the patron.
      *
      *

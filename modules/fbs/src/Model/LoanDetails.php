@@ -6,14 +6,13 @@ class LoanDetails
 {
 
     /**
-     * @var string Bibliographic record DBC OpenSearch:
-     * //searchresult/collection/object/identifier
+     * @var string The FAUST number of the bibliographic record
      * @required
      */
     public $recordId = null;
 
     /**
-     * @var string 
+     * @var string The loan type, either <b>loan</b> or <b>interLibraryLoan</b>
      * @required
      */
     public $loanType = null;

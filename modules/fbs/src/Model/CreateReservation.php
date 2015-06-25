@@ -6,8 +6,7 @@ class CreateReservation
 {
 
     /**
-     * @var string Identifies the bibliographical record to reserve - DBC OpenSearch:
-     * //searchresult/collection/object/identifier
+     * @var string Identifies the bibliographical record to reserve - The FAUST number
      * @required
      */
     public $recordId = null;
@@ -26,7 +25,7 @@ class CreateReservation
     public $pickupBranch = null;
 
     /**
-     * @var Periodical Present if making reservation on a periodical
+     * @var PeriodicalReservation Present if making reservation on a periodical
      */
     public $periodical = null;
 

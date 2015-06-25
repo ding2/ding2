@@ -6,8 +6,7 @@ class FeeMaterial
 {
 
     /**
-     * @var string Bibliographic record DBC OpenSearch:
-     * //searchresult/collection/object/identifier
+     * @var string The FAUST number of the bibliographic record
      * @required
      */
     public $recordId = null;

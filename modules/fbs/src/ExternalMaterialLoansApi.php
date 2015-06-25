@@ -14,6 +14,7 @@ class ExternalMaterialLoansApi extends SwaggerApi
      *
      *  Returns an array of loans.
      *  
+     *  
      *  If a loan is not renewable then the field renewalStatus will contain a list of one or more of these values:
      *  
      *  - deniedReserved
@@ -25,17 +26,20 @@ class ExternalMaterialLoansApi extends SwaggerApi
      *  - deniedLoaningProfileNotFound
      *  - deniedOtherReason
      *  
+     *  
      *  If any other value is encountered then it must be treated as 'deniedOtherReason'.
+     *  
      *  The response contains the field loanDetails.loanType, which can be any of these values:
      *  
-     *      - loan
-     *      - interLibraryLoan
+     *  - loan
+     *  - interLibraryLoan
      *  
-     *  The values are subject to change. If an unregognized value is encountered, it should be treated as 'other'
-     *  .
+     *  
+     *  The values are subject to change. If an unrecognized value is encountered, it should be treated as 'other' .
+     *  
      *
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
-     * @param string $patronid the patron that owns the loans
+     * @param integer $patronid the patron that owns the loans
      * @return Loan[]
      */
     public function getLoans($agencyid, $patronid)
@@ -57,7 +61,9 @@ class ExternalMaterialLoansApi extends SwaggerApi
      *
      *
      *  Returns an array of the updated loans.
+     *  
      *  If the materials could not be renewed, the return date will be unchanged.
+     *  
      *
      *  The response field renewalStatus will contain a list of one or more of these values:
      *  
@@ -71,14 +77,17 @@ class ExternalMaterialLoansApi extends SwaggerApi
      *  - deniedLoaningProfileNotFound
      *  - deniedOtherReason
      *  
+     *  
      *  If any other value is encountered then it must be treated as 'deniedOtherReason'.
+     *  
      *  The response contains the field loanDetails.loanType, which can be any of these values:
      *  
-     *      - loan
-     *      - interLibraryLoan
+     *  - loan
+     *  - interLibraryLoan
      *  
-     *  The values are subject to change. If an unregognized value is encountered, it should be treated as 'other'
-     *  .
+     *  
+     *  The values are subject to change. If an unrecognized value is encountered, it should be treated as 'other' .
+     *  
      *
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
      * @param integer $patronid the patron that owns the loans
@@ -94,6 +103,34 @@ class ExternalMaterialLoansApi extends SwaggerApi
 
         $request->defineResponse(200, "", array('\\FBS\\Model\\RenewedLoan'));
         $request->defineResponse("400", 'bad request', '\\FBS\\Model\\RestException');
+        $request->defineResponse("401", 'client unauthorized', null);
+        $request->defineResponse("404", 'patron not found', null);
+
+        return $request->execute();
+    }
+
+    /**
+     * Retrieves material loans for the given booking ID.
+     *
+     *
+     *  
+     *  Retrieves an array of BookingLoan corresponding to the given booking ID.
+     *  
+     *
+     * @param string $agencyid ISIL of the agency (e.g. DK-761500)
+     * @param integer $patronid the ID of the patron that owns the bookings
+     * @param string $bookingid
+     * @return BookingLoan[]
+     */
+    public function getBookingLoans($agencyid, $patronid, $bookingid)
+    {
+        $request = $this->newRequest("GET", "/external/v1/{agencyid}/patrons/{patronid}/loans/{bookingid}");
+        $request->addParameter("path", "agencyid", $agencyid);
+        $request->addParameter("path", "patronid", $patronid);
+        $request->addParameter("path", "bookingid", $bookingid);
+
+        $request->defineResponse(200, "", array('\\FBS\\Model\\BookingLoan'));
+        $request->defineResponse("400", 'bad request com.dantek.dl.rest.RestException', null);
         $request->defineResponse("401", 'client unauthorized', null);
         $request->defineResponse("404", 'patron not found', null);
 

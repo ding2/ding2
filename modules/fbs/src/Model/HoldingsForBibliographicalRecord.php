@@ -7,7 +7,7 @@ class HoldingsForBibliographicalRecord
 
     /**
      * @var string Identifies the bibliographical record for the available materials,
-     *  DBC OpenSearch: //searchresult/collection/object/identifier
+     *  The FAUST number
      * @required
      */
     public $recordId = null;
