@@ -1,6 +1,6 @@
 name = Ding 2
 description = Install a Ding based library site.
-version = 7.x-2.2.0-rc2
+version = 7.x-2.2.0
 core = 7.x
 distribution_name = "Ding 2"
 exclusive = TRUE
