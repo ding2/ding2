@@ -44,7 +44,7 @@ class PeriodicalLocalIdTest extends PHPUnit_Framework_TestCase {
     );
 
     foreach ($cases as $case) {
-      $periodical = new FBS\Model\Periodical();
+      $periodical = new FBS\Model\PeriodicalReservation();
       $periodical->volume = $case['volume'];
       $periodical->volumeYear = $case['volumeYear'];
       $periodical->volumeNumber = $case['volumeNumber'];

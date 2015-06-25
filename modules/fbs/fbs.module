@@ -421,7 +421,7 @@ function _fbs_periodical_get_local_id($record_id, FBS\Model\Periodical $periodic
  *   The pseudo id.
  *
  * @return array
- *   Array of record_id and Periodical.
+ *   Array of record_id and PeriodicalReservation.
  */
 function _fbs_periodical_parse_local_id($local_id) {
   $record_id  = NULL;
@@ -443,7 +443,7 @@ function _fbs_periodical_parse_local_id($local_id) {
     }, $parts);
   }
 
-  $periodical = new FBS\Model\Periodical();
+  $periodical = new FBS\Model\PeriodicalReservation();
   $periodical->volume = $parts[0];
   if ($parts[1] !== '-') {
     $periodical->volumeYear = $parts[1];
