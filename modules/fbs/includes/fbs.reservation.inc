@@ -40,6 +40,8 @@ function fbs_reservation_list($account, $requested_type = NULL) {
 
     if ($type === DING_RESERVATION_READY) {
       $ding_reservation['pickup_date'] = $reservation->pickupDeadline;
+      $ding_reservation['pickup_order_id'] = $reservation->pickupNumber;
+      $ding_reservation['order_arrived'] = TRUE;
     }
     elseif ($type === DING_RESERVATION_NOT_READY || $type === DING_RESERVATION_INTERLIBRARY_LOANS) {
       if (!empty($reservation->numberInQueue)) {
