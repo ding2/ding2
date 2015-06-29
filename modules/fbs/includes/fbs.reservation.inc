@@ -86,29 +86,31 @@ function fbs_reservation_list($account, $requested_type = NULL) {
  *
  * @param object $account
  *   User to reserve for.
- * @param array $record_ids
- *   Ids of ting objects to reserve.
+ * @param string $record_ids
+ *   Id of ting object to reserve.
  * @param array $options
  *   Reservation options.
  *
  */
-function fbs_reservation_create($account, $record_ids, $options) {
+function fbs_reservation_create($account, $record_id, $options) {
   $batch = new FBS\Model\CreateReservationBatch();
   $batch->reservations = array();
-  foreach ($record_ids as $record_id) {
-    $reservation = new FBS\Model\CreateReservation();
-    if (preg_match('/^fbs-/', $record_id)) {
-      list($record_id, $periodical) = _fbs_periodical_parse_local_id($record_id);
-      $reservation->recordId = $record_id;
-      $reservation->preiodical = $periodical;
-    }
-    else {
-      $reservation->recordId = $record_id;
-    }
-    $reservation->expiryDate = date('Y-m-d', REQUEST_TIME + ($options['interest_period'] * 24 * 60 * 60));
-    $reservation->pickupBranch = $options['preferred_branch'];
-    $batch->reservations[] = $reservation;
+
+  $reservation = new FBS\Model\CreateReservation();
+  // We use our own custom ids prefixed with "fbs-" for periodicals.
+  if (preg_match('/^fbs-/', $record_id)) {
+    list($record_id, $periodical) = _fbs_periodical_parse_local_id($record_id);
+    $reservation->recordId = $record_id;
+    $reservation->preiodical = $periodical;
   }
+  else {
+    $reservation->recordId = $record_id;
+  }
+
+  $reservation->expiryDate = date('Y-m-d', REQUEST_TIME + ($options['interest_period'] * 24 * 60 * 60));
+  $reservation->pickupBranch = $options['preferred_branch'];
+  $batch->reservations[] = $reservation;
+
   fbs_service()->Reservations->addReservationsDeprecated(fbs_service()->agencyId, fbs_patron_id($account), $batch);
 }
 
