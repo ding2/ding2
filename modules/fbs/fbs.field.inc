@@ -98,19 +98,6 @@ function fbs_field_info() {
       'property_callbacks' => array('fbs_field_property_callback'),
     ),
 
-    'fbs_interest_period' => array(
-      'label' => t('Interest period from FBS'),
-      'description' => t('The users interest period from the FBS provider'),
-      'default_widget' => 'fbs_options_select',
-      'default_formatter' => 'fbs_interest_period',
-      'virtual_field' => array(
-        'entity_types' => array('profile2'),
-        'add_widget' => TRUE,
-      ),
-      'property_type' => 'text',
-      'property_callbacks' => array('fbs_field_property_callback'),
-    ),
-
     'fbs_on_hold' => array(
       'label' => t('On hold period from FBS'),
       'description' => t('Period where user should not get any reservations'),
@@ -157,7 +144,7 @@ function fbs_field_widget_info() {
     // them thinly.
     $return['fbs_options_select'] = array(
       'label' => t('Select list (FBS)'),
-      'field types' => array('fbs_preferred_branch', 'fbs_interest_period'),
+      'field types' => array('fbs_preferred_branch'),
       'behaviors' => array(
         'multiple values' => FIELD_BEHAVIOR_CUSTOM,
       ),
@@ -297,7 +284,6 @@ function fbs_field_load($entity_type, $entities, $field, $instances, $langcode, 
     'fbs_phone_notification',
     'fbs_mail_notification',
     'fbs_preferred_branch',
-    'fbs_interest_period',
     'fbs_on_hold',
     'fbs_address',
   );
@@ -321,10 +307,6 @@ function fbs_field_load($entity_type, $entities, $field, $instances, $langcode, 
 
           case 'fbs_preferred_branch':
             $items[$id][0] = array('value' => $patron['preferred_branch']);
-            break;
-
-          case 'fbs_interest_period':
-            $items[$id][0] = array('value' => $patron['interest_period']);
             break;
 
           case 'fbs_phone_notification':
@@ -375,9 +357,6 @@ function fbs_options_list($field, $instance, $entity_type, $entity) {
   elseif ($field['type'] == 'fbs_preferred_branch') {
     return fbs_branches();
   }
-  elseif ($field['type'] == 'fbs_interest_period') {
-    return fbs_interest_periods();
-  }
 }
 
 /**
@@ -426,13 +405,6 @@ function fbs_field_formatter_info() {
       ),
     ),
 
-    'fbs_interest_period' => array(
-      'label' => t('Default'),
-      'field types' => array(
-        'fbs_interest_period',
-      ),
-    ),
-
     'fbs_period_default'  => array(
       'label' => t('Default'),
       'field types' => array(
@@ -478,12 +450,6 @@ function fbs_field_formatter_view($entity_type, $entity, $field, $instance, $lan
         }
         $element[$delta] = array(
           '#markup' => check_plain($title),
-        );
-        break;
-
-      case 'fbs_interest_period':
-        $element[$delta] = array(
-          '#markup' => format_plural($item['value'], '1 day', '@count days'),
         );
         break;
 
