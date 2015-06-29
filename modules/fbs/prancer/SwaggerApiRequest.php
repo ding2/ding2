@@ -128,17 +128,18 @@ class SwaggerApiRequest
 
         $message = 'Unexpected status code from service in ' . $request->getUri()->getPath() . '.';
         $model = null;
-        if (isset($this->responseDef[$response->getStatusCode()])) {
-            $res = $this->responseDef[$response->getStatusCode()];
+        $statusCode = (string) $response->getStatusCode();
+        if (isset($this->responseDef[$statusCode])) {
+            $res = $this->responseDef[$statusCode];
             if ($res['model']) {
                 $model = $this->serializer->unserialize($response->getBody(), $res['model']);
             }
             $message = $res['message'];
         }
-        if ($response->getStatusCode() == 200) {
+        if ($statusCode[0] == "2") {
             return $model ? $model : $message;
         }
-        throw new \RuntimeException($message, $response->getStatusCode());
+        throw new \RuntimeException($message, $statusCode);
     }
 
     /**
