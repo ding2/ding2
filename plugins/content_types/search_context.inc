@@ -23,7 +23,8 @@ function search_context_content_type_render($subtype, $conf, $panel_args, $conte
   // Add position settings to Drupal.settings
   ting_search_context_set_position();
 
-  $block->content = '<div id="ting-search-context"> </div>';
+  // Empty block to be filled by an ajax callback
+  $block->content = '<!--Related content container. Ajax callback fills it.-->';
   return $block;
 }
 
