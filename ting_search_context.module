@@ -76,7 +76,7 @@ function ting_search_context_ctools_plugin_directory($module, $plugin) {
 function ting_search_context_ajax_get_related_content() {
   $search_context = $_POST['search_context'];
   $nodes = ting_search_context_get_context($search_context);
-  $outpu = '';
+  $output = '';
   if (!empty($nodes)) {
     $output = ting_search_context_theme_output ($nodes);
   }
