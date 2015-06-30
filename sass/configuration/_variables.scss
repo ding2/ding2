@@ -1,0 +1,56 @@
+/**
+ * Variables - copied from DDBasic
+ *
+ * @author agnetemoos
+ */
+
+
+
+/* Spacing variables
+   ========================================================================== */
+
+$large-spacing:                   20px;
+$medium-spacing:                  10px;
+$small-spacing:                   5px;
+
+
+
+/* Zen Grid variables
+   ========================================================================== */
+
+$zen-column-count: 12;
+$zen-gutter-width: 20px;
+$box-sizing-polyfill-path: "../js/boxsizing.htc";
+
+
+
+/* Breakpoints
+   ========================================================================== */
+
+$breakpoint-low:                  580px;
+$breakpoint-small:                480px;
+$breakpoint-medium:               768px;
+$breakpoint-large:                940px;
+$breakpoint-x-large:              1210px;
+
+
+/* Standard color definitions
+   ========================================================================== */
+
+$gray:                           #d5d5d5 !default;
+$gray-light:                     lighten($gray, 10%) !default;
+
+
+/* Font sizes
+   ========================================================================== */
+
+
+$font-size-giga:                  200%;
+$font-size-largest:               180%;
+$font-size-larger:                160%;
+$font-size-large:                 130%;
+$font-size-medium:                110%;
+$font-size-reset:                 100%;
+$font-size-small:                 85%;
+$font-size-tiny:                  75%;
+

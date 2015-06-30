@@ -1,0 +1,94 @@
+/**
+* Ting search context
+*
+* @author agnetemoos
+*/
+
+/* Related content blocks
+ ========================================================================== */
+
+.ting-search-context-blocks--inner {
+  @include zen-clear(both);
+  @include zen-nested-container();
+
+
+  border-top: 1px solid $gray-light;
+  overflow: hidden;
+  margin-top: $large-spacing;
+  padding-top: $large-spacing;
+
+  h2.heading {
+    font-size: $font-size-large;
+    margin-top: $small-spacing;
+  }
+
+
+  @include small-medium() {
+    border-top: 0;
+    margin-top: 0;
+    padding-top: 0;
+  }
+}
+
+.ting-search-context-blocks--four {
+  .ting-search-context-blocks--first {
+    @include zen-grid-item(3, 1);
+  }
+
+  .ting-search-context-blocks--second {
+    @include zen-grid-item(3, 4);
+  }
+
+  .ting-search-context-blocks--third {
+    @include zen-grid-item(3, 4, right);
+  }
+
+  .ting-search-context-blocks--fourth {
+    @include zen-grid-item(3, 1, right);
+  }
+
+}
+
+.ting-search-context-blocks--wrapper {
+  @include zen-grid-container();
+
+  overflow: hidden;
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+
+  @include small() {
+    .ting-search-context-blocks--first,
+    .ting-search-context-blocks--second,
+    .ting-search-context-blocks--third,
+    .ting-search-context-blocks--fourth {
+      @include zen-clear();
+      @include zen-grid-item(12, 1);
+      @include zen-nested-container();
+    }
+  }
+
+  @include medium() {
+    .ting-search-context-blocks--third {
+      @include zen-clear();
+    }
+    .ting-search-context-blocks--first,
+    .ting-search-context-blocks--third {
+      @include zen-grid-item(6, 1);
+    }
+
+    .ting-search-context-blocks--second,
+    .ting-search-context-blocks--fourth {
+      @include zen-grid-item(6, 1, right);
+    }
+  }
+
+  @include small-medium() {
+    .ting-search-context-blocks--first,
+    .ting-search-context-blocks--second,
+    .ting-search-context-blocks--third,
+    .ting-search-context-blocks--fourth {
+      margin-bottom: $large-spacing;
+    }
+  }
+}

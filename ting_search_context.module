@@ -86,10 +86,10 @@ function ting_search_context_ajax_get_blogposts() {
 function ting_search_context_theme_output($nodes) {
   $columns = array();
   $columns_classes = array(
-    ' group-blocks--first',
-    ' group-blocks--second',
-    ' group-blocks--third',
-    ' group-blocks--fourth',
+    ' ting-search-context-blocks--first',
+    ' ting-search-context-blocks--second',
+    ' ting-search-context-blocks--third',
+    ' ting-search-context-blocks--fourth',
   );
   foreach ($columns_classes as $columns_class) {
     if (!empty($nodes)) {
