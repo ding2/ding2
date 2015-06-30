@@ -75,7 +75,7 @@ function ting_search_context_ctools_plugin_directory($module, $plugin) {
 
 function ting_search_context_ajax_get_related_content() {
   $search_context = $_POST['search_context'];
-  $nodes = ting_search_context_get_context($search_context);
+  $nodes = ting_search_context_get_related_content($search_context);
   $output = '';
   if (!empty($nodes)) {
     $output = ting_search_context_theme_output ($nodes);
@@ -166,7 +166,7 @@ function ting_search_context_get_context_info($context_names = 'all') {
 }
 
 /**
- * Get random node content in the specified context.
+ * Get related node content in the specified context.
  *
  * @param $name
  *   The machine-name of the context to get content from.
@@ -178,10 +178,8 @@ function ting_search_context_get_context_info($context_names = 'all') {
  *
  * @return
  *   An array of node objects keyd by nid.
- *
- * @see _ting_search_context_get_contexts()
  */
-function ting_search_context_get_context($name, $count = 5, $node_types = 'all') {
+function ting_search_context_get_related_content($name, $count = 5, $node_types = 'all') {
 	// Intialize our return array.
 	$return = array();
 	// Return empty array if current user doesn't have permission to view
