@@ -78,12 +78,12 @@ function ting_search_context_ajax_get_related_content() {
   $nodes = ting_search_context_get_related_content($search_context);
   $output = '';
   if (!empty($nodes)) {
-    $output = ting_search_context_theme_output ($nodes);
+    $output = ting_search_context_theme_related_content ($nodes);
   }
   return drupal_json_output($output);
 }
 
-function ting_search_context_theme_output($nodes) {
+function ting_search_context_theme_related_content($nodes) {
   $columns = array();
   $columns_classes = array(
     ' ting-search-context-blocks--first',
