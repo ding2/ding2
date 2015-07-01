@@ -53,6 +53,11 @@ function ting_search_context_menu() {
  */
 function ting_search_context_theme($existing, $type, $theme, $path) {
   return array(
+    'ting_search_context' => array(
+      'variables' => array('context' => NULL, 'position' => NULL),
+      'template' => '/templates/ting_search_context',
+      'file' => 'ting_search_context.theme.inc',
+    ),
     'ting_search_context_content' => array(
       'variables' => array('columns' => NULL),
       'template'  => '/templates/ting_search_context_content',
@@ -500,4 +505,20 @@ function ting_search_context_image_default_styles() {
       ),
     ),
   );
+}
+
+/**
+ * Wrapper function that adds the modules JavaScript.
+ */
+function _ting_search_context_add_javascript() {
+  $path = drupal_get_path('module', 'ting_search_context');
+  drupal_add_js($path . '/js/ting_search_context.js');
+}
+
+/**
+ * Wrapper function that adds the modules css.
+ */
+function _ting_search_context_add_css() {
+  $path = drupal_get_path('module', 'ting_search_context');
+  drupal_add_css($path . '/css/ting_search_context.base.css');
 }

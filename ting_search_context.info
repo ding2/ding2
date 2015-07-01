@@ -7,6 +7,3 @@ files[] = ting_search_context.module
 
 dependencies[] = field
 dependencies[] = ting_search
-
-; Add a style sheet for all media
-stylesheets[all][] = css/ting_search_context.base.css
