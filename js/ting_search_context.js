@@ -10,7 +10,7 @@
     attach: function(context, settings) {
       $.ajax({
         type: "POST",
-        url: Drupal.settings.basePath + "ting/searchcontext/ajax",
+        url: Drupal.settings.basePath + "ting/ting_search_context/content/ajax",
         dataType: "json",
         data: {
           "search_context" : settings.ting_search_context

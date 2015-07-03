@@ -30,10 +30,11 @@ function ting_search_context_menu() {
 		'type' => MENU_LOCAL_TASK | MENU_NORMAL_ITEM,
 		'file' => 'ting_search_context.admin.inc',
 	);
-  $items['ting/searchcontext/ajax'] = array(
-    'title' => 'Get content related to search context ',
-    'page callback' => 'ting_search_context_ajax_get_related_content',
+  $items['ting/ting_search_context/content/ajax'] = array(
+    'title' => 'Show content related to search context in carousel',
+    'page callback' => 'ting_search_context_content',
     'access arguments' => array('access content'),
+    'file' => 'ting_search_context.pages.inc',
     'type' => MENU_CALLBACK,
   );
   $items['admin/config/ting/ting-search-context'] = array(
@@ -59,8 +60,9 @@ function ting_search_context_theme($existing, $type, $theme, $path) {
       'file' => 'ting_search_context.theme.inc',
     ),
     'ting_search_context_content' => array(
-      'variables' => array('columns' => NULL),
+      'variables' => array('node' => NULL),
       'template'  => '/templates/ting_search_context_content',
+      'file' => 'ting_search_context.theme.inc',
     ),
   );
 }
@@ -77,15 +79,6 @@ function ting_search_context_ctools_plugin_directory($module, $plugin) {
   }
 }
 
-function ting_search_context_ajax_get_related_content() {
-  $search_context = $_POST['search_context'];
-  $nodes = ting_search_context_get_related_content($search_context);
-  $output = '';
-  if (!empty($nodes)) {
-    $output = ting_search_context_theme_related_content ($nodes);
-  }
-  return drupal_json_output($output);
-}
 
 function ting_search_context_theme_related_content($nodes) {
   $columns = array();
@@ -512,6 +505,8 @@ function ting_search_context_image_default_styles() {
  */
 function _ting_search_context_add_javascript() {
   $path = drupal_get_path('module', 'ting_search_context');
+  drupal_add_library('system', 'ui.widget');
+  drupal_add_js($path . '/js/jquery.rs.carousel.js');
   drupal_add_js($path . '/js/ting_search_context.js');
 }
 
