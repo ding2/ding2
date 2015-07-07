@@ -22,9 +22,16 @@ class TingRelation extends DingEntityBase {
     }
   }
 
-
   public function getObject() {
     return $this->properties['object'];
+  }
+
+  public function getURI() {
+    return $this->properties['uri'];
+  }
+
+  public function getType() {
+    return $this->properties['type'];
   }
 }
 
