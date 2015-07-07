@@ -30,7 +30,7 @@ function ting_material_details_field_info() {
       'label' => t('Available in'),
       'description' => t('dcterms:isPartOf'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_single',
+      'default_formatter' => 'ting_details_is_part_of_search',
       'no_ui' => TRUE,
     ),
     // Defines dc:language.
@@ -296,6 +296,12 @@ function ting_material_details_field_formatter_info() {
         'ting_details_seriesdescription',
       ),
     ),
+    'ting_details_is_part_of_search' => array(
+      'label' => t('Part of manifestation'),
+      'field types' => array(
+        'ting_details_is_part_of',
+      ),
+    ),
   );
 }
 
@@ -456,6 +462,36 @@ function ting_material_details_field_formatter_view($entity_type, $entity, $fiel
           $element[$delta] = array(
             '#markup' => $entity->serieDescription,
           );
+          break;
+
+        case 'ting_details_is_part_of_search':
+          $type = $uri = NULL;
+          foreach ($entity->getRelations() as $relation) {
+            $type = explode(':', $relation->getType());
+            if ( isset($type[1]) && $type[1] == 'isPartOfManifestation' ) {
+              $uri  = $relation->getURI();
+            }
+          }
+          $render['#prefix'] = '<span class="ting-material-detail ting-material-is-part-of">';
+          $render['#suffix'] = '</span>';
+          if (!is_array($val)) {
+            $val = array($val);
+          }
+          if ( $uri ) {
+            foreach ($val as $key => $detail) {
+              $render['part_of'][$key]['#theme'] = 'link';
+              $render['part_of'][$key]['#text'] = $detail;
+              $render['part_of'][$key]['#path'] = 'search/ting/' . $uri;
+              $render['part_of'][$key]['#options']['attributes'] = array();
+              $render['part_of'][$key]['#options']['html'] = 1;
+            }
+          }
+          else {
+            foreach ($val as $key => $detail) {
+              $render['part_of'][$key]['#markup'] = $detail;
+            }
+          }
+          $element[$delta] = $render;
           break;
       }
     }
