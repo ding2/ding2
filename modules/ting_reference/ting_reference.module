@@ -153,7 +153,7 @@ function ting_reference_field_update($entity_type, $entity, $field, $instance, $
       }
     }
 
-    // When nodes are saved problematically and edit form is not used the data
+    // When nodes are saved programmatically and edit form is not used the data
     // structure contains the relation and not item tid's (effect is that
     // reference are remove during scheduler publishing).
     if (!empty($item['value']) && isset($relations[$item['value']->rid])) {
