@@ -113,37 +113,6 @@ function ting_search_context_schema() {
 }
 
 /**
- * Implements hook_field_schema().
- *
- * Describes the database coloumns needed by our custom context field.
- */
-function ting_search_context_field_schema($field) {
-	if ($field['type'] == 'ting_search_context') {
-		$columns = array(
-			// The name of the context.
-			'name' => array(
-				'type' => 'varchar',
-				'length' => 255,
-				'not null' => FALSE,
-			),
-			// The rating of the context on the node of the field.
-			'rating' => array(
-				'type' => 'int',
-				'not null' => FALSE,
-			),
-		);
-		$indexes = array(
-			'name' => array('name'),
-			'rating' => array('rating'),
-		);
-		return array(
-			'columns' => $columns,
-			'indexes' => $indexes,
-		);
-	}
-}
-
-/**
  * Implements hook_install().
  */
 function ting_search_context_install() {
