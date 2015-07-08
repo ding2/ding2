@@ -5,378 +5,95 @@
  */
 
 /**
- * Start a content push session.
- *
- * @see bpi_menu()
- *
- * @param string $type
- *   Request type, simple http or ajax.
- * @param int $nid
- *   Node id, whose content is to be pushed.
- *
- * @return Array/string
- *   Ajax command set in case of ajax request, push content page
- *   markup otherwise.
- */
-function bpi_push_action($type, $nid) {
-  $is_ajax = ($type == 'ajax') ? TRUE : FALSE;
-
-  if (empty($nid)) {
-    return;
-  }
-
-  if (!bpi_push_available($nid)) {
-    drupal_access_denied();
-    drupal_exit();
-  }
-
-  $push_form = drupal_get_form('bpi_push_form', $nid);
-
-  if ($is_ajax) {
-    $commands = array();
-
-    $commands[] = ajax_command_ding_popup(
-      'bpi-push',
-      t('Push to BPI'),
-      drupal_render($push_form),
-      array('refresh' => TRUE)
-    );
-
-    return array('#type' => 'ajax', '#commands' => $commands);
-  }
-  else {
-    return $push_form;
-  }
-}
-
-/**
- * BPI http action, with no ajax functionality.
- *
- * @param int $nid
- *   The node id, waiting to be pushed.
- *
- * @return array
- *   Form structure.
- */
-function bpi_http_push_action($nid) {
-  return drupal_get_form('bpi_http_push_action_form', $nid);
-}
-
-/**
  * BPI http push form, used in save and push on node/edit page.
  *
- * @param array $form
- *   Form structure.
- * @param array $form_state
- *   Form state values.
  * @param int $nid
- *   The node id, waiting to be pushed.
+ *   Node id.
  *
  * @return array
  *   Form structure.
  *
  * @ingroup forms
  */
-function bpi_http_push_action_form($form, &$form_state, $nid) {
-  // Check that a nid was part of the callback.
-  if (!empty($nid)) {
-    $form['#tree'] = FALSE;
-    $form['bpi_push_nid'] = array(
-      '#type' => 'hidden',
-      '#value' => isset($nid) ? $nid : 0,
-    );
-
-    // Get BPI vocabularies (category and audience).
-    $vocabularies = bpi_get_bpi_dictionaries();
-
-    $form['vocabularies'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('BPI vocabularies'),
-      '#description' => t('BPI vocabularies is used to categories the pushed content, so searching for content later is easier and related content can be found.'),
-    );
-
-    $categories = array_values($vocabularies['category']);
-    $form['vocabularies']['bpi_push_category'] = array(
-      '#type' => 'select',
-      '#title' => t('Category'),
-      '#options' => array_combine($categories, $categories),
-      '#required' => TRUE,
-    );
-
-    $audiences = array_values($vocabularies['audience']);
-    $form['vocabularies']['bpi_push_audience'] = array(
-      '#type' => 'select',
-      '#title' => t('Audience'),
-      '#options' => array_combine($audiences, $audiences),
-      '#required' => TRUE,
-    );
-
-    $form['configurations'] = array(
-      '#type' => 'fieldset',
-      '#title' => t('BPI options'),
-    );
-
-    $form['configurations']['bpi_push_images'] = array(
-      '#type' => 'checkbox',
-      '#title' => t('Push with images'),
-      '#description' => t('You should have permission to publish the images before selecting this option.'),
-      '#default_value' => FALSE,
-    );
-
-    $form['configurations']['bpi_push_ccl'] = array(
-      '#type' => 'checkbox',
-      '#title' => t('I want be anonymous'),
-      '#description' => t('If checked the content will be pushed as anonymous to BPI.'),
-      '#default_value' => FALSE,
-    );
-
-    $form['configurations']['bpi_push_refs'] = array(
-      '#type' => 'checkbox',
-      '#title' => t('Push with references'),
-      '#description' => t('If checked the content will be pushed with material reference to the data well. Note that posts with the katalog keyword will not be pushed.'),
-      '#default_value' => TRUE,
-    );
-
-    $form['configurations']['bpi_push_editable'] = array(
-      '#type' => 'checkbox',
-      '#title' => t('Editable'),
-      '#description' => t('If checked the content will be marked as not editable (It is not enforced but only recommanded that the content is not changed after syndication).'),
-      '#default_value' => '1',
-    );
-
-    // Load node to get title
-    // @todo there must be another way to do this.
-    $node = node_load($nid);
-
-    // Add confirmation button.
-    return confirm_form(
-      $form,
-      t('Push content to BPI?'),
-      'admin/content',
-      t('Are you sure you want to push content %title to BPI?', array('%title' => $node->title))
-    );
-  }
-  else {
-    // Node id was not defined in the callback to display error message.
-    drupal_set_message(t('Node id was not found and content can not be pushed to BPI.'), 'error');
-    watchdog('bpi', 'Node id was not found in admin page to push content to BPI', array(), WATCHDOG_ERROR);
-  }
-}
-
-/**
- * Submit handler for the push node form on node/edit page.
- *
- * @see bpi_push_form()
- *
- * @param array $form
- *   Form structure.
- * @param array $form_state
- *   Form state values.
- *
- * @ingroup forms
- */
-function bpi_http_push_action_form_submit($form, &$form_state) {
-  $nid = $form_state['input']['bpi_push_nid'];
-  $category = $form_state['input']['bpi_push_category'];
-  $audience = $form_state['input']['bpi_push_audience'];
-  $with_images = $form_state['input']['bpi_push_images'];
-  $authorship = $form_state['input']['bpi_push_ccl'];
-  $editable = $form_state['input']['bpi_push_editable'];
-  $with_refs = $form_state['input']['bpi_push_refs'];
-
-  // Extract information from the node.
-  $node = node_load($nid);
-  $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, $authorship, $editable, $with_refs);
-
-  try {
-    $bpi = bpi_client_instance();
-    $push_result = $bpi->push($bpi_content)->getProperties();
-
-    if (!empty($push_result['id'])) {
-      db_merge('bpi_syndicated')
-        ->fields(array(
-          'nid' => $nid,
-          'bid' => $push_result['id'],
-          'status' => BPI_PUSHED,
-          'timestamp' => time(),
-        ))
-        ->condition('nid', $nid, '=')
-        ->execute();
-      drupal_set_message(t('Node %title was successfully pushed to BPI well.', array('%title' => $node->title)));
-    }
-
-    if (isset($_GET['prev_destination'])) {
-      drupal_goto($_GET['prev_destination']);
-    }
-    else {
-      drupal_goto('admin/bpi');
-    }
-  }
-  catch (Exception $exception) {
-    bpi_error_message($exception, 'error');
-  }
-}
-
-/**
- * BPI push form.
- *
- * @param array $form
- *   Form structure.
- * @param array $form_state
- *   Form state values.
- * @param int $nid
- *   The node id, waiting to be pushed.
- *
- * @return array
- *   Form structure.
- *
- * @ingroup forms
- */
-function bpi_push_form($form, $form_state, $nid) {
-  $node_title = '';
-  if (!empty($nid)) {
-    $node = node_load($nid);
-    $node_title = $node->title;
-  }
-
+function bpi_http_push_action_form($nid) {
+  $form = array();
+  $form['#tree'] = FALSE;
   $form['bpi_push_nid'] = array(
     '#type' => 'hidden',
     '#value' => isset($nid) ? $nid : 0,
   );
 
-  $dictionaries = bpi_get_bpi_dictionaries();
+  // Get BPI vocabularies (category and audience).
+  $vocabularies = bpi_get_bpi_dictionaries();
 
-  $categories = array_values($dictionaries['category']);
-  $form['bpi_push_category'] = array(
+  $form['vocabularies'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('BPI vocabularies'),
+    '#description' => t('BPI vocabularies is used to categories the pushed content, so searching for content later is easier and related content can be found.'),
+  );
+
+  $categories = array_values($vocabularies['category']);
+  $form['vocabularies']['bpi_push_category'] = array(
     '#type' => 'select',
     '#title' => t('Category'),
-    '#options' => array_combine($categories, $categories),
-    '#default_value' => ',',
+    '#options' => array_merge(array('' => t('- choose -')), array_combine($categories, $categories)),
   );
 
-  $audiences = array_values($dictionaries['audience']);
-  $form['bpi_push_audience'] = array(
+  $audiences = array_values($vocabularies['audience']);
+  $form['vocabularies']['bpi_push_audience'] = array(
     '#type' => 'select',
     '#title' => t('Audience'),
-    '#options' => array_combine($audiences, $audiences),
-    '#default_value' => ',',
+    '#options' => array_merge(array('' => t('- choose -')), array_combine($audiences, $audiences)),
   );
 
-  $form['bpi_push_images'] = array(
+  $form['configurations'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('BPI options'),
+  );
+
+  $form['configurations']['bpi_push_images'] = array(
     '#type' => 'checkbox',
     '#title' => t('Push with images'),
-  );
-
-  $form['bpi_push_ccl'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('I want be anonymous'),
+    '#description' => t('You should have permission to publish the images before selecting this option.'),
     '#default_value' => FALSE,
   );
 
-  $form['bpi_push_refs'] = array(
+  $form['configurations']['bpi_push_ccl'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('I want to be anonymous'),
+    '#description' => t('If checked the content will be pushed as anonymous to BPI.'),
+    '#default_value' => FALSE,
+  );
+
+  $form['configurations']['bpi_push_refs'] = array(
     '#type' => 'checkbox',
     '#title' => t('Push with references'),
-    '#description' => t('Note that posts with the katalog keyword will not be pushed.'),
+    '#description' => t('If checked the content will be pushed with material reference to the data well. Note that posts with the katalog keyword will not be pushed.'),
     '#default_value' => TRUE,
   );
 
-  $form['bpi_push_editable'] = array(
+  $form['configurations']['bpi_push_editable'] = array(
     '#type' => 'checkbox',
     '#title' => t('Editable'),
+    '#description' => t('If checked the content will be marked as not editable (It is not enforced but only recommanded that the content is not changed after syndication).'),
     '#default_value' => '1',
   );
 
-  return confirm_form(
-    $form,
-    t(
-      'Are you sure u want to push content <strong>%title</strong> to BPI well?',
-      array('%title' => $node_title)
-    ),
-    'admin/content'
-  );
-}
+  if ($nid) {
+    $bpi_node = bpi_get_bpi_nodes($nid);
 
-/**
- * Submit handler for the push node form.
- *
- * @see bpi_push_form()
- *
- * @param array $form
- *   Form structure.
- * @param array $form_state
- *   Form state values.
- *
- * @ingroup forms
- */
-function bpi_push_form_submit($form, &$form_state) {
-  $nid = $form_state['input']['bpi_push_nid'];
-  $category = $form_state['input']['bpi_push_category'];
-  $audience = $form_state['input']['bpi_push_audience'];
-  $with_images = $form_state['input']['bpi_push_images'];
-  $authorship = $form_state['input']['bpi_push_ccl'];
-  $editable = $form_state['input']['bpi_push_editable'];
-  $with_refs = $form_state['input']['bpi_push_refs'];
-
-  if (empty($nid)) {
-    return;
-  }
-
-  $node = node_load($nid);
-  $bpi_content = bpi_convert_to_bpi($node, $category, $audience, $with_images, $authorship, $editable, $with_refs);
-
-  try {
-    $bpi = bpi_client_instance();
-    $push_result = $bpi->push($bpi_content)->getProperties();
-
-    if (!empty($push_result['id'])) {
-      db_merge('bpi_syndicated')
-        ->fields(array(
-          'nid' => $nid,
-          'bid' => $push_result['id'],
-          'status' => BPI_PUSHED,
-          'timestamp' => time(),
-        ))
-        ->condition('nid', $nid, '=')
-        ->execute();
-
-      drupal_set_message(t('Node %title was successuflly pushed to BPI well.', array('%title' => $node->title)));
+    if (!empty($bpi_node[$nid])) {
+      $data = unserialize($bpi_node[$nid]->data);
+      $form['vocabularies']['bpi_push_category']['#default_value'] = $data['category'];
+      $form['vocabularies']['bpi_push_audience']['#default_value'] = $data['audience'];
+      $form['configurations']['bpi_push_images']['#default_value'] = $data['with_images'];
+      $form['configurations']['bpi_push_ccl']['#default_value'] = !$data['authorship'];
+      $form['configurations']['bpi_push_refs']['#default_value'] = $data['with_refs'];
+      $form['configurations']['bpi_push_editable']['#default_value'] = $data['editable'];
     }
   }
-  catch (Exception $exception) {
-    bpi_error_message($exception, 'error');
-  }
-}
 
-/**
- * AJAX callback for the push button in bpi push node form.
- *
- * @see bpi_push_form()
- *
- * @param array $form
- *   Form structure.
- * @param array $form_state
- *   Form state values.
- *
- * @return array
- *   A set of ajax commands.
- *
- * @ingroup forms
- */
-function bpi_push_action_ajax_callback($form, &$form_state) {
-  $response = array(
-    '#type' => 'ajax',
-    '#commands' => array(),
-  );
-
-  $html = theme('status_messages');
-
-  $response['#commands'][] = ajax_command_ding_popup(
-    'bpi-push',
-    t('Push to BPI'),
-    $html
-  );
-
-  return $response;
+  return $form;
 }
 
 /**
@@ -430,6 +147,9 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
   elseif (isset($teaser_field['#items'][0]['safe_value'])) {
     $teaser = $teaser_field['#items'][0]['safe_value'];
   }
+  elseif (isset($teaser_field[0]['#markup'])) {
+    $teaser = $teaser_field[0]['#markup'];
+  }
 
   // Find the references to the ting date well.
   $materials_drupal = array();
@@ -453,6 +173,9 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
 
   if (!empty($body_field) && isset($body_field['#items'][0]['safe_value'])) {
     $body = $body_field['#items'][0]['safe_value'];
+  }
+  elseif (isset($body_field[0]['#markup'])) {
+    $body = $body_field[0]['#markup'];
   }
 
   // Empty the teaser, if body and teaser are mapped to same fields
