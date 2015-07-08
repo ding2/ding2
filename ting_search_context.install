@@ -148,45 +148,6 @@ function ting_search_context_field_schema($field) {
  */
 function ting_search_context_install() {
 	_ting_search_context_install_system_contexts();
-	// We are moving the search context rating system out of the Field API, so
-	// the code below is outcommmented so we can work with the module without
-	// the field being installed every time the module is reinstalled.
-	// TODO: Do we need update function to removed field from nodes?
-
-	/*if (!field_info_field('field_ting_search_context')) {
-		// Rebuild the field cache to make Drupal aware of our custom field.
-		field_info_cache_clear();
-		$field = array(
-			'field_name' => 'field_ting_search_context',
-			'label' => t('Search context'),
-			'type' => 'ting_search_context',
-			'cardinality' => -1,
-			'locked' => TRUE,
-		);
-		field_create_field($field);
-	}
-	$instance_common = array(
-		'field_name' => 'field_ting_search_context',
-		'entity_type' => 'node',
-		'label' => t('Search context'),
-		'description' => t('Rate the node in different contexts.'),
-		'display' => array(
-			'default' => array(
-				'label' => 'hidden',
-				'type' => 'hidden',
-				'settings' => array(),
-			),
-		),
-	);
-	$bundles = unserialize(TING_SEARCH_CONTEXT_NODE_TYPES);
-	foreach ($bundles as $bundle) {
-		if (!field_info_instance('node', 'field_ting_search_context', $bundle)) {
-			$instance = array(
-				'bundle' => $bundle,
-			);
-			field_create_instance($instance + $instance_common);
-		}
-	}*/
 }
 
 /**
