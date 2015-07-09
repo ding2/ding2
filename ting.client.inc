@@ -688,7 +688,8 @@ function ting_execute($request) {
     }
 
     return $response;
-  } catch (TingClientException $e) {
+  }
+  catch (TingClientException $e) {
     if (isset($e->user_message)) {
       drupal_set_message($e->user_message, 'warning');
     }
