@@ -186,7 +186,7 @@ function ding_availability_holdings($provider_ids) {
 
       // check if there are items in acquisition
       foreach ($item['holdings'] as $holding) {
-        $item['ordered_count'] += $holding['ordered_count'];
+        $item['ordered_count'] += (isset($holding['ordered_count'])) ? (int) $holding['ordered_count'] : 0;
       }
       // if yes, add a column
       if ($item['ordered_count']) {
