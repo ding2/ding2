@@ -12,7 +12,7 @@
 $total_text = format_plural($total_count, 'We have 1 copy.', 'We have @count copies.', array('@count' => $total_count));
 $reserved_text = format_plural($reserved_count, 'There is 1 user in queue to loan the material.', 'There are @count users in queue to loan the material.');
 $acquisition_text = '';
-if ( $ordered_count ) {
+if ($ordered_count) {
   $acquisition_text = format_plural($ordered_count, '1 copy in acquisition.', '@count copies are in acquisition.', array('@count' => $ordered_count));
 }
 ?>
