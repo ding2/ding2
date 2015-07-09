@@ -304,6 +304,7 @@ class TingEntity extends DingEntity {
               // Give ting_proxy a change to rewrite the url.
               drupal_alter('ting_online_url', $url, $this);
             }
+
           }
         }
       }
@@ -314,6 +315,10 @@ class TingEntity extends DingEntity {
       $url = $this->reply->record['dc:identifier']['dcterms:URI'][0];
       // Give ting_proxy a change to rewrite the url.
       drupal_alter('ting_online_url', $url, $this);
+    }
+
+    if(strpos($url, '[useraccessinfomedia]') === 0){
+      drupal_alter('infomedia_url', $url, $this);
     }
 
     return $url;
