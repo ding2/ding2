@@ -290,3 +290,10 @@ function ding2_update_7010() {
     secure_permissions_build_permissions();
   }
 }
+
+/**
+ * Enable maintenance_mode_api module.
+ */
+function ding2_update_7011() {
+  module_enable(array('maintenance_mode_api'));
+}
