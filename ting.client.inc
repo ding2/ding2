@@ -662,7 +662,6 @@ function ting_execute($request) {
     $request->setParameters($params);
   }
 
-
   try {
     timer_start('ting');
     $res = ting_get_client()->execute($request);
