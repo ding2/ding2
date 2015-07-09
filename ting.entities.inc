@@ -304,7 +304,6 @@ class TingEntity extends DingEntity {
               // Give ting_proxy a change to rewrite the url.
               drupal_alter('ting_online_url', $url, $this);
             }
-
           }
         }
       }
