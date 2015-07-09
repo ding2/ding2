@@ -317,10 +317,6 @@ class TingEntity extends DingEntity {
       drupal_alter('ting_online_url', $url, $this);
     }
 
-    if(strpos($url, '[useraccessinfomedia]') === 0){
-      drupal_alter('infomedia_url', $url, $this);
-    }
-
     return $url;
   }
 
