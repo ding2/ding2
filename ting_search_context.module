@@ -460,7 +460,7 @@ function ting_search_context_image_default_styles() {
           'name' => 'image_scale_and_crop',
           'data' => array(
             'width' => '540',
-            'height' => '370',
+            'height' => '405',
           ),
           'weight' => '1',
         ),

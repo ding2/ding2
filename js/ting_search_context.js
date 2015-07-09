@@ -17,6 +17,24 @@
 
     var carousel = null;
     var content;
+    var pane;
+    var carousel_configs = {
+      configs: [],
+
+      add: function (selector, config) {
+        this.configs.push([selector, config]);
+      },
+
+      find: function (selector) {
+        var val;
+        $.each(this.configs, function (index, value) {
+          if (value[0] === selector) {
+            val = value[1];
+          }
+        });
+        return val;
+      }
+    };
 
 
 
@@ -41,8 +59,8 @@
     }
 
     /**
-     * Private: Select carousel-posistion on page based on variable in Drupal.settings.
-     * Sets the carousel element.
+     * Private: Sets the carousel element based on position-variable in Drupal.settings.
+     * .
      */
     function _set_element() {
       var position = Drupal.settings.ting_search_context_position;
@@ -50,9 +68,21 @@
       $('.pane-search-context').each(function(index) {
 
         if ($(this).hasClass(position)) {
+          pane = $(this);
           carousel = $(this).find('.rs-carousel-items');
         }
       });
+    }
+
+    /**
+     * Private: Sets position-specific options for the carousel.
+     *
+     */
+    function _update_options() {
+      var position = Drupal.settings.ting_search_context_position;
+
+      var config = carousel_configs.find(position);
+      carousel.carousel('option', config);
     }
 
     /**
@@ -81,6 +111,17 @@
      */
     function init() {
 
+      // Initialize carousel configurations pr. position
+      carousel_configs.add('js-above-search-result', {
+        orientation: 'horizontal'
+      });
+      carousel_configs.add('js-below-search-result', {
+        orientation: 'horizontal'
+      });
+      carousel_configs.add('js-below-facets', {
+        orientation: 'vertical'
+      });
+
       // Pick and set the carousel element.
       _set_element();
 
@@ -89,12 +130,19 @@
         return;
       }
 
+      pane.show();
+
+
+
       // Start the carousel.
       carousel.carousel({
         noOfRows: 1,
         orientation: 'horizontal',
         itemsPerTransition: 'auto'
       });
+
+      // Update postion-specifik carousel options
+      _update_options();
 
       // Fetch content for the carousel.
       _fetch();

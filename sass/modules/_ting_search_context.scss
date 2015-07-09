@@ -13,10 +13,11 @@ $carousel-active-tab-background-color:     $black;
 $carousel-tab-color:                       $white;
 
 
-.pane-search-context {
+/* Pane, wrapper and inner
+ ========================================================================== */
 
-  /* Wrapper, load and inner
-   ========================================================================== */
+.pane-search-context {
+  display: none;
 
   .rs-carousel-wrapper {
     @include zen-grid-container;
