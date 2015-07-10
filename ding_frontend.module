@@ -112,3 +112,16 @@ function ding_frontend_query_alter($query) {
     }
   }
 }
+
+/**
+ * Implements hook_change_maintenance_mode().
+ *
+ * @param Boolean $maintenance_mode
+ * TRUE if the site is being set into maintenance mode.
+ * FALSE if maintenance mode is being deactivated.
+ *
+ * Clear page cache if maintainance status has changed.
+ */
+function ding_frontend_change_maintenance_mode($maintenance_mode) {
+  cache_clear_all(NULL, 'cache_page');
+}
