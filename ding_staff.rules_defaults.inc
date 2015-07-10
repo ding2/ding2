@@ -24,5 +24,22 @@ function ding_staff_default_rules_configuration() {
       ]
     }
   }');
+  $items['rules_when_profile2_is_updated'] = entity_import('rules_config', '{ "rules_when_profile2_is_updated" : {
+      "LABEL" : "When profile2 is updated",
+      "PLUGIN" : "reaction rule",
+      "OWNER" : "rules",
+      "REQUIRES" : [ "realname", "cache_actions", "profile2" ],
+      "ON" : { "profile2_insert" : [], "profile2_update" : [] },
+      "DO" : [
+        { "user_realname_update" : { "account" : [ "profile2:user" ] } },
+        { "cache_actions_action_clear_cache_cid" : {
+            "bin" : "cache_entity_user",
+            "cid" : [ "profile2:user:uid" ],
+            "wildcard" : 0
+          }
+        }
+      ]
+    }
+  }');
   return $items;
 }
