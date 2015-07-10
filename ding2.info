@@ -39,5 +39,6 @@ dependencies[] = bpi
 ; Cache/performance modules
 dependencies[] = entitycache
 dependencies[] = ding_varnish
+dependencies[] = maintenance_mode_api
 
 files[] = ding2.profile
