@@ -689,6 +689,9 @@ function ting_execute($request) {
     return $response;
   }
   catch (TingClientException $e) {
+    if (isset($e->user_message)) {
+      drupal_set_message($e->user_message, 'warning');
+    }
     timer_stop('ting');
     watchdog('ting client', 'Error performing request: ' . $e->getMessage(), NULL, WATCHDOG_ERROR, 'http://' . $_SERVER["HTTP_HOST"] . request_uri());
     return FALSE;
