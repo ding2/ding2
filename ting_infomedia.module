@@ -28,7 +28,7 @@ function ting_infomedia_menu() {
  */
 function ting_infomedia_view($id) {
   global $user;
-  if( !ding_user_is_provider_user($user)){
+  if (!ding_user_is_provider_user($user)) {
     drupal_set_message(t('Please log in to read infomedia articles'), 'warning');
     return array(
       '#prefix' => '<div class="infomedia_error">',
@@ -38,7 +38,7 @@ function ting_infomedia_view($id) {
   }
 
   $render_array = ting_infomedia_parse_article($id);
-return array(
+  return array(
     '#markup' => '<div id="article-wrapper">' . render($render_array). '</div>',
     '#theme' => 'ting_infomedia_article',
     '#attached' => array(
@@ -71,17 +71,21 @@ function ting_infomedia_theme($existing, $type, $theme, $path) {
   return $render_array;
 }
 
+
 /**
- * Implements infomedia_url_alter (@see ting.entities.inc::getOnline_url
+ * Implements ting_online_url (@see ting.entities.inc::getOnline_url
  *
  * @param $url
  *   The original url.
  * @param $entity *
  *   The entity the url belongs to.
  */
-function ting_infomedia_infomedia_url_alter(&$url, $entity){
-  $url = ting_infomedia_parse_url($url);
+function ting_infomedia_ting_online_url_alter(&$url, $entity) {
+  if (strpos($url, '[useraccessinfomedia]') === 0) {
+    $url = ting_infomedia_parse_url($url);
+  }
 }
+
 
 /**
  * Alter infomedia url.
@@ -91,15 +95,16 @@ function ting_infomedia_infomedia_url_alter(&$url, $entity){
  * @return string
  *   The modified url.
  */
-function ting_infomedia_parse_url($url){
+function ting_infomedia_parse_url($url) {
+  global $user;
+  $parts = array();
   $url = parse_url($url, PHP_URL_QUERY);
   parse_str($url, $parts);
-  global $user;
-  if(!ding_user_is_provider_user($user)) {
+  if (!ding_user_is_provider_user($user)) {
     // IF user is not logged in the login-box should be shown.
-    return 'infomedia/' . $parts['faust'].'#login';
+    return url('ting/object/infomedia/' . $parts['faust'], array('fragment' => 'login', 'absolute' => TRUE));
   }
-  return 'infomedia/' . $parts['faust'];
+  return url('ting/object/infomedia/' . $parts['faust'], array('absolute' => TRUE));
 }
 
 /**
@@ -107,7 +112,7 @@ function ting_infomedia_parse_url($url){
  */
 function ting_infomedia_strip_path($path) {
   $parts = explode('/', $path);
-  if( isset($parts[0]) && isset($parts[1]) ) {
+  if ( isset($parts[0]) && isset($parts[1]) ) {
     return $parts[0] . '/' . $parts[1];
   }
   return FALSE;
@@ -179,7 +184,6 @@ function ting_infomedia_parse_article($id) {
  * return string; if no errors an empty, if errors html-formatted with error string
  */
 function ting_infomedia_parse_for_errors(TingClientInfomediaResult $result, &$error = FALSE) {
-  $hest = drupal_get_messages();
   if ($result->error) {
     watchdog('infomedia', $result->error, array(), WATCHDOG_ERROR);
     drupal_set_message(t('Internal error please try again later'), 'warning');
