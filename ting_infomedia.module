@@ -29,6 +29,7 @@ function ting_infomedia_menu() {
 function ting_infomedia_view($id) {
   global $user;
   if (!ding_user_is_provider_user($user)) {
+    // It's a requirement that the user is a user in the library system (the credentials will be checked in the Infomedia webservice).
     drupal_set_message(t('Please log in to read infomedia articles'), 'warning');
     return array(
       '#prefix' => '<div class="infomedia_error">',
