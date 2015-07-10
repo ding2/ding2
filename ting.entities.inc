@@ -300,8 +300,8 @@ class TingEntity extends DingEntity {
           if ($data->relationType == 'dbcaddi:hasOnlineAccess') {
             $url = preg_replace('/^\[URL\]/', '', $data->relationUri);
             // Check for correct url - some uri is only an id.
-            if (stripos($url, 'http') === 0) {
-              // Give ting_proxy a change to rewrite the url.
+            if (stripos($url, 'http') === 0 || strpos($url, '[useraccessinfomedia]') === 0) {
+              // Give ting_proxy and ting_infomedia a change to rewrite the url.
               drupal_alter('ting_online_url', $url, $this);
             }
           }
