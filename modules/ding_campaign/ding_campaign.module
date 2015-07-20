@@ -201,6 +201,7 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
         $current['#text'] = array(
           '#markup' => is_array($text) ? $text['safe_value'] : $text,
         );
+        unset($current['#link']);
       }
 
       // Get image.
@@ -221,7 +222,6 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
           $current['#image'] = $current['#link'];
           $current['#image']['#text'] = drupal_render($image);
           $current['#image']['#options']['html'] = TRUE;
-          unset($current['#link']);
         }
       }
       // Get weight.
