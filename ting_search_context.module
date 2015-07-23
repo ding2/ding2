@@ -235,6 +235,18 @@ function ting_search_context_get_nodes($context_id, $count = 5, $node_types = 'a
 }
 
 /**
+ * Implements hook_node_delete().
+ *
+ * When a node is deleted, ensure that any associated ratings is deleted from
+ * the database.
+ */
+function ting_search_context_node_delete($node) {
+  db_delete('ting_search_context_nodes_rated')
+    ->condition('nid', $node->nid)
+    ->execute();
+}
+
+/**
  * Saves a node rating in the database
  *
  * @param int $context_id
@@ -351,7 +363,11 @@ function ting_search_context_get_context_id($type, $context, $subject = NULL) {
 }
 
 /**
- * Get all contexts.
+ * Get all contexts in the system or all context of a specific type if the
+ * $type parameter is supplied.
+ *
+ * @param string $type (optional)
+ *   Constrain the returned contexts to a specific type.
  *
  * @return mixed
  *   Array representing the context.
@@ -359,8 +375,13 @@ function ting_search_context_get_context_id($type, $context, $subject = NULL) {
  *
  * @see ting_search_context_schema()
  */
-function ting_search_context_get_all_contexts() {
+function ting_search_context_get_all_contexts($type = NULL) {
 	$query = db_select('ting_search_context_contexts', 'tsc')
 		->fields('tsc');
+
+  if (isset($type)) {
+    $query->condition('tsc', $type);
+  }
+
 	return $query->execute()->fetchAll();
 }
