@@ -42,6 +42,16 @@ function ting_search_context_theme($existing, $type, $theme, $path) {
       'template'  => 'ting-search-context',
       'path' => $path . '/templates',
     ),
+    'views_view_field__ting_search_context_rate_nodes__title' => array(
+      'variables' => array('view' => NULL, 'options' => NULL, 'row' => NULL),
+      'template' => 'views-view-field--ting-search-context-rate-nodes--title',
+      'base hook' => 'views_views_field',
+      'path' => $path . '/templates',
+      'preprocess functions' => array(
+        'template_preprocess',
+        'template_preprocess_views_view_field',
+      ),
+    ),
   );
 }
 
