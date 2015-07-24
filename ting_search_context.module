@@ -506,15 +506,65 @@ function ting_search_context_get_context_id($type, $context, $subject = NULL) {
 }
 
 /**
- * Get all contexts in the system or all context of a specific type if the
+ * Loads a single context from the database.
+ *
+ * @param int $context_id
+ *   The ID of context to fetch.
+ * @param boolean $reset
+ *   Whether to reset the internal context cache.
+ */
+function ting_search_context_load($context_id = NULL, $reset = FALSE) {
+  $context_ids = isset($context_id) ? array($context_id) : array();
+  $context = ting_search_context_load_multiple($context_ids, $reset);
+  return reset($context);
+}
+
+/**
+ * Loads multiple contexts from the database.
+ *
+ * @param array $context_ids
+ *   An array of Context IDs.
+ * @param boolean $reset
+ *   Whether to reset the internal context cache.
+ *
+ * @return array
+ *   An array of context objects keyed by context_id.
+ *   Empty array if nothing was found.
+ */
+function ting_search_context_load_multiple($context_ids = array(), $reset = FALSE) {
+  // First consult the static cache
+  $cached_contexts = &drupal_static(__FUNCTION__);
+
+  // Ensure $cached_contexts is initialized as array
+  // Initialize array if a cache reset was requested.
+  if (!isset($cached_contexts) || $reset) {
+    $cached_contexts = array();
+  }
+
+  // Determine if we have to query the datatbase
+  $missing = array_diff($context_ids, array_keys($cached_contexts));
+
+  // Get the contexts that wasn't found in the static cache
+  if (!empty($missing)) {
+    $cached_contexts += db_select('ting_search_context_contexts', 'tsc')
+      ->fields('tsc')
+      ->condition('tsc.context_id', $missing, 'IN')
+      ->execute()->fetchAllAssoc('context_id');
+  }
+
+  return array_intersect_key($cached_contexts, array_flip($context_ids));
+}
+
+/**
+ * Get all contexts in the system or all contexts of a specific type if the
  * $type parameter is supplied.
  *
  * @param string $type (optional)
  *   Constrain the returned contexts to a specific type.
  *
- * @return mixed
+ * @return array
  *   Array representing the context.
- *   FALSE if no match.
+ *   Empty array if nothing was found.
  *
  * @see ting_search_context_schema()
  */
