@@ -10,11 +10,13 @@
 define('TING_SEARCH_CONTEXT_PATH', drupal_get_path('module', 'ting_search_context'));
 define('TING_SEARCH_CONTEXT_MAX_RATING', 10);
 
+include_once 'ting_search_context.features.inc';
+
 /**
  * Implements hook_menu().
  */
 function ting_search_context_menu() {
-	$items['admin/content/ting-search-context'] = array(
+	/*$items['admin/content/ting-search-context'] = array(
 		'title' => 'Search context',
 		'description' => t('Manage the state of the context rating system.'),
 		'page callback' => 'drupal_get_form',
@@ -22,7 +24,7 @@ function ting_search_context_menu() {
 		'access arguments' => array('administer content'), // Todo: Make own permission?
 		'type' => MENU_LOCAL_TASK | MENU_NORMAL_ITEM,
 		'file' => 'ting_search_context.admin.inc',
-	);
+	);*/
   $items['ting/searchcontext/ajax'] = array(
     'title' => 'Get search context blog post list',
     'page callback' => 'ting_search_context_ajax_get_blogposts',
