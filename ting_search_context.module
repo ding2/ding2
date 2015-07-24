@@ -125,11 +125,153 @@ function ting_search_context_get_image_field_name($node) {
   return '';
 }
 
+/**
+ * Implements hook_action_info().
+ */
+function ting_search_context_action_info() {
+  return array(
+    'ting_search_context_rate_node_action' => array(
+      'type' => 'node',
+      'label' => t('Rate a node in the Ting search context rating system'),
+      'configurable' => TRUE,
+      'vbo_configurable' => TRUE,
+      'triggers' => array('any'),
+    ),
+  );
+}
 
-function ting_search_context_init() {
-  $cid = ting_search_context_get_context_id('search', 'Disse ØjebLIKKe er en god bog');
+/**
+ * Callback for our rate node action.
+ */
+function ting_search_context_rate_node_action(&$node, $context) {
+  $search_context = ting_search_context_load($context['context']);
+  $rating = $context['rating'];
 
-  file_put_contents("/home/drupalpro/debug/debug.txt", print_r($cid, TRUE), FILE_APPEND);
+  // Perform the rating
+  ting_search_context_rate_node($search_context->context_id, $node->nid, $rating);
+
+  $message = t('Rated %node in %context with a rating of %rating', array(
+    '%node' => $node->title,
+    '%context' => $search_context->name,
+    '%rating' => $rating,
+  ));
+  drupal_set_message($message);
+}
+
+/**
+ * Form builder for VBO per-bulk configuration form and Drupal core standard
+ * advanced action form. Enables administrators to select the context and rating
+ * for the nodes.
+ */
+function ting_search_context_rate_node_action_form($settings, &$form_state = NULL) {
+  // Setup options arrays for the select-boxes
+  $contexts = ting_search_context_get_all_contexts();
+  $context_options = array();
+  foreach ($contexts as $context) {
+    $context_options[$context->context_id] = $context->name;
+  }
+  $rating_options = drupal_map_assoc(range(1, TING_SEARCH_CONTEXT_MAX_RATING));
+
+  $form_context = array(
+    '#type' => 'select',
+    '#options' => $context_options,
+    '#empty_option' => t('- Choose a context -'),
+    '#default_value' => isset($settings['context']) ? $settings['context'] : '',
+    '#required' => TRUE,
+  );
+  $form_rating = array(
+    '#type' => 'select',
+    '#options' => $rating_options,
+    '#empty_option' => t('- Choose a rating -'),
+    '#default_value' => isset($settings['rating']) ? $settings['rating'] : '',
+    '#required' => TRUE,
+  );
+
+  $form = array();
+
+  // This is VBO per-bulk configuration form since form_state parameter is
+  // passed. In this case we provide a special more user friendly form with
+  // the selected nodes displayed.
+  if (isset($form_state) && !empty($form_state['selection'])) {
+    $form['rating'] = $form_rating;
+    $form['rating']['#prefix'] = '<h3>' . t('In what degree (rating):') . '</h3>';
+    $selected_nodes = node_load_multiple($form_state['selection']);
+    $items = array();
+    foreach ($selected_nodes as $node) {
+      $items[] = l(check_plain($node->title), 'node/' . $node->nid);
+    }
+    $form['selected_nodes'] = array(
+      '#theme' => 'item_list',
+      '#items' => $items,
+      '#title' => t('Does the following content:'),
+    );
+    $form['context'] = $form_context;
+    $form['context']['#prefix'] = '<h3 class="context-header">' . t('Relate to:') . '</h3>';
+  }
+  // Else it's an advanced action form and we just return a standard form with
+  // 2 select-boxes.
+  else {
+    $form['context']['#title'] = t('Context');
+    $form['rating']['#title'] = t('Rating');
+    $form['context'] = $form_context;
+    $form['rating'] = $form_rating;
+  }
+
+  return $form;
+}
+
+/**
+ * Submit function for the rate node action form.
+ */
+function ting_search_context_rate_node_action_submit($form, &$form_state) {
+  $return = array();
+  $return['context'] = $form_state['values']['context'];
+  $return['rating'] = $form_state['values']['rating'];
+  return $return;
+}
+
+/**
+ * Implements hook_views_bulk_operations_form_alter().
+ */
+function ting_search_context_views_bulk_operations_form_alter(&$form, &$form_state, $vbo) {
+  // Always include our custom admin CSS.
+  $path = drupal_get_path('module', 'ting_search_context');
+  $form['#attached']['css'][] = $path . '/css/ting_search_context.admin.css';
+
+  if ($form_state['step'] == 'views_bulk_operations_confirm_form') {
+    $context = ting_search_context_load($form_state['values']['context']);
+    $rating = $form_state['values']['rating'];
+
+    // Since VBO isn't using render array for the confirm form, it's very
+    // unpractically to override the text on it. Hence, we just unset the
+    // description and add our own form-elements to the confirm form.
+    unset($form['description']);
+
+    $selected_nodes = node_load_multiple($form_state['selection']);
+    $items = array();
+    foreach ($selected_nodes as $node) {
+      $items[] = l(check_plain($node->title), 'node/' . $node->nid);
+    }
+    $form['selected_nodes'] = array(
+      '#theme' => 'item_list',
+      '#items' => $items,
+      '#title' => t('You selected the following content:')
+    );
+    $form['selected_context'] = array(
+      '#theme' => 'html_tag',
+      '#tag' => 'h3',
+      '#value' => t('To be rated in the context: %context', array(
+        '%context' => $context->name,
+      )),
+    );
+    $form['selected_rating'] = array(
+      '#theme' => 'html_tag',
+      '#tag' => 'h3',
+      '#value' => t('With a rating of: %rating', array(
+        '%rating' => $rating,
+      )),
+    );
+  }
 }
 
 /**
