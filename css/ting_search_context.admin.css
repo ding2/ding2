@@ -1,0 +1,58 @@
+/**
+ * Consistent styling of our VBO view used to rate nodes.
+ * Borrowed from the Administrative Views module (admin_views).
+ */
+.view-ting-search-context-rate-nodes .views-exposed-form .form-text {
+  width: 10em;
+}
+
+.view-ting-search-context-rate-nodes .views-exposed-form .description {
+  display: none;
+}
+
+.view-ting-search-context-rate-nodes .views-exposed-form .views-submit-button,
+.view-ting-search-context-rate-nodes .views-exposed-form .views-reset-button {
+  padding-right: 0;
+}
+
+.view-ting-search-context-rate-nodes .form-item-operation {
+  float: left;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: 1em;
+}
+
+.view-ting-search-context-rate-nodes .views-exposed-widget.views-submit-button,
+.view-ting-search-context-rate-nodes .views-exposed-widget.views-reset-button {
+  margin-top: 6px;
+}
+
+.view-ting-search-context-rate-nodes .form-submit {
+  margin-top: 8px;
+}
+
+/**
+ * Styling of the select nodes list on per-bulk configuration form and the
+ * VBO confirm form (make it horizontal).
+ */
+.view-ting-search-context-rate-nodes .item-list ul {
+  margin-left: 0;
+}
+
+.view-ting-search-context-rate-nodes ul li {
+  display: inline;
+  list-style-type: none;
+}
+
+.view-ting-search-context-rate-nodes ul li:after {
+  content: " - ";
+}
+
+.view-ting-search-context-rate-nodes ul li:last-of-type:after {
+  content: "";
+}
+
+.view-ting-search-context-rate-nodes .context-header {
+  margin-top: 19px;
+}
+
