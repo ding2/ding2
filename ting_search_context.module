@@ -282,11 +282,10 @@ function ting_search_context_views_bulk_operations_form_alter(&$form, &$form_sta
  * with a rating of 1.
  * Note that nodes with a max rating of 10 will always be preferred over nodes
  * with lesser rating. This allows administrators to push very relevant content
- * to the users, giving them some control over the selection process. This has
+ * to the users, giving them more control over the selection process. This has
  * one limitation: if there's more nodes with max rating than requested by
  * $count, the nodes to return will be selected randomly with even probability
  * between the max rated nodes.
- *
  *
  * @param int $context_id
  *   The ID of the context to search in.
