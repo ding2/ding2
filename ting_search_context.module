@@ -573,7 +573,7 @@ function ting_search_context_get_all_contexts($type = NULL) {
 		->fields('tsc');
 
   if (isset($type)) {
-    $query->condition('tsc', $type);
+    $query->condition('tsc.type', $type);
   }
 
 	return $query->execute()->fetchAll();
