@@ -192,6 +192,10 @@ projects[module_filter][version] = "1.8"
 projects[memcache][subdir] = "contrib"
 projects[memcache][version] = "1.0"
 
+projects[panels][subdir] = "contrib"
+projects[panels][version] = "3.3"
+projects[panels][patch][] =  "http://drupal.org/files/1649046-form-wrapper-is-where-form-is-now.patch"
+
 projects[profile2][subdir] = "contrib"
 projects[profile2][version] = "1.3"
 
