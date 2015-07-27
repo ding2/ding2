@@ -182,6 +182,9 @@ projects[feeds][version] = "2.0-alpha8"
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-alpha3"
 
+projects[flag][subdir] = "contrib"
+projects[flag][version] = "2.2"
+
 projects[fontyourface][subdir] = "contrib"
 projects[fontyourface][version] = "2.7"
 
