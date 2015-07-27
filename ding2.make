@@ -124,6 +124,11 @@ projects[ddbasic][download][url] = "git@github.com:ding2/ddbasic.git"
 projects[ddbasic][download][branch] = "master"
 
 ; Libraries
+libraries[bpi-client][destination] = "modules/bpi/lib"
+libraries[bpi-client][download][type] = "git"
+libraries[bpi-client][download][url] = "git@github.com:ding2/bpi-client.git"
+libraries[bpi-client][download][branch] = "master"
+
 libraries[profiler][download][type] = "git"
 libraries[profiler][download][url] = "http://git.drupal.org/project/profiler.git"
 libraries[profiler][download][branch] = "7.x-2.0-beta1"
@@ -142,22 +147,47 @@ projects[ding_dummy_provider][download][url] = "git@github.com:ding2/ding_dummy_
 projects[ding_dummy_provider][download][branch] = "master"
 
 ; Contrib modules
+projects[admin_views][subdir] = "contrib"
+projects[admin_views][version] = "1.4"
+
 projects[apc][subdir] = "contrib"
 projects[apc][version] = "1.0-beta4"
+
+projects[date][subdir] = "contrib"
+projects[date][version] = "2.8"
+
+projects[email][subdir] = "contrib"
+projects[email][version] = "1.3"
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = "1.2"
 # https://drupal.org/node/2146543, profile 2 blank fields.
 projects[entitycache][patch][0] = "http://drupal.org/files/issues/2146543-ensure-entity-inserts-clears-caches.1.patch"
 
+projects[features][subdir] = "contrib"
+projects[features][version] = "2.0"
+
+projects[file_entity][subdir] = "contrib"
+projects[file_entity][version] = "2.0-alpha3"
+
 projects[fontyourface][subdir] = "contrib"
 projects[fontyourface][version] = "2.7"
+
+; This version of media is tested to work with both images and videos.
+projects[media][type] = "module"
+projects[media][subdir] = "contrib"
+projects[media][download][type] = "git"
+projects[media][download][url] = "http://git.drupal.org/project/media.git"
+projects[media][download][revision] = "c3cda2b"
 
 projects[module_filter][subdir] = "contrib"
 projects[module_filter][version] = "1.8"
 
 projects[memcache][subdir] = "contrib"
 projects[memcache][version] = "1.0"
+
+projects[profile2][subdir] = "contrib"
+projects[profile2][version] = "1.3"
 
 projects[sslproxy][subdir] = "contrib"
 projects[sslproxy][version] = "1.0"
@@ -174,11 +204,18 @@ projects[uuid][download][type] = "git"
 projects[uuid][download][url] = "http://git.drupal.org/project/uuid.git"
 projects[uuid][download][revision] = "3f4d9fb"
 
+projects[virtual_field][subdir] = "contrib"
+projects[virtual_field][version] = "1.2"
+
 # Development version where the "unpublished" status have been fixed on the content edit page.
 projects[view_unpublished][subdir] = "contrib"
 projects[view_unpublished][download][type] = "git"
 projects[view_unpublished][download][url] = "http://git.drupal.org/project/view_unpublished.git"
 projects[view_unpublished][download][revision] = "e9df1d3"
+
+projects[workflow][subdir] = "contrib"
+projects[workflow][version] = "2.5"
+projects[workflow][patch][] = "http://www.drupal.org/files/issues/features_import-2484297-10.patch"
 
 projects[maintenance_mode_api][subdir] = "contrib"
 projects[maintenance_mode_api][version] = "1.0-beta1"
