@@ -167,11 +167,17 @@ projects[entitycache][patch][0] = "http://drupal.org/files/issues/2146543-ensure
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.0"
 
+projects[feeds][subdir] = "contrib"
+projects[feeds][version] = "2.0-alpha8"
+
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-alpha3"
 
 projects[fontyourface][subdir] = "contrib"
 projects[fontyourface][version] = "2.7"
+
+projects[job_scheduler][subdir] = "contrib"
+projects[job_scheduler][version] = "2.0-alpha3"
 
 ; This version of media is tested to work with both images and videos.
 projects[media][type] = "module"
