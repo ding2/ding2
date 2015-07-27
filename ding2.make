@@ -188,6 +188,12 @@ projects[flag][version] = "2.2"
 projects[fontyourface][subdir] = "contrib"
 projects[fontyourface][version] = "2.7"
 
+projects[formblock][type] = "module"
+projects[formblock][subdir] = "contrib"
+projects[formblock][download][type] = "git"
+projects[formblock][download][url] = "http://git.drupal.org/project/formblock.git"
+projects[formblock][download][revision] = "2d94c83"
+
 projects[globalredirect][subdir] = "contrib"
 projects[globalredirect][version] = "1.5"
 projects[globalredirect][patch][] = "http://drupal.org/files/language_redirect_view_node-1399506-2.patch"
