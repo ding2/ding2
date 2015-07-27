@@ -129,6 +129,11 @@ libraries[bpi-client][download][type] = "git"
 libraries[bpi-client][download][url] = "git@github.com:ding2/bpi-client.git"
 libraries[bpi-client][download][branch] = "master"
 
+libraries[ckeditor][download][type] = "get"
+libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.7/ckeditor_4.4.7_full.zip
+libraries[ckeditor][directory_name] = "ckeditor"
+libraries[ckeditor][destination] = "libraries"
+
 libraries[profiler][download][type] = "git"
 libraries[profiler][download][url] = "http://git.drupal.org/project/profiler.git"
 libraries[profiler][download][branch] = "7.x-2.0-beta1"
@@ -156,6 +161,9 @@ projects[apc][version] = "1.0-beta4"
 projects[autologout][subdir] = "contrib"
 projects[autologout][version] = "4.3"
 
+projects[cache_actions][subdir] = "contrib"
+projects[cache_actions][version] = "2.0-alpha5"
+
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.5"
 
@@ -168,6 +176,9 @@ projects[diff][version] = "3.2"
 projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
 
+projects[entity][subdir] = "contrib"
+projects[entity][version] = "1.5"
+
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = "1.2"
 # https://drupal.org/node/2146543, profile 2 blank fields.
@@ -175,6 +186,9 @@ projects[entitycache][patch][0] = "http://drupal.org/files/issues/2146543-ensure
 
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.0"
+
+projects[features_extra][subdir] = "contrib"
+projects[features_extra][version] = "1.0-beta1"
 
 projects[feeds][subdir] = "contrib"
 projects[feeds][version] = "2.0-alpha8"
@@ -198,6 +212,9 @@ projects[globalredirect][subdir] = "contrib"
 projects[globalredirect][version] = "1.5"
 projects[globalredirect][patch][] = "http://drupal.org/files/language_redirect_view_node-1399506-2.patch"
 
+projects[image_resize_filter][subdir] = "contrib"
+projects[image_resize_filter][version] = "1.14"
+
 projects[job_scheduler][subdir] = "contrib"
 projects[job_scheduler][version] = "2.0-alpha3"
 
@@ -210,12 +227,27 @@ projects[media][subdir] = "contrib"
 projects[media][download][type] = "git"
 projects[media][download][url] = "http://git.drupal.org/project/media.git"
 projects[media][download][revision] = "c3cda2b"
+; Fixed issue where "insert" fails, see https://www.drupal.org/node/2184475.
+projects[media][patch][] = "https://www.drupal.org/files/issues/media_popup_trigger_some_js-2184475-6.patch"
+
+projects[media_vimeo][subdir] = "contrib"
+projects[media_vimeo][version] = "2.0-rc1"
+
+projects[media_youtube][type] = "module"
+projects[media_youtube][subdir] = "contrib"
+projects[media_youtube][download][type] = "git"
+projects[media_youtube][download][url] = "http://git.drupal.org/project/media_youtube.git"
+projects[media_youtube][download][revision] = "ca46aba"
+projects[media_youtube][patch][] = "http://drupal.org/files/issues/provide-access-wrapper-1823376-6.patch"
 
 projects[module_filter][subdir] = "contrib"
 projects[module_filter][version] = "1.8"
 
 projects[memcache][subdir] = "contrib"
 projects[memcache][version] = "1.0"
+
+projects[node_clone][subdir] = "contrib"
+projects[node_clone][version] = "1.0-rc2"
 
 projects[og][subdir] = "contrib"
 projects[og][version] = "2.7"
@@ -230,14 +262,19 @@ projects[og_menu][version] = "3.0-rc5"
 projects[og_menu][patch][0] = "http://drupal.org/files/issues/selector_not_found-2276951-2.patch"
 
 projects[panels][subdir] = "contrib"
-projects[panels][version] = "3.3"
-projects[panels][patch][] =  "http://drupal.org/files/1649046-form-wrapper-is-where-form-is-now.patch"
+projects[panels][version] = "3.4"
 
 projects[pathauto][subdir] = "contrib"
 projects[pathauto][version] = "1.2"
 
 projects[profile2][subdir] = "contrib"
 projects[profile2][version] = "1.3"
+
+projects[rules][subdir] = "contrib"
+projects[rules][version] = "2.7"
+
+projects[similarterms][subdir] = "contrib"
+projects[similarterms][version] = "2.3"
 
 projects[sslproxy][subdir] = "contrib"
 projects[sslproxy][version] = "1.0"
@@ -266,15 +303,28 @@ projects[uuid][download][revision] = "3f4d9fb"
 projects[virtual_field][subdir] = "contrib"
 projects[virtual_field][version] = "1.2"
 
+projects[views][subdir] = "contrib"
+projects[views][version] = "3.8"
+
 # Development version where the "unpublished" status have been fixed on the content edit page.
 projects[view_unpublished][subdir] = "contrib"
 projects[view_unpublished][download][type] = "git"
 projects[view_unpublished][download][url] = "http://git.drupal.org/project/view_unpublished.git"
 projects[view_unpublished][download][revision] = "e9df1d3"
 
+projects[workbench][subdir] = "contrib"
+projects[workbench][version] = "1.2"
+
 projects[workflow][subdir] = "contrib"
 projects[workflow][version] = "2.5"
 projects[workflow][patch][] = "http://www.drupal.org/files/issues/features_import-2484297-10.patch"
+
+; This revision support the CKEditor 4.x, and can be used until a new version is tagged.
+projects[wysiwyg][type] = "module"
+projects[wysiwyg][subdir] = "contrib"
+projects[wysiwyg][download][type] = "git"
+projects[wysiwyg][download][url] = "http://git.drupal.org/project/wysiwyg.git"
+projects[wysiwyg][download][revision] = "7981731f4f3db2f932419499d2ec13a073e9b88f"
 
 projects[maintenance_mode_api][subdir] = "contrib"
 projects[maintenance_mode_api][version] = "1.0-beta1"
