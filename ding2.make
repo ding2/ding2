@@ -153,8 +153,17 @@ projects[admin_views][version] = "1.4"
 projects[apc][subdir] = "contrib"
 projects[apc][version] = "1.0-beta4"
 
+projects[autologout][subdir] = "contrib"
+projects[autologout][version] = "4.3"
+
+projects[ctools][subdir] = "contrib"
+projects[ctools][version] = "1.5"
+
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.8"
+
+projects[diff][subdir] = "contrib"
+projects[diff][version] = "3.2"
 
 projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
@@ -176,8 +185,15 @@ projects[file_entity][version] = "2.0-alpha3"
 projects[fontyourface][subdir] = "contrib"
 projects[fontyourface][version] = "2.7"
 
+projects[globalredirect][subdir] = "contrib"
+projects[globalredirect][version] = "1.5"
+projects[globalredirect][patch][] = "http://drupal.org/files/language_redirect_view_node-1399506-2.patch"
+
 projects[job_scheduler][subdir] = "contrib"
 projects[job_scheduler][version] = "2.0-alpha3"
+
+projects[jquery_update][subdir] = "contrib"
+projects[jquery_update][version] = "2.4"
 
 ; This version of media is tested to work with both images and videos.
 projects[media][type] = "module"
@@ -192,15 +208,39 @@ projects[module_filter][version] = "1.8"
 projects[memcache][subdir] = "contrib"
 projects[memcache][version] = "1.0"
 
+projects[og][subdir] = "contrib"
+projects[og][version] = "2.7"
+projects[og][patch][] = "https://www.drupal.org/files/issues/entityreference_fields_do_not_validate-2249261-10.patch"
+; Fix using organic groups for relationships in views
+; https://www.drupal.org/node/1890370
+projects[og][patch][] = "https://www.drupal.org/files/issues/add-gid-to-relationship-field-1890370-34.patch"
+
+projects[og_menu][subdir] = "contrib"
+projects[og_menu][version] = "3.0-rc5"
+; Fixes JavaScript menu selection in edit node forms.
+projects[og_menu][patch][0] = "http://drupal.org/files/issues/selector_not_found-2276951-2.patch"
+
 projects[panels][subdir] = "contrib"
 projects[panels][version] = "3.3"
 projects[panels][patch][] =  "http://drupal.org/files/1649046-form-wrapper-is-where-form-is-now.patch"
+
+projects[pathauto][subdir] = "contrib"
+projects[pathauto][version] = "1.2"
 
 projects[profile2][subdir] = "contrib"
 projects[profile2][version] = "1.3"
 
 projects[sslproxy][subdir] = "contrib"
 projects[sslproxy][version] = "1.0"
+
+projects[strongarm][subdir] = "contrib"
+projects[strongarm][version] = "2.0"
+
+projects[transliteration][subdir] = "contrib"
+projects[transliteration][version] = "3.2"
+
+projects[token][subdir] = "contrib"
+projects[token][version] = "1.5"
 
 projects[redirect][subdir] = "contrib"
 projects[redirect][version] = "1.0-rc1"
