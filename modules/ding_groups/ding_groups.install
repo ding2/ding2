@@ -1,0 +1,74 @@
+<?php
+/**
+ * @file
+ * Handles installation and un-installation of the node queue used by this
+ * module.
+ *
+ * Also contains update functions to install the node queue on existing sites.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ding_groups_install() {
+  ding_groups_install_nodequeue();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_groups_uninstall() {
+  $queue = nodequeue_load_queue_by_name('ding_groups_listning');
+  nodequeue_delete($queue->qid);
+}
+
+/**
+ * Helper function to create node queue used in groups listing pages.
+ */
+function ding_groups_install_nodequeue() {
+  $nodequeue = new stdClass();
+  $nodequeue->name = 'ding_groups_listning';
+  $nodequeue->title = 'Groups listing';
+  $nodequeue->subqueue_title = '';
+  $nodequeue->owner = 'nodequeue';
+  $nodequeue->api_version = 2;
+  $nodequeue->link = 'Add to listing';
+  $nodequeue->link_remove = 'Remove from listing';
+  $nodequeue->show_in_ui = TRUE;
+  $nodequeue->show_in_tab = TRUE;
+  $nodequeue->show_in_links = FALSE;
+  $nodequeue->i18n = 0;
+  $nodequeue->roles = array();
+  $nodequeue->size = 0;
+  $nodequeue->reverse = 0;
+  $nodequeue->new = TRUE;
+  $nodequeue->types = array(
+    0 => 'ding_group',
+  );
+  $nodequeue->subqueues = array();
+  $nodequeue->submit = 'Submit';
+  $nodequeue->reverse = 0;
+  $nodequeue->reference = 0;
+  $nodequeue->add_subqueue = array(
+    $nodequeue->title,
+  );
+
+  nodequeue_save($nodequeue);
+}
+
+/**
+ * Add groups node queue if it do not exists.
+ */
+function ding_groups_update_7001() {
+  $qids = nodequeue_get_qids('ding_group');
+  if (empty($qids)) {
+    ding_groups_install_nodequeue();
+  }
+}
+
+/**
+ * Add menu-position rule.
+ */
+function ding_groups_update_7002() {
+  ding_groups_install_menu_position();
+}
