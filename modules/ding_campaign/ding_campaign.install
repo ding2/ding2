@@ -1,0 +1,119 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the ding_campaign module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ding_campaign_schema() {
+  $schema = array();
+
+  $schema['ding_campaign'] = array(
+    'description' => 'Table holding campaign types types for easier access',
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'cid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'type' => array(
+        'type' => 'varchar',
+        'length' => 128,
+      ),
+      'weight' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'cid' => array('cid'),
+      'weight' => array('weight'),
+    ),
+  );
+
+  $schema['ding_campaign_rules'] = array(
+    'description' => 'Table for ding campaigns usage',
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'default' => 0,
+      ),
+      'cid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'rule' => array(
+        'type' => 'varchar',
+        'length' => 128,
+      ),
+      'type' => array(
+        'type' => 'varchar',
+        'length' => 128,
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'nid' => array('nid'),
+      'cid' => array('cid'),
+      'rule' => array('rule'),
+      'type' => array('type'),
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_campaign_uninstall() {
+  variable_del('ding_campaign_node_types');
+  drupal_uninstall_schema('ding_campaign');
+}
+
+/**
+ * Remove column 'theme' from table 'ding_campaign'
+ */
+function ding_campaign_update_7001(&$sandbox) {
+  return db_drop_field('ding_campaign', 'theme');
+}
+
+/**
+ * Implements hook_update_N().
+ *
+ * Add pane_id column to table 'ding_campaign'
+ */
+function ding_campaign_update_7002(&$sandbox) {
+  return db_add_field('ding_campaign', 'pane_id', array(
+    'type' => 'int',
+    'not null' => TRUE,
+    'default' => 0,
+  ));
+}
+
+/**
+ * Implements hook_update_N().
+ *
+ * Remove column 'pane_id' from table 'ding_campaign'
+ */
+function ding_campaign_update_7003(&$sandbox) {
+  return db_drop_field('ding_campaign', 'pane_id');
+}
