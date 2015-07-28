@@ -1,0 +1,174 @@
+<?php
+/**
+ * @file
+ * This module tries to create better caching between varnish and drupal by
+ * allowing varnish to cache content type pages based on user roles when users
+ * are logged in.
+ *
+ * This is achieved by using a menu callback and a new header variable
+ * 'X-Drupal-Roles' that varnish can react on. The module uses the 'vary' header
+ * in combination with X headers to allow varnish to cache content based on user
+ * roles.
+ *
+ * The basic idea used in this module is taken form the link below.
+ *
+ * @see http://joshwaihi.com/content/authenticated-page-caching-varnish-drupal
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ding_varnish_menu() {
+  $items = array();
+
+  $items['admin/config/development/varnish/ding'] = array(
+    'title' => 'Ding varnish',
+    'description' => 'Ding varnish communication settings.',
+    'type' => MENU_LOCAL_TASK,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_varnish_settings_form'),
+    'access arguments' => array('administer varnish'),
+    'file' => 'includes/ding_varnish.admin.inc',
+  );
+
+  // This callback is used to get the current users roles.
+  $items['varnish/roles'] = array(
+    'title' => 'Varnish roles header',
+    'description' => 'Returns headers with current role',
+    'type' => MENU_CALLBACK,
+    'page callback' => '_ding_varnish_header',
+    'access arguments' => array('access content'),
+  );
+
+  return $items;
+}
+
+/**
+ * Set user roles in HTTP header.
+ *
+ * The execution is stopped as no other data is required to be returned. Hence
+ * this function should only be used by this module.
+ */
+function _ding_varnish_header() {
+  global $user;
+
+  // Cache response for 3 minutes to reduce request load on roll requests.
+  header('Cache-Control:public,max-age=180');
+
+  // Change the cache of this response on any criteria that may determine this
+  // user is coming from a different device.
+  header('Vary: Accept-Encoding,Cookie,User-Agent');
+
+  // Set custom X-Drupal-Roles header.
+  header('X-Drupal-Roles: ' . implode(',', array_keys($user->roles)));
+
+  // No need to render any content. Just die.
+  echo '';
+  die;
+}
+
+/**
+ * Implements hook_init().
+ *
+ * Based on the configuration the current request is marked as cacheable. Which
+ * will trigger the right headers in the later page build functions.
+ *
+ * @see ding_varnish_page_build()
+ */
+function ding_varnish_init() {
+  global $user;
+
+  // Use static variable to indicate that this module have marked the page as
+  // cacheable, defaults to FALSE.
+  $cacheable = &drupal_static(__FUNCTION__, FALSE);
+
+  // We only make changes to logged in users that drupal not already have
+  // marked for caching.
+  if (empty($_POST) && user_is_logged_in()) {
+    // Get the roles selected.
+    $ding_varnish_role = variable_get('ding_varnish_role', 2);
+    if (isset($user->roles[$ding_varnish_role]) && count($user->roles) == 2) {
+      // Role was cacheable.
+      $cacheable = TRUE;
+    }
+
+    // So the role is cacheable, so now we look at the path.
+    if ($cacheable) {
+      // Check path.
+      $pages = drupal_strtolower(variable_get('ding_varnish_paths', ''));
+
+      // Convert the Drupal path to lowercase.
+      $path = drupal_strtolower(drupal_get_path_alias($_GET['q']));
+
+      // Compare the lowercase internal and lowercase path alias (if any).
+      if (!drupal_match_path($path, $pages)) {
+        // Path was not cacheable.
+        $cacheable = FALSE;
+      }
+
+      // Check node type, if path was not cacheable.
+      if (!$cacheable) {
+        $node = menu_get_object();
+        if (!empty($node)) {
+          $types = array_filter(variable_get('ding_varnish_content_types', array()));
+          if (in_array($node->type, $types)) {
+            // Even though the path was not cacheable the node type is.
+            $cacheable = TRUE;
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_page_build().
+ */
+function ding_varnish_page_build() {
+  // Check the static variable form init.
+  $cacheable = &drupal_static('ding_varnish_init', FALSE);
+  $hook_boot_headers = drupal_get_http_header();
+  $max_age = !isset($_COOKIE[session_name()]) || isset($hook_boot_headers['vary']) ? variable_get('page_cache_maximum_age', 0) : 0;
+
+  // Check if this request is cacheable and that ttl have been set.
+  if ($cacheable) {
+    // Force max-age as session was set above, but page is marked as cacheable.
+    $max_age = variable_get('page_cache_maximum_age', 0);
+
+    if ($max_age) {
+      // Set header to mark this as candidate for caching.
+      drupal_add_http_header('X-Drupal-Varnish-Cache', '1');
+    }
+  }
+
+  // Add header "no-cache" to make sure that the browser re-checks Varnish for
+  // changes after a login and not server browser cached pages. We have to set
+  // the header as Drupal do in bootstrap, as this will override the default
+  // header for not logged in users.
+  drupal_add_http_header('Cache-Control', 'public,max-age=' . $max_age . ',no-cache');
+
+  // Regardless, always vary on X-Drupal-Roles.
+  drupal_add_http_header('Vary', 'X-Drupal-Roles,Accept-Encoding');
+}
+
+/**
+ * Implements hook_flush_caches().
+ *
+ * Ensures that varnish is clear when caches are flushed.
+ */
+function ding_varnish_flush_caches() {
+  varnish_purge_all_pages();
+}
+
+/**
+ * Implements hook_change_maintenance_mode().
+ *
+ * @param Boolean $maintenance_mode
+ * TRUE if the site is being set into maintenance mode.
+ * FALSE if maintenance mode is being deactivated.
+ *
+ * Clear page cache if maintainance status has changed.
+ */
+function ding_varnish_change_maintenance_mode($maintenance_mode) {
+  varnish_purge_all_pages();
+}

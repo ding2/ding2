@@ -1,0 +1,8 @@
+name = Ding varnish (cache control)
+description = Allows logged in users to be cached by varnish
+core = 7.x
+package = Caching
+project = ding_user_roles
+files[] = includes/ding_varnish.admin.inc
+dependencies[] = varnish
+dependencies[] = expire
