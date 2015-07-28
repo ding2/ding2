@@ -1,0 +1,27 @@
+<?php
+/**
+ * @file
+ * Code for the ding ting frontend feature.
+ */
+
+include_once('ding_ting_frontend.features.inc');
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function ding_ting_frontend_entity_info_alter(&$entity_info) {
+  $entity_info['ting_object']['view modes'] += array(
+    'collection_primary' => array(
+      'label' => t('Primary collection object'),
+      'custom settings' => TRUE,
+    ),
+    'collection_list' => array(
+      'label' => t('Collection listing'),
+      'custom settings' => TRUE,
+    ),
+    'search_result' => array(
+      'label' => t('Search result'),
+      'custom settings' => TRUE,
+    ),
+  );
+}
