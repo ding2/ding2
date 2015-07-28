@@ -132,9 +132,17 @@ function ting_search_context_action_info() {
   return array(
     'ting_search_context_rate_node_action' => array(
       'type' => 'node',
-      'label' => t('Rate a node in the Ting search context rating system'),
+      'label' => t('Rate a node in the search context rating system'),
       'configurable' => TRUE,
       'vbo_configurable' => TRUE,
+      'triggers' => array('any'),
+    ),
+    'ting_search_context_unrate_node_action' => array(
+      'type' => 'node',
+      'label' => t('Unrate a node in the search context rating system (completely)'),
+      // Appearently we need these to avoid PHP notice.
+      'configurable' => FALSE,
+      'vbo_configurable' => FALSE,
       'triggers' => array('any'),
     ),
   );
