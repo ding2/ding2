@@ -1,0 +1,158 @@
+<?php
+/**
+ * @file
+ * Code for the Ding staff feature.
+ */
+
+include_once 'ding_staff.features.inc';
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * It simply tells panels where to find the .inc files that define various
+ * args, contexts, content_types. In this case the subdirectories of
+ * ctools_plugin_example/panels are used.
+ */
+function ding_staff_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
+ * Implements of hook_rules_action_info().
+ */
+function ding_staff_rules_action_info() {
+  return array(
+    'ding_staff_add_role_staff' => array(
+      'label' => t('Add staff role to user'),
+      'group' => 'user',
+      'parameter' => array(
+        'profile_user' => array(
+          'type' => 'user',
+          'label' => t('User to add staff role to'),
+        ),
+      ),
+    ),
+  );
+}
+/**
+ * Action to add the staff role to a user.
+ *
+ * Since we cannot know which role ID the staff role has been assigned,
+ * this function is used instead of the "add user role" action
+ *
+ * @param object $profile_user
+ *   User object.
+ */
+function ding_staff_add_role_staff($profile_user) {
+  // Get the uid from the object.
+  if (isset($profile_user->uid)) {
+    $uid = $profile_user->uid;
+  }
+  else {
+    return;
+  }
+
+  // Make sure we have a user record.
+  if ($uid) {
+    // Define "staff" as the role to add.
+    $role_name = "staff";
+    $user = user_load($uid);
+
+    // If the user doesn't already have the role, add the role to that user.
+    $key = array_search($role_name, $user->roles);
+    if ($key == FALSE) {
+
+      // Get the rid from the roles table.
+      $roles = user_roles(TRUE);
+      $rid = array_search($role_name, $roles);
+      if ($rid != FALSE) {
+        $new_role[$rid] = $role_name;
+        // Add new role to existing roles.
+        $all_roles = $user->roles + $new_role;
+        user_save($user, array('roles' => $all_roles));
+        drupal_set_message(t('@username has been assigned the staff role.', array('@username' => $profile_user->name)), 'status');
+      }
+    }
+  }
+}
+
+
+/**
+ * Implements hook_views_default_views_alter().
+ *
+ * Since we cannot know which role ID the staff role has been assigned,
+ * we overwrite the rids in the staff view
+ */
+function ding_staff_views_default_views_alter(&$views) {
+  if (!empty($views['ding_staff'])) {
+    $roles = user_roles(TRUE);
+    $rid = array_search("staff", $roles);
+
+    if ($rid) {
+      $rids = array();
+      $rids[$rid] = $rid;
+
+      // Replace existing rid defined in the view with the actual rid of role
+      // "staff".
+      $views['ding_staff']->display['ding_staff_list_all']->display_options['filters']['rid']['value'] = $rids;
+      $views['ding_staff']->display['ding_staff_library_departments']->display_options['filters']['rid']['value'] = $rids;
+    }
+  }
+}
+
+/**
+ * Implements hook_og_context_negotiation_info().
+ */
+function ding_staff_og_context_negotiation_info() {
+  $providers = array();
+
+  $providers['ding-staff'] = array(
+    'name' => t('Ding Staff'),
+    'description' => t("Determine context user node."),
+    'callback' => 'ding_staff_og_context_handler',
+  );
+
+  return $providers;
+}
+
+/**
+ * Callback for OG context negotiation that tries to find library context.
+ *
+ *
+ * @return array
+ *   Node ids.
+ */
+function ding_staff_og_context_handler() {
+  $nids = array();
+
+  $item = menu_get_item();
+  if (isset($item['page_arguments'][0]->roles) && isset($item['page_arguments'][0]->roles[16])) {
+    // Look up staff profile and check if there is a connection to a library
+    // group.
+    $profile = profile2_load_by_user($item['page_arguments'][0], 'ding_staff_profile');
+    if (isset($profile) && isset($profile->og_group_ref[LANGUAGE_NONE])) {
+      $values = $profile->og_group_ref[LANGUAGE_NONE];
+      foreach ($values as $value) {
+        $nids[] = $value['target_id'];
+      }
+    }
+  }
+
+  return array(
+    'node' => $nids,
+  );
+}
+
+/**
+ * Implements hook_preprocess_username().
+ */
+function ding_staff_preprocess_username(&$vars) {
+  // Drupal truncates usernames over 20 chars to 15 chars + ... by default but
+  // keeps the original name in a separate variable.
+  // Using realname module ensures that many usernames are over 20 chars long
+  // and there is no reason to truncate then so reinstitute a safe version of
+  // the original username.
+  $vars['name'] = check_plain($vars['name_raw']);
+}

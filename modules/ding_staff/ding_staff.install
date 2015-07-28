@@ -1,0 +1,178 @@
+<?php
+/**
+ * @file
+ * Handle module installation and updates.
+ */
+
+/**
+ * Implements of hook_install().
+ */
+function ding_staff_install() {
+  // Make sure that entity cache table for profile2 has been created
+  // if entity cache is enabled.
+  if (module_exists('entitycache') && !db_table_exists('cache_entity_profile2')) {
+    $schema = drupal_get_schema_unprocessed('system', 'cache');
+    $schema['description'] = 'Cache table used to store profile2 entity records.';
+    db_create_table('cache_entity_profile2', $schema);
+  }
+}
+
+
+/**
+ * Implements hook_enable().
+ */
+function ding_staff_enable() {
+  $path = array(
+    'source' => 'staff',
+    'language' => 'und',
+  );
+
+  // Create Danish alias for staff if needed.
+  if (!path_load($path)) {
+    $path['alias'] = 'personale';
+    path_save($path);
+  }
+
+  // Make sure that entity cache table for profile2 has been created
+  // if entity cache is enabled.
+  if (module_exists('entitycache') && !db_table_exists('cache_entity_profile2')) {
+    $schema = drupal_get_schema_unprocessed('system', 'cache');
+    $schema['description'] = 'Cache table used to store profile2 entity records.';
+    db_create_table('cache_entity_profile2', $schema);
+  }
+}
+
+
+/**
+ * Update the staff profile - prefix with module name.
+ */
+function ding_staff_update_7000() {
+  $ret = array();
+
+  // Update profile type name.
+  $ret[] = db_update('profile_type')
+    ->fields(array('type' => 'ding_staff_profile'))
+    ->condition('type', 'staff')
+    ->execute();
+
+  // Update existing profile to the new type.
+  $ret[] = db_update('profile')
+    ->fields(array('type' => 'ding_staff_profile'))
+    ->condition('type', 'staff')
+    ->execute();
+
+  return $ret;
+}
+
+/**
+ * Update bundle for staff field data and revisions.
+ */
+function ding_staff_update_7001() {
+  $ret = array();
+
+  $fields = array(
+    'field_ding_staff_department',
+    'field_ding_staff_description',
+    'field_ding_staff_email',
+    'field_ding_staff_forename',
+    'field_ding_staff_image',
+    'field_ding_staff_library',
+    'field_ding_staff_phone',
+    'field_ding_staff_position',
+    'field_ding_staff_surname',
+  );
+
+  foreach ($fields as $field_name) {
+    $ret[] = db_update('field_data_' . $field_name)
+      ->fields(array('bundle' => 'ding_staff_profile'))
+      ->execute();
+
+    $ret[] = db_update('field_revision_' . $field_name)
+      ->fields(array('bundle' => 'ding_staff_profile'))
+      ->execute();
+  }
+
+  return $ret;
+}
+
+/**
+ * Update staff bundle for field instances.
+ */
+function ding_staff_update_7002() {
+  $ret = array();
+
+  $ret[] = db_update('field_config_instance')
+    ->fields(array('bundle' => 'ding_staff_profile'))
+    ->condition('bundle', 'staff')
+    ->execute();
+
+  return $ret;
+}
+
+/**
+ * Remove old library reference field.
+ */
+function ding_staff_update_7003() {
+  field_delete_field('field_ding_staff_library');
+  field_purge_batch(1000);
+}
+
+/**
+ * Move content into the OG library groups.
+ */
+function ding_staff_update_7004() {
+  // Only run on sites with legacy OG table from OG version prior to OG 7.x-2.x
+  if (!db_table_exists('og')) {
+    return;
+  }
+
+  $query = db_select('field_data_og_group_ref', 'group_ref');
+  $query->join('og', 'og', 'group_ref.og_group_ref_target_id = og.gid');
+  $query->fields('group_ref', array('entity_id', 'og_group_ref_target_id'))
+    ->condition('bundle', 'ding_staff_profile');
+  $query->addField('og', 'etid');
+  $rows = $query->execute();
+  foreach ($rows as $row) {
+    db_insert('og_membership')
+      ->fields(array(
+        'type' => 'og_membership_type_default',
+        'etid' => $row->entity_id,
+        'entity_type' => 'node',
+        'gid' => $row->etid,
+        'state' => 1,
+        'created' => time(),
+        'group_type' => 'node',
+        'field_name' => 'og_group_ref',
+        'language' => 'und',
+      ))
+      ->execute();
+  }
+}
+
+/**
+ * Create possibly missing Entity Cache table for profile2 entities.
+ */
+function ding_staff_update_7005() {
+  // Error on ding2 site with entitycache enabled matches issue described
+  // in https://drupal.org/node/1387268
+  // Issue is to be fixed so Entity API has support for Entity Cache,
+  // see https://drupal.org/node/2017685
+  // Only run for sites with entitycache enabled.
+  if (!module_exists('entitycache')) {
+    return;
+  }
+
+  // Create cache table if it doesn't exist.
+  if (!db_table_exists('cache_entity_profile2')) {
+    $schema = drupal_get_schema_unprocessed('system', 'cache');
+    $schema['description'] = 'Cache table used to store profile2 entity records.';
+    db_create_table('cache_entity_profile2', $schema);
+  }
+}
+
+/**
+ * Enable realname module to show profile name instead of user name for content.
+ */
+function ding_staff_update_7006() {
+  module_enable(array('realname'));
+}
