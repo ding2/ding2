@@ -1,0 +1,356 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the ting module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ting_schema() {
+  $schema = array();
+
+  $schema['ting_object'] = array(
+    'description' => 'Local proxy table for ting objects.',
+    'fields' => array(
+      'tid' => array(
+        'description' => 'The primary local identifier for a ting object.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'vid' => array(
+        'description' => 'The current {ting_object}.vid version identifier.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+        'default' => NULL,
+      ),
+      'ding_entity_id' => array(
+        'description' => 'The ting object id.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+    ),
+    'indexes' => array(
+      'ding_entity_id' => array('ding_entity_id'),
+    ),
+    'unique keys' => array(
+      'vid' => array('vid'),
+    ),
+    'foreign keys' => array(
+      'ting_object_revision' => array(
+        'table' => 'ting_object_revision',
+        'columns' => array('vid' => 'vid'),
+      ),
+    ),
+    'primary key' => array('tid'),
+  );
+
+  $schema['ting_object_revision'] = array(
+    'description' => 'Stores information about each saved version of a {ting_object}.',
+    'fields' => array(
+      'tid' => array(
+        'description' => 'The {ting_object} this version belongs to.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'vid' => array(
+        'description' => 'The primary identifier for this version.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'timestamp' => array(
+        'description' => 'A Unix timestamp indicating when this version was created.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'indexes' => array(
+      'tid' => array('tid'),
+    ),
+    'primary key' => array('vid'),
+    'foreign keys' => array(
+      'versioned_ting_object' => array(
+        'table' => 'ting_object',
+        'columns' => array('tid' => 'tid'),
+      ),
+    ),
+  );
+
+  // Cache table used by ting_execute_cache.
+  $schema['cache_ting'] = drupal_get_schema_unprocessed('system', 'cache');
+
+  return $schema;
+}
+
+/**
+ * Implements hook_ding_entity_fields().
+ */
+function ting_ding_entity_fields() {
+  return array(
+    'ting_title' => array(
+      'field' => array(
+        'locked' => TRUE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Ting object title'),
+      ),
+    ),
+    'ting_type' => array(
+      'field' => array(
+        'locked' => TRUE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Ting object type'),
+      ),
+    ),
+    'ting_series' => array(
+      'field' => array(
+        'locked' => TRUE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Ting object series'),
+      ),
+    ),
+    'ting_abstract' => array(
+      'field' => array(
+        'locked' => TRUE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Ting object abstract'),
+      ),
+    ),
+    'ting_author' => array(
+      'field' => array(
+        'locked' => TRUE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Ting object author'),
+      ),
+    ),
+    'ting_subjects' => array(
+      'field' => array(
+        'locked' => TRUE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Ting object subjects'),
+      ),
+    ),
+
+    'ting_primary_object' => array(
+      'field' => array(
+        'locked' => TRUE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'ding_entity_type' => 'ding_entity_collection',
+        'label' => t('Ting collection primary object'),
+      ),
+    ),
+    'ting_entities' => array(
+      'field' => array(
+        'locked' => TRUE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'ding_entity_type' => 'ding_entity_collection',
+        'label' => t('Ting collection objects'),
+      ),
+    ),
+    'ting_collection_types' => array(
+      'field' => array(
+        'locked' => TRUE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'ding_entity_type' => 'ding_entity_collection',
+        'label' => t('Ting collection object types'),
+      ),
+    ),
+  );
+}
+
+/**
+ * Convert blackhole field storage to virtual field.
+ */
+function ting_update_7000() {
+  return db_update('field_config')
+    ->fields(array(
+      'storage_type' => 'virtual_field',
+      'storage_module' => 'virtual_field',
+    ))
+    ->condition('module', 'ting')
+    ->execute();
+}
+
+/**
+ * Add cache table to use with ting_execute_cache().
+ */
+function ting_update_7001() {
+  $schema = ting_schema();
+  $ret = array();
+  $ret[] = db_create_table('cache_ting', $schema['cache_ting']);
+  return $ret;
+}
+
+/**
+ * Update own agency ding_entity_id's to match new data well format (basis and katalog).
+ */
+function ting_update_7002() {
+  // Convert "katalog" PID's first.
+  $agency = variable_get('ting_agency', '');
+  db_query("UPDATE ting_object
+            SET ding_entity_id = CONCAT('" . $agency . "-katalog:', SUBSTRING_INDEX(ding_entity_id, ':', -1))
+            WHERE ding_entity_id LIKE '" . $agency . ":9%'")
+    ->execute();
+
+  // Convert basic PID's
+  db_query("UPDATE ting_object
+            SET ding_entity_id = CONCAT('870970-basis:', SUBSTRING_INDEX(ding_entity_id, ':', -1))
+            WHERE ding_entity_id LIKE '" . $agency . ":%'")
+    ->execute();
+}
+
+/**
+ * Update other agencies ding_entity_id's to match new data well format (basis and katalog).
+ */
+function ting_update_7003() {
+  db_query("UPDATE ting_object
+            SET ding_entity_id = CONCAT(SUBSTRING_INDEX(ding_entity_id, ':', 1), '-katalog:', SUBSTRING_INDEX(ding_entity_id, ':', -1))
+            WHERE ding_entity_id LIKE '7%:9%'
+              AND ding_entity_id NOT LIKE '%-basis:%'
+              AND ding_entity_id NOT LIKE '%-katalog:%'")
+    ->execute();
+
+  // Convert basic PID's
+  db_query("UPDATE ting_object
+            SET ding_entity_id = CONCAT('870970-basis:', SUBSTRING_INDEX(ding_entity_id, ':', -1))
+            WHERE ding_entity_id LIKE '7%:%'
+              AND ding_entity_id NOT LIKE '%-basis:%'
+              AND ding_entity_id NOT LIKE '%-katalog:%'")
+    ->execute();
+}
+
+/**
+ * Update all other ding_entity_id's where possible to data well version 3.
+ */
+function ting_update_7004() {
+  $translation = array(
+    '150021' => '150021-bibliotek',
+    '150027' => '150021-fjern',
+    '150030' => '870970-spilmedier',
+    '870973' => '870973-anmeld',
+    '150039' => '150015-forlag',
+    '870976' => '870976-anmeld',
+    '150048' => '870970-basis',
+    '150028' => '870970-basis',
+    '150015' => '870970-basis',
+    '150033' => '150033-dandyr',
+    '150040' => '150040-verdyr',
+    '150018' => '150018-danhist',
+    '150032' => '150018-samfund',
+    '150034' => '150018-religion',
+    '150054' => '150018-biologi',
+    '150055' => '150018-fysikkemi',
+    '150056' => '150056-geografi',
+    '150008' => '150008-academic',
+    '150043' => '150043-atlas',
+    '150023' => '150023-sicref',
+    '150025' => '150008-public',
+    '150052' => '870970-basis',
+    '159002' => '159002-lokalbibl',
+    '150012' => '150012-leksikon',
+  );
+
+  foreach ($translation as $id => $new_id) {
+    db_query("UPDATE ting_object
+              SET ding_entity_id = CONCAT('" . $new_id . ":', SUBSTRING_INDEX(ding_entity_id, ':', -1))
+              WHERE ding_entity_id LIKE '" . $id . ":%'")
+      ->execute();
+  }
+}
+
+/**
+ * Update default ac.source from 'bibliotekets materialer' to 'bibliotekskatalog'.
+ */
+function ting_update_7005() {
+  variable_set('ting_reservable_sources', _ting_default_reservable_sources());
+}
+
+/**
+ * Ensure default cache expire for the data-well is set correctly.
+ */
+function ting_update_7006() {
+  $ttl = variable_get('ting_cache_lifetime', TING_DEFAULT_CACHE_LIFETIME);
+  if ($ttl <= 0) {
+    variable_set('ting_cache_lifetime', 900);
+  }
+}
+
+/**
+ * Update series title search registry setting.
+ */
+function ting_update_7007() {
+  // Only update if set else default value will be used.
+  if (variable_get('ting_search_register_serie_title', FALSE)) {
+    variable_set('ting_search_register_serie_title', 'phrase.titleSeries = "@serietitle"');
+  }
+}
+
+/**
+ * Update series title search registry setting.
+ */
+function ting_update_7008() {
+  // Only update if set else default value will be used.
+  if (variable_get('ting_search_register_serie_title', FALSE)) {
+    variable_set('ting_search_register_serie_title', 'phrase.titleSeries="@serietitle"');
+  }
+}
+
+/**
+ * Update ting_object table - set foreign key (vid) to ting_object_revision to be null by default thus allowing
+ * multiple NULL values in table
+ */
+function ting_update_7009() {
+  db_drop_unique_key('ting_object', 'vid');
+  db_change_field('ting_object', 'vid', 'vid', array(
+    'description' => 'The current {ting_object}.vid version identifier.',
+    'type' => 'int',
+    'unsigned' => TRUE,
+    'not null' => FALSE,
+    'default' => NULL,
+  ));
+  db_add_unique_key('ting_object', 'vid', array('vid'));
+}
