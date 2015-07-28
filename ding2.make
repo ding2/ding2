@@ -134,6 +134,11 @@ libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEdi
 libraries[ckeditor][directory_name] = "ckeditor"
 libraries[ckeditor][destination] = "libraries"
 
+libraries[leaflet][download][type] = "get"
+libraries[leaflet][download][url] = "http://leaflet-cdn.s3.amazonaws.com/build/leaflet-0.7.2.zip"
+libraries[leaflet][directory_name] = "leaflet"
+libraries[leaflet][destination] = "libraries"
+
 libraries[profiler][download][type] = "git"
 libraries[profiler][download][url] = "http://git.drupal.org/project/profiler.git"
 libraries[profiler][download][branch] = "7.x-2.0-beta1"
@@ -243,6 +248,15 @@ projects[formblock][download][type] = "git"
 projects[formblock][download][url] = "http://git.drupal.org/project/formblock.git"
 projects[formblock][download][revision] = "2d94c83"
 
+projects[geocoder][subdir] = "contrib"
+projects[geocoder][version] = "1.2"
+
+projects[geophp][subdir] = "contrib"
+projects[geophp][version] = "1.7"
+
+projects[geofield][subdir] = "contrib"
+projects[geofield][version] = "1.2"
+
 projects[globalredirect][subdir] = "contrib"
 projects[globalredirect][version] = "1.5"
 projects[globalredirect][patch][] = "http://drupal.org/files/language_redirect_view_node-1399506-2.patch"
@@ -261,6 +275,19 @@ projects[jquery_update][version] = "2.6"
 
 projects[languageicons][subdir] = "contrib"
 projects[languageicons][version] = "1.0"
+
+projects[leaflet][subdir] = "contrib"
+projects[leaflet][version] = "1.1"
+; OSM Mapnik is hard-coded to be accessed via http, but some sites may need maps to render under https.
+; The patch change code to use headless urls ("//" instead of "http://") for map access..
+; Patch from https://www.drupal.org/node/2341015
+projects[leaflet][patch][] = https://www.drupal.org/files/issues/leaflet-https_7x_11-2341015-3.patch
+
+projects[libraries][subdir] = "contrib"
+projects[libraries][version] = "2.2"
+
+projects[link][subdir] = "contrib"
+projects[link][version] = "1.2"
 
 projects[l10n_update][type] = "module"
 projects[l10n_update][subdir] = "contrib"
@@ -328,6 +355,16 @@ projects[og_menu][version] = "3.0-rc5"
 ; Fixes JavaScript menu selection in edit node forms.
 projects[og_menu][patch][0] = "http://drupal.org/files/issues/selector_not_found-2276951-2.patch"
 
+; This version is patch to make the next/prev links work.
+projects[opening_hours][type] = "module"
+projects[opening_hours][subdir] = "contrib"
+projects[opening_hours][download][type] = "git"
+projects[opening_hours][download][url] = "http://git.drupal.org/project/opening_hours.git"
+projects[opening_hours][download][revision] = "81146d1e8ab63ca70976596d928e4ec46dfdfd57"
+projects[opening_hours][patch][] = "http://drupal.org/files/issues/is-string-check-2260505-2.patch"
+projects[opening_hours][patch][] = "http://drupal.org/files/issues/change-path-2270935-2.patch"
+projects[opening_hours][patch][] = "http://www.drupal.org/files/issues/Issue620-single-minute-opening-hours.patch"
+
 projects[panels][subdir] = "contrib"
 projects[panels][version] = "3.4"
 
@@ -343,6 +380,9 @@ projects[pathauto][version] = "1.2"
 
 projects[pm_existing_pages][subdir] = "contrib"
 projects[pm_existing_pages][version] = "1.4"
+
+projects[proj4js][subdir] = "contrib"
+projects[proj4js][version] = "1.2"
 
 projects[profile2][subdir] = "contrib"
 projects[profile2][version] = "1.3"
@@ -361,6 +401,9 @@ projects[sslproxy][version] = "1.0"
 
 projects[strongarm][subdir] = "contrib"
 projects[strongarm][version] = "2.0"
+
+projects[tipsy][subdir] = "contrib"
+projects[tipsy][version] = "1.0-rc1"
 
 projects[transliteration][subdir] = "contrib"
 projects[transliteration][version] = "3.2"
