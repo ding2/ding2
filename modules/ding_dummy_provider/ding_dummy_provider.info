@@ -1,0 +1,8 @@
+core = "7.x"
+name = "Ding Dummy Provider"
+description = "A dummy provider module for ding provider. This is for use when site has no integration with an external provider."
+package = "Ding!"
+version = "0.1"
+
+dependencies[] = "ding_provider"
+dependencies[] = "ding_user"
