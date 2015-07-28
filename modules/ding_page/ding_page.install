@@ -1,0 +1,34 @@
+<?php
+/**
+ * @file
+ * Handles update tasks for the module. 
+ */
+
+/**
+ * Remove obsolete menu.
+ */
+function ding_page_update_7001() {
+  $menu = menu_load('menu-sider');
+  menu_delete($menu);
+  return t('Pages menu deleted.');
+}
+
+/**
+ * Remove old ting reference field table from page. 
+ */
+function ding_page_update_7002() {
+  // The tables are left over after change to virtual field, hence we have to
+  // remove them the hard way without deleting the field.
+  db_drop_table('field_data_field_ding_page_materials');
+  db_drop_table('field_revision_field_ding_page_materials');
+}
+
+
+/**
+ * Remove old page path auto patterns.
+ */
+function ding_page_update_7003() {
+  variable_del('pathauto_node_ding_page_da_pattern');
+  variable_del('pathauto_node_ding_page_en_pattern');
+  variable_del('pathauto_node_ding_page_und_pattern');
+}
