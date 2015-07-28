@@ -1,0 +1,9 @@
+name = Ding availability
+description = Availability information for Ding objects.
+package = Ding!
+version = "7.x-0.14"
+core = 7.x
+files[] = ding_availability.module
+dependencies[] = ding_provider
+dependencies[] = virtual_field
+dependencies[] = ting

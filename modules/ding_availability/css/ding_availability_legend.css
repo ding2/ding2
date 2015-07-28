@@ -1,0 +1,42 @@
+.availability-legend {
+  padding-top: 0.2em;
+  padding-bottom: 0.2em;
+  border-top: 1px solid #e7e7e6;
+  border-bottom: 1px solid #e7e7e6;
+}
+
+.availability-legend-item {
+  float: left;
+  margin-right: 0.75em;
+}
+
+.availability-legend-item .availability-label {
+  font-weight: bold;
+  font-size: 0.8em;
+}
+
+.availability-legend-item img {
+  height: 10px;
+  width: 10px;
+  margin-right: 0.25em;
+}
+
+.availability-legend-item.available img {
+  background-color: #528c10; /* Green */
+}
+
+.availability-legend-item.on-loan img {
+  background-color: #f0cb28; /* Yellow */
+}
+
+.availability-legend-item.unavailable img {
+  background-color: #a32e10; /* Red */
+}
+
+.availability-legend-item.unavailable.netdokument img {
+  background-color: #a32e10; /* Red */
+}
+
+.availability-legend-item.unreservable img {
+  background-color: #a32e10; /* Red */
+}

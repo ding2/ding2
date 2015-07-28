@@ -1,0 +1,20 @@
+
+.availability.pending,
+.availability.processed {
+  color: #959595; /* Grey */
+}
+
+.availability.reservable {
+  color: #f0cb28; /* Yellow */
+}
+
+/* Available and reservable */
+.availability.available, 
+.availability.available.reservable {
+  color: #528c10; /* Green */
+}
+
+/* Available, but not reservable */
+.availability.available.not-reservable {
+  color: #a32e10; /* Red */
+}
