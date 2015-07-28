@@ -1,0 +1,116 @@
+<?php
+
+/**
+ * @file
+ *
+ * Superclass to implement tests of popup use.
+ */
+
+/**
+ * Parent class for testing popup using code.
+ */
+class DingPopupTestCase extends AJAXTestCase {
+  protected $submits = array();
+  protected $resubmits = array();
+  /**
+   * Fudge ajax page.
+   *
+   * drupalPostAJAX requires that the form being posted is represented in the
+   * content of the current page. However, as it doesn't know what to do with
+   * our custom ajax commands, it doesn't insert the form in the content, so
+   * we do it ourselves here.
+   */
+  function fudge($commands) {
+    $result = array();
+    if (!is_array($commands)) {
+      return $result;
+    }
+    $dom = new DOMDocument();
+    // DOM can load HTML soup. But, HTML soup can throw warnings, suppress
+    // them.
+    @$dom->loadHTML($this->content);
+    foreach ($commands as $command) {
+      switch ($command['command']) {
+        case 'ding_popup':
+          if (isset($command['resubmit']) && $command['resubmit']) {
+            $this->resubmit[$command['name']] = array($command['extra_data'], end($this->submits));
+          }
+          $xpath = new DOMXPath($dom);
+          $wrapperNode = $xpath->query('//body')->item(0);
+
+          $newDom = new DOMDocument();
+          $newDom->loadHTML('<div class="ding_popup_' . $command['name'] . '">' . $command['data'] . '</div>');
+          $newNode = $dom->importNode($newDom->documentElement->firstChild, TRUE);
+          $wrapperNode->appendChild($newNode);
+          $this->content = $dom->saveHTML();
+          break;
+        case 'ding_popup_close':
+          $xpath = new DOMXPath($dom);
+          $popups = $xpath->query('//*[@class=ding_popup_' . $command['name'] . ']');
+          foreach ($popups as $popup) {
+            $popup->parentNode()->removeChild($popup);
+          }
+
+          // Resubmit if requested.
+          if (isset($this->resubmit[$command['name']])) {
+            $extra_data = $this->resubmit[$command['name']][0];
+            $args = $this->resubmit[$command['name']][1];
+            if ($extra_data) {
+              // In order to post our extra data, we have to mess with
+              // ajax_settings.
+              $drupal_settings = $this->drupalSettings;
+              $triggering_element = $args[2];
+              $form_html_id = $args[6];
+              $ajax_settings = $args[7];
+              if (!is_array($ajax_settings)) {
+                // Get the AJAX settings bound to the triggering element.
+                if (!isset($ajax_settings)) {
+                  if (is_array($triggering_element)) {
+                    $xpath = '//*[@name="' . key($triggering_element) . '" and @value="' . current($triggering_element) . '"]';
+                  }
+                  else {
+                    $xpath = '//*[@name="' . $triggering_element . '"]';
+                  }
+                  if (isset($form_html_id)) {
+                    $xpath = '//form[@id="' . $form_html_id . '"]' . $xpath;
+                  }
+                  $element = $this->xpath($xpath);
+                  $element_id = (string) $element[0]['id'];
+                  $ajax_settings = $drupal_settings['ajax'][$element_id];
+                }
+              }
+              foreach ($extra_data as $key => $val) {
+                $ajax_settings['submit'][$key] = $val;
+              }
+              $args[7] = $ajax_settings;
+            }
+            $result = call_user_func_array(array($this, 'drupalPostAJAX'), $args);
+            unset($this->resubmit[$command['name']]);
+          }
+
+          break;
+      }
+    }
+    return $result;
+  }
+
+  /**
+   * Override so we can fudge the popup.
+   */
+  protected function drupalGetAJAX($path, array $options = array(), array $headers = array()) {
+    $commands = parent::drupalGetAJAX($path, $options, $headers);
+    $this->fudge($commands);
+    return $commands;
+  }
+
+  /**
+   * Override so we can fudge the popup.
+   */
+  protected function drupalPostAJAX($path, $edit, $triggering_element, $ajax_path = NULL, array $options = array(), array $headers = array(), $form_html_id = NULL, $ajax_settings = NULL, $dont_save = FALSE) {
+    // Save submit so we can resubmit if need be.
+    $this->submits[] = array($path, $edit, $triggering_element, $ajax_path, $options, $headers, $form_html_id, $ajax_settings);
+    $commands = parent::drupalPostAJAX($path, $edit, $triggering_element, $ajax_path, $options, $headers, $form_html_id, $ajax_settings);
+    $commands = array_merge($commands, $this->fudge($commands));
+    return $commands;
+  }
+}
