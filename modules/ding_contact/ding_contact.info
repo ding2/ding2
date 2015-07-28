@@ -1,0 +1,17 @@
+name = Ding Contact
+description = Enable contact module and add default categories.
+core = 7.x
+package = Ding!
+dependencies[] = contact
+dependencies[] = ctools
+dependencies[] = fe_block
+dependencies[] = formblock
+dependencies[] = page_manager
+dependencies[] = strongarm
+dependencies[] = uuid
+features[ctools][] = page_manager:pages_default:1
+features[ctools][] = strongarm:strongarm:1
+features[fe_block_settings][] = formblock-contact_site
+features[features_api][] = api:2
+features[page_manager_handlers][] = contact_site_panel_context
+features[variable][] = page_manager_contact_site_disabled
