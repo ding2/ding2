@@ -21,13 +21,13 @@ to run a Ding2 based site.
 
 ## Drupal
 Go into your web-root (from now on named DRUPAL) and execute this drush command
-to download a fresh copy of Drupal version 7.26. IF you omit the version number
+to download a fresh copy of Drupal version 7.38. If you omit the version number
 the newest version of Drupal will be downloaded.
 ```sh
-  ~$ drush dl drupal-7.26
-  ~$ mv drupal-7.26/* .
-  ~$ mv drupal-7.26/.* .
-  ~$ rm -r drupal-7.26
+  ~$ drush dl drupal-7.38
+  ~$ mv drupal-7.38/* .
+  ~$ mv drupal-7.38/.* .
+  ~$ rm -r drupal-7.38
 ```
 
 ### Patches
