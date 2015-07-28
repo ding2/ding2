@@ -410,7 +410,7 @@ projects[realname][subdir] = "contrib"
 projects[realname][version] = "1.2"
 
 projects[relation][subdir] = "contrib"
-projects[relation][version] = "1.0-rc5"
+projects[relation][version] = "1.0-rc7"
 
 projects[role_delegation][subdir] = "contrib"
 projects[role_delegation][version] = "1.1"
