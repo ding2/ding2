@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * @file
+ * Dummy module to help with ding_user testing..
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ding_user_test_menu() {
+  $items['ding_user_test/expirecreds'] = array(
+    'title' => 'expire creds',
+    'page callback' => 'ding_user_test_expirecreds',
+    'page arguments' => array(),
+    'access callback' => TRUE,
+  );
+
+  return $items;
+}
+
+/**
+ * A page that expires creds, so we can test that user is asked to
+ * re-authenticate.
+ */
+function ding_user_test_expirecreds() {
+  db_delete('cache_ding_user_credentials')->execute();
+}
