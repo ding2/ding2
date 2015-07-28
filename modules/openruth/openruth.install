@@ -1,0 +1,81 @@
+<?php
+/**
+ * @file
+ * Installation and update hooks for Openruth.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function openruth_requirements($phase) {
+  $requirements = array();
+  // Ensure translations don't break at install time.
+  $t = get_t();
+
+  if ($phase == 'runtime') {
+    $requirements['openruth'] = array(
+      'title' => $t('Openruth'),
+      'value' => $t('Openruth configured'),
+      'severity' => REQUIREMENT_OK,
+    );
+    if (!variable_get('openruth_wsdl_url', FALSE) || !variable_get('openruth_agency_id', FALSE)) {
+      $requirements['openruth']['value'] = $t('Openruth not configured');
+      $requirements['openruth']['description'] = $t('Openruth is not properly configured, please visit <a href="@link">the settings page</a>.', array('@link' => url('admin/config/ding/provider/openruth')));
+      $requirements['openruth']['severity'] = REQUIREMENT_ERROR;
+    }
+  }
+
+  return $requirements;
+}
+
+/**
+ * Change most fields in the profile to virtual fields.
+ */
+function openruth_update_7000() {
+  return db_update('field_config')
+    ->fields(array(
+      'storage_type' => 'virtual_field',
+      'storage_module' => 'virtual_field',
+    ))
+    ->condition('field_name', '%openruth%', 'LIKE')
+    ->condition('field_name', 'field_openruth_interest_period', '!=')
+    ->condition('field_name', 'field_openruth_reservation_pause', '!=')
+    ->execute();
+}
+
+/**
+ * Remove old field_sql_storage file data from the database as they are using
+ * virtual fields now and don't need a database table.
+ */
+function openruth_update_7001() {
+  // Mobile phone.
+  db_drop_table('field_data_field_openruth_mobile_phone');
+  db_drop_table('field_revision_field_openruth_mobile_phone');
+
+  // Preferred branch.
+  db_drop_table('field_data_openruth_preferred_branch');
+  db_drop_table('field_revision_openruth_preferred_branch');
+}
+
+/**
+ * Move reservarion pause field data into new tabels.
+ */
+function openruth_update_7002() {
+  // Move field data.
+  db_query('INSERT INTO {field_data_field_openruth_reservation_pause}
+              SELECT entity_type, bundle, deleted, entity_id, revision_id, language, delta,
+                     field_reservation_pause_value as field_openruth_reservation_pause_value,
+                     field_reservation_pause_value2 as field_openruth_reservation_pause_value2
+                FROM {field_data_field_reservation_pause}');
+
+  // Move revision data.
+  db_query('INSERT INTO {field_revision_field_openruth_reservation_pause}
+              SELECT entity_type, bundle, deleted, entity_id, revision_id, language, delta,
+                     field_reservation_pause_value as field_openruth_reservation_pause_value,
+                     field_reservation_pause_value2 as field_openruth_reservation_pause_value2
+                FROM {field_revision_field_reservation_pause}');
+
+  // Remove the old field.
+  field_delete_field('field_reservation_pause');
+  field_purge_batch(100);
+}
