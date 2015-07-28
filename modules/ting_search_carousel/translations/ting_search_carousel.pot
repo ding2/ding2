@@ -1,0 +1,139 @@
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  ting_search_carousel.info: n/a
+#  plugins/content_types/carousel.inc: n/a
+#  ting_search_carousel.module: n/a
+#  ting_search_carousel.install: n/a
+#  ting_search_carousel.admin.inc: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2011-01-19 14:30+0100\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: ting_search_carousel.info:0 plugins/content_types/carousel.inc:17 ting_search_carousel.module:12
+msgid "Ting search carousel"
+msgstr ""
+
+#: ting_search_carousel.info:0
+msgid "Show Ting search results in a carousel"
+msgstr ""
+
+#: ting_search_carousel.info:0
+msgid "Ding!"
+msgstr ""
+
+#: plugins/content_types/carousel.inc:19
+msgid "A carousel displaying search results against the Ting system"
+msgstr ""
+
+#: plugins/content_types/carousel.inc:20
+msgid "Ting"
+msgstr ""
+
+#: plugins/content_types/carousel.inc:45
+msgid "Søgninger"
+msgstr ""
+
+#: ting_search_carousel.install:55
+msgid "ImageCache preset %id: %name and corresponding actions saved."
+msgstr ""
+
+#: ting_search_carousel.module:147
+msgid "Title"
+msgstr ""
+
+#: ting_search_carousel.module:148
+msgid "The title of the search is used for the tab in the carousel. Keep it short."
+msgstr ""
+
+#: ting_search_carousel.module:154
+msgid "subtitle"
+msgstr ""
+
+#: ting_search_carousel.module:155
+msgid "The subtitle displayed next to the search results"
+msgstr ""
+
+#: ting_search_carousel.module:160
+msgid "Query"
+msgstr ""
+
+#: ting_search_carousel.module:162
+msgid "The query to display search results for"
+msgstr ""
+
+#: ting_search_carousel.module:168
+msgid "Remove"
+msgstr ""
+
+#: ting_search_carousel.module:48
+msgid "view search carousel"
+msgstr ""
+
+#: ting_search_carousel.module:49
+msgid "administer search carousel"
+msgstr ""
+
+#: ting_search_carousel.module:20
+msgid "Edit search carousels"
+msgstr ""
+
+#: ting_search_carousel.module:29
+msgid "Show search carousel results"
+msgstr ""
+
+#: ting_search_carousel.admin.inc:29
+msgid "Searches"
+msgstr ""
+
+#: ting_search_carousel.admin.inc:67
+msgid "Cache duration"
+msgstr ""
+
+#: ting_search_carousel.admin.inc:68
+msgid "Determines how long search results in the carousel will be cached for."
+msgstr ""
+
+#: ting_search_carousel.admin.inc:70
+msgid "1 hour"
+msgstr ""
+
+#: ting_search_carousel.admin.inc:71
+msgid "3 hours"
+msgstr ""
+
+#: ting_search_carousel.admin.inc:72
+msgid "12 hours"
+msgstr ""
+
+#: ting_search_carousel.admin.inc:73
+msgid "1 day"
+msgstr ""
+
+#: ting_search_carousel.admin.inc:74
+msgid "3 days"
+msgstr ""
+
+#: ting_search_carousel.admin.inc:75
+msgid "7 days"
+msgstr ""
+
+#: ting_search_carousel.admin.inc:76
+msgid "2 weeks"
+msgstr ""
+
+#: ting_search_carousel.admin.inc:77
+msgid "1 month"
+msgstr ""
+
