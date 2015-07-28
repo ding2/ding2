@@ -1,0 +1,11 @@
+<?php
+/**
+ * @file
+ * Loads the features and includes the field definitions for ting entities.
+ */
+
+// Load field hooks (field definitions).
+module_load_include('inc', 'ting_material_details', 'ting_material_details.field');
+
+// Load features.
+include_once 'ting_material_details.features.inc';
