@@ -305,6 +305,9 @@ projects[module_filter][version] = "1.8"
 projects[memcache][subdir] = "contrib"
 projects[memcache][version] = "1.0"
 
+projects[nodequeue][subdir] = "contrib"
+projects[nodequeue][version] = "2.0-beta1"
+
 projects[node_clone][subdir] = "contrib"
 projects[node_clone][version] = "1.0-rc2"
 
@@ -385,6 +388,9 @@ projects[views][version] = "3.8"
 
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.2"
+
+projects[views_responsive_grid][subdir] = "contrib"
+projects[views_responsive_grid][version] = "1.3"
 
 # Development version where the "unpublished" status have been fixed on the content edit page.
 projects[view_unpublished][subdir] = "contrib"
