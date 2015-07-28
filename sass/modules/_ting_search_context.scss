@@ -3,29 +3,30 @@
    ========================================================================== */
 
 /* Variables
-   ========================================================================== */
+========================================================================== */
 
 $carousel-background-color:                $white;
-$carousel-image-width:                     200px;
-$carousel-image-max-height:                250px;
-$carousel-tab-background-color:            transparentize($black, .5);
-$carousel-active-tab-background-color:     $black;
-$carousel-tab-color:                       $white;
+$horizontal-carousel-image-width:          200px;
+$horizontal-carousel-image-height:         150px;
+$vertical-carousel-image-width:            $horizontal-carousel-image-width * 1.25;
+$vertical-carousel-image-height:           $horizontal-carousel-image-height * 1.25;
+$vertical-carousel-height:                 $vertical-carousel-image-height * 4 + $large-spacing * 3;
+$arrow-height:                             55px;
+$arrow-width:                              55px;
 
 
 /* Pane, wrapper and inner
- ========================================================================== */
+========================================================================== */
 
 .pane-search-context {
   display: none;
-
   .rs-carousel-wrapper {
     @include zen-grid-container;
   }
 
   .rs-carousel {
     @include zen-grid-item(12, 1);
-
+    @include zen-clear();
     padding: 0;
 
     .rs-carousel-items {
@@ -39,10 +40,10 @@ $carousel-tab-color:                       $white;
 
   .rs-carousel-inner {
     background-color: $carousel-background-color;
-    min-height: 225px;
+    min-height: 150px;
     padding-top: $medium-spacing;
     padding-right: 0;
-    padding-bottom: 0;
+    padding-bottom: $large-spacing;
     padding-left: 0;
 
     @include small-medium() {
@@ -84,7 +85,7 @@ $carousel-tab-color:                       $white;
   }
 
   /* Pagination and previous and next buttons
-     ========================================================================== */
+  ========================================================================== */
 
   .rs-carousel-pagination {
     display: none;
@@ -113,11 +114,12 @@ $carousel-tab-color:                       $white;
 
   .rs-carousel-action-prev {
     left: 20px;
+    background-position: 0 0;
   }
 
   .rs-carousel-action-next {
     right: 20px;
-    background-position: right 0;
+    background-position: -1 * $arrow-width 0;
   }
 
   .rs-carousel-disabled .rs-carousel-action-prev,
@@ -128,7 +130,7 @@ $carousel-tab-color:                       $white;
 
 
   /* Carousel content, mask, title etc.
-     ========================================================================== */
+  ========================================================================== */
   .ajax-loader {
     background: transparent url('../images/ajax-loader.gif') no-repeat center center;
     left: 50%;
@@ -171,11 +173,10 @@ $carousel-tab-color:                       $white;
 
     li {
       float: left;
-      width: 100px;
       text-align: center;
-      margin-right: 20px;
+      margin-right: $large-spacing;
       position: relative;
-      width: $carousel-image-width;
+      width: $horizontal-carousel-image-width;
 
       &:hover {
         .rs-carousel-item-title {
@@ -185,8 +186,8 @@ $carousel-tab-color:                       $white;
       }
 
       a {
-        max-height: $carousel-image-max-height;
-        width: $carousel-image-width;
+        max-height: $horizontal-carousel-image-height;
+        width: $horizontal-carousel-image-width;
 
         &:hover {
           text-decoration: none;
@@ -200,25 +201,70 @@ $carousel-tab-color:                       $white;
         bottom: 0;
         color: $white;
         left: 0;
-        padding-top: 10px;
-        padding-right: 15px;
-        padding-bottom: 10px;
-        padding-left: 15px;
+        padding-top: $medium-spacing;
+        padding-right: $small-spacing;
+        padding-bottom: $medium-spacing;
+        padding-left: $small-spacing;
         position: absolute;
       }
     }
 
     @include small() {
-    li {
-      width: $carousel-image-width / 2;
+      li {
+        width: $horizontal-carousel-image-width / 2;
 
-      a {
-        max-height: $carousel-image-max-height / 2;
-        width: $carousel-image-width / 2;
+        a {
+          max-height: $horizontal-carousel-image-height / 2;
+          width: $horizontal-carousel-image-width / 2;
+        }
+
+        .rs-carousel-item-title {
+          display: none;
+        }
       }
+    }
+  }
 
-      .rs-carousel-item-title {
-        display: none;
+    /* Vertical carousel styling
+  ========================================================================== */
+
+  .rs-carousel-items.rs-carousel-vertical {
+    padding-top: $arrow-height + $medium-spacing;
+    padding-bottom: $arrow-height + $medium-spacing;
+
+    margin-top: $large-spacing;
+
+    .rs-carousel-action-prev,
+    .rs-carousel-action-next {
+      margin-top: 0;
+      left: ($vertical-carousel-image-width / 2) - ($arrow-width / 2);
+      top: auto;
+    }
+
+    .rs-carousel-action-prev {
+      top: 0;
+      background-position: -2 * $arrow-width 0;
+    }
+
+    .rs-carousel-action-next {
+      bottom: 0;
+      background-position: -3 * $arrow-width 0;
+    }
+
+    .rs-carousel-mask {
+      height: $vertical-carousel-height;
+
+      li {
+        margin-right: 0;
+        margin-bottom: $large-spacing;
+        width: $vertical-carousel-image-width;
+        max-height: $vertical-carousel-image-height;
+        height: $vertical-carousel-image-height;
+
+        a {
+          max-height: $vertical-carousel-image-height;
+          width: $vertical-carousel-image-width;
+        }
       }
     }
   }
@@ -229,6 +275,3 @@ $carousel-tab-color:                       $white;
 
 
 
-
-
-}
