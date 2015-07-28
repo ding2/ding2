@@ -167,6 +167,23 @@ function ting_search_context_rate_node_action(&$node, $context) {
 }
 
 /**
+ * Callback for our unrate node action.
+ *
+ * TODO: Should probably be updated to handle context specific unrating.
+ */
+function ting_search_context_unrate_node_action(&$node, $context) {
+  // Perform the unrating
+  $num_deleted = ting_search_context_unrate_node($node->nid);
+
+  $message = format_plural($num_deleted,
+    'Unrated %node. 1 rating was deleted.',
+    'Unrated %node. @count ratings was deleted.',
+    array('%node' => check_plain($node->title))
+  );
+  drupal_set_message($message);
+}
+
+/**
  * Form builder for VBO per-bulk configuration form and Drupal core standard
  * advanced action form. Enables administrators to select the context and rating
  * for the nodes.
