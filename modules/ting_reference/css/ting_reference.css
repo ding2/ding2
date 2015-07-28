@@ -1,0 +1,13 @@
+.view-mode-ting-reference-preview {
+  background-color: #E8E8E8;
+  padding: 20px;
+}
+
+.view-mode-ting-reference-preview .ting-object-left {
+  float: left;
+  display: block
+}
+
+.view-mode-ting-reference-preview .ting-object-right {
+  margin-left: 210px
+}
