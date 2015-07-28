@@ -1,0 +1,42 @@
+<?php
+/**
+ * @file
+ * Defines the cache table to store auto-complete data from the web-services
+ * used by this module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ting_search_autocomplete_schema() {
+  $schema = array();
+  $schema['cache_ting_search_autocomplete'] = drupal_get_schema_unprocessed('system', 'cache');
+  return $schema;
+}
+
+
+/**
+ * Implements hook_install().
+ */
+function ting_search_autocomplete_install() {
+  _ting_search_autocomplete_settings();
+}
+
+
+/**
+ * Redo module to use opensuggestion webservice.
+ */
+function ting_search_autocomplete_update_7001() {
+  _ting_search_autocomplete_settings();
+}
+
+
+/**
+ * Initialize opensuggestion webservice settings.
+ */
+function _ting_search_autocomplete_settings() {
+  $defaults = variable_get('ting_search_autocomplete_settings', array());
+  $default['agency']  = (!empty($defaults['agency']))  ? $defaults['agency']  : variable_get('ting_agency', NULL);
+  $default['profile'] = (!empty($defaults['profile'])) ? $defaults['profile'] : variable_get('ting_search_profile', NULL);
+  variable_set('ting_search_autocomplete_settings', $defaults);
+}
