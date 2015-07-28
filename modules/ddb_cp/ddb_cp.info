@@ -1,0 +1,6 @@
+name = DDB Control Panel
+description = Manage this installation of the DDB CMS.
+package = DDB
+core = 7.x
+
+files[] = includes/ddb_cp_service.inc
