@@ -1,0 +1,99 @@
+<?php
+/**
+ * @file
+ * Adds the web-trends tracking code to the site.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ding_webtrends_menu() {
+  $items = array();
+
+  $items['admin/config/ding/webtrends'] = array(
+    'title' => 'WebTrends',
+    'description' => 'Settings for the WebTrends analytics tool.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_webtrends_admin_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ding_webtrends.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_page_alter().
+ */
+function ding_webtrends_page_alter(&$page) {
+  // Load webtrend script.
+  // Should be loaded after the inline-configuration
+  if (variable_get('preprocess_js', FALSE)) {
+    // Aggregate JS, load minified version.
+    drupal_add_js(drupal_get_path('module', 'ding_webtrends') . '/js/webtrends.min.js', array('scope' => 'footer'));
+  }
+  else {
+    drupal_add_js(drupal_get_path('module', 'ding_webtrends') . '/js/webtrends.js', array('scope' => 'footer'));
+  }
+
+  // Get configuration variables set in the administration interface.
+  $domain = variable_get('webtrends_domain', FALSE);
+  $dcs_id = variable_get('webtrends_dcs_id', FALSE);
+  $onsitedoms = variable_get('webtrends_onsitedoms', NULL);
+
+  // Check that webtrends have been configured.
+  if (!$domain || !$dcs_id) {
+    watchdog('ding_webtrends', 'Ding Webtrends module not configured.', array(), WATCHDOG_NOTICE);
+    return;
+  }
+
+  // Create custom inline script.
+  $script = <<<EOT
+window.webtrendsAsyncInit=function(){
+    var dcs=new Webtrends.dcs().init({
+        dcsid:"$dcs_id",
+        domain:"statse.webtrendslive.com",
+        timezone:1,
+        i18n:true,
+        adimpressions:true,
+        adsparam:"WT.ac",
+        offsite:true,
+        download:true,
+        downloadtypes:"avi,csv,doc,docx,exe,gzip,mp3,mp4,pdf,ppt,pptx,rar,txt,wav,xls,xlsx,zip",
+        onsitedoms:"$onsitedoms",
+        fpcdom:".$domain",
+        plugins:{
+            hm:{src:"//s.webtrends.com/js/webtrends.hm.js"},
+            facebook:{src:"//s.webtrends.com/js/webtrends.fb.js"},
+            yt:{src:"//s.webtrends.com/js/webtrends.yt.js"}
+        }
+        });
+
+        // @TODO: Prepare for search-data
+        var count = jQuery('.js-count');
+        if(count.length > 0) {
+          dcs.WT.oss = jQuery('.form-type-textfield input').val();  // search query
+          dcs.WT.oss_r = count.attr('data-js-count'); // search hits
+        }
+        
+        dcs.track();
+};
+EOT;
+
+  drupal_add_js($script, array(
+    'type' => 'inline',
+  ));
+
+  // Fallback HTML if JS is not enabled.
+  $html = <<<EOT
+<noscript><div>
+<img alt="dcsimg" id="dcsimg" width="1" height="1" src="//statse.webtrendslive.com/$dcs_id/njs.gif?dcsuri=/nojavascript&amp;WT.js=No&amp;WT.tv=10.4.1&amp;dcssip=$domain"/>
+</div></noscript>
+EOT;
+
+  $page['page_bottom']['webtrends'] = array(
+    '#type' => 'markup',
+    '#markup' => $html,
+  );
+
+}
