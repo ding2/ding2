@@ -1,0 +1,6 @@
+name = Ding toggle format
+description = Ding - toggle short/long format
+package = Ding!
+core = 7.x
+version = "7.x-0.4"
+files[] = ding_toggle_format.module

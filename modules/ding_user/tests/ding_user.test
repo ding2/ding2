@@ -1,0 +1,198 @@
+<?php
+/**
+ * @file
+ * Test cases to ensure that ding user is working corretly.
+ */
+
+/**
+ * Check that basic user login functionality works.
+ */
+class DingUserFunctionalTest extends DrupalWebTestCase {
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Ding user',
+      'description' => 'Basic user login functionality through a provider.',
+      'group' => 'Ding! - User',
+    );
+  }
+
+  function setUp() {
+    $this->profile = 'minimal';
+    parent::setUp(array('ding_user', 'ding_provider', 'connie', 'ding_user_test'));
+  }
+
+  /**
+   * Attempts to get the logged in users uid from the edit link.
+   */
+  function getUidFromEditLink() {
+    $edit_link = $this->xpath('//a[normalize-space(text())=:label]', array(':label' => t('Edit user profile')));
+    $res = preg_match('{^/user/(\d+)/edit$}', (string) $edit_link[0]['href'], $matches);
+    $this->assertTrue($res, t('Edit link is well formed.'));
+    if (!$res) {
+      // No uid, bail out.
+      return FALSE;
+    }
+    return $matches[1];
+  }
+
+  /**
+   * Test a user can log in.
+   */
+  function testLogin() {
+    // connie accepts any user whose password is last four chars of the
+    // username
+    $login_data = array(
+      'name' => 'twain',
+      'pass' => 'wain',
+    );
+    $this->drupalGet('user/login');
+    $this->assertRaw(t('Enter the password that accompanies your username.'), t("We're not logged in."));
+
+    $this->drupalPost('user/login', $login_data, t('Log in'));
+    $this->assertRaw(t('Member for'), t("Login works."));
+
+    if (!($uid = $this->getUidFromEditLink())) {
+      // No uid, bail out.
+      return;
+    }
+
+    $this->assertRaw('Twain', t('Real name is displayed'));
+    $user = user_load($uid);
+    $this->assertEqual('twain@example.com', $user->mail, t('User email has been properly set.'));
+    $this->assertNoRaw($user->name, t('$user->name isn\'t shown'));
+    $this->assertNoRaw($user->init, t('$user->init isn\'t shown'));
+
+    user_save($user, array('mail' => 'user@example.com', 'data' => array('display_name' => 'Svend Bent')));
+
+    $this->drupalGet('user');
+    $this->assertRaw('Svend Bent', t('Display name was changed for test.'));
+
+    // Logout
+    $this->drupalLogout();
+    // Check that we're logged out.
+    $this->drupalGet('user/login');
+    $this->assertRaw(t('Enter the password that accompanies your username.'), t("We're not logged in."));
+
+    $this->drupalPost('user/login', $login_data, t('Log in'));
+    $this->assertRaw(t('Member for'), t("Second login works."));
+
+    if (!($new_uid = $this->getUidFromEditLink())) {
+      // No uid, bail out.
+      return;
+    }
+    $this->assertEqual($uid, $new_uid, t('Second login is the same uid.'));
+
+    $this->assertRaw('Twain', t('Real name was properly reset.'));
+    $user = user_load($uid, TRUE);
+    $this->assertEqual('twain@example.com', $user->mail, t('User email has been properly reset.'));
+  }
+
+  /**
+   * Test that an unknown user can't log in.
+   */
+  function testLoginFail() {
+    // connie rejects any user whose password is not the last four chars
+    // of the username.
+    $login_data = array(
+      'name' => 'twain',
+      'pass' => 'banana',
+    );
+    $this->drupalGet('user/login');
+    $this->assertRaw(t('Enter the password that accompanies your username.'), t("We're not logged in."));
+
+    $this->drupalPost('user/login', $login_data, t('Log in'));
+    $this->assertText(t('Sorry, unrecognized username or password. Have you forgotten your password?'));
+  }
+
+  /**
+   * Test that an blocked user can't log in, and gets a message.
+   */
+  function testLoginBlocked() {
+    // connie blocks any user with 'blocked' in the username.
+    $login_data = array(
+      'name' => 'blockedtwain',
+      'pass' => 'wain',
+    );
+    $this->drupalGet('user/login');
+    $this->assertRaw(t('Enter the password that accompanies your username.'), t("We're not logged in."));
+
+    $this->drupalPost('user/login', $login_data, t('Log in'));
+    $this->assertText(t("Sorry, you're blocked"));
+  }
+
+  /**
+   * Test that authentication page works when providing the right credentials.
+   */
+  function testAuthenticationLogin() {
+    // connie accepts any user whose password is last four chars of the
+    // username
+    $login_data = array(
+      'name' => 'twain',
+      'pass' => 'wain',
+    );
+    $this->drupalGet('user/login');
+    $this->assertRaw(t('Enter the password that accompanies your username.'), t("We're not logged in."));
+
+    $this->drupalPost('user/login', $login_data, t('Log in'));
+    $this->assertRaw(t('Member for'), t("Login works."));
+
+    if (!($uid = $this->getUidFromEditLink())) {
+      // No uid, bail out.
+      return;
+    }
+    $this->drupalGet('user/' . $uid . '/authenticate');
+    $this->assertRaw('Member for', t("Authenticate page redirects to user page when we're authenticated."));
+    $this->drupalGet('ding_user_test/expirecreds');
+
+
+    $this->drupalGet('user/' . $uid . '/authenticate');
+    $this->assertRaw(t('Enter the password that accompanies your username.'), t("We're asked to re-authenticate."));
+
+    $this->drupalPost(NULL, $login_data, t('Log in'));
+    $this->assertRaw(t('Member for'), t("Authentication works."));
+
+    // Check that creds has been properly cached.
+    $this->drupalGet('user/' . $uid . '/authenticate');
+    $this->assertRaw('Member for', t("Authenticate page still redirects to user page when we're authenticated."));
+  }
+
+  /**
+   * Test that authentication page doesn't let you log in with another user.
+   */
+  function testAuthenticationNotOtherUser() {
+    // connie accepts any user whose password is last four chars of the
+    // username
+    $login_data = array(
+      'name' => 'twain',
+      'pass' => 'wain',
+    );
+    $false_login_data = array(
+      'name' => 'shakespeare',
+      'pass' => 'eare',
+    );
+
+    $this->drupalGet('user/login');
+    $this->assertRaw(t('Enter the password that accompanies your username.'), t("We're not logged in."));
+
+    $this->drupalPost('user/login', $login_data, t('Log in'));
+    $this->assertRaw(t('Member for'), t("Login works."));
+
+    if (!($uid = $this->getUidFromEditLink())) {
+      // No uid, bail out.
+      return;
+    }
+    $this->drupalGet('user/' . $uid . '/authenticate');
+    $this->assertRaw('Member for', t("Authenticate page redirects to user page when we're authenticated."));
+    $this->drupalGet('ding_user_test/expirecreds');
+
+
+    $this->drupalGet('user/' . $uid . '/authenticate');
+    $this->assertRaw(t('Enter the password that accompanies your username.'), t("We're asked to re-authenticate."));
+
+    $this->drupalPost(NULL, $false_login_data, t('Log in'));
+    $this->assertNoRaw(t('Member for'), t("Can't provide another users credentials."));
+
+  }
+
+}

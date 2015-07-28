@@ -1,0 +1,58 @@
+.bpi-stats-form .container-inline-date {
+  display: inline-block;
+}
+
+.bpi-admin-actions a {
+  margin-right: 10px;
+}
+
+div.form-item-bpi-search-query {
+  float: left;
+  padding-top: 5px;
+}
+
+.form-item-bpi-search-query input {
+  margin-right: 20px;
+}
+
+.edit-bpi-search-submit {
+  float: left;
+  margin-top: 10px;
+}
+
+.bpi-filter-text {
+  line-height: 16px;
+}
+
+.bpi-filter-remove-cross {
+  display: inline-block;
+  height: 16px;
+}
+
+.bpi-filter-remove-cross {
+  vertical-align: middle;
+}
+
+.bpi-title {
+  width: 40%;
+}
+
+.bpi-photo {
+  text-align: center;
+}
+
+.bpi-photo.photos {
+  background: url('../images/photos.png') no-repeat center;
+}
+
+.bpi-photo.no-photos {
+  background: url('../images/no_photos.png') no-repeat center;
+}
+
+.bpi-photo.editable {
+  background: url('../images/editable.png') no-repeat center;
+}
+
+.bpi-photo.not-editable {
+  background: url('../images/not-editable.png') no-repeat center;
+}

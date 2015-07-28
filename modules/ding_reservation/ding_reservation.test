@@ -1,0 +1,157 @@
+<?php
+/**
+ * @file
+ * Create tests to test the module.
+ */
+
+/**
+ * Check that basic user login functionality works.
+ */
+class DingReservationFunctionalTest extends DingPopupTestCase {
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Ding reservation',
+      'description' => 'Reservation functional tests.',
+      'group' => 'Ding! - Reservation',
+    );
+  }
+
+  function setUp() {
+    $this->profile = 'minimal';
+    parent::setUp(array('ding_reservation', 'ding_user', 'ding_user_test', 'ding_provider', 'connie', 'ting'));
+
+    // Way too many dependencies for this test, but we'll need a mock
+    // ding_entity implementation in order to test ding_reservations. Until
+    // such a thing exists, we're using ting.
+    variable_set('ting_agency', '710100');
+    variable_set('ting_search_url', 'http://opensearch.addi.dk/1.0/');
+    variable_set('ting_scan_url', 'http://openscan.addi.dk/1.5/');
+    variable_set('ting_spell_url', 'http://openspell.addi.dk/1.2/');
+    variable_set('ting_recommendation_url', 'http://openadhl.addi.dk/1.1/');
+  }
+
+  function testAnonReserve() {
+    $login_data = array('name' => 'twain', 'pass' => 'wain');
+    $this->drupalGet('ting/object/710100:24168638'); // Random harry potter book.
+    $commands = $this->drupalPostAJAX(NULL, array(), array('op' => t('Reserve')), NULL, array(), array(), 'ding-reservation-reserve-form');
+    $expected = array(
+      'command' => 'ding_popup',
+      'name' => 'ding_user',
+      'title' => t('Login'),
+    );
+    $this->assertCommand($commands, $expected, "We get a login form.");
+
+    $commands = $this->drupalPostAJAX(NULL, $login_data, array('op' => t('Log in')), NULL, array(), array(), 'user-login');
+
+    $expected = array(
+      'command' => 'ding_popup_close',
+      'name' => 'ding_user',
+    );
+    $this->assertCommand($commands, $expected, "Login works.");
+
+    $expected = array(
+      'command' => 'ding_popup',
+      'name' => 'ding_reservation',
+    );
+    $this->assertCommand($commands, $expected, "We're asked for a default branch.");
+
+    $commands = $this->drupalPostAJAX(NULL, array('preferred_branch' => 'grd'), array('op' => t('Reserve')), NULL, array(), array(), 'ding-reservation-reserve-form--2');
+
+    $expected = array(
+      'command' => 'ding_popup',
+      'name' => 'ding_reservation',
+    );
+    $this->assertCommand($commands, $expected, "Popup stays open.");
+    foreach ($commands as $command) {
+      if ($command['command'] == 'ding_popup') {
+        $this->assertTrue(strpos($command['data'], '"Harry Potter og De Vises Sten Ved Jesper Christensen" reserved and will be available for pickup at Gåserød bibliotek.'), 'Proper message displayed.');
+      }
+    }
+
+    $this->drupalGet('ting/object/710100:25197909'); // Another random harry potter book.
+    $commands = $this->drupalPostAJAX(NULL, array(), array('op' => t('Reserve')), NULL, array(), array(), 'ding-reservation-reserve-form');
+
+    $expected = array(
+      'command' => 'ding_popup',
+      'name' => 'ding_reservation',
+    );
+    $this->assertCommand($commands, $expected, "We get a popup.");
+    foreach ($commands as $command) {
+      if ($command['command'] == 'ding_popup') {
+        $this->assertTrue(strpos($command['data'], '"Harry Potter og Flammernes Pokal" reserved and will be available for pickup at Gåserød bibliotek.'), 'Proper message displayed.');
+      }
+    }
+  }
+
+  function testUserReserve() {
+    $login_data = array('name' => 'twain', 'pass' => 'wain');
+    $this->drupalPost('user/login', $login_data, t('Log in'));
+
+    $this->drupalGet('ting/object/710100:24168638'); // Random harry potter book.
+    $commands = $this->drupalPostAJAX(NULL, array(), array('op' => t('Reserve')), NULL, array(), array(), 'ding-reservation-reserve-form');
+
+    $expected = array(
+      'command' => 'ding_popup',
+      'name' => 'ding_reservation',
+    );
+    $this->assertCommand($commands, $expected, "We're asked for a default branch.");
+
+    $commands = $this->drupalPostAJAX(NULL, array('preferred_branch' => 'grd'), array('op' => t('Reserve')), NULL, array(), array(), 'ding-reservation-reserve-form--2');
+
+    $expected = array(
+      'command' => 'ding_popup',
+      'name' => 'ding_reservation',
+    );
+    $this->assertCommand($commands, $expected, "Popup stays open.");
+    foreach ($commands as $command) {
+      if ($command['command'] == 'ding_popup') {
+        $this->assertTrue(strpos($command['data'], '"Harry Potter og De Vises Sten Ved Jesper Christensen" reserved and will be available for pickup at Gåserød bibliotek.'), 'Proper message displayed.');
+      }
+    }
+
+    $this->drupalGet('ting/object/710100:25197909'); // Another random harry potter book.
+    $commands = $this->drupalPostAJAX(NULL, array(), array('op' => t('Reserve')), NULL, array(), array(), 'ding-reservation-reserve-form');
+
+    $expected = array(
+      'command' => 'ding_popup',
+      'name' => 'ding_reservation',
+    );
+    $this->assertCommand($commands, $expected, "We get a popup.");
+    foreach ($commands as $command) {
+      if ($command['command'] == 'ding_popup') {
+        $this->assertTrue(strpos($command['data'], '"Harry Potter og Flammernes Pokal" reserved and will be available for pickup at Gåserød bibliotek.'), 'Proper message displayed.');
+      }
+    }
+
+    // Now expire creds and try another book.
+    $this->drupalGet('ding_user_test/expirecreds');
+
+    $this->drupalGet('ting/object/710100:25245784'); // Yet another harry potter book.
+    $commands = $this->drupalPostAJAX(NULL, array(), array('op' => t('Reserve')), NULL, array(), array(), 'ding-reservation-reserve-form');
+    $expected = array(
+      'command' => 'ding_popup',
+      'name' => 'ding_user',
+      'title' => t('Authenticate'),
+    );
+    $this->assertCommand($commands, $expected, "We get an authentication form.");
+    $commands = $this->drupalPostAJAX(NULL, $login_data, array('op' => t('Log in')), NULL, array(), array(), 'ding-user-authenticate-form');
+
+    $expected = array(
+      'command' => 'ding_popup_close',
+      'name' => 'ding_user',
+    );
+    $this->assertCommand($commands, $expected, "Authentication works.");
+
+    $expected = array(
+      'command' => 'ding_popup',
+      'name' => 'ding_reservation',
+    );
+    $this->assertCommand($commands, $expected, "We get a popup.");
+    foreach ($commands as $command) {
+      if ($command['command'] == 'ding_popup') {
+        $this->assertTrue(strpos($command['data'], '"Harry Potter og Fønixordenen" reserved and will be available for pickup at Gåserød bibliotek.'), 'Proper message displayed.');
+      }
+    }
+  }
+}

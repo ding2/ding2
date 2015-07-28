@@ -1,0 +1,537 @@
+<?php
+/**
+ * @file
+ * Base setup and functions for Ding!.
+ */
+
+include_once 'ding_base.features.inc';
+
+/**
+ * Implements hook_menu().
+ *
+ * Provides the Configuration page block for all Ding modules.
+ */
+function ding_base_menu() {
+  $items = array();
+
+  $items['admin/config/ding'] = array(
+    'title' => 'Ding',
+    'description' => 'Manage Ding.',
+    'position' => 'right',
+    'weight' => 20,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('access administration pages'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_base_theme() {
+  return array(
+    // Used on the user library status pages.
+    'material_item' => array(
+      'render element' => 'element',
+      'template' => 'templates/material_item',
+    ),
+    'tableselect_form' => array(
+      'render element' => 'element',
+    ),
+    'body_snippet' => array(
+      'variables' => array('element' => NULL),
+    ),
+  );
+}
+
+/**
+ * Implements s a theme function for body_snippet.
+ */
+function theme_body_snippet($element) {
+  $element_string = strip_tags($element['element']['value']);
+  $element_string = preg_replace('/\[\[.*\]\]/', '', $element_string);
+  $element_string = html_entity_decode($element_string, ENT_NOQUOTES, 'utf-8');
+  $element_string = drupal_substr($element_string, 0, $element['display']['settings']['body_snippet_length']);
+  return $element_string;
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function ding_base_field_formatter_info() {
+  return array(
+    'body_snippet' => array(
+      'label' => t('Show plaintext part of string'),
+      'field types' => array('text', 'text_long'),
+      'settings' => array('body_snippet_length' => 100),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function ding_base_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $elements = array();
+  foreach ($items as $delta => $item) {
+    $elements[$delta] = array(
+      '#markup' => theme('body_snippet', array(
+        'element' => $item,
+        'field' => $instance,
+        'display' => $display,
+      )),
+    );
+  }
+  return $elements;
+}
+
+function ding_base_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $element = array();
+  if ($display['type'] == 'body_snippet') {
+    $element['body_snippet_length'] = array(
+      '#title' => t('Trim length'),
+      '#type' => 'textfield',
+      '#size' => 10,
+      '#default_value' => $settings['body_snippet_length'],
+      '#element_validate' => array('_element_validate_integer_positive'),
+      '#required' => TRUE,
+    );
+  }
+  return $element;
+}
+
+function ding_base_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $summary = '';
+
+  if ($display['type'] == 'body_snippet') {
+    $summary = t('Trim length') . ': ' . $settings['body_snippet_length'];
+  }
+
+  return $summary;
+}
+
+/**
+ * Implements hook_date_formats().
+ */
+function ding_base_date_formats() {
+  return array(
+    array(
+      'type' => 'ding_date_only',
+      'format' => 'l j. F',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'ding_event_lists_date',
+      'format' => 'l j. F Y',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'ding_material_lists_date',
+      'format' => 'j. F Y',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'ding_long_date_only',
+      'format' => 'l j. F Y',
+      'locales' => array(),
+    ),
+    array(
+      'type' => 'ding_time_only',
+      'format' => 'G:i',
+      'locales' => array(),
+    ),
+    array(
+       // New default drupal selectable short format.
+      'type' => 'short',
+      'format' => 'd-m-Y H:i',
+      'locales' => array(),
+    ),
+    array(
+      // New default drupal selectable medium format.
+      'type' => 'medium',
+      'format' => 'D, d-m-Y H:i',
+      'locales' => array(),
+    ),
+    array(
+      // New default drupal selectable long format.
+      'type' => 'long',
+      'format' => 'l, j. F, Y H:i',
+      'locales' => array(),
+    ),
+);
+}
+
+/**
+ * Implements hook_date_format_types().
+ */
+function ding_base_date_format_types() {
+  return array(
+    'ding_date_only' => t('Date only (mainly used in events)'),
+    'ding_time_only' => t('Time only (mainly used in events)'),
+    'ding_long_date_only' => t('Long date only (mainly used in news)'),
+    'ding_material_lists_date' => t('Ding marterial lists date'),
+    'ding_event_lists_date' => t('Ding event lists date'),
+  );
+}
+
+/**
+ * Implements hook_element_info().
+ */
+function ding_base_element_info() {
+  $types = array();
+
+  $types['tableselect_form'] = array(
+    '#input' => TRUE,
+    '#js_select' => TRUE,
+    '#multiple' => TRUE,
+    '#process' => array('ding_base_element_process_tableselect_form'),
+    '#options' => array(),
+    '#empty' => '',
+    '#theme' => 'tableselect_form',
+  );
+
+  $types['material_item'] = array(
+    '#input' => TRUE,
+    '#process' => array('ding_base_element_process_material_item'),
+    '#theme' => 'material_item',
+  );
+
+  return $types;
+}
+
+/**
+ * Process function for our element.
+ */
+function ding_base_element_process_tableselect_form($element) {
+  if ($element['#multiple']) {
+    $value = is_array($element['#value']) ? $element['#value'] : array();
+  }
+  else {
+    // Advanced selection behaviour make no sense for radios.
+    $element['#js_select'] = FALSE;
+  }
+
+  $element['#tree'] = TRUE;
+
+  if (count($element['#options']) > 0) {
+    if (!isset($element['#default_value']) || $element['#default_value'] === 0) {
+      $element['#default_value'] = array();
+    }
+
+    // Create a checkbox or radio for each item in #options in such a way that
+    // the value of the tableselect element behaves as if it had been of type
+    // checkboxes or radios.
+    foreach ($element['#options'] as $key => $choice) {
+      // Do not overwrite manually created children.
+      if (!isset($element[$key])) {
+        if ($element['#multiple']) {
+          $title = '';
+          if (!empty($element['#options'][$key]['title']['data']['#title'])) {
+            $title = t('Update @title', array(
+                       '@title' => $element['#options'][$key]['title']['data']['#title'],
+                     ));
+          }
+          $element[$key] = array(
+            '#type' => 'checkbox',
+            '#title' => $title,
+            '#title_display' => 'invisible',
+            '#return_value' => $key,
+            '#default_value' => isset($value[$key]) ? $key : NULL,
+            '#attributes' => $element['#attributes'],
+          );
+        }
+        else {
+          // Generate the parents as the autogenerator does, so we will have a
+          // unique id for each radio button.
+          $parents_for_id = array_merge($element['#parents'], array($key));
+          $element[$key] = array(
+            '#type' => 'radio',
+            '#title' => '',
+            '#return_value' => $key,
+            '#default_value' => ($element['#default_value'] == $key) ? $key : NULL,
+            '#attributes' => $element['#attributes'],
+            '#parents' => $element['#parents'],
+            '#id' => drupal_html_id('edit-' . implode('-', $parents_for_id)),
+            '#ajax' => isset($element['#ajax']) ? $element['#ajax'] : NULL,
+          );
+        }
+        if (isset($element['#options'][$key]['#weight'])) {
+          $element[$key]['#weight'] = $element['#options'][$key]['#weight'];
+        }
+
+        // Add a reference to cell content in a hidden child of this
+        // element. This means that form API will see them, and do the
+        // appropriate processing.
+        foreach ($element['#header'] as $fieldname => $title) {
+          if (isset($element['#options'][$key][$fieldname]['data']) && is_array($element['#options'][$key][$fieldname]['data'])) {
+            $element['_form_options'][$key][$fieldname] =& $element['#options'][$key][$fieldname]['data'];
+          }
+          elseif (!isset($element['#options'][$key][$fieldname]['data']) && is_array($element['#options'][$key][$fieldname])) {
+            $element['_form_options'][$key][$fieldname] =& $element['#options'][$key][$fieldname];
+          }
+        }
+      }
+    }
+  }
+  else {
+    $element['#value'] = array();
+  }
+  return $element;
+}
+
+/**
+ * Theme function for our custom element.
+ */
+function theme_tableselect_form($variables) {
+  $element = $variables['element'];
+  $rows = array();
+  $header = array();
+  if (!empty($element['#options'])) {
+    // Generate a table row for each selectable item in #options.
+    foreach (element_children($element) as $key) {
+      if ($key == '_form_options') {
+        // Skip our hidden render sub-array.
+        continue;
+      }
+      $row = array();
+
+      $row['data'] = array();
+      if (isset($element['#options'][$key]['#attributes'])) {
+        $row += $element['#options'][$key]['#attributes'];
+      }
+      // Render the checkbox / radio element.
+      $row['data'][] = drupal_render($element[$key]);
+
+      // As theme_table only maps header and row columns by order, create the
+      // correct order by iterating over the header fields.
+      foreach ($element['#header'] as $fieldname => $title) {
+        $row['data'][] = $element['#options'][$key][$fieldname];
+
+        // Add classes to table header columns.
+        $translated_title = $element['#header'][$fieldname];
+        $header[$fieldname] = array('data' => $translated_title, 'class' => $fieldname);
+      }
+      $rows[] = $row;
+    }
+    // Add an empty header or a "Select all" checkbox to provide room for the
+    // checkboxes/radios in the first table column.
+    if ($element['#js_select']) {
+      // Add a "Select all" checkbox.
+      drupal_add_js('misc/tableselect.js');
+      array_unshift($header, array('class' => array('select-all')));
+    }
+    else {
+      // Add an empty header when radio buttons are displayed or a "Select all"
+      // checkbox is not desired.
+      array_unshift($header, '');
+    }
+  }
+
+  return theme('table', array(
+    'header' => $header,
+    'rows' => $rows,
+    'empty' => $element['#empty'],
+    'attributes' => $element['#attributes'],
+  ));
+}
+
+/**
+ * Default implementation of the process function for the material item.
+ *
+ * Adds a checkbox to with a cover, title and extra information supplied in the
+ * render array.
+ */
+function ding_base_element_process_material_item($element) {
+  // Add the checkbox to the element.
+  $element[$element['#id']] = array(
+    '#type' => 'checkbox',
+    '#return_value' => $element['#id'],
+    '#attributes' => isset($element['#attributes']) ? $element['#attributes'] : array(),
+    '#disabled' => isset($element['#disabled']) ? $element['#disabled'] : FALSE,
+  );
+
+  return $element;
+}
+
+/**
+ * Default preprocess function for material_item theme function.
+ */
+function ding_base_preprocess_material_item(&$variables) {
+  $element = $variables['element'];
+
+  // Render the checkbox.
+  $variables['checkbox'] = drupal_render($element[$element['#id']]);
+
+  // Get the title and cover.
+  $variables['title'] = $element['#title'];
+  $variables['cover'] = drupal_render($element['#cover']);
+
+  // Sort the information elements based on weight.
+  uasort($element['#information'], 'element_sort');
+  $variables['information'] = $element['#information'];
+
+  // Check if material message have been set.
+  if (isset($element['#material_message'])) {
+    $variables['material_message'] = $element['#material_message'];
+  }
+
+  // Check if availability_id have been set.
+  $variables['availability_id'] = NULL;
+  if (isset($element['#availability_id'])) {
+    $variables['availability_id'] = $element['#availability_id'];
+  }
+}
+
+/**
+ * Implements hook_pathauto_alias_alter().
+ *
+ * Try to force all content to language neutral to fix issues with content not
+ * being display for all users.
+ */
+function ding_base_pathauto_alias_alter(&$alias, array &$context) {
+  // Force all aliases to be saved as language neutral.
+  $context['language'] = LANGUAGE_NONE;
+}
+
+/**
+ * When using clean urls and OG this function helps create alias for taxonomy.
+ *
+ * Mainly used by ding_groups.
+ *
+ * @todo: used it in ding_libraries to remove the "slug" field.
+ *
+ * @param Entity $node
+ *   Node entity object for the OG group that should have alias updated.
+ * @param string $base
+ *   Base path for the group (e.g. library or temaer).
+ * @param array $terms
+ *   The taxonomy terms objects to generate paths for.
+ * @param array $slugs
+ *   The sulg to use in the path (e.g. nyheder or arragementer).
+ */
+function ding_base_updated_taxonomy_aliases($node, $base, $terms, $slugs) {
+  $group_alias = 'node/' . $node->nid;
+
+  // Find node pattern from path auto.
+  module_load_include('inc', 'pathauto');
+  $pattern = pathauto_pattern_load_by_entity('node', $node->type);
+  if ($pattern) {
+    // Create node alias using token replace.
+    $group_alias = token_replace($pattern, array('node' => $node), array(
+      'sanitize' => FALSE,
+      'clear' => TRUE,
+      'callback' => 'pathauto_clean_token_values',
+      'language' => (object) array('language' => LANGUAGE_NONE),
+      'pathauto' => TRUE,
+    ));
+  }
+
+  foreach ($slugs as $slug) {
+    foreach ($terms as $term) {
+      $source = $base . '/' . $node->nid . '/' . $slug . '/' . $term->tid;
+      $existing_alias = _pathauto_existing_alias_data($source, LANGUAGE_NONE);
+      $alias = $group_alias . '/' . $slug . '/' . $term->name;
+      $alias = pathauto_cleanstring($alias);
+      $alias = pathauto_clean_alias($alias);
+      pathauto_alias_uniquify($alias, $source, LANGUAGE_NONE);
+
+      if ($alias != $existing_alias['alias']) {
+        $path = array(
+          'source' => $source,
+          'alias' => $alias,
+          'language' => LANGUAGE_NONE,
+        );
+
+        // Set the alias or update it.
+        _pathauto_set_alias($path, $existing_alias);
+      }
+    }
+  }
+}
+
+/**
+ * Rewrite the color generated stylesheet.
+ *
+ * This function is used by "drush cgen" to regenerate the color modules css
+ * file when the theme have changed it's css. We have tried to trigger the color
+ * module to do this, but without any luck. So this basically do the same as
+ * going into the theme settings page changing the color scheme and change it
+ * back and press save.
+ *
+ * This manual step would create a large overhead in the automatically
+ * deployment and in the development of the theme, so hence this function.
+ */
+function ding_base_rewrite_color_stylesheet() {
+  $themes = list_themes();
+  $theme = 'ddbasic';
+  foreach ($themes as $name => $data) {
+    if ($data->status) {
+      $theme = $name;
+      break;
+    }
+  }
+
+  $info = color_get_info($theme);
+  $palette = color_get_palette($theme);
+
+  // Prepare target locations for generated files.
+  $id = $theme . '-' . substr(hash('sha256', serialize($palette) . microtime()), 0, 8);
+  $paths['color'] = 'public://color';
+  $paths['target'] = $paths['color'] . '/' . $id;
+  foreach ($paths as $path) {
+    file_prepare_directory($path, FILE_CREATE_DIRECTORY);
+  }
+  $paths['target'] = $paths['target'] . '/';
+  $paths['id'] = $id;
+  $paths['source'] = drupal_get_path('theme', $theme) . '/';
+  $paths['files'] = $paths['map'] = array();
+
+  // Rewrite theme stylesheets.
+  $css = array();
+  foreach ($info['css'] as $stylesheet) {
+    // Build a temporary array with LTR and RTL files.
+    $files = array();
+    if (file_exists($paths['source'] . $stylesheet)) {
+      $files[] = $stylesheet;
+
+      $rtl_file = str_replace('.css', '-rtl.css', $stylesheet);
+      if (file_exists($paths['source'] . $rtl_file)) {
+        $files[] = $rtl_file;
+      }
+    }
+
+    foreach ($files as $file) {
+      // Aggregate @imports recursively for each configured top level CSS file
+      // without optimization. Aggregation and optimization will be
+      // handled by drupal_build_css_cache() only.
+      $style = drupal_load_stylesheet($paths['source'] . $file, FALSE);
+
+      // Return the path to where this CSS file originated from, stripping
+      // off the name of the file at the end of the path.
+      $base = base_path() . dirname($paths['source'] . $file) . '/';
+      _drupal_build_css_path(NULL, $base);
+
+      // Prefix all paths within this CSS file, ignoring absolute paths.
+      $style = preg_replace_callback('/url\([\'"]?(?![a-z]+:|\/+)([^\'")]+)[\'"]?\)/i', '_drupal_build_css_path', $style);
+
+      // Rewrite stylesheet with new colors.
+      $style = _color_rewrite_stylesheet($theme, $info, $paths, $palette, $style);
+      $base_file = drupal_basename($file);
+      $css[] = $paths['target'] . $base_file;
+      _color_save_stylesheet($paths['target'] . $base_file, $style, $paths);
+    }
+  }
+
+  // Maintain list of files.
+  variable_set('color_' . $theme . '_stylesheets', $css);
+  variable_set('color_' . $theme . '_files', $paths['files']);
+}

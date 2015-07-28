@@ -1,0 +1,22 @@
+.search #edit-ding-redirect-redirect-radios {
+  position: absolute;
+  right: 0;
+  top: 36px;
+}
+.search .search-field-in-content #edit-ding-redirect-redirect-radios {
+  top: 5px;
+}
+.search #edit-ding-redirect-redirect-radios .form-item {
+  margin-top: 0;
+}
+.search #edit-ding-redirect-redirect-radios .form-item label{
+  color: rgba(0, 0, 0, 0.7);
+}
+
+/* Show the radios beneath the search field on mobile devices */
+@media only screen and (max-width: 768px) {
+  .search #edit-ding-redirect-redirect-radios {
+    position: relative;
+    top: 12px;
+  }
+}

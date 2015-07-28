@@ -1,0 +1,427 @@
+<?php
+/**
+ * @file
+ * Allows users to add ting items to wish list.
+ */
+
+module_load_include('inc', 'ding_bookmark', 'ding_bookmark.flag_ding_entity');
+
+/**
+ * Implements hook_menu().
+ */
+function ding_bookmark_menu() {
+  $items['user/%user/bookmarks'] = array(
+    'title' => 'Bookmarks',
+    'title arguments' => array('Bookmarks', 1),
+    'page callback' => 'ding_bookmark_user_bookmark_page',
+    'page arguments' => array(1),
+    'access callback' => 'ding_bookmark_view_access',
+    'access arguments' => array(1),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'ding_bookmark.pages.inc',
+  );
+
+  $items['ting/object/%ting_object/bookmark'] = array(
+    'page callback' => 'ding_bookmark_add_ajax',
+    'page arguments' => array(2),
+    'delivery callback' => 'ajax_deliver',
+    'access arguments' => array('access content'),
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_bookmark_permission() {
+  return array(
+    'perform bookmark' => array(
+      'title' => t('Perform bookmark'),
+      'description' => t('Perform bookmark of ting objects.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function ding_bookmark_menu_alter(&$items) {
+  foreach ($items as $path => $item) {
+    if ($path == 'user/%user/bookmarks' || $path == 'user/%pm_arg/bookmarks') {
+      $items[$path]['title callback'] = 'ding_bookmark_menu_item_title';
+    }
+  }
+}
+
+/**
+ * Implements hook_views_default_views_alter().
+ *
+ * Kill the views for the default bookmarks flag. They clash with our
+ * paths. Disabling them does not seem to be enough.
+ */
+function ding_bookmark_views_default_views_alter(&$views) {
+  if (!empty($views['flag_bookmarks'])) {
+    unset($views['flag_bookmarks']);
+  }
+  if (!empty($views['flag_bookmarks_tab'])) {
+    unset($views['flag_bookmarks_tab']);
+  }
+}
+
+/**
+ * Alter title to add count items number.
+ *
+ * @param string $title
+ *   Untranslated title.
+ * @param stdClass $account
+ *   User account object, for counting bookmark items.
+ *
+ * @return string
+ *   The bookmark item title.
+ *
+ * @todo: Find another way to do this, as it has the side effect of SQL joins
+ *        and loads all flag types from the database or remove the count.
+ *
+ * @see ding_bookmark_menu_alter()
+ */
+function ding_bookmark_menu_item_title($title, $account = NULL) {
+  return t($title) . ' (' . ding_bookmark_count_number($account) . ')';
+}
+
+/**
+ * Access callback; Check user access to bookmark.
+ */
+function ding_bookmark_view_access($account) {
+  global $user;
+  return $user->uid == $account->uid || $user->uid == 1;
+}
+
+/**
+ * Bookmark count callback.
+ *
+ * @param stdClass $account
+ *   User account object, for counting bookmark items.
+ *
+ * @return string
+ *   The number of bookmarks.
+ */
+function ding_bookmark_count_number($account = NULL) {
+  global $user;
+  if (is_null($account)) {
+    $account = $user;
+  }
+  return flag_load('bookmark')->get_user_count_number($account->uid);
+}
+
+
+/**
+ * Implements hook_flag_definitions().
+ */
+function ding_bookmark_flag_definitions() {
+  return array(
+    'ding_entity' => array(
+      'title' => t('Ding entities'),
+      'description' => '',
+      'handler' => 'flag_ding_entity',
+    ),
+  );
+}
+
+/**
+ * Implements hook_flag_default_flags().
+ */
+function ding_bookmark_flag_default_flags() {
+  $flags = array();
+
+  // Add flag "Bookmark".
+  $flags['bookmark'] = array(
+    'content_type' => 'ding_entity',
+    'name' => 'bookmark',
+    'title' => 'Bookmarks',
+    'global' => '0',
+    'types' => array(),
+    'flag_short' => 'Add to bookmarks',
+    'flag_long' => '',
+    'flag_message' => 'Added to bookmarks',
+    'flagged_already_message' => 'This item is in bookmarks already.',
+    'unflag_short' => 'Remove from bookmarks',
+    'unflag_long' => '',
+    'unflag_message' => 'Removed from bookmarks',
+    'unflag_denied_text' => '',
+    'link_type' => 'toggle',
+    'roles' => array(
+      'flag' => array(
+        0 => '2',
+      ),
+      'unflag' => array(
+        0 => '2',
+      ),
+    ),
+    'api_version' => 2,
+    'locked' => array('name', 'types', 'global', 'link_type', 'roles'),
+  );
+
+  return $flags;
+}
+
+/**
+ * Implements hook_form_flag_form_alter().
+ */
+function ding_bookmark_form_flag_form_alter(&$form, &$form_state, $form_id) {
+  if ($form['flag_name']['#value'] == 'bookmark') {
+    // Remove unnecessary parameters.
+    unset($form['display']['link_options_intro'], $form['display']['link_options_confirm']);
+  }
+}
+
+/**
+ * Implements hook_ding_entity_buttons().
+ */
+function ding_bookmark_ding_entity_buttons($type, $entity, $widget = 'default') {
+  // Add 'bookmark' button.
+  if ($type == 'ding_entity') {
+    switch ($widget) {
+      case 'ajax':
+        drupal_add_library('system', 'drupal.ajax');
+        $button = array(
+          array(
+            '#theme' => 'link',
+            '#text' => t('Bookmark'),
+            '#path' => 'ting/object/' . $entity->id . '/bookmark',
+            '#options' => array(
+              'attributes' => array(
+                'class' => array(
+                  'action-button',
+                  'bookmark-button',
+                  'use-ajax',
+                ),
+                'id' => 'bookmark-' . $entity->id,
+              ),
+              'html' => FALSE,
+            ),
+          ),
+        );
+        break;
+
+      default:
+        $button = array(ding_bookmark_flag_action_button($type, $entity));
+        break;
+    }
+
+    return $button;
+  }
+}
+
+/**
+ * Ajax entry callback.
+ *
+ * Bookmark ting object/entity with ajax callback.
+ *
+ * @param TingEntity $entity
+ *   Ting entity object.
+ *
+ * @return array
+ *   Render array with Ajax commands.
+ */
+function ding_bookmark_add_ajax($entity) {
+  $commands = array();
+
+  // Check if the logged in user is a library user.
+  if (!user_is_logged_in()) {
+    // Trigger log-in (the bookmark link will be triggered on success).
+    $commands[] = ajax_command_ding_user_authenticate('');
+  }
+  elseif (!user_access('perform bookmark')) {
+    $commands[] = ajax_command_ding_popup('ding_bookmark', t('Error'), '<p>' . t('You are not allowed to make bookmarks.') . '</p>');
+  }
+  elseif (!(is_object($entity) && $entity instanceof TingEntity)) {
+    // Error not ting entity.
+    $commands[] = ajax_command_ding_popup('ding_bookmark', t('Error'), '<p>' . t('Unable to load information about the material.') . '</p>');
+  }
+  else {
+    // Try to add bookmark to the users list.
+    $form_state = array('values' => array());
+    drupal_form_submit('flag_confirm', $form_state, 'flag', flag_get_flag('bookmark'), $entity->tid);
+
+    // Drop messages.
+    drupal_get_messages(NULL, TRUE);
+
+    // Get generated message.
+    $html = '<div class="ding-bookmark-message">' . $form_state['storage']['response_html'] . '</div>';
+
+    // Display pop-up.
+    $commands[] = ajax_command_ding_popup('ding_bookmark', t('Bookmark'), $html);
+  }
+
+  // Return the ajax commands as an render array.
+  return array('#type' => 'ajax', '#commands' => $commands);
+}
+
+/**
+ * Implements hook_form_flag_confirm_alter().
+ */
+function ding_bookmark_form_flag_confirm_alter(&$form, &$form_state, $form_id) {
+  if ($form['flag_name']['#value'] == 'bookmark') {
+    // Flag module does not allow flag/un-flag to anonymous users.
+    // Custom submit handler will show login popup to user instead of "You are
+    // not allowed to flag...".
+    $form['#native_submit'] = $form['#submit'];
+    $form['#submit'] = array('ding_bookmark_form_flag_confirm_submit');
+
+    // Implement ajax functionality.
+    $form['actions']['submit']['#ajax'] = array(
+      'callback' => 'ding_bookmark_flag_confirm_form_callback',
+      'wrapper' => 'ding-bookmark-flag-confirm-form',
+    );
+
+    // Remove 'cancel' link.
+    unset($form['actions']['cancel']);
+  }
+}
+
+/**
+ * Submit handler.
+ *
+ * Provides login popup for anonymous users, otherwise invoke native handlers
+ */
+function ding_bookmark_form_flag_confirm_submit($form, &$form_state) {
+  global $user;
+
+  // Popup login form.
+  if (!$user->uid) {
+    throw new DingProviderAuthException();
+  }
+
+  $bookmark_flag = flag_get_flag('bookmark');
+  $entity_id = $form['content_id']['#value'];
+
+  if ($bookmark_flag->is_flagged($entity_id)) {
+    // Generate message for the user.
+    $form_state['storage']['response_html'] = t($bookmark_flag->flagged_already_message);
+  }
+  else {
+    // Invoke native submit handlers.
+    foreach ($form['#native_submit'] as $function) {
+      if (function_exists($function)) {
+        $function($form, $form_state);
+      }
+    }
+    // Generate message for the user.
+    $form_state['storage']['response_html'] = t($bookmark_flag->flag_message);
+  }
+}
+
+/**
+ * Ajax callback.
+ */
+function ding_bookmark_flag_confirm_form_callback($form, &$form_state) {
+  $response = array(
+    '#type' => 'ajax',
+    '#commands' => array(),
+  );
+
+  // Drop messages.
+  theme('status_messages');
+  // Get generated message.
+  $html = '<div class="ding-bookmark-message">' . $form_state['storage']['response_html'] . '</div>';
+  // Popup.
+  $response['#commands'][] = ajax_command_ding_popup('ding_bookmark', t('Bookmark'), $html);
+
+  return $response;
+}
+
+/**
+ * Build 'add to bookmark' button.
+ */
+function ding_bookmark_flag_action_button($entity_type, $entity) {
+  $bookmark_flag = flag_get_flag('bookmark');
+
+  $ding_entity_info = ding_entity_info($entity_type);
+  $entity_info = entity_get_info($ding_entity_info['entity_type']);
+  $entity_id = $entity->{$entity_info['entity keys']['id']};
+
+  // Confirm form will change page title.
+  // Store native title.
+  $page_native_title = drupal_get_title();
+  $flag_confirm_form = ding_provider_get_form('flag_confirm', 'flag', $bookmark_flag, $entity_id);
+  // Restore title.
+  drupal_set_title($page_native_title);
+
+  return $flag_confirm_form;
+}
+
+/**
+ * Load all bookmarks as entities based on user account object.
+ *
+ * @param stdClass $account
+ *   Drupal user account object.
+ *
+ * @return array
+ *   Array of entities bookmarked in the user account.
+ */
+function ding_bookmark_load_bookmarks($account) {
+  $bookmark_flags = flag_load('bookmark')->get_user_content_ids($account->uid);
+  $entities = array();
+
+  foreach ($bookmark_flags as $entity_id => $entity_type) {
+    $type_info = ding_entity_info($entity_type);
+    $entity = entity_load($type_info['entity_type'], array($entity_id));
+    // Library code can be changed at any time by the site administrator.
+    // Every time when bookmark item is loaded,
+    // module should check, whether item is available in the current library.
+    // If item does not exists in the library it should be deleted from
+    // bookmark.
+    if (!$entity) {
+      // Remove item.
+      $flag = flag_get_flag('bookmark');
+      $flag->flag('unflag', $entity_id);
+      continue;
+    }
+
+    $entities[] = reset($entity);
+  }
+
+  return $entities;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add the option to hide the import bookmark form.
+ */
+function ding_bookmark_form_user_admin_settings_alter(&$form, &$form_state, $form_id) {
+  $form['bookmark'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Ding bookmark'),
+    '#weight' => -1,
+    '#tree' => FALSE,
+  );
+
+  $form['bookmark']['ding_bookmark_display_import'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Display import'),
+    '#description' => t('Display the bookmark import form on the users bookmark page.'),
+    '#default_value' => variable_get('ding_bookmark_display_import', TRUE),
+  );
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ding_bookmark_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_api().
+ */
+function ding_bookmark_ctools_plugin_api() {
+  list($module, $api) = func_get_args();
+  if ($module == "page_manager" && $api == "pages_default") {
+    return array("version" => "1");
+  }
+}
+

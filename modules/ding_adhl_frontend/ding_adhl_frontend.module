@@ -1,0 +1,206 @@
+<?php
+/**
+ * @file
+ * Enables the ADHL services to ding2 sites.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ding_adhl_frontend_menu() {
+  $items = array();
+
+  $items['admin/config/ding/adhl'] = array(
+    'title' => 'Ding ADHL settings',
+    'description' => 'Configure ADHL caching duration and number of elements to fetch.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_adhl_frontend_settings_form'),
+    'access arguments' => array('administer adhl recommendations'),
+    'file' => 'ding_adhl_frontend.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_adhl_frontend_permission() {
+  return array(
+    'administer adhl recommendations' => array(
+      'title' => t('Administer ADHL'),
+      'description' => t('Administer ADHL recommedation settings'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_adhl_frontend_theme() {
+  return array(
+    'ding_adhl_frontend_recommendation_list' => array(
+      'variables' => array('type' => 'ul', 'items' => array()),
+      'template' => 'templates/ding_adhl_frontend_recommendation_list',
+    ),
+    'ding_adhl_frontend_recommendation_list_entry' => array(
+      'variables' => array('item' => NULL),
+      'template' => 'templates/ding_adhl_frontend_recommendation_list_entry',
+    ),
+  );
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ *
+ * Default implementation of preprocess function for
+ * ding_adhl_frontend_recommendation_list_entry theme function.
+ */
+function template_preprocess_ding_adhl_frontend_recommendation_list_entry(&$vars) {
+  $item = $vars['item'];
+
+  // Build string with the creators.
+  $creators = FALSE;
+  if (!empty($item->creators)) {
+    $creators = implode(", ", $item->creators);
+  }
+  $vars['creators'] = $creators;
+
+  // Create link and title back to the ting object.
+  $uri = entity_uri("ting_object", $item);
+  $vars['link'] = array(
+    'uri' => url($uri['path']),
+    'title' => $item->title . ($creators ? ': ' . $creators : ''),
+  );
+}
+
+/**
+ * Implements hook_flush_caches().
+ */
+function ding_adhl_frontend_flush_caches() {
+  return array('cache_ding_adhl_frontend');
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * Tells CTools (and thus Panels) where to look for plugin code.
+ */
+function ding_adhl_frontend_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' || $module == 'panels') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
+ * Load TingClientObjects for each recommendation.
+ *
+ * @param TingEntity $objects
+ *   Ting objects (ting entities) that represent a datawell object. (This may
+ *   be different stuff array, object, collection?).
+ * @param bool $reset
+ *   Reset the cache. Defaults to FALSE.
+ *
+ * @return TingEntity
+ *   An array of recommendations as ting entities.
+ */
+function ding_adhl_frontend_get_recommended_objects($objects, $reset = FALSE) {
+  // Check static cache for recommendations.
+  $recommended_objects = &drupal_static(__FUNCTION__);
+  if (!isset($recommended_objects) || $reset) {
+    // Build cache id to try persistent cache.
+    $identifiers = ding_adhl_frontend_extract_identifers($objects);
+    $cid = md5(implode('', $identifiers));
+    $cache = cache_get($cid, 'cache_ding_adhl_frontend');
+    if (!$reset && $cache && $cache->expire > REQUEST_TIME) {
+      $recommended_objects = $cache->data;
+    }
+    else {
+      // No cached information was found, so try getting recommendation form the
+      // service.
+      $number_of_recommendations = variable_get('ding_adhl_frontend_number_to_fetch', 24);
+      $local_ids = array();
+      foreach ($identifiers as $identifier) {
+        // Don't fetch more recommendations that the configured number.
+        if (count($local_ids) >= $number_of_recommendations) {
+          break;
+        }
+
+        // Get the recommendations from the ting client (ADHL service).
+        $recommendations = ting_get_object_recommendations($identifier, $number_of_recommendations);
+        if (isset($recommendations) && is_array($recommendations)) {
+          foreach ($recommendations as $recommendation) {
+            $local_ids[$recommendation->localId] = $recommendation;
+          }
+        }
+      }
+
+      // Fetch objects/entities representing the recommendations.
+      $recommended_objects = array();
+      $number_of_objects = variable_get('ding_adhl_frontend_number_to_display', 10);
+      $agency = variable_get('ting_agency', -1);
+      foreach (array_keys($local_ids) as $local_id) {
+        $ting_object = ding_entity_load(ding_provider_build_entity_id($local_id));
+
+        // Only show objects belonging to our own library.
+        if ($ting_object && $ting_object->ownerId == $agency) {
+          $recommended_objects[] = $ting_object;
+
+          // Don't get more than we want to display.
+          if (count($recommended_objects) >= $number_of_objects) {
+            break;
+          }
+        }
+      }
+
+      // Cache the result.
+      cache_set($cid, $recommended_objects, 'cache_ding_adhl_frontend', REQUEST_TIME + variable_get('ding_adhl_frontend_cache_duration', 604800));
+    }
+  }
+
+  return $recommended_objects;
+}
+
+/**
+ * Finds ting entity ids based on the type of input given.
+ *
+ * @todo: There most be a more clean way to get these ids -- cableman.
+ *
+ * @param mixed $objects
+ *   The parameter can be anything from an array to ting object collections.
+ *
+ * @return mixed
+ *   Ting entity ids.
+ */
+function ding_adhl_frontend_extract_identifers($objects) {
+  if (is_array($objects)) {
+    // If passing an array then extract ids from each of the entries.
+    $ids = array();
+    foreach ($objects as $o) {
+      $ids = array_merge($ids, ding_adhl_frontend_extract_identifers($o));
+    }
+    return array_unique($ids);
+  }
+  else {
+    // If passing a single value then extract ids depending on type.
+    switch (get_class($objects)) {
+      case 'TingClientObject':
+        if (!empty($objects->record['dc:identifier']['dkdcplus:ISBN'])) {
+          return $objects->record['dc:identifier']['dkdcplus:ISBN'];
+        }
+        else {
+          return array();
+        }
+        break;
+
+      case 'TingClientObjectCollection':
+        // Get ids from each of the objects in the collection.
+        return ding_adhl_frontend_extract_identifers($objects->objects);
+
+      default:
+        // Assume a string or integer has been passed and return it.
+        return array($objects);
+    }
+  }
+}
+

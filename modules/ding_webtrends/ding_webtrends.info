@@ -1,0 +1,6 @@
+name = Ding WebTrends
+description = Adds WebTrends JavaScript tracking code to all your site's pages.
+package = Ding!
+version = "7.x-0.2"
+core = 7.x
+configure = admin/config/ding/webtrends

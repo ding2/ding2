@@ -1,0 +1,9 @@
+name = Ting full-text
+description = Displays the full-text version of documents and articles.
+package = Ding!
+core = 7.x
+version = "7.x-0.21"
+files[] = ting_fulltext.module
+files[] = ting_fulltext.pages.inc
+dependencies[] = ting
+

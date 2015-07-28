@@ -1,0 +1,45 @@
+/**
+ * Fulltext views
+ *
+ * @author cableman (jeskr)
+ */
+
+/* Fulltext page
+   ========================================================================== */
+
+.ting-fulltext-wrapper {
+  margin-bottom: 20px;
+  overflow: hidden;
+  padding: 15px;
+
+  background: url('../images/pw_maze_white.png');
+
+  .ting-fulltext-inner-wrapper {
+    overflow: hidden;
+    padding: 20px;
+
+    background-color: transparentize($white, .1);
+  }
+
+  .author {
+    padding-bottom: 10px;
+
+    .author-label {
+      font-weight: bold;
+    }
+  }
+
+  .description {
+    border-bottom: 1px solid $gray-light;
+
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+
+    &.last {
+      border-bottom: 0;
+
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+  }
+}

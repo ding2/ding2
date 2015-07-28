@@ -1,0 +1,284 @@
+/**
+ * Carousel
+ *
+ * @author magnify
+ */
+
+
+
+/* Variables
+   ========================================================================== */
+
+$carousel-background-color:                $white;
+$carousel-image-width:                     200px;
+$carousel-image-max-height:                250px;
+$carousel-tab-background-color:            transparentize($black, .5);
+$carousel-active-tab-background-color:     $black;
+$carousel-tab-color:                       $white;
+
+
+
+/* Wrapper, load and inner
+   ========================================================================== */
+
+.rs-carousel-wrapper {
+  @include zen-grid-container;
+}
+
+.rs-carousel {
+  @include zen-grid-item(12, 1);
+
+  padding: 0;
+
+  .ajax-loader {
+    @include border-radius(12px);
+
+    border: 1px solid transparentize($black, .5);
+    padding: 5px;
+    top: 100px;
+  }
+
+  .rs-carousel-items {
+    background-color: transparent;
+  }
+
+  @include small-medium() {
+    background-color: $red;
+  }
+}
+
+.rs-carousel-inner {
+  background-color: $carousel-background-color;
+  min-height: 225px;
+  padding-top: 20px;
+  padding-right: 20px;
+  padding-bottom: 30px;
+  padding-left: 20px;
+
+  @include small-medium() {
+    background-color: transparent;
+    min-height: 150px;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+  }
+}
+
+
+
+/* Pagination and previous and next buttons
+   ========================================================================== */
+
+.rs-carousel-pagination {
+  display: none;
+}
+
+.rs-carousel-action-prev,
+.rs-carousel-action-next {
+  @include opacity(.25);
+
+  &.rs-carousel-action-active {
+    @include opacity(1);
+  }
+
+  @include small-medium() {
+    display: none;
+  }
+}
+
+.rs-carousel-action-prev {
+  left: 20px;
+}
+
+.rs-carousel-action-next {
+  right: 20px;
+}
+
+
+
+/* Carousel content, mask, title etc.
+   ========================================================================== */
+
+.rs-carousel-title {
+  @include box-sizing(border-box);
+  @include font-bold();
+
+  color: transparentize($black, .3);
+  font-size: $font-size-larger;
+  margin-bottom: 20px;
+
+  @include small() {
+    font-size: $font-size-largest;
+  }
+
+  @include small-medium() {
+    color: $white;
+  }
+}
+
+.rs-carousel-mask {
+  li {
+    margin-right: 20px;
+    position: relative;
+    width: $carousel-image-width;
+
+    img {
+      min-width: 100%;
+      padding: 0;
+    }
+
+    &:hover {
+      .rs-carousel-item-title {
+        background-color: $black;
+        text-decoration: none;
+      }
+    }
+
+    a {
+      max-height: $carousel-image-max-height;
+      width: $carousel-image-width;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    .rs-carousel-item-title {
+      @include box-sizing(border-box);
+
+      background-color: transparentize($black, .25);
+      bottom: 0;
+      color: $white;
+      left: 0;
+      padding-top: 10px;
+      padding-right: 15px;
+      padding-bottom: 10px;
+      padding-left: 15px;
+      position: absolute;
+    }
+  }
+
+  @include small() {
+    li {
+      width: $carousel-image-width / 2;
+
+      a {
+        max-height: $carousel-image-max-height / 2;
+        width: $carousel-image-width / 2;
+      }
+
+      .rs-carousel-item-title {
+        display: none;
+      }
+    }
+  }
+}
+
+.rs-carousel-runner {
+  padding-left: 0;
+}
+
+
+
+/* Carousel tabs
+   ========================================================================== */
+
+.rs-carousel-tabs {
+  .rs-carousel-list-tabs {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    text-align: center;
+
+    .rs-carousel-item {
+      @extend .icon-chevron-down;
+
+      a {
+        background-color: $carousel-tab-background-color;
+        color: $carousel-tab-color;
+        display: block;
+        margin-right: 1px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+
+        &:hover {
+          background-color: $carousel-active-tab-background-color;
+          text-decoration: none;
+        }
+      }
+
+      &.active {
+        a {
+          @include font-bold();
+
+          background-color: $carousel-active-tab-background-color;
+
+          &:before {
+            @include pseudo-arrow(10px, $carousel-active-tab-background-color, top, center, $offset: 20px);
+          }
+        }
+      }
+
+      &:before {
+        display: none;
+      }
+    }
+  }
+
+  .rs-carousel-select-tabs {
+    display: none;
+  }
+
+  @include small-medium() {
+    @include box-sizing(border-box);
+
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+
+    .rs-carousel-list-tabs {
+      display: none;
+    }
+
+    .rs-carousel-select-tabs {
+      display: block;
+      width: 100%;
+
+      .rs-carousel-item {
+        @include border-radius(12px);
+
+        display: block;
+        background-color: $white;
+        color: $black;
+        padding-left: 20px;
+        text-align: left;
+
+        &:before {
+          @include border-radius(12px);
+
+          background-color: $black;
+          color: $white;
+          cursor: pointer;
+          display: block;
+          font-family: $base-icon-library-font;
+          padding-top: 15px;
+          padding-right: 20px;
+          padding-bottom: 15px;
+          padding-left: 20px;
+          position: absolute;
+          right: 0;
+          z-index: 99;
+        }
+
+        &.js-tab-hidden {
+          display: none;
+        }
+
+        &.js-tab-visible {
+          display: block;
+        }
+      }
+    }
+  }
+}

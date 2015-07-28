@@ -1,0 +1,977 @@
+<?php
+/**
+ * @file
+ * Enables search integration with Ting.
+ */
+
+require_once 'includes/TingSearchCqlDoctor.class.inc';
+
+/**
+ * Implements hook_init().
+ *
+ * Make the ting search overlay available for all other JavaScripts around the
+ * site.
+ */
+function ting_search_init() {
+  drupal_add_js(drupal_get_path('module', 'ting_search') . '/js/ting_search_overlay.js');
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * It simply tells panels where to find the .inc files that define various
+ * args, contexts, content_types.
+ */
+function ting_search_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_api().
+ */
+function ting_search_ctools_plugin_api($module, $api) {
+  if ($module == 'page_manager' && $api == 'pages_default') {
+    return array('version' => 1);
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ting_search_menu() {
+  $items = array();
+
+  $items['admin/config/ting/search'] = array(
+    'title' => 'Search settings',
+    'description' => 'Settings avialable for ting search.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_search_admin_settings'),
+    'access arguments' => array('administer ting settings'),
+    'file' => 'includes/ting_search.admin.inc',
+  );
+
+  $items['search-blank'] = array(
+    'callback' => '_blank_page',
+    'access' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Menu callback to fix the twice search issue.
+ *
+ * When the search form is submitted back to Drupal it's submitted back to the
+ * same page. So a search performed on the search page will trigger the first
+ * search and the new search (twice search).
+ *
+ * @see http://platform.dandigbib.org/issues/372
+ */
+function _blank_page() {
+  return '';
+}
+
+/**
+ * Implements hook_menu_alter().
+ *
+ * Temporary hack to alter titles.
+ */
+function ting_search_menu_alter(&$items) {
+  $items['search/node']['title'] = 'Homepage';
+  $items['search/node/%menu_tail']['title'] = 'Homepage';
+  $items['search/node/%menu_tail']['load arguments'] = array('%map', '%index');
+  $items['search/ting']['title'] = 'Data well';
+  $items['search/ting/%menu_tail']['title'] = 'Data well';
+  $items['search/meta/%menu_tail']['load arguments'] = array('%map', '%index');
+  $items['search/meta']['title'] = 'Universal Search';
+  $items['search/meta/%menu_tail']['title'] = 'Universal Search';
+  $items['search/meta/%menu_tail']['load arguments'] = array('%map', '%index');
+}
+
+/**
+ * Implements hook_search_info().
+ */
+function ting_search_search_info() {
+  return array(
+    'title' => t('Ting'),
+    'path' => 'ting',
+    'conditions_callback' => 'ting_search_conditions_callback',
+  );
+}
+
+/**
+ * Implements hook_ding_facetbrowser().
+ */
+function ting_search_ding_facetbrowser() {
+  $results = new stdClass();
+  $results->show_empty = FALSE;
+  $search_result = drupal_static('ting_search_results');
+  if ($search_result) {
+    $results->facets = ($search_result instanceof TingClientSearchResult) ? $search_result->facets : array();
+    $results->searchkey = $search_result->search_key;
+    return $results;
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ting_search_theme($existing, $type, $theme, $path) {
+  return array(
+    'ting_search_results' => array(
+      'variables' => array('results' => NULL, 'module' => NULL),
+      'file'      => 'ting_search.pages.inc',
+      'template'  => 'templates/ting-search-results',
+    ),
+    'ting_search_mini_pager' => array(
+      'variables' => array(
+        'tags' => array(),
+        'element' => 0,
+        'parameters' => array(),
+        'quantity' => 9,
+      ),
+    ),
+    'ting_search_pager' => array(
+      'variables' => array(
+        'tags' => array(),
+        'element' => 0,
+        'parameters' => array(),
+        'quantity' => 9,
+      ),
+    ),
+    'ting_search_display_extended_query' => array(
+      'variables' => array('query_label' => NULL,'query_string' => NULL),
+      'template' => 'ting-search-display-extended-query',
+      'path' => $path . '/templates',
+    ),
+    'ting_search_extended_search' => array(
+      'template' => 'ting-search-extended-search',
+      'path' => $path . '/templates',
+    ),
+  );
+}
+
+/**
+ * Returns a themed list of extended actions.
+ *
+ * @return string
+ *   HTML ting_search_extended_search.
+ */
+function ting_search_get_extended_actions() {
+  return theme('ting_search_extended_search');
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * For the form search_block_form.
+ */
+function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id) {
+  // Define advanced fields.
+  $advanced_fields = array(
+    'term.creator' => array(
+      'key' => 'creator',
+      'title' => t('Author'),
+      'description' => t('Enter the author name'),
+    ),
+    'term.title' => array(
+      'key' => 'title',
+      'title' => t('Title'),
+      'description' => t('Enter title'),
+    ),
+    'term.subject' => array(
+      'key' => 'subject',
+      'title' => t('Subject'),
+      'description' => t('Enter subject keywords'),
+    ),
+  );
+
+  // We're going to disable advanced search in
+  // the first version, and implement later on.
+  // When implementing againg, set
+  // $advanced = TRUE - just below
+  // and re-enable asserts in testTingExtended() in ting_search.test.
+  $advanced = FALSE;
+
+  // Parse extended search query parameters.
+  if (arg(0) == 'search') {
+    $parts = explode('/', $_GET['q']);
+
+    // Lose 'search' and the search type.
+    array_shift($parts);
+    $type = array_shift($parts);
+    $search_query = implode('/', $parts);
+    $indexes = ting_search_extract_keys($search_query, array_keys($advanced_fields));
+    $search_query = $indexes['q'];
+    unset($indexes['q']);
+
+    if ($type != 'ting' and !empty($indexes)) {
+      $search_query .= " " . implode(' ', $indexes);
+      $indexes = array();
+      $advanced = FALSE;
+    }
+
+    // Set default value to the current search query.
+    $form['search_block_form']['#default_value'] = $search_query;
+  }
+
+  // Set max length on search input. This is need when users uses CQL search
+  // string as they can get very long. This length is base on experience from
+  // ding1 as seams to be long enough.
+  $form['search_block_form']['#maxlength'] = 256;
+
+  // Add JS to handle spinner in the search form.
+  $form['search_block_form']['#attached']['js'] = array(
+    drupal_get_path('module', 'ting_search') . '/js/ting_search.js',
+  );
+
+  $form['sort'] = array(
+    '#type' => 'hidden',
+    '#default_value' => isset($_GET['sort']) ? check_plain($_GET['sort']) : FALSE,
+    '#attributes' => array('id' => 'controls_search_sort'),
+  );
+  $form['size'] = array(
+    '#type' => 'hidden',
+    '#default_value' => isset($_GET['size']) ? (int) $_GET['size'] : FALSE,
+    '#attributes' => array('id' => 'controls_search_size'),
+  );
+
+  // See line 127-130 - disabled in the first version.
+  //$form['form_id']['#suffix'] = ting_search_get_extended_actions();
+
+  if ($advanced) {
+    $form['advanced'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Advanced search'),
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+      '#weight' => 101,
+      '#prefix' => '<div id="advanced-search-wrapper">',
+      '#suffix' => '</div>',
+      '#attached' => array(
+        'js' => array(
+          drupal_get_path('module', 'ting_search') . '/js/ting_search_extendform.js',
+        ),
+      ),
+    );
+
+    foreach ($advanced_fields as $name => $field) {
+      $form['advanced'][$field['key']] = array(
+        '#type' => 'textfield',
+        '#title' => check_plain($field['title']),
+        '#size' => 30,
+        '#maxlength' => 64,
+        '#description' => check_plain($field['description']),
+        '#default_value' => isset($indexes[$name]) ? $indexes[$name] : '',
+      );
+    }
+  }
+  $form['#submit'] = array('ting_search_submit');
+
+  // This submits the form to a blank page and prevents the search to be
+  // executed twice. See http://platform.dandigbib.org/issues/372 for more
+  // information.
+  $form['#action'] = '?q=search-blank';
+
+  return $form;
+}
+
+/**
+ * Extract special field keys from search string.
+ *
+ * @param string $search_query
+ *   The search query.
+ * @param array $keys
+ *   Keys to extract.
+ *
+ * @return array 
+ *   Where the array keys are the search keys, and the remainder
+ *   search string in 'q'.
+ */
+function ting_search_extract_keys($search_query, $keys) {
+  $indexes = &drupal_static('ting_search_extract_indexes', array());
+
+  ting_search_extract_indexes(NULL, $keys);
+  $regexpes = array(
+    '/(^|\s+and\s+)\(([^)]+)\)$/i',
+  );
+  foreach ($regexpes as $regexp) {
+    $search_query = preg_replace_callback($regexp, 'ting_search_extract_indexes', $search_query);
+  }
+
+  $indexes['q'] = $search_query;
+  return $indexes;
+}
+
+/**
+ * Preg_replace_callback function.
+ */
+function ting_search_extract_indexes($matches, $set_keys = NULL) {
+  static $keys;
+  if ($set_keys) {
+    $keys = array_flip($set_keys);
+  }
+  $return = array();
+  $subexps = preg_split('/\s+and\s+/i', $matches[2], NULL, PREG_SPLIT_NO_EMPTY);
+  $indexes = &drupal_static(__FUNCTION__, array());
+  foreach ($subexps as $subexp) {
+    if ((preg_match('/^([^=]+)\=([^"]*)$/', $subexp, $rx) || preg_match('/^([^=]+)\="(.*)"$/', $subexp, $rx)) && array_key_exists(trim($rx[1]), $keys)) {
+      $indexes[trim($rx[1])] = trim($rx[2]);
+    }
+    else {
+      $return[] = $subexp;
+    }
+  }
+  // Re-append unknown stuff.
+  if (count($return)) {
+    return " and (" . implode(' and ', $return) . ")";
+  }
+  return "";
+}
+
+/**
+ * Search conditions callback.
+ */
+function ting_search_conditions_callback($keys) {
+  $conditions = array();
+
+  if (!empty($_REQUEST['keys'])) {
+    $conditions['keys'] = check_plain($_REQUEST['keys']);
+  }
+
+  if (!empty($_REQUEST['size'])) {
+    $conditions['size'] = (int) $_REQUEST['size'];
+  }
+
+
+  if (!empty($_REQUEST['sort'])) {
+    $conditions['sort'] = check_plain($_REQUEST['sort']);
+  }
+  else {
+    $conditions['sort'] = variable_get('ting_search_default_sort', '');
+  }
+  // If facets is set, check if we have to remove any, if so,
+  // reload the page.
+  if (!empty($_REQUEST['facets'])) {
+    $remove = array();
+    $redirect = FALSE;
+    foreach ($_REQUEST['facets'] as $key => $facet) {
+      if (preg_match('/^-facet/', $facet)) {
+        $remove[] = preg_replace('/^-/', '', $facet);
+        $redirect = TRUE;
+        unset($_REQUEST['facets'][$key]);
+      }
+    }
+
+    foreach ($_REQUEST['facets'] as $key => $facet) {
+      foreach ($remove as $rem) {
+        if ($facet == $rem) {
+          unset($_REQUEST['facets'][$key]);
+          continue;
+        }
+      }
+    }
+    $conditions['facets'] = $_REQUEST['facets'];
+    if ($redirect === TRUE) {
+      $facets = array();
+      foreach ($conditions['facets'] as $facet) {
+        $facets['facets'][] = $facet;
+      }
+      drupal_goto(rawurldecode($_GET['q']), array('query' => $facets));
+    }
+  }
+  return $conditions;
+}
+
+/**
+ * Implements hook_search_execute().
+ */
+function ting_search_search_execute($keys = NULL, $conditions = NULL) {
+  // Use static variable to ensure that this is only executed once.
+  $results = &drupal_static(__FUNCTION__);
+  if (!isset($results)) {
+    $results = array();
+    $options = array();
+    $results = array();
+    $facet_array = array();
+    $query = '(' . _ting_search_quote($keys) . ')';
+    $options['numFacets'] = variable_get('ting_search_number_of_facets', 25);
+
+    // Extend query with selected facets.
+    if (isset($conditions['facets']) && $conditions['facets'] != NULL) {
+      $facets = $conditions['facets'];
+      foreach ($facets as $facet) {
+        $facet = explode(':', $facet, 2);
+        if ($facet[0]) {
+          $facet_array[] = $facet[0] . '="' . rawurldecode($facet[1]) . '"';
+        }
+      }
+
+      $query .= ' AND ' . implode(' AND ', $facet_array);
+    }
+
+    $search_result = NULL;
+    try {
+      $page = pager_find_page();
+
+      // Set results per page.
+      $results_per_page = variable_get('ting_search_results_per_page', 10);
+      if (!empty($conditions['size'])) {
+        $results_per_page = $conditions['size'];
+      }
+
+      // Set sort order.
+      if (!empty($conditions['sort'])) {
+        $options['sort'] = $conditions['sort'];
+      }
+
+      module_load_include('client.inc', 'ting');
+      $search_result = ting_do_search($query, $page + 1, $results_per_page, $options);
+      if (isset($search_result->collections)) {
+        $search_result->search_key = $keys;
+
+        // So we got the total amount of results, but the joker here is that
+        // we have no clue how many collections we got.
+        // Rounded up, this will display 'one more page' if $search-result->more
+        // is true.
+        $total_results = ($page + 1) * $results_per_page + ($search_result->more ? 1 : 0);
+
+        pager_default_initialize($total_results, $results_per_page);
+
+        foreach ($search_result->collections as &$collection) {
+          $build = ting_collection_view($collection, 'teaser');
+          $uri = entity_uri('ting_collection', $collection);
+          $results[] = array(
+            'link' => url($uri['path'], $uri['options']),
+            'type' => '',
+            'title' => $collection->title,
+            'user' => '',
+            'date' => '',
+            'snippet' => drupal_render($build),
+          );
+        }
+      }
+    }
+    catch (TingClientException $e) {
+      watchdog_exception('ting_search', $e);
+      $results = array();
+    }
+
+    // Save search result for usage by facet modules etc.
+    $ting_search_results = &drupal_static('ting_search_results');
+    $ting_search_results = $search_result;
+
+    // Add support for facet api.
+    if (module_exists('ding_facets')) {
+      // @todo ITK Aarhus finish implementation of facet api to use a standard
+      // facet module, that allows usage of modules from D.O. to improved facet
+      // usage.
+      $adapter = facetapi_adapter_load('ding_facets');
+      if ($adapter) {
+        $adapter->addActiveFilters($query);
+      }
+    }
+  }
+
+  return $results;
+}
+
+/**
+ * Implements hook_search_page().
+ */
+function ting_search_search_page($results) {
+  return array(
+    '#theme' => 'ting_search_results',
+    '#results' => $results,
+    '#module' => 'ting_search',
+  );
+}
+
+/**
+ * Theme a pager.
+ */
+function theme_ting_search_pager($variables) {
+  $tags = $variables['tags'];
+  $element = $variables['element'];
+  $parameters = $variables['parameters'];
+  $quantity = $variables['quantity'];
+  $hide_list = isset($variables['hide_list']) ? $variables['hide_list'] : FALSE;
+  global $pager_page_array, $pager_total;
+
+  // Calculate various markers within this pager piece:
+  // Middle is used to "center" pages around the current page.
+  $pager_middle = ceil($quantity / 2);
+  // Current is the page we are currently paged to.
+  $pager_current = $pager_page_array[$element] + 1;
+  // First is the first page listed by this pager piece (re quantity).
+  $pager_first = $pager_current - $pager_middle + 1;
+  // Last is the last page listed by this pager piece (re quantity).
+  $pager_last = $pager_current + $quantity - $pager_middle;
+  // Max is the maximum page number.
+  $pager_max = $pager_total[$element];
+
+  // Prepare for generation loop.
+  $i = $pager_first;
+  if ($pager_last > $pager_max) {
+    // Adjust "center" if at end of query.
+    $i = $i + ($pager_max - $pager_last);
+    $pager_last = $pager_max;
+  }
+  if ($i <= 0) {
+    // Adjust "center" if at start of query.
+    $pager_last = $pager_last + (1 - $i);
+    $i = 1;
+  }
+
+  $li_previous = theme('pager_previous', array(
+    'text' => isset($tags[1]) ? $tags[1] : t('‹ previous'),
+    'element' => $element,
+    'interval' => 1,
+    'parameters' => $parameters,
+  ));
+
+  if (empty($li_previous)) {
+    $li_previous = "&nbsp;";
+  }
+
+  $li_first = theme('pager_first', array(
+    'text' => isset($tags[0]) ? $tags[0] : t('« first'),
+    'element' => $element,
+    'parameters' => $parameters,
+  ));
+
+  if (empty($li_first)) {
+    $li_first = "&nbsp;";
+  }
+
+  $li_next = theme('pager_next', array(
+    'text' => isset($tags[3]) ? $tags[3] : t('next ›'),
+    'element' => $element,
+    'interval' => 1,
+    'parameters' => $parameters,
+  ));
+  if (empty($li_next)) {
+    $li_next = "&nbsp;";
+  }
+
+  $li_last = theme('pager_last', array(
+    'text' => isset($tags[4]) ? $tags[4] : t('last »'),
+    'element' => $element,
+    'parameters' => $parameters,
+  ));
+
+  if (empty($li_last)) {
+    $li_last = "&nbsp;";
+  }
+
+  if ($pager_total[$element] > 1) {
+    if ($pager_current > 2) {
+      $items[] = array(
+        'class' => array('pager-first'),
+        'data' => $li_first,
+      );
+    }
+
+    $items[] = array(
+      'class' => array('pager-previous'),
+      'data' => $li_previous,
+    );
+
+    // When there is more than one page, create the pager list.
+    if (!$hide_list && $i != $pager_max) {
+      if ($i > 1) {
+        $items[] = array(
+          'class' => array('pager-ellipsis'),
+          'data' => '…',
+        );
+      }
+      // Now generate the actual pager piece.
+      for (; $i <= $pager_last && $i <= $pager_max; $i++) {
+        if ($i < $pager_current) {
+          $items[] = array(
+            'class' => array('pager-item'),
+            'data' => theme('pager_previous', array(
+              'text' => $i,
+              'element' => $element,
+              'interval' => ($pager_current - $i),
+              'parameters' => $parameters,
+            )),
+          );
+        }
+        if ($i == $pager_current) {
+          $items[] = array(
+            'class' => array('pager-current'),
+            'data' => $i,
+          );
+        }
+        if ($i > $pager_current) {
+          $items[] = array(
+            'class' => array('pager-item'),
+            'data' => theme('pager_next', array(
+              'text' => $i,
+              'element' => $element,
+              'interval' => ($i - $pager_current),
+              'parameters' => $parameters,
+            )),
+          );
+        }
+      }
+      if ($i < $pager_max) {
+        $items[] = array(
+          'class' => array('pager-ellipsis'),
+          'data' => '…',
+        );
+      }
+    }
+    else {
+      $items[] = array(
+        'class' => array('pager-current'),
+        'data' => $pager_current,
+      );
+    }
+
+    $items[] = array(
+      'class' => array('pager-next'),
+      'data' => $li_next,
+    );
+    if ($pager_current + 1 < $pager_max && $li_last) {
+      $items[] = array(
+        'class' => array('pager-last'),
+        'data' => $li_last,
+      );
+    }
+    return theme('item_list', array(
+      'items' => $items,
+      'type' => 'ul',
+      'attributes' => array(
+        'class' => array('pager'),
+      ),
+    ));
+  }
+}
+
+/**
+ * Theme a mini pager with only first, previous and next links.
+ */
+function theme_ting_search_mini_pager($variables) {
+  $tags = $variables['tags'];
+  $element = $variables['element'];
+  $parameters = $variables['parameters'];
+  global $pager_total;
+
+  $li_previous = theme('pager_previous', array(
+    'text' => isset($tags[1]) ? $tags[1] : t('‹ previous'),
+    'element' => $element,
+    'interval' => 1,
+    'parameters' => $parameters,
+  ));
+
+  if (empty($li_previous)) {
+    $li_previous = "&nbsp;";
+  }
+
+  $li_first = theme('pager_first', array(
+    'text' => isset($tags[0]) ? $tags[0] : t('« first'),
+    'element' => $element,
+    'parameters' => $parameters,
+  ));
+
+  if (empty($li_first)) {
+    $li_first = "&nbsp;";
+  }
+
+  $li_next = theme('pager_next', array(
+    'text' => isset($tags[3]) ? $tags[3] : t('next ›'),
+    'element' => $element,
+    'interval' => 1,
+    'parameters' => $parameters,
+  ));
+
+  if (empty($li_next)) {
+    $li_next = "&nbsp;";
+  }
+
+  if ($pager_total[$element] > 1) {
+    $items[] = array(
+      'class' => array('pager-first'),
+      'data' => $li_first,
+    );
+
+    $items[] = array(
+      'class' => array('pager-previous'),
+      'data' => $li_previous,
+    );
+
+    $items[] = array(
+      'class' => array('pager-next'),
+      'data' => $li_next,
+    );
+    return theme('item_list', array(
+      'items' => $items,
+      'type' => 'ul',
+      'attributes' => array(
+        'class' => array('pager'),
+      ),
+    ));
+  }
+}
+
+
+/**
+ * Implements hook_block_info().
+ */
+function ting_search_block_info() {
+  return array(
+    'sort_form' => array(
+      'info' => t('Ting search "sort by" form'),
+      'cache' => DRUPAL_CACHE_PER_PAGE,
+    ),
+    'search_display_extended_query' => array(
+      'info' => t('Ting search extended query display'),
+      'cache' => DRUPAL_CACHE_PER_PAGE,
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function ting_search_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'sort_form':
+      drupal_add_js(drupal_get_path('module', 'ting_search') . '/js/ting_search_extendform.js');
+      $block['subject'] = t('Ting search sort controls');
+
+      // Only display form if there are any search results.
+      $search_result = drupal_static('ting_search_results');
+      if (isset($search_result->numTotalObjects) && $search_result->numTotalObjects > 0) {
+        $block['content'] = drupal_get_form('ting_search_sort_form');
+      }
+      break;
+
+    case 'search_display_extended_query':
+      drupal_add_js(drupal_get_path('module', 'ting_search') . '/js/ting_search_extendform.js');
+      $block['content'] = theme('ting_search_display_extended_query', array('query_label' => t('Your query:'), 'query_string' => NULL));
+      break;
+  }
+  return $block;
+
+}
+
+function search_extend_content() {
+  return drupal_get_form('search_extend_form');
+}
+
+/**
+ * Create form for sorting search result.
+ */
+function ting_search_sort_form($form_state) {
+  $form = array();
+
+  $form['sort'] = array(
+    '#type' => 'select',
+    '#default_value' => isset($_GET['sort']) ? check_plain($_GET['sort']) : variable_get('ting_search_default_sort', ''),
+    '#options' => ting_search_sort_options(),
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Sort'),
+    '#states' => array(
+      'visible' => array(':input[name="op"]' => array('value' => '')),
+    ),
+  );
+  return $form;
+}
+
+/**
+ * Set default sort options.
+ *
+ * @return array
+ *   Returns an array of sort options.
+ */
+function ting_search_sort_options() {
+  $options = array(
+    '' => t('Ranking'),
+    'title_ascending' => t('Title (Ascending)'),
+    'title_descending' => t('Title (Descending)'),
+    'creator_ascending' => t('Creator (Ascending)'),
+    'creator_descending' => t('Creator (Descending)'),
+    'date_ascending' => t('Date (Ascending)'),
+    'date_descending' => t('Date (Descending)'),
+  );
+
+  // Add label to the front of the options.
+  foreach ($options as $key => $option) {
+    $options[$key] = t('Sort by: !sort', array('!sort' => $option));
+  }
+
+  return $options;
+}
+
+/**
+ * Process submitted data for sorting order form.
+ */
+function ting_search_sort_form_submit($form, &$form_state) {
+  $query = drupal_get_query_parameters();
+
+  if (isset($form_state['input']['sort'])) {
+    $query = array('sort' => $form_state['input']['sort']) + $query;
+  }
+
+  $form_state['redirect'] = array($_GET['q'], array('query' => $query));
+}
+
+/**
+ * Create links for changing how many records per page.
+ *
+ * This function uses the static variable "ting_search_results", so if a search
+ * result have not been render yet it will be empty. So you have to ensure that
+ * the search have been executed.
+ *
+ * In panels "render last" option can help in the plugin array.
+ */
+function ting_search_records_per_page_controls_content() {
+  // Get search results.
+  $search_result = drupal_static('ting_search_results');
+
+  // Use static as panels may call this more than once.
+  $output = &drupal_static(__FUNCTION__, array());
+
+  // Don't show anything if the search result is empty.
+  if (!empty($search_result->collections) && empty($output)) {
+    // Get the default results per page.
+    $def_size = variable_get('ting_search_results_per_page', 10);
+
+    // Set default as the first value.
+    $sizes = array($def_size => $def_size);
+
+    // Increment the default size by 2.5 and 5 to provide the user with three
+    // different options. Defaults to 10, 25, 50 posts per search page.
+    $size = (int) round($def_size * 2.5);
+    $sizes[$size] = $size;
+    $size = (int) round($def_size * 5);
+    $sizes[$size] = $size;
+
+    // Iterate through sizes and build the options.
+    foreach ($sizes as $number => $text) {
+      // Set the current pager page to first page (used in query).
+      $pager_page = array('page' => 0);
+
+      // Find the currently select size.
+      $keys = array_keys($sizes);
+      $selected = FALSE;
+      if (isset($_GET['size']) && $_GET['size'] == $number) {
+        $selected = TRUE;
+      }
+      elseif (!isset($_GET['size']) && $number == $keys[0]) {
+        $selected = TRUE;
+      }
+
+      // Add the result to the output.
+      $output[$text] = array(
+        'size' => $number,
+        'text' => $text,
+        'query' => array('size' => $number) + $pager_page + drupal_get_query_parameters(),
+        'selected' => $selected,
+      );
+    }
+
+    return $output;
+  }
+}
+
+/**
+ * Process a block search form submission.
+ */
+function ting_search_submit($form, &$form_state) {
+  $controls = array();
+  // The search form relies on control of the redirect destination for its
+  // functionality, so we override any static destination set in the request,
+  // for example by drupal_access_denied() or drupal_not_found()
+  // (see http://drupal.org/node/292565).
+  if (isset($_GET['destination'])) {
+    unset($_GET['destination']);
+  }
+
+  $form_id = $form['form_id']['#value'];
+  $keys = $form_state['values'][$form_id];
+  $fields = array();
+
+  $extended_fields = array(
+    'creator' => 'term.creator',
+    'title' => 'term.title',
+    'subject' => 'term.subject',
+  );
+
+  foreach ($extended_fields as $name => $index) {
+    if (!empty($form_state['values'][$name])) {
+      $value = $form_state['values'][$name];
+      $fields[] = $index . '=' . (strpos($value, ' ') ? '"' . $value . '"' : $value);
+    }
+  }
+
+  $q = array();
+  if (!empty($keys)) {
+    $q[] = $keys;
+  }
+  if (!empty($fields)) {
+    $q[] = '(' . implode(' AND ', $fields) . ')';
+  }
+  $q = implode(' AND ', $q);
+
+  $s = $form_state['values']['sort'];
+  if ($s != "") {
+    $controls['sort'] = $s;
+  }
+
+  $s = $form_state['values']['size'];
+  if ($s != "") {
+    $controls['size'] = $s;
+  }
+
+
+  // Check to see if the form was submitted empty.
+  // If it is empty, display an error message.
+  // (This method is used instead of setting #required to TRUE for this field
+  // because that results in a confusing error message.  It would say a plain
+  // "field is required" because the search keywords field has no title.
+  // The error message would also complain about a missing #title field.)
+  if ($q == '') {
+    form_set_error('keys', t('Please enter some keywords.'));
+  }
+  $search_info = array();
+  $request_path = arg();
+
+  if ($request_path[0] != 'search' || !isset($request_path[1])) {
+    $search_info = search_get_default_module_info();
+  }
+  else {
+    foreach (search_get_info() as $search_engine) {
+      if ($search_engine['path'] == $request_path[1]) {
+        $search_info = $search_engine;
+        break;
+      }
+    }
+  }
+  if (!empty($search_info['path']) && in_array($search_info['module'], variable_get('search_active_modules', array()))) {
+    $form_state['redirect'] = FALSE;
+    $url = 'search/' . $search_info['path'] . '/' . trim($q);
+    drupal_goto($url, array('query' => $controls));
+  }
+  else {
+    form_set_error(NULL, t('Search is currently disabled.'), 'error');
+  }
+}
+
+/**
+ * Make sure string is strict cql
+ */
+function _ting_search_quote($string) {
+  $cqlDoc = new TingSearchCqlDoctor($string);
+  return $cqlDoc->string_to_cql($string);
+}

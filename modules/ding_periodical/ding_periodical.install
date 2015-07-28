@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the ding_periodical module.
+ */
+
+/**
+ * Implements hook_ding_entity_fields().
+ */
+function ding_periodical_ding_entity_fields() {
+  return array(
+    'ding_periodical_issues' => array(
+      'field' => array(
+        'locked' => TRUE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Issue list for periodicals.'),
+      ),
+    ),
+  );
+}
+
+
+/**
+ * Convert blackhole field storage to virtual field.
+ */
+function ding_periodical_update_7000() {
+  return db_update('field_config')
+    ->fields(array(
+      'storage_type' => 'virtual_field',
+      'storage_module' => 'virtual_field',
+    ))
+    ->condition('module', 'ding_periodical')
+    ->execute();
+}

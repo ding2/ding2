@@ -1,0 +1,78 @@
+<?php
+/**
+ * @file
+ * Handles requirements hook for the module.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function ding_facetbrowser_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+  if ($phase == 'runtime') {
+    $requirements['ding_facetbrowser'] = array(
+      'title' => $t('Ding facetbrowser'),
+      'value' => $t('One or more facetgroups have been translated.'),
+    );
+    if (variable_get('ding_facetbrowser_facets', FALSE) == FALSE) {
+      $requirements['ding_facetbrowser']['value'] = $t('No facetgroups have been translated. Go to <a href="!link">Settings</a>.', array('!link' => '/admin/config/ting/facets'));
+      $requirements['ding_facetbrowser']['severity'] = REQUIREMENT_ERROR;
+    }
+  }
+  return $requirements;
+}
+
+/**
+ * Implements hook_install().
+ *
+ * Set default facets during installation.
+ */
+function ding_facetbrowser_install() {
+  $facets = array(
+    0 => array(
+      'name' => 'facet.type',
+      'title' => 'Materialetype',
+      'sorting' => 'default',
+      'weight' => '-10',
+    ),
+    1 => array(
+      'name' => 'facet.creator',
+      'title' => 'Forfatter',
+      'sorting' => 'default',
+      'weight' => '-9',
+    ),
+    2 => array(
+      'name' => 'facet.subject',
+      'title' => 'Emne',
+      'sorting' => 'default',
+      'weight' => '-8',
+    ),
+    3 => array(
+      'name' => 'facet.language',
+      'title' => 'Sprog',
+      'sorting' => 'default',
+      'weight' => '-7',
+    ),
+    4 => array(
+      'name' => 'facet.category',
+      'title' => 'Målgruppe',
+      'sorting' => 'default',
+      'weight' => '-6',
+    ),
+    5 => array(
+      'name' => 'facet.date',
+      'title' => 'Årstal',
+      'sorting' => 'numeric_reverse',
+      'weight' => '-5',
+    ),
+    6 => array(
+      'name' => 'facet.acSource',
+      'title' => 'Kilde',
+      'sorting' => 'default',
+      'weight' => '-4',
+    ),
+  );
+
+  variable_set('ding_facetbrowser_facets', $facets);
+}

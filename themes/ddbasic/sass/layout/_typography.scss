@@ -1,0 +1,59 @@
+/**
+ * Typography
+ *
+ * @author magnify
+ */
+
+
+/* Extends
+   ========================================================================== */
+%page-heading {
+  @include font-bold();
+  
+  font-size: $font-size-giga;
+
+  @include small() {
+    font-size: $font-size-large;
+  }
+}
+
+%section-heading {
+  @include font-bold();
+
+  font-size: $font-size-larger;
+}
+
+
+
+/* Header variants
+   ========================================================================== */
+
+.page-title {
+  @extend %page-heading;
+
+  margin-bottom: $large-spacing;
+}
+
+.pane-title {
+  @extend %section-heading;
+
+  margin-bottom: $medium-spacing;
+}
+
+
+/* Content and elements
+   ========================================================================== */
+
+.page-image {
+  margin-bottom: $medium-spacing;
+}
+
+.page-lead {
+  @include font-bold();
+
+  margin-bottom: $medium-spacing;
+}
+
+.page-content {
+  margin-bottom: $medium-spacing;
+}

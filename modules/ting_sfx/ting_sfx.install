@@ -1,0 +1,61 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the ting ting_infomedia module.
+ */
+
+/**
+ * Implements hook_ding_entity_fields().
+ *
+ * field-definitions.
+ */
+function ting_sfx_ding_entity_fields() {
+  return array(
+    'ting_sfx' => array(
+      'field' => array(
+        'locked' => TRUE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Search other sites'),
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_requirements().
+ */
+function ting_sfx_requirements($phase) {
+  $requirements = array();
+
+  if ($phase == 'runtime') {
+    $url = variable_get('ting_sfx_url');
+
+    if (!isset($url)) {
+      $t = get_t();
+      $requirements['service_urls'] = array(
+        'title' => $t('SFX settings'),
+        'value' => l($t('Url for SFX link resolver must be set in admin'), 'admin/config/ting/settings'),
+        'severity' => REQUIREMENT_ERROR,
+      );
+    }
+  }
+
+  return $requirements;
+}
+
+/**
+ * Convert blackhole field storage to virtual field.
+ */
+function ting_sfx_update_7000() {
+  return db_update('field_config')
+    ->fields(array(
+      'storage_type' => 'virtual_field',
+      'storage_module' => 'virtual_field',
+    ))
+    ->condition('module', 'ting_sfx')
+    ->execute();
+}

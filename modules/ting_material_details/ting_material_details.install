@@ -1,0 +1,364 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the ting ting_material_details module.
+ */
+
+/**
+ * field-definitions
+ * Implements hook_ding_entity_fields().
+ */
+function ting_material_details_ding_entity_fields() {
+  return array(
+    'ting_details_type' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Type'),
+      ),
+    ),
+
+    'ting_details_format' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Format'),
+      ),
+    ),
+
+    'ting_details_ispartof' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Available in'),
+      ),
+    ),
+
+    'ting_details_language' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Language'),
+      ),
+    ),
+
+    'ting_details_spoken' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Speech'),
+      ),
+    ),
+
+    'ting_details_subtitles' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Subtitle'),
+      ),
+    ),
+
+    'ting_details_genre' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Genre'),
+      ),
+    ),
+
+    'ting_details_subjects' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Subject'),
+      ),
+    ),
+
+    'ting_details_classification' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Classification'),
+      ),
+    ),
+
+    'ting_details_spatial' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Spatial'),
+      ),
+    ),
+
+    'ting_details_contributor' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Contributor'),
+      ),
+    ),
+
+    'ting_details_musician' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Musician'),
+      ),
+    ),
+
+    'ting_details_tracks' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Contains'),
+      ),
+    ),
+
+    'ting_details_referenced' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Referenced by'),
+      ),
+    ),
+
+    'ting_details_description' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Description'),
+      ),
+    ),
+      
+     'ting_details_seriesdescription' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Series description'),
+      ),
+    ),
+
+    'ting_details_source' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Original title'),
+      ),
+    ),
+
+    'ting_details_replaces' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Previous title'),
+      ),
+    ),
+
+    'ting_details_replaced_by' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Later title'),
+      ),
+    ),
+
+    'ting_details_isbn' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('ISBN no.'),
+      ),
+    ),
+
+    'ting_details_uri' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Host publication'),
+      ),
+    ),
+
+    'ting_details_version' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Version'),
+      ),
+    ),
+
+    'ting_details_extent' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Extent'),
+      ),
+    ),
+
+    'ting_details_publisher' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Publisher'),
+      ),
+    ),
+
+    'ting_details_rights' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Rights'),
+      ),
+    ),
+
+    'ting_details_audience' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Audience'),
+      ),
+    ),
+
+    'ting_details_age' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Age'),
+      ),
+    ),
+
+    'ting_details_pegi' => array(
+      'field' => array(
+        'locked' => FALSE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Pegi'),
+      ),
+    ),
+
+  );
+}
+
+/**
+ * Convert blackhole field storage to virtual field.
+ */
+function ting_material_details_update_7000() {
+  return db_update('field_config')
+    ->fields(array(
+      'storage_type' => 'virtual_field',
+      'storage_module' => 'virtual_field'
+    ))
+    ->condition('module', 'ting_material_details')
+    ->execute();
+}

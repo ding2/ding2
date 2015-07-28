@@ -1,0 +1,7 @@
+name = Ting relation
+description = Handles relations for ting entities.
+package = Ding!
+version = "7.x-1.9.1"
+core = 7.x
+dependencies[] = virtual_field
+files[] = ting_relation.module

@@ -1,0 +1,10 @@
+name = Ting Infomedia
+description = Module for linking and viewing Infomedia articles and reviews.
+package = Ding!
+version = "7.x-1.8"
+core = 7.x
+
+dependencies[] = virtual_field
+dependencies[] = ctools
+dependencies[] = panels
+dependencies[] = page_manager

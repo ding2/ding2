@@ -1,0 +1,40 @@
+<?php
+
+/**
+ * @file
+ * Common popup functionality for Ding!
+ */
+
+/**
+ * Ajax command to open a popup.
+ */
+function ajax_command_ding_popup($name, $title, $html, $options = array()) {
+  global $user;
+  $options += array(
+    'resubmit' => FALSE,
+    'extra_data' => array(),
+    'refresh' => FALSE,
+  );
+  drupal_add_library('system', 'ui.dialog');
+  drupal_add_js(drupal_get_path('module', 'ding_popup') . '/ding_popup.js');
+
+  return array(
+    'command' => 'ding_popup',
+    'name' => $name,
+    'title' => check_plain($title),
+    'data' => $html,
+    'resubmit' => (bool) $options['resubmit'],
+    'extra_data' => $options['extra_data'],
+    'refresh' => (bool) $options['refresh'],
+  );
+}
+
+/**
+ * Ajax command to close a popup.
+ */
+function ajax_command_ding_popup_close($name) {
+  return array(
+    'command' => 'ding_popup_close',
+    'name' => $name,
+  );
+}

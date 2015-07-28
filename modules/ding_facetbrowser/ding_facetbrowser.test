@@ -1,0 +1,160 @@
+<?php
+
+class DingFacetbrowserUnit extends DrupalUnitTestCase {
+
+  static function getInfo() {
+    return array(
+      'name' => t('Ding Facetbrowser Unit tests'),
+      'description' => t('Unit tests for the Ding Facetbrowser module'),
+      'group' => 'Ding! - Facetbrowser',
+    );
+  }
+
+  function testFacetbrowser() {
+    drupal_load('module', 'ding_facetbrowser');
+    $form       = array();
+    $form_state = array();
+    $facets     = array();
+
+    $facets['First area'] = (object) array(
+      'name'  => 'Loremipsum',
+      'terms' => array(
+        'Dolor'      => 3,
+        'Vestibulum' => 'Vestibulum',
+      ),
+    );
+    $facets['Second area'] = (object) array(
+      'name'  => 'Nullamdolor',
+      'terms' => array(
+        'Sagittis'   => 2,
+        'Adipiscing' => 3,
+        'Lobortis'   => 3,
+        'Massa'      => 'Vestibulum',
+      ),
+    );
+    $facet_form = ding_facetbrowser_form($form, $form_state, $facets);
+    $this->assertTrue(is_array($facet_form), 'Facetbrowser form is an array');
+    foreach ($facet_form as $name => $value) {
+      if ($value['#type'] != 'submit' && !empty($value[$name])) {
+        $this->assertTrue(is_array($value), $name . ' is an array and a ' . $value['#type']);
+        $this->assertTrue(is_array($value[$name]['#options']), $name . ' is a ' . $value[$name]['#type'] . ' contains ' . count($value[$name]['#options']) . ' facets');
+      }
+    }
+  }
+}
+
+class DingFacetbrowserWeb extends DrupalWebTestCase {
+
+  static function getInfo() {
+    return array(
+      'name' => t('Ding Facetbrowser Web Tests'),
+      'description' => t('Webtests for the Ding Facetbrowser module'),
+      'group' => 'Ding! - Facetbrowser',
+    );
+  }
+
+  public function setUp() {
+    $this->profile = 'minimal';
+
+    parent::setUp('ting', 'ding_facetbrowser', 'search', 'ting_search');
+    variable_set('ting_agency', '100200');
+    variable_set('ting_search_url', 'http://opensearch.addi.dk/next_2.0/');
+    variable_set('ting_scan_url', 'http://openscan.addi.dk/1.7/');
+    variable_set('ting_spell_url', 'http://openspell.addi.dk/1.2/');
+    variable_set('ting_recommendation_url', 'http://openadhl.addi.dk/1.1/');
+    variable_set('search_active_modules', array('node' => 'node', 'ting_search' => 'ting_search'));
+    variable_set('search_default_module', 'ting_search');
+
+    // Set up some facets for testing.
+    variable_set('ding_facetbrowser_facets', array(
+        0 => array(
+          'name' => 'facet.subject',
+          'title' => '!!facet.subject!!',
+          'weight' => '-10',
+        ),
+        1 => array(
+          'name' => 'facet.creator',
+          'title' => '!!facet.creator!!',
+          'weight' => '-9',
+        ),
+        2 => array(
+          'name' => 'facet.type',
+          'title' => '!!facet.type!!',
+          'weight' => '-8',
+        ),
+        3 => array(
+          'name' => 'facet.category',
+          'title' => '!!facet.category!!',
+          'weight' => '-7',
+        ),
+        4 => array(
+          'name' => 'facet.language',
+          'title' => '!!facet.language!!',
+          'weight' => '-6',
+        ),
+        5 => array(
+          'name' => 'facet.date',
+          'title' => '!!facet.date!!',
+          'weight' => '-5',
+        ),
+        6 => array(
+          'name' => 'facet.acSource',
+          'title' => '!!facet.acSource!!',
+          'weight' => '-4',
+        ),
+      )
+    );
+
+    $this->nodetype = $this->drupalCreateContentType();
+    $this->web_user = $this->drupalCreateUser(array('administer search', 'administer blocks', 'search content', 'create ' . $this->nodetype->name . ' content'));
+    $this->drupalLogin($this->web_user);
+  }
+
+  public function testFacetModules() {
+    // Check if search module is installed
+    $exists = module_exists('search');
+    $this->assertTrue($exists, 'Search is enabled');
+
+    // Check if ding_facetbrowser module is installed
+    $exists = module_exists('ding_facetbrowser');
+    $this->assertTrue($exists, 'Ding Facetbrowser is enabled');
+
+    // Check if the facetbrowser block is available
+    $this->drupalGet('admin/structure/block');
+    $this->assertRaw('Facet browser', 'The facetbrowser block is available');
+
+    $this->drupalPost('admin/structure/block', array('blocks[ding_facetbrowser_facetbrowser][region]' => 'content'), 'Save blocks');
+    $this->assertFieldByName('blocks[ding_facetbrowser_facetbrowser][region]', 'content', 'Configurable text block is enabled in first sidebar successfully verified.');
+
+    // Create a custom node containing the text 'harry'
+    $node_title = $this->randomName(10);
+    $node_info = array(
+      'title' => $node_title,
+      'body[und][0][value]' => 'Harry potter rocks',
+    );
+    $this->drupalPost('node/add/' . $this->nodetype->name, $node_info, t('Save'));
+
+    $node = $this->drupalGetNodeByTitle($node_title);
+    $this->assertTrue($node, t('Node ' . $node_title . ' found in database'));
+
+    // // Execute cron to update search index
+    $this->cronRun();
+
+    // // Search the site for harry
+    $this->drupalGet('search/node/harry');
+    $this->assertNoText('Harry rocks', 'Search for "Harry rocks" in drupal - failed');
+    $this->assertText('Harry potter rocks', 'Search for "Harry potter rocks" in drupal - complete');
+
+    $this->drupalGet('search/ting/harry');
+    $this->assertNoText('Da pensionisten Harry Browns gamle', 'Search for title from external search service NOT found');
+    $this->assertNoText('Harry potter rocks', "We're not seeing the node.");
+    $this->assertText('Harry Blotter', "'Harry Blotter' found.");
+
+    // Check if the facetbrowser has any content
+
+    $this->assertText('!!facet.subject!!', 'Found the facet.subject fieldset in the facetbrowser');
+    $this->assertFieldById('edit-subject-instrumental', 'instrumental', 'Found the \'instrumental\' facet in the facet.subject fieldset');
+  }
+}
+
+

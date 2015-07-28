@@ -1,0 +1,356 @@
+<?php
+
+/**
+ * Implements hook_block_info().
+ */
+function ding_facetbrowser_block_info() {
+  return array(
+    'facetbrowser' => array(
+      'info'  => t('Facet browser'),
+      'cache' => DRUPAL_NO_CACHE,
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_facetbrowser_menu() {
+  $items = array();
+
+  $items['admin/config/ting/facets'] = array(
+    'title' => 'Ting facets',
+    'description' => 'Configure facets.',
+    'weight' => -20,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_facetbrowser_settings'),
+    'access arguments' => array('administer ting settings'),
+    'file' => 'ding_facetbrowser.admin.inc',
+  );
+
+  $items['admin/config/ting/facets/%/delete'] = array(
+    'title' => 'Delete facets',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_facetbrowser_delete_facet', 4),
+    'access arguments' => array('administer ting settings'),
+    'file' => 'ding_facetbrowser.admin.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_facetbrowser_theme() {
+  return array(
+    'facetbrowser' => array(
+      'variables' => array(
+        'facets' => NULL,
+        'searchkey' => NULL,
+      ),
+    ),
+    'ding_facetbrowser_settings' => array(
+      'render element' => 'form',
+      'file' => 'ding_facetbrowser.admin.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * It simply tells panels where to find the .inc files that define various
+ * args, contexts, content_types.
+ */
+function ding_facetbrowser_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_api().
+ */
+function ding_facetbrowser_ctools_plugin_api($module, $api) {
+  if ($module == 'panels_mini' && $api == 'panels_default') {
+    return array('version' => 1);
+  }
+  if ($module == 'page_manager' && $api == 'pages_default') {
+    return array('version' => 1);
+  }
+}
+/**
+ * Create a custom form with checkbox elements for facets and ajax callback
+ *
+ * @param array $form
+ * @param array $form_state
+ * @param array $facets
+ * @return array $form
+ */
+function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = FALSE) {
+  global $base_root;
+
+  $default_values = array();
+  $selected = array();
+  $not_selected = array();
+
+  $form['search_key'] = array(
+    '#type'  => 'hidden',
+    '#value' => $search,
+  );
+
+  // Building the facets field sets.
+  $i = 0;
+  $facet_show_count = variable_get('ding_facetbrowser_showcount', count($facets));
+  foreach (variable_get('ding_facetbrowser_facets', array()) as $configured_facet) {
+
+    if (isset($facets[$configured_facet['name']])) {
+      $facet = $facets[$configured_facet['name']];
+
+      // Decide if the facet is to have the hidden class or not.
+      $facet_class = ($i >= $facet_show_count) ? 'js-hidden' : 'js-visible';
+
+      if (count($facet->terms) > 0) {
+        $form[$facet->name] = array(
+          '#type' => 'fieldset',
+          '#title' => check_plain($configured_facet['title']),
+          '#attributes'  => array(
+            'id' => str_replace('.', '-', $facet->name),
+            'data' => array(
+              $facet->name,
+            ),
+            'count' => count($facet->terms),
+            'class' => array(
+              $facet_class,
+            ),
+          ),
+        );
+
+        if (!empty($configured_facet['sorting'])) {
+          switch ($configured_facet['sorting']) {
+            case 'alphabetical':
+              ksort($facet->terms);
+              break;
+
+            case 'alphabetical_reverse':
+              krsort($facet->terms);
+              break;
+
+            case 'numeric':
+              ksort($facet->terms, SORT_NUMERIC);
+              break;
+
+            case 'numeric_reverse':
+              krsort($facet->terms, SORT_NUMERIC);
+              break;
+
+            default:
+              break;
+          }
+        }
+
+        foreach ($facet->terms as $term_name => $term_count) {
+          $facet_name = explode('.', $facet->name);
+          $element_name = end($facet_name);
+          $facets_string = $facet->name . ':' . $term_name;
+          $term_name_title = $term_name;
+          // Check if term name is longer than 14 chars,
+          // if so, short it down to fit facet browser.
+          $substr_length = 19
+            + substr_count(drupal_substr($term_name, 0, 20), 'l')
+            + substr_count(drupal_substr($term_name, 0, 20), 'i')
+            - drupal_strlen((string)$term_count);
+          if (drupal_strlen($term_name) > $substr_length + 3) {
+            $term_name_title = drupal_substr($term_name, 0, $substr_length) . '...';
+          }
+
+          if (_ding_factbrowser_is_facet_set($facet->name, $term_name) === TRUE) {
+            $default_values[] = $term_name;
+            $facets_string = '-' . $facets_string;
+
+            $uri = $base_root . _ding_factbrowser_parse_request_uri();
+            $selected[$term_name] = l($term_name_title . ' <span class="count">(' . $term_count . ')</span>', $uri, array(
+              'html' => TRUE,
+              'query' => array(
+                'facets' => array('' => $facets_string),
+              ),
+              'attributes' => array(
+                'title' => $term_name,
+              ),
+            ));
+          }
+          else {
+            $uri = $base_root . _ding_factbrowser_parse_request_uri();
+            $not_selected[$term_name] = l($term_name_title . ' <span class="count">(' . $term_count . ')</span>', $uri, array(
+              'html' => TRUE,
+              'query' => array(
+                'facets' => array('' => $facets_string),
+              ),
+              'attributes' => array(
+                'title' => $term_name,
+              ),
+            ));
+          }
+
+          $form[$facet->name][$element_name] = array(
+            '#type' => 'checkboxes',
+            '#options' => $selected + $not_selected,
+            '#default_value' => $default_values,
+          );
+        }
+      }
+      // Loop is done so time to up that counter.
+      $i++;
+    }
+
+    // Reset previous set variables.
+    $default_values = array();
+    $selected = array();
+    $not_selected = array();
+  }
+
+  return $form;
+}
+
+/**
+ * Check if selected facet from url matches the one from params.
+ *
+ * @param String $term_cat
+ * @param String $term_name
+ * @return Boolean
+ */
+
+function _ding_factbrowser_is_facet_set($term_cat, $term_name) {
+  $facets = &drupal_static('ding_facetbrowser_facets');
+  if (!isset($facets)) {
+    $request_uri_parts = explode('?', request_uri());
+    $facets = explode('&', rawurldecode(end($request_uri_parts)));
+    drupal_static('ding_facetbrowser_facets', $facets);
+  }
+  foreach ($facets as $facet) {
+    if (preg_replace('/facets\[\d*\]=/i', '', $facet) == $term_cat . ':' . $term_name) {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
+
+/**
+ * Check the URI and drop pager parameter, if available.
+ *
+ * @return String
+ */
+function _ding_factbrowser_parse_request_uri() {
+  $new_query_part = array();
+  if (stristr(request_uri(), '?')) {
+    $request_uri_parts = explode('?', request_uri());
+
+    $query = rawurldecode(end($request_uri_parts));
+    $query_parts = explode('&', $query);
+    foreach ($query_parts as $key => $part) {
+      if (preg_match('/^page\=/', $part)) {
+        unset($query_parts[$key]);
+        continue;
+      }
+      $new_query_part[] = $part;
+    }
+    $query = $new_query_part;
+    return $request_uri_parts[0] . '?' . implode('&', $query);
+  }
+  else {
+    return request_uri();
+  }
+}
+
+/**
+ * Parse the selected facets from the $form_state to a readable string for the
+ * ting_search.
+ *
+ * @param array $form_state
+ *
+ * @return string
+ */
+function _ding_factbrowser_facet_string($form_state = NULL) {
+  $facets = array();
+  if (!empty($form_state['values']) && is_array($form_state['values'])) {
+    foreach ($form_state['values'] as $name => $data) {
+      if (is_array($data)) {
+        foreach ($data as $key => $value) {
+          if ($key == $value && $value !== 0) {
+            $facets[] = 'facet.' . $name . ':' . $value;
+          }
+        }
+      }
+    }
+  }
+  return implode(';', $facets);
+}
+
+/**
+ * Implements theme_facetbrowser().
+ *
+ * Default theme function for the facet browser.
+ */
+function theme_facetbrowser($search_result = array()) {
+  $all_facets = array_shift($search_result);
+  $searchkey = array_shift($search_result);
+  $elements = array();
+  if (is_array($all_facets)) {
+    $form = drupal_get_form('ding_facetbrowser_form', $all_facets, $searchkey);
+    $elements[] = drupal_render($form);
+  }
+  return implode('', $elements);
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function ding_facetbrowser_block_view($delta = FALSE) {
+  $block = array();
+  $block_content = FALSE;
+  $content_in_facet = FALSE;
+  $executed_search_module = FALSE;
+
+  drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/jquery.cookie.min.js');
+  drupal_add_js(drupal_get_path('module', 'ding_facetbrowser') . '/js/ding_facetbrowser.js');
+
+  // @todo: Get the facet browser dom id automatic.
+  drupal_add_js(array(
+    'ding_facetbrowser' => array(
+      'selector' => '.js-facet-browser-toggle',
+      'number_of_terms' => variable_get('ding_facetbrowser_number_of_terms', 5)),
+  ), 'setting');
+
+
+  // Invoke ding_facetbrowser() from executed search module.
+  $executed_search = menu_get_item();
+  if (!empty($executed_search['page_arguments'])) {
+    list($executed_search_module, ) = $executed_search['page_arguments'];
+  }
+  if (is_string($executed_search_module)) {
+    $results = module_invoke($executed_search_module, 'ding_facetbrowser');
+    if (is_object($results)) {
+      foreach ($results->facets as $result) {
+        if (count($result->terms) == TRUE) {
+          $content_in_facet = TRUE;
+          break;
+        }
+      }
+      if ($content_in_facet === TRUE || $results->show_empty == TRUE) {
+        $block_content = theme('facetbrowser', array($results->facets, (!empty($results->searchkey) ? $results->searchkey : NULL)));
+      }
+    }
+
+    switch ($delta) {
+      case 'facetbrowser':
+        $block['subject'] = t('Facet browser');
+        $block['content'] = $block_content;
+        break;
+    }
+  }
+
+  return $block;
+}
+

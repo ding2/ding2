@@ -1,0 +1,10 @@
+name = Ding user
+description = Handles authentication against user provider and other user related stuff.
+package = Ding!
+version = "7.x-1.9.2"
+core = 7.x
+dependencies[] = ding_provider
+dependencies[] = ding_popup
+dependencies[] = ding_entity
+dependencies[] = profile2
+dependencies[] = ctools

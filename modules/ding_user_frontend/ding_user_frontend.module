@@ -1,0 +1,332 @@
+<?php
+/**
+ * @file
+ * Code for the Ding User Frontend feature.
+ */
+
+include_once 'ding_user_frontend.features.inc';
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * It simply tells panels where to find the .inc files that define various
+ * args, contexts, content_types. In this case the subdirectories of
+ * ctools_plugin_example/panels are used.
+ */
+function ding_user_frontend_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function ding_user_frontend_menu_alter(&$items) {
+  // Disable sub-menu under user account edit for provider users.
+  $provider = _ding_provider_get_provider('user');
+  $items['user/%user/edit/provider_' . $provider['module']]['access'] = FALSE;
+
+  // Disable account sub-menu link (account and staff tabs).
+  $items['user/%user_category/edit/account']['access callback'] = 'ding_user_frontend_is_not_provider_user';
+  $items['user/%user_category/edit/account']['access arguments'] = array(1);
+
+  // Change weight of user edit link, so it always second menu item.
+  $items['user/%user/edit']['weight'] = -5;
+}
+
+/**
+ * Access callback to test if user is provider user.
+ *
+ * This is used to remove account and staff profile tabs on user edit pages.
+ *
+ * @param StdClass $account
+ *   User account.
+ *
+ * @return bool
+ *   If user is provider FALSE else TRUE.
+ */
+function ding_user_frontend_is_not_provider_user($account) {
+  return !ding_user_is_provider_user($account);
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function ding_user_frontend_block_info() {
+  $blocks = array();
+
+  $blocks['ding-username'] = array(
+    'info' => t('Ding user name'),
+    'cache' => DRUPAL_CACHE_PER_USER,
+  );
+
+  $blocks['ding-user-loan-number'] = array(
+    'info' => t('Ding loan, reservation, and debt count'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  $blocks['ding-user-ajax-login'] = array(
+    'info' => t('Ding ajax login button'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_user_frontend_theme($existing, $type, $theme, $path) {
+  return array(
+    'ding_user_frontend_user_name' => array(
+      'variables' => array('account' => NULL, 'name' => NULL),
+      'template' => 'ding_user_frontend_user_name',
+      'path' => $path . '/templates',
+    ),
+    'ding_user_frontend_user_status' => array(
+      'variables' => array('status' => array()),
+      'template' => 'ding_user_frontend_user_status',
+      'path' => $path . '/templates',
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function ding_user_frontend_block_view($delta) {
+  $block = array();
+  $content = array();
+  global $user;
+
+  switch ($delta) {
+    case 'ding-username':
+      if (user_is_logged_in()) {
+        $name = (!empty($user->data['display_name'])) ? $user->data['display_name'] : $user->name;
+
+        if (!empty($name)) {
+          $block['content'] = theme('ding_user_frontend_user_name', array(
+            'account' => $user,
+            'name' => $name,
+          ));
+        }
+      }
+      break;
+
+    case 'ding-user-loan-number':
+      try {
+        // We don't really need the credentials here, but getting them
+        // causes an exception to be thrown if user is not
+        // authenticated, exiting this block of code, which is what we
+        // want. No credentials, no user status. (The creds are store in the
+        // session, so it's a fast check, where ding_user_is_provider_user would
+        // use the database.)
+        ding_user_get_creds($user);
+      }
+      catch (DingProviderAuthException $e) {
+        return;
+      }
+
+      // Get debts count.
+      $uri = entity_uri('user', $user);
+      $count = count(ding_provider_invoke_page('debt', 'list', $user));
+      if ($count) {
+        $content[] = array(
+          '#theme' => 'ding_user_frontend_user_status',
+          '#status' => array(
+            'class' => 'user-status-debt',
+            'label' => format_plural($count, 'Debt', 'Debts'),
+            'count' => $count,
+            'link' => url($uri['path'] . '/status/debts'),
+          ),
+        );
+      }
+
+      // Get reservations ready for pick-up.
+      $count = count(ding_provider_invoke_page('reservation', 'list', $user, DING_RESERVATION_READY));
+      if ($count) {
+        $content[] = array(
+          '#theme' => 'ding_user_frontend_user_status',
+          '#status' => array(
+            'class' => 'user-status-ready-pickup',
+            'label' => format_plural($count, 'Reservation ready for pick-up', 'Reservations ready for pick-up'),
+            'count' => $count,
+            'link' => url($uri['path'] . '/status/reservations'),
+          ),
+        );
+      }
+
+      // Get loans.
+      $count = count(ding_provider_invoke_page('loan', 'list', $user));
+      if ($count) {
+        $content[] = array(
+          '#theme' => 'ding_user_frontend_user_status',
+          '#status' => array(
+            'class' => 'user-status-loan',
+            'label' => format_plural($count, 'Loan', 'Loans'),
+            'count' => $count,
+            'link' => url($uri['path'] . '/status/'),
+          ),
+        );
+      }
+
+      // Get total reservation count.
+      $types = ding_provider_invoke_page('reservation', 'list', $user);
+      $count = 0;
+      foreach ($types as $type) {
+        $count += count($type);
+      }
+      if ($count) {
+        $content[] = array(
+          '#theme' => 'ding_user_frontend_user_status',
+          '#status' => array(
+            'class' => 'user-status-reservation',
+            'label' => format_plural($count, 'Reservation', 'Reservations'),
+            'count' => $count,
+            'link' => url($uri['path'] . '/status/reservations'),
+          ),
+        );
+      }
+
+      // Build the block.
+      $block['subject'] = t('Your user loan status');
+      $block['content'] = $content;
+      break;
+
+    case 'ding-user-ajax-login':
+      // Build block with login button. It re-uses the form from ding_user
+      // comment login, with a new id.
+      $render_array = array();
+      if (user_is_anonymous()) {
+        $form = drupal_get_form('ding_user_comment_forbidden_form');
+        $form['#attributes']['id'] = 'ding-user-ajax-login-form';
+        $render_array['#markup'] = drupal_render($form);
+      }
+
+      $block['content'] = $render_array;
+      break;
+  }
+
+  return $block;
+}
+
+/**
+ * Finds all local tasks (tabs) under /user/% and builds a menu based on that.
+ *
+ * @param mixed $path
+ *   Path that should be used to generate the menu. Defaults using current menu
+ *   path.
+ *
+ * @return array
+ *   Render array with the menu.
+ */
+function ding_user_frontend_build_menu($path = NULL) {
+  // User static cache as this menu is inserted more than once in ddbasic
+  // (mobile menu thing).
+  $menu = &drupal_static(__FUNCTION__);
+  if (!isset($menu)) {
+
+    // Default menu item render array.
+    $menu_item_defaults = array(
+      '#theme' => 'menu_link',
+      '#below' => array(),
+      '#localized_options' => array(
+        'attributes' => array(
+          'class' => array(),
+        ),
+      ),
+      '#attributes' => array(
+        'class' => array(),
+      ),
+      '#title' => '',
+      '#href' => '',
+      '#active' => FALSE,
+      '#weight' => 0,
+    );
+
+    // Get menu path to user profile.
+    $router_item = menu_get_item($path);
+
+
+    // Get all tabs (also known as local tasks) and the root page.
+    $result = db_select('menu_router', NULL, array('fetch' => PDO::FETCH_ASSOC))
+      ->fields('menu_router')
+      ->condition('tab_root', $router_item['tab_root'])
+      ->condition('context', MENU_CONTEXT_INLINE, '<>')
+      ->orderBy('weight')
+      ->orderBy('title')
+      ->execute();
+    $map = $router_item['original_map'];
+    $children = array();
+    $tasks = array();
+
+    // Process menu items and add access state.
+    foreach ($result as $item) {
+      _menu_translate($item, $map, TRUE);
+      if ($item['access']) {
+        if ($item['tab_parent']) {
+          // All tabs, but not the root page.
+          $children[$item['tab_parent']][$item['path']] = $item;
+        }
+        // Store the translated item for later use.
+        $tasks[$item['path']] = $item;
+      }
+    }
+
+    // Default menu wrapper.
+    $menu = array(
+      '#theme_wrappers' => array(
+        'theme_hook_suggestions' => array(
+          'menu_tree__sub_menu',
+        ),
+      ),
+    );
+
+    // Build menu (render array).
+    if (isset($children[$router_item['tab_root']])) {
+      foreach ($children[$router_item['tab_root']] as $item) {
+        $current = array();
+        // Check access.
+        if ($item['access']) {
+          $item = $tasks[$item['path']];
+          if ($item['tab_parent'] == $router_item['tab_root']) {
+            $current += $menu_item_defaults;
+            $current['#title'] = $item['title'];
+            $current['#href'] = $item['href'];
+            $current['#weight'] = $item['weight'];
+          }
+
+          // Check if this is secondary.
+          if (!empty($children[$item['path']])) {
+            // Check that the sub-menu should be display, based on the path.
+            $pos = stripos($router_item['href'], $item['href']);
+            if ($pos === 0) {
+              $current['#below'] = array(
+                '#theme_wrappers' => array(
+                  'theme_hook_suggestions' => array(
+                    'menu_tree__sub_menu',
+                  ),
+                ),
+              );
+
+              // Build sub-menu items.
+              $items = $children[$item['path']];
+              foreach ($items as $item) {
+                $below = array() + $menu_item_defaults;
+                $below['#title'] = $item['title'];
+                $below['#href'] = $item['href'];
+                $current['#below'][] = $below;
+              }
+            }
+          }
+
+          // Add current item and sub-menu to the menu.
+          $menu[] = $current;
+        }
+      }
+    }
+  }
+
+  return $menu;
+}

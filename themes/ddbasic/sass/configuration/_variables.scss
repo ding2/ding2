@@ -1,0 +1,123 @@
+/**
+ * Variables
+ *
+ * @author magnify
+ */
+
+
+
+/* Spacing variables
+   ========================================================================== */
+
+$large-spacing:                   20px;
+$medium-spacing:                  10px;
+$small-spacing:                   5px;
+
+
+
+/* Zen Grid variables
+   ========================================================================== */
+
+$zen-column-count: 12;
+$zen-gutter-width: 20px;
+$box-sizing-polyfill-path: "/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc";
+
+
+
+/* Breakpoints
+   ========================================================================== */
+
+$breakpoint-low:                  580px;
+$breakpoint-small:                480px;
+$breakpoint-medium:               768px;
+$breakpoint-large:                940px;
+$breakpoint-x-large:              1210px;
+
+
+
+/* Standard color definitions
+   ========================================================================== */
+
+$white:                          #fff !default;
+$black:                          #000 !default;
+$gray:                           #d5d5d5 !default;
+$gray-light:                     lighten($gray, 10%) !default;
+$gray-lighter:                   lighten($gray, 15%) !default;
+$gray-dark:                      darken($gray, 10%) !default;
+$gray-darker:                    darken($gray, 25%) !default;
+$gray-darkest:                   darken($gray, 35%) !default;
+$red:                            #a32e10;
+$green:                          #528c10;
+$yellow:                         #f0cb28;
+$blue:                           #00caff;
+
+
+/* Font library
+   ========================================================================== */
+
+$base-icon-library-font:         "FontAwesome";
+
+
+/* Typography
+   ========================================================================== */
+
+$font-light:                      "SourceSansProLight";
+$font-light-italic:               "SourceSansProLightItalic";
+$font-regular:                    "SourceSansProRegular";
+$font-regular-italic:             "SourceSansProItalic";
+$font-bold:                       "SourceSansProSemibold";
+$font-bold-italic:                "SourceSansProSemiboldItalic";
+$font-color-primary:              transparentize($black, .3);
+
+
+
+/* Font variables
+   ========================================================================== */
+
+$base-font-size:                  16px;
+$base-line-height:                24px;
+$base-font-family:                $font-regular, "Helvetica Neue", Helvetica, "Lucida Sans Unicode", Arial, sans-serif;
+$base-font-weight-normal:         normal;
+$base-font-weight-bold:           normal;
+
+
+/* Font sizes
+   ========================================================================== */
+
+
+$font-size-giga:                  200%;
+$font-size-largest:               180%;
+$font-size-larger:                160%;
+$font-size-large:                 130%;
+$font-size-medium:                110%;
+$font-size-reset:                 100%;
+$font-size-small:                 85%;
+$font-size-tiny:                  75%;
+
+
+/* Labels
+   ========================================================================== */
+
+$label-border-radius:             8px;
+$label-shadow:                    0 -1px 0 rgba(0,0,0,.25);
+$label-padding:                   3px 10px;
+
+
+/* Navigation
+   ========================================================================== */
+
+$navbar-bg-color:                 transparentize($white, .95);
+$navbar-bg-active-color:          transparentize($white, .95);
+$navbar-text-color:               lighten($black, 30%);
+$navbar-text-color-active:        lighten($black, 30%);
+
+
+/* Availability
+   ========================================================================== */
+
+$availability-pending:                  $gray-darker;
+$availability-processed:                $gray-darker;
+$availability-available:                $green;
+$availability-reservable:               $yellow;
+$availability-available-reservable:     $green;
+$availability-available-not-reservable: $red;

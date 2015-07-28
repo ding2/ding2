@@ -1,0 +1,140 @@
+/**
+ * Drupal
+ *
+ * Overrides for Drupal system messages
+ * Drupals stylesheet system.messages.css is disabled in theme.info
+ *
+ * @author zorp
+ */
+
+/* Class added on panel pane */
+.system-messages {
+  @include zen-grid-item(12, 1);
+
+  margin-bottom: 20px;
+}
+
+/* Using zen-grids on messages require that tabs get a clear */
+.pane-page-tabs {
+  @include zen-clear();
+}
+
+.messages {
+  position: relative;
+  overflow: hidden;
+  padding-top: 15px;
+  padding-right: 20px;
+  padding-bottom: 15px;
+  padding-left: 60px;
+
+  &:before {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+
+    margin-top: -11px;
+    margin-right: 15px;
+
+    font-family: $base-icon-library-font;
+    font-size: $font-size-giga;
+  }
+
+  &.status {
+    @extend .icon-ok-sign;
+  }
+
+  &.status,
+  .ok {
+    color: $white;
+  }
+
+  &.status,
+  table tr.ok {
+    background-color: $green;
+  }
+
+  &.warning {
+    @extend .icon-warning-sign;
+  }
+
+  &.warning,
+  .warning {
+    color: $black;
+
+    a {
+      &:link {
+        color: $black;
+      }
+
+      &:visited {
+        color: $black;
+      }
+
+      &:hover {
+        color: lighten($black, 25%);
+      }
+
+      &:focus {
+        color: lighten($black, 25%);
+      }
+
+      &:active {
+        color: lighten($black, 25%);
+      }
+    }
+  }
+  &.warning,
+  table tr.warning {
+    background-color: $yellow;
+  }
+
+  &.error {
+    @extend .icon-remove-sign;
+  }
+
+  &.error,
+  .error {
+    color: $white;
+  }
+
+  &.error,
+  table tr.error {
+    background-color: $red
+  }
+
+  &.error p.error {
+    color: $white;
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+  ul li {
+    list-style-image: none;
+  }
+
+  a {
+    &:link {
+      color: $white;
+      text-decoration: underline;
+    }
+
+    &:visited {
+      color: $white;
+    }
+
+    &:hover {
+      color: darken($white, 25%);
+    }
+
+    &:focus {
+      color: darken($white, 25%);
+    }
+
+    &:active {
+      background-color: transparent;
+      color: darken($white, 25%);
+    }
+  }
+}

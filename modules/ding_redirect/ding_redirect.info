@@ -1,0 +1,5 @@
+name = Ding redirect
+description = Enabling to redirect some searches and login form to external sites. This helps libraries which aren't using the full well or have providers implemented.
+package = Ding!
+core = 7.x
+configure = admin/config/ding/redirect

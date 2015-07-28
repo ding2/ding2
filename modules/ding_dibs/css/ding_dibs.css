@@ -1,0 +1,71 @@
+#dibs-terms-of-sale {
+  font-size: 0.8em;
+}
+
+#dibs-terms-of-sale p, #dibs-cards-supported p, #edit-cards-cards-supported p {
+  padding: 0 0 0.25em 0;
+  line-height: 1.25em;
+}
+
+/* supported credid cards */
+#dibs-cards-supported p, #edit-cards-cards-supported p {
+  float: left;
+  padding-bottom: 0em;
+  margin: 0 1em 0 0;
+}
+
+#dibs-cards-supported .card-name, .form-item-cards-supported .card-name {
+  font-weight: bold;
+}
+
+#dibs-cards-supported .card-logo, .form-item-cards-supported .card-logo {
+  height: 33px;
+  width: 53px;
+  vertical-align: middle;
+  margin-right: 0.5em;
+}
+
+#dibs-cards-supported, .form-item-cards-supported {
+  line-height: 33px;
+}
+
+.page-admin .form-item-cards-supported:after {
+    clear: both;
+    content: ".";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+
+.page-admin .form-item-cards-supported div.form-item {
+  float: left;
+  width: 33%;
+  margin-bottom: 0.5em;
+}
+
+.page-admin .form-item-cards-supported div.form-item label {
+  margin-left: 0.5em;
+}
+
+.page-admin-config-payment-ding-dibs-reports td.icon.warning {
+  background-image: url(/misc/message-16-warning.png);
+}
+
+.page-admin-config-payment-ding-dibs-reports td.icon.error {
+  background-image: url(/misc/message-16-error.png);
+}
+
+.page-admin-config-payment-ding-dibs-reports td.icon {
+  background: no-repeat center;
+  width: 16px;
+}
+
+.page-admin-config-payment-ding-dibs-reports div.item-list {
+  margin-top: 1.5em;
+  padding: 1em;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #BEBFB9;
+  background: #F3F4EE;
+}
+

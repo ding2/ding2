@@ -1,0 +1,348 @@
+/**
+ * Module
+ *
+ * Common styling shared among modules
+ *
+ * @author magnify
+ */
+
+
+
+/* Extends for page elements
+   ========================================================================== */
+
+%article-margin {
+  margin-bottom: 10px;
+}
+
+%article-padding {
+  padding: $large-spacing;
+}
+
+%article-padding--small {
+  padding: $medium-spacing;
+}
+
+%article-heading {
+  font-size: $font-size-large;
+}
+
+%article-heading--small {
+  font-size: $font-size-medium;
+}
+
+
+%article-text {
+  color: $list-text-color;
+}
+
+%article-text--opaque {
+  color: transparentize($list-text-color, .5);
+}
+
+/* Styling for material list items (example use: search results, related materials on news etc.) */
+%material-list-item {
+  @extend %article-background;
+  @extend %article-padding;
+  @extend %article-margin;
+
+  overflow: hidden;
+  position: relative;
+
+  &:nth-child(odd) {
+    @extend %article-background--odd;
+  }
+
+  &:nth-child(even) {
+    @extend %article-background--even;
+  }
+}
+
+%material-heading {
+  @extend %article-heading;
+}
+
+
+
+/* Shared styling used for search and user form in topbar
+   ========================================================================== */
+
+%search-user-header {
+  width: 100%;
+
+  @include box-sizing(border-box);
+
+  label {
+    @include font-bold();
+
+    color: $topbar-text-color;
+    font-size: $font-size-reset;
+    margin-top: 2px;
+    margin-bottom: 5px;
+    margin-left: 2px;
+  }
+
+  [class^="icon-"] {
+
+    color: $gray-darker;
+    bottom: 15px;
+    font-size: $font-size-largest;
+    left: 24px;
+    position: absolute;
+  }
+
+  .form-item {
+    display: inline-block;
+    position: relative;
+  }
+
+  .form-text {
+    @include box-sizing(border-box);
+    @include border-radius(12px);
+
+    border: 0;
+    display: inline;
+    font-size: $font-size-medium;
+    margin-right: 20px;
+    padding-bottom: 0;
+    width: 100%;
+  }
+
+  .form-text,
+  .form-submit {
+    min-height: 60px;
+    padding-top: 0;
+  }
+
+  .form-submit {
+    @include border-radius(12px);
+    @extend %button-default;
+
+    font-size: $font-size-larger;
+    margin-top: 31px;
+    padding-bottom: 1px;
+    min-width: 110px;
+  }
+
+  input[class^="form-"] {
+    margin-bottom: 0;
+  }
+
+  .form-actions {
+    position: absolute;
+    top: 0;
+    right: 0;
+    text-align: right;
+  }
+
+  /* Media queries */
+  @include small() {
+    [class^="label-"] {
+      font-size: $font-size-small;
+    }
+
+    .form-actions {
+      position: relative;
+      clear: both;
+    }
+  }
+
+  @include small-medium() {
+    i[class^="icon-"] {
+      font-size: $font-size-large;
+    }
+
+    .form-text {
+      font-size: $font-size-medium;
+      min-height: 50px;
+      min-width: 100%;
+      padding-left: 42px;
+    }
+
+    .form-actions {
+      position: relative;
+      clear: both;
+    }
+
+    .form-submit {
+      font-size: $font-size-medium;
+      margin-top: 20px;
+      min-height: 44px;
+      min-width: 100%;
+    }
+  }
+}
+
+
+
+/* Filter by library box
+   ========================================================================== */
+
+.pane-library-list {
+  background-color: $gray-light;
+  margin-bottom: $large-spacing;
+  padding: $large-spacing;
+
+  .button {
+    /* Make sure the button aligns vertically with the select */
+    margin-top: -2px;
+  }
+
+  /* Media queries */
+  @include small() {
+    .choose-library-label {
+      display: none;
+    }
+    .form-select {
+      max-width: 75%;
+    }
+  }
+}
+
+/* Filter by taxonomy box
+   ========================================================================== */
+.taxonomy-dropdown {
+  background-color: $gray-light;
+  margin-bottom: $large-spacing;
+  padding: $large-spacing;
+
+  .button {
+    /* Make sure the button aligns vertically with the select */
+    margin-top: -2px;
+  }
+
+  /* Media queries */
+  @include small() {
+    .choose-library-label {
+      display: none;
+    }
+    .form-select {
+      max-width: 75%;
+    }
+  }
+}
+/* Pager
+   ========================================================================== */
+
+.pager {
+  padding-left: 0;
+
+  li {
+    display: inline-block;
+    margin-left: -4px;
+    margin-right: 4px;
+
+    &.pager-current,
+    a {
+      background-color: $gray-light;
+      display: inline-block;
+      padding-top: $small-spacing;
+      padding-right: 15px;
+      padding-bottom: $small-spacing;
+      padding-left: 15px;
+    }
+  }
+
+  .active a,
+  .active a:hover {
+    cursor: default;
+    text-decoration: underline;
+  }
+
+  .disabled {
+    background-color: $gray-lighter;
+  }
+  .disabled a:hover {
+    cursor: default;
+    text-decoration: none;
+  }
+}
+
+
+/* Signature
+   ========================================================================== */
+
+.signature {
+  border-top: 1px solid $gray-light;
+  border-bottom: 1px solid $gray-light;
+
+  margin-bottom: $large-spacing;
+  padding-top: $large-spacing;
+  padding-bottom: $large-spacing;
+
+  .signature-image {
+    img {
+      float: left;
+      margin-top: $small-spacing;
+      margin-right: $large-spacing;
+     }
+  }
+
+  .signature-label {
+    display: inline-block;
+    min-width: 125px;
+  }
+}
+
+.signature .tags a {
+  display: inline-block;
+  margin-right: 0.3em;
+}
+
+.signature .tags a:not(:last-child):after {
+  content: ",";
+}
+
+
+/* Action buttons
+   ========================================================================== */
+
+.action-buttons {
+  @include box-sizing(border-box);
+
+  display: none;
+  padding: 20px;
+}
+
+
+.action-buttons-is-visible {
+  background: transparentize($black, .85);
+
+  display: block;
+}
+
+.action-buttons-is-scrolling {
+  background: transparentize($black, .15);
+  left: 0;
+  position: fixed;
+  top: 0;
+  z-index: 99;
+  width: 100%;
+}
+
+/* Extends
+   ========================================================================== */
+
+%arrow-link {
+  display: inline-block;
+  position: absolute;
+  right: 0;
+  top: 45%;
+}
+
+/* Sub-menu "drop-down" menu in Organic groups
+   ========================================================================== */
+
+.js-og-sub-menu-responsive {
+  background-color: $gray-light;
+  display: none;
+  margin-bottom: $large-spacing;
+  padding: $large-spacing;
+
+
+  @include small-medium() {
+    display: block;
+    padding-top: $medium-spacing;
+    padding-bottom: $medium-spacing;
+  }
+}

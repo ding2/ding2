@@ -1,0 +1,227 @@
+NOTES for CONVERTING to ding2/drupal7
+-------------------------------------
+- Translate the module again (install potx first to ease this)
+- Core Review the module again
+
+
+# Changed context in ding2 to consider:
+
+- There is only one taxonomy - Category. I might have to create event target and 
+event category-taxonomies to have data for the kultunaut part. But the better solution would be to
+implement the term mapping feature now, and map terms from Category taxonomy to Kultunaut target and
+category. Then we can avoid adding extra vocabularies + give better control to the ding administrator.
+
+- fieldgroup module changed in drupal 7. It might not be needed anymore? Same with 
+optionwidgets - included in core now?
+
+- ding_event now has no end time enabled, but it is in the output. If todate= fromdate is a problem, 
+make check to ensure that todate-value is only used when it is different from fromdate.
+
+- ding_event now has no field for price. Must add it, this also means adding it to the db table
+
+- Libraries are now implemented as organic groups. Getting the id (now, the etid, entity ID) of the library 
+is a matter of querying "field_group_audience" and "og" tables.
+
+NOTER FOR VERSION 2 mod den nye API
+-----------------------------------
+
+authentification:
+ekstra felt til admin-indstillinger til secret api key.
+
+til auth-procedure:
+s�g p� "php s3 authentication", find PHP library eller functions.
+
+l�s http://developer.place2book.com/v1/authentication/ igen.. Request-headers skal sorteres.
+
+Nu bruges JSON istedet for XML... find et drupal eller PHP library.
+
+nyt obligatorisk felt: husk at medsende oplysning om �nsket API-version, se
+"A custom mime type is used in the API as a way to support versioning. So to use the API you have to add this custom mime type to the Accept header when you make a request.
+
+At current only one mime type is supported:
+
+application/vnd.place2book.v1+json"
+
+
+NB: Gennemg� alle dates der sendes - skal v�re nedenst�ende format.
+Timestamps will be sent in ISO 8601 format:
+YYYY-MM-DDTHH:MM:SSZ
++ se ogs� http://php.net/manual/en/function.date.php, det er "c"-formatet
+
+NB: V�r opm�rksom p� reponse-koder - dem for delete og update er anderledes.
+
+
+FEJL, der skal kigges p� i ding_place2book:
+Arni: "Men jeg opdagede en alvorlig fejl. Hvis man har angivet en salgsperiode p� place2book og derefter laver en �ndring i arrangementet p� hjemmesiden (hvilken som helst �ndring f.eks. �ndre teksten) s� bliver salgsperioden slettet p� place2book. Jeg har testet par andre settings (Bankforbindelse og Max antal billetter) og de blev ikke p�virket p� denne m�de."
+-> Ved update, afl�s salgsperiode, og hvis der er en defineret (og det er der altid), s� send den med tilbage. Jeg SKAL sende en GET f�rst for at aflse, og derefter kan jeg sende en PUT.
+-> N�R JEG ALLIGEVEL g�r det, s� afl�s alle oprettede tickets p� eventet og list dem i ding - ved siden af entre-prisen.
+
+
+IMPLEMENTERING af TERM MAPPING til KULTUNAUT
+--------------------------------------------
+ny tabel: ding_place2book_kultunaut (rel_id, term, kultunaut_term)
+
+inspiration til admin-interface fra ThemeKey modulet.
+
+Idé er at alle vocabularies forbundet med event typen listes i en drop-down menu, hvorfra de kan vælges.
+En tilsvarende drop-down menu er dannet på baggrund af kultunaut xml filen med deres termer.
+Relationen gemmes, og der kan mappes videre.
+Termer i drop-down har * ved sig, for at indikere at de er brugt.
+Når tabellen er dannet, er den basis for opslag når ding_place2book skal sende data til Place2Book.
+
+
+---------------
+ding_place2book (dev notes .. lidt ekstra)
+---------------
+
+http://drupal.org/node/633354
+- use drupal_http_request() to send xml to place2book
+- parse return data with simplexml functions
+
+
+* Admin settings:
+-----------------
+- place2book API key
+- place2book URL
+- base account
+- library accounts, if diff. from base account (generate one per library)
+(following probably not needed, can be handled by language functionality)
+- sold-out text (HTML)
+- order-ticket link, with placeholders for {place2book-ID} and {tickets-left} (HTML)
+- event-passed text (HTML)
+
+
+
+* Content type Event, extra:
+----------------------------
+(- address/location override (also practical without using the place2book functionality). NB! Field already on the event-node!)
+
+- maintain copy on place2book (default:on)
+if unselecting the setting on an existing event node, request to delete the corresponding info. on place2book. Activates/grays out the place2book section below. 
+
+- place2book section (whole section active/inactive)
+	- related place2book event ID (default: null)
+	- write categories (checkbox. Default:selected)
+
+* functions:
+------------
+CREATE at place2book when:
+- event-node with  "maintain copy on place2book"=ON is created
+- event-node with ("maintain copy on place2book"=ON and place2book-ID=NULL) is edited
+
+EDIT at place2book when:
+- event-node with  "maintain copy on place2book"=ON is edited
+
+DELETE at place2book when:
+- event-node is deleted
+- event-node sets "maintain copy on place2book" to OFF
+
+
+* Error handling:
+-----------------
+Event-node with "maintain copy" set is opened for editing,but has no place2book-ID = don't do anything, it will try to create the copy when node is saved.
+
+Event-node create, edit or delete with no contact to place2book server = write message to user, with link to try again (link is the edit-link for the event-node)
+
+
+
+* VISNING:
+----------
+Hvis event-node har place2book-ID og ikke har fundet sted, 
+s�
+	- inds�t place2book section samt javascript i event-noden.
+	Javascript-kode kalder place2book op for status p� event:
+		- har ikke fundet sted + ledige billetter = order ticket link
+		- har ikke fundet sted + ikke flere billetter = sold-out text
+		- har fundet sted = events passed text (status kun med for fejlh�ndteringen skyld)
+		- Any errors returned = generic error text a la "technical error, we're sorry"
+ellers hvis event-node har fundet sted,
+s�
+	- show <div>events passed text</div>
+ellers
+	- no output
+
+
+place2book HTML section, with initial display:none on elements:
+<div class="place2book">
+	<div class="order-ticket">
+		
+	</div>
+	<div class="sold-out">
+	
+	</div>
+	<div class="error"></div>
+</div>
+
+
+noter vedr. xml-skabelonen og mapping af felter:
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+
+  <provider>
+    <name>Peter Jeppesen</name>
+    <email>psj@place2book.com</email>
+    <phone>70232550</phone>
+  </provider>
+=> tr�kkes fra admin-kontoen
+
+
+  <event>
+    <name>test8</name>
+=> node title
+
+    <description_short>En kort beskrivelse af arrangementet</description_short>
+=> node teaser
+
+    <description_long>En lang beskrivelse af arrangementet</description_long>
+=> node body
+
+
+    <begin_at>2014-08-17 12:00 UTC</begin_at>
+=> field-date-from. "UTC" kan evt. erstattes med "CET", men default er CET
+
+    <end_at>2014-08-17 12:00 UTC</end_at>
+=> field-date-to, og se note ovenfor. Place2book tager ikke v�rdien, Peter kigger p� det.
+
+    <sale_open>2011-08-17 12:00 UTC</sale_open>
+=> NULL, s� er den aktiv med det samme
+
+    <sale_close>2014-08-17 11:00 UTC</sale_close>
+=> NULL, s� s�ttes den til 1 time f�r
+
+    <venue>
+      <name>Testhallen</name>
+      <address1>Testvej 1</address1>
+      <address2>Testforstad</address2>
+      <postal>1159</postal>
+      <city>Testby</city>
+      <country_code>DK</country_code>
+    </venue>
+=> jeg har felterne, tr�k fra Bibl. hvis muligt, ellers tag indtastningerne fra nodefelter.
+
+    <capacity>100</capacity>
+=> lav ekstra felt i nodeform til det. Er det tomt, slettes det fra xml-skabelonen der sendes til place2book.
+
+    <unlimited_capacity>0</unlimited_capacity>
+=> s�ttes til 1 som standard. Hvis det nye felt til capacity ovenfor har en v�rdi, s�ttes denne nul i xml-skabelonen til place2book. 
+
+    <price>
+      <name>Voksen</name>
+      <value_dollar>100</value_dollar>
+    </price>
+=> field_price. S�t f.eks. name til "Adgang" - det er s� standardbilletprisen/typen.
+
+    <kultunaut_export>1</kultunaut_export>
+=> ny felt til nodeform, lav ogs� en standard-setting p� admin-siden. 1 eller 0?
+
+    <kultunaut_age_group>Boern</kultunaut_age_group>
+=> mapper lige over med taksonomien Event Target. Bem�rk, at kultunaut k�rer med specifikke v�rdier, som muligvis ikke matcher ding-bibliotekets. Send det, det giver ingen fejl, muligvis en forvirret kultunaut-mand.
+
+    <kultunaut_picture_uri>http://dinserver.dk/billede.png</kultunaut_picture_uri>
+=> brug listebilledets url
+
+    <kultunaut_export_category>Elektronisk</kultunaut_export_category>
+=> mapper lige over med taksonomien Event Categori. Samme regler g�lder som ovenfor med ".. age group".
+
+  </event>
+    </data>
