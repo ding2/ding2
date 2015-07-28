@@ -296,6 +296,9 @@ projects[l10n_update][type] = "module"
 projects[l10n_update][subdir] = "contrib"
 projects[l10n_update][version] = "1.0"
 
+projects[i18n][subdir] = "contrib"
+projects[i18n][version] = "1.8"
+
 ; This version of media is tested to work with both images and videos.
 projects[media][type] = "module"
 projects[media][subdir] = "contrib"
@@ -393,6 +396,9 @@ projects[profile2][version] = "1.3"
 projects[realname][subdir] = "contrib"
 projects[realname][version] = "1.2"
 
+projects[relation][subdir] = "contrib"
+projects[relation][version] = "1.0-rc5"
+
 projects[role_delegation][subdir] = "contrib"
 projects[role_delegation][version] = "1.1"
 
@@ -440,6 +446,9 @@ projects[uuid][subdir] = "contrib"
 projects[uuid][download][type] = "git"
 projects[uuid][download][url] = "http://git.drupal.org/project/uuid.git"
 projects[uuid][download][revision] = "3f4d9fb"
+
+projects[variable][subdir] = "contrib"
+projects[variable][version] = "2.5"
 
 projects[virtual_field][subdir] = "contrib"
 projects[virtual_field][version] = "1.2"
