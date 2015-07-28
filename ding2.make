@@ -152,6 +152,12 @@ projects[ding_dummy_provider][download][url] = "git@github.com:ding2/ding_dummy_
 projects[ding_dummy_provider][download][branch] = "master"
 
 ; Contrib modules
+projects[addressfield][subdir] = "contrib"
+projects[addressfield][version] = "1.0-beta5"
+
+projects[cs_adaptive_image][subdir] = "contrib"
+projects[cs_adaptive_image][version] = "1.0"
+
 projects[admin_views][subdir] = "contrib"
 projects[admin_views][version] = "1.4"
 
@@ -160,6 +166,9 @@ projects[apc][version] = "1.0-beta4"
 
 projects[autologout][subdir] = "contrib"
 projects[autologout][version] = "4.3"
+
+projects[autosave][subdir] = "contrib"
+projects[autosave][version] = "2.2"
 
 projects[cache_actions][subdir] = "contrib"
 projects[cache_actions][version] = "2.0-alpha5"
@@ -197,6 +206,10 @@ projects[features_extra][version] = "1.0-beta1"
 
 projects[feeds][subdir] = "contrib"
 projects[feeds][version] = "2.0-alpha8"
+
+projects[field_group][subdir] = "contrib"
+projects[field_group][version] = "1.1"
+
 
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-alpha3"
@@ -278,6 +291,9 @@ projects[profile2][version] = "1.3"
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.7"
 
+projects[scheduler][subdir] = "contrib"
+projects[scheduler][version] = "1.2"
+
 projects[similarterms][subdir] = "contrib"
 projects[similarterms][version] = "2.3"
 
@@ -310,6 +326,9 @@ projects[virtual_field][version] = "1.2"
 
 projects[views][subdir] = "contrib"
 projects[views][version] = "3.8"
+
+projects[views_bulk_operations][subdir] = "contrib"
+projects[views_bulk_operations][version] = "3.2"
 
 # Development version where the "unpublished" status have been fixed on the content edit page.
 projects[view_unpublished][subdir] = "contrib"
