@@ -145,6 +145,11 @@ libraries[profiler][download][branch] = "7.x-2.0-beta1"
 # https://drupal.org/node/1328796, keep dependency order of base profile.
 libraries[profiler][patch][0] = "http://drupal.org/files/profiler-reverse.patch"
 
+libraries[ting-client][download][type] = "git"
+libraries[ting-client][download][url] = "git@github.com:ding2/ting-client.git"
+libraries[ting-client][download][branch] = "master"
+libraries[ting-client][destination] = "modules/ting/lib"
+
 ; DDB Modules that should be removed when FBS is ready
 projects[ding_redirect][type] = "module"
 projects[ding_redirect][download][type] = "git"
@@ -341,6 +346,10 @@ projects[module_filter][version] = "1.8"
 
 projects[memcache][subdir] = "contrib"
 projects[memcache][version] = "1.0"
+
+projects[nanosoap][subdir] = "contrib"
+projects[nanosoap][version] = "1.0"
+projects[nanosoap][patch][] = "http://drupal.org/files/nanosoap-curloptions-1943732.patch"
 
 projects[nodequeue][subdir] = "contrib"
 projects[nodequeue][version] = "2.0-beta1"
