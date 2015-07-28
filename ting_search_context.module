@@ -159,8 +159,8 @@ function ting_search_context_rate_node_action(&$node, $context) {
   ting_search_context_rate_node($search_context->context_id, $node->nid, $rating);
 
   $message = t('Rated %node in %context with a rating of %rating', array(
-    '%node' => $node->title,
-    '%context' => $search_context->name,
+    '%node' => check_plain($node->title),
+    '%context' => check_plain($search_context->name),
     '%rating' => $rating,
   ));
   drupal_set_message($message);
@@ -206,7 +206,7 @@ function ting_search_context_rate_node_action_form($settings, &$form_state = NUL
     $selected_nodes = node_load_multiple($form_state['selection']);
     $items = array();
     foreach ($selected_nodes as $node) {
-      $items[] = l(check_plain($node->title), 'node/' . $node->nid);
+      $items[] = check_plain($node->title);
     }
     $form['selected_nodes'] = array(
       '#theme' => 'item_list',
