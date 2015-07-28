@@ -445,9 +445,30 @@ function ting_search_context_get_nodes($context_id, $count = 5, $node_types = 'a
  * the database.
  */
 function ting_search_context_node_delete($node) {
-  db_delete('ting_search_context_nodes_rated')
-    ->condition('nid', $node->nid)
-    ->execute();
+  ting_search_context_unrate_node($node->nid);
+}
+
+/**
+ * Removes node ratings from the Database.
+ *
+ * @param int $nid
+ *   The ID of the node to unrate.
+ * @param int $context_id (optional)
+ *   The ID of the context to unrate in.
+ *   Use this parameter to constrain the unrating to a specific context.
+ *
+ * @return int
+ *   The number of deleted rows in the nodes_rated table.
+ */
+function ting_search_context_unrate_node($nid, $context_id = NULL) {
+  $query = db_delete('ting_search_context_nodes_rated')
+    ->condition('nid', $nid);
+
+  if (isset($context_id)) {
+    $query->condition('context_id', $context_id);
+  }
+
+  return $query->execute();
 }
 
 /**
