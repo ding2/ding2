@@ -1,0 +1,1067 @@
+<?php
+/**
+ * @file
+ * Handles display and creation/deletion of reservations for users.
+ */
+
+/**
+ * Define reservation types.
+ */
+define('DING_RESERVATION_READY', 'ready_for_pickup');
+define('DING_RESERVATION_NOT_READY', 'not_ready_for_pickup');
+define('DING_RESERVATION_INTERLIBRARY_LOANS', 'interlibrary_loans');
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * It simply tells panels where to find the .inc files that define various
+ * args, contexts, content_types. In this case the subdirectories of
+ * ctools_plugin_example/panels are used.
+ */
+function ding_reservation_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
+ * Implements hook_menu().
+ *
+ * These menu callbacks are used to handle non-ajax callbacks on the reservation
+ * update/delete buttons and simple redirects the users to the forms normal
+ * displayed in the ding_popup's.
+ *
+ * The id's is url_encoded in the last wildcard parameter.
+ */
+function ding_reservation_menu() {
+  $items = array();
+
+  $items['user/%user/status/reservations/update/%/%'] = array(
+    'title' => 'Update reservations',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_reservation_update_reservations_form', 1, 5, 6),
+    'access callback' => 'ding_reservation_access',
+    'access arguments' => array(1),
+  );
+
+  $items['user/%user/status/reservations/delete/%'] = array(
+    'title' => 'Delete reservations',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_reservation_delete_reservations_form', 1, 5),
+    'access callback' => 'ding_reservation_access',
+    'access arguments' => array(1),
+  );
+
+  $items['ting/object/%ting_object/reserve'] = array(
+    'page callback' => 'ding_reservation_reserve_ajax',
+    'page arguments' => array(2),
+    'delivery callback' => 'ajax_deliver',
+    'access arguments' => array('perform reservation'),
+  );
+
+  return $items;
+}
+
+/**
+ * Access callback. Ensure that current user is the same.
+ */
+function ding_reservation_access($account) {
+  global $user;
+  return $user->uid == $account->uid;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_reservation_permission() {
+  return array(
+    'perform reservation' => array(
+      'title' => t('Perform reservation'),
+      'description' => t('Perform reservation in the library system.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_ding_entity_menu().
+ */
+function ding_reservation_ding_entity_menu(&$items, $type, $path, $index) {
+  if ($type == 'ding_entity') {
+    $items[$path . '/reserve'] = array(
+      'title' => 'Reserve',
+      'page callback' => 'ding_provider_get_form',
+      'page arguments' => array('ding_reservation_reserve_form', $index),
+      'access callback' => TRUE,
+    );
+  }
+}
+
+/**
+ * Implements hook_ding_entity_buttons().
+ */
+function ding_reservation_ding_entity_buttons($type, $entity, $widget = 'default') {
+  $button = '';
+
+  if ($type == 'ding_entity' && $entity->is('reservable')) {
+    switch ($widget) {
+      case 'ajax':
+        drupal_add_library('system', 'drupal.ajax');
+
+        $button = array(
+          array(
+            '#theme' => 'link',
+            '#text' => t('Reserve'),
+            '#path' => 'ting/object/' . $entity->id . '/reserve',
+            '#options' => array(
+              'attributes' => array(
+                'class' => array(
+                  'action-button',
+                  'reserve-button',
+                  'use-ajax',
+                ),
+                'id' => 'reservation-' . $entity->id,
+              ),
+              'html' => FALSE,
+            ),
+          ),
+        );
+        break;
+
+      default:
+        // The last parameter to the form below (TRUE) hides the provider
+        // options in the form (interest period and branch).
+        $button = array(ding_provider_get_form('ding_reservation_reserve_form', new DingReservationReservableEntity($entity), TRUE));
+        break;
+    }
+  }
+
+  return $button;
+}
+
+/**
+ * Ajax entry callback.
+ *
+ * Try to reserve the material, if the user is not logged in trigger a ajax
+ * login.
+ *
+ * @param TingEntity $entity
+ *   Ting entity object.
+ * @param DingReservationReservable $reservable
+ *   Object with information about the entity to reserve. Used to make
+ *   reservation of periodical, where volume and issue is part of the
+ *   reservation.
+ *
+ * @return array
+ *   Render array with Ajax commands.
+ */
+function ding_reservation_reserve_ajax($entity, $reservable = NULL) {
+  $commands = array();
+
+  // Check if the logged in user is a library user.
+  global $user;
+  if (!user_is_logged_in()) {
+    // Trigger log-in (the reservation link will be triggered on success).
+    $commands[] = ajax_command_ding_user_authenticate('');
+  }
+  elseif (!ding_user_is_provider_user($user)) {
+    // Error not library user.
+    $commands[] = ajax_command_ding_popup('ding_reservation', t('Error'), '<p>' . t('Only library user can make reservations.') . '</p>');
+  }
+  elseif (!(is_object($entity) && $entity instanceof TingEntity)) {
+    // Error not ting entity.
+    $commands[] = ajax_command_ding_popup('ding_reservation', t('Error'), '<p>' . t('Unable to load information about the material.') . '</p>');
+  }
+  else {
+    // Check if reservable object was paste.
+    if (is_null($reservable)) {
+      // If no object passed assume "normal" reservation (not periodical).
+      $reservable = new DingReservationReservableEntity($entity);
+    }
+
+    // Try to make reservation.
+    try {
+      // Check if user have preferred branch and interest period, if so
+      // submit the reservation form. If not display another form for with
+      // the options to select branch and period.
+      $defaults = ding_provider_invoke('reservation', 'default_options', $user);
+      $matches = preg_grep("/preferred_branch$/", array_keys($defaults));
+      if (empty($defaults[array_shift($matches)])) {
+        $form = ding_provider_get_form('ding_reservation_reserve_form', $reservable, FALSE);
+        $commands[] = ajax_command_ding_popup('ding_reservation', t('Reservation'), render($form));
+      }
+      else {
+        $form_state = array('values' => array());
+        drupal_form_submit('ding_reservation_reserve_form', $form_state, $reservable);
+
+        // Return any status messages set by the form.
+        $commands[] = ajax_command_ding_popup('ding_reservation', t('Reservation'), theme('status_messages'));
+      }
+    }
+    catch (DingProviderAuthException $exception) {
+      // The form may have thrown an Auth exception, so display login. (the
+      // reservation link will be triggered on success).
+      $commands[] = ajax_command_ding_user_authenticate('');
+    }
+    catch (Exception $exception) {
+      // The form may have thrown an auth exception as the login may have
+      // timed-out (the reservation link will be triggered on success).
+      $commands[] = ajax_command_ding_popup('ding_reservation', t('Error'), '<p>' . t('Unknown error in reservation, please contact the library.') . '</p>');
+
+      // Log exception.
+      watchdog_exception('ding_reservation', $exception);
+    }
+  }
+
+  // Return the ajax commands as an render array.
+  return array('#type' => 'ajax', '#commands' => $commands);
+}
+
+/**
+ * Implements hook_ding_provider_user().
+ */
+function ding_reservation_ding_provider_user() {
+  return array(
+    'reservation' => array(
+      'required' => TRUE,
+      'install time setup' => TRUE,
+    ),
+  );
+}
+
+/**
+ * Implements hook_forms().
+ *
+ * If the forms listing ready and not ready for pickup reservations is listed
+ * on the same page, they need to have different form ids in order for Drupal
+ * to be able to tell which was submitted. As we're using one builder
+ * function, use this to let have their own form id.
+ */
+function ding_reservation_forms($form_id, $args) {
+  return array(
+    'ding_reservation_reservations_ready_form' => array(
+      'callback' => 'ding_reservation_reservations_form',
+    ),
+    'ding_reservation_reservations_notready_form' => array(
+      'callback' => 'ding_reservation_reservations_form',
+    ),
+    'ding_reservation_reservations_ill' => array(
+      'callback' => 'ding_reservation_reservations_form',
+    ),
+  );
+}
+
+/**
+ * Reserve form callback.
+ *
+ * Note that this form relies on form caching, which is triggered by
+ * ajaxifying the submit button.
+ */
+function ding_reservation_reserve_form($form, &$form_state, $reservable, $hide_options = FALSE) {
+  global $user;
+  if (!($reservable instanceof DingReservationReservable)) {
+    // Assume that we were given a reservable entity.
+    $reservable = new DingReservationReservableEntity($reservable);
+  }
+  $entity = $reservable->getEntity();
+  $uri = ding_entity_uri('ding_entity', $entity);
+
+  // We post to our own path as we might want to rebuild the form.
+  // @todo move *_get_destination to ding_base?
+  if ($_GET['q'] != $uri['path'] . '/reserve') {
+    $form['#action'] = url($uri['path'] . '/reserve', array('query' => ding_provider_get_destination()));
+  }
+
+  $form['reservable'] = array(
+    '#type' => 'value',
+    '#value' => $reservable,
+  );
+
+  $form['provider_options'] = array(
+    '#type' => 'value',
+    '#value' => array(),
+  );
+
+  // Helps decide if the provider options should be displayed in the reserve
+  // form. If the user have default value these are used to make a quicker
+  // reservation process.
+  $hide_options = !isset($form_state['options_hidden']) ? $hide_options : FALSE;
+  $form_state['options_hidden'] = $hide_options;
+
+  if (!$hide_options) {
+    if (ding_provider_implements('reservation', 'options') && $provider_form = ding_provider_invoke('reservation', 'options', $user)) {
+      $form['provider_options'] = $provider_form + array(
+        '#tree' => TRUE,
+      );
+
+      // The normal reserve button and the reserve for with provider options are
+      // the same form. But DDBasic hides the reserve buttons until availability
+      // have been confirmed. So we need to add a class to the form to make it
+      // visible.
+      $form['#attributes'] = array(
+        'class' => array('reservable'),
+      );
+    }
+  }
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Reserve'),
+    '#attributes' => array(
+      'class' => array(
+        'action-button',
+        'reserve-button',
+      ),
+    ),
+    '#ajax' => array(
+      'callback' => 'ding_reservation_reserve_form_callback',
+      'wrapper' => 'ding-reservation-reserve-form',
+    ),
+  );
+
+  return $form;
+}
+
+/**
+ * Reserve form validation.
+ */
+function ding_reservation_reserve_form_validate($form, &$form_state) {
+  global $user;
+  if (user_is_logged_in() && ding_user_is_provider_user($user)) {
+    if (ding_provider_implements('reservation', 'default_options')) {
+      $defaults = ding_provider_invoke('reservation', 'default_options', $user);
+
+      $provider_options = array();
+      foreach ($defaults as $key => $default) {
+        // Check if the current provider options has a default value.
+        if (empty($default) && empty($form_state['values']['provider_options'][$key])) {
+          // Set form error to trigger display of the form in ding pop-up. The
+          // message will not be shown and the user will have to select values.
+          form_error($key, t('Please select a valid value.'));
+          $form_state['rebuild'] = TRUE;
+        }
+        else {
+          if (empty($default) || !empty($form_state['values']['provider_options'][$key])) {
+            // If default value id not defined, try using the forms value.
+            $provider_options[$key] = $form_state['values']['provider_options'][$key];
+          }
+          else {
+            // Default value was set, so we use it (as the forms selection
+            // options should not have been shown to the user).
+            $provider_options[$key] = $default;
+          }
+        }
+      }
+
+      // Do not set provider options, if the form was marked for rebuild. The
+      // user should have a change to select the values first.
+      if (!$form_state['rebuild']) {
+        form_set_value($form['provider_options'], $provider_options, $form_state);
+      }
+    }
+  }
+  else {
+    throw new DingProviderAuthException();
+  }
+}
+
+/**
+ * Form submission handler.
+ */
+function ding_reservation_reserve_form_submit($form, &$form_state) {
+  global $user;
+  if (ding_provider_implements('reservation', 'options_submit')) {
+    ding_provider_invoke('reservation', 'options_submit', $user, $form_state['values']['provider_options']);
+  }
+  if ($form_state['values']['reservable']) {
+    $reservable = $form_state['values']['reservable'];
+    try {
+      $reservation_result = ding_provider_invoke('reservation', 'create', $user, $reservable->getProviderId(), $form_state['values']['provider_options']);
+      $form_state['reserved'] = TRUE;
+      // @todo use profile
+      if (!empty($reservation_result['branch']) && ding_provider_implements('reservation', 'branch_name')) {
+        $branch_name = ding_provider_invoke('reservation', 'branch_name', $reservation_result['branch']);
+        drupal_set_message(t('"@title" reserved and will be available for pickup at @branch.', array('@title' => $reservable->getTitle(), '@branch' => $branch_name)));
+      }
+      else {
+        drupal_set_message(t('"@title" reserved.', array('@title' => $reservable->getTitle())));
+      }
+
+      if (is_array($reservation_result) and !empty($reservation_result['queue_number'])) {
+        drupal_set_message(t('You are number @number in queue.', array('@number' => $reservation_result['queue_number'])));
+      }
+
+      // Clear reservation session cache.
+      ding_reservation_cache_clear();
+    }
+    catch (DingProviderUserException $e) {
+      drupal_set_message($e->getMessageT(array('@title' => $reservable->getTitle())), 'error');
+    }
+    catch (DingProviderAuthException $e) {
+      // Just rethrow.
+      throw $e;
+    }
+    catch (Exception $e) {
+      drupal_set_message(t('An error occurred while reserving item. Please try again later.'), 'error');
+      watchdog('ding_reservation', 'Error while reserving, message: @message', array('@message', $e->getMessage()), WATCHDOG_ERROR);
+    }
+  }
+}
+
+/**
+ * Ajax callback.
+ */
+function ding_reservation_reserve_form_callback($form, &$form_state) {
+  $response = array(
+    '#type' => 'ajax',
+    '#commands' => array(),
+  );
+
+  $html = theme('status_messages');
+  if ($form_state['rebuild'] || form_get_errors()) {
+    // Get the default interest period for the current user.
+    $default_interest_period = ding_provider_invoke('reservation', 'default_interest_period');
+
+    // Use #value instead of #default_value when rendering forms
+    // using drupal_render().
+    $form['provider_options']['interest_period']['#value'] = $default_interest_period;
+
+    // Hide certain fields, if any.
+    if (is_array($form_state['removable'])) {
+      $removal = $form_state['removable'];
+      foreach ($removal as $v) {
+        unset($form['provider_options'][$v]);
+        unset($form['provider_options'][$v . 'description']);
+      }
+    }
+
+    // Redisplay form.
+    $html .= drupal_render($form);
+  }
+
+  $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Reserve'), $html);
+
+  return $response;
+}
+
+/**
+ * Show a reservation list form.
+ */
+function ding_reservation_reservations_form($form, &$form_state, $reservations, $type = DING_RESERVATION_NOT_READY, $conf = array()) {
+  $form = array(
+    '#tree' => TRUE,
+  );
+
+  // Add title item.
+  $form['title'] = array(
+    '#type' => 'checkbox',
+    '#title' => check_plain(t($conf['reservation_title'])),
+    '#prefix' => '<div class="select-all ' . drupal_html_id($type) . '">',
+    '#suffix' => '</div>',
+    '#attached' => array(
+      'js' => array(
+        drupal_get_path('module', 'ding_reservation') . '/js/ding_reservation.js',
+      ),
+    ),
+    '#weight' => -10,
+  );
+
+  // Check if reservations should be able to be deleted by the user.
+  $able_to_delete = FALSE;
+  if (ding_provider_implements('reservation', 'reservation_deletion_enabled')) {
+    $able_to_delete = ding_provider_invoke('reservation', 'reservation_deletion_enabled');
+  }
+
+  foreach ($reservations as $reservation) {
+    $entity = $reservation->entity;
+    if (!is_object($entity) || $entity->reply == FALSE) {
+      $entity = ding_provider_get_pseudo_entity($reservation->ding_entity_id);
+      // Don't link the title as the data well do not known this title. It may
+      // be a inter library loan.
+      $title = $entity->getTitle() ? $entity->getTitle() : $reservation->display_name;
+    }
+    else {
+      // Create title that links to the object.
+      $uri = entity_uri('ting_object', $entity);
+      $title = l($entity->getTitle(), $uri['path']);
+    }
+
+    $pickup_branch = ding_provider_invoke('reservation', 'branch_name', $reservation->pickup_branch_id);
+    switch ($reservation->reservation_type) {
+      case DING_RESERVATION_READY:
+        $item = array(
+          '#type' => 'material_item',
+          '#id' => $reservation->id,
+          '#title' => $title,
+          '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
+          '#information' => array(
+            'pickup_id' => array(
+              'label' => t('Pickup id'),
+              'data' => ding_reservation_get_pickup_id($reservation),
+              'class' => 'pickup-id',
+              '#weight' => 0,
+            ),
+            'pickup_date' => array(
+              'label' => t('Pickup date'),
+              'data' => $reservation->pickup_date ? format_date(strtotime(check_plain($reservation->pickup_date)), 'ding_material_lists_date') : '',
+              'class' => 'pickup-date',
+              '#weight' => 4,
+            ),
+            'pickup_branch' => array(
+              'label' => t('Pickup branch'),
+              'data' => $pickup_branch ? check_plain($pickup_branch) : t('Unknown branch'),
+              'class' => 'pickup-branch',
+              '#weight' => 8,
+            ),
+            'created' => array(
+              'label' => t('Created date'),
+              'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->created)), 'ding_material_lists_date') : '',
+              'class' => 'created-date',
+              '#weight' => 16,
+            ),
+          ),
+        );
+        break;
+
+      case DING_RESERVATION_NOT_READY:
+        $item = array(
+          '#type' => 'material_item',
+          '#id' => $reservation->id,
+          '#title' => $title,
+          '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
+          '#information' => array(
+            'queue_number' => array(
+              'label' => t('Queue number'),
+              'data' => $reservation->queue_number ? check_plain($reservation->queue_number) : '',
+              'class' => 'queue-number',
+              '#weight' => 0,
+            ),
+            'expiry' => array(
+              'label' => t('Expiry date'),
+              'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->expiry)), 'ding_material_lists_date') : '',
+              'class' => 'expire-date',
+              '#weight' => 4,
+            ),
+            'pickup_branch' => array(
+              'label' => t('Pickup branch'),
+              'data' => $pickup_branch ? check_plain($pickup_branch) : '',
+              'class' => 'pickup-branch',
+              '#weight' => 8,
+            ),
+            'created' => array(
+              'label' => t('Created date'),
+              'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->created)), 'ding_material_lists_date') : '',
+              'class' => 'created-date',
+              '#weight' => 16,
+            ),
+            'order_nr' => array(
+              'label' => t('Order nr.'),
+              'data' => ding_reservation_get_order_nr($reservation),
+              'class' => 'pickup-id',
+              '#weight' => 32,
+            ),
+          ),
+        );
+        break;
+
+      case DING_RESERVATION_INTERLIBRARY_LOANS:
+        $item = array(
+          '#type' => 'material_item',
+          '#id' => $reservation->id,
+          '#title' => $title,
+          '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
+          '#information' => array(
+            'ill_status' => array(
+              'label' => t('Status'),
+              'data' => $reservation->ill_status ? t(check_plain($reservation->ill_status)) : t('Unknown status'),
+              'class' => 'ill-status',
+              '#weight' => 0,
+            ),
+            'expiry' => array(
+              'label' => t('Expiry date'),
+              'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->expiry)), 'ding_material_lists_date') : '',
+              'class' => 'expire-date',
+              '#weight' => 4,
+            ),
+            'pickup_branch' => array(
+              'label' => t('Pickup branch'),
+              'data' => $pickup_branch ? check_plain($pickup_branch) : '',
+              'class' => 'pickup-branch',
+              '#weight' => 8,
+            ),
+            'created' => array(
+              'label' => t('Created date'),
+              'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->created)), 'ding_material_lists_date') : '',
+              'class' => 'created-date',
+              '#weight' => 16,
+            ),
+            'order_nr' => array(
+              'label' => t('Order nr.'),
+              'data' => ding_reservation_get_order_nr($reservation),
+              'class' => 'pickup-id',
+              '#weight' => 32,
+            ),
+          ),
+        );
+        break;
+    }
+
+    if (in_array($type, array(DING_RESERVATION_NOT_READY, DING_RESERVATION_INTERLIBRARY_LOANS))) {
+      // Set reservation expire message.
+      $expire = strtotime(check_plain($reservation->expiry));
+      if ($expire - variable_get('reservation_expire', 604800) <= time()) {
+        $item['#material_message'] = array(
+          'message' => t('This reservation is about to expire.'),
+          'class' => 'messages warning',
+        );
+        $item['#weight'] = -30;
+      }
+    }
+
+    // Add extra information if it's a periodical. There is an exception because
+    // the notes field is also used to set library information for ill's but
+    // only when they are ready for pick-up.
+    if (!empty($reservation->notes) && !($reservation->ill_status && $type == DING_RESERVATION_READY)) {
+      $item['#information']['periodical_number'] = array(
+        'label' => t('Periodical no.'),
+        'data' => check_plain($reservation->notes),
+        'class' => 'periodical-number',
+        '#weight' => -4,
+      );
+    }
+
+    // Add the reservation to the form.
+    $form['reservations'][$reservation->id] = $item;
+  }
+
+  // Add action buttons to the top of the form.
+  $form['actions_top'] = array(
+    '#prefix' => '<div class="action-buttons">',
+    '#suffix' => '</div>',
+    '#weight' => -20,
+  );
+
+  if ($able_to_delete) {
+    $form['actions_top']['delete'] = array(
+      '#prefix' => '<div class="delete-reservations action-button">',
+      '#suffix' => '</div>',
+      '#submit' => array('ding_reservation_deletes_form_submit'),
+      '#type' => 'submit',
+      '#value' => t('Delete reservations (@count)', array('@count' => 0)),
+      '#ajax' => array(
+        'callback' => 'ding_reservation_deletes_form_callback',
+        'wrapper' => 'ding-reservation-reservations-form',
+      ),
+    );
+  }
+
+  if ($type == DING_RESERVATION_NOT_READY) {
+    $form['actions_top']['update'] = array(
+      '#prefix' => '<div class="update-reservations action-button">',
+      '#suffix' => '</div>',
+      '#type' => 'submit',
+      '#submit' => array('ding_reservation_updates_form_submit'),
+      '#value' => t('Update reservations (@count)', array('@count' => 0)),
+      '#ajax' => array(
+        'callback' => 'ding_reservation_updates_form_callback',
+        'wrapper' => 'ding-reservation-updates-form',
+      ),
+    );
+  }
+
+  return $form;
+}
+
+/**
+ * Get pickup id number.
+ *
+ * @param object $item
+ *   Reserved item object.
+ *
+ * @return int
+ *   Pickup id, if any.
+ */
+function ding_reservation_get_pickup_id($item) {
+  if (isset($item->order_arrived) && !$item->order_arrived) {
+    return t('The material is in transit and is still not available for loan on the library');
+  }
+  elseif (isset($item->pickup_order_id)) {
+    return $item->pickup_order_id;
+  }
+
+  return '';
+}
+
+/**
+ * Get order id number.
+ *
+ * @param object $item
+ *   Reserved item object.
+ *
+ * @return int
+ *   Order number, if any.
+ */
+function ding_reservation_get_order_nr($item) {
+  if (!isset($item->pickup_order_id) && isset($item->order_id)) {
+    return $item->order_id;
+  }
+  else {
+    return t('On route') . ' ' . l(t('(?)'), current_path(), array('attributes' => array('title' => t('The material is on route to the library. You will be notified when it is ready for pickup.'))));
+  }
+}
+
+/**
+ * Submit handler for the reservations form.
+ */
+function ding_reservation_reservations_delete_submit($form, &$form_state) {
+  global $user;
+  if (!empty($form_state['triggering_element']['#reservation_id'])) {
+    $reservations = array($form_state['triggering_element']['#reservation_id']);
+  }
+  else {
+    $reservations = array_filter($form_state['values']['reservations']);
+  }
+  foreach ($reservations as $entity_id) {
+    ding_provider_invoke('reservation', 'delete', $user, $entity_id);
+
+    // Clear reservation session cache.
+    ding_reservation_cache_clear();
+  }
+}
+
+/**
+ * Submit handler for the delete form.
+ *
+ * @see ding_reservation_reservations_form()
+ */
+function ding_reservation_deletes_form_submit($form, &$form_state) {
+  global $user;
+
+  // Extra checkbox values form the form.
+  $ids = array();
+  foreach ($form_state['values']['reservations'] as $id => $reservations) {
+    $ids[] = $reservations[$id];
+  }
+  $ids = implode(',', array_map('rawurlencode', array_filter($ids, 'is_string')));
+
+  // Save the encoded id's and redirect the form.
+  $form_state['encoded_reservations'] = $ids;
+  $form_state['redirect'] = array('user/' . $user->uid . '/status/reservations/delete/' . $ids, array('query' => drupal_get_destination()));
+}
+
+/**
+ * Submit handler for the update form.
+ *
+ * @see ding_reservation_reservations_form()
+ */
+function ding_reservation_updates_form_submit($form, &$form_state) {
+  global $user;
+
+  // Extra checkbox values form the form.
+  $ids = array();
+  foreach ($form_state['values']['reservations'] as $id => $reservations) {
+    if ($reservations[$id]) {
+      $ids[] = $reservations[$id];
+    }
+  }
+
+  // Try to make a bette default branch selection based on the selected
+  // reservations.
+  $current_branch = $form['reservations']['#value'][$ids[0]]->pickup_branch_id;
+  foreach ($ids as $id) {
+    if ($form['reservations']['#value'][$id]->pickup_branch_id != $current_branch) {
+      $current_branch = FALSE;
+      break;
+    }
+  }
+
+  // Encode the ids.
+  $ids = implode(',', array_map('rawurlencode', array_filter($ids, 'is_string')));
+
+  // Save the encoded id's and redirect the form.
+  $form_state['current_branch'] = $current_branch;
+  $form_state['encoded_reservations'] = $ids;
+  $form_state['redirect'] = array('user/' . $user->uid . '/status/reservations/update/' . $ids . '/' . $current_branch, array('query' => drupal_get_destination()));
+}
+
+/**
+ * Ajax callback for the delete form.
+ *
+ * @see ding_reservation_reservations_form()
+ */
+function ding_reservation_deletes_form_callback($form, &$form_state) {
+  global $user;
+  $response = array(
+    '#type' => 'ajax',
+    '#commands' => array(),
+  );
+
+  // Get delete form.
+  $form_raw = drupal_get_form('ding_reservation_delete_reservations_form', $user, $form_state['encoded_reservations']);
+
+  $html = theme('status_messages');
+  $html .= drupal_render($form_raw);
+
+  if ($html) {
+    $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Delete reservations'), $html, array('refresh' => TRUE));
+  }
+  return $response;
+}
+
+/**
+ * Ajax callback for the update form.
+ *
+ * @see ding_reservation_reservations_form()
+ */
+function ding_reservation_updates_form_callback($form, &$form_state) {
+  global $user;
+  $response = array(
+    '#type' => 'ajax',
+    '#commands' => array(),
+  );
+
+  // Get reservation form.
+  $form_raw = drupal_get_form('ding_reservation_update_reservations_form', $user, $form_state['encoded_reservations'], $form_state['current_branch']);
+
+  $html = theme('status_messages');
+  $html .= drupal_render($form_raw);
+
+  if ($html) {
+    $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Update reservations'), $html, array('refresh' => TRUE));
+  }
+  return $response;
+}
+
+/**
+ * Delete reservations form.
+ *
+ * @see ding_reservation_reservations_form()
+ */
+function ding_reservation_delete_reservations_form($form, $form_state, $account, $reservation_ids) {
+  global $user;
+  $ids = array_map('rawurldecode', explode(',', $reservation_ids));
+
+  $form_state['cache'] = TRUE;
+
+  $form['reservations'] = array(
+    '#type' => 'value',
+    '#value' => $ids,
+  );
+
+  $form['confirm_text'] = array(
+    '#markup' => '<div>' . t('Are you sure you want to delete these reservations?') . '</div>',
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#submit' => array('ding_reservation_delete_reservations_form_submit'),
+    '#ajax' => array(
+      'callback' => 'ding_reservation_delete_reservations_form_callback',
+      'wrapper' => 'ding-reservation-delete-reservation-form',
+    ),
+    '#value' => t('Yes'),
+    '#name' => 'delete_reservations',
+  );
+
+  $form['cancel'] = array(
+    '#type' => 'link',
+    '#title' => t('Cancel'),
+    '#href' => 'user/' . $user->uid . '/status/reservations',
+    '#value' => t('Cancel'),
+  );
+
+  return $form;
+}
+
+/**
+ * Delete reservation submit normal handler.
+ *
+ * @see ding_reservation_delete_reservations_form_callback()
+ */
+function ding_reservation_delete_reservations_form_submit($form, &$form_state) {
+  global $user;
+  if (!empty($form_state['triggering_element']['#reservation_id'])) {
+    $reservations = array($form_state['triggering_element']['#reservation_id']);
+  }
+  else {
+    $reservations = array_filter($form_state['values']['reservations']);
+  }
+  foreach ($reservations as $reservation_id) {
+    ding_provider_invoke('reservation', 'delete', $user, $reservation_id);
+
+    // Clear reservation session cache.
+    ding_reservation_cache_clear();
+  }
+}
+
+/**
+ * Delete reservation ajax callback.
+ */
+function ding_reservation_delete_reservations_form_callback($form, &$form_state) {
+  $response = array(
+    '#type' => 'ajax',
+    '#commands' => array(),
+  );
+
+  $html = theme('status_messages') . t('Your reservations have been deleted.');
+  $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Delete reservations'), $html, array('refresh' => TRUE));
+
+  return $response;
+}
+
+/**
+ * Update reservations form.
+ */
+function ding_reservation_update_reservations_form($form, $form_state, $account, $reservation_ids, $current_branch) {
+  // Decode the reservation ids.
+  $ids = array_map('rawurldecode', explode(',', $reservation_ids));
+
+  $form_state['cache'] = TRUE;
+  $form['reservations'] = array(
+    '#type' => 'value',
+    '#value' => $ids,
+  );
+
+  if (ding_provider_implements('reservation', 'options') && $provider_form = ding_provider_invoke('reservation', 'options', $account, $current_branch)) {
+    $form['provider_options'] = $provider_form + array(
+      '#tree' => TRUE,
+    );
+  }
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#submit' => array('ding_reservation_update_reservations_form_submit'),
+    '#ajax' => array(
+      'callback' => 'ding_reservation_update_reservations_form_callback',
+      'wrapper' => 'ding-reservation-update-reservation-form',
+    ),
+    '#value' => t('Update reservations'),
+  );
+
+  return $form;
+}
+
+/**
+ * Update reservation normal submit handler.
+ *
+ * @see ding_reservation_update_reservations_form_callback()
+ */
+function ding_reservation_update_reservations_form_submit($form, &$form_state) {
+  global $user;
+  ding_provider_invoke('reservation', 'update', $user, $form_state['values']['reservations'], $form_state['values']['provider_options']);
+
+  // Clear reservation session cache.
+  ding_reservation_cache_clear();
+}
+
+/**
+ * Update reservations ajax callback.
+ */
+function ding_reservation_update_reservations_form_callback($form, &$form_state) {
+  $response = array(
+    '#type' => 'ajax',
+    '#commands' => array(),
+  );
+
+  $html = theme('status_messages') . t('Your reservations has been updated.');
+  $response['#commands'][] = ajax_command_ding_popup('ding_reservation', t('Update reservations'), $html, array('refresh' => TRUE));
+
+  return $response;
+}
+
+/**
+ * Create a pickup branch selector.
+ *
+ * Returns form element(s) for selecting a pickup branch.
+ *
+ * @param string $name
+ *   The name of the form element to build.
+ * @param string $default
+ *   The default branch option name eg. hb => Hovedbiblioteket.
+ * @param array $options
+ *   The branches that should be available for selection in the form element.
+ *
+ * @return array
+ *   Form element with a selection input type to select pickup branch.
+ */
+function ding_reservation_default_options_branch($name, $default, $options) {
+  $form = array();
+
+  $form[$name] = array(
+    '#type' => 'select',
+    '#title' => t('Select branch'),
+    '#options' => $options,
+    '#required' => TRUE,
+    '#default_value' => !empty($default) ? $default : '',
+  );
+
+  if (empty($default)) {
+    $form[$name . 'description'] = array(
+      '#markup' => '<p>' . t('In order to make quick reservations, you must select a default pickup branch.') . '</p>',
+    );
+  }
+
+  return $form;
+}
+
+/**
+ * Create an interest period form select element.
+ *
+ * @param string $name
+ *   The name of the form element to build.
+ * @param int $default
+ *   The pre-selected value.
+ * @param array $options
+ *   The periods that should be available for selection in the form element.
+ *
+ * @return array
+ *   Form element with a selection input type to select interest period.
+ */
+function ding_reservation_interest_period_selector($name, $default, $options) {
+  $form = array();
+
+  // Used to enable translation of options.
+  if (is_array($options)) {
+    foreach ($options as $k => $v) {
+      $options[$k] = t(check_plain($v));
+    }
+  }
+
+  $form[$name] = array(
+    '#type' => 'select',
+    '#title' => t('Select interest period'),
+    '#options' => $options,
+    '#required' => TRUE,
+    '#default_value' => !empty($default) ? $default : '',
+  );
+
+  if (empty($default)) {
+    $form[$name . 'description'] = array(
+      '#markup' => '<p>' . t('Select an interest period.') . '</p>',
+    );
+  }
+
+  return $form;
+}
+
+/**
+ * Clears the reservations cache if ding_session_cache is active.
+ */
+function ding_reservation_cache_clear() {
+  if (module_exists('ding_session_cache')) {
+    ding_session_cache_clear('ding_reservation', 'reservations');
+  }
+}
+
+/**
+ * Implements hook_ding_session_cache_defaults().
+ *
+ * Set default ding_session_cache settings and tell ding_session_cache that this
+ * module supports it.
+ */
+function ding_reservation_ding_session_cache_defaults() {
+  return array(
+    'titel' => 'Ding reservation',
+    'enabled' => TRUE,
+    'expire' => 3600,
+  );
+}
