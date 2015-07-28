@@ -1,0 +1,11 @@
+name = "Ding bookmark"
+description = "Allows users to bookmark Ding entities."
+package = "Ding!"
+version = "7.x-0.5"
+core = 7.x
+dependencies[] = flag
+dependencies[] = ding_provider
+dependencies[] = ding_popup
+dependencies[] = ting
+files[] = ding_bookmark.flag_ding_entity.inc
+configure = admin/structure/flags/manage/ding_bookmark
