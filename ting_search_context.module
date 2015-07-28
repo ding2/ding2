@@ -259,43 +259,79 @@ function ting_search_context_rate_node_action_submit($form, &$form_state) {
  * Implements hook_views_bulk_operations_form_alter().
  */
 function ting_search_context_views_bulk_operations_form_alter(&$form, &$form_state, $vbo) {
-  // Always include our custom admin CSS.
-  $path = drupal_get_path('module', 'ting_search_context');
-  $form['#attached']['css'][] = $path . '/css/ting_search_context.admin.css';
+  // Only do something if we're altering our own VBO view.
+  if ($vbo->view->name == 'ting_search_context_rate_nodes') {
+    // Always include our custom admin CSS.
+    $path = drupal_get_path('module', 'ting_search_context');
+    $form['#attached']['css'][] = $path . '/css/ting_search_context.admin.css';
 
-  if ($form_state['step'] == 'views_bulk_operations_confirm_form') {
-    $context = ting_search_context_load($form_state['values']['context']);
-    $rating = $form_state['values']['rating'];
-
-    // Since VBO isn't using render array for the confirm form, it's very
-    // unpractically to override the text on it. Hence, we just unset the
-    // description and add our own form-elements to the confirm form.
-    unset($form['description']);
-
-    $selected_nodes = node_load_multiple($form_state['selection']);
-    $items = array();
-    foreach ($selected_nodes as $node) {
-      $items[] = l(check_plain($node->title), 'node/' . $node->nid);
+    // Try the extract the operation if present.
+    $operation = '';
+    if (isset($form_state['operation'])) {
+      $prefix = 'action::';
+      $operation = $form_state['operation'];
+      if (substr($operation->operationId, 0, strlen($prefix)) === $prefix) {
+        $operation = substr($operation->operationId, strlen($prefix));
+      }
+      else {
+        $operation = $operation->operationId;
+      }
     }
-    $form['selected_nodes'] = array(
-      '#theme' => 'item_list',
-      '#items' => $items,
-      '#title' => t('You selected the following content:')
-    );
-    $form['selected_context'] = array(
-      '#theme' => 'html_tag',
-      '#tag' => 'h3',
-      '#value' => t('To be rated in the context: %context', array(
-        '%context' => $context->name,
-      )),
-    );
-    $form['selected_rating'] = array(
-      '#theme' => 'html_tag',
-      '#tag' => 'h3',
-      '#value' => t('With a rating of: %rating', array(
-        '%rating' => $rating,
-      )),
-    );
+
+    // Perform different alterations to the VBO confirm form, depending on the
+    // action being executed.
+    if ($form_state['step'] == 'views_bulk_operations_confirm_form') {
+      $selected_nodes = node_load_multiple($form_state['selection']);
+
+      // Show the selected nodes, context and rating if this is our rate node
+      // action being executed.
+      if ($operation == 'ting_search_context_rate_node_action') {
+        $context = ting_search_context_load($form_state['values']['context']);
+        $rating = $form_state['values']['rating'];
+
+        // Since VBO isn't using a render array for the confirm form, it's very
+        // unpractical to override the text on it. Hence, we just unset the
+        // description and add our own form-elements to the confirm form.
+        unset($form['description']);
+
+        $items = array();
+        foreach ($selected_nodes as $node) {
+          $items[] = check_plain($node->title);
+        }
+        $form['selected_nodes'] = array(
+          '#theme' => 'item_list',
+          '#items' => $items,
+          '#title' => t('You selected the following content:')
+        );
+        $form['selected_context'] = array(
+          '#theme' => 'html_tag',
+          '#tag' => 'h3',
+          '#value' => t('To be rated in the context: %context', array(
+            '%context' => $context->name,
+          )),
+        );
+        $form['selected_rating'] = array(
+          '#theme' => 'html_tag',
+          '#tag' => 'h3',
+          '#value' => t('With a rating of: %rating', array(
+            '%rating' => $rating,
+          )),
+        );
+      }
+
+      // TODO: Show what contexts the selected nodes are being unrated in.
+      else if ($operation == 'ting_search_context_unrate_node_action') {
+        $form['selected_nodes'] = array();
+
+        $items = array();
+        foreach ($selected_nodes as $node) {
+          // TODO: use a nested item list with nodes at first level and the
+          // contexts being unrated in as seconc level
+          // http://stackoverflow.com/questions/8764582/how-can-i-implement-the-multi-level-list-in-drupal7-with-theme-item-list
+        }
+      }
+
+    }
   }
 }
 
