@@ -1,0 +1,24 @@
+#block-ting-search-toggle {
+  display: block;
+}
+
+.navigate {
+  float: right;
+}
+
+.navigate label {
+  float: left;
+  text-align: left;
+}
+
+.form-item-resultsort label {
+  width: 5em;
+}
+
+.form-item-resultsize label {
+  width: 10em;
+}
+
+.navigate select {
+  float: left;
+}
