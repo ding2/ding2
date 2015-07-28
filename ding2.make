@@ -5,9 +5,6 @@ api = 2
 projects[addressfield][subdir] = "contrib"
 projects[addressfield][version] = "1.0-beta5"
 
-projects[block_access][subdir] = "contrib"
-projects[block_access][version] = "1.5"
-
 projects[admin_views][subdir] = "contrib"
 projects[admin_views][version] = "1.4"
 
@@ -19,6 +16,9 @@ projects[autologout][version] = "4.3"
 
 projects[autosave][subdir] = "contrib"
 projects[autosave][version] = "2.2"
+
+projects[block_access][subdir] = "contrib"
+projects[block_access][version] = "1.5"
 
 projects[cache_actions][subdir] = "contrib"
 projects[cache_actions][version] = "2.0-alpha5"
@@ -64,6 +64,9 @@ projects[entitycache][patch][0] = "http://drupal.org/files/issues/2146543-ensure
 projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.1"
 
+projects[eu_cookie_compliance][subdir] = "contrib"
+projects[eu_cookie_compliance][version] = "1.14"
+
 projects[expire][subdir] = "contrib"
 projects[expire][version] = "1.0-beta1"
 projects[expire][patch][0] = "https://drupal.org/files/issues/expire-2183995-1.patch"
@@ -103,11 +106,11 @@ projects[formblock][download][revision] = "2d94c83"
 projects[geocoder][subdir] = "contrib"
 projects[geocoder][version] = "1.2"
 
-projects[geophp][subdir] = "contrib"
-projects[geophp][version] = "1.7"
-
 projects[geofield][subdir] = "contrib"
 projects[geofield][version] = "1.2"
+
+projects[geophp][subdir] = "contrib"
+projects[geophp][version] = "1.7"
 
 projects[globalredirect][subdir] = "contrib"
 projects[globalredirect][version] = "1.5"
@@ -148,6 +151,9 @@ projects[l10n_update][version] = "1.0"
 projects[i18n][subdir] = "contrib"
 projects[i18n][version] = "1.8"
 
+projects[maintenance_mode_api][subdir] = "contrib"
+projects[maintenance_mode_api][version] = "1.0-beta1"
+
 ; This version of media is tested to work with both images and videos.
 projects[media][type] = "module"
 projects[media][subdir] = "contrib"
@@ -167,6 +173,9 @@ projects[media_youtube][download][url] = "http://git.drupal.org/project/media_yo
 projects[media_youtube][download][revision] = "ca46aba"
 projects[media_youtube][patch][] = "http://drupal.org/files/issues/provide-access-wrapper-1823376-6.patch"
 
+projects[memcache][subdir] = "contrib"
+projects[memcache][version] = "1.0"
+
 # Get a this special version that has support for features export.
 projects[menu_block][type] = "module"
 projects[menu_block][subdir] = "contrib"
@@ -183,9 +192,6 @@ projects[menu_position][version] = "1.1"
 
 projects[module_filter][subdir] = "contrib"
 projects[module_filter][version] = "1.8"
-
-projects[memcache][subdir] = "contrib"
-projects[memcache][version] = "1.0"
 
 projects[nanosoap][subdir] = "contrib"
 projects[nanosoap][version] = "1.0"
@@ -249,6 +255,9 @@ projects[profile2][version] = "1.3"
 projects[realname][subdir] = "contrib"
 projects[realname][version] = "1.2"
 
+projects[redirect][subdir] = "contrib"
+projects[redirect][version] = "1.0-rc1"
+
 projects[relation][subdir] = "contrib"
 projects[relation][version] = "1.0-rc7"
 
@@ -282,17 +291,11 @@ projects[strongarm][version] = "2.0"
 projects[tipsy][subdir] = "contrib"
 projects[tipsy][version] = "1.0-rc1"
 
-projects[transliteration][subdir] = "contrib"
-projects[transliteration][version] = "3.2"
-
 projects[token][subdir] = "contrib"
 projects[token][version] = "1.5"
 
-projects[redirect][subdir] = "contrib"
-projects[redirect][version] = "1.0-rc1"
-
-projects[eu_cookie_compliance][subdir] = "contrib"
-projects[eu_cookie_compliance][version] = "1.14"
+projects[transliteration][subdir] = "contrib"
+projects[transliteration][version] = "3.2"
 
 # Using dev release, as the "stable" version is making errors in the install profile.
 projects[uuid][subdir] = "contrib"
@@ -338,9 +341,6 @@ projects[wysiwyg][subdir] = "contrib"
 projects[wysiwyg][download][type] = "git"
 projects[wysiwyg][download][url] = "http://git.drupal.org/project/wysiwyg.git"
 projects[wysiwyg][download][revision] = "7981731f4f3db2f932419499d2ec13a073e9b88f"
-
-projects[maintenance_mode_api][subdir] = "contrib"
-projects[maintenance_mode_api][version] = "1.0-beta1"
 
 ; Libraries
 libraries[bpi-client][destination] = "modules/bpi/lib"
