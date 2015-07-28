@@ -193,7 +193,9 @@ projects[menu_position][version] = "1.1"
 projects[module_filter][subdir] = "contrib"
 projects[module_filter][version] = "1.8"
 
-projects[nanosoap][subdir] = "contrib"
+; NanoSOAP is currently not placed in contrib at this was not the case
+; when using recursive make files.
+; projects[nanosoap][subdir] = "contrib"
 projects[nanosoap][version] = "1.0"
 projects[nanosoap][patch][] = "http://drupal.org/files/nanosoap-curloptions-1943732.patch"
 
