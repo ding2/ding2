@@ -1,0 +1,12 @@
+.ting_sfx_group img {
+    height: 1em;
+    vertical-align: middle;
+    margin-right: 0.2em;
+}
+
+.field-type-ting-sfx .field-items a:hover {
+    text-decoration: none;
+}
+.field-type-ting-sfx .field-items a span:hover {
+    text-decoration: underline;
+}

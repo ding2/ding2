@@ -1,0 +1,261 @@
+<?php
+/**
+ * @file
+ * Handles sfx-fields for ting entities.
+ */
+
+/**
+ * Implements hook_field_info().
+ *
+ * Description of field.
+ */
+function ting_sfx_field_info() {
+  $ret = array(
+    'ting_sfx' => array(
+      'label' => t('A link to openurl (SFX)'),
+      'description' => t('This field links SFX'),
+      'default_formatter' => 'ting_sfx_default',
+      'settings' => array('max_length' => 255),
+      'default_widget' => 'hidden',
+      'no_ui' => TRUE,
+    ),
+  );
+  return $ret;
+}
+
+/**
+ * Implements hook_form_FROM_ID_alter().
+ *
+ * Adding SFX url form field to Ting configurating form.
+ */
+function ting_sfx_form_ting_admin_ting_settings_alter(&$form, &$form_state) {
+  $form['ting']['ting_sfx_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('SFX link resolver URL'),
+    '#description' => t('URL to SFX link resolver, e.g., http://sfx.dbc.dk:3410/dbc_test-ph_metropol'),
+    '#default_value' => variable_get('ting_sfx_url', ''),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function ting_sfx_field_formatter_info() {
+  return array(
+    'ting_sfx_default' => array(
+      'label' => t('Default'),
+      'field types' => array('ting_sfx'),
+    ),
+  );
+}
+
+/**
+ * Get ting relation types.
+ *
+ * @return array
+ *   Relation types.
+ */
+function ting_sfx_inline() {
+  static $types;
+  if (!$types) {
+    $types = array(
+      'dbcaddi:hasOpenUrl' => t('SFX'),
+    );
+  }
+  return $types;
+}
+
+/**
+ * Implements hook_anchor_info().
+ *
+ * See ting.module (line 258).
+ */
+function ting_sfx_anchor_info() {
+  return ting_sfx_inline();
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ *
+ * only one formatter is supported
+ * - ting_sfx
+ */
+function ting_sfx_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  switch ($display['type']) {
+    case 'ting_sfx_default':
+      foreach ($items as $delta => $item) {
+        $element[$delta] = ting_sfx_get_markup($entity);
+      }
+      break;
+
+    default:
+  }
+
+  return $element;
+}
+
+/**
+ * Get markup for the sfx button.
+ *
+ * @param TingEntity $entity
+ *   TingObject object, sfx value which is to be rendered.
+ *
+ * @return array
+ *   Array, containing output markup, in the FieldAPI form.
+ */
+function ting_sfx_get_markup($entity = NULL) {
+  $markup = array();
+  if (is_object($entity)) {
+    $relation_types = ting_sfx_inline();
+    foreach ($entity->relations as $relation) {
+      if ((isset($relation_types[$relation->type])) && ($sfx_url = ting_sfx_get_open_url($relation->uri))) {
+        $link = l(
+          ting_sfx_get_logo() . '<span>' . $relation_types[$relation->type] . '</span>',
+          $sfx_url,
+          array(
+            'attributes' => array(
+              'class' => array('ting_sfx_group'),
+              'target' => '_new',
+            ),
+            'html' => TRUE,
+          )
+        );
+        $markup = array(
+          '#prefix' => '<div class="sfx-link">',
+          '#suffix' => '</div>',
+          '#markup' => $link,
+        );
+        break;
+      }
+    }
+  }
+
+  return $markup;
+}
+
+/**
+ * Get SFX URL.
+ *
+ * @param string $uri
+ *   Relation URI.
+ *
+ * @return string
+ *   URL.
+ */
+function ting_sfx_get_open_url($uri) {
+  $baseurl = variable_get('ting_sfx_url', FALSE);
+
+  if ($baseurl) {
+    $baseurl .= '?';
+    $ret = str_replace('_BASEURL_', $baseurl, $uri);
+    $parts = parse_url($ret);
+    $query = ting_sfx_encode_dk($parts['query']);
+    $port = isset($parts['port']) ? ':' . $parts['port'] : '';
+    $ret = $parts['scheme'] . '://' . $parts['host'] . $port . $parts['path'] . '?' . $query;
+  }
+  else {
+    $ret = FALSE;
+  }
+
+  return $ret;
+}
+
+/**
+ * Urlencode values of parameters.
+ *
+ * Shitty solution - we should rely on data given from the well,
+ * and not mess with raw data.
+ */
+function ting_sfx_encode_dk($query) {
+  $params = explode('&', $query);
+  $ret = '';
+  // SFX (and IE) can't handle latin capital letter aa (U+A732) or AA.
+  $replace_from = array(
+    '%EA%9C%B3',
+    '%EA%9C%B2',
+  );
+  $replace_to = array(
+    'aa',
+    'AA',
+  );
+  foreach ($params as $param) {
+    $keyval = explode('=', $param);
+
+    if (strlen($ret) > 1) {
+      $ret .= '&';
+    }
+
+    // There might be an '&' in the value of the key value pair, so check
+    // if both key and value is set.
+    if (isset($keyval[0]) && isset($keyval[1])) {
+      $ret .= $keyval[0] . '=' . str_replace($replace_from, $replace_to, rawurlencode($keyval[1]));
+    }
+    else {
+      $ret .= $param;
+    }
+  }
+  // Undo urlencode of '+' (%2B).
+  $ret = str_replace('%2B', ' ', $ret);
+
+  return $ret;
+}
+
+/**
+ * Get logo image tag.
+ *
+ * @return string
+ *   'img' tag.
+ */
+function ting_sfx_get_logo() {
+  $image = array(
+    'path' => drupal_get_path('module', 'ting_sfx') . '/sfx_logo.png',
+    'attributes' => array(
+      'alt' => t('SFX Logo'),
+    ),
+  );
+  $ret = theme_image($image);
+  return $ret;
+}
+
+/**
+ * Implements hook_field_validate().
+ *
+ * TODO is some kind of validation needed?
+ */
+function ting_sfx_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
+  // Do nothing.
+}
+
+/**
+ * Implements hook_field_is_empty().
+ */
+function ting_sfx_is_empty($item, $field) {
+  // TODO; check.
+  return FALSE;
+}
+
+/**
+ * Implements hook_field_load().
+ */
+function ting_sfx_field_load($entity_type, $entities, $field, $instances, $langcode, &$items, $age) {
+  foreach ($entities as $id => $entity) {
+    $items[$id][0] = array(
+      'id' => $id,
+    );
+  }
+}
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function ting_sfx_preprocess_html(&$variables, $hook) {
+  drupal_add_css(drupal_get_path('module', 'ting_sfx') . '/ting_sfx.css');
+}
+
+/**
+ * Implements hook_ding_entity_buttons().
+ */
+function ting_sfx_ding_entity_buttons($type, $entity, $widget = 'default') {
+  return array(ting_sfx_get_markup($entity));
+}
