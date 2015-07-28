@@ -387,11 +387,23 @@ projects[proj4js][version] = "1.2"
 projects[profile2][subdir] = "contrib"
 projects[profile2][version] = "1.3"
 
+projects[role_delegation][subdir] = "contrib"
+projects[role_delegation][version] = "1.1"
+
 projects[rules][subdir] = "contrib"
 projects[rules][version] = "2.7"
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = "1.2"
+
+; Patched with "Secure Permissions fails with features and multilingual"
+projects[secure_permissions][type] = "module"
+projects[secure_permissions][subdir] = "contrib"
+projects[secure_permissions][download][type] = "git"
+projects[secure_permissions][download][url] = "http://git.drupal.org/project/secure_permissions.git"
+projects[secure_permissions][download][revision] = "ef5eec5"
+projects[secure_permissions][patch][] = "http://drupal.org/files/issues/2188491-features-multilingual-2.patch"
+projects[secure_permissions][patch][] = "http://drupal.org/files/issues/secure_permissions-dont_disable_all_permissions-2499607-1.patch"
 
 projects[similarterms][subdir] = "contrib"
 projects[similarterms][version] = "2.3"
