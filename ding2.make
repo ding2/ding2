@@ -387,6 +387,9 @@ projects[proj4js][version] = "1.2"
 projects[profile2][subdir] = "contrib"
 projects[profile2][version] = "1.3"
 
+projects[realname][subdir] = "contrib"
+projects[realname][version] = "1.2"
+
 projects[role_delegation][subdir] = "contrib"
 projects[role_delegation][version] = "1.1"
 
