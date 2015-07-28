@@ -1,0 +1,20 @@
+<?php
+/**
+ * @file
+ * Contains uninstall script.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_redirect_uninstall() {
+
+  // Cleanup and remove all stored variables.
+  variable_del('ding_redirect_settings_search_well');
+  variable_del('ding_redirect_settings_search_web');
+  variable_del('ding_redirect_settings_search_default');
+  variable_del('ding_redirect_settings_login_url');
+  variable_del('ding_redirect_settings_dialog_delay');
+  variable_del('ding_redirect_settings_dialog_title');
+  variable_del('ding_redirect_settings_dialog_text');
+}
