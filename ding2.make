@@ -219,6 +219,10 @@ projects[entitycache][patch][0] = "http://drupal.org/files/issues/2146543-ensure
 projects[entityreference][subdir] = "contrib"
 projects[entityreference][version] = "1.1"
 
+projects[expire][subdir] = "contrib"
+projects[expire][version] = "1.0-beta1"
+projects[expire][patch][0] = "https://drupal.org/files/issues/expire-2183995-1.patch"
+
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.0"
 
@@ -449,6 +453,10 @@ projects[uuid][download][revision] = "3f4d9fb"
 
 projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
+
+projects[varnish][subdir] = "contrib"
+projects[varnish][version] = "1.0-beta3"
+projects[varnish][patch][0] = "http://drupal.org/files/issues/notification_level_settings-2169271-3.patch"
 
 projects[virtual_field][subdir] = "contrib"
 projects[virtual_field][version] = "1.2"
