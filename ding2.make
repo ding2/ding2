@@ -216,6 +216,9 @@ projects[entitycache][version] = "1.2"
 # https://drupal.org/node/2146543, profile 2 blank fields.
 projects[entitycache][patch][0] = "http://drupal.org/files/issues/2146543-ensure-entity-inserts-clears-caches.1.patch"
 
+projects[entityreference][subdir] = "contrib"
+projects[entityreference][version] = "1.1"
+
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.0"
 
