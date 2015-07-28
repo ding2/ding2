@@ -514,6 +514,10 @@ function ting_search_context_rate_node($context_id, $nid, $rating) {
  *   The context_id of the newly created context.
  *
  * @see ting_search_context_schema()
+ *
+ * TODO: Should throw exception if type is 'subject' but no $subject is set?
+ * TODO: Uset try-catch to handle 'Integrity constraint violation' or
+ *       'Duplicate entry'. See: http://alvinalexander.com/drupal/handling-drupal-sql-query-exceptions-try-catch
  */
 function ting_search_context_save_context($type, $name, $context, $subject = NULL) {
 	$fields = array(
