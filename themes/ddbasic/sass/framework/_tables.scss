@@ -1,0 +1,197 @@
+/**
+ * Tables
+ *
+ * Based on Twitter bootstrap
+ *
+ * @author magnify
+ */
+
+
+
+/* Variables
+   ========================================================================== */
+
+$table-border-radius: 4px;
+
+
+/* Base tables
+   ========================================================================== */
+
+table {
+  max-width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+
+  /* Use bordered table styling as default for tables */
+  @extend .table;
+  @extend .table-bordered;
+}
+
+
+th {
+  background-color: $gray-light;
+  /* Drupal system stylesheet adds bottom border */
+  border-bottom: 0;
+}
+
+
+/* Drupal uses these */
+tr.even {
+  background-color: $gray-light;
+}
+
+tr.odd {
+  background-color: darken($gray-light, 4%);
+}
+
+
+/* Baseline styling
+   ========================================================================== */
+
+.table {
+  width: 100%;
+
+  th,
+  td {
+    border-top: 1px solid $gray;
+    padding: $medium-spacing;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    font-family: $font-bold;
+    font-weight: $base-font-weight-bold;
+    padding-top: $medium-spacing;
+    padding-right: $medium-spacing;
+    padding-bottom: $medium-spacing;
+    padding-left: $medium-spacing;
+  }
+
+  thead th {
+    vertical-align: bottom;
+  }
+
+  caption + thead tr:first-child th,
+  caption + thead tr:first-child td,
+  colgroup + thead tr:first-child th,
+  colgroup + thead tr:first-child td,
+  thead:first-child tr:first-child th,
+  /* It is possible to get <th> wrapped in <tbody> instead of <thead> */
+  tbody:first-child tr:first-child th,
+  thead:first-child tr:first-child td {
+    border-top: 0;
+  }
+
+  tbody + tbody {
+    border-top: 2px solid $gray;
+  }
+}
+
+/* Condensed table w/ half padding */
+.table-condensed {
+  th,
+  td {
+    padding: 3px;
+  }
+}
+
+/* Bordered version
+   ========================================================================== */
+
+.table-bordered {
+  @include border-radius($table-border-radius);
+
+  border: 1px solid $gray;
+  /* Done so we can round those corners! */
+  border-collapse: separate;
+  /* IE7 can't round corners anyway */
+  *border-collapse: collapsed;
+  border-left: 0;
+
+  th,
+  td {
+    border-left: 1px solid $gray;
+  }
+
+  caption + thead tr:first-child th,
+  caption + tbody tr:first-child th,
+  caption + tbody tr:first-child td,
+  colgroup + thead tr:first-child th,
+  colgroup + tbody tr:first-child th,
+  colgroup + tbody tr:first-child td,
+  thead:first-child tr:first-child th,
+  tbody:first-child tr:first-child th,
+  tbody:first-child tr:first-child td {
+    border-top: 0;
+  }
+
+  thead:first-child tr:first-child th:first-child,
+  /* It is possible to get <th> wrapped in <tbody> instead of <thead> */
+  tbody:first-child tr:first-child th:first-child,
+  tbody:first-child tr:first-child td:first-child {
+    @include border-radius($table-border-radius 0 0);
+  }
+
+  thead:first-child tr:first-child th:last-child,
+  /* It is possible to get <th> wrapped in <tbody> instead of <thead> */
+  tbody:first-child tr:first-child th:last-child,
+  tbody:first-child tr:first-child td:last-child {
+    @include border-radius(0 $table-border-radius 0 0);
+  }
+
+  thead:last-child tr:last-child th:first-child,
+  /* It is possible to get <th> wrapped in <tbody> instead of <thead> */
+  tbody:last-child tr:last-child th:first-child,
+  tbody:last-child tr:last-child td:first-child {
+    @include border-radius(0 0 0 $table-border-radius);
+  }
+  thead:last-child tr:last-child th:last-child,
+  /* It is possible to get <th> wrapped in <tbody> instead of <thead> */
+  tbody:last-child tr:last-child th:last-child,
+  tbody:last-child tr:last-child td:last-child {
+    @include border-radius(0 0 $table-border-radius 0);
+  }
+}
+
+/* Zebra-striping
+   ========================================================================== */
+
+.table-striped {
+  tbody {
+    tr:nth-child(odd) td,
+    tr:nth-child(odd) th {
+      background-color: $gray-lighter;
+
+      &:hover {
+        background-color: auto;
+      }
+    }
+  }
+}
+
+
+/* Borderless table.
+   ========================================================================== */
+.table-borderless {
+  border: 0;
+
+  tbody {
+    border: 0;
+
+    tr {
+      background-color: auto;
+      border: 0;
+
+      &:hover {
+        background-color: initial;
+      }
+    }
+
+    & td {
+      border: 0;
+      padding-left:0;
+      padding-right: 0;
+    }
+  }
+}

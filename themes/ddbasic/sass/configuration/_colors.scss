@@ -1,0 +1,58 @@
+/**
+ * Colors that can be configured through theme settings.
+ *
+ * Every color settings MUST be in HEX format..
+ * @author magnify
+ */
+
+
+/* Topbar */
+$topbar-background-color:         #000001 !default;
+$topbar-text-color:               #fffffa !default;
+
+/* Header */
+$header-background-color:         #00caff !default;
+
+/* Navigation */
+$navigation-background-color:     #fffffc !default;
+$navigation-text-color:           #959594 !default;
+$navigation-text-color-active:    #000002 !default;
+
+/* Tabroll */
+$tabroll-background-color:        #a32e10 !default;
+
+/* Links */
+$link-color:                      #00b7e7 !default;
+$link-color-hover:                #006681 !default;
+
+/* Labels */
+$label-bg-color:                  #00cafe !default;
+$label-bg-color-hover:            #00a7d2 !default;
+$label-text-color:                #fffffd !default;
+$label-text-color-hover:          #fafaf7 !default;
+
+/* Content */
+$content-background-color:        #fffffe !default;
+
+/* List */
+$list-background-color:           #ebebeb !default;
+$list-item-background-color-odd:  #e8e8e8 !default;
+$list-item-background-color-even: #f2f2f2 !default;
+$list-text-color:                 #4c4c4c !default;
+
+/* Footer */
+$footer-background-color:         #262626 !default;
+$footer-text-color:               #fffff9 !default;
+
+/* Buttons */
+$button-default-background:       #444443 !default;
+$button-default-background-gradient: #1e1e1f !default;
+$button-default-color-hover:      #1e1e1e !default;
+$button-default-text-color:       #fffff8 !default;
+
+/* Dialog box */
+$dialog-background: #00cafd !default;
+$dialog-text: #000003 !default;
+
+
+/* Funny facts */

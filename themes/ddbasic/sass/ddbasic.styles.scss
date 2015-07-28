@@ -1,0 +1,66 @@
+// =============================================================================
+//
+// DDBasic stylesheet combiner
+//
+// =============================================================================
+//
+
+
+// Include compass
+@import "compass/css3";
+
+
+// Grid - http://zengrids.com
+@import "zen";
+
+
+// Include configuration
+@import "configuration/_variables";
+@import "configuration/_colors";
+@import "configuration/_configuration";
+
+
+// Include framework
+@import "framework/_mixins";
+@import "framework/_normalize";
+@import "framework/_base";
+@import "framework/_framework";
+@import "framework/_forms";
+@import "framework/_tables";
+@import "framework/_buttons";
+@import "framework/_tabs";
+@import "framework/_labels";
+@import "framework/_navigation";
+@import "framework/_modal";
+@import "framework/_fontawesome";
+
+
+// Include media queries (displays and attachments)
+@import "layout/_layout";
+@import "layout/_typography";
+@import "layout/_drupal";
+@import "layout/_drupal_system_messages";
+
+
+// Include modules
+@import "module/_module";
+@import "module/_availability";
+@import "module/_campaign";
+@import "module/_search";
+@import "module/_newmaterials";
+@import "module/_carousel";
+@import "module/_news";
+@import "module/_event";
+@import "module/_fulltext";
+@import "module/_libraries";
+@import "module/_openinghours";
+@import "module/_user";
+@import "module/_comment";
+@import "module/_finurlige_fakta";
+@import "module/_staff";
+@import "module/_tabroll";
+@import "module/_groups";
+@import "module/_page";
+
+// Custom font
+@import "../font/source-sans/stylesheet.css";

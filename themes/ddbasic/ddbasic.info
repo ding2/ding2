@@ -1,0 +1,48 @@
+;----------// Theme Information
+  name        = DDBasic
+  description = The default theme for the danish library distribution
+  core        = 7.x
+  release     = 7.x-1.x
+
+
+;----------// Stylesheets
+  stylesheets[all][] = css/ddbasic.styles.css
+
+  ; Override stylesheets
+  stylesheets[all][] = css/system.menus.css
+  stylesheets[all][] = css/system.messages.css
+  stylesheets[all][] = css/addressfield.css
+  stylesheets[all][] = css/date.css
+  stylesheets[all][] = css/jquery.ui.theme.css
+  stylesheets[all][] = css/jquery.ui.theme.min.css
+  stylesheets[all][] = css/jquery.ui.dialog.css
+  stylesheets[all][] = css/jquery.ui.dialog.min.css
+
+
+;----------// JavaScripts
+  scripts[] = scripts/jquery.cookie.js
+  scripts[] = scripts/respond.min.js
+  scripts[] = scripts/jquery.scrollto.js
+  scripts[] = scripts/html5shiv.js
+  scripts[] = scripts/equalize.min.js
+  scripts[] = scripts/scalefix.js
+  scripts[] = scripts/selectivizr-min.js
+  scripts[] = scripts/ddbasic.topbar.menu.min.js
+  scripts[] = scripts/ddbasic.common.min.js
+  scripts[] = scripts/ddbasic.facet.min.js
+  scripts[] = scripts/ddbasic.search.min.js
+
+
+;----------// Regions
+  regions[header]            = Header
+  regions[navigation]        = Navigation
+  regions[content_top]       = Content top
+  regions[content]           = Primary content
+  regions[secondary_content] = Secondary content
+  regions[tertiary_content]  = Tertiary content
+  regions[attachment_first]  = Attachment first
+  regions[attachment_second] = Attachment second
+  regions[attachment_third]  = Attachment third
+  regions[attachment_fourth] = Attachment fourth
+  regions[footer]            = Footer
+  regions[bottom]            = Bottom

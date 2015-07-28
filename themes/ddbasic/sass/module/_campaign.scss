@@ -1,0 +1,25 @@
+/**
+ * Ding campaigns
+ *
+ * @author cableman
+ */
+
+/* Variables
+   ========================================================================== */
+
+
+/* Wrapper, load and inner
+   ========================================================================== */
+
+.ding-campaign-wrapper {
+  @include small-medium() {
+    display: none;
+  }
+}
+
+/* Image campaigns
+   ========================================================================== */
+
+.ding-tabroll-wrapper {
+
+}
