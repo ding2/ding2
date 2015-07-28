@@ -1,0 +1,435 @@
+<?php
+/**
+ * @file
+ * Interface module for talking with the materials backend.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ding_entity_menu() {
+  $items = array();
+  foreach (ding_entity_info() as $type => $info) {
+    if ($info['menu']) {
+      foreach (module_implements('ding_entity_menu') as $module) {
+        $function = $module . '_ding_entity_menu';
+        $function($items, $type, $info['menu'], $info['menu_index']);
+      }
+    }
+  }
+
+  return $items;
+}
+
+/**
+ * Implements hook_entity_uri().
+ */
+function ding_entity_uri($type, $object) {
+  if ($type_info = ding_entity_info($type)) {
+    return entity_uri($type_info['entity_type'], $object);
+  }
+}
+
+/**
+ * Implements hook_modules_enabled().
+ */
+function ding_entity_modules_enabled($modules) {
+  if (!ding_entity_info()) {
+    return;
+  }
+
+  // Ensure that Field API has discovered any new fields.
+  field_info_cache_clear();
+  foreach ($modules as $module) {
+    if (module_hook($module, 'ding_entity_fields')) {
+      $fields = module_invoke($module, 'ding_entity_fields');
+      foreach ($fields as $field_name => $field) {
+        $field['field'] += array(
+          'field_name' => $field_name,
+          'type' => $field_name,
+        );
+        field_create_field($field['field']);
+        $field['instance'] += array(
+          'field_name' => $field_name,
+          'ding_entity_type' => 'ding_entity',
+        );
+        // Let modules that know what they're doing (I hope), define the
+        // entity_type themselves.
+        if (!isset($field['instance']['entity_type'])) {
+          $info = ding_entity_info($field['instance']['ding_entity_type']);
+          // Different bundles are currently not supported.
+          $field['instance']['entity_type'] = $field['instance']['bundle'] = $info['entity_type'];
+        }
+        field_create_instance($field['instance']);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_modules_disabled().
+ */
+function ding_entity_modules_disabled($modules) {
+  foreach ($modules as $module) {
+    if (module_hook($module, 'ding_entity_fields')) {
+      $fields = module_invoke($module, 'ding_entity_fields');
+      foreach ($fields as $field_name => $field) {
+        field_delete_field($field_name);
+      }
+    }
+  }
+}
+
+/**
+ * Get information about the active ding_entities.
+ */
+function ding_entity_info($ding_entity_type = NULL) {
+  $types = &drupal_static(__FUNCTION__);
+  if (!isset($types)) {
+    $types = array();
+  }
+  $entity_types = entity_get_info();
+
+  foreach ($entity_types as $entity_type => $entity_info) {
+    if (isset($entity_info['ding_entity_type'])) {
+      $type = $entity_info['ding_entity_type'];
+      $types[$type] = array(
+        'entity_type' => $entity_type,
+        'menu' => NULL,
+      );
+      if (isset($entity_info['ding_entity_menu']) && isset($entity_info['ding_entity_index'])) {
+        $types[$type]['menu'] = $entity_info['ding_entity_menu'];
+        $types[$type]['menu_index'] = $entity_info['ding_entity_index'];
+      }
+    }
+  }
+
+
+  if (empty($ding_entity_type)) {
+    return $types;
+  }
+  elseif (isset($types[$ding_entity_type])) {
+    return $types[$ding_entity_type];
+  }
+}
+
+/**
+ * Load an ding_entity.
+ */
+function ding_entity_load($id, $type = NULL) {
+  $entity = ding_entity_load_multiple(array($id), $type);
+  return $entity ? reset($entity) : FALSE;
+}
+
+/**
+ * Load multiple ding_entities.
+ */
+function ding_entity_load_multiple($ids, $type = NULL) {
+  $conditions = array();
+  if (!$type) {
+    if ($type_info = ding_entity_info('ding_entity')) {
+      $type = $type_info['entity_type'];
+    }
+  }
+  if ($ids) {
+    $conditions['ding_entity_id'] = $ids;
+  }
+  if ($type) {
+    return entity_load($type, FALSE, $conditions);
+  }
+  return FALSE;
+}
+
+/**
+ * Load a collection entity.
+ */
+function ding_entity_collection_load($id, $type = NULL) {
+  if (!$type) {
+    if ($type_info = ding_entity_info('ding_entity_collection')) {
+      $type = $type_info['entity_type'];
+    }
+  }
+  if ($type) {
+    return ding_entity_load($id, $type);
+  }
+  return FALSE;
+}
+
+/**
+ * Display a ding_entity.
+ */
+function ding_entity_view($object, $view_mode = 'full', $langcode = NULL) {
+  if (!empty($object->ding_entity_type)) {
+    $type_info = ding_entity_info($object->ding_entity_type);
+    if ($type_info) {
+      $function = $type_info['entity_type'] . '_view';
+      if (function_exists($function)) {
+        return $function($object, $view_mode, $langcode);
+      }
+    }
+  }
+  return array();
+}
+
+/**
+ * Implements hook_entity_load().
+ *
+ * Adds ding_entity_type to all ding_entity objects.
+ */
+function ding_entity_entity_load($entities, $type) {
+  $ding_entity_type = NULL;
+  foreach (ding_entity_info() as $type_name => $info) {
+    if ($type == $info['entity_type']) {
+      $ding_entity_type = $type_name;
+      break;
+    }
+  }
+  if ($ding_entity_type) {
+    foreach ($entities as $entity) {
+      $entity->ding_entity_type = $ding_entity_type;
+    }
+  }
+}
+
+/**
+ * Implements hook_field_info().
+ */
+function ding_entity_field_info() {
+  $fields = array();
+
+  $fields['ding_entity_buttons'] = array(
+    'label' => t('Action buttons.'),
+    'description' => t('Action buttons.'),
+    'default_widget' => 'hidden',
+    'default_formatter' => 'ding_entity_buttons_default',
+    'no_ui' => TRUE,
+  );
+
+  return $fields;
+}
+
+/**
+ * Implements hook_field_load().
+ */
+function ding_entity_field_load($entity_type, $entities, $field, $instances, $langcode, &$items, $age) {
+  foreach ($entities as $id => $entity) {
+    $items[$id][0] = array(
+      'id' => $id,
+    );
+  }
+}
+
+/**
+ * Implements hook_widget_info_alter().
+ */
+function ding_entity_widget_info_alter(&$info) {
+  if (isset($info['hidden'])) {
+    $info['hidden']['field types'][] = 'ding_entity_buttons';
+  }
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function ding_entity_field_formatter_info() {
+  $format = array();
+
+  $format['ding_entity_buttons_default'] = array(
+    'label' => t('Default'),
+    'field types' => array('ding_entity_buttons'),
+  );
+
+  $format['ding_entity_buttons_ajax'] = array(
+    'label' => t('Ajaxified'),
+    'field types' => array('ding_entity_buttons'),
+  );
+
+  return $format;
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function ding_entity_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+
+  foreach ($items as $delta => $item) {
+    switch ($display['type']) {
+      case 'ding_entity_buttons_default':
+        $element[$delta] = module_invoke_all('ding_entity_buttons', 'ding_entity', $entity);
+        break;
+
+      case 'ding_entity_buttons_ajax':
+        $element[$delta] = module_invoke_all('ding_entity_buttons', 'ding_entity', $entity, 'ajax');
+        break;
+    }
+  }
+
+  return $element;
+}
+
+/**
+ * Base class for Ding entity types.
+ *
+ * Implements getters for properties.
+ *
+ * Subclasses should define properties with the value DingEntityBase::NULL, to
+ * get them automatically converted. When an attempting to access
+ * $object->my_prop, DingEntityBase will call $this->getMy_prop, and store the
+ * result for future accesses.
+ */
+class DingEntityBase {
+  /**
+   * Stores property values.
+   */
+  protected $properties = array();
+
+  /**
+   * Magic value to initialise properties with, to trigger automatic getter
+   * method handling.
+   */
+  const NULL = 'DingEntityBase::undefined';
+
+  public function __construct() {
+    foreach (get_object_vars($this) as $prop => $val) {
+      if ($val === self::NULL) {
+        // Unset the property, so __get() will take over.
+        unset($this->$prop);
+        // Set the value to our special null value.
+        $this->properties[$prop] = self::NULL;
+      }
+    }
+  }
+
+  public function __wakeup() {
+    self::__construct();
+  }
+
+  public function __get($prop) {
+    if (array_key_exists($prop, $this->properties)) {
+      if ($this->properties[$prop] === self::NULL) {
+        if (($method = 'get' . strtoupper($prop[0]) . substr($prop, 1)) &&
+          method_exists($this, $method)) {
+          $this->properties[$prop] = call_user_func(array($this, $method));
+        }
+        else {
+          return NULL;
+        }
+      }
+      return $this->properties[$prop];
+    }
+
+    return NULL;
+  }
+
+  public function __isset($prop) {
+    // isset() is defined as whether "a variable is set and is not NULL"
+    // If the property does not exist then isset() should always be false...
+    if (!isset($this->properties[$prop])) {
+      return FALSE;
+    }
+    // $this->properties[$prop] needs proper initialization which __get() takes
+    // Check whether the value of existing properties is in fact NULL
+    return $this->__get($prop) !== NULL;
+  }
+
+  /**
+   * Populate object properties from an array.
+   *
+   * Handles NULL values.
+   *
+   * @param $properties array of properties to copy from $values.
+   * @param $values associative array of values to copy.
+   */
+  protected function _populate($properties, $values) {
+    foreach ($properties as $prop) {
+      // Use array_key_exists to support NULL values.
+      if (array_key_exists($prop, $values)) {
+        $this->properties[$prop] = $values[$prop];
+      }
+    }
+  }
+}
+
+/**
+ * Abstract superclass for materials.
+ */
+abstract class DingEntity extends DingEntityBase {
+  /**
+   * The unique id of the object.
+   */
+  public $ding_entity_id;
+
+  /**
+   * The local id of the object.
+   */
+  public $id = DingEntityBase::NULL;
+
+  /**
+   * Title of the object.
+   */
+  public $title = DingEntityBase::NULL;
+
+  /**
+   * Creator of the object.
+   */
+  public $creator = DingEntityBase::NULL;
+
+  /**
+   * Abstract (description) of the object.
+   */
+  public $abstract = DingEntityBase::NULL;
+
+  public function getId() {
+    return $this->id = $this->ding_entity_id;
+  }
+
+  /**
+   * Return whether an object is of a given pseudo-class.
+   *
+   * Modules can add their own pseudo-classes by implementing
+   * hook_ding_entity_is(). This function will call all
+   * implementations and return the overall result.
+   *
+   * Modules may return TRUE, FALSE or NULL from the hook. If any modules
+   * returned FALSE, the result is FALSE, else the result is TRUE if anyone
+   * returned TRUE, FALSE otherwise.
+   */
+  public function is($class) {
+    $result = module_invoke_all('ding_entity_is', $this, $class);
+    // Return true if anyone returned true, and nobody returned false.
+    if (!in_array(FALSE, $result) && in_array(TRUE, $result)) {
+      return TRUE;
+    }
+    return FALSE;
+  }
+}
+
+/**
+ * Abstract superclass for collections of materials.
+ *
+ * Collections is primarily used for grouping together objects together in a
+ * 'work'. For instance, a book might be available both as a book, as an
+ * audiobook and as an online ebook. These are all part of the same collection
+ * representing that work.
+ */
+abstract class DingEntityCollection extends DingEntityBase {
+  /**
+   * The unique id of the object.
+   */
+  public $ding_entity_id;
+
+  /**
+   * The local id of the object.
+   */
+  public $id = DingEntityBase::NULL;
+
+  /**
+   * Objects of this collection.
+   */
+  public $entities = DingEntityBase::NULL;
+
+  public function getId() {
+    return $this->id = $this->ding_entity_id;
+  }
+}

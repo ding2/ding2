@@ -1,0 +1,10 @@
+name = Ding entity
+description = Provides a common API for materials information.
+package = Ding!
+version = "7.x-1.6"
+core = 7.x
+
+dependencies[] = virtual_field
+
+files[] = ding_entity.module
+
