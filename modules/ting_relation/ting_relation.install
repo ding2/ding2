@@ -1,0 +1,37 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the ting relation module.
+ */
+
+/**
+ * Implements hook_ding_entity_fields().
+ */
+function ting_relation_ding_entity_fields() {
+  return array(
+    'ting_relations' => array(
+      'field' => array(
+        'locked' => TRUE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Ting relations.'),
+      ),
+    ),
+  );
+}
+
+/**
+ * Convert blackhole field storage to virtual field.
+ */
+function ting_relation_update_7000() {
+  return db_update('field_config')
+    ->fields(array(
+      'storage_type' => 'virtual_field',
+      'storage_module' => 'virtual_field',
+    ))
+    ->condition('module', 'ting_relation')
+    ->execute();
+}
