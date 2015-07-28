@@ -1,0 +1,72 @@
+@import "compass/css3";
+@import "zen";
+
+$zen-column-count: 12;
+$zen-gutter-width: 20px;
+
+.panels-dnd,
+.attachments-wrapper {
+  @include zen-grid-container;
+}
+
+.attachments-wrapper {
+  @include zen-clear(both);
+
+  margin-bottom: $zen-gutter-width;
+}
+
+.primary-content {
+  @include zen-grid-item(6, 4);
+}
+
+.secondary-content {
+  @include zen-grid-item(3, 1);
+}
+
+.tertiary-content {
+  @include zen-grid-item(3, 1, right);
+}
+
+.attachments-4-4 {
+  padding-top: $zen-gutter-width;
+
+  .attachment-first {
+    @include zen-grid-item(3, 1);
+  }
+  .attachment-second {
+    @include zen-grid-item(3, 4);
+  }
+  .attachment-third {
+    @include zen-grid-item(3, 4, right);
+  }
+  .attachment-fourth {
+    @include zen-grid-item(3, 1, right);
+  }  
+}
+
+.attachments-3-3 {
+  .attachment-first {
+    @include zen-grid-item(4, 1);
+  }
+  .attachment-second {
+    @include zen-grid-item(4, 5);
+  }
+  .attachment-third {
+    @include zen-grid-item(4, 1, right);
+  }
+}
+
+.attachments-2-2 {
+  .attachment-first {
+    @include zen-grid-item(6, 1);
+  }
+  .attachment-second {
+    @include zen-grid-item(6, 1, right);
+  }
+}
+
+.attachments-1-1 {
+  .attachment-first {
+    @include zen-grid-item(12, 1);
+  }
+}
