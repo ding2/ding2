@@ -1,0 +1,58 @@
+<?php
+/**
+ * @file
+ * Check that basic requirements are provided.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function ding_provider_requirements($phase) {
+  $requirements = array();
+  $t = get_t();
+  $providers = array();
+  $conflicting = FALSE;
+
+  // Check if we have conflicting provider types.
+  foreach (module_implements('ding_provider') as $module) {
+    $provider_module = module_invoke($module, 'ding_provider');
+    if (array_key_exists('provides', $provider_module)) {
+      foreach ($provider_module['provides'] as $provides) {
+        $providers[$provides['prefix']][] = $module;
+      }
+    }
+  }
+
+  foreach ($providers as $providertype => $providermodules) {
+    if (count($providermodules) > 1) {
+      $conflicting[] = $t('%type implemented by @providers. Using @module.', array(
+          '@providers' => implode(', ', $providermodules),
+          '%type'      => $providertype,
+          '@module'    => end($providermodules),
+        )
+      );
+    }
+  }
+
+  switch ($phase) {
+    case 'runtime':
+      if ($callback = variable_get('ding_provider_ajax_disabled', FALSE)) {
+        $requirements['ding_provider_ajax_conflict'] = array(
+          'title' => $t('Ding provider AJAX authentication'),
+          'description' => $t('Disabled'),
+          'severity' => REQUIREMENT_ERROR,
+          'value' => $t('Ding Provider is unable to override the system/ajax page, because some other module already has overridden it with %callback.', array('%callback' => $callback)),
+        );
+      }
+      if ($conflicting == TRUE) {
+        $requirements['ding_provider_conflict'] = array(
+          'title' => $t('Ding provider Information'),
+          'description' => $t('Possible provider conflict'),
+          'severity' => REQUIREMENT_WARNING,
+          'value' => implode('<br />', $conflicting),
+        );
+      }
+      break;
+  }
+  return $requirements;
+}

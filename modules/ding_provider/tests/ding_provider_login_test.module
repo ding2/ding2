@@ -1,0 +1,164 @@
+<?php
+
+/**
+ * @file
+ * Dummy module to test that provider properly intercepts auth exceptions.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ding_provider_login_test_menu() {
+  $items['ding_provider_login_test/authpage'] = array(
+    'title' => 'auth needing page',
+    'page callback' => 'ding_provider_login_test_page',
+    'page arguments' => array(),
+    'access callback' => TRUE,
+  );
+
+  $items['ding_provider_login_test/authform/%'] = array(
+    'title' => 'auth needing form',
+    'page callback' => 'ding_provider_get_form',
+    'page arguments' => array('ding_provider_login_test_form', 2),
+    'access callback' => TRUE,
+  );
+
+  $items['ding_provider_login_test/authajaxform/%'] = array(
+    'title' => 'form with auth needing ajax element',
+    'page callback' => 'ding_provider_get_form',
+    'page arguments' => array('ding_provider_login_test_ajax_form', 2),
+    'access callback' => TRUE,
+  );
+
+  return $items;
+}
+
+/**
+ * A page that requires that user is logged into backend.
+ */
+function ding_provider_login_test_page() {
+  $string = ding_provider_invoke_page('user', 'test');
+  return $string;
+}
+
+/**
+ * A form that (might) require that a user is logged in.
+ */
+function ding_provider_login_test_form($form, &$form_state, $args = '') {
+  $form['a_field'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Enter a string'),
+    '#default_value' => 'default_value',
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Say it'),
+  );
+
+  if (isset($form_state['build_info']['args'][0]) && preg_match('/form/', $form_state['build_info']['args'][0])) {
+    // Trigger auth exception if we're not logged in.
+    $string = ding_provider_invoke('user', 'test');
+  }
+
+  return $form;
+}
+
+/**
+ * Validation handler.
+ */
+function ding_provider_login_test_form_validate($form, &$form_state) {
+  if (preg_match('/illegal_value/', $form_state['values']['a_field'])) {
+    form_error($form['a_field'], t("Illegal value entered."));
+  }
+
+  if (isset($form_state['build_info']['args'][0]) && preg_match('/validate/', $form_state['build_info']['args'][0])) {
+    // Trigger auth exception if we're not logged in.
+    $string = ding_provider_invoke('user', 'test');
+  }
+}
+
+/**
+ * Submit handler
+ */
+function ding_provider_login_test_form_submit($form, &$form_state) {
+  // This will cause duplicate messages if the following code throws an auth
+  // exception, but that's a known issue that form implementers should be
+  // aware.
+  drupal_set_message($form_state['values']['a_field']);
+  if (isset($form_state['build_info']['args'][0]) && preg_match('/submit/', $form_state['build_info']['args'][0])) {
+    // Trigger auth exception if we're not logged in.
+    $string = ding_provider_invoke('user', 'test');
+  }
+}
+
+/**
+ * A form that (might) require that a user is logged in.
+ */
+function ding_provider_login_test_ajax_form($form, &$form_state, $args = '') {
+  // Not the same element as ding_provider_login_test_form, just to ensure
+  // that we don't play with the wrong form.
+  $form['b_field'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Enter a string'),
+    '#default_value' => 'default_value',
+    '#prefix' => '<div class="replace_me">',
+    '#suffix' => '</div>',
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Say it'),
+    '#ajax' => array(
+      'callback' => 'ding_provider_login_test_ajax_form_callback',
+      'wrapper' => 'replace_me',
+    ),
+  );
+
+  if (isset($form_state['build_info']['args'][0]) && preg_match('/form/', $form_state['build_info']['args'][0])) {
+    // Trigger auth exception if we're not logged in.
+    $string = ding_provider_invoke('user', 'test');
+  }
+
+  return $form;
+}
+
+/**
+ * Ajax callback function.
+ */
+function ding_provider_login_test_ajax_form_callback($form, &$form_state) {
+  if (isset($form_state['build_info']['args'][0]) && preg_match('/ajax/', $form_state['build_info']['args'][0])) {
+    $string = ding_provider_invoke('user', 'test');
+  }
+  return array(
+    '#type' => 'ajax',
+    '#commands' => array(
+      ajax_command_replace(NULL, $form_state['values']['b_field']),
+    ),
+  );
+}
+
+/**
+ * Validation handler.
+ */
+function ding_provider_login_test_ajax_form_validate($form, &$form_state) {
+  if (preg_match('/illegal_value/', $form_state['values']['b_field'])) {
+    form_error($form['b_field'], t("Illegal value entered."));
+  }
+
+  if (isset($form_state['build_info']['args'][0]) && preg_match('/validate/', $form_state['build_info']['args'][0])) {
+    // Trigger auth exception if we're not logged in.
+    $string = ding_provider_invoke('user', 'test');
+  }
+}
+
+/**
+ * Submit handler
+ */
+function ding_provider_login_test_ajax_form_submit($form, &$form_state) {
+  drupal_set_message("Submit handler called.");
+  if (isset($form_state['build_info']['args'][0]) && preg_match('/submit/', $form_state['build_info']['args'][0])) {
+    // Trigger auth exception if we're not logged in.
+    $string = ding_provider_invoke('user', 'test');
+  }
+}

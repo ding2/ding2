@@ -1,0 +1,184 @@
+<?php
+
+/**
+ * @file
+ * Unit test file for Ding provider.
+ */
+
+class DingProviderTestCase extends DrupalWebTestCase {
+
+  function setUp() {
+    $modules = func_get_args();
+    if (isset($modules[0]) && is_array($modules[0])) {
+      $modules = $modules[0];
+    }
+    if (!in_array('ding_provider', $modules)) {
+      $modules[] = 'ding_provider';
+    }
+    parent::setUp($modules);
+  }
+
+}
+
+class DingAvailabilityProviderTestCase extends DingProviderTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Ding availability provider',
+      'description' => 'Test Ding availability provider functionality.',
+      'group' => 'Ding! - Provider',
+    );
+  }
+
+  function setUp() {
+    parent::setUp(array('connie'));
+  }
+
+  function testAvailabilityProvider() {
+    $res = ding_provider_invoke('availability', 'items', array(21, 12));
+    $this->assertTrue(is_array($res), 'Availability provider returns an array for items.');
+    $this->assertTrue($res[12]['available'], 'Returns available for 12.');
+    $this->assertFalse($res[21]['available'], 'Returns not available for 21.');
+    $this->assertFalse($res[12]['reservable'], 'Returns not reservable for 12.');
+    $this->assertTrue($res[21]['reservable'], 'Returns reservable  for 21.');
+
+    $res = ding_provider_invoke('availability', 'holdings', array(121, 212));
+    $this->assertTrue(is_array($res), 'Availability provider returns an array for holdings.');
+    $this->assertTrue(is_array($res[212]['holdings']), 'Holdings is an array.');
+    $this->assertTrue(is_array($res[121]['holdings']), 'Holdings is an array.');
+
+    $this->assertEqual($res[212]['holdings'], array('Andeby bibliotek', 'Gåserød bibliotek'), 'Correct holdings');
+    $this->assertEqual($res[121]['holdings'], array(), 'Correct holdings');
+
+    $this->assertTrue($res[212]['available'], 'Returns available for 212.');
+    $this->assertFalse($res[121]['available'], 'Returns not available for 121.');
+    $this->assertFalse($res[212]['reservable'], 'Returns not reservable for 212.');
+    $this->assertTrue($res[121]['reservable'], 'Returns reservable  for 121.');
+
+  }
+}
+
+class DingUserProviderTestCase extends DingProviderTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Ding user provider',
+      'description' => 'Test Ding user provider functionality.',
+      'group' => 'Ding! - Provider',
+    );
+  }
+
+  function setUp() {
+    parent::setUp(array('connie'));
+  }
+
+  function testUserProvider() {
+    $res = ding_provider_invoke('user', 'authenticate', 'twain', 'wain');
+    $this->assertTrue($res['success'], 'Authentication works.');
+    $this->assertEqual($res['creds'], array('name' => 'twain', 'pass' => 'wain'), 'Creds are set properly.');
+    $this->assertEqual($res['user'], array('mail' => 'twain@example.com', 'data' => array('display_name' => 'Twain')), 'User properties are set properly.');
+
+    $this->assertTrue(ding_provider_invoke('user', 'is_authenticated', $res['creds']), 'is_authenticated returns TRUE');
+
+
+    $res = ding_provider_invoke('user', 'authenticate', 'twain', 'ain');
+    $this->assertFalse($res['success'], 'Wrong password fails.');
+    $this->assertEqual($res, array('success' => FALSE), 'No other data.');
+
+    $res = ding_provider_invoke('user', 'authenticate', 'blockedtwain', 'wain');
+    $this->assertFalse($res['success'], 'Blocked user cannot log in.');
+    $this->assertEqual($res['messages'], array(t("Sorry, you're blocked")), 'No other data.');
+  }
+}
+
+
+class DingReservationProviderTestCase extends DingProviderTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Ding reservation provider',
+      'description' => 'Test Ding reservation provider functionality.',
+      'group' => 'Ding! - Provider',
+    );
+  }
+
+  function setUp() {
+    parent::setUp(array('connie'));
+  }
+
+  function testReservationProvider() {
+    global $user;
+
+    ding_user_save_creds(array('creds' => array('name' => $user->name, 'pass' => '1234')));
+    // Ensure a clean slate.
+    unset($_SESSION['connie_reservations']);
+
+    $branches = array(
+      'aby' => 'Andeby bibliotek',
+      'grd' => 'Gåserød bibliotek',
+    );
+    $res = ding_provider_invoke('reservation', 'pickup_branches', $user);
+    $this->assertEqual($res, $branches, 'Branches looks good.');
+
+    // set_preferred_branch is a noop in connie.
+    // create always succeeds.
+
+    $this->assertEqual(ding_provider_invoke('reservation', 'branch_name', 'aby'), 'Andeby bibliotek', 'Branch name is returned correctly.');
+
+    $this->assertNull(ding_provider_invoke('reservation', 'branch_name', 'oeu'), 'Bad branch id returns NULL.');
+
+    // Reservation crud
+    $expiry = REQUEST_TIME + (14 * 86400);
+    $expiry_str = date('Y-m-d', $expiry);
+    ding_provider_invoke('reservation', 'create', $user, 123, 'aby', $expiry);
+    ding_provider_invoke('reservation', 'create', $user, 321, 'grd', $expiry);
+
+    $reservations = ding_provider_invoke('reservation', 'list', $user);
+    $this->assertEqual(sizeof($reservations), 2, 'Correct number of reservations');
+    $expected = array(
+      ':123' => array(
+        'ding_entity_id' => ':123',
+        'display_name' => 'Reservation #1',
+        'pickup_branch_id' => 'aby',
+        'expiry' => $expiry_str,
+      ),
+      ':321' => array(
+        'ding_entity_id' => ':321',
+        'display_name' => 'Reservation #2',
+        'pickup_branch_id' => 'grd',
+        'expiry' => $expiry_str,
+      ),
+    );
+
+    foreach ($reservations as $id => $res) {
+      $this->assertTrue(isset($expected[$res->ding_entity_id]), 'Expected reservation');
+      $expected_res = $expected[$res->ding_entity_id];
+      foreach ($expected_res as $prop => $value) {
+        $this->assertEqual($res->$prop, $value, 'Property ' . $prop . ' looks OK');
+      }
+      //$this->assertEqual($expected_res, $res, 'Reservation looks OK.');
+    }
+  }
+}
+
+class DingBranchProviderTestCase extends DingProviderTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Ding branch provider',
+      'description' => 'Test Ding branch provider functionality.',
+      'group' => 'Ding! - Provider',
+    );
+  }
+
+  function setUp() {
+    parent::setUp(array('connie'));
+  }
+
+  function testBranchProvider() {
+    $branches = ding_provider_invoke('branch', 'list');
+    $expected = array(
+      'aby' => 'Andeby bibliotek',
+      'grd' => 'Gåserød bibliotek',
+      'ogf' => 'Øvre Gasefjeld bibliotek',
+    );
+
+    $this->assertEqual($branches, $expected, 'Branch list looks OK.');
+  }
+}

@@ -1,0 +1,128 @@
+<?php
+/**
+ * @file
+ * Test that the example provider implementation module passes the same
+ * tests as the real providers.
+ */
+
+class ConnieUserProviderImplementationTestCase extends DingUserProviderImplementationTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Connie provider example user provider',
+      'description' => 'Test Ding! provider example user functionality.',
+      'group' => 'Ding! - example provider',
+    );
+  }
+
+  function setUp() {
+    parent::setup(array('connie'));
+  }
+
+  /**
+   * Returns name and password for a user that's supposed to be able to log
+   * in. Used by parent class.
+   */
+  function getGoodUser() {
+    return array('Twain', 'wain');
+  }
+}
+
+class ConnieAvailabilityProviderImplementationTestCase extends DingAvailabilityProviderImplementationTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Connie provider example availability provider',
+      'description' => 'Test Ding! provider example availability functionality.',
+      'group' => 'Ding! - example provider',
+    );
+  }
+
+  function setUp() {
+    parent::setup(array('connie'));
+  }
+
+  function getSomeItems() {
+    return array(12314, 32434, 79798);
+  }
+
+  function getSomeHoldings() {
+    return array(54514, 23424, 2342, 342);
+  }
+
+  function getSomePeriodicals() {
+    return array('06078362');
+  }
+}
+
+class ConnieReservationProviderImplementationTestCase extends DingReservationProviderImplementationTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Connie provider example reservation provider',
+      'description' => 'Test Ding! provider example reservation functionality.',
+      'group' => 'Ding! - example provider',
+    );
+  }
+
+  function setUp() {
+    parent::setup(array('connie', 'ding_reservation'));
+    unset($_SESSION['connie_reservations']);
+  }
+
+  function getUser() {
+    global $user;
+    ding_user_save_creds(array('creds' => array('name' => $user->name, 'pass' => '1234')));
+    return $user;
+  }
+
+  function getBranch() {
+    return 'aby';
+  }
+
+  function getSomeReservables() {
+    // Just return some random numbers.
+    return array(
+      ':324' => 324,
+      ':34' => 34,
+      ':7' => 7,
+      ':870' => 870,
+      ':349' => 349,
+      ':abc' => 'abc',
+    );
+  }
+}
+
+class ConnieLoanProviderImplementationTestCase extends DingLoanProviderImplementationTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Connie provider example loan provider',
+      'description' => 'Test Ding! provider example loan functionality.',
+      'group' => 'Ding! - example provider',
+    );
+  }
+
+  function setUp() {
+    parent::setup(array('connie', 'ding_loan'));
+    unset($_SESSION['connie_reservations']);
+
+  }
+
+  function getUser() {
+    global $user;
+    ding_user_save_creds(array('creds' => array('name' => $user->name, 'pass' => '1234')));
+    ding_provider_invoke('reservation', 'create', $user, '123', 'here', REQUEST_TIME + (14 * 86400));
+    return $user;
+  }
+}
+
+class ConnieBranchProviderImplementationTestCase extends DingBranchProviderImplementationTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Connie provider example branch provider',
+      'description' => 'Test Ding! provider example branch functionality.',
+      'group' => 'Ding! - example provider',
+    );
+  }
+
+  function setUp() {
+    parent::setup(array('connie'));
+  }
+}

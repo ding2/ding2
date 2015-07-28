@@ -1,0 +1,16 @@
+name = Ding provider
+description = Implements a common interface to backend providers.
+package = Ding!
+version = "7.x-1.7"
+core = 7.x
+dependencies[] = ding_base
+files[] = ding_provider.module
+files[] = ding_provider.debt.inc
+files[] = ding_provider.exceptions.inc
+files[] = ding_provider.loan.inc
+files[] = ding_provider.reservation.inc
+files[] = ding_provider.admin.inc
+files[] = tests/ding_provider.test
+files[] = tests/ding_provider_implementation.test
+files[] = tests/ding_provider_login.test
+configure = admin/config/ding/provider

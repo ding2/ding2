@@ -1,0 +1,160 @@
+<?php
+
+/**
+ * @file
+ *
+ * Test that the provider catches DingProviderAuthException and redirects to
+ * login.
+ */
+
+class DingProviderLoginTestCase extends DrupalWebTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Ding provider login',
+      'description' => 'Ensure that provider redirects to login when necessary.',
+      'group' => 'Ding! - Provider',
+    );
+  }
+
+  function setUp() {
+    parent::setUp(array('ding_provider', 'connie', 'ding_user', 'ding_provider_login_test', 'ding_user_test'));
+  }
+
+  /**
+   * Test that ding_provider_invoke_page() handles things as it should.
+   */
+  public function testPageAuthenticate() {
+    $login_data = array('name' => 'twain', 'pass' => 'wain');
+
+    // First log in.
+    $this->drupalPost('user/login', $login_data, t('Log in'));
+    $this->assertRaw(t('Member for'), "Login works.");
+
+    $this->drupalGet('ding_provider_login_test/authpage');
+    $this->assertText('Wolla!', "Provider callback works when logged in.");
+
+    $this->drupalGet('ding_user_test/expirecreds');
+    $this->drupalGet('ding_provider_login_test/authpage');
+    $this->assertText('Enter your Drupal username.', "We're asked to authenticate ourselves.");
+
+    $this->drupalPost(NULL, $login_data, t('Log in'));
+    $this->assertText('Wolla!', "Provider callback works after logging in.");
+  }
+
+  /**
+   * Test that ding_provider_get_form() handles things properly.
+   */
+  function testFormAuthenticate() {
+    $login_data = array('name' => 'twain', 'pass' => 'wain');
+
+    $this->drupalGet('ding_provider_login_test/authform/form');
+    $this->assertNoText('Enter a string', "Form doesn't work when not logged in.");
+    $this->assertText(t('Enter the password that accompanies your username.'), "We're asked to log in.");
+
+    // Log in.
+    $this->drupalPost(NULL, $login_data, t('Log in'));
+    $this->assertText(t('Enter a string'), "Form display works after login.");
+
+    $this->drupalGet('ding_provider_login_test/authform/form');
+    $this->assertText(t('Enter a string'), "Form display works when logged in.");
+
+    $this->drupalPost(NULL, array('a_field' => 'Wolla'), 'Say it');
+    $this->assertText('Wolla', "Form submission works when logged in.");
+
+    $this->drupalGet('ding_user_test/expirecreds');
+
+    $this->drupalGet('ding_provider_login_test/authform/form');
+    $this->assertText(t('Enter the password that accompanies your username.'), "Form redirects to authenticate when not authenticated.");
+
+    $this->drupalPost(NULL, $login_data, t('Log in'));
+    $this->assertText(t('Enter a string'), "Form display works after authentication.");
+
+    $this->drupalGet('ding_user_test/expirecreds');
+
+    $this->drupalGet('ding_provider_login_test/authform/submit');
+    $this->assertText(t('Enter a string'), "Form display still works.");
+
+    $this->drupalPost(NULL, array('a_field' => 'Wolla'), t('Say it'));
+    $this->assertText(t('Enter the password that accompanies your username.'), "Form submit redirects to authenticate when not authenticated.");
+
+    $this->drupalPost(NULL, $login_data, t('Log in'));
+    $this->assertText('Wolla', "Form submission works when authenticated..");
+  }
+}
+
+class DingProviderAjaxLoginTestCase extends DingPopupTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Ding provider ajax login',
+      'description' => 'Ensure that provider handles ajax requests when necessary.',
+      'group' => 'Ding! - Provider',
+    );
+  }
+
+  function setUp() {
+    parent::setUp(array('ding_provider', 'connie', 'ding_user', 'ding_provider_login_test', 'ding_user_test'));
+  }
+
+  /**
+   * Test that ajax callback handles things properly.
+   */
+  function testFormAuthenticate() {
+    $login_data = array('name' => 'twain', 'pass' => 'wain');
+
+    $this->drupalGet('ding_provider_login_test/authajaxform/ajax');
+    $this->assertText('Enter a string', "Form display works when not logged in.");
+
+    $commands = $this->drupalPostAJAX(NULL, array('b_field' => 'test'), array('op' => t('Say it')));
+    $expected = array(
+      'command' => 'ding_popup',
+      'extra_data' => array('dp_form_id' => 'ding_provider_login_test_ajax_form'),
+    );
+    $this->assertCommand($commands, $expected, "We get a login form.");
+
+    $commands = $this->drupalPostAJAX(NULL, $login_data, array('op' => t('Log in')), NULL, array(), array(), 'user-login');
+
+    $expected = array(
+      'command' => 'ding_popup_close',
+    );
+
+    $this->assertCommand($commands, $expected, "Login works.");
+
+    $this->drupalGet('ding_provider_login_test/authajaxform/ajax');
+    $this->assertText(t('Enter a string'), "Form display works after login.");
+
+    $commands = $this->drupalPostAJAX(NULL, array('b_field' => 'Willa'), array('op' => t('Say it')));
+    $expected = array(
+      'command' => 'insert',
+      'data' => 'Willa'
+    );
+    $this->assertCommand($commands, $expected, "Ajax works when logged in.");
+
+    $this->drupalGet('ding_user_test/expirecreds');
+
+    $this->drupalGet('ding_provider_login_test/authajaxform/ajax');
+    $this->assertText('Enter a string', "Form display works when logged in but not authenticated.");
+
+    $commands = $this->drupalPostAJAX(NULL, array('b_field' => 'Wolla'), array('op' => t('Say it')));
+    $expected = array(
+      'command' => 'ding_popup',
+      'extra_data' => array('dp_form_id' => 'ding_provider_login_test_ajax_form'),
+    );
+    $this->assertCommand($commands, $expected, "We get a login form.");
+
+    $commands = $this->drupalPostAJAX(NULL, $login_data, array('op' => t('Log in')), NULL, array(), array(), 'ding-user-authenticate-form');
+
+    $expected = array(
+      'command' => 'ding_popup_close',
+    );
+    $this->assertCommand($commands, $expected, "We authenticated.");
+
+    // ding_popup_close triggers reposting, we do it by hand.
+    $commands = $this->drupalPostAJAX('ding_provider_login_test/authajaxform/ajax?dp_form_id=ding_provider_login_test_ajax_form', array('b_field' => 'Wolla'), array('op' => t('Say it')));
+
+    $expected = array(
+      'command' => 'insert',
+      'data' => 'Wolla',
+    );
+    $this->assertCommand($commands, $expected, "Ajax callback ran.");
+  }
+}
