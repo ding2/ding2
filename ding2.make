@@ -170,6 +170,11 @@ projects[ctools][version] = "1.5"
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.8"
 
+# Patch to fix empty order_id. See https://drupal.org/node/2107389
+projects[dibs][subdir] = "contrib"
+projects[dibs][version] = "1.0"
+projects[dibs][patch][] = "http://drupal.org/files/dibs-2107389-2.patch"
+
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
