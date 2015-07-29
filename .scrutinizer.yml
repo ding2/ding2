@@ -5,5 +5,5 @@ tools:
 
 filter:
     excluded_paths:
-        - */vendor/*
         - modules/fbs/prancer
+        - */vendor/*
