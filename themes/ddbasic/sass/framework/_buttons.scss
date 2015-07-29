@@ -65,7 +65,7 @@ $button-danger-color:             #fff;
    ========================================================================== */
 
 @mixin create-gradient-button($text-color, $bg-start-color, $bg-end-color, $border: 0) {
-  @include background-image(linear-gradient($bg-start-color, $bg-end-color));
+  @include background(linear-gradient($bg-start-color, $bg-end-color));
   @extend %button;
 
   /* Make sure buttons get a background color in IE */
@@ -86,7 +86,7 @@ $button-danger-color:             #fff;
   &:focus,
   &:hover,
   &:active {
-    @include background-image(linear-gradient(darken($bg-start-color, 5%), darken($bg-end-color, 5%)));
+    @include background(linear-gradient(darken($bg-start-color, 5%), darken($bg-end-color, 5%)));
 
     background-color: $bg-end-color;
   }
@@ -104,7 +104,7 @@ a.button,
   padding: 8px 14px;
 
   @include border-radius(8px);
-  @include background-image(linear-gradient($button-default-background, $button-default-background-gradient));
+  @include background(linear-gradient($button-default-background, $button-default-background-gradient));
 
   &:link,
   &:visited,

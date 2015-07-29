@@ -123,6 +123,34 @@ administration interface.
   drupal_fast_404();
 ```
 
+## Theme development
+
+The base theme for the installation is DDBasic and is located within `themes/ddbasic`.
+
+The JavaScript and stylesheet files for the files are processed orchestracted by [Gulp](http://gulpjs.com/). To work with these aspects of the installation you must have Node.js, Gulp and a number of packages installed.
+
+### Install gulp
+
+Install [Node.js](https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager) if it is not already available on your platform.
+
+Install Gulp and other packages:
+
+```sh
+  ~$ cd DRUPAL/profiles/ding2/themes/ddbasic
+  ~$ npm install
+```
+
+### Process files
+
+Gulp can watch your source files so they are processed on every change:
+
+```sh
+  ~$ cd DRUPAL/profiles/ding2/themes/ddbasic
+  ~$ gulp
+```
+
+Note that developers changing the source JavaScript and SCSS files are also responsible for changing the processed files in their commits.
+
 ## Varnish
 This project assumes that you are using Varnish as a revers proxy and the
 project comes with a specially design VCL file, so that authenticated library

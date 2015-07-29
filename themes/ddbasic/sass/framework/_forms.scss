@@ -18,7 +18,7 @@ select {
   @include transition(all 0.15s linear);
   @include border-radius(8px);
   @include box-sizing(border-box);
-  @include background-image(linear-gradient($gray-light, $gray-lighter));
+  @include background(linear-gradient($gray-light, $gray-lighter));
 
   /* Required for setting height in webkit browsers on mac */
   -webkit-appearance: menulist-button;
