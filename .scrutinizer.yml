@@ -2,3 +2,7 @@ tools:
     php_code_sniffer:
         config:
             standard: Drupal
+
+filter:
+    excluded_paths:
+        - */vendor/*
