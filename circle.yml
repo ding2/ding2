@@ -8,6 +8,8 @@ machine:
 
 dependencies:
   post:
+    # Increase memory limit to 512M. This is required by ding2.
+    - echo "memory_limit = 512M" > ~/.phpenv/versions/$(phpenv global)/etc/conf.d/memory.ini
     # Install drush globally using composer.
     # Prefer source to get around GitHub API rate limits.
     - composer global require drush/drush:6.*  --prefer-source --no-interaction
