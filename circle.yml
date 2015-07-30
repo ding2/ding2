@@ -4,7 +4,7 @@ machine:
     version: 5.4.37
   environment:
     # This is where we build our complete Drupal site
-    DING_BUILD_PATH: /tmp/drupal
+    DRUPAL_SITE_PATH: /tmp/drupal
 
 dependencies:
   post:
@@ -16,15 +16,18 @@ test:
   override:
     # Build profile using drush make
     - drush make ding2.make --no-core --contrib-destination=. -y
-  post:
-    # Built an entire Drupal site with core, contrib and custom code and make
-    # it available as an artifact.
+    # Built an entire Drupal site with core, contrib and custom code
     # First we build Drupal core only. Instead of using the profile specified in
     # the make  file we use the one we have just build.
     # This way we do not have to update drupal.make for each build.
-    - drush make drupal.make --projects=drupal -y $DING_BUILD_PATH
+    - drush make drupal.make --projects=drupal -y $DRUPAL_SITE_PATH
     # Copy the current profile which has just been built into Drupal core
-    - mkdir $DING_BUILD_PATH/profiles/ding2
-    - cp -R ./* $DING_BUILD_PATH/profiles/ding2/
+    - mkdir $DRUPAL_SITE_PATH/profiles/ding2
+    - cp -R ./* $DRUPAL_SITE_PATH/profiles/ding2/
+    # Install the site using the ding2 profile
+    - (cd $DRUPAL_SITE_PATH && drush site-install ding2 --db-url=mysql://ubuntu@127.0.0.1/circle_test --locale=da -y)
+  post:
+    # Clean up after site install
+    - rm -rf $DRUPAL_SITE_PATH/sites/default
     # Wrap the site into an archieve and expose it as an artifact.
-    - tar -zcvf $CIRCLE_ARTIFACTS/ding2-$CIRCLE_SHA1.tar.gz -C $DING_BUILD_PATH .
+    - tar -zcvf $CIRCLE_ARTIFACTS/ding2-$CIRCLE_SHA1.tar.gz -C $DRUPAL_SITE_PATH .
