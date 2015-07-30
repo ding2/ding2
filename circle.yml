@@ -27,7 +27,7 @@ test:
     - mkdir $DRUPAL_SITE_PATH/profiles/ding2
     - cp -R ./* $DRUPAL_SITE_PATH/profiles/ding2/
     # Install the site using the ding2 profile
-    - (cd $DRUPAL_SITE_PATH && drush site-install ding2 --db-url=mysql://ubuntu@127.0.0.1/circle_test --locale=da -y)
+    - (cd $DRUPAL_SITE_PATH && drush site-install ding2 --db-url=mysql://ubuntu@127.0.0.1/circle_test -y)
   post:
     # Clean up after site install
     - rm -rf $DRUPAL_SITE_PATH/sites/default
