@@ -31,7 +31,8 @@ test:
     # Install the site using the ding2 profile
     - (cd $DRUPAL_SITE_PATH && drush site-install ding2 --db-url=mysql://ubuntu@127.0.0.1/circle_test -y)
   post:
-    # Clean up after site install
-    - rm -rf $DRUPAL_SITE_PATH/sites/default
+    # Clean up after site install.
+    # sudo is required here. The files are not writeable.
+    - sudo rm -rf $DRUPAL_SITE_PATH/sites/default/settings.php $DRUPAL_SITE_PATH/sites/default/files
     # Wrap the site into an archieve and expose it as an artifact.
     - tar -zcvf $CIRCLE_ARTIFACTS/ding2-$CIRCLE_SHA1.tar.gz -C $DRUPAL_SITE_PATH .
