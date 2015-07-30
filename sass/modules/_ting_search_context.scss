@@ -20,6 +20,18 @@ $arrow-width:                              55px;
 
 .pane-search-context {
   display: none;
+
+  &:before {
+    content: "large-x-large"; // Communicates breakpoint to js.
+    display: none;
+  }
+
+  @include small-medium() {
+    &:before {
+      content: "small-medium"; // Communicates breakpoint to js.
+    }
+  }
+
   .rs-carousel-wrapper {
     @include zen-grid-container;
   }

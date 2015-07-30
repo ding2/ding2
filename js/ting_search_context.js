@@ -18,6 +18,12 @@
     var carousel = null;
     var content;
     var pane;
+    var position;
+
+
+    /**
+     * Object to store and apply selector-specific carousel-configurations.
+     */
     var carousel_configs = {
       configs: [],
 
@@ -33,8 +39,35 @@
           }
         });
         return val;
+      },
+      clear: function () {
+        this.configs = [];
       }
     };
+
+    /**
+     * Object to detect and store the current css breakpoint. The breakpoint is communicated through
+     * the :before selector on .pane-search-context.
+     */
+    var breakpoint = {
+      val: "",
+
+      refresh_value: function () {
+        this.val = this.get_current();
+      },
+
+      is_small_medium: function () {
+        return this.val.indexOf("small-medium") !== -1;
+      },
+      has_changed: function () {
+        return this.val !== this.get_current();
+
+      },
+      get_current: function () {
+        return window.getComputedStyle(document.querySelector('.pane-search-context'),':before').getPropertyValue('content');
+      }
+    };
+
 
 
 
@@ -60,10 +93,17 @@
 
     /**
      * Private: Sets the carousel element based on position-variable in Drupal.settings.
-     * .
+     * If viewport is small-medium, the position-variable is ignored
+     * and position is set to js-below-search-result.
      */
     function _set_element() {
-      var position = Drupal.settings.ting_search_context_position;
+
+      position = Drupal.settings.ting_search_context_position;
+
+      // On small screens display below search results
+      if (breakpoint.is_small_medium()) {
+        position = 'js-below-search-result';
+      }
 
       $('.pane-search-context').each(function(index) {
 
@@ -79,7 +119,6 @@
      *
      */
     function _update_options() {
-      var position = Drupal.settings.ting_search_context_position;
 
       var config = carousel_configs.find(position);
       carousel.carousel('option', config);
@@ -104,12 +143,52 @@
       carousel.carousel('goToPage', 0);
     }
 
+    /**
+     * Private: Destroys the carousel and clears variables.
+     */
+    function _destroy() {
+      // Remove spinner.
+      $('.rs-carousel-inner .ajax-loader').addClass('element-hidden');
+
+      // Update content.
+      $('.rs-carousel .rs-carousel-runner').append(content);
+
+      // Show navigation arrows.
+      $('.rs-carousel-action-prev').show();
+      $('.rs-carousel-action-next').show();
+
+      // Get the carousel running.
+      carousel.carousel('refresh');
+      carousel.carousel('goToPage', 0);
+    }
+
+
+
+    /**
+     * Public: Reposition the carousel when the window is resized
+     * in a way that changes the breakpoint. Breakpoints "small-medium"
+     * and "large-x-large" are supported.
+     */
+    function reposition() {
+      // If breakpoint has changed destroy the carousel
+      if (breakpoint.has_changed) {
+        pane.hide();
+        carousel.carousel('destroy');
+        carousel_configs.clear();
+      }
+
+      // Reload the carousel
+      init();
+    }
 
 
     /**
      * Public: Init the carousel and fetch content.
      */
     function init() {
+
+      // Detect the viewport
+      breakpoint.refresh_value();
 
       // Initialize carousel configurations pr. position
       carousel_configs.add('js-above-search-result', {
@@ -153,7 +232,8 @@
      */
     return {
         name: 'ting_search_context',
-        init: init
+        init: init,
+        reposition: reposition
     };
   })();
 
@@ -162,5 +242,12 @@
    */
   $(document).ready(function() {
     TingSearchContext.init();
+  });
+
+  /**
+   * Reposition the carousel when the window is resized.
+   */
+  $(window).resize(function() {
+    TingSearchContext.reposition();
   });
 })(jQuery);
