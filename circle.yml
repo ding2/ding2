@@ -1,0 +1,15 @@
+machine:
+  php:
+    # We support PHP 5.4 so choose the latest version supported by Circle.
+    version: 5.4.37
+
+dependencies:
+  post:
+    # Install drush globally using composer.
+    # Prefer source to get around GitHub API rate limits.
+    - composer global require drush/drush:6.*  --prefer-source --no-interaction
+
+test:
+  override:
+    # Build profile using drush make
+    - drush make ding2.make --no-core --contrib-destination=. -y
