@@ -24,11 +24,11 @@
 
 .view-ting-search-context-rate-nodes .views-exposed-widget.views-submit-button,
 .view-ting-search-context-rate-nodes .views-exposed-widget.views-reset-button {
-  margin-top: 6px;
+  margin-top: 0.375em;
 }
 
 .view-ting-search-context-rate-nodes .form-submit {
-  margin-top: 8px;
+  margin-top: 0.5em;
 }
 
 /**
@@ -53,6 +53,6 @@
 }
 
 .view-ting-search-context-rate-nodes .context-header {
-  margin-top: 19px;
+  margin-top: 1.9em;
 }
 
