@@ -56,15 +56,23 @@
         this.val = this.get_current();
       },
 
-      is_small_medium: function () {
-        return this.val.indexOf("small-medium") !== -1;
+      is_small_medium_large: function () {
+        return this.val === "<940px";
       },
       has_changed: function () {
         return this.val !== this.get_current();
 
       },
       get_current: function () {
-        return window.getComputedStyle(document.querySelector('.pane-search-context'),':before').getPropertyValue('content');
+
+        var mql = window.matchMedia("screen and (min-width: 940px)");
+        if (mql.matches){ // if media query matches
+         return ">=940px";
+        }
+        else {
+         return "<940px";
+        }
+        //return window.getComputedStyle(document.querySelector('.pane-search-context'),':before').getPropertyValue('content');
       }
     };
 
@@ -93,7 +101,7 @@
 
     /**
      * Private: Sets the carousel element based on position-variable in Drupal.settings.
-     * If viewport is small-medium, the position-variable is ignored
+     * If viewport below 940px, the position-variable is ignored
      * and position is set to js-below-search-result.
      */
     function _set_element() {
@@ -101,7 +109,7 @@
       position = Drupal.settings.ting_search_context_position;
 
       // On small screens display below search results
-      if (breakpoint.is_small_medium()) {
+      if (breakpoint.is_small_medium_large()) {
         position = 'js-below-search-result';
       }
 
@@ -166,8 +174,8 @@
 
     /**
      * Public: Reposition the carousel when the window is resized
-     * in a way that changes the breakpoint. Breakpoints "small-medium"
-     * and "large-x-large" are supported.
+     * in a way that changes the breakpoint. In viewports below 940px
+     * the carousel is moved below search results.
      */
     function reposition() {
       // If breakpoint has changed destroy the carousel
@@ -245,9 +253,14 @@
   });
 
   /**
-   * Reposition the carousel when the window is resized.
+   * Reposition the carousel when the window is resized or rotated.
    */
   $(window).resize(function() {
     TingSearchContext.reposition();
   });
+
+  // Listen for orientation changes
+  window.addEventListener("orientationchange", function() {
+    TingSearchContext.reposition();
+  }, false);
 })(jQuery);

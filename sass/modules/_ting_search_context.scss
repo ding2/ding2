@@ -5,14 +5,16 @@
 /* Variables
 ========================================================================== */
 
-$carousel-background-color:                $white;
-$horizontal-carousel-image-width:          200px;
-$horizontal-carousel-image-height:         150px;
-$vertical-carousel-image-width:            $horizontal-carousel-image-width * 1.25;
-$vertical-carousel-image-height:           $horizontal-carousel-image-height * 1.25;
-$vertical-carousel-height:                 $vertical-carousel-image-height * 4 + $large-spacing * 3;
-$arrow-height:                             55px;
-$arrow-width:                              55px;
+$carousel-background-color:                      $white;
+$arrow-height:                                   55px;
+$arrow-width:                                    55px;
+$title-space:                                    20px;
+$horizontal-carousel-image-width:                195px;
+$horizontal-carousel-image-height:               146px;
+$vertical-carousel-image-width-large:            195px;
+$vertical-carousel-image-height-large:           146px;
+$vertical-carousel-image-width-x-large:          260px;
+$vertical-carousel-image-height-x-large:         195px;
 
 
 /* Pane, wrapper and inner
@@ -21,51 +23,30 @@ $arrow-width:                              55px;
 .pane-search-context {
   display: none;
 
-  &:before {
-    content: "large-x-large"; // Communicates breakpoint to js.
-    display: none;
-  }
-
-  @include small-medium() {
-    &:before {
-      content: "small-medium"; // Communicates breakpoint to js.
-    }
-  }
-
   .rs-carousel-wrapper {
     @include zen-grid-container;
+
   }
 
   .rs-carousel {
     @include zen-grid-item(12, 1);
     @include zen-clear();
     padding: 0;
+    background-color: $carousel-background-color;
 
     .rs-carousel-items {
       background-color: transparent;
     }
 
-    @include small-medium() {
-      background-color: $red;
-    }
   }
 
   .rs-carousel-inner {
     background-color: $carousel-background-color;
-    min-height: 150px;
+    min-height: $horizontal-carousel-image-height;
     padding-top: $medium-spacing;
     padding-right: 0;
     padding-bottom: $large-spacing;
     padding-left: 0;
-
-    @include small-medium() {
-      background-color: transparent;
-      min-height: 150px;
-      padding-top: 20px;
-      padding-right: 20px;
-      padding-bottom: 20px;
-      padding-left: 20px;
-    }
   }
 
   .rs-carousel,
@@ -171,54 +152,49 @@ $arrow-width:                              55px;
       list-style: none;
     }
 
-    .rs-carousel-item-image {
-      display: block;
+    li {
+      float: left;
+      margin-right: $large-spacing;
+      margin-bottom: $title-space; //Add space for a one-line header
+      position: relative;
+      width: $horizontal-carousel-image-width;
+      height: $horizontal-carousel-image-height;
+
+      a {
+
+        width: $horizontal-carousel-image-width;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
 
       img {
         display: block;
         margin-left: auto;
         margin-right: auto;
         min-width: 100%;
-        padding: 0;
-      }
-    }
-
-    li {
-      float: left;
-      text-align: center;
-      margin-right: $large-spacing;
-      position: relative;
-      width: $horizontal-carousel-image-width;
-
-      &:hover {
-        .rs-carousel-item-title {
-          background-color: $black;
-          text-decoration: none;
-        }
       }
 
-      a {
-        max-height: $horizontal-carousel-image-height;
-        width: $horizontal-carousel-image-width;
 
-        &:hover {
-          text-decoration: none;
-        }
-      }
-
-      .rs-carousel-item-title {
-        @include box-sizing(border-box);
-
-        background-color: transparentize($black, .25);
-        bottom: 0;
-        color: $white;
-        left: 0;
-        padding-top: $medium-spacing;
-        padding-right: $small-spacing;
-        padding-bottom: $medium-spacing;
-        padding-left: $small-spacing;
+      h2 {
+        display: block;
+        min-width: 100%;
         position: absolute;
+        left: 0;
+        bottom: -$title-space;
+        font-size: $font-size-large;
+        margin-bottom: 0;
+        background-color: $carousel-background-color;
+        padding-top: $small-spacing;
+        padding-bootom: $small-spacing;
+
+        @include small-medium() {
+          font-size: $font-size-medium;
+        }
+
       }
+
     }
 
     @include small() {
@@ -230,7 +206,7 @@ $arrow-width:                              55px;
           width: $horizontal-carousel-image-width / 2;
         }
 
-        .rs-carousel-item-title {
+        h2 {
           display: none;
         }
       }
@@ -249,8 +225,12 @@ $arrow-width:                              55px;
     .rs-carousel-action-prev,
     .rs-carousel-action-next {
       margin-top: 0;
-      left: ($vertical-carousel-image-width / 2) - ($arrow-width / 2);
+      left: $vertical-carousel-image-width-large/2 - $arrow-width/2;
       top: auto;
+
+      @include x-large {
+        left: $vertical-carousel-image-width-x-large/2 - $arrow-width/2;
+      }
     }
 
     .rs-carousel-action-prev {
@@ -264,18 +244,33 @@ $arrow-width:                              55px;
     }
 
     .rs-carousel-mask {
-      height: $vertical-carousel-height;
+      height: ($vertical-carousel-image-height-large * 4) + ($title-space * 4) + ($large-spacing * 3);
+
+      @include x-large {
+        height: ($vertical-carousel-image-height-x-large * 4) + ($title-space * 4) + ($large-spacing * 3);
+      }
 
       li {
         margin-right: 0;
-        margin-bottom: $large-spacing;
-        width: $vertical-carousel-image-width;
-        max-height: $vertical-carousel-image-height;
-        height: $vertical-carousel-image-height;
+        margin-bottom: $title-space + $large-spacing;
+        width: $vertical-carousel-image-width-large;
+        height: $vertical-carousel-image-height-large;
+
+        @include x-large {
+          width: $vertical-carousel-image-width-x-large;
+          height: $vertical-carousel-image-height-x-large;
+        }
 
         a {
-          max-height: $vertical-carousel-image-height;
-          width: $vertical-carousel-image-width;
+          max-height: $vertical-carousel-image-height-large;
+          width: $vertical-carousel-image-width-large;
+          @include x-large {
+            max-height: $vertical-carousel-image-height-large;
+            width: $vertical-carousel-image-width-large;
+            }
+        }
+        h2 {
+          bottom: -$title-space;
         }
       }
     }

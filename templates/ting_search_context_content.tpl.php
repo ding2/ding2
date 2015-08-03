@@ -14,8 +14,10 @@
 ?>
 
 <li class="rs-carousel-item">
-  <a href="<?php print $url; ?>" class="rs-carousel-item-image"><?php print $image; ?></a>
-  <a href="<?php print $url; ?>" class="rs-carousel-item-title"><?php print $title; ?></a>
+  <a href="<?php print $url; ?>">
+    <div><?php print $image; ?></div>
+    <h2><?php print $title; ?></h2>
+  </a>
 </li>
 
 
