@@ -1,4 +1,4 @@
-name = Ding search context
+name = Ting search context feature
 description = Provides a page variant for Ting Search
 core = 7.x
 package = Ding!
