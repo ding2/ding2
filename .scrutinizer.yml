@@ -1,7 +1,14 @@
 tools:
-    php_code_sniffer:
-        config:
-            standard: Drupal
+  php_code_sniffer:
+    config:
+      standard: Drupal
+    extensions:
+      - module
+      - inc
+      - install
+      - test
+      - profile
+      - theme
 
 filter:
     excluded_paths:
