@@ -43,14 +43,14 @@ function ting_search_context_overview_form($form, &$form_state) {
 		if (in_array($name, $selected_contexts)) {
 			$rows[$name]['#attributes'] = array('class' => array('selected'));
 		}
-	}	
+	}
 	// Make sure the selected contexts is checked in the overview table.
 	$default_values = array();
 	foreach ($selected_contexts as $context_name) {
 		$default_values[$context_name] = 1;
 	}
 	$form['overview'] = array(
-		'#prefix' => '<br/>',	
+		'#prefix' => '<br/>',
 		'#type' => 'tableselect',
 		'#header' => $header,
 		'#options' => $rows,
@@ -77,7 +77,7 @@ function ting_search_context_overview_form($form, &$form_state) {
 			'rating' => array('data' => t('Rating'), 'field' => 'rating'),
 		);
 		$query = db_select('node', 'n')->extend('TableSort');
-		$query->join('field_data_field_ting_search_context', 'fd', 
+		$query->join('field_data_field_ting_search_context', 'fd',
 			'n.nid = fd.entity_id');
 		$query->fields('n', array('nid', 'title', 'type', 'status'));
 		$query->addField('fd', 'field_ting_search_context_name', 'name');
@@ -96,7 +96,7 @@ function ting_search_context_overview_form($form, &$form_state) {
 			$row = (array) $row;
 			$node = node_load($row['nid']);
 			$langcode = entity_language('node', $node);
-			$options += ($langcode != LANGUAGE_NONE && isset($languages[$langcode]) ? 
+			$options += ($langcode != LANGUAGE_NONE && isset($languages[$langcode]) ?
 				array('language' => $languages[$langcode]) : array());
 			$rows[$row['name'] . '__' . $node->nid] = array(
 				'title' => array(
@@ -122,7 +122,7 @@ function ting_search_context_overview_form($form, &$form_state) {
 			'#suffix' => '<hr/>',
 			'#tag' => 'h2',
 			'#value' => t('Search context details'),
-		);		
+		);
 		$form['detail'] = array(
 			'#prefix' => '<br/>',
 			'#type' => 'tableselect',
@@ -167,5 +167,32 @@ function ting_search_context_overview_form_update($form, &$form_state) {
  * form.
  */
 function ting_search_context_overview_form_remove($form, &$form_state) {
-	
+
+}
+
+/**
+ * Form builder (admin/config/ding/searchcontext)
+ * Implements hook_form().
+ * Admin form to configure position of related content on search page
+ */
+function ting_search_context_admin_settings_form($form, &$form_state) {
+  $form = array();
+
+  $form['ting_search_context_admin_settings_form'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Position related content on search page'),
+  );
+
+  $form['ting_search_context_admin_settings_form']['ting_search_context_position'] = array(
+    '#type' => 'radios',
+    '#title' => t('Position'),
+    '#description' => t('Select the position of related content on the search page. On small screens related content is always displayed at the bottom of the page.'),
+    '#options' => ting_search_context_get_positions(),
+    '#default_value' => variable_get('ting_search_context_position', 'js-below-search-result'),
+  );
+
+  // Add administration feel and look.
+  $form = system_settings_form($form);
+
+  return $form;
 }

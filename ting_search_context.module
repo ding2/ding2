@@ -18,7 +18,7 @@ include_once 'ting_search_context.features.inc';
 function ting_search_context_menu() {
 	/*$items['admin/content/ting-search-context'] = array(
 		'title' => 'Search context',
-		'description' => t('Manage the state of the context rating system.'),
+		'description' => 'Manage the state of the context rating system.',
 		'page callback' => 'drupal_get_form',
 		'page arguments' => array('ting_search_context_overview_form'),
 		'access arguments' => array('administer content'), // Todo: Make own permission?
@@ -26,10 +26,19 @@ function ting_search_context_menu() {
 		'file' => 'ting_search_context.admin.inc',
 	);*/
   $items['ting/searchcontext/ajax'] = array(
-    'title' => 'Get search context blog post list',
-    'page callback' => 'ting_search_context_ajax_get_blogposts',
+    'title' => 'Get content related to search context ',
+    'page callback' => 'ting_search_context_ajax_get_related_content',
     'access arguments' => array('access content'),
     'type' => MENU_CALLBACK,
+  );
+    $items['admin/config/ting/ting-search-context'] = array(
+    'title' => 'Search context',
+    'description' => 'Choose location of related content on search page',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_search_context_admin_settings_form'),
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'ting_search_context.admin.inc',
   );
   return $items;
 }
@@ -40,9 +49,13 @@ function ting_search_context_menu() {
 function ting_search_context_theme($existing, $type, $theme, $path) {
   return array(
     'ting_search_context' => array(
+      'variables' => array('context' => NULL, 'position' => NULL),
+      'template' => '/templates/ting_search_context',
+      'file' => 'ting_search_context.theme.inc',
+    ),
+    'ting_search_context_content' => array(
       'variables' => array('columns' => NULL),
-      'template'  => 'ting-search-context',
-      'path' => $path . '/templates',
+      'template'  => '/templates/ting_search_context_content',
     ),
     'views_view_field__ting_search_context_rate_nodes__title' => array(
       'variables' => array('view' => NULL, 'options' => NULL, 'row' => NULL),
@@ -69,23 +82,23 @@ function ting_search_context_ctools_plugin_directory($module, $plugin) {
   }
 }
 
-function ting_search_context_ajax_get_blogposts() {
+function ting_search_context_ajax_get_related_content() {
   $search_context = $_POST['search_context'];
   $nodes = ting_search_context_get_nodes($search_context);
   $outpu = '';
   if (!empty($nodes)) {
-    $output = ting_search_context_theme_output ($nodes);
+    $output = ting_search_context_theme_related_content ($nodes);
   }
   return drupal_json_output($output);
 }
 
-function ting_search_context_theme_output($nodes) {
+function ting_search_context_theme_related_content($nodes) {
   $columns = array();
   $columns_classes = array(
-    ' group-blocks--first',
-    ' group-blocks--second',
-    ' group-blocks--third',
-    ' group-blocks--fourth',
+    ' ting-search-context-blocks--first',
+    ' ting-search-context-blocks--second',
+    ' ting-search-context-blocks--third',
+    ' ting-search-context-blocks--fourth',
   );
   foreach ($columns_classes as $columns_class) {
     if (!empty($nodes)) {
@@ -94,7 +107,7 @@ function ting_search_context_theme_output($nodes) {
       $image = field_view_field('node', $node, $field_name, array(
         'label' => 'hidden',
         'settings' => array(
-          'image_style' => 'ting_related_links_medium', // We take care of the linking ourself
+          'image_style' => 'ting_related_links', // We take care of the linking ourself
         ),
       ));
       $url = url(drupal_get_path_alias('node/' . $node->nid), array('absolute' => TRUE));
@@ -106,7 +119,7 @@ function ting_search_context_theme_output($nodes) {
       );
     }
   }
-  return theme('ting_search_context', array('columns' => $columns));
+  return theme('ting_search_context_content', array('columns' => $columns));
 }
 
 function ting_search_context_get_image_field_name($node) {
@@ -663,4 +676,59 @@ function ting_search_context_get_all_contexts($type = NULL) {
   }
 
 	return $query->execute()->fetchAll();
+}
+
+/**
+ * Defines the positions for placing the related content on the search page.
+ *
+ * @return array
+ *   Indexed by position name.
+ */
+function ting_search_context_get_positions() {
+  return array(
+    'js-below-search-result' => t('Below search result'),
+    'js-below-facets' => t('Below facets'),
+    'js-above-search-result' => t('Above search result'),
+  );
+}
+
+/**
+ * Implements hook_image_default_styles().
+ */
+function ting_search_context_image_default_styles() {
+  return array(
+    'ting_search_context' => array(
+      'name' => 'ting_search_context',
+      'effects' => array(
+        array(
+          'label' => 'Scale and crop',
+          'effect callback' => 'image_scale_and_crop_effect',
+          'dimensions callback' => 'image_resize_dimensions',
+          'module' => 'image',
+          'name' => 'image_scale_and_crop',
+          'data' => array(
+            'width' => '540',
+            'height' => '370',
+          ),
+          'weight' => '1',
+        ),
+      ),
+    ),
+  );
+}
+
+/**
+ * Wrapper function that adds the modules JavaScript.
+ */
+function _ting_search_context_add_javascript() {
+  $path = drupal_get_path('module', 'ting_search_context');
+  drupal_add_js($path . '/js/ting_search_context.js');
+}
+
+/**
+ * Wrapper function that adds the modules css.
+ */
+function _ting_search_context_add_css() {
+  $path = drupal_get_path('module', 'ting_search_context');
+  drupal_add_css($path . '/css/ting_search_context.base.css');
 }
