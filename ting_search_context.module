@@ -107,7 +107,7 @@ function ting_search_context_theme_related_content($nodes) {
       $image = field_view_field('node', $node, $field_name, array(
         'label' => 'hidden',
         'settings' => array(
-          'image_style' => 'ting_related_links', // We take care of the linking ourself
+          'image_style' => 'ting_search_context', // We take care of the linking ourself
         ),
       ));
       $url = url(drupal_get_path_alias('node/' . $node->nid), array('absolute' => TRUE));
