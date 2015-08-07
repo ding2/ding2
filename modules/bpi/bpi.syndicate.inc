@@ -213,6 +213,8 @@ function bpi_search_get_items() {
   $sort = _bpi_get_current_sorting();
 
   $response = bpi_search_content($phrase, $page, $filters, $sort);
+  bpi_set_search_facets($response ? $response->getFacets() : NULL);
+
   $bpi_nodes = array();
 
   // Get agency_id=>agency cache.
