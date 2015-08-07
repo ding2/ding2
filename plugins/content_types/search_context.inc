@@ -36,26 +36,6 @@ function ting_search_context_search_context_content_type_render($subtype, $conf,
 }
 
 /**
- * Return the pane contents.
- */
-function ting_search_context_search_context_content_type_render($subtype, $conf, $panel_args, $context) {
-  $block = new stdClass();
-
-  // Calculate context
-  $search_results = drupal_static('ting_search_results');
-  if ($search_results) {
-    module_load_include('search_context.inc', 'ting_search_context');
-    $context = ting_search_context_calculate_context($search_results->facets, $search_results->numTotalObjects);
-  }
-  // Get position setting
-  $position = variable_get('ting_search_context_position', 'js-below-search-result');
-
-  // Empty block to be filled by an ajax callback
-  $block->content = theme('ting_search_context', array('context' => $context, 'position' => $position));
-  return $block;
-}
-
-/**
  * Return the pane titles.
  */
 function ting_search_context_search_context_content_type_admin_title($subtype, $conf, $context) {
