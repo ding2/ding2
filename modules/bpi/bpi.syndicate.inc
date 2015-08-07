@@ -10,6 +10,14 @@
 define('BPI_AGENCY_CACHE', 'bpi_agency_cache');
 
 /**
+ * Query string parameter name for sorting.
+ *
+ * Must not be 'sort' as this conflicts with Drupal's built in sort query
+ * parameter.
+ */
+define('BPI_QUERY_SORT_NAME', 'sorting');
+
+/**
  * Define syndication page markup.
  *
  * This includes search form, filtering and found content.
@@ -38,16 +46,6 @@ function bpi_syndicate_page_form($form, &$form_state) {
     $items = bpi_search_get_items();
 
     bpi_build_search_facets($form);
-
-    if (!empty($items)) {
-      $sort_direction = bpi_get_next_sorting();
-      $sort_text = ($sort_direction == BPI_SORT_DESCENDING) ? t('Show latest on top') : t('Show oldest on top');
-      $sort_url_components = _bpi_build_query(array('sort' => $sort_direction));
-      $form['bpi_search_sort'] = array(
-        '#type' => 'item',
-        '#markup' => l($sort_text, 'admin/bpi', array('query' => $sort_url_components)),
-      );
-    }
 
     $form['bpi_search_results'] = array(
       '#type' => 'item',
@@ -99,6 +97,10 @@ function bpi_syndicate_page_form_validate($form, &$form_state) {
  */
 function bpi_syndicate_page_form_submit(array $form, array &$form_state) {
   $bpi_query = array();
+  $sorting = _bpi_get_current_sorting();
+  if ($sorting) {
+    $bpi_query[BPI_QUERY_SORT_NAME] = $sorting;
+  }
   $values = $form_state['values'];
   if (isset($values['bpi_search_query']) && trim($values['bpi_search_query'])) {
     $bpi_query[BPI_SEARCH_PHRASE_KEY] = trim($values['bpi_search_query']);
@@ -133,13 +135,13 @@ function bpi_syndicate_page_form_submit(array $form, array &$form_state) {
  *   Page offset.
  * @param array $filters
  *   Array of filters/sorting.
- * @param string $sort
+ * @param array $sort
  *   Sorting order.
  *
  * @return \Bpi\Sdk\NodeList|array
  *   Search result items.
  */
-function bpi_search_content($query = '', $page = 1, $filters = array(), $sort = 'desc') {
+function bpi_search_content($query = '', $page = 1, $filters = array(), $sort = array()) {
   try {
     $bpi = bpi_client_instance();
     $amount = variable_get('bpi_content_per_page', BPI_CONTENT_PER_PAGE);
@@ -150,9 +152,7 @@ function bpi_search_content($query = '', $page = 1, $filters = array(), $sort = 
         'amount' => $amount,
         'offset' => $offset,
         'filter' => $filters,
-        'sort' => array(
-          'pushed' => $sort,
-        ),
+        'sort' => $sort ? $sort : array(),
         'search' => $query,
       )
     );
@@ -190,7 +190,7 @@ function bpi_search_get_items() {
   $page = pager_find_page();
   $phrase = _bpi_get_current_search_phrase();
   $filters = _bpi_get_query_parameter('filter', array());
-  $sort = isset($_GET['sort']) ? $_GET['sort'] : BPI_SORT_DESCENDING;
+  $sort = _bpi_get_current_sorting();
 
   $response = bpi_search_content($phrase, $page, $filters, $sort);
   $bpi_nodes = array();
@@ -263,10 +263,13 @@ function bpi_preprocess_bpi_search_results(array &$variables) {
 
   $table_head = array(
     array(
-      'data' => t('Title'),
-      'class' => 'bpi-title',
+      'data' => bpi_get_sort_link(t('Title'), 'title'),
+      'class' => array('bpi-title', _bpi_get_current_sorting('title') ? 'active' : ''),
     ),
-    t('Date'),
+    array(
+      'data' => bpi_get_sort_link(t('Date'), 'pushed'),
+      'class' => array('bpi-pushed', _bpi_get_current_sorting('pushed') ? 'active' : ''),
+    ),
     array(
       'data' => t('Syndicated'),
     ),
@@ -347,6 +350,47 @@ function bpi_preprocess_bpi_search_results(array &$variables) {
 
   // Set table data.
   $variables['rows'] = $rows;
+}
+
+/**
+ * Get link for sorting by a field.
+ *
+ * @param string $text
+ *   The text on the link.
+ * @param string $field
+ *   The field to sort by.
+ *
+ * @return string
+ *   The link for sorting.
+ */
+function bpi_get_sort_link($text, $field) {
+  $current_sorting = _bpi_get_current_sorting($field);
+  $sort_direction = $current_sorting == 'asc' ? 'desc' : 'asc';
+  $query = _bpi_build_query(array(
+    BPI_QUERY_SORT_NAME => array(
+      $field => $sort_direction,
+    ),
+  ), array(BPI_QUERY_SORT_NAME));
+  $image = $current_sorting ? theme('tablesort_indicator', array('style' => $sort_direction)) : '';
+  return l($text . $image, current_path(), array('query' => $query, 'html' => TRUE));
+}
+
+/**
+ * Get current sorting or direction.
+ *
+ * @param string $field
+ *   Field to get sorting direction for.
+ *
+ * @return string|array
+ *   The current sorting (field => direction) or the direction for a specified
+ *   field.
+ */
+function _bpi_get_current_sorting($field = NULL) {
+  $sorting = _bpi_get_query_parameter(BPI_QUERY_SORT_NAME);
+  if ($field) {
+    return isset($sorting[$field]) ? $sorting[$field] : NULL;
+  }
+  return $sorting;
 }
 
 /**
@@ -469,20 +513,6 @@ function bpi_available_map() {
     'agency_internal' => t('Agency internal'),
     'logicalOperator' => t('Logical operator'),
   );
-}
-
-/**
- * Get the next sorting order.
- *
- * Just reverse the direction. End.
- *
- * @return string
- *   Direction sorting identifier.
- */
-function bpi_get_next_sorting() {
-  $sort_dir = isset($_GET['sort']) ? $_GET['sort'] : '';
-
-  return ($sort_dir == BPI_SORT_ASCENDING) ? BPI_SORT_DESCENDING : BPI_SORT_ASCENDING;
 }
 
 /**
