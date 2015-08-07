@@ -82,15 +82,6 @@ function bpi_syndicate_page_form($form, &$form_state) {
 }
 
 /**
- * Syndication page form validator.
- */
-function bpi_syndicate_page_form_validate($form, &$form_state) {
-  if (empty($form_state['values']['bpi_search_query'])) {
-    form_set_error('bpi_search_query', t('Enter some keywords.'));
-  }
-}
-
-/**
  * Custom submit handler for syndication page form.
  *
  * @param array $form
