@@ -42,6 +42,13 @@ function bpi_syndicate_page_form($form, &$form_state) {
       '#value' => t('Search'),
     );
 
+    $form['bpi_search_reset'] = array(
+      '#type' => 'item',
+      '#markup' => l(t('Reset search'), current_path(), array(
+        'query' => NULL,
+      )),
+    );
+
     // Must be called before building facets ui.
     $items = bpi_search_get_items();
 
