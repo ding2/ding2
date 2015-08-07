@@ -203,6 +203,10 @@ function bpi_search_content($query = '', $page = 1, $filters = array(), $sort = 
  *   - assets: array of links representing the images content
  */
 function bpi_search_get_items() {
+  if ($_SERVER['REQUEST_METHOD'] != 'GET') {
+    return NULL;
+  }
+
   $page = pager_find_page();
   $phrase = _bpi_get_current_search_phrase();
   $filters = _bpi_get_query_parameter('filter', array());
