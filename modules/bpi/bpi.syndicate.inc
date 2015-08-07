@@ -223,6 +223,7 @@ function bpi_search_get_items() {
       'total_count' => isset($response->total) ? $response->total : 0,
       'assets' => (count($assets) > 0) ? $assets : array(),
       'editable' => !empty($current_item['editable']),
+      'syndicated' => isset($current_item['syndicated']) ? $current_item['syndicated'] : NULL,
     );
   }
 
@@ -254,6 +255,9 @@ function bpi_preprocess_bpi_search_results(&$variables) {
     ),
     t('Date'),
     array(
+      'data' => t('Syndicated'),
+    ),
+    array(
       'data' => t('Details'),
       'class' => 'bpi-details',
     ),
@@ -281,6 +285,7 @@ function bpi_preprocess_bpi_search_results(&$variables) {
     );
 
     $rows[$i]['date'] = date_format(new DateTime($item['date']), 'Y-m-d H:i:s');
+    $rows[$i]['syndicated'] = $item['syndicated'];
 
     // Add details.
     $rows[$i]['details'] = '';
