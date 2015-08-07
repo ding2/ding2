@@ -49,6 +49,18 @@ function bpi_syndicate_page_form($form, &$form_state) {
       )),
     );
 
+    $form['bpi_search_amount'] = array(
+      '#type' => 'select',
+      '#title' => t('Page size'),
+      '#options' => array(
+        10 => 10,
+        20 => 20,
+        50 => 50,
+        100 => 100,
+      ),
+      '#default_value' => _bpi_get_query_parameter('amount', 10),
+    );
+
     // Must be called before building facets ui.
     $items = bpi_search_get_items();
 
@@ -160,7 +172,7 @@ function bpi_syndicate_page_form_submit(array $form, array &$form_state) {
 function bpi_search_content($query = '', $page = 1, $filters = array(), $sort = array()) {
   try {
     $bpi = bpi_client_instance();
-    $amount = variable_get('bpi_content_per_page', BPI_CONTENT_PER_PAGE);
+    $amount = max(intval(_bpi_get_query_parameter('amount', 10)), 10);
     $offset = $page * $amount;
 
     $bpi_data = $bpi->searchNodes(

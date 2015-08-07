@@ -74,18 +74,6 @@ function bpi_admin_settings_form($form, $form_state) {
     '#required' => TRUE,
   );
 
-  $form['bpi_general_settings'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('General settings'),
-  );
-
-  $form['bpi_general_settings']['bpi_content_per_page'] = array(
-    '#type' => 'select',
-    '#title' => t('Content per page'),
-    '#options' => array_combine(range(10, 100, 10), range(10, 100, 10)),
-    '#default_value' => variable_get('bpi_content_per_page', BPI_CONTENT_PER_PAGE),
-  );
-
   return system_settings_form($form);
 }
 
