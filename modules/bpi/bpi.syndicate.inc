@@ -316,7 +316,7 @@ function bpi_preprocess_bpi_search_results(array &$variables) {
         l(
           $item[$text],
           'admin/bpi',
-          array('query' => _bpi_build_query(array($text => $item[$data]), array('page')))
+          array('query' => _bpi_get_filter_query($data, $item[$data]))
         )
       );
     }
@@ -347,6 +347,29 @@ function bpi_preprocess_bpi_search_results(array &$variables) {
 
   // Set table data.
   $variables['rows'] = $rows;
+}
+
+/**
+ * Get query for applying a filter.
+ *
+ * @param string $field
+ *   The field to filter on.
+ * @param string $value
+ *   The value match.
+ *
+ * @return array
+ *   The filter query.
+ */
+function _bpi_get_filter_query($field, $value, $clear = TRUE) {
+  if ($field != 'author') {
+    $value = array(0 => $value);
+  }
+  $query = array(
+    'filter' => array(
+      $field => $value,
+    ),
+  );
+  return _bpi_build_query($query, $clear ? array('filter') : FALSE);
 }
 
 /**
