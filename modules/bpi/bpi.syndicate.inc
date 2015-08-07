@@ -62,17 +62,35 @@ function bpi_syndicate_page_form($form, &$form_state) {
       )),
     );
 
-    pager_default_initialize(
-      isset($items[0]['total_count']) ? $items[0]['total_count'] : 0,
-      variable_get('bpi_content_per_page', BPI_CONTENT_PER_PAGE)
-    );
-
-    $pager = theme('pager');
+    $total_items = isset($items[0]['total_count']) ? $items[0]['total_count'] : 0;
+    $page_size = _bpi_get_query_parameter('amount', 10);
+    pager_default_initialize($total_items, $page_size);
 
     $form['bpi_search_pager'] = array(
       '#type' => 'item',
-      '#markup' => $pager,
+      '#markup' => theme('pager'),
     );
+
+    if ($items) {
+      $current_page = pager_find_page();
+      $items_from = $current_page * $page_size + 1;
+      $items_to = min(($current_page + 1) * $page_size, $total_items);
+
+      $form['bpi_search_info'] = array(
+        '#type' => 'item',
+        '#markup' => '<p>' . ($items_from < $items_to
+                              ? t('Showing items @from–@to of @total', array(
+                                '@from' => $items_from,
+                                '@to' => $items_to,
+                                '@total' => $total_items,
+                              ))
+                              : t('Showing item @from of @total', array(
+                                '@from' => $items_from,
+                                '@total' => $total_items,
+                              )))
+        . '</p>',
+      );
+    }
 
     $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/css/bpi-admin.styles.css';
     $form['#submit'][] = 'bpi_syndicate_page_form_submit';
