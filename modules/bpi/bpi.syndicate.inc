@@ -497,7 +497,7 @@ function _bpi_get_query_parameter($path = NULL, $default_value = NULL) {
  *   Searched string.
  */
 function _bpi_get_current_search_phrase() {
-  return isset($_GET[BPI_SEARCH_PHRASE_KEY]) ? check_plain($_GET[BPI_SEARCH_PHRASE_KEY]) : '';
+  return _bpi_get_query_parameter(BPI_SEARCH_PHRASE_KEY);
 }
 
 /**
@@ -556,7 +556,6 @@ function bpi_syndicate_action($bpi_id) {
     drupal_goto('admin/bpi');
   }
 }
-
 
 /**
  * Build facets form fields.
