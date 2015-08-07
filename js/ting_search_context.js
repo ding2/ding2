@@ -41,13 +41,14 @@
   function ting_search_context_get_container(position) {
     //the default position is below the search result so if there is no class-match the last occurance is the best choice.
     var container;
-    container = $(".pane-search-context").last;
+    container = $(".pane-search-context").last();
 
     $(".pane-search-context").each(function( index ) {
       if ($(this).hasClass(position)) {
         container = $(this);
       }
     });
+
     return container;
   }
 

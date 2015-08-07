@@ -85,7 +85,7 @@ function ting_search_context_ctools_plugin_directory($module, $plugin) {
 function ting_search_context_ajax_get_related_content() {
   $search_context = $_POST['search_context'];
   $nodes = ting_search_context_get_nodes($search_context);
-  $outpu = '';
+  $output = '';
   if (!empty($nodes)) {
     $output = ting_search_context_theme_related_content ($nodes);
   }
@@ -442,6 +442,7 @@ function ting_search_context_get_nodes($context_id, $count = 5, $node_types = 'a
 		}
 		// Else include all nodes.
 		else  {
+      $query_less_result = $query_less->execute(); //Todo move above if statement
 			foreach ($query_less_result as $record) {
 				$return[$record->nid] = node_load($record->nid);
 			}
