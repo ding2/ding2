@@ -25,7 +25,7 @@ function ting_search_context_search_context_content_type_render($subtype, $conf,
   $search_results = drupal_static('ting_search_results');
   if ($search_results) {
     module_load_include('search_context.inc', 'ting_search_context');
-    $context = ting_search_context_calculate_context($search_results->facets, $search_results->numTotalObjects);
+    $context = ting_search_context_calculate_context($search_results->facets, $search_results->numTotalObjects, $search_results->search_key);
   }
   // Get position setting
   $position = variable_get('ting_search_context_position', 'js-below-search-result');
