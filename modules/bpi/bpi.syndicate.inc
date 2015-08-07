@@ -24,11 +24,9 @@ function bpi_syndicate_page_form($form, &$form_state) {
   if (bpi_service_is_configured()) {
     drupal_add_library('system', 'drupal.ajax');
 
-    $search_phrase = _bpi_current_search_phrase();
-
     $form['bpi_search_query'] = array(
       '#type' => 'textfield',
-      '#default_value' => $search_phrase,
+      '#default_value' => _bpi_get_current_search_phrase(),
     );
 
     $form['bpi_search_submit'] = array(
@@ -36,16 +34,15 @@ function bpi_syndicate_page_form($form, &$form_state) {
       '#value' => t('Search'),
     );
 
-    $form['bpi_search_filters'] = array(
-      '#type' => 'item',
-      '#markup' => bpi_build_filters(),
-    );
-
+    // Must be called before building facets ui.
     $items = bpi_search_get_items();
+
+    bpi_build_search_facets($form);
+
     if (!empty($items)) {
       $sort_direction = bpi_get_next_sorting();
       $sort_text = ($sort_direction == BPI_SORT_DESCENDING) ? t('Show latest on top') : t('Show oldest on top');
-      $sort_url_components = _bpi_build_query('sort', $sort_direction);
+      $sort_url_components = _bpi_build_query(array('sort' => $sort_direction));
       $form['bpi_search_sort'] = array(
         '#type' => 'item',
         '#markup' => l($sort_text, 'admin/bpi', array('query' => $sort_url_components)),
@@ -91,24 +88,40 @@ function bpi_syndicate_page_form_validate($form, &$form_state) {
 /**
  * Custom submit handler for syndication page form.
  *
- * @see bpi_syndicate_page_form()
- *
  * @param array $form
  *   Form structure.
  * @param array $form_state
  *   Form state values.
  *
+ * @see bpi_syndicate_page_form()
+ *
  * @ingroup forms
  */
-function bpi_syndicate_page_form_submit($form, &$form_state) {
-  $query_parameters = array(
-    'query' => array(
-      BPI_SEARCH_PHRASE_KEY => $form_state['values']['bpi_search_query'],
-    ),
-  );
+function bpi_syndicate_page_form_submit(array $form, array &$form_state) {
+  $bpi_query = array();
+  $values = $form_state['values'];
+  if (isset($values['bpi_search_query']) && trim($values['bpi_search_query'])) {
+    $bpi_query[BPI_SEARCH_PHRASE_KEY] = trim($values['bpi_search_query']);
+  }
+  if (isset($values['bpi_search_amount']) && intval($values['bpi_search_amount']) > 0) {
+    $bpi_query['amount'] = intval($values['bpi_search_amount']);
+  }
+  if (isset($values['bpi_search_filter'])) {
+    foreach ($values['bpi_search_filter'] as $key => $value) {
+      $selected_values = is_array($value) ? array_keys(array_filter($value, function($value) {
+        return $value;
+      })) : $value;
+      if ($selected_values) {
+        if (!isset($bpi_query['filter'])) {
+          $bpi_query['filter'] = array();
+        }
+        $bpi_query['filter'][$key] = $selected_values;
+      }
+    }
+  }
 
   // Redirect to search results.
-  drupal_goto('admin/bpi', $query_parameters);
+  drupal_goto('admin/bpi', array('query' => _bpi_build_query($bpi_query, TRUE)));
 }
 
 /**
@@ -174,16 +187,10 @@ function bpi_search_content($query = '', $page = 1, $filters = array(), $sort = 
  *   - assets: array of links representing the images content
  */
 function bpi_search_get_items() {
-  $params = _bpi_build_query();
-  $phrase = isset($params[BPI_SEARCH_PHRASE_KEY]) ? $params[BPI_SEARCH_PHRASE_KEY] : '';
   $page = pager_find_page();
+  $phrase = _bpi_get_current_search_phrase();
+  $filters = _bpi_get_query_parameter('filter', array());
   $sort = isset($_GET['sort']) ? $_GET['sort'] : BPI_SORT_DESCENDING;
-  $filters = array(
-    'category' => isset($params['category']) ? $params['category'] : '',
-    'audience' => isset($params['audience']) ? $params['audience'] : '',
-    'agency_id' => isset($params['agency']) ? $params['agency'] : '',
-    'author' => isset($params['author']) ? $params['author'] : '',
-  );
 
   $response = bpi_search_content($phrase, $page, $filters, $sort);
   $bpi_nodes = array();
@@ -237,15 +244,21 @@ function bpi_search_get_items() {
 
 /**
  * Implements theme_HOOK().
+ *
+ * @param array $variables
+ *   Theme variables.
+ *
+ * @return string
+ *   An HTML string representing the themed output.
  */
-function theme_bpi_search_results($variables) {
+function theme_bpi_search_results(array $variables) {
   return theme('table', $variables);
 }
 
 /**
  * Implements hook_preprocess_HOOK().
  */
-function bpi_preprocess_bpi_search_results(&$variables) {
+function bpi_preprocess_bpi_search_results(array &$variables) {
   $items = $variables['items'];
 
   $table_head = array(
@@ -303,7 +316,7 @@ function bpi_preprocess_bpi_search_results(&$variables) {
         l(
           $item[$text],
           'admin/bpi',
-          array('query' => _bpi_build_query($text, $item[$data], 'page'))
+          array('query' => _bpi_build_query(array($text => $item[$data]), array('page')))
         )
       );
     }
@@ -337,56 +350,53 @@ function bpi_preprocess_bpi_search_results(&$variables) {
 }
 
 /**
- * Create key/value pairs from the query string.
+ * Merge a bpi query into the current query string.
  *
- * This is a helper function for drupal core l() function.
- * Munges the query string into key/value pairs array, so it is accepted
- * by the l() function.
- * Ex. admin/bpi?key1=value1&key2=value2
- *
- * @param string $key
- *   Parameter key.
- * @param string $value
- *   Parameter value.
- * @param string $ignore
- *   Key to be ignored. Used in removing filters.
+ * @param array $query
+ *   The new query.
+ * @param bool|array $clear
+ *   Clear all or some parameters.
  *
  * @return array
- *   An array, in structure:
- *   - key: value
+ *   The merged query.
  */
-function _bpi_build_query($key = '', $value = '', $ignore = NULL) {
-  $destination = drupal_get_destination();
-  $current_path = parse_url(reset($destination));
-  $query = isset($current_path['query']) ? $current_path['query'] : '';
-
-  $new_query_pairs = array();
-
-  if (!empty($query)) {
-    // Get the parameters array.
-    $components = explode('&', $query);
-
-    // Iterate and rearrange them.
-    foreach ($components as $component) {
-      $temp = explode('=', $component);
-
-      // Ignore a key from query string.
-      if ($temp[0] == $ignore) {
-        continue;
-      }
-
-      // It's required to decode some values here, since Drupal's url()
-      // encodes it weird, munging the 'space' entity value (%20).
-      $new_query_pairs[$temp[0]] = urldecode($temp[1]);
+function _bpi_build_query(array $query, $clear = FALSE) {
+  $current_query = $clear === TRUE ? array() : _bpi_get_query_parameter();
+  if (is_array($clear)) {
+    foreach ($clear as $name) {
+      unset($current_query[$name]);
     }
   }
 
-  // Append the new key/value pair to existing ones.
-  if (!empty($key) && !empty($value) && $key != $ignore) {
-    $new_query_pairs[$key] = $value;
-  }
+  $bpi_query = array_replace_recursive($current_query, $query);
+  return $bpi_query;
+}
 
-  return $new_query_pairs;
+/**
+ * Get bpi query parameter value from query string.
+ *
+ * @param string|array $path
+ *   The parameter name or a list of names for multidimensional values.
+ * @param mixed $default_value
+ *   The default value.
+ *
+ * @return mixed
+ *   The query parameter value or the default value if not found.
+ */
+function _bpi_get_query_parameter($path = NULL, $default_value = NULL) {
+  $data = drupal_get_query_parameters();
+  if ($path && !is_array($path)) {
+    $path = array($path);
+  }
+  if ($path) {
+    foreach ($path as $step) {
+      if (!isset($data[$step])) {
+        return $default_value;
+      }
+      $data = $data[$step];
+    }
+  }
+  return $data;
 }
 
 /**
@@ -397,89 +407,8 @@ function _bpi_build_query($key = '', $value = '', $ignore = NULL) {
  * @return string
  *   Searched string.
  */
-function _bpi_current_search_phrase() {
+function _bpi_get_current_search_phrase() {
   return isset($_GET[BPI_SEARCH_PHRASE_KEY]) ? check_plain($_GET[BPI_SEARCH_PHRASE_KEY]) : '';
-}
-
-/**
- * List of filters that are available.
- *
- * Basically that's limited to what is to be showed in filtering section.
- *
- * @return array
- *   Array of filter identifiers.
- */
-function bpi_available_filters() {
-  return array(
-    BPI_SEARCH_PHRASE_KEY,
-    'author',
-    'category',
-    'agency',
-    'audience',
-  );
-}
-
-/**
- * Creates filters markup, based on current query string.
- *
- * @return string
- *   HTMl markup.
- *
- * @ingroup themeable
- */
-function bpi_build_filters() {
-  $components = _bpi_build_query();
-  $filters_markup = array();
-  $enabled_filters = bpi_available_filters();
-
-  foreach ($components as $key => $value) {
-    // Limit the filtering options.
-    if (!in_array($key, $enabled_filters)) {
-      continue;
-    }
-
-    // Used in link.
-    $value_text = $value;
-
-    // Get agency name from cache.
-    if ($key == 'agency') {
-      $cache = cache_get(BPI_AGENCY_CACHE);
-      if ($cache && isset($cache->data[$value])) {
-        $value_text = $cache->data[$value];
-      }
-    }
-
-    $item['name'] = $key;
-    $item['label'] = bpi_label_mapper($key);
-    $item['value'] = $value;
-    $item['search_value'] = $value;
-    $item['search_stripped_filter'] = _bpi_build_query('', '', $key);
-
-    $item['link'] = l($value_text, 'admin/bpi', array('query' => array($key => $value)));
-    $item['remove'] = l(
-      theme_image(
-        array(
-          'path' => drupal_get_path('module', 'bpi') . '/images/cross.png',
-          'width' => 16,
-          'height' => 16,
-          'alt' => '',
-          'attributes' => array(),
-        )
-      ),
-      'admin/bpi',
-      array(
-        'query' => $item['search_stripped_filter'],
-        'html' => TRUE,
-        'attributes' => array(
-          'class' => array('bpi-filter-remove-cross'),
-        ),
-      )
-    );
-
-    $filters_markup[] = theme('bpi_filter_item', array('filter' => $item));
-  }
-
-  return implode('', $filters_markup);
 }
 
 /**
@@ -512,6 +441,10 @@ function bpi_available_map() {
     'agency' => t('Agency'),
     'audience' => t('Audience'),
     'material' => t('Related materials'),
+    'tags' => t('Tags'),
+    'agency_id' => t('Agency'),
+    'agency_internal' => t('Agency internal'),
+    'logicalOperator' => t('Logical operator'),
   );
 }
 
@@ -547,4 +480,197 @@ function bpi_syndicate_action($bpi_id) {
   else {
     drupal_goto('admin/bpi');
   }
+}
+
+
+/**
+ * Build facets form fields.
+ *
+ * @param array $form
+ *   The form.
+ */
+function bpi_build_search_facets(array &$form) {
+  $facets = bpi_get_facets();
+
+  if ($facets) {
+    $filter_form = array(
+      '#tree' => TRUE,
+      '#type' => 'fieldset',
+      '#title' => t('Filters'),
+      '#collapsible' => TRUE,
+      '#collapsed' => !_bpi_get_query_parameter('filter'),
+      '#attributes' => array(
+        'class' => array(
+          'bpi-filters',
+        ),
+      ),
+    );
+
+    // Wrap facet form fields in a container.
+    $filter_form['facets_pre'] = array(
+      '#prefix' => '<div class="bpi-facets">',
+      '#weight' => -1,
+    );
+    $filter_form['facets_post'] = array(
+      '#suffix' => '</div>',
+      '#weight' => 100,
+    );
+
+    $use_chosen = TRUE;
+
+    if ($use_chosen) {
+      $form['#attached']['css'] = array(
+        drupal_get_path('module', 'bpi') . '/js/chosen/chosen.min.css',
+      );
+      $form['#attached']['js'] = array(
+        drupal_get_path('module', 'bpi') . '/js/chosen/chosen.jquery.min.js',
+        drupal_get_path('module', 'bpi') . '/js/use-chosen.js',
+      );
+    }
+
+    foreach ($facets as $name => $terms) {
+      $id = $name;
+      $type = $use_chosen ? 'select' : 'checkboxes';
+      $multiple = TRUE;
+      $options = array();
+      foreach ($terms as $term => $item) {
+        $options[$term] = $item['title'];
+        $options[$term] .= ' (' . $item['count'] . ')';
+      }
+      $default_value = _bpi_get_query_parameter(array('filter', $name), array());
+
+      switch ($name) {
+        case 'agency_internal':
+          $options = array(
+            '' => t('All'),
+            'false' => t('No'),
+            'true' => t('Yes'),
+          );
+          $default_value = _bpi_get_query_parameter(array('filter', $name));
+          $multiple = FALSE;
+          $type = 'select';
+          break;
+      }
+
+      $filter_form[$id] = array(
+        '#type' => $type,
+        '#multiple' => $multiple,
+        '#chosen' => $multiple && $use_chosen,
+        '#size' => $multiple ? min(20, count($options)) : NULL,
+        '#title' => bpi_label_mapper($name) ? bpi_label_mapper($name) : $name,
+        '#options' => $options,
+        '#default_value' => $default_value,
+        '#attributes' => array(
+          'data-placeholder' => $multiple ? t('Pick some values') : t('Pick a value'),
+          'data-no-matches' => t('Nothing matches'),
+        ),
+        '#prefix' => '<div class="bpi-facet bpi-facet-' . drupal_html_class($name) . '">',
+        '#suffix' => '</div>',
+      );
+    }
+
+    // Add logical operator.
+    $name = 'logicalOperator';
+    $id = $name;
+    $filter_form[$id] = array(
+      '#type' => 'select',
+      '#title' => bpi_label_mapper($name) ? bpi_label_mapper($name) : $name,
+      '#options' => array(
+        '' => t('All must apply'),
+        'or' => t('Any must apply'),
+      ),
+      '#default_value' => _bpi_get_query_parameter(array('filter', $name)),
+      '#weight' => -10,
+    );
+
+    $form['bpi_search_filter'] = $filter_form;
+  }
+}
+
+/**
+ * Get all facets or facets from last search as an array.
+ *
+ * For performance reasons the facets will only be loaded once per session.
+ *
+ * @return array
+ *   All facets or the facets from the last search.
+ */
+function bpi_get_facets() {
+  $search_facets = bpi_get_search_facets();
+  if ($search_facets) {
+    return $search_facets;
+  }
+
+  $reload = !isset($_SESSION['bpi_all_facets']) || !is_array($_SESSION['bpi_all_facets']);
+  if (!$reload) {
+    $query = _bpi_get_query_parameter();
+    // Reload if neither text nor filter is applied.
+    $reload = !isset($query['text']) && !isset($query['filter']);
+  }
+
+  if ($reload) {
+    $response = bpi_search_content();
+    $facets = $response->getFacets();
+    $_SESSION['bpi_all_facets'] = bpi_facets_to_array($facets);
+  }
+
+  return $_SESSION['bpi_all_facets'];
+}
+
+/**
+ * Set search facets.
+ *
+ * Used to store facets from actual search in the session as we need the
+ * facets when rendering the form on postback.
+ *
+ * @param \Bpi\Sdk\Facets $facets
+ *   The facets returned from the search.
+ */
+function bpi_set_search_facets(\Bpi\Sdk\Facets $facets = NULL) {
+  // Convert facets to array for safe storage in session.
+  $_SESSION['bpi_search_facets'] = $facets ? bpi_facets_to_array($facets) : NULL;
+}
+
+/**
+ * Get facets from last search.
+ *
+ * @return array $facets
+ *   The facets.
+ */
+function bpi_get_search_facets() {
+  return isset($_SESSION['bpi_search_facets']) ? $_SESSION['bpi_search_facets'] : NULL;
+}
+
+/**
+ * Convert facets into an array.
+ *
+ * @param \Bpi\Sdk\Facets $facets
+ *   The facets.
+ *
+ * @return array
+ *   The facets as an associative array.
+ *   term => [
+ *     title => term title,
+ *     count => item count
+ *   ]
+ */
+function bpi_facets_to_array(\Bpi\Sdk\Facets $facets) {
+  $data = NULL;
+
+  if ($facets) {
+    $data = array();
+    foreach ($facets->getFacets() as $facet) {
+      $data[$facet->getFacetName()] = array();
+      foreach ($facet->getFacetTerms() as $name => $term) {
+        $data[$facet->getFacetName()][$name] = array(
+          'title' => $term->getTitle(),
+          'count' => $term->getAmount(),
+        );
+      }
+    }
+
+    ksort($data);
+  }
+
+  return $data;
 }
