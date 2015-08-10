@@ -27,7 +27,6 @@ function ting_search_context_calculate_context($facets, $numTotalObjects, $searc
   if ($search_context) {
     return $search_context->context_id;
   }
-  file_put_contents("/home/quickstart/work/debug/debugcontexts.txt", print_r($contexts , TRUE), FILE_APPEND);
 
   $system_type = ting_search_context_get_material_type($facets, $numTotalObjects);
   if ($system_type == 'book') {
@@ -53,7 +52,8 @@ function ting_search_context_calculate_context($facets, $numTotalObjects, $searc
 }
 
 /**
- * Check if a search context matches the search query string
+ * Check if a search context matches the search query string. If there are more than one match the
+ * search context with the longest matching string is returned
  *
  * @param array $search_contexts
  *   The search contexts.
@@ -66,13 +66,18 @@ function ting_search_context_calculate_context($facets, $numTotalObjects, $searc
  *
  */
 function ting_search_context_check_search_context($search_contexts, $search_string) {
+  $result_string = '';
+  $result_context = false;
   foreach ($search_contexts as $search_context) {
     if (isset($search_context->search))
       if (strpos(strtolower($search_string), strtolower($search_context->search)) !== false) {
-        return $search_context;
+        if (strlen($search_context->search) > strlen($result_string )) {
+           $result_context = $search_context;
+           $result_string = $search_context->search;
+        }
       }
   }
-  return false;
+  return $result_context;
 }
 
 /**
