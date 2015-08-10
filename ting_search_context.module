@@ -110,8 +110,14 @@ function ting_search_context_theme_related_content($nodes) {
           'image_style' => 'ting_search_context', // We take care of the linking ourself
         ),
       ));
-      $url = url(drupal_get_path_alias('node/' . $node->nid), array('absolute' => TRUE));
-      $url .= '?WT.cg_n=searchcontext';
+      if ($node->type == 'ding_search_context_link') {
+        $link_field = field_get_items('node', $node, 'field_search_context_link');
+        $link = empty($link_field [0]['url']) ? 0 : $link_field[0]['url'];
+        $url = url($link);
+      } else {
+        $url = url(drupal_get_path_alias('node/' . $node->nid), array('absolute' => TRUE));
+      }
+      //$url .= '?WT.cg_n=searchcontext'; //Todo may not work with url which contain search strings
       $columns[$columns_class] = array(
         'title' => $node->title,
         'image' => drupal_render($image),
@@ -121,6 +127,7 @@ function ting_search_context_theme_related_content($nodes) {
   }
   return theme('ting_search_context_content', array('columns' => $columns));
 }
+
 
 function ting_search_context_get_image_field_name($node) {
   $type = $node->type;
@@ -134,6 +141,8 @@ function ting_search_context_get_image_field_name($node) {
     return 'field_genre_page_list_image';
   } else if ($type == 'ding_page') {
     return 'field_ding_page_list_image';
+  } else if ($type == 'ding_search_context_link') {
+    return 'field_search_context_list_image';
   }
   return '';
 }
