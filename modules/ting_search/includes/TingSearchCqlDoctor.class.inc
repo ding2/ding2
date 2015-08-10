@@ -233,6 +233,6 @@ class TingSearchCqlDoctor {
    *   Reqular expression to identify cql operators.
    */
   private function get_cql_operators_regexp() {
-    return '@ and | or | not |=|\(|\)@';
+    return '@ and | or | not |=|\(|\)@i';
   }
 }
