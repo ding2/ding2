@@ -45,6 +45,11 @@ function fbs_loan_list($account) {
       }
     }
 
+    // Handle inter library loans.
+    if (!empty($loan->ilBibliographicRecord)) {
+      $loan_data['display_name'] = $loan->ilBibliographicRecord->title;
+    }
+
     $result[$id] = new DingProviderLoan($id, $loan_data);
   }
 

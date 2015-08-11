@@ -29,6 +29,12 @@ class LoanDetails
     public $dueDate = null;
 
     /**
+     * @var ILLBibliographicRecord Additional bibliographic information for
+     * inter-library loans
+     */
+    public $ilBibliographicRecord = null;
+
+    /**
      * @var string The date when the material was picked up
      * @required
      */

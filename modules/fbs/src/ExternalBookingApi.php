@@ -137,15 +137,13 @@ class ExternalBookingApi extends SwaggerApi
      *
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
      * @param integer $patronid the ID of the patron that owns the bookings
-     * @param array $bookingIds the list of booking IDs that need to be deleted
      * @return void
      */
-    public function deleteBookings($agencyid, $patronid, $bookingIds)
+    public function deleteBookings($agencyid, $patronid)
     {
         $request = $this->newRequest("DELETE", "/external/v1/{agencyid}/patrons/{patronid}/bookings");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("path", "patronid", $patronid);
-        $request->addParameter("body", "bookingIds", $bookingIds);
 
         $request->defineResponse(204, "", null);
         $request->defineResponse("400", 'bad request com.dantek.dl.rest.RestException', null);

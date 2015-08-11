@@ -54,6 +54,12 @@ class ReservationDetails
     public $periodical = null;
 
     /**
+     * @var ILLBibliographicRecord Additional bibliographic information for
+     * inter-library loans
+     */
+    public $ilBibliographicRecord = null;
+
+    /**
      * @var string 
      * @required
      */
