@@ -20,5 +20,5 @@
   "shadow": true,
   "smarttabs": true,
   "multistr": true,
-  "predef": [ "$" ]
+  "predef": [ "Drupal", "jQuery", "$"  ]
 }
