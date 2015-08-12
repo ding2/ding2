@@ -662,10 +662,10 @@ function bpi_build_search_facets(array &$form) {
       '#type' => 'select',
       '#title' => bpi_label_mapper($name) ? bpi_label_mapper($name) : $name,
       '#options' => array(
-        '' => t('All must apply'),
-        'or' => t('Any must apply'),
+        'and' => t('All must apply'),
+        '' => t('Any must apply'),
       ),
-      '#default_value' => _bpi_get_query_parameter(array('filter', $name)),
+      '#default_value' => _bpi_get_query_parameter(array('filter', $name), 'and'),
       '#weight' => -10,
     );
 
