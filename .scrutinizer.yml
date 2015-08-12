@@ -9,6 +9,8 @@ tools:
       - test
       - profile
       - theme
+  js_hint:
+    use_native_config: true
 
 filter:
     excluded_paths:
