@@ -57,6 +57,10 @@ class TingSearchCqlDoctor {
    */
   public function __construct($string) {
     $this->cql_string = trim($string);
+    // Handle reserved characters.
+    $this->escape_reserved_characters();
+    // Remove multiple whitespaces.
+    $this->cql_string = preg_replace('/\s+/', ' ', $this->cql_string);
   }
 
   /**
@@ -74,12 +78,8 @@ class TingSearchCqlDoctor {
     $this->fix_paranthesis();
     // Handle qoutes.
     $this->fix_qoutes();
-    // Handle reserved characters.
-    $this->escape_reserved_characters();
-    // Remove multiple whitespaces.
-    $this->cql_string = preg_replace('/\s+/', ' ', $this->cql_string);
     // Format the string.
-    return $this->format_cql_string();
+    return  $this->format_cql_string();
   }
 
   /**
@@ -161,7 +161,7 @@ class TingSearchCqlDoctor {
       if (!$this->string_is_cql($phrase)) {
         $this->set_replace_pattern($phrases[0][$key], TRUE);
       }
-      else {
+      else{
         $this->set_replace_pattern($phrase);
       }
     }
@@ -188,9 +188,9 @@ class TingSearchCqlDoctor {
    * Adds given phrase to private member $replace. Retrieve a key for the replacement and replace given phrase in
    * internal representation of search string with the key.
    *
-   * @param string $phrase .
+   * @param string $phrase.
    *   The phrase to add to private member $replace.
-   * @param bool $qoute_me .
+   * @param bool $qoute_me.
    *   If TRUE phrase is enqouted.
    * @return nothing
    *   Alters private member cql_string
