@@ -221,7 +221,7 @@ function bpi_search_get_items() {
 
   $page = pager_find_page();
   $phrase = _bpi_get_current_search_phrase();
-  $filters = _bpi_get_query_parameter('filter', array());
+  $filters = _bpi_get_current_filter();
   $sort = _bpi_get_current_sorting();
 
   $response = bpi_search_content($phrase, $page, $filters, $sort);
@@ -428,6 +428,18 @@ function _bpi_get_current_sorting($field = NULL) {
 }
 
 /**
+ * Get current filter.
+ *
+ * @return array
+ *   The filter.
+ */
+function _bpi_get_current_filter() {
+  $value = _bpi_get_query_parameter('filter', array());
+  // @FIXME: Make sure that only valid filter parameters are present.
+  return $value;
+}
+
+/**
  * Get query for applying a filter.
  *
  * @param string $field
@@ -584,7 +596,7 @@ function bpi_build_search_facets(array &$form) {
       '#type' => 'fieldset',
       '#title' => t('Filters'),
       '#collapsible' => TRUE,
-      '#collapsed' => !_bpi_get_query_parameter('filter'),
+      '#collapsed' => !_bpi_get_current_filter(),
       '#attributes' => array(
         'class' => array(
           'bpi-filters',
