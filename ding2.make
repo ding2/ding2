@@ -58,7 +58,7 @@ projects[entity][version] = "1.5"
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = "1.2"
-# https://drupal.org/node/2146543, profile 2 blank fields.
+; https://drupal.org/node/2146543, profile 2 blank fields.
 projects[entitycache][patch][0] = "http://drupal.org/files/issues/2146543-ensure-entity-inserts-clears-caches.1.patch"
 
 projects[entityreference][subdir] = "contrib"
@@ -363,7 +363,7 @@ libraries[leaflet][destination] = "libraries"
 libraries[profiler][download][type] = "git"
 libraries[profiler][download][url] = "http://git.drupal.org/project/profiler.git"
 libraries[profiler][download][branch] = "7.x-2.0-beta1"
-# https://drupal.org/node/1328796, keep dependency order of base profile.
+; https://drupal.org/node/1328796, keep dependency order of base profile.
 libraries[profiler][patch][0] = "http://drupal.org/files/profiler-reverse.patch"
 
 libraries[ting-client][download][type] = "git"
