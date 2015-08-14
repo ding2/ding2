@@ -62,6 +62,7 @@ function ding_availability_theme($existing, $type, $theme, $path) {
         'holdings' => NULL,
         'total_count' => NULL,
         'reserved_count' => NULL,
+        'total_plus_ordered_count' => NULL,
       ),
       'path' => $path . '/templates',
     ),
@@ -206,9 +207,10 @@ function ding_availability_holdings($provider_ids) {
           '#rows' => $rows,
           '#attributes' => $attributes,
         ),
-        'total_count' => $item['total_count'],
-        'reserved_count' => $item['reserved_count'],
-        'ordered_count' => $item['ordered_count'],
+        'total_count' => (int) $item['total_count'],
+        'reserved_count' => (int) $item['reserved_count'],
+        'ordered_count' => (int) $item['ordered_count'],
+        'total_plus_ordered_count' => (int) $item['total_count'] + (int) $item['ordered_count'],
       ));
     }
   }
@@ -232,13 +234,14 @@ function ding_availability_holdings_row($holding, $show_ordered_count) {
   $row['copies'] = isset($holding['total_count']) ? (int) $holding['total_count'] : 0;
 
   // Calculate copies home.
-  $available = isset($holding['available_count']) ? (int) $holding['available_count'] : 0;
-  $available += isset($holding['reference_count']) ? (int) $holding['reference_count'] : 0;
-  $row['available'] = $available;
+  $row['available'] = isset($holding['available_count']) ? (int) $holding['available_count'] : 0;
+  $row['available'] += isset($holding['reference_count']) ? (int) $holding['reference_count'] : 0;
 
   // copies in acquisition.
   if ($show_ordered_count) {
-    $row['ordered_count'] = isset($holding['ordered_count']) ? (int) $holding['ordered_count'] : 0;
+    $ordered_count = isset($holding['ordered_count']) ? (int) $holding['ordered_count'] : 0;
+    $row['copies'] += $ordered_count;
+    $row['ordered_count'] = $ordered_count;
   }
 
   return $row;
