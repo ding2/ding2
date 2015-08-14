@@ -82,6 +82,7 @@ function ding_library_field_default_field_instances() {
       'settings' => array(
         'available_countries' => array(
           'DK' => 'DK',
+          'DE' => 'DE',
         ),
         'format_handlers' => array(
           'address' => 'address',
