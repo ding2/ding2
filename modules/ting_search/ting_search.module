@@ -228,7 +228,7 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
   // Set max length on search input. This is need when users uses CQL search
   // string as they can get very long. This length is base on experience from
   // ding1 as seams to be long enough.
-  $form['search_block_form']['#maxlength'] = 256;
+  $form['search_block_form']['#maxlength'] = 1024;
 
   // Add JS to handle spinner in the search form.
   $form['search_block_form']['#attached']['js'] = array(
