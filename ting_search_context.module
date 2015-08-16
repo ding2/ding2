@@ -229,6 +229,7 @@ function ting_search_context_rate_node_action_form($settings, &$form_state = NUL
       '#theme' => 'item_list',
       '#items' => $items,
       '#title' => t('Does the following content:'),
+      '#attributes' => array('class' => 'ting-search-context-selected-nodes'),
     );
     $form['context'] = $form_context;
     $form['context']['#prefix'] = '<h3 class="context-header">' . t('Relate to:') . '</h3>';
@@ -301,7 +302,8 @@ function ting_search_context_views_bulk_operations_form_alter(&$form, &$form_sta
         $form['selected_nodes'] = array(
           '#theme' => 'item_list',
           '#items' => $items,
-          '#title' => t('You selected the following content:')
+          '#title' => t('You selected the following content:'),
+          '#attributes' => array('class' => 'ting-search-context-selected-nodes'),
         );
         $form['selected_context'] = array(
           '#theme' => 'html_tag',
