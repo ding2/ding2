@@ -338,6 +338,29 @@ function ting_search_context_views_bulk_operations_form_alter(&$form, &$form_sta
 }
 
 /**
+ * Implements hook_form_alter().
+ *
+ * The overlay breaks when submitting a view with exposed filters. The fix
+ * below solves it and is taken from the following discussion:
+ * https://www.drupal.org/node/1116326
+ * The fix is also available as a patch to the overlay module, where the
+ * problem is originating from. Since it presents a rather significant drop in
+ * the quality of the admin UI for us and since the fix is rather small, we
+ * choose to include it here. If the patch gets included in DDB CMS, this
+ * should be removed.
+ */
+function ting_search_context_form_alter(&$form, &$form_state) {
+  // Add a hidden element to prevent dropping out of the overlay when a form is
+  // submitted inside the overlay using a GET method.
+  if (isset($form['#method']) && $form['#method'] == 'get' && isset($_REQUEST['render']) && $_REQUEST['render'] == 'overlay' && !isset($form['render'])) {
+    $form['render'] = array(
+      '#type' => 'hidden',
+      '#value' => 'overlay',
+    );
+  }
+}
+
+/**
  * Searches the database for nodes rated in the context specified by
  * $context_id and randomly selects $count number of nodes to return. The
  * selection is based on the rating number of the ratings. For example, a node
