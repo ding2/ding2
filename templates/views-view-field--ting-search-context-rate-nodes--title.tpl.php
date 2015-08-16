@@ -23,4 +23,4 @@
  */
 // TODO: We should probably use a preprocess function instead.
 ?>
-<?php print l($row->node_title, 'node/' . $row->nid . '/edit', array('query' => array('destination' => reset(drupal_get_destination())))); ?>
+<?php print l($row->node_title, 'node/' . $row->nid . '/edit', array('query' => drupal_get_destination())); ?>
