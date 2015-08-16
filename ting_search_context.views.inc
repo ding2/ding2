@@ -82,7 +82,39 @@ function ting_search_context_views_data() {
     'sort' => array(
       'handler' => 'views_handler_sort',
     ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string',
+    ),
+    'argument' => array(
+      'handler' => 'views_handler_argument_string',
+    ),
   );
+
 
 }
 
+/**
+ * Implements hook_views_data_alter().
+ */
+function ting_search_context_views_data_alter(&$data) {
+  // Provide some special handlers on the node table as an easy way to tackle
+  // the many-to-many complexity between nodes and contexts. For example, a
+  // node can be rated in many contexts and a contexts can have many nodes
+  // rated in it.
+  $data['node']['ting_search_context_node_ratings'] = array(
+    'title' => t('Node ratings'),
+    'help' => t('Associates ratings with nodes'),
+    'field' => array(
+      'title' => t('All ratings'),
+      'help' => t('Display all ratings associated with a node'),
+      'handler' => 'ting_search_context_handler_field_node_ratings',
+      'no group by' => TRUE,
+    ),
+    'filter' => array(
+      'title' => t('Rating filter'),
+      'help' => t('Filter to only display content rated in selected contexts'),
+      'handler' => 'ting_search_context_handler_filter_node_ratings',
+      'real field' => 'nid',
+    ),
+  );
+}
