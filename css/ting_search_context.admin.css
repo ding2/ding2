@@ -22,37 +22,63 @@
   margin-right: 1em;
 }
 
-.view-ting-search-context-rate-nodes .views-exposed-widget.views-submit-button,
-.view-ting-search-context-rate-nodes .views-exposed-widget.views-reset-button {
-  margin-top: 0.375em;
-}
-
 .view-ting-search-context-rate-nodes .form-submit {
   margin-top: 0.5em;
+}
+
+/**
+ * Styling of ratings filter.
+ */
+.views-widget-filter-ting_search_context_node_ratings select {
+  width: 15em;
+}
+
+.views-widget-filter-ting_search_context_node_ratings .views-widget .form-type-select {
+  padding-bottom: 0;
+}
+
+.views-exposed-widgets {
+  position: relative;
+}
+
+.views-exposed-widget.views-submit-button input,
+.views-exposed-widget.views-reset-button input {
+  width: 8em;
+}
+
+.views-exposed-widget.views-submit-button {
+  position: absolute;
+  top: 11.5em;
+  left: 37.2em;
+}
+
+.views-exposed-widget.views-reset-button {
+  position: absolute;
+  top: 11.5em;
+  left: 47.2em;
 }
 
 /**
  * Styling of the select nodes list on per-bulk configuration form and the
  * VBO confirm form (make it horizontal).
  */
-.view-ting-search-context-rate-nodes .item-list ul {
+.view-ting-search-context-rate-nodes ul.ting-search-context-selected-nodes {
   margin-left: 0;
 }
 
-.view-ting-search-context-rate-nodes ul li {
+.view-ting-search-context-rate-nodes ul.ting-search-context-selected-nodes li {
   display: inline;
   list-style-type: none;
 }
 
-.view-ting-search-context-rate-nodes ul li:after {
+.view-ting-search-context-rate-nodes ul.ting-search-context-selected-nodes li:after {
   content: " - ";
 }
 
-.view-ting-search-context-rate-nodes ul li:last-of-type:after {
+.view-ting-search-context-rate-nodes ul.ting-search-context-selected-nodes li:last-of-type:after {
   content: "";
 }
 
 .view-ting-search-context-rate-nodes .context-header {
   margin-top: 1.9em;
 }
-
