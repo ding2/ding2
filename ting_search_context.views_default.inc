@@ -339,6 +339,38 @@ function ting_search_context_views_default_views() {
   $handler->display->display_options['fields']['changed']['label'] = 'Opdateret';
   $handler->display->display_options['fields']['changed']['date_format'] = 'short';
   $handler->display->display_options['fields']['changed']['second_date_format'] = 'ding_date_only';
+  /* Felt: Indhold: All ratings */
+  $handler->display->display_options['fields']['ting_search_context_node_ratings']['id'] = 'ting_search_context_node_ratings';
+  $handler->display->display_options['fields']['ting_search_context_node_ratings']['table'] = 'node';
+  $handler->display->display_options['fields']['ting_search_context_node_ratings']['field'] = 'ting_search_context_node_ratings';
+  $handler->display->display_options['fields']['ting_search_context_node_ratings']['label'] = 'Ratings';
+  $handler->display->display_options['fields']['ting_search_context_node_ratings']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['ting_search_context_node_ratings']['alter']['text'] = '[ting_search_context_node_ratings-name] ([ting_search_context_node_ratings-rating])';
+  $handler->display->display_options['fields']['ting_search_context_node_ratings']['type'] = 'ul';
+  /* Filterkriterie: Indhold: Rating filter */
+  $handler->display->display_options['filters']['ting_search_context_node_ratings']['id'] = 'ting_search_context_node_ratings';
+  $handler->display->display_options['filters']['ting_search_context_node_ratings']['table'] = 'node';
+  $handler->display->display_options['filters']['ting_search_context_node_ratings']['field'] = 'ting_search_context_node_ratings';
+  $handler->display->display_options['filters']['ting_search_context_node_ratings']['operator'] = 'or';
+  $handler->display->display_options['filters']['ting_search_context_node_ratings']['group'] = 1;
+  $handler->display->display_options['filters']['ting_search_context_node_ratings']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['ting_search_context_node_ratings']['expose']['operator_id'] = 'ting_search_context_node_ratings_op';
+  $handler->display->display_options['filters']['ting_search_context_node_ratings']['expose']['label'] = 'Rating filter';
+  $handler->display->display_options['filters']['ting_search_context_node_ratings']['expose']['use_operator'] = TRUE;
+  $handler->display->display_options['filters']['ting_search_context_node_ratings']['expose']['operator'] = 'ting_search_context_node_ratings_op';
+  $handler->display->display_options['filters']['ting_search_context_node_ratings']['expose']['identifier'] = 'ting_search_context_node_ratings';
+  $handler->display->display_options['filters']['ting_search_context_node_ratings']['expose']['multiple'] = TRUE;
+  $handler->display->display_options['filters']['ting_search_context_node_ratings']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+    5 => 0,
+    6 => 0,
+    7 => 0,
+    8 => 0,
+    9 => 0,
+  );
   /* Filterkriterie: Indhold: Titel */
   $handler->display->display_options['filters']['title']['id'] = 'title';
   $handler->display->display_options['filters']['title']['table'] = 'node';
@@ -391,6 +423,14 @@ function ting_search_context_views_default_views() {
     7 => 0,
     8 => 0,
     9 => 0,
+  );
+  $handler->display->display_options['filters']['type']['group_info']['label'] = 'Type';
+  $handler->display->display_options['filters']['type']['group_info']['identifier'] = 'type';
+  $handler->display->display_options['filters']['type']['group_info']['remember'] = FALSE;
+  $handler->display->display_options['filters']['type']['group_info']['group_items'] = array(
+    1 => array(),
+    2 => array(),
+    3 => array(),
   );
   /* Filterkriterie: Bruger: Navn */
   $handler->display->display_options['filters']['uid']['id'] = 'uid';
@@ -463,6 +503,9 @@ function ting_search_context_views_default_views() {
     t('Forfatter'),
     t('Udgivet'),
     t('Opdateret'),
+    t('Ratings'),
+    t('[ting_search_context_node_ratings-name] ([ting_search_context_node_ratings-rating])'),
+    t('Rating filter'),
     t('Navn'),
     t('Page'),
   );
