@@ -1,6 +1,8 @@
 core = 7.x
 api = 2
 
+defaults[projects][subdir] = "contrib"
+
 ; Contrib modules
 projects[addressfield][subdir] = "contrib"
 projects[addressfield][version] = "1.0-beta5"
@@ -35,7 +37,7 @@ projects[ctools][version] = "1.5"
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.8"
 
-# Patch to fix empty order_id. See https://drupal.org/node/2107389
+; Patch to fix empty order_id. See https://drupal.org/node/2107389
 projects[dibs][subdir] = "contrib"
 projects[dibs][version] = "1.0"
 projects[dibs][patch][] = "http://drupal.org/files/dibs-2107389-2.patch"
@@ -43,9 +45,9 @@ projects[dibs][patch][] = "http://drupal.org/files/dibs-2107389-2.patch"
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
-// The patch ensures that file upload patch is created on file upload. It normally
-// created on settings form save, but as we use feature this do not work.
-// See https://www.drupal.org/node/2410241
+; The patch ensures that file upload patch is created on file upload. It normally
+; created on settings form save, but as we use feature this do not work.
+; See https://www.drupal.org/node/2410241
 projects[dynamic_background][subdir] = "contrib"
 projects[dynamic_background][version] = "2.0-rc4"
 projects[dynamic_background][patch][] = "https://www.drupal.org/files/issues/create_file_path-2410241-1.patch"
@@ -58,7 +60,7 @@ projects[entity][version] = "1.5"
 
 projects[entitycache][subdir] = "contrib"
 projects[entitycache][version] = "1.2"
-# https://drupal.org/node/2146543, profile 2 blank fields.
+; https://drupal.org/node/2146543, profile 2 blank fields.
 projects[entitycache][patch][0] = "http://drupal.org/files/issues/2146543-ensure-entity-inserts-clears-caches.1.patch"
 
 projects[entityreference][subdir] = "contrib"
@@ -126,7 +128,7 @@ projects[job_scheduler][subdir] = "contrib"
 projects[job_scheduler][version] = "2.0-alpha3"
 
 projects[jquery_update][subdir] = "contrib"
-projects[jquery_update][version] = "2.4"
+projects[jquery_update][version] = "2.6"
 
 projects[languageicons][subdir] = "contrib"
 projects[languageicons][version] = "1.0"
@@ -176,7 +178,7 @@ projects[media_youtube][patch][] = "http://drupal.org/files/issues/provide-acces
 projects[memcache][subdir] = "contrib"
 projects[memcache][version] = "1.0"
 
-# Get a this special version that has support for features export.
+; Get a this special version that has support for features export.
 projects[menu_block][type] = "module"
 projects[menu_block][subdir] = "contrib"
 projects[menu_block][download][type] = "git"
@@ -195,7 +197,7 @@ projects[module_filter][version] = "1.8"
 
 ; NanoSOAP is currently not placed in contrib at this was not the case
 ; when using recursive make files.
-; projects[nanosoap][subdir] = "contrib"
+projects[nanosoap][subdir] = "contrib"
 projects[nanosoap][version] = "1.0"
 projects[nanosoap][patch][] = "http://drupal.org/files/nanosoap-curloptions-1943732.patch"
 
@@ -299,7 +301,7 @@ projects[token][version] = "1.5"
 projects[transliteration][subdir] = "contrib"
 projects[transliteration][version] = "3.2"
 
-# Using dev release, as the "stable" version is making errors in the install profile.
+; Using dev release, as the "stable" version is making errors in the install profile.
 projects[uuid][subdir] = "contrib"
 projects[uuid][download][type] = "git"
 projects[uuid][download][url] = "http://git.drupal.org/project/uuid.git"
@@ -324,7 +326,7 @@ projects[views_bulk_operations][version] = "3.2"
 projects[views_responsive_grid][subdir] = "contrib"
 projects[views_responsive_grid][version] = "1.3"
 
-# Development version where the "unpublished" status have been fixed on the content edit page.
+; Development version where the "unpublished" status have been fixed on the content edit page.
 projects[view_unpublished][subdir] = "contrib"
 projects[view_unpublished][download][type] = "git"
 projects[view_unpublished][download][url] = "http://git.drupal.org/project/view_unpublished.git"
@@ -356,14 +358,14 @@ libraries[ckeditor][directory_name] = "ckeditor"
 libraries[ckeditor][destination] = "libraries"
 
 libraries[leaflet][download][type] = "get"
-libraries[leaflet][download][url] = "http://leaflet-cdn.s3.amazonaws.com/build/leaflet-0.7.2.zip"
+libraries[leaflet][download][url] = "http://cdn.leafletjs.com/downloads/leaflet-0.7.3.zip"
 libraries[leaflet][directory_name] = "leaflet"
 libraries[leaflet][destination] = "libraries"
 
 libraries[profiler][download][type] = "git"
 libraries[profiler][download][url] = "http://git.drupal.org/project/profiler.git"
 libraries[profiler][download][branch] = "7.x-2.0-beta1"
-# https://drupal.org/node/1328796, keep dependency order of base profile.
+; https://drupal.org/node/1328796, keep dependency order of base profile.
 libraries[profiler][patch][0] = "http://drupal.org/files/profiler-reverse.patch"
 
 libraries[ting-client][download][type] = "git"
