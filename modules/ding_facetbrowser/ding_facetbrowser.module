@@ -244,24 +244,29 @@ function _ding_factbrowser_is_facet_set($term_cat, $term_name) {
  */
 function _ding_factbrowser_parse_request_uri() {
   $new_query_part = array();
-  if (stristr(request_uri(), '?')) {
-    $request_uri_parts = explode('?', request_uri());
 
-    $query = rawurldecode(end($request_uri_parts));
-    $query_parts = explode('&', $query);
-    foreach ($query_parts as $key => $part) {
-      if (preg_match('/^page\=/', $part)) {
-        unset($query_parts[$key]);
-        continue;
-      }
-      $new_query_part[] = $part;
-    }
-    $query = $new_query_part;
-    return $request_uri_parts[0] . '?' . implode('&', $query);
-  }
-  else {
+  if (!stristr(request_uri(), '?')) {
     return request_uri();
   }
+
+  $request_uri_parts = explode('?', request_uri());
+
+  $query = rawurldecode(end($request_uri_parts));
+  $query_parts = explode('&', $query);
+  foreach ($query_parts as $key => $part) {
+    if (preg_match('/^page\=/', $part)) {
+      unset($query_parts[$key]);
+      continue;
+    }
+    if (stristr($part, '=')) {
+      $decode_part = explode('=', $part);
+      $decode_part[1] = rawurlencode($decode_part[1]);
+      $part = implode('=', $decode_part);
+    }
+    $new_query_part[] = $part;
+  }
+  $query = $new_query_part;
+  return $request_uri_parts[0] . '?' . implode('&', $query);
 }
 
 /**
