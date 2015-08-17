@@ -195,7 +195,7 @@ function openruth_reservation_default_options($account) {
 
   // Get values.
   $profile_branch = $wrapper->field_openruth_preferred_branch->value();
-  $interest_period = $wrapper->field_openruth_interest_period->value();
+  $interest_period = openruth_reservation_default_interest_period($profile);
 
   return array(
     'field_openruth_preferred_branch' => $profile_branch,
@@ -241,15 +241,14 @@ function openruth_reservation_options_submit($account, $values) {
  * @return type
  */
 function openruth_reservation_create($account, $id, $options = array(), $expiry = NULL) {
-  $entity = ding_user_provider_profile($account);
-  if (!empty($entity)) {
-    $wrapper = entity_metadata_wrapper('profile2', $entity);
-
+  $profile = ding_user_provider_profile($account);
+  if (!empty($profile)) {
+    $wrapper = entity_metadata_wrapper('profile2', $profile);
     // Interest period.
     if (!isset($options['interest_period'])) {
       if (!isset($expiry)) {
-        // Use a metadata wrapper to access the data.
-        $interest_period = $wrapper->field_openruth_interest_period->value();
+
+        $interest_period = openruth_reservation_default_interest_period($profile);
         if ($interest_period) {
           // Change it to seconds from days.
           $expiry = $interest_period * 86400;
