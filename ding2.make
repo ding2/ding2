@@ -1,6 +1,8 @@
 core = 7.x
 api = 2
 
+defaults[projects][subdir] = contrib
+
 ; Contrib modules
 projects[addressfield][subdir] = "contrib"
 projects[addressfield][version] = "1.0-beta5"
@@ -35,7 +37,7 @@ projects[ctools][version] = "1.5"
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.8"
 
-# Patch to fix empty order_id. See https://drupal.org/node/2107389
+; Patch to fix empty order_id. See https://drupal.org/node/2107389
 projects[dibs][subdir] = "contrib"
 projects[dibs][version] = "1.0"
 projects[dibs][patch][] = "http://drupal.org/files/dibs-2107389-2.patch"
@@ -43,9 +45,9 @@ projects[dibs][patch][] = "http://drupal.org/files/dibs-2107389-2.patch"
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
-// The patch ensures that file upload patch is created on file upload. It normally
-// created on settings form save, but as we use feature this do not work.
-// See https://www.drupal.org/node/2410241
+; The patch ensures that file upload patch is created on file upload. It normally
+; created on settings form save, but as we use feature this do not work.
+; See https://www.drupal.org/node/2410241
 projects[dynamic_background][subdir] = "contrib"
 projects[dynamic_background][version] = "2.0-rc4"
 projects[dynamic_background][patch][] = "https://www.drupal.org/files/issues/create_file_path-2410241-1.patch"
@@ -176,7 +178,7 @@ projects[media_youtube][patch][] = "http://drupal.org/files/issues/provide-acces
 projects[memcache][subdir] = "contrib"
 projects[memcache][version] = "1.0"
 
-# Get a this special version that has support for features export.
+; Get a this special version that has support for features export.
 projects[menu_block][type] = "module"
 projects[menu_block][subdir] = "contrib"
 projects[menu_block][download][type] = "git"
@@ -299,7 +301,7 @@ projects[token][version] = "1.5"
 projects[transliteration][subdir] = "contrib"
 projects[transliteration][version] = "3.2"
 
-# Using dev release, as the "stable" version is making errors in the install profile.
+; Using dev release, as the "stable" version is making errors in the install profile.
 projects[uuid][subdir] = "contrib"
 projects[uuid][download][type] = "git"
 projects[uuid][download][url] = "http://git.drupal.org/project/uuid.git"
@@ -324,7 +326,7 @@ projects[views_bulk_operations][version] = "3.2"
 projects[views_responsive_grid][subdir] = "contrib"
 projects[views_responsive_grid][version] = "1.3"
 
-# Development version where the "unpublished" status have been fixed on the content edit page.
+; Development version where the "unpublished" status have been fixed on the content edit page.
 projects[view_unpublished][subdir] = "contrib"
 projects[view_unpublished][download][type] = "git"
 projects[view_unpublished][download][url] = "http://git.drupal.org/project/view_unpublished.git"
