@@ -1,7 +1,7 @@
 core = 7.x
 api = 2
 
-defaults[projects][subdir] = contrib
+defaults[projects][subdir] = "contrib"
 
 ; Contrib modules
 projects[addressfield][subdir] = "contrib"
@@ -197,7 +197,7 @@ projects[module_filter][version] = "1.8"
 
 ; NanoSOAP is currently not placed in contrib at this was not the case
 ; when using recursive make files.
-; projects[nanosoap][subdir] = "contrib"
+projects[nanosoap][subdir] = "contrib"
 projects[nanosoap][version] = "1.0"
 projects[nanosoap][patch][] = "http://drupal.org/files/nanosoap-curloptions-1943732.patch"
 
@@ -358,7 +358,7 @@ libraries[ckeditor][directory_name] = "ckeditor"
 libraries[ckeditor][destination] = "libraries"
 
 libraries[leaflet][download][type] = "get"
-libraries[leaflet][download][url] = "http://leaflet-cdn.s3.amazonaws.com/build/leaflet-0.7.2.zip"
+libraries[leaflet][download][url] = "http://cdn.leafletjs.com/downloads/leaflet-0.7.3.zip"
 libraries[leaflet][directory_name] = "leaflet"
 libraries[leaflet][destination] = "libraries"
 
