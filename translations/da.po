@@ -58371,7 +58371,7 @@ msgid ""
 "Your payment of @amount was received. Transaction ID: @transaction, "
 "order no.: @order."
 msgstr ""
-"Din betaling af @amount mellemværende(r) er modtaget. Transaktions "
+"Din betaling af @amount kr. er modtaget. Transaktions "
 "ID: @transaction, ordrenummer.: @order. "
 
 msgid "Provides caching for core entities including nodes and taxonomy terms."
