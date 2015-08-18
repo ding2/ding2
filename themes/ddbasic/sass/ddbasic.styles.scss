@@ -62,5 +62,8 @@
 @import "module/_groups";
 @import "module/_page";
 
+// Include print stylesheet
+@import "module/_print";
+
 // Custom font
 @import "../font/source-sans/stylesheet.css";
