@@ -338,6 +338,23 @@ function fbs_interest_periods() {
 }
 
 /**
+ * Implements hook_form_FORM_ID_form_alter().
+ *
+ * Remove order_nr from the reservation listing. We don't have anything sane to
+ * display there.
+ */
+function fbs_form_ding_reservation_reservations_form_alter(&$form, &$form_state) {
+  if (isset($form['reservations'])) {
+    foreach ($form['reservations'] as &$reservation) {
+      if (isset($reservation['#information']['order_nr'])) {
+        unset($reservation['#information']['order_nr']);
+      }
+    }
+  }
+}
+
+
+/**
  * Pack patron info in an array.
  *
  * Saves all the data we'll need for profile editing into an array that can be
