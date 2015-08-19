@@ -4,6 +4,7 @@
  * @file
  * FBS provider module.
  */
+
 include_once 'fbs.features.inc';
 
 // Load Field module hooks. Wrapping in function exists, so we'll still be
@@ -228,7 +229,6 @@ function fbs_profile2_presave($entity) {
     $current_on_hold = array('from' => '', 'to' => '');
   }
 
-
   $current = array(
     'phoneNumber' => $wrapper->field_fbs_phone->value(),
     'emailAddress' => $wrapper->field_fbs_mail->value(),
@@ -427,7 +427,6 @@ function _fbs_periodical_get_local_id($record_id, FBS\Model\Periodical $periodic
  *   Array of record_id and PeriodicalReservation.
  */
 function _fbs_periodical_parse_local_id($local_id) {
-  $record_id  = NULL;
   $periodical = NULL;
 
   if (preg_match('/^fbs-(.*)$/', $local_id, $matches)) {
