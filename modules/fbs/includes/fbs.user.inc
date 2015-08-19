@@ -26,14 +26,6 @@ function fbs_user_authenticate($name, $pincode) {
     'success' => $res->authenticated,
   );
   if ($res->authenticated) {
-    // Don't allow users blocked by "O" (library card stolen) or "S" (blocked by
-    // self service automation) statusses log in.
-    if (!empty($res->blockStatus)) {
-      $common = array_intersect(array('O', 'S'), $res->blockStatus);
-      if (!empty($common)) {
-        $result['success'] = FALSE;
-      }
-    }
     // Save patron info in creds.
     $result['creds'] = _fbs_patron_info($res->patron);
 
@@ -53,9 +45,20 @@ function fbs_user_authenticate($name, $pincode) {
     );
 
     if ($res->patron->blockStatus) {
+      $denied = FALSE;
       $result['user']['blocks'] = array();
       foreach ($res->patron->blockStatus as $block) {
+        $result['user']['blocked'] = TRUE;
         $result['user']['blocks'][] = $block->message;
+        // Don't allow users blocked by "O" (library card stolen) or "S"
+        // (blocked by self service automation) statusses log in.
+        if (in_array($block->blockedReason, array('O', 'S'))) {
+          $denied = TRUE;
+        }
+      }
+      if ($denied) {
+        $result['messages'] = $result['user']['blocks'];
+        $result['success'] = FALSE;
       }
     }
   }
