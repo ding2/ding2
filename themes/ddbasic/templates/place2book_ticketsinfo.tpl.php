@@ -31,6 +31,9 @@ switch ($type) {
   case 'order-link':
     print l(t('Book a ticket'), $url, array('attributes' => array('class' => array('ticket-available'))));
     break;
+  case 'sale-not-started':
+    print '<div class="ticket-info">' . t('Ticket sale has not yet started for this event') . '</div>';
+    break;
   default:
     print '-nothing-';
     break;
