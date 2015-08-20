@@ -38,7 +38,15 @@
 }
 
 .views-exposed-widgets {
+  margin-bottom: 0;
+}
+
+/**
+ * A better position for the exposed filters Submit and Reset buttons
+ */
+.views-exposed-form {
   position: relative;
+  display: inline-block;
 }
 
 .views-exposed-widget.views-submit-button input,
@@ -48,14 +56,18 @@
 
 .views-exposed-widget.views-submit-button {
   position: absolute;
-  top: 11.5em;
-  left: 37.2em;
+  bottom: 0;
+  right: 9.5em;
 }
 
 .views-exposed-widget.views-reset-button {
   position: absolute;
-  top: 11.5em;
-  left: 47.2em;
+  bottom: 0;
+  right: -0.3333em;
+}
+
+.view-ting-search-context-rate-nodes .view-content {
+  margin-top: -1.5em; /* Correct the undesirable white-space from using inline-block */
 }
 
 /**
