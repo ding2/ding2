@@ -242,6 +242,7 @@ function ting_search_context_rate_node_action_form($settings, &$form_state = NUL
       '#theme' => 'item_list',
       '#items' => $items,
       '#title' => t('Does the following content:'),
+      '#attributes' => array('class' => 'ting-search-context-selected-nodes'),
     );
     $form['context'] = $form_context;
     $form['context']['#prefix'] = '<h3 class="context-header">' . t('Relate to:') . '</h3>';
@@ -291,9 +292,26 @@ function ting_search_context_views_bulk_operations_form_alter(&$form, &$form_sta
       }
     }
 
+    // Add a class to indicate that this is the first step of our VBO form.
+    // We make sure not to override any previously set '#attributes' or 'class'.
+    if ($form_state['step'] == 'views_form_views_form') {
+      $class = 'ting-search-context-rate-nodes-first-step';
+      if (!isset($form['#attributes']['class'])) {
+        if (isset($form['#attributes']) && is_array($form['#attributes'])) {
+          $form['#attributes'] += array('class' => array($class));
+        }
+        else {
+          $form['#attributes'] = array('class' => array($class));
+        }
+      }
+      else {
+        $form['#attributes']['class'][] = $class;
+      }
+    }
+
     // Perform different alterations to the VBO confirm form, depending on the
     // action being executed.
-    if ($form_state['step'] == 'views_bulk_operations_confirm_form') {
+    else if ($form_state['step'] == 'views_bulk_operations_confirm_form') {
       $selected_nodes = node_load_multiple($form_state['selection']);
 
       // Show the selected nodes, context and rating if this is our rate node
@@ -314,7 +332,8 @@ function ting_search_context_views_bulk_operations_form_alter(&$form, &$form_sta
         $form['selected_nodes'] = array(
           '#theme' => 'item_list',
           '#items' => $items,
-          '#title' => t('You selected the following content:')
+          '#title' => t('You selected the following content:'),
+          '#attributes' => array('class' => 'ting-search-context-selected-nodes'),
         );
         $form['selected_context'] = array(
           '#theme' => 'html_tag',
@@ -345,6 +364,37 @@ function ting_search_context_views_bulk_operations_form_alter(&$form, &$form_sta
       }
 
     }
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * The overlay breaks when submitting a view with exposed filters. The fix
+ * below solves it and is taken from the following discussion:
+ * https://www.drupal.org/node/1116326
+ * The fix is also available as a patch to the overlay module, where the
+ * problem is originating from. Since it presents a rather significant drop in
+ * the quality of our admin UI and since the fix is rather small, we
+ * choose to include it here. If the patch gets included in DDB CMS, this
+ * should be removed.
+ * An alternative fix is to enable AJAX in the view. But the overlay will still
+ * break if the user presses the 'Reset' button, since that button isn't AJAX
+ * enable and will trigger a new page load. The 'Reset' button will be used a
+ * lot in our view and we therefore preferre this fix, but if it presents a
+ * problem, we can switch to the AJAX solution in the future. This will at
+ * least preserve the overlay when using the exposed filters.
+ */
+function ting_search_context_form_alter(&$form, &$form_state) {
+  // Add a hidden element to prevent dropping out of the overlay when a form is
+  // submitted inside the overlay using a GET method.
+  // Since we make sure that we aren't overriding any render set on the form
+  // by another module, this should be safe.
+  if (isset($form['#method']) && $form['#method'] == 'get' && isset($_REQUEST['render']) && $_REQUEST['render'] == 'overlay' && !isset($form['render'])) {
+    $form['render'] = array(
+      '#type' => 'hidden',
+      '#value' => 'overlay',
+    );
   }
 }
 
