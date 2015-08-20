@@ -36,16 +36,20 @@ function fbs_debt_list($account) {
     );
 
     if (!empty($fee->materials)) {
-      // As ding only support one material number, we just grab the first.
+      $record_ids = array();
       $material_ids = array();
       foreach ($fee->materials as $material) {
         $material_ids[] = $material->materialItemNumber;
+        $record_ids[] = $material->recordId;
       }
 
       // If there's only one material, use its title as display_name;
-      if (count($material_ids) == 1) {
-        $entity = ding_entity_load(ding_provider_build_entity_id(reset($material_ids)));
+      if (count($record_ids) == 1) {
+        $entity = ding_entity_load(ding_provider_build_entity_id(reset($record_ids)));
         $data['display_name'] = $entity->getTitle();
+      }
+      elseif (count($record_ids) > 1) {
+        $data['display_name'] = t('Multiple materials');
       }
       $data['material_number'] = implode(', ', $material_ids);
     }
