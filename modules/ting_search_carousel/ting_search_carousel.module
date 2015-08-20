@@ -49,6 +49,18 @@ function ting_search_carousel_menu() {
 }
 
 /**
+ * Implements hook_permission().
+ */
+function ting_search_carousel_permission() {
+  return array(
+    'configure carousel' => array(
+      'title' => t('Configure carousel'),
+      'description' => t('Allow role to configure carousel.'),
+    ),
+  );
+}
+
+/**
  * Implements hook_theme().
  */
 function ting_search_carousel_theme($existing, $type, $theme, $path) {
