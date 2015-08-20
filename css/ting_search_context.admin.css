@@ -66,8 +66,10 @@
   right: -0.3333em;
 }
 
-.view-ting-search-context-rate-nodes .view-content {
-  margin-top: -1.5em; /* Correct the undesirable white-space from using inline-block */
+.ting-search-context-rate-nodes-first-step {
+  /* Correct the undesirable white-space from using inline-block */
+  /* We use our custom class to make sure it only has effect on first step. */
+  margin-top: -1.5em;
 }
 
 /**

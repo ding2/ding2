@@ -279,9 +279,26 @@ function ting_search_context_views_bulk_operations_form_alter(&$form, &$form_sta
       }
     }
 
+    // Add a class to indicate that this is the first step of our VBO form.
+    // We make sure not to override any previously set '#attributes' or 'class'.
+    if ($form_state['step'] == 'views_form_views_form') {
+      $class = 'ting-search-context-rate-nodes-first-step';
+      if (!isset($form['#attributes']['class'])) {
+        if (isset($form['#attributes']) && is_array($form['#attributes'])) {
+          $form['#attributes'] += array('class' => array($class));
+        }
+        else {
+          $form['#attributes'] = array('class' => array($class));
+        }
+      }
+      else {
+        $form['#attributes']['class'][] = $class;
+      }
+    }
+
     // Perform different alterations to the VBO confirm form, depending on the
     // action being executed.
-    if ($form_state['step'] == 'views_bulk_operations_confirm_form') {
+    else if ($form_state['step'] == 'views_bulk_operations_confirm_form') {
       $selected_nodes = node_load_multiple($form_state['selection']);
 
       // Show the selected nodes, context and rating if this is our rate node
