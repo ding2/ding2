@@ -182,3 +182,8 @@ projects[view_unpublished][download][revision] = "e9df1d3"
 
 projects[maintenance_mode_api][subdir] = "contrib"
 projects[maintenance_mode_api][version] = "1.0-beta1"
+
+projects[ask_vopros][subdir] = "contrib"
+projects[ask_vopros][download][type] = "git"
+projects[ask_vopros][download][url] = "git@github.com:Biblioteksvagten/ask_vopros.git"
+projects[ask_vopros][download][branch] = "master"
