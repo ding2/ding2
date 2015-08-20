@@ -21,8 +21,9 @@ dependencies[] = field_ui
 ; Helper modules.
 dependencies[] = module_filter
 dependencies[] = menu_position
-dependencies[] = cookiecontrol
+dependencies[] = eu_cookie_compliance
 dependencies[] = view_unpublished
+dependencies[] = redirect
 
 ; Ding modules.
 dependencies[] = ding_base
@@ -37,5 +38,6 @@ dependencies[] = bpi
 ; Cache/performance modules
 dependencies[] = entitycache
 dependencies[] = ding_varnish
+dependencies[] = maintenance_mode_api
 
 files[] = ding2.profile

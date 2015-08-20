@@ -264,3 +264,36 @@ function ding2_update_7007() {
 function ding2_update_7008() {
   module_enable(array('view_unpublished'), TRUE);
 }
+
+/**
+ * Enable redirect module.
+ */
+function ding2_update_7009() {
+  module_enable(array('redirect'));
+}
+
+/**
+ * Disable the cookiecontrol module.
+ * Enable and configure the eu-cookie-compliance module.
+ */
+function ding2_update_7010() {
+  if (module_exists('cookiecontrol')) {
+    module_disable(array('cookiecontrol'));
+    drupal_uninstall_modules(array('cookiecontrol'));
+    variable_del('cookiecontrol_privacynode');
+    variable_del('cookiecontrol_text');
+    variable_del('cookiecontrol_fulltext');
+  }
+  module_enable(array('eu_cookie_compliance'));
+  ding2_set_cookie_page();
+  if (module_exists('secure_permissions')) {
+    secure_permissions_build_permissions();
+  }
+}
+
+/**
+ * Enable maintenance_mode_api module.
+ */
+function ding2_update_7011() {
+  module_enable(array('maintenance_mode_api'));
+}

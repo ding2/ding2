@@ -9,7 +9,7 @@ working Apache/Nginx, APC, Memcached, PHP 5.4 and Varnish 3.x (optional). The
 stack should be optimized to run a Drupal site.
 
 ## Dependencies
-* [Drupal 7.26](https://drupal.org/drupal-7.26-release-notes) - latest stable
+* [Drupal 7.38](https://drupal.org/drupal-7.38-release-notes) - latest stable
   version of Drupal Core that ding2 have been tested on and the last stable
   release when this was written.
 * [Drush 6.1.0](https://github.com/drush-ops/drush) - latest release when this

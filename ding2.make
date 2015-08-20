@@ -107,6 +107,16 @@ projects[bpi][download][type] = "git"
 projects[bpi][download][url] = "git@github.com:ding2/bpi.git"
 projects[bpi][download][branch] = "master"
 
+projects[ddb_cp][type] = "module"
+projects[ddb_cp][download][type] = "git"
+projects[ddb_cp][download][url] = "git@github.com:ding2/ddb_cp.git"
+projects[ddb_cp][download][branch] = "master"
+
+projects[fbs][type] = "module"
+projects[fbs][download][type] = "git"
+projects[fbs][download][url] = "git@github.com:ding2/fbs.git"
+projects[fbs][download][branch] = "master"
+
 ; Base theme
 projects[ddbasic][type] = "theme"
 projects[ddbasic][download][type] = "git"
@@ -155,10 +165,8 @@ projects[sslproxy][version] = "1.0"
 projects[redirect][subdir] = "contrib"
 projects[redirect][version] = "1.0-rc1"
 
-projects[cookiecontrol][subdir] = "contrib"
-projects[cookiecontrol][version] = "1.6"
-# https://drupal.org/node/2174955, fix translatable link.
-projects[cookiecontrol][patch][0] = "http://drupal.org/files/issues/translatable_link_title-2174955-1.patch"
+projects[eu_cookie_compliance][subdir] = "contrib"
+projects[eu_cookie_compliance][version] = "1.14"
 
 # Using dev release, as the "stable" version is making errors in the install profile.
 projects[uuid][subdir] = "contrib"
@@ -171,3 +179,6 @@ projects[view_unpublished][subdir] = "contrib"
 projects[view_unpublished][download][type] = "git"
 projects[view_unpublished][download][url] = "http://git.drupal.org/project/view_unpublished.git"
 projects[view_unpublished][download][revision] = "e9df1d3"
+
+projects[maintenance_mode_api][subdir] = "contrib"
+projects[maintenance_mode_api][version] = "1.0-beta1"

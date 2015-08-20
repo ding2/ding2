@@ -57,8 +57,6 @@ function ding2_form_alter(&$form, &$form_state, $form_id) {
     // Set default values in ting search form to help aegir/bulk installations.
     if ($form_id == 'ting_admin_ting_settings') {
       $form['ting']['ting_search_url']['#default_value'] = 'http://opensearch.addi.dk/3.0/';
-      $form['ting']['ting_scan_url']['#default_value'] = 'http://openscan.addi.dk/2.0/';
-      $form['ting']['ting_spell_url']['#default_value'] = 'http://openspell.addi.dk/1.2/';
       $form['ting']['ting_recommendation_url']['#default_value'] = 'http://openadhl.addi.dk/1.1/';
     }
 
@@ -760,27 +758,62 @@ function ding2_set_page_not_found() {
  * Add page with std. cookie information.
  */
 function ding2_set_cookie_page() {
+
+  $eu_cookie_compliance_da['popup_enabled'] = TRUE;
+  $eu_cookie_compliance_da['popup_clicking_confirmation'] = FALSE;
+  $eu_cookie_compliance_da['popup_info']['value'] = '<p>Vi bruger cookies på hjemmesiden for at forbedre din oplevelse.</p><p>Læs mere her: <a href="' . url('cookies') . '">Hvad er cookies?</a></p>';
+  $eu_cookie_compliance_da['popup_info']['format'] = 'ding_wysiwyg';
+  $eu_cookie_compliance_da['popup_agree_button_message'] = 'Jeg accepterer brugen af cookies';
+  $eu_cookie_compliance_da['popup_disagree_button_message'] = 'Nej tak';
+  $eu_cookie_compliance_da['popup_find_more_button_message'] = 'Mere info';
+  $eu_cookie_compliance_da['popup_hide_button_message'] = 'Luk';
+  $eu_cookie_compliance_da['popup_agreed'][value] = '<p>Tak fordi du accepterer cookies</p><p>Du kan nu lukke denne besked, eller læse mere om cookies.</p>';
+  $eu_cookie_compliance_da['popup_agreed']['format'] = 'ding_wysiwyg';
+  $eu_cookie_compliance_da['popup_link'] = 'cookies';
+  $eu_cookie_compliance_da['popup_link_new_window'] = FALSE;
+  $eu_cookie_compliance_da['popup_bg_hex'] = '0D0D26';
+  $eu_cookie_compliance_da['popup_text_hex'] = 'FFFFFF';
+  $eu_cookie_compliance_da['popup_position'] = FALSE;
+  $eu_cookie_compliance_da['popup_agreed_enabled'] = FALSE;
+  $eu_cookie_compliance_da['popup_height'] = '';
+  $eu_cookie_compliance_da['popup_width'] = '100%';
+  $eu_cookie_compliance_da['popup_delay'] = 1;
+  
+  // Set cookie compliance variables
+  variable_set('eu_cookie_compliance_da', $eu_cookie_compliance_da);
+  variable_set('eu_cookie_compliance_cookie_lifetime', 365);
+
+  $body = '<p><strong>Hvad er cookies?</strong></p>
+          <p>En cookie er en lille tekstfil, som lægges på din computer, smartphone, ipad eller lignende med det formål at indhente data. Den gør det muligt for os at måle trafikken på vores site og opsamle viden om f.eks. antal besøg på vores hjemmeside, hvilken browser der bliver brugt, hvilke sider der bliver klikket på, og hvor lang tid der bruges på siden. Alt sammen for at vi kan forbedre brugeroplevelsen og udvikle nye services.</p>
+          <p>Når du logger ind for at se lånerstatus, reservere m.m. sættes en såkaldt sessions-cookie. Denne cookie forsvinder, når du logger ud.</p>
+          <p><strong>Afvis eller slet cookies</strong></p>
+          <p>Du kan altid afvise cookies på din computer ved at ændre indstillingerne i din browser. Du skal dog være opmærksom på, at hvis du slår cookies fra, kan du ikke bruge de funktioner, som forudsætter, at hjemmesiden kan huske dine valg.<br>Alle browsere tillader, at du sletter cookies enkeltvis eller alle på en gang. Hvordan du gør det, afhænger af, hvilken browser du anvender.<br>På Erhvervsstyrelsens hjemmeside kan du finde vejledninger i at afvise og slette cookies i forskellige browsertyper. (<a class="external" href="http://erhvervsstyrelsen.dk/cookies">http://erhvervsstyrelsen.dk/cookies</a>)</p>
+          <p><strong>Webtrends</strong></p>
+          <p>Vi bruger Webtrends til at føre statistik over trafikken på hjemmesiden. Al indsamlet statistik er anonym.<br>- Webtrends - om brug af cookies på websider (<a class="external" href="http://webtrends.com/terms-policies/privacy/cookie-policy">http://webtrends.com/terms-policies/privacy/cookie-policy</a>)<br>- Hvis du vil fravælge cookies fra Webtrends kan du læse mere på <a class="external" href="http://kb.webtrends.com/articles/Information/Opting-out-of-Tracking-Cookies-1365447872915">http://kb.webtrends.com/articles/Information/Opting-out-of-Tracking-Cookies-1365447872915</a> (engelsk) eller trykke på linket <a class="external" href="https://ondemand.webtrends.com/support/optout.asp?action=out">https://ondemand.webtrends.com/support/optout.asp?action=out</a>. For at aktivere cookies igen kan du trykke på linket <a class="external" href="https://ondemand.webtrends.com/support/optout.asp?action=in">https://ondemand.webtrends.com/support/optout.asp?action=in</a></p>
+          <p><strong>Hvorfor informerer Biblioteket om cookies?</strong></p><p>Ifølge "Bekendtgørelse om krav til information og samtykke ved lagring af eller adgang til oplysninger i slutbrugerens terminaludstyr" BEK nr 1148 af 09/12/2011 (<a class="external" href="https://www.retsinformation.dk/Forms/R0710.aspx?id=139279">https://www.retsinformation.dk/Forms/R0710.aspx?id=139279</a>) er alle danske hjemmesider forpligtet til at informere om, hvorvidt de anvender cookies. Det sker, så brugeren kan beslutte, om de fortsat ønsker at besøge hjemmesiden, eller om de evt. ønsker at blokere for cookies.</p>';
+
+  $page_lead = 'Vi vil gerne tilbyde vores brugere en overskuelig og brugervenlig hjemmeside. For at sikre os, at indholdet på siden er relevant og til at finde rundt i, benytter vi os af cookies. Cookies giver os vigtige informationer om, hvordan vores side bliver brugt, hvilke sider der bliver set mest, hvor længe vores brugere bliver på siderne osv.';
+
   $node = new stdClass();
   $node->uid = 1;
-
-  $node->title = 'Cookie- og privatlivspolitik';
+  $node->title = 'Cookies på hjemmesiden';
   $node->type = 'ding_page';
   $node->language = 'und';
   $node->field_ding_page_body = array(
     'und' => array(
       array(
-        'value' => '<p><strong>Hvad er en cookie?</strong></p><p>En cookie er en lille tekstfil, der lagres i din browser for at kunne genkende din computer ved tilbagevendende besøg. Cookies er ikke aktive filer; de kan altså ikke udvikle virus eller spore indhold på din computer. Det eneste, de gør, er at sende anonyme oplysninger tilbage til os om fx besøgstidspunkt, -varighed osv.</p><p><strong>På denne hjemmeside bruger vi cookies til følgende formål:</strong></p><ul><li>Statistik: Vi bruger Google Analytics og Webtrends til at føre statistik over trafikken på siden, sådan at vi bedst muligt kan tilpasse den brugernes behov. Vi får blandt andet oplysninger om antal besøg, gennemsnitlig besøgsvarighed og færden rundt på siden.</li><li>Login: Når du logger ind for at se lånerstatus, reservere m.m. sættes en sessions-cookie. Denne cookie forsvinder når du lukker browseren.</li></ul><p><strong>Hvis du ikke vil tillade cookies</strong></p><p>Hvis du ikke vil tillade brugen af cookies på din computer, kan du ændre i indstillingerne i din browser, så den husker det fremover. Du kan også slette cookies, der allerede er lagret.<br />Se vejledning og læs mere om cookies på <a href="http://minecookies.org/cookiehandtering" target="_blank" title="Cookiehåndtering">http://minecookies.org/cookiehandtering</a>.<br />Vær opmærksom på, at du ved at spærre for cookies besværliggør brugen af hjemmesiden.</p><p><strong>Brug af personoplysninger</strong><br />Personoplysninger bliver på intet tidspunkt videregivet eller solgt til tredjepart, og vi indsamler ikke personoplysninger, uden du selv har givet os disse.</p>',
+        'value' => $body,
         'format' => 'ding_wysiwyg',
-        'safe_value' => '<p><strong>Hvad er en cookie?</strong></p><p>En cookie er en lille tekstfil, der lagres i din browser for at kunne genkende din computer ved tilbagevendende besøg. Cookies er ikke aktive filer; de kan altså ikke udvikle virus eller spore indhold på din computer. Det eneste, de gør, er at sende anonyme oplysninger tilbage til os om fx besøgstidspunkt, -varighed osv.</p><p><strong>På denne hjemmeside bruger vi cookies til følgende formål:</strong></p><ul><li>Statistik: Vi bruger Google Analytics og Webtrends til at føre statistik over trafikken på siden, sådan at vi bedst muligt kan tilpasse den brugernes behov. Vi får blandt andet oplysninger om antal besøg, gennemsnitlig besøgsvarighed og færden rundt på siden.</li><li>Login: Når du logger ind for at se lånerstatus, reservere m.m. sættes en sessions-cookie. Denne cookie forsvinder når du lukker browseren.</li></ul><p><strong>Hvis du ikke vil tillade cookies</strong></p><p>Hvis du ikke vil tillade brugen af cookies på din computer, kan du ændre i indstillingerne i din browser, så den husker det fremover. Du kan også slette cookies, der allerede er lagret.<br />Se vejledning og læs mere om cookies på <a href="http://minecookies.org/cookiehandtering" target="_blank" title="Cookiehåndtering">http://minecookies.org/cookiehandtering</a>.<br />Vær opmærksom på, at du ved at spærre for cookies besværliggør brugen af hjemmesiden.</p><p><strong>Brug af personoplysninger</strong><br />Personoplysninger bliver på intet tidspunkt videregivet eller solgt til tredjepart, og vi indsamler ikke personoplysninger, uden du selv har givet os disse.</p>',
+        'safe_value' => $body,
       ),
     ),
   );
   $node->field_ding_page_lead = array(
     'und' => array(
       array(
-        'value' => 'Vi vil gerne tilbyde vores brugere en overskuelig og brugervenlig hjemmeside. For at sikre os, at indholdet på siden er relevant og til at finde rundt i, benytter vi os af cookies. Cookies giver os vigtige informationer om, hvordan vores side bliver brugt, hvilke sider der bliver set mest, hvor længe vores brugere bliver på siderne osv.',
+        'value' => $page_lead,
         'format' => NULL,
-        'safe_value' => 'Vi vil gerne tilbyde vores brugere en overskuelig og brugervenlig hjemmeside. For at sikre os, at indholdet på siden er relevant og til at finde rundt i, benytter vi os af cookies. Cookies giver os vigtige informationer om, hvordan vores side bliver brugt, hvilke sider der bliver set mest, hvor længe vores brugere bliver på siderne osv.',
+        'safe_value' => $page_lead,
       ),
     ),
   );
@@ -792,10 +825,7 @@ function ding2_set_cookie_page() {
   // Create the node.
   node_save($node);
 
-  // Set the node as read more node.
-  variable_set('cookiecontrol_privacynode', $node->nid);
-
-  // Set short texts (cookie popup).
-  variable_set('cookiecontrol_text', '<p>Dette site bruger cookies til at gemme oplysninger på din computer.</p>');
-  variable_set('cookiecontrol_fulltext', '<p>Vi vil gerne tilbyde vores brugere en overskuelig og brugervenlig hjemmeside. For at sikre os, at indholdet på siden er relevant og til at finde rundt i, benytter vi os af cookies. Cookies giver os vigtige informationer om, hvordan vores side bliver brugt, hvilke sider der bliver set mest, hvor længe vores brugere bliver på siderne osv.</p>');
+  // Permissions, see: ding_permissions module
+  // display EU Cookie Compliance popup: anonymous user, authenticated user
+  // administer EU Cookie Compliance popup: administrators, local administrator
 }
