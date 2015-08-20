@@ -5,9 +5,9 @@ api = 2
 ; As d.o is having issues with the update XML file, we are using this form for downloading core.
 ; See this: https://drupal.org/node/2126123
 projects[drupal][type] = core
-projects[drupal][version] = 7.38
+projects[drupal][version] = 7.39
 projects[drupal][download][type] = get
-projects[drupal][download][url] = http://ftp.drupal.org/files/projects/drupal-7.38.tar.gz
+projects[drupal][download][url] = http://ftp.drupal.org/files/projects/drupal-7.39.tar.gz
 projects[drupal][patch][] = http://drupal.org/files/issues/menu-get-item-rebuild-1232346-45.patch
 projects[drupal][patch][] = http://drupal.org/files/ssl-socket-transports-1879970-13.patch
 projects[drupal][patch][] = http://drupal.org/files/issues/autocomplete-1232416-17-7x.patch
