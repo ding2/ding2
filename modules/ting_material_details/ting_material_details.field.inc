@@ -468,8 +468,8 @@ function ting_material_details_field_formatter_view($entity_type, $entity, $fiel
           $type = $uri = NULL;
           foreach ($entity->getRelations() as $relation) {
             $type = explode(':', $relation->getType());
-            if ( isset($type[1]) && $type[1] == 'isPartOfManifestation' ) {
-              $uri  = $relation->getURI();
+            if (isset($type[1]) && $type[1] == 'isPartOfManifestation') {
+              $uri = $relation->getURI();
             }
           }
           $render['#prefix'] = '<span class="ting-material-detail ting-material-is-part-of">';
@@ -477,7 +477,7 @@ function ting_material_details_field_formatter_view($entity_type, $entity, $fiel
           if (!is_array($val)) {
             $val = array($val);
           }
-          if ( $uri ) {
+          if ($uri) {
             foreach ($val as $key => $detail) {
               $render['part_of'][$key]['#theme'] = 'link';
               $render['part_of'][$key]['#text'] = $detail;
