@@ -123,5 +123,5 @@ function ding_frontend_query_alter($query) {
  * Clear page cache if maintainance status has changed.
  */
 function ding_frontend_change_maintenance_mode($maintenance_mode) {
-  cache_clear_all(NULL, 'cache_page');
+  cache_clear_all();
 }
