@@ -172,8 +172,10 @@ function _ting_search_context_install_system_contexts() {
  * Implements hook_disable().
  */
 function ting_search_context_disable() {
-  // Make sure our admin view is removed from the cache when the module is
-  // disabled. Since we are using handlers defined in this module in the view,
-  // trying to access the cached view after disable would result in errors.
-  cache_clear_all('*', 'cache_views', TRUE);
+  // Make sure our admin view is completely removed from the system when the
+  // module is disabled. Since we are using handlers defined in this module in
+  // trying to use it after disable will result in errors.
+  $view = views_get_view('ting_search_context_rate_nodes');
+  $view->delete(TRUE);
+  views_invalidate_cache();
 }
