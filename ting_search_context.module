@@ -19,7 +19,7 @@ function ting_search_context_menu() {
 	$items['admin/content/ting-search-context'] = array(
 		'title' => 'Search context',
 		'description' => 'Manage the state of the context rating system.',
-		'page callback' => 'ting_search_context_rate_nodes',
+		'page callback' => 'ting_search_context_admin_rate_nodes',
 		'access arguments' => array('administer content'), // Todo: Make own permission?
 		'type' => MENU_LOCAL_TASK | MENU_NORMAL_ITEM,
 		'file' => 'ting_search_context.admin.inc',
@@ -39,10 +39,18 @@ function ting_search_context_menu() {
     'file' => 'ting_search_context.admin.inc',
   );
   $items['admin/config/ting/ting-search-context/frontend'] = array(
-    'title' => 'Frontend settings',
+    'title' => 'Frontend',
     'description' => 'Choose location of related content on search page',
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'weight' => -10,
+  );
+  $items['admin/config/ting/ting-search-context/contexts'] = array(
+    'title' => 'Context',
+    'description' => 'Create new contexts and edit/delete existing ones',
+    'page callback' => 'ting_search_context_admin_contexts',
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'ting_search_context.admin.inc',
   );
   return $items;
 }
