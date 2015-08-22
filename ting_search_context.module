@@ -35,7 +35,7 @@ function ting_search_context_menu() {
     'description' => 'Manage settings for the Ting search context module.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ting_search_context_admin_settings_form'),
-    'access arguments' => array('access administration pages'),
+    'access arguments' => array('administer site configuration'),
     'file' => 'ting_search_context.admin.inc',
   );
   $items['admin/config/ting/ting-search-context/frontend'] = array(
