@@ -115,7 +115,7 @@ projects[ddb_cp][download][tag] = "7.x-2.2.1"
 projects[fbs][type] = "module"
 projects[fbs][download][type] = "git"
 projects[fbs][download][url] = "git@github.com:ding2/fbs.git"
-projects[fbs][download][branch] = "master"
+projects[fbs][download][tag] = "7.x-2.2.1"
 
 ; Base theme
 projects[ddbasic][type] = "theme"
