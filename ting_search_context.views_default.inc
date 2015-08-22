@@ -469,6 +469,7 @@ function ting_search_context_views_default_views() {
 
   /* Display: Page */
   $handler = $view->new_display('page', 'Page', 'page');
+  $handler->display->display_options['enabled'] = FALSE;
   $handler->display->display_options['path'] = 'admin/content/ting-search-context';
   $handler->display->display_options['menu']['type'] = 'tab';
   $handler->display->display_options['menu']['title'] = 'Search context';
@@ -476,6 +477,11 @@ function ting_search_context_views_default_views() {
   $handler->display->display_options['menu']['name'] = 'management';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
+
+  /* Display: Blok */
+  $handler = $view->new_display('block', 'Blok', 'block_1');
+  $handler->display->display_options['defaults']['use_ajax'] = FALSE;
+  $handler->display->display_options['use_ajax'] = TRUE;
   $translatables['ting_search_context_rate_nodes'] = array(
     t('Master'),
     t('Search context rating'),
@@ -508,6 +514,7 @@ function ting_search_context_views_default_views() {
     t('Rating filter'),
     t('Navn'),
     t('Page'),
+    t('Blok'),
   );
   $export['ting_search_context_rate_nodes'] = $view;
 

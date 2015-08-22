@@ -7,6 +7,19 @@
  */
 
 /**
+ * Page callback (admin/content/ting-search-context)
+ *
+ * Renders the rate nodes VBO view.
+ */
+function ting_search_context_rate_nodes() {
+	$output = t('The rate nodes view wasn\'t found');
+	if ($view = views_get_view('ting_search_context_rate_nodes')) {
+		$output = $view->preview('block_1');
+	}
+	return $output;
+}
+
+/**
  * Form builder (admin/content/ting-search-context)
  *
  * @see ting_search_context_overview_form_submit()
