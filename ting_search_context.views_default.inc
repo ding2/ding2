@@ -351,7 +351,7 @@ function ting_search_context_views_default_views() {
   $handler->display->display_options['filters']['ting_search_context_node_ratings']['id'] = 'ting_search_context_node_ratings';
   $handler->display->display_options['filters']['ting_search_context_node_ratings']['table'] = 'node';
   $handler->display->display_options['filters']['ting_search_context_node_ratings']['field'] = 'ting_search_context_node_ratings';
-  $handler->display->display_options['filters']['ting_search_context_node_ratings']['operator'] = 'or';
+  $handler->display->display_options['filters']['ting_search_context_node_ratings']['operator'] = 'any';
   $handler->display->display_options['filters']['ting_search_context_node_ratings']['group'] = 1;
   $handler->display->display_options['filters']['ting_search_context_node_ratings']['exposed'] = TRUE;
   $handler->display->display_options['filters']['ting_search_context_node_ratings']['expose']['operator_id'] = 'ting_search_context_node_ratings_op';
