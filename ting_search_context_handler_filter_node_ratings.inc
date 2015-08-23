@@ -24,32 +24,30 @@ class ting_search_context_handler_filter_node_ratings extends views_handler_filt
    * Override the operators
    *
    * For now we support the following operators:
-   * - 'or'       : Nodes with a rating in one or more of the selected contexts.
-   * - 'not'      : Nodes that aren't rated in any of the selected contexts.
+   * - 'any'      : Nodes that are rated in any of selected contexts.
+   * - 'not any'  : Nodes that aren't rated in any of the selected contexts.
    * - 'empty'    : Nodes that have no rating at all.
    * - 'not empty': Nodes that have at least one rating.
    *
-   * These are pretty simple to implement. We might add more advanced ones in
-   * the future.
    */
   function operators() {
     $operators = array(
-      'or' => array(
-        'title' => t('Rated in one of'),
+      'any' => array(
+        'title' => t('Rated in any of'),
         'short' => t('in'),
         'short_single' => t('='),
         'method' => 'op_rated_simple',
         'values' => 1,
       ),
       // Needs some work
-      /*'and' => array(
+      /*'all' => array(
         'title' => t('Rated in all of'),
         'short' => t('in'),
         'short_single' => t('='),
         'method' => 'op_rated_simple',
         'values' => 1,
       ),*/
-      'not' => array(
+      'not any' => array(
         'title' => t('Not rated in any of'),
         'short' => t('not in'),
         'short_single' => t('<>'),
@@ -94,7 +92,7 @@ class ting_search_context_handler_filter_node_ratings extends views_handler_filt
   }
 
   /**
-   * Filtering method that handles the simple cases of 'or' and 'not'.
+   * Filtering method that handles the simple cases of 'any' and 'not any'.
    */
   function op_rated_simple() {
     // We need a value here.
@@ -104,7 +102,7 @@ class ting_search_context_handler_filter_node_ratings extends views_handler_filt
 
     // Determine which operator to use.
     $operator = 'IN';
-    if ($this->operator == 'not') {
+    if ($this->operator == 'not any') {
       $operator = 'NOT IN';
     }
 
