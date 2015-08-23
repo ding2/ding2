@@ -52,6 +52,15 @@ function ting_search_context_menu() {
     'type' => MENU_LOCAL_TASK,
     'file' => 'ting_search_context.admin.inc',
   );
+  $items['admin/config/ting/ting-search-context/contexts/add'] = array(
+    'title' => 'Add context',
+    'description' => 'Add a new subject or search type context to the system',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_search_context_admin_context_form'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_LOCAL_ACTION,
+    'file' => 'ting_search_context.admin.inc',
+  );
   return $items;
 }
 
