@@ -624,7 +624,7 @@ function ting_search_context_save_context($type, $name, $context, $subjects = NU
 }
 
 /**
- * Get the ID of the context (if any) with the specified parameters.
+ * Searches the database to see if a similar context already exists.
  *
  * @param string $type
  *   The type of the context to look for.
@@ -641,7 +641,7 @@ function ting_search_context_save_context($type, $name, $context, $subjects = NU
  *
  * @see ting_search_context_schema()
  */
-function ting_search_context_get_context_id($type, $context, $subject = NULL) {
+function ting_search_context_exists($type, $context, $subject = NULL) {
 	$query = db_select('ting_search_context_contexts', 'tsc')
 		->fields('tsc', array('context_id'))
 		->condition('tsc.type', $type);
