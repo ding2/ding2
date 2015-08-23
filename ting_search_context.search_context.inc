@@ -198,9 +198,9 @@ function ting_search_context_check_subject_contexts($facets, $subject_contexts, 
   $top_term_count = 0;
   $top_context = null;
   foreach ($subject_contexts as $context) {
-    if (isset($context->subject)) {
-      $context->subject = preg_replace('/\s+/', '', $context->subject);
-      $subjects= explode(',', $context->subject);
+    if (isset($context->subjects)) {
+      $context->subjects = preg_replace('/\s+/', '', $context->subjects);
+      $subjects= explode(',', $context->subjects);
       $term_count = ting_search_context_get_top_term_count($facets, $index, $subjects);
       // Check if the current context is a better match than the previous.
       if ($term_count > $top_term_count) {

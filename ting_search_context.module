@@ -580,8 +580,8 @@ function ting_search_context_rate_node($context_id, $nid, $rating) {
  *   If $type is 'system' or 'subject' this should be the machine-readable name
  *   of the context.
  *   If $type is 'search' this should be the search string of the context.
- * @param string $subject
- *   The subject term for subject type contexts.
+ * @param string $subjects
+ *   The subjects term for subject type contexts.
  *
  * @return string
  *   The context_id of the newly created context.
@@ -592,7 +592,7 @@ function ting_search_context_rate_node($context_id, $nid, $rating) {
  * TODO: Uset try-catch to handle 'Integrity constraint violation' or
  *       'Duplicate entry'. See: http://alvinalexander.com/drupal/handling-drupal-sql-query-exceptions-try-catch
  */
-function ting_search_context_save_context($type, $name, $context, $subject = NULL) {
+function ting_search_context_save_context($type, $name, $context, $subjects = NULL) {
 	$fields = array(
 		'type' => $type,
 		'name' => $name,
@@ -600,7 +600,7 @@ function ting_search_context_save_context($type, $name, $context, $subject = NUL
 
 	switch ($type) {
 		case 'subject':
-			$fields += array('subject' => $subject);
+			$fields += array('subjects' => $subjects);
 			// Fall through
 		case 'system':
 			$fields += array('context' => $context);
