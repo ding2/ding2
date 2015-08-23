@@ -106,8 +106,6 @@ class ting_search_context_handler_filter_node_ratings extends views_handler_filt
       $operator = 'NOT IN';
     }
 
-    $this->ensure_my_table();
-
     // Fetch nids of nodes rated in the selected contexts.
     $subquery = db_select('ting_search_context_nodes_rated', 'nr');
     $subquery->addField('nr', 'nid');
@@ -124,8 +122,6 @@ class ting_search_context_handler_filter_node_ratings extends views_handler_filt
       $operator = 'NOT IN';
     }
 
-    $this->ensure_my_table();
-
     // Fetch nids of nodes in the ratings table.
     $subquery = db_select('ting_search_context_nodes_rated', 'nr');
     $subquery->addField('nr', 'nid');
@@ -141,8 +137,6 @@ class ting_search_context_handler_filter_node_ratings extends views_handler_filt
       return;
     }
 
-    $this->ensure_my_table();
-
     $subquery = db_select('ting_search_context_nodes_rated', 'nr');
     $subquery->addField('nr', 'nid');
     foreach ($this->value as $context_id) {
@@ -153,6 +147,8 @@ class ting_search_context_handler_filter_node_ratings extends views_handler_filt
   }
 
   function _add_subquery($subquery, $operator) {
+    $this->ensure_my_table();
+
     $this->query->add_where(
       $this->options['group'],
       "$this->table_alias.$this->real_field",
