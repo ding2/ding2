@@ -43,11 +43,11 @@ function ting_search_context_schema() {
 				'length' => 32,
 			),
 			// We allow administrators to create more specific versions of certain
-			// system contexts, by associating a subject to the context.
-			'subject' => array(
-				'description' => 'The subject of this context.',
+			// system contexts, by associating one or more subjects to the context.
+			'subjects' => array(
+				'description' => 'A comma-separated list of the subjects of this context.',
 				'type' => 'varchar',
-				'length' => 255,
+				'length' => 255, // TODO: Is this enough???
 			),
 			// Administrators can also extend the system by creating search contexts.
 			// Search contexts doesn't have a context and subject value. The context
