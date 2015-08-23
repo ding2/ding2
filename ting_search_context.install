@@ -37,6 +37,10 @@ function ting_search_context_schema() {
 				'not null' => TRUE,
 				'default' => '',
 			),
+			// A machine-name identifier of the system context - or the parent system
+			// context if this is a subject context.
+			// Will not be set for search string contexts, since they dont have a
+			// parent (se below).
 			'context' => array(
 				'description' => 'The machine-name of the context.',
 				'type' => 'varchar',
@@ -49,9 +53,10 @@ function ting_search_context_schema() {
 				'type' => 'varchar',
 				'length' => 255, // TODO: Is this enough???
 			),
-			// Administrators can also extend the system by creating search contexts.
-			// Search contexts doesn't have a context and subject value. The context
-			// is given by the search string.
+			// Administrators can also extend the system by creating search string
+			// contexts. Search contexts doesn't have a context and subject value.
+			// Unlike subjects contexts, search string contexts doesn't have a parent.
+			// The context is just the search string.
 			'search' => array(
 				'description' => 'The search string of this context.',
 				'type' => 'varchar',
@@ -59,10 +64,9 @@ function ting_search_context_schema() {
 			),
 		),
 		'primary key' => array('context_id'),
-		// Enforce unique contexts on the database level. This will also be enforced
-		// in the UI, but this shows clear intentions.
+		// Enforce unique contexts on the database level.
 		'unique keys' => array(
-			'subject' => array('context', 'subject'),
+			'subject' => array('context', 'subjects'),
 			'search' => array('search'),
 		),
 	);
@@ -175,7 +179,8 @@ function ting_search_context_disable() {
   // Make sure our admin view is completely removed from the system when the
   // module is disabled. Since we are using handlers defined in this module in
   // trying to use it after disable will result in errors.
-  $view = views_get_view('ting_search_context_rate_nodes');
-  $view->delete(TRUE);
+  if ($view = views_get_view('ting_search_context_rate_nodes')) {
+  	$view->delete(TRUE);
+  }
   views_invalidate_cache();
 }
