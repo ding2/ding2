@@ -62,13 +62,10 @@ function ting_oembed_field_formatter_view($entity_type, TingEntity $entity, $fie
   $matches = array();
   switch ($display['type']) {
     case 'ting_oembed_default':
-      // Get url and if an oembed provider exists, get data and render it.
+      // Get url and if an oembed provider exists, render data.
       $online_url = $entity->getOnline_url();
       if ($provider = oembed_get_provider($online_url, $matches)) {
-        $embed = oembed_get_data($online_url);
-        if ($embed) {
-          $element[0] = oembed_render_element('oembed', $online_url, array());
-        }
+        $element[0] = oembed_render_element('oembed', $online_url);
       }
       break;
   }
