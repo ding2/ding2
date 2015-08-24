@@ -10,8 +10,8 @@
 function ting_oembed_features_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'ting_object-ting_object-field_oembed'
-  $field_instances['ting_object-ting_object-field_oembed'] = array(
+  // Exported field_instance: 'ting_object-ting_object-field_ting_oembed_oembed'
+  $field_instances['ting_object-ting_object-field_ting_oembed_oembed'] = array(
     'bundle' => 'ting_object',
     'default_value' => NULL,
     'deleted' => 0,
@@ -62,7 +62,7 @@ function ting_oembed_features_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'ting_object',
-    'field_name' => 'field_oembed',
+    'field_name' => 'field_ting_oembed_oembed',
     'label' => 'Material content',
     'required' => FALSE,
     'settings' => array(

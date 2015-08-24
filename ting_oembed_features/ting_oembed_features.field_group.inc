@@ -23,7 +23,7 @@ function ting_oembed_features_field_group_info() {
     'label' => 'Material content',
     'weight' => '6',
     'children' => array(
-      0 => 'field_oembed',
+      0 => 'field_ting_oembed_oembed',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -54,7 +54,7 @@ function ting_oembed_features_field_group_info() {
     'label' => 'oEmbed',
     'weight' => '13',
     'children' => array(
-      0 => 'field_oembed',
+      0 => 'field_ting_oembed_oembed',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(

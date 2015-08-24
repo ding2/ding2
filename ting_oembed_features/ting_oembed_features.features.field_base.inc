@@ -10,15 +10,15 @@
 function ting_oembed_features_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_oembed'
-  $field_bases['field_oembed'] = array(
+  // Exported field_base: 'field_ting_oembed_oembed'
+  $field_bases['field_ting_oembed_oembed'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(
       0 => 'ting_object',
     ),
-    'field_name' => 'field_oembed',
+    'field_name' => 'field_ting_oembed_oembed',
     'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
