@@ -491,7 +491,8 @@ function ting_material_details_field_formatter_view($entity_type, $entity, $fiel
               $render['part_of'][$key]['#markup'] = $detail;
             }
           }
-          $element[$delta] = $render;
+          // for now, we only use the first item.
+          $element[$delta]['part_of'] = reset($render['part_of']);
           break;
       }
     }
