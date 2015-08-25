@@ -116,7 +116,12 @@ function fbs_reservation_create($account, $record_id, $options) {
   $reservation->pickupBranch = $options['preferred_branch'];
   $batch->reservations[] = $reservation;
 
-  fbs_service()->Reservations->addReservationsDeprecated(fbs_service()->agencyId, fbs_patron_id($account), $batch);
+  $result = fbs_service()->Reservations->addReservationsDeprecated(fbs_service()->agencyId, fbs_patron_id($account), $batch);
+  $res_details = reset($result);
+  return array(
+    'branch' => $res_details->pickupBranch,
+    'queue_number' => $res_details->numberInQueue,
+  );
 }
 
 /**
