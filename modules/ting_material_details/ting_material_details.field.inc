@@ -468,6 +468,7 @@ function ting_material_details_field_formatter_view($entity_type, $entity, $fiel
           $type = $uri = NULL;
           foreach ($entity->getRelations() as $relation) {
             $type = explode(':', $relation->getType());
+            // $relation have a namespace: dbcbib:isPartOfManifestation
             if (isset($type[1]) && $type[1] == 'isPartOfManifestation') {
               $uri = $relation->getURI();
             }
