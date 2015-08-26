@@ -37,13 +37,25 @@ $breakpoint-x-large:              1210px;
 /* Standard color definitions
    ========================================================================== */
 
-$gray:                           #d5d5d5 !default;
-$gray-light:                     lighten($gray, 10%) !default;
+$white:                          #fff !default;
+$black:                          #000 !default;
+$red:                            #a32e10;
+
+
+/* Typography
+   ========================================================================== */
+
+$font-bold:                       "SourceSansProSemibold";
+
+
+/* Font variables
+   ========================================================================== */
+
+$base-font-weight-bold:           normal;
 
 
 /* Font sizes
    ========================================================================== */
-
 
 $font-size-giga:                  200%;
 $font-size-largest:               180%;

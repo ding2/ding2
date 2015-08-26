@@ -213,5 +213,18 @@ function ting_search_context_admin_settings_form($form, &$form_state) {
   // Add administration feel and look.
   $form = system_settings_form($form);
 
+  // Add custom submit handler to clear cache. This will ensure that the changes
+  // are reflected at once and for all users (this will also clear varnish
+  // cache).
+  $form['#submit'][] = 'ding_search_context_admin_settings_submit';
+
   return $form;
+}
+
+/**
+ * Submit function to clear cache on form submit. Deletes all cid's starting with /search/ting.
+ */
+function ding_search_context_admin_settings_submit($form, &$form_state) {
+  $url = url('search/ting/',  array('absolute' => TRUE));
+  cache_clear_all($url, 'cache_page', TRUE);
 }

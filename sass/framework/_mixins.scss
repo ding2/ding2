@@ -79,3 +79,19 @@
 @mixin large-x-large {
   @include respond-to(large-x-large) { @content; }
 }
+
+
+/* Typography mixins
+ *
+ * These are mixins to allow for use in media queries
+   ========================================================================== */
+
+@mixin font-normal() {
+  font-family: $base-font-family;
+  font-weight: $base-font-weight-normal;
+}
+
+@mixin font-bold() {
+  font-family: $font-bold;
+  font-weight: $base-font-weight-bold;
+}
