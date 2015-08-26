@@ -70,7 +70,7 @@ function ting_search_context_check_search_context($search_contexts, $search_stri
   $result_context = false;
   foreach ($search_contexts as $search_context) {
     if (isset($search_context->search))
-      if (strpos(strtolower($search_string), strtolower($search_context->search)) !== false) {
+      if (strpos(mb_strtolower($search_string), mb_strtolower($search_context->search)) !== false) {
         if (strlen($search_context->search) > strlen($result_string )) {
            $result_context = $search_context;
            $result_string = $search_context->search;
