@@ -89,7 +89,7 @@
         url : Drupal.settings.basePath + 'ting/ting_search_context/content/ajax',
         dataType : 'json',
         data: {
-          'search_context' : Drupal.settings.ting_search_context
+          'context_id' : Drupal.settings.ting_search_context_id
         },
         success : function(data) {
           content = data;

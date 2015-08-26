@@ -11,8 +11,8 @@
 function ting_search_context_content() {
   $content = FALSE;
 
-  $search_context = $_POST['search_context'];
-  $nodes = ting_search_context_get_nodes($search_context, 15);
+  $context_id = $_POST['context_id'];
+  $nodes = ting_search_context_get_nodes($context_id, 15);
   $output = '';
   if (!empty($nodes)) {
     foreach ($nodes as $node) {
