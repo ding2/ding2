@@ -586,6 +586,32 @@ function ting_search_context_save_context($type, $name, $context, $subjects = NU
 }
 
 /**
+ * Checks to see if a search string context with an identical $search_string
+ * already exists in the database.
+ *
+ * @param string $search_string
+ *   The search string to check for.
+ *
+ * @return mixed
+ *   A context object if an identical search string context was found.
+ *   FALSE otherwise.
+ */
+function ting_search_context_search_string_context_exists($searh_string) {
+  $search_string = mb_strtolower($search_string, 'UTF-8');
+
+  // We can't be sure that the DB's string manipulation is compatible with PHP's
+  // so we load all search string contexts and compare in code.
+  $search_string_contexts = ting_search_context_get_all_contexts('search');
+
+  foreach ($search_string_contexts as $search_string_context) {
+    if ($search_string === mb_strtolower($search_string_context->search, 'UTF-8')) {
+      return $search_string_context;
+    }
+  }
+  return FALSE;
+}
+
+/**
  * Searches the database to see if a similar context already exists.
  *
  * @param string $type
