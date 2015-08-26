@@ -417,7 +417,7 @@ function _fbs_periodical_get_local_id($record_id, FBS\Model\Periodical $periodic
   // be something between the colons, which in turn means we don't have to
   // deal with the possibility of two colons in a row.
   $parts = array(
-    $periodical->volume,
+    !empty($periodical->volume) ? $periodical->volume : '-',
     !empty($periodical->volumeYear) ? $periodical->volumeYear : '-',
     !empty($periodical->volumeNumber) ? $periodical->volumeNumber : '-',
     $record_id,
@@ -456,19 +456,19 @@ function _fbs_periodical_parse_local_id($local_id) {
     // we want.
     $parts = preg_split('/(?<!:):(?!:)/', $matches[1]);
 
-    // Reverse the "escaping" of colon.
+    // Replace '-' with NULL and reverse the "escaping" of colon.
     $parts = array_map(function($part) {
-      return strtr($part, array('::' => ':'));
+      return $part === '-' ? NULL : strtr($part, array('::' => ':'));
     }, $parts);
   }
 
   $periodical = new FBS\Model\PeriodicalReservation();
-  $periodical->volume = $parts[0];
-  if ($parts[1] !== '-') {
-    $periodical->volumeYear = $parts[1];
-  }
-  if ($parts[2] !== '-') {
-    $periodical->volumeNumber = $parts[2];
-  }
-  return array($parts[3], $periodical);
+  list(
+    $periodical->volume,
+    $periodical->volumeYear,
+    $periodical->volumeNumber,
+    $record_id
+  ) = $parts;
+
+  return array($record_id, $periodical);
 }
