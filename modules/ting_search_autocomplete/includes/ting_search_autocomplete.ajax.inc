@@ -62,7 +62,7 @@ function ting_search_autocomplete_get_suggestions($query) {
   // minimumString is not an openSuggestion parameter
   unset($settings['minimumString']);
 
-  $rest_url = (!empty($settings['facetIndex'])) ? $rest_url . 'rest/facets' : $rest_url . 'rest/terms';
+  $rest_url = $rest_url . 'rest/facetSpell';
   $settings['query'] = $query;
   $url = url($rest_url, array('query' => $settings));
   $result = drupal_http_request($url, array());
@@ -72,7 +72,7 @@ function ting_search_autocomplete_get_suggestions($query) {
     if (empty($result->error)) {
       if (!empty($result_data['suggestions'])) {
         foreach ($result_data['suggestions'] as $suggestion) {
-          $items[truncate_utf8(strip_tags($suggestion['suggestion']), 256, TRUE, FALSE, 1)] = $suggestion['suggestion'];
+          $items[truncate_utf8(strip_tags($suggestion['phrase']), 256, TRUE, FALSE, 1)] = $suggestion['phrase'];
         }
       }
     }
@@ -80,6 +80,7 @@ function ting_search_autocomplete_get_suggestions($query) {
       watchdog('ting_search_autocomplete', 'Autocomplete error: ' . $result->error . ' (' . $result->code . ")\nURL: $url" , array(), $severity = WATCHDOG_ERROR);
     }
   }
+
 
   return $items;
 }

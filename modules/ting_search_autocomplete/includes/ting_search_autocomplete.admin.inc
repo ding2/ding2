@@ -53,6 +53,7 @@ function ting_search_autocomplete_admin() {
     '#title' => t('Facet Index', array(), array('context' => 'ting_search_autocomplete')),
     '#size' => 25,
     '#default_value' => $default_settings['facetIndex'],
+    '#required' => TRUE,
   );
 
   $form['ting_search_autocomplete_settings']['filterQuery'] = array(
