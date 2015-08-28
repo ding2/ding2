@@ -105,20 +105,32 @@ function ting_search_context_ctools_plugin_directory($module, $plugin) {
   }
 }
 
+/**
+ * Helper function to get field_name for specified node type.
+ */
 function ting_search_context_get_image_field_name($node) {
-  $type = $node->type;
-  if ($type == 'ding_news') {
-    return 'field_ding_news_list_image';
-  } else if ($type == 'ding_event') {
-    return 'field_ding_event_list_image';
-  } else if ($type == 'ding_eresource') {
-    return 'field_ding_eresource_list_image';
-  } else if ($type == 'genre_page') {
-    return 'field_genre_page_list_image';
-  } else if ($type == 'ding_page') {
-    return 'field_ding_page_list_image';
+  $field_names = &drupal_static(__FUNCTION__);
+
+  if (!isset($field_names)) {
+    $field_names = module_invoke_all('ting_search_context_field_name');
   }
-  return '';
+
+  $type = $node->type;
+  return isset($field_names[$type]) ? $field_names[$type] : FALSE;
+}
+
+/**
+ * Implements hook_ting_search_context_field_name().
+ */
+function ting_search_context_ting_search_context_field_name() {
+  return array(
+    'ding_news' => 'field_ding_news_list_image',
+    'ding_event' => 'field_ding_event_list_image',
+    'ding_page' => 'field_ding_page_list_image',
+    // These should probably be moved to respective modules.
+    'ding_eresource' => 'field_ding_eresource_list_image',
+    'genre_page' => 'field_genre_page_list_image',
+  );
 }
 
 /**
@@ -622,6 +634,10 @@ function ting_search_context_subject_context_exists($subjects) {
 
   foreach ($subject_contexts as $subject_context) {
     $db_subjects = explode(', ', $subject_context->subjects);
+    // Since we make sure the user can't create contexts with duplicate subjects
+    // it's easy to check for identical contexts. If this wasn't the case, we
+    // would have to take a more advanced appproach:
+    // http://stackoverflow.com/questions/4519847/comparing-arrays-in-php-without-caring-for-the-order
     if (sizeof($db_subjects) == sizeof($subjects) && array_diff($db_subjects, $subjects) == array()) {
       return $subject_context;
     }
