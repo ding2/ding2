@@ -25,7 +25,7 @@ function ting_search_context_admin_contexts() {
 	return $output;
 }
 
-function ting_search_context_admin_context_form($form, &$form_state, $context_id = NULL) {
+function ting_search_context_admin_context_form($form, &$form_state, $context = NULL) {
 	$form = array();
 
 	$form['add_context'] = array(
@@ -115,50 +115,78 @@ function ting_search_context_admin_context_form_validate($form, &$form_state) {
 	$type = $form_state['values']['type'];
 
 	if ($type == 'search') {
-
+    // Don't let the user create identical search string contexts.
+    $search_string = $form_state['values']['search_string'];
+    if ($identical = ting_search_context_search_string_context_exists($search_string)) {
+      form_set_error('search_string', t('An identical seach string context already exists: %context', array(
+            '%context' => check_plain($identical->name),
+      )));
+    }
 	}
 	else {
 		// Subject should be a comma separated list of single words containing
 		// alpanumeric characters (case-insensitive).
-		// We perform some basic trimming and validation here, so that user doesn't
-		// end up creating an unusable subject context.
 		// TODO: alphanumeric or alphabetic?
 		$subjects = $form_state['values']['subjects'];
 
-		$trimmed_subjects = array();
+    $trimmed_subjects = array();
 		$invalid_subjects = array();
-		// PHP provides a utility function to parse comma-separed list into array:
-		foreach (str_getcsv($subjects) as $subject) {
+    $duplicate_subjects = array();
+		foreach (explode(',', $subjects) as $key => $subject) {
 			// The only modification we make:
-			$subject = trim($subject);
-			$trimmed_subjects[] = $subject;
+      $subject = mb_strtolower(trim($subject));
 
-			// TODO: Use regexp instead to allow utf8
-			if (!ctype_alnum($subject)) {
-				$invalid_subjects[] = $subject;
-			}
-			// Check for whitespaces
-			else if (preg_match('/\s/', $subject)) {
-				$invalid_subjects[] = $subject;
-			}
+      // Check for duplicate subjects.
+      if (in_array($subject, $trimmed_subjects)) {
+        // A subject may be duplicated more than once
+        if (!in_array($subject, $duplicate_subjects)) {
+          $duplicate_subjects[] = $subject;
+        }
+      }
+
+      // We skip any empty subjects (must be a mistake by the user).
+      if (!empty($subject)) {
+        $trimmed_subjects[] = $subject;
+
+        // UTF-8 compatible check for non-alpahnumeric characters.
+        if (preg_match('/[^\p{L}\p{N}]/u', $subject) || preg_match('/\s/', $subject)) {
+          $invalid_subjects[] = $subject;
+        }
+      }
 		}
 
-		// Recreate the input string with the trimmed subjects.
-		$subjects = array_shift($trimmed_subjects) . '';
-		foreach ($trimmed_subjects as $subject) {
-			$subjects .= ', ' . $subject;
-		}
+    $error_messages = array();
+    // Inform the user of invalid subjects, if any.
+    if (!empty($invalid_subjects)) {
+      $invalid_subjects = implode(', ', $invalid_subjects);
+      $error_messages[] = t('Subjects should be a single word containing alpanumeric characters (%subjects)', array(
+        '%subjects' => check_plain($invalid_subjects),
+      ));
+    }
+    // Inform the user of duplicate subjects, if any.
+    if (!empty($duplicate_subjects)) {
+      $duplicate_subjects = implode(', ', $duplicate_subjects);
+      $error_messages[] = t('There\'s duplicate subjects (%subjects)', array(
+        '%subjects' => check_plain($duplicate_subjects),
+      ));
+    }
+    // Don't let the user create identical subject contexts.
+    if ($identical = ting_search_context_subject_context_exists($trimmed_subjects)) {
+      $error_messages[] = t('An identical subject context already exists: %identical', array(
+        '%identical' => check_plain($identical->name),
+      ));
+    }
+
+    if (!empty($error_messages)) {
+      form_set_error('subjects', theme('item_list', array('items' => $error_messages)));
+    }
+
+		// Recreate the input string with the trimmed subjects, assuming that any
+    // trailing and leading whitespaces must be a mistake by the user.
+		$subjects = implode(', ', $trimmed_subjects);
+    $form_state['values']['subjects'] = $subjects;
+    // This will present the corrected string to the user.
 		$form_state['complete form']['add_context']['subjects']['#value'] = $subjects;
-
-		if (!empty($invalid_subjects)) {
-			$subjects = array_shift($invalid_subjects) . '';
-			foreach ($invalid_subjects as $subject) {
-				$subjects .= ', ' . $subject;
-			}
-			form_set_error('subjects', t('Subjects should be a single word containing alpanumeric characters (@subjects)', array(
-				'@subjects' => $subjects
-			)));
-		}
 	}
 }
 

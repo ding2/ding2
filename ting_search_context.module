@@ -596,7 +596,7 @@ function ting_search_context_save_context($type, $name, $context, $subjects = NU
  *   A context object if an identical search string context was found.
  *   FALSE otherwise.
  */
-function ting_search_context_search_string_context_exists($searh_string) {
+function ting_search_context_search_string_context_exists($search_string) {
   $search_string = mb_strtolower($search_string, 'UTF-8');
 
   // We can't be sure that the DB's string manipulation is compatible with PHP's
@@ -612,53 +612,21 @@ function ting_search_context_search_string_context_exists($searh_string) {
 }
 
 /**
- * Searches the database to see if a similar context already exists.
+ * Checks to see if an identical subject context already exists.
  *
- * @param string $type
- *   The type of the context to look for.
- * @param string $context
- *   For system and subject contexts this should be the machine-readable name
- *   of the context.
- *   For subject contexts this should be the search string.
- * @param $subject
- *   The subject term for subject type contexts
- *
- * @return mixed
- *   The context_id of the matching context.
- *   FALSE if no match.
- *
- * @see ting_search_context_schema()
+ * @param array $subjects
+ *   The subjects the search for. The order doesn't matter.
  */
-function ting_search_context_exists($type, $context, $subject = NULL) {
-	$query = db_select('ting_search_context_contexts', 'tsc')
-		->fields('tsc', array('context_id'))
-		->condition('tsc.type', $type);
+function ting_search_context_subject_context_exists($subjects) {
+  $subject_contexts = ting_search_context_get_all_contexts('subject');
 
-	switch ($type) {
-		case 'subject':
-			$query->condition('tsc.subject', $subject);
-			// Fall through
-		case 'system':
-			$query->condition('tsc.context', $context);
-			break;
-		case 'search':
-			// $context will be a user entered search string, so we convert to upper
-			// to make sure it compares.
-			// NOTE: This will not be needed for collations suffixed with _ci.
-			// See: https://dev.mysql.com/doc/refman/5.0/en/charset-mysql.html
-      $query->where('UPPER(tsc.search) LIKE :context', array(
-        ':context' => db_like(mb_strtoupper($context)),
-      ));
-
-      // Alternative method that looks for the search string within the context
-      // search query:
-			/*$query->where(":context LIKE CONCAT('%', UPPER(tsc.search), '%')", array(
-				':context' => db_like(mb_strtoupper($context)),
-			));*/
-			break;
-	}
-
-	return $query->execute()->fetchField();
+  foreach ($subject_contexts as $subject_context) {
+    $db_subjects = explode(', ', $subject_context->subjects);
+    if (sizeof($db_subjects) == sizeof($subjects) && array_diff($db_subjects, $subjects) == array()) {
+      return $subject_context;
+    }
+  }
+  return FALSE;
 }
 
 /**
@@ -789,6 +757,5 @@ function _ting_search_context_add_javascript() {
  */
 function _ting_search_context_add_css() {
   $path = drupal_get_path('module', 'ting_search_context');
-
   drupal_add_css($path . '/css/ting_search_context.base.css');
 }
