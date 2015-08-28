@@ -148,7 +148,8 @@ function ting_search_context_admin_context_form_validate($form, &$form_state) {
       if (!empty($subject)) {
         $trimmed_subjects[] = $subject;
 
-        // UTF-8 compatible check for non-alpahnumeric characters.
+        // UTF-8 compatible check for non-alpahnumeric characters:
+        // http://stackoverflow.com/questions/7271607/remove-non-alphanumeric-characters-including-%C3%9F-%C3%8A-etc-from-a-string
         if (preg_match('/[^\p{L}\p{N}]/u', $subject) || preg_match('/\s/', $subject)) {
           $invalid_subjects[] = $subject;
         }
