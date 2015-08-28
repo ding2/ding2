@@ -7,7 +7,6 @@
 /**
  * AJAX callback to retrieve nodes related to search context.
  */
-
 function ting_search_context_content() {
   $content = FALSE;
 
