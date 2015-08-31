@@ -722,8 +722,13 @@ function bpi_get_facets() {
 
   if ($reload) {
     $response = bpi_search_content();
-    $facets = $response->getFacets();
-    $_SESSION['bpi_all_facets'] = bpi_facets_to_array($facets);
+    if ($response) {
+      $facets = $response->getFacets();
+      $_SESSION['bpi_all_facets'] = bpi_facets_to_array($facets);
+    }
+    else {
+      $_SESSION['bpi_all_facets'] = NULL;
+    }
   }
 
   return $_SESSION['bpi_all_facets'];
