@@ -57,8 +57,6 @@ class TingSearchCqlDoctor {
    */
   public function __construct($string) {
     $this->cql_string = trim($string);
-    // Handle reserved characters.
-    $this->escape_reserved_characters();
     // Remove multiple whitespaces.
     $this->cql_string = preg_replace('/\s+/', ' ', $this->cql_string);
   }
@@ -78,8 +76,10 @@ class TingSearchCqlDoctor {
     $this->fix_paranthesis();
     // Handle qoutes.
     $this->fix_qoutes();
+    // Handle reserved characters.
+    $this->escape_reserved_characters();
     // Format the string.
-    return  $this->format_cql_string();
+    return $this->format_cql_string();
   }
 
   /**
@@ -95,6 +95,7 @@ class TingSearchCqlDoctor {
     // Last check. All parts of cql string must be valid.
     $valid = TRUE;
     $parts = preg_split($this->get_cql_operators_regexp(), $this->cql_string);
+
     foreach ($parts as $part) {
       if (!$this->string_is_cql($part)) {
         $valid = FALSE;
@@ -107,6 +108,12 @@ class TingSearchCqlDoctor {
     // Replace keys with phrases,
     if (!empty($this->pattern)) {
       $expressions = preg_replace($this->pattern, $this->replace, $expressions);
+    }
+
+    // Remove empty elements.
+    $empty_slots = array_keys($expressions,'');
+    foreach($empty_slots as $slot){
+      unset($expressions[$slot]);
     }
 
     if ($valid) {
@@ -157,6 +164,7 @@ class TingSearchCqlDoctor {
       // No matching paranthesis.
       return;
     }
+
     foreach ($phrases[1] as $key => $phrase) {
       if (!$this->string_is_cql($phrase)) {
         $this->set_replace_pattern($phrases[0][$key], TRUE);
@@ -174,7 +182,8 @@ class TingSearchCqlDoctor {
    */
   private function fix_qoutes() {
     // Greab qouted content.
-    preg_match_all('$["|\)]([^"]*)["\)]$', $this->cql_string, $phrases);
+    preg_match_all('$"([^"]*)"$', $this->cql_string, $phrases);
+;
     if (!empty($phrases[0])) {
       foreach ($phrases[0] as $phrase) {
         $this->set_replace_pattern($phrase);
@@ -204,6 +213,7 @@ class TingSearchCqlDoctor {
     }
     $replace_key = $this->get_replace_key();
     $this->pattern[] = '/' . $replace_key . '/';
+
     $this->cql_string = str_replace($phrase, $replace_key, $this->cql_string);
   }
 
