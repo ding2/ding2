@@ -297,7 +297,7 @@ function ting_material_details_field_formatter_info() {
       ),
     ),
     'ting_details_is_part_of_search' => array(
-      'label' => t('Part of manifestation'),
+      'label' => t('Part of manifestation search link'),
       'field types' => array(
         'ting_details_is_part_of',
       ),
