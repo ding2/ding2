@@ -35,24 +35,33 @@ function bpi_syndicate_page_form($form, &$form_state) {
     $form['bpi_search'] = array(
       '#type' => 'container',
       '#attributes' => array(
-        'class' => array(
-          drupal_html_class('container-inline'),
-        ),
+        'class' => array('bpi-search'),
       ),
     );
 
     $form['bpi_search']['bpi_search_query'] = array(
       '#type' => 'textfield',
       '#default_value' => _bpi_get_current_search_phrase(),
+      '#description' => t('Search in body, teaser, title and category'),
     );
 
-    $form['bpi_search']['bpi_search_submit'] = array(
+    $form['bpi_search']['bpi_search_actions'] = array(
+      '#type' => 'container',
+      '#attributes' => array(
+        'class' => array(
+          drupal_html_class('container-inline'),
+        ),
+      ),
+    );
+
+    $form['bpi_search']['bpi_search_actions']['bpi_search_submit'] = array(
       '#type' => 'submit',
       '#value' => t('Search'),
+      '#name' => 'apply_search',
     );
 
-    if (_bpi_get_current_filter() || _bpi_get_current_search_phrase()) {
-      $form['bpi_search']['bpi_search_reset'] = array(
+    if (_bpi_get_current_search_phrase()) {
+      $form['bpi_search']['bpi_search_actions']['bpi_search_reset'] = array(
         '#type' => 'item',
         '#markup' => l(t('Reset search'), current_path(), array(
           'query' => NULL,
@@ -62,18 +71,6 @@ function bpi_syndicate_page_form($form, &$form_state) {
         )),
       );
     }
-
-    $form['bpi_search_amount'] = array(
-      '#type' => 'select',
-      '#title' => t('Page size'),
-      '#options' => array(
-        10 => 10,
-        20 => 20,
-        50 => 50,
-        100 => 100,
-      ),
-      '#default_value' => _bpi_get_query_parameter('amount', 10),
-    );
 
     // Must be called before building facets ui.
     $items = bpi_search_get_items();
@@ -88,33 +85,61 @@ function bpi_syndicate_page_form($form, &$form_state) {
       )),
     );
 
+    $form['bpi_paging'] = array(
+      '#type' => 'container',
+      '#attributes' => array(
+        'class' => array(
+          drupal_html_class('container-inline'),
+        ),
+      ),
+    );
+
     $total_items = isset($items[0]['total_count']) ? $items[0]['total_count'] : 0;
     $page_size = _bpi_get_query_parameter('amount', 10);
     pager_default_initialize($total_items, $page_size);
-
-    $form['bpi_search_pager'] = array(
-      '#type' => 'item',
-      '#markup' => theme('pager'),
-    );
 
     if ($items) {
       $current_page = pager_find_page();
       $items_from = $current_page * $page_size + 1;
       $items_to = min(($current_page + 1) * $page_size, $total_items);
 
-      $form['bpi_search_info'] = array(
+      $form['bpi_paging']['bpi_search_paging_info'] = array(
         '#type' => 'item',
-        '#markup' => '<p>' . ($items_from < $items_to
-                              ? t('Showing items @from–@to of @total', array(
-                                '@from' => $items_from,
-                                '@to' => $items_to,
-                                '@total' => $total_items,
-                              ))
-                              : t('Showing item @from of @total', array(
-                                '@from' => $items_from,
-                                '@total' => $total_items,
-                              )))
-        . '</p>',
+        '#markup' => ($items_from < $items_to
+                      ? t('Showing items @from–@to of @total', array(
+                        '@from' => $items_from,
+                        '@to' => $items_to,
+                        '@total' => $total_items,
+                      ))
+                      : t('Showing item @from of @total', array(
+                        '@from' => $items_from,
+                        '@total' => $total_items,
+                      ))),
+      );
+
+      $form['bpi_paging']['bpi_search_amount'] = array(
+        '#type' => 'select',
+        '#title' => t('Page size'),
+        '#options' => array(
+          10 => 10,
+          20 => 20,
+          50 => 50,
+          100 => 100,
+        ),
+        '#default_value' => _bpi_get_query_parameter('amount', 10),
+        '#attributes' => array(
+          'onchange' => 'form.submit()',
+        ),
+      );
+
+      $form['bpi_paging']['bpi_search_pager'] = array(
+        '#type' => 'item',
+        '#markup' => theme('pager'),
+      );
+    }
+    else {
+      $form['bpi_search_amount'] = array(
+        '#type' => 'hidden',
       );
     }
 
@@ -144,22 +169,28 @@ function bpi_syndicate_page_form_submit(array $form, array &$form_state) {
     $bpi_query[BPI_QUERY_SORT_NAME] = $sorting;
   }
   $values = $form_state['values'];
-  if (isset($values['bpi_search_query']) && trim($values['bpi_search_query'])) {
-    $bpi_query[BPI_SEARCH_PHRASE_KEY] = trim($values['bpi_search_query']);
-  }
+
   if (isset($values['bpi_search_amount']) && intval($values['bpi_search_amount']) > 0) {
     $bpi_query['amount'] = intval($values['bpi_search_amount']);
   }
-  if (isset($values['bpi_search_filter'])) {
-    foreach ($values['bpi_search_filter'] as $key => $value) {
-      $selected_values = is_array($value) ? array_keys(array_filter($value, function($value) {
-        return $value;
-      })) : $value;
-      if ($selected_values) {
-        if (!isset($bpi_query['filter'])) {
-          $bpi_query['filter'] = array();
+
+  if (isset($values['apply_search'])) {
+    if (isset($values['bpi_search_query']) && trim($values['bpi_search_query'])) {
+      $bpi_query[BPI_SEARCH_PHRASE_KEY] = trim($values['bpi_search_query']);
+    }
+  }
+  elseif (isset($values['apply_filter'])) {
+    if (isset($values['bpi_facets'])) {
+      foreach ($values['bpi_facets'] as $key => $value) {
+        $selected_values = is_array($value) ? array_keys(array_filter($value, function($value) {
+          return $value;
+        })) : $value;
+        if ($selected_values) {
+          if (!isset($bpi_query['filter'])) {
+            $bpi_query['filter'] = array();
+          }
+          $bpi_query['filter'][$key] = $selected_values;
         }
-        $bpi_query['filter'][$key] = $selected_values;
       }
     }
   }
@@ -278,7 +309,7 @@ function bpi_search_get_items() {
       'total_count' => isset($response->total) ? $response->total : 0,
       'assets' => (count($assets) > 0) ? $assets : array(),
       'editable' => !empty($current_item['editable']),
-      'syndicated' => isset($current_item['syndicated']) ? $current_item['syndicated'] : NULL,
+      'syndications' => isset($current_item['syndications']) ? $current_item['syndications'] : NULL,
     );
   }
 
@@ -319,7 +350,7 @@ function bpi_preprocess_bpi_search_results(array &$variables) {
       'class' => array('bpi-pushed', _bpi_get_current_sorting('pushed') ? 'active' : ''),
     ),
     array(
-      'data' => t('Syndicated'),
+      'data' => bpi_get_sort_link(t('Syndications'), 'syndications'),
     ),
     array(
       'data' => t('Details'),
@@ -349,7 +380,7 @@ function bpi_preprocess_bpi_search_results(array &$variables) {
     );
 
     $rows[$i]['date'] = date_format(new DateTime($item['date']), 'Y-m-d H:i:s');
-    $rows[$i]['syndicated'] = $item['syndicated'];
+    $rows[$i]['syndications'] = $item['syndications'];
 
     // Add details.
     $rows[$i]['details'] = '';
@@ -465,9 +496,6 @@ function _bpi_get_current_filter() {
  *   The filter query.
  */
 function _bpi_get_filter_query($field, $value, $clear = TRUE) {
-  if ($field != 'author') {
-    $value = array(0 => $value);
-  }
   $query = array(
     'filter' => array(
       $field => $value,
@@ -565,6 +593,7 @@ function bpi_available_map() {
     BPI_SEARCH_PHRASE_KEY => t('Query'),
     'author' => t('Author'),
     'category' => t('Category'),
+    'channels' => t('Channels'),
     'agency' => t('Agency'),
     'audience' => t('Audience'),
     'material' => t('Related materials'),
@@ -606,7 +635,6 @@ function bpi_build_search_facets(array &$form) {
 
   if ($facets) {
     $filter_form = array(
-      '#tree' => TRUE,
       '#type' => 'fieldset',
       '#title' => t('Filters'),
       '#collapsible' => TRUE,
@@ -618,14 +646,14 @@ function bpi_build_search_facets(array &$form) {
       ),
     );
 
-    // Wrap facet form fields in a container.
-    $filter_form['facets_pre'] = array(
-      '#prefix' => '<div class="bpi-facets">',
-      '#weight' => -1,
-    );
-    $filter_form['facets_post'] = array(
-      '#suffix' => '</div>',
-      '#weight' => 100,
+    $facets_form = array(
+      '#type' => 'container',
+      '#tree' => TRUE,
+      '#attributes' => array(
+        'class' => array(
+          'bpi-facets',
+        ),
+      ),
     );
 
     $use_chosen = TRUE;
@@ -664,7 +692,7 @@ function bpi_build_search_facets(array &$form) {
           break;
       }
 
-      $filter_form[$id] = array(
+      $facets_form[$id] = array(
         '#type' => $type,
         '#multiple' => $multiple,
         '#chosen' => $multiple && $use_chosen,
@@ -684,7 +712,7 @@ function bpi_build_search_facets(array &$form) {
     // Add logical operator.
     $name = 'logicalOperator';
     $id = $name;
-    $filter_form[$id] = array(
+    $facets_form[$id] = array(
       '#type' => 'select',
       '#title' => bpi_label_mapper($name) ? bpi_label_mapper($name) : $name,
       '#options' => array(
@@ -695,7 +723,36 @@ function bpi_build_search_facets(array &$form) {
       '#weight' => -10,
     );
 
-    $form['bpi_search_filter'] = $filter_form;
+    $filter_form['bpi_facets'] = $facets_form;
+
+    $filter_form['bpi_actions'] = array(
+      '#type' => 'container',
+      '#attributes' => array(
+        'class' => array(
+          drupal_html_class('container-inline'),
+        ),
+      ),
+    );
+
+    $filter_form['bpi_actions']['apply_filter'] = array(
+      '#type' => 'submit',
+      '#value' => t('Filter'),
+      '#name' => 'apply_filter',
+    );
+
+    if (_bpi_get_current_filter()) {
+      $filter_form['bpi_actions']['reset_filter'] = array(
+        '#type' => 'item',
+        '#markup' => l(t('Reset filter'), current_path(), array(
+          'query' => NULL,
+          'attributes' => array(
+            'class' => array('button'),
+          ),
+        )),
+      );
+    }
+
+    $form['bpi_filter'] = $filter_form;
   }
 }
 

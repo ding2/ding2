@@ -8,16 +8,20 @@
 
 div.form-item-bpi-search-query {
   float: left;
-  padding-top: 5px;
-}
-
-.form-item-bpi-search-query input {
+  padding-top: 0;
   margin-right: 20px;
 }
 
-.edit-bpi-search-submit {
-  float: left;
-  margin-top: 10px;
+.bpi-filters {
+	clear: both;
+}
+
+#edit-bpi-search-paging-info {
+	float: left;
+}
+
+.form-item-bpi-search-amount {
+	float: right;
 }
 
 .bpi-filter-text {
