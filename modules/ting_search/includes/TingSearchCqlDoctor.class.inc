@@ -72,10 +72,10 @@ class TingSearchCqlDoctor {
    *   Cql compatible string.
    */
   public function string_to_cql() {
-    // Hendle parantheses.
-    $this->fix_paranthesis();
     // Handle qoutes.
     $this->fix_qoutes();
+    // Hendle parantheses.
+    $this->fix_paranthesis();
     // Handle reserved characters.
     $this->escape_reserved_characters();
     // Format the string.
@@ -102,13 +102,18 @@ class TingSearchCqlDoctor {
         break;
       }
     }
-
     // Explode string by whitespace.
     $expressions = explode(' ', $this->cql_string);
     // Replace keys with phrases,
     if (!empty($this->pattern)) {
       $expressions = preg_replace($this->pattern, $this->replace, $expressions);
     }
+
+    $done = FALSE;
+    do {
+      $expressions = $this->replace_inline($expressions, $done);
+    }
+    while(!$done);
 
     // Remove empty elements.
     $empty_slots = array_keys($expressions,'');
@@ -124,6 +129,32 @@ class TingSearchCqlDoctor {
     // String is not valid; implode by and.
     return implode(' and ', $expressions);
   }
+
+
+  /**
+   * Some replacements are nested in paranthesis and/or qoutes
+   * eg. (hund and "("hest")") which is perfectly legal.
+   * Cql doctor first handles the qoutes and then the
+   * paranthesis ; thus (hund and "("hest")")  becomes encoded multiple times.
+   * This method runs through all parts to fix it
+   *
+   * @param array $expressions; The parts of the searchquery to be cured
+   * @param $done; Flag indicating whether all parts has been handled
+   * @return array;
+   */
+  private function replace_inline($expressions, &$done) {
+    foreach ($expressions as $key_exp => $expression) {
+      foreach ($this->pattern as $key_pat => $regexp) {
+        if (preg_match($regexp, $expression)) {
+          $expressions[$key_exp] = preg_replace($regexp, $this->replace[$key_pat], $expression);
+          return $expressions;
+        }
+      }
+    }
+    $done = TRUE;
+    return $expressions;
+  }
+
 
   /**
    * Enqoute forward slashes and '-'.
