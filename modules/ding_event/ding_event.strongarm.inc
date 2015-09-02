@@ -195,5 +195,12 @@ function ding_event_strongarm() {
   $strongarm->value = 1;
   $export['scheduler_unpublish_enable_ding_event'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'webform_node_ding_event';
+  $strongarm->value = 1;
+  $export['webform_node_ding_event'] = $strongarm;
+
   return $export;
 }
