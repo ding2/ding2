@@ -488,6 +488,10 @@ function _bpi_get_current_sorting($field = NULL) {
 function _bpi_get_current_filter() {
   $value = _bpi_get_query_parameter('filter', array());
   // @FIXME: Make sure that only valid filter parameters are present.
+  if (isset($value['agency_internal'])) {
+    $value['agencyInternal'] = $value['agency_internal'];
+    unset($value['agency_internal']);
+  }
   return $value;
 }
 
