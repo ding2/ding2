@@ -79,3 +79,4 @@ features[variable][] = node_submitted_ding_page
 features[variable][] = og_menu_enable_ding_page
 features[variable][] = pathauto_node_ding_page_pattern
 features[variable][] = pathauto_taxonomy_term_ding_page_pattern
+features[variable][] = webform_node_ding_page

@@ -176,5 +176,12 @@ function ding_page_strongarm() {
   $strongarm->value = 'page/category/[term:name]';
   $export['pathauto_taxonomy_term_ding_page_pattern'] = $strongarm;
 
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'webform_node_ding_page';
+  $strongarm->value = 1;
+  $export['webform_node_ding_page'] = $strongarm;
+
   return $export;
 }
