@@ -770,7 +770,8 @@ function bpi_build_search_facets(array &$form) {
 /**
  * Get all facets or facets from last search as an array.
  *
- * For performance reasons the facets will only be loaded once per session.
+ * For performance reasons all facets will only be loaded when no search or
+ * filters are applied.
  *
  * @return array
  *   All facets or the facets from the last search.
