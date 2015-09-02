@@ -10,6 +10,7 @@ dependencies[] = ding_user
 dependencies[] = email
 dependencies[] = entity
 dependencies[] = features
+dependencies[] = i18n_field
 dependencies[] = list
 dependencies[] = options
 dependencies[] = profile2

@@ -83,11 +83,18 @@ function openruth_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Period of interest - how long is a reservation valid for',
     'display' => array(
-      'default' => array(
+      'account' => array(
         'label' => 'inline',
         'module' => 'list',
         'settings' => array(),
         'type' => 'list_default',
+        'weight' => 8,
+      ),
+      'default' => array(
+        'label' => 'inline',
+        'module' => 'i18n_field',
+        'settings' => array(),
+        'type' => 'i18n_list_default',
         'weight' => 8,
       ),
     ),
