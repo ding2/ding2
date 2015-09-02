@@ -346,11 +346,11 @@ function bpi_preprocess_bpi_search_results(array &$variables) {
       'class' => array('bpi-title', _bpi_get_current_sorting('title') ? 'active' : ''),
     ),
     array(
-      'data' => bpi_get_sort_link(t('Date'), 'pushed'),
+      'data' => bpi_get_sort_link(t('Date'), 'pushed', 'desc'),
       'class' => array('bpi-pushed', _bpi_get_current_sorting('pushed') ? 'active' : ''),
     ),
     array(
-      'data' => bpi_get_sort_link(t('Syndications'), 'syndications'),
+      'data' => bpi_get_sort_link(t('Syndications'), 'syndications', 'desc'),
     ),
     array(
       'data' => t('Details'),
@@ -438,13 +438,20 @@ function bpi_preprocess_bpi_search_results(array &$variables) {
  *   The text on the link.
  * @param string $field
  *   The field to sort by.
+ * @param string $defaultDirection
+ *   The sorting direction to use if not currently sorting of this field.
  *
  * @return string
  *   The link for sorting.
  */
-function bpi_get_sort_link($text, $field) {
+function bpi_get_sort_link($text, $field, $defaultDirection = 'asc') {
   $current_sorting = _bpi_get_current_sorting($field);
-  $sort_direction = $current_sorting == 'asc' ? 'desc' : 'asc';
+  if ($current_sorting) {
+    $sort_direction = $current_sorting == 'asc' ? 'desc' : 'asc';
+  }
+  else {
+    $sort_direction = $defaultDirection;
+  }
   $query = _bpi_build_query(array(
     BPI_QUERY_SORT_NAME => array(
       $field => $sort_direction,
