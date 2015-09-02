@@ -505,7 +505,7 @@ function _bpi_get_current_filter() {
 function _bpi_get_filter_query($field, $value, $clear = TRUE) {
   $query = array(
     'filter' => array(
-      $field => $value,
+      $field => array($value),
     ),
   );
   return _bpi_build_query($query, $clear ? array('filter') : FALSE);
