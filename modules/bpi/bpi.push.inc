@@ -154,18 +154,14 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
   // Find the references to the ting date well.
   $materials_drupal = array();
   if ($with_refs) {
-    $materials_map = field_view_field('node', $node, variable_get('bpi_field_materials', ''));
-    if (isset($materials_map['#items'])) {
-      foreach ($materials_map['#items'] as $key => $value) {
-        if (!empty($materials_map[$key]['#object'])) {
-          $ting_entity = $materials_map[$key]['#object'];
-          $id = $ting_entity->ding_entity_id;
-
-          // Filter out id's with "katalog" PID, as they only makes sens on
-          // current site.
-          if (!preg_match('/katalog/', $id)) {
-            $materials_drupal[] = $id;
-          }
+    $items = field_get_items('node', $node, variable_get('bpi_field_materials', ''));
+    foreach ($items as $item) {
+      if (!empty($item['ting_object_id'])) {
+        $id = $item['ting_object_id'];
+        // Filter out id's with "katalog" PID, as they only makes sens on
+        // current site.
+        if (!preg_match('/katalog/', $id)) {
+          $materials_drupal[] = $id;
         }
       }
     }
