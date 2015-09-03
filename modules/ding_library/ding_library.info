@@ -24,7 +24,6 @@ dependencies[] = menu_position
 dependencies[] = og
 dependencies[] = og_menu
 dependencies[] = og_menu_default_links
-dependencies[] = opening_hours
 dependencies[] = options
 dependencies[] = page_manager
 dependencies[] = strongarm
