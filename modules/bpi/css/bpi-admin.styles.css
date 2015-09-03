@@ -60,3 +60,30 @@ div.form-item-bpi-search-query {
 .bpi-photo.not-editable {
   background: url('../images/not-editable.png') no-repeat center;
 }
+
+.bpi-query {
+	position: relative;
+}
+
+.bpi .loading {
+	display: none;
+	position: absolute;
+}
+
+.bpi.bpi-loading .loading {
+	display: block;
+	background: rgba(0, 0, 0, .75);
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 2000;
+}
+
+.bpi .loading .message {
+	position: absolute;
+	top: 10%;
+	width: 100%;
+	text-align: center;
+	color: white;
+}
