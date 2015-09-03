@@ -57,7 +57,6 @@ function bpi_syndicate_page_form($form, &$form_state) {
     $form['bpi_search']['bpi_search_actions']['bpi_search_submit'] = array(
       '#type' => 'submit',
       '#value' => t('Search'),
-      '#name' => 'apply_search',
     );
 
     if (_bpi_get_current_search_phrase()) {
@@ -174,23 +173,20 @@ function bpi_syndicate_page_form_submit(array $form, array &$form_state) {
     $bpi_query['amount'] = intval($values['bpi_search_amount']);
   }
 
-  if (isset($values['apply_search'])) {
-    if (isset($values['bpi_search_query']) && trim($values['bpi_search_query'])) {
-      $bpi_query[BPI_SEARCH_PHRASE_KEY] = trim($values['bpi_search_query']);
-    }
+  if (isset($values['bpi_search_query']) && trim($values['bpi_search_query'])) {
+    $bpi_query[BPI_SEARCH_PHRASE_KEY] = trim($values['bpi_search_query']);
   }
-  elseif (isset($values['apply_filter'])) {
-    if (isset($values['bpi_facets'])) {
-      foreach ($values['bpi_facets'] as $key => $value) {
-        $selected_values = is_array($value) ? array_keys(array_filter($value, function($value) {
-          return $value;
-        })) : $value;
-        if ($selected_values) {
-          if (!isset($bpi_query['filter'])) {
-            $bpi_query['filter'] = array();
-          }
-          $bpi_query['filter'][$key] = $selected_values;
+
+  if (isset($values['bpi_facets'])) {
+    foreach ($values['bpi_facets'] as $key => $value) {
+      $selected_values = is_array($value) ? array_keys(array_filter($value, function($value) {
+        return $value;
+      })) : $value;
+      if ($selected_values) {
+        if (!isset($bpi_query['filter'])) {
+          $bpi_query['filter'] = array();
         }
+        $bpi_query['filter'][$key] = $selected_values;
       }
     }
   }
@@ -480,6 +476,17 @@ function _bpi_get_current_sorting($field = NULL) {
 }
 
 /**
+ * Get current search.
+ *
+ * @return array
+ *   The search.
+ */
+function _bpi_get_current_search_query() {
+  $value = _bpi_get_query_parameter('text', NULL);
+  return $value ? array('text' => $value) : NULL;
+}
+
+/**
  * Get current filter.
  *
  * @return array
@@ -749,17 +756,11 @@ function bpi_build_search_facets(array &$form) {
       ),
     );
 
-    $filter_form['bpi_actions']['apply_filter'] = array(
-      '#type' => 'submit',
-      '#value' => t('Filter'),
-      '#name' => 'apply_filter',
-    );
-
     if (_bpi_get_current_filter()) {
       $filter_form['bpi_actions']['reset_filter'] = array(
         '#type' => 'item',
-        '#markup' => l(t('Reset filter'), current_path(), array(
-          'query' => NULL,
+        '#markup' => l(t('Reset filters'), current_path(), array(
+          'query' => _bpi_get_current_search_query(),
           'attributes' => array(
             'class' => array('button'),
           ),
