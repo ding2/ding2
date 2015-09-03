@@ -8,5 +8,9 @@
         allow_single_deselect: true
       });
     });
+
+    $('#bpi-syndicate-page-form select').change(function() {
+      this.form.submit();
+    });
   });
 })(jQuery);
