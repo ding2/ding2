@@ -805,11 +805,16 @@ function bpi_build_search_facets(array &$form) {
  *   All facets or the facets from the last search.
  */
 function bpi_get_facets() {
-  $search_facets = bpi_get_search_facets();
-  if ($search_facets) {
-    return $search_facets;
+  $operator = _bpi_get_query_parameter(array('filter', 'logicalOperator'));
+  // Only use facets from last search if we're not or'ing facets.
+  if ($operator != 'or') {
+    $search_facets = bpi_get_search_facets();
+    if ($search_facets) {
+      return $search_facets;
+    }
   }
 
+  // Reload all facets if they're not cached locally.
   $reload = !isset($_SESSION['bpi_all_facets']) || !is_array($_SESSION['bpi_all_facets']);
   if (!$reload) {
     $query = _bpi_get_query_parameter();
