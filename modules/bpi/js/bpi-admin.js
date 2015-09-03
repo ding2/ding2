@@ -11,9 +11,12 @@
       });
     }
 
-    $('form.bpi').on('submit', function() {
-      this.classList.add('bpi-loading');
-    });
+    var showLoading = function() {
+      $('.bpi').addClass('bpi-loading');
+    }
+
+    $('form.bpi').on('submit', showLoading);
+    $('.bpi .button').on('click', showLoading);
 
     $('#bpi-syndicate-page-form select').change(function() {
       // Trigger jQuery submit to make sure that any on submit handlers are run.
