@@ -20,7 +20,6 @@ dependencies[] = media_wysiwyg
 dependencies[] = media_youtube
 dependencies[] = menu
 dependencies[] = nodequeue
-dependencies[] = opening_hours
 dependencies[] = page_manager
 dependencies[] = panels
 dependencies[] = panels_node
