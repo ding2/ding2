@@ -544,7 +544,9 @@ class AlmaClient {
           // successful. Even if this is not the case any error in the current
           // renewal is irrelevant as the loan has previously been renewed so
           // don't report it as such.
-          if ($message == 'isRenewedToday' || $renewable == 'yes') {
+          // Also renewalIsDenied marked as 'no' is considered a successful
+          // renewal.
+          if ($message == 'isRenewedToday' || $renewable == 'yes' || ($message == 'renewalIsDenied' && $renewable == 'no')) {
             $reservations[$id] = TRUE;
           }
           elseif ($message == 'maxNofRenewals') {
