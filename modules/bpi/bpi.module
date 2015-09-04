@@ -291,9 +291,16 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
 
       // Loop over materials from BPI inserting new default field for each.
       foreach ($bpi_content['material'] as $key => $material_number) {
+        preg_match('/[^\:]+\:\s?(.*)/', $material_number, $matches);
+        $id = bpi_validate_material($matches[1]);
         $form[$materials_field][$current_language][$key] = $default_field;
+        if (!$id) {
+          $id = $material_number;
+          $form[$materials_field][$current_language][$key]['ting_object_id']['#attributes'] = array('class' => array('error'));
+          drupal_set_message(t('These materials doesn\'t exists.'), 'error', FALSE);
+        }
         $form[$materials_field][$current_language][$key]['#weight'] = $key;
-        $form[$materials_field][$current_language][$key]['ting_object_id']['#default_value'] = $material_number;
+        $form[$materials_field][$current_language][$key]['ting_object_id']['#default_value'] = $id;
       }
     }
 
@@ -771,4 +778,30 @@ function bpi_workflow_by_machine_names($machine_names) {
   catch (PDOException $e) {
     bpi_error_message($e, 'error');
   }
+}
+
+/**
+ * Makes request to ting and checks exist material with such id.
+ *
+ * @param $id
+ *
+ * @return mixed
+ *   FALSE in case when id not exist
+ *   int in case when material with same id was found.
+ */
+function bpi_validate_material($id) {
+  // Load ting client.
+  module_load_include('client.inc', 'ting');
+
+  // Search the data well.
+  $result = ting_do_search($id, 1, 1, array('facets' => array(), 'allObjects' => FALSE));
+
+  // If there is no usable result, exit immediately, providing no reply.
+  $object = NULL;
+  if ($result && $result->numTotalObjects) {
+    foreach ($result->collections as $collection) {
+      $object = array_shift($collection->reply->objects);
+    }
+  }
+  return $object ? $object->id : FALSE;
 }
