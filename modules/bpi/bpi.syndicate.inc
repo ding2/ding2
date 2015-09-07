@@ -815,30 +815,21 @@ function bpi_build_search_facets(array &$form) {
 }
 
 /**
- * Get all facets or facets from last search as an array.
+ * Get facets as an array.
  *
- * For performance reasons all facets will only be loaded when no search or
+ * For performance reasons facets will only be loaded when no search or
  * filters are applied.
  *
  * @return array
- *   All facets or the facets from the last search.
+ *   All facets.
  */
 function bpi_get_facets() {
-  $operator = _bpi_get_query_parameter(array('filter', 'logicalOperator'));
-  // Only use facets from last search if we're not or'ing facets.
-  if ($operator != 'or') {
-    $search_facets = bpi_get_search_facets();
-    if ($search_facets) {
-      return $search_facets;
-    }
-  }
-
-  // Reload all facets if they're not cached locally.
+  // Reload facets if they're not cached locally.
   $reload = !isset($_SESSION['bpi_all_facets']) || !is_array($_SESSION['bpi_all_facets']);
   if (!$reload) {
     $query = _bpi_get_query_parameter();
     // Reload if neither text nor filter is applied.
-    $reload = !isset($query['text']) && !isset($query['filter']);
+    $reload = !_bpi_get_current_search_phrase() || !_bpi_get_current_filter();
   }
 
   if ($reload) {
