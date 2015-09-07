@@ -138,9 +138,12 @@ class TingSearchCqlDoctor {
    * paranthesis ; thus (hund and "("hest")")  becomes encoded multiple times.
    * This method runs through all parts to fix it
    *
-   * @param array $expressions; The parts of the searchquery to be cured
-   * @param $done; Flag indicating whether all parts has been handled
+   * @param array $expressions;
+   *  The parts of the searchquery to be cured.
+   * @param $done;
+   *  Flag indicating whether all parts has been handled.
    * @return array;
+   *  Decoded expressions.
    */
   private function replace_inline($expressions, &$done) {
     foreach ($expressions as $key_exp => $expression) {
