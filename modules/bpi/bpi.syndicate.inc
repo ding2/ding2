@@ -531,6 +531,19 @@ function _bpi_get_current_filter() {
 }
 
 /**
+ * Decide if a filter is currently applied.
+ *
+ * @return bool
+ *   Whether a filter is applied or not.
+ */
+function _bpi_is_filter_applied() {
+  $filter = _bpi_get_current_filter();
+  // Filter is applied if something apart from logicalOperator is set.
+  unset($filter['logicalOperator']);
+  return !empty($filter);
+}
+
+/**
  * Get query for applying a filter.
  *
  * @param string $field
@@ -684,7 +697,7 @@ function bpi_build_search_facets(array &$form) {
       '#type' => 'fieldset',
       '#title' => t('Filters'),
       '#collapsible' => TRUE,
-      '#collapsed' => FALSE, //!_bpi_get_current_filter(),
+      '#collapsed' => !_bpi_is_filter_applied(),
       '#attributes' => array(
         'class' => array(
           'bpi-filters',
