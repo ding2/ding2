@@ -464,6 +464,14 @@ function ting_material_details_field_formatter_view($entity_type, $entity, $fiel
           );
           break;
 
+        // Run through all isPartOfManifestion elements of entity.
+        // If the entity has a relation-uri; create a render array that
+        // renders a link to the relation.
+        // If not: use the text desribing the relation.
+        //
+        // NOTICE : Opensearch delivers one or MORE relation-uris; This
+        // formatter only handles one.
+        // @see #bug1109. (http://platform.dandigbib.org/issues/1109)
         case 'ting_details_is_part_of_search':
           $type = $uri = NULL;
           foreach ($entity->getRelations() as $relation) {
