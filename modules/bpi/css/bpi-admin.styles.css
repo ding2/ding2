@@ -87,3 +87,23 @@ div.form-item-bpi-search-query {
 	text-align: center;
 	color: white;
 }
+
+.bpi-facet {
+	display: inline-block;
+	width: 50%;
+	box-sizing: border-box;
+}
+
+.bpi-facet:nth-child(2n+1) {
+	padding-left: 1em;
+}
+
+.bpi-facet .form-item {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.bpi-facet .chosen-container,
+.bpi-facet .chosen-choices .default {
+	width: 100% !important;
+}
