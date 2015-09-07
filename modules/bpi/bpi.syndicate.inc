@@ -735,7 +735,6 @@ function bpi_build_search_facets(array &$form) {
       $options = array();
       foreach ($terms as $term => $item) {
         $options[$term] = $item['title'];
-        $options[$term] .= ' (' . $item['count'] . ')';
       }
       $default_value = _bpi_get_query_parameter(array('filter', $name), array());
 
@@ -745,10 +744,10 @@ function bpi_build_search_facets(array &$form) {
             '' => t('All'),
           );
           if (isset($terms[0])) {
-            $options['false'] = t('No') . ' (' . $terms[0]['count'] . ')';
+            $options['false'] = t('No');
           }
           if (isset($terms[1])) {
-            $options['true'] = t('Yes') . ' (' . $terms[1]['count'] . ')';
+            $options['true'] = t('Yes');
           }
           $default_value = _bpi_get_query_parameter(array('filter', $name));
           $multiple = FALSE;
