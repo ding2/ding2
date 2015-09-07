@@ -85,6 +85,10 @@ function bpi_syndicate_page_form($form, &$form_state) {
 
     bpi_build_search_facets($query_form);
 
+    $total_items = isset($items[0]['total_count']) ? $items[0]['total_count'] : 0;
+    $page_size = _bpi_get_query_parameter('amount', 10);
+    pager_default_initialize($total_items, $page_size);
+
     $result_form = array(
       '#type' => 'container',
       '#attributes' => array(
@@ -94,33 +98,19 @@ function bpi_syndicate_page_form($form, &$form_state) {
       ),
     );
 
-    $result_form['bpi_search_results'] = array(
-      '#type' => 'item',
-      '#markup' => theme('bpi_search_results', array(
-        'items' => $items,
-        'empty' => t('No results'),
-      )),
-    );
-
-    $result_form['bpi_paging'] = array(
-      '#type' => 'container',
-      '#attributes' => array(
-        'class' => array(
-          drupal_html_class('container-inline'),
-        ),
-      ),
-    );
-
-    $total_items = isset($items[0]['total_count']) ? $items[0]['total_count'] : 0;
-    $page_size = _bpi_get_query_parameter('amount', 10);
-    pager_default_initialize($total_items, $page_size);
-
     if ($items) {
+      $result_form['bpi_search_info'] = array(
+        '#type' => 'container',
+        '#attributes' => array(
+          'class' => array('bpi-search-info', 'container-inline'),
+        ),
+      );
+
       $current_page = pager_find_page();
       $items_from = $current_page * $page_size + 1;
       $items_to = min(($current_page + 1) * $page_size, $total_items);
 
-      $result_form['bpi_paging']['bpi_search_paging_info'] = array(
+      $result_form['bpi_search_info']['bpi_search_paging_info'] = array(
         '#type' => 'item',
         '#markup' => ($items_from < $items_to
                       ? t('Showing items @from–@to of @total', array(
@@ -134,7 +124,7 @@ function bpi_syndicate_page_form($form, &$form_state) {
                       ))),
       );
 
-      $result_form['bpi_paging']['bpi_search_amount'] = array(
+      $result_form['bpi_search_info']['bpi_search_amount'] = array(
         '#type' => 'select',
         '#title' => t('Page size'),
         '#options' => array(
@@ -148,17 +138,25 @@ function bpi_syndicate_page_form($form, &$form_state) {
           'onchange' => 'form.submit()',
         ),
       );
-
-      $result_form['bpi_paging']['bpi_search_pager'] = array(
-        '#type' => 'item',
-        '#markup' => theme('pager'),
-      );
     }
     else {
       $result_form['bpi_search_amount'] = array(
         '#type' => 'hidden',
       );
     }
+
+    $result_form['bpi_search_results'] = array(
+      '#type' => 'item',
+      '#markup' => theme('bpi_search_results', array(
+        'items' => $items,
+        'empty' => t('No results'),
+      )),
+    );
+
+    $result_form['bpi_search_pager'] = array(
+      '#type' => 'item',
+      '#markup' => theme('pager'),
+    );
 
     $query_form['loading'] = array(
       '#type' => 'item',
@@ -522,7 +520,7 @@ function _bpi_get_current_search_query() {
  */
 function _bpi_get_current_filter() {
   $value = _bpi_get_query_parameter('filter', array());
-  // @FIXME: Make sure that only valid filter parameters are present.
+  // @TODO: Make sure that only valid filter parameters are present.
   if (isset($value['agency_internal'])) {
     $value['agencyInternal'] = $value['agency_internal'];
     unset($value['agency_internal']);
