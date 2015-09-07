@@ -462,19 +462,19 @@ function bpi_preprocess_bpi_search_results(array &$variables) {
  *   The text on the link.
  * @param string $field
  *   The field to sort by.
- * @param string $defaultDirection
+ * @param string $default_direction
  *   The sorting direction to use if not currently sorting of this field.
  *
  * @return string
  *   The link for sorting.
  */
-function bpi_get_sort_link($text, $field, $defaultDirection = 'asc') {
+function bpi_get_sort_link($text, $field, $default_direction = 'asc') {
   $current_sorting = _bpi_get_current_sorting($field);
   if ($current_sorting) {
     $sort_direction = $current_sorting == 'asc' ? 'desc' : 'asc';
   }
   else {
-    $sort_direction = $defaultDirection;
+    $sort_direction = $default_direction;
   }
   $query = _bpi_build_query(array(
     BPI_QUERY_SORT_NAME => array(
