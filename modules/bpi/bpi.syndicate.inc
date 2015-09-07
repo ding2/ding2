@@ -508,8 +508,16 @@ function _bpi_get_current_sorting($field = NULL) {
  *   The search.
  */
 function _bpi_get_current_search_query() {
-  $value = _bpi_get_query_parameter('text', NULL);
-  return $value ? array('text' => $value) : NULL;
+  $text = _bpi_get_query_parameter('text', NULL);
+  $amount = _bpi_get_query_parameter('amount');
+  $query = array();
+  if ($text) {
+    $query['text'] = $text;
+  }
+  if ($amount) {
+    $query['amount'] = $amount;
+  }
+  return $query;
 }
 
 /**
