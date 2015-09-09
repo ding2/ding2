@@ -77,8 +77,8 @@
  * - $ddbasic_updated: Information about latest update on the node created from
  *   $date during
  *   ddbasic_preprocess_node().
- * - $ddbasic_event_date: Event date or period, printed as date(s) 
- * - $ddbasic_event_time: Event time, printed as time(s) 
+ * - $ddbasic_event_date: Event date or period, printed as date(s)
+ * - $ddbasic_event_time: Event time, printed as time(s)
  * - $ddbasic_ding_event_tags: Tags, as a comma-separated list of links with
  *   leading text "Tags: "
  * - $ddbasic_event_location: String containing adress info for either
@@ -116,7 +116,11 @@
     <?php if (isset($content['field_ding_event_price'])): ?>
       <p><i class="icon-tag"></i> <?php print render($content['field_ding_event_price']); ?></p>
     <?php endif; ?>
-  </div>  
+
+    <?php if (isset($content['field_place2book_tickets'])): ?>
+      <div><?php print render($content['field_place2book_tickets']); ?></div>
+    <?php endif; ?>
+  </div>
   <div class="event-content">
     <?php if (isset($content['field_ding_event_title_image'])) : ?>
     <div class="event-image">
@@ -134,6 +138,7 @@
       hide($content['field_ding_event_location']);
       hide($content['field_ding_event_target']);
       hide($content['field_ding_event_price']);
+      hide($content['field_place2book_tickets']);
 
       // Hide fields that will be displayed as panel panes instead.
       hide($content['comments']);
@@ -170,7 +175,7 @@
         </div>
       </div>
     <?php endif; ?>
-    
+
     <?php
       // Remove the "Add new comment" link on the teaser page or if the comment
       // form is being displayed on the same page.
