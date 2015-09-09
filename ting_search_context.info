@@ -1,15 +1,44 @@
 name = Ting search context
 description = Provides a context rating system for nodes.
-package = Ding!
 core = 7.x
+
 
 files[] = ting_search_context.module
 files[] = ting_search_context_handler_field_node_ratings.inc
 files[] = ting_search_context_handler_filter_node_ratings.inc
 
+package = Ding!
+dependencies[] = features
+dependencies[] = link
+dependencies[] = media
+dependencies[] = strongarm
 dependencies[] = ting_search
+dependencies[] = views
 dependencies[] = views_bulk_operations
-
+features[ctools][] = strongarm:strongarm:1
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:2
+features[field_base][] = body
+features[field_base][] = field_search_context_link
+features[field_base][] = field_search_context_list_image
+features[field_instance][] = node-ding_search_context_link-body
+features[field_instance][] = node-ding_search_context_link-field_search_context_link
+features[field_instance][] = node-ding_search_context_link-field_search_context_list_image
+features[node][] = ding_search_context_link
+features[variable][] = comment_anonymous_ding_search_context_link
+features[variable][] = comment_default_mode_ding_search_context_link
+features[variable][] = comment_default_per_page_ding_search_context_link
+features[variable][] = comment_ding_search_context_link
+features[variable][] = comment_form_location_ding_search_context_link
+features[variable][] = comment_preview_ding_search_context_link
+features[variable][] = comment_subject_field_ding_search_context_link
+features[variable][] = field_bundle_settings_node__ding_search_context_link
+features[variable][] = language_content_type_ding_search_context_link
+features[variable][] = menu_options_ding_search_context_link
+features[variable][] = menu_parent_ding_search_context_link
+features[variable][] = node_options_ding_search_context_link
+features[variable][] = node_preview_ding_search_context_link
+features[variable][] = node_submitted_ding_search_context_link
 features[views_view][] = ting_search_context_rate_nodes
+
+
