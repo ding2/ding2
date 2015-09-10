@@ -33,6 +33,15 @@ function ting_search_autocomplete_admin() {
     '#required' => TRUE,
   );
 
+  $form['ting_search_autocomplete_webservice']['ting_search_autocomplete_method'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Autocomplete method', array(), array('context' => 'ting_search_autocomplete')),
+    '#size' => 73,
+    '#description' => t('The method to use. Currently there are two methods: terms and facets. Version 2.0 exposes facetSpell method', array(), array('context' => 'ting_search_autocomplete')),
+    '#default_value' => variable_get('ting_search_autocomplete_method', 'facets'),
+    '#required' => TRUE,
+  );
+
   $form['ting_search_autocomplete_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Autocomplete settings', array(), array('context' => 'ting_search_autocomplete')),
