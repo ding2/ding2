@@ -6,12 +6,14 @@
   "use strict";
 
   var ctrlKeyIsPressed = false;
+  // Ctrl or CMD key codes.
+  var keyCodes = [224, 17, 91, 93];
 
   // Do not show overlay if ctrl key is pressed.
   $('body').live('keydown keyup', function(e) {
+
     var keyPressState = e.type == 'keydown' ? true : false;
-    // Define Ctrl key.
-    if(e.which == 17) {
+    if($.inArray(e.which, keyCodes) !== -1) {
       ctrlKeyIsPressed = keyPressState;
     }
   });
