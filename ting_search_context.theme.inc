@@ -32,7 +32,7 @@ function template_preprocess_ting_search_context_content(&$vars, $hook) {
       'image_style' => 'ting_search_context',
     ),
     ));
-  $vars[image] = drupal_render($image);
+  $vars['image'] = drupal_render($image);
 
   //URL
   if ($node->type == 'ding_search_context_link') {
