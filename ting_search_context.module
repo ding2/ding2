@@ -130,6 +130,7 @@ function ting_search_context_ting_search_context_field_name() {
     // These should probably be moved to respective modules.
     'ding_eresource' => 'field_ding_eresource_list_image',
     'genre_page' => 'field_genre_page_list_image',
+    'ding_search_context_link' => 'field_search_context_list_image',
   );
 }
 

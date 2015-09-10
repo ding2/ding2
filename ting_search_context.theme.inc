@@ -31,18 +31,21 @@ function template_preprocess_ting_search_context_content(&$vars, $hook) {
     'settings' => array(
       'image_style' => 'ting_search_context',
     ),
-  ));
+    ));
   $vars[image] = drupal_render($image);
 
   //URL
-  $url = url(drupal_get_path_alias('node/' . $node->nid), array('absolute' => TRUE));
-  $url .= '?WT.cg_n=searchcontext';
+  if ($node->type == 'ding_search_context_link') {
+    $link_field = field_get_items('node', $node, 'field_search_context_link');
+    $link = empty($link_field [0]['url']) ? 0 : $link_field[0]['url'];
+    $url = url($link);
+  } else {
+    $url = url(drupal_get_path_alias('node/' . $node->nid), array('absolute' => TRUE));
+  }
+  //$url .= '?WT.cg_n=searchcontext'; //Todo may not work with url which contain search strings
   $vars[url] = $url;
 
   // Title
   $vars[title] = check_plain($node->title);
-
 }
-
-
 
