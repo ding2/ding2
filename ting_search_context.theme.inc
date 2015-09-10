@@ -43,9 +43,9 @@ function template_preprocess_ting_search_context_content(&$vars, $hook) {
     $url = url(drupal_get_path_alias('node/' . $node->nid), array('absolute' => TRUE));
   }
   //$url .= '?WT.cg_n=searchcontext'; //Todo may not work with url which contain search strings
-  $vars[url] = $url;
+  $vars['url'] = $url;
 
   // Title
-  $vars[title] = check_plain($node->title);
+  $vars['title'] = check_plain($node->title);
 }
 
