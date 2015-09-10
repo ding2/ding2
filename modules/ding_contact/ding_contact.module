@@ -14,9 +14,7 @@ include_once 'ding_contact.features.inc';
  * flooding is violated, and thus page_manager fails to render jthe message.
  *
  * check if content on contact site  is a form. If not make it so
- * @param $data
- * @param $block
- */
+ * */
 function ding_contact_block_view_alter(&$data, $block) {
   if ($block->delta == 'contact_site') {
     if (is_string($data['content']['form'])) {
@@ -30,8 +28,10 @@ function ding_contact_block_view_alter(&$data, $block) {
  *
  * @param $form
  * @param $form_state
- * @param $data
+ * @param $message
+ *  The message to disply
  * @return array
+ *  Very simple form
  */
 function ding_contact_flooded_form($form, $form_state, $message) {
   $form = array();
@@ -42,9 +42,8 @@ function ding_contact_flooded_form($form, $form_state, $message) {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter (contact_site_form)
  * Alter the contact form: make sure no cached page is delivered, and stop redirect
- * @param $form
- * @param $form_state
  */
 function ding_contact_form_contact_site_form_alter(&$form, &$form_state) {
   if (user_is_anonymous()) {
