@@ -36,12 +36,12 @@ class TingSearchCqlDoctor {
    * @var array pattern.
    *   The pattern to replace in searchstring.
    */
-  private $pattern;
+  private $pattern = array();
   /**
    * @var array replace.
    *   The string to replace with.
    */
-  private $replace;
+  private $replace=array();
   /**
    * @var int replace_key.
    *   Used to prepend key - @see $this->get_replace_key().
@@ -79,7 +79,7 @@ class TingSearchCqlDoctor {
     // Handle reserved characters.
     $this->escape_reserved_characters();
     // Format the string.
-    return $this->format_cql_string();
+    return  $this->format_cql_string();
   }
 
   /**
@@ -95,7 +95,6 @@ class TingSearchCqlDoctor {
     // Last check. All parts of cql string must be valid.
     $valid = TRUE;
     $parts = preg_split($this->get_cql_operators_regexp(), $this->cql_string);
-
     foreach ($parts as $part) {
       if (!$this->string_is_cql($part)) {
         $valid = FALSE;
@@ -104,6 +103,7 @@ class TingSearchCqlDoctor {
     }
     // Explode string by whitespace.
     $expressions = explode(' ', $this->cql_string);
+
     // Replace keys with phrases,
     if (!empty($this->pattern)) {
       $expressions = preg_replace($this->pattern, $this->replace, $expressions);
@@ -264,7 +264,7 @@ class TingSearchCqlDoctor {
    */
   private function string_is_cql($string) {
     // Single word is valid (no whitespaces).
-    if (strpos($string, ' ') === FALSE) {
+    if (strpos(trim($string), ' ') === FALSE) {
       return TRUE;
     }
     return preg_match($this->get_cql_operators_regexp(), $string);
