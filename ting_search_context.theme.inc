@@ -46,6 +46,10 @@ function template_preprocess_ting_search_context_content(&$vars, $hook) {
   $vars['url'] = $url;
 
   // Title
-  $vars['title'] = check_plain($node->title);
+  $title = check_plain($node->title);
+  if (strlen($title) > 20) {
+    $title = substr($title, 0, 18) . '..';
+  }
+  $vars['title'] = $title;
 }
 
