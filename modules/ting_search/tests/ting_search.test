@@ -185,45 +185,30 @@ class TingSearchParsingTestCase extends DrupalUnitTestCase {
 
   function testQuoting() {
     drupal_load('module', 'ting_search');
-    $testCases = array(
-      array(
-        'string' => 'anders and',
-        'expected' => 'anders "and"',
-      ),
-      array(
-        'string' => 'anders aNd',
-        'expected' => 'anders "aNd"',
-      ),
-      array(
-        // This might seem like a pretty simple case, but this is actually a
-        // regression test for an issue not caught by the more advanced tests.
-        'string' => 'anders AND',
-        'expected' => 'anders AND',
-      ),
-      array(
-        'string' => 'anders and AND (dc.title=historie)',
-        'expected' => 'anders "and" AND (dc.title=historie)',
-      ),
-      array(
-        'string' => 'anders AND (dc.title=historie)',
-        'expected' => 'anders AND (dc.title=historie)',
-      ),
-      array(
-        'string' => '"anders and" (dc.title=historie)',
-        'expected' => '"anders and" (dc.title=historie)',
-      ),
-      array(
-        'string' => '"anders \"and\"" (dc.title=historie)',
-        'expected' => '"anders \"and\"" (dc.title=historie)',
-      ),
+    require_once "strings_for_cql_test.php";
 
-    );
-    foreach ($testCases as $test) {
-      $res = _ting_search_quote($test['string']);
-      $this->assertEqual($res, $test['expected'], 'Properly quoted: ' . $test['string']);
-      if ($res != $test['expected']) {
+    $testCases = ting_search_test_valid_cql();
+
+    foreach ($testCases as $search => $expected) {
+      $res = _ting_search_quote($search);
+      $string = preg_replace( "/\r|\n/", "", $search );
+      $result = preg_replace( "/\r|\n/", "", $expected );
+      $this->assertEqual($string,$result , 'Properly quoted: ' . $search);
+      if ($string != $result) {
         debug($res);
       }
     }
+
+    $testCases = ting_search_test_invalid_cql();
+
+    foreach ($testCases as $search => $expected) {
+      $res = _ting_search_quote($search);
+      $this->assertEqual($res,$expected , 'Properly quoted: ' . $search);
+      if ($res != $expected) {
+        debug($res);
+        debug($search);
+      }
+    }
+
   }
 }
