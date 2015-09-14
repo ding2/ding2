@@ -102,6 +102,7 @@ function ting_relation_field_formatter_view($entity_type, $entity, $field, $inst
         '#title' => ting_relation_get_title($relation),
         '#abstract' => ting_relation_get_abstract($relation),
         '#online' => ting_relation_get_online_url($relation),
+        '#target' => ting_relation_get_target($relation),
         '#relation' => $relation,
         '#attributes' => array(
           'class' => array(
@@ -126,6 +127,29 @@ function ting_relation_field_formatter_view($entity_type, $entity, $field, $inst
 
   return $element;
 }
+
+/**
+ * Some relations are requested NOT to load a new window.
+ * @see http://platform.dandigbib.org/issues/378.
+ *
+ *
+ * @param $relation
+ * @return string _blank | _self
+ *  Target attribute for link.
+ */
+function ting_relation_get_target($relation) {
+  $target = '_blank';
+  $data = isset($relation->getObject()->reply->relationsData) ?
+    $relation->getObject()->reply->relationsData : NULL;
+  if (isset($data)) {
+    if (strpos($data[0]->relationUri, '[useraccessinfomedia]') === 0) {
+      $target = '_self';
+    }
+  }
+  return $target;
+}
+
+
 
 /**
  * Finds the best title for a relation based on the relation type.
