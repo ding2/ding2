@@ -23,6 +23,11 @@ define('BPI_QUERY_SORT_NAME', 'sorting');
 define('BPI_DEFAULT_PAGE_SIZE', 10);
 
 /**
+ * Key for storing data in session.
+ */
+define('BPI_ALL_FACETS_KEY', 'BPI_ALL_FACETS');
+
+/**
  * Define syndication page markup.
  *
  * This includes search form, filtering and found content.
@@ -830,7 +835,7 @@ function bpi_build_search_facets(array &$form) {
  */
 function bpi_get_facets() {
   // Reload facets if they're not cached locally.
-  $reload = !isset($_SESSION['bpi_all_facets']) || !is_array($_SESSION['bpi_all_facets']);
+  $reload = !isset($_SESSION[BPI_ALL_FACETS_KEY]) || !is_array($_SESSION[BPI_ALL_FACETS_KEY]);
   if (!$reload) {
     $query = _bpi_get_query_parameter();
     // Reload if neither text nor filter is applied.
@@ -841,14 +846,14 @@ function bpi_get_facets() {
     $response = bpi_search_content();
     if (!empty($response)) {
       $facets = $response->getFacets();
-      $_SESSION['bpi_all_facets'] = bpi_facets_to_array($facets);
+      $_SESSION[BPI_ALL_FACETS_KEY] = bpi_facets_to_array($facets);
     }
     else {
-      $_SESSION['bpi_all_facets'] = NULL;
+      $_SESSION[BPI_ALL_FACETS_KEY] = NULL;
     }
   }
 
-  return $_SESSION['bpi_all_facets'];
+  return $_SESSION[BPI_ALL_FACETS_KEY];
 }
 
 /**
