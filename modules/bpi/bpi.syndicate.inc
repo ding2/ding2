@@ -270,7 +270,7 @@ function bpi_search_content($query = '', $page = 1, $filters = array(), $sort = 
 /**
  * Parses the BPI search result into more simpler structures.
  *
- * @return array
+ * @return array|null
  *   Array of bpi fetched items, in structure:
  *   - bpi_id: bpi identifier
  *   - title: item title
@@ -531,6 +531,8 @@ function _bpi_get_current_search_query() {
 function _bpi_get_current_filter() {
   $value = _bpi_get_query_parameter('filter', array());
   // @TODO: Make sure that only valid filter parameters are present.
+  // Rename key "agency_internal" to "agencyInternal" to match webservice
+  // parameter.
   if (isset($value['agency_internal'])) {
     $value['agencyInternal'] = $value['agency_internal'];
     unset($value['agency_internal']);
@@ -626,7 +628,7 @@ function _bpi_get_query_parameter($path = NULL, $default_value = NULL) {
  *
  * @see bpi_syndicate_page_form()
  *
- * @return string
+ * @return string|null
  *   Searched string.
  */
 function _bpi_get_current_search_phrase() {
@@ -819,7 +821,7 @@ function bpi_build_search_facets(array &$form) {
  * For performance reasons facets will only be loaded when no search or
  * filters are applied.
  *
- * @return array
+ * @return array|null
  *   All facets.
  */
 function bpi_get_facets() {
