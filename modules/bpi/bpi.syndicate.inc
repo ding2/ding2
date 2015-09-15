@@ -585,7 +585,7 @@ function _bpi_get_filter_query($field, $value, $clear = TRUE) {
  *   The merged query.
  */
 function _bpi_build_query(array $query, $clear = FALSE) {
-  $current_query = $clear === TRUE ? array() : _bpi_get_query_parameter();
+  $current_query = ($clear === TRUE) ? array() : _bpi_get_query_parameter();
   if (is_array($clear)) {
     foreach ($clear as $name) {
       unset($current_query[$name]);
