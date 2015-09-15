@@ -68,7 +68,7 @@ function bpi_syndicate_page_form($form, &$form_state) {
       '#value' => t('Search'),
     );
 
-    if (_bpi_get_current_search_phrase()) {
+    if (!empty(_bpi_get_current_search_phrase())) {
       $query_form['bpi_search']['bpi_search_actions']['bpi_search_reset'] = array(
         '#type' => 'item',
         '#markup' => l(t('Reset search'), current_path(), array(
@@ -98,7 +98,7 @@ function bpi_syndicate_page_form($form, &$form_state) {
       ),
     );
 
-    if ($items) {
+    if (!empty($items)) {
       $result_form['bpi_search_info'] = array(
         '#type' => 'container',
         '#attributes' => array(
@@ -190,7 +190,7 @@ function bpi_syndicate_page_form($form, &$form_state) {
 function bpi_syndicate_page_form_submit(array $form, array &$form_state) {
   $bpi_query = array();
   $sorting = _bpi_get_current_sorting();
-  if ($sorting) {
+  if (!empty($sorting)) {
     $bpi_query[BPI_QUERY_SORT_NAME] = $sorting;
   }
   $values = $form_state['values'];
@@ -199,7 +199,7 @@ function bpi_syndicate_page_form_submit(array $form, array &$form_state) {
     $bpi_query['amount'] = intval($values['bpi_search_amount']);
   }
 
-  if (isset($values['bpi_search_query']) && trim($values['bpi_search_query'])) {
+  if (isset($values['bpi_search_query']) && !empty(trim($values['bpi_search_query']))) {
     $bpi_query[BPI_SEARCH_PHRASE_KEY] = trim($values['bpi_search_query']);
   }
 
@@ -468,7 +468,7 @@ function bpi_preprocess_bpi_search_results(array &$variables) {
  */
 function bpi_get_sort_link($text, $field, $default_direction = 'asc') {
   $current_sorting = _bpi_get_current_sorting($field);
-  if ($current_sorting) {
+  if (!empty($current_sorting)) {
     $sort_direction = $current_sorting == 'asc' ? 'desc' : 'asc';
   }
   else {
@@ -495,7 +495,7 @@ function bpi_get_sort_link($text, $field, $default_direction = 'asc') {
  */
 function _bpi_get_current_sorting($field = NULL) {
   $sorting = _bpi_get_query_parameter(BPI_QUERY_SORT_NAME);
-  if ($field) {
+  if (!empty($field)) {
     return isset($sorting[$field]) ? $sorting[$field] : NULL;
   }
   return $sorting;
@@ -511,10 +511,10 @@ function _bpi_get_current_search_query() {
   $text = _bpi_get_query_parameter('text', NULL);
   $amount = _bpi_get_query_parameter('amount');
   $query = array();
-  if ($text) {
+  if (!empty($text)) {
     $query['text'] = $text;
   }
-  if ($amount) {
+  if (!empty($amount)) {
     $query['amount'] = $amount;
   }
   return $query;
@@ -605,10 +605,10 @@ function _bpi_build_query(array $query, $clear = FALSE) {
  */
 function _bpi_get_query_parameter($path = NULL, $default_value = NULL) {
   $data = drupal_get_query_parameters();
-  if ($path && !is_array($path)) {
+  if (!empty($path) && !is_array($path)) {
     $path = array($path);
   }
-  if ($path) {
+  if (!empty($path)) {
     foreach ($path as $step) {
       if (!isset($data[$step])) {
         return $default_value;
@@ -698,7 +698,7 @@ function bpi_syndicate_action($bpi_id) {
 function bpi_build_search_facets(array &$form) {
   $facets = bpi_get_facets();
 
-  if ($facets) {
+  if (!empty($facets)) {
     $filter_form = array(
       '#type' => 'fieldset',
       '#title' => t('Filters'),
@@ -797,7 +797,7 @@ function bpi_build_search_facets(array &$form) {
       ),
     );
 
-    if (_bpi_get_current_filter()) {
+    if (!empty(_bpi_get_current_filter())) {
       $filter_form['bpi_actions']['reset_filter'] = array(
         '#type' => 'item',
         '#markup' => l(t('Reset filters'), current_path(), array(
@@ -833,7 +833,7 @@ function bpi_get_facets() {
 
   if ($reload) {
     $response = bpi_search_content();
-    if ($response) {
+    if (!empty($response)) {
       $facets = $response->getFacets();
       $_SESSION['bpi_all_facets'] = bpi_facets_to_array($facets);
     }
