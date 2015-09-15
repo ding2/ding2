@@ -295,7 +295,6 @@ function bpi_search_get_items() {
   $sort = _bpi_get_current_sorting();
 
   $response = bpi_search_content($phrase, $page, $filters, $sort);
-  bpi_set_search_facets($response ? $response->getFacets() : NULL);
 
   $bpi_nodes = array();
 
@@ -844,30 +843,6 @@ function bpi_get_facets() {
   }
 
   return $_SESSION[BPI_ALL_FACETS_KEY];
-}
-
-/**
- * Set search facets.
- *
- * Used to store facets from actual search in the session as we need the
- * facets when rendering the form on postback.
- *
- * @param \Bpi\Sdk\Facets $facets
- *   The facets returned from the search.
- */
-function bpi_set_search_facets(\Bpi\Sdk\Facets $facets = NULL) {
-  // Convert facets to array for safe storage in session.
-  $_SESSION['bpi_search_facets'] = $facets ? bpi_facets_to_array($facets) : NULL;
-}
-
-/**
- * Get facets from last search.
- *
- * @return array $facets
- *   The facets.
- */
-function bpi_get_search_facets() {
-  return isset($_SESSION['bpi_search_facets']) ? $_SESSION['bpi_search_facets'] : NULL;
 }
 
 /**
