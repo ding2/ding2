@@ -18,6 +18,11 @@ define('BPI_AGENCY_CACHE', 'bpi_agency_cache');
 define('BPI_QUERY_SORT_NAME', 'sorting');
 
 /**
+ * Default page size for paging.
+ */
+define('BPI_DEFAULT_PAGE_SIZE', 10);
+
+/**
  * Define syndication page markup.
  *
  * This includes search form, filtering and found content.
@@ -86,7 +91,7 @@ function bpi_syndicate_page_form($form, &$form_state) {
     bpi_build_search_facets($query_form);
 
     $total_items = isset($items[0]['total_count']) ? $items[0]['total_count'] : 0;
-    $page_size = _bpi_get_query_parameter('amount', 10);
+    $page_size = _bpi_get_query_parameter('amount', BPI_DEFAULT_PAGE_SIZE);
     pager_default_initialize($total_items, $page_size);
 
     $result_form = array(
@@ -134,6 +139,7 @@ function bpi_syndicate_page_form($form, &$form_state) {
           100 => 100,
         ),
         '#default_value' => _bpi_get_query_parameter('amount', 10),
+        '#default_value' => _bpi_get_query_parameter('amount', BPI_DEFAULT_PAGE_SIZE),
         '#attributes' => array(
           'onchange' => 'form.submit()',
         ),
@@ -239,7 +245,7 @@ function bpi_syndicate_page_form_submit(array $form, array &$form_state) {
 function bpi_search_content($query = '', $page = 1, $filters = array(), $sort = array()) {
   try {
     $bpi = bpi_client_instance();
-    $amount = max(intval(_bpi_get_query_parameter('amount', 10)), 10);
+    $amount = max(intval(_bpi_get_query_parameter('amount')), BPI_DEFAULT_PAGE_SIZE);
     $offset = $page * $amount;
 
     $bpi_data = $bpi->searchNodes(
