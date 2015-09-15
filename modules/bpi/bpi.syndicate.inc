@@ -137,13 +137,7 @@ function bpi_syndicate_page_form($form, &$form_state) {
       $result_form['bpi_search_info']['bpi_search_amount'] = array(
         '#type' => 'select',
         '#title' => t('Page size'),
-        '#options' => array(
-          10 => 10,
-          20 => 20,
-          50 => 50,
-          100 => 100,
-        ),
-        '#default_value' => _bpi_get_query_parameter('amount', 10),
+        '#options' => drupal_map_assoc(array(10, 20, 50, 100)),
         '#default_value' => _bpi_get_query_parameter('amount', BPI_DEFAULT_PAGE_SIZE),
         '#attributes' => array(
           'onchange' => 'form.submit()',
@@ -216,10 +210,8 @@ function bpi_syndicate_page_form_submit(array $form, array &$form_state) {
 
   if (isset($values['bpi_facets'])) {
     foreach ($values['bpi_facets'] as $key => $value) {
-      $selected_values = is_array($value) ? array_keys(array_filter($value, function($value) {
-        return $value;
-      })) : $value;
-      if ($selected_values) {
+      $selected_values = is_array($value) ? array_keys(array_filter($value)) : $value;
+      if (!empty($selected_values)) {
         if (!isset($bpi_query['filter'])) {
           $bpi_query['filter'] = array();
         }
@@ -749,21 +741,19 @@ function bpi_build_search_facets(array &$form) {
       }
       $default_value = _bpi_get_query_parameter(array('filter', $name), array());
 
-      switch ($name) {
-        case 'agency_internal':
-          $options = array(
-            '' => t('All'),
-          );
-          if (isset($terms[0])) {
-            $options['false'] = t('No');
-          }
-          if (isset($terms[1])) {
-            $options['true'] = t('Yes');
-          }
-          $default_value = _bpi_get_query_parameter(array('filter', $name));
-          $multiple = FALSE;
-          $type = 'select';
-          break;
+      if ($name == 'agency_internal') {
+        $options = array(
+          '' => t('All'),
+        );
+        if (isset($terms[0])) {
+          $options['false'] = t('No');
+        }
+        if (isset($terms[1])) {
+          $options['true'] = t('Yes');
+        }
+        $default_value = _bpi_get_query_parameter(array('filter', $name));
+        $multiple = FALSE;
+        $type = 'select';
       }
 
       $facets_form[$id] = array(
@@ -894,22 +884,20 @@ function bpi_get_search_facets() {
  *   ]
  */
 function bpi_facets_to_array(\Bpi\Sdk\Facets $facets) {
-  $data = NULL;
-
-  if ($facets) {
-    $data = array();
-    foreach ($facets->getFacets() as $facet) {
-      $data[$facet->getFacetName()] = array();
-      foreach ($facet->getFacetTerms() as $name => $term) {
-        $data[$facet->getFacetName()][$name] = array(
-          'title' => $term->getTitle(),
-          'count' => $term->getAmount(),
-        );
-      }
+  $data = array();
+  foreach ($facets->getFacets() as $facet) {
+    $data[$facet->getFacetName()] = array();
+    foreach ($facet->getFacetTerms() as $name => $term) {
+      $data[$facet->getFacetName()][$name] = array(
+        'title' => $term->getTitle(),
+        'count' => $term->getAmount(),
+      );
     }
-
-    ksort($data);
   }
+
+  // Sort by keys for consistency. The webservice may not always return facets
+  // in the same order.
+  ksort($data);
 
   return $data;
 }
