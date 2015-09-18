@@ -38,14 +38,13 @@ function template_preprocess_ting_search_context_content(&$vars, $hook) {
   if ($node->type == 'ding_search_context_link') {
     $link_field = field_get_items('node', $node, 'field_search_context_link');
     $link = empty($link_field [0]['url']) ? 0 : $link_field[0]['url'];
+    $link = rawurldecode($link);
     $url = url($link);
   } else {
     $url = url(drupal_get_path_alias('node/' . $node->nid), array('absolute' => TRUE));
   }
-  if ((strpos($url, 'ting/object/') !== false) || (strpos($url, 'ting/collection/') !== false)) {
-    $url .= '/';  // If the url points at a object or a collection there needs to be a / before parameters.
-  }
-  $url .= '?WT.cg_n=searchcontext'; 
+
+  $url .= '?WT.cg_n=searchcontext';
   $vars['url'] = $url;
 
   // Title
