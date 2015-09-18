@@ -30,7 +30,11 @@ function ting_search_context_calculate_context($facets, $numTotalObjects, $searc
 
   $system_type = ting_search_context_get_material_type($facets, $numTotalObjects);
   if ($system_type == 'book') {
-    $system_type = ting_search_context_get_audience_fiction($facets);
+    if ($numTotalObjects == 0) {
+      $system_type = 'voksen_skøn'; //Defaults to voksen_skøn on 0 hits searches.
+    } else {
+      $system_type = ting_search_context_get_audience_fiction($facets);
+    }
   }
 
   $subject_contexts = array();
