@@ -42,7 +42,10 @@ function template_preprocess_ting_search_context_content(&$vars, $hook) {
   } else {
     $url = url(drupal_get_path_alias('node/' . $node->nid), array('absolute' => TRUE));
   }
-  //$url .= '?WT.cg_n=searchcontext'; //Todo may not work with url which contain search strings
+  if ((strpos($url, 'ting/object/') !== false) || (strpos($url, 'ting/collection/') !== false)) {
+    $url .= '/';  // If the url points at a object or a collection there needs to be a / before parameters.
+  }
+  $url .= '?WT.cg_n=searchcontext'; 
   $vars['url'] = $url;
 
   // Title
