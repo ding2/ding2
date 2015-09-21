@@ -433,6 +433,7 @@ function ting_search_context_get_nodes($context_id, $count = 5, $node_types = 'a
   $query->addField($nr_alias, 'rating', 'rating');
 	$query->condition($nr_alias . '.context_id', $context_id)
 		->condition('n.status', 1, '=')
+    ->orderRandom()
 		// Lets node access modules alter the query.
 		// See: https://www.drupal.org/node/310077 and hook_query_TAG_alter().
 		->addTag('node_access');
@@ -451,7 +452,6 @@ function ting_search_context_get_nodes($context_id, $count = 5, $node_types = 'a
 	$query_max = clone $query;
 	$query_max_result = $query_max->condition($nr_alias . '.rating', 10)
 	  ->range(0, $count)
-	  ->orderRandom()
 	  ->execute();
 	foreach ($query_max_result as $record) {
 		$return[$record->nid] = node_load($record->nid);
