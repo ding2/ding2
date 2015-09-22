@@ -15,7 +15,7 @@ function ting_search_context_field_default_field_instances() {
     'bundle' => 'ding_search_context_link',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Requires af valid url. Either "http:// .." or "/foo/bar..". System urls "node/10.." are not valid',
     'display' => array(
       'default' => array(
         'label' => 'above',
