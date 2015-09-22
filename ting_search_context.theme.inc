@@ -39,7 +39,8 @@ function template_preprocess_ting_search_context_content(&$vars, $hook) {
   if ($node->type == 'ding_search_context_link') {
     $link_field = field_get_items('node', $node, 'field_search_context_link');
     $link = empty($link_field [0]['url']) ? 0 : $link_field[0]['url'];
-    $url = rawurldecode($link);
+    $url = str_replace('"', '%22', $link ); // Quotes inside search queries need to be escaped
+
     if (strpos($url, '?') == false) {
       $url .= '?WT.cg_n=searchcontext';
     } else {
