@@ -25,8 +25,19 @@ function ting_search_context_admin_contexts() {
 	return $output;
 }
 
-function ting_search_context_admin_context_form($form, &$form_state, $context = NULL) {
+function ting_search_context_admin_context_form($form, &$form_state, $context = FALSE) {
 	$form = array();
+
+  $search = $subject = FALSE;
+  if ($context || isset($form_state['ting_search_context'])) {
+    // Save the context object in form_state for late use.
+    if (!isset($form_state['ting_search_context'])) {
+      $form_state['ting_search_context'] = $context;
+    }
+    // During a rebuild; user the stored $context object.
+    $context = $form_state['ting_search_context'];
+    $context->type == 'search' ? $search = TRUE : $subject = TRUE;
+  }
 
 	$form['add_context'] = array(
 		'#type' => 'fieldset',
@@ -40,7 +51,7 @@ function ting_search_context_admin_context_form($form, &$form_state, $context = 
 			'search' => t('Search string context'),
 			'subject' => t('Subject context'),
 		),
-		'#default_value' => 'search',
+		'#default_value' => $context ? $context->type : 'search',
 	);
 	$form['add_context']['name'] = array(
 		'#type' => 'textfield',
@@ -48,8 +59,9 @@ function ting_search_context_admin_context_form($form, &$form_state, $context = 
 		'#description' => t('Enter the name of the context'),
 		'#maxlength' => 255,
 		'#required' => TRUE,
+    '#default_value' => $context ? $context->name : '',
 	);
-	$form['add_context']['search_string'] = array(
+	$form['add_context']['search'] = array(
 		'#type' => 'textfield',
 		'#title' => t('Search string'),
 		'#description' => t('Enter the search string'),
@@ -62,8 +74,9 @@ function ting_search_context_admin_context_form($form, &$form_state, $context = 
 				':input[name="type"]' => array('value' => 'search'),
 			),
 		),
+    '#default_value' => $search ? $context->search : '',
 	);
-	$form['add_context']['parent_context'] = array(
+	$form['add_context']['context'] = array(
 		'#type' => 'select',
 		'#title' => t('Parent context'),
 		'#description' => t('Select the parent context'),
@@ -78,6 +91,7 @@ function ting_search_context_admin_context_form($form, &$form_state, $context = 
 				':input[name="type"]' => array('value' => 'subject'),
 			),
 		),
+    '#default_value' => $subject ? $context->context : '',
 	);
 	$form['add_context']['subjects'] = array(
 		'#type' => 'textfield',
@@ -92,6 +106,7 @@ function ting_search_context_admin_context_form($form, &$form_state, $context = 
 				':input[name="type"]' => array('value' => 'subject'),
 			),
 		),
+    '#default_value' => $subject ? $context->subjects : '',
 	);
 
 	// Form actions
@@ -113,14 +128,24 @@ function ting_search_context_admin_context_form($form, &$form_state, $context = 
 
 function ting_search_context_admin_context_form_validate($form, &$form_state) {
 	$type = $form_state['values']['type'];
+  $context = isset($form_state['ting_search_context']) ? $form_state['ting_search_context'] : FALSE;
+  $changed = FALSE;
+  $is_new = !$context;
 
 	if ($type == 'search') {
     // Don't let the user create identical search string contexts.
-    $search_string = $form_state['values']['search_string'];
-    if ($identical = ting_search_context_search_string_context_exists($search_string)) {
-      form_set_error('search_string', t('An identical seach string context already exists: %context', array(
-            '%context' => check_plain($identical->name),
-      )));
+    $search_string = $form_state['values']['search'];
+
+    if ($context) {
+      $changed = mb_strtolower($search_string, 'UTF-8') !== mb_strtolower($context->search, 'UTF-8');
+    }
+
+    if ($is_new || $changed) {
+      if ($identical = ting_search_context_search_string_context_exists($search_string)) {
+        form_set_error('search_string', t('An identical seach string context already exists: %context', array(
+              '%context' => check_plain($identical->name),
+        )));
+      }
     }
 	}
 	else {
@@ -171,11 +196,17 @@ function ting_search_context_admin_context_form_validate($form, &$form_state) {
         '%subjects' => check_plain($duplicate_subjects),
       ));
     }
+
+    if ($context) {
+      $changed = $subjects !== $context->subjects;
+    }
     // Don't let the user create identical subject contexts.
-    if ($identical = ting_search_context_subject_context_exists($trimmed_subjects)) {
-      $error_messages[] = t('An identical subject context already exists: %identical', array(
-        '%identical' => check_plain($identical->name),
-      ));
+    if ($is_new || $changed) {
+      if ($identical = ting_search_context_subject_context_exists($trimmed_subjects)) {
+        $error_messages[] = t('An identical subject context already exists: %identical', array(
+          '%identical' => check_plain($identical->name),
+        ));
+      }
     }
 
     if (!empty($error_messages)) {
@@ -192,24 +223,33 @@ function ting_search_context_admin_context_form_validate($form, &$form_state) {
 }
 
 function ting_search_context_admin_context_form_submit($form, &$form_state) {
-	$type = $form_state['values']['type'];
-	$name = $form_state['values']['name'];
+  $context = new stdClass();
 
-	// TODO: Error handling
-	switch ($type) {
-		case 'search':
-			$search_string = $form_state['values']['search_string'];
-			ting_search_context_save_context($type, $name, $search_string);
-			break;
-		case 'subject':
-			$context = $form_state['values']['parent_context'];
-			$subjects = $form_state['values']['subjects'];
-			ting_search_context_save_context($type, $name, $context, $subjects);
-			break;
-	}
+  // Prepare the context object for ting_search_context_save().
+  $context->type = $form_state['values']['type'];
+  $context->name = $form_state['values']['name'];
 
-	// Set message and go back,
-	drupal_set_message(t('Context saved'));
+  switch ($context->type) {
+    case 'search':
+      $context->search = $form_state['values']['search'];
+      break;
+    case 'subject':
+      $context->context = $form_state['values']['context'];
+      $context->subjects = $form_state['values']['subjects'];
+  }
+
+  if (isset($form_state['ting_search_context'])) {
+    $context->context_id = $form_state['ting_search_context']->context_id;
+    $context->is_new = FALSE;
+  }
+  else {
+    $context->is_new = TRUE;
+  }
+
+  // Set message and go back,
+  if (ting_search_context_save($context)) {
+    drupal_set_message(t('Context saved'));
+  }
 	$form_state['redirect'] = 'admin/config/ting/ting-search-context/contexts';
 }
 

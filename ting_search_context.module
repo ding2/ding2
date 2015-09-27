@@ -57,7 +57,16 @@ function ting_search_context_menu() {
     'title' => 'Add context',
     'description' => 'Add a new subject or search type context to the system',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('ting_search_context_admin_context_form'),
+    'page arguments' => array('ting_search_context_admin_context_form_add'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_LOCAL_ACTION,
+    'file' => 'ting_search_context.admin.inc',
+  );
+  $items['admin/config/ting/ting-search-context/contexts/%ting_search_context/edit'] = array(
+    'title' => 'Edit context',
+    'description' => 'Edit an existing subject or search type context',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_search_context_admin_context_form_edit', 5),
     'access arguments' => array('administer site configuration'),
     'type' => MENU_LOCAL_ACTION,
     'file' => 'ting_search_context.admin.inc',
@@ -91,6 +100,20 @@ function ting_search_context_theme($existing, $type, $theme, $path) {
       ),
     ),
   );
+}
+
+/**
+ * Implements hook_forms().
+ */
+function ting_search_context_forms() {
+  $forms = array();
+  $forms['ting_search_context_admin_context_form_add'] = array(
+    'callback' => 'ting_search_context_admin_context_form',
+  );
+  $forms['ting_search_context_admin_context_form_edit'] = array(
+    'callback' => 'ting_search_context_admin_context_form',
+  );
+  return $forms;
 }
 
 /**
@@ -596,6 +619,47 @@ function ting_search_context_save_context($type, $name, $context, $subjects = NU
 
 	// TODO: Should we handle DB exceptions here or in the UI??
 	return db_insert('ting_search_context_contexts')->fields($fields)->execute();
+}
+
+
+/**
+ * Saves or updates a context.
+ *
+ * @param $context
+ *   The context-object to be saved.
+ *   If $context->context_id is omitted or $context->is_new is TRUE, a new
+ *   context will be saved to the database.
+ *
+ * @return mixed
+ *   FALSE if the insert or updated failed.
+ *   Otherwise SAVED_NEW or SAVED_UPDATED depending on the operation performed.
+ *
+ * @see ting_search_context_schema()
+ * @see ting_search_context_load()
+ * @see ting_search_context_load_multiple()
+ */
+function ting_search_context_save($context) {
+  try {
+    if (!isset($context->is_new)) {
+      $context->is_new = empty($context->context_id);
+    }
+
+    $id = $context->is_new ? array() : 'context_id';
+
+    return drupal_write_record('ting_search_context_contexts', $context, $id);
+  }
+  catch (Exception $e) {
+    // TODO: Search $e for specific error condition.
+    // http://alvinalexander.com/drupal/handling-drupal-sql-query-exceptions-try-catch
+    drupal_set_message(t('Something went wrong !op %context.', array(
+      '!op' => $context->is_new ? 'saving' : 'updating',
+      '%context' => $context->name ? $context->name : 'Unknown',
+    )), 'error');
+
+    watchdog_exception('ting_search_context', $e);
+
+    return FALSE;
+  }
 }
 
 /**
