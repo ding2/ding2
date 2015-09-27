@@ -19,12 +19,22 @@ function ting_search_context_admin_rate_nodes() {
 	return $output;
 }
 
-
+/**
+ * Callback for the context overview administratition page.
+ */
 function ting_search_context_admin_contexts() {
 	$output = array();
 	return $output;
 }
 
+/**
+ * Form-builder for the context form. Used when adding and editing contexts.
+ *
+ * @see ting_search_context_forms()
+ * @see ting_search_context_admin_context_form_validate()
+ * @see ting_search_context_admin_context_form_submit()
+ * @see ting_search_context_admin_context_form_cancel()
+ */
 function ting_search_context_admin_context_form($form, &$form_state, $context = FALSE) {
 	$form = array();
 
@@ -126,6 +136,11 @@ function ting_search_context_admin_context_form($form, &$form_state, $context = 
 	return $form;
 }
 
+/**
+ * Validation callback for the context form.
+ *
+ * @see ting_search_context_admin_context_form()
+ */
 function ting_search_context_admin_context_form_validate($form, &$form_state) {
 	$type = $form_state['values']['type'];
   $context = isset($form_state['ting_search_context']) ? $form_state['ting_search_context'] : FALSE;
@@ -222,6 +237,11 @@ function ting_search_context_admin_context_form_validate($form, &$form_state) {
 	}
 }
 
+/**
+ * Submit callback for the context form.
+ *
+ * @see ting_search_context_admin_context_form().
+ */
 function ting_search_context_admin_context_form_submit($form, &$form_state) {
   $context = new stdClass();
 
@@ -246,13 +266,18 @@ function ting_search_context_admin_context_form_submit($form, &$form_state) {
     $context->is_new = TRUE;
   }
 
-  // Set message and go back,
+  // Save, set message and go back,
   if (ting_search_context_save($context)) {
     drupal_set_message(t('Context saved'));
   }
 	$form_state['redirect'] = 'admin/config/ting/ting-search-context/contexts';
 }
 
+/**
+ * Submit calback for the cancel callback on the context form.
+ *
+ * @see ting_search_context_admin_context_form()
+ */
 function ting_search_context_admin_context_form_cancel($form, &$form_state) {
 	// Go back to contexts settings (or destination if parameter is set)
 	$form_state['redirect'] = 'admin/config/ting/ting-search-context/contexts';
@@ -260,7 +285,6 @@ function ting_search_context_admin_context_form_cancel($form, &$form_state) {
 
 /**
  * Form builder (admin/config/ding/searchcontext)
- * Implements hook_form().
  * Admin form to configure position of related content on search page
  */
 function ting_search_context_admin_settings_form($form, &$form_state) {
