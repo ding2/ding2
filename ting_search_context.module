@@ -577,52 +577,6 @@ function ting_search_context_rate_node($context_id, $nid, $rating) {
 }
 
 /**
- * Saves a context in the database.
- *
- * @param string $type
- *   The machine-readable type of context.
- * @param string $name
- *   The human-readable name of the context.
- * @param string $context
- *   If $type is 'system' or 'subject' this should be the machine-readable name
- *   of the context.
- *   If $type is 'search' this should be the search string of the context.
- * @param string $subjects
- *   The subjects term for subject type contexts.
- *
- * @return string
- *   The context_id of the newly created context.
- *
- * @see ting_search_context_schema()
- *
- * TODO: Should throw exception if type is 'subject' but no $subject is set?
- * TODO: Uset try-catch to handle 'Integrity constraint violation' or
- *       'Duplicate entry'. See: http://alvinalexander.com/drupal/handling-drupal-sql-query-exceptions-try-catch
- */
-function ting_search_context_save_context($type, $name, $context, $subjects = NULL) {
-	$fields = array(
-		'type' => $type,
-		'name' => $name,
-	);
-
-	switch ($type) {
-		case 'subject':
-			$fields += array('subjects' => $subjects);
-			// Fall through
-		case 'system':
-			$fields += array('context' => $context);
-			break;
-		case 'search':
-		  $fields += array('search' => $context);
-		  break;
-	}
-
-	// TODO: Should we handle DB exceptions here or in the UI??
-	return db_insert('ting_search_context_contexts')->fields($fields)->execute();
-}
-
-
-/**
  * Saves or updates a context.
  *
  * @param $context
