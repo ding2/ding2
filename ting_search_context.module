@@ -68,7 +68,14 @@ function ting_search_context_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ting_search_context_admin_context_form_edit', 5),
     'access arguments' => array('administer site configuration'),
-    'type' => MENU_LOCAL_ACTION,
+    'file' => 'ting_search_context.admin.inc',
+  );
+  $items['admin/config/ting/ting-search-context/contexts/%ting_search_context/delete'] = array(
+    'title' => 'Delete context',
+    'description' => 'Delete a subject or search type context',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_search_context_admin_context_delete_confirm_form', 5),
+    'access arguments' => array('administer site configuration'),
     'file' => 'ting_search_context.admin.inc',
   );
   return $items;

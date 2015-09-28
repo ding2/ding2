@@ -125,6 +125,14 @@ function ting_search_context_admin_context_form($form, &$form_state, $context = 
 		'#type' => 'submit',
 		'#value' => t('Save'),
 	);
+  // Delete button
+  if ($context) {
+    $form['actions']['delete'] = array(
+      '#type' => 'submit',
+      '#value' => t('Delete'),
+      '#submit' => array('ting_search_context_admin_context_form_delete'),
+    );
+  }
   $form['actions']['cancel'] = array(
     '#type' => 'submit',
     '#value' => t('Cancel'),
@@ -274,6 +282,22 @@ function ting_search_context_admin_context_form_submit($form, &$form_state) {
 }
 
 /**
+ * Submit handler for the delete button on the context form
+ */
+function ting_search_context_admin_context_form_delete($form, &$form_state) {
+  // Pass along any destination parameter set from previous pages
+  $destination = array();
+  if (isset($_GET['destination'])) {
+    $destination = drupal_get_destination();
+    unset($_GET['destination']);
+  }
+  // Should allways be set since this is only available on the edit form.
+  $context_id = $form_state['ting_search_context']->context_id;
+  $path = 'admin/config/ting/ting-search-context/contexts/' . $context_id .'/delete';
+  $form_state['redirect'] = array($path, array('query' => $destination));
+}
+
+/**
  * Submit calback for the cancel callback on the context form.
  *
  * @see ting_search_context_admin_context_form()
@@ -281,6 +305,30 @@ function ting_search_context_admin_context_form_submit($form, &$form_state) {
 function ting_search_context_admin_context_form_cancel($form, &$form_state) {
 	// Go back to contexts settings (or destination if parameter is set)
 	$form_state['redirect'] = 'admin/config/ting/ting-search-context/contexts';
+}
+
+/**
+ * Form builder for the context delete confirm form.
+ */
+function ting_search_context_admin_context_delete_confirm_form($form, &$form_state, $context) {
+  // Save the context-object for later processing.
+  $form['ting_search_context'] = array('#type' => 'value', '#value' => $context);
+  // TODO: Show wich ratings will be deleted?
+  return confirm_form($form,
+    t('Are you sure you want to delete the context?'),
+    'admin/config/ting/ting-search-context/contexts/' . $context->context_id . '/edit',
+    t('This action cannot be undone.'),
+    t('delete'),
+    t('cancel')
+  );
+}
+
+function ting_search_context_admin_context_delete_confirm_form_submit($form, &$form_state) {
+  // TODO: Perform the deletion.
+  // Need to make ting_search_context_delete($context)
+  $context = $form_state['values']['ting_search_context'];
+  drupal_set_message(t('Context %context deleted', array('%context' => $context->name)));
+  $form_state['redirect'] = 'admin/config/ting/ting-search-context/contexts';
 }
 
 /**
