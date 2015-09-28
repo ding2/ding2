@@ -536,23 +536,39 @@ function ting_search_context_node_delete($node) {
 }
 
 /**
- * Removes node ratings from the Database.
+ * Unrates a node by completely deleting all accosiated ratings.
  *
  * @param int $nid
  *   The ID of the node to unrate.
- * @param int $context_id (optional)
- *   The ID of the context to unrate in.
- *   Use this parameter to constrain the unrating to a specific context.
  *
  * @return int
  *   The number of deleted rows in the nodes_rated table.
  */
-function ting_search_context_unrate_node($nid, $context_id = NULL) {
-  $query = db_delete('ting_search_context_nodes_rated')
-    ->condition('nid', $nid);
+function ting_search_context_unrate_node($nid) {
+  return ting_search_context_ratings_delete(NULL, $nid);
+}
 
-  if (isset($context_id)) {
-    $query->condition('context_id', $context_id);
+/**
+ * Deletes node ratings.
+ *
+ * Warning: If this function is used without parameters, all ratings will be
+ * deleted.
+ *
+ * @param mixed $context_ids (optional)
+ *   A string containing a single context_id or an array of context_ids.
+ *   Restrict the deletion to ratings in specific contexts.
+ * @param mixed $nids
+ *   A string containing a single nid or an array of nids.
+ *   Resctrict the deletion of ratings to specific nodes.
+ */
+function ting_search_context_ratings_delete($context_ids = NULL, $nids = NULL) {
+  $query = db_delete('ting_search_context_nodes_rated');
+
+  if (isset($context_ids)) {
+    $query->condition('context_id', $context_ids);
+  }
+  if (isset($nids)) {
+    $query->condition('nid', $nids);
   }
 
   return $query->execute();
@@ -581,46 +597,6 @@ function ting_search_context_rate_node($context_id, $nid, $rating) {
 			'rating' => $rating,
 		))
 		->execute();
-}
-
-/**
- * Saves or updates a context.
- *
- * @param $context
- *   The context-object to be saved.
- *   If $context->context_id is omitted or $context->is_new is TRUE, a new
- *   context will be saved to the database.
- *
- * @return mixed
- *   FALSE if the insert or updated failed.
- *   Otherwise SAVED_NEW or SAVED_UPDATED depending on the operation performed.
- *
- * @see ting_search_context_schema()
- * @see ting_search_context_load()
- * @see ting_search_context_load_multiple()
- */
-function ting_search_context_save($context) {
-  try {
-    if (!isset($context->is_new)) {
-      $context->is_new = empty($context->context_id);
-    }
-
-    $id = $context->is_new ? array() : 'context_id';
-
-    return drupal_write_record('ting_search_context_contexts', $context, $id);
-  }
-  catch (Exception $e) {
-    // TODO: Search $e for specific error condition.
-    // http://alvinalexander.com/drupal/handling-drupal-sql-query-exceptions-try-catch
-    drupal_set_message(t('Something went wrong !op %context.', array(
-      '!op' => $context->is_new ? 'saving' : 'updating',
-      '%context' => $context->name ? $context->name : 'Unknown',
-    )), 'error');
-
-    watchdog_exception('ting_search_context', $e);
-
-    return FALSE;
-  }
 }
 
 /**
@@ -668,6 +644,112 @@ function ting_search_context_subject_context_exists($subjects) {
       return $subject_context;
     }
   }
+  return FALSE;
+}
+
+/**
+ * Saves or updates a context.
+ *
+ * @param $context
+ *   The context-object to be saved.
+ *   If $context->context_id is omitted or $context->is_new is TRUE, a new
+ *   context will be saved to the database.
+ *
+ * @return mixed
+ *   FALSE if the insert or updated failed.
+ *   Otherwise SAVED_NEW or SAVED_UPDATED depending on the operation performed.
+ *
+ * @see ting_search_context_schema()
+ * @see ting_search_context_load()
+ * @see ting_search_context_load_multiple()
+ */
+function ting_search_context_save($context) {
+  try {
+    if (!isset($context->is_new)) {
+      $context->is_new = empty($context->context_id);
+    }
+
+    $id = $context->is_new ? array() : 'context_id';
+
+    return drupal_write_record('ting_search_context_contexts', $context, $id);
+  }
+  catch (Exception $e) {
+    // TODO: Search $e for specific error condition.
+    // http://alvinalexander.com/drupal/handling-drupal-sql-query-exceptions-try-catch
+    drupal_set_message(t('Something went wrong !op %context.', array(
+      '!op' => $context->is_new ? 'saving' : 'updating',
+      '%context' => $context->name ? $context->name : 'Unknown',
+    )), 'error');
+
+    watchdog_exception('ting_search_context', $e);
+
+    return FALSE;
+  }
+}
+
+/**
+ * Deletes a context and any associated ratings.
+ *
+ * @param int $context_id
+ *   The ID of the context to delete.
+ *
+ * @return mixed
+ *   TRUE if deletion was successful.
+ *   FALSE if something went wrong or nothing was deleted.
+ */
+function ting_search_context_delete($context_id) {
+  return ting_search_context_delete_multiple(array($context_id));
+}
+
+/**
+ * Deletes multiple contexts and any associated ratings.
+ *
+ * @param array $context_ids
+ *   And array with ids of the contexts to delete.
+ *
+ * @return mixed
+ *   int. The number of contexts deleted.
+ *   False if something went wrong or nothing was deleted.
+ */
+function ting_search_context_delete_multiple($context_ids) {
+  // We are (possible) deleting multiple contexts and associated ratings.
+  $transaction = db_transaction();
+
+  if (!empty($context_ids)) {
+    try {
+      // Delete the contexts.
+      $result_context = db_delete('ting_search_context_contexts')
+        ->condition('context_id', $context_ids, 'IN')
+        ->execute();
+
+      // If any contexts was deleted remove associated ratings.
+      if ($result_context) {
+        $result_ratings = ting_search_context_ratings_delete($context_ids);
+      }
+    }
+    catch (Exception $e) {
+      $transaction->rollback();
+      drupal_set_message(t('Something went wrong deleting contexts. See log for further details'))
+      watchdog_exception('ting_search_context', $e);
+      return FALSE;
+    }
+
+    // If a deletion was performed.
+    if ($result_context) {
+      $output = format_plural(count($result_context),
+        '1 context was deleted and !ratings',
+        '@count contexts was deleted and !ratings',
+        array('!ratings' => format_plural(count($result_ratings),
+          '1 associated rating',
+          '@count associated ratings'
+      )));
+      drupal_set_message($output);
+      // Reset our load_multiple static cache.
+      drupal_static_reset('ting_search_context_load_multiple');
+      return $result_context;
+    }
+  }
+
   return FALSE;
 }
 
