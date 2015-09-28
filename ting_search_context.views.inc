@@ -94,7 +94,7 @@ function ting_search_context_views_data() {
     'help' => t('The human-readable name of the context'),
     'field' => array(
       'handler' => 'views_handler_field',
-      'click_sortable' => TRUE,
+      'click sortable' => TRUE,
     ),
     'sort' => array(
       'handler' => 'views_handler_sort',
@@ -111,7 +111,7 @@ function ting_search_context_views_data() {
     'help' => t('The machine-name of the context'),
     'field' => array(
       'handler' => 'views_handler_field',
-      'click_sortable' => TRUE,
+      'click sortable' => TRUE,
     ),
     'sort' => array(
       'handler' => 'views_handler_sort',
@@ -136,7 +136,7 @@ function ting_search_context_views_data() {
     'help' => t('The search string of the context'),
     'field' => array(
       'handler' => 'views_handler_field',
-      'click_sortable' => TRUE,
+      'click sortable' => TRUE,
     ),
     'sort' => array(
       'handler' => 'views_handler_sort',

@@ -46,7 +46,7 @@ function ting_search_context_menu() {
     'weight' => -10,
   );
   $items['admin/config/ting/ting-search-context/contexts'] = array(
-    'title' => 'Context',
+    'title' => 'Contexts',
     'description' => 'Create new contexts and edit/delete existing ones',
     'page callback' => 'ting_search_context_admin_contexts',
     'access arguments' => array('administer site configuration'),

@@ -24,6 +24,9 @@ function ting_search_context_admin_rate_nodes() {
  */
 function ting_search_context_admin_contexts() {
 	$output = array();
+  if ($view = views_get_view('ting_search_context_contexts')) {
+    $output = $view->preview('block_1');
+  }
 	return $output;
 }
 
