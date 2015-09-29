@@ -22,7 +22,7 @@ function template_preprocess_ting_search_context(&$vars, $hook) {
  * Implements default preprocess function for the search context content.
  */
 function template_preprocess_ting_search_context_content(&$vars, $hook) {
-  $node = $vars[node];
+  $node = $vars['node'];
 
   //Image
   $field_name = ting_search_context_get_image_field_name($node);
