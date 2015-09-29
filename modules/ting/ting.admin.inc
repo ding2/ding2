@@ -40,7 +40,7 @@ function ting_admin_ting_settings($form_state) {
     '#title' => t('Filter search queries'),
     '#description' => t('Filter searches by holdingsitem.agencyId. Only activate when opensearch uses data-well 3.5, and the provider is fbs'),
     '#required' => FALSE,
-    '#default_value' => variable_get('ting_search_filter_holdingsitem',0),
+    '#default_value' => variable_get('ting_search_filter_holdingsitem', 0),
   );
 
   $form['ting']['ting_recommendation_url'] = array(
