@@ -43,6 +43,15 @@ function openruth_ding_provider() {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter (ding_debts_form)
+ *
+ * Integra only suppurt payment of FULL amount. 
+ */
+function openruth_form_ding_debt_debts_form_alter(&$form, &$form_stats) {
+  unset($form['pay_selected']);
+}
+
+/**
  * Implements hook_ding_devel_timers().
  */
 function openruth_ding_devel_timers() {
