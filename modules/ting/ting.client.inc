@@ -226,6 +226,8 @@ function ting_get_objects($ids) {
  */
 function ting_do_search($query, $page = 1, $results_per_page = 10, $options = array()) {
   $request = ting_get_request_factory()->getSearchRequest();
+
+  $query = _ting_search_quote($query);
   $request->setQuery($query);
   if ($agency = variable_get('ting_agency', FALSE)) {
     $request->setAgency($agency);
