@@ -1,0 +1,8 @@
+<?php
+
+/**
+ * Enable Ting infomedia module.
+ */
+function ding_ting_frontend_update_7000(&$sandbox) {
+    module_enable(array('ting_infomedia'));
+}
