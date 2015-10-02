@@ -407,10 +407,10 @@ function ting_search_context_views_bulk_operations_form_alter(&$form, &$form_sta
  * See: https://www.drupal.org/node/1116326
  */
 function ting_search_context_form_views_exposed_form_alter(&$form, &$form_state) {
-  $view = $form_state['view'];
+  $name = $form_state['view']->name;
 
   // Only do something if this is our view.
-  if ($view->name == 'ting_search_context_rate_nodes') {
+  if ($name == 'ting_search_context_rate_nodes' || $name == 'ting_search_context_contexts') {
     // If the overlay is being used, add the hidden form element.
     if (isset($_REQUEST['render']) && $_REQUEST['render'] == 'overlay') {
       $form['render'] = array(
@@ -838,6 +838,17 @@ function ting_search_context_get_positions() {
     'js-below-search-result' => t('Below search result'),
     'js-below-facets' => t('Below facets'),
     'js-above-search-result' => t('Above search result'),
+  );
+}
+
+/**
+ * Defines the context types we support.
+ */
+function ting_search_context_get_types() {
+  return array(
+    'system' => t('System context'),
+    'subject' => t('Subject context'),
+    'search' => t('Search string context'),
   );
 }
 
