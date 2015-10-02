@@ -128,7 +128,13 @@ function ting_search_context_views_data() {
     'help' => t('The subjects of the context'),
     'field' => array(
       'handler' => 'views_handler_field',
-      'click_sortable' => TRUE,
+      'click sortable' => TRUE,
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort',
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string',
     ),
   );
   $data['ting_search_context_contexts']['search'] = array(
