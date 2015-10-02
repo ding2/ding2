@@ -35,7 +35,7 @@ function openruth_ding_provider() {
         'file' => drupal_get_path('module', 'openruth') . '/includes/openruth.debt.inc',
       ),
       'wayf' => array(
-        'prefix' => 'debt',
+        'prefix' => 'wayf',
         'file' => drupal_get_path('module', 'openruth') . '/includes/openruth.wayf.inc',
       ),
     ),
