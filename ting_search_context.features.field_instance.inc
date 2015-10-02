@@ -146,9 +146,9 @@ function ting_search_context_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Body');
   t('Link');
   t('List image');
+  t('Requires af valid url. Either "http:// .." or "/foo/bar..". System urls "node/10.." are not valid');
 
   return $field_instances;
 }
