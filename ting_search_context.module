@@ -729,7 +729,7 @@ function ting_search_context_delete_multiple($context_ids) {
     }
     catch (Exception $e) {
       $transaction->rollback();
-      drupal_set_message(t('Something went wrong deleting contexts. See log for further details'))
+      drupal_set_message(t('Something went wrong deleting contexts. See log for further details'));
       watchdog_exception('ting_search_context', $e);
       return FALSE;
     }
