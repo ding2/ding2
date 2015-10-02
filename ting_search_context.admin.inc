@@ -57,14 +57,17 @@ function ting_search_context_admin_context_form($form, &$form_state, $context = 
 		'#title' => t('Add context'),
 	);
   $types = ting_search_context_get_types();
-  // We don't allow the creation of system contexts.
-  unset($types['system']);
+  // We don't allow creation or editing of system context types.
+  if ($context && $context->type != 'system') {
+    unset($types['system']);
+  }
 	$form['add_context']['type'] = array(
 		'#type' => 'select',
 		'#title' => t('Context type'),
 		'#description' => t('Select the type of context to create'),
 		'#options' => $types,
 		'#default_value' => $context ? $context->type : 'search',
+    '#disabled' => $context && $context->type == 'system',
 	);
 	$form['add_context']['name'] = array(
 		'#type' => 'textfield',
@@ -73,6 +76,7 @@ function ting_search_context_admin_context_form($form, &$form_state, $context = 
 		'#maxlength' => 255,
 		'#required' => TRUE,
     '#default_value' => $context ? $context->name : '',
+    '#disabled' => $context && $context->type == 'system',
 	);
 	$form['add_context']['search'] = array(
 		'#type' => 'textfield',
@@ -127,9 +131,10 @@ function ting_search_context_admin_context_form($form, &$form_state, $context = 
 	$form['actions']['submit'] = array(
 		'#type' => 'submit',
 		'#value' => t('Save'),
+    '#disabled' => $context && $context->type == 'system',
 	);
   // Delete button
-  if ($context) {
+  if ($context && $context->type != 'system') {
     $form['actions']['delete'] = array(
       '#type' => 'submit',
       '#value' => t('Delete'),
@@ -138,7 +143,7 @@ function ting_search_context_admin_context_form($form, &$form_state, $context = 
   }
   $form['actions']['cancel'] = array(
     '#type' => 'submit',
-    '#value' => t('Cancel'),
+    '#value' => t('Back'),
     '#submit' => array('ting_search_context_admin_context_form_cancel'),
     // Bypass form-validation since this is a cancel-button
     '#limit_validation_errors' => array(),
