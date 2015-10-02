@@ -56,14 +56,14 @@ function ting_search_context_admin_context_form($form, &$form_state, $context = 
 		'#type' => 'fieldset',
 		'#title' => t('Add context'),
 	);
+  $types = ting_search_context_get_types();
+  // We don't allow the creation of system contexts.
+  unset($types['system']);
 	$form['add_context']['type'] = array(
 		'#type' => 'select',
 		'#title' => t('Context type'),
 		'#description' => t('Select the type of context to create'),
-		'#options' => array(
-			'search' => t('Search string context'),
-			'subject' => t('Subject context'),
-		),
+		'#options' => $types,
 		'#default_value' => $context ? $context->type : 'search',
 	);
 	$form['add_context']['name'] = array(

@@ -2,10 +2,10 @@ name = Ting search context
 description = Provides a context rating system for nodes.
 core = 7.x
 
-
 files[] = ting_search_context.module
 files[] = ting_search_context_handler_field_node_ratings.inc
 files[] = ting_search_context_handler_filter_node_ratings.inc
+files[] = ting_search_context_handler_filter_context_type.inc
 
 package = Ding!
 dependencies[] = features

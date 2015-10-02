@@ -83,7 +83,7 @@ function ting_search_context_views_data() {
       'handler' => 'views_handler_sort',
     ),
     'filter' => array(
-      'handler' => 'views_handler_filter_string', // ting_search_context_handler_filter_context_type.
+      'handler' => 'ting_search_context_handler_filter_context_type',
     ),
     'argument' => array(
       'handler' => 'views_handler_argument_string', // Maybe override to use name as summary.
