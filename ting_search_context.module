@@ -712,7 +712,7 @@ function ting_search_context_delete($context_id) {
  *   False if something went wrong or nothing was deleted.
  */
 function ting_search_context_delete_multiple($context_ids) {
-  // We are (possible) deleting multiple contexts and associated ratings.
+  // We're also deleting associated ratings, so use a transaction.
   $transaction = db_transaction();
 
   if (!empty($context_ids)) {
