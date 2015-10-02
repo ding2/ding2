@@ -172,6 +172,35 @@ class TingSearchParsingTestCase extends DrupalUnitTestCase {
           'dc.title' => 'flammernes pokal',
         ),
       ),
+      // Regression tests.
+      array(
+        'string' => 'banana and (dk=sk)',
+        'keys' => array('term.creator', 'term.title', 'term.subject'),
+        'expected' => array(
+          'q' => 'banana and (dk=sk)',
+        ),
+      ),
+      array(
+        'string' => 'banana AND (dk=sk)',
+        'keys' => array('term.creator', 'term.title', 'term.subject'),
+        'expected' => array(
+          'q' => 'banana and (dk=sk)',
+        ),
+      ),
+      array(
+        'string' => '(dk=sk)',
+        'keys' => array('term.creator', 'term.title', 'term.subject'),
+        'expected' => array(
+          'q' => '(dk=sk)',
+        ),
+      ),
+      array(
+        'string' => '(term.type="bog" OR term.type="ebog") AND (term.subject="fantasy" OR term.subject="krimi")',
+        'keys' => array('term.creator', 'term.title', 'term.subject'),
+        'expected' => array(
+          'q' => '(term.type="bog" OR term.type="ebog") and (term.subject="fantasy" OR term.subject="krimi")',
+        ),
+      ),
     );
     foreach ($testCases as $test) {
       drupal_static_reset('ting_search_extract_indexes');

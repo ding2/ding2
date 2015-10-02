@@ -309,6 +309,8 @@ function ting_search_extract_keys($search_query, $keys) {
     $search_query = preg_replace_callback($regexp, 'ting_search_extract_indexes', $search_query);
   }
 
+  // Remove any leading and's.
+  $search_query = preg_replace('/^ and \\(/', '(', $search_query);
   $indexes['q'] = $search_query;
   return $indexes;
 }
@@ -325,7 +327,7 @@ function ting_search_extract_indexes($matches, $set_keys = NULL) {
   $subexps = preg_split('/\s+and\s+/i', $matches[2], NULL, PREG_SPLIT_NO_EMPTY);
   $indexes = &drupal_static(__FUNCTION__, array());
   foreach ($subexps as $subexp) {
-    if ((preg_match('/^([^=]+)\=([^"]*)$/', $subexp, $rx) || preg_match('/^([^=]+)\="(.*)"$/', $subexp, $rx)) && array_key_exists(trim($rx[1]), $keys)) {
+    if ((preg_match('/^([^=]+)\=([^"]*)$/', $subexp, $rx) || preg_match('/^([^=]+)\="([^"]*)"$/', $subexp, $rx)) && array_key_exists(trim($rx[1]), $keys)) {
       $indexes[trim($rx[1])] = trim($rx[2]);
     }
     else {
