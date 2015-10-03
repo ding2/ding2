@@ -729,21 +729,12 @@ function ting_search_context_delete_multiple($context_ids) {
     }
     catch (Exception $e) {
       $transaction->rollback();
-      drupal_set_message(t('Something went wrong deleting contexts. See log for further details'));
       watchdog_exception('ting_search_context', $e);
       return FALSE;
     }
 
     // If a deletion was performed.
     if ($result_context) {
-      $output = format_plural(count($result_context),
-        '1 context was deleted and !ratings',
-        '@count contexts was deleted and !ratings',
-        array('!ratings' => format_plural(count($result_ratings),
-          '1 associated rating',
-          '@count associated ratings'
-      )));
-      drupal_set_message($output);
       // Reset our load_multiple static cache.
       drupal_static_reset('ting_search_context_load_multiple');
       return $result_context;
