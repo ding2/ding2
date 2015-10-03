@@ -715,33 +715,30 @@ function ting_search_context_delete_multiple($context_ids) {
   // We're also deleting associated ratings, so use a transaction.
   $transaction = db_transaction();
 
+  $result = FALSE;
   if (!empty($context_ids)) {
     try {
+      // Delete associated ratings. They're useless when serial ID is removed.
+      $result_ratings = ting_search_context_ratings_delete($context_ids);
+
       // Delete the contexts.
-      $result_context = db_delete('ting_search_context_contexts')
+      $result = db_delete('ting_search_context_contexts')
         ->condition('context_id', $context_ids, 'IN')
         ->execute();
 
-      // If any contexts was deleted remove associated ratings.
       if ($result_context) {
-        $result_ratings = ting_search_context_ratings_delete($context_ids);
+        $result_context = TRUE;
+        // Reset the load_multiple static cache.
+        drupal_static_reset('ting_search_context_load_multiple');
       }
     }
     catch (Exception $e) {
       $transaction->rollback();
       watchdog_exception('ting_search_context', $e);
-      return FALSE;
-    }
-
-    // If a deletion was performed.
-    if ($result_context) {
-      // Reset our load_multiple static cache.
-      drupal_static_reset('ting_search_context_load_multiple');
-      return $result_context;
     }
   }
 
-  return FALSE;
+  return $return;
 }
 
 /**
