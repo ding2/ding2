@@ -729,8 +729,7 @@ function ting_search_context_delete_multiple($context_ids) {
         ->condition('context_id', $context_ids, 'IN')
         ->execute();
 
-      if ($result_context) {
-        $result_context = TRUE;
+      if ($result) {
         // Reset the load_multiple static cache.
         drupal_static_reset('ting_search_context_load_multiple');
       }
@@ -741,7 +740,7 @@ function ting_search_context_delete_multiple($context_ids) {
     }
   }
 
-  return $return;
+  return $result;
 }
 
 /**
