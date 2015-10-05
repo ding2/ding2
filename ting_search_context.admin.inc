@@ -319,23 +319,45 @@ function ting_search_context_admin_context_form_cancel($form, &$form_state) {
  * Form builder for the context delete confirm form.
  */
 function ting_search_context_admin_context_delete_confirm_form($form, &$form_state, $context) {
-  // Save the context-object for later processing.
-  $form['ting_search_context'] = array('#type' => 'value', '#value' => $context);
-  // TODO: Show wich ratings will be deleted?
+  $ratings = ting_search_context_ratings_load($context->context_id);
+
+  // Save the context and it's associated ratings for later processing.
+  $form['ting_search_context']['context'] = array('#type' => 'value', '#value' => $context);
+  $form['ting_search_context']['ratings'] = array('#type' => 'value', '#value' => $ratings);
+
+  $message = format_plural(count($ratings),
+    'This action cannot be undone and will delete 1 associated rating.',
+    'This action cannot be undone and will delete @count associated ratings.'
+  );
+
   return confirm_form($form,
     t('Are you sure you want to delete the context?'),
     'admin/config/ting/ting-search-context/contexts/' . $context->context_id . '/edit',
-    t('This action cannot be undone.'),
+    $message,
     t('delete'),
     t('cancel')
   );
 }
 
 function ting_search_context_admin_context_delete_confirm_form_submit($form, &$form_state) {
-  // TODO: Perform the deletion.
-  // Need to make ting_search_context_delete($context)
-  $context = $form_state['values']['ting_search_context'];
-  drupal_set_message(t('Context %context deleted', array('%context' => $context->name)));
+  $context = $form_state['values']['context'];
+  $ratings = $form_state['values']['ratings'];
+  $params = array('%context' => $context->name);
+
+  if (ting_search_context_delete($context->context_id)) {
+    drupal_set_message(t('Context %context deleted', $params));
+/*    $output = format_plural(count($result_context),
+      '1 context was deleted and !ratings',
+      '@count contexts was deleted and !ratings',
+      array('!ratings' => format_plural(count($result_ratings),
+        '1 associated rating',
+        '@count associated ratings'
+    )));*/
+  }
+  else {
+    drupal_set_message(t('Something went wrong deleting %context. See log for further details'), $params);
+  }
+
   $form_state['redirect'] = 'admin/config/ting/ting-search-context/contexts';
 }
 
