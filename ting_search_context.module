@@ -545,33 +545,9 @@ function ting_search_context_node_delete($node) {
  *   The number of deleted rows in the nodes_rated table.
  */
 function ting_search_context_unrate_node($nid) {
-  return ting_search_context_ratings_delete(NULL, $nid);
-}
-
-/**
- * Deletes node ratings.
- *
- * Warning: If this function is used without parameters, all ratings will be
- * deleted.
- *
- * @param mixed $context_ids (optional)
- *   A string containing a single context_id or an array of context_ids.
- *   Restrict the deletion to ratings in specific contexts.
- * @param mixed $nids
- *   A string containing a single nid or an array of nids.
- *   Resctrict the deletion of ratings to specific nodes.
- */
-function ting_search_context_ratings_delete($context_ids = NULL, $nids = NULL) {
-  $query = db_delete('ting_search_context_nodes_rated');
-
-  if (isset($context_ids)) {
-    $query->condition('context_id', $context_ids);
-  }
-  if (isset($nids)) {
-    $query->condition('nid', $nids);
-  }
-
-  return $query->execute();
+  return db_delete('ting_search_context_nodes_rated')
+    ->condition('nid', $nid)
+    ->execute();
 }
 
 /**
@@ -646,6 +622,33 @@ function ting_search_context_subject_context_exists($subjects) {
   }
   return FALSE;
 }
+
+/**
+ * Deletes ratings associatied with one or more contexts.
+ *
+ * @param mixed $context_ids
+ *   A string containing a single context_id or an array of context_ids.
+ */
+function ting_search_context_ratings_delete($context_ids) {
+  return db_delete('ting_search_context_nodes_rated')
+    ->condition('context_id', $context_ids)
+    ->execute();
+}
+
+/**
+ * Loads ratings associated with one or more contexts.
+ *
+ * @param mixed $context_ids
+ *   A string containing a single context_id or an array of context_ids.
+ */
+function ting_search_context_ratings_load($context_ids) {
+  return db_select('ting_search_context_nodes_rated', 'nr')
+    ->fields('nr')
+    ->condition('context_id', $context_ids)
+    ->execute()
+    ->fetchAllAssoc('nid');
+}
+
 
 /**
  * Saves or updates a context.
