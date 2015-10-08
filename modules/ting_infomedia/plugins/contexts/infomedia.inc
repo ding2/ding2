@@ -17,24 +17,21 @@ $plugin = array(
 );
 
 /**
- * Create a context, either from manual configuration or from an argument on the URL.
- *
- * @param $empty
- *   If true, just return an empty context.
- * @param $data
- *   If from settings form, an array as from a form. If from argument, a string.
- * @param $conf
- *   TRUE if the $data is coming from admin configuration, FALSE if it's from a URL arg.
- *
- * @return
- *   a Context object/
+ * Create a context, either from manual configuration or from an argument on the
+ * URL.
  */
 function ting_infomedia_context_create_infomedia($empty, $data = NULL, $conf = FALSE) {
   $context = new ctools_context('infomedia');
   $context->plugin = 'infomedia';
+
   return $context;
 }
 
+/**
+ * Implements infomedia_settings_form().
+ *
+ * It's need to make the panels plugin work.
+ */
 function infomedia_settings_form($conf, $external = FALSE) {
   $form = array();
   return $form;

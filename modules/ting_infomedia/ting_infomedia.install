@@ -6,7 +6,13 @@
  */
 
 /**
- * field-definitions
+ * Implements hook_uninstall().
+ */
+function ting_infomedia_uninstall() {
+
+}
+
+/**
  * Implements hook_ding_entity_fields().
  */
 function ting_infomedia_ding_entity_fields() {

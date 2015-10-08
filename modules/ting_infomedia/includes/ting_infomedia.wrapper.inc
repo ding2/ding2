@@ -1,18 +1,16 @@
 <?php
 /**
- * Infomedia - retrieve article identified by faust
- *
- * @param int $id Faust
- * @return TingClientInfomediaResult
+ * @file
+ * Field wrapper for infomedia.
  */
 
 module_load_include('client.inc', 'ting');
 
 /**
- * Get infomedia article from from the data well.
+ * Retrieve Infomedia article identified by faust number.
  *
  * @param int $id
- *   Faust for the article.
+ *   Faust number for the article.
  *
  * @return mixed
  *   The result as TingClientInfomediaResult object or FALSE on error.
@@ -38,10 +36,13 @@ function ting_infomedia_get_article($id) {
 }
 
 /**
- * Infomedia - verify that request of item identify by faust does return an article
+ * Verify that request of item identify by faust does return an article.
  *
- * @param int $id Faust
+ * @param int $id
+ *   Faust number for the article.
+ *
  * @return TingClientInfomediaResult
+ *   TingClientInfomediaResult for the article.
  */
 function ting_infomedia_check_article($id) {
   $request = ting_get_request_factory()->getInfomediaArticleRequest();
@@ -53,13 +54,15 @@ function ting_infomedia_check_article($id) {
 }
 
 /**
- * Infomedia - retrieve reviews for an item identified by faust or ISBN
+ * Retrieve reviews for an item identified by faust or ISBN.
  *
  * @param int $id
  *   Faust or ISBN
  * @param bool $id_is_isbn
  *   Is $id an ISBN instead of faust
+ *
  * @return TingClientInfomediaResult
+ *   TingClientInfomediaResult for the article.
  */
 function ting_infomedia_get_review($id, $id_is_isbn = FALSE) {
   $request = ting_get_request_factory()->getInfomediaReviewRequest();
@@ -73,17 +76,20 @@ function ting_infomedia_get_review($id, $id_is_isbn = FALSE) {
   }
 
   $request = ting_infomedia_add_user_creds($request);
+
   return $request->parse(ting_execute($request));
 }
 
 /**
- * Infomedia - count how many reviews an item identified by faust or ISBN has
+ * Count how many reviews an item identified by faust or ISBN has.
  *
  * @param int $id
  *   Faust or ISBN
  * @param bool $id_is_isbn
  *   Is $id an ISBN instead of faust
+ *
  * @return TingClientInfomediaResult
+ *   TingClientInfomediaResult for the article.
  */
 function ting_infomedia_check_review($id, $id_is_isbn = FALSE) {
   $request = ting_get_request_factory()->getInfomediaReviewRequest();
@@ -110,6 +116,7 @@ function ting_infomedia_check_review($id, $id_is_isbn = FALSE) {
  *   Request object to add user credentials to.
  *
  * @return TingClientInfomediaRequest
+ *   TingClientInfomediaRequest for the article.
  */
 function ting_infomedia_add_user_creds(TingClientInfomediaRequest $request) {
   try {

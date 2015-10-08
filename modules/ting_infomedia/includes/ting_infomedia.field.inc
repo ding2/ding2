@@ -30,21 +30,19 @@
   * description of field
  */
 
+/**
+ * @TODO: Missing description.
+ */
 function ting_infomedia_field_info() {
   $ret = array(
     'ting_infomedia' => array(
       'label' => t('A link to infomedia articles'),
       'description' => t('This field links to infomedia articles'),
-      // optional (for database)
-      'settings' => array('max_length'=>255,),
-      // see hook_widget_info
+      'settings' => array(
+        'max_length' => 255,
+      ),
       'default_widget' => 'hidden',
-      // see hook formatter_info
       'default_formatter' => 'ting_infomedia_default',
-      // A boolean specifying that users should not be allowed to
-      // create fields and instances of this field type through the UI.
-      // Such fields can only be created programmatically with
-      // field_create_field() and field_create_instance().
       'no_ui' => TRUE,
     ),
   );
@@ -77,18 +75,18 @@ function ting_infomedia_field_formatter_view($entity_type, $entity, $field, $ins
   $relation_types = ting_infomedia_get_ting_relations();
   switch($display['type']) {
   case 'ting_infomedia_default' :
-    foreach($items as $delta=>$items) {
+    foreach($items as $delta => $items) {
       foreach ($entity->relations as $relation) {
-        if( isset($relation_types[$relation->type]) && $entity->ac_source == 'Artikler' ) {
-          $element[$delta] = 
-	    array(
-		  '#markup' => l(t('Read article'), ting_infomedia_get_article_link($id), array('attributes' => array('class' => 'infomedia_group','name'=>$relation->type))),
-		  );
+        if(isset($relation_types[$relation->type]) && $entity->ac_source == 'Artikler' ) {
+          $element[$delta] = array(
+            '#markup' => l(t('Read article'), ting_infomedia_get_article_link($id), array('attributes' => array('class' => 'infomedia_group', 'name'=>$relation->type))),
+		      );
         }
       }
     }
     break;
   }
+
   return $element;
 }
 
@@ -105,7 +103,8 @@ function ting_infomedia_get_article_link($entityid) {
 
 /**
  * Implements hook_field_validate
- * TODO is some kind of validation needed?
+ *
+ * @TODO is some kind of validation needed?
  */
 function ting_infomedia_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
   // do nothing
@@ -113,7 +112,8 @@ function ting_infomedia_field_validate($entity_type, $entity, $field, $instance,
 
 /**
  * Implements hook_field_is_empty
- * TODO; check
+ *
+ * @TODO: check
  */
 function ting_infomedia_is_empty($item, $field) {
   return false;
