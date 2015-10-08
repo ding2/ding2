@@ -670,6 +670,7 @@ function ding2_module_list_as_operations($module_list) {
 function ding2_module_enable(&$install_state) {
   $modules = variable_get('ding_module_selected', array());
   $modules[] = 'l10n_update';
+  $modules[] = 'ting_infomedia';
 
   $operations = ding2_module_list_as_operations($modules);
 
@@ -778,7 +779,7 @@ function ding2_set_cookie_page() {
   $eu_cookie_compliance_da['popup_height'] = '';
   $eu_cookie_compliance_da['popup_width'] = '100%';
   $eu_cookie_compliance_da['popup_delay'] = 1;
-  
+
   // Set cookie compliance variables
   variable_set('eu_cookie_compliance_da', $eu_cookie_compliance_da);
   variable_set('eu_cookie_compliance_cookie_lifetime', 365);
