@@ -148,6 +148,19 @@ function bpi_update_7004(&$sandbox) {
     $timestamp = $record['timestamp'];
     $node = node_load($nid);
 
+    if (!$node) {
+      // The bpi_syndicated table may contain references to nodes which no
+      // longer exist. Skip processing those.
+      watchdog('bpi', 'Unable to migrate syndication information for %nid. The node does not exist.', array('%nid' => $nid), WATCHDOG_WARNING);
+      continue;
+    }
+    if (!isset($node->$field_name)) {
+      // The bpi_syndicated table may contain references to nodes of types
+      // which do not contain the new workflow field. Skip those.
+      watchdog('bpi', 'Unable to migrate syndication information for %type #%nid. The content type does not have the workflow field %field_name', array('%type' => $node->type, '%nid' => $nid, '%field_name' => $field_name), WATCHDOG_WARNING);
+      continue;
+    }
+
     // Create new transition and save it.
     $uid = $node->uid;
     $old_sid = $sandbox['states']['creation'];
