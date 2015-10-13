@@ -53,7 +53,6 @@
 
         // Toggle buttons based on count.
         if (count > 0) {
-          btn.closest('.action-buttons').addClass('action-buttons-is-visible');
           if (!actions_offset) {
             // First time buttons are shown, get their offset value.
             actions_offset = actions.offset().top;
@@ -61,7 +60,6 @@
           btn.removeAttr("disabled");
         }
         else {
-          btn.closest('.action-buttons').removeClass('action-buttons-is-visible');
           btn.prop('disabled', 'disabled');
         }
       });
@@ -80,7 +78,7 @@
      * moves the out of flow to follow the top of the screen on scroll.
      */
     function toggle_scroll_buttons() {
-      if (actions_offset < win.scrollTop() && actions.hasClass('action-buttons-is-visible')) {
+      if (actions_offset < win.scrollTop()) {
         actions.addClass('action-buttons-is-scrolling');
       }
       else {
