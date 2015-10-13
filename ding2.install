@@ -297,3 +297,12 @@ function ding2_update_7010() {
 function ding2_update_7011() {
   module_enable(array('maintenance_mode_api'));
 }
+
+/**
+ * Update the eu-cookie-compliance Danish "No thanks" text to "Læs mere".
+ */
+function ding2_update_7012() {
+  $eu_cookie_compliance_da = variable_get('eu_cookie_compliance_da');
+  $eu_cookie_compliance_da['popup_disagree_button_message'] = 'Læs mere';
+  variable_set('eu_cookie_compliance_da', $eu_cookie_compliance_da);
+}

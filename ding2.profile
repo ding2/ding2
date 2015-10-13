@@ -765,7 +765,7 @@ function ding2_set_cookie_page() {
   $eu_cookie_compliance_da['popup_info']['value'] = '<p>Vi bruger cookies på hjemmesiden for at forbedre din oplevelse.</p><p>Læs mere her: <a href="' . url('cookies') . '">Hvad er cookies?</a></p>';
   $eu_cookie_compliance_da['popup_info']['format'] = 'ding_wysiwyg';
   $eu_cookie_compliance_da['popup_agree_button_message'] = 'Jeg accepterer brugen af cookies';
-  $eu_cookie_compliance_da['popup_disagree_button_message'] = 'Nej tak';
+  $eu_cookie_compliance_da['popup_disagree_button_message'] = 'Læs mere';
   $eu_cookie_compliance_da['popup_find_more_button_message'] = 'Mere info';
   $eu_cookie_compliance_da['popup_hide_button_message'] = 'Luk';
   $eu_cookie_compliance_da['popup_agreed'][value] = '<p>Tak fordi du accepterer cookies</p><p>Du kan nu lukke denne besked, eller læse mere om cookies.</p>';
