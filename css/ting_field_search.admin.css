@@ -1,0 +1,9 @@
+#ting-field-search-wrapper .profile-wrapper {
+	border-top: 1px solid #ccc;
+	padding: 1em 0;
+}
+
+#ting-field-search-wrapper .profile-wrapper.first {
+	border: none;
+	padding-top: 0;
+}

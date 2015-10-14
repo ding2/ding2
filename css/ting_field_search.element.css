@@ -1,0 +1,19 @@
+.form-type-ting-field-search-profile label,
+.form-type-ting-field-search-profile .form-item {
+	display: block;
+}
+
+.form-type-ting-field-search-profile .form-item {
+	float: left;
+	margin-right: 1.5em !important;
+	width: 25%;
+}
+
+.form-type-ting-field-search-profile .remove {
+	margin: 1.5em;
+}
+
+.form-type-ting-field-search-profile .form-item input,
+.form-type-ting-field-search-profile .form-item select {
+	width: 100%;
+}

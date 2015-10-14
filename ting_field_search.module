@@ -1,0 +1,243 @@
+<?php
+
+/**
+ * @file
+ *
+ * Module file for Ting field search.
+ */
+
+/**
+ * Implements hook_ting_pre_execute().
+ *
+ * This is where the magic happens. We alter the request based on the special
+ * profile used (if any), before it's send to the datawell.
+ */
+function ting_field_search_ting_pre_execute($request) {
+  $parameters = drupal_get_query_parameters();
+  $profile = isset($parameters['profile']) ? $parameters['profile'] : FALSE;
+  if ($profile) {
+    // For now we only deal with search and object requests.
+    if ($request instanceof TingClientSearchRequest || $request instanceof TingClientObjectRequest) {
+      $request->setProfile($profile);
+      return array('profile' => $profile);
+    }
+  }
+}
+
+/**
+ * Private helper function to determine if it's special profile search.
+ *
+ * @return mixed $result
+ *   The name of the profile if it's profile search.
+ *   FALSE otherwise.
+ */
+function _ting_field_search_is_special_profile_search() {
+  // Use a static cache. This will be called often on a search request.
+  $result = &drupal_static(__FUNCTION__);
+
+  if (!isset($result)) {
+    $parameters = drupal_get_query_parameters();
+    // Check for the profile first to determine early if this is not a profile
+    // special profile search.
+    if (!isset($parameters['profile'])) {
+      $result = FALSE;
+    }
+    else if (arg(0) == 'search' && arg(1) == 'ting' && count(arg()) > 2) {
+      $result = $parameters['profile'];
+    }
+    // Restrict to MAX 4 arguments to avoid tampering with ting/object/fulltext
+    // and ting/object/infomedia for now.
+    // TODO: We probably also need to include these too
+    else if (arg(0) == 'ting' && (arg(1) == 'object' || arg(1) == 'collection') && count(arg()) < 4) {
+      $result = $parameters['profile'];
+    }
+  }
+
+  return $result;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ting_field_search_form_ting_admin_ting_settings_alter(&$form, &$form_state) {
+  // Change the title of default profile textfield and insert it a new fieldset.
+  $standard = $form['ting']['ting_search_profile'];
+  $standard['#title'] = t('Standard search profile');
+  unset($form['ting']['ting_search_profile']);
+  $form['ting']['search_profile'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Search profile'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    '#tree' => FALSE,
+  );
+  $form['ting']['search_profile']['ting_search_profile'] = $standard;
+
+  // Add special search profile configuration.
+  $form['ting']['search_profile']['ting_field_search'] = array(
+    '#type' => 'fieldset',
+    '#tree' => TRUE,
+    '#title' => t('Special search profiles'),
+    // There's a bug that will show icon anyway.
+    // See: https://www.drupal.org/node/1361810 for more info.
+    '#collapsible' => FALSE,
+    // Wrapper for AJAX replacment
+    '#prefix' => '<div id="ting-field-search-wrapper">',
+    '#suffix' => '</div>',
+  );
+
+  if (empty($form_state['ting_field_search_profile_count'])) {
+    $form_state['ting_field_search_profile_count'] = 1;
+  }
+  for ($i = 0; $i < $form_state['ting_field_search_profile_count']; $i++) {
+    $form['ting']['search_profile']['ting_field_search'][$i] = array(
+      '#type' => 'ting_field_search_profile',
+      '#title_display' => 'before',
+      '#show_description' => TRUE,
+      '#add_remove' => TRUE,
+      '#default_value' => array(),
+      '#prefix' => '<div class="profile-wrapper ' . ($i == 0 ? 'first' : '') . '">',
+      '#suffix' => '</div>',
+    );
+  }
+
+  $form['ting']['search_profile']['add'] = array(
+    '#type' => 'submit',
+    '#value' => t('Add another profile'),
+    '#submit' => array('ting_field_search_profile_add_submit'),
+    '#ajax' => array(
+      'callback' => 'ting_field_search_profile_add_callback',
+      'wrapper' => 'ting-field-search-wrapper'
+    ),
+  );
+
+  $path = drupal_get_path('module', 'ting_field_search');
+  $form['#attached']['css'][] = $path . '/css/ting_field_search.admin.css';
+}
+
+/**
+ * Submit handler for the add profile button.
+ */
+function ting_field_search_profile_add_submit($form, &$form_state) {
+  // Add another profile
+  $form_state['ting_field_search_profile_count']++;
+
+  $form_state['rebuild'] = TRUE;
+}
+
+/**
+ * Ajax callback for the add profile button.
+ */
+function ting_field_search_profile_add_callback($form, &$form_state) {
+  // Return the form element to insert.
+  return $form['ting']['search_profile']['ting_field_search'];
+}
+
+/**
+ * Implements hook_element_info().
+ */
+function ting_field_search_element_info() {
+  return array(
+    'ting_field_search_profile' => array(
+      '#input' => TRUE,
+      // Ensure a hierarchical structure in form_state['values'], since this
+      // elements has child elements.
+      '#tree' => TRUE,
+      '#process' => array('ting_field_search_profile_element_process'),
+      '#element_validate' => array('ting_field_search_element_validate'),
+      '#autocomplete_path' => FALSE,
+      '#theme_wrappers' => array('form_element'),
+      '#title_display' => 'invisible',
+      // Some custom properties.
+      '#show_description' => FALSE,
+      '#add_remove' => FALSE,
+    ),
+  );
+}
+
+/**
+ * Process callback for our custom profile element.
+ *
+ * The element consists of several child form elements which are provided here.
+ */
+function ting_field_search_profile_element_process($element, $form_state) {
+  $title_display = $element['#title_display'];
+  $show_description = $element['#show_description'];
+  $add_remove = $element['#add_remove'];
+
+  // Define our compound elements using core FAPI declarations.
+  $element['profile'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Search profile'),
+    '#title_display' => $title_display,
+    '#required' => $element['#required'],
+    '#size' => 30,
+    '#default_value' => isset($element['#value']['profile']) ? $element['#value']['profile'] : '',
+  );
+  if ($show_description) {
+    $element['profile']['#description'] = t('Name of the profile (http://vip.dbc.dk/)');
+  }
+
+  $element['page'] = array(
+    '#type' => 'select',
+    '#title' => t('Search page'),
+    '#title_display' => $title_display,
+    '#options' => array(
+      'example_page_1' => t('Example page 1'),
+      'example_page_2' => t('Example page 2'),
+      'example_page_3' => t('Example page 3'),
+    ),
+    '#empty_option' => t('- None -'),
+    '#empty_value' => 'none',
+    '#default_value' => isset($element['#value']['page']) ? $element['#value']['page'] : '',
+  );
+  if ($show_description) {
+    $element['page']['#description'] = t('Associate a search page');
+  }
+
+  $element['query'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Search query'),
+    '#title_display' => $title_display,
+    '#size' => 30,
+    '#default_value' => isset($element['#value']['query']) ? $element['#value']['query'] : '',
+  );
+  if ($show_description) {
+    $element['query']['#description'] = t('Search code appended query when using this profile');
+  }
+
+  $path = drupal_get_path('module', 'ting_field_search');
+
+  if ($add_remove) {
+    // Remove marker
+    $element['removed'] = array(
+      '#type' => 'hidden',
+      '#default_value'  => 0,
+      '#attributes' => array('class' => array('removed')),
+    );
+    // Remove button
+    $element['remove'] = array(
+      '#type' => 'button',
+      '#value' => t('Remove'),
+      '#attributes' => array('class' => array('remove')),
+    );
+    // Include JS to handle remove button.
+    $element['#attached']['js'][] = $path . '/js/ting_field_search.element.js';
+  }
+
+  // Include CSS needed for our element to display proberly.
+  $element['#attached']['css'][] = $path . '/css/ting_field_search.element.css';
+
+  return $element;
+}
+
+/**
+ * Validation callback for our custom profile element.
+ */
+function ting_field_search_element_validate($element, &$form_state) {
+  $value = $element['#value'];
+  if (empty($value['profile']) && ($value['page'] != 'none' || !empty($value['query'])) && !$value['removed']) {
+    form_error($element['profile'], t('Name of profile is required'));
+  }
+  return $element;
+}
