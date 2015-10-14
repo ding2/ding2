@@ -672,6 +672,7 @@ function ding_permissions_secure_permissions($role) {
       'administer dibs transactions',
       'administer ding provider',
       'administer EU Cookie Compliance popup',
+      'administer files',
       'administer frontpage settings',
       'administer menu',
       'administer nodes',
