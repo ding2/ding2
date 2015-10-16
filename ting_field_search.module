@@ -13,14 +13,9 @@
  * profile used (if any), before it's send to the datawell.
  */
 function ting_field_search_ting_pre_execute($request) {
-  $parameters = drupal_get_query_parameters();
-  $profile = isset($parameters['profile']) ? $parameters['profile'] : FALSE;
-  if ($profile) {
-    // For now we only deal with search and object requests.
-    if ($request instanceof TingClientSearchRequest || $request instanceof TingClientObjectRequest) {
-      $request->setProfile($profile);
-      return array('profile' => $profile);
-    }
+  if ($profile = _ting_field_search_is_special_profile_search()) {
+    $request->setProfile($profile);
+    return array('profile' => $profile);
   }
 }
 
