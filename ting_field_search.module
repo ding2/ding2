@@ -52,6 +52,38 @@ function _ting_field_search_is_special_profile_search() {
 }
 
 /**
+ * Implements hook_entity_info_alter().
+ */
+function ting_field_search_entity_info_alter(&$entity_info) {
+  $entity_info['ting_object']['uri callback'] = 'ting_field_search_ting_object_uri_callback';
+  $entity_info['ting_collection']['uri callback'] = 'ting_field_search_ting_collection_uri_callback';
+}
+
+/**
+ * Ting object URI callback (wrapper for ting_object_uri()).
+ */
+function ting_field_search_ting_object_uri_callback($object) {
+  return _ting_field_search_alter_entity_uri(ting_object_uri($object));
+}
+
+/**
+ * Ting collection URI callback (wrapper for ting_object_uri()).
+ */
+function ting_field_search_ting_collection_uri_callback($collection) {
+  return _ting_field_search_alter_entity_uri(ting_collection_uri($collection));
+}
+
+/**
+ * Private helper function to alter entity uri of ting collectons and objects.
+ */
+function _ting_field_search_alter_entity_uri($path) {
+  if ($profile = _ting_field_search_is_special_profile_search()) {
+    $path['options']['query'] = array('profile' => $profile);
+  }
+  return $path;
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function ting_field_search_form_ting_admin_ting_settings_alter(&$form, &$form_state) {
