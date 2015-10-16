@@ -11,49 +11,37 @@
  */
 function ting_field_search_enable() {
 	// Determine the current cache backend used by cache_ting bin.
-	$current_backend = variable_get('cache_class_cache_ting');
-	if (!$current_backend) {
-		variable_set('cache_class_cache_ting', 'TingFieldSearchDatabaseCache');
+	$current_backend = variable_get('cache_class_cache_ting', FALSE);
+	if (!$current_backend || empty($current_backend)) {
+		$current_backend = variable_get('cache_default_class', 'DrupalDatabaseCache');
 	}
-	else if ($current_backend == 'MemCacheDrupal') {
-		variable_set('cache_class_cache_ting', 'TingFieldSearchMemCache');
+	else {
+		// Remember original so we can restore the setting in hook_disable().
+		variable_set('ting_field_search_original_backend', $current_backend);
 	}
 
-	// Setup our backends while being carefull not to override any existing.
-	$backends = _ting_field_search_cache_backends();
-  $existing_backends = variable_get('cache_backends', array());
-  variable_set('cache_backends',
-    array_merge(
-      variable_get('cache_backends', array()),
-      array_diff($backends, $existing_backends)
-    )
-  );
+	if ($current_backend == 'MemCacheDrupal') {
+		variable_set('cache_class_cache_ting', 'TingFieldSearchMemCache');
+	}
+	else {
+		variable_set('cache_class_cache_ting', 'TingFieldSearchDatabaseCache');
+	}
 }
 
 /**
  * Implements hook_disable().
  */
 function ting_field_search_disable() {
-	// Remove our custom backends from the system.
-	$backends = array_diff(
-		variable_get('cache_backends', array()),
-		_ting_field_search_cache_backends()
-	);
-	if (empty($backends)) {
-		variable_del('cache_backends');
+	$original_backend = variable_get('ting_field_search_original_backend', FALSE);
+	if ($original_backend) {
+		// Restore
+		variable_set('cache_class_cache_ting', $original_backend);
 	}
 	else {
-		variable_set('cache_backends', $backends);
+		// Go back to default cache backend.
+		variable_del('cache_class_cache_ting');
 	}
 
-	// Go back to defaults (settings.php)
-	variable_del('cache_class_cache_ting');
-}
-
-function _ting_field_search_cache_backends() {
-	$path = drupal_get_path('module', 'ting_field_search');
-	return array(
-		$path . '/cache/database.inc',
-		$path . '/cache/memcache.inc',
-	);
+	// Might as well clean up here
+	variable_del('ting_field_search_original_backend');
 }
