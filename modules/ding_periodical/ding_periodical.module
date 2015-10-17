@@ -147,6 +147,7 @@ function theme_ding_periodical_issues($variables) {
                   'action-button',
                   'reserve-button',
                   'reservable',
+                  'available',
                   'use-ajax',
                 ),
                 'id' => 'reservation-' . $issue_id,
