@@ -84,6 +84,25 @@ function _ting_field_search_alter_entity_uri($path) {
 }
 
 /**
+ * Implements hook_drupal_goto_alter().
+ *
+ * Add the current search profile to the redicrect URI when redirecting from
+ * a Ting collection to a Ting object. Ting does this when a collection only
+ * contains one object - and, since it's not using entity_uri(), our wrappers
+ * doesn't work in this case.
+ *
+ * Note: Implementing this hook is not very effective and should be removed if
+ * ting get updated to use entity_uri().
+ */
+function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_code) {
+  if ($profile = _ting_field_search_is_special_profile_search()) {
+    if (arg(1) == 'collection' && preg_match('/^ting\/object/', $path)) {
+      $options['query']['profile'] = $profile;
+    }
+  }
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function ting_field_search_form_ting_admin_ting_settings_alter(&$form, &$form_state) {
