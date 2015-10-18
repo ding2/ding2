@@ -14,8 +14,12 @@
  */
 function ting_field_search_ting_pre_execute($request) {
   if ($profile = _ting_field_search_is_special_profile_search()) {
-    $request->setProfile($profile);
-    return array('profile' => $profile);
+    // Ensure that this is a Ting client, object or search request since a
+    // profile is only used in these classes.
+    if ($request instanceof TingClientSearchRequest || $request instanceof TingClientObjectRequest) {
+      $request->setProfile($profile);
+      return array('profile' => $profile);
+    }
   }
 }
 
