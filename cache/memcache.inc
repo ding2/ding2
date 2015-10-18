@@ -16,14 +16,14 @@
 class TingFieldSearchMemCache extends MemCacheDrupal {
 
 	function get($cid) {
-		if ($profile = _ting_field_search_is_special_profile_search()) {
+		if ($profile = _ting_field_search_use_special_profile()) {
 			$cid .= ':' . $profile;
 		}
 		return parent::get($cid);
 	}
 
 	function set($cid, $data, $expire = CACHE_PERMANENT, array $headers = NULL) {
-		if ($profile = _ting_field_search_is_special_profile_search()) {
+		if ($profile = _ting_field_search_use_special_profile()) {
 			$cid .= ':' . $profile;
 		}
 		parent::set($cid, $data, $expire, $headers);

@@ -13,7 +13,7 @@
  * profile used (if any), before it's send to the datawell.
  */
 function ting_field_search_ting_pre_execute($request) {
-  if ($profile = _ting_field_search_is_special_profile_search()) {
+  if ($profile = _ting_field_search_use_special_profile()) {
     // Ensure that this is a Ting client, object or search request since a
     // profile is only used in these classes.
     if ($request instanceof TingClientSearchRequest || $request instanceof TingClientObjectRequest) {
@@ -24,35 +24,63 @@ function ting_field_search_ting_pre_execute($request) {
 }
 
 /**
- * Private helper function to determine if it's special profile search.
+ * Internal helper function to determine if a special profile should be used.
+ * This is used in hook_ting_pre_execute implementation when inserting the
+ * profile in the request and in the cache backends when generating CID's.
+ *
+ * For now the module uses a profile if an installed profile is detected in the
+ * URI and if one of following pages is being viewed:
+ *   1. The search page
+ *   2. Ting collection page
+ *   3. Ting object page
  *
  * @return mixed $result
  *   The name of the profile if it's profile search.
  *   FALSE otherwise.
+ *
+ * @see _ting_field_search_detect_profile().
  */
-function _ting_field_search_is_special_profile_search() {
+function _ting_field_search_use_special_profile() {
   // Use a static cache. This will be called often on a search request.
-  $result = &drupal_static(__FUNCTION__);
+  $result = &drupal_static(__FUNCTION__, FALSE);
 
-  if (!isset($result)) {
-    $parameters = drupal_get_query_parameters();
-    // Check for the profile first to determine early if this is not a profile
-    // special profile search.
-    if (!isset($parameters['profile'])) {
-      $result = FALSE;
-    }
-    else if (arg(0) == 'search' && arg(1) == 'ting' && count(arg()) > 2) {
-      $result = $parameters['profile'];
-    }
-    // Restrict to MAX 4 arguments to avoid tampering with ting/object/fulltext
-    // and ting/object/infomedia for now.
-    // TODO: We probably also need to include these too
-    else if (arg(0) == 'ting' && (arg(1) == 'object' || arg(1) == 'collection') && count(arg()) < 4) {
-      $result = $parameters['profile'];
+  if (!$result) {
+    if ($profile = _ting_field_search_detect_profile()) {
+      // Search page
+      if (arg(0) == 'search' && arg(1) == 'ting' && count(arg()) > 2) {
+        $result = $profile;
+      }
+      // Ting collection or object
+      else if (arg(0) == 'ting' && (arg(1) == 'object' || arg(1) == 'collection')) {
+        $result = $profile;
+      }
     }
   }
 
   return $result;
+}
+
+/**
+ * Internal helper function to detect search profiles in the URI.
+ *
+ * @return mixed
+ *   The name of the profile if present.
+ *   FALSE otherwise.
+ */
+function _ting_field_search_detect_profile() {
+  // Use the advanced drupal_static() pattern, since this will be called often.
+  static $drupal_static_fast;
+  if (!isset($drupal_static_fast)) {
+    $drupal_static_fast['profile'] = &drupal_static(__FUNCTION__);
+  }
+  $profile = &$drupal_static_fast['profile'];
+
+  if (!isset($profile)) {
+    $parameters = drupal_get_query_parameters();
+    $profile = isset($parameters['profile']) ? $parameters['profile'] : FALSE;
+  }
+
+  return $profile;
 }
 
 /**
@@ -81,7 +109,7 @@ function ting_field_search_ting_collection_uri($collection) {
  * Private helper function to alter entity uri of ting collectons and objects.
  */
 function _ting_field_search_alter_entity_uri($path) {
-  if ($profile = _ting_field_search_is_special_profile_search()) {
+  if ($profile = _ting_field_search_use_special_profile()) {
     $path['options']['query'] = array('profile' => $profile);
   }
   return $path;
@@ -99,8 +127,8 @@ function _ting_field_search_alter_entity_uri($path) {
  * ting get updated to use entity_uri().
  */
 function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_code) {
-  if ($profile = _ting_field_search_is_special_profile_search()) {
-    if (arg(1) == 'collection' && preg_match('/^ting\/object/', $path)) {
+  if ($profile = _ting_field_search_detect_profile()) {
+    if (arg(0) == 'ting' && arg(1) == 'collection' && preg_match('/^ting\/object/', $path)) {
       $options['query']['profile'] = $profile;
     }
   }
