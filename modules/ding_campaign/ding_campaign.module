@@ -196,10 +196,10 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
 
       // Get text both plain and full.
       $text = $wrapper->field_camp_text_plain->value();
-      $text = !empty($text) ? $text : $wrapper->field_camp_text_full->value();
+      $text = (!empty($text)) ? $text : $wrapper->field_camp_text_full->value();
       if (!empty($text)) {
         $current['#text'] = array(
-          '#markup' => is_array($text) ? $text['safe_value'] : $text,
+          '#markup' => (is_array($text) && isset($text['safe_value'])) ? $text['safe_value'] : $text,
         );
         unset($current['#link']);
       }
@@ -219,7 +219,7 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
         if (!empty($link)) {
           // Sadly the link theme function do not generate children.
           $image = $current['#image'];
-          $current['#image'] = $current['#link'];
+          $current['#image'] = (isset($current['#link'])) ? $current['#link'] : NULL;
           $current['#image']['#text'] = drupal_render($image);
           $current['#image']['#options']['html'] = TRUE;
         }
