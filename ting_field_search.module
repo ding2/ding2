@@ -44,7 +44,7 @@ function _ting_field_search_use_special_profile() {
   // Use a static cache. This will be called often on a search request.
   $result = &drupal_static(__FUNCTION__);
 
-  if (isset($result)) {
+  if (!isset($result)) {
     $result = FALSE;
     if ($profile = _ting_field_search_detect_profile()) {
       // Search page
