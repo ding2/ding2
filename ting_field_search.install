@@ -4,6 +4,13 @@
  * @file
  *
  * Install file for Ting field search.
+ *
+ * Note: There's no need to add cache backend to the 'cache_backends' variable
+ * since we include it in .info. In this case this is the preffered way, because
+ * 'cache_backends' is hardcoded in settings.php in DDB CMS.
+ *
+ * TODO: We should probably check whether we're able to change the backend at
+ * all, and use hook_requirements() to inform admins about the result.
  */
 
 /**
