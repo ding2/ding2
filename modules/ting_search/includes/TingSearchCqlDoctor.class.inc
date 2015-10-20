@@ -72,6 +72,7 @@ class TingSearchCqlDoctor {
    *   Cql compatible string.
    */
   public function string_to_cql() {
+
     // Handle qoutes.
     $this->fix_qoutes();
     // Hendle parantheses.
@@ -79,7 +80,7 @@ class TingSearchCqlDoctor {
     // Handle reserved characters.
     $this->escape_reserved_characters();
     // Format the string.
-    return  $this->format_cql_string();
+    return $this->format_cql_string();
   }
 
   /**
@@ -167,7 +168,6 @@ class TingSearchCqlDoctor {
    */
   private function escape_reserved_characters() {
     $this->cql_string = str_replace('/', ' "/" ', $this->cql_string);
-    $this->cql_string = str_replace('-', ' "-" ', $this->cql_string);
   }
 
   /**
@@ -277,6 +277,6 @@ class TingSearchCqlDoctor {
    *   Reqular expression to identify cql operators.
    */
   private function get_cql_operators_regexp() {
-    return '@ and | or | not |=|\(|\)@i';
+    return '@ and | any | all | adj | or | not |=|\(|\)@i';
   }
 }
