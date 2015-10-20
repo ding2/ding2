@@ -49,23 +49,33 @@ function ting_search_test_valid_cql() {
     =>
       'term.type="bog" AND facet.category="voksenmaterialer"
     NOT dkcclterm.dk=(82* OR 83* OR 84* OR 85* OR 86* OR 87* OR 88*)',
+
+    'rec.id = 870970-basis:05203120 OR rec.id=870970-basis:05203120'
+    =>
+      'rec.id = 870970-basis:05203120 OR rec.id=870970-basis:05203120',
+
+    'em any "delebørn skilsmissebørn"' => 'em any "delebørn skilsmissebørn"',
+
+    'blue-ray' => 'blue-ray',
   );
 }
 
-function ting_search_test_invalid_cql(){
+function ting_search_test_invalid_cql() {
   return array(
     'anders and' => 'anders and and',
+
     'anders AND' => 'anders and AND',
 
     '"anders and"  phrase.title=ander*'
     =>
-    '"anders and" and phrase.title=ander*',
+      '"anders and" and phrase.title=ander*',
 
     'anders AND (dc.title=historie)'
     =>
-    'anders AND (dc.title=historie)',
+      'anders AND (dc.title=historie)',
 
     'hest fisk hund' => 'hest and fisk and hund',
     'hest fisk and hund' => 'hest and fisk and and and hund',
+    'blue/ray' => 'blue and "/" and ray',
   );
 }
