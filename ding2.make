@@ -168,6 +168,9 @@ projects[redirect][version] = "1.0-rc1"
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
 
+projects[comment_notify][subdir] = "contrib"
+projects[comment_notify][version] = "1.2"
+
 # Using dev release, as the "stable" version is making errors in the install profile.
 projects[uuid][subdir] = "contrib"
 projects[uuid][download][type] = "git"
