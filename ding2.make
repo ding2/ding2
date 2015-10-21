@@ -182,3 +182,6 @@ projects[view_unpublished][download][revision] = "e9df1d3"
 
 projects[maintenance_mode_api][subdir] = "contrib"
 projects[maintenance_mode_api][version] = "1.0-beta1"
+
+projects[webform][subdir] = "contrib"
+projects[webform][version] = "4.10"
