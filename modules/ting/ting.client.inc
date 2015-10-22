@@ -227,8 +227,6 @@ function ting_get_objects($ids) {
 function ting_do_search($query, $page = 1, $results_per_page = 10, $options = array()) {
   $request = ting_get_request_factory()->getSearchRequest();
 
-  $query = _ting_search_quote($query);
-
   $agency = variable_get('ting_agency', FALSE);
   if ($agency && variable_get('ting_filter_by_local_holdings', 0)) {
     // Limit the search to materials from the local library. From well 3.5 each
