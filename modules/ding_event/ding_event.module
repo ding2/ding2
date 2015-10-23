@@ -200,3 +200,30 @@ function ding_event_views_pre_execute(&$view) {
       ->groupBy('nid');
   }
 }
+
+/**
+ * Implements hook_preprocess_views_view().
+ */
+function ding_event_preprocess_views_view(&$vars) {
+  $view = $vars['view'];
+  // Add a custom view more link for the event list for a group.
+  // The standard read more link points to standard event list and it does not
+  // seem to be possible to provide a custom url in another way.
+  // Adding a link in a footer text field means that the text will not be
+  // translatable and the url will not be processed using path alias.
+  if ($view->name = 'ding_event' &&
+    $view->current_display == 'ding_event_groups_list'
+  ) {
+    if (!empty($view->result[0]->og_membership_node_gid)) {
+      $vars['more'] = theme(
+        'views_more',
+        array(
+          'more_url' => url(
+            'temaer/' . $view->result[0]->og_membership_node_gid . '/arrangementer'
+          ),
+          'link_text' => t('See all events'),
+        )
+      );
+    }
+  }
+}
