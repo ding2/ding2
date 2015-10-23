@@ -1,0 +1,189 @@
+<?php
+/**
+ * @file
+ * Handle installation related tasks and update functions.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ding_content_install() {
+  ding_content_insert_html5_video_presets();
+}
+
+/**
+ * Default settings for file display.
+ */
+function ding_content_insert_html5_video_presets() {
+  $video_inserts = array(
+    array(
+      'name' => 'video__default__file_field_file_audio',
+      'weight' => 0,
+      'status' => 0,
+      'settings' => 'a:4:{s:8:"controls";i:1;s:8:"autoplay";i:0;s:4:"loop";i:0;s:22:"multiple_file_behavior";s:4:"tags";}',
+    ),
+    array(
+      'name' => 'video__default__file_field_file_default',
+      'weight' => 0,
+      'status' => 0,
+      'settings' => 's:0:"";',
+    ),
+    array(
+      'name' => 'video__default__file_field_file_download_link',
+      'weight' => 0,
+      'status' => 0,
+      'settings' => 'a:1:{s:4:"text";s:20:"Download [file:name]";}',
+    ),    array(
+      'name' => 'video__default__file_field_file_table',
+      'weight' => 0,
+      'status' => 0,
+      'settings' => 's:0:"";',
+    ),    array(
+      'name' => 'video__default__file_field_file_url_plain',
+      'weight' => 0,
+      'status' => 0,
+      'settings' => 's:0:"";',
+    ),    array(
+      'name' => 'video__default__file_field_file_video',
+      'weight' => 0,
+      'status' => 0,
+      'settings' => 'a:6:{s:8:"controls";i:1;s:8:"autoplay";i:0;s:4:"loop";i:0;s:5:"width";s:0:"";s:6:"height";s:0:"";s:22:"multiple_file_behavior";s:4:"tags";}',
+    ),    array(
+      'name' => 'video__default__file_field_media_large_icon',
+      'weight' => -45,
+      'status' => 0,
+      'settings' => 's:0:"";',
+    ),    array(
+      'name' => 'video__default__media_vimeo_image',
+      'weight' => 2,
+      'status' => 1,
+      'settings' => 'a:1:{s:11:"image_style";s:5:"large";}',
+    ),    array(
+      'name' => 'video__default__media_vimeo_video',
+      'weight' => 1,
+      'status' => 1,
+      'settings' => 'a:10:{s:5:"width";s:3:"640";s:6:"height";s:3:"390";s:5:"color";s:0:"";s:8:"protocol";s:7:"http://";s:8:"autoplay";i:0;s:4:"loop";i:0;s:5:"title";i:1;s:6:"byline";i:1;s:8:"portrait";i:1;s:3:"api";i:0;}',
+    ),    array(
+      'name' => 'video__default__media_youtube_image',
+      'weight' => 2,
+      'status' => 1,
+      'settings' => 'a:1:{s:11:"image_style";s:5:"large";}',
+    ),    array(
+      'name' => 'video__default__media_youtube_video',
+      'weight' => 1,
+      'status' => 1,
+      'settings' => 'a:15:{s:5:"width";s:3:"640";s:6:"height";s:3:"390";s:5:"theme";s:4:"dark";s:5:"color";s:3:"red";s:8:"autohide";s:1:"2";s:8:"autoplay";i:0;s:4:"loop";i:0;s:8:"showinfo";i:1;s:14:"modestbranding";i:0;s:3:"rel";i:1;s:8:"nocookie";i:0;s:16:"protocol_specify";i:0;s:8:"protocol";s:6:"https:";s:11:"enablejsapi";i:0;s:6:"origin";s:0:"";}',
+    ),    array(
+      'name' => 'video__teaser__file_field_file_audio',
+      'weight' => 0,
+      'status' => 0,
+      'settings' => 'a:4:{s:8:"controls";i:1;s:8:"autoplay";i:0;s:4:"loop";i:0;s:22:"multiple_file_behavior";s:4:"tags";}',
+    ),
+    array(
+      'name' => 'video__teaser__file_field_file_default',
+      'weight' => 0,
+      'status' => 0,
+      'settings' => 's:0:"";',
+    ),
+    array(
+      'name' => 'video__teaser__file_field_file_download_link',
+      'weight' => 0,
+      'status' => 0,
+      'settings' => 'a:1:{s:4:"text";s:20:"Download [file:name]";}',
+    ),
+    array(
+      'name' => 'video__teaser__file_field_file_table',
+      'weight' => 0,
+      'status' => 0,
+      'settings' => 's:0:"";',
+    ),
+    array(
+      'name' => 'video__teaser__file_field_file_url_plain',
+      'weight' => 0,
+      'status' => 0,
+      'settings' => 's:0:"";',
+    ),
+    array(
+      'name' => 'video__teaser__file_field_file_video',
+      'weight' => 0,
+      'status' => 0,
+      'settings' => 'a:6:{s:8:"controls";i:1;s:8:"autoplay";i:0;s:4:"loop";i:0;s:5:"width";s:0:"";s:6:"height";s:0:"";s:22:"multiple_file_behavior";s:4:"tags";}',
+    ),
+    array(
+      'name' => 'video__teaser__file_field_media_large_icon',
+      'weight' => 0,
+      'status' => 0,
+      'settings' => 's:0:"";',
+    ),
+    array(
+      'name' => 'video__teaser__media_vimeo_image',
+      'weight' => 2,
+      'status' => 1,
+      'settings' => 'a:1:{s:11:"image_style";s:5:"large";}',
+    ),
+    array(
+      'name' => 'video__teaser__media_vimeo_video',
+      'weight' => 1,
+      'status' => 1,
+      'settings' => 'a:10:{s:5:"width";s:3:"560";s:6:"height";s:3:"340";s:5:"color";s:0:"";s:8:"protocol";s:7:"http://";s:8:"autoplay";i:0;s:4:"loop";i:0;s:5:"title";i:1;s:6:"byline";i:1;s:8:"portrait";i:1;s:3:"api";i:0;}',
+    ),
+    array(
+      'name' => 'video__teaser__media_youtube_image',
+      'weight' => 2,
+      'status' => 1,
+      'settings' => 'a:1:{s:11:"image_style";s:5:"large";}',
+    ),
+    array(
+      'name' => 'video__teaser__media_youtube_video',
+      'weight' => 1,
+      'status' => 1,
+      'settings' => 'a:15:{s:5:"width";s:3:"560";s:6:"height";s:3:"340";s:5:"theme";s:4:"dark";s:5:"color";s:3:"red";s:8:"autohide";s:1:"2";s:8:"autoplay";i:0;s:4:"loop";i:0;s:8:"showinfo";i:1;s:14:"modestbranding";i:0;s:3:"rel";i:1;s:8:"nocookie";i:0;s:16:"protocol_specify";i:0;s:8:"protocol";s:6:"https:";s:11:"enablejsapi";i:0;s:6:"origin";s:0:"";}',
+    ),
+  );
+
+  foreach ($video_inserts as $video_insert) {
+    $table = 'file_display';
+    $field = db_select($table, 'fd')
+      ->fields('fd', array('name'))
+      ->condition('name', $video_insert['name'], '=')
+      ->execute()
+      ->fetchField();
+
+    // If field do not exists, insert it.
+    if (empty($field)) {
+      db_insert($table)
+        ->fields($video_insert)
+        ->execute();
+    }
+  }
+}
+
+/**
+ * Remove old path alias from ding_path_alias.
+ */
+function ding_content_update_7000() {
+  $nids = db_select('node', 'n')
+    ->fields('n', array('nid'))
+    ->condition('type', 'ding_library')
+    ->execute();
+  foreach ($nids as $nid) {
+    db_delete('url_alias')
+      ->condition('source', 'node/' . $nid->nid . '/events')
+      ->execute();
+
+    db_delete('url_alias')
+      ->condition('source', 'node/' . $nid->nid . '/news')
+      ->execute();
+
+    db_delete('url_alias')
+      ->condition('source', 'node/' . $nid->nid . '/about')
+      ->execute();
+  }
+}
+
+/**
+ * Add HTML5 video.
+ */
+function ding_content_update_7001() {
+  ding_content_insert_html5_video_presets();
+}

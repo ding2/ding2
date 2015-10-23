@@ -1,0 +1,97 @@
+/**
+ * @todo: Please don't style on tags only classes, that will better match DDB cms.
+ */
+#ddb-cp-menu-development img {
+  vertical-align: middle;
+}
+
+#ddb-cp-menu-development pre {
+  font-family: "Lucida Console", Monaco, monospace;
+  font-size: 11px;
+}
+
+#dev-test-status, #stg-test-status {
+  margin-bottom: 15px;
+}
+
+#dev-test-summary, #dev-test-summary {
+  margin-left: 36px;
+}
+
+#dev-test-buttons, #stg-test-buttons {
+  margin-bottom: 5px;
+}
+
+#dev-test-buttons img, #stg-test-buttons img {
+  margin-left: 1px;
+}
+
+.dev-test-case, .dev-test-step, .dev-test-suite, .stg-test-case, .stg-test-step, .stg-test-suite {
+  background-image: url('/misc/menu-collapsed.png');
+  background-position: 5px 8px;
+  background-repeat: no-repeat;
+  padding-left: 15px;
+}
+
+#edit-plat-frame {
+  margin-bottom: 25px;
+  padding: 0;
+}
+
+div.form-item-platform {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.loading {
+  background-image: url('../images/16x16/ajax-wait.gif');
+  background-position: 50% 5px;
+  background-repeat: no-repeat;
+}
+
+.dev-stdout, .stg-stdout {
+  margin-top: -5px;
+  margin-bottom: -5px;
+  margin-left: 8px;
+}
+
+#dev-test-report, #stg-test-report {
+  min-height: 40px;
+}
+
+#dev-test-report p, #stg-test-report p {
+  margin-top: 0px;
+  margin-bottom: 5px;
+  padding: 0;
+}
+
+input[type=submit][disabled], button[disabled] {
+}
+
+#dev-site-status img, #dev-test-status img, #prod-site-status img, #stg-site-status img, #stg-test-status img {
+  vertical-align: middle;
+}
+
+#dev-site-status table, #dev-test-status table, #prod-site-status table, #stg-site-status table, #stg-test-status table {
+  margin-left: 37px;
+  padding: 0;
+  width: auto;
+  border: none;
+  border-collapse: separate;
+}
+
+#dev-site-status td, #dev-test-status td, #prod-site-status td, #stg-site-status td, #stg-test-status td {
+  padding: 0em 1em 0em 0em;
+  border: none;
+  border-spacing: 0;
+}
+
+#dev-site-status th, #dev-test-status th, #prod-site-status th, #stg-site-status th, #stg-test-status th {
+  padding: 0em 1em 0em 0em;
+  width: 8em;
+  color: inherit;
+  background: inherit;
+  text-transform: none;
+  border: none;
+  border-spacing: 0;
+}

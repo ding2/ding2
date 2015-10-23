@@ -1,0 +1,576 @@
+<?php
+/**
+ * @file
+ * Control Panel for the DDB CMS system.
+ *
+ * DDB CMS is a Drupal based frontend in use by Danish public libraries.
+ */
+
+// Standard error message when the webservice does not respond.
+define('DDB_CP_MSG_ERROR_NO_WEB_SERVICE', 'Cannot communicate with the DDB Webservice.');
+
+/**
+ * Returns an instance of the ddbService class.
+ *
+ * It utilizing Drupal's static cache to implement a singleton pattern.
+ */
+function ddb_cp_ws() {
+  $result = &drupal_static(__FUNCTION__);
+  if (!isset($result)) {
+    $result = new DdbService();
+  }
+
+  return $result;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ddb_cp_menu() {
+  $items = array();
+  $path = drupal_get_path('module', 'ddb_cp');
+
+  $items['admin/ddb_cp'] = array(
+    'title' => 'DDB',
+    'description' => 'Configure and manage the DDB installation.',
+    'page callback' => 'ddb_cp_menu_content',
+    'access arguments' => array('administer ddb'),
+    'file' => 'ddb_cp.admin.inc',
+    'file path' => $path . '/includes/',
+  );
+
+  $items['admin/ddb_cp/config'] = array(
+    'title' => 'Configuration',
+    'description' => 'Configure this DDB instance.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ddb_cp_menu_configuration'),
+    'access arguments' => array('administer ddb_cp'),
+    'file' => 'ddb_cp.admin.inc',
+    'file path' => $path . '/includes/',
+  );
+
+  if (ddb_cp_ws()->model() == 'webmaster') {
+    $items['admin/ddb_cp/development'] = array(
+      'title' => 'Development',
+      'description' => 'Manage development of this DDB instance.',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('ddb_cp_menu_development'),
+      'access arguments' => array('administer ddb_cp'),
+      'file' => 'ddb_cp.admin.inc',
+      'file path' => $path . '/includes/',
+    );
+  }
+
+  $items['admin/ddb_cp/test/xml'] = array(
+    'page callback' => 'ddb_cp_get_test_result',
+    'type' => MENU_CALLBACK,
+    'access arguments' => array('administer ddb_cp'),
+  );
+
+  $items['ajax/ddb_cp/status'] = array(
+    'page callback' => 'ddb_cp_ajax_status',
+    'type' => MENU_CALLBACK,
+    'access arguments' => array('administer ddb_cp'),
+  );
+
+  $items['ajax/ddb_cp/test/execute'] = array(
+    'page callback' => 'ddb_cp_ajax_test_execute',
+    'type' => MENU_CALLBACK,
+    'access arguments' => array('administer ddb_cp'),
+  );
+
+  $items['ajax/ddb_cp/recreate'] = array(
+    'page callback' => 'ddb_cp_ajax_recreate',
+    'type' => MENU_CALLBACK,
+    'access arguments' => array('administer ddb_cp'),
+  );
+
+  $items['ajax/ddb_cp/test/result'] = array(
+    'page callback' => 'ddb_cp_ajax_test_result',
+    'type' => MENU_CALLBACK,
+    'access arguments' => array('administer ddb_cp'),
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ddb_cp_permission() {
+  return array(
+    'administer ddb_cp' => array(
+      'title' => t('Administer this DDB instance'),
+    ),
+  );
+}
+
+/**
+ * Function to return raw Jenkins XML test report or 'Page not found'.
+ *
+ * @param string $site
+ *   'dev' or 'stg' to select the site.
+ * @param null $number
+ *   Optional number to select a specific test run - defaults to latest.
+ *
+ * @return mixed
+ *   XML data or 'Page not found'.
+ */
+function ddb_cp_get_test_result($site = NULL, $number = NULL) {
+  $site_types = array('dev', 'stg');
+
+  if ($site && in_array($site, $site_types)) {
+    _ddb_cp_save_test_result($site, $number);
+  }
+  else {
+    return MENU_NOT_FOUND;
+  }
+
+  // @TODO: This function never returns any XML data only page not found error code?
+}
+
+/**
+ * Form submit routine to create a new developer site.
+ */
+function ddb_cp_create_dev_submit($form, &$form_state) {
+  if (ddb_cp_ws()->execute('Create developer site', array('SITE' => ddb_cp_ws()->names['prod'], 'TEMPLATE' => $form_state['input']['platform']))) {
+    drupal_set_message(t('A job to create a new developer site has been scheduled.'));
+  }
+  else {
+    drupal_set_message(t(DDB_CP_MSG_ERROR_NO_WEB_SERVICE), 'error');
+  }
+
+  drupal_rebuild_form('ddb_cp_menu_development', $form_state);
+}
+
+/**
+ * Form submit routine to create a new staging site.
+ *
+ * @param array $form
+ *   The form that have been submitted.
+ * @param array $form_state
+ *   The forms state information.
+ */
+function ddb_cp_create_stg_submit($form, &$form_state) {
+  if (ddb_cp_ws()->execute('Create staging site', array('SITE' => ddb_cp_ws()->names['prod']))) {
+    drupal_set_message(t('A job to create a new staging site has been scheduled.'));
+  }
+  else {
+    drupal_set_message(t(DDB_CP_MSG_ERROR_NO_WEB_SERVICE), 'error');
+  }
+
+  drupal_rebuild_form('ddb_cp_menu_development', $form_state);
+}
+
+/**
+ * Form submit to update production site to current staging site platform.
+ *
+ * @param array $form
+ *   The form that have been submitted.
+ * @param array $form_state
+ *   The forms state information.
+ */
+function ddb_cp_update_prod_submit($form, &$form_state) {
+  if (ddb_cp_ws()->execute('Update production site', array('SITE' => ddb_cp_ws()->names['prod']))) {
+    drupal_set_message(t('A job to update the production site has been scheduled.'));
+  }
+  else {
+    drupal_set_message(t(DDB_CP_MSG_ERROR_NO_WEB_SERVICE), 'error');
+  }
+
+  drupal_rebuild_form('ddb_cp_menu_development', $form_state);
+}
+
+/**
+ * Function to recreate a developer and/or staging site.
+ *
+ * @param string $site
+ *   'dev' or 'stg' to indicate the site type to recreate.
+ */
+function ddb_cp_ajax_recreate($site) {
+  if (isset($site)) {
+    switch ($site) {
+      case 'dev':
+        $status = ddb_cp_ws()->status()['stg'];
+
+        if ($status['status'] == 'running' || $status['status'] == 'building' || $status['status'] == 'disabled') {
+          ddb_cp_ws()->execute('Delete staging site', array('SITE' => ddb_cp_ws()->names['prod']));
+        }
+
+        ddb_cp_ws()->execute('Delete developer site', array('SITE' => ddb_cp_ws()->names['prod']));
+        break;
+
+      case 'stg':
+        ddb_cp_ws()->execute('Recreate staging site', array('SITE' => ddb_cp_ws()->names['prod']));
+        break;
+    }
+  }
+}
+
+/**
+ * Ajax callback to fetch site status from webservice.
+ */
+function ddb_cp_ajax_status() {
+  $result = array();
+
+  if (ddb_cp_ws()->status()) {
+    foreach (ddb_cp_ws()->status() as $site => $status) {
+      $result['#' . $site . '-site-status'] = _ddb_cp_get_site_status_message($site, $status);
+      if ($site == 'dev' || $site == 'stg') {
+        $result['#' . $site . '-test-status'] = _ddb_cp_get_test_status_message($site, $status);
+      }
+    }
+  }
+
+  drupal_json_output($result);
+}
+
+/**
+ * Ajax callback to initiate a site test.
+ *
+ * @param string $site
+ *   Full DNS name of site to test.
+ */
+function ddb_cp_ajax_test_execute($site) {
+  if (isset($site)) {
+    ddb_cp_ws()->execute(ddb_cp_ws()->names[$site] . ' test');
+  }
+}
+
+/**
+ * Ajax callback to fetch test result from Jenkins server.
+ *
+ * @param string $site
+ *   'dev' or 'stg' to select test result.
+ *
+ * @return mixed
+ *   JSON encoded HTML to display test result or 'Page not found'.
+ */
+function ddb_cp_ajax_test_result($site = NULL) {
+  $site_types = array('dev', 'stg');
+
+  if ($site && in_array($site, $site_types)) {
+    drupal_json_output(_ddb_cp_get_test_result($site));
+  }
+  else {
+    return MENU_NOT_FOUND;
+  }
+
+  // @todo: Missing return statement it will note return any thing if the if statement is hit?
+}
+
+/**
+ * Function to return raw XML result file from Jenkins server.
+ *
+ * @param string $site
+ *   'dev' or 'stg' to select the site.
+ * @param null $number
+ *   Optional number to select a specific test run - defaults to latest.
+ */
+function _ddb_cp_save_test_result($site = NULL, $number = NULL) {
+  if (isset($site)) {
+    if ($xml = ddb_cp_ws()->testReport(ddb_cp_ws()->names[$site], $number)) {
+      drupal_add_http_header('Content-Type', 'text/xml; charset=utf-8');
+      if (isset($number)) {
+        drupal_add_http_header('Content-Disposition', 'attachment; filename="Testreport ' . ddb_cp_ws()->names[$site] . ' build ' . $number . '.xml"');
+      }
+      else {
+        drupal_add_http_header('Content-Disposition', 'attachment; filename="Testreport ' . ddb_cp_ws()->names[$site] . '.xml"');
+      }
+      print '<?xml version="1.0" encoding="UTF-8"?>';
+      print $xml;
+      drupal_exit();
+    }
+    else {
+      drupal_set_message(t('Error fetching testreport'), 'error');
+    }
+  }
+}
+
+/**
+ * Returns an HTML formatted site status message string.
+ *
+ * @param string $site
+ *   'prod', 'dev', or 'stg' site to format message for.
+ * @param mixed $status
+ *   Site-specific status record as selected by ddb_cp_ajax_status()
+ *
+ * @todo: All the HTML in this would be nice to have into tpl's and theme functions.
+ *
+ * @return string
+ *   An HTML formatted site status string.
+ */
+function _ddb_cp_get_site_status_message($site, $status) {
+  $prefix = '<div id="' . $site . '-site-status" class="site-status-unknown">';
+  $message = '<img src="/' . drupal_get_path('module', 'ddb_cp') . '/images/32x32/grey.gif"/> ' . t('The site status is unknown.');
+  $platform = '';
+  $timestamp = '';
+
+  switch ($status['status']) {
+    case 'unknown':
+      $prefix = '<div id="' . $site . '-site-status" class="site-status-unknown">';
+      $message = '<img src="/' . drupal_get_path('module', 'ddb_cp') . '/images/32x32/grey.gif"/> ' . t('The site status is unknown.');
+      break;
+
+    case 'running':
+      $prefix = '<div id="' . $site . '-site-status" class="site-status-running">';
+      $message = '<img src="/' . drupal_get_path('module', 'ddb_cp') . '/images/32x32/green.gif"/> ' . t('The site is up and running.');
+      $timestamp = '<tr><th>' . t('Creation time') . ':</th><td>' . format_date($status['timestamp'], 'short') . '</td></tr>';
+      $platform = '<tr><th>' . t('Platform') . ':</th><td>' . $status['platform']['name'] . '</td></tr>';
+      break;
+
+    case 'building':
+      $prefix = '<div id="' . $site . '-site-status" class="site-status-building">';
+      $message = '<img src="/' . drupal_get_path('module', 'ddb_cp') . '/images/32x32/green_anime.gif"/> ' . t('The site is being created.');
+      break;
+
+    case 'disabled':
+      $prefix = '<div id="' . $site . '-site-status" class="site-status-disabled">';
+      $message = '<img src="/' . drupal_get_path('module', 'ddb_cp') . '/images/32x32/yellow.gif"/> ' . t('The site is disabled.');
+      $timestamp = '<tr><th>' . t('Creation time') . ':</th><td>' . format_date($status['timestamp'], 'short') . '</td></tr>';
+      $platform = '<tr><th>' . t('Platform') . ':</th><td>' . $status['platform']['name'] . '</td></tr>';
+      break;
+
+    case 'not_exist':
+      $prefix = '<div id="' . $site . '-site-status" class="site-status-not-exist">';
+      $message = '<img src="/' . drupal_get_path('module', 'ddb_cp') . '/images/32x32/grey.gif"/> ' . t('The site does not exist.');
+      break;
+  }
+
+  return $prefix . $message . '<table>' . $timestamp . $platform . '</table></div>';
+}
+
+/**
+ * Retrieves and formats a full test report from a Jenkins server.
+ *
+ * @param string $site
+ *   'dev' or 'stg' site to get test report for.
+ *
+ * @todo: All the HTML in this would be nice to have into tpl's and theme functions.
+ *
+ * @return string
+ *   An HTML formatted <div/> showing Jenkins test report.
+ */
+function _ddb_cp_get_test_result($site = NULL) {
+  $result = '<div>Test result not available.</div>';
+
+  if (isset($site)) {
+    $buildnumber = NULL;
+    $buildurl = NULL;
+
+    if ($data = ddb_cp_ws()->testResult(ddb_cp_ws()->names[$site])) {
+      $xml = simplexml_load_string($data);
+      $node = $xml->xpath('/freeStyleBuild/number');
+      if (isset($node)) {
+        $buildnumber = $node[0]->__toString();
+      }
+      $node = $xml->xpath('/freeStyleBuild/url');
+      if (isset($node)) {
+        // @todo: This variable is only being set but never begin used?
+        $buildurl = $node[0]->__toString();
+      }
+    }
+
+    $result = '<div id="' . $site . '-test-buttons"><img src="/' . drupal_get_path('module', 'ddb_cp') . '/images/16x16/reload.png" alt="Passed"/> <a id="reload-' . $site . '-test-report" href="#">Reload</a>&nbsp;&nbsp;<img src="/' . drupal_get_path('module', 'ddb_cp') . '/images/16x16/disk.png" alt="Passed"/> <a href="/admin/ddb_cp/test/xml/' . $site . '/' . $buildnumber . '">Save</a></div>';
+    $result .= '<p>' . _ddb_cp_get_test_status_summary(ddb_cp_ws()->status()[$site]) . '</p>';
+
+    $test = array();
+
+    if ($data = ddb_cp_ws()->testReport(ddb_cp_ws()->names[$site])) {
+      $xml = simplexml_load_string($data);
+
+      foreach ($xml->xpath('/testResult/suite/case') as $node) {
+        $scratch = explode('.', $node->className->__toString());
+        $test[$scratch[0]][$scratch[1]][$node->name->__toString()] = array('status' => $node->status->__toString(), 'lines' => $node->stdout->__toString());
+        if (isset($node->errorStackTrace) && $node->errorStackTrace != '') {
+          $test[$scratch[0]][$scratch[1]][$node->name->__toString()]['lines'] = $node->errorDetails->__toString() . ': ' . $node->errorStackTrace->__toString();
+        }
+      }
+    }
+
+    $failed = '<img src="/' . drupal_get_path('module', 'ddb_cp') . '/images/16x16/failed.png" alt="' . t('Failed') . '"/>';
+    $passed = '<img src="/' . drupal_get_path('module', 'ddb_cp') . '/images/16x16/passed.png" alt="' . t('Passed') . '"/>';
+
+    foreach ($test as $key => $suite) {
+      $failures = 0;
+
+      foreach ($suite as $case) {
+        foreach ($case as $step) {
+          if ($step['status'] == 'FAILED' || $step['status'] == 'REGRESSION') {
+            $failures++;
+          }
+        }
+      }
+
+      if ($failures > 0) {
+        $result .= '<div class="' . $site . '-test-suite collapsed">' . $failed . ' <a href="#">' . $key . '</a>';
+      }
+      else {
+        $result .= '<div class="' . $site . '-test-suite collapsed">' . $passed . ' <a href="#">' . $key . '</a>';
+      }
+
+      foreach ($suite as $suite_k => $case) {
+        $failures = 0;
+
+        foreach ($case as $step) {
+          if ($step['status'] == 'FAILED' || $step['status'] == 'REGRESSION') {
+            $failures++;
+          }
+        }
+
+        if ($failures > 0) {
+          $result .= '<div class="' . $site . '-test-case collapsed">' . $failed . ' <a href="#">' . $suite_k . '</a>';
+        }
+        else {
+          $result .= '<div class="' . $site . '-test-case collapsed">' . $passed . ' <a href="#">' . $suite_k . '</a>';
+        }
+
+        foreach ($case as $case_k => $step) {
+          if ($step['status'] == 'FAILED' || $step['status'] == 'REGRESSION') {
+            $result .= '<div class="' . $site . '-test-step collapsed">' . $failed . ' <a href="#">' . $case_k . '</a>';
+          }
+          else {
+            $result .= '<div class="' . $site . '-test-step collapsed">' . $passed . ' <a href="#">' . $case_k . '</a>';
+          }
+
+          $result .= '<div class="' . $site . '-stdout"><pre>' . $step['lines'] . '</pre></div></div>';
+        }
+
+        $result .= '</div>';
+      }
+
+      $result .= '</div>';
+    }
+  }
+
+  return $result;
+}
+
+/**
+ * Returns an HTML formatted test status message string.
+ *
+ * @param string $site
+ *   'dev' or 'stg' site to format message for.
+ * @param mixed $status
+ *   Site-specific status record as selected by ddb_cp_ajax_status()
+ *
+ * @todo: All the HTML in this would be nice to have into tpl's and theme functions.
+ *
+ * @return string
+ *   An HTML formatted test status string.
+ */
+function _ddb_cp_get_test_status_message($site, $status) {
+  $prefix = '<div id="' . $site . '-test-status" class="test-status-unknown">';
+  $ball = '<img src="/' . drupal_get_path('module', 'ddb_cp') . '/images/32x32/grey.gif"/>';
+  $timestamp = '';
+
+  switch ($status['test']['status']) {
+    case 'unknown':
+      $prefix = '<div id="' . $site . '-test-status" class="test-status-unknown">';
+      $ball = '<img src="/' . drupal_get_path('module', 'ddb_cp') . '/images/32x32/grey.gif"/>';
+      break;
+
+    case 'blue':
+      $prefix = '<div id="' . $site . '-test-status" class="test-status-ok test-ready">';
+      $ball = '<img src="/' . drupal_get_path('module', 'ddb_cp') . '/images/32x32/green.gif"/>';
+      if ($status['test']['timestamp']) {
+        $timestamp = '<table><tr><th>' . t('Test time') . ':</th><td>' . format_date($status['test']['timestamp'], 'short') . '</td></tr></table>';
+      }
+      break;
+
+    case 'blue_anime':
+      $prefix = '<div id="' . $site . '-test-status" class="test-status-ok test-running">';
+      $ball = '<img src="/' . drupal_get_path('module', 'ddb_cp') . '/images/32x32/green_anime.gif"/>';
+      if ($status['test']['timestamp']) {
+        $timestamp = '<table><tr><th>' . t('Test time') . ':</th><td>' . format_date($status['test']['timestamp'], 'short') . '</td></tr></table>';
+      }
+      break;
+
+    case 'yellow':
+      $prefix = '<div id="' . $site . '-test-status" class="test-status-warn test-ready">';
+      $ball = '<img src="/' . drupal_get_path('module', 'ddb_cp') . '/images/32x32/yellow.gif"/>';
+      if ($status['test']['timestamp']) {
+        $timestamp = '<table><tr><th>' . t('Test time') . ':</th><td>' . format_date($status['test']['timestamp'], 'short') . '</td></tr></table>';
+      }
+      break;
+
+    case 'yellow_anime':
+      $prefix = '<div id="' . $site . '-test-status" class="test-status-warn test-running">';
+      $ball = '<img src="/' . drupal_get_path('module', 'ddb_cp') . '/images/32x32/yellow_anime.gif"/>';
+      if ($status['test']['timestamp']) {
+        $timestamp = '<table><tr><th>' . t('Test time') . ':</th><td>' . format_date($status['test']['timestamp'], 'short') . '</td></tr></table>';
+      }
+      break;
+
+    case 'red':
+      $prefix = '<div id="' . $site . '-test-status" class="test-status-fail test-ready">';
+      $ball = '<img src="/' . drupal_get_path('module', 'ddb_cp') . '/images/32x32/red.gif"/>';
+      if ($status['test']['timestamp']) {
+        $timestamp = '<table><tr><th>' . t('Test time') . ':</th><td>' . format_date($status['test']['timestamp'], 'short') . '</td></tr></table>';
+      }
+      break;
+
+    case 'red_anime':
+      $prefix = '<div id="' . $site . '-test-status" class="test-status-fail test-running">';
+      $ball = '<img src="/' . drupal_get_path('module', 'ddb_cp') . '/images/32x32/red_anime.gif"/>';
+      if ($status['test']['timestamp']) {
+        $timestamp = '<table><tr><th>' . t('Test time') . ':</th><td>' . format_date($status['test']['timestamp'], 'short') . '</td></tr></table>';
+      }
+      break;
+
+    case 'notbuilt':
+      $prefix = '<div id="' . $site . '-test-status" class="test-status-notbuild test-ready">';
+      $ball = '<img src="/' . drupal_get_path('module', 'ddb_cp') . '/images/32x32/grey.gif"/>';
+      break;
+
+    case 'notbuilt_anime':
+      $prefix = '<div id="' . $site . '-test-status" class="test-status-notbuilt test-running">';
+      $ball = '<img src="/' . drupal_get_path('module', 'ddb_cp') . '/images/32x32/grey_anime.gif"/>';
+      break;
+
+    case 'aborted':
+      $prefix = '<div id="' . $site . '-test-status" class="test-status-aborted test-ready">';
+      $ball = '<img src="/' . drupal_get_path('module', 'ddb_cp') . '/images/32x32/grey.gif"/>';
+      if ($status['test']['timestamp']) {
+        $timestamp = '<table><tr><th>' . t('Test time') . ':</th><td>' . format_date($status['test']['timestamp'], 'short') . '</td></tr></table>';
+      }
+      break;
+
+    case 'aborted_anime':
+      $prefix = '<div id="' . $site . '-test-status" class="test-status-aborted test-running">';
+      $ball = '<img src="/' . drupal_get_path('module', 'ddb_cp') . '/images/32x32/grey_anime.gif"/>';
+      if ($status['test']['timestamp']) {
+        $timestamp = '<table><tr><th>' . t('Test time') . ':</th><td>' . format_date($status['test']['timestamp'], 'short') . '</td></tr></table>';
+      }
+      break;
+  }
+
+  return $prefix . $ball . ' Last test: ' . _ddb_cp_get_test_status_summary($status) . $timestamp . '</div>';
+}
+
+/**
+ * Function to format test summary description.
+ *
+ * @param mixed $status
+ *   Site-specific status record as selected by ddb_cp_ajax_status()
+ *
+ * @return string
+ *   A formatted test summary string.
+ */
+function _ddb_cp_get_test_status_summary($status) {
+  $result = t('Test summary not available.');
+
+  if (isset($status['test']) && isset($status['test']['last'])) {
+    if ($status['test']['last']['status'] == 'ABORTED') {
+      $result = 'Build ' . $status['test']['last']['number'] . ' - Cancelled.';
+    }
+    elseif ($status['test']['last']['status'] == 'FAILURE') {
+      $result = 'Build ' . $status['test']['last']['number'] . ' - Failed.';
+    }
+    elseif ((!$status['test'] == NULL) && (!$status['test']['last'] == NULL) && (!$status['test']['last']['status'] == NULL)) {
+      $result = 'Build ' . $status['test']['last']['number'] . ' - ' . $status['test']['last']['total'] . ' total, ' . $status['test']['last']['failed'] . ' failed, ' . $status['test']['last']['skipped'] . ' skipped.';
+    }
+  }
+
+  return $result;
+}

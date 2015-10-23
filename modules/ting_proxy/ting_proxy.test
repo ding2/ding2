@@ -1,0 +1,155 @@
+<?php
+
+/**
+ * Test to ensure that proxy url rewrites work as adverticed.
+ */
+class TingProxyTestCase extends DrupalUnitTestCase {
+
+  static function getInfo() {
+    return array(
+      'name' => 'Ting proxy',
+      'description' => 'Check if urls are rewritten to use proxies',
+      'group' => 'Ding! - Ting proxy',
+    );
+  }
+
+  private $proxy_url;
+  private $urls;
+
+  public function setUp() {
+    parent::setUp();
+
+    $this->proxy_url = 'http://myproxy.com/proxy?';
+
+    $this->urls = array(
+      'http://www.host1.com/part1/index.html',
+      'http://www.host1.com/part1/part2/index.html',
+      'http://www.host2.com/part1/index.html',
+      'http://www.host2.com/part1/part2/index.html',
+    );
+  }
+
+  public function testRewriteNoConfig() {
+    drupal_load('module', 'ting_proxy');
+    $config = array();
+
+    foreach ($this->urls as $url) {
+      $url_rewrite = ting_proxy_rewrite_download_url($url, $this->proxy_url, $config);
+      // Urls should not be rewritten without a configuration
+      $this->assertEqual($url, $url_rewrite);
+    }
+  }
+
+  public function testRewriteNoHostnameMatch() {
+    drupal_load('module', 'ting_proxy');
+    $config = array(
+      array(
+        'hostname' => 'host1.com',
+        'expression' => array(
+          'regex' => '/part1/',
+          'replacement' => 'part3'
+        ),
+        'disable_prefix' => 0,
+      ),
+    );
+
+    foreach ($this->urls as $url) {
+      $url_rewrite = ting_proxy_rewrite_download_url($url, $this->proxy_url, $config);
+      // Urls should not be rewritten if hostnames does not match
+      $this->assertEqual($url, $url_rewrite);
+    }
+  }
+
+  public function testRewriteReplace() {
+    drupal_load('module', 'ting_proxy');
+    $config = array(
+      array(
+        'hostname' => 'www.host1.com',
+        'expression' => array(
+          'regex' => '/part1/',
+          'replacement' => 'part3'
+        ),
+        'disable_prefix' => 1,
+      ),
+    );
+
+    foreach ($this->urls as $url) {
+      $url_rewrite = ting_proxy_rewrite_download_url($url, $this->proxy_url, $config);
+      if (parse_url($url, PHP_URL_HOST) == 'www.host1.com' && strpos($url, '/part1/') !== FALSE) {
+        // Url components should be replaced if hostnames match
+        $url = preg_replace('/part1/', 'part3', $url);
+        $this->assertEqual($url, $url_rewrite);
+      }
+    }
+  }
+
+  public function testRewritePrefix() {
+    drupal_load('module', 'ting_proxy');
+    $config = array(
+      array(
+        'hostname' => 'www.host1.com',
+        'expression' => array(),
+        'disable_prefix' => 0,
+      ),
+    );
+
+    foreach ($this->urls as $url) {
+      $url_rewrite = ting_proxy_rewrite_download_url($url, $this->proxy_url, $config);
+      if (parse_url($url, PHP_URL_HOST) == 'www.host1.com') {
+        // Prefix should be added if hostnames match
+        $this->assertEqual($url_rewrite, $this->proxy_url . urlencode($url));
+      }
+    }
+  }
+
+  public function testRewriteReplacePrefix() {
+    drupal_load('module', 'ting_proxy');
+    $config = array(
+      array(
+        'hostname' => 'www.host1.com',
+        'expression' => array(
+          'regex' => '/part1/',
+          'replacement' => 'part3'
+        ),
+        'disable_prefix' => 0,
+      ),
+    );
+
+    foreach ($this->urls as $url) {
+      $url_rewrite = ting_proxy_rewrite_download_url($url, $this->proxy_url, $config);
+      if (parse_url($url, PHP_URL_HOST) == 'www.host1.com') {
+        $url = preg_replace('/part1/', 'part3', $url);
+        // Prefix should be added and components replaced if hostnames match
+        $this->assertEqual($url_rewrite, $this->proxy_url . urlencode($url));
+      }
+    }
+  }
+
+
+  public function testRewriteFirstConfigPriority() {
+    drupal_load('module', 'ting_proxy');
+    $config = array(
+      array(
+        'hostname' => 'www.host1.com',
+        'expression' => array(),
+        'disable_prefix' => 0,
+      ),
+      array(
+        'hostname' => 'www.host1.com',
+        'expression' => array(
+          'regex' => '/part1/',
+          'replacement' => 'part3',
+        ),
+        'disable_prefix' => 1,
+      ),
+    );
+
+    foreach ($this->urls as $url) {
+      $url_rewrite = ting_proxy_rewrite_download_url($url, $this->proxy_url, $config);
+      if (parse_url($url, PHP_URL_HOST) == 'www.host1.com') {
+        // If multiple hostnames match an url only the first should be executed.
+        $this->assertEqual($url_rewrite, $this->proxy_url . urlencode($url));
+      }
+    }
+  }
+}

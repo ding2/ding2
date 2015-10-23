@@ -1,0 +1,70 @@
+<?php
+
+class TingCoversTestCase extends DrupalWebTestCase {
+  static function getInfo() {
+    return array(
+      'name' => 'Ting covers',
+      'description' => 'Check if we can retrieve covers',
+      'group' => 'Ding! - Ting covers',
+    );
+  }
+
+  public function setUp() {
+    //Retrieve ADDI information from existing installation before running
+    //setup to avoid exposing access information in code.
+    //NB: This will fail if running on a bare install.
+    $addi_info = array(	'wsdl_url' => NULL,
+                        'username' => NULL,
+                        'group' => NULL,
+                        'password' => NULL);
+    foreach ($addi_info as $k => $v) {
+      $addi_info[$k] = variable_get('addi_' . $k, NULL);
+    }
+
+    $this->profile = 'minimal';
+    parent::setUp('image', 'ting_covers');
+
+    //All variables have been reset to set these again!
+    foreach ($addi_info as $k => $v) {
+      variable_set('addi_' . $k, $v);
+    }
+
+    $this->web_user = $this->drupalCreateUser(array('access content'));
+    $this->drupalLogin($this->web_user);
+  }
+
+  public function testCoverRetrieval() {
+    $cover = "23959798:thumbnail";
+    $response = json_decode($this->simplePost('ting/covers', array('coverData[]' => $cover)));
+
+    $this->assertTrue(isset($response->$cover), t('Local cover url for id %local_id returned', array('%local_id' => array_shift(explode(':', $cover)))), 'Ting covers');
+    $this->assertTrue(filter_var($response->$cover, FILTER_VALIDATE_URL), t('Local cover url is valid url'), 'Ting covers');
+  }
+
+  /**
+   * Simplified version of drupalPost() that allows posting to AJAX.
+   * http://tiger-fish.com/blog/drupal-6-posting-ajax-callbacks-simpletest
+   */
+  protected function simplePost($path, $edit, array $options = array(), array $headers = array()) {
+    $action = $this->getAbsoluteUrl($path);
+    $post = $edit;
+
+    foreach ($post as $key => $value) {
+      // Encode according to application/x-www-form-urlencoded
+      // Both names and values needs to be urlencoded.
+      $post[$key] = urlencode($key) . '=' . urlencode($value);
+    }
+
+    $post = implode('&', $post);
+
+    $out = $this->curlExec(array(CURLOPT_URL => $action, CURLOPT_POST => TRUE, CURLOPT_POSTFIELDS => $post, CURLOPT_HTTPHEADER => $headers));
+
+    // Ensure that any changes to variables in the other thread are picked up.
+    $this->refreshVariables();
+
+    $this->verbose('simplePost has posted data to ' . $path . '. Response: ' . $out);
+
+    return $out;
+  }
+
+}

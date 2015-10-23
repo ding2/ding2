@@ -1,0 +1,331 @@
+<?php
+/**
+ * @file
+ * Handles installation and un-installation for ding libraries.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ding_library_install() {
+  // Disable default OG member rules.
+  db_update('rules_config')
+    ->fields(array('active' => 0))
+    ->condition(db_or()
+    ->condition('name', 'rules_og_member_active')
+    ->condition('name', 'rules_og_member_pending')
+    ->condition('name', 'rules_og_group_content_notification'))
+    ->execute();
+
+  // Install node queue for libraries.
+  ding_library_install_nodequeue();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_library_uninstall() {
+  $queue = nodequeue_load_queue_by_name('ding_library_listing');
+  nodequeue_delete($queue->qid);
+}
+
+/**
+ * Helper function to create node queue used in groups listing pages.
+ */
+function ding_library_install_nodequeue() {
+  $nodequeue = new stdClass();
+  $nodequeue->name = 'ding_library_listing';
+  $nodequeue->title = 'Library listing';
+  $nodequeue->subqueue_title = '';
+  $nodequeue->owner = 'nodequeue';
+  $nodequeue->api_version = 2;
+  $nodequeue->link = 'Add to listing';
+  $nodequeue->link_remove = 'Remove from listing';
+  $nodequeue->show_in_ui = TRUE;
+  $nodequeue->show_in_tab = TRUE;
+  $nodequeue->show_in_links = FALSE;
+  $nodequeue->i18n = 0;
+  $nodequeue->roles = array();
+  $nodequeue->size = 0;
+  $nodequeue->reverse = 0;
+  $nodequeue->new = TRUE;
+  $nodequeue->types = array(
+    0 => 'ding_library',
+  );
+  $nodequeue->subqueues = array();
+  $nodequeue->submit = 'Submit';
+  $nodequeue->reverse = 0;
+  $nodequeue->reference = 0;
+  $nodequeue->add_subqueue = array(
+    $nodequeue->title,
+  );
+
+  nodequeue_save($nodequeue);
+}
+
+/**
+ * Implements hook_enable().
+ */
+function ding_library_enable() {
+  $path = array(
+    'source' => 'libraries',
+    'language' => 'und',
+  );
+
+  // Create Danish alias for libraries if needed.
+  if (!path_load($path)) {
+    $path['alias'] = 'biblioteker';
+    path_save($path);
+  }
+}
+
+/**
+ * Update blocks.
+ */
+function ding_library_update_7001() {
+  $default_theme = variable_get('theme_default', 'bartik');
+
+  // Delete menu_block menu, not needed anymore.
+  db_delete('block')
+    ->condition('module', 'menu_block')
+    ->condition('delta', 'ding_content-main-lvl1')
+    ->condition('theme', $default_theme)
+    ->execute();
+
+  // Delete any left over library_menus.
+  db_delete('block')
+    ->condition('module', 'ding_library')
+    ->condition('delta', 'library_menu')
+    ->condition('theme', $default_theme)
+    ->execute();
+
+  // Add the new ding_menu.
+  db_insert('block')->fields(array('module', 'delta', 'theme', 'status', 'weight', 'region', 'pages', 'cache', 'title'))->values(array(
+      'module' => 'ding_library',
+      'delta' => 'ding_menu',
+      'theme' => $default_theme,
+      'status' => 1,
+      'weight' => 1,
+      'region' => 'header',
+      'pages' => '',
+      'cache' => -1,
+      'title' => '<none>',
+    )
+  )->execute();
+  return t('Updated menu block.');
+}
+
+/**
+ * Disable default OG member rules.
+ */
+function ding_library_update_7002() {
+  db_update('rules_config')
+    ->fields(array('active' => 0))
+    ->condition(db_or()
+    ->condition('name', 'rules_og_member_active')
+    ->condition('name', 'rules_og_member_pending')
+    ->condition('name', 'rules_og_group_content_notification'))
+    ->execute();
+}
+
+/**
+ * Set OG user on library nodes to user 1.
+ */
+function ding_library_update_7003() {
+  $query = db_select('og', 'og');
+  $query->join('node', 'n', 'n.nid = og.etid');
+  $query->fields('og', array('etid'));
+  $query->addField('n', 'uid');
+  $rows = $query->execute();
+  foreach ($rows as $row) {
+    db_insert('og_membership')
+      ->fields(array(
+        'type' => 'og_membership_type_default',
+        'etid' => $row->uid,
+        'entity_type' => 'user',
+        'gid' => $row->etid,
+        'state' => 1,
+        'created' => time(),
+        'group_type' => 'node',
+        'field_name' => 'og_user_node',
+        'language' => 'und',
+      ))
+      ->execute();
+  }
+}
+
+/**
+ * Updated OG permission roles.
+ */
+function ding_library_update_7004() {
+  $roles = array(
+    array(
+      'rid' => 1,
+      'permission' => 'subscribe',
+      'module' => 'og_ui',
+    ),
+    array(
+      'rid' => 2,
+      'permission' => 'unsubscribe',
+      'module' => 'og_ui',
+    ),
+    array(
+      'rid' => 3,
+      'permission' => 'add user',
+      'module' => 'og_ui',
+    ),
+    array(
+      'rid' => 3,
+      'permission' => 'approve and deny subscription',
+      'module' => 'og_ui',
+    ),
+    array(
+      'rid' => 3,
+      'permission' => 'manage members',
+      'module' => 'og_ui',
+    ),
+    array(
+      'rid' => 3,
+      'permission' => 'manage permissions',
+      'module' => 'og_ui',
+    ),
+    array(
+      'rid' => 3,
+      'permission' => 'manage roles',
+      'module' => 'og_ui',
+    ),
+  );
+
+  foreach ($roles as $role) {
+    db_insert('og_role_permission')
+      ->fields($role)
+      ->execute();
+  }
+}
+
+/**
+ * Update group roles with type and bundle.
+ */
+function ding_library_update_7005() {
+  db_update('og_role')
+    ->fields(array(
+      'group_type' => 'node',
+      'group_bundle' => 'ding_library',
+    ))
+    ->execute();
+}
+
+/**
+ * Ensure that the OG audience field is add to users.
+ */
+function ding_library_update_7006() {
+  // Get basic OG audience field information.
+  $og_field = og_fields_info(OG_AUDIENCE_FIELD);
+  $og_field['field']['settings']['target_type'] = 'node';
+  $og_field['instance']['label'] = t('Group membership');
+
+  // If the user entity type has multiple bundles, make sure to attach a field
+  // instance to all of them.
+  $entity_info = entity_get_info('user');
+  foreach (array_keys($entity_info['bundles']) as $user_bundle) {
+    og_create_field('og_user_node', 'user', $user_bundle, $og_field);
+  }
+}
+
+/**
+ * Add groups node queue if it do not exists.
+ */
+function ding_library_update_7007() {
+  $qids = nodequeue_get_qids('ding_library');
+  if (empty($qids)) {
+    ding_library_install_nodequeue();
+  }
+}
+
+/**
+ * Remove all old library links from the menus (news, event and about).
+ */
+function ding_library_update_7008() {
+  db_delete('menu_links')
+    ->condition('menu_name', 'main-menu')
+    ->condition('link_path', 'bibliotek%', 'LIKE')
+    ->execute();
+}
+
+/**
+ * Move all other library custom links into OG menu.
+ */
+function ding_library_update_7009() {
+  // Find all library nid's.
+  $nids = db_select('node', 'n')
+    ->fields('n', array('nid'))
+    ->condition('type', 'ding_library')
+    ->execute()
+    ->fetchAllKeyed();
+
+  foreach (array_keys($nids) as $nid) {
+    // Get library mlid.
+    $mlid = db_select('menu_links', 'ml')
+      ->fields('ml', array('mlid'))
+      ->condition('link_path', 'node/' . $nid)
+      ->execute()
+      ->fetchField();
+
+    // Find every menu link with $mlid as plid.
+    $links = db_select('menu_links', 'ml')
+      ->fields('ml', array('mlid', 'p1', 'p2', 'p3', 'p4', 'p5', 'p6', 'p7', 'p8', 'p9'))
+      ->condition('plid', $mlid)
+      ->execute()
+      ->fetchAllAssoc('mlid');
+
+    // Get OG menu mlid to get parent mlid.
+    foreach ($links as $link => $data) {
+      // Move menu link in to OG menu and remove the parents (library/name/)
+      db_update('menu_links')
+        ->fields(array(
+          'menu_name' => 'menu-og-' . $nid,
+          'p1' => $data->p3,
+          'p2' => $data->p4,
+          'p3' => $data->p5,
+          'p4' => $data->p6,
+          'p5' => $data->p7,
+          'p6' => $data->p8,
+          'p7' => $data->p9,
+          'p8' => 0,
+          'p9' => 0,
+          ))
+        ->condition('mlid', $link)
+        ->execute();
+    }
+
+    // Delete old library link.
+    db_delete('menu_links')
+      ->condition('menu_name', 'main-menu')
+      ->condition('link_path', 'node/' . $nid)
+      ->execute();
+  }
+}
+
+/**
+ * Install menu position rule.
+ */
+function ding_library_update_7010() {
+  ding_library_install_menu_position();
+}
+
+/**
+ * Remove old library opening hours field.
+ */
+function ding_library_update_7011() {
+  field_delete_field('field_ding_library_opening_hours');
+  field_purge_batch(1000);
+}
+
+/**
+ * Remove old library path auto patterns.
+ */
+function ding_library_update_7012() {
+  variable_del('pathauto_node_ding_library_da_pattern');
+  variable_del('pathauto_node_ding_library_en_pattern');
+  variable_del('pathauto_node_ding_library_und_pattern');
+}

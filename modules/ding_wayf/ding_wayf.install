@@ -1,0 +1,74 @@
+<?php
+/**
+ * @file
+ * Ensures that requirements are meet for the module.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function ding_wayf_requirements($phase) {
+  global $conf;
+  $requirements = array();
+
+  // Ensure translations don't break at install time.
+  $t = get_t();
+
+  if ($phase == 'runtime') {
+    // Test that configuration have be created.
+    $config = variable_get('ding_wayf', FALSE);
+    if (!$config) {
+      $requirements['ding_wayf_config'] = array(
+        'title' => $t('Ding wayf configuration'),
+        'description' => $t('You have not yet confirmed the configuration at !url.', array('!url' => l('admin/config/ding/wayf', 'admin/config/ding/wayf'))),
+        'severity' => REQUIREMENT_WARNING,
+        'value' => '',
+      );
+    }
+
+    // Test that simple saml is installed.
+    if (!$config || !isset($config['installdir'])) {
+      $requirements['ding_wayf_install'] = array(
+        'title' => $t('SimpleSAMLphp installation not defined'),
+        'description' => $t('The installation of simpleSAMLphp was not found.'),
+        'severity' => REQUIREMENT_ERROR,
+        'value' => '',
+      );
+    }
+    else {
+      // Check that simpleSAMLphp is found at the location given.
+      if (!ding_wayf_check_simplesamlphp()) {
+        $requirements['ding_wayf_install'] = array(
+          'title' => $t('SimpleSAMLphp installation has disappeared'),
+          'description' => $t('The installation of simpleSAMLphp was not found.'),
+          'severity' => REQUIREMENT_ERROR,
+          'value' => '',
+        );
+      }
+    }
+
+    if (!variable_get('wayf_hash', FALSE)) {
+      $requirements['wayf_hash'] = array(
+        'value' => $t('WAYF not configured correctly'),
+        'description' => $t('WAYF is not properly configured, you need to set $conf[\'wayf_hash\'] in setttings.php.'),
+        'severity' => REQUIREMENT_ERROR,
+      );
+    }
+  }
+
+  return $requirements;
+}
+
+/**
+ * Transforms a Drupal path to a PCRE pattern matching whole lines from textarea
+ * fields.
+ *
+ * @param string $string
+ *   String describing a drupal path.
+ *
+ * @return string
+ *   PCRE pattern of $string.
+ */
+function ding_wayf_regex_line($string) {
+  return '/(^|\n)' . preg_quote($string, '/') . '(\r\n|$)/';
+}

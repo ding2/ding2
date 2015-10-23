@@ -1,0 +1,150 @@
+<?php
+/**
+ * @file
+ * Handles installation and un-installation of the node queue used by this
+ * module.
+ *
+ * Also contains update functions to install the node queue on existing sites.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ding_groups_install() {
+  ding_groups_install_nodequeues();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_groups_uninstall() {
+  foreach (ding_groups_nodequeues() as $queue) {
+    $queue = nodequeue_load_queue_by_name($queue->name);
+    nodequeue_delete($queue->qid);
+  }
+}
+
+/**
+ * Helper function to create node queues.
+ */
+function ding_groups_install_nodequeues() {
+  foreach (ding_groups_nodequeues() as $queue) {
+    // Only save the nodequeue if it does not exist already.
+    $existing_queue = nodequeue_load_queue_by_name($queue->name);
+    if (empty($existing_queue)) {
+      nodequeue_save($queue);
+    }
+  }
+}
+
+/**
+ * Definition of all nodequeues used by this module.
+ *
+ * Each definition should contain enough information that it can be passed to
+ * nodequeue_save() to persist the nodequeue.
+ *
+ * @return array
+ *   An array of objects each defining a nodequeue.
+ */
+function ding_groups_nodequeues() {
+  // First a template for all nodequeues defined here.
+  $nodequeue = new stdClass();
+  $nodequeue->subqueue_title = '';
+  $nodequeue->owner = 'nodequeue';
+  $nodequeue->api_version = 2;
+  $nodequeue->show_in_ui = TRUE;
+  $nodequeue->show_in_tab = TRUE;
+  $nodequeue->show_in_links = FALSE;
+  $nodequeue->i18n = 0;
+  $nodequeue->roles = array();
+  $nodequeue->size = 0;
+  $nodequeue->reverse = 0;
+  $nodequeue->new = TRUE;
+  $nodequeue->types = array(
+    0 => 'ding_group',
+  );
+  $nodequeue->subqueues = array();
+  $nodequeue->submit = 'Submit';
+  $nodequeue->reverse = 0;
+  $nodequeue->reference = 0;
+
+  $listing = clone $nodequeue;
+  $listing->name = 'ding_groups_listning';
+  $listing->title = 'Groups listing';
+  $listing->link = 'Add to listing';
+  $listing->link_remove = 'Remove from listing';
+  $listing->add_subqueue = array(
+    $listing->title,
+  );
+
+  $frontpage_listing = clone $nodequeue;
+  $frontpage_listing->name = 'ding_groups_frontpage_listing';
+  $frontpage_listing->title = 'Front page groups listing';
+  $frontpage_listing->link = 'Add to front page listing';
+  $frontpage_listing->link_remove = 'Remove from front page listing';
+  $frontpage_listing->add_subqueue = array(
+    $frontpage_listing->title,
+  );
+
+  return array($listing, $frontpage_listing);
+}
+
+/**
+ * Add groups node queue if it do not exists.
+ */
+function ding_groups_update_7001() {
+  $qids = nodequeue_get_qids('ding_group');
+  if (empty($qids)) {
+    ding_groups_install_nodequeues();
+  }
+}
+
+/**
+ * Add menu-position rule.
+ */
+function ding_groups_update_7002() {
+  ding_groups_install_menu_position();
+}
+
+/**
+ * Install front page groups listing queue and populate it.
+ */
+function ding_groups_update_7003() {
+  ding_groups_install_nodequeues();
+
+  // Populate new front page listing with the nodes that would have appeared in
+  // it previously: Nodes in the existing groups listing queue which are
+  // promoted to the front page.
+
+  // First retrieve an updated list of nodequeue names and ids. We cannot use
+  // nodequeue_load_queue_by_name() as it uses a static cache of nodequeue
+  // names. This cache will not contain the newly created queue and there is no
+  // way to reset it.
+  $queue_name_ids = array();
+  $result = db_query("SELECT qid, name FROM {nodequeue_queue}");
+  while ($get = $result->fetchObject()) {
+    $queue_name_ids[$get->name] = $get->qid;
+  }
+
+  // Load new queue and subqueues. Both are needed to support inserting content.
+  $frontpage_listing_queue = nodequeue_load($queue_name_ids['ding_groups_frontpage_listing']);
+  $frontpage_listing_subqueues = nodequeue_load_subqueues_by_queue($frontpage_listing_queue->qid);
+  $frontpage_listing_subqueue = reset($frontpage_listing_subqueues);
+
+  // Load existing subqueue for groups listing.
+  $subqueues = nodequeue_load_subqueues_by_queue($queue_name_ids['ding_groups_listning']);
+  $subqueue = reset($subqueues);
+  // Load all nodes in the existing queue without using pagination.
+  $nodes = nodequeue_load_nodes($subqueue->sqid, NULL, NULL, FALSE);
+  foreach ($nodes as $node) {
+    // If a node in the queue is promoted to the frontpage then add it to the
+    // new queue.
+    if ($node->promote) {
+      nodequeue_subqueue_add($frontpage_listing_queue, $frontpage_listing_subqueue, $node->nid);
+      // The node should no longer be promoted to the front page. The new queue
+      // supersedes this flag.
+      $node->promote = 0;
+      node_save($node);
+    }
+  }
+}

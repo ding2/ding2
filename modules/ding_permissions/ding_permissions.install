@@ -1,0 +1,42 @@
+<?php
+/**
+ * @file
+ * Handles update functions for the module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ding_permissions_install() {
+  variable_set('secure_permissions_disable_forms_settings', 2);
+}
+
+/**
+ * Rebuild permissions.
+ */
+function ding_permissions_update_7000() {
+  secure_permissions_rebuild();
+}
+
+/**
+ * Set folders and match type for secure_permissions after installing patch.
+ */
+function ding_permissions_update_7001() {
+  variable_set('secure_permissions_folders', "profiles/ding2/modules/*\nmodules/*");
+  variable_set('secure_permissions_type', 1);
+}
+
+/**
+ * Remove old configuration options.
+ */
+function ding_permissions_update_7002() {
+  variable_del('secure_permissions_type');
+  variable_del('secure_permissions_folders');
+}
+
+/**
+ * Set new configuration variables.
+ */
+function ding_permissions_update_7003() {
+  variable_set('secure_permissions_disable_forms_settings', 2);
+}

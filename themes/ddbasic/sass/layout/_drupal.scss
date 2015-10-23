@@ -1,0 +1,141 @@
+/**
+ * Drupal
+ *
+ * Overrides for Drupal specific markup
+ *
+ * @author magnify, zorp
+ */
+
+
+body.toolbar {
+  padding-top: 66px;
+}
+
+#edit-cancel {
+  margin-left: .3em;
+}
+
+label {
+  @include font-bold();
+}
+
+.form-item,
+.form-actions {
+  margin-bottom: $medium-spacing;
+  margin-top: 0;
+}
+
+.form-submit,
+#edit-cancel {
+  @extend %button-default;
+}
+
+.ajax-progress,
+.ajax-progress-throbber {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 500;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.ajax-progress .throbber {
+  @extend .icon-spin;
+  @extend .icon-spinner;
+
+  /* Make sure the Drupal throbber is not visible in IE */
+  background: none !important;
+  color: #000;
+  font-family: $base-icon-library-font;
+  font-size: 50px;
+  height: auto;
+  left: 48%;
+  position: relative;
+  top: 48%;
+  width: 50px;
+}
+
+html.js .search input.form-autocomplete {
+  background-image: none;
+  margin-bottom: 0;
+}
+
+.search .form-item, .form-actions {
+  margin-bottom: 0;
+}
+
+.field {
+  .field-label {
+    @include font-bold();
+  }
+}
+
+.field-label {
+  margin-right: $small-spacing;
+}
+
+/**
+ * Homepage search result listing
+ */
+.view-node-search-result {
+  @extend .pane-search-result;
+
+  .list-item {
+    @include zen-grid-container();
+
+    .field-type-taxonomy-term-reference a {
+      @extend .label;
+    }
+
+    .search-left {
+      @extend .ting-object-left;
+    }
+
+    .search-right {
+      @extend .ting-object-right;
+    }
+  }
+
+  // Get events read more correct.
+  .node-ding-event .group-right-col-search {
+    position: relative;
+
+    .event-arrow-link {
+      @extend %arrow-link;
+    }
+  }
+
+  .news-link {
+    float: right;
+  }
+}
+
+/**
+ * Ting reference reverse listing (view mode search-result)
+ */
+.pane-ting-object .ting-reference-reverse-list .list .list-item .node .search-left,
+.pane-ting-object .ting-reference-reverse-list .list .list-item .node .search-right {
+  min-height: 0px;
+  margin-bottom: 0px;
+}
+
+.pane-ting-object .ting-reference-reverse-list .search-results {
+  border-top: none;
+  padding-top: 0px;
+}
+
+.ting-reference-reverse-list {
+  @extend .view-node-search-result;
+}
+
+.field-type-file {
+  margin-bottom: 10px;
+
+  .file-icon {
+    vertical-align: top;
+  }
+}

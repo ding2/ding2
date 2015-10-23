@@ -1,0 +1,21 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the ting_search_carousel module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ting_search_carousel_install() {
+  @drupal_mkdir('public://ting_search_carousel');
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ting_search_carousel_uninstall() {
+  @drupal_rmdir('public://ting_search_carousel');
+  variable_del('ting_carousel_search_queries_hidden');
+  variable_del('ting_carousel_search_queries');
+}

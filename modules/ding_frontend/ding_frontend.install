@@ -1,0 +1,169 @@
+<?php
+/**
+ * @file
+ * Handles installation of address block.
+ */
+
+/**
+ * Implements hook_install().
+ *
+ * The address block is added here as it is used in the site template and needs
+ * to exists. Therefor it's not inserted with the example content modules.
+ */
+function ding_frontend_install() {
+  // Install footer address block.
+  ding_frontend_install_footer_address_block();
+
+  // Install footer menus.
+  ding_frontend_create_footer_menus();
+}
+
+/**
+ * Insert footer address block into database.
+ *
+ * It also sets block access and an shortcut link.
+ */
+function ding_frontend_install_footer_address_block() {
+  // Look the table first if the block does exist.
+  $exists = db_query('SELECT bid from {block_custom} WHERE info = :info', array(
+    ':info' => 'Footer adresse',
+  ))->fetchField();
+
+  // Insert the block if the block does not exist.
+  if (!$exists) {
+    // Insert custom block with address in the footer.
+    $bid = db_insert('block_custom')
+      ->fields(array(
+        'body' => '<p>Bibliotek - Gadenavn 1 - 1234 Bynavn - Telefon: 12 34 56 78 - <a href="mailto:bibliotek@example.com">bibliotek@example.com</a></p>',
+        'info' => 'Footer adresse',
+        'format' => 'ding_wysiwyg',
+      ))
+      ->execute();
+
+    // Add role settings for custom footer block.
+    ding_frontend_install_footer_address_block_access($bid, 'local administrator');
+
+    // Add shortcut for customer footer block.
+    ding_frontend_install_footer_address_block_shortcut();
+  }
+}
+
+/**
+ * Set block access for the footer address block.
+ *
+ * @param string $delta
+ *   The blocks delta to add the permission for.
+ * @param string $role
+ *   The role that should access the body element on the block.
+ *
+ * @throws \Exception
+ */
+function ding_frontend_install_footer_address_block_access($delta, $role) {
+  // Find the role id for 'local administrator'.
+  $roles = user_roles(TRUE);
+  $rid = array_search($role, $roles);
+
+  // Check if block access have been set.
+  $exists = db_query("SELECT permission FROM {block_access_roles} WHERE delta = :delta AND rid = :rid", array(
+      ':delta' => $delta,
+      ':rid' => $rid,
+    ))->fetchField();
+
+  if (!$exists) {
+    // Add role settings for custom footer block.
+    db_insert('block_access_roles')
+      ->fields(array(
+        'module' => 'block',
+        'delta' => $delta,
+        'rid' => $rid,
+        'permission' => 'config_body',
+      ))
+      ->execute();
+    }
+}
+
+/**
+ * Insert shortcut for easy editing.
+ */
+function ding_frontend_install_footer_address_block_shortcut() {
+  // Add shortcut for customer footer block.
+  $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
+  $shortcut_set->links = array(
+    array(
+      'link_path' => 'admin/structure/block/manage/block/1/configure',
+      'link_title' => st('Footer address'),
+      'weight' => -15,
+    ),
+  );
+
+  shortcut_set_save($shortcut_set);
+}
+
+/**
+ * Install custom menus.
+ *
+ * The footer menus are not part of the feature as the menus titles will be
+ * reverted with the feature if they where. So to prevent this they are created
+ * here.
+ */
+function ding_frontend_create_footer_menus() {
+  $menus = array(
+    'menu-footer-menu-1' => array(
+      'menu_name' => 'menu-footer-menu-1',
+      'title' => 'Footer menu 1',
+      'description' => '',
+    ),
+    'menu-footer-menu-2' => array(
+      'menu_name' => 'menu-footer-menu-2',
+      'title' => 'Footer menu 2',
+      'description' => '',
+    ),
+    'menu-footer-menu-3' => array(
+      'menu_name' => 'menu-footer-menu-3',
+      'title' => 'Footer menu 3',
+      'description' => '',
+    ),
+    'menu-footer-menu-4' => array(
+      'menu_name' => 'menu-footer-menu-4',
+      'title' => 'Footer menu 4',
+      'description' => '',
+    ),
+  );
+
+  // Save menu group into menu_custom table.
+  foreach ($menus as $menu) {
+    // Check if the data exist.
+    $exists = db_query("SELECT title FROM {menu_custom} WHERE menu_name = :menu_name", array(
+      ':menu_name' => $menu['menu_name'],
+    ))->fetchField();
+
+    // Save the menu.
+    if (!$exists) {
+      menu_save($menu);
+    }
+  }
+}
+
+/**
+ * Update dynamic_background upload path.
+ */
+function ding_frontend_update_7001(&$sandbox) {
+  // Empty du to changes in the code.
+}
+
+/**
+ * Set access for local administrator.
+ */
+function ding_frontend_update_7002(&$sandbox) {
+  $bid = db_query('SELECT bid from {block_custom} WHERE info =:info', array(
+    ':info' => 'Footer adresse',
+  ))->fetchField();
+
+  if ($bid) {
+    // Set access.
+    ding_frontend_install_footer_address_block_access($bid, 'local administrator');
+
+    // Added shortcut link for easy editing.
+    ding_frontend_install_footer_address_block_shortcut();
+  }
+}

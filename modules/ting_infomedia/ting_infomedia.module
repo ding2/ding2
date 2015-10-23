@@ -1,0 +1,293 @@
+<?php
+/**
+ * @file
+ * @TODO: Missing file description.
+ */
+
+// Load field hooks.
+module_load_include('inc', 'ting_infomedia', 'includes/ting_infomedia.field');
+module_load_include('inc', 'ting_infomedia' , 'includes/ting_infomedia.wrapper');
+
+/**
+ * Implements hook_menu
+ */
+function ting_infomedia_menu() {
+  $items = array();
+
+  $items['ting/object/infomedia/%'] = array(
+    'title' => 'Infomedia',
+    'page callback' => 'ting_infomedia_view',
+    'page arguments' => array(3),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Page callback function
+ *
+ * Return a render array
+ */
+function ting_infomedia_view($id) {
+  global $user;
+  if (!ding_user_is_provider_user($user)) {
+    // It's a requirement that the user is a user in the library system (the credentials will be checked in the Infomedia webservice).
+    drupal_set_message(t('Please log in to read infomedia articles'), 'warning');
+    return array(
+      '#prefix' => '<div class="infomedia_error">',
+      '#suffix' => '</div>',
+      '#theme' => 'status_messages',
+    );
+  }
+
+  $render_array = ting_infomedia_parse_article($id);
+  return array(
+    '#markup' => '<div id="article-wrapper">' . render($render_array). '</div>',
+    '#theme' => 'ting_infomedia_article',
+    '#attached' => array(
+      'css' => array(drupal_get_path('module', 'ting_infomedia') . '/css/ting_infomedia_article_view.css'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_theme().
+ *
+ * Set template for viewing ting_infomedia articles.
+ * Set theme-function for displaying a link (field) to ting_infomedia.
+ */
+function ting_infomedia_theme($existing, $type, $theme, $path) {
+  $render_array = array();
+
+  // Page view definitions - view articles.
+  $render_array['ting_infomedia_article'] = array(
+    'template' => 'ting_infomedia_article_view',
+    'render element' => 'element',
+  );
+
+  return $render_array;
+}
+
+/**
+ * Implements hook_ting_online_url().
+ *
+ * @see ting.entities.inc::getOnline_url *
+ */
+function ting_infomedia_ting_online_url_alter(&$url, $entity) {
+  if (strpos($url, '[useraccessinfomedia]') === 0) {
+    $url = ting_infomedia_parse_url($url);
+  }
+}
+
+/**
+ * Alter infomedia url.
+ *
+ * @param $url
+ *   The original url.
+ * @return string
+ *   The modified url.
+ */
+function ting_infomedia_parse_url($url) {
+  global $user;
+
+  $parts = array();
+  $url = parse_url($url, PHP_URL_QUERY);
+  parse_str($url, $parts);
+
+  if (!ding_user_is_provider_user($user)) {
+    // IF user is not logged in the login-box should be shown.
+    return url('ting/object/infomedia/' . $parts['faust'], array('fragment' => 'login', 'absolute' => TRUE));
+  }
+
+  return url('ting/object/infomedia/' . $parts['faust'], array('absolute' => TRUE));
+}
+
+/**
+ * Return stripped path.
+ *
+ * E.g /ting/infomedia/33514212 -> /ting/infomedia.
+ *
+ * @param string $path
+ *   The path to strip.
+ *
+ * @return mixed
+ *   The strip path or FALSE.
+ */
+function ting_infomedia_strip_path($path) {
+  $parts = explode('/', $path);
+
+  if (isset($parts[0]) && isset($parts[1])) {
+    return $parts[0] . '/' . $parts[1];
+  }
+
+  return FALSE;
+}
+
+/**
+ * Inline relation types and their titles.
+ */
+function ting_infomedia_get_ting_relations() {
+  static $types;
+  if (!$types) {
+    $types = array(
+      'dbcaddi:hasOnlineAccess' => t('Article from Infomedia'),
+    );
+  }
+  return $types;
+}
+
+/**
+ * Implements hook_ding_anchor_info().
+ */
+function ting_infomedia_ding_anchor_info() {
+  $relations =  ting_infomedia_get_ting_relations();
+
+  // We need to know what kind of hasOnlineAccess
+  // is provided with this object and return relevant anchor information.
+  $object = menu_get_object('ting_object', 2);
+
+  if ($object->getAc_source() != 'Artikler') {
+    unset($relations['dbcaddi:hasOnlineAccess']);
+  }
+
+  return $relations;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Adding infomedia url form field to ting configuration form.
+ */
+function ting_infomedia_form_ting_admin_ting_settings_alter(&$form, &$form_state) {
+  $form['ting']['ting_infomedia_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Infomedia web service URL'),
+    '#description' => t('URL to the infomedia webservice (access to infomedia article base) , e.g. http://useraccessinfomedia.addi.dk/1.1/'),
+    '#default_value' => variable_get('ting_infomedia_url', ''),
+  );
+}
+
+/**
+ * Retrieve article from infomedia.
+ *
+ * Parse for errors, clean html and add html for error handling if needed.
+ *
+ * @return mixed
+ *   The parsed HTML or a render array with error or FALSE if all fails.
+ */
+function ting_infomedia_parse_article($id) {
+  $obj = ting_infomedia_get_article($id);
+
+  $html = ting_infomedia_parse_for_errors($obj);
+  if(!$html) {
+    foreach($obj->parts as $part=>$val) {
+      if ($message = ting_infomedia_parse_for_article_error($val)) {
+        $val['article'] = $message;
+      }
+      $html = $val['article'];
+
+      // For now simply return the first article.
+      // @TODO: handle more articles
+      ting_infomedia_clean_html($html);
+    }
+  }
+
+  return $html;
+}
+
+/**
+ * Parse for general (user and/or library) errors.
+ *
+ * Take appropriate action if errors are found.
+ *
+ * @param TingClientInfomediaResult $result
+ *   A ting client infomedia result.
+ *
+ * @return mixed
+ *   FALSE if no error else the error as an render array.
+ */
+function ting_infomedia_parse_for_errors(TingClientInfomediaResult $result) {
+  $error = FALSE;
+
+  if ($result->error) {
+    watchdog('infomedia', $result->error);
+    drupal_set_message(t('Internal error please try again later'), 'warning');
+
+    $error = array(
+      '#prefix' => '<div class="infomedia_error">',
+      '#suffix' => '</div>',
+      '#theme' => 'status_messages',
+    );
+  }
+
+  return $error;
+}
+
+/**
+ * Parse for error on article-level.
+ *
+ * Not verified, empty etc.
+ *
+ * @param array $part
+ *   Infomedia article in array form.
+ *
+ * @return mixed
+ *   FALSE is not verified or article else translated string.
+ */
+function ting_infomedia_parse_for_article_error($part) {
+  $ret = FALSE;
+
+  if (!$part['verified']) {
+    $ret = t('Article not verified');
+  }
+
+  if (empty($part['article'])) {
+    $ret = t('Article not found on infomedia');
+  }
+
+  return $ret;
+}
+
+/**
+ * Clean HTML.
+ *
+ * @param string $html
+ *   HTML string to clean.
+ */
+function ting_infomedia_clean_html(&$html) {
+  $patterns = array();
+  $patterns[0] = '/<p id="[.+]">/';
+  $patterns[1] = '/<hl2>/';
+  $patterns[2] = '/<\/hl2>/';
+
+  $replacements = array();
+  $replacements[0] = '<p>';
+  $replacements[1] = '<h4>';
+  $replacements[2] = '</h4>';
+
+  preg_replace($patterns, $replacements, $html);
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ting_infomedia_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
+ * Implement hook_ctools_plugin_api().
+ */
+function ting_infomedia_ctools_plugin_api($module, $api) {
+  if ($module == 'panels_mini' && $api == 'panels_default') {
+    return array('version' => 1);
+  }
+  if ($module == 'page_manager' && $api == 'pages_default') {
+    return array('version' => 1);
+  }
+}
+

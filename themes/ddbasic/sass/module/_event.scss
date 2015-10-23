@@ -1,0 +1,267 @@
+/**
+ * Event styling
+ *
+ * @author magnify
+ */
+
+
+
+/* Content rules
+   ========================================================================== */
+
+.secondary-content,
+.tertiary-content {
+  .event-list-description {
+    display: none;
+  }
+}
+
+
+/* Event list heading */
+.event-list-leaf {
+  background: $gray;
+  padding-top: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+
+  .event-list-date-wrapper {
+    display: inline-block;
+    font-size: $font-size-tiny;
+    margin-right: 10px;
+    min-width: 65px;
+
+    text-align: center;
+    vertical-align: top;
+  }
+
+  .event-list-day {
+    background-color: $blue;
+    color: $white;
+    display: block;
+    text-shadow: 0 -1px 0 rgba(0,0,0,.25);
+  }
+
+  .event-list-inner-wrapper {
+    background: $white;
+  }
+
+  .event-list-date {
+    display: block;
+    font-size: $font-size-large;
+    padding-top: $small-spacing;
+    margin-bottom: -10px;
+  }
+
+  .event-list-day {
+    line-height: $base-line-height * 0.7;
+  }
+
+  .event-list-fulldate {
+    color: transparentize($black, .3);
+    display: inline-block;
+    font-family: $font-bold;
+    font-size: $font-size-large;
+    font-weight: $base-font-weight-bold;
+    margin-top: 17px;
+  }
+}
+
+
+
+/* Event list
+   ========================================================================== */
+
+%arrow-link {
+  display: inline-block;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  margin-top: -10px;
+}
+
+.pane-ding-event-ding-event-list {
+  margin-bottom: 20px;
+}
+
+.event-list {
+  margin-top: 0;
+  margin-bottom: $large-spacing;
+  padding-left: 0;
+
+  .event-list-item {
+    margin-bottom: $medium-spacing;
+    overflow: hidden;
+    padding-top: $medium-spacing;
+    padding-right: $medium-spacing;
+    padding-bottom: $medium-spacing;
+    padding-left: $medium-spacing;
+    position: relative;
+  }
+
+  .event-list-item:nth-child(odd) {
+    @extend %article-background--odd;
+  }
+
+  .event-list-item:nth-child(even) {
+    @extend %article-background--even;
+  }
+
+ .event-image-wrapper {
+    float: left;
+    margin-right: $large-spacing;
+    max-width: 15%;
+  }
+
+  .event-list-heading {
+    @extend %article-heading--small;
+
+    margin-right: 25px;
+  }
+
+  .event-list-description {
+    padding-right: $large-spacing;
+  }
+
+  .event-list-location,
+  .event-list-time,
+  .event-list-price {
+    margin-right: 5px;
+  }
+
+  .event-arrow-link {
+    @extend %arrow-link;
+  }
+  
+  /* Media queries */  
+  @include small-medium() {
+    .event-list-description {
+      display: none;
+    }
+  }
+}
+
+
+
+/* Event
+   ========================================================================== */
+
+.event {
+  .event-image {
+    float: left;
+    margin-top: $large-spacing;
+    margin-right: $large-spacing;
+    margin-bottom: $medium-spacing;
+    max-width: 300px;
+  }
+
+  .event-tags {
+    margin-bottom: $large-spacing;
+  }
+
+  .event-lead {
+    @include font-bold();
+
+    border-bottom: 1px solid $gray-light;
+    margin-bottom: $medium-spacing;
+    padding-bottom: $large-spacing;
+  }
+
+  .event-info {
+    @include zen-grid-item(4, 1, right);
+
+    margin-top: $large-spacing;
+    padding-right: 0;
+    padding-left: $large-spacing;
+
+    p {
+      border-left: 5px solid $gray-light;
+      margin-top: 0;
+      margin-bottom: 0;
+      padding-bottom: $medium-spacing;
+      padding-left: 36px;
+    }
+
+    i[class^="icon-"] {
+      display: inline-block;
+      margin-left: -24px;
+      min-width: $large-spacing;
+    }
+  }
+
+  .event-content {
+    @include zen-grid-item(8, 1);
+
+    padding-left: 0;
+  }
+
+  .event-footer {
+    border-bottom: 1px solid $gray-light;
+    clear: both;
+    margin-bottom: $large-spacing;
+  }
+
+  /* Media queries */
+  @include small-medium {
+    .event-content {
+      padding-top: -20px;
+      padding-right: 0;
+    }
+
+    .event-image {
+      max-width: 100%;
+    }
+
+    .event-info {
+      @include zen-grid-item(12, 1);
+
+      border-top: 1px solid $gray;
+      padding-right: 0;
+      padding-left: 0;
+
+      p {
+        background-color: $gray-light;
+        border-left: 0;
+        border-bottom: 1px solid $gray;
+        padding-top: 12px;
+        padding-right: $large-spacing;
+        padding-bottom: $medium-spacing;
+      }
+    }
+
+    .event-content {
+      @include zen-clear();
+
+      width: 100%;
+    }
+  }
+}
+
+
+
+/* Ticket styling
+   ========================================================================== */
+
+%ticket {
+  font-family: $font-bold;
+  font-weight: $base-font-weight-bold;
+  margin-left: 10%;
+  width: 70%;
+}
+
+.ticket-wrapper {
+  border-top: 1px solid $gray-light;
+
+  margin-top: $large-spacing;
+  padding-top: $large-spacing;
+}
+
+.ticket-available {
+  @extend %button-action;
+  @extend %ticket;
+}
+
+.ticket-info {
+  @extend %button-warning;
+  @extend %ticket;
+}

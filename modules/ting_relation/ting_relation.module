@@ -1,0 +1,74 @@
+<?php
+/**
+ * @file
+ * Handles relations for Ting entities.
+ */
+
+require_once 'includes/ting_relation.field.inc';
+
+/**
+ * Implements hook_theme().
+ */
+function ting_relation_theme() {
+  return array(
+    'ting_relation_groups' => array(
+      'template' => 'templates/ting-relation-groups',
+      'render element' => 'elements',
+      'file' => 'includes/ting_relation.theme.inc',
+    ),
+    'ting_relations' => array(
+      'template' => 'templates/ting-relations',
+      'variables' => array(
+        'title' => NULL,
+        'source' => NULL,
+        'relations' => NULL,
+        'attributes' => array(),
+      ),
+      'file' => 'includes/ting_relation.theme.inc',
+    ),
+    'ting_relation' => array(
+      'template' => 'templates/ting-relation',
+      'variables' => array(
+        'title' => NULL,
+        'abstract' => NULL,
+        'online' => NULL,
+        'target' => '_blank',
+        'fulltext_link' => FALSE,
+        'relation' => NULL,
+        'attributes' => array(),
+      ),
+      'file' => 'includes/ting_relation.theme.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_ding_anchor_info().
+ *
+ * Builds the lists of relations to use as anchors when display a ting entity.
+ */
+function ting_relation_ding_anchor_info() {
+  $relations = ting_relation_inline();
+  return $relations;
+}
+
+/**
+ * Inline relation types and their titles.
+ *
+ * @return array
+ *   Indexed by the relation types with a translatable string as data.
+ */
+function ting_relation_inline() {
+  static $types;
+  if (!$types) {
+    $types = array(
+      'dbcaddi:hasCreatorDescription' => t('Author portrait'),
+      'dbcaddi:hasReview' => t('Review'),
+      'dbcaddi:hasSubjectDescription' => t('Subject description'),
+      'dbcaddi:hasDescriptionFromPublisher' => t('Description from publisher'),
+      'dbcaddi:hasCreatorHomePage' => t('Creator homepage'),
+      'isPartOfManifestation' => t('Is part of manifestation'),
+    );
+  }
+  return $types;
+}

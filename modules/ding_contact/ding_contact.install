@@ -1,0 +1,220 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function ding_contact_install() {
+  // Figure out if this install is needed (we will not overwrite).
+  $categories = db_select('contact', 'c')
+    ->countQuery()
+    ->execute()
+    ->fetchField();
+
+  // Default there will be one category, continue if that is the deal.
+  if ($categories == 1) {
+    // Delete the current item.
+    db_truncate('contact')
+      ->execute();
+
+    // Get current items.
+    $items = ding_contact_info();
+
+    // Write them to contact table.
+    foreach ($items as $item) {
+      drupal_write_record('contact', $item);
+    }
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_contact_uninstall() {
+  // Get current items.
+  $items = ding_contact_info();
+
+  // Get site email.
+  $site_email = variable_get('site_mail', ini_get('sendmail_from'));
+
+  // Iterate every item to check if they are identical to the basic setup.
+  foreach ($items as $item) {
+    // If the item is same as default, delete it.
+    db_delete('contact')
+      ->condition('category', $item['category'])
+      ->condition('reply', '')
+      ->condition('recipients', $site_email)
+      ->condition('weight', $item['weight'])
+      ->execute();
+  }
+
+  // Insert a default contact category.
+  db_insert('contact')
+    ->fields(array(
+      'category' => 'Website feedback',
+      'recipients' => $site_email,
+      'selected' => 1,
+      'reply' => '',
+    ))
+    ->execute();
+}
+
+/**
+ * Cateogries for contact form.
+ * @return array
+ *   Categories
+ */
+function ding_contact_info() {
+  $site_email = variable_get('site_mail', ini_get('sendmail_from'));
+  return array(
+    array(
+      'category' => 'Aflevering',
+      'recipients' => $site_email,
+      'reply' => '',
+      'weight' => -10,
+    ),
+    array(
+      'category' => 'Bøger, CD\'ere m.m.',
+      'recipients' => $site_email,
+      'reply' => '',
+      'weight' => -10,
+    ),
+    array(
+      'category' => 'Fornyelse af materialer',
+      'recipients' => $site_email,
+      'reply' => '',
+      'weight' => -10,
+    ),
+    array(
+      'category' => 'Forslag til indkøb',
+      'recipients' => $site_email,
+      'reply' => '',
+      'weight' => -10,
+    ),
+    array(
+      'category' => 'Hjemkaldelser',
+      'recipients' => $site_email,
+      'reply' => '',
+      'weight' => -10,
+    ),
+    array(
+      'category' => 'Hjemmesiden',
+      'recipients' => $site_email,
+      'reply' => '',
+      'weight' => -10,
+    ),
+    array(
+      'category' => 'Lånerkort',
+      'recipients' => $site_email,
+      'reply' => '',
+      'weight' => -10,
+    ),
+    array(
+      'category' => 'Mobilsite',
+      'recipients' => $site_email,
+      'reply' => '',
+      'weight' => -10,
+    ),
+    array(
+      'category' => 'Netmedier',
+      'recipients' => $site_email,
+      'reply' => '',
+      'weight' => -10,
+    ),
+    array(
+      'category' => 'Pinkode',
+      'recipients' => $site_email,
+      'reply' => '',
+      'weight' => -10,
+    ),
+    array(
+      'category' => 'Regninger',
+      'recipients' => $site_email,
+      'reply' => '',
+      'weight' => -10,
+    ),
+    array(
+      'category' => 'Ubuntu - publikumspc\'ere',
+      'recipients' => $site_email,
+      'reply' => '',
+      'weight' => -10,
+    ),
+    array(
+      'category' => 'Ingen af overstående',
+      'recipients' => $site_email,
+      'reply' => '',
+      'weight' => -9,
+    ),
+    array(
+      'category' => 'Books, CDs etc.',
+      'recipients' => $site_email,
+      'reply' => '',
+      'weight' => 9,
+    ),
+    array(
+      'category' => 'Invoices',
+      'recipients' => $site_email,
+      'reply' => '',
+      'weight' => 9,
+    ),
+    array(
+      'category' => 'Library card',
+      'recipients' => $site_email,
+      'reply' => '',
+      'weight' => 9,
+    ),
+    array(
+      'category' => 'Net media',
+      'recipients' => $site_email,
+      'reply' => '',
+      'weight' => 9,
+    ),
+    array(
+      'category' => 'Overdue notices',
+      'recipients' => $site_email,
+      'reply' => '',
+      'weight' => 9,
+    ),
+    array(
+      'category' => 'PIN code',
+      'recipients' => $site_email,
+      'reply' => '',
+      'weight' => 9,
+    ),
+    array(
+      'category' => 'Purchase suggestions',
+      'recipients' => $site_email,
+      'reply' => '',
+      'weight' => 9,
+    ),
+    array(
+      'category' => 'Renewing materials',
+      'recipients' => $site_email,
+      'reply' => '',
+      'weight' => 9,
+    ),
+    array(
+      'category' => 'Returning materials',
+      'recipients' => $site_email,
+      'reply' => '',
+      'weight' => 9,
+    ),
+    array(
+      'category' => 'Website',
+      'recipients' => $site_email,
+      'reply' => '',
+      'weight' => 9,
+    ),
+    array(
+      'category' => 'Ubuntu - user PCs',
+      'recipients' => $site_email,
+      'reply' => '',
+      'weight' => 9,
+    ),
+    array(
+      'category' => 'None of the above',
+      'recipients' => $site_email,
+      'reply' => '',
+      'weight' => 10,
+    ),
+  );
+}

@@ -1,0 +1,146 @@
+<?php
+/**
+ * @file
+ * Provide functionality and page callbacks for retrieving covers for Ting
+ * objects and collections
+ */
+
+// Default cache lifetime for covers (24 timer).
+define('TING_COVERS_DEFAULT_CACHE_LIFETIME', 86400);
+
+// Load field module hooks.
+module_load_include('inc', 'ting_covers', 'ting_covers.field');
+
+/**
+ * Implements hook_menu().
+ */
+function ting_covers_menu() {
+  $items = array();
+
+  $items['ting/covers'] = array(
+    'title' => 'Retreives cover for Ting objects',
+    'page callback' => 'ting_covers_objects',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+    'file' => 'ting_covers.pages.inc',
+  );
+
+  $items['admin/config/ting/covers'] = array(
+    'title' => 'Covers',
+    'description' => 'Configure how covers are handled.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_covers_admin_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ting_covers.admin.inc',
+  );
+
+  $items['admin/config/ting/covers/setttings'] = array(
+    'title' => 'Settings',
+    'description' => 'Configure how covers are handled.',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );
+
+  $items['admin/config/ting/covers/addi'] = array(
+    'title' => 'ADDI service',
+    'description' => 'Configure integration with the ADDI service.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_covers_admin_addi_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ting_covers.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ting_covers_theme() {
+  return array(
+    'ting_object_cover' => array(
+      'render element' => 'elements',
+      'file' => 'ting_covers.theme.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_cron().
+ */
+function ting_covers_cron() {
+  _ting_covers_delete_old_files($_SERVER['REQUEST_TIME'] - variable_get('ting_covers_cache_lifetime', TING_COVERS_DEFAULT_CACHE_LIFETIME));
+}
+
+/**
+ * Implements hook_ding_install_tasks().
+ */
+function ting_covers_ding_install_tasks() {
+  module_load_include('inc', 'ting_covers', 'ting_covers.admin');
+  return array(
+    'ting_covers_admin_addi_settings_form' => array(
+      'display_name' => st('ADDI service settings'),
+      'type' => 'form',
+      'file' => drupal_get_path('module', 'ting_covers') . '/ting_covers.admin.inc',
+    ),
+  );
+}
+
+/**
+ * Template preprocessor.
+ */
+function ting_covers_preprocess_ting_object(&$variables) {
+  /*
+   * Add the image style as a class, allowing templates to react on the size.
+   */
+  if (isset($variables['elements']['ting_cover'][0])) {
+    $variables['classes_array'][] = drupal_html_class('imagestyle-' . $variables['elements']['ting_cover'][0]['#image_style']);
+  }
+}
+
+/**
+ * Delete ting covers files.
+ *
+ * @todo: handle image styles better and use API to flush expired images.
+ *
+ * @param int $time
+ *   Timestamp where older files will be deleted.	Omit or set to NULL to delete
+ *   all files.
+ */
+function _ting_covers_delete_old_files($time = NULL) {
+  // Collect potential locations of cover folders.
+  $files_dir = file_default_scheme() . '://';
+  $image_dirs = array($files_dir);
+
+  $styles_dir = $files_dir . 'styles';
+  foreach (scandir($styles_dir) as $style_dir) {
+    $style_dir = $styles_dir . DIRECTORY_SEPARATOR . $style_dir . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR;
+    if (is_dir($style_dir)) {
+      $image_dirs[] = $style_dir;
+    }
+  }
+
+  // Collect cover files.
+  $cover_files = array();
+  foreach ($image_dirs as $uri) {
+    $ting_covers_dir = $uri . 'ting' . DIRECTORY_SEPARATOR . 'covers';
+    if (is_dir($ting_covers_dir)) {
+      $cover_files = array_merge($cover_files, file_scan_directory($ting_covers_dir, "/./"));
+    }
+  }
+
+  // Delete obsolete files.
+  foreach ($cover_files as $file) {
+    if (!$time || (filemtime($file->uri) < $time)) {
+      file_unmanaged_delete($file->uri);
+    }
+  }
+}
+
+/**
+ * Return the path to the cover of the object.
+ */
+function ting_covers_object_path($object_id) {
+  return file_default_scheme() . '://ting' . DIRECTORY_SEPARATOR . 'covers' . DIRECTORY_SEPARATOR . 'object' . DIRECTORY_SEPARATOR . md5($object_id) . '.jpg';
+}

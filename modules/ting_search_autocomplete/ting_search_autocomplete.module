@@ -1,0 +1,86 @@
+<?php
+/**
+ * @file
+ * Implements the search auto-complete functions to the ting search field by
+ * using open search.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ting_search_autocomplete_menu() {
+  $items = array();
+
+  $items['ting/autocomplete'] = array(
+    'title' => 'Ting search autocomplete',
+    'description' => 'Returns a list of suggestions to use for autocompletion',
+    'access arguments' => array('search content'),
+    'page callback' => 'ting_search_autocomplete_callback',
+    'file' => 'includes/ting_search_autocomplete.ajax.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['admin/config/ting/autocomplete'] = array(
+    'title' => 'Ting search autocomplete settings',
+    'description' => 'Settings for Ting search autocomplete',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_search_autocomplete_admin'),
+    'access arguments' => array('administer search'),
+    'file' => 'includes/ting_search_autocomplete.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_flush_caches().
+ */
+function ting_search_autocomplete_flush_caches() {
+  return array('cache_ting_search_autocomplete');
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Adds CSS and JS to the ting search form.
+ */
+function ting_search_autocomplete_form_search_block_form_alter(&$form, &$form_state) {
+  $form['search_block_form']['#autocomplete_path'] = 'ting/autocomplete';
+
+  // Add class to make sure that the form is auto-submitted.
+  $form['search_block_form']['#attributes']['class'] = array('auto-submit');
+
+  // Modify the core auto-complete behaviour to search on enter. It has a high
+  // weight to ensure that it's include after core auto complete script.
+  drupal_add_js(drupal_get_path('module', 'ting_search_autocomplete') . '/js/ting_search_autocomplete.js', array('weight' => 1000));
+}
+
+
+/**
+ * Get settings, and merge with defaults.
+ * @return array
+ */
+function ting_search_autocomplete_settings() {
+  $settings = array();
+
+  $base_settings['index'] = NULL;
+  $base_settings['facetIndex'] = NULL;
+  $base_settings['filterQuery'] = NULL;
+  $base_settings['sort'] = 'count';
+
+  $base_settings['agency']  = variable_get('ting_agency', NULL);
+  $base_settings['profile'] = variable_get('ting_search_profile', NULL);
+  $base_settings['maxSuggestions'] = 10;
+  $base_settings['maxTime'] = 2000;
+
+  $base_settings['highlight'] = NULL;
+  $base_settings['highlight.pre'] = NULL;
+  $base_settings['highlight.post'] = NULL;
+  $base_settings['minimumString'] = 3;
+
+  $defaults = variable_get('ting_search_autocomplete_settings', array());
+
+  $settings = array_merge($base_settings, $defaults);
+  
+  return $settings;
+}

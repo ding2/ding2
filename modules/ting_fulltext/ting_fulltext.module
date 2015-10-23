@@ -1,0 +1,84 @@
+<?php
+
+/**
+ * @file
+ * Drupal module for displaying full-text version of Ting objects.
+ *
+ * This uses a docbook-subset for displaying content.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ting_fulltext_menu() {
+  $items = array();
+
+  $items['ting/object/%ting_fulltext_object/fulltext'] = array(
+    'page callback' => 'ting_fulltext_page_view',
+    'page arguments' => array(2),
+    'access arguments' => array('access content'),
+    'file' => 'includes/ting_fulltext.pages.inc',
+    'type' => MENU_CALLBACK | MENU_VISIBLE_IN_BREADCRUMB,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ting_fulltext_theme($existing, $type, $theme, $path) {
+  $render_array['ting_fulltext'] = array(
+    'template' => 'ting_fulltext_view',
+    'render element' => 'element',
+  );
+
+  return $render_array;
+}
+
+/**
+ * Loader function to get the fulltext object as raw data(xml) for parsing.
+ */
+function ting_fulltext_object_load($object_id) {
+  if (!empty($object_id)) {
+    module_load_include('client.inc', 'ting');
+
+    $request = ting_get_request_factory()->getObjectRequest();
+    $request->setObjectId($object_id);
+    $request->setProfile(variable_get('ting_search_profile', ''));
+    $request->setFormat('docbook');
+    $request->setObjectFormat('docbook');
+    $request->setOutputType('xml');
+    $xml = ting_execute_cache($request);
+
+    return $xml;
+  }
+
+  return FALSE;
+}
+
+/**
+ * Implements hook_preprocess_ting_relation().
+ */
+function ting_fulltext_preprocess_ting_relation(&$variables) {
+  $relation = $variables['relation'];
+
+  if (!$variables['online'] && (isset($relation->object->reply) && isset($relation->object->reply->formatsAvailable))) {
+    if (in_array('docbook', $relation->object->reply->formatsAvailable)) {
+      $variables['fulltext_link'] = l(t('See the full-text version'), 'ting/object/' . $relation->uri . '/fulltext');
+    }
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * It simply tells panels where to find the .inc files that define various
+ * args, contexts, content_types. In this case the subdirectories of
+ * ctools_plugin_example/panels are used.
+ */
+function ting_fulltext_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}

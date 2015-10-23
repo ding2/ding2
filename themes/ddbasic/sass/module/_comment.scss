@@ -1,0 +1,59 @@
+/**
+ * Comments
+ *
+ * @author magnify
+ */
+
+
+
+.comment-wrapper {
+  border-top: 1px solid $gray-light;
+  margin-top: $large-spacing;
+  padding-top: $large-spacing;
+}
+
+.comment-title {
+  margin-bottom: $large-spacing;
+}
+
+
+.ding-user-comment-forbidden-form {
+  .form-submit {
+    float: left;
+  }
+
+  span {
+    font-family: $font-light-italic;
+    line-height: 35px;
+    margin-left: 5px;
+  }
+}
+
+.filter-guidelines {
+  padding-top: 0;
+  padding-left: 0;
+
+  .tips {
+    margin-left: 0;
+    padding-left: 0;
+  }
+}
+
+.filter-help {
+  padding: 0;
+}
+
+.comment {
+  background-color: $gray-light;
+  margin-bottom: $large-spacing;
+  padding: $large-spacing;
+
+  .new {
+    float: right;
+  }
+}
+
+.ding-user-comment-forbidden-form {
+  border-top: 1px solid $gray-light;
+  padding-top: $large-spacing;
+}

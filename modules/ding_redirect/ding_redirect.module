@@ -1,0 +1,117 @@
+<?php
+/**
+ * @file
+ * Code for the Ding search redirect.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ding_redirect_menu() {
+  $items = array();
+
+  $items['admin/config/ding/redirect'] = array(
+    'title' => 'Ding redirect searches and login',
+    'description' => 'Configure where the search and login should redirect.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_redirect_admin_settings'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ding_redirect.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements of hook_init().
+ */
+function ding_redirect_init() {
+
+  // Add the login URL and JS to the page, if an url is provided.
+  $login_url = variable_get('ding_redirect_settings_login_url', '');
+  $delay = variable_get('ding_redirect_settings_dialog_delay', 3000);
+  $dialog_title = variable_get('ding_redirect_settings_dialog_title', t('Redirecting...'));
+  $dialog_text = variable_get('ding_redirect_settings_dialog_text', t('You are being redirected to an external login page. Close this dialog to stop redirecting.'));
+
+  $redirect_well_url = variable_get('ding_redirect_settings_search_well', '');
+  $redirect_web_url  = variable_get('ding_redirect_settings_search_web', '');
+  $path = drupal_get_path('module', 'ding_redirect');
+
+  if (!empty($login_url)) {
+    drupal_add_js(array(
+      'ding_redirect' => array(
+        'login_url' => $login_url,
+      ),
+    ), 'setting');
+    drupal_add_js($path . '/js/ding_redirect_login.js');
+  }
+
+  if (!empty($redirect_web_url) || !empty($redirect_well_url)) {
+    // Add the URLs to redirect as JS settings.
+    drupal_add_js(array(
+      'ding_redirect' => array(
+        'well' => $redirect_well_url,
+        'web' => $redirect_web_url,
+      ),
+    ), 'setting');
+
+    // Add JS to redirecting the search form and CSS to style the radio buttons.
+    drupal_add_js($path . '/js/ding_redirect_search.js');
+    drupal_add_css($path . '/ding_redirect_search.css');
+  }
+
+  // Add settings if we should show a dialog when redirecting.
+  if ($delay > 0) {
+    drupal_add_js(array(
+      'ding_redirect' => array(
+        'delay' => $delay,
+        'dialog_title' => $dialog_title,
+        'dialog_text' => $dialog_text,
+      ),
+    ), 'setting');
+    drupal_add_library('system', 'ui.dialog');
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ding_redirect_form_search_block_form_alter(&$form, &$form_state, $form_id) {
+
+  // Only add the redirect radios when not on search page.
+  $well_url = variable_get('ding_redirect_settings_search_well', '');
+  $web_url  = variable_get('ding_redirect_settings_search_web', '');
+
+  if (!empty($well_url) || !empty($web_url)) {
+    // Set some radio buttons to the search form.
+    $form['ding_redirect_redirect_radios'] = array(
+      '#type' => 'radios',
+      '#default_value' => variable_get('ding_redirect_settings_search_default', 'well'),
+      '#options' => _ding_redirect_get_options(),
+    );
+  }
+
+  return $form;
+}
+
+/**
+ * Helper to retrieve the options for searches.
+ *
+ * @return array
+ *   The array of options in an associated array. Ordered by default first.
+ */
+function _ding_redirect_get_options() {
+  $options = array(
+    'well' => t('Search in materials'),
+    'web' => t('Search on website'),
+  );
+
+  $first_item = $options[variable_get('ding_redirect_settings_search_default', 'well')];
+  unset($options[variable_get('ding_redirect_settings_search_default', 'well')]);
+
+  // Workaround to unshift the first item to the array. When dealing with
+  // associated arrays, array_unshift wont work.
+  $options = array_reverse($options, TRUE);
+  $options[variable_get('ding_redirect_settings_search_default', 'well')] = $first_item;
+  return array_reverse($options, TRUE);
+}

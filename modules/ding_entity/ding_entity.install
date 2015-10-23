@@ -1,0 +1,38 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the ding_entity module.
+ */
+
+/**
+ * Implements hook_ding_entity_fields().
+ */
+function ding_entity_ding_entity_fields() {
+  return array(
+    'ding_entity_buttons' => array(
+      'field' => array(
+        'locked' => TRUE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Action buttons'),
+      ),
+    ),
+  );
+}
+
+/**
+ * Convert blackhole field storage to virtual field.
+ */
+function ding_entity_update_7000() {
+  return db_update('field_config')
+    ->fields(array(
+      'storage_type' => 'virtual_field',
+      'storage_module' => 'virtual_field',
+    ))
+    ->condition('module', 'ding_entity')
+    ->execute();
+}

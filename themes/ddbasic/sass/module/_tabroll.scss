@@ -1,0 +1,146 @@
+/**
+ * Tabroll
+ *
+ * @author cableman
+ */
+
+/* Variables
+   ========================================================================== */
+
+$tabroll-background-color:                $white;
+$tabroll-tab-background-color:            transparentize($black, .4);
+$tabroll-tab-color:                       $white;
+
+
+/* Wrapper, load and inner
+   ========================================================================== */
+
+.ding-tabroll-wrapper {
+  @include small-medium() {
+    background-color: $red;
+    padding: $large-spacing;
+  }
+}
+
+
+/* Tabroll tabs navigation
+   ========================================================================== */
+
+.ding-tabroll-select-tabs {
+  display: none;
+}
+
+@include small-medium() {
+  .ding-tabroll-select-tabs {
+    display: block;
+  }
+}
+
+/* Tabroll tabs
+   ========================================================================== */
+
+.ding-tabroll-wrapper {
+  position: relative;
+  overflow: hidden;
+
+  .ui-tabs {
+    overflow: hidden;
+
+    ul.ui-tabs-nav {
+      @include zen-grid-item(3, 1);
+
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      z-index: 1;
+      height: 100%;
+
+      position: absolute;
+      top: 0;
+
+      li {
+        background: $tabroll-tab-color;
+        display: block;
+        overflow: hidden;
+        float: none;
+        white-space: normal;
+        margin: 0px;
+        padding: 0px;
+        height: 20%;
+        border-top: 1px solid #ccc;
+
+        &:first-child {
+          border-top: none;
+        }
+
+        &.ui-tabs-selected {
+          background: $tabroll-tab-background-color;
+
+          a {
+            color: #fff;
+          }
+        }
+      }
+
+      a {
+        height: 100%;
+        width: 100%;
+        margin: 0px;
+        padding: 0px;
+        text-align: center;
+
+        &:before {
+          content: "";
+          display: inline-block;
+          height: 100%;
+          vertical-align: middle;
+        }
+      }
+    }
+
+    .ui-tabs-panel {
+      @include zen-grid-item(9, 1, right);
+      position: relative;
+      margin: 0;
+      padding: 0;
+
+      .info {
+        z-index: 1;
+        background: $tabroll-tab-background-color;
+        color: #fff;
+        padding: $medium-spacing;
+
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+
+        height: auto;
+        width: 93%;
+
+        h3 a {
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  @include small-medium() {
+    .ui-tabs-nav {
+      display: none;
+    }
+
+    .ui-tabs .ui-tabs-panel {
+      @include zen-grid-item(12, 1);
+
+      margin: 0 0 20px 0;
+      padding: 0;
+
+      .info {
+        position: relative;
+        width: auto;
+        right: 0;
+        bottom: 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,444 @@
+# Danish translations of the BPI module
+# Copyright by Inlead ApS <info@inlead.dk>
+#
+# Generated from files:
+#  bpi.admin.inc: n/a
+#  bpi.delete.inc: n/a
+#  bpi.module: n/a
+#  bpi.images.inc: n/a
+#  bpi.push.inc: n/a
+#  bpi.preview.inc: n/a
+#  bpi.syndicate.inc: n/a
+#  bpi.statistics.inc: n/a
+#  bpi.info: n/a
+#  templates/bpi-preview-item.tpl.php: n/a
+#  templates/bpi-well-item.tpl.php: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2013-07-24 15:16+0300\n"
+"PO-Revision-Date: 2013-07-24 15:26+0100\n"
+"Last-Translator: Martin Cording <mc@inlead.dk>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.5.7\n"
+
+#: bpi.admin.inc:22
+msgid "You do not have any administrative items."
+msgstr "Der findes ingen administrative emner."
+
+#: bpi.admin.inc:44
+msgid "BPI Service settings"
+msgstr "Serviceindstillinger"
+
+#: bpi.admin.inc:49
+msgid "Agency ID"
+msgstr "Biblioteksnummer:"
+
+#: bpi.admin.inc:56
+msgid "Service URL"
+msgstr "WS URL:"
+
+#: bpi.admin.inc:63
+msgid "Secret key"
+msgstr "Key (secret):"
+
+#: bpi.admin.inc:70
+msgid "API key"
+msgstr "Key (API):"
+
+#: bpi.admin.inc:77
+msgid "General settings"
+msgstr "Generelle indstillinger"
+
+#: bpi.admin.inc:82
+msgid "Content per page"
+msgstr "Antal noder per side:"
+
+#: bpi.admin.inc:112
+msgid "Please enter a valid url."
+msgstr "Indtast venligst en korrekt URL."
+
+#: bpi.admin.inc:142
+msgid "Content type"
+msgstr "Inholdstype"
+
+#: bpi.admin.inc:143
+msgid "Select a content type into which content from BPI will be syndicated."
+msgstr "Vælg den indholdstype som du ønsker at syndikere til."
+
+#: bpi.admin.inc:164
+msgid "Field mapping"
+msgstr "Felttilknytning"
+
+#: bpi.admin.inc:165
+msgid ""
+"Define you custom mapping rules. Each dropdown maps BPI related fields to "
+"your content fields."
+msgstr ""
+"Brugerdefinerede tilknytningsregler. Hver dropdown tilknytter relaterede "
+"felter i BPI til din indholdstypes felter."
+
+#: bpi.admin.inc:172
+msgid "BPI title"
+msgstr "Titel (BPI):"
+
+#: bpi.admin.inc:173
+msgid "Titles are automatically assigned."
+msgstr "Titler er automatisk tilknyttet."
+
+#: bpi.admin.inc:174
+msgid "Title"
+msgstr "Titel"
+
+#: bpi.admin.inc:181
+msgid "BPI teaser"
+msgstr "Resumé (BPI):"
+
+#: bpi.admin.inc:182
+msgid "Assign to body field, if it has summary enabled."
+msgstr "Tilknyt til Brødtekst, hvis det har Resumé aktiveret."
+
+#: bpi.admin.inc:189
+msgid "BPI body"
+msgstr "Brødtekst (BPI):"
+
+#: bpi.delete.inc:36;131 bpi.module:116
+msgid "Delete from BPI"
+msgstr "Slet fra BPI"
+
+#: bpi.delete.inc:76
+msgid "Are you sure u want to delete <strong>%title</strong> from bpi well?"
+msgstr "Er du sikker på at du vil slette <strong>%title</strong> fra BPI?"
+
+#: bpi.delete.inc:100
+msgid "Selected content deleted from BPI well."
+msgstr "Det valgte indhold er slettet fra BPI."
+
+#: bpi.delete.inc:103
+msgid "Failed to delete selected content from BPI well."
+msgstr "Det valgte indhold fejlede og blev IKKE slettet fra BPI."
+
+#: bpi.delete.inc:107
+msgid "Selected content could not be deleted from the BPI well."
+msgstr "Det valgte indhold kunne IKKE slette fra BPI."
+
+#: bpi.delete.inc:166
+msgid "Failed to delete node %title, with message %message."
+msgstr ""
+"Fejl ved sletning af <strong>%title</strong>, med følgende besked: %message."
+
+#: bpi.images.inc:29;144
+msgid "Syndicate images"
+msgstr "Syndikér billeder"
+
+#: bpi.images.inc:54
+msgid "Available images"
+msgstr "Tilængelige billeder"
+
+#: bpi.images.inc:69
+msgid "Import"
+msgstr "Importér"
+
+#: bpi.images.inc:116
+msgid "Images downloaded successfully."
+msgstr "Billeder hentet succesfuldt."
+
+#: bpi.images.inc:119
+msgid "Not all images were fetched successfully, check reports for more info."
+msgstr ""
+"Ikke alle billeder blev hentet succesfuldt, tjek Rapporter for mere info."
+
+#: bpi.images.inc:203
+msgid "Failed to create directory: %directory"
+msgstr "Det lykkedes IKKE at oprette mappen: %directory."
+
+#: bpi.images.inc:189 bpi.push.inc:428 bpi.module:354
+msgid "bpi"
+msgstr "BPI"
+
+#: bpi.images.inc:189
+msgid "Failed to fetch image %url, with HTTP status %status"
+msgstr "Kunne hente billedet fra %url, med HTTP-status: %status."
+
+#: bpi.preview.inc:48 bpi.module:276
+msgid "Error when syndicating node %title with message %message"
+msgstr ""
+"Fejl ved syndikering af <strong>%title</strong>, med følgende besked: "
+"%message."
+
+#: bpi.preview.inc:55 bpi.module:283
+msgid "Failed to fetch the article from BPI well."
+msgstr "Det mislykkedes at hente noden fra BPI."
+
+#: bpi.preview.inc:65 bpi.push.inc:39;332 bpi.module:96;104
+msgid "Push to BPI"
+msgstr "Send til BPI"
+
+#: bpi.push.inc:93;215 bpi.syndicate.inc:370
+msgid "Category"
+msgstr "Kategori"
+
+#: bpi.push.inc:101;223 bpi.syndicate.inc:372
+msgid "Audience"
+msgstr "Målgruppe"
+
+#: bpi.push.inc:108;230
+msgid "Push with images"
+msgstr "Inkludér billeder"
+
+#: bpi.push.inc:118;240
+msgid ""
+"Are you sure u want to push content <strong>%title</strong> to BPI well?"
+msgstr "Er du sikker på du ønsker at sende <strong>%title</ strong>til BPI?"
+
+#: bpi.push.inc:165
+msgid "Node %title was successfully pushed to BPI well."
+msgstr "<strong>%title</strong> blev succesfuldt sendt til BPI."
+
+#: bpi.push.inc:173;297
+msgid "Failed to push node %title, with message %message."
+msgstr "<strong>%title</strong> blev succesfuldt sendt til BPI."
+
+#: bpi.push.inc:180
+msgid ""
+"Error occurred when pushing %title to BPI well. Check reports for more "
+"information."
+msgstr ""
+"Det mislykkedes at sende <strong>%title</strong> til BPI. Check Rapporter "
+"for mere information."
+
+#: bpi.push.inc:291
+msgid "Node %title was successuflly pushed to BPI well."
+msgstr "<strong>%title</strong> blev succesfuldt sendt til BPI."
+
+#: bpi.push.inc:304
+msgid ""
+"Error occured when pushing %title to BPI well. Check reports for more "
+"information."
+msgstr ""
+"Det mislykkedes at sende <strong>%title</strong> til BPI. Check Rapporter "
+"for mere information."
+
+#: bpi.push.inc:484
+msgid "Failed to fetch dictionaries, with message %message."
+msgstr ""
+"Det mislykkedes at hente mappeinformation, med følgende besked: %message.."
+
+#: bpi.push.inc:428
+msgid "Pushed to server !content"
+msgstr "Sendt til server"
+
+#: bpi.statistics.inc:23
+msgid "BPI statistics"
+msgstr "Statistik"
+
+#: bpi.statistics.inc:59
+msgid "From:"
+msgstr "Fra:"
+
+#: bpi.statistics.inc:66
+msgid "To:"
+msgstr "Til:"
+
+#: bpi.statistics.inc:84
+msgid "Filter"
+msgstr "Filtrér"
+
+#: bpi.statistics.inc:137
+msgid "Failed to fetch statistics, with message %message."
+msgstr "Det mislykkedes at hente statistik, med følgende besked: %message.."
+
+#: bpi.statistics.inc:162
+msgid "Total @prop: %value"
+msgstr "Antal @prop: <strong>%value</strong>."
+
+#: bpi.syndicate.inc:26
+msgid "Settings"
+msgstr "Indstillinger"
+
+#: bpi.syndicate.inc:27
+msgid "Statistics"
+msgstr "Statistik"
+
+#: bpi.syndicate.inc:40
+msgid "Search"
+msgstr "Søg"
+
+#: bpi.syndicate.inc:49
+msgid "Show latest on top"
+msgstr "Vis nyeste øverst"
+
+#: bpi.syndicate.inc:49
+msgid "Show oldest on top"
+msgstr "Vis ældste øverst"
+
+#: bpi.syndicate.inc:105
+msgid "Enter some keywords."
+msgstr "Indtast søgeord."
+
+#: bpi.syndicate.inc:151
+msgid "Failed to fetch content from BPI well with message %message"
+msgstr "Det mislykkedes at hente indhold, med følgende besked: %message.."
+
+#: bpi.syndicate.inc:368
+msgid "Query"
+msgstr "Fritekst"
+
+#: bpi.syndicate.inc:369
+msgid "Author"
+msgstr "Forfatter"
+
+#: bpi.syndicate.inc:371
+msgid "Agency"
+msgstr "Bibliotek"
+
+#: bpi.module:186
+msgid "Administer BPI settings"
+msgstr "Administration"
+
+#: bpi.module:190
+msgid "Syndicate content"
+msgstr "Syndikér indhold"
+
+#: bpi.module:194
+msgid "Push content"
+msgstr "Send indhold"
+
+#: bpi.module:198
+msgid "View statistics"
+msgstr "Se statistik"
+
+#: bpi.module:202
+msgid "Delete from bpi"
+msgstr "Slet fra BPI"
+
+#: bpi.module:267
+msgid ""
+"Syndicating content <strong>@title</strong>, from category "
+"<strong>@category</strong> and audience <strong>@audience</strong>."
+msgstr ""
+"Syndikerer <strong>@title</strong>, fra BPI kategorien: <strong>@category</"
+"strong> og BPI målgruppen: <strong>@audience</strong>."
+
+#: bpi.module:346
+msgid "any"
+msgstr "alle"
+
+#: bpi.module:347
+msgid "BPI only"
+msgstr "Kun BPI"
+
+#: bpi.module:348
+msgid "Syndicated"
+msgstr "Syndikeret"
+
+#: bpi.module:349
+msgid "Pushed"
+msgstr "Sendt"
+
+#: bpi.module:369
+msgid "where %property is %value"
+msgstr "hvor %property er %value"
+
+#: bpi.module:373
+msgid "and"
+msgstr "og"
+
+#: bpi.module:381
+msgid "Refine"
+msgstr "Afgræns"
+
+#: bpi.module:382
+msgid "Undo"
+msgstr "Fortryd"
+
+#: bpi.module:383
+msgid "Reset"
+msgstr "Reset"
+
+#: bpi.module:389
+msgid "BPI import/export"
+msgstr "Ændret hos/med BPI"
+
+#: bpi.module:414
+msgid "push"
+msgstr "Send til BPI"
+
+#: bpi.module:429
+msgid "delete from bpi"
+msgstr "Slet fra BPI"
+
+#: bpi.module:458
+msgid "Save and push"
+msgstr "Gem & send til BPI"
+
+#: bpi.module:587
+msgid "Error when marking node %title as syndicated with message %message"
+msgstr ""
+"Fejl ved markering af <strong>%title</strong> som syndikeret, med følgende "
+"besked: %message."
+
+#: bpi.module:72
+msgid "BPI syndication"
+msgstr "BPI"
+
+#: bpi.module:73
+msgid "Syndicate content from the well."
+msgstr "Syndikér indhold fra BPI."
+
+#: bpi.module:150 bpi.info:0;0
+msgid "BPI"
+msgstr "BPI"
+
+#: bpi.module:151
+msgid "BPI Related Settings"
+msgstr "BPI relaterede indstillinger"
+
+#: bpi.module:159
+msgid "Service settings"
+msgstr "Serviceindstillinger"
+
+#: bpi.module:160
+msgid "BPI integration settings"
+msgstr "Integrationsindstillinger"
+
+#: bpi.module:168
+msgid "Content mapping"
+msgstr "Indholdstilknytning"
+
+#: bpi.module:169
+msgid "Map BPI fields to your content fields."
+msgstr "Tilknyt BPI felter til dine indholdstypers felter."
+
+#: bpi.info:0
+msgid "Remote content syndication and pushing."
+msgstr "Syndikér og send indhold til fælles bibliotekssamarbejde."
+
+#: templates/bpi-preview-item.tpl.php:35 templates/bpi-well-item.tpl.php:52
+msgid "Syndicate"
+msgstr "Syndikér"
+
+#: templates/bpi-well-item.tpl.php:40
+msgid "Photos available for content"
+msgstr "Der er billeder tilgængelige for det valgte indhold."
+
+#: templates/bpi-well-item.tpl.php:40
+msgid "No photos available for content"
+msgstr "Der er ingen billeder tilgængelige for det valgte indhold."
+
+#: templates/bpi-well-item.tpl.php:49
+msgid "Preview"
+msgstr "Forhåndsvisning"
+
+#: bpi.push.inc:130;263 bpi.syndicate.inc:245;272
+msgid "Editable"
+msgstr "Indhold må redigeres"
+
+#: bpi.push.inc:123;257
+msgid "I want be anonymous"
+msgstr "Jeg ønsker at være anonym"

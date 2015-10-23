@@ -1,0 +1,229 @@
+<?php
+/**
+ * @file
+ * Code for the Ding event feature.
+ */
+
+include_once 'ding_event.features.inc';
+
+
+/**
+ * Implements hook_menu
+ * Setting to administer currency shown on events
+ */
+function ding_event_menu() {
+  $items['admin/config/ding_event'] = array(
+    'title' => 'Event',
+    'description' => 'Manage event settings.',
+    'position' => 'right',
+    'weight' => 20,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('access administration pages'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+
+  $items['admin/config/ding_event/currency'] = array(
+    'title' => 'Event currency',
+    'description' => 'Select which currency to show on events.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_event_admin_currency_setting_form'),
+    'access arguments' => array('administer event settings'),
+    'file' => 'ding_event.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function ding_event_field_formatter_info() {
+  return array(
+    'date_time_seperate_lines' => array(
+      'label' => t('Date and time on seperate lines'),
+      'field types' => array('datetime'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function ding_event_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+  $formatter = $display['type'];
+  $vars = array('timezone' => NULL, 'dates' => NULL, 'attributes' => array());
+
+  switch ($formatter) {
+    case 'date_time_seperate_lines':
+      foreach ($items as $delta => $item) {
+        $vars['dates'] = date_formatter_process($formatter, $entity_type, $entity, $field, $instance, $langcode, $item, $display);
+        $element[$delta] = array('#markup' => theme('date_time_seperate_lines', $vars));
+      }
+      break;
+  }
+  return $element;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_event_theme() {
+  return array(
+    'date_time_seperate_lines' => array(
+      'variables' => array(
+        'variables' => array(
+          'timezone' => NULL,
+          'dates' => NULL,
+          'attributes' => NULL,
+        ),
+      ),
+    ),
+  );
+}
+
+/**
+ * Default theme implementation of date_time_seperate_lines.
+ *
+ * Theme function which shows to lines with date and time.
+ * Used on ding_events.
+ */
+function theme_date_time_seperate_lines($vars) {
+  if (isset($vars['dates'])) {
+    $dates = $vars['dates'];
+    $time = $dates['value']['formatted_time'];
+    $date = format_date(strtotime($dates['value']['formatted_iso']), 'ding_date_only');
+
+    return '<div class="time field-label-inline clearfix"><div class="field-label">' . t('Time:') . '</div>' .
+      '<div class="field-items">' . $time . '</div></div>' .
+      '<div class="date field-label-inline clearfix"><div class="field-label">' . t('Date:') . '</div>' .
+      '<div class="field-items">' . $date . '</div></div>';
+  }
+
+  return FALSE;
+}
+
+/**
+ * Implements hook_post_features_revert().
+ */
+function ding_event_post_features_revert() {
+  ding_event_install_menu_position('revert');
+}
+
+/**
+ * Implements hook_post_features_disable_feature().
+ */
+function ding_event_post_features_disable_feature() {
+  ding_event_install_menu_position('delete');
+}
+
+/**
+ * Implements hook_post_features_enable_feature().
+ */
+function ding_event_post_features_enable_feature() {
+  ding_event_install_menu_position('install');
+}
+
+/**
+ * Helper function to install menu position rule.
+ *
+ * Menu position rules do not have features support, so we use this function
+ * to install theme when the feature (this module) is enable, disable or
+ * reverted.
+ */
+function ding_event_install_menu_position($op = 'install') {
+  module_load_include('inc', 'menu_position', 'menu_position.admin');
+
+  // Check if rule exists.
+  $exists = db_select('menu_position_rules', 'mpr')
+    ->fields('mpr', array('rid'))
+    ->condition('admin_title', 'Events')
+    ->execute()
+    ->fetchField();
+
+  if ($exists && $op == 'revert') {
+    // The rule exists, so we delete it.
+    menu_position_delete_rule($exists);
+
+    // Activate installation of the rule.
+    $exists = FALSE;
+    $op = 'install';
+  }
+
+  if (!$exists && ($op == 'install' || $op == 'revert')) {
+    // Define conditions.
+    $conditions = array(
+      'content_type' => array(
+        'content_type' => array(
+          'ding_group' => 'ding_event',
+        ),
+      ),
+    );
+
+    // Find the parent element.
+    $plid = db_select('menu_links', 'ml')
+      ->fields('ml', array('mlid'))
+      ->condition('link_path', 'arrangementer', '=')
+      ->execute()->fetchField();
+
+    // Add the rule.
+    if ($plid) {
+      menu_position_add_rule(array(
+        'admin_title' => 'Events',
+        'conditions'  => $conditions,
+        'menu_name'   => 'main-menu',
+        'plid'        => $plid,
+      ));
+    }
+    else {
+      watchdog('ding_event', 'Unable to create menu position rule for ding event', array(), WATCHDOG_WARNING);
+    }
+  }
+
+  if ($exists && $op == 'delete') {
+    // The rule exists, so we delete it.
+    menu_position_delete_rule($exists);
+  }
+}
+
+/**
+ * Implements hook_views_pre_execute().
+ *
+ * Ensure that events tha are connected to more than one OG group is only
+ * displayed once in related events on event page.
+ */
+function ding_event_views_pre_execute(&$view) {
+  if ($view->name == 'ding_event' && $view->current_display == 'ding_event_list_same_tag') {
+    $inner = $view->build_info['query'];
+    $view->build_info['query'] = db_select($inner, 'inner_query')
+      ->fields('inner_query')
+      ->groupBy('nid');
+  }
+}
+
+/**
+ * Implements hook_preprocess_views_view().
+ */
+function ding_event_preprocess_views_view(&$vars) {
+  $view = $vars['view'];
+  // Add a custom view more link for the event list for a group.
+  // The standard read more link points to standard event list and it does not
+  // seem to be possible to provide a custom url in another way.
+  // Adding a link in a footer text field means that the text will not be
+  // translatable and the url will not be processed using path alias.
+  if ($view->name = 'ding_event' &&
+    $view->current_display == 'ding_event_groups_list'
+  ) {
+    if (!empty($view->result[0]->og_membership_node_gid)) {
+      $vars['more'] = theme(
+        'views_more',
+        array(
+          'more_url' => url(
+            'temaer/' . $view->result[0]->og_membership_node_gid . '/arrangementer'
+          ),
+          'link_text' => t('See all events'),
+        )
+      );
+    }
+  }
+}

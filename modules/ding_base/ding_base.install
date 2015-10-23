@@ -1,0 +1,149 @@
+<?php
+/**
+ * @file
+ * Check that requirements are valid during installation and ensure date formats
+ * work correctly.
+ */
+
+/**
+ * Implements hook_requirements().
+ *
+ * Checks that the memory limit and execution time out is not set to low as the
+ * installation will fail in the background.
+ */
+function ding_base_requirements($phase) {
+  $requirements = array();
+
+  // This should only be tested during installation. The only reason this is not
+  // in the installation profile is that hook_requirements are not checked in
+  // the profile it self.
+  if ($phase == 'install') {
+    // Min required PHP execution time.
+    $min_time  = 120;
+
+    // Min required memory limit, Mb.
+    $min_memory = 512;
+
+    // Get current value of "max_execution_time".
+    $time = ini_get('max_execution_time');
+
+    // Get current value of "max_execution_time".
+    $memory = ini_get('memory_limit');
+
+    // Get "raw" numeric value.
+    preg_match("|\d+|", $memory, $value);
+    $severity_time = ($time <= $min_time && $min_time == 0) ? REQUIREMENT_ERROR : REQUIREMENT_OK;
+    $severity_memory = ($value[0] < $min_memory) ? REQUIREMENT_ERROR : REQUIREMENT_OK;
+
+    // PHP cli (drush) many have a memory limit of -1 (unlimited).
+    $severity_memory = ($memory == -1) ? REQUIREMENT_OK : $severity_memory;
+
+    $t = get_t();
+    if ($phase == 'install') {
+      $requirements['max_execution_time'] = array(
+        'title' => $t('PHP max execution time'),
+        'value' => $t('Please increase the parameter "max_execution_time" in your PHP settings . Recommended value is at least @min sec. and more (now you have @current sec.)',
+          array('@min' => $min_time, '@current' => $time)),
+        'severity' => $severity_time,
+      );
+      $requirements['memory_limit'] = array(
+        'title' => $t('PHP memory limit'),
+        'value' => $t('Please increase the parameter "memory_limit" in your PHP settings . Recommended value is @minM (now you have @current). You can lower this after the installation is completed.',
+          array('@min' => $min_memory, '@current' => $memory)),
+        'severity' => $severity_memory,
+      );
+    }
+  }
+
+  return $requirements;
+}
+
+/**
+ * Implements hook_install().
+ */
+function ding_base_install() {
+  // Set default date formats to make them available for views and field
+  // formatters. They are not in strongarm as the sites may wish to change the
+  // date formats.
+  $formats = system_get_date_formats();
+  variable_set('date_format_ding_date_only', array_shift(array_keys($formats['ding_date_only'])));
+  variable_set('date_format_ding_time_only', array_shift(array_keys($formats['ding_time_only'])));
+  variable_set('date_format_ding_long_date_only', array_shift(array_keys($formats['ding_long_date_only'])));
+  variable_set('date_format_ding_material_lists_date', array_shift(array_keys($formats['ding_material_lists_date'])));
+  variable_set('date_format_ding_event_lists_date', array_shift(array_keys($formats['ding_event_lists_date'])));
+  variable_set('date_format_long', 'l, j. F, Y H:i');
+  variable_set('date_format_medium', 'D, d-m-Y H:i');
+  variable_set('date_format_short', 'd-m-Y H:i');
+}
+
+/**
+ * Restore default dates to Drupal standard.
+ */
+function ding_base_update_7000() {
+  // Default types.
+  variable_del('date_format_long');
+  variable_del('date_format_medium');
+  variable_del('date_format_short');
+
+  // Let Drupal use the new values.
+  drupal_flush_all_caches();
+}
+
+/**
+ * Remove old custom date formats.
+ */
+function ding_base_update_7001() {
+  variable_del('date_format_date_only');
+  variable_del('date_format_day_of_the_month_without_leading_zeros');
+  variable_del('date_format_day_text_full');
+  variable_del('date_format_ding_event_lists_date');
+  variable_del('date_format_ding_material_lists_date');
+  variable_del('date_format_long_date_only');
+  variable_del('date_format_month_text_full');
+  variable_del('date_format_time_only');
+
+  // Remove leftover date formats.
+  $types = array(
+    'date_only',
+    'long_date_only',
+    'time_only',
+    'ding_meterial_lists_date',
+    'ding_event_list_date',
+  );
+  db_delete('date_format_type')
+    ->condition('type', $types, 'IN')
+    ->execute();
+
+  // Submit the date time setting form to make the formats available for views
+  // and field formatters.
+  ding_base_install();
+}
+
+/**
+ * Update locally stored color palette with settings from theme.
+ */
+function ding_base_update_7002() {
+  $theme = variable_get('theme_default', FALSE);
+  if (!empty($theme)) {
+    $info = color_get_info($theme);
+
+    // Get the themes color_palette.
+    $palette = $info['schemes']['default']['colors'];
+
+    // Get the local color palette.
+    $variable = variable_get('color_' . $theme . '_palette', $palette);
+
+    // Merge the two palettes.
+    $variable += $palette;
+
+    // Set the new merged color palette variable.
+    variable_set('color_' . $theme . '_palette', $variable);
+  }
+}
+
+/**
+ * Enable global redirect module.
+ */
+function ding_base_update_7003() {
+  module_enable(array('globalredirect'));
+}

@@ -1,0 +1,370 @@
+# $Id$
+#
+# Danish translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  ding_place2book.module: n/a
+#  includes/ding_place2book.admin.inc: n/a
+#  ding_place2book.info: n/a
+#  plugins/content_types/ticketsinfo.inc: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2014-01-06 09:17+0100\n"
+"PO-Revision-Date: 2014-01-06 09:17+0100\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Danish <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: ding_place2book.module:110
+msgid "Administer place2book settings"
+msgstr ""
+
+#: ding_place2book.module:111
+msgid "Perform administration tasks for ding_place2book."
+msgstr ""
+
+#: ding_place2book.module:300;382;809
+msgid "You have not yet configured the Place2Book module"
+msgstr "Du har endnu ikke indstillet Place2book modulet"
+
+#: ding_place2book.module:306
+msgid "Ticket price is submitted to Place2book as the ticket type with name ADGANG. If more ticket types on this event is needed, go to Place2book ID !link. (Note: You may need to log on)"
+msgstr ""
+"Billetpris sendes til Place2book som billettypen ADGANG. Hvis der "
+"ønskes flere billettyper, kan disse oprettes på Place2book "
+"arrangementet med ID !link. (NB: Det kan være nødvendigt at logge "
+"på)"
+
+#: ding_place2book.module:309
+msgid "None"
+msgstr "Ingen"
+
+#: ding_place2book.module:310
+msgid "Ticket price is submitted to Place2book as the ticket type with name ADGANG. If more ticket types on this event is needed, edit the corresponding event on Place2book after this event has been created."
+msgstr ""
+"Billetpris oprettes i Place2book som billettypen ADGANG. Ønskes flere "
+"billettyper, skal det tilsvarende event i Place2book redigeres efter "
+"dette event er oprettet."
+
+#: ding_place2book.module:318
+msgid "Place2Book"
+msgstr "Place2Book"
+
+#: ding_place2book.module:329
+msgid "Event capacity"
+msgstr "Event kapacitet"
+
+#: ding_place2book.module:333
+msgid "Optional. Maximum capacity on this event. Set to 0 for unlimited capacity."
+msgstr ""
+"Valgfri. Maksimum kapacitet på dette event. Sættes til 0 for "
+"ubegrænset kapacitet."
+
+#: ding_place2book.module:338
+msgid "Maintain copy on Place2Book"
+msgstr "Vedligehold kopi hos Place2book"
+
+#: ding_place2book.module:340
+msgid "When set, a corresponding event is created and updated on the ticket booking service Place2Book.com."
+msgstr ""
+"Hvis sat, vil event-indholdet blive oprettet og opdateret på "
+"billetbestillingstjenesten Place2book."
+
+#: ding_place2book.module:345
+msgid "Place2Book ID"
+msgstr "Place2Book ID"
+
+#: ding_place2book.module:347
+msgid "An ID-reference to the corresponding event on the ticket booking service Place2Book"
+msgstr "Det tilsvarende ID på billetbestillingstjenesten Place2book"
+
+#: ding_place2book.module:352 includes/ding_place2book.admin.inc:124
+msgid "Kultunaut export"
+msgstr "Kultunaut eksport"
+
+#: ding_place2book.module:354
+msgid "If checked, Place2book will forward this ding-event to Kultunaut."
+msgstr "Hvis sat, vil Place2book videresende dette ding-event til Kultunaut."
+
+#: ding_place2book.module:359 includes/ding_place2book.admin.inc:125
+msgid "Passive event"
+msgstr "Passivt arrangement"
+
+#: ding_place2book.module:361
+msgid "If checked, Place2book flags the event as passive with no ticket sale. This can be useful for sending events to Kultunaut without actually using Place2book, or using Place2book for keeping record of all events with or without tickets."
+msgstr ""
+"Hvis valgt, markerer Place2book arrangementet som passivt uden "
+"billetsalg. Dette kan være nyttigt hvis ønsket er at sende "
+"arrangementer til Kultunaut uden rent faktisk at bruge Place2book, "
+"eller hvis Place2book anvendes som værktøj til at holde regnskab med "
+"alle arrangementer (både med og uden billetter). "
+
+#: ding_place2book.module:413
+msgid "INSERT was NOT PERFORMED on Place2book. Place2book returned this error:"
+msgstr ""
+"INSERT blev IKKE UDFØRT hos Place2book. Place2book meldte følgende "
+"fejl:"
+
+#: ding_place2book.module:416
+msgid "Event created on Place2book with remote ID %id"
+msgstr "Arrangement oprettet på Place2Book med remote ID %id"
+
+#: ding_place2book.module:441
+msgid "UPDATE was NOT PERFORMED on Place2book. Place2book returned this error:"
+msgstr ""
+"UPDATE blev IKKE UDFØRT hos Place2book. Place2book meldte følgende "
+"fejl:"
+
+#: ding_place2book.module:444
+msgid "Event updated on Place2book with remote ID %id"
+msgstr "Arrangement opdateret på Place2Book med remote ID %id"
+
+#: ding_place2book.module:461
+msgid "DELETE was NOT PERFORMED on Place2book. Place2book returned this error:"
+msgstr ""
+"DELETE blev IKKE UDFØRT hos Place2book. Place2book meldte følgende "
+"fejl:"
+
+#: ding_place2book.module:464
+msgid "The related event on Place2book was deleted."
+msgstr "Det tilsvarende event hos Place2book blev slettet."
+
+#: ding_place2book.module:792
+msgid "%name must be a number."
+msgstr "%name skal være et tal."
+
+#: ding_place2book.module:929
+msgid "The event has already taken place"
+msgstr "Arrangementet har allerede fundet sted"
+
+#: ding_place2book.module:932
+msgid "The event is closed for admission"
+msgstr "Arrangementet er lukket for tilmeldinger"
+
+#: ding_place2book.module:935
+msgid "Ticket sale has not yet started for this event"
+msgstr "Ikke åbent for billetbestilling"
+
+#: ding_place2book.module:938
+msgid "Sold out"
+msgstr "Udsolgt"
+
+#: ding_place2book.module:941
+msgid "Book a ticket"
+msgstr "Bestil billet(ter)"
+
+#: ding_place2book.module:476;783
+msgid "place2book"
+msgstr ""
+
+#: ding_place2book.module:476
+msgid "Unknown operation to ding_place2book_event_op(): @op"
+msgstr ""
+
+#: ding_place2book.module:783
+msgid "Unknown operation to _ding_place2book_db_op(): @op"
+msgstr ""
+
+#: ding_place2book.module:123;133
+msgid "Place2book settings"
+msgstr "Place2book indstillinger"
+
+#: ding_place2book.module:124;134
+msgid "Settings and defaults for Place2book integration"
+msgstr "Standard-indstillinger for Place2book-integration"
+
+#: ding_place2book.module:144
+msgid "Kultunaut"
+msgstr ""
+
+#: ding_place2book.module:145
+msgid "Kultunaut-specific settings"
+msgstr "Kultunaut-specifikke indstillinger"
+
+#: ding_place2book.module:154
+msgid "Ding Place2book ticket info"
+msgstr ""
+
+#: ding_place2book.module:155
+msgid "Returns ticket info or order button from Place2book"
+msgstr ""
+
+#: ding_place2book.info:0
+msgid "Ding Place2book"
+msgstr ""
+
+#: ding_place2book.info:0
+msgid "Integration with the ticket booking service Place2Book"
+msgstr "Integration til billetbestillingstjenesten Place2book"
+
+#: ding_place2book.info:0 plugins/content_types/ticketsinfo.inc:14
+msgid "Ding!"
+msgstr "Ding!"
+
+#: includes/ding_place2book.admin.inc:20
+msgid "Labels for display of ticket information"
+msgstr ""
+
+#: includes/ding_place2book.admin.inc:21
+msgid "<p>5 texts exist for displaying ticket information:</p><ul><li>\"The event has already taken place\"</li><li>\"The event is closed for admission\"</li><li>\"Ticket sale has not yet started for this event\"</li><li>\"Sold out\"</li><li>\"Book a ticket\"</li></ul><p>These can all be translated to local needs - just paste the exact texts into the search box at <a href=\"/admin/config/regional/translate/translate\">/admin/config/regional/translate/translate</a>.</p>"
+msgstr ""
+"<p>Der er 5 tekster til visning af billetinformation:</p><ul>"
+"<li>\"Arrangementet har allerede fundet sted\"</li>"
+"<li>\"Arrangementet er lukket for tilmeldinger\"</li>"
+"<li>\"Endnu ikke åbent for billetsalg\"</li>"
+"<li>\"Udsolgt\"</li>"
+"<li>\"Bestil billet(ter)\"</li></ul>"
+"<p>Disse kan alle oversættes efter lokale behov - kopiér blot tekster fra ovenstående ind i søgeboksen på siden "
+"<a href=\"/admin/config/regional/translate/translate\">/admin/config/regional/translate/translate</a>.</p>"
+
+#: includes/ding_place2book.admin.inc:30
+msgid "Place2Book service"
+msgstr "Place2book tjeneste"
+
+#: includes/ding_place2book.admin.inc:37
+msgid "Place2Book service URL"
+msgstr "Place2Book tjeneste URL"
+
+#: includes/ding_place2book.admin.inc:39
+msgid "Enter a valid Place2book service endpoint, such as https://www.place2book.com/da/event_api"
+msgstr ""
+"Indsæt et gyldigt Place2book-tjeneste endpoint, såsom "
+"https://www.place2book.com/da/event_api"
+
+#: includes/ding_place2book.admin.inc:46
+msgid "Place2Book events URL"
+msgstr "Place2Book arrangements URL"
+
+#: includes/ding_place2book.admin.inc:48
+msgid "Link to events on Place2Book, such as https://www.place2book.com/da/events. It will be used to generate links to the event at Place2Book"
+msgstr ""
+"Link til arrangementer på Place2book, såsom "
+"https://www.place2book.com/da/events. Den vil blive brugt ved "
+"generering af links til arrangementet på Place2book"
+
+#: includes/ding_place2book.admin.inc:55
+msgid "Place2Book default API key"
+msgstr "Place2Book standard API nøgle"
+
+#: includes/ding_place2book.admin.inc:58
+msgid "This is the default API key used when connecting to Place2book. If you provide API key for a specific library (below), events related to that library will use that key instead of the default key."
+msgstr ""
+"Dette er standard API nøglen brugt når der forbindes til Place2book. "
+"Hvis du angiver API nøgler for et specifikt bibliotek (nedenfor), vil "
+"arrangementer relateret til dette bibliotek bruge denne nøgle istedet "
+"for standard nøglen"
+
+#: includes/ding_place2book.admin.inc:63
+msgid "Place2Book provider name"
+msgstr "Place2Book provider navn"
+
+#: includes/ding_place2book.admin.inc:66
+msgid "Name sent to Place2Book as the provider"
+msgstr "Navn sendt til Place2Book som provider"
+
+#: includes/ding_place2book.admin.inc:71
+msgid "Place2Book provider e-mail"
+msgstr ""
+
+#: includes/ding_place2book.admin.inc:74
+msgid "E-mail sent to Place2Book as the provider"
+msgstr "E-mail sendt til Place2Book som provider"
+
+#: includes/ding_place2book.admin.inc:79
+msgid "Library API keys"
+msgstr "Biblioteks API nøgler"
+
+#: includes/ding_place2book.admin.inc:97
+msgid "Optional. If you have several accounts at Place2book, each library can have their own API key. In that case, the base API key will be overridden by the provided key when sending data on events related to this library."
+msgstr ""
+"Valgfrit. Hvis der er oprettet flere konti hos Place2book, kan hvert "
+"bibliotek tildeles sin egen API nøgle. I det tilfælde tilsidesættes "
+"den generelle API nøgle til fordel for den angive nøgle når der "
+"sendes data på events relateret til dét bibliotek."
+
+#: includes/ding_place2book.admin.inc:103
+msgid "Place2Book event node defaults"
+msgstr "Place2book-standardværdier for event typen"
+
+#: includes/ding_place2book.admin.inc:113
+msgid "Capacity"
+msgstr "Kapacitet"
+
+#: includes/ding_place2book.admin.inc:117
+msgid "The default capacity for new events. Set to 0 for unlimited capacity."
+msgstr ""
+"Standard kapacitet på nye events. Sæt til 0 for ubegrænset "
+"kapacitet."
+
+#: includes/ding_place2book.admin.inc:123
+msgid "Maintain copy"
+msgstr "Vedligehold kopi"
+
+#: includes/ding_place2book.admin.inc:143
+msgid "Mappings of Event Category to Kultunaut categories"
+msgstr "Mappings af Event kategorier til Kultunaut kategorier"
+
+#: includes/ding_place2book.admin.inc:148;176
+msgid "Choose"
+msgstr "Vælg"
+
+#: includes/ding_place2book.admin.inc:165
+msgid "Optional. Select the kultunaut category to map the Ding! event category term to."
+msgstr ""
+"Valgfrit. Vælg hvilken Kultunaut kategori som Ding! event kategorien "
+"skal mappes til."
+
+#: includes/ding_place2book.admin.inc:171
+msgid "Mappings of Event Target to Kultunaut Target"
+msgstr "Mappings af Event Target til Kultunaut Target"
+
+#: includes/ding_place2book.admin.inc:193
+msgid "Optional. Select the kultunaut target to map the Ding! event target term to."
+msgstr ""
+"Valgfrit. Vælg hvilken Kultunaut målgruppe/aldersgruppe som Ding! "
+"event target/målgruppen skal mappes til."
+
+#: includes/ding_place2book.admin.inc:199
+msgid "Kultunaut categories"
+msgstr "Kultunaut kategorier"
+
+#: includes/ding_place2book.admin.inc:209
+msgid "Kultunaut category terms"
+msgstr "Kultunaut emne kategorier"
+
+#: includes/ding_place2book.admin.inc:212
+msgid "A valid <a target=\"_blank\" href=\"http://en.wikipedia.org/wiki/JSON\">JSON</a> array containing Kultunaut category terms. The included default should not have to be changed - the values have been derived from the Kultunaut category term definitions at <a target=\"_blank\" href=\"http://www.kultunaut.dk/perl/export/nautgenrerxml\">http://www.kultunaut.dk/perl/export/nautgenrerxml</a>."
+msgstr ""
+"Et gyldigt <a target=\"_blank\" "
+"href=\"http://en.wikipedia.org/wiki/JSON\">JSON</a>-array af Kultunaut "
+"emne kategorier. Det burde ikke være nødvendigt at ændre den "
+"inkluderede værdi - indholdet er tilpasset fra de eksisterende "
+"Kultunaut emne kategorier på <a target=\"_blank\" "
+"href=\"http://www.kultunaut.dk/perl/export/nautgenrerxml\">http://www.kultunaut.dk/perl/export/nautgenrerxml</a>."
+
+#: includes/ding_place2book.admin.inc:222
+msgid "Kultunaut categories has malformed JSON: Does not transform to array."
+msgstr ""
+"Kultunaut kategorier indeholder misdannet JSON: Kan ikke oversættes "
+"til et array."
+
+#: plugins/content_types/ticketsinfo.inc:12
+msgid "Place2book tickets info"
+msgstr "Place2book billet information"
+
+#: plugins/content_types/ticketsinfo.inc:13
+msgid "Pane showing a booking link or info about ticket availability"
+msgstr ""
+"Pane der viser et link til billetbestilling eller information om "
+"tilgængelige billetter"
+
+#: plugins/content_types/ticketsinfo.inc:16
+msgid "Node"
+msgstr "Indholdselement"
+

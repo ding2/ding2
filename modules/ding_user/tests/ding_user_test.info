@@ -1,0 +1,6 @@
+name = "Ding user tests"
+description = "Support module for Ding user tests."
+package = Testing
+version = VERSION
+core = 7.x
+hidden = TRUE

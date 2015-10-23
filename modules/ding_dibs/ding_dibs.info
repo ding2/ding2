@@ -1,0 +1,10 @@
+name = Ding DIBS
+description = Enable DIBS as a payment provider for Ding!
+package = Ding!
+core = 7.x
+version = "7.x-1.12"
+files[] = ding_dibs.module
+dependencies[] = dibs
+dependencies[] = ding_base
+dependencies[] = ding_provider
+configure = admin/config/payment/ding_dibs

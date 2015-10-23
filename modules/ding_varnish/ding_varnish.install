@@ -1,0 +1,16 @@
+<?php
+/**
+ * @file
+ * Handle installation tasks for the module.
+ */
+
+/**
+ * Set configuration variable for varnish module.
+ *
+ * This is to ensure that it will not throw connection warnings when cache is
+ * cleared during installation of the ding2. This is an issue when using Aegir
+ * and drush.
+ */
+function ding_varnish_install() {
+  variable_set('varnish_notification_type', WATCHDOG_NOTICE);
+}

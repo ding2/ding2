@@ -19,26 +19,15 @@ stack should be optimized to run a Drupal site.
 The reset of this document explains how to download Drupal and patch the core
 to run a Ding2 based site.
 
-## Drush utils (this is a must)
-Ding2uses nested makefiles (each module have its own dependencies), which
-results in projects and libraries being download more than once with the
-default drush installation. You can work around this by cloning the
-[drush-ding2-utils](http://github.com/ding2/drush-ding2-utils) into your
-.drush folder.
-```sh
-  ~$ cd ~/.drush
-  ~$ git clone http://github.com/ding2/drush-ding2-utils.git drush-ding2-utils
-```
-
 ## Drupal
 Go into your web-root (from now on named DRUPAL) and execute this drush command
-to download a fresh copy of Drupal version 7.26. IF you omit the version number
+to download a fresh copy of Drupal version 7.38. If you omit the version number
 the newest version of Drupal will be downloaded.
 ```sh
-  ~$ drush dl drupal-7.26
-  ~$ mv drupal-7.26/* .
-  ~$ mv drupal-7.26/.* .
-  ~$ rm -r drupal-7.26
+  ~$ drush dl drupal-7.38
+  ~$ mv drupal-7.38/* .
+  ~$ mv drupal-7.38/.* .
+  ~$ rm -r drupal-7.38
 ```
 
 ### Patches
@@ -89,7 +78,7 @@ process using drush make. It will download all the modules and the theme from
 the different repositories at http://github.com/ding2
 ```sh
   ~$ cd DRUPAL/profiles/ding2
-  ~$ drush --ding2-only-once --strict=0 make --concurrency=1 --no-core --contrib-destination=. ding2.make
+  ~$ drush make --no-core --contrib-destination=. ding2.make
 ```
 
 ### Development
@@ -98,27 +87,18 @@ run this command instead. It is because drush automatically deletes _.git_
 folders after it has cloned the repositories and by adding _--working-copy_, it
 will not delete these.
 ```sh
-  ~$ drush --ding2-only-once --strict=0 make --concurrency=1 --no-core --working-copy --contrib-destination=. ding2.make
+  ~$ drush make --no-core --working-copy --contrib-destination=. ding2.make
 ```
 
 Next goto your sites URL and run the ding2 installation profile and fill out
 all the questions.
-
-### Note
-The fix in [drush-ding2-utils](http://github.com/ding2/drush-ding2-utils)
-uses drush cache and to build the site more than once within 10 min of each
-other you will need to clear the cache. This also applies if the build fails
-and you need to rebuild.
-```sh
-  ~$ drush cc drush
-```
 
 ## Alternative installation method
 If you are using an deployment system you may not want to patch Drupal core
 manually in a production environment.
 ```sh
   ~$ wget https://raw.github.com/ding2/ding2/release/drupal.make
-  ~$ drush --ding2-only-once --strict=0 make --concurrency=1 --working-copy --contrib-destination=profiles/ding2/ drupal.make htdocs
+  ~$ drush make --working-copy --contrib-destination=profiles/ding2/ drupal.make htdocs
 ```
 
 # Post installation

@@ -1,0 +1,42 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the fbs module.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function fbs_requirements($phase) {
+  $requirements = array();
+  // Ensure translations don't break at install time.
+  $t = get_t();
+
+  if ($phase == 'runtime') {
+    $requirements['fbs'] = array(
+      'title' => $t('FBS'),
+      'value' => $t('FBS configured'),
+      'severity' => REQUIREMENT_OK,
+    );
+    if (!variable_get('fbs_endpoint', FALSE) || !variable_get('fbs_agency', FALSE)) {
+      $requirements['fbs']['value'] = $t('FBS not configured');
+      $requirements['fbs']['description'] = $t('FBS is not properly configured, please visit <a href="@link">the settings page</a>.', array('@link' => url('admin/config/ding/provider/fbs')));
+      $requirements['fbs']['severity'] = REQUIREMENT_ERROR;
+    }
+  }
+
+  return $requirements;
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function fbs_uninstall() {
+  variable_del('fbs_endpoint');
+  variable_del('fbs_agency');
+  variable_del('fbs_username');
+  variable_del('fbs_password');
+  variable_del('fbs_default_interest_period');
+  variable_del('fbs_enable_reservation_deletion');
+}

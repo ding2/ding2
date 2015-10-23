@@ -1,0 +1,474 @@
+<?php
+
+/**
+ * @file
+ * FBS provider module.
+ */
+
+include_once 'fbs.features.inc';
+
+// Load Field module hooks. Wrapping in function exists, so we'll still be
+// able to load this file in tests.
+if (function_exists('module_load_include')) {
+  module_load_include('inc', 'fbs', 'fbs.field');
+}
+
+/**
+ * Implements hook_init().
+ *
+ * Register autoloader for our (non-Drupal) classes.
+ */
+function fbs_init() {
+  require_once dirname(__FILE__) . "/vendor/autoload.php";
+}
+
+/**
+ * Implements hook_ding_provider().
+ */
+function fbs_ding_provider() {
+  $path = drupal_get_path('module', 'fbs');
+
+  return array(
+    'title' => 'FBS provider',
+    'settings' => 'fbs_settings_form',
+    'provides' => array(
+      'availability' => array(
+        'prefix' => 'availability',
+        'file' => $path . '/includes/fbs.availability.inc',
+      ),
+      'debt' => array(
+        'prefix' => 'debt',
+        'file' => $path . '/includes/fbs.debt.inc',
+      ),
+      'loan' => array(
+        'prefix' => 'loan',
+        'file' => $path . '/includes/fbs.loan.inc',
+      ),
+      'reservation' => array(
+        'prefix' => 'reservation',
+        'file' => $path . '/includes/fbs.reservation.inc',
+      ),
+      'user' => array(
+        'prefix' => 'user',
+        'file' => $path . '/includes/fbs.user.inc',
+      ),
+    ),
+  );
+}
+
+/**
+ * Get info for patron.
+ *
+ * Wrapper around ding_user_get_creds() to facilitate testing.
+ *
+ * @param object|null $account
+ *   User to get patron info about. Uses current user if not supplied.
+ *
+ * @return array
+ *   Patron info.
+ */
+function fbs_get_patron_info($account = NULL) {
+  global $user;
+
+  if (!$account) {
+    $account = $user;
+  }
+
+  // If set on user, use those. This should only be the case in tests.
+  if (isset($account->creds)) {
+    return $account->creds;
+  }
+
+  $creds = ding_user_get_creds($user);
+  return $creds;
+}
+
+
+/**
+ * Return patron id for user.
+ *
+ * @param object|null $account
+ *   User to get patron id for. Optional, defaults to current user.
+ *
+ * @return string|null
+ *   Patron id or NULL if not found.
+ */
+function fbs_patron_id($account = NULL) {
+  $patron_info = fbs_get_patron_info($account);
+  return isset($patron_info['patronId']) ? $patron_info['patronId'] : NULL;
+}
+
+/**
+ * Get the service object.
+ *
+ * Parameters is for injecting in tests. Don't use.
+ *
+ * @param string|null $agency_id
+ *   Local agency id. Defaults to fbs_agency variable.
+ * @param string|null $endpoint
+ *   Url of service endpoint. Defalts to fbs_endpoint variable.
+ * @param Reload\Prancer\HttpClient|null $client
+ *   HTTP client to use. Defaults to new instance of FBSFakeHttpClient if
+ *   endpoint matches "localtest".
+ * @param Reload\Prancer\Serializer|null $serializer
+ *   Serializer to use.
+ * @param bool $reset
+ *   Don't use cache but return a new instance.
+ *
+ * @return FBS
+ *   Service class.
+ */
+function fbs_service($agency_id = NULL, $endpoint = NULL, $client = NULL, $serializer = NULL, $reset = FALSE) {
+  // No drupal_static. We want to be callable from tests.
+  static $service;
+  if (!$service || $reset) {
+    $agency_id = !is_null($agency_id) ? $agency_id : variable_get('fbs_agency', '');
+    $endpoint = !is_null($endpoint) ? $endpoint : variable_get('fbs_endpoint', '');
+    if ($endpoint && preg_match('{localtest}', $endpoint)) {
+      $client = new FBSFakeHttpClient();
+    }
+
+    // Ensure exactly one trailing slash.
+    $endpoint = rtrim($endpoint, '/') . '/';
+    $service = new FBS($agency_id, $endpoint, $client, $serializer);
+  }
+  return $service;
+}
+
+/**
+ * Provider settings form.
+ */
+function fbs_settings_form() {
+  $form = array();
+
+  $form['fbs'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('FBS service settings'),
+    '#tree' => FALSE,
+  );
+
+  $form['fbs']['fbs_endpoint'] = array(
+    '#type' => 'textfield',
+    '#title' => t('FBS endpoint URL'),
+    '#description' => t('The URL for the FBS REST service, usually something like https://et.cicero-fbs.com/rest'),
+    '#required' => TRUE,
+    '#default_value' => variable_get('fbs_endpoint', ''),
+  );
+
+  $form['fbs']['fbs_agency'] = array(
+    '#type' => 'textfield',
+    '#title' => t('ISIL'),
+    '#description' => t('ISIL code of the library, for example DK-810015.'),
+    '#default_value' => variable_get('fbs_agency', ''),
+  );
+
+  $form['fbs']['fbs_username'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Username'),
+    '#description' => t('Username for FBS.'),
+    '#default_value' => variable_get('fbs_username', ''),
+  );
+
+  $form['fbs']['fbs_password'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Password'),
+    '#description' => t('Password for FBS.'),
+    '#default_value' => variable_get('fbs_password', ''),
+  );
+
+  // Add the option to select default interest period, which default as default
+  // to 180 days.
+  $periods = fbs_interest_periods();
+  $default = variable_get('fbs_default_interest_period', 180);
+  $form['fbs'] += ding_reservation_interest_period_selector('fbs_default_interest_period', $default, $periods);
+
+  $form['fbs']['fbs_enable_reservation_deletion'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable reservation deletion'),
+    '#default_value' => variable_get('fbs_enable_reservation_deletion', FALSE),
+    '#description' => t('Allow users to delete their reservations as well as ready for pickup ones.'),
+  );
+
+  return system_settings_form($form);
+}
+
+/**
+ * Submit function. Trim values.
+ */
+function fbs_settings_form_submit($form, &$form_state) {
+  foreach ($form_state['values'] as $name => $value) {
+    $form_state['values'][$name] = trim($value);
+  }
+  system_settings_form_submit($form, $form_state);
+}
+
+/**
+ * Implements hook_profile2_presave().
+ */
+function fbs_profile2_presave($entity) {
+  global $user;
+  if ($entity->type != 'provider_fbs') {
+    return;
+  }
+  if (isset($entity->is_new) && $entity->is_new) {
+    // Profile is being created, return.
+    return;
+  }
+
+  if ($entity->uid != $user->uid) {
+    // Profile is not the current user's. We can't get the existing values, so
+    // we wont try to update.
+    return;
+  }
+  $patron = ding_user_get_creds($user);
+  $wrapper = entity_metadata_wrapper('profile2', $entity);
+
+  $current_on_hold = array();
+  $current_on_hold = $wrapper->field_fbs_on_hold->value();
+  if (!$current_on_hold) {
+    $current_on_hold = array('from' => '', 'to' => '');
+  }
+
+  $current = array(
+    'phoneNumber' => $wrapper->field_fbs_phone->value(),
+    'emailAddress' => $wrapper->field_fbs_mail->value(),
+    'receiveSms' => (bool) $wrapper->field_fbs_phone_notification->value(),
+    'receiveEmail' => (bool) $wrapper->field_fbs_mail_notification->value(),
+    'preferredPickupBranch' => $wrapper->field_fbs_preferred_branch->value(),
+  );
+
+  if ($patron['on_hold']) {
+    $existing_on_hold = $patron['on_hold'];
+  }
+  else {
+    $existing_on_hold = array('from' => '', 'to' => '');
+  }
+  $existing = array(
+    'phoneNumber' => $patron['phone'],
+    'emailAddress' => $patron['mail'],
+    'receiveSms' => (bool) $patron['phone_notification'],
+    'receiveEmail' => (bool) $patron['mail_notification'],
+    'preferredPickupBranch' => $patron['preferred_branch'],
+    'onHold' => $patron['on_hold'],
+  );
+
+  if (array_diff_assoc($current, $existing) || array_diff_assoc($current_on_hold, $existing_on_hold)) {
+    $period = new FBS\Model\Period();
+    $period->from = $current_on_hold['from'];
+    $period->to = $current_on_hold['to'];
+
+    $update = new FBS\Model\UpdatePatronRequest();
+    $patron_settings = new FBS\Model\PatronSettings();
+    foreach ($current as $key => $val) {
+      $patron_settings->{$key} = $val;
+    }
+    $patron_settings->onHold = $period;
+
+    $update->patron = $patron_settings;
+    $res = fbs_service()->Patron->update(fbs_service()->agencyId, $patron['patronId'], $update);
+    $result['creds'] = _fbs_patron_info($res->patron);
+    ding_user_save_creds($result);
+  }
+}
+
+/**
+ * Update preferred branch if it is not set.
+ *
+ * @param object $account
+ *   User to update preferred branch on.
+ * @param string $branch_id
+ *   Branch id to update to.
+ */
+function fbs_update_preferred_branch($account, $branch_id) {
+  global $user;
+
+  // Only update when it's for the current user.
+  if ($account->uid != $user->uid) {
+    return;
+  }
+
+  $profile = ding_user_provider_profile($account);
+  $wrapper = entity_metadata_wrapper('profile2', $profile);
+
+  if (!$wrapper->field_fbs_preferred_branch->value()) {
+    $wrapper->field_fbs_preferred_branch->set($branch_id);
+
+    $profile->save();
+  }
+}
+
+/**
+ * Get library branches.
+ *
+ * @return array
+ *   Array of ISIL => branchname.
+ */
+function fbs_branches() {
+  $branches = &drupal_static(__FUNCTION__, NULL);
+  if (is_null($branches)) {
+    $res = fbs_service()->Placement->getBranches(fbs_service()->agencyId);
+    foreach ($res as $branch) {
+      $branches[$branch->branchId] = $branch->title;
+    }
+
+    asort($branches);
+  }
+  return $branches;
+}
+
+/**
+ * Get interest periods.
+ *
+ * @return array
+ *   Array of days => human readable string.
+ */
+function fbs_interest_periods() {
+  $periods = array(
+    1 => 30,
+    2 => 60,
+    3 => 90,
+    6 => 180,
+    12 => 360,
+  );
+  $options = array();
+  foreach ($periods as $months => $days) {
+    $options[$days] = format_plural($months, '1 month', '@count months');
+  }
+  return $options;
+}
+
+/**
+ * Implements hook_form_FORM_ID_form_alter().
+ *
+ * Remove order_nr from the reservation listing. We don't have anything sane to
+ * display there.
+ */
+function fbs_form_ding_reservation_reservations_form_alter(&$form, &$form_state) {
+  if (isset($form['reservations'])) {
+    foreach ($form['reservations'] as &$reservation) {
+      if (isset($reservation['#information']['order_nr'])) {
+        unset($reservation['#information']['order_nr']);
+      }
+    }
+  }
+}
+
+
+/**
+ * Pack patron info in an array.
+ *
+ * Saves all the data we'll need for profile editing into an array that can be
+ * serialized in ding_user creds.
+ *
+ * @param FBS\Model\Patron $patron
+ *   Patron data to save.
+ *
+ * @return array
+ *   Data to save.
+ */
+function _fbs_patron_info(FBS\Model\Patron $patron) {
+  $creds = array(
+    'patronId' => $patron->patronId,
+    'name' => $patron->name,
+    'phone' => $patron->phoneNumber,
+    'mail' => $patron->emailAddress,
+    'phone_notification' => $patron->receiveSms,
+    'mail_notification' => $patron->receiveEmail,
+    'preferred_branch' => $patron->preferredPickupBranch,
+    'on_hold' => NULL,
+    'address' => NULL,
+  );
+
+  if ($patron->onHold) {
+    $creds['on_hold'] = array(
+      'from' => $patron->onHold->from,
+      'to' => $patron->onHold->to,
+    );
+  }
+
+  if ($patron->address) {
+    $creds['address'] = array(
+      'street' => $patron->address->street,
+      'city' => $patron->address->city,
+      'postal' => $patron->address->postalCode,
+      'country' => $patron->address->country,
+    );
+  }
+
+  return $creds;
+}
+
+/**
+ * Return a reversible local_id for a periodical.
+ *
+ * Ding wants an unique id for a periodical. We don't have that, so we pack the
+ * record id and periodical information together in a pseudo id.
+ *
+ * @param string $record_id
+ *   Id of the ting object.
+ * @param FBS\Model\Periodical $periodical
+ *   The Periodical instance.
+ *
+ * @return string
+ *   The pseudo id.
+ */
+function _fbs_periodical_get_local_id($record_id, FBS\Model\Periodical $periodical) {
+  // We're using - as a placeholder for empty values, it ensures that there'll
+  // be something between the colons, which in turn means we don't have to
+  // deal with the possibility of two colons in a row.
+  $parts = array(
+    !empty($periodical->volume) ? $periodical->volume : '-',
+    !empty($periodical->volumeYear) ? $periodical->volumeYear : '-',
+    !empty($periodical->volumeNumber) ? $periodical->volumeNumber : '-',
+    $record_id,
+  );
+
+  $parts = array_map(function($part) {
+    // "Escape" the colons, so we can split on ":" later.
+    return strtr($part, array(':' => '::'));
+  }, $parts);
+
+  return 'fbs-' . implode(':', $parts);
+}
+
+/**
+ * Parse local_id into record and periodical.
+ *
+ * Parse the pseudo id created by _fbs_periodical_get_local_id() into a record
+ * id and periodical.
+ *
+ * @param string $local_id
+ *   The pseudo id.
+ *
+ * @return array
+ *   Array of record_id and PeriodicalReservation.
+ */
+function _fbs_periodical_parse_local_id($local_id) {
+  $periodical = NULL;
+
+  if (preg_match('/^fbs-(.*)$/', $local_id, $matches)) {
+    // This is a zero-width negative lookbehind assertion ("(?<!:)") and a
+    // zero-width negative lookahead assertion ("(?!:)") that checks that the
+    // colon in the middle doesn't have a colon in front or behind it. The
+    // "zero-width" means that the preceding/following char is not part of the
+    // matched string. That's why "[^:]:[^:]" wont do, it'll match the
+    // non-colon char, which means preg_split will shave chars off the strings
+    // we want.
+    $parts = preg_split('/(?<!:):(?!:)/', $matches[1]);
+
+    // Replace '-' with NULL and reverse the "escaping" of colon.
+    $parts = array_map(function($part) {
+      return $part === '-' ? NULL : strtr($part, array('::' => ':'));
+    }, $parts);
+  }
+
+  $periodical = new FBS\Model\PeriodicalReservation();
+  list(
+    $periodical->volume,
+    $periodical->volumeYear,
+    $periodical->volumeNumber,
+    $record_id
+  ) = $parts;
+
+  return array($record_id, $periodical);
+}

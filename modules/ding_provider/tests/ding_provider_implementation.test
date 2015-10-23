@@ -1,0 +1,329 @@
+<?php
+
+/**
+ * @file
+ * Test provider implementation.
+ */
+
+class DingProviderImplementationTestCase extends DrupalWebTestCase {
+
+  function setUp() {
+    $modules = func_get_args();
+    if (isset($modules[0]) && is_array($modules[0])) {
+      $modules = $modules[0];
+    }
+    if (!in_array('ding_provider', $modules)) {
+      $modules[] = 'ding_provider';
+      $modules[] = 'search';
+    }
+    parent::setUp($modules);
+  }
+
+  function testHasAllProviderTests() {
+    $providers = _ding_provider_get_provider();
+    foreach ($providers as $type => $provider) {
+      // Split module name on _, and capitalize each part.
+      $parts = explode('_', $provider['module']);
+      $parts = array_map('drupal_ucfirst', $parts);
+      $class_name = join('', $parts) . drupal_ucfirst($type) . 'ProviderImplementationTestCase';
+      $this->assertTrue(class_exists($class_name), t('@module implements @provider tests', array('@module' => $provider['module'], '@provider' => $type)));
+    }
+  }
+}
+
+abstract class DingUserProviderImplementationTestCase extends DingProviderImplementationTestCase {
+
+  /**
+   * This should return an array of name and password of a user known to be
+   * able to log in.
+   */
+  abstract function getGoodUser();
+
+  function testAuthenticate() {
+    list($name, $pass) = $this->getGoodUser();
+    $res = ding_provider_invoke('user', 'authenticate', $name, $pass);
+    $this->assertTrue($res['success'], t('Authentication works.'));
+    $diff = array_diff_key($res, array('success' => 1, 'creds' => 1, 'user' => 1));
+    $this->assertTrue(empty($diff), t('No unknown keys in result.'));
+
+    if (isset($res['user'])) {
+      $this->assertTrue(is_array($res['user']), t('User key is an array.'));
+    }
+
+    if (isset($res['creds'])) {
+      if (ding_provider_implements('user', 'is_authenticated')) {
+        $this->assertTrue(ding_provider_invoke('user', 'is_authenticated', $res['creds']), t('is_authenticated returns TRUE'));
+      }
+      else {
+        debug('is_authenticated is not implemented, assuming that presence of creds signifies that the user is logged in.');
+      }
+    }
+    else {
+      debug('Creds not set.');
+    }
+  }
+}
+
+abstract class DingAvailabilityProviderImplementationTestCase extends DingProviderImplementationTestCase {
+
+  /**
+   * Should return an array of ids that will return availability information
+   * from the items function
+   *
+   * Only required if provider implements items.
+   */
+  function getSomeItems() { }
+
+  /**
+   * Should return an array of ids that will return availability information
+   * from the items function
+   */
+  abstract function getSomeHoldings();
+
+  function getSomePeriodicals() { }
+
+  function testItems() {
+    if (ding_provider_implements('availability', 'items')) {
+      $ids = $this->getSomeItems();
+      $response = ding_provider_invoke('availability', 'items', $ids);
+      $this->commonCase($ids, $response);
+    }
+    else {
+      debug('No items implementation, falling back to using holdings.');
+    }
+  }
+
+  function testHoldings() {
+    $ids = $this->getSomeHoldings();
+    $response = ding_provider_invoke('availability', 'holdings', $ids);
+    $this->commonCase($ids, $response);
+    $is_array = TRUE;
+    $of_strings = TRUE;
+    foreach ($response as $id => $holding) {
+      $is_array &= is_array($holding['holdings']);
+      foreach ($holding['holdings'] as $h) {
+        $of_strings &= is_string($h);
+      }
+    }
+    $this->assertTrue($is_array, t('Response items is an array'));
+    $this->assertTrue($of_strings, t('Response items is an array of strings'));
+  }
+
+  function commonCase($ids, $response) {
+    $this->assertTrue(is_array($response), t('Response is an array'));
+    $this->assertTrue($ids == array_keys($response), t('Ids of request and response matches.'));
+    $has_keys = TRUE;
+    $available_is_bool = TRUE;
+    $reservable_is_bool = TRUE;
+    foreach ($response as $id => $reply) {
+      $has_keys &= (isset($reply['available']) && isset($reply['reservable']));
+      $available_is_bool &= is_bool($reply['available']);
+      $reservable_is_bool &= is_bool($reply['reservable']);
+    }
+    $this->assertTrue($has_keys, t('Response has available and reservable keys.'));
+    $this->assertTrue($available_is_bool, t('Available key is bool.'));
+    $this->assertTrue($reservable_is_bool, t('Reservable key is bool.'));
+  }
+
+  function testPeriodicals() {
+    $ids = $this->getSomePeriodicals();
+    $response = ding_provider_invoke('availability', 'holdings', $ids);
+    $this->commonCase($ids, $response);
+
+    $is_array = TRUE;
+    $volumes_is_array = TRUE;
+    foreach ($response as $id => $holding) {
+      $is_array &= is_array($holding['issues']);
+      foreach ($holding['issues'] as $volume => $issues) {
+        $volumes_is_array &= is_array($issues);
+        // Test that each volume's issues passes as regular holding responses.
+        $this->commonCase(array_keys($issues), $issues);
+      }
+    }
+
+    $this->assertTrue($is_array, t('Volumes is an array'));
+    $this->assertTrue($is_array, t('Each volume is an array of issues'));
+  }
+}
+
+abstract class DingReservationProviderImplementationTestCase extends DingProviderImplementationTestCase {
+
+  /**
+   * Return a user that may reserve something.
+   */
+  abstract function getUser();
+
+  /**
+   * Return a branch the user can reserve to.
+   */
+  abstract function getBranch();
+
+  /**
+   * Returns an array of ids of reservable items.
+   */
+  abstract function getSomeReservables();
+
+  function testBranches() {
+    $user = $this->getUser();
+    $branches = ding_provider_invoke('reservation', 'pickup_branches', $user);
+    $this->assertTrue(is_array($branches), 'pickup_branches returns an array');
+    $this->assertFalse(empty($branches), 'pickup_branches returns an non-empty array');
+
+    $this->assertFalse(isset($branches['']), 'No branch with an empty id');
+    $this->assertFalse(isset($branches[0]), 'No branch with an zero id');
+
+    // set_preferred_branch is not testable at the moment (how do we check
+    // that it succeeded?)
+
+    // @todo checking the name of each branch may be a bit overkill, but we'll
+    // implement a $this->checkBranches if it becomes a problem.
+    foreach ($branches as $id => $name) {
+      $name2 = ding_provider_invoke('reservation', 'branch_name', $id);
+      $this->assertEqual($name, $name2, 'branch_name returns the same name');
+    }
+  }
+
+  function testReservations() {
+    $user = $this->getUser();
+    $branch = $this->getBranch();
+    $reservables = array_flip($this->getSomeReservables());
+    $expiry = REQUEST_TIME + (14 * 86400);
+    $expiry_res = date('Y-m-d', $expiry);
+
+    $reservations = ding_provider_invoke('reservation', 'list', $user);
+    foreach ($reservations as $id => $reservation) {
+      // If already reserved, remove it so we don't get an exception.
+      if (isset($reservables[$id])) {
+        unset($reservables[$id]);
+      }
+    }
+    $reservables = array_flip($reservables);
+
+    // Fail if we don't have anything to test with.
+    if (empty($reservables)) {
+      $this->fail('No reservables available for test');
+      return;
+    }
+
+    // Try to reserve each reservable.
+    try {
+      foreach ($reservables as $id) {
+        ding_provider_invoke('reservation', 'create', $user, $id, $branch, $expiry);
+      }
+    }
+    catch (Exception $e) {
+      $this->fail('Reserve threw ' . get_class($e) . '.');
+      debug($e);
+    }
+
+
+    // Check that reserving already reserved id throws an exception.
+    $reservable = reset($reservables);
+    try {
+      ding_provider_invoke('reservation', 'create', $user, $reservable, $branch, $expiry);
+      $this->fail("Re-reserving doesn't throw an DingReservationUserErrorReservationExists.");
+    }
+    catch (DingProviderReservationExists $e) {
+      $this->pass("Re-reserving throws an DingReservationUserErrorReservationExists.");
+    }
+    catch (Exception $e) {
+      $this->fail("Re-reserving throws " . get_class($e) . ".");
+      debug($e);
+    }
+
+    $existing_reservations = array();
+    // Check that the reservations list looks OK, and make a lookup array.
+    $reservations = ding_provider_invoke('reservation', 'list', $user);
+
+    foreach ($reservations as $id => $reservation) {
+      $this->assertEqual($id, $reservation->id, 'Ids match.');
+      // Only check those that we reserved.
+      if (isset($reservables[$reservation->ding_entity_id])) {
+        $this->assertFalse(isset($existing_reservations[$reservation->ding_entity_id]), 'Not a dupe');
+        $existing_reservations[$reservation->ding_entity_id] = $reservation;
+      }
+    }
+
+    $known_keys = array(
+      'id',
+      'provider_id',
+      'display_title',
+      'pickup_branch',
+      'expiry',
+    );
+
+    // Make sure that the reservables is now reserved and looks right.
+    foreach ($reservables as $res_id => $reservable) {
+      $this->assertTrue(isset($existing_reservations[$res_id]), 'Was reserved.');
+      if (isset($existing_reservations[$res_id])) {
+        $res = $existing_reservations[$res_id];
+        // @todo display_title may not be required in the long run.
+        $this->assertTrue(isset($res->display_name), 'Has a display_title.');
+        $this->assertEqual($res->pickup_branch_id, $branch, 'Has a proper branch.');
+        $this->assertEqual($res->expiry, $expiry_res, 'Expiry is properly set.');
+      }
+    }
+
+    // Delete the reserved items.
+    foreach ($existing_reservations as $id => $reservation) {
+      ding_provider_invoke('reservation', 'delete', $user, $reservation->id);
+    }
+    // Make sure they're really gone.
+    $reservations = ding_provider_invoke('reservation', 'list', $user);
+    foreach ($reservations as $reservation) {
+      $this->assertFalse(isset($existing_reservations[$reservation->id]), 'Deleted reservation is gone.');
+    }
+  }
+}
+
+abstract class DingLoanProviderImplementationTestCase extends DingProviderImplementationTestCase {
+  /**
+   * Return a user that have some loans.
+   */
+  abstract function getUser();
+
+  function testLoan() {
+    $user = $this->getUser();
+    $loans = ding_provider_invoke('loan', 'list', $user);
+
+    foreach ($loans as $loan) {
+      $this->assertTrue($loan instanceof DingProviderLoan, 'Loan list returns loans');
+      $this->assertTrue(preg_match('/^\d{4}-\d{2}-\d{2}$/', $loan->loan_date), 'Loan date is well formed.');
+      $this->assertTrue(preg_match('/^\d{4}-\d{2}-\d{2}$/', $loan->expiry), 'Expiry date is well formed.');
+      $this->assertTrue(is_bool($loan->renewable), 'Renewable is boolean');
+
+    }
+  }
+}
+
+abstract class DingDebtProviderImplementationTestCase extends DingProviderImplementationTestCase {
+  /**
+   * Return a user that have some debts.
+   */
+  abstract function getUser();
+
+  function testLoan() {
+    $user = $this->getUser();
+    $debts = ding_provider_invoke('debt', 'list', $user);
+
+    foreach ($debts as $debt) {
+      $this->assertTrue($debt instanceof DingProviderDebt, 'Debts list returns debts');
+      $this->assertTrue(preg_match('/^\d{4}-\d{2}-\d{2}$/', $debt->date), 'Date is well formed.');
+      $this->assertTrue(preg_match('/^\d+(.?\d+)$/', $debt->amount), 'Amount is well formed.');
+      $this->assertTrue(!empty($debt->display_name), 'Date is well formed.');
+    }
+  }
+}
+
+class DingBranchProviderImplementationTestCase extends DingProviderImplementationTestCase {
+  function testBranch() {
+    $branches = ding_provider_invoke('branch', 'list');
+    $this->assertTrue(is_array($branches), 'Branch list is an array.');
+    $this->assertTrue(!empty($branches), 'Branch list is not empty');
+    // Not much we can do than check that key/values are strings.
+    foreach ($branches as $id => $name) {
+      $this->assertTrue(is_string($id), 'Id is a string');
+      $this->assertTrue(is_string($name), 'Name is a string');
+    }
+  }
+}

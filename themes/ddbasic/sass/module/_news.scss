@@ -1,0 +1,185 @@
+/**
+ * News
+ *
+ * Uses shared %article @extends
+ *
+ * @author magnify, zorp
+ */
+
+.news-list {
+  margin: 0;
+  padding: 0;
+
+  .news-list-item {
+    @extend %article-background;
+    @extend %article-padding;
+    @extend %article-margin;
+
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .simple-list-item {
+    border-bottom: 1px solid $gray-light;
+  }
+
+  .news-list-item:nth-child(odd) {
+    @extend %article-background--odd;
+  }
+
+  .news-list-item:nth-child(even) {
+    @extend %article-background--even;
+  }
+
+  .news-heading {
+    @extend %article-heading;
+  }
+
+  .news-image-wrapper {
+    float: left;
+    margin-right: $large-spacing;
+    max-width: 150px;
+
+    a {
+      display: block;
+    }
+  }
+
+  .news-heading,
+  .news-sub-heading,
+  .news-list-content {
+    margin-left: 170px;
+  }
+
+  .news-sub-heading {
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+    .news-date,
+    .news-author {
+      margin-right: 5px;
+    }
+  }
+
+  .news-label {
+    @extend .label;
+
+    margin-right: 5px;
+  }
+
+  .news-date {
+    @extend %article-text--opaque;
+  }
+
+  .news-author {
+    @extend %article-text;
+  }
+
+  .news-list-content {
+    max-height: 50px;
+    overflow: hidden;
+  }
+
+  .news-link {
+    float: right;
+  }
+
+  .news-arrow-link {
+    display: none;
+  }
+
+  /* Media queries */
+  @include small-medium() {
+    .news-label,
+    .news-sub-heading,
+    .news-image-wrapper {
+      display: none;
+    }
+
+    .news-heading,
+    .news-list-content {
+      margin-left: 0;
+    }
+
+    .news-heading {
+      font-size: $font-size-large;
+      margin-right: 35px;
+    }
+  }
+}
+
+/* List of related materials */
+.field-name-field-ding-news-materials {
+  .field-item {
+    @extend %material-list-item;
+  }
+
+  /* Media queries */
+  @include small() {
+    .group_ting_object_teaser_left {
+      display:none;
+    }
+
+    .group_ting_object_teaser_right {
+      @include zen-grid-item(12, 1);
+    }
+  }
+  @include medium() {
+    .group_ting_object_teaser_left {
+      @include zen-grid-item(3, 1);
+    }
+
+    .group_ting_object_teaser_right {
+      @include zen-grid-item(9, 1, right);
+    }
+  }
+  @include large() {
+    .group_ting_object_teaser_left {
+      @include zen-grid-item(3, 1);
+    }
+
+    .group_ting_object_teaser_right {
+      @include zen-grid-item(9, 1, right);
+    }
+  }
+}
+
+/* Series should not use default field-item styling */
+.field-name-ting-series {
+  .field-item {
+    padding: 0;
+    margin-bottom: 0;
+    background-color: transparent !important; /* have to make this rule important for it to take effect (had limited time to make it work) */
+  }
+}
+
+/* Tags */
+.super-heading {
+  padding: $medium-spacing 0;
+
+  .label,
+  .field,
+  .field-items,
+  .field-item {
+    display: inline;
+  }
+
+  .label {
+    font-size: 14px;
+  }
+
+  .field-name-field-ding-news-library {
+
+    margin-left: 5px;
+
+    .field-item {
+      @extend .label;
+
+      background-color: $gray-darker;
+
+      &:hover {
+        background-color: darken($gray-darker, 10%);
+      }
+    }
+  }
+}

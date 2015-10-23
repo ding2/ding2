@@ -1,0 +1,127 @@
+<?php
+/**
+ * @file
+ * Code for the ding frontend feature.
+ */
+
+include_once 'ding_frontend.features.inc';
+
+/**
+ * Implements hook_theme().
+ *
+ * Field formatter theme function mainly used in event views to create the nice
+ * calendar header in event lists.
+ */
+function ding_frontend_theme() {
+  return array(
+    'calendar_header' => array(
+      'variables' => array(
+        'date' => array(
+          'day' => NULL,
+          'month' => NULL,
+          'weekday' => NULL,
+          'year' => NULL,
+        ),
+        'timestamp' => NULL,
+        'timezone' => NULL,
+        'today' => FALSE,
+      ),
+      'template' => 'templates/calendar-header',
+    ),
+  );
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * It simply tells panels where to find the .inc files that define various
+ * args, contexts, content_types. In this case the subdirectories of
+ * ctools_plugin_example/panels are used.
+ */
+function ding_frontend_ctools_plugin_directory($owner, $plugin_type) {
+  return 'plugins/' . $plugin_type;
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function ding_frontend_field_formatter_info() {
+  return array(
+    'calendar_header' => array(
+      'label' => t('Calendar header'),
+      'field types' => array(
+        'datetime',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function ding_frontend_field_formatter_view($entity_type, $entity, $field, $instances, $langcode, $items, $display) {
+  $element = array();
+
+  // Get current timezone from configuration.
+  $timezone = date_default_timezone_get();
+
+  foreach ($items as $delta => $item) {
+    if ($display['type'] == 'calendar_header') {
+      // Create timestamp base on current timezone.
+      $date = new DateObject(
+        $item['value'],
+        $item['timezone_db'],
+        date_type_format($item['date_type'])
+      );
+      $timestamp = $date->format(DATE_FORMAT_UNIX);
+
+      // Added render array to output element.
+      $element[$delta] = array(
+        '#theme' => 'calendar_header',
+        '#date' => array(
+          'day' => format_date($timestamp, 'custom', 'j', $timezone),
+          'month' => format_date($timestamp, 'custom', 'F', $timezone),
+          'weekday' => format_date($timestamp, 'custom', 'l', $timezone),
+          'year' => format_date($timestamp, 'custom', 'Y', $timezone),
+        ),
+        '#timestamp' => $timestamp,
+        '#timezone' => $timezone,
+        '#today' => date('j.F.l') == date('j.F.l', $timestamp) ? TRUE : FALSE,
+      );
+    }
+  }
+
+  return $element;
+}
+
+/**
+ * Implements hook_query_alter().
+ *
+ * Remove duplicates from the node search result view by grouping by nid and
+ * removing the score field.
+ */
+function ding_frontend_query_alter($query) {
+  if (isset($query->alterMetaData)) {
+    if (isset($query->alterMetaData['view'])) {
+      if ($query->alterMetaData['view']->name == 'ding_node_search') {
+        $fields = &$query->getGroupBy();
+        // Remove the score field and add group by nid.
+        unset($fields['score']);
+        $query->groupBy('nid');
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_change_maintenance_mode().
+ *
+ * @param Boolean $maintenance_mode
+ * TRUE if the site is being set into maintenance mode.
+ * FALSE if maintenance mode is being deactivated.
+ *
+ * Clear page cache if maintainance status has changed.
+ */
+function ding_frontend_change_maintenance_mode($maintenance_mode) {
+  cache_clear_all();
+}

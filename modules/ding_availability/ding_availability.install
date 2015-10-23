@@ -1,0 +1,38 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the ting module.
+ */
+
+/**
+ * Implements hook_ding_entity_fields().
+ */
+function ding_availability_ding_entity_fields() {
+  return array(
+    'ding_availability_holdings' => array(
+      'field' => array(
+        'locked' => TRUE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Holdings information'),
+      ),
+    ),
+  );
+}
+
+/**
+ * Convert blackhole field storage to virtual field.
+ */
+function ding_availability_update_7000() {
+  return db_update('field_config')
+    ->fields(array(
+      'storage_type' => 'virtual_field',
+      'storage_module' => 'virtual_field',
+    ))
+    ->condition('module', 'ding_availability')
+    ->execute();
+}

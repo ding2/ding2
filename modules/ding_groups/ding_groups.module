@@ -1,0 +1,363 @@
+<?php
+/**
+ * @file
+ * Code for the Ding groups feature.
+ */
+
+include_once 'ding_groups.features.inc';
+
+/**
+ * Implements hook_og_context_negotiation_info().
+ *
+ * Enabled ding groups to find group context panel pages where the group node is
+ * loaded as argument. E.g. temaer/%gid/nyheder.
+ */
+function ding_groups_og_context_negotiation_info() {
+  $providers = array();
+
+  $providers['ding-groups-panels'] = array(
+    'name' => t('Ding groups'),
+    'description' => t("Determine context in panels node."),
+    'callback' => 'ding_groups_og_context_handler',
+  );
+
+  return $providers;
+}
+
+/**
+ * Callback for OG context negotiation that tries to find ding group node.
+ *
+ * This is based on the current menu item (path) and that it is a panel.
+ *
+ * @return array
+ *   Node ids.
+ */
+function ding_groups_og_context_handler() {
+  $nids = array();
+
+  $item = menu_get_item();
+  if (isset($item['page_arguments'][1]->data->type) && $item['page_arguments'][1]->data->type == 'ding_group') {
+    $nids[] = $item['page_arguments'][1]->data->nid;
+  }
+
+  return array(
+    'node' => $nids,
+  );
+}
+
+/**
+ * Implements hook_node_insert().
+ *
+ * Create alias for group news and events.
+ */
+function ding_groups_node_insert($node) {
+  if ($node->type == 'ding_group') {
+    ding_groups_node_update($node);
+
+    // Get groups listing queue.
+    $queue = nodequeue_load_queue_by_name('ding_groups_listning');
+
+    // Load sub-queue.
+    $sub_queue = nodequeue_load_subqueues_by_queue($queue->qid);
+    $sub_queue = reset($sub_queue);
+
+    // Add the node to the queue.
+    nodequeue_subqueue_add($queue, $sub_queue, $node->nid);
+  }
+}
+
+/**
+ * Implements hook_node_update().
+ *
+ * Create new alias for group news and events, if the nodes alias have changed.
+ */
+function ding_groups_node_update($node) {
+  if ($node->type == 'ding_group') {
+    $alias = 'node/' . $node->nid;
+
+    // Find node pattern from path auto.
+    module_load_include('inc', 'pathauto');
+    $pattern = pathauto_pattern_load_by_entity('node', 'ding_group');
+    if ($pattern) {
+      // Create node alias using token replace.
+      $alias = token_replace($pattern, array('node' => $node), array(
+        'sanitize' => FALSE,
+        'clear' => TRUE,
+        'callback' => 'pathauto_clean_token_values',
+        'language' => (object) array('language' => LANGUAGE_NONE),
+        'pathauto' => TRUE,
+      ));
+    }
+
+    // Update/create alias for the current ding groups news and events.
+    foreach (array('nyheder', 'arrangementer') as $slug) {
+      if (!path_load(array('alias' => $alias . '/' . $slug))) {
+        $source = 'temaer/' . $node->nid . '/' . $slug;
+        $existing_alias = _pathauto_existing_alias_data($source, LANGUAGE_NONE);
+        $path = array(
+          'source' => $source,
+          'alias' => $alias . '/' . $slug,
+          'language' => LANGUAGE_NONE,
+        );
+
+        // Set the alias or update it.
+        _pathauto_set_alias($path, $existing_alias);
+      }
+
+      // Create alias for news and event terms.
+      if ($slug == 'nyheder') {
+        $vocabulary = taxonomy_vocabulary_machine_name_load('news_category');
+      }
+      else {
+        $vocabulary = taxonomy_vocabulary_machine_name_load('event_category');
+      }
+      $terms = taxonomy_term_load_multiple(array(), array('vid' => $vocabulary->vid));
+      ding_base_updated_taxonomy_aliases($node, 'temaer', $terms, array($slug));
+    }
+
+    // Update OG_menu title if group title is changed.
+    if (isset($node->original->title) && $node->title != $node->original->title) {
+      $menu = menu_load('menu-og-' . $node->nid);
+      $menu['title'] = $node->title;
+      $menu['description'] = 'OG Menu for ' . $node->title;
+      menu_save($menu);
+    }
+  }
+}
+
+/**
+ * Implements hook_node_delete().
+ *
+ * Delete alias for group news and events.
+ */
+function ding_groups_node_delete($node) {
+  if ($node->type == 'ding_group') {
+    module_load_include('inc', 'pathauto');
+    pathauto_path_delete_all('temaer/' . $node->nid);
+  }
+}
+
+/**
+ * Implements hook_taxonomy_term_insert().
+ *
+ * Ensures that URL alias for news and events are create for groups.
+ */
+function ding_groups_taxonomy_term_insert($term) {
+  ding_groups_taxonomy_term_update($term);
+}
+
+/**
+ * Implements hook_taxonomy_term_update().
+ *
+ * Ensures that URL alias are updated for groups news and events.
+ */
+function ding_groups_taxonomy_term_update($term) {
+  if ($term->vocabulary_machine_name == 'news_category' || $term->vocabulary_machine_name == 'event_category') {
+    // Load all ding_groups nodes. Entity cache should help on the performance.
+    $nodes = node_load_multiple(array(), array('type' => 'ding_group'));
+
+    $type = 'arrangementer';
+    if ($term->vocabulary_machine_name == 'news_category') {
+      $type = 'nyheder';
+    }
+
+    foreach ($nodes as $node) {
+      ding_base_updated_taxonomy_aliases($node, 'temaer', array($term), array($type));
+    }
+  }
+}
+
+/**
+ * Implements hook_taxonomy_term_delete().
+ *
+ * Delete alias for group news and events.
+ */
+function ding_groups_taxonomy_term_delete($term) {
+  if ($term->vocabulary_machine_name == 'news_category' || $term->vocabulary_machine_name == 'event_category') {
+    // Load all ding_groups nodes. Entity cache should help on the performance.
+    $nodes = node_load_multiple(array(), array('type' => 'ding_group'));
+
+    $type = 'arrangementer';
+    if ($term->vocabulary_machine_name == 'news_category') {
+      $type = 'nyheder';
+    }
+    module_load_include('inc', 'pathauto');
+
+    foreach ($nodes as $node) {
+      pathauto_path_delete_all('temaer/' . $node->nid . '/' . $type . '/' . $term->tid);
+    }
+  }
+}
+
+/**
+ * Implements hook_post_features_revert().
+ */
+function ding_groups_post_features_revert() {
+  ding_groups_install_menu_position('revert');
+}
+
+/**
+ * Implements hook_post_features_disable_feature().
+ */
+function ding_groups_post_features_disable_feature() {
+  ding_groups_install_menu_position('delete');
+}
+
+/**
+ * Implements hook_post_features_enable_feature().
+ */
+function ding_groups_post_features_enable_feature() {
+  ding_groups_install_menu_position('install');
+}
+
+/**
+ * Helper function to install menu position rule.
+ */
+function ding_groups_install_menu_position($op = 'install') {
+  module_load_include('inc', 'menu_position', 'menu_position.admin');
+
+  // Check if rule exists.
+  $exists = db_select('menu_position_rules', 'mpr')
+    ->fields('mpr', array('rid'))
+    ->condition('admin_title', 'Groups')
+    ->execute()
+    ->fetchField();
+
+  if ($exists && $op == 'revert') {
+    // The rule exists, so we delete it.
+    menu_position_delete_rule($exists);
+
+    // Activate installation of the rule.
+    $exists = FALSE;
+    $op = 'install';
+  }
+
+  if (!$exists && ($op == 'install' || $op == 'revert')) {
+    // Define conditions.
+    $conditions = array(
+      'content_type' => array(
+        'content_type' => array(
+          'ding_group' => 'ding_group',
+        ),
+      ),
+    );
+
+    // Find the parent element.
+    $plid = db_select('menu_links', 'ml')
+      ->fields('ml', array('mlid'))
+      ->condition('link_path', 'temaer', '=')
+      ->execute()->fetchField();
+
+    // Add the rule.
+    if ($plid) {
+      menu_position_add_rule(array(
+        'admin_title' => 'Groups',
+        'conditions'  => $conditions,
+        'menu_name'   => 'main-menu',
+        'plid'        => $plid,
+      ));
+    }
+    else {
+      watchdog('ding_groups', 'Unable to create menu position rule for ding groups', array(), WATCHDOG_WARNING);
+    }
+  }
+
+  if ($exists && $op == 'delete') {
+    // The rule exists, so we delete it.
+    menu_position_delete_rule($exists);
+  }
+}
+
+/**
+ * Implements hook_preprocess_views_view_responsive_grid().
+ *
+ * Adds the correct classes to rows and columns to the ding groups front page
+ * view based on the number of groups promoted to the front page.
+ */
+function ding_groups_preprocess_views_view_responsive_grid(&$vars) {
+  if ($vars['view']->name == 'ding_groups') {
+    // Defined column classes.
+    $columns_classes = array(
+      ' group-blocks--first',
+      ' group-blocks--second',
+      ' group-blocks--third',
+      ' group-blocks--fourth',
+    );
+
+    // Loop over the rows to add the correct classes to the row based on the
+    // number of columns in the row.
+    foreach ($vars['rows'] as $row_number => &$row) {
+      switch (count($row)) {
+        case 1:
+          $vars['row_classes'][$row_number] .= ' group-blocks--one';
+          break;
+
+        case 2:
+          $vars['row_classes'][$row_number] .= ' group-blocks--two';
+          break;
+
+        case 3:
+          $vars['row_classes'][$row_number] .= ' group-blocks--three';
+          break;
+
+        case 4:
+          $vars['row_classes'][$row_number] .= ' group-blocks--four';
+          break;
+      }
+
+      // Reverse columns to make the most important at top (make --one at top).
+      $row = array_reverse($row);
+
+      // Add column classes to the current row.
+      $column_id = 0;
+      foreach ($row as $column_id => $column) {
+        $vars['rows'][$row_number][$column_id]['classes'] .= $columns_classes[$column_id];
+      }
+
+      // Add last class to last column.
+      $vars['rows'][$row_number][$column_id]['classes'] .= ' last';
+    }
+
+    // Reverse rows.
+    $vars['rows'] = array_reverse($vars['rows']);
+    $vars['row_classes'] = array_reverse($vars['row_classes']);
+  }
+}
+
+/**
+ * Implements hook_preprocess_views_view_fields().
+ *
+ * Ensure that the image styles used in responsive images for ding groups are
+ * optimized in relation to the number of promoted groups.
+ */
+function ding_groups_preprocess_views_view_fields(&$vars) {
+  if ($vars['view']->name == 'ding_groups' && $vars['view']->current_display == 'panel_pane_1') {
+    $total = (int) $vars['view']->total_rows;
+    $rows = ceil($total / 4);
+    $current = $vars['id'];
+
+    if ((($rows - 1) * 4) < $current) {
+      // Last row (top row).
+      $count = (($total - 1) % 4) + 1;
+      switch ($count) {
+        case '1';
+          // One image.
+          $vars['row']->field_field_ding_group_title_image[0]['rendered']['#max_style'] = 'ding_panorama_primary_large';
+          $vars['row']->field_field_ding_group_title_image[0]['rendered']['#fallback_style'] = 'ding_panorama_primary_medium';
+          $vars['row']->field_field_ding_group_title_image[0]['rendered']['#breakpoint_styles']['768'] = 'ding_panorama_primary_large';
+          $vars['row']->field_field_ding_group_title_image[0]['rendered']['#breakpoint_styles']['500'] = 'ding_panorama_primary_medium';
+          $vars['fields']['field_ding_group_title_image']->content = drupal_render($vars['row']->field_field_ding_group_title_image[0]['rendered']);
+          break;
+
+        case '2';
+          // Two image.
+          $vars['row']->field_field_ding_group_title_image[0]['rendered']['#max_style'] = 'ding_panorama_primary_medium';
+          $vars['row']->field_field_ding_group_title_image[0]['rendered']['#fallback_style'] = 'ding_panorama_primary_small';
+          $vars['row']->field_field_ding_group_title_image[0]['rendered']['#breakpoint_styles']['768'] = 'ding_panorama_primary_medium';
+          $vars['row']->field_field_ding_group_title_image[0]['rendered']['#breakpoint_styles']['500'] = 'ding_panorama_primary_small';
+          $vars['fields']['field_ding_group_title_image']->content = drupal_render($vars['row']->field_field_ding_group_title_image[0]['rendered']);
+          break;
+      }
+    }
+  }
+}
