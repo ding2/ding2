@@ -2,15 +2,17 @@ name = Ting search context
 description = Provides a context rating system for nodes.
 core = 7.x
 
-
 files[] = ting_search_context.module
 files[] = ting_search_context_handler_field_node_ratings.inc
 files[] = ting_search_context_handler_filter_node_ratings.inc
+files[] = ting_search_context_handler_filter_context_type.inc
 
 package = Ding!
 dependencies[] = features
+dependencies[] = image
 dependencies[] = link
 dependencies[] = media
+dependencies[] = node
 dependencies[] = strongarm
 dependencies[] = ting_search
 dependencies[] = views
@@ -37,6 +39,5 @@ features[variable][] = menu_parent_ding_search_context_link
 features[variable][] = node_options_ding_search_context_link
 features[variable][] = node_preview_ding_search_context_link
 features[variable][] = node_submitted_ding_search_context_link
+features[views_view][] = ting_search_context_contexts
 features[views_view][] = ting_search_context_rate_nodes
-
-

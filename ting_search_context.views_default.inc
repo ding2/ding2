@@ -11,6 +11,245 @@ function ting_search_context_views_default_views() {
   $export = array();
 
   $view = new view();
+  $view->name = 'ting_search_context_contexts';
+  $view->description = '';
+  $view->tag = 'default';
+  $view->base_table = 'ting_search_context_contexts';
+  $view->human_name = 'Ting search context contexts';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['title'] = 'Kontekster';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['use_more_text'] = 'mere';
+  $handler->display->display_options['access']['type'] = 'none';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Udfør';
+  $handler->display->display_options['exposed_form']['options']['reset_button'] = TRUE;
+  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Gendan';
+  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sortér efter';
+  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Stigende';
+  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Faldende';
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['pager']['options']['items_per_page'] = '15';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['pager']['options']['id'] = '0';
+  $handler->display->display_options['pager']['options']['quantity'] = '9';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Antal elementer';
+  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Alle -';
+  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Forskydning';
+  $handler->display->display_options['pager']['options']['tags']['first'] = '« første';
+  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ forrige';
+  $handler->display->display_options['pager']['options']['tags']['next'] = 'næste ›';
+  $handler->display->display_options['pager']['options']['tags']['last'] = 'sidste »';
+  $handler->display->display_options['style_plugin'] = 'table';
+  $handler->display->display_options['style_options']['columns'] = array(
+    'context_id' => 'context_id',
+    'name' => 'name',
+    'type' => 'type',
+    'subjects' => 'subjects',
+    'search' => 'search',
+  );
+  $handler->display->display_options['style_options']['default'] = 'type';
+  $handler->display->display_options['style_options']['info'] = array(
+    'context_id' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'name' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'type' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'desc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'subjects' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 1,
+    ),
+    'search' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 1,
+    ),
+  );
+  /* Felt: Ting search context: Context ID */
+  $handler->display->display_options['fields']['context_id']['id'] = 'context_id';
+  $handler->display->display_options['fields']['context_id']['table'] = 'ting_search_context_contexts';
+  $handler->display->display_options['fields']['context_id']['field'] = 'context_id';
+  $handler->display->display_options['fields']['context_id']['label'] = 'ID';
+  $handler->display->display_options['fields']['context_id']['exclude'] = TRUE;
+  /* Felt: Ting search context: Navn */
+  $handler->display->display_options['fields']['name']['id'] = 'name';
+  $handler->display->display_options['fields']['name']['table'] = 'ting_search_context_contexts';
+  $handler->display->display_options['fields']['name']['field'] = 'name';
+  $handler->display->display_options['fields']['name']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['name']['alter']['path'] = 'admin/config/ting/ting-search-context/contexts/[context_id]/edit';
+  /* Felt: Ting search context: Type */
+  $handler->display->display_options['fields']['type']['id'] = 'type';
+  $handler->display->display_options['fields']['type']['table'] = 'ting_search_context_contexts';
+  $handler->display->display_options['fields']['type']['field'] = 'type';
+  /* Felt: Ting search context: Subjects */
+  $handler->display->display_options['fields']['subjects']['id'] = 'subjects';
+  $handler->display->display_options['fields']['subjects']['table'] = 'ting_search_context_contexts';
+  $handler->display->display_options['fields']['subjects']['field'] = 'subjects';
+  /* Felt: Ting search context: Søg */
+  $handler->display->display_options['fields']['search']['id'] = 'search';
+  $handler->display->display_options['fields']['search']['table'] = 'ting_search_context_contexts';
+  $handler->display->display_options['fields']['search']['field'] = 'search';
+  $handler->display->display_options['fields']['search']['label'] = 'Søgestreng';
+  /* Filterkriterie: Ting search context: Type */
+  $handler->display->display_options['filters']['type']['id'] = 'type';
+  $handler->display->display_options['filters']['type']['table'] = 'ting_search_context_contexts';
+  $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['group'] = 1;
+  $handler->display->display_options['filters']['type']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['type']['expose']['operator_id'] = 'type_op';
+  $handler->display->display_options['filters']['type']['expose']['label'] = 'Type';
+  $handler->display->display_options['filters']['type']['expose']['operator'] = 'type_op';
+  $handler->display->display_options['filters']['type']['expose']['identifier'] = 'type';
+  $handler->display->display_options['filters']['type']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+    5 => 0,
+    6 => 0,
+    7 => 0,
+    8 => 0,
+    9 => 0,
+  );
+  /* Filterkriterie: Ting search context: Navn */
+  $handler->display->display_options['filters']['name']['id'] = 'name';
+  $handler->display->display_options['filters']['name']['table'] = 'ting_search_context_contexts';
+  $handler->display->display_options['filters']['name']['field'] = 'name';
+  $handler->display->display_options['filters']['name']['operator'] = 'contains';
+  $handler->display->display_options['filters']['name']['group'] = 1;
+  $handler->display->display_options['filters']['name']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['name']['expose']['operator_id'] = 'name_op';
+  $handler->display->display_options['filters']['name']['expose']['label'] = 'Navn';
+  $handler->display->display_options['filters']['name']['expose']['operator'] = 'name_op';
+  $handler->display->display_options['filters']['name']['expose']['identifier'] = 'name';
+  $handler->display->display_options['filters']['name']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+    5 => 0,
+    6 => 0,
+    7 => 0,
+    8 => 0,
+    9 => 0,
+  );
+  /* Filterkriterie: Ting search context: Subjects */
+  $handler->display->display_options['filters']['subjects']['id'] = 'subjects';
+  $handler->display->display_options['filters']['subjects']['table'] = 'ting_search_context_contexts';
+  $handler->display->display_options['filters']['subjects']['field'] = 'subjects';
+  $handler->display->display_options['filters']['subjects']['operator'] = 'contains';
+  $handler->display->display_options['filters']['subjects']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['subjects']['expose']['operator_id'] = 'subjects_op';
+  $handler->display->display_options['filters']['subjects']['expose']['label'] = 'Subjects';
+  $handler->display->display_options['filters']['subjects']['expose']['operator'] = 'subjects_op';
+  $handler->display->display_options['filters']['subjects']['expose']['identifier'] = 'subjects';
+  $handler->display->display_options['filters']['subjects']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+    5 => 0,
+    6 => 0,
+    7 => 0,
+    8 => 0,
+    9 => 0,
+  );
+  /* Filterkriterie: Ting search context: Søg */
+  $handler->display->display_options['filters']['search']['id'] = 'search';
+  $handler->display->display_options['filters']['search']['table'] = 'ting_search_context_contexts';
+  $handler->display->display_options['filters']['search']['field'] = 'search';
+  $handler->display->display_options['filters']['search']['operator'] = 'contains';
+  $handler->display->display_options['filters']['search']['exposed'] = TRUE;
+  $handler->display->display_options['filters']['search']['expose']['operator_id'] = 'search_op';
+  $handler->display->display_options['filters']['search']['expose']['label'] = 'Search string';
+  $handler->display->display_options['filters']['search']['expose']['operator'] = 'search_op';
+  $handler->display->display_options['filters']['search']['expose']['identifier'] = 'search';
+  $handler->display->display_options['filters']['search']['expose']['remember_roles'] = array(
+    2 => '2',
+    1 => 0,
+    3 => 0,
+    4 => 0,
+    5 => 0,
+    6 => 0,
+    7 => 0,
+    8 => 0,
+    9 => 0,
+  );
+
+  /* Display: Page */
+  $handler = $view->new_display('page', 'Page', 'page');
+  $handler->display->display_options['enabled'] = FALSE;
+  $handler->display->display_options['path'] = 'admin/config/ting/ting-search-context/contexts';
+  $handler->display->display_options['menu']['type'] = 'tab';
+  $handler->display->display_options['menu']['title'] = 'Contexts';
+  $handler->display->display_options['menu']['description'] = 'Create new contexts and edit/delete existing ones';
+  $handler->display->display_options['menu']['weight'] = '0';
+  $handler->display->display_options['menu']['name'] = 'management';
+  $handler->display->display_options['menu']['context'] = 0;
+  $handler->display->display_options['menu']['context_only_inline'] = 0;
+
+  /* Display: Blok */
+  $handler = $view->new_display('block', 'Blok', 'block_1');
+  $handler->display->display_options['defaults']['use_ajax'] = FALSE;
+  $handler->display->display_options['use_ajax'] = TRUE;
+  $translatables['ting_search_context_contexts'] = array(
+    t('Master'),
+    t('Kontekster'),
+    t('mere'),
+    t('Udfør'),
+    t('Gendan'),
+    t('Sortér efter'),
+    t('Stigende'),
+    t('Faldende'),
+    t('Antal elementer'),
+    t('- Alle -'),
+    t('Forskydning'),
+    t('« første'),
+    t('‹ forrige'),
+    t('næste ›'),
+    t('sidste »'),
+    t('ID'),
+    t('.'),
+    t(','),
+    t('Navn'),
+    t('Type'),
+    t('Subjects'),
+    t('Søgestreng'),
+    t('Search string'),
+    t('Page'),
+    t('Blok'),
+  );
+  $export['ting_search_context_contexts'] = $view;
+
+  $view = new view();
   $view->name = 'ting_search_context_rate_nodes';
   $view->description = 'Provides a node table with VBO integration that enables administrators to bulk-rate nodes.';
   $view->tag = 'default';

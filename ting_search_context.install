@@ -182,5 +182,8 @@ function ting_search_context_disable() {
   if ($view = views_get_view('ting_search_context_rate_nodes')) {
   	$view->delete(TRUE);
   }
+  if ($view = views_get_view('ting_search_context_contexts')) {
+  	$view->delete(TRUE);
+  }
   views_invalidate_cache();
 }

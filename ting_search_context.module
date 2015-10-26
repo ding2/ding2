@@ -46,7 +46,7 @@ function ting_search_context_menu() {
     'weight' => -10,
   );
   $items['admin/config/ting/ting-search-context/contexts'] = array(
-    'title' => 'Context',
+    'title' => 'Contexts',
     'description' => 'Create new contexts and edit/delete existing ones',
     'page callback' => 'ting_search_context_admin_contexts',
     'access arguments' => array('administer site configuration'),
@@ -57,9 +57,25 @@ function ting_search_context_menu() {
     'title' => 'Add context',
     'description' => 'Add a new subject or search type context to the system',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('ting_search_context_admin_context_form'),
+    'page arguments' => array('ting_search_context_admin_context_form_add'),
     'access arguments' => array('administer site configuration'),
     'type' => MENU_LOCAL_ACTION,
+    'file' => 'ting_search_context.admin.inc',
+  );
+  $items['admin/config/ting/ting-search-context/contexts/%ting_search_context/edit'] = array(
+    'title' => 'Edit context',
+    'description' => 'Edit an existing subject or search type context',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_search_context_admin_context_form_edit', 5),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ting_search_context.admin.inc',
+  );
+  $items['admin/config/ting/ting-search-context/contexts/%ting_search_context/delete'] = array(
+    'title' => 'Delete context',
+    'description' => 'Delete a subject or search type context',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_search_context_admin_context_delete_confirm_form', 5),
+    'access arguments' => array('administer site configuration'),
     'file' => 'ting_search_context.admin.inc',
   );
   return $items;
@@ -91,6 +107,20 @@ function ting_search_context_theme($existing, $type, $theme, $path) {
       ),
     ),
   );
+}
+
+/**
+ * Implements hook_forms().
+ */
+function ting_search_context_forms() {
+  $forms = array();
+  $forms['ting_search_context_admin_context_form_add'] = array(
+    'callback' => 'ting_search_context_admin_context_form',
+  );
+  $forms['ting_search_context_admin_context_form_edit'] = array(
+    'callback' => 'ting_search_context_admin_context_form',
+  );
+  return $forms;
 }
 
 /**
@@ -377,10 +407,10 @@ function ting_search_context_views_bulk_operations_form_alter(&$form, &$form_sta
  * See: https://www.drupal.org/node/1116326
  */
 function ting_search_context_form_views_exposed_form_alter(&$form, &$form_state) {
-  $view = $form_state['view'];
+  $name = $form_state['view']->name;
 
   // Only do something if this is our view.
-  if ($view->name == 'ting_search_context_rate_nodes') {
+  if ($name == 'ting_search_context_rate_nodes' || $name == 'ting_search_context_contexts') {
     // If the overlay is being used, add the hidden form element.
     if (isset($_REQUEST['render']) && $_REQUEST['render'] == 'overlay') {
       $form['render'] = array(
@@ -506,26 +536,18 @@ function ting_search_context_node_delete($node) {
 }
 
 /**
- * Removes node ratings from the Database.
+ * Unrates a node by completely deleting all accosiated ratings.
  *
  * @param int $nid
  *   The ID of the node to unrate.
- * @param int $context_id (optional)
- *   The ID of the context to unrate in.
- *   Use this parameter to constrain the unrating to a specific context.
  *
  * @return int
  *   The number of deleted rows in the nodes_rated table.
  */
-function ting_search_context_unrate_node($nid, $context_id = NULL) {
-  $query = db_delete('ting_search_context_nodes_rated')
-    ->condition('nid', $nid);
-
-  if (isset($context_id)) {
-    $query->condition('context_id', $context_id);
-  }
-
-  return $query->execute();
+function ting_search_context_unrate_node($nid) {
+  return db_delete('ting_search_context_nodes_rated')
+    ->condition('nid', $nid)
+    ->execute();
 }
 
 /**
@@ -551,51 +573,6 @@ function ting_search_context_rate_node($context_id, $nid, $rating) {
 			'rating' => $rating,
 		))
 		->execute();
-}
-
-/**
- * Saves a context in the database.
- *
- * @param string $type
- *   The machine-readable type of context.
- * @param string $name
- *   The human-readable name of the context.
- * @param string $context
- *   If $type is 'system' or 'subject' this should be the machine-readable name
- *   of the context.
- *   If $type is 'search' this should be the search string of the context.
- * @param string $subjects
- *   The subjects term for subject type contexts.
- *
- * @return string
- *   The context_id of the newly created context.
- *
- * @see ting_search_context_schema()
- *
- * TODO: Should throw exception if type is 'subject' but no $subject is set?
- * TODO: Uset try-catch to handle 'Integrity constraint violation' or
- *       'Duplicate entry'. See: http://alvinalexander.com/drupal/handling-drupal-sql-query-exceptions-try-catch
- */
-function ting_search_context_save_context($type, $name, $context, $subjects = NULL) {
-	$fields = array(
-		'type' => $type,
-		'name' => $name,
-	);
-
-	switch ($type) {
-		case 'subject':
-			$fields += array('subjects' => $subjects);
-			// Fall through
-		case 'system':
-			$fields += array('context' => $context);
-			break;
-		case 'search':
-		  $fields += array('search' => $context);
-		  break;
-	}
-
-	// TODO: Should we handle DB exceptions here or in the UI??
-	return db_insert('ting_search_context_contexts')->fields($fields)->execute();
 }
 
 /**
@@ -644,6 +621,126 @@ function ting_search_context_subject_context_exists($subjects) {
     }
   }
   return FALSE;
+}
+
+/**
+ * Deletes ratings associatied with one or more contexts.
+ *
+ * @param mixed $context_ids
+ *   A string containing a single context_id or an array of context_ids.
+ */
+function ting_search_context_ratings_delete($context_ids) {
+  return db_delete('ting_search_context_nodes_rated')
+    ->condition('context_id', $context_ids)
+    ->execute();
+}
+
+/**
+ * Loads ratings associated with one or more contexts.
+ *
+ * @param mixed $context_ids
+ *   A string containing a single context_id or an array of context_ids.
+ */
+function ting_search_context_ratings_load($context_ids) {
+  return db_select('ting_search_context_nodes_rated', 'nr')
+    ->fields('nr')
+    ->condition('context_id', $context_ids)
+    ->execute()
+    ->fetchAllAssoc('nid');
+}
+
+
+/**
+ * Saves or updates a context.
+ *
+ * @param $context
+ *   The context-object to be saved.
+ *   If $context->context_id is omitted or $context->is_new is TRUE, a new
+ *   context will be saved to the database.
+ *
+ * @return mixed
+ *   FALSE if the insert or updated failed.
+ *   Otherwise SAVED_NEW or SAVED_UPDATED depending on the operation performed.
+ *
+ * @see ting_search_context_schema()
+ * @see ting_search_context_load()
+ * @see ting_search_context_load_multiple()
+ */
+function ting_search_context_save($context) {
+  try {
+    if (!isset($context->is_new)) {
+      $context->is_new = empty($context->context_id);
+    }
+
+    $id = $context->is_new ? array() : 'context_id';
+
+    return drupal_write_record('ting_search_context_contexts', $context, $id);
+  }
+  catch (Exception $e) {
+    // TODO: Search $e for specific error condition.
+    // http://alvinalexander.com/drupal/handling-drupal-sql-query-exceptions-try-catch
+    drupal_set_message(t('Something went wrong !op %context.', array(
+      '!op' => $context->is_new ? 'saving' : 'updating',
+      '%context' => $context->name ? $context->name : 'Unknown',
+    )), 'error');
+
+    watchdog_exception('ting_search_context', $e);
+
+    return FALSE;
+  }
+}
+
+/**
+ * Deletes a context and any associated ratings.
+ *
+ * @param int $context_id
+ *   The ID of the context to delete.
+ *
+ * @return mixed
+ *   TRUE if deletion was successful.
+ *   FALSE if something went wrong or nothing was deleted.
+ */
+function ting_search_context_delete($context_id) {
+  return ting_search_context_delete_multiple(array($context_id));
+}
+
+/**
+ * Deletes multiple contexts and any associated ratings.
+ *
+ * @param array $context_ids
+ *   And array with ids of the contexts to delete.
+ *
+ * @return mixed
+ *   int. The number of contexts deleted.
+ *   False if something went wrong or nothing was deleted.
+ */
+function ting_search_context_delete_multiple($context_ids) {
+  // We're also deleting associated ratings, so use a transaction.
+  $transaction = db_transaction();
+
+  $result = FALSE;
+  if (!empty($context_ids)) {
+    try {
+      // Delete associated ratings. They're useless when serial ID is removed.
+      $result_ratings = ting_search_context_ratings_delete($context_ids);
+
+      // Delete the contexts.
+      $result = db_delete('ting_search_context_contexts')
+        ->condition('context_id', $context_ids, 'IN')
+        ->execute();
+
+      if ($result) {
+        // Reset the load_multiple static cache.
+        drupal_static_reset('ting_search_context_load_multiple');
+      }
+    }
+    catch (Exception $e) {
+      $transaction->rollback();
+      watchdog_exception('ting_search_context', $e);
+    }
+  }
+
+  return $result;
 }
 
 /**
@@ -731,6 +828,17 @@ function ting_search_context_get_positions() {
     'js-below-search-result' => t('Below search result'),
     'js-below-facets' => t('Below facets'),
     'js-above-search-result' => t('Above search result'),
+  );
+}
+
+/**
+ * Defines the context types we support.
+ */
+function ting_search_context_get_types() {
+  return array(
+    'system' => t('System context'),
+    'subject' => t('Subject context'),
+    'search' => t('Search string context'),
   );
 }
 

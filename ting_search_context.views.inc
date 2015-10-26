@@ -83,14 +83,135 @@ function ting_search_context_views_data() {
       'handler' => 'views_handler_sort',
     ),
     'filter' => array(
+      'handler' => 'ting_search_context_handler_filter_context_type',
+    ),
+    'argument' => array(
+      'handler' => 'views_handler_argument_string', // Maybe override to use name as summary.
+    ),
+  );
+  $data['ting_search_context_contexts']['name'] = array(
+    'title' => t('Name'),
+    'help' => t('The human-readable name of the context'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort',
+    ),
+    'filter' => array(
       'handler' => 'views_handler_filter_string',
     ),
     'argument' => array(
       'handler' => 'views_handler_argument_string',
     ),
   );
+  $data['ting_search_context_contexts']['context'] = array(
+    'title' => t('Context'),
+    'help' => t('The machine-name of the context'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort',
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string',  // ting_search_context_handler_filter_context_machine_name.
+    ),
+    'argument' => array(
+      'handler' => 'views_handler_argument_string',
+    ),
+  );
+  $data['ting_search_context_contexts']['subjects'] = array(
+    'title' => t('Subjects'),
+    'help' => t('The subjects of the context'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort',
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string',
+    ),
+  );
+  $data['ting_search_context_contexts']['search'] = array(
+    'title' => t('Search'),
+    'help' => t('The search string of the context'),
+    'field' => array(
+      'handler' => 'views_handler_field',
+      'click sortable' => TRUE,
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort',
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_string',
+    ),
+  );
 
+  // TODO: Relationship handlers for context_id and nid.
+  $data['ting_search_context_nodes_rated']['context_id'] = array(
+    'title' => t('Context ID'),
+    'help' => t('The ID of the rated context'),
+    // Information for displaying the field
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE, // Used by table display plugin
+    ),
+    // Information for accepting a context ID as argument
+    'argument' => array(
+      'handler' => 'views_handler_argument_numeric',
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric',
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort',
+    ),
+  );
+  $data['ting_search_context_nodes_rated']['nid'] = array(
+    'title' => t('Node ID'),
+    'help' => t('The ID of the rated node'),
+    // Information for displaying the field
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE, // Used by table display plugin
+    ),
+    // Information for accepting a context ID as argument
+    'argument' => array(
+      'handler' => 'views_handler_argument_numeric',
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric',
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort',
+    ),
+  );
+  $data['ting_search_context_nodes_rated']['rating'] = array(
+    'title' => t('Rating'),
+    'help' => t('The rating-number of the rating'),
+    // Information for displaying the field
+    'field' => array(
+      'handler' => 'views_handler_field_numeric',
+      'click sortable' => TRUE, // Used by table display plugin
+    ),
+    // Information for accepting a context ID as argument
+    'argument' => array(
+      'handler' => 'views_handler_argument_numeric',
+    ),
+    'filter' => array(
+      'handler' => 'views_handler_filter_numeric',
+    ),
+    'sort' => array(
+      'handler' => 'views_handler_sort',
+    ),
+  );
 
+  return $data;
 }
 
 /**
