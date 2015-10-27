@@ -13,7 +13,7 @@
  * profile used (if any), before it's send to the datawell.
  */
 function ting_field_search_ting_pre_execute($request) {
-  if ($profile = _ting_field_search_use_special_profile()) {
+  if ($profile = ting_field_search_get_current_profile()) {
     // Ensure that this is a Ting client, object or search request since a
     // profile is only used in these classes.
     if ($request instanceof TingClientSearchRequest || $request instanceof TingClientObjectRequest) {
@@ -162,7 +162,7 @@ function ting_field_search_ting_collection_uri($collection) {
  * Private helper function to alter entity uri of ting collectons and objects.
  */
 function _ting_field_search_alter_entity_uri($path) {
-  if ($profile = _ting_field_search_use_special_profile()) {
+  if ($profile = ting_field_search_get_current_profile()) {
     $path['options']['query'] = array('profile' => $profile);
   }
   return $path;
@@ -276,21 +276,30 @@ function ting_field_search_form_ting_admin_ting_settings_alter(&$form, &$form_st
 function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
   $profiles = array();
   foreach (ting_field_search_profiles_load() as $name => $profile) {
-    $profiles[$name] = $profile->title;
+    $profiles[$name] = t('Search in @profile', array(
+     '@profile'  => $profile->title
+    ));
   }
 
   // This need to work on every page, so we just detect the profile.
-  $profile = _ting_field_search_detect_profile();
+  $profile = ting_field_search_detect_profile_parameter();
   $form['ting_field_search'] = array(
     '#type' => 'select',
     '#options' => $profiles,
-    '#empty_option' => t('Standard'),
+    '#empty_option' => t('Search in standard'),
     '#default_value' => $profile ? $profile : '',
   );
 
   // Use a validate handler for its timing before ting_search_submit() which is
   // a submit handler. This makes us independent of a specific module weight.
   $form['#validate'][] = 'ting_field_search_search_block_validate';
+
+  // Add our base styling of the profile input select.
+  $path = drupal_get_path('module', 'ting_field_search');
+  $form['#attached']['css'][] = array(
+    'data' => $path . '/css/ting_field_search.base.css',
+    'every_page' => TRUE,
+  );
 }
 
 /**

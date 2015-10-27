@@ -1,7 +1,15 @@
-#search-block-form {
-  position: relative;
+#search-block-form .form-item-ting-field-search {
+  width: 100%;
+  margin-top: 1.4em;
 }
 
-.form-item-ting-field-search {
+.search-field-in-content .form-item-ting-field-search label {
+  color: #000;
+}
 
+/* Include som basic responsive sizing. */
+@media only screen and (min-width: 769px) {
+  #search-block-form .form-item-ting-field-search {
+    width: 35%;
+  }
 }
