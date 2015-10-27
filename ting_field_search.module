@@ -176,40 +176,78 @@ function ting_field_search_form_ting_admin_ting_settings_alter(&$form, &$form_st
     '#tree' => TRUE,
     '#title' => t('Special search profiles'),
     // There's a bug that will show icon anyway.
-    // See: https://www.drupal.org/node/1361810 for more info.
+    // See: https://www.drupal.org/node/1361810 for more info (Fixed with CSS).
     '#collapsible' => FALSE,
     // Wrapper for AJAX replacment
     '#prefix' => '<div id="ting-field-search-wrapper">',
     '#suffix' => '</div>',
   );
 
-  if (empty($form_state['ting_field_search_profile_count'])) {
-    $form_state['ting_field_search_profile_count'] = 1;
-  }
-  for ($i = 0; $i < $form_state['ting_field_search_profile_count']; $i++) {
-    $form['ting']['search_profile']['ting_field_search'][$i] = array(
-      '#type' => 'ting_field_search_profile',
-      '#title_display' => 'before',
-      '#show_description' => TRUE,
-      '#add_remove' => TRUE,
-      '#default_value' => array(),
-      '#prefix' => '<div class="profile-wrapper ' . ($i == 0 ? 'first' : '') . '">',
-      '#suffix' => '</div>',
+  // A simple table of existing special search profiles.
+  // TODO: Add table sort?
+  $profiles = ting_field_search_profiles_load();
+  $header = array('Title', 'Name', 'Profile', 'Query');
+  $rows = array();
+  foreach ($profiles as $profile) {
+    $rows[] = array(
+      $profile->title,
+      $profile->name,
+      $profile->profile,
+      empty($profile->query) ? t('None') : $profile->query,
     );
   }
 
-  $form['ting']['search_profile']['add'] = array(
-    '#type' => 'submit',
-    '#value' => t('Add another profile'),
-    '#submit' => array('ting_field_search_profile_add_submit'),
-    '#ajax' => array(
-      'callback' => 'ting_field_search_profile_add_callback',
-      'wrapper' => 'ting-field-search-wrapper'
+  // If the current administrator has persmission, insert a link to profile
+  // creation (emulating a local action link).
+  $item = menu_get_item('admin/config/ting/settings/ting-field-search-profiles/create');
+  if ($item['access']) {
+    $form['ting']['search_profile']['ting_field_search']['add'] = array(
+      '#prefix' => '<ul class="action-links">',
+      '#theme' => 'menu_local_action',
+      '#link' => $item,
+      '#suffix' => '</ul>',
+    );
+  }
+  $form['ting']['search_profile']['ting_field_search']['profiles'] = array(
+    '#theme' => 'table',
+    '#header' => $header,
+    '#rows' => $rows,
+    '#attributes' => array(
+      'id' => 'ting-field-search-profiles',
     ),
   );
 
+  // Add some correcting CSS.
   $path = drupal_get_path('module', 'ting_field_search');
   $form['#attached']['css'][] = $path . '/css/ting_field_search.admin.css';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
+  $profiles = array();
+  foreach (ting_field_search_profiles_load() as $name => $profile) {
+    $profiles[$name] = $profile->title;
+  }
+
+  // This need to work on every page, so we just detect the profile.
+  $profile = _ting_field_search_detect_profile();
+  $form['ting_field_search'] = array(
+    '#type' => 'select',
+    '#options' => $profiles,
+    '#empty_option' => t('Standard'),
+    '#default_value' => $profile ? $profile : '',
+  );
+
+  // Use a validate handler for its timing before ting_search_submit().
+  $form['#validate'][] = 'ting_field_search_search_block_validate';
+}
+
+function ting_field_search_search_block_validate($form, &$form_state) {
+  if (!empty($form_state['values']['ting_field_search'])) {
+    ting_field_search_use_profile($form_state['values']['ting_field_search']);
+  }
 }
 
 /**
