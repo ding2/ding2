@@ -24,6 +24,24 @@ function ting_field_search_ting_pre_execute($request) {
 }
 
 /**
+ * Implements hook_menu().
+ */
+function ting_field_search_menu() {
+  $items = array();
+
+  $items['admin/config/ting/settings/ting-field-search-profiles/create'] = array(
+    'title' => 'Create profile',
+    'description' => 'Create a new Ting field search profile.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_field_search_profile_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ting_field_search.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
  * Internal helper function to determine if a special profile should be used.
  * This is used in hook_ting_pre_execute implementation when inserting the
  * profile in the request and in the cache backends when generating CID's.
