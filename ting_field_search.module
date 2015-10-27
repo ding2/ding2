@@ -97,6 +97,16 @@ function _ting_field_search_detect_profile() {
   if (!isset($profile)) {
     $parameters = drupal_get_query_parameters();
     $profile = isset($parameters['profile']) ? $parameters['profile'] : FALSE;
+
+    // In most cases our profile parameter wont be present. To keep a minimum
+    // footprint, we only load the profiles to verify it exists in the system,
+    // in the case that a profile was found the URI.
+    if ($profile) {
+      $system_profiles = ting_field_search_profiles_load();
+      if (!array_key_exists($profile, $system_profiles)) {
+        $profile = FALSE;
+      }
+    }
   }
 
   return $profile;
