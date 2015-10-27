@@ -113,20 +113,6 @@ function _ting_field_search_detect_profile() {
 }
 
 /**
- * Helper function set and remember the selected profile
- *
- * @see ting_field_search_form_search_block_form_alter().
- */
-function ting_field_search_use_profile($set_profile = NULL) {
-  $profile = &drupal_static(__FUNCTION__);
-
-  if (isset($set_profile)) {
-    $profile = $set_profile;
-  }
-  return $profile;
-}
-
-/**
  * Stores the current outbund profile parameter.
  *
  * NOTE: This is currently used in our goto_alter implementation, as a fast way
@@ -146,7 +132,7 @@ function ting_field_search_set_outbound_profile($profile) {
  * @return string $profile
  *   The name of the profile.
  */
-function timg_field_search_get_outbound_profile() {
+function ting_field_search_get_outbound_profile() {
   return drupal_static('ting_field_search_set_outbound_profile', NULL);
 }
 
@@ -212,7 +198,7 @@ function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_
       $options['query']['profile'] = $profile;
     }
   }
-  if ($profile = ting_field_search_use_profile()) {
+  if ($profile = ting_field_search_get_outbound_profile()) {
     if (preg_match('/^search\/ting/', $path)) {
       $options['query']['profile'] = $profile;
     }
@@ -318,6 +304,6 @@ function ting_field_search_search_block_validate($form, &$form_state) {
   // If the user has selected a profile, save it for later so that it can be
   // used in /ting/search redirect.
   if (!empty($form_state['values']['ting_field_search'])) {
-    ting_field_search_use_profile($form_state['values']['ting_field_search']);
+    ting_field_search_set_outbound_profile($form_state['values']['ting_field_search']);
   }
 }
