@@ -52,3 +52,45 @@ function ting_field_search_disable() {
 	// Might as well clean up here
 	variable_del('ting_field_search_original_backend');
 }
+
+/**
+ * Implements hook_schema().
+ */
+function ting_field_search_schema() {
+	$schema['ting_field_search_profile'] = array(
+		'description' => 'Holds the definitions of the installed search profiles.',
+		'fields' => array(
+			'name' => array(
+				'type' => 'varchar',
+				'length' => 64,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'Primary key: The machine name of the profile.',
+			),
+			'title' => array(
+				'type' => 'varchar',
+				'length' => 255,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'Profile title: Displayed to users of the site.',
+			),
+			'profile' => array(
+				'type' => 'varchar',
+				'length' => 128,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'VIP Profile: The name of the profile as in http://vip.dbc.dk/',
+			),
+			'query' => array(
+				'type' => 'varchar',
+				'length' => 255,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'Additional CQL-code to append when using this profile',
+			),
+		),
+		'primary key' => array('name'),
+	);
+
+	return $schema;
+}
