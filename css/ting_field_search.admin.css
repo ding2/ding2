@@ -2,6 +2,10 @@
   margin-top: 0;
 }
 
+#ting-field-search-wrapper .fieldset-legend {
+  background: none;
+}
+
 #ting-field-search-profiles {
-  margin-top: 0.5em;
+  margin: 0 0 0.5em 0;
 }

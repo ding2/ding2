@@ -42,29 +42,29 @@ function ting_field_search_menu() {
 }
 
 /**
- * Internal helper function to determine if a special profile should be used.
- * This is used in hook_ting_pre_execute implementation when inserting the
- * profile in the request and in the cache backends when generating CID's.
+ * Determines whether a search profile should be (or is being) used in the
+ * request against the datawell. It works by first detecting if a profile
+ * parameter is present in the URI, and then verifying if the current page
+ * is supported.
  *
- * For now the module uses a profile if an installed profile is detected in the
- * URI and if one of following pages is being viewed:
+ * Currently the following pages is supported:
+ *
  *   1. The search page
- *   2. Ting collection page
- *   3. Ting object page
+ *   2. Ting object and collection page (and any child pages)
  *
  * @return mixed $result
- *   The name of the profile if it's profile search.
- *   FALSE otherwise.
+ *   The name of the current profile
+ *   NULL if it was detected that no profiles should be used.
  *
- * @see _ting_field_search_detect_profile().
+ * @see ting_field_search_detect_profile_parameter().
  */
-function _ting_field_search_use_special_profile() {
+function ting_field_search_get_current_profile() {
   // Use a static cache. This will be called often on a search request.
-  $result = &drupal_static(__FUNCTION__);
+  $result = &drupal_static(__FUNCTION__, NULL);
 
   if (!isset($result)) {
     $result = FALSE;
-    if ($profile = _ting_field_search_detect_profile()) {
+    if ($profile = ting_field_search_detect_profile_parameter()) {
       // Search page
       if (arg(0) == 'search' && arg(1) == 'ting' && count(arg()) > 2) {
         $result = $profile;
@@ -80,13 +80,13 @@ function _ting_field_search_use_special_profile() {
 }
 
 /**
- * Internal helper function to detect search profiles in the URI.
+ * Detects whether a valid profile parameter is present in the URI.
  *
  * @return mixed
- *   The name of the profile if present.
+ *   The name of the profile if any.
  *   FALSE otherwise.
  */
-function _ting_field_search_detect_profile() {
+function ting_field_search_detect_profile_parameter() {
   // Use the advanced drupal_static() pattern. This will be called very often.
   static $drupal_static_fast;
   if (!isset($drupal_static_fast)) {
@@ -183,23 +183,19 @@ function ting_field_search_profiles_load() {
 
 /**
  * Implements hook_drupal_goto_alter().
- *
- * Add the current search profile to the redicrect URI when redirecting from
- * a Ting collection to a Ting object. Ting does this when a collection only
- * contains one object - and, since it's not using entity_uri(), our wrappers
- * doesn't work in this case.
- *
- * Note: Implementing this hook is not very effective and should be removed if
- * ting get updated to use entity_uri().
  */
 function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_code) {
-  if ($profile = _ting_field_search_detect_profile()) {
-    if (arg(0) == 'ting' && arg(1) == 'collection' && preg_match('/^ting\/object/', $path)) {
+  if ($profile = ting_field_search_get_outbound_profile()) {
+    if (preg_match('/^search\/ting/', $path)) {
       $options['query']['profile'] = $profile;
     }
   }
-  if ($profile = ting_field_search_get_outbound_profile()) {
-    if (preg_match('/^search\/ting/', $path)) {
+
+  // NOTE: Unfortunately this is the only work around the hard-coded redirect
+  // in ting_collection_page_view(). If it gets updated to use entity_uri()
+  // this can be safely removed.
+  if ($profile = ting_field_search_detect_profile_parameter()) {
+    if (arg(0) == 'ting' && arg(1) == 'collection' && preg_match('/^ting\/object/', $path)) {
       $options['query']['profile'] = $profile;
     }
   }
