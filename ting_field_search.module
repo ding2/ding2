@@ -159,6 +159,19 @@ function _ting_field_search_alter_entity_uri($path) {
 }
 
 /**
+ * Loads all profiles fromt the database.
+ *
+ * @return array $profiles
+ *   An array of profile objects keyed by profile machine name.
+ */
+function ting_field_search_profiles_load() {
+  return db_select('ting_field_search_profile', 'tp')
+    ->fields('tp')
+    ->execute()
+    ->fetchAllAssoc('name');
+}
+
+/**
  * Implements hook_drupal_goto_alter().
  *
  * Add the current search profile to the redicrect URI when redirecting from
