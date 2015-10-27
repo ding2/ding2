@@ -17,8 +17,16 @@ function ting_field_search_ting_pre_execute($request) {
     // Ensure that this is a Ting client, object or search request since a
     // profile is only used in these classes.
     if ($request instanceof TingClientSearchRequest || $request instanceof TingClientObjectRequest) {
-      $request->setProfile($profile);
-      return array('profile' => $profile);
+      // Modify the request based on profile settings
+      if (!empty($profile->profile)) {
+        $request->setProfile($profile->profile);
+      }
+
+      if (!empty($profile->query)) {
+        $query = $request->getQuery();
+        $query .= ' and' . $profile->query;
+        $request->setQuery($query);
+      }
     }
   }
 }
@@ -63,7 +71,6 @@ function ting_field_search_get_current_profile() {
   $result = &drupal_static(__FUNCTION__, NULL);
 
   if (!isset($result)) {
-    $result = FALSE;
     if ($profile = ting_field_search_detect_profile_parameter()) {
       // Search page
       if (arg(0) == 'search' && arg(1) == 'ting' && count(arg()) > 2) {
@@ -87,7 +94,8 @@ function ting_field_search_get_current_profile() {
  *   FALSE otherwise.
  */
 function ting_field_search_detect_profile_parameter() {
-  // Use the advanced drupal_static() pattern. This will be called very often.
+  // Use the advanced drupal_static() pattern. This will be called very often
+  // and we need to load the profiles.
   static $drupal_static_fast;
   if (!isset($drupal_static_fast)) {
     $drupal_static_fast['profile'] = &drupal_static(__FUNCTION__);
@@ -103,7 +111,10 @@ function ting_field_search_detect_profile_parameter() {
     // in the case that a profile was found the URI.
     if ($profile) {
       $system_profiles = ting_field_search_profiles_load();
-      if (!array_key_exists($profile, $system_profiles)) {
+      if (array_key_exists($profile, $system_profiles)) {
+        $profile = $system_profiles[$profile];
+      }
+      else {
         $profile = FALSE;
       }
     }
@@ -163,7 +174,7 @@ function ting_field_search_ting_collection_uri($collection) {
  */
 function _ting_field_search_alter_entity_uri($path) {
   if ($profile = ting_field_search_get_current_profile()) {
-    $path['options']['query'] = array('profile' => $profile);
+    $path['options']['query'] = array('profile' => $profile->name);
   }
   return $path;
 }
@@ -192,6 +203,7 @@ function ting_field_search_profiles_load($name = NULL) {
  * Implements hook_drupal_goto_alter().
  */
 function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_code) {
+
   if ($profile = ting_field_search_get_outbound_profile()) {
     if (preg_match('/^search\/ting/', $path)) {
       $options['query']['profile'] = $profile;
@@ -203,7 +215,7 @@ function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_
   // this can be safely removed.
   if ($profile = ting_field_search_detect_profile_parameter()) {
     if (arg(0) == 'ting' && arg(1) == 'collection' && preg_match('/^ting\/object/', $path)) {
-      $options['query']['profile'] = $profile;
+      $options['query']['profile'] = $profile->name;
     }
   }
 }
@@ -294,7 +306,7 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
     '#type' => 'select',
     '#options' => $profiles,
     '#empty_option' => t('Search in standard'),
-    '#default_value' => $profile ? $profile : '',
+    '#default_value' => $profile ? $profile->name : '',
   );
 
   // Use a validate handler for its timing before ting_search_submit() which is

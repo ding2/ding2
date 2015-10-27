@@ -17,14 +17,14 @@ class TingFieldSearchDatabaseCache extends DrupalDatabaseCache {
 
 	function get($cid) {
 		if ($profile = ting_field_search_get_current_profile()) {
-			$cid .= ':' . $profile;
+			$cid .= ':' . $profile->name;
 		}
 		return parent::get($cid);
 	}
 
 	function set($cid, $data, $expire = CACHE_PERMANENT) {
 		if ($profile = ting_field_search_get_current_profile()) {
-			$cid .= ':' . $profile;
+			$cid .= ':' . $profile->name;
 		}
 		parent::set($cid, $data, $expire);
 	}
