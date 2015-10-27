@@ -188,6 +188,11 @@ function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_
       $options['query']['profile'] = $profile;
     }
   }
+  if ($profile = ting_field_search_use_profile()) {
+    if (preg_match('/^search\/ting/', $path)) {
+      $options['query']['profile'] = $profile;
+    }
+  }
 }
 
 /**
