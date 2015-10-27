@@ -113,6 +113,20 @@ function _ting_field_search_detect_profile() {
 }
 
 /**
+ * Helper function set and remember the selected profile
+ *
+ * @see ting_field_search_form_search_block_form_alter().
+ */
+function ting_field_search_use_profile($set_profile = NULL) {
+  $profile = &drupal_static(__FUNCTION__);
+
+  if (isset($set_profile)) {
+    $profile = $set_profile;
+  }
+  return $profile;
+}
+
+/**
  * Implements hook_entity_info_alter().
  */
 function ting_field_search_entity_info_alter(&$entity_info) {
