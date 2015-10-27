@@ -127,6 +127,30 @@ function ting_field_search_use_profile($set_profile = NULL) {
 }
 
 /**
+ * Stores the current outbund profile parameter.
+ *
+ * NOTE: This is currently used in our goto_alter implementation, as a fast way
+ * to detect if a profile parameter should be appended to the redirect URI.
+ *
+ * @param string $profile
+ *   The name of the profile.
+ */
+function ting_field_search_set_outbound_profile($profile) {
+  $static = &drupal_static(__FUNCTION__);
+  $static = $profile;
+}
+
+/**
+ * Get the current outbound profile if any.
+ *
+ * @return string $profile
+ *   The name of the profile.
+ */
+function timg_field_search_get_outbound_profile() {
+  return drupal_static('ting_field_search_set_outbound_profile', NULL);
+}
+
+/**
  * Implements hook_entity_info_alter().
  */
 function ting_field_search_entity_info_alter(&$entity_info) {
