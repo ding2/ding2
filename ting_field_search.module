@@ -297,8 +297,6 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
  * Custom validate handler for the search block form.
  */
 function ting_field_search_search_block_validate($form, &$form_state) {
-  // If the user has selected a profile, save it for later so that it can be
-  // used in /ting/search redirect.
   if (!empty($form_state['values']['ting_field_search'])) {
     ting_field_search_set_outbound_profile($form_state['values']['ting_field_search']);
   }
