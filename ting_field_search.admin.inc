@@ -3,13 +3,22 @@
 /**
  * @file
  *
- * Admin page callback for the Ting field search module.
+ * Admin page callbacks for the Ting field search module.
  */
 
 /**
- * Main profile form builder.
+ * Profile form builder.
  */
-function ting_field_search_profile_form($form, &$form_state) {
+function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
+  if ($profile || isset($form_state['original_profile'])) {
+    // Save the profile object in form_state for later use.
+    if (!isset($form_state['original_profile'])) {
+      $form_state['original_profile'] = array_shift($profile);
+    }
+    // During a rebuild; use the stored $profile object.
+    $profile = $form_state['original_profile'];
+  }
+
   $form['profile'] = array(
     '#type' => 'fieldset',
     '#title' => t('Create profile'),
@@ -22,39 +31,52 @@ function ting_field_search_profile_form($form, &$form_state) {
     '#description' => t('Enter the title of the profile'),
     '#required' => TRUE,
     '#maxlength' => 255,
-    '#default_value' => '',
+    '#default_value' => $profile ? $profile->title : '',
   );
   $form['profile']['name'] = array(
     '#type' => 'machine_name',
-    '#title' => t('Profile name'),
+    '#title' => t('Name (identificator used in URI)'),
     '#description' => t('Enter a unique machine-name for this profile.'),
     '#maxlength' => 64,
-    '#default_value' => '',
+    '#default_value' => $profile ? $profile->name : '',
     '#machine_name' => array(
       'exists' => 'ting_field_search_profile_exists',
       'source' => array('profile', 'title'),
-      'label' => t('Profile name'),
+      'label' => t('Name'),
     ),
+    // It should'nt be necesarry to change machine-name of existing profiles.
+    '#disabled' => $profile,
   );
   $form['profile']['profile'] = array(
     '#type' => 'textfield',
     '#title' => t('VIP profile name (http://vip.dbc.dk)'),
     '#description' => t('Use a special VIP profile. Leave blank to use the standard search profile.'),
-    '#default_value' => '',
+    '#default_value' => $profile ? $profile->profile : '',
   );
   $form['profile']['query'] = array(
     '#type' => 'textfield',
     '#title' => t('Query'),
     '#description' => t('Enter a search code (CQL) to use with this profile.'),
-    '#default_value' => '',
+    '#default_value' => $profile ? $profile->query : '',
   );
 
   // Form actions
   $form['actions'] = array('#type' => 'actions');
+
+  // Save
   $form['actions']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save'),
   );
+
+  // Delete
+  if ($profile) {
+    $form['actions']['delete'] = array(
+      '#type' => 'submit',
+      '#value' => t('Delete'),
+      '#submit' => array('ting_field_search_profile_form_delete'),
+    );
+  }
 
   // Cancel
   $form['actions']['cancel'] = array(
@@ -77,12 +99,76 @@ function ting_field_search_profile_form($form, &$form_state) {
 function ting_field_search_profile_form_submit($form, &$form_state) {
   $profile = $form_state['values']['profile'];
 
+  // If updating an existing profile add in missing values from original.
+  if (isset($form_state['original_profile'])) {
+    $profile += (array) $form_state['original_profile'];
+  }
+
+  // Save and go back.
   if (ting_field_search_profile_save($profile)) {
     drupal_set_message(t('Profile saved'));
   }
   else {
     drupal_set_message(t('Something went wrong saving profile. See log for details.'));
   }
+  $form_state['redirect'] = 'admin/config/ting/settings';
+}
+
+/**
+ * Submit callback for the delete button on the context form.
+ *
+ * @see ting_field_search_profile_form()
+ */
+function ting_field_search_profile_form_delete($form, &$form_state) {
+  // Pass along any destination parameter set from previous pages
+  $destination = array();
+  if (isset($_GET['destination'])) {
+    $destination = drupal_get_destination();
+    unset($_GET['destination']);
+  }
+
+  $profile = $form_state['original_profile'];
+  $path = 'admin/config/ting/settings/ting-field-search-profiles/' . $profile->name .'/delete';
+  $form_state['redirect'] = array($path, array('query' => $destination));
+}
+
+/**
+ * Form builder for the profile delete confirm form.
+ */
+function ting_field_search_profile_form_delete_confirm_form($form, &$form_state, $profile) {
+  // Store the profile for later use in the submit handler.
+  $profile = array_shift($profile);
+  $form['ting_field_search_profile'] = array(
+    '#type' => 'value',
+    '#value' => $profile,
+  );
+
+  return confirm_form($form,
+    t('Are you sure you want to delete the @profile profile?', array(
+      '@profile' => $profile->title
+    )),
+    'admin/config/ting/settings/ting-field-search-profiles/' . $profile->name .'/edit',
+    NULL, // This action cannot be undone.
+    t('Delete'),
+    t('Cancel')
+  );
+}
+
+/**
+ * Submit handler for the profile delete confirm form.
+ */
+function ting_field_search_profile_form_delete_confirm_form_submit($form, &$form_state) {
+  $profile = $form_state['values']['ting_field_search_profile'];
+
+  if (ting_field_search_profile_delete($profile->name)) {
+    drupal_set_message(t('Profile @profile deleted', array(
+      '@profile' => $profile->title,
+    )));
+  }
+  else {
+    drupal_set_message(t('Something went wrong saving profile. See log for details.'));
+  }
+
   $form_state['redirect'] = 'admin/config/ting/settings';
 }
 

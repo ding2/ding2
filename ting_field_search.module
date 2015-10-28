@@ -12,16 +12,48 @@
 function ting_field_search_menu() {
   $items = array();
 
+  // Menu items for administering profiles.
   $items['admin/config/ting/settings/ting-field-search-profiles/create'] = array(
     'title' => 'Create profile',
     'description' => 'Create a new Ting field search profile.',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('ting_field_search_profile_form'),
+    'page arguments' => array('ting_field_search_profile_form_add'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ting_field_search.admin.inc',
+  );
+  $items['admin/config/ting/settings/ting-field-search-profiles/%ting_field_search_profiles/edit'] = array(
+    'title' => 'Edit profile',
+    'description' => 'Edit or delete an existing profile',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_field_search_profile_form_edit', 5),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ting_field_search.admin.inc',
+  );
+  $items['admin/config/ting/settings/ting-field-search-profiles/%ting_field_search_profiles/delete'] = array(
+    'title' => 'Delete profile',
+    'description' => 'Deletes an existing profile',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_field_search_profile_form_delete_confirm_form', 5),
     'access arguments' => array('administer site configuration'),
     'file' => 'ting_field_search.admin.inc',
   );
 
   return $items;
+}
+
+
+/**
+ * Implements hook_forms().
+ */
+function ting_field_search_forms() {
+  $forms = array();
+  $forms['ting_field_search_profile_form_add'] = array(
+    'callback' => 'ting_field_search_profile_form',
+  );
+  $forms['ting_field_search_profile_form_edit'] = array(
+    'callback' => 'ting_field_search_profile_form',
+  );
+  return $forms;
 }
 
 /**
@@ -184,6 +216,10 @@ function _ting_field_search_alter_entity_uri($path) {
 }
 
 /**
+ * Load function (wrapper for profiles_load()).
+ */
+
+/**
  * Loads profiles fromt the database.
  *
  * @param string $name (optional)
@@ -225,6 +261,27 @@ function ting_field_search_profile_save($profile) {
     $result = db_merge('ting_field_search_profile')
       ->key(array('name' => $name))
       ->fields($profile)
+      ->execute();
+  }
+  catch (Exception $e) {
+    watchdog_exception('ting_field_search', $e);
+  }
+
+  return $result;
+}
+
+/**
+ * Deletes a profile.
+ *
+ * @param string $name
+ *   The macinhe-name of the profile to delete.
+ */
+function ting_field_search_profile_delete($name) {
+  $result = FALSE;
+
+  try {
+    $result = db_delete('ting_field_search_profile')
+      ->condition('name', $name)
       ->execute();
   }
   catch (Exception $e) {
@@ -296,8 +353,9 @@ function ting_field_search_form_ting_admin_ting_settings_alter(&$form, &$form_st
   $header = array(t('Title'), t('Name'), $profile_header, t('Query'));
   $rows = array();
   foreach ($profiles as $profile) {
+    $path = 'admin/config/ting/settings/ting-field-search-profiles/' . $profile->name .'/edit';
     $rows[] = array(
-      $profile->title,
+      l($profile->title, $path),
       $profile->name,
       $profile->profile,
       empty($profile->query) ? t('None') : $profile->query,
