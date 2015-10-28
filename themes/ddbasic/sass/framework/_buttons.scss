@@ -1,0 +1,163 @@
+/**
+ * Buttons
+ *
+ * @author magnify
+ */
+
+
+/* Variables
+   ========================================================================== */
+
+$button-border:                   0;
+$button-box-shadow:               0 0 1px lighten($black, 35%) inset;
+$button-border-radius:            8px;
+$button-padding:                  8px 14px;
+
+$button-default-bg:               #444;
+$button-default-color:            #fff;
+$button-theme-bg:                 #00b7e7;
+$button-theme-color:              #fff;
+$button-action-bg:                #60a500;
+$button-action-color:             #fff;
+$button-warning-bg:               #f6d346;
+$button-warning-color:            #000;
+$button-danger-bg:                #bf3600;
+$button-danger-color:             #fff;
+
+
+
+/* Extends
+   ========================================================================== */
+
+%button {
+  @include border-radius($button-border-radius);
+
+  display: inline-block;
+  font-size: 100%;
+  padding: $button-padding;
+  position: relative;
+
+  box-shadow: $button-box-shadow;
+  cursor: pointer;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 100%;
+
+  &:focus,
+  &:hover,
+  &:active {
+    text-decoration: none;
+  }
+
+  // Disabled state
+  &.disabled,
+  &[disabled] {
+    @include opacity(0.65);
+    @include box-shadow(none);
+
+    cursor: default;
+  }
+}
+
+
+
+/* Mixins
+   ========================================================================== */
+
+@mixin create-gradient-button($text-color, $bg-start-color, $bg-end-color, $border: 0) {
+  @include background-image(linear-gradient($bg-start-color, $bg-end-color));
+  @extend %button;
+
+  /* Make sure buttons get a background color in IE */
+  background-color: $bg-start-color;
+  border: $border;
+
+  @if $text-color != "" {
+    color: $text-color;
+
+    &:link,
+    &:visited {
+      color: $text-color;
+    }
+  }
+
+  &:link,
+  &:visited,
+  &:focus,
+  &:hover,
+  &:active {
+    @include background-image(linear-gradient(darken($bg-start-color, 5%), darken($bg-end-color, 5%)));
+
+    background-color: $bg-end-color;
+  }
+}
+
+
+/* Default button, we dont use gradiant mixin sin since it's part of color module */
+.button,
+a.button,
+%button-default {
+  background-color: $button-default-background;
+  border: 1px;
+  color: $button-default-text-color;
+  line-height: 100%;
+  padding: 8px 14px;
+
+  @include border-radius(8px);
+  @include background-image(linear-gradient($button-default-background, $button-default-background-gradient));
+
+  &:link,
+  &:visited,
+  &:focus,
+  &:active {
+    color: $button-default-text-color;
+    text-decoration: none;
+    background-image: none;
+    background-color: $button-default-background;
+  }
+
+  &:hover {
+    background-color: $button-default-color-hover;
+    background-image: none;
+  }
+}
+
+/* Theme button */
+%button-theme {
+  @include create-gradient-button($button-theme-color, $button-theme-bg, darken($button-theme-bg, 15%));
+}
+
+/* Action button */
+%button-action {
+  @include create-gradient-button($button-action-color, $button-action-bg, darken($button-action-bg, 15%));
+}
+
+/* Warning button */
+%button-warning {
+  @include create-gradient-button($button-warning-color, $button-warning-bg, darken($button-warning-bg, 15%));
+}
+
+/* Danger button */
+%button-danger {
+  @include create-gradient-button($button-danger-color, $button-danger-bg, darken($button-danger-bg, 15%));
+}
+
+
+/* Don't use native buttons on iOS */
+input[type=submit].button,
+button.button {
+  -webkit-appearance: none;
+}
+
+
+/* Correct FF button padding */
+@-moz-document url-prefix() {
+  button::-moz-focus-inner,
+  input[type="reset"]::-moz-focus-inner,
+  input[type="button"]::-moz-focus-inner,
+  input[type="submit"]::-moz-focus-inner,
+  input[type="file"] > input[type="button"]::-moz-focus-inner {
+    border: none;
+    padding: 0;
+  }
+}

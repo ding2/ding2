@@ -1,0 +1,104 @@
+<?php
+/**
+ * @file
+ * Install new cache table to store user credentials.
+ */
+
+/**
+ * Implements hook_install().
+ *
+ * Ensure that entity cache table is create for profile2 (ding users).
+ */
+function ding_user_install() {
+  ding_user_create_entity_cache_table();
+}
+
+/**
+ * Creates the entity cache table for profile2 entities.
+ *
+ * There is an issue in entity cache where the cache table is not always
+ * created for entity types that are not nodes. This fixes that issue for
+ * profile2 profiles (library users).
+ */
+function ding_user_create_entity_cache_table() {
+  // Create cache table if it doesn't exist.
+  if (!db_table_exists('cache_entity_profile2')) {
+    $schema = drupal_get_schema_unprocessed('system', 'cache');
+    $schema['description'] = 'Cache table used to store profile2 entity records.';
+    db_create_table('cache_entity_profile2', $schema);
+  }
+}
+
+/**
+ * Create table for credential caching.
+ */
+function ding_user_update_7000(&$sandbox) {
+  drupal_install_schema('ding_user');
+}
+
+/**
+ * Use DingUserCredentialsCache instead of default DrupalDatabaseCache.
+ */
+function ding_user_update_7001(&$sandbox) {
+  variable_set('cache_class_cache_ding_user_credentials', 'DingUserCredentialsCache');
+}
+
+/**
+ * Set weight of ding_user to -1 to ensure it is called first.
+ */
+function ding_user_update_7002(&$sandbox) {
+  $ret = db_update('system')
+    ->fields(array('weight' => -1))
+    ->condition('name', 'ding_user', '=')
+    ->execute();
+  return $ret;
+}
+
+/**
+ * Remove un-used cache class variable.
+ */
+function ding_user_update_7003(&$sandbox) {
+  variable_del('cache_class_cache_ding_user_credentials');
+}
+
+/**
+ * Remove un-safe credential cache table.
+ */
+function ding_user_update_7004(&$sandbox) {
+  db_drop_table('cache_ding_user_credentials');
+}
+
+/**
+ * Create possibly missing Entity Cache table for profile2 entities.
+ */
+function ding_user_update_7005(&$sandbox) {
+  ding_user_create_entity_cache_table();
+}
+
+/**
+ * Add the provider role to all provider users.
+ */
+function ding_user_update_7006(&$sandbox) {
+  // Load user uid's.
+  $uids = db_select('users', 'u')
+    ->fields('u', array('uid'))
+    ->condition('init', '%@ding_user', 'LIKE')
+    ->execute();
+
+  // Find provider role id.
+  $roles = user_roles(TRUE);
+  $rid = array_search('provider', $roles);
+
+  // Loop over the accounts and set new roles.
+  foreach ($uids as $uid) {
+    $uid = $uid->uid;
+    $account = user_load($uid);
+    if (ding_user_is_provider_user($account)) {
+      $edit['roles'] = array(
+        DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+        $rid => 'provider',
+      );
+      user_save($account, $edit);
+    }
+  }
+}

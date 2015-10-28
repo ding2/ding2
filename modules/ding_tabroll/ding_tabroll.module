@@ -1,0 +1,99 @@
+<?php
+/**
+ * @file
+ * Code for the tab-roll feature.
+ */
+
+include_once 'ding_tabroll.features.inc';
+
+/**
+ * Implements hook_theme().
+ *
+ * @see http://api.drupal.org/api/views/help!api-default-views.html/7
+ */
+function ding_tabroll_theme($existing, $type, $theme, $path) {
+  return array(
+    'views_view_unformatted__ding_tabroll' => array(
+      'arguments' => array(
+        'view' => NULL,
+        'options' => NULL,
+        'rows' => NULL,
+        'title' => NULL,
+      ),
+      'template' => 'templates/views-view-unformatted--ding-tabroll',
+      'original hook' => 'views_view_unformatted',
+      'path' => $path,
+      'preprocess functions' => array(
+        'template_preprocess',
+        'template_preprocess_views_view_unformatted',
+        'ding_tabroll_preprocess',
+        'ding_tabroll_preprocess_views_view_unformatted__ding_tabroll',
+      ),
+    ),
+    'views_view_fields__ding_tabroll' => array(
+      'arguments' => array('view' => NULL, 'options' => NULL, 'row' => NULL),
+      'template' => 'templates/views-view-fields--ding-tabroll',
+      'original hook' => 'views_view_fields',
+      'path' => $path,
+      'preprocess functions' => array(
+        'template_preprocess',
+        'template_preprocess_views_view_fields',
+        'ding_tabroll_preprocess_views_view_fields__ding_tabroll',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements ding_tabroll_preprocess().
+ *
+ * Adds jQuery UI tabs and default JavaScript/CSS for the front page and
+ * libraries tab-roll.
+ */
+function ding_tabroll_preprocess($variables) {
+  $path = drupal_get_path('module', 'ding_tabroll');
+
+  // Add jQuery UI tabs library.
+  drupal_add_library('system', 'ui.tabs');
+
+  // Add default CSS and JavaScript.
+  drupal_add_js($path . '/js/ding_tabroll.js');
+
+  // Add fix to get tabs rotate back.
+  // @see http://jqueryui.com/upgrade-guide/1.9/#removed-rotate-method
+  drupal_add_js($path . '/js/jquery-ui-tabs-rotate.js');
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function ding_tabroll_node_insert($node) {
+  if ($node->type == 'ding_rolltab') {
+    // Get front page queue.
+    $queue = nodequeue_load_queue_by_name('ding_tabroll_frontpage');
+
+    // Load sub-queue.
+    $sub_queue = nodequeue_load_subqueues_by_queue($queue->qid);
+    $sub_queue = reset($sub_queue);
+
+    // Add the node to the queue.
+    nodequeue_subqueue_add($queue, $sub_queue, $node->nid);
+  }
+}
+
+/**
+ * Implements hook_node_delete().
+ */
+function ding_tabroll_node_delete($node) {
+  if ($node->type == 'ding_rolltab') {
+    // Get front page queue.
+    $queue = nodequeue_load_queue_by_name('ding_tabroll_frontpage');
+
+    // Load sub-queue.
+    $sub_queue = nodequeue_load_subqueues_by_queue($queue->qid);
+    $sub_queue = reset($sub_queue);
+
+    // Remove the node to the queue.
+    nodequeue_subqueue_remove_node($sub_queue->sqid, $node->nid);
+  }
+}

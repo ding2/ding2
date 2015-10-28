@@ -1,0 +1,171 @@
+<?php
+/**
+ * @file
+ * Code for the Ding example content groups feature.
+ */
+
+include_once 'ding_example_content_groups.features.inc';
+
+/**
+ * Implements hook_enable().
+ */
+function ding_example_content_groups_enable() {
+  $items = array();
+
+  // Define terms for the groups categories.
+  $vocab = taxonomy_vocabulary_machine_name_load('group_category');
+  $items[$vocab->vid] = array(
+    'Aktuelt',
+    'Arkive',
+  );
+
+  // Set content tags.
+  $vocab = taxonomy_vocabulary_machine_name_load('ding_content_tags');
+  $items[$vocab->vid] = array(
+    'Åsne Seierstad',
+    'Bamsedag',
+    'bamser',
+    'Big Bandet',
+    'billedbøger',
+    'Biografier',
+    'Børn',
+    'Danskfaget',
+    'Digital post',
+    'Elsebeth Egholm',
+    'Englen i Groznyj',
+    'eventyr',
+    'eventyrere',
+    'Fantasy',
+    'Filmatiserede bøger',
+    'fodbold',
+    'Fremtidsroman',
+    'globetrottere',
+    'Jazz',
+    'Jussi Adler-Olsen',
+    'Klassisk musik',
+    'koncert',
+    'kunst',
+    'Kunstklubben',
+    'livsstil',
+    'madlavning',
+    'Malerier',
+    'musik',
+    'nordisk mad',
+    'Nordiske romaner',
+    'Opgaveskrivning',
+    'Parkour',
+    'pop',
+    'rejsebeskrivelser',
+    'rejser',
+    'rock',
+    'Romaner',
+    'Sara Blædel',
+    'Spil',
+    'sportsstjerner',
+    'sundhed',
+  );
+
+  // Save terms in the database.
+  foreach ($items as $vid => $terms) {
+    foreach ($terms as $term) {
+      taxonomy_term_save((object) array(
+        'name' => $term,
+        'vid' => $vid,
+        'format' => 'ding_wysiwyg',
+      ));
+    }
+  }
+}
+
+/**
+ * Implements hook_node_export_import_alter().
+ *
+ * Ensure that (themes) groups has taxonomy term.
+ */
+function ding_example_content_groups_node_export_import_alter(&$nodes, $format, $save) {
+  // Load the taxonomy.
+  $vocabulary = taxonomy_vocabulary_machine_name_load('group_category');
+  $terms = taxonomy_get_tree($vocabulary->vid);
+
+  foreach ($nodes as $node) {
+    if (in_array($node->type, array('ding_group'))) {
+      // Use a metadata wrapper to access the data.
+      $wrapper = entity_metadata_wrapper('node', $node);
+
+      // Set the new taxonomy id.
+      $wrapper->field_ding_group_category->set($terms[0]->tid);
+    }
+  }
+}
+
+/**
+ * Implements hook_node_export_after_import_alter().
+ *
+ * Ensure that OG menus are create for the groups.
+ */
+function ding_example_content_groups_node_export_after_import_alter(&$nodes, $format, $save) {
+  foreach ($nodes as $node) {
+    if (in_array($node->type, array('ding_library', 'ding_group'))) {
+      og_menu_node_prepare($node);
+      $node->og_menu = TRUE;
+      og_menu_node_insert($node);
+    }
+  }
+}
+
+
+/**
+ * Helper function to map old OG group nids to UUID.
+ *
+ * This function is hopefully temporary until node export is fixed with support
+ * to export OG. Work is going on in the issues queues at D.O. So this hack
+ * should be removed when node export supports OG version 2.x. But for now,
+ * this is the best solution that I could dream up after 01:00 :-).
+ *
+ * @param int $ref_entity_id
+ *   The old nid found in the OG ref field.
+ * @param string $entity_type
+ *   The OG type to translate for.
+ *
+ * @return int
+ *   The node id (nid) for the new OG group.
+ */
+function ding_example_content_groups_ref_translate($ref_entity_id, $entity_type) {
+  switch ((int) $ref_entity_id) {
+    case 2:
+      // Library (HB).
+      $uuid = 'c32d8d09-bb66-43e0-b346-e3526b5afe2f';
+      break;
+
+    case 33:
+      // Library (LB).
+      $uuid = 'f78aad90-8cf1-465c-97e5-e9dcd8be0c0e';
+      break;
+
+    case 11:
+      // Fantasy (groups).
+      $uuid = '1894b58c-2ee6-4fd6-a823-b576e2440f2e';
+      break;
+
+    case 7:
+      // Faglitteratur (groups).
+      $uuid = '321eda36-771d-406d-8efe-477a283475db';
+      break;
+
+    default:
+      // Select random group within the current groups entity type.
+      $result = db_select('node', 'n')
+        ->fields('n', 'uuid')
+        ->condition('type', $entity_type)
+        ->range(0, 1)
+        ->orderRandom()
+        ->execute()
+        ->fetchAssoc();
+      $uuid = $result['uuid'];
+      break;
+  }
+
+  $entities = entity_uuid_load('node', array($uuid));
+  $entity = reset($entities);
+  return $entity->nid;
+}

@@ -1,0 +1,63 @@
+<?php
+/**
+ * @file
+ * Handles installation/un-installation of node queues used by the module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ding_tabroll_install() {
+  ding_tabroll_install_frontpage_nodequeue();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_tabroll_uninstall() {
+  // Remove front page node queue.
+  $queue = nodequeue_load_queue_by_name('ding_tabroll_frontpage');
+  nodequeue_delete($queue->qid);
+}
+
+/**
+ * Helper function to create node queue used to order the tab-rolls.
+ */
+function ding_tabroll_install_frontpage_nodequeue() {
+  $nodequeue = new stdClass();
+  $nodequeue->name = 'ding_tabroll_frontpage';
+  $nodequeue->title = 'Front page tabroll';
+  $nodequeue->subqueue_title = '';
+  $nodequeue->owner = 'nodequeue';
+  $nodequeue->api_version = 2;
+  $nodequeue->link = 'Add to front page';
+  $nodequeue->link_remove = 'Remove from front page';
+  $nodequeue->show_in_ui = TRUE;
+  $nodequeue->show_in_tab = TRUE;
+  $nodequeue->show_in_links = FALSE;
+  $nodequeue->i18n = 0;
+  $nodequeue->roles = array();
+  $nodequeue->size = 5;
+  $nodequeue->reverse = 0;
+  $nodequeue->new = TRUE;
+  $nodequeue->types = array(
+    0 => 'ding_rolltab',
+  );
+  $nodequeue->subqueues = array();
+  $nodequeue->submit = 'Submit';
+  $nodequeue->reverse = 0;
+  $nodequeue->reference = 0;
+  $nodequeue->add_subqueue = array(
+    $nodequeue->title,
+  );
+
+  nodequeue_save($nodequeue);
+}
+
+/**
+ * Remove old library reference field.
+ */
+function ding_tabroll_update_7001() {
+  field_delete_field('field_ding_tabroll_library_ref');
+  field_purge_batch(1000);
+}

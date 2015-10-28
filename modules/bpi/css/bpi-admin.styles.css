@@ -1,0 +1,109 @@
+.bpi-stats-form .container-inline-date {
+  display: inline-block;
+}
+
+.bpi-admin-actions a {
+  margin-right: 10px;
+}
+
+div.form-item-bpi-search-query {
+  float: left;
+  padding-top: 0;
+  margin-right: 20px;
+}
+
+.bpi-filters {
+	clear: both;
+}
+
+#edit-bpi-search-paging-info {
+	float: left;
+}
+
+.form-item-bpi-search-amount {
+	float: right;
+}
+
+.bpi-filter-text {
+  line-height: 16px;
+}
+
+.bpi-filter-remove-cross {
+  display: inline-block;
+  height: 16px;
+}
+
+.bpi-filter-remove-cross {
+  vertical-align: middle;
+}
+
+.bpi-title {
+  width: 40%;
+}
+
+.bpi-photo {
+  text-align: center;
+}
+
+.bpi-photo.photos {
+  background: url('../images/photos.png') no-repeat center;
+}
+
+.bpi-photo.no-photos {
+  background: url('../images/no_photos.png') no-repeat center;
+}
+
+.bpi-photo.editable {
+  background: url('../images/editable.png') no-repeat center;
+}
+
+.bpi-photo.not-editable {
+  background: url('../images/not-editable.png') no-repeat center;
+}
+
+.bpi-query {
+	position: relative;
+}
+
+.bpi .loading {
+	display: none;
+	position: absolute;
+}
+
+.bpi.bpi-loading .loading {
+	display: block;
+	background: rgba(0, 0, 0, .75);
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 2000;
+}
+
+.bpi .loading .message {
+	position: absolute;
+	top: 10%;
+	width: 100%;
+	text-align: center;
+	color: white;
+}
+
+.bpi-facet {
+	display: inline-block;
+	width: 50%;
+	box-sizing: border-box;
+}
+
+.bpi-facet:nth-child(2n+1) {
+	padding-left: 1em;
+}
+
+.bpi-facet .form-item {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.bpi-facet .chosen-container,
+.bpi-facet .chosen-choices .default {
+	width: 100% !important;
+}

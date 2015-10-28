@@ -1,0 +1,11 @@
+name = Ding periodical
+description = Handles listing of issues on periodicals.
+package = Ding!
+version = "7.x-1.9.4"
+core = 7.x
+files[] = ding_periodical.module
+files[] = ding_periodical_reservable.class.inc
+dependencies[] = virtual_field
+dependencies[] = ding_provider
+dependencies[] = ding_entity
+dependencies[] = ding_reservation

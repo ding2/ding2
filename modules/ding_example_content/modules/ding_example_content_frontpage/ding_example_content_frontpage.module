@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Ding example content frontpage feature.
+ */
+
+include_once 'ding_example_content_frontpage.features.inc';

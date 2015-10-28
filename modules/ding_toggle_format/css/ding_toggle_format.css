@@ -1,0 +1,19 @@
+div.pane-ding-toggle-format-toggle div.pane-content {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+img#ding-toggle-format-image {
+  height: 15px;
+  width: 35px;
+}
+
+a.ding-toggle-format-short {
+    background: transparent url(../images/toggle_format_short.png) no-repeat right center;
+}
+
+a.ding-toggle-format-long {
+    background: transparent url(../images/toggle_format_long.png) no-repeat right center;
+}
+
+

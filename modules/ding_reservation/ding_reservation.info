@@ -1,0 +1,11 @@
+name = Ding reservation
+description = Allows users to reserve  materials.
+package = Ding!
+version = "7.x-0.18"
+core = 7.x
+files[] = includes/ding_reservation_entity.inc
+files[] = ding_reservation.test
+dependencies[] = ding_base
+dependencies[] = ding_provider
+dependencies[] = ding_user
+dependencies[] = ding_popup

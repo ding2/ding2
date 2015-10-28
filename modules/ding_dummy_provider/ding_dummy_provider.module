@@ -1,0 +1,21 @@
+<?php
+/**
+ * @file
+ * Dummy provider which removes the "not implemented" error. This is for use
+ * when site has no integration with an external provider.
+ */
+
+/**
+ * Implements hook_ding_provider().
+ */
+function ding_dummy_provider_ding_provider() {
+  return array(
+    'title' => 'Dummy: Ding provider dummy',
+    'provides' => array(
+      'user' => array(
+        'prefix' => 'user',
+        'file' => drupal_get_path('module', 'ding_dummy_provider') . '/ding_dummy_provider.user.inc',
+      ),
+    ),
+  );
+}

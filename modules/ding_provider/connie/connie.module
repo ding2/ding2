@@ -1,0 +1,179 @@
+<?php
+/**
+ * @file
+ * Helper module for the Ding provider tests.
+ *
+ */
+
+include_once('connie.features.inc');
+
+/**
+ * Allowed values callback for field.
+ */
+function connie_allowed_branches() {
+  module_load_include('inc', 'connie', 'connie.branch');
+  return connie_branch_list();
+}
+
+/**
+ * Implement hook_ding_provider().
+ */
+function connie_ding_provider() {
+  return array(
+    'title' => 'Connie: Ding provider example',
+    'provides' => array(
+      'availability' => array(
+        'prefix' => 'availability',
+      ),
+      'user' => array(
+        'prefix' => 'user',
+        'file' => drupal_get_path('module', 'connie') . '/connie.user.inc',
+      ),
+      'reservation' => array(
+        'prefix' => 'reservation',
+        'file' => drupal_get_path('module', 'connie') . '/connie.reservation.inc',
+      ),
+      'loan' => array(
+        'prefix' => 'loan',
+        'file' => drupal_get_path('module', 'connie') . '/connie.loan.inc',
+      ),
+      'branch' => array(
+        'prefix' => 'branch',
+        'file' => drupal_get_path('module', 'connie') . '/connie.branch.inc',
+      ),
+    ),
+  );
+}
+
+/*
+ * User helper functions.
+ */
+
+/**
+ * Update profile2 with values from login.
+ */
+function connie_profile_update($profile, $data) {
+  $langs = field_language('profile2', $profile);
+  $profile->connie_preferred_branch[$langs['connie_preferred_branch']][0]['value'] = $data['branch'];
+}
+
+/**
+ * Implements hook_profile2_presave().
+ *
+ * Sends changes to Connie and updates profile with real values.
+ */
+function connie_profile2_presave($profile) {
+  if (// Only work on our own profile type.
+      $profile->type == 'provider_connie' &&
+      // Don't try to sync to backend if called from profile_init, the
+      // profile has just been updated with data from the backend and
+      // is being saved locally.
+      !isset($profile->connie_init) &&
+      // Check that there's actually changed something.
+      $profile->connie_preferred_branch != $profile->original->connie_preferred_branch) {
+    $langs = field_language('profile2', $profile);
+    $changes['preferred_branch'] = $profile->connie_preferred_branch[$langs['connie_preferred_branch']][0]['value'];
+
+    /**
+     * Here would be the code to update the backend...
+     */
+
+
+    // Update the profile with whatever Connie says.
+    $creds = ding_user_get_creds($profile);
+    if ($data = FALSE /* Imagine a function that fetches data from backend.*/) {
+      connie_profile_update($profile, $data);
+    }
+  }
+}
+
+/*
+ * Availability functions.
+ */
+function connie_availability_items($provider_ids) {
+  $res = array();
+  foreach ($provider_ids as $id) {
+    $res[$id] = array(
+      'available' => (bool) (($id % 2) == 0),
+      'reservable' => (bool) (((int) ($id / 10) % 2) == 0),
+    );
+    // This is a periodical.
+    if ($id == '06078362') {
+      $res[$id]['issues'] = array(
+        '2011' => array(
+          '1' => array(
+            'available' => FALSE,
+            'reservable' => FALSE,
+          ),
+          '2' => array(
+            'available' => TRUE,
+            'reservable' => TRUE,
+          ),
+        ),
+        '2010' => array(
+          '2' => array(
+            'available' => TRUE,
+            'reservable' => FALSE,
+          ),
+          '1' => array(
+            'available' => TRUE,
+            'reservable' => FALSE,
+          ),
+        ),
+      );
+    }
+  }
+  return $res;
+}
+
+/**
+ */
+function connie_availability_holdings($provider_ids) {
+  // Holdings is a superset of items.
+  $res = connie_availability_items($provider_ids);
+  foreach ($res as $id => &$availability) {
+    if (((int) ($id / 100) % 2) == 0) {
+      $availability['holdings'] = array(
+        'Andeby bibliotek',
+        'Gåserød bibliotek',
+      );
+    }
+    else {
+      $availability['holdings'] = array();
+    }
+  }
+
+  return $res;
+}
+
+/**
+ *
+ */
+function connie_availability_periodical($provider_ids) {
+  $res = array();
+  foreach ($provider_ids as $id) {
+    $res[$id] = array(
+      '2011' => array(
+        '1' => array(
+          'available' => FALSE,
+          'reservable' => FALSE,
+        ),
+        '2' => array(
+          'available' => TRUE,
+          'reservable' => TRUE,
+        ),
+      ),
+      '2010' => array(
+        '1' => array(
+          'available' => TRUE,
+          'reservable' => FALSE,
+        ),
+        '2' => array(
+          'available' => TRUE,
+          'reservable' => FALSE,
+        ),
+      ),
+    );
+  }
+  return $res;
+}

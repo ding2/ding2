@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * @file
+ * User loan listing and renewal functionallity.
+ */
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * It simply tells panels where to find the .inc files that define various
+ * args, contexts, content_types. In this case the subdirectories of
+ * ctools_plugin_example/panels are used.
+ */
+function ding_loan_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
+ * Implements hook_ding_provider_user().
+ */
+function ding_loan_ding_provider_user() {
+  return array(
+    'loan' => array(
+      'required' => TRUE,
+      'install time setup' => TRUE,
+    ),
+  );
+}
+
+/**
+ * Callback function for sorting loans.
+ */
+function ding_loan_sort_expiry($a, $b) {
+  if ($a->expiry == $b->expiry) {
+    return 0;
+  }
+  return ($a->expiry < $b->expiry) ? -1 : 1;
+}
+
+/**
+ * Implements hook_ding_session_cache_defaults().
+ *
+ * Set default ding_session_cache settings and tell ding_session_cache that this
+ * module supports it.
+ */
+function ding_loan_ding_session_cache_defaults() {
+  return array(
+    'titel' => 'Ding loans',
+    'enabled' => TRUE,
+    'expire' => 3600,
+  );
+}

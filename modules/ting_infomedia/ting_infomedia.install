@@ -1,0 +1,65 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the ting ting_infomedia module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function ting_infomedia_uninstall() {
+
+}
+
+/**
+ * Implements hook_ding_entity_fields().
+ */
+function ting_infomedia_ding_entity_fields() {
+  return array(
+    'ting_infomedia' => array(
+      'field' => array(
+        'locked' => TRUE,
+        'storage' => array(
+          'type' => 'virtual_field',
+        ),
+      ),
+      'instance' => array(
+        'label' => t('Link to infomedia articles'),
+      ),
+    ),
+  );
+}
+
+/**
+ * Implementing hook_requirements()
+ */
+function ting_infomedia_requirements($phase) {
+  $requirements = array();
+
+  if ($phase == 'runtime') {
+    $url = variable_get('ting_infomedia_url');
+    if( !isset($url) ) {
+      $requirements['ting_infomedia_url'] = array(
+        'title' => t('Infomedia settings'),
+        'value' =>  l(t('Url to infomedia webservice must be set in admin'), 'admin/config/ting/settings'),
+        'severity' => REQUIREMENT_ERROR
+      );
+    }
+  }
+
+  return $requirements;
+}
+
+/**
+ * Convert blackhole field storage to virtual field.
+ */
+function ting_infomedia_update_7000() {
+  return db_update('field_config')
+    ->fields(array(
+      'storage_type' => 'virtual_field',
+      'storage_module' => 'virtual_field',
+    ))
+    ->condition('module', 'ting_infomedia')
+    ->execute();
+}

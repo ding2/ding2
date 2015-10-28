@@ -1,0 +1,92 @@
+/**
+ * Rules that can be configured is located in this file.
+ *
+ * @author magnify
+ */
+
+
+/* Topbar background color */
+.topbar {
+  background-color: $topbar-background-color;
+}
+
+
+/* Header background color */
+
+.header-wrapper {
+  background-color: $header-background-color;
+}
+
+
+/* Navigation background color */
+
+.navigation-wrapper {
+  background-color: $navigation-background-color;
+}
+
+
+/* Links */
+
+a {
+  font-weight: $base-font-weight-normal;
+
+  &:link {
+    color: $link-color;
+    text-decoration: none;
+  }
+
+  &:visited {
+    color: darken($link-color, 15%);
+    text-decoration: none;
+  }
+
+  &:hover {
+    color: $link-color-hover;
+    text-decoration: underline;
+
+    i[class^="icon-"] {
+      text-decoration: none;
+    }
+  }
+
+  &:focus {
+    color: $link-color-hover;
+  }
+}
+
+
+/* Layout background color */
+
+.layout-wrapper {
+  background-color: $content-background-color;
+}
+
+
+/* Article background extends */
+
+%article-background {
+  background-color: $list-background-color;
+}
+
+%article-background--odd {
+  background-color: $list-item-background-color-odd;
+}
+
+%article-background--even {
+  background-color: $list-item-background-color-even;
+}
+
+
+/* Footer background color */
+
+.footer {
+  background-color: $footer-background-color;
+}
+
+
+/* Bottom background color */
+
+.bottom {
+  background-color: darken($footer-background-color, 5%);
+}
+

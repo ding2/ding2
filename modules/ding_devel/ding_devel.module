@@ -1,0 +1,52 @@
+<?php
+
+/**
+ * Implements hook_page_alter().
+ */
+function ding_devel_page_alter(&$page) {
+  $devel_timers = module_invoke_all('ding_devel_timers');
+  global $timers;
+
+  if (!isset($page['footer'])) {
+    $page['footer'] = array();
+  }
+  $page_time = timer_read('page');
+  $page['footer']['ding_devel'] = array(
+    '#type' => 'markup',
+    '#prefix' => '<div class="ding_devel">',
+    '#suffix' => '</div>',
+  );
+
+  $page['footer']['ding_devel'][] = array(
+    '#type' => 'markup',
+    '#markup' => t('Page execution time was @time ms.', array('@time' => $page_time)),
+    '#suffix' => '<br />',
+  );
+
+  $timer_total = 0;
+  foreach ($devel_timers as $name => $info) {
+    if (isset($timers[$name])) {
+      $time = timer_read($name);
+      $string = isset($info['title']) ? $info['title'] : '"' . $name . '": @time';
+      if (!isset($info['include in total']) || $info['include in total']) {
+        $timer_total += $time;
+      }
+
+      $percent = ' ' . (round(($time / $page_time) * 100, 2)) . '%';
+      $page['footer'][] = array(
+        '#type' => 'markup',
+        '#markup' => t($string, array('@time' => $time)) . $percent,
+        '#suffix' => '<br />',
+      );
+    }
+  }
+
+  if ($timer_total) {
+    $percent = ' ' . (round(($timer_total / $page_time) * 100, 2)) . '%';
+    $page['footer'][] = array(
+      '#type' => 'markup',
+      '#markup' => t('Total non-page: @time', array('@time' => $time)) . $percent,
+      '#suffix' => '<br />',
+    );
+  }
+}

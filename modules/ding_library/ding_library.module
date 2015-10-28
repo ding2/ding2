@@ -1,0 +1,389 @@
+<?php
+/**
+ * @file
+ * Code for the Ding library feature.
+ */
+
+include_once 'ding_library.features.inc';
+
+/**
+ * Implements hook_menu_alter().
+ *
+ * Rewrite the main menus library link to redirect to a single library if only
+ * one library exists.
+ *
+ * Only called after a cache clear or menu rebuild.
+ */
+function ding_library_menu_alter(&$items) {
+  $query = db_select('node', 'n')
+    ->fields('n', array('nid'))
+    ->condition('status', 1)
+    ->condition('type', 'ding_library');
+
+  // Get the number of libraries.
+  $count = $query->countQuery()
+    ->execute()
+    ->fetchField();
+
+  // If only one library exists try redirect to that library.
+  if ($count == 1) {
+    // Find the library's slug.
+    $query->join('field_data_field_ding_library_slug', 'ls', 'n.nid = ls.entity_id');
+    $query->addField('ls', 'field_ding_library_slug_value', 'slug');
+    $data = $query->execute()->fetchAssoc();
+
+    if (isset($items['libraries'])) {
+      // If the menu item "libraries" exists use a menu callback to redirect the
+      // user. The slug have been loaded above to ensure that the SQL is only
+      // run once, namely after a cache clear.
+      $items['libraries']['page callback'] = 'ding_library_single_library_redirect';
+      $items['libraries']['page arguments'] = array($data['slug']);
+    }
+  }
+}
+
+/**
+ * Redirect to a library based on slug value.
+ *
+ * Used be the menu alter in this module to handle the case where only one
+ * library exists on the site.
+ *
+ * @param string $slug
+ *   String value that represents the library's slug.
+ */
+function ding_library_single_library_redirect($slug) {
+  // Send Moved Permanently - 301 header with the redirect.
+  drupal_goto('bibliotek/' . $slug, array(), 301);
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function ding_library_block_info() {
+  return array(
+    'library_address' => array(
+      'info' => 'Library address',
+      'cache' => DRUPAL_CACHE_GLOBAL,
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_configure().
+ */
+function ding_library_block_configure($delta = '') {
+  $form = array();
+
+  if ($delta == 'library_address') {
+    $query = db_select('node', 'n')
+      ->fields('n', array('nid', 'title'))
+      ->condition('type', 'ding_library')
+      ->orderBy('title', 'ASC');
+
+    $libraries = array(
+      '' => t('None selected'),
+    );
+    foreach ($query->execute() as $row) {
+      $libraries[$row->nid] = $row->title;
+    }
+
+    $form['library_nid'] = array(
+      '#type' => 'select',
+      '#title' => t('Library'),
+      '#default_value' => variable_get('ding_library_address_nid', NULL),
+      '#options' => $libraries,
+      '#description' => t('The library whose address to display.'),
+    );
+  }
+  return $form;
+}
+
+/**
+ * Implements hook_block_save().
+ */
+function ding_library_block_save($delta = '', $edit = array()) {
+  if ($delta == 'library_address') {
+    variable_set('ding_library_address_nid', $edit['library_nid']);
+  }
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function ding_library_block_view($delta = '') {
+  $block = array();
+  $node = NULL;
+  if ($delta == 'library_address' && (($nid = variable_get('ding_library_address_nid', '')) && ($node = node_load($nid)) || user_access('administer blocks'))) {
+    $block['subject'] = t('Address');
+    $block['content'] = array(
+      '#theme' => 'ding_library_address',
+      '#node' => $node,
+    );
+  }
+
+  return $block;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_library_theme() {
+  return array(
+    'ding_library_address' => array(
+      'render element' => 'element',
+      'template' => 'ding-library-address',
+    ),
+  );
+}
+
+/**
+ * Implements hokk_preprocess_ding_library_address().
+ *
+ * Default template implementation.
+ */
+function template_preprocess_ding_library_address(&$vars) {
+  $node = $vars['element']['#node'];
+
+  // Ensure empty strings as default.
+  $vars += array(
+    'name' => '',
+    'address' => '',
+    'city' => '',
+    'phone' => '',
+    'fax' => '',
+    'mail' => '',
+  );
+
+  if ($node) {
+    $languages = field_language('node', $node);
+    $vars['name'] = check_plain($node->title);
+    if (!empty($node->field_ding_library_address[$languages['field_ding_library_address']][0]) && ($address = $node->field_ding_library_address[$languages['field_ding_library_address']][0])) {
+      $vars['address'] = check_plain($address['thoroughfare']);
+      if ($address['premise']) {
+        $vars['address'] .= ', ' . $address['premise'];
+      }
+      $vars['city'] = implode(' ', array(check_plain($address['postal_code']), check_plain($address['locality'])));
+    }
+
+    if (!empty($node->field_phone[$languages['field_phone']][0]) &&
+      ($phone = $node->field_phone[$languages['field_phone']][0]['safe_value'])) {
+      $vars['phone'] = t('Phone: @phone_number', array('@phone_number' => $phone));
+    }
+
+    if (!empty($node->field_email[$languages['field_email']][0]) &&
+      ($mail = $node->field_email[$languages['field_email']][0])) {
+      $vars['mail'] = l($mail['email'], 'mailto:' . $mail['email']);
+    }
+  }
+  else {
+    $vars['name'] = t('Please select a library to display address information for at the <a href="!link">block configuration page</a>.', array('!link' => url('admin/structure/block/manage/ding_library/library_address/configure')));
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ding_library_ctools_plugin_directory($owner, $plugin_type) {
+  return 'plugins/' . $plugin_type;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ding_library_form_ding_library_node_form_alter(&$form, &$form_state) {
+  if (isset($form['field_ding_library_slug'][$form['#node']->language])) {
+    $form['field_ding_library_slug'][$form['#node']->language][0]['#element_validate'][] = 'ding_library_slug_validate';
+  }
+  elseif (isset($form['field_ding_library_slug']['und'])) {
+    $form['field_ding_library_slug']['und'][0]['#element_validate'][] = 'ding_library_slug_validate';
+  }
+}
+
+/**
+ * Custom validate handler for the slug field.
+ *
+ * Don't allow charecters that are not URL friendly, such as # , etc.
+ */
+function ding_library_slug_validate(&$form, &$form_state) {
+  // Try to get the slug value.
+  if (isset($form_state['values']['field_ding_library_slug'][$form_state['node']->language])) {
+    $slug = $form_state['values']['field_ding_library_slug'][$form_state['node']->language][0]['value'];
+  }
+  elseif (isset($form_state['values']['field_ding_library_slug']['und'])) {
+    $slug = $form_state['values']['field_ding_library_slug']['und'][0]['value'];
+  }
+
+  // If we found the slug do the actual validation.
+  if (!empty($slug)) {
+    if (!(preg_match('/^[a-z0-9_\-]+$/', $slug))) {
+      // @TODO use url filter function for this.
+      form_set_error(implode('][', $form['#parents']), t('Illeagal charecters detected, only small letters (a-z), numbers (0-9), dashes (-) and underscores (_) allowed'));
+    }
+  }
+}
+
+/**
+ * Implements hook_og_context_negotiation_info().
+ *
+ * Enabled ding library to find group context panel pages where the group node
+ * is loaded as argument. E.g. bibliotek/%slug/nyheder.
+ */
+function ding_library_og_context_negotiation_info() {
+  $providers = array();
+
+  $providers['ding-library-panels'] = array(
+    'name' => t('Ding library'),
+    'description' => t("Determine context in panels node."),
+    'callback' => 'ding_library_og_context_handler',
+  );
+
+  return $providers;
+}
+
+/**
+ * Callback for OG context negotiation that tries to find ding group node.
+ *
+ * This is based on the current menu item (path) and that it is a panel.
+ *
+ * @return array
+ *   Node ids.
+ */
+function ding_library_og_context_handler() {
+  $nids = array();
+
+  $item = menu_get_item();
+  if (isset($item['page_arguments'][1]->data->type) && $item['page_arguments'][1]->data->type == 'ding_library') {
+    $nids[] = $item['page_arguments'][1]->data->nid;
+  }
+
+  return array(
+    'node' => $nids,
+  );
+}
+
+/**
+ * Implements hook_post_features_revert().
+ */
+function ding_library_post_features_revert() {
+  ding_library_install_menu_position('revert');
+}
+
+/**
+ * Implements hook_post_features_disable_feature().
+ */
+function ding_library_post_features_disable_feature() {
+  ding_library_install_menu_position('delete');
+}
+
+/**
+ * Implements hook_post_features_enable_feature().
+ */
+function ding_library_post_features_enable_feature() {
+  ding_library_install_menu_position('install');
+}
+
+/**
+ * Helper function to install menu position rule.
+ */
+function ding_library_install_menu_position($op = 'install') {
+  module_load_include('inc', 'menu_position', 'menu_position.admin');
+
+  // Check if rule exists.
+  $exists = db_select('menu_position_rules', 'mpr')
+    ->fields('mpr', array('rid'))
+    ->condition('admin_title', 'Libraries')
+    ->execute()
+    ->fetchField();
+
+  if ($exists && $op == 'revert') {
+    // The rule exists, so we delete it.
+    menu_position_delete_rule($exists);
+
+    // Activate installation of the rule.
+    $exists = FALSE;
+  }
+
+  if (!$exists && ($op == 'install' || $op == 'revert')) {
+    // Define conditions.
+    $conditions = array(
+      'content_type' => array(
+        'content_type' => array(
+          'ding_group' => 'ding_library',
+        ),
+      ),
+    );
+
+    // Find the parent element.
+    $plid = db_select('menu_links', 'ml')
+      ->fields('ml', array('mlid'))
+      ->condition('link_path', 'libraries', '=')
+      ->execute()->fetchField();
+
+    // Add the rule.
+    if ($plid) {
+      menu_position_add_rule(array(
+        'admin_title' => 'Libraries',
+        'conditions'  => $conditions,
+        'menu_name'   => 'main-menu',
+        'plid'        => $plid,
+      ));
+    }
+    else {
+      watchdog('ding_library', 'Unable to create menu position rule for ding library', array(), WATCHDOG_WARNING);
+    }
+  }
+
+  if ($exists && $op == 'delete') {
+    // The rule exists, so we delete it.
+    menu_position_delete_rule($exists);
+  }
+}
+
+/**
+ * Implements hook_node_insert().
+ */
+function ding_library_node_insert($node) {
+  if ($node->type == 'ding_library') {
+    // Get front page queue.
+    $queue = nodequeue_load_queue_by_name('ding_library_listing');
+
+    // Load sub-queue.
+    $sub_queue = nodequeue_load_subqueues_by_queue($queue->qid);
+    $sub_queue = reset($sub_queue);
+
+    // Add the node to the queue.
+    nodequeue_subqueue_add($queue, $sub_queue, $node->nid);
+  }
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function ding_library_node_update($node) {
+  if ($node->type == 'ding_library') {
+    // Update OG_menu title if group title is changed.
+    if ($node->title != $node->original->title) {
+      $menu = menu_load('menu-og-' . $node->nid);
+      $menu['title'] = $node->title;
+      $menu['description'] = 'OG Menu for ' . $node->title;
+      menu_save($menu);
+    }
+  }
+}
+
+/**
+ * Implements hook_node_delete().
+ */
+function ding_library_node_delete($node) {
+  if ($node->type == 'ding_library') {
+    // Get front page queue.
+    $queue = nodequeue_load_queue_by_name('ding_library_listing');
+
+    // Load sub-queue.
+    $sub_queue = nodequeue_load_subqueues_by_queue($queue->qid);
+    $sub_queue = reset($sub_queue);
+
+    // Remove the node to the queue.
+    nodequeue_subqueue_remove_node($sub_queue->sqid, $node->nid);
+  }
+}

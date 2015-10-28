@@ -1,0 +1,9 @@
+name = Ding WAYF
+description = Implementation of login with WAYF (nemlog-in).
+core = 7.x
+package = Ding!
+files[] = lib/DingWayfAuth.class.inc
+files[] = ding_wayf.module
+dependencies[] = ding_provider
+dependencies[] = ding_user
+dependencies[] = ding_base

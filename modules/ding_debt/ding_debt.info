@@ -1,0 +1,12 @@
+name = Ding debt
+description = Allows users to reserve  materials.
+package = Ding!
+core = 7.x
+version = "7.x-0.18"
+files[] = ding_debt.module
+files[] = ding_debt.test
+dependencies[] = ding_base
+dependencies[] = ding_provider
+dependencies[] = ding_user
+dependencies[] = ding_popup
+

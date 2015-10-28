@@ -1,0 +1,304 @@
+/**
+ * Libraries
+ *
+ * @author magnify, zorp
+ */
+
+
+
+/* Library list
+   ========================================================================== */
+
+.pane-ding-library-map {
+  margin-bottom: $large-spacing;
+}
+
+.form-item-select-library {
+  .form-select {
+    min-width: auto;
+  }
+}
+
+.library-list {
+  padding: 0;
+
+  .views-row {
+    @extend %material-list-item;
+
+    padding-left: $medium-spacing;
+    padding-right: $medium-spacing;
+  }
+
+  /* Opening hours toggle */
+  .opening-hours-toggle {
+    @include zen-grid-item(4, 1, right);
+
+    padding-bottom: $medium-spacing;
+    text-align: right;
+  }
+
+  /* Media queries */
+  @include small-medium() {
+    .opening-hours-toggle {
+      @include zen-grid-item(9, 4);
+      @include zen-clear();
+
+      padding-bottom: 0;
+      text-align: left;
+      width: auto;
+    }
+  }
+}
+
+.libraries-opening-hours {
+  @include zen-grid-item(4, 1, right);
+  @include zen-clear(right);
+
+  display: none;
+
+  /* Media queries */
+  @include small-medium() {
+    @include zen-grid-item(12, 1);
+    @include zen-clear(both);
+
+    margin-top: 20px;
+  }
+}
+
+.libraries {
+  @include zen-grid-item(8, 1);
+  @extend .icon-camera;
+
+  position: relative;
+  padding: 0;
+
+  // Icon placement and font-face.
+  &:before {
+    color: $gray-dark;
+    font-family: $base-icon-library-font;
+    font-size: 74px;
+    left: 0;
+    position: absolute;
+    text-align: center;
+    top: 1em;
+    width: 25%;
+    z-index: 25;
+  }
+
+  .ding-library-left {
+    @include zen-grid-item(3, 1);
+
+    padding: 0;
+  }
+
+  .ding-library-right {
+    @include zen-grid-item(9, 4);
+  }
+
+  .library-title {
+    font-size: $font-size-medium;
+  }
+
+  .field,
+  .library-title {
+
+    margin-bottom: $small-spacing;
+
+    &.field-name-field-ding-library-list-image {
+      @include box-sizing(border-box);
+
+      // Make sure the actual image i above the icon inserted on before element on .libraries.
+      position: relative;
+      z-index: 26;
+    }
+  }
+
+  .field-label-inline {
+    .field-label {
+      @include zen-grid-item(3, 1);
+
+      padding-left: 0;
+    }
+
+    .field-items {
+      @include zen-grid-item(9, 4);
+    }
+  }
+
+  .field-name-field-ding-library-addresse {
+
+    margin-bottom: $medium-spacing;
+
+    div {
+      display: inline;
+
+      .street-block,
+      .addressfield-container-inline {
+        &:after {
+          content: ',';
+          padding-right: 0.2em;
+        }
+      }
+    }
+  }
+
+  @include small-medium() {
+    @include zen-grid-item(12, 1);
+
+    padding: 0;
+
+    // Icon placement and font-face.
+    &:before {
+      font-size: 30px;
+      top: 0.8em;
+    }
+
+    .field-name-field-ding-library-phone-number,
+    .field-name-field-ding-library-fax-number,
+    .field-name-field-ding-library-mail,
+    .field-name-field-ding-library-links {
+      display: none;
+    }
+  }
+
+  @include medium() {
+    // Icon placement and font-face.
+    &:before {
+      font-size: 50px;
+      top: 0.4em;
+    }
+  }
+}
+
+.library-link {
+  padding-top: $large-spacing;
+  padding-left: $large-spacing;
+}
+
+
+
+/* Library page
+   ========================================================================== */
+
+/* Using id, can't remove and add better wrapper class */
+#ding-library-front {
+  .ding-library-image {
+    margin-bottom: $large-spacing;
+  }
+
+  .ding-library-contact {
+    @include zen-grid-item(6, 1);
+
+    padding-left: 0;
+  }
+
+  .ding-library-address {
+    @include zen-grid-item(6, 1, right);
+
+    padding-right: 0;
+  }
+
+  .ding-library-contact,
+  .ding-library-address {
+    margin-bottom: $medium-spacing;
+
+    .pane-title {
+      @include font-bold();
+
+      font-size: $font-size-reset;
+      margin-bottom: $small-spacing;
+    }
+
+    @include small-medium() {
+      @include zen-clear();
+      @include zen-grid-item(12, 1);
+
+      padding: 20px;
+
+      background-color: $gray-light;
+    }
+  }
+
+  .library-address-postal-code {
+    margin-right: $small-spacing;
+  }
+
+  .opening-hours-toggle {
+    @include zen-grid-item(6, 7);
+    @include zen-clear(both);
+
+    margin-bottom: $large-spacing;
+    width: auto;
+
+    @include small-medium() {
+      display: none;
+    }
+  }
+
+  .ding-library-opening-hours {
+    @include zen-clear(both);
+
+    /* Toggle opening hours with javascript */
+    display: none;
+    margin-bottom: $medium-spacing;
+
+    @include small-medium() {
+      // Show opening hours in small and medium breakpoints
+      display: block;
+      padding-top: 20px;
+    }
+  }
+
+  .opening-hours-week {
+    padding-right: 0;
+    padding-left: 0;
+
+    .header {
+      @extend %article-background;
+
+      padding-top: $medium-spacing;
+      padding-right: $medium-spacing;
+      padding-left: $medium-spacing;
+    }
+
+    .day {
+      padding-right: $medium-spacing;
+      padding-left: $medium-spacing;
+    }
+  }
+
+  .ding-library-news {
+    @include zen-clear(both);
+    @include zen-grid-item(7, 1);
+    padding-left: 0;
+  }
+
+  .ding-library-events {
+    @include zen-grid-item(5, 1, right);
+    padding-right: 0;
+  }
+
+  .ding-library-news,
+  .ding-library-events {
+    border-top: 1px solid $gray-light;
+    padding-top: $large-spacing;
+
+    // News and events are normally presented in a two column layout when
+    // displaying a group. If the group only contains a single kind of content
+    // then display that content in full width.
+    // See ddbasic.common.js for detection.
+    &.js-og-single-content-type {
+      @include zen-clear(both);
+      @include zen-grid-item(12, 1);
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    @include small-medium() {
+      @include zen-clear(both);
+      @include zen-grid-item(12, 1);
+    }
+  }
+
+}
+

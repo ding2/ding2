@@ -1,0 +1,214 @@
+<?php
+
+class TingSearchTestCase extends DrupalWebTestCase {
+
+  static function getInfo() {
+    return array(
+      'name' => 'Ting search',
+      'description' => 'Check if we got any searchresults back from the well',
+      'group' => 'Ding! - Ting search',
+    );
+  }
+
+  public function setUp() {
+    $this->profile = 'minimal';
+
+    parent::setUp('ting', 'ding_entity', 'search', 'ting_search', 'nanosoap');
+    variable_set('ting_agency', '100200');
+    variable_set('ting_search_url', 'http://opensearch.addi.dk/next_2.0/');
+    variable_set('ting_recommendation_url', 'http://openadhl.addi.dk/1.1/');
+    variable_set('search_active_modules', array('ting_search' => 'ting_search'));
+    variable_set('ting_search_profile', 'opac');
+    // Default settings for teaser viewmode hides all the fields. We unset
+    // custom settings here, instead of trying to configure the viewmode.
+    variable_set('field_bundle_settings', array(
+        'ting_collection' => array(
+          'ting_collection' => array(
+            'view_modes' => array(
+              'full' => array(
+                'custom_settings' => FALSE,
+              ),
+              'teaser' => array(
+                'custom_settings' => FALSE,
+              ),
+              'search_result' => array(
+                'custom_settings' => FALSE,
+              ),
+            ),
+            'extra_fields' => array(
+              'form' => array(
+              ),
+              'display' => array(
+              ),
+            ),
+          ),
+        ),
+        'ting_object' => array(
+          'ting_object' => array(
+            'view_modes' => array(
+              'full' => array(
+                'custom_settings' => FALSE,
+              ),
+              'teaser' => array(
+                'custom_settings' => FALSE,
+              ),
+              'search_result' => array(
+                'custom_settings' => FALSE,
+              ),
+            ),
+            'extra_fields' => array(
+              'form' => array(
+              ),
+              'display' => array(
+              ),
+            ),
+          ),
+        ),
+      ));
+
+    variable_set('search_default_module', 'ting_search');
+
+    // enable search_block_form in the bartik theme (which the test will run
+    // against).
+    db_update('block')
+      ->fields(array('status' => 1, 'region' => 'content'))
+      ->condition('module', 'search')
+      ->condition('delta', 'form')
+      ->condition('theme', 'bartik')
+      ->execute();
+
+    menu_rebuild();
+
+    $this->web_user = $this->drupalCreateUser(array('administer search', 'administer blocks', 'search content'));
+    $this->drupalLogin($this->web_user);
+  }
+
+  public function testTingSearch() {
+    // Check if search module is installed
+    $exists = module_exists('search');
+    $this->assertTrue($exists, 'Search is enabled');
+
+    // Check if ding_facetbrowser module is installed
+    $exists = module_exists('ting_search');
+    $this->assertTrue($exists, 'Ting Search is enabled');
+
+    $this->drupalGet('search/ting/jussi adler olsen journal 64');
+
+    $this->assertFieldByXPath("//li[@class='search-result']/h3[@class='title']/a", 'Journal 64', 'We have a search result title = "Journal 64".');
+    $this->assertFieldByXPath("//li[@class='search-result']//div[contains(@class, 'field-type-ting-author')]//a[@class='author']", "Jussi Adler-Olsen", 'We have a By-line = "Jussi Adler-Olsen".');
+    $this->assertFieldByXPath("//li[@class='search-result']//div[contains(@class, 'field-type-ting-abstract')]//div[contains(@class, 'field-item')]", 'Krimi. Carl Mørck, leder af politiets afdeling Q, får hænderne fulde, da han efterforsker en sag om fem menneskers forsvinden i 1987. Sagen fører tilbage til kvindeanstalten på Sprogø, der virkede fra 1923-1961, og datidens racehygiejne og pludselig bliver Carl Mørck og hans kolleger udsat for mordforsøg, da sagen antager politiske dimensioner', 'We have a teaser text = "Krimi. Carl Mørck, leder af politiets afdeling Q, får hænderne fulde"');
+  }
+
+  public function testTingExtended() {
+    $this->drupalGet('search/ting/water AND (dc.title=chemistry)');
+
+    $this->assertFieldByName("search_block_form", 'water', "Search field contains 'water'.");
+    // advanced search is disabled in ting_search.module - so assert below is
+    // also disabled.
+    //$this->assertFieldById("edit-title", 'chemistry', "Title field contains 'chemestry'.");
+
+    $this->drupalGet('search/node/water AND (dc.title=chemistry)');
+
+    $this->assertFieldByName("search_block_form", 'water chemistry', "Search field contains 'water chemistry'.");
+    // advanced search is disabled in ting_search.module - so assert below is
+    // also disabled.
+    //$this->assertFieldById("edit-title", '', "The title field is empty.");
+  }
+}
+
+class TingSearchParsingTestCase extends DrupalUnitTestCase {
+  static function getInfo() {
+    return array(
+      'name' => 'Ting search parsing',
+      'description' => 'Test search query string parsing.',
+      'group' => 'Ding! - Ting search',
+    );
+  }
+
+  function testParsing() {
+    drupal_load('module', 'ting_search');
+    $testCases = array(
+      array(
+        'string' => 'water AND (dc.title=chemestry)',
+        'keys' => array('dc.title'),
+        'expected' => array(
+          'q' => 'water',
+          'dc.title' => 'chemestry',
+        ),
+      ),
+      /* array( */
+      /*   'string' => 'water and one=one aNd (dc.title=test) and two="two double" And three=' . "'three 3'", */
+      /*   'keys' => array('one', 'two', 'three'), */
+      /*   'expected' => array( */
+      /*     'q' => 'water aNd (dc.title=test)', */
+      /*     'one' => 'one', */
+      /*     'two' => '"two double"', */
+      /*     'three' => "'three 3'", */
+      /*   ), */
+      /* ), */
+      array(
+        'string' => 'harry AND (dc.creator=rowling AND dc.title="flammernes pokal")',
+        'keys' => array('dc.creator', 'dc.title'),
+        'expected' => array(
+          'q' => 'harry',
+          'dc.creator' => 'rowling',
+          'dc.title' => 'flammernes pokal',
+        ),
+      ),
+      array(
+        'string' => '(dc.creator=rowling)',
+        'keys' => array('dc.creator', 'dc.title'),
+        'expected' => array(
+          'q' => '',
+          'dc.creator' => 'rowling',
+        ),
+      ),
+      array(
+        'string' => '(dc.creator=rowling AND dc.title="flammernes pokal")',
+        'keys' => array('dc.creator', 'dc.title'),
+        'expected' => array(
+          'q' => '',
+          'dc.creator' => 'rowling',
+          'dc.title' => 'flammernes pokal',
+        ),
+      ),
+    );
+    foreach ($testCases as $test) {
+      drupal_static_reset('ting_search_extract_indexes');
+      $res = ting_search_extract_keys($test['string'], $test['keys']);
+      $this->assertEqual($res, $test['expected'], 'Could parse: ' . $test['string']);
+      if ($res != $test['expected']) {
+        debug($res);
+      }
+    }
+  }
+
+  function testQuoting() {
+    drupal_load('module', 'ting_search');
+    require_once "strings_for_cql_test.php";
+
+    $testCases = ting_search_test_valid_cql();
+
+    foreach ($testCases as $search => $expected) {
+      $res = _ting_search_quote($search);
+      $string = preg_replace( "/\r|\n/", "", $search );
+      $result = preg_replace( "/\r|\n/", "", $expected );
+      $this->assertEqual($string,$result , 'Properly quoted: ' . $search);
+      if ($string != $result) {
+        debug($res);
+      }
+    }
+
+    $testCases = ting_search_test_invalid_cql();
+
+    foreach ($testCases as $search => $expected) {
+      $res = _ting_search_quote($search);
+      $this->assertEqual($res,$expected , 'Properly quoted: ' . $search);
+      if ($res != $expected) {
+        debug($res);
+        debug($search);
+      }
+    }
+
+  }
+}

@@ -1,0 +1,934 @@
+<?php
+/**
+ * @file
+ * Ding user handling module.
+ */
+
+include_once 'ding_user_comments.inc';
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function ding_user_preprocess_html(&$variables) {
+  $args = arg();
+  if ($args[0] == 'user') {
+    // Set default title.
+    drupal_set_title('Account');
+
+    // Check if current user is logged in.
+    if (user_is_logged_in()) {
+      // Cache control for user pages.
+      drupal_add_http_header('Cache-Control', 'no-store, must-revalidate');
+      drupal_add_http_header('Pragma', 'no-cache');
+    }
+    elseif (count($args) == 1 || isset($args[1]) && in_array($args[1], array('login', 'password'))) {
+      // Redirect anonymous user to front page login. This is to prevent the
+      // library user from seeing /user, login and password page.
+      // Unless in maintenance_mode: There's no front page login when in maintenance_mode, and a redirect prevent login.
+      if (!variable_get('maintenance_mode', 0)) {
+        drupal_goto('', array('fragment' => 'login'));
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * It simply tells panels where to find the .inc files that define various
+ * args, contexts, content_types. In this case the subdirectories of
+ * ctools_plugin_example/panels are used.
+ */
+function ding_user_ctools_plugin_directory($owner, $plugin_type) {
+  return 'plugins/' . $plugin_type;
+}
+
+/**
+ * Implements hook_ctools_plugin_api().
+ *
+ * If you do this, CTools will pick up default panels pages in
+ * ding_user.pages_default.inc
+ */
+function ding_user_ctools_plugin_api($module, $api) {
+  if ($module == 'page_manager' && $api == 'pages_default') {
+    return array('version' => 1);
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_user_menu() {
+  $items = array();
+
+  $items['user/%user/authenticate'] = array(
+    'title' => 'Authenticate',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_user_authenticate_form'),
+    'access callback' => 'ding_user_access',
+    'access arguments' => array(1),
+    'file' => 'ding_user.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function ding_user_menu_alter(&$items) {
+  // Hook in authentication handling to the regular user edit page.
+  // But don't if page_manager overrides it.
+  if (!module_exists('page_manager') || variable_get('page_manager_user_edit_disabled', TRUE)) {
+    if (isset($items['user/%user/edit']) && $items['user/%user/edit']['page callback'] == 'drupal_get_form') {
+      // @TODO: Are there any sites not running panels and will this work with
+      // profile2 ?
+      $items['user/%user/edit']['page callback'] = 'ding_provider_get_form';
+    }
+  }
+
+  $items['user/%user/view']['title'] = t('User profile');
+  $items['user/%user/edit']['title'] = t('Edit user profile');
+  $items['user/%pm_arg/status']['title'] = t('User status');
+}
+
+
+/**
+ * Implements hook_page_manager_contexts_alter().
+ *
+ * This is actually a Panels everywhere hook. In future it may be renamed:
+ * hook_panels_everywhere_contexts_alter()
+ *
+ * Panels everywhere puts a extra form tag around the whole page on some pages.
+ * This is wrong because there already is a form tag which creates an illegal
+ * html markup with nested form tag.
+ *
+ * This happens because Panels Everywhere reuses code from panels. Because there
+ * exist a form in contexts the function function panels_render_display() puts
+ * an extra form around the code.
+ *
+ * The code un-sets the form_id in panels everywhere module order to suppress
+ * the superfluous form tag.
+ *
+ * @See function panels_render_display()
+ */
+function ding_user_page_manager_contexts_alter(&$contexts, $placeholders) {
+  foreach ($contexts as $id => $context) {
+    if (!empty($context->form_id)) {
+      unset($context->form_id);
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ *
+ * Add new view mode used mainly to display the reservation lists in the users
+ * profile (not profile2).
+ */
+function ding_user_entity_info_alter(&$entity_info) {
+  $ding_entity_info = ding_entity_info('ding_entity');
+  // Entity might not be defined yet (is the case in the installer).
+  if (isset($entity_info[$ding_entity_info['entity_type']]['view modes'])) {
+    // Add a user_list display mode for add-on modules to use.
+    $entity_info[$ding_entity_info['entity_type']]['view modes'] += array(
+      'user_list' => array(
+        'label' => t('User lists'),
+        'custom settings' => TRUE,
+      ),
+    );
+  }
+}
+
+/**
+ * Access callback.
+ *
+ * Allows access if the account is the same as the logged in user.
+ */
+function ding_user_access($account) {
+  return ($GLOBALS['user']->uid == $account->uid) && user_is_logged_in();
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Modify user login form to use our backend and changes the form fields types
+ * to password.
+ */
+function ding_user_form_alter(&$form, $form_state, $form_id) {
+  switch ($form_id) {
+    case 'user_login':
+    case 'user_login_block':
+      // Change input type on name field to password as the user may enter CPR.
+      $form['name']['#type'] = 'password';
+
+      // Make the name and password not required to by-pass error handling in
+      // default validation function. To prevent the "request new password"
+      // message.
+      $form['name']['#required'] = FALSE;
+      $form['pass']['#required'] = FALSE;
+
+      // Add our own validation handler, after the default Drupal login
+      // validator.
+      $pos = array_search('user_login_authenticate_validate', $form['#validate']);
+      if ($pos === FALSE) {
+        // Not found, insert as next to last.
+        $pos = count($form['#validate']) - 1;
+      }
+      else {
+        // After, not before.
+        $pos += 1;
+      }
+      array_splice($form['#validate'], $pos, 0, 'ding_user_user_login_validate');
+    // Falling through on purpose (if not reservation and login via ajax will
+    // fail.).
+
+    case 'ding_user_authenticate_form':
+      if (isset($form_state['ajaxify'])) {
+        $form['actions']['submit']['#ajax'] = array(
+          'callback' => 'ding_user_authenticate_form_callback',
+          'wrapper' => drupal_html_id($form_id),
+        );
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add setting for pin code length under admin/config/people/accounts, which
+ * defaults to 4 as most libraries uses that length.
+ *
+ * Also add option to set session expire time.
+ */
+function ding_user_form_user_admin_settings_alter(&$form, &$form_state, $form_id) {
+  $form['ding_user'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Provider user settings'),
+    '#weight' => -1,
+    '#tree' => FALSE,
+  );
+
+  $form['ding_user']['ding_user_pincode_length'] = array(
+    '#type' => 'radios',
+    '#title' => t('Pin code length'),
+    '#options' => array(
+      4 => t('Max @number chars', array('@number' => 4)),
+      5 => t('Max @number chars', array('@number' => 5)),
+      6 => t('Max @number chars', array('@number' => 6)),
+    ),
+    '#default_value' => ding_user_get_pincode_length(),
+  );
+
+  // Blocked user information page.
+  $form['ding_user']['ding_user_blocked_user_node'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Link to blocked page'),
+    '#default_value' => variable_get('ding_user_blocked_user_node', 'node/1'),
+    '#description' => t("Link to the node containing explanation about the library's blocked user policies."),
+  );
+
+  // Fee for SMS.
+  $form['ding_user']['ding_user_fee_sms'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Fee for SMS'),
+    '#default_value' => variable_get('ding_user_fee_sms', t('Notice that there is a fee for receiving a SMS')),
+    '#description' => t('Description to show user if a fee for SMS is defined.'),
+  );
+}
+
+/**
+ * Helper function to get the pin-code length from the administration UI.
+ *
+ * @return int
+ *   The length of the pin-code, if not set it will return 4.
+ */
+function ding_user_get_pincode_length() {
+  return variable_get('ding_user_pincode_length', 4);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add pin-code fields to the provider profile(s), so the users can change their
+ * library pin-code.
+ */
+function ding_user_form_profile2_form_alter(&$form, &$form_state) {
+  global $user;
+  if (ding_user_is_provider_user($user)) {
+    // Check that it's the provider profile we are looking at.
+    $profile_type = ding_user_get_provider_profile_type();
+    if ($form_state['profile2']->type == $profile_type->type) {
+      // Add pin-code change field.
+      $maxlength = ding_user_get_pincode_length();
+      $form['pass'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Change pincode'),
+      );
+      $form['pass']['pincode'] = array(
+        '#type' => 'password_confirm',
+        '#size' => $maxlength,
+        '#maxlength' => $maxlength,
+        '#process' => array(
+          'form_process_password_confirm',
+          // Not adding user_form_process_password_confirm here, as it only adds
+          // the strength checker, which we don't want.
+          'ding_user_form_process_password_confirm',
+        ),
+        '#description' => t('To change the current pincode, enter the new pincode in both fields.'),
+      );
+
+      // Add submit handler to change the pin-code as it's not part of the
+      // profile fields.
+      $form['#submit'][] = 'ding_user_profile_update_submit';
+    }
+  }
+
+  $fee_sms = variable_get('ding_user_fee_sms', t('Notice that there is a fee for receiving a SMS'));
+  $form['ding_user_fee_sms'] = array(
+    '#type' => 'item',
+    '#markup' => $fee_sms,
+    '#weight' => 0,
+  );
+}
+
+/**
+ * Password confirm element process.
+ *
+ * Add in handling of #maxlength and change the titles of the fields.
+ */
+function ding_user_form_process_password_confirm($element) {
+  if (!empty($element['#maxlength'])) {
+    $element['pass1']['#maxlength'] = $element['pass2']['#maxlength'] = $element['#maxlength'];
+    // Unset #maxlength, or _form_validate will attempt to check the length of
+    // this element, whose value will be an array.
+    unset($element['#maxlength']);
+  }
+  unset($element['#maxlength']);
+
+  // Fix-up titles.
+  $element['pass1']['#title'] = t('Pincode');
+  $element['pass2']['#title'] = t('Confirm pincode');
+
+  return $element;
+}
+
+/**
+ * Updates the users pin-code as part of the profile update.
+ *
+ * It's done in this submit function as the pin-code is not part of provider
+ * profile and this ensures that it never in any way get stored in the DB.
+ *
+ * Furthermore the pin-code fields are injected into the profile form in the
+ * form alter above as there is not password field available, that would not
+ * store it in the database.
+ */
+function ding_user_profile_update_submit(&$form, &$form_state) {
+  $pincode = isset($form_state['values']['pincode']) ? $form_state['values']['pincode'] : '';
+  // If pin-code is not empty, it's changed.
+  if (!empty($pincode)) {
+    global $user;
+    try {
+      $update_res = ding_provider_invoke('user', 'update_pincode', $user, $pincode);
+      if (!empty($update_res['creds'])) {
+        // Updated drupal credentials.
+        ding_user_save_creds($update_res);
+      }
+    }
+    catch (Exception $exception) {
+      // If update_account fails, we're in trouble, as we're too far in to
+      // set form errors. So we'll just tell the user that it couldn't be, and
+      // not save the fields.
+      drupal_set_message(t("There was a problem communicating with library system. Please contact the site administrator."), 'error');
+      watchdog_exception('ding_user', $exception);
+      drupal_set_message(t("New pincode not saved."), 'error');
+    }
+  }
+}
+
+/**
+ * Get the provider profile for the given user.
+ *
+ * @param object $account
+ *   Drupal user account object.
+ *
+ * @return entity
+ *   The profile entity provided by the current provider.
+ */
+function ding_user_provider_profile($account) {
+  $profile_type = ding_user_get_provider_profile_type();
+  return profile2_load_by_user($account, $profile_type->type);
+}
+
+/**
+ * Get current provider profile type entity.
+ *
+ * @todo: Implement hook in the providers that returns the name.
+ *
+ * @return entity
+ *   The profile type entity or FALSE if not found.
+ */
+function ding_user_get_provider_profile_type() {
+  // Get current provider.
+  $provider = _ding_provider_get_provider('user');
+
+  // Load provider profile type.
+  $profile_type = profile2_type_load('provider_' . $provider['module']);
+
+  // Return the profile type entity.
+  return $profile_type;
+}
+
+/**
+ * Implements hook_username_alter().
+ *
+ * @TODO: This do not work with the display name moved into the profile2
+ *        provider profile. Maybe change it to use real name module ?
+ *        Look at ding_user_update_user().
+ *
+ * @TODO: This is called 6-7 times on the admin edit user page ?
+ *
+ * Use display_name.
+ */
+function ding_user_username_alter(&$name, $account) {
+  if (isset($account->data)) {
+    if (is_string($account->data)) {
+      $data = unserialize($account->data);
+    }
+    else {
+      $data = $account->data;
+    }
+
+    if (!empty($data) && isset($data['display_name'])) {
+      $name = $data['display_name'];
+    }
+  }
+}
+
+/**
+ * Implements hook_ding_provider_user().
+ */
+function ding_user_ding_provider_user() {
+  return array(
+    'user' => array(
+      'required' => TRUE,
+      'install time setup' => TRUE,
+    ),
+  );
+}
+
+/**
+ * Return the url to redirect user to in order to authenticate/log in.
+ *
+ * Used by ding_provider.
+ */
+function ding_user_auth_page() {
+  global $user;
+  if (user_is_logged_in()) {
+    return 'user/' . $user->uid . '/authenticate';
+  }
+  return 'user/login';
+}
+
+/**
+ * Return a local hash for the given name.
+ *
+ * As logins may be CPR numbers, which is really sensitive information, we use
+ * a hash of the name and the Drupal private key as authname.
+ */
+function ding_user_default_authname($name) {
+  // If another password.inc is in use, that doesn't define
+  // _password_base64_encode(), we'll fail horribly. We'll probably need to
+  // define our own base64 function, but we'll cross that bridge when we reach
+  // it.
+  require_once DRUPAL_ROOT . '/' . variable_get('password_inc', 'includes/password.inc');
+
+  // A sha512 is 64 bytes, which becomes 128 hexadecimal chars, which is
+  // exactly the size of the authname field in the database. So we ask hash
+  // for binary data and lets _password_base64_encode base64 encode it to 86
+  // characters, leaving enough room for our suffix.
+  $hash = hash('sha512', drupal_get_private_key() . $name, TRUE);
+
+  // The string length of the hash have been changed in the line below and we
+  // need to update the accounts with new hash values, hence this function call.
+  _ding_user_update_old_accounts($hash);
+  return _password_base64_encode($hash, drupal_strlen($hash)) . '@ding_user';
+}
+
+/**
+ * This method updates the user authname hash.
+ *
+ * It will become deprecated after a while.
+ *
+ * @param string $hash
+ *   Hash used as provider users authname.
+ */
+function _ding_user_update_old_accounts($hash) {
+  // Create authname hash using old workflow (the difference is in strlen VS
+  // drupal_strlen).
+  $auth_name_old = _password_base64_encode($hash, strlen($hash)) . '@ding_user';
+
+  // Try to find the users uid based on the old hash value (length of the old
+  // hash should be 96).
+  $uid = db_select('authmap', 'a')
+    ->fields('a', array('uid'))
+    ->condition('authname', $auth_name_old)
+    ->execute()
+    ->fetchField();
+
+  // Proceed only in the case it exists and needs to be updated.
+  if ($uid) {
+    // Create new hash.
+    $auth_name_new = _password_base64_encode($hash, drupal_strlen($hash)) . '@ding_user';
+    $account_new = user_external_load($auth_name_new);
+
+    // Update old account (authmap and init) only when there is no new account
+    // for the same user.
+    if (!$account_new) {
+      db_update('authmap')
+        ->fields(array(
+          'authname' => $auth_name_new,
+        ))
+        ->condition('authname', $auth_name_old)
+        ->execute();
+
+      db_update('users')
+        ->fields(array(
+          'init' => $auth_name_new,
+        ))
+        ->condition('uid', $uid)
+        ->execute();
+    }
+    // @todo Should the old account be deleted when the user already has a new
+    // account?
+  }
+}
+
+/**
+ * Custom validator for the login form.
+ *
+ * Handles authentication with provider, and setting up a profile2 for the
+ * user/provider.
+ */
+function ding_user_user_login_validate($form, &$form_state) {
+  // If $form_state['uid'] is set and has a true value, Drupal already found a
+  // user, so we don't bother. Also, we require name and pass.
+  if (isset($form_state['uid']) && $form_state['uid']) {
+    // Normal Drupal user have been logged in.
+    return;
+  }
+  try {
+    // Trying to login the user using the provider.
+    $auth_res = ding_provider_invoke('user', 'authenticate', $form_state['values']['name'], $form_state['values']['pass']);
+    if (!is_array($auth_res) || !isset($auth_res['success'])) {
+      watchdog('ding_user', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
+      return;
+    }
+
+    if ($auth_res['success']) {
+      if (isset($auth_res['authname']) && !empty($auth_res['authname'])) {
+        // If provider supplied an authname, use it.
+        $auth_name = $auth_res['authname'];
+      }
+      else {
+        // Else use a standard authname.
+        $auth_name = ding_user_default_authname($form_state['values']['name']);
+      }
+
+      // Create new account in Drupal and if one exists update it.
+      $account = _ding_user_create_account($auth_name, $auth_res);
+
+      // Check that a profile exists for the user and if not create one.
+      _ding_user_create_profile2($account);
+
+      // Log user in.
+      $form_state['uid'] = $account->uid;
+      // We're not calling user_login_submit like user_external_login_register
+      // does, it's already the submit handler.
+      //
+      //  @TODO: Do we still need this ?
+      //
+      if (ding_provider_implements('user', 'authenticate_finalize')) {
+        ding_provider_invoke('user', 'authenticate_finalize', $account);
+      }
+    }
+    else {
+      // Check if any messages was returned from the provider.
+      if (isset($auth_res['messages'])) {
+        foreach ($auth_res['messages'] as $message) {
+          $type = 'warning';
+          if (is_array($message)) {
+            list($message, $type) = $message;
+          }
+          drupal_set_message(check_plain($message), $type);
+        }
+      }
+
+      // Check if name and pass where filled out. These fields are not required
+      // in the form to prevent the default form validation from displaying the
+      // reset password link, which would not make sens for provider users.
+      foreach (array('name', 'pass') as $field) {
+        if (empty($form_state['values'][$field])) {
+          form_set_error($field, t('!name field is required.', array('!name' => $form[$field]['#title'])));
+        }
+      }
+
+      // If we reach this code the login have failed and we always want to
+      // display this message.
+      form_set_error('name', t('Sorry, unrecognized username or password. Please contact your local library to request a new password. Contact information can be found on the <a href="@url">library</a> page.', array('@url' => url('biblioteker'))));
+      watchdog('user', 'Login attempt failed for %user.', array('%user' => $form_state['values']['name']));
+    }
+  }
+  catch (DingProviderException $exception) {
+    // Exception thrown, log error and carry on.
+    watchdog_exception('ding_user', $exception);
+  }
+}
+
+/**
+ * Create a provider account for drupal.
+ *
+ * The username will be a hash value of authname. This account will be coupled
+ * with the provider user via the authmap table
+ *
+ * @param string $auth_name
+ *   Name used to authenticate the user.
+ * @param array $auth_res
+ *   Authentication information from the provider.
+ *
+ * @return entity
+ *   Drupal user object.
+ */
+function _ding_user_create_account($auth_name, $auth_res) {
+  // We'd like to use user_external_login_register(), but it saves the user
+  // and invokes hook_user_login before we have a chance to mess with it. So
+  // we do what it would do.
+  $account = user_external_load($auth_name);
+  if (!$account) {
+    // Register this new user.
+    $fields = array(
+      // Name is only 60 chars, and authname is longer. Use a shorter SHA1
+      // hash.
+      'name' => hash('sha1', $auth_name),
+      'pass' => user_password(),
+      'init' => $auth_name,
+      'status' => 1,
+      'access' => REQUEST_TIME,
+      'mail' => '',
+    );
+
+    if (isset($auth_res['user'])) {
+      $fields['mail'] = $auth_res['user']['mail'];
+      $fields['data'] = array(
+        'display_name' => $auth_res['user']['data']['display_name'],
+        'blocked' => $auth_res['user']['blocked'],
+      );
+    }
+
+    // Set provider role.
+    $roles = user_roles(TRUE);
+    $rid = array_search('provider', $roles);
+    $fields['roles'] = array(
+      DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+      $rid => 'provider',
+    );
+
+    $account = user_save('', $fields);
+    // Terminate if an error occurred during user_save().
+    if (!$account) {
+      watchdog('ding_user', "User account could not be created for: %name.", array('%name' => $auth_res['user']['data']['display_name']), WATCHDOG_ERROR);
+      drupal_set_message(t("Error saving user account."), 'error');
+      return NULL;
+    }
+    user_set_authmaps($account, array("authname_ding_user" => $auth_name));
+  }
+  else {
+    // Update display name and mail address as they may have been change in the
+    // library system.
+    $edit = array();
+    $edit['mail'] = $auth_res['user']['mail'];
+    $edit['data'] = array(
+      'display_name' => $auth_res['user']['data']['display_name'],
+      'blocked' => $auth_res['user']['blocked'],
+    );
+    user_save($account, $edit);
+  }
+
+  // Save credentials for the session.
+  ding_user_save_creds($auth_res);
+
+  return $account;
+}
+
+
+/**
+ * Create a profile2 provider profile for the account, if one do not exists.
+ *
+ * @param entity $account
+ *   Drupal user account object.
+ *
+ * @return entity
+ *   The newly create profile entity or the existing one.
+ */
+function _ding_user_create_profile2($account) {
+  $profile = ding_user_provider_profile($account);
+  if (!$profile) {
+    // Load profile2 type.
+    $profile_type = ding_user_get_provider_profile_type();
+
+    // Create a profile for current user.
+    $profile = new Profile(array(
+      'user' => $account,
+      'type' => $profile_type,
+    ));
+
+    // Bind this profile to the user.
+    $profile->save();
+  }
+  return $profile;
+}
+
+/**
+ * Implements hook_forms().
+ *
+ * Enables the profile2 form panels pane to generate a form for a profile2
+ * entity. The code is largely taken from the profile2 page module, but we only
+ * need this part of the module.
+ */
+function ding_user_forms($form_id, $args) {
+  // For efficiency, only act if the third argument is 'profile2'.
+  if (isset($args[2]) && is_string($args[2]) && $args[2] == 'profile2') {
+    // Reuse profile2 page extension code.
+    include_once drupal_get_path('module', 'profile2') . '/contrib/profile2_page.inc';
+
+    $info = entity_get_info('profile2');
+    // Translate bundle form ids to the base form id 'profile2_form'.
+    $forms = array();
+    foreach ($info['bundles'] as $bundle => $bundle_info) {
+      $forms['profile2_edit_' . $bundle . '_form']['callback'] = 'profile2_form';
+      $forms['profile2_edit_' . $bundle . '_form']['wrapper callback'] = 'entity_ui_form_defaults';
+    }
+    return $forms;
+  }
+}
+
+/**
+ * Ajax command to authenticate. Used by ding_provider.
+ */
+function ajax_command_ding_user_authenticate($extra_data) {
+  global $user, $language;
+  // @todo add support for user/login here.
+  module_load_include('inc', 'ding_user', 'ding_user.pages');
+  if ($user->uid) {
+    $title = t('Authenticate');
+    $form_id = 'ding_user_authenticate_form';
+  }
+  else {
+    $title = t('Login');
+    $form_id = 'user_login';
+  }
+
+  // Change default ajax action to default login form's if https is enabled.
+  if (variable_get('https', FALSE)) {
+    $form = drupal_get_form('user_login');
+    $url = parse_url($_SERVER['HTTP_REFERER']);
+    $path_start = strpos($_SERVER['HTTP_REFERER'], '/', drupal_strlen($url['scheme']) + 3);
+    $referer = drupal_substr($_SERVER['HTTP_REFERER'], $path_start + 1);
+    // Filter out any language prefixes as it will be automatically added to the
+    // URL again.
+    if (!empty($language->language) && preg_match('/' . $language->prefix . '/', $referer) > 0) {
+      $referer = preg_replace('/' . $language->prefix . '\//', '', $referer);
+    }
+    $form['#action'] = 'https://' . $_SERVER['SERVER_NAME'] . url('user/login') . '?destination=' . $referer;
+  }
+  else {
+    $form_state = array(
+      'ajaxify' => TRUE,
+    );
+    $form = drupal_build_form($form_id, $form_state);
+  }
+
+  $login_form = drupal_render($form);
+  return ajax_command_ding_popup('ding_user', $title, $login_form, array('resubmit' => TRUE, 'extra_data' => $extra_data));
+}
+
+/**
+ * Ajax callback.
+ */
+function ding_user_authenticate_form_callback($form, &$form_state) {
+  switch ($form['form_id']['#value']) {
+    case 'ding_user_authenticate_form':
+      $success = $form_state['authentication_success'];
+      break;
+
+    case 'user_login':
+      $success = !empty($form_state['uid']);
+      break;
+
+    default:
+      $success = FALSE;
+  }
+
+  $response = array(
+    '#type' => 'ajax',
+    '#commands' => array(),
+  );
+
+  if ($success) {
+    // Close dialog if successful.
+    $response['#commands'][] = ajax_command_ding_popup_close('ding_user');
+  }
+  else {
+    // Else redisplay form and messages.
+    $html = theme('status_messages') . drupal_render($form);
+    $response['#commands'][] = ajax_command_ding_popup('ding_user', t('Authenticate'), $html);
+  }
+
+  return $response;
+}
+
+/**
+ * Retrieves the users credentials from the current session.
+ *
+ * @param stdClass $user
+ *   A user object. The the current logged in user will be used if non is given.
+ *
+ * @return array
+ *   Array with the user credentials.
+ *
+ * @throws DingProviderAuthException
+ *   Throws DingProviderAuthException if not authenticated.
+ */
+function ding_user_get_creds($user = NULL) {
+  if (is_null($user)) {
+    global $user;
+  }
+
+  if (isset($_SESSION['ding_user'])) {
+    // User has not timed out by auto logout module so return credentials.
+    return $_SESSION['ding_user']['creds'];
+  }
+
+  throw new DingProviderAuthException();
+}
+
+/**
+ * Store user credentials in the current session.
+ *
+ * @param array $auth_res
+ *   Array with authentication information used to communicate with the
+ *   provider.
+ */
+function ding_user_save_creds($auth_res) {
+  if (isset($auth_res['creds'])) {
+    $_SESSION['ding_user'] = $auth_res;
+  }
+}
+
+/**
+ * Check if the given account is a user authenticated through a provider.
+ */
+function ding_user_is_provider_user($account) {
+  $names = &drupal_static(__FUNCTION__);
+  if (!isset($names)) {
+    $names = db_select('authmap')
+      ->fields('authmap', array('authname'))
+      ->condition('module', 'ding_user')
+      ->condition('uid', $account->uid)
+      ->execute()->fetchAll();
+  }
+  return !empty($names);
+}
+
+/**
+ * Implements hook_comment_load().
+ *
+ * Use actual user name (display_name) instead of the hash values for provider
+ * users.
+ */
+function ding_user_comment_load($comments) {
+  $user_names = array();
+
+  // Get comment authors user id (uid).
+  $uids = array();
+  foreach ($comments as $comment) {
+    if ($comment->uid == 0) {
+      continue;
+    }
+    $uids[] = $comment->uid;
+  }
+  $uids = array_unique($uids);
+  // Map uid => key.
+  $uids_rev = array_flip($uids);
+
+  // Get user names from cache.
+  $cids = array_map('_ding_user_comment_cache_id', $uids);
+  $caches = cache_get_multiple($cids);
+  foreach ($caches as $cache) {
+    $data = $cache->data;
+    $user_names[$data[0]] = $data[1];
+
+    // User found in cache, so remove him/her form the lists of missing user
+    // names.
+    unset($uids[$uids_rev[$data[0]]]);
+  }
+
+  // Try to get names from the database for those not found in the cache..
+  if (!empty($uids)) {
+    $data = db_select('users', 'u')
+      ->fields('u', array('uid', 'data'))
+      ->isNotNull('u.data')
+      ->condition('u.uid', $uids)
+      ->execute()
+      ->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($data as $row) {
+      $user_data = unserialize($row['data']);
+      if (empty($user_data['display_name'])) {
+        // Display name was not found for the user.
+        $data = array($row['uid'], NULL);
+      }
+      else {
+        // Display name found.
+        $data = array($row['uid'], $user_data['display_name']);
+      }
+
+      // Store the user names in cache for faster look-ups.
+      cache_set(_ding_user_comment_cache_id($row['uid']), $data);
+      $user_names[$data[0]] = $data[1];
+    }
+  }
+
+  // Set proper user names.
+  foreach ($comments as $comment) {
+    if (empty($user_names[$comment->uid])) {
+      continue;
+    }
+    $comment->name = $user_names[$comment->uid];
+  }
+}
+
+/**
+ * Implements hook_FROM_ID_alter().
+ *
+ * Alters the site wide contact form to allow all users to send a copy to them
+ * self.
+ */
+function ding_user_form_contact_site_form_alter(&$form, $form_state, $form_id) {
+  $form['copy']['#access'] = TRUE;
+}
+
+/**
+ * Get cache id by uid.
+ *
+ * @param int $uid
+ *   Comment author uid.
+ *
+ * @return string
+ *   Cache ID.
+ */
+function _ding_user_comment_cache_id($uid) {
+  return 'ding_user_comment_user_name:' . $uid;
+}

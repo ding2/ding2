@@ -1,0 +1,16 @@
+name = Ting object reference
+description = Defines a reference field for relating content to Ting objects.
+core = 7.x
+package = Ding!
+php = 5.2.4
+project = ting_reference
+dependencies[] = ctools
+dependencies[] = ding_entity
+dependencies[] = relation
+dependencies[] = ting
+dependencies[] = virtual_field
+explanation = Field type(s) in use - see <a href="/admin/reports/fields">Field list</a>
+features[ctools][] = relation:relation_type_default:1
+features[features_api][] = api:1
+features[relation_type][] = ting_reference
+required = 1

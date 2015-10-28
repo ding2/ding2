@@ -1,0 +1,147 @@
+<?php
+/**
+ * @file
+ * Handles update tasks for the module. 
+ */
+
+/**
+ * Remove old ting reference field table from events. 
+ */
+function ding_event_update_7000() {
+  // The tables are left over after change to virtual field, hence we have to
+  // remove them the hard way without deleting the field.
+  db_drop_table('field_data_field_ding_event_materials');
+  db_drop_table('field_revision_field_ding_event_materials');
+}
+
+/**
+ * Move group information into new field.
+ */
+function ding_event_update_7001() {
+  $rows = db_select('field_data_field_ding_event_library', 'fdel')
+    ->fields('fdel')
+    ->execute();
+  foreach ($rows as $row) {
+    db_insert('field_data_og_group_ref')
+      ->fields(array(
+        'entity_type' => $row->entity_type,
+        'bundle' => $row->bundle,
+        'deleted' => $row->deleted,
+        'entity_id' => $row->entity_id,
+        'revision_id' => $row->revision_id,
+        'language' => $row->language,
+        'delta' => $row->delta,
+        'og_group_ref_target_id' => $row->field_ding_event_library_gid,
+      ))
+      ->execute();
+  }
+}
+
+/**
+ * Move group information revision into new field.
+ */
+function ding_event_update_7002() {
+  $rows = db_select('field_revision_field_ding_event_library', 'fdel')
+    ->fields('fdel')
+    ->execute();
+  foreach ($rows as $row) {
+    db_insert('field_revision_og_group_ref')
+      ->fields(array(
+        'entity_type' => $row->entity_type,
+        'bundle' => $row->bundle,
+        'deleted' => $row->deleted,
+        'entity_id' => $row->entity_id,
+        'revision_id' => $row->revision_id,
+        'language' => $row->language,
+        'delta' => $row->delta,
+        'og_group_ref_target_id' => $row->field_ding_event_library_gid,
+      ))
+      ->execute();
+  }
+}
+
+/**
+ * Remove old library reference field.
+ */
+function ding_event_update_7003() {
+  field_delete_field('field_ding_event_library');
+  field_purge_batch(1000);
+}
+
+/**
+ * Move content into the OG library groups.
+ */
+function ding_event_update_7004() {
+  $query = db_select('field_data_og_group_ref', 'group_ref');
+  $query->join('og', 'og', 'group_ref.og_group_ref_target_id = og.gid');
+  $query->fields('group_ref', array('entity_id', 'og_group_ref_target_id'))
+    ->condition('bundle', 'ding_event');
+  $query->addField('og', 'etid');
+  $rows = $query->execute();
+  foreach ($rows as $row) {
+    db_insert('og_membership')
+      ->fields(array(
+        'type' => 'og_membership_type_default',
+        'etid' => $row->entity_id,
+        'entity_type' => 'node',
+        'gid' => $row->etid,
+        'state' => 1,
+        'created' => time(),
+        'group_type' => 'node',
+        'field_name' => 'og_group_ref',
+        'language' => 'und',
+      ))
+      ->execute();
+  }
+}
+
+/**
+ * Install menu position rule.
+ */
+function ding_event_update_7005() {
+  ding_event_install_menu_position();
+}
+
+/**
+ * Remove old event path auto patterns.
+ */
+function ding_event_update_7006() {
+  variable_del('pathauto_node_ding_event_da_pattern');
+  variable_del('pathauto_node_ding_event_en_pattern');
+  variable_del('pathauto_node_ding_event_und_pattern');
+}
+
+/**
+ * Update all events to be promoted to front page.
+ */
+function ding_event_update_7007() {
+  db_update('node')
+    ->fields(array('promote' => 1))
+    ->condition('type', 'ding_event')
+    ->execute();
+}
+
+/**
+ * Update all events to be promoted to front page for revisions.
+ */
+function ding_event_update_7008() {
+  // This is need to ensure that the edit node form actually reelects that right
+  // data in to database. If we don't do this is will be promoted but the edit
+  // form may say it's not promoted.
+
+  // Find all node id of ding events that are not promoted in revisions.
+  $query = db_select('node', 'n')
+    ->fields('n', array('nid'))
+    ->condition('type', 'ding_event');
+  $query->join('node_revision', 'nr', 'n.nid = nr.nid');
+  $query->condition('nr.promote', 0);
+  $result = $query->execute();
+
+  // Update the revisions table.
+  foreach ($result as $nid) {
+    db_update('node_revision')
+      ->fields(array('promote' => 1))
+      ->condition('nid', reset($nid))
+      ->execute();
+  }
+}

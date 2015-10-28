@@ -1,0 +1,751 @@
+<?php
+/**
+ * @file
+ * Implements a common interface to backend providers.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ding_provider_menu() {
+  $items = array();
+
+  $items['ding_provider_error'] = array(
+    'title' => 'Internal error',
+    'page callback' => 'ding_provider_error_page',
+    'access callback' => TRUE,
+  );
+
+  $items['admin/config/ding/provider'] = array(
+    'title' => 'Ding provider',
+    'description' => 'Configure the provider used to communicate with the library system.',
+    'page callback' => 'ding_provider_admin_overview',
+    'access arguments' => array('administer ding provider'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'ding_provider.admin.inc',
+  );
+
+  $items['admin/config/ding/provider/overview'] = array(
+    'title' => 'Overview',
+    'description' => 'Providers overview',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'file' => 'system.admin.inc',
+  );
+
+  $providers = _ding_provider_get_provider();
+  foreach ($providers as $name => $provider) {
+    if ($provider['global settings']) {
+      $items['admin/config/ding/provider/' . $provider['module']] = array(
+        'title' => $provider['title'],
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array($provider['global settings']),
+        'access arguments' => array('administer ding provider'),
+        'type' => MENU_LOCAL_TASK,
+      );
+      if ($provider['global settings file']) {
+        $items['admin/config/ding/provider/' . $provider['module']]['file'] = $provider['global settings file'];
+      }
+    }
+  }
+
+  return $items;
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function ding_provider_menu_alter(&$items) {
+  // Override system/ajax with a version that caches
+  // DingProviderAuthException.
+  $callback = $items['system/ajax']['page callback'];
+  if ($callback == 'ajax_form_callback') {
+    $items['system/ajax']['page callback'] = 'ding_provider_ajax_form_callback';
+    $items['system/ajax']['file path'] = drupal_get_path('module', 'ding_provider');
+    $items['system/ajax']['file'] = 'ding_provider.module';
+    // Delete var, but only if it is set.
+    if (variable_get('ding_provider_ajax_disabled', NULL)) {
+      variable_del('ding_provider_ajax_disabled');
+    }
+  }
+  else {
+    // Set a variable for hook_requirements.
+    variable_set('ding_provider_ajax_disabled', $callback);
+  }
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_provider_permission() {
+  return array(
+    'administer ding provider' => array(
+      'title' => t('Administer Ding provider'),
+      'description' => t('Allow role to configure provider settings.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_ding_install_tasks().
+ */
+function ding_provider_ding_install_tasks() {
+  $users = _ding_provider_get_provider_users();
+  $providers = _ding_provider_get_provider();
+  $return = array();
+  foreach ($users as $provider => $info) {
+    // Add global provider settings if required.
+    if ($info['ding_profile'] && count($info['required']) && isset($providers[$provider]) && $form_id = $providers[$provider]['global settings']) {
+      $return[$form_id] = array(
+        // TODO: This doesn't work for potx, we need the generated strings in
+        // plain form somewhere.
+        'display_name' => st($providers[$provider]['title']),
+        'type' => 'form',
+      );
+
+      if ($providers[$provider]['global settings file']) {
+        $return[$form_id]['file'] = $providers[$provider]['global settings file'];
+      }
+    }
+
+    // Add settings for individual providers to installer if someone asked for
+    // it and there's modules that requires this provider.
+    if ($info['ding_profile'] && count($info['required']) && $form_id = ding_provider_implements($provider, 'settings')) {
+      $return[$form_id] = array(
+        // TODO: This doesn't work for potx, we need the generated stings in
+        // plain form somewhere.
+        'display_name' => st(drupal_ucfirst($provider) . ' provider'),
+        'type' => 'form',
+      );
+      if ($providers[$provider]['file']) {
+        $return[$form_id]['file'] = $providers[$provider]['file'];
+      }
+    }
+  }
+  return $return;
+}
+
+/**
+ * Error page callback.
+ */
+function ding_provider_error_page() {
+  return array(
+    '#markup' => t("Internal error. Please contact the site administrator if the problem persists."),
+  );
+}
+
+/**
+ * Returns whether a provider implements a given function.
+ */
+function ding_provider_implements($type, $hook) {
+  try {
+    return (bool) _ding_provider_function($type, $hook, TRUE);
+  }
+  catch (Exception $e) {
+    return FALSE;
+  }
+}
+
+/**
+ * Invoke a provider function.
+ *
+ * Simplest of the provider invoking functions. Returns the result of calling
+ * the provider function, or throws DingProviderAuthException if not
+ * authenticated.
+ *
+ * @see ding_provider_invoke_page()
+ * @see ding_provider_get_form()
+ * @see ding_provider_ajax_form_callback()
+ */
+function ding_provider_invoke($type, $hook) {
+  $args = func_get_args();
+  array_shift($args);
+  array_shift($args);
+
+  $function = _ding_provider_function($type, $hook);
+  if (is_callable($function)) {
+    return call_user_func_array($function, $args);
+  }
+  else {
+    watchdog('ding_provider', 'Provider invoke request to unknown fucntion (%function)', array('%function' => $function), WATCHDOG_ERROR);
+  }
+}
+
+/**
+ * Get a form from a provider.
+ */
+function ding_provider_form($type, $form_id) {
+  $args = func_get_args();
+  array_shift($args);
+  array_shift($args);
+
+  $function = _ding_provider_function($type, $form_id);
+  if ($function) {
+    return drupal_get_form($function, $args);
+  }
+}
+
+/**
+ * Invoke a provider function, handling authentication.
+ *
+ * Will redirect to the authentication page if DingProviderAuthException is
+ * thrown, and redirect back on successful authentication.
+ *
+ * @see ding_provider_invoke()
+ * @see ding_provider_get_form()
+ * @see ding_provider_ajax_form_callback()
+ */
+function ding_provider_invoke_page($type, $hook) {
+  $args = func_get_args();
+  array_shift($args);
+  array_shift($args);
+
+  try {
+    $function = _ding_provider_function($type, $hook);
+    if ($function) {
+      return call_user_func_array($function, $args);
+    }
+  }
+  catch (Exception $e) {
+    if ($e instanceof DingProviderUserException) {
+      // Rethrow user exceptions.
+      throw $e;
+    }
+    elseif ($e instanceof DingProviderAuthException) {
+      // Redirect to auth page.
+      if (module_exists('ding_user') && ($authpage = ding_user_auth_page())) {
+        // @todo redirect to auth page
+        drupal_goto($authpage, array('query' => ding_provider_get_destination()));
+      }
+    }
+    if (arg(0) != 'ding_provider_error') {
+      watchdog('ding_provider', 'Uncaught exception in ding_provider_invoke_page: @message', array('@message' => $e->getMessage()), WATCHDOG_ERROR);
+      // Redirect to error page.
+      drupal_goto('ding_provider_error');
+    }
+    else {
+      return NULL;
+    }
+  }
+}
+
+/**
+ * Wrapper around drupal_get_form() that handles authentication.
+ *
+ * Will redirect to the authentication page if DingProviderAuthException is
+ * thrown, and restart form processing on successful authentication.
+ *
+ * @see ding_provider_invoke()
+ * @see ding_provider_invoke_page()
+ * @see ding_provider_ajax_form_callback()
+ */
+function ding_provider_get_form($form_id) {
+  $form_state = array();
+
+  $args = func_get_args();
+  // Remove $form_id from the arguments.
+  array_shift($args);
+  $form_state['build_info']['args'] = $args;
+
+  return ding_provider_build_form($form_id, $form_state);
+}
+
+/**
+ * Wrapper around drupal_build_form() that handles authentication.
+ *
+ * Will redirect to the authentication page if DingProviderAuthException is
+ * thrown, and restart form processing on successful authentication.
+ *
+ * @see ding_provider_get_form()
+ */
+function ding_provider_build_form($form_id, &$form_state) {
+  $messages = NULL;
+  try {
+    if (isset($_REQUEST['dp_form_id']) && !empty($_REQUEST['dp_form_id'])) {
+      // Load saved submission.
+      if ($cached = cache_get('ding_provider_' . $form_id, 'cache_form')) {
+        $form_state['input'] = $cached->data;
+        $messages = $form_state['input']['#ding_provider_messages'];
+        unset($form_state['input']['#ding_provider_messages']);
+        cache_clear_all('ding_provider_' . $form_id, 'cache_form');
+      }
+    }
+    $old_redirect = isset($form_state['no_redirect']) ? $form_state['no_redirect'] : FALSE;
+    $form_state['no_redirect'] = TRUE;
+    $form = drupal_build_form($form_id, $form_state);
+
+    // Set any messages we saved.
+    _ding_provider_message_reset($messages);
+
+    $form_state['no_redirect'] = $old_redirect;
+    if ($form_state['executed'] == TRUE) {
+      // Redirect if the form was submitted.
+      drupal_redirect_form($form_state);
+    }
+    return $form;
+  }
+  catch (Exception $e) {
+    if ($e instanceof DingProviderUserException) {
+      // Rethrow user exceptions.
+      throw $e;
+    }
+    elseif ($e instanceof DingProviderAuthException) {
+      if (module_exists('ding_user') && ($authpage = ding_user_auth_page())) {
+        // Something needs auth, save state and redirect to authentication page.
+        $expire = 3600;
+        $input = $form_state['method'] == 'get' ? $_GET : $_POST;
+        $input['#ding_provider_messages'] = drupal_get_messages();
+        cache_set('ding_provider_' . $form_id, $input, 'cache_form', REQUEST_TIME + $expire);
+        $options = array('query' => ding_provider_get_destination(array('dp_form_id' => $form_id)));
+        drupal_goto($authpage, $options);
+      }
+    }
+    watchdog('ding_provider', 'Uncaught exception in ding_provider_build_form: @message', array('@message' => $e->getMessage()), WATCHDOG_ERROR);
+    // Redirect to error page.
+    drupal_goto('ding_provider_error');
+  }
+}
+
+/**
+ * Replacement for ajax_form_callback() that handles authentication.
+ *
+ * Sends a log in AJAX command (implemented in ding_user), which will resubmit
+ * the AJAX request on successful submission.
+ *
+ * @see ding_provider_invoke()
+ * @see ding_provider_invoke_page()
+ * @see ding_provider_get_form()
+ */
+function ding_provider_ajax_form_callback() {
+  global $user;
+  $messages = NULL;
+  try {
+    if (isset($_REQUEST['dp_form_id']) && !empty($_REQUEST['dp_form_id'])) {
+      $form_id = (string) $_REQUEST['dp_form_id'];
+      // Load saved submission.
+      if ($cached = cache_get('ding_provider_' . $form_id, 'cache_form')) {
+        $form_state['input'] = $cached->data;
+        $messages = $form_state['input']['#ding_provider_messages'];
+        $orig_user = $form_state['input']['#ding_provider_user'];
+        unset($form_state['input']['#ding_provider_messages']);
+        unset($form_state['input']['#ding_provider_user']);
+        cache_clear_all('ding_provider_' . $form_id, 'cache_form');
+      }
+    }
+
+    // If the user changed (likely because they just logged in),
+    // things get complicated as ajax_get_form wont find the cached
+    // form. So we reset the user momentarily.
+    if (isset($orig_user) && $user->uid != $orig_user->uid) {
+      $new_user = $user;
+      $user = $orig_user;
+    }
+    list($form, $form_state, $form_id) = ajax_get_form();
+    if (isset($new_user)) {
+      $user = $new_user;
+    }
+
+    drupal_process_form($form['#form_id'], $form, $form_state);
+
+    // Set any messages we saved.
+    _ding_provider_message_reset($messages);
+
+    if (!empty($form_state['triggering_element'])) {
+      $callback = $form_state['triggering_element']['#ajax']['callback'];
+    }
+    if (!empty($callback) && function_exists($callback)) {
+      $x = $callback($form, $form_state);
+      return $x;
+    }
+  }
+  catch (Exception $e) {
+    if ($e instanceof DingProviderUserException) {
+      // Rethrow user exceptions.
+      throw $e;
+    }
+    elseif ($e instanceof DingProviderAuthException || $e instanceof EntityMalformedException) {
+      if (module_exists('ding_user')) {
+        // Something needs auth, save state and redirect to authentication page.
+        $expire = 3600;
+        $input = $form_state['method'] == 'get' ? $_GET : $_POST;
+        $input['#ding_provider_messages'] = drupal_get_messages();
+        $input['#ding_provider_user'] = $user;
+        cache_set('ding_provider_' . $form_id, $input, 'cache_form', REQUEST_TIME + $expire);
+        $options = array('query' => array('dp_form_id' => $form_id) + ding_provider_get_destination());
+
+        return array(
+          '#type' => 'ajax',
+          '#commands' => array(
+            ajax_command_ding_user_authenticate(array('dp_form_id' => $form_id)),
+          ),
+        );
+      }
+    }
+    else {
+      // Send the exception into watchdog to help debug.
+      watchdog_exception('ding_provider', $e);
+    }
+  }
+
+  // Log message to watchdog to help debug the problem.
+  watchdog('ding_provider', 'Internal error exception unhandled in ajax request.', array(), WATCHDOG_ERROR);
+
+
+  // Else show internal error.
+  return array(
+    '#type' => 'ajax',
+    '#commands' => array(
+      ajax_command_alert(t("Internal error. Please contact the site administrator if the problem persists.")),
+    ),
+  );
+}
+
+/**
+ * Re-sets messages, avoiding duplicates.
+ */
+function _ding_provider_message_reset($messages) {
+  if (is_array($messages)) {
+    foreach ($messages as $type => $message_list) {
+      foreach ($message_list as $message) {
+        drupal_set_message($message, $type, FALSE);
+      }
+    }
+  }
+}
+
+/**
+ * Alternative to drupal_get_destination() which will encode an existing
+ * destination into the new.
+ */
+function ding_provider_get_destination($query_args = array()) {
+  // If destination is set, create a new one embedding the old, and
+  // unset destination, so drupal_goto wont go to the old
+  // destination.
+  $path = $_GET['q'];
+  $query = drupal_http_build_query($query_args + drupal_get_query_parameters());
+  unset($_REQUEST['destination']);
+  if ($query != '') {
+    $path .= '?' . $query;
+  }
+  $destination = array(
+    'destination' => $path,
+  );
+
+  return $destination;
+}
+
+/**
+ * Get the provider type.
+ *
+ * @param string $type
+ *   The type of module e.g reservation, availibility etc.
+ */
+function ding_provider_get_provider_module_name($type) {
+  $providers = _ding_provider_get_provider();
+  return $providers[$type]['module'];
+}
+
+/**
+ * Returns the given provider.
+ */
+function _ding_provider_get_provider($type = NULL) {
+  $providers = array();
+  foreach (module_implements('ding_provider') as $module) {
+    $module_provides = module_invoke($module, 'ding_provider') + array(
+      'title' => $module . '.module',
+      'settings' => NULL,
+      'file' => NULL,
+      'provides' => array(),
+    );
+    foreach ($module_provides['provides'] as $name => $module_provider) {
+      $module_provider['module'] = $module;
+      $module_provider['title'] = $module_provides['title'];
+      $module_provider['global settings'] = $module_provides['settings'];
+      $module_provider['global settings file'] = $module_provides['file'];
+      $providers[$name] = $module_provider;
+    }
+  }
+
+  if (!$type) {
+    return $providers;
+  }
+
+  if (isset($providers[$type])) {
+    return $providers[$type];
+  }
+  return NULL;
+}
+
+/**
+ * Returns user information on the given provider.
+ */
+function _ding_provider_get_provider_users($type = NULL) {
+  static $provider_users;
+  if (!isset($provider_users)) {
+    $provider_users = array();
+    foreach (module_implements('ding_provider_user') as $module) {
+      $module_uses = module_invoke($module, 'ding_provider_user');
+      foreach ($module_uses as $name => $options) {
+        if (!isset($provider_users[$name])) {
+          $provider_users[$name] = array(
+            'ding_profile' => FALSE,
+            'required' => array(),
+            'users' => array(),
+          );
+        }
+        if (!empty($options['install time setup'])) {
+          $provider_users[$name]['ding_profile'] = TRUE;
+        }
+        if ($options['required']) {
+          $provider_users[$name]['required'][] = $module;
+        }
+        else {
+          $provider_users[$name]['users'][] = $module;
+        }
+      }
+    }
+  }
+
+  if (!$type) {
+    return $provider_users;
+  }
+
+  if (isset($provider_users[$type])) {
+    return $provider_users[$type];
+  }
+  return NULL;
+}
+
+/**
+ * Returns the provider function for a hook, loading files if necessary. Logs
+ * an error if the provider or hook isn't implemented, unless $quiet has been
+ * specified.
+ *
+ * @param $type Provider name.
+ * @param $hook Hook name.
+ * @param $quiet Whether to suppress errors.
+ * @return
+ *  String or NULL.
+ */
+function _ding_provider_function($type, $hook, $quiet = FALSE) {
+  $provider = _ding_provider_get_provider($type);
+  if ($provider) {
+    $function = $provider['module'] . '_' . (isset($provider['prefix']) ? $provider['prefix'] . '_' : '') . $hook;
+
+    if (isset($provider['file'])) {
+      require_once DRUPAL_ROOT . '/' . $provider['file'];
+    }
+
+    if (function_exists($function)) {
+      return $function;
+    }
+    elseif (!$quiet) {
+      // Trigger an error. This might be a module attempting to use a wrong
+      // hook, or an improperly implemented plugin. In either case, it's
+      // programmer error.
+      throw new DingProviderDoesntImplement(t('Ding @type provider (@module module) does not implement @function', array('@type' => $type, '@function' => $hook, '@module' => $provider['module'])), E_USER_ERROR);
+    }
+  }
+  elseif (!$quiet) {
+    throw new DingProviderNoProvider(t("Provider module not configured for provider type @type.", array('@type' => $type)));
+  }
+  return NULL;
+}
+
+/**
+ * Wrapper function used to create an pseudo ting entity, which mainly is used
+ * when the provider returns reservation, loans or debts that do not have a ting
+ * entity in the date well, but will stile wishes to use it in lists together
+ * with real ting entities.
+ *
+ * @param string $ding_entity_id
+ *   Ding entity ID for the data well object.
+ *
+ * @return TingEntity
+ *   Ting entity object based on the entity ID given.
+ */
+function ding_provider_get_pseudo_entity($ding_entity_id) {
+  $local_id = drupal_substr($ding_entity_id, strpos($ding_entity_id, ':') + 1);
+
+  // Build entity based on available information.
+  $ting_entity = new TingEntity();
+  $ting_entity->tid = $local_id;
+  $ting_entity->localId = $local_id;
+  $ting_entity->ding_entity_id = $ding_entity_id;
+  $ting_entity->provider_id = $local_id;
+  $ting_entity->ding_entity_type = 'ding_entity';
+  $ting_entity->reply = new TingClientObject();
+  $ting_entity->reply->id = $ding_entity_id;
+  $ting_entity->reply->localId = $local_id;
+  $ting_entity->reply->relations = array();
+  $ting_entity->reply->ownerId = drupal_substr($ding_entity_id, 0, strpos($ding_entity_id, '-'));
+
+  // See if the provider have any information about the entity.
+  if (ding_provider_implements('loan', 'populate_pseudo_entity')) {
+    $ting_entity = ding_provider_invoke('loan', 'populate_pseudo_entity', $ting_entity);
+  }
+
+  // Mark this object as pseudo, so formatters can take action.
+  $ting_entity->is_available = FALSE;
+
+  return $ting_entity;
+}
+
+/**
+ * Helper function to create data well 3 PID's.
+ *
+ * This function is placed in the provider and not "ting" module as the
+ * providers uses it and we don't want to have a binding from providers to ting.
+ *
+ * @param string $id
+ *   The materials local id number (faust).
+ * @param string $agency
+ *   Agency ID to which the entity belongs.
+ *
+ * @return string
+ *   The PID for the faust in the data well.
+ */
+function ding_provider_build_entity_id($id, $agency = -1) {
+  $ting_entity_id = FALSE;
+
+  // Get local library faust ID range.
+  $local_range = '9';
+
+  // Get agency ID.
+  $local_agency = variable_get('ting_agency', '');
+
+  switch ($agency) {
+    case $local_agency:
+    case -1:
+      if (preg_match('/^' . $local_range . '/', $id)) {
+        // If agency is not given fallback to local agency.
+        if (empty($agency) || $agency == -1) {
+          $agency = $local_agency;
+        }
+
+        // Local posts.
+        $ting_entity_id = $agency . '-katalog:' . $id;
+      }
+      else {
+        // Global posts.
+        $ting_entity_id = '870970-basis:' . $id;
+      }
+      break;
+
+    case '150021':
+      $ting_entity_id = '150021-bibliotek:' . $id;
+      break;
+
+    case '150027':
+      $ting_entity_id = '150021-fjern:' . $id;
+      break;
+
+    case '150030':
+      $ting_entity_id = '870970-spilmedier:' . $id;
+      break;
+
+    case '870973':
+      $ting_entity_id = '870973-anmeld:' . $id;
+      break;
+
+    case '150039':
+      $ting_entity_id = '150015-forlag:' . $id;
+      break;
+
+    case '870976':
+      $ting_entity_id = '870976-anmeld:' . $id;
+      break;
+
+    case '150048':
+      $ting_entity_id = '870970-basis:' . $id;
+      break;
+
+    case '150028':
+      $ting_entity_id = '870970-basis:' . $id;
+      break;
+
+    case '150015':
+      $ting_entity_id = '870970-basis:' . $id;
+      break;
+
+    case '150033':
+      $ting_entity_id = '150033-dandyr:' . $id;
+      break;
+
+    case '150040':
+      $ting_entity_id = '150040-verdyr:' . $id;
+      break;
+
+    case '150018':
+      $ting_entity_id = '150018-danhist:' . $id;
+      break;
+
+    case '150032':
+      $ting_entity_id = '150018-samfund:' . $id;
+      break;
+
+    case '150034':
+      $ting_entity_id = '150018-religion:' . $id;
+      break;
+
+    case '150054':
+      $ting_entity_id = '150018-biologi:' . $id;
+      break;
+
+    case '150055':
+      $ting_entity_id = '150018-fysikkemi:' . $id;
+      break;
+
+    case '150056':
+      $ting_entity_id = '150056-geografi:' . $id;
+      break;
+
+    case '150008':
+      $ting_entity_id = '150008-academic:' . $id;
+      break;
+
+    case '150043':
+      $ting_entity_id = '150043-atlas:' . $id;
+      break;
+
+    case '150023':
+      $ting_entity_id = '150023-sicref:' . $id;
+      break;
+
+    case '150025':
+      $ting_entity_id = '150008-public:' . $id;
+      break;
+
+    case '150052':
+      $ting_entity_id = '870970-basis:' . $id;
+      break;
+
+    case '159002':
+      $ting_entity_id = '159002-lokalbibl:' . $id;
+      break;
+
+    case '150012':
+      $ting_entity_id = '150012-leksikon:' . $id;
+      break;
+
+    default:
+      // The agency ID was not translatable, do to one-to-may match from old pid
+      // to new pid. Or the agency ID is not known. So simply log it under a
+      // filterable type.
+      watchdog('ding_provider_pid', 'PID creation failed with agency (%agency) and ID (%id)', array('%agency' => $agency, '%id' => $id), WATCHDOG_ERROR);
+      break;
+  }
+
+  return $ting_entity_id;
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ *
+ * Disable entity cache for profile2 entities, so provider profiles are not
+ * cached. The profile should not be cached as they contains sensitive
+ * information about the library users.
+ */
+function ding_provider_entity_info_alter(&$entity_info) {
+  $entity_info['profile2']['entity cache'] = FALSE;
+  $entity_info['profile2_type']['entity cache'] = FALSE;
+}

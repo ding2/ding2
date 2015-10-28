@@ -1,0 +1,31 @@
+
+.ting-proxy-settings #hostnames-wrapper {
+  background-color: #eee;
+  border: 1px solid #ccc;
+  padding: 8px;
+}
+
+.ting-proxy-settings .hostname {
+  border-top: 1px solid #ccc;
+}
+
+.ting-proxy-settings .hostname.first {
+  border-top: 0;
+}
+
+.ting-proxy-settings .hostname:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+/* Float disable proxy checkbox element */
+.ting-proxy-settings .form-type-checkbox {
+  float: left;
+}
+
+.ting-proxy-settings .remove {
+  float: right;
+}

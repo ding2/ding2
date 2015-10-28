@@ -1,0 +1,100 @@
+<?php
+/**
+ * @file
+ * Handles requirements, installation and uninstall for the module.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function alma_requirements($phase) {
+  $requirements = array();
+  // Ensure translations don't break at install time.
+  $t = get_t();
+
+  if (!function_exists('simplexml_load_string')) {
+    $requirements['simplexml'] = array(
+      'title' => 'SimpleXML',
+      'description' => $t('The Alma module requires SimpleXML to function. Please install and/or enable SimpleXML in your PHP configuration.'),
+      'severity' => REQUIREMENT_ERROR,
+    );
+  }
+
+  if ($phase == 'runtime') {
+    $requirements['alma'] = array(
+      'title' => $t('Alma'),
+      'value' => $t('Alma configured'),
+      'severity' => REQUIREMENT_OK,
+    );
+    if (!variable_get('alma_base_url', FALSE) || !variable_get('ting_agency', FALSE)) {
+      $requirements['alma']['value'] = $t('Alma not configured');
+      $requirements['alma']['description'] = $t('Alma is not properly configured, please visit <a href="@link">the settings page</a>.', array('@link' => url('admin/config/ding/provider/alma')));
+      $requirements['alma']['severity'] = REQUIREMENT_ERROR;
+    }
+  }
+
+  return $requirements;
+}
+
+/**
+ * Update system table set alma weight=10 to ensure form_alter hooks are called
+ * AFTER ding_user and ding_provider
+ */
+function alma_update_7001() {
+  $num_upd = db_update('system')
+    ->fields(array('weight' => 10))
+    ->condition('name', 'alma', '=')
+    ->execute();
+}
+
+/**
+ * Convert field storage to virtual field.
+ */
+function alma_update_7002() {
+  return db_update('field_config')
+    ->fields(array(
+      'storage_type' => 'virtual_field',
+      'storage_module' => 'virtual_field',
+    ))
+    ->condition('field_name', '%alma%', 'LIKE')
+    ->condition('field_name', 'field_alma_interest_period', '!=')
+    ->execute();
+}
+
+/**
+ * Covert reservation field form data to datetime.
+ */
+function alma_update_7003() {
+  return db_update('field_config')
+    ->fields(array(
+      'type' => 'datetime',
+    ))
+    ->condition('field_name', 'field_alma_reservation_pause', '=')
+    ->execute();
+}
+
+/**
+ * Remove old field_sql_storage file data from the database as they are using
+ * virtual fields now and don't need a database table.
+ */
+function alma_update_7004() {
+  // Absent id have been renamed to field_alma_absent_id as virtual field.
+  field_delete_field('field_absent_id');
+  field_purge_batch(100);
+
+  // Mobile phone.
+  db_drop_table('field_data_field_alma_mobile_phone');
+  db_drop_table('field_revision_field_alma_mobile_phone');
+
+  // Mobile phone id.
+  db_drop_table('field_data_field_alma_phone_id');
+  db_drop_table('field_revision_field_alma_phone_id');
+
+  // Preferred branch.
+  db_drop_table('field_data_field_alma_preferred_branch');
+  db_drop_table('field_revision_field_alma_preferred_branch');
+
+  // Reservation pause.
+  db_drop_table('field_data_field_alma_reservation_pause');
+  db_drop_table('field_revision_field_alma_reservation_pause');
+}

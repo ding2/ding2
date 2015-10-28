@@ -1,0 +1,40 @@
+<?php
+/**
+ * @file
+ * Handles display and creation/deletion of debts for users.
+ */
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * It simply tells panels where to find the .inc files that define various
+ * args, contexts, content_types. In this case the subdirectories of
+ * ctools_plugin_example/panels are used.
+ */
+function ding_debt_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
+ * Implements hook_ding_provider_user().
+ */
+function ding_debt_ding_provider_user() {
+  return array(
+    'debt' => array(
+      'required' => TRUE,
+    ),
+    'payment' => array(
+      'required' => TRUE,
+    ),
+  );
+}
+
+/**
+ * Callback for successful payment transaction.
+ */
+function ding_debt_payment_callback($transaction) {
+  return ding_provider_invoke_page('debt', 'payment_received', $transaction['payment_price'], $transaction['params']['debt_ids'], $transaction['payment_order_id']);
+}
+

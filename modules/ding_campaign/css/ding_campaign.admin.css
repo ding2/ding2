@@ -1,0 +1,24 @@
+#ding-campaign-campaign-content-type-edit-form > div > div,
+#ding-campaign-campaign-content-type-edit-form > div > div.form-type-select.form-item-context-2 {
+  clear: both;
+}
+
+#ding-campaign-campaign-content-type-edit-form > div > div.form-type-select,
+#ding-campaign-campaign-content-type-edit-form > div > div.form-type-textfield {
+  width: 25em;
+  float: left;
+  clear: none;
+}
+
+#ding-campaign-campaign-content-type-edit-form > div > div.form-item-ding-campaign-image-style {
+  float: none;
+  clear: both;
+}
+
+#ding-campaign-campaign-content-type-edit-form > div > div.form-type-select label,
+#ding-campaign-campaign-content-type-edit-form > div > div.form-type-textfield label {
+  display: block;
+  width: 12em;
+  float: left;
+  font-weight: bold
+}

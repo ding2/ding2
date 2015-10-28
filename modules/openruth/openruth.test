@@ -1,0 +1,185 @@
+<?php
+
+/**
+ * @file
+ * Test OpenRuth user provider implementation.
+ */
+
+class OpenruthUserProviderImplementationTestCase extends DingUserProviderImplementationTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Openruth user provider',
+      'description' => 'Test Openruth user provider functionality.',
+      'group' => 'Ding! - Openruth provider',
+    );
+  }
+
+  function setUp() {
+    // Need ding_user to test login.
+    parent::setup(array('openruth', 'ding_user'));
+    variable_set('openruth_wsdl_url', 'http://openruth.addi.dk/0.7/openruth.wsdl');
+    variable_set('openruth_agency_id', '100200');
+  }
+
+  /**
+   * Returns name and password for a user that's supposed to be able to log
+   * in. Used by parent class.
+   */
+  function getGoodUser() {
+    return array(
+      '1111111111',
+      '1111',
+    );
+  }
+
+  function testUserData() {
+    $login_data = array('name' => '1111111111', 'pass' => '1111');
+    $this->drupalGet('user/login');
+    $this->assertRaw(t('Enter the password that accompanies your username.'), t("We're not logged in."));
+
+    $this->drupalPost('user/login', $login_data, t('Log in'));
+    $this->assertRaw(t('Member for'), t("Login works."));
+
+    $edit_link = $this->xpath('//a[normalize-space(text())=:label]', array(':label' => t('Edit user profile')));
+    if (!$edit_link) {
+      $this->fail('Could not find edit link.');
+      return;
+    }
+
+    $res = preg_match('{^/user/(\d+)/edit$}', (string) $edit_link[0]['href'], $matches);
+    $this->assertTrue($res, t('Edit link is well formed.'));
+    if (!$res) {
+      // No uid, bail out.
+      return;
+    }
+    $uid = $matches[1];
+
+    $this->assertRaw('Anders And', t('Real name is displayed'));
+    $user = user_load($uid);
+    debug($user->data);
+    $this->assertEqual('1111@dbc.dk', $user->mail, t('User email has been properly set.'));
+    $this->assertNoRaw($user->name, t('$user->name isn\'t shown'));
+    $this->assertNoRaw($user->init, t('$user->init isn\'t shown'));
+    $this->assertEqual($user->data['preferred_branch'], 'Kr. Hyl', t('Preferred branch is correct.'));
+
+    user_save($user, array('mail' => 'user@example.com', 'data' => array('display_name' => 'Svend Bent')));
+
+    $this->drupalGet('user');
+    $this->assertRaw('Svend Bent', t('Display name was changed.'));
+
+    // Logout
+    $this->drupalLogout();
+    // Check that we're logged out.
+    $this->drupalGet('user/login');
+    $this->assertRaw(t('Enter the password that accompanies your username.'), t("We're not logged in."));
+
+    $this->drupalPost('user/login', $login_data, t('Log in'));
+    $this->assertRaw(t('Member for'), t("Second login works."));
+
+    $edit_link = $this->xpath('//a[normalize-space(text())=:label]', array(':label' => t('Edit user profile')));
+    if (!$edit_link) {
+      $this->fail('Could not find edit link.');
+    }
+    $this->assertTrue(preg_match('{^/user/' . $uid . '/edit$}', (string) $edit_link[0]['href']), t('Second login is the same uid.'));
+    $this->assertRaw('Anders And', t('Real name was properly reset.'));
+    $user = user_load($uid, TRUE);
+    $this->assertEqual('1111@dbc.dk', $user->mail, t('User email has been properly reset.'));
+
+  }
+}
+
+class OpenruthAvailabilityProviderImplementationTestCase extends DingAvailabilityProviderImplementationTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Openruth availability provider',
+      'description' => 'Test Openruth availability provider functionality.',
+      'group' => 'Ding! - Openruth provider',
+    );
+  }
+
+  function setUp() {
+    parent::setup(array('openruth'));
+    variable_set('openruth_wsdl_url', 'http://openruth.addi.dk/0.7/openruth.wsdl');
+    variable_set('openruth_agency_id', '100200');
+  }
+
+  /**
+   * Returns some holdings that's supposed to exist.
+   */
+  function getSomeHoldings() {
+    return array(24168638, 27307531);
+  }
+}
+
+class OpenruthReservationProviderImplementationTestCase extends DingReservationProviderImplementationTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Openruth reservation provider',
+      'description' => 'Test Opennuth reservation provider functionality.',
+      'group' => 'Ding! - Openruth provider',
+    );
+  }
+
+  function setUp() {
+    parent::setup(array('openruth', 'ding_reservation'));
+    variable_set('openruth_wsdl_url', 'http://openruth.addi.dk/0.7/openruth.wsdl');
+    variable_set('openruth_agency_id', '100200');
+  }
+
+  function getUser() {
+    ding_user_save_creds(array('creds' => array('name' => '1111111111', 'pass' => '1111')));
+    return $user;
+  }
+
+  function getBranch() {
+    return 'Lejre';
+  }
+
+  function getSomeReservables() {
+    return array(
+      '100200:43681877' => '43681877',
+    );
+  }
+}
+
+class OpenruthLoanProviderImplementationTestCase extends DingLoanProviderImplementationTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Openruth loan provider',
+      'description' => 'Test Openruth loan provider functionality.',
+      'group' => 'Ding! - Openruth provider',
+    );
+  }
+
+  function setUp() {
+    parent::setup(array('openruth', 'ding_loan'));
+    variable_set('openruth_wsdl_url', 'http://openruth.addi.dk/0.7/openruth.wsdl');
+    variable_set('openruth_agency_id', '100200');
+  }
+
+  function getUser() {
+    ding_user_save_creds(array('creds' => array('name' => '1111111111', 'pass' => '1111')));
+    return $user;
+  }
+}
+
+class OpenruthDebtProviderImplementationTestCase extends DingDebtProviderImplementationTestCase {
+  public static function getInfo() {
+    return array(
+      'name' => 'Openruth debt provider',
+      'description' => 'Test Openruth debt provider functionality.',
+      'group' => 'Ding! - Openruth provider',
+    );
+  }
+
+  function setUp() {
+    parent::setup(array('openruth', 'ding_debt'));
+    variable_set('openruth_wsdl_url', 'http://openruth.addi.dk/0.7/openruth.wsdl');
+    variable_set('openruth_agency_id', '100200');
+  }
+
+  function getUser() {
+    ding_user_save_creds(array('creds' => array('name' => '1111111111', 'pass' => '1111')));
+    return $user;
+  }
+}

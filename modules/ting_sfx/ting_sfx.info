@@ -1,0 +1,9 @@
+name = Ting sfx
+description = Add link to sfx to ting-object
+package = Ding!
+core = 7.x
+version = "7.x-1.13"
+files[] = ting_sfx.module
+dependencies[] = virtual_field
+dependencies[] = ting
+

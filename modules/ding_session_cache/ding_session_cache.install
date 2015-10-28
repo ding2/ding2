@@ -1,0 +1,16 @@
+<?php
+/**
+ * @file
+ * Handles schema definition for the module.
+ */
+
+/**
+ * Implements hook_schema().
+ *
+ * Defines a cache table for the module.
+ */
+function ding_session_cache_schema() {
+  $schema = array();
+  $schema['cache_ding_session_cache'] = drupal_get_schema_unprocessed('system', 'cache');
+  return $schema;
+}

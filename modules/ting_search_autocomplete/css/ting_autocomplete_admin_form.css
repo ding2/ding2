@@ -1,0 +1,56 @@
+#ting-search-autocomplete-admin .form-type-radio {
+    padding: 4px 5px;
+    float: left;
+}
+
+#ting-search-autocomplete-admin .form-type-textfield {
+    padding: 0 9px 0;
+    float: left;
+    width: 18em;
+}
+
+#ting-search-autocomplete-admin .form-item-ting-search-autocomplete-settings-highlight {
+    width: 18em;
+}
+
+#ting-search-autocomplete-admin .form-item-ting-search-autocomplete-settings-highlightpre,
+#ting-search-autocomplete-admin .form-item-ting-search-autocomplete-settings-highlightpost {
+    width: 12em;
+}
+
+#ting-search-autocomplete-admin .form-item-ting-search-autocomplete-settings-highlightpre input,
+#ting-search-autocomplete-admin .form-item-ting-search-autocomplete-settings-highlightpost input {
+    width: 10em;
+}
+
+#ting-search-autocomplete-admin .form-item-ting-search-autocomplete-rest-url {
+    width: 46em;
+}
+
+#ting-search-autocomplete-admin .form-item-ting-search-autocomplete-settings-highlight {
+    padding: 18px 9px 0;
+    float: left;
+    clear: left;
+}
+
+#ting-search-autocomplete-admin .form-item-ting-search-autocomplete-settings-highlight label {
+    font-weight: bold;
+}
+
+#ting-search-autocomplete-admin .form-item-ting-search-autocomplete-settings-agency {
+    clear: left;
+}
+
+#edit-ting-search-autocomplete-webservice .form-type-textfield {
+    width: 42em;
+    float: none;
+}
+
+#ting-search-autocomplete-admin td {
+    vertical-align: top;
+}
+
+#ting-search-autocomplete-admin td:nth-child(1) {
+    font-weight: bold;
+    min-width: 10em;
+}

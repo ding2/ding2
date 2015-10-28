@@ -1,0 +1,196 @@
+<?php
+/**
+ * @file
+ * Install/uninstall, database related stuff here.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function bpi_schema() {
+  $schema = array();
+
+  $schema['bpi_syndicated'] = array(
+    'description' => 'Holds the correspondence between bpi id and node id.',
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+      ),
+      'nid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'bid' => array(
+        'type' => 'varchar',
+        'length' => '128',
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'status' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'timestamp' => array(
+        'type' => 'varchar',
+        'length' => '128',
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'data' => array(
+        'type' => 'blob',
+        'description' => 'Data blob for values related to syndication',
+      ),
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'node_id' => array('nid'),
+      'bpi_id' => array('bid'),
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * Add BPI data blob to db table.
+ */
+function bpi_update_7001() {
+  $field = array(
+    'type' => 'blob',
+    'description' => 'Data blob for values related to syndication',
+  );
+
+  db_add_field('bpi_syndicated', 'data', $field);
+}
+
+/**
+ * Enable bpi features module.
+ */
+function bpi_update_7002() {
+  module_enable(array('bpi_features'), TRUE);
+}
+
+/**
+ * Disable admin/content view from admin_views to avoid conflicts with our view.
+ */
+function bpi_update_7003() {
+  $views_defaults = variable_get('views_defaults', array());
+  if (!isset($views_defaults['admin_views_node']) || !$views_defaults['admin_views_node']) {
+    $views_defaults['admin_views_node'] = TRUE;
+  }
+  variable_set('views_defaults', $views_defaults);
+}
+
+/**
+ * Convert BPI Syndication data to workflow states.
+ */
+function bpi_update_7004(&$sandbox) {
+  $limit = 10;
+  $field_name = 'field_bpi_workflow';
+
+  // Initialize sandbox object.
+  if (!isset($sandbox['max'])) {
+    $query = db_select('bpi_syndicated', 'bpi');
+    $query->fields('bpi', array('id'));
+    $query->isNull('bpi.data');
+    $count = $query->countQuery()->execute()->fetchField();
+    $sandbox['max'] = $count;
+    $sandbox['current'] = 0;
+    if ($count == 0) {
+      $sandbox['#finished'] = 1;
+      return;
+    }
+
+    $workflows = workflow_get_workflow_names();
+    $workflows_reversed = array_flip($workflows);
+    $wid = $workflows_reversed['BPI'];
+    $states = workflow_get_workflow_state_names($wid);
+    $states_reversed = array_flip($states);
+    $creation = db_select('workflow_states', 'w')->condition('w.wid', $wid)->fields('w', array('sid'))->execute()->fetchAssoc();
+    // Save states for easy access later.
+    $sandbox['states'] = array(
+      BPI_PUSHED => $states_reversed['Sent to BPI'],
+      BPI_SYNDICATED => $states_reversed['Created from BPI'],
+      'creation' => $creation['sid'],
+    );
+
+  }
+
+  // Get the next $limit records from db. We only need to search for records
+  // where data is null, because already processed records get data set to
+  // something.
+  $query = db_select('bpi_syndicated', 'bpi');
+  $query->fields('bpi');
+  $query->isNull('bpi.data');
+  $query->range(0, $limit);
+  $res = $query->execute();
+
+  if (drupal_is_cli()) {
+    $args = array(
+      '@index' => $limit > 1 ? ($sandbox['current'] + 1) . " - " . min($sandbox['current'] + $limit, $sandbox['max']) : $sandbox['current'],
+      '@max' => $sandbox['max'],
+    );
+    if ($sandbox['current'] + 1 == $sandbox['max']) {
+      $args['@index'] = $sandbox['max'];
+    }
+    drupal_set_message(t('Updating @index of @max', $args));
+  }
+
+  // For each record in bpi_syndicated not processed yet we create a Workflow
+  // transition with either "Sent to BPI" or "Created from BPI" as the new sid
+  // and set the workflow field to the same id.
+  while ($record = $res->fetchAssoc()) {
+    $nid = $record['nid'];
+    $bid = $record['bid'];
+    $status = $record['status'];
+    $timestamp = $record['timestamp'];
+    $node = node_load($nid);
+
+    if (!$node) {
+      // The bpi_syndicated table may contain references to nodes which no
+      // longer exist. Skip processing those.
+      watchdog('bpi', 'Unable to migrate syndication information for %nid. The node does not exist.', array('%nid' => $nid), WATCHDOG_WARNING);
+      continue;
+    }
+    if (!isset($node->$field_name)) {
+      // The bpi_syndicated table may contain references to nodes of types
+      // which do not contain the new workflow field. Skip those.
+      watchdog('bpi', 'Unable to migrate syndication information for %type #%nid. The content type does not have the workflow field %field_name', array('%type' => $node->type, '%nid' => $nid, '%field_name' => $field_name), WATCHDOG_WARNING);
+      continue;
+    }
+
+    // Create new transition and save it.
+    $uid = $node->uid;
+    $old_sid = $sandbox['states']['creation'];
+    $new_sid = $sandbox['states'][$status];
+    $transition = new WorkflowTransition();
+    $transition->setValues('node', $node, $field_name, $old_sid, $new_sid, $uid, $timestamp, '');
+    $transition->save();
+    $hid = $transition->hid;
+
+    // The timestamp for the transition is set to current time and not the time
+    // of creation, so we need to change it to the correct timestamp.
+    db_update('workflow_node_history')->condition('hid', $hid)->fields(array('stamp' => $timestamp))->execute();
+
+    // Set workflow state for node to new_sid from the newly created transition.
+    $wrapper = entity_metadata_wrapper('node', $node);
+    $wrapper->field_bpi_workflow->set($new_sid);
+    $wrapper->save();
+
+    // Get information from BPI server to create data object in db.
+    $bpi = bpi_client_instance();
+    $bpi_node = $bpi->getNode($bid);
+    $bpi_content = $bpi_node->getProperties();
+    $params = array(
+      'nid' => $node->nid,
+      'category' => $bpi_content['category'],
+      'audience' => $bpi_content['audience'],
+      'editable' => $bpi_content['editable'],
+    );
+    bpi_update_syndicated($node->nid, $node->bpi_id, $params, $status, FALSE);
+  }
+  $sandbox['current'] += $limit;
+  $sandbox['#finished'] = min($sandbox['current'], $sandbox['max']) / $sandbox['max'];
+}

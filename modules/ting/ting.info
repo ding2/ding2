@@ -1,0 +1,14 @@
+name = Ting integration
+description = Integrates Drupal with the Ting search system.
+package = Ding!
+core = 7.x
+version = "7.x-0.22"
+files[] = ting.module
+files[] = ting.entities.inc
+files[] = ting.controllers.inc
+files[] = ting.test
+configure = admin/config/ting
+stylesheets[all][] = ting.css
+dependencies[] = ding_entity
+dependencies[] = nanosoap
+dependencies[] = virtual_field

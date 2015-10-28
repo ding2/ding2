@@ -1,0 +1,422 @@
+<?php
+/**
+ * @file
+ * Enable DIBS as a payment provider for Ding!
+ */
+
+/**
+ * Implements of hook_dibsapi().
+ */
+function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a3 = NULL, $a4 = NULL) {
+  global $user;
+  switch ($op) {
+    case 'info':
+      $info = array(1 => array('info' => t('Ding DIBS debts payment')));
+      if (is_null($delta)) {
+        return $info;
+      }
+      return (isset($info[$delta])) ? $info[$delta] : NULL;
+
+    case 'transaction_cancel':
+      watchdog('ding_dibs', 'DIBS  order %order cancelled by user.', array(
+        '%order' => $transaction['payment_order_id'],
+      ), WATCHDOG_NOTICE);
+      break;
+
+    case 'transaction_accept':
+      if ($transaction['payment_status'] == 1) {
+        // Check if the payment is registered in the backend.
+        $status = db_select('dibs_transactions', 'transaction')
+          ->fields('transaction', array('provider_payment_status'))
+          ->condition('payment_transaction_id', $transaction['payment_transaction_id'])
+          ->execute()
+          ->fetchField();
+
+        if ($status == TRUE) {
+          // Update user status cache.
+          ding_provider_invoke('user', 'clear_cache', $user);
+          drupal_set_message(t('Your payment of @amount was received. Transaction ID: @transaction, order no.: @order.', array('@amount' => $transaction['payment_price'], '@order' => $transaction['payment_order_id'], '@transaction' => $transaction['payment_transaction_id'])));
+          watchdog('ding_dibs', 'Confirmation for DIBS transaction %transaction, order %order was displayed.', array(
+            '%transaction' => $transaction['payment_transaction_id'],
+            '%order' => $transaction['payment_order_id'],
+          ), WATCHDOG_DEBUG);
+        }
+        else {
+          drupal_set_message(t('Failed to recieve payment at local system. Your payment of @amount was cancelled.', array('@amount' => $transaction['payment_price'])), 'error');
+        }
+        drupal_goto('user/' . $user->uid . '/status/debts');
+      }
+      else {
+        drupal_set_message(t('Payment not verified by DIBS. This indicates a problem with the network. Please try again and contact the system administrator if it persists'), 'error');
+        watchdog('ding_dibs', 'Unverified DIBS transaction %transaction, order %order at accept URL: !data', array(
+          '%transaction' => $transaction['payment_transaction_id'],
+          '%order' => $transaction['payment_order_id'],
+          '!data' => '<pre>' . check_plain(print_r($transaction, TRUE)) . '</pre>',
+        ), WATCHDOG_CRITICAL);
+        drupal_goto('user/' . $user->uid . '/status/debts');
+      }
+      break;
+
+    case 'transaction_callback':
+      watchdog('ding_dibs', 'DIBS has verified transaction %transaction, order %order.', array(
+        '%transaction' => $transaction['payment_transaction_id'],
+        '%order' => $transaction['payment_order_id'],
+      ), WATCHDOG_NOTICE);
+
+      if (isset($transaction['params']['callback'])) {
+        $callback = $transaction['params']['callback'];
+        if (function_exists($callback)) {
+          // Ensure that this session isn't saved.
+          drupal_save_session(FALSE);
+
+          // Load the user that was paying.
+          $my_user = user_load($transaction['customer_uid']);
+
+          // If we have a saved session, let's resume it.
+          if (isset($transaction['params']['session'])) {
+            $result = db_query("SELECT sid, session FROM {sessions} WHERE sid = :sid", array(
+              ':sid' => $transaction['params']['session'],
+            ));
+            $row = $result->fetchObject();
+            // Session_decode doesn't work without any session, start one.
+            session_start();
+            // Set the user (session_start might have set it to anonymous).
+            $user = $my_user;
+            // Load the session variables into $_SESSION
+            session_decode($row->session);
+          }
+
+          // Call the callback, which may now *read* the session.
+          $provider_payment_result = call_user_func($callback, $transaction);
+
+          if ($provider_payment_result) {
+            // Update dibs transaction with provider_payment_status = TRUE.
+            db_update('dibs_transactions')
+              ->fields(array(
+                'provider_payment_status' => 1,
+              ))
+              ->condition('payment_transaction_id', $transaction['payment_transaction_id'])
+              ->execute();
+            ding_dibs_capture($delta, $transaction);
+          }
+          else {
+            watchdog('ding_dibs', 'DIBS transaction %transaction, order %order failed to update provider.', array(
+              '%transaction' => $transaction['payment_transaction_id'],
+              '%order' => $transaction['payment_order_id'],
+            ), WATCHDOG_CRITICAL);
+          }
+        }
+        else {
+          watchdog('ding_dibs', "Callback function @function doesn't exist.", array('@function' => $callback), WATCHDOG_CRITICAL);
+        }
+      }
+      else {
+        // Unlikely to happen, unless someone has been tampering with things
+        // they shouldn't.
+        watchdog('ding_dibs', "No callback function defined.", NULL, WATCHDOG_CRITICAL);
+      }
+      break;
+  }
+}
+
+/**
+ * Implements hook_ding_provider().
+ */
+function ding_dibs_ding_provider() {
+  $path = drupal_get_path('module', 'ding_dibs');
+
+  return array(
+    'title' => 'DIBS payment provider',
+    'provides' => array(
+      'payment' => array(
+        'prefix' => 'payment',
+        'file' => $path . '/includes/dibs.payment.inc',
+      ),
+    ),
+  );
+}
+
+/**
+ * Send user to DIBS for payment.
+ *
+ * When the payment is complete, the callback will be called with the
+ * transaction. The global $user and session will be set up to the
+ * same values as when this function was called, but be aware that the
+ * session variables will *not* be saved.
+ *
+ * @param string $amount
+ *   The amount to charge the user.
+ * @param array $params
+ *   Parameters for dibs.module.
+ * @param string $callback
+ *   The function to call on successful payment.
+ * @param bool $redirect
+ *   If FALSE no redirect is performed, defaults to TRUE.
+ *
+ * @return mixed
+ *   If $redirect is set to FALSE, will the api_hash value be returned.
+ */
+function ding_dibs_payment_prepare($amount, $params, $callback, $redirect = TRUE) {
+  global $user;
+  $params['payment_price'] = $amount;
+  $params['api_module'] = 'ding_dibs';
+  $params['api_delta'] = 1;
+  $params['customer_uid'] = $user->uid;
+
+  if (!isset($params['params']) || !is_array($params['params'])) {
+    $params['params'] = array();
+  }
+  // Params is stored by dibs.module, so are tamper safe.
+  $params['params']['callback'] = $callback;
+  // Save session id for later loading.
+  if (!empty($_COOKIE[session_name()])) {
+    $params['params']['session'] = session_id();
+  }
+
+  $params += array(
+    'order_info_short' => t('Payment of library dues'),
+    'order_price_info' => array('Total' => $amount),
+    // Dibs module fills in missing data.
+  );
+
+  return dibs_payment_prepare($params, $redirect);
+}
+
+
+/**
+ * Capture the payment
+ *
+ * @param string $delta
+ * @param array $transaction
+ */
+function ding_dibs_capture($delta = NULL, &$transaction = NULL) {
+
+  $url = trim(variable_get('url_dibs_capture'));
+
+  if (!$url) {
+    watchdog('ding_dibs', 'DIBS automatic capture URL is not configured.', array(), WATCHDOG_CRITICAL);
+    return FALSE;
+  }
+
+  $module = 'ding_dibs';
+  $delta = 1;
+  $settings = (array) variable_get('dibs_settings_' . $module . '_' . $delta, array());
+
+  $param['merchant'] = isset($settings['general']['merchant']) ? $settings['general']['merchant'] : NULL;
+  $param['account'] = $account = isset($settings['general']['account']) ? $settings['general']['account'] : NULL;
+
+  // DIBS' parameter amount contains the price measured in the smallest unit,
+  // eg. ore in DK.
+  $param['amount'] = $transaction['payment_price'] * 100;
+  $param['orderid'] = $transaction['payment_order_id'];
+  $param['transact'] = $transaction['payment_transaction_id'];
+  $param['textreply'] = TRUE;
+
+  $md5 = isset($settings['general']['md5']) ? $settings['general']['md5'] : FALSE;
+  if ($md5) {
+    $md5_key1 = isset($settings['general']['md5_key1']) ? $settings['general']['md5_key1'] : NULL;
+    $md5_key2 = isset($settings['general']['md5_key2']) ? $settings['general']['md5_key2'] : NULL;
+    $param['md5key'] = md5(
+      $md5_key2 .
+      md5($md5_key1 .
+        "merchant=" . $param['merchant'] .
+        "&orderid=" . $param['orderid'] .
+        "&transact=" . $param['transact'] .
+        "&amount=" . $param['amount']
+      )
+    );
+  }
+
+  $params = array();
+  foreach ($param as $key => $val) {
+    $params[] = $key . '=' . $val;
+  }
+
+  $dibs_reply = drupal_http_request($url . '?' . implode('&', $params));
+
+  $capture_data = explode('&', $dibs_reply->data);
+  foreach ($capture_data as $key => $val) {
+    $var = explode('=', $val);
+    $capture_status[$var[0]] = $var[1];
+  }
+
+  if (isset($capture_status['status']) && $capture_status['status'] == 'ACCEPTED') {
+    // Update dibs transaction with dibs_capture_status = TRUE.
+    db_update('dibs_transactions')
+      ->fields(array(
+        'dibs_capture_status' => 1,
+      ))
+      ->condition('payment_transaction_id', $transaction['payment_transaction_id'])
+      ->execute();
+
+    watchdog('ding_dibs', 'DIBS has captured transaction %transaction, order %order.', array(
+      '%transaction' => $transaction['payment_transaction_id'],
+      '%order' => $transaction['payment_order_id'],
+    ), WATCHDOG_NOTICE);
+
+    return TRUE;
+  }
+  else {
+    watchdog('ding_dibs', 'DIBS capture failed:<br/>URL: %url<br/>DIBS reply: %reply.', array(
+      '%url' => $url . '?' . implode('&', $params),
+      '%reply' => '<pre>' . print_r($capture_status['capture_reply'], 1) . '</pre>',
+    ), WATCHDOG_CRITICAL);
+  }
+
+  return FALSE;
+
+}
+
+
+/**
+ * Implements hook_block_info().
+ */
+function ding_dibs_block_info() {
+  // Payment info, jfr. http://tech.dibs.dk/10_step_guide/
+  $blocks = array();
+
+  $blocks['dibs-terms-of-sale'] = array(
+    'info' => t('DIBS: Terms of sale'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+
+  $blocks['dibs-cards-supported'] = array(
+    'info' => t('DIBS: Cards supported'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function ding_dibs_block_view($delta = '') {
+  $block = array();
+  $supported_cards = array();
+  drupal_add_css(drupal_get_path('module', 'ding_dibs') . '/css/ding_dibs.css');
+  $cards = ding_dibs_cards();
+  if (is_array(variable_get('cards_supported'))) {
+    foreach (variable_get('cards_supported') as $key => $card) {
+      if ($card) {
+        if (array_key_exists($card, $cards)) {
+          $supported_cards[] = theme_image(array(
+              'path' => base_path() . drupal_get_path('module', 'ding_dibs') . '/img/card_logos/' . $cards[$card],
+              'height' => '33px',
+              'alt' => $card,
+              'title' => $card,
+              'attributes' => array('class' => 'card-logo'),
+            )
+          ) . '<span class="card-name">' . $card . '</span></p>';
+        }
+      }
+    }
+  }
+  switch ($delta) {
+    case 'dibs-terms-of-sale':
+      global $language;
+      $block['subject'] = t('Terms and conditions of sale');
+      $block['content'] = theme('dibs_terms_of_sale', array('terms_of_sale' => variable_get('terms_of_sale_' . $language->language)));
+      break;
+
+    case 'dibs-cards-supported':
+      $block['subject'] = t('Cards supported');
+      $block['content'] = theme('dibs_cards_supported', array(
+        'cards_supported' => $supported_cards,
+      ));
+      break;
+  }
+
+  return $block;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_dibs_theme($existing, $type, $theme, $path) {
+  return array(
+    'dibs_terms_of_sale' => array(
+      'variables' => array('terms_of_sale' => NULL),
+      'template' => 'dibs_terms_of_sale',
+      'path' => $path . '/templates',
+    ),
+    'dibs_cards_supported' => array(
+      'variables' => array('cards_supported' => NULL),
+      'template' => 'dibs_cards_supported',
+      'path' => $path . '/templates',
+    ),
+  );
+}
+
+
+/**
+ * Implements hook_menu().
+ */
+function ding_dibs_menu() {
+  // Settings pages.
+  $items['admin/config/payment/ding_dibs'] = array(
+    'title' => 'Ding DIBS settings',
+    'description' => 'Configure DIBS payment gateway for Ding.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_dibs_admin_settings'),
+    'access arguments' => array('administer dibs settings'),
+    'weight' => 2,
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'ding_dibs.admin.inc',
+  );
+
+  $items['admin/config/payment/ding_dibs/settings'] = array(
+    'title' => 'Ding DIBS settings',
+    'description' => 'Configure DIBS payment gateway for Ding.',
+    'weight' => 2,
+    'tab_parent' => 'admin/config/payment/ding_dibs',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'file' => 'ding_dibs.admin.inc',
+  );
+
+  // Transactions status reports.
+  $items['admin/config/payment/ding_dibs/reports'] = array(
+    'title' => 'Ding DIBS reports',
+    'description' => 'Ding DIBS payment reports.',
+    'page callback' => 'ding_dibs_admin_reports',
+    'access arguments' => array('administer dibs settings'),
+    'weight' => 4,
+    'tab_parent' => 'admin/config/payment/ding_dibs',
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'ding_dibs.reports.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Return list of cards and logos.
+ */
+function ding_dibs_cards() {
+  $cards = array();
+  $cards['Dankort'] = 'dan53-35_01.gif';
+  $cards['eDankort'] = 'edk_large.gif';
+  $cards['VISA'] = 'visa_stor.gif';
+  $cards['VISA Electron'] = 'elec_stor.gif';
+  $cards['Mastercard'] = 'card6_l_03.gif';
+  $cards['JCB'] = 'jcb-large_01.gif';
+  $cards['Diners Club'] = 'card8_l_03.gif';
+  $cards['American Express'] = 'amex_large.gif';
+  $cards['Maestro'] = 'mstro_01.gif';
+  $cards['Forbrugforeningen'] = 'ffk_large.gif';
+  $cards['Danske Netbetaling'] = 'ddb.gif';
+  $cards['Nordea Sol-E'] = 'nordea_large.gif';
+  $cards['SEB'] = 'seb_02.gif';
+  $cards['SHB direktbetaling'] = 'handelsbanken_01.gif';
+  $cards['Swedbank direktbetaling'] = 'swedbank.gif';
+  $cards['PayPal'] = 'PayPal_large.gif';
+  $cards['Bank Einzug'] = 'eolv.gif';
+  $cards['iDEAL'] = 'ideal_large.jpg';
+  $cards['Aktia'] = 'aktia_large.gif';
+  $cards['OKO'] = 'oko_large.gif';
+  $cards['Sampo'] = 'sampo_large.gif';
+  $cards['BankAxess'] = 'BankAxess_03.gif';
+  $cards['Getitcard'] = 'getitcard2_53x33.gif';
+
+  return $cards;
+}
