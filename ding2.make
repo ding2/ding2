@@ -332,6 +332,9 @@ projects[view_unpublished][download][type] = "git"
 projects[view_unpublished][download][url] = "http://git.drupal.org/project/view_unpublished.git"
 projects[view_unpublished][download][revision] = "e9df1d3"
 
+projects[webform][subdir] = "contrib"
+projects[webform][version] = "4.10"
+
 projects[workbench][subdir] = "contrib"
 projects[workbench][version] = "1.2"
 
