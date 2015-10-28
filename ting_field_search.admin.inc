@@ -96,6 +96,12 @@ function ting_field_search_profile_form_cancel($form, &$form_state) {
   $form_state['redirect'] = 'admin/config/ting/settings';
 }
 
+/**
+ * Exists callback for the profile machine-name element.
+ */
 function ting_field_search_profile_exists($value) {
-  return FALSE;
+  // Retrieve existing profile names.
+  $profiles = array_keys(ting_field_search_profiles_load());
+
+  return in_array($value, $profiles);
 }
