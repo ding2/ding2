@@ -149,6 +149,11 @@ function ting_field_search_get_outbound_profile() {
 
 /**
  * Implements hook_entity_info_alter().
+ *
+ * When a URI for a ting entity (object or collection) is requested in the
+ * context of one of our profiles, the generated URIs should have a parameter
+ * with the profiles identifier as value, so they can be viewed with the
+ * profile they where requested with.
  */
 function ting_field_search_entity_info_alter(&$entity_info) {
   $entity_info['ting_object']['uri callback'] = 'ting_field_search_ting_object_uri';
