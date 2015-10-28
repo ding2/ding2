@@ -203,7 +203,7 @@ function ting_field_search_profiles_load($name = NULL) {
  * Implements hook_drupal_goto_alter().
  */
 function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_code) {
-
+  // Use the fast outbound profile detection based on machine-name strings.
   if ($profile = ting_field_search_get_outbound_profile()) {
     if (preg_match('/^search\/ting/', $path)) {
       $options['query']['profile'] = $profile;
