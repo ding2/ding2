@@ -103,19 +103,26 @@ function bpi_update_7004(&$sandbox) {
       return;
     }
 
-    $workflows = workflow_get_workflow_names();
-    $workflows_reversed = array_flip($workflows);
-    $wid = $workflows_reversed['BPI'];
-    $states = workflow_get_workflow_state_names($wid);
-    $states_reversed = array_flip($states);
-    $creation = db_select('workflow_states', 'w')->condition('w.wid', $wid)->fields('w', array('sid'))->execute()->fetchAssoc();
+    // Get workflows by machine name.
+    $workflow_query = db_select('workflows', 'w');
+    $workflow_query->fields('w', array('wid'));
+    $workflow_query->condition('w.name', 'bpi');
+    $res = $workflow_query->execute();
+    $wid = $res->fetchField();
+
+    // Get workflow states with machine names.
+    $workflow_states_query = db_select('workflow_states', 'w');
+    $workflow_states_query->fields('w', array('sid', 'name'));
+    $workflow_states_query->condition('w.wid', $wid);
+    $res = $workflow_states_query->execute();
+    $states = $res->fetchAllAssoc('name');
+
     // Save states for easy access later.
     $sandbox['states'] = array(
-      BPI_PUSHED => $states_reversed['Sent to BPI'],
-      BPI_SYNDICATED => $states_reversed['Created from BPI'],
-      'creation' => $creation['sid'],
+      'creation' => $states['(creation)']->sid,
+      BPI_PUSHED => $states['sent_to_bpi']->sid,
+      BPI_SYNDICATED => $states['created_bpi']->sid,
     );
-
   }
 
   // Get the next $limit records from db. We only need to search for records
