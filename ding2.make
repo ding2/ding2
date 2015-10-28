@@ -233,6 +233,7 @@ projects[opening_hours][download][revision] = "81146d1e8ab63ca70976596d928e4ec46
 projects[opening_hours][patch][] = "http://drupal.org/files/issues/is-string-check-2260505-2.patch"
 projects[opening_hours][patch][] = "http://drupal.org/files/issues/change-path-2270935-2.patch"
 projects[opening_hours][patch][] = "http://www.drupal.org/files/issues/Issue620-single-minute-opening-hours.patch"
+projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/opening_hours-2194867-D7.patch"
 
 projects[panels][subdir] = "contrib"
 projects[panels][version] = "3.4"
