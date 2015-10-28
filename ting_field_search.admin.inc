@@ -75,7 +75,15 @@ function ting_field_search_profile_form($form, &$form_state) {
  * @see ting_field_search_profile_form()
  */
 function ting_field_search_profile_form_submit($form, &$form_state) {
+  $profile = $form_state['values']['profile'];
 
+  if (ting_field_search_profile_save($profile)) {
+    drupal_set_message(t('Profile saved'));
+  }
+  else {
+    drupal_set_message(t('Something went wrong saving profile. See log for details.'));
+  }
+  $form_state['redirect'] = 'admin/config/ting/settings';
 }
 
 /**
