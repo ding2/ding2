@@ -22,9 +22,9 @@ function ting_field_search_ting_pre_execute($request) {
         $request->setProfile($profile->profile);
       }
 
-      if (!empty($profile->query)) {
+      if (!empty($profile->query) && $request instanceof TingClientSearchRequest) {
         $query = $request->getQuery();
-        $query .= ' and' . $profile->query;
+        $query .= ' and ' . $profile->query;
         $request->setQuery($query);
       }
     }
