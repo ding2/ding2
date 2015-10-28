@@ -253,7 +253,12 @@ function ting_field_search_form_ting_admin_ting_settings_alter(&$form, &$form_st
   // A simple table of existing special search profiles.
   // TODO: Add table sort?
   $profiles = ting_field_search_profiles_load();
-  $header = array('Title', 'Name', 'Profile', 'Query');
+  $profile_header = t('Profile (!link)', array(
+    '!link' => l('VIP', 'http://vip.dbc.dk/', array(
+      'attributes' => array('target'=>'_blank')
+      )),
+  ));
+  $header = array(t('Title'), t('Name'), $profile_header, t('Query'));
   $rows = array();
   foreach ($profiles as $profile) {
     $rows[] = array(

@@ -9,3 +9,7 @@
 #ting-field-search-profiles {
   margin: 0 0 0.5em 0;
 }
+
+#ting-field-search-profiles a {
+  display: inline-block;
+}
