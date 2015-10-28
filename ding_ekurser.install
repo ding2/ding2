@@ -28,3 +28,18 @@ function ding_ekurser_translation_install() {
   $file->filename = basename($file->uri);
   _locale_import_po($file, 'da', LOCALE_IMPORT_OVERWRITE, 'default');
 }
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_ekurser_uninstall() {
+  // Clear cache.
+  cache_clear_all('ding_ekurser_subject_facets', 'cache');
+
+  // Disable ding_ekurser search module.
+  $search_modules = variable_get('search_active_modules');
+  if (isset($search_modules['ding_ekurser'])) {
+    unset($search_modules['ding_ekurser']);
+    variable_set('search_active_modules', $search_modules);
+  }
+}
