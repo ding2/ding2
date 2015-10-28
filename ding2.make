@@ -351,7 +351,7 @@ projects[wysiwyg][download][revision] = "7981731f4f3db2f932419499d2ec13a073e9b88
 ; Libraries
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
-libraries[bpi-client][download][url] = "git@github.com:ding2/bpi-client.git"
+libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
 libraries[bpi-client][download][branch] = "master"
 
 libraries[ckeditor][download][type] = "get"
@@ -371,6 +371,6 @@ libraries[profiler][download][branch] = "7.x-2.0-beta1"
 libraries[profiler][patch][0] = "http://drupal.org/files/profiler-reverse.patch"
 
 libraries[ting-client][download][type] = "git"
-libraries[ting-client][download][url] = "git@github.com:ding2/ting-client.git"
+libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
 libraries[ting-client][download][branch] = "master"
 libraries[ting-client][destination] = "modules/ting/lib"
