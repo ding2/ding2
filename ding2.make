@@ -362,6 +362,10 @@ libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEdi
 libraries[ckeditor][directory_name] = "ckeditor"
 libraries[ckeditor][destination] = "libraries"
 
+libraries[chosen][download][type] = "get"
+libraries[chosen][download][url] = "https://github.com/harvesthq/chosen/releases/download/1.4.2/chosen_v1.4.2.zip"
+libraries[chosen][destination] = "libraries"
+
 libraries[leaflet][download][type] = "get"
 libraries[leaflet][download][url] = "http://cdn.leafletjs.com/downloads/leaflet-0.7.3.zip"
 libraries[leaflet][directory_name] = "leaflet"
