@@ -10,6 +10,7 @@ dependencies[] = ding_popup
 dependencies[] = media
 dependencies[] = wysiwyg
 dependencies[] = bpi_features
+dependencies[] = libraries
 files[] = lib/bpi-client/Bpi/Sdk/Bpi.php
 files[] = bpi.admin.inc
 files[] = bpi.delete.inc

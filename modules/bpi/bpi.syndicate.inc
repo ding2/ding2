@@ -725,11 +725,17 @@ function bpi_build_search_facets(array &$form) {
       ),
     );
 
-    $use_chosen = TRUE;
+    // Use chosen to render select controls?
+    $library = libraries_detect('chosen');
+    $use_chosen = !empty($library['installed']);
 
     if ($use_chosen) {
-      $form['#attached']['css'][] = drupal_get_path('module', 'bpi') . '/js/chosen/chosen.min.css';
-      $form['#attached']['js'][] = drupal_get_path('module', 'bpi') . '/js/chosen/chosen.jquery.min.js';
+      foreach ($library['files']['css'] as $file => $v) {
+        $form['#attached']['css'][] = $library['library path'] . '/' . $file;
+      }
+      foreach ($library['files']['js'] as $file => $v) {
+        $form['#attached']['js'][] = $library['library path'] . '/' . $file;
+      }
     }
 
     foreach ($facets as $name => $terms) {
@@ -877,4 +883,27 @@ function bpi_facets_to_array(\Bpi\Sdk\Facets $facets) {
   ksort($data);
 
   return $data;
+}
+
+/**
+ * Implements hook_libraries_info().
+ *
+ * For defining external libraries.
+ */
+function bpi_libraries_info() {
+  $libraries['chosen'] = array(
+    'name' => 'Chosen',
+    'vendor url' => 'https://github.com/harvesthq/chosen',
+    'download url' => 'https://github.com/harvesthq/chosen/releases',
+    'version arguments' => array(
+      'file' => 'chosen.jquery.min.js',
+      'pattern' => '@(?:Chosen v|Version\s+)([0-9a-zA-Z\.-]+)@',
+    ),
+    'files' => array(
+      'css' => array('chosen.min.css'),
+      'js' => array('chosen.jquery.min.js'),
+    ),
+  );
+
+  return $libraries;
 }
