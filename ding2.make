@@ -380,5 +380,5 @@ libraries[profiler][patch][0] = "http://drupal.org/files/profiler-reverse.patch"
 
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
-libraries[ting][download][tag] = "7.x-2.4.0-rc1"
+libraries[ting-client][download][tag] = "7.x-2.4.0-rc1"
 libraries[ting-client][destination] = "modules/ting/lib"
