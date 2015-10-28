@@ -49,7 +49,43 @@ function ting_field_search_profile_form($form, &$form_state) {
     '#default_value' => '',
   );
 
+  // Form actions
+  $form['actions'] = array('#type' => 'actions');
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
+  );
+
+  // Cancel
+  $form['actions']['cancel'] = array(
+    '#type' => 'submit',
+    '#value' => t('Back'),
+    '#submit' => array('ting_field_search_profile_form_cancel'),
+    // Bypass form-validation since this is a cancel-button
+    '#limit_validation_errors' => array(),
+    '#weight' => 40,
+  );
+
   return $form;
+}
+
+/**
+ * Submit callback for the profile form.
+ *
+ * @see ting_field_search_profile_form()
+ */
+function ting_field_search_profile_form_submit($form, &$form_state) {
+
+}
+
+/**
+ * Submit calback for the cancel callback on the context form.
+ *
+ * @see ting_field_search_profile_form()
+ */
+function ting_field_search_profile_form_cancel($form, &$form_state) {
+  // Go back to ting settings
+  $form_state['redirect'] = 'admin/config/ting/settings';
 }
 
 function ting_field_search_profile_exists($value) {
