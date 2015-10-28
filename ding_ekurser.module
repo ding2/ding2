@@ -100,6 +100,7 @@ function ding_ekurser_form_alter(&$form, &$form_state, $form_id) {
   $form['subjects_end'] = array(
     '#markup' => '</ul>',
   );
+  
   drupal_add_css(drupal_get_path('module', 'ding_ekurser') . '/ding_ekurser.css', 'file');
 }
 
@@ -188,6 +189,9 @@ function ding_ekurser_search_execute($keys = NULL, $conditions = NULL) {
  * Search conditions callback.
  *
  * Use ting_search's conditions callback and add default sort.
+ *
+ * @return array
+ *   Array of search conditions (keys, size, sort)
  */
 function ding_ekurser_conditions_callback($keys) {
   $conditions = ting_search_conditions_callback($keys);
