@@ -205,6 +205,37 @@ function ting_field_search_profiles_load($name = NULL) {
 }
 
 /**
+ * Saves a profile in the database.
+ *
+ * @param mixed $profile
+ *   An array or object representing a new or existing profile.
+ *
+ * @return mixed $result
+ *   FALSE, if something went wrong.
+ *   1 or 2 if an insert or update was performed, respectively.
+ */
+function ting_field_search_profile_save($profile) {
+  $result = FALSE;
+
+  try {
+    $profile = is_object($profile) ? (array) $profile : $profile;
+
+    // Take out the profile name (primary key) for merge query.
+    $name = $profile['name'];
+    unset($profile['name']);
+    $result = db_merge('ting_field_search_profile')
+      ->key(array('name' => $name))
+      ->fields($profile)
+      ->execute();
+  }
+  catch (Exception $e) {
+    watchdog_exception('ting_field_search', $e);
+  }
+
+  return $result;
+}
+
+/**
  * Implements hook_drupal_goto_alter().
  */
 function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_code) {
