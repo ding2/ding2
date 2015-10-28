@@ -7,31 +7,6 @@
  */
 
 /**
- * Implements hook_ting_pre_execute().
- *
- * This is where the magic happens. We alter the request based on the special
- * profile used (if any), before it's send to the datawell.
- */
-function ting_field_search_ting_pre_execute($request) {
-  if ($profile = ting_field_search_get_current_profile()) {
-    // Ensure that this is a Ting client, object or search request since a
-    // profile is only used in these classes.
-    if ($request instanceof TingClientSearchRequest || $request instanceof TingClientObjectRequest) {
-      // Modify the request based on profile settings
-      if (!empty($profile->profile)) {
-        $request->setProfile($profile->profile);
-      }
-
-      if (!empty($profile->query) && $request instanceof TingClientSearchRequest) {
-        $query = $request->getQuery();
-        $query .= ' and ' . $profile->query;
-        $request->setQuery($query);
-      }
-    }
-  }
-}
-
-/**
  * Implements hook_menu().
  */
 function ting_field_search_menu() {
@@ -47,6 +22,30 @@ function ting_field_search_menu() {
   );
 
   return $items;
+}
+
+/**
+ * Implements hook_ting_pre_execute().
+ */
+function ting_field_search_ting_pre_execute($request) {
+  if ($profile = ting_field_search_get_current_profile()) {
+    // The request is being performed in the context of one of our profiles;
+    // modify the request based on the profile settings.
+    if ($request instanceof TingClientSearchRequest || $request instanceof TingClientObjectRequest) {
+
+      // The profile parameter is supported on both types of supported objects.
+      if (!empty($profile->profile)) {
+        $request->setProfile($profile->profile);
+      }
+
+      // Object requests doesn't use queries.
+      if (!empty($profile->query) && $request instanceof TingClientSearchRequest) {
+        $query = $request->getQuery();
+        $query .= ' and ' . $profile->query;
+        $request->setQuery($query);
+      }
+    }
+  }
 }
 
 /**
