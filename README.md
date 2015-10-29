@@ -146,7 +146,7 @@ Gulp can watch your source files so they are processed on every change:
 
 ```sh
   ~$ cd DRUPAL/profiles/ding2/themes/ddbasic
-  ~$ gulp
+  ~$ gulp watch
 ```
 
 Note that developers changing the source JavaScript and SCSS files are also responsible for changing the processed files in their commits.
