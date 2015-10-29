@@ -369,7 +369,7 @@ function ting_field_search_preprocess_ding_availability_types(&$variables) {
               '#attributes' => array(
                 'id' => $id,
                 'class' => $class,
-                'href' => $path . '?profile=' . $profile->name,
+                'href' => '/' . $path . '?profile=' . $profile->name,
               ),
               '#value' => check_plain($type),
             );
