@@ -319,17 +319,15 @@ function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_
  * in DDB CMS uses the 'ding_availability_with_labels' formatter on the
  * 'ting_collection_types' field. Even though it DOES uses entity_uri() the
  * formatter fails to pass the options array with our profile parameter to the
- * link theme.
+ * link theme returned from the uri callback wrappers.
+ * To solve this we implement this preprocessor for the theme used in the
+ * formatter, and modify the URIs. Fortunately, most of the links uses a render
+ * array, but the online type is hardcoded and we need to use regex.
  */
 function ting_field_search_preprocess_ding_availability_types(&$variables) {
-  // This theme hook is only used when views search result, collections and
-  // objects, thus it should be sufficient to only perform a detection.
-  // NOTE: We may need to revisit this in the future.
   if ($profile = ting_field_search_detect_profile_parameter()) {
     $types = &$variables['types'];
 
-    // ding_availability deals with to types of availability; 'pending' and
-    // 'online'. Both types can be present on a collection.
     foreach ($types as $type => $info) {
 
       // The pending type is the easy one, since it uses a render array.
@@ -343,12 +341,41 @@ function ting_field_search_preprocess_ding_availability_types(&$variables) {
           }
         }
       }
-      // The online type is the tricky. The link is hardcoded because of some
-      // weird reseasoning in ding_availability.
+
+      // The online type is a bit tricky, since the link is hardcoded.
       else if ($type == 'online') {
-        // TODO: Handle online availability types. Use preg_match to extract
-        // 'id="[pid]"' and 'href=[path]' from the hardcoded link, since this
-        // is the only way to retrieve this data.
+        foreach ($info['#links'] as $key => $link) {
+          $link = $link['link']['#markup'];
+
+          // Path
+          preg_match('/(ting\/object\/.*)(")/', $link, $match);
+          $path = isset($match[1]) ? $match[1] : FALSE;
+
+          // ID
+          $match = array();
+          preg_match('/id="(.+?)"/', $link, $match);
+          $id = isset($match[1]) ? $match[1] : FALSE;
+
+          // Class
+          $match = array();
+          preg_match('/class="(.+?)"/', $link, $match);
+          $class = isset($match[1]) ? $match[1] : FALSE;
+
+          // Reconstruct without using l(), because ting doesn't either.
+          if ($path && $id && $class) {
+            $types[$type]['#links'][$key]['link'] = array(
+              '#theme' => 'html_tag',
+              '#tag' => 'a',
+              '#attributes' => array(
+                'id' => $id,
+                'class' => $class,
+                'href' => $path . '?profile=' . $profile->name,
+              ),
+              '#value' => check_plain($type),
+            );
+          }
+
+        }
       }
 
     }
