@@ -1,4 +1,4 @@
-var gulp = require('gulp');
+var gulp = require('gulp-help')(require('gulp'));
 
 // Plugins.
 var gutil = require('gulp-util');
@@ -11,15 +11,13 @@ var sass = require('gulp-sass');
 var jsPath = './scripts/ddbasic.!(*.min).js';
 var sassPath = './sass/**/*.scss';
 
-// Run Javascript through JSHint.
-gulp.task('jshint', function() {
+gulp.task('jshint', 'Run Javascript through JSHint', function() {
   return gulp.src(jsPath)
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'));
 });
 
-// Minify JavaScript using Uglify.
-gulp.task('uglify', function() {
+gulp.task('uglify', 'Minify JavaScript using Uglify', function() {
   gulp.src(jsPath)
     .pipe(uglify({
       // Preserve the $ variable name.
@@ -33,8 +31,7 @@ gulp.task('uglify', function() {
     .pipe(gulp.dest('./scripts'));
 });
 
-// Process SCSS using libsass
-gulp.task('sass', function () {
+gulp.task('sass', 'Process SCSS using libsass', function () {
   gulp.src(sassPath)
     .pipe(sass({
       outputStyle: 'compressed',
@@ -47,7 +44,7 @@ gulp.task('sass', function () {
     .pipe(gulp.dest('./css'));
 });
 
-gulp.task('watch', function() {
+gulp.task('watch', 'Watch and process JS and SCSS files', function() {
   gulp.watch(jsPath, ['jshint', 'uglify']);
   gulp.watch(sassPath, ['sass']);
 });

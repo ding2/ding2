@@ -10,6 +10,7 @@
   "devDependencies": {
     "compass-mixins": "^0.12.7",
     "gulp": "^3.9.0",
+    "gulp-help": "^1.6.1",
     "gulp-jshint": "^1.11.2",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.0.4",
