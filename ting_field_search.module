@@ -400,7 +400,7 @@ function ting_field_search_form_ting_admin_ting_settings_alter(&$form, &$form_st
     $rows[] = array(
       l($profile->title, $path),
       $profile->name,
-      $profile->profile,
+      check_plain($profile->profile),
       empty($profile->query) ? t('None') : $profile->query,
     );
   }
@@ -437,7 +437,7 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
   $profiles = array();
   foreach (ting_field_search_profiles_load() as $name => $profile) {
     $profiles[$name] = t('Search in @profile', array(
-     '@profile'  => $profile->title
+     '@profile'  => check_plain($profile->title),
     ));
   }
 
@@ -447,7 +447,7 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
     '#type' => 'select',
     '#options' => $profiles,
     '#empty_option' => t('Search in standard'),
-    '#default_value' => $profile ? $profile->name : '',
+    '#default_value' => $profile ? check_plain($profile->name) : '',
   );
 
   // Use a validate handler for its timing before ting_search_submit() which is

@@ -145,7 +145,7 @@ function ting_field_search_profile_form_delete_confirm_form($form, &$form_state,
 
   return confirm_form($form,
     t('Are you sure you want to delete the @profile profile?', array(
-      '@profile' => $profile->title
+      '@profile' => check_plain($profile->title),
     )),
     'admin/config/ting/settings/ting-field-search-profiles/' . $profile->name .'/edit',
     NULL, // This action cannot be undone.
@@ -162,7 +162,7 @@ function ting_field_search_profile_form_delete_confirm_form_submit($form, &$form
 
   if (ting_field_search_profile_delete($profile->name)) {
     drupal_set_message(t('Profile @profile deleted', array(
-      '@profile' => $profile->title,
+      '@profile' => check_plain($profile->title),
     )));
   }
   else {
