@@ -313,6 +313,49 @@ function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_
 }
 
 /**
+ * Implements hook_preprocess_ding_availability_types().
+ *
+ * When collections is rendered in a search result, the standard configuration
+ * in DDB CMS uses the 'ding_availability_with_labels' formatter on the
+ * 'ting_collection_types' field. Even though it DOES uses entity_uri() the
+ * formatter fails to pass the options array with our profile parameter to the
+ * link theme.
+ */
+function ting_field_search_preprocess_ding_availability_types(&$variables) {
+  // This theme hook is only used when views search result, collections and
+  // objects, thus it should be sufficient to only perform a detection.
+  // NOTE: We may need to revisit this in the future.
+  if ($profile = ting_field_search_detect_profile_parameter()) {
+    $types = &$variables['types'];
+
+    // ding_availability deals with to types of availability; 'pending' and
+    // 'online'. Both types can be present on a collection.
+    foreach ($types as $type => $info) {
+
+      // The pending type is the easy one, since it uses a render array.
+      if ($type == 'pending') {
+        foreach ($info['#links'] as $key => $link) {
+          // Ensure that we only modify internal links.
+          if (!url_is_external($link['link']['#path'])) {
+            $types[$type]['#links'][$key]['link']['#options']['query'] = array(
+              'profile' => $profile->name,
+            );
+          }
+        }
+      }
+      // The online type is the tricky. The link is hardcoded because of some
+      // weird reseasoning in ding_availability.
+      else if ($type == 'online') {
+        // TODO: Handle online availability types. Use preg_match to extract
+        // 'id="[pid]"' and 'href=[path]' from the hardcoded link, since this
+        // is the only way to retrieve this data.
+      }
+
+    }
+  }
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function ting_field_search_form_ting_admin_ting_settings_alter(&$form, &$form_state) {
