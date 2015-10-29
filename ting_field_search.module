@@ -72,8 +72,7 @@ function ting_field_search_ting_pre_execute($request) {
 
       // Object requests doesn't use queries.
       if (!empty($profile->query) && $request instanceof TingClientSearchRequest) {
-        $query = $request->getQuery();
-        $query .= ' and ' . $profile->query;
+        $query = '(' . $request->getQuery() . ') and ' . $profile->query;
         $request->setQuery($query);
       }
     }
