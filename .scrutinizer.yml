@@ -1,0 +1,24 @@
+tools:
+  php_code_sniffer:
+    config:
+      standard: Drupal
+    extensions:
+      - module
+      - inc
+      - install
+      - test
+      - profile
+      - theme
+  js_hint:
+    use_native_config: true
+
+filter:
+    excluded_paths:
+        - modules/fbs/prancer/*
+        - modules/fbs/vendor/*
+        - themes/ddbasic/scripts/equalize.min.js
+        - themes/ddbasic/scripts/html5shiv.js
+        - themes/ddbasic/scripts/jquery.*
+        - themes/ddbasic/scripts/respond.*
+        - themes/ddbasic/scripts/scalefix.js
+        - themes/ddbasic/scripts/*.min.js
