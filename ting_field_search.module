@@ -314,16 +314,15 @@ function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_
 /**
  * Implements hook_preprocess_ding_availability_types().
  *
- * When collections is rendered in a search result, the standard configuration
- * in DDB CMS uses the 'ding_availability_with_labels' formatter on the
- * 'ting_collection_types' field. Even though it DOES uses entity_uri() the
- * formatter fails to pass the options array with our profile parameter to the
- * link theme returned from the uri callback wrappers.
- * To solve this we implement this preprocessor for the theme used in the
- * formatter, and modify the URIs. Fortunately, most of the links uses a render
- * array, but the online type is hardcoded and we need to use regex.
+ * Ensure that avialability links in a search result, gets the appropriate
+ * profile paramert appended.
+ * NOTE: Even though the 'ding_availability_with_labels' does use entity_uri,
+ * we still need this hooks, since it doesn't pass the 'options' part to the
+ * l() function.
  */
 function ting_field_search_preprocess_ding_availability_types(&$variables) {
+  // The formatter is only used in a search result, so we can safely just
+  // detect if a profile parameter is present.
   if ($profile = ting_field_search_detect_profile_parameter()) {
     $types = &$variables['types'];
 
@@ -346,32 +345,13 @@ function ting_field_search_preprocess_ding_availability_types(&$variables) {
         foreach ($info['#links'] as $key => $link) {
           $link = $link['link']['#markup'];
 
-          // Path
-          preg_match('/(ting\/object\/.*)(")/', $link, $match);
-          $path = isset($match[1]) ? $match[1] : FALSE;
-
-          // ID
-          $match = array();
-          preg_match('/id="(.+?)"/', $link, $match);
-          $id = isset($match[1]) ? $match[1] : FALSE;
-
-          // Class
-          $match = array();
-          preg_match('/class="(.+?)"/', $link, $match);
-          $class = isset($match[1]) ? $match[1] : FALSE;
-
-          // Reconstruct without using l(), because ting doesn't either.
-          if ($path && $id && $class) {
-            $types[$type]['#links'][$key]['link'] = array(
-              '#theme' => 'html_tag',
-              '#tag' => 'a',
-              '#attributes' => array(
-                'id' => $id,
-                'class' => $class,
-                'href' => '/' . $path . '?profile=' . $profile->name,
-              ),
-              '#value' => check_plain($type),
-            );
+          // If we can extract the path from the hardcoded link, go ahead and
+          // replace that path with one with our profile parameter.
+          $pattern = '/href="(\/ting\/object\/.+?)"/';
+          if (preg_match('/href="(\/ting\/object\/.+?)"/', $link)) {
+            $replace = 'href="$1?profile=' . $profile->name . '"';
+            $link = preg_replace($pattern, $replace, $link);
+            $types[$type]['#links'][$key]['link'] = $link;
           }
 
         }
