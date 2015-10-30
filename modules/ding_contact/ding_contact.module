@@ -5,3 +5,62 @@
  */
 
 include_once 'ding_contact.features.inc';
+
+/**
+ * Implements hook_block_view_alter
+ *
+ * Contact form is taken over by page_manager - @see ctools/plugins/tasks/contact_site.inc, and
+ * expects a form to render - the contact module [drupal]/modules/contact returns message as a string if eg.
+ * flooding is violated, and thus page_manager fails to render jthe message.
+ *
+ * check if content on contact site  is a form. If not make it so
+ * */
+function ding_contact_block_view_alter(&$data, $block) {
+  if ($block->delta == 'contact_site') {
+    if (is_string($data['content']['form'])) {
+      $data['content']['form'] = drupal_get_form('ding_contact_flooded_form', $data['content']['form']);
+    }
+  }
+}
+
+/**
+ * A simple form that displays a message
+ *
+ * @param $form
+ * @param $form_state
+ * @param $message
+ *  The message to disply
+ * @return array
+ *  Very simple form
+ */
+function ding_contact_flooded_form($form, $form_state, $message) {
+  $form = array();
+  $form['message'] = array(
+    '#markup' => $message,
+  );
+  return $form;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter (contact_site_form)
+ * Alter the contact form: make sure no cached page is delivered, and stop redirect
+ * Why ? - to make sure no cached page is delivereed
+ */
+function ding_contact_form_contact_site_form_alter(&$form, &$form_state) {
+  $form['actions']['submit']['#attached'] = array(
+    'drupal_add_http_header' => array(
+      array('Cache-Control', 'no-cache, no-store, must-revalidate')
+    ),
+  );
+  $form['#submit'][] = 'ding_contact_contact_form_stop_redirect';
+}
+
+/**
+ * Prevent default redirect to frontpage ( @see contact.pages.inc::contact_personal_form_submit() )
+ *
+ * @param $form
+ * @param $form_state
+ */
+function ding_contact_contact_form_stop_redirect($form, &$form_state) {
+  unset($form_state['redirect']);
+}

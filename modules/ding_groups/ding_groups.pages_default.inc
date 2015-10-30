@@ -179,7 +179,7 @@ function ding_groups_default_page_manager_handlers() {
     $display->panels['main_content'][2] = 'new-3bc42ce7-ca5f-4e5c-9176-2bcbaecc961a';
     $pane = new stdClass();
     $pane->pid = 'new-c9969c72-cf63-49ed-b371-61bb19780890';
-    $pane->panel = 'right_sidebar';
+    $pane->panel = 'left_sidebar';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
     $pane->shown = TRUE;
@@ -203,11 +203,11 @@ function ding_groups_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 1;
     $pane->locks = array();
     $pane->uuid = 'c9969c72-cf63-49ed-b371-61bb19780890';
     $display->content['new-c9969c72-cf63-49ed-b371-61bb19780890'] = $pane;
-    $display->panels['right_sidebar'][0] = 'new-c9969c72-cf63-49ed-b371-61bb19780890';
+    $display->panels['left_sidebar'][1] = 'new-c9969c72-cf63-49ed-b371-61bb19780890';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -708,7 +708,7 @@ function ding_groups_default_page_manager_pages() {
     $display->panels['main_content'][0] = 'new-f5c30667-761e-4d84-95e3-d5d724581160';
     $pane = new stdClass();
     $pane->pid = 'new-e806ff55-7233-4b24-9383-43f9025629a6';
-    $pane->panel = 'right_sidebar';
+    $pane->panel = 'left_sidebar';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
     $pane->shown = TRUE;
@@ -736,7 +736,7 @@ function ding_groups_default_page_manager_pages() {
     $pane->locks = array();
     $pane->uuid = 'e806ff55-7233-4b24-9383-43f9025629a6';
     $display->content['new-e806ff55-7233-4b24-9383-43f9025629a6'] = $pane;
-    $display->panels['right_sidebar'][0] = 'new-e806ff55-7233-4b24-9383-43f9025629a6';
+    $display->panels['left_sidebar'][0] = 'new-e806ff55-7233-4b24-9383-43f9025629a6';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = 'new-f5c30667-761e-4d84-95e3-d5d724581160';
   $handler->conf['display'] = $display;

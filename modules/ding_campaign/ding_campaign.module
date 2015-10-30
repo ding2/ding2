@@ -4,6 +4,8 @@
  * Provides campaign feature to various node types in Ding.
  */
 
+include_once 'ding_campaign.features.inc';
+
 /**
  * Implements hook_menu().
  */
@@ -170,6 +172,7 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
 
       // Get link value.
       $link = $wrapper->field_camp_link->value();
+
       if (!empty($link)) {
         $current['#link'] = array(
           '#theme' => 'link',
@@ -180,21 +183,25 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
               'class' => array(
                 'ding-campaing--link',
               ),
-              'target' => '_blank',
             ),
             'html' => FALSE,
             'absolute' => TRUE,
           ),
         );
+
+        if ($wrapper->field_camp_behavior->value()) {
+          $current['#link']['#options']['attributes']['target'] = '_blank';
+        }
       }
 
       // Get text both plain and full.
       $text = $wrapper->field_camp_text_plain->value();
-      $text = !empty($text) ? $text : $wrapper->field_camp_text_full->value();
+      $text = (!empty($text)) ? $text : $wrapper->field_camp_text_full->value();
       if (!empty($text)) {
         $current['#text'] = array(
-          'content' => $text,
+          '#markup' => (is_array($text) && isset($text['safe_value'])) ? $text['safe_value'] : $text,
         );
+        unset($current['#link']);
       }
 
       // Get image.
@@ -212,12 +219,11 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
         if (!empty($link)) {
           // Sadly the link theme function do not generate children.
           $image = $current['#image'];
-          $current['#image'] = $current['#link'];
+          $current['#image'] = (isset($current['#link'])) ? $current['#link'] : NULL;
           $current['#image']['#text'] = drupal_render($image);
           $current['#image']['#options']['html'] = TRUE;
         }
       }
-
       // Get weight.
       $weight = $wrapper->field_camp_weight->value();
       if (!empty($weight)) {
@@ -444,6 +450,47 @@ function ding_campaign_form_alter(&$form, &$form_state, $form_id) {
         '#description' => 'Select campaigns asociated with this node.',
       );
     }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ding_campaign_form_ding_campaign_node_form_alter(&$form, &$form_state) {
+  // Add states for form elements based on Campaign settings selected options.
+  $form['field_camp_text_full']['#states'] = array(
+    'visible' => array(
+      ':input[name="field_camp_settings[und]"]' => array('value' => 'full'),
+    ),
+  );
+  $form['field_camp_text_plain']['#states'] = array(
+    'visible' => array(
+      ':input[name="field_camp_settings[und]"]' => array('value' => 'plain'),
+    ),
+  );
+  $form['field_camp_image']['#states'] = array(
+    'visible' => array(
+      ':input[name="field_camp_settings[und]"]' => array('value' => 'image'),
+    ),
+  );
+  array_unshift($form['actions']['submit']['#submit'], 'ding_campaign_form_ding_campaign_node_form_submit');
+}
+
+function ding_campaign_form_ding_campaign_node_form_submit(&$form, &$form_state) {
+  $field_camp_settings = $form_state['values']['field_camp_settings'][LANGUAGE_NONE][0]['value'];
+  switch ($field_camp_settings) {
+    case 'full':
+      $form_state['values']['field_camp_text_plain'][LANGUAGE_NONE][0]['value'] = '';
+      $form_state['values']['field_camp_image'][LANGUAGE_NONE][0]['fid'] = '';
+      break;
+    case 'plain':
+      $form_state['values']['field_camp_text_full'][LANGUAGE_NONE][0]['value'] = '';
+      $form_state['values']['field_camp_image'][LANGUAGE_NONE][0]['fid'] = '';
+      break;
+   case 'image':
+      $form_state['values']['field_camp_text_full'][LANGUAGE_NONE][0]['value'] = '';
+      $form_state['values']['field_camp_text_plain'][LANGUAGE_NONE][0]['value'] = '';
+      break;
   }
 }
 

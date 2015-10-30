@@ -71,13 +71,15 @@ function ding_campaign_campaign_content_type_edit_form($form, &$form_state) {
     '#title' => t('Campaign image width'),
     '#description' => t('Applicable for image campaigns. Image will be resized to selected width, height will be selected automatically.'),
     '#options' => array(
-      'medium' => t('Default (medium)'),
-      'ding_campaign_w_180' => t('180px'),
-      'ding_campaign_w_280' => t('280px'),
-      'ding_campaign_w_380' => t('380px'),
-      'ding_campaign_w_480' => t('480px'),
+      'ding_campaign_p_25' => t('25% (280px)'),
+      'ding_campaign_p_33' => t('33% (380px)'),
+      'ding_campaign_p_50' => t('50% (580px)'),
+      'ding_campaign_p_66' => t('66% (780px)'),
+      'ding_campaign_p_75' => t('75% (880px)'),
+      'ding_campaign_p_100' => t('100% (1200px)'),
+
     ),
-    '#default_value' => (isset($form_state['conf']['ding_campaign_image_style'])) ? $form_state['conf']['ding_campaign_image_style'] : 'medium',
+    '#default_value' => (isset($form_state['conf']['ding_campaign_image_style'])) ? $form_state['conf']['ding_campaign_image_style'] : 'ding_campaign_p_25',
   );
 
   drupal_add_css(drupal_get_path('module', 'ding_campaign') . '/css/ding_campaign.admin.css');

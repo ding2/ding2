@@ -117,3 +117,16 @@ function ding_campaign_update_7002(&$sandbox) {
 function ding_campaign_update_7003(&$sandbox) {
   return db_drop_field('ding_campaign', 'pane_id');
 }
+
+/**
+ * Expand the rule column max length.
+ */
+function ding_campaign_update_7004() {
+  $new_def = array(
+    'type' => 'varchar',
+    'length' => 255,
+  );
+
+  db_change_field('ding_campaign_rules', 'rule', 'rule', $new_def);
+}
+
