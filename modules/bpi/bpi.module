@@ -548,8 +548,9 @@ function bpi_client_instance() {
   $agency_id = variable_get('bpi_agency_id', '');
   $api_key = variable_get('bpi_api_key', '');
   $secret_key = variable_get('bpi_secret_key', '');
+  $salt = drupal_get_hash_salt();
 
-  return new Bpi($endpoint, $agency_id, $api_key, $secret_key);
+  return new Bpi($endpoint, $agency_id, $api_key, $secret_key, $salt);
 }
 
 /**
