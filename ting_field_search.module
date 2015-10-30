@@ -449,11 +449,13 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
 
   // This need to work on every page, so we just detect the profile.
   $profile = ting_field_search_detect_profile_parameter();
+  $disabled = (arg(0) == 'search' && arg(1) == 'node') ? TRUE : FALSE;
   $form['ting_field_search'] = array(
     '#type' => 'select',
     '#options' => $profiles,
-    '#empty_option' => t('Search in standard'),
-    '#default_value' => $profile ? check_plain($profile->name) : '',
+    '#empty_option' => $disabled ? t('Disabled') : t('Search in standard'),
+    '#default_value' => $disabled ? '' : $profile ? check_plain($profile->name) : '',
+    '#disabled' => $disabled,
   );
 
   // Use a validate handler for its timing before ting_search_submit() which is
