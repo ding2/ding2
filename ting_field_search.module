@@ -215,82 +215,6 @@ function _ting_field_search_alter_entity_uri($path) {
 }
 
 /**
- * Load function (wrapper for profiles_load()).
- */
-
-/**
- * Loads profiles fromt the database.
- *
- * @param string $name (optional)
- *   Load a profile by machine-name.
- *
- * @return array $profiles
- *   An array of profile objects keyed by profile machine name.
- */
-function ting_field_search_profiles_load($name = NULL) {
-  $query = db_select('ting_field_search_profile', 'tp')
-    ->fields('tp');
-
-  if (isset($name)) {
-    $query->condition('tp.name', $name);
-  }
-
-  return $query->execute()->fetchAllAssoc('name');
-}
-
-/**
- * Saves a profile in the database.
- *
- * @param mixed $profile
- *   An array or object representing a new or existing profile.
- *
- * @return mixed $result
- *   FALSE, if something went wrong.
- *   1 or 2 if an insert or update was performed, respectively.
- */
-function ting_field_search_profile_save($profile) {
-  $result = FALSE;
-
-  try {
-    $profile = is_object($profile) ? (array) $profile : $profile;
-
-    // Take out the profile name (primary key) for merge query.
-    $name = $profile['name'];
-    unset($profile['name']);
-    $result = db_merge('ting_field_search_profile')
-      ->key(array('name' => $name))
-      ->fields($profile)
-      ->execute();
-  }
-  catch (Exception $e) {
-    watchdog_exception('ting_field_search', $e);
-  }
-
-  return $result;
-}
-
-/**
- * Deletes a profile.
- *
- * @param string $name
- *   The macinhe-name of the profile to delete.
- */
-function ting_field_search_profile_delete($name) {
-  $result = FALSE;
-
-  try {
-    $result = db_delete('ting_field_search_profile')
-      ->condition('name', $name)
-      ->execute();
-  }
-  catch (Exception $e) {
-    watchdog_exception('ting_field_search', $e);
-  }
-
-  return $result;
-}
-
-/**
  * Implements hook_drupal_goto_alter().
  */
 function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_code) {
@@ -478,4 +402,76 @@ function ting_field_search_search_block_validate($form, &$form_state) {
   if (!empty($form_state['values']['ting_field_search'])) {
     ting_field_search_set_outbound_profile($form_state['values']['ting_field_search']);
   }
+}
+
+/**
+ * Loads profiles fromt the database.
+ *
+ * @param string $name (optional)
+ *   Load a profile by machine-name.
+ *
+ * @return array $profiles
+ *   An array of profile objects keyed by profile machine name.
+ */
+function ting_field_search_profiles_load($name = NULL) {
+  $query = db_select('ting_field_search_profile', 'tp')
+    ->fields('tp');
+
+  if (isset($name)) {
+    $query->condition('tp.name', $name);
+  }
+
+  return $query->execute()->fetchAllAssoc('name');
+}
+
+/**
+ * Saves a profile in the database.
+ *
+ * @param mixed $profile
+ *   An array or object representing a new or existing profile.
+ *
+ * @return mixed $result
+ *   FALSE, if something went wrong.
+ *   1 or 2 if an insert or update was performed, respectively.
+ */
+function ting_field_search_profile_save($profile) {
+  $result = FALSE;
+
+  try {
+    $profile = is_object($profile) ? (array) $profile : $profile;
+
+    // Take out the profile name (primary key) for merge query.
+    $name = $profile['name'];
+    unset($profile['name']);
+    $result = db_merge('ting_field_search_profile')
+      ->key(array('name' => $name))
+      ->fields($profile)
+      ->execute();
+  }
+  catch (Exception $e) {
+    watchdog_exception('ting_field_search', $e);
+  }
+
+  return $result;
+}
+
+/**
+ * Deletes a profile.
+ *
+ * @param string $name
+ *   The macinhe-name of the profile to delete.
+ */
+function ting_field_search_profile_delete($name) {
+  $result = FALSE;
+
+  try {
+    $result = db_delete('ting_field_search_profile')
+      ->condition('name', $name)
+      ->execute();
+  }
+  catch (Exception $e) {
+    watchdog_exception('ting_field_search', $e);
+  }
+
+  return $result;
 }
