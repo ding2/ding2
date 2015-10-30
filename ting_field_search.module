@@ -316,48 +316,49 @@ function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_
  *
  * Ensure that avialability links in a search result, gets the appropriate
  * profile paramert appended.
- * NOTE: Even though the 'ding_availability_with_labels' does use entity_uri,
- * we still need this hooks, since it doesn't pass the 'options' part to the
- * l() function.
+ *
+ * @see ding_availability_field_formatter_view().
  */
 function ting_field_search_preprocess_ding_availability_types(&$variables) {
-  // The formatter is only used in a search result, so we can safely just
-  // detect if a profile parameter is present.
-  if ($profile = ting_field_search_detect_profile_parameter()) {
-    $types = &$variables['types'];
+  $profile = ting_field_search_detect_profile_parameter();
+  // Nothing to do if a profile wasn't present.
+  if (!$profile) {
+    return;
+  }
 
-    foreach ($types as $type => $info) {
+  $types = &$variables['types'];
 
-      // The pending type is the easy one, since it uses a render array.
-      if ($type == 'pending') {
-        foreach ($info['#links'] as $key => $link) {
-          // Ensure that we only modify internal links.
-          if (!url_is_external($link['link']['#path'])) {
-            $types[$type]['#links'][$key]['link']['#options']['query'] = array(
-              'profile' => $profile->name,
-            );
-          }
-        }
+  // The pending type uses a render array, so it's straight forward.
+  if (isset($types['pending'])) {
+    $links = &$types['pending']['#links'];
+
+    foreach ($links as $key => $link) {
+      $options = &$links[$key]['link']['#options'];
+
+      // Ensure that we only modify internal links.
+      if (!url_is_external($link['link']['#path'])) {
+        $options['query'] = array('profile' => $profile->name);
       }
-
-      // The online type is a bit tricky, since the link is hardcoded.
-      else if ($type == 'online') {
-        foreach ($info['#links'] as $key => $link) {
-          $link = $link['link']['#markup'];
-
-          // If we can extract the path from the hardcoded link, go ahead and
-          // replace that path with one with our profile parameter.
-          $pattern = '/href="(\/ting\/object\/.+?)"/';
-          if (preg_match('/href="(\/ting\/object\/.+?)"/', $link)) {
-            $replace = 'href="$1?profile=' . $profile->name . '"';
-            $link = preg_replace($pattern, $replace, $link);
-            $types[$type]['#links'][$key]['link'] = $link;
-          }
-
-        }
-      }
-
     }
+
+  }
+
+  // The online type is a bit tricky, since the link is hardcoded.
+  if (isset($types['online'])) {
+    $links = &$types['online']['#links'];
+
+    foreach ($links as $key => $link) {
+      $link = &$links[$key]['link']['#markup'];
+
+      // If we can extract the path from the hardcoded link, go ahead and
+      // replace that path with one with our profile parameter.
+      $pattern = '/href="(\/ting\/object\/.+)"/';
+      if (preg_match('/href="(\/ting\/object\/.+)"/', $link)) {
+        $replace = 'href="$1?profile=' . $profile->name . '"';
+        $link = preg_replace($pattern, $replace, $link);
+      }
+    }
+
   }
 }
 
