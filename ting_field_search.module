@@ -236,6 +236,38 @@ function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_
 }
 
 /**
+ * Implements hook_url_outbund_alter().
+ *
+ * Add a profile parameter to outbund search links ist's a supported page. This
+ * is called often, so the function returns early if there's any indication
+ * that the link shouldn't be altered.
+ */
+function ting_field_search_url_outbound_alter(&$path, &$options, $original_path) {
+  // Only search links
+  if (!preg_match('/^search\/ting/', $path)) {
+    return;
+  }
+
+  // Constrain the modification
+  $types = array('author', 'subject', 'series');
+  $type = isset($options['attributes']['class']) ?
+    array_shift($options['attributes']['class']) : FALSE;
+  if (!$type || !in_array($type, $types)) {
+    return;
+  }
+
+  // Check settings
+  if (!variable_get('ting_field_search_alter_' . $type . '_links', TRUE)) {
+    return;
+  }
+
+  // Get the profile and verify that we're on a supported page.
+  if ($profile = ting_field_search_get_current_profile()) {
+    $options['query']['profile'] = $profile->name;
+  }
+}
+
+/**
  * Implements hook_preprocess_ding_availability_types().
  *
  * Ensure that avialability links in a search result, gets the appropriate
