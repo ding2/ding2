@@ -247,27 +247,15 @@ function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_
  * that the link shouldn't be altered.
  */
 function ting_field_search_url_outbound_alter(&$path, &$options, $original_path) {
-  // Only search links
-  if (!preg_match('/^search\/ting/', $path)) {
-    return;
-  }
-
-  // Constrain the modification
-  $types = array('author', 'subject', 'series');
-  $type = isset($options['attributes']['class']) ?
-    array_shift($options['attributes']['class']) : FALSE;
-  if (!$type || !in_array($type, $types)) {
-    return;
-  }
-
-  // Check settings
-  if (!variable_get('ting_field_search_alter_' . $type . '_links', TRUE)) {
-    return;
-  }
-
-  // Get the profile and verify that we're on a supported page.
   if ($profile = ting_field_search_get_current_profile()) {
-    $options['query']['profile'] = $profile->name;
+    // Alot of links wont be ting search links, so check that first.
+    if (!preg_match('/^search\/ting/', $path)) {
+      return;
+    }
+
+    if (variable_get('ting_field_search_alter_search_links', FALSE)) {
+      $options['query']['profile'] = $profile->name;
+    }
   }
 }
 
