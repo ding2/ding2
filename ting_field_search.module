@@ -327,17 +327,21 @@ function ting_field_search_form_ting_admin_ting_settings_alter(&$form, &$form_st
   );
   $form['ting']['search_profile']['ting_search_profile'] = $standard;
 
-  // Add special search profile configuration.
+  // Attach the Ting field search settings.
   $form['ting']['search_profile']['ting_field_search'] = array(
     '#type' => 'fieldset',
-    '#tree' => TRUE,
-    '#title' => t('Special search profiles'),
+    '#title' => t('Ting field search'),
     // There's a bug that will show icon anyway.
     // See: https://www.drupal.org/node/1361810 for more info (Fixed with CSS).
     '#collapsible' => FALSE,
-    // Wrapper for AJAX replacment
     '#prefix' => '<div id="ting-field-search-wrapper">',
     '#suffix' => '</div>',
+  );
+  $form['ting']['search_profile']['ting_field_search']['ting_field_search_alter_search_links'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Alter links'),
+    '#description' => t('If checked, search links on Ting search pages will get the active profile parameter appended.'),
+    '#default_value' => variable_get('ting_field_search_alter_search_links', FALSE),
   );
 
   // A simple table of existing special search profiles.
