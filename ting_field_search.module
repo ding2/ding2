@@ -97,7 +97,7 @@ function ting_field_search_ting_pre_execute($request) {
  * @see ting_field_search_detect_profile_parameter().
  */
 function ting_field_search_get_current_profile() {
-  // Use a static cache. This will be called often on a search request.
+  // Use a static cache. This will be called often on many pages.
   $result = &drupal_static(__FUNCTION__, NULL);
 
   if (!isset($result)) {
@@ -118,6 +118,10 @@ function ting_field_search_get_current_profile() {
 
 /**
  * Detects whether a valid profile parameter is present in the URI.
+ *
+ * Sometimes it's not needed to verify that we're on a supported page before
+ * modifying links or requests. Since this module implements some "exspensive"
+ * hooks, this function is used in these cases to leave a minimal footprint.
  *
  * @return mixed
  *   The name of the profile if any.
