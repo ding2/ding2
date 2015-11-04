@@ -4,13 +4,6 @@
    * Toggle opening hours
    */
   function toggle_opening_hours() {
-    // Create toggle link
-    $('<a />', {
-      'class' : 'opening-hours-toggle js-opening-hours-toggle js-collapsed',
-      'href' : Drupal.t('#toggle-opening-hours'),
-      'text' : Drupal.t('Opening hours')
-    }).insertBefore('.js-opening-hours-toggle-element');
-
     // Set variables
     var element = $('.js-opening-hours-toggle');
     var siteHeader = $('.site-header');

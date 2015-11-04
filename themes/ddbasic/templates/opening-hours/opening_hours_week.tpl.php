@@ -8,7 +8,7 @@ if (!empty($preface)):
   print $preface;
 endif;
 ?>
-<div class="opening-hours-week placeholder" data-nid="<?php print $node->nid; ?>">
+<div class="opening-hours-week placeholder" data-nid="<?php print $node->nid; ?>" data-tid="<?php print $tid; ?>">
   <div class="header">
     <a class="prev" href="#prev"><i class="icon-arrow-left"></i></a>
     <?php print t('Week'); ?>
