@@ -476,20 +476,20 @@ function bpi_place_images(array &$form, $current_language, array $syndicated_ima
  */
 function bpi_place_inline_images($field_name, $content, $current_language, array $syndicated_images) {
   if (!empty($syndicated_images)) {
-    $path_mapping = array();
+    $url_to_image_map = array();
     foreach ($syndicated_images as $type => $images) {
       foreach ($images as $image) {
-        $path_mapping[$image['path']] = $image;
+        $url_to_image_map[$image['path']] = $image;
       }
     }
 
     // Find <img/> elements in content and replace with file placeholders.
     $image_pattern = '@<img\s*[^>]*\ssrc=[\'"](?<url>[^\'">]+)[\'"][^>]*>@';
 
-    $content = preg_replace_callback($image_pattern, function($matches) use ($current_language, $path_mapping) {
+    $content = preg_replace_callback($image_pattern, function($matches) use ($current_language, $url_to_image_map) {
       $url = $matches['url'];
-      if (isset($path_mapping[$url])) {
-        $image = $path_mapping[$url];
+      if (isset($url_to_image_map[$url])) {
+        $image = $url_to_image_map[$url];
         $file = $image['@managed_file'];
 
         // Build data for file placeholder.
