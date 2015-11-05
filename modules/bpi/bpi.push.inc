@@ -4,6 +4,8 @@
  * Syndication logic here.
  */
 
+include_once drupal_get_path('module', 'bpi') . '/bpi.images.inc';
+
 /**
  * BPI http push form, used in save and push on node/edit page.
  *
