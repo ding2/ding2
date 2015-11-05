@@ -479,7 +479,7 @@ function bpi_place_inline_images($field_name, $content, $current_language, array
     $path_mapping = array();
     foreach ($syndicated_images as $type => $images) {
       foreach ($images as $image) {
-        $path_mapping[$image['path']] = &$image;
+        $path_mapping[$image['path']] = $image;
       }
     }
 
