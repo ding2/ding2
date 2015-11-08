@@ -1,4 +1,4 @@
-<?php
+	<?php
 
 /**
  * @file
@@ -87,6 +87,20 @@ function ting_field_search_schema() {
 				'not null' => TRUE,
 				'default' => '',
 				'description' => 'Additional CQL-code to append when using this profile',
+			),
+			'active' => array(
+				'type' => 'int',
+				'size' => 'tiny',
+				'not null' => TRUE,
+				'default' => 0,
+				'description' => 'Boolean indicating whether the profile is active and can be used in URIs',
+			),
+			'exposed' => array(
+				'type' => 'int',
+				'size' => 'tiny',
+				'not null' => TRUE,
+				'default' => 0,
+				'description' => 'Boolean indicating whether the profile should be exposed to users.',
 			),
 		),
 		'primary key' => array('name'),

@@ -59,6 +59,23 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
     '#description' => t('Enter a search code (CQL) to use with this profile.'),
     '#default_value' => $profile ? $profile->query : '',
   );
+  $form['profile']['active'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Active'),
+    '#description' => t('Activated profiles can be used in the URI with the profile query parameter.'),
+    '#default_value' => $profile ? $profile->active : 0,
+  );
+  $form['profile']['exposed'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Exposed'),
+    '#description' => t('Exposed profiles can be selected by the user before searching.'),
+    '#default_value' => $profile ? $profile->exposed : 0,
+    '#states' => array(
+      'disabled' => array(
+        ':input[name="profile[active]"]' => array('checked' => FALSE),
+      ),
+    ),
+  );
 
   // Form actions
   $form['actions'] = array('#type' => 'actions');

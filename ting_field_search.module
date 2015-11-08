@@ -140,13 +140,14 @@ function ting_field_search_detect_profile_parameter() {
     $parameters = drupal_get_query_parameters();
     $profile = isset($parameters['profile']) ? $parameters['profile'] : FALSE;
 
-    // In most cases our profile parameter wont be present. To keep a minimum
-    // footprint, we only load the profiles to verify it exists in the system,
-    // in the case that a profile was found the URI.
+    // Only try to load the profile if a parameter was found.
     if ($profile) {
-      $system_profiles = ting_field_search_profiles_load();
-      if (array_key_exists($profile, $system_profiles)) {
-        $profile = $system_profiles[$profile];
+      $loaded_profile = ting_field_search_profiles_load($profile);
+      $loaded_profile = array_shift($loaded_profile);
+
+      // Look for a matching and active profile.
+      if ($loaded_profile && $loaded_profile->active) {
+        $profile = $loaded_profile;
       }
       else {
         $profile = FALSE;
@@ -352,7 +353,7 @@ function ting_field_search_form_ting_admin_ting_settings_alter(&$form, &$form_st
       'attributes' => array('target'=>'_blank')
       )),
   ));
-  $header = array(t('Title'), t('Name'), $profile_header, t('Query'));
+  $header = array(t('Title'), t('Name'), $profile_header, t('Query'), t('Active'), t('Exposed'));
   $rows = array();
   foreach ($profiles as $profile) {
     $path = 'admin/config/ting/settings/ting-field-search-profiles/' . $profile->name .'/edit';
@@ -361,6 +362,8 @@ function ting_field_search_form_ting_admin_ting_settings_alter(&$form, &$form_st
       $profile->name,
       check_plain($profile->profile),
       empty($profile->query) ? t('None') : $profile->query,
+      $profile->active ? t('Yes') : t('No'),
+      $profile->exposed ? t('Yes') : t('No'),
     );
   }
 
@@ -395,9 +398,17 @@ function ting_field_search_form_ting_admin_ting_settings_alter(&$form, &$form_st
 function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
   $profiles = array();
   foreach (ting_field_search_profiles_load() as $name => $profile) {
-    $profiles[$name] = t('Search in @profile', array(
-     '@profile'  => check_plain($profile->title),
-    ));
+    // Profile needs to be active and exposed.
+    if ($profile->active && $profile->exposed) {
+      $profiles[$name] = t('Search in @profile', array(
+       '@profile'  => check_plain($profile->title),
+      ));
+    }
+  }
+
+  // Don't render select if there's no profiles in the system.
+  if (empty($profiles)) {
+    return;
   }
 
   // This need to work on every page, so we just detect the profile.
