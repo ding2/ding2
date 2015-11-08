@@ -68,11 +68,23 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
   $form['profile']['exposed'] = array(
     '#type' => 'checkbox',
     '#title' => t('Exposed'),
-    '#description' => t('Exposed profiles can be selected by the user before searching.'),
+    '#description' => t('Exposed profiles is shown to the user and can be selected before searching.'),
     '#default_value' => $profile ? $profile->exposed : 0,
     '#states' => array(
       'disabled' => array(
         ':input[name="profile[active]"]' => array('checked' => FALSE),
+      ),
+    ),
+  );
+  $form['profile']['weight'] = array(
+    '#type' => 'select',
+    '#title' => t('Weight'),
+    '#description' => t('Profiles with lower weight will be positioned closer to the top in the select box.'),
+    '#options' => drupal_map_assoc(range(-15, 15)),
+    '#default_value' => $profile ? $profile->weight : 0,
+    '#states' => array(
+      'disabled' => array(
+        ':input[name="profile[exposed]"]' => array('checked' => FALSE),
       ),
     ),
   );

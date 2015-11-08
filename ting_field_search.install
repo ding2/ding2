@@ -102,6 +102,13 @@ function ting_field_search_schema() {
 				'default' => 0,
 				'description' => 'Boolean indicating whether the profile should be exposed to users.',
 			),
+			'weight' => array(
+				'type' => 'int',
+				'size' => 'small',
+				'not null' => TRUE,
+				'default' => 0,
+				'description' => 'Profile weight: Used to order profiles in UI.',
+			),
 		),
 		'primary key' => array('name'),
 	);

@@ -353,7 +353,7 @@ function ting_field_search_form_ting_admin_ting_settings_alter(&$form, &$form_st
       'attributes' => array('target'=>'_blank')
       )),
   ));
-  $header = array(t('Title'), t('Name'), $profile_header, t('Query'), t('Active'), t('Exposed'));
+  $header = array(t('Title'), t('Name'), $profile_header, t('Query'), t('Active'), t('Exposed'), t('Weight'));
   $rows = array();
   foreach ($profiles as $profile) {
     $path = 'admin/config/ting/settings/ting-field-search-profiles/' . $profile->name .'/edit';
@@ -364,6 +364,7 @@ function ting_field_search_form_ting_admin_ting_settings_alter(&$form, &$form_st
       empty($profile->query) ? t('None') : $profile->query,
       $profile->active ? t('Yes') : t('No'),
       $profile->exposed ? t('Yes') : t('No'),
+      $profile->weight,
     );
   }
 
@@ -444,10 +445,10 @@ function ting_field_search_search_block_validate($form, &$form_state) {
 }
 
 /**
- * Loads profiles fromt the database.
+ * Loads a single profile or all profiles from the database.
  *
  * @param string $name (optional)
- *   Load a profile by machine-name.
+ *   Load a single profile by machine-name.
  *
  * @return array $profiles
  *   An array of profile objects keyed by profile machine name.
@@ -458,6 +459,10 @@ function ting_field_search_profiles_load($name = NULL) {
 
   if (isset($name)) {
     $query->condition('tp.name', $name);
+  }
+  // If all profiles was requested, order by weight.
+  else {
+    $query->orderBy('weight');
   }
 
   return $query->execute()->fetchAllAssoc('name');
