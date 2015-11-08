@@ -249,12 +249,8 @@ function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_
  */
 function ting_field_search_url_outbound_alter(&$path, &$options, $original_path) {
   if ($profile = ting_field_search_get_current_profile()) {
-    // Alot of links wont be ting search links, so check that first.
-    if (!preg_match('/^search\/ting/', $path)) {
-      return;
-    }
-
-    if (variable_get('ting_field_search_alter_search_links', FALSE)) {
+    // Make sure only to alter ting search links.
+    if ($profile->alter_links && preg_match('/^search\/ting/', $path)) {
       $options['query']['profile'] = $profile->name;
     }
   }
@@ -338,12 +334,6 @@ function ting_field_search_form_ting_admin_ting_settings_alter(&$form, &$form_st
     '#prefix' => '<div id="ting-field-search-wrapper">',
     '#suffix' => '</div>',
   );
-  $form['ting']['search_profile']['ting_field_search']['ting_field_search_alter_search_links'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Alter links'),
-    '#description' => t('If checked, search links on Ting search pages will get the active profile parameter appended.'),
-    '#default_value' => variable_get('ting_field_search_alter_search_links', FALSE),
-  );
 
   // A simple table of existing special search profiles.
   // TODO: Add table sort?
@@ -353,7 +343,16 @@ function ting_field_search_form_ting_admin_ting_settings_alter(&$form, &$form_st
       'attributes' => array('target'=>'_blank')
       )),
   ));
-  $header = array(t('Title'), t('Name'), $profile_header, t('Query'), t('Active'), t('Exposed'), t('Weight'));
+  $header = array(
+    t('Title'),
+    t('Name'),
+    $profile_header,
+    t('Query'),
+    t('Alter links'),
+    t('Active'),
+    t('Exposed'),
+    t('Weight'),
+  );
   $rows = array();
   foreach ($profiles as $profile) {
     $path = 'admin/config/ting/settings/ting-field-search-profiles/' . $profile->name .'/edit';
@@ -362,6 +361,7 @@ function ting_field_search_form_ting_admin_ting_settings_alter(&$form, &$form_st
       $profile->name,
       check_plain($profile->profile),
       empty($profile->query) ? t('None') : $profile->query,
+      $profile->alter_links ? t('Yes') : t('No'),
       $profile->active ? t('Yes') : t('No'),
       $profile->exposed ? t('Yes') : t('No'),
       $profile->weight,

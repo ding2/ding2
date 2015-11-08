@@ -59,6 +59,12 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
     '#description' => t('Enter a search code (CQL) to use with this profile.'),
     '#default_value' => $profile ? $profile->query : '',
   );
+  $form['profile']['alter_links'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Alter links'),
+    '#description' => t('Use this profile on ting search links generated on search result, collection and object pages, when using this profile.'),
+    '#default_value' => $profile ? $profile->alter_links : 1,
+  );
   $form['profile']['active'] = array(
     '#type' => 'checkbox',
     '#title' => t('Active'),
