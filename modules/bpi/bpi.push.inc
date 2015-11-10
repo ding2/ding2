@@ -222,6 +222,15 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
     );
   }
 
+  $tags = array();
+  $tags_field = field_view_field('node', $node, variable_get('bpi_field_tags', ''));
+  if ($tags_field) {
+    foreach ($tags_field['#items'] as $item) {
+      $tags[] = $item['taxonomy_term']->name;
+    }
+  }
+  $bpi_content['tags'] = implode(',', $tags);
+
   return $bpi_content;
 }
 
