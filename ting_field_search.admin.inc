@@ -69,7 +69,7 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
     '#type' => 'checkbox',
     '#title' => t('Active'),
     '#description' => t('Activated profiles can be used in the URI with the profile query parameter.'),
-    '#default_value' => $profile ? $profile->active : 0,
+    '#default_value' => $profile ? $profile->active : 1,
   );
   $form['profile']['exposed'] = array(
     '#type' => 'checkbox',
@@ -94,6 +94,69 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
       ),
     ),
   );
+  $form['profile']['use_facets'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Use specialized facets'),
+    '#description' => t('Leave unchecked to use the standard Ting search facets.'),
+    '#default_value' => $profile ? $profile->use_facets : 0,
+    '#states' => array(
+      'disabled' => array(
+        ':input[name="profile[exposed]"]' => array('checked' => FALSE),
+      ),
+    ),
+  );
+
+  // Favet settings.
+  $form['facets'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Facets'),
+    '#tree' => TRUE,
+    '#collapsible' => TRUE,
+    '#collapsed' => $profile ? !$profile->use_facets : TRUE,
+    '#states' => array(
+      'disabled' => array(
+        ':input[name="profile[use_facets]"]' => array('checked' => FALSE),
+      ),
+      'collapsed' => array(
+        ':input[name="profile[use_facets]"]' => array('checked' => FALSE),
+      ),
+    ),
+  );
+  $form['facets']['facet_count'] = array(
+    '#type' => 'select',
+    '#title' => t('Visible facets amount'),
+    '#description' => t('The amount of facets that will be visible on the search page by default. The rest of the facets will be hidden and the user have to click to show them.'),
+    '#options' => drupal_map_assoc(range(1, 15)),
+    '#default_value' => $profile ? $profile->facet_count : 5,
+  );
+  $form['facets']['term_count'] = array(
+    '#type' => 'select',
+    '#title' => t('Number of terms'),
+    '#description' => t('The number of facts terms to display in each facet group.'),
+    '#options' => drupal_map_assoc(range(1, 15)),
+    '#default_value' => $profile ? $profile->term_count : 5,
+  );
+  $form['facets']['import'] = array(
+    '#type' => 'submit',
+    '#value' => t('Import standard facets'),
+    '#suffix' => '<div class="description">' . t('Populate the table with the standard facets used in Ting search.') . '</div>',
+    '#submit' => array('ting_field_search_import_facets'),
+    '#ajax' => array(
+      'callback' => 'ting_field_search_import_facets_callback',
+      'wrapper' => 'facets',
+    ),
+  );
+
+  // Build facet rows.
+  $index = 0;
+  if ($profile) {
+    $facets = ting_field_search_facets_load($profile->name);
+    foreach ($facets as $facet) {
+      _ting_field_search_prepare_facet_row($form['facets']['table'], $index, (array) $facet);
+      $index++;
+    }
+  }
+  _ting_field_search_prepare_facet_row($form['facets']['table'], $index);
 
   // Form actions
   $form['actions'] = array('#type' => 'actions');
@@ -123,6 +186,10 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
     '#weight' => 40,
   );
 
+  // Add some correcting CSS.
+  $path = drupal_get_path('module', 'ting_field_search');
+  $form['#attached']['css'][] = $path . '/css/ting_field_search.admin.css';
+
   return $form;
 }
 
@@ -139,7 +206,22 @@ function ting_field_search_profile_form_submit($form, &$form_state) {
     $profile += (array) $form_state['original_profile'];
   }
 
-  // Save and go back.
+  if ($profile['use_facets']) {
+    $facet_settings = $form_state['values']['facets'];
+
+    $profile['facets'] = $facet_settings['table'];
+    // Mark any facet with no name to be deleted.
+    foreach ($profile['facets'] as $key => $facet) {
+      if (empty($facet['name'])) {
+        unset($profile['facets'][$key]);
+      }
+    }
+
+    // Transfer general facet settings to profile.
+    $profile['facet_count'] = $facet_settings['facet_count'];
+    $profile['term_count'] = $facet_settings['term_count'];
+  }
+
   if (ting_field_search_profile_save($profile)) {
     drupal_set_message(t('Profile saved'));
   }
@@ -147,6 +229,51 @@ function ting_field_search_profile_form_submit($form, &$form_state) {
     drupal_set_message(t('Something went wrong saving profile. See log for details.'));
   }
   $form_state['redirect'] = 'admin/config/ting/settings';
+}
+
+/**
+ * Theme function for the profile edit form.
+ *
+ * @see ting_field_search_profile_form().
+ */
+function theme_ting_field_search_profile_form($variables) {
+  // Code mostly copied from Ding facetbrowser module.
+
+  $form = $variables['form'];
+
+  // Render profile settings.
+  $output = drupal_render($form['profile']);
+
+  // Render facet table.
+  $map = array('disabled' => t('Disabled'), 'enabled' => t('Enabled'));
+  $header = array(t('Name'), t('Title'), t('Facet name sorting'), t('Weight'), t('Operations'));
+  $rows = array();
+  foreach (element_children($form['facets']['table']) as $index) {
+    $facet = &$form['facets']['table'][$index];
+    $row = array();
+    $row[] = drupal_render($facet['name']);
+    $row[] = drupal_render($facet['title']);
+    $row[] = drupal_render($facet['sorting']);
+    $row[] = drupal_render($facet['weight']);
+    $row[] = drupal_render($facet['delete']);
+    $rows[] = array(
+      'data' => $row,
+      'class' => array('draggable'),
+    );
+  }
+  $form['facets']['settings'] = array(
+    '#theme' => 'table',
+    '#header' => $header,
+    '#rows' => $rows,
+    '#attributes' => array('id' => 'facets'),
+  );
+  $output .= drupal_render($form['facets']);
+  drupal_add_tabledrag('facets', 'order', 'sibling', 'facet-weight');
+
+  // Render action buttons and remaining elements.
+  $output .= drupal_render_children($form);
+
+  return $output;
 }
 
 /**
@@ -225,4 +352,58 @@ function ting_field_search_profile_exists($value) {
   $profiles = array_keys(ting_field_search_profiles_load());
 
   return in_array($value, $profiles);
+}
+
+function ting_field_search_facet_delete_confirm_form($form, &$form_state, $facet) {
+
+}
+
+/**
+ * Helper function to prepare a row for the facet table.
+ */
+function _ting_field_search_prepare_facet_row(&$element, $index, $facet = NULL) {
+  // Code mostly copied from Ding facetbrowser module.
+
+  $element[$index]['name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Facet id'),
+    '#title_display' => 'invisible',
+    '#default_value' => isset($facet) ? $facet['name'] : '',
+  );
+
+  $element[$index]['title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title'),
+    '#title_display' => 'invisible',
+    '#default_value' => isset($facet) ? $facet['title'] : '',
+  );
+
+  $element[$index]['sorting'] = array(
+    '#type' => 'select',
+    '#title' => t('Facet name sorting'),
+    '#title_display' => 'invisible',
+    '#options' => array(
+      'default' => t('Ranking (default)'),
+      'alphabetical' => t('Alphabetic'),
+      'aphabetical_reverse' => t('Alphabetic (reverse)'),
+      'numeric' => t('Numeric'),
+      'numeric_reverse' => t('Numeric (reverse)'),
+    ),
+    '#default_value' => isset($facet['sorting']) ? $facet['sorting'] : 'default',
+  );
+
+  $element[$index]['weight'] = array(
+    '#type' => 'weight',
+    '#title' => t('Weight'),
+    '#default_value' => isset($facet) ? $facet['weight'] : 1,
+    '#title_display' => 'invisible',
+    '#attributes' => array('class' => array('facet-weight')),
+  );
+
+  $element[$index]['delete'] = array(
+    '#type' => 'link',
+    '#title' => t('delete'),
+    '#href' =>  'admin/config/ting/settings/ting-field-search-profiles/create',
+    '#options' => array('attributes' => array('title' => t('Delete facet.'))),
+  );
 }

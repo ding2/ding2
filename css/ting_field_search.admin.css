@@ -13,3 +13,8 @@
 #ting-field-search-profiles a {
   display: inline-block;
 }
+
+
+#ting-field-search-profile-form-add #edit-facets-import {
+  margin-bottom: 0.5em;
+}

@@ -109,6 +109,27 @@ function ting_field_search_schema() {
 				'default' => 0,
 				'description' => 'Boolean indicating whether the profile should be exposed to users.',
 			),
+			'use_facets' => array(
+				'type' => 'int',
+				'size' => 'tiny',
+				'not null' => TRUE,
+				'default' => 0,
+				'description' => 'Boolean indicating whether the profile is using specialized facets.',
+			),
+			'facet_count' => array(
+				'type' => 'int',
+				'size' => 'tiny',
+				'not null' => TRUE,
+				'default' => 5,
+				'description' => 'If using facets; the number of facet blocks to show in UI.',
+			),
+			'term_count' => array(
+				'type' => 'int',
+				'size' => 'tiny',
+				'not null' => TRUE,
+				'default' => 5,
+				'description' => 'If using facets; the number of terms to show in each facet block.',
+			),
 			'weight' => array(
 				'type' => 'int',
 				'size' => 'small',
@@ -118,6 +139,55 @@ function ting_field_search_schema() {
 			),
 		),
 		'primary key' => array('name'),
+	);
+
+	// For performance reasons keep facet settings in a seperate table.
+	$schema['ting_field_search_facet'] = array(
+		'description' => 'Holds facet settings for each profile.',
+		'fields' => array(
+			'name' => array(
+				'type' => 'varchar',
+				'length' => 64,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'Facet name: Name of the facet (e.g. facet.type).',
+			),
+			'profile' => array(
+				'type' => 'varchar',
+				'length' => 64,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'Profile name: The machine-name of the associated profile.',
+			),
+			'title' => array(
+				'type' => 'varchar',
+				'length' => 64,
+				'not null' => TRUE,
+				'default' => '',
+				'description' => 'Facet title: The title of the facet, as shown to users in UI',
+			),
+			'sorting' => array(
+				'type' => 'varchar',
+				'length' => 32,
+				'not null' => TRUE,
+				'default' => 'default',
+				'description' => 'Facet sorting. Sorting of the terms in the facet.',
+			),
+			'weight' => array(
+				'type' => 'int',
+				'size' => 'small',
+				'not null' => TRUE,
+				'default' => 1,
+				'description' => 'Facet weight: Used to order facets in the UI.'
+			),
+		),
+		'primary key' => array('name', 'profile'),
+		'foreign keys' => array(
+			'profile' => array(
+				'table' => 'ting_field_search_profile',
+				'columns' => array('profile' => 'name'),
+			),
+		),
 	);
 
 	return $schema;
