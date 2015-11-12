@@ -38,7 +38,6 @@ function ting_search_context_calculate_context($facets, $numTotalObjects, $searc
       $system_type = ting_search_context_get_audience_fiction($facets);
     }
   }
-file_put_contents("/home/quickstart/work/debug/debugscon1.txt", print_r($system_type , TRUE), FILE_APPEND);
   $subject_contexts = array();
   $system_context;
   foreach ($contexts as $context) {
