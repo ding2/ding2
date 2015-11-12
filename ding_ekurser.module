@@ -101,7 +101,7 @@ function ding_ekurser_form_alter(&$form, &$form_state, $form_id) {
     '#markup' => '</ul>',
   );
   
-  drupal_add_css(drupal_get_path('module', 'ding_ekurser') . '/ding_ekurser.css', 'file');
+  drupal_add_css(drupal_get_path('module', 'ding_ekurser') . '/css/ding_ekurser.css', 'file');
 }
 
 /**
