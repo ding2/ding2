@@ -159,6 +159,10 @@ function _ting_search_context_install_system_contexts() {
 			'name' => 'Børne skønlitteratur',
 			'context' => 'børne_skøn',
 		),
+    'neutral' => array(
+			'name' => 'Neutral',
+			'context' => 'neutral',
+		),
 	);
 
 	foreach ($system_contexts as $system_context) {

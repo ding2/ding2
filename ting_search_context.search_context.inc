@@ -1,5 +1,7 @@
 <?php
 
+
+
 /**
  * Calculate the most relevant context for a search. A search context har the highest priority.
  * A subject context the second highest priority. Defaults to system context.
@@ -31,12 +33,12 @@ function ting_search_context_calculate_context($facets, $numTotalObjects, $searc
   $system_type = ting_search_context_get_material_type($facets, $numTotalObjects);
   if ($system_type == 'book') {
     if ($numTotalObjects == 0) {
-      $system_type = 'voksen_skøn'; //Defaults to voksen_skøn on 0 hits searches.
+      $system_type = 'neutral'; //Defaults to neutral on 0 hits searches.
     } else {
       $system_type = ting_search_context_get_audience_fiction($facets);
     }
   }
-
+file_put_contents("/home/quickstart/work/debug/debugscon1.txt", print_r($system_type , TRUE), FILE_APPEND);
   $subject_contexts = array();
   $system_context;
   foreach ($contexts as $context) {
@@ -139,16 +141,21 @@ function ting_search_context_matches_material_type($facets, $total_number, $type
  *   The system_contexts context name.
  */
 function ting_search_context_get_audience_fiction($facets) {
-  $adult = ting_search_context_is_adult($facets);
-  $fiction = ting_search_context_is_fiction($facets);
+  $pass_ratio = variable_get('ting_search_context_pass_ratio', 0.60);
+  $adult = ting_search_context_is_adult($facets, $pass_ratio);
+  $fiction = ting_search_context_is_fiction($facets, $pass_ratio);
+  $children = ting_search_context_is_children($facets, $pass_ratio);
+  $nonfiction = ting_search_context_is_nonfiction($facets, $pass_ratio);
   if ($adult &&  $fiction)
     return 'voksen_skøn';
-  else if ($adult &&  !$fiction)
+  else if ($adult &&  $nonfiction)
     return 'voksen_fag';
-  else if (!$adult &&  $fiction)
+  else if ($children  &&  $fiction)
     return 'børne_skøn';
-  else if (!$adult &&  !$fiction)
+  else if ($children  &&  $nonfiction)
     return 'børne_fag';
+  else
+    return 'neutral';
 }
 
 /**
@@ -160,10 +167,10 @@ function ting_search_context_get_audience_fiction($facets) {
  * @return bolean
  *   True if adult.
  */
-function ting_search_context_is_adult($facets) {
+function ting_search_context_is_adult($facets, $pass_ratio) {
    $number_of_adult = ting_search_context_get_term_count($facets, 'facet.category',  array('voksenmaterialer'));
    $number_of_children = ting_search_context_get_term_count($facets, 'facet.category', array('børnematerialer'));
-   return ($number_of_adult > $number_of_children );
+   return ting_search_context_evalute_condition($number_of_adult, $number_of_adult + $number_of_children,  $pass_ratio);
 }
 
 /**
@@ -175,10 +182,40 @@ function ting_search_context_is_adult($facets) {
  * @return bolean
  *   True if fiction.
  */
-function ting_search_context_is_fiction($facets) {
+function ting_search_context_is_fiction($facets, $pass_ratio) {
    $number_of_fiction = ting_search_context_get_term_count($facets, 'facet.genreCategory',  array('fiktion'));
    $number_of_nonfiction = ting_search_context_get_term_count($facets, 'facet.genreCategory', array('nonfiktion'));
-   return ($number_of_fiction > $number_of_nonfiction );
+   return ting_search_context_evalute_condition($number_of_fiction, $number_of_fiction + $number_of_nonfiction,  $pass_ratio);
+}
+
+/**
+ * Get audience
+ *
+ * @param array $facets
+ *   The facets of the search results.
+ *
+ * @return bolean
+ *   True if children.
+ */
+function ting_search_context_is_children($facets, $pass_ratio) {
+   $number_of_adult = ting_search_context_get_term_count($facets, 'facet.category',  array('voksenmaterialer'));
+   $number_of_children = ting_search_context_get_term_count($facets, 'facet.category', array('børnematerialer'));
+   return ting_search_context_evalute_condition($number_of_children, $number_of_adult + $number_of_children,  $pass_ratio);
+}
+
+/**
+ * Get Fiction/nonfiction
+ *
+ * @param array $facets
+ *   The facets of the search results.
+ *
+ * @return bolean
+ *   True if nonfiction.
+ */
+function ting_search_context_is_nonfiction($facets, $pass_ratio) {
+   $number_of_fiction = ting_search_context_get_term_count($facets, 'facet.genreCategory',  array('fiktion'));
+   $number_of_nonfiction = ting_search_context_get_term_count($facets, 'facet.genreCategory', array('nonfiktion'));
+   return ting_search_context_evalute_condition($number_of_nonfiction, $number_of_fiction + $number_of_nonfiction,  $pass_ratio);
 }
 
 /**
@@ -235,6 +272,7 @@ function ting_search_context_get_subject_index_by_type($type) {
     'voksen_fag' => 'subject',
     'børne_skøn' => 'fictionSubject',
     'børne_fag' => 'subject',
+    'neutral' => 'subject',
   );
   return 'facet.' . $indexes[$type];
 }
