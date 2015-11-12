@@ -1070,12 +1070,6 @@ function bpi_features_views_default_views_alter(&$views) {
       'label' => 'Operations',
       'text' => 'change BPI state',
     );
-    /*$display_options['sort'] = array(
-      'id' => 'created',
-      'table' => 'node',
-      'field' => 'created',
-      'order' => 'DESC',
-    );*/
 
     $style_options = &$display_options['style_options'];
 
