@@ -45,5 +45,7 @@ test:
     # Clean up after site install.
     # sudo is required here. The files are not writeable.
     - sudo rm -rf $DRUPAL_SITE_PATH/sites/default/settings.php $DRUPAL_SITE_PATH/sites/default/files
+    # Remove node_modules folder. This is not needed in the final artifact.
+    - rm -rf $DRUPAL_SITE_PATH/profiles/ding2/themes/ddbasic/node_modules
     # Wrap the site into an archieve and expose it as an artifact.
     - tar -zcvf $CIRCLE_ARTIFACTS/ding2-$CIRCLE_SHA1.tar.gz -C $DRUPAL_SITE_PATH .
