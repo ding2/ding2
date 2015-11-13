@@ -325,6 +325,14 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
       $form[$body][$current_language][0]['#default_value'] = $bpi_body;
     }
 
+    if (variable_get('bpi_syndicate_tags')) {
+      $bpi_tags = $bpi_node->getTags();
+      $tags_field = variable_get('bpi_field_tags', '');
+      if (!empty($bpi_tags) && !empty($tags_field) && isset($form[$tags_field][$current_language])) {
+        $form[$tags_field][$current_language]['#default_value'] = implode(', ', $bpi_tags);
+      }
+    }
+
     if ($bpi_id) {
       drupal_add_library('system', 'drupal.ajax');
       drupal_add_library('system', 'jquery.form');
