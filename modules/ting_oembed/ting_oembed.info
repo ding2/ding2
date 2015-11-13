@@ -1,0 +1,9 @@
+name = Add oEmbed support to Ting objects
+description = Use oEmbed module to add oEmbed support for displaying Ting objects
+package = Ding!
+core = 7.x
+version = 7.x-1.x
+
+;files[] =
+dependencies[] = oembed
+dependencies[] = ting_oembed_features

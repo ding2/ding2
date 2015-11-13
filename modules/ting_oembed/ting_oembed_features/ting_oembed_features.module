@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Ting oEmbed Features feature.
+ */
+
+include_once 'ting_oembed_features.features.inc';
