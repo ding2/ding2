@@ -753,10 +753,10 @@ function bpi_build_search_facets(array &$form) {
           '' => t('All'),
         );
         if (isset($terms[0])) {
-          $options['false'] = t('No');
+          $options['false'] = t('External sources');
         }
         if (isset($terms[1])) {
-          $options['true'] = t('Yes');
+          $options['true'] = t('Libraries');
         }
         $default_value = _bpi_get_query_parameter(array('filter', $name));
         $multiple = FALSE;
