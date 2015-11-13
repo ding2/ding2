@@ -7,7 +7,7 @@
   },
   "author": "",
   "homepage": "https://github.com/ding2/ding2",
-  "devDependencies": {
+  "dependencies": {
     "compass-mixins": "^0.12.7",
     "gulp": "^3.9.0",
     "gulp-help": "^1.6.1",
