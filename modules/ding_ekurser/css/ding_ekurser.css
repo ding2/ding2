@@ -1,0 +1,20 @@
+.search-field-in-content--message,
+.field-group-format .heading .search-result--heading-type,
+.search-result--availability,
+.pane-search-result-count h2 {
+    display: none;
+}
+
+/* We don't want the year to be shown. This way of hiding it is not robust, and a more robust solution would be to
+   change the template. */
+.field-group-format .heading + .content {
+    display: none;
+}
+
+.page-title .js-count {
+    text-transform: lowercase;
+}
+
+#ding-facetbrowser-form .sub-menu a {
+    text-transform: capitalize;
+}

@@ -1,0 +1,56 @@
+# $Id$
+#
+# Danish translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  ding_ekurser.module: n/a
+#  ding_ekurser.info: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2015-06-08 13:18+0200\n"
+"PO-Revision-Date: 2015-06-08 13:18+0200\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Danish <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: ding_ekurser.module:45;78;87
+msgid "All"
+msgstr "Alle"
+
+#: ding_ekurser.module:93
+msgid "Popular subjects"
+msgstr "Populære emner"
+
+#: ding_ekurser.module:173 ding_ekurser.info:0
+msgid "Ding eKurser"
+msgstr ""
+
+#: ding_ekurser.module:208
+msgid "Title (Ascending)"
+msgstr "Titel a > å"
+
+#: ding_ekurser.module:209
+msgid "Title (Descending)"
+msgstr "Titel å > a"
+
+#: ding_ekurser.module:210
+msgid "Acquisition date (Ascending)"
+msgstr "ældste først"
+
+#: ding_ekurser.module:211
+msgid "Acquisition date (Descending)"
+msgstr "nyeste først"
+
+#: ding_ekurser.module:216
+msgid "Sort by: !sort"
+msgstr "Sortér efter: !sort "
+
+#: ding_ekurser.info:0
+msgid "Ding!"
+msgstr "Ding!"

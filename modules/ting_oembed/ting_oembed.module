@@ -1,0 +1,81 @@
+<?php
+
+/**
+ * @file
+ * Add oEmbed support to Ting objects.
+ */
+
+/**
+ * Implements hook_field_info().
+ */
+function ting_oembed_field_info() {
+  return array(
+    'ting_oembed' => array(
+      'label' => t('Virtual: oEmbed support'),
+      'description' => t('Use oEmbed module to substitute known urls from Ting Object'),
+      'default_widget' => 'hidden',
+      'default_formatter' => 'ting_oembed_default',
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_load().
+ */
+function ting_oembed_field_load($entity_type, $entities, $field, $instance, $langcode, &$items, $age) {
+  foreach ($entities as $id => $entity) {
+    $items[$id][0] = array(
+      'oembed' => 'empty',
+    );
+  }
+}
+
+/**
+ * Implements hook_field_widget_info().
+ */
+function ting_oembed_field_widget_info_alter(&$info) {
+  if (isset($info['hidden'])) {
+    $info['hidden']['field types'][] = 'ting_oembed';
+  }
+}
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function ting_oembed_field_formatter_info() {
+  return array(
+    'ting_oembed_default' => array(
+      'label' => t('Material content'),
+      'field types' => array('ting_oembed'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function ting_oembed_field_formatter_view($entity_type, TingEntity $entity, $field, $instance, $langcode, &$items, $display) {
+  $element = array();
+  $matches = array();
+  switch ($display['type']) {
+    case 'ting_oembed_default':
+      // Get url and if an oembed provider exists, render data.
+      $online_url = $entity->getOnline_url();
+      if ($provider = oembed_get_provider($online_url, $matches)) {
+        $element[0] = oembed_render_element('oembed', $online_url);
+      }
+      break;
+  }
+
+  return $element;
+}
+
+/**
+ * Implements hook_field_is_empty().
+ */
+function ting_oembed_field_is_empty($item, $field) {
+  return FALSE;
+}

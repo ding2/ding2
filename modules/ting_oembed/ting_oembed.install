@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Ting oEmbed module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ting_oembed_install() {
+  ting_oembed_translation_install();
+}
+
+/**
+ * Install translations.
+ */
+function ting_oembed_translation_install() {
+  // Install translations.
+  $file = new stdClass();
+  $file->uri = drupal_get_path('module', 'ting_oembed') . '/translations/da.po';
+  $file->filename = basename($file->uri);
+  _locale_import_po($file, 'da', LOCALE_IMPORT_OVERWRITE, 'default');
+}
