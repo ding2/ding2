@@ -321,21 +321,30 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         if ($display['settings']['link_type'] == 'collection') {
           $type = 'ting_collection';
         }
+
+        $link = FALSE;
+        $title = $entity->title;
         // Only create the link if the object is available in the data well.
         if ($display['settings']['link_type'] != 'none' && !isset($entity->is_available)) {
-          $url = entity_uri($type, $entity);
-          $title = l($entity->title, $url['path'], $url['options']);
-        }
-        else {
-          $title = check_plain($entity->title);
+          $link = TRUE;
         }
 
         // Check if element should be prefixed with type.
         if ($display['settings']['prefix_type'] == 'yes') {
-          $collction = ting_collection_load($entity->id);
+          $collection = ting_collection_load($entity->id);
           $ting_type = $entity->getType();
-          if (count($collction->types) > 1) {
+          if (count($collection->types) > 1) {
             $ting_type = t('Material collection');
+            // Replace title with the more generic collection title.
+            $title = $collection->title;
+          }
+
+          if ($link) {
+            $url = entity_uri($type, $entity);
+            $title = l($title, $url['path'], $url['options']);
+          }
+          else {
+            $title = check_plain($title);
           }
 
           $element[$delta] = array(
