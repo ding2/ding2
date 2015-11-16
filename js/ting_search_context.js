@@ -46,8 +46,7 @@
     };
 
     /**
-     * Object to detect and store the current css breakpoint. The breakpoint is communicated through
-     * the :before selector on .pane-search-context.
+     * Object to detect and store the current css breakpoint.
      */
     var breakpoint = {
       val: "",
@@ -72,7 +71,6 @@
         else {
          return "<940px";
         }
-        //return window.getComputedStyle(document.querySelector('.pane-search-context'),':before').getPropertyValue('content');
       }
     };
 
