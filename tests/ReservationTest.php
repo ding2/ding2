@@ -64,7 +64,7 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
         'Sindal',
         '4. September 2014',
         '1415027',
-      )
+      ),
     );
     for ($i = 0; $i < count($notready_for_pickup); $i++) {
       // Check title field.
@@ -136,8 +136,8 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
     // Check the results again.
     $notready_for_pickup = array(
       array(
-          'Nøglen til Da Vinci mysteriet',
-          '30. August 2015',
+          'Alt for damerne',
+          '28. August 2015',
           'Hjørring',
       ),
       array(
@@ -146,8 +146,8 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
           'Hjørring',
       ),
       array(
-          'Alt for damerne',
-          '28. August 2015',
+          'Nøglen til Da Vinci mysteriet',
+          '30. August 2015',
           'Hjørring',
       ),
     );
