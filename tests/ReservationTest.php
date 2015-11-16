@@ -39,15 +39,6 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
     // This relies on the dummy LMS service, so the data should be pre-defined.
     $notready_for_pickup = array(
       array(
-        'Nøglen til Da Vinci mysteriet',
-        '',
-        '1',
-        '2. December 2014',
-        'Sindal',
-        '4. September 2014',
-        '1415027',
-      ),
-      array(
         'Alt for damerne',
         '2010, 39',
         '1',
@@ -65,6 +56,15 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
         '2. September 2014',
         '1415949',
       ),
+      array(
+        'Nøglen til Da Vinci mysteriet',
+        '',
+        '1',
+        '2. December 2014',
+        'Sindal',
+        '4. September 2014',
+        '1415027',
+      )
     );
     for ($i = 0; $i < count($notready_for_pickup); $i++) {
       // Check title field.
