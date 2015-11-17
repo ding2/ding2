@@ -134,11 +134,16 @@
      * Private: Updates the carousel after content has been fetched.
      */
     function _update() {
+      // Reveal carousel if there is any content to display
+      if(content.length > 0) {
+        pane.show();
+      }
+
       // Remove spinner.
       $('.rs-carousel-inner .ajax-loader').addClass('element-hidden');
 
       // Update content.
-      $('.rs-carousel .rs-carousel-runner').append(content);
+      $('.rs-carousel .rs-carousel-runner').html(content);
 
       // Show navigation arrows.
       $('.rs-carousel-action-prev').show();
@@ -215,7 +220,7 @@
         return;
       }
 
-      pane.show();
+
 
 
 
@@ -229,8 +234,14 @@
       // Update postion-specifik carousel options
       _update_options();
 
+
+
       // Fetch content for the carousel.
       _fetch();
+
+
+
+
     }
 
     /**
