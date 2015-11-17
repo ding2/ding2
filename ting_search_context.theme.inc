@@ -35,19 +35,19 @@ function template_preprocess_ting_search_context_content(&$vars, $hook) {
   $vars['image'] = drupal_render($image);
 
   //URL
-  $webtrends_paramater = 'WT.cg_n=searchcontext';
+  $webtrends_paramater = 'WT.mc_id=searchcontext';
   if ($node->type == 'ding_search_context_link') {
     $link_field = field_get_items('node', $node, 'field_search_context_link');
     $link = empty($link_field [0]['url']) ? 0 : $link_field[0]['url'];
     $url = str_replace('"', '%22', $link ); // Quotes inside search queries need to be escaped
 
     if (strpos($url, '?') == false) {
-      $url .= '?WT.cg_n=searchcontext';
+      $url .= '?WT.mc_id=searchcontext';
     } else {
-      $url .= '&WT.cg_n=searchcontext';
+      $url .= '&WT.mc_id=searchcontext';
     }
   } else {
-    $url = url(drupal_get_path_alias('node/' . $node->nid), array('absolute' => TRUE, 'query' => array ('WT.cg_n' => 'searchcontext')));
+    $url = url(drupal_get_path_alias('node/' . $node->nid), array('absolute' => TRUE, 'query' => array ('WT.mc_id' => 'searchcontext')));
   }
 
   $vars['url'] = $url;
