@@ -3,7 +3,7 @@ Ding2 is a continuation of [ding.TING](http://ting.dk/content/om-dingting)
 [Drupal](http://drupal.org/project/drupal) distribution for libraries as part
 of the [TING concept](http://ting.dk).
 
-[![Circle CI](https://circleci.com/gh/ding2/ding2.svg?style=svg)](https://circleci.com/gh/ding2/ding2)
+[![Circle CI](https://circleci.com/gh/ding2/ding2.png)](https://circleci.com/gh/ding2/ding2)
 
 # Installation
 This README assumes that you have install a configured your server with a
