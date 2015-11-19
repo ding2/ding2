@@ -535,3 +535,47 @@ function ding_base_rewrite_color_stylesheet() {
   variable_set('color_' . $theme . '_stylesheets', $css);
   variable_set('color_' . $theme . '_files', $paths['files']);
 }
+
+/**
+ * Implements hook_field_widget_form_alter().
+ */
+function ding_base_field_widget_form_alter(&$element, &$form_state, $context) {
+  $names = array(
+    'field_ding_page_title_image',
+    'field_ding_page_list_image',
+    'field_ding_tabroll_image',
+    'field_ding_news_title_image',
+    'field_ding_news_list_image',
+    'field_ding_library_title_image',
+    'field_ding_library_list_image',
+    'field_ding_group_title_image',
+    'field_ding_group_list_image',
+    'field_ding_event_title_image',
+    'field_ding_event_list_image'
+  );
+
+  if (isset($element['#field_name']) && in_array($element['#field_name'], $names)) {
+    $displays = array_filter($context['instance']['display'], function ($i) {
+      return isset($i['settings']['styles']) && !empty($i['settings']['styles']);
+    });
+    if (!empty($displays)) {
+      $display = reset($displays);
+      $style = image_style_load($display['settings']['styles']['max_style']);
+      $effects = array_filter($style['effects'], function ($i) {
+        return isset($i['data']['width']) && isset($i['data']['height']);
+      });
+
+      if (!empty($effects)) {
+        $effect = reset($effects);
+        $width = !empty($effect['data']['width']) ? $effect['data']['width'] : 'any';
+        $height = !empty($effect['data']['height']) ? $effect['data']['height'] : 'any';
+
+        $text = t('Recommended image size is: width %width and height %height', array(
+          '%width' => $width,
+          '%height' => $height,
+        ));
+        $element['#suffix'] = '<div class="description">' . $text . '</div>';
+      }
+    }
+  }
+}
