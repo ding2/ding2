@@ -324,6 +324,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
 
         $link = FALSE;
         $title = $entity->title;
+        $prefix = '';
         // Only create the link if the object is available in the data well.
         if ($display['settings']['link_type'] != 'none' && !isset($entity->is_available)) {
           $link = TRUE;
@@ -338,33 +339,25 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
             // Replace title with the more generic collection title.
             $title = $collection->title;
           }
+          // @todo: this could be moved into a theme function to be more
+          // generic.
+          $prefix = '<span class="search-result--heading-type">' . $ting_type . ':</span>';
+        }
 
-          if ($link) {
-            $url = entity_uri($type, $entity);
-            $title = l($title, $url['path'], $url['options']);
-          }
-          else {
-            $title = check_plain($title);
-          }
-
-          $element[$delta] = array(
-            '#prefix' => '<h2>',
-            '#suffix' => '</h2>',
-            'title' => array(
-              // @todo: this could be moved into a theme function to be more
-              // generic.
-              '#prefix' => '<span class="search-result--heading-type">' . $ting_type . ':</span>',
-              '#markup' => $title,
-            ),
-          );
+        if ($link) {
+          $url = entity_uri($type, $entity);
+          $title = l($title, $url['path'], $url['options']);
         }
         else {
-          $element[$delta] = array(
-            '#prefix' => '<h2>',
-            '#suffix' => '</h2>',
-            '#markup' => $title,
-          );
+          $title = check_plain($title);
         }
+
+        $element[$delta] = array(
+          '#prefix' => $prefix . '<h2>',
+          '#suffix' => '</h2>',
+          '#markup' => $title,
+        );
+
         break;
 
       case 'ting_type_default':
