@@ -37,8 +37,11 @@ function template_preprocess_ting_search_context_content(&$vars, $hook) {
   //URL
   $webtrends_paramater = 'WT.mc_id=searchcontext';
   if ($node->type == 'ding_search_context_link') {
-    $link_field = field_get_items('node', $node, 'field_search_context_link');
-    $link = empty($link_field [0]['url']) ? 0 : $link_field[0]['url'];
+    $wrapper = entity_metadata_wrapper('node', $node);
+    $link = $wrapper->field_search_context_link->url->value();
+
+    // One of the main usecases for ding_search_context_links is to link to search queries. Search queries are tricky because they
+    // are a mix of escaped and not escaped characters. This code handles it in a primitive fashion by only escaping the quotes.
     $url = str_replace('"', '%22', $link ); // Quotes inside search queries need to be escaped
 
     if (strpos($url, '?') == false) {
@@ -47,7 +50,7 @@ function template_preprocess_ting_search_context_content(&$vars, $hook) {
       $url .= '&WT.mc_id=searchcontext';
     }
   } else {
-    $url = url(drupal_get_path_alias('node/' . $node->nid), array('absolute' => TRUE, 'query' => array ('WT.mc_id' => 'searchcontext')));
+    $url = url('node/' . $node->nid, array('absolute' => TRUE, 'query' => array ('WT.mc_id' => 'searchcontext')));
   }
 
   $vars['url'] = $url;
