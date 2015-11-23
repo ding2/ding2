@@ -122,7 +122,7 @@ projects[google_analytics][subdir] = "contrib"
 projects[google_analytics][version] = "1.3"
 
 projects[htmlmail][subdir] = "contrib"
-projects[htmlmail][version] = "7.x-2.65"
+projects[htmlmail][version] = "2.65"
 
 projects[image_resize_filter][subdir] = "contrib"
 projects[image_resize_filter][version] = "1.14"
