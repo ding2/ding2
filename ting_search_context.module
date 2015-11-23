@@ -96,6 +96,10 @@ function ting_search_context_theme($existing, $type, $theme, $path) {
       'template'  => '/templates/ting_search_context_content',
       'file' => 'ting_search_context.theme.inc',
     ),
+    'ting_search_context_status' => array(
+      'variables' => array('status' => array()),
+      'file' => 'ting_search_context.theme.inc',
+    ),
     'views_view_field__ting_search_context_rate_nodes__title' => array(
       'variables' => array('view' => NULL, 'options' => NULL, 'row' => NULL),
       'template' => 'views-view-field--ting-search-context-rate-nodes--title',
@@ -815,6 +819,41 @@ function ting_search_context_get_all_contexts($type = NULL) {
   }
 
 	return $query->execute()->fetchAll();
+}
+
+/**
+ * Determine if any of the required facets is missing.
+ *
+ * @return array $missing
+ *   An array with name of any missin facets.
+ */
+function ting_search_context_get_missing_facets() {
+  // Ding facetbrowser module adds these on install.
+  $installed_facets = variable_get('ding_facetbrowser_facets', array());
+  $required_facets = ting_search_context_get_required_facets();
+  $found = array();
+
+  // The installed facets is keyed by arbritary numbers, so we have to loop
+  // through it to get the facet names.
+  foreach ($installed_facets as $facet) {
+    $name = $facet['name'];
+    if (in_array($name, $required_facets)) {
+      $found[] = $name;
+    }
+  }
+
+  return array_diff($required_facets, $found);
+}
+
+/**
+ * Defines the required facets.
+ */
+function ting_search_context_get_required_facets() {
+  return array(
+    'facet.type',
+    'facet.category',
+    'facet.genreCategory',
+  );
 }
 
 /**
