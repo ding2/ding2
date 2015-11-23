@@ -10,13 +10,11 @@
  * Profile form builder.
  */
 function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
-  if ($profile || isset($form_state['original_profile'])) {
-    // Save the profile object in form_state for later use.
-    if (!isset($form_state['original_profile'])) {
-      $form_state['original_profile'] = array_shift($profile);
-    }
-    // During a rebuild; use the stored $profile object.
-    $profile = $form_state['original_profile'];
+  if ($profile) {
+    $profile = array_shift($profile);
+    $profile->facets = ting_field_search_facets_load($profile->name);
+    // Save the original profile object in form_state for later use.
+    $form_state['original_profile'] = $profile;
   }
 
   $form['profile'] = array(
@@ -149,9 +147,8 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
 
   // Build facet rows.
   $index = 0;
-  if ($profile) {
-    $facets = ting_field_search_facets_load($profile->name);
-    foreach ($facets as $facet) {
+  if ($profile && !empty($profile->facets)) {
+    foreach ($profile->facets as $facet) {
       _ting_field_search_prepare_facet_row($form['facets']['table'], $index, (array) $facet);
       $index++;
     }
