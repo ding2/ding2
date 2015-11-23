@@ -547,18 +547,21 @@ function ting_field_search_profile_save($profile) {
  *   The macinhe-name of the profile to delete.
  */
 function ting_field_search_profile_delete($name) {
-  $result = FALSE;
+  $transaction = db_transaction();
 
   try {
-    $result = db_delete('ting_field_search_profile')
+    // Ensure that associated facet settings is deleted too.
+    ting_field_search_facets_delete($name);
+
+    return db_delete('ting_field_search_profile')
       ->condition('name', $name)
       ->execute();
   }
   catch (Exception $e) {
+    $transaction->rollback();
     watchdog_exception('ting_field_search', $e);
+    return FALSE;
   }
-
-  return $result;
 }
 
 /**
