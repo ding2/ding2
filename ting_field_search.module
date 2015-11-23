@@ -36,6 +36,16 @@ function ting_field_search_menu() {
     'page arguments' => array('ting_field_search_profile_form_delete_confirm_form', 5),
     'access arguments' => array('administer site configuration'),
     'file' => 'ting_field_search.admin.inc',
+    'type' => MENU_CALLBACK,
+  );
+  $items['admin/config/ting/settings/ting-field-search-profiles/%ting_field_search_profiles/delete/%ting_field_search_facets'] = array(
+    'title' => 'Delete facet',
+    'description' => 'Deletes a facet setting.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_field_search_profile_form_delete_confirm_form', 5, 7),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ting_field_search.admin.inc',
+    'type' => MENU_CALLBACK,
   );
 
   return $items;
