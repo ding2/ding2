@@ -199,6 +199,41 @@ function ding_event_views_pre_execute(&$view) {
       ->fields('inner_query')
       ->groupBy('nid');
   }
+  if ($view->name == 'ding_event' && $view->current_display == 'ding_event_list_frontpage') {
+    if (is_array($view->query->orderby)) {
+      foreach ($view->query->orderby as &$row) {
+        if ($row['field'] == 'field_data_field_ding_event_date_field_ding_event_date_value') {
+          $row['field'] = <<<SQL
+CASE
+  WHEN field_data_field_ding_event_date_field_ding_event_date_value < NOW() THEN NOW()
+  ELSE field_data_field_ding_event_date_field_ding_event_date_value
+END AS field_data_field_ding_event_date_field_ding_event_date_value
+SQL;
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function ding_event_views_pre_render(&$view) {
+  if ($view->name == 'ding_event' && $view->current_display == 'ding_event_list_frontpage') {
+    if (is_array($view->result)) {
+      $now = format_date(REQUEST_TIME, 'custom', 'Y-m-d H:i:s');
+      foreach ($view->result as &$row) {
+        $date_field = &$row->field_field_ding_event_date_1[0];
+        if ($date_field['raw']['value'] <= $now && $date_field['raw']['value2'] >= $now) {
+          $date_field['rendered']['#timestamp'] = REQUEST_TIME;
+          $date_field['rendered']['#date']['day'] = format_date(REQUEST_TIME, 'custom', 'd');
+          $date_field['rendered']['#date']['month'] = format_date(REQUEST_TIME, 'custom', 'm');
+          $date_field['rendered']['#date']['year'] = format_date(REQUEST_TIME, 'custom', 'Y');
+          $date_field['rendered']['#date']['weekday'] = format_date(REQUEST_TIME, 'custom', 'l');
+        }
+      }
+    }
+  }
 }
 
 /**
