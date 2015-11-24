@@ -18,7 +18,7 @@ content being shown on a relevant search result page. A rating of 4 has twice th
 
 When the user performs search the relevant search context is calculated. There is always a relevant system context. If the calculation of
 context is inconclusive the search context defaults to at neutral context. The content shown is retrieved by ajax and shows up to 15 content items
-on a carousel. The content can be view in one of three location depending on configuration.
+on a carousel. The content can be shown in one of three location depending on configuration.
 
 Installation
 -----------
