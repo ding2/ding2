@@ -918,6 +918,18 @@ function ding_permissions_secure_permissions($role) {
       'edit own ding_staff_profile profile',
     ),
   );
+
+  // Add editor specific permissions by node type,
+  // using override node options module permissions.
+  $node_types = node_permissions_get_configured_types();
+  foreach ($node_types as $node_type) {
+    if (in_array('create ' . $node_type . ' content', $permissions['editor'])) {
+      $permissions['editor'][] = 'override ' . $node_type . ' promote to front page option';
+      $permissions['editor'][] = 'override ' . $node_type . ' authored on option';
+      $permissions['editor'][] = 'override ' . $node_type . ' authored by option';
+    }
+  }
+
   if (isset($permissions[$role])) {
     return $permissions[$role];
   }
