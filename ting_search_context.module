@@ -78,6 +78,12 @@ function ting_search_context_menu() {
     'access arguments' => array('administer site configuration'),
     'file' => 'ting_search_context.admin.inc',
   );
+  $items['ting-search-context/autocomplete'] = array(
+    'title' => 'Context autocomplete',
+    'page callback' => 'ting_search_context_autocomplete',
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_CALLBACK,
+  );
   return $items;
 }
 
@@ -166,6 +172,24 @@ function ting_search_context_ting_search_context_field_name() {
     'genre_page' => 'field_genre_page_list_image',
     'ding_search_context_link' => 'field_search_context_list_image',
   );
+}
+
+/**
+ * Autocomplete handler to search for context.
+ */
+function ting_search_context_autocomplete($string = '') {
+  $matches = array();
+
+  $result = db_select('ting_search_context_contexts', 'tsc')
+    ->fields('tsc')
+    ->condition('name', '%' . db_like($string) . '%', 'LIKE')
+    ->execute();
+
+  foreach ($result as $context) {
+    $matches[$context->context_id] = check_plain($context->name);
+  }
+
+  drupal_json_ouptut($matches);
 }
 
 /**
