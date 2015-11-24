@@ -40,6 +40,12 @@
   color: transparentize($list-text-color, .5);
 }
 
+article {
+  .red-highlight {
+    color: $red;
+  }
+}
+
 /* Styling for material list items (example use: search results, related materials on news etc.) */
 %material-list-item {
   @extend %article-background;
