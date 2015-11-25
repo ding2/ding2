@@ -352,7 +352,7 @@ function ting_search_context_rate_node_action_form($settings, &$form_state = NUL
  * Validate handler for rate node action form.
  */
 function ting_search_context_rate_node_action_validate($form, &$form_state) {
-  // We only have to validate if autocomplete selection method is used.
+  // Autocomplete
   if ($form_state['values']['method']) {
     $name = $form_state['values']['autocomplete'];
     $matches = array();
@@ -378,16 +378,20 @@ function ting_search_context_rate_node_action_validate($form, &$form_state) {
       )));
     }
   }
+  // Select
+  else {
+    $form_state['values']['context'] = $form_state['values']['select'];
+  }
 }
 
 /**
  * Submit function for the rate node action form.
  */
 function ting_search_context_rate_node_action_submit($form, &$form_state) {
-  $return = array();
-  $return['context'] = $form_state['values']['context'];
-  $return['rating'] = $form_state['values']['rating'];
-  return $return;
+  return array(
+    'context' => $form_state['values']['context'],
+    'rating' => $form_state['values']['rating']
+  );
 }
 
 /**
