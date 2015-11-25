@@ -175,7 +175,11 @@ function ting_search_context_ting_search_context_field_name() {
 }
 
 /**
- * Autocomplete handler to search for context.
+ * Handler for the autocomplete field on the VBO-configuration form.
+ *
+ * Searches for at context by the human-readable name. Will output a JSON-array
+ * with the name and the identifying id in paranthesis, so that we can fectch
+ * the correct context in the validate handler.
  */
 function ting_search_context_autocomplete($string = '') {
   $matches = array();
@@ -183,13 +187,16 @@ function ting_search_context_autocomplete($string = '') {
   $result = db_select('ting_search_context_contexts', 'tsc')
     ->fields('tsc')
     ->condition('name', '%' . db_like($string) . '%', 'LIKE')
+    ->range(0, 10) // Note: this could be a setting
     ->execute();
 
   foreach ($result as $context) {
-    $matches[$context->context_id] = check_plain($context->name);
+    $id = $context->context_id;
+    $name = check_plain($context->name);
+    $matches[$name .  " ($id)"] = $name . " ($id)";
   }
 
-  drupal_json_ouptut($matches);
+  drupal_json_output($matches);
 }
 
 /**
@@ -264,13 +271,41 @@ function ting_search_context_rate_node_action_form($settings, &$form_state = NUL
   }
   $rating_options = drupal_map_assoc(range(1, TING_SEARCH_CONTEXT_MAX_RATING));
 
-  $form_context = array(
+  // Allow the adminstrator to choose between different selection mehods.
+  $form_context['method'] = array(
+    '#type' => 'radios',
+    '#title' => t('Selection method'),
+    '#default_value' => 0,
+    '#options' => array(0 => t('Selection'), 1 => t('Autocomplete')),
+  );
+  $form_context['select'] = array(
     '#type' => 'select',
     '#options' => $context_options,
     '#empty_option' => t('- Choose a context -'),
     '#default_value' => isset($settings['context']) ? $settings['context'] : '',
-    '#required' => TRUE,
+    '#states' => array(
+      'visible' => array(
+        'input[name="method"]' => array('value' => 0),
+      ),
+      'required' => array(
+        'input[name="method"]' => array('value' => 0),
+      ),
+    ),
   );
+  $form_context['autocomplete'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Search for a context'),
+    '#autocomplete_path' => 'ting-search-context/autocomplete',
+    '#states' => array(
+      'visible' => array(
+        'input[name="method"]' => array('value' => 1),
+      ),
+      'required' => array(
+        'input[name="method"]' => array('value' => 1),
+      ),
+    ),
+  );
+
   $form_rating = array(
     '#type' => 'select',
     '#options' => $rating_options,
@@ -299,18 +334,50 @@ function ting_search_context_rate_node_action_form($settings, &$form_state = NUL
       '#attributes' => array('class' => 'ting-search-context-selected-nodes'),
     );
     $form['context'] = $form_context;
-    $form['context']['#prefix'] = '<h3 class="context-header">' . t('Relate to:') . '</h3>';
+    $form['context']['#prefix'] = '<h3 class="context-header">' . t('Relate to (select a context) :') . '</h3>';
   }
   // Else it's an advanced action form and we just return a standard form with
   // 2 select-boxes.
   else {
-    $form['context']['#title'] = t('Context');
+    $form['context']['select']['#title'] = t('Context');
     $form['rating']['#title'] = t('Rating');
     $form['context'] = $form_context;
     $form['rating'] = $form_rating;
   }
 
   return $form;
+}
+
+/**
+ * Validate handler for rate node action form.
+ */
+function ting_search_context_rate_node_action_validate($form, &$form_state) {
+  // We only have to validate if autocomplete selection method is used.
+  if ($form_state['values']['method']) {
+    $name = $form_state['values']['autocomplete'];
+    $matches = array();
+    $context_id = 0;
+
+    // Look for the context_id in the paraenthesis at the end of input string.
+    $result = preg_match('/\(([0-9]+)\)$/', $name, $matches);
+    if ($result) {
+      $input_id = $matches[$result];
+
+      // Try to load to see if it exists.
+      if (ting_search_context_load($input_id)) {
+        $context_id = $input_id;
+      }
+    }
+
+    if (!empty($context_id)) {
+      $form_state['values']['context'] = $context_id;
+    }
+    else {
+      form_set_error('autocomplete', t('No context found for: %name', array(
+        '%name' => $name,
+      )));
+    }
+  }
 }
 
 /**
