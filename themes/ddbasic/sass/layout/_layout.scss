@@ -374,6 +374,7 @@ body {
 
   .attachment-second,
   .attachment-fourth {
+    @include zen-clear(right);
     @include zen-grid-item(6, 1, right);
   }
 }
