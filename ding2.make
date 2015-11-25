@@ -212,6 +212,11 @@ projects[node_export][version] = "3.0"
 projects[node_export][patch][] = "http://drupal.org/files/suppress-feature-install-profile-import.patch"
 projects[node_export][patch][] = "http://drupal.org/files/check-field.patch"
 
+projects[oembed][subdir] = "contrib"
+projects[oembed][version] = "1.0-rc2"
+; Remove hook_system_info_alter() to allow installing modules depending on oembed, after oembed is installed.
+projects[oembed][patch] = "http://www.drupal.org/files/issues/oembed-remove_hook_sytem_info_alter-2502817-1.patch"
+
 projects[og][subdir] = "contrib"
 projects[og][version] = "2.7"
 projects[og][patch][] = "https://www.drupal.org/files/issues/entityreference_fields_do_not_validate-2249261-10.patch"
