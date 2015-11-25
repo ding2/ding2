@@ -199,20 +199,6 @@ function ding_event_views_pre_execute(&$view) {
       ->fields('inner_query')
       ->groupBy('nid');
   }
-  if ($view->name == 'ding_event' && $view->current_display == 'ding_event_list_frontpage') {
-    if (is_array($view->query->orderby)) {
-      foreach ($view->query->orderby as &$row) {
-        if ($row['field'] == 'field_data_field_ding_event_date_field_ding_event_date_value') {
-          $row['field'] = <<<SQL
-CASE
-  WHEN field_data_field_ding_event_date_field_ding_event_date_value < NOW() THEN NOW()
-  ELSE field_data_field_ding_event_date_field_ding_event_date_value
-END AS field_data_field_ding_event_date_field_ding_event_date_value
-SQL;
-        }
-      }
-    }
-  }
 }
 
 /**

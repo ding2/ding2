@@ -3,6 +3,7 @@ description = Defines event content type and related views
 core = 7.x
 package = Ding!
 project = ding_event
+files[] = views/ding_event_handler_sort_ding_event_date.inc
 dependencies[] = addressfield
 dependencies[] = autosave
 dependencies[] = cs_adaptive_image
