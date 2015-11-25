@@ -300,15 +300,9 @@
 .action-buttons {
   @include box-sizing(border-box);
 
-  display: none;
-  padding: 20px;
-}
-
-
-.action-buttons-is-visible {
   background: transparentize($black, .85);
-
   display: block;
+  padding: 20px;
 }
 
 .action-buttons-is-scrolling {
