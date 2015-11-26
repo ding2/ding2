@@ -400,19 +400,13 @@ function ting_search_context_rate_node_action_submit($form, &$form_state) {
 function ting_search_context_views_bulk_operations_form_alter(&$form, &$form_state, $vbo) {
   // Only do something if we're altering our own VBO view.
   if ($vbo->view->name == 'ting_search_context_rate_nodes') {
-    // Need to add CSS here since it doesn't work on per-bulk form.
+    // Add CSS here since this is called for both vbo forms.
     $path = drupal_get_path('module', 'ting_search_context');
     $form['#attached']['css'][] = $path . '/css/ting_search_context.admin.css';
 
-    // Add a class if this is the first step.
+    // Add a class if this is the first step (per-bulk form).
     if ($form_state['step'] == 'views_form_views_form') {
-      $class = 'ting-search-context-rate-nodes-first-step';
-      if (!isset($form['#attributes']['class'])) {
-        $form['#attributes']['class'] = array($class);
-      }
-      else {
-        $form['#attributes']['class'][] = $class;
-      }
+      $form['#attributes']['class'][] = 'ting-search-context-rate-nodes-first-step';
     }
 
     // Alter the confirm form which comes after the per-bulk form.
