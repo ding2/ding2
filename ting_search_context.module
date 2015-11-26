@@ -499,15 +499,8 @@ function ting_search_context_views_bulk_operations_form_alter(&$form, &$form_sta
 /**
  * Implements hook_form_FORM_ID_alter().
  *
- * Views exposed filter form breaks the overlay on submit and reset. This is
- * because the filter form is using a GET-request on submit and therefore
- * overriding the 'render=overlay' GET-parameter, which is used by the overlay
- * module.
- * The fix below inserts a hidden form element with the value 'overlay'. This
- * will ensure that the 'render=overlay' parameter is added when the form is
- * serialized. It is inspired by a patch in the discussion linked below, which
- * also provides more info about the issue.
- * See: https://www.drupal.org/node/1116326
+ * Fix for the exposed filter form overlay bug (breaks on submit).
+ * See https://www.drupal.org/node/1116326 for more info.
  */
 function ting_search_context_form_views_exposed_form_alter(&$form, &$form_state) {
   $name = $form_state['view']->name;
@@ -525,17 +518,10 @@ function ting_search_context_form_views_exposed_form_alter(&$form, &$form_state)
 }
 
 /**
- * Searches the database for nodes rated in the context specified by
- * $context_id and randomly selects $count number of nodes to return. The
- * selection is based on the rating number of the ratings. For example, a node
- * with a rating of 5, is 5 times more likely to be selected compared to a node
- * with a rating of 1.
- * Note that nodes with a max rating of 10 will always be preferred over nodes
- * with lesser rating. This allows administrators to push very relevant content
- * to the users, giving them more control over the selection process. This has
- * one limitation: if there's more nodes with max rating than requested by
- * $count, the nodes to return will be selected randomly with even probability
- * between the max rated nodes.
+ * Randomly selects nodes rated in the specified context, such that nodes with
+ * a higher rating has a chance of being selected.
+ * Note: Nodes with max rating of 10 will be prefered. This allows
+ * administrators to push very relevant content to the users.
  *
  * @param int $context_id
  *   The ID of the context to search in.
