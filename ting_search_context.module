@@ -725,29 +725,33 @@ function ting_search_context_ratings_delete($context_ids) {
 }
 
 /**
- * Loads ratings associated with one or more contexts.
+ * Ratings loader.
  *
  * @param mixed $context_ids
  *   A string containing a single context_id or an array of context_ids.
+ * @param mixed $nids
+ *   A string containing a single nid or an array of nids.
+ *
+ * @return mixed $ratings
+ *   An array of ratings keyed by nids if $context_ids was set or by context_ids
+ *   if $nids was set (and $context_ids not).
+ *   A result set with all ratings if no parameter was set.
  */
 function ting_search_context_ratings_load($context_ids = NULL, $nids = NULL) {
   $query = db_select('ting_search_context_nodes_rated', 'nr')->fields('nr');
 
   if (isset($context_ids)) {
-    $query->condition('context_id', $context_ids);
+    return $query->condition('context_id', $context_ids)
+      ->execute()
+      ->fetchAllAssoc('nid');
   }
   if (isset($nids)) {
-    $query->condition('nid', $nids);
+    return $query->condition('nid', $nids)
+      ->execute()
+      ->fetchAllAssoc('context_id');
   }
 
-  $result = $query->execute();
-
-  // If ratings for contexts: key by nid.
-  // If ratings for nodes: key by context_id.
-  if (isset($context_ids)) {
-    return $result->fetchAllAssoc('nid');
-  }
-  return $result->fetchAllAssoc('context_id');
+  return $query->execute();
 }
 
 
