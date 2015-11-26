@@ -588,7 +588,6 @@ function ding_news_field_default_field_instances() {
           'library' => 0,
           'media_default--media_browser_1' => 0,
           'media_default--media_browser_my_files' => 0,
-          'media_internet' => 0,
           'upload' => 0,
         ),
         'manualcrop_crop_info' => 1,
