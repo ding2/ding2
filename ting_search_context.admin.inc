@@ -331,7 +331,7 @@ function ting_search_context_admin_context_delete_confirm_form($form, &$form_sta
   );
 
   return confirm_form($form,
-    t('Are you sure you want to delete the context?'),
+    t('Are you sure you want to delete %context?', array('%context' => $context->name)),
     'admin/config/ting/ting-search-context/contexts/' . $context->context_id . '/edit',
     $message,
     t('delete'),
@@ -339,22 +339,23 @@ function ting_search_context_admin_context_delete_confirm_form($form, &$form_sta
   );
 }
 
+/**
+ * Submit hanlder for the context delete confirm form.
+ */
 function ting_search_context_admin_context_delete_confirm_form_submit($form, &$form_state) {
   $context = $form_state['values']['context'];
   $ratings = $form_state['values']['ratings'];
-  $params = array('%context' => $context->name);
 
   if (ting_search_context_delete($context->context_id)) {
-    drupal_set_message(t('Context %context deleted', $params));
-/*    $output = format_plural(count($result_context),
-      '1 context was deleted and !ratings',
-      '@count contexts was deleted and !ratings',
-      array('!ratings' => format_plural(count($result_ratings),
-        '1 associated rating',
-        '@count associated ratings'
-    )));*/
+    $message = t('Context %context and !ratings deleted', array(
+      '%context' => $context->name,
+      '!ratings' => format_plural(count($ratings), '1 associated rating', '@count associated ratings'),
+    ));
+
+    drupal_set_message($message);
   }
   else {
+    $params = array('%context' => $context->name);
     drupal_set_message(t('Something went wrong deleting %context. See log for further details'), $params);
   }
 
