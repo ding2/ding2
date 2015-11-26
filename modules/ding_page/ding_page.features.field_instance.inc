@@ -320,22 +320,19 @@ function ding_page_field_default_field_instances() {
       'settings' => array(
         'allowed_schemes' => array(
           'public' => 'public',
-          'vimeo' => 0,
-          'youtube' => 0,
         ),
         'allowed_types' => array(
           'audio' => 0,
-          'document' => 0,
+          'default' => 0,
           'image' => 'image',
           'video' => 0,
         ),
         'browser_plugins' => array(
           'ding_content' => 0,
+          'library' => 0,
           'media_default--media_browser_1' => 0,
           'media_default--media_browser_my_files' => 0,
-          'media_internet' => 0,
           'upload' => 0,
-          'youtube' => 0,
         ),
         'manualcrop_crop_info' => 1,
         'manualcrop_default_crop_area' => 1,
@@ -525,22 +522,20 @@ function ding_page_field_default_field_instances() {
       'settings' => array(
         'allowed_schemes' => array(
           'public' => 'public',
-          'vimeo' => 0,
-          'youtube' => 0,
         ),
         'allowed_types' => array(
+          0 => 0,
           'audio' => 0,
-          'document' => 0,
+          'default' => 0,
           'image' => 'image',
           'video' => 0,
         ),
         'browser_plugins' => array(
           'ding_content' => 0,
+          'library' => 0,
           'media_default--media_browser_1' => 0,
           'media_default--media_browser_my_files' => 0,
-          'media_internet' => 0,
           'upload' => 0,
-          'youtube' => 0,
         ),
         'manualcrop_crop_info' => 1,
         'manualcrop_default_crop_area' => 1,

@@ -202,11 +202,13 @@ function ding_groups_field_default_field_instances() {
       'module' => 'media',
       'settings' => array(
         'allowed_schemes' => array(
+          'private' => 0,
           'public' => 'public',
           'vimeo' => 0,
           'youtube' => 0,
         ),
         'allowed_types' => array(
+          'application' => 0,
           'audio' => 0,
           'document' => 0,
           'image' => 'image',
@@ -297,11 +299,13 @@ function ding_groups_field_default_field_instances() {
       'module' => 'media',
       'settings' => array(
         'allowed_schemes' => array(
+          'private' => 0,
           'public' => 'public',
           'vimeo' => 0,
           'youtube' => 0,
         ),
         'allowed_types' => array(
+          'application' => 0,
           'audio' => 0,
           'document' => 0,
           'image' => 'image',

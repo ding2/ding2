@@ -72,12 +72,12 @@ function ding_tabroll_field_default_field_instances() {
       'module' => 'media',
       'settings' => array(
         'allowed_schemes' => array(
+          'private' => 0,
           'public' => 'public',
-          'vimeo' => 0,
-          'youtube' => 0,
         ),
         'allowed_types' => array(
           'audio' => 0,
+          0 => 0,
           'document' => 0,
           'image' => 'image',
           'video' => 0,
@@ -86,9 +86,7 @@ function ding_tabroll_field_default_field_instances() {
           'ding_content' => 0,
           'media_default--media_browser_1' => 0,
           'media_default--media_browser_my_files' => 0,
-          'media_internet' => 0,
           'upload' => 0,
-          'youtube' => 0,
         ),
         'manualcrop_crop_info' => 1,
         'manualcrop_default_crop_area' => 1,
@@ -224,7 +222,7 @@ function ding_tabroll_field_default_field_instances() {
   t('Lead');
   t('Link');
   t('Link to content that the tab should go to when clicked.');
-  t('Short description displayed inside the tab in a overlay. ');
+  t('Short description displayed inside the tab in a overlay.');
 
   return $field_instances;
 }

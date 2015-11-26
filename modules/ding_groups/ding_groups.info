@@ -2,6 +2,7 @@ name = Ding groups
 description = Ding groups are used to group content together themepages
 core = 7.x
 package = Ding!
+
 dependencies[] = cs_adaptive_image
 dependencies[] = ctools
 dependencies[] = ding_base
@@ -23,10 +24,11 @@ dependencies[] = pathauto
 dependencies[] = strongarm
 dependencies[] = taxonomy
 dependencies[] = text
-dependencies[] = uuid
 dependencies[] = views
 dependencies[] = views_content
 dependencies[] = views_responsive_grid
+dependencies[] = uuid
+
 features[ctools][] = field_group:field_group:1
 features[ctools][] = page_manager:pages_default:1
 features[ctools][] = strongarm:strongarm:1
@@ -69,4 +71,3 @@ features[variable][] = node_submitted_ding_group
 features[variable][] = og_menu_default_links_node_ding_group
 features[variable][] = pathauto_node_ding_group_pattern
 features[views_view][] = ding_groups
-mtime = 1448015442
