@@ -778,15 +778,7 @@ function ting_search_context_save($context) {
     return drupal_write_record('ting_search_context_contexts', $context, $id);
   }
   catch (Exception $e) {
-    // TODO: Search $e for specific error condition.
-    // http://alvinalexander.com/drupal/handling-drupal-sql-query-exceptions-try-catch
-    drupal_set_message(t('Something went wrong !op %context.', array(
-      '!op' => $context->is_new ? 'saving' : 'updating',
-      '%context' => $context->name ? $context->name : 'Unknown',
-    )), 'error');
-
     watchdog_exception('ting_search_context', $e);
-
     return FALSE;
   }
 }

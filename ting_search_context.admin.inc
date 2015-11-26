@@ -278,6 +278,12 @@ function ting_search_context_admin_context_form_submit($form, &$form_state) {
   if (ting_search_context_save($context)) {
     drupal_set_message(t('Context saved'));
   }
+  else {
+    drupal_set_message(t('Something went wrong !op %context.', array(
+      '!op' => empty($context->context_id) ? 'saving' : 'updating',
+      '%context' => $context->name ? $context->name : 'Unknown',
+    )), 'error');
+  }
 	$form_state['redirect'] = 'admin/config/ting/ting-search-context/contexts';
 }
 
