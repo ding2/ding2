@@ -176,7 +176,6 @@ function ting_search_context_admin_context_form_validate($form, &$form_state) {
 	else {
 		// Subject should be a comma separated list of single words containing
 		// alpanumeric characters (case-insensitive).
-		// TODO: alphanumeric or alphabetic?
 		$subjects = $form_state['values']['subjects'];
 
     $trimmed_subjects = array();
@@ -194,7 +193,7 @@ function ting_search_context_admin_context_form_validate($form, &$form_state) {
         }
       }
 
-      // We skip any empty subjects (must be a mistake by the user).
+      // We skip any empty subjects.
       if (!empty($subject)) {
         $trimmed_subjects[] = $subject;
 
@@ -238,8 +237,7 @@ function ting_search_context_admin_context_form_validate($form, &$form_state) {
       form_set_error('subjects', theme('item_list', array('items' => $error_messages)));
     }
 
-		// Recreate the input string with the trimmed subjects, assuming that any
-    // trailing and leading whitespaces must be a mistake by the user.
+		// Recreate the input string with the trimmed subjects.
 		$subjects = implode(', ', $trimmed_subjects);
     $form_state['values']['subjects'] = $subjects;
     // This will present the corrected string to the user.
