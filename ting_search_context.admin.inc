@@ -52,7 +52,7 @@ function ting_search_context_admin_context_form($form, &$form_state, $context = 
 	);
   $types = ting_search_context_get_types();
   // We don't allow creation or editing of system context types.
-  if ($context && $context->type != 'system') {
+  if (!$context) {
     unset($types['system']);
   }
 	$form['add_context']['type'] = array(
