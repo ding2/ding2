@@ -760,8 +760,7 @@ function ting_search_context_ratings_load($context_ids = NULL, $nids = NULL) {
  *
  * @param $context
  *   The context-object to be saved.
- *   If $context->context_id is omitted or $context->is_new is TRUE, a new
- *   context will be saved to the database.
+ *   If $context->context_id is omitted a new context will be saved in the db.
  *
  * @return mixed
  *   FALSE if the insert or updated failed.
@@ -773,11 +772,8 @@ function ting_search_context_ratings_load($context_ids = NULL, $nids = NULL) {
  */
 function ting_search_context_save($context) {
   try {
-    if (!isset($context->is_new)) {
-      $context->is_new = empty($context->context_id);
-    }
-
-    $id = $context->is_new ? array() : 'context_id';
+    // Determine if this is a new or an existing context.
+    $id = empty($context->context_id) ? array() : 'context_id';
 
     return drupal_write_record('ting_search_context_contexts', $context, $id);
   }
