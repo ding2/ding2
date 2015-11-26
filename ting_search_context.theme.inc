@@ -77,12 +77,18 @@ function theme_ting_search_context_status(&$vars) {
       $icon = theme('image', array('path' => 'misc/watchdog-ok.png'));
       $message = t('is installed correctly');
     }
-    $items[] = t('!icon @facet !message', array(
+    $items[] = format_string('!icon @facet !message', array(
       '!icon' => $icon,
       '@facet' => $facet,
       '!message' => $message,
     ));
   }
 
-  return theme('item_list', array('items' => $items));
+  $output = theme('item_list', array('items' => $items));
+
+  if (!empty($missing)) {
+    $output .= '<strong>' . l(t('Configure facets'), 'admin/config/ting/facets') . '</strong>';
+  }
+
+  return $output;
 }

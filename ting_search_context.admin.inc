@@ -395,6 +395,9 @@ function ting_search_context_admin_settings_form($form, &$form_state) {
     '#default_value' => variable_get('ting_search_context_position', 'js-below-search-result'),
   );
 
+  $path = drupal_get_path('module', 'ting_search_context');
+  $form['#attached']['css'][] = $path . '/css/ting_search_context.admin.css';
+
   // Add administration feel and look.
   $form = system_settings_form($form);
 

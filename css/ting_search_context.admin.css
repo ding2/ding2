@@ -96,3 +96,23 @@
 .view-ting-search-context-rate-nodes .context-header {
   margin-top: 1.9em;
 }
+
+/**
+ * Facet status in admin UI.
+ */
+#edit-ting-search-context-status ul {
+  margin: 1em 0;
+}
+
+#edit-ting-search-context-status ul li {
+  position: relative;
+  list-style: none;
+  padding-left: 23px;
+  margin-top: 8px;
+}
+
+#edit-ting-search-context-status ul img {
+  position: absolute;
+  left: 0;
+}
+
