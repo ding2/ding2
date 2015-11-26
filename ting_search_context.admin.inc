@@ -41,15 +41,9 @@ function ting_search_context_admin_contexts() {
 function ting_search_context_admin_context_form($form, &$form_state, $context = FALSE) {
 	$form = array();
 
-  $search = $subject = FALSE;
-  if ($context || isset($form_state['ting_search_context'])) {
-    // Save the context object in form_state for late use.
-    if (!isset($form_state['ting_search_context'])) {
-      $form_state['ting_search_context'] = $context;
-    }
-    // During a rebuild; user the stored $context object.
-    $context = $form_state['ting_search_context'];
-    $context->type == 'search' ? $search = TRUE : $subject = TRUE;
+  if ($context) {
+    // Save the context object in form_state for later use.
+    $form_state['ting_search_context'] = $context;
   }
 
 	$form['add_context'] = array(
@@ -91,7 +85,7 @@ function ting_search_context_admin_context_form($form, &$form_state, $context = 
 				':input[name="type"]' => array('value' => 'search'),
 			),
 		),
-    '#default_value' => $search ? $context->search : '',
+    '#default_value' => $context && $context->type == 'search' ? $context->search : '',
 	);
 	$form['add_context']['context'] = array(
 		'#type' => 'select',
@@ -108,7 +102,7 @@ function ting_search_context_admin_context_form($form, &$form_state, $context = 
 				':input[name="type"]' => array('value' => 'subject'),
 			),
 		),
-    '#default_value' => $subject ? $context->context : '',
+    '#default_value' => $context && $context->type == 'subject' ? $context->context : '',
 	);
 	$form['add_context']['subjects'] = array(
 		'#type' => 'textfield',
@@ -123,7 +117,7 @@ function ting_search_context_admin_context_form($form, &$form_state, $context = 
 				':input[name="type"]' => array('value' => 'subject'),
 			),
 		),
-    '#default_value' => $subject ? $context->subjects : '',
+    '#default_value' => $context && $context->type == 'subject' ? $context->subjects : '',
 	);
 
 	// Form actions
