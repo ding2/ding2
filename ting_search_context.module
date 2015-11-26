@@ -400,60 +400,52 @@ function ting_search_context_rate_node_action_submit($form, &$form_state) {
 function ting_search_context_views_bulk_operations_form_alter(&$form, &$form_state, $vbo) {
   // Only do something if we're altering our own VBO view.
   if ($vbo->view->name == 'ting_search_context_rate_nodes') {
-    // Always include our custom admin CSS.
+    // Need to add CSS here since it doesn't work on per-bulk form.
     $path = drupal_get_path('module', 'ting_search_context');
     $form['#attached']['css'][] = $path . '/css/ting_search_context.admin.css';
 
-    // Try the extract the operation if present.
-    $operation = '';
-    if (isset($form_state['operation'])) {
-      $prefix = 'action::';
-      $operation = $form_state['operation'];
-      if (substr($operation->operationId, 0, strlen($prefix)) === $prefix) {
-        $operation = substr($operation->operationId, strlen($prefix));
-      }
-      else {
-        $operation = $operation->operationId;
-      }
-    }
-
-    // Add a class to indicate that this is the first step of our VBO form.
-    // We make sure not to override any previously set '#attributes' or 'class'.
+    // Add a class if this is the first step.
     if ($form_state['step'] == 'views_form_views_form') {
       $class = 'ting-search-context-rate-nodes-first-step';
       if (!isset($form['#attributes']['class'])) {
-        if (isset($form['#attributes']) && is_array($form['#attributes'])) {
-          $form['#attributes'] += array('class' => array($class));
-        }
-        else {
-          $form['#attributes'] = array('class' => array($class));
-        }
+        $form['#attributes']['class'] = array($class);
       }
       else {
         $form['#attributes']['class'][] = $class;
       }
     }
 
-    // Perform different alterations to the VBO confirm form, depending on the
-    // action being executed.
+    // Alter the confirm form which comes after the per-bulk form.
     else if ($form_state['step'] == 'views_bulk_operations_confirm_form') {
       $selected_nodes = node_load_multiple($form_state['selection']);
+      $items = array();
 
-      // Show the selected nodes, context and rating if this is our rate node
-      // action being executed.
+      // Since VBO isn't using a render array we unset the description and
+      // add our own form elements.
+      unset($form['description']);
+
+      // Extract operation.
+      $operation = '';
+      if (isset($form_state['operation'])) {
+        $prefix = 'action::';
+        $operation = $form_state['operation'];
+        if (substr($operation->operationId, 0, strlen($prefix)) === $prefix) {
+          $operation = substr($operation->operationId, strlen($prefix));
+        }
+        else {
+          $operation = $operation->operationId;
+        }
+      }
+
+      // Rate action: show selected nodes, context and rating.
       if ($operation == 'ting_search_context_rate_node_action') {
         $context = ting_search_context_load($form_state['values']['context']);
         $rating = $form_state['values']['rating'];
 
-        // Since VBO isn't using a render array for the confirm form, it's very
-        // unpractical to override the text on it. Hence, we just unset the
-        // description and add our own form-elements to the confirm form.
-        unset($form['description']);
-
-        $items = array();
         foreach ($selected_nodes as $node) {
           $items[] = check_plain($node->title);
         }
+
         $form['selected_nodes'] = array(
           '#theme' => 'item_list',
           '#items' => $items,
@@ -476,16 +468,28 @@ function ting_search_context_views_bulk_operations_form_alter(&$form, &$form_sta
         );
       }
 
-      // TODO: Show what contexts the selected nodes are being unrated in.
+      // Unrate action: show all ratings grouped by each selected node.
       else if ($operation == 'ting_search_context_unrate_node_action') {
-        $form['selected_nodes'] = array();
-
-        $items = array();
         foreach ($selected_nodes as $node) {
-          // TODO: use a nested item list with nodes at first level and the
-          // contexts being unrated in as seconc level
-          // http://stackoverflow.com/questions/8764582/how-can-i-implement-the-multi-level-list-in-drupal7-with-theme-item-list
+          $item = array();
+          $item['data'] = '<strong>' . check_plain($node->title) . '</strong>';
+
+          // Loads all ratings for the node.
+          $ratings = ting_search_context_ratings_load(NULL, $node->nid);
+          foreach ($ratings as $rating) {
+            $context = ting_search_context_load($rating->context_id);
+            $item['children'][] = check_plain($context->name) . " ($rating->rating)";
+          }
+
+          // Add to main list.
+          $items[] = $item;
         }
+
+        $form['selected_nodes'] = array(
+          '#theme' => 'item_list',
+          '#items' => $items,
+          '#title' => t('The following ratings will be removed:'),
+        );
       }
 
     }
@@ -740,12 +744,24 @@ function ting_search_context_ratings_delete($context_ids) {
  * @param mixed $context_ids
  *   A string containing a single context_id or an array of context_ids.
  */
-function ting_search_context_ratings_load($context_ids) {
-  return db_select('ting_search_context_nodes_rated', 'nr')
-    ->fields('nr')
-    ->condition('context_id', $context_ids)
-    ->execute()
-    ->fetchAllAssoc('nid');
+function ting_search_context_ratings_load($context_ids = NULL, $nids = NULL) {
+  $query = db_select('ting_search_context_nodes_rated', 'nr')->fields('nr');
+
+  if (isset($context_ids)) {
+    $query->condition('context_id', $context_ids);
+  }
+  if (isset($nids)) {
+    $query->condition('nid', $nids);
+  }
+
+  $result = $query->execute();
+
+  // If ratings for contexts: key by nid.
+  // If ratings for nodes: key by context_id.
+  if (isset($context_ids)) {
+    return $result->fetchAllAssoc('nid');
+  }
+  return $result->fetchAllAssoc('context_id');
 }
 
 
