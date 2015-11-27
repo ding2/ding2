@@ -68,6 +68,12 @@ function ding_frontend_field_formatter_view($entity_type, $entity, $field, $inst
   foreach ($items as $delta => $item) {
     if ($display['type'] == 'calendar_header') {
       // Create timestamp base on current timezone.
+      if ($entity_type == 'node' && $entity->type == 'ding_event') {
+        $now = format_date(REQUEST_TIME, 'custom', 'Y-m-d H:i:s');
+        if ($item['value'] <= $now && $item['value2'] >= $now) {
+          $item['value'] = $now;
+        }
+      }
       $date = new DateObject(
         $item['value'],
         $item['timezone_db'],
