@@ -284,6 +284,9 @@ projects[secure_permissions][download][revision] = "ef5eec5"
 projects[secure_permissions][patch][] = "http://drupal.org/files/issues/2188491-features-multilingual-2.patch"
 projects[secure_permissions][patch][] = "http://drupal.org/files/issues/secure_permissions-dont_disable_all_permissions-2499607-3.patch"
 
+projects[search_api][subdir] = "contrib"
+projects[search_api][version] = "1.16"
+
 projects[similarterms][subdir] = "contrib"
 projects[similarterms][version] = "2.3"
 
