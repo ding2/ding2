@@ -306,3 +306,10 @@ function ding2_update_7012() {
   $eu_cookie_compliance_da['popup_disagree_button_message'] = 'Læs mere';
   variable_set('eu_cookie_compliance_da', $eu_cookie_compliance_da);
 }
+
+/**
+ * Enable pagepreview module.
+ */
+function ding2_update_7014() {
+  module_enable(array('pagepreview'));
+}
