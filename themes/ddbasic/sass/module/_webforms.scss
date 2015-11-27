@@ -1,0 +1,21 @@
+/**
+ * Webforms
+ *
+ * @author magnify
+ */
+
+/* Webform styles */
+
+.webform-confirmation,
+.webform-confirmation + .links {
+  background: $white;
+  padding: 20px;
+}
+
+.webform-confirmation {
+  min-height: 100px;
+}
+
+.webform-confirmation + .links {
+  margin-bottom: 20px;
+}
