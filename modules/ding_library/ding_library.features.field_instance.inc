@@ -732,6 +732,7 @@ function ding_library_field_default_field_instances() {
           'media_default--media_browser_1' => 0,
           'media_default--media_browser_my_files' => 0,
           'upload' => 0,
+        ),
         'manualcrop_crop_info' => 1,
         'manualcrop_default_crop_area' => 1,
         'manualcrop_enable' => 1,
