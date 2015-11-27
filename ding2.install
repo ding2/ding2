@@ -306,3 +306,10 @@ function ding2_update_7012() {
   $eu_cookie_compliance_da['popup_disagree_button_message'] = 'Læs mere';
   variable_set('eu_cookie_compliance_da', $eu_cookie_compliance_da);
 }
+
+/**
+ * Enable search_api modules.
+ */
+function ding2_update_7013() {
+  module_enable(array('search_api', 'search_api_multi', 'search_api_solr', 'search_api_views'));
+}
