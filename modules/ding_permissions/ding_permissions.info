@@ -9,7 +9,6 @@ dependencies[] = strongarm
 dependencies[] = role_delegation
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:1
-features[user_permission][] = administer fe promote
 features[variable][] = secure_permissions_active
 features[variable][] = secure_permissions_disable_forms
 features[variable][] = secure_permissions_show_permissions_page
