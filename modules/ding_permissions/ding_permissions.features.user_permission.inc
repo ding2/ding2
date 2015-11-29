@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * ding_frontend.features.user_permission.inc
+ * ding_permissions.features.user_permission.inc
  */
 
 /**
  * Implements hook_user_default_permissions().
  */
-function ding_frontend_user_default_permissions() {
+function ding_permissions_user_default_permissions() {
   $permissions = array();
 
   // Exported permission: 'administer fe promote'.
