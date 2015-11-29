@@ -6,6 +6,33 @@
 
 include_once 'ding_frontend.features.inc';
 
+function ding_frontend_permission() {
+  return array(
+    'administer fe promote' =>  array(
+      'title' => t('Administer promoting to frontpage'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_frontend_menu() {
+  $items = array();
+
+  $items['admin/config/ding/fe-promote'] = array(
+    'title' => 'Promote CT\'s to frontpage',
+    'description' => 'Promote several CT\' to frontpage.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_frontend_settings'),
+    'access arguments' => array('administer fe promote'),
+    'file' => 'ding_frontend.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
 /**
  * Implements hook_theme().
  *
