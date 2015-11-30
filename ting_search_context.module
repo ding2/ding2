@@ -42,6 +42,16 @@ function ting_search_context_menu() {
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'weight' => -10,
   );
+  $items['admin/config/ting/ting-search-context/fallback-images'] = array(
+    'title' => 'Fallback images',
+    'description' => 'Select which images to use when showing rated content.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_search_context_admin_fallback_images'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'ting_search_context.admin.inc',
+    'weight' => -5,
+  );
   $items['admin/config/ting/ting-search-context/contexts'] = array(
     'title' => 'Contexts',
     'description' => 'Create new contexts and edit/delete existing ones',
@@ -1074,6 +1084,24 @@ function ting_search_context_image_default_styles() {
           'data' => array(
             'width' => '540',
             'height' => '405',
+          ),
+          'weight' => '1',
+        ),
+      ),
+    ),
+    'ting_search_context_thumbnail' => array(
+      'name' => 'ting_search_context',
+      'effects' => array(
+        array(
+          'label' => 'Scale and crop',
+          'effect callback' => 'image_scale_and_crop_effect',
+          'dimensions callback' => 'image_resize_dimensions',
+          'module' => 'image',
+          'name' => 'image_scale_and_crop',
+          'data' => array(
+            // The same ratio as the one used in frontend.
+            'width' => '108',
+            'height' => '81',
           ),
           'weight' => '1',
         ),

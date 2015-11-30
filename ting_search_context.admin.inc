@@ -268,10 +268,6 @@ function ting_search_context_admin_context_form_submit($form, &$form_state) {
 
   if (isset($form_state['ting_search_context'])) {
     $context->context_id = $form_state['ting_search_context']->context_id;
-    $context->is_new = FALSE;
-  }
-  else {
-    $context->is_new = TRUE;
   }
 
   // Save, set message and go back,.
@@ -418,4 +414,178 @@ function ting_search_context_admin_settings_form($form, &$form_state) {
 function ding_search_context_admin_settings_submit($form, &$form_state) {
   $url = url('search/ting/', array('absolute' => TRUE));
   cache_clear_all($url, 'cache_page', TRUE);
+}
+
+/**
+ * Form builder for image settings.
+ */
+function ting_search_context_admin_fallback_images($form, &$form_state) {
+  $form = array();
+
+  $form['ting_search_context_fallback_images'] = array(
+    '#type' => 'fieldset',
+    '#tree' => TRUE,
+    '#title' => t('Fallback images'),
+    '#description' => t('Used when displaying rated nodes without an image.'),
+    '#attributes' => array(
+      'class' => array('ting-search-context-fallaback-images'),
+    )
+  );
+  $form['ting_search_context_fallback_images']['image_new'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Upload new image'),
+  );
+  $form['ting_search_context_fallback_images']['image_new']['fid'] = array(
+    '#type' => 'managed_file',
+    '#default_value' => '',
+    '#process' => array('file_managed_file_process', 'ting_search_context_file_process'),
+    '#upload_location' => 'public://ting_search_context/',
+    '#upload_validators' => array(
+      'file_validate_extensions' => array('gif png jpg jpeg'),
+      // 2MB
+      'file_validate_size' => array(2*1024*1024),
+    ),
+  );
+
+  $form['ting_search_context_fallback_images']['existing_title'] = array(
+    '#type' => 'item',
+    '#title' => t('Existing images'),
+  );
+
+  $count = 1;
+
+  foreach (variable_get('ting_search_context_fallback_images', array()) as $fid) {
+    $form['ting_search_context_fallback_images']['image_' . $fid] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Image !count', array('!count' => $count)),
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE,
+    );
+    // Use a modified managed file element to clean up permanent files.
+    // See: ting_search_context_file_process()
+    $form['ting_search_context_fallback_images']['image_' . $fid]['fid'] = array(
+      '#type' => 'managed_file',
+      '#default_value' => $fid,
+      '#process' => array('file_managed_file_process', 'ting_search_context_file_process'),
+      '#upload_location' => 'public://ting_search_context/',
+      '#upload_validators' => array(
+        'file_validate_extensions' => array('gif png jpg jpeg'),
+        // 2MB
+        'file_validate_size' => array(2*1024*1024),
+      ),
+    );
+    $count++;
+  }
+
+  $path = drupal_get_path('module', 'ting_search_context');
+  $form['#attached']['css'][] = $path . '/css/ting_search_context.admin.css';
+
+  return $form;
+}
+
+/**
+ * Submit callback for fallback images form.
+ */
+function ting_search_context_admin_fallback_images_submit($form, &$form_state) {
+  $fallback_images = array();
+
+  foreach ($form_state['values']['ting_search_context_fallback_images'] as $value) {
+    if ($value['fid'] != 0) {
+      $image = file_load($value['fid']);
+
+      // New upload; upgrade to permanent and add file usage.
+      if ($image->status == 0) {
+        $image->status = FILE_STATUS_PERMANENT;
+        file_save($image);
+        file_usage_add($image, 'ting_search_context', 'fallback_image', 1);
+
+        drupal_set_message(t('Fallback image @image was uploaded and saved.', array(
+          '@image' => $image->filename,
+        )));
+      }
+
+      $fallback_images[] = $image->fid;
+    }
+  }
+
+  // Save references
+  variable_set('ting_search_context_fallback_images', $fallback_images);
+}
+
+/**
+ * Process function for fallback image managed file element.
+ *
+ * @see file_managed_file_process()
+ */
+function ting_search_context_file_process($element, &$form_state, $form) {
+  $image = $element['#file'] ? $element['#file'] : FALSE;
+
+  if ($image) {
+    // Clean up file usage when removing permanent files. Also disable AJAX
+    // funtionality to give better feedback in the UI.
+    // When the user is removing a new upload without "saving", the file will
+    // be temporaty and we let the faster default AJAX handling take care of
+    // deleting the file.
+    if ($image->status == FILE_STATUS_PERMANENT) {
+      $element['remove_button']['#submit'] = array(
+        'ting_search_context_file_remove_submit'
+      );
+      unset($element['remove_button']['#ajax']);
+      $element['remove_button']['#prefix'] = '<br>';
+    }
+    else {
+      $element['remove_button']['#value'] = t('Cancel');
+      $element['save_button'] = array(
+        '#prefix' => '<br>',
+        '#type' => 'submit',
+        '#value' => t('Save'),
+        '#weight' => -6,
+      );
+    }
+
+    // Show a preview of the image. It's done here to ensure that it's shown
+    // right after AJAX upload.
+    $element['preview'] = array(
+      '#type' => 'markup',
+      '#markup' => theme('image_style', array(
+        'path' => $image->uri,
+        'style_name' => 'ting_search_context_thumbnail',
+        'attributes' => array(
+          'class' => 'preview',
+        ),
+      )),
+      '#weight' => -40,
+      '#suffix' => '<br>',
+    );
+  }
+  else {
+    $element['upload_button']['#prefix'] = '<br>';
+  }
+
+  return $element;
+}
+
+/**
+ * Submit callback for remove button on permanent files.
+ */
+function ting_search_context_file_remove_submit($form, &$form_state) {
+  // A fancy way to get the triggering remove button element.
+  // see: file_managed_file_submit()
+  $parents = $form_state['triggering_element']['#array_parents'];
+  array_pop($parents);
+  $element = drupal_array_get_nested_value($form, $parents);
+
+  $image = $element['#file'];
+  file_usage_delete($image, 'ting_search_context', 'fallback_image', 1);
+  file_delete($image);
+  drupal_set_message(t('Fallback image @image was deleted.', array(
+    '@image' => $image->filename,
+  )));
+
+  // Remove our reference to the file.
+  $fallback_images = variable_get('ting_search_context_fallback_images', array());
+  if (($key = array_search($image->fid, $fallback_images)) !== FALSE) {
+    unset($fallback_images[$key]);
+  }
+  variable_set('ting_search_context_fallback_images', $fallback_images);
 }

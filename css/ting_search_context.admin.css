@@ -116,3 +116,18 @@
   left: 0;
 }
 
+/**
+ * Fallback images admin UI.
+ */
+.ting-search-context-fallaback-images input[type=submit] {
+  margin-top: 20px;
+  margin-right: 10px;
+}
+
+.ting-search-context-fallaback-images img.preview {
+  margin-bottom: 10px;
+}
+
+.ting-search-context-fallaback-images .fieldset-wrapper {
+  padding-bottom: 0;
+}

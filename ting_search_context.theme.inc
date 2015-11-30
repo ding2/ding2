@@ -24,15 +24,34 @@ function template_preprocess_ting_search_context(&$vars, $hook) {
 function template_preprocess_ting_search_context_content(&$vars, $hook) {
   $node = $vars['node'];
 
-  // Image.
-  $field_name = ting_search_context_get_image_field_name($node);
-  $image = field_view_field('node', $node, $field_name, array(
-    'label' => 'hidden',
-    'settings' => array(
-      'image_style' => 'ting_search_context',
-    ),
-  ));
-  $vars['image'] = drupal_render($image);
+  // Attempt to find an image for the rated node.
+  // First priority is to use an image from a field on the node.
+  $image_uri = FALSE;
+  if ($field_name = ting_search_context_get_image_field_name($node)) {
+    $wrapper = entity_metadata_wrapper('node', $node);
+    if (!empty($wrapper->$field_name->value())) {
+      $image = $wrapper->$field_name->value();
+      $image_uri = $image['uri'];
+    }
+  }
+  // If we didn't have a field name for the node type or if there was no image
+  // set on the field, use a random fallback image if any.
+  if (!$image)  {
+    $fallback_images = variable_get('ting_search_context_fallback_images', array());
+    if (!empty($fallback_images)) {
+      $key = array_rand($fallback_images);
+      $image = file_load($fallback_images[$key]);
+      $image_uri = $image->uri;
+    }
+  }
+
+  if ($image_uri) {
+    $vars['image'] = array(
+      '#theme' => 'image_style',
+      '#path' => $image_uri,
+      '#style_name' => 'ting_search_context',
+    );
+  }
 
   // URL.
   $webtrends_paramater = 'WT.mc_id=searchcontext';
@@ -92,8 +111,10 @@ function theme_ting_search_context_status(&$vars) {
 
   $output = theme('item_list', array('items' => $items));
 
+  // Show link to ding facetbrowser administration page.
   if (!empty($missing)) {
-    $output .= '<strong>' . l(t('Configure facets'), 'admin/config/ting/facets') . '</strong>';
+    $link = l(t('Configure facets'), 'admin/config/ting/facets', array('query' => drupal_get_destination()));
+    $output .= '<strong>' . $link . '</strong>';
   }
 
   return $output;
