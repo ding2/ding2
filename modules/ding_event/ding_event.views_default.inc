@@ -1469,9 +1469,9 @@ function ding_event_views_default_views() {
   $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Number of elements';
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Alle -';
   $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Forskydning';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '« first';   
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';   
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';   
+  $handler->display->display_options['pager']['options']['tags']['first'] = '« first';
+  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
+  $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';
   $handler->display->display_options['pager']['options']['tags']['last'] = 'last »';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'list';
