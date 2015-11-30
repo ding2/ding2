@@ -112,6 +112,15 @@ html.js .search input.form-autocomplete {
   .news-link {
     float: right;
   }
+  .search-results {
+    .list {
+      .field-name-field-ding-staff-forename{
+        display: inline-block;
+        float: left;
+        margin-right: 6px;
+      }
+    }
+  }
 }
 
 /**

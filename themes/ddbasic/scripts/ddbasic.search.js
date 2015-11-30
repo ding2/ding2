@@ -20,8 +20,8 @@
         if ($('.view-ding-node-search-solr').length) {
           search.insertBefore('.view-ding-node-search-solr');
         }
-        if ($('.view-ding-user-search-solr').length) {
-          search.insertBefore('.view-ding-user-search-solr');
+        if ($('.view-ding-user-search-solr-0').length) {
+          search.insertBefore('.view-ding-user-search-solr-0');
         }
       }
 

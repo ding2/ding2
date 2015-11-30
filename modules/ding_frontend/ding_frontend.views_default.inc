@@ -235,10 +235,10 @@ function ding_frontend_views_default_views() {
   $export['ding_node_search_solr'] = $view;
 
   $view = new view();
-  $view->name = 'ding_user_search_solr';
+  $view->name = 'ding_user_search_solr_0';
   $view->description = '';
   $view->tag = 'default';
-  $view->base_table = 'search_api_index_default_user_index';
+  $view->base_table = 'search_api_index_default_user_index_0';
   $view->human_name = 'Ding user search (solr)';
   $view->core = 7;
   $view->api_version = '3.0';
@@ -258,23 +258,74 @@ function ding_frontend_views_default_views() {
   $handler->display->display_options['style_options']['class'] = 'list';
   $handler->display->display_options['style_options']['wrapper_class'] = 'search-results';
   $handler->display->display_options['row_plugin'] = 'entity';
-  $handler->display->display_options['row_options']['view_mode'] = 'account';
-  /* Field: Indexed Profile: Profile ID */
-  $handler->display->display_options['fields']['pid']['id'] = 'pid';
-  $handler->display->display_options['fields']['pid']['table'] = 'search_api_index_default_user_index';
-  $handler->display->display_options['fields']['pid']['field'] = 'pid';
+  /* Relationship: Staff profile: User (indexed) */
+  $handler->display->display_options['relationships']['profile_ding_staff_profile_user']['id'] = 'profile_ding_staff_profile_user';
+  $handler->display->display_options['relationships']['profile_ding_staff_profile_user']['table'] = 'search_api_index_default_user_index_0';
+  $handler->display->display_options['relationships']['profile_ding_staff_profile_user']['field'] = 'profile_ding_staff_profile_user';
+  /* Field: Indexed User: User ID */
+  $handler->display->display_options['fields']['uid']['id'] = 'uid';
+  $handler->display->display_options['fields']['uid']['table'] = 'search_api_index_default_user_index_0';
+  $handler->display->display_options['fields']['uid']['field'] = 'uid';
+  $handler->display->display_options['fields']['uid']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['uid']['link_to_entity'] = 0;
+  /* Field: User: Rendered User */
+  $handler->display->display_options['fields']['rendered_entity']['id'] = 'rendered_entity';
+  $handler->display->display_options['fields']['rendered_entity']['table'] = 'views_entity_user';
+  $handler->display->display_options['fields']['rendered_entity']['field'] = 'rendered_entity';
+  $handler->display->display_options['fields']['rendered_entity']['label'] = '';
+  $handler->display->display_options['fields']['rendered_entity']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['rendered_entity']['link_to_entity'] = 1;
+  $handler->display->display_options['fields']['rendered_entity']['view_mode'] = 'full';
+  $handler->display->display_options['fields']['rendered_entity']['bypass_access'] = 0;
+  /* Field: Staff profile: Active OG memberships from field Library (indexed) */
+  $handler->display->display_options['fields']['profile_ding_staff_profile_og_group_ref_og_membership_1']['id'] = 'profile_ding_staff_profile_og_group_ref_og_membership_1';
+  $handler->display->display_options['fields']['profile_ding_staff_profile_og_group_ref_og_membership_1']['table'] = 'search_api_index_default_user_index_0';
+  $handler->display->display_options['fields']['profile_ding_staff_profile_og_group_ref_og_membership_1']['field'] = 'profile_ding_staff_profile_og_group_ref_og_membership_1';
+  $handler->display->display_options['fields']['profile_ding_staff_profile_og_group_ref_og_membership_1']['label'] = 'Library';
+  $handler->display->display_options['fields']['profile_ding_staff_profile_og_group_ref_og_membership_1']['link_to_entity'] = 1;
+  $handler->display->display_options['fields']['profile_ding_staff_profile_og_group_ref_og_membership_1']['bypass_access'] = 0;
+  /* Field: Staff profile: Department (indexed) */
+  $handler->display->display_options['fields']['profile_ding_staff_profile_field_ding_staff_department_1']['id'] = 'profile_ding_staff_profile_field_ding_staff_department_1';
+  $handler->display->display_options['fields']['profile_ding_staff_profile_field_ding_staff_department_1']['table'] = 'search_api_index_default_user_index_0';
+  $handler->display->display_options['fields']['profile_ding_staff_profile_field_ding_staff_department_1']['field'] = 'profile_ding_staff_profile_field_ding_staff_department';
+  $handler->display->display_options['fields']['profile_ding_staff_profile_field_ding_staff_department_1']['label'] = 'Department';
+  $handler->display->display_options['fields']['profile_ding_staff_profile_field_ding_staff_department_1']['link_to_entity'] = 1;
+  $handler->display->display_options['fields']['profile_ding_staff_profile_field_ding_staff_department_1']['view_mode'] = 'full';
+  $handler->display->display_options['fields']['profile_ding_staff_profile_field_ding_staff_department_1']['bypass_access'] = 0;
+  /* Field: Staff profile: Position (indexed) */
+  $handler->display->display_options['fields']['profile_ding_staff_profile_field_ding_staff_position']['id'] = 'profile_ding_staff_profile_field_ding_staff_position';
+  $handler->display->display_options['fields']['profile_ding_staff_profile_field_ding_staff_position']['table'] = 'search_api_index_default_user_index_0';
+  $handler->display->display_options['fields']['profile_ding_staff_profile_field_ding_staff_position']['field'] = 'profile_ding_staff_profile_field_ding_staff_position';
+  $handler->display->display_options['fields']['profile_ding_staff_profile_field_ding_staff_position']['label'] = 'Position';
+  /* Field: Staff profile: Work areas (indexed) */
+  $handler->display->display_options['fields']['profile_ding_staff_profile_field_ding_staff_work_areas']['id'] = 'profile_ding_staff_profile_field_ding_staff_work_areas';
+  $handler->display->display_options['fields']['profile_ding_staff_profile_field_ding_staff_work_areas']['table'] = 'search_api_index_default_user_index_0';
+  $handler->display->display_options['fields']['profile_ding_staff_profile_field_ding_staff_work_areas']['field'] = 'profile_ding_staff_profile_field_ding_staff_work_areas';
+  $handler->display->display_options['fields']['profile_ding_staff_profile_field_ding_staff_work_areas']['label'] = 'Work areas';
+  /* Field: Staff profile: Email (indexed) */
+  $handler->display->display_options['fields']['profile_ding_staff_profile_field_ding_staff_email']['id'] = 'profile_ding_staff_profile_field_ding_staff_email';
+  $handler->display->display_options['fields']['profile_ding_staff_profile_field_ding_staff_email']['table'] = 'search_api_index_default_user_index_0';
+  $handler->display->display_options['fields']['profile_ding_staff_profile_field_ding_staff_email']['field'] = 'profile_ding_staff_profile_field_ding_staff_email';
+  $handler->display->display_options['fields']['profile_ding_staff_profile_field_ding_staff_email']['label'] = 'Email';
   /* Contextual filter: Search: Fulltext search */
   $handler->display->display_options['arguments']['search_api_views_fulltext']['id'] = 'search_api_views_fulltext';
-  $handler->display->display_options['arguments']['search_api_views_fulltext']['table'] = 'search_api_index_default_user_index';
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['table'] = 'search_api_index_default_user_index_0';
   $handler->display->display_options['arguments']['search_api_views_fulltext']['field'] = 'search_api_views_fulltext';
   $handler->display->display_options['arguments']['search_api_views_fulltext']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['search_api_views_fulltext']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['search_api_views_fulltext']['break_phrase'] = 0;
   $handler->display->display_options['arguments']['search_api_views_fulltext']['not'] = 0;
+  /* Filter criterion: Indexed User: User roles */
+  $handler->display->display_options['filters']['roles']['id'] = 'roles';
+  $handler->display->display_options['filters']['roles']['table'] = 'search_api_index_default_user_index_0';
+  $handler->display->display_options['filters']['roles']['field'] = 'roles';
+  $handler->display->display_options['filters']['roles']['value'] = array(
+    9 => '9',
+  );
 
   /* Display: Content pane */
   $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');
-  $translatables['ding_user_search_solr'] = array(
+  $translatables['ding_user_search_solr_0'] = array(
     t('Master'),
     t('more'),
     t('Apply'),
@@ -289,14 +340,20 @@ function ding_frontend_views_default_views() {
     t('‹ previous'),
     t('next ›'),
     t('last »'),
-    t('Profile ID'),
+    t('User'),
+    t('User ID'),
     t('.'),
     t(','),
+    t('Library'),
+    t('Department'),
+    t('Position'),
+    t('Work areas'),
+    t('Email'),
     t('All'),
     t('Content pane'),
     t('View panes'),
   );
-  $export['ding_user_search_solr'] = $view;
+  $export['ding_user_search_solr_0'] = $view;
 
   return $export;
 }

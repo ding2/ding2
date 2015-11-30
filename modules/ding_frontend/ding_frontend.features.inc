@@ -8,6 +8,9 @@
  * Implements hook_ctools_plugin_api().
  */
 function ding_frontend_ctools_plugin_api($module = NULL, $api = NULL) {
+  if ($module == "field_group" && $api == "field_group") {
+    return array("version" => "1");
+  }
   if ($module == "menu_block" && $api == "menu_block") {
     return array("version" => "1");
   }
@@ -975,6 +978,75 @@ function ding_frontend_default_search_api_index() {
             "highlight" : "always"
           }
         }
+      }
+    },
+    "enabled" : "0",
+    "read_only" : "0"
+  }');
+  $items['default_user_index_0'] = entity_import('search_api_index', '{
+    "name" : "Default user index 0",
+    "machine_name" : "default_user_index_0",
+    "description" : null,
+    "server" : "dev_inlead_dk",
+    "item_type" : "user",
+    "options" : {
+      "index_directly" : 0,
+      "cron_limit" : "50",
+      "fields" : {
+        "created" : { "type" : "date" },
+        "language" : { "type" : "string" },
+        "mail" : { "type" : "text" },
+        "name" : { "type" : "text" },
+        "og_membership" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "og_membership__1" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "og_membership__2" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "og_membership__3" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "og_user_node__og_membership" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "og_user_node__og_membership__1" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "og_user_node__og_membership__2" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "og_user_node__og_membership__3" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "profile_ding_staff_profile" : { "type" : "integer", "entity_type" : "profile2" },
+        "profile_ding_staff_profile:changed" : { "type" : "date" },
+        "profile_ding_staff_profile:created" : { "type" : "date" },
+        "profile_ding_staff_profile:field_alma_absent_id" : { "type" : "text" },
+        "profile_ding_staff_profile:field_alma_city" : { "type" : "text" },
+        "profile_ding_staff_profile:field_alma_full_name" : { "type" : "text" },
+        "profile_ding_staff_profile:field_alma_interest_period" : { "type" : "string" },
+        "profile_ding_staff_profile:field_alma_mail" : { "type" : "text" },
+        "profile_ding_staff_profile:field_alma_mobile_phone" : { "type" : "text" },
+        "profile_ding_staff_profile:field_alma_phone_id" : { "type" : "text" },
+        "profile_ding_staff_profile:field_alma_postal_code" : { "type" : "text" },
+        "profile_ding_staff_profile:field_alma_preferred_branch" : { "type" : "string" },
+        "profile_ding_staff_profile:field_alma_sms" : { "type" : "text" },
+        "profile_ding_staff_profile:field_alma_sms_id" : { "type" : "text" },
+        "profile_ding_staff_profile:field_alma_street_name" : { "type" : "text" },
+        "profile_ding_staff_profile:field_ding_staff_department" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
+        "profile_ding_staff_profile:field_ding_staff_email" : { "type" : "text" },
+        "profile_ding_staff_profile:field_ding_staff_forename" : { "type" : "text" },
+        "profile_ding_staff_profile:field_ding_staff_phone" : { "type" : "text" },
+        "profile_ding_staff_profile:field_ding_staff_position" : { "type" : "text" },
+        "profile_ding_staff_profile:field_ding_staff_surname" : { "type" : "text" },
+        "profile_ding_staff_profile:field_ding_staff_work_areas" : { "type" : "text" },
+        "profile_ding_staff_profile:label" : { "type" : "text" },
+        "profile_ding_staff_profile:og_group_ref__og_membership" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "profile_ding_staff_profile:og_group_ref__og_membership__1" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "profile_ding_staff_profile:og_group_ref__og_membership__2" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "profile_ding_staff_profile:og_group_ref__og_membership__3" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "profile_ding_staff_profile:og_membership" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "profile_ding_staff_profile:og_membership__1" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "profile_ding_staff_profile:og_membership__2" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "profile_ding_staff_profile:og_membership__3" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "profile_ding_staff_profile:pid" : { "type" : "integer" },
+        "profile_ding_staff_profile:type" : { "type" : "string", "entity_type" : "profile2_type" },
+        "profile_ding_staff_profile:url" : { "type" : "uri" },
+        "profile_ding_staff_profile:user" : { "type" : "integer", "entity_type" : "user" },
+        "profile_provider_alma" : { "type" : "integer", "entity_type" : "profile2" },
+        "relation_ting_reference_ting_object" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "ting_object" },
+        "roles" : { "type" : "list\\u003Cinteger\\u003E" },
+        "search_api_language" : { "type" : "string" },
+        "status" : { "type" : "integer" },
+        "uid" : { "type" : "integer" },
+        "url" : { "type" : "uri" }
       }
     },
     "enabled" : "1",
