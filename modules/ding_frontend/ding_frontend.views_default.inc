@@ -46,6 +46,9 @@ function ding_frontend_views_default_views() {
   $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ forrige';
   $handler->display->display_options['pager']['options']['tags']['next'] = 'næste ›';
   $handler->display->display_options['pager']['options']['tags']['last'] = 'sidste »';
+  $handler->display->display_options['pager']['options']['offset'] = '0';
+  $handler->display->display_options['pager']['options']['id'] = '0';
+  $handler->display->display_options['pager']['options']['quantity'] = '9';
   $handler->display->display_options['style_plugin'] = 'list';
   $handler->display->display_options['style_options']['row_class'] = 'list-item search-result';
   $handler->display->display_options['style_options']['default_row_class'] = FALSE;
@@ -193,11 +196,11 @@ function ding_frontend_views_default_views() {
   $handler->display->display_options['allow']['more_link'] = 0;
   $handler->display->display_options['allow']['path_override'] = 0;
   $handler->display->display_options['allow']['title_override'] = 0;
-  $handler->display->display_options['allow']['exposed_form'] = 'exposed_form';
+  $handler->display->display_options['allow']['exposed_form'] = 0;
   $handler->display->display_options['allow']['fields_override'] = 0;
   $handler->display->display_options['argument_input'] = array(
     'search_api_views_fulltext' => array(
-      'type' => 'none',
+      'type' => 'panel',
       'context' => 'entity:comment.author',
       'context_optional' => 0,
       'panel' => '2',
@@ -230,6 +233,70 @@ function ding_frontend_views_default_views() {
     t('View panes'),
   );
   $export['ding_node_search_solr'] = $view;
+
+  $view = new view();
+  $view->name = 'ding_user_search_solr';
+  $view->description = '';
+  $view->tag = 'default';
+  $view->base_table = 'search_api_index_default_user_index';
+  $view->human_name = 'Ding user search (solr)';
+  $view->core = 7;
+  $view->api_version = '3.0';
+  $view->disabled = FALSE; /* Edit this to true to make a default view disabled initially */
+
+  /* Display: Master */
+  $handler = $view->new_display('default', 'Master', 'default');
+  $handler->display->display_options['css_class'] = 'view-node-search-result';
+  $handler->display->display_options['use_more_always'] = FALSE;
+  $handler->display->display_options['access']['type'] = 'none';
+  $handler->display->display_options['cache']['type'] = 'none';
+  $handler->display->display_options['query']['type'] = 'views_query';
+  $handler->display->display_options['exposed_form']['type'] = 'basic';
+  $handler->display->display_options['pager']['type'] = 'full';
+  $handler->display->display_options['style_plugin'] = 'list';
+  $handler->display->display_options['style_options']['row_class'] = 'list-item search-result';
+  $handler->display->display_options['style_options']['class'] = 'list';
+  $handler->display->display_options['style_options']['wrapper_class'] = 'search-results';
+  $handler->display->display_options['row_plugin'] = 'entity';
+  $handler->display->display_options['row_options']['view_mode'] = 'account';
+  /* Field: Indexed Profile: Profile ID */
+  $handler->display->display_options['fields']['pid']['id'] = 'pid';
+  $handler->display->display_options['fields']['pid']['table'] = 'search_api_index_default_user_index';
+  $handler->display->display_options['fields']['pid']['field'] = 'pid';
+  /* Contextual filter: Search: Fulltext search */
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['id'] = 'search_api_views_fulltext';
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['table'] = 'search_api_index_default_user_index';
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['field'] = 'search_api_views_fulltext';
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['summary']['format'] = 'default_summary';
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['break_phrase'] = 0;
+  $handler->display->display_options['arguments']['search_api_views_fulltext']['not'] = 0;
+
+  /* Display: Content pane */
+  $handler = $view->new_display('panel_pane', 'Content pane', 'panel_pane_1');
+  $translatables['ding_user_search_solr'] = array(
+    t('Master'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
+    t('Profile ID'),
+    t('.'),
+    t(','),
+    t('All'),
+    t('Content pane'),
+    t('View panes'),
+  );
+  $export['ding_user_search_solr'] = $view;
 
   return $export;
 }

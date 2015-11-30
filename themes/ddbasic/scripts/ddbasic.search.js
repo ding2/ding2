@@ -17,7 +17,12 @@
         search.insertAfter('.pane-search-result-count');
       }
       else {
-        search.insertBefore('.view-ding-node-search-solr');
+        if ($('.view-ding-node-search-solr').length) {
+          search.insertBefore('.view-ding-node-search-solr');
+        }
+        if ($('.view-ding-user-search-solr').length) {
+          search.insertBefore('.view-ding-user-search-solr');
+        }
       }
 
       // Ensure that the spinner and other stuff works by wrapping it in a

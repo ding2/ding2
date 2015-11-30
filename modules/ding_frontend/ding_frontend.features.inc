@@ -846,6 +846,140 @@ function ding_frontend_default_search_api_index() {
     "enabled" : "1",
     "read_only" : "0"
   }');
+  $items['default_user_index'] = entity_import('search_api_index', '{
+    "name" : "Default user index",
+    "machine_name" : "default_user_index",
+    "description" : null,
+    "server" : "dev_inlead_dk",
+    "item_type" : "profile2",
+    "options" : {
+      "datasource" : { "bundles" : [ "ding_staff_profile" ] },
+      "index_directly" : 0,
+      "cron_limit" : "50",
+      "fields" : {
+        "changed" : { "type" : "date" },
+        "created" : { "type" : "date" },
+        "field_ding_staff_department" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
+        "field_ding_staff_email" : { "type" : "text" },
+        "field_ding_staff_forename" : { "type" : "text", "boost" : "3.0" },
+        "field_ding_staff_phone" : { "type" : "text" },
+        "field_ding_staff_position" : { "type" : "text" },
+        "field_ding_staff_surname" : { "type" : "text", "boost" : "2.0" },
+        "field_ding_staff_work_areas" : { "type" : "text" },
+        "label" : { "type" : "text" },
+        "og_group_ref__og_membership" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "og_group_ref__og_membership__1" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "og_group_ref__og_membership__2" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "og_group_ref__og_membership__3" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "og_membership" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "og_membership__1" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "og_membership__2" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "og_membership__3" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "pid" : { "type" : "integer" },
+        "search_api_language" : { "type" : "string" },
+        "type" : { "type" : "string", "entity_type" : "profile2_type" },
+        "url" : { "type" : "uri" },
+        "user" : { "type" : "integer", "entity_type" : "user" }
+      },
+      "data_alter_callbacks" : {
+        "search_api_alter_bundle_filter" : {
+          "status" : 0,
+          "weight" : "-10",
+          "settings" : { "default" : "1", "bundles" : [] }
+        },
+        "search_api_alter_language_control" : {
+          "status" : 0,
+          "weight" : "0",
+          "settings" : { "lang_field" : "", "languages" : [] }
+        },
+        "search_api_alter_add_hierarchy" : { "status" : 0, "weight" : "0", "settings" : { "fields" : [] } },
+        "search_api_alter_add_aggregation" : { "status" : 0, "weight" : "0", "settings" : [] },
+        "search_api_alter_add_url" : { "status" : 0, "weight" : "0", "settings" : [] },
+        "search_api_alter_add_viewed_entity" : { "status" : 0, "weight" : "0", "settings" : { "mode" : "account" } }
+      },
+      "processors" : {
+        "search_api_case_ignore" : {
+          "status" : 0,
+          "weight" : "0",
+          "settings" : { "fields" : {
+              "field_ding_staff_email" : true,
+              "field_ding_staff_forename" : true,
+              "field_ding_staff_position" : true,
+              "field_ding_staff_surname" : true
+            }
+          }
+        },
+        "search_api_html_filter" : {
+          "status" : 0,
+          "weight" : "10",
+          "settings" : {
+            "fields" : {
+              "field_ding_staff_email" : true,
+              "field_ding_staff_forename" : true,
+              "field_ding_staff_position" : true,
+              "field_ding_staff_surname" : true
+            },
+            "title" : 0,
+            "alt" : 1,
+            "tags" : "h1 = 5\\r\\nh2 = 3\\r\\nh3 = 2\\r\\nstrong = 2\\r\\nb = 2\\r\\nem = 1.5\\r\\nu = 1.5"
+          }
+        },
+        "search_api_transliteration" : {
+          "status" : 0,
+          "weight" : "15",
+          "settings" : { "fields" : {
+              "field_ding_staff_email" : true,
+              "field_ding_staff_forename" : true,
+              "field_ding_staff_position" : true,
+              "field_ding_staff_surname" : true
+            }
+          }
+        },
+        "search_api_tokenizer" : {
+          "status" : 0,
+          "weight" : "20",
+          "settings" : {
+            "fields" : {
+              "field_ding_staff_email" : true,
+              "field_ding_staff_forename" : true,
+              "field_ding_staff_position" : true,
+              "field_ding_staff_surname" : true
+            },
+            "spaces" : "[^[:alnum:]]",
+            "ignorable" : "[\\u0027]"
+          }
+        },
+        "search_api_stopwords" : {
+          "status" : 0,
+          "weight" : "30",
+          "settings" : {
+            "fields" : {
+              "field_ding_staff_email" : true,
+              "field_ding_staff_forename" : true,
+              "field_ding_staff_position" : true,
+              "field_ding_staff_surname" : true
+            },
+            "file" : "",
+            "stopwords" : "but\\r\\ndid\\r\\nthe this that those\\r\\netc"
+          }
+        },
+        "search_api_highlighting" : {
+          "status" : 0,
+          "weight" : "35",
+          "settings" : {
+            "prefix" : "\\u003Cstrong\\u003E",
+            "suffix" : "\\u003C\\/strong\\u003E",
+            "excerpt" : 1,
+            "excerpt_length" : "256",
+            "exclude_fields" : [],
+            "highlight" : "always"
+          }
+        }
+      }
+    },
+    "enabled" : "1",
+    "read_only" : "0"
+  }');
   return $items;
 }
 

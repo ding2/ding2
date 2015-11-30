@@ -248,15 +248,12 @@ search/node',
       'offset' => '0',
       'more_link' => 0,
       'feed_icons' => 0,
-      'panel_args' => 0,
+      'panel_args' => 1,
       'link_to_view' => 0,
       'args' => '',
       'url' => '',
       'display' => 'default',
-      'context' => array(
-        0 => 'argument_string_1.raw',
-      ),
-      'override_title' => 1,
+      'override_title' => 0,
       'override_title_text' => '',
       'override_title_heading' => 'h2',
     );
@@ -275,6 +272,117 @@ search/node',
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $export['search_node_panel_context'] = $handler;
+
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
+  $handler->name = 'search_user__panel_context_68a02d76-90da-41b3-99ca-5b98f987794c';
+  $handler->task = 'search';
+  $handler->subtask = 'user';
+  $handler->handler = 'panel_context';
+  $handler->weight = 0;
+  $handler->conf = array(
+    'title' => 'Search users',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'name' => '',
+    'access' => array(
+      'logic' => 'and',
+    ),
+  );
+  $display = new panels_display();
+  $display->layout = '25_50_25';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'left_sidebar' => NULL,
+      'main_content' => NULL,
+      'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = '';
+  $display->uuid = 'c39b388c-6d1e-4855-8976-3579c119887e';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-cd02be0e-23a8-4dfc-805d-447b15399e91';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'search_backends';
+    $pane->subtype = 'search_backends';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = 'cd02be0e-23a8-4dfc-805d-447b15399e91';
+    $display->content['new-cd02be0e-23a8-4dfc-805d-447b15399e91'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-cd02be0e-23a8-4dfc-805d-447b15399e91';
+    $pane = new stdClass();
+    $pane->pid = 'new-6a268dcb-4f6c-432a-b6de-5f067e8f811c';
+    $pane->panel = 'main_content';
+    $pane->type = 'views';
+    $pane->subtype = 'ding_user_search_solr';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_pager_settings' => 0,
+      'use_pager' => 1,
+      'nodes_per_page' => '0',
+      'pager_id' => '0',
+      'offset' => '0',
+      'more_link' => 0,
+      'feed_icons' => 0,
+      'panel_args' => 1,
+      'link_to_view' => 0,
+      'args' => '',
+      'url' => '',
+      'display' => 'default',
+      'context' => array(
+        0 => '',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '6a268dcb-4f6c-432a-b6de-5f067e8f811c';
+    $display->content['new-6a268dcb-4f6c-432a-b6de-5f067e8f811c'] = $pane;
+    $display->panels['main_content'][0] = 'new-6a268dcb-4f6c-432a-b6de-5f067e8f811c';
+  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->title_pane = 'new-cd02be0e-23a8-4dfc-805d-447b15399e91';
+  $handler->conf['display'] = $display;
+  $export['search_user__panel_context_68a02d76-90da-41b3-99ca-5b98f987794c'] = $handler;
 
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
