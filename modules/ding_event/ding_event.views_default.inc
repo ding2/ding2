@@ -255,6 +255,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Alle -';
   $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Forskydning';
   $handler->display->display_options['pager']['options']['tags']['first'] = '« First';
+  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
   $handler->display->display_options['pager']['options']['tags']['next'] = 'Next ›';
   $handler->display->display_options['pager']['options']['tags']['last'] = 'Last »';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
@@ -713,6 +714,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Alle -';
   $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Forskydning';
   $handler->display->display_options['pager']['options']['tags']['first'] = '« First';
+  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
   $handler->display->display_options['pager']['options']['tags']['next'] = 'Next ›';
   $handler->display->display_options['pager']['options']['tags']['last'] = 'Last »';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
@@ -922,6 +924,7 @@ function ding_event_views_default_views() {
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Alle -';
   $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Forskydning';
   $handler->display->display_options['pager']['options']['tags']['first'] = '« First';
+  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';
   $handler->display->display_options['pager']['options']['tags']['next'] = 'Next ›';
   $handler->display->display_options['pager']['options']['tags']['last'] = 'Last »';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
@@ -1466,6 +1469,10 @@ function ding_event_views_default_views() {
   $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Number of elements';
   $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Alle -';
   $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Forskydning';
+  $handler->display->display_options['pager']['options']['tags']['first'] = '« first';   
+  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ previous';   
+  $handler->display->display_options['pager']['options']['tags']['next'] = 'next ›';   
+  $handler->display->display_options['pager']['options']['tags']['last'] = 'last »';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'list';
   $handler->display->display_options['style_options']['grouping'] = array(
@@ -2325,13 +2332,12 @@ function ding_event_views_default_views() {
     t('OG group'),
     t('OG membership from node (Library)'),
     t('OG Library'),
-    t('.'),
     t('Groups panes'),
     t('Event list (groups)'),
+    t('Number of elements'),
     t('« first'),
     t('next ›'),
     t('last »'),
-    t('No events where found in the group.'),
     t('RSS library event list'),
     t('Simple event list'),
     t('RSS event list'),
