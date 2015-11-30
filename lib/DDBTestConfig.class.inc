@@ -17,8 +17,8 @@ class DDBTestConfig {
     $this->browser = isset($_SERVER['DDBTEST_BROWSER']) ? $_SERVER['DDBTEST_BROWSER'] : '*firefox';
     $this->url = isset($_SERVER['DDBTEST_URL']) ? $_SERVER['DDBTEST_URL'] : 'http://ding2tal.easyting.dk';
     $this->locale = isset($_SERVER['DDBTEST_LOCALE']) ? $_SERVER['DDBTEST_LOCALE'] : 'en';
-    $this->user = isset($_SERVER['DDBTEST_USER']) ? $_SERVER['DDBTEST_USER'] : '1111110022';
-    $this->pass = isset($_SERVER['DDBTEST_PASS']) ? $_SERVER['DDBTEST_PASS'] : '5555';
+    $this->user = isset($_SERVER['DDBTEST_USER']) ? $_SERVER['DDBTEST_USER'] : '3206596642';
+    $this->pass = isset($_SERVER['DDBTEST_PASS']) ? $_SERVER['DDBTEST_PASS'] : '12345';
     $this->lms = isset($_SERVER['DDBTEST_LMS']) ? $_SERVER['DDBTEST_LMS'] : '';
   }
 
