@@ -23,7 +23,6 @@ dependencies[] = module_filter
 dependencies[] = menu_position
 dependencies[] = eu_cookie_compliance
 dependencies[] = view_unpublished
-dependencies[] = pagepreview
 dependencies[] = redirect
 
 ; Ding modules.
