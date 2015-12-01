@@ -416,7 +416,7 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
  *
  * @param string $field_name
  *   The field name.
- * @param array $node
+ * @param stdClass $node
  *   The node.
  * @param string $image_type
  *   The bpi image type.
@@ -424,7 +424,7 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
  * @return bool
  *   True if the field is a container for the the bpi image type.
  */
-function bpi_is_bpi_image_field($field_name, array $node, $image_type) {
+function bpi_is_bpi_image_field($field_name, $node, $image_type) {
   return bpi_get_image_type($field_name, $node) == $image_type;
 }
 

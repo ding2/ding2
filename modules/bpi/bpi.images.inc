@@ -236,13 +236,13 @@ function bpi_fetch_image($filename, $image_url) {
  *
  * @param string $image_field_name
  *   The image field name.
- * @param array $node
+ * @param stdClass $node
  *   The node.
  *
  * @return NULL|string
  *   The image type.
  */
-function bpi_get_image_type($image_field_name, array $node) {
+function bpi_get_image_type($image_field_name, $node) {
   /*
    * We assume that the image type is the last part of the field name, i.e.
    *   field_{{node type}}_{{image type}}
