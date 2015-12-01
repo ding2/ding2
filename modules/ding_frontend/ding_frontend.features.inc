@@ -755,7 +755,7 @@ function ding_frontend_default_search_api_index() {
     "name" : "Default multiple index",
     "machine_name" : "default_multiple_index",
     "description" : null,
-    "server" : "dev_inlead_dk",
+    "server" : "Localhost",
     "item_type" : "multiple",
     "options" : {
       "datasource" : { "types" : [ "node", "user" ] },
