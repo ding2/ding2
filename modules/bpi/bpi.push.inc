@@ -223,10 +223,17 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
   }
 
   $tags = array();
-  $tags_field = field_view_field('node', $node, variable_get('bpi_field_tags', ''));
-  if ($tags_field) {
-    foreach ($tags_field['#items'] as $item) {
-      $tags[] = $item['taxonomy_term']->name;
+  $tags_field_name = variable_get('bpi_field_tags', '');
+  if (!empty($tags_field_name)) {
+    // We use field_view_field (rather than field_get_items, say) to get the
+    // actual taxonomy term names which we need to push to bpi.
+    $tags_field = field_view_field('node', $node, $tags_field_name);
+    if ($tags_field && isset($tags_field['#items'])) {
+      foreach ($tags_field['#items'] as $item) {
+        if (isset($item['taxonomy_term'])) {
+          $tags[] = $item['taxonomy_term']->name;
+        }
+      }
     }
   }
   $bpi_content['tags'] = implode(',', $tags);
