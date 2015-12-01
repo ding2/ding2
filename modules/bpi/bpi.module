@@ -484,7 +484,7 @@ function bpi_place_inline_images($field_name, $content, $current_language, array
     }
 
     // Find <img/> elements in content and replace with file placeholders.
-    $image_pattern = '@<img\s*[^>]*\ssrc=[\'"](?<url>[^\'">]+)[\'"][^>]*>@';
+    $image_pattern = '@<img\s*[^>]*\ssrc=[\'"](?<url>[^\'">]+)[\'"][^>]*>@i';
 
     $content = preg_replace_callback($image_pattern, function($matches) use ($current_language, $url_to_image_map) {
       $url = $matches['url'];
