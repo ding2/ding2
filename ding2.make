@@ -287,6 +287,12 @@ projects[secure_permissions][patch][] = "http://drupal.org/files/issues/secure_p
 projects[search_api][subdir] = "contrib"
 projects[search_api][version] = "1.16"
 
+projects[search_api_multi][subdir] = "contrib"
+projects[search_api_multi][version] = "1.3"
+
+projects[search_api_solr][subdir] = "contrib"
+projects[search_api_solr][version] = "1.9"
+
 projects[similarterms][subdir] = "contrib"
 projects[similarterms][version] = "2.3"
 
