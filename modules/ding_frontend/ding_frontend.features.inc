@@ -751,302 +751,75 @@ function ding_frontend_image_default_styles() {
  */
 function ding_frontend_default_search_api_index() {
   $items = array();
-  $items['default_node_index'] = entity_import('search_api_index', '{
-    "name" : "Default node index",
-    "machine_name" : "default_node_index",
-    "description" : "An automatically created search index for indexing node data. Might be configured to specific needs.",
-    "server" : "dev_inlead_dk",
-    "item_type" : "node",
-    "options" : {
-      "datasource" : { "bundles" : [] },
-      "index_directly" : 1,
-      "cron_limit" : "50",
-      "data_alter_callbacks" : { "search_api_alter_node_access" : { "status" : 1, "weight" : "0", "settings" : [] } },
-      "processors" : {
-        "search_api_case_ignore" : { "status" : 1, "weight" : "0", "settings" : { "strings" : 0 } },
-        "search_api_html_filter" : {
-          "status" : 1,
-          "weight" : "10",
-          "settings" : {
-            "title" : 0,
-            "alt" : 1,
-            "tags" : "h1 = 5\\nh2 = 3\\nh3 = 2\\nstrong = 2\\nb = 2\\nem = 1.5\\nu = 1.5"
-          }
-        },
-        "search_api_tokenizer" : {
-          "status" : 1,
-          "weight" : "20",
-          "settings" : { "spaces" : "[^\\\\p{L}\\\\p{N}]", "ignorable" : "[-]" }
-        }
-      },
-      "fields" : {
-        "author" : { "type" : "integer", "entity_type" : "user" },
-        "body:value" : { "type" : "text" },
-        "changed" : { "type" : "date" },
-        "comment_count" : { "type" : "integer" },
-        "created" : { "type" : "date" },
-        "ding_event_groups_ref" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
-        "ding_event_groups_ref__og_membership" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "ding_event_groups_ref__og_membership__1" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "ding_event_groups_ref__og_membership__2" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "ding_event_groups_ref__og_membership__3" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "ding_news_groups_ref" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
-        "ding_news_groups_ref__og_membership" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "ding_news_groups_ref__og_membership__1" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "ding_news_groups_ref__og_membership__2" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "ding_news_groups_ref__og_membership__3" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "ding_page_group_ref" : { "type" : "integer", "entity_type" : "node" },
-        "ding_page_group_ref__og_membership" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "ding_page_group_ref__og_membership__1" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "ding_page_group_ref__og_membership__2" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "ding_page_group_ref__og_membership__3" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "field_bpi_workflow" : { "type" : "string" },
-        "field_ding_event_category" : { "type" : "integer", "entity_type" : "taxonomy_term" },
-        "field_ding_event_lead" : { "type" : "text" },
-        "field_ding_event_price" : { "type" : "integer" },
-        "field_ding_event_tags" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
-        "field_ding_event_target" : { "type" : "integer", "entity_type" : "taxonomy_term" },
-        "field_ding_group_category" : { "type" : "integer", "entity_type" : "taxonomy_term" },
-        "field_ding_group_lead" : { "type" : "text" },
-        "field_ding_library_fax_number" : { "type" : "text" },
-        "field_ding_library_lead" : { "type" : "text" },
-        "field_ding_library_mail" : { "type" : "text" },
-        "field_ding_library_phone_number" : { "type" : "text" },
-        "field_ding_library_slug" : { "type" : "text" },
-        "field_ding_news_category" : { "type" : "integer", "entity_type" : "taxonomy_term" },
-        "field_ding_news_lead" : { "type" : "text" },
-        "field_ding_news_tags" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
-        "field_ding_page_lead" : { "type" : "text" },
-        "field_ding_page_tags" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
-        "field_ding_tabroll_lead" : { "type" : "text" },
-        "field_ding_tabroll_link" : { "type" : "integer", "entity_type" : "node" },
-        "group_group" : { "type" : "boolean" },
-        "language" : { "type" : "string" },
-        "members" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "user" },
-        "members__1" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "user" },
-        "members__2" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "user" },
-        "members__3" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "user" },
-        "nid" : { "type" : "integer" },
-        "og_group_ref" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
-        "og_group_ref__og_membership" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "og_group_ref__og_membership__1" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "og_group_ref__og_membership__2" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "og_group_ref__og_membership__3" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "og_membership" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "og_membership__1" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "og_membership__2" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "og_membership__3" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "promote" : { "type" : "boolean" },
-        "search_api_language" : { "type" : "string" },
-        "status" : { "type" : "integer" },
-        "sticky" : { "type" : "boolean" },
-        "title" : { "type" : "text", "boost" : "5.0" },
-        "type" : { "type" : "string" },
-        "url" : { "type" : "uri" },
-        "vid" : { "type" : "integer" }
-      }
-    },
-    "enabled" : "1",
-    "read_only" : "0"
-  }');
-  $items['default_user_index'] = entity_import('search_api_index', '{
-    "name" : "Default user index",
-    "machine_name" : "default_user_index",
+  $items['default_multiple_index'] = entity_import('search_api_index', '{
+    "name" : "Default multiple index",
+    "machine_name" : "default_multiple_index",
     "description" : null,
     "server" : "dev_inlead_dk",
-    "item_type" : "profile2",
+    "item_type" : "multiple",
     "options" : {
-      "datasource" : { "bundles" : [ "ding_staff_profile" ] },
+      "datasource" : { "types" : [ "node", "user" ] },
       "index_directly" : 0,
       "cron_limit" : "50",
       "fields" : {
-        "changed" : { "type" : "date" },
-        "created" : { "type" : "date" },
-        "field_ding_staff_department" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
-        "field_ding_staff_email" : { "type" : "text" },
-        "field_ding_staff_forename" : { "type" : "text", "boost" : "3.0" },
-        "field_ding_staff_phone" : { "type" : "text" },
-        "field_ding_staff_position" : { "type" : "text" },
-        "field_ding_staff_surname" : { "type" : "text", "boost" : "2.0" },
-        "field_ding_staff_work_areas" : { "type" : "text" },
-        "label" : { "type" : "text" },
-        "og_group_ref__og_membership" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "og_group_ref__og_membership__1" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "og_group_ref__og_membership__2" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "og_group_ref__og_membership__3" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "og_membership" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "og_membership__1" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "og_membership__2" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "og_membership__3" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "pid" : { "type" : "integer" },
+        "item_bundle" : { "type" : "string" },
+        "item_entity_id" : { "type" : "string" },
+        "item_id" : { "type" : "string" },
+        "item_label" : { "type" : "text" },
+        "item_type" : { "type" : "string" },
+        "node" : { "type" : "integer", "entity_type" : "node" },
+        "node:author" : { "type" : "integer", "entity_type" : "user" },
+        "node:changed" : { "type" : "date" },
+        "node:comment" : { "type" : "integer" },
+        "node:created" : { "type" : "date" },
+        "node:ding_news_groups_ref" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
+        "node:field_bpi_workflow" : { "type" : "string" },
+        "node:field_ding_event_category" : { "type" : "integer", "entity_type" : "taxonomy_term" },
+        "node:field_ding_event_lead" : { "type" : "text" },
+        "node:field_ding_event_price" : { "type" : "integer" },
+        "node:field_ding_event_tags" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
+        "node:field_ding_event_target" : { "type" : "integer", "entity_type" : "taxonomy_term" },
+        "node:field_ding_group_lead" : { "type" : "text" },
+        "node:field_ding_library_fax_number" : { "type" : "text" },
+        "node:field_ding_library_lead" : { "type" : "text" },
+        "node:field_ding_library_mail" : { "type" : "text" },
+        "node:field_ding_library_phone_number" : { "type" : "text" },
+        "node:field_ding_library_slug" : { "type" : "text" },
+        "node:field_ding_news_category" : { "type" : "integer", "entity_type" : "taxonomy_term" },
+        "node:field_ding_news_lead" : { "type" : "text" },
+        "node:field_ding_news_tags" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
+        "node:field_ding_page_lead" : { "type" : "text" },
+        "node:field_ding_page_tags" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
+        "node:field_ding_tabroll_lead" : { "type" : "text" },
+        "node:group_group" : { "type" : "boolean" },
+        "node:language" : { "type" : "string" },
+        "node:nid" : { "type" : "integer" },
+        "node:og_group_ref" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
+        "node:og_membership" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "node:promote" : { "type" : "boolean" },
+        "node:revision" : { "type" : "boolean" },
+        "node:source" : { "type" : "integer", "entity_type" : "node" },
+        "node:status" : { "type" : "integer" },
+        "node:title" : { "type" : "text" },
+        "node:type" : { "type" : "string" },
+        "node:vid" : { "type" : "integer" },
         "search_api_language" : { "type" : "string" },
-        "type" : { "type" : "string", "entity_type" : "profile2_type" },
-        "url" : { "type" : "uri" },
-        "user" : { "type" : "integer", "entity_type" : "user" }
-      },
-      "data_alter_callbacks" : {
-        "search_api_alter_bundle_filter" : {
-          "status" : 0,
-          "weight" : "-10",
-          "settings" : { "default" : "1", "bundles" : [] }
-        },
-        "search_api_alter_language_control" : {
-          "status" : 0,
-          "weight" : "0",
-          "settings" : { "lang_field" : "", "languages" : [] }
-        },
-        "search_api_alter_add_hierarchy" : { "status" : 0, "weight" : "0", "settings" : { "fields" : [] } },
-        "search_api_alter_add_aggregation" : { "status" : 0, "weight" : "0", "settings" : [] },
-        "search_api_alter_add_url" : { "status" : 0, "weight" : "0", "settings" : [] },
-        "search_api_alter_add_viewed_entity" : { "status" : 0, "weight" : "0", "settings" : { "mode" : "account" } }
-      },
-      "processors" : {
-        "search_api_case_ignore" : {
-          "status" : 0,
-          "weight" : "0",
-          "settings" : { "fields" : {
-              "field_ding_staff_email" : true,
-              "field_ding_staff_forename" : true,
-              "field_ding_staff_position" : true,
-              "field_ding_staff_surname" : true
-            }
-          }
-        },
-        "search_api_html_filter" : {
-          "status" : 0,
-          "weight" : "10",
-          "settings" : {
-            "fields" : {
-              "field_ding_staff_email" : true,
-              "field_ding_staff_forename" : true,
-              "field_ding_staff_position" : true,
-              "field_ding_staff_surname" : true
-            },
-            "title" : 0,
-            "alt" : 1,
-            "tags" : "h1 = 5\\r\\nh2 = 3\\r\\nh3 = 2\\r\\nstrong = 2\\r\\nb = 2\\r\\nem = 1.5\\r\\nu = 1.5"
-          }
-        },
-        "search_api_transliteration" : {
-          "status" : 0,
-          "weight" : "15",
-          "settings" : { "fields" : {
-              "field_ding_staff_email" : true,
-              "field_ding_staff_forename" : true,
-              "field_ding_staff_position" : true,
-              "field_ding_staff_surname" : true
-            }
-          }
-        },
-        "search_api_tokenizer" : {
-          "status" : 0,
-          "weight" : "20",
-          "settings" : {
-            "fields" : {
-              "field_ding_staff_email" : true,
-              "field_ding_staff_forename" : true,
-              "field_ding_staff_position" : true,
-              "field_ding_staff_surname" : true
-            },
-            "spaces" : "[^[:alnum:]]",
-            "ignorable" : "[\\u0027]"
-          }
-        },
-        "search_api_stopwords" : {
-          "status" : 0,
-          "weight" : "30",
-          "settings" : {
-            "fields" : {
-              "field_ding_staff_email" : true,
-              "field_ding_staff_forename" : true,
-              "field_ding_staff_position" : true,
-              "field_ding_staff_surname" : true
-            },
-            "file" : "",
-            "stopwords" : "but\\r\\ndid\\r\\nthe this that those\\r\\netc"
-          }
-        },
-        "search_api_highlighting" : {
-          "status" : 0,
-          "weight" : "35",
-          "settings" : {
-            "prefix" : "\\u003Cstrong\\u003E",
-            "suffix" : "\\u003C\\/strong\\u003E",
-            "excerpt" : 1,
-            "excerpt_length" : "256",
-            "exclude_fields" : [],
-            "highlight" : "always"
-          }
-        }
-      }
-    },
-    "enabled" : "0",
-    "read_only" : "0"
-  }');
-  $items['default_user_index_0'] = entity_import('search_api_index', '{
-    "name" : "Default user index 0",
-    "machine_name" : "default_user_index_0",
-    "description" : null,
-    "server" : "dev_inlead_dk",
-    "item_type" : "user",
-    "options" : {
-      "index_directly" : 0,
-      "cron_limit" : "50",
-      "fields" : {
-        "created" : { "type" : "date" },
-        "language" : { "type" : "string" },
-        "mail" : { "type" : "text" },
-        "name" : { "type" : "text" },
-        "og_membership" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "og_membership__1" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "og_membership__2" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "og_membership__3" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "og_user_node__og_membership" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "og_user_node__og_membership__1" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "og_user_node__og_membership__2" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "og_user_node__og_membership__3" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "profile_ding_staff_profile" : { "type" : "integer", "entity_type" : "profile2" },
-        "profile_ding_staff_profile:changed" : { "type" : "date" },
-        "profile_ding_staff_profile:created" : { "type" : "date" },
-        "profile_ding_staff_profile:field_alma_absent_id" : { "type" : "text" },
-        "profile_ding_staff_profile:field_alma_city" : { "type" : "text" },
-        "profile_ding_staff_profile:field_alma_full_name" : { "type" : "text" },
-        "profile_ding_staff_profile:field_alma_interest_period" : { "type" : "string" },
-        "profile_ding_staff_profile:field_alma_mail" : { "type" : "text" },
-        "profile_ding_staff_profile:field_alma_mobile_phone" : { "type" : "text" },
-        "profile_ding_staff_profile:field_alma_phone_id" : { "type" : "text" },
-        "profile_ding_staff_profile:field_alma_postal_code" : { "type" : "text" },
-        "profile_ding_staff_profile:field_alma_preferred_branch" : { "type" : "string" },
-        "profile_ding_staff_profile:field_alma_sms" : { "type" : "text" },
-        "profile_ding_staff_profile:field_alma_sms_id" : { "type" : "text" },
-        "profile_ding_staff_profile:field_alma_street_name" : { "type" : "text" },
-        "profile_ding_staff_profile:field_ding_staff_department" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
-        "profile_ding_staff_profile:field_ding_staff_email" : { "type" : "text" },
-        "profile_ding_staff_profile:field_ding_staff_forename" : { "type" : "text" },
-        "profile_ding_staff_profile:field_ding_staff_phone" : { "type" : "text" },
-        "profile_ding_staff_profile:field_ding_staff_position" : { "type" : "text" },
-        "profile_ding_staff_profile:field_ding_staff_surname" : { "type" : "text" },
-        "profile_ding_staff_profile:field_ding_staff_work_areas" : { "type" : "text" },
-        "profile_ding_staff_profile:label" : { "type" : "text" },
-        "profile_ding_staff_profile:og_group_ref__og_membership" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "profile_ding_staff_profile:og_group_ref__og_membership__1" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "profile_ding_staff_profile:og_group_ref__og_membership__2" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "profile_ding_staff_profile:og_group_ref__og_membership__3" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "profile_ding_staff_profile:og_membership" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "profile_ding_staff_profile:og_membership__1" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "profile_ding_staff_profile:og_membership__2" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "profile_ding_staff_profile:og_membership__3" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "profile_ding_staff_profile:pid" : { "type" : "integer" },
-        "profile_ding_staff_profile:type" : { "type" : "string", "entity_type" : "profile2_type" },
-        "profile_ding_staff_profile:url" : { "type" : "uri" },
-        "profile_ding_staff_profile:user" : { "type" : "integer", "entity_type" : "user" },
-        "profile_provider_alma" : { "type" : "integer", "entity_type" : "profile2" },
-        "relation_ting_reference_ting_object" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "ting_object" },
-        "roles" : { "type" : "list\\u003Cinteger\\u003E" },
-        "search_api_language" : { "type" : "string" },
-        "status" : { "type" : "integer" },
-        "uid" : { "type" : "integer" },
-        "url" : { "type" : "uri" }
+        "user" : { "type" : "integer", "entity_type" : "user" },
+        "user:created" : { "type" : "date" },
+        "user:language" : { "type" : "string" },
+        "user:mail" : { "type" : "text" },
+        "user:name" : { "type" : "text" },
+        "user:og_membership" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "user:og_membership__1" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "user:og_membership__2" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "user:og_membership__3" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
+        "user:og_user_node" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
+        "user:profile_ding_staff_profile" : { "type" : "integer", "entity_type" : "profile2" },
+        "user:profile_provider_alma" : { "type" : "integer", "entity_type" : "profile2" },
+        "user:relation_ting_reference_ting_object" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "ting_object" },
+        "user:roles" : { "type" : "list\\u003Cinteger\\u003E" },
+        "user:status" : { "type" : "integer" },
+        "user:uid" : { "type" : "integer" }
       }
     },
     "enabled" : "1",
