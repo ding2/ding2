@@ -755,7 +755,7 @@ function ding_frontend_default_search_api_index() {
     "name" : "Default multiple index",
     "machine_name" : "default_multiple_index",
     "description" : null,
-    "server" : "Localhost",
+    "server" : "localhost",
     "item_type" : "multiple",
     "options" : {
       "datasource" : { "types" : [ "node", "user" ] },
@@ -833,9 +833,9 @@ function ding_frontend_default_search_api_index() {
  */
 function ding_frontend_default_search_api_server() {
   $items = array();
-  $items['dev_inlead_dk'] = entity_import('search_api_server', '{
-    "name" : "dev.inlead.dk",
-    "machine_name" : "dev_inlead_dk",
+  $items['localhost'] = entity_import('search_api_server', '{
+    "name" : "Localhost",
+    "machine_name" : "localhost",
     "description" : "",
     "class" : "search_api_solr_service",
     "options" : {
