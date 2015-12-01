@@ -492,7 +492,7 @@ function bpi_place_inline_images($field_name, $content, $current_language, array
         $image = $url_to_image_map[$url];
         $file = $image['@managed_file'];
 
-        // Build data for file placeholder.
+        // Build file placeholder as used by the media_wysiwyg module.
         $data = array(
           'fid' => $file->fid,
           'view_mode' => 'default',
