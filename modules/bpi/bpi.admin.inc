@@ -209,8 +209,6 @@ function bpi_admin_content_mapping_form($form, $form_state) {
   $form['bpi_syndication'] = array(
     '#type' => 'fieldset',
     '#title' => t('Syndication settings'),
-    '#prefix' => '<div id="bpi-syndication-settings-wrapper">',
-    '#suffix' => '</div>',
   );
 
   $form['bpi_syndication']['bpi_syndicate_tags'] = array(
