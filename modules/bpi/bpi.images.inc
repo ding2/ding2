@@ -41,7 +41,8 @@ function bpi_syndicate_images($type = 'ajax') {
  * @param array $form_state
  *   Form state values.
  * @param array $assets
- *   Array of assets to be downloaded.
+ *   Array of assets to be downloaded. The keys are asset types (list_image,
+ *   title_image, …) and the values are arrays of asset information.
  *
  * @return array
  *   Form structure.
