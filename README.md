@@ -85,11 +85,14 @@ Some of the assertions might fail as well due to changed data response (OpenSear
 
 ### Webservices
 The tests cover the ding2tal ddb-rc8 clean installation with the following settings:
+- `/admin/config/ting/settings`
 - TING OpenSearch agencyId:   **100200**
 - TING OpenSearch Profile:    **test**
 - TING OpenSearch URL:        **http://opensearch.addi.dk/4.0/**
+- `/admin/config/ding/provider/alma`
 - Provider:                   ***ALMA***
 - Provider URL:               ***http://dummy-alma.inlead.dk/web/alma/***
+- `/admin/config/ting/covers/addi`
 - ADDI Service:               **http://moreinfo.addi.dk/2.1/**
 - Addi Group:                 ***Anyone***
 - Addi User:                  ***Anyone***
@@ -101,4 +104,4 @@ Usage of such dummy provider allows to have a fixed, yet responsive set of data 
 
 ### Other
 Enable english locale and make sure it's set by default. Also set the language
-detection to use URL prefix: `admin/config/regional/language/configure`
+detection to use URL prefix: `/admin/config/regional/language/configure`
