@@ -90,6 +90,12 @@ function fbs_loan_renew($account, $loans) {
     }
     else {
       $result[$loan->loanDetails->loanId] = DingProviderLoan::STATUS_NOT_RENEWED;
+      if (in_array('deniedMaxRenewalsReached', $loan->renewalStatus)) {
+        $result[$loan->loanDetails->loanId] = DingProviderLoan::STATUS_RENEWAL_NUM_EXCEEDED;
+      }
+      if (in_array('deniedReserved', $loan->renewalStatus)) {
+        $result[$loan->loanDetails->loanId] = DingProviderLoan::STATUS_RENEWAL_RESERVED;
+      }
     }
   }
 
