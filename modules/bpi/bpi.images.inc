@@ -27,6 +27,8 @@ function bpi_syndicate_images($type = 'ajax') {
     'bpi-syndicate-images',
     t('Syndicate images'),
     drupal_render($form),
+    // We need to reload the main content page after syndicating assets to
+    // place the assets in the content.
     array('refresh' => TRUE)
   );
 
