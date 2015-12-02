@@ -202,19 +202,22 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
       foreach ($image_fields as $field_name) {
         $image_type = bpi_get_image_type($field_name, $node);
         if (!empty($image_type)) {
-          $field_value = field_view_field('node', $node, $field_name);
-
-          if (!empty($field_value['#items'][0]['fid'])) {
-            $file = file_load($field_value['#items'][0]['fid']);
-            if (is_object($file)) {
-              $bpi_content['assets'][] = array(
-                'path' => file_create_url($file->uri),
-                'alt' => $file->alt ?: $file->filename,
-                'title' => $file->title ?: $file->filename,
-                'type' => $image_type,
-                'name' => $file->filename,
-                'extension' => pathinfo($file->uri, PATHINFO_EXTENSION),
-              );
+          $field_items = field_get_items('node', $node, $field_name);
+          if (is_array($field_items)) {
+            foreach ($field_items as $item) {
+              if (isset($item['fid'])) {
+                $file = file_load($item['fid']);
+                if (is_object($file)) {
+                  $bpi_content['assets'][] = array(
+                    'path' => file_create_url($file->uri),
+                    'alt' => $file->alt ?: $file->filename,
+                    'title' => $file->title ?: $file->filename,
+                    'type' => $image_type,
+                    'name' => $file->filename,
+                    'extension' => pathinfo($file->uri, PATHINFO_EXTENSION),
+                  );
+                }
+              }
             }
           }
         }
