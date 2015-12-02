@@ -447,8 +447,11 @@ function bpi_place_images(array &$form, $current_language, array $syndicated_ima
         if (bpi_is_bpi_image_field($image_field_name, $node, $image_type)) {
           $field = &$form[$image_field_name][$current_language];
           $cardinality = isset($field['#cardinality']) ? $field['#cardinality'] : 1;
-          $number_of_images = count($images);
-          for ($i = 0; $i < min($cardinality, $number_of_images); $i++) {
+          if ($cardinality < 0) {
+            $cardinality = PHP_INT_MAX;
+          }
+          $number_of_images_to_place = min(count($images), $cardinality);
+          for ($i = 0; $i < $number_of_images_to_place; $i++) {
             if (is_object($images[$i]['@managed_file'])) {
               $field[$i]['#default_value'] = array('fid' => $images[$i]['@managed_file']->fid);
             }
