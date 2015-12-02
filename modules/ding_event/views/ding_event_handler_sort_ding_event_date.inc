@@ -26,17 +26,14 @@ class ding_event_handler_sort_ding_event_date extends views_handler_sort_date {
       'month' => 'Ym',
       'year' => 'Y',
     );
+    $alias = $this->table_alias . '.' . $this->real_field;
     if (!empty($mapping[$this->options['granularity']])) {
-      $formula = views_date_sql_format($mapping[$this->options['granularity']], "$this->table_alias.$this->real_field");
+      $formula = views_date_sql_format($mapping[$this->options['granularity']], $alias);
       $this->query->add_orderby(NULL, $formula, $this->options['order'], $this->table_alias . '_' . $this->field . '_' . $this->options['granularity']);
     }
     else {
-      $alias = $this->table_alias . '.' . $this->real_field;
       $this->query->orderby[] = array(
-        'field' => "CASE
-  WHEN {$alias} < NOW() THEN NOW()
-  ELSE {$alias}
-END",
+        'field' => "CASE WHEN {$alias} < NOW() THEN NOW() ELSE {$alias} END",
         'direction' => strtoupper($this->options['order']),
       );
     }
