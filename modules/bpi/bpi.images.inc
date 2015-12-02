@@ -238,7 +238,7 @@ function bpi_fetch_image($filename, $image_url) {
  *
  * @param string $image_field_name
  *   The image field name.
- * @param stdClass $node
+ * @param object $node
  *   The node.
  *
  * @return NULL|string
