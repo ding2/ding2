@@ -63,3 +63,35 @@ function template_preprocess_ting_search_context_content(&$vars, $hook) {
   $vars['title'] = $title;
 }
 
+/**
+ * Theme function for facets status message.
+ */
+function theme_ting_search_context_status(&$vars) {
+  $missing = $vars['status']['missing'];
+  $required = $vars['status']['required'];
+
+  $items = array();
+  foreach ($required as $facet) {
+    if (in_array($facet, $missing)) {
+      $icon = theme('image', array('path' => 'misc/watchdog-error.png'));
+      $message = t('is missing');
+    }
+    else {
+      $icon = theme('image', array('path' => 'misc/watchdog-ok.png'));
+      $message = t('is installed correctly');
+    }
+    $items[] = format_string('!icon @facet !message', array(
+      '!icon' => $icon,
+      '@facet' => $facet,
+      '!message' => $message,
+    ));
+  }
+
+  $output = theme('item_list', array('items' => $items));
+
+  if (!empty($missing)) {
+    $output .= '<strong>' . l(t('Configure facets'), 'admin/config/ting/facets') . '</strong>';
+  }
+
+  return $output;
+}

@@ -191,3 +191,35 @@ function ting_search_context_disable() {
   }
   views_invalidate_cache();
 }
+
+/**
+ * Implements hook_requirments().
+ *
+ * We need certain facets from Ding facetbrowser module. Notify administrators
+ * if these aren't in use as an error on the status page. This will also show
+ * a notification on all administration pages.
+ */
+function ting_search_context_requirements($phase) {
+	$requirements = array();
+
+	// We're also using functions that would break on any other phase.
+	if ($phase != 'runtime') {
+		return array();
+	}
+
+	$missing = ting_search_context_get_missing_facets();
+	if (!empty($missing)) {
+		$requirements['ting_search_context'] = array(
+			'title' => t('Ting search context'),
+			'value' => t('Missing facets'),
+			'description' => t('@facets is missing and needed for Ting search context
+				to function properly. Please go to !link to add and configure these facets.', array(
+					'@facets' => implode(', ', $missing),
+					'!link' => l(t('Configure facets'), 'admin/config/ting/facets'),
+			)),
+			'severity' => REQUIREMENT_ERROR,
+		);
+	}
+
+	return $requirements;
+}

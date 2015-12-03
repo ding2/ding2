@@ -41,15 +41,9 @@ function ting_search_context_admin_contexts() {
 function ting_search_context_admin_context_form($form, &$form_state, $context = FALSE) {
 	$form = array();
 
-  $search = $subject = FALSE;
-  if ($context || isset($form_state['ting_search_context'])) {
-    // Save the context object in form_state for late use.
-    if (!isset($form_state['ting_search_context'])) {
-      $form_state['ting_search_context'] = $context;
-    }
-    // During a rebuild; user the stored $context object.
-    $context = $form_state['ting_search_context'];
-    $context->type == 'search' ? $search = TRUE : $subject = TRUE;
+  if ($context) {
+    // Save the context object in form_state for later use.
+    $form_state['ting_search_context'] = $context;
   }
 
 	$form['add_context'] = array(
@@ -58,7 +52,7 @@ function ting_search_context_admin_context_form($form, &$form_state, $context = 
 	);
   $types = ting_search_context_get_types();
   // We don't allow creation or editing of system context types.
-  if ($context && $context->type != 'system') {
+  if (!$context) {
     unset($types['system']);
   }
 	$form['add_context']['type'] = array(
@@ -91,7 +85,7 @@ function ting_search_context_admin_context_form($form, &$form_state, $context = 
 				':input[name="type"]' => array('value' => 'search'),
 			),
 		),
-    '#default_value' => $search ? $context->search : '',
+    '#default_value' => $context && $context->type == 'search' ? $context->search : '',
 	);
 	$form['add_context']['context'] = array(
 		'#type' => 'select',
@@ -108,7 +102,7 @@ function ting_search_context_admin_context_form($form, &$form_state, $context = 
 				':input[name="type"]' => array('value' => 'subject'),
 			),
 		),
-    '#default_value' => $subject ? $context->context : '',
+    '#default_value' => $context && $context->type == 'subject' ? $context->context : '',
 	);
 	$form['add_context']['subjects'] = array(
 		'#type' => 'textfield',
@@ -123,7 +117,7 @@ function ting_search_context_admin_context_form($form, &$form_state, $context = 
 				':input[name="type"]' => array('value' => 'subject'),
 			),
 		),
-    '#default_value' => $subject ? $context->subjects : '',
+    '#default_value' => $context && $context->type == 'subject' ? $context->subjects : '',
 	);
 
 	// Form actions
@@ -182,7 +176,6 @@ function ting_search_context_admin_context_form_validate($form, &$form_state) {
 	else {
 		// Subject should be a comma separated list of single words containing
 		// alpanumeric characters (case-insensitive).
-		// TODO: alphanumeric or alphabetic?
 		$subjects = $form_state['values']['subjects'];
 
     $trimmed_subjects = array();
@@ -200,7 +193,7 @@ function ting_search_context_admin_context_form_validate($form, &$form_state) {
         }
       }
 
-      // We skip any empty subjects (must be a mistake by the user).
+      // We skip any empty subjects.
       if (!empty($subject)) {
         $trimmed_subjects[] = $subject;
 
@@ -244,8 +237,7 @@ function ting_search_context_admin_context_form_validate($form, &$form_state) {
       form_set_error('subjects', theme('item_list', array('items' => $error_messages)));
     }
 
-		// Recreate the input string with the trimmed subjects, assuming that any
-    // trailing and leading whitespaces must be a mistake by the user.
+		// Recreate the input string with the trimmed subjects.
 		$subjects = implode(', ', $trimmed_subjects);
     $form_state['values']['subjects'] = $subjects;
     // This will present the corrected string to the user.
@@ -285,6 +277,12 @@ function ting_search_context_admin_context_form_submit($form, &$form_state) {
   // Save, set message and go back,
   if (ting_search_context_save($context)) {
     drupal_set_message(t('Context saved'));
+  }
+  else {
+    drupal_set_message(t('Something went wrong !op %context.', array(
+      '!op' => empty($context->context_id) ? 'saving' : 'updating',
+      '%context' => $context->name ? $context->name : 'Unknown',
+    )), 'error');
   }
 	$form_state['redirect'] = 'admin/config/ting/ting-search-context/contexts';
 }
@@ -331,7 +329,7 @@ function ting_search_context_admin_context_delete_confirm_form($form, &$form_sta
   );
 
   return confirm_form($form,
-    t('Are you sure you want to delete the context?'),
+    t('Are you sure you want to delete %context?', array('%context' => $context->name)),
     'admin/config/ting/ting-search-context/contexts/' . $context->context_id . '/edit',
     $message,
     t('delete'),
@@ -339,22 +337,23 @@ function ting_search_context_admin_context_delete_confirm_form($form, &$form_sta
   );
 }
 
+/**
+ * Submit hanlder for the context delete confirm form.
+ */
 function ting_search_context_admin_context_delete_confirm_form_submit($form, &$form_state) {
   $context = $form_state['values']['context'];
   $ratings = $form_state['values']['ratings'];
-  $params = array('%context' => $context->name);
 
   if (ting_search_context_delete($context->context_id)) {
-    drupal_set_message(t('Context %context deleted', $params));
-/*    $output = format_plural(count($result_context),
-      '1 context was deleted and !ratings',
-      '@count contexts was deleted and !ratings',
-      array('!ratings' => format_plural(count($result_ratings),
-        '1 associated rating',
-        '@count associated ratings'
-    )));*/
+    $message = t('Context %context and !ratings deleted', array(
+      '%context' => $context->name,
+      '!ratings' => format_plural(count($ratings), '1 associated rating', '@count associated ratings'),
+    ));
+
+    drupal_set_message($message);
   }
   else {
+    $params = array('%context' => $context->name);
     drupal_set_message(t('Something went wrong deleting %context. See log for further details'), $params);
   }
 
@@ -368,6 +367,21 @@ function ting_search_context_admin_context_delete_confirm_form_submit($form, &$f
 function ting_search_context_admin_settings_form($form, &$form_state) {
   $form = array();
 
+  $missing = ting_search_context_get_missing_facets();
+  if (!empty($missing)) {
+    // Prepare a status array.
+    $status = array(
+      'missing' => $missing,
+      'required' => ting_search_context_get_required_facets(),
+    );
+
+    $form['ting_search_context_status'] = array(
+      '#type' => 'item',
+      '#title' => t('Status'),
+      '#markup' => theme('ting_search_context_status', array('status' => $status))
+    );
+  }
+
   $form['ting_search_context_admin_settings_form'] = array(
     '#type' => 'fieldset',
     '#title' => t('Position related content on search page'),
@@ -380,6 +394,9 @@ function ting_search_context_admin_settings_form($form, &$form_state) {
     '#options' => ting_search_context_get_positions(),
     '#default_value' => variable_get('ting_search_context_position', 'js-below-search-result'),
   );
+
+  $path = drupal_get_path('module', 'ting_search_context');
+  $form['#attached']['css'][] = $path . '/css/ting_search_context.admin.css';
 
   // Add administration feel and look.
   $form = system_settings_form($form);
