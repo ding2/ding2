@@ -38,9 +38,9 @@ class CollectionViewTest extends PHPUnit_Extensions_SeleniumTestCase {
     sleep(5);
     // The collection item page opened above is expected to have first
     // collection items contain cover images and the second one - no.
-    $this->assertElementPresent('css=.pane-ting-collection .view-mode-full .ting-collection-wrapper:eq(0) .ting-cover img');
+    $this->assertTrue(assertElementPresent('css=.pane-ting-collection .view-mode-full .ting-collection-wrapper:eq(0) .ting-cover img'));
+	sleep(5);
     $this->assertElementNotPresent('css=.pane-ting-collection .view-mode-full .ting-collection-wrapper:eq(1) .ting-cover img');
-
     // Try to bookmark with logging in, if required.
     $this->abstractedPage->userBookmark('.action-button.bookmark-button:eq(0)');
     // Wait for the login popup, if any.
