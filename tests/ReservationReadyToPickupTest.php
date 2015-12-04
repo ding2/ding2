@@ -30,8 +30,8 @@ class ReservationReadyToPickupTest extends PHPUnit_Extensions_SeleniumTestCase {
     $this->abstractedPage->waitForPage();
 
     // Check for reservation ready for pickup quick link.
-    $this->assertElementPresent('link=2 Reservations ready for pick-up');
-    $this->click('link=2 Reservations ready for pick-up');
+    $this->assertElementPresent('link=1 Reservation ready for pick-up');
+    $this->click('link=1 Reservation ready for pick-up');
     $this->abstractedPage->waitForPage();
 
     // Check for correct page heading.
@@ -41,18 +41,11 @@ class ReservationReadyToPickupTest extends PHPUnit_Extensions_SeleniumTestCase {
     // This relies on the dummy LMS service, so the data should be pre-defined.
     $ready_for_pickup = array(
       array(
-        'The lady',
-        '255',
+        'Dandy',
+        '365',
         '',
-        'Hjørring',
-        '2. September 2014',
-      ),
-      array(
-        'Angels and demons',
-        '0',
-        '15. September 2014',
-        'Bogbus',
-        '2. September 2014',
+        'Hovedbiblioteket',
+        '5. September 2013',
       ),
     );
     for ($i = 0; $i < count($ready_for_pickup); $i++) {
@@ -86,8 +79,8 @@ class ReservationReadyToPickupTest extends PHPUnit_Extensions_SeleniumTestCase {
 
     // Test the ability to delete a reservation ready for pickup.
     // Check if the checkbox for certain item is present, then click it.
-    $this->assertElementPresent('css=#ding-reservation-reservations-ready-form .material-item:eq(1) input[type="checkbox"]');
-    $this->click('css=#ding-reservation-reservations-ready-form .material-item:eq(1) input[type="checkbox"]');
+    $this->assertElementPresent('css=#ding-reservation-reservations-ready-form .material-item:eq(0) input[type="checkbox"]');
+    $this->click('css=#ding-reservation-reservations-ready-form .material-item:eq(0) input[type="checkbox"]');
 
     // A delete button should appear.
     $this->abstractedPage->waitForElement('css=#edit-actions-top-delete');

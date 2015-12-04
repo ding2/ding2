@@ -14,7 +14,8 @@ class PaymentsTest extends PHPUnit_Extensions_SeleniumTestCase {
     $this->setBrowserUrl($this->config->getUrl());
 
     $url = $this->config->getLms() . '/alma/patron/debts?borrCard=' . $this->config->getUser() . '&pinCode=' . $this->config->getPass();
-    $this->mock = new SimpleXMLElement($url, 0, TRUE);
+    $this->mock = new DOMDocument();
+    $this->mock->loadXML(@file_get_contents($url));
 
     resetState($this->config->getLms());
   }
@@ -50,9 +51,31 @@ class PaymentsTest extends PHPUnit_Extensions_SeleniumTestCase {
     // Tricky part.
     // In order to check the data shown, it's required to have the raw
     // data from the LMS.
+    $data = array(
+      'total_formatted' => 0,
+      'debts' => array(),
+    );
+
+    if ($debts_attr = $this->mock->getElementsByTagName('debts')->item(0)) {
+      $data['total_formatted'] = $debts_attr->getAttribute('totalDebtAmountFormatted');
+    }
+
+    foreach ($this->mock->getElementsByTagName('debt') as $item) {
+      $id = $item->getAttribute('debtId');
+      $data['debts'][$id] = array(
+        'id' => $id,
+        'date' => $item->getAttribute('debtDate'),
+        'type' => $item->getAttribute('debtType'),
+        'amount' => $item->getAttribute('debtAmount'),
+        'amount_formatted' => $item->getAttribute('debtAmountFormatted'),
+        'note' => $item->getAttribute('debtNote'),
+        'display_name' => $item->getAttribute('debtNote'),
+      );
+    }
+
     $index = 0;
-    foreach ($this->mock->getDebtsResponse->debts->children() as $d) {
-      $note = array_values(array_filter(explode(' ', (string) $d->attributes()->debtNote)));
+    foreach ($data['debts'] as $d) {
+      $note = array_values(array_filter(explode(' ', $d['note'])));
       // Compare debt title.
       $this->assertElementContainsText('css=#ding-debt-debts-form .material-item:eq(' . $index . ') .item-title', $note[1]);
       // Compare material id.
@@ -61,19 +84,19 @@ class PaymentsTest extends PHPUnit_Extensions_SeleniumTestCase {
 
       // Compare created date.
       $this->assertElementContainsText('css=#ding-debt-debts-form .material-item:eq(' . $index . ') .item-information-list .fee-date .item-information-label', 'Created date:');
-      $debtDate = date('j. F Y', strtotime((string) $d->attributes()->debtDate));
+      $debtDate = date('j. F Y', strtotime($d['date']));
       $this->assertElementContainsText('css=#ding-debt-debts-form .material-item:eq(' . $index . ') .item-information-list .fee-date .item-information-data', $debtDate);
 
       // Compare amount.
       $this->assertElementContainsText('css=#ding-debt-debts-form .material-item:eq(' . $index . ') .item-information-list .fee_amount .item-information-label', 'Amount:');
-      $debtAmount = trim((string) $d->attributes()->debtAmountFormatted);
+      $debtAmount = trim((string) $d['amount_formatted']);
       $this->assertElementContainsText('css=#ding-debt-debts-form .material-item:eq(' . $index . ') .item-information-list .fee_amount .item-information-data', $debtAmount . ' Kr');
 
       $index++;
     }
 
     // Test total amount.
-    $total = trim((string) $this->mock->getDebtsResponse->debts->attributes()->totalDebtAmountFormatted);
+    $total = trim($data['total_formatted']);
     $this->assertElementContainsText('css=#edit-total .amount', $total . ' Kr');
 
     // @todo

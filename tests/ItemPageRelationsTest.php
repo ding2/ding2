@@ -51,7 +51,7 @@ class ItemPageRelationsTest extends PHPUnit_Extensions_SeleniumTestCase {
     // Check relation anchors block.
     $this->assertTrue($this->isElementPresent('css=.pane-ting-ting-relation-anchors'));
     // Check that there is one author portrail link.
-    $this->assertTrue($this->isElementPresent('link=Author portrait (1)'));
+    $this->assertTrue($this->isElementPresent('link=Author portrait (2)'));
     // Check that there are actully 7 (seven) review links.
     $this->assertTrue($this->isElementPresent('link=Review (7)'));
 
@@ -63,7 +63,7 @@ class ItemPageRelationsTest extends PHPUnit_Extensions_SeleniumTestCase {
     // Go back and check anchor links.
     $this->open('/ting/object/870970-basis%3A24908941');
     $this->abstractedPage->waitForPage();
-    $this->click('link=Author portrait (1)');
+    $this->click('link=Author portrait (2)');
     $this->assertTrue((bool) preg_match('/^[\s\S]*ting\/object\/870970-basis%3A24908941#dbcaddi:hasCreatorDescription$/', $this->getLocation()));
     $this->click('link=Review (7)');
     $this->assertTrue((bool) preg_match('/^[\s\S]*ting\/object\/870970-basis%3A24908941#dbcaddi:hasReview$/', $this->getLocation()));
