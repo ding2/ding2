@@ -472,17 +472,20 @@
 /* User WAYF login
    ========================================================================== */
 .ding-wayf--login-block {
-  bottom: 25px;
+  bottom: 15px;
   position: absolute;
-  right: -15px;
+  right: 20px;
+
+  background-color: #ffffff;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  padding: 4px 15px;
 }
 
-.ding-wayf--login-info {
-  padding-right: 20px;
-
-  img {
-    height: 20px;
-  }
+.ding-wayf--login-info img {
+  height: 20px;
+  padding-bottom: 2px;
 }
 
 
