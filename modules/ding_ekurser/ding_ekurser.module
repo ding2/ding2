@@ -34,9 +34,9 @@ function ding_ekurser_form_alter(&$form, &$form_state, $form_id) {
   
   // Remove all facets so we can make a custom list from the subject facet.
   foreach ($form as $form_key => $form_val) {
-    if (strpos($form_key, 'facet.') === 0) {
-		unset($form[$form_key]);
-	}
+    if (strpos($form_key, 'facet.') === 0)
+      unset($form[$form_key]);
+    }
   }
   
   // Make our own list of terms.
