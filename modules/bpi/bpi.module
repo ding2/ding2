@@ -447,6 +447,7 @@ function bpi_place_images(array &$form, $current_language, array $syndicated_ima
         if (bpi_is_bpi_image_field($image_field_name, $node, $image_type)) {
           $field = &$form[$image_field_name][$current_language];
           $cardinality = isset($field['#cardinality']) ? $field['#cardinality'] : 1;
+          // The cardinality of a field with an unlimited number of values is -1.
           if ($cardinality < 0) {
             $cardinality = PHP_INT_MAX;
           }
