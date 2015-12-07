@@ -507,8 +507,8 @@ function bpi_place_inline_images($field_name, $content, $current_language, array
           ),
           'type' => 'media',
           'attributes' => array(
-            'width' => isset($image['width']) ? $image['width'] : 200,
-            'height' => isset($image['height']) ? $image['height'] : 200,
+            'width' => $image['width'],
+            'height' => $image['height'],
             'alt' => isset($image['alt']) ? $image['alt'] : $image['name'],
             'title' => isset($image['title']) ? $image['title'] : $image['name'],
             'class' => 'media-element file-default',
