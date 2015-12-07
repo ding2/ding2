@@ -32,6 +32,8 @@ class DDBTestPageAbstraction {
     $this->phpunit_instance->type('css=#edit-name', $user);
     $this->phpunit_instance->type('css=#edit-pass', $pass);
     $this->phpunit_instance->click('css=#edit-submit--2');
+    // @todo
+    // Assert that user has actually logged in.
     $this->waitForPage();
   }
 
