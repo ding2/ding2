@@ -1,9 +1,8 @@
 Selenium tests for DDB CMS
 ==========================
 
-Edit the `config.inc` file to set specific testing settings.
-Latest changes viable for ding2tal branch: ddb-rc8.
-All test are grouped in files, by area of testing.
+Latest changes viable for ding2 tag: 7.x-2.3.1
+All tests are grouped in files, by area of testing.
 Method name denotes the tested feature.
 
 Dependencies
@@ -13,10 +12,11 @@ Dependencies
 * Selenium server
 * JRE (for Selenium server)
 * Xvfb (for server machines, headless Firefox launch)
+* Composer
 
 Installation
 ------------
-1. Run `composer install` inside the cloned repository.
+1. Run `composer install` inside the cloned repository. This will download the phpUnit dependency.
 
 2. Setup following environmental variables:
 
@@ -27,43 +27,53 @@ Installation
    `DDBTEST_PASS` - test user pass, see dummy_alma repo.
    `DDBTEST_LMS` - Dummy alma LMS url.
    
-3. Install Firefox browser
+3. Install Firefox browser:
 
-4. Download Selenium2 server
+   `apt-get install firefox`
 
-   [http://selenium-release.storage.googleapis.com/2.42/selenium-server-standalone-2.42.2.jar]
+4. Download Selenium2 server:
+
+   [http://selenium-release.storage.googleapis.com/2.48/selenium-server-standalone-2.48.2.jar]
+   
+   `wget http://selenium-release.storage.googleapis.com/2.48/selenium-server-standalone-2.48.2.jar`
    
    _----- (Server only from here) -----_
 
-5. Install Xvfb (X virtual frame buffer)
+5. Install Xvfb (X virtual frame buffer):
 
    `apt-get install xvfb`
+   OR
+   `yum install Xvfb`
 
 Usage
 -----
 ### Desktop
-1. Launch Selenium2 server (JRE should be installed)
+1. Launch Selenium2 server (JRE should be installed):
 
-   `java -jar PATH_TO_SELENIUM.jar -interactive`
+   `java -jar PATH_TO_DOWNLOADED_SELENIUM_SERVER.jar -interactive`
    
-2. In Terminal, type: `vendor/bin/phpunit`
+2. Move to this repo root and in Terminal type:
 
-   (ex.: `phpunit SearchResult SearchResultTestSuite.php`)
+   `vendor/bin/phpunit`
+
+   This will read the configuration from `phpunit.xml` and launch all tests sequentially.
 
 ### Server, headless Firefox
-1. Launch Xvfb
+1. Launch Xvfb by executing the following commands in terminal:
 
    `export DISPLAY=:99`
    
    `/usr/bin/Xvfb ${DISPLAY} -ac -screen 0 1920x1080x24 &`
    
-2. Launch Selenium2 server
+   This launches a virtual diplay with a number of 99, FullHD resolution and 24 bit depth.
+   
+2. Launch Selenium2 server:
 
    `java -jar PATH_TO_SELENIUM.jar -interactive &`
 
-3. Launch PHPUnit Selenium tests in terminal by running
+3. Move to this repo root and in terminal type:
 
-   `vendor/bin/phpunit`
+   `./vendor/bin/phpunit`
    
    There should be an output like this:
    ```
@@ -80,11 +90,11 @@ Usage
 
 Prerequisites
 -------------
-Any settings different from these, can lead to some assertions will fail.
-Some of the assertions might fail as well due to changed data response (OpenSearch).
+Any settings different from these, can lead to some assertions fail.
+Some of the assertions might fail as well due to changed responses from various servies (e.g.: OpenSearch).
 
 ### Webservices
-The tests cover the ding2tal ddb-rc8 clean installation with the following settings:
+The tests cover the ding2 7.x-2.3.1 clean installation with the following settings:
 - `/admin/config/ting/settings`
 - TING OpenSearch agencyId:   **100200**
 - TING OpenSearch Profile:    **test**
@@ -97,11 +107,17 @@ The tests cover the ding2tal ddb-rc8 clean installation with the following setti
 - Addi Group:                 ***Anyone***
 - Addi User:                  ***Anyone***
 - Addi Pass:                  ***Anyone***
+- `/admin/config/ting/autocomplete`
+- Autocomplete URL:           **http://opensuggestion.addi.dk/1.0/**
+- Autocomplete method:        **terms**
+- Match index:                **scanterm.mainTitle**
+- Facet Index:                **scanphrase.mainTitle**
+- Agency and profile:         ***no change***
 
-A test provider, separated from real one, can be found @ https://github.com/easyddb/dummy_alma/tree/DDBTEST-77
+A test provider, separated from real one, can be found @ https://github.com/easyddb/dummy_alma/
 This project emulates alma provider with most of the calls real one provides.
 Usage of such dummy provider allows to have a fixed, yet responsive set of data returned from the service.
 
 ### Other
 Enable english locale and make sure it's set by default. Also set the language
-detection to use URL prefix: `/admin/config/regional/language/configure`
+detection to use URL prefix at: `/admin/config/regional/language/configure`
