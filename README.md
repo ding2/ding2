@@ -107,11 +107,17 @@ The tests cover the ding2 7.x-2.3.1 clean installation with the following settin
 - Addi Group:                 ***Anyone***
 - Addi User:                  ***Anyone***
 - Addi Pass:                  ***Anyone***
+- `/admin/config/ting/autocomplete`
+- Autocomplete URL:           **http://opensuggestion.addi.dk/1.0/**
+- Autocomplete method:        **terms**
+- Match index:                **scanterm.mainTitle**
+- Facet Index:                **scanphrase.mainTitle**
+- Agency and profile:         ***no change***
 
-A test provider, separated from real one, can be found @ https://github.com/easyddb/dummy_alma/tree/DDBTEST-77
+A test provider, separated from real one, can be found @ https://github.com/easyddb/dummy_alma/
 This project emulates alma provider with most of the calls real one provides.
 Usage of such dummy provider allows to have a fixed, yet responsive set of data returned from the service.
 
 ### Other
 Enable english locale and make sure it's set by default. Also set the language
-detection to use URL prefix: `/admin/config/regional/language/configure`
+detection to use URL prefix at: `/admin/config/regional/language/configure`
