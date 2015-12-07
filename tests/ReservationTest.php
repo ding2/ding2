@@ -28,8 +28,8 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
     $this->abstractedPage->waitForPage();
 
     // Check for reservation ready for pickup quick link.
-    $this->assertElementPresent('link=4 Reservations');
-    $this->click('link=4 Reservations');
+    $this->assertElementPresent('link=5 Reservations');
+    $this->click('link=5 Reservations');
     $this->abstractedPage->waitForPage();
 
     // Check for correct page heading.
@@ -181,8 +181,8 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
     $this->click('css=#ding-reservation-reservations-notready-form .material-item:eq(1) input[type="checkbox"]');
 
     // A delete button should appear.
-    $this->abstractedPage->waitForElement('css=#edit-actions-top-delete');
-    $this->mouseDown('css=#edit-actions-top-delete');
+    $this->abstractedPage->waitForElement('css=#edit-actions-top-delete--2');
+    $this->mouseDown('css=#edit-actions-top-delete--2');
 
     // This should trigger a popup confirmation.
     $this->abstractedPage->waitForElement('css=.ding-popup-content #ding-reservation-delete-reservations-form');
