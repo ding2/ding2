@@ -102,6 +102,7 @@ The tests cover the ding2 7.x-2.3.1 clean installation with the following settin
 - `/admin/config/ding/provider/alma`
 - Provider:                   ***ALMA***
 - Provider URL:               ***http://dummy-alma.inlead.dk/web/alma/***
+- Enable reservation deletion: ***On***
 - `/admin/config/ting/covers/addi`
 - ADDI Service:               **http://moreinfo.addi.dk/2.1/**
 - Addi Group:                 ***Anyone***
