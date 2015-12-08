@@ -14,6 +14,7 @@ dependencies[] = ding_content
 dependencies[] = ding_frontend
 dependencies[] = entityreference
 dependencies[] = field_group
+dependencies[] = manualcrop
 dependencies[] = menu
 dependencies[] = menu_position
 dependencies[] = number

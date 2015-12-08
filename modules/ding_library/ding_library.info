@@ -18,6 +18,7 @@ dependencies[] = image
 dependencies[] = leaflet_views
 dependencies[] = link
 dependencies[] = list
+dependencies[] = manualcrop
 dependencies[] = media
 dependencies[] = menu
 dependencies[] = menu_position
