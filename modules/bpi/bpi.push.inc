@@ -154,14 +154,33 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
   // Find the references to the ting date well.
   $materials_drupal = array();
   if ($with_refs) {
+    // Function field_get_items returns data with 2 different structure, depending from stage when it was called.
     $items = field_get_items('node', $node, variable_get('bpi_field_materials', ''));
     foreach ($items as $item) {
+      // First case, we have completly saved node, when it returns ding_object_id.
       if (!empty($item['ting_object_id'])) {
         $id = $item['ting_object_id'];
         // Filter out id's with "katalog" PID, as they only makes sens on
         // current site.
         if (!preg_match('/katalog/', $id)) {
           $materials_drupal[] = $id;
+        }
+      }
+      // Second case, we used "Save and push" button and node wasn't completly saved
+      // In this case, we have object of class Relation.
+      elseif (isset($item['value']->endpoints)) {
+        $endpoints = $item['value']->endpoints;
+        $data = array_filter($endpoints[LANGUAGE_NONE], function ($i) {
+          return $i['entity_type'] == 'ting_object';
+        });
+        if (!empty($data)) {
+          $ting_data = current($data);
+          $ting_object = entity_load_single('ting_object', $ting_data['entity_id']);
+          if ($ting_object) {
+            if (!preg_match('/katalog/', $ting_object->ding_entity_id)) {
+              $materials_drupal[] = $ting_object->ding_entity_id;
+            }
+          }
         }
       }
     }
