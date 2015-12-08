@@ -21,16 +21,25 @@ function ding_ekurser_form_alter(&$form, &$form_state, $form_id) {
     return;
   }
 
-  // We make our own list of terms and remove all other from the facet browser.
+  // Add css to adjust the searchresult and facets.
+  drupal_add_css(drupal_get_path('module', 'ding_ekurser') . '/css/ding_ekurser.css', 'file');
+  
+  // If the subject facet is not available then show the standard facets.
+  if (!isset($form['facet.subject'])) {
+    return;
+  }
+  
+  // Get the selected subject term.
   $default_term = $form['facet.subject']['subject']['#default_value'];
-  unset($form['facet.type']);
-  unset($form['facet.creator']);
-  unset($form['facet.language']);
-  unset($form['facet.category']);
-  unset($form['facet.date']);
-  unset($form['facet.acSource']);
-  unset($form['facet.subject']);
-
+  
+  // Remove all facets so we can make a custom list from the subject facet.
+  foreach ($form as $form_key => $form_val) {
+    if (strpos($form_key, 'facet.') === 0) {
+      unset($form[$form_key]);
+    }
+  }
+  
+  // Make our own list of terms.
   $terms = NULL;
   $uri = NULL;
   $num_total_objects = NULL;
@@ -100,8 +109,6 @@ function ding_ekurser_form_alter(&$form, &$form_state, $form_id) {
   $form['subjects_end'] = array(
     '#markup' => '</ul>',
   );
-  
-  drupal_add_css(drupal_get_path('module', 'ding_ekurser') . '/css/ding_ekurser.css', 'file');
 }
 
 /**
