@@ -46263,8 +46263,8 @@ msgid "Any must apply"
 msgstr "udvid søgning (ELLER)"
 
 #: /admin/bpi?render=overlay
-msgid All must apply"
-msgstr afgræns søgning (OG)"
+msgid "All must apply"
+msgstr "afgræns søgning (OG)"
 
 #: /index.php
 msgid "Audience"
