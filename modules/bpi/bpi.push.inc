@@ -164,6 +164,17 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
           $materials_drupal[] = $id;
         }
       }
+      elseif(isset($item['value'])) {
+        $endpoints = $item['value']->endpoints;
+        $data = array_filter($endpoints[LANGUAGE_NONE], function ($i) {
+          return $i['entity_type'] == 'ting_object';
+        });
+        $ting_data = current($data);
+        $ting_object = entity_load_single('ting_object', $ting_data['entity_id']);
+        if (!preg_match('/katalog/', $ting_object->ding_entity_id)) {
+          $materials_drupal[] = $ting_object->ding_entity_id;
+        }
+      }
     }
   }
 
