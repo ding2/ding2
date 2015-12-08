@@ -53,8 +53,8 @@ function ting_search_menu() {
   );
 
   $items['search-blank'] = array(
-    'callback' => '_blank_page',
-    'access' => TRUE,
+    'page callback' => '_blank_page',
+    'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
 
@@ -62,16 +62,17 @@ function ting_search_menu() {
 }
 
 /**
- * Menu callback to fix the twice search issue.
+ * Menu callback for search blank.
  *
- * When the search form is submitted back to Drupal it's submitted back to the
- * same page. So a search performed on the search page will trigger the first
- * search and the new search (twice search).
- *
- * @see http://platform.dandigbib.org/issues/372
+ * Improve performance of the search block form redirect, by posting to a blank
+ * page and doing nothing but form related stuff.
  */
 function _blank_page() {
-  return '';
+  // This will call the submit handlers if a valid form build id was posted.
+  drupal_get_form('search_block_form');
+
+  // If no form; redirect to front to ensure no blank pages.
+  drupal_goto();
 }
 
 /**
@@ -188,7 +189,7 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
       'description' => t('Enter subject keywords'),
     ),
   );
-  
+
   // Remove the form token so the form becomes cachable. If we don't, all
   // pages with the search form becomes un-cachable, as drupal_validate_form()
   // will check the token and fail if the current user is not the same as the
@@ -281,7 +282,7 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
   // This submits the form to a blank page and prevents the search to be
   // executed twice. See http://platform.dandigbib.org/issues/372 for more
   // information.
-  $form['#action'] = '?q=search-blank';
+  $form['#action'] = url('search-blank');
 
   return $form;
 }
@@ -294,7 +295,7 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
  * @param array $keys
  *   Keys to extract.
  *
- * @return array 
+ * @return array
  *   Where the array keys are the search keys, and the remainder
  *   search string in 'q'.
  */
