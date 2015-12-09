@@ -23,7 +23,6 @@ dependencies[] = og
 dependencies[] = og_ui
 dependencies[] = options
 dependencies[] = page_manager
-dependencies[] = pagepreview
 dependencies[] = scheduler
 dependencies[] = strongarm
 dependencies[] = taxonomy

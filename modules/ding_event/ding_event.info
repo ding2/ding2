@@ -19,7 +19,6 @@ dependencies[] = menu_position
 dependencies[] = number
 dependencies[] = og_ui
 dependencies[] = page_manager
-dependencies[] = pagepreview
 dependencies[] = scheduler
 dependencies[] = strongarm
 dependencies[] = uuid
