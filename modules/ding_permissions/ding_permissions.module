@@ -928,8 +928,6 @@ function ding_permissions_secure_permissions($role) {
   foreach ($node_types as $node_type) {
     if (in_array('create ' . $node_type . ' content', $permissions['editor'])) {
       $permissions['editor'][] = 'override ' . $node_type . ' promote to front page option';
-      $permissions['editor'][] = 'override ' . $node_type . ' authored on option';
-      $permissions['editor'][] = 'override ' . $node_type . ' authored by option';
     }
   }
 
