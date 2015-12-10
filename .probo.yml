@@ -1,0 +1,6 @@
+steps:
+  - name: Build site
+    plugin: Drupal
+    makeFile: drupal.make
+    runInstall: true
+    profileName: ding2
