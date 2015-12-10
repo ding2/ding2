@@ -1,4 +1,7 @@
 steps:
+  - name: Check php.ini
+    plugin: Shell
+    command: php --ini
   - name: Build site
     plugin: Drupal
     makeFile: drupal.make
