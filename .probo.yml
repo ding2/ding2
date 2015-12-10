@@ -5,9 +5,6 @@ steps:
   - name: Increase PHP Apache memory limit
     plugin: Shell
     command: echo "memory_limit = 512M" > /etc/php5/apache2/conf.d/ding2.ini
-  - name: Chdeck PHP limit
-    plugin: Shell
-    command: php -i
   - name: Build site
     plugin: Drupal
     makeFile: drupal.make
