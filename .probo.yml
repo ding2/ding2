@@ -1,0 +1,12 @@
+steps:
+  - name: Increase PHP CLI memory limit
+    plugin: Shell
+    command: echo "memory_limit = 512M" > /etc/php5/cli/conf.d/ding2.ini
+  - name: Increase PHP Apache memory limit
+    plugin: Shell
+    command: echo "memory_limit = 512M" > /etc/php5/apache2/conf.d/ding2.ini
+  - name: Build site
+    plugin: Drupal
+    makeFile: drupal.make
+    runInstall: true
+    profileName: ding2
