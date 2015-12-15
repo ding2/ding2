@@ -546,7 +546,7 @@ function ding_user_frontend_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = 'My bookmarks';
+  $display->title = t('My bookmarks');
   $display->uuid = '5c12fb2f-0dd6-4879-8a57-035574cc03fc';
   $display->content = array();
   $display->panels = array();
