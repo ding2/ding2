@@ -63,7 +63,7 @@ function ding_content_wysiwyg_default_profiles() {
       'css_setting' => 'self',
       'css_path' => '/profiles/ding2/themes/ddbasic/css/ddbasic.wysiwyg.css',
       'stylesSet' => '',
-      'block_formats' => 'p,address,pre,h2,h3,h4,h5,h6,div',
+      'block_formats' => 'p,h2,h3,div',
       'advanced__active_tab' => 'edit-basic',
       'forcePasteAsPlainText' => 0,
     ),
