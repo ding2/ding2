@@ -152,6 +152,12 @@ function ding_availability_items($provider_ids) {
  */
 function ding_availability_holdings($provider_ids) {
   $items = ding_provider_invoke('availability', 'holdings', $provider_ids);
+
+  $provider_name = ding_provider_get_provider_module_name();
+  if ($provider == 'alma') {
+    $items = array_filter($items, function($v) { return $v['availability_information']; });
+  }
+
   if (!$items) {
     return array();
   }
@@ -195,6 +201,9 @@ function ding_availability_holdings($provider_ids) {
       }
 
       $rows = array();
+      $copies = 0;
+      $closest_loan = NULL;
+      $in_acquisition = 0;
       foreach ($item['holdings'] as $holding) {
         $rows[] = ding_availability_holdings_row($holding, $item['ordered_count']);
       }
@@ -216,6 +225,38 @@ function ding_availability_holdings($provider_ids) {
   }
 
   return $items;
+}
+
+/**
+ * Generate a human-readable amount of wait time.
+ *
+ * @param int $date
+ *   Loan date timestamp.
+ * @return string
+ *   Sane display of time to wait (months/weeks/days).
+ */
+function ding_availability_holding_format_time($date) {
+  $now = date_create(date('Y-m-d'));
+  $till = date_create(date('Y-m-d', $date));
+  $_diff = date_diff($till, $now);
+  $days = $_diff->format('%a');
+  $weeks = (int) ($days / 7);
+  $months = (int) ($days / 30.4375);
+  $wait = '';
+
+  if ($months) {
+    $wait = format_plural($months, '1 month', '@count months');
+  }
+  elseif ($weeks) {
+    $wait = format_plural($weeks, '1 week', '@count weeks');
+  }
+  else {
+    $wait = format_plural($days, '1 day', '@count days');
+  }
+
+  $text = t('The waiting time is currently: <strong>@wait</strong>.', array('@wait' => $wait));
+
+  return $text;
 }
 
 /**
@@ -296,8 +337,6 @@ function ding_availability_block_view($delta) {
  * Return rendered legend block for availability types.
  */
 function ding_availability_render_legend() {
-
-  drupal_add_css(drupal_get_path('module', 'ding_availability') . '/css/ding_availability_legend.css');
 
   // Construct the image's path (.gif stored in a module subdir).
   $image_path = drupal_get_path('module', 'ding_availability') . '/images/blank.gif';
