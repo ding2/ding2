@@ -231,5 +231,8 @@
    */
   $(document).ready(function() {
     TingSearchCarousel.init();
+    $("div.rs-carousel-mask").on('click', 'li', function() {
+      Drupal.TingSearchOverlay();
+    });
   });
 })(jQuery);
