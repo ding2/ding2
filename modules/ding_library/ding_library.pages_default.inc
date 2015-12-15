@@ -238,7 +238,25 @@ function ding_library_default_page_manager_handlers() {
     $pane->type = 'views_panes';
     $pane->subtype = 'ding_news-ding_news_library_list';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'entity_field_value:node:ding_library:field_hide_news_and_events',
+          'settings' => array(
+            'field_hide_news_and_events' => array(
+              'und' => array(
+                0 => array(
+                  'value' => 0,
+                ),
+              ),
+            ),
+            'field_hide_news_and_events_value' => NULL,
+          ),
+          'context' => 'argument_entity_id:node_1',
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array(
       'context' => array(
         0 => 'argument_entity_id:node_1',
@@ -266,7 +284,25 @@ function ding_library_default_page_manager_handlers() {
     $pane->type = 'views_panes';
     $pane->subtype = 'ding_event-ding_event_library_list';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'entity_field_value:node:ding_library:field_hide_news_and_events',
+          'settings' => array(
+            'field_hide_news_and_events' => array(
+              'und' => array(
+                0 => array(
+                  'value' => 0,
+                ),
+              ),
+            ),
+            'field_hide_news_and_events_value' => NULL,
+          ),
+          'context' => 'argument_entity_id:node_1',
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array(
       'override_title' => 1,
       'override_title_text' => 'Library events',
@@ -423,7 +459,7 @@ function ding_library_default_page_manager_pages() {
     $display->panels['main_content'][1] = 'new-1e2eec2e-7d03-48ca-b59c-76ce5247dff7';
     $pane = new stdClass();
     $pane->pid = 'new-d62be472-164d-4035-8ac5-a92a0ca855ae';
-    $pane->panel = 'right_sidebar';
+    $pane->panel = 'left_sidebar';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
     $pane->shown = TRUE;
@@ -456,7 +492,7 @@ function ding_library_default_page_manager_pages() {
     $pane->locks = '';
     $pane->uuid = 'd62be472-164d-4035-8ac5-a92a0ca855ae';
     $display->content['new-d62be472-164d-4035-8ac5-a92a0ca855ae'] = $pane;
-    $display->panels['right_sidebar'][0] = 'new-d62be472-164d-4035-8ac5-a92a0ca855ae';
+    $display->panels['left_sidebar'][0] = 'new-d62be472-164d-4035-8ac5-a92a0ca855ae';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -698,7 +734,7 @@ function ding_library_default_page_manager_pages() {
     $display->panels['main_content'][2] = 'new-340e4d90-b7d8-430c-9e38-f14b9d6f3320';
     $pane = new stdClass();
     $pane->pid = 'new-c05787bc-8016-4669-8c82-10c349af2dea';
-    $pane->panel = 'right_sidebar';
+    $pane->panel = 'left_sidebar';
     $pane->type = 'contact';
     $pane->subtype = 'contact';
     $pane->shown = TRUE;
@@ -728,14 +764,14 @@ function ding_library_default_page_manager_pages() {
       'css_class' => 'ding-library-contact',
     );
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 1;
     $pane->locks = '';
     $pane->uuid = 'c05787bc-8016-4669-8c82-10c349af2dea';
     $display->content['new-c05787bc-8016-4669-8c82-10c349af2dea'] = $pane;
-    $display->panels['right_sidebar'][0] = 'new-c05787bc-8016-4669-8c82-10c349af2dea';
+    $display->panels['left_sidebar'][1] = 'new-c05787bc-8016-4669-8c82-10c349af2dea';
     $pane = new stdClass();
     $pane->pid = 'new-71b33eb2-cf7e-4599-a7fb-2958933fe904';
-    $pane->panel = 'right_sidebar';
+    $pane->panel = 'left_sidebar';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
     $pane->shown = TRUE;
@@ -769,11 +805,11 @@ function ding_library_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 2;
     $pane->locks = '';
     $pane->uuid = '71b33eb2-cf7e-4599-a7fb-2958933fe904';
     $display->content['new-71b33eb2-cf7e-4599-a7fb-2958933fe904'] = $pane;
-    $display->panels['right_sidebar'][1] = 'new-71b33eb2-cf7e-4599-a7fb-2958933fe904';
+    $display->panels['left_sidebar'][2] = 'new-71b33eb2-cf7e-4599-a7fb-2958933fe904';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
