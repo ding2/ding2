@@ -398,3 +398,44 @@ libraries[zen-grids][download][type] = "git"
 libraries[zen-grids][download][url] = "https://github.com/JohnAlbin/zen-grids.git"
 libraries[zen-grids][download][tag] = "1.4"
 libraries[zen-grids][destination] = "libraries"
+
+; easyDDB contribution modules
+projects[extlink][version]                  = "1.18"
+projects[extlink][subdir]                   = "contrib"
+
+projects[opengraph_meta][version]           = "1.3"
+projects[opengraph_meta][subdir]            = "contrib"
+
+projects[features_override][version]        = "2.0-rc1"
+projects[features_override][subdir]         = "contrib"
+
+projects[field_reference_delete][version]   = "1.0-beta1"
+projects[field_reference_delete][subdir]    = "contrib"
+
+projects[memcache_storage][version]         = "1.4"
+projects[memcache_storage][subdir]          = "contrib"
+
+projects[search404][version]                = "1.3"
+projects[search404][subdir]                 = "contrib"
+
+projects[xmlsitemap][version]               = "2.0"
+projects[xmlsitemap][subdir]                = "contrib"
+
+projects[references][version]               = "2.1"
+projects[references][subdir]                = "contrib"
+
+projects[search_api][version]               = "1.14"
+projects[search_api][subdir]                = "contrib"
+
+projects[search_api_db][version]            = "1.4"
+projects[search_api_db][subdir]             = "contrib"
+
+projects[taxonomy_menu][version]            = "1.4"
+projects[taxonomy_menu][subdir]             = "contrib"
+projects[taxonomy_menu][patch][]            = "http://drupal.org/files/issues/taxonomy_menu-variable-and-array-check.patch"
+
+projects[linkchecker][version]              = "1.2"
+projects[linkchecker][subdir]               = "contrib"
+
+projects[httprl][version]                   = "1.14"
+projects[httprl][subdir]                    = "contrib"
