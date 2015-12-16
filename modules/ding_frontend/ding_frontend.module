@@ -67,7 +67,8 @@ function ding_frontend_field_formatter_view($entity_type, $entity, $field, $inst
 
   foreach ($items as $delta => $item) {
     if ($display['type'] == 'calendar_header') {
-      // Display today date if event continues (current date is between start and end date of an event).
+      // Display today date if event continues (current date is between start
+      // and end date of an event).
       if ($entity_type == 'node' && $entity->type == 'ding_event') {
         if (strtotime($item['value']) <= REQUEST_TIME && strtotime($item['value2']) >= REQUEST_TIME) {
           $item['value'] = format_date(REQUEST_TIME, 'custom', 'Y-m-d H:i:s');
