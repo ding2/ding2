@@ -29,14 +29,14 @@ class OpenSuggestionTest extends PHPUnit_Extensions_SeleniumTestCase {
     $this->abstractedPage->waitForElement('css=#autocomplete');
     // Check the first result from autocomplete.
     $this->abstractedPage->waitForElement('css=#autocomplete ul li:first');
-    $this->assertElementContainsText('css=#autocomplete ul li:first', 'norsk');
+    $this->assertElementContainsText('css=#autocomplete ul li:first', 'Norsk litteratur');
     // Check utf8 characters.
     $this->type('css=#edit-search-block-form--2', 'gæk');
     $this->fireEvent('css=#edit-search-block-form--2', 'keyup');
     $this->abstractedPage->waitForElement('css=#autocomplete');
     // Check the first result from autocomplete.
     $this->abstractedPage->waitForElement('css=#autocomplete ul li:first');
-    $this->assertElementContainsText('css=#autocomplete ul li:first', 'gækkebreve');
+    $this->assertElementContainsText('css=#autocomplete ul li:first', 'gækkebreve og vers');
     // Check that active suggestion is highlighted.
     // Force 'down' key press.
     $this->keyDown('css=#edit-search-block-form--2', '\\40');
@@ -44,7 +44,7 @@ class OpenSuggestionTest extends PHPUnit_Extensions_SeleniumTestCase {
     // Click the first result and check the search form to be
     // populated with this text.
     $this->mouseDown('css=#autocomplete ul li:first');
-    $this->assertEquals('gækkebreve', $this->getValue('css=#edit-search-block-form--2'));
+    $this->assertEquals('gækkebreve og vers', $this->getValue('css=#edit-search-block-form--2'));
   }
 
   /**
