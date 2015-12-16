@@ -540,39 +540,54 @@ function ding_base_rewrite_color_stylesheet() {
  * Implements hook_field_widget_form_alter().
  */
 function ding_base_field_widget_form_alter(&$element, &$form_state, $context) {
-  $names = array(
-    'field_ding_page_title_image',
-    'field_ding_page_list_image',
-    'field_ding_tabroll_image',
-    'field_ding_news_title_image',
-    'field_ding_news_list_image',
-    'field_ding_library_title_image',
-    'field_ding_library_list_image',
-    'field_ding_group_title_image',
-    'field_ding_group_list_image',
-    'field_ding_event_title_image',
-    'field_ding_event_list_image'
-  );
-
-  if (isset($element['#field_name']) && in_array($element['#field_name'], $names)) {
-    $displays = array_filter($context['instance']['display'], function ($i) {
-      return isset($i['settings']['styles']) && !empty($i['settings']['styles']);
-    });
-    if (!empty($displays)) {
-      $display = reset($displays);
-      $style = image_style_load($display['settings']['styles']['max_style']);
-      $effects = array_filter($style['effects'], function ($i) {
-        return isset($i['data']['width']) && isset($i['data']['height']);
+  // Our goal only image fields.
+  if (isset($element['#type']) && $element['#type'] == 'media') {
+    $display = NULL;
+    $displays = $context['instance']['display'];
+    // By default we trying to get default display.
+    if (isset($displays['default']) && $displays['default']['type'] != 'hidden') {
+      $display = $displays['default'];
+    }
+    // Otherwise, we will get first display which has some styles.
+    else {
+      $displays = array_filter($context['instance']['display'], function ($i) {
+        return isset($i['settings']['styles']) && !empty($i['settings']['styles']);
       });
+      $display = !empty($displays) ? reset($displays) : NULL;
+    }
 
-      if (!empty($effects)) {
-        $effect = reset($effects);
-        $width = !empty($effect['data']['width']) ? $effect['data']['width'] : 'any';
-        $height = !empty($effect['data']['height']) ? $effect['data']['height'] : 'any';
+    if (!empty($display)) {
+      // We will use functionality of image module.
+      $style = image_style_load($display['settings']['styles']['max_style']);
+      // Let's use sample file from image module, for applying all effects.
+      $original_path = variable_get('image_style_preview_image', drupal_get_path('module', 'image') . '/sample.png');
 
-        $text = t('Recommended image size is: width %width and height %height', array(
-          '%width' => $width,
-          '%height' => $height,
+      // Apply style to sample image.
+      $preview_file = image_style_path($style['name'], $original_path);
+      if (!file_exists($preview_file)) {
+        image_style_create_derivative($style, $original_path, $preview_file);
+      }
+
+      // Calculate dimensions.
+      $dimensions = array();
+      $preview_image = image_get_info($preview_file);
+      if ($preview_image['width'] > $preview_image['height']) {
+        $dimensions['width'] = $preview_image['width'];
+        $dimensions['height'] = round($dimensions['width'] / $preview_image['width'] * $preview_image['height']);
+      }
+      else {
+        $dimensions['height'] = $preview_image['height'];
+        $dimensions['width'] = round($dimensions['height'] / $preview_image['height'] * $preview_image['width']);
+      }
+
+      // If after apllying effects dimensions wasn't changed, when we can't recommend.
+      if ($dimensions['height'] != 600 && $dimensions['width'] != 800) {
+        array_walk($dimensions, function (&$i, $k) {
+          $i =  "{$i} px {$k}";
+        });
+
+        $text = t('The image will automatically be resized. The maximum dimensions are %dimensions (Original: 800x600).', array(
+          '%dimensions' => implode(' and ', $dimensions),
         ));
         $element['#suffix'] = '<div class="description">' . $text . '</div>';
       }
