@@ -51,11 +51,11 @@ class ItemPageTest extends PHPUnit_Extensions_SeleniumTestCase {
     // Check copies information.
     //$this->assertTrue($this->isElementPresent("css=#holdings-870970-basis24908941 > p"));
     $this->abstractedPage->waitForElement('css=#holdings-870970-basis24908941 > p');
-    $this->assertElementContainsText('css=#holdings-870970-basis24908941 > p', 'We have 1 copy. There are 0 users in queue to loan the material.');
+    $this->assertElementContainsText('css=#holdings-870970-basis24908941 > p', 'We have 3 copies. There is 1 user in queue to loan the material.');
 
     // Check specific row in the availability table.
     $this->abstractedPage->waitForElement('css=.availability-holdings-table td');
-    $this->assertElementContainsText('css=.availability-holdings-table td', 'Hjørring > Voksensamling > > > Nors');
+    $this->assertElementContainsText('css=.availability-holdings-table td', 'Hovedbiblioteket > Voksen > > > Nors');
 
     // Test bookmarking & reserving.
     // Try to bookmark with logging in, if required.
@@ -83,12 +83,14 @@ class ItemPageTest extends PHPUnit_Extensions_SeleniumTestCase {
 
     // Refresh and reserve same item.
     $this->abstractedPage->refresh();
+    sleep(5);
     $this->abstractedPage->userReserve('.action-button.reserve-button:eq(0)');
     $this->abstractedPage->waitForElement('css=div.ding-popup-content .messages.status');
     $this->assertTrue($this->isElementPresent('css=div.ding-popup-content .messages.status'));
 
     // Refresh and try to reserve again, normally this should not be allowed.
     $this->abstractedPage->refresh();
+    sleep(5);
     $this->abstractedPage->userReserve('.action-button.reserve-button:eq(0)');
     $this->abstractedPage->waitForElement('css=div.ding-popup-content .messages.error');
     $this->assertTrue($this->isElementPresent('css=div.ding-popup-content .messages.error'));
