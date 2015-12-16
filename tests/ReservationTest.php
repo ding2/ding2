@@ -77,24 +77,24 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
     );
     for ($i = 0; $i < count($notready_for_pickup); $i++) {
       // Check title field.
-    // $this->assertElementContainsText('css=#ding-reservation-reservations-notready-form .material-item:eq(' . $i . ') h3.item-title', $notready_for_pickup[$i][0]');
+      // Check expiry date field.
+      $this->assertElementContainsText('css=#ding-reservation-reservations-notready-form .material-item:eq(' . $i . ') li.expire-date .item-information-label', 'Expiry date:');
+      if (!empty($notready_for_pickup[$i][0])) {
+        $this->assertElementContainsText('css=#ding-reservation-reservations-notready-form .material-item:eq(' . $i . ') li.expire-date .item-information-data', $notready_for_pickup[$i][0]);
+      }    
+
+       $this->assertElementContainsText('css=#ding-reservation-reservations-notready-form .material-item:eq(' . $i . ') h3.item-title', $notready_for_pickup[$i][1]');
 
       // Check periodical number field.
-      if (!empty($notready_for_pickup[$i][1])) {
+      if (!empty($notready_for_pickup[$i][2])) {
         $this->assertElementContainsText('css=#ding-reservation-reservations-notready-form .material-item:eq(' . $i . ') li.periodical-number .item-information-label', 'Periodical no.:');
-        $this->assertElementContainsText('css=#ding-reservation-reservations-notready-form .material-item:eq(' . $i . ') li.periodical-number .item-information-data', $notready_for_pickup[$i][1]);
+        $this->assertElementContainsText('css=#ding-reservation-reservations-notready-form .material-item:eq(' . $i . ') li.periodical-number .item-information-data', $notready_for_pickup[$i][2]);
       }
 
       // Check queue number field.
       $this->assertElementContainsText('css=#ding-reservation-reservations-notready-form .material-item:eq(' . $i . ') li.queue-number .item-information-label', 'Queue number:');
-      if (!empty($notready_for_pickup[$i][2])) {
-        $this->assertElementContainsText('css=#ding-reservation-reservations-notready-form .material-item:eq(' . $i . ') li.queue-number .item-information-data', $notready_for_pickup[$i][2]);
-      }
-
-      // Check expiry date field.
-      $this->assertElementContainsText('css=#ding-reservation-reservations-notready-form .material-item:eq(' . $i . ') li.expire-date .item-information-label', 'Expiry date:');
       if (!empty($notready_for_pickup[$i][3])) {
-        $this->assertElementContainsText('css=#ding-reservation-reservations-notready-form .material-item:eq(' . $i . ') li.expire-date .item-information-data', $notready_for_pickup[$i][3]);
+        $this->assertElementContainsText('css=#ding-reservation-reservations-notready-form .material-item:eq(' . $i . ') li.queue-number .item-information-data', $notready_for_pickup[$i][3]);
       }
 
       // Check branch field.
@@ -145,6 +145,11 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
     // Check the results again.
     $notready_for_pickup = array(
       array(
+	'Alt om haven',
+        '5. March 2016',
+        'Beder-Malling',
+      ),
+      array(
         'Title not available',
         '20. November 2016',
         'Beder-Malling',
@@ -158,18 +163,13 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
         'Mad & venner',
         '5. March 2016',
         'Beder-Malling',
-      ),
-      array(
-        'Alt om haven',
-        '5. March 2016',
-        'Beder-Malling',
-      ),
+      )
     );
     for ($i = 0; $i < count($notready_for_pickup); $i++) {
-      // Check title field.
-     // $this->assertElementContainsText('css=#ding-reservation-reservations-notready-form .material-item:eq(' . $i . ') h3.item-title', $notready_for_pickup[$i][0]);
       // Check expiry date.
-      $this->assertElementContainsText('css=#ding-reservation-reservations-notready-form .material-item:eq(' . $i . ') li.expire-date .item-information-data', $notready_for_pickup[$i][1]);
+      $this->assertElementContainsText('css=#ding-reservation-reservations-notready-form .material-item:eq(' . $i . ') li.expire-date .item-information-data', $notready_for_pickup[$i][0]);
+     // Check title field.
+      $this->assertElementContainsText('css=#ding-reservation-reservations-notready-form .material-item:eq(' . $i . ') h3.item-title', $notready_for_pickup[$i][1]);
       // Check branch.
       $this->assertElementContainsText('css=#ding-reservation-reservations-notready-form .material-item:eq(' . $i . ') li.pickup-branch .item-information-data', $notready_for_pickup[$i][2]);
     }
