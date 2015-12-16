@@ -3,6 +3,9 @@
 /**
  * @file
  * Definition of ding_event_handler_sort_ding_event_date.
+ *
+ * This handler replaces default sorting of date. If lower date is lesser than
+ * current date then it replaced to current date.
  */
 
 /**
