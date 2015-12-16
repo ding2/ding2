@@ -14,14 +14,16 @@ function ding_frontend_settings($form, &$form_state) {
     'ding_event' => t('Event'),
   );
   $form['ding_frontend_fe_promote_types'] = array(
-    '#title' => t('Promote types to Fronpage'),
+    '#title' => t('Promote types to Frontpage'),
     '#type' => 'checkboxes',
     '#options' => $types,
     '#default_value' => variable_get('ding_frontend_fe_promote_types', array('ding_event' => 'ding_event')),
+    '#description' => t('Please specify types which can be promoted to Frontpage.'),
   );
-
-  $form = system_settings_form($form);
-  $form['#submit'][] = 'ding_frontend_settings_submit';
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save configuration'),
+  );
   return $form;
 }
 

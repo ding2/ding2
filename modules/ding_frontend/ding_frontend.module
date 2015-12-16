@@ -21,8 +21,8 @@ function ding_frontend_menu() {
   $items = array();
 
   $items['admin/config/ding/fe-promote'] = array(
-    'title' => 'Promote CT\'s to frontpage',
-    'description' => 'Promote several CT\' to frontpage.',
+    'title' => 'Promote content types to frontpage',
+    'description' => 'Administer promotion of content types to the frontpage.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_frontend_settings'),
     'access arguments' => array('administer fe promote'),
