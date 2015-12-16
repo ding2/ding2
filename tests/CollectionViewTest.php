@@ -65,12 +65,14 @@ class CollectionViewTest extends PHPUnit_Extensions_SeleniumTestCase {
 
     // Refresh and reserve same item.
     $this->abstractedPage->refresh();
+    sleep(5);
     $this->abstractedPage->userReserve('.action-button.reserve-button:eq(0)');
     $this->abstractedPage->waitForElement('css=div.ding-popup-content .messages.status');
     $this->assertTrue($this->isElementPresent('css=div.ding-popup-content .messages.status'));
 
     // Refresh and try to reserve again, normally this should not be allowed.
     $this->abstractedPage->refresh();
+    sleep(5);
     $this->abstractedPage->userReserve('.action-button.reserve-button:eq(0)');
     $this->abstractedPage->waitForElement('css=div.ding-popup-content .messages.error');
     $this->assertTrue($this->isElementPresent('css=div.ding-popup-content .messages.error'));
