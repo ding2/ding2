@@ -755,7 +755,7 @@ function ding_frontend_default_search_api_index() {
     "name" : "Default multiple index",
     "machine_name" : "default_multiple_index",
     "description" : null,
-    "server" : "localhost",
+    "server" : "localhost_db",
     "item_type" : "multiple",
     "options" : {
       "datasource" : { "types" : [ "node", "user" ] },
@@ -833,26 +833,727 @@ function ding_frontend_default_search_api_index() {
  */
 function ding_frontend_default_search_api_server() {
   $items = array();
-  $items['localhost'] = entity_import('search_api_server', '{
-    "name" : "Localhost",
-    "machine_name" : "localhost",
+  $items['localhost_db'] = entity_import('search_api_server', '{
+    "name" : "Localhost DB",
+    "machine_name" : "localhost_db",
     "description" : "",
-    "class" : "search_api_solr_service",
+    "class" : "search_api_db_service",
     "options" : {
-      "clean_ids" : true,
-      "site_hash" : true,
-      "scheme" : "http",
-      "host" : "localhost",
-      "port" : "8983",
-      "path" : "\\/solr\\/ding2",
-      "http_user" : "",
-      "http_pass" : "",
-      "excerpt" : 0,
-      "retrieve_data" : 0,
-      "highlight_data" : 0,
-      "skip_schema_check" : 0,
-      "solr_version" : "",
-      "http_method" : "AUTO"
+      "database" : "default:default",
+      "min_chars" : "1",
+      "partial_matches" : 1,
+      "indexes" : {
+        "default_node_index" : {
+          "nid" : {
+            "table" : "search_api_db_default_node_index",
+            "column" : "nid",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "vid" : {
+            "table" : "search_api_db_default_node_index",
+            "column" : "vid",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "type" : {
+            "table" : "search_api_db_default_node_index",
+            "column" : "type",
+            "type" : "string",
+            "boost" : "1.0"
+          },
+          "title" : {
+            "table" : "search_api_db_default_node_index_text",
+            "type" : "text",
+            "boost" : "5.0"
+          },
+          "language" : {
+            "table" : "search_api_db_default_node_index",
+            "column" : "language",
+            "type" : "string",
+            "boost" : "1.0"
+          },
+          "url" : {
+            "table" : "search_api_db_default_node_index",
+            "column" : "url",
+            "type" : "uri",
+            "boost" : "1.0"
+          },
+          "status" : {
+            "table" : "search_api_db_default_node_index",
+            "column" : "status",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "promote" : {
+            "table" : "search_api_db_default_node_index",
+            "column" : "promote",
+            "type" : "boolean",
+            "boost" : "1.0"
+          },
+          "sticky" : {
+            "table" : "search_api_db_default_node_index",
+            "column" : "sticky",
+            "type" : "boolean",
+            "boost" : "1.0"
+          },
+          "created" : {
+            "table" : "search_api_db_default_node_index",
+            "column" : "created",
+            "type" : "date",
+            "boost" : "1.0"
+          },
+          "changed" : {
+            "table" : "search_api_db_default_node_index",
+            "column" : "changed",
+            "type" : "date",
+            "boost" : "1.0"
+          },
+          "author" : {
+            "table" : "search_api_db_default_node_index",
+            "column" : "author",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "comment_count" : {
+            "table" : "search_api_db_default_node_index",
+            "column" : "comment_count",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "field_bpi_workflow" : {
+            "table" : "search_api_db_default_node_index",
+            "column" : "field_bpi_workflow",
+            "type" : "string",
+            "boost" : "1.0"
+          },
+          "og_group_ref" : {
+            "table" : "search_api_db_default_node_index_og_group_ref",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "ding_news_groups_ref" : {
+            "table" : "search_api_db_default_node_index_ding_news_groups_ref",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "field_ding_news_category" : {
+            "table" : "search_api_db_default_node_index",
+            "column" : "field_ding_news_category",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "field_ding_news_lead" : {
+            "table" : "search_api_db_default_node_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "field_ding_news_tags" : {
+            "table" : "search_api_db_default_node_index_field_ding_news_tags",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "og_membership" : {
+            "table" : "search_api_db_default_node_index_og_membership",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "og_membership__1" : {
+            "table" : "search_api_db_default_node_index_og_membership__1",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "og_membership__2" : {
+            "table" : "search_api_db_default_node_index_og_membership__2",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "og_membership__3" : {
+            "table" : "search_api_db_default_node_index_og_membership__3",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "ding_news_groups_ref__og_membership" : {
+            "table" : "search_api_db_default_node_index_ding_news_groups_ref__og_memb",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "ding_news_groups_ref__og_membership__1" : {
+            "table" : "search_api_db_default_node_index_ding_news_groups_ref__og_me_1",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "ding_news_groups_ref__og_membership__2" : {
+            "table" : "search_api_db_default_node_index_ding_news_groups_ref__og_me_2",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "ding_news_groups_ref__og_membership__3" : {
+            "table" : "search_api_db_default_node_index_ding_news_groups_ref__og_me_3",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "og_group_ref__og_membership" : {
+            "table" : "search_api_db_default_node_index_og_group_ref__og_membership",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "og_group_ref__og_membership__1" : {
+            "table" : "search_api_db_default_node_index_og_group_ref__og_membership__",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "og_group_ref__og_membership__2" : {
+            "table" : "search_api_db_default_node_index_og_group_ref__og_membership_1",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "og_group_ref__og_membership__3" : {
+            "table" : "search_api_db_default_node_index_og_group_ref__og_membership_2",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "ding_page_group_ref" : {
+            "table" : "search_api_db_default_node_index",
+            "column" : "ding_page_group_ref",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "field_ding_page_lead" : {
+            "table" : "search_api_db_default_node_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "field_ding_page_tags" : {
+            "table" : "search_api_db_default_node_index_field_ding_page_tags",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "ding_page_group_ref__og_membership" : {
+            "table" : "search_api_db_default_node_index_ding_page_group_ref__og_membe",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "ding_page_group_ref__og_membership__1" : {
+            "table" : "search_api_db_default_node_index_ding_page_group_ref__og_mem_1",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "ding_page_group_ref__og_membership__2" : {
+            "table" : "search_api_db_default_node_index_ding_page_group_ref__og_mem_2",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "ding_page_group_ref__og_membership__3" : {
+            "table" : "search_api_db_default_node_index_ding_page_group_ref__og_mem_3",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "ding_event_groups_ref" : {
+            "table" : "search_api_db_default_node_index_ding_event_groups_ref",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "field_ding_event_category" : {
+            "table" : "search_api_db_default_node_index",
+            "column" : "field_ding_event_category",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "field_ding_event_lead" : {
+            "table" : "search_api_db_default_node_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "field_ding_event_price" : {
+            "table" : "search_api_db_default_node_index",
+            "column" : "field_ding_event_price",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "field_ding_event_tags" : {
+            "table" : "search_api_db_default_node_index_field_ding_event_tags",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "field_ding_event_target" : {
+            "table" : "search_api_db_default_node_index",
+            "column" : "field_ding_event_target",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "ding_event_groups_ref__og_membership" : {
+            "table" : "search_api_db_default_node_index_ding_event_groups_ref__og_mem",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "ding_event_groups_ref__og_membership__1" : {
+            "table" : "search_api_db_default_node_index_ding_event_groups_ref__og_m_1",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "ding_event_groups_ref__og_membership__2" : {
+            "table" : "search_api_db_default_node_index_ding_event_groups_ref__og_m_2",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "ding_event_groups_ref__og_membership__3" : {
+            "table" : "search_api_db_default_node_index_ding_event_groups_ref__og_m_3",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "field_ding_library_fax_number" : {
+            "table" : "search_api_db_default_node_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "field_ding_library_lead" : {
+            "table" : "search_api_db_default_node_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "field_ding_library_mail" : {
+            "table" : "search_api_db_default_node_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "field_ding_library_phone_number" : {
+            "table" : "search_api_db_default_node_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "field_ding_library_slug" : {
+            "table" : "search_api_db_default_node_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "group_group" : {
+            "table" : "search_api_db_default_node_index",
+            "column" : "group_group",
+            "type" : "boolean",
+            "boost" : "1.0"
+          },
+          "members" : {
+            "table" : "search_api_db_default_node_index_members",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "members__1" : {
+            "table" : "search_api_db_default_node_index_members__1",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "members__2" : {
+            "table" : "search_api_db_default_node_index_members__2",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "members__3" : {
+            "table" : "search_api_db_default_node_index_members__3",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "field_ding_group_category" : {
+            "table" : "search_api_db_default_node_index",
+            "column" : "field_ding_group_category",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "field_ding_group_lead" : {
+            "table" : "search_api_db_default_node_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "field_ding_tabroll_lead" : {
+            "table" : "search_api_db_default_node_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "field_ding_tabroll_link" : {
+            "table" : "search_api_db_default_node_index",
+            "column" : "field_ding_tabroll_link",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "search_api_language" : {
+            "table" : "search_api_db_default_node_index",
+            "column" : "search_api_language",
+            "type" : "string",
+            "boost" : "1.0"
+          },
+          "body:value" : {
+            "table" : "search_api_db_default_node_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          }
+        },
+        "default_multiple_index" : {
+          "item_id" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "item_id_1",
+            "type" : "string",
+            "boost" : "1.0"
+          },
+          "item_type" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "item_type",
+            "type" : "string",
+            "boost" : "1.0"
+          },
+          "item_entity_id" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "item_entity_id",
+            "type" : "string",
+            "boost" : "1.0"
+          },
+          "item_bundle" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "item_bundle",
+            "type" : "string",
+            "boost" : "1.0"
+          },
+          "item_label" : {
+            "table" : "search_api_db_default_multiple_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "node" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "node",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "user" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "user",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "search_api_language" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "search_api_language",
+            "type" : "string",
+            "boost" : "1.0"
+          },
+          "node:nid" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "node_nid",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "node:vid" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "node_vid",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "node:type" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "node_type",
+            "type" : "string",
+            "boost" : "1.0"
+          },
+          "node:title" : {
+            "table" : "search_api_db_default_multiple_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "node:language" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "node_language",
+            "type" : "string",
+            "boost" : "1.0"
+          },
+          "node:status" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "node_status",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "node:promote" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "node_promote",
+            "type" : "boolean",
+            "boost" : "1.0"
+          },
+          "node:created" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "node_created",
+            "type" : "date",
+            "boost" : "1.0"
+          },
+          "node:changed" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "node_changed",
+            "type" : "date",
+            "boost" : "1.0"
+          },
+          "node:author" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "node_author",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "node:source" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "node_source",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "node:revision" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "node_revision",
+            "type" : "boolean",
+            "boost" : "1.0"
+          },
+          "node:comment" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "node_comment",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "node:field_bpi_workflow" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "node_field_bpi_workflow",
+            "type" : "string",
+            "boost" : "1.0"
+          },
+          "node:og_group_ref" : {
+            "table" : "search_api_db_default_multiple_index_node_og_group_ref",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "node:ding_news_groups_ref" : {
+            "table" : "search_api_db_default_multiple_index_node_ding_news_groups_ref",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "node:field_ding_news_category" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "node_field_ding_news_category",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "node:field_ding_news_lead" : {
+            "table" : "search_api_db_default_multiple_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "node:field_ding_news_tags" : {
+            "table" : "search_api_db_default_multiple_index_node_field_ding_news_tags",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "node:og_membership" : {
+            "table" : "search_api_db_default_multiple_index_node_og_membership",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "node:field_ding_page_lead" : {
+            "table" : "search_api_db_default_multiple_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "node:field_ding_page_tags" : {
+            "table" : "search_api_db_default_multiple_index_node_field_ding_page_tags",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "node:field_ding_event_category" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "node_field_ding_event_category",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "node:field_ding_event_lead" : {
+            "table" : "search_api_db_default_multiple_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "node:field_ding_event_price" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "node_field_ding_event_price",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "node:field_ding_event_tags" : {
+            "table" : "search_api_db_default_multiple_index_node_field_ding_event_tag",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "node:field_ding_event_target" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "node_field_ding_event_target",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "node:field_ding_library_fax_number" : {
+            "table" : "search_api_db_default_multiple_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "node:field_ding_library_lead" : {
+            "table" : "search_api_db_default_multiple_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "node:field_ding_library_mail" : {
+            "table" : "search_api_db_default_multiple_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "node:field_ding_library_phone_number" : {
+            "table" : "search_api_db_default_multiple_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "node:field_ding_library_slug" : {
+            "table" : "search_api_db_default_multiple_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "node:group_group" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "node_group_group",
+            "type" : "boolean",
+            "boost" : "1.0"
+          },
+          "node:field_ding_group_lead" : {
+            "table" : "search_api_db_default_multiple_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "node:field_ding_tabroll_lead" : {
+            "table" : "search_api_db_default_multiple_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "user:uid" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "user_uid",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "user:name" : {
+            "table" : "search_api_db_default_multiple_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "user:mail" : {
+            "table" : "search_api_db_default_multiple_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "user:created" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "user_created",
+            "type" : "date",
+            "boost" : "1.0"
+          },
+          "user:roles" : {
+            "table" : "search_api_db_default_multiple_index_user_roles",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "user:status" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "user_status",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "user:language" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "user_language",
+            "type" : "string",
+            "boost" : "1.0"
+          },
+          "user:profile_ding_staff_profile" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "user_profile_ding_staff_profile",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "user:profile_provider_alma" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "user_profile_provider_alma",
+            "type" : "integer",
+            "boost" : "1.0"
+          },
+          "user:relation_ting_reference_ting_object" : {
+            "table" : "search_api_db_default_multiple_index_user_relation_ting_refere",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "user:og_user_node" : {
+            "table" : "search_api_db_default_multiple_index_user_og_user_node",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "user:og_membership" : {
+            "table" : "search_api_db_default_multiple_index_user_og_membership",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "user:og_membership__1" : {
+            "table" : "search_api_db_default_multiple_index_user_og_membership__1",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "user:og_membership__2" : {
+            "table" : "search_api_db_default_multiple_index_user_og_membership__2",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "user:og_membership__3" : {
+            "table" : "search_api_db_default_multiple_index_user_og_membership__3",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          }
+        }
+      }
     },
     "enabled" : "1"
   }');
