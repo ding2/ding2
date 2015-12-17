@@ -124,6 +124,7 @@ function ting_search_carousel_do_request($index) {
   // Get query based in the index parameter.
   $queries = variable_get('ting_carousel_search_queries', array());
   $query = isset($queries[$index]) ? $queries[$index] : FALSE;
+  $sort = variable_get('ting_search_carousel_item_sorting', '');
 
   // If a query is defined, do a look-up else do nothing.
   if ($query) {
@@ -134,7 +135,13 @@ function ting_search_carousel_do_request($index) {
     $result = NULL;
     $page = 1;
     $collections = array();
-    while ($result = ting_do_search($query['query'], $page++, 50, array('facets' => array(), 'enrich' => TRUE, 'allObjects' => FALSE))) {
+    $ting_search_options = array(
+      'facets' => array(),
+      'enrich' => TRUE,
+      'allObjects' => FALSE,
+      'sort' => $sort
+    );
+    while ($result = ting_do_search($query['query'], $page++, 50, $ting_search_options)) {
       $collections[] = $result;
 
       if (!$result->more) {
@@ -155,6 +162,7 @@ function ting_search_carousel_do_request($index) {
           'id' => $object->id,
           'title' => isset($object->record['dc:title'][''][0]) ? $object->record['dc:title'][''][0] : '',
           'creator' => isset($object->record['dc:creator']['oss:aut'][0]) ? $object->record['dc:creator']['oss:aut'][0] : '',
+          'type' => isset($object->record['dc:type']['dkdcplus:BibDK-Type'][0]) ? $object->record['dc:type']['dkdcplus:BibDK-Type'][0] : '',
         );
       }
     }
@@ -177,6 +185,9 @@ function ting_search_carousel_do_request($index) {
   $covers = $service->getByFaustNumber($local_ids);
 
   // Loop over the fetched covers and build items.
+  $limit = variable_get('ting_search_carousel_item_limit', 6);
+  $obj_counter = 0;
+
   foreach ($covers as $local_id => $cover) {
     // Build cover filename.
     $filename = 'public://ting_search_carousel/' . md5($local_id) . '.jpg';
@@ -203,8 +214,14 @@ function ting_search_carousel_do_request($index) {
     $item->title = $objects[$local_id]['title'];
     $item->creator = $objects[$local_id]['creator'];
     $item->image = image_style_url('ting_search_carousel', $filename);
+    $item->type = $objects[$local_id]['type'];
 
     $items[] = $item;
+
+    $obj_counter++;
+    if ($obj_counter == $limit) {
+      break;
+    }
   }
 
   // Update the cache with the fetched items.
@@ -314,6 +331,7 @@ function _ting_search_carousel_add_javascript() {
   drupal_add_js($path . '/js/jquery.ui.touch-punch.min.js');
   drupal_add_js($path . '/js/jquery.rs.carousel.js');
   drupal_add_js($path . '/js/ting_search_carousel.js');
+  drupal_add_js(drupal_get_path('module', 'ting_search') . '/js/ting_search_overlay.js');
 }
 
 /**
