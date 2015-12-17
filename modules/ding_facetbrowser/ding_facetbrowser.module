@@ -156,14 +156,10 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
           $element_name = end($facet_name);
           $facets_string = $facet->name . ':' . $term_name;
           $term_name_title = $term_name;
-          // Check if term name is longer than 14 chars,
+          // Check if term name is longer than 30 chars,
           // if so, short it down to fit facet browser.
-          $substr_length = 19
-            + substr_count(drupal_substr($term_name, 0, 20), 'l')
-            + substr_count(drupal_substr($term_name, 0, 20), 'i')
-            - drupal_strlen((string)$term_count);
-          if (drupal_strlen($term_name) > $substr_length + 3) {
-            $term_name_title = drupal_substr($term_name, 0, $substr_length) . '...';
+          if (drupal_strlen($term_name) > 30) {
+            $term_name_title = truncate_utf8($term_name, 30, TRUE, TRUE);
           }
 
           if (_ding_factbrowser_is_facet_set($facet->name, $term_name) === TRUE) {
