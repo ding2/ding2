@@ -56,6 +56,17 @@
         Drupal.TingSearchOverlay(true);
       }
     });
+
+    // Make sure that the overlay is removed when ESC is pressed.
+    $(window).keydown(function(event) {
+      // Keycode for the ESC-button.
+      if (event.which == 27) {
+        var $overlay = $('.search-overlay--wrapper');
+        if ($overlay !== undefined) {
+          $overlay.remove();
+        }
+      }
+    });
   });
 
 }(jQuery));
