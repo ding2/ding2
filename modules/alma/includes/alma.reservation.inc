@@ -278,10 +278,10 @@ function alma_reservation_create($account, $id, $options = array(), $expiry = NU
   // Try to make the reservation.
   $result = alma_client_invoke('add_reservation', $creds['name'], $creds['pass'], $params);
 
-  if ($result === ALMA_AUTH_BLOCKED) {
+  if ($result['alma_status'] === ALMA_AUTH_BLOCKED) {
     // @todo return better exception that informs the user about the block
     // status.
-    throw new DingProviderReservationNotAllowed();
+    throw new DingProviderReservationNotAllowed('', $result['message']);
   }
 
   if (is_int($result)) {
@@ -293,7 +293,7 @@ function alma_reservation_create($account, $id, $options = array(), $expiry = NU
     );
   }
   else {
-    throw new DingProviderReservationNotAvailable();
+    throw new DingProviderReservationNotAvailable('', $result['message']);
   }
 }
 
