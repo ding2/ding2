@@ -74,6 +74,11 @@ $search-border-type: solid;
 
 .search {
   @extend %search-user-header;
+  clear: both;
+
+  @include small-medium {
+    width: auto;
+  }
 
   .search-field-wrapper {
     position: relative;
@@ -108,6 +113,10 @@ $search-border-type: solid;
 
 /* Search in content
    ========================================================================== */
+
+.pane-search-result-count {
+  float: left;
+}
 
 .search-field-in-content {
   @include large-x-large() {
@@ -201,11 +210,26 @@ input#edit-search-block-form--2.spinner {
   background-image: none;
 }
 
+header .search .form-actions {
+  top: 29px;
+
+  @include small-medium() {
+    top: 0;
+  }
+}
 
 .field-name-ding-entity-buttons {
+  clear: both;
+  text-align: right;
+
   .reserve-button {
     @extend %button-action;
+    float: right;
   }
+}
+
+.pane-search-result .field-name-ding-entity-buttons {
+  overflow: hidden;
 }
 
 .button-see-online {
@@ -237,7 +261,8 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
-.ting-object-right {
+.ting-object-right,
+.group-ting-right-col-collection {
   @include zen-grid-item(10, 1, right);
 
   padding-right: 0;
@@ -249,11 +274,43 @@ input#edit-search-block-form--2.spinner {
 
 .ding-format-short {
   .ting-object-right {
-    @include zen-grid-item(12, 1, right);
+    width: 100%;
+    margin-right: -75px;
+    padding-right: 75px;
+
+    @include small() {
+      @include zen-grid-item(12, 1, right);
+    }
+
+  }
+
+  .ting-object-left {
+    min-height: initial;
+    width: 80px;
+    margin-right: -80px;
+
+    @include small() {
+      @include zen-grid-item(0, 1);
+    }
+
+  }
+
+  @include small() {
+    .ting-cover {
+      display: none;
+    }
+  }
+
+  .ting-cover:before {
+    top: 20%;
+    left: 20%;
+    font-size: 160%;
+  }
+
+  .ting-cover img {
+    max-width: 60px;
   }
 }
-
-
 
 /* Facet browser styling
    ========================================================================== */
@@ -533,13 +590,54 @@ input#edit-search-block-form--2.spinner {
 
   float: right;
 
+
+  .ding-toggle-format-label {
+    position: relative;
+    top: -2px;
+  }
+
+  #ding-toggle-format {
+    background: none;
+    text-decoration: none;
+  }
+
   #ding-toggle-format-image {
-    height: 0;
+    display: none;
+    height: 20px;
+  }
+
+  #ding-toggle-format:before,
+  #ding-toggle-format:after,  {
+    color: #bcbcbc;
+    display: inline-block;
+    font-size: 100%;
+    height: 20px;
+    font-family: "FontAwesome";
+    margin-top: 5px;
+    text-decoration: none;
+    width: 20px;
+  }
+
+  #ding-toggle-format:before {
+    content: "\f039";
+  }
+
+  #ding-toggle-format:after {
+    content: "\f03a";
+  }
+
+  #ding-toggle-format.ding-toggle-format-short:before,
+  #ding-toggle-format.ding-toggle-format-long:after  {
+    color: $link-color;
   }
 }
 
 /* Availability explaination legend */
 .pane-ding-availability-legend {
+
+  @include till-x-large() {
+    margin-bottom: 10px;
+  }
   clear: both;
   overflow: hidden;
 
@@ -554,11 +652,12 @@ input#edit-search-block-form--2.spinner {
       line-height: normal;
 
       img {
-        vertical-align: middle;
+        display: none;
       }
 
       .availability-label {
-        font-weight: normal;
+        font-weight: $base-font-weight-normal;
+        font-size: $font-size-reset;
         color: $gray-darker;
       }
     }
@@ -576,12 +675,36 @@ input#edit-search-block-form--2.spinner {
   padding-top: 20px;
 
   .search-results {
+
+    @include small() {
+      .list {
+        .heading {
+          font-size: $font-size-tiny;
+        }
+      }
+    }
+
     .list {
       padding-left: 0;
 
       .list-item {
-        background: url('../images/pw_maze_white.png');
+        background-image: url('../images/pw_maze_white.png');
         padding: 15px;
+
+        &.ding-search-collection {
+          margin-top: 30px;
+          margin-right: 10px;
+          padding: 0;
+          background-image: none;
+
+          .ting-collection-wrapper {
+            position: relative;
+            padding: 15px;
+            background-image: url('../images/pw_maze_white.png');
+            box-shadow: 1px -1px 2px #888;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=35, Color='#7c7c7c')";
+          }
+        }
       }
 
       .view-mode-teaser {
@@ -621,10 +744,11 @@ input#edit-search-block-form--2.spinner {
       }
 
       .search-result--availability-link {
-        margin-right: 8px;
-        padding-right: 11px;
-
-        right: 1px solid $gray;
+        @include border-radius(3px);
+        display: inline-block;
+        margin: 0 8px 8px 0;
+        padding: 5px;
+        color: $white;
       }
 
       .search-result--availability-link:last-child {
@@ -665,8 +789,11 @@ input#edit-search-block-form--2.spinner {
 
         /* Display the author */
         .heading + div.content {
-          display: inline;
-          margin-left: 5px;
+          display: block;
+        }
+
+        div.field-type-ding-entity-buttons {
+          display: block;
         }
 
         .heading,
@@ -967,6 +1094,33 @@ input#edit-search-block-form--2.spinner {
     .field-group-format-wrapper {
       margin-left: 34px;
       padding-top: 10px;
+
+      // Media small
+
+      @include small() {
+        > .field {
+          display: block;
+        }
+
+        > .field > div {
+          display: block;
+          float: none;
+        }
+      }
+
+      // Media from-small
+
+      @include from-small() {
+        > .field {
+          display: table;
+          width: 100%;
+        }
+
+        > .field > div {
+          display: table-cell;
+          float: none;
+        }
+      }
     }
 
     h2 {
@@ -985,6 +1139,25 @@ input#edit-search-block-form--2.spinner {
 
     .ting-material-detail {
       display: block;
+    }
+
+    .field-name-ting-details-genre,
+    .field-name-ting-details-subtitles,
+    .field-name-ting-details-tracks,
+    .field-name-ting-details-contributor {
+
+      .ting-material-detail {
+        display: inline-block;
+        margin-right: 5px;
+
+        &:after {
+          content: ',';
+        }
+
+        &:last-of-type:after {
+          content: '';
+        }
+      }
     }
   }
 
@@ -1123,6 +1296,45 @@ input#edit-search-block-form--2.spinner {
       &:hover {
         background-color: $gray-light;
       }
+    }
+  }
+}
+
+/* Collection popup
+   ========================================================================== */
+
+div[class^="collection-bg"] {
+  background-image: url('../images/pw_maze_white.png');
+}
+
+/* Reservations popup
+   ========================================================================== */
+
+.ding-popup-content {
+  // Item
+
+  .ting-object.view-mode-collection-popup.clearfix:after {
+    height: auto !important;
+  }
+
+  // Title
+
+  .field-name-ting-title h2 {
+    font-size: 140%;
+  }
+
+  .view-mode-collection-list {
+    padding: 10px 0;
+    border-top: 1px dotted $black;
+
+    &:first-of-type {
+      border: none;
+    }
+
+    // Title
+
+    h2 {
+      font-size: 130%;
     }
   }
 }

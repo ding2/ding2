@@ -15,7 +15,7 @@ $modal-text-color:                $black;
 $modal-background-color:          $black;
 $modal-background-transparency:   .25;
 $modal-min-width:                 450px;
-$modal-max-width:                 450px;
+$modal-max-width:                 800px;
 $modal-border-radius:             12px;
 
 .ui-widget-overlay {
@@ -44,6 +44,7 @@ $modal-border-radius:             12px;
   @extend .page-title;
   
   color: $dialog-text;
+  padding-bottom: 20px;
 }
 
 
@@ -66,6 +67,21 @@ $modal-border-radius:             12px;
     outline: none;
   }
 
+  .ui-dialog-title {
+    width: 100%;
+  }
+
+  // Close button
+
+  .ui-dialog-titlebar-close {
+    &,
+    &:hover {
+      width: 21px;
+      border: 0;
+      background-color: transparent;
+    }
+  }
+
   .ui-dialog-titlebar {
     .ui-dialog-titlebar-close {
       float: right;
@@ -83,6 +99,7 @@ $modal-border-radius:             12px;
         color: $dialog-text;
         background: none;
         height: 24px;
+        background: none;
         text-indent: 0;
         text-transform: capitalize;
 
@@ -132,6 +149,30 @@ $modal-border-radius:             12px;
 
   .form-text {
     width: 100%;
+  }
+
+  // Search results entity buttons
+
+  .field-name-ding-entity-buttons {
+    float: left;
+  }
+
+  .field-item > h2 {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid $black;
+  }
+
+  .ting-cover {
+    visibility: hidden;
+  }
+
+  .field-item .ting-object:first-of-type .ting-cover {
+    visibility: visible;
+  }
+
+  .ting-object.view-mode-objects-in-popup {
+    padding-bottom: 10px;
   }
 }
 

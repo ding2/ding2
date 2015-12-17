@@ -4,7 +4,7 @@
   $(document).ready(function() {
     // Moves the search form into the search result page.
     if (window.location.href.indexOf("search/") > -1) {
-      var search = $('.search-field-wrapper');
+      var search = $('.site-header .search-field-wrapper');
       search.addClass('search-field-in-content');
       search.addClass('js-search-field-in-content');
 

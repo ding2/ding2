@@ -10,7 +10,7 @@
    ========================================================================== */
 
 $carousel-background-color:                $white;
-$carousel-image-width:                     200px;
+$carousel-image-width:                     135px;
 $carousel-image-max-height:                250px;
 $carousel-tab-background-color:            transparentize($black, .5);
 $carousel-active-tab-background-color:     $black;
@@ -43,7 +43,7 @@ $carousel-tab-color:                       $white;
   }
 
   @include small-medium() {
-    background-color: $red;
+    background-color: $gray;
   }
 }
 
@@ -77,6 +77,10 @@ $carousel-tab-color:                       $white;
 .rs-carousel-action-prev,
 .rs-carousel-action-next {
   @include opacity(.25);
+  background-color: $header-background-color;
+  border: 2px solid $navigation-background-color;
+  background-image: url('../images/arrows-carousel.png');
+  border-radius: 40px;
 
   &.rs-carousel-action-active {
     @include opacity(1);
@@ -156,6 +160,17 @@ $carousel-tab-color:                       $white;
       padding-bottom: 10px;
       padding-left: 15px;
       position: absolute;
+    }
+
+    .rs-carousel-item-type {
+      background-color: transparentize($black, .25);
+      color: $white;
+      line-height: 1.2em;
+      padding: 0px 4px;
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      width: auto;
     }
   }
 

@@ -1,0 +1,26 @@
+/**
+ * Newsletter styles
+ *
+ * Uses shared %article @extends
+ *
+ * @author ac
+ */
+
+.node-type-newsletter {
+  .pane-node-title {
+    font-size: $font-size-largest;
+    font-weight: $base-font-weight-bold;
+  }
+  
+  .newsletter-footer {  
+    background: $footer-background-color;
+    color: $footer-text-color;
+  }
+  
+  /* List of related materials */
+  .newsletter-materials {
+    .field-item {
+      @extend %material-list-item;
+    }
+  }
+}
