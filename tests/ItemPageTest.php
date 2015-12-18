@@ -50,7 +50,8 @@ class ItemPageTest extends PHPUnit_Extensions_SeleniumTestCase {
 
     // Check copies information.
     //$this->assertTrue($this->isElementPresent("css=#holdings-870970-basis24908941 > p"));
-    $this->abstractedPage->waitForElement('css=#holdings-870970-basis24908941 > p');
+   // $this->abstractedPage->waitForElement('css=#holdings-870970-basis24908941 > p');
+    sleep(5);
     $this->assertElementContainsText('css=#holdings-870970-basis24908941 > p', 'We have 3 copies. There is 1 user in queue to loan the material.');
 
     // Check specific row in the availability table.
@@ -76,6 +77,7 @@ class ItemPageTest extends PHPUnit_Extensions_SeleniumTestCase {
     // simply refresh the page.
     $this->abstractedPage->refresh();
     // Bookmark again. Here the use is already logged and the item should
+    sleep(5);
     // exist in bookmarks.
     $this->abstractedPage->userBookmark('.action-button.bookmark-button:eq(0)');
     $this->abstractedPage->waitForElement('css=div.ding-bookmark-message');
