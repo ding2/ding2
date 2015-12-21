@@ -1,0 +1,13 @@
+.ding-item-viewer {
+
+  .ui-tabs-nav {
+    background: darken($footer-background-color, 5%);
+  }
+
+  // Header
+  .view-mode-ding-item-viewer-small {
+    .image-wrapper {
+      background: darken($footer-background-color, 5%);
+    }
+  }
+}

@@ -15,25 +15,45 @@
 		@media only screen and (max-width: $breakpoint-small) { @content; }
 	}
 
-	@else if $media == small-medium {
-		@media only screen and (max-width: $breakpoint-medium) { @content; }
+  @else if $media == small-medium {
+    @media only screen and (max-width: $breakpoint-medium) { @content; }
+  }
+
+	@else if $media == from-small {
+		@media only screen and (min-width: $breakpoint-small + 1) { @content; }
 	}
 
-  @if $media == small-medium-low {
+  @else if $media == small-medium-low {
     @media only screen and (max-height: $breakpoint-low) and (max-width: $breakpoint-medium) { @content; }
   }
 
-	@else if $media == medium {
-		@media only screen and (min-width: $breakpoint-small + 1) and (max-width: $breakpoint-medium) { @content; }
-	}
+  @else if $media == medium {
+    @media only screen and (min-width: $breakpoint-small + 1) and (max-width: $breakpoint-medium) { @content; }
+  }
 
-	@else if $media == medium-large {
-		@media only screen and (min-width: $breakpoint-small + 1) and (max-width: $breakpoint-large) { @content; }
-	}
+  @else if $media == till-medium {
+    @media only screen and (max-width: $breakpoint-medium) { @content; }
+  }
 
-	@else if $media == large {
-		@media only screen and (min-width: $breakpoint-medium + 1) and (max-width: $breakpoint-large) { @content; }
-	}
+  @else if $media == from-medium {
+    @media only screen and (min-width: $breakpoint-medium + 1) { @content; }
+  }
+
+  @else if $media == medium-large {
+    @media only screen and (min-width: $breakpoint-small + 1) and (max-width: $breakpoint-large) { @content; }
+  }
+
+  @else if $media == large {
+    @media only screen and (min-width: $breakpoint-medium + 1) and (max-width: $breakpoint-large) { @content; }
+  }
+
+  @else if $media == till-large {
+    @media only screen and (max-width: $breakpoint-large) { @content; }
+  }
+
+  @else if $media == till-x-large {
+    @media only screen and (max-width: $breakpoint-x-large) { @content; }
+  }
 
 	@else if $media == x-large {
 		@media only screen and (min-width: $breakpoint-x-large + 1) { @content; }
@@ -52,6 +72,10 @@
   @include respond-to(small) { @content; }
 }
 
+@mixin from-small {
+  @include respond-to(from-small) { @content; }
+}
+
 @mixin small-medium {
   @include respond-to(small-medium) { @content; }
 }
@@ -64,12 +88,28 @@
   @include respond-to(medium) { @content; }
 }
 
+@mixin from-medium {
+  @include respond-to(from-medium) { @content; }
+}
+
+@mixin till-medium {
+  @include respond-to(till-medium) { @content; }
+}
+
 @mixin medium-large {
   @include respond-to(medium-large) { @content; }
 }
 
 @mixin large {
   @include respond-to(large) { @content; }
+}
+
+@mixin till-large {
+  @include respond-to(till-large) { @content; }
+}
+
+@mixin till-x-large {
+  @include respond-to(till-x-large) { @content; }
 }
 
 @mixin x-large {
@@ -161,4 +201,24 @@
     #{$alignment}: $offset;
 
   }
+}
+
+
+
+// Shadow
+//==========================================================================
+
+@mixin bshadow() {
+  @include box-shadow($gray-dark 1px 1px 5px);
+}
+
+
+
+// Min height for all browsers including old IE
+//==========================================================================
+
+@mixin min-height($value) {
+  min-height: $value;
+  height: auto !important;
+  height: $value;
 }

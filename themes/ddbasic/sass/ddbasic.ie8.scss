@@ -2,6 +2,24 @@
 // Styling for Internet Explorer 8
 // =============================================================================
 //
+
+
+// Include compass
+@import "compass";
+@import "compass/css3";
+
+// Grid - http://zengrids.com
+@import "zen";
+
+// Include configuration
+@import "configuration/_variables";
+@import "configuration/_colors";
+@import "configuration/_configuration";
+
+
+// Include framework
+@import "framework/_mixins";
+
 img {
   width: auto;
 }
@@ -52,5 +70,36 @@ img {
 .pane-ding-facetbrowser {
   .expand {
     margin-left: 2px;
+  }
+}
+
+.rs-carousel-action-prev,
+.rs-carousel-action-next {
+  background-color: transparent;
+  border: 0;
+}
+
+.lt-ie9 {
+  .search-field-in-content .form-submit {
+    margin-top: 0;
+  }
+
+  .search-field-in-content .form-text {
+    height: 62px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .pane-search-result .search-results .list .view-mode-teaser,
+  .view-node-search-result .search-results .list .view-mode-teaser,
+  .ting-reference-reverse-list .search-results .list .view-mode-teaser,
+  .pane-new-materials .search-results .list .view-mode-teaser {
+    background-color: $white;
+  }
+}
+
+.hours {
+  .day-notice-star {
+    visibility: visible;
   }
 }

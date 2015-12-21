@@ -1,0 +1,595 @@
+/**
+ * Rules that can be configured is located in this file.
+ */
+
+/* Topbar background color */
+.topbar {
+  background-color: $topbar-background-color;
+}
+
+/* Header background color */
+
+.header-wrapper {
+  background-color: $header-background-color;
+}
+
+/* Navigation background color */
+
+.navigation-wrapper {
+  background-color: $navigation-background-color;
+}
+
+/* Links */
+
+a {
+  &:link {
+    color: $link-color;
+  }
+  &:hover {
+    color: $link-color-hover;
+  }
+  &:focus {
+    color: $link-color-hover;
+  }
+}
+
+/* Layout background color */
+
+.layout-wrapper {
+  background-color: $content-background-color;
+}
+
+/* Article background extends */
+
+%article-background {
+  background-color: $list-background-color;
+}
+
+%article-background--odd {
+  background-color: $list-item-background-color-odd;
+}
+
+%article-background--even {
+  background-color: $list-item-background-color-even;
+}
+
+/* Footer background color */
+
+.footer {
+  background-color: $footer-background-color;
+}
+
+/* Bottom background color */
+
+.bottom {
+  background-color: darken($footer-background-color, 5%);
+}
+
+/**
+ * Base
+ */
+
+body {
+  background-color: $gray-light;
+  color: $font-color-primary;
+}
+
+a {
+  &:link {
+    color: $font-color-primary;
+  }
+  &:visited {
+    color: darken($font-color-primary, 25%);
+  }
+  &:hover {
+    color: darken($font-color-primary, 25%);
+  }
+  &:focus {
+    color: darken($font-color-primary, 25%);
+  }
+  &:active {
+    background-color: transparent;
+    color: darken($font-color-primary, 25%);
+  }
+}
+
+/* Fieldset
+   ========================================================================== */
+
+fieldset {
+  border-color: $gray-light;
+}
+
+/**
+ * Buttons
+ */
+
+/* Mixins
+   ========================================================================== */
+
+@mixin create-gradient-button($text-color, $bg-start-color, $bg-end-color, $border: 0) {
+  @include background-image(linear-gradient($bg-start-color, $bg-end-color));
+
+  /* Make sure buttons get a background color in IE */
+  background-color: $bg-start-color;
+
+  @if $text-color != "" {
+    color: $text-color;
+
+    &:link,
+    &:visited {
+      color: $text-color;
+    }
+  }
+
+  &:link,
+  &:visited,
+  &:focus,
+  &:hover,
+  &:active {
+    @include background-image(linear-gradient(darken($bg-start-color, 5%), darken($bg-end-color, 5%)));
+    background-color: $bg-end-color;
+  }
+}
+
+
+/* Default button, we dont use gradiant mixin sin since it's part of color module */
+.button,
+a.button,
+%button-default {
+  background-color: $button-default-background;
+  color: $button-default-text-color;
+  @include background-image(linear-gradient($button-default-background, $button-default-background-gradient));
+
+  &:link,
+  &:visited,
+  &:focus,
+  &:active {
+    color: $button-default-text-color;
+    background-color: $button-default-background;
+  }
+
+  &:hover {
+    background-color: $button-default-color-hover;
+  }
+}
+
+/* Default button */
+%button-default {
+  @include create-gradient-button($button-theme-color, $button-default-bg, darken($button-default-bg, 15%));
+}
+
+/* Theme button */
+%button-theme {
+  @include create-gradient-button($button-theme-color, $button-theme-bg, darken($button-theme-bg, 15%));
+}
+
+/* Action button */
+%button-action {
+  @include create-gradient-button($button-action-color, $button-action-bg, darken($button-action-bg, 15%));
+}
+
+/* Warning button */
+%button-warning {
+  @include create-gradient-button($button-warning-color, $button-warning-bg, darken($button-warning-bg, 15%));
+}
+
+/* Danger button */
+%button-danger {
+  @include create-gradient-button($button-danger-color, $button-danger-bg, darken($button-danger-bg, 15%));
+}
+
+/**
+ * Labels
+ */
+
+.label {
+  /* Make sure it works with a wrapper */
+  a {
+    background-color: $label-bg-color;
+    color: $label-text-color;
+    &:link,
+    &:visited {
+      color: $label-text-color;
+    }
+
+    &:hover {
+      background-color: $label-bg-color-hover;
+      color: $label-text-color-hover;
+    }
+  }
+}
+
+/**
+ * Navigation
+ */
+
+/* Topbar menu
+   ========================================================================== */
+
+.topbar-menu {
+  .menu-item {
+    color: $topbar-text-color;
+  }
+}
+
+/* Sub menu
+   ========================================================================== */
+
+.sub-menu {
+  > li {
+    a {
+      color: $link-color;
+      &:hover {
+        color: $link-color-hover;
+      }
+    }
+  }
+
+  li {
+    &:before {
+      color: $link-color;
+    }
+  }
+}
+
+/* Footer menus
+   ========================================================================== */
+
+.footer {
+  .pane-title {
+    color: $footer-text-color;
+  }
+
+  .menu {
+    li {
+      &:before {
+        color: $footer-text-color;
+      }
+
+      a {
+        color: $footer-text-color;
+      }
+    }
+  }
+}
+
+/* Action Links
+   ========================================================================== */
+.action-links {
+  li {
+    color: $link-color;
+    &:before {
+      color: $link-color;
+    }
+  }
+}
+
+/**
+ * Layout
+ */
+
+.bottom {
+  background-color: $bottom-background-color;
+}
+
+.pane-alma-item-list {
+  background-color: $content-background-color;
+}
+
+/**
+ * Carousel
+ */
+
+.rs-carousel-inner {
+  background-color: $carousel-background;
+}
+
+/* Pagination and previous and next buttons
+   ========================================================================== */
+
+.rs-carousel-action-prev,
+.rs-carousel-action-next {
+  background-color: $header-background-color;
+}
+
+/* Carousel tabs
+   ========================================================================== */
+
+.rs-carousel-tabs {
+  .rs-carousel-list-tabs {
+    .rs-carousel-item {
+      a {
+        background-color: $carousel-tab-background;
+        &:hover {
+          background-color: $carousel-tab-active-background;
+        }
+      }
+      &.active {
+        a {
+          background-color: $carousel-tab-active-background;
+          &:before {
+            @include pseudo-arrow(10px, $carousel-tab-active-background, top, center, $offset: 20px);
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Item list
+ */
+
+.pane-ding-item-list {
+  background-color: $content-background-color;
+}
+
+/**
+ * Item viewer
+ */
+
+.ding-item-viewer {
+  .ui-tabs-nav {
+    background: darken($footer-background-color, 5%);
+  }
+}
+
+// Header
+.view-mode-ding-item-viewer-small {
+  .image-wrapper {
+    background: darken($footer-background-color, 5%);
+  }
+}
+
+/**
+ * Ding nodelist
+ */
+
+// All nodelists
+//==========================================================================
+
+.ding_nodelist {
+  // Event timestamp
+  .event-time {
+    // Event day
+    .event-day {
+      background: $link-color;
+    }
+  }
+  // Event label
+  .event-label {
+    background-image: $label-bg-color;
+  }
+  // Node info wrapper
+  .node,
+  &.ding_nodelist-horizontal_accordion .data {
+    background-image: $label-bg-color;
+  }
+}
+
+// Ding nodelist carousel
+//==========================================================================
+
+.ding_nodelist-carousel {
+  // Next / Previous buttons
+  .next-prev {
+    .prev,
+    .next {
+      &:hover {
+        background-color: $link-color;
+      }
+      &:after {
+        color: $link-color;
+      }
+    }
+  }
+  // Pagination
+  .pagination {
+    // Active
+    .selected {
+      background-color: $link-color;
+    }
+  }
+}
+
+// Ding nodelist single item
+//==========================================================================
+
+.ding_nodelist-single {
+  background-color: $content-background-color;
+}
+
+// Nodelist slider
+//==========================================================================
+
+.ding_nodelist-slider {
+  // Next ... prev buttons
+  .next-prev {
+    a {
+      &:hover {
+        background-color: $link-color;
+      }
+    }
+  }
+}
+
+.ding_nodelist-taxonomy {
+  .item:nth-child(odd) {
+    background-color: $list-item-background-color-odd;
+  }
+  .item:nth-child(even) {
+    background-color: $list-item-background-color-even;
+  }
+}
+
+/**
+ * Ding ting type search
+ */
+
+// Standalone search container
+.pane-easyddb-search-ext-search-ext {
+  background-color: $content-background-color;
+}
+
+/**
+ * Event styling
+ */
+
+/* Event list
+   ========================================================================== */
+
+.event-list {
+  .event-list-item:nth-child(odd) {
+    background-color: $list-item-background-color-odd;
+  }
+  .event-list-item:nth-child(even) {
+    background-color: $list-item-background-color-even;
+  }
+}
+
+/**
+ * Groups
+ */
+
+/* Groups lists
+   ========================================================================== */
+
+.groups-list {
+  .groups-list-item {
+    background-color: $list-background-color;
+  }
+  .groups-list-item:nth-child(odd) {
+    background-color: $list-item-background-color-odd;
+  }
+  .groups-list-item:nth-child(even) {
+    background-color: $list-item-background-color-even;
+  }
+}
+
+/**
+ * News
+ */
+
+.news-list {
+  .news-list-item {
+    background-color: $list-background-color;
+  }
+  .news-list-item:nth-child(odd) {
+    background-color: $list-item-background-color-odd;
+  }
+  .news-list-item:nth-child(even) {
+    background-color: $list-item-background-color-even;
+  }
+}
+
+
+/**
+ * Opening hours
+ */
+
+.opening-hours-week {
+  .days {
+    .odd {
+      background-color: $list-item-background-color-odd;
+    }
+    .even {
+      background-color: $list-item-background-color-even;
+    }
+  }
+}
+
+// Main widget
+// ==========================================================================
+
+.pane-ding-library-opening-hours-ding-library-opened-today {
+  background-color: $content-background-color;
+}
+
+/**
+ * Search
+ */
+
+.field-name-ding-entity-buttons {
+  .reserve-button {
+    @extend %button-action;
+  }
+}
+
+.button-see-online {
+  @extend %button-action;
+}
+
+.pane-ding-facetbrowser {
+  a:visited {
+    color: $link-color;
+  }
+}
+
+.pane-ting-search-records-per-page {
+  a {
+    border-right-color: $link-color-hover;
+    &.selected {
+      color: $link-color-hover;
+    }
+  }
+}
+
+.pane-ding-toggle-format-toggle {
+  #ding-toggle-format.ding-toggle-format-short:before,
+  #ding-toggle-format.ding-toggle-format-long:after  {
+    color: $link-color;
+  }
+}
+
+/* Search autocomplete
+   ========================================================================== */
+
+#autocomplete {
+  li {
+    a {
+      color: $font-color-primary;
+    }
+  }
+}
+
+/**
+ * Staff
+ */
+
+.staff-list,
+.staff-list-all {
+  .staff-list-item:nth-child(odd) {
+    background-color: $list-item-background-color-odd;
+  }
+  .staff-list-item:nth-child(even) {
+    background-color: $list-item-background-color-even;
+  }
+}
+
+/**
+ * User
+ */
+ 
+.user-status-loan,
+.user-status-reservation {
+  color: $link-color;
+}
+
+/**
+ * Ding search related
+ *
+ * @author ac
+ */
+
+.view-ting-search-related-content {
+  background-color: $list-item-background-color-odd;
+  
+  .views-field-title {
+    a:link,
+    a:hover,
+    a:visited {
+      color: $font-color-primary;
+    }
+  }
+}

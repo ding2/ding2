@@ -5,6 +5,79 @@
  */
 
 
+/* /user/$uid/edit/*
+   ========================================================================== */
+
+.page-user-edit {
+
+  .pane-profile2-form {
+    line-height: 1.1;
+
+    label,
+    .form-item {
+      margin-bottom: 5px;
+    }
+
+    fieldset,
+    div[class^="field-type-"] {
+      margin-bottom: 10px;
+    }
+
+    .form-submit {
+      margin-top: 10px;
+    }
+  }
+
+  .field-name-field-alma-reservation-pause {
+
+    @include from-medium() {
+
+      // Hide labels
+
+      label {
+        display: none;
+      }
+
+      .start-date-wrapper {
+        // @include span(1 of 2);
+
+        &:after {
+          position: absolute;
+          top: 10px;
+          right: -11%;
+          content: '-';
+          font-weight: 700;
+        }
+      }
+
+      .end-date-wrapper {
+        // @include span(last 1 of 2);
+      }
+
+      .start-date-wrapper,
+      .end-date-wrapper {
+        position: relative;
+
+        .form-type-textfield:after {
+          position: absolute;
+          top: 10px;
+          left: 10px;
+          color: #333;
+          content: '\f073';
+          font-weight: 700;
+          font-family: 'FontAwesome';
+          pointer-events:none;
+        }
+
+        input[type="text"] {
+          padding-left: 30px;
+        }
+      }
+    }
+  }
+}
+
+
 /* /user/$uid/status/*
    ========================================================================== */
 
@@ -167,6 +240,21 @@
     }
   }
   /* END BUTTONS */
+
+  .ding-format-short {
+    .left-column {
+      @include zen-grid-item(1, 1);
+    }
+
+    .right-column {
+      @include zen-grid-item(11, 1, right);
+    }
+
+    .ting-cover,
+    .item-information-list {
+      display: none;
+    }
+  }
 }
 
 .pane-loans {
@@ -184,6 +272,14 @@
   }
 }
 
+.page-user .primary-content {
+  position: relative;
+}
+
+.page-user .pane-ding-toggle-format-toggle {
+  position: absolute;
+  right: 0;
+}
 
 /* User debts specific
    ========================================================================== */
@@ -200,6 +296,15 @@
       font-family: $font-bold;
     }
   }
+}
+
+#dibs-terms-of-sale {
+  font-size: 100%;
+}
+
+#dibs-cards-supported .card-logo,
+.form-item-cards-supported .card-logo {
+  margin-bottom: 15px;
 }
 
 .pane-debts {
@@ -280,6 +385,9 @@
     }
 
   }
+  .pane-ding-toggle-format-toggle .ding-toggle-format-label {
+    display: none;
+  }
 }
 
 @include medium() {
@@ -349,10 +457,19 @@
 .header-wrapper {
   /* Add padding if the search is in the header */
   .user {
-    padding-top: 30px;
-    padding-right: 20px;
-    padding-bottom: 60px;
-    padding-left: 20px;
+
+    @include small-medium() {
+      padding-left: 10px;
+    }
+    padding-right: 10px;
+  }
+}
+
+.pane-user-login .form-actions {
+  top: 29px;
+
+  @include small-medium() {
+    top: 0;
   }
 }
 
@@ -419,6 +536,33 @@
 
   @include small-medium {
     width: auto;
+  }
+  overflow: hidden;
+
+  .user-field-wrapper {
+    position: relative;
+  }
+
+  .form-item-name {
+    @include zen-grid-item(6, 1);
+    margin-bottom: 0;
+
+    .form-text {
+      padding-left: 45px;
+    }
+  }
+
+  .form-item-pass {
+    @include zen-grid-item(6, 1, right);
+    margin-bottom: 0;
+
+    .form-text {
+      padding-left: 42px;
+    }
+  }
+
+  .block-title {
+    display: none;
   }
 }
 
@@ -633,5 +777,47 @@
 #ding-bookmark-remove-form {
   .form-submit {
     @extend %button-danger;
+  }
+}
+
+// Page user scheduler
+// ========================================================
+
+.page-user-scheduler {
+  #tabs {
+    margin-bottom: 0;
+  }
+
+  .pane-page-content {
+
+    // Media till-x-large()
+
+    @include till-x-large() {
+      padding-right: 10px;
+      padding-left: 10px;
+    }
+  }
+}
+
+// Page user roles
+// ========================================================
+
+.page-user-roles {
+  #tabs {
+    margin-bottom: 0;
+  }
+
+  #role-delegation-roles-form {
+    clear: both;
+    overflow: hidden;
+    padding: 10px;
+    background-color: $white;
+
+    // Media x-large
+
+    @include till-x-large() {
+      margin-right: 10px;
+      margin-left: 10px;
+    }
   }
 }

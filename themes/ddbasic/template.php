@@ -11,6 +11,23 @@ include_once drupal_get_path('theme', 'ddbasic') . '/inc/functions.inc';
  * Implements hook_preprocess_html().
  */
 function ddbasic_preprocess_html(&$vars) {
+  if (in_array('html__node__newsletter', $vars['theme_hook_suggestions'])) {
+    $vars['newsletter'] = $vars['page']['content']['system_main']['main']['#markup'];
+  }
+  
+  // Load responsive.js file
+  $file_name = drupal_get_path('theme', 'ddbasic') . '/scripts/responsive.js';
+  drupal_add_js(
+    $file_name,
+    array(
+      'type' => 'file',
+      'group'=> JS_LIBRARY,
+      'every_page' => TRUE,
+      'scope' => 'header',
+      'weight' => -19.95,
+    )
+  );
+
   global $language;
 
   // Setup iOS logo if it's set.
@@ -104,6 +121,14 @@ function ddbasic_process_html(&$vars) {
 function ddbasic_form_alter(&$form, &$form_state, $form_id) {
   switch ($form_id) {
     case 'search_block_form':
+      // Do not show advanced form on search results.
+      if (isset($form['advanced'])) {
+        if (preg_match('/search\/ting/', current_path())) {
+          unset($form['advanced']);
+        }
+      }
+
+      $form['search_block_form']['#attributes']['autofocus'] = true;
       $form['search_block_form']['#attributes']['placeholder'] = t('Search the library');
       $form['search_block_form']['#field_prefix'] = '<i class="icon-search"></i>';
       $form['search_block_form']['#title'] = t('Search the library database and the website');
@@ -115,6 +140,7 @@ function ddbasic_form_alter(&$form, &$form_state, $form_id) {
     case 'user_login_block':
       $form['name']['#title'] = t('Loan or social security number');
       $form['name']['#field_prefix'] = '<i class="icon-user"></i>';
+      $form['name']['#attributes']['autofocus'] = true;
       $form['name']['#attributes']['placeholder'] = t('The number is 10 digits');
       $form['name']['#type'] = 'password';
 
@@ -160,7 +186,7 @@ function ddbasic_preprocess_panels_pane(&$vars) {
     $vars['classes_array'][] = 'sub-menu-wrapper';
 
     // Change the theme wrapper for both menu-block and OG menu.
-    if (isset($vars['content']['#content'])) {
+    if (isset($vars['content']['#content']) && is_array($vars['content']['#content'])) {
       // Menu-block.
       $vars['content']['#content']['#theme_wrappers'] = array('menu_tree__sub_menu');
     }
@@ -168,6 +194,10 @@ function ddbasic_preprocess_panels_pane(&$vars) {
       // OG menu.
       $vars['content']['#theme_wrappers'] = array('menu_tree__sub_menu');
     }
+  }
+
+  if ($vars['pane']->subtype == 'search-form' && $vars['pane']->panel != 'header') {
+    unset($vars['content']['advanced']);
   }
 }
 
@@ -303,6 +333,12 @@ function ddbasic_preprocess_node(&$variables, $hook) {
       }
     }
 
+    // Add event start date to variables.
+    $variables['ddbasic_event_start_date'] = $variables['node']->field_ding_event_date[LANGUAGE_NONE][0]['value'];
+
+    // Add event end date to variables.
+    $variables['ddbasic_event_end_date'] = $variables['node']->field_ding_event_date[LANGUAGE_NONE][0]['value2'];
+
     // Add event date to variables. A render array is created based on the date
     // format "date_only".
     $event_date_ra = field_view_field('node', $variables['node'], 'field_ding_event_date', array(
@@ -327,6 +363,183 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     ));
     $variables['ddbasic_event_time'] = $event_time_ra[0]['#markup'];
   }
+  elseif (isset($variables['content']['#bundle']) && $variables['content']['#bundle'] == 'newsletter') {
+    $newsletter = clone $variables['node'];
+    $node = $variables['node'];
+    $newsletter_nodes = array();
+    $field_nl_items = field_get_items('node', $node, 'field_newsletter_items');
+
+    if (is_array($field_nl_items)) {
+      foreach ($field_nl_items as $field_nl_item) {
+        // For editor role not published nodes are not loaded by field_get_items.
+        $newsletter_item = isset($field_nl_item['node']) ? $field_nl_item['node'] : node_load($field_nl_item['nid']);
+        if (!$newsletter_item) {
+          continue;
+        }
+        $newsletter_nodes[$field_nl_item['nid']] = $newsletter_item;
+      }
+      // @todo Remove deleted nodes from 'field_newsletter_items'.
+    }
+
+    // Prepare node fields for template.
+    $newsletter_prepared_nodes = array();
+    foreach ($newsletter_nodes as $nid => &$newsletter_node) {
+      $newsletter_prepared_node = new stdClass();
+      $newsletter_prepared_node->nid     = $nid;
+      $newsletter_prepared_node->type    = $newsletter_node->type;
+      $newsletter_prepared_node->title   = $newsletter_node->title;
+      $newsletter_prepared_node->url     = url('node/' . $nid, array('absolute' => TRUE));
+      $newsletter_prepared_node->libraries = '';
+      $newsletter_prepared_node->image   = '';
+
+      // Library.
+      if ($newsletter_node->type == 'ding_event') {
+        $libraries = field_get_items('node', $newsletter_node, 'og_group_ref');
+        if (is_array($libraries)) {
+          $library_node_ids = array();
+          foreach ($libraries as $key => $library) {
+            $library_node_ids[] = $library['target_id'];
+          }
+          $library_nodes = node_load_multiple($library_node_ids);
+          $library_links = '';
+          foreach ($library_nodes as $library) {
+            $uri = entity_uri('node', $library);
+            $library_links .= l($library->title, $uri['path'], array('absolute' => TRUE)) . ', ';
+          }
+          $newsletter_prepared_node->libraries = rtrim($library_links, ', ');
+        }
+      }
+
+      // Summary.
+      $summary_fields = array('field_ding_event_body', 'field_ding_news_body', 'body');
+      foreach ($summary_fields as $field_name) {
+        $field = field_get_items('node', $newsletter_node, $field_name);
+        if ($field !== FALSE) {
+          break;
+        }
+      }
+      if (is_array($field)) {
+        $body = reset($field);
+        $newsletter_prepared_node->summary = empty($body['safe_summary']) ? NULL : trim($body['safe_summary']);
+        if (empty($newsletter_prepared_node->summary) && $newsletter_prepared_node->type == 'newsletter') {
+          $newsletter_prepared_node->summary = empty($body['safe_value']) ? NULL : trim($body['safe_value']);
+        }
+      }
+
+      // Footer text.
+      $newsletter_prepared_node->footer = NULL;
+      $field = field_get_items('node', $newsletter_node, 'field_footer');
+      if (isset($field[0])) {
+        $newsletter_prepared_node->footer = field_view_value('node', $newsletter_node, 'field_footer', $field[0]);;
+      }
+
+      // Node image.
+      $image_fields = array('field_ding_event_list_image', 'field_ding_news_list_image');
+      foreach ($image_fields as $field_name) {
+        $field = field_get_items('node', $newsletter_node, $field_name);
+        if ($field !== FALSE) {
+          break;
+        }
+      }
+      if (is_array($field)) {
+        $image = reset($field);
+        $image_alt = isset($image['field_file_image_alt_text'][LANGUAGE_NONE][0]['value']) ? $image['field_file_image_alt_text'][LANGUAGE_NONE][0]['value'] : '';
+        $image_title = isset($image['field_file_image_title_text'][LANGUAGE_NONE][0]['value']) ? $image['field_file_image_title_text'][LANGUAGE_NONE][0]['value'] : '';
+
+        if (!empty($image)) {
+          $image['path']       = image_style_url('emailkanon_node_image', $image['uri']);
+          $image['width']      = '140';
+          $image['height']     = NULL;
+          $image['attributes'] = array(
+            'style' => 'max-width: 140px; height: auto; border: 0',
+            'alt' => $image_alt,
+            'title' => $image_title,
+          );
+
+          $newsletter_prepared_node->image = theme('image', $image);
+        }
+      }
+
+      // Newsletter image.
+      $field = field_get_items('node', $newsletter_node, 'field_newsletter_image');
+      if (is_array($field)) {
+        $image = reset($field);
+        if (!empty($image['uri'])) {
+          $image_alt = isset($image['field_file_image_alt_text'][LANGUAGE_NONE][0]['value']) ? $image['field_file_image_alt_text'][LANGUAGE_NONE][0]['value'] : '';
+          $image_title = isset($image['field_file_image_title_text'][LANGUAGE_NONE][0]['value']) ? $image['field_file_image_title_text'][LANGUAGE_NONE][0]['value'] : '';
+
+          $image['path']       = image_style_url('emailkanon_mail_image', $image['uri']);
+          $image['width']      = '540';
+          $image['height']     = NULL;
+          $image['attributes'] = array(
+            'style' => 'max-width: 570px; height: auto; border: 0',
+            'alt' => $image_alt,
+            'title' => $image_title,
+          );
+
+          $newsletter_prepared_node->image = theme('image', $image);
+        }
+      }
+
+      // Category.
+      $category = field_get_items('node', $newsletter_node, 'field_category');
+      if (is_array($category)) {
+        $term = taxonomy_term_load(current(current($category)));
+        $newsletter_prepared_node->category = $term->name;
+        $newsletter_prepared_node->category_url = url(
+          drupal_lookup_path('alias', 'taxonomy/term/' . $term->tid),
+          array('absolute' => TRUE)
+        );
+      }
+      else {
+        $newsletter_prepared_node->category = '';
+      }
+
+      // Fee.
+      if (isset($newsletter_node->field_ding_event_price)) {
+        $fees = field_get_items('node', $newsletter_node, 'field_ding_event_price');
+        if (is_array($fees)) {
+          $event_fee = reset($fees);
+          $newsletter_prepared_node->fee = $event_fee['value'];
+        }
+      }
+
+      // Date.
+      if (isset($newsletter_node->field_ding_event_date)) {
+        $dates = field_get_items('node', $newsletter_node, 'field_ding_event_date');
+        if (is_array($dates)) {
+          $event_date = reset($dates);
+          $dt = new DateTime($event_date['value'], new DateTimeZone($event_date['timezone_db']));
+          $dt->setTimezone(new DateTimeZone($event_date['timezone']));
+          $newsletter_prepared_node->date = $dt->format('d.m.Y');
+          $newsletter_prepared_node->date_number = $dt->format('j');
+          $newsletter_prepared_node->date_month = $dt->format('M');
+          $newsletter_prepared_node->date_time = $dt->format('G:i');
+        }
+      }
+      else {
+        $newsletter_prepared_node->date = format_date($newsletter_node->created, 'custom', 'd.m.Y');
+      }
+
+      $newsletter_prepared_nodes[$nid] = $newsletter_prepared_node;
+    }
+
+    // Rearrange nodes by node type.
+    $newsletter_nodes = array();
+    foreach ($newsletter_prepared_nodes as $nid => $newsletter_node) {
+      $node_type = $newsletter_node->type;
+      if ($node_type == 'newsletter') {
+        if ($nid == $newsletter->nid) {
+          $newsletter = $newsletter_node;
+        }
+      }
+      else {
+        $newsletter_nodes[$node_type][$nid] = $newsletter_node;
+      }
+    }
+
+    $variables['newsletter_nodes'] = $newsletter_nodes;
+  }
 
   // Add tpl suggestions for node view modes.
   if (isset($variables['view_mode'])) {
@@ -350,7 +563,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
           ),
           '#prefix' => '<div class="event-arrow-link">',
           '#surfix' => '</div>',
-          '#weight' => 6,
+          '#weight' => 99,
         );
 
         $variables['content']['group_right_col_search']['more_link'] = $more_link;
@@ -369,7 +582,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
           ),
           '#prefix' => '<span class="news-link">',
           '#surfix' => '</span>',
-          '#weight' => 6,
+          '#weight' => 99,
         );
 
         $variables['content']['group_right_col_search']['more_link'] = $more_link;
@@ -388,7 +601,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
           ),
           '#prefix' => '<span class="eresource-link">',
           '#surfix' => '</span>',
-          '#weight' => 6,
+          '#weight' => 99,
         );
 
         $variables['content']['group_right_col_search']['more_link'] = $more_link;
@@ -456,8 +669,20 @@ function ddbasic_preprocess_field(&$vars, $hook) {
   $vars['theme_hook_suggestions'][] = 'field__ddbasic_' . $view_mode;
 
   // Stream line tags in view modes using the same tpl.
-  if ($vars['element']['#field_type'] == 'taxonomy_term_reference') {
+  if (strpos($vars['element']['#field_name'], '_tags') !== FALSE) {
     $vars['theme_hook_suggestions'][] = 'field__ddbasic_tags__' . $view_mode;
+
+    if (isset($vars['element']['#object']->field_editorial_base[LANGUAGE_NONE][0]['tid'])) {
+      $tid = $vars['element']['#object']->field_editorial_base[LANGUAGE_NONE][0]['tid'];
+      $term = taxonomy_term_load($tid);
+      $uri = entity_uri('taxonomy_term', $term);
+      array_unshift($vars['items'], l($term->name, $uri['path'], array('attributes' => array('class' => array('label', 'label-info')))));
+    }
+  }
+
+  // Stream line category in view modes using the same tpl.
+  if (strpos($vars['element']['#field_name'], '_category') !== FALSE) {
+    $vars['theme_hook_suggestions'][] = 'field__ddbasic_category__' . $view_mode;
   }
 
   // Ensure that all OG group ref field are the same.
@@ -1001,6 +1226,26 @@ function ddbasic_preprocess_ting_object(&$vars) {
           $type['#suffix'] = '</div></div>';
         }
         break;
+    }
+  }
+}
+
+/**
+ * Implements hook_views_pre_render().
+ *
+ * Rewrites view's ouput.
+ */
+function ddbasic_views_pre_render(&$view){
+  if ($view->name == 'ding_event') {
+    foreach ($view->result as &$item) {
+      $field = &$item->field_field_ding_event_date[0];
+      $val = $field['raw']['value'];
+      if ($val == $field['raw']['value2']) {
+         $date = new DateTime($val, new DateTimeZone($field['raw']['timezone_db']));
+         $date->setTimezone(new DateTimeZone($field['raw']['timezone']));
+         $date = $date->format('H:i');
+         $field['rendered']['#markup'] = $date . ' - ' . t('All day');
+      }
     }
   }
 }

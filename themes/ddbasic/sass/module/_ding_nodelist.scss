@@ -1,0 +1,58 @@
+/**
+ * Ding nodelist module
+ *
+ * @author ac
+ */
+ 
+.ding_nodelist {
+  .event-time {
+    .event-day {
+      background-color: $label-bg-color;
+    }
+  }
+}
+
+.ding_nodelist-horizontal_accordion {
+  .expand {
+    background-color: $label-bg-color;
+  }
+  
+  .expand:hover {
+    background-color: $label-bg-color-hover;
+  }
+}
+
+.ding_nodelist-carousel .pagination .selected {
+  background-color: $label-bg-color;
+}
+
+.ding_nodelist-taxonomy {
+  .item {
+    background-color: $list-background-color;
+    color: $list-text-color;
+    
+    .item-title {
+      font-size: $font-size-large;
+      
+      a {
+        font-weight: $base-font-weight-bold;
+      }
+    }
+  }
+  
+  .item-details {
+    .item-date,
+    .item-price,
+    .item-library {
+      font-size: $font-size-reset;
+    }
+  }
+  
+  .item:nth-child(odd) {
+    background-color: $list-item-background-color-odd;
+  }
+  
+  .item:nth-child(even) {
+    background-color: $list-item-background-color-even;
+  }
+}

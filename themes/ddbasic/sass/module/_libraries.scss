@@ -69,6 +69,7 @@
   @include zen-grid-item(8, 1);
   @extend .icon-camera;
 
+  min-height: 120px;
   position: relative;
   padding: 0;
 
@@ -77,18 +78,28 @@
     color: $gray-dark;
     font-family: $base-icon-library-font;
     font-size: 74px;
-    left: 0;
     position: absolute;
-    text-align: center;
-    top: 1em;
-    width: 25%;
-    z-index: 25;
+    top: 50%;
+    left: 5%;
+    margin-right: -5%;
+    transform: translate(-5%, -50%);
+    -webkit-transform: translate(-5%, -50%);
+    -ms-transform: translate(-5%, -50%);
   }
 
   .ding-library-left {
     @include zen-grid-item(3, 1);
 
     padding: 0;
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    -webkit-transform: translate(0, -50%);
+    -ms-transform: translate(0, -50%);
+  }
+
+  &.library-cover-exist:before {
+    display: none;
   }
 
   .ding-library-right {

@@ -13,18 +13,18 @@
   color: darken($availability-reservable, 10%);
 }
 
+.field-name-ding-entity-buttons .action-button {
+  @extend %button-default;
+}
+
 .material-item .action-button.reserve-button,
 .field-name-ding-entity-buttons .reserve-button,
 .ding-periodical-issues .reserve-button {
   display: none;
+  margin-left: 10px;
 
   &.reservable {
     display: inline-block;
-    margin-left: 10px;
-  }
-
-  &.available {
-    @extend %button-action;
   }
 
   &.unavailable.reservable {
@@ -42,9 +42,11 @@
   }
 
   li {
+    @include border-radius(3px);
     display: inline-block;
-    margin-bottom: 5px;
-    padding: 0;
+    margin: 0 0 5px 8px;
+    padding: 5px;
+    color: $white;
 
     &.pending {
       @include availability($availability-pending);
@@ -75,7 +77,7 @@
     }
 
     &.availability.unavailable.not-reservable {
-      @include availability($availability-available-not-reservable);
+      @include availability($availability-unavailable-not-reservable);
     }
 
     .availability-status {
@@ -85,4 +87,78 @@
       }
     }
   }
+}
+
+/* Search results availability
+   ========================================================================== */
+
+.page-search .availability {
+
+  &.pending {
+    background-color: $availability-pending;
+  }
+
+  &.availability.processed {
+    background-color: $availability-processed;
+  }
+
+  &.availability.available {
+    background-color: $availability-available;
+  }
+
+  &.availability.reservable {
+    background-color: $availability-reservable;
+  }
+
+  &.availability.available.reservable {
+    background-color: $availability-available-reservable;
+  }
+
+  &.availability.available.not-reservable {
+    background-color: $availability-available-not-reservable;
+  }
+
+  &.availability.unavailable.reservable {
+    background-color: $availability-reservable;
+  }
+
+  &.availability.unavailable.not-reservable {
+    background-color: $availability-unavailable-not-reservable;
+  }
+}
+
+/* Availability legend
+   ========================================================================== */
+
+.availability-legend {
+
+  .availability-label {
+    color: $white;
+  }
+
+  .available {
+    background-color: $legend-available;
+  }
+
+  .on-loan {
+    background-color: $legend-on-loan;
+  }
+
+  .unavailable {
+    background-color: $legend-unavailable;
+  }
+
+  .unreservable {
+    background-color: $legend-unreservable;
+  }
+}
+
+/* Availability legend for object page
+   ========================================================================== */
+.page-ting-object .pane-ting-object {
+  clear: both;
+}
+
+.pane-ting-collection {
+  clear: both;
 }
