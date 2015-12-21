@@ -203,21 +203,18 @@ function ting_field_search_profile_form_submit($form, &$form_state) {
     $profile += (array) $form_state['original_profile'];
   }
 
-  if ($profile['use_facets']) {
-    $facet_settings = $form_state['values']['facets'];
-
-    $profile['facets'] = $facet_settings['table'];
-    // Mark any facet with no name to be deleted.
-    foreach ($profile['facets'] as $key => $facet) {
-      if (empty($facet['name'])) {
-        unset($profile['facets'][$key]);
-      }
+  // Facet settings are in a different fieldset.
+  $facet_settings = $form_state['values']['facets'];
+  $profile['facets'] = $facet_settings['table'];
+  // Mark any facet with no name to be deleted.
+  foreach ($profile['facets'] as $key => $facet) {
+    if (empty($facet['name'])) {
+      unset($profile['facets'][$key]);
     }
-
-    // Transfer general facet settings to profile.
-    $profile['facet_count'] = $facet_settings['facet_count'];
-    $profile['term_count'] = $facet_settings['term_count'];
   }
+  // Transfer general facet settings to profile.
+  $profile['facet_count'] = $facet_settings['facet_count'];
+  $profile['term_count'] = $facet_settings['term_count'];
 
   if (ting_field_search_profile_save($profile)) {
     drupal_set_message(t('Profile saved'));

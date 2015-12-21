@@ -478,17 +478,21 @@ function ting_field_search_profile_save($profile) {
   try {
     $profile = is_object($profile) ? (array) $profile : $profile;
 
+    // If facets is passed; handle them first.
     if (isset($profile['facets'])) {
       // Ensure that only the facets passed with the profile remains.
       ting_field_search_facets_delete($profile['name']);
-
       $query = db_insert('ting_field_search_facet')
         ->fields(array('name', 'profile', 'title', 'sorting', 'weight'));
+
       foreach ($profile['facets'] as $key => $facet) {
+        // Ensure an array is passed to query.
+        $facet = is_object($facet) ? (array) $facet : $facet;
         // Link facet to profile.
         $facet['profile'] = $profile['name'];
         $query->values($facet);
       }
+
       $result = $query->execute();
 
       unset($profile['facets']);
