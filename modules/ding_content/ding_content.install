@@ -187,3 +187,10 @@ function ding_content_update_7000() {
 function ding_content_update_7001() {
   ding_content_insert_html5_video_presets();
 }
+
+/**
+ * Enable Comment Notify module.
+ */
+function ding_content_update_7002() {
+  module_enable(array('comment_notify'));
+}

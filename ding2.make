@@ -25,6 +25,9 @@ projects[block_access][version] = "1.5"
 projects[cache_actions][subdir] = "contrib"
 projects[cache_actions][version] = "2.0-alpha5"
 
+projects[comment_notify][subdir] = "contrib"
+projects[comment_notify][version] = "1.2"
+
 projects[conditional_styles][subdir] = "contrib"
 projects[conditional_styles][version] = "2.2"
 
