@@ -564,15 +564,26 @@ function ting_field_search_facets_load($profile) {
     ->execute()->fetchAllAssoc('name');
 }
 
+/**
+ * Helper function to determine if facets should be altered.
+ */
+function _ting_field_search_alter_facets() {
+  $profile = ting_field_search_profile_is_active();
+  if ($profile && $profile->use_facets) {
+    return $profile;
+  }
+  return FALSE;
+}
+
  /**
   * Implements hook_preprocess_facetbrowser().
   */
 function ting_field_search_preprocess_facetbrowser(&$variables) {
-  $facets = &drupal_static(__FUNCTION__);
-  // Save the facets so we wont have to fetch them later in form alter.
-  // Ding facetbrowser does save a reference to the search key.
-  if (!isset($facets)) {
-    $facets = isset($variables[0]) ? $variables[0] : array();
+  // Save a reference to the facets returned from the well here, to avoid
+  // having to fetch them later in form_alter.
+  if (_ting_field_search_alter_facets()) {
+    $facets = &drupal_static(__FUNCTION__);
+    $facets = !empty($variables[0]) ? $variables[0] : array();
   }
 }
 
@@ -580,6 +591,10 @@ function ting_field_search_preprocess_facetbrowser(&$variables) {
  * Implements hook_form_FORM_ID_alter().
  */
 function ting_field_search_form_ding_facetbrowser_form_alter(&$form, &$form_state) {
-  $facets = drupal_static('ting_field_search_preprocess_facetbrowser');
+  if ($profile = _ting_field_search_alter_facets()) {
+    $facets = drupal_static('ting_field_search_preprocess_facetbrowser');
 
+    // Load the configured facets for the active profile.
+    $configured = ting_field_search_facets_load($profile->name);
+  }
 }
