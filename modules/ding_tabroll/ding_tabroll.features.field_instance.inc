@@ -10,6 +10,66 @@
 function ding_tabroll_field_default_field_instances() {
   $field_instances = array();
 
+  // Exported field_instance: 'node-ding_rolltab-field_ding_menu_ext'
+  $field_instances['node-ding_rolltab-field_ding_menu_ext'] = array(
+    'bundle' => 'ding_rolltab',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'If you rather want an external link or a link to a menu, use this field. It will only be used if the previous link is empty.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'link',
+        'settings' => array(),
+        'type' => 'link_default',
+        'weight' => 5,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_ding_menu_ext',
+    'label' => 'Menu or external',
+    'required' => 0,
+    'settings' => array(
+      'attributes' => array(
+        'class' => '',
+        'configurable_title' => 0,
+        'rel' => '',
+        'target' => 'default',
+        'title' => '',
+      ),
+      'display' => array(
+        'url_cutoff' => 80,
+      ),
+      'enable_tokens' => 1,
+      'rel_remove' => 'default',
+      'title' => 'none',
+      'title_maxlength' => 128,
+      'title_value' => '',
+      'url' => 0,
+      'user_register_form' => FALSE,
+      'validate_url' => 1,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'link',
+      'settings' => array(),
+      'type' => 'link_field',
+      'weight' => 35,
+    ),
+  );
+
   // Exported field_instance: 'node-ding_rolltab-field_ding_tabroll_image'
   $field_instances['node-ding_rolltab-field_ding_tabroll_image'] = array(
     'bundle' => 'ding_rolltab',
@@ -100,7 +160,7 @@ function ding_tabroll_field_default_field_instances() {
     'bundle' => 'ding_rolltab',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => 'Short description displayed inside the tab in a overlay. ',
+    'description' => 'Short description displayed inside the tab in a overlay.',
     'display' => array(
       'content_glider' => array(
         'label' => 'above',
@@ -204,10 +264,12 @@ function ding_tabroll_field_default_field_instances() {
 
   // Translatables
   // Included for use with string extractors like potx.
+  t('If you rather want an external link or a link to a menu, use this field. It will only be used if the previous link is empty.');
   t('Image');
   t('Lead');
   t('Link');
   t('Link to content that the tab should go to when clicked.');
+  t('Menu or external');
   t('Short description displayed inside the tab in a overlay.');
 
   return $field_instances;
