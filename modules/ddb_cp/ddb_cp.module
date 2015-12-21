@@ -34,7 +34,7 @@ function ddb_cp_menu() {
     'title' => 'DDB',
     'description' => 'Configure and manage the DDB installation.',
     'page callback' => 'ddb_cp_menu_content',
-    'access arguments' => array('administer ddb'),
+    'access arguments' => array('administer ddb_cp'),
     'file' => 'ddb_cp.admin.inc',
     'file path' => $path . '/includes/',
   );
