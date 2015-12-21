@@ -122,6 +122,10 @@ function ddbasic_form_alter(&$form, &$form_state, $form_id) {
       $form['pass']['#field_prefix'] = '<i class="icon-lock"></i>';
       $form['pass']['#attributes']['placeholder'] = t('Pincode is 4 digits');
 
+      // Add JavaScript that will place focus in the login box, when the Login
+      // is clicked.
+      drupal_add_js(drupal_get_path('theme', 'ddbasic') . '/scripts/ddbasic.login.js', 'file');
+
       unset($form['links']);
 
       // Temporary hack to get rid of open id links.
