@@ -156,11 +156,11 @@ function ding_tabroll_views_default_views() {
     'link' => 0,
   );
   /* Field: Content: Menu or external */
-  $handler->display->display_options['fields']['field_ding_menu_ext']['id'] = 'field_ding_menu_ext';
-  $handler->display->display_options['fields']['field_ding_menu_ext']['table'] = 'field_data_field_ding_menu_ext';
-  $handler->display->display_options['fields']['field_ding_menu_ext']['field'] = 'field_ding_menu_ext';
-  $handler->display->display_options['fields']['field_ding_menu_ext']['click_sort_column'] = 'url';
-  $handler->display->display_options['fields']['field_ding_menu_ext']['type'] = 'link_plain';
+  $handler->display->display_options['fields']['field_ding_tabroll_ext']['id'] = 'field_ding_tabroll_ext';
+  $handler->display->display_options['fields']['field_ding_tabroll_ext']['table'] = 'field_data_field_ding_tabroll_ext';
+  $handler->display->display_options['fields']['field_ding_tabroll_ext']['field'] = 'field_ding_tabroll_ext';
+  $handler->display->display_options['fields']['field_ding_tabroll_ext']['click_sort_column'] = 'url';
+  $handler->display->display_options['fields']['field_ding_tabroll_ext']['type'] = 'link_plain';
   /* Sort criterion: Nodequeue: Position */
   $handler->display->display_options['sorts']['position']['id'] = 'position';
   $handler->display->display_options['sorts']['position']['table'] = 'nodequeue_nodes';

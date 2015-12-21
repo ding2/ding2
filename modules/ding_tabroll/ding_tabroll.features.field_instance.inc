@@ -10,8 +10,8 @@
 function ding_tabroll_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-ding_rolltab-field_ding_menu_ext'
-  $field_instances['node-ding_rolltab-field_ding_menu_ext'] = array(
+  // Exported field_instance: 'node-ding_rolltab-field_ding_tabroll_ext'
+  $field_instances['node-ding_rolltab-field_ding_tabroll_ext'] = array(
     'bundle' => 'ding_rolltab',
     'default_value' => NULL,
     'deleted' => 0,
@@ -38,7 +38,7 @@ function ding_tabroll_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_ding_menu_ext',
+    'field_name' => 'field_ding_tabroll_ext',
     'label' => 'Menu or external',
     'required' => 0,
     'settings' => array(
