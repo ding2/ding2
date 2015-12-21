@@ -317,7 +317,7 @@ projects[variable][subdir] = "contrib"
 projects[variable][version] = "2.5"
 
 projects[varnish][subdir] = "contrib"
-projects[varnish][version] = "1.0-beta3"
+projects[varnish][version] = "2.0-beta2"
 projects[varnish][patch][0] = "http://drupal.org/files/issues/notification_level_settings-2169271-3.patch"
 
 projects[virtual_field][subdir] = "contrib"
