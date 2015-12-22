@@ -561,6 +561,7 @@ function ding_base_field_widget_form_alter(&$element, &$form_state, $context) {
       $style = image_style_load($display['settings']['styles']['max_style']);
       // Let's use sample file from image module, for applying all effects.
       $original_path = variable_get('image_style_preview_image', drupal_get_path('module', 'image') . '/sample.png');
+      $original_sample = image_get_info($original_path);
 
       // Apply style to sample image.
       $preview_file = image_style_path($style['name'], $original_path);
@@ -568,22 +569,16 @@ function ding_base_field_widget_form_alter(&$element, &$form_state, $context) {
         image_style_create_derivative($style, $original_path, $preview_file);
       }
 
-      // Calculate dimensions.
-      $dimensions = array();
       $preview_image = image_get_info($preview_file);
-      if ($preview_image['width'] > $preview_image['height']) {
-        $dimensions['width'] = $preview_image['width'];
-        $dimensions['height'] = round($dimensions['width'] / $preview_image['width'] * $preview_image['height']);
-      }
-      else {
-        $dimensions['height'] = $preview_image['height'];
-        $dimensions['width'] = round($dimensions['height'] / $preview_image['height'] * $preview_image['width']);
-      }
+      $dimensions = array(
+        'height' => $preview_image['height'],
+        'width' => $preview_image['width'],
+      );
 
       // If after apllying effects dimensions wasn't changed, when we can't recommend.
-      if ($dimensions['height'] != 600 && $dimensions['width'] != 800) {
+      if ($dimensions['height'] != $original_sample['height'] && $dimensions['width'] != $original_sample['width']) {
         array_walk($dimensions, function (&$i, $k) {
-          $i =  "{$i} px {$k}";
+          $i =  "{$i}px {$k}";
         });
 
         $text = t('The image will automatically be resized. The maximum dimensions are %dimensions (Original: 800x600).', array(
