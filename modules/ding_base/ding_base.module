@@ -571,8 +571,8 @@ function ding_base_field_widget_form_alter(&$element, &$form_state, $context) {
 
       $preview_image = image_get_info($preview_file);
       $dimensions = array(
-        'height' => $preview_image['height'],
         'width' => $preview_image['width'],
+        'height' => $preview_image['height'],
       );
 
       // If after apllying effects dimensions wasn't changed, when we can't recommend.
@@ -581,7 +581,7 @@ function ding_base_field_widget_form_alter(&$element, &$form_state, $context) {
           $i =  "{$i}px {$k}";
         });
 
-        $text = t('The image will automatically be resized. The maximum dimensions are %dimensions (Original: 800x600).', array(
+        $text = t("The image will automatically be resized. The maximum dimensions are %dimensions (Original: {$original_sample['width']}x{$original_sample['height']}).", array(
           '%dimensions' => implode(' and ', $dimensions),
         ));
         $element['#suffix'] = '<div class="description">' . $text . '</div>';
