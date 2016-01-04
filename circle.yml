@@ -55,8 +55,11 @@ test:
     - (cd $DRUPAL_SITE_PATH && drush site-install ding2 --db-url=mysql://ubuntu@127.0.0.1/circle_test -y)
     - (cd $DRUPAL_SITE_PATH/profiles/ding2/tests &&
       eval $(phpenv sh-shell $BEHAT_PHP_VERSION) &&
-      ./bin/behat)
+      ./bin/behat --format=junit --format=pretty)
   post:
+    # Copy Behat report to circle.
+    - mkdir -p $CIRCLE_TEST_REPORTS/behat
+    - cp $DRUPAL_SITE_PATH/profiles/ding2/tests/report.xml $CIRCLE_TEST_REPORTS/behat/
     # Clean up after site install.
     # sudo is required here. The files are not writeable.
     - sudo rm -rf $DRUPAL_SITE_PATH/sites/default/settings.php $DRUPAL_SITE_PATH/sites/default/files
