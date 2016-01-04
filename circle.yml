@@ -4,7 +4,9 @@ machine:
     version: 5.4.37
   environment:
     # This is where we build our complete Drupal site
-    DRUPAL_SITE_PATH: /tmp/drupal
+    DRUPAL_SITE_PATH: $HOME/build
+  hosts:
+    p2.dev: 127.0.0.1
 
 dependencies:
   post:
@@ -19,6 +21,12 @@ dependencies:
     # Install drush globally using composer.
     # Use prefer-source to get around GitHub API rate limits.
     - composer global require drush/drush:6.* --prefer-source --no-interaction
+    # Install behat and dependencies.
+    - (cd tests && composer install --no-progress --prefer-source)
+    # Set up Apache to serve our site.
+    - cp tests/apache.conf /etc/apache2/sites-available/p2.conf
+    - a2ensite p2.conf
+    - sudo service apache2 restart
 
 test:
   override:
@@ -41,6 +49,7 @@ test:
     - cp -R ./* $DRUPAL_SITE_PATH/profiles/ding2/
     # Install the site using the ding2 profile
     - (cd $DRUPAL_SITE_PATH && drush site-install ding2 --db-url=mysql://ubuntu@127.0.0.1/circle_test -y)
+    - (cd $DRUPAL_SITE_PATH/profiles/ding2/tests && ./bin/behat)
   post:
     # Clean up after site install.
     # sudo is required here. The files are not writeable.

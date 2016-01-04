@@ -1,0 +1,27 @@
+default:
+  suites:
+    default:
+      contexts:
+        - FeatureContext
+        - Drupal\DrupalExtension\Context\DrupalContext
+        - Drupal\DrupalExtension\Context\MinkContext
+        - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\DrupalExtension\Context\DrushContext
+  extensions:
+    jarnaiz\JUnitFormatter\JUnitFormatterExtension:
+      filename: report.xml
+      outputDir: "%paths.base%/"
+    Behat\MinkExtension:
+      goutte: ~
+      selenium2: ~
+      browser_name: 'phantomjs'
+      base_url: http://p2.dev
+    Drupal\DrupalExtension:
+      blackbox: ~
+      api_driver: 'drupal'
+      drupal:
+        drupal_root: '../../../'
+      text:
+        log_out: 'Logout'
+      region_map:
+        messages: '.messages'
