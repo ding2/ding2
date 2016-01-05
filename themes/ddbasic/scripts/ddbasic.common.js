@@ -56,10 +56,24 @@
     });
   }
 
+  /**
+   * HACK: this is an hack that have to be fixed later.
+   */
+  function placement_of_wayf() {
+    var wrapper = $('<section class="wayf-wrapper"></section>');
+    $('.pane-ding-wayf-dk-create-user').appendTo(wrapper);
+    $('.pane-wayf-dk-login').appendTo(wrapper);
+
+    wrapper.appendTo($('.header-inner'));
+  }
+
   // When ready start the magic.
   $(document).ready(function () {
     // Toggle opening hours.
     toggle_opening_hours();
+
+    // Fix wayf login.
+    placement_of_wayf();
 
     // Toggle footer menu.
     $('.footer .pane-title').on('click', function() {

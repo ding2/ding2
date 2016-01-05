@@ -471,21 +471,54 @@
 
 /* User WAYF login
    ========================================================================== */
-.ding-wayf--login-block {
-  bottom: 15px;
+
+.wayf-wrapper {
   position: absolute;
   right: 20px;
-
-  background-color: #ffffff;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  border-radius: 8px;
-  padding: 4px 15px;
+  bottom: 15px;
 }
 
-.ding-wayf--login-info img {
-  height: 20px;
-  padding-bottom: 2px;
+.ding-wayf--cancel {
+  margin-left: 15px;
+}
+
+.pane-wayf-dk-login {
+  display: inline-block;
+
+  .ding-wayf--login-block {
+    background-color: #fff;
+
+    @include border-radius($button-border-radius);
+
+    a {
+      color: #000;
+    }
+
+    padding: 4px 15px;
+  }
+
+  margin-left: 20px;
+
+  img {
+    height: 20px;
+    padding-bottom: 2px;
+  }
+}
+
+.pane-ding-wayf-dk-create-user {
+  display: inline-block;
+
+  .ding-wayf--create-user {
+    background-color: #FFF;
+
+    @include border-radius($button-border-radius);
+
+    a {
+      color: $topbar-background-color;
+    }
+
+    padding: 4px 15px;
+  }
 }
 
 
