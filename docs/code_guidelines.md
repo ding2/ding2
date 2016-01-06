@@ -9,8 +9,6 @@ The following guidelines describe best practices for developing code for the Din
 
 Contributions to the core Ding project will be reviewed by members of the Core team. These guidelines should inform contributors about what to expect in such a review. If a review comment cannot be traced back to one of these guidelines it indicates that the guidelines should be updated to ensure transparency.
 
-The guidelines concern Ding 2 but will be taken into consideration when reviewing Ding 1 code.
-
 We acknowledge that not all current code in core complies with these guidelines. We hope that updates to core along the way will move the code base in the right direction.
 
 ## Coding standards
