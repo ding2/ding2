@@ -32,7 +32,7 @@ It is recommended that JavaScript code is checked by [JSHint](http://jshint.com/
 ### CSS
 
 * Code must pass through an automated review by [CSSLint](http://csslint.net/) without any notices The following rules are used: `display-property-grouping, duplicate-properties, empty-rules, known-properties, box-sizing, compatible-vendor-prefixes, gradients, vendor-prefix, import, zero-units, shorthand, important, regex-selectors, universal-selector, duplicate-background-images`.
-* Modules and themes may use SASS + Compass. It is the responsibility of the developers to compile these to CSS files. If the developers uses external libraries (e.i. compass) the version used have to be documented in the scss file.
+* Modules and themes may use SASS + Compass (we use [libSass](http://sass-lang.com/libsass) and [compass-mixins](https://github.com/Igosuki/compass-mixins)). It is the responsibility of the developers to compile these to CSS files. If the developers uses external libraries (e.i. compass) the version used have to be documented in the scss file.
 * If code is compiled/preprocessed it must be described in the header of the compiled file. If any external libraries are used these have to be documented as well in the header.
 * It is highly recommended that all style-sheets are documented after [KSS](http://warpspire.com/posts/kss/)
 * The default language for all code and comments is English.
