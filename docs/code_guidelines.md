@@ -11,6 +11,7 @@ Contributions to the core Ding project will be reviewed by members of the Core t
 
 We acknowledge that not all current code in core complies with these guidelines. We hope that updates to core along the way will move the code base in the right direction.
 
+
 ## Coding standards
 
 The project adheres to the following coding standards.
@@ -19,9 +20,13 @@ The project aims to automate compliance checks as much as possible. This should 
 
 If there are discrepancies between the automated checks and the standards defined here then developers are encouraged to point this out so the automated checks or these standards can be updated accordingly.
 
+### General
+
+* The default language for all code and comments is English.
+
 ### PHP
 
-* Code must be compatible with PHP 5.3. [Compatability can be checked using PHP_Codesniffer](https://github.com/wimg/PHP53Compat_CodeSniffer).
+* Code must be compatible with PHP 5.3. [Compatibility can be checked using PHP_Codesniffer](https://github.com/wimg/PHP53Compat_CodeSniffer).
 * Code must conform to the [Drupal Coding Standards](http://drupal.org/coding-standards). In effect this means that the code must pass through an automated review by the [Coder Sniffer](https://www.drupal.org/node/1419980) without any notices expect known false negatives.
 * Code must not generate notices without erroneous conditions when running in `E_STRICT` error mode 
 
@@ -35,8 +40,8 @@ It is recommended that JavaScript code is checked by [JSHint](http://jshint.com/
 * Modules and themes may use SASS + Compass (we use [libSass](http://sass-lang.com/libsass) and [compass-mixins](https://github.com/Igosuki/compass-mixins)). It is the responsibility of the developers to compile these to CSS files. If the developers uses external libraries (e.i. compass) the version used have to be documented in the scss file.
 * If code is compiled/preprocessed it must be described in the header of the compiled file. If any external libraries are used these have to be documented as well in the header.
 * It is highly recommended that all style-sheets are documented after [KSS](http://warpspire.com/posts/kss/)
-* The default language for all code and comments is English.
- 
+
+
 ## Documentation
 
 * `README.txt`: All modules must contain a `README.md` file containing the following where applicable:
@@ -46,6 +51,7 @@ It is recommended that JavaScript code is checked by [JSHint](http://jshint.com/
 	* Hidden variables
 	* Other requirements and how to obtain these such as API urls, versions, keys, library system and trimmings
 	* Any code which does not comply with these guidelines and a brief argument why
+
 
 ## Naming
 
@@ -62,7 +68,7 @@ It is recommended that JavaScript code is checked by [JSHint](http://jshint.com/
 
 ### Files
 
-Files provide by modules must be placed in the following folders and have the extensions defined here.
+Files provided by modules must be placed in the following folders and have the extensions defined here.
 
 * General
 	* `MODULENAME.info`
@@ -77,12 +83,13 @@ Files provide by modules must be placed in the following folders and have the ex
 	* `/sass/*.(base|admin|theme).scss`
 	* `/sass/libs/*`
 * JavaScript
-	* Files must have to include the module name to easily find there origin during debugging
+	* Files must have to include the module name to easily find their origin during debugging
 	* `/js/*.MODULENAME.js`
 * Images
 	* Images resources must be placed in a folder named `img` and have the following extensions.
 	* `img/*.(png|jpeg|gif)`
 * External resources (PHP and JavaScript libraries) must be included using [Libraries API version 2.x module](http://drupal.org/project/libraries)
+
 
 ## Module elements
 
@@ -98,6 +105,7 @@ As there is no finite set of programmatic elements for a Ding site these apply t
 
 * Panel variants (handlers) must not use auto generated names as this increases the risk of different modules implementing variants for the same pages overwriting each other. Instead use `module_name_page_name_variant_name` e.g. `ding_blog_node_view_blog` *NB: Auto generated names is the default behavior when using features!*
 
+
 ## Code Structure
 
 Modules, themes etc. should be placed within the corresponding folder in this repository. If a module developed in relation to this project is of general purpose to the Drupal community it should be placed on Drupal.org and included as an external dependency.
@@ -106,17 +114,19 @@ If a module has external dependencies these should be declared within the `ding2
 
 A module should provide all required code and resources for it to work on its own or through dependencies. This includes all configuration, theming, CSS, images and JavaScript libraries.
 
-All default configuration required for a module to function should be implemented in code. The preferred way of doing this is using the Features module or hooks provided by the module itself. Modules where configuration cannot be handled using features should maintain configuration using `hook_install()` and `hook_update_N()`.
+All default configuration required for a module to function should be implemented in code. The preferred way of doing this is using the [Features module](https://www.drupal.org/project/features) or hooks provided by the module itself. Modules where configuration cannot be handled using Features should maintain configuration using `hook_install()` and `hook_update_N()`.
 
 If a module requires configuration for which there is no sensible default the module must implement `hook_ding_install_tasks()` such that users can perform the necessary configuration during installation.
 
 All default text content in modules must be in English. Localization of content must be handled using the Drupal translation modules. 
+
 
 ## Updating core modules
 
 If a core module is expanded with updates to current functionality the default behavior must be the same as previous versions or as close to this as possible. This also includes new modules which replaces current modules.
 
 If an update does not provide a way to reuse existing content and/or configuration the update then the decision on whether to include the change resides with the Ding team. If the Ding team can not reach an agreement the Ding Council will make the decision.
+
 
 ## Altering existing modules
 
