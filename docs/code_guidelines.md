@@ -13,15 +13,21 @@ We acknowledge that not all current code in core complies with these guidelines.
 
 ## Coding standards
 
+The project adheres to the following coding standards.
+
+The project aims to automate compliance checks as much as possible. This should make it easier for developers to check contributions before submitting them for review and thus make the review process easier.
+
+If there are discrepancies between the automated checks and the standards defined here then developers are encouraged to point this out so the automated checks or these standards can be updated accordingly.
+
 ### PHP
 
 * Code must be compatible with PHP 5.3. [Compatability can be checked using PHP_Codesniffer](https://github.com/wimg/PHP53Compat_CodeSniffer).
-* Code must conform to the [Drupal Coding Standards](http://drupal.org/coding-standards). In effect this means that the code must pass through an automated review by the [Coder module](http://drupal.org/project/coder) without any notices expect known false negatives. The review must include all severities and all reviews except *upgrade7x*.
+* Code must conform to the [Drupal Coding Standards](http://drupal.org/coding-standards). In effect this means that the code must pass through an automated review by the [Coder Sniffer](https://www.drupal.org/node/1419980) without any notices expect known false negatives.
 * Code must not generate notices without erroneous conditions when running in `E_STRICT` error mode 
 
 ### JavaScript
 
-* It is recommended that JavaScript code is checked by JSHint with options: `debug, forin, eqnull, noarg, noempty, eqeqeq, boss, loopfunc, evil, laxbreak, bitwise, strict, undef, nonew, browser and jquery`. If the web-version is used this equals to checking all warnings and assuming *jQuery* and *Browser* environment.
+It is recommended that JavaScript code is checked by [JSHint](http://jshint.com/) using the configuration provided by the `.jshintrc` file located in the root of the repository.
 
 ### CSS
 
