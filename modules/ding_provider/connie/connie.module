@@ -41,6 +41,10 @@ function connie_ding_provider() {
         'prefix' => 'branch',
         'file' => drupal_get_path('module', 'connie') . '/connie.branch.inc',
       ),
+      'debt' => array(
+        'prefix' => 'debt',
+        'file' => drupal_get_path('module', 'connie') . '/connie.debt.inc',
+      ),
     ),
   );
 }
@@ -63,27 +67,18 @@ function connie_profile_update($profile, $data) {
  * Sends changes to Connie and updates profile with real values.
  */
 function connie_profile2_presave($profile) {
-  if (// Only work on our own profile type.
-      $profile->type == 'provider_connie' &&
-      // Don't try to sync to backend if called from profile_init, the
-      // profile has just been updated with data from the backend and
-      // is being saved locally.
-      !isset($profile->connie_init) &&
-      // Check that there's actually changed something.
-      $profile->connie_preferred_branch != $profile->original->connie_preferred_branch) {
-    $langs = field_language('profile2', $profile);
-    $changes['preferred_branch'] = $profile->connie_preferred_branch[$langs['connie_preferred_branch']][0]['value'];
+  // Check if the profile is just being created and is an connie_provider
+  // profile. If it's being created the fields are not yet loaded and can't be
+  // saved back to the provider.
+  $try_to_save = ($profile->created == $profile->changed) ? FALSE : TRUE;
+  if ($profile->type == 'provider_connie' && $try_to_save) {
+    // We'd use a metadata wrapper to access the data.
+    // $wrapper_original = entity_metadata_wrapper('profile2', $profile->original);
+    // $wrapper = entity_metadata_wrapper('profile2', $profile);
 
     /**
      * Here would be the code to update the backend...
      */
-
-
-    // Update the profile with whatever Connie says.
-    $creds = ding_user_get_creds($profile);
-    if ($data = FALSE /* Imagine a function that fetches data from backend.*/) {
-      connie_profile_update($profile, $data);
-    }
   }
 }
 
