@@ -3,6 +3,7 @@ default:
     default:
       contexts:
         - FeatureContext
+        - Ding2Context
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MessageContext
@@ -22,6 +23,8 @@ default:
       drupal:
         drupal_root: '../../../'
       text:
-        log_out: 'Logout'
+        log_out: 'Log ud'
+        username_field: 'Låner- eller cpr-nr.'
+        password_field: 'Pinkoden er på 4 cifre'
       region_map:
         messages: '.messages'
