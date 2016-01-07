@@ -23,9 +23,13 @@ class Ding2Context implements Context, SnippetAcceptingContext
     {
     }
 
-
     /** @var \Drupal\DrupalExtension\Context\DrupalContext */
     private $drupalContext;
+
+    /**
+     * @var \Drupal\DrupalExtension\Context\MinkContext
+     */
+    private $minkContext;
 
     /** @BeforeScenario */
     public function gatherContexts(BeforeScenarioScope $scope)
