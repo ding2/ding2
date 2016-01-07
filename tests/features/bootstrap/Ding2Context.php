@@ -82,4 +82,38 @@ class Ding2Context implements Context, SnippetAcceptingContext
         $this->dataRegistry[$list_name] = $match[1];
     }
 
+    /**
+     * @When I have searched for :arg1
+     */
+    public function iHaveSearchedFor($arg1)
+    {
+        $this->drupalContext->visitPath('/search/ting/' . urlencode($arg1));
+    }
+
+    /**
+     * @When I add the search to followed searches
+     */
+    public function iAddTheSearchToFollowedSearches()
+    {
+        $followed_searches_id = $this->dataRegistry['user-searches'];
+        $this->minkContext->getSession()->getPage()->find('css', 'a[href^="/dinglist/attach/search_query/' . $followed_searches_id . '"]')->click();
+    }
+
+    /**
+     * @Then I should get a confirmation for followed searches
+     */
+    public function iShouldGetAConfirmationForFollowedSearches()
+    {
+        $this->minkContext->assertElementContainsText('.ding-list-message', 'Tilføjet til');
+        $this->minkContext->assertElementContainsText('.ding-list-message', 'Søgninger jeg følger');
+    }
+
+    /**
+     * @Then I should see :arg1 on followed searches
+     */
+    public function iShouldSeeOnFollowedSearches($arg1)
+    {
+        $this->drupalContext->visitPath('/user');
+        $this->minkContext->assertElementContainsText('.ding-type-ding-list-element .content a', 'harry potter');
+    }
 }
