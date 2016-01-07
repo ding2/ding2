@@ -37,6 +37,7 @@ class Ding2Context implements Context, SnippetAcceptingContext
         $environment = $scope->getEnvironment();
 
         $this->drupalContext = $environment->getContext('Drupal\DrupalExtension\Context\DrupalContext');
+        $this->minkContext = $environment->getContext('Drupal\DrupalExtension\Context\MinkContext');
     }
 
     /**
