@@ -45,6 +45,10 @@ function connie_ding_provider() {
         'prefix' => 'debt',
         'file' => drupal_get_path('module', 'connie') . '/connie.debt.inc',
       ),
+      'user_consent' => array(
+        'prefix' => 'user_consent',
+        'file' => drupal_get_path('module', 'connie') . '/connie.user_consent.inc',
+      ),
     ),
   );
 }
