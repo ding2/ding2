@@ -35,6 +35,12 @@ class Ding2Context implements Context, SnippetAcceptingContext
      */
     private $dataRegistry = array();
 
+    /**
+     * @var array
+     *   Save data across scenarios.
+     */
+    private $dataRegistry = array();
+
     /** @BeforeScenario */
     public function gatherContexts(BeforeScenarioScope $scope)
     {
