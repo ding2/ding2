@@ -61,4 +61,25 @@ class Ding2Context implements Context, SnippetAcceptingContext
         $this->drupalContext->login();
     }
 
+    /**
+     * @Given The list :arg1 exists
+     */
+    public function theListExists($arg1)
+    {
+        $list_name = strtolower(preg_replace('/\s/', '-', $arg1));
+        $this->drupalContext->visitPath('/user');
+        $link = $this->minkContext->getSession()->getPage()->find('css', '.' . $list_name . ' a');
+        if (!$link) {
+            throw new \Exception("Couldn't find the list");
+        }
+        $list_a = $link->getAttribute('href');
+        $match = array();
+        if (!preg_match('/\/list\/(\d+)/', $list_a, $match)) {
+            throw new \Exception("List is not formatted correctly");
+        }
+
+        // Save id of list.
+        $this->dataRegistry[$list_name] = $match[1];
+    }
+
 }
