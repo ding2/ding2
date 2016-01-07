@@ -6,15 +6,10 @@ Feature: Material lists
   Background:
     Given I am logged in as a library user
 
-  @wip @api
-  Scenario: List listing page should be available from user page
+  @api
+  Scenario: Create a new list link should be available on user page
     Given I am on my user page
-    Then I should see a link to the lists page
-
-  @wip
-  Scenario: Create a new list link
-    Given I am on the lists page
-    Then I should see a link to the "create list" page
+    Then I should see a link to the create list page
 
   @wip
   Scenario: Create a new list
