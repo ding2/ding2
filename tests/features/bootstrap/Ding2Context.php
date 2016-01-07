@@ -172,4 +172,20 @@ class Ding2Context implements Context, SnippetAcceptingContext
             throw new Exception(sprintf('Could not see link to %s', $path));
         }
     }
+
+    /**
+     * @When I add the author to authors I follow
+     */
+    public function iAddTheAuthorToAuthorsIFollow()
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then I should see :arg1 on the list of followed authors
+     */
+    public function iShouldSeeOnTheListOfFollowedAuthors($arg1)
+    {
+        throw new PendingException();
+    }
 }

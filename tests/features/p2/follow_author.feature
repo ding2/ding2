@@ -1,3 +1,4 @@
+@wip
 Feature: Follow author
   In order to be notified when there is new content from an author
   As a library user
