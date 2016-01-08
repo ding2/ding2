@@ -12,7 +12,7 @@ Code contributions to this project follow this process and set of requirements:
 4. The description of your pull request should include a link to the issue.
 5. The body of the pull request should provide a short description of the suggested change and the reasoning behind the approach you have chosen.
 6. If your change affects the user interface you should include a screenshot of the result with the pull request.
-7. The first line of your commit message (the subject) must follow this format: `#[issue number]: [short summary of change]`. The subject should be kept around 50 characters long. The subject must not be more than 72 characters long.
+7. The first line of your commit message (the subject) must follow this format: `#[issue number]: [short summary of change]`. The subject should be kept around 50 characters long. The subject must not be more than 69 characters long. Strive for about 50 characters.
 8. Your code must comply with [our coding guidelines](docs/code_guidelines.md).
 9. If your change relates to fronted assets such as SCSS or JavaScript your pull request must provide [recompiled versions of the resulting files](README.md#theme-development). 
 10. Your code will be run through a set of static analysis tools and continuous integration builds to ensure compliance and project integrity. Your code should pass these tests without raising new issues or breaking the build.
