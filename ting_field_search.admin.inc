@@ -389,7 +389,7 @@ function _ting_field_search_prepare_facet_row(&$element, $index, $facet = NULL) 
   $element[$index]['weight'] = array(
     '#type' => 'weight',
     '#title' => t('Weight'),
-    '#default_value' => isset($facet) ? $facet['weight'] : 1,
+    '#default_value' => isset($facet) ? $facet['weight'] : 10,
     '#title_display' => 'invisible',
     '#attributes' => array('class' => array('facet-weight')),
   );
