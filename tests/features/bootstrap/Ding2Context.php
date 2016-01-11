@@ -27,6 +27,9 @@ class Ding2Context implements Context, SnippetAcceptingContext
     /** @var \Drupal\DrupalExtension\Context\MinkContext */
     private $minkContext;
 
+    /** @var \Ding2MessagesContext */
+    private $ding2MessagesContext;
+
     /**
      * @var array
      *   Save data across scenarios.
@@ -40,6 +43,12 @@ class Ding2Context implements Context, SnippetAcceptingContext
 
         $this->drupalContext = $environment->getContext('Drupal\DrupalExtension\Context\DrupalContext');
         $this->minkContext = $environment->getContext('Drupal\DrupalExtension\Context\MinkContext');
+        try {
+            $this->ding2MessagesContext = $environment->getContext('Ding2MessagesContext');
+        } catch (Exception $e) {
+            // Throw a bit more useful error message.
+            throw new Exception('Ding2MessagesContext not found, please add it to behat.yml');
+        }
     }
 
     /**
@@ -54,7 +63,7 @@ class Ding2Context implements Context, SnippetAcceptingContext
             'pass' => substr($name, -4),
         );
         $this->drupalContext->user = $user;
-        $this->drupalContext->login();
+        $this->login();
 
         // We need the user uid in order to construct some links to user
         // pages, however it's not easily available. We rely on
@@ -70,6 +79,46 @@ class Ding2Context implements Context, SnippetAcceptingContext
             throw new Exception('Could not parse user UID from profile link.');
         }
         $this->user = $user;
+    }
+
+    /**
+     * Log in a user.
+     *
+     * Copy of Drupal\DrupalExtension\Context\RawDrupalContext::login() that
+     * checks the messages just after login.
+     *
+     * Without this Ding2MessagesContext would be unaware of any Drupal
+     * messages just after login, as RawDrupalContext::login() navigates to
+     * the user page in order to check that the browser is logged in.
+     */
+    public function login()
+    {
+        // Check if logged in.
+        if ($this->drupalContext->loggedIn()) {
+            $this->drupalContext->logout();
+        }
+
+        if (!$this->drupalContext->user) {
+            throw new \Exception('Tried to login without a user.');
+        }
+
+        $this->drupalContext->getSession()->visit($this->drupalContext->locatePath('/user'));
+        $element = $this->drupalContext->getSession()->getPage();
+        $element->fillField($this->drupalContext->getDrupalText('username_field'), $this->drupalContext->user->name);
+        $element->fillField($this->drupalContext->getDrupalText('password_field'), $this->drupalContext->user->pass);
+        $submit = $element->findButton($this->drupalContext->getDrupalText('log_in'));
+        if (empty($submit)) {
+            throw new \Exception(sprintf("No submit button at %s", $this->getSession()->getCurrentUrl()));
+        }
+
+        // Log in.
+        $submit->click();
+
+        $this->ding2MessagesContext->collectMessages();
+
+        if (!$this->drupalContext->loggedIn()) {
+            throw new \Exception(sprintf("Failed to log in as user '%s' with role '%s'", $this->user->name, $this->user->role));
+        }
     }
 
     /**
