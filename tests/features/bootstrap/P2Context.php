@@ -104,7 +104,25 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iAddTheAuthorToAuthorsIFollow()
     {
-        throw new PendingException();
+        // Choose book facet.
+        $this->ding2Context->minkContext->getSession()->getPage()->find('css', '.form-item-type-bog a')->click();
+        $this->ding2Context->minkContext->getSession()->getPage()->find('css', '.form-item-creator-george-orwell a')->click();
+
+        // Follow link to book.
+        $res = $this->ding2Context->minkContext->assertElementContains('.search-result--heading-type', 'Bog');
+        $found = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '.search-result--heading-type:contains("Bog") + h2 > a');
+        if (!$found) {
+            throw new \Exception("Link to book doesn't exist");
+        }
+        $found->click();
+
+        $follow_author_id = $this->dataRegistry['follow-author'];
+        // Follow link to follow author.
+        $found = $this->ding2Context->minkContext->getSession()->getPage()->find('css', 'a[href^="/dinglist/attach/follow_author/"]');
+        if (!$found) {
+            throw new \Exception("Link to follow author doesn't exist");
+        }
+        $found->click();
     }
 
     /**
@@ -112,6 +130,48 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeOnTheListOfFollowedAuthors($arg1)
     {
-        throw new PendingException();
+        $follow_author_id = $this->dataRegistry['follow-author'];
+        $this->ding2Context->drupalContext->visitPath('/list/' . $follow_author_id);
+        $link = '/search/ting/phrase.creator';
+        $this->ding2Context->minkContext->assertElementContains('a[href^="' . $link . '"]', $arg1);
+    }
+
+    /**
+     * @When I have followed the author :arg1
+     */
+    public function iHaveFollowedTheAuthor($arg1)
+    {
+        // First add the author to the list.
+        $this->iHaveSearchedFor($arg1);
+        $this->iAddTheAuthorToAuthorsIFollow();
+
+        $this->iShouldSeeOnTheListOfFollowedAuthors($arg1);
+    }
+
+    /**
+     * @When I remove the author :arg1 from followed authors
+     */
+    public function iRemoveTheAuthorFromFollowedAuthors($arg1)
+    {
+        $follow_author_id = $this->dataRegistry['follow-author'];
+        $this->ding2Context->drupalContext->visitPath('/list/' . $follow_author_id);
+        $found = $this->ding2Context->minkContext->getSession()->getPage()->find('css', 'a:contains("' . $arg1 . '") + form[id^="ding-list-remove-element"] #edit-submit');
+        if (!$found) {
+            throw new \Exception("Remove link doesn't exist");
+        }
+        $found->click();
+    }
+
+    /**
+     * @Then I should not see :arg1 on followed authors
+     */
+    public function iShouldNotSeeOnFollowedAuthors($arg1)
+    {
+        $follow_author_id = $this->dataRegistry['follow-author'];
+        $this->ding2Context->drupalContext->visitPath('/list/' . $follow_author_id);
+        $found = $this->ding2Context->minkContext->getSession()->getPage()->find('css', 'a[href^="/search/ting/phrase.creator"]');
+        if ($found && $found->getValue() == $arg1) {
+            throw new \Exception("Link to author '$arg1' still exists.");
+        }
     }
 }
