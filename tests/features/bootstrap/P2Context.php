@@ -172,7 +172,7 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When I have followed the author :arg1
+     * @Given I have followed the author :arg1
      */
     public function iHaveFollowedTheAuthor($arg1)
     {
