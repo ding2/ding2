@@ -90,17 +90,7 @@ class Ding2Context implements Context, SnippetAcceptingContext
      */
     public function iAmOnMyUserPage()
     {
-        $this->iAmOn('/user');
-    }
-
-    /**
-     * Go to a path.
-     *
-     * @Given I am on :path
-     */
-    public function iAmOn($path)
-    {
-        $this->minkContext->assertAtPath($path);
+        $this->minkContext->visit('/user');
     }
 
     /**
