@@ -44,7 +44,7 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given The list :arg1 exists
+     * @Then The list :arg1 exists
      */
     public function theListExists($arg1)
     {
@@ -65,7 +65,7 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When I have searched for :arg1
+     * @Given I have searched for :arg1
      */
     public function iHaveSearchedFor($arg1)
     {
@@ -78,16 +78,12 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iAddTheSearchToFollowedSearches()
     {
         $followed_searches_id = $this->dataRegistry['user-searches'];
-        $this->ding2Context->minkContext->getSession()->getPage()->find('css', 'a[href^="/dinglist/attach/search_query/' . $followed_searches_id . '"]')->click();
-    }
+        $found = $this->ding2Context->minkContext->getSession()->getPage()->find('css', 'a[href^="/dinglist/attach/search_query/' . $followed_searches_id . '"]');
+        if (!$found) {
+            throw new \Exception("Couldn't find button to add search to list.");
+        }
 
-    /**
-     * @Then I should get a confirmation for followed searches
-     */
-    public function iShouldGetAConfirmationForFollowedSearches()
-    {
-        $this->ding2Context->minkContext->assertElementContainsText('.ding-list-message', 'Tilføjet til');
-        $this->ding2Context->minkContext->assertElementContainsText('.ding-list-message', 'Søgninger jeg følger');
+        $found->click();
     }
 
     /**
@@ -95,8 +91,47 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeOnFollowedSearches($arg1)
     {
-        $this->ding2Context->drupalContext->visitPath('/user');
-        $this->ding2Context->minkContext->assertElementContainsText('.ding-type-ding-list-element .content a', 'harry potter');
+        $followed_searches_id = $this->dataRegistry['user-searches'];
+        $this->ding2Context->drupalContext->visitPath("/list/$followed_searches_id");
+        $this->ding2Context->minkContext->assertElementContainsText('.ding-type-ding-list-element .content a', $arg1);
+    }
+
+    /**
+     * @Given I have followed the search :arg1
+     */
+    public function iHaveFollowedTheSearch($arg1)
+    {
+        // Perform search.
+        $this->iHaveSearchedFor($arg1);
+        $this->iAddTheSearchToFollowedSearches();
+        $this->iShouldSeeOnFollowedSearches($arg1);
+    }
+
+    /**
+     * @When I remove the search :arg1 from followed searches
+     */
+    public function iRemoveTheSearchFromFollowedSearches($arg1)
+    {
+        $followed_searches_id = $this->dataRegistry['user-searches'];
+        $this->ding2Context->drupalContext->visitPath('/list/' . $followed_searches_id);
+        $found = $this->ding2Context->minkContext->getSession()->getPage()->find('css', 'a:contains("' . $arg1 . '") + form[id^="ding-list-remove-element"] #edit-submit');
+        if (!$found) {
+            throw new \Exception("Remove link doesn't exist");
+        }
+        $found->click();
+    }
+
+    /**
+     * @Then I should not see :arg1 on followed searches
+     */
+    public function iShouldNotSeeOnFollowedSearches($arg1)
+    {
+        $followed_searches_id = $this->dataRegistry['user-searches'];
+        $this->ding2Context->drupalContext->visitPath('/list/' . $followed_searches_id);
+        $found = $this->ding2Context->minkContext->getSession()->getPage()->find('css', 'a[href^="/search/ting"]:contains("' . $arg1 . '")');
+        if ($found && $found->getValue() == $arg1) {
+            throw new \Exception("Link to author '$arg1' still exists.");
+        }
     }
 
     /**
