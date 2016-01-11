@@ -12,6 +12,10 @@ tools:
   js_hint:
     use_native_config: true
 
+build_failure_conditions:
+  # No new issues allowed.
+  - 'issues.new.exists'
+
 filter:
     excluded_paths:
         - modules/fbs/prancer/*
