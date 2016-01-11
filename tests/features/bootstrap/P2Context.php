@@ -209,4 +209,73 @@ class P2Context implements Context, SnippetAcceptingContext
             throw new \Exception("Link to author '$arg1' still exists.");
         }
     }
+
+    /**
+     * @Given I am on my user consent page
+     */
+    public function iAmOnMyUserConsentPage()
+    {
+        $uid = $this->ding2Context->user->uid;
+        $this->ding2Context->drupalContext->visitPath("/user/$uid/consent");
+    }
+
+    /**
+     * @When I check the consent box
+     */
+    public function iCheckTheConsentBox()
+    {
+        $checked = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '#edit-loan-history-store');
+        $checked_value = $checked->getValue();
+        if ($checked_value) {
+            throw new \Exception("Consent checkbox is already checked.");
+        }
+
+        $checked->check();
+        $this->ding2Context->minkContext->pressButton('edit-submit');
+    }
+
+    /**
+     * @Then I should see that the consent box is checked
+     */
+    public function iShouldSeeThatTheConsentBoxIsChecked()
+    {
+        $this->iAmOnMyUserConsentPage();
+        $checked = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '#edit-loan-history-store');
+        $checked_value = $checked->getValue();
+        if (!$checked_value) {
+            throw new \Exception("Consent checkbox is not checked.");
+        }
+    }
+
+    /**
+     * @When I uncheck the consent box
+     */
+    public function iUncheckTheConsentBox()
+    {
+        // First go to consent page, check consent box, and go to consent page.
+        $this->iCheckTheConsentBox();
+        $this->iAmOnMyUserConsentPage();
+
+        $checked = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '#edit-loan-history-store');
+        $checked_value = $checked->getValue();
+        if (!$checked_value) {
+            throw new \Exception("Consent checkbox is not checked.");
+        }
+
+        $checked->uncheck();
+        $this->ding2Context->minkContext->pressButton('edit-submit');
+    }
+
+    /**
+     * @Then I should see that the consent box is not checked
+     */
+    public function iShouldSeeThatTheConsentBoxIsNotChecked()
+    {
+        $this->iAmOnMyUserConsentPage();
+        $checked = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '#edit-loan-history-store');
+        $checked_value = $checked->getValue();
+        if ($checked_value) {
+            throw new \Exception("Consent checkbox is checked.");
+        }
+    }
 }
