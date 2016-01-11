@@ -1,4 +1,3 @@
-@now
 Feature: Follow search
   In order to be notified when there is new content for a search
   As a library user
