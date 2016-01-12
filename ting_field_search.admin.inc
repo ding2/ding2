@@ -223,7 +223,6 @@ function ting_field_search_profile_form_submit($form, &$form_state) {
   else {
     drupal_set_message(t('Something went wrong saving profile. See log for details.'));
   }
-  $form_state['redirect'] = 'admin/config/ting/settings';
 }
 
 /**

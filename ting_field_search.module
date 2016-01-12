@@ -58,9 +58,6 @@ function ting_field_search_hook_info() {
   $hooks['form_ding_facetbrowser_form_alter'] = array(
     'group' => 'facets',
   );
-  $hooks['js_alter'] = array(
-    'group' => 'facets',
-  );
   return $hooks;
 }
 
