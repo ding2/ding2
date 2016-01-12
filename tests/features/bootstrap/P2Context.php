@@ -160,7 +160,8 @@ class P2Context implements Context, SnippetAcceptingContext
         }
         $found->click();
 
-        $follow_author_id = $this->dataRegistry['follow-author'];
+        $follow_author_id = $this->iReadTheListIdForListName('follow-author');
+
         // Follow link to follow author.
         $found = $this->ding2Context->minkContext->getSession()->getPage()->find('css', 'a[href^="/dinglist/attach/follow_author/"]');
         if (!$found) {
@@ -170,11 +171,25 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @Then I read the list id for list name :arg1
+     */
+    public function iReadTheListIdForListName($arg1)
+    {
+        $list_name = strtolower(preg_replace('/\s/', '-', $arg1));
+        $list_id = $this->dataRegistry[$list_name];
+        if (!$list_id) {
+            throw new \Exception("List id for list couldn't be found");
+        }
+
+        return $list_id;
+    }
+
+    /**
      * @Then I should see :arg1 on the list of followed authors
      */
     public function iShouldSeeOnTheListOfFollowedAuthors($arg1)
     {
-        $follow_author_id = $this->dataRegistry['follow-author'];
+        $follow_author_id = $this->iReadTheListIdForListName('follow-author');
         $this->ding2Context->drupalContext->visitPath('/list/' . $follow_author_id);
         $link = '/search/ting/phrase.creator';
         $this->ding2Context->minkContext->assertElementContains('a[href^="' . $link . '"]', $arg1);
@@ -197,7 +212,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iRemoveTheAuthorFromFollowedAuthors($arg1)
     {
-        $follow_author_id = $this->dataRegistry['follow-author'];
+        $follow_author_id = $this->iReadTheListIdForListName('follow-author');
         $this->ding2Context->drupalContext->visitPath('/list/' . $follow_author_id);
         $found = $this->ding2Context->minkContext->getSession()->getPage()->find('css', 'a:contains("' . $arg1 . '") + form[id^="ding-list-remove-element"] #edit-submit');
         if (!$found) {
@@ -211,7 +226,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldNotSeeOnFollowedAuthors($arg1)
     {
-        $follow_author_id = $this->dataRegistry['follow-author'];
+        $follow_author_id = $this->iReadTheListIdForListName('follow-author');
         $this->ding2Context->drupalContext->visitPath('/list/' . $follow_author_id);
         $found = $this->ding2Context->minkContext->getSession()->getPage()->find('css', 'a[href^="/search/ting/phrase.creator"]');
         if ($found && $found->getValue() == $arg1) {
