@@ -154,7 +154,8 @@ class P2Context implements Context, SnippetAcceptingContext
         }
         $found->click();
 
-        $found = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '.form-item-creator-george-orwell a');
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.form-item-creator-george-orwell a');
         if (!$found) {
             throw new \Exception('Creator facet not found');
         }
@@ -162,16 +163,16 @@ class P2Context implements Context, SnippetAcceptingContext
 
         // Follow link to book.
         $this->ding2Context->minkContext->assertElementContains('.search-result--heading-type', 'Bog');
-        $found = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '.search-result--heading-type:contains("Bog") + h2 > a');
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.search-result--heading-type:contains("Bog") + h2 > a');
         if (!$found) {
             throw new \Exception("Link to book doesn't exist");
         }
         $found->click();
 
-        $follow_author_id = $this->iReadTheListIdForListName('follow-author');
-
         // Follow link to follow author.
-        $found = $this->ding2Context->minkContext->getSession()->getPage()->find('css', 'a[href^="/dinglist/attach/follow_author/"]');
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', 'a[href^="/dinglist/attach/follow_author/"]');
         if (!$found) {
             throw new \Exception("Link to follow author doesn't exist");
         }
