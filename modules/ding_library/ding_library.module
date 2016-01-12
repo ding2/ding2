@@ -203,11 +203,8 @@ function ding_library_form_ding_library_node_form_alter(&$form, &$form_state) {
 
 /**
  * After build method. Take out path auto option for ding libraries
- * @param $form
- * @param $form_state
- * @return mixed
  */
-function ding_library_remove_path_auto($form, &$form_state){
+function ding_library_remove_path_auto($form, &$form_state) {
   $form['path']['#access'] = FALSE;
   return $form;
 }
