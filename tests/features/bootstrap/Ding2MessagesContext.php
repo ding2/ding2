@@ -21,20 +21,12 @@ class Ding2MessagesContext implements Context
      */
     private $lastHash = null;
 
-    private $messages = [];
-    private $errors = [];
-    private $warnings = [];
-
     /**
-     * Initializes context.
+     * Collection of messages for pages seen.
      *
-     * Every scenario gets its own context instance.
-     * You can also pass arbitrary arguments to the
-     * context constructor through behat.yml.
+     * @var array
      */
-    public function __construct()
-    {
-    }
+    private $messages = [];
 
     /** @var \Drupal\DrupalExtension\Context\MinkContext */
     private $minkContext;
@@ -89,8 +81,8 @@ class Ding2MessagesContext implements Context
 
         // Collect both warnings an errors.
         $messages = [
-            'warnings' => $this->getMessages('warning'),
-            'errors' => $this->getMessages('error'),
+            'warning' => $this->getMessages('warning'),
+            'error' => $this->getMessages('error'),
         ];
 
         $hash = hash('sha1', serialize([$currentUrl, $messages]));
@@ -99,7 +91,7 @@ class Ding2MessagesContext implements Context
         // browser haven't navigated.
         if ($hash !== $this->lastHash) {
             $this->lastHash = $hash;
-            if ($messages['warnings'] || $messages['errors']) {
+            if ($messages['warning'] || $messages['error']) {
                 if (isset($this->messages[$currentUrl])) {
                     $this->messages[$currentUrl] = array_merge_recursive($this->messages[$currentUrl], $messages);
                 } else {
@@ -123,8 +115,8 @@ class Ding2MessagesContext implements Context
             return;
         }
 
-        $errorMessages = ['warnings' => [], 'errors' => []];
-        foreach (['warnings', 'errors'] as $type) {
+        $errorMessages = ['warning' => [], 'error' => []];
+        foreach (['warning', 'error'] as $type) {
             foreach ($this->messages as $url => $messages) {
                 foreach ($messages[$type] as $message) {
                     $errorMessages[$type][] = 'On page ' . $url . ': "' . $message . '"';
@@ -150,12 +142,11 @@ class Ding2MessagesContext implements Context
      */
     public function iShouldSeeTheErrorMessage($type, $message)
     {
-        $key = $type . 's';
         $currentUrl = $this->minkContext->getSession()->getCurrentUrl();
 
-        if (isset($this->messages[$currentUrl][$key]) &&
-            is_int($index = array_search($message, $this->messages[$currentUrl][$key]))) {
-            unset($this->messages[$currentUrl][$key][$index]);
+        if (isset($this->messages[$currentUrl][$type]) &&
+            is_int($index = array_search($message, $this->messages[$currentUrl][$type]))) {
+            unset($this->messages[$currentUrl][$type][$index]);
 
         } else {
             throw new Exception(ucfirst($type) . ' message "' . $message . '" not present on ' . $currentUrl);
