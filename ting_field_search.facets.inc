@@ -131,6 +131,16 @@ function ting_field_search_form_ding_facetbrowser_form_alter(&$form, &$form_stat
         unset($form[$name]);
       }
     }
+
+    // Pass the profile's term count to ding_facetbrowser JS.
+    $form['#attached']['js'][] = array(
+      'data' => array(
+        'ding_facetbrowser' => array(
+          'number_of_terms' => $profile->term_count,
+        ),
+      ),
+      'type' => 'setting',
+    );
   }
 }
 

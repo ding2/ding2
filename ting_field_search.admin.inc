@@ -131,7 +131,7 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
     '#type' => 'select',
     '#title' => t('Number of terms'),
     '#description' => t('The number of facts terms to display in each facet group.'),
-    '#options' => drupal_map_assoc(range(1, 15)),
+    '#options' => drupal_map_assoc(range(1, 25)),
     '#default_value' => $profile ? $profile->term_count : 5,
   );
   $form['facets']['import'] = array(
