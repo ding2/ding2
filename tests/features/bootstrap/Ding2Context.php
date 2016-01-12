@@ -2,7 +2,6 @@
 
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
@@ -22,10 +21,10 @@ class Ding2Context implements Context, SnippetAcceptingContext
     public $user = FALSE;
 
     /** @var \Drupal\DrupalExtension\Context\DrupalContext */
-    private $drupalContext;
+    public $drupalContext;
 
     /** @var \Drupal\DrupalExtension\Context\MinkContext */
-    private $minkContext;
+    public $minkContext;
 
     /** @var \Ding2MessagesContext */
     private $ding2MessagesContext;
@@ -139,73 +138,7 @@ class Ding2Context implements Context, SnippetAcceptingContext
      */
     public function iAmOnMyUserPage()
     {
-        $this->iAmOn('/user');
-    }
-
-    /**
-     * Go to a path.
-     *
-     * @Given I am on :path
-     */
-    public function iAmOn($path)
-    {
-        $this->minkContext->assertAtPath($path);
-    }
-
-    /**
-     * @Given The list :arg1 exists
-     */
-    public function theListExists($arg1)
-    {
-        $list_name = strtolower(preg_replace('/\s/', '-', $arg1));
-        $this->drupalContext->visitPath('/user');
-        $link = $this->minkContext->getSession()->getPage()->find('css', '.' . $list_name . ' a');
-        if (!$link) {
-            throw new \Exception("Couldn't find the list");
-        }
-        $list_a = $link->getAttribute('href');
-        $match = array();
-        if (!preg_match('/\/list\/(\d+)/', $list_a, $match)) {
-            throw new \Exception("List is not formatted correctly");
-        }
-
-        // Save id of list.
-        $this->dataRegistry[$list_name] = $match[1];
-    }
-
-    /**
-     * @When I have searched for :arg1
-     */
-    public function iHaveSearchedFor($arg1)
-    {
-        $this->drupalContext->visitPath('/search/ting/' . urlencode($arg1));
-    }
-
-    /**
-     * @When I add the search to followed searches
-     */
-    public function iAddTheSearchToFollowedSearches()
-    {
-        $followed_searches_id = $this->dataRegistry['user-searches'];
-        $this->minkContext->getSession()->getPage()->find('css', 'a[href^="/dinglist/attach/search_query/' . $followed_searches_id . '"]')->click();
-    }
-
-    /**
-     * @Then I should get a confirmation for followed searches
-     */
-    public function iShouldGetAConfirmationForFollowedSearches()
-    {
-        $this->minkContext->assertElementContainsText('.ding-list-message', 'Tilføjet til');
-        $this->minkContext->assertElementContainsText('.ding-list-message', 'Søgninger jeg følger');
-    }
-
-    /**
-     * @Then I should see :arg1 on followed searches
-     */
-    public function iShouldSeeOnFollowedSearches($arg1)
-    {
-        $this->drupalContext->visitPath('/user');
-        $this->minkContext->assertElementContainsText('.ding-type-ding-list-element .content a', 'harry potter');
+        $this->minkContext->visit('/user');
     }
 
     /**
@@ -220,21 +153,5 @@ class Ding2Context implements Context, SnippetAcceptingContext
         if (count($links) < 1) {
             throw new Exception(sprintf('Could not see link to %s', $path));
         }
-    }
-
-    /**
-     * @When I add the author to authors I follow
-     */
-    public function iAddTheAuthorToAuthorsIFollow()
-    {
-        throw new PendingException();
-    }
-
-    /**
-     * @Then I should see :arg1 on the list of followed authors
-     */
-    public function iShouldSeeOnTheListOfFollowedAuthors($arg1)
-    {
-        throw new PendingException();
     }
 }
