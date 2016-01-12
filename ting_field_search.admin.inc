@@ -55,6 +55,7 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
     '#type' => 'textfield',
     '#title' => t('Query'),
     '#description' => t('Enter a search code (CQL) to use with this profile.'),
+    '#maxlength' => 256,
     '#default_value' => $profile ? $profile->query : '',
   );
   $form['profile']['alter_links'] = array(
