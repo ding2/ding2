@@ -67,7 +67,7 @@ function ting_infomedia_update_7000() {
 /**
  * Unlock ding_entity_field to allow deletion of field
  */
-function ting_infomedia_update_7001(){
+function ting_infomedia_update_7001 (){
   db_update('field_config')
     ->fields(array(
       'locked' => 0,
