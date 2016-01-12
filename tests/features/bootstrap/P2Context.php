@@ -140,11 +140,20 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iAddTheAuthorToAuthorsIFollow()
     {
         // Choose book facet.
-        $this->ding2Context->minkContext->getSession()->getPage()->find('css', '.form-item-type-bog a')->click();
-        $this->ding2Context->minkContext->getSession()->getPage()->find('css', '.form-item-creator-george-orwell a')->click();
+        $found = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '.form-item-type-bog a');
+        if (!$found) {
+            throw new \Exception('Book facet not found');
+        }
+        $found->click();
+
+        $found = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '.form-item-creator-george-orwell a');
+        if (!$found) {
+            throw new \Exception('Creator facet not found');
+        }
+        $found->click();
 
         // Follow link to book.
-        $res = $this->ding2Context->minkContext->assertElementContains('.search-result--heading-type', 'Bog');
+        $this->ding2Context->minkContext->assertElementContains('.search-result--heading-type', 'Bog');
         $found = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '.search-result--heading-type:contains("Bog") + h2 > a');
         if (!$found) {
             throw new \Exception("Link to book doesn't exist");
