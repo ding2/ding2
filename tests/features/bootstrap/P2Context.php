@@ -364,4 +364,112 @@ class P2Context implements Context, SnippetAcceptingContext
             throw new Exception($currentUrl . 'is not on a list page');
         }
     }
+
+    /**
+     * @Given I have created a list :title
+     */
+    public function iHaveCreatedAList($title)
+    {
+        $this->iAmOnMyCreateListPage();
+        $this->iCreateANewListWithDescription($title, '');
+        $currentUrl = $this->ding2Context->minkContext->getSession()->getCurrentUrl();
+        $basePath = $this->ding2Context->minkContext->getMinkParameter('base_url');
+        $basePath = rtrim($basePath, '/');
+        $match = array();
+        if (!preg_match('{^' . $basePath . '/list/(\d+)}', $currentUrl, $match)) {
+            throw new \Exception($currentUrl . 'is not on a list page');
+        }
+
+        // Save list id.
+        $this->dataRegistry["list:$title"] = $match[1];
+    }
+
+    /**
+     * @When I go to the list :title
+     */
+    public function iGoToTheList($title)
+    {
+        // Click on list link.
+        $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
+        $found_list = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.ding-user-lists .user-list .signature-label:contains("' . $title . '")');
+        if (!$found_list) {
+            throw new \Exception("Couldn't find link to list");
+        }
+        $found_list->click();
+    }
+
+    /**
+     * @When I go to the share link
+     */
+    public function iGoToTheShareLink()
+    {
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.share .menu-item');
+        if (!$found) {
+            throw new \Exception("Couldn't find link to share list");
+        }
+        $found->click();
+    }
+
+    /**
+     * @When I make the list :title public
+     * @Given I have made the list :title public
+     */
+    public function iMakeTheListPublic($title)
+    {
+        // Click on list link.
+        $this->iGoToTheList($title);
+
+        // Click share list.
+        $this->iGoToTheShareLink();
+
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '#ding-list-list-permissions-form #edit-status');
+        if (!$found) {
+            throw new \Exception("Couldn't find dropdown menu for sharing list");
+        }
+
+        $found->selectOption('public');
+
+        $form = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '#ding-list-list-permissions-form');
+        $form->submit();
+    }
+
+    /**
+     * @Then I should see that the list :title is public
+     */
+    public function iShouldSeeThatTheListIsPublic($title)
+    {
+        $this->iGoToTheList($title);
+        $this->iGoToTheShareLink();
+
+        $found_select = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '#ding-list-list-permissions-form #edit-status');
+        if (!$found_select) {
+            throw new \Exception("Couldn't find drop down menu for sharing list");
+        }
+        $checked = $found_select->getValue();
+        if (!$checked || $checked != 'public') {
+            throw new \Exception("List is not set to public shared");
+        }
+    }
+
+    /**
+     * @When I go to the public lists page
+     */
+    public function iGoToThePublicListsPage()
+    {
+        $this->ding2Context->minkContext->visit('/public-lists');
+    }
+
+    /**
+     * @Then I should see the public list :title
+     */
+    public function iShouldSeeThePublicList($title)
+    {
+        $listId = $this->dataRegistry["list:$title"];
+        $this->ding2Context->minkContext->assertElementContainsText('a[href^="/list/' . $listId . '"]', $title);
+    }
 }
