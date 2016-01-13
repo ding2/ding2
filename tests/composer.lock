@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3820e6e6222e484b2716584eef3c58b0",
-    "content-hash": "bd1e21ae63d98f2d058e9655c20ff264",
+    "hash": "f2a93396a421bd77ed4546feaefde1ee",
+    "content-hash": "08aedd19481d57a33a07fb9d29fcac8f",
     "packages": [
         {
             "name": "behat/behat",
@@ -185,6 +185,47 @@
                 "transliterator"
             ],
             "time": "2015-09-28 16:26:35"
+        },
+        {
+            "name": "jakoch/phantomjs-installer",
+            "version": "1.9.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jakoch/phantomjs-installer.git",
+                "reference": "fd6459094404f698a4edb9609e5e8c55c6418824"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jakoch/phantomjs-installer/zipball/fd6459094404f698a4edb9609e5e8c55c6418824",
+                "reference": "fd6459094404f698a4edb9609e5e8c55c6418824",
+                "shasum": ""
+            },
+            "require": {
+                "ext-openssl": "*"
+            },
+            "type": "custom-installer",
+            "autoload": {
+                "psr-0": {
+                    "PhantomInstaller\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jens-André Koch",
+                    "email": "jakoch@web.de"
+                }
+            ],
+            "description": "A Composer package which installs the PhantomJS binary (Linux, Windows, Mac) into `/bin` of your project.",
+            "keywords": [
+                "binaries",
+                "headless",
+                "phantomjs"
+            ],
+            "time": "2014-12-05 17:57:27"
         },
         {
             "name": "jarnaiz/behat-junit-formatter",
