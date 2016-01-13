@@ -29,3 +29,17 @@ default:
         password_field: 'Pinkoden er på 4 cifre'
       region_map:
         messages: '.messages'
+
+chrome:
+  extensions:
+    Behat\MinkExtension:
+      selenium2: ~
+      default_session: 'selenium2'
+      browser_name: 'chrome'
+
+firefox:
+  extensions:
+    Behat\MinkExtension:
+      selenium2: ~
+      default_session: 'selenium2'
+      browser_name: 'firefox'
