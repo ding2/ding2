@@ -174,15 +174,18 @@ class P2Context implements Context, SnippetAcceptingContext
     /**
      * @Then I read the list id for list name :arg1
      */
-    public function iReadTheListIdForListName($arg1)
+    public function iReadTheListIdForListName($list, $normalize = true)
     {
-        $list_name = strtolower(preg_replace('/\s/', '-', $arg1));
-        $list_id = $this->dataRegistry[$list_name];
-        if (!$list_id) {
-            throw new \Exception("List id for list couldn't be found");
+        $listName = $normalize ? strtolower(preg_replace('/\s/', '-', $list)) : $list;
+        if (!isset($this->dataRegistry[$listName])) {
+            throw new \Exception("List id for list $list doesn't exist");
+        }
+        $listId = $this->dataRegistry[$listName];
+        if (!$listId) {
+            throw new \Exception("List id for list $list seems to be empty");
         }
 
-        return $list_id;
+        return $listId;
     }
 
     /**
