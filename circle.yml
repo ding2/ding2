@@ -53,12 +53,8 @@ test:
     - cp -R ./* $DRUPAL_SITE_PATH/profiles/ding2/
     # Install the site using the ding2 profile
     - (cd $DRUPAL_SITE_PATH && drush site-install ding2 --db-url=mysql://ubuntu@127.0.0.1/circle_test -y)
-    # Enable P2.
-    - (cd $DRUPAL_SITE_PATH && drush en -y ding_p2_installer)
-    # Enable Connie provider for testing.
-    - (cd $DRUPAL_SITE_PATH && drush en -y connie)
-    # Disable Alma provider
-    - (cd $DRUPAL_SITE_PATH && drush dis -y alma)
+    # Set up test site.
+    - ($DRUPAL_SITE_PATH/profiles/ding2/tests && make test-setup)
     # Run Behat tests.
     - (cd $DRUPAL_SITE_PATH/profiles/ding2/tests &&
       eval $(phpenv sh-shell $BEHAT_PHP_VERSION) &&
