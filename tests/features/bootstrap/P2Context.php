@@ -215,6 +215,9 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iAmOnMyUserConsentPage()
     {
+        if (empty($this->ding2Context->user) || empty($this->ding2Context->user->uid)) {
+            throw new \Exception("User doesn't exist");
+        }
         $uid = $this->ding2Context->user->uid;
         $this->ding2Context->drupalContext->visitPath("/user/$uid/consent");
     }
@@ -225,6 +228,9 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iCheckTheConsentBox()
     {
         $checked = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '#edit-loan-history-store');
+        if (!$checked) {
+            throw new \Exception("Couldn't find consent check box");
+        }
         $checked_value = $checked->getValue();
         if ($checked_value) {
             throw new \Exception("Consent checkbox is already checked.");
@@ -241,6 +247,9 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         $this->iAmOnMyUserConsentPage();
         $checked = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '#edit-loan-history-store');
+        if (!$checked) {
+            throw new \Exception("Couldn't find consent check box");
+        }
         $checked_value = $checked->getValue();
         if (!$checked_value) {
             throw new \Exception("Consent checkbox is not checked.");
@@ -257,6 +266,9 @@ class P2Context implements Context, SnippetAcceptingContext
         $this->iAmOnMyUserConsentPage();
 
         $checked = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '#edit-loan-history-store');
+        if (!$checked) {
+            throw new \Exception("Couldn't find consent check box");
+        }
         $checked_value = $checked->getValue();
         if (!$checked_value) {
             throw new \Exception("Consent checkbox is not checked.");
@@ -273,6 +285,9 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         $this->iAmOnMyUserConsentPage();
         $checked = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '#edit-loan-history-store');
+        if (!$checked) {
+            throw new \Exception("Couldn't find consent check box");
+        }
         $checked_value = $checked->getValue();
         if ($checked_value) {
             throw new \Exception("Consent checkbox is checked.");
