@@ -223,7 +223,8 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         $follow_author_id = $this->iReadTheListIdForListName('follow-author');
         $this->ding2Context->drupalContext->visitPath('/list/' . $follow_author_id);
-        $found = $this->ding2Context->minkContext->getSession()->getPage()->find('css', 'a:contains("' . $arg1 . '") + form[id^="ding-list-remove-element"] #edit-submit');
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', 'a:contains("' . $arg1 . '") + form[id^="ding-list-remove-element"] #edit-submit');
         if (!$found) {
             throw new \Exception("Remove link doesn't exist");
         }
@@ -237,7 +238,8 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         $follow_author_id = $this->iReadTheListIdForListName('follow-author');
         $this->ding2Context->drupalContext->visitPath('/list/' . $follow_author_id);
-        $found = $this->ding2Context->minkContext->getSession()->getPage()->find('css', 'a[href^="/search/ting/phrase.creator"]');
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', 'a[href^="/search/ting/phrase.creator"]');
         if ($found && $found->getValue() == $arg1) {
             throw new \Exception("Link to author '$arg1' still exists.");
         }
