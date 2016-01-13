@@ -62,7 +62,7 @@ test:
     # Run Behat tests.
     - (cd $DRUPAL_SITE_PATH/profiles/ding2/tests &&
       eval $(phpenv sh-shell $BEHAT_PHP_VERSION) &&
-      ./bin/behat --tags '~wip' --format=junit --format=pretty)
+      ./bin/behat --tags '~wip' --tags '~regression' --format=junit --format=pretty)
   post:
     # Copy Behat report to circle.
     - mkdir -p $CIRCLE_TEST_REPORTS/behat
