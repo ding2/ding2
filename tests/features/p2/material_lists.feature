@@ -6,17 +6,25 @@ Feature: Material lists
   Background:
     Given I am logged in as a library user
 
-  @api
+  @api @no_messages_check 
   Scenario: Create a new list link should be available on user page
     Given I am on my user page
     Then I should see a link to the create list page
 
-  @wip
+  @api @no_messages_check
   Scenario: Create a new list
-    Given I am on the "create list" page
-    When I create a new list "Title" with description "Description"
-    Then I am returned to the lists page
-    And I should see the list I created
+    Given I am on my create list page
+    When I create a new list "My special list" with description "Description"
+    Then I should be on a list page
+    And I should see "My special list"
+  
+  @api @no_messages_check @regression
+  Scenario: List titles should not be tranlated
+    Given I am on my create list page
+    When I create a new list "Action" with description "Description"
+    Then I should be on a list page
+    And I should see "Action"
+    And I should not see "Handling"
 
   @wip
   Scenario: Add material to list

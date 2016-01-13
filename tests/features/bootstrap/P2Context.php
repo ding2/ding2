@@ -12,17 +12,6 @@ use Behat\Gherkin\Node\TableNode;
  */
 class P2Context implements Context, SnippetAcceptingContext
 {
-    /**
-     * Initializes context.
-     *
-     * Every scenario gets its own context instance.
-     * You can also pass arbitrary arguments to the
-     * context constructor through behat.yml.
-     */
-    public function __construct()
-    {
-    }
-
     /** @var Ding2Context */
     private $ding2Context;
 
@@ -31,6 +20,9 @@ class P2Context implements Context, SnippetAcceptingContext
      *   Save data across scenarios.
      */
     private $dataRegistry = array();
+
+    /** @var array */
+    private $lastCreatedList;
 
     /** @BeforeScenario */
     public function gatherContexts(BeforeScenarioScope $scope)
@@ -325,7 +317,51 @@ class P2Context implements Context, SnippetAcceptingContext
         }
         $checked_value = $checked->getValue();
         if ($checked_value) {
-            throw new \Exception("Consent checkbox is checked.");
+            throw new \Exception("Consent checkbox is checked");
+        }
+    }
+
+    /**
+     * @Given I am on my create list page
+     */
+    public function iAmOnMyCreateListPage()
+    {
+        $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/createlist');
+    }
+
+
+    /**
+     * @When I create a new list :title with description :description
+     */
+    public function iCreateANewListWithDescription($title, $description)
+    {
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
+
+        $form = $page->find('css', '#ding-list-create-list-form');
+        if (!$form) {
+            throw new Exception('Could not find form to add new list on page');
+        }
+
+        $this->lastCreatedList = [
+            'title' => $title,
+            'description' => $description,
+        ];
+
+        $form->fillField('edit-title', $title);
+        $form->fillField('edit-notes', $description);
+        $form->pressButton('edit-add-list');
+    }
+
+    /**
+     * @Then I should be on a list page
+     */
+    public function iShouldBeOnAListPage()
+    {
+        $currentUrl = $this->ding2Context->minkContext->getSession()->getCurrentUrl();
+        $basePath = $this->ding2Context->minkContext->getMinkParameter('base_url');
+        rtrim($basePath, '/') . '/';
+        if (!preg_match('{^' . $basePath . '/list/\d+$}', $currentUrl)) {
+            throw new Exception($currentUrl . 'is not on a list page');
         }
     }
 }
