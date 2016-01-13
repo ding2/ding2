@@ -13,10 +13,40 @@ function ding_toggle_format_menu() {
     'description' => 'Configure Ding toggle format settings.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_toggle_format_settings_admin_form'),
-    'access arguments' => array('administer ting_dk5 settings'),
+    'access arguments' => array('administer ding toggle format'),
   );
 
   return $menu_items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_toggle_format_permission() {
+  $permissions = array(
+    'administer ding toggle format' => array(
+      'title' => t('Administer ding toggle format')
+    ),
+  );
+  return $permissions;
+}
+
+/**
+ * Implements hook_secure_permissions().
+ */
+function ding_toggle_format_secure_permissions($role) {
+  $permissions = array(
+    'administrators' => array(
+      'administer ding toggle format',
+    ),
+    'local administrator' => array(
+      'administer ding toggle format',
+    ),
+  );
+
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
 }
 
 /**
