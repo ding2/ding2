@@ -26,11 +26,11 @@ Feature: Public lists
     When I follow the list "My George Orwell books"
     Then I should see the list "My George Orwell books" on lists I follow
 
-  @api @no_messages_check
+  @api @no_messages_check @javascript
   Scenario: Unfollow a public list
-    Given I am following a public list with the title "My George Orwell books"
-    When I unfollow the list with the title "My George Orwell books"
-    Then I should not see the list "My George Orwell books" on lists I follow
+    Given I am following a public list with the title "Books about flowers"
+    When I unfollow the list with the title "Books about flowers"
+    Then I should not see the list "Books about flowers" on lists I follow
 
   @api @no_messages_check
   Scenario: Add content to a public list
