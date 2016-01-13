@@ -247,6 +247,10 @@ function ding_bookmark_add_ajax($entity) {
     // Drop messages.
     drupal_get_messages(NULL, TRUE);
 
+    global $user;
+    $bookmarks_button = '<p><a href="/user/' . $user->uid . '/bookmarks">' . t('My bookmarks') . '</a></p>';
+    $form_state['storage']['response_html'] .= $bookmarks_button;
+
     // Get generated message.
     $html = '<div class="ding-bookmark-message">' . $form_state['storage']['response_html'] . '</div>';
 
