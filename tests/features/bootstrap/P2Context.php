@@ -472,7 +472,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeThePublicList($title)
     {
-        $listId = $this->dataRegistry["list:$title"];
+        $listId = $this->iReadTheListIdForListName("list:$title", false);
         $this->ding2Context->minkContext->assertElementContainsText('a[href^="/list/' . $listId . '"]', $title);
     }
 
@@ -493,7 +493,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iFollowTheList($title)
     {
-        $listId = $this->dataRegistry["list:$title"];
+        $listId = $this->iReadTheListIdForListName("list:$title", false);
         $this->ding2Context->minkContext->visit("/list/$listId");
 
         $foundButton = $this->ding2Context->minkContext->getSession()->getPage()
@@ -518,7 +518,7 @@ class P2Context implements Context, SnippetAcceptingContext
         }
         $listsList->click();
 
-        $listId = $this->dataRegistry["list:$title"];
+        $listId = $this->iReadTheListIdForListName("list:$title", false);
         $this->ding2Context->minkContext->assertElementContainsText('a[href="/list/' . $listId . '"]', $title);
     }
 }
