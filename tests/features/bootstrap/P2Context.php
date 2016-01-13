@@ -521,4 +521,65 @@ class P2Context implements Context, SnippetAcceptingContext
         $listId = $this->iReadTheListIdForListName("list:$title", false);
         $this->ding2Context->minkContext->assertElementContainsText('a[href="/list/' . $listId . '"]', $title);
     }
+
+    /**
+     * @Given I am following a public list with the title :title
+     */
+    public function iAmFollowingAPublicListWithTheTitle($title)
+    {
+        // Make sure to follow a public list.
+        $this->iHaveALinkToAPublicListWithTheTitle($title);
+        $this->iFollowTheList($title);
+        $this->iShouldSeeTheListOnListsIFollow($title);
+    }
+
+    /**
+     * @When I unfollow the list with the title :title
+     */
+    public function iUnfollowTheListWithTheTitle($title)
+    {
+        $listId = $this->iReadTheListIdForListName("list:$title", false);
+
+        $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
+        $found_list = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.ding-user-lists .lists-list a');
+        if (!$found_list) {
+            throw new \Exception("Couldn't find link to list of followed lists");
+        }
+        $found_list->click();
+
+        // Find link to followed list.
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.ding-type-ding-list a[href="/list/' . $listId . '"]');
+        if (!$found) {
+            throw new \Exception("Couldn't find list '$title' on followed lists");
+        }
+        $this->ding2Context->minkContext
+            ->assertElementContainsText('.ding-type-ding-list a[href="/list/' . $listId . '"]', $title);
+
+        $deleteLink = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '#ding-list-remove-element-ding-list-' . $listId . '-form #edit-submit');
+        if (!$deleteLink) {
+            throw new \Exception("Couldn't find remove from list button");
+        }
+        $deleteLink->click();
+    }
+
+    /**
+     * @Then I should not see the list :title on lists I follow
+     */
+    public function iShouldNotSeeTheListOnListsIFollow($title)
+    {
+        $listId = $this->iReadTheListIdForListName("list:$title", false);
+        $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
+        $found_list = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.ding-user-lists .lists-list a');
+        if (!$found_list) {
+            throw new \Exception("Couldn't find link to list of followed lists");
+        }
+        $found_list->click();
+
+        $this->ding2Context->minkContext
+            ->assertElementNotOnPage('.ding-type-ding-list a[href="/list/' . $listId . '"]');
+    }
 }
