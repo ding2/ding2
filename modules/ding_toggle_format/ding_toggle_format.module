@@ -29,7 +29,7 @@ function ding_toggle_format_menu() {
 function ding_toggle_format_settings_admin_form($form, &$form_state) {
   $toggle_pages = array(
     'search/ting' => 'Ting search results.',
-    'user/status' => 'User status page(s).',
+    'user' => 'User status page(s).',
     'ting/object' => 'Ting object page.',
   );
 
@@ -117,7 +117,8 @@ function ding_toggle_format_preprocess(&$variables, $hook) {
   $toggle_format_pages = variable_get('ding_toggle_format_pages', array());
 
   foreach ($toggle_format_pages as $page) {
-    if (empty($page) || !strstr($_GET['q'], $page)) {
+    $user_pages = 'user' == $page && 'status' != arg(2);
+    if (empty($page) || !strstr($_GET['q'], $page) || $user_pages) {
       continue;
     }
 
