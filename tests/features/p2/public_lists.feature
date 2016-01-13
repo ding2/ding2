@@ -20,7 +20,7 @@ Feature: Public lists
     When I go to the public lists page
     Then I should see the public list "My Sci Fi novels"
 
-  @api @no_messages_check
+  @api @no_messages_check @javascript
   Scenario: Follow public list
     Given I have a link to a public list with the title "My George Orwell books"
     When I follow the list "My George Orwell books"

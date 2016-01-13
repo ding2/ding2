@@ -472,4 +472,50 @@ class P2Context implements Context, SnippetAcceptingContext
         $listId = $this->dataRegistry["list:$title"];
         $this->ding2Context->minkContext->assertElementContainsText('a[href^="/list/' . $listId . '"]', $title);
     }
+
+    /**
+     * @Given I have a link to a public list with the title :title
+     */
+    public function iHaveALinkToAPublicListWithTheTitle($title)
+    {
+        $this->iHaveCreatedAList($title);
+        $this->iMakeTheListPublic($title);
+
+        // Log in as different user.
+        $this->ding2Context->iAmLoggedInAsALibraryUser();
+    }
+
+    /**
+     * @When I follow the list :title
+     */
+    public function iFollowTheList($title)
+    {
+        $listId = $this->dataRegistry["list:$title"];
+        $this->ding2Context->minkContext->visit("/list/$listId");
+
+        $foundButton = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', 'form[action="/list/' . $listId . '"] #edit-submit'); //input[type="submit"]');
+        if (!$foundButton) {
+            throw new \Exception("Couldn't find follow list button");
+        }
+
+        $foundButton->click();
+    }
+
+    /**
+     * @Then I should see the list :title on lists I follow
+     */
+    public function iShouldSeeTheListOnListsIFollow($title)
+    {
+        $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
+        $listsList = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.lists-list a');
+        if (!$listsList) {
+            throw new \Exception("Couldn't find list of lists");
+        }
+        $listsList->click();
+
+        $listId = $this->dataRegistry["list:$title"];
+        $this->ding2Context->minkContext->assertElementContainsText('a[href="/list/' . $listId . '"]', $title);
+    }
 }
