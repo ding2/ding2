@@ -125,3 +125,13 @@ function ding_frontend_query_alter($query) {
 function ding_frontend_change_maintenance_mode($maintenance_mode) {
   cache_clear_all();
 }
+
+/**
+ * Implements hook_entity_view().
+ */
+function ding_frontend_entity_view($entity, $entity_type, $view_mode, $langcode) {
+  // Hide all webform elements from search result display.
+  if ($entity_type == 'node' && $view_mode == 'search_result') {
+    unset($entity->content['webform']);
+  }
+}
