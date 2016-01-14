@@ -733,11 +733,11 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         $this->iHaveSearchedFor($tag);
         $link = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.form-item-type-bog a');
+            ->find('css', '#edit-type-bog');
         if (!$link) {
             throw new Exception("Couldn't filter for book type");
         }
-        $link->click();
+        $link->check();
 
         // Go to material.
         $this->iChooseTheFirstSearchResult();
@@ -749,7 +749,7 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iChooseTheFirstSearchResult()
     {
         $found = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.search-results .search-result .search-result--heading-type + h2 a');
+            ->find('css', '.ting-object .heading a');
         if (!$found) {
             throw new Exception("Couldn't find search result.");
         }
