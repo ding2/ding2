@@ -582,4 +582,77 @@ class P2Context implements Context, SnippetAcceptingContext
         $this->ding2Context->minkContext
             ->assertElementNotOnPage('.ding-type-ding-list a[href="/list/' . $listId . '"]');
     }
+
+    /**
+     * @Given I have created a public list :title
+     */
+    public function iHaveCreatedAPublicList($title)
+    {
+        $this->iHaveCreatedAList($title);
+        $this->iMakeTheListPublic($title);
+        $this->iShouldSeeThatTheListIsPublic($title);
+    }
+
+        /**
+     * @When I add material :material to the list :title
+     */
+    public function iAddMaterialToTheList($material, $title)
+    {
+        $this->ding2Context->minkContext->visitPath('/search/ting/' . urlencode($material));
+
+        // Go to dvd material.
+        $this->ding2Context->minkContext->assertElementContainsText('.search-result--heading-type', 'Dvd');
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.search-result--heading-type:contains("Dvd") + h2 > a');
+        if (!$found) {
+            throw new \Exception("Couldn't find search result with heading type dvd");
+        }
+        $found->click();
+
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.ding-list-add-button a');
+        if (!$found) {
+            throw new \Exception("Couldn't find more button");
+        }
+        $found->mouseOver();
+
+        // Add material to public list.
+        $listLink = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.buttons li a[href^="/dinglist/attach/ting_object"]:contains("' . $title . '")');
+        if (!$found) {
+            throw new \Exception("Couldn't find link to add to list '$title'");
+        }
+        $listLink->click();
+    }
+
+    /**
+     * @Then I should see the material :material on the list :title
+     */
+    public function iShouldSeeTheMaterialOnTheList($material, $title)
+    {
+        $listId = $this->iReadTheListIdForListName("list:$title", false);
+        $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
+        $list = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.user-list a[href="/list/' . $listId . '"]');
+        if (!$list) {
+            throw new \Exception("Couldn't find list '$title''");
+        }
+        $list->click();
+
+        $this->ding2Context->minkContext->assertElementContainsText('.ting-object a', $material);
+    }
+
+    /**
+     * @Then I should see the material :material on the public list :title
+     */
+    public function iShouldSeeTheMaterialOnThePublicList($material, $title)
+    {
+        $this->iShouldSeeTheMaterialOnTheList($material, $title);
+
+        // Log in as different user and check the list again.
+        $listId = $this->iReadTheListIdForListName("list:$title", false);
+        $this->ding2Context->iAmLoggedInAsALibraryUser();
+        $this->ding2Context->minkContext->visit("/list/$listId");
+        $this->ding2Context->minkContext->assertElementContainsText('.ting-object', $material);
+    }
 }
