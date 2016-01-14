@@ -44,7 +44,11 @@ class Ding2Context implements Context, SnippetAcceptingContext
         }
 
         // Set window size to avoid problems with elements being invisible.
-        $this->minkContext->getSession()->getDriver()->resizeWindow(1440, 900, 'current');
+        if (get_class($this->minkContext->getSession()->getDriver()) == 'Behat\Mink\Driver\Selenium2Driver') {
+            $this->minkContext->getSession()
+                ->getDriver()
+                ->resizeWindow(1440, 900, 'current');
+        }
     }
 
     /**
