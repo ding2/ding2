@@ -390,7 +390,7 @@ class P2Context implements Context, SnippetAcceptingContext
     /**
      * @When I go to the list :title of type :type
      */
-    public function iGoToTheList($title, $type)
+    public function iGoToTheListOfType($title, $type)
     {
         // Click on list link.
         $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
@@ -422,7 +422,7 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iMakeTheListPublic($title)
     {
         // Click on list link.
-        $this->iGoToTheList($title, 'user-list');
+        $this->iGoToTheListOfType($title, 'user-list');
 
         // Click share list.
         $this->iGoToTheShareLink();
@@ -445,7 +445,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeThatTheListIsPublic($title)
     {
-        $this->iGoToTheList($title, 'user-list');
+        $this->iGoToTheListOfType($title, 'user-list');
         $this->iGoToTheShareLink();
 
         $found_select = $this->ding2Context->minkContext->getSession()->getPage()
