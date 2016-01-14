@@ -782,29 +782,51 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeTheTagOnMyList($tag, $list)
     {
+        $this->iGoToTheListType($list);
+        $this->ding2Context->minkContext->assertElementContainsText('.vocabulary-ding-content-tags a', $tag);
     }
 
     /**
-     * @Given I am following the tag :arg1
+     * @Given I am following the tag :tag chosen from the material with isbn :isbn
      */
-    public function iAmFollowingTheTag($arg1)
+    public function iAmFollowingTheTag($tag, $isbn)
     {
-        throw new PendingException();
+        $this->iHaveSearchedFor($isbn);
+        $this->iChooseTheFirstSearchResult();
+        $this->iFollowTheTag($tag);
+        $this->iShouldSeeTheTagOnMyList($tag, 'interests');
     }
 
     /**
-     * @When I unfollow the tag :arg1
+     * @When I unfollow the tag :tag
      */
-    public function iUnfollowTheTag($arg1)
+    public function iUnfollowTheTag($tag)
     {
-        throw new PendingException();
+        $this->iGoToTheListType('interests');
+
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', 'a[href^="/tags/"]:contains("' . $tag . '")');
+        if (!$found) {
+            throw new Exception("Can't unfollow tag '$tag' when it's not being followed");
+        }
+        $deleteButton = $found->getParent()->getParent()->getParent()
+            ->find('css', '.close-btn');
+        if (!$deleteButton) {
+            throw new Exception("Couldn't find remove from list button");
+        }
+        $deleteButton->click();
     }
 
     /**
      * @Then I should not see the tag :arg1 on my list :arg2
      */
-    public function iShouldNotSeeTheTagOnMyList($arg1, $arg2)
+    public function iShouldNotSeeTheTagOnMyList($tag, $list)
     {
-        throw new PendingException();
+        $this->iGoToTheListType($list);
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.vocabulary-ding-content-tags a:contains("' . $tag . '")');
+        if ($found) {
+            throw new Exception("Shouldn't find tag '$tag', but it is being followed");
+        }
     }
 }
