@@ -1,4 +1,3 @@
-@now
 Feature: Follow tags
   In order to be notified when there is new content for specific tags
   As a library user
@@ -20,8 +19,8 @@ Feature: Follow tags
     When I follow the tag "science fiction"
     Then I should see the tag "science fiction" on my list "interests"
 
-  @no_messages_check @api
+  @no_messages_check @api @javascript
   Scenario: Unfollow a tag
-    Given I am following the tag "Orchids"
+    Given I am following the tag "Orchids" chosen from the material with isbn "9781587299308"
     When I unfollow the tag "Orchids"
     Then I should not see the tag "Orchids" on my list "interests"
