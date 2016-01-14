@@ -411,7 +411,7 @@ class P2Context implements Context, SnippetAcceptingContext
         // Click on list link.
         $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
         $found_list = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.ding-user-lists .' . $type);
+            ->find('css', '.' . $type . ' a');
         if (!$found_list) {
             throw new \Exception("Couldn't find link to list of type '$type''");
         }
