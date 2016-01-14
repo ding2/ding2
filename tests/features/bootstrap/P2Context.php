@@ -403,6 +403,21 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @When I go to the list type :type
+     */
+    public function iGoToTheListType($type)
+    {
+        // Click on list link.
+        $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
+        $found_list = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.ding-user-lists .' . $type);
+        if (!$found_list) {
+            throw new \Exception("Couldn't find link to list of type '$type''");
+        }
+        $found_list->click();
+    }
+
+    /**
      * @When I go to the share link
      */
     public function iGoToTheShareLink()
