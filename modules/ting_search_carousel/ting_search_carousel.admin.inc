@@ -74,7 +74,28 @@ function ting_search_carousel_settings_admin_form($form, &$form_state) {
     '#description' => t('If not set, defaults to Ranking'),
   );
 
+  $form['ting_search_carousel_settings']['ting_search_carousel_animate'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Auto-animate delay (seconds)'),
+    '#default_value' => variable_get('ting_search_carousel_animate', TING_SEARCH_CAROUSEL_ANIMATE_DELAY),
+    '#description' => t('Enter "0"  to not animate.'),
+    '#element_validate' => array('_ting_search_carousel_element_validate_delay'),
+    '#size' => 4,
+    '#maxlength' => 3,
+  );
+
   return system_settings_form($form);
+}
+
+function _ting_search_carousel_element_validate_delay($element, &$form_state) {
+  $delay = $form_state['values']['ting_search_carousel_animate'];
+
+  if (!is_numeric($delay) && $delay !== 0) {
+    form_set_error('ting_search_carousel_animate', t('Animate delay value must be a number.'));
+  }
+  elseif ($delay < 0) {
+    form_set_error('ting_search_carousel_animate', t('Animate delay value must be a positive number.'));
+  }
 }
 
 /**

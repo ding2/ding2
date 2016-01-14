@@ -193,6 +193,43 @@
     }
 
     /**
+     * Private: Switches automaticaly carousel tabs.
+     */
+    function _animate_delay(delay) {
+      if (delay == 0) {
+        return;
+      }
+
+      var tabs_count = $('.rs-carousel-select-tabs .rs-carousel-item').length;
+      var next_tab = current_tab;
+      
+      // Keep track of the mouse position.
+      // Do not swtich tabs when hovering over the carousel wrapper.
+      // This will not interrupt manual usage of the carousel.
+      //
+      // @todo
+      // Touch devices approach.
+      var is_active = true;
+      $('.rs-carousel-wrapper').mouseenter(function() {
+        is_active = false;
+      }).mouseleave(function() {
+        is_active = true;
+      });
+
+      setInterval(function() {
+        next_tab = current_tab + 1;
+        if (next_tab > tabs_count - 1) {
+          next_tab = 0;
+        }
+
+        if (is_active) {
+          _change_tab(next_tab);
+        }
+
+      }, delay * 1000);
+    }
+
+    /**
      * Public: Init the carousel and fetch content for the first tab.
      */
     function init() {
@@ -215,6 +252,9 @@
 
       // Will get content for the first tab.
       _change_tab(0);
+
+      var delay = Drupal.settings.ting_search_carousel.animate_delay || 0;
+      _animate_delay(delay);
     }
 
     /**
