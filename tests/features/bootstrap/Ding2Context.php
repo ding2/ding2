@@ -42,6 +42,9 @@ class Ding2Context implements Context, SnippetAcceptingContext
             // Throw a bit more useful error message.
             throw new Exception('Ding2MessagesContext not found, please add it to behat.yml');
         }
+
+        // Set window size to avoid problems with elements being invisible.
+        $this->minkContext->getSession()->getDriver()->resizeWindow(1440, 900, 'current');
     }
 
     /**
