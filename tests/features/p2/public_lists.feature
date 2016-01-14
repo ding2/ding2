@@ -32,8 +32,8 @@ Feature: Public lists
     When I unfollow the list with the title "Books about flowers"
     Then I should not see the list "Books about flowers" on lists I follow
 
-  @api @no_messages_check
+  @api @no_messages_check @javascript
   Scenario: Add content to a public list
-    Given I have created a list "My action movies"
-    When I add material to the list "My action movies"
-    Then I should see the material on the list "My action movies"
+    Given I have created a public list "My action movies"
+    When I add material "Die hard 4.0" to the list "My action movies"
+    Then I should see the material "Die hard 4.0" on the public list "My action movies"
