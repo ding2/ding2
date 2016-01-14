@@ -174,15 +174,18 @@ class P2Context implements Context, SnippetAcceptingContext
     /**
      * @Then I read the list id for list name :arg1
      */
-    public function iReadTheListIdForListName($arg1)
+    public function iReadTheListIdForListName($list, $normalize = true)
     {
-        $list_name = strtolower(preg_replace('/\s/', '-', $arg1));
-        $list_id = $this->dataRegistry[$list_name];
-        if (!$list_id) {
-            throw new \Exception("List id for list couldn't be found");
+        $listName = $normalize ? strtolower(preg_replace('/\s/', '-', $list)) : $list;
+        if (!isset($this->dataRegistry[$listName])) {
+            throw new \Exception("List id for list $list doesn't exist");
+        }
+        $listId = $this->dataRegistry[$listName];
+        if (!$listId) {
+            throw new \Exception("List id for list $list seems to be empty");
         }
 
-        return $list_id;
+        return $listId;
     }
 
     /**
@@ -363,5 +366,308 @@ class P2Context implements Context, SnippetAcceptingContext
         if (!preg_match('{^' . $basePath . '/list/\d+$}', $currentUrl)) {
             throw new Exception($currentUrl . 'is not on a list page');
         }
+    }
+
+    /**
+     * @Given I have created a list :title
+     */
+    public function iHaveCreatedAList($title)
+    {
+        $this->iAmOnMyCreateListPage();
+        $this->iCreateANewListWithDescription($title, '');
+        $currentUrl = $this->ding2Context->minkContext->getSession()->getCurrentUrl();
+        $basePath = $this->ding2Context->minkContext->getMinkParameter('base_url');
+        $basePath = rtrim($basePath, '/');
+        $match = array();
+        if (!preg_match('{^' . $basePath . '/list/(\d+)}', $currentUrl, $match)) {
+            throw new \Exception($currentUrl . 'is not on a list page');
+        }
+
+        // Save list id.
+        $this->dataRegistry["list:$title"] = $match[1];
+    }
+
+    /**
+     * @When I go to the list :title of type :type
+     */
+    public function iGoToTheListOfType($title, $type)
+    {
+        // Click on list link.
+        $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
+        $found_list = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.ding-user-lists .' . $type . ' .signature-label:contains("' . $title . '")');
+        if (!$found_list) {
+            throw new \Exception("Couldn't find link to list");
+        }
+        $found_list->click();
+    }
+
+    /**
+     * @When I go to the list type :type
+     */
+    public function iGoToTheListType($type)
+    {
+        // Click on list link.
+        $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
+        $found_list = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.ding-user-lists .' . $type);
+        if (!$found_list) {
+            throw new \Exception("Couldn't find link to list of type '$type''");
+        }
+        $found_list->click();
+    }
+
+    /**
+     * @When I go to the share link
+     */
+    public function iGoToTheShareLink()
+    {
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.share .menu-item');
+        if (!$found) {
+            throw new \Exception("Couldn't find link to share list");
+        }
+        $found->click();
+    }
+
+    /**
+     * @When I make the list :title public
+     * @Given I have made the list :title public
+     */
+    public function iMakeTheListPublic($title)
+    {
+        // Click on list link.
+        $this->iGoToTheListOfType($title, 'user-list');
+
+        // Click share list.
+        $this->iGoToTheShareLink();
+
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '#ding-list-list-permissions-form #edit-status');
+        if (!$found) {
+            throw new \Exception("Couldn't find dropdown menu for sharing list");
+        }
+
+        $found->selectOption('public');
+
+        $form = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '#ding-list-list-permissions-form');
+        $form->submit();
+    }
+
+    /**
+     * @Then I should see that the list :title is public
+     */
+    public function iShouldSeeThatTheListIsPublic($title)
+    {
+        $this->iGoToTheListOfType($title, 'user-list');
+        $this->iGoToTheShareLink();
+
+        $found_select = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '#ding-list-list-permissions-form #edit-status');
+        if (!$found_select) {
+            throw new \Exception("Couldn't find drop down menu for sharing list");
+        }
+        $checked = $found_select->getValue();
+        if (!$checked || $checked != 'public') {
+            throw new \Exception("List is not set to public shared");
+        }
+    }
+
+    /**
+     * @When I go to the public lists page
+     */
+    public function iGoToThePublicListsPage()
+    {
+        $this->ding2Context->minkContext->visit('/public-lists');
+    }
+
+    /**
+     * @Then I should see the public list :title
+     */
+    public function iShouldSeeThePublicList($title)
+    {
+        $listId = $this->iReadTheListIdForListName("list:$title", false);
+        $this->ding2Context->minkContext->assertElementContainsText('a[href^="/list/' . $listId . '"]', $title);
+    }
+
+    /**
+     * @Given I have a link to a public list with the title :title
+     */
+    public function iHaveALinkToAPublicListWithTheTitle($title)
+    {
+        $this->iHaveCreatedAList($title);
+        $this->iMakeTheListPublic($title);
+
+        // Log in as different user.
+        $this->ding2Context->iAmLoggedInAsALibraryUser();
+    }
+
+    /**
+     * @When I follow the list :title
+     */
+    public function iFollowTheList($title)
+    {
+        $listId = $this->iReadTheListIdForListName("list:$title", false);
+        $this->ding2Context->minkContext->visit("/list/$listId");
+
+        $foundButton = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', 'form[action="/list/' . $listId . '"] #edit-submit'); //input[type="submit"]');
+        if (!$foundButton) {
+            throw new \Exception("Couldn't find follow list button");
+        }
+
+        $foundButton->click();
+    }
+
+    /**
+     * @Then I should see the list :title on lists I follow
+     */
+    public function iShouldSeeTheListOnListsIFollow($title)
+    {
+        $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
+        $listsList = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.lists-list a');
+        if (!$listsList) {
+            throw new \Exception("Couldn't find list of lists");
+        }
+        $listsList->click();
+
+        $listId = $this->iReadTheListIdForListName("list:$title", false);
+        $this->ding2Context->minkContext->assertElementContainsText('a[href="/list/' . $listId . '"]', $title);
+    }
+
+    /**
+     * @Given I am following a public list with the title :title
+     */
+    public function iAmFollowingAPublicListWithTheTitle($title)
+    {
+        // Make sure to follow a public list.
+        $this->iHaveALinkToAPublicListWithTheTitle($title);
+        $this->iFollowTheList($title);
+        $this->iShouldSeeTheListOnListsIFollow($title);
+    }
+
+    /**
+     * @When I unfollow the list with the title :title
+     */
+    public function iUnfollowTheListWithTheTitle($title)
+    {
+        $listId = $this->iReadTheListIdForListName("list:$title", false);
+
+        $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
+        $found_list = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.ding-user-lists .lists-list a');
+        if (!$found_list) {
+            throw new \Exception("Couldn't find link to list of followed lists");
+        }
+        $found_list->click();
+
+        // Find link to followed list.
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.ding-type-ding-list a[href="/list/' . $listId . '"]');
+        if (!$found) {
+            throw new \Exception("Couldn't find list '$title' on followed lists");
+        }
+        $this->ding2Context->minkContext
+            ->assertElementContainsText('.ding-type-ding-list a[href="/list/' . $listId . '"]', $title);
+
+        $deleteLink = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '#ding-list-remove-element-ding-list-' . $listId . '-form #edit-submit');
+        if (!$deleteLink) {
+            throw new \Exception("Couldn't find remove from list button");
+        }
+        $deleteLink->click();
+    }
+
+    /**
+     * @Then I should not see the list :title on lists I follow
+     */
+    public function iShouldNotSeeTheListOnListsIFollow($title)
+    {
+        $listId = $this->iReadTheListIdForListName("list:$title", false);
+        $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
+        $found_list = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.ding-user-lists .lists-list a');
+        if (!$found_list) {
+            throw new \Exception("Couldn't find link to list of followed lists");
+        }
+        $found_list->click();
+
+        $this->ding2Context->minkContext
+            ->assertElementNotOnPage('.ding-type-ding-list a[href="/list/' . $listId . '"]');
+    }
+
+    /**
+     * @Given I have created a public list :title
+     */
+    public function iHaveCreatedAPublicList($title)
+    {
+        $this->iHaveCreatedAList($title);
+        $this->iMakeTheListPublic($title);
+        $this->iShouldSeeThatTheListIsPublic($title);
+    }
+
+        /**
+     * @When I add material :material to the list :title
+     */
+    public function iAddMaterialToTheList($material, $title)
+    {
+        $this->ding2Context->minkContext->visitPath('/search/ting/' . urlencode($material));
+
+        // Go to dvd material.
+        $this->ding2Context->minkContext->assertElementContainsText('.search-result--heading-type', 'Dvd');
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.search-result--heading-type:contains("Dvd") + h2 > a');
+        if (!$found) {
+            throw new \Exception("Couldn't find search result with heading type dvd");
+        }
+        $found->click();
+
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.ding-list-add-button a');
+        if (!$found) {
+            throw new \Exception("Couldn't find more button");
+        }
+        $found->mouseOver();
+
+        // Add material to public list.
+        $listLink = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.buttons li a[href^="/dinglist/attach/ting_object"]:contains("' . $title . '")');
+        if (!$found) {
+            throw new \Exception("Couldn't find link to add to list '$title'");
+        }
+        $listLink->click();
+    }
+
+    /**
+     * @Then I should see the material :material on the list :title
+     */
+    public function iShouldSeeTheMaterialOnTheList($material, $title)
+    {
+        $listId = $this->iReadTheListIdForListName("list:$title", false);
+        $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
+        $list = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.user-list a[href="/list/' . $listId . '"]');
+        if (!$list) {
+            throw new \Exception("Couldn't find list '$title''");
+        }
+        $list->click();
+
+        $this->ding2Context->minkContext->assertElementContainsText('.ting-object a', $material);
+    }
+
+    /**
+     * @Then I should see the material :material on the public list :title
+     */
+    public function iShouldSeeTheMaterialOnThePublicList($material, $title)
+    {
+        $this->iShouldSeeTheMaterialOnTheList($material, $title);
+
+        // Log in as different user and check the list again.
+        $listId = $this->iReadTheListIdForListName("list:$title", false);
+        $this->ding2Context->iAmLoggedInAsALibraryUser();
+        $this->ding2Context->minkContext->visit("/list/$listId");
+        $this->ding2Context->minkContext->assertElementContainsText('.ting-object', $material);
     }
 }
