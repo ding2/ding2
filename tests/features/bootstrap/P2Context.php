@@ -670,4 +670,94 @@ class P2Context implements Context, SnippetAcceptingContext
         $this->ding2Context->minkContext->visit("/list/$listId");
         $this->ding2Context->minkContext->assertElementContainsText('.ting-object', $material);
     }
+
+    /**
+     * @Then I should see the tag :tag on the material
+     */
+    public function iShouldSeeTheTagOnTheMaterial($tag)
+    {
+        $this->ding2Context->minkContext->assertElementContainsText('.subjects .subject', $tag);
+    }
+
+    /**
+     * @Given I have chosen a book material with the tag :tag
+     */
+    public function iHaveChosenABookMaterialWithTheTag($tag)
+    {
+        $this->iHaveSearchedFor($tag);
+        $link = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.form-item-type-bog a');
+        if (!$link) {
+            throw new Exception("Couldn't filter for book type");
+        }
+        $link->click();
+
+        // Go to material.
+        $this->iChooseTheFirstSearchResult();
+    }
+
+    /**
+     * @When I choose the first search result
+     */
+    public function iChooseTheFirstSearchResult()
+    {
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.search-results .search-result .search-result--heading-type + h2 a');
+        if (!$found) {
+            throw new Exception("Couldn't find search result.");
+        }
+        $found->click();
+    }
+
+    /**
+     * @When I follow the tag :tag
+     */
+    public function iFollowTheTag($tag)
+    {
+        // Mouse over the "More" button.
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.ding-list-add-button a');
+        if (!$found) {
+            throw new \Exception("Couldn't find more button");
+        }
+        $found->mouseOver();
+
+        $followTag = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.buttons a:contains("' . $tag . '")');
+        if (!$followTag) {
+            throw new Exception("Couldn't find tag '$tag' on material");
+        }
+        $followTag->click();
+    }
+
+    /**
+     * @Then I should see the tag :tag on my list :list
+     */
+    public function iShouldSeeTheTagOnMyList($tag, $list)
+    {
+    }
+
+    /**
+     * @Given I am following the tag :arg1
+     */
+    public function iAmFollowingTheTag($arg1)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @When I unfollow the tag :arg1
+     */
+    public function iUnfollowTheTag($arg1)
+    {
+        throw new PendingException();
+    }
+
+    /**
+     * @Then I should not see the tag :arg1 on my list :arg2
+     */
+    public function iShouldNotSeeTheTagOnMyList($arg1, $arg2)
+    {
+        throw new PendingException();
+    }
 }
