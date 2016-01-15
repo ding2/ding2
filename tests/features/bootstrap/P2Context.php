@@ -488,7 +488,36 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iShouldSeeThePublicList($title)
     {
         $listId = $this->iReadTheListIdForListName("list:$title", false);
-        $this->ding2Context->minkContext->assertElementContainsText('a[href^="/list/' . $listId . '"]', $title);
+
+        $nrPages = 1;
+        // Get number of pages from pager in the bottom.
+        $lastPageHref = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.pager-last a')->getAttribute('href');
+        if ($lastPageHref) {
+            $match = array();
+            if (preg_match('{/public-lists\?page=(\d+)}', $lastPageHref, $match)) {
+                $nrPages = $match[1];
+            }
+        }
+
+        // Search for list on all pages.
+        for ($i = 0; $i <= $nrPages; $i++) {
+            if ($i) {
+                $this->ding2Context->minkContext->visitPath('/public-lists?page=' . $i);
+            }
+
+            $found = $this->ding2Context->minkContext->getSession()->getPage()
+                ->find('css', 'a[href^="/list/' . $listId . '"]');
+            if ($found) {
+                $this->ding2Context->minkContext->assertElementContainsText('a[href^="/list/' . $listId . '"]', $title);
+
+                // We return now, cause we have found the element.
+                return;
+            }
+        }
+
+        // If we get here, the element hasn't been found.
+        throw new Exception("List '$title' couldn't be found on public lists");
     }
 
     /**
