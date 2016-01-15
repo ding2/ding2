@@ -16,7 +16,6 @@ include_once 'ting_search_context.features.inc';
  * Implements hook_menu().
  */
 function ting_search_context_menu() {
-  dd("0");
 	$items['admin/content/ting-search-context'] = array(
 		'title' => 'Search context',
 		'description' => 'Manage the state of the context rating system.',
