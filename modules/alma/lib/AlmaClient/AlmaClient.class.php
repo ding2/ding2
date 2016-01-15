@@ -365,6 +365,23 @@ class AlmaClient {
   }
 
   /**
+   * Get a list of historical loans.
+   */
+  public function get_historical_loans($borr_card, $from = 0) {
+    $doc = $this->request('patron/loans/historical', array('borrCard' => $borr_card, 'fromDate' => date('Y-m-d', $from)));
+    
+    $loans = array();
+    foreach ($doc->getElementsByTagName('catalogueRecord') as $item) {
+      $loans[] = array(
+        'id' => $item->getAttribute('id'),
+        'loan_date' => strtotime($item->parentNode->getAttribute('loanDate'))
+      );
+    }
+    
+    return $loans;
+  }
+
+  /**
    * Get patron's current loans.
    */
   public function get_loans($borr_card, $pin_code) {
@@ -396,6 +413,70 @@ class AlmaClient {
    */
   private static function loan_sort($a, $b) {
     return strcmp($a['due_date'], $b['due_date']);
+  }
+
+  /**
+   * Add user consent.
+   */
+  public function add_user_consent($borr_card, $pin_code, $type) {
+    // Initialise the query parameters with the current value from the
+    // reservation array.
+    $params = array(
+      'borrCard' => $borr_card,
+      'pinCode' => $pin_code,
+      'allowType' => $type,
+    );
+
+    try {
+      $doc = $this->request('patron/allow/add', $params);
+      $res_status = $doc->getElementsByTagName('status')->item(0)->getAttribute('value');
+      // Return error code when patron is blocked.
+      if ($res_status != 'ok') {
+        return ALMA_AUTH_BLOCKED;
+      }
+
+      // General catchall if status is not okay is to report failure.
+      if ($res_status == 'consentNotOk') {
+        return FALSE;
+      }
+    }
+    catch (AlmaClientConsentNotFound $e) {
+      return FALSE;
+    }
+
+    return $res_status;
+  }
+
+  /**
+   * Remove user consent.
+   */
+  public function remove_user_consent($borr_card, $pin_code, $type) {
+    // Initialise the query parameters with the current value from the
+    // reservation array.
+    $params = array(
+      'borrCard' => $borr_card,
+      'pinCode' => $pin_code,
+      'allowType' => $type,
+    );
+
+    try {
+      $doc = $this->request('patron/allow/remove', $params);
+      $res_status = $doc->getElementsByTagName('status')->item(0)->getAttribute('value');
+      // Return error code when patron is blocked.
+      if ($res_status != 'ok') {
+        return ALMA_AUTH_BLOCKED;
+      }
+
+      // General catch all if status is not okay is to report failure.
+      if ($res_status == 'consentNotOk') {
+        return FALSE;
+      }
+    }
+    catch (AlmaClientConsentNotFound $e) {
+      return FALSE;
+    }
+
+    return $res_status;
   }
 
   /**
