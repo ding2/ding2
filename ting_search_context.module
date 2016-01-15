@@ -16,11 +16,12 @@ include_once 'ting_search_context.features.inc';
  * Implements hook_menu().
  */
 function ting_search_context_menu() {
+  dd("0");
 	$items['admin/content/ting-search-context'] = array(
 		'title' => 'Search context',
 		'description' => 'Manage the state of the context rating system.',
 		'page callback' => 'ting_search_context_admin_rate_nodes',
-		'access arguments' => array('administer content'), // Todo: Make own permission?
+		'access arguments' => array('rate nodes'), // Todo: Make own permission?
 		'type' => MENU_LOCAL_TASK | MENU_NORMAL_ITEM,
 		'file' => 'ting_search_context.admin.inc',
 	);
@@ -143,6 +144,18 @@ function ting_search_context_ctools_plugin_directory($module, $plugin) {
   if ($module == 'ctools' && !empty($plugin)) {
     return "plugins/$plugin";
   }
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ting_search_context_permission() {
+    return array(
+    'rate nodes' => array(
+      'title' => t('Rate nodes'),
+      'description' => t('Rate and unrate nodes in search contexts.'),
+    ),
+  );
 }
 
 /**
