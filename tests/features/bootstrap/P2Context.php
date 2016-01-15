@@ -656,6 +656,9 @@ class P2Context implements Context, SnippetAcceptingContext
         }
         $found->click();
 
+        // Make sure document is ready before we try to make a mouseover.
+        $this->ding2Context->minkContext->getSession()
+            ->evaluateScript('window.jQuery(document).ready(function() { return; });');
         $found = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', '.ding-list-add-button a');
         if (!$found) {
