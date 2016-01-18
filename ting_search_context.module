@@ -158,6 +158,28 @@ function ting_search_context_permission() {
 }
 
 /**
+ * Implements hook_ting_pre_execute().
+ *
+ * To properly determine the context of a search result, we need certain facets
+ * to be returned from the well. Here we ensure that they are added to every
+ * Ting search request. It won't have any effect on the facetbrowser, since it
+ * only adds its own configured facets.
+ */
+function ting_search_context_ting_pre_execute($request) {
+  // Collection requests extends search requests, so we use get_class.
+  if (get_class($request) === 'TingClientSearchRequest') {
+    $required_facets = array(
+      'facet.type' => 'facet.type',
+      'facet.category' => 'facet.category',
+      'facet.genreCategory' => 'facet.genreCategory',
+    );
+
+    $facets = array_flip($request->getFacets()) + $required_facets;
+    $request->setFacets(array_keys($facets));
+  }
+}
+
+/**
  * Helper function to get field_name for specified node type.
  */
 function ting_search_context_get_image_field_name($node) {
