@@ -1,19 +1,19 @@
 Feature: Consent to save loan history
-  I want to choose whether my loan history is saved or not
+  In order to see my loan history
   As a library user
-  I want to check or uncheck the personalification box
+  I want to be able to allow that my loan history is saved
 
   Background:
     Given I am logged in as a library user
 
   @api
-  Scenario: Check the personalification box
+  Scenario: Allow my loan history to be saved
     Given I am on my user consent page
     When I check the consent box
     Then I should see that the consent box is checked
 
   @api
-  Scenario: Uncheck the personalification box
+  Scenario: Disallow my loan history to be saved
     Given I am on my user consent page
     When I uncheck the consent box
     Then I should see that the consent box is not checked
