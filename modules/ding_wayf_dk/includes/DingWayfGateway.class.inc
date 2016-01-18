@@ -14,10 +14,13 @@ class DingWayfGateway implements WayfServiceInterface {
   protected $config = array();
 
   /**
-   * Function __construct.
+   * Default construct for the class.
    *
-   * @param [array] $config
-   *   config : configuration
+   * @param array $config
+   *   WAYF configuration. This is not used by the object but it's the default
+   *   parameter when the class is created in the wayf_dk module. It's used by
+   *   other service classes. So here it's simply overridden with gateway WAYF
+   *   settings.
    */
   public function __construct($config) {
     $this->config = $config;
@@ -34,10 +37,14 @@ class DingWayfGateway implements WayfServiceInterface {
    * Authentication with the Single SignOn Service.
    *
    * @param array $providerids
+   *  Provider ids are used for scoping in the wayf_dk_login service class, but
+   *  it's not used by this service class.
    *
    * @return array
+   *   The response from the gateway.
    *
    * @throws \WAYF\SPortoException
+   *   Is thrown on gateway error.
    */
   public function authenticate($providerids = array()) {
     // Check error callback.
@@ -57,9 +64,7 @@ class DingWayfGateway implements WayfServiceInterface {
     }
     else {
       if (!empty($_POST['eduPersonTargetedID'])) {
-        /**
-         * @TODO: WHAT should be store ind the session.
-         */
+        // @TODO: WHAT should be store ind the session.
         $_SESSION['wayf_dk_login'] = array(
           'nameID' => '',
           'sessionIndex' => '',
@@ -78,8 +83,6 @@ class DingWayfGateway implements WayfServiceInterface {
 
   /**
    * Logout using the current session information.
-   *
-   * @throws \WAYF\SPortoException
    */
   public function logout() {
     // Remove session information to end redirect loop in logout endpoint. This
@@ -107,6 +110,7 @@ class DingWayfGateway implements WayfServiceInterface {
    * Generate sp metadata based on configuration.
    *
    * @return string
+   *   Message that no metadata is provided by this service class.
    */
   public function getMetadata() {
     return 'No metadata available for the current service class.';

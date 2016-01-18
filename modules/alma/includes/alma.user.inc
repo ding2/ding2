@@ -150,6 +150,7 @@ function alma_user_clear_cache($account) {
  *   The selected default branch.
  *
  * @throws \Exception
+ *   If the user already exists exception is thrown.
  */
 function alma_user_create($cpr, $pin_code, $name, $mail, $branch) {
   try {

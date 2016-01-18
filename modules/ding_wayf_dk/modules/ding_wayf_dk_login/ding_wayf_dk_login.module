@@ -120,7 +120,7 @@ function ding_wayf_dk_login_preprocess_wayf_dk_login(&$variables) {
     '#title' => t('Login with NemID'),
   );
 
-  $variables['login_url']['#text'] = t('Login with ') . drupal_render($image);
+  $variables['login_url']['#text'] = t('Login with') . ' ' . drupal_render($image);
 }
 
 /**
@@ -147,7 +147,7 @@ function ding_wayf_dk_login_redirect_user($fallback_url = NULL) {
 }
 
 /**
- * Implements hook_form_wayf_dk_login__settings_form_alter();
+ * Implements hook_form_wayf_dk_login__settings_form_alter().
  *
  * Adds debug option to map test WAYF CPR number to a provider valid one.
  */
@@ -182,7 +182,7 @@ function ding_wayf_dk_login_form_wayf_dk_login__settings_form_alter(&$form, &$fo
  *   Attributes filter based on the active provider. Defaults to
  *   'schacPersonalUniqueID' with social security number (CPR).
  */
-function ding_wayf_dk_login_get_credentials($attributes) {
+function ding_wayf_dk_login_get_credentials(array $attributes) {
   // Set default required attributes.
   $required_attributes = array(
     'schacPersonalUniqueID' => array(
@@ -212,7 +212,7 @@ function ding_wayf_dk_login_get_credentials($attributes) {
  * @return array
  *   Will be empty if not all required attributes is present.
  */
-function ding_wayf_dk_login_get_required_attributes($attributes, $required_attributes) {
+function ding_wayf_dk_login_get_required_attributes(array $attributes, array $required_attributes) {
   $attribute_list = array();
 
   if (isset($attributes) && is_array($required_attributes)) {
