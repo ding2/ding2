@@ -42,11 +42,11 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then The list :arg1 exists
+     * @Then The list for followed searches exists
      */
-    public function theListExists($arg1)
+    public function theListExists()
     {
-        $list_name = strtolower(preg_replace('/\s/', '-', $arg1));
+        $list_name = 'user-searches';
         $this->ding2Context->drupalContext->visitPath('/user');
         $link = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '.' . $list_name . ' a');
         if (!$link) {
