@@ -92,6 +92,14 @@ class AlmaClient {
           case 'reservationNotFound':
             throw new AlmaClientReservationNotFound('Reservation not found');
 
+          case 'invalidPatron':
+            if ($method == 'patron/selfReg') {
+              throw new AlmaClientUserAlreadyExistsError();
+            }
+            else {
+              throw new AlmaClientInvalidPatronError('Invailed patron');
+            }
+
           default:
             throw new AlmaClientCommunicationError('Status is not okay: ' . $message);
         }
@@ -980,6 +988,37 @@ class AlmaClient {
     return TRUE;
   }
 
+  /**
+   * Create new user af alma.
+   *
+   * @param $cpr
+   * @param $pin_code
+   * @param $name
+   * @param $mail
+   * @param $branch
+   *
+   * @return \DOMDocument
+   * @throws \AlmaClientBorrCardNotFound
+   * @throws \AlmaClientCommunicationError
+   * @throws \AlmaClientHTTPError
+   * @throws \AlmaClientReservationNotFound
+   */
+  public function self_register($cpr, $pin_code, $name, $mail, $branch) {
+    $params = array(
+      'securityNumber' => $cpr,
+      'borrCard' => $cpr,
+      'pin' => $pin_code,
+      'name' => $name,
+      'email' => $mail,
+      'branch' => $branch,
+      'addr1' => '+++',
+      'verified' => FALSE,
+      'locale' => 'da_DK'
+    );
+
+    return $this->request('patron/selfReg', $params);;
+  }
+
 }
 
 /**
@@ -988,12 +1027,13 @@ class AlmaClient {
 
 class AlmaClientInvalidURLError extends Exception { }
 
-
 class AlmaClientHTTPError extends Exception { }
-
 
 class AlmaClientCommunicationError extends Exception { }
 
+class AlmaClientInvalidPatronError extends Exception { }
+
+class AlmaClientUserAlreadyExistsError extends Exception { }
 
 class AlmaClientBorrCardNotFound extends Exception { }
 
