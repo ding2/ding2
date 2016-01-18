@@ -22,7 +22,7 @@ class DingWayfGateway implements WayfServiceInterface {
    *   other service classes. So here it's simply overridden with gateway WAYF
    *   settings.
    */
-  public function __construct($config) {
+  public function __construct(array $config) {
     $this->config = $config;
 
     // Note: This is a config override hack.
@@ -37,8 +37,8 @@ class DingWayfGateway implements WayfServiceInterface {
    * Authentication with the Single SignOn Service.
    *
    * @param array $providerids
-   *  Provider ids are used for scoping in the wayf_dk_login service class, but
-   *  it's not used by this service class.
+   *   Provider ids are used for scoping in the wayf_dk_login service class, but
+   *   it's not used by this service class.
    *
    * @return array
    *   The response from the gateway.
