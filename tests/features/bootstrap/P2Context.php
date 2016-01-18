@@ -707,4 +707,13 @@ class P2Context implements Context, SnippetAcceptingContext
         $this->ding2Context->minkContext->visit("/list/$listId");
         $this->ding2Context->minkContext->assertElementContainsText('.ting-object', $material);
     }
+
+    /**
+     * @When I go to the list page :title
+     */
+    public function iGoToTheListPage($title)
+    {
+        $listId = $this->iReadTheListIdForListName("list:$title", false);
+        $this->ding2Context->minkContext->visitPath("/list/$title");
+    }
 }

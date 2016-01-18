@@ -37,3 +37,12 @@ Feature: Public lists
     Given I have created a public list "My action movies"
     When I add material "Die hard 4.0" to the list "My action movies"
     Then I should see the material "Die hard 4.0" on the public list "My action movies"
+
+  @api @no_messages_check @javascript
+  Scenario: Follow a public list as anonymous user
+    Given I have a link to a public list with the title "Old buildings"
+    And I am not logged in
+    When I go to the list page "Old buildings"
+    And I am logged in as a library user
+    And I follow the list "Old buildings"
+    Then I should see the list "Old buildings" on lists I follow
