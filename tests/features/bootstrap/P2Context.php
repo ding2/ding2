@@ -135,9 +135,9 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When I add the author to authors I follow
+     * @When I add the author :author to authors I follow
      */
-    public function iAddTheAuthorToAuthorsIFollow()
+    public function iAddTheAuthorToAuthorsIFollow($author)
     {
         // Choose book facet.
         $found = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '.form-item-type-bog a');
@@ -146,8 +146,9 @@ class P2Context implements Context, SnippetAcceptingContext
         }
         $found->click();
 
+        $authorLowerCase = strtolower(preg_replace('/\s/', '-', $author));
         $found = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.form-item-creator-george-orwell a');
+            ->find('css', '.form-item-creator-' . $authorLowerCase . ' a');
         if (!$found) {
             throw new \Exception('Creator facet not found');
         }
@@ -206,7 +207,7 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         // First add the author to the list.
         $this->iHaveSearchedFor($arg1);
-        $this->iAddTheAuthorToAuthorsIFollow();
+        $this->iAddTheAuthorToAuthorsIFollow($arg1);
 
         $this->iShouldSeeOnTheListOfFollowedAuthors($arg1);
     }
