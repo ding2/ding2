@@ -1,0 +1,59 @@
+<?php
+/**
+ * @file
+ * This module is a support module to share function between it's sub-modules.
+ */
+
+/**
+ * Implements hook_dk_wayf_dk_login_service_class().
+ */
+function ding_wayf_dk_wayf_dk_login_service_class() {
+  return array(
+    'file' => 'includes/DingWayfGateway.class',
+    'class' => 'WAYF\DingWayfGateway',
+    'name' => t('WAYF Gateway'),
+  );
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ *
+ * Hide not need configuration options.
+ */
+function ding_wayf_dk_form_wayf_dk_login__settings_form_alter(&$form, &$form_state, $form_id) {
+  if (variable_get('wayf_dk_login_service_class', '') == 'ding_wayf_dk') {
+    // Remove configuraion options from IDP.
+    $form['idp']['wayf_dk_login_mode']['#access'] = FALSE;
+    $form['idp']['container']['#access'] = FALSE;
+
+    // Remove access to unused configuration tabs.
+    $form['sp']['#access'] = FALSE;
+    $form['metadata']['#access'] = FALSE;
+    $form['fields']['#access'] = FALSE;
+    $form['display']['#access'] = FALSE;
+    $form['organizations']['#access'] = FALSE;
+
+    // Add new options.
+    global $base_url;
+    $form['idp']['ding_wayf_dk_gateway_endpoint'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Gateway WAYF location'),
+      '#default_value' => variable_get('ding_wayf_dk_gateway_endpoint', 'https://dringo-ssl.dbc.dk/nemlogin'),
+      '#description' => t('Endpoint URL for the service.'),
+    );
+
+    $form['idp']['ding_wayf_dk_gateway_consumer'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Consumer return location'),
+      '#default_value' => variable_get('ding_wayf_dk_gateway_consumer', $base_url . '/wayf/consume'),
+      '#description' => t('Endpoint URL for the consumer service (return URL).'),
+    );
+
+    $form['idp']['ding_wayf_dk_gateway_logout_endpoint'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Single Logout redirect location'),
+      '#default_value' => variable_get('ding_wayf_dk_gateway_logout_endpoint', $base_url . '/wayf/logout'),
+      '#description' => t('Endpoint URL for the service.'),
+    );
+  }
+}

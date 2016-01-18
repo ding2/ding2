@@ -1,0 +1,397 @@
+<?php
+/**
+ * @file
+ * Handles user creation in the provider with information from WAYF login.
+ */
+
+/**
+ * Implements hook_permission().
+ */
+function ding_wayf_dk_create_user_permission() {
+  return array(
+    'administer wayf user creation' => array(
+      'title' => t('Administer WAYF (user creation)'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_wayf_dk_create_user_menu() {
+  $items = array();
+
+  $items['wayf/create-user/before-page'] = array(
+    'title' => 'Create new user information page',
+    'description' => 'Create new user using WAYF login.',
+    'page callback' => 'ding_wayf_dk_create_user_info_page',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  $items['wayf/create-user/notice'] = array(
+    'title' => 'User creation notice',
+    'description' => 'Notice about account creation.',
+    'page callback' => 'ding_wayf_dk_create_user_notice',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+    $items['wayf/create-user/form'] = array(
+    'title' => 'User creation form',
+    'description' => 'Form used to account creation.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_wayf_dk_create_user_form'),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ding_wayf_dk_create_user_ctools_plugin_directory($owner, $plugin_type) {
+  return 'plugins/' . $plugin_type;
+}
+
+/**
+ * Implements hook_wayf_dk_login_authenticate_result_alter().
+ *
+ * Store the schacPersonalUniqueID in session to use later when send user create
+ * to the provider.
+ */
+function ding_wayf_dk_create_user_wayf_dk_login_authenticate_result_alter($result) {
+  if (isset($_SESSION['ding_wayf_dk_login_destination']) && $_SESSION['ding_wayf_dk_login_destination'] == 'wayf/create-user/form') {
+    // Extract unique id form the WAYF attributes (the CPR number).
+    preg_match('/\d{10}$/', reset($result['attributes']['schacPersonalUniqueID']), $uniqueID);
+    $uniqueID = reset($uniqueID);
+
+    // Check if age limit should be set.
+    $limit = variable_get('ding_wayf_user_create_age_limit', '');
+    if (!empty($limit) && is_numeric($limit)) {
+
+      // Magic function to get the 1900, 1800 or 2000 prefixes for year.
+      // @see http://da.wikipedia.org/wiki/CPR-nummer
+      $year = substr($uniqueID, 4, 2);
+      switch (substr($uniqueID, 6, 1)) {
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+          $year = '19' . $year;
+          break;
+
+        case 4:
+        case 9:
+          $year = $year > 36 ? '19' . $year : '20' . $year;
+          break;
+
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+          $year = $year > 57 ? '18' . $year : '20' . $year;
+          break;
+      }
+
+      // Create date time object to use it's diff method.
+      $from = new DateTime();
+      $from->setDate($year, substr($uniqueID, 2, 2), substr($uniqueID, 0, 2));
+      $to = new DateTime('tomorrow');
+
+      // Check if limit have been reached.
+      if ($from->diff($to)->y < $limit) {
+        // The age limit has to kick in.
+        drupal_set_message('You are not allowed to automatically be created because of the age limit. Please go to your local library to registry.');
+
+        // Redirect to front page.
+        drupal_goto('<front>');
+      }
+    }
+
+    $_SESSION['ding_wayf_dk_create_user'] = $uniqueID;
+  }
+}
+
+/**
+ * Implements hook_form_wayf_dk_login__settings_form_alter();
+ */
+function ding_wayf_dk_create_user_form_wayf_dk_login__settings_form_alter(&$form, &$form_state, $form_id) {
+  $form['user'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Create user'),
+    '#group' => 'tabs',
+  );
+
+  $form['user']['ding_wayf_user_create_age_limit'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Age limit'),
+    '#description' => t('If set the CPR number will be used to set an age limit. If empty no limit exists.'),
+    '#default_value' => variable_get('ding_wayf_user_create_age_limit', ''),
+  );
+
+  // Define before create info page
+  $form['user']['ding_wayf_user_create_before_info'] = array(
+    '#type' => 'fieldset',
+    '#tree' => TRUE,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#title' => t('User creating info pager (before)'),
+    '#description' => t('Information to display on the page displayed when the user clicks on the create user link.'),
+  );
+
+  $defaults = variable_get('ding_wayf_user_create_before_info', array());
+  $form['user']['ding_wayf_user_create_before_info']['title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title'),
+    '#default_value' => isset($defaults['title']) ? $defaults['title'] : '',
+  );
+
+  $form['user']['ding_wayf_user_create_before_info']['content'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Content'),
+    '#default_value' => isset($defaults['content']) ? $defaults['content'] : '',
+  );
+
+  $form['user']['ding_wayf_user_create_before_info']['link'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Link title'),
+    '#default_value' => isset($defaults['link']) ? $defaults['link'] : '',
+  );
+
+  // Accepting text.
+  $form['user']['ding_wayf_user_create_accpect_text'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Accept text'),
+    '#default_value' => variable_get('ding_wayf_user_create_accpect_text', ''),
+    '#description' => t('The text that is display next to the user create accept check box.'),
+  );
+
+  // Define after create info page
+  $form['user']['ding_wayf_user_create_after_info'] = array(
+    '#type' => 'fieldset',
+    '#tree' => TRUE,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#title' => t('User creating info pager (after)'),
+    '#description' => t('Information to display on the page displayed when the user have sent a creation request.'),
+  );
+
+  $defaults = variable_get('ding_wayf_user_create_after_info', array());
+  $form['user']['ding_wayf_user_create_after_info']['title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title'),
+    '#default_value' => isset($defaults['title']) ? $defaults['title'] : '',
+  );
+
+  $form['user']['ding_wayf_user_create_after_info']['content'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Content'),
+    '#default_value' => isset($defaults['content']) ? $defaults['content'] : '',
+  );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_wayf_dk_create_user_theme($existing, $type, $theme, $path) {
+  return array(
+    'ding_wayf_dk_info_page' => array(
+      'template' => 'ding-wayf-dk-info-page',
+      'variables' => array(
+        'title' => array(),
+        'content' => array(),
+        'link' => NULL,
+      ),
+      'path' => $path . '/templates',
+    ),
+    'ding_wayf_dk_create_user_link' => array(
+      'template' => 'ding-wayf-dk-create-user-link',
+      'variables' => array(
+        'link' => null,
+      ),
+      'path' => $path . '/templates',
+    ),
+  );
+}
+
+/**
+ * Menu callback for information page before user creation.
+ */
+function ding_wayf_dk_create_user_info_page() {
+  // Get texts from the configuration.
+  $values = variable_get('ding_wayf_user_create_before_info', array());
+
+  return array(
+    '#theme' => 'ding_wayf_dk_info_page',
+    '#title' => empty($values['title']) ? t('Not configured.') : $values['title'],
+    '#content' => empty($values['content']) ? t('Please configure WAYF configuration to get content on this page under <a href="/admin/config/people/wayf">admin/config/people/wayf</a>.') : $values['content'],
+    '#link' => array(
+      '#theme' => 'link',
+      '#text' => empty($values['link']) ? t('Register as new user') : $values['link'],
+      '#path' => 'wayf/consume',
+      '#options' => array(
+        'attributes' => array(
+          'class' => array(),
+        ),
+        'query' => array(
+          'destination' => 'wayf/create-user/form'
+        ),
+        'html' => TRUE,
+      ),
+    ),
+  );
+}
+
+/**
+ * Menu callback for information page after user creation.
+ */
+function ding_wayf_dk_create_user_notice() {
+  // Get texts from the configuration.
+  $values = variable_get('ding_wayf_user_create_after_info', array());
+
+  return array(
+    '#theme' => 'ding_wayf_dk_info_page',
+    '#title' => empty($values['title']) ? t('Not configured.') : $values['title'],
+    '#content' => empty($values['content']) ? t('Please configure WAYF configuration to get content on this page under <a href="/admin/config/people/wayf">admin/config/people/wayf</a>.') : $values['content'],
+  );
+}
+
+/**
+ * Menu callback to create the user creation form.
+ */
+function ding_wayf_dk_create_user_form() {
+  // Remove all message from the normal login, that have not succeed.
+  drupal_get_messages(null, TRUE);
+
+  // Check if user have been logged in.
+  if (user_is_logged_in()) {
+    // User is logged in and have an account.
+    drupal_set_message(t('You already have an user account at the library. So we have just logged you in.'));
+
+    // Ensure session information is removed.
+    unset($_SESSION['ding_wayf_dk_create_user']);
+    unset($_SESSION['ding_wayf_dk_login_destination']);
+
+    // Send user to front page.
+    drupal_goto('<front>');
+  }
+
+  // This is a little hack to get around the panels design requirements of the
+  // ddbasic theme.
+  $form = array(
+    '#prefix' => '<div class="default-layout"><div class="layout-wrapper">',
+    '#suffix' => '<br /></div></div>',
+  );
+
+  $form['accept'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('I accept the user agreements'),
+    '#description' => variable_get('ding_wayf_user_create_accpect_text', ''),
+    '#required' => TRUE,
+  );
+
+  $form['name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Name'),
+    '#description' => t('You full name.'),
+    '#maxlength' => 100,
+    '#required' => TRUE,
+    '#attributes' => array(
+      'autocomplete' => 'off',
+    ),
+  );
+
+  $form['mail'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Email address'),
+    '#description' => t('The Email address that we can use to get in contact with you.'),
+    '#required' => TRUE,
+    '#attributes' => array(
+      'autocomplete' => 'off',
+    ),
+  );
+
+  // Get branch options form the active provider.
+  global $user;
+  $provider = _ding_provider_get_provider('reservation');
+  $options = ding_provider_invoke('reservation', 'options', $user);
+  $form['branch'] = $options[$provider['module'] . '_preferred_branch'];
+
+  $form['pin'] = array(
+    '#type' => 'password',
+    '#title' => t('Pin code'),
+    '#description' => t('Pin code with an max length of %length', array('%length' => ding_user_get_pincode_length())),
+    '#size' => 10,
+    '#maxlength' => ding_user_get_pincode_length(),
+    '#required' => TRUE,
+    '#attributes' => array(
+      'autocomplete' => 'off',
+    ),
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Create me')
+  );
+
+  $link = '/wayf/logout';
+  if (user_is_logged_in()) {
+    $link = '/user/logout';
+  }
+  $form['cancel'] = array(
+    '#markup' => '<a class="ding-wayf--cancel" href="' . $link . '">' . t('Cancel') . '</a>',
+  );
+
+  $form['#submit'] = array('ding_wayf_dk_create_user_form_sbumit');
+
+  return $form;
+}
+
+/**
+ * Implements hook_wayf_dk_login_pre_logout().
+ *
+ * Ensures that session is cleaned up.
+ */
+function ding_wayf_dk_create_user_wayf_dk_login_pre_logout() {
+  if (isset($_SESSION['ding_wayf_dk_login_destination'])) {
+    unset($_SESSION['ding_wayf_dk_login_destination']);
+  }
+
+  if (isset($_SESSION['ding_wayf_dk_create_user'])) {
+    unset($_SESSION['ding_wayf_dk_create_user']);
+  }
+}
+
+/**
+ * User creation form submit handler.
+ */
+function ding_wayf_dk_create_user_form_sbumit($form, &$form_state) {
+  $values = $form_state['values'];
+  $cpr = $_SESSION['ding_wayf_dk_create_user'];
+
+  // Remove session variables used in redirects in the user creation process.
+  unset($_SESSION['ding_wayf_dk_create_user']);
+  unset($_SESSION['ding_wayf_dk_login_destination']);
+
+  // Try to create the user at the provider.
+  try {
+    // Create user.
+    ding_provider_invoke('user', 'create', $cpr, $values['pin'], $values['name'], $values['mail'], $values['branch']);
+
+    // Login the user and ensure he/her is redirect to notice page.
+    $_REQUEST['destination'] = 'wayf/create-user/notice';
+    ding_wayf_dk_login_wayf_dk_login_create_user(array(
+      'schacPersonalUniqueID' => array('urn:mace:terena.org:schac:personalUniqueID:dk:CPR:' . $cpr),
+    ));
+
+    // Remove request fields for the login form.
+    drupal_get_messages(NULL, TRUE);
+  }
+  catch (Exception $exception) {
+    drupal_set_message(t('You already have an user account at the library. So we have just logged you in.'));
+    drupal_goto();
+  }
+}

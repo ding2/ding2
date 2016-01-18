@@ -1,0 +1,255 @@
+<?php
+/**
+ * @file
+ * Adds support for user login through WAYF dk services.
+ */
+
+/**
+ * Delimiter for extracting a part of a field.
+ */
+define('DING_WAYF_DK_LOGIN_FIELD_DELIMITER', ':');
+
+/**
+ * Implements hook_menu_alter().
+ *
+ * Allow users to logout of WAYF as they may be logged into WAYF but not the
+ * drupal site/library system.
+ */
+function ding_wayf_dk_login_menu_alter(&$items) {
+  $items['wayf/logout']['access callback'] = TRUE;
+}
+
+/**
+ * Implements hook_wayf_dk_login_create_user().
+ */
+function ding_wayf_dk_login_wayf_dk_login_create_user($attributes) {
+  if (ding_provider_implements('wayf', 'login_credentials')) {
+    // Get credentials from the provider.
+    $credentials = ding_provider_invoke('wayf', 'login_credentials', ding_wayf_dk_login_get_credentials($attributes));
+
+    // Check if CPR mapping is activated.
+    if (variable_get('ding_wayf_dk_login_debug', 0)) {
+      $credentials['name'] = variable_get('ding_wayf_dk_login_debug_cpr', '');
+    }
+
+    if (!empty($credentials)) {
+      // Set values to send with the login form.
+      $form_state = array(
+        'values' => $credentials,
+      );
+
+      // Submit login form.
+      drupal_form_submit('user_login_block', $form_state);
+      $errors = form_get_errors();
+      if (!empty($errors)) {
+        if (module_exists('ding_wayf_dk_create_user')) {
+          // Clean out message from the login form.
+          drupal_get_messages(NULL, TRUE);
+
+          drupal_set_message(t('You do not have an user account at the public library. If you wish to create an user account !user_url . You are still logged in at WAYF, so you can !logout to logout of WAYF.', array(
+            '!logout' => l(t('click her'), 'wayf/logout'),
+            '!user_url' => l(t('click her'), 'wayf/create-user/before-page'),
+          )), 'warning');
+        }
+        else {
+          // Clean out message from the login form.
+          drupal_get_messages(NULL, TRUE);
+
+          // Set new default message.
+          drupal_set_message(t('Something went wrong. Please try again or !url of WAYF.', array('!url' => l(t('logout'), "wayf/logout"))), 'warning');
+        }
+      }
+    }
+    else {
+      drupal_set_message(t('Something went wrong. Please try again or !url of WAYF.', array('!url' => l(t('logout'), "wayf/logout"))), 'warning');
+    }
+  }
+
+  ding_wayf_dk_login_redirect_user();
+}
+
+/**
+ * Implements hook_wayf_dk_login_pre_authenticate().
+ *
+ * Store destination for the current user, so redirect to e.g. page you where
+ * looking at and not always the front page.
+ */
+function ding_wayf_dk_login_wayf_dk_login_pre_authenticate() {
+  if (isset($_REQUEST['destination'])) {
+    $_SESSION['ding_wayf_dk_login_destination'] = $_REQUEST['destination'];
+
+    // The WAYF authentication process will redirect the users browser to WAYF
+    // servers, so session will not be started. Hence we need to start the
+    // session to ensure that the destination above don't get lost in redirects.
+    drupal_session_start();
+  }
+}
+
+/**
+ * Implements hook_wayf_dk_login_pre_logout().
+ *
+ * Ensures that session is cleaned up.
+ */
+function ding_wayf_dk_login_wayf_dk_login_pre_logout() {
+  if (isset($_SESSION['ding_wayf_dk_login_destination'])) {
+    unset($_SESSION['ding_wayf_dk_login_destination']);
+  }
+}
+
+/**
+ * Implements hook_wayf_dk_login_authenticate_result_alter().
+ *
+ * Restore destination after all the WAYF redirects.
+ */
+function ding_wayf_dk_login_wayf_dk_login_authenticate_result_alter($result) {
+  if (isset($_SESSION['ding_wayf_dk_login_destination'])) {
+    $_REQUEST['destination'] = $_SESSION['ding_wayf_dk_login_destination'];
+  }
+}
+
+/**
+ * Implements hook_preprocess_wayf_dk_login().
+ *
+ * Change the image to Nem-id.
+ */
+function ding_wayf_dk_login_preprocess_wayf_dk_login(&$variables) {
+  $image = array(
+    '#theme' => 'image',
+    '#path' => drupal_get_path('module', 'ding_wayf_dk_login') . '/images/nemid_logo.png',
+    '#alt' => t('Login with NemID'),
+    '#title' => t('Login with NemID'),
+  );
+
+  $variables['login_url']['#text'] = t('Login with ') . drupal_render($image);
+}
+
+/**
+ * Helper function to redirect the user.
+ *
+ * If destination query string exists the user is redirect to it else the
+ * fallback URL given is used.
+ *
+ * @param string $fallback_url
+ *   URL used if the destination query sting is not set.
+ */
+function ding_wayf_dk_login_redirect_user($fallback_url = NULL) {
+  if (!empty($_REQUEST['destination'])) {
+    // We do not user drupal_get_destination here as it will set the destination
+    // if one do not exists.
+    $fallback_url = $_REQUEST['destination'];
+  }
+  else {
+    global $user;
+    $fallback_url = token_replace($fallback_url, array('user' => $user));
+  }
+
+  drupal_goto($fallback_url);
+}
+
+/**
+ * Implements hook_form_wayf_dk_login__settings_form_alter();
+ *
+ * Adds debug option to map test WAYF CPR number to a provider valid one.
+ */
+function ding_wayf_dk_login_form_wayf_dk_login__settings_form_alter(&$form, &$form_state, $form_id) {
+  $form['settings']['debug'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Ding WAYF debug'),
+  );
+
+  $form['settings']['debug']['ding_wayf_dk_login_debug'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable debug'),
+    '#default_value' => variable_get('ding_wayf_dk_login_debug', FALSE),
+    '#description' => t('Enable debug to do CPR mapping with WAYF test users.'),
+  );
+
+  $form['settings']['debug']['ding_wayf_dk_login_debug_cpr'] = array(
+    '#type' => 'password',
+    '#title' => t('CPR map'),
+    '#description' => t('Map student test CPR (0708741234).'),
+    '#default_value' => variable_get('ding_wayf_dk_login_debug_cpr', ''),
+  );
+}
+
+/**
+ * Get user credentials from SAML attributes and the user provider.
+ *
+ * @param array $attributes
+ *   WAYF attributes.
+ *
+ * @return array
+ *   Attributes filter based on the active provider. Defaults to
+ *   'schacPersonalUniqueID' with social security number (CPR).
+ */
+function ding_wayf_dk_login_get_credentials($attributes) {
+  // Set default required attributes.
+  $required_attributes = array(
+    'schacPersonalUniqueID' => array(
+      'field' => 'CPR',
+      'authname' => TRUE,
+    ),
+  );
+
+  // Ask the provider about required attributes and give it a change to override
+  // defaults.
+  if (ding_provider_implements('wayf', 'attributes')) {
+    $required_attributes = ding_provider_invoke('wayf', 'attributes', $required_attributes);
+  }
+
+  // Filter the attributes from WAYF/SAML and only return required once.
+  return ding_wayf_dk_login_get_required_attributes($attributes, $required_attributes);
+}
+
+/**
+ * Extract required attributes from available WAYF attributes.
+ *
+ * @param array $attributes
+ *   WAYF attributes.
+ * @param array $required_attributes
+ *   Required attributes.
+ *
+ * @return array
+ *   Will be empty if not all required attributes is present.
+ */
+function ding_wayf_dk_login_get_required_attributes($attributes, $required_attributes) {
+  $attribute_list = array();
+
+  if (isset($attributes) && is_array($required_attributes)) {
+    foreach ($required_attributes as $attribute => $value) {
+      if (isset($attributes[$attribute])) {
+        $attribute_list[$attribute] = ding_wayf_dk_login_extract_data($attributes[$attribute], $value['field']);
+      }
+    }
+
+  }
+
+  return $attribute_list;
+}
+
+/**
+ * Extracts a field from a SAML attribute string.
+ *
+ * @param string $data
+ *   The attribute form the authentication provider.
+ * @param string $field
+ *   The field to extract from the string.
+ *
+ * @return string
+ *   The value of the field.
+ */
+function ding_wayf_dk_login_extract_data($data, $field = '') {
+  if (empty($field)) {
+    return $data[0];
+  }
+  else {
+    $field .= DING_WAYF_DK_LOGIN_FIELD_DELIMITER;
+
+    if (($pos = strpos($data[0], $field)) !== FALSE) {
+      return substr($data[0], $pos + strlen($field));
+    }
+    else {
+      return '';
+    }
+  }
+}

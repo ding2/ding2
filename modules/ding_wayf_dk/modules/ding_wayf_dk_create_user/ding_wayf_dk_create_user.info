@@ -1,0 +1,6 @@
+name = Ding WAYF (DK) create uers
+description = Implementation of user creation using (wayf.dk).
+core = 7.x
+package = Ding!
+dependencies[] = ding_wayf_dk
+dependencies[] = ding_wayf_dk_login
