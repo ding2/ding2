@@ -37,7 +37,7 @@ function ding_wayf_dk_create_user_menu() {
     'type' => MENU_CALLBACK,
   );
 
-    $items['wayf/create-user/form'] = array(
+  $items['wayf/create-user/form'] = array(
     'title' => 'User creation form',
     'description' => 'Form used to account creation.',
     'page callback' => 'drupal_get_form',
@@ -65,8 +65,8 @@ function ding_wayf_dk_create_user_ctools_plugin_directory($owner, $plugin_type) 
 function ding_wayf_dk_create_user_wayf_dk_login_authenticate_result_alter($result) {
   if (isset($_SESSION['ding_wayf_dk_login_destination']) && $_SESSION['ding_wayf_dk_login_destination'] == 'wayf/create-user/form') {
     // Extract unique id form the WAYF attributes (the CPR number).
-    preg_match('/\d{10}$/', reset($result['attributes']['schacPersonalUniqueID']), $uniqueID);
-    $uniqueID = reset($uniqueID);
+    preg_match('/\d{10}$/', reset($result['attributes']['schacPersonalUniqueID']), $unique_id);
+    $unique_id = reset($unique_id);
 
     // Check if age limit should be set.
     $limit = variable_get('ding_wayf_user_create_age_limit', '');
@@ -74,8 +74,8 @@ function ding_wayf_dk_create_user_wayf_dk_login_authenticate_result_alter($resul
 
       // Magic function to get the 1900, 1800 or 2000 prefixes for year.
       // @see http://da.wikipedia.org/wiki/CPR-nummer
-      $year = substr($uniqueID, 4, 2);
-      switch (substr($uniqueID, 6, 1)) {
+      $year = substr($unique_id, 4, 2);
+      switch (substr($unique_id, 6, 1)) {
         case 0:
         case 1:
         case 2:
@@ -98,7 +98,7 @@ function ding_wayf_dk_create_user_wayf_dk_login_authenticate_result_alter($resul
 
       // Create date time object to use it's diff method.
       $from = new DateTime();
-      $from->setDate($year, substr($uniqueID, 2, 2), substr($uniqueID, 0, 2));
+      $from->setDate($year, substr($unique_id, 2, 2), substr($unique_id, 0, 2));
       $to = new DateTime('tomorrow');
 
       // Check if limit have been reached.
@@ -111,12 +111,12 @@ function ding_wayf_dk_create_user_wayf_dk_login_authenticate_result_alter($resul
       }
     }
 
-    $_SESSION['ding_wayf_dk_create_user'] = $uniqueID;
+    $_SESSION['ding_wayf_dk_create_user'] = $unique_id;
   }
 }
 
 /**
- * Implements hook_form_wayf_dk_login__settings_form_alter();
+ * Implements hook_form_wayf_dk_login__settings_form_alter().
  */
 function ding_wayf_dk_create_user_form_wayf_dk_login__settings_form_alter(&$form, &$form_state, $form_id) {
   $form['user'] = array(
@@ -132,7 +132,7 @@ function ding_wayf_dk_create_user_form_wayf_dk_login__settings_form_alter(&$form
     '#default_value' => variable_get('ding_wayf_user_create_age_limit', ''),
   );
 
-  // Define before create info page
+  // Define before create info page.
   $form['user']['ding_wayf_user_create_before_info'] = array(
     '#type' => 'fieldset',
     '#tree' => TRUE,
@@ -169,7 +169,7 @@ function ding_wayf_dk_create_user_form_wayf_dk_login__settings_form_alter(&$form
     '#description' => t('The text that is display next to the user create accept check box.'),
   );
 
-  // Define after create info page
+  // Define after create info page.
   $form['user']['ding_wayf_user_create_after_info'] = array(
     '#type' => 'fieldset',
     '#tree' => TRUE,
@@ -210,7 +210,7 @@ function ding_wayf_dk_create_user_theme($existing, $type, $theme, $path) {
     'ding_wayf_dk_create_user_link' => array(
       'template' => 'ding-wayf-dk-create-user-link',
       'variables' => array(
-        'link' => null,
+        'link' => NULL,
       ),
       'path' => $path . '/templates',
     ),
@@ -237,7 +237,7 @@ function ding_wayf_dk_create_user_info_page() {
           'class' => array(),
         ),
         'query' => array(
-          'destination' => 'wayf/create-user/form'
+          'destination' => 'wayf/create-user/form',
         ),
         'html' => TRUE,
       ),
@@ -264,7 +264,7 @@ function ding_wayf_dk_create_user_notice() {
  */
 function ding_wayf_dk_create_user_form() {
   // Remove all message from the normal login, that have not succeed.
-  drupal_get_messages(null, TRUE);
+  drupal_get_messages(NULL, TRUE);
 
   // Check if user have been logged in.
   if (user_is_logged_in()) {
@@ -334,7 +334,7 @@ function ding_wayf_dk_create_user_form() {
 
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => t('Create me')
+    '#value' => t('Create me'),
   );
 
   $link = '/wayf/logout';
