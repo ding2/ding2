@@ -20,7 +20,7 @@ function ting_search_context_menu() {
 		'title' => 'Search context',
 		'description' => 'Manage the state of the context rating system.',
 		'page callback' => 'ting_search_context_admin_rate_nodes',
-		'access arguments' => array('rate nodes'), // Todo: Make own permission?
+		'access arguments' => array('administer ting search context ratings'),
 		'type' => MENU_LOCAL_TASK | MENU_NORMAL_ITEM,
 		'file' => 'ting_search_context.admin.inc',
 	);
@@ -36,7 +36,7 @@ function ting_search_context_menu() {
     'description' => 'Manage settings for the Ting search context module.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ting_search_context_admin_settings_form'),
-    'access arguments' => array('administer site configuration'),
+    'access arguments' => array('administer ting search context'),
     'file' => 'ting_search_context.admin.inc',
   );
   $items['admin/config/ting/ting-search-context/frontend'] = array(
@@ -49,7 +49,7 @@ function ting_search_context_menu() {
     'title' => 'Contexts',
     'description' => 'Create new contexts and edit/delete existing ones',
     'page callback' => 'ting_search_context_admin_contexts',
-    'access arguments' => array('administer site configuration'),
+    'access arguments' => array('administer ting search context'),
     'type' => MENU_LOCAL_TASK,
     'file' => 'ting_search_context.admin.inc',
   );
@@ -58,7 +58,7 @@ function ting_search_context_menu() {
     'description' => 'Add a new subject or search type context to the system',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ting_search_context_admin_context_form_add'),
-    'access arguments' => array('administer site configuration'),
+    'access arguments' => array('administer ting search context'),
     'type' => MENU_LOCAL_ACTION,
     'file' => 'ting_search_context.admin.inc',
   );
@@ -67,7 +67,7 @@ function ting_search_context_menu() {
     'description' => 'Edit an existing subject or search type context',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ting_search_context_admin_context_form_edit', 5),
-    'access arguments' => array('administer site configuration'),
+    'access arguments' => array('administer ting search context'),
     'file' => 'ting_search_context.admin.inc',
   );
   $items['admin/config/ting/ting-search-context/contexts/%ting_search_context/delete'] = array(
@@ -75,13 +75,13 @@ function ting_search_context_menu() {
     'description' => 'Delete a subject or search type context',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ting_search_context_admin_context_delete_confirm_form', 5),
-    'access arguments' => array('administer site configuration'),
+    'access arguments' => array('administer ting search context'),
     'file' => 'ting_search_context.admin.inc',
   );
   $items['ting-search-context/autocomplete'] = array(
     'title' => 'Context autocomplete',
     'page callback' => 'ting_search_context_autocomplete',
-    'access arguments' => array('administer site configuration'),
+    'access arguments' => array('administer ting search context ratings'),
     'type' => MENU_CALLBACK,
   );
   return $items;
@@ -150,10 +150,14 @@ function ting_search_context_ctools_plugin_directory($module, $plugin) {
  */
 function ting_search_context_permission() {
     return array(
-    'rate nodes' => array(
-      'title' => t('Rate nodes'),
-      'description' => t('Rate and unrate nodes in search contexts.'),
-    ),
+      'administer ting search context ratings' => array(
+        'title' => t('Administer ratings'),
+        'description' => t('Rate and unrate nodes in search contexts.'),
+      ),
+      'administer ting search context' => array(
+        'title' => t('Administer ting search context'),
+        'description' => t('Administer contexts and settings for Ting search context.'),
+      ),
   );
 }
 
