@@ -411,7 +411,7 @@ class P2Context implements Context, SnippetAcceptingContext
         // Click on list link.
         $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
         $found_list = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.ding-user-lists .' . $type);
+            ->find('css', '.' . $type . ' a');
         if (!$found_list) {
             throw new \Exception("Couldn't find link to list of type '$type''");
         }
@@ -707,5 +707,117 @@ class P2Context implements Context, SnippetAcceptingContext
         $this->ding2Context->iAmLoggedInAsALibraryUser();
         $this->ding2Context->minkContext->visit("/list/$listId");
         $this->ding2Context->minkContext->assertElementContainsText('.ting-object', $material);
+    }
+
+    /**
+     * @Then I should see the tag :tag on the material
+     */
+    public function iShouldSeeTheTagOnTheMaterial($tag)
+    {
+        $this->ding2Context->minkContext->assertElementContainsText('.subjects .subject', $tag);
+    }
+
+    /**
+     * @Given I have chosen a book material with the tag :tag
+     */
+    public function iHaveChosenABookMaterialWithTheTag($tag)
+    {
+        $this->iHaveSearchedFor($tag);
+        $link = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '#edit-type-bog');
+        if (!$link) {
+            throw new Exception("Couldn't filter for book type");
+        }
+        $link->check();
+
+        // Go to material.
+        $this->iChooseTheFirstSearchResult();
+    }
+
+    /**
+     * @When I choose the first search result
+     */
+    public function iChooseTheFirstSearchResult()
+    {
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.ting-object .heading a');
+        if (!$found) {
+            throw new Exception("Couldn't find search result.");
+        }
+        $found->click();
+    }
+
+    /**
+     * @When I follow the tag :tag
+     */
+    public function iFollowTheTag($tag)
+    {
+        // Mouse over the "More" button.
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.ding-list-add-button a');
+        if (!$found) {
+            throw new \Exception("Couldn't find more button");
+        }
+        $found->mouseOver();
+
+        $followTag = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.buttons a:contains("' . $tag . '")');
+        if (!$followTag) {
+            throw new Exception("Couldn't find tag '$tag' on material");
+        }
+        $followTag->click();
+    }
+
+    /**
+     * @Then I should see the tag :tag on my list :list
+     */
+    public function iShouldSeeTheTagOnMyList($tag, $list)
+    {
+        $this->iGoToTheListType($list);
+        $this->ding2Context->minkContext->assertElementContainsText('.vocabulary-ding-content-tags a', $tag);
+    }
+
+    /**
+     * @Given I am following the tag :tag chosen from the material with isbn :isbn
+     */
+    public function iAmFollowingTheTag($tag, $isbn)
+    {
+        $this->iHaveSearchedFor($isbn);
+        $this->iChooseTheFirstSearchResult();
+        $this->iFollowTheTag($tag);
+        $this->iShouldSeeTheTagOnMyList($tag, 'interests');
+    }
+
+    /**
+     * @When I unfollow the tag :tag
+     */
+    public function iUnfollowTheTag($tag)
+    {
+        $this->iGoToTheListType('interests');
+
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', 'a[href^="/tags/"]:contains("' . $tag . '")');
+        if (!$found) {
+            throw new Exception("Can't unfollow tag '$tag' when it's not being followed");
+        }
+        $deleteButton = $found->getParent()->getParent()->getParent()
+            ->find('css', '.close-btn');
+        if (!$deleteButton) {
+            throw new Exception("Couldn't find remove from list button");
+        }
+        $deleteButton->click();
+    }
+
+    /**
+     * @Then I should not see the tag :arg1 on my list :arg2
+     */
+    public function iShouldNotSeeTheTagOnMyList($tag, $list)
+    {
+        $this->iGoToTheListType($list);
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.vocabulary-ding-content-tags a:contains("' . $tag . '")');
+        if ($found) {
+            throw new Exception("Shouldn't find tag '$tag', but it is being followed");
+        }
     }
 }
