@@ -773,7 +773,7 @@ function ting_search_context_search_string_context_exists($search_string) {
  */
 function ting_search_context_subject_context_exists($subjects) {
   $subject_contexts = ting_search_context_get_all_contexts('subject');
-file_put_contents("/home/quickstart/work/debug/debugsc1.txt", print_r($subject_contexts  , TRUE), FILE_APPEND);
+
   foreach ($subject_contexts as $subject_context) {
     $db_subjects = explode(', ', $subject_context->subjects);
     // Since we make sure the user can't create contexts with duplicate subjects
