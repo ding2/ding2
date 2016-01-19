@@ -162,6 +162,49 @@ function ting_search_context_permission() {
 }
 
 /**
+ * Implements hook_secure_permissions().
+ */
+function ting_search_context_secure_permissions($role) {
+  $permissions = array(
+    'administrators' => array(
+      'administer ting search context ratings',
+      'administer ting search context',
+      'delete any ding_search_context_link content',
+      'delete own ding_search_context_link content',
+      'create ding_search_context_link content',
+      'edit own ding_search_context_link content',
+      'edit any ding_search_context_link content',
+    ),
+    'local administrator' => array(
+      'administer ting search context ratings',
+      'administer ting search context',
+      'delete any ding_search_context_link content',
+      'delete own ding_search_context_link content',
+      'create ding_search_context_link content',
+      'edit own ding_search_context_link content',
+      'edit any ding_search_context_link content',
+    ),
+    'editor' => array(
+      'administer ting search context ratings',
+      'delete any ding_search_context_link content',
+      'delete own ding_search_context_link content',
+      'create ding_search_context_link content',
+      'edit own ding_search_context_link content',
+      'edit any ding_search_context_link content',
+    ),
+    'local editor' => array(
+      'delete own ding_search_context_link content',
+      'create ding_search_context_link content',
+      'edit own ding_search_context_link content',
+      'edit any ding_search_context_link content',
+    ),
+  );
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
+}
+
+/**
  * Implements hook_ting_pre_execute().
  *
  * To properly determine the context of a search result, we need certain facets
