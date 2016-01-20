@@ -644,15 +644,10 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         $this->ding2Context->minkContext->visitPath('/search/ting/' . urlencode($material));
 
-        // Go to dvd material.
-        $this->ding2Context->minkContext->assertElementContainsText(
-            '.search-result--heading-type:contains("Dvd")',
-            'Dvd'
-        );
         $found = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', 'a[href^="/ting/collection"]:contains("' . $material . '")');
         if (!$found) {
-            throw new \Exception("Couldn't find search result with heading type dvd");
+            throw new \Exception("Couldn't find search result");
         }
         $found->click();
 
