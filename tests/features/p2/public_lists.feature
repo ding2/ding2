@@ -39,10 +39,7 @@ Feature: Public lists
     Then I should see the material "Die hard 4.0" on the public list "My action movies"
 
   @api @no_messages_check @javascript
-  Scenario: Follow a public list as anonymous user
-    Given I have a link to a public list with the title "Old buildings"
-    And I am not logged in
-    When I go to the list page "Old buildings"
-    And I am logged in as a library user
-    And I follow the list "Old buildings"
-    Then I should see the list "Old buildings" on lists I follow
+  Scenario: Other users can't add content to a public list
+    Given I have created a public list "My fruit books"
+    When I have searched for "Essential guide to back garden self-sufficiency"
+    Then I should not be able to add material to the list "My fruit books" as a different user
