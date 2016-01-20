@@ -634,7 +634,7 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         $this->iHaveCreatedAList($title);
         $this->iMakeTheListPublic($title);
-        $this->iShouldSeeThatTheListIsPublic($title);
+        $this->iShouldSeeThatTheListIsMarkedAsPublic($title);
     }
 
         /**
