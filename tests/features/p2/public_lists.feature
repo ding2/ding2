@@ -44,5 +44,5 @@ Feature: Public lists
   @api @no_messages_check @javascript
   Scenario: Other users can't add content to a public list
     Given I have created a public list "My fruit books"
-    When I add material "Biorational tree fruit pest management" to the list "My fruit books" as a different user
-    Then I should not see the material "Biorational tree fruit pest management" on the public list "My fruit books"
+    When I have searched for "Essential guide to back garden self-sufficiency"
+    Then I should not be able to add material to the list "My fruit books" as a different user

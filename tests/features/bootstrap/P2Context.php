@@ -645,15 +645,10 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         $this->ding2Context->minkContext->visitPath('/search/ting/' . urlencode($material));
 
-        // Go to dvd material.
-        $this->ding2Context->minkContext->assertElementContainsText(
-            '.search-result--heading-type:contains("Dvd")',
-            'Dvd'
-        );
         $found = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', 'a[href^="/ting/collection"]:contains("' . $material . '")');
         if (!$found) {
-            throw new \Exception("Couldn't find search result with heading type dvd");
+            throw new \Exception("Couldn't find search result");
         }
         $found->click();
 
@@ -672,7 +667,7 @@ class P2Context implements Context, SnippetAcceptingContext
         // Add material to public list.
         $listLink = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', '.buttons li a[href^="/dinglist/attach/ting_object"]:contains("' . $title . '")');
-        if (!$found) {
+        if (!$listLink) {
             throw new \Exception("Couldn't find link to add to list '$title'");
         }
         $listLink->click();
@@ -707,6 +702,16 @@ class P2Context implements Context, SnippetAcceptingContext
         $this->ding2Context->iAmLoggedInAsALibraryUser();
         $this->ding2Context->minkContext->visit("/list/$listId");
         $this->ding2Context->minkContext->assertElementContainsText('.ting-object', $material);
+    }
+
+    /**
+     * @Then I should not see the material :material on the public list :title
+     */
+    public function iShouldNotSeeTheMaterialOnThePublicList($material, $title)
+    {
+        $listId = $this->iReadTheListIdForListName("list:$title", false);
+        $this->ding2Context->minkContext->visit("/list/$listId");
+        $this->ding2Context->minkContext->assertElementNotContainsText('.ting-object', $material);
     }
 
     /**
@@ -848,5 +853,15 @@ class P2Context implements Context, SnippetAcceptingContext
             throw new Exception("Couldn't filter for tag $tag");
         }
         $found->check();
+    }
+
+    /**
+     * @Then I should not be able to add material to the list :title as a different user
+     */
+    public function iShouldNotBeAbleToAddMaterialToTheListAsADifferentUser($title)
+    {
+        $found = $this->ding2Context->minkContext->assertElementNotOnPage(
+            '.buttons li a[href^="/dinglist/attach/ting_object"]:contains("' . $title . '")'
+        );
     }
 }
