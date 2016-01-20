@@ -44,9 +44,9 @@ class P2Context implements Context, SnippetAcceptingContext
     /**
      * @Then The list for followed searches exists
      */
-    public function theListExists()
+    public function theListExists($arg1)
     {
-        $list_name = 'user-searches';
+        $list_name = strtolower(preg_replace('/\s/', '-', $arg1));
         $this->ding2Context->drupalContext->visitPath('/user');
         $link = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '.' . $list_name . ' a');
         if (!$link) {
