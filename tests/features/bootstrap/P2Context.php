@@ -457,9 +457,9 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should see that the list :title is public
+     * @Then I should see that the list :title is marked as public
      */
-    public function iShouldSeeThatTheListIsPublic($title)
+    public function iShouldSeeThatTheListIsMarkedAsPublic($title)
     {
         $this->iGoToTheListOfType($title, 'user-list');
         $this->iGoToTheShareLink();
