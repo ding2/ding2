@@ -704,11 +704,40 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @Then I should not see the material :material on the public list :title
+     */
+    public function iShouldNotSeeTheMaterialOnThePublicList($material, $title)
+    {
+        $listId = $this->iReadTheListIdForListName("list:$title", false);
+        $this->ding2Context->minkContext->visit("/list/$listId");
+        $this->ding2Context->minkContext->assertElementNotContainsText('.ting-object', $material);
+    }
+
+    /**
      * @When I go to the list page :title
      */
     public function iGoToTheListPage($title)
     {
         $listId = $this->iReadTheListIdForListName("list:$title", false);
         $this->ding2Context->minkContext->visitPath("/list/$title");
+    }
+
+    /**
+     * @When I add material :material to the list :list as a different user
+     */
+    public function iAddMaterialToTheListAsADifferentUser($material, $list)
+    {
+        $this->ding2Context->iAmLoggedInAsALibraryUser();
+        $this->iAddMaterialToTheList($material, $list);
+    }
+
+    /**
+     * @Then I should not be able to add material to the list :title as a different user
+     */
+    public function iShouldNotBeAbleToAddMaterialToTheListAsADifferentUser($title)
+    {
+        $found = $this->ding2Context->minkContext->assertElementNotOnPage(
+            '.buttons li a[href^="/dinglist/attach/ting_object"]:contains("' . $title . '")'
+        );
     }
 }
