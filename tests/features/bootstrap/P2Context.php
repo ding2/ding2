@@ -710,6 +710,15 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @When I go to the list page :title
+     */
+    public function iGoToTheListPage($title)
+    {
+        $listId = $this->iReadTheListIdForListName("list:$title", false);
+        $this->ding2Context->minkContext->visitPath("/list/$title");
+    }
+
+    /**
      * @Then I should see the tag :tag on the material
      */
     public function iShouldSeeTheTagOnTheMaterial($tag)
@@ -758,6 +767,8 @@ class P2Context implements Context, SnippetAcceptingContext
         if (!$found) {
             throw new \Exception("Couldn't find more button");
         }
+        $this->ding2Context->minkContext->getSession()
+            ->evaluateScript('jQuery(document).scrollTo(".ding-list-add-button a");');
         $found->mouseOver();
 
         $followTag = $this->ding2Context->minkContext->getSession()->getPage()
@@ -778,12 +789,11 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given I am following the tag :tag chosen from the material with isbn :isbn
+     * @Given I am following the tag :tag chosen from the material with collection name :collection
      */
-    public function iAmFollowingTheTag($tag, $isbn)
+    public function iAmFollowingTheTag($tag, $collection)
     {
-        $this->iHaveSearchedFor($isbn);
-        $this->iChooseTheFirstSearchResult();
+        $this->ding2Context->minkContext->visitPath('/ting/collection/' . $collection);
         $this->iFollowTheTag($tag);
         $this->iShouldSeeTheTagOnMyList($tag, 'interests');
     }
@@ -819,5 +829,24 @@ class P2Context implements Context, SnippetAcceptingContext
         if ($found) {
             throw new Exception("Shouldn't find tag '$tag', but it is being followed");
         }
+    }
+
+    /**
+     * @Given I have searched for :search and the tag :tag
+     */
+    public function iHaveSearchedForAndTheTag($search, $tag)
+    {
+        $this->iHaveSearchedFor("$search $tag");
+
+        $this->ding2Context->drupalContext->saveScreenshot('screenshot1.png', '/var/www/html/');
+        $this->ding2Context->minkContext->getSession()
+            ->evaluateScript('jQuery(document).scrollTo(\'#edit-subject a[title="' . $tag . '"]\');');
+        $this->ding2Context->drupalContext->saveScreenshot('screenshot2.png', '/var/www/html/');
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '#edit-subject input[value="' . $tag . '"]');
+        if (!$found) {
+            throw new Exception("Couldn't filter for tag $tag");
+        }
+        $found->check();
     }
 }

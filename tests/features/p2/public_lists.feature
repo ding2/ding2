@@ -14,8 +14,7 @@ Feature: Public lists
   Scenario: Make list public
     Given I have created a list "My Harry Potter books"
     When I make the list "My Harry Potter books" public
-    Then I should see that the list "My Harry Potter books" is public
-    # Then I should see that the list "My Harry Potter books" is marked as public
+    Then I should see that the list "My Harry Potter books" is marked as public
 
   @api @no_messages_check @javascript
   Scenario: See public list on public-lists

@@ -21,6 +21,6 @@ Feature: Follow tags
 
   @no_messages_check @api @javascript
   Scenario: Unfollow a tag
-    Given I am following the tag "Orchids" chosen from the material with isbn "9781587299308"
-    When I unfollow the tag "Orchids"
-    Then I should not see the tag "Orchids" on my list "interests"
+    Given I am following the tag "orkideer" chosen from the material with collection name "870970-basis%3A45614654"
+    When I unfollow the tag "orkideer"
+    Then I should not see the tag "orkideer" on my list "interests"
