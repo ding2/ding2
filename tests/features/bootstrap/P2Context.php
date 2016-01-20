@@ -635,7 +635,7 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         $this->iHaveCreatedAList($title);
         $this->iMakeTheListPublic($title);
-        $this->iShouldSeeThatTheListIsPublic($title);
+        $this->iShouldSeeThatTheListIsMarkedAsPublic($title);
     }
 
         /**
@@ -860,7 +860,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldNotBeAbleToAddMaterialToTheListAsADifferentUser($title)
     {
-        $found = $this->ding2Context->minkContext->assertElementNotOnPage(
+        $this->ding2Context->minkContext->assertElementNotOnPage(
             '.buttons li a[href^="/dinglist/attach/ting_object"]:contains("' . $title . '")'
         );
     }
