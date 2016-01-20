@@ -666,7 +666,7 @@ class P2Context implements Context, SnippetAcceptingContext
         // Add material to public list.
         $listLink = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', '.buttons li a[href^="/dinglist/attach/ting_object"]:contains("' . $title . '")');
-        if (!$found) {
+        if (!$listLink) {
             throw new \Exception("Couldn't find link to add to list '$title'");
         }
         $listLink->click();
