@@ -10,7 +10,7 @@
 function ting_search_context_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_search_context_link'
+  // Exported field_base: 'field_search_context_link'.
   $field_bases['field_search_context_link'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -41,7 +41,7 @@ function ting_search_context_field_default_field_bases() {
     'type' => 'link_field',
   );
 
-  // Exported field_base: 'field_search_context_list_image'
+  // Exported field_base: 'field_search_context_list_image'.
   $field_bases['field_search_context_list_image'] = array(
     'active' => 1,
     'cardinality' => 1,

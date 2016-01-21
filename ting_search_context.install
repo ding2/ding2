@@ -2,7 +2,6 @@
 
 /**
  * @file
- *
  * Install file the Ting search context.
  */
 
@@ -10,117 +9,118 @@
  * Implements hook_schema().
  */
 function ting_search_context_schema() {
-	$schema = array();
+  $schema = array();
 
-	// TODO: Do we need more database indexes?
+  // TODO: Do we need more database indexes?
+  $schema['ting_search_context_contexts'] = array(
+    'description' => 'A table to hold the system and user defined contexts',
+    'fields' => array(
+      'context_id' => array(
+        'description' => 'Primary key: Unique context ID',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'type' => array(
+        'description' => 'The type of this context (machine-readable)',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'name' => array(
+        'description' => 'A human-readable name of the context',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+            // A machine-name identifier of the system context - or the parent system
+            // context if this is a subject context.
+            // Will not be set for search string contexts, since they dont have a
+            // parent (se below).
+      'context' => array(
+        'description' => 'The machine-name of the context.',
+        'type' => 'varchar',
+        'length' => 32,
+      ),
+            // We allow administrators to create more specific versions of certain
+            // system contexts, by associating one or more subjects to the context.
+      'subjects' => array(
+        'description' => 'A comma-separated list of the subjects of this context.',
+        'type' => 'varchar',
+  // TODO: Is this enough???
+        'length' => 255,
+      ),
+            // Administrators can also extend the system by creating search string
+            // contexts. Search contexts doesn't have a context and subject value.
+            // Unlike subjects contexts, search string contexts doesn't have a parent.
+            // The context is just the search string.
+      'search' => array(
+        'description' => 'The search string of this context.',
+        'type' => 'varchar',
+  // TODO: Is this enough???
+        'length' => 255,
+      ),
+    ),
+    'primary key' => array('context_id'),
+        // Enforce unique contexts on the database level.
+    'unique keys' => array(
+      'subject' => array('context', 'subjects'),
+      'search' => array('search'),
+    ),
+  );
 
-	$schema['ting_search_context_contexts'] = array(
-		'description' => 'A table to hold the system and user defined contexts',
-		'fields' => array(
-			'context_id' => array(
-				'description' => 'Primary key: Unique context ID',
-				'type' => 'serial',
-				'unsigned' => TRUE,
-				'not null' => TRUE,
-			),
-			'type' => array(
-				'description' => 'The type of this context (machine-readable)',
-				'type' => 'varchar',
-				'length' => 32,
-				'not null' => TRUE,
-				'default' => '',
-			),
-			'name' => array(
-				'description' => 'A human-readable name of the context',
-				'type' => 'varchar',
-				'length' => 255,
-				'not null' => TRUE,
-				'default' => '',
-			),
-			// A machine-name identifier of the system context - or the parent system
-			// context if this is a subject context.
-			// Will not be set for search string contexts, since they dont have a
-			// parent (se below).
-			'context' => array(
-				'description' => 'The machine-name of the context.',
-				'type' => 'varchar',
-				'length' => 32,
-			),
-			// We allow administrators to create more specific versions of certain
-			// system contexts, by associating one or more subjects to the context.
-			'subjects' => array(
-				'description' => 'A comma-separated list of the subjects of this context.',
-				'type' => 'varchar',
-				'length' => 255, // TODO: Is this enough???
-			),
-			// Administrators can also extend the system by creating search string
-			// contexts. Search contexts doesn't have a context and subject value.
-			// Unlike subjects contexts, search string contexts doesn't have a parent.
-			// The context is just the search string.
-			'search' => array(
-				'description' => 'The search string of this context.',
-				'type' => 'varchar',
-				'length' => 255, // TODO: Is this enough???
-			),
-		),
-		'primary key' => array('context_id'),
-		// Enforce unique contexts on the database level.
-		'unique keys' => array(
-			'subject' => array('context', 'subjects'),
-			'search' => array('search'),
-		),
-	);
+  $schema['ting_search_context_nodes_rated'] = array(
+    'description' => 'Stores information about nodes rated, thus managing the state of the context rating system',
+    'fields' => array(
+      'context_id' => array(
+        'description' => 'The ID of the context the node is rated in',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'nid' => array(
+        'description' => 'The ID of the node being rated',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'rating' => array(
+        'description' => 'The rating of the node in the context specified by context_id',
+        'type' => 'int',
+        'size' => 'tiny',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 1,
+      ),
+    ),
+    'primary key' => array('context_id', 'nid'),
+    'foreign keys' => array(
+      'context' => array(
+        'table' => 'ting_search_context_contexts',
+        'columns' => array('context_id' => 'context_id'),
+      ),
+      'node' => array(
+        'table' => 'node',
+        'columns' => array('nid' => 'nid'),
+      ),
+    ),
+    'indexes' => array(
+      'nid' => array('nid'),
+    ),
+  );
 
-	$schema['ting_search_context_nodes_rated'] = array(
-		'description' => 'Stores information about nodes rated, thus managing the state of the context rating system',
-		'fields' => array(
-			'context_id' => array(
-				'description' => 'The ID of the context the node is rated in',
-				'type' => 'int',
-				'unsigned' => TRUE,
-				'not null' => TRUE,
-				'default' => 0,
-			),
-			'nid' => array(
-				'description' => 'The ID of the node being rated',
-				'type' => 'int',
-				'unsigned' => TRUE,
-				'not null' => TRUE,
-				'default' => 0,
-			),
-			'rating' => array(
-				'description' => 'The rating of the node in the context specified by context_id',
-				'type' => 'int',
-				'size' => 'tiny',
-				'unsigned' => TRUE,
-				'not null' => TRUE,
-				'default' => 1,
-			),
-		),
-		'primary key' => array('context_id', 'nid'),
-		'foreign keys' => array(
-			'context' => array(
-				'table' => 'ting_search_context_contexts',
-				'columns' => array('context_id' => 'context_id'),
-			),
-			'node' => array(
-				'table' => 'node',
-				'columns' => array('nid' => 'nid'),
-			),
-		),
-		'indexes' => array(
-			'nid' => array('nid'),
-		),
-	);
-
-	return $schema;
+  return $schema;
 }
 
 /**
  * Implements hook_install().
  */
 function ting_search_context_install() {
-	_ting_search_context_install_system_contexts();
+  _ting_search_context_install_system_contexts();
 }
 
 /**
@@ -130,50 +130,50 @@ function ting_search_context_install() {
  * nodes in the same way as user-defined contexts (they need a context_id).
  */
 function _ting_search_context_install_system_contexts() {
-	$system_contexts = array(
-		'film' => array(
-			'name' => 'Film',
-			'context' => 'film',
-		),
-		'musik' => array(
-			'name' => 'Musik',
-			'context' => 'musik',
-		),
-		'lydbøger' => array(
-			'name' => 'Lydbøger',
-			'context' => 'lydbøger',
-		),
-		'voksen_fag' => array(
-			'name' => 'Voksen faglitteratur',
-			'context' => 'voksen_fag',
-		),
-		'voksen_skøn' => array(
-			'name' => 'Voksen skønlitteratur',
-			'context' => 'voksen_skøn',
-		),
-		'børne_fag' => array(
-			'name' => 'Børne faglitteratur',
-			'context' => 'børne_fag',
-		),
-		'børne_skøn' => array(
-			'name' => 'Børne skønlitteratur',
-			'context' => 'børne_skøn',
-		),
+  $system_contexts = array(
+    'film' => array(
+      'name' => 'Film',
+      'context' => 'film',
+    ),
+    'musik' => array(
+      'name' => 'Musik',
+      'context' => 'musik',
+    ),
+    'lydbøger' => array(
+      'name' => 'Lydbøger',
+      'context' => 'lydbøger',
+    ),
+    'voksen_fag' => array(
+      'name' => 'Voksen faglitteratur',
+      'context' => 'voksen_fag',
+    ),
+    'voksen_skøn' => array(
+      'name' => 'Voksen skønlitteratur',
+      'context' => 'voksen_skøn',
+    ),
+    'børne_fag' => array(
+      'name' => 'Børne faglitteratur',
+      'context' => 'børne_fag',
+    ),
+    'børne_skøn' => array(
+      'name' => 'Børne skønlitteratur',
+      'context' => 'børne_skøn',
+    ),
     'neutral' => array(
-			'name' => 'Neutral',
-			'context' => 'neutral',
-		),
-	);
+      'name' => 'Neutral',
+      'context' => 'neutral',
+    ),
+  );
 
-	foreach ($system_contexts as $system_context) {
-		$system_context += array('type' => 'system');
-		$context_id = db_insert('ting_search_context_contexts')
-			->fields($system_context)
-			->execute();
-		watchdog('ting_search_context', 'Installed system context: %name', array(
-			'%name' => $system_context['name'],
-		), WATCHDOG_INFO);
-	}
+  foreach ($system_contexts as $system_context) {
+    $system_context += array('type' => 'system');
+    $context_id = db_insert('ting_search_context_contexts')
+      ->fields($system_context)
+      ->execute();
+    watchdog('ting_search_context', 'Installed system context: %name', array(
+      '%name' => $system_context['name'],
+    ), WATCHDOG_INFO);
+  }
 }
 
 /**
@@ -184,10 +184,10 @@ function ting_search_context_disable() {
   // module is disabled. Since we are using handlers defined in this module in
   // trying to use it after disable will result in errors.
   if ($view = views_get_view('ting_search_context_rate_nodes')) {
-  	$view->delete(TRUE);
+    $view->delete(TRUE);
   }
   if ($view = views_get_view('ting_search_context_contexts')) {
-  	$view->delete(TRUE);
+    $view->delete(TRUE);
   }
   views_invalidate_cache();
 }
@@ -200,26 +200,26 @@ function ting_search_context_disable() {
  * a notification on all administration pages.
  */
 function ting_search_context_requirements($phase) {
-	$requirements = array();
+  $requirements = array();
 
-	// We're also using functions that would break on any other phase.
-	if ($phase != 'runtime') {
-		return array();
-	}
+  // We're also using functions that would break on any other phase.
+  if ($phase != 'runtime') {
+    return array();
+  }
 
-	$missing = ting_search_context_get_missing_facets();
-	if (!empty($missing)) {
-		$requirements['ting_search_context'] = array(
-			'title' => t('Ting search context'),
-			'value' => t('Missing facets'),
-			'description' => t('@facets is missing and needed for Ting search context
+  $missing = ting_search_context_get_missing_facets();
+  if (!empty($missing)) {
+    $requirements['ting_search_context'] = array(
+      'title' => t('Ting search context'),
+      'value' => t('Missing facets'),
+      'description' => t('@facets is missing and needed for Ting search context
 				to function properly. Please go to !link to add and configure these facets.', array(
-					'@facets' => implode(', ', $missing),
-					'!link' => l(t('Configure facets'), 'admin/config/ting/facets'),
-			)),
-			'severity' => REQUIREMENT_ERROR,
-		);
-	}
+      '@facets' => implode(', ', $missing),
+      '!link' => l(t('Configure facets'), 'admin/config/ting/facets'),
+    )),
+      'severity' => REQUIREMENT_ERROR,
+    );
+  }
 
-	return $requirements;
+  return $requirements;
 }

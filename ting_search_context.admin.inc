@@ -2,32 +2,31 @@
 
 /**
  * @file
- *
  * Contains admin page callback for ting search context module.
  */
 
 /**
- * Page callback (admin/content/ting-search-context)
+ * Page callback (admin/content/ting-search-context).
  *
  * Renders the rate nodes VBO view.
  */
 function ting_search_context_admin_rate_nodes() {
-	$output = t('The rate nodes view wasn\'t found');
-	if ($view = views_get_view('ting_search_context_rate_nodes')) {
-		$output = $view->preview('block_1');
-	}
-	return $output;
+  $output = t('The rate nodes view wasn\'t found');
+  if ($view = views_get_view('ting_search_context_rate_nodes')) {
+    $output = $view->preview('block_1');
+  }
+  return $output;
 }
 
 /**
  * Callback for the context overview administratition page.
  */
 function ting_search_context_admin_contexts() {
-	$output = array();
+  $output = array();
   if ($view = views_get_view('ting_search_context_contexts')) {
     $output = $view->preview('block_1');
   }
-	return $output;
+  return $output;
 }
 
 /**
@@ -39,95 +38,95 @@ function ting_search_context_admin_contexts() {
  * @see ting_search_context_admin_context_form_cancel()
  */
 function ting_search_context_admin_context_form($form, &$form_state, $context = FALSE) {
-	$form = array();
+  $form = array();
 
   if ($context) {
     // Save the context object in form_state for later use.
     $form_state['ting_search_context'] = $context;
   }
 
-	$form['add_context'] = array(
-		'#type' => 'fieldset',
-		'#title' => t('Add context'),
-	);
+  $form['add_context'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Add context'),
+  );
   $types = ting_search_context_get_types();
   // We don't allow creation or editing of system context types.
   if (!$context) {
     unset($types['system']);
   }
-	$form['add_context']['type'] = array(
-		'#type' => 'select',
-		'#title' => t('Context type'),
-		'#description' => t('Select the type of context to create'),
-		'#options' => $types,
-		'#default_value' => $context ? $context->type : 'search',
+  $form['add_context']['type'] = array(
+    '#type' => 'select',
+    '#title' => t('Context type'),
+    '#description' => t('Select the type of context to create'),
+    '#options' => $types,
+    '#default_value' => $context ? $context->type : 'search',
     '#disabled' => $context && $context->type == 'system',
-	);
-	$form['add_context']['name'] = array(
-		'#type' => 'textfield',
-		'#title' => t('Name'),
-		'#description' => t('Enter the name of the context'),
-		'#maxlength' => 255,
-		'#required' => TRUE,
+  );
+  $form['add_context']['name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Name'),
+    '#description' => t('Enter the name of the context'),
+    '#maxlength' => 255,
+    '#required' => TRUE,
     '#default_value' => $context ? $context->name : '',
     '#disabled' => $context && $context->type == 'system',
-	);
-	$form['add_context']['search'] = array(
-		'#type' => 'textfield',
-		'#title' => t('Search string'),
-		'#description' => t('Enter the search string'),
-		'#maxlength' => 255,
-		'#states' => array(
-			'visible' => array(
-				':input[name="type"]' => array('value' => 'search'),
-			),
-			'required' => array(
-				':input[name="type"]' => array('value' => 'search'),
-			),
-		),
+  );
+  $form['add_context']['search'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Search string'),
+    '#description' => t('Enter the search string'),
+    '#maxlength' => 255,
+    '#states' => array(
+      'visible' => array(
+        ':input[name="type"]' => array('value' => 'search'),
+      ),
+      'required' => array(
+        ':input[name="type"]' => array('value' => 'search'),
+      ),
+    ),
     '#default_value' => $context && $context->type == 'search' ? $context->search : '',
-	);
-	$form['add_context']['context'] = array(
-		'#type' => 'select',
-		'#title' => t('Parent context'),
-		'#description' => t('Select the parent context'),
-		'#options' => array(
-			'voksen_fag' => t('Voksen faglitteratur'),
-			'voksen_skøn' => t('Voksen skønlitteratur'),
-			'børne_fag' => t('Børne faglitteratur'),
-			'børne_skøn' => t('Børne skønlitteratur'),
-		),
-		'#states' => array(
-			'visible' => array(
-				':input[name="type"]' => array('value' => 'subject'),
-			),
-		),
+  );
+  $form['add_context']['context'] = array(
+    '#type' => 'select',
+    '#title' => t('Parent context'),
+    '#description' => t('Select the parent context'),
+    '#options' => array(
+      'voksen_fag' => t('Voksen faglitteratur'),
+      'voksen_skøn' => t('Voksen skønlitteratur'),
+      'børne_fag' => t('Børne faglitteratur'),
+      'børne_skøn' => t('Børne skønlitteratur'),
+    ),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="type"]' => array('value' => 'subject'),
+      ),
+    ),
     '#default_value' => $context && $context->type == 'subject' ? $context->context : '',
-	);
-	$form['add_context']['subjects'] = array(
-		'#type' => 'textfield',
-		'#title' => t('Subjects'),
-		'#description' => t('Enter the subjects seperated by commas'),
-		'#maxlength' => 255,
-		'#states' => array(
-			'visible' => array(
-				':input[name="type"]' => array('value' => 'subject'),
-			),
-			'required' => array(
-				':input[name="type"]' => array('value' => 'subject'),
-			),
-		),
+  );
+  $form['add_context']['subjects'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Subjects'),
+    '#description' => t('Enter the subjects seperated by commas'),
+    '#maxlength' => 255,
+    '#states' => array(
+      'visible' => array(
+        ':input[name="type"]' => array('value' => 'subject'),
+      ),
+      'required' => array(
+        ':input[name="type"]' => array('value' => 'subject'),
+      ),
+    ),
     '#default_value' => $context && $context->type == 'subject' ? $context->subjects : '',
-	);
+  );
 
-	// Form actions
-	$form['actions'] = array('#type' => 'actions');
-	$form['actions']['submit'] = array(
-		'#type' => 'submit',
-		'#value' => t('Save'),
+  // Form actions.
+  $form['actions'] = array('#type' => 'actions');
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save'),
     '#disabled' => $context && $context->type == 'system',
-	);
-  // Delete button
+  );
+  // Delete button.
   if ($context && $context->type != 'system') {
     $form['actions']['delete'] = array(
       '#type' => 'submit',
@@ -139,11 +138,11 @@ function ting_search_context_admin_context_form($form, &$form_state, $context = 
     '#type' => 'submit',
     '#value' => t('Back'),
     '#submit' => array('ting_search_context_admin_context_form_cancel'),
-    // Bypass form-validation since this is a cancel-button
+    // Bypass form-validation since this is a cancel-button.
     '#limit_validation_errors' => array(),
     '#weight' => 40,
   );
-	return $form;
+  return $form;
 }
 
 /**
@@ -152,12 +151,12 @@ function ting_search_context_admin_context_form($form, &$form_state, $context = 
  * @see ting_search_context_admin_context_form()
  */
 function ting_search_context_admin_context_form_validate($form, &$form_state) {
-	$type = $form_state['values']['type'];
+  $type = $form_state['values']['type'];
   $context = isset($form_state['ting_search_context']) ? $form_state['ting_search_context'] : FALSE;
   $changed = FALSE;
   $is_new = !$context;
 
-	if ($type == 'search') {
+  if ($type == 'search') {
     // Don't let the user create identical search string contexts.
     $search_string = $form_state['values']['search'];
 
@@ -168,26 +167,26 @@ function ting_search_context_admin_context_form_validate($form, &$form_state) {
     if ($is_new || $changed) {
       if ($identical = ting_search_context_search_string_context_exists($search_string)) {
         form_set_error('search_string', t('An identical seach string context already exists: %context', array(
-              '%context' => check_plain($identical->name),
+          '%context' => check_plain($identical->name),
         )));
       }
     }
-	}
-	else {
-		// Subject should be a comma separated list of single words containing
-		// alpanumeric characters (case-insensitive).
-		$subjects = $form_state['values']['subjects'];
+  }
+  else {
+    // Subject should be a comma separated list of single words containing
+    // alpanumeric characters (case-insensitive).
+    $subjects = $form_state['values']['subjects'];
 
     $trimmed_subjects = array();
-		$invalid_subjects = array();
+    $invalid_subjects = array();
     $duplicate_subjects = array();
-		foreach (explode(',', $subjects) as $key => $subject) {
-			// The only modification we make:
+    foreach (explode(',', $subjects) as $key => $subject) {
+      // The only modification we make:
       $subject = mb_strtolower(trim($subject));
 
       // Check for duplicate subjects.
       if (in_array($subject, $trimmed_subjects)) {
-        // A subject may be duplicated more than once
+        // A subject may be duplicated more than once.
         if (!in_array($subject, $duplicate_subjects)) {
           $duplicate_subjects[] = $subject;
         }
@@ -203,7 +202,7 @@ function ting_search_context_admin_context_form_validate($form, &$form_state) {
           $invalid_subjects[] = $subject;
         }
       }
-		}
+    }
 
     $error_messages = array();
     // Inform the user of invalid subjects, if any.
@@ -237,12 +236,12 @@ function ting_search_context_admin_context_form_validate($form, &$form_state) {
       form_set_error('subjects', theme('item_list', array('items' => $error_messages)));
     }
 
-		// Recreate the input string with the trimmed subjects.
-		$subjects = implode(', ', $trimmed_subjects);
+    // Recreate the input string with the trimmed subjects.
+    $subjects = implode(', ', $trimmed_subjects);
     $form_state['values']['subjects'] = $subjects;
     // This will present the corrected string to the user.
-		$form_state['complete form']['add_context']['subjects']['#value'] = $subjects;
-	}
+    $form_state['complete form']['add_context']['subjects']['#value'] = $subjects;
+  }
 }
 
 /**
@@ -261,6 +260,7 @@ function ting_search_context_admin_context_form_submit($form, &$form_state) {
     case 'search':
       $context->search = $form_state['values']['search'];
       break;
+
     case 'subject':
       $context->context = $form_state['values']['context'];
       $context->subjects = $form_state['values']['subjects'];
@@ -274,7 +274,7 @@ function ting_search_context_admin_context_form_submit($form, &$form_state) {
     $context->is_new = TRUE;
   }
 
-  // Save, set message and go back,
+  // Save, set message and go back,.
   if (ting_search_context_save($context)) {
     drupal_set_message(t('Context saved'));
   }
@@ -284,14 +284,14 @@ function ting_search_context_admin_context_form_submit($form, &$form_state) {
       '%context' => $context->name ? $context->name : 'Unknown',
     )), 'error');
   }
-	$form_state['redirect'] = 'admin/config/ting/ting-search-context/contexts';
+  $form_state['redirect'] = 'admin/config/ting/ting-search-context/contexts';
 }
 
 /**
- * Submit handler for the delete button on the context form
+ * Submit handler for the delete button on the context form.
  */
 function ting_search_context_admin_context_form_delete($form, &$form_state) {
-  // Pass along any destination parameter set from previous pages
+  // Pass along any destination parameter set from previous pages.
   $destination = array();
   if (isset($_GET['destination'])) {
     $destination = drupal_get_destination();
@@ -299,7 +299,7 @@ function ting_search_context_admin_context_form_delete($form, &$form_state) {
   }
   // Should allways be set since this is only available on the edit form.
   $context_id = $form_state['ting_search_context']->context_id;
-  $path = 'admin/config/ting/ting-search-context/contexts/' . $context_id .'/delete';
+  $path = 'admin/config/ting/ting-search-context/contexts/' . $context_id . '/delete';
   $form_state['redirect'] = array($path, array('query' => $destination));
 }
 
@@ -309,8 +309,8 @@ function ting_search_context_admin_context_form_delete($form, &$form_state) {
  * @see ting_search_context_admin_context_form()
  */
 function ting_search_context_admin_context_form_cancel($form, &$form_state) {
-	// Go back to contexts settings (or destination if parameter is set)
-	$form_state['redirect'] = 'admin/config/ting/ting-search-context/contexts';
+  // Go back to contexts settings (or destination if parameter is set).
+  $form_state['redirect'] = 'admin/config/ting/ting-search-context/contexts';
 }
 
 /**
@@ -362,7 +362,7 @@ function ting_search_context_admin_context_delete_confirm_form_submit($form, &$f
 
 /**
  * Form builder (admin/config/ding/searchcontext)
- * Admin form to configure position of related content on search page
+ * Admin form to configure position of related content on search page.
  */
 function ting_search_context_admin_settings_form($form, &$form_state) {
   $form = array();
@@ -378,7 +378,7 @@ function ting_search_context_admin_settings_form($form, &$form_state) {
     $form['ting_search_context_status'] = array(
       '#type' => 'item',
       '#title' => t('Status'),
-      '#markup' => theme('ting_search_context_status', array('status' => $status))
+      '#markup' => theme('ting_search_context_status', array('status' => $status)),
     );
   }
 
@@ -413,6 +413,6 @@ function ting_search_context_admin_settings_form($form, &$form_state) {
  * Submit function to clear cache on form submit. Deletes all cid's starting with /search/ting.
  */
 function ding_search_context_admin_settings_submit($form, &$form_state) {
-  $url = url('search/ting/',  array('absolute' => TRUE));
+  $url = url('search/ting/', array('absolute' => TRUE));
   cache_clear_all($url, 'cache_page', TRUE);
 }

@@ -2,8 +2,7 @@
 
 /**
  * @file
- *
- * Definition of ting_search_context_handler_filter_node_ratings
+ * Definition of ting_search_context_handler_filter_node_ratings.
  */
 
 /**
@@ -21,14 +20,13 @@
 class ting_search_context_handler_filter_node_ratings extends views_handler_filter_in_operator {
 
   /**
-   * Override the operators
+   * Override the operators.
    *
    * For now we support the following operators:
    * - 'any'      : Nodes that are rated in any of selected contexts.
    * - 'not any'  : Nodes that aren't rated in any of the selected contexts.
    * - 'empty'    : Nodes that have no rating at all.
    * - 'not empty': Nodes that have at least one rating.
-   *
    */
   function operators() {
     $operators = array(
@@ -115,6 +113,9 @@ class ting_search_context_handler_filter_node_ratings extends views_handler_filt
     $this->_add_subquery($subquery, $operator);
   }
 
+  /**
+   *
+   */
   function op_rated_empty() {
     // Determine the operator.
     $operator = 'IN';
@@ -146,6 +147,9 @@ class ting_search_context_handler_filter_node_ratings extends views_handler_filt
     $this->_add_subquery($subquery, $operator);
   }
 
+  /**
+   *
+   */
   function _add_subquery($subquery, $operator) {
     $this->ensure_my_table();
 

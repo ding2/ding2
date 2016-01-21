@@ -2,8 +2,7 @@
 
 /**
  * @file
- *
- * Definition of ting_search_context_handler_field_node_ratings
+ * Definition of ting_search_context_handler_field_node_ratings.
  */
 
 /**
@@ -16,6 +15,9 @@
  */
 class ting_search_context_handler_field_node_ratings extends views_handler_field_prerender_list {
 
+  /**
+   *
+   */
   function init(&$view, &$options) {
     parent::init($view, $options);
     // We need the nid field in our query.
@@ -29,6 +31,9 @@ class ting_search_context_handler_field_node_ratings extends views_handler_field
     $this->add_additional_fields();
   }
 
+  /**
+   *
+   */
   function pre_render(&$values) {
     $this->field_alias = $this->aliases['nid'];
 
@@ -79,20 +84,23 @@ class ting_search_context_handler_field_node_ratings extends views_handler_field
     }
   }
 
+  /**
+   *
+   */
   function render_item($count, $item) {
     return $item['name'];
     // Be just returning name here we allow for greater flexibility.
     // Below is setup in the Views configuration instead.
-    //return $item['name'] . ' (' . $item['rating'] . ')';
+    // return $item['name'] . ' (' . $item['rating'] . ')';.
   }
 
   /**
    * Add token support.
    */
   function add_self_tokens(&$tokens, $item) {
-    foreach(array('name', 'rating', 'type', 'context_type', 'context_machine_name', 'context_id', 'nid') as $token) {
-      // Replace _ with -
-      $tokens['[' . $this->options['id'] . '-' . str_replace('_', '-', $token). ']'] = isset($item[$token]) ? $item[$token] : '';
+    foreach (array('name', 'rating', 'type', 'context_type', 'context_machine_name', 'context_id', 'nid') as $token) {
+      // Replace _ with -.
+      $tokens['[' . $this->options['id'] . '-' . str_replace('_', '-', $token) . ']'] = isset($item[$token]) ? $item[$token] : '';
     }
   }
 

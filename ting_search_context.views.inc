@@ -2,7 +2,6 @@
 
 /**
  * @file
- *
  * Contains this modules Views-hook implementations.
  *
  * TODO:
@@ -28,20 +27,21 @@ function ting_search_context_views_data() {
       'field' => 'context_id',
       'title' => t('Ting search context contexts'),
       'help' => t('Search contexts from the Ting search context module'),
-      'weight' => -10
+      'weight' => -10,
     ),
     // Link the contexts table to the nodes_rated table and tell Views how to
-    // join our table with the node table (Implicit relationship)
+    // join our table with the node table (Implicit relationship).
     'join' => array(
       'node' => array(
         'left_table' => 'ting_search_context_nodes_rated',
         'left_field' => 'context_id',
-        'field' => 'context_id', // Field to join on this table
+  // Field to join on this table.
+        'field' => 'context_id',
       ),
     ),
   );
 
-  // The nodes rated table (not a Views base table)
+  // The nodes rated table (not a Views base table).
   $data['ting_search_context_nodes_rated']['table'] = array(
     'group' => t('Ting search context'),
     'join' => array(
@@ -52,16 +52,17 @@ function ting_search_context_views_data() {
     ),
   );
 
-  // Describe each of the individual fields in our tables
+  // Describe each of the individual fields in our tables.
   $data['ting_search_context_contexts']['context_id'] = array(
     'title' => t('Context ID'),
     'help' => t('The ID of the context'),
-    // Information for displaying the field
+    // Information for displaying the field.
     'field' => array(
       'handler' => 'views_handler_field_numeric',
-      'click sortable' => TRUE, // Used by table display plugin
+  // Used by table display plugin.
+      'click sortable' => TRUE,
     ),
-    // Information for accepting a context ID as argument
+    // Information for accepting a context ID as argument.
     'argument' => array(
       'handler' => 'views_handler_argument_numeric',
     ),
@@ -70,7 +71,7 @@ function ting_search_context_views_data() {
     ),
     'sort' => array(
       'handler' => 'views_handler_sort',
-    )
+    ),
   );
   $data['ting_search_context_contexts']['type'] = array(
     'title' => t('Type'),
@@ -86,7 +87,8 @@ function ting_search_context_views_data() {
       'handler' => 'ting_search_context_handler_filter_context_type',
     ),
     'argument' => array(
-      'handler' => 'views_handler_argument_string', // Maybe override to use name as summary.
+  // Maybe override to use name as summary.
+      'handler' => 'views_handler_argument_string',
     ),
   );
   $data['ting_search_context_contexts']['name'] = array(
@@ -117,7 +119,8 @@ function ting_search_context_views_data() {
       'handler' => 'views_handler_sort',
     ),
     'filter' => array(
-      'handler' => 'views_handler_filter_string',  // ting_search_context_handler_filter_context_machine_name.
+  // ting_search_context_handler_filter_context_machine_name.
+      'handler' => 'views_handler_filter_string',
     ),
     'argument' => array(
       'handler' => 'views_handler_argument_string',
@@ -156,12 +159,13 @@ function ting_search_context_views_data() {
   $data['ting_search_context_nodes_rated']['context_id'] = array(
     'title' => t('Context ID'),
     'help' => t('The ID of the rated context'),
-    // Information for displaying the field
+    // Information for displaying the field.
     'field' => array(
       'handler' => 'views_handler_field_numeric',
-      'click sortable' => TRUE, // Used by table display plugin
+  // Used by table display plugin.
+      'click sortable' => TRUE,
     ),
-    // Information for accepting a context ID as argument
+    // Information for accepting a context ID as argument.
     'argument' => array(
       'handler' => 'views_handler_argument_numeric',
     ),
@@ -175,12 +179,13 @@ function ting_search_context_views_data() {
   $data['ting_search_context_nodes_rated']['nid'] = array(
     'title' => t('Node ID'),
     'help' => t('The ID of the rated node'),
-    // Information for displaying the field
+    // Information for displaying the field.
     'field' => array(
       'handler' => 'views_handler_field_numeric',
-      'click sortable' => TRUE, // Used by table display plugin
+  // Used by table display plugin.
+      'click sortable' => TRUE,
     ),
-    // Information for accepting a context ID as argument
+    // Information for accepting a context ID as argument.
     'argument' => array(
       'handler' => 'views_handler_argument_numeric',
     ),
@@ -194,12 +199,13 @@ function ting_search_context_views_data() {
   $data['ting_search_context_nodes_rated']['rating'] = array(
     'title' => t('Rating'),
     'help' => t('The rating-number of the rating'),
-    // Information for displaying the field
+    // Information for displaying the field.
     'field' => array(
       'handler' => 'views_handler_field_numeric',
-      'click sortable' => TRUE, // Used by table display plugin
+  // Used by table display plugin.
+      'click sortable' => TRUE,
     ),
-    // Information for accepting a context ID as argument
+    // Information for accepting a context ID as argument.
     'argument' => array(
       'handler' => 'views_handler_argument_numeric',
     ),

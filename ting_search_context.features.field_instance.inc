@@ -10,7 +10,7 @@
 function ting_search_context_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'node-ding_search_context_link-field_search_context_link'
+  // Exported field_instance: 'node-ding_search_context_link-field_search_context_link'.
   $field_instances['node-ding_search_context_link-field_search_context_link'] = array(
     'bundle' => 'ding_search_context_link',
     'default_value' => NULL,
@@ -70,7 +70,7 @@ function ting_search_context_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_search_context_link-field_search_context_list_image'
+  // Exported field_instance: 'node-ding_search_context_link-field_search_context_list_image'.
   $field_instances['node-ding_search_context_link-field_search_context_list_image'] = array(
     'bundle' => 'ding_search_context_link',
     'deleted' => 0,
