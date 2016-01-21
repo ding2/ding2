@@ -15,6 +15,9 @@ setup-modules:
 	drush en -y connie
 	drush dis -y alma
 
+	# Enable mocking openlist provider.
+	drush en -y connie_openlist
+
 setup-config:
 	# Configure ting.module
 	drush vset -y ting_agency 100200
