@@ -5,8 +5,6 @@
  * Module file for the Ting search context module.
  */
 
-// Constants.
-define('TING_SEARCH_CONTEXT_PATH', drupal_get_path('module', 'ting_search_context'));
 define('TING_SEARCH_CONTEXT_MAX_RATING', 10);
 
 include_once 'ting_search_context.features.inc';
