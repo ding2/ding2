@@ -3,16 +3,19 @@
 ## Usage ##
 
 composer install
-make setup
+make test-setup
 ./bin/behat --tags '~wip'
 
 ### Profiles ###
 
-todo
+Behat is configured with three profiles, which can be selected with
+the -p switch.
 
-### Tags ###
+The default profile runs test using goutte and phantomjs for tests
+that require JavaScript.
 
-todo @wip, @regression, @no_messages_check
+The chrome and firefox profiles runs in the named browser using
+Selenium. You need to manually start the Selenium server.
 
 ## Development ##
 
@@ -22,36 +25,22 @@ todo @wip, @regression, @no_messages_check
 
 ### Test layout ###
 
-todo
+Behat features is located in `features`, while tests for major
+(possibly optional) components should be located in a subfolder. For
+instance, the tests for the personalization modules are located in
+`features/p2`.
 
-### Service mocking ###
+todo use suites
 
-todo make targets, MOCK_HOST
-
-#### Services ####
-
-Ding depends on multiple external services, each which is handled in
-one of two ways:
+### Services ###
 
 Provider based services is mocked by creating a mocking
 implementation. Most of these is in Connie, the testing provider
 module included in ding_provider.
-
-Others are mocked by recording and playing back service communication
-using mock-http-server. Recording is preferably done against a test
-installation of the service.  These are currently: 
 
 ##### Opensearch #####
 
 https://opensource.dbc.dk/services/open-search-web-service
 
 Using http://oss-services.dbc.dk/opensearch/4.0.1/
-
-#### Playback ####
-
-todo
-
-#### Recording ####
-
-todo
 
