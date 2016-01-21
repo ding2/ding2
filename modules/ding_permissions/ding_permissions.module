@@ -180,7 +180,7 @@ function ding_permissions_secure_permissions($role) {
       'access content overview',
       'access contextual links',
       'access overlay',
-      'access own webform content'.
+      'access own webform content',
       'access own webform results',
       'access own webform submissions',
       'access relations',
