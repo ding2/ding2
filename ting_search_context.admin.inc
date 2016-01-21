@@ -11,7 +11,7 @@
  * Renders the rate nodes VBO view.
  */
 function ting_search_context_admin_rate_nodes() {
-  $output = t('The rate nodes view wasn\'t found');
+  $output = t("The rate nodes view wasn't found");
   if ($view = views_get_view('ting_search_context_rate_nodes')) {
     $output = $view->preview('block_1');
   }
@@ -215,7 +215,7 @@ function ting_search_context_admin_context_form_validate($form, &$form_state) {
     // Inform the user of duplicate subjects, if any.
     if (!empty($duplicate_subjects)) {
       $duplicate_subjects = implode(', ', $duplicate_subjects);
-      $error_messages[] = t('There\'s duplicate subjects (%subjects)', array(
+      $error_messages[] = t("There's duplicate subjects (%subjects)", array(
         '%subjects' => check_plain($duplicate_subjects),
       ));
     }
@@ -247,7 +247,7 @@ function ting_search_context_admin_context_form_validate($form, &$form_state) {
 /**
  * Submit callback for the context form.
  *
- * @see ting_search_context_admin_context_form().
+ * @see ting_search_context_admin_context_form()
  */
 function ting_search_context_admin_context_form_submit($form, &$form_state) {
   $context = new stdClass();
@@ -361,7 +361,8 @@ function ting_search_context_admin_context_delete_confirm_form_submit($form, &$f
 }
 
 /**
- * Form builder (admin/config/ding/searchcontext)
+ * Form builder (admin/config/ding/searchcontext).
+ *
  * Admin form to configure position of related content on search page.
  */
 function ting_search_context_admin_settings_form($form, &$form_state) {
@@ -410,7 +411,9 @@ function ting_search_context_admin_settings_form($form, &$form_state) {
 }
 
 /**
- * Submit function to clear cache on form submit. Deletes all cid's starting with /search/ting.
+ * Submit function to clear cache on form submit.
+ *
+ * Deletes all cid's starting with /search/ting.
  */
 function ding_search_context_admin_settings_submit($form, &$form_state) {
   $url = url('search/ting/', array('absolute' => TRUE));

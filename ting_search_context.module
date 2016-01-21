@@ -727,9 +727,10 @@ function ting_search_context_unrate_node($nid) {
  * @param int $nid
  *   The ID of node to rate.
  * @param int $rating
- *   The number of the rating (E.g. 1 - 10)
+ *   The number of the rating (E.g. 1 - 10).
  *
- * @return undefined (https://www.drupal.org/node/310079)
+ * @return undefined
+ *   (https://www.drupal.org/node/310079)
  */
 function ting_search_context_rate_node($context_id, $nid, $rating) {
   // Merge query ensures that nodes isn't rated in the same context twice.
@@ -745,6 +746,8 @@ function ting_search_context_rate_node($context_id, $nid, $rating) {
 }
 
 /**
+ * Checks search string context.
+ *
  * Checks to see if a search string context with an identical $search_string
  * already exists in the database.
  *
@@ -785,7 +788,7 @@ function ting_search_context_subject_context_exists($subjects) {
     // it's easy to check for identical contexts. If this wasn't the case, we
     // would have to take a more advanced appproach:
     // http://stackoverflow.com/questions/4519847/comparing-arrays-in-php-without-caring-for-the-order
-    if (sizeof($db_subjects) == sizeof($subjects) && array_diff($db_subjects, $subjects) == array()) {
+    if (count($db_subjects) == count($subjects) && array_diff($db_subjects, $subjects) == array()) {
       return $subject_context;
     }
   }
@@ -838,7 +841,7 @@ function ting_search_context_ratings_load($context_ids = NULL, $nids = NULL) {
 /**
  * Saves or updates a context.
  *
- * @param $context
+ * @param object $context
  *   The context-object to be saved.
  *   If $context->context_id is omitted a new context will be saved in the db.
  *
@@ -967,12 +970,13 @@ function ting_search_context_load_multiple($context_ids = array(), $reset = FALS
 }
 
 /**
+ * Get all contexts.
+ *
  * Get all contexts in the system or all contexts of a specific type if the
  * $type parameter is supplied.
  *
  * @param string $type
- *   (optional)
- *   Constrain the returned contexts to a specific type.
+ *   Constrain the returned contexts to a specific type. (optional).
  *
  * @return array
  *   Array representing the context.

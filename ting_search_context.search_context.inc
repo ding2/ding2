@@ -1,26 +1,26 @@
 <?php
-
 /**
  * @file
+ * Calculates the search context.
  */
 
-
-
 /**
- * Calculate the most relevant context for a search. A search context har the highest priority.
- * A subject context the second highest priority. Defaults to system context.
+ * Calculate the most relevant context for a search.
+ *
+ * A search context har the highest priority.  A subject context the second
+ * highest priority. Defaults to system context.
  *
  * @param array $facets
  *   The facets of the search results.
- * @param int $numTotalObjects
- *   Number of objects
- * @param $search_string
+ * @param int $num_total_objects
+ *   Number of objects.
+ * @param string $search_string
  *   The search query string.
  *
  * @return int
  *   The context_id of the matching context.
  */
-function ting_search_context_calculate_context($facets, $numTotalObjects, $search_string) {
+function ting_search_context_calculate_context($facets, $num_total_objects, $search_string) {
   // Todo this should accept a search object and get the relevant data from there.
   $contexts = ting_search_context_get_all_contexts();
   $search_contexts = array();
@@ -34,9 +34,9 @@ function ting_search_context_calculate_context($facets, $numTotalObjects, $searc
     return $search_context->context_id;
   }
 
-  $system_type = ting_search_context_get_material_type($facets, $numTotalObjects);
+  $system_type = ting_search_context_get_material_type($facets, $num_total_objects);
   if ($system_type == 'book') {
-    if ($numTotalObjects == 0) {
+    if ($num_total_objects == 0) {
       // Defaults to neutral on 0 hits searches.
       $system_type = 'neutral';
     }
@@ -64,12 +64,13 @@ function ting_search_context_calculate_context($facets, $numTotalObjects, $searc
 }
 
 /**
- * Check if a search context matches the search query string. If there are more than one match the
+ * Check if a search context matches the search query string.
+ *
+ * If there are more than one match the
  * search context with the longest matching string is returned.
  *
  * @param array $search_contexts
  *   The search contexts.
- *
  * @param string $search_string
  *   The search query string.
  *
@@ -97,9 +98,8 @@ function ting_search_context_check_search_context($search_contexts, $search_stri
  *
  * @param array $facets
  *   The facets of the search results.
- *
  * @param int $total_number
- *   Number of objects
+ *   Number of objects.
  *
  * @return string
  *   The system_contexts context name or book.
@@ -127,15 +127,15 @@ function ting_search_context_get_material_type($facets, $total_number) {
  *
  * @param array $facets
  *   The facets of the search results.
- *
  * @param int $total_number
- *   Number of objects
+ *   Number of objects.
+ * @param array $type_array
+ *   Array of material types to match against.
  *
- * @return boolean
+ * @return bool
  *   True if the material type matches.
  */
 function ting_search_context_matches_material_type($facets, $total_number, $type_array) {
-  $audio_types = array('lydbog (net)', 'lydbog (cd-mp3)', 'lydbog (cd)');
   $number_of_type = ting_search_context_get_term_count($facets, 'facet.type', $type_array);
   return ting_search_context_evalute_condition($number_of_type, $total_number, 0.5);
 }
@@ -144,8 +144,8 @@ function ting_search_context_matches_material_type($facets, $total_number, $type
 /**
  * Get audience and fiction/nonfiction.
  *
- * @param int $total_number
- *   Number of objects
+ * @param array $facets
+ *   The facets of the search results.
  *
  * @return string
  *   The system_contexts context name.
@@ -238,10 +238,8 @@ function ting_search_context_is_nonfiction($facets, $pass_ratio) {
  *
  * @param array $facets
  *   The facets of the search results.
- *
  * @param array $subject_contexts
  *   The search contexts.
- *
  * @param string $type
  *   The system context type.
  *
@@ -292,14 +290,15 @@ function ting_search_context_get_subject_index_by_type($type) {
 
 
 /**
- * Helper function to get the number of term_names which match the top 3 term in the relevant facet.
+ * Gets the number of term names.
+ *
+ * Helper function to get the number of term_names which match the top 3 term
+ * in the relevant facet.
  *
  * @param array $facets
  *   The facets of the search results.
- *
- * @param string $facets_name
+ * @param string $facet_name
  *   The name of the facet to use.
- *
  * @param array $term_names
  *   The term names to evaluate.
  *
@@ -324,10 +323,8 @@ function ting_search_context_get_top_term_count($facets, $facet_name, $term_name
  *
  * @param array $facets
  *   The facets of the search results.
- *
- * @param string $facets_name
+ * @param string $facet_name
  *   The name of the facet to use.
- *
  * @param array $term_names
  *   The term names to evaluate.
  *
@@ -352,11 +349,9 @@ function ting_search_context_get_term_count($facets, $facet_name, $term_names = 
  *
  * @param int $number_of_terms
  *   The number of terms.
- *
  * @param int $total_number
  *   Total number.
- *
- * @param double $pass_ratio
+ * @param float $pass_ratio
  *   The ratio which is has to be exceeded.
  *
  * @return bolean

@@ -110,7 +110,7 @@ class ting_search_context_handler_filter_node_ratings extends views_handler_filt
     $subquery->condition('nr.context_id', $this->value, 'IN');
 
     // Insert our subquery into the view's main query.
-    $this->add_subquery($subquery, $operator);
+    $this->_add_subquery($subquery, $operator);
   }
 
   /**
@@ -127,7 +127,7 @@ class ting_search_context_handler_filter_node_ratings extends views_handler_filt
     $subquery = db_select('ting_search_context_nodes_rated', 'nr');
     $subquery->addField('nr', 'nid');
 
-    $this->add_subquery($subquery, $operator);
+    $this->_add_subquery($subquery, $operator);
   }
 
   /**
@@ -144,13 +144,13 @@ class ting_search_context_handler_filter_node_ratings extends views_handler_filt
       $subquery->condition('nr.context_id', $context_id);
     }
 
-    $this->add_subquery($subquery, $operator);
+    $this->_add_subquery($subquery, $operator);
   }
 
   /**
    *
    */
-  function add_subquery($subquery, $operator) {
+  function _add_subquery($subquery, $operator) {
     $this->ensure_my_table();
 
     $this->query->add_where(
