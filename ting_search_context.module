@@ -822,14 +822,18 @@ function ting_search_context_ratings_load($context_ids = NULL, $nids = NULL) {
   $query = db_select('ting_search_context_nodes_rated', 'nr')->fields('nr');
 
   if (isset($context_ids)) {
-    return $query->condition('context_id', $context_ids)
-      ->execute()
-      ->fetchAllAssoc('nid');
+    $query->condition('context_id', $context_ids);
+    // All ratings for a context. key by nid.
+    if (is_int($context_ids)) {
+      return $query->execute()->fetchAllAssoc('nid');
+    }
   }
   if (isset($nids)) {
-    return $query->condition('nid', $nids)
-      ->execute()
-      ->fetchAllAssoc('context_id');
+    $query->condition('nid', $nids);
+    // All ratings for a node. key by context_id.
+    if (is_int($nids)) {
+      return $query->execute()->fetchAllAssoc('context_id');
+    }
   }
 
   return $query->execute();
