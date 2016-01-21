@@ -328,6 +328,7 @@ function ding_user_form_process_password_confirm($element) {
 
 /**
  * Validate the user profile form.
+ *
  * Check if the old pincode (if present) match the pincode stored in $_SESSION.
  */
 function ding_user_profile_update_validate($form, &$form_state) {
