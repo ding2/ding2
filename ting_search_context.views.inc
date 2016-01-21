@@ -15,7 +15,7 @@
  *
  * Describes our custom tables to Views.
  *
- * @see ting_search_context_schema().
+ * @see ting_search_context_schema()
  */
 function ting_search_context_views_data() {
   $data = array();

@@ -339,6 +339,8 @@ function ting_search_context_unrate_node_action(&$node, $context) {
 }
 
 /**
+ * Form builder.
+ *
  * Form builder for VBO per-bulk configuration form and Drupal core standard
  * advanced action form. Enables administrators to select the context and rating
  * for the nodes.
@@ -593,6 +595,8 @@ function ting_search_context_form_views_exposed_form_alter(&$form, &$form_state)
 }
 
 /**
+ * Randomly selects nodes rated in the specified context.
+ *
  * Randomly selects nodes rated in the specified context, such that nodes with
  * a higher rating has a chance of being selected.
  * Note: Nodes with max rating of 10 will be prefered. This allows
@@ -601,14 +605,12 @@ function ting_search_context_form_views_exposed_form_alter(&$form, &$form_state)
  * @param int $context_id
  *   The ID of the context to search in.
  * @param int $count
- *   (optional)
- *   The max number of nodes to return. Defaults to 5.
+ *   The max number of nodes to return. Defaults to 5. (optional).
  * @param mixed $node_types
- *   (optional)
  *   Can either be a string with a single node type, or an array of node types.
- *   Defaults to 'all' which returns nodes of all types.
+ *   Defaults to 'all' which returns nodes of all types. (optional).
  *
- * @return
+ * @return array
  *   An array of node objects keyd by nid.
  */
 function ting_search_context_get_nodes($context_id, $count = 5, $node_types = 'all') {

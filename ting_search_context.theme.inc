@@ -40,8 +40,11 @@ function template_preprocess_ting_search_context_content(&$vars, $hook) {
     $wrapper = entity_metadata_wrapper('node', $node);
     $link = $wrapper->field_search_context_link->url->value();
 
-    // One of the main usecases for ding_search_context_links is to link to search queries. Search queries are tricky because they
-    // are a mix of escaped and not escaped characters. This code handles it in a primitive fashion by only escaping the quotes.
+    // One of the main usecases for ding_search_context_links is to link to
+    // search queries. Search queries are tricky because they are a mix of
+    // escaped and not escaped characters. This code handles it in a primitive
+    // fashion by only escaping the quotes.
+    //
     // Quotes inside search queries need to be escaped.
     $url = str_replace('"', '%22', $link);
 
