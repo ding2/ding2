@@ -371,7 +371,18 @@ function ding_base_preprocess_material_item(&$variables) {
   // Render the checkbox.
   $variables['checkbox'] = drupal_render($element[$element['#id']]);
 
-  // Get the title and cover.
+  // Get the creator, materialtype, title and cover
+  if (isset($element['#creators'])) {
+    // Concat creator(s) if needed.
+    $creators = $element['#creators'];
+    if (!is_array($creators)) {
+      $creators = array($creators);
+    }
+    $variables['creators'] = implode(', ', $creators);
+  }
+  if (isset($element['#material_type'])) {
+    $variables['material_type'] = $element['#material_type'];
+  }
   $variables['title'] = $element['#title'];
   $variables['cover'] = drupal_render($element['#cover']);
 
