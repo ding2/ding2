@@ -42,11 +42,11 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then The list :arg1 exists
+     * @Then The list for followed searches exists
      */
-    public function theListExists($arg1)
+    public function theListExists()
     {
-        $list_name = strtolower(preg_replace('/\s/', '-', $arg1));
+        $list_name = 'user-searches';
         $this->ding2Context->drupalContext->visitPath('/user');
         $link = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '.' . $list_name . ' a');
         if (!$link) {
@@ -162,9 +162,9 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When I add the author to authors I follow
+     * @When I add the author :author to authors I follow
      */
-    public function iAddTheAuthorToAuthorsIFollow()
+    public function iAddTheAuthorToAuthorsIFollow($author)
     {
         // Choose book facet.
         $found = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '.form-item-type-bog a');
@@ -173,8 +173,9 @@ class P2Context implements Context, SnippetAcceptingContext
         }
         $found->click();
 
+        $authorLowerCase = strtolower(preg_replace('/\s/', '-', $author));
         $found = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.form-item-creator-george-orwell a');
+            ->find('css', '.form-item-creator-' . $authorLowerCase . ' a');
         if (!$found) {
             throw new \Exception('Creator facet not found');
         }
@@ -241,7 +242,7 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         // First add the author to the list.
         $this->iHaveSearchedFor($arg1);
-        $this->iAddTheAuthorToAuthorsIFollow();
+        $this->iAddTheAuthorToAuthorsIFollow($arg1);
 
         $this->iShouldSeeOnTheListOfFollowedAuthors($arg1);
     }
@@ -445,7 +446,7 @@ class P2Context implements Context, SnippetAcceptingContext
         // Click on list link.
         $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
         $found_list = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.ding-user-lists .' . $type);
+            ->find('css', '.' . $type . ' a');
         if (!$found_list) {
             throw new \Exception("Couldn't find link to list of type '$type''");
         }
@@ -491,9 +492,9 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should see that the list :title is public
+     * @Then I should see that the list :title is marked as public
      */
-    public function iShouldSeeThatTheListIsPublic($title)
+    public function iShouldSeeThatTheListIsMarkedAsPublic($title)
     {
         $this->iGoToTheListOfType($title, 'user-list');
         $this->iGoToTheShareLink();
@@ -523,7 +524,36 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iShouldSeeThePublicList($title)
     {
         $listId = $this->getListId("list:$title", false);
-        $this->ding2Context->minkContext->assertElementContainsText('a[href^="/list/' . $listId . '"]', $title);
+
+        $nrPages = 1;
+        // Get number of pages from pager in the bottom.
+        $lastPageHref = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.pager-last a')->getAttribute('href');
+        if ($lastPageHref) {
+            $match = array();
+            if (preg_match('{/public-lists\?page=(\d+)}', $lastPageHref, $match)) {
+                $nrPages = $match[1];
+            }
+        }
+
+        // Search for list on all pages.
+        for ($i = 0; $i <= $nrPages; $i++) {
+            if ($i) {
+                $this->ding2Context->minkContext->visitPath('/public-lists?page=' . $i);
+            }
+
+            $found = $this->ding2Context->minkContext->getSession()->getPage()
+                ->find('css', 'a[href^="/list/' . $listId . '"]');
+            if ($found) {
+                $this->ding2Context->minkContext->assertElementContainsText('a[href^="/list/' . $listId . '"]', $title);
+
+                // We return now, cause we have found the element.
+                return;
+            }
+        }
+
+        // If we get here, the element hasn't been found.
+        throw new Exception("List '$title' couldn't be found on public lists");
     }
 
     /**
@@ -640,7 +670,7 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         $this->iHaveCreatedAList($title);
         $this->iMakeTheListPublic($title);
-        $this->iShouldSeeThatTheListIsPublic($title);
+        $this->iShouldSeeThatTheListIsMarkedAsPublic($title);
     }
 
         /**
@@ -650,26 +680,29 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         $this->ding2Context->minkContext->visitPath('/search/ting/' . urlencode($material));
 
-        // Go to dvd material.
-        $this->ding2Context->minkContext->assertElementContainsText('.search-result--heading-type', 'Dvd');
         $found = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.search-result--heading-type:contains("Dvd") + h2 > a');
+            ->find('css', 'a[href^="/ting/collection"]:contains("' . $material . '")');
         if (!$found) {
-            throw new \Exception("Couldn't find search result with heading type dvd");
+            throw new \Exception("Couldn't find search result");
         }
         $found->click();
 
+        // Make sure document is ready before we try to make a mouseover.
+        $this->ding2Context->minkContext->getSession()
+            ->evaluateScript('window.jQuery(document).ready(function() { return; });');
         $found = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', '.ding-list-add-button a');
         if (!$found) {
             throw new \Exception("Couldn't find more button");
         }
+        $this->ding2Context->minkContext->getSession()
+            ->evaluateScript('jQuery(document).scrollTo(".ding-list-add-button a");');
         $found->mouseOver();
 
         // Add material to public list.
         $listLink = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', '.buttons li a[href^="/dinglist/attach/ting_object"]:contains("' . $title . '")');
-        if (!$found) {
+        if (!$listLink) {
             throw new \Exception("Couldn't find link to add to list '$title'");
         }
         $listLink->click();
@@ -704,5 +737,166 @@ class P2Context implements Context, SnippetAcceptingContext
         $this->ding2Context->iAmLoggedInAsALibraryUser();
         $this->ding2Context->minkContext->visit("/list/$listId");
         $this->ding2Context->minkContext->assertElementContainsText('.ting-object', $material);
+    }
+
+    /**
+     * @Then I should not see the material :material on the public list :title
+     */
+    public function iShouldNotSeeTheMaterialOnThePublicList($material, $title)
+    {
+        $listId = $this->iReadTheListIdForListName("list:$title", false);
+        $this->ding2Context->minkContext->visit("/list/$listId");
+        $this->ding2Context->minkContext->assertElementNotContainsText('.ting-object', $material);
+    }
+
+    /**
+     * @When I go to the list page :title
+     */
+    public function iGoToTheListPage($title)
+    {
+        $listId = $this->iReadTheListIdForListName("list:$title", false);
+        $this->ding2Context->minkContext->visitPath("/list/$title");
+    }
+
+    /**
+     * @Then I should see the tag :tag on the material
+     */
+    public function iShouldSeeTheTagOnTheMaterial($tag)
+    {
+        $this->ding2Context->minkContext->assertElementContainsText('.subjects .subject', $tag);
+    }
+
+    /**
+     * @Given I have chosen a book material with the tag :tag
+     */
+    public function iHaveChosenABookMaterialWithTheTag($tag)
+    {
+        $this->iHaveSearchedFor($tag);
+        $link = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '#edit-type-bog');
+        if (!$link) {
+            throw new Exception("Couldn't filter for book type");
+        }
+        $link->check();
+
+        // Go to material.
+        $this->iChooseTheFirstSearchResult();
+    }
+
+    /**
+     * @When I choose the first search result
+     */
+    public function iChooseTheFirstSearchResult()
+    {
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.ting-object .heading a');
+        if (!$found) {
+            throw new Exception("Couldn't find search result.");
+        }
+        $found->click();
+    }
+
+    /**
+     * @When I follow the tag :tag
+     */
+    public function iFollowTheTag($tag)
+    {
+        // Mouse over the "More" button.
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.ding-list-add-button a');
+        if (!$found) {
+            throw new \Exception("Couldn't find more button");
+        }
+        $this->ding2Context->minkContext->getSession()
+            ->evaluateScript('jQuery(document).scrollTo(".ding-list-add-button a");');
+        $found->mouseOver();
+
+        $followTag = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.buttons a:contains("' . $tag . '")');
+        if (!$followTag) {
+            throw new Exception("Couldn't find tag '$tag' on material");
+        }
+        $followTag->click();
+    }
+
+    /**
+     * @Then I should see the tag :tag on my list :list
+     */
+    public function iShouldSeeTheTagOnMyList($tag, $list)
+    {
+        $this->iGoToTheListType($list);
+        $this->ding2Context->minkContext->assertElementContainsText('.vocabulary-ding-content-tags a', $tag);
+    }
+
+    /**
+     * @Given I am following the tag :tag chosen from the material with collection name :collection
+     */
+    public function iAmFollowingTheTag($tag, $collection)
+    {
+        $this->ding2Context->minkContext->visitPath('/ting/collection/' . $collection);
+        $this->iFollowTheTag($tag);
+        $this->iShouldSeeTheTagOnMyList($tag, 'interests');
+    }
+
+    /**
+     * @When I unfollow the tag :tag
+     */
+    public function iUnfollowTheTag($tag)
+    {
+        $this->iGoToTheListType('interests');
+
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', 'a[href^="/tags/"]:contains("' . $tag . '")');
+        if (!$found) {
+            throw new Exception("Can't unfollow tag '$tag' when it's not being followed");
+        }
+        $deleteButton = $found->getParent()->getParent()->getParent()
+            ->find('css', '.close-btn');
+        if (!$deleteButton) {
+            throw new Exception("Couldn't find remove from list button");
+        }
+        $deleteButton->click();
+    }
+
+    /**
+     * @Then I should not see the tag :arg1 on my list :arg2
+     */
+    public function iShouldNotSeeTheTagOnMyList($tag, $list)
+    {
+        $this->iGoToTheListType($list);
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '.vocabulary-ding-content-tags a:contains("' . $tag . '")');
+        if ($found) {
+            throw new Exception("Shouldn't find tag '$tag', but it is being followed");
+        }
+    }
+
+    /**
+     * @Given I have searched for :search and the tag :tag
+     */
+    public function iHaveSearchedForAndTheTag($search, $tag)
+    {
+        $this->iHaveSearchedFor("$search $tag");
+
+        $this->ding2Context->drupalContext->saveScreenshot('screenshot1.png', '/var/www/html/');
+        $this->ding2Context->minkContext->getSession()
+            ->evaluateScript('jQuery(document).scrollTo(\'#edit-subject a[title="' . $tag . '"]\');');
+        $this->ding2Context->drupalContext->saveScreenshot('screenshot2.png', '/var/www/html/');
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '#edit-subject input[value="' . $tag . '"]');
+        if (!$found) {
+            throw new Exception("Couldn't filter for tag $tag");
+        }
+        $found->check();
+    }
+
+    /**
+     * @Then I should not be able to add material to the list :title as a different user
+     */
+    public function iShouldNotBeAbleToAddMaterialToTheListAsADifferentUser($title)
+    {
+        $this->ding2Context->minkContext->assertElementNotOnPage(
+            '.buttons li a[href^="/dinglist/attach/ting_object"]:contains("' . $title . '")'
+        );
     }
 }

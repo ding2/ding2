@@ -1,8 +1,11 @@
 Feature: Public lists
+  In order to share lists with other library users
   As a library user
-  I want to be able to make lists public or shared lists with a token
-  I want to (un)follow public lists and shared lists
-  I want to add material to public lists I created and to shared lists I have edit access to
+  I want to be able to share lists
+  
+  - Users should be able to share lists
+  - Users should be able to follow shared lists
+  - Users should be able to to add material to shared lists, if they have proper permissions
 
   Background:
     Given I am logged in as a library user
@@ -11,7 +14,7 @@ Feature: Public lists
   Scenario: Make list public
     Given I have created a list "My Harry Potter books"
     When I make the list "My Harry Potter books" public
-    Then I should see that the list "My Harry Potter books" is public
+    Then I should see that the list "My Harry Potter books" is marked as public
 
   @api @no_messages_check @javascript
   Scenario: See public list on public-lists
@@ -37,3 +40,9 @@ Feature: Public lists
     Given I have created a public list "My action movies"
     When I add material "Die hard 4.0" to the list "My action movies"
     Then I should see the material "Die hard 4.0" on the public list "My action movies"
+
+  @api @no_messages_check @javascript
+  Scenario: Other users can't add content to a public list
+    Given I have created a public list "My fruit books"
+    When I have searched for "Essential guide to back garden self-sufficiency"
+    Then I should not be able to add material to the list "My fruit books" as a different user
