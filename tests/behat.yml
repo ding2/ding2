@@ -4,7 +4,7 @@ default:
       contexts:
         - FeatureContext
         - Ding2Context
-        - Ding2MessagesContext
+        #- Ding2MessagesContext
         - P2Context
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext

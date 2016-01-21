@@ -39,8 +39,7 @@ class Ding2Context implements Context, SnippetAcceptingContext
         try {
             $this->ding2MessagesContext = $environment->getContext('Ding2MessagesContext');
         } catch (Exception $e) {
-            // Throw a bit more useful error message.
-            throw new Exception('Ding2MessagesContext not found, please add it to behat.yml');
+            // Ingore.
         }
 
         // Set window size to avoid problems with elements being invisible.
@@ -114,7 +113,9 @@ class Ding2Context implements Context, SnippetAcceptingContext
         // Log in.
         $submit->click();
 
-        $this->ding2MessagesContext->collectMessages();
+        if ($this->ding2MessagesContext) {
+            $this->ding2MessagesContext->collectMessages();
+        }
 
         if (!$this->drupalContext->loggedIn()) {
             throw new \Exception(sprintf("Failed to log in as user '%s' with role '%s'", $this->user->name, $this->user->role));
