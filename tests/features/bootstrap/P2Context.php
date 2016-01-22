@@ -44,22 +44,9 @@ class P2Context implements Context, SnippetAcceptingContext
     /**
      * @Then The list for followed searches exists
      */
-    public function theListExists()
+    public function theFollowedSearchesListExists()
     {
-        $list_name = 'user-searches';
-        $this->ding2Context->drupalContext->visitPath('/user');
-        $link = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '.' . $list_name . ' a');
-        if (!$link) {
-            throw new \Exception("Couldn't find the list");
-        }
-        $list_a = $link->getAttribute('href');
-        $match = array();
-        if (!preg_match('/\/list\/(\d+)/', $list_a, $match)) {
-            throw new \Exception("List is not formatted correctly");
-        }
-
-        // Save id of list.
-        $this->dataRegistry[$list_name] = $match[1];
+        $this->theListExists('follow search');
     }
 
     /**
@@ -75,7 +62,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iAddTheSearchToFollowedSearches()
     {
-        $followed_searches_id = $this->getListId('user-searches');
+        $followed_searches_id = $this->getListId('follow search');
         $this->moreDropdownSelect('/dinglist/attach/search_query/'. $followed_searches_id, "Couldn't find button to add search to list");
     }
 
@@ -116,7 +103,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeOnFollowedSearches($arg1)
     {
-        $followed_searches_id = $this->getListId('user-searches');
+        $followed_searches_id = $this->getListId('follow search');
         $this->ding2Context->drupalContext->visitPath("/list/$followed_searches_id");
         $this->ding2Context->minkContext->assertElementContainsText('.ding-type-ding-list-element .content a', $arg1);
     }
@@ -137,7 +124,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iRemoveTheSearchFromFollowedSearches($arg1)
     {
-        $followed_searches_id = $this->getListId('user-searches');
+        $followed_searches_id = $this->getListId('follow search');
         $this->ding2Context->drupalContext->visitPath('/list/' . $followed_searches_id);
         $found = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', 'a:contains("' . $arg1 . '") + form[id^="ding-list-remove-element"] #edit-submit');
@@ -152,7 +139,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldNotSeeOnFollowedSearches($arg1)
     {
-        $followed_searches_id = $this->getListId('user-searches');
+        $followed_searches_id = $this->getListId('follow search');
         $this->ding2Context->drupalContext->visitPath('/list/' . $followed_searches_id);
         $found = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', 'a[href^="/search/ting"]:contains("' . $arg1 . '")');
@@ -210,9 +197,9 @@ class P2Context implements Context, SnippetAcceptingContext
      * @return string
      *   The list id.
      */
-    function getListId($list, $normalize = true)
+    function getListId($list)
     {
-        $listName = $normalize ? strtolower(preg_replace('/\s/', '-', $list)) : $list;
+        $listName = 'list:' . $list;
         if (!isset($this->dataRegistry[$listName])) {
             throw new \Exception("List id for list $list doesn't exist");
         }
@@ -229,7 +216,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeOnTheListOfFollowedAuthors($arg1)
     {
-        $follow_author_id = $this->getListId('follow-author');
+        $follow_author_id = $this->getListId('follow author');
         $this->ding2Context->drupalContext->visitPath('/list/' . $follow_author_id);
         $link = '/search/ting/phrase.creator';
         $this->ding2Context->minkContext->assertElementContains('a[href^="' . $link . '"]', $arg1);
@@ -252,7 +239,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iRemoveTheAuthorFromFollowedAuthors($arg1)
     {
-        $follow_author_id = $this->getListId('follow-author');
+        $follow_author_id = $this->getListId('follow author');
         $this->ding2Context->drupalContext->visitPath('/list/' . $follow_author_id);
         $found = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', 'a:contains("' . $arg1 . '") + form[id^="ding-list-remove-element"] #edit-submit');
@@ -267,7 +254,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldNotSeeOnFollowedAuthors($arg1)
     {
-        $follow_author_id = $this->getListId('follow-author');
+        $follow_author_id = $this->getListId('follow author');
         $this->ding2Context->drupalContext->visitPath('/list/' . $follow_author_id);
         $found = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', 'a[href^="/search/ting/phrase.creator"]');
@@ -523,7 +510,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeThePublicList($title)
     {
-        $listId = $this->getListId("list:$title", false);
+        $listId = $this->getListId($title);
 
         try {
             $this->ding2Context->minkContext->assertElementContainsText('a[href^="/list/' . $listId . '"]', $title);
@@ -577,7 +564,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iFollowTheList($title)
     {
-        $listId = $this->getListId("list:$title", false);
+        $listId = $this->getListId($title);
         $this->ding2Context->minkContext->visit("/list/$listId");
 
         $foundButton = $this->ding2Context->minkContext->getSession()->getPage()
@@ -602,7 +589,7 @@ class P2Context implements Context, SnippetAcceptingContext
         }
         $listsList->click();
 
-        $listId = $this->getListId("list:$title", false);
+        $listId = $this->getListId($title);
         $this->ding2Context->minkContext->assertElementContainsText('a[href="/list/' . $listId . '"]', $title);
     }
 
@@ -622,7 +609,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iUnfollowTheListWithTheTitle($title)
     {
-        $listId = $this->getListId("list:$title", false);
+        $listId = $this->getListId($title);
 
         $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
         $found_list = $this->ding2Context->minkContext->getSession()->getPage()
@@ -654,7 +641,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldNotSeeTheListOnListsIFollow($title)
     {
-        $listId = $this->getListId("list:$title", false);
+        $listId = $this->getListId($title);
         $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
         $found_list = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', '.ding-user-lists .lists-list a');
@@ -717,7 +704,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeTheMaterialOnTheList($material, $title)
     {
-        $listId = $this->getListId("list:$title", false);
+        $listId = $this->getListId($title);
         $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
         $list = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', '.user-list a[href="/list/' . $listId . '"]');
@@ -737,7 +724,7 @@ class P2Context implements Context, SnippetAcceptingContext
         $this->iShouldSeeTheMaterialOnTheList($material, $title);
 
         // Log in as different user and check the list again.
-        $listId = $this->getListId("list:$title", false);
+        $listId = $this->getListId($title);
         $this->ding2Context->iAmLoggedInAsALibraryUser();
         $this->ding2Context->minkContext->visit("/list/$listId");
         $this->ding2Context->minkContext->assertElementContainsText('.ting-object', $material);
@@ -874,6 +861,37 @@ class P2Context implements Context, SnippetAcceptingContext
             throw new Exception("Shouldn't find tag '$tag', but it is being followed");
         }
     }
+
+    /**
+     * @Given the list :name exists
+     */
+    public function theListExists($name)
+    {
+        $listSelectors = [
+            'follow search' => '.ding-user-lists .user-searches',
+            'follow author' => '.ding-user-lists .follow-author',
+            'interests' =>'.ding-user-lists .interests',
+        ];
+        if (!isset($listSelectors[$name])) {
+            throw new Exception('Unknown list "' . $name . '"');
+        }
+
+        $this->ding2Context->drupalContext->visitPath('/user');
+        $link = $this->ding2Context->minkContext->getSession()->getPage()->find('css', $listSelectors[$name] . ' a');
+        if (!$link) {
+            throw new \Exception("Couldn't find the list");
+        }
+        $list_a = $link->getAttribute('href');
+        $match = array();
+        if (!preg_match('/\/list\/(\d+)/', $list_a, $match)) {
+            throw new \Exception("List link is not formatted correctly");
+        }
+
+        // Save id of list.
+        $this->dataRegistry['list:' . $name] = $match[1];
+    }
+
+
 
     /**
      * @Given I have searched for :search and the tag :tag
