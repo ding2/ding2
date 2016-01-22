@@ -21,7 +21,7 @@ function ding_ekurser_form_alter(&$form, &$form_state, $form_id) {
     return;
   }
 
-  // Remove all facets from the form, so we can add a custom subjectbrowser instead.
+  // Remove all facets from the form, so we can add a custom subjectbrowser.
   foreach ($form as $form_key => $form_val) {
     if (strpos($form_key, 'facet.') === 0) {
       unset($form[$form_key]);
@@ -84,6 +84,7 @@ function ding_ekurser_form_alter(&$form, &$form_state, $form_id) {
 
 /**
  * Query ting for 'ekurser.nu', and return top 20 terms from 'facet.subject'.
+ *
  * Ignore terms that cover more than 80% of the total resultset.
  */
 function _ding_ekurser_get_subject_terms() {
