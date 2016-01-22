@@ -5,7 +5,7 @@ Feature: Follow author
 
   Background:
     Given I am logged in as a library user
-    Then The list "follow author" exists
+    And the list "follow author" exists
 
   @api @no_messages_check
   Scenario: Follow author

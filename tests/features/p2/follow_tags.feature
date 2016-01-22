@@ -5,7 +5,7 @@ Feature: Follow tags
 
   Background:
     Given I am logged in as a library user
-    Then The list "interests" exists
+    And the list "interests" exists
 
   @no_messages_check @api
   Scenario: Search for a tag
