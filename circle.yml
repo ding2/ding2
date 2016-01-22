@@ -30,6 +30,7 @@ dependencies:
     # Set up Apache to serve our site.
     - cp tests/apache.conf /etc/apache2/sites-available/p2.conf
     - a2ensite p2.conf
+    - a2enmod rewrite
     - sudo service apache2 restart
     # Start phantomjs.
     - phantomjs --webdriver=4444:
