@@ -17,8 +17,12 @@ function connie_openlist_openlist_request($function, $arguments, $detailed_log =
   if (function_exists($function_name)) {
     return call_user_func_array($function_name, $arguments);
   }
-
-  dpm($arguments, 'Unimplemented Openlist function called: ' . $function);
+  if (function_exists('dpm')) {
+    dpm($arguments, 'Unimplemented Openlist function called: ' . $function);
+  }
+  else {
+    drupal_set_message('Unimplemented Connie Openlist function called: ' . $function, 'error');
+  }
   throw new DingProviderDoesntImplement($function . ' not implemented');
 }
 
