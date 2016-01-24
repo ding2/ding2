@@ -124,6 +124,14 @@ function ting_search_context_install() {
 }
 
 /**
+ * Implements hook_unintstall().
+ */
+function ting_search_context_uninstall() {
+  variable_del('ting_search_context_position');
+  variable_del('ting_search_context_fallback_images');
+}
+
+/**
  * Install the module's system contexts in the database.
  *
  * System contexts needs to live in the database, so they can be used to rate
