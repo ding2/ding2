@@ -192,6 +192,9 @@ projects[menu_breadcrumb][version] = "1.5"
 projects[menu_position][subdir] = "contrib"
 projects[menu_position][version] = "1.1"
 
+projects[metatag][subdir] = "contrib"
+projects[metatag][version] "1.10"
+
 projects[module_filter][subdir] = "contrib"
 projects[module_filter][version] = "1.8"
 
