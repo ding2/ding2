@@ -5,7 +5,7 @@ Feature: Follow author
 
   Background:
     Given I am logged in as a library user
-    And the list "follow author" exists
+    And The list "follow author" exists
 
   @api
   Scenario: Follow author

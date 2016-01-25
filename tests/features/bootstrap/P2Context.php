@@ -885,7 +885,7 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given the list :name exists
+     * @Given The list :name exists
      */
     public function theListExists($name)
     {
