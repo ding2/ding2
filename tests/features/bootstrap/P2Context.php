@@ -355,7 +355,6 @@ class P2Context implements Context, SnippetAcceptingContext
         $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/createlist');
     }
 
-
     /**
      * @When I create a new list :title with description :description
      */
@@ -698,6 +697,29 @@ class P2Context implements Context, SnippetAcceptingContext
         }
         $listLink->click();
     }
+
+    /**
+     * @Given I have added the material :material to the list :list
+     */
+    public function iHaveAddedTheMaterialToTheList($material, $list)
+    {
+        $this->iAddMaterialToTheList($material, $list);
+        $this->iShouldSeeTheMaterialOnTheList($material, $list);
+    }
+
+    /**
+     * @Then I should get a confirmation that I added the material to :list list
+     */
+    public function iShouldGetAConfirmationThatIAddedTheMaterialToList($list)
+    {
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
+        // Wait for popup.
+        $page->waitFor(10000, function ($page) {
+            return $page->find('css', '.ui-dialog');
+        });
+        $this->ding2Context->minkContext->assertElementContainsText('.ui-dialog', 'Tilføjet til ' . $list);
+    }
+
 
     /**
      * @Then I should see the material :material on the list :title
