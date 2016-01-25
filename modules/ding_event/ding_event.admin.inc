@@ -8,12 +8,12 @@
  * Get a form to select currency (Euro | Kr)
  *
  * @param array $form
- *   An associative array containing the structure of the form
+ *   An associative array containing the structure of the form.
  * @param array $form_state
  *   A keyed array containing the current state of the form.
  * @return mixed
  */
-function ding_event_admin_setting_form($form, &$form_state) {
+function ding_event_admin_setting_form(array $form, array &$form_state) {
   $currency = variable_get('ding_event_currency_type', 'Kr');
 
   $form['ding_event'] = array(
@@ -56,11 +56,11 @@ function ding_event_admin_setting_form($form, &$form_state) {
  * place2book only supports danish kr. If module is enabled and euro is selected currency; validation fails
  *
  * @param array $form
- *   An associative array containing the structure of the form
+ *   An associative array containing the structure of the form.
  * @param array $form_state
  *   A keyed array containing the current state of the form.
  */
-function ding_event_admin_submit($form, &$form_state) {
+function ding_event_admin_submit(array $form, array &$form_state) {
   $currency = $form_state['values']['ding_event_currency_type'];
   $instance = field_read_instance('node', 'field_ding_event_price', 'ding_event');
   if ($instance !== FALSE) {
@@ -73,11 +73,11 @@ function ding_event_admin_submit($form, &$form_state) {
  * Validate input and update field_instance
  *
  * @param array $form
- *   An associative array containing the structure of the form
+ *   An associative array containing the structure of the form.
  * @param array $form_state
  *   A keyed array containing the current state of the form.
  */
-function ding_event_admin_validate($form, &$form_state) {
+function ding_event_admin_validate(array $form, array &$form_state) {
   if (!ctype_digit($form_state['values']['ding_event_frontend_items_per_page'])) {
     $error_msg = t("@amount is not a valid amount", array('@amount' => $form_state['values']['ding_event_frontend_items_per_page']));
     form_set_error('ding_event_frontend_items_per_page', $error_msg);
