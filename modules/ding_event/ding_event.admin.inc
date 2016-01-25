@@ -6,8 +6,11 @@
 
 /**
  * Get a form to select currency (Euro | Kr)
- * @param $form
- * @param $form_state
+ *
+ * @param array $form
+ *   An associative array containing the structure of the form
+ * @param array $form_state
+ *   A keyed array containing the current state of the form.
  * @return mixed
  */
 function ding_event_admin_setting_form($form, &$form_state) {
@@ -51,8 +54,11 @@ function ding_event_admin_setting_form($form, &$form_state) {
 /**
  * Validate currency input and update field_instance
  * place2book only supports danish kr. If module is enabled and euro is selected currency; validation fails
- * @param $form
- * @param $form_state
+ *
+ * @param array $form
+ *   An associative array containing the structure of the form
+ * @param array $form_state
+ *   A keyed array containing the current state of the form.
  */
 function ding_event_admin_submit($form, &$form_state) {
   $currency = $form_state['values']['ding_event_currency_type'];
@@ -65,8 +71,11 @@ function ding_event_admin_submit($form, &$form_state) {
 
 /**
  * Validate input and update field_instance
- * @param $form
- * @param $form_state
+ *
+ * @param array $form
+ *   An associative array containing the structure of the form
+ * @param array $form_state
+ *   A keyed array containing the current state of the form.
  */
 function ding_event_admin_validate($form, &$form_state) {
   if (!ctype_digit($form_state['values']['ding_event_frontend_items_per_page'])) {
