@@ -727,7 +727,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldNotSeeTheMaterialOnThePublicList($material, $title)
     {
-        $listId = $this->iReadTheListIdForListName("list:$title", false);
+        $listId = $this->getListId($title, false);
         $this->ding2Context->minkContext->visit("/list/$listId");
         $this->ding2Context->minkContext->assertElementNotContainsText('.ting-object', $material);
     }
@@ -737,7 +737,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iGoToTheListPage($title)
     {
-        $listId = $this->iReadTheListIdForListName("list:$title", false);
+        $listId = $this->getListId($title, false);
         $this->ding2Context->minkContext->visitPath("/list/$title");
     }
 
