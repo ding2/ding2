@@ -6,7 +6,7 @@ use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
-
+use Behat\Mink\Exception\UnsupportedDriverActionException;
 /**
  * Provides step definitions for interacting with P2.
  */
@@ -44,22 +44,9 @@ class P2Context implements Context, SnippetAcceptingContext
     /**
      * @Then The list for followed searches exists
      */
-    public function theListExists($arg1)
+    public function theFollowedSearchesListExists()
     {
-        $list_name = strtolower(preg_replace('/\s/', '-', $arg1));
-        $this->ding2Context->drupalContext->visitPath('/user');
-        $link = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '.' . $list_name . ' a');
-        if (!$link) {
-            throw new \Exception("Couldn't find the list");
-        }
-        $list_a = $link->getAttribute('href');
-        $match = array();
-        if (!preg_match('/\/list\/(\d+)/', $list_a, $match)) {
-            throw new \Exception("List is not formatted correctly");
-        }
-
-        // Save id of list.
-        $this->dataRegistry[$list_name] = $match[1];
+        $this->theListExists('follow search');
     }
 
     /**
@@ -75,13 +62,40 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iAddTheSearchToFollowedSearches()
     {
-        $followed_searches_id = $this->iReadTheListIdForListName('user-searches');
-        $found = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', 'a[href^="/dinglist/attach/search_query/' . $followed_searches_id . '"]');
-        if (!$found) {
-            throw new \Exception("Couldn't find button to add search to list.");
+        $followed_searches_id = $this->getListId('follow search');
+        $this->moreDropdownSelect('/dinglist/attach/search_query/'. $followed_searches_id, "Couldn't find button to add search to list");
+    }
+
+    /**
+     * Select an item in a "More.." dropdown.
+     *
+     * @param string $link
+     *   The link the item should point to.
+     * @param string $errorMessage
+     *   Exception message if the link could not be found.
+     */
+    public function moreDropdownSelect($link, $errorMessage)
+    {
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
+        $button = $page->find('css', '.ding-list-add-button a');
+        if (!$button) {
+            throw new \Exception("Couldn't find more button");
         }
-        $found->click();
+
+        try {
+            // Mouseover the button to trigger the dropdown. Can't click an
+            // invisible link in a real browser.
+            $button->mouseOver();
+        } catch (UnsupportedDriverActionException $e) {
+            // Carry on if the driver doesn't support it.
+        }
+
+        // Sadly the links isn't related to the button in any way.
+        $link = $page->find('css', 'a[href^="' . $link . '"]');
+        if (!$link) {
+            throw new \Exception($errorMessage);
+        }
+        $link->click();
     }
 
     /**
@@ -89,7 +103,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeOnFollowedSearches($arg1)
     {
-        $followed_searches_id = $this->iReadTheListIdForListName('user-searches');
+        $followed_searches_id = $this->getListId('follow search');
         $this->ding2Context->drupalContext->visitPath("/list/$followed_searches_id");
         $this->ding2Context->minkContext->assertElementContainsText('.ding-type-ding-list-element .content a', $arg1);
     }
@@ -110,7 +124,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iRemoveTheSearchFromFollowedSearches($arg1)
     {
-        $followed_searches_id = $this->iReadTheListIdForListName('user-searches');
+        $followed_searches_id = $this->getListId('follow search');
         $this->ding2Context->drupalContext->visitPath('/list/' . $followed_searches_id);
         $found = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', 'a:contains("' . $arg1 . '") + form[id^="ding-list-remove-element"] #edit-submit');
@@ -125,7 +139,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldNotSeeOnFollowedSearches($arg1)
     {
-        $followed_searches_id = $this->iReadTheListIdForListName('user-searches');
+        $followed_searches_id = $this->getListId('follow search');
         $this->ding2Context->drupalContext->visitPath('/list/' . $followed_searches_id);
         $found = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', 'a[href^="/search/ting"]:contains("' . $arg1 . '")');
@@ -173,17 +187,25 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I read the list id for list name :arg1
+     * Get the ID of the named list.
+     *
+     * @param string $list
+     *   List name.
+     * @param bool $normalize
+     *   Whether to normalize name.
+     *
+     * @return string
+     *   The list id.
      */
-    public function iReadTheListIdForListName($list, $normalize = true)
+    function getListId($list)
     {
-        $listName = $normalize ? strtolower(preg_replace('/\s/', '-', $list)) : $list;
+        $listName = 'list:' . $list;
         if (!isset($this->dataRegistry[$listName])) {
             throw new \Exception("List id for list $list doesn't exist");
         }
         $listId = $this->dataRegistry[$listName];
         if (!$listId) {
-            throw new \Exception("List id for list $list seems to be empty");
+            throw new \Exception("List id for list $list seems to be public");
         }
 
         return $listId;
@@ -194,7 +216,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeOnTheListOfFollowedAuthors($arg1)
     {
-        $follow_author_id = $this->iReadTheListIdForListName('follow-author');
+        $follow_author_id = $this->getListId('follow author');
         $this->ding2Context->drupalContext->visitPath('/list/' . $follow_author_id);
         $link = '/search/ting/phrase.creator';
         $this->ding2Context->minkContext->assertElementContains('a[href^="' . $link . '"]', $arg1);
@@ -217,7 +239,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iRemoveTheAuthorFromFollowedAuthors($arg1)
     {
-        $follow_author_id = $this->iReadTheListIdForListName('follow-author');
+        $follow_author_id = $this->getListId('follow author');
         $this->ding2Context->drupalContext->visitPath('/list/' . $follow_author_id);
         $found = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', 'a:contains("' . $arg1 . '") + form[id^="ding-list-remove-element"] #edit-submit');
@@ -232,7 +254,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldNotSeeOnFollowedAuthors($arg1)
     {
-        $follow_author_id = $this->iReadTheListIdForListName('follow-author');
+        $follow_author_id = $this->getListId('follow author');
         $this->ding2Context->drupalContext->visitPath('/list/' . $follow_author_id);
         $found = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', 'a[href^="/search/ting/phrase.creator"]');
@@ -488,35 +510,39 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeThePublicList($title)
     {
-        $listId = $this->iReadTheListIdForListName("list:$title", false);
+        $listId = $this->getListId($title);
 
-        $nrPages = 1;
-        // Get number of pages from pager in the bottom.
-        $lastPageHref = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.pager-last a')->getAttribute('href');
-        if ($lastPageHref) {
-            $match = array();
-            if (preg_match('{/public-lists\?page=(\d+)}', $lastPageHref, $match)) {
-                $nrPages = $match[1];
+        try {
+            $this->ding2Context->minkContext->assertElementContainsText('a[href^="/list/' . $listId . '"]', $title);
+            return;
+        } catch (Exception $e) {
+            $nrPages = 1;
+            // Get number of pages from pager in the bottom.
+            $lastPageHref = $this->ding2Context->minkContext->getSession()->getPage()
+                ->find('css', '.pager-last a')->getAttribute('href');
+            if ($lastPageHref) {
+                $match = array();
+                if (preg_match('{/public-lists\?page=(\d+)}', $lastPageHref, $match)) {
+                    $nrPages = $match[1];
+                }
+            }
+
+            // Search for list on all pages.
+            for ($i = 0; $i <= $nrPages; $i++) {
+                if ($i) {
+                    $this->ding2Context->minkContext->visitPath('/public-lists?page=' . $i);
+                }
+
+                $found = $this->ding2Context->minkContext->getSession()->getPage()
+                    ->find('css', 'a[href^="/list/' . $listId . '"]');
+                if ($found) {
+                    $this->ding2Context->minkContext->assertElementContainsText('a[href^="/list/' . $listId . '"]', $title);
+
+                    // We return now, cause we have found the element.
+                    return;
+                }
             }
         }
-
-        // Search for list on all pages.
-        for ($i = 0; $i <= $nrPages; $i++) {
-            if ($i) {
-                $this->ding2Context->minkContext->visitPath('/public-lists?page=' . $i);
-            }
-
-            $found = $this->ding2Context->minkContext->getSession()->getPage()
-                ->find('css', 'a[href^="/list/' . $listId . '"]');
-            if ($found) {
-                $this->ding2Context->minkContext->assertElementContainsText('a[href^="/list/' . $listId . '"]', $title);
-
-                // We return now, cause we have found the element.
-                return;
-            }
-        }
-
         // If we get here, the element hasn't been found.
         throw new Exception("List '$title' couldn't be found on public lists");
     }
@@ -538,7 +564,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iFollowTheList($title)
     {
-        $listId = $this->iReadTheListIdForListName("list:$title", false);
+        $listId = $this->getListId($title);
         $this->ding2Context->minkContext->visit("/list/$listId");
 
         $foundButton = $this->ding2Context->minkContext->getSession()->getPage()
@@ -563,7 +589,7 @@ class P2Context implements Context, SnippetAcceptingContext
         }
         $listsList->click();
 
-        $listId = $this->iReadTheListIdForListName("list:$title", false);
+        $listId = $this->getListId($title);
         $this->ding2Context->minkContext->assertElementContainsText('a[href="/list/' . $listId . '"]', $title);
     }
 
@@ -583,7 +609,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iUnfollowTheListWithTheTitle($title)
     {
-        $listId = $this->iReadTheListIdForListName("list:$title", false);
+        $listId = $this->getListId($title);
 
         $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
         $found_list = $this->ding2Context->minkContext->getSession()->getPage()
@@ -615,7 +641,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldNotSeeTheListOnListsIFollow($title)
     {
-        $listId = $this->iReadTheListIdForListName("list:$title", false);
+        $listId = $this->getListId($title);
         $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
         $found_list = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', '.ding-user-lists .lists-list a');
@@ -678,7 +704,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeTheMaterialOnTheList($material, $title)
     {
-        $listId = $this->iReadTheListIdForListName("list:$title", false);
+        $listId = $this->getListId($title);
         $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
         $list = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', '.user-list a[href="/list/' . $listId . '"]');
@@ -698,7 +724,7 @@ class P2Context implements Context, SnippetAcceptingContext
         $this->iShouldSeeTheMaterialOnTheList($material, $title);
 
         // Log in as different user and check the list again.
-        $listId = $this->iReadTheListIdForListName("list:$title", false);
+        $listId = $this->getListId($title);
         $this->ding2Context->iAmLoggedInAsALibraryUser();
         $this->ding2Context->minkContext->visit("/list/$listId");
         $this->ding2Context->minkContext->assertElementContainsText('.ting-object', $material);
@@ -835,6 +861,37 @@ class P2Context implements Context, SnippetAcceptingContext
             throw new Exception("Shouldn't find tag '$tag', but it is being followed");
         }
     }
+
+    /**
+     * @Given the list :name exists
+     */
+    public function theListExists($name)
+    {
+        $listSelectors = [
+            'follow search' => '.ding-user-lists .user-searches',
+            'follow author' => '.ding-user-lists .follow-author',
+            'interests' =>'.ding-user-lists .interests',
+        ];
+        if (!isset($listSelectors[$name])) {
+            throw new Exception('Unknown list "' . $name . '"');
+        }
+
+        $this->ding2Context->drupalContext->visitPath('/user');
+        $link = $this->ding2Context->minkContext->getSession()->getPage()->find('css', $listSelectors[$name] . ' a');
+        if (!$link) {
+            throw new \Exception("Couldn't find the list");
+        }
+        $list_a = $link->getAttribute('href');
+        $match = array();
+        if (!preg_match('/\/list\/(\d+)/', $list_a, $match)) {
+            throw new \Exception("List link is not formatted correctly");
+        }
+
+        // Save id of list.
+        $this->dataRegistry['list:' . $name] = $match[1];
+    }
+
+
 
     /**
      * @Given I have searched for :search and the tag :tag

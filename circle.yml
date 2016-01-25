@@ -30,7 +30,11 @@ dependencies:
     # Set up Apache to serve our site.
     - cp tests/apache.conf /etc/apache2/sites-available/p2.conf
     - a2ensite p2.conf
+    - a2enmod rewrite
     - sudo service apache2 restart
+    # Start phantomjs.
+    - phantomjs --webdriver=4444:
+        background: true
 
 test:
   override:
@@ -54,7 +58,9 @@ test:
     # Install the site using the ding2 profile
     - (cd $DRUPAL_SITE_PATH && drush site-install ding2 --db-url=mysql://ubuntu@127.0.0.1/circle_test -y)
     # Set up test site.
-    - ($DRUPAL_SITE_PATH/profiles/ding2/tests && make test-setup)
+    - (cd $DRUPAL_SITE_PATH/profiles/ding2/tests && make test-setup)
+    # Make the files directory writable for the web server user.
+    - (cd $DRUPAL_SITE_PATH/sites/default && sudo chown www-data. files)
     # Run Behat tests.
     - (cd $DRUPAL_SITE_PATH/profiles/ding2/tests &&
       eval $(phpenv sh-shell $BEHAT_PHP_VERSION) &&
