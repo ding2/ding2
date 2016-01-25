@@ -152,7 +152,7 @@ function ding_permissions_secure_permissions($role) {
       'perform reservation',
       'search content',
       'view any ding_staff_profile profile',
-      'view files'
+      'view files',
     ),
     'authenticated user' => array(
       'access comments',
