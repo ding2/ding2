@@ -458,19 +458,22 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iMakeTheListPublic($title)
     {
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
         // Click on list link.
         $this->iGoToTheListOfType($title, 'user-list');
 
         // Click share list.
         $this->iGoToTheShareLink();
 
-        $found = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '#ding-list-list-permissions-form #edit-status');
+        $found = $page->find('css', '#ding-list-list-permissions-form #edit-status');
         if (!$found) {
             throw new \Exception("Couldn't find dropdown menu for sharing list");
         }
 
         $found->selectOption('public');
+        $page->waitFor(10000, function ($page) {
+            return $page->find('css', '#status-description:contains("Your list is now public")');
+        });
 
         $form = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', '#ding-list-list-permissions-form');
