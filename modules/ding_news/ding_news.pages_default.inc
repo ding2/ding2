@@ -546,6 +546,14 @@ News
     'panels_breadcrumbs_paths' => '<front>
 news
 news/%tid:name',
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'News | [current-page:pager][site:name]',
+        ),
+      ),
+    ),
   );
   $display = new panels_display();
   $display->layout = '25_50_25';
@@ -572,7 +580,7 @@ news/%tid:name',
     ),
   );
   $display->cache = array();
-  $display->title = 'News';
+  $display->title = '';
   $display->uuid = 'e7aff876-739a-4f3b-8c46-de73e134a42f';
   $display->content = array();
   $display->panels = array();
@@ -727,7 +735,7 @@ news/%tid:name',
     $pane->uuid = 'ed3bd36b-3b75-4103-8826-db8e20c8b8d6';
     $display->content['new-ed3bd36b-3b75-4103-8826-db8e20c8b8d6'] = $pane;
     $display->panels['left_sidebar'][1] = 'new-ed3bd36b-3b75-4103-8826-db8e20c8b8d6';
-  $display->hide_title = PANELS_TITLE_PANE;
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = 'new-bb26b1db-7e7e-4c3f-8956-183ed5e31146';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
@@ -844,6 +852,14 @@ News
 node/%node:nid
 node/%node:nid/news
 <none>',
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => '%slug:title | News | [current-page:pager][site:name]',
+        ),
+      ),
+    ),
   );
   $display = new panels_display();
   $display->layout = '25_50_25';

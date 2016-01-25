@@ -184,6 +184,14 @@ function ding_frontend_default_page_manager_handlers() {
 Website',
     'panels_breadcrumbs_paths' => 'search
 search/node',
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'Search Content | %keywords:html_safe | [current-page:pager][site:name]',
+        ),
+      ),
+    ),
   );
   $display = new panels_display();
   $display->layout = '25_50_25';
