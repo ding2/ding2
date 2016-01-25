@@ -7,19 +7,19 @@ Feature: Follow tags
     Given I am logged in as a library user
     And the list "interests" exists
 
-  @no_messages_check @api
+  @api
   Scenario: Search for a tag
     Given I have searched for "science fiction"
     When I choose the first search result
     Then I should see the tag "science fiction" on the material
 
-  @no_messages_check @api @javascript
+  @api @javascript
   Scenario: Follow a tag
     Given I have chosen a book material with the tag "science fiction"
     When I follow the tag "science fiction"
     Then I should see the tag "science fiction" on my list "interests"
 
-  @no_messages_check @api @javascript
+  @api @javascript
   Scenario: Unfollow a tag
     Given I am following the tag "orkideer" chosen from the material with collection name "870970-basis%3A45614654"
     When I unfollow the tag "orkideer"
