@@ -26,13 +26,12 @@ Feature: Material lists
     And I should see "Action"
     And I should not see "Handling"
 
-  @wip
+  @api @javascript
   Scenario: Add material to list
-    Given I have a list "My list"
-    And I am on the material "Harry Potter"
-    When I add the material "Harry Potter" to "My list" list
+    Given I have created a list "My list"
+    When I add material "Harry Potter" to the list "My list"
     Then I should get a confirmation that I added the material to "My list" list
-    And I should see the material "Harry Potter" on the "My list" listing page
+    And I should see the material "Harry Potter" on the list "My list"
 
   @wip
   Scenario: Remove material from list
