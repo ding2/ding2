@@ -229,12 +229,12 @@ function ding_event_preprocess_views_view(&$vars) {
 }
 
 /**
- * Implement hook_permission
+ * Implement hook_permission().
  */
 function ding_event_permission() {
   return array(
     'administer event settings' => array(
-      'title' => t('Administer event settings')
+      'title' => t('Administer event settings'),
     ),
   );
 }
