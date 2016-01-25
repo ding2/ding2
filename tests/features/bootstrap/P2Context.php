@@ -690,7 +690,6 @@ class P2Context implements Context, SnippetAcceptingContext
         $this->ding2Context->minkContext->assertElementContainsText('.ui-dialog', 'Tilføjet til ' . $list);
     }
 
-
     /**
      * @Then I should see the material :material on the list :title
      */
@@ -727,7 +726,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldNotSeeTheMaterialOnThePublicList($material, $title)
     {
-        $listId = $this->getListId($title, false);
+        $listId = $this->getListId($title);
         $this->ding2Context->minkContext->visit("/list/$listId");
         $this->ding2Context->minkContext->assertElementNotContainsText('.ting-object', $material);
     }
@@ -737,7 +736,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iGoToTheListPage($title)
     {
-        $listId = $this->getListId($title, false);
+        $listId = $this->getListId($title);
         $this->ding2Context->minkContext->visitPath("/list/$title");
     }
 
