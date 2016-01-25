@@ -13,10 +13,40 @@ function ding_toggle_format_menu() {
     'description' => 'Configure Ding toggle format settings.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_toggle_format_settings_admin_form'),
-    'access arguments' => array('administer ting_dk5 settings'),
+    'access arguments' => array('administer ding toggle format'),
   );
 
   return $menu_items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_toggle_format_permission() {
+  $permissions = array(
+    'administer ding toggle format' => array(
+      'title' => t('Administer ding toggle format'),
+    ),
+  );
+  return $permissions;
+}
+
+/**
+ * Implements hook_secure_permissions().
+ */
+function ding_toggle_format_secure_permissions($role) {
+  $permissions = array(
+    'administrators' => array(
+      'administer ding toggle format',
+    ),
+    'local administrator' => array(
+      'administer ding toggle format',
+    ),
+  );
+
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
 }
 
 /**
@@ -29,7 +59,7 @@ function ding_toggle_format_menu() {
 function ding_toggle_format_settings_admin_form($form, &$form_state) {
   $toggle_pages = array(
     'search/ting' => 'Ting search results.',
-    'user/status' => 'User status page(s).',
+    'user' => 'User status page(s).',
     'ting/object' => 'Ting object page.',
   );
 
@@ -114,14 +144,15 @@ function ding_toggle_format_render_link() {
  * Implements hook_preprocess().
  */
 function ding_toggle_format_preprocess(&$variables, $hook) {
-  $toggle_format_pages = variable_get('ding_toggle_format_pages', array());
+  if ('25_50_25' == $hook) {
+    $toggle_format_pages = variable_get('ding_toggle_format_pages', array());
 
-  foreach ($toggle_format_pages as $page) {
-    if (empty($page) || !strstr($_GET['q'], $page)) {
-      continue;
-    }
+    foreach ($toggle_format_pages as $page) {
+      $user_pages = 'user' == $page && 'status' != arg(2);
+      if (empty($page) || !strstr($_GET['q'], $page) || $user_pages) {
+        continue;
+      }
 
-    if ($hook == '25_50_25') {
       $block = module_invoke('ding_toggle_format', 'block_view', '');
       $toggle_format_markup =
         '<div class="panel-pane pane-block pane-ding-toggle-format-toggle">' .
