@@ -5,7 +5,7 @@ Feature: Rate materials
 
   Background:
     Given I am logged in as a library user
-    And The list "ratings" exists
+    And the list "ratings" exists
 
   @api @javascript
   Scenario: Rate material

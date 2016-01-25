@@ -42,7 +42,7 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then The list for followed searches exists
+     * @Then the list for followed searches exists
      */
     public function theFollowedSearchesListExists()
     {
@@ -885,7 +885,7 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given The list :name exists
+     * @Given the list :name exists
      */
     public function theListExists($name)
     {
