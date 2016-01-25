@@ -81,7 +81,7 @@ function connie_openlist_openlist_get_lists($owner, $from = 0) {
   $lists = db_select('connie_openlist_lists', 'l')
          ->fields('l')
          ->condition('owner', $owner)
-         ->condition('from', $from, '>')
+         ->condition('modified', $from, '>')
          ->execute();
 
   return $lists->fetchAll(PDO::FETCH_ASSOC);
