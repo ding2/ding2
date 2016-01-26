@@ -6,7 +6,7 @@ Feature: Material lists
   Background:
     Given I am logged in as a library user
 
-  @api 
+  @api
   Scenario: Create a new list link should be available on user page
     Given I am on my user page
     Then I should see a link to the create list page
@@ -17,7 +17,7 @@ Feature: Material lists
     When I create a new list "My special list" with description "Description"
     Then I should be on a list page
     And I should see "My special list"
-  
+
   @api @regression
   Scenario: List titles should not be tranlated
     Given I am on my create list page
