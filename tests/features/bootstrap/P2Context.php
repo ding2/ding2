@@ -731,14 +731,7 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iShouldSeeTheMaterialOnTheList($material, $title)
     {
         $listId = $this->getListId($title);
-        $this->gotoListListingPage();
-        $list = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.user-list a[href="/list/' . $listId . '"]');
-        if (!$list) {
-            throw new \Exception("Couldn't find list '$title''");
-        }
-        $list->click();
-
+        $this->ding2Context->minkContext->visit("/list/$listId");
         $this->ding2Context->minkContext->assertElementContainsText('.ting-object a', $material);
     }
 
