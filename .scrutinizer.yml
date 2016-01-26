@@ -18,6 +18,16 @@ build_failure_conditions:
 
 filter:
     excluded_paths:
+        # Generated Features code
+        - '*.features.*'
+        - '*.feeds_importer_default.inc'
+        - '*.field_group.inc'
+        - '*.layouts.inc'
+        - '*.pages_default.inc'
+        - '*.panels_default.inc'
+        - '*.panelizer.inc'
+        - '*.strongarm.inc'
+        - '*.views_default.inc'
         - modules/fbs/prancer/*
         - modules/fbs/vendor/*
         - themes/ddbasic/scripts/equalize.min.js
