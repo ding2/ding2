@@ -2,7 +2,7 @@ Feature: Notify author
 
   Background:
     Given I am logged in as a library user
-    And the list "follow author" exists
+    And the list "Forfattere jeg følger" exists
 
   @api @javascript
   Scenario: There are new materials for author
