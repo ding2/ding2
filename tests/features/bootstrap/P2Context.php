@@ -22,9 +22,6 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     private $dataRegistry = array();
 
-    /** @var array */
-    private $lastCreatedList;
-
     /** @BeforeScenario */
     public function gatherContexts(BeforeScenarioScope $scope)
     {
@@ -380,11 +377,6 @@ class P2Context implements Context, SnippetAcceptingContext
         if (!$form) {
             throw new Exception('Could not find form to add new list on page');
         }
-
-        $this->lastCreatedList = [
-            'title' => $title,
-            'description' => $description,
-        ];
 
         $form->fillField('edit-title', $title);
         $form->fillField('edit-notes', $description);
