@@ -7,6 +7,7 @@ use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Exception\UnsupportedDriverActionException;
+
 /**
  * Provides step definitions for interacting with P2.
  */
@@ -200,6 +201,20 @@ class P2Context implements Context, SnippetAcceptingContext
     function getListId($list)
     {
         $listName = 'list:' . $list;
+        if (!isset($this->dataRegistry[$listName])) {
+            // Try to find list by scanning user page.
+            $this->ding2Context->minkContext->visitPath($this->ding2Context->userPath());
+            $li_elements = $this->ding2Context->minkContext->getSession()->getPage()->findAll('css', 'ul li');
+            foreach ($li_elements as $li) {
+                $a = $li->find('css', 'a.signature-label');
+                if ($a && preg_match('{/list/(\d+)}', $a->getAttribute('href'), $matches)) {
+                    $text = trim($a->getText());
+                    $this->dataRegistry['list:' . $text] = $matches[1];
+                }
+            }
+            print_r($this->dataRegistry);
+        }
+
         if (!isset($this->dataRegistry[$listName])) {
             throw new \Exception("List id for list $list doesn't exist");
         }
@@ -410,36 +425,6 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When I go to the list :title of type :type
-     */
-    public function iGoToTheListOfType($title, $type)
-    {
-        // Click on list link.
-        $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
-        $found_list = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.ding-user-lists .' . $type . ' .signature-label:contains("' . $title . '")');
-        if (!$found_list) {
-            throw new \Exception("Couldn't find link to list");
-        }
-        $found_list->click();
-    }
-
-    /**
-     * @When I go to the list type :type
-     */
-    public function iGoToTheListType($type)
-    {
-        // Click on list link.
-        $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
-        $found_list = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.' . $type . ' a');
-        if (!$found_list) {
-            throw new \Exception("Couldn't find link to list of type '$type''");
-        }
-        $found_list->click();
-    }
-
-    /**
      * @When I go to the share link
      */
     public function iGoToTheShareLink()
@@ -460,7 +445,7 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         $page = $this->ding2Context->minkContext->getSession()->getPage();
         // Click on list link.
-        $this->iGoToTheListOfType($title, 'user-list');
+        $this->iGoToTheListPage($title);
 
         // Click share list.
         $this->iGoToTheShareLink();
@@ -485,7 +470,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeThatTheListIsMarkedAsPublic($title)
     {
-        $this->iGoToTheListOfType($title, 'user-list');
+        $this->iGoToTheListPage($title);
         $this->iGoToTheShareLink();
 
         $found_select = $this->ding2Context->minkContext->getSession()->getPage()
@@ -723,7 +708,6 @@ class P2Context implements Context, SnippetAcceptingContext
         $this->ding2Context->minkContext->assertElementContainsText('.ui-dialog', 'Tilføjet til ' . $list);
     }
 
-
     /**
      * @Then I should see the material :material on the list :title
      */
@@ -739,6 +723,44 @@ class P2Context implements Context, SnippetAcceptingContext
         $list->click();
 
         $this->ding2Context->minkContext->assertElementContainsText('.ting-object a', $material);
+    }
+
+    /**
+     * @Then I should not see the material :material on the list :title
+     */
+    public function iShouldNotSeeTheMaterialOnTheList($material, $title)
+    {
+        try {
+            $this->iShouldSeeTheMaterialOnTheList($material, $title);
+            throw new Exception('Material "' . $material . '" not removed from "' . $title . '" list');
+        } catch (Exception $e) {
+            // Not found, swallow exception.
+        }
+    }
+
+    /**
+     * @When I remove the material :material from the list
+     */
+    public function iRemoveTheMaterialFromTheList($material)
+    {
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
+        $items = $page->findAll('css', '.ding-type-ding-list-element');
+        $removed = false;
+        foreach ($items as $item) {
+            $title = $item->find('css', '.field-type-ting-title');
+            if ($title && (strpos($title->getText(), $material) !== false)) {
+                // The remove button has no usable classes, hope it's the
+                // right one.
+                $button = $item->find('css', 'form #edit-submit');
+                if ($button) {
+                    $button->click();
+                    $removed = true;
+                }
+            }
+        }
+        if (!$removed) {
+            throw new Exception('Could not find remove button');
+        }
     }
 
     /**
@@ -760,18 +782,19 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldNotSeeTheMaterialOnThePublicList($material, $title)
     {
-        $listId = $this->iReadTheListIdForListName("list:$title", false);
+        $listId = $this->getListId($title);
         $this->ding2Context->minkContext->visit("/list/$listId");
         $this->ding2Context->minkContext->assertElementNotContainsText('.ting-object', $material);
     }
 
     /**
-     * @When I go to the list page :title
+     * @Given I am on the :title list page
+     * @When I go to the :title list page
      */
     public function iGoToTheListPage($title)
     {
-        $listId = $this->iReadTheListIdForListName("list:$title", false);
-        $this->ding2Context->minkContext->visitPath("/list/$title");
+        $listId = $this->getListId($title);
+        $this->ding2Context->minkContext->visitPath("/list/$listId");
     }
 
     /**
@@ -840,7 +863,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeTheTagOnMyList($tag, $list)
     {
-        $this->iGoToTheListType($list);
+        $this->iGoToTheListPage($list);
         $this->ding2Context->minkContext->assertElementContainsText('.vocabulary-ding-content-tags a', $tag);
     }
 
@@ -851,7 +874,7 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         $this->ding2Context->minkContext->visitPath('/ting/collection/' . $collection);
         $this->iFollowTheTag($tag);
-        $this->iShouldSeeTheTagOnMyList($tag, 'interests');
+        $this->iShouldSeeTheTagOnMyList($tag, 'Mine interesser');
     }
 
     /**
@@ -859,7 +882,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iUnfollowTheTag($tag)
     {
-        $this->iGoToTheListType('interests');
+        $this->iGoToTheListPage('Mine interesser');
 
         $found = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', 'a[href^="/tags/"]:contains("' . $tag . '")');
@@ -879,7 +902,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldNotSeeTheTagOnMyList($tag, $list)
     {
-        $this->iGoToTheListType($list);
+        $this->iGoToTheListPage($list);
         $found = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', '.vocabulary-ding-content-tags a:contains("' . $tag . '")');
         if ($found) {
