@@ -517,8 +517,12 @@ class P2Context implements Context, SnippetAcceptingContext
         } catch (Exception $e) {
             $nrPages = 1;
             // Get number of pages from pager in the bottom.
-            $lastPageHref = $this->ding2Context->minkContext->getSession()->getPage()
-                ->find('css', '.pager-last a')->getAttribute('href');
+            $lastPage = $this->ding2Context->minkContext->getSession()->getPage()
+                ->find('css', '.pager-last a');
+            if (!$lastPage) {
+                throw new Exception("Couldn't find pager");
+            }
+            $lastPageHref = $lastPage->getAttribute('href');
             if ($lastPageHref) {
                 $match = array();
                 if (preg_match('{/public-lists\?page=(\d+)}', $lastPageHref, $match)) {
