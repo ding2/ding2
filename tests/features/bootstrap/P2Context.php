@@ -161,36 +161,27 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iAddTheAuthorToAuthorsIFollow($author)
     {
         // Choose book facet.
-        $found = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '.form-item-type-bog a');
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '#ding-facetbrowser-form .form-item-type-bog input');
         if (!$found) {
             throw new \Exception('Book facet not found');
         }
-        $found->click();
+        $found->check();
 
-        $authorLowerCase = strtolower(preg_replace('/\s/', '-', $author));
+        $authorLowerCase = strtolower(preg_replace(array('/\s/', '/\./'), array('-', ''), $author));
         $found = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.form-item-creator-' . $authorLowerCase . ' a');
+            ->find('css', '#edit-creator-' . $authorLowerCase);
         if (!$found) {
             throw new \Exception('Creator facet not found');
         }
-        $found->click();
+        $found->check();
 
         // Follow link to book.
         $this->ding2Context->minkContext->assertElementContains('.search-result--heading-type', 'Bog');
-        $found = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.search-result--heading-type:contains("Bog") + h2 > a');
-        if (!$found) {
-            throw new \Exception("Link to book doesn't exist");
-        }
-        $found->click();
+        $this->iChooseTheFirstSearchResult();
 
         // Follow link to follow author.
-        $found = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', 'a[href^="/dinglist/attach/follow_author/"]');
-        if (!$found) {
-            throw new \Exception("Link to follow author doesn't exist");
-        }
-        $found->click();
+        $this->moreDropdownSelect('/dinglist/attach/follow_author/', "Couldn't find follow author link");
     }
 
     /**
