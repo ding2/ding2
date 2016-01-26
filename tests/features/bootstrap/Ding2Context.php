@@ -118,7 +118,7 @@ class Ding2Context implements Context, SnippetAcceptingContext
         }
 
         if (!$this->drupalContext->loggedIn()) {
-            throw new \Exception(sprintf("Failed to log in as user '%s' with role '%s'", $this->drupalContext->user->name, $this->drupalContext->user->role));
+            throw new \Exception(sprintf("Failed to log in as user '%s'", $this->drupalContext->user->name));
         }
     }
 
