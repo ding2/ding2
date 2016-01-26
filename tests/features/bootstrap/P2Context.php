@@ -212,7 +212,6 @@ class P2Context implements Context, SnippetAcceptingContext
                     $this->dataRegistry['list:' . $text] = $matches[1];
                 }
             }
-            print_r($this->dataRegistry);
         }
 
         if (!isset($this->dataRegistry[$listName])) {
