@@ -113,7 +113,7 @@ class P2Context implements Context, SnippetAcceptingContext
      *   Exception message if the link could not be found.
      * @throws \Exception
      */
-    public function moreDropdownSelectLink($href, $errorMessage)
+    public function moreDropdownSelectByLink($href, $errorMessage)
     {
         $page = $this->ding2Context->minkContext->getSession()->getPage();
         $page->waitFor(10000, function ($page) {
@@ -218,7 +218,7 @@ class P2Context implements Context, SnippetAcceptingContext
         $this->iChooseTheFirstSearchResult();
 
         // Follow link to follow author.
-        $this->moreDropdownSelectLink('/dinglist/attach/follow_author/', "Couldn't find follow author link");
+        $this->moreDropdownSelectByLink('/dinglist/attach/follow_author/', "Couldn't find follow author link");
     }
 
     /**
