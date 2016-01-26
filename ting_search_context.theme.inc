@@ -29,8 +29,7 @@ function template_preprocess_ting_search_context_content(&$vars, $hook) {
   $image_uri = FALSE;
   if ($field_name = ting_search_context_get_image_field_name($node)) {
     $wrapper = entity_metadata_wrapper('node', $node);
-    if (!empty($wrapper->$field_name->value())) {
-      $image = $wrapper->$field_name->value();
+    if ($image = $wrapper->$field_name->value()) {
       $image_uri = $image['uri'];
     }
   }
@@ -40,8 +39,9 @@ function template_preprocess_ting_search_context_content(&$vars, $hook) {
     $fallback_images = variable_get('ting_search_context_fallback_images', array());
     if (!empty($fallback_images)) {
       $key = array_rand($fallback_images);
-      $image = file_load($fallback_images[$key]);
-      $image_uri = $image->uri;
+      if ($image = file_load($fallback_images[$key])) {
+        $image_uri = $image->uri;
+      }
     }
   }
 
