@@ -100,8 +100,11 @@ class P2Context implements Context, SnippetAcceptingContext
         }
 
         try {
-            // Mouseover the button to trigger the dropdown. Can't click an
-            // invisible link in a real browser.
+            // Scroll to and mouseover the button to trigger the dropdown.
+            // Can't click an invisible link in a real browser.
+            $this->ding2Context->minkContext->getSession()
+                ->evaluateScript('jQuery(document).scrollTo(".ding-list-add-button a");');
+
             $button->mouseOver();
         } catch (UnsupportedDriverActionException $e) {
             // Carry on if the driver doesn't support it.
