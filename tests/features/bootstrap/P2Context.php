@@ -22,15 +22,22 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     private $dataRegistry = array();
 
-    /** @var array */
-    private $lastCreatedList;
-
     /** @BeforeScenario */
     public function gatherContexts(BeforeScenarioScope $scope)
     {
         $environment = $scope->getEnvironment();
 
         $this->ding2Context = $environment->getContext('Ding2Context');
+    }
+
+    /**
+     * Go to the page that lists a users lists.
+     *
+     * Currently /user
+     */
+    public function gotoListListingPage()
+    {
+        $this->ding2Context->minkContext->visit($this->ding2Context->userPath());
     }
 
     /**
@@ -63,19 +70,18 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iAddTheSearchToFollowedSearches()
     {
-        $followed_searches_id = $this->getListId('follow search');
-        $this->moreDropdownSelect('/dinglist/attach/search_query/'. $followed_searches_id, "Couldn't find button to add search to list");
+        $this->moreDropdownSelect('Tilføj til Søgninger jeg følger', "Couldn't find button to add search to list");
     }
 
     /**
      * Select an item in a "More.." dropdown.
      *
-     * @param string $link
-     *   The link the item should point to.
+     * @param string $text
+     *   The link title to search for.
      * @param string $errorMessage
      *   Exception message if the link could not be found.
      */
-    public function moreDropdownSelect($link, $errorMessage)
+    public function moreDropdownSelect($text, $errorMessage)
     {
         $page = $this->ding2Context->minkContext->getSession()->getPage();
         $button = $page->find('css', '.ding-list-add-button a');
@@ -92,7 +98,7 @@ class P2Context implements Context, SnippetAcceptingContext
         }
 
         // Sadly the links isn't related to the button in any way.
-        $link = $page->find('css', 'a[href^="' . $link . '"]');
+        $link = $page->find('css', 'a:contains("' . $text . '")');
         if (!$link) {
             throw new \Exception($errorMessage);
         }
@@ -198,7 +204,7 @@ class P2Context implements Context, SnippetAcceptingContext
      * @return string
      *   The list id.
      */
-    function getListId($list)
+    public function getListId($list)
     {
         $listName = 'list:' . $list;
         if (!isset($this->dataRegistry[$listName])) {
@@ -371,8 +377,9 @@ class P2Context implements Context, SnippetAcceptingContext
 
     /**
      * @When I create a new list :title with description :description
+     * @When fill in :title as list title
      */
-    public function iCreateANewListWithDescription($title, $description)
+    public function iCreateANewListWithDescription($title, $description = '')
     {
         $page = $this->ding2Context->minkContext->getSession()->getPage();
 
@@ -380,11 +387,6 @@ class P2Context implements Context, SnippetAcceptingContext
         if (!$form) {
             throw new Exception('Could not find form to add new list on page');
         }
-
-        $this->lastCreatedList = [
-            'title' => $title,
-            'description' => $description,
-        ];
 
         $form->fillField('edit-title', $title);
         $form->fillField('edit-notes', $description);
@@ -571,7 +573,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeTheListOnListsIFollow($title)
     {
-        $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
+        $this->gotoListListingPage();
         $listsList = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', '.lists-list a');
         if (!$listsList) {
@@ -601,7 +603,7 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         $listId = $this->getListId($title);
 
-        $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
+        $this->gotoListListingPage();
         $found_list = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', '.ding-user-lists .lists-list a');
         if (!$found_list) {
@@ -632,7 +634,7 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iShouldNotSeeTheListOnListsIFollow($title)
     {
         $listId = $this->getListId($title);
-        $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
+        $this->gotoListListingPage();
         $found_list = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', '.ding-user-lists .lists-list a');
         if (!$found_list) {
@@ -654,10 +656,10 @@ class P2Context implements Context, SnippetAcceptingContext
         $this->iShouldSeeThatTheListIsMarkedAsPublic($title);
     }
 
-        /**
-     * @When I add material :material to the list :title
+    /**
+     * @Given I am on the material :material
      */
-    public function iAddMaterialToTheList($material, $title)
+    public function iAmOnTheMaterial($material)
     {
         $this->ding2Context->minkContext->visitPath('/search/ting/' . urlencode($material));
 
@@ -668,25 +670,37 @@ class P2Context implements Context, SnippetAcceptingContext
         }
         $found->click();
 
-        // Make sure document is ready before we try to make a mouseover.
+        // Make sure document is ready before we return.
         $this->ding2Context->minkContext->getSession()
             ->evaluateScript('window.jQuery(document).ready(function() { return; });');
-        $found = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.ding-list-add-button a');
-        if (!$found) {
-            throw new \Exception("Couldn't find more button");
-        }
-        $this->ding2Context->minkContext->getSession()
-            ->evaluateScript('jQuery(document).scrollTo(".ding-list-add-button a");');
-        $found->mouseOver();
+    }
 
-        // Add material to public list.
-        $listLink = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.buttons li a[href^="/dinglist/attach/ting_object"]:contains("' . $title . '")');
-        if (!$listLink) {
-            throw new \Exception("Couldn't find link to add to list '$title'");
-        }
-        $listLink->click();
+    /**
+     * Add current material to the list containing the given string.
+     *
+     * @param string $title
+     *   List title.
+     */
+    public function addCurrentMaterialToList($title)
+    {
+        $this->moreDropdownSelect($title, "Couldn't find button to add material to list");
+    }
+
+    /**
+     * @When I add material :material to the list :title
+     */
+    public function iAddMaterialToTheList($material, $title)
+    {
+        $this->iAmOnTheMaterial($material);
+        $this->moreDropdownSelect($title, "Couldn't find button to add material to list");
+    }
+
+    /**
+     * @When I add it to a new list
+     */
+    public function iAddItToANewList()
+    {
+        $this->moreDropdownSelect('Tilføj til ny liste', "Couldn't find button to add material to a new list");
     }
 
     /**
@@ -717,14 +731,7 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iShouldSeeTheMaterialOnTheList($material, $title)
     {
         $listId = $this->getListId($title);
-        $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
-        $list = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.user-list a[href="/list/' . $listId . '"]');
-        if (!$list) {
-            throw new \Exception("Couldn't find list '$title''");
-        }
-        $list->click();
-
+        $this->ding2Context->minkContext->visit("/list/$listId");
         $this->ding2Context->minkContext->assertElementContainsText('.ting-object a', $material);
     }
 
@@ -901,7 +908,7 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should not see the tag :arg1 on my list :arg2
+     * @Then I should not see the tag :tag on my list :list
      */
     public function iShouldNotSeeTheTagOnMyList($tag, $list)
     {
