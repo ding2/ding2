@@ -36,7 +36,7 @@ function template_preprocess_ting_search_context_content(&$vars, $hook) {
   }
   // If we didn't have a field name for the node type or if there was no image
   // set on the field, use a random fallback image if any.
-  if (!$image)  {
+  if (!$image) {
     $fallback_images = variable_get('ting_search_context_fallback_images', array());
     if (!empty($fallback_images)) {
       $key = array_rand($fallback_images);

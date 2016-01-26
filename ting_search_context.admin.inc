@@ -429,7 +429,7 @@ function ting_search_context_admin_fallback_images($form, &$form_state) {
     '#description' => t('Used when displaying rated nodes without an image.'),
     '#attributes' => array(
       'class' => array('ting-search-context-fallaback-images'),
-    )
+    ),
   );
   $form['ting_search_context_fallback_images']['image_new'] = array(
     '#type' => 'fieldset',
@@ -442,8 +442,8 @@ function ting_search_context_admin_fallback_images($form, &$form_state) {
     '#upload_location' => 'public://ting_search_context/',
     '#upload_validators' => array(
       'file_validate_extensions' => array('gif png jpg jpeg'),
-      // 2MB
-      'file_validate_size' => array(2*1024*1024),
+      // 2MB.
+      'file_validate_size' => array(2 * 1024 * 1024),
     ),
   );
 
@@ -470,8 +470,8 @@ function ting_search_context_admin_fallback_images($form, &$form_state) {
       '#upload_location' => 'public://ting_search_context/',
       '#upload_validators' => array(
         'file_validate_extensions' => array('gif png jpg jpeg'),
-        // 2MB
-        'file_validate_size' => array(2*1024*1024),
+        // 2MB.
+        'file_validate_size' => array(2 * 1024 * 1024),
       ),
     );
     $count++;
@@ -508,7 +508,7 @@ function ting_search_context_admin_fallback_images_submit($form, &$form_state) {
     }
   }
 
-  // Save references
+  // Save references.
   variable_set('ting_search_context_fallback_images', $fallback_images);
 }
 
@@ -528,7 +528,7 @@ function ting_search_context_file_process($element, &$form_state, $form) {
     // deleting the file.
     if ($image->status == FILE_STATUS_PERMANENT) {
       $element['remove_button']['#submit'] = array(
-        'ting_search_context_file_remove_submit'
+        'ting_search_context_file_remove_submit',
       );
       unset($element['remove_button']['#ajax']);
       $element['remove_button']['#prefix'] = '<br>';
