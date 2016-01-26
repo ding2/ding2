@@ -18,7 +18,7 @@ class P2Context implements Context, SnippetAcceptingContext
 
     /**
      * @var array
-     *   Save data across scenarios.
+     *   Save data within scenarios.
      */
     private $dataRegistry = array();
 
@@ -84,31 +84,6 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should see a link to the create list page
-     */
-    public function iShouldSeeALinkToTheCreateListPage()
-    {
-        $this->ding2Context->iSeeALinkTo($this->ding2Context->userPath() .
-                                         '/createlist');
-    }
-
-    /**
-     * @Then the list for followed searches exists
-     */
-    public function theFollowedSearchesListExists()
-    {
-        $this->theListExists('Søgninger jeg følger');
-    }
-
-    /**
-     * @When I add the search to followed searches
-     */
-    public function iAddTheSearchToFollowedSearches()
-    {
-        $this->moreDropdownSelect('Tilføj til Søgninger jeg følger', "Couldn't find button to add search to list");
-    }
-
-    /**
      * Select an item in a "More.." dropdown.
      *
      * @param string $text
@@ -138,6 +113,80 @@ class P2Context implements Context, SnippetAcceptingContext
             throw new \Exception($errorMessage);
         }
         $link->click();
+    }
+
+    /**
+     * Get the ID of the named list.
+     *
+     * @param string $list
+     *   List name.
+     * @param bool $normalize
+     *   Whether to normalize name.
+     *
+     * @return string
+     *   The list id.
+     */
+    public function getListId($list)
+    {
+        $listName = 'list:' . $list;
+        if (!isset($this->dataRegistry[$listName])) {
+            // Try to find list by scanning user page.
+            $this->gotoPage($this->ding2Context->userPath());
+            $li_elements = $this->ding2Context->minkContext->getSession()->getPage()->findAll('css', 'ul li');
+            foreach ($li_elements as $li) {
+                $a = $li->find('css', 'a.signature-label');
+                if ($a && preg_match('{/list/(\d+)}', $a->getAttribute('href'), $matches)) {
+                    $text = trim($a->getText());
+                    $this->dataRegistry['list:' . $text] = $matches[1];
+                }
+            }
+        }
+
+        if (!isset($this->dataRegistry[$listName])) {
+            throw new \Exception("List id for list $list doesn't exist");
+        }
+        $listId = $this->dataRegistry[$listName];
+        if (!$listId) {
+            throw new \Exception("List id for list $list seems to be public");
+        }
+
+        return $listId;
+    }
+
+    /**
+     * Add current material to the list containing the given string.
+     *
+     * @param string $title
+     *   List title.
+     */
+    public function addCurrentMaterialToList($title)
+    {
+        $this->moreDropdownSelect($title, "Couldn't find button to add material to list");
+    }
+
+    /**
+     * @Then I should see a link to the create list page
+     */
+    public function iShouldSeeALinkToTheCreateListPage()
+    {
+        $this->ding2Context->iSeeALinkTo($this->ding2Context->userPath() .
+                                         '/createlist');
+    }
+
+    /**
+     * @Then the list for followed searches exists
+     */
+    public function theFollowedSearchesListExists()
+    {
+        $this->theListExists('Søgninger jeg følger');
+    }
+
+    /**
+     * @When I add the search to followed searches
+     */
+    public function iAddTheSearchToFollowedSearches()
+    {
+        $this->moreDropdownSelect('Tilføj til Søgninger jeg følger', "Couldn't find button to add search to list");
     }
 
     /**
@@ -223,44 +272,6 @@ class P2Context implements Context, SnippetAcceptingContext
             throw new \Exception("Link to follow author doesn't exist");
         }
         $found->click();
-    }
-
-    /**
-     * Get the ID of the named list.
-     *
-     * @param string $list
-     *   List name.
-     * @param bool $normalize
-     *   Whether to normalize name.
-     *
-     * @return string
-     *   The list id.
-     */
-    public function getListId($list)
-    {
-        $listName = 'list:' . $list;
-        if (!isset($this->dataRegistry[$listName])) {
-            // Try to find list by scanning user page.
-            $this->gotoPage($this->ding2Context->userPath());
-            $li_elements = $this->ding2Context->minkContext->getSession()->getPage()->findAll('css', 'ul li');
-            foreach ($li_elements as $li) {
-                $a = $li->find('css', 'a.signature-label');
-                if ($a && preg_match('{/list/(\d+)}', $a->getAttribute('href'), $matches)) {
-                    $text = trim($a->getText());
-                    $this->dataRegistry['list:' . $text] = $matches[1];
-                }
-            }
-        }
-
-        if (!isset($this->dataRegistry[$listName])) {
-            throw new \Exception("List id for list $list doesn't exist");
-        }
-        $listId = $this->dataRegistry[$listName];
-        if (!$listId) {
-            throw new \Exception("List id for list $list seems to be public");
-        }
-
-        return $listId;
     }
 
     /**
@@ -702,17 +713,6 @@ class P2Context implements Context, SnippetAcceptingContext
         // Make sure document is ready before we return.
         $this->ding2Context->minkContext->getSession()
             ->evaluateScript('window.jQuery(document).ready(function() { return; });');
-    }
-
-    /**
-     * Add current material to the list containing the given string.
-     *
-     * @param string $title
-     *   List title.
-     */
-    public function addCurrentMaterialToList($title)
-    {
-        $this->moreDropdownSelect($title, "Couldn't find button to add material to list");
     }
 
     /**
