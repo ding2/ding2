@@ -31,6 +31,16 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
+     * Go to the page that lists a users lists.
+     *
+     * Currently /user
+     */
+    public function gotoListListingPage()
+    {
+        $this->ding2Context->minkContext->visit($this->ding2Context->userPath());
+    }
+
+    /**
      * @Then I should see a link to the create list page
      */
     public function iShouldSeeALinkToTheCreateListPage()
@@ -559,7 +569,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeTheListOnListsIFollow($title)
     {
-        $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
+        $this->gotoListListingPage();
         $listsList = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', '.lists-list a');
         if (!$listsList) {
@@ -589,7 +599,7 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         $listId = $this->getListId($title);
 
-        $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
+        $this->gotoListListingPage();
         $found_list = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', '.ding-user-lists .lists-list a');
         if (!$found_list) {
@@ -620,7 +630,7 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iShouldNotSeeTheListOnListsIFollow($title)
     {
         $listId = $this->getListId($title);
-        $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
+        $this->gotoListListingPage();
         $found_list = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', '.ding-user-lists .lists-list a');
         if (!$found_list) {
@@ -717,7 +727,7 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iShouldSeeTheMaterialOnTheList($material, $title)
     {
         $listId = $this->getListId($title);
-        $this->ding2Context->minkContext->visit($this->ding2Context->userPath() . '/dinglists');
+        $this->gotoListListingPage();
         $list = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', '.user-list a[href="/list/' . $listId . '"]');
         if (!$list) {
