@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Ding Local Configuration module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_local_config_uninstall() {
+  variable_del('ding_local_config_group_holdings_available');
+}

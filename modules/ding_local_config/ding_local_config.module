@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function ding_local_config_menu() {
+  $items = array();
+
+  $items['admin/config/ding/ding_local_config'] = array(
+    'title' => 'Ding Local Config',
+    'description' => 'Configure local stuff that normally aren\'t available for local configuration',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_local_config_admin_settings'),
+    'access arguments' => array('administer ting settings'),
+    'file' => 'ding_local_config.admin.inc',
+  );
+
+  return $items;
+}
+/**
+ * Implements hook_entity_view().
+ *
+ * Change formatter for group_holdings_available of a Ting Object.
+ */
+function ding_local_config_entity_view($entity, $type, $view_mode, $langcode) {
+  $modified_view_mode = variable_get('ding_local_config_group_holdings_available', 'default');
+  if ($modified_view_mode == 'default') {
+    return;
+  }
+
+  $entity->content['#groups']['group_holdings_available']->format_settings['formatter'] = $modified_view_mode;
+}
