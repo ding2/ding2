@@ -23,12 +23,12 @@ function template_preprocess_ting_search_context(&$vars, $hook) {
  */
 function template_preprocess_ting_search_context_content(&$vars, $hook) {
   $node = $vars['node'];
+  $wrapper = entity_metadata_wrapper('node', $node);
 
   // Attempt to find an image for the rated node.
   // First priority is to use an image from a field on the node.
   $image_uri = FALSE;
   if ($field_name = ting_search_context_get_image_field_name($node)) {
-    $wrapper = entity_metadata_wrapper('node', $node);
     if ($image = $wrapper->$field_name->value()) {
       $image_uri = $image['uri'];
     }
@@ -56,7 +56,6 @@ function template_preprocess_ting_search_context_content(&$vars, $hook) {
   // URL.
   $webtrends_paramater = 'WT.mc_id=searchcontext';
   if ($node->type == 'ding_search_context_link') {
-    $wrapper = entity_metadata_wrapper('node', $node);
     $link = $wrapper->field_search_context_link->url->value();
 
     // One of the main usecases for ding_search_context_links is to link to
@@ -81,8 +80,7 @@ function template_preprocess_ting_search_context_content(&$vars, $hook) {
   $vars['url'] = $url;
 
   // Title.
-  $title = check_plain($node->title);
-  $vars['title'] = $title;
+  $vars['title'] = $wrapper->title->value(array('sanitize' => TRUE));
 }
 
 /**
