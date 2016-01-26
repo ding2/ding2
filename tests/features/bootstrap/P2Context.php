@@ -198,7 +198,7 @@ class P2Context implements Context, SnippetAcceptingContext
      * @return string
      *   The list id.
      */
-    function getListId($list)
+    public function getListId($list)
     {
         $listName = 'list:' . $list;
         if (!isset($this->dataRegistry[$listName])) {
