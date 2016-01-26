@@ -54,6 +54,21 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
+     * Go to a list page.
+     *
+     * @Given I am on the :title list page
+     * @When I go to the :title list page
+     *
+     * @param string $name
+     *   Name of list to goto.
+     */
+    public function gotoListPage($name)
+    {
+        $listId = $this->getListId($name);
+        $this->gotoPage('/list/' . $listId);
+    }
+
+    /**
      * @Then I should see a link to the create list page
      */
     public function iShouldSeeALinkToTheCreateListPage()
@@ -123,8 +138,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeOnFollowedSearches($arg1)
     {
-        $followed_searches_id = $this->getListId('Søgninger jeg følger');
-        $this->gotoPage("/list/$followed_searches_id");
+        $this->gotoListPage('Søgninger jeg følger');
         $this->ding2Context->minkContext->assertElementContainsText('.ding-type-ding-list-element .content a', $arg1);
     }
 
@@ -144,8 +158,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iRemoveTheSearchFromFollowedSearches($arg1)
     {
-        $followed_searches_id = $this->getListId('Søgninger jeg følger');
-        $this->gotoPage('/list/' . $followed_searches_id);
+        $this->gotoListPage('Søgninger jeg følger');
         $found = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', 'a:contains("' . $arg1 . '") + form[id^="ding-list-remove-element"] #edit-submit');
         if (!$found) {
@@ -159,8 +172,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldNotSeeOnFollowedSearches($arg1)
     {
-        $followed_searches_id = $this->getListId('Søgninger jeg følger');
-        $this->gotoPage('/list/' . $followed_searches_id);
+        $this->gotoListPage('Søgninger jeg følger');
         $found = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', 'a[href^="/search/ting"]:contains("' . $arg1 . '")');
         if ($found && $found->getValue() == $arg1) {
@@ -249,8 +261,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeOnTheListOfFollowedAuthors($arg1)
     {
-        $follow_author_id = $this->getListId('Forfattere jeg følger');
-        $this->gotoPage('/list/' . $follow_author_id);
+        $this->gotoListPage('Forfattere jeg følger');
         $link = '/search/ting/phrase.creator';
         $this->ding2Context->minkContext->assertElementContains('a[href^="' . $link . '"]', $arg1);
     }
@@ -272,8 +283,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iRemoveTheAuthorFromFollowedAuthors($arg1)
     {
-        $follow_author_id = $this->getListId('Forfattere jeg følger');
-        $this->gotoPage('/list/' . $follow_author_id);
+        $this->gotoListPage('Forfattere jeg følger');
         $found = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', 'a:contains("' . $arg1 . '") + form[id^="ding-list-remove-element"] #edit-submit');
         if (!$found) {
@@ -287,8 +297,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldNotSeeOnFollowedAuthors($arg1)
     {
-        $follow_author_id = $this->getListId('Forfattere jeg følger');
-        $this->gotoPage('/list/' . $follow_author_id);
+        $this->gotoListPage('Forfattere jeg følger');
         $found = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', 'a[href^="/search/ting/phrase.creator"]');
         if ($found && $found->getValue() == $arg1) {
@@ -459,7 +468,7 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         $page = $this->ding2Context->minkContext->getSession()->getPage();
         // Click on list link.
-        $this->iGoToTheListPage($title);
+        $this->gotoListPage($title);
 
         // Click share list.
         $this->iGoToTheShareLink();
@@ -484,7 +493,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeThatTheListIsMarkedAsPublic($title)
     {
-        $this->iGoToTheListPage($title);
+        $this->gotoListPage($title);
         $this->iGoToTheShareLink();
 
         $found_select = $this->ding2Context->minkContext->getSession()->getPage()
@@ -569,9 +578,9 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iFollowTheList($title)
     {
-        $listId = $this->getListId($title);
-        $this->gotoPage("/list/$listId");
+        $this->gotoListPage($title);
 
+        $listId = $this->getListId($title);
         $foundButton = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', 'form[action="/list/' . $listId . '"] #edit-submit'); //input[type="submit"]');
         if (!$foundButton) {
@@ -743,8 +752,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeTheMaterialOnTheList($material, $title)
     {
-        $listId = $this->getListId($title);
-        $this->gotoPage("/list/$listId");
+        $this->gotoListPage($title);
         $this->ding2Context->minkContext->assertElementContainsText('.ting-object a', $material);
     }
 
@@ -805,19 +813,8 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldNotSeeTheMaterialOnThePublicList($material, $title)
     {
-        $listId = $this->getListId($title);
-        $this->gotoPage("/list/$listId");
+        $listId = $this->gotoListPage($title);
         $this->ding2Context->minkContext->assertElementNotContainsText('.ting-object', $material);
-    }
-
-    /**
-     * @Given I am on the :title list page
-     * @When I go to the :title list page
-     */
-    public function iGoToTheListPage($title)
-    {
-        $listId = $this->getListId($title);
-        $this->gotoPage("/list/$listId");
     }
 
     /**
@@ -886,7 +883,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeTheTagOnMyList($tag, $list)
     {
-        $this->iGoToTheListPage($list);
+        $this->gotoListPage($list);
         $this->ding2Context->minkContext->assertElementContainsText('.vocabulary-ding-content-tags a', $tag);
     }
 
@@ -905,7 +902,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iUnfollowTheTag($tag)
     {
-        $this->iGoToTheListPage('Mine interesser');
+        $this->gotoListPage('Mine interesser');
 
         $found = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', 'a[href^="/tags/"]:contains("' . $tag . '")');
@@ -925,7 +922,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldNotSeeTheTagOnMyList($tag, $list)
     {
-        $this->iGoToTheListPage($list);
+        $this->gotoListPage($list);
         $found = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', '.vocabulary-ding-content-tags a:contains("' . $tag . '")');
         if ($found) {
@@ -1024,8 +1021,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iGoToTheListOfRatedMaterials()
     {
-        $listId = $this->getListId('Materialer jeg har bedømt');
-        $this->gotoPage("/list/$listId");
+        $this->gotoListPage('Materialer jeg har bedømt');
     }
 
     /**
