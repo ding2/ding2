@@ -40,3 +40,11 @@ Feature: Material lists
     And I am on the "My list" list page
     When I remove the material "Harry Potter" from the list
     Then I should not see the material "Harry potter" on the list "My list"
+
+  @api @javascript
+  Scenario: Add material to new list
+    Given I am on the material "The hitchhiker's guide to the galaxy"
+    When I add it to a new list
+    And fill in "The best books" as list title
+    Then I should see the material "The hitchhiker's guide to the galaxy" on the list "The best books"
+
