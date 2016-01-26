@@ -33,10 +33,10 @@ Feature: Material lists
     Then I should get a confirmation that I added the material to "My list" list
     And I should see the material "Harry Potter" on the list "My list"
 
-  @wip
+  @api @javascript
   Scenario: Remove material from list
-    Given I have a material on a list named "My list"
-    And I am on the "My list" listing page
-    When I remove the material
-    Then I should not see the material on the "My list" listing page
-
+    Given I have created a list "My list"
+    And I have added the material "Harry Potter" to the list "My list"
+    And I am on the "My list" list page
+    When I remove the material "Harry Potter" from the list
+    Then I should not see the material "Harry potter" on the list "My list"
