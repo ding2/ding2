@@ -132,20 +132,48 @@ function ting_reference_field_update($entity_type, $entity, $field, $instance, $
   // Get existing relations.
   $relations = ting_reference_get_relations($entity_type, $entity);
 
-  // Delete all relations.
-  foreach ($relations as $rid => $relation) {
-    relation_delete($rid);
-  }
+  // Book keeping.
+  $keep = array();
+  $clear_cache = FALSE;
 
   // Loop through items, create new and mark existing to be kept.
   foreach ($items as $item) {
     if (!empty($item['tid'])) {
-      ting_reference_create_relation($entity_type, $entity_id, $item['tid']);
+      $found = FALSE;
+      foreach ($relations as $relation) {
+        if ($relation->endpoints['und'][1]['entity_id'] == $item['tid']) {
+          $keep[$relation->rid] = $relation->rid;
+          $found = TRUE;
+          break;
+        }
+      }
+      if (!$found) {
+        ting_reference_create_relation($entity_type, $entity_id, $item['tid']);
+        $clear_cache = TRUE;
+      }
+    }
+
+    // When nodes are saved problematically and edit form is not used the data
+    // structure contains the relation and not item tid's (effect is that
+    // reference are remove during scheduler publishing).
+    if (!empty($item['value']) && isset($relations[$item['value']->rid])) {
+      $keep[$item['value']->rid] = $item['value']->rid;
     }
   }
 
-  field_cache_clear('field:' . $entity_type . ':' . $entity_id);
+  // Clear cache if needed.
+  if ($clear_cache) {
+    field_cache_clear('field:' . $entity_type . ':' . $entity_id);
+  }
+
+  // Delete the relations that aren't present anymore.
+  foreach ($relations as $rid => $relation) {
+    if (!in_array($rid, $keep)) {
+      relation_delete($rid);
+    }
+  }
 }
+
 
 /**
  * Implements hook_field_delete().
