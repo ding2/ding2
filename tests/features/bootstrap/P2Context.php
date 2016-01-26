@@ -1093,7 +1093,7 @@ class P2Context implements Context, SnippetAcceptingContext
         $mid = $record['mid'];
 
         // Go to the author search to reset notifications.
-        $this->iGoToTheListPage('follow author');
+        $this->gotoListPage('Forfattere jeg følger');
         $this->ding2Context->minkContext->clickLink($author);
 
         // Perform search and choose {$nth}th element's material id.
