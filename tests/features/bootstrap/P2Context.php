@@ -60,19 +60,18 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iAddTheSearchToFollowedSearches()
     {
-        $followed_searches_id = $this->getListId('follow search');
-        $this->moreDropdownSelect('/dinglist/attach/search_query/'. $followed_searches_id, "Couldn't find button to add search to list");
+        $this->moreDropdownSelect('Tilføj til Søgninger jeg følger', "Couldn't find button to add search to list");
     }
 
     /**
      * Select an item in a "More.." dropdown.
      *
-     * @param string $link
-     *   The link the item should point to.
+     * @param string $text
+     *   The link title to search for.
      * @param string $errorMessage
      *   Exception message if the link could not be found.
      */
-    public function moreDropdownSelect($link, $errorMessage)
+    public function moreDropdownSelect($text, $errorMessage)
     {
         $page = $this->ding2Context->minkContext->getSession()->getPage();
         $button = $page->find('css', '.ding-list-add-button a');
@@ -89,7 +88,7 @@ class P2Context implements Context, SnippetAcceptingContext
         }
 
         // Sadly the links isn't related to the button in any way.
-        $link = $page->find('css', 'a[href^="' . $link . '"]');
+        $link = $page->find('css', 'a:contains("' . $text . '")');
         if (!$link) {
             throw new \Exception($errorMessage);
         }
