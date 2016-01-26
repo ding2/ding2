@@ -367,8 +367,9 @@ class P2Context implements Context, SnippetAcceptingContext
 
     /**
      * @When I create a new list :title with description :description
+     * @When fill in :title as list title
      */
-    public function iCreateANewListWithDescription($title, $description)
+    public function iCreateANewListWithDescription($title, $description = '')
     {
         $page = $this->ding2Context->minkContext->getSession()->getPage();
 
@@ -645,10 +646,10 @@ class P2Context implements Context, SnippetAcceptingContext
         $this->iShouldSeeThatTheListIsMarkedAsPublic($title);
     }
 
-        /**
-     * @When I add material :material to the list :title
+    /**
+     * @Given I am on the material :material
      */
-    public function iAddMaterialToTheList($material, $title)
+    public function iAmOnTheMaterial($material)
     {
         $this->ding2Context->minkContext->visitPath('/search/ting/' . urlencode($material));
 
@@ -659,25 +660,37 @@ class P2Context implements Context, SnippetAcceptingContext
         }
         $found->click();
 
-        // Make sure document is ready before we try to make a mouseover.
+        // Make sure document is ready before we return.
         $this->ding2Context->minkContext->getSession()
             ->evaluateScript('window.jQuery(document).ready(function() { return; });');
-        $found = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.ding-list-add-button a');
-        if (!$found) {
-            throw new \Exception("Couldn't find more button");
-        }
-        $this->ding2Context->minkContext->getSession()
-            ->evaluateScript('jQuery(document).scrollTo(".ding-list-add-button a");');
-        $found->mouseOver();
+    }
 
-        // Add material to public list.
-        $listLink = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.buttons li a[href^="/dinglist/attach/ting_object"]:contains("' . $title . '")');
-        if (!$listLink) {
-            throw new \Exception("Couldn't find link to add to list '$title'");
-        }
-        $listLink->click();
+    /**
+     * Add current material to the list containing the given string.
+     *
+     * @param string $title
+     *   List title.
+     */
+    public function addCurrentMaterialToList($title)
+    {
+        $this->moreDropdownSelect($title, "Couldn't find button to add material to list");
+    }
+
+    /**
+     * @When I add material :material to the list :title
+     */
+    public function iAddMaterialToTheList($material, $title)
+    {
+        $this->iAmOnTheMaterial($material);
+        $this->moreDropdownSelect($title, "Couldn't find button to add material to list");
+    }
+
+    /**
+     * @When I add it to a new list
+     */
+    public function iAddItToANewList()
+    {
+        $this->moreDropdownSelect('Tilføj til ny liste', "Couldn't find button to add material to a new list");
     }
 
     /**
@@ -892,7 +905,7 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should not see the tag :arg1 on my list :arg2
+     * @Then I should not see the tag :tag on my list :list
      */
     public function iShouldNotSeeTheTagOnMyList($tag, $list)
     {
