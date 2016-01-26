@@ -953,7 +953,6 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         $this->gotoSearchPage("$search $tag");
 
-        $this->ding2Context->drupalContext->saveScreenshot('screenshot1.png', '/var/www/html/');
         $this->ding2Context->minkContext->getSession()
             ->evaluateScript('jQuery(document).scrollTo(\'#edit-subject a[title="' . $tag . '"]\');');
         $this->ding2Context->drupalContext->saveScreenshot('screenshot2.png', '/var/www/html/');
