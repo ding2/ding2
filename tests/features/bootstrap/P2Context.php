@@ -230,6 +230,42 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @param string $href
+     *   The actual link to search for.
+     * @param $errorMessage
+     *   Exception message if the link could not be found.
+     * @throws \Exception
+     */
+    public function moreDropdownSelectByLink($href, $errorMessage)
+    {
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
+        $page->waitFor(10000, function ($page) {
+            return $page->find('css', '.ding-list-add-button a');
+        });
+        $button = $page->find('css', '.ding-list-add-button a');
+        if (!$button) {
+            throw new \Exception("Couldn't find more button");
+        }
+
+        try {
+            // Mouseover the button to trigger the dropdown. Can't click an
+            // invisible link in a real browser.
+            $this->ding2Context->minkContext->getSession()
+                ->evaluateScript('jQuery(document).scrollTo(".ding-list-add-button a");');
+            $button->mouseOver();
+        } catch (UnsupportedDriverActionException $e) {
+            // Carry on if the driver doesn't support it.
+        }
+
+        // Sadly the links isn't related to the button in any way.
+        $link = $page->find('css', 'a[href^="' . $href . '"]');
+        if (!$link) {
+            throw new \Exception($errorMessage);
+        }
+        $link->click();
+    }
+
+    /**
      * @Then I should see :arg1 on followed searches
      */
     public function iShouldSeeOnFollowedSearches($arg1)
