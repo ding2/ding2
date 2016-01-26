@@ -38,8 +38,6 @@ function ting_search_context_admin_contexts() {
  * @see ting_search_context_admin_context_form_cancel()
  */
 function ting_search_context_admin_context_form($form, &$form_state, $context = FALSE) {
-  $form = array();
-
   if ($context) {
     // Save the context object in form_state for later use.
     $form_state['ting_search_context'] = $context;
@@ -362,8 +360,6 @@ function ting_search_context_admin_context_delete_confirm_form_submit($form, &$f
  * Admin form to configure position of related content on search page.
  */
 function ting_search_context_admin_settings_form($form, &$form_state) {
-  $form = array();
-
   $missing = ting_search_context_get_missing_facets();
   if (!empty($missing)) {
     // Prepare a status array.
@@ -420,8 +416,6 @@ function ding_search_context_admin_settings_submit($form, &$form_state) {
  * Form builder for image settings.
  */
 function ting_search_context_admin_fallback_images($form, &$form_state) {
-  $form = array();
-
   $form['ting_search_context_fallback_images'] = array(
     '#type' => 'fieldset',
     '#tree' => TRUE,
