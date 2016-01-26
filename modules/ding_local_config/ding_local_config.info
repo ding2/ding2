@@ -1,0 +1,9 @@
+name = Configuration for local administrators
+description = When local administrators need to be allowed to configure stuff, they don't have administrator access to, this is the module
+package = Ding!
+core = 7.x
+version = 7.x-1.x
+
+configure = admin/config/ding/ding_local_config
+;files[] =
+;dependencies[] = 
