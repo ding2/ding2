@@ -5,7 +5,7 @@ Feature: Follow search
 
   Background:
     Given I am logged in as a library user
-    Then The list for followed searches exists
+    Then the list for followed searches exists
 
   @api
   Scenario: Follow search "harry potter"

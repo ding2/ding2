@@ -43,7 +43,7 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then The list for followed searches exists
+     * @Then the list for followed searches exists
      */
     public function theFollowedSearchesListExists()
     {
@@ -504,8 +504,12 @@ class P2Context implements Context, SnippetAcceptingContext
         } catch (Exception $e) {
             $nrPages = 1;
             // Get number of pages from pager in the bottom.
-            $lastPageHref = $this->ding2Context->minkContext->getSession()->getPage()
-                ->find('css', '.pager-last a')->getAttribute('href');
+            $lastPage = $this->ding2Context->minkContext->getSession()->getPage()
+                ->find('css', '.pager-last a');
+            if (!$lastPage) {
+                throw new Exception("Couldn't find pager");
+            }
+            $lastPageHref = $lastPage->getAttribute('href');
             if ($lastPageHref) {
                 $match = array();
                 if (preg_match('{/public-lists\?page=(\d+)}', $lastPageHref, $match)) {
@@ -918,6 +922,7 @@ class P2Context implements Context, SnippetAcceptingContext
             'follow search' => '.ding-user-lists .user-searches',
             'follow author' => '.ding-user-lists .follow-author',
             'interests' =>'.ding-user-lists .interests',
+            'ratings' => '.ding-user-lists .ratings',
         ];
         if (!isset($listSelectors[$name])) {
             throw new Exception('Unknown list "' . $name . '"');
@@ -966,6 +971,77 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         $this->ding2Context->minkContext->assertElementNotOnPage(
             '.buttons li a[href^="/dinglist/attach/ting_object"]:contains("' . $title . '")'
+        );
+    }
+
+    /**
+     * @Given I have searched for :search with the material name :material
+     */
+    public function iHaveSearchedForWithTheMaterialName($search, $material)
+    {
+        $this->iHaveSearchedFor($search);
+        $this->ding2Context->minkContext->assertElementOnPage('a[href="/ting/collection/' . $material . '"]');
+    }
+
+    /**
+     * @When I rate the material :material with :stars stars
+     * @When I change the rating of material :material to :stars stars
+     */
+    public function iRateTheMaterialWithStars($material, $stars)
+    {
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
+
+        $found = $page->find('css', '.ding-rating[data-ding-entity-rating-path^="' . urldecode($material) . '/"]');
+        if (!$found) {
+            throw new Exception("Couldn't find material '$material'");
+        }
+        $star = $page->find(
+            'css',
+            '.ding-rating[data-ding-entity-rating-path^="' . urldecode($material) . '/"]' .
+            ' .star:nth-child(' . $stars . ')'
+        );
+        if (!$star) {
+            throw new Exception("Couldn't find star");
+        }
+        $star->click();
+
+        // Wait for Ajax to finish.
+        $page->waitFor(10000, function ($page) {
+            return $page->find('css', '.ding-entity-rating-respons');
+        });
+        $this->ding2Context->minkContext
+            ->assertElementContainsText('.ding-entity-rating-respons', 'Tak for din bedømmelse');
+    }
+
+    /**
+     * @Given I have rated the material :material with :stars stars
+     */
+    public function iHaveRatedTheMaterialWithStars($material, $stars)
+    {
+        $this->ding2Context->minkContext->visitPath('/ting/object/' . $material);
+        $this->iRateTheMaterialWithStars($material, $stars);
+    }
+
+    /**
+     * @When I go to the list of rated materials
+     */
+    public function iGoToTheListOfRatedMaterials()
+    {
+        $listId = $this->getListId('ratings');
+        $this->ding2Context->minkContext->visit("/list/$listId");
+    }
+
+    /**
+     * @Then I should see that the material :material is marked with :stars stars
+     */
+    public function iShouldSeeThatTheMaterialIsMarkedWithStars($material, $stars)
+    {
+        $this->ding2Context->minkContext
+            ->assertElementOnPage('.ding-entity-rating[data-ding-entity-rating-path^="' . urldecode($material) . '/"]');
+        $this->ding2Context->minkContext->assertNumElements(
+            $stars,
+            '.ding-entity-rating[data-ding-entity-rating-path^="' . urldecode($material) . '/"]' .
+            ' .star.submitted'
         );
     }
 }
