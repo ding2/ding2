@@ -90,6 +90,7 @@ class P2Context implements Context, SnippetAcceptingContext
      *   The link title to search for.
      * @param string $errorMessage
      *   Exception message if the link could not be found.
+     * @throws \Exception
      */
     public function moreDropdownSelect($text, $errorMessage)
     {
@@ -193,6 +194,42 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @param string $href
+     *   The actual link to search for.
+     * @param $errorMessage
+     *   Exception message if the link could not be found.
+     * @throws \Exception
+     */
+    public function moreDropdownSelectLink($href, $errorMessage)
+    {
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
+        $page->waitFor(10000, function ($page) {
+            return $page->find('css', '.ding-list-add-button a');
+        });
+        $button = $page->find('css', '.ding-list-add-button a');
+        if (!$button) {
+            throw new \Exception("Couldn't find more button");
+        }
+
+        try {
+            // Mouseover the button to trigger the dropdown. Can't click an
+            // invisible link in a real browser.
+            $this->ding2Context->minkContext->getSession()
+                ->evaluateScript('jQuery(document).scrollTo(".ding-list-add-button a");');
+            $button->mouseOver();
+        } catch (UnsupportedDriverActionException $e) {
+            // Carry on if the driver doesn't support it.
+        }
+
+        // Sadly the links isn't related to the button in any way.
+        $link = $page->find('css', 'a[href^="' . $href . '"]');
+        if (!$link) {
+            throw new \Exception($errorMessage);
+        }
+        $link->click();
+    }
+
+    /**
      * @Then I should see :arg1 on followed searches
      */
     public function iShouldSeeOnFollowedSearches($arg1)
@@ -265,7 +302,7 @@ class P2Context implements Context, SnippetAcceptingContext
         $this->iChooseTheFirstSearchResult();
 
         // Follow link to follow author.
-        $this->moreDropdownSelect('/dinglist/attach/follow_author/', "Couldn't find follow author link");
+        $this->moreDropdownSelectLink('/dinglist/attach/follow_author/', "Couldn't find follow author link");
     }
 
     /**
@@ -1036,5 +1073,70 @@ class P2Context implements Context, SnippetAcceptingContext
             '.ding-entity-rating[data-ding-entity-rating-path^="' . urldecode($material) . '/"]' .
             ' .star.submitted'
         );
+    }
+
+    /**
+     * @When there are :num new materials for the author :author
+     */
+    public function thereAreNewMaterialsForTheAuthor($num, $author)
+    {
+        // We want the element after the first $num elements.
+        $nth = $num + 1;
+
+        // Update notifications for user and find message id.
+        $uid = $this->ding2Context->drupalContext->user->uid;
+        ding_message_update_users(array($uid), false);
+        $query = db_select('message', 'm');
+        $query->addField('m', 'mid');
+        $query->condition('m.uid', $uid);
+        $record = $query->execute()->fetchAssoc();
+        $mid = $record['mid'];
+
+        // Go to the author search to reset notifications.
+        $this->iGoToTheListPage('follow author');
+        $this->ding2Context->minkContext->clickLink($author);
+
+        // Perform search and choose {$nth}th element's material id.
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
+        $this->ding2Context->minkContext
+            ->assertElementOnPage(".search-results .list .search-result:nth-child($nth) .ting-object");
+        $found = $page->find('css', ".search-results .list .search-result:nth-child($nth) .ting-object");
+        $materialId = $found->getAttribute('data-ting-object-id');
+
+        // Update message's last element to be previously found material id.
+        $message = message_load($mid);
+        $wrapper = entity_metadata_wrapper('message', $message);
+        $wrapper->field_last_element->set($materialId);
+        $wrapper->save();
+        // And update notifications.
+        ding_message_update_users(array($uid), false);
+    }
+
+    /**
+     * @Then I should see that there are :num new materials on the notifications list on the notifications top menu
+     */
+    public function iShouldSeeThatThereAreNewMaterialsOnTheNotificationsListOnTheNotificationsTopMenu($num)
+    {
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
+        $this->ding2Context->minkContext->visitPath('/user');
+        $found = $page->find('css', '.notifications-count');
+        $notifications = $found->getText();
+        if ($notifications != $num) {
+            throw new Exception("There should be $num notifications in the top menu, but I only see $notifications");
+        }
+    }
+
+    /**
+     * @Then I should see that there are :num new materials on the list of authors I follow
+     */
+    public function iShouldSeeThatThereAreNewMaterialsOnTheListOfAuthorsIFollow($num)
+    {
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
+        $this->ding2Context->minkContext->assertNumElements(2, '.follow-author a');
+        $found = $page->find('css', '.follow-author a:nth-child(2)');
+        $foundNotifications = $found->getText();
+        if ($foundNotifications != $num) {
+            throw new Exception("There should be $num notifications on the author list, but I only see $notifications");
+        }
     }
 }
