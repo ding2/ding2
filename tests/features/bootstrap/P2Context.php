@@ -69,6 +69,21 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
+     * Go to the search page.
+     *
+     * @Given I have searched for :arg1
+     *
+     * @todo should be moved to Ding2Context.
+     *
+     * @param string $string
+     *   String to search for.
+     */
+    public function gotoSearchPage($string)
+    {
+        $this->gotoPage('/search/ting/' . urlencode($string));
+    }
+
+    /**
      * @Then I should see a link to the create list page
      */
     public function iShouldSeeALinkToTheCreateListPage()
@@ -83,14 +98,6 @@ class P2Context implements Context, SnippetAcceptingContext
     public function theFollowedSearchesListExists()
     {
         $this->theListExists('Søgninger jeg følger');
-    }
-
-    /**
-     * @Given I have searched for :arg1
-     */
-    public function iHaveSearchedFor($arg1)
-    {
-        $this->gotoPage('/search/ting/' . urlencode($arg1));
     }
 
     /**
@@ -148,7 +155,7 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iHaveFollowedTheSearch($arg1)
     {
         // Perform search.
-        $this->iHaveSearchedFor($arg1);
+        $this->gotoSearchPage($arg1);
         $this->iAddTheSearchToFollowedSearches();
         $this->iShouldSeeOnFollowedSearches($arg1);
     }
@@ -272,7 +279,7 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iHaveFollowedTheAuthor($arg1)
     {
         // First add the author to the list.
-        $this->iHaveSearchedFor($arg1);
+        $this->gotoSearchPage($arg1);
         $this->iAddTheAuthorToAuthorsIFollow($arg1);
 
         $this->iShouldSeeOnTheListOfFollowedAuthors($arg1);
@@ -683,7 +690,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iAmOnTheMaterial($material)
     {
-        $this->gotoPage('/search/ting/' . urlencode($material));
+        $this->gotoSearchPage($material);
 
         $found = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', 'a[href^="/ting/collection"]:contains("' . $material . '")');
@@ -830,7 +837,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iHaveChosenABookMaterialWithTheTag($tag)
     {
-        $this->iHaveSearchedFor($tag);
+        $this->gotoSearchPage($tag);
         $link = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', '#edit-type-bog');
         if (!$link) {
@@ -944,7 +951,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iHaveSearchedForAndTheTag($search, $tag)
     {
-        $this->iHaveSearchedFor("$search $tag");
+        $this->gotoSearchPage("$search $tag");
 
         $this->ding2Context->drupalContext->saveScreenshot('screenshot1.png', '/var/www/html/');
         $this->ding2Context->minkContext->getSession()
@@ -973,7 +980,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iHaveSearchedForWithTheMaterialName($search, $material)
     {
-        $this->iHaveSearchedFor($search);
+        $this->gotoSearchPage($search);
         $this->ding2Context->minkContext->assertElementOnPage('a[href="/ting/collection/' . $material . '"]');
     }
 
