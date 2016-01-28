@@ -382,6 +382,13 @@ temaer/*';
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_tag_admin_pages';
+  $strongarm->value = 1;
+  $export['metatag_tag_admin_pages'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'og_context_negotiation_group_context';
   $strongarm->value = array(
     'url' => array(),
