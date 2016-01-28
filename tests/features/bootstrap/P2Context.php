@@ -383,8 +383,7 @@ class P2Context implements Context, SnippetAcceptingContext
         if (!$checked) {
             throw new \Exception("Couldn't find consent check box");
         }
-        $checked_value = $checked->getValue();
-        if ($checked_value) {
+        if ($checked->isChecked()) {
             throw new \Exception("Consent checkbox is already checked.");
         }
 
@@ -402,8 +401,7 @@ class P2Context implements Context, SnippetAcceptingContext
         if (!$checked) {
             throw new \Exception("Couldn't find consent check box");
         }
-        $checked_value = $checked->getValue();
-        if (!$checked_value) {
+        if (!$checked->isChecked()) {
             throw new \Exception("Consent checkbox is not checked.");
         }
     }
@@ -421,8 +419,8 @@ class P2Context implements Context, SnippetAcceptingContext
         if (!$checked) {
             throw new \Exception("Couldn't find consent check box");
         }
-        $checked_value = $checked->getValue();
-        if (!$checked_value) {
+        $this->ding2Context->waitForPage();
+        if (!$checked->isChecked()) {
             throw new \Exception("Consent checkbox is not checked.");
         }
 
@@ -440,8 +438,7 @@ class P2Context implements Context, SnippetAcceptingContext
         if (!$checked) {
             throw new \Exception("Couldn't find consent check box");
         }
-        $checked_value = $checked->getValue();
-        if ($checked_value) {
+        if ($checked->isChecked()) {
             throw new \Exception("Consent checkbox is checked");
         }
     }
