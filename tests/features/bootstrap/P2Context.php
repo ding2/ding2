@@ -1034,6 +1034,7 @@ class P2Context implements Context, SnippetAcceptingContext
         if (!$star) {
             throw new Exception("Couldn't find star");
         }
+        $this->ding2Context->scrollTo($star);
         $star->click();
 
         // Wait for Ajax to finish.
