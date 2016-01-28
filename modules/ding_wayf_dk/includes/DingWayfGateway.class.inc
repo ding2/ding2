@@ -58,26 +58,26 @@ class DingWayfGateway implements WayfServiceInterface {
     // have gone well.
     if (empty($_POST['eduPersonTargetedID'])) {
 
-      // Redirect the user by setting the location header.
+      // Redirect the user to the gateway for authentication.
       header('Location:' . $this->config['gateway'] . '?returnUrl=' . $this->config['return']['login'] . '&idp=wayf');
       exit;
     }
     else {
-      if (!empty($_POST['eduPersonTargetedID'])) {
-        // @TODO: WHAT should be store ind the session.
-        $_SESSION['wayf_dk_login'] = array(
-          'nameID' => '',
-          'sessionIndex' => '',
-        );
+      // Information is store in the session as this is used by the logout
+      // function in wayf_dk_login module at logout to enable SSO. But this is
+      // not need by gateway wayf, so the values are left empty.
+      $_SESSION['wayf_dk_login'] = array(
+        'nameID' => '',
+        'sessionIndex' => '',
+      );
 
-        // We don't have a XML message in this service class, so we simply
-        // return an empty message. It makes debugging harder, but it should be
-        // okay.
-        return array(
-          'attributes' => $_POST,
-          'response' => '',
-        );
-      }
+      // We don't have a XML message in this service class, so we simply
+      // return an empty message. It makes debugging harder, but it should be
+      // okay.
+      return array(
+        'attributes' => $_POST,
+        'response' => '',
+      );
     }
   }
 
