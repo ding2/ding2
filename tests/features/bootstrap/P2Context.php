@@ -311,25 +311,29 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should see :arg1 on the list of followed authors
+     * @Then I should see :author on the list of followed authors
      */
-    public function iShouldSeeOnTheListOfFollowedAuthors($arg1)
+    public function iShouldSeeOnTheListOfFollowedAuthors($author)
     {
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
         $this->gotoListPage('Forfattere jeg følger');
         $link = '/search/ting/phrase.creator';
-        $this->ding2Context->minkContext->assertElementContains('a[href^="' . $link . '"]', $arg1);
+        $page->waitFor(10000, function ($page) use ($link) {
+            return $page->find('css', 'a[href^="' . $link . '"]');
+        });
+        $this->ding2Context->minkContext->assertElementContains('a[href^="' . $link . '"]', $author);
     }
 
     /**
-     * @Given I have followed the author :arg1
+     * @Given I have followed the author :author
      */
-    public function iHaveFollowedTheAuthor($arg1)
+    public function iHaveFollowedTheAuthor($author)
     {
         // First add the author to the list.
-        $this->gotoSearchPage($arg1);
-        $this->iAddTheAuthorToAuthorsIFollow($arg1);
+        $this->gotoSearchPage($author);
+        $this->iAddTheAuthorToAuthorsIFollow($author);
 
-        $this->iShouldSeeOnTheListOfFollowedAuthors($arg1);
+        $this->iShouldSeeOnTheListOfFollowedAuthors($author);
     }
 
     /**
