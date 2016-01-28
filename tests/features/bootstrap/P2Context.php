@@ -1131,6 +1131,11 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         $page = $this->ding2Context->minkContext->getSession()->getPage();
         $this->ding2Context->minkContext->visitPath('/user');
+
+        $page->waitFor(10000, function ($page) use ($num) {
+            return $page->find('css', '.notifications-count:not(:contains("0"))');
+        });
+
         $found = $page->find('css', '.notifications-count');
         $notifications = $found->getText();
         if ($notifications != $num) {
