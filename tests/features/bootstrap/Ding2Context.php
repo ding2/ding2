@@ -5,6 +5,7 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
+use Behat\Mink\Element\ElementInterface;
 
 /**
  * Provides step definitions for interacting with Ding2.
@@ -40,13 +41,6 @@ class Ding2Context implements Context, SnippetAcceptingContext
             $this->ding2MessagesContext = $environment->getContext('Ding2MessagesContext');
         } catch (Exception $e) {
             // Ingore.
-        }
-
-        // Set window size to avoid problems with elements being invisible.
-        if (get_class($this->minkContext->getSession()->getDriver()) == 'Behat\Mink\Driver\Selenium2Driver') {
-            $this->minkContext->getSession()
-                ->getDriver()
-                ->resizeWindow(1440, 900, 'current');
         }
     }
 
@@ -154,6 +148,23 @@ class Ding2Context implements Context, SnippetAcceptingContext
         $links = $this->minkContext->getSession()->getPage()->findAll('xpath', $xpath);
         if (count($links) < 1) {
             throw new Exception(sprintf('Could not see link to %s', $path));
+        }
+    }
+
+    /**
+     * Scroll to an element.
+     *
+     * @param ElementInterface $element
+     *   Element to scroll to.
+     */
+    public function scrollTo(ElementInterface $element)
+    {
+        $xpath = $element->getXpath();
+        try {
+            $this->minkContext->getSession()
+            ->evaluateScript('jQuery(document).scrollTo(document.evaluate("' . $xpath. '", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null ).singleNodeValue);');
+        } catch (Exception $e) {
+            throw new Exception('Could not scroll to element');
         }
     }
 }

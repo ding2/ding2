@@ -103,8 +103,7 @@ class P2Context implements Context, SnippetAcceptingContext
         try {
             // Scroll to and mouseover the button to trigger the dropdown.
             // Can't click an invisible link in a real browser.
-            $this->ding2Context->minkContext->getSession()
-                ->evaluateScript('jQuery(document).scrollTo(".ding-list-add-button a");');
+            $this->ding2Context->scrollTo($button);
 
             $button->mouseOver();
         } catch (UnsupportedDriverActionException $e) {
@@ -113,11 +112,11 @@ class P2Context implements Context, SnippetAcceptingContext
 
         // Sadly the links isn't related to the button in any way.
         $link = $page->find('css', 'a:contains("' . $text . '")');
-        $this->ding2Context->minkContext->getSession()
-            ->evaluateScript('jQuery(document).scrollTo("a:contains(\"' . $text . '\")");');
+
         if (!$link) {
             throw new \Exception($errorMessage);
         }
+        $this->ding2Context->scrollTo($link);
         $link->click();
     }
 
@@ -216,8 +215,7 @@ class P2Context implements Context, SnippetAcceptingContext
         try {
             // Mouseover the button to trigger the dropdown. Can't click an
             // invisible link in a real browser.
-            $this->ding2Context->minkContext->getSession()
-                ->evaluateScript('jQuery(document).scrollTo(".ding-list-add-button a");');
+            $this->ding2Context->scrollTo($button);
             $button->mouseOver();
         } catch (UnsupportedDriverActionException $e) {
             // Carry on if the driver doesn't support it.
@@ -225,11 +223,10 @@ class P2Context implements Context, SnippetAcceptingContext
 
         // Sadly the links isn't related to the button in any way.
         $link = $page->find('css', 'a[href^="' . $href . '"]');
-        $this->ding2Context->minkContext->getSession()
-            ->evaluateScript('jQuery(document).scrollTo("a[href^=\"' . $href . '\"]");');
         if (!$link) {
             throw new \Exception($errorMessage);
         }
+        $this->ding2Context->scrollTo($link);
         $link->click();
     }
 
@@ -471,6 +468,7 @@ class P2Context implements Context, SnippetAcceptingContext
 
         $form->fillField('edit-title', $title);
         $form->fillField('edit-notes', $description);
+        $this->ding2Context->scrollTo($form->find('css', '#edit-add-list'));
         $form->pressButton('edit-add-list');
     }
 
@@ -892,8 +890,7 @@ class P2Context implements Context, SnippetAcceptingContext
         if (!$found) {
             throw new Exception("Couldn't find search result.");
         }
-        $this->ding2Context->minkContext->getSession()
-            ->evaluateScript('jQuery(document).scrollTo(".search-results .search-result:nth-child(1) .ting-object .heading a")');
+        $this->ding2Context->scrollTo($found);
         $found->click();
     }
 
@@ -908,8 +905,8 @@ class P2Context implements Context, SnippetAcceptingContext
         if (!$found) {
             throw new \Exception("Couldn't find more button");
         }
-        $this->ding2Context->minkContext->getSession()
-            ->evaluateScript('jQuery(document).scrollTo(".ding-list-add-button a");');
+        $this->ding2Context->scrollTo($found);
+
         $found->mouseOver();
 
         $followTag = $this->ding2Context->minkContext->getSession()->getPage()
@@ -988,14 +985,13 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         $this->gotoSearchPage("$search $tag");
 
-        $this->ding2Context->minkContext->getSession()
-            ->evaluateScript('jQuery(document).scrollTo(\'#edit-subject a[title="' . $tag . '"]\');');
-        $this->ding2Context->drupalContext->saveScreenshot('screenshot2.png', '/var/www/html/');
         $found = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', '#edit-subject input[value="' . $tag . '"]');
         if (!$found) {
             throw new Exception("Couldn't filter for tag $tag");
         }
+        $this->ding2Context->scrollTo($found);
+
         $found->check();
     }
 
