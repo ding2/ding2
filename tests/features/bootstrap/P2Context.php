@@ -1150,7 +1150,10 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         $page = $this->ding2Context->minkContext->getSession()->getPage();
         $this->ding2Context->minkContext->assertNumElements(2, '.follow-author a');
-        $found = $page->find('css', '.follow-author a:nth-child(2)');
+        $found = $page->find('css', '.follow-author .label');
+        if (!$found) {
+            throw new Exception("Couldn't find number of notifications on the followed authors list");
+        }
         $foundNotifications = $found->getText();
         if ($foundNotifications != $num) {
             throw new Exception("There should be $num notifications on the author list, but I only see $foundNotifications");
