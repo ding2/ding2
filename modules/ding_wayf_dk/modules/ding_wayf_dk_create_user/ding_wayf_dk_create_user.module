@@ -167,10 +167,10 @@ function ding_wayf_dk_create_user_form_wayf_dk_login__settings_form_alter(&$form
   );
 
   // Accepting text.
-  $form['user']['ding_wayf_user_create_accpect_text'] = array(
+  $form['user']['ding_wayf_user_create_accept_text'] = array(
     '#type' => 'textarea',
     '#title' => t('Accept text'),
-    '#default_value' => variable_get('ding_wayf_user_create_accpect_text', ''),
+    '#default_value' => variable_get('ding_wayf_user_create_accept_text', ''),
     '#description' => t('The text that is display next to the user create accept check box.'),
   );
 
@@ -294,7 +294,7 @@ function ding_wayf_dk_create_user_form() {
   $form['accept'] = array(
     '#type' => 'checkbox',
     '#title' => t('I accept the user agreements'),
-    '#description' => variable_get('ding_wayf_user_create_accpect_text', ''),
+    '#description' => variable_get('ding_wayf_user_create_accept_text', ''),
     '#required' => TRUE,
   );
 
