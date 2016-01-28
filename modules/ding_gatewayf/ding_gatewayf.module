@@ -37,14 +37,14 @@ function ding_gatewayf_menu() {
 
   // Redirect the user to gatewayf for authentication.
   $items['gatewayf/login'] = array(
-    'page callback' => 'ding_gatewayf_user_login',
+    'page callback' => 'ding_gatewayf_login',
     'access callback' => 'user_is_anonymous',
     'type' => MENU_CALLBACK,
   );
 
   // Redirect the user to gatewayf for logout.
   $items['gatewayf/logout'] = array(
-    'page callback' => 'ding_gatewayf_user_logout',
+    'page callback' => 'ding_gatewayf_logout',
     'access callback' => 'user_is_logged_in',
     'type' => MENU_CALLBACK,
   );
@@ -61,13 +61,78 @@ function ding_gatewayf_menu() {
 }
 
 /**
+ * Implements hook_theme().
+ */
+function ding_gatewayf_theme($existing, $type, $theme, $path) {
+  return array(
+    'ding_gatewayf_login' => array(
+      'template' => 'ding-gatewayf-login',
+      'variables' => array(
+        'link' => NULL,
+      ),
+      'path' => $path . '/templates',
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function ding_gatewayf_block_info() {
+  return array(
+    'login' => array(
+      'info' => t('Ding GateWAYF login'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function ding_gatewayf_block_view() {
+  $block = new stdClass();
+
+  // Only display the link when users are not logged in.
+  if (user_is_anonymous()) {
+    $img = array(
+      '#theme' => 'image',
+      '#path' => drupal_get_path('module', 'ding_gatewayf') . '/images/nemid_logo.png',
+      '#alt' => t('NemID logo'),
+      '#title' => t('NemID logo'),
+    );
+
+    $block->content = array(
+      '#theme' => 'ding_gatewayf_login',
+      '#link' => array(
+        '#theme' => 'link',
+        '#text' => t('Login with !logo', array('!logo' => drupal_render($img))),
+        '#path' => DING_GATEWAYF_LOGIN_URL,
+        '#options' => array(
+          'attributes' => array(
+            // Class name is not prefix with module name to be compatible with
+            // other WAYF modules in DDBasic CSS.
+            'class' => array('ding-wayf--nemid'),
+          ),
+          'query' => array(
+            drupal_get_destination(),
+          ),
+          'html' => TRUE,
+        ),
+      ),
+    );
+  }
+
+  return $block;
+}
+
+/**
  * Implements hook_user_logout().
  */
-function wayf_dk_login_user_logout() {
+function ding_gatewayf_user_logout() {
   // Check if the user used gatewayf to login, there is no need to redirect the
   // user if gatewayf was not used.
   if (_ding_gatewayf_is_logged_in_with_gatewayf()) {
-    ding_gatewayf_user_logout();
+    ding_gatewayf_logout();
   }
 }
 
@@ -75,7 +140,7 @@ function wayf_dk_login_user_logout() {
 /**
  * Redirect the user to login page at the gatewayf service.
  */
-function ding_gatewayf_user_login() {
+function ding_gatewayf_login() {
   $config = _ding_gatewayf_load_configuration();
 
   // Redirect the user by setting the location header.
@@ -86,7 +151,7 @@ function ding_gatewayf_user_login() {
 /**
  * Redirect the user to logout page at the gatewayf service.
  */
-function ding_gatewayf_user_logout() {
+function ding_gatewayf_logout() {
   $config = _ding_gatewayf_load_configuration();
 
   // Redirect to the gateway.
@@ -124,7 +189,7 @@ function ding_gatewayf_callback() {
       $_SESSION[DING_GATEWAYF_IS_LOGGED_IN] = TRUE;
 
       // Log into the library system and Drupal.
-      _ding_gatewayf_login_user($attributes);
+      _ding_gatewayf_provider_login($attributes);
     }
     else {
       watchdog('ding_gatewayf', 'The gateway returned no error and no eduPersonTargetedID', array(), WATCHDOG_ERROR);
@@ -147,7 +212,7 @@ function ding_gatewayf_callback() {
  * @param array $attributes
  *   Attributes returned by gatewayf service.
  */
-function _ding_gatewayf_login_user(array $attributes) {
+function _ding_gatewayf_provider_login(array $attributes) {
   if (ding_provider_implements('wayf', 'login_credentials')) {
     // Parse the attributes required by the current provider.
     $required_attr = _ding_gatewayf_get_credentials($attributes);
@@ -186,6 +251,8 @@ function _ding_gatewayf_login_user(array $attributes) {
           )), 'warning');
         }
         else {
+          // @TODO: This is not the optimal ting to due, but rigth now this is
+          //        the only solution with in the time given.
           // Clean out message from the login form.
           drupal_get_messages(NULL, TRUE);
 
@@ -199,9 +266,25 @@ function _ding_gatewayf_login_user(array $attributes) {
     }
   }
 
-  ding_wayf_dk_login_redirect_user();
+  _ding_gatewayf_redirect_user();
 }
 
+/**
+ * Redirect the user after login.
+ *
+ * If destination query string exists the user is redirect to it else send to
+ * profile page.
+ */
+function _ding_gatewayf_redirect_user() {
+  $url = 'user';
+  if (!empty($_REQUEST['destination'])) {
+    // We do not user drupal_get_destination here as it will set the destination
+    // if one do not exists.
+    $url = $_REQUEST['destination'];
+  }
+
+  drupal_goto($url);
+}
 
 /**
  * Get user credentials from SAML attributes and the user provider.
