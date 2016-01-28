@@ -371,6 +371,7 @@ class P2Context implements Context, SnippetAcceptingContext
         }
         $uid = $this->ding2Context->user->uid;
         $this->gotoPage($this->ding2Context->userPath() . "/consent");
+        $this->ding2Context->waitForPage();
     }
 
     /**
@@ -492,6 +493,7 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         $this->iAmOnMyCreateListPage();
         $this->iCreateANewListWithDescription($title, '');
+        $this->ding2Context->waitForPage();
         $currentUrl = $this->ding2Context->minkContext->getSession()->getCurrentUrl();
         $basePath = $this->ding2Context->minkContext->getMinkParameter('base_url');
         $basePath = rtrim($basePath, '/');
@@ -529,6 +531,7 @@ class P2Context implements Context, SnippetAcceptingContext
 
         // Click share list.
         $this->iGoToTheShareLink();
+        $this->ding2Context->waitForPage();
 
         $found = $page->find('css', '#ding-list-list-permissions-form #edit-status');
         if (!$found) {
@@ -552,6 +555,7 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         $this->gotoListPage($title);
         $this->iGoToTheShareLink();
+        $this->ding2Context->waitForPage();
 
         $found_select = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', '#ding-list-list-permissions-form #edit-status');
@@ -658,6 +662,7 @@ class P2Context implements Context, SnippetAcceptingContext
         if (!$listsList) {
             throw new \Exception("Couldn't find list of lists");
         }
+        $this->ding2Context->scrollTo($listsList);
         $listsList->click();
 
         $listId = $this->getListId($title);
@@ -688,6 +693,7 @@ class P2Context implements Context, SnippetAcceptingContext
         if (!$found_list) {
             throw new \Exception("Couldn't find link to list of followed lists");
         }
+        $this->ding2Context->scrollTo($found_list);
         $found_list->click();
 
         // Find link to followed list.
@@ -719,6 +725,7 @@ class P2Context implements Context, SnippetAcceptingContext
         if (!$found_list) {
             throw new \Exception("Couldn't find link to list of followed lists");
         }
+        $this->ding2Context->scrollTo($found_list);
         $found_list->click();
 
         $this->ding2Context->minkContext
@@ -1096,6 +1103,7 @@ class P2Context implements Context, SnippetAcceptingContext
         // Go to the author search to reset notifications.
         $this->gotoListPage('Forfattere jeg følger');
         $this->ding2Context->minkContext->clickLink($author);
+        $this->ding2Context->waitForPage();
 
         // Perform search and choose {$nth}th element's material id.
         $page = $this->ding2Context->minkContext->getSession()->getPage();
