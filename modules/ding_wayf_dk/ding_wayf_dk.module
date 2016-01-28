@@ -1,11 +1,14 @@
 <?php
 /**
  * @file
- * This module is a support module to share function between it's sub-modules.
+ * This module is a support module to share functions between it's sub-modules.
  */
 
 /**
- * Implements hook_dk_wayf_dk_login_service_class().
+ * Implements hook_wayf_dk_login_service_class().
+ *
+ * Let's the wayf_dk module know that we have new service class to handle
+ * communication, it gatewayf is chosen in the configuration UI.
  */
 function ding_wayf_dk_wayf_dk_login_service_class() {
   return array(
