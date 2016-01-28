@@ -1,0 +1,5 @@
+name = Ding WAYF (DK) login
+description = Implementation of login support using (wayf.dk).
+core = 7.x
+package = Ding!
+dependencies[] = ding_wayf_dk

@@ -10,13 +10,13 @@
  * Used to set the name and password to log into the library system after WAYF
  * login.
  */
-function alma_wayf_login_credentials($authentication_attributes) {
+function alma_wayf_login_credentials($attributes) {
   $hash = variable_get('wayf_hash', '');
   $credentials = array();
 
   if ($hash) {
     $credentials = array(
-      'name' => $authentication_attributes['schacPersonalUniqueID'],
+      'name' => $attributes['schacPersonalUniqueID'],
       'pass' => $hash,
     );
   }

@@ -1,0 +1,8 @@
+name = Ding WAYF (DK)
+description = Implementation of WAYF support in ding2 (wayf.dk).
+core = 7.x
+package = Ding!
+files[] = includes/DingWayfGateway.class.inc
+dependencies[] = wayf_dk_login
+dependencies[] = ding_provider
+dependencies[] = ding_user

@@ -1,0 +1,14 @@
+<?php
+/**
+ * @file
+ * Handle module update functions.
+ */
+
+/**
+ * Fix typo in variable name.
+ */
+function ding_wayf_create_user_update_7000(&$sandbox) {
+  variable_set('ding_wayf_user_create_accept_text', variable_get('ding_wayf_user_create_accpect_text', ''));
+  variable_del('ding_wayf_user_create_accpect_text');
+}
+
