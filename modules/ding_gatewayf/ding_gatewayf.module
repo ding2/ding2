@@ -108,11 +108,8 @@ function ding_gatewayf_block_view() {
         '#text' => t('Login with !logo', array('!logo' => drupal_render($img))),
         '#path' => DING_GATEWAYF_LOGIN_URL,
         '#options' => array(
-          'attributes' => array(
-            // Class name is not prefix with module name to be compatible with
-            // other WAYF modules in DDBasic CSS.
-            'class' => array('ding-wayf--nemid'),
-          ),
+          // The attributes array is required or drupal_render will return WSOD.
+          'attributes' => array(),
           'query' => array(
             drupal_get_destination(),
           ),
