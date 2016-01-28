@@ -58,11 +58,12 @@ function ding_wayf_dk_create_user_ctools_plugin_directory($owner, $plugin_type) 
 
 /**
  * Implements hook_wayf_dk_login_authenticate_result_alter().
- *
- * Store the schacPersonalUniqueID in session to use later when send user create
- * to the provider.
  */
 function ding_wayf_dk_create_user_wayf_dk_login_authenticate_result_alter($result) {
+  // After the user have logged in using WAYF this alter hook is called. If the
+  // destination url (redirect) in the session (created at login) is the create
+  // new user path. This path is part of the "create user" link and then we know
+  // that this is a create use request.
   if (isset($_SESSION['ding_wayf_dk_login_destination']) && $_SESSION['ding_wayf_dk_login_destination'] == 'wayf/create-user/form') {
     // Extract unique id form the WAYF attributes (the CPR number).
     preg_match('/\d{10}$/', reset($result['attributes']['schacPersonalUniqueID']), $unique_id);
@@ -111,6 +112,10 @@ function ding_wayf_dk_create_user_wayf_dk_login_authenticate_result_alter($resul
       }
     }
 
+    // Store the schacPersonalUniqueID (CPR) in the current session to use when
+    // sending the "user create" request to the provider in the redirect to
+    // create new user form. It's only temporally store in the session and
+    // removed as soon as possible.
     $_SESSION['ding_wayf_dk_create_user'] = $unique_id;
   }
 }
