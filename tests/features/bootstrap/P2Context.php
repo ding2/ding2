@@ -289,6 +289,7 @@ class P2Context implements Context, SnippetAcceptingContext
         if (!$found) {
             throw new \Exception('Book facet not found');
         }
+        $this->ding2Context->scrollTo($found);
         $found->check();
 
         $authorLowerCase = strtolower(preg_replace(array('/\s/', '/\./'), array('-', ''), $author));
@@ -297,6 +298,7 @@ class P2Context implements Context, SnippetAcceptingContext
         if (!$found) {
             throw new \Exception('Creator facet not found');
         }
+        $this->ding2Context->scrollTo($found);
         $found->check();
 
         // Follow link to book.
