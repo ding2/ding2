@@ -172,10 +172,10 @@ class Ding2Context implements Context, SnippetAcceptingContext
      */
     public function scrollTo(ElementInterface $element)
     {
-        $xpath = $element->getXpath();
+        $xpath = strtr($element->getXpath(), ['"' => '\\"']);
         try {
             $this->minkContext->getSession()
-            ->evaluateScript('jQuery(document).scrollTo(document.evaluate("' . $xpath. '", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null ).singleNodeValue);');
+                ->evaluateScript('jQuery(document).scrollTo(document.evaluate("' . $xpath . '", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null ).singleNodeValue);');
         } catch (UnsupportedDriverActionException $e) {
             // Ignore.
         } catch (Exception $e) {
@@ -195,7 +195,7 @@ class Ding2Context implements Context, SnippetAcceptingContext
         } catch (UnsupportedDriverActionException $e) {
             // Ignore.
         } catch (Exception $e) {
-            throw new Exception('Could not scroll to element');
+            throw new Exception('Unknown error waiting for page');
         }
     }
 }
