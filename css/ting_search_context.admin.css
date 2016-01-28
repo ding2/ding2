@@ -98,25 +98,6 @@
 }
 
 /**
- * Facet status in admin UI.
- */
-#edit-ting-search-context-status ul {
-  margin: 1em 0;
-}
-
-#edit-ting-search-context-status ul li {
-  position: relative;
-  list-style: none;
-  padding-left: 23px;
-  margin-top: 8px;
-}
-
-#edit-ting-search-context-status ul img {
-  position: absolute;
-  left: 0;
-}
-
-/**
  * Fallback images admin UI.
  */
 .ting-search-context-fallaback-images input[type=submit] {

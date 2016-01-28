@@ -100,20 +100,12 @@ function theme_ting_search_context_status(&$vars) {
       $icon = theme('image', array('path' => 'misc/watchdog-ok.png'));
       $message = t('is installed correctly');
     }
-    $items[] = format_string('!icon @facet !message', array(
+    $items[] = t('!icon @facet !message', array(
       '!icon' => $icon,
       '@facet' => $facet,
       '!message' => $message,
     ));
   }
 
-  $output = theme('item_list', array('items' => $items));
-
-  // Show link to ding facetbrowser administration page.
-  if (!empty($missing)) {
-    $link = l(t('Configure facets'), 'admin/config/ting/facets', array('query' => drupal_get_destination()));
-    $output .= '<strong>' . $link . '</strong>';
-  }
-
-  return $output;
+  return theme('item_list', array('items' => $items));
 }
