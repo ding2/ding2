@@ -69,6 +69,10 @@ interface StorageCrudInterface {
  * Defines required methods for remote endpoint communication.
  */
 interface StorageCommunicatorInterface {
+
+  /**
+   * {@inheritdoc}
+   */
   public function sendRequest($uri, $params, $method);
 }
 

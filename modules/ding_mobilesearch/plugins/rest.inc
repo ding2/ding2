@@ -27,7 +27,7 @@ function mobilesearch_rest_service_call($method, $body = array()) {
         '!configure_url' => l(
           t('configure'),
           'admin/config/mobilesearch/content-export/plugin',
-        )
+        ),
       ),
       WATCHDOG_ERROR
     );
