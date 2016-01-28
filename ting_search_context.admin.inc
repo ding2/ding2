@@ -171,16 +171,17 @@ function ting_search_context_admin_context_form_validate($form, &$form_state) {
     }
   }
   else {
-    // Subject should be a comma separated list of single words containing
-    // alpanumeric characters (case-insensitive).
+    // Format and validate the subjects.
     $subjects = $form_state['values']['subjects'];
 
     $trimmed_subjects = array();
     $invalid_subjects = array();
     $duplicate_subjects = array();
     foreach (explode(',', $subjects) as $key => $subject) {
-      // The only modification we make:
+      // Prepare the subject string for validation.
       $subject = mb_strtolower(trim($subject));
+      // Ensure only 1 whitespace.
+      $subject = preg_replace('/[\s]+/', ' ', $subject);
 
       // Check for duplicate subjects.
       if (in_array($subject, $trimmed_subjects)) {
@@ -190,13 +191,11 @@ function ting_search_context_admin_context_form_validate($form, &$form_state) {
         }
       }
 
-      // We skip any empty subjects.
+      // Validation (skip empty)
       if (!empty($subject)) {
         $trimmed_subjects[] = $subject;
 
-        // UTF-8 compatible check for non-alpahnumeric characters:
-        // http://stackoverflow.com/questions/7271607/remove-non-alphanumeric-characters-including-%C3%9F-%C3%8A-etc-from-a-string
-        if (preg_match('/[^\p{L}\p{N}]/u', $subject) || preg_match('/\s/', $subject)) {
+        if (_ting_search_context_validate_subject($subject)) {
           $invalid_subjects[] = $subject;
         }
       }
@@ -206,7 +205,7 @@ function ting_search_context_admin_context_form_validate($form, &$form_state) {
     // Inform the user of invalid subjects, if any.
     if (!empty($invalid_subjects)) {
       $invalid_subjects = implode(', ', $invalid_subjects);
-      $error_messages[] = t('Subjects should be a single word containing alpanumeric characters (%subjects)', array(
+      $error_messages[] = t('Subjects should only contain alpanumeric characters, whitespaces and dashes. (%subjects)', array(
         '%subjects' => check_plain($invalid_subjects),
       ));
     }
@@ -240,6 +239,20 @@ function ting_search_context_admin_context_form_validate($form, &$form_state) {
     // This will present the corrected string to the user.
     $form_state['complete form']['add_context']['subjects']['#value'] = $subjects;
   }
+}
+
+/**
+ * Helper function to validate a subject string.
+ *
+ * @see ting_search_context_admin_context_form_validate()
+ */
+function _ting_search_context_validate_subject($subject) {
+  // \p{L} matches a single code point in the category "letter".
+  // \p{N} matches any kind of numeric character in any script.
+  // The \u modifier enabled UTF-8.
+  // Allow for whitespaces and dashes.
+  // http://stackoverflow.com/questions/7271607/remove-non-alphanumeric-characters-including-%C3%9F-%C3%8A-etc-from-a-string
+  return preg_match('/[^\p{L}\p{N}\s-]/u', $subject);
 }
 
 /**
