@@ -1017,6 +1017,7 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iHaveSearchedForWithTheMaterialName($search, $material)
     {
         $this->gotoSearchPage($search);
+        $this->ding2Context->waitForPage();
         $this->ding2Context->minkContext->assertElementOnPage('a[href="/ting/collection/' . $material . '"]');
     }
 
