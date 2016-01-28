@@ -122,7 +122,8 @@ function ding_mobilesearch_settings_submit($form, &$form_state) {
         if ($row['type']) {
           db_insert('flag_types')
             ->fields(array(
-              'fid' => $flag->fid, 'type' => $machine_name
+              'fid' => $flag->fid,
+              'type' => $machine_name,
             ))
             ->execute();
         }
@@ -229,8 +230,8 @@ function theme_ding_mobilesearch_menus_table($variables) {
  */
 function ding_mobilesearch_plugin_settings($form, &$form_state) {
   $form['vt'] = array(
-     '#type' => 'vertical_tabs',
-     '#weight' => 99,
+    '#type' => 'vertical_tabs',
+    '#weight' => 99,
   );
 
   $plugin_info = module_invoke_all('mobilesearch_plugin_info');

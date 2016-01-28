@@ -10,6 +10,7 @@
  *
  * @param  string $method
  * @param  array  $body
+ *
  * @return mixed  response object or NULL.
  */
 function mobilesearch_rest_service_call($method, $body = array()) {
@@ -18,7 +19,17 @@ function mobilesearch_rest_service_call($method, $body = array()) {
   $key = variable_get('mobilesearch_rest_key', NULL);
   $debug = variable_get('mobilesearch_rest_debug', FALSE);
   if (empty($service_url) || empty($agency_id) || empty($key)) {
-    watchdog('rest_plugin', "Service doesn't configured. Please !configure_url it first.", array('!configure_url' => l(t('configure'), 'admin/config/mobilesearch/content-export/plugin')), WATCHDOG_ERROR);
+    watchdog(
+      'rest_plugin',
+      "Service doesn't configured. Please !configure_url it first.",
+      array(
+        '!configure_url' => l(
+          t('configure'),
+          'admin/config/mobilesearch/content-export/plugin'
+        )
+      ),
+      WATCHDOG_ERROR
+    );
     return NULL;
   }
   $instance = new \NationalStorageComponent\NationalStorage($service_url);
@@ -31,7 +42,14 @@ function mobilesearch_rest_service_call($method, $body = array()) {
     'body' => $body,
   );
   if (!method_exists($instance, $method)) {
-    watchdog('rest_plugin', 'You tried to call a undefined method %method of a service.', array('%method' => $method), WATCHDOG_ERROR);
+    watchdog(
+      'rest_plugin',
+      'You tried to call a undefined method %method of a service.',
+      array(
+        '%method' => $method
+      ),
+      WATCHDOG_ERROR
+    );
     return NULL;
   }
   try {
@@ -43,7 +61,16 @@ function mobilesearch_rest_service_call($method, $body = array()) {
   }
 
   if ($debug) {
-    watchdog('rest_plugin', 'Method: <strong>!method</strong>. Request: <pre>!request</pre>Response: <pre>!response</pre>', array('!method' => $method, '!request' => var_export($request, TRUE), '!response' => var_export($response, TRUE)), WATCHDOG_DEBUG);
+    watchdog(
+      'rest_plugin',
+      'Method: <strong>!method</strong>. Request: <pre>!request</pre>Response: <pre>!response</pre>',
+      array(
+        '!method' => $method,
+        '!request' => var_export($request, TRUE),
+        '!response' => var_export($response, TRUE)
+      ),
+      WATCHDOG_DEBUG
+    );
   }
 
   return $response;
@@ -54,15 +81,16 @@ function mobilesearch_rest_service_call($method, $body = array()) {
  *
  * @param  object $node     Changed node.
  * @param  mixed  $original Unchanged node or NULL.
+ *
  * @return array
- *  An associative array with the following contents:
- *  <code>
- *  [
- *    to_add: [],
- *    to_update: [],
- *    to_delete: []
- *  ]
- *  </code>
+ *    An associative array with the following contents:
+ *    <code>
+ *    [
+ *      to_add: [],
+ *      to_update: [],
+ *      to_delete: []
+ *    ]
+ *    </code>
  */
 function mobilesearch_rest_node_agency_diff($node, $original = NULL, $op = NULL) {
   $result = array(
@@ -77,9 +105,11 @@ function mobilesearch_rest_node_agency_diff($node, $original = NULL, $op = NULL)
       case 'hook_node_insert':
         $result['to_add'][] = $agency_id;
         return $result;
+
       case 'hook_node_update':
         $result['to_update'][] = $agency_id;
         return $result;
+
       case 'hook_node_delete':
         $result['to_delete'][] = $agency_id;
         return $result;
@@ -251,10 +281,12 @@ function mobilesearch_rest_exec($op, $entity_type, $entity) {
       case 'hook_node_insert':
         $diff = mobilesearch_rest_node_agency_diff($entity, NULL, $op);
         break;
+
       case 'hook_node_update':
         $original = isset($entity->original) ? $entity->original : NULL;
         $diff = mobilesearch_rest_node_agency_diff($entity, $original, $op);
         break;
+
       case 'hook_node_delete':
         $original = clone $entity;
         $entity->field_realm = array();
@@ -317,12 +349,14 @@ function mobilesearch_rest_exec($op, $entity_type, $entity) {
 
 /**
  * Test service connection.
+ *
  * @param array $config
  *   An array with the following keys:
  *   - mobilesearch_rest_url: Url to REST service.
  *   - mobilesearch_rest_agency_id: Agency ID.
  *   - mobilesearch_rest_key: Service key.
- * @return boolean
+ *
+ * @return bool
  */
 function mobilesearch_rest_test_service($config = array()) {
   $service_url = $config['mobilesearch_rest_url'];
@@ -348,10 +382,8 @@ function mobilesearch_rest_test_service($config = array()) {
     return FALSE;
   }
   try {
-    /**
-     * @todo Should write special method for testing the service.
-     * Current way (add test record in Content and then delete it) is excess.
-     */
+    // @todo Should write special method for testing the service.
+    // Current way (add test record in Content and then delete it) is excess.
     $instance->$method($request);
     $response = $instance->getResponse();
     $method = 'deleteContent';

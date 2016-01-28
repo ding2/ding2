@@ -21,6 +21,7 @@ class NationalStorage extends \NationalStorageComponent\GenericStorage {
 
   /**
    * {@inheritDoc}
+   *
    * @see \NationalStorageComponent\StorageCommunicatorInterface::sendRequest()
    */
   public function sendRequest($uri, $params, $method) {
@@ -30,6 +31,7 @@ class NationalStorage extends \NationalStorageComponent\GenericStorage {
 
   /**
    * {@inheritDoc}
+   *
    * @see \NationalStorageComponent\GenericStorage::callEndpoint()
    */
   protected function callEndpoint($url, $body, $method) {

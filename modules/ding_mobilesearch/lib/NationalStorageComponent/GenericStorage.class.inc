@@ -19,8 +19,10 @@ interface StorageCrudInterface {
   public function addContent(array $params);
   public function addMenu(array $params);
   public function addList(array $params);
+
   /**
    * Updates an entry in the content collection at the remote endpoint.
+   *
    * @param array $params
    *   Entry properties to be replaced with.
    */
@@ -119,6 +121,7 @@ abstract class GenericStorage
 
   /**
    * {@inheritDoc}
+   *
    * @see \NationalStorageComponent\StorageCrudInterface::addContent($params)
    */
   public function addContent(array $params) {
@@ -131,6 +134,7 @@ abstract class GenericStorage
 
   /**
    * {@inheritDoc}
+   *
    * @see \NationalStorageComponent\StorageCrudInterface::updateContent()
    */
   public function updateContent(array $params) {
@@ -143,6 +147,7 @@ abstract class GenericStorage
 
   /**
    * {@inheritDoc}
+   *
    * @see \NationalStorageComponent\StorageCrudInterface::deleteContent($params)
    */
   public function deleteContent(array $params) {
@@ -155,14 +160,15 @@ abstract class GenericStorage
 
   /**
    * {@inheritDoc}
+   *
    * @see \NationalStorageComponent\StorageCrudInterface::addMenu($params)
    */
   public function addMenu(array $params) {
-     $uri = 'menu';
-     $json = json_encode($params);
+    $uri = 'menu';
+    $json = json_encode($params);
 
-     $this->setRequest($json);
-     $this->sendRequest($uri, $json, 'PUT');
+    $this->setRequest($json);
+    $this->sendRequest($uri, $json, 'PUT');
   }
 
   /**
