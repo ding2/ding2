@@ -153,7 +153,7 @@ function ding_mobilesearch_settings_submit($form, &$form_state) {
 /**
  * Returns HTML for the content types exporting form.
  *
- * @param $variables
+ * @param array $variables
  *   An associative array containing:
  *   - form: A render element representing the form.
  *
@@ -192,7 +192,7 @@ function theme_ding_mobilesearch_types_table($variables) {
 /**
  * Returns HTML for the content types exporting form.
  *
- * @param $variables
+ * @param array $variables
  *   An associative array containing:
  *   - form: A render element representing the form.
  *

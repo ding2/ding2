@@ -135,7 +135,7 @@ function ding_mobilesearch_menu_edit_submit($form, &$form_state) {
 }
 
 /**
- * Returns list of a exporting menus with an associations with a plugins.
+ * Returns list of menus with plugin associations.
  */
 function _ding_mobilesearch_menus() {
   $result = db_select('menu_custom', 'm')
@@ -160,8 +160,7 @@ function _ding_mobilesearch_menus() {
 }
 
 /**
- * Returns list of a exporting content types with an associations with 
- * a plugins.
+ * Returns list of content types with plugin associations.
  */
 function _ding_mobilesearch_types() {
   $names = node_type_get_names();

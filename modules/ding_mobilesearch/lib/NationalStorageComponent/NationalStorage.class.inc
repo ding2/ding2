@@ -6,8 +6,14 @@
 
 namespace NationalStorageComponent;
 
+/**
+ * {@inheritdoc}
+ */
 class NationalStorageException extends \Exception {}
 
+/**
+ * {@inheritdoc}
+ */
 class NationalStorage extends \NationalStorageComponent\GenericStorage {
   /**
    * Creates a new object of the storage communicator.
@@ -64,6 +70,7 @@ class NationalStorage extends \NationalStorageComponent\GenericStorage {
 
   /**
    * {@inheritDoc}
+   *
    * @see \NationalStorageComponent\GenericStorage::processResponse()
    */
   protected function processResponse($response) {

@@ -17,7 +17,15 @@ interface StorageCrudInterface {
    *   Entry properties.
    */
   public function addContent(array $params);
+
+  /**
+   * {@inheritdoc}
+   */
   public function addMenu(array $params);
+  
+  /**
+   * {@inheritdoc}
+   */
   public function addList(array $params);
 
   /**
@@ -27,7 +35,15 @@ interface StorageCrudInterface {
    *   Entry properties to be replaced with.
    */
   public function updateContent(array $params);
+
+  /**
+   * {@inheritdoc}
+   */
   public function updateMenu(array $params);
+
+  /**
+   * {@inheritdoc}
+   */
   public function updateList(array $params);
 
   /**
@@ -37,7 +53,15 @@ interface StorageCrudInterface {
    *   Entry properties.
    */
   public function deleteContent(array $params);
+
+  /**
+   * {@inheritdoc}
+   */
   public function deleteMenu(array $params);
+
+  /**
+   * {@inheritdoc}
+   */
   public function deleteList(array $params);
 }
 
@@ -51,10 +75,7 @@ interface StorageCommunicatorInterface {
 /**
  * Defines an abstract analogy of a storage communicator.
  */
-abstract class GenericStorage
-  implements
-    \NationalStorageComponent\StorageCrudInterface,
-    \NationalStorageComponent\StorageCommunicatorInterface {
+abstract class GenericStorage implements \NationalStorageComponent\StorageCrudInterface, \NationalStorageComponent\StorageCommunicatorInterface {
   private $endpoint;
   private $response;
   private $requestBody;

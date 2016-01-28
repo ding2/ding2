@@ -8,10 +8,11 @@
 /**
  * Call a REST service method.
  *
- * @param  string $method
- * @param  array  $body
+ * @param string $method
+ * @param array $body
  *
- * @return mixed  response object or NULL.
+ * @return mixed
+ *    response object or NULL.
  */
 function mobilesearch_rest_service_call($method, $body = array()) {
   $service_url = variable_get('mobilesearch_rest_url', '');
@@ -25,7 +26,7 @@ function mobilesearch_rest_service_call($method, $body = array()) {
       array(
         '!configure_url' => l(
           t('configure'),
-          'admin/config/mobilesearch/content-export/plugin'
+          'admin/config/mobilesearch/content-export/plugin',
         )
       ),
       WATCHDOG_ERROR
@@ -46,7 +47,7 @@ function mobilesearch_rest_service_call($method, $body = array()) {
       'rest_plugin',
       'You tried to call a undefined method %method of a service.',
       array(
-        '%method' => $method
+        '%method' => $method,
       ),
       WATCHDOG_ERROR
     );
@@ -67,7 +68,7 @@ function mobilesearch_rest_service_call($method, $body = array()) {
       array(
         '!method' => $method,
         '!request' => var_export($request, TRUE),
-        '!response' => var_export($response, TRUE)
+        '!response' => var_export($response, TRUE),
       ),
       WATCHDOG_DEBUG
     );
@@ -79,8 +80,10 @@ function mobilesearch_rest_service_call($method, $body = array()) {
 /**
  * Returns differences agency ids between changed and unchanged nodes.
  *
- * @param  object $node     Changed node.
- * @param  mixed  $original Unchanged node or NULL.
+ * @param object $node
+ *    Changed node.
+ * @param mixed $original
+ *    Unchanged node or NULL.
  *
  * @return array
  *    An associative array with the following contents:
