@@ -373,21 +373,6 @@ function ting_search_context_admin_context_delete_confirm_form_submit($form, &$f
  * Admin form to configure position of related content on search page.
  */
 function ting_search_context_admin_settings_form($form, &$form_state) {
-  $missing = ting_search_context_get_missing_facets();
-  if (!empty($missing)) {
-    // Prepare a status array.
-    $status = array(
-      'missing' => $missing,
-      'required' => ting_search_context_get_required_facets(),
-    );
-
-    $form['ting_search_context_status'] = array(
-      '#type' => 'item',
-      '#title' => t('Status'),
-      '#markup' => theme('ting_search_context_status', array('status' => $status)),
-    );
-  }
-
   $form['ting_search_context_admin_settings_form'] = array(
     '#type' => 'fieldset',
     '#title' => t('Position related content on search page'),
