@@ -989,19 +989,21 @@ class AlmaClient {
   }
 
   /**
-   * Create new user af alma.
+   * Create new user at alma.
    *
    * @param $cpr
+   *   The users CPR number.
    * @param $pin_code
+   *   The users pin-code.
    * @param $name
+   *   The users full name.
    * @param $mail
+   *   The users e-mail address.
    * @param $branch
+   *   The users preferred pick-up branch.
    *
    * @return \DOMDocument
-   * @throws \AlmaClientBorrCardNotFound
-   * @throws \AlmaClientCommunicationError
-   * @throws \AlmaClientHTTPError
-   * @throws \AlmaClientReservationNotFound
+   *   The raw XML response from the library system.
    */
   public function self_register($cpr, $pin_code, $name, $mail, $branch) {
     $params = array(
