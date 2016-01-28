@@ -133,7 +133,7 @@ function ding_wayf_dk_create_user_form_wayf_dk_login__settings_form_alter(&$form
   $form['user']['ding_wayf_user_create_age_limit'] = array(
     '#type' => 'textfield',
     '#title' => t('Age limit'),
-    '#description' => t('If set the CPR number will be used to set an age limit. If empty no limit exists.'),
+    '#description' => t('The age limit will be used to ensure that no user is created without begin above the limit. If left empty no age limit is enforced.'),
     '#default_value' => variable_get('ding_wayf_user_create_age_limit', ''),
   );
 
@@ -143,8 +143,8 @@ function ding_wayf_dk_create_user_form_wayf_dk_login__settings_form_alter(&$form
     '#tree' => TRUE,
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
-    '#title' => t('User creating info pager (before)'),
-    '#description' => t('Information to display on the page displayed when the user clicks on the create user link.'),
+    '#title' => t('Information page (before)'),
+    '#description' => t('Information to display before the user clicks on the "create user" link before the user is asked to login with WAYF.'),
   );
 
   $defaults = variable_get('ding_wayf_user_create_before_info', array());
@@ -180,8 +180,8 @@ function ding_wayf_dk_create_user_form_wayf_dk_login__settings_form_alter(&$form
     '#tree' => TRUE,
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
-    '#title' => t('User creating info pager (after)'),
-    '#description' => t('Information to display on the page displayed when the user have sent a creation request.'),
+    '#title' => t('Information page (after)'),
+    '#description' => t('Information to display after the user have been create at the provider. This page can be used to display information about when the newly created user account is ready etc.'),
   );
 
   $defaults = variable_get('ding_wayf_user_create_after_info', array());
