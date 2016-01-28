@@ -48232,7 +48232,11 @@ msgstr "Ting oEmbed funktioner"
 #: /wayf/login?eduPersonTargetedID=WAYF-DK-e767c06edaad0f8d23e785bbc470e7f37ad03e8d&mail=&logintype=nemlogin
 msgid "Something went wrong. Please try again or !url of WAYF."
 msgstr ""
-"Du er stadig logget ind ved NemID, og det anbefales derfor at du klikker på !logout for at logge ud, samt at du derefter lukker din browser."
+"Du er stadig logget ind ved NemID, og det anbefales derfor at du klikker på !url for at logge ud, samt at du derefter lukker din browser."
+
+#: /wayf/login?eduPersonTargetedID=WAYF-DK-e767c06edaad0f8d23e785bbc470e7f37ad03e8d&mail=&logintype=nemlogin
+msgid "logout"
+msgstr "Log ud"
 
 #: /system/ajax
 msgid "Authenticate"
