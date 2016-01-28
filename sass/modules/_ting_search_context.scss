@@ -200,21 +200,6 @@ $vertical-carousel-image-height-x-large:         195px;
       }
 
     }
-
-    @include small() {
-      li {
-        width: $horizontal-carousel-image-width / 2;
-
-        a {
-          max-height: $horizontal-carousel-image-height / 2;
-          width: $horizontal-carousel-image-width / 2;
-        }
-
-        h2 {
-          display: none;
-        }
-      }
-    }
   }
 
     /* Vertical carousel styling
