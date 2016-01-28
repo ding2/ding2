@@ -3,11 +3,6 @@
 /**
  * @file
  * Contains this modules Views-hook implementations.
- *
- * TODO:
- * 1. Finish describing fields
- * 2. Make a Ting seach context view
- * 3. Try to embed that view in admin interface and see how it works.
  */
 
 /**

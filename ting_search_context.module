@@ -331,8 +331,6 @@ function ting_search_context_rate_node_action(&$node, $context) {
 
 /**
  * Callback for our unrate node action.
- *
- * TODO: Should probably be updated to handle context specific unrating.
  */
 function ting_search_context_unrate_node_action(&$node, $context) {
   // Perform the unrating.
