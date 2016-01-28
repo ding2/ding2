@@ -31,8 +31,9 @@ class Ding2Context implements Context, SnippetAcceptingContext
     private $ding2MessagesContext;
 
     /** @BeforeScenario */
-    public function gatherContexts(BeforeScenarioScope $scope)
+    public function beforeScenario(BeforeScenarioScope $scope)
     {
+        // Gather contexts.
         $environment = $scope->getEnvironment();
 
         $this->drupalContext = $environment->getContext('Drupal\DrupalExtension\Context\DrupalContext');
@@ -41,6 +42,17 @@ class Ding2Context implements Context, SnippetAcceptingContext
             $this->ding2MessagesContext = $environment->getContext('Ding2MessagesContext');
         } catch (Exception $e) {
             // Ingore.
+        }
+
+
+        // Try to set a default window size. PhantomJS will default to mobile
+        // sizes which will make some elements invisible.
+        try {
+            $this->minkContext->getSession()
+                ->getDriver()
+                ->resizeWindow(1024, 768, 'current');
+        } catch (UnsupportedDriverActionException $e) {
+            // Ignore.
         }
     }
 
