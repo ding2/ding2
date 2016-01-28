@@ -90,6 +90,7 @@ class P2Context implements Context, SnippetAcceptingContext
      *   The link title to search for.
      * @param string $errorMessage
      *   Exception message if the link could not be found.
+     * @throws \Exception
      */
     public function moreDropdownSelect($text, $errorMessage)
     {
@@ -112,6 +113,8 @@ class P2Context implements Context, SnippetAcceptingContext
 
         // Sadly the links isn't related to the button in any way.
         $link = $page->find('css', 'a:contains("' . $text . '")');
+        $this->ding2Context->minkContext->getSession()
+            ->evaluateScript('jQuery(document).scrollTo("a:contains(\"' . $text . '\")");');
         if (!$link) {
             throw new \Exception($errorMessage);
         }
@@ -193,6 +196,44 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @param string $href
+     *   The actual link to search for.
+     * @param $errorMessage
+     *   Exception message if the link could not be found.
+     * @throws \Exception
+     */
+    public function moreDropdownSelectByLink($href, $errorMessage)
+    {
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
+        $page->waitFor(10000, function ($page) {
+            return $page->find('css', '.ding-list-add-button a');
+        });
+        $button = $page->find('css', '.ding-list-add-button a');
+        if (!$button) {
+            throw new \Exception("Couldn't find more button");
+        }
+
+        try {
+            // Mouseover the button to trigger the dropdown. Can't click an
+            // invisible link in a real browser.
+            $this->ding2Context->minkContext->getSession()
+                ->evaluateScript('jQuery(document).scrollTo(".ding-list-add-button a");');
+            $button->mouseOver();
+        } catch (UnsupportedDriverActionException $e) {
+            // Carry on if the driver doesn't support it.
+        }
+
+        // Sadly the links isn't related to the button in any way.
+        $link = $page->find('css', 'a[href^="' . $href . '"]');
+        $this->ding2Context->minkContext->getSession()
+            ->evaluateScript('jQuery(document).scrollTo("a[href^=\"' . $href . '\"]");');
+        if (!$link) {
+            throw new \Exception($errorMessage);
+        }
+        $link->click();
+    }
+
+    /**
      * @Then I should see :arg1 on followed searches
      */
     public function iShouldSeeOnFollowedSearches($arg1)
@@ -218,8 +259,9 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iRemoveTheSearchFromFollowedSearches($arg1)
     {
         $this->gotoListPage('Søgninger jeg følger');
+        $listId = $this->getListId('Søgninger jeg følger');
         $found = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', 'a:contains("' . $arg1 . '") + form[id^="ding-list-remove-element"] #edit-submit');
+            ->find('css', 'form[action="/list/' . $listId . '"] #edit-submit');
         if (!$found) {
             throw new \Exception("Remove link doesn't exist");
         }
@@ -245,58 +287,53 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iAddTheAuthorToAuthorsIFollow($author)
     {
         // Choose book facet.
-        $found = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '.form-item-type-bog a');
+        $found = $this->ding2Context->minkContext->getSession()->getPage()
+            ->find('css', '#ding-facetbrowser-form .form-item-type-bog input');
         if (!$found) {
             throw new \Exception('Book facet not found');
         }
-        $found->click();
+        $found->check();
 
-        $authorLowerCase = strtolower(preg_replace('/\s/', '-', $author));
+        $authorLowerCase = strtolower(preg_replace(array('/\s/', '/\./'), array('-', ''), $author));
         $found = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.form-item-creator-' . $authorLowerCase . ' a');
+            ->find('css', '#edit-creator-' . $authorLowerCase);
         if (!$found) {
             throw new \Exception('Creator facet not found');
         }
-        $found->click();
+        $found->check();
 
         // Follow link to book.
         $this->ding2Context->minkContext->assertElementContains('.search-result--heading-type', 'Bog');
-        $found = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.search-result--heading-type:contains("Bog") + h2 > a');
-        if (!$found) {
-            throw new \Exception("Link to book doesn't exist");
-        }
-        $found->click();
+        $this->iChooseTheFirstSearchResult();
 
         // Follow link to follow author.
-        $found = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', 'a[href^="/dinglist/attach/follow_author/"]');
-        if (!$found) {
-            throw new \Exception("Link to follow author doesn't exist");
-        }
-        $found->click();
+        $this->moreDropdownSelectByLink('/dinglist/attach/follow_author/', "Couldn't find follow author link");
     }
 
     /**
-     * @Then I should see :arg1 on the list of followed authors
+     * @Then I should see :author on the list of followed authors
      */
-    public function iShouldSeeOnTheListOfFollowedAuthors($arg1)
+    public function iShouldSeeOnTheListOfFollowedAuthors($author)
     {
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
         $this->gotoListPage('Forfattere jeg følger');
         $link = '/search/ting/phrase.creator';
-        $this->ding2Context->minkContext->assertElementContains('a[href^="' . $link . '"]', $arg1);
+        $page->waitFor(10000, function ($page) use ($link) {
+            return $page->find('css', 'a[href^="' . $link . '"]');
+        });
+        $this->ding2Context->minkContext->assertElementContains('a[href^="' . $link . '"]', $author);
     }
 
     /**
-     * @Given I have followed the author :arg1
+     * @Given I have followed the author :author
      */
-    public function iHaveFollowedTheAuthor($arg1)
+    public function iHaveFollowedTheAuthor($author)
     {
         // First add the author to the list.
-        $this->gotoSearchPage($arg1);
-        $this->iAddTheAuthorToAuthorsIFollow($arg1);
+        $this->gotoSearchPage($author);
+        $this->iAddTheAuthorToAuthorsIFollow($author);
 
-        $this->iShouldSeeOnTheListOfFollowedAuthors($arg1);
+        $this->iShouldSeeOnTheListOfFollowedAuthors($author);
     }
 
     /**
@@ -305,8 +342,9 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iRemoveTheAuthorFromFollowedAuthors($arg1)
     {
         $this->gotoListPage('Forfattere jeg følger');
+        $listId = $this->getListId('Forfattere jeg følger');
         $found = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', 'a:contains("' . $arg1 . '") + form[id^="ding-list-remove-element"] #edit-submit');
+            ->find('css', 'form[action="/list/' . $listId . '"] #edit-submit');
         if (!$found) {
             throw new \Exception("Remove link doesn't exist");
         }
@@ -836,20 +874,12 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given I have chosen a book material with the tag :tag
+     * @Given I have chosen a book material :material with the tag :tag
      */
-    public function iHaveChosenABookMaterialWithTheTag($tag)
+    public function iHaveChosenABookMaterialWithTheTag($material, $tag)
     {
-        $this->gotoSearchPage($tag);
-        $link = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '#edit-type-bog');
-        if (!$link) {
-            throw new Exception("Couldn't filter for book type");
-        }
-        $link->check();
-
-        // Go to material.
-        $this->iChooseTheFirstSearchResult();
+        $this->gotoPage('/ting/object/' . $material);
+        $this->ding2Context->minkContext->assertElementOnPage('.subject:contains("' . $tag . '")');
     }
 
     /**
@@ -858,10 +888,12 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iChooseTheFirstSearchResult()
     {
         $found = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.ting-object .heading a');
+            ->find('css', '.search-results .search-result:nth-child(1) .ting-object .heading a');
         if (!$found) {
             throw new Exception("Couldn't find search result.");
         }
+        $this->ding2Context->minkContext->getSession()
+            ->evaluateScript('jQuery(document).scrollTo(".search-results .search-result:nth-child(1) .ting-object .heading a")');
         $found->click();
     }
 
@@ -1045,5 +1077,78 @@ class P2Context implements Context, SnippetAcceptingContext
             '.ding-entity-rating[data-ding-entity-rating-path^="' . urldecode($material) . '/"]' .
             ' .star.submitted'
         );
+    }
+
+    /**
+     * @When there are :num new materials for the author :author
+     */
+    public function thereAreNewMaterialsForTheAuthor($num, $author)
+    {
+        // We want the element after the first $num elements.
+        $nth = $num + 1;
+
+        // Update notifications for user and find message id.
+        $uid = $this->ding2Context->drupalContext->user->uid;
+        ding_message_update_users(array($uid), false);
+        $query = db_select('message', 'm');
+        $query->addField('m', 'mid');
+        $query->condition('m.uid', $uid);
+        $record = $query->execute()->fetchAssoc();
+        $mid = $record['mid'];
+
+        // Go to the author search to reset notifications.
+        $this->gotoListPage('Forfattere jeg følger');
+        $this->ding2Context->minkContext->clickLink($author);
+
+        // Perform search and choose {$nth}th element's material id.
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
+        $this->ding2Context->minkContext
+            ->assertElementOnPage(".search-results .list .search-result:nth-child($nth) .ting-object");
+        $found = $page->find('css', ".search-results .list .search-result:nth-child($nth) .ting-object");
+        $materialId = $found->getAttribute('data-ting-object-id');
+
+        // Update message's last element to be previously found material id.
+        $message = message_load($mid);
+        $wrapper = entity_metadata_wrapper('message', $message);
+        $wrapper->field_last_element->set($materialId);
+        $wrapper->save();
+        // And update notifications.
+        ding_message_update_users(array($uid), false);
+    }
+
+    /**
+     * @Then I should see that there are :num new materials on the notifications list on the notifications top menu
+     */
+    public function iShouldSeeThatThereAreNewMaterialsOnTheNotificationsListOnTheNotificationsTopMenu($num)
+    {
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
+        $this->ding2Context->minkContext->visitPath('/user');
+
+        $page->waitFor(10000, function ($page) use ($num) {
+            return $page->find('css', '.notifications-count:not(:contains("0"))');
+        });
+
+        $found = $page->find('css', '.notifications-count');
+        $notifications = $found->getText();
+        if ($notifications != $num) {
+            throw new Exception("There should be $num notifications in the top menu, but I only see $notifications");
+        }
+    }
+
+    /**
+     * @Then I should see that there are :num new materials on the list of authors I follow
+     */
+    public function iShouldSeeThatThereAreNewMaterialsOnTheListOfAuthorsIFollow($num)
+    {
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
+        $this->ding2Context->minkContext->assertNumElements(2, '.follow-author a');
+        $found = $page->find('css', '.follow-author .label');
+        if (!$found) {
+            throw new Exception("Couldn't find number of notifications on the followed authors list");
+        }
+        $foundNotifications = $found->getText();
+        if ($foundNotifications != $num) {
+            throw new Exception("There should be $num notifications on the author list, but I only see $foundNotifications");
+        }
     }
 }

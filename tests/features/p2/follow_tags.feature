@@ -7,7 +7,7 @@ Feature: Follow tags
     Given I am logged in as a library user
     And the list "Mine interesser" exists
 
-  @api
+  @api @javascript
   Scenario: Search for a tag
     Given I have searched for "science fiction"
     When I choose the first search result
@@ -15,7 +15,7 @@ Feature: Follow tags
 
   @api @javascript
   Scenario: Follow a tag
-    Given I have chosen a book material with the tag "science fiction"
+    Given I have chosen a book material "870970-basis%3A00897868" with the tag "science fiction"
     When I follow the tag "science fiction"
     Then I should see the tag "science fiction" on my list "Mine interesser"
 
