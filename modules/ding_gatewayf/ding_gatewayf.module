@@ -37,14 +37,14 @@ function ding_gatewayf_menu() {
 
   // Redirect the user to gatewayf for authentication.
   $items['gatewayf/login'] = array(
-    'page callback' => 'ding_gatewayf_login',
+    'page callback' => 'ding_gatewayf_user_login',
     'access callback' => 'user_is_anonymous',
     'type' => MENU_CALLBACK,
   );
 
   // Redirect the user to gatewayf for logout.
   $items['gatewayf/logout'] = array(
-    'page callback' => 'ding_gatewayf_logout',
+    'page callback' => 'ding_gatewayf_user_logout',
     'access callback' => 'user_is_logged_in',
     'type' => MENU_CALLBACK,
   );
@@ -61,9 +61,21 @@ function ding_gatewayf_menu() {
 }
 
 /**
+ * Implements hook_user_logout().
+ */
+function wayf_dk_login_user_logout() {
+  // Check if the user used gatewayf to login, there is no need to redirect the
+  // user if gatewayf was not used.
+  if (_ding_gatewayf_is_logged_in_with_gatewayf()) {
+    ding_gatewayf_user_logout();
+  }
+}
+
+
+/**
  * Redirect the user to login page at the gatewayf service.
  */
-function ding_gatewayf_login() {
+function ding_gatewayf_user_login() {
   $config = _ding_gatewayf_load_configuration();
 
   // Redirect the user by setting the location header.
@@ -74,15 +86,13 @@ function ding_gatewayf_login() {
 /**
  * Redirect the user to logout page at the gatewayf service.
  */
-function ding_gatewayf_logout() {
+function ding_gatewayf_user_logout() {
   $config = _ding_gatewayf_load_configuration();
 
   // Redirect to the gateway.
   header('Location:' . $config['service']['endpoint'] . '?returnUrl=' . $config['service']['callback'] . '&op=logout');
   exit;
 }
-
-
 
 /**
  * Handle callback from gatewayf.
