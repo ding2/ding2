@@ -10,7 +10,7 @@
 function ding_wayf_dk_create_user_permission() {
   return array(
     'administer wayf user creation' => array(
-      'title' => t('Administer WAYF (user creation)'),
+      'title' => t('Administer WAYF user creation'),
     ),
   );
 }
