@@ -109,6 +109,13 @@ class DingWayfGateway implements WayfServiceInterface {
   /**
    * Generate sp metadata based on configuration.
    *
+   * This service class does not provide any metadata, which is normally used to
+   * configure the service end-point at wayf.dk. The reason is that this is
+   * handle at gateway WAYF by DBC.
+   *
+   * So this return a simple message, which is displayed under the metadata tab
+   * in the configuration UI.
+   *
    * @return string
    *   Message that no metadata is provided by this service class.
    */
