@@ -342,8 +342,9 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iRemoveTheAuthorFromFollowedAuthors($arg1)
     {
         $this->gotoListPage('Forfattere jeg følger');
+        $listId = $this->getListId('Forfattere jeg følger');
         $found = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', 'a:contains("' . $arg1 . '") + form[id^="ding-list-remove-element"] #edit-submit');
+            ->find('css', 'form[action="/list/' . $listId . '"] #edit-submit');
         if (!$found) {
             throw new \Exception("Remove link doesn't exist");
         }
