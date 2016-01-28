@@ -896,10 +896,12 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iChooseTheFirstSearchResult()
     {
         $found = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.ting-object .heading a');
+            ->find('css', '.search-results .search-result:nth-child(1) .ting-object .heading a');
         if (!$found) {
             throw new Exception("Couldn't find search result.");
         }
+        $this->ding2Context->minkContext->getSession()
+            ->evaluateScript('jQuery(document).scrollTo(".search-results .search-result:nth-child(1) .ting-object .heading a")');
         $found->click();
     }
 
