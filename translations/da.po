@@ -13363,7 +13363,7 @@ msgstr "Administration"
 
 #: bpi.module:190
 msgid "Syndicate content"
-msgstr "Syndikér indhold"
+msgstr "Hent indhold"
 
 #: bpi.module:194
 msgid "Push content"
@@ -45451,6 +45451,10 @@ msgstr "Log ind typer"
 msgid "Login with NemID"
 msgstr "Log ind med NemID"
 
+#: /
+msgid "Login with !logo"
+msgstr "Log ind med !logo"
+
 msgid "Close"
 msgstr "Luk"
 
@@ -48224,3 +48228,16 @@ msgstr "Ding!"
 #: ting_oembed_features/ting_oembed_features.info:0
 msgid "Ting oEmbed Features"
 msgstr "Ting oEmbed funktioner"
+
+#: /wayf/login?eduPersonTargetedID=WAYF-DK-e767c06edaad0f8d23e785bbc470e7f37ad03e8d&mail=&logintype=nemlogin
+msgid "Something went wrong. Please try again or !url of WAYF."
+msgstr ""
+"Du er stadig logget ind ved NemID, og det anbefales derfor at du klikker på !url for at logge ud, samt at du derefter lukker din browser."
+
+#: /wayf/login?eduPersonTargetedID=WAYF-DK-e767c06edaad0f8d23e785bbc470e7f37ad03e8d&mail=&logintype=nemlogin
+msgid "logout"
+msgstr "Log ud"
+
+#: /system/ajax
+msgid "Authenticate"
+msgstr "<p>Du har indtastet et forkert lånernummer/cpr eller en forkert pinkode, eller du er ikke oprettet som låner ved biblioteket.</p><p>Har du glemt din pinkode så kontakt dit lokale  <a href="@url">bibliotek</a>.</p>"

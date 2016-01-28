@@ -438,7 +438,7 @@ class AlmaClient {
     $params = array(
       'borrCard' => $borr_card,
       'pinCode' => $pin_code,
-      'reservable' => $reservation['id'],
+      'reservable' => rawurlencode($reservation['id']),
       'reservationPickUpBranch' => $reservation['pickup_branch'],
       'reservationValidFrom' => $reservation['valid_from'],
       'reservationValidTo' => $reservation['valid_to'],
