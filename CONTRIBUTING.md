@@ -6,7 +6,7 @@ Thank you for your interest in contributing. It is greatly appreciated.
 
 Code contributions to this project follow this process and set of requirements:
 
-1. As a contributor you should create an issue describing the suggested change on [our Redmine installation platform.dandigbib.org](http://platform.dandigbib.org/) in Danish. This allows the business side of the project to evaluate your suggestion. If it accepted for inclusion it will be marked for review. The only exception from this rule is if the change does not affect end users in any way. This could be developer documentation changes, technical tests or changes to tools.
+1. As a contributor you should [create an issue](http://platform.dandigbib.org/projects/ddb-cms/issues/new) describing the suggested change on [our Redmine installation platform.dandigbib.org](http://platform.dandigbib.org/projects/ddb-cms/) in Danish. This allows the business side of the project to evaluate your suggestion. If it accepted for inclusion it will be marked for review. To create an issue you must [have an account on the site](http://platform.dandigbib.org/account/register). The only exception from this rule is if the change does not affect end users in any way. This could be developer documentation changes, technical tests or changes to tools.
 2. All communication on GitHub should be in English.
 3. The title of your pull request must refer to the Redmine issue number if applicable e.g. *#[issue number]: [short summary of change]*.
 4. The description of your pull request should include a link to the issue.
