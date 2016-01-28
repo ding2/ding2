@@ -7,7 +7,7 @@ Feature: Follow tags
     Given I am logged in as a library user
     And the list "Mine interesser" exists
 
-  @api
+  @api @javascript
   Scenario: Search for a tag
     Given I have searched for "science fiction"
     When I choose the first search result
