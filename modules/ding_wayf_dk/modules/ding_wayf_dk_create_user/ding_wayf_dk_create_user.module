@@ -105,7 +105,7 @@ function ding_wayf_dk_create_user_wayf_dk_login_authenticate_result_alter($resul
       // Check if limit have been reached.
       if ($from->diff($to)->y < $limit) {
         // The age limit has to kick in.
-        drupal_set_message('You are not allowed to automatically be created because of the age limit. Please go to your local library to registry.');
+        drupal_set_message(t('You are not allowed to automatically be created because of the age limit (!limit years). Please go to your local library to registry.', array('!limit' => $limit)));
 
         // Redirect to front page.
         drupal_goto('<front>');
