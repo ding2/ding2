@@ -15,7 +15,7 @@ Feature: Follow tags
 
   @api @javascript
   Scenario: Follow a tag
-    Given I have chosen a book material with the tag "science fiction"
+    Given I have chosen a book material "870970-basis%3A00897868" with the tag "science fiction"
     When I follow the tag "science fiction"
     Then I should see the tag "science fiction" on my list "Mine interesser"
 

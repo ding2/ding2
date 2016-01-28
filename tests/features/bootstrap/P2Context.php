@@ -874,20 +874,12 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given I have chosen a book material with the tag :tag
+     * @Given I have chosen a book material :material with the tag :tag
      */
-    public function iHaveChosenABookMaterialWithTheTag($tag)
+    public function iHaveChosenABookMaterialWithTheTag($material, $tag)
     {
-        $this->gotoSearchPage($tag);
-        $link = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '#edit-type-bog');
-        if (!$link) {
-            throw new Exception("Couldn't filter for book type");
-        }
-        $link->check();
-
-        // Go to material.
-        $this->iChooseTheFirstSearchResult();
+        $this->gotoPage('/ting/object/' . $material);
+        $this->ding2Context->minkContext->assertElementOnPage('.subject:contains("' . $tag . '")');
     }
 
     /**
