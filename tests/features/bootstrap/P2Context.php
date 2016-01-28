@@ -751,11 +751,11 @@ class P2Context implements Context, SnippetAcceptingContext
         if (!$found) {
             throw new \Exception("Couldn't find search result");
         }
+        $this->ding2Context->scrollTo($found);
         $found->click();
 
         // Make sure document is ready before we return.
-        $this->ding2Context->minkContext->getSession()
-            ->evaluateScript('window.jQuery(document).ready(function() { return; });');
+        $this->ding2Context->waitForPage();
     }
 
     /**
