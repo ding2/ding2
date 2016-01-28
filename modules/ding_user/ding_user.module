@@ -267,7 +267,7 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
         '#type' => 'fieldset',
         '#title' => t('Change pincode'),
       );
-      if (!module_exists('ding_wayf')) {
+      if (!isset($_SESSION['wayf_login'])) {
         $form['pass']['pincode_old'] = array(
           '#type' => 'password',
           '#title' => t('Confirm old pincode'),
