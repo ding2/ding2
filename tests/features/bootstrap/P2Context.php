@@ -113,6 +113,8 @@ class P2Context implements Context, SnippetAcceptingContext
 
         // Sadly the links isn't related to the button in any way.
         $link = $page->find('css', 'a:contains("' . $text . '")');
+        $this->ding2Context->minkContext->getSession()
+            ->evaluateScript('jQuery(document).scrollTo("a:contains(\"' . $text . '\")");');
         if (!$link) {
             throw new \Exception($errorMessage);
         }
@@ -223,6 +225,8 @@ class P2Context implements Context, SnippetAcceptingContext
 
         // Sadly the links isn't related to the button in any way.
         $link = $page->find('css', 'a[href^="' . $href . '"]');
+        $this->ding2Context->minkContext->getSession()
+            ->evaluateScript('jQuery(document).scrollTo("a[href^=\"' . $href . '\"]");');
         if (!$link) {
             throw new \Exception($errorMessage);
         }
