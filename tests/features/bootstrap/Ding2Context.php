@@ -6,7 +6,7 @@ use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Element\ElementInterface;
-
+use Behat\Mink\Exception\UnsupportedDriverActionException;
 /**
  * Provides step definitions for interacting with Ding2.
  */
@@ -164,6 +164,8 @@ class Ding2Context implements Context, SnippetAcceptingContext
         try {
             $this->minkContext->getSession()
             ->evaluateScript('jQuery(document).scrollTo(document.evaluate("' . $xpath. '", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null ).singleNodeValue);');
+        } catch (UnsupportedDriverActionException $e) {
+            // Ignore.
         } catch (Exception $e) {
             throw new Exception('Could not scroll to element');
         }
@@ -174,8 +176,14 @@ class Ding2Context implements Context, SnippetAcceptingContext
      */
     public function waitForPage()
     {
+        try {
         // Strictly, this waits for jQuery to be loaded, but it seems
         // sufficient.
-        $this->drupalContext->getSession()->wait(5000, 'typeof window.jQuery == "function"');
+            $this->drupalContext->getSession()->wait(5000, 'typeof window.jQuery == "function"');
+        } catch (UnsupportedDriverActionException $e) {
+            // Ignore.
+        } catch (Exception $e) {
+            throw new Exception('Could not scroll to element');
+        }
     }
 }
