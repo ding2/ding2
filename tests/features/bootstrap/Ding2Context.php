@@ -106,6 +106,7 @@ class Ding2Context implements Context, SnippetAcceptingContext
 
         // Log in.
         $submit->click();
+        $this->waitForPage();
 
         if ($this->ding2MessagesContext) {
             $this->ding2MessagesContext->collectMessages();
@@ -166,5 +167,15 @@ class Ding2Context implements Context, SnippetAcceptingContext
         } catch (Exception $e) {
             throw new Exception('Could not scroll to element');
         }
+    }
+
+    /**
+     * Wait for page to load.
+     */
+    public function waitForPage()
+    {
+        // Strictly, this waits for jQuery to be loaded, but it seems
+        // sufficient.
+        $this->drupalContext->getSession()->wait(5000, 'typeof window.jQuery == "function"');
     }
 }
