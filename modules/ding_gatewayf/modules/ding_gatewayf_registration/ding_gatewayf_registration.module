@@ -1,6 +1,7 @@
 <?php
 /**
  * @file
+ * Handle user self registration after login into gatewayf.
  */
 
 define('DING_GATEWAYF_REGISTRATION_ACCEPTANCE_URL', 'gatewayf/registration/acceptance');
@@ -198,7 +199,6 @@ function ding_gatewayf_registration_form_ding_gatewayf_admin_settings_form_alter
   );
 }
 
-
 /**
  * Generate render array for the information page.
  *
@@ -345,6 +345,12 @@ function ding_gatewayf_registration_acceptance_submit($form, $form_state) {
   }
 }
 
+/**
+ * Render the success page displayed after self registration.
+ *
+ * @return array
+ *   Render array with the page to display.
+ */
 function ding_gatewayf_registration_success() {
   $config = _ding_gatewayf_registration_load_config();
 
@@ -362,8 +368,8 @@ function ding_gatewayf_registration_success() {
  *   The social security number from the gatewayf.
  *
  * @return bool
- *  If the age limit is given and met TRUE else FALSE. If age limit is not given
- *  TRUE will always be returned.
+ *   If the age limit is given and met TRUE else FALSE. If age limit is not
+ *   given TRUE will always be returned.
  */
 function _ding_gatewayf_registration_check_age_limit($cpr) {
   $config = _ding_gatewayf_registration_load_config();

@@ -1,6 +1,7 @@
 <?php
 /**
  * @file
+ * Handle module clean up at uninstall and update hooks.
  */
 
 /**

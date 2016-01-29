@@ -195,11 +195,11 @@ function ding_gatewayf_callback() {
         watchdog('ding_gatewayf', 'Authentication data: %data', array('%data' => var_export($_POST, TRUE)), WATCHDOG_DEBUG);
       }
 
-      // Set flag in session that we are logged in via gateway. It's not prefixed
-      // with gatewayf, but just wayf so it can be used by all wayf modules to
-      // indicate that the user was logged in via wayf. This could then be used
-      // to change behaviour in forgotten pin-code in the user profile (not
-      // requiring old password when logged in with wayf).
+      // Set flag in session that we are logged in via gateway. It's not
+      // prefixed with gatewayf, but just wayf so it can be used by all wayf
+      // modules to indicate that the user was logged in via wayf. This could
+      // then be used to change behaviour in forgotten pin-code in the user
+      // profile (not requiring old password when logged in with wayf).
       $_SESSION[DING_GATEWAYF_IS_LOGGED_IN] = TRUE;
 
       // Gatewayf does some url encoding of the destination parameter in the
@@ -208,11 +208,10 @@ function ding_gatewayf_callback() {
         $_REQUEST['destination'] = substr($_REQUEST['destination'], 0, strpos($_REQUEST['destination'], '?'));
       }
 
-       // Log into the library system and Drupal.
+      // Log into the library system and Drupal.
       _ding_gatewayf_provider_login($attributes);
     }
     else {
-      // Log error.
       watchdog('ding_gatewayf', 'The gateway returned no error and no eduPersonTargetedID', array(), WATCHDOG_ERROR);
 
       // Set message to the user.
@@ -263,7 +262,7 @@ function _ding_gatewayf_provider_login(array $attributes) {
       // through the whole process in ding_user.
       drupal_form_submit('user_login_block', $form_state);
 
-      // Check if the submission trigger any form errors..
+      // Check if the submission trigger any form errors.
       $errors = form_get_errors();
       if (!empty($errors)) {
         if (module_exists('ding_gatewayf_registration')) {
@@ -271,9 +270,9 @@ function _ding_gatewayf_provider_login(array $attributes) {
           drupal_get_messages(NULL, TRUE);
 
           // Check if this was an register user request and temporally store
-          // information about the user in the session. Due to the redirects this
-          // is the only way to get the information from login callback to the
-          // acceptance form.
+          // information about the user in the session. Due to the redirects
+          // this is the only way to get the information from login callback to
+          // the acceptance form.
           if (_ding_gatewayf_registration_is_registration_request()) {
             $_SESSION[DING_GATEWAYF_ATTRIBUTES] = $required_attr;
 
@@ -282,7 +281,8 @@ function _ding_gatewayf_provider_login(array $attributes) {
             drupal_get_messages(NULL, TRUE);
           }
           else {
-            // Display message that the user don't have an account an then can create on or logout.
+            // Display message that the user don't have an account an then can
+            // create on or logout.
             drupal_set_message(t('You do not have an user account at the public library. If you wish to create an user account !user_url . You are still logged in at WAYF, so you can !logout to logout of WAYF.', array(
               '!logout' => l(t('click her'), DING_GATEWAYF_LOGOUT_URL),
               '!user_url' => l(t('click her'), DING_GATEWAYF_REGISTRATION_INFORMATION_URL),
@@ -294,8 +294,9 @@ function _ding_gatewayf_provider_login(array $attributes) {
           drupal_set_message(t('Something went wrong. Please try again or !url of WAYF.', array('!url' => l(t('logout'), DING_GATEWAYF_LOGOUT_URL))), 'warning');
         }
       }
-      else if (_ding_gatewayf_registration_is_registration_request()) {
-        // Account exists in the library system, so skip self registration request.
+      elseif (_ding_gatewayf_registration_is_registration_request()) {
+        // Account exists in the library system, so skip self registration
+        // request.
         drupal_set_message(t('You already have an user account at the library. So we have just logged you in.'));
 
         // Remove the redirect to acceptance page.
@@ -314,15 +315,13 @@ function _ding_gatewayf_provider_login(array $attributes) {
   _ding_gatewayf_redirect_user();
 }
 
-
-
 /**
  * Redirect the user after login.
  *
  * If destination query string exists the user is redirect to it else send to
  * profile page.
  *
- * @param $url
+ * @param string $url
  *   The url to redirect to if destination is not set in the request. Defaults
  *   to /user.
  */
@@ -350,7 +349,7 @@ function _ding_gatewayf_redirect_user($url = 'user') {
  *   Attributes filter based on the active provider. Defaults to
  *   'schacPersonalUniqueID' with social security number (CPR).
  */
-function _ding_gatewayf_get_credentials($attributes) {
+function _ding_gatewayf_get_credentials(array $attributes) {
   // Set default required attributes.
   $required_attributes = array(
     'schacPersonalUniqueID' => array(
@@ -380,7 +379,7 @@ function _ding_gatewayf_get_credentials($attributes) {
  * @return array
  *   Will be empty if not all required attributes is present.
  */
-function _ding_gatewayf_get_required_attributes($attributes, $required_attributes) {
+function _ding_gatewayf_get_required_attributes(array $attributes, array $required_attributes) {
   $attribute_list = array();
 
   if (isset($attributes) && is_array($required_attributes)) {

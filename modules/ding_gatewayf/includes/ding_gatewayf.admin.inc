@@ -1,6 +1,7 @@
 <?php
 /**
  * @file
+ * Defines the administration interface for the module.
  */
 
 /**
@@ -28,9 +29,6 @@ function ding_gatewayf_admin_settings_form() {
     '#default_value' => isset($defaults['service']['endpoint']) ? $defaults['service']['endpoint'] : 'https://bibliotek.dk/gatewayf/gatewayf.php',
   );
 
-  // IDP selection
-
-
   $form['ding_gatewayf']['development'] = array(
     '#type' => 'fieldset',
     '#title' => t('Development configuration'),
@@ -44,7 +42,6 @@ function ding_gatewayf_admin_settings_form() {
     '#default_value' => isset($defaults['development']['log_auth_data']) ? $defaults['development']['log_auth_data'] : FALSE,
     '#description' => t('Log authentication data including attributes. This can be useful for debugging.'),
   );
-
 
   return system_settings_form($form);
 }
