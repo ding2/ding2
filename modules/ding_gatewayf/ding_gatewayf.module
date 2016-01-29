@@ -163,7 +163,7 @@ function ding_gatewayf_login() {
 function ding_gatewayf_logout() {
   $config = _ding_gatewayf_load_configuration();
 
-  // Ensure session variables are remove.
+  // Ensure gatewayf attributes store in the session is removed.
   unset($_SESSION[DING_GATEWAYF_ATTRIBUTES]);
 
   // Redirect to the gateway.

@@ -330,6 +330,16 @@ function ding_gatewayf_registration_acceptance_submit($form, $form_state) {
   $required_attributes = $_SESSION[DING_GATEWAYF_ATTRIBUTES];
   unset($_SESSION[DING_GATEWAYF_ATTRIBUTES]);
 
+  // Check that the logged in user is over the age limit.
+  if (!_ding_gatewayf_registration_is_age_limit_met($required_attributes['schacPersonalUniqueID'])) {
+    $config = _ding_gatewayf_registration_load_config();
+    drupal_set_message(t('You are not allowed to automatically be created because of the age limit (!limit years). Please go to your local library to registry.', array('!limit' => $config['age_limit'])));
+
+    // Logout the user from gatewayf.
+    ding_gatewayf_logout();
+    return;
+  }
+
   // Try to create the user at the provider.
   try {
     // Create user as the provider.
@@ -371,7 +381,7 @@ function ding_gatewayf_registration_success() {
  *   If the age limit is given and met TRUE else FALSE. If age limit is not
  *   given TRUE will always be returned.
  */
-function _ding_gatewayf_registration_check_age_limit($cpr) {
+function _ding_gatewayf_registration_is_age_limit_met($cpr) {
   $config = _ding_gatewayf_registration_load_config();
 
   // Check if age limit should be set.
