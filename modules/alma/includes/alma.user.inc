@@ -8,7 +8,14 @@
  * Implements hook_user_authenticate().
  *
  * @param string $uid
+ *   The users id.
  * @param string $pass
+ *   The users pass code.
+ *
+ * @return array
+ *   Information from the provider about the user. Defaults to having the
+ *   'success' key set to FALSE. If the user information is not obtained from
+ *   the provider.
  */
 function alma_user_authenticate($uid, $pass) {
   $return = array(
@@ -150,6 +157,7 @@ function alma_user_clear_cache($account) {
  *   The selected default branch.
  *
  * @throws \Exception
+ *   If the user exists at the provider.
  */
 function alma_user_create($cpr, $pin_code, $name, $mail, $branch) {
   try {
