@@ -222,6 +222,7 @@ function ting_search_context_ting_pre_execute($request) {
       'facet.type' => 'facet.type',
       'facet.category' => 'facet.category',
       'facet.genreCategory' => 'facet.genreCategory',
+      'facet.fictionSubject' => 'facet.fictionSubject',
     );
 
     $facets = array_flip($request->getFacets()) + $required_facets;
