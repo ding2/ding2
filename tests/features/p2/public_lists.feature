@@ -46,3 +46,17 @@ Feature: Public lists
     Given I have created a public list "My fruit books"
     When I have searched for "Essential guide to back garden self-sufficiency"
     Then I should not be able to add material to the list "My fruit books" as a different user
+
+  @api @javascript
+  Scenario: Make list shared for other users to read
+    Given I have created a list "My family's vacation books"
+    When I make the list "My family's vacation books" read shared
+    Then I should be able to see the list "My family's vacation books" as a different user
+    And I should not be able to add material to the list "My family's vacation books" as a different user
+
+  @api @javascript
+  Scenario: Make list shared for other users to add material
+    Given I have created a list "My special books for my friends"
+    When I make the list "My special books for my friends" write shared
+    Then I should be able to see the list "My special books for my friends" as a different user
+    And I should be able to add material to the list "My special books for my friends" as a different user
