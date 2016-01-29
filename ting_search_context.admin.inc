@@ -191,7 +191,7 @@ function ting_search_context_admin_context_form_validate($form, &$form_state) {
         }
       }
 
-      // Validation (skip empty)
+      // Validation (skip empty).
       if (!empty($subject)) {
         $trimmed_subjects[] = $subject;
 

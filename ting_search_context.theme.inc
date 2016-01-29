@@ -82,4 +82,3 @@ function template_preprocess_ting_search_context_content(&$vars, $hook) {
   // Title.
   $vars['title'] = $wrapper->title->value(array('sanitize' => TRUE));
 }
-
