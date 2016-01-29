@@ -64,6 +64,7 @@
    */
   function placement_of_wayf() {
     var wrapper = $('<section class="wayf-wrapper"></section>');
+    $('.pane-ding-gatewayf-registration-registration').appendTo(wrapper);
     $('.pane-ding-gatewayf-login').appendTo(wrapper);
     wrapper.appendTo($('.header-inner'));
   }

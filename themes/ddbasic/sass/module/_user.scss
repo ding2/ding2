@@ -505,6 +505,22 @@
   }
 }
 
+.pane-ding-gatewayf-registration-registration {
+  display: inline-block;
+
+  .ding-gatewayf--registration {
+    background-color: #FFF;
+
+    @include border-radius($button-border-radius);
+
+    a {
+      color: $topbar-background-color;
+    }
+
+    padding: 4px 15px;
+  }
+}
+
 /* User profile
    ========================================================================== */
 
