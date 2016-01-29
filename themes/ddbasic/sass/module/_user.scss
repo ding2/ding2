@@ -513,12 +513,16 @@
 
     @include border-radius($button-border-radius);
 
-    a {
+    .ding-gatewayf-link {
       color: $topbar-background-color;
     }
 
     padding: 4px 15px;
   }
+}
+
+.ding-gatewayf--link-wrapper {
+  margin-top: $medium-spacing;
 }
 
 /* User profile
