@@ -1,0 +1,5 @@
+name = Ding gatewayf registration
+description = Allow users to preform self regristration with gatewayf.
+core = 7.x
+package = Ding!
+dependencies[] = ding_gatewayf

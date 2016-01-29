@@ -6,7 +6,11 @@
 
 define('DING_GATEWAYF_LOGIN_URL', 'gatewayf/login');
 define('DING_GATEWAYF_LOGOUT_URL', 'gatewayf/logout');
+define('DING_GATEWAYF_CALLBACK_URL', 'gatewayf/callback');
+
+// Constant used as index into the users session.
 define('DING_GATEWAYF_IS_LOGGED_IN', 'wayf_logged_in');
+define('DING_GATEWAYF_ATTRIBUTES', 'ding_gatewayf_attributes');
 
 /**
  * Implements hook_permission().
@@ -37,14 +41,14 @@ function ding_gatewayf_menu() {
   );
 
   // Redirect the user to gatewayf for authentication.
-  $items['gatewayf/login'] = array(
+  $items[DING_GATEWAYF_LOGIN_URL] = array(
     'page callback' => 'ding_gatewayf_login',
     'access callback' => 'user_is_anonymous',
     'type' => MENU_CALLBACK,
   );
 
   // Redirect the user to gatewayf for logout.
-  $items['gatewayf/logout'] = array(
+  $items[DING_GATEWAYF_LOGOUT_URL] = array(
     'page callback' => 'ding_gatewayf_logout',
     'access callback' => 'user_is_logged_in',
     'type' => MENU_CALLBACK,
@@ -52,7 +56,7 @@ function ding_gatewayf_menu() {
 
   // Gatewayf callback which is limited to anonymous users to prevent extra
   // login and redirects.
-  $items['gatewayf/callback'] = array(
+  $items[DING_GATEWAYF_CALLBACK_URL] = array(
     'page callback' => 'ding_gatewayf_callback',
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
@@ -82,7 +86,7 @@ function ding_gatewayf_theme($existing, $type, $theme, $path) {
 function ding_gatewayf_block_info() {
   return array(
     'login' => array(
-      'info' => t('Ding GateWAYF login'),
+      'info' => t('Ding GateWAYF login link'),
     ),
   );
 }
@@ -141,8 +145,15 @@ function ding_gatewayf_user_logout() {
 function ding_gatewayf_login() {
   $config = _ding_gatewayf_load_configuration();
 
+  // Check if destination is set and if it is encode it into the callback URL so
+  // the user can be redirect to correct page after login at gatewayf.
+  $callback = $config['service']['callback'];
+  if (!empty($_REQUEST['destination'])) {
+    $callback = urlencode($callback . '?destination=' . $_REQUEST['destination']);
+  }
+
   // Redirect the user by setting the location header.
-  header('Location:' . $config['service']['endpoint'] . '?returnUrl=' . $config['service']['callback'] . '&idp=' . $config['service']['idp']);
+  header('Location:' . $config['service']['endpoint'] . '?returnUrl=' . $callback . '&idp=' . $config['service']['idp']);
   exit;
 }
 
@@ -151,6 +162,9 @@ function ding_gatewayf_login() {
  */
 function ding_gatewayf_logout() {
   $config = _ding_gatewayf_load_configuration();
+
+  // Ensure session variables are remove.
+  unset($_SESSION[DING_GATEWAYF_ATTRIBUTES]);
 
   // Redirect to the gateway.
   header('Location:' . $config['service']['endpoint'] . '?returnUrl=' . $config['service']['callback'] . '&op=logout');
@@ -188,11 +202,23 @@ function ding_gatewayf_callback() {
       // requiring old password when logged in with wayf).
       $_SESSION[DING_GATEWAYF_IS_LOGGED_IN] = TRUE;
 
-      // Log into the library system and Drupal.
+      // Gatewayf does some url encoding of the destination parameter in the
+      // request, so we need to clean it up.
+      if (!empty($_REQUEST['destination'])) {
+        $_REQUEST['destination'] = substr($_REQUEST['destination'], 0, strpos($_REQUEST['destination'], '?'));
+      }
+
+       // Log into the library system and Drupal.
       _ding_gatewayf_provider_login($attributes);
     }
     else {
+      // Log error.
       watchdog('ding_gatewayf', 'The gateway returned no error and no eduPersonTargetedID', array(), WATCHDOG_ERROR);
+
+      // Set message to the user.
+      drupal_set_message(t('The login with nem-login failed please try again later.'), 'error');
+
+      _ding_gatewayf_redirect_user('<front>');
     }
   }
   else {
@@ -202,7 +228,7 @@ function ding_gatewayf_callback() {
     // The gatewayf logout service does not return any information about the
     // success of the logout request, so the only thing we can do is redirect to
     // drupal logout.
-    drupal_goto('user/logout');
+    _ding_gatewayf_redirect_user('user/logout');
   }
 }
 
@@ -240,25 +266,44 @@ function _ding_gatewayf_provider_login(array $attributes) {
       // Check if the submission trigger any form errors..
       $errors = form_get_errors();
       if (!empty($errors)) {
-        if (module_exists('ding_gatewayf_create_user') && ding_provider_implements('user', 'create')) {
+        if (module_exists('ding_gatewayf_registration')) {
           // Clean out message from the login form.
           drupal_get_messages(NULL, TRUE);
 
-          // Set
-          drupal_set_message(t('You do not have an user account at the public library. If you wish to create an user account !user_url . You are still logged in at WAYF, so you can !logout to logout of WAYF.', array(
-            '!logout' => l(t('click her'), DING_GATEWAYF_LOGOUT_URL),
-            '!user_url' => l(t('click her'), 'wayf/create-user/before-page'),
-          )), 'warning');
+          // Check if this was an register user request and temporally store
+          // information about the user in the session. Due to the redirects this
+          // is the only way to get the information from login callback to the
+          // acceptance form.
+          if (_ding_gatewayf_registration_is_registration_request()) {
+            $_SESSION[DING_GATEWAYF_ATTRIBUTES] = $required_attr;
+
+            // Clean out message from the login form. So they will not be shown
+            // on the acceptance page.
+            drupal_get_messages(NULL, TRUE);
+          }
+          else {
+            // Display message that the user don't have an account an then can create on or logout.
+            drupal_set_message(t('You do not have an user account at the public library. If you wish to create an user account !user_url . You are still logged in at WAYF, so you can !logout to logout of WAYF.', array(
+              '!logout' => l(t('click her'), DING_GATEWAYF_LOGOUT_URL),
+              '!user_url' => l(t('click her'), DING_GATEWAYF_REGISTRATION_INFORMATION_URL),
+            )), 'warning');
+          }
         }
         else {
-          // @TODO: This is not the optimal ting to due, but right now this is
-          //        the only solution with in the time given.
-          // Clean out message from the login form.
-          drupal_get_messages(NULL, TRUE);
-
           // Set new default message.
           drupal_set_message(t('Something went wrong. Please try again or !url of WAYF.', array('!url' => l(t('logout'), DING_GATEWAYF_LOGOUT_URL))), 'warning');
         }
+      }
+      else if (_ding_gatewayf_registration_is_registration_request()) {
+        // Account exists in the library system, so skip self registration request.
+        drupal_set_message(t('You already have an user account at the library. So we have just logged you in.'));
+
+        // Remove the redirect to acceptance page.
+        unset($_REQUEST['destination']);
+        unset($_GET['destination']);
+
+        // Redirect to the front-page.
+        _ding_gatewayf_redirect_user('<front>');
       }
     }
     else {
@@ -269,15 +314,24 @@ function _ding_gatewayf_provider_login(array $attributes) {
   _ding_gatewayf_redirect_user();
 }
 
+
+
 /**
  * Redirect the user after login.
  *
  * If destination query string exists the user is redirect to it else send to
  * profile page.
+ *
+ * @param $url
+ *   The url to redirect to if destination is not set in the request. Defaults
+ *   to /user.
  */
-function _ding_gatewayf_redirect_user() {
-  $url = 'user';
+function _ding_gatewayf_redirect_user($url = 'user') {
   if (!empty($_REQUEST['destination'])) {
+    // When logged in with gatewayf the destination is part of the get request.
+    // So to use the cleaned up destination we unset it.
+    unset($_GET['destination']);
+
     // We do not user drupal_get_destination here as it will set the destination
     // if one do not exists.
     $url = $_REQUEST['destination'];
@@ -375,25 +429,21 @@ function _ding_gatewayf_extract_data($data, $field = '') {
  *   The configuration with valid default values.
  */
 function _ding_gatewayf_load_configuration() {
-  $config = variable_get('ding_gatewayf', array());
-
-  // Ensure default service endpoint is set.
-  if (empty($config['service']['endpoint'])) {
-    $config['service']['endpoint'] = 'https://bibliotek.dk/gatewayf/gatewayf.php';
-  }
-
-  // Add extra default configuration for service, which should not be alter be
-  // site administrators.
   global $base_url;
-  $config['service'] += array(
-    'callback' => $base_url . '/gatewayf/callback',
-    'idp' => 'nemlogin',
+  $config = variable_get('ding_gatewayf', array()) + array(
+    'service' => array(
+      'endpoint' => 'https://bibliotek.dk/gatewayf/gatewayf.php',
+    ),
+    'development' => array(
+      'log_auth_data' => FALSE,
+    ),
   );
 
-  // Ensure default development config.
-  if (empty($config['development']['log_auth_data'])) {
-    $config['development']['log_auth_data'] = FALSE;
-  }
+  // Extend configuration with hard-coded values.
+  $config['service'] += array(
+    'callback' => $base_url . '/' . DING_GATEWAYF_CALLBACK_URL,
+    'idp' => 'nemlogin',
+  );
 
   return $config;
 }

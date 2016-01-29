@@ -1,0 +1,12 @@
+<?php
+/**
+ * @file
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_gatewayf_registration_uninstall() {
+  // Remove configuration variable.
+  variable_del('ding_gatewayf_registration');
+}
