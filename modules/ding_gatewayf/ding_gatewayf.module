@@ -1,6 +1,7 @@
 <?php
 /**
  * @file
+ * Defines hooks into the system and main functionality for the module.
  */
 
 define('DING_GATEWAYF_LOGIN_URL', 'gatewayf/login');
@@ -157,7 +158,9 @@ function ding_gatewayf_logout() {
 }
 
 /**
- * Handle callback from gatewayf.
+ * Handle callback from the gatewayf service.
+ *
+ * This handles all callbacks from the service both after login and logout.
  */
 function ding_gatewayf_callback() {
   // Check error callback.
@@ -248,7 +251,7 @@ function _ding_gatewayf_provider_login(array $attributes) {
           )), 'warning');
         }
         else {
-          // @TODO: This is not the optimal ting to due, but rigth now this is
+          // @TODO: This is not the optimal ting to due, but right now this is
           //        the only solution with in the time given.
           // Clean out message from the login form.
           drupal_get_messages(NULL, TRUE);
@@ -396,7 +399,7 @@ function _ding_gatewayf_load_configuration() {
 }
 
 /**
- * Check if the currect session is logged in with gatewayf
+ * Check if the current user session is logged in with gatewayf service.
  *
  * @return bool
  *   TRUE if logged in with gatewayf else FALSE.
