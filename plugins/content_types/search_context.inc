@@ -26,12 +26,16 @@ function ting_search_context_search_context_content_type_render($subtype, $conf,
   if ($search_results) {
     module_load_include('search_context.inc', 'ting_search_context');
     $context_id = ting_search_context_calculate_context($search_results->facets, $search_results->numTotalObjects, $search_results->search_key);
-  }
-  // Get position setting.
-  $position = variable_get('ting_search_context_position', 'js-below-search-result');
 
-  // Empty block to be filled by an ajax callback.
-  $block->content = theme('ting_search_context', array('context_id' => $context_id, 'position' => $position));
+    // Get position setting.
+    $position = variable_get('ting_search_context_position', 'js-below-search-result');
+
+    // Empty block to be filled by an ajax callback.
+    $block->content = theme('ting_search_context', array('context_id' => $context_id, 'position' => $position));
+
+  } else {
+    $block->content = '';
+  }
   return $block;
 }
 
