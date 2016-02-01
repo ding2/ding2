@@ -77,6 +77,8 @@ You don't test everything
 Structure
 How to divide things
 
+[How to write tests](docs/how-to-write-tests.md)
+
 ### Behat features ###
 Focus on phrasing and business logic
 
