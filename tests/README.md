@@ -12,8 +12,10 @@
 
 ## Usage / how to run test ##
 
+```
 make test-setup
 ./bin/behat --tags '~wip'
+```
 
 ### Profiles ###
 
