@@ -96,12 +96,13 @@ if ($view_mode == 'teaser') {
   <?php endif ?>
   <div class="content"<?php print $content_attributes; ?>>
     <div class="libraries">
+      <?php hide($content['opening_hours']); ?>
       <?php print render($content); ?>
     </div>
-    <?php if (!empty($opening_hours)) : ?>
-    <div class="libraries-opening-hours js-opening-hours-toggle-element">
-      <?php print $opening_hours;  ?>
-    </div>
+    <?php if (isset($content['opening_hours'])) : ?>
+      <?php foreach ($content['opening_hours'] as $opening_hours) : ?>
+        <?php print render($opening_hours);  ?>
+      <?php endforeach; ?>
     <?php endif; ?>
   </div>
 </div>

@@ -272,20 +272,32 @@ function ddbasic_preprocess_user_picture(&$variables) {
 }
 
 /**
+ * Implements hook_node_view_alter().
+ *
+ * Add opening hours toggle to opening hours field if present.
+ */
+function ddbasic_node_view_alter(&$build) {
+  foreach (array_keys($build) as $field) {
+
+    if (preg_match('/^opening_hours_week_*(\d+)*/', $field, $matches)) {
+      $build[$field][0]['#prefix'] = '<a class="opening-hours-toggle js-opening-hours-toggle js-collapsed" href="#toggle-opening-hours">'.$build[$field]['#title'].'</a><div class="libraries-opening-hours js-opening-hours-toggle-element">';
+      $build[$field][0]['#suffix'] = '</div>';
+
+      if (!isset($build['opening_hours'])) {
+        $build['opening_hours'] = array();
+      }
+      $build['opening_hours'][] = $build[$field];
+      unset($build[$field]);
+    }
+  }
+}
+
+/**
  * Implements hook_preprocess_node().
  *
  * Override or insert variables into the node templates.
  */
 function ddbasic_preprocess_node(&$variables, $hook) {
-  // Opening hours on library list. but not on the search page.
-  $path = drupal_get_path_alias();
-  if (!(strpos($path, 'search', 0) === 0)) {
-    $hooks = theme_get_registry(FALSE);
-    if (isset($hooks['opening_hours_week']) && $variables['type'] == 'ding_library') {
-      $variables['opening_hours'] = theme('opening_hours_week', array('node' => $variables['node']));
-    }
-  }
-
   // Add ddbasic_byline to variables.
   $variables['ddbasic_byline'] = t('By: ');
 
