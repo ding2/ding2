@@ -48,6 +48,19 @@ function ting_field_search_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  // Give administrators a chance to install a compatible cache backend, if
+  // hook_enable() for some reason failed. This is critical for the module to
+  // function proberly.
+  $items['admin/config/ting-field-search/install'] = array(
+    'title' => 'Install backend',
+    'description' => 'Install the cache_ting backend proberly',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_field_search_install_confirm_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ting_field_search.admin.inc',
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
 }
 
@@ -85,6 +98,86 @@ function ting_field_search_theme() {
       'file' => 'ting_field_search.admin.inc',
     ),
   );
+}
+
+/**
+ * Implements hook_modules_enabled().
+ *
+ * If the Memcache module is enabled, we'll check if we can upgrade to the much
+ * faster MemCache backend. We also rely on this to set the backend when this
+ * module is enabled.
+ * We could use hook_enable() for this, but we're implementing this hook anyway
+ * and this actually also covers the rare case, when this module is installed
+ * together with Memcache.
+ */
+function ting_field_search_modules_enabled($modules) {
+  $enable = in_array('ting_field_search', $modules);
+
+  // If the system if using the MemCache backend itself, we'll take that as a
+  // sign that the memcached service is in fact running. The fact that the
+  // Memcache module is enabled alone, doesn't guarentee that.
+  if (module_exists('memcache') && variable_get('cache_default_class') === 'MemCacheDrupal') {
+    variable_set('cache_class_cache_ting', 'TingFieldSearchMemCache');
+
+    if ($enable) {
+      watchdog('ting_field_search', 'Ting field search was enabled and is using MemCache backend.');
+    }
+    else {
+      watchdog('ting_field_search', 'Memcache was enabled and Ting field search upgraded to using MemCache backend.');
+    }
+  }
+  elseif (!ting_field_search_get_status()) {
+    variable_set('cache_class_cache_ting', 'TingFieldSearchDatabaseCache');
+
+    if ($enable) {
+      watchdog('ting_field_search', 'Ting field search was enabled and is using Database cache backend.');
+    }
+  }
+}
+
+/**
+ * Implements hook_modules_disabled()
+ *
+ * If Memcache is disabled the class MemCache, which we extend, wont be
+ * available anymore, and we need to downgrade to database cache.
+ */
+function ting_field_search_modules_disabled($modules) {
+  if (in_array('memcache', $modules)) {
+    variable_set('cache_class_cache_ting', 'TingFieldSearchDatabaseCache');
+    watchdog('ting_field_search', 'Memcache was disabled and Ting field search downgraded to using database cache.');
+  }
+}
+
+/**
+ * Implements hook_cron().
+ *
+ * Check if we can upgrade to MemCache.
+ */
+function ting_field_search_cron() {
+  if (!ting_field_search_get_status()) {
+    watchdog('ting_field_search',
+      'Ting field search is NOT installed correctly and will not work properly. Please go to <a href="@install">Installation</a> to correct this.',
+      array(
+        '@install' => url('admin/config/ting-field-search/install', array(
+          'query' => array('destination' => 'admin/reports/event/9139'),
+        ))
+      ),
+      WATCHDOG_WARNING
+    );
+  }
+
+  if (module_exists('memcache') && variable_get('cache_default_class') === 'MemCacheDrupal') {
+    variable_set('cache_class_cache_ting', 'TingFieldSearchMemCache');
+  }
+}
+
+/**
+ * Checks to see if the module is installed correctly with one of our special
+ * cache backends.
+ */
+function ting_field_search_get_status() {
+  $backend = variable_get('cache_class_cache_ting', FALSE);
+  return $backend === 'TingFieldSearchMemCache' || $backend === 'TingFieldSearchDatabaseCache';
 }
 
 /**
@@ -135,17 +228,39 @@ function ting_field_search_profile_is_active() {
   if (!isset($result)) {
     $result = FALSE;
 
-    // Determine if a profile is active in the following order:
-    // 1. Look for a non-empty profile GET parameter (least expensive).
-    // 2. Check that we're on a supported path (medium expsensive).
-    // 3. Verify that the profile exists in DB and is active (most expensive).
+    // If there's a profile parameter present and we're on a supported path;
+    // attempt to active the profile requested in the parameter.
     if (!empty($_GET['profile']) && ting_field_search_path_is_supported()) {
-      $profile = ting_field_search_profiles_load($_GET['profile']);
-      $profile = array_shift($profile);
+      $profile_name = $_GET['profile'];
 
-      // Ensure the profile exists and is active.
-      if ($profile && $profile->active) {
-        $result = $profile;
+      // Without the correct cache backend, modifying the ting request can give
+      // unexpected behavior. For example, if the profile is used on a cold
+      // cache search, the response with the modifications will be locked and
+      // the "profil response" will be served on a every subsequent search -
+      // with or without that profile parameter.
+      // We therefore block any attempt to activate a profile when this is the
+      // case. This will in turn disable all profile related activity.
+      if (ting_field_search_get_status()) {
+        // Now we load the profile since this is the most expensive.
+        $profile = ting_field_search_profiles_load($_GET['profile']);
+        $profile = array_shift($profile);
+
+        // Ensure the profile exists and is active.
+        if ($profile && $profile->active) {
+          $result = $profile;
+        }
+      }
+      else {
+        watchdog('ting_field_search',
+          'Attempt to activate profile: %profile was blocked, because of incompatible cache backend. Please go to <a href="@install">Installation</a> to correct this.', array(
+            '%profile' => $profile_name,
+            '@install' => url('admin/config/ting-field-search/install', array(
+              // This will be show on the admin reports page.
+              'query' => array('destination' => 'admin/reports/event/9139'),
+            )),
+          ),
+          WATCHDOG_WARNING
+        );
       }
     }
   }
@@ -323,6 +438,19 @@ function ting_field_search_preprocess_ding_availability_types(&$variables) {
  * Implements hook_form_FORM_ID_alter().
  */
 function ting_field_search_form_ting_admin_ting_settings_alter(&$form, &$form_state) {
+  // Show a message to the administrator if the module isn't installed
+  // correctly. We provide a callback to correct this.
+  if (!ting_field_search_get_status()) {
+    drupal_set_message(t('Ting field search is NOT installed correctly and will
+      not work proberly. Please go to <a href="@install">Installation</a> to
+      correct this.', array(
+        '@install' => url('admin/config/ting-field-search/install', array(
+          'query' => drupal_get_destination()
+        )),
+      )
+    ), 'error');
+  }
+
   // Change the title of default profile textfield and insert it a new fieldset.
   $standard = $form['ting']['ting_search_profile'];
   $standard['#title'] = t('Standard search profile');
@@ -410,6 +538,12 @@ function ting_field_search_form_ting_admin_ting_settings_alter(&$form, &$form_st
  * Implements hook_form_FORM_ID_alter().
  */
 function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
+  // Dont't alter the form if the module isn't installed correctly or if this
+  // is the node search page.
+  if (!ting_field_search_get_status() || strpos(current_path(), 'search/node') === 0) {
+    return;
+  }
+
   $profiles = array();
   foreach (ting_field_search_profiles_load() as $name => $profile) {
     // Profile needs to be active and exposed.
@@ -427,13 +561,11 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
 
   // This need to work on every page, so we just detect the profile.
   $profile = ting_field_search_profile_is_active();
-  $disabled = (arg(0) == 'search' && arg(1) == 'node') ? TRUE : FALSE;
   $form['ting_field_search'] = array(
     '#type' => 'select',
     '#options' => $profiles,
-    '#empty_option' => $disabled ? t('Disabled') : t('Search in standard'),
-    '#default_value' => $disabled ? '' : $profile ? check_plain($profile->name) : '',
-    '#disabled' => $disabled,
+    '#empty_option' => t('Search in standard'),
+    '#default_value' => $profile ? check_plain($profile->name) : '',
   );
 
   // Use a validate handler for its timing before ting_search_submit() which is

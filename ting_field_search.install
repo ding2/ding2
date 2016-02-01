@@ -1,194 +1,194 @@
-	<?php
+  <?php
 
 /**
  * @file
  *
  * Install file for Ting field search.
- *
- * Note: There's no need to add cache backend to the 'cache_backends' variable
- * since we include it in .info. In this case this is the preffered way, because
- * 'cache_backends' is hardcoded in settings.php in DDB CMS.
- *
- * TODO: We should probably check whether we're able to change the backend at
- * all, and use hook_requirements() to inform admins about the result.
  */
 
 /**
  * Implements hook_enable().
  */
 function ting_field_search_enable() {
-	// Determine the current cache backend used by cache_ting bin.
-	$current_backend = variable_get('cache_class_cache_ting', FALSE);
-	if (!$current_backend || empty($current_backend)) {
-		$current_backend = variable_get('cache_default_class', 'DrupalDatabaseCache');
-	}
-	else {
-		// Remember original so we can restore the setting in hook_disable().
-		variable_set('ting_field_search_original_backend', $current_backend);
-	}
-
-	if ($current_backend == 'MemCacheDrupal') {
-		variable_set('cache_class_cache_ting', 'TingFieldSearchMemCache');
-	}
-	else {
-		variable_set('cache_class_cache_ting', 'TingFieldSearchDatabaseCache');
-	}
+  // We'll do this in hook_modules_enabled() in the module file.
+  // See comments there for more details.
+  // ting_field_search_install_backend();
 }
 
 /**
  * Implements hook_disable().
  */
 function ting_field_search_disable() {
-	$original_backend = variable_get('ting_field_search_original_backend', FALSE);
-	if ($original_backend) {
-		// Restore
-		variable_set('cache_class_cache_ting', $original_backend);
-	}
-	else {
-		// Go back to default cache backend.
-		variable_del('cache_class_cache_ting');
-	}
-
-	// Might as well clean up here
-	variable_del('ting_field_search_original_backend');
+  // We need to do this on disable, since our class wont be available anymore.
+  if (ting_field_search_get_status()) {
+    variable_del('cache_class_cache_ting');
+  }
 }
 
 /**
  * Implements hook_schema().
  */
 function ting_field_search_schema() {
-	$schema['ting_field_search_profile'] = array(
-		'description' => 'Holds the definitions of the installed search profiles.',
-		'fields' => array(
-			'name' => array(
-				'type' => 'varchar',
-				'length' => 64,
-				'not null' => TRUE,
-				'default' => '',
-				'description' => 'Primary key: The machine name of the profile.',
-			),
-			'title' => array(
-				'type' => 'varchar',
-				'length' => 255,
-				'not null' => TRUE,
-				'default' => '',
-				'description' => 'Profile title: Displayed to users of the site.',
-			),
-			'profile' => array(
-				'type' => 'varchar',
-				'length' => 128,
-				'not null' => TRUE,
-				'default' => '',
-				'description' => 'VIP Profile: The name of the profile as in http://vip.dbc.dk/',
-			),
-			'query' => array(
-				'type' => 'varchar',
-				'length' => 255,
-				'not null' => TRUE,
-				'default' => '',
-				'description' => 'Additional CQL-code to append when using this profile',
-			),
-			'alter_links' => array(
-				'type' => 'int',
-				'size' => 'tiny',
-				'not null' => TRUE,
-				'default' => 1,
-				'description' => 'Boolean indicating whether to alter search links when using this profile.',
-			),
-			'active' => array(
-				'type' => 'int',
-				'size' => 'tiny',
-				'not null' => TRUE,
-				'default' => 0,
-				'description' => 'Boolean indicating whether the profile is active and can be used in URIs',
-			),
-			'exposed' => array(
-				'type' => 'int',
-				'size' => 'tiny',
-				'not null' => TRUE,
-				'default' => 0,
-				'description' => 'Boolean indicating whether the profile should be exposed to users.',
-			),
-			'use_facets' => array(
-				'type' => 'int',
-				'size' => 'tiny',
-				'not null' => TRUE,
-				'default' => 0,
-				'description' => 'Boolean indicating whether the profile is using specialized facets.',
-			),
-			'facet_count' => array(
-				'type' => 'int',
-				'size' => 'tiny',
-				'not null' => TRUE,
-				'default' => 5,
-				'description' => 'If using facets; the number of facet blocks to show in UI.',
-			),
-			'term_count' => array(
-				'type' => 'int',
-				'size' => 'tiny',
-				'not null' => TRUE,
-				'default' => 5,
-				'description' => 'If using facets; the number of terms to show in each facet block.',
-			),
-			'weight' => array(
-				'type' => 'int',
-				'size' => 'small',
-				'not null' => TRUE,
-				'default' => 0,
-				'description' => 'Profile weight: Used to order profiles in UI.',
-			),
-		),
-		'primary key' => array('name'),
-	);
+  $schema['ting_field_search_profile'] = array(
+    'description' => 'Holds the definitions of the installed search profiles.',
+    'fields' => array(
+      'name' => array(
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Primary key: The machine name of the profile.',
+      ),
+      'title' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Profile title: Displayed to users of the site.',
+      ),
+      'profile' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'VIP Profile: The name of the profile as in http://vip.dbc.dk/',
+      ),
+      'query' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Additional CQL-code to append when using this profile',
+      ),
+      'alter_links' => array(
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => TRUE,
+        'default' => 1,
+        'description' => 'Boolean indicating whether to alter search links when using this profile.',
+      ),
+      'active' => array(
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Boolean indicating whether the profile is active and can be used in URIs',
+      ),
+      'exposed' => array(
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Boolean indicating whether the profile should be exposed to users.',
+      ),
+      'use_facets' => array(
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Boolean indicating whether the profile is using specialized facets.',
+      ),
+      'facet_count' => array(
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => TRUE,
+        'default' => 5,
+        'description' => 'If using facets; the number of facet blocks to show in UI.',
+      ),
+      'term_count' => array(
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => TRUE,
+        'default' => 5,
+        'description' => 'If using facets; the number of terms to show in each facet block.',
+      ),
+      'weight' => array(
+        'type' => 'int',
+        'size' => 'small',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Profile weight: Used to order profiles in UI.',
+      ),
+    ),
+    'primary key' => array('name'),
+  );
 
-	// For performance reasons keep facet settings in a seperate table.
-	$schema['ting_field_search_facet'] = array(
-		'description' => 'Holds facet settings for each profile.',
-		'fields' => array(
-			'name' => array(
-				'type' => 'varchar',
-				'length' => 64,
-				'not null' => TRUE,
-				'default' => '',
-				'description' => 'Facet name: Name of the facet (e.g. facet.type).',
-			),
-			'profile' => array(
-				'type' => 'varchar',
-				'length' => 64,
-				'not null' => TRUE,
-				'default' => '',
-				'description' => 'Profile name: The machine-name of the associated profile.',
-			),
-			'title' => array(
-				'type' => 'varchar',
-				'length' => 64,
-				'not null' => TRUE,
-				'default' => '',
-				'description' => 'Facet title: The title of the facet, as shown to users in UI',
-			),
-			'sorting' => array(
-				'type' => 'varchar',
-				'length' => 32,
-				'not null' => TRUE,
-				'default' => 'default',
-				'description' => 'Facet sorting. Sorting of the terms in the facet.',
-			),
-			'weight' => array(
-				'type' => 'int',
-				'size' => 'small',
-				'not null' => TRUE,
-				'default' => 1,
-				'description' => 'Facet weight: Used to order facets in the UI.'
-			),
-		),
-		'primary key' => array('name', 'profile'),
-		'foreign keys' => array(
-			'profile' => array(
-				'table' => 'ting_field_search_profile',
-				'columns' => array('profile' => 'name'),
-			),
-		),
-	);
+  // For performance reasons keep facet settings in a seperate table.
+  $schema['ting_field_search_facet'] = array(
+    'description' => 'Holds facet settings for each profile.',
+    'fields' => array(
+      'name' => array(
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Facet name: Name of the facet (e.g. facet.type).',
+      ),
+      'profile' => array(
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Profile name: The machine-name of the associated profile.',
+      ),
+      'title' => array(
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Facet title: The title of the facet, as shown to users in UI',
+      ),
+      'sorting' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => 'default',
+        'description' => 'Facet sorting. Sorting of the terms in the facet.',
+      ),
+      'weight' => array(
+        'type' => 'int',
+        'size' => 'small',
+        'not null' => TRUE,
+        'default' => 1,
+        'description' => 'Facet weight: Used to order facets in the UI.'
+      ),
+    ),
+    'primary key' => array('name', 'profile'),
+    'foreign keys' => array(
+      'profile' => array(
+        'table' => 'ting_field_search_profile',
+        'columns' => array('profile' => 'name'),
+      ),
+    ),
+  );
 
-	return $schema;
+  return $schema;
+}
+
+/**
+ * Implements hook_requirements().
+ */
+function ting_field_search_requirements($phase) {
+  $requirements = array();
+
+  if ($phase != 'runtime') {
+    return $requirements;
+  }
+
+  if (!ting_field_search_get_status()) {
+    $requirements['ting_field_search'] = array(
+      'title' => t('Ting field search'),
+      'value' => t('Ting field search is NOT installed correctly and will
+        not work proberly. Please go to <a href="@install">Installation</a> to
+        correct this.', array(
+          '@install' => url('admin/config/ting-field-search/install', array(
+            'query' => drupal_get_destination()
+          )),
+        )
+      ),
+      'severity' => REQUIREMENT_ERROR,
+    );
+  }
+
+  return $requirements;
 }
