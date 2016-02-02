@@ -27,9 +27,17 @@
     $('#ding-toggle-format').removeClass('ding-toggle-format-long');
     $('#ding-toggle-format').removeClass('ding-toggle-format-short');
     $('#ding-toggle-format').addClass('ding-toggle-format-' + format);
+
+    /* Search results formats */
     $('li.search-result, div.material-item').removeClass('ding-format-long');
     $('li.search-result, div.material-item').removeClass('ding-format-short');
     $('li.search-result, div.material-item').addClass('ding-format-' + format);
+
+    /* Ting objects formats */
+    $('.pane-ting-object, div.ting-object').removeClass('ding-format-long');
+    $('.pane-ting-object, div.ting-object').removeClass('ding-format-short');
+    $('.pane-ting-object, div.ting-object').addClass('ding-format-' + format);
+
     Cookies('ding_toggle_format', format, {
       expires: 30
     });

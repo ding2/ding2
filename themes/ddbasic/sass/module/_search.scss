@@ -272,11 +272,11 @@ header .search .form-actions {
   }
 }
 
-.ding-format-short {
+div.ding-format-short {
   .ting-object-right {
     width: 100%;
-    margin-right: -75px;
-    padding-right: 75px;
+    margin-right: 0;
+    padding-right: 0;
 
     @include small() {
       @include zen-grid-item(12, 1, right);
@@ -671,7 +671,6 @@ header .search .form-actions {
 
 .pane-search-result {
   clear: both;
-  overflow: hidden;
   padding-top: 20px;
 
   .search-results {
@@ -1338,3 +1337,85 @@ div[class^="collection-bg"] {
     }
   }
 }
+
+
+.page-ting-object,
+.page-ting-collection {
+
+  .pane-ting-object,
+  .pane-ting-collection {
+
+    /* Compact search result display */
+    .ding-format-short {
+	  .ting-collection-inner-wrapper {
+	 h2 {
+		    display: none;
+		  }
+		}
+		
+        .ting-cover,
+        .content,
+        .field-type-ting-abstract {
+          display: none;
+        }
+
+		.field-type-ting-type {
+		  float: left;
+		  width: inherit;
+		  
+		  .availability {
+		    margin: 0;
+			padding: 0;
+			
+			li.availability {
+			  color: #959595;
+			  display: inline;
+			  background: none;
+			  padding: 0;
+			  margin: 0;
+			  line-height: 20px;
+			  
+			  &:after {
+			    content: ":";
+			  }
+			}
+		  }
+		}
+		
+        /* Display the author */
+        .heading + div.content {
+          display: block;
+        }
+
+        div.field-type-ding-entity-buttons {
+          display: block;
+        }
+
+        .heading,
+        .content,
+        .field {
+          margin-left: 0;
+          padding-left: 0;
+        }
+
+        .field-name-ting-title {
+          display: inline;
+
+          h2 {
+            display: inline;
+			font-size: 130%;
+          }
+        }
+
+        .subjects {
+          display: none;
+        }
+
+        div.availability {
+          display: inline-block;
+          margin-top: 20px;
+        }
+      }
+  }
+}
+
