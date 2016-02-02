@@ -163,7 +163,6 @@ function ding_toggle_format_preprocess(&$variables, $hook) {
         '</div>';
 
       $existing_content = $variables['content']['main_content'];
-	  var_dump($toggle_format_markup);exit;
       $variables['content']['main_content'] = $toggle_format_markup . $existing_content;
     }
   }
