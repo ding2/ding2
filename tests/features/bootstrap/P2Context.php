@@ -449,6 +449,55 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @Given I have checked the personalisation consent box
+     */
+    public function iHaveCheckedThePersonalisationConsentBox()
+    {
+        $this->iAmOnMyUserConsentPage();
+        $this->iCheckTheConsentBox();
+    }
+
+    /**
+     * @Then I should see the list of previous loans
+     */
+    public function iShouldSeeTheListOfPreviousLoans()
+    {
+        $this->gotoListListingPage();
+        $listName = 'Tidligere lån';
+        $this->ding2Context->minkContext->assertElementOnPage('.signature-label:contains("' . $listName . '")');
+        $this->gotoListPage($listName);
+    }
+
+    /**
+     * @Given I have unchecked the personalisation consent box
+     */
+    public function iHaveUncheckedThePersonalisationConsentBox()
+    {
+        // Uncheck the box.
+        $this->iAmOnMyUserConsentPage();
+        $this->iUncheckTheConsentBox();
+    }
+
+    /**
+     * @Then I should not see the list of previous loans
+     */
+    public function iShouldNotSeeTheListOfPreviousLoans()
+    {
+        $this->gotoListListingPage();
+        $listName = 'Tidligere lån';
+        $this->ding2Context->minkContext->assertElementNotOnPage('.signature-label:contains("' . $listName . '")');
+
+        // Check that the list doesn't exist.
+        try {
+            $this->gotoListPage($listName);
+            // If no exception is raised, the list still exists.
+            throw new Exception("The list '$listName' still exists!");
+        } catch (Exception $e) {
+            // Do nothing, swallow exception.
+        }
+    }
+
+    /**
      * @Given I am on my create list page
      */
     public function iAmOnMyCreateListPage()
