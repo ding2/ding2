@@ -195,7 +195,19 @@ function ding_availability_holdings($provider_ids) {
       }
 
       $rows = array();
+      $copies = 0;
+      $closest_loan = NULL;
       foreach ($item['holdings'] as $holding) {
+        // This item is considered to be waited for.
+        // Next, the number of holdings is compared to reserved ones.
+        // Also keep the next loan date.
+        if (empty($item['available']) && !empty($holding['available_from'])) {
+          $next_loan_time = strtotime($holding['available_from']);
+          $copies++;
+          if (empty($closest_loan) || $closest_loan < $next_loan_time) {
+            $closest_loan = $next_loan_time;
+          }
+        }
         $rows[] = ding_availability_holdings_row($holding, $item['ordered_count']);
       }
 
@@ -209,6 +221,7 @@ function ding_availability_holdings($provider_ids) {
         ),
         'total_count' => (int) $item['total_count'],
         'reserved_count' => (int) $item['reserved_count'],
+        'closest_loan' => (count($item['holdings']) == $copies) ? ding_availability_holding_format_time($closest_loan) : NULL,
         'ordered_count' => (int) $item['ordered_count'],
         'total_plus_ordered_count' => (int) $item['total_count'] + (int) $item['ordered_count'],
       ));
@@ -216,6 +229,38 @@ function ding_availability_holdings($provider_ids) {
   }
 
   return $items;
+}
+
+/**
+ * Generate a human-readable amount of wait time.
+ *
+ * @param int $date
+ *   Loan date timestamp.
+ * @return string
+ *   Sane display of time to wait (months/weeks/days).
+ */
+function ding_availability_holding_format_time($date) {
+  $now = date_create(date('Y-m-d'));
+  $till = date_create(date('Y-m-d', $date));
+  $_diff = date_diff($till, $now);
+  $days = $_diff->format('%a');
+  $weeks = (int) ($days / 7);
+  $months = (int) ($days / 30.4375);
+  $wait = '';
+
+  if ($months) {
+    $wait = format_plural($months, '1 month', '@count months');
+  }
+  elseif ($weeks) {
+    $wait = format_plural($weeks, '1 week', '@count weeks');
+  }
+  else {
+    $wait = format_plural($days, '1 day', '@count days');
+  }
+
+  $text = t('The waiting time is currently: <strong>@wait</strong>.', array('@wait' => $wait));
+
+  return $text;
 }
 
 /**
