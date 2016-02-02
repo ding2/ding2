@@ -7,6 +7,10 @@ use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Exception\UnsupportedDriverActionException;
+use Page\CreateListPage;
+use Page\ListPage;
+use Page\SearchPage;
+use Page\MyListsPage;
 
 /**
  * Provides step definitions for interacting with P2.
@@ -21,6 +25,14 @@ class P2Context implements Context, SnippetAcceptingContext
      *   Save data within scenarios.
      */
     private $dataRegistry = array();
+
+    function __construct(ListPage $listPage, CreateListPage $createListPage, SearchPage $searchPage, MyListsPage $myListsPage)
+    {
+        $this->listPage = $listPage;
+        $this->createListPage = $createListPage;
+        $this->searchPage = $searchPage;
+        $this->myListsPage = $myListsPage;
+    }
 
     /** @BeforeScenario */
     public function gatherContexts(BeforeScenarioScope $scope)
@@ -65,7 +77,7 @@ class P2Context implements Context, SnippetAcceptingContext
     public function gotoListPage($name)
     {
         $listId = $this->getListId($name);
-        $this->gotoPage('/list/' . $listId);
+        $this->listPage->open(['listId' => $listId]);
     }
 
     /**
@@ -125,26 +137,29 @@ class P2Context implements Context, SnippetAcceptingContext
      *
      * @param string $list
      *   List name.
-     * @param bool $normalize
-     *   Whether to normalize name.
      *
      * @return string
      *   The list id.
      */
     public function getListId($list)
     {
+        // Predefined lists.
+        $specialLists = [
+            'Bøger jeg har læst',
+            'Forfattere jeg følger',
+            'Huskeliste',
+            'Lister jeg følger',
+            'Materialer jeg har bedømt',
+            'Mine interesser',
+            'Søgninger jeg følger',
+        ];
+
         $listName = 'list:' . $list;
-        if (!isset($this->dataRegistry[$listName])) {
-            // Try to find list by scanning user page.
-            $this->gotoPage($this->ding2Context->userPath());
-            $li_elements = $this->ding2Context->minkContext->getSession()->getPage()->findAll('css', 'ul li');
-            foreach ($li_elements as $li) {
-                $a = $li->find('css', 'a.signature-label');
-                if ($a && preg_match('{/list/(\d+)}', $a->getAttribute('href'), $matches)) {
-                    $text = trim($a->getText());
-                    $this->dataRegistry['list:' . $text] = $matches[1];
-                }
-            }
+        if (!isset($this->dataRegistry[$listName]) &&
+            in_array($list, $specialLists)) {
+            // Try to find list id by scanning user page.
+            $listId = $this->myListsPage->open()->getListIdOf($list);
+            $this->dataRegistry[$listName] = $listId;
         }
 
         if (!isset($this->dataRegistry[$listName])) {
@@ -450,7 +465,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iAmOnMyCreateListPage()
     {
-        $this->gotoPage($this->ding2Context->userPath() . '/createlist');
+        $this->createListPage->open(['uid' => $this->ding2Context->userUid()]);
     }
 
     /**
@@ -459,30 +474,19 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iCreateANewListWithDescription($title, $description = '')
     {
-        $page = $this->ding2Context->minkContext->getSession()->getPage();
-
-        $form = $page->find('css', '#ding-list-create-list-form');
-        if (!$form) {
-            throw new Exception('Could not find form to add new list on page');
-        }
-
-        $form->fillField('edit-title', $title);
-        $form->fillField('edit-notes', $description);
-        $this->ding2Context->scrollTo($form->find('css', '#edit-add-list'));
-        $form->pressButton('edit-add-list');
+        $this->createListPage->verifyCurrentPage();
+        $createForm = $this->createListPage->getElement('Create list form');
+        $listPage = $createForm->createList($title, $description);
+        expect($listPage->isListPageFor($title))->shouldBe(true);
+        $this->dataRegistry['list:' . $title] = $listPage->getListId();
     }
 
     /**
-     * @Then I should be on a list page
+     * @Then I should be on the :arg1 list page
      */
-    public function iShouldBeOnAListPage()
+    public function iShouldBeOnTheListPage($arg1)
     {
-        $currentUrl = $this->ding2Context->minkContext->getSession()->getCurrentUrl();
-        $basePath = $this->ding2Context->minkContext->getMinkParameter('base_url');
-        rtrim($basePath, '/') . '/';
-        if (!preg_match('{^' . $basePath . '/list/\d+$}', $currentUrl)) {
-            throw new Exception($currentUrl . 'is not on a list page');
-        }
+        $this->listPage->verifyCurrentPage();
     }
 
     /**
@@ -490,19 +494,8 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iHaveCreatedAList($title)
     {
-        $this->iAmOnMyCreateListPage();
-        $this->iCreateANewListWithDescription($title, '');
-        $this->ding2Context->waitForPage();
-        $currentUrl = $this->ding2Context->minkContext->getSession()->getCurrentUrl();
-        $basePath = $this->ding2Context->minkContext->getMinkParameter('base_url');
-        $basePath = rtrim($basePath, '/');
-        $match = array();
-        if (!preg_match('{^' . $basePath . '/list/(\d+)}', $currentUrl, $match)) {
-            throw new \Exception($currentUrl . 'is not on a list page');
-        }
-
-        // Save list id.
-        $this->dataRegistry["list:$title"] = $match[1];
+        $this->createListPage->open(['uid' => $this->ding2Context->userUid()]);
+        $this->iCreateANewListWithDescription($title);
     }
 
     /**
@@ -746,18 +739,8 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iAmOnTheMaterial($material)
     {
-        $this->gotoSearchPage($material);
-
-        $found = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', 'a[href^="/ting/collection"]:contains("' . $material . '")');
-        if (!$found) {
-            throw new \Exception("Couldn't find search result");
-        }
-        $this->ding2Context->scrollTo($found);
-        $found->click();
-
-        // Make sure document is ready before we return.
-        $this->ding2Context->waitForPage();
+        $this->searchPage->search($material);
+        $this->searchPage->gotoFirstResultNamed($material);
     }
 
     /**
@@ -791,12 +774,10 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldGetAConfirmationThatIAddedTheMaterialToList($list)
     {
-        $page = $this->ding2Context->minkContext->getSession()->getPage();
-        // Wait for popup.
-        $page->waitFor(10000, function ($page) {
-            return $page->find('css', '.ui-dialog');
-        });
-        $this->ding2Context->minkContext->assertElementContainsText('.ui-dialog', 'Tilføjet til ' . $list);
+        // @todo Should use a more general page.
+        $this->listPage->waitForPopup();
+        $popup = $this->listPage->getElement('Popup');
+        expect($popup->getContentText())->shouldBe('Tilføjet til ' . $list);
     }
 
     /**
@@ -804,8 +785,9 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeTheMaterialOnTheList($material, $title)
     {
-        $this->gotoListPage($title);
-        $this->ding2Context->minkContext->assertElementContainsText('.ting-object a', $material);
+        $listId = $this->myListsPage->open()->getListIdOf($title);
+        $this->listPage->open(['listId' => $listId]);
+        expect($this->listPage->hasMaterial($material))->shouldBe(true);
     }
 
     /**
@@ -826,24 +808,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iRemoveTheMaterialFromTheList($material)
     {
-        $page = $this->ding2Context->minkContext->getSession()->getPage();
-        $items = $page->findAll('css', '.ding-type-ding-list-element');
-        $removed = false;
-        foreach ($items as $item) {
-            $title = $item->find('css', '.field-type-ting-title');
-            if ($title && (strpos($title->getText(), $material) !== false)) {
-                // The remove button has no usable classes, hope it's the
-                // right one.
-                $button = $item->find('css', 'form #edit-submit');
-                if ($button) {
-                    $button->click();
-                    $removed = true;
-                }
-            }
-        }
-        if (!$removed) {
-            throw new Exception('Could not find remove button');
-        }
+        $this->listPage->removeMaterial($material);
     }
 
     /**
@@ -865,7 +830,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldNotSeeTheMaterialOnThePublicList($material, $title)
     {
-        $listId = $this->gotoListPage($title);
+        $this->gotoListPage($title);
         $this->ding2Context->minkContext->assertElementNotContainsText('.ting-object', $material);
     }
 

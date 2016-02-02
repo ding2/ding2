@@ -10,6 +10,7 @@ default:
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\DrushContext
   extensions:
+    SensioLabs\Behat\PageObjectExtension: ~
     jarnaiz\JUnitFormatter\JUnitFormatterExtension:
       filename: report.xml
       outputDir: "%paths.base%/"

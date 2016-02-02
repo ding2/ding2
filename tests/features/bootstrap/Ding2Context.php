@@ -142,6 +142,14 @@ class Ding2Context implements Context, SnippetAcceptingContext
         return '/user/' . $this->drupalContext->user->uid;
     }
 
+  public function userUid()
+    {
+        if (!isset($this->drupalContext->user->uid)) {
+            throw new Exception('No currently logged in user.');
+        }
+        return $this->drupalContext->user->uid;
+    }
+
     /**
      * @Given I am on my user page
      */
