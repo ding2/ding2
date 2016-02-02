@@ -244,6 +244,9 @@ function ding_mobilesearch_mobilesearch_node_export_mapping($node) {
                     $render = "<img src=\"data:{$file->filemime};base64,{$base64}\" alt=\"\" />";
                     $item['value'] = str_replace($value, $render, $item['value']);
                   }
+                  else {
+                    $item['value'] = str_replace($value, '', $item['value']);
+                  }
                 }
               }
             }
