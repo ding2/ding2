@@ -272,6 +272,7 @@ function ding_mobilesearch_mobilesearch_node_export_mapping($node) {
 
       case 'image':
       case 'media_generic':
+      case 'file_generic':
         $items = field_get_items('node', $node, $machine_name);
         if ($items) {
           $mapping['fields'][$machine_name] = array(
