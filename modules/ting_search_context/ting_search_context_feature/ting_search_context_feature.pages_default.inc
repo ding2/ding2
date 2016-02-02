@@ -1,6 +1,7 @@
 <?php
 /**
  * @file
+ * Defines the search context panels.
  * ting_search_context_feature.pages_default.inc
  */
 
@@ -27,13 +28,8 @@ function ting_search_context_feature_default_page_manager_handlers() {
     'contexts' => array(),
     'relationships' => array(),
     'panels_breadcrumbs_state' => 1,
-    'panels_breadcrumbs_titles' => 'Search
-Well
-%keywords:html_safe',
-    'panels_breadcrumbs_paths' => 'search
-search/ting
-<none>
-',
+    'panels_breadcrumbs_titles' => 'Search Well %keywords:html_safe',
+    'panels_breadcrumbs_paths' => 'search search/ting <none>',
   );
   $display = new panels_display();
   $display->layout = '25_50_25';
