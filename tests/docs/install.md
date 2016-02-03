@@ -1,13 +1,14 @@
 # Installation
-The tests folder (profiles/ding2/tests) contains a composer.json file, so it's straightforward to install with composer.
 
-Just
-```composer install```
-and you're set.
+The tests folder (profiles/ding2/tests) contains a composer.json file,
+so it's straightforward to install with composer.
+
+Just `composer install` and you're set.
 
 ## Phantomjs
 
 ### Install
+
 There are several ways to install Phantomjs. One way is to use a Phantomjs installer, e.g.
 [phantomjs-installer](https://github.com/jakoch/phantomjs-installer).
 
@@ -32,6 +33,7 @@ disk and write the following in a composer.json file:
 Then you can install the Phantomjs installer by using `composer install`.
 
 ### Run
+
 Running the Phantomjs webdriver:
 ```
  # Change dir to your phantomjs folder.
@@ -41,11 +43,15 @@ Running the Phantomjs webdriver:
 Port 4444 is the default port. The default Behat configuration uses this port.
 
 ## Selenium
+
 ### Install
-There are several ways you can run Selenium with Firefox or Chrome. One way is to install a Selenium standalone server
-from [Selenium HQ](http://www.seleniumhq.org/download/).
+
+There are several ways you can run Selenium with Firefox or Chrome.
+One way is to install a Selenium standalone server from
+[Selenium HQ](http://www.seleniumhq.org/download/).
 
 ### Run
+
 Run the Selenium standalone server with default settings:
 ```
 java -jar selenium-server-standalone-2.48.2.jar
