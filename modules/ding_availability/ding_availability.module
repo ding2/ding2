@@ -242,21 +242,7 @@ function ding_availability_holdings($provider_ids) {
 function ding_availability_holding_format_time($date) {
   $now = date_create(date('Y-m-d'));
   $till = date_create(date('Y-m-d', $date));
-  $_diff = date_diff($till, $now);
-  $days = $_diff->format('%a');
-  $weeks = (int) ($days / 7);
-  $months = (int) ($days / 30.4375);
-  $wait = '';
-
-  if ($months) {
-    $wait = format_plural($months, '1 month', '@count months');
-  }
-  elseif ($weeks) {
-    $wait = format_plural($weeks, '1 week', '@count weeks');
-  }
-  else {
-    $wait = format_plural($days, '1 day', '@count days');
-  }
+  $wait = format_interval($till->getTimestamp() - $now->getTimestamp(), 2);
 
   $text = t('The waiting time is currently: <strong>@wait</strong>.', array('@wait' => $wait));
 
