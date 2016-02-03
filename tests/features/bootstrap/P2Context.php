@@ -648,14 +648,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeTheListOnListsIFollow($title)
     {
-        $this->gotoListListingPage();
-        $listsList = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.lists-list a');
-        if (!$listsList) {
-            throw new \Exception("Couldn't find list of lists");
-        }
-        $this->ding2Context->scrollTo($listsList);
-        $listsList->click();
+        $this->gotoListPage('Lister jeg følger');
 
         $listId = $this->getListId($title);
         $this->ding2Context->minkContext->assertElementContainsText('a[href="/list/' . $listId . '"]', $title);
@@ -677,17 +670,8 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iUnfollowTheListWithTheTitle($title)
     {
+        $this->gotoListPage('Lister jeg følger');
         $listId = $this->getListId($title);
-
-        $this->gotoListListingPage();
-        $found_list = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.ding-user-lists .lists-list a');
-        if (!$found_list) {
-            throw new \Exception("Couldn't find link to list of followed lists");
-        }
-        $this->ding2Context->scrollTo($found_list);
-        $found_list->click();
-
         // Find link to followed list.
         $found = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', '.ding-type-ding-list a[href="/list/' . $listId . '"]');
@@ -702,6 +686,7 @@ class P2Context implements Context, SnippetAcceptingContext
         if (!$deleteLink) {
             throw new \Exception("Couldn't find remove from list button");
         }
+        $this->ding2Context->scrollTo($deleteLink);
         $deleteLink->click();
     }
 

@@ -10,7 +10,7 @@ Feature: Public lists
   Background:
     Given I am logged in as a library user
 
-  @api @no_messages_check @javascript
+  @api @javascript
   Scenario: Make list public
     Given I have created a list "My Harry Potter books"
     When I make the list "My Harry Potter books" public
@@ -29,7 +29,7 @@ Feature: Public lists
     When I follow the list "My George Orwell books"
     Then I should see the list "My George Orwell books" on lists I follow
 
-  @api @javascript
+  @api @javascript @this
   Scenario: Unfollow a public list
     Given I am following a public list with the title "Books about flowers"
     When I unfollow the list with the title "Books about flowers"
