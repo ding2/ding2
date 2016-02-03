@@ -56,3 +56,5 @@ Run the Selenium standalone server with default settings:
 ```
 java -jar selenium-server-standalone-2.48.2.jar
 ```
+
+Selenium can also run phantomjs if installed.

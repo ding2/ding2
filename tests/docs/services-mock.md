@@ -36,9 +36,13 @@ getting them.
 
 ## OpenSearch
 
+https://opensource.dbc.dk/services/open-search-web-service
+
 It's not possible to install a test instance of this service, and
 mocking of this service is quite advanced, so we will be using a test
 service available on oss-services.dbc.dk. The problem using this
 service is that we have no way of knowing, when the service will be
 restarted or updated or for other reasons be unavailable at certain
 times.
+
+Currently using http://oss-services.dbc.dk/opensearch/4.0.1/

@@ -69,6 +69,16 @@ of how this feature functions. Each scenario consists of preconditions
 ("Given"), actions ("When") and outcomes ("Then"), all of which are
 step definitions.
 
+### Feature organization ###
+
+Behat features is located in `features`, while tests for major
+(possibly optional) components should be located in a sub-folder. For
+instance, the tests for the personalization modules are located in
+`features/p2`.
+
+Currently there's only one suite defined (`default`), but as more
+sub-systems become covered by tests, suites will be created.
+
 ## Step definitions ##
 
 The step definitions contain the actual test code, which performs the
@@ -86,6 +96,11 @@ necessary to perform the tests, and the step definitions perform the
 code that tests whether the application performs what it's supposed
 to.
 
+## Tags ##
+
+Behat features/scenarios may be tagged, see [Usage](./usage.md) for a
+list.
+
 ## Page objects ##
 
 [Page objects][page objects] is a way to make interaction with pages
@@ -96,5 +111,9 @@ number of notifications on a list).
 
 Page objects make it easier to share code across scenarios, makes the
 tests easier to read, and the tests will be structured more nicely.
+
+As of this writing, only part of the tests has been refactored to use
+page object. For an example, look at
+`features/p2/material_lists.feature` and it's related step definitons.
 
 [page objects]: http://martinfowler.com/bliki/PageObject.html
