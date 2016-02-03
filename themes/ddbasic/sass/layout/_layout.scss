@@ -92,6 +92,26 @@ body {
   position: relative;
 }
 
+.topbar-menu {
+  @include small-medium() {
+    bottom: 0;
+    padding: 0;
+    position: absolute;
+    right: 0;
+  }
+  
+  @include small() {
+    margin-top: 18px;
+    position: relative;
+  }
+  
+  .menu-item {
+    @include small-medium() {
+      padding: 9px 8px;
+    }
+  }
+}
+
 .logo {
   @include zen-grid-item(5, 1);
   margin-bottom: 10px;
@@ -117,16 +137,19 @@ body {
 
   img {
     margin-top: 10px;
+    max-height: 70px;
     
     @include small-medium() {
-      height: auto;
+      height: 70px;
+      max-height: 70px;
       max-width: 100%;
-      width: 100%;
+      width: auto;
     }
     
     @include small() {
       max-width: 100%;
       max-height: 40px;
+      height: auto;
       width: auto;
     }
   }
@@ -236,7 +259,7 @@ body {
     padding-left: 10px;
   }
 
-  .col12        { padding-left: 0;    padding-right: 0;    }
+  .col12        { padding-left: 0;  padding-right: 0;}
   .col12 .col12 { padding-left: 10px; padding-right: 10px; }
 
   .col3       { @include zen-grid-item(3, 1); }
