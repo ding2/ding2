@@ -679,7 +679,7 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       $title_prefix = '<i class="icon-user"></i>';
       // If a user is logged in we change the menu item title.
       if (user_is_logged_in()) {
-        $element['#title'] = t('My Account');
+        $element['#title'] = 'My Account';
         $element['#attributes']['class'][] = 'topbar-link-user-account';
         $element['#localized_options']['attributes']['class'][] = 'topbar-link-user-account';
       }
@@ -694,8 +694,6 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       $element['#localized_options']['attributes']['class'][] = 'topbar-link-signout';
       $element['#attributes']['class'][] = 'topbar-link-signout';
 
-      // For some unknown issue translation fails for this title.
-      $element['#title'] = t($element['#title']);
       break;
 
     default:
@@ -704,6 +702,9 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       $element['#attributes']['class'][] = 'topbar-link-menu';
       break;
   }
+
+   // For some unknown issue translation fails.
+  $element['#title'] = t($element['#title']);
 
   $output = l($title_prefix . '<span>' . $element['#title'] . '</span>', $element['#href'], $element['#localized_options']);
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
