@@ -245,6 +245,6 @@ function ding_event_permission() {
 function ding_event_views_pre_build(&$view) {
   if ($view->name == "ding_event" && $view->current_display == 'ding_event_list_frontpage') {
     $view_items_per_page = $view->display['ding_event_list_frontpage']->display_options['pager']['options']['items_per_page'];
-    $view->items_per_page = variable_get('ding_event_frontend_items_per_page', $view_items_per_page);
+    $view->items_per_page = variable_get('ding_event_frontpage_items_per_page', $view_items_per_page);
   }
 }

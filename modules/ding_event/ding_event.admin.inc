@@ -28,9 +28,9 @@ function ding_event_admin_setting_form(array $form, array &$form_state) {
 
   $view = views_get_view('ding_event');
   $view_items_per_page = $view->display['ding_event_list_frontpage']->display_options['pager']['options']['items_per_page'];
-  $default_items_per_page = variable_get('ding_event_frontend_items_per_page', $view_items_per_page);
+  $default_items_per_page = variable_get('ding_event_frontpage_items_per_page', $view_items_per_page);
 
-  $form['ding_event']['ding_event_frontend_items_per_page'] = array(
+  $form['ding_event']['ding_event_frontpage_items_per_page'] = array(
     '#type' => 'textfield',
     '#title' => t('Maximum number of events on front page.'),
     '#size' => 4,
