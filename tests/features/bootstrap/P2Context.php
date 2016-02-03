@@ -185,6 +185,34 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
+     * Make list shared.
+     *
+     * @param string $title
+     *   Title of list
+     * @throws \Behat\Mink\Exception\ElementNotFoundException
+     * @throws \Exception
+     */
+    public function makeListShared($title) {
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
+        $this->gotoListPage($title);
+
+        // Click share list.
+        $this->iGoToTheShareLink();
+
+        $found = $page->find('css',
+          '#ding-list-list-permissions-form #edit-status');
+        if (!$found) {
+            throw new \Exception("Couldn't find dropdown menu for sharing list");
+        }
+        $found->selectOption('shared');
+        // Wait for list to be shared.
+        $page->waitFor(5, function ($page) {
+            return $page->find('css',
+              '#status-description:contains("Your list is now shared")');
+        });
+    }
+
+    /**
      * @Then I should see a link to the create list page
      */
     public function iShouldSeeALinkToTheCreateListPage()
@@ -771,6 +799,59 @@ class P2Context implements Context, SnippetAcceptingContext
         $this->iHaveCreatedAList($title);
         $this->iMakeTheListPublic($title);
         $this->iShouldSeeThatTheListIsMarkedAsPublic($title);
+    }
+
+    /**
+     * @When I make the list :title read shared
+     */
+    public function iMakeTheListReadShared($title)
+    {
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
+        // Make list shared.
+        $this->makeListShared($title);
+
+        // Select view mode.
+        $found = $page->find('css', '#edit-sharer #edit-permission');
+        if (!$found) {
+            throw new \Exception("Couldn't find dropdown menu for sharing permissions");
+        }
+        $found->selectOption('view');
+        $selected = $page->find('css', '#edit-sharer #edit-permission option[value="view"]');
+        if($selected->getValue() != 'view') {
+            throw new Exception("Couldn't set sharing of list to read mode");
+        }
+
+        $foundLink = $page->find('css', '#edit-sharer #edit-view');
+        if (!$foundLink) {
+            throw new Exception("Couldn't find sharing link with token");
+        }
+        $link = $foundLink->getValue();
+        $this->dataRegistry['link:' . $title] = $link;
+    }
+
+    /**
+     * @Then I should be able to see the list :title as a different user
+     */
+    public function iShouldBeAbleToSeeTheListAsADifferentUser($title)
+    {
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
+        // Get link to list.
+        $link = $this->dataRegistry['link:' . $title];
+
+        // Log in as a different user.
+        $this->ding2Context->iAmLoggedInAsALibraryUser();
+
+        // Go to list.
+        $this->gotoPage($link);
+
+        $found = $page->find('css', '.pane-list-followers .pane-title');
+        if (!$found) {
+            throw new Exception("Couldn't find shared list");
+        }
+        $listTitle = $found->getText();
+        if ($listTitle != $title) {
+            throw new Exception("Found list '$listTitle' is not the same as '$title'");
+        }
     }
 
     /**
