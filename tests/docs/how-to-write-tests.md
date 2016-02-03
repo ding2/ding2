@@ -33,7 +33,6 @@ I insert password "secret" in the password field
 Better example:
 ```
 I log in as "bernhard" using password "secret"
-
 ```
 
 Or, in our case, even better:
