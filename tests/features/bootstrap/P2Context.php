@@ -247,7 +247,7 @@ class P2Context implements Context, SnippetAcceptingContext
     public function moreDropdownSelectByLink($href, $errorMessage)
     {
         $page = $this->ding2Context->minkContext->getSession()->getPage();
-        $page->waitFor(10000, function ($page) {
+        $page->waitFor(5, function ($page) {
             return $page->find('css', '.ding-list-add-button a');
         });
         $button = $page->find('css', '.ding-list-add-button a');
@@ -803,6 +803,7 @@ class P2Context implements Context, SnippetAcceptingContext
 
     /**
      * @When I make the list :title read shared
+     * @When I make the list :title write shared
      */
     public function iMakeTheListReadShared($title)
     {
@@ -816,55 +817,36 @@ class P2Context implements Context, SnippetAcceptingContext
             throw new \Exception("Couldn't find dropdown menu for sharing permissions");
         }
         $found->selectOption('view');
-        $selected = $page->find('css', '#edit-sharer #edit-permission option[value="view"]');
-        if($selected->getValue() != 'view') {
-            throw new Exception("Couldn't set sharing of list to read mode");
-        }
+        $editView = $page->find('css', '#edit-view');
+        $editView->focus();
 
         $foundLink = $page->find('css', '#edit-sharer #edit-view');
         if (!$foundLink) {
             throw new Exception("Couldn't find sharing link with token");
         }
         $link = $foundLink->getValue();
-        $this->dataRegistry['link:' . $title] = $link;
-    }
+        $this->dataRegistry['read link:' . $title] = $link;
 
-    /**
-     * @When I make the list :title write shared
-     */
-    public function iMakeTheListWriteShared($title)
-    {
-        $page = $this->ding2Context->minkContext->getSession()->getPage();
-        // Make list shared.
-        $this->makeListShared($title);
-
-        // Select view mode.
-        $found = $page->find('css', '#edit-sharer #edit-permission');
-        if (!$found) {
-            throw new \Exception("Couldn't find dropdown menu for sharing permissions");
-        }
-        $found->selectOption('view');
-        $selected = $page->find('css', '#edit-sharer #edit-permission option[value="view"]');
-        if($selected->getValue() != 'edit') {
-            throw new Exception("Couldn't set sharing of list to read mode");
-        }
+        $found->selectOption('edit');
+        $editView = $page->find('css', '#edit-view');
+        $editView->focus();
 
         $foundLink = $page->find('css', '#edit-sharer #edit-view');
         if (!$foundLink) {
             throw new Exception("Couldn't find sharing link with token");
         }
         $link = $foundLink->getValue();
-        $this->dataRegistry['link:' . $title] = $link;
+        $this->dataRegistry['write link:' . $title] = $link;
     }
 
     /**
-     * @Then I should be able to see the list :title as a different user
+     * @Then I should be able to see the list :title with the :access link as a different user
      */
-    public function iShouldBeAbleToSeeTheListAsADifferentUser($title)
+    public function iShouldBeAbleToSeeTheListWithTheLinkAsADifferentUser($title, $access)
     {
         $page = $this->ding2Context->minkContext->getSession()->getPage();
         // Get link to list.
-        $link = $this->dataRegistry['link:' . $title];
+        $link = $this->dataRegistry[strtolower($access) . ' link:' . $title];
 
         // Log in as a different user.
         $this->ding2Context->iAmLoggedInAsALibraryUser();
@@ -880,6 +862,10 @@ class P2Context implements Context, SnippetAcceptingContext
         if ($listTitle != $title) {
             throw new Exception("Found list '$listTitle' is not the same as '$title'");
         }
+
+        $link = $this->dataRegistry[$access . ' link:' .$title];
+        $this->gotoPage($link);
+        $this->iFollowTheList($title);
     }
 
     /**
@@ -1115,13 +1101,41 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should not be able to add material to the list :title as a different user
+     * @Then I should not be able to add material :material to the list :title as a different user
      */
-    public function iShouldNotBeAbleToAddMaterialToTheListAsADifferentUser($title)
+    public function iShouldNotBeAbleToAddMaterialToTheListAsADifferentUser($material, $title)
     {
+        $this->gotoPage('/ting/object/' . $material);
+
+        // Check that the link for add element to shared list does not exist.
+        $listId = $this->getListId($title);
         $this->ding2Context->minkContext->assertElementNotOnPage(
-            '.buttons li a[href^="/dinglist/attach/ting_object"]:contains("' . $title . '")'
+            '.buttons li a[href^="/dinglist/attach/ting_object/' . $listId . '/"]'
         );
+    }
+
+    /**
+     * @Then I should be able to add material :material to the list :title as a different user
+     */
+    public function iShouldBeAbleToAddMaterialToTheListAsADifferentUser($material, $title)
+    {
+        $this->gotoPage('/ting/object/' . $material);
+
+        // Check that the link for add element to shared list exists.
+        $listId = $this->getListId($title);
+        $this->ding2Context->minkContext->assertElementOnPage(
+          '.buttons li a[href^="/dinglist/attach/ting_object/' . $listId . '"]'
+        );
+
+        // If the add link is there, test that the user can add material.
+        $this->moreDropdownSelectByLink(
+          '/dinglist/attach/ting_object/' . $listId,
+          "Couldn't find link to add material to the list '$title'"
+        );
+
+        // Check that the material is on the list.
+        $this->gotoListPage($title);
+        $this->ding2Context->minkContext->assertElementOnPage('.a[href^="/ting/collection/' . $material . '"]');
     }
 
     /**
