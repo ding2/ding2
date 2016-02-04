@@ -1,0 +1,24 @@
+// =============================================================================
+//
+// Stylesheet combiner
+//
+// =============================================================================
+//
+
+// Include compass
+@import "compass/css3";
+
+// Grid - http://zengrids.com
+@import "zen";
+
+// Include selected variables from DDBasic
+@import "configuration/_variables";
+
+
+// Include selected mixins from DDBasic
+@import "framework/_mixins";
+
+// Include module
+@import "modules/_ting_search_context";
+
+

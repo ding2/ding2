@@ -1,0 +1,114 @@
+/**
+ * Consistent styling of our VBO view used to rate nodes.
+ * Borrowed from the Administrative Views module (admin_views).
+ */
+.view-ting-search-context-rate-nodes .views-exposed-form .form-text {
+  width: 10em;
+}
+
+.view-ting-search-context-rate-nodes .views-exposed-form .description {
+  display: none;
+}
+
+.view-ting-search-context-rate-nodes .views-exposed-form .views-submit-button,
+.view-ting-search-context-rate-nodes .views-exposed-form .views-reset-button {
+  padding-right: 0;
+}
+
+.view-ting-search-context-rate-nodes .form-item-operation {
+  float: left;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: 1em;
+}
+
+.view-ting-search-context-rate-nodes .form-submit {
+  margin-top: 0.5em;
+}
+
+/**
+ * Styling of ratings filter.
+ */
+.views-widget-filter-ting_search_context_node_ratings select {
+  width: 15em;
+}
+
+.views-widget-filter-ting_search_context_node_ratings .views-widget .form-type-select {
+  padding-bottom: 0;
+}
+
+.views-exposed-widgets {
+  margin-bottom: 0;
+}
+
+/**
+ * A better position for the exposed filters Submit and Reset buttons
+ */
+.views-exposed-form {
+  position: relative;
+  display: inline-block;
+}
+
+.views-exposed-widget.views-submit-button input,
+.views-exposed-widget.views-reset-button input {
+  width: 8em;
+}
+
+.views-exposed-widget.views-submit-button {
+  position: absolute;
+  bottom: 0;
+  right: 9.5em;
+}
+
+.views-exposed-widget.views-reset-button {
+  position: absolute;
+  bottom: 0;
+  right: -0.3333em;
+}
+
+.ting-search-context-rate-nodes-first-step {
+  /* Correct the undesirable white-space from using inline-block */
+  /* We use our custom class to make sure it only has effect on first step. */
+  margin-top: -1.5em;
+}
+
+/**
+ * Styling of the select nodes list on per-bulk configuration form and the
+ * VBO confirm form (make it horizontal).
+ */
+.view-ting-search-context-rate-nodes ul.ting-search-context-selected-nodes {
+  margin-left: 0;
+}
+
+.view-ting-search-context-rate-nodes ul.ting-search-context-selected-nodes li {
+  display: inline;
+  list-style-type: none;
+}
+
+.view-ting-search-context-rate-nodes ul.ting-search-context-selected-nodes li:after {
+  content: " - ";
+}
+
+.view-ting-search-context-rate-nodes ul.ting-search-context-selected-nodes li:last-of-type:after {
+  content: "";
+}
+
+.view-ting-search-context-rate-nodes .context-header {
+  margin-top: 1.9em;
+}
+
+/**
+ * Fallback images admin UI.
+ */
+.ting-search-context-fallaback-images input[type=submit] {
+  margin-top: 20px;
+  margin-right: 10px;
+}
+
+.ting-search-context-fallaback-images img.preview {
+  margin-bottom: 10px;
+}
+
+.ting-search-context-fallaback-images .fieldset-wrapper {
+  padding-bottom: 0;
+}
