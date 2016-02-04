@@ -969,7 +969,17 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @Given I am on a material page that has the subject science fiction
+     */
+    public function iAmOnAMaterialPageThatHasTheSubject()
+    {
+        $material = '870970-basis%3A06333737';
+        $this->gotoPage('/ting/object/' . $material);
+    }
+
+    /**
      * @Then I should see the tag :tag on the material
+     * @Then I should see the subject :tag on the material
      */
     public function iShouldSeeTheTagOnTheMaterial($tag)
     {
@@ -978,6 +988,7 @@ class P2Context implements Context, SnippetAcceptingContext
 
     /**
      * @Given I have chosen a book material :material with the tag :tag
+     * @Given I have chosen a book material :material with the subject :tag
      */
     public function iHaveChosenABookMaterialWithTheTag($material, $tag)
     {
@@ -1001,6 +1012,7 @@ class P2Context implements Context, SnippetAcceptingContext
 
     /**
      * @When I follow the tag :tag
+     * @When I follow the subject :tag
      */
     public function iFollowTheTag($tag)
     {
@@ -1024,6 +1036,7 @@ class P2Context implements Context, SnippetAcceptingContext
 
     /**
      * @Then I should see the tag :tag on my list :list
+     * @Then I should see the subject :tag on my list :list
      */
     public function iShouldSeeTheTagOnMyList($tag, $list)
     {
@@ -1032,17 +1045,29 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given I am following the tag :tag chosen from the material with collection name :collection
+     * @Then I should see the subject :tag on the list of my interests
      */
-    public function iAmFollowingTheTag($tag, $collection)
+    public function iShouldSeeTheSubjectOnTheListOfMyInterests($tag)
     {
-        $this->gotoPage('/ting/collection/' . $collection);
+        $this->iShouldSeeTheTagOnMyList($tag, 'Mine interesser');
+    }
+
+    /**
+     * @Given I am following the tag :tag
+     * @Given I am following the subject :tag
+     */
+    public function iAmFollowingTheTag($tag)
+    {
+        // Some material with the subject "orkideer".
+        $material = "870970-basis%3A45614654";
+        $this->gotoPage('/ting/collection/' . $material);
         $this->iFollowTheTag($tag);
         $this->iShouldSeeTheTagOnMyList($tag, 'Mine interesser');
     }
 
     /**
      * @When I unfollow the tag :tag
+     * @When I unfollow the subject :tag
      */
     public function iUnfollowTheTag($tag)
     {
@@ -1062,10 +1087,12 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should not see the tag :tag on my list :list
+     * @Then I should not see the tag :tag on the list of my interests
+     * @Then I should not see the subject :tag on the list of my interests
      */
-    public function iShouldNotSeeTheTagOnMyList($tag, $list)
+    public function iShouldNotSeeTheTagOnMyList($tag)
     {
+        $list = 'Mine interesser';
         $this->gotoListPage($list);
         $found = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', '.vocabulary-ding-content-tags a:contains("' . $tag . '")');
@@ -1081,6 +1108,15 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         // Rely on getListId throwing an error for unknown lists.
         $this->getListId($name);
+    }
+
+    /**
+     * @Given the list of my interests exists
+     */
+    public function theListOfMyInterestsExists()
+    {
+        // Rely on getListId throwing an error for unknown lists.
+        $this->getListId('Mine interesser');
     }
 
     /**
