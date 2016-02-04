@@ -27,7 +27,7 @@ class PageBase extends Page {
 
     public function waitForPopup()
     {
-        $this->waitFor(10000, function ($page) {
+        $this->waitFor(10, function ($page) {
             return $page->find('css', '.ui-dialog');
         });
     }
