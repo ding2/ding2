@@ -2,6 +2,7 @@
 /**
  * @file
  * Defines the search context panels.
+ * 
  * ting_search_context_feature.pages_default.inc
  */
 

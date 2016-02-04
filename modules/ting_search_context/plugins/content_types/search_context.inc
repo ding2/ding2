@@ -32,8 +32,8 @@ function ting_search_context_search_context_content_type_render($subtype, $conf,
 
     // Empty block to be filled by an ajax callback.
     $block->content = theme('ting_search_context', array('context_id' => $context_id, 'position' => $position));
-
-  } else {
+  }
+  else {
     $block->content = '';
   }
   return $block;
