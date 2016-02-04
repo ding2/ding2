@@ -313,3 +313,10 @@ function ding2_update_7012() {
 function ding2_update_7013() {
   ding2_translation_update();
 }
+
+/**
+ * Enable metatag and metatag_panels modules.
+ */
+function ding2_update_7014() {
+  module_enable(array('metatag', 'metatag_panels'));
+}
