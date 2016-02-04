@@ -49,10 +49,10 @@ you're on the top.
 There's currently at least three different ways to do this. The
 recommended way is using page objects and `ElementBase::scrollTo()`:
 
-``` php
-        $button = $this->findButton('edit-add-list');
-        $this->scrollTo($button);
-        $button->press();
+```php
+$button = $this->findButton('edit-add-list');
+$this->scrollTo($button);
+$button->press();
 ```
 
 The `scrollTo()` method takes a mink Element and is thus easy to use.
@@ -85,7 +85,7 @@ And lastly, waiting for pretty much anything can be accomplished by
 using the Mink `Element::waitFor()` method.
 
 Example (pre-page objects):
-```
+```php
 $page = $this->ding2Context->minkContext->getSession()->getPage();
 $page->waitFor(10, function ($page) {
     return $page->find('css', '.ding-list-add-button a');
