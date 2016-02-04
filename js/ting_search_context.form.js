@@ -9,7 +9,7 @@
 			$(".field_ting_search_context_name", context).change(function(e) {
 				var ratingFormItem = $(this).parent().next();
 				$(this).val() == 0 ? ratingFormItem.hide() : ratingFormItem.show();
-			});			
+			});
 			// CLick handler for the reset button.
 			$(".field_ting_search_context_remove", context).click(function(e) {
 				e.preventDefault();
@@ -17,9 +17,9 @@
 				var nameFormItem = ratingFormItem.prev();
 				ratingFormItem.hide();
 				nameFormItem.find("select").val(0);
-			});			
+			});
 		}
 
-	};	
+	};
 
 })(jQuery);

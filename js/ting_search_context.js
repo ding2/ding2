@@ -66,10 +66,10 @@
 
         var mql = window.matchMedia("screen and (min-width: 940px)");
         if (mql.matches){ // if media query matches
-         return ">=940px";
+          return ">=940px";
         }
         else {
-         return "<940px";
+          return "<940px";
         }
       }
     };
@@ -251,7 +251,7 @@
         name: 'ting_search_context',
         init: init,
         reposition: reposition
-    };
+      };
   })();
 
   /**
