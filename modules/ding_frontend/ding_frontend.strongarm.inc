@@ -20,16 +20,6 @@ function ding_frontend_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'ding_frontend_fe_promote_types';
-  $strongarm->value = array(
-    'ding_event' => 'ding_event',
-    'ding_news' => 0,
-  );
-  $export['ding_frontend_fe_promote_types'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'dynamic_background_css';
   $strongarm->value = array(
     'selector' => '#page.ding2-site-template',

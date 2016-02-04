@@ -108,6 +108,11 @@ function theme_date_time_seperate_lines($vars) {
  */
 function ding_event_post_features_revert() {
   ding_event_install_menu_position('revert');
+  if (module_exists('ding_frontpage')) {
+    module_load_include('inc', 'ding_frontpage', 'ding_frontpage.admin');
+    $custom_promote_frontpage = variable_get('ding_frontend_fe_promote_types', array('ding_event' => 'ding_event'));
+    ding_frontend_set_promote_configuration($custom_promote_frontpage);
+  }
 }
 
 /**

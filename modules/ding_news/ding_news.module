@@ -21,6 +21,11 @@ function ding_news_entity_info_alter(&$entity_info) {
  */
 function ding_news_post_features_revert() {
   ding_news_install_menu_position('revert');
+  if (module_exists('ding_frontpage')) {
+    module_load_include('inc', 'ding_frontpage', 'ding_frontpage.admin');
+    $custom_promote_frontpage = variable_get('ding_frontend_fe_promote_types', array());
+    ding_frontend_set_promote_configuration($custom_promote_frontpage);
+  }
 }
 
 /**
