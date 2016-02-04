@@ -1115,8 +1115,15 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function theListOfMyInterestsExists()
     {
-        // Rely on getListId throwing an error for unknown lists.
-        $this->getListId('Mine interesser');
+        $this->theListExists('Mine interesser');
+    }
+
+    /**
+     * @Given the list of rated materials exists
+     */
+    public function theListOfRatedMaterialsExists()
+    {
+        $this->theListExists('Materialer jeg har bedømt');
     }
 
     /**
@@ -1185,11 +1192,12 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When I rate the material :material with :stars stars
-     * @When I change the rating of material :material to :stars stars
+     * @When I rate the material :title with :stars stars
+     * @When I change the rating of material :title to :stars stars
      */
-    public function iRateTheMaterialWithStars($material, $stars)
+    public function iRateTheMaterialWithStars($title, $stars)
     {
+        $material = $this->titleToMaterial($title);
         $page = $this->ding2Context->minkContext->getSession()->getPage();
 
         $found = $page->find('css', '.ding-rating[data-ding-entity-rating-path^="' . urldecode($material) . '/"]');
@@ -1216,12 +1224,40 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given I have rated the material :material with :stars stars
+     * Translate some defined titles to materials.
+     *
+     * @param $title
+     * @return null|string
      */
-    public function iHaveRatedTheMaterialWithStars($material, $stars)
+    public function titleToMaterial($title) {
+        $material = NULL;
+        switch($title) {
+            case 'The riddle of Nostradamus':
+                $material = '870970-basis%3A42065897';
+                break;
+
+            case 'Asimov on physics':
+                $material = '870970-basis%3A01860410';
+                break;
+
+            case "Debrett's etiquette and modern manners":
+                $material = '870970-basis%3A25893271';
+                break;
+
+            default:
+                $material = '';
+        }
+        return $material;
+    }
+
+    /**
+     * @Given I have rated the material :title with :stars stars
+     */
+    public function iHaveRatedTheMaterialWithStars($title, $stars)
     {
+        $material = $this->titleToMaterial($title);
         $this->gotoPage('/ting/object/' . $material);
-        $this->iRateTheMaterialWithStars($material, $stars);
+        $this->iRateTheMaterialWithStars($title, $stars);
     }
 
     /**
@@ -1233,10 +1269,11 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should see that the material :material is marked with :stars stars
+     * @Then I should see that the material :title is marked with :stars stars
      */
-    public function iShouldSeeThatTheMaterialIsMarkedWithStars($material, $stars)
+    public function iShouldSeeThatTheMaterialIsMarkedWithStars($title, $stars)
     {
+        $material = $this->titleToMaterial($title);
         $this->ding2Context->minkContext
             ->assertElementOnPage('.ding-entity-rating[data-ding-entity-rating-path^="' . urldecode($material) . '/"]');
         $this->ding2Context->minkContext->assertNumElements(
