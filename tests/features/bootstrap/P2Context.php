@@ -830,6 +830,34 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @When I make the list :title write shared
+     */
+    public function iMakeTheListWriteShared($title)
+    {
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
+        // Make list shared.
+        $this->makeListShared($title);
+
+        // Select view mode.
+        $found = $page->find('css', '#edit-sharer #edit-permission');
+        if (!$found) {
+            throw new \Exception("Couldn't find dropdown menu for sharing permissions");
+        }
+        $found->selectOption('view');
+        $selected = $page->find('css', '#edit-sharer #edit-permission option[value="view"]');
+        if($selected->getValue() != 'edit') {
+            throw new Exception("Couldn't set sharing of list to read mode");
+        }
+
+        $foundLink = $page->find('css', '#edit-sharer #edit-view');
+        if (!$foundLink) {
+            throw new Exception("Couldn't find sharing link with token");
+        }
+        $link = $foundLink->getValue();
+        $this->dataRegistry['link:' . $title] = $link;
+    }
+
+    /**
      * @Then I should be able to see the list :title as a different user
      */
     public function iShouldBeAbleToSeeTheListAsADifferentUser($title)
