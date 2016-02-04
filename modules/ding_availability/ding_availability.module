@@ -236,6 +236,7 @@ function ding_availability_holdings($provider_ids) {
  *
  * @param int $date
  *   Loan date timestamp.
+ *
  * @return string
  *   Sane display of time to wait (months/weeks/days).
  */
