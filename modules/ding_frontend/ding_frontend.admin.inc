@@ -37,10 +37,10 @@ function ding_frontend_settings_submit($form, &$form_state) {
 /**
  * Function to set drupal promote to frontpage from custom form settings.
  *
- * @param array $custom_promote_settings contain custom settings for drupal
- *  promote to frontpage settings.
+ * @param array $custom_promote_settings
+ *   Contain custom settings for drupal promote to frontpage settings.
  *
- * @see ding_frontend_settings().
+ * @see ding_frontend_settings()
  */
 function ding_frontend_set_promote_configuration($custom_promote_settings) {
   $types = array(
