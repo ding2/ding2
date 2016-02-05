@@ -552,12 +552,16 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iGoToTheShareLink()
     {
-        $found = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.share .menu-item');
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
+        $found = $page->find('css', '.share .menu-item');
         if (!$found) {
             throw new \Exception("Couldn't find link to share list");
         }
         $found->click();
+
+        $page->waitFor(5, function ($page) {
+            return $page->find('css', '#edit-status option');
+        });
     }
 
     /**
@@ -680,6 +684,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iFollowTheList($title)
     {
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
         $this->gotoListPage($title);
 
         $listId = $this->getListId($title);
