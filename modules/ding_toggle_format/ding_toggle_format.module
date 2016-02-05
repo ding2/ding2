@@ -57,18 +57,36 @@ function ding_toggle_format_secure_permissions($role) {
  * @see system_settings_form()
  */
 function ding_toggle_format_settings_admin_form($form, &$form_state) {
-  $toggle_pages = array(
-    'search/ting' => 'Ting search results.',
-    'user' => 'User status page(s).',
-    'ting/object' => 'Ting object page.',
+  $materials_toggle_pages = array(
+    'search/ting' => t('Ting search results.'),
+    'ting/object' => t('Ting object page.'),
+    'ting/collection' => t('Ting collection page'),
   );
 
-  $show_toggle_pages = variable_get('ding_toggle_format_pages', array());
+  $user_toggle_pages = array(
+    'status' => t('User status page(s).'),
+    'bookmarks' => t('User bookmarks page.'),
+  );
+
   $form['ding_toggle_format_pages'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Toggle page'),
+    '#collapsible' => FALSE,
+    '#collapsed' => FALSE,
+  );
+
+  $form['ding_toggle_format_pages']['materials_toggle'] = array(
     '#type' => 'checkboxes',
-    '#title' => t('Ding toggle format pages.'),
-    '#options' => $toggle_pages,
-    '#default_value' => $show_toggle_pages,
+    '#title' => t('Ding toggle format for materials pages.'),
+    '#options' => $materials_toggle_pages,
+    '#default_value' => variable_get('materials_toggle', array()),
+  );
+
+  $form['ding_toggle_format_pages']['user_toggle'] = array(
+    '#type' => 'checkboxes',
+    '#title' => t('Ding toggle format for user pages.'),
+    '#options' => $user_toggle_pages,
+    '#default_value' => variable_get('user_toggle', array()),
   );
 
   return system_settings_form($form);
@@ -145,14 +163,12 @@ function ding_toggle_format_render_link() {
  */
 function ding_toggle_format_preprocess(&$variables, $hook) {
   if ('25_50_25' == $hook) {
-    $toggle_format_pages = variable_get('ding_toggle_format_pages', array());
+    $materials_toggle = variable_get('materials_toggle', array());
+    $user_toggle = variable_get('user_toggle', array());
 
-    foreach ($toggle_format_pages as $page) {
-      $user_pages = 'user' == $page && 'status' != arg(2);
-      if (empty($page) || !strstr($_GET['q'], $page) || $user_pages) {
-        continue;
-      }
-
+    $is_toggle_page = ding_toggle_format_check_page($materials_toggle) ||
+      ding_toggle_format_check_page($user_toggle, 'user', 2);
+    if ($is_toggle_page) {
       $block = module_invoke('ding_toggle_format', 'block_view', '');
       $toggle_format_markup =
         '<div class="panel-pane pane-block pane-ding-toggle-format-toggle">' .
@@ -165,4 +181,47 @@ function ding_toggle_format_preprocess(&$variables, $hook) {
       $variables['content']['main_content'] = $toggle_format_markup . $existing_content;
     }
   }
+}
+
+/**
+ * Function determine if current page should have toggle format buttons.
+ *
+ * @param array    $toggle_pages key represent part or uri on which toggle buttons
+ *  should be visible.
+ *
+ * @param string $complex_uri should be used only for pages which contain id's
+ *  and some other parameters after it, e.g. user/%uid/status.
+ *  Consider that you have to transfer to this parameters only first part of uri
+ *  which son't contain id's, from example shown above it will bee 'user'.
+ *
+ * @param bool|int $complex_page_arg number of uri parameter which will be compared
+ *  with $toggle_pages variable. E.g. for user/%uid/status URI it should be 2.
+ *  FYI, numbering of URI parameters should coincide with arg() function numbering.
+ *
+ * @return bool
+ */
+function ding_toggle_format_check_page($toggle_pages, $complex_uri = '', $complex_page_arg = FALSE) {
+  // Skip complex urls if parameters empty.
+  if (!empty($complex_uri)) {
+    if (is_bool($complex_page_arg) && FALSE == $complex_page_arg) {
+      return FALSE;
+    }
+
+    foreach ($toggle_pages as $toggle_page) {
+      if (strstr($_GET['q'], $complex_uri) && arg($complex_page_arg) == $toggle_page) {
+        return TRUE;
+      }
+    }
+
+    return FALSE;
+  }
+
+  // Check for non complex uri's
+  foreach ($toggle_pages as $toggle_page) {
+    if (strstr($_GET['q'], $toggle_page)) {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
 }
