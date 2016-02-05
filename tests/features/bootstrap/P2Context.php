@@ -322,6 +322,22 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @Given I am on a material of :author
+     */
+    public function iAmOnAMaterialOf($author)
+    {
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
+        $this->gotoSearchPage($author);
+
+        $found = $page->find('css', '#edit-creator input[value="' . strtolower($author) . '"]');
+        if (!$found) {
+            throw new Exception("Couldn't filter for author $author");
+        }
+        $this->ding2Context->scrollTo($found);
+        $found->check();
+    }
+
+    /**
      * @When I add the author :author to authors I follow
      */
     public function iAddTheAuthorToAuthorsIFollow($author)

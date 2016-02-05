@@ -9,7 +9,7 @@ Feature: Follow author
 
   @api @javascript
   Scenario: Follow author
-    Given I have searched for "George Orwell"
+    Given I am on a material of "George Orwell"
     When I add the author "George Orwell" to authors I follow
     Then I should see "George Orwell" on the list of followed authors
 
