@@ -1,11 +1,11 @@
 Feature: Public lists
   In order to share lists with other library users
   As a library user
-  I want to be able to share lists
+  I want to be able to make my lists public
   
   - Users should be able to share lists
   - Users should be able to follow shared lists
-  - Users should be able to to add material to shared lists, if they have proper permissions
+  - Users should be able to add material to shared lists, if they have proper permissions
 
   Background:
     Given I am logged in as a library user
@@ -44,19 +44,21 @@ Feature: Public lists
   @api @javascript
   Scenario: Other users can't add content to a public list
     Given I have created a public list "My fruit books"
-    When I have searched for "Essential guide to back garden self-sufficiency"
-    Then I should not be able to add material "870970-basis%3A06130992" to the list "My fruit books" as a different user
+    When I log in as a different user
+    Then I should not be able to add material "Essential guide to back garden self-sufficiency" to the list "My fruit books"
 
-  @api @javascript @regression @wip
+  @api @javascript @regression
   Scenario: Make list shared for other users to read
     Given I have created a list "My family's vacation books"
     When I make the list "My family's vacation books" read shared
-    Then I should be able to see the list "My family's vacation books" with the "read" link as a different user
-    And I should not be able to add material "870970-basis%3A07838573" to the list "My family's vacation books" as a different user
+    And I log in as a different user
+    Then I should be able to see the list "My family's vacation books" with the "read" link
+    And I should not be able to add material "The raven" to the list "My family's vacation books"
 
-  @api @javascript @regression @wip
+  @api @javascript @regression
   Scenario: Make list shared for other users to add material
     Given I have created a list "My special books for my friends"
     When I make the list "My special books for my friends" write shared
-    Then I should be able to see the list "My special books for my friends" with the "write" link as a different user
-    And I should be able to add material "870970-basis%3A41249463" to the list "My special books for my friends" as a different user
+    And I log in as a different user
+    Then I should be able to see the list "My special books for my friends" with the "write" link
+    And I should be able to add material "The price" to the list "My special books for my friends" as a different user

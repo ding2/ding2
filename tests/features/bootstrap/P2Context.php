@@ -826,16 +826,13 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should be able to see the list :title with the :access link as a different user
+     * @Then I should be able to see the list :title with the :access link
      */
-    public function iShouldBeAbleToSeeTheListWithTheLinkAsADifferentUser($title, $access)
+    public function iShouldBeAbleToSeeTheListWithTheLink($title, $access)
     {
         $page = $this->ding2Context->minkContext->getSession()->getPage();
         // Get link to list.
         $link = $this->dataRegistry[strtolower($access) . ' link:' . $title];
-
-        // Log in as a different user.
-        $this->ding2Context->iAmLoggedInAsALibraryUser();
 
         // Go to list.
         $this->gotoPage($link);
@@ -1138,10 +1135,19 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should not be able to add material :material to the list :title as a different user
+     * @When I log in as a different user
      */
-    public function iShouldNotBeAbleToAddMaterialToTheListAsADifferentUser($material, $title)
+    public function iLogInAsADifferentUser()
     {
+        $this->ding2Context->iAmLoggedInAsALibraryUser();
+    }
+
+    /**
+     * @Then I should not be able to add material :materialTitle to the list :title
+     */
+    public function iShouldNotBeAbleToAddMaterialToTheList($materialTitle, $title)
+    {
+        $material = $this->titleToMaterial($materialTitle);
         $this->gotoPage('/ting/object/' . $material);
 
         // Check that the link for add element to shared list does not exist.
@@ -1236,6 +1242,18 @@ class P2Context implements Context, SnippetAcceptingContext
 
             case "Debrett's etiquette and modern manners":
                 $material = '870970-basis%3A25893271';
+                break;
+
+            case 'Essential guide to back garden self-sufficiency':
+                $material = '870970-basis%3A06130992';
+                break;
+
+            case 'The raven':
+                $material = "870970-basis%3A07838573";
+                break;
+
+            case 'The price':
+                $material = '870970-basis%3A41249463';
                 break;
 
             default:
