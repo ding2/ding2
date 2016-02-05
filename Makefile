@@ -30,5 +30,6 @@ circle-run-tests:
 	cd $(DRUPAL_SITE_PATH)/profiles/ding2/tests && \
 	eval `phpenv sh-shell $(BEHAT_PHP_VERSION)` && \
 	./bin/behat --tags '~wip' --tags '~regression' \
+	$(if $(subst 0,,$(CIRCLE_NODE_INDEX)),,--tags '~no_circle_selenium')
 	--format=junit --format=pretty \
 	$(if $(subst 0,,$(CIRCLE_NODE_INDEX)),-p chrome)
