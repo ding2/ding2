@@ -152,6 +152,7 @@ class P2Context implements Context, SnippetAcceptingContext
             'Materialer jeg har bedømt',
             'Mine interesser',
             'Søgninger jeg følger',
+            'Tidligere lån',
         ];
 
         $listName = 'list:' . $list;
@@ -182,6 +183,34 @@ class P2Context implements Context, SnippetAcceptingContext
     public function addCurrentMaterialToList($title)
     {
         $this->moreDropdownSelect($title, "Couldn't find button to add material to list");
+    }
+
+    /**
+     * Make list shared.
+     *
+     * @param string $title
+     *   Title of list
+     * @throws \Behat\Mink\Exception\ElementNotFoundException
+     * @throws \Exception
+     */
+    public function makeListShared($title) {
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
+        $this->gotoListPage($title);
+
+        // Click share list.
+        $this->iGoToTheShareLink();
+
+        $found = $page->find('css',
+          '#ding-list-list-permissions-form #edit-status');
+        if (!$found) {
+            throw new \Exception("Couldn't find dropdown menu for sharing list");
+        }
+        $found->selectOption('shared');
+        // Wait for list to be shared.
+        $page->waitFor(5, function ($page) {
+            return $page->find('css',
+              '#status-description:contains("Your list is now shared")');
+        });
     }
 
     /**
@@ -219,7 +248,7 @@ class P2Context implements Context, SnippetAcceptingContext
     public function moreDropdownSelectByLink($href, $errorMessage)
     {
         $page = $this->ding2Context->minkContext->getSession()->getPage();
-        $page->waitFor(10000, function ($page) {
+        $page->waitFor(5, function ($page) {
             return $page->find('css', '.ding-list-add-button a');
         });
         $button = $page->find('css', '.ding-list-add-button a');
@@ -291,6 +320,22 @@ class P2Context implements Context, SnippetAcceptingContext
         if ($found && $found->getValue() == $arg1) {
             throw new \Exception("Link to author '$arg1' still exists.");
         }
+    }
+
+    /**
+     * @Given I am on a material of :author
+     */
+    public function iAmOnAMaterialOf($author)
+    {
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
+        $this->gotoSearchPage($author);
+
+        $found = $page->find('css', '#edit-creator input[value="' . strtolower($author) . '"]');
+        if (!$found) {
+            throw new Exception("Couldn't filter for author $author");
+        }
+        $this->ding2Context->scrollTo($found);
+        $found->check();
     }
 
     /**
@@ -386,7 +431,6 @@ class P2Context implements Context, SnippetAcceptingContext
         if (empty($this->ding2Context->user) || empty($this->ding2Context->user->uid)) {
             throw new \Exception("User doesn't exist");
         }
-        $uid = $this->ding2Context->user->uid;
         $this->gotoPage($this->ding2Context->userPath() . "/consent");
         $this->ding2Context->waitForPage();
     }
@@ -406,21 +450,6 @@ class P2Context implements Context, SnippetAcceptingContext
 
         $checked->check();
         $this->ding2Context->minkContext->pressButton('edit-submit');
-    }
-
-    /**
-     * @Then I should see that the consent box is checked
-     */
-    public function iShouldSeeThatTheConsentBoxIsChecked()
-    {
-        $this->iAmOnMyUserConsentPage();
-        $checked = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '#edit-loan-history-store');
-        if (!$checked) {
-            throw new \Exception("Couldn't find consent check box");
-        }
-        if (!$checked->isChecked()) {
-            throw new \Exception("Consent checkbox is not checked.");
-        }
     }
 
     /**
@@ -446,24 +475,9 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should see that the consent box is not checked
+     * @Given I have given consent to save my loan history
      */
-    public function iShouldSeeThatTheConsentBoxIsNotChecked()
-    {
-        $this->iAmOnMyUserConsentPage();
-        $checked = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '#edit-loan-history-store');
-        if (!$checked) {
-            throw new \Exception("Couldn't find consent check box");
-        }
-        if ($checked->isChecked()) {
-            throw new \Exception("Consent checkbox is checked");
-        }
-    }
-
-    /**
-     * @Given I have checked the personalisation consent box
-     */
-    public function iHaveCheckedThePersonalisationConsentBox()
+    public function iHaveGivenConsentToSaveMyLoanHistory()
     {
         $this->iAmOnMyUserConsentPage();
         $this->iCheckTheConsentBox();
@@ -481,11 +495,11 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given I have unchecked the personalisation consent box
+     * @Given I have withdrawn consent to save loan history
      */
-    public function iHaveUncheckedThePersonalisationConsentBox()
+    public function iHaveWithdrawnConsentToSaveLoanHistory()
     {
-        // Uncheck the box.
+        // Uncheck the 'consent to save loan history' checkbox.
         $this->iAmOnMyUserConsentPage();
         $this->iUncheckTheConsentBox();
     }
@@ -774,6 +788,70 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @When I make the list :title read shared
+     * @When I make the list :title write shared
+     */
+    public function iMakeTheListReadShared($title)
+    {
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
+        // Make list shared.
+        $this->makeListShared($title);
+
+        // Select view mode.
+        $found = $page->find('css', '#edit-sharer #edit-permission');
+        if (!$found) {
+            throw new \Exception("Couldn't find dropdown menu for sharing permissions");
+        }
+        $found->selectOption('view');
+        $editView = $page->find('css', '#edit-view');
+        $editView->focus();
+
+        $foundLink = $page->find('css', '#edit-sharer #edit-view');
+        if (!$foundLink) {
+            throw new Exception("Couldn't find sharing link with token");
+        }
+        $link = $foundLink->getValue();
+        $this->dataRegistry['read link:' . $title] = $link;
+
+        $found->selectOption('edit');
+        $editView = $page->find('css', '#edit-view');
+        $editView->focus();
+
+        $foundLink = $page->find('css', '#edit-sharer #edit-view');
+        if (!$foundLink) {
+            throw new Exception("Couldn't find sharing link with token");
+        }
+        $link = $foundLink->getValue();
+        $this->dataRegistry['write link:' . $title] = $link;
+    }
+
+    /**
+     * @Then I should be able to see the list :title with the :access link
+     */
+    public function iShouldBeAbleToSeeTheListWithTheLink($title, $access)
+    {
+        $page = $this->ding2Context->minkContext->getSession()->getPage();
+        // Get link to list.
+        $link = $this->dataRegistry[strtolower($access) . ' link:' . $title];
+
+        // Go to list.
+        $this->gotoPage($link);
+
+        $found = $page->find('css', '.pane-list-followers .pane-title');
+        if (!$found) {
+            throw new Exception("Couldn't find shared list");
+        }
+        $listTitle = $found->getText();
+        if ($listTitle != $title) {
+            throw new Exception("Found list '$listTitle' is not the same as '$title'");
+        }
+
+        $link = $this->dataRegistry[$access . ' link:' .$title];
+        $this->gotoPage($link);
+        $this->iFollowTheList($title);
+    }
+
+    /**
      * @Given I am on the material :material
      */
     public function iAmOnTheMaterial($material)
@@ -874,7 +952,17 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @Given I am on a material page that has the subject science fiction
+     */
+    public function iAmOnAMaterialPageThatHasTheSubject()
+    {
+        $material = '870970-basis%3A06333737';
+        $this->gotoPage('/ting/object/' . $material);
+    }
+
+    /**
      * @Then I should see the tag :tag on the material
+     * @Then I should see the subject :tag on the material
      */
     public function iShouldSeeTheTagOnTheMaterial($tag)
     {
@@ -883,6 +971,7 @@ class P2Context implements Context, SnippetAcceptingContext
 
     /**
      * @Given I have chosen a book material :material with the tag :tag
+     * @Given I have chosen a book material :material with the subject :tag
      */
     public function iHaveChosenABookMaterialWithTheTag($material, $tag)
     {
@@ -906,6 +995,7 @@ class P2Context implements Context, SnippetAcceptingContext
 
     /**
      * @When I follow the tag :tag
+     * @When I follow the subject :tag
      */
     public function iFollowTheTag($tag)
     {
@@ -929,6 +1019,7 @@ class P2Context implements Context, SnippetAcceptingContext
 
     /**
      * @Then I should see the tag :tag on my list :list
+     * @Then I should see the subject :tag on my list :list
      */
     public function iShouldSeeTheTagOnMyList($tag, $list)
     {
@@ -937,17 +1028,29 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given I am following the tag :tag chosen from the material with collection name :collection
+     * @Then I should see the subject :tag on the list of my interests
      */
-    public function iAmFollowingTheTag($tag, $collection)
+    public function iShouldSeeTheSubjectOnTheListOfMyInterests($tag)
     {
-        $this->gotoPage('/ting/collection/' . $collection);
+        $this->iShouldSeeTheTagOnMyList($tag, 'Mine interesser');
+    }
+
+    /**
+     * @Given I am following the tag :tag
+     * @Given I am following the subject :tag
+     */
+    public function iAmFollowingTheTag($tag)
+    {
+        // Some material with the subject "orkideer".
+        $material = "870970-basis%3A45614654";
+        $this->gotoPage('/ting/collection/' . $material);
         $this->iFollowTheTag($tag);
         $this->iShouldSeeTheTagOnMyList($tag, 'Mine interesser');
     }
 
     /**
      * @When I unfollow the tag :tag
+     * @When I unfollow the subject :tag
      */
     public function iUnfollowTheTag($tag)
     {
@@ -967,10 +1070,12 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should not see the tag :tag on my list :list
+     * @Then I should not see the tag :tag on the list of my interests
+     * @Then I should not see the subject :tag on the list of my interests
      */
-    public function iShouldNotSeeTheTagOnMyList($tag, $list)
+    public function iShouldNotSeeTheTagOnMyList($tag)
     {
+        $list = 'Mine interesser';
         $this->gotoListPage($list);
         $found = $this->ding2Context->minkContext->getSession()->getPage()
             ->find('css', '.vocabulary-ding-content-tags a:contains("' . $tag . '")');
@@ -986,6 +1091,30 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         // Rely on getListId throwing an error for unknown lists.
         $this->getListId($name);
+    }
+
+    /**
+     * @Given the list of my interests exists
+     */
+    public function theListOfMyInterestsExists()
+    {
+        $this->theListExists('Mine interesser');
+    }
+
+    /**
+     * @Given the list of rated materials exists
+     */
+    public function theListOfRatedMaterialsExists()
+    {
+        $this->theListExists('Materialer jeg har bedømt');
+    }
+
+    /**
+     * @Given the list of followed authors exists
+     */
+    public function theListOfFollowedAuthorsExists()
+    {
+        $this->theListExists('Forfattere jeg følger');
     }
 
     /**
@@ -1006,13 +1135,50 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should not be able to add material to the list :title as a different user
+     * @When I log in as a different user
      */
-    public function iShouldNotBeAbleToAddMaterialToTheListAsADifferentUser($title)
+    public function iLogInAsADifferentUser()
     {
+        $this->ding2Context->iAmLoggedInAsALibraryUser();
+    }
+
+    /**
+     * @Then I should not be able to add material :materialTitle to the list :title
+     */
+    public function iShouldNotBeAbleToAddMaterialToTheList($materialTitle, $title)
+    {
+        $material = $this->titleToMaterial($materialTitle);
+        $this->gotoPage('/ting/object/' . $material);
+
+        // Check that the link for add element to shared list does not exist.
+        $listId = $this->getListId($title);
         $this->ding2Context->minkContext->assertElementNotOnPage(
-            '.buttons li a[href^="/dinglist/attach/ting_object"]:contains("' . $title . '")'
+            '.buttons li a[href^="/dinglist/attach/ting_object/' . $listId . '/"]'
         );
+    }
+
+    /**
+     * @Then I should be able to add material :material to the list :title as a different user
+     */
+    public function iShouldBeAbleToAddMaterialToTheListAsADifferentUser($material, $title)
+    {
+        $this->gotoPage('/ting/object/' . $material);
+
+        // Check that the link for add element to shared list exists.
+        $listId = $this->getListId($title);
+        $this->ding2Context->minkContext->assertElementOnPage(
+          '.buttons li a[href^="/dinglist/attach/ting_object/' . $listId . '"]'
+        );
+
+        // If the add link is there, test that the user can add material.
+        $this->moreDropdownSelectByLink(
+          '/dinglist/attach/ting_object/' . $listId,
+          "Couldn't find link to add material to the list '$title'"
+        );
+
+        // Check that the material is on the list.
+        $this->gotoListPage($title);
+        $this->ding2Context->minkContext->assertElementOnPage('.a[href^="/ting/collection/' . $material . '"]');
     }
 
     /**
@@ -1026,11 +1192,12 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When I rate the material :material with :stars stars
-     * @When I change the rating of material :material to :stars stars
+     * @When I rate the material :title with :stars stars
+     * @When I change the rating of material :title to :stars stars
      */
-    public function iRateTheMaterialWithStars($material, $stars)
+    public function iRateTheMaterialWithStars($title, $stars)
     {
+        $material = $this->titleToMaterial($title);
         $page = $this->ding2Context->minkContext->getSession()->getPage();
 
         $found = $page->find('css', '.ding-rating[data-ding-entity-rating-path^="' . urldecode($material) . '/"]');
@@ -1049,7 +1216,7 @@ class P2Context implements Context, SnippetAcceptingContext
         $star->click();
 
         // Wait for Ajax to finish.
-        $page->waitFor(10000, function ($page) {
+        $page->waitFor(5, function ($page) {
             return $page->find('css', '.ding-entity-rating-respons');
         });
         $this->ding2Context->minkContext
@@ -1057,12 +1224,52 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given I have rated the material :material with :stars stars
+     * Translate some defined titles to materials.
+     *
+     * @param $title
+     * @return null|string
      */
-    public function iHaveRatedTheMaterialWithStars($material, $stars)
+    public function titleToMaterial($title) {
+        $material = NULL;
+        switch($title) {
+            case 'The riddle of Nostradamus':
+                $material = '870970-basis%3A42065897';
+                break;
+
+            case 'Asimov on physics':
+                $material = '870970-basis%3A01860410';
+                break;
+
+            case "Debrett's etiquette and modern manners":
+                $material = '870970-basis%3A25893271';
+                break;
+
+            case 'Essential guide to back garden self-sufficiency':
+                $material = '870970-basis%3A06130992';
+                break;
+
+            case 'The raven':
+                $material = "870970-basis%3A07838573";
+                break;
+
+            case 'The price':
+                $material = '870970-basis%3A41249463';
+                break;
+
+            default:
+                $material = '';
+        }
+        return $material;
+    }
+
+    /**
+     * @Given I have rated the material :title with :stars stars
+     */
+    public function iHaveRatedTheMaterialWithStars($title, $stars)
     {
+        $material = $this->titleToMaterial($title);
         $this->gotoPage('/ting/object/' . $material);
-        $this->iRateTheMaterialWithStars($material, $stars);
+        $this->iRateTheMaterialWithStars($title, $stars);
     }
 
     /**
@@ -1074,10 +1281,11 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should see that the material :material is marked with :stars stars
+     * @Then I should see that the material :title is marked with :stars stars
      */
-    public function iShouldSeeThatTheMaterialIsMarkedWithStars($material, $stars)
+    public function iShouldSeeThatTheMaterialIsMarkedWithStars($title, $stars)
     {
+        $material = $this->titleToMaterial($title);
         $this->ding2Context->minkContext
             ->assertElementOnPage('.ding-entity-rating[data-ding-entity-rating-path^="' . urldecode($material) . '/"]');
         $this->ding2Context->minkContext->assertNumElements(

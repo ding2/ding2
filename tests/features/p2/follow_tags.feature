@@ -1,26 +1,25 @@
-Feature: Follow tags
-  In order to be notified when there is new content for specific tags
+Feature: Follow subjects
+  In order to be notified when there is new content for specific subjects
   As a library user
-  I want to be able to follow and unfollow tags
+  I want to be able to follow and unfollow subjects
 
   Background:
     Given I am logged in as a library user
-    And the list "Mine interesser" exists
+    And the list of my interests exists
 
   @api @javascript
-  Scenario: Search for a tag
-    Given I have searched for "science fiction"
-    When I choose the first search result
-    Then I should see the tag "science fiction" on the material
+  Scenario: Search for a subject
+    Given I am on a material page that has the subject science fiction
+    Then I should see the subject "science fiction" on the material
 
   @api @javascript
-  Scenario: Follow a tag
-    Given I have chosen a book material "870970-basis%3A00897868" with the tag "science fiction"
-    When I follow the tag "science fiction"
-    Then I should see the tag "science fiction" on my list "Mine interesser"
+  Scenario: Follow a subject
+    Given I am on a material page that has the subject science fiction
+    When I follow the subject "science fiction"
+    Then I should see the subject "science fiction" on the list of my interests
 
   @api @javascript
-  Scenario: Unfollow a tag
-    Given I am following the tag "orkideer" chosen from the material with collection name "870970-basis%3A45614654"
-    When I unfollow the tag "orkideer"
-    Then I should not see the tag "orkideer" on my list "Mine interesser"
+  Scenario: Unfollow a subject
+    Given I am following the subject "orkideer"
+    When I unfollow the subject "orkideer"
+    Then I should not see the subject "orkideer" on the list of my interests
