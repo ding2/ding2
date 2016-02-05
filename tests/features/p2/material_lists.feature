@@ -15,7 +15,6 @@ Feature: Material lists
   Scenario: Create a new list
     Given I am on my create list page
     When I create a new list "My list of astronomy books" with description "I like astronomy"
-    Then I should be on a list page
     And I should see "My list of astronomy books"
 
   @api @regression
