@@ -152,6 +152,7 @@ class P2Context implements Context, SnippetAcceptingContext
             'Materialer jeg har bedømt',
             'Mine interesser',
             'Søgninger jeg følger',
+            'Tidligere lån',
         ];
 
         $listName = 'list:' . $list;
@@ -430,7 +431,6 @@ class P2Context implements Context, SnippetAcceptingContext
         if (empty($this->ding2Context->user) || empty($this->ding2Context->user->uid)) {
             throw new \Exception("User doesn't exist");
         }
-        $uid = $this->ding2Context->user->uid;
         $this->gotoPage($this->ding2Context->userPath() . "/consent");
         $this->ding2Context->waitForPage();
     }
@@ -450,21 +450,6 @@ class P2Context implements Context, SnippetAcceptingContext
 
         $checked->check();
         $this->ding2Context->minkContext->pressButton('edit-submit');
-    }
-
-    /**
-     * @Then I should see that the consent box is checked
-     */
-    public function iShouldSeeThatTheConsentBoxIsChecked()
-    {
-        $this->iAmOnMyUserConsentPage();
-        $checked = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '#edit-loan-history-store');
-        if (!$checked) {
-            throw new \Exception("Couldn't find consent check box");
-        }
-        if (!$checked->isChecked()) {
-            throw new \Exception("Consent checkbox is not checked.");
-        }
     }
 
     /**
@@ -490,24 +475,9 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should see that the consent box is not checked
+     * @Given I have given consent to save my loan history
      */
-    public function iShouldSeeThatTheConsentBoxIsNotChecked()
-    {
-        $this->iAmOnMyUserConsentPage();
-        $checked = $this->ding2Context->minkContext->getSession()->getPage()->find('css', '#edit-loan-history-store');
-        if (!$checked) {
-            throw new \Exception("Couldn't find consent check box");
-        }
-        if ($checked->isChecked()) {
-            throw new \Exception("Consent checkbox is checked");
-        }
-    }
-
-    /**
-     * @Given I have checked the personalisation consent box
-     */
-    public function iHaveCheckedThePersonalisationConsentBox()
+    public function iHaveGivenConsentToSaveMyLoanHistory()
     {
         $this->iAmOnMyUserConsentPage();
         $this->iCheckTheConsentBox();
@@ -525,11 +495,11 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given I have unchecked the personalisation consent box
+     * @Given I have withdrawn consent to save loan history
      */
-    public function iHaveUncheckedThePersonalisationConsentBox()
+    public function iHaveWithdrawnConsentToSaveLoanHistory()
     {
-        // Uncheck the box.
+        // Uncheck the 'consent to save loan history' checkbox.
         $this->iAmOnMyUserConsentPage();
         $this->iUncheckTheConsentBox();
     }
