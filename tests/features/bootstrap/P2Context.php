@@ -1240,7 +1240,7 @@ class P2Context implements Context, SnippetAcceptingContext
         $star->click();
 
         // Wait for Ajax to finish.
-        $page->waitFor(10000, function ($page) {
+        $page->waitFor(5, function ($page) {
             return $page->find('css', '.ding-entity-rating-respons');
         });
         $this->ding2Context->minkContext
