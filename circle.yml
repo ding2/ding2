@@ -4,7 +4,11 @@ machine:
     version: 5.4.37
   environment:
     # This is where we build our complete Drupal site
-    DRUPAL_SITE_PATH: /tmp/drupal
+    DRUPAL_SITE_PATH: $HOME/build
+    # Behat requires newer PHP version.
+    BEHAT_PHP_VERSION: 5.5.9
+  hosts:
+    p2.dev: 127.0.0.1
 
 dependencies:
   post:
@@ -19,29 +23,29 @@ dependencies:
     # Install drush globally using composer.
     # Use prefer-source to get around GitHub API rate limits.
     - composer global require drush/drush:6.* --prefer-source --no-interaction
+    # Install behat and dependencies.
+    - (cd tests &&
+      eval $(phpenv sh-shell $BEHAT_PHP_VERSION) &&
+      composer install --no-progress --prefer-source)
+    # Set up Apache to serve our site.
+    - cp tests/apache.conf /etc/apache2/sites-available/p2.conf
+    - a2ensite p2.conf
+    - a2enmod rewrite
+    - sudo service apache2 restart
+    # Start phantomjs.
+    - case $CIRCLE_NODE_INDEX in 0) phantomjs --webdriver=4444 ;; 1) wget http://selenium-release.storage.googleapis.com/2.44/selenium-server-standalone-2.44.0.jar && java -jar selenium-server-standalone-2.44.0.jar ;; esac:
+        background: true
 
 test:
   override:
-    # Build profile using drush make
-    - drush make ding2.make --no-core --contrib-destination=. -y
-    # Install theme dependencies
-    - (cd themes/ddbasic && npm install)
-    # Process theme files.
-    # If there are any changes then fail the build. The result of processing
-    # should be committed along with the source changes.
-    - (cd themes/ddbasic && node_modules/.bin/gulp uglify sass)
-    - git diff --exit-code
-    # Built an entire Drupal site with core, contrib and custom code
-    # First we build Drupal core only. Instead of using the profile specified in
-    # the make  file we use the one we have just build.
-    # This way we do not have to update drupal.make for each build.
-    - drush make drupal.make --projects=drupal -y $DRUPAL_SITE_PATH
-    # Copy the current profile which has just been built into Drupal core
-    - mkdir $DRUPAL_SITE_PATH/profiles/ding2
-    - cp -R ./* $DRUPAL_SITE_PATH/profiles/ding2/
-    # Install the site using the ding2 profile
-    - (cd $DRUPAL_SITE_PATH && drush site-install ding2 --db-url=mysql://ubuntu@127.0.0.1/circle_test -y)
+    - make circle-setup:
+        parallel: true
+    - make circle-run-tests:
+        parallel: true
   post:
+    # Copy Behat report to circle.
+    - mkdir -p $CIRCLE_TEST_REPORTS/behat
+    - cp $DRUPAL_SITE_PATH/profiles/ding2/tests/report.xml $CIRCLE_TEST_REPORTS/behat/
     # Clean up after site install.
     # sudo is required here. The files are not writeable.
     - sudo rm -rf $DRUPAL_SITE_PATH/sites/default/settings.php $DRUPAL_SITE_PATH/sites/default/files

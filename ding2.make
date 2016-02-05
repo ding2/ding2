@@ -363,6 +363,11 @@ projects[ask_vopros][download][type] = "git"
 projects[ask_vopros][download][url] = "git@github.com:Biblioteksvagten/ask_vopros.git"
 projects[ask_vopros][download][tag] = "1.1"
 
+projects[p2][type] = "module"
+projects[p2][download][type] = "git"
+projects[p2][download][url] = "git@github.com:b14/p2.git"
+projects[p2][download][revision] = "e8c04fe"
+
 ; Libraries
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
