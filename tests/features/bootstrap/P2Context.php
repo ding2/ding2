@@ -152,6 +152,7 @@ class P2Context implements Context, SnippetAcceptingContext
             'Materialer jeg har bedømt',
             'Mine interesser',
             'Søgninger jeg følger',
+            'Tidligere lån',
         ];
 
         $listName = 'list:' . $list;
