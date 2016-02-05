@@ -10,7 +10,7 @@ Feature: Public lists
   Background:
     Given I am logged in as a library user
 
-  @api @no_messages_check @javascript
+  @api @javascript
   Scenario: Make list public
     Given I have created a list "My Harry Potter books"
     When I make the list "My Harry Potter books" public

@@ -15,15 +15,13 @@ Feature: Material lists
   Scenario: Create a new list
     Given I am on my create list page
     When I create a new list "My special list" with description "Description"
-    Then I should be on a list page
-    And I should see "My special list"
+    Then I should be on the "My special list" list page
 
   @api @regression
   Scenario: List titles should not be tranlated
     Given I am on my create list page
     When I create a new list "Action" with description "Description"
-    Then I should be on a list page
-    And I should see "Action"
+    Then I should be on the "Action" list page
     And I should not see "Handling"
 
   @api @javascript

@@ -5,7 +5,8 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
-
+use Behat\Mink\Element\ElementInterface;
+use Behat\Mink\Exception\UnsupportedDriverActionException;
 /**
  * Provides step definitions for interacting with Ding2.
  */
@@ -30,8 +31,9 @@ class Ding2Context implements Context, SnippetAcceptingContext
     private $ding2MessagesContext;
 
     /** @BeforeScenario */
-    public function gatherContexts(BeforeScenarioScope $scope)
+    public function beforeScenario(BeforeScenarioScope $scope)
     {
+        // Gather contexts.
         $environment = $scope->getEnvironment();
 
         $this->drupalContext = $environment->getContext('Drupal\DrupalExtension\Context\DrupalContext');
@@ -42,11 +44,15 @@ class Ding2Context implements Context, SnippetAcceptingContext
             // Ingore.
         }
 
-        // Set window size to avoid problems with elements being invisible.
-        if (get_class($this->minkContext->getSession()->getDriver()) == 'Behat\Mink\Driver\Selenium2Driver') {
+
+        // Try to set a default window size. PhantomJS will default to mobile
+        // sizes which will make some elements invisible.
+        try {
             $this->minkContext->getSession()
                 ->getDriver()
-                ->resizeWindow(1440, 900, 'current');
+                ->resizeWindow(1024, 768, 'current');
+        } catch (UnsupportedDriverActionException $e) {
+            // Ignore.
         }
     }
 
@@ -112,6 +118,7 @@ class Ding2Context implements Context, SnippetAcceptingContext
 
         // Log in.
         $submit->click();
+        $this->waitForPage();
 
         if ($this->ding2MessagesContext) {
             $this->ding2MessagesContext->collectMessages();
@@ -135,6 +142,14 @@ class Ding2Context implements Context, SnippetAcceptingContext
         return '/user/' . $this->drupalContext->user->uid;
     }
 
+  public function userUid()
+    {
+        if (!isset($this->drupalContext->user->uid)) {
+            throw new Exception('No currently logged in user.');
+        }
+        return $this->drupalContext->user->uid;
+    }
+
     /**
      * @Given I am on my user page
      */
@@ -154,6 +169,41 @@ class Ding2Context implements Context, SnippetAcceptingContext
         $links = $this->minkContext->getSession()->getPage()->findAll('xpath', $xpath);
         if (count($links) < 1) {
             throw new Exception(sprintf('Could not see link to %s', $path));
+        }
+    }
+
+    /**
+     * Scroll to an element.
+     *
+     * @param ElementInterface $element
+     *   Element to scroll to.
+     */
+    public function scrollTo(ElementInterface $element)
+    {
+        $xpath = strtr($element->getXpath(), ['"' => '\\"']);
+        try {
+            $this->minkContext->getSession()
+                ->evaluateScript('jQuery(document).scrollTo(document.evaluate("' . $xpath . '", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null ).singleNodeValue);');
+        } catch (UnsupportedDriverActionException $e) {
+            // Ignore.
+        } catch (Exception $e) {
+            throw new Exception('Could not scroll to element');
+        }
+    }
+
+    /**
+     * Wait for page to load.
+     */
+    public function waitForPage()
+    {
+        try {
+        // Strictly, this waits for jQuery to be loaded, but it seems
+        // sufficient.
+            $this->drupalContext->getSession()->wait(5000, 'typeof window.jQuery == "function"');
+        } catch (UnsupportedDriverActionException $e) {
+            // Ignore.
+        } catch (Exception $e) {
+            throw new Exception('Unknown error waiting for page');
         }
     }
 }
