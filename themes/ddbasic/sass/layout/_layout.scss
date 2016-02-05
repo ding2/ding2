@@ -72,6 +72,18 @@ body {
 /* Site name, slogan and logo
    ========================================================================== */
 
+.topbar-menu {
+  @include small-medium() {
+    padding: 0;
+  }
+  
+  .menu-item {
+    @include small-medium() {
+      padding: 9px 8px;
+    }
+  }
+}   
+
 .topbar-inner {
   margin-left: auto;
   margin-right: auto;
@@ -80,29 +92,65 @@ body {
   position: relative;
 }
 
+.topbar-menu {
+  @include small-medium() {
+    bottom: 0;
+    padding: 0;
+    position: absolute;
+    right: 0;
+  }
+  
+  @include small() {
+    margin-top: 18px;
+    position: relative;
+  }
+  
+  .menu-item {
+    @include small-medium() {
+      padding: 9px 8px;
+    }
+  }
+}
+
 .logo {
   @include zen-grid-item(5, 1);
   margin-bottom: 10px;
   
   @include small-medium() {
-    @include zen-clear();
-    @include zen-grid-item(12, 1);
+    float: left;
+    width: 41.6667%;
+    margin-left: 0%;
+    margin-right: -41.6667%;
+    padding-left: 10px;
+    padding-right: 10px;
+    box-sizing: border-box;
+    word-wrap: break-word;
   }
 
   a {
     display: inline-block;
+    
+    @include small-medium() {
+      display: block;
+    }
   }
 
   img {
     margin-top: 10px;
+    max-height: 70px;
     
     @include small-medium() {
-      max-width: 50%;
-      max-height: 40px;
+      height: 70px;
+      max-height: 70px;
+      max-width: 100%;
+      width: auto;
     }
     
     @include small() {
-      width: 50%;
+      max-width: 100%;
+      max-height: 40px;
+      height: auto;
+      width: auto;
     }
   }
 }
@@ -211,7 +259,7 @@ body {
     padding-left: 10px;
   }
 
-  .col12        { padding-left: 0;    padding-right: 0;    }
+  .col12        { padding-left: 0;  padding-right: 0;}
   .col12 .col12 { padding-left: 10px; padding-right: 10px; }
 
   .col3       { @include zen-grid-item(3, 1); }
