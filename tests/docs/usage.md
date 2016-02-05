@@ -46,6 +46,12 @@ List of currently used tags:
    warnings and errors (from `drupal_set_message()`) and fails the
    scenario if any occur. This tag suppresses that test.
 
+ * `@no_circle_selenium` Don't run test on Selenium on Circle CI.
+   Temporary workaround. FontAwesome does not work on the test site
+   Circle builds, for some reason, which makes some tests fail as
+   Selenium can't click on an empty element. This tag is used on
+   the rating tests (the stars are from FontAwesome).
+
 ### Profiles ###
 
 Behat is configured with three profiles, which can be selected with
