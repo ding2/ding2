@@ -5,7 +5,7 @@ Feature: Follow author
 
   Background:
     Given I am logged in as a library user
-    And the list "Forfattere jeg følger" exists
+    And the list of followed authors exists
 
   @api @javascript
   Scenario: Follow author
@@ -18,3 +18,10 @@ Feature: Follow author
     Given I have followed the author "George Orwell"
     When I remove the author "George Orwell" from followed authors
     Then I should not see "George Orwell" on followed authors
+
+  @api @javascript
+  Scenario: There are new materials for author
+    Given I have followed the author "Rune T. Kidde"
+    When there are "2" new materials for the author "Rune T. Kidde"
+    Then I should see that there are "2" new materials on the notifications list on the notifications top menu
+    And I should see that there are "2" new materials on the list of authors I follow

@@ -1127,6 +1127,14 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @Given the list of followed authors exists
+     */
+    public function theListOfFollowedAuthorsExists()
+    {
+        $this->theListExists('Forfattere jeg følger');
+    }
+
+    /**
      * @Given I have searched for :search and the tag :tag
      */
     public function iHaveSearchedForAndTheTag($search, $tag)
