@@ -15,7 +15,7 @@ Feature: Material lists
   Scenario: Create a new list
     Given I am on my create list page
     When I create a new list "My list of astronomy books" with description "I like astronomy"
-    And I should see "My list of astronomy books"
+    Then I should be on the "My list of astronomy books" list page
 
   @api @regression
   Scenario: List titles should not be tranlated
