@@ -85,23 +85,20 @@ function ding_gatewayf_registration_block_info() {
 function ding_gatewayf_registration_block_view() {
   $block = new stdClass();
 
-  // Only display the link when users are not logged in.
-  if (user_is_anonymous()) {
-    $block->content = array(
-      '#theme' => 'ding_gatewayf_registration_link',
-      '#link' => array(
-        '#theme' => 'link',
-        '#text' => t('Create user'),
-        '#path' => DING_GATEWAYF_REGISTRATION_INFORMATION_URL,
-        '#options' => array(
-          'attributes' => array(
-            'class' => array('ding-gatewayf-registration-link'),
-          ),
-          'html' => TRUE,
+  $block->content = array(
+    '#theme' => 'ding_gatewayf_registration_link',
+    '#link' => array(
+      '#theme' => 'link',
+      '#text' => t('Create user'),
+      '#path' => DING_GATEWAYF_REGISTRATION_INFORMATION_URL,
+      '#options' => array(
+        'attributes' => array(
+          'class' => array('ding-gatewayf-registration-link'),
         ),
+        'html' => TRUE,
       ),
-    );
-  }
+    ),
+  );
 
   return $block;
 }

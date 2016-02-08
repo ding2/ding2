@@ -95,32 +95,29 @@ function ding_gatewayf_block_info() {
 function ding_gatewayf_block_view() {
   $block = new stdClass();
 
-  // Only display the link when users are not logged in.
-  if (user_is_anonymous()) {
-    $img = array(
-      '#theme' => 'image',
-      '#path' => drupal_get_path('module', 'ding_gatewayf') . '/images/nemid_logo.png',
-      '#alt' => t('NemID logo'),
-      '#title' => t('NemID logo'),
-    );
+  $img = array(
+    '#theme' => 'image',
+    '#path' => drupal_get_path('module', 'ding_gatewayf') . '/images/nemid_logo.png',
+    '#alt' => t('NemID logo'),
+    '#title' => t('NemID logo'),
+  );
 
-    $block->content = array(
-      '#theme' => 'ding_gatewayf_login',
-      '#link' => array(
-        '#theme' => 'link',
-        '#text' => t('Login with !logo', array('!logo' => drupal_render($img))),
-        '#path' => DING_GATEWAYF_LOGIN_URL,
-        '#options' => array(
-          // The attributes array is required or drupal_render will return WSOD.
-          'attributes' => array(),
-          'query' => array(
-            drupal_get_destination(),
-          ),
-          'html' => TRUE,
+  $block->content = array(
+    '#theme' => 'ding_gatewayf_login',
+    '#link' => array(
+      '#theme' => 'link',
+      '#text' => t('Login with !logo', array('!logo' => drupal_render($img))),
+      '#path' => DING_GATEWAYF_LOGIN_URL,
+      '#options' => array(
+        // The attributes array is required or drupal_render will return WSOD.
+        'attributes' => array(),
+        'query' => array(
+          drupal_get_destination(),
         ),
+        'html' => TRUE,
       ),
-    );
-  }
+    ),
+  );
 
   return $block;
 }

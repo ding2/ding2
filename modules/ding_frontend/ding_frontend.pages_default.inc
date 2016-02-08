@@ -680,7 +680,20 @@ search/node',
     $pane->type = 'block';
     $pane->subtype = 'ding_gatewayf-login';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'role',
+          'settings' => array(
+            'rids' => array(
+              0 => 1,
+            ),
+          ),
+          'context' => 'logged-in-user',
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array(
       'override_title' => 0,
       'override_title_text' => '',
@@ -703,7 +716,20 @@ search/node',
     $pane->type = 'block';
     $pane->subtype = 'ding_gatewayf_registration-registration';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'role',
+          'settings' => array(
+            'rids' => array(
+              0 => 1,
+            ),
+          ),
+          'context' => 'logged-in-user',
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array(
       'override_title' => 0,
       'override_title_text' => '',
