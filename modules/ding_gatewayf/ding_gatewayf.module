@@ -425,9 +425,11 @@ function _ding_gatewayf_load_configuration() {
     'service' => array(
       'endpoint' => 'https://bibliotek.dk/gatewayf/gatewayf.php',
     ),
-    'development' => array(
+    // The development configuration array is wrapped in the variable get to
+    // allow developers to set the configutation in settings.php.
+    'development' => variable_get('ding_gatewayf_development', array(
       'log_auth_data' => FALSE,
-    ),
+    )),
   );
 
   // Extend configuration with hard-coded values.
