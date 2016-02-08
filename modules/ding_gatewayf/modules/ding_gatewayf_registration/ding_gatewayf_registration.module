@@ -146,10 +146,10 @@ function ding_gatewayf_registration_form_ding_gatewayf_admin_settings_form_alter
   );
 
   $form['ding_gatewayf_registration']['information']['content'] = array(
-    '#type' => 'textarea',
+    '#type' => 'text_format',
     '#title' => t('Content'),
-    '#description' => t('This field accept HTML.'),
     '#default_value' => $defaults['information']['content'],
+    '#format' => 'ding_wysiwyg',
   );
 
   $form['ding_gatewayf_registration']['information']['link'] = array(
@@ -169,10 +169,11 @@ function ding_gatewayf_registration_form_ding_gatewayf_admin_settings_form_alter
   );
 
   $form['ding_gatewayf_registration']['acceptance']['description'] = array(
-    '#type' => 'textarea',
+    '#type' => 'text_format',
     '#title' => t('Acceptance text'),
-    '#description' => t('Description displayed next to the user acceptance check box. This field accept HTML'),
+    '#description' => t('Description displayed next to the user acceptance check box.'),
     '#default_value' => $defaults['acceptance']['description'],
+    '#format' => 'ding_wysiwyg',
   );
 
   // Define after create info page.
@@ -192,10 +193,10 @@ function ding_gatewayf_registration_form_ding_gatewayf_admin_settings_form_alter
   );
 
   $form['ding_gatewayf_registration']['success']['content'] = array(
-    '#type' => 'textarea',
+    '#type' => 'text_format',
     '#title' => t('Content'),
-    '#description' => t('This field accept HTML.'),
     '#default_value' => $defaults['success']['content'],
+    '#format' => 'ding_wysiwyg',
   );
 }
 
