@@ -263,7 +263,9 @@ function ding_gatewayf_registration_acceptance_form() {
   $form['name'] = array(
     '#type' => 'textfield',
     '#title' => t('Name'),
-    '#description' => t('You full name.'),
+    '#description' => t('Your full name.'),
+    // Max length of 100 is the current limit set by the database in the library
+    // system.
     '#maxlength' => 100,
     '#required' => TRUE,
     '#attributes' => array(
