@@ -50,7 +50,7 @@ function ding_gatewayf_menu() {
   // Redirect the user to gatewayf for logout.
   $items[DING_GATEWAYF_LOGOUT_URL] = array(
     'page callback' => 'ding_gatewayf_logout',
-    'access callback' => 'user_is_logged_in',
+    'access callback' => 'ding_gatewayf_logout_access_check',
     'type' => MENU_CALLBACK,
   );
 
@@ -61,6 +61,16 @@ function ding_gatewayf_menu() {
   );
 
   return $items;
+}
+
+/**
+ * Check that gatewayf was used to login with.
+ *
+ * @return bool
+ *   TRUE if used else FALSE.
+ */
+function ding_gatewayf_logout_access_check() {
+  return _ding_gatewayf_is_logged_in_with_gatewayf();
 }
 
 /**
@@ -161,8 +171,11 @@ function ding_gatewayf_logout() {
   // Ensure gatewayf attributes store in the session is removed.
   unset($_SESSION[DING_GATEWAYF_ATTRIBUTES]);
 
+  // Get the sites base url, which is used to redirect the user after logout.
+  global $base_url;
+
   // Redirect to the gateway.
-  header('Location:' . $config['service']['endpoint'] . '?returnUrl=' . $config['service']['callback'] . '&op=logout');
+  header('Location:' . $config['service']['endpoint'] . '?returnUrl=' . $base_url . '&op=logout');
   exit;
 }
 

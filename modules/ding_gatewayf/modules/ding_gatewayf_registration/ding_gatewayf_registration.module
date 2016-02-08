@@ -23,7 +23,7 @@ function ding_gatewayf_registration_menu() {
   $items[DING_GATEWAYF_REGISTRATION_ACCEPTANCE_URL] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_gatewayf_registration_acceptance_form'),
-    'access callback' => TRUE,
+    'access callback' => 'ding_gatewayf_registration_acceptance_access_check',
     'type' => MENU_CALLBACK,
   );
 
@@ -34,6 +34,19 @@ function ding_gatewayf_registration_menu() {
   );
 
   return $items;
+}
+
+/**
+ * Check that gatewayf login attributes have been set in the session.
+ *
+ * The acceptance page should not be accessible if the user have not logged in
+ * using gatewayf.
+ *
+ * @return bool
+ *   TRUE if attributes exists in the session else FALSE.
+ */
+function ding_gatewayf_registration_acceptance_access_check() {
+  return isset($_SESSION[DING_GATEWAYF_ATTRIBUTES]);
 }
 
 /**
