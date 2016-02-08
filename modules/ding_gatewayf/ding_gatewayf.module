@@ -54,8 +54,6 @@ function ding_gatewayf_menu() {
     'type' => MENU_CALLBACK,
   );
 
-  // Gatewayf callback which is limited to anonymous users to prevent extra
-  // login and redirects.
   $items[DING_GATEWAYF_CALLBACK_URL] = array(
     'page callback' => 'ding_gatewayf_callback',
     'access callback' => TRUE,

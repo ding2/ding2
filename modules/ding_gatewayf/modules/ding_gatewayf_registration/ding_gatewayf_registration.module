@@ -378,7 +378,7 @@ function ding_gatewayf_registration_success() {
  * Check that the age limit is met.
  *
  * @param int $cpr
- *   The social security number from the gatewayf.
+ *   A social security number.
  *
  * @return bool
  *   If the age limit is given and met TRUE else FALSE. If age limit is not

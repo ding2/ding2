@@ -60,7 +60,7 @@
    * HACK: this function is used to include the gatewayf login link into the
    *       header, so it's visible when the login tab is used. To do this any
    *       other way would require at whole re-write of the themes header and
-   *       who it works.
+   *       how it works.
    */
   function placement_of_wayf() {
     var wrapper = $('<section class="wayf-wrapper"></section>');
