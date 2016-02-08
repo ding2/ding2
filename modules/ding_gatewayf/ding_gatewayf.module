@@ -210,7 +210,7 @@ function ding_gatewayf_callback() {
       _ding_gatewayf_provider_login($attributes);
     }
     else {
-      watchdog('ding_gatewayf', 'The gateway returned no error and no eduPersonTargetedID', array(), WATCHDOG_ERROR);
+      watchdog('ding_gatewayf', 'The gateway returned no error and no schacPersonalUniqueID', array(), WATCHDOG_ERROR);
 
       // Set message to the user.
       drupal_set_message(t('The login with nem-login failed please try again later.'), 'error');
@@ -273,10 +273,6 @@ function _ding_gatewayf_provider_login(array $attributes) {
           // the acceptance form.
           if (_ding_gatewayf_registration_is_registration_request()) {
             $_SESSION[DING_GATEWAYF_ATTRIBUTES] = $required_attr;
-
-            // Clean out message from the login form. So they will not be shown
-            // on the acceptance page.
-            drupal_get_messages(NULL, TRUE);
           }
           else {
             // Display message that the user don't have an account an then can

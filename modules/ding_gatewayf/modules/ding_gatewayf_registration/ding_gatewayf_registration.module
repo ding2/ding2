@@ -320,7 +320,7 @@ function ding_gatewayf_registration_acceptance_form() {
 /**
  * Submit handler for the acceptance form.
  *
- * It tires to create the user at the provider and redirect the user.
+ * It tries to create the user at the provider and redirect the user.
  */
 function ding_gatewayf_registration_acceptance_submit($form, $form_state) {
   $values = $form_state['values'];
