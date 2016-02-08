@@ -284,8 +284,8 @@ function _ding_gatewayf_provider_login(array $attributes) {
             // Display message that the user don't have an account an then can
             // create on or logout.
             drupal_set_message(t('You do not have an user account at the public library. If you wish to create an user account !user_url . You are still logged in at WAYF, so you can !logout to logout of WAYF.', array(
-              '!logout' => l(t('click her'), DING_GATEWAYF_LOGOUT_URL),
-              '!user_url' => l(t('click her'), DING_GATEWAYF_REGISTRATION_INFORMATION_URL),
+              '!logout' => l(t('click here'), DING_GATEWAYF_LOGOUT_URL),
+              '!user_url' => l(t('click here'), DING_GATEWAYF_REGISTRATION_INFORMATION_URL),
             )), 'warning');
           }
         }
