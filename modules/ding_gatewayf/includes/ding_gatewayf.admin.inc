@@ -9,7 +9,7 @@
  */
 function ding_gatewayf_admin_settings_form() {
   $form = array();
-  $defaults = variable_get('ding_gatewayf', array());
+  $defaults = _ding_gatewayf_load_configuration();
 
   $form['ding_gatewayf'] = array(
     '#tree' => TRUE,
@@ -26,7 +26,7 @@ function ding_gatewayf_admin_settings_form() {
     '#type' => 'textfield',
     '#title' => t('Gateway WAYF URL'),
     '#description' => t('Endpoint URL for the gateway WAYF service.'),
-    '#default_value' => isset($defaults['service']['endpoint']) ? $defaults['service']['endpoint'] : 'https://bibliotek.dk/gatewayf/gatewayf.php',
+    '#default_value' => $defaults['service']['endpoint'],
   );
 
   $form['ding_gatewayf']['development'] = array(
@@ -39,7 +39,7 @@ function ding_gatewayf_admin_settings_form() {
   $form['ding_gatewayf']['development']['log_auth_data'] = array(
     '#type' => 'checkbox',
     '#title' => t('Log authentication requests'),
-    '#default_value' => isset($defaults['development']['log_auth_data']) ? $defaults['development']['log_auth_data'] : FALSE,
+    '#default_value' => $defaults['development']['log_auth_data'],
     '#description' => t('Log authentication data including attributes. This can be useful for debugging.'),
   );
 
