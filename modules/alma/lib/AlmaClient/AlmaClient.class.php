@@ -97,7 +97,7 @@ class AlmaClient {
               throw new AlmaClientUserAlreadyExistsError();
             }
             else {
-              throw new AlmaClientInvalidPatronError('Invailed patron');
+              throw new AlmaClientInvalidPatronError();
             }
 
           default:
