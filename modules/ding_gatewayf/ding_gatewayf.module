@@ -426,7 +426,6 @@ function _ding_gatewayf_extract_data($data, $field = '') {
  *   The configuration with valid default values.
  */
 function _ding_gatewayf_load_configuration() {
-  global $base_url;
   $config = variable_get('ding_gatewayf', array()) + array(
     'service' => array(
       'endpoint' => 'https://bibliotek.dk/gatewayf/gatewayf.php',
@@ -438,7 +437,7 @@ function _ding_gatewayf_load_configuration() {
 
   // Extend configuration with hard-coded values.
   $config['service'] += array(
-    'callback' => $base_url . '/' . DING_GATEWAYF_CALLBACK_URL,
+    'callback' => url(DING_GATEWAYF_CALLBACK_URL, array('absolute' => TRUE)),
     'idp' => 'nemlogin',
   );
 
