@@ -296,7 +296,6 @@ function ding_gatewayf_registration_acceptance_form() {
     '#type' => 'password',
     '#title' => t('Pin code'),
     '#description' => t('Pin code with an max length of %length', array('%length' => ding_user_get_pincode_length())),
-    '#size' => 10,
     '#maxlength' => ding_user_get_pincode_length(),
     '#required' => TRUE,
     '#attributes' => array(
@@ -314,8 +313,6 @@ function ding_gatewayf_registration_acceptance_form() {
   $form['cancel'] = array(
     '#markup' => l(t('Cancel'), DING_GATEWAYF_LOGOUT_URL, array('attributes' => array('class' => 'ding-gatewayf--cancel'))),
   );
-
-  $form['#submit'] = array('ding_gatewayf_registration_acceptance_submit');
 
   return $form;
 }
@@ -353,6 +350,9 @@ function ding_gatewayf_registration_acceptance_submit($form, $form_state) {
 
   }
   catch (Exception $exception) {
+    // @TODO: The exception thrown by the providers to say that a user already
+    //         exists is provider "named", hence for now we capture all
+    //         exceptions. This should be fixed with FBS.
     drupal_set_message(t('You already have an user account at the library. So we have just logged you in.'));
     _ding_gatewayf_provider_login($required_attributes);
   }
