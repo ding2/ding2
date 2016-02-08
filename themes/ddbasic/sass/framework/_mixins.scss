@@ -15,7 +15,7 @@
 		@media only screen and (max-width: $breakpoint-small) { @content; }
 	}
 
-  else if $media == small-medium {
+  @else if $media == small-medium {
     @media only screen and (max-width: $breakpoint-medium) { @content; }
   }
 
