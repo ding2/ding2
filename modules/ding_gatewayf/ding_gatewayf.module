@@ -240,6 +240,20 @@ function ding_gatewayf_callback() {
 }
 
 /**
+ * Implements hook_ding_provider_user().
+ *
+ * This module requires that the provider has WAYF support.
+ */
+function ding_gatewayf_ding_provider_user() {
+  return array(
+    'wayf' => array(
+      'required' => TRUE,
+      'install time setup' => FALSE,
+    ),
+  );
+}
+
+/**
  * Login user to the library system and Drupal.
  *
  * @param array $attributes

@@ -384,6 +384,18 @@ function ding_gatewayf_registration_success() {
 }
 
 /**
+ * Implements hook_ding_provider_user().
+ */
+function ding_gatewayf_registration_ding_provider_user() {
+  return array(
+    'user' => array(
+      'required' => TRUE,
+      'install time setup' => FALSE,
+    ),
+  );
+}
+
+/**
  * Check that the age limit is met.
  *
  * @param int $cpr
