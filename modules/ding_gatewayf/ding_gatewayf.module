@@ -376,13 +376,12 @@ function _ding_gatewayf_get_credentials(array $attributes) {
 function _ding_gatewayf_get_required_attributes(array $attributes, array $required_attributes) {
   $attribute_list = array();
 
-  if (isset($attributes) && is_array($required_attributes)) {
+  if (!empty($attributes)) {
     foreach ($required_attributes as $attribute => $value) {
       if (isset($attributes[$attribute])) {
         $attribute_list[$attribute] = _ding_gatewayf_extract_data($attributes[$attribute], $value['field']);
       }
     }
-
   }
 
   return $attribute_list;
@@ -404,10 +403,10 @@ function _ding_gatewayf_extract_data($data, $field = '') {
     return $data[0];
   }
   else {
-    $field .= DING_WAYF_DK_LOGIN_FIELD_DELIMITER;
+    $field .= ':';
 
     if (($pos = strpos($data[0], $field)) !== FALSE) {
-      return substr($data[0], $pos + strlen($field));
+      return drupal_substr($data[0], $pos + strlen($field));
     }
     else {
       return '';
