@@ -73,12 +73,6 @@ img {
   }
 }
 
-.rs-carousel-action-prev,
-.rs-carousel-action-next {
-  background-color: transparent;
-  border: 0;
-}
-
 .lt-ie9 {
   .search-field-in-content .form-submit {
     margin-top: 0;
@@ -98,6 +92,14 @@ img {
   }
 }
 
+/* Ting Search Carousel */
+.rs-carousel-action-prev,
+.rs-carousel-action-next {
+  background-color: transparent;
+  border: 0;
+}
+
+/* Ding Opening Hours */
 .hours {
   .day-notice-star {
     visibility: visible;
