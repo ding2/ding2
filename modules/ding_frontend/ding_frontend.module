@@ -28,6 +28,10 @@ function ding_frontend_theme() {
       ),
       'template' => 'templates/calendar-header',
     ),
+    'ding_frontend_panel_wrapper' => array(
+      'render element'  => 'element',
+      'template' => 'templates/ding-frontend-panel-wrapper'
+    ),
   );
 }
 

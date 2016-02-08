@@ -246,8 +246,7 @@ function ding_gatewayf_registration_acceptance_form() {
   // wrapper the form in panels. But seen form a performance point this is
   // faster and simpler.
   $form = array(
-    '#prefix' => '<div class="empty-sidebars default-layout"><div class="layout-wrapper"><div class="pane-content"><div class="primary-content">',
-    '#suffix' => '</div></div></div></div>',
+    '#theme_wrappers' => array('ding_frontend_panel_wrapper'),
   );
 
   $form['accept'] = array(
