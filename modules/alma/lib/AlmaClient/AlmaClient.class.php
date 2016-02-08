@@ -1002,8 +1002,9 @@ class AlmaClient {
    * @param $branch
    *   The users preferred pick-up branch.
    *
-   * @return \DOMDocument
-   *   The raw XML response from the library system.
+   * @return bool
+   *   Always returns TRUE. If any errors happens exception is thrown in the
+   *   request function.
    */
   public function self_register($cpr, $pin_code, $name, $mail, $branch) {
     $params = array(
@@ -1018,7 +1019,8 @@ class AlmaClient {
       'locale' => 'da_DK'
     );
 
-    return $this->request('patron/selfReg', $params);;
+    $this->request('patron/selfReg', $params);
+    return TRUE;
   }
 
 }
