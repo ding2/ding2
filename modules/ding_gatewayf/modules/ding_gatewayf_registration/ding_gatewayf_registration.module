@@ -446,7 +446,7 @@ function _ding_gatewayf_registration_load_config() {
     ),
     'success' => array(
       'title' => t('Success'),
-      'content' => t('You have not been registered at the library as an user.'),
+      'content' => t('You have been registered at the library as an user.'),
     ),
   );
 }
