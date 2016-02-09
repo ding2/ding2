@@ -286,9 +286,15 @@ function _ding_gatewayf_provider_login(array $attributes) {
       // through the whole process in ding_user.
       drupal_form_submit('user_login_block', $form_state);
 
-      // Check if the submission trigger any form errors.
+      // Check if the submission trigger any form errors. If there where errors
+      // in the form and the registration module exists and this is a
+      // registration request then go to the user registration pages. On the
+      // other hand if no errors and this was a registration request display
+      // message that the user simply have been logged in and already has an
+      // user in the library system.
       $errors = form_get_errors();
       if (!empty($errors)) {
+
         if (module_exists('ding_gatewayf_registration')) {
           // Clean out message from the login form.
           drupal_get_messages(NULL, TRUE);
