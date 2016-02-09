@@ -416,6 +416,13 @@ function _ding_gatewayf_get_required_attributes(array $attributes, array $requir
     }
   }
 
+  // Check that required attributes where found. If not reset the array to be
+  // empty as some attributes may have been found.
+  if (count($required_attributes) == count($attribute_list)) {
+    watchdog('ding_gatewayf', t('Not all required attributes was returned from gatewayf'), array(), WATCHDOG_ERROR);
+    $attribute_list = array();
+  }
+
   return $attribute_list;
 }
 
