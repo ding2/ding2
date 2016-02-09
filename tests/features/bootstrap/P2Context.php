@@ -999,22 +999,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iFollowTheTag($tag)
     {
-        // Mouse over the "More" button.
-        $found = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.ding-list-add-button a');
-        if (!$found) {
-            throw new \Exception("Couldn't find more button");
-        }
-        $this->ding2Context->scrollTo($found);
-
-        $found->mouseOver();
-
-        $followTag = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.buttons a:contains("' . $tag . '")');
-        if (!$followTag) {
-            throw new Exception("Couldn't find tag '$tag' on material");
-        }
-        $followTag->click();
+        $this->moreDropdownSelect('Følg ' . $tag, "Couldn't find tag '$tag' on material");
     }
 
     /**
