@@ -159,7 +159,8 @@ function ding_gatewayf_login() {
 
   // Redirect the user by setting the location header.
   header('Location:' . $config['service']['endpoint'] . '?returnUrl=' . $callback . '&idp=' . $config['service']['idp']);
-  exit;
+
+  drupal_exit();
 }
 
 /**
@@ -176,7 +177,8 @@ function ding_gatewayf_logout() {
 
   // Redirect to the gateway.
   header('Location:' . $config['service']['endpoint'] . '?returnUrl=' . $base_url . '&op=logout');
-  exit;
+
+  drupal_exit();
 }
 
 /**
