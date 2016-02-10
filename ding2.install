@@ -320,3 +320,10 @@ function ding2_update_7013() {
 function ding2_update_7014() {
   module_enable(array('pagepreview'));
 }
+
+/**
+ * Enable search_api modules.
+ */
+function ding2_update_7015() {
+  module_enable(array('search_api', 'search_api_multi', 'search_api_db', 'search_api_views'));
+}
