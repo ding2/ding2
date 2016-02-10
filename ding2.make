@@ -281,6 +281,8 @@ projects[rules][version] = "2.7"
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = "1.2"
+; Suppress validation when deleting node.
+projects[scheduler][patch][] = "https://www.drupal.org/files/issues/validation_interferes-1.2-2627370-4.patch"
 
 ; Patched with "Secure Permissions fails with features and multilingual"
 projects[secure_permissions][type] = "module"
