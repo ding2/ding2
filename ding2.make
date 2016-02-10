@@ -33,6 +33,8 @@ projects[cs_adaptive_image][version] = "1.0"
 
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.9"
+; Fix regression. See https://www.drupal.org/node/2209775
+projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-readd_access_callback_params-2209775-24.patch"
 
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.8"
