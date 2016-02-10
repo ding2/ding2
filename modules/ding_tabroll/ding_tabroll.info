@@ -9,6 +9,7 @@ dependencies[] = ding_library
 dependencies[] = entityreference
 dependencies[] = features
 dependencies[] = image
+dependencies[] = manualcrop
 dependencies[] = media
 dependencies[] = node
 dependencies[] = nodequeue

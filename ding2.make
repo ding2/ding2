@@ -155,6 +155,9 @@ projects[l10n_update][version] = "1.0"
 projects[i18n][subdir] = "contrib"
 projects[i18n][version] = "1.11"
 
+projects[manualcrop][subdir] = "contrib"
+projects[manualcrop][version] = "1.5"
+
 projects[maintenance_mode_api][subdir] = "contrib"
 projects[maintenance_mode_api][version] = "1.0-beta1"
 
@@ -406,3 +409,13 @@ libraries[zen-grids][download][type] = "git"
 libraries[zen-grids][download][url] = "https://github.com/JohnAlbin/zen-grids.git"
 libraries[zen-grids][download][tag] = "1.4"
 libraries[zen-grids][destination] = "libraries"
+
+libraries[jquery.imgareaselect][download][type] = "get"
+libraries[jquery.imgareaselect][download][url] =  http://odyniec.net/projects/imgareaselect/jquery.imgareaselect-0.9.10.zip
+libraries[jquery.imgareaselect][directory_name] = "jquery.imgareaselect"
+libraries[jquery.imgareaselect][destination] = "libraries"
+
+libraries[jquery.imagesloaded][download][type] = "get"
+libraries[jquery.imagesloaded][download][url] = https://github.com/desandro/imagesloaded/archive/v2.1.2.tar.gz
+libraries[jquery.imagesloaded][directory_name] = "jquery.imagesloaded"
+libraries[jquery.imagesloaded][destination] = "libraries"
