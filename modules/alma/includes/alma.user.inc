@@ -6,9 +6,6 @@
 
 /**
  * Implements hook_user_authenticate().
- *
- * @param string $uid
- * @param string $pass
  */
 function alma_user_authenticate($uid, $pass) {
   $return = array(
@@ -133,4 +130,31 @@ function alma_user_update_pincode($account, $new_pincode) {
  */
 function alma_user_clear_cache($account) {
   // As the ALMA currently only uses a static cache for debt... do nothing.
+}
+
+/**
+ * Create new user through self registration.
+ *
+ * @param string $cpr
+ *   The users CPR/borrow id.
+ * @param string $pin_code
+ *   Selected pin code.
+ * @param string $name
+ *   The borrowers name.
+ * @param string $mail
+ *   The borrowers e-mail.
+ * @param string $branch_id
+ *   The selected default branch's id.
+ *
+ * @throws \Exception
+ *   If the user exists at the provider.
+ */
+function alma_user_create($cpr, $pin_code, $name, $mail, $branch_id) {
+  try {
+    alma_client_invoke('self_register', $cpr, $pin_code, $name, $mail, $branch_id);
+  }
+  catch (AlmaClientUserAlreadyExistsError $exception) {
+    // Throw new exception that is not provider dependent.
+    throw new Exception('User account already exists');
+  }
 }

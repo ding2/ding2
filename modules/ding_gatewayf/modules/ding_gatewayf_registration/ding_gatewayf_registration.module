@@ -1,0 +1,480 @@
+<?php
+/**
+ * @file
+ * Handle user self registration after login into gatewayf.
+ */
+
+define('DING_GATEWAYF_REGISTRATION_ACCEPTANCE_URL', 'gatewayf/registration/acceptance');
+define('DING_GATEWAYF_REGISTRATION_INFORMATION_URL', 'gatewayf/registration/information');
+define('DING_GATEWAYF_REGISTRATION_SUCCESS_URL', 'gatewayf/registration/success');
+
+/**
+ * Implements hook_menu().
+ */
+function ding_gatewayf_registration_menu() {
+  $items = array();
+
+  $items[DING_GATEWAYF_REGISTRATION_INFORMATION_URL] = array(
+    'page callback' => 'ding_gatewayf_registration_information',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  $items[DING_GATEWAYF_REGISTRATION_ACCEPTANCE_URL] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_gatewayf_registration_acceptance_form'),
+    'access callback' => 'ding_gatewayf_registration_acceptance_access_check',
+    'type' => MENU_CALLBACK,
+  );
+
+  $items[DING_GATEWAYF_REGISTRATION_SUCCESS_URL] = array(
+    'page callback' => 'ding_gatewayf_registration_success',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Check that gatewayf login attributes have been set in the session.
+ *
+ * The acceptance page should not be accessible if the user have not logged in
+ * using gatewayf.
+ *
+ * @return bool
+ *   TRUE if attributes exists in the session else FALSE.
+ */
+function ding_gatewayf_registration_acceptance_access_check() {
+  return isset($_SESSION[DING_GATEWAYF_ATTRIBUTES]);
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_gatewayf_registration_theme($existing, $type, $theme, $path) {
+  return array(
+    'ding_gatewayf_registration_link' => array(
+      'template' => 'ding-gatewayf-registration-link',
+      'variables' => array(
+        'link' => NULL,
+      ),
+      'path' => $path . '/templates',
+    ),
+    'ding_gatewayf_registration_information' => array(
+      'template' => 'ding-gatewayf-registration-information',
+      'variables' => array(
+        'title' => array(),
+        'content' => array(),
+        'link' => NULL,
+      ),
+      'path' => $path . '/templates',
+    ),
+    'ding_gatewayf_registration_success_page' => array(
+      'template' => 'ding-gatewayf-registration-success',
+      'variables' => array(
+        'title' => array(),
+        'content' => array(),
+      ),
+      'path' => $path . '/templates',
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function ding_gatewayf_registration_block_info() {
+  return array(
+    'registration' => array(
+      'info' => t('Ding GateWAYF self registration link'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function ding_gatewayf_registration_block_view() {
+  $block = new stdClass();
+
+  $block->content = array(
+    '#theme' => 'ding_gatewayf_registration_link',
+    '#link' => array(
+      '#theme' => 'link',
+      '#text' => t('Create user'),
+      '#path' => DING_GATEWAYF_REGISTRATION_INFORMATION_URL,
+      '#options' => array(
+        'attributes' => array(
+          'class' => array('ding-gatewayf-registration-link'),
+        ),
+        'html' => TRUE,
+      ),
+    ),
+  );
+
+  return $block;
+}
+
+/**
+ * Implements hook_form_ding_gatewayf_admin_settings_form_alter().
+ */
+function ding_gatewayf_registration_form_ding_gatewayf_admin_settings_form_alter(&$form, &$form_state, $form_id) {
+
+  $defaults = _ding_gatewayf_registration_load_config();
+
+  $form['ding_gatewayf_registration'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Self registration'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#tree' => TRUE,
+  );
+
+  $form['ding_gatewayf_registration']['age_limit'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Age limit'),
+    '#description' => t('The age limit will be used to ensure that no user is created without begin above the limit. If left empty no age limit is enforced.'),
+    '#default_value' => $defaults['age_limit'],
+    '#element_validate' => array('element_validate_integer_positive'),
+  );
+
+  // Define before create info page.
+  $form['ding_gatewayf_registration']['information'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Information page'),
+    '#description' => t('Information displayed before the user starts the self registration page. This could be information about the rules for self registration and links to the library regulations.'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#tree' => TRUE,
+  );
+
+  $form['ding_gatewayf_registration']['information']['title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Page title'),
+    '#default_value' => $defaults['information']['title'],
+  );
+
+  $form['ding_gatewayf_registration']['information']['content'] = array(
+    '#type' => 'text_format',
+    '#title' => t('Content'),
+    '#default_value' => $defaults['information']['content'],
+    '#format' => 'ding_wysiwyg',
+  );
+
+  $form['ding_gatewayf_registration']['information']['link'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Link title'),
+    '#default_value' => $defaults['information']['link'],
+  );
+
+  // Accepting text.
+  $form['ding_gatewayf_registration']['acceptance'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Acceptance page'),
+    '#description' => t('Before the user can be created we need to get basic contact information and the user needs to accept regulations.'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#tree' => TRUE,
+  );
+
+  $form['ding_gatewayf_registration']['acceptance']['description'] = array(
+    '#type' => 'text_format',
+    '#title' => t('Acceptance text'),
+    '#description' => t('Description displayed next to the user acceptance check box.'),
+    '#default_value' => $defaults['acceptance']['description'],
+    '#format' => 'ding_wysiwyg',
+  );
+
+  // Define after create info page.
+  $form['ding_gatewayf_registration']['success'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Successful registration page'),
+    '#description' => t('Information displayed after the user have been successful registered at the provider.'),
+    '#tree' => TRUE,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+
+  $form['ding_gatewayf_registration']['success']['title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title'),
+    '#default_value' => $defaults['success']['title'],
+  );
+
+  $form['ding_gatewayf_registration']['success']['content'] = array(
+    '#type' => 'text_format',
+    '#title' => t('Content'),
+    '#default_value' => $defaults['success']['content'],
+    '#format' => 'ding_wysiwyg',
+  );
+}
+
+/**
+ * Generate render array for the information page.
+ *
+ * @return array
+ *   Render array with the page content.
+ */
+function ding_gatewayf_registration_information() {
+  $config = _ding_gatewayf_registration_load_config();
+
+  // Set page title to the same as the pages headline.
+  drupal_set_title($config['information']['title']);
+
+  return array(
+    '#theme' => 'ding_gatewayf_registration_information',
+    '#title' => $config['information']['title'],
+    '#content' => $config['information']['content'],
+    '#link' => array(
+      '#theme' => 'link',
+      '#text' => $config['information']['link'],
+      '#path' => DING_GATEWAYF_LOGIN_URL,
+      '#options' => array(
+        'attributes' => array(
+          // This class "form-submit" is used to make the link look and behave
+          // link a button.
+          'class' => array(
+            'form-submit',
+            'ding-gatewayf-link',
+          ),
+        ),
+        'query' => array(
+          'destination' => DING_GATEWAYF_REGISTRATION_ACCEPTANCE_URL,
+        ),
+        'html' => TRUE,
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_form().
+ */
+function ding_gatewayf_registration_acceptance_form() {
+  $config = _ding_gatewayf_registration_load_config();
+
+  // This is a little style hack to get around the panels design requirements of
+  // the DDB default theme. The module existing_pages could have been used to
+  // wrapper the form in panels. But seen form a performance point this is
+  // faster and simpler.
+  $form = array(
+    '#theme_wrappers' => array('ding_frontend_panel_wrapper'),
+  );
+
+  $form['accept'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('I accept the user agreements'),
+    '#description' => $config['acceptance']['description'],
+    '#required' => TRUE,
+  );
+
+  $form['name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Name'),
+    '#description' => t('Your full name.'),
+    // Max length of 100 is the current limit set by the database in the library
+    // system.
+    '#maxlength' => 100,
+    '#required' => TRUE,
+    '#attributes' => array(
+      'autocomplete' => 'off',
+    ),
+  );
+
+  $form['mail'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Email address'),
+    '#description' => t('The Email address that we can use to get in contact with you.'),
+    '#required' => TRUE,
+    '#attributes' => array(
+      // Auto-complete is disabled here as the registration may be preform on a
+      // public computer in the library and information about which user there
+      // is registered and the mail address is classified information.
+      'autocomplete' => 'off',
+    ),
+  );
+
+  // Get branch options form the active provider.
+  global $user;
+  $provider = _ding_provider_get_provider('reservation');
+  $options = ding_provider_invoke('reservation', 'options', $user);
+  $form['branch'] = $options[$provider['module'] . '_preferred_branch'];
+
+  $form['pin'] = array(
+    '#type' => 'password',
+    '#title' => t('Pin code'),
+    '#description' => t('Pin code with an max length of %length', array('%length' => ding_user_get_pincode_length())),
+    '#maxlength' => ding_user_get_pincode_length(),
+    '#required' => TRUE,
+    '#attributes' => array(
+      'autocomplete' => 'off',
+    ),
+  );
+
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Create me'),
+  );
+
+  // Link cancel button to gatewayf logout to ensure that the user is signed
+  // out correctly.
+  $form['cancel'] = array(
+    '#markup' => l(t('Cancel'), DING_GATEWAYF_LOGOUT_URL, array('attributes' => array('class' => 'ding-gatewayf--cancel'))),
+  );
+
+  return $form;
+}
+
+/**
+ * Submit handler for the acceptance form.
+ *
+ * It tries to create the user at the provider and redirect the user.
+ */
+function ding_gatewayf_registration_acceptance_submit($form, $form_state) {
+  $values = $form_state['values'];
+
+  // This value was not store in the form to ensure that the user can reload the
+  // form.
+  $required_attributes = $_SESSION[DING_GATEWAYF_ATTRIBUTES];
+  unset($_SESSION[DING_GATEWAYF_ATTRIBUTES]);
+
+  // Check that the logged in user is over the age limit.
+  if (!_ding_gatewayf_registration_is_age_limit_met($required_attributes['schacPersonalUniqueID'])) {
+    $config = _ding_gatewayf_registration_load_config();
+    drupal_set_message(t('You are not allowed to automatically be created because of the age limit (!limit years). Please go to your local library to registry.', array('!limit' => $config['age_limit'])));
+
+    // Logout the user from gatewayf.
+    ding_gatewayf_logout();
+    return;
+  }
+
+  // Try to create the user at the provider.
+  try {
+    // Create user as the provider.
+    ding_provider_invoke('user', 'create', $required_attributes['schacPersonalUniqueID'], $values['pin'], $values['name'], $values['mail'], $values['branch']);
+
+    $_REQUEST['destination'] = DING_GATEWAYF_REGISTRATION_SUCCESS_URL;
+    _ding_gatewayf_provider_login($required_attributes);
+
+  }
+  catch (Exception $exception) {
+    // @TODO: The exception thrown by the providers to say that a user already
+    //         exists is provider "named", hence for now we capture all
+    //         exceptions. This should be fixed with FBS.
+    drupal_set_message(t('You already have an user account at the library. So we have just logged you in.'));
+    _ding_gatewayf_provider_login($required_attributes);
+  }
+}
+
+/**
+ * Render the success page displayed after self registration.
+ *
+ * @return array
+ *   Render array with the page to display.
+ */
+function ding_gatewayf_registration_success() {
+  $config = _ding_gatewayf_registration_load_config();
+
+  return array(
+    '#theme' => 'ding_gatewayf_success_page',
+    '#title' => $config['success']['title'],
+    '#content' => $config['success']['content'],
+  );
+}
+
+/**
+ * Implements hook_ding_provider_user().
+ */
+function ding_gatewayf_registration_ding_provider_user() {
+  return array(
+    'user' => array(
+      'required' => TRUE,
+      'install time setup' => FALSE,
+    ),
+  );
+}
+
+/**
+ * Check that the age limit is met.
+ *
+ * @param int $cpr
+ *   A social security number.
+ *
+ * @return bool
+ *   If the age limit is given and met TRUE else FALSE. If age limit is not
+ *   given TRUE will always be returned.
+ */
+function _ding_gatewayf_registration_is_age_limit_met($cpr) {
+  $config = _ding_gatewayf_registration_load_config();
+
+  // Check if age limit should be set.
+  $limit = $config['age_limit'];
+  if (!empty($limit)) {
+
+    // Magic function to get the 1900, 1800 or 2000 prefixes for year.
+    // @see http://da.wikipedia.org/wiki/CPR-nummer
+    $year = substr($cpr, 4, 2);
+    switch (substr($cpr, 6, 1)) {
+      case 0:
+      case 1:
+      case 2:
+      case 3:
+        $year = '19' . $year;
+        break;
+
+      case 4:
+      case 9:
+        $year = $year > 36 ? '19' . $year : '20' . $year;
+        break;
+
+      case 5:
+      case 6:
+      case 7:
+      case 8:
+        $year = $year > 57 ? '18' . $year : '20' . $year;
+        break;
+    }
+
+    // Create date time object to use it's diff method. The 'tomorrow' is used
+    // here to ensure that the user meets the age limit on the person birthday.
+    $from = new DateTime();
+    $from->setDate($year, substr($cpr, 2, 2), substr($cpr, 0, 2));
+    $to = new DateTime('tomorrow');
+
+    // Check if limit have been reached.
+    if ($from->diff($to)->y < $limit) {
+      return FALSE;
+    }
+  }
+
+  return TRUE;
+}
+
+/**
+ * Load self registration configuration with valid defaults.
+ */
+function _ding_gatewayf_registration_load_config() {
+  return variable_get('ding_gatewayf_registration', array()) + array(
+    'age_limit' => 18,
+    'information' => array(
+      'title' => t('Self registration'),
+      'content' => t("Please read the library's regulations for usage before you use self registration."),
+      'link' => t('Start self registration'),
+    ),
+    'acceptance' => array(
+      'description' => t("I accept the library's regulations and rules."),
+    ),
+    'success' => array(
+      'title' => t('Success'),
+      'content' => t('You have been registered at the library as an user.'),
+    ),
+  );
+}
+
+/**
+ * Check if the request is for self registration.
+ */
+function _ding_gatewayf_registration_is_registration_request() {
+  return defined('DING_GATEWAYF_REGISTRATION_ACCEPTANCE_URL') && isset($_REQUEST['destination']) && $_REQUEST['destination'] == DING_GATEWAYF_REGISTRATION_ACCEPTANCE_URL;
+}

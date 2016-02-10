@@ -1,0 +1,13 @@
+<?php
+/**
+ * @file
+ * Handles installation related tasks and update functions for the module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function uninstall() {
+  // Remove configuration settings.
+  variable_del('ding_gatewayf');
+}
