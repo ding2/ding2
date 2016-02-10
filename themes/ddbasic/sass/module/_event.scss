@@ -132,8 +132,8 @@
   .event-arrow-link {
     @extend %arrow-link;
   }
-  
-  /* Media queries */  
+
+  /* Media queries */
   @include small-medium() {
     .event-list-description {
       display: none;
@@ -193,6 +193,18 @@
     @include zen-grid-item(8, 1);
 
     padding-left: 0;
+  }
+
+  .field-name-field-ding-event-materials {
+    clear: left;
+
+    .ting-object {
+      margin: $large-spacing 0;
+    }
+
+    .subjects {
+      margin-top: $large-spacing;
+    }
   }
 
   .event-footer {
