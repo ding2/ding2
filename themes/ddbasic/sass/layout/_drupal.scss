@@ -26,7 +26,8 @@ label {
 }
 
 .form-submit,
-#edit-cancel {
+#edit-cancel,
+#edit-delete {
   @extend %button-default;
 }
 
