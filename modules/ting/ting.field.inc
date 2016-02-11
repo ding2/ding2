@@ -325,7 +325,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
 
     foreach ($entity->types as $type) {
       $element[0][$type] = array(
-        '#prefix' => '<h2>' . $type . '</h2><a name="' . $type . '"></a>',
+        '#prefix' => '<h2>' . ting_type_label($type) . '</h2><a name="' . $type . '"></a>',
       );
     }
     foreach ($entities as $sub_entity) {
@@ -368,7 +368,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           }
           // @todo: this could be moved into a theme function to be more
           // generic.
-          $prefix = '<span class="search-result--heading-type">' . $ting_type . ':</span>';
+          $prefix = '<span class="search-result--heading-type">' . ting_type_label($ting_type) . ':</span>';
         }
 
         if ($link) {
@@ -406,7 +406,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           '#theme' => 'item_list',
           '#items' => array(
             array(
-              'data' => $entity->type,
+              'data' => ting_type_label($entity->type),
               'class' => array(drupal_html_class($entity->type)),
             ),
           ),
@@ -489,7 +489,7 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         $types = array();
         foreach ($entity->types as $type) {
           $types[] = array(
-            'data' => $type,
+            'data' => ting_type_label($type),
             'class' => array(drupal_html_class($type)),
           );
         }

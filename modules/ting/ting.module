@@ -103,6 +103,16 @@ function ting_menu() {
     'weight' => -10,
   );
 
+  $items['admin/config/ting/types'] = array(
+    'title' => 'Types',
+    'description' => 'Configure custom names for ting types.',
+    'weight' => -10,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_admin_types_settings'),
+    'access arguments' => array('administer ting settings'),
+    'file' => 'ting.admin.inc',
+  );
+
   $items['admin/config/ting/ranking'] = array(
     'title' => 'Search result ranking',
     'description' => 'Provides settings for how search results are ranked.',
@@ -301,10 +311,10 @@ function ting_block_view($delta = '') {
         $items = array();
         foreach ($collection->types as $k => $type) {
           if ($collection->types_count[$type] == 1) {
-            $items[] = l($type . ' (' . $collection->types_count[$type] . ')', 'ting/object/' . $collection->entities[$k]->ding_entity_id);
+            $items[] = l(ting_type_label($type) . ' (' . $collection->types_count[$type] . ')', 'ting/object/' . $collection->entities[$k]->ding_entity_id);
           }
           else {
-            $items[] = l($type . ' (' . $collection->types_count[$type] . ')', '#' . $type, array('external' => TRUE));
+            $items[] = l(ting_type_label($type) . ' (' . $collection->types_count[$type] . ')', '#' . $type, array('external' => TRUE));
           }
         }
 
@@ -330,7 +340,7 @@ function ting_block_view($delta = '') {
             $uri['options']['attributes'] = array('class' => array('js-search-overlay'));
           }
 
-          $items[] = l($type . ' (' . $collection->types_count[$type] . ')', $uri['path'], $uri['options']);
+          $items[] = l(ting_type_label($type) . ' (' . $collection->types_count[$type] . ')', $uri['path'], $uri['options']);
         }
 
         // Only display block if there are more than on item.
@@ -1079,4 +1089,17 @@ function _ting_anchor_name($type) {
   $name = str_replace(':', '', $name);
   $name = strtolower($name);
   return $name;
+}
+
+/**
+ * Return the label for a material type.
+ */
+function ting_type_label($type) {
+  $types = variable_get('ting_type_labels', array());
+  $lc_type = drupal_strtolower($type);
+  if (isset($types[$lc_type]) && !empty($types[$lc_type])) {
+    return $types[$lc_type];
+  }
+
+  return $type;
 }
