@@ -361,6 +361,41 @@ temaer/*';
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'imagemagick_convert';
+  $strongarm->value = '/usr/bin/convert';
+  $export['imagemagick_convert'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'imagemagick_debug';
+  $strongarm->value = 0;
+  $export['imagemagick_debug'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'imagemagick_gm';
+  $strongarm->value = 0;
+  $export['imagemagick_gm'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'imagemagick_quality';
+  $strongarm->value = '100';
+  $export['imagemagick_quality'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'image_toolkit';
+  $strongarm->value = 'imagemagick';
+  $export['image_toolkit'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'jquery_update_compression_type';
   $strongarm->value = 'min';
   $export['jquery_update_compression_type'] = $strongarm;
