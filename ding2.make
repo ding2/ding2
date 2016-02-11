@@ -121,6 +121,9 @@ projects[globalredirect][patch][] = "http://drupal.org/files/language_redirect_v
 projects[google_analytics][subdir] = "contrib"
 projects[google_analytics][version] = "1.3"
 
+projects[imagemagick][subdir] = "contrib"
+projects[imagemagick][version] = "1.0"
+
 projects[image_resize_filter][subdir] = "contrib"
 projects[image_resize_filter][version] = "1.14"
 
