@@ -37,7 +37,7 @@ function ding_frontpage_default_page_manager_pages() {
   $handler->conf = array(
     'title' => 'Ding frontpage',
     'no_blocks' => 0,
-    'pipeline' => 'standard',
+    'pipeline' => 'ipe',
     'css_id' => '',
     'css' => '',
     'contexts' => array(),
