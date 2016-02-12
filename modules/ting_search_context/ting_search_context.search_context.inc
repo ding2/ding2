@@ -179,7 +179,6 @@ function ting_search_context_get_audience_fiction(array $facets) {
  *
  * @param array $facets
  *   The facets of the search results.
- *
  * @param float $pass_ratio
  *   The ratio of relevant result needed to be considered a match.
  *
@@ -197,7 +196,6 @@ function ting_search_context_is_adult(array $facets, $pass_ratio) {
  *
  * @param array $facets
  *   The facets of the search results.
- *
  * @param float $pass_ratio
  *   The ratio of relevant result needed to be considered a match.
  *
@@ -215,7 +213,6 @@ function ting_search_context_is_fiction(array $facets, $pass_ratio) {
  *
  * @param array $facets
  *   The facets of the search results.
- *
  * @param float $pass_ratio
  *   The ratio of relevant result needed to be considered a match.
  *
@@ -233,6 +230,8 @@ function ting_search_context_is_children(array $facets, $pass_ratio) {
  *
  * @param array $facets
  *   The facets of the search results.
+ * @param float $pass_ratio
+ *   The ratio of relevant result needed to be considered a match.
  *
  * @return bolean
  *   True if nonfiction.
