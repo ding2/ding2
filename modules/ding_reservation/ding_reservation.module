@@ -59,6 +59,14 @@ function ding_reservation_menu() {
     'access arguments' => array('perform reservation'),
   );
 
+  $items['ting/reservations/%/delete'] = array(
+    'title' => 'Delete reservations',
+    'page callback' => array('ding_reservation_delete_reservations_form_ajax_submit'),
+    'page arguments' => array(2),
+    'delivery callback' => 'ajax_deliver',
+    'access arguments' => array('perform reservation'),
+  );
+
   return $items;
 }
 
@@ -838,28 +846,19 @@ function ding_reservation_updates_form_callback($form, &$form_state) {
  */
 function ding_reservation_delete_reservations_form($form, $form_state, $account, $reservation_ids) {
   global $user;
-  $ids = array_map('rawurldecode', explode(',', $reservation_ids));
-
   $form_state['cache'] = TRUE;
-
-  $form['reservations'] = array(
-    '#type' => 'value',
-    '#value' => $ids,
-  );
 
   $form['confirm_text'] = array(
     '#markup' => '<div>' . t('Are you sure you want to delete these reservations?') . '</div>',
   );
 
-  $form['submit'] = array(
-    '#type' => 'submit',
-    '#submit' => array('ding_reservation_delete_reservations_form_submit'),
-    '#ajax' => array(
-      'callback' => 'ding_reservation_delete_reservations_form_callback',
-      'wrapper' => 'ding-reservation-delete-reservation-form',
-    ),
+  $form['delete'] = array(
+    '#type' => 'link',
     '#value' => t('Yes'),
+    '#title' => t('Yes'),
     '#name' => 'delete_reservations',
+    '#href' => 'ting/reservations/' . $reservation_ids . '/delete',
+    '#attributes' => array('class' => array('use-ajax')),
   );
 
   $form['cancel'] = array(
@@ -873,30 +872,24 @@ function ding_reservation_delete_reservations_form($form, $form_state, $account,
 }
 
 /**
- * Delete reservation submit normal handler.
- *
- * @see ding_reservation_delete_reservations_form_callback()
+ * Delete reservation ajax callback.
  */
-function ding_reservation_delete_reservations_form_submit($form, &$form_state) {
+function ding_reservation_delete_reservations_form_ajax_submit($reservation_ids, $form_state) {
   global $user;
   if (!empty($form_state['triggering_element']['#reservation_id'])) {
     $reservations = array($form_state['triggering_element']['#reservation_id']);
   }
   else {
-    $reservations = array_filter($form_state['values']['reservations']);
+    $reservations = array_map('rawurldecode', explode(',', $reservation_ids));
   }
+
   foreach ($reservations as $reservation_id) {
     ding_provider_invoke('reservation', 'delete', $user, $reservation_id);
 
     // Clear reservation session cache.
     ding_reservation_cache_clear();
   }
-}
 
-/**
- * Delete reservation ajax callback.
- */
-function ding_reservation_delete_reservations_form_callback($form, &$form_state) {
   $response = array(
     '#type' => 'ajax',
     '#commands' => array(),

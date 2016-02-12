@@ -313,3 +313,17 @@ function ding2_update_7012() {
 function ding2_update_7013() {
   ding2_translation_update();
 }
+
+/**
+ * Enable pagepreview module.
+ */
+function ding2_update_7014() {
+  module_enable(array('pagepreview'));
+}
+
+/**
+ * Enable search_api modules.
+ */
+function ding2_update_7015() {
+  module_enable(array('search_api', 'search_api_multi', 'search_api_db', 'search_api_views'));
+}

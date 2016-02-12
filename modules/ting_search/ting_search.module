@@ -188,7 +188,7 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
       'description' => t('Enter subject keywords'),
     ),
   );
-  
+
   // Remove the form token so the form becomes cachable. If we don't, all
   // pages with the search form becomes un-cachable, as drupal_validate_form()
   // will check the token and fail if the current user is not the same as the
@@ -294,7 +294,7 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
  * @param array $keys
  *   Keys to extract.
  *
- * @return array 
+ * @return array
  *   Where the array keys are the search keys, and the remainder
  *   search string in 'q'.
  */
@@ -806,6 +806,9 @@ function ting_search_sort_form($form_state) {
 function ting_search_sort_options() {
   $options = array(
     '' => t('Ranking'),
+    'rank_title' => t('Best match on title'),
+    'rank_creator' => t('Best match on creator'),
+    'rank_subject' => t('Best match on subject'),
     'title_ascending' => t('Title (Ascending)'),
     'title_descending' => t('Title (Descending)'),
     'creator_ascending' => t('Creator (Ascending)'),

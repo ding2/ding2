@@ -33,6 +33,8 @@ projects[cs_adaptive_image][version] = "1.0"
 
 projects[ctools][subdir] = "contrib"
 projects[ctools][version] = "1.9"
+; Fix regression. See https://www.drupal.org/node/2209775
+projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-readd_access_callback_params-2209775-24.patch"
 
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.8"
@@ -70,8 +72,7 @@ projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
 
 projects[expire][subdir] = "contrib"
-projects[expire][version] = "1.0-beta1"
-projects[expire][patch][0] = "https://drupal.org/files/issues/expire-2183995-1.patch"
+projects[expire][version] = "2.0-rc4"
 
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.0"
@@ -121,6 +122,9 @@ projects[globalredirect][patch][] = "http://drupal.org/files/language_redirect_v
 projects[google_analytics][subdir] = "contrib"
 projects[google_analytics][version] = "1.3"
 
+projects[honeypot][subdir] = "contrib"
+projects[honeypot][version] = "1.21"
+
 projects[image_resize_filter][subdir] = "contrib"
 projects[image_resize_filter][version] = "1.14"
 
@@ -152,6 +156,9 @@ projects[l10n_update][version] = "1.0"
 
 projects[i18n][subdir] = "contrib"
 projects[i18n][version] = "1.11"
+
+projects[manualcrop][subdir] = "contrib"
+projects[manualcrop][version] = "1.5"
 
 projects[maintenance_mode_api][subdir] = "contrib"
 projects[maintenance_mode_api][version] = "1.0-beta1"
@@ -240,6 +247,9 @@ projects[opening_hours][patch][] = "http://drupal.org/files/issues/change-path-2
 projects[opening_hours][patch][] = "http://www.drupal.org/files/issues/Issue620-single-minute-opening-hours.patch"
 projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/opening_hours-2194867-D7.patch"
 
+projects[pagepreview][subdir] = "contrib"
+projects[pagepreview][version] = "1.0-alpha1"
+
 projects[panels][subdir] = "contrib"
 projects[panels][version] = "3.4"
 
@@ -279,6 +289,8 @@ projects[rules][version] = "2.7"
 
 projects[scheduler][subdir] = "contrib"
 projects[scheduler][version] = "1.2"
+; Suppress validation when deleting node.
+projects[scheduler][patch][] = "https://www.drupal.org/files/issues/validation_interferes-1.2-2627370-4.patch"
 
 ; Patched with "Secure Permissions fails with features and multilingual"
 projects[secure_permissions][type] = "module"
@@ -288,6 +300,15 @@ projects[secure_permissions][download][url] = "http://git.drupal.org/project/sec
 projects[secure_permissions][download][revision] = "ef5eec5"
 projects[secure_permissions][patch][] = "http://drupal.org/files/issues/2188491-features-multilingual-2.patch"
 projects[secure_permissions][patch][] = "http://drupal.org/files/issues/secure_permissions-dont_disable_all_permissions-2499607-3.patch"
+
+projects[search_api][subdir] = "contrib"
+projects[search_api][version] = "1.16"
+
+projects[search_api_multi][subdir] = "contrib"
+projects[search_api_multi][version] = "1.3"
+
+projects[search_api_db][subdir] = "contrib"
+projects[search_api_db][version] = "1.5"
 
 projects[similarterms][subdir] = "contrib"
 projects[similarterms][version] = "2.3"
@@ -319,6 +340,10 @@ projects[variable][version] = "2.5"
 projects[varnish][subdir] = "contrib"
 projects[varnish][version] = "1.0-beta3"
 projects[varnish][patch][0] = "http://drupal.org/files/issues/notification_level_settings-2169271-3.patch"
+; Fixes "Connection reset by peer" on large purge list by batching paths, https://www.drupal.org/node/1481136
+projects[varnish][patch][] = "https://www.drupal.org/files/issues/varnish_purge_limit-1481136-11_1.patch"
+; Fixes missing leading slash from ban URLs, https://www.drupal.org/node/2340829
+projects[varnish][patch][] = "https://www.drupal.org/files/issues/varnish-leave_base_path_in_urls-2340829-26.patch"
 
 projects[virtual_field][subdir] = "contrib"
 projects[virtual_field][version] = "1.2"
@@ -398,3 +423,13 @@ libraries[zen-grids][download][type] = "git"
 libraries[zen-grids][download][url] = "https://github.com/JohnAlbin/zen-grids.git"
 libraries[zen-grids][download][tag] = "1.4"
 libraries[zen-grids][destination] = "libraries"
+
+libraries[jquery.imgareaselect][download][type] = "get"
+libraries[jquery.imgareaselect][download][url] =  http://odyniec.net/projects/imgareaselect/jquery.imgareaselect-0.9.10.zip
+libraries[jquery.imgareaselect][directory_name] = "jquery.imgareaselect"
+libraries[jquery.imgareaselect][destination] = "libraries"
+
+libraries[jquery.imagesloaded][download][type] = "get"
+libraries[jquery.imagesloaded][download][url] = https://github.com/desandro/imagesloaded/archive/v2.1.2.tar.gz
+libraries[jquery.imagesloaded][directory_name] = "jquery.imagesloaded"
+libraries[jquery.imagesloaded][destination] = "libraries"

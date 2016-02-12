@@ -53,8 +53,8 @@ function ding_example_content_events_node_export_features_default() {
     <field_ding_event_date>
       <und _numeric_keys="1">
         <n0>
-          <value>2015-03-05 18:00:00</value>
-          <value2>2015-03-05 20:00:00</value2>
+          <value>2016-03-05 18:00:00</value>
+          <value2>2016-03-05 20:00:00</value2>
           <timezone>Europe/Berlin</timezone>
           <timezone_db>UTC</timezone_db>
           <date_type>datetime</date_type>
@@ -259,8 +259,8 @@ function ding_example_content_events_node_export_features_default() {
     <field_ding_event_date>
       <und _numeric_keys="1">
         <n0>
-          <value>2015-10-27 09:00:00</value>
-          <value2>2015-10-27 13:00:00</value2>
+          <value>2016-10-27 09:00:00</value>
+          <value2>2016-10-27 13:00:00</value2>
           <timezone>Europe/Berlin</timezone>
           <timezone_db>UTC</timezone_db>
           <date_type>datetime</date_type>
@@ -467,8 +467,8 @@ function ding_example_content_events_node_export_features_default() {
     <field_ding_event_date>
       <und _numeric_keys="1">
         <n0>
-          <value>2015-05-05 08:00:00</value>
-          <value2>2015-05-31 12:00:00</value2>
+          <value>2016-05-05 08:00:00</value>
+          <value2>2016-05-31 12:00:00</value2>
           <timezone>Europe/Berlin</timezone>
           <timezone_db>UTC</timezone_db>
           <date_type>datetime</date_type>
@@ -669,8 +669,8 @@ function ding_example_content_events_node_export_features_default() {
     <field_ding_event_date>
       <und _numeric_keys="1">
         <n0>
-          <value>2015-08-15 08:00:00</value>
-          <value2>2015-08-30 12:00:00</value2>
+          <value>2016-08-15 08:00:00</value>
+          <value2>2016-08-30 12:00:00</value2>
           <timezone>Europe/Berlin</timezone>
           <timezone_db>UTC</timezone_db>
           <date_type>datetime</date_type>
@@ -886,8 +886,8 @@ function ding_example_content_events_node_export_features_default() {
     <field_ding_event_date>
       <und _numeric_keys="1">
         <n0>
-          <value>2015-10-14 14:30:00</value>
-          <value2>2015-10-14 16:00:00</value2>
+          <value>2016-10-14 14:30:00</value>
+          <value2>2016-10-14 16:00:00</value2>
           <timezone>Europe/Berlin</timezone>
           <timezone_db>UTC</timezone_db>
           <date_type>datetime</date_type>
@@ -1023,8 +1023,8 @@ function ding_example_content_events_node_export_features_default() {
     <field_ding_event_date>
       <und _numeric_keys="1">
         <n0>
-          <value>2015-02-06 09:00:00</value>
-          <value2>2015-02-06 11:00:00</value2>
+          <value>2016-02-06 09:00:00</value>
+          <value2>2016-02-06 11:00:00</value2>
           <timezone>Europe/Berlin</timezone>
           <timezone_db>UTC</timezone_db>
           <date_type>datetime</date_type>
@@ -1229,8 +1229,8 @@ function ding_example_content_events_node_export_features_default() {
     <field_ding_event_date>
       <und _numeric_keys="1">
         <n0>
-          <value>2015-04-08 14:30:00</value>
-          <value2>2015-04-08 16:00:00</value2>
+          <value>2016-04-08 14:30:00</value>
+          <value2>2016-04-08 16:00:00</value2>
           <timezone>Europe/Berlin</timezone>
           <timezone_db>UTC</timezone_db>
           <date_type>datetime</date_type>
@@ -1447,8 +1447,8 @@ function ding_example_content_events_node_export_features_default() {
     <field_ding_event_date>
       <und _numeric_keys="1">
         <n0>
-          <value>2015-04-04 14:00:00</value>
-          <value2>2015-04-04 16:00:00</value2>
+          <value>2016-04-04 14:00:00</value>
+          <value2>2016-04-04 16:00:00</value2>
           <timezone>Europe/Berlin</timezone>
           <timezone_db>UTC</timezone_db>
           <date_type>datetime</date_type>
@@ -1655,8 +1655,8 @@ function ding_example_content_events_node_export_features_default() {
     <field_ding_event_date>
       <und _numeric_keys="1">
         <n0>
-          <value>2015-09-10 17:00:00</value>
-          <value2>2015-09-10 18:30:00</value2>
+          <value>2016-09-10 17:00:00</value>
+          <value2>2016-09-10 18:30:00</value2>
           <timezone>Europe/Berlin</timezone>
           <timezone_db>UTC</timezone_db>
           <date_type>datetime</date_type>
@@ -1874,8 +1874,8 @@ function ding_example_content_events_node_export_features_default() {
     <field_ding_event_date>
       <und _numeric_keys="1">
         <n0>
-          <value>2015-01-25 11:00:00</value>
-          <value2>2015-01-25 13:00:00</value2>
+          <value>2016-01-25 11:00:00</value>
+          <value2>2016-01-25 13:00:00</value2>
           <timezone>Europe/Berlin</timezone>
           <timezone_db>UTC</timezone_db>
           <date_type>datetime</date_type>
@@ -2087,8 +2087,8 @@ function ding_example_content_events_node_export_features_default() {
     <field_ding_event_date>
       <und _numeric_keys="1">
         <n0>
-          <value>2015-05-15 08:30:00</value>
-          <value2>2015-05-15 10:00:00</value2>
+          <value>2016-05-15 08:30:00</value>
+          <value2>2016-05-15 10:00:00</value2>
           <timezone>Europe/Berlin</timezone>
           <timezone_db>UTC</timezone_db>
           <date_type>datetime</date_type>
