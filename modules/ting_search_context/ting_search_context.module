@@ -782,7 +782,7 @@ function ting_search_context_search_string_context_exists($search_string) {
  * @param array $subjects
  *   The subjects the search for. The order doesn't matter.
  */
-function ting_search_context_subject_context_exists($subjects) {
+function ting_search_context_subject_context_exists(array $subjects) {
   $subject_contexts = ting_search_context_get_all_contexts('subject');
 
   foreach ($subject_contexts as $subject_context) {
@@ -897,7 +897,7 @@ function ting_search_context_delete($context_id) {
  *   int. The number of contexts deleted.
  *   False if something went wrong or nothing was deleted.
  */
-function ting_search_context_delete_multiple($context_ids) {
+function ting_search_context_delete_multiple(array $context_ids) {
   // We're also deleting associated ratings, so use a transaction.
   $transaction = db_transaction();
 
