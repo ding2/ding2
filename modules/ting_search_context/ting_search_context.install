@@ -35,31 +35,30 @@ function ting_search_context_schema() {
         'not null' => TRUE,
         'default' => '',
       ),
-            // A machine-name identifier of the system context - or the parent system
-            // context if this is a subject context.
-            // Will not be set for search string contexts, since they dont have a
-            // parent (se below).
+            // A machine-name identifier of the system context - or the parent
+            // system context if this is a subject context.
+            // Will not be set for search string contexts, since they dont
+            // have a parent (se below).
       'context' => array(
         'description' => 'The machine-name of the context.',
         'type' => 'varchar',
         'length' => 32,
       ),
-            // We allow administrators to create more specific versions of certain
-            // system contexts, by associating one or more subjects to the context.
+            // We allow administrators to create more specific versions of
+            // certain system contexts, by associating one or more subjects
+            // to the context.
       'subjects' => array(
         'description' => 'A comma-separated list of the subjects of this context.',
         'type' => 'varchar',
-  // TODO: Is this enough???
         'length' => 255,
       ),
-            // Administrators can also extend the system by creating search string
-            // contexts. Search contexts doesn't have a context and subject value.
-            // Unlike subjects contexts, search string contexts doesn't have a parent.
-            // The context is just the search string.
+            // Administrators can also extend the system by creating search
+            // string contexts. Search contexts doesn't have a context and
+            // subject value. Unlike subjects contexts, search string contexts
+            // doesn't have a parent. The context is just the search string.
       'search' => array(
         'description' => 'The search string of this context.',
         'type' => 'varchar',
-  // TODO: Is this enough???
         'length' => 255,
       ),
     ),
