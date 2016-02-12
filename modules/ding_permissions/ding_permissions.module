@@ -832,6 +832,7 @@ function ding_permissions_secure_permissions($role) {
       'translate interface',
       'translate user-defined strings',
       'use advanced search',
+      'use ipe with page manager',
       'use panels in place editing',
       'use text format ding_wysiwyg',
       'view any provider_alma profile',
