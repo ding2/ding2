@@ -85,8 +85,9 @@ function template_preprocess_ting_search_context_content(&$vars, $hook) {
 }
 
 /**
- * Helper function to determine if a link is internal, accounting for absolute
- * internal links.
+ * Helper function to determine if a link is internal.
+ *
+ * Accounting for absolute internal links.
  */
 function _ting_search_context_url_is_internal($url) {
   $result = TRUE;
