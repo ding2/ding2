@@ -54,31 +54,50 @@ function template_preprocess_ting_search_context_content(&$vars, $hook) {
   }
 
   // URL.
-  $webtrends_paramater = 'WT.mc_id=searchcontext';
   if ($node->type == 'ding_search_context_link') {
-    $link = $wrapper->field_search_context_link->url->value();
-
+    $url = $wrapper->field_search_context_link->url->value();
     // One of the main usecases for ding_search_context_links is to link to
     // search queries. Search queries are tricky because they are a mix of
     // escaped and not escaped characters. This code handles it in a primitive
     // fashion by only escaping the quotes.
     //
     // Quotes inside search queries need to be escaped.
-    $url = str_replace('"', '%22', $link);
+    $url = str_replace('"', '%22', $url);
 
-    if (strpos($url, '?') == FALSE) {
-      $url .= '?WT.mc_id=searchcontext';
-    }
-    else {
-      $url .= '&WT.mc_id=searchcontext';
+    // Only add Webtrends tracking params to internal links.
+    if (_ting_search_context_url_is_internal($url)) {
+      if (strpos($url, '?') === FALSE) {
+        $url .= '?WT.ac=searchcontext';
+      }
+      else {
+        $url .= '&WT.ac=searchcontext';
+      }
     }
   }
   else {
-    $url = url('node/' . $node->nid, array('absolute' => TRUE, 'query' => array('WT.mc_id' => 'searchcontext')));
+    $url = url('node/' . $node->nid, array('absolute' => TRUE, 'query' => array('WT.ac' => 'searchcontext')));
   }
 
   $vars['url'] = $url;
 
   // Title.
   $vars['title'] = $wrapper->title->value(array('sanitize' => TRUE));
+}
+
+/**
+ * Helper function to determine if a link is internal, accounting for absolute
+ * internal links.
+ */
+function _ting_search_context_url_is_internal($url) {
+  $result = TRUE;
+
+  if (url_is_external($url)) {
+    // Still might be an internal absolute URL.
+    $parsed_url = parse_url($url);
+    if ($parsed_url['host'] !== $_SERVER['HTTP_HOST']) {
+      $result = FALSE;
+    }
+  }
+
+  return $result;
 }
