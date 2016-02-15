@@ -23,7 +23,9 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
 
   if ($profile) {
     $profile = array_shift($profile);
-    $profile->facets = ting_field_search_facets_load($profile->name);
+    $profile->facets = ting_field_search_facets_load($profile->pid);
+    //$profile->config = unserialize($profile->config);
+
     // Save the original profile object in form_state for later use.
     $form_state['original_profile'] = $profile;
   }
@@ -71,28 +73,28 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
   );
   $form['profile']['new_materials'] = array(
   );
-  $form['profile']['alter_links'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Alter links'),
-    '#description' => t('Use this profile on ting search links generated on search result, collection and object pages, when using this profile.'),
-    '#default_value' => $profile ? $profile->alter_links : 1,
-  );
   $form['profile']['active'] = array(
     '#type' => 'checkbox',
     '#title' => t('Active'),
     '#description' => t('Activated profiles can be used in the URI with the profile query parameter.'),
-    '#default_value' => $profile ? $profile->active : 1,
+    '#default_value' => $profile ? $profile->config['active'] : 1,
   );
   $form['profile']['exposed'] = array(
     '#type' => 'checkbox',
     '#title' => t('Exposed'),
     '#description' => t('Exposed profiles is shown to the user and can be selected before searching.'),
-    '#default_value' => $profile ? $profile->exposed : 0,
+    '#default_value' => $profile ? $profile->config['exposed'] : 0,
     '#states' => array(
       'disabled' => array(
         ':input[name="profile[active]"]' => array('checked' => FALSE),
       ),
     ),
+  );
+  $form['profile']['alter_links'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Alter links'),
+    '#description' => t('Use this profile on ting search links generated on search result, collection and object pages, when using this profile.'),
+    '#default_value' => $profile ? $profile->config['alter_links'] : 1,
   );
   $form['profile']['weight'] = array(
     '#type' => 'select',
@@ -110,7 +112,7 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
     '#type' => 'checkbox',
     '#title' => t('Use specialized facets'),
     '#description' => t('Leave unchecked to use the standard Ting search facets.'),
-    '#default_value' => $profile ? $profile->use_facets : 0,
+    '#default_value' => $profile ? $profile->config['use_facets'] : 0,
     '#states' => array(
       'disabled' => array(
         ':input[name="profile[exposed]"]' => array('checked' => FALSE),
@@ -124,7 +126,7 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
     '#title' => t('Facets'),
     '#tree' => TRUE,
     '#collapsible' => TRUE,
-    '#collapsed' => $profile ? !$profile->use_facets : TRUE,
+    '#collapsed' => $profile ? !$profile->config['use_facets'] : TRUE,
     '#states' => array(
       'disabled' => array(
         ':input[name="profile[use_facets]"]' => array('checked' => FALSE),
@@ -139,14 +141,14 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
     '#title' => t('Visible facets amount'),
     '#description' => t('The amount of facets that will be visible on the search page by default. The rest of the facets will be hidden and the user have to click to show them.'),
     '#options' => drupal_map_assoc(range(1, 15)),
-    '#default_value' => $profile ? $profile->facet_count : 5,
+    '#default_value' => $profile ? $profile->config['facet_count'] : 5,
   );
   $form['facets']['term_count'] = array(
     '#type' => 'select',
     '#title' => t('Number of terms'),
     '#description' => t('The number of facts terms to display in each facet group.'),
     '#options' => drupal_map_assoc(range(1, 25)),
-    '#default_value' => $profile ? $profile->term_count : 5,
+    '#default_value' => $profile ? $profile->config['term_count'] : 5,
   );
   $form['facets']['import'] = array(
     '#type' => 'submit',
@@ -222,25 +224,37 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
  * @see ting_field_search_profile_form()
  */
 function ting_field_search_profile_form_submit($form, &$form_state) {
-  $profile = $form_state['values']['profile'];
+  $profile_values = $form_state['values']['profile'];
 
-  // If updating an existing profile add in missing values from original.
-  if (isset($form_state['original_profile'])) {
-    $profile += (array) $form_state['original_profile'];
-  }
+  // Some values from the main profile form belong in config.
+  $config_keys = array(
+    'active',
+    'exposed',
+    'alter_links',
+    'use_facets',
+  );
+  // Isolate the 'pure' profile values.
+  $profile = array_diff_key($profile_values, array_flip($config_keys));
+  // Extract the config values.
+  $profile['config'] = array_diff_key($profile_values, $profile);
 
-  // Facet settings are in a different fieldset.
-  $facet_settings = $form_state['values']['facets'];
-  $profile['facets'] = $facet_settings['table'];
+  // Handle the facet related settings. Some go in config and some go in the
+  // facet array because these live in a seperate table.
+  $facets = $form_state['values']['facets'];
+  $profile['config']['facet_count'] = $facets['facet_count'];
+  $profile['config']['term_count'] = $facets['term_count'];
+  $profile['facets'] = $facets['table'];
   // Mark any facet with no name to be deleted.
   foreach ($profile['facets'] as $key => $facet) {
-    if (empty($facet['name'])) {
+    if (!$facet['name']) {
       unset($profile['facets'][$key]);
     }
   }
-  // Transfer general facet settings to profile.
-  $profile['facet_count'] = $facet_settings['facet_count'];
-  $profile['term_count'] = $facet_settings['term_count'];
+
+  // If updating an existing profile transfer the profile ID.
+  if (isset($form_state['original_profile'])) {
+    $profile['pid'] = $form_state['original_profile']->pid;
+  }
 
   // If this is a new profile rediredt to its edit page.
   if (!isset($form_state['original_profile'])) {

@@ -157,9 +157,9 @@ function ting_field_search_cron() {
   if (!ting_field_search_get_status()) {
     watchdog('ting_field_search',
       'Ting field search is NOT installed correctly and will not work properly. Please go to <a href="@install">Installation</a> to correct this.',
-      array(
-        '@install' => url('admin/config/ting-field-search/install', array(
-          'query' => array('destination' => 'admin/reports/event/9139'),
+        array(
+          '@install' => url('admin/config/ting-field-search/install', array(
+            'query' => array('destination' => 'admin/reports/event/9139'),
         ))
       ),
       WATCHDOG_WARNING
@@ -198,8 +198,8 @@ function ting_field_search_ting_pre_execute($request) {
       }
 
       // Ensure configured facets is added to the request.
-      if ($profile->use_facets) {
-        $profile_facets = ting_field_search_facets_load($profile->name);
+      if ($profile->config['use_facets']) {
+        $profile_facets = ting_field_search_facets_load($profile->pid);
         $request_facets = array_flip($request->getFacets()) + $profile_facets;
         // Need the keys as values for the request object.
         $request_facets = array_keys($request_facets);
@@ -246,7 +246,7 @@ function ting_field_search_profile_is_active() {
         $profile = array_shift($profile);
 
         // Ensure the profile exists and is active.
-        if ($profile && $profile->active) {
+        if ($profile && $profile->config['active']) {
           $result = $profile;
         }
       }
@@ -377,7 +377,7 @@ function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_
 function ting_field_search_url_outbound_alter(&$path, &$options, $original_path) {
   if ($profile = ting_field_search_profile_is_active()) {
     // Make sure only to alter ting search links.
-    if ($profile->alter_links && preg_match('/^search\/ting/', $path)) {
+    if ($profile->config['alter_links'] && preg_match('/^search\/ting/', $path)) {
       $options['query']['profile'] = $profile->name;
     }
   }
@@ -501,9 +501,9 @@ function ting_field_search_form_ting_admin_ting_settings_alter(&$form, &$form_st
       $profile->name,
       check_plain($profile->profile),
       empty($profile->query) ? t('None') : $profile->query,
-      $profile->alter_links ? t('Yes') : t('No'),
-      $profile->active ? t('Yes') : t('No'),
-      $profile->exposed ? t('Yes') : t('No'),
+      $profile->config['alter_links'] ? t('Yes') : t('No'),
+      $profile->config['active'] ? t('Yes') : t('No'),
+      $profile->config['exposed'] ? t('Yes') : t('No'),
       $profile->weight,
     );
   }
@@ -547,7 +547,7 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
   $profiles = array();
   foreach (ting_field_search_profiles_load() as $name => $profile) {
     // Profile needs to be active and exposed.
-    if ($profile->active && $profile->exposed) {
+    if ($profile->config['active'] && $profile->config['exposed']) {
       $profiles[$name] = t('Search in @profile', array(
        '@profile'  => check_plain($profile->title),
       ));
@@ -610,61 +610,73 @@ function ting_field_search_profiles_load($name = NULL) {
     $query->orderBy('weight');
   }
 
-  return $query->execute()->fetchAllAssoc('name');
+  $results = $query->execute();
+
+  $profiles = array();
+  foreach ($results as $profile) {
+    // Prepare the config data.
+    $profile->config = unserialize($profile->config);
+    $profiles[$profile->name] = $profile;
+  }
+
+  return $profiles;
 }
 
 /**
  * Saves a profile in the database.
  *
  * @param mixed $profile
- *   An array or object representing a new or existing profile.
+ *   An array representing a new or existing profile.
  *   If 'facets' is set all associated facet settings is updated too.
  *
  * @return mixed $result
  *   FALSE, if something went wrong.
  *   1 or 2 if an insert or update was performed.
  */
-function ting_field_search_profile_save($profile) {
-  $result = FALSE;
+function ting_field_search_profile_save(array $profile) {
   $transaction = db_transaction();
 
   try {
-    $profile = is_object($profile) ? (array) $profile : $profile;
-
     // If facets is passed; handle them first.
     if (isset($profile['facets'])) {
       // Ensure that only the facets passed with the profile remains.
-      ting_field_search_facets_delete($profile['name']);
+      ting_field_search_facets_delete($profile['pid']);
+
       $query = db_insert('ting_field_search_facet')
-        ->fields(array('name', 'profile', 'title', 'sorting', 'weight'));
+        ->fields(array(
+          'name',
+          'pid',
+          'title',
+          'sorting',
+          'weight',
+        ));
 
       foreach ($profile['facets'] as $key => $facet) {
         // Ensure an array is passed to query.
         $facet = is_object($facet) ? (array) $facet : $facet;
         // Link facet to profile.
-        $facet['profile'] = $profile['name'];
+        $facet['pid'] = $profile['pid'];
         $query->values($facet);
       }
 
-      $result = $query->execute();
+      $query->execute();
 
+      // Remove it so it doesn't screw up the merge query.
       unset($profile['facets']);
     }
 
-    // Take out the profile name (primary key) for merge query.
-    $name = $profile['name'];
-    unset($profile['name']);
-    $result = db_merge('ting_field_search_profile')
-      ->key(array('name' => $name))
-      ->fields($profile)
-      ->execute();
+    // Tell drupal_write_record whether this is a new record or an existing.
+    $pid = empty($profile['pid']) ? array() : 'pid';
+
+    // drupal_write_record uses shcema API to determine if a field should be
+    // serialized, so we need not bother with serializing the config array.
+    return drupal_write_record('ting_field_search_profile', $profile, $pid);
   }
   catch (Exception $e) {
     $transaction->rollback();
     watchdog_exception('ting_field_search', $e);
+    return FALSE;
   }
-
-  return $result;
 }
 
 /**
@@ -694,10 +706,10 @@ function ting_field_search_profile_delete($name) {
 /**
  * Delete facet settings associated with a profile.
  */
-function ting_field_search_facets_delete($profile, $facet = NULL) {
+function ting_field_search_facets_delete($pid, $facet = NULL) {
   try {
     $query = db_delete('ting_field_search_facet')
-      ->condition('profile', $profile);
+      ->condition('pid', $pid);
 
     if (isset($facet)) {
       $query->condition('name', $facet);
@@ -714,10 +726,10 @@ function ting_field_search_facets_delete($profile, $facet = NULL) {
 /**
  * Loads all facets accociated with the specified profile.
  */
-function ting_field_search_facets_load($profile) {
+function ting_field_search_facets_load($pid) {
   return db_select('ting_field_search_facet', 'tf')
     ->fields('tf')
-    ->condition('profile', $profile)
+    ->condition('pid', $pid)
     ->orderBy('weight')
     ->execute()->fetchAllAssoc('name');
 }
