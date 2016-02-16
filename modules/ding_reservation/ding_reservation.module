@@ -498,6 +498,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
       case DING_RESERVATION_READY:
         $item = array(
           '#type' => 'material_item',
+          '#reservation' => $reservation,
           '#id' => $reservation->id,
           '#title' => $title,
           '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
@@ -533,6 +534,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
       case DING_RESERVATION_NOT_READY:
         $item = array(
           '#type' => 'material_item',
+          '#reservation' => $reservation,
           '#id' => $reservation->id,
           '#title' => $title,
           '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
@@ -574,6 +576,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
       case DING_RESERVATION_INTERLIBRARY_LOANS:
         $item = array(
           '#type' => 'material_item',
+          '#reservation' => $reservation,
           '#id' => $reservation->id,
           '#title' => $title,
           '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
