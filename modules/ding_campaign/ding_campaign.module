@@ -334,17 +334,24 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
 
   // Process search campaigns.
   if ($context['search_term'] != NULL) {
-    $terms = trim(drupal_strtolower(check_plain($context['search_term'])));
+    $terms = trim(drupal_strtolower($context['search_term']));
 
     // Multiple keywords, comma and/or space separated.
     if (strpos($terms, ',') || strpos($terms, ' ')) {
       $terms = preg_replace('/(,?\s+)/', ',', $terms);
-      $terms = implode('\',\'', explode(',', $terms));
+      $terms = explode(',', $terms);
+
+      array_walk($terms, function(&$v) {
+        $v = addslashes($v);
+      });
+
+      $terms = implode('\',\'', $terms);
+
       $condition = 'IN (\'' . $terms . '\')';
     }
     // Single keyword.
     else {
-      $condition = ' = \'' . $context['search_term'] . '\'';
+      $condition = ' = \'' . addslashes($context['search_term']) . '\'';
     }
 
     $result = db_query('SELECT r.cid
