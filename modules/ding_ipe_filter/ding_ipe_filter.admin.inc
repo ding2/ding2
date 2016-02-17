@@ -1,8 +1,7 @@
 <?php
 /**
  * @file
- *
- * ding_ipe_filter.admin.inc
+ * Admin forms definition.
  */
 
 /**
@@ -23,21 +22,21 @@ function ding_ipe_filter_admin_panes_form() {
   $settings = variable_get('ding_ipe_filter_table', array());
   foreach ($categories as $key => $category) {
     $form['ding_ipe_filter_table'][$key] = array(
-     '#type' => 'item',
-     '#markup' => $category['title'],
+      '#type' => 'item',
+      '#markup' => $category['title'],
     );
     foreach ($category['content'] as $content) {
       $form['ding_ipe_filter_table'][$content['subtype_name']]['title'] = array(
-       '#type' => 'item',
-       '#markup' => $content['title'],
+        '#type' => 'item',
+        '#markup' => $content['title'],
       );
       $value = 0;
       if (isset($settings[$content['subtype_name']]['value']) && $settings[$content['subtype_name']]['value'] == 1) {
         $value = 1;
       }
       $form['ding_ipe_filter_table'][$content['subtype_name']]['value'] = array(
-       '#type' => 'checkbox',
-       '#default_value' => $value,
+        '#type' => 'checkbox',
+        '#default_value' => $value,
       );
       $form['ding_ipe_filter_table'][$content['subtype_name']]['category'] = array(
         '#type' => 'hidden',
@@ -76,10 +75,11 @@ function ding_ipe_filter_default_settings_form() {
   // Unset anonymous and authenticated roles.
   unset($roles[1], $roles[2]);
 
+  $role_names = array_values($roles);
   $ipe_roles = variable_get('ding_ipe_filter_roles', array());
   $form['filter_fieldset']['ding_ipe_filter_roles'] = array(
     '#type' => 'checkboxes',
-    '#options' => $roles,
+    '#options' => array_combine($role_names, $role_names),
     '#default_value' => $ipe_roles,
   );
 
