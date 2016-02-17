@@ -74,6 +74,11 @@
    * Autofocus inputs.
    */
   function autofocusInputs() {
+    // Set autofocus on page load (instead of autofocus attr)
+    if (!/iPad|iPhone|iPod/g.test(navigator.userAgent)) {
+      $('input[name="search_block_form"]').focus();
+    }
+
     // Search button click
     $('.topbar-link-search').click(function() {
       var input = $('input[name="search_block_form"]');
