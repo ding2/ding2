@@ -1,7 +1,9 @@
 <?php
 /**
  * @file
+ * Provide IPE Filter menu functionality.
  */
+
 include_once 'ding_ipe_filter.features.inc';
 
 
@@ -50,12 +52,6 @@ function ding_ipe_filter_theme() {
 
 /**
  * Implements theme_hook().
- *
- * @param $variables array
- *   Variables passed from hook_theme().
- *
- * @return string
- *   Rendered ding ipe admin table.
  */
 function theme_ding_ipe_filter_table($variables) {
   $form = $variables['form'];
@@ -87,9 +83,6 @@ function theme_ding_ipe_filter_table($variables) {
 
 /**
  * Implements hook_theme_registry_alter().
- *
- * @param $registry array
- *   The entire cache of theme registry information, post-processing.
  */
 function ding_ipe_filter_theme_registry_alter(&$registry) {
   global $user;
@@ -104,9 +97,10 @@ function ding_ipe_filter_theme_registry_alter(&$registry) {
 }
 
 /**
- * Add pane buttons on IPE filter menu based on configured settings and enabled modules.
+ * Add pane buttons on IPE filter menu based on configured settings and enabled
+ * modules.
  *
- * @param $variables array
+ * @param array $variables
  *   Theme registry variables.
  *
  * @return string
