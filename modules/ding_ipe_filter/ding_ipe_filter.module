@@ -14,7 +14,7 @@ function ding_ipe_filter_menu() {
     'description' => 'Configure IPE filter default options.',
     'weight' => 1,
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('ding_ipe_filter_default_settings'),
+    'page arguments' => array('ding_ipe_filter_default_settings_form'),
     'access arguments' => array('access administration pages'),
     'file' => 'ding_ipe_filter.admin.inc',
   );
@@ -28,7 +28,7 @@ function ding_ipe_filter_menu() {
     'title' => 'IPE pane filter',
     'description' => 'Choose what content should be displayed on the add content modal page.',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('ding_ipe_filter_admin_panes'),
+    'page arguments' => array('ding_ipe_filter_admin_panes_form'),
     'access arguments' => array('access administration pages'),
     'file' => 'ding_ipe_filter.admin.inc',
     'type' => MENU_LOCAL_TASK,
@@ -98,7 +98,6 @@ function ding_ipe_filter_theme_registry_alter(&$registry) {
   if (!empty($user->roles)) {
     $roles = array_intersect(array_keys($user->roles), $ipe_roles);
   }
-
   if (!empty($roles)) {
     $registry['panels_ipe_add_pane_button']['function'] = '_ding_ipe_filter_add_pane_buttons';
   }
