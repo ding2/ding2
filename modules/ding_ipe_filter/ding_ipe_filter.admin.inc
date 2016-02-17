@@ -8,7 +8,7 @@
 /**
  * Defines pane list form.
  */
-function ding_ipe_filter_admin_panes() {
+function ding_ipe_filter_admin_panes_form() {
   ctools_include('content');
   $content_types = ctools_content_get_available_types();
   $panel_editor = new panels_renderer_editor();
@@ -63,7 +63,7 @@ function ding_ipe_filter_admin_panes() {
 /**
  * Defines admin form.
  */
-function ding_ipe_filter_default_settings() {
+function ding_ipe_filter_default_settings_form() {
   $form = array();
   $form['filter_fieldset'] = array(
     '#type' => 'fieldset',
