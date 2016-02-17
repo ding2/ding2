@@ -70,7 +70,7 @@ projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
 
 projects[expire][subdir] = "contrib"
-projects[expire][version] = "7.x-2.0-rc4"
+projects[expire][version] = "2.0-rc4"
 
 projects[features][subdir] = "contrib"
 projects[features][version] = "2.0"
