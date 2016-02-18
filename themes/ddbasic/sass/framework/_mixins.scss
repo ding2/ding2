@@ -10,18 +10,18 @@
    ========================================================================== */
 
 @mixin respond-to($media) {
-	// Sizes
-	@if $media == small {
-		@media only screen and (max-width: $breakpoint-small) { @content; }
-	}
+  // Sizes
+  @if $media == small {
+    @media only screen and (max-width: $breakpoint-small) { @content; }
+  }
 
   @else if $media == small-medium {
     @media only screen and (max-width: $breakpoint-medium) { @content; }
   }
 
-	@else if $media == from-small {
-		@media only screen and (min-width: $breakpoint-small + 1) { @content; }
-	}
+  @else if $media == from-small {
+    @media only screen and (min-width: $breakpoint-small + 1) { @content; }
+  }
 
   @else if $media == small-medium-low {
     @media only screen and (max-height: $breakpoint-low) and (max-width: $breakpoint-medium) { @content; }
@@ -55,14 +55,15 @@
     @media only screen and (max-width: $breakpoint-x-large) { @content; }
   }
 
-	@else if $media == x-large {
-		@media only screen and (min-width: $breakpoint-x-large + 1) { @content; }
-	}
+  @else if $media == x-large {
+    @media only screen and (min-width: $breakpoint-x-large + 1) { @content; }
+  }
 
   @else if $media == large-x-large {
     @media only screen and (min-width: $breakpoint-medium + 1) { @content; }
   }
 }
+
 
 
 /* Breakpoints
