@@ -1,6 +1,7 @@
 <?php
 /**
  * @file
+ * Define functions on module install/uninstall.
  */
 
 /**
