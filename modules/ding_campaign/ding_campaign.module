@@ -338,20 +338,21 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
 
     // Multiple keywords, comma and/or space separated.
     if (strpos($terms, ',') || strpos($terms, ' ')) {
-      $terms = preg_replace('/(,?\s+)/', ',', $terms);
-      $terms = explode(',', $terms);
+      $terms = preg_split('/,|\s/', ',', $terms);
+      $terms = array_filter($terms);
 
       array_walk($terms, function(&$v) {
         $v = addslashes($v);
       });
 
-      $terms = implode('\',\'', $terms);
+      $terms = implode("','", $terms);
 
-      $condition = 'IN (\'' . $terms . '\')';
+      $condition = "IN ('$terms')";
     }
     // Single keyword.
     else {
-      $condition = ' = \'' . addslashes($context['search_term']) . '\'';
+      $term = addslashes($context['search_term']);
+      $condition = " = '$term'";
     }
 
     $result = db_query('SELECT r.cid
@@ -419,7 +420,7 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
 
   foreach ($result as $key => $value) {
     if (!isset($campaigns[$value->cid]) || $campaigns[$value->cid] == 0) {
-      $campaigns[$value->cid] = (mt_rand(1, 10) / 10);
+      $campaigns[$value->cid] = 1;
     }
   }
 
