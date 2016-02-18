@@ -259,7 +259,7 @@ function ding_gatewayf_registration_acceptance_form() {
   // wrapper the form in panels. But seen form a performance point this is
   // faster and simpler.
   $form = array(
-    '#theme_wrappers' => array('ding_frontend_panel_wrapper'),
+    '#theme_wrappers' => array('form', 'ding_frontend_panel_wrapper'),
   );
 
   $form['accept'] = array(
@@ -331,7 +331,7 @@ function ding_gatewayf_registration_acceptance_form() {
  *
  * It tries to create the user at the provider and redirect the user.
  */
-function ding_gatewayf_registration_acceptance_submit($form, $form_state) {
+function ding_gatewayf_registration_acceptance_form_submit($form, $form_state) {
   $values = $form_state['values'];
 
   // This value was not store in the form to ensure that the user can reload the
@@ -357,6 +357,9 @@ function ding_gatewayf_registration_acceptance_submit($form, $form_state) {
     $_REQUEST['destination'] = DING_GATEWAYF_REGISTRATION_SUCCESS_URL;
     _ding_gatewayf_provider_login($required_attributes);
 
+    // Clean out message from the login form. Provider do not always allow login
+    // at once, so the login attempt above may fail. But we have tried.
+    drupal_get_messages(NULL, TRUE);
   }
   catch (Exception $exception) {
     // @TODO: The exception thrown by the providers to say that a user already
@@ -377,7 +380,7 @@ function ding_gatewayf_registration_success() {
   $config = _ding_gatewayf_registration_load_config();
 
   return array(
-    '#theme' => 'ding_gatewayf_success_page',
+    '#theme' => 'ding_gatewayf_registration_success_page',
     '#title' => $config['success']['title'],
     '#content' => $config['success']['content'],
   );
