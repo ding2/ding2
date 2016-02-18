@@ -242,6 +242,11 @@ function ting_field_search_profile_form_submit($form, &$form_state) {
   $profile['facet_count'] = $facet_settings['facet_count'];
   $profile['term_count'] = $facet_settings['term_count'];
 
+  // If this is a new profile rediredt to its edit page.
+  if (!isset($form_state['original_profile'])) {
+    $form_state['redirect'] = 'admin/config/ting/settings/ting-field-search-profiles/' .$profile['name'] . '/edit';
+  }
+
   if (ting_field_search_profile_save($profile)) {
     drupal_set_message(t('Profile saved'));
   }
