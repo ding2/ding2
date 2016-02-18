@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * ding_ipe_filter.features.inc
+ * Define feature hooks and exported properties.
  */
 
 /**

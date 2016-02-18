@@ -1,5 +1,7 @@
 (function ($) {
-  $('.ipe-trigger').live('click', function(e) {
+  "use strict";
+
+  $(document).on('click', '.ipe-trigger', function() {
     var links = '#ipe-add-' + $(this).attr('target_region');
     var link_offset = Math.abs(parseInt(screen.width) - parseInt($(this).parent().offset().left));
     var direction = (link_offset > 800) ? 'left' : 'right';
@@ -13,7 +15,7 @@
     return false;
   });
 
-  $('.ipe-popup').live('mouseleave', function() {
+  $(document).on('mouseleave', '.ipe-popup', function() {
     $(this).fadeToggle('fast');
   });
 })(jQuery);
