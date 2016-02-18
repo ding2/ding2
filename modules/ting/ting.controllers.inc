@@ -127,8 +127,15 @@ class TingObjectController extends DrupalDefaultEntityController {
       }
     }
 
-    foreach ($queried_entities as &$qe) {
-      $qe->reply = $objects[$qe->ding_entity_id];
+    // Copy well replies to the proxy objects, and remove objects that's not
+    // known by the well.
+    foreach ($queried_entities as $index => &$qe) {
+      if (isset($objects[$qe->ding_entity_id])) {
+        $qe->reply = $objects[$qe->ding_entity_id];
+      }
+      else {
+        unset($queried_entities[$index]);
+      }
     }
     // Pass all entities loaded from the database through $this->attachLoad(),
     // which attaches fields (if supported by the entity type) and calls the
