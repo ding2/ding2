@@ -161,13 +161,25 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
 
   // Build facet rows.
   $index = 0;
-  if ($profile && !empty($profile->facets)) {
+  $last_facet = NULL;
+  if (!empty($profile->facets)) {
     foreach ($profile->facets as $facet) {
       _ting_field_search_prepare_facet_row($form['facets']['table'], $index, (array) $facet);
       $index++;
+      $last_facet = $facet;
     }
   }
   _ting_field_search_prepare_facet_row($form['facets']['table'], $index);
+
+  // When a new facet is added, ensure that it has a higher weight than the
+  // last existing facet, if any.
+  // Note: This also ensure that every facet has a different weight, and fixes
+  // the ordering bug in the UI.
+  // See: ding_facetbrowser.js
+  if (isset($last_facet)) {
+    $weight = $last_facet->weight + 1;
+    $form['facets']['table'][$index]['weight']['#default_value'] = $weight;
+  }
 
   // Form actions
   $form['actions'] = array('#type' => 'actions');
@@ -402,7 +414,7 @@ function _ting_field_search_prepare_facet_row(&$element, $index, $facet = NULL) 
   $element[$index]['weight'] = array(
     '#type' => 'weight',
     '#title' => t('Weight'),
-    '#default_value' => isset($facet) ? $facet['weight'] : 10,
+    '#default_value' => isset($facet) ? $facet['weight'] : 0,
     '#title_display' => 'invisible',
     '#attributes' => array('class' => array('facet-weight')),
   );
