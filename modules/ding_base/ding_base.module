@@ -542,10 +542,10 @@ function ding_base_rewrite_color_stylesheet() {
 function ding_base_file_presave($file) {
   // Check if uploaded file is image.
   if (empty(file_validate_is_image($file))) {
-    $toolkits = image_get_available_toolkits();
+    $toolkit = image_get_toolkit();
 
     // Check if gd2 library available.
-    if (array_key_exists('gd', $toolkits)) {
+    if ('gd' == $toolkit) {
       // We just copy image without any changes to remove EXIF metadata,
       // and replace already uploaded image with made copy.
       switch (exif_imagetype($file->uri)) {
@@ -567,6 +567,12 @@ function ding_base_file_presave($file) {
         default:
           break;
       }
+    }
+    elseif ('imagemagick' == $toolkit) {
+      // We don't use PECL because it don't exist for some php versions or unstable,
+      // use imagemagic using command line.
+      $file_path = drupal_realpath($file->destination);
+      exec('convert ' . $file_path . ' -strip ' . $file_path);
     }
   }
 }
