@@ -71,9 +71,10 @@ function theme_ding_ipe_filter_table($variables) {
     else {
       $content['rows'][] = array(array(
         'data' => drupal_render($form[$row_index]),
-        'colspan' => 2,
-        'header' => TRUE,
-      ));
+          'colspan' => 2,
+          'header' => TRUE,
+        )
+      );
     }
   }
   $output = theme('table', $content);
@@ -89,7 +90,9 @@ function ding_ipe_filter_theme_registry_alter(&$registry) {
   $ipe_roles = variable_get('ding_ipe_filter_roles', array());
 
   if (!empty($user->roles)) {
-    $roles = array_intersect(array_keys($user->roles), $ipe_roles);
+    $role_names = array_values($user->roles);
+    $user_roles = array_combine($role_names, $role_names);
+    $roles = array_intersect(array_keys($user_roles), $ipe_roles);
   }
   if (!empty($roles)) {
     $registry['panels_ipe_add_pane_button']['function'] = '_ding_ipe_filter_add_pane_buttons';
@@ -97,8 +100,7 @@ function ding_ipe_filter_theme_registry_alter(&$registry) {
 }
 
 /**
- * Add pane buttons on IPE filter menu based on configured settings and enabled
- * modules.
+ * Add pane buttons on IPE filter menu based on settings and enabled modules.
  *
  * @param array $variables
  *   Theme registry variables.
@@ -106,7 +108,7 @@ function ding_ipe_filter_theme_registry_alter(&$registry) {
  * @return string
  *   Rendered IPE filter menu.
  */
-function _ding_ipe_filter_add_pane_buttons($variables) {
+function _ding_ipe_filter_add_pane_buttons($variables = array()) {
   ctools_include('content');
   $content_types = ctools_content_get_available_types();
   $panel_editor = new panels_renderer_editor();
