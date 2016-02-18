@@ -73,7 +73,7 @@ function theme_ding_ipe_filter_table($variables) {
         'data' => drupal_render($form[$row_index]),
           'colspan' => 2,
           'header' => TRUE,
-        )
+        ),
       );
     }
   }
