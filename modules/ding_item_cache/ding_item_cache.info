@@ -1,0 +1,6 @@
+name = Ding Item Cache
+description = "Provides caching bin for ding items that contain extended information
+from external services."
+core = 7.x
+package = Ding!
+
