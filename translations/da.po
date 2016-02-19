@@ -48366,3 +48366,28 @@ msgstr "Pinkoden skal bestå af %number cifre."
 
 msgid "You are not allowed to automatically be created because of the age limit (!limit years). Please go to your local library to registry."
 msgstr "Du kan ikke oprette dig som bruger via NemID på grund af aldersbegrænsningen (!limit år). Du kan blive oprettet som bruger ved personlig henvendelse på biblioteket."
+
+#: ding_item_cache.module:35
+msgid "Select those modules which cache has to be cleared"
+msgstr "Vælg hvilke moduler der skal renses for mellemlagring"
+
+#: ding_item_cache.module:42
+msgid "Clear caches"
+msgstr "Ryd mellemlagring"
+
+
+#: ding_item_cache.module:57
+msgid "Ding item cache has been cleared"
+msgstr "Materialekarusellen er blevet renset"
+
+#: ding_item_cache.module:15
+msgid "Ding item cache"
+msgstr "Materiale mellemlagring"
+
+#: ding_item_cache.module:16
+msgid "Clear caches of certain modules relying on Ding item caching."
+msgstr ""
+
+#: ding_item_cache.info:0
+msgid "Provides caching bin for ding items that contain extended information from external services."
+msgstr "Tilbyder special mellemlagring for brønd-materialer"
