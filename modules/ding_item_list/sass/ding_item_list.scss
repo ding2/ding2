@@ -1,0 +1,110 @@
+@import "susy";
+
+/* Colors variables
+   ========================================================================== */
+
+$white:                   #fff;
+$dark-gray:               #ccc;
+$darker-gray:             #333;
+$light-gray:              #dadada;
+$lighter-gray:            #e5e5e5;
+$gray:                    #ccc;
+$black:                   #000;
+$gray-transparent-bg:     rgba( 0, 0, 0, 0.7);
+$button-box-shadow:       0 0 1px lighten($black, 35%) inset;
+
+/* Font variables
+   ========================================================================== */
+
+$base-font-size:                  16px;
+$font-size-reset:                 100%;
+$font-size-small:                 90%;
+$base-font-weight-bold:           600;
+
+
+%button {
+  border-radius: 10px;
+
+  display: inline-block;
+  font-size: 100%;
+  padding: 10px;
+  position: relative;
+
+  box-shadow: $button-box-shadow;
+  cursor: pointer;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 100%;
+
+  &:focus,
+  &:hover,
+  &:active {
+    text-decoration: none;
+  }
+
+  // Disabled state
+  &.disabled,
+  &[disabled] {
+    opacity: 0.65;
+    box-shadow: none;
+
+    cursor: default;
+  }
+}
+
+.pane-ding-item-list-recommendations {
+  margin: 10px 0;
+}
+
+.pane-ding-item-list {
+  background-color: $white;
+  padding: 10px;
+
+  .pane-title {
+    margin-bottom: 0;
+  }
+}
+
+.layout-wrapper .pane-ding-item-list {
+  background-color: transparent;
+  padding: 0;
+}
+
+.ding-item-list-item {
+  overflow: hidden;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed $gray;
+  font-size: $base-font-size;
+
+  .item-cover {
+    float: left;
+  }
+
+  .item-details {
+    margin-left: 65px;
+
+    .item-author {
+      font-size: $font-size-small;
+    }
+
+    .item-title a {
+      font-weight: $base-font-weight-bold;
+    }
+
+    .reserve-button {
+      @extend %button;
+      margin-left: 10px;
+      font-size: $font-size-reset;
+    }
+    .item-loan {
+
+      &,
+      a {
+        font-size: $font-size-reset;
+        font-family: inherit;
+        line-height: inherit;
+      }
+    }
+  }
+}
