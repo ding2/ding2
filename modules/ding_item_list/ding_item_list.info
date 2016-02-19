@@ -1,0 +1,12 @@
+name = Ding Item List
+description = Display a set of Ting items formatted as a list.
+core = 7.x
+package = Ding!
+dependencies[] = ding_item_cache
+dependencies[] = image
+dependencies[] = ting
+dependencies[] = ting_covers
+dependencies[] = ting_search
+features[features_api][] = api:2
+features[image][] = ding_item_list
+mtime = 1455886324
