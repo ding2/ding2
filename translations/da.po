@@ -48241,3 +48241,180 @@ msgstr "Log ud"
 #: /system/ajax
 msgid "Authenticate"
 msgstr "<p>Du har indtastet et forkert lånernummer/cpr eller en forkert pinkode, eller du er ikke oprettet som låner ved biblioteket.</p><p>Har du glemt din pinkode så kontakt dit lokale  <a href="@url">bibliotek</a>.</p>"
+
+#: ding_item_list.module:342
+#: modules/ding_item_list_field/ding_item_list_field.module:14
+#: plugins/content_types/ding_item_list.inc:11
+msgid "Ding item list"
+msgstr "Materialeliste"
+
+#: ding_item_list.module:374
+msgid "List settings"
+msgstr "Liste indstillinger"
+
+#: ding_item_list.module:379
+#: modules/ding_item_list_field/ding_item_list_field.module:64
+msgid "Ting query string"
+msgstr "Søgestreng til brønden (CQL)"
+
+#: ding_item_list.module:387
+#: modules/ding_item_list_field/ding_item_list_field.module:72
+msgid "Items count"
+msgstr "Antal materialer til visning"
+
+#: ding_item_list.module:396
+#: modules/ding_item_list_field/ding_item_list_field.module:80
+msgid "Sorting"
+msgstr "Sortering af materialer"
+
+#: ding_item_list.module:398
+#: modules/ding_item_list_field/ding_item_list_field.module:82
+msgid "- None -"
+msgstr "- Ingen -"
+
+#: ding_item_list.module:399
+#: modules/ding_item_list_field/ding_item_list_field.module:83
+msgid "Title (Ascending)"
+msgstr "Titel (stigende)"
+
+#: ding_item_list.module:400
+#: modules/ding_item_list_field/ding_item_list_field.module:84
+msgid "Title (Descending)"
+msgstr "Titel (faldende)"
+
+#: ding_item_list.module:401
+#: modules/ding_item_list_field/ding_item_list_field.module:85
+msgid "Creator (Ascending)"
+msgstr "Forfatter (stigende)"
+
+#: ding_item_list.module:402
+#: modules/ding_item_list_field/ding_item_list_field.module:86
+msgid "Creator (Descending)"
+msgstr "Forfatter (faldende)"
+
+#: ding_item_list.module:403
+#: modules/ding_item_list_field/ding_item_list_field.module:87
+msgid "Date (Ascending)"
+msgstr "Dato (stigende)"
+
+#: ding_item_list.module:404
+#: modules/ding_item_list_field/ding_item_list_field.module:88
+msgid "Date (Descending)"
+msgstr "Dato (faldende)"
+
+#: ding_item_list.module:405
+#: modules/ding_item_list_field/ding_item_list_field.module:89
+msgid "Acquisition date (Ascending)"
+msgstr "Anskaffelsesdato (stigende)"
+
+#: ding_item_list.module:406
+#: modules/ding_item_list_field/ding_item_list_field.module:90
+msgid "Acquisition date (Descending)"
+msgstr "Anskaffelsesdato (faldende)"
+
+#: ding_item_list.module:409
+#: modules/ding_item_list_field/ding_item_list_field.module:93
+msgid "If not set, defaults to Ranking"
+msgstr "Standard værdien er Rankering"
+
+#: ding_item_list.module:492
+msgid "Cache warmer"
+msgstr ""
+
+#: ding_item_list.info:0
+msgid "Display a set of Ting items formatted as a list."
+msgstr "Viser en redaktør-genereret liste af materialer fra Brønden."
+
+#: modules/ding_item_list_field/ding_item_list_field.module:15
+msgid "Custom search results"
+msgstr ""
+
+#: modules/ding_item_list_field/ding_item_list_field.module:43
+msgid "Ding item list default"
+msgstr ""
+
+#: modules/ding_item_list_field/ding_item_list_field.module:57
+msgid "Title"
+msgstr ""
+
+#: modules/ding_item_list_field/ding_item_list_field.module:120
+msgid "Default"
+msgstr ""
+
+#: modules/ding_item_list_field/ding_item_list_field.info:0
+msgid "easyDDB Ding Item List Field"
+msgstr ""
+
+#: modules/ding_item_list_field/ding_item_list_field.info:0
+msgid "Provide a field instance to be used inside nodes"
+msgstr ""
+
+#: modules/ding_item_list_image_styles/ding_item_list_image_styles.info:0
+msgid "easyDDB Ding Item List Image Styles"
+msgstr ""
+
+#: modules/ding_item_list_image_styles/ding_item_list_image_styles.info:0
+msgid "Image styles export for Ding Item List"
+msgstr "Image styles tilhørende Ding Item List"
+
+#: modules/ding_item_list_recommendations/ding_item_list_recommendations.info:0
+msgid "easyDDB Ding Item List Recommendations"
+msgstr ""
+
+#: modules/ding_item_list_recommendations/ding_item_list_recommendations.info:0
+msgid "Provides a 'Ding Item List'-like renderer for recommended materials"
+msgstr ""
+
+#: modules/ding_item_list_recommendations/plugins/content_types/ding_item_list_recommendations.inc:8
+msgid "Ding item list recommendations"
+msgstr ""
+
+#: modules/ding_item_list_recommendations/plugins/content_types/ding_item_list_recommendations.inc:10
+msgid "Show recomendation list as a ding item list"
+msgstr ""
+
+#: modules/ding_item_list_recommendations/plugins/content_types/ding_item_list_recommendations.inc:15
+msgid "Ting object"
+msgstr ""
+
+#: modules/ding_item_list_recommendations/plugins/content_types/ding_item_list_recommendations.inc:16
+msgid "Ting collection"
+msgstr ""
+
+#: modules/ding_item_list_recommendations/plugins/content_types/ding_item_list_recommendations.inc:83
+#: plugins/content_types/ding_item_list.inc:58
+#: plugins/content_types/ding_related_items.inc:88
+msgid "Pane title"
+msgstr ""
+
+#: modules/ding_item_list_recommendations/plugins/content_types/ding_item_list_recommendations.inc:89
+msgid "Items to show"
+msgstr ""
+
+#: modules/ding_item_list_recommendations/plugins/content_types/ding_item_list_recommendations.inc:92
+msgid "Actual results may vary."
+msgstr ""
+
+#: plugins/content_types/ding_item_list.inc:13
+msgid "Add ting items as a list"
+msgstr ""
+
+#: plugins/content_types/ding_related_items.inc:11
+msgid "Ding related items"
+msgstr ""
+
+#: plugins/content_types/ding_related_items.inc:13
+msgid "Display related ting items for a certain node"
+msgstr ""
+
+#: plugins/content_types/ding_related_items.inc:15
+msgid "Node"
+msgstr ""
+
+#: templates/ding-item-list_item.tpl.php:16
+msgid "By @author"
+msgstr "Af @author"
+
+#: templates/ding-item-list_item.tpl.php:22
+msgid "reviews"
+msgstr ""
