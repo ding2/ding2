@@ -167,7 +167,6 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
       $current = array(
         '#theme' => 'ding_campaign',
         '#type' => $type,
-        '#weight' => 0,
       );
 
       // Get link value.
@@ -223,11 +222,6 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
           $current['#image']['#text'] = drupal_render($image);
           $current['#image']['#options']['html'] = TRUE;
         }
-      }
-      // Get weight.
-      $weight = $wrapper->field_camp_weight->value();
-      if (!empty($weight)) {
-        $current['#weight'] = $weight;
       }
 
       // Add current campaign to content array.
@@ -419,12 +413,11 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
     ->fetchAll();
 
   foreach ($result as $key => $value) {
-    if (!isset($campaigns[$value->cid]) || $campaigns[$value->cid] == 0) {
-      $campaigns[$value->cid] = 1;
-    }
+    @$campaigns[$value->cid] += 0.5;
   }
 
   arsort($campaigns);
+
   return array_slice(array_keys($campaigns), $offset, $limit);
 }
 
