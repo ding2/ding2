@@ -48375,10 +48375,9 @@ msgstr "Vælg hvilke moduler der skal renses for mellemlagring"
 msgid "Clear caches"
 msgstr "Ryd mellemlagring"
 
-
 #: ding_item_cache.module:57
 msgid "Ding item cache has been cleared"
-msgstr "Materialekarusellen er blevet renset"
+msgstr "Mellemlagringen for materialer er blevet renset"
 
 #: ding_item_cache.module:15
 msgid "Ding item cache"
@@ -48386,7 +48385,7 @@ msgstr "Materiale mellemlagring"
 
 #: ding_item_cache.module:16
 msgid "Clear caches of certain modules relying on Ding item caching."
-msgstr ""
+msgstr "Tømmer mellemlagringen af de moduler som anvender denne cache."
 
 #: ding_item_cache.info:0
 msgid "Provides caching bin for ding items that contain extended information from external services."
