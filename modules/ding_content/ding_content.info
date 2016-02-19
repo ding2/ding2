@@ -31,6 +31,7 @@ dependencies[] = translation
 dependencies[] = uuid
 dependencies[] = views
 dependencies[] = views_content
+dependencies[] = views_ui
 dependencies[] = workbench
 dependencies[] = wysiwyg
 features[ctools][] = file_entity:file_default_displays:1
