@@ -144,7 +144,7 @@ projects[ding_ting_type_search][download][url]  = "git@github.com:easyddb/ding_t
 projects[ding_ting_type_search][download][branch] = "development"
 
 projects[ding_nodelist][type]           = "module"
-projects[ding_nodelist][subdir]         = "subdir"
+projects[ding_nodelist][subdir]         = ""
 projects[ding_nodelist][download][type] = "git"
 projects[ding_nodelist][download][url]  = "git@github.com:easyddb/ding_nodelist.git"
 projects[ding_nodelist][download][branch] = "development"
