@@ -3,12 +3,20 @@ Ding2 is a continuation of [ding.TING](http://ting.dk/content/om-dingting)
 [Drupal](http://drupal.org/project/drupal) distribution for libraries as part
 of the [TING concept](http://ting.dk).
 
-[![Circle CI](https://circleci.com/gh/ding2/ding2.svg?style=svg)](https://circleci.com/gh/ding2/ding2)
+[![Circle CI](https://img.shields.io/circleci/project/ding2/ding2.svg)](https://circleci.com/gh/ding2/ding2)
+[![Latest release](https://img.shields.io/github/release/ding2/ding2.svg)](https://github.com/ding2/ding2/releases/latest)
+
 
 # Installation
 This README assumes that you have install a configured your server with a
 working Apache/Nginx, APC, Memcached, PHP 5.4 and Varnish 3.x (optional). The
 stack should be optimized to run a Drupal site.
+
+If you want to try out Ding2 you can download [the latest release](https://github.com/ding2/ding2/releases/latest). The `ding2-7.x-[version].tar.gz` file contain a full Drupal installation including Drupal Core, third party modules and Ding2 code needed to run the site.
+
+# Build instructions
+The reset of this document explains how to download Drupal and patch the core
+to run a Ding2 based site.
 
 ## Dependencies
 * [Drupal 7.38](https://drupal.org/drupal-7.38-release-notes) - latest stable
@@ -16,10 +24,6 @@ stack should be optimized to run a Drupal site.
   release when this was written.
 * [Drush 6.1.0](https://github.com/drush-ops/drush) - latest release when this
   was written. See its README for installation instructions.
-
-# Build instructions
-The reset of this document explains how to download Drupal and patch the core
-to run a Ding2 based site.
 
 ## Drupal
 Go into your web-root (from now on named DRUPAL) and execute this drush command
