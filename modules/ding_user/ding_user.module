@@ -478,30 +478,39 @@ function _ding_user_update_authname($authname) {
   // which is still different from what it should be.
   $query = db_select('authmap', 'a')
     ->fields('a', array('uid'))
-    ->condition('authname', $authname_chunk . '%', 'LIKE')
-    ->condition('authname', $authname, '<>');
-  $uid = $query
+    ->condition('authname', $authname_chunk . '%', 'LIKE');
+  $uids = $query
     ->execute()
-    ->fetchField();
+    ->fetchCol();
 
   // In the case there is still a user with requested authname,
   // update his authname tokens in database.
-  if ($uid) {
+  if ($uids) {
+    $latest_uid = max($uids);
+    $original_uid = min($uids);
+
+    // In case of same provider user created erroneously, delete the one
+    // with latest uid assigned. But being aware that there are actually
+    // more users with same authname chunk, yet with different uid's.
+    if ($latest_uid != $original_uid) {
+      user_delete($latest_uid);
+    }
+
     db_update('authmap')
       ->fields(array(
         'authname' => $authname,
       ))
-      ->condition('uid', $uid, '=')
+      ->condition('uid', $original_uid, '=')
+      ->condition('authname', $authname, '<>')
       ->execute();
 
     db_update('users')
       ->fields(array(
         'init' => $authname,
       ))
-      ->condition('uid', $uid, '=')
+      ->condition('uid', $original_uid, '=')
+      ->condition('init', $authname, '<>')
       ->execute();
-
-      watchdog('ding_user', 'Update authmap token for user id: @uid.', array('@uid' => $uid));
   }
 }
 
