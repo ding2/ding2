@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * ding_item_list.features.inc
+ * Export Item List Features.
  */
 
 /**

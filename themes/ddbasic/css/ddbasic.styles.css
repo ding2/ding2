@@ -911,7 +911,7 @@ tr.odd {
 .pane-bookmarks .delete-reservations .form-submit, #ding-bookmark-remove-form .form-submit, .material-item .action-button.reserve-button.unavailable.reservable,
 .field-name-ding-entity-buttons .reserve-button.unavailable.reservable,
 .ding-periodical-issues .reserve-button.unavailable.reservable, .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
-.pane-ting-collection .ding-entity-button, .pane-ting-object .ding-entity-button, .place2book.info:hover {
+.pane-ting-collection .ding-entity-button, .pane-ting-object .ding-entity-button, .place2book.info:hover, .ding-item-list-item .item-details .reserve-button {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   -ms-border-radius: 8px;
@@ -953,7 +953,7 @@ tr.odd {
   .pane-bookmarks .delete-reservations .form-submit:focus, #ding-bookmark-remove-form .form-submit:focus, .material-item .action-button.reserve-button.unavailable.reservable:focus,
   .field-name-ding-entity-buttons .reserve-button.unavailable.reservable:focus,
   .ding-periodical-issues .reserve-button.unavailable.reservable:focus, .pane-ting-collection .form-submit:focus, .pane-ting-object .form-submit:focus,
-  .pane-ting-collection .ding-entity-button:focus, .pane-ting-object .ding-entity-button:focus, .material-item .action-button.reserve-button.available:hover,
+  .pane-ting-collection .ding-entity-button:focus, .pane-ting-object .ding-entity-button:focus, .ding-item-list-item .item-details .reserve-button:focus, .material-item .action-button.reserve-button.available:hover,
   .ding-periodical-issues .reserve-button.available:hover, .field-name-ding-entity-buttons .reserve-button:hover, .button-see-online:hover, .ticket-available:hover, .pane-reservations .renew-loan-button .renewable:hover,
   .pane-loans .renew-loan-button .renewable:hover,
   .pane-debts .renew-loan-button .renewable:hover,
@@ -980,7 +980,7 @@ tr.odd {
   .pane-bookmarks .delete-reservations .form-submit:hover, #ding-bookmark-remove-form .form-submit:hover, .material-item .action-button.reserve-button.unavailable.reservable:hover,
   .field-name-ding-entity-buttons .reserve-button.unavailable.reservable:hover,
   .ding-periodical-issues .reserve-button.unavailable.reservable:hover, .pane-ting-collection .form-submit:hover, .pane-ting-object .form-submit:hover,
-  .pane-ting-collection .ding-entity-button:hover, .pane-ting-object .ding-entity-button:hover, .material-item .action-button.reserve-button.available:active,
+  .pane-ting-collection .ding-entity-button:hover, .pane-ting-object .ding-entity-button:hover, .ding-item-list-item .item-details .reserve-button:hover, .material-item .action-button.reserve-button.available:active,
   .ding-periodical-issues .reserve-button.available:active, .field-name-ding-entity-buttons .reserve-button:active, .button-see-online:active, .ticket-available:active, .pane-reservations .renew-loan-button .renewable:active,
   .pane-loans .renew-loan-button .renewable:active,
   .pane-debts .renew-loan-button .renewable:active,
@@ -1007,7 +1007,7 @@ tr.odd {
   .pane-bookmarks .delete-reservations .form-submit:active, #ding-bookmark-remove-form .form-submit:active, .material-item .action-button.reserve-button.unavailable.reservable:active,
   .field-name-ding-entity-buttons .reserve-button.unavailable.reservable:active,
   .ding-periodical-issues .reserve-button.unavailable.reservable:active, .pane-ting-collection .form-submit:active, .pane-ting-object .form-submit:active,
-  .pane-ting-collection .ding-entity-button:active, .pane-ting-object .ding-entity-button:active {
+  .pane-ting-collection .ding-entity-button:active, .pane-ting-object .ding-entity-button:active, .ding-item-list-item .item-details .reserve-button:active {
     text-decoration: none; }
   .material-item .disabled.action-button.reserve-button.available,
   .ding-periodical-issues .disabled.reserve-button.available, .field-name-ding-entity-buttons .disabled.reserve-button, .disabled.button-see-online, .disabled.ticket-available, .pane-reservations .renew-loan-button .disabled.renewable,
@@ -1036,7 +1036,7 @@ tr.odd {
   .pane-bookmarks .delete-reservations .disabled.form-submit, #ding-bookmark-remove-form .disabled.form-submit, .material-item .disabled.action-button.reserve-button.unavailable.reservable,
   .field-name-ding-entity-buttons .disabled.reserve-button.unavailable.reservable,
   .ding-periodical-issues .disabled.reserve-button.unavailable.reservable, .pane-ting-collection .disabled.form-submit, .pane-ting-object .disabled.form-submit,
-  .pane-ting-collection .disabled.ding-entity-button, .pane-ting-object .disabled.ding-entity-button, .material-item [disabled].action-button.reserve-button.available,
+  .pane-ting-collection .disabled.ding-entity-button, .pane-ting-object .disabled.ding-entity-button, .ding-item-list-item .item-details .disabled.reserve-button, .material-item [disabled].action-button.reserve-button.available,
   .ding-periodical-issues [disabled].reserve-button.available, .field-name-ding-entity-buttons [disabled].reserve-button, [disabled].button-see-online, [disabled].ticket-available, .pane-reservations .renew-loan-button [disabled].renewable,
   .pane-loans .renew-loan-button [disabled].renewable,
   .pane-debts .renew-loan-button [disabled].renewable,
@@ -1063,7 +1063,7 @@ tr.odd {
   .pane-bookmarks .delete-reservations [disabled].form-submit, #ding-bookmark-remove-form [disabled].form-submit, .material-item [disabled].action-button.reserve-button.unavailable.reservable,
   .field-name-ding-entity-buttons [disabled].reserve-button.unavailable.reservable,
   .ding-periodical-issues [disabled].reserve-button.unavailable.reservable, .pane-ting-collection [disabled].form-submit, .pane-ting-object [disabled].form-submit,
-  .pane-ting-collection [disabled].ding-entity-button, .pane-ting-object [disabled].ding-entity-button {
+  .pane-ting-collection [disabled].ding-entity-button, .pane-ting-object [disabled].ding-entity-button, .ding-item-list-item .item-details [disabled].reserve-button {
     filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=65);
     opacity: 0.65;
     -webkit-box-shadow: none;
@@ -8416,6 +8416,42 @@ input#edit-search-block-form--2.spinner {
       -pie-background: -pie-linear-gradient(#f5cd2e, #e4b90b);
       background: linear-gradient(#f5cd2e, #e4b90b);
       background-color: #f4c715; }
+
+.pane-ding-item-list-recommendations {
+  margin: 10px 0; }
+
+.pane-ding-item-list {
+  background-color: #fffffe;
+  padding: 10px; }
+  .pane-ding-item-list .pane-title {
+    margin-bottom: 0; }
+
+.layout-wrapper .pane-ding-item-list {
+  background-color: transparent;
+  padding: 0; }
+
+.ding-item-list-item {
+  overflow: hidden;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed #d5d5d5;
+  font-size: 16px; }
+  .ding-item-list-item .item-cover {
+    float: left; }
+  .ding-item-list-item .item-details {
+    margin-left: 65px; }
+    .ding-item-list-item .item-details .item-author {
+      font-size: 85%; }
+    .ding-item-list-item .item-details .item-title a {
+      font-weight: normal; }
+    .ding-item-list-item .item-details .reserve-button {
+      margin-left: 10px;
+      font-size: 100%; }
+    .ding-item-list-item .item-details .item-loan,
+    .ding-item-list-item .item-details .item-loan a {
+      font-size: 100%;
+      font-family: inherit;
+      line-height: inherit; }
 
 /* Base tables
    ========================================================================== */
