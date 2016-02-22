@@ -1,0 +1,56 @@
+.pane-ding-item-list-recommendations {
+  margin: 10px 0;
+}
+
+.pane-ding-item-list {
+  background-color: $content-background-color;
+  padding: 10px;
+
+  .pane-title {
+    margin-bottom: 0;
+  }
+}
+
+.layout-wrapper .pane-ding-item-list {
+  background-color: transparent;
+  padding: 0;
+}
+
+.ding-item-list-item {
+  overflow: hidden;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed $gray;
+  font-size: $base-font-size;
+
+  .item-cover {
+    float: left;
+  }
+
+  .item-details {
+    margin-left: 65px;
+
+    .item-author {
+      font-size: $font-size-small;
+    }
+
+    .item-title a {
+      font-weight: $base-font-weight-bold;
+    }
+
+    .reserve-button {
+      @extend %button;
+      margin-left: 10px;
+      font-size: $font-size-reset;
+    }
+    .item-loan {
+
+      &,
+      a {
+        font-size: $font-size-reset;
+        font-family: inherit;
+        line-height: inherit;
+      }
+    }
+  }
+}

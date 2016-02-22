@@ -48342,24 +48342,12 @@ msgid "Default"
 msgstr ""
 
 #: modules/ding_item_list_field/ding_item_list_field.info:0
-msgid "easyDDB Ding Item List Field"
-msgstr ""
-
-#: modules/ding_item_list_field/ding_item_list_field.info:0
 msgid "Provide a field instance to be used inside nodes"
-msgstr ""
-
-#: modules/ding_item_list_image_styles/ding_item_list_image_styles.info:0
-msgid "easyDDB Ding Item List Image Styles"
 msgstr ""
 
 #: modules/ding_item_list_image_styles/ding_item_list_image_styles.info:0
 msgid "Image styles export for Ding Item List"
 msgstr "Image styles tilhørende Ding Item List"
-
-#: modules/ding_item_list_recommendations/ding_item_list_recommendations.info:0
-msgid "easyDDB Ding Item List Recommendations"
-msgstr ""
 
 #: modules/ding_item_list_recommendations/ding_item_list_recommendations.info:0
 msgid "Provides a 'Ding Item List'-like renderer for recommended materials"

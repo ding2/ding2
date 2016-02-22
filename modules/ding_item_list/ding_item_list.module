@@ -28,7 +28,6 @@ function ding_item_list_ctools_plugin_directory($module, $plugin) {
  * Implements hook_theme().
  */
 function ding_item_list_theme($existing, $type, $theme, $path) {
-  drupal_add_css(drupal_get_path('module', 'ding_item_list') . '/css/ding_item_list.css', array('type' => 'file'));
   $hooks = array();
 
   $hooks['ding_item_list_list'] = array(
@@ -242,7 +241,7 @@ function ding_item_list_search_ting($query = '', $page = 1, $records = 10, $sort
  * @return bool
  *   TRUE if item has a cover, FALSE otherwise.
  */
-function ding_item_list_check_cover($local_id, $style = 'ding_item_list') {
+function ding_item_list_check_cover($local_id = array(), $style = 'ding_item_list') {
   module_load_include('pages.inc', 'ting_covers');
   $cover_settings = array(
     $local_id => array(
@@ -289,7 +288,7 @@ function ding_item_list_create_missed_covers(&$items) {
  * @return array
  *   Set of ting objects, with image path attached.
  */
-function ding_item_list_get_images_from_addi(&$items, $missing_images_local_ids) {
+function ding_item_list_get_images_from_addi(&$items = array(), $missing_images_local_ids = array()) {
   require_once drupal_get_path('module', 'ting_covers') . '/ting_covers.pages.inc';
   $service = new AdditionalInformationService(variable_get('addi_wsdl_url'), variable_get('addi_username'), variable_get('addi_group'), variable_get('addi_password'));
 
@@ -298,7 +297,7 @@ function ding_item_list_get_images_from_addi(&$items, $missing_images_local_ids)
     $additional_informations = $service->getByFaustNumber($missing_images_local_ids);
   }
   catch (Exception $e) {
-    return;
+    throw $e;
   }
 
   foreach ($missing_images_local_ids as $local_id) {
@@ -373,7 +372,7 @@ function _ding_item_list_format_isbn($isbn) {
  * @param array $default
  *   Default values for form fields, if any.
  */
-function ding_item_list_search_form(&$form, $default = array()) {
+function ding_item_list_search_form(&$form = array(), $default = array()) {
   $form['plugin_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('List settings'),
@@ -454,7 +453,7 @@ function ding_item_list_get_content($query, $count, $sort) {
     $loan_form = module_invoke_all('ding_entity_buttons', 'ding_entity', $object->primary_object, 'ajax');
     $markup .= theme('ding_item_list_item', array(
       'faust' => $object->id,
-      'cover' => (!empty($object->image) && file_exists($object->image)) ? image_style_url('ding_item_list', $object->image) : '/' . drupal_get_path('module', 'ding_item_list') . '/images/no-image-minil.png',
+      'cover' => (!empty($object->image) && file_exists($object->image)) ? image_style_url('ding_item_list', $object->image) : '/' . drupal_get_path('module', 'ding_item_list') . '/images/no-image-mini.png',
       'title' => $object->title,
       'author' => $object->creator,
       'year' => $object->year,
