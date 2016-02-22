@@ -264,7 +264,7 @@ function ding_item_list_check_cover($local_id = array(), $style = 'ding_item_lis
  * @param array $items
  *   Set of ting objects.
  */
-function ding_item_list_create_missed_covers(&$items) {
+function ding_item_list_create_missed_covers(&$items = array()) {
   foreach ($items as $item_id => $item) {
     $filepath = drupal_realpath($item->image);
     if (!file_exists($filepath)) {
@@ -284,9 +284,6 @@ function ding_item_list_create_missed_covers(&$items) {
  *   Set of ting objects.
  * @param array $missing_images_local_ids
  *   Array of ting items id's with missing covers.
- *
- * @return array
- *   Set of ting objects, with image path attached.
  */
 function ding_item_list_get_images_from_addi(&$items = array(), $missing_images_local_ids = array()) {
   require_once drupal_get_path('module', 'ting_covers') . '/ting_covers.pages.inc';
