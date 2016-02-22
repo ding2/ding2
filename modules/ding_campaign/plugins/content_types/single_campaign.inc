@@ -9,7 +9,7 @@ $plugin = array(
   'description' => t('Display single campaigns'),
   'single' => TRUE,
   'edit form' => 'ding_campaign_single_campaign_content_type_edit_form',
-  'render callback' => 'ding_campaign_single_campaign_content_type_renderer',
+  'render callback' => 'ding_campaign_single_campaign_content_type_render',
   'category' => t('Ding!'),
 );
 
@@ -41,7 +41,7 @@ function ding_campaign_single_campaign_content_type_edit_form_submit($form, &$fo
 /**
  * Implements hook_content_type_render().
  */
-function ding_campaign_single_campaign_content_type_renderer($subtype, $conf, $panel_args, $context) {
+function ding_campaign_single_campaign_content_type_render($subtype, $conf, $panel_args, $context) {
   $campaign = entity_load('node', array($conf['single_campaign']));
   $content = array(
     '#theme' => 'ding_campaign_wrapper',
@@ -50,8 +50,7 @@ function ding_campaign_single_campaign_content_type_renderer($subtype, $conf, $p
     ),
   );
   $block = new stdClass();
-  $block->title = '';
-  $block->body = $content;
+  $block->content = $content;
 
   return $block;
 }
