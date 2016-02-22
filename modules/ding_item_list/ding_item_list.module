@@ -1,0 +1,528 @@
+<?php
+/**
+ * @file
+ * Code for the Ding Item List feature.
+ */
+
+include_once 'ding_item_list.features.inc';
+/**
+ * @file
+ * Module core file.
+ */
+
+// Item list cache validity period (seconds).
+// When changing use default simple cache intervals only.
+define('DING_ITEM_LIST_CACHE_TLL', 28800);
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ding_item_list_ctools_plugin_directory($module, $plugin) {
+  // We'll be nice and limit scandir() calls.
+  if ($module == 'ctools' && $plugin == 'content_types') {
+    return 'plugins/content_types';
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_item_list_theme($existing, $type, $theme, $path) {
+  $hooks = array();
+
+  $hooks['ding_item_list_list'] = array(
+    'variables' => array(),
+    'template' => 'ding-item-list_item-list',
+    'path' => $path . '/templates',
+  );
+
+  $hooks['ding_item_list_item'] = array(
+    'variables' => array(),
+    'template' => 'ding-item-list_item',
+    'path' => $path . '/templates',
+  );
+
+  return $hooks;
+}
+
+/**
+ * Get ting objects.
+ *
+ * @param string $query
+ *   Search query string.
+ * @param int $count
+ *   Number of objects to search.
+ *
+ * @return array
+ *   Array of items.
+ */
+function ding_item_list_get_objects($query = '', $count = 0, $no_cover = FALSE, $sort = '') {
+  $objects = array();
+  $request = '(' . $query . ')';
+  $page = 1;
+
+  if (!empty($query) && !empty($count)) {
+    module_load_include('client.inc', 'ting');
+    $agency = variable_get('ting_agency', -1);
+    // Search with portions of 10 items.
+    while ($result = ding_item_list_search_ting($request, $page++, 10, $sort)) {
+      // This query is out of results OR we have needed amount of items.
+      if ($result->numTotalCollections == 0 || count($objects) == $count) {
+        break;
+      }
+
+      foreach ($result->collections as $collection) {
+        // Whether we reached our item limit per query.
+        if (count($objects) == $count) {
+          // Stop fetching anything from Ting.
+          break 2;
+        }
+
+        foreach ($collection->reply->objects as $search_item) {
+          // Check if covers service is alive and get cover details.
+          if (!isset($covers_service_na)) {
+            try {
+              $cover_exists = ding_item_list_check_cover($search_item->localId);
+            }
+            catch (AdditionalInformationServiceException $e) {
+              // Service unavailable, do not ask for covers any more.
+              $covers_service_na = TRUE;
+            }
+
+            // We can try to fetch next items and break here ONLY if cover
+            // service is ok but returned no cover for current item.
+            // Otherwise we will end up with eternal cycle.
+            if (!$cover_exists && !$no_cover) {
+              break;
+            }
+          }
+
+          $item = new stdClass();
+          $item->primary_object = $collection->primary_object;
+          $item->id = $search_item->id;
+          $item->isbn = isset($search_item->record['dc:identifier']['dkdcplus:ISBN']) ?
+            _ding_item_list_format_isbn($search_item->record['dc:identifier']['dkdcplus:ISBN']) : NULL;
+          $item->ac_source = isset($search_item->record['ac:source'][''][0]) ?
+            $search_item->record['ac:source'][''][0] : NULL;
+          $item->dc_source = isset($search_item->record['dc:source'][''][0]) ?
+            $search_item->record['dc:source'][''][0] : NULL;
+          $item->title = $search_item->record['dc:title'][''][0];
+
+          if (isset($search_item->record['dc:creator'])) {
+            if (isset($search_item->record['dc:creator']['oss:aut'][0])) {
+              $item->creator = $search_item->record['dc:creator']['oss:aut'][0];
+            }
+            elseif (isset($search_item->record['dc:creator']['oss:mus'][0])) {
+              $item->creator = $search_item->record['dc:creator']['oss:mus'][0];
+            }
+            elseif (isset($search_item->record['dc:creator']['oss:sort'][0])) {
+              $item->creator = $search_item->record['dc:creator']['oss:sort'][0];
+            }
+            else {
+              $item->creator = NULL;
+            }
+          }
+          else {
+            $item->creator = NULL;
+          }
+
+          if (isset($search_item->record['dc:subject']['dkdcplus:DK5-Text'][0])) {
+            $item->subject = $search_item->record['dc:subject']['dkdcplus:DK5-Text'][0];
+          }
+          elseif (isset($search_item->record['dc:subject']['oss:genre'][0])) {
+            $item->subject = $search_item->record['dc:subject']['oss:genre'][0];
+          }
+          elseif (isset($search_item->record['dc:subject'][''][0])) {
+            $item->subject = $search_item->record['dc:subject'][''][0];
+          }
+          else {
+            $item->subject = NULL;
+          }
+
+          // Set image filepath.
+          // Image existence will be checked further.
+          $item->image = ting_covers_object_path($search_item->localId);
+
+          if (isset($search_item->record['dc:description'][''][0])) {
+            $item->description = $search_item->record['dc:description'][''][0];
+          }
+          elseif (isset($search_item->record['dcterms:abstract'][''][0])) {
+            $item->description = $search_item->record['dcterms:abstract'][''][0];
+          }
+          else {
+            $item->description = '';
+          }
+
+          $item->year = isset($search_item->record['dc:date'][''][0]) ?
+            $search_item->record['dc:date'][''][0] : NULL;
+
+          // Default values.
+          $item->type = 1;
+          $item->rating = 0;
+          $item->rating_count = 0;
+          $item->comment_count = 0;
+          $item->has_rating = FALSE;
+
+          $objects[$search_item->localId] = $item;
+          break;
+        }
+      }
+    }
+
+    // Make an array of local id's, fetchable by voxb.
+    // Take only items with ISBN code.
+    if (module_exists('ding_voxb')) {
+      $local_ids = array();
+      foreach ($objects as $local_id => $v) {
+        if (!empty($v->isbn)) {
+          $local_ids[$local_id] = $v->isbn[0];
+        }
+      }
+
+      // Fetch details from voxb.
+      $voxb_details = new VoxbItems();
+      $voxb_details->addReviewHandler('review', new VoxbReviews());
+      $response = $voxb_details->fetchByISBN($local_ids);
+
+      // Assign voxb details to items.
+      if ($response && $voxb_details->getCount() > 0) {
+        foreach ($local_ids as $local_id => $isbn) {
+          $detail = $voxb_details->getItem($isbn);
+          if ($detail) {
+            $objects[$local_id]->rating = (int) round($detail->getRating() / 20);
+            $objects[$local_id]->rating_count = $detail->getRatingCount();
+            $objects[$local_id]->comment_count = $detail->getReviews('review')->getCount();
+            $objects[$local_id]->has_rating = TRUE;
+          }
+        }
+      }
+    }
+  }
+
+  return $objects;
+}
+
+/**
+ * Perform ting search.
+ *
+ * @param string $query
+ *   Searched query string.
+ * @param int $page
+ *   Requested results page.
+ * @param int $records
+ *   Number of records to fetch.
+ *
+ * @return object
+ *   Ting search result object.
+ */
+function ding_item_list_search_ting($query = '', $page = 1, $records = 10, $sort = '') {
+  if (!empty($query)) {
+    $options = array(
+      'allObjects' => FALSE,
+      'enrich' => TRUE,
+      'sort' => $sort,
+    );
+
+    $query = '(' . _ting_search_quote($query) . ')';
+    $search_result = ting_do_search($query, $page, $records, $options);
+
+    return $search_result;
+  }
+
+  return FALSE;
+}
+
+/**
+ * Check for cover existence.
+ *
+ * @param array $local_id
+ *   Ting item local id.
+ *
+ * @return bool
+ *   TRUE if item has a cover, FALSE otherwise.
+ */
+function ding_item_list_check_cover($local_id = array(), $style = 'ding_item_list') {
+  module_load_include('pages.inc', 'ting_covers');
+  $cover_settings = array(
+    $local_id => array(
+      'owner_id' => '',
+      'local_id' => $local_id,
+      'image_style' => $style,
+    ),
+  );
+  $covers = ting_covers_objects(FALSE, $cover_settings);
+
+  if (!empty($covers)) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
+/**
+ * Create missed covers.
+ *
+ * @param array $items
+ *   Set of ting objects.
+ */
+function ding_item_list_create_missed_covers(&$items) {
+  foreach ($items as $item_id => $item) {
+    $filepath = drupal_realpath($item->image);
+    if (!file_exists($filepath)) {
+      $missing_images_ids[] = $item_id;
+    }
+  }
+
+  if (!empty($missing_images_ids)) {
+    ding_item_list_get_images_from_addi($items, $missing_images_ids);
+  }
+}
+
+/**
+ * Get images from ADDI web-service.
+ *
+ * @param array $items
+ *   Set of ting objects.
+ * @param array $missing_images_local_ids
+ *   Array of ting items id's with missing covers.
+ *
+ * @return array
+ *   Set of ting objects, with image path attached.
+ */
+function ding_item_list_get_images_from_addi(&$items = array(), $missing_images_local_ids = array()) {
+  require_once drupal_get_path('module', 'ting_covers') . '/ting_covers.pages.inc';
+  $service = new AdditionalInformationService(variable_get('addi_wsdl_url'), variable_get('addi_username'), variable_get('addi_group'), variable_get('addi_password'));
+
+  try {
+    // Local ids = Faust numbers. Library object identifiers can be confusing...
+    $additional_informations = $service->getByFaustNumber($missing_images_local_ids);
+  }
+  catch (Exception $e) {
+    throw $e;
+  }
+
+  foreach ($missing_images_local_ids as $local_id) {
+    // Try to extract the image url from the result.
+    $source_url = FALSE;
+    if (isset($additional_informations[$local_id]) && $ai = $additional_informations[$local_id]) {
+      if ($ai->detailUrl) {
+        $source_url = $ai->detailUrl;
+      }
+      elseif ($ai->thumbnailUrl) {
+        $source_url = $ai->thumbnailUrl;
+      }
+    }
+
+    // Try to download the image locally.
+    $file = _ting_covers_pages_fetch_image(ting_covers_object_path($local_id), $source_url);
+
+    if ($file) {
+      // Generate a path corresponding to the downloaded image, styled.
+      $items[$local_id]->image = $file;
+    }
+    else {
+      $items[$local_id]->image = '';
+    }
+  }
+}
+
+/**
+ * Generate a cache id, based on a keyword.
+ *
+ * @param string $keyword
+ *   A generic keyword.
+ *
+ * @return string
+ *   Hash string, meaning a certain cache id.
+ */
+function ding_item_list_generate_cache_id($keyword) {
+  return 'ding_item_list-' . md5($keyword);
+}
+
+/**
+ * Implements hook_ding_item_cache().
+ */
+function ding_item_list_ding_item_cache() {
+  return array(
+    'ding_item_list' => t('Ding item list'),
+  );
+}
+
+/**
+ * Format ISBN number, remove all spaces and dashes.
+ *
+ * @param string $isbn
+ *   Raw ISBN number.
+ *
+ * @return string
+ *   Formatted ISBN number.
+ */
+function _ding_item_list_format_isbn($isbn) {
+  foreach ($isbn as $k => $number) {
+    $isbn[$k] = str_replace(array(' ', '-'), '', $number);
+  }
+  rsort($isbn);
+  return $isbn;
+}
+
+/**
+ * Add search parameters fields to existing form.
+ *
+ * @param array $form
+ *   Form to be modified with new fields.
+ * @param array $default
+ *   Default values for form fields, if any.
+ */
+function ding_item_list_search_form(&$form = array(), $default = array()) {
+  $form['plugin_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('List settings'),
+  );
+
+  $form['plugin_settings']['item_query'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Ting query string'),
+    '#default_value' => isset($default['item_query']) ? $default['item_query'] : '',
+    '#required' => TRUE,
+    '#maxlength' => 255,
+  );
+
+  $form['plugin_settings']['item_count'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Items count'),
+    '#default_value' => isset($default['item_count']) ? $default['item_count'] : 3,
+    '#required' => TRUE,
+    '#size' => 3,
+    '#element_validate' => array('element_validate_integer_positive'),
+  );
+
+  $form['plugin_settings']['item_sort'] = array(
+    '#type' => 'select',
+    '#title' => t('Sorting'),
+    '#options' => array(
+      '' => t('- None -'),
+      'title_ascending' => t('Title (Ascending)'),
+      'title_descending' => t('Title (Descending)'),
+      'creator_ascending' => t('Creator (Ascending)'),
+      'creator_descending' => t('Creator (Descending)'),
+      'date_ascending' => t('Date (Ascending)'),
+      'date_descending' => t('Date (Descending)'),
+      'acquisitionDate_ascending' => t('Acquisition date (Ascending)'),
+      'acquisitionDate_descending' => t('Acquisition date (Descending)'),
+    ),
+    '#default_value' => isset($default['item_sort']) ? $default['item_sort'] : '',
+    '#description' => t('If not set, defaults to Ranking'),
+  );
+}
+
+/**
+ * Generate markup according to passed search parameters.
+ *
+ * @param string $query
+ *   Search query.
+ * @param int $count
+ *   Number of items to fetch.
+ * @param string $sort
+ *   Sort identifier.
+ *
+ * @return string
+ *   List markup.
+ */
+function ding_item_list_get_content($query, $count, $sort) {
+  $cid = ding_item_list_generate_cache_id($query);
+  $cache = cache_get($cid, 'cache_ding_item');
+
+  if (!$cache) {
+    $objects = ding_item_list_get_objects($query, $count, FALSE, $sort);
+
+    cache_set($cid, $objects, 'cache_ding_item', time() + DING_ITEM_LIST_CACHE_TLL * 3600);
+  }
+  else {
+    $objects = $cache->data;
+  }
+
+  // Check if cover images are physically present.
+  try {
+    ding_item_list_create_missed_covers($objects);
+  }
+  catch (Exception $e) {
+    // No special handling at the moment.
+  }
+
+  $markup = '';
+  foreach ($objects as $object) {
+    $loan_form = module_invoke_all('ding_entity_buttons', 'ding_entity', $object->primary_object, 'ajax');
+    $markup .= theme('ding_item_list_item', array(
+      'faust' => $object->id,
+      'cover' => (!empty($object->image) && file_exists($object->image)) ? image_style_url('ding_item_list', $object->image) : '/' . drupal_get_path('module', 'ding_item_list') . '/images/no-image-mini.png',
+      'title' => $object->title,
+      'author' => $object->creator,
+      'year' => $object->year,
+      'has_rating' => $object->has_rating,
+      'rating' => $object->rating,
+      'rating_count' => $object->rating_count,
+      'review_count' => $object->comment_count,
+      'loan_form' => drupal_render($loan_form),
+      )
+    );
+  }
+
+  return $markup;
+}
+
+/**
+ * Add task to cron.
+ *
+ * @param string $key
+ *   Cache key.
+ * @param string $function
+ *   Function to execute.
+ * @param array $args
+ *   Arguments passed to callback.
+ */
+function _ding_item_list_cronapi_task($key, $function, array $args) {
+  $cache_key = 'ding_item_list_cronapi_task';
+  $cache = cache_get($cache_key, 'cache');
+  $cache = $cache ? $cache : (object) array('data' => array());
+  $cache->data[$key] = array('callback' => $function, 'args' => $args);
+  cache_set($cache_key, $cache->data, 'cache', CACHE_TEMPORARY);
+}
+
+/**
+ * Implements hook_cronapi().
+ */
+function ding_item_list_cronapi($op, $function = NULL) {
+  switch ($op) {
+    case 'list':
+      return array('ding_item_list_warm_cache' => t('Cache warmer'));
+
+    break;
+
+    case 'rule':
+      switch ($function) {
+        case 'ding_item_list_warm_cache':
+          return "* 3 * * *";
+      }
+      break;
+
+    case 'execute':
+      switch ($function) {
+        case 'ding_item_list_warm_cache':
+          module_load_include('inc', 'ding_item_list', 'plugins/content_types/ding_item_list');
+          // Clear cache.
+          cache_clear_all('ding_item_list', 'cache_ding_item', TRUE);
+
+          // Rebuild cache by executing existing callbacks.
+          $cache = cache_get('ding_item_list_cronapi_task');
+          if ($cache !== FALSE) {
+            foreach ($cache->data as $item) {
+              call_user_func_array($item['callback'], $item['args']);
+            }
+          }
+
+          // Clear tasks.
+          cache_clear_all('ding_item_list_cronapi_task', 'cache', TRUE);
+          break;
+      }
+      break;
+  }
+}
