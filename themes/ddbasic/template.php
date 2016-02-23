@@ -121,8 +121,9 @@ function ddbasic_process_html(&$vars) {
 function ddbasic_form_alter(&$form, &$form_state, $form_id) {
   switch ($form_id) {
     case 'search_block_form':
+      $advanced = variable_get('ting_extended_search_search_result', 0);
       // Do not show advanced form on search results.
-      if (isset($form['advanced'])) {
+      if (!$advanced && isset($form['advanced'])) {
         if (preg_match('/search\/ting/', current_path())) {
           unset($form['advanced']);
         }
