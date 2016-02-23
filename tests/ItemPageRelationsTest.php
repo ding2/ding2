@@ -51,7 +51,7 @@ class ItemPageRelationsTest extends PHPUnit_Extensions_SeleniumTestCase {
     // Check relation anchors block.
     $this->assertTrue($this->isElementPresent('css=.pane-ting-ting-relation-anchors'));
     // Check that there is one author portrail link.
-    $this->assertTrue($this->isElementPresent('link=Author portrait (1)'));
+    $this->assertTrue($this->isElementPresent('link=Author portrait (2)'));
     // Check that there are actully 7 (seven) review links.
     $this->assertTrue($this->isElementPresent('link=Review (7)'));
 
