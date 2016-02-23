@@ -82,12 +82,12 @@ class CollectionViewTest extends PHPUnit_Extensions_SeleniumTestCase {
     // information about item types and the quantity of those.
     $this->abstractedPage->refresh();
     $this->assertElementPresent('link=Bog (2)');
-    $this->assertElementPresent('link=Ebog (1)');
+    // $this->assertElementPresent('link=Ebog (1)');
     // Test the anchor links.
     $this->click('link=Bog (2)');
     $this->assertTrue((bool) preg_match('/^.*ting\/collection\/870970-basis%3A51043138#Bog$/', $this->getLocation()));
-    $this->click('link=Ebog (1)');
-    $this->assertTrue((bool) preg_match('/^.*ting\/collection\/870970-basis%3A51043138#Ebog$/', $this->getLocation()));
+    // $this->click('link=Ebog (1)');
+    // $this->assertTrue((bool) preg_match('/^.*ting\/collection\/870970-basis%3A51043138#Ebog$/', $this->getLocation()));
   }
 
   /**
