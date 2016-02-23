@@ -241,7 +241,7 @@ function ding_item_list_search_ting($query = '', $page = 1, $records = 10, $sort
  * @return bool
  *   TRUE if item has a cover, FALSE otherwise.
  */
-function ding_item_list_check_cover($local_id = array(), $style = 'ding_item_list') {
+function ding_item_list_check_cover(array $local_id, $style = 'ding_item_list') {
   module_load_include('pages.inc', 'ting_covers');
   $cover_settings = array(
     $local_id => array(
@@ -264,7 +264,7 @@ function ding_item_list_check_cover($local_id = array(), $style = 'ding_item_lis
  * @param array $items
  *   Set of ting objects.
  */
-function ding_item_list_create_missed_covers(&$items = array()) {
+function ding_item_list_create_missed_covers(array &$items) {
   foreach ($items as $item_id => $item) {
     $filepath = drupal_realpath($item->image);
     if (!file_exists($filepath)) {
@@ -285,7 +285,7 @@ function ding_item_list_create_missed_covers(&$items = array()) {
  * @param array $missing_images_local_ids
  *   Array of ting items id's with missing covers.
  */
-function ding_item_list_get_images_from_addi(&$items = array(), $missing_images_local_ids = array()) {
+function ding_item_list_get_images_from_addi(array &$items, array $missing_images_local_ids) {
   require_once drupal_get_path('module', 'ting_covers') . '/ting_covers.pages.inc';
   $service = new AdditionalInformationService(variable_get('addi_wsdl_url'), variable_get('addi_username'), variable_get('addi_group'), variable_get('addi_password'));
 
@@ -294,7 +294,7 @@ function ding_item_list_get_images_from_addi(&$items = array(), $missing_images_
     $additional_informations = $service->getByFaustNumber($missing_images_local_ids);
   }
   catch (Exception $e) {
-    throw $e;
+    watchdog_exception('ding_item_list', $e);
   }
 
   foreach ($missing_images_local_ids as $local_id) {
@@ -369,7 +369,7 @@ function _ding_item_list_format_isbn($isbn) {
  * @param array $default
  *   Default values for form fields, if any.
  */
-function ding_item_list_search_form(&$form = array(), $default = array()) {
+function ding_item_list_search_form(array &$form, array $default) {
   $form['plugin_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('List settings'),
