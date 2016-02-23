@@ -93,6 +93,9 @@
         <span class="page-tags">
           <?php print render($content['field_ding_page_tags']); ?>
         </span>
+        <?php if (isset($content['field_editorial_base'])) : ?>
+          <span class="page-section label"><?php print render($content['field_editorial_base']); ?></span>
+        <?php endif; ?>
       <?php endif; ?>
     </div>
     <h1 class="page-title"><?php print $title; ?></h1>
