@@ -191,6 +191,6 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
     sleep(5);
     $this->abstractedPage->refresh();
     // Check the item is no more present.
-    $this->assertElementPresent('link=Hr. Peters blomster');
+    $this->assertElementNotPresent('link=Hr. Peters blomster');
   }
 }
