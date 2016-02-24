@@ -84,12 +84,12 @@ class ReservationReadyToPickupTest extends PHPUnit_Extensions_SeleniumTestCase {
     $this->click('css=#ding-reservation-reservations-ready-form .material-item:eq(0) input[type="checkbox"]');
 
     // A delete button should appear.
-    /*$this->abstractedPage->waitForElement('css=#edit-actions-top-delete');
+    $this->abstractedPage->waitForElement('css=#edit-actions-top-delete');
     $this->mouseDown('css=#edit-actions-top-delete');
 
     // This should trigger a popup confirmation.
     $this->abstractedPage->waitForElement('css=.ding-popup-content #ding-reservation-delete-reservations-form');
-    $this->mouseDown('css=.ding-popup-content #ding-reservation-delete-reservations-form input[type="submit"]');*/
+    $this->mouseDown('css=.ding-popup-content #ding-reservation-delete-reservations-form input[type="submit"]');
     // Wait for ajax to finish.
     sleep(5);
     $this->abstractedPage->refresh();
