@@ -207,8 +207,7 @@ function ding_library_form_ding_library_node_form_alter(&$form, &$form_state) {
 function ding_library_disable_custom_alias($form, &$form_state) {
   if (isset($form['path']['pathauto'])) {
     $form['path']['pathauto']['#description'] = t('Custom alias has been disabled');
-    $form['path']['pathauto']['#attached']['js'][] =
-      drupal_get_path('module', 'ding_library') . '/ding_library.js';
+    $form['path']['pathauto']['#attached']['js'][] = drupal_get_path('module', 'ding_library') . '/ding_library.js';
 
     unset($form['path']['alias']);
   }
