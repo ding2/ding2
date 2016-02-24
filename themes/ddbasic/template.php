@@ -156,6 +156,37 @@ function ddbasic_form_alter(&$form, &$form_state, $form_id) {
   }
 }
 
+/**
+ * Implementation of hook_entity_view_alter().
+ */
+function ddbasic_entity_view_alter(&$build, $type) {
+  if (in_array($build['#view_mode'], array('full', 'search_result'))) {
+    if (isset($build['field_editorial_base'])) {
+      $items = field_get_items('node', $build['#node'], 'field_editorial_base', LANGUAGE_NONE);
+      if (!empty($items)) {
+        $build['field_editorial_base'] = array($build['field_editorial_base']);
+        $build['field_editorial_base']['#theme'] = 'field';
+        $build['field_editorial_base']['#view_mode'] = $build['#view_mode'];
+        $build['field_editorial_base']['#field_name'] = 'field_editorial_base';
+        $build['field_editorial_base']['#field_type'] = 'taxonomy_term_reference';
+        $build['field_editorial_base']['#formatter '] = 'taxonomy_term_reference_link';
+        $build['field_editorial_base']['#label_display'] = 'hidden';
+        $build['field_editorial_base']['#title'] = t('Section');
+        $build['field_editorial_base']['#language '] = LANGUAGE_NONE;
+        $build['field_editorial_base']['#field_translatable'] = 0 ;
+        $build['field_editorial_base']['#entity_type'] = 'node';
+        $build['field_editorial_base']['#bundle'] = $build['#node']->type;
+        $build['field_editorial_base']['#weight'] = isset($build['field_' . $build['#node']->type . '_tags']['#weight']) ?
+          $build['field_' . $build['#node']->type . '_tags']['#weight'] + 1  : 7;
+        $build['field_editorial_base']['#access'] = TRUE;
+        foreach ($items as $item) {
+          $term = field_view_value('node', $build['#node'], 'field_editorial_base', $item);
+          $build['field_editorial_base']['#items'][] = array('tid' => $item, 'taxonomy_term' => $term);
+        }
+      }
+    }
+  }
+}
 
 /**
  * Implements hook_preprocess_panels_pane().
@@ -667,21 +698,8 @@ function ddbasic_preprocess_field(&$vars, $hook) {
   // Add suggestion for ddbasic field in specific view mode.
   $vars['theme_hook_suggestions'][] = 'field__ddbasic_' . $view_mode;
 
-  // Stream line tags in view modes using the same tpl.
-  if (strpos($vars['element']['#field_name'], '_tags') !== FALSE) {
-    $vars['theme_hook_suggestions'][] = 'field__ddbasic_tags__' . $view_mode;
-
-    if (isset($vars['element']['#object']->field_editorial_base[LANGUAGE_NONE][0]['tid'])) {
-      $tid = $vars['element']['#object']->field_editorial_base[LANGUAGE_NONE][0]['tid'];
-      $term = taxonomy_term_load($tid);
-      $uri = entity_uri('taxonomy_term', $term);
-      array_unshift($vars['items'], l($term->name, $uri['path'], array('attributes' => array('class' => array('label', 'label-info')))));
-    }
-  }
-
-  // Stream line category in view modes using the same tpl.
-  if (strpos($vars['element']['#field_name'], '_category') !== FALSE) {
-    $vars['theme_hook_suggestions'][] = 'field__ddbasic_category__' . $view_mode;
+  if (strpos($field_name, '_tags') !== FALSE || strpos($field_name, '_category') || strpos($field_name, '_base')) {
+    $vars['theme_hook_suggestions'][] = 'field__ddbasic_terms__' . $view_mode;
   }
 
   // Ensure that all OG group ref field are the same.
