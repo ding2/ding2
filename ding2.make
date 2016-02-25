@@ -370,7 +370,7 @@ projects[workbench][subdir] = "contrib"
 projects[workbench][version] = "1.2"
 
 projects[workflow][subdir] = "contrib"
-projects[workflow][version] = "2.5"
+projects[workflow][version] = "2.7"
 projects[workflow][patch][] = "http://www.drupal.org/files/issues/features_import-2484297-10.patch"
 ; Prevent fatal errors on cron when using Scheduler, https://www.drupal.org/node/2499193.
 projects[workflow][patch][] = "https://www.drupal.org/files/issues/workflow-php_fatal_error_call-2499193-7-2.5.patch"
