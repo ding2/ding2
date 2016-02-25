@@ -823,6 +823,8 @@ function ting_boost_field_element_process($element, $form_state) {
       'term.language' => t('Language'),
       'term.type' => t('Material type'),
       'term.identifier' => t('ISBN number'),
+      'term.subject' => t('Subject'),
+      'facet.dk5' => t('Classification'),
     ),
     '#default_value' => (isset($element['#value']['field_name'])) ? $element['#value']['field_name'] : NULL,
     '#attributes' => array('class' => array('field-name')),

@@ -1,3 +1,5 @@
+'use strict';
+
 var gulp = require('gulp-help')(require('gulp'));
 
 // Plugins.
@@ -29,7 +31,7 @@ gulp.task('uglify', 'Minify JavaScript using Uglify',
       // Use gulp-rename to change the name of processed files.
       // We keep them in the same folder as the originals.
       .pipe(rename(function (path) {
-        path.extname = '.min.js'
+        path.extname = '.min.js';
       }))
       .pipe(gulp.dest('./scripts'));
   }

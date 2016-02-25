@@ -102,3 +102,15 @@ function ding_user_update_7006(&$sandbox) {
     }
   }
 }
+
+/**
+ * Remove logged login attempt failures.
+ */
+function ding_user_update_7007(&$sandbox) {
+  if (module_exists('dblog')) {
+    db_delete('watchdog')
+      ->condition('type', 'user')
+      ->condition('message', 'Login attempt failed for%', 'LIKE')
+      ->execute();
+  }
+}

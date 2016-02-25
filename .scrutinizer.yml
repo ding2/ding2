@@ -12,13 +12,31 @@ tools:
   js_hint:
     use_native_config: true
 
+build_failure_conditions:
+  # No new issues allowed.
+  - 'issues.new.exists'
+
 filter:
     excluded_paths:
+        # Generated Features code
+        - '*.features.*'
+        - '*.feeds_importer_default.inc'
+        - '*.field_group.inc'
+        - '*.layouts.inc'
+        - '*.pages_default.inc'
+        - '*.panels_default.inc'
+        - '*.panelizer.inc'
+        - '*.strongarm.inc'
+        - '*.views_default.inc'
+        # Generated webservice client code for FBS
         - modules/fbs/prancer/*
+        # Third party dependencies for FBS
         - modules/fbs/vendor/*
+        # Third party JavaScript libraries
         - themes/ddbasic/scripts/equalize.min.js
         - themes/ddbasic/scripts/html5shiv.js
         - themes/ddbasic/scripts/jquery.*
         - themes/ddbasic/scripts/respond.*
         - themes/ddbasic/scripts/scalefix.js
+        # Minified JavaScript files
         - themes/ddbasic/scripts/*.min.js

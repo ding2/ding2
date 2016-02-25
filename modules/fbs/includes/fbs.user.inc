@@ -17,11 +17,28 @@
  *   Authentication result.
  */
 function fbs_user_authenticate($name, $pincode) {
-  $auth = new FBS\Model\AuthenticationRequest();
-  $auth->libraryCardNumber = $name;
-  $auth->pincode = $pincode;
+  $pass = _fbs_wayf_login($name);
+  if ($pass) {
+    // Wayf login.
+    if ($pass !== $pincode) {
+      // Die if we didn't get the same pincode as we generated in
+      // wayf_login_credentials.
+      return array(
+        'success' => FALSE,
+      );
+    }
 
-  $res = fbs_service()->Patron->authenticate(fbs_service()->agencyId, $auth);
+    $res = fbs_service()->Patron->getPreAuthenticatedPatron(fbs_service()->agencyId, $name);
+  }
+  else {
+    // Normal login.
+    $auth = new FBS\Model\AuthenticationRequest();
+    $auth->libraryCardNumber = $name;
+    $auth->pincode = $pincode;
+
+    $res = fbs_service()->Patron->authenticate(fbs_service()->agencyId, $auth);
+  }
+
   $result = array(
     'success' => $res->authenticated,
   );

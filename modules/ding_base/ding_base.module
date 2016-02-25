@@ -535,3 +535,57 @@ function ding_base_rewrite_color_stylesheet() {
   variable_set('color_' . $theme . '_stylesheets', $css);
   variable_set('color_' . $theme . '_files', $paths['files']);
 }
+
+/**
+ * Implements hook_field_widget_form_alter().
+ */
+function ding_base_field_widget_form_alter(&$element, &$form_state, $context) {
+  // Our goal only image fields.
+  if (isset($element['#type']) && $element['#type'] == 'media') {
+    $display = NULL;
+    $displays = $context['instance']['display'];
+    // By default we trying to get default display.
+    if (isset($displays['default']) && $displays['default']['type'] != 'hidden') {
+      $display = $displays['default'];
+    }
+    // Otherwise, we will get first display which has some styles.
+    else {
+      $displays = array_filter($context['instance']['display'], function ($i) {
+        return isset($i['settings']['styles']) && !empty($i['settings']['styles']);
+      });
+      $display = !empty($displays) ? reset($displays) : NULL;
+    }
+
+    if (!empty($display)) {
+      // We will use functionality of image module.
+      $style = image_style_load($display['settings']['styles']['max_style']);
+      // Let's use sample file from image module, for applying all effects.
+      $original_path = variable_get('image_style_preview_image', drupal_get_path('module', 'image') . '/sample.png');
+      $original_sample = image_get_info($original_path);
+
+      // Apply style to sample image.
+      $preview_file = image_style_path($style['name'], $original_path);
+      if (!file_exists($preview_file)) {
+        image_style_create_derivative($style, $original_path, $preview_file);
+      }
+
+      $preview_image = image_get_info($preview_file);
+      $dimensions = array(
+        'width' => $preview_image['width'],
+        'height' => $preview_image['height'],
+      );
+
+      // If after apllying effects dimensions wasn't changed, when we can't recommend.
+      if ($dimensions['height'] != $original_sample['height'] && $dimensions['width'] != $original_sample['width']) {
+        array_walk($dimensions, function (&$i, $k) {
+          $i =  "{$i}px {$k}";
+        });
+
+        $text = t("The image will automatically be resized. The maximum dimensions are %dimensions (Original: {$original_sample['width']}x{$original_sample['height']}).", array(
+          '%dimensions' => implode(' and ', $dimensions),
+        ));
+        $element['#suffix'] = '<div class="description">' . $text . '</div>';
+      }
+    }
+  }
+}

@@ -401,7 +401,7 @@ search/ting
     $display->panels['main_content'][5] = 'new-7c02f708-c47f-4eb5-8958-d6279de6ade4';
     $pane = new stdClass();
     $pane->pid = 'new-07d2c562-f846-4241-b93f-7c1d723ff29d';
-    $pane->panel = 'right_sidebar';
+    $pane->panel = 'left_sidebar';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
     $pane->shown = TRUE;
@@ -424,11 +424,11 @@ search/ting
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 2;
     $pane->locks = '';
     $pane->uuid = '07d2c562-f846-4241-b93f-7c1d723ff29d';
     $display->content['new-07d2c562-f846-4241-b93f-7c1d723ff29d'] = $pane;
-    $display->panels['right_sidebar'][0] = 'new-07d2c562-f846-4241-b93f-7c1d723ff29d';
+    $display->panels['left_sidebar'][2] = 'new-07d2c562-f846-4241-b93f-7c1d723ff29d';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -549,7 +549,7 @@ search/ting
     $display->panels['main_content'][0] = 'new-55cc4d0d-d8cd-46ae-96f7-18bb4fc809c8';
     $pane = new stdClass();
     $pane->pid = 'new-26a27e6c-f934-4169-a06e-04db0f61ebf6';
-    $pane->panel = 'right_sidebar';
+    $pane->panel = 'left_sidebar';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
     $pane->shown = TRUE;
@@ -572,11 +572,11 @@ search/ting
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 2;
     $pane->locks = '';
     $pane->uuid = '26a27e6c-f934-4169-a06e-04db0f61ebf6';
     $display->content['new-26a27e6c-f934-4169-a06e-04db0f61ebf6'] = $pane;
-    $display->panels['right_sidebar'][0] = 'new-26a27e6c-f934-4169-a06e-04db0f61ebf6';
+    $display->panels['left_sidebar'][2] = 'new-26a27e6c-f934-4169-a06e-04db0f61ebf6';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
@@ -706,7 +706,7 @@ search/ting
     $display->panels['main_content'][0] = 'new-eda37090-d344-4baa-8c21-78573268da3d';
     $pane = new stdClass();
     $pane->pid = 'new-2c6af9c6-63ae-4100-9b56-e3b1bee1ce9a';
-    $pane->panel = 'right_sidebar';
+    $pane->panel = 'left_sidebar';
     $pane->type = 'campaign';
     $pane->subtype = 'campaign';
     $pane->shown = TRUE;
@@ -729,11 +729,11 @@ search/ting
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 0;
+    $pane->position = 3;
     $pane->locks = '';
     $pane->uuid = '2c6af9c6-63ae-4100-9b56-e3b1bee1ce9a';
     $display->content['new-2c6af9c6-63ae-4100-9b56-e3b1bee1ce9a'] = $pane;
-    $display->panels['right_sidebar'][0] = 'new-2c6af9c6-63ae-4100-9b56-e3b1bee1ce9a';
+    $display->panels['left_sidebar'][3] = 'new-2c6af9c6-63ae-4100-9b56-e3b1bee1ce9a';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;

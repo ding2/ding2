@@ -168,7 +168,11 @@ class SwaggerApiRequest
         $url = $url . '?'. $query;
 
         // There can only be one body.
-        $body = $this->serializer->serialize(reset($this->parameters['body']));
+        $body = reset($this->parameters['body']);
+        if (!is_string($body)) {
+            // Serialize if it's not a simple string.
+            $body = $this->serializer->serialize($body);
+        }
 
         $request = new Request(
             $url,

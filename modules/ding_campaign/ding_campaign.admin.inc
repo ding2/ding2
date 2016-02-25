@@ -136,12 +136,15 @@ function ding_campaign_add_rule($form, $form_state) {
  */
 function ding_campaign_campaign_rule_form_submit($form, &$form_state) {
   $c = count($form_state['input']['rule_type']);
+  $nid = $form_state['build_info']['args'][0]->nid;
 
   if ($c > 0) {
     // Delete existing rules.
     db_delete('ding_campaign_rules')
-      ->condition('cid', $form_state['build_info']['args'][0]->nid)
+      ->condition('cid', $nid)
       ->execute();
+
+    entity_get_controller('node')->resetCache(array($nid));
 
     // Add new rules.
     for ($i = 0; $i < $c; $i++) {
@@ -206,8 +209,8 @@ function ding_campaign_rule_form($rule = NULL, $type = NULL) {
     '#type' => 'textfield',
     '#title' => t('Rule value'),
     '#default_value' => ($rule) ? $rule : '',
-    '#size' => 24,
-    '#maxlength' => 24,
+    '#size' => 64,
+    '#maxlength' => 255,
     '#prefix' => '<div class="rule-value">',
     '#suffix' => '</div><div class="clear"></div></div>',
     '#autocomplete_path' => 'ding_campaign/autocomplete/' . $type,

@@ -78,7 +78,7 @@ function bpi_syndicate_page_form($form, &$form_state) {
       '#value' => t('Search'),
     );
 
-    if (!empty(_bpi_get_current_search_phrase())) {
+    if (_bpi_get_current_search_phrase()) {
       $query_form['bpi_search']['bpi_search_actions']['bpi_search_reset'] = array(
         '#type' => 'item',
         '#markup' => l(t('Reset search'), current_path(), array(
@@ -204,7 +204,7 @@ function bpi_syndicate_page_form_submit(array $form, array &$form_state) {
     $bpi_query['amount'] = intval($values['bpi_search_amount']);
   }
 
-  if (isset($values['bpi_search_query']) && !empty(trim($values['bpi_search_query']))) {
+  if (isset($values['bpi_search_query']) && trim($values['bpi_search_query'])) {
     $bpi_query[BPI_SEARCH_PHRASE_KEY] = trim($values['bpi_search_query']);
   }
 
@@ -753,10 +753,10 @@ function bpi_build_search_facets(array &$form) {
           '' => t('All'),
         );
         if (isset($terms[0])) {
-          $options['false'] = t('No');
+          $options['false'] = t('External sources');
         }
         if (isset($terms[1])) {
-          $options['true'] = t('Yes');
+          $options['true'] = t('Libraries');
         }
         $default_value = _bpi_get_query_parameter(array('filter', $name));
         $multiple = FALSE;
@@ -805,7 +805,7 @@ function bpi_build_search_facets(array &$form) {
       ),
     );
 
-    if (!empty(_bpi_get_current_filter())) {
+    if (_bpi_get_current_filter()) {
       $filter_form['bpi_actions']['reset_filter'] = array(
         '#type' => 'item',
         '#markup' => l(t('Reset filters'), current_path(), array(

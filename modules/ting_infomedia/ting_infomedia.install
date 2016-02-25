@@ -19,7 +19,7 @@ function ting_infomedia_ding_entity_fields() {
   return array(
     'ting_infomedia' => array(
       'field' => array(
-        'locked' => TRUE,
+        'locked' => FALSE,
         'storage' => array(
           'type' => 'virtual_field',
         ),
@@ -59,6 +59,18 @@ function ting_infomedia_update_7000() {
     ->fields(array(
       'storage_type' => 'virtual_field',
       'storage_module' => 'virtual_field',
+    ))
+    ->condition('module', 'ting_infomedia')
+    ->execute();
+}
+
+/**
+ * Unlock ding_entity_field to allow deletion of field
+ */
+function ting_infomedia_update_7001() {
+  db_update('field_config')
+    ->fields(array(
+      'locked' => 0,
     ))
     ->condition('module', 'ting_infomedia')
     ->execute();

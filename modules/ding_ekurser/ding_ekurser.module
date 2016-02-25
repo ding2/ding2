@@ -1,0 +1,272 @@
+<?php
+/**
+ * @file
+ * Code for the Ding eKurser feature.
+ */
+
+// Path of panel page. Remember to change this constant if the panel changes.
+define('DING_EKURSER_PATH', 'ekurser');
+
+include_once 'ding_ekurser.features.inc';
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Set search phrase to 'ekurser.nu', hide facets from facet browser and add
+ * facet types.
+ * Also hide certain fields via css.
+ */
+function ding_ekurser_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id != 'ding_facetbrowser_form' || strpos($form['#action'], '/' . DING_EKURSER_PATH) !== 0) {
+    return;
+  }
+
+  // Add css to adjust the searchresult and facets.
+  drupal_add_css(drupal_get_path('module', 'ding_ekurser') . '/css/ding_ekurser.css', 'file');
+  
+  // If the subject facet is not available then show the standard facets.
+  if (!isset($form['facet.subject'])) {
+    return;
+  }
+  
+  // Get the selected subject term.
+  $default_term = $form['facet.subject']['subject']['#default_value'];
+  
+  // Remove all facets so we can make a custom list from the subject facet.
+  foreach ($form as $form_key => $form_val) {
+    if (strpos($form_key, 'facet.') === 0) {
+      unset($form[$form_key]);
+    }
+  }
+  
+  // Make our own list of terms.
+  $terms = NULL;
+  $uri = NULL;
+  $num_total_objects = NULL;
+
+  // We want to save the total amount of results when not searching for any
+  // specific terms, and we want to save the list of subjects for this search.
+  // So we save the subject facets (in the cache) from an "empty" search.
+  if (empty($default_term)) {
+    $search_result = drupal_static('ting_search_results');
+    $num_total_objects = $search_result->numTotalObjects;
+    list($uri, $current_term) = _ding_ekurser_facetbrowser_parse_request_uri();
+    $terms = array(t('All') => $num_total_objects);
+    $terms_ = $form_state['build_info']['args'][0]['facet.subject']->terms;
+    $terms = array_merge($terms, _ding_ekurser_remove_terms($num_total_objects, $terms_));
+    cache_set('ding_ekurser_subject_facets', $terms, 'cache', CACHE_PERMANENT);
+  }
+  else {
+    // When the user has chosen a subject facet, we get the list of facets from
+    // the cache. If the cache is empty, we redirect to a search without
+    // facets to warm up the cache.
+    list($uri, $current_term) = _ding_ekurser_facetbrowser_parse_request_uri();
+    $cache = cache_get('ding_ekurser_subject_facets');
+
+    if (!$cache) {
+      drupal_goto(DING_EKURSER_PATH);
+    }
+    else {
+      $terms = $cache->data;
+    }
+  }
+
+  // Fetch everything from the uri after the first '?'.
+  $url = preg_replace('/[^\?]*\?/', '', $uri);
+  $matches = array();
+  $query = array();
+  // All parameters in the uri that wasn't removed by the parse_request_uri
+  // function are added to the subject facet links.
+  preg_match_all('/&?(.*)=(.*)&?/', $url, $matches, PREG_SET_ORDER);
+  foreach ($matches as $match) {
+    $query[$match[1]] = $match[2];
+  }
+  foreach ($terms as $term => $count) {
+    $options['query'] = $query;
+    // Add subject parameter to link, but not for the term that is the current.
+    if ($term != $current_term && $term != t('All')) {
+      $options['query']['facets[]'] = 'facet.subject:' . $term;
+    }
+
+    // Link to search for specific term (with count).
+    $options['html'] = TRUE;
+    $terms[$term] = l($term . ' <span class="count">(' . $count . ')</span>', DING_EKURSER_PATH, $options);
+
+    // Remove 'active' class on terms, except for the current chosen term.
+    if ($term != $current_term && !($term == t('All') && !$current_term)) {
+      $terms[$term] = preg_replace('/(class\s*="[^"]*?)(?:\bactive\b\s*)*(")/', '$1$2', $terms[$term]);
+    }
+  }
+
+  $form['subjects_begin'] = array(
+    '#markup' => '<h2 class="sub-menu-title">' . t('Popular subjects') . '</h2><ul class="sub-menu">',
+  );
+  foreach ($terms as $term) {
+    $form[$term] = array(
+      '#markup' => '<li>' . $term . '</li>',
+    );
+  }
+  $form['subjects_end'] = array(
+    '#markup' => '</ul>',
+  );
+}
+
+/**
+ * Parse request uri and remove unwanted elements such as page and facets.
+ *
+ * This function is copied from ding_facetbrowser and modified.
+ *
+ * @return array
+ *   Return pair of uri and found facet.subject if any.
+ */
+function _ding_ekurser_facetbrowser_parse_request_uri() {
+  $current_term = '';
+  $new_query_part = array();
+  if (stristr(request_uri(), '?')) {
+    $request_uri_parts = explode('?', request_uri());
+
+    $query = rawurldecode(end($request_uri_parts));
+    $query_parts = explode('&', $query);
+    foreach ($query_parts as $key => $part) {
+      if (preg_match('/^page\=/', $part)) {
+        unset($query_parts[$key]);
+        continue;
+      }
+      elseif (preg_match('/^facets\[\d*\]\=/', $part)) {
+        $match = array();
+        unset($query_parts[$part]);
+        if (preg_match('/^facets\[\d*\]\=facet\.subject:(.*)/', $part, $match)) {
+          $current_term = $match[1];
+        }
+        continue;
+      }
+      $new_query_part[] = $part;
+    }
+    $query = $new_query_part;
+    return array(
+      $request_uri_parts[0] . '?' . implode('&', $query),
+      $current_term,
+    );
+  }
+  else {
+    return array(request_uri(), $current_term);
+  }
+}
+
+/**
+ * Remove terms that have a count of 80% or more of total count.
+ *
+ * @param int $total_count
+ *   Total count.
+ * @param array $terms
+ *   Array of term => count.
+ *
+ * @return array
+ *   Return terms
+ */
+function _ding_ekurser_remove_terms($total_count, $terms = array()) {
+  foreach ($terms as $term => $count) {
+    if ($count >= (0.8 * $total_count)) {
+      unset($terms[$term]);
+    }
+  }
+  return $terms;
+}
+
+/**
+ * Implements hook_search_info().
+ */
+function ding_ekurser_search_info() {
+  return array(
+    'title' => t('Ding eKurser'),
+    'conditions_callback' => 'ding_ekurser_conditions_callback',
+  );
+}
+
+/**
+ * Implements hook_search_execute().
+ *
+ * We don't make our own search, but call ting_search.
+ */
+function ding_ekurser_search_execute($keys = NULL, $conditions = NULL) {
+  return ting_search_search_execute($keys, $conditions);
+}
+
+/**
+ * Search conditions callback.
+ *
+ * Use ting_search's conditions callback and add default sort.
+ *
+ * @return array
+ *   Array of search conditions (keys, size, sort)
+ */
+function ding_ekurser_conditions_callback($keys) {
+  $conditions = ting_search_conditions_callback($keys);
+  if (empty($conditions['sort'])) {
+    $conditions['sort'] = 'acquisitionDate_descending';
+  }
+  return $conditions;
+}
+
+/**
+ * Set default sort options.
+ *
+ * @return array
+ *   Returns an array of sort options.
+ */
+function ding_ekurser_search_sort_options() {
+  $options = array(
+    'title_ascending' => t('Title (Ascending)'),
+    'title_descending' => t('Title (Descending)'),
+    'acquisitionDate_ascending' => t('Acquisition date (Ascending)'),
+    'acquisitionDate_descending' => t('Acquisition date (Descending)'),
+  );
+
+  // Add label to the front of the options.
+  foreach ($options as $key => $option) {
+    $options[$key] = t('Sort by: !sort', array('!sort' => $option));
+  }
+
+  return $options;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Change sort options when we're on the overview of eKurser.
+ */
+function ding_ekurser_form_ting_search_sort_form_alter(&$form, &$form_state, $form_id) {
+  if (strpos($form['#action'], '/' . DING_EKURSER_PATH) !== 0) {
+    return;
+  }
+
+  // Set our own sorting options and set default sort, if it's not set.
+  $form['sort']['#options'] = ding_ekurser_search_sort_options();
+  if (empty($form['sort']['#default_value'])) {
+    $form['sort']['#default_value'] = 'acquisitionDate_descending';
+  }
+}
+
+/**
+ * Implements hook_ding_facetbrowser().
+ *
+ * This function is necessary, because the facetbrowser is called by the name
+ * of the panel page. So in order to be able to call the panel page
+ * ding_ekurser, we need this function even though we're jus calling the
+ * ding facetbrowser.
+ */
+function ding_ekurser_ding_facetbrowser() {
+  return ting_search_ding_facetbrowser();
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Hide the ding_ekurser search from search backends.
+ *
+ * It shouldn't be possible for users to search using this backend as it's only
+ * useful for the overview of e-courses.
+ */
+function ding_ekurser_form_ting_search_backend_engines_form_alter(&$form, &$form_state, $form_id) {
+  unset($form['backends']['searches']['#options']['ding_ekurser']);
+}

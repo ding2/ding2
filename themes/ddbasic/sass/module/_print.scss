@@ -19,6 +19,10 @@
   p, h2, h3 { orphans: 3; widows: 3; }
   h2, h3 { page-break-after: avoid; }
 
+  h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 5px;
+  }
+
   footer,
   .topbar-menu,
   .navigation-wrapper,
@@ -29,7 +33,6 @@
   #ding-library-library-list-select-library .form-submit {
     display: none;
   }
-  
   
   .default-layout .primary-content {
     margin-left: 0;
@@ -45,7 +48,6 @@
   h3 {
     font-size: 120%;
   }
-
   
   .pane-search-result .search-results .list .search-result--availability,
   .view-node-search-result .search-results .list .search-result--availability,
@@ -110,8 +112,33 @@
   .pane-bookmarks .material-item,
   .pane-bookmarks .total-amount {
     page-break-inside: avoid;
+    padding: 5px 0;
   }
-  
+
+  #ding-loan-loans-form {
+    .item-information-list {
+      .item-information { clear: none; width: 30%; float: left; font-size: 9px; }
+      .item-information.loan-date { margin-right: 5% }
+      .item-information.expire-date { margin-right: 5% }
+      .item-information.material-number { margin-right: 0% }
+      .item-information-label { padding: 0;  margin-right: -50%; width: 50%;}
+      .item-information-data { margin-left: -50%; width: 50%; }
+    }
+  }
+
+  .pane-reservations .ting-cover,
+  .pane-loans .ting-cover,
+  .pane-debts .ting-cover,
+  .pane-bookmarks .ting-cover {
+    max-width: 70%;
+  }
+
+  .pane-reservations .messages,
+  .pane-loans .messages,
+  .pane-debts .messages,
+  .pane-bookmarks .messages {
+    margin-bottom: 5px;
+  }
 }
 
 

@@ -373,7 +373,7 @@ function ding_wayf_block_view() {
         $img['#path'] .= 'wayf_logo.png';
         $img['#alt'] = t('Login with WAYF test');
         $img['#title'] = $img['#alt'];
-        $block->content['#link']['#text'] = drupal_render($img);
+        $block->content['#link']['#text'] = t('Login with !logo', array('!logo' => drupal_render($img)));
         $block->content['#link']['#options']['attributes']['class'][] = 'ding-wayf--test';
         $block->content['#link']['#options']['query']['idp'] = 'test';
         break;
@@ -382,7 +382,7 @@ function ding_wayf_block_view() {
         $img['#path'] .= 'wayf_logo.png';
         $img['#alt'] = t('Login with WAYF');
         $img['#title'] = $img['#alt'];
-        $block->content['#link']['#text'] = drupal_render($img);
+        $block->content['#link']['#text'] = t('Login with !logo', array('!logo' => drupal_render($img)));
         $block->content['#link']['#options']['attributes']['class'][] = 'ding-wayf--wayf';
         $block->content['#link']['#options']['query']['idp'] = 'wayf';
         break;
@@ -391,7 +391,7 @@ function ding_wayf_block_view() {
         $img['#path'] .= 'nemid_logo.png';
         $img['#alt'] = t('Login with NemID');
         $img['#title'] = $img['#alt'];
-        $block->content['#link']['#text'] = drupal_render($img);
+        $block->content['#link']['#text'] = t('Login with !logo', array('!logo' => drupal_render($img)));
         $block->content['#link']['#options']['attributes']['class'][] = 'ding-wayf--nemid';
         $block->content['#link']['#options']['query']['idp'] = 'nemlogin';
         break;

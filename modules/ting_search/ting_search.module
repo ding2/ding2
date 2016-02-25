@@ -188,7 +188,7 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
       'description' => t('Enter subject keywords'),
     ),
   );
-  
+
   // Remove the form token so the form becomes cachable. If we don't, all
   // pages with the search form becomes un-cachable, as drupal_validate_form()
   // will check the token and fail if the current user is not the same as the
@@ -228,7 +228,7 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
   // Set max length on search input. This is need when users uses CQL search
   // string as they can get very long. This length is base on experience from
   // ding1 as seams to be long enough.
-  $form['search_block_form']['#maxlength'] = 256;
+  $form['search_block_form']['#maxlength'] = 1024;
 
   // Add JS to handle spinner in the search form.
   $form['search_block_form']['#attached']['js'] = array(
@@ -294,7 +294,7 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
  * @param array $keys
  *   Keys to extract.
  *
- * @return array 
+ * @return array
  *   Where the array keys are the search keys, and the remainder
  *   search string in 'q'.
  */
@@ -309,6 +309,8 @@ function ting_search_extract_keys($search_query, $keys) {
     $search_query = preg_replace_callback($regexp, 'ting_search_extract_indexes', $search_query);
   }
 
+  // Remove any leading and's.
+  $search_query = preg_replace('/^ and \\(/', '(', $search_query);
   $indexes['q'] = $search_query;
   return $indexes;
 }
@@ -325,7 +327,7 @@ function ting_search_extract_indexes($matches, $set_keys = NULL) {
   $subexps = preg_split('/\s+and\s+/i', $matches[2], NULL, PREG_SPLIT_NO_EMPTY);
   $indexes = &drupal_static(__FUNCTION__, array());
   foreach ($subexps as $subexp) {
-    if ((preg_match('/^([^=]+)\=([^"]*)$/', $subexp, $rx) || preg_match('/^([^=]+)\="(.*)"$/', $subexp, $rx)) && array_key_exists(trim($rx[1]), $keys)) {
+    if ((preg_match('/^([^=]+)\=([^"]*)$/', $subexp, $rx) || preg_match('/^([^=]+)\="([^"]*)"$/', $subexp, $rx)) && array_key_exists(trim($rx[1]), $keys)) {
       $indexes[trim($rx[1])] = trim($rx[2]);
     }
     else {
@@ -804,6 +806,9 @@ function ting_search_sort_form($form_state) {
 function ting_search_sort_options() {
   $options = array(
     '' => t('Ranking'),
+    'rank_title' => t('Best match on title'),
+    'rank_creator' => t('Best match on creator'),
+    'rank_subject' => t('Best match on subject'),
     'title_ascending' => t('Title (Ascending)'),
     'title_descending' => t('Title (Descending)'),
     'creator_ascending' => t('Creator (Ascending)'),

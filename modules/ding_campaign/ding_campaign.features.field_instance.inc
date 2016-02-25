@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * ding_campaign_ctype.features.field_instance.inc
+ * ding_campaign.features.field_instance.inc
  */
 
 /**
  * Implements hook_field_default_field_instances().
  */
-function ding_campaign_ctype_field_default_field_instances() {
+function ding_campaign_field_default_field_instances() {
   $field_instances = array();
 
   // Exported field_instance: 'node-ding_campaign-ding_campaign_group_ref'
@@ -79,6 +79,61 @@ function ding_campaign_ctype_field_default_field_instances() {
       'settings' => array(),
       'type' => 'options_select',
       'weight' => 6,
+    ),
+  );
+
+  // Exported field_instance: 'node-ding_campaign-field_camp_behavior'
+  $field_instances['node-ding_campaign-field_camp_behavior'] = array(
+    'bundle' => 'ding_campaign',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => 'If set, the clicked campaign will open in a new tab/window',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 8,
+      ),
+      'full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_camp_behavior',
+    'label' => 'Open in new tab/window',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 1,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 7,
     ),
   );
 
@@ -259,7 +314,7 @@ function ding_campaign_ctype_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 4,
+      'weight' => 2,
     ),
   );
 
@@ -429,7 +484,9 @@ function ding_campaign_ctype_field_default_field_instances() {
   t('Campaign link');
   t('Campaign settings');
   t('Campaign text');
+  t('If set, the clicked campaign will open in a new tab/window');
   t('Libraries and Groups');
+  t('Open in new tab/window');
   t('Weight');
 
   return $field_instances;

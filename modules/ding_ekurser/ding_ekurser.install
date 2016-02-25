@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Ding eKurser module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ding_ekurser_install() {
+  // Enable ding_ekurser search module.
+  $search_modules = variable_get('search_active_modules');
+  $search_modules['ding_ekurser'] = 'ding_ekurser';
+  variable_set('search_active_modules', $search_modules);
+
+  // Install translations.
+  ding_ekurser_translation_install();
+}
+
+/**
+ * Install translations.
+ */
+function ding_ekurser_translation_install() {
+  // Install translations.
+  $file = new stdClass();
+  $file->uri = drupal_get_path('module', 'ding_ekurser') . '/translations/da.po';
+  $file->filename = basename($file->uri);
+  _locale_import_po($file, 'da', LOCALE_IMPORT_OVERWRITE, 'default');
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_ekurser_uninstall() {
+  // Clear cache.
+  cache_clear_all('ding_ekurser_subject_facets', 'cache');
+
+  // Disable ding_ekurser search module.
+  $search_modules = variable_get('search_active_modules');
+  if (isset($search_modules['ding_ekurser'])) {
+    unset($search_modules['ding_ekurser']);
+    variable_set('search_active_modules', $search_modules);
+  }
+}

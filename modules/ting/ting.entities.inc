@@ -150,7 +150,7 @@ class TingEntity extends DingEntity {
   function getSerieTitle() {
     return $this->splitSerie();
   }
-  
+
  function getSerieDescription() {
     $serie = !empty($this->reply->record['dc:description']['dkdcplus:series'][0]) ? $this->reply->record['dc:description']['dkdcplus:series'][0] : '';
     return $this->process_series_description($serie);
@@ -365,26 +365,20 @@ class TingCollection extends DingEntityCollection {
 
   function getTitle() {
     foreach ($this->reply->objects as &$object) {
-      // Find the title of the object that was used to fetch this collection.
+      // Find the title of the object that was used to fetch this collection. We
+      // don't look at dkdcplus:full as it might be too specific ("1Q84. Book 1"
+      // for instance).
       if ($object->id == $this->ding_entity_id && !empty($object->record['dc:title'])) {
-        if (isset($object->record['dc:title']['dkdcplus:full'])) {
-          return $object->record['dc:title']['dkdcplus:full'][0];
-        }
-        else {
-          return $object->record['dc:title'][''][0];
-        }
+        return $object->record['dc:title'][''][0];
       }
     }
+
     // If we couldn't find the object, use the title of the first object.
     $title = FALSE;
     if (isset($this->reply->objects[0]->record['dc:title'])) {
-      if (isset($this->reply->objects[0]->record['dc:title']['dkdcplus:full'])) {
-        $title = $this->reply->objects[0]->record['dc:title']['dkdcplus:full'][''][0];
-      }
-      else {
-        $title = $this->reply->objects[0]->record['dc:title'][''][0];
-      }
+      $title = $this->reply->objects[0]->record['dc:title'][''][0];
     }
+
     return $title;
   }
 
