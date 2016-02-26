@@ -46,6 +46,7 @@ $gray-lighter:                   lighten($gray, 15%) !default;
 $gray-dark:                      darken($gray, 10%) !default;
 $gray-darker:                    darken($gray, 25%) !default;
 $gray-darkest:                   darken($gray, 35%) !default;
+$gray-transparent:               rgba($black, 0.7);
 $red:                            #a32e10;
 $green:                          #528c10;
 $yellow:                         #f0cb28;

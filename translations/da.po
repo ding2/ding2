@@ -48370,3 +48370,525 @@ msgstr "Pinkoden skal bestå af %number cifre."
 
 msgid "You are not allowed to automatically be created because of the age limit (!limit years). Please go to your local library to registry."
 msgstr "Du kan ikke oprette dig som bruger via NemID på grund af aldersbegrænsningen (!limit år). Du kan blive oprettet som bruger ved personlig henvendelse på biblioteket."
+
+#: ding_item_list.module:342
+#: modules/ding_item_list_field/ding_item_list_field.module:14
+#: plugins/content_types/ding_item_list.inc:11
+msgid "Ding item list"
+msgstr "Materialeliste"
+
+#: ding_item_list.module:374
+msgid "List settings"
+msgstr "Liste indstillinger"
+
+#: ding_item_list.module:379
+#: modules/ding_item_list_field/ding_item_list_field.module:64
+msgid "Ting query string"
+msgstr "Søgestreng til brønden (CQL)"
+
+#: ding_item_list.module:387
+#: modules/ding_item_list_field/ding_item_list_field.module:72
+msgid "Items count"
+msgstr "Antal materialer til visning"
+
+#: ding_item_list.module:396
+#: modules/ding_item_list_field/ding_item_list_field.module:80
+msgid "Sorting"
+msgstr "Sortering af materialer"
+
+#: ding_item_list.module:398
+#: modules/ding_item_list_field/ding_item_list_field.module:82
+msgid "- None -"
+msgstr "- Ingen -"
+
+#: ding_item_list.module:399
+#: modules/ding_item_list_field/ding_item_list_field.module:83
+msgid "Title (Ascending)"
+msgstr "Titel (stigende)"
+
+#: ding_item_list.module:400
+#: modules/ding_item_list_field/ding_item_list_field.module:84
+msgid "Title (Descending)"
+msgstr "Titel (faldende)"
+
+#: ding_item_list.module:401
+#: modules/ding_item_list_field/ding_item_list_field.module:85
+msgid "Creator (Ascending)"
+msgstr "Forfatter (stigende)"
+
+#: ding_item_list.module:402
+#: modules/ding_item_list_field/ding_item_list_field.module:86
+msgid "Creator (Descending)"
+msgstr "Forfatter (faldende)"
+
+#: ding_item_list.module:403
+#: modules/ding_item_list_field/ding_item_list_field.module:87
+msgid "Date (Ascending)"
+msgstr "Dato (stigende)"
+
+#: ding_item_list.module:404
+#: modules/ding_item_list_field/ding_item_list_field.module:88
+msgid "Date (Descending)"
+msgstr "Dato (faldende)"
+
+#: ding_item_list.module:405
+#: modules/ding_item_list_field/ding_item_list_field.module:89
+msgid "Acquisition date (Ascending)"
+msgstr "Anskaffelsesdato (stigende)"
+
+#: ding_item_list.module:406
+#: modules/ding_item_list_field/ding_item_list_field.module:90
+msgid "Acquisition date (Descending)"
+msgstr "Anskaffelsesdato (faldende)"
+
+#: ding_item_list.module:409
+#: modules/ding_item_list_field/ding_item_list_field.module:93
+msgid "If not set, defaults to Ranking"
+msgstr "Standard værdien er Rankering"
+
+#: ding_item_list.module:492
+msgid "Cache warmer"
+msgstr ""
+
+#: ding_item_list.info:0
+msgid "Display a set of Ting items formatted as a list."
+msgstr "Viser en redaktør-genereret liste af materialer fra Brønden."
+
+#: modules/ding_item_list_field/ding_item_list_field.module:15
+msgid "Custom search results"
+msgstr ""
+
+#: modules/ding_item_list_field/ding_item_list_field.module:43
+msgid "Ding item list default"
+msgstr ""
+
+#: modules/ding_item_list_field/ding_item_list_field.module:57
+msgid "Title"
+msgstr ""
+
+#: modules/ding_item_list_field/ding_item_list_field.module:120
+msgid "Default"
+msgstr ""
+
+#: modules/ding_item_list_field/ding_item_list_field.info:0
+msgid "Provide a field instance to be used inside nodes"
+msgstr ""
+
+#: modules/ding_item_list_image_styles/ding_item_list_image_styles.info:0
+msgid "Image styles export for Ding Item List"
+msgstr "Image styles tilhørende Ding Item List"
+
+#: modules/ding_item_list_recommendations/ding_item_list_recommendations.info:0
+msgid "Provides a 'Ding Item List'-like renderer for recommended materials"
+msgstr ""
+
+#: modules/ding_item_list_recommendations/plugins/content_types/ding_item_list_recommendations.inc:8
+msgid "Ding item list recommendations"
+msgstr ""
+
+#: modules/ding_item_list_recommendations/plugins/content_types/ding_item_list_recommendations.inc:10
+msgid "Show recomendation list as a ding item list"
+msgstr ""
+
+#: modules/ding_item_list_recommendations/plugins/content_types/ding_item_list_recommendations.inc:15
+msgid "Ting object"
+msgstr ""
+
+#: modules/ding_item_list_recommendations/plugins/content_types/ding_item_list_recommendations.inc:16
+msgid "Ting collection"
+msgstr ""
+
+#: modules/ding_item_list_recommendations/plugins/content_types/ding_item_list_recommendations.inc:83
+#: plugins/content_types/ding_item_list.inc:58
+#: plugins/content_types/ding_related_items.inc:88
+msgid "Pane title"
+msgstr ""
+
+#: modules/ding_item_list_recommendations/plugins/content_types/ding_item_list_recommendations.inc:89
+msgid "Items to show"
+msgstr ""
+
+#: modules/ding_item_list_recommendations/plugins/content_types/ding_item_list_recommendations.inc:92
+msgid "Actual results may vary."
+msgstr ""
+
+#: plugins/content_types/ding_item_list.inc:13
+msgid "Add ting items as a list"
+msgstr ""
+
+#: plugins/content_types/ding_related_items.inc:11
+msgid "Ding related items"
+msgstr ""
+
+#: plugins/content_types/ding_related_items.inc:13
+msgid "Display related ting items for a certain node"
+msgstr ""
+
+#: plugins/content_types/ding_related_items.inc:15
+msgid "Node"
+msgstr ""
+
+#: templates/ding-item-list_item.tpl.php:16
+msgid "By @author"
+msgstr "Af @author"
+
+#: templates/ding-item-list_item.tpl.php:22
+msgid "reviews"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:14
+msgid "No content types were found, please add one first."
+msgstr "Der blev ikke fundet nogen indholdstyper."
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:19
+msgid "Available content types"
+msgstr "Tilgængelige indholdstyper:"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:22
+msgid "Choose content types avaialable for display"
+msgstr "Vælg hvilke indholdstyper der skal være tilgængelige i Nodelister."
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:30
+msgid "Default cache life time"
+msgstr "Standard mellemlagringstid:"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:32
+msgid "Lists will be cached by default for this period of time (seconds)"
+msgstr "Lister mellemlagres som standard i denne periode (sekunder)."
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:38
+msgid "Autoscroll delay"
+msgstr "Standard AutoScroll forsinkelse"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:39
+msgid "The delay to show an item for various nodelist widgets (in milliseconds)."
+msgstr "Forsinkelsen mellem skiftet til næste node i de animerede lister (millisekunder)."
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:67
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:53
+msgid "Templates"
+msgstr "Skabeloner"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:89
+msgid "Missing (@ctname)"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:95
+msgid "- select -"
+msgstr "- Vælg -"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:130
+msgid "Template settings have been saved."
+msgstr "Ændringerne er blevet gemt."
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:140
+msgid "Text truncation in widgets"
+msgstr "Trunkering af text i skabelonerne"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:141
+msgid "Define amount of chars to be shown in each widget type"
+msgstr "Definer antallet af karakterer der skal vises for hver visningstype"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.admin.inc:181
+msgid "Trim settings have been saved."
+msgstr "Ændringerne er blevet gemt."
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:63
+msgid "Trim content"
+msgstr "Trunkering"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:64
+msgid "Define title and teaser trim parameters for each widget"
+msgstr "Definer parametre for at trunkere titler og henvisningstekster i visningstyper."
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:90;254
+msgid "Configure nodelist"
+msgstr "Konfigurer Nodeliste"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:91
+msgid "Configure the behavior of nodelist"
+msgstr "Konfigurer denne Nodelist"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:94
+msgid "Nodelist cache"
+msgstr "Mellemlagring"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:95
+msgid "Manage nodelist cache settings"
+msgstr "Indstillinger for mellemlagring"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:229
+msgid "No eligible content types were found, please configure a few first."
+msgstr "Der blev ikke fundet nogen indholdstyper."
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:264
+msgid "Select the content type of the list's items."
+msgstr "Vælg hvilken type af indhold du vil vise."
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:288
+msgid "- Select -"
+msgstr "- Vælg -"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:289
+msgid "If single item selected, only the first item will be rendered"
+msgstr "Vælg hvordan din liste skal se ud."
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:310
+msgid "Delay (miliseconds)"
+msgstr "Forsinkelse af intervalskift (millisekunder)"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:312
+msgid "Time in milliseconds an item will be shown before switching to the next one"
+msgstr "Perioden, i millisekunder, som en node skal vises, før der automatisk skiftes til næste node."
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:322
+msgid "List title"
+msgstr "Listetitel"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:323
+msgid "Enter a title to be shown above the list items. Leave empty to omit the "
+"title."
+msgstr "Skriv en titel på listen. Lad feltet være tomt for at udelade titlen."
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:324
+msgid "You may use %keywords from contexts, as well as %title to contain the original title."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:344
+msgid "Custom / Dynamic"
+msgstr "Udvalgt / Dynamisk indhold"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:345
+msgid "All content"
+msgstr "Alt indhold"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:361
+msgid "Custom content?"
+msgstr "Udvalgt indhold?"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:370
+msgid "Custom item list"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:423
+msgid "Add content"
+msgstr "Tilføj indhold"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:437
+msgid "Dynamic content?"
+msgstr "Dynamisk indhold?"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:560
+msgid "Explain the OR/AND syntax."
+msgstr "Du kan vælge flere (ELLER) taksonomier ved at komma-separere, eller filtrere (OG) ved at tilføje et filter."
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:567
+msgid "Add filter"
+msgstr "Tilføj filter"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:583
+msgid "Show \"Promoted to front page\" content only"
+msgstr "Vi kun indhold der har \"Udgiver på forsiden\""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:590
+msgid "Show upcoming events only"
+msgstr "Vis kun fremtidige arrangementer"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:591
+msgid "If checked only future events will be shown"
+msgstr "Check denne hvis du kun ønsker at vise arrangementer som ligger frem i tiden."
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:600
+msgid "Various"
+msgstr "Diverse"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:616
+msgid "Item limit"
+msgstr "Antal"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:619
+msgid "Limit amount of items displayed. This value is used only for Dynamic and All content displays."
+msgstr "Afgræns mængden af ​​indhold der skal vises. Denne bruges kun til det Dynamiske indhold og Alt indhold."
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:639
+msgid "Creation date"
+msgstr "Oprettelsesdato"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:640;1431
+msgid "Title"
+msgstr "Titel"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:641
+msgid "Sticky first"
+msgstr "\"Klæbrig\" først"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:645
+msgid "Event date"
+msgstr "Arrangementsdato"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:652
+msgid "No sorting"
+msgstr "Ingen sortering"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:661
+msgid "Sorting order"
+msgstr "Sorteringsrækkefølge"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:677
+msgid "Width (columns)"
+msgstr "Bredde"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:679
+msgid "Full width"
+msgstr "Fuld bredde"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:690
+msgid "Additional links"
+msgstr "Yderligere links"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:692
+msgid "List of \"read more\" links."
+msgstr "Liste af links som vises på listen."
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:733
+msgid "Add more link"
+msgstr "Tilføj et link mere"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:749
+msgid "Cache settings"
+msgstr "Mellemlagring"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:808
+msgid "Select new node to add to list"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:842
+msgid "Weight for node @label"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:842
+msgid "Weight for new choice"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:890;1406
+msgid "URL"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:893
+msgid "Local path or external URL starting with http(s). Enter \"<front>\" to link to home page."
+msgstr "Lokale sti eller ekstern URL (startende med http/https)."
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:1064
+msgid "Select at least one content pick rule (custom and/or dynamic)."
+msgstr "Vælg mindst en af reglerne for udvælgelse (udvalgt og/eller dynamisk) af indhold."
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:1074
+msgid "No custom list content specified."
+msgstr "Der er ikke valgt noget indhold."
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:1086
+msgid "No terms specified for dynamic list filter."
+msgstr "Ingen taksonomier valgt for det dynamiske filter."
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:1341
+msgid "Selected content"
+msgstr "Udvalgt indhold"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:1380
+msgid "Values"
+msgstr "Værdier"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:1457
+msgid "Title length"
+msgstr "Titel længde"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:1458
+msgid "Teaser length"
+msgstr "Henvisningstekst længde"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:1478
+#: profiles/ding2/modules/ding_nodelist/plugins/content_types/ding_nodelist.inc:11
+msgid "Nodelist"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:1481
+msgid "Nodelist (untitled)"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:1492
+msgid "No information"
+msgstr "Ingen information"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2072
+msgid "Invalid term(s)."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2144
+msgid "Single item"
+msgstr "Enkeltstående"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2145
+msgid "Carousel"
+msgstr "Karrusel"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2146
+msgid "Horizontal accordion"
+msgstr "Vandret akkordeon"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2147
+msgid "Vertical accordion"
+msgstr "Lodret akkordeon"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2148
+msgid "Slider"
+msgstr "Rullebånd"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2149
+msgid "Taxonomy like"
+msgstr "Liste"
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2383
+msgid "Show only day."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:2384
+msgid "Show only month."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:35
+msgid "Ding nodelist"
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:36
+msgid "View and customize lists of content."
+msgstr "Se og tilpas indsholdsliste."
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:46
+msgid "Configure general settings."
+msgstr "Konfigurer generelle indstillinger."
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.module:54
+msgid "Manage content templates."
+msgstr "Administrer indholdsskabeloner."
+
+#: profiles/ding2/modules/ding_nodelist/ding_nodelist.info:0
+msgid "Module for creating lists."
+msgstr "Modul til at lave indholdslister."
+
+#: profiles/ding2/modules/ding_nodelist/plugins/content_types/ding_nodelist.inc:13
+msgid "Allows to create highliy customizeable list of contents"
+msgstr "Gør det muligt at lave yderst tilpassede lister af indhold"
+
+#: profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.carousel.tpl.php:38
+#: profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.image_text.tpl.php:45
+#: profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.single.tpl.php:42
+#: profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.slider.tpl.php:30
+#: profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.taxonomy.tpl.php:59
+#: profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.vaccordion.tpl.php:56
+msgid "kr."
+msgstr ""
+
+#: profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.image_text.tpl.php:33
+#: profiles/ding2/modules/ding_nodelist/templates/ding_nodelist.ding_event.vaccordion.tpl.php:44
+msgid "Time:"
+msgstr "Tid"
