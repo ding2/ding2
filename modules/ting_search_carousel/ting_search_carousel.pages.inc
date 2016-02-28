@@ -10,11 +10,11 @@
  * @param array $index
  *   Array index storing specific data.
  */
-function ting_search_carousel_result($index) {
+function ting_search_carousel_result($hash, $index) {
   $content = FALSE;
 
   // Set default return values.
-  $collections = _ting_search_carousel_get_content($index);
+  $collections = _ting_search_carousel_get_content($hash, $index);
   $subtitle = '';
 
   // Get configuration.
