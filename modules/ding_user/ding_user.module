@@ -190,7 +190,7 @@ function ding_user_provider_user_access($account) {
   // Check that the account tried to access is an staff account, if not don't
   // show it.
   $key = array_search("staff", $account->roles);
-  return $key == FALSE ? FALSE : TRUE;
+  return $key == FALSE ? ding_user_access($account) : TRUE;
 }
 
 /**
