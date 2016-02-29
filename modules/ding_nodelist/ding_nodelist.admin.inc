@@ -45,10 +45,10 @@ function ding_nodelist_settings_form() {
   );
 
   foreach ($autoscrolling_widgets as $widget => $conf) {
-    $title = isset($conf[0]) ? t(check_plain($conf[0])) : '';
+    $title = isset($conf[0]) ? check_plain($conf[0]) : '';
     $form['ding_nodelist_autoscroll_delay']['ding_nodelist_' . $widget . '_delay'] = array(
       '#type' => 'textfield',
-      '#title' => $title,
+      '#title' => filter_xss($title),
       '#default_value' => variable_get('ding_nodelist_' . $widget . '_delay', $conf[1]),
       '#size' => 5,
     );
@@ -86,7 +86,7 @@ function ding_nodelist_templates_form($form, &$form_state) {
     $ct = node_type_get_names();
     $form['templates'][$template_name]['content_type'] = array(
       '#markup' => isset($ct[$template['content_type']]) ?
-        $ct[$template['content_type']] : t('Missing (@ctname)', array('@ctname' => $template['content_type'])),
+      $ct[$template['content_type']] : t('Missing (@ctname)', array('@ctname' => $template['content_type'])),
     );
 
     $widgets = _ding_nodelist_get_widget_types();
@@ -174,7 +174,7 @@ function ding_nodelist_trim_content($form, &$form_state) {
  * Trim content form submit.
  */
 function ding_nodelist_trim_content_submit($form, &$form_state) {
-  foreach ($form_state['input']['trim_content'] as $widget=>$trim) {
+  foreach ($form_state['input']['trim_content'] as $widget => $trim) {
     variable_set('ding_nodelist_' . $widget . '_title_trim', $trim['title_trim']);
     variable_set('ding_nodelist_' . $widget . '_teaser_trim', $trim['teaser_trim']);
   }

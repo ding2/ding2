@@ -43,8 +43,7 @@ function ding_nodelist_schema() {
     ),
     'primary key' => array('filename'),
     // @todo: define when selects become clear
-    'indexes' => array(
-    ),
+    'indexes' => array(),
   );
 
   return $schema;
@@ -52,7 +51,6 @@ function ding_nodelist_schema() {
 
 /**
  * Implements hook_install().
- * Provides basic configuration of nodelist templates/widgets.
  */
 function ding_nodelist_install() {
   // Set available node types.

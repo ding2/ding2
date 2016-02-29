@@ -1,8 +1,10 @@
 (function ($) {
+  "use strict";
+
   $(document).ready(function () {
     $('.ding_nodelist-carousel').each(function() {
       var classes = $(this).attr('class').split(' ');
-      delay = 0;
+      var delay = 0;
       // Find pane's ID to get its delay settings.
       $(classes).each(function(i, item){
         if (item.match(/pane\-\d+/)) {
