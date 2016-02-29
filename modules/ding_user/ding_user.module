@@ -91,6 +91,9 @@ function ding_user_menu_alter(&$items) {
   $items['user/%user/view']['title'] = t('User profile');
   $items['user/%user/edit']['title'] = t('Edit user profile');
   $items['user/%pm_arg/status']['title'] = t('User status');
+
+  // Limit access to provider users page.
+  $items['user/%user']['access callback'] = 'ding_user_provider_user_access';
 }
 
 
@@ -139,6 +142,55 @@ function ding_user_entity_info_alter(&$entity_info) {
       ),
     );
   }
+}
+
+/**
+ * Implements hook_page_delivery_callback_alter().
+ */
+function ding_user_page_delivery_callback_alter(&$callback, $set = FALSE) {
+  if ($callback == 'drupal_deliver_html_page') {
+    $callback = 'ding_user_deliver_html_page';
+  }
+}
+
+/**
+ * Page deliver callback.
+ *
+ * Disables a "page not found" when trying to access provider user account that
+ * results in a page denied. This is to prevent enclosing information about the
+ * existent of a given user account.
+ */
+function ding_user_deliver_html_page($page_callback_result) {
+  if ($page_callback_result == MENU_ACCESS_DENIED) {
+    if (preg_match('/^user(s)?/', current_path())) {
+      drupal_deliver_page(MENU_NOT_FOUND);
+    }
+  }
+  else {
+    drupal_deliver_html_page($page_callback_result);
+  }
+}
+
+/**
+ * Access callback.
+ *
+ * Allow access if it's a provider account and the user logged in owns the
+ * account or is admin user.
+ */
+function ding_user_provider_user_access($account) {
+  global $user;
+  if (ding_user_is_provider_user($account)) {
+    if (user_is_logged_in() && !ding_user_is_provider_user($user, TRUE)) {
+      return TRUE;
+    }
+
+    return ding_user_access($account);
+  }
+
+  // Check that the account tried to access is an staff account, if not don't
+  // show it.
+  $key = array_search("staff", $account->roles);
+  return $key == FALSE ? FALSE : TRUE;
 }
 
 /**
@@ -834,9 +886,19 @@ function ding_user_save_creds($auth_res) {
 
 /**
  * Check if the given account is a user authenticated through a provider.
+ *
+ * @param object $account
+ *   The user account to check.
+ * @param bool $reset
+ *   If TRUE static cache is ignored else FALSE. Default FALSE.
+ *
+ * @return bool
+ *   TRUE if account is a provider account else FALSE.
  */
-function ding_user_is_provider_user($account) {
-  $names = &drupal_static(__FUNCTION__);
+function ding_user_is_provider_user($account, $reset = FALSE) {
+  if (!$reset) {
+    $names = &drupal_static(__FUNCTION__);
+  }
   if (!isset($names)) {
     $names = db_select('authmap')
       ->fields('authmap', array('authname'))
