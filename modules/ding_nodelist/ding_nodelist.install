@@ -1,0 +1,100 @@
+<?php
+/**
+ * @file
+ * Installation/uninstallation functions for ding_nodelist module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ding_nodelist_schema() {
+  $schema['ding_nodelist_templates'] = array(
+    'description' => 'Stores nodelist templates.',
+    'fields' => array(
+      'filename' => array(
+        'description' => 'Name of the template file.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'title' => array(
+        'description' => 'Template title set by users.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+        'default' => '',
+      ),
+      'widget' => array(
+        'description' => 'Widget type this template is bind to.',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'status' => array(
+        'description' => 'Boolean indicating whether the template is enabled by default.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+        'size' => 'tiny',
+      ),
+    ),
+    'primary key' => array('filename'),
+    // @todo: define when selects become clear
+    'indexes' => array(
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implements hook_install().
+ * Provides basic configuration of nodelist templates/widgets.
+ */
+function ding_nodelist_install() {
+  // Set available node types.
+  $node_types = array(
+    'ding_event' => 'ding_event',
+    'ding_news' => 'ding_news',
+  );
+  variable_set('ding_nodelist_node_types', $node_types);
+
+  // Create template/wid get settings.
+  $mappings = array(
+    'ding_nodelist.ding_event.carousel' => 'carousel',
+    'ding_nodelist.ding_event.haccordeon' => 'horizontal_accordion',
+    'ding_nodelist.ding_event.single' => 'single',
+    'ding_nodelist.ding_event.slider' => 'slider',
+    'ding_nodelist.ding_event.taxonomy' => 'taxonomy',
+    'ding_nodelist.ding_event.vaccordion' => 'vertical_accordion',
+    'ding_nodelist.ding_news.carousel' => 'carousel',
+    'ding_nodelist.ding_news.haccordion' => 'horizontal_accordion',
+    'ding_nodelist.ding_news.single' => 'single',
+    'ding_nodelist.ding_news.taxonomy' => 'taxonomy',
+    'ding_nodelist.ding_news.text' => 'carousel',
+    'ding_nodelist.ding_news.vaccordion' => 'vertical_accordion',
+    'ding_nodelist.ding_news.slider' => 'slider',
+    'ding_nodelist.ding_page.taxonomy' => 'taxonomy',
+  );
+
+  foreach ($mappings as $filename => $widget) {
+    $fields = array(
+      'filename' => $filename,
+      'title' => $filename,
+      'widget' => $widget,
+      'status' => 0,
+    );
+    db_insert('ding_nodelist_templates')->fields($fields)->execute();
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_nodelist_uninstall() {
+  variable_del('ding_nodelist_node_types');
+  variable_del('ding_nodelist_cache_default_time');
+}
