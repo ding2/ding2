@@ -1,4 +1,6 @@
 (function ($) {
+  "use strict";
+
   $(document).ready(function () {
     $('.next-prev a').click(function (e) {
       e.preventDefault();

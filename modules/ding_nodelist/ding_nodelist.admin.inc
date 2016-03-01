@@ -22,8 +22,12 @@ function ding_nodelist_settings_form() {
     '#description' => t('Choose content types avaialable for display'),
   );
 
-  // Options as defiend by panels/plugins/cache/simple.inc
-  $options = drupal_map_assoc(array(15, 30, 60, 120, 180, 240, 300, 600, 900, 1200, 1800, 3600, 7200, 14400, 28800, 43200, 86400, 172800, 259200, 345600, 604800), 'format_interval');
+  // Options as defined by panels/plugins/cache/simple.inc
+  $options = drupal_map_assoc(
+    array(
+      15, 30, 60, 120, 180, 240, 300, 600, 900, 1200, 1800, 3600,
+      7200, 14400, 28800, 43200, 86400, 172800, 259200, 345600, 604800),
+    'format_interval');
   $form['ding_nodelist_cache_default_time'] = array(
     '#type' => 'select',
     '#options' => $options,

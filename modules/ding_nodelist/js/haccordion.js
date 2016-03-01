@@ -1,4 +1,6 @@
 (function ($) {
+  "use strict";
+
   $(document).ready(function() {
     function runAccordion (height) {
       $('.ding_nodelist-horizontal_accordion').each(function() {

@@ -9,7 +9,7 @@
  */
 $plugin = array(
   'title' => t('Nodelist'),
-  'category' => t('easyDDB'),
+  'category' => t('Ding!'),
   'description' => t('Allows to create highliy customizeable list of contents'),
   'single' => TRUE,
   'content_types' => 'ding_nodelist_content_type',

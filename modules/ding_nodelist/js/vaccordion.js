@@ -1,7 +1,8 @@
 (function ($) {
+  "use strict";
+
   $(document).ready(function(){
     $('.ding_nodelist-vertical_accordion .ding_nodelist-items').each(function(){
-      var c_width = $(this).width();
       var sum_height = 0;
       $(this).find('.va-slice').each(function(){
         sum_height += $(this).outerHeight(true)/1.8;
