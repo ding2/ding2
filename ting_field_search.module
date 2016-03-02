@@ -638,7 +638,10 @@ function ting_field_search_profile_save(array $profile) {
 
   try {
     // If facets is passed; handle them first.
-    if (isset($profile['facets'])) {
+    // NOTE: isset($profile['pid']) should by a solution that saves the profile
+    // first and loads the generated id. This prevents creation of facets when
+    // creating new profiles.
+    if (isset($profile['facets']) && isset($profile['pid'])) {
       // Ensure that only the facets passed with the profile remains.
       ting_field_search_facets_delete($profile['pid']);
 
