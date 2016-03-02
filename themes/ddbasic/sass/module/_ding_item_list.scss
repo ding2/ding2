@@ -1,9 +1,39 @@
+%button {
+  border-radius: 10px;
+
+  display: inline-block;
+  font-size: 100%;
+  padding: 10px;
+  position: relative;
+
+  box-shadow: $button-box-shadow;
+  cursor: pointer;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 100%;
+
+  &:focus,
+  &:hover,
+  &:active {
+    text-decoration: none;
+  }
+
+  // Disabled state
+  &.disabled,
+  &[disabled] {
+    opacity: 0.65;
+    box-shadow: none;
+
+    cursor: default;
+  }
+}
+
 .pane-ding-item-list-recommendations {
   margin: 10px 0;
 }
 
 .pane-ding-item-list {
-  background-color: $content-background-color;
+  background-color: $white;
   padding: 10px;
 
   .pane-title {
