@@ -241,7 +241,7 @@ function ding_item_list_search_ting($query = '', $page = 1, $records = 10, $sort
  * @return bool
  *   TRUE if item has a cover, FALSE otherwise.
  */
-function ding_item_list_check_cover(array $local_id, $style = 'ding_item_list') {
+function ding_item_list_check_cover($local_id, $style = 'ding_item_list') {
   module_load_include('pages.inc', 'ting_covers');
   $cover_settings = array(
     $local_id => array(
@@ -449,16 +449,16 @@ function ding_item_list_get_content($query, $count, $sort) {
   foreach ($objects as $object) {
     $loan_form = module_invoke_all('ding_entity_buttons', 'ding_entity', $object->primary_object, 'ajax');
     $markup .= theme('ding_item_list_item', array(
-      'faust' => $object->id,
-      'cover' => (!empty($object->image) && file_exists($object->image)) ? image_style_url('ding_item_list', $object->image) : '/' . drupal_get_path('module', 'ding_item_list') . '/images/no-image-mini.png',
-      'title' => $object->title,
-      'author' => $object->creator,
-      'year' => $object->year,
-      'has_rating' => $object->has_rating,
-      'rating' => $object->rating,
-      'rating_count' => $object->rating_count,
-      'review_count' => $object->comment_count,
-      'loan_form' => drupal_render($loan_form),
+        'faust' => $object->id,
+        'cover' => (!empty($object->image) && file_exists($object->image)) ? image_style_url('ding_item_list', $object->image) : '/' . drupal_get_path('module', 'ding_item_list') . '/images/no-image-mini.png',
+        'title' => $object->title,
+        'author' => $object->creator,
+        'year' => $object->year,
+        'has_rating' => $object->has_rating,
+        'rating' => $object->rating,
+        'rating_count' => $object->rating_count,
+        'review_count' => $object->comment_count,
+        'loan_form' => drupal_render($loan_form),
       )
     );
   }
@@ -492,7 +492,7 @@ function ding_item_list_cronapi($op, $function = NULL) {
     case 'list':
       return array('ding_item_list_warm_cache' => t('Cache warmer'));
 
-    break;
+      break;
 
     case 'rule':
       switch ($function) {
