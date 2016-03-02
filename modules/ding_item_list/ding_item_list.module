@@ -235,7 +235,7 @@ function ding_item_list_search_ting($query = '', $page = 1, $records = 10, $sort
 /**
  * Check for cover existence.
  *
- * @param array $local_id
+ * @param string $local_id
  *   Ting item local id.
  *
  * @return bool
@@ -491,8 +491,6 @@ function ding_item_list_cronapi($op, $function = NULL) {
   switch ($op) {
     case 'list':
       return array('ding_item_list_warm_cache' => t('Cache warmer'));
-
-      break;
 
     case 'rule':
       switch ($function) {
