@@ -1954,7 +1954,7 @@ function _ding_nodelist_get_dynamic_list_nodes($conf = array()) {
   // Filter by date field.
   // @todo: remove hardcode.
   $content_filter_date = variable_get('content_filter_date', 0);
-  if ($content_filter_date) {
+  if ($content_filter_date && $conf['content_type'] == 'ding_event') {
     $query->join('field_data_field_ding_event_date', 'fed', 'n.nid = fed.entity_id');
     // @todo: NOW() works for visitors from the same timezone.
     $query->where(
@@ -2378,22 +2378,19 @@ function _ding_nodelist_trim_body($nodes = array(), $conf = array()) {
  * Strips all HTML tags in body.
  */
 function _ding_nodelist_striptags($nodes) {
-  foreach ($nodes as $n => $obj) {
-    foreach ($obj as $date => $node) {
-      $body_field = 'field_' . $node->type . '_body';
-      if (!is_array($node)) {
-        foreach ($node->{$body_field} as $lng => $body) {
-          $nodes[$n][$date]->{$body_field}[$lng][0]['safe_value'] = preg_replace('/<[^>]+>/i', '', $body[0]['safe_value']);
+  foreach ($nodes as $n => $node) {
+    $body_field = 'field_' . $node->type . '_body';
+    if (!is_array($node)) {
+      foreach ($node->{$body_field} as $lng => $body) {
+        $nodes[$n]->{$body_field}[$lng][0]['safe_value'] = preg_replace('/<[^>]+>/i', '', $body[0]['safe_value']);
+      }
+    }
+    else {
+      foreach ($node as $event_date => $event_node) {
+        foreach ($event_node->{$body_field} as $lng => $body) {
+          $nodes[$n][$event_date]->{$body_field}[$lng][0]['safe_value'] = preg_replace('/<[^>]+>/i', '', $body[0]['safe_value']);
         }
       }
-      else {
-        foreach ($node as $event_date => $event_node) {
-          foreach ($event_node->{$body_field} as $lng => $body) {
-            $nodes[$n][$event_date]->{$body_field}[$lng][0]['safe_value'] = preg_replace('/<[^>]+>/i', '', $body[0]['safe_value']);
-          }
-        }
-      }
-
     }
   }
   return $nodes;
