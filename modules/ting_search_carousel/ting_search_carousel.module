@@ -398,10 +398,11 @@ function ting_search_carousel_settings_form($form, &$form_state) {
     '#type' => 'submit',
     '#value' => t('Add another entry'),
     '#submit' => array('_ting_search_carousel_add_entry_submit'),
+    '#name' => 'add_query',
     '#ajax' => array(
       'callback' => 'ting_search_carousel_form_ajaxify',
-      'wrapper' => 'ting-search-carousel-queries',
-      'method' => 'replace',
+      'wrapper' => 'edit-ting-search-carousel',
+      'method' => 'append',
       'effect' => 'fade'
     ),
   );
@@ -501,9 +502,14 @@ function ting_search_carousel_form_ajaxify($form, &$form_state) {
     $form_state['values']['num_searches'] -= 1;
     $parents = $form_state['clicked_button']['#array_parents'];
     unset($form['ting_search_carousel']['ting_searches'][$parents[2]]);
+    $form['ting_search_carousel']['ting_searches'];
   }
+  elseif ('ting_search_carousel_add' == $clicked_button) {
+    $form_state['values']['num_searches'] += 1;
+    $i = $form_state['clicked_button']['#name'];
 
-  return $form;
+    return $form['ting_search_carousel']['ting_searches']['search_' . $i];
+  }
 }
 
 /**
