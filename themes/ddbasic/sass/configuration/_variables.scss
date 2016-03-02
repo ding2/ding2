@@ -46,6 +46,8 @@ $gray-lighter:                   lighten($gray, 15%) !default;
 $gray-dark:                      darken($gray, 10%) !default;
 $gray-darker:                    darken($gray, 25%) !default;
 $gray-darkest:                   darken($gray, 35%) !default;
+$gray-transparent-bg:            rgba($gray, 0.7);
+$button-box-shadow:              0 0 1px lighten($black, 35%) inset;
 $red:                            #a32e10;
 $green:                          #528c10;
 $yellow:                         #f0cb28;
