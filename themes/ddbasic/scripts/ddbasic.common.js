@@ -4,6 +4,14 @@
    * Auto focus inputs.
    */
   function auto_focus_inputs() {
+    // Focus on search form field when entering search form.
+    $('.topbar-link-search').click(function() {
+      var input = $('input[name="search_block_form"]');
+      if ($(this).is('.active')) {
+        input.focus();
+      }
+    });
+
     // Focus on username form field when entering login form.
     $('#user-login-form #edit-name').focus();
 
