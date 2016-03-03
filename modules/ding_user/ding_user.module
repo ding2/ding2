@@ -45,7 +45,7 @@ function ding_user_preprocess_html(&$variables) {
 function ding_user_pathauto_alias_alter(&$alias, $context) {
   if ($context['module'] == 'user') {
     $user = reset($context['data']);
-    if (ding_user_is_provider_user($user)) {
+    if (ding_user_is_provider_user($user, TRUE)) {
       $alias = '';
     }
   }
