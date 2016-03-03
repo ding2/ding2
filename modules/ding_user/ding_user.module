@@ -32,8 +32,23 @@ function ding_user_preprocess_html(&$variables) {
   }
 }
 
+/**
+ * Implement hook_pathauto_alias_alter().
+ *
+ * Ensures that provider user don't have aliases create for their accounts.
+ *
+ * @Note: There is no update function for this as there are potential 100.000 +
+ *        provider users on an site and the update will take a long time to
+ *        preform. But if any one tries to access exiting provider users page
+ *        via an alias they will get a "page not found".
+ */
 function ding_user_pathauto_alias_alter(&$alias, $context) {
-  $t=1;
+  if ($context['module'] == 'user') {
+    $user = reset($context['data']);
+    if (ding_user_is_provider_user($user)) {
+      $alias = '';
+    }
+  }
 }
 
 /**
