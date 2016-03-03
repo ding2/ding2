@@ -20,7 +20,12 @@ function ding_ting_frontend_local_config_admin_settings($form_state) {
   $form['ting_object']['ding_ting_frontend_group_holdings_available'] = array(
     '#type' => 'select',
     '#title' => t('Group holdings available'),
-    '#options' => array('default' => t("Default (don't change)"), 'open' => t('Open'), 'collapsed' => t('Collapsed'), 'collapsible' => t('Collapsible')),
+    '#options' => array(
+      'default' => t("Default (don't change)"),
+      'open' => t('Open'),
+      'collapsed' => t('Collapsed'),
+      'collapsible' => t('Collapsible')
+    ),
     '#default_value' => variable_get('ding_ting_frontend_group_holdings_available', ''),
   );
 

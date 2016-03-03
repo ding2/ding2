@@ -100,7 +100,7 @@ function ting_menu() {
   $items['admin/config/ting/settings/general'] = array(
     'title' => t('General settings'),
     'type' => MENU_DEFAULT_LOCAL_TASK,
-    'weight' => -10
+    'weight' => -10,
   );
 
   $items['admin/config/ting/ranking'] = array(
