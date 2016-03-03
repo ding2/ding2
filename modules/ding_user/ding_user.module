@@ -94,6 +94,7 @@ function ding_user_menu_alter(&$items) {
 
   // Limit access to provider users page.
   $items['user/%user/view']['access callback'] = 'ding_user_provider_user_access';
+  $items['user/%user'] = 'ding_user_access';
 }
 
 
