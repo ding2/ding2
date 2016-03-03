@@ -339,8 +339,18 @@ function ding_user_frontend_build_menu($path = NULL) {
  * This function normalizes the user/* paths, by replacing the uid with "me".
  */
 function ding_user_frontend_url_outbound_alter(&$path, &$options, $original_path) {
-  if (preg_match('/^user\/(.\d+)\/(.*)$/', $path, $matches)) {
+  if (preg_match('/^user\/(.\d*)\/(.*)$/', $path, $matches)) {
+    // As default change the path to use "me".
     $path = 'user/me/' . $matches[2];
+
+    // To allow site administrators to edit other user they have to be filter
+    // out of this alter. When accessing another drupal user account.
+    global $user;
+    if ($user->uid != $matches[1] && (array_search("administrators", $user->roles) || array_search("local administrator", $user->roles))) {
+      // This is an "administrators" or "local administrator" trying to edit
+      // another user. To "allow" this we reset the path.
+      $path = $original_path;
+    }
   }
 }
 
