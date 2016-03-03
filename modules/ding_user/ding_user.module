@@ -93,7 +93,7 @@ function ding_user_menu_alter(&$items) {
   $items['user/%pm_arg/status']['title'] = t('User status');
 
   // Limit access to provider users page.
-  $items['user/%user']['access callback'] = 'ding_user_provider_user_access';
+  $items['user/%user/view']['access callback'] = 'ding_user_provider_user_access';
 }
 
 
