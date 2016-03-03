@@ -717,7 +717,7 @@ function ding_place2book_build_xml($node, $service_settings) {
   }
 
   // Set ticket type.
-  if (isset($node->ticket_type)) {
+  if (!empty($node->ticket_type)) {
     $xml->event->price->name = $node->ticket_type;
   }
 
