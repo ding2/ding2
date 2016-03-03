@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * @file
  * A panel pane for showing place2book tickets info.
  */
@@ -22,9 +22,7 @@ $plugin = array(
  */
 function ding_place2book_ticketsinfo_content_type_render($subtype, $conf, $panel_args, $context) {
   $block = new stdClass();
-  
-  //$context->data contains the node object
   $block->content = '<input type="hidden" class="place2book-ticketinfo" value="' . $context->data->nid . '"/>';
-  
+
   return $block;
-} 
+}
