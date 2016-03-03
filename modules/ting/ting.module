@@ -95,6 +95,12 @@ function ting_menu() {
     'page arguments' => array('ting_admin_ting_settings'),
     'access arguments' => array('administer ting settings'),
     'file' => 'ting.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+  $items['admin/config/ting/settings/general'] = array(
+    'title' => t('General settings'),
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
   );
 
   $items['admin/config/ting/ranking'] = array(
