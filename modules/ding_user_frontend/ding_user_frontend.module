@@ -354,6 +354,11 @@ function ding_user_frontend_url_inbound_alter(&$path, $original_path, $path_lang
   if (preg_match('/^user\/me\/(.*)$/', $path, $matches)) {
     global $user;
     $uid = user_is_logged_in() ? $user->uid : 0;
-    $path = "user/$uid/" . $matches[1];
+
+    // Only change the link if the user is logged in. This will show the url
+    // "/user/me/status" with page not found and not "/user/0/status".
+    if ($uid) {
+      $path = "user/$uid/" . $matches[1];
+    }
   }
 }
