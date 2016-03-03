@@ -32,6 +32,10 @@ function ding_user_preprocess_html(&$variables) {
   }
 }
 
+function ding_user_pathauto_alias_alter(&$alias, $context) {
+  $t=1;
+}
+
 /**
  * Implements hook_ctools_plugin_directory().
  *
@@ -94,7 +98,9 @@ function ding_user_menu_alter(&$items) {
 
   // Limit access to provider users page.
   $items['user/%user/view']['access callback'] = 'ding_user_provider_user_access';
-  $items['user/%user'] = 'ding_user_access';
+  $items['user/%user/view']['access arguments'] = array(1);
+  $items['user/%user']['access callback'] = 'ding_user_access';
+  $items['user/%user']['access arguments'] = array(1);
 }
 
 
