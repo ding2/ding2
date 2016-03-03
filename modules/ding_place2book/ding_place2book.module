@@ -388,12 +388,19 @@ function ding_place2book_form_ding_event_node_form_alter(&$form, &$form_state, $
     '#description' => t('Optional. Maximum capacity on this event. Set to 0 for unlimited capacity.'),
   );
 
+  $default_value = '';
+  if (isset($node_settings['ticket_type'])) {
+    $default_value = $node_settings['ticket_type'];
+  }
+  else if (isset($node_settings['defaults']['ticket_type'])) {
+    $default_value = $node_settings['defaults']['ticket_type'];
+  }
   $form['ticket_type'] = array(
     '#type' => 'textfield',
     '#title' => t('Ticket type'),
     '#size' => 30,
     '#maxlength' => 255,
-    '#default_value' => isset($node_settings['ticket_type']) ? $node_settings['ticket_type'] : $node_settings['defaults']['ticket_type'],
+    '#default_value' => $default_value,
     '#description' => t('E. g. Adult, Child or Standard. Adgang is the default ticket type.') . " " . $p2b_info,
   );
 
