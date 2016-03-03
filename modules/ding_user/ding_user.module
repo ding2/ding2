@@ -171,9 +171,14 @@ function ding_user_entity_info_alter(&$entity_info) {
  */
 function ding_user_page_delivery_callback_alter(&$callback, $set = FALSE) {
   if ($callback == 'drupal_deliver_html_page') {
-    $callback = 'ding_user_deliver_html_page';
+    // This path check is done in this function an not the the deliver html
+    // callback as it for some reason breaks search.
+    if (preg_match('/^user(s)?/', current_path())) {
+      $callback = 'ding_user_deliver_html_page';
+    }
   }
 }
+
 
 /**
  * Page deliver callback.
@@ -184,9 +189,7 @@ function ding_user_page_delivery_callback_alter(&$callback, $set = FALSE) {
  */
 function ding_user_deliver_html_page($page_callback_result) {
   if ($page_callback_result == MENU_ACCESS_DENIED) {
-    if (preg_match('/^user(s)?/', current_path())) {
       drupal_deliver_page(MENU_NOT_FOUND);
-    }
   }
   else {
     drupal_deliver_html_page($page_callback_result);
