@@ -67,7 +67,7 @@ function ting_relation_inline() {
       'dbcaddi:hasSubjectDescription' => t('Subject description'),
       'dbcaddi:hasDescriptionFromPublisher' => t('Description from publisher'),
       'dbcaddi:hasCreatorHomePage' => t('Creator homepage'),
-      'isPartOfManifestation' => t('Is part of manifestation'),
+      'dbcbib:isPartOfManifestation' => t('Is part of manifestation'),
     );
   }
   return $types;
