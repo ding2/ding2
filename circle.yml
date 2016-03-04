@@ -2,6 +2,9 @@ machine:
   php:
     # We support PHP 5.4 so choose the latest version supported by Circle.
     version: 5.4.37
+  node:
+    # Our frontend asset pipeline requires 0.12.0 or greater.
+    version: 0.12.0
   environment:
     # This is where we build our complete Drupal site
     DRUPAL_SITE_PATH: /tmp/drupal
@@ -45,5 +48,7 @@ test:
     # Clean up after site install.
     # sudo is required here. The files are not writeable.
     - sudo rm -rf $DRUPAL_SITE_PATH/sites/default/settings.php $DRUPAL_SITE_PATH/sites/default/files
+    # Remove node_modules folder. This is not needed in the final artifact.
+    - rm -rf $DRUPAL_SITE_PATH/profiles/ding2/themes/ddbasic/node_modules
     # Wrap the site into an archieve and expose it as an artifact.
     - tar -zcvf $CIRCLE_ARTIFACTS/ding2-$CIRCLE_SHA1.tar.gz -C $DRUPAL_SITE_PATH .

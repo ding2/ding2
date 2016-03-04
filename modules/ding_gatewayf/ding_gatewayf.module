@@ -193,6 +193,12 @@ function ding_gatewayf_callback() {
     watchdog('ding_gatewayf', 'The gateway returned an error: %error', array('%error' => $error), WATCHDOG_ERROR);
   }
 
+  // Gatewayf does some url encoding of the destination parameter in the
+  // request, so we need to clean it up.
+  if (!empty($_REQUEST['destination'])) {
+    $_REQUEST['destination'] = substr($_REQUEST['destination'], 0, strpos($_REQUEST['destination'], '?'));
+  }
+
   // Check if the is an login or logout request.
   if (!_ding_gatewayf_is_logged_in_with_gatewayf()) {
     $attributes = $_POST;
@@ -211,12 +217,6 @@ function ding_gatewayf_callback() {
       // then be used to change behaviour in forgotten pin-code in the user
       // profile (not requiring old password when logged in with wayf).
       $_SESSION[DING_GATEWAYF_IS_LOGGED_IN] = TRUE;
-
-      // Gatewayf does some url encoding of the destination parameter in the
-      // request, so we need to clean it up.
-      if (!empty($_REQUEST['destination'])) {
-        $_REQUEST['destination'] = substr($_REQUEST['destination'], 0, strpos($_REQUEST['destination'], '?'));
-      }
 
       // Log into the library system and Drupal.
       _ding_gatewayf_provider_login($attributes);
@@ -418,7 +418,7 @@ function _ding_gatewayf_get_required_attributes(array $attributes, array $requir
 
   // Check that required attributes where found. If not reset the array to be
   // empty as some attributes may have been found.
-  if (count($required_attributes) == count($attribute_list)) {
+  if (count($required_attributes) != count($attribute_list)) {
     watchdog('ding_gatewayf', t('Not all required attributes was returned from gatewayf'), array(), WATCHDOG_ERROR);
     $attribute_list = array();
   }
