@@ -193,11 +193,34 @@ function ting_field_search_ting_pre_execute($request) {
     // Ensure that we only inject CQL into searches against the datawell.
     if (get_class($request) == 'TingClientSearchRequest') {
       if (!empty($profile->query)) {
-        $query = '(' . $request->getQuery() . ') and (' . $profile->query . ')';
-        $request->setQuery($query);
+        _ting_field_search_append_cql($request, $profile->query);
       }
 
-      // Ensure configured facets is added to the request.
+      // New materials.
+      if ($profile->config['new_materials']) {
+        // Get the current date and year.
+        $current_date = new DateTime();
+        $current_year = $current_date->format('Y');
+
+        $days = $profile->config['new_materials'];
+        $target_date = $current_date->sub(new DateInterval('P' . $days . 'D'));
+        $target_year = $target_date->format('Y');
+        $expression = 'term.acquisitionDate>=' . $target_date->format('Ymd');
+
+        // Add a 'år=YYYY' condition for every year between target and current
+        // to filter out newly acquired, but older published materials.
+        $year_conditions = ' and (år=' . $target_year++;
+        for (;$target_year <= $current_year; $target_year++) {
+          $year_conditions .= ' or år=' . $target_year;
+        }
+        $year_conditions .= ')';
+        $expression .= $year_conditions;
+
+        _ting_field_search_append_cql($request, $expression);
+      }
+
+      // If the profile is using facets, ensure that every configured facet is
+      // sent with the request to the well.
       if ($profile->config['use_facets']) {
         $profile_facets = ting_field_search_facets_load($profile->pid);
         $request_facets = array_flip($request->getFacets()) + $profile_facets;
@@ -207,6 +230,14 @@ function ting_field_search_ting_pre_execute($request) {
       }
     }
   }
+}
+
+/**
+ * Helper function to append cql to a request.
+ */
+function _ting_field_search_append_cql($request, $cql) {
+  $query = '(' . $request->getQuery() . ') and (' . $cql . ')';
+  $request->setQuery($query);
 }
 
 /**
@@ -616,6 +647,16 @@ function ting_field_search_profiles_load($name = NULL) {
   foreach ($results as $profile) {
     // Prepare the config data.
     $profile->config = unserialize($profile->config);
+    $profile->config += array(
+      'active' => 1,
+      'exposed' => 0,
+      'alter_links' => 1,
+      'weight' => 0,
+      'new_materials' => '',
+      'use_facets' => 0,
+      'facet_count' => 5,
+      'term_count' => 5,
+    );
     $profiles[$profile->name] = $profile;
   }
 
@@ -638,9 +679,10 @@ function ting_field_search_profile_save(array $profile) {
 
   try {
     // If facets is passed; handle them first.
-    // NOTE: isset($profile['pid']) should by a solution that saves the profile
-    // first and loads the generated id. This prevents creation of facets when
-    // creating new profiles.
+    // NOTE: isset($profile['pid']) should be replaces by a solution that saves
+    // the profile first and loads the newly generated id afterwards. The
+    // current solution prevents the creation of facets when creating a new
+    // profile.
     if (isset($profile['facets']) && isset($profile['pid'])) {
       // Ensure that only the facets passed with the profile remains.
       ting_field_search_facets_delete($profile['pid']);

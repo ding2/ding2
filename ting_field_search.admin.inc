@@ -71,8 +71,6 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
     '#maxlength' => 256,
     '#default_value' => $profile ? $profile->query : '',
   );
-  $form['profile']['new_materials'] = array(
-  );
   $form['profile']['active'] = array(
     '#type' => 'checkbox',
     '#title' => t('Active'),
@@ -108,6 +106,13 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
       ),
     ),
   );
+  $form['profile']['new_materials'] = array(
+    '#type' => 'textfield',
+    '#title' => t('New materials'),
+    '#description' => t('Restrict the search result to only contain new materials acquired whitin the specified number of days.'),
+    '#default_value' => $profile ? $profile->config['new_materials'] : '',
+    '#element_validate' => arraY('element_validate_number'),
+  );
   $form['profile']['use_facets'] = array(
     '#type' => 'checkbox',
     '#title' => t('Use specialized facets'),
@@ -119,6 +124,15 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
       ),
     ),
   );
+
+  $form['webtrends'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Webtrends'),
+    '#tree' => TRUE,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+//  $form['webtrends']['']
 
   // Favet settings.
   $form['facets'] = array(
@@ -231,6 +245,7 @@ function ting_field_search_profile_form_submit($form, &$form_state) {
     'active',
     'exposed',
     'alter_links',
+    'new_materials',
     'use_facets',
   );
   // Isolate the 'pure' profile values.
