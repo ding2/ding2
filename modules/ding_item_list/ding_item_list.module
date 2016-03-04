@@ -448,9 +448,13 @@ function ding_item_list_get_content($query, $count, $sort) {
   $markup = '';
   foreach ($objects as $object) {
     $loan_form = module_invoke_all('ding_entity_buttons', 'ding_entity', $object->primary_object, 'ajax');
+    $cover = '/' . drupal_get_path('module', 'ding_item_list') . '/images/no-image-mini.png';
+    if (!empty($object->image) && file_exists($object->image)) {
+      $cover = image_style_url('ding_item_list', $object->image);
+    }
     $markup .= theme('ding_item_list_item', array(
         'faust' => $object->id,
-        'cover' => (!empty($object->image) && file_exists($object->image)) ? image_style_url('ding_item_list', $object->image) : '/' . drupal_get_path('module', 'ding_item_list') . '/images/no-image-mini.png',
+        'cover' => $cover,
         'title' => $object->title,
         'author' => $object->creator,
         'year' => $object->year,
