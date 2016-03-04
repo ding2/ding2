@@ -339,7 +339,7 @@ function ding_user_frontend_build_menu($path = NULL) {
  * This function normalizes the user/* paths, by replacing the uid with "me".
  */
 function ding_user_frontend_url_outbound_alter(&$path, &$options, $original_path) {
-  if (preg_match('/^user\/(.\d*)\/(.*)$/', $path, $matches)) {
+  if (preg_match('/^user\/(\d+)\/(.*)$/', $path, $matches)) {
     // As default change the path to use "me".
     $path = 'user/me/' . $matches[2];
 
@@ -352,6 +352,11 @@ function ding_user_frontend_url_outbound_alter(&$path, &$options, $original_path
       $path = $original_path;
     }
   }
+
+  // Fix user path (only for better paths to the user) for provider users.
+  if (preg_match('/^user\/(\d+)$/', $path, $matches)) {
+    $path = 'user/me/';
+  }
 }
 
 /**
@@ -361,14 +366,17 @@ function ding_user_frontend_url_outbound_alter(&$path, &$options, $original_path
  * ding_user_frontend_build_uniform_menu_link().
  */
 function ding_user_frontend_url_inbound_alter(&$path, $original_path, $path_language) {
-  if (preg_match('/^user\/me\/(.*)$/', $path, $matches)) {
+  if (preg_match('/^user\/me\/{0,1}(.*)$/', $path, $matches)) {
     global $user;
     $uid = user_is_logged_in() ? $user->uid : 0;
 
     // Only change the link if the user is logged in. This will show the url
     // "/user/me/status" with page not found and not "/user/0/status".
     if ($uid) {
-      $path = "user/$uid/" . $matches[1];
+      $path = "user/" . $uid;
+      if (isset($matches[1])) {
+        $path .= '/' . $matches[1];
+      }
     }
   }
 }
