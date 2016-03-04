@@ -394,29 +394,30 @@ function ding_dibs_menu() {
  */
 function ding_dibs_cards() {
   $cards = array();
-  $cards['Dankort'] = 'dan53-35_01.gif';
-  $cards['eDankort'] = 'edk_large.gif';
-  $cards['VISA'] = 'visa_stor.gif';
-  $cards['VISA Electron'] = 'elec_stor.gif';
-  $cards['Mastercard'] = 'card6_l_03.gif';
-  $cards['JCB'] = 'jcb-large_01.gif';
-  $cards['Diners Club'] = 'card8_l_03.gif';
-  $cards['American Express'] = 'amex_large.gif';
-  $cards['Maestro'] = 'mstro_01.gif';
-  $cards['Forbrugforeningen'] = 'ffk_large.gif';
-  $cards['Danske Netbetaling'] = 'ddb.gif';
-  $cards['Nordea Sol-E'] = 'nordea_large.gif';
-  $cards['SEB'] = 'seb_02.gif';
-  $cards['SHB direktbetaling'] = 'handelsbanken_01.gif';
-  $cards['Swedbank direktbetaling'] = 'swedbank.gif';
-  $cards['PayPal'] = 'PayPal_large.gif';
-  $cards['Bank Einzug'] = 'eolv.gif';
-  $cards['iDEAL'] = 'ideal_large.jpg';
-  $cards['Aktia'] = 'aktia_large.gif';
-  $cards['OKO'] = 'oko_large.gif';
-  $cards['Sampo'] = 'sampo_large.gif';
-  $cards['BankAxess'] = 'BankAxess_03.gif';
-  $cards['Getitcard'] = 'getitcard2_53x33.gif';
+  $cards['Dankort'] = 'card_Dankort_53x33.png';
+  $cards['eDankort'] = 'card_E_Dankort_53x33.png';
+  $cards['VISA'] = 'card_Visa_53x33.png';
+  $cards['VISA Electron'] = 'card_Visa_Electron_53x33.png';
+  $cards['Mastercard'] = 'card_Mastercard_53x33.png';
+  $cards['JCB'] = 'card_JCB_53x33.png';
+  $cards['Diners Club'] = 'card_Diners_Club_53x33.png';
+  $cards['American Express'] = 'card_AMEX_53x33.png';
+  $cards['Maestro'] = 'card_Maestro_53x33.png';
+  $cards['Forbrugforeningen'] = 'card_Forbrugerforening_53x33.png';
+  $cards['Danske Netbetaling'] = 'card_Danske_53x33.png';
+  $cards['Nordea Sol-E'] = 'card_Nordea_53x33.png';
+  $cards['SEB'] = 'card_SEB_53x33.png';
+  $cards['SHB direktbetaling'] = 'card_Handelsbanken_53x33.png';
+  $cards['Swedbank direktbetaling'] = 'card_Swedbank_53x33.png';
+  $cards['PayPal'] = 'card_Paypal_53x33.png';
+  $cards['Bank Einzug'] = 'card_eOLV_53x33.png';
+  $cards['iDEAL'] = 'card_iDEAL_53x33.png';
+  $cards['Aktia'] = 'card_Aktia_53x33.png';
+  $cards['OKO'] = 'card_OKO_53x33.png';
+  $cards['Sampo'] = 'card_Sampo_53x33.png';
+  $cards['BankAxess'] = 'card_Bank_axess_53x33.png';
+  $cards['Getitcard'] = 'card_Getitcard_53x33.png';
+  $cards['MobilePay'] = 'MobilePay_55x33.jpg';
 
   return $cards;
 }
