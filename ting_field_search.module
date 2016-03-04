@@ -420,14 +420,14 @@ function ting_field_search_preprocess_ding_availability_types(&$variables) {
     $links = &$types['online']['#links'];
 
     foreach ($links as $key => $link) {
-      $link = &$links[$key]['link']['#markup'];
+      $link = $link['link']['#markup'];
 
       // If we can extract the path from the hardcoded link, go ahead and
       // replace that path with one with our profile parameter.
       $pattern = '/href="(\/ting\/object\/.+)"/';
       if (preg_match('/href="(\/ting\/object\/.+)"/', $link)) {
         $replace = 'href="$1?profile=' . $profile->name . '"';
-        $link = preg_replace($pattern, $replace, $link);
+        $links[$key]['link']['#markup'] = preg_replace($pattern, $replace, $link);
       }
     }
 
