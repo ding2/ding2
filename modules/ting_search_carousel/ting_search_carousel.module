@@ -323,7 +323,7 @@ function ting_search_carousel_content_type_render($subtype, $conf, $panel_args, 
   cache_set($cache_id, $ting_searches_carousel_conf, 'cache');
 
   $block = new stdClass();
-  $tab_position = $conf['ting_search_carousel_tabs_position'];
+  $tab_position = $conf['ting_search_carousel_settings']['ting_search_carousel_tabs_position'];
   $block->content = theme('ting_search_carousel',
                           array(
                             'searches' => $searches,
@@ -332,7 +332,9 @@ function ting_search_carousel_content_type_render($subtype, $conf, $panel_args, 
                           )
   );
 
-  $delay = (!empty($conf['ting_search_carousel_animate']) ? $conf['ting_search_carousel_animate'] : TING_SEARCH_CAROUSEL_ANIMATE_DELAY);
+  $delay = (!empty($conf['ting_search_carousel_settings']['ting_search_carousel_animate'])
+    ? $conf['ting_search_carousel_settings']['ting_search_carousel_animate']
+    : TING_SEARCH_CAROUSEL_ANIMATE_DELAY);
   drupal_add_js(array('ting_search_carousel' => array('animate_delay' => $delay)), 'setting');
 
   return $block;
@@ -574,13 +576,14 @@ function ting_search_carousel_search_submit($form, &$form_state) {
   $values = $form_state['values'];
 
   // Set ting carousel delay.
+  $settings_values = $values['ting_search_carousel_settings'];
   $form_state['conf'] = array(
     'ting_search_carousel_settings' => array(
-      'ting_search_carousel_tabs_position' => $values['ting_search_carousel_tabs_position'],
-      'ting_search_carousel_item_limit' => $values['ting_search_carousel_item_limit'],
-      'ting_search_carousel_description_toggle' => $values['ting_search_carousel_description_toggle'],
-      'ting_search_carousel_item_sorting' => $values['ting_search_carousel_item_sorting'],
-      'ting_search_carousel_animate' => $values['ting_search_carousel_animate'],
+      'ting_search_carousel_tabs_position' => $settings_values['ting_search_carousel_tabs_position'],
+      'ting_search_carousel_item_limit' => $settings_values['ting_search_carousel_item_limit'],
+      'ting_search_carousel_description_toggle' => $settings_values['ting_search_carousel_description_toggle'],
+      'ting_search_carousel_item_sorting' => $settings_values['ting_search_carousel_item_sorting'],
+      'ting_search_carousel_animate' => $settings_values['ting_search_carousel_animate'],
     ),
   );
 
