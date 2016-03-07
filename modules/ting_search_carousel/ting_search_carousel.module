@@ -332,7 +332,9 @@ function ting_search_carousel_content_type_render($subtype, $conf, $panel_args, 
                           )
   );
 
-  $delay = (!empty($conf['ting_search_carousel_settings']['ting_search_carousel_animate']) ? $conf['ting_search_carousel_settings']['ting_search_carousel_animate'] : TING_SEARCH_CAROUSEL_ANIMATE_DELAY);
+  $delay = (!empty($conf['ting_search_carousel_settings']['ting_search_carousel_animate'])
+    ? $conf['ting_search_carousel_settings']['ting_search_carousel_animate']
+    : TING_SEARCH_CAROUSEL_ANIMATE_DELAY);
   drupal_add_js(array('ting_search_carousel' => array('animate_delay' => $delay)), 'setting');
 
   return $block;
@@ -573,9 +575,8 @@ function _ting_search_carousel_element_validate_delay($element, &$form_state) {
 function ting_search_carousel_search_submit($form, &$form_state) {
   $values = $form_state['values'];
 
-  $settings_values = $values['ting_search_carousel_settings'];
-
   // Set ting carousel delay.
+  $settings_values = $values['ting_search_carousel_settings'];
   $form_state['conf'] = array(
     'ting_search_carousel_settings' => array(
       'ting_search_carousel_tabs_position' => $settings_values['ting_search_carousel_tabs_position'],
