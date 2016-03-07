@@ -6,6 +6,8 @@
 
 define('TING_SEARCH_CAROUSEL_ANIMATE_DELAY', 5);
 
+define('TING_SEARCH_CAROUSEL_MODULE_PATH', drupal_get_path('module', 'ting_search_carousel'));
+
 /**
  * Implements hook_menu().
  */
@@ -280,13 +282,11 @@ function ting_search_carousel_image_default_styles() {
  * Wrapper function that adds the modules JavaScript.
  */
 function _ting_search_carousel_add_javascript() {
-  $path = drupal_get_path('module', 'ting_search_carousel');
-
   drupal_add_library('system', 'ui.widget');
   drupal_add_library('system', 'ui.draggable');
-  drupal_add_js($path . '/js/jquery.ui.touch-punch.min.js');
-  drupal_add_js($path . '/js/jquery.rs.carousel.js');
-  drupal_add_js($path . '/js/ting_search_carousel.js');
+  drupal_add_js(TING_SEARCH_CAROUSEL_MODULE_PATH . '/js/jquery.ui.touch-punch.min.js');
+  drupal_add_js(TING_SEARCH_CAROUSEL_MODULE_PATH . '/js/jquery.rs.carousel.js');
+  drupal_add_js(TING_SEARCH_CAROUSEL_MODULE_PATH . '/js/ting_search_carousel.js');
   drupal_add_js(drupal_get_path('module', 'ting_search') . '/js/ting_search_overlay.js');
 }
 
@@ -294,8 +294,7 @@ function _ting_search_carousel_add_javascript() {
  * Wrapper function that adds the modules css.
  */
 function _ting_search_carousel_add_css() {
-  $path = drupal_get_path('module', 'ting_search_carousel');
-  drupal_add_css($path . '/css/ting_search_carousel.css');
+  drupal_add_css(TING_SEARCH_CAROUSEL_MODULE_PATH . '/css/ting_search_carousel.css');
 }
 
 /**
@@ -350,66 +349,52 @@ function ting_search_carousel_content_type_render($subtype, $conf, $panel_args, 
  *   Form structure.
  */
 function ting_search_carousel_settings_form($form, &$form_state) {
-  if (!isset($form_state['restore'])) {
-    $form_state['original_form'] = $form;
+  $form['#tree'] = TRUE;
+  if (empty($form_state['num_searches'])) {
+    $form_state['num_searches'] = 0;
   }
 
-  $searches_num = !empty($form_state['values']['num_searches']) ? $form_state['values']['num_searches'] : 0;
+  if ($form_state['conf']['searches']) {
+    $existing_searches = $form_state['conf']['searches'];
+    $form_state['num_searches'] = count($existing_searches) - 1;
+  }
 
   $form['ting_search_carousel'] = array(
     '#type' => 'fieldset',
-    '#title' => 'Searches',
+    '#title' => t('Searches'),
+    '#prefix' => '<div id="ting-search-carousel">',
+    '#suffix' => '</div>',
   );
 
-  // Get current saved queries.
-  $searches = $form_state['conf']['searches'];
-  $i = 0;
-  $c = 1;
-
-  // Display saved queries.
-  if (isset($searches[0]['title'])) {
-    $c = count($searches);
-    for (; $i < $c; $i++) {
-      $form['ting_search_carousel']['ting_searches']['search_' . $i] = ting_search_carousel_query_form($searches[$i], $i);
-    }
+  for ($i = 0; $i <= $form_state['num_searches']; $i++) {
+    $search = ($existing_searches[$i]) ? $existing_searches[$i] : array();
+    $form['ting_search_carousel']['ting_searches'][$i] = _ting_search_carousel_queries($i, $search);
   }
 
-  for (; $i < $searches_num + $c; $i++) {
-    $unsubmitted = array();
-    // Maybe prev field had some data in it...
-    if (isset($form_state['input']['title'][$i])) {
-      $unsubmitted = array(
-        'title' => $form_state['input']['title'][$i],
-        'subtitle' => $form_state['input']['subtitle'][$i],
-        'query' => $form_state['input']['query'][$i],
-      );
-    }
-    $form['ting_search_carousel']['ting_searches']['search_' . $i] = ting_search_carousel_query_form($unsubmitted, $i);
-  }
-
-  // Keep track of query fields count.
-  $form['ting_search_carousel']['num_searches'] = array(
-    '#type' => 'hidden',
-    '#value' => $searches_num,
-  );
-
-  // Ajaxified button for new fields.
-  $form['ting_search_carousel_add'] = array(
+  $form['add_ting_search'] = array(
     '#type' => 'submit',
-    '#value' => t('Add another entry'),
-    '#submit' => array('_ting_search_carousel_add_entry_submit'),
-    '#name' => 'add_query',
+    '#value' => t('Add new query'),
+    '#submit' => array('_ting_search_carousel_add_query_submit'),
     '#ajax' => array(
-      'callback' => 'ting_search_carousel_form_ajaxify',
-      'wrapper' => 'edit-ting-search-carousel',
-      'method' => 'append',
-      'effect' => 'fade'
+      'callback' => '_ting_search_carousel_add_query_ajax',
+      'wrapper' => 'ting-search-carousel',
     ),
   );
 
-  // Wrap the form, due to draggable items renewal.
-  $form['#prefix'] = '<div id="ting-search-carousel-queries">';
-  $form['#suffix'] = '</div>';
+  // Prepare settings form data.
+  $settings = array(
+    'ting_search_carousel_settings' => array(
+      'ting_search_carousel_tabs_position' => 'bottom',
+      'ting_search_carousel_item_limit' => 12,
+      'ting_search_carousel_description_toggle' => 0,
+      'ting_search_carousel_item_sorting' => '',
+      'ting_search_carousel_animate' => TING_SEARCH_CAROUSEL_ANIMATE_DELAY,
+    ),
+  );
+
+  foreach ($settings['ting_search_carousel_settings'] as $key => $val) {
+    $settings[$key] = isset($form_state['conf'][$key]) ? $form_state['conf'][$key] : $val;
+  }
 
   // Ting search carousel settings.
   $form['ting_search_carousel_settings'] = array(
@@ -423,7 +408,7 @@ function ting_search_carousel_settings_form($form, &$form_state) {
     '#options' => array(
       'bottom' => t("Bottom"),
     ),
-    '#default_value' => variable_get('ting_search_carousel_tabs_position', 'bottom'),
+    '#default_value' => $settings['ting_search_carousel_tabs_position'],
     '#required' => TRUE,
     '#description' => t('Select where you want the tabs for displaying the various searches to be placed in frontend.'),
   );
@@ -433,13 +418,13 @@ function ting_search_carousel_settings_form($form, &$form_state) {
     '#title' => t('Item limit'),
     '#options' => array_combine(range(6, 24, 6), range(6, 24, 6)),
     '#description' => t('The number of items to be returned in search result.'),
-    '#default_value' => variable_get('ting_search_carousel_item_limit', 12),
+    '#default_value' => $settings['ting_search_carousel_item_limit'],
   );
 
   $form['ting_search_carousel_settings']['ting_search_carousel_description_toggle'] = array(
     '#title' => t('Show descriptions for navigational tabs'),
     '#type' => 'checkbox',
-    '#default_value' => variable_get('ting_search_carousel_description_toggle', 0),
+    '#default_value' => $settings['ting_search_carousel_description_toggle'],
     '#required' => FALSE,
     '#description' => t('Toggle whether descriptions of the various searches are displayed or not.'),
   );
@@ -458,14 +443,14 @@ function ting_search_carousel_settings_form($form, &$form_state) {
       'acquisitionDate_ascending' => t('Acquisition date (Ascending)'),
       'acquisitionDate_descending' => t('Acquisition date (Descending)'),
     ),
-    '#default_value' => variable_get('ting_search_carousel_item_sorting', ''),
+    '#default_value' => $settings['ting_search_carousel_item_sorting'],
     '#description' => t('If not set, defaults to Ranking'),
   );
 
   $form['ting_search_carousel_settings']['ting_search_carousel_animate'] = array(
     '#type' => 'textfield',
     '#title' => t('Auto-animate delay (seconds)'),
-    '#default_value' => variable_get('ting_search_carousel_animate', TING_SEARCH_CAROUSEL_ANIMATE_DELAY),
+    '#default_value' => $settings['ting_search_carousel_animate'],
     '#description' => t('Enter "0"  to not animate.'),
     '#element_validate' => array('_ting_search_carousel_element_validate_delay'),
     '#size' => 4,
@@ -479,98 +464,83 @@ function ting_search_carousel_settings_form($form, &$form_state) {
 }
 
 /**
- * Custom submit handler for ajax insert new query.
+ * @param int $i number of query in form.
+ *
+ * @param array $query if was submitted earlier.
+ *
+ * @return array renderable array.
  */
-function _ting_search_carousel_add_entry_submit($form, &$form_state) {
-  $form_state['rebuild'] = TRUE;
-  $form_state['values']['num_searches'] += 1;
+function _ting_search_carousel_queries($i, $query = array()) {
+  $q = array(
+    'sort' => array(
+      '#type' => 'weight',
+      '#delta' => 5,
+      '#default_value' => isset($query['sort']) ? $query['sort'] : '',
+      '#value' => 0,
+    ),
+    'title' => array(
+      '#type' => 'textfield',
+      '#title' => t('Title'),
+      '#description' => t('The title of the search is used for the tab in the carousel. Keep it short.'),
+      '#default_value' => isset($query['title']) ? $query['title'] : '',
+    ),
+    'subtitle' => array(
+      '#type' => 'textfield',
+      '#title' => t('Description'),
+      '#description' => t('The subtitle displayed next to the search results.'),
+      '#default_value' => isset($query['subtitle']) ? $query['subtitle'] : '',
+    ),
+    'query' => array(
+      '#type' => 'textfield',
+      '#title' => t('Query'),
+      '#maxlength' => 2048,
+      '#description' => t('The query to display search results for.'),
+      '#default_value' => isset($query['query']) ? $query['query'] : '',
+    ),
+    'remove' => array(
+      '#type' => 'submit',
+      '#value' => t('Remove'),
+      '#name' => $i,
+      '#submit' => array('_ting_search_carousel_remove_query_submit'),
+      '#ajax' => array(
+        'callback' => '_ting_search_carousel_remove_query_ajax',
+        'wrapper' => 'ting-search-carousel',
+      ),
+    ),
+  );
+
+  return $q;
 }
 
 /**
- * AJAX responder for field addition/removal fields.
- *
- * @param $form
- *   Form.
- *
- * @return
- *   Changed field to be updated.
+ * Submit function for adding query in form.
  */
-function ting_search_carousel_form_ajaxify($form, &$form_state) {
+function _ting_search_carousel_add_query_submit($form, &$form_state) {
+  $form_state['num_searches']++;
   $form_state['rebuild'] = TRUE;
-  $clicked_button = reset($form_state['clicked_button']['#parents']);
-  if ('remove[]' == $clicked_button) {
-    $form_state['values']['num_searches'] -= 1;
-    $parents = $form_state['clicked_button']['#array_parents'];
-    unset($form['ting_search_carousel']['ting_searches'][$parents[2]]);
-    $form['ting_search_carousel']['ting_searches'];
-  }
-  elseif ('ting_search_carousel_add' == $clicked_button) {
-    $form_state['values']['num_searches'] += 1;
-    $i = $form_state['clicked_button']['#name'];
-
-    return $form['ting_search_carousel']['ting_searches']['search_' . $i];
-  }
 }
 
 /**
- * Form part, describing query fields.
- *
- * @param $item
- *   Values for existing query.
- *
- * @return
- *   Fields structure.
+ * Ajax callback for adding query in form.
  */
-function ting_search_carousel_query_form($item = array(), $index = 0) {
-  $form = array();
-  $form['sort[]'] = array(
-    '#type' => 'weight',
-    '#delta' => 5,
-    '#default_value' => 0,
-    '#value' => 0,
-    '#attributes' => array(
-      'class' => array(
-        'sort-hidden'
-      )
-    ),
-  );
-  $form['title[]'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Title'),
-    '#description' => t('The title of the search is used for the tab in the carousel. Keep it short.'),
-    '#default_value' => isset($item['title']) ? $item['title'] : '',
-    '#prefix' => '<div class="search-carousel-query">',
-  );
-  $form['subtitle[]'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Description'),
-    '#description' => t('The subtitle displayed next to the search results.'),
-    '#default_value' => isset($item['subtitle']) ? $item['subtitle'] : '',
-  );
-  $form['query[]'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Query'),
-    '#maxlength' => 2048,
-    '#description' => t('The query to display search results for.'),
-    '#default_value' => isset($item['query']) ? $item['query'] : '',
-  );
-  $form['remove[]'] = array(
-    '#type' => 'button',
-    '#value' => t('Remove'),
-    '#name' => 'remove_' . $index,
-    '#attributes' => array(
-      'class' => array(
-        'remove'
-      )
-    ),
-    '#ajax' => array(
-      'callback' => 'ting_search_carousel_form_ajaxify',
-      'wrapper' => 'ting-search-carousel-queries',
-      'method' => 'replace',
-      'effect' => 'fade'
-    ),
-  );
-  return $form;
+function _ting_search_carousel_add_query_ajax($form, $form_state) {
+  return $form['ting_search_carousel'];
+}
+
+/**
+ * Submit function for removing query from form.
+ */
+function _ting_search_carousel_remove_query_submit($form, &$form_state) {
+  $form_state['num_searches']--;
+  $form_state['rebuild'] = TRUE;
+}
+
+/**
+ * Ajax callback for removing query from form.
+ */
+function _ting_search_carousel_remove_query_ajax($form, &$form_state) {
+  unset($form['ting_search_carousel']['ting_searches'][$form_state['clicked_button'][2]]);
+  return $form['ting_search_carousel'];
 }
 
 /**
@@ -582,7 +552,7 @@ function ting_search_carousel_query_form($item = array(), $index = 0) {
  * @see ting_search_carousel_settings_form().
  */
 function _ting_search_carousel_element_validate_delay($element, &$form_state) {
-  $delay = $form_state['values']['ting_search_carousel_animate'];
+  $delay = $form_state['values']['ting_search_carousel_settings']['ting_search_carousel_animate'];
 
   if (!is_numeric($delay) && $delay !== 0) {
     form_set_error('ting_search_carousel_animate', t('Animate delay value must be a number.'));
@@ -605,27 +575,16 @@ function ting_search_carousel_search_submit($form, &$form_state) {
 
   // Set ting carousel delay.
   $form_state['conf'] = array(
-    'ting_search_carousel_tabs_position' => $values['ting_search_carousel_tabs_position'],
-    'ting_search_carousel_item_limit' => $values['ting_search_carousel_item_limit'],
-    'ting_search_carousel_description_toggle' => $values['ting_search_carousel_description_toggle'],
-    'ting_search_carousel_item_sorting' => $values['ting_search_carousel_item_sorting'],
-    'ting_search_carousel_animate' => $values['ting_search_carousel_animate'],
+    'ting_search_carousel_settings' => array(
+      'ting_search_carousel_tabs_position' => $values['ting_search_carousel_tabs_position'],
+      'ting_search_carousel_item_limit' => $values['ting_search_carousel_item_limit'],
+      'ting_search_carousel_description_toggle' => $values['ting_search_carousel_description_toggle'],
+      'ting_search_carousel_item_sorting' => $values['ting_search_carousel_item_sorting'],
+      'ting_search_carousel_animate' => $values['ting_search_carousel_animate'],
+    ),
   );
 
-  // Set ting carousel searches.
-  $count = count($form_state['input']['title']);
-  $searches = array();
-  for ($i = 0; $i < $count; $i++) {
-    // Make an array for saving, ignoring queries w/o title.
-    if (!empty($form_state['input']['title'][$i])) {
-      $searches[] = array(
-        'title' => $form_state['input']['title'][$i],
-        'subtitle' => $form_state['input']['subtitle'][$i],
-        'query' => $form_state['input']['query'][$i]
-      );
-    }
-  }
-  $form_state['conf']['searches'] = $searches;
+  $form_state['conf']['searches'] = $values['ting_search_carousel']['ting_searches'];
 
   // Clear carousel search cache
   cache_clear_all('ting_search_carousel_result', 'cache');
