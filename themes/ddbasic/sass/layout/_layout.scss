@@ -436,7 +436,7 @@ body {
 
   /* Left sidebar only */
   &.left-sidebar {
-    @include large() {
+    @include from-medium() {
       .primary-content {
         @include zen-grid-item(9, 4);
       }
@@ -448,13 +448,14 @@ body {
 
   /* Right sidebar only */
   &.right-sidebar {
-    @include medium-large() {
+    @include from-medium() {
       .primary-content {
         @include zen-grid-item(8, 1);
+        clear: none;
       }
-
       .tertiary-content {
         @include zen-grid-item(4, 1, right);
+        clear: none;
       }
     }
   }
