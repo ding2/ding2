@@ -372,7 +372,7 @@ function ting_field_search_ting_collection_uri($collection) {
  */
 function _ting_field_search_alter_entity_uri($path) {
   if ($profile = ting_field_search_profile_is_active()) {
-    $path['options']['query']['profile'] = $profile->name;
+    _ting_field_search_append_query($path['options']['query'], $profile);
   }
   return $path;
 }
@@ -381,8 +381,12 @@ function _ting_field_search_alter_entity_uri($path) {
  * Implements hook_drupal_goto_alter().
  */
 function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_code) {
+  // The search form redirects on submit and here we ensure that the search is
+  // performed with the user selected profile.
   if ($profile = ting_field_search_get_selected_profile()) {
     if (preg_match('/^search\/ting/', $path)) {
+      // It is unclear at this point whether webtrends parametets should be
+      // added here, so just add the profile directly for now.
       $options['query']['profile'] = $profile;
     }
   }
@@ -393,7 +397,7 @@ function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_
   // See: ting_collection_page_view()
   if ($profile = ting_field_search_profile_is_active()) {
     if (drupal_match_path(current_path(), 'ting/collection/*') && preg_match('/^ting\/object/', $path)) {
-      $options['query']['profile'] = $profile->name;
+      _ting_field_search_append_query($options['query'], $profile);
     }
   }
 }
@@ -401,15 +405,14 @@ function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_
 /**
  * Implements hook_url_outbund_alter().
  *
- * Add a profile parameter to outbund search links ist's a supported page. This
- * is called often, so the function returns early if there's any indication
- * that the link shouldn't be altered.
+ * Alter outbound links based on active profile settings.
  */
 function ting_field_search_url_outbound_alter(&$path, &$options, $original_path) {
   if ($profile = ting_field_search_profile_is_active()) {
-    // Make sure only to alter ting search links.
+    // Alter search links.
     if ($profile->config['alter_links'] && preg_match('/^search\/ting/', $path)) {
-      $options['query']['profile'] = $profile->name;
+      // Possibly add the Webtrends parameter here too, so use the helper.
+      _ting_field_search_append_query($options['query'], $profile);
     }
   }
 }
@@ -440,7 +443,7 @@ function ting_field_search_preprocess_ding_availability_types(&$variables) {
 
       // Ensure that we only modify internal links.
       if (!url_is_external($link['link']['#path'])) {
-        $options['query']['profile'] = $profile->name;
+        _ting_field_search_append_query($options['query'], $profile);
       }
     }
 
@@ -457,11 +460,56 @@ function ting_field_search_preprocess_ding_availability_types(&$variables) {
       // replace that path with one with our profile parameter.
       $pattern = '/href="(\/ting\/object\/.+)"/';
       if (preg_match('/href="(\/ting\/object\/.+)"/', $link)) {
-        $replace = 'href="$1?profile=' . $profile->name . '"';
+        // We'll cheat a bit here and pass an empty array through the helper.
+        $query = array();
+        _ting_field_search_append_query($query, $profile);
+        $replace = 'href="$1?profile=' . $profile->name;
+        if (isset($query['WT.ac'])) {
+          $replace .= '&WT.ac=' . $query['WT.ac'] . '"';
+        }
+        $replace .= '"';
         $links[$key]['link']['#markup'] = preg_replace($pattern, $replace, $link);
       }
     }
 
+  }
+}
+
+/**
+ * Helper function to add query parameters for a profile that also takes care
+ * of adding Webtrends parameters if set.
+ */
+function _ting_field_search_append_query(&$query, $profile) {
+  $query['profile'] = $profile->name;
+
+  $webtrends = $profile->config['webtrends'];
+  // Onsite adds tracking.
+  if ($webtrends['onsite_ad']) {
+    // Default to profile title.
+    $ad_id = empty($webtrends['onsite_ad_id']) ? $profile->title : $webtrends['onsite_ad_id'];
+    $query['WT.ac'] = $ad_id;
+  }
+}
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function ting_field_search_preprocess_html(&$variables) {
+  if ($profile = ting_field_search_profile_is_active()) {
+    // Add the Webtrends WT.ad meta tag. This is the onsite ad view query
+    // paranmeter and it works together with the WT.ac click parameter which
+    // we add to some of the links.
+    if ($profile->config['webtrends']['onsite_ad']) {
+      $ad_id = $profile->config['webtrends']['onsite_ad_id'];
+      drupal_add_html_head(array(
+        '#type' => 'html_tag',
+        '#tag' => 'meta',
+        '#attributes' => array(
+          'name' => 'WT.ad',
+          'content' => empty($ad_id) ? check_plain($profile->title) : $ad_id,
+        ),
+      ), 'ting_field_search_onsite_ad');
+    }
   }
 }
 
@@ -656,6 +704,10 @@ function ting_field_search_profiles_load($name = NULL) {
       'use_facets' => 0,
       'facet_count' => 5,
       'term_count' => 5,
+      'webtrends' => array(
+        'onsite_ad' => 0,
+        'onsite_ad_id' => '',
+      ),
     );
     $profiles[$profile->name] = $profile;
   }

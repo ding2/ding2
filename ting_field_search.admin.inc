@@ -24,7 +24,6 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
   if ($profile) {
     $profile = array_shift($profile);
     $profile->facets = ting_field_search_facets_load($profile->pid);
-    //$profile->config = unserialize($profile->config);
 
     // Save the original profile object in form_state for later use.
     $form_state['original_profile'] = $profile;
@@ -127,25 +126,38 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
 
   $form['webtrends'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Webtrends'),
+    '#title' => t('Webtrends Analytics'),
     '#tree' => TRUE,
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
-//  $form['webtrends']['']
+  $form['webtrends']['onsite_ad'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Onsite ads reports'),
+    '#description' => t('Track the use of this profile as an onsite ad in Webtrends.'),
+    '#default_value' => $profile ? $profile->config['webtrends']['onsite_ad'] : 0,
+  );
+  $form['webtrends']['onsite_ad_id'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Onsite ad identificator'),
+    '#description' => t('Enter an identificator for the ad which will be shown in the Webtrends UI. Capital letters and spaces are allowed. If left empty the profile title will be used.'),
+    '#default_value' => $profile ? $profile->config['webtrends']['onsite_ad_id'] : '',
+    '#states' => array(
+      'disabled' => array(
+        ':input[name="webtrends[onsite_ad]"]' => array('checked' => FALSE),
+      ),
+    ),
+  );
 
-  // Favet settings.
+  // Facet settings.
   $form['facets'] = array(
     '#type' => 'fieldset',
     '#title' => t('Facets'),
     '#tree' => TRUE,
     '#collapsible' => TRUE,
-    '#collapsed' => $profile ? !$profile->config['use_facets'] : TRUE,
+    '#collapsed' => TRUE,
     '#states' => array(
       'disabled' => array(
-        ':input[name="profile[use_facets]"]' => array('checked' => FALSE),
-      ),
-      'collapsed' => array(
         ':input[name="profile[use_facets]"]' => array('checked' => FALSE),
       ),
     ),
@@ -265,6 +277,9 @@ function ting_field_search_profile_form_submit($form, &$form_state) {
       unset($profile['facets'][$key]);
     }
   }
+
+  // Transfer Webtrends settings to config array.
+  $profile['config']['webtrends'] = $form_state['values']['webtrends'];
 
   // If updating an existing profile transfer the profile ID.
   if (isset($form_state['original_profile'])) {
