@@ -37,7 +37,7 @@ function ding_user_profile2_type_render($subtype, $conf, $panel_args, $context) 
 
     global $user;
     if ($user->data['blocked']) {
-      $link = variable_get('ding_user_blocked_user_node', 'node/1');
+      $link = variable_get('ding_user_blocked_user_node', variable_get('site_404', 'customerror/404'));
       drupal_set_message(t('Your user account is blocked in the library system. See <a href="@link">this</a> page for more information.', array('@link' => $link)), 'error');
     }
   }
