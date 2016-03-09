@@ -10,7 +10,6 @@ dependencies[] = contextual
 dependencies[] = menu
 dependencies[] = dblog
 dependencies[] = shortcut
-dependencies[] = toolbar
 dependencies[] = overlay
 dependencies[] = color
 dependencies[] = translation
@@ -25,6 +24,7 @@ dependencies[] = eu_cookie_compliance
 dependencies[] = view_unpublished
 dependencies[] = redirect
 dependencies[] = pagepreview
+dependencies[] = admin_menu
 
 ; Ding modules.
 dependencies[] = ding_base

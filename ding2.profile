@@ -829,3 +829,17 @@ function ding2_set_cookie_page() {
   // display EU Cookie Compliance popup: anonymous user, authenticated user
   // administer EU Cookie Compliance popup: administrators, local administrator
 }
+
+function ding2_admin_menu_shortcuts() {
+  if (module_exists('admin_menu')) {
+    $content = variable_get('admin_menu_components', array());
+
+    if (empty($content)) {
+      admin_menu_theme_settings();
+    }
+
+    $content['shortcut.links'] = '1';
+
+    variable_set('admin_menu_components', $content);
+  }
+}
