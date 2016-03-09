@@ -40,7 +40,7 @@ function ting_search_carousel_theme($existing, $type, $theme, $path) {
       'variables' => array('collection' => NULL),
       'template' => 'templates/ting_search_carousel_collection',
     ),
-    'ting_search_carousel_admin_form' => array(
+    'ting_search_carousel_queries' => array(
       'render element' => 'form',
     ),
   );
@@ -354,13 +354,9 @@ function ting_search_carousel_content_type_render($subtype, $conf, $panel_args, 
  */
 function ting_search_carousel_settings_form($form, &$form_state) {
   $form['#tree'] = TRUE;
-  if (empty($form_state['num_searches'])) {
-    $form_state['num_searches'] = 0;
-  }
 
-  if ($form_state['conf']['searches']) {
-    $existing_searches = $form_state['conf']['searches'];
-    $form_state['num_searches'] = count($existing_searches) - 1;
+  if (!isset($form_state['num_searches'])) {
+    $form_state['num_searches'] =  $form_state['conf']['searches'] ?  count($form_state['conf']['searches']) - 1 : 0;
   }
 
   $form['ting_search_carousel'] = array(
@@ -368,10 +364,11 @@ function ting_search_carousel_settings_form($form, &$form_state) {
     '#title' => t('Searches'),
     '#prefix' => '<div id="ting-search-carousel">',
     '#suffix' => '</div>',
+    '#theme' => 'ting_search_carousel_queries',
   );
 
   for ($i = 0; $i <= $form_state['num_searches']; $i++) {
-    $search = ($existing_searches[$i]) ? $existing_searches[$i] : array();
+    $search = ($form_state['conf']['searches'][$i]) ? $form_state['conf']['searches'][$i] : array();
     $form['ting_search_carousel']['ting_searches'][$i] = _ting_search_carousel_queries($i, $search);
   }
 
@@ -397,7 +394,10 @@ function ting_search_carousel_settings_form($form, &$form_state) {
   );
 
   foreach ($settings['ting_search_carousel_settings'] as $key => $val) {
-    $settings[$key] = isset($form_state['conf'][$key]) ? $form_state['conf'][$key] : $val;
+    $settings['ting_search_carousel_settings'][$key] =
+      isset($form_state['conf']['ting_search_carousel_settings'][$key])
+        ? $form_state['conf']['ting_search_carousel_settings'][$key]
+        : $val;
   }
 
   // Ting search carousel settings.
@@ -412,7 +412,7 @@ function ting_search_carousel_settings_form($form, &$form_state) {
     '#options' => array(
       'bottom' => t("Bottom"),
     ),
-    '#default_value' => $settings['ting_search_carousel_tabs_position'],
+    '#default_value' => $settings['ting_search_carousel_settings']['ting_search_carousel_tabs_position'],
     '#required' => TRUE,
     '#description' => t('Select where you want the tabs for displaying the various searches to be placed in frontend.'),
   );
@@ -422,13 +422,13 @@ function ting_search_carousel_settings_form($form, &$form_state) {
     '#title' => t('Item limit'),
     '#options' => array_combine(range(6, 24, 6), range(6, 24, 6)),
     '#description' => t('The number of items to be returned in search result.'),
-    '#default_value' => $settings['ting_search_carousel_item_limit'],
+    '#default_value' => $settings['ting_search_carousel_settings']['ting_search_carousel_item_limit'],
   );
 
   $form['ting_search_carousel_settings']['ting_search_carousel_description_toggle'] = array(
     '#title' => t('Show descriptions for navigational tabs'),
     '#type' => 'checkbox',
-    '#default_value' => $settings['ting_search_carousel_description_toggle'],
+    '#default_value' => $settings['ting_search_carousel_settings']['ting_search_carousel_description_toggle'],
     '#required' => FALSE,
     '#description' => t('Toggle whether descriptions of the various searches are displayed or not.'),
   );
@@ -447,14 +447,14 @@ function ting_search_carousel_settings_form($form, &$form_state) {
       'acquisitionDate_ascending' => t('Acquisition date (Ascending)'),
       'acquisitionDate_descending' => t('Acquisition date (Descending)'),
     ),
-    '#default_value' => $settings['ting_search_carousel_item_sorting'],
+    '#default_value' => $settings['ting_search_carousel_settings']['ting_search_carousel_item_sorting'],
     '#description' => t('If not set, defaults to Ranking'),
   );
 
   $form['ting_search_carousel_settings']['ting_search_carousel_animate'] = array(
     '#type' => 'textfield',
     '#title' => t('Auto-animate delay (seconds)'),
-    '#default_value' => $settings['ting_search_carousel_animate'],
+    '#default_value' => $settings['ting_search_carousel_settings']['ting_search_carousel_animate'],
     '#description' => t('Enter "0"  to not animate.'),
     '#element_validate' => array('_ting_search_carousel_element_validate_delay'),
     '#size' => 4,
@@ -481,6 +481,7 @@ function _ting_search_carousel_queries($i, $query = array()) {
       '#delta' => 5,
       '#default_value' => isset($query['sort']) ? $query['sort'] : '',
       '#value' => 0,
+      '#attributes' => array('class' => array('sort')),
     ),
     'title' => array(
       '#type' => 'textfield',
@@ -514,6 +515,43 @@ function _ting_search_carousel_queries($i, $query = array()) {
   );
 
   return $q;
+}
+
+/**
+ * Custom form theme function.
+ */
+function theme_ting_search_carousel_queries($variables) {
+  $form = $variables['form'];
+  drupal_add_tabledrag('ting-search-carousel-queries', 'order', 'sibling', 'sort');
+
+  $header = array('Searches', '');
+  $rows = array();
+
+  foreach (element_children($form['ting_searches']) as $id) {
+    $form['ting_searches'][$id]['sort']['#attributes']['class'][] = 'sort';
+
+    $sort = $form['ting_searches'][$id]['sort'];
+    unset($form['ting_searches'][$id]['sort']);
+
+
+    $rows[] = array(
+      'data' => array(
+        drupal_render($form['ting_searches'][$id]),
+        drupal_render($sort),
+      ),
+      'class' => array('draggable'),
+    );
+  }
+
+  $output = theme_table(array(
+    'header' => $header,
+    'rows' => $rows,
+    'attributes' => array('id' => 'ting-search-carousel-queries'),
+  ));
+
+  $output .= drupal_render_children($form);
+
+  return $output;
 }
 
 /**
@@ -588,6 +626,14 @@ function ting_search_carousel_search_submit($form, &$form_state) {
       'ting_search_carousel_animate' => $settings_values['ting_search_carousel_animate'],
     ),
   );
+
+  function cmp_sort($a, $b)  {
+    if ($a['sort'] == $b['sort']) {
+      return 0;
+    }
+    return ($a['sort'] < $b['sort']) ? -1 : 1;
+  }
+  usort($values['ting_search_carousel']['ting_searches'], "cmp_sort");
 
   $form_state['conf']['searches'] = $values['ting_search_carousel']['ting_searches'];
 
