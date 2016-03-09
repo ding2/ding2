@@ -830,6 +830,9 @@ function ding2_set_cookie_page() {
   // administer EU Cookie Compliance popup: administrators, local administrator
 }
 
+/**
+ * Enabling Shortcuts plugin for Administration Menu module.
+ */
 function ding2_admin_menu_shortcuts() {
   if (module_exists('admin_menu')) {
     $content = variable_get('admin_menu_components', array());
