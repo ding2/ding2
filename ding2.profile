@@ -749,19 +749,6 @@ function ding2_set_page_not_found() {
   );
 
   node_save($node);
-
-  // Set the 404 page.
-  variable_set('site_403', 'customerror/403');
-
-  // Set the 404 page.
-  $content_404 = '<div class="field-teaser">UPS! Vi kan ikke finde den side du søger.</div><p><strong>Hvad gik galt?</strong><br />Der kan være flere årsager til, at vi ikke kan finde det du leder efter:</p><p>- Stavefejl: Måske har du stavet forkert, da du skrev søgeordet. Eller der er en stavefejl i det link, du har fulgt.</p><p>- Siden er flyttet/slettet: Måske findes siden ikke længere eller den er blevet flyttet.</p><p><br /><strong>Bibliotek.dk</strong><br />Prøv den landsdækkende base <a href="http://bibliotek.dk/" target="_blank" title="Bibliotek.dk">bibliotek.dk</a>. Bibliotek.dk er en gratis service, hvor du kan se, hvad der er blevet udgivet i Danmark, og hvad der findes på danske biblioteker. Databasen opdateres dagligt.<br />Du kan bestille materialer til afhentning på dit lokale bibliotek. Du skal være registreret bruger på Odense Centralbibliotek.</p><p><br /><strong>Kom videre - kontakt dit bibliotek</strong><br />Vælg <a href="http://oc.fynbib.dk/biblioteker">\'Biblioteker\'</a> i menuen ovenfor og find kontakt oplysninger på den ønskede afdeling.</p>';
-  variable_set('customerror_404_title', 'Siden blev ikke fundet');
-  variable_set('customerror_404', $content_404);
-  variable_set('site_404', 'customerror/404');
-}
-
-function ding2_set_error_pages() {
-
 }
 
 /**
