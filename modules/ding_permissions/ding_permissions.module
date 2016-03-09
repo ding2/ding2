@@ -497,7 +497,6 @@ function ding_permissions_secure_permissions($role) {
     ),
     'editor' => array(
       'access administration menu',
-      'flush caches',
       'access all webform results',
       'access campaign rules',
       'access content overview',
@@ -841,7 +840,6 @@ function ding_permissions_secure_permissions($role) {
     ),
     'local editor' => array(
       'access administration menu',
-      'flush caches',
       'access campaign rules',
       'access content overview',
       'access contextual links',
