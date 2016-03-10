@@ -330,17 +330,6 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
     elseif ($syndicated_images === NULL) {
       // Signal that we're syndicating images.
       bpi_set_syndicated_images(FALSE);
-    }
-
-    if (variable_get('bpi_syndicate_tags')) {
-      $bpi_tags = $bpi_node->getTags();
-      $tags_field = variable_get('bpi_field_tags', '');
-      if (!empty($bpi_tags) && !empty($tags_field) && isset($form[$tags_field][$current_language])) {
-        $form[$tags_field][$current_language]['#default_value'] = implode(', ', $bpi_tags);
-      }
-    }
-
-    if ($bpi_id) {
       drupal_add_library('system', 'drupal.ajax');
       drupal_add_library('system', 'jquery.form');
       drupal_add_library('system', 'ui.dialog');
@@ -352,6 +341,14 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
     elseif ($syndicated_images === FALSE) {
       // No images syndicated from popup.
       bpi_clear_syndicated_images();
+    }
+
+    if (variable_get('bpi_syndicate_tags')) {
+      $bpi_tags = $bpi_node->getTags();
+      $tags_field = variable_get('bpi_field_tags', '');
+      if (!empty($bpi_tags) && !empty($tags_field) && isset($form[$tags_field][$current_language])) {
+        $form[$tags_field][$current_language]['#default_value'] = implode(', ', $bpi_tags);
+      }
     }
 
     if (isset($form[$body][$current_language][0]['value'])) {
