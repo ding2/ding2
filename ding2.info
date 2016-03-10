@@ -28,6 +28,7 @@ dependencies[] = admin_menu
 dependencies[] = admin_menu_toolbar
 dependencies[] = toolbar
 dependencies[] = customerror
+dependencies[] = customerroralt
 
 ; Ding modules.
 dependencies[] = ding_base
