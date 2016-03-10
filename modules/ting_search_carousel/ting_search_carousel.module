@@ -533,7 +533,6 @@ function theme_ting_search_carousel_queries($variables) {
     $sort = $form['ting_searches'][$id]['sort'];
     unset($form['ting_searches'][$id]['sort']);
 
-
     $rows[] = array(
       'data' => array(
         drupal_render($form['ting_searches'][$id]),
