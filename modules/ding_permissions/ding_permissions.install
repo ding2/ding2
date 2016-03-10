@@ -49,8 +49,8 @@ function ding_permissions_update_7004() {
 }
 
 /**
-* Enable override_node_options module.
-*/
+ * Enable override_node_options module.
+ */
 function ding_permissions_update_7005() {
   module_enable(array('override_node_options'));
 }
