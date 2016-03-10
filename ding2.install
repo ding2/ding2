@@ -5,27 +5,6 @@
  */
 
 /**
- * Implements hook_requirements().
- *
- * Display build version on the status report page.
- */
-function ding2_requirements($phase) {
-  $t = get_t();
-
-  // Get version form the profiles info file.
-  $info = install_profile_info('ding2');
-  if ($phase == 'runtime') {
-    return array(
-      'ddb_version' => array(
-        'title' => $t('DDB Version'),
-        'value' => !empty($info['version']) ? $info['version'] : 'development',
-        'severity' => REQUIREMENT_INFO,
-      ),
-    );
-  }
-}
-
-/**
  * Implements hook_install().
  *
  * Perform actions to set up the site for this profile.
@@ -382,4 +361,11 @@ function ding2_update_7021() {
  */
 function ding2_update_7022() {
   module_enable(array('ding_p2_installer'));
+}
+
+/**
+ * Enable search_api modules.
+ */
+function ding2_update_7023() {
+  module_enable(array('ddb_cp', 'environment_indicator'));
 }
