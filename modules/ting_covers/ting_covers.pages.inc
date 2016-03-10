@@ -10,21 +10,8 @@
  * Return the URL and style for the cover of an object.
  */
 function ting_covers_objects() {
-  $ids = array();
-  $styles = array();
-  foreach ($_POST['coverData'] as $cover_info) {
-    $ids[] = $cover_info['id'];
-    $styles[$cover_info['id']] = $cover_info['image_style'];
-  }
-  $covers = ting_covers_get($ids);
-  $return = array();
-  foreach ($covers as $id => $path) {
-    $return[] = array(
-      'id' => $id,
-      'image_style' => $styles[$id],
-      'url' => image_style_url($styles[$id], $path),
-    );
-  }
+  $cover_data = $_POST['coverData'];
+  $covers = ting_covers_prepare_covers($cover_data);
 
   // Return all image information.
   drupal_json_output($return);
