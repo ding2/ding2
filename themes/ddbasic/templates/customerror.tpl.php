@@ -13,7 +13,7 @@
       <article class="page">
         <header class="page-header"></header>
         <section class="page-content">
-          <?php print render($content); ?>
+          <?php print render($content['value']); ?>
         </section>
         <footer class="page-footer"></footer>
       </article>
