@@ -486,12 +486,12 @@
   display: inline-block;
 
   .ding-gatewayf--login-block {
-    background-color: #fff;
+    background-color: $white;
 
     @include border-radius($button-border-radius);
 
     a {
-      color: $topbar-background-color;
+      color: $font-color-primary;
     }
 
     padding: 4px 15px;
@@ -509,12 +509,12 @@
   display: inline-block;
 
   .ding-gatewayf--registration {
-    background-color: #FFF;
+    background-color: $white;
 
     @include border-radius($button-border-radius);
 
-    .ding-gatewayf-link {
-      color: $topbar-background-color;
+    .ding-gatewayf-registration-link {
+      color: $font-color-primary;
     }
 
     padding: 4px 15px;
