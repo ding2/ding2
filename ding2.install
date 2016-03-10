@@ -401,7 +401,7 @@ function ding2_update_7026() {
 }
 
 /**
- * Enable customerrors module.
+ * Enable CustomError modules.
  */
 function ding2_update_7021() {
   module_enable(array('customerror', 'customerroralt'));
