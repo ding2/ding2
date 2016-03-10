@@ -352,6 +352,18 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           $title = check_plain($title);
         }
 
+        $is_fiction = '';
+        $_string = $entity->reply->record['dc:subject']['dkdcplus:DK5-Text'][0];
+        if (!empty($_string) && strpos(strtolower($_string), 'skønlitteratur') != FALSE) {
+          $is_fiction = TRUE;
+        }
+
+        $lang = $entity->getLanguage();
+
+        if ($is_fiction == TRUE && $lang != 'Dansk') {
+          $title = $title . ' (' . $lang . ')';
+        }
+
         $element[$delta] = array(
           '#prefix' => $prefix . '<h2>',
           '#suffix' => '</h2>',
