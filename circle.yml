@@ -18,7 +18,7 @@ dependencies:
     # Clean up existing global composer installation. It contains dependencies
     # which do not match the PHP version we use. This prevents installation of
     # other packages.
-    - rm -rf ~/.composer
+    - rm -rf ~/.composer/vendor
     # Install drush globally using composer.
     # Use prefer-source to get around GitHub API rate limits.
     - composer global require drush/drush:6.* --prefer-source --no-interaction
