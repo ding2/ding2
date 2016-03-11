@@ -381,9 +381,9 @@ function _ting_field_search_alter_entity_uri($path) {
  * Implements hook_drupal_goto_alter().
  */
 function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_code) {
-  // The search form redirects on submit and here we ensure that the search is
-  // performed with the user selected profile.
   if ($profile = ting_field_search_get_selected_profile()) {
+    // The search form is submitted and the user has selected a profile; Add
+    // the profile parameter when the submit callback redirects.
     if (preg_match('/^search\/ting/', $path)) {
       // It is unclear at this point whether webtrends parametets should be
       // added here, so just add the profile directly for now.
@@ -651,10 +651,21 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
   // a submit handler. This makes us independent of a specific module weight.
   $form['#validate'][] = 'ting_field_search_search_block_validate';
 
+  // Note: We don't use the info-file for the following CSS and JS, because it
+  // shouldn't be added if there's no exposed profiles. Still using every_page
+  // flag though, since when it is added on every page when enabled.
+
   // Add our base styling of the profile input select.
   $path = drupal_get_path('module', 'ting_field_search');
   $form['#attached']['css'][] = array(
     'data' => $path . '/css/ting_field_search.base.css',
+    'every_page' => TRUE,
+  );
+
+  // This is a convenient place to add the Webtrends Javascript tracking for
+  // now. May have to be moved to a more general place.
+  $form['#attached']['js'][] = array(
+    'data' => $path . '/js/ting_field_search.webtrends.js',
     'every_page' => TRUE,
   );
 }
