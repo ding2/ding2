@@ -123,6 +123,7 @@ function ding_permissions_secure_permissions_roles() {
     'provider',
     'staff',
     'administrators',
+    'user administrator',
   );
 }
 
@@ -512,11 +513,6 @@ function ding_permissions_secure_permissions($role) {
       'administer place2book settings',
       'administer shortcuts',
       'administer url aliases',
-      'administer users',
-      'administer user role 4',
-      'administer user role 5',
-      'administer user role 7',
-      'administer user role 9',
       'assign editor role',
       'assign guest blogger role',
       'assign local editor role',
@@ -592,7 +588,6 @@ function ding_permissions_secure_permissions($role) {
       'edit any ding_news content',
       'edit any ding_page content',
       'edit any ding_rolltab content',
-      'edit any ding_staff_profile profile',
       'edit any document files',
       'edit any image files',
       'edit any new_materials content',
@@ -919,6 +914,14 @@ function ding_permissions_secure_permissions($role) {
     ),
     'staff' => array(
       'edit own ding_staff_profile profile',
+    ),
+    'user administrator' => array(
+      'administer users',
+      'administer user role 4',
+      'administer user role 5',
+      'administer user role 7',
+      'administer user role 9',
+      'edit any ding_staff_profile profile',
     ),
   );
 
