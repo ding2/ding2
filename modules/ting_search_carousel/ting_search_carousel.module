@@ -362,6 +362,7 @@ function ting_search_carousel_settings_form($form, &$form_state) {
   $form['ting_search_carousel'] = array(
     '#type' => 'fieldset',
     '#title' => t('Searches'),
+    '#description' => t('Leave fields blank if you want to remove query'),
     '#prefix' => '<div id="ting-search-carousel">',
     '#suffix' => '</div>',
     '#theme' => 'ting_search_carousel_queries',
@@ -502,16 +503,6 @@ function _ting_search_carousel_queries($i, $query = array()) {
       '#description' => t('The query to display search results for.'),
       '#default_value' => isset($query['query']) ? $query['query'] : '',
     ),
-    'remove' => array(
-      '#type' => 'submit',
-      '#value' => t('Remove'),
-      '#name' => $i,
-      '#submit' => array('_ting_search_carousel_remove_query_submit'),
-      '#ajax' => array(
-        'callback' => '_ting_search_carousel_remove_query_ajax',
-        'wrapper' => 'ting-search-carousel',
-      ),
-    ),
   );
 
   return $q;
@@ -569,22 +560,6 @@ function _ting_search_carousel_add_query_ajax($form, $form_state) {
 }
 
 /**
- * Submit function for removing query from form.
- */
-function _ting_search_carousel_remove_query_submit($form, &$form_state) {
-  $form_state['num_searches']--;
-  $form_state['rebuild'] = TRUE;
-}
-
-/**
- * Ajax callback for removing query from form.
- */
-function _ting_search_carousel_remove_query_ajax($form, &$form_state) {
-  unset($form['ting_search_carousel']['ting_searches'][$form_state['clicked_button'][2]]);
-  return $form['ting_search_carousel'];
-}
-
-/**
  * Validate animation delay value.
  *
  * @param $element
@@ -626,15 +601,26 @@ function ting_search_carousel_search_submit($form, &$form_state) {
     ),
   );
 
+  // Check if some queries was removed.
+  $searches = array();
+  foreach ($values['ting_search_carousel']['ting_searches'] as $key => $ting_search) {
+    if (!empty($ting_search['query']) && !empty($ting_search['title']) && !empty($ting_search['subtitle'])) {
+      $searches[$key] = $values['ting_search_carousel']['ting_searches'][$key];
+    }
+  }
+
+  // Reset array index.
+  $searches = array_values($searches);
+
   function cmp_sort($a, $b)  {
     if ($a['sort'] == $b['sort']) {
       return 0;
     }
     return ($a['sort'] < $b['sort']) ? -1 : 1;
   }
-  usort($values['ting_search_carousel']['ting_searches'], "cmp_sort");
+  usort($searches, "cmp_sort");
 
-  $form_state['conf']['searches'] = $values['ting_search_carousel']['ting_searches'];
+  $form_state['conf']['searches'] = $searches;
 
   // Clear carousel search cache
   cache_clear_all('ting_search_carousel_result', 'cache');
