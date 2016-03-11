@@ -369,3 +369,12 @@ function ding2_update_7022() {
 function ding2_update_7023() {
   module_enable(array('ddb_cp', 'environment_indicator'));
 }
+
+/**
+ * Enable environment indicator panel modules.
+ */
+function ding2_update_7021() {
+  if (module_exists('ddb_cp')) {
+    module_enable(array('environment_indicator'));
+  }
+}
