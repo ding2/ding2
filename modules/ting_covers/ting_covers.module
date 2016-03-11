@@ -291,9 +291,11 @@ function ting_covers_fetch_image($filename, $image_url) {
 /**
  * Return cover information relatively information given in parameter.
  *
- * @param array $cover_data info about cover.
+ * @param array $cover_data
+ *  Info about cover.
  *
- * @return array with covers local id, url and style.
+ * @return array
+ *  With covers local id, url and style.
  */
 function ting_covers_prepare_covers($cover_data) {
   $covers = array();
