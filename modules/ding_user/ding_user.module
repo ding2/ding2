@@ -293,8 +293,8 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
     '#weight' => 0,
   );
 
-  // Hiding "Reservation pause" fieldset until FBS will accept this
-  // functionality. Remove after FBS start to support this feature.
+  // Hide the "Reservation pause" fieldset until FBS has implemented
+  // the functionality in their LMS and support its through the API.
   if (module_exists('fbs', TRUE)) {
     hide($form['profile_provider_fbs']['field_fbs_on_hold']);
   }
