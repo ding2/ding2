@@ -13,37 +13,22 @@ function ddb_cp_default_environment_indicator_environment() {
   $environment = new stdClass();
   $environment->disabled = FALSE; /* Edit this to true to make a default environment disabled initially */
   $environment->api_version = 1;
-  $environment->machine = 'default';
-  $environment->name = 'Default';
+  $environment->machine = 'prod';
+  $environment->name = 'Production';
   $environment->regexurl = '.*';
   $environment->settings = array(
-    'color' => '#ff2a2a',
+    'color' => '#000000',
     'text_color' => '#ffffff',
     'weight' => '3',
     'position' => 'top',
     'fixed' => 0,
   );
-  $export['default'] = $environment;
+  $export['prod'] = $environment;
 
   $environment = new stdClass();
   $environment->disabled = FALSE; /* Edit this to true to make a default environment disabled initially */
   $environment->api_version = 1;
-  $environment->machine = 'development';
-  $environment->name = 'Development';
-  $environment->regexurl = '.*-dev.ddbcms.dk';
-  $environment->settings = array(
-    'color' => '#336699',
-    'text_color' => '#ffffff',
-    'weight' => '1',
-    'position' => 'top',
-    'fixed' => 0,
-  );
-  $export['development'] = $environment;
-
-  $environment = new stdClass();
-  $environment->disabled = FALSE; /* Edit this to true to make a default environment disabled initially */
-  $environment->api_version = 1;
-  $environment->machine = 'staging';
+  $environment->machine = 'stg';
   $environment->name = 'Staging';
   $environment->regexurl = '.*-stg.ddbcms.dk';
   $environment->settings = array(
@@ -53,7 +38,22 @@ function ddb_cp_default_environment_indicator_environment() {
     'position' => 'top',
     'fixed' => 0,
   );
-  $export['staging'] = $environment;
+  $export['stg'] = $environment;
+
+  $environment = new stdClass();
+  $environment->disabled = FALSE; /* Edit this to true to make a default environment disabled initially */
+  $environment->api_version = 1;
+  $environment->machine = 'dev';
+  $environment->name = 'Development';
+  $environment->regexurl = '.*-dev.ddbcms.dk';
+  $environment->settings = array(
+    'color' => '#336699',
+    'text_color' => '#ffffff',
+    'weight' => '1',
+    'position' => 'top',
+    'fixed' => 0,
+  );
+  $export['dev'] = $environment;
 
   return $export;
 }
