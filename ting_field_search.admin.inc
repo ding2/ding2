@@ -81,11 +81,12 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
     '#title' => t('Exposed'),
     '#description' => t('Exposed profiles is shown to the user and can be selected before searching.'),
     '#default_value' => $profile ? $profile->config['exposed'] : 0,
-    '#states' => array(
-      'disabled' => array(
-        ':input[name="profile[active]"]' => array('checked' => FALSE),
-      ),
-    ),
+  );
+  $form['profile']['sticky'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Sticky'),
+    '#description' => t('Sticky profiles stay selected when the user navigates the search result.'),
+    '#default_value' => $profile ? $profile->config['sticky'] : 0,
   );
   $form['profile']['alter_links'] = array(
     '#type' => 'checkbox',
@@ -99,11 +100,6 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
     '#description' => t('Profiles with lower weight will be positioned closer to the top in the select box.'),
     '#options' => drupal_map_assoc(range(-15, 15)),
     '#default_value' => $profile ? $profile->weight : 0,
-    '#states' => array(
-      'disabled' => array(
-        ':input[name="profile[exposed]"]' => array('checked' => FALSE),
-      ),
-    ),
   );
   $form['profile']['new_materials'] = array(
     '#type' => 'textfield',
@@ -117,11 +113,6 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
     '#title' => t('Use specialized facets'),
     '#description' => t('Leave unchecked to use the standard Ting search facets.'),
     '#default_value' => $profile ? $profile->config['use_facets'] : 0,
-    '#states' => array(
-      'disabled' => array(
-        ':input[name="profile[exposed]"]' => array('checked' => FALSE),
-      ),
-    ),
   );
 
   $form['webtrends'] = array(
@@ -256,6 +247,7 @@ function ting_field_search_profile_form_submit($form, &$form_state) {
   $config_keys = array(
     'active',
     'exposed',
+    'sticky',
     'alter_links',
     'new_materials',
     'use_facets',

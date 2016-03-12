@@ -638,13 +638,15 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
     return;
   }
 
-  // This need to work on every page, so we just detect the profile.
-  $profile = ting_field_search_profile_is_active();
+  // If there's an active profile and it is stick; set it as default value.
+  if ($profile = ting_field_search_profile_is_active()) {
+    $profile = $profile->config['sticky'] ? $profile->name : '';
+  }
   $form['ting_field_search'] = array(
     '#type' => 'select',
     '#options' => $profiles,
     '#empty_option' => t('Search in standard'),
-    '#default_value' => $profile ? check_plain($profile->name) : '',
+    '#default_value' => $profile ? $profile : '',
   );
 
   // Use a validate handler for its timing before ting_search_submit() which is
@@ -668,6 +670,7 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
     'data' => $path . '/js/ting_field_search.webtrends.js',
     'every_page' => TRUE,
   );
+
 }
 
 /**
@@ -709,6 +712,7 @@ function ting_field_search_profiles_load($name = NULL) {
     $profile->config += array(
       'active' => 1,
       'exposed' => 0,
+      'sticky' => 0,
       'alter_links' => 1,
       'weight' => 0,
       'new_materials' => '',
