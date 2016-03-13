@@ -106,7 +106,7 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
     '#title' => t('New materials'),
     '#description' => t('Restrict the search result to only contain new materials acquired whitin the specified number of days.'),
     '#default_value' => $profile ? $profile->config['new_materials'] : '',
-    '#element_validate' => arraY('element_validate_number'),
+    '#element_validate' => array('element_validate_number'),
   );
   $form['profile']['use_facets'] = array(
     '#type' => 'checkbox',
@@ -115,6 +115,49 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
     '#default_value' => $profile ? $profile->config['use_facets'] : 0,
   );
 
+  // Search result fieldset.
+ $form['search_result'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Search settings'),
+    '#tree' => TRUE,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  $form['search_result']['profile_display'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Profile display'),
+    '#description' => t('Display the search results with this profile. Note that if used together with \'sticky\', this will also keep the profile selected on ting object and collection pages.'),
+    '#default_value' => $profile ? $profile->config['search_result']['profile_display'] : 1,
+  );
+  $form['search_result']['results_per_page'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Results per page'),
+    '#description' => t('Enter the number of results to display on the search page by default.'),
+    '#default_value' => $profile ? $profile->config['search_result']['results_per_page'] : 10,
+    '#element_validate' => array('element_validate_integer_positive'),
+  );
+  $form['search_result']['default_sort'] = array(
+    '#type' => 'select',
+    '#title' => t('Default sorting'),
+    '#description' => t('Select the default sorting'),
+    // Use a helper function from ting_search to get available sort options.
+    '#options' => ting_search_sort_options(),
+    '#default_value' => $profile ? $profile->config['search_result']['default_sort'] : '',
+  );
+  $form['search_result']['ranking'] = array(
+    '#type' => 'select',
+    '#title' => t('Ranking type'),
+    '#description' => t('Set the ranking to use when using the best match sort option above.'),
+    // These options are copied from ting.admin.inc from Ting module.
+    '#options' => array(
+      'rank_frequency' => t('Best match'),
+      'rank_general' => t('General Rank'),
+      'rank_none' => t('No rank'),
+    ),
+    '#default_value' => $profile ? $profile->config['search_result']['ranking'] : 'rank_frequency',
+  );
+
+  // Webtrends fieldset.
   $form['webtrends'] = array(
     '#type' => 'fieldset',
     '#title' => t('Webtrends Analytics'),
@@ -241,6 +284,9 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
  * @see ting_field_search_profile_form()
  */
 function ting_field_search_profile_form_submit($form, &$form_state) {
+  // TODO: Changes in some profile values might need a cache clear before fully
+  // taking effect. Consider clearing the cache in these cases - not the page
+  // cache, but a wild card flush on entries for this profile in ting_cache.
   $profile_values = $form_state['values']['profile'];
 
   // Some values from the main profile form belong in config.
@@ -270,8 +316,13 @@ function ting_field_search_profile_form_submit($form, &$form_state) {
     }
   }
 
+  // TODO: Try to merge all fieldsets with config settings into one.
+
   // Transfer Webtrends settings to config array.
   $profile['config']['webtrends'] = $form_state['values']['webtrends'];
+
+  // Transfer settings related to search result display.
+  $profile['config']['search_result'] = $form_state['values']['search_result'];
 
   // If updating an existing profile transfer the profile ID.
   if (isset($form_state['original_profile'])) {
@@ -303,6 +354,9 @@ function theme_ting_field_search_profile_form($variables) {
 
   // Render profile settings.
   $output = drupal_render($form['profile']);
+
+  // Render search result settings.
+  $output .= drupal_render($form['search_result']);
 
   // Render facet table.
   $map = array('disabled' => t('Disabled'), 'enabled' => t('Enabled'));

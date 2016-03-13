@@ -13,7 +13,6 @@
         var uri = "/ting-field-search/profile-selected/" + profile_name;
 
         dcsMultiTrack("WT.ti", profile_name, "DCS.uri", uri);
-        alert(profile_name + ": " + profile_title);
       });
     }
   };
