@@ -30,8 +30,8 @@ class ReservationReadyToPickupTest extends PHPUnit_Extensions_SeleniumTestCase {
     $this->abstractedPage->waitForPage();
 
     // Check for reservation ready for pickup quick link.
-    $this->assertElementPresent('link=Lån, reserveringer og mellemværende');
-    $this->click('link=Lån, reserveringer og mellemværende');
+    $this->assertElementPresent('link=User status');
+    $this->click('link=User status');
     $this->abstractedPage->waitForPage();
 
     $this->click('link=Mine reserveringer');
