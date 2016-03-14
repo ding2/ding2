@@ -46,7 +46,16 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
         'Hovedbiblioteket',
         '11. March 2015',
         '12846957',
-      ),  
+      ), 
+      array(
+        'Mad & venner',
+        '2012, December, Nr. 092',
+        '1',
+        '5. March 2016',
+        'Hovedbiblioteket',
+        '11. March 2015',
+        '12846959',
+      ), 
       array(
         'Alt interiør : trendguide',
         '2012, Januar, 1',
@@ -64,15 +73,6 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
         'Hovedbiblioteket',
         '21. June 2015',
         '12846965',
-      ),
-      array(
-        'Mad & venner',
-        '2012, December, Nr. 092',
-        '1',
-        '5. March 2016',
-        'Hovedbiblioteket',
-        '11. March 2015',
-        '12846959',
       ),
     );
     for ($i = 0; $i < count($notready_for_pickup); $i++) {
