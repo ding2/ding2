@@ -35,8 +35,8 @@ class SearchResultTest extends PHPUnit_Extensions_SeleniumTestCase {
     // Check facets.
     // Check the pre-defined result.
     $results = array(
-      'Bog:',
       'Ebog:',
+      'Bog:',
     );
 
     for ($i = 0; $i < count($results); $i++) {

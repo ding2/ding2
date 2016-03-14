@@ -31,8 +31,8 @@ class LoansTest extends PHPUnit_Extensions_SeleniumTestCase {
     $this->abstractedPage->waitForPage();
 
     // Check for user status link.
-    $this->assertElementPresent('link=Lån, reserveringer og mellemværende');
-    $this->click('link=Lån, reserveringer og mellemværende');
+    $this->assertElementPresent('link=User status');
+    $this->click('link=User status');
     $this->abstractedPage->waitForPage();
 
     // Check for material related links.
