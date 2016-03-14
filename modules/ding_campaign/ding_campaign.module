@@ -334,17 +334,25 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
 
   // Process search campaigns.
   if ($context['search_term'] != NULL) {
-    $terms = trim(drupal_strtolower(check_plain($context['search_term'])));
+    $terms = trim(drupal_strtolower($context['search_term']));
 
     // Multiple keywords, comma and/or space separated.
     if (strpos($terms, ',') || strpos($terms, ' ')) {
-      $terms = preg_replace('/(,?\s+)/', ',', $terms);
-      $terms = implode('\',\'', explode(',', $terms));
-      $condition = 'IN (\'' . $terms . '\')';
+      $terms = preg_split('/,|\s/', ',', $terms);
+      $terms = array_filter($terms);
+
+      array_walk($terms, function(&$v) {
+        $v = addslashes($v);
+      });
+
+      $terms = implode("','", $terms);
+
+      $condition = "IN ('$terms')";
     }
     // Single keyword.
     else {
-      $condition = ' = \'' . $context['search_term'] . '\'';
+      $term = addslashes($context['search_term']);
+      $condition = " = '$term'";
     }
 
     $result = db_query('SELECT r.cid
@@ -412,7 +420,7 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
 
   foreach ($result as $key => $value) {
     if (!isset($campaigns[$value->cid]) || $campaigns[$value->cid] == 0) {
-      $campaigns[$value->cid] = (mt_rand(1, 10) / 10);
+      $campaigns[$value->cid] = 1;
     }
   }
 
