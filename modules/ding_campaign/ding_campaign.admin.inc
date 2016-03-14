@@ -144,6 +144,7 @@ function ding_campaign_campaign_rule_form_submit($form, &$form_state) {
       ->condition('cid', $nid)
       ->execute();
 
+    // Clear node cache after campaign rule was deleted from DB.
     entity_get_controller('node')->resetCache(array($nid));
 
     // Add new rules.
