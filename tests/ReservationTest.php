@@ -177,8 +177,8 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
 
     // Test the ability to delete a reservation.
     // Check if the checkbox for FIRST item is present, then click it.
-    $this->assertElementPresent('css=#ding-reservation-reservations-notready-form .material-item:eq(1) input[type="checkbox"]');
-    $this->click('css=#ding-reservation-reservations-notready-form .material-item:eq(1) input[type="checkbox"]');
+    $this->assertElementPresent('css=#ding-reservation-reservations-notready-form .material-item:eq(3) input[type="checkbox"]');
+    $this->click('css=#ding-reservation-reservations-notready-form .material-item:eq(3) input[type="checkbox"]');
 
     // A delete button should appear.
     $this->abstractedPage->waitForElement('css=#edit-actions-top-delete--2');
