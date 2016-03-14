@@ -30,13 +30,14 @@ class ReservationReadyToPickupTest extends PHPUnit_Extensions_SeleniumTestCase {
     $this->abstractedPage->waitForPage();
 
     // Check for reservation ready for pickup quick link.
-    $this->assertElementPresent('link=1 Reservation ready for pick-up');
-    $this->click('link=1 Reservation ready for pick-up');
+    $this->assertElementPresent('link=User status');
+    $this->click('link=User status');
     $this->abstractedPage->waitForPage();
 
+    $this->click('link=Mine reserveringer');
     // Check for correct page heading.
+    sleep(5);
     $this->assertElementContainsText('css=h2.pane-title', 'My reservations');
-
     // Next section roughly checks the markup.
     // This relies on the dummy LMS service, so the data should be pre-defined.
     $ready_for_pickup = array(
