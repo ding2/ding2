@@ -145,6 +145,16 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
     // Check the results again.
     $notready_for_pickup = array(
       array(
+        'Alt om haven',
+        '5. March 2016',
+        'Beder-Malling',
+      ),
+      array(
+        'Mad & venner',
+        '5. March 2016',
+        'Beder-Malling',
+      ),
+      array(
         'Alt interiør : trendguide',
         '20. November 2016',
         'Beder-Malling',
@@ -153,17 +163,7 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
         'Hr. Peters blomster',
         '15. June 2016',
         'Beder-Malling',
-      ),
-      array(
-	'Mad & venner',
-        '5. March 2016',
-        'Beder-Malling',
-      ),
-      array(
-	'Alt om haven',
-        '5. March 2016',
-        'Beder-Malling',
-      ),
+      ),    
     );
     for ($i = 0; $i < count($notready_for_pickup); $i++) {
       // Check title field.
