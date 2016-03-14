@@ -39,14 +39,23 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
     // This relies on the dummy LMS service, so the data should be pre-defined.
     $notready_for_pickup = array(
       array(
-	'Alt om haven',
+        'Alt om haven',
         '2012, 15',
         '1',
-	'7. September 2015',
+        '7. September 2015',
         'Hovedbiblioteket',
         '11. March 2015',
         '12846957',
-      ),   
+      ), 
+      array(
+        'Mad & venner',
+        '2012, December, Nr. 092',
+        '1',
+        '5. March 2016',
+        'Hovedbiblioteket',
+        '11. March 2015',
+        '12846959',
+      ), 
       array(
         'Alt interiør : trendguide',
         '2012, Januar, 1',
@@ -64,15 +73,6 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
         'Hovedbiblioteket',
         '21. June 2015',
         '12846965',
-      ),
-      array(
-        'Mad & venner',
-        '2012, December, Nr. 092',
-        '1',
-        '5. March 2016',
-        'Hovedbiblioteket',
-        '11. March 2015',
-        '12846959',
       ),
     );
     for ($i = 0; $i < count($notready_for_pickup); $i++) {
@@ -145,6 +145,16 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
     // Check the results again.
     $notready_for_pickup = array(
       array(
+        'Alt om haven',
+        '5. March 2016',
+        'Beder-Malling',
+      ),
+      array(
+        'Mad & venner',
+        '5. March 2016',
+        'Beder-Malling',
+      ),
+      array(
         'Alt interiør : trendguide',
         '20. November 2016',
         'Beder-Malling',
@@ -153,17 +163,7 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
         'Hr. Peters blomster',
         '15. June 2016',
         'Beder-Malling',
-      ),
-      array(
-	'Mad & venner',
-        '5. March 2016',
-        'Beder-Malling',
-      ),
-      array(
-	'Alt om haven',
-        '5. March 2016',
-        'Beder-Malling',
-      ),
+      ),    
     );
     for ($i = 0; $i < count($notready_for_pickup); $i++) {
       // Check title field.
@@ -177,8 +177,8 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
 
     // Test the ability to delete a reservation.
     // Check if the checkbox for FIRST item is present, then click it.
-    $this->assertElementPresent('css=#ding-reservation-reservations-notready-form .material-item:eq(1) input[type="checkbox"]');
-    $this->click('css=#ding-reservation-reservations-notready-form .material-item:eq(1) input[type="checkbox"]');
+    $this->assertElementPresent('css=#ding-reservation-reservations-notready-form .material-item:eq(3) input[type="checkbox"]');
+    $this->click('css=#ding-reservation-reservations-notready-form .material-item:eq(3) input[type="checkbox"]');
 
     // A delete button should appear.
     $this->abstractedPage->waitForElement('css=#edit-actions-top-delete--2');

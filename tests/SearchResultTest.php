@@ -29,14 +29,14 @@ class SearchResultTest extends PHPUnit_Extensions_SeleniumTestCase {
     $this->assertElementPresent("css=li.list-item.search-result");
 
     // Check for search with cql.
-    $this->abstractedPage->userMakeSearch('"23685531" or "29275475"');
+    $this->abstractedPage->userMakeSearch('"23685531" or "51109635"');
     $this->assertElementPresent("css=li.list-item.search-result");
 
     // Check facets.
     // Check the pre-defined result.
     $results = array(
-      'Bog:',
       'Ebog:',
+      'Bog:',
     );
 
     for ($i = 0; $i < count($results); $i++) {
@@ -78,7 +78,7 @@ class SearchResultTest extends PHPUnit_Extensions_SeleniumTestCase {
     // Check ascending title sorting.
     $this->select('css=#edit-sort', 'value=title_ascending');
     $this->abstractedPage->waitForPage();
-    $results = array('Kantslag : noveller', 'Soul : roman');
+    $results = array('Gravgæst', 'Soul : roman');
     for ($i = 0; $i < count($results); $i++) {
       $this->assertElementContainsText('css=.pane-search-result .search-result:eq(' . $i . ') .heading a', $results[$i]);
     }
@@ -86,7 +86,7 @@ class SearchResultTest extends PHPUnit_Extensions_SeleniumTestCase {
     // Check descending title sorting.
     $this->select('css=#edit-sort', 'value=title_descending');
     $this->abstractedPage->waitForPage();
-    $results = array('Soul : roman', 'Kantslag : noveller');
+    $results = array('Soul : roman', 'Gravgæst');
     for ($i = 0; $i < count($results); $i++) {
       $this->assertElementContainsText('css=.pane-search-result .search-result:eq(' . $i . ') .heading a', $results[$i]);
     }
@@ -94,7 +94,7 @@ class SearchResultTest extends PHPUnit_Extensions_SeleniumTestCase {
     // Check descending title sorting.
     $this->select('css=#edit-sort', 'value=date_ascending');
     $this->abstractedPage->waitForPage();
-    $results = array('By Dorthe Nors (2001)', 'By Dorthe Nors (2011)');
+    $results = array('By Dorthe Nors (2001)', 'By Johan Theorin (2014)');
     for ($i = 0; $i < count($results); $i++) {
       $this->assertElementContainsText('css=.pane-search-result .search-result:eq(' . $i . ') .content:first', $results[$i]);
     }
@@ -102,7 +102,7 @@ class SearchResultTest extends PHPUnit_Extensions_SeleniumTestCase {
     // Check ascending title sorting.
     $this->select('css=#edit-sort', 'value=date_descending');
     $this->abstractedPage->waitForPage();
-    $results = array('By Dorthe Nors (2011)', 'By Dorthe Nors (2001)');
+    $results = array('By Johan Theorin (2014)', 'By Dorthe Nors (2001)');
     for ($i = 0; $i < count($results); $i++) {
       $this->assertElementContainsText('css=.pane-search-result .search-result:eq(' . $i . ') .content:first', $results[$i]);
     }
