@@ -1,0 +1,10 @@
+{
+  "name": "ting_search_context",
+  "description": "Provides a context rating system for nodes.",
+  "dependencies": {
+    "compass-mixins": "^0.12.7",
+    "gulp": "^3.9.0",
+    "gulp-help": "^1.6.1",
+    "gulp-sass": "^2.0.4",
+  },
+}
