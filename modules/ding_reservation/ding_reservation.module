@@ -620,11 +620,10 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
         break;
     }
 
+    $reservation_eligibility = in_array($type, array(DING_RESERVATION_NOT_READY, DING_RESERVATION_INTERLIBRARY_LOANS));
+
     if (empty($int_per)) {
-      if (in_array(
-        $type,
-        array(DING_RESERVATION_NOT_READY, DING_RESERVATION_INTERLIBRARY_LOANS)
-      )) {
+      if ($reservation_eligibility) {
         // Set reservation expire message.
         $expire = strtotime(check_plain($reservation->expiry));
         if ($expire - variable_get('reservation_expire', 604800) <= time()) {
