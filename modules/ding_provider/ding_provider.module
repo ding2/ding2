@@ -749,3 +749,19 @@ function ding_provider_entity_info_alter(&$entity_info) {
   $entity_info['profile2']['entity cache'] = FALSE;
   $entity_info['profile2_type']['entity cache'] = FALSE;
 }
+
+/**
+ * Implements hook_form_alter().
+ */
+function ding_provider_form_alter(&$form, &$form_state, $form_id) {
+  $provider = _ding_provider_get_provider('user');
+
+  if ($form_id == $provider['module'] . '_settings_form') {
+    $form[$provider['module']]['disable_interest_date'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Disable interests period'),
+      '#description' => t('This will disable "Interest date" functionality.'),
+      '#default_value' => variable_get('disable_interest_date', FALSE),
+    );
+  }
+}

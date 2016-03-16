@@ -292,6 +292,14 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
     '#markup' => $fee_sms,
     '#weight' => 0,
   );
+
+  $int_per = variable_get('disable_interest_date', '');
+  $profile_provider = 'profile_' . $profile_type->type;
+  $field = 'field_' . $profile_type->module . '_interest_period';
+
+  if (!empty($int_per)) {
+    $form[$profile_provider][$field]['#access'] = FALSE;
+  }
 }
 
 /**
@@ -936,4 +944,22 @@ function ding_user_form_contact_site_form_alter(&$form, $form_state, $form_id) {
  */
 function _ding_user_comment_cache_id($uid) {
   return 'ding_user_comment_user_name:' . $uid;
+}
+
+/**
+ * Implements hook_profile2_view().
+ */
+function ding_user_profile2_view($profile, $view_mode, $langcode) {
+  $provider = _ding_provider_get_provider('user');
+  $field = 'field_' . $provider['module'] . '_interest_period';
+
+  $field_items = field_get_items('profile2', $profile, $field);
+
+  if ($field_items) {
+    $int_per = variable_get('disable_interest_date', '');
+
+    if ($int_per == 1) {
+      $profile->content[$field]['#access'] = FALSE;
+    }
+  }
 }

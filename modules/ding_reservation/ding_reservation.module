@@ -456,6 +456,8 @@ function ding_reservation_reserve_form_callback($form, &$form_state) {
  * Show a reservation list form.
  */
 function ding_reservation_reservations_form($form, &$form_state, $reservations, $type = DING_RESERVATION_NOT_READY, $conf = array()) {
+  $int_per = variable_get('disable_interest_date', '');
+
   $form = array(
     '#tree' => TRUE,
   );
@@ -570,6 +572,10 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
             ),
           ),
         );
+
+        if (!empty($int_per)) {
+          $item['#information']['expiry'] = '';
+        }
         break;
 
       case DING_RESERVATION_INTERLIBRARY_LOANS:
@@ -614,15 +620,20 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
         break;
     }
 
-    if (in_array($type, array(DING_RESERVATION_NOT_READY, DING_RESERVATION_INTERLIBRARY_LOANS))) {
-      // Set reservation expire message.
-      $expire = strtotime(check_plain($reservation->expiry));
-      if ($expire - variable_get('reservation_expire', 604800) <= time()) {
-        $item['#material_message'] = array(
-          'message' => t('This reservation is about to expire.'),
-          'class' => 'messages warning',
-        );
-        $item['#weight'] = -30;
+    if (empty($int_per)) {
+      if (in_array(
+        $type,
+        array(DING_RESERVATION_NOT_READY, DING_RESERVATION_INTERLIBRARY_LOANS)
+      )) {
+        // Set reservation expire message.
+        $expire = strtotime(check_plain($reservation->expiry));
+        if ($expire - variable_get('reservation_expire', 604800) <= time()) {
+          $item['#material_message'] = array(
+            'message' => t('This reservation is about to expire.'),
+            'class'   => 'messages warning',
+          );
+          $item['#weight'] = -30;
+        }
       }
     }
 
