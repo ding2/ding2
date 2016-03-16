@@ -1015,7 +1015,10 @@ class AlmaClient {
       'email' => $mail,
       'branch' => $branch,
       'addr1' => '+++',
-      'verified' => TRUE,
+      // Verified has to be set to the string value true
+      // for this to work. Booleans are converted to integers
+      // and they are no good.
+      'verified' => 'true',
       'locale' => 'da_DK'
     );
 
