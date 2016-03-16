@@ -20,7 +20,6 @@
     var pane;
     var position;
 
-
     /**
      * Object to store and apply selector-specific carousel-configurations.
      */
@@ -54,16 +53,13 @@
       refresh_value: function () {
         this.val = this.get_current();
       },
-
       is_small_medium_large: function () {
         return this.val === "<940px";
       },
       has_changed: function () {
         return this.val !== this.get_current();
-
       },
       get_current: function () {
-
         var mql = window.matchMedia("screen and (min-width: 940px)");
         if (mql.matches){ // if media query matches
           return ">=940px";
@@ -73,9 +69,6 @@
         }
       }
     };
-
-
-
 
     /**
      * Private: Makes an ajax call to the server to get new content for the
@@ -103,7 +96,6 @@
      * and position is set to js-below-search-result.
      */
     function _set_element() {
-
       position = Drupal.settings.ting_search_context_position;
 
       // On small screens display below search results
@@ -125,7 +117,6 @@
      *
      */
     function _update_options() {
-
       var config = carousel_configs.find(position);
       carousel.carousel('option', config);
     }
@@ -154,7 +145,6 @@
       carousel.carousel('goToPage', 0);
     }
 
-
     /**
      * Public: Reposition the carousel when the window is resized
      * in a way that changes the breakpoint. In viewports below 940px
@@ -172,12 +162,10 @@
       init();
     }
 
-
     /**
      * Public: Init the carousel and fetch content.
      */
     function init() {
-
       // Detect the viewport
       breakpoint.refresh_value();
 
@@ -200,10 +188,6 @@
         return;
       }
 
-
-
-
-
       // Start the carousel.
       carousel.carousel({
         noOfRows: 1,
@@ -214,14 +198,8 @@
       // Update postion-specifik carousel options
       _update_options();
 
-
-
       // Fetch content for the carousel.
       _fetch();
-
-
-
-
     }
 
     /**
