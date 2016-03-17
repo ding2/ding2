@@ -104,18 +104,18 @@ rs-carousel-runner {
 
 /* Carousel tabs
    ========================================================================== */
-.rs-carousel-tabs ul {
+.rs-carousel-tabs .ting-search-carousel-tabs ul {
   margin: 0;
   position: relative;
   text-align: center;
 }
 
-.rs-carousel-tabs ul li {
+.rs-carousel-tabs .ting-search-carousel-tabs ul li {
   display: table-cell;
   vertical-align: top;
   text-align: center;
 }
 
-.rs-carousel-tabs ul li.active a {
+.rs-carousel-tabs .ting-search-carousel-tabs ul li.active a {
   position: relative;
 }
