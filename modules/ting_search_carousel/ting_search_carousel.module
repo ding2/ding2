@@ -69,7 +69,7 @@ function ting_search_carousel_do_request($hash, $index) {
   $searches_configs_cache = cache_get('ting_search_carousel_conf_' . $hash);
   $searches_configs = reset($searches_configs_cache->data);
 
-  $configs = $searches_configs['config']['ting_search_carousel_settings'];
+  $configs = $searches_configs['config'];
 
   // Get query based in the index parameter.
   $queries = (!empty($searches_configs['searches'])) ? $searches_configs['searches'] : array();
@@ -93,8 +93,6 @@ function ting_search_carousel_do_request($hash, $index) {
       'allObjects' => FALSE,
       'sort' => $sort
     );
-
-    $query['query'] = '(' . _ting_search_quote($query['query']) . ')';
     while ($result = ting_do_search($query['query'], $page++, 50, $ting_search_options)) {
       $collections[] = $result;
 
