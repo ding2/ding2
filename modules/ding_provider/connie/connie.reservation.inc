@@ -74,18 +74,22 @@ function connie_reservation_list($account, $type = NULL) {
 /**
  * Provide options for reservation.
  */
-function connie_reservation_options($type, $account, $reservables) {
+function connie_reservation_options($account, $default_value = '') {
   /*
    * While we use ding_reservation for branch handling, we don't want to
    * depend on the module, as it would mean that ding_reservation can't be
    * disabled. So instead we throw an exception here.
    */
   if (!module_exists('ding_reservation')) {
-    throw new Exception('Openruth reservation options requires ding_reservation.');
+    throw new Exception('Connie reservation options requires ding_reservation.');
   }
+
   $form = array();
-  $profile = ding_user_provider_profile($account);
-  $form += ding_reservation_default_options_branch($type, 'connie_preferred_branch', $profile->connie_preferred_branch[field_language('profile2', $profile, 'connie_preferred_branch')][0]['value'], connie__allowed_branches());
+  $form += ding_reservation_default_options_branch(
+    'connie_preferred_branch',
+    NULL,
+    connie_allowed_branches()
+  );
 
   return $form;
 }
