@@ -17,7 +17,6 @@
     var carousel;
     var current_tab = 0;
     var navigation;
-    var current_search;
 
     /**
      * Private: Ensures that the tabs have the same size. This is purly a design
@@ -176,7 +175,7 @@
     function _fetch(index) {
       $.ajax({
         type: 'get',
-        url : Drupal.settings.basePath + 'ting_search_carousel/results/ajax/' + current_search + '/' + index,
+        url : Drupal.settings.basePath + 'ting_search_carousel/results/ajax/' + index,
         dataType : 'json',
         success : function(data) {
           cache[index] = {
@@ -203,7 +202,7 @@
 
       var tabs_count = $('.rs-carousel-select-tabs .rs-carousel-item').length;
       var next_tab = current_tab;
-
+      
       // Keep track of the mouse position.
       // Do not swtich tabs when hovering over the carousel wrapper.
       // This will not interrupt manual usage of the carousel.
@@ -236,7 +235,6 @@
     function init() {
       // Select the carousel element.
       carousel = $('.rs-carousel-items');
-      current_search = $('div.rs-carousel-wrapper').attr('search_carousel_hash');
 
       // Fix the tables and fetch the first tabs content.
       _init_tabs();
