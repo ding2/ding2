@@ -169,14 +169,15 @@ function ding_gatewayf_login() {
 function ding_gatewayf_logout() {
   $config = _ding_gatewayf_load_configuration();
 
-  // Ensure gatewayf attributes store in the session is removed.
-  unset($_SESSION[DING_GATEWAYF_ATTRIBUTES]);
+  // Remove indication of WAYF login.
+  unset($_SESSION[DING_GATEWAYF_IS_LOGGED_IN]);
 
-  // Get the sites base url, which is used to redirect the user after logout.
-  global $base_url;
+  // Get the logout url for the site, which is used to redirect the user after
+  // logout. This ensures that the logout process is completed.
+  $logout_url = url('user/logout', array('absolute' => TRUE));
 
   // Redirect to the gateway.
-  header('Location:' . $config['service']['endpoint'] . '?returnUrl=' . $base_url . '&op=logout');
+  header('Location:' . $config['service']['endpoint'] . '?op=logout&returnUrl=' . $logout_url);
 
   drupal_exit();
 }
