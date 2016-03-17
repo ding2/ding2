@@ -336,7 +336,14 @@ function ding_gatewayf_registration_acceptance_form_submit($form, $form_state) {
 
   // This value was not store in the form to ensure that the user can reload the
   // form.
-  $required_attributes = $_SESSION[DING_GATEWAYF_ATTRIBUTES];
+  $required_attributes = array(
+    'schacPersonalUniqueID' => array(
+      'field' => 'CPR',
+      'authname' => TRUE,
+    ),
+  );
+  $wayf_attributes = $_SESSION[DING_GATEWAYF_ATTRIBUTES];
+  $required_attributes = _ding_gatewayf_get_required_attributes($wayf_attributes, $required_attributes);
   unset($_SESSION[DING_GATEWAYF_ATTRIBUTES]);
 
   // Check that the logged in user is over the age limit.
@@ -355,7 +362,7 @@ function ding_gatewayf_registration_acceptance_form_submit($form, $form_state) {
     ding_provider_invoke('user', 'create', $required_attributes['schacPersonalUniqueID'], $values['pin'], $values['name'], $values['mail'], $values['branch']);
 
     $_REQUEST['destination'] = DING_GATEWAYF_REGISTRATION_SUCCESS_URL;
-    _ding_gatewayf_provider_login($required_attributes);
+    _ding_gatewayf_provider_login($wayf_attributes);
 
     // Clean out message from the login form. Provider do not always allow login
     // at once, so the login attempt above may fail. But we have tried.
@@ -366,7 +373,7 @@ function ding_gatewayf_registration_acceptance_form_submit($form, $form_state) {
     //         exists is provider "named", hence for now we capture all
     //         exceptions. This should be fixed with FBS.
     drupal_set_message(t('You already have an user account at the library. So we have just logged you in.'));
-    _ding_gatewayf_provider_login($required_attributes);
+    _ding_gatewayf_provider_login($wayf_attributes);
   }
 }
 

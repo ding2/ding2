@@ -304,7 +304,7 @@ function _ding_gatewayf_provider_login(array $attributes) {
           // this is the only way to get the information from login callback to
           // the acceptance form.
           if (_ding_gatewayf_registration_is_registration_request()) {
-            $_SESSION[DING_GATEWAYF_ATTRIBUTES] = $required_attr;
+            $_SESSION[DING_GATEWAYF_ATTRIBUTES] = $attributes;
           }
           else {
             // Display message that the user don't have an account an then can
