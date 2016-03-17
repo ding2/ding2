@@ -128,6 +128,9 @@ class AlmaClient {
       'pinCodeChange',
       'address',
       'emailAddress',
+      'securityNumber',
+      'pin',
+      'email',
     );
 
     $log_params = array();
