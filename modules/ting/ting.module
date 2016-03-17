@@ -526,7 +526,7 @@ function ting_ding_entity_buttons($type, $entity) {
       // correct url.
       array(
         '#type' => 'markup',
-        '#markup' => '<a class="button-see-online" target="_new" href="' . $entity->getOnline_url() . '">' . $label . '</a>',
+        '#markup' => '<a class="button-see-online" target="_blank" href="' . $entity->getOnline_url() . '">' . $label . '</a>',
       ),
     );
   }

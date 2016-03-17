@@ -1,0 +1,25 @@
+// Extended search
+// ========================================================================== //
+
+.search {
+  .form-actions {
+    > a {
+
+      // Media from-medium
+
+      @include from-medium() {
+        color: $gray-darker;
+      }
+    }
+  }
+  
+  .collapsible {
+    // Inputs styles
+
+    input {
+      @include background(linear-gradient($gray-light, $gray-lighter));
+      border: 1px solid $gray;
+    }
+  }
+}
+

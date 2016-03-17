@@ -89,13 +89,16 @@ if ($view_mode == 'teaser') {
   $content['group_ding_library_right_column']['title'][0]['#markup'] = '<h2 class="page-title library-title"><a href="' . $node_url . '">' . $title . '</a></h2>';
   $content['group_ding_library_right_column']['title']['#weight'] = '0';
 }
+
+// Check if library list image present.
+$image_exist_class = (!empty($content['group_ding_library_left_column'])) ? ' library-cover-exist' : '';
 ?>
 <div class="<?php print $classes; ?>">
   <?php if ($view_mode != 'teaser'): ?>
     <h2 class="page-title"><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
   <?php endif ?>
   <div class="content"<?php print $content_attributes; ?>>
-    <div class="libraries">
+    <div class="libraries<?php print $image_exist_class; ?>">
       <?php print render($content); ?>
     </div>
     <?php if (!empty($opening_hours)) : ?>

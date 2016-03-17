@@ -17,6 +17,7 @@
     var carousel;
     var current_tab = 0;
     var navigation;
+    var current_search;
 
     /**
      * Private: Ensures that the tabs have the same size. This is purly a design
@@ -175,7 +176,7 @@
     function _fetch(index) {
       $.ajax({
         type: 'get',
-        url : Drupal.settings.basePath + 'ting_search_carousel/results/ajax/' + index,
+        url : Drupal.settings.basePath + 'ting_search_carousel/results/ajax/' + current_search + '/' + index,
         dataType : 'json',
         success : function(data) {
           cache[index] = {
@@ -193,11 +194,49 @@
     }
 
     /**
+     * Private: Switches automaticaly carousel tabs.
+     */
+    function _animate_delay(delay) {
+      if (delay == 0) {
+        return;
+      }
+
+      var tabs_count = $('.rs-carousel-select-tabs .rs-carousel-item').length;
+      var next_tab = current_tab;
+
+      // Keep track of the mouse position.
+      // Do not swtich tabs when hovering over the carousel wrapper.
+      // This will not interrupt manual usage of the carousel.
+      //
+      // @todo
+      // Touch devices approach.
+      var is_active = true;
+      $('.rs-carousel-wrapper').mouseenter(function() {
+        is_active = false;
+      }).mouseleave(function() {
+        is_active = true;
+      });
+
+      setInterval(function() {
+        next_tab = current_tab + 1;
+        if (next_tab > tabs_count - 1) {
+          next_tab = 0;
+        }
+
+        if (is_active) {
+          _change_tab(next_tab);
+        }
+
+      }, delay * 1000);
+    }
+
+    /**
      * Public: Init the carousel and fetch content for the first tab.
      */
     function init() {
       // Select the carousel element.
       carousel = $('.rs-carousel-items');
+      current_search = $('div.rs-carousel-wrapper').attr('search_carousel_hash');
 
       // Fix the tables and fetch the first tabs content.
       _init_tabs();
@@ -215,6 +254,9 @@
 
       // Will get content for the first tab.
       _change_tab(0);
+
+      var delay = Drupal.settings.ting_search_carousel.animate_delay || 0;
+      _animate_delay(delay);
     }
 
     /**
@@ -231,5 +273,8 @@
    */
   $(document).ready(function() {
     TingSearchCarousel.init();
+    $("div.rs-carousel-mask").on('click', 'li', function() {
+      Drupal.TingSearchOverlay();
+    });
   });
 })(jQuery);

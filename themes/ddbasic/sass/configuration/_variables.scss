@@ -121,3 +121,10 @@ $availability-available:                $green;
 $availability-reservable:               $yellow;
 $availability-available-reservable:     $green;
 $availability-available-not-reservable: $red;
+$availability-unavailable-reservable:       $yellow;
+$availability-unavailable-not-reservable:   $red;
+
+$legend-available:                          $green;
+$legend-on-loan:                            $yellow;
+$legend-unavailable:                        $red;
+$legend-unreservable:                       $yellow;

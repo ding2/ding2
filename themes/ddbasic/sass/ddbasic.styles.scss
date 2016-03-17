@@ -61,9 +61,23 @@
 @import "module/_tabroll";
 @import "module/_groups";
 @import "module/_page";
+@import "module/_media";
 
 // Include print stylesheet
 @import "module/_print";
 
 // Custom font
 @import "../font/source-sans/stylesheet.css";
+
+// easyDDB modules
+@import "module/_extended_search";
+@import "module/_ding_ting_type_search";
+@import "module/_bibdk_subject_hierarchy";
+@import "module/_alma_item_list";
+@import "module/_ding_item_viewer";
+@import "module/_ding_item_list";
+@import "module/_ding_nodelist";
+@import "module/_pane_bibliotek_info";
+@import "module/_ding_search_related";
+@import "module/_newsletter";
+@import "module/_ding_toggle_format";

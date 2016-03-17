@@ -24,6 +24,7 @@
   scripts[] = scripts/respond.min.js
   scripts[] = scripts/jquery.scrollto.js
   scripts[] = scripts/html5shiv.js
+  scripts[] = scripts/modernizr.js
   scripts[] = scripts/equalize.min.js
   scripts[] = scripts/scalefix.js
   scripts[] = scripts/selectivizr-min.js

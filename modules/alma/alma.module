@@ -608,6 +608,12 @@ function alma_get_patron($creds = NULL, $reset = FALSE, $as_array = FALSE) {
     }
     else {
       $info = alma_client_invoke('get_patron_info', $creds['name'], $creds['pass'], TRUE);
+
+      if (NULL === $info) {
+        drupal_set_message(t('Authorisation service not reachable. Try to login later.'), 'error');
+        drupal_goto('/');
+      }
+
       $organisation = alma_get_organisation();
       $patron = array(
         'name' => $info['user_name'],

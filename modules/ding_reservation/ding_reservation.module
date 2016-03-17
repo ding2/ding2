@@ -185,7 +185,16 @@ function ding_reservation_reserve_ajax($entity, $reservable = NULL) {
       // the options to select branch and period.
       $defaults = ding_provider_invoke('reservation', 'default_options', $user);
       $matches = preg_grep("/preferred_branch$/", array_keys($defaults));
-      if (empty($defaults[array_shift($matches)])) {
+      $profile = ding_user_provider_profile($user);
+      $user_quick_reservation = $profile->field_quick_reservation[LANGUAGE_NONE][0]['value'];
+      $admin_quick_reservation = variable_get('ding_quick_reservation');
+      if ($admin_quick_reservation == "0") {
+        $quick_reservation = ($user_quick_reservation == "0") ? TRUE : FALSE;
+      }
+      else {
+        $quick_reservation = ($user_quick_reservation == "0") ? FALSE : TRUE;
+      }
+      if (empty($defaults[array_shift($matches)]) || $quick_reservation) {
         $form = ding_provider_get_form('ding_reservation_reserve_form', $reservable, FALSE);
         $commands[] = ajax_command_ding_popup('ding_reservation', t('Reservation'), render($form));
       }
@@ -985,12 +994,12 @@ function ding_reservation_update_reservations_form_callback($form, &$form_state)
  */
 function ding_reservation_default_options_branch($name, $default, $options) {
   $form = array();
+  $allowed_branches = array('' => t('Select')) + $options;
 
   $form[$name] = array(
     '#type' => 'select',
     '#title' => t('Select branch'),
-    '#options' => $options,
-    '#required' => TRUE,
+    '#options' => $allowed_branches,
     '#default_value' => !empty($default) ? $default : '',
   );
 
@@ -1026,19 +1035,13 @@ function ding_reservation_interest_period_selector($name, $default, $options) {
     }
   }
 
+  $allowed_periods = array('' => t('Select')) + $options;
   $form[$name] = array(
     '#type' => 'select',
     '#title' => t('Select interest period'),
-    '#options' => $options,
-    '#required' => TRUE,
+    '#options' => $allowed_periods,
     '#default_value' => !empty($default) ? $default : '',
   );
-
-  if (empty($default)) {
-    $form[$name . 'description'] = array(
-      '#markup' => '<p>' . t('Select an interest period.') . '</p>',
-    );
-  }
 
   return $form;
 }

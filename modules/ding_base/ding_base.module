@@ -535,3 +535,44 @@ function ding_base_rewrite_color_stylesheet() {
   variable_set('color_' . $theme . '_stylesheets', $css);
   variable_set('color_' . $theme . '_files', $paths['files']);
 }
+
+/**
+ * Implements hook_file_presave().
+ */
+function ding_base_file_presave($file) {
+  // Check if uploaded file is image.
+  if (empty(file_validate_is_image($file))) {
+    $toolkit = image_get_toolkit();
+
+    // Check if gd2 library available.
+    if ('gd' == $toolkit) {
+      // We just copy image without any changes to remove EXIF metadata,
+      // and replace already uploaded image with made copy.
+      switch (exif_imagetype($file->uri)) {
+        case IMAGETYPE_JPEG:
+          $image = imagecreatefromjpeg($file->destination);
+          imagedestroy(imagecreatefromjpeg($file->destination));
+          imagejpeg($image, $file->destination, 100);
+          break;
+        case IMAGETYPE_GIF:
+          $image = imagecreatefromgif($file->destination);
+          imagedestroy(imagecreatefromgif($file->destination));
+          imagegif($image, $file->destination);
+          break;
+        case IMAGETYPE_PNG:
+          $image = imagecreatefrompng($file->destination);
+          imagedestroy(imagecreatefrompng($file->destination));
+          imagepng($image, $file->destination, 100);
+          break;
+        default:
+          break;
+      }
+    }
+    elseif ('imagemagick' == $toolkit) {
+      // We don't use PECL because it don't exist for some php versions or unstable,
+      // use imagemagic using command line.
+      $file_path = drupal_realpath($file->destination);
+      exec('convert ' . $file_path . ' -strip ' . $file_path);
+    }
+  }
+}

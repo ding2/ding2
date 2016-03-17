@@ -1,0 +1,12 @@
+.pane-bibdk-subject-hierarchy-bibdk-subject-hierarchy {
+  background-color: $content-background-color;
+
+  .themes__sublists {
+    background-color: $content-background-color;
+  }
+}
+
+
+.form-item-search-hierarchy-input {
+  @include box-sizing(border-box);
+}

@@ -39,10 +39,17 @@ function ding_campaign_admin_settings($form, $form_state) {
  * @return
  *   Campaign rules edit form.
  */
-function ding_campaign_rules_admin($node) {
+function ding_campaign_rules_admin($nid) {
   drupal_add_js(array('ding_campaing_init' => array(
     'autocompleteUrl' => url('ding_campaign/autocomplete/'),
   )), 'setting');
+
+  // Can't use hook_menu placeholder (%node) since they are cached
+  // and eventually hook_node_load() is not called, so infomation
+  // regarding campaign rules is not shown until a cache clear.
+  // Force load the node, so hook_node_load() is called, therefore
+  // adding rules information.
+  $node = node_load($nid, NULL, TRUE);
   return drupal_get_form('ding_campaign_edit_rules_form', $node);
 }
 
@@ -75,8 +82,9 @@ function ding_campaign_edit_rules_form($form, &$form_state, $node = NULL) {
     $c = count($node->camp_rule);
     for ($i = 0; $i < $c; $i++) {
       $form['ding_campaign_rules']['rules']['rule_' . $i] = ding_campaign_rule_form(
-              isset($node->camp_rule[$i]) ? $node->camp_rule[$i] : NULL,
-              isset($node->camp_type[$i]) ? $node->camp_type[$i] : 'rule_page');
+        isset($node->camp_rule[$i]) ? $node->camp_rule[$i] : NULL,
+        isset($node->camp_type[$i]) ? $node->camp_type[$i] : 'rule_page'
+      );
     }
   }
 

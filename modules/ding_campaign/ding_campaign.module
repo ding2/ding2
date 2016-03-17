@@ -21,7 +21,7 @@ function ding_campaign_menu() {
     'file' => 'ding_campaign.admin.inc',
   );
 
-  $items['node/%node/campaign_rules'] = array(
+  $items['node/%/campaign_rules'] = array(
     'title' => 'Campaign rules',
     'description' => 'Edit campaign rules',
     'page callback' => 'ding_campaign_rules_admin',
@@ -58,12 +58,10 @@ function ding_campaign_menu() {
  * @return bool
  *   TRUE or FALSE value.
  */
-function ding_campaign_rules_access($node) {
-  if ($node->type == 'ding_campaign') {
-    return TRUE;
-  }
+function ding_campaign_rules_access($nid) {
+  $node = node_load($nid);
 
-  return FALSE;
+  return is_object($node) && $node->type == 'ding_campaign';
 }
 
 /**
@@ -157,85 +155,93 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
 
     // Loop through campaigns.
     foreach ($campaigns as $campaign) {
-      // User entity wrapper to access fields.
-      $wrapper = entity_metadata_wrapper('node', $campaign);
 
-      // Get campaign type.
-      $type = $wrapper->field_camp_settings->value();
-
-      // Default render array.
-      $current = array(
-        '#theme' => 'ding_campaign',
-        '#type' => $type,
-        '#weight' => 0,
-      );
-
-      // Get link value.
-      $link = $wrapper->field_camp_link->value();
-
-      if (!empty($link)) {
-        $current['#link'] = array(
-          '#theme' => 'link',
-          '#text' => $campaign->title,
-          '#path' => $link,
-          '#options' => array(
-            'attributes' => array(
-              'class' => array(
-                'ding-campaing--link',
-              ),
-            ),
-            'html' => FALSE,
-            'absolute' => TRUE,
-          ),
-        );
-
-        if ($wrapper->field_camp_behavior->value()) {
-          $current['#link']['#options']['attributes']['target'] = '_blank';
-        }
-      }
-
-      // Get text both plain and full.
-      $text = $wrapper->field_camp_text_plain->value();
-      $text = (!empty($text)) ? $text : $wrapper->field_camp_text_full->value();
-      if (!empty($text)) {
-        $current['#text'] = array(
-          '#markup' => (is_array($text) && isset($text['safe_value'])) ? $text['safe_value'] : $text,
-        );
-        unset($current['#link']);
-      }
-
-      // Get image.
-      $image = $wrapper->field_camp_image->value();
-      if (!empty($image)) {
-        $current['#image'] = array(
-          '#theme' => 'image_style',
-          '#style_name' => $style,
-          '#path' => $image['uri'],
-          '#title' => isset($image['title']) ? $image['title'] : $campaign->title,
-          '#alt' => isset($image['alt']) ? $image['alt'] : $campaign->title,
-        );
-
-        // Check if a link around the image is possible.
-        if (!empty($link)) {
-          // Sadly the link theme function do not generate children.
-          $image = $current['#image'];
-          $current['#image'] = (isset($current['#link'])) ? $current['#link'] : NULL;
-          $current['#image']['#text'] = drupal_render($image);
-          $current['#image']['#options']['html'] = TRUE;
-        }
-      }
-      // Get weight.
-      $weight = $wrapper->field_camp_weight->value();
-      if (!empty($weight)) {
-        $current['#weight'] = $weight;
-      }
-
+      $current = ding_campaign_prepare_display($campaign, $style);
       // Add current campaign to content array.
       $content['#content'][] = $current;
     }
   }
 
   return $content;
+}
+
+/**
+ * Crates renderable array for campaign entity.
+ *
+ * @param        $campaign
+ * @param string $style
+ *
+ * @return array
+ */
+function ding_campaign_prepare_display($campaign, $style = 'medium') {
+  // User entity wrapper to access fields.
+  $wrapper = entity_metadata_wrapper('node', $campaign);
+
+  // Get campaign type.
+  $type = $wrapper->field_camp_settings->value();
+
+  // Default render array.
+  $current = array(
+    '#theme' => 'ding_campaign',
+    '#type' => $type,
+  );
+
+  // Get link value.
+  $link = $wrapper->field_camp_link->value();
+
+  if (!empty($link)) {
+    $current['#link'] = array(
+      '#theme' => 'link',
+      '#text' => $campaign->title,
+      '#path' => $link,
+      '#options' => array(
+        'attributes' => array(
+          'class' => array(
+            'ding-campaing--link',
+          ),
+        ),
+        'html' => FALSE,
+        'absolute' => TRUE,
+      ),
+    );
+
+    if ($wrapper->field_camp_behavior->value()) {
+      $current['#link']['#options']['attributes']['target'] = '_blank';
+    }
+  }
+
+  // Get text both plain and full.
+  $text = $wrapper->field_camp_text_plain->value();
+  $text = (!empty($text)) ? $text : $wrapper->field_camp_text_full->value();
+  if (!empty($text)) {
+    $current['#text'] = array(
+      '#markup' => (is_array($text) && isset($text['safe_value'])) ? $text['safe_value'] : $text,
+    );
+    unset($current['#link']);
+  }
+
+  // Get image.
+  $image = $wrapper->field_camp_image->value();
+  if (!empty($image)) {
+    $current['#image'] = array(
+      '#theme' => 'image_style',
+      '#style_name' => $style,
+      '#path' => $image['uri'],
+      '#title' => isset($image['title']) ? $image['title'] : $campaign->title,
+      '#alt' => isset($image['alt']) ? $image['alt'] : $campaign->title,
+    );
+
+    // Check if a link around the image is possible.
+    if (!empty($link)) {
+      // Sadly the link theme function do not generate children.
+      $image = $current['#image'];
+      $current['#image'] = (isset($current['#link'])) ? $current['#link'] : NULL;
+      $current['#image']['#text'] = drupal_render($image);
+      $current['#image']['#options']['html'] = TRUE;
+    }
+  }
+
+  return $current;
 }
 
 /**
@@ -334,17 +340,25 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
 
   // Process search campaigns.
   if ($context['search_term'] != NULL) {
-    $terms = trim(drupal_strtolower(check_plain($context['search_term'])));
+    $terms = trim(drupal_strtolower($context['search_term']));
 
     // Multiple keywords, comma and/or space separated.
     if (strpos($terms, ',') || strpos($terms, ' ')) {
-      $terms = preg_replace('/(,?\s+)/', ',', $terms);
-      $terms = implode('\',\'', explode(',', $terms));
-      $condition = 'IN (\'' . $terms . '\')';
+      $terms = preg_split('/,|\s/', $terms);
+      $terms = array_filter($terms);
+
+      array_walk($terms, function(&$v) {
+        $v = addslashes($v);
+      });
+
+      $terms = implode("','", $terms);
+
+      $condition = "IN ('$terms')";
     }
     // Single keyword.
     else {
-      $condition = ' = \'' . $context['search_term'] . '\'';
+      $term = addslashes($context['search_term']);
+      $condition = " = '$term'";
     }
 
     $result = db_query('SELECT r.cid
@@ -411,12 +425,11 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
     ->fetchAll();
 
   foreach ($result as $key => $value) {
-    if (!isset($campaigns[$value->cid]) || $campaigns[$value->cid] == 0) {
-      $campaigns[$value->cid] = (mt_rand(1, 10) / 10);
-    }
+    @$campaigns[$value->cid] += 0.5;
   }
 
   arsort($campaigns);
+
   return array_slice(array_keys($campaigns), $offset, $limit);
 }
 

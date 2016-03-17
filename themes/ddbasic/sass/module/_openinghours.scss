@@ -1,7 +1,7 @@
 /**
  * Opening hours
  *
- * @author magnify, zorp
+ * @author magnify, zorp, ac
  */
 
 
@@ -117,4 +117,8 @@
       font-family: $base-icon-library-font;
     }
   }
+}
+
+.pane-ding-library-opening-hours-ding-library-opened-today {
+  background-color: $content-background-color;
 }

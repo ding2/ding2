@@ -46,10 +46,16 @@ function ting_get_object($object_id, $collection = FALSE, $with_relations = FALS
 
       // Build request request and set object id.
       $request = ting_get_request_factory()->getObjectRequest();
+      if (!is_object($request)) {
+        return NULL;
+      }
       if ($collection) {
         // If this is a collection we need to do a collection request, which is
         // a search request.
         $request = ting_get_request_factory()->getCollectionRequest();
+        if (!is_object($request)) {
+          return NULL;
+        }
         $request->setAllObjects(FALSE);
       }
       $request->setObjectId($object_id);
@@ -166,6 +172,9 @@ function ting_get_objects($ids) {
   $query_chunks = array_chunk($query, 50);
   foreach ($query_chunks as $query_chunk) {
     $request = ting_get_request_factory()->getSearchRequest();
+    if (!is_object($request)) {
+      return NULL;
+    }
     if ($agency) {
       $request->setAgency($agency);
     }
@@ -226,6 +235,9 @@ function ting_get_objects($ids) {
  */
 function ting_do_search($query, $page = 1, $results_per_page = 10, $options = array()) {
   $request = ting_get_request_factory()->getSearchRequest();
+  if (!is_object($request)) {
+    return NULL;
+  }
 
   $agency = variable_get('ting_agency', FALSE);
   if ($agency && variable_get('ting_filter_by_local_holdings', 0)) {
@@ -592,6 +604,9 @@ function _ting_cache_update_relations_status($object, $with_relations = FALSE) {
  */
 function ting_get_object_recommendations($isbn, $num_results = 10) {
   $request = ting_get_request_factory()->getObjectRecommendationRequest();
+  if (!is_object($request)) {
+    return FALSE;
+  }
   $request->setIsbn($isbn);
   $request->setNumResults($num_results);
   return ting_execute($request);

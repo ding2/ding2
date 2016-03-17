@@ -122,6 +122,11 @@ a.button,
   }
 }
 
+/* Default button */
+%button-default {
+  @include create-gradient-button($button-theme-color, $button-default-bg, darken($button-default-bg, 15%));
+}
+
 /* Theme button */
 %button-theme {
   @include create-gradient-button($button-theme-color, $button-theme-bg, darken($button-theme-bg, 15%));

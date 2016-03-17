@@ -1,0 +1,55 @@
+/**
+ * Search
+ *
+ *
+ * @author ac
+ */
+
+
+.pane-ding-toggle-format-toggle {
+  @extend .pane-ting-search-records-per-page;
+
+  float: right;
+
+  .ding-toggle-format-label {
+    position: relative;
+    top: -2px;
+  }
+
+  #ding-toggle-format {
+    background: none;
+    text-decoration: none;
+
+    &:before,
+    &:after {
+      color: #bcbcbc;
+      display: inline-block;
+      font-family: "FontAwesome";
+      font-size: 100%;
+      height: 20px;
+      margin-top: 5px;
+      text-decoration: none;
+      width: 20px;
+    }
+
+    &:before {
+      content: "\f039";
+    }
+
+    &:after {
+      content: "\f03a";
+    }
+  }
+
+  #ding-toggle-format-image {
+    display: none;
+    height: 20px;
+  }
+
+  #ding-toggle-format {
+    &.ding-toggle-format-short:before,
+    &.ding-toggle-format-long:after {
+      color: $link-color;
+    }
+  }
+}
