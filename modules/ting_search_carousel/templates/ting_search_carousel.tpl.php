@@ -11,8 +11,7 @@
 ?>
 
 <!-- The wrapper div is important because rs-carousel replaces it -->
-<div class="rs-carousel-wrapper <?php echo $toggle_description; ?>"
-     search_carousel_hash="<?php echo $hash; ?>">
+<div class="rs-carousel-wrapper <?php echo $toggle_description; ?>">
   <div class="rs-carousel">
     <div class="rs-carousel-inner">
       <div class="ajax-loader"></div>

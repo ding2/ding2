@@ -6,6 +6,7 @@
 #  plugins/content_types/carousel.inc: n/a
 #  ting_search_carousel.module: n/a
 #  ting_search_carousel.install: n/a
+#  ting_search_carousel.admin.inc: n/a
 #
 #, fuzzy
 msgid ""
