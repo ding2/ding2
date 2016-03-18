@@ -48321,3 +48321,49 @@ msgstr "Gennemført"
 #: /admin/config/ding/gatewayf?render=overlay
 msgid "You have been registered at the library as an user."
 msgstr "Du er nu oprettet som bruger."
+
+#: /ting/object/870970-basis%3A49401841/reserve/NDk0MDE4NDFaWE5yLiAwMDYvMDA3WlhKdW5pL0p1bGlaWDIwMTNaWFpY/MjAxMw%3D%3D/SnVuaS9KdWxpLCBOci4gMDA2LzAwNw%3D%3D
+msgid "\"@title\" is not available for reservation."
+msgstr "\"@title\" kan ikke reserveres."
+
+#: /admin/config/ding/gatewayf?render=overlay
+msgid "Self registration"
+msgstr "Ny bruger - NemID"
+
+#: /admin/config/ding/gatewayf?render=overlay
+msgid "Start self registration"
+msgstr "Opret dig som bruger"
+
+#: /admin/config/ding/gatewayf?render=overlay
+msgid "Please read the library's regulations for usage before you use self registration."
+msgstr "<p>Her kan du oprette dig som bruger ved biblioteket.</p>
+<p>For at oprette dig skal du bruge dit NemID, og du skal være:
+<ol>
+<li>fyldt 18 år</li>
+<li>godkende at have læst og accepteret bibliotekets reglement og takster</li>
+</ol>
+</p>
+<p>Du kan selvfølgelig stadig oprette dig som bruger ved personlig henvendelse.</p>"
+
+#: /gatewayf/registration/acceptance
+msgid "You already have an user account at the library. So we have just logged you in."
+msgstr "Du er allerede oprettet som bruger hos biblioteket, og du er derfor logget ind."
+
+#: /
+msgid "NemID logo"
+msgstr "NemID logo"
+
+#: /gatewayf/callback?destination=ding_frontpage?eduPersonTargetedID=WAYF-DK-e767c06edaad0f8d23e785bbc470e7f37ad03e8d&mail=&logintype=nemlogin
+msgid "click here"
+msgstr "Klik her"
+
+#: /gatewayf/registration/acceptance
+msgid "Your full name."
+msgstr "Dit fulde navn"
+
+#: /gatewayf/registration/acceptance
+msgid "Select an interest period."
+msgstr "Vælg en interesseperiode"
+
+msgid "You are now logged out of WAYF"
+msgstr "Du er nu logget ud af NemID"
