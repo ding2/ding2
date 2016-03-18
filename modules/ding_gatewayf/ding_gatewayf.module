@@ -50,7 +50,7 @@ function ding_gatewayf_menu() {
   // Redirect the user to gatewayf for logout.
   $items[DING_GATEWAYF_LOGOUT_URL] = array(
     'page callback' => 'ding_gatewayf_logout',
-    'access callback' => 'ding_gatewayf_logout_access_check',
+    'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
 
@@ -170,14 +170,24 @@ function ding_gatewayf_logout() {
   $config = _ding_gatewayf_load_configuration();
 
   // Remove indication of WAYF login.
-  unset($_SESSION[DING_GATEWAYF_IS_LOGGED_IN]);
+  if (!empty($_SESSION[DING_GATEWAYF_IS_LOGGED_IN])) {
+    unset($_SESSION[DING_GATEWAYF_IS_LOGGED_IN]);
+  }
+
+  drupal_set_message('You are now logged out of WAYF');
 
   // Get the logout url for the site, which is used to redirect the user after
-  // logout. This ensures that the logout process is completed.
-  $logout_url = url('user/logout', array('absolute' => TRUE));
+  // logout. This needs to handle two cases:
+  // - If the Drupal user is logged in then return to the Drupal logout path
+  //   This ensures that the logout process is completed even if this function
+  //   is not the last to complete
+  // - If no Drupal user is logged in and we still want to log the user out
+  //   then we just return to the frontpage.
+  $return_path = (!user_is_anonymous()) ? 'user/logout' : '<front>';
+  $return_url = url($return_path, array('absolute' => TRUE));
 
-  // Redirect to the gateway.
-  header('Location:' . $config['service']['endpoint'] . '?op=logout&returnUrl=' . $logout_url);
+  // Redirect to the gateway to perform the actual logout.
+  header('Location:' . $config['service']['endpoint'] . '?op=logout&returnUrl=' . $return_url);
 
   drupal_exit();
 }
