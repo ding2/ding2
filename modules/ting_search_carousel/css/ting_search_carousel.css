@@ -2,12 +2,10 @@
    ting search carousel styling
    ========================================================================== */
 .rs-carousel,
-.rs-carousel-mask,
 .rs-carousel-runner {
   position: relative;
 }
 
-.rs-carousel-mask,
 .rs-carousel-runner {
   overflow: hidden;
 }
@@ -70,22 +68,18 @@ rs-carousel-runner {
   width: 220px;
 }
 
-.rs-carousel-mask,
-.rs-carousel-mask ul {
+.rs-carousel-items ul {
   display: inline-block;
   vertical-align: top;
 }
 
-.rs-carousel-mask {
-  width: 100%;
-}
-
-.rs-carousel-mask ul {
+.rs-carousel-items ul {
   margin: 0;
+  padding: 0;
   list-style: none;
 }
 
-.rs-carousel-mask li {
+.rs-carousel-items li {
   float: left;
   width: 100px;
   text-align: center;
