@@ -48336,14 +48336,7 @@ msgstr "Opret dig som bruger"
 
 #: /admin/config/ding/gatewayf?render=overlay
 msgid "Please read the library's regulations for usage before you use self registration."
-msgstr "<p>Her kan du oprette dig som bruger ved biblioteket.</p>
-<p>For at oprette dig skal du bruge dit NemID, og du skal være:
-<ol>
-<li>fyldt 18 år</li>
-<li>godkende at have læst og accepteret bibliotekets reglement og takster</li>
-</ol>
-</p>
-<p>Du kan selvfølgelig stadig oprette dig som bruger ved personlig henvendelse.</p>"
+msgstr "<p>Her kan du oprette dig som bruger ved biblioteket.</p><p>For at oprette dig skal du bruge dit NemID, og du skal være:<ol><li>fyldt 18 år</li><li>godkende at have læst og accepteret bibliotekets reglement og takster</li></ol></p><p>Du kan selvfølgelig stadig oprette dig som bruger ved personlig henvendelse.</p>"
 
 #: /gatewayf/registration/acceptance
 msgid "You already have an user account at the library. So we have just logged you in."
