@@ -195,7 +195,7 @@ function ding_gatewayf_logout() {
 /**
  * Handle callback from the gatewayf service.
  *
- * This handles all callbacks from the service both after login and logout.
+ * This handles all callbacks from the service after login.
  */
 function ding_gatewayf_callback() {
   // Check error callback.
@@ -210,45 +210,33 @@ function ding_gatewayf_callback() {
     $_REQUEST['destination'] = substr($_REQUEST['destination'], 0, strpos($_REQUEST['destination'], '?'));
   }
 
-  // Check if the is an login or logout request.
-  if (!_ding_gatewayf_is_logged_in_with_gatewayf()) {
-    $attributes = $_POST;
+  $attributes = $_POST;
 
-    // Check if the login was successful and the users information was returned.
-    if (!empty($attributes['schacPersonalUniqueID'])) {
-      $config = _ding_gatewayf_load_configuration();
+  // Check if the login was successful and the users information was returned.
+  if (!empty($attributes['schacPersonalUniqueID'])) {
+    $config = _ding_gatewayf_load_configuration();
 
-      if ($config['development']['log_auth_data']) {
-        watchdog('ding_gatewayf', 'Authentication data: %data', array('%data' => var_export($_POST, TRUE)), WATCHDOG_DEBUG);
-      }
-
-      // Set flag in session that we are logged in via gateway. It's not
-      // prefixed with gatewayf, but just wayf so it can be used by all wayf
-      // modules to indicate that the user was logged in via wayf. This could
-      // then be used to change behaviour in forgotten pin-code in the user
-      // profile (not requiring old password when logged in with wayf).
-      $_SESSION[DING_GATEWAYF_IS_LOGGED_IN] = TRUE;
-
-      // Log into the library system and Drupal.
-      _ding_gatewayf_provider_login($attributes);
+    if ($config['development']['log_auth_data']) {
+      watchdog('ding_gatewayf', 'Authentication data: %data', array('%data' => var_export($_POST, TRUE)), WATCHDOG_DEBUG);
     }
-    else {
-      watchdog('ding_gatewayf', 'The gateway returned no error and no schacPersonalUniqueID', array(), WATCHDOG_ERROR);
 
-      // Set message to the user.
-      drupal_set_message(t('The login with nem-login failed please try again later.'), 'error');
+    // Set flag in session that we are logged in via gateway. It's not
+    // prefixed with gatewayf, but just wayf so it can be used by all wayf
+    // modules to indicate that the user was logged in via wayf. This could
+    // then be used to change behaviour in forgotten pin-code in the user
+    // profile (not requiring old password when logged in with wayf).
+    $_SESSION[DING_GATEWAYF_IS_LOGGED_IN] = TRUE;
 
-      _ding_gatewayf_redirect_user('<front>');
-    }
+    // Log into the library system and Drupal.
+    _ding_gatewayf_provider_login($attributes);
   }
   else {
-    // Log the user out of drupal an clear session.
-    unset($_SESSION[DING_GATEWAYF_IS_LOGGED_IN]);
+    watchdog('ding_gatewayf', 'The gateway returned no error and no schacPersonalUniqueID', array(), WATCHDOG_ERROR);
 
-    // The gatewayf logout service does not return any information about the
-    // success of the logout request, so the only thing we can do is redirect to
-    // drupal logout.
-    _ding_gatewayf_redirect_user('user/logout');
+    // Set message to the user.
+    drupal_set_message(t('The login with nem-login failed please try again later.'), 'error');
+
+    _ding_gatewayf_redirect_user('<front>');
   }
 }
 
