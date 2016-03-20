@@ -199,23 +199,8 @@ function ting_field_search_ting_pre_execute($request) {
       }
 
       // Default sort.
-      $ranking = $profile->config['search_result']['ranking'];
-      $ting_search_default_sort = variable_get('ting_search_default_sort', '');
-      if (empty($_REQUEST['sort'])) {
-        // We only wanna enforce a default value, ting_search will do the rest.
-        $sort = $profile->config['search_result']['default_sort'];
-        if (empty($sort)) {
-          $sort = $ranking;
-        }
+      if ($sort = _ting_field_search_detect_sort($profile)) {
         $request->setSort($sort);
-      }
-      // Look for our best_match marker (fix for the best-match sort bug).
-      elseif ($_REQUEST['sort'] === 'best_match') {
-        // Remember to use this profile's ranking settings:
-        $request->setSort($ranking);
-      }
-      elseif ($_REQUEST['sort'] === $ting_search_default_sort . '_tfs') {
-        $request->setSort($ting_search_default_sort);
       }
 
       // Default size (results per page).
@@ -272,6 +257,42 @@ function ting_field_search_ting_pre_execute($request) {
 function _ting_field_search_append_cql($request, $cql) {
   $query = '(' . $request->getQuery() . ') and (' . $cql . ')';
   $request->setQuery($query);
+}
+
+/**
+ * Helper function user in hook_ting_pre_request(), to determine if the current
+ * request sort should be overriden. This has gotten quite complex, and is
+ * thereofore moved to seperate helper function.
+ * Implements a special modifier which bypasses the broken sort behavior in the
+ * Ting search module.
+ *
+ * TODO: Need to find a way remove the modifier in certain cases. Maybe set a
+ * flag in the validate handler when the search form is submitted...
+ */
+function _ting_field_search_detect_sort($profile) {
+  $sort = FALSE;
+
+  if (!empty($_REQUEST['sort'])) {
+    $input_sort = $_REQUEST['sort'];
+
+    // Look for the modifier in the sort query parameter.
+    $modifier = ':' . $profile->name;
+    if (substr($input_sort, -drupal_strlen($modifier)) === $modifier) {
+      $sort = explode(':', $input_sort)[0];
+    }
+  }
+  else {
+    $sort = $profile->config['search_result']['default_sort'];
+  }
+
+  // Empty string is a special case indicating the best_match sort.
+  // Regardless of how the sort was determined, use the profile's ranking.
+  // This should only be called in the context of an active profile.
+  if ($sort === '') {
+    $sort = $profile->config['search_result']['ranking'];
+  }
+
+  return $sort;
 }
 
 /**
@@ -735,28 +756,27 @@ function ting_field_search_search_block_validate($form, &$form_state) {
  */
 function ting_field_search_form_ting_search_sort_form_alter(&$form, &$form_state) {
   if ($profile = ting_field_search_profile_is_active()) {
-    // TODO: Clean up this mess and add better comments.
     $ting_search_default_sort = variable_get('ting_search_default_sort', '');
     $profile_default_sort = $profile->config['search_result']['default_sort'];
+
     $options = &$form['sort']['#options'];
 
-    // Add a special 'best_match' marker as options value, instead of the
-    // default empty string, to fix the best-match sort if another default sort
-    // is used.
+    // If the profile is using any other default sort than 'best_match', we
+    // need to bypass ting_search with our modifier.
+    // See: _ting_field_search_detect_sort().
     if (!empty($profile_default_sort)) {
-      $options['best_match'] = $options[''];
+      $options[':'. $profile->name] = $options[''];
       unset($options['']);
     }
 
-    // If the profile sort is different from the standard sort, we need to use
-    // a dirty fix, to make it possible to search in the default sort when
-    // using the profile.
+    // If this profile has another default sort setting than ting_search we
+    // also need to bypass ting_search with the modifier. No need to do
+    // anything if ting_searh is using best_match, because we just added a fix
+    // for that above.
     if ($ting_search_default_sort !== $profile_default_sort && !empty($ting_search_default_sort)) {
-      $options[$ting_search_default_sort . '_tfs'] = $options[$ting_search_default_sort];
+      $bypass_key = $ting_search_default_sort . ':' . $profile->name;
+      $options[$bypass_key] = $options[$ting_search_default_sort];
       unset($options[$ting_search_default_sort]);
-
-      // TODO: For a solution which keeps the order see:
-      // http://stackoverflow.com/questions/8883974/change-array-key-without-changing-order
     }
 
     if (empty($_GET['sort'])) {
