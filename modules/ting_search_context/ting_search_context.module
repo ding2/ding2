@@ -101,19 +101,18 @@ function ting_search_context_theme($existing, $type, $theme, $path) {
   return array(
     'ting_search_context' => array(
       'variables' => array('context' => NULL, 'position' => NULL),
-      'template' => '/templates/ting_search_context',
+      'template' => 'templates/ting_search_context',
       'file' => 'ting_search_context.theme.inc',
     ),
     'ting_search_context_content' => array(
       'variables' => array('node' => NULL),
-      'template'  => '/templates/ting_search_context_content',
+      'template'  => 'templates/ting_search_context_content',
       'file' => 'ting_search_context.theme.inc',
     ),
     'views_view_field__ting_search_context_rate_nodes__title' => array(
       'variables' => array('view' => NULL, 'options' => NULL, 'row' => NULL),
-      'template' => 'views-view-field--ting-search-context-rate-nodes--title',
+      'template' => 'templates/views-view-field--ting-search-context-rate-nodes--title',
       'base hook' => 'views_views_field',
-      'path' => $path . '/templates',
       'preprocess functions' => array(
         'template_preprocess',
         'template_preprocess_views_view_field',
