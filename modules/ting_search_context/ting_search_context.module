@@ -466,6 +466,13 @@ function ting_search_context_rate_node_action_validate($form, &$form_state) {
   }
   // Select.
   else {
+    // The required states doesn't actually work, since everything is handled
+    // on the server. So here we ensure that a context is selected, when using
+    // the select selection method.
+    // See: https://api.drupal.org/comment/24863#comment-24863
+    if (empty($form_state['values']['select'])) {
+      form_set_error('select');
+    }
     $form_state['values']['context'] = $form_state['values']['select'];
   }
 }
