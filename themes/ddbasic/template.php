@@ -441,7 +441,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
   // For search result view mode move title into left col. group.
   if (isset($variables['content']['group_right_col_search'])) {
     $variables['content']['group_right_col_search']['title'] = array(
-      '#type' => 'link',
+      '#theme' => 'link',
       '#text' => decode_entities($variables['title']),
       '#path' => 'node/' . $variables['nid'],
       '#options' => array(
