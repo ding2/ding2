@@ -123,7 +123,7 @@ function ting_search_context_install() {
 }
 
 /**
- * Implements hook_unintstall().
+ * Implements hook_uninstall().
  */
 function ting_search_context_uninstall() {
   variable_del('ting_search_context_position');
