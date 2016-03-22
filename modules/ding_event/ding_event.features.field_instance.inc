@@ -215,15 +215,9 @@ function ding_event_field_default_field_instances() {
       ),
       'search_result' => array(
         'label' => 'hidden',
-        'module' => 'date',
-        'settings' => array(
-          'format_type' => 'long',
-          'fromto' => 'both',
-          'multiple_from' => '',
-          'multiple_number' => '',
-          'multiple_to' => '',
-        ),
-        'type' => 'date_default',
+        'module' => 'ding_frontend',
+        'settings' => array(),
+        'type' => 'calendar_header',
         'weight' => 0,
       ),
       'teaser' => array(
