@@ -2,7 +2,7 @@
 /**
  * @file
  * AdditionalInformation class.
- */ 
+ */
 
 class AdditionalInformation {
 
