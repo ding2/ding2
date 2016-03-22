@@ -362,16 +362,16 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     switch ($variables['node']->type) {
       case 'ding_event':
         $more_link = array(
-          '#theme' => 'link',
-          '#text' => '<i class="icon-chevron-right"></i>',
+          '#type' => 'link',
+          '#text' => t('Read more'),
           '#path' => 'node/' . $variables['nid'],
           '#options' => array(
             'attributes' => array(
               'title' => $variables['title'],
             ),
-            'html' => TRUE,
+            'html' => FALSE,
           ),
-          '#prefix' => '<div class="event-arrow-link">',
+          '#prefix' => '<span class="event-link">',
           '#surfix' => '</div>',
           '#weight' => 6,
         );
@@ -381,7 +381,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
 
       case 'ding_news':
         $more_link = array(
-          '#theme' => 'link',
+          '#type' => 'link',
           '#text' => t('Read more'),
           '#path' => 'node/' . $variables['nid'],
           '#options' => array(
@@ -400,7 +400,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
 
       case 'ding_eresource':
         $more_link = array(
-          '#theme' => 'link',
+          '#type' => 'link',
           '#text' => t('Read more'),
           '#path' => 'node/' . $variables['nid'],
           '#options' => array(
@@ -419,7 +419,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
 
       case 'ding_page':
         $more_link = array(
-          '#theme' => 'link',
+          '#type' => 'link',
           '#text' => t('Read more'),
           '#path' => 'node/' . $variables['nid'],
           '#options' => array(
@@ -441,7 +441,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
   // For search result view mode move title into left col. group.
   if (isset($variables['content']['group_right_col_search'])) {
     $variables['content']['group_right_col_search']['title'] = array(
-      '#theme' => 'link',
+      '#type' => 'link',
       '#text' => decode_entities($variables['title']),
       '#path' => 'node/' . $variables['nid'],
       '#options' => array(
