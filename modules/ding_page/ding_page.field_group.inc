@@ -200,8 +200,8 @@ function ding_page_field_group_info() {
     'label' => 'Right column',
     'weight' => '1',
     'children' => array(
-      0 => 'field_ding_page_tags',
-      1 => 'field_ding_page_lead',
+      0 => 'field_ding_page_lead',
+      1 => 'field_ding_page_tags',
     ),
     'format_type' => 'div',
     'format_settings' => array(
