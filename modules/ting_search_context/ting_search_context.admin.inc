@@ -375,7 +375,7 @@ function ting_search_context_admin_context_delete_confirm_form_submit($form, &$f
 function ting_search_context_admin_settings_form($form, &$form_state) {
   $form['ting_search_context_admin_settings_form'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Position related content on search page'),
+    '#title' => t('Settings for the Ting Search Context Module'),
   );
 
   $form['ting_search_context_admin_settings_form']['ting_search_context_position'] = array(
@@ -386,6 +386,31 @@ function ting_search_context_admin_settings_form($form, &$form_state) {
     '#default_value' => variable_get('ting_search_context_position', 'js-below-search-result'),
   );
 
+  $form['ting_search_context_admin_settings_form']['ting_search_context_pass_ratio'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Pass ratio'),
+    '#description' => t('The ratio of search results needed to qualify as a context. If no context qualifies the search is put in the neutral context. Minimum 0.5. Maximum 1.0.'),
+    '#default_value' => variable_get('ting_search_context_pass_ratio', 0.60),
+  );
+
+  $form['ting_search_context_admin_settings_form']['ting_search_context_audio_types'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Audio types'),
+    '#description' => t('Definition of audio types. Seperated by comma'),
+    '#default_value' => variable_get('ting_search_context_audio_types', 'lydbog (net),lydbog (cd-mp3),lydbog (cd)'),
+  );
+  $form['ting_search_context_admin_settings_form']['ting_search_context_film_types'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Film types'),
+    '#description' => t('Definition of film types. Seperated by comma'),
+    '#default_value' => variable_get('ting_search_context_film_types', 'film (net),dvd,blue-ray'),
+  );
+  $form['ting_search_context_admin_settings_form']['ting_search_context_music_types'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Music types'),
+    '#description' => t('Definition of music types. Seperated by comma'),
+    '#default_value' => variable_get('ting_search_context_music_types', 'cd (musik),grammofonplade,node'),
+  );
   // Add administration feel and look.
   $form = system_settings_form($form);
 

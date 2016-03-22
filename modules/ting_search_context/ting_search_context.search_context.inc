@@ -106,9 +106,9 @@ function ting_search_context_check_search_context(array $search_contexts, $searc
  *   The system_contexts context name or book.
  */
 function ting_search_context_get_material_type(array $facets, $total_number) {
-  $audio_types = array('lydbog (net)', 'lydbog (cd-mp3)', 'lydbog (cd)');
-  $film_types = array('film (net)', 'dvd', 'blue-ray');
-  $music_types = array('cd (musik)', 'grammofonplade', 'node');
+  $audio_types = explode (',', variable_get('ting_search_context_audio_types', 'lydbog (net),lydbog (cd-mp3),lydbog (cd)'));
+  $film_types = explode (',', variable_get('ting_search_context_film_types', 'film (net),dvd,blue-ray'));
+  $music_types = explode (',', variable_get('ting_search_context_music_types', 'cd (musik),grammofonplade,node'));
   if (ting_search_context_matches_material_type($facets, $total_number, $film_types)) {
     return 'film';
   }
