@@ -371,10 +371,10 @@ function ting_search_context_rate_node_action_form($settings, &$form_state = NUL
     '#default_value' => isset($settings['context']) ? $settings['context'] : '',
     '#states' => array(
       'visible' => array(
-        'input[name="method"]' => array('value' => 0),
+        'input[name="method"]' => array('value' => '0'),
       ),
       'required' => array(
-        'input[name="method"]' => array('value' => 0),
+        'input[name="method"]' => array('value' => '0'),
       ),
     ),
   );
@@ -384,10 +384,10 @@ function ting_search_context_rate_node_action_form($settings, &$form_state = NUL
     '#autocomplete_path' => 'ting-search-context/autocomplete',
     '#states' => array(
       'visible' => array(
-        'input[name="method"]' => array('value' => 1),
+        'input[name="method"]' => array('value' => '1'),
       ),
       'required' => array(
-        'input[name="method"]' => array('value' => 1),
+        'input[name="method"]' => array('value' => '1'),
       ),
     ),
   );
