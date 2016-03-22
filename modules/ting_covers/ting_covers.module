@@ -169,7 +169,6 @@ function ting_covers_get($requested_covers) {
     $entities[$id] = ding_entity_load($id);
   }
 
-  $covers = array();
   // Fetch covers by calling hook.
   foreach (module_implements('ting_covers') as $module) {
     foreach (module_invoke($module, 'ting_covers', $entities) as $id => $uri) {
