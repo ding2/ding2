@@ -345,7 +345,7 @@ function ting_search_context_admin_context_delete_confirm_form($form, &$form_sta
 }
 
 /**
- * Submit hanlder for the context delete confirm form.
+ * Submit handler for the context delete confirm form.
  */
 function ting_search_context_admin_context_delete_confirm_form_submit($form, &$form_state) {
   $context = $form_state['values']['context'];
