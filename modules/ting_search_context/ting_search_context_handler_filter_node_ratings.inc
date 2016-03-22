@@ -37,14 +37,6 @@ class ting_search_context_handler_filter_node_ratings extends views_handler_filt
         'method' => 'op_rated_simple',
         'values' => 1,
       ),
-      // Needs some work
-      /*'all' => array(
-        'title' => t('Rated in all of'),
-        'short' => t('in'),
-        'short_single' => t('='),
-        'method' => 'op_rated_simple',
-        'values' => 1,
-      ),*/
       'not any' => array(
         'title' => t('Not rated in any of'),
         'short' => t('not in'),
@@ -126,23 +118,6 @@ class ting_search_context_handler_filter_node_ratings extends views_handler_filt
     // Fetch nids of nodes in the ratings table.
     $subquery = db_select('ting_search_context_nodes_rated', 'nr');
     $subquery->addField('nr', 'nid');
-
-    $this->_add_subquery($subquery, $operator);
-  }
-
-  /**
-   * TODO: Doesn't work yet. Will need multiple joins??
-   */
-  function op_rated_advanced() {
-    if (empty($this->value)) {
-      return;
-    }
-
-    $subquery = db_select('ting_search_context_nodes_rated', 'nr');
-    $subquery->addField('nr', 'nid');
-    foreach ($this->value as $context_id) {
-      $subquery->condition('nr.context_id', $context_id);
-    }
 
     $this->_add_subquery($subquery, $operator);
   }
