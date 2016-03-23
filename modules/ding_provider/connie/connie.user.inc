@@ -66,7 +66,7 @@ function connie_user_is_authenticated($creds) {
  * @returns array
  *   An array, optionally with new 'creds' which will be cached.
  */
-function connie_user_account_update($account, $changes) {
+function connie_user_account_update($account, array $changes) {
   $result = array();
   $creds = ding_user_get_creds($account);
   $res = connie_client_invoke('update_userinfo', $creds['name'], $creds['pass'], $changes);

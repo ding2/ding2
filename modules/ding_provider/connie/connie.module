@@ -2,10 +2,9 @@
 /**
  * @file
  * Helper module for the Ding provider tests.
- *
  */
 
-include_once('connie.features.inc');
+include_once 'connie.features.inc';
 
 /**
  * Allowed values callback for field.
@@ -16,7 +15,7 @@ function connie_allowed_branches() {
 }
 
 /**
- * Implement hook_ding_provider().
+ * Implements hook_ding_provider().
  */
 function connie_ding_provider() {
   return array(
@@ -76,17 +75,21 @@ function connie_profile2_presave($profile) {
   // saved back to the provider.
   $try_to_save = ($profile->created == $profile->changed) ? FALSE : TRUE;
   if ($profile->type == 'provider_connie' && $try_to_save) {
-    // We'd use a metadata wrapper to access the data.
-    // $wrapper_original = entity_metadata_wrapper('profile2', $profile->original);
-    // $wrapper = entity_metadata_wrapper('profile2', $profile);
-
-    /**
-     * Here would be the code to update the backend...
+    /*
+     * Here would be the code to update the backend.
+     *
+     * We'd use a metadata wrapper to access the data.
+     *
+     * @code
+     * $wrapper_original = entity_metadata_wrapper('profile2',
+     *   $profile->original);
+     * $wrapper = entity_metadata_wrapper('profile2', $profile);
+     * @endcode
      */
   }
 }
 
-/*
+/**
  * Availability functions.
  */
 function connie_availability_items($provider_ids) {
@@ -126,6 +129,7 @@ function connie_availability_items($provider_ids) {
 }
 
 /**
+ * Provider function, return holdings.
  */
 function connie_availability_holdings($provider_ids) {
   // Holdings is a superset of items.
@@ -146,7 +150,7 @@ function connie_availability_holdings($provider_ids) {
 }
 
 /**
- *
+ * Provider function, return holdings for periodical.
  */
 function connie_availability_periodical($provider_ids) {
   $res = array();
