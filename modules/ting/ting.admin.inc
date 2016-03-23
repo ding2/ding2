@@ -140,6 +140,7 @@ function ting_admin_ting_settings($form_state) {
  * Form builder; Configure custom names for ting types.
  *
  * @ingroup forms
+ *
  * @see system_settings_form()
  */
 function ting_admin_types_settings($form_state) {
