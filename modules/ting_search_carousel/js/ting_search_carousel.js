@@ -257,7 +257,7 @@
         tabs[index].wrapper = carousel;
         tabs[index].carousel = carousel.find('.rs-carousel-items');
 
-        var updateData = function (event) {
+        var updateData = function () {
           // Update if there's still data to be fetched and we're near
           // the end of the carousel.
           if (tabs[index].offset >= 0) {
