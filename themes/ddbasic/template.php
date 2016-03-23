@@ -362,7 +362,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     switch ($variables['node']->type) {
       case 'ding_event':
         $more_link = array(
-          '#type' => 'link',
+          '#theme' => 'link',
           '#text' => t('Read more'),
           '#path' => 'node/' . $variables['nid'],
           '#options' => array(
@@ -381,7 +381,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
 
       case 'ding_news':
         $more_link = array(
-          '#type' => 'link',
+          '#theme' => 'link',
           '#text' => t('Read more'),
           '#path' => 'node/' . $variables['nid'],
           '#options' => array(
@@ -400,7 +400,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
 
       case 'ding_eresource':
         $more_link = array(
-          '#type' => 'link',
+          '#theme' => 'link',
           '#text' => t('Read more'),
           '#path' => 'node/' . $variables['nid'],
           '#options' => array(
@@ -419,7 +419,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
 
       case 'ding_page':
         $more_link = array(
-          '#type' => 'link',
+          '#theme' => 'link',
           '#text' => t('Read more'),
           '#path' => 'node/' . $variables['nid'],
           '#options' => array(
