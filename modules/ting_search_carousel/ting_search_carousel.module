@@ -112,47 +112,6 @@ function ting_search_carousel_block_view($delta) {
 }
 
 /**
- * Implements hook_cron().
- *
- * Touch all existing cover files, to stop ting_cover_cron() from deleting them,
- * or fetch missing covers (they must exists as they wouldn't have been cache
- * otherwise).
- *
- * An alternative would be to simply clear our own cache at the same time. Has
- * the advantage that the data doesn't grow stale for too long, in the case of
- * updates to the datawell, but means hitting the well harder.
- *
- * @todo fix this up
- */
-function ting_search_carousel_cron() {
-  if ($cache = cache_get('ting_search_carousel_result')) {
-    $data = $cache->data;
-
-    $ids = array();
-    foreach ($data as $index) {
-      foreach ($index as $item) {
-        $path = ting_covers_object_path($item->id);
-        if (file_exists($path)) {
-          // Touch the file to keep ting_cover_cron() from deleting it. The
-          // Drupal stream wrapper doesn't support touch, so get the real path.
-          touch(drupal_realpath($path));
-        }
-        else {
-          // Fetch the cover.
-          $ids[] = $item->id;
-        }
-      }
-    }
-
-    if ($ids) {
-      $entities = ting_object_load_multiple($ids);
-      ting_covers_load($entities);
-    }
-  }
-}
-
-
-/**
  * Implements hook_ctools_plugin_directory().
  */
 function ting_search_carousel_ctools_plugin_directory($module, $plugin) {
