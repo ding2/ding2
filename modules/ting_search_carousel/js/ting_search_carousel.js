@@ -7,7 +7,6 @@
  *
  * For large screens the normal tab list (ul -> li) is used while on small
  * screens (mobile/tables) a select dropdown is used.
- *
  */
 
 (function ($) {
@@ -27,7 +26,7 @@
   transitions.none.prototype.switchTo = function (to, element) {
     element.find('.rs-carousel-inner:visible').hide();
     to.show();
-  }
+  };
 
   transitions.fade = function() {};
 
@@ -39,7 +38,7 @@
       to.fadeIn(200);
       element.height('auto');
     });
-  }
+  };
 
   transitions.crossFade = function() {};
 
@@ -57,19 +56,19 @@
         'box-sizing': 'border-box'
       });
     });
-  }
+  };
 
   transitions.crossFade.prototype.switchTo = function (to, element) {
     element.find('.rs-carousel-inner').fadeOut(200);
     to.fadeIn(200);
-  }
+  };
 
   /*
    * End of transition definitions.
    */
 
   Drupal.theme.tingSearchCarousel = function(subtitle, content) {
-    var carousel = $("<div>").addClass('rs-carousel-inner')
+    var carousel = $("<div>").addClass('rs-carousel-inner');
     if (Drupal.settings.ting_search_carousel.show_description) {
       carousel.append($('<div>').addClass('rs-carousel-title').text(subtitle));
     }
@@ -85,8 +84,8 @@
     var select = $('<select>').addClass('rs-carousel-select-tabs');
     $.each(tab_defs, function (index, tab) {
       // Without the href, the styling suffers.
-      tabs.append($("<li>").addClass('rs-carousel-item').append($('<a>').text(tab['title']).attr('href', '#')));
-      select.append($('<option>').addClass('rs-carousel-item').text(tab['title']));
+      tabs.append($("<li>").addClass('rs-carousel-item').append($('<a>').text(tab.title).attr('href', '#')));
+      select.append($('<option>').addClass('rs-carousel-item').text(tab.title));
     });
 
     return $('<div>').addClass('rs-carousel-tabs').append(tabs).append(select);
@@ -98,8 +97,6 @@
     var element;
     // Tab definition.
     var tabs;
-    // Running carousels.
-    var carousels = [];
     // Transition for this carousel.
     var transition;
     // Tabs and mobile select for switching carousels.
@@ -207,13 +204,11 @@
       navigation = Drupal.theme.tingSearchCarouselTabs(tabs);
 
       // Attach click events to tabs.
-      navigation.find('.rs-carousel-list-tabs').on("click", "li", (
-        function(e) {
-          e.preventDefault();
-          _change_tab($(this).index());
-          return false;
-        }
-      ));
+      navigation.find('.rs-carousel-list-tabs').on("click", "li", function(e) {
+        e.preventDefault();
+        _change_tab($(this).index());
+        return false;
+      });
 
       // Add change event to selector.
       navigation.find('.rs-carousel-select-tabs').on('change', function() {
@@ -228,7 +223,7 @@
       _equal_tab_width(navigation.find('.rs-carousel-list-tabs'));
 
       // Resize the tabs if the window size changes.
-      $(window).bind('resize', function (evt) {
+      $(window).bind('resize', function () {
         _equal_tab_width(navigation.find('.rs-carousel-list-tabs'));
       });
 
@@ -246,23 +241,23 @@
       $.each(tabs, function (index, tab) {
         var carousel;
         // Skip first, it was supplied by the server.
-        if (index != 0) {
-          carousel = Drupal.theme.tingSearchCarousel(tab['subtitle'], tab['content']).hide();
-          delete tab['content'];
+        if (index !== 0) {
+          carousel = Drupal.theme.tingSearchCarousel(tab.subtitle, tab.content).hide();
+          delete tab.content;
           first_carousel.after(carousel);
         }
         else {
           carousel = first_carousel;
           // Add in extra content.
-          if (tab['content']) {
-            carousel.find('ul').append(tab['content']);
+          if (tab.content) {
+            carousel.find('ul').append(tab.content);
           }
         }
 
         tabs[index].wrapper = carousel;
         tabs[index].carousel = carousel.find('.rs-carousel-items');
 
-        var updateData = function (event, data) {
+        var updateData = function (event) {
           // Update if there's still data to be fetched and we're near
           // the end of the carousel.
           if (tabs[index].offset >= 0) {
@@ -271,7 +266,7 @@
               _update(index);
             }
           }
-        }
+        };
 
         tabs[index].carousel.carousel({
           noOfRows: 1,
@@ -280,6 +275,20 @@
           create: updateData,
           after: updateData,
         });
+      });
+    }
+
+    /**
+     * Private: Fetch content for carousels.
+     */
+    function _fetch(index, offset, callback) {
+      $.ajax({
+        type: 'get',
+        url : Drupal.settings.basePath + tabs[index].path + '/' + offset,
+        dataType : 'json',
+        success : function(data) {
+          callback(data);
+        }
       });
     }
 
@@ -307,20 +316,6 @@
     }
 
     /**
-     * Private: Fetch content for carousels.
-     */
-    function _fetch(index, offset, callback) {
-      $.ajax({
-        type: 'get',
-        url : Drupal.settings.basePath + tabs[index].path + '/' + offset,
-        dataType : 'json',
-        success : function(data) {
-          callback(data);
-        }
-      });
-    }
-
-    /**
      * Public: Init the carousel and fetch content for the first tab.
      */
     function init(id, settings) {
@@ -339,7 +334,7 @@
         transition = new Drupal.tingSearchCarouselTransitions[settings.transition]();
       }
       else {
-        transition = new Drupal.tingSearchCarouselTransitions['fade']();
+        transition = new Drupal.tingSearchCarouselTransitions.fade();
       }
 
       if (typeof transition.init === 'function') {
@@ -365,9 +360,9 @@
    */
   Drupal.behaviors.ting_search_carousel = {
     attach: function (context, settings) {
-      $.each(settings.ting_search_carousel['carousels'], function (id, carousel_settings) {
+      $.each(settings.ting_search_carousel.carousels, function (id, carousel_settings) {
         Drupal.TingSearchCarousel.init(id, carousel_settings);
-      })
+      });
     }
   };
 
