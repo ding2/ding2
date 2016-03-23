@@ -353,6 +353,5 @@ function ting_search_carousel_search_submit($form, &$form_state) {
   variable_set('ting_carousel_search_queries', $searches);
 
   // Clear carousel search cache
-  // todo fix this
-  cache_clear_all('ting_search_carousel_result', 'cache');
+  cache_clear_all('ting_search_carousel_search_', 'cache', TRUE);
 }
