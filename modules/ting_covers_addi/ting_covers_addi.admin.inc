@@ -1,14 +1,16 @@
 <?php
 /**
  * @file
- * Administration interface for the module, which allows configuration of
- * moreinfo end-points and cache lifetime.
+ * Administration interface for the ting_covers_addi module.
+ *
+ * Which allows configuration of moreinfo end-points and cache lifetime.
  */
 
 /**
  * Form builder; Configure ADDI settings for this site.
  *
  * @ingroup forms
+ *
  * @see system_settings_form()
  */
 function ting_covers_addi_admin_settings_form($form, &$form_state) {

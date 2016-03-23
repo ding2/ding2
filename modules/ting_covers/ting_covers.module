@@ -1,8 +1,10 @@
 <?php
 /**
  * @file
- * Provide functionality and page callbacks for retrieving covers for Ting
- * objects and collections
+ * Get covers for ting objects.
+ *
+ * This module provide functionality and page callbacks for retrieving covers
+ * for Ting objects and collections
  */
 
 // Default cache lifetime for covers (24 timer).
@@ -142,7 +144,7 @@ function ting_covers_object_path($object_id) {
  * @return array
  *   Array of id => file path for found covers.
  */
-function ting_covers_get($requested_covers) {
+function ting_covers_get(array $requested_covers) {
   $entities = array();
   $covers = array();
 
