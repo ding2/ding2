@@ -1,0 +1,475 @@
+# $Id$
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  profiles/ding2/modules/ding_dashboard/ding_dashboard.admin.inc: n/a
+#  profiles/ding2/modules/ding_dashboard/ding_dashboard.pages.inc: n/a
+#  profiles/ding2/modules/ding_dashboard/ding_dashboard.module: n/a
+#  profiles/ding2/modules/ding_dashboard/ding_dashboard.install: n/a
+#  profiles/ding2/modules/ding_dashboard/ding_dashboard.info: n/a
+#  profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_comments/ding_dashboard_comments.info: n/a
+#  profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_notification/ding_dashboard_notification.info: n/a
+#  profiles/ding2/modules/ding_dashboard/includes/ding_dashboard_editorial_approve.class.inc: n/a
+#  profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc: n/a
+#  profiles/ding2/modules/ding_dashboard/includes/ding_dashboard_editorial_delete.class.inc: n/a
+#  profiles/ding2/modules/ding_dashboard/includes/ding_dashboard_editorial_push.class.inc: n/a
+#  profiles/ding2/modules/ding_dashboard/includes/ding_dashboard_editorial_reject.class.inc: n/a
+#  profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_comments/ding_dashboard_comments.module: n/a
+#  profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_comments/templates/ding_dashboard_single_comment.tpl.php: n/a
+#  profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_notification/ding_dashboard_notification.admin.inc: n/a
+#  profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_notification/ding_dashboard_notification.module: n/a
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2015-07-28 11:34+0300\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.admin.inc:22
+msgid "You do not have any administrative items."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.admin.inc:44
+msgid "Available node types"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.admin.inc:45
+msgid "Select which nodes should be a part of editorial system"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.admin.inc:105
+msgid "Exception thrown when creating field instance @instance for bundle @bundle."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.admin.inc:106
+msgid "Error when creating field instance @instance for bundle @bundle."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.admin.inc:110
+msgid "Field instance @instance for bundle @bundle created successfully."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.admin.inc:123
+msgid "@count nodes have been marked to editorial system."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.pages.inc:23
+msgid "Unknown action @action requested."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.pages.inc:37
+msgid "No such @callback() method defined."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:93
+msgid "Push own editorial dashboard content."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:94
+msgid "Allow to push own editorial dashboard content."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:98
+msgid "Push any editorial dashboard content."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:99
+msgid "Allow to push any editorial dashboard content."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:103
+msgid "Approve own editorial dashboard content."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:104
+msgid "Allow to push approve editorial dashboard content."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:108
+msgid "Approve any editorial dashboard content."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:109
+msgid "Allow to approve any editorial dashboard content."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:113;118
+msgid "Reject own editorial dashboard content."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:114;119
+msgid "Allow to reject own editorial dashboard content."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:123
+msgid "Delete own editorial dashboard content."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:124
+msgid "Allow to delete own editorial dashboard content."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:128
+msgid "Delete any editorial dashboard content."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:129
+msgid "Allow to delete any editorial dashboard content."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:281
+msgid "Save and push to ED"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:294
+msgid "Save and approve to ED"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:474
+msgid "Editorial Push link"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:475
+msgid "Provide a simple link to push the content in editorial system."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:482
+msgid "Editorial Approve link"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:483
+msgid "Provide a simple link to approve the content in editorial system."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:490
+msgid "Editorial Reject link"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:491
+msgid "Provide a simple link to reject the content in editorial system."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:498
+msgid "Editorial Delete link"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:499
+msgid "Provide a simple link to delete the content from editorial system."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:597
+msgid "Are you sure to delete <em>@node</em>"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:599
+msgid "Node will be marked as deleted and will be still available in the system."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:26
+msgid "Editorial Dashboard"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:27
+msgid "Editorial settings"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:35
+msgid "Content types"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.module:36
+msgid "Define which content types are a part of editorial system"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.install:29
+msgid "New"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.install:30
+msgid "Pushed"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.install:31
+msgid "Approved"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.install:32
+msgid "Rejected"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.info:0
+msgid "Ding! Editorial Dashboard"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.info:0
+msgid "Provides editorial content features."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/ding_dashboard.info:0 profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_comments/ding_dashboard_comments.info:0 profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_notification/ding_dashboard_notification.info:0
+msgid "Ding!"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/includes/editorial_dashboard_editorial_approve.class.inc:28 profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:397
+msgid "approve"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/includes/editorial_dashboard_editorial_delete.class.inc:28 profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:399
+msgid "delete"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/includes/editorial_dashboard_editorial_push.class.inc:28
+msgid "push"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/includes/editorial_dashboard_editorial_reject.class.inc:29 profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:398
+msgid "reject"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_comments/ding_dashboard_comments.module:17
+msgid "Administer dashboard comments"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_comments/ding_dashboard_comments.module:18
+msgid "Check this to allow certain roles to edit comments settings."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_comments/ding_dashboard_comments.module:22
+msgid "Allow commenting"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_comments/ding_dashboard_comments.module:23
+msgid "Check this to allow view of comments and commenting."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_comments/ding_dashboard_comments.module:71
+msgid "Editorial comments"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_comments/ding_dashboard_comments.module:85
+msgid "Your comment"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_comments/ding_dashboard_comments.module:316
+msgid "Node was pushed."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_comments/ding_dashboard_comments.module:319
+msgid "Node was approved."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_comments/ding_dashboard_comments.module:322
+msgid "Node was rejected."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_comments/ding_dashboard_comments.info:0
+msgid "Ding! Editorial Dashboard Comments"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_comments/ding_dashboard_comments.info:0
+msgid "Automated and user comments on a node edit page."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_comments/templates/ding_dashboard_single_comment.tpl.php:11
+msgid "By"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_comments/templates/ding_dashboard_single_comment.tpl.php:12
+msgid "at"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_notification/ding_dashboard_notification.admin.inc:19
+msgid "From email address"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_notification/ding_dashboard_notification.admin.inc:26
+msgid "From name"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_notification/ding_dashboard_notification.admin.inc:33
+msgid "Subject"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_notification/ding_dashboard_notification.admin.inc:35
+msgid "This will be prepended to the mail subject/title."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_notification/ding_dashboard_notification.admin.inc:41
+msgid "Footer"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_notification/ding_dashboard_notification.admin.inc:43
+msgid "This will be prepended to the mail footer. You can use placeholder @year."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_notification/ding_dashboard_notification.admin.inc:59
+msgid "Email not valid."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_notification/ding_dashboard_notification.module:33;15
+msgid "Dashboard notification"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_notification/ding_dashboard_notification.module:34
+msgid "Manage dashboard notification settings, such as names and e-mail's."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_notification/ding_dashboard_notification.module:134
+msgid "Content @title status."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_notification/ding_dashboard_notification.module:135
+msgid "Content !title status set to @status-ed by."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_notification/ding_dashboard_notification.module:151
+msgid "Content @title commented."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_notification/ding_dashboard_notification.module:152
+msgid "Content !title was  commented by @user. Comment: @comment"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_notification/ding_dashboard_notification.module:16
+msgid "View and customize notification settings."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_notification/ding_dashboard_notification.info:0
+msgid "Ding! Editorial Dashboard Notification"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/modules/ding_dashboard_notification/ding_dashboard_notification.info:0
+msgid "Wrapper for e-mailing needs."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:367
+msgid "Defaults"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:368
+msgid "Editorial content"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:369
+msgid "view all"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:370
+msgid "Apply"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:371
+msgid "Reset"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:372
+msgid "Sort by"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:373
+msgid "Asc"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:374
+msgid "Desc"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:375
+msgid "Items per page"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:376
+msgid "- All -"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:377
+msgid "Offset"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:378
+msgid "« first"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:379
+msgid "‹ previous"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:380
+msgid "next ›"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:381
+msgid "last »"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:382
+msgid "There is no content available for you to edit."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:383
+msgid "author"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:384
+msgid "Title"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:385
+msgid "Type"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:386
+msgid "Author"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:387
+msgid "Last updated"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:388
+msgid "Actions"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:389
+msgid "edit"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:390
+msgid "Published"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:391
+msgid "Editorial status"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:392
+msgid "My content"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:393
+msgid "Page"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:394
+msgid "more"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:395
+msgid "Status"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:396
+msgid "push for approval"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dashboard/views/editorial_content.view.inc:400
+msgid "BPI status field and action"
+msgstr ""
+

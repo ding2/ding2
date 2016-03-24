@@ -1,0 +1,12 @@
+name = Ding Editorial Dashboard
+description = Provides editorial content features.
+package = Ding!
+core = 7.x
+dependencies[] = views
+dependencies[] = views_ui
+dependencies[] = workbench
+dependencies[] = bpi
+files[] = includes/ding_dashboard_editorial_push.class.inc
+files[] = includes/ding_dashboard_editorial_approve.class.inc
+files[] = includes/ding_dashboard_editorial_reject.class.inc
+files[] = includes/ding_dashboard_editorial_delete.class.inc

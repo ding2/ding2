@@ -1,0 +1,88 @@
+<?php
+/**
+ * @file
+ *
+ * Install routine file.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ding_dashboard_comments_schema() {
+  $schema = array();
+
+  $schema['editorial_dashboard_comments'] = array(
+    'description' => 'Hold editorial comments for a certain node.',
+    'fields' => array(
+      'cid' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+        'default' => 0,
+      ),
+      'uid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+        'default' => 0,
+      ),
+      'timestamp' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+        'default' => 0,
+      ),
+      'comment' => array(
+        'type' => 'text',
+        'size' => 'big',
+      ),
+    ),
+    'primary key' => array('cid'),
+    'indexes' => array(
+      'nid' => array('nid'),
+      'uid' => array('uid'),
+    ),
+  );
+
+  $schema['editorial_dashboard_comments_notification'] = array(
+    'description' => 'Store whether the editorial comments were accessed.',
+    'fields' => array(
+      'cnid' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'nid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+        'default' => 0,
+      ),
+      'luid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+        'default' => 0,
+      ),
+      'access' => array(
+        'type' => 'varchar',
+        'not null' => TRUE,
+        'length' => 1,
+        'default' => '',
+      ),
+    ),
+    'primary key' => array('cnid'),
+    'indexes' => array(
+      'nid' => array('nid'),
+      'luid' => array('luid'),
+      'access' => array('access'),
+    ),
+  );
+
+  return $schema;
+}

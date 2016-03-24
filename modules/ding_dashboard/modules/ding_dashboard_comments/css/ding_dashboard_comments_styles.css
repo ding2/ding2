@@ -1,0 +1,34 @@
+#editorial-comments-block {
+  border: 1px solid #999;
+  padding: 10px;
+}
+
+.editorial-comment {
+  border: 1px solid #ccc;
+  margin-top: 5px;
+  padding: 10px;
+}
+
+.editorial-comment .by,
+.editorial-comment .when {
+  font-style: italic;
+}
+
+.editorial-comment .by {
+  font-style: italic;
+  font-weight: bold;
+}
+
+.notify.image {
+  background-image: url('../images/comment.png');
+  background-repeat: no-repeat;
+  display: inline-block;
+  height: 16px;
+  margin-left: 5px;
+  width: 22px;
+}
+
+#overlay-tabs li .notify.image,
+.tabs li .notify.image {
+  margin-top: 5px;
+}

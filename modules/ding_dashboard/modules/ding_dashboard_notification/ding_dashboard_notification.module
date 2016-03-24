@@ -1,0 +1,276 @@
+<?php
+/**
+ * @file
+ * Code for Editorial Dashboard Notification feature.
+ */
+
+include_once 'ding_dashboard_notification.features.inc';
+/**
+ * @file
+ *
+ * Main module file.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ding_dashboard_notification_menu() {
+  $items = array();
+
+  $items['admin/config/editorial/dashboard_notification'] = array(
+    'title' => 'Dashboard notification',
+    'description' => 'View and customize notification settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_dashboard_notification_admin_form'),
+    'access arguments' => array('access dashboard notification'),
+    'file' => 'ding_dashboard_notification.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_dashboard_notification_permission() {
+  $perm = array();
+
+  $perm['access dashboard notification'] = array(
+    'title' => t('Dashboard notification'),
+    'description' => t('Manage dashboard notification settings, such as names and e-mail\'s.'),
+  );
+
+  return $perm;
+}
+
+/**
+ * Implements hook_secure_permissions().
+ */
+function ding_dashboard_notification_secure_permissions($role) {
+  $permissions = array(
+    'editor' => array(
+      'access dashboard notification',
+    ),
+    'local editor' => array(
+      'access dashboard notification',
+    ),
+    'local administrator' => array(
+      'access  dashboard comments',
+    ),
+  );
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_dashboard_notification_theme($existing, $type, $theme, $path) {
+  $hooks = array();
+
+  $hooks['notification'] = array(
+    'variables' => array(),
+    'template' => 'notification-body',
+    'path' => $path . '/templates',
+  );
+
+  $hooks['notification_status_changed'] = array(
+    'variables' => array('data' => NULL, 'node' => NULL),
+  );
+
+  $hooks['notification_commented'] = array(
+    'variables' => array('data' => NULL, 'node' => NULL),
+  );
+
+  $hooks['ed_notifications_table'] = array(
+    'render element' => 'notifications',
+  );
+  return $hooks;
+}
+
+/**
+ * Implements hook_editorial_status_changed().
+ */
+function ding_dashboard_notification_editorial_status_changed($action, $node) {
+  $settings = variable_get('ding_dashboard_notification_settings', array());
+
+  $destination = NULL;
+  if ($action == EDITORIAL_ACTION_PUSH) {
+    $destination = array_filter($settings['author'][$action]);
+    $destination = array_keys($destination);
+  }
+  elseif ($settings['editor'][$action]) {
+    $destination = $node->uid;
+  }
+
+  if (!empty($destination)) {
+    $theme = 'notification_status_changed';
+    ding_dashboard_notification_user_notify($action, $node, $destination, $theme);
+  }
+}
+
+/**
+ * Implements hook_ding_dashboard_comments_comment_save().
+ */
+function ding_dashboard_notification_ding_dashboard_comments_comment_save($user, $node, $comment) {
+  $settings = variable_get('ding_dashboard_notification_settings', array());
+  if ($settings['editor'][EDITORIAL_ACTION_COMMENTED] == 0)
+    return;
+
+  $user = user_load($user);
+  $node = node_load($node);
+  $data = array(
+    'author' => $user,
+    'comment' => $comment,
+  );
+  $theme = 'notification_commented';
+  ding_dashboard_notification_user_notify($data, $node, $user->uid, $theme);
+}
+
+/**
+ * Theme for content of notification letter in case when status changed.
+ */
+function theme_notification_status_changed($vars) {
+  extract($vars);
+
+  $footer = variable_get('ding_dashboard_notification_footer', '');
+  $params = array(
+    'header' => t('Content @title status.', array('@title' => $node->title)),
+    'body' => t('Content !title status set to @status-ed by.', array('!title' => l($node->title, 'node/' . $node->nid, array('absolute' => TRUE)), '@status' => $data)),
+    'footer' => t($footer, array('@year' => date('Y'))),
+  );
+  return $params;
+}
+
+/**
+ * Theme for content of notification letter in case then node was commented.
+ */
+function theme_notification_commented($vars) {
+  global $user;
+
+  extract($vars);
+  $footer = variable_get('ding_dashboard_notification_footer', '');
+
+  $params = array(
+    'header' => t('Content @title commented.', array('@title' => $node->title)),
+    'body' => t('Content !title was  commented by @user. Comment: @comment', array('!title' => l($node->title, 'node/' . $node->nid, array('absolute' => TRUE)), '@user' => $data['author']->name, '@comment' => $data['comment'])),
+    'footer' => t($footer, array('@year' => date('Y'))),
+  );
+
+  return $params;
+}
+
+/**
+ * Notify a user via email.
+ *
+ * @param $type
+ *   Type of notification.
+ * @param $uid
+ *   Array of user id's
+ */
+function ding_dashboard_notification_user_notify($data, $node, $destination, $theme) {
+  if (!empty($node)) {
+
+    if (is_array($destination)) {
+      $users = ding_dashboard_notification_get_users_by_role($destination);
+    }
+    else {
+      $users = user_load_multiple(array($destination));
+    }
+
+    // Get all users with specific role.
+    foreach ($users as $user) {
+
+      $params = theme($theme, array(
+        'data' => $data,
+        'node' => $node,
+      ));
+
+      $html = theme('notification', $params);
+
+      ding_dashboard_notification_send_mail($user->mail, $user->name, $html);
+    }
+  }
+}
+
+/**
+ * Send an email.
+ *
+ * @see ding_dashboard_notification_admin_form.
+ *
+ * @param $to_address
+ *   Recipient mail address.
+ * @param $to_name
+ *   Recipient name.
+ * @param $content
+ *   Mail content, can be HTML.
+ */
+function ding_dashboard_notification_send_mail($to_address = '', $to_name = '', $content = '') {
+  $from_address = variable_get('ding_dashboard_notification_from_mail', '');
+  $from_name = variable_get('ding_dashboard_notification_from_name', '');
+  $subject = variable_get('ding_dashboard_notification_subject', '');
+  $mailer = new PHPMailer();
+  $mailer->IsSendmail();
+  $mailer->SetFrom($from_address, $from_name);
+  $mailer->AddAddress($to_address, $to_name);
+  $mailer->Subject = $subject;
+  $mailer->MsgHTML($content);
+  $mailer->send();
+}
+
+/**
+ * Get a list of users with specicifc role.
+ *
+ * @return
+ *   Array of users indexed by user id (uid).
+ */
+function ding_dashboard_notification_get_users_by_role($roles = array()) {
+  global $user;
+  $query = db_select('users', 'u');
+  $query->join('users_roles', 'ur', 'u.uid=ur.uid');
+  $query->join('role', 'r', 'ur.rid=r.rid');
+  $users = $query->fields('u')
+    ->fields('r')
+    ->condition('r.name', $roles, 'IN')
+    ->condition('u.uid', $user->uid, '!=')
+    ->execute()
+    ->fetchAllAssoc('uid');
+
+  return $users;
+}
+/**
+ * Theme for content of notification letter in case then node was commented.
+ */
+function theme_ed_notifications_table(&$vars) {
+  $form = $vars['notifications'];
+  $author_actions = $form['#author_actions'];
+  $editor_actions = $form['#editor_actions'];
+  foreach (element_children($form['author']) as $id) {
+    $row = array($author_actions[$id] => $author_actions[$id]);
+    foreach (element_children($form['author'][$id]) as $child_id) {
+      $row[] = drupal_render($form['author'][$id][$child_id]);
+    }
+    $rows[] = $row;
+  }
+
+  $header = $form['#header'];
+
+  $output = theme('table', array(
+    'header' => $header,
+    'rows' => $rows,
+  ));
+
+  $row = array();
+  foreach (element_children($form['editor']) as $id) {
+    $row[] = drupal_render($form['editor'][$id]);
+  }
+
+  $output .= theme('table', array(
+    'header' => $editor_actions,
+    'rows' => array($row),
+  ));
+
+
+  return $output;
+}

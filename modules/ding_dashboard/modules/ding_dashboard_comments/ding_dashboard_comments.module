@@ -1,0 +1,481 @@
+<?php
+/**
+ * @file
+ *
+ * Dashboard module main file.
+ */
+
+define('DASHBOARD_COMMENT_WAIT', 3);
+
+/**
+ * Implements hook_permission().
+ */
+function ding_dashboard_comments_permission() {
+  $perm = array();
+
+  $perm['administer dashboard comments'] = array(
+    'title' => t('Administer dashboard comments'),
+    'description' => t('Check this to allow certain roles to edit comments settings.'),
+  );
+
+  $perm['access dashboard comments'] = array(
+    'title' => t('Allow commenting'),
+    'description' => t('Check this to allow view of comments and commenting.'),
+  );
+
+  return $perm;
+}
+
+/**
+* Implements hook_secure_permissions().
+*/
+function ding_dashboard_comments_secure_permissions($role) {
+  $permissions = array(
+    'guest blogger' => array(
+      'administer dashboard comments',
+      'access dashboard comments',
+    ),
+    'editor' => array(
+     'administer dashboard comments',
+      'access dashboard comments',
+    ),
+    'local editor' => array(
+      'administer dashboard comments',
+      'access dashboard comments',
+    ),
+    'local administrator' => array(
+      'administer dashboard comments',
+      'access dashboard comments',
+    ),
+  );
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function ding_dashboard_comments_form_alter(&$form, $form_state, $form_id) {
+  $editorial_content_types = variable_get('editorial_content_types', array());
+  if (!empty($editorial_content_types)) {
+    $form_ids = array();
+    foreach ($editorial_content_types as $content_type) {
+      if(!empty($content_type)) {
+        $form_ids[] = $content_type . '_node_form';
+      }
+    }
+    if (in_array($form_id, $form_ids) && isset($form['#node']->nid)) {
+      $form['dashboard_comments'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Editorial comments'),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+        '#weight' => 99,
+        '#access' => user_access('access dashboard comments'),
+      );
+
+      $form['dashboard_comments']['existing_comments'] = array(
+        '#type' => 'item',
+        '#markup' => (isset($form['#node']->nid)) ? ding_dashboard_comments_format_comments($form['#node']->comments) : '',
+      );
+
+      $form['dashboard_comments']['comments_field'] = array(
+        '#type' => 'textarea',
+        '#title' => t('Your comment'),
+      );
+
+      $form['#attached']['css'] = array(
+        drupal_get_path('module', 'ding_dashboard_comments') . '/css/ding_dashboard_comments_styles.css',
+      );
+
+      ding_dashboard_comments_mark_comments($form['#node']->nid);
+    }
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_dashboard_comments_theme($existing, $type, $theme, $path) {
+  $hooks = array();
+
+  $hooks['format_editorial_comments'] = array(
+    'variables' => array(),
+    'template' => 'ding_dashboard_editorial_comments',
+    'path' => $path . '/templates',
+  );
+
+  $hooks['format_single_comment'] = array(
+    'variables' => array(),
+    'template' => 'ding_dashboard_single_comment',
+    'path' => $path . '/templates',
+  );
+
+  $hooks['comment_mail_notify'] = array(
+    'variables' => array(),
+    'template' => 'ding_dashboard_comment_notify',
+    'path' => $path . '/templates',
+  );
+
+  return $hooks;
+}
+
+/**
+ * Implements hook_local_tasks_alter().
+ */
+function ding_dashboard_comments_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+  if (preg_match('/^admin\/editorial_dashboard(.+)?$/', $root_path)) {
+    //drupal_add_css(drupal_get_path('module', 'ding_dashboard_comments') . '/css/ding_dashboard_comments_styles.css', 'file');
+
+    $tabs = array(
+      'all',
+      'pending',
+      'rejected',
+      'approved',
+      'deleted',
+    );
+    $marker = array();
+
+    foreach ($tabs as $key => $tab) {
+      $marker[$key] = '';
+      $count = ding_dashboard_comments_get_marker($tab);
+      if ($count) {
+        $marker[$key] = ' <span class="notify image"></span>';
+      }
+
+      $data['tabs'][0]['output'][$key]['#link']['title'] .= $marker[$key];
+      $data['tabs'][0]['output'][$key]['#link']['localized_options'] = array('html' => TRUE);
+    }
+  }
+}
+
+/**
+ * Fetch node editorial comments status.
+ *
+ * @param $type
+ *   Marker type OR current editorial tab.
+ * @param $nid
+ *   If passed a node id (nid), status only for this node will be fetched.
+ * @return
+ *   TRUE if comments were accessed, FALSE otherwise.
+ */
+function ding_dashboard_comments_get_marker($type = '', $nid = NULL) {
+  $query = db_select('editorial_dashboard_comments_notification', 'n');
+  $query->join('editorial_dashboard_node_status', 's', 'n.nid = s.nid');
+  $query->join('node', 'o', 'n.nid = o.nid');
+  $query->fields('n', array('access'));
+  $override = FALSE;
+
+  switch ($type) {
+    case 'all':
+      $override = TRUE;
+      break;
+    case 'pending':
+      $query->condition('s.status', DASHBOARD_NODE_PENDING, '=');
+      break;
+    case 'rejected':
+      $query->condition('s.status', DASHBOARD_NODE_REJECTED, '=');
+      break;
+    case 'approved':
+      $query->condition('s.status', DASHBOARD_NODE_APPROVED, '=');
+      break;
+    case 'deleted':
+      $override = TRUE;
+      break;
+    default:
+  }
+
+  // If we do override, just skip the status for that certain tab.
+  if ($override) {
+    return FALSE;
+  }
+
+  // Seek only one node.
+  if (is_numeric($nid)) {
+    $query->condition('n.nid', $nid, '=');
+  }
+
+  // For editorial comment author, there is no need to mark them.
+  global $user;
+  $query->condition('n.luid', $user->uid, '<>');
+
+  // For journalists, seek for their own comment statuses.
+  // E.g. node belonging to them.
+  $uid = ding_dashboard_get_uid();
+  if ($uid) {
+    $query->condition('o.uid', $uid, '=');
+  }
+
+  $query->condition('n.access', 0, '=');
+  $result = $query->execute()->fetchAssoc();
+
+  if (isset($result['access']) && $result['access'] == 0) {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/**
+ * Custom hook_preprocess_dashboard_rows().
+ *
+ * Preprocess the dashboard node table rows.
+ * Mainly add a "commented" icon.
+ *
+ * @param $rows
+ *   Reference to the rows array.
+ * @return
+ *   Preprocess data, mainly same as input.
+ */
+function ding_dashboard_comments_dashboard_rows(&$rows) {
+  $page = arg(2);
+
+  foreach ($rows as $key => $row) {
+    $marker = ding_dashboard_comments_get_marker($page, $key);
+
+    if ($marker) {
+      $rows[$key]['data'][0] .= ' <span class="notify image"></span>';
+    }
+  }
+}
+
+/**
+ * Format comments into some HTML.
+ *
+ * @param $comments
+ *   Array of comment objects.
+ * @return
+ *   Comments markup.
+ */
+function ding_dashboard_comments_format_comments($comments) {
+  $comments_markup = '';
+
+  $next_comment = NULL;
+  $comment_cid = array_keys($comments);
+  $comment_markup = '';
+
+  for ($i = 0; $i < count($comment_cid); $i++) {
+    $cid = $comment_cid[$i];
+    $user = user_load($comments[$cid]->uid);
+    $next_comment = !empty($comment_cid[$i + 1]) ? $comments[$comment_cid[$i + 1]] : NULL;
+    $comment_l2 = NULL;
+
+    if ($next_comment && ($comments[$cid]->uid == $next_comment->uid && ($next_comment->timestamp - $comments[$cid]->timestamp <= DASHBOARD_COMMENT_WAIT))) {
+      $comment_l2 = $next_comment;
+      $i++;
+    }
+
+    $comment_markup .= theme('format_single_comment', array(
+      'user' => $user->name,
+      'date' => date('Y-m-d H:i:s', $comments[$cid]->timestamp),
+      'comment' => $comments[$cid]->comment,
+      'comment_l2' => (!empty($comment_l2)) ? $comment_l2->comment : NULL,
+    ));
+  }
+
+  $comments = (!empty($comment_markup)) ? theme('format_editorial_comments', array(
+    'comments' => $comment_markup,
+  )) : '';
+
+  return $comments;
+}
+
+/**
+ * Implements hook_node_update().
+ *
+ * Place comments, if any, on node save.
+ */
+function ding_dashboard_comments_node_update($node) {
+  $editorial_content_types = variable_get('editorial_content_types', array());
+  if (!empty($editorial_content_types)) {
+    $node_types = array();
+    foreach ($editorial_content_types as $content_type) {
+      if(!empty($content_type)) {
+        $node_types[] = $content_type;
+      }
+    }
+    if (in_array($node->type, $node_types) && isset($node->nid)) {
+      $comment = isset($node->comments_field) ? $node->comments_field : '';
+
+      global $user;
+      if (!empty($comment)) {
+        ding_dashboard_comments_place_comment($node->nid, $user->uid, $comment);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_editorial_status_changed().
+ */
+function ding_dashboard_comments_editorial_status_changed($action, $node) {
+  global $user;
+  $comment = '';
+  if ($action == EDITORIAL_ACTION_PUSH) {
+    $comment = t('Node was pushed.');
+  }
+  elseif ($action == EDITORIAL_ACTION_APPROVE) {
+    $comment = t('Node was approved.');
+  }
+  elseif ($action == EDITORIAL_ACTION_REJECT) {
+    $comment = t('Node was rejected.');
+  }
+
+  if ($comment) {
+    ding_dashboard_comments_place_comment($node->nid, $user->uid, $comment);
+  }
+}
+
+/**
+ * Implements hook_node_delete().
+ *
+ * Delete editorial comments, if any, on node delete.
+ */
+function ding_dashboard_comments_node_delete($node) {
+  $editorial_content_types = variable_get('editorial_content_types', array());
+  if (!empty($editorial_content_types)) {
+    $node_types = array();
+    foreach ($editorial_content_types as $content_type) {
+      if(!empty($content_type)) {
+        $node_types[] = $content_type;
+      }
+    }
+    if (in_array($node->type, $node_types) && isset($node->nid)) {
+      db_delete('editorial_dashboard_comments')
+        ->condition('nid', $node->nid, '=')
+        ->execute();
+    }
+  }
+}
+
+/**
+ * Insert a new comment to the database.
+ *
+ * @param $nid
+ * Node id, referencing the comment.
+ * @param $uid
+ *   User id (uid), the comment author.
+ * @param $comment
+ *   Comment contents.
+ */
+function ding_dashboard_comments_place_comment($nid = 0, $uid = 0, $comment = '') {
+  if ($nid && $uid && !empty($comment)) {
+    db_insert('editorial_dashboard_comments')
+      ->fields(array(
+      'nid' => $nid,
+      'uid' => $uid,
+      'timestamp' => time(),
+      'comment' => check_plain($comment),
+      ))
+      ->execute();
+
+    module_invoke_all('ding_dashboard_comments_comment_save', $uid, $nid, $comment);
+  }
+}
+
+/**
+ * Mark comments viewed for a certain node.
+ *
+ * Marking occurs if a user, with an id different from author's,
+ * opened triggers this.
+ *
+ * @param $nid
+ *   Node id (nid) which comments are to be marked.
+ */
+function ding_dashboard_comments_mark_comments($nid) {
+  if (is_numeric($nid)) {
+    global $user;
+
+    // Last commented user id.
+    $luid = ding_dashboard_comments_get_last_commented_userid($nid);
+
+    if ($luid && $luid != $user->uid) {
+      db_update('editorial_dashboard_comments_notification')
+        ->fields(array(
+        'access' => 1,
+      ))
+        ->condition('nid', $nid, '=')
+        ->execute();
+    }
+  }
+}
+
+/**
+ * Retrieve whether a certain node editorial comment were viewed by anyone,
+ * except author.
+ *
+ * @param $nid
+ *   Node id (uid), which comments status is fetched.
+ * @return
+ *   Node id (uid) on success, 0 on failure.
+ */
+function ding_dashboard_comments_get_last_commented_userid($nid) {
+  $luid = 0;
+
+  if (is_numeric($nid)) {
+    $result = db_select('editorial_dashboard_comments_notification', 'dcn')
+      ->fields('dcn', array('luid'))
+      ->condition('dcn.nid', $nid, '=')
+      ->execute()
+      ->fetchAssoc();
+
+    if (isset($result['luid'])) {
+      $luid = $result['luid'];
+    }
+  }
+
+  return $luid;
+}
+
+
+/**
+ * Implements hook_node_load().
+ */
+function ding_dashboard_comments_node_load($nodes) {
+  foreach ($nodes as $node) {
+    $editorial_content_types = variable_get('editorial_content_types', array());
+    if (!empty($editorial_content_types)) {
+      $node_types = array();
+      foreach ($editorial_content_types as $content_type) {
+        if(!empty($content_type)) {
+          $node_types[] = $content_type;
+        }
+      }
+      if (in_array($node->type, $node_types) && isset($node->nid)) {
+        $node->comments = ding_dashboard_comments_fetch_comments($node->nid);
+      }
+    }
+  }
+}
+
+/**
+ * Fetch a collection of editorial comments for a certain node.
+ *
+ * @param $nid
+ *   Node id (nid).
+ * @return
+ *   Array of comment objects.
+ */
+function ding_dashboard_comments_fetch_comments($nid) {
+  $comments = array();
+
+  if (is_numeric($nid)) {
+    $query = db_select('editorial_dashboard_comments', 'c')
+      ->fields('c', array('cid', 'nid', 'uid', 'timestamp', 'comment'))
+      ->condition('c.nid', $nid, '=')
+      ->orderBy('c.timestamp', 'ASC')
+      ->execute();
+
+    foreach ($query as $result) {
+      $comments[$result->cid] = new stdClass();
+      $comments[$result->cid]->cid = $result->cid;
+      $comments[$result->cid]->nid = $result->nid;
+      $comments[$result->cid]->uid = $result->uid;
+      $comments[$result->cid]->timestamp = $result->timestamp;
+      $comments[$result->cid]->comment = $result->comment;
+    }
+  }
+
+  return $comments;
+}

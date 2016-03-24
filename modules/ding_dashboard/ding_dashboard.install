@@ -1,0 +1,50 @@
+<?php
+/**
+ * @file
+ * Install/uninstall routine.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ding_dashboard_install() {
+  $field_definition = array(
+    'field_name' => 'field_editorial_status',
+    'type' => 'list_text',
+    'module' => 'list',
+    'active' => '1',
+    'locked' => '0',
+    'cardinality' => '1',
+    'deleted' => '0',
+    'settings' => array(
+      'allowed_values' => array(
+        EDITORIAL_NODE_NEW => 'New',
+        EDITORIAL_NODE_PUSHED => 'Pushed',
+        EDITORIAL_NODE_APPROVED => 'Approved',
+        EDITORIAL_NODE_REJECTED => 'Rejected',
+      ),
+    ),
+  );
+
+  t('New');
+  t('Pushed');
+  t('Approved');
+  t('Rejected');
+
+  field_create_field($field_definition);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_dashboard_uninstall() {
+  $node_types = node_type_get_types();
+
+  foreach ($node_types as $type) {
+    $instance = field_read_instance('node', 'field_editorial_status', $type->type);
+    field_delete_instance($instance);
+  }
+
+  field_delete_field('field_editorial_status');
+  variable_del('editorial_content_types');
+}

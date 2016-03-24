@@ -1,0 +1,637 @@
+<?php
+/**
+ * @file
+ * Editorial dashboard module.
+ *
+ * Provides editorial interface for various roles across system.
+ */
+
+define('EDITORIAL_NODE_NEW', 'ed_new');
+define('EDITORIAL_NODE_PUSHED', 'ed_pushed');
+define('EDITORIAL_NODE_APPROVED', 'ed_appr');
+define('EDITORIAL_NODE_REJECTED', 'ed_rej');
+
+define('EDITORIAL_ACTION_PUSH', 'push');
+define('EDITORIAL_ACTION_APPROVE', 'approve');
+define('EDITORIAL_ACTION_REJECT', 'reject');
+define('EDITORIAL_ACTION_DELETE', 'delete');
+define('EDITORIAL_ACTION_COMMENTED', 'commented');
+
+include_once 'ding_dashboard.pages.inc';
+
+/**
+ * Implements hook_menu().
+ */
+function ding_dashboard_menu() {
+  $menu = array();
+
+  $menu['admin/config/editorial'] = array(
+    'title' => 'Editorial Dashboard',
+    'description' => 'Editorial settings',
+    'access arguments' => array('administer editorial dashboard'),
+    'page callback' => 'ding_dashboard_admin_menu_block_page',
+    'page arguments' => array(),
+    'file' => 'ding_dashboard.admin.inc',
+  );
+
+  $menu['admin/config/editorial/content'] = array(
+    'title' => 'Content types',
+    'description' => 'Define which content types are a part of editorial system',
+    'access arguments' => array('administer editorial dashboard'),
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_dashboard_admin_content_types'),
+    'file' => 'ding_dashboard.admin.inc',
+  );
+
+  $menu['node/%node/editorial/%'] = array(
+    'access arguments' => array(1, 3),
+    'access callback' => 'ding_dashboard_access_callback',
+    'page callback' => '_ding_dashboard_action',
+    'page arguments' => array(1, 3),
+    'type' => MENU_CALLBACK,
+    'file' => 'ding_dashboard.pages.inc',
+  );
+
+  return $menu;
+}
+
+/**
+ * Implements hook_local_tasks_alter().
+ */
+function ding_dashboard_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+  // Seems that tabs[0] are local actions (tabs)
+  // and tabs[1] are local tasks (links).
+  if (!isset($data['tabs'][1])) {
+    return;
+  }
+
+  $action_active = FALSE;
+  // The trick is to redirect when no local task is active.
+  // This is true when just the local action was clicked.
+  foreach ($data['tabs'][1]['output'] as $action) {
+    if (isset($action['#active'])) {
+      $action_active = TRUE;
+    }
+  }
+
+  // @todo
+  // The indeces are somewhat hardcoded for current solution.
+  if (!$action_active && isset($data['tabs'][1]['output'][2]['#link']['path'])) {
+    drupal_goto($data['tabs'][1]['output'][2]['#link']['path']);
+  }
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_dashboard_permission() {
+  $perm = array();
+
+  $perm['administer editorial dashboard'] = array(
+    'title' => 'Administer editorial dashboard',
+    'description' => 'Change various editorial settings'
+  );
+
+  $perm['push own ed content'] = array(
+    'title' => t('Push own editorial dashboard content.') ,
+    'description' => t('Allow to push own editorial dashboard content.') ,
+  );
+
+  $perm['push any ed content'] = array(
+    'title' => t('Push any editorial dashboard content.') ,
+    'description' => t('Allow to push any editorial dashboard content.') ,
+  );
+
+  $perm['approve own ed content'] = array(
+    'title' => t('Approve own editorial dashboard content.') ,
+    'description' => t('Allow to push approve editorial dashboard content.') ,
+  );
+
+  $perm['approve any ed content'] = array(
+    'title' => t('Approve any editorial dashboard content.') ,
+    'description' => t('Allow to approve any editorial dashboard content.') ,
+  );
+
+  $perm['reject own ed content'] = array(
+    'title' => t('Reject own editorial dashboard content.') ,
+    'description' => t('Allow to reject own editorial dashboard content.') ,
+  );
+
+  $perm['reject any ed content'] = array(
+    'title' => t('Reject own editorial dashboard content.') ,
+    'description' => t('Allow to reject own editorial dashboard content.') ,
+  );
+
+  $perm['delete own ed content'] = array(
+    'title' => t('Delete own editorial dashboard content.') ,
+    'description' => t('Allow to delete own editorial dashboard content.') ,
+  );
+
+  $perm['delete any ed content'] = array(
+    'title' => t('Delete any editorial dashboard content.') ,
+    'description' => t('Allow to delete any editorial dashboard content.') ,
+  );
+
+  return $perm;
+}
+
+/**
+* Implements hook_secure_permissions().
+*/
+function ding_dashboard_secure_permissions($role) {
+  $permissions = array(
+    'guest blogger' => array(
+      'push own ed content',
+      'delete own ed content',
+    ),
+    'editor' => array(
+      'administer editorial dashboard',
+      'push own ed content',
+      'push any ed content',
+      'approve own ed content',
+      'approve any ed content',
+      'reject own ed content',
+      'reject any ed content',
+      'delete own ed content',
+      'delete any ed content',
+    ),
+    'local editor' => array(
+      'administer editorial dashboard',
+      'push own ed content',
+      'push any ed content',
+      'approve own ed content',
+      'approve any ed content',
+      'reject own ed content',
+      'reject any ed content',
+      'delete own ed content',
+      'delete any ed content',
+    ),
+    'local administrator' => array(
+      'administer editorial dashboard',
+      'push own ed content',
+      'push any ed content',
+      'approve own ed content',
+      'approve any ed content',
+      'reject own ed content',
+      'reject any ed content',
+      'delete own ed content',
+      'delete any ed content',
+    ),
+  );
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
+}
+
+/**
+ * Access callback for editorial dashboard actions.
+ *
+ * @param nid
+ *  Id of node.
+ * @param action
+ *  Action name.
+ */
+function ding_dashboard_access_callback($node, $action) {
+  global $user;
+  $perms = &drupal_static(__FUNCTION__);
+  if (!isset($perms[$user->uid][$node->nid][$action])) {
+    switch ($action) {
+      case EDITORIAL_ACTION_PUSH:
+        $perms[$user->uid][$node->nid][$action] = (user_access('push any ed content') || (user_access('push own ed content') && $user->uid == $node->uid));
+        break;
+
+      case EDITORIAL_ACTION_APPROVE:
+        $perms[$user->uid][$node->nid][$action] = (user_access('approve any ed content') || (user_access('approve own ed content') && $user->uid == $node->uid));
+        break;
+
+      case EDITORIAL_ACTION_REJECT:
+        $perms[$user->uid][$node->nid][$action] = (user_access('reject any ed content') || (user_access('reject own ed content') && $user->uid == $node->uid));
+        break;
+
+      case EDITORIAL_ACTION_DELETE:
+        $perms[$user->uid][$node->nid][$action] = (user_access('delete any ed content') || (user_access('delete own ed content') && $user->uid == $node->uid));
+        break;
+
+      default:
+        return FALSE;
+        break;
+    }
+  }
+  return $perms[$user->uid][$node->nid][$action];
+}
+
+/**
+ * Implements hook_node_access().
+ *
+ * Overrides certain node permissions for node types that are of editorial type.
+ */
+function ding_dashboard_node_access($node, $op, $account) {
+  $editorial_types = array_filter(variable_get('editorial_content_types', array()));
+  $state = NODE_ACCESS_IGNORE;
+  $ed_states = array(EDITORIAL_NODE_APPROVED, EDITORIAL_NODE_PUSHED);
+
+  if (is_object($node) && in_array($node->type, $editorial_types)) {
+    switch ($op) {
+      case 'update':
+        $ed_status = $node->field_editorial_status[LANGUAGE_NONE][0]['value'];
+        if (in_array($ed_status, $ed_states) && in_array('guest blogger', $account->roles) && $node->uid == $account->uid) {
+          $state = NODE_ACCESS_DENY;
+        }
+        break;
+      case 'delete':
+        $access = ding_dashboard_access_callback($node, EDITORIAL_ACTION_DELETE);
+        if ($access === TRUE) {
+          $state = NODE_ACCESS_ALLOW;
+        }
+        break;
+    }
+  }
+
+  return $state;
+}
+
+/**
+ * Impement hook_form_BASE_FORM_ID_alter().
+ */
+function ding_dashboard_form_node_form_alter(&$form, &$form_state, $form_id) {
+  $editorial_types = array_filter(variable_get('editorial_content_types', array()));
+
+  $editorial = FALSE;
+  foreach ($editorial_types as $type) {
+    if (stripos($form_id, $type) !== FALSE) {
+      $editorial = TRUE;
+      break;
+    }
+  }
+
+  if (!$editorial) {
+    // Suppose the bundle was previously a part of editorial system.
+    // In this case the field has no sense, therefore hide it.
+    if (isset($form['field_editorial_status'])) {
+      hide($form['field_editorial_status']);
+    }
+
+    return;
+  }
+
+  $push_permission = user_access('push any ed content') || user_access('push own ed content');
+  $approve_permission = user_access('approve any ed content') ||  user_access('approve own ed content');
+
+  if ($push_permission) {
+    $form['actions']['save_push'] = array(
+      '#type' => 'submit',
+      '#access' => TRUE,
+      '#value' => t('Save and push to ED'),
+      '#weight' => 15,
+      '#submit' => array(
+        'node_form_submit',
+        'ding_dashboard_save_push_submit',
+      ),
+    );
+  }
+
+  if ($approve_permission) {
+    $form['actions']['save_approve'] = array(
+      '#type' => 'submit',
+      '#access' => TRUE,
+      '#value' => t('Save and approve to ED'),
+      '#weight' => 15,
+      '#submit' => array(
+        'node_form_submit',
+        'ding_dashboard_save_approve_submit',
+      ),
+    );
+  }
+
+  // Node form alterations follow...
+  $form['field_editorial_status'][LANGUAGE_NONE]['#disabled'] = TRUE;
+  $form['options']['status']['#disabled'] = TRUE;
+  // Set by default unpublish if it is  creation form of node.
+  if (!isset($form['#node']->nid)) {
+    $form['options']['status']['#default_value'] = 0;
+  }
+}
+
+/**
+ * Submit function push content into ED.
+ *
+ * @see ding_dashboard_form_node_form_alter().
+ */
+function ding_dashboard_save_push_submit($form, &$form_state) {
+  $node = $form_state['node'];
+  _ding_dashboard_action($node, 'push');
+}
+
+/**
+ * Submit function approve content into ED.
+ *
+ * @see ding_dashboard_form_node_form_alter().
+ */
+function ding_dashboard_save_approve_submit($form, &$form_state) {
+  $node = $form_state['node'];
+  _ding_dashboard_action($node, 'approve');
+}
+
+/**
+ * Implement hook_form_FORM_ID_alter().
+ *
+ * Alter the exposed filters views form.
+ * This function limits the values available in the Type dropdown,
+ * so it reflects the setting set in the backend.
+ */
+function ding_dashboard_form_views_exposed_form_alter(&$form, &$form_state) {
+  if (arg(1) == 'workbench' && arg(3) == 'editorial') {
+    $editorial_types = array_filter(variable_get('editorial_content_types', array()));
+    $enabled_types = array_intersect_key($form['type']['#options'], $editorial_types);
+    $form['type']['#options'] = array(
+      'All' => reset($form['type']['#options'])
+    );
+    $form['type']['#options'] += $enabled_types;
+    $form['#attached']['css'][] = drupal_get_path('module', 'ding_dashboard') . '/css/ding_dashboard.styles.css';
+  }
+}
+
+/**
+ * Implement hook_query_alter().
+ *
+ * Alter the editorial views query.
+ * Besides altering the exposed filter form, we need to alter the
+ * query in the case when All type of content is selected, so All
+ * would point to the types only defined in the backend of the
+ * editorial system.
+ */
+function ding_dashboard_query_alter($query) {
+  if ($query->hasTag('editorial_content')) {
+    $conditions =& $query->conditions();
+
+    if (!isset($conditions[0]['field'])) {
+      $editorial_types = array_filter(variable_get('editorial_content_types', array()));
+      if (!empty($editorial_types)) {
+        $conditions[] = array(
+          'field' => 'node.type',
+          'value' => $editorial_types,
+          'operator' => 'IN',
+        );
+      }
+      else {
+        $conditions[] = array(
+          'field' => '1',
+          'value' => '1',
+          'operator' => '<>',
+        );
+      }
+    }
+    else {
+      $conditions =& $conditions[0]['field']->conditions();
+      $conditions =& $conditions[0]['field']->conditions();
+      $not_found = TRUE;
+      foreach ($conditions as $condition) {
+        if (isset($condition['field']) && is_object($condition['field']) && get_class($condition['field']) == 'DatabaseCondition')  {
+          $c =& $condition['field']->conditions();
+          if (isset($c['field']) && $c['field'] == 'node.type') {
+             $not_found = FALSE;
+          break;
+          }
+        }
+      }
+      $editorial_types = array_filter(variable_get('editorial_content_types', array()));
+      if ($not_found && !empty($editorial_types)) {
+        $conditions[] = array(
+          'field' => 'node.type',
+          'value' => $editorial_types,
+          'operator' => 'IN',
+        );
+      }
+      else {
+        $conditions[] = array(
+          'field' => '1',
+          'value' => '1',
+          'operator' => '<>',
+        );
+      }
+    }
+  }
+}
+
+/**
+ * Set a specific editorial status for all nodes in a selected bundle.
+ *
+ * @param mixed $type
+ *   Node bundles, whose nodes should be altered.
+ * @param string $status
+ *   Editorial status to set.
+ *
+ * @return mixed
+ *   Number of nodes altered, FALSE on error.
+ */
+function ding_dashboard_prepare_nodes($type) {
+  if (!is_array($type)) {
+    $type = array($type);
+  }
+
+  if (count($type) == 0) {
+    return FALSE;
+  }
+
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', $type, 'IN');
+  $result = $query->execute();
+
+  if (!isset($result['node'])) {
+    return FALSE;
+  }
+
+  $nids = array_keys($result['node']);
+  $nodes = node_load_multiple($nids);
+
+  $count = 0;
+  foreach ($nodes as $node) {
+    $published = $node->status;
+    $ed_status = $published ? EDITORIAL_NODE_APPROVED : EDITORIAL_NODE_NEW;
+    $node->field_editorial_status[LANGUAGE_NONE] = array(
+      array(
+        'value' => $ed_status,
+      ),
+    );
+    module_invoke_all('editorial_status_changed', $ed_status, $node);
+    node_save($node);
+    $count++;
+  }
+
+  return $count;
+}
+
+/**
+ * Implements hook_views_data().
+ *
+ * Creates items usable in views.
+ *
+ * This creates all editorial links so they can be used inside views.
+ */
+function ding_dashboard_views_data() {
+  $data = array();
+
+  $data['views_entity_node']['ed_push_node'] = array(
+    'field' => array(
+      'title' => t('Editorial Push link'),
+      'help' => t('Provide a simple link to push the content in editorial system.'),
+      'handler' => 'ding_dashboard_editorial_push',
+    ),
+  );
+
+  $data['views_entity_node']['ed_approve_node'] = array(
+    'field' => array(
+      'title' => t('Editorial Approve link'),
+      'help' => t('Provide a simple link to approve the content in editorial system.'),
+      'handler' => 'ding_dashboard_editorial_approve',
+    ),
+  );
+
+  $data['views_entity_node']['ed_reject_node'] = array(
+    'field' => array(
+      'title' => t('Editorial Reject link'),
+      'help' => t('Provide a simple link to reject the content in editorial system.'),
+      'handler' => 'ding_dashboard_editorial_reject',
+    ),
+  );
+
+  $data['views_entity_node']['ed_delete_node'] = array(
+    'field' => array(
+      'title' => t('Editorial Delete link'),
+      'help' => t('Provide a simple link to delete the content from editorial system.'),
+      'handler' => 'ding_dashboard_editorial_delete',
+    ),
+  );
+
+  return $data;
+}
+
+/**
+ * Define valid editorial actions on a node.
+ *
+ * @return array
+ *   Set of valid actions with their callbacks.
+ */
+function ding_dashboard_valid_actions() {
+  $actions = array(
+    EDITORIAL_ACTION_PUSH => '_node_push',
+    EDITORIAL_ACTION_APPROVE => '_node_approve',
+    EDITORIAL_ACTION_REJECT => '_node_reject',
+  );
+
+  return $actions;
+}
+
+/**
+ * Implements hook_editorial_status_changed().
+ *
+ * Act when a node editorial status is changed.
+ */
+function ding_dashboard_editorial_status_changed($action, $node) {
+  $publish = array(EDITORIAL_ACTION_APPROVE);
+  $unpublish = array(EDITORIAL_ACTION_REJECT);
+
+  if (in_array($action, $publish)) {
+    $node->status = 1;
+  }
+  elseif (in_array($action, $unpublish) || $action == EDITORIAL_NODE_NEW) {
+    $node->status = 0;
+  }
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function ding_dashboard_views_api() {
+  return array('api' => 2);
+}
+
+/**
+ * Implements hook_views_default_views().
+ */
+function ding_dashboard_views_default_views() {
+  return workbench_load_all_exports('ding_dashboard', 'views', 'view.inc', 'view');
+}
+
+/**
+ * Define editorial workflow.
+ *
+ * Each array keys is the state that the node can be.
+ * Each value is an array of possible actions for specific state.
+ *
+ * @param string $state
+ *   Node state.
+ *
+ * @return array
+ *   A set of possible actions than can be performed on current state.
+ */
+function ding_dashboard_workflow($state) {
+  $flow = array(
+    EDITORIAL_NODE_NEW => array(
+      EDITORIAL_ACTION_PUSH,
+      EDITORIAL_ACTION_DELETE,
+    ),
+    EDITORIAL_NODE_PUSHED => array(
+      EDITORIAL_ACTION_APPROVE,
+      EDITORIAL_ACTION_REJECT,
+    ),
+    EDITORIAL_NODE_APPROVED => array(
+      EDITORIAL_ACTION_REJECT,
+    ),
+    EDITORIAL_NODE_REJECTED => array(
+      EDITORIAL_ACTION_PUSH,
+      EDITORIAL_ACTION_DELETE,
+    ),
+  );
+
+  $approve_permission = user_access('approve any ed content');
+  if ($approve_permission && $state != EDITORIAL_NODE_APPROVED) {
+    return array(EDITORIAL_ACTION_APPROVE);
+  }
+
+  return isset($flow[$state]) ? $flow[$state] : NULL;
+}
+
+/**
+ * Node deletion confirmation.
+ */
+function _ding_dashboard_node_delete_confirm($form, &$form_state, $node) {
+  $question = t('Are you sure to delete <em>@node</em>', array('@node' => $node->title));
+  $path = url('admin/workbench/content/editorial');
+  $description = t('Node will be marked as deleted and will be still available in the system.');
+  $confirm_form = confirm_form($form, $question, $path, $description);
+
+  $form_state['storage']['node'] = $node;
+
+  return $confirm_form;
+}
+
+/**
+ * Node deleteion form submit handler.
+ *
+ * @see _ding_dashboard_node_delete_confirm()
+ */
+function _ding_dashboard_node_delete_confirm_submit(&$form, &$form_state) {
+  $node = $form_state['storage']['node'];
+
+  // Node object here is already marked as deleted, so just save it.
+  node_save($node);
+}
+
+/**
+ * Implements hook_clone_node_alter().
+ */
+function ding_dashboard_clone_node_alter(&$node, $context) {
+  $editorial_content_types = variable_get('editorial_content_types', array());
+  if (!in_array($node->type, array_filter($editorial_content_types))) {
+    return;
+  }
+
+  $wrapper = entity_metadata_wrapper('node', $node);
+  $editorial_dashboard_status = $wrapper->field_editorial_status->value();
+
+  if (EDITORIAL_NODE_NEW !== $editorial_dashboard_status) {
+    $wrapper->field_editorial_status->set(EDITORIAL_NODE_NEW);
+  }
+}

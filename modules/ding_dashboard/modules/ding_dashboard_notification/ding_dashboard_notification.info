@@ -1,0 +1,15 @@
+name = Ding Editorial Dashboard Notification
+description = Wrapper for e-mailing needs.
+core = 7.x
+package = Ding!
+version = 7.x-0.1
+project = ding_dashboard_notification
+dependencies[] = ctools
+dependencies[] = ding_dashboard
+dependencies[] = strongarm
+configure = admin/config/editorial/dashboard_notification
+features[ctools][] = strongarm:strongarm:1
+features[features_api][] = api:2
+features[variable][] = ding_dashboard_notification_settings
+files[] = lib/class.phpmailer.php
+mtime = 1438574773
