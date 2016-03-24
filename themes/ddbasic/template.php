@@ -611,6 +611,7 @@ function ddbasic_panels_default_style_render_region($vars) {
  */
 function ddbasic_preprocess_user_profile(&$variables) {
   $variables['user_profile']['summary']['member_for']['#access'] = FALSE;
+  unset($variables['user_profile']['og_user_node']);
 }
 
 
