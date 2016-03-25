@@ -3,6 +3,7 @@
  * @file
  * Views related items definition.
  */
+
 class ding_dashboard_editorial_delete extends views_handler_field_node_link {
 
   /**

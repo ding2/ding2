@@ -36,7 +36,7 @@ function ding_dashboard_comments_secure_permissions($role) {
       'access dashboard comments',
     ),
     'editor' => array(
-     'administer dashboard comments',
+      'administer dashboard comments',
       'access dashboard comments',
     ),
     'local editor' => array(
@@ -61,7 +61,7 @@ function ding_dashboard_comments_form_alter(&$form, $form_state, $form_id) {
   if (!empty($editorial_content_types)) {
     $form_ids = array();
     foreach ($editorial_content_types as $content_type) {
-      if(!empty($content_type)) {
+      if (!empty($content_type)) {
         $form_ids[] = $content_type . '_node_form';
       }
     }
@@ -337,7 +337,7 @@ function ding_dashboard_comments_node_delete($node) {
   if (!empty($editorial_content_types)) {
     $node_types = array();
     foreach ($editorial_content_types as $content_type) {
-      if(!empty($content_type)) {
+      if (!empty($content_type)) {
         $node_types[] = $content_type;
       }
     }
@@ -363,10 +363,10 @@ function ding_dashboard_comments_place_comment($nid = 0, $uid = 0, $comment = ''
   if ($nid && $uid && !empty($comment)) {
     db_insert('editorial_dashboard_comments')
       ->fields(array(
-      'nid' => $nid,
-      'uid' => $uid,
-      'timestamp' => time(),
-      'comment' => check_plain($comment),
+        'nid' => $nid,
+        'uid' => $uid,
+        'timestamp' => time(),
+        'comment' => check_plain($comment),
       ))
       ->execute();
 
@@ -393,8 +393,8 @@ function ding_dashboard_comments_mark_comments($nid) {
     if ($luid && $luid != $user->uid) {
       db_update('editorial_dashboard_comments_notification')
         ->fields(array(
-        'access' => 1,
-      ))
+          'access' => 1,
+        ))
         ->condition('nid', $nid, '=')
         ->execute();
     }
@@ -438,7 +438,7 @@ function ding_dashboard_comments_node_load($nodes) {
     if (!empty($editorial_content_types)) {
       $node_types = array();
       foreach ($editorial_content_types as $content_type) {
-        if(!empty($content_type)) {
+        if (!empty($content_type)) {
           $node_types[] = $content_type;
         }
       }

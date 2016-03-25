@@ -1,11 +1,8 @@
 <?php
 /**
  * @file
- *
  * Admin-related stuff in this file.
- *
  */
-
 /**
  * Module settings form.
  *

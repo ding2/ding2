@@ -1,7 +1,6 @@
 <?php
 /**
  * @file
- *
  * Generic template file for editorial comments block.
  */
 ?>

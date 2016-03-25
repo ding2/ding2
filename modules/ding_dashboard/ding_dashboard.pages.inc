@@ -18,7 +18,7 @@ function _ding_dashboard_action($node, $action) {
 
   if (!in_array($action, array_keys($valid_actions))) {
     $t = array(
-      '@action' => $action
+      '@action' => $action,
     );
     watchdog('editorial', t('Unknown action @action requested.'), $t, WATCHDOG_WARNING);
     drupal_goto($dest['destination']);

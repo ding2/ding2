@@ -37,7 +37,7 @@ function ding_dashboard_notification_permission() {
 
   $perm['access dashboard notification'] = array(
     'title' => t('Dashboard notification'),
-    'description' => t('Manage dashboard notification settings, such as names and e-mail\'s.'),
+    'description' => t("Manage dashboard notification settings, such as names and e-mail\'s."),
   );
 
   return $perm;
@@ -239,6 +239,7 @@ function ding_dashboard_notification_get_users_by_role($roles = array()) {
 
   return $users;
 }
+
 /**
  * Theme for content of notification letter in case then node was commented.
  */

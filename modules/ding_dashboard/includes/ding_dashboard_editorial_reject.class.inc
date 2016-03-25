@@ -3,6 +3,7 @@
  * @file
  * Views related items definition.
  */
+
 class ding_dashboard_editorial_reject extends views_handler_field_node_link {
 
   /**
@@ -11,10 +12,9 @@ class ding_dashboard_editorial_reject extends views_handler_field_node_link {
   function render_link($node, $values) {
     global $user;
 
-    if (!ding_dashboard_access_callback($node, EDITORIAL_ACTION_REJECT) || !isset($node->field_editorial_status[LANGUAGE_NONE][0]['value']))  {
+    if (!ding_dashboard_access_callback($node, EDITORIAL_ACTION_REJECT) || !isset($node->field_editorial_status[LANGUAGE_NONE][0]['value'])) {
       return;
     }
-
 
     // @todo
     // Correct action path.

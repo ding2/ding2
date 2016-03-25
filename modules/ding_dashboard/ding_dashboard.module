@@ -89,47 +89,47 @@ function ding_dashboard_permission() {
 
   $perm['administer editorial dashboard'] = array(
     'title' => 'Administer editorial dashboard',
-    'description' => 'Change various editorial settings'
+    'description' => 'Change various editorial settings',
   );
 
   $perm['push own ed content'] = array(
-    'title' => t('Push own editorial dashboard content.') ,
-    'description' => t('Allow to push own editorial dashboard content.') ,
+    'title' => t('Push own editorial dashboard content.'),
+    'description' => t('Allow to push own editorial dashboard content.'),
   );
 
   $perm['push any ed content'] = array(
-    'title' => t('Push any editorial dashboard content.') ,
-    'description' => t('Allow to push any editorial dashboard content.') ,
+    'title' => t('Push any editorial dashboard content.'),
+    'description' => t('Allow to push any editorial dashboard content.'),
   );
 
   $perm['approve own ed content'] = array(
-    'title' => t('Approve own editorial dashboard content.') ,
-    'description' => t('Allow to push approve editorial dashboard content.') ,
+    'title' => t('Approve own editorial dashboard content.'),
+    'description' => t('Allow to push approve editorial dashboard content.'),
   );
 
   $perm['approve any ed content'] = array(
-    'title' => t('Approve any editorial dashboard content.') ,
-    'description' => t('Allow to approve any editorial dashboard content.') ,
+    'title' => t('Approve any editorial dashboard content.'),
+    'description' => t('Allow to approve any editorial dashboard content.'),
   );
 
   $perm['reject own ed content'] = array(
-    'title' => t('Reject own editorial dashboard content.') ,
-    'description' => t('Allow to reject own editorial dashboard content.') ,
+    'title' => t('Reject own editorial dashboard content.'),
+    'description' => t('Allow to reject own editorial dashboard content.'),
   );
 
   $perm['reject any ed content'] = array(
-    'title' => t('Reject own editorial dashboard content.') ,
-    'description' => t('Allow to reject own editorial dashboard content.') ,
+    'title' => t('Reject own editorial dashboard content.'),
+    'description' => t('Allow to reject own editorial dashboard content.'),
   );
 
   $perm['delete own ed content'] = array(
-    'title' => t('Delete own editorial dashboard content.') ,
-    'description' => t('Allow to delete own editorial dashboard content.') ,
+    'title' => t('Delete own editorial dashboard content.'),
+    'description' => t('Allow to delete own editorial dashboard content.'),
   );
 
   $perm['delete any ed content'] = array(
-    'title' => t('Delete any editorial dashboard content.') ,
-    'description' => t('Allow to delete any editorial dashboard content.') ,
+    'title' => t('Delete any editorial dashboard content.'),
+    'description' => t('Allow to delete any editorial dashboard content.'),
   );
 
   return $perm;
@@ -187,9 +187,9 @@ function ding_dashboard_secure_permissions($role) {
  * Access callback for editorial dashboard actions.
  *
  * @param nid
- *  Id of node.
+ *   Id of node.
  * @param action
- *  Action name.
+ *   Action name.
  */
 function ding_dashboard_access_callback($node, $action) {
   global $user;
@@ -333,7 +333,7 @@ function ding_dashboard_save_approve_submit($form, &$form_state) {
 }
 
 /**
- * Implement hook_form_FORM_ID_alter().
+ * Implements hook_form_FORM_ID_alter().
  *
  * Alter the exposed filters views form.
  * This function limits the values available in the Type dropdown,
@@ -344,7 +344,7 @@ function ding_dashboard_form_views_exposed_form_alter(&$form, &$form_state) {
     $editorial_types = array_filter(variable_get('editorial_content_types', array()));
     $enabled_types = array_intersect_key($form['type']['#options'], $editorial_types);
     $form['type']['#options'] = array(
-      'All' => reset($form['type']['#options'])
+      'All' => reset($form['type']['#options']),
     );
     $form['type']['#options'] += $enabled_types;
     $form['#attached']['css'][] = drupal_get_path('module', 'ding_dashboard') . '/css/ding_dashboard.styles.css';
@@ -352,7 +352,7 @@ function ding_dashboard_form_views_exposed_form_alter(&$form, &$form_state) {
 }
 
 /**
- * Implement hook_query_alter().
+ * Implements hook_query_alter().
  *
  * Alter the editorial views query.
  * Besides altering the exposed filter form, we need to alter the
@@ -386,11 +386,11 @@ function ding_dashboard_query_alter($query) {
       $conditions =& $conditions[0]['field']->conditions();
       $not_found = TRUE;
       foreach ($conditions as $condition) {
-        if (isset($condition['field']) && is_object($condition['field']) && get_class($condition['field']) == 'DatabaseCondition')  {
+        if (isset($condition['field']) && is_object($condition['field']) && get_class($condition['field']) == 'DatabaseCondition') {
           $c =& $condition['field']->conditions();
           if (isset($c['field']) && $c['field'] == 'node.type') {
-             $not_found = FALSE;
-          break;
+            $not_found = FALSE;
+            break;
           }
         }
       }
