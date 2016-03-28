@@ -262,3 +262,15 @@ projects[emailkanon][subdir]         = ""
 projects[emailkanon][download][type] = "git"
 projects[emailkanon][download][url]  = "git@github.com:easySuite/emailkanon.git"
 projects[emailkanon][download][branch]  = "development"
+
+; Social Services modules and libraries
+projects[social_services][type]             = "module"
+projects[social_services][download][type]   = "git"
+projects[social_services][subdir]           = ""
+projects[social_services][download][url]    = "git@github.com:easySuite/social_services.git"
+projects[social_services][download][branch] = "development"
+
+libraries[SocialServices][download][type]   = "git"
+libraries[SocialServices][download][url]    = "git@github.com:inleadmedia/SocialServices.git"
+libraries[SocialServices][download][branch] = "development"
+libraries[SocialServices][destination]      = "modules/social_services/lib"
