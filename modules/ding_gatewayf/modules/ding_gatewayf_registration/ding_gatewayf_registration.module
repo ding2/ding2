@@ -307,6 +307,7 @@ function ding_gatewayf_registration_acceptance_form() {
     '#description' => t('Pin code with an max length of %length', array('%length' => ding_user_get_pincode_length())),
     '#maxlength' => ding_user_get_pincode_length(),
     '#required' => TRUE,
+    '#element_validate' => array('ding_user_element_validate_pincode'),
     '#attributes' => array(
       'autocomplete' => 'off',
     ),
