@@ -419,7 +419,7 @@ function ding2_update_7021() {
     // Set the 403 for authenticated users.
     $content_403_authenticated = array(
       'value' => '<h3>' . t('access denied: insufficient permissions') . '</h3><p>' . t('access denied: insufficient permissions') . '</p>',
-      'format' => 'plain_text'
+      'format' => 'plain_text',
     );
     variable_set('customerror_403_authenticated_title', t('access denied: insufficient permissions'));
     variable_set('customerror_403_authenticated', $content_403_authenticated);

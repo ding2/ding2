@@ -206,7 +206,8 @@ function ding_frontend_form_customerror_admin_settings_alter(&$form, &$form_stat
     array(
       'value' => '',
       'format' => 'ding_wysiwyg',
-    ));
+    )
+  );
 
   $form['customerror_403_group']['customerror_403']['#type'] = 'text_format';
   $form['customerror_403_group']['customerror_403']['#format'] = $content_403['format'];
@@ -226,7 +227,8 @@ function ding_frontend_form_customerror_admin_settings_alter(&$form, &$form_stat
     array(
       'value' => '',
       'format' => 'ding_wysiwyg',
-    ));
+    )
+  );
 
   $form['customerror_404_group']['customerror_404']['#type'] = 'text_format';
   $form['customerror_404_group']['customerror_404']['#format'] = $content_404['format'];
