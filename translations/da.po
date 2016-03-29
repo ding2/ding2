@@ -48360,3 +48360,6 @@ msgstr "Vælg en interesseperiode"
 
 msgid "You are now logged out of WAYF."
 msgstr "Du er nu logget ud af NemID."
+
+msgid "The pincode must consist of exactly %number digits."
+msgstr "Pinkoden skal bestå af %number cifre."
