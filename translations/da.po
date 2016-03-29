@@ -48348,7 +48348,7 @@ msgstr "NemID logo"
 
 #: /gatewayf/callback?destination=ding_frontpage?eduPersonTargetedID=WAYF-DK-e767c06edaad0f8d23e785bbc470e7f37ad03e8d&mail=&logintype=nemlogin
 msgid "click here"
-msgstr "Klik her"
+msgstr "klikke her"
 
 #: /gatewayf/registration/acceptance
 msgid "Your full name."
