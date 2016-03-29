@@ -174,7 +174,7 @@ function ding_gatewayf_logout() {
     unset($_SESSION[DING_GATEWAYF_IS_LOGGED_IN]);
   }
 
-  drupal_set_message('You are now logged out of WAYF');
+  drupal_set_message(t('You are now logged out of WAYF.'));
 
   // Get the logout url for the site, which is used to redirect the user after
   // logout. This needs to handle two cases:
