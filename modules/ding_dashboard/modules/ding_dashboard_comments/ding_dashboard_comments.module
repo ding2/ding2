@@ -225,9 +225,6 @@ function ding_dashboard_comments_get_marker($type = '', $nid = NULL) {
  *
  * Preprocess the dashboard node table rows.
  * Mainly add a "commented" icon.
- *
- * @param array $rows
- *   Reference to the rows array.
  */
 function ding_dashboard_comments_dashboard_rows(&$rows) {
   $page = arg(2);
@@ -243,12 +240,6 @@ function ding_dashboard_comments_dashboard_rows(&$rows) {
 
 /**
  * Format comments into some HTML.
- *
- * @param array $comments
- *   Array of comment objects.
- *
- * @return array
- *   Comments markup.
  */
 function ding_dashboard_comments_format_comments($comments) {
   $comments_markup = '';

@@ -140,7 +140,7 @@ function theme_notification_status_changed($vars) {
     'body' => t('Content !title status set to @status-ed by.',
       array(
         '!title' => l($node->title, 'node/' . $node->nid, array('absolute' => TRUE)),
-        '@status' => $data
+        '@status' => $data,
       )
     ),
     'footer' => t($footer, array('@year' => date('Y'))),
@@ -162,7 +162,8 @@ function theme_notification_commented($vars) {
     'body' => t('Content !title was  commented by @user. Comment: @comment',
       array(
         '!title' => l($node->title, 'node/' . $node->nid, array('absolute' => TRUE)),
-        '@user' => $data['author']->name, '@comment' => $data['comment']
+        '@user' => $data['author']->name,
+        '@comment' => $data['comment'],
       )
     ),
     'footer' => t($footer, array('@year' => date('Y'))),
@@ -227,7 +228,7 @@ function ding_dashboard_notification_send_mail($to_address = '', $to_name = '', 
 /**
  * Get a list of users with specicifc role.
  *
- * @return
+ * @return array
  *   Array of users indexed by user id (uid).
  */
 function ding_dashboard_notification_get_users_by_role($roles = array()) {

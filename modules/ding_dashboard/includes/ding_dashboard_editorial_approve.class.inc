@@ -22,7 +22,7 @@ class DingDashboardEditorialApprove extends views_handler_field_node_link {
     global $user;
 
     if (!ding_dashboard_access_callback($node, EDITORIAL_ACTION_APPROVE) || !isset($node->field_editorial_status[LANGUAGE_NONE][0]['value'])) {
-      return;
+      return FALSE;
     }
 
     // @todo
