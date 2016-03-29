@@ -5,6 +5,8 @@
  */
 
 /**
+ * Editorial dashboard administrative block.
+ *
  * Creates an administrative block on the configuration page for grouping
  * various settings.
  *

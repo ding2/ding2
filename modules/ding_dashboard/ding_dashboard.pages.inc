@@ -20,7 +20,7 @@ function _ding_dashboard_action($node, $action) {
     $t = array(
       '@action' => $action,
     );
-    watchdog('editorial', t('Unknown action @action requested.'), $t, WATCHDOG_WARNING);
+    watchdog('editorial', 'Unknown action @action requested.', $t, WATCHDOG_WARNING);
     drupal_goto($dest['destination']);
   }
 
@@ -34,7 +34,7 @@ function _ding_dashboard_action($node, $action) {
     $t = array(
       '@callback' => $callback,
     );
-    watchdog('editorial', t('No such @callback() method defined.'), $t, WATCHDOG_ERROR);
+    watchdog('editorial', 'No such @callback() method defined.', $t, WATCHDOG_ERROR);
   }
 
   drupal_goto($dest['destination']);
@@ -61,6 +61,9 @@ function _ding_dashboard_node_persist($node, $action) {
  * @param object $node
  *   Node object being altered.
  *
+ * @return string
+ *   Node status.
+ *
  * @see _ding_dashboard_action()
  * @see ding_dashboard_valid_actions()
  */
@@ -80,6 +83,9 @@ function ding_dashboard_node_push($node) {
  * @param object $node
  *   Node object being altered.
  *
+ * @return string
+ *   Node status.
+ *
  * @see _ding_dashboard_action()
  * @see ding_dashboard_valid_actions()
  */
@@ -98,6 +104,9 @@ function ding_dashboard_node_approve($node) {
  *
  * @param object $node
  *   Node object being altered.
+ *
+ * @return string
+ *   Node status.
  *
  * @see _ding_dashboard_action()
  * @see ding_dashboard_valid_actions()

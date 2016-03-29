@@ -7,7 +7,6 @@
 include_once 'ding_dashboard_notification.features.inc';
 /**
  * @file
- *
  * Main module file.
  */
 
@@ -115,8 +114,9 @@ function ding_dashboard_notification_editorial_status_changed($action, $node) {
  */
 function ding_dashboard_notification_ding_dashboard_comments_comment_save($user, $node, $comment) {
   $settings = variable_get('ding_dashboard_notification_settings', array());
-  if ($settings['editor'][EDITORIAL_ACTION_COMMENTED] == 0)
+  if ($settings['editor'][EDITORIAL_ACTION_COMMENTED] == 0) {
     return;
+  }
 
   $user = user_load($user);
   $node = node_load($node);
@@ -137,7 +137,12 @@ function theme_notification_status_changed($vars) {
   $footer = variable_get('ding_dashboard_notification_footer', '');
   $params = array(
     'header' => t('Content @title status.', array('@title' => $node->title)),
-    'body' => t('Content !title status set to @status-ed by.', array('!title' => l($node->title, 'node/' . $node->nid, array('absolute' => TRUE)), '@status' => $data)),
+    'body' => t('Content !title status set to @status-ed by.',
+      array(
+        '!title' => l($node->title, 'node/' . $node->nid, array('absolute' => TRUE)),
+        '@status' => $data
+      )
+    ),
     'footer' => t($footer, array('@year' => date('Y'))),
   );
   return $params;
@@ -154,7 +159,12 @@ function theme_notification_commented($vars) {
 
   $params = array(
     'header' => t('Content @title commented.', array('@title' => $node->title)),
-    'body' => t('Content !title was  commented by @user. Comment: @comment', array('!title' => l($node->title, 'node/' . $node->nid, array('absolute' => TRUE)), '@user' => $data['author']->name, '@comment' => $data['comment'])),
+    'body' => t('Content !title was  commented by @user. Comment: @comment',
+      array(
+        '!title' => l($node->title, 'node/' . $node->nid, array('absolute' => TRUE)),
+        '@user' => $data['author']->name, '@comment' => $data['comment']
+      )
+    ),
     'footer' => t($footer, array('@year' => date('Y'))),
   );
 
@@ -163,11 +173,6 @@ function theme_notification_commented($vars) {
 
 /**
  * Notify a user via email.
- *
- * @param $type
- *   Type of notification.
- * @param $uid
- *   Array of user id's
  */
 function ding_dashboard_notification_user_notify($data, $node, $destination, $theme) {
   if (!empty($node)) {
@@ -197,14 +202,14 @@ function ding_dashboard_notification_user_notify($data, $node, $destination, $th
 /**
  * Send an email.
  *
- * @see ding_dashboard_notification_admin_form.
- *
- * @param $to_address
+ * @param string $to_address
  *   Recipient mail address.
- * @param $to_name
+ * @param string $to_name
  *   Recipient name.
- * @param $content
+ * @param string $content
  *   Mail content, can be HTML.
+ *
+ * @see ding_dashboard_notification_admin_form
  */
 function ding_dashboard_notification_send_mail($to_address = '', $to_name = '', $content = '') {
   $from_address = variable_get('ding_dashboard_notification_from_mail', '');
@@ -216,7 +221,7 @@ function ding_dashboard_notification_send_mail($to_address = '', $to_name = '', 
   $mailer->AddAddress($to_address, $to_name);
   $mailer->Subject = $subject;
   $mailer->MsgHTML($content);
-  $mailer->send();
+  $mailer->Send();
 }
 
 /**
@@ -271,7 +276,6 @@ function theme_ed_notifications_table(&$vars) {
     'header' => $editor_actions,
     'rows' => array($row),
   ));
-
 
   return $output;
 }

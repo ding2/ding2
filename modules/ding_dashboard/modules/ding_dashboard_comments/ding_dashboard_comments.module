@@ -1,7 +1,6 @@
 <?php
 /**
  * @file
- *
  * Dashboard module main file.
  */
 
@@ -27,8 +26,8 @@ function ding_dashboard_comments_permission() {
 }
 
 /**
-* Implements hook_secure_permissions().
-*/
+ * Implements hook_secure_permissions().
+ */
 function ding_dashboard_comments_secure_permissions($role) {
   $permissions = array(
     'guest blogger' => array(
@@ -126,8 +125,6 @@ function ding_dashboard_comments_theme($existing, $type, $theme, $path) {
  */
 function ding_dashboard_comments_menu_local_tasks_alter(&$data, $router_item, $root_path) {
   if (preg_match('/^admin\/editorial_dashboard(.+)?$/', $root_path)) {
-    //drupal_add_css(drupal_get_path('module', 'ding_dashboard_comments') . '/css/ding_dashboard_comments_styles.css', 'file');
-
     $tabs = array(
       'all',
       'pending',
@@ -153,11 +150,12 @@ function ding_dashboard_comments_menu_local_tasks_alter(&$data, $router_item, $r
 /**
  * Fetch node editorial comments status.
  *
- * @param $type
+ * @param string $type
  *   Marker type OR current editorial tab.
- * @param $nid
+ * @param int $nid
  *   If passed a node id (nid), status only for this node will be fetched.
- * @return
+ *
+ * @return bool
  *   TRUE if comments were accessed, FALSE otherwise.
  */
 function ding_dashboard_comments_get_marker($type = '', $nid = NULL) {
@@ -171,18 +169,23 @@ function ding_dashboard_comments_get_marker($type = '', $nid = NULL) {
     case 'all':
       $override = TRUE;
       break;
+
     case 'pending':
       $query->condition('s.status', DASHBOARD_NODE_PENDING, '=');
       break;
+
     case 'rejected':
       $query->condition('s.status', DASHBOARD_NODE_REJECTED, '=');
       break;
+
     case 'approved':
       $query->condition('s.status', DASHBOARD_NODE_APPROVED, '=');
       break;
+
     case 'deleted':
       $override = TRUE;
       break;
+
     default:
   }
 
@@ -223,10 +226,8 @@ function ding_dashboard_comments_get_marker($type = '', $nid = NULL) {
  * Preprocess the dashboard node table rows.
  * Mainly add a "commented" icon.
  *
- * @param $rows
+ * @param array $rows
  *   Reference to the rows array.
- * @return
- *   Preprocess data, mainly same as input.
  */
 function ding_dashboard_comments_dashboard_rows(&$rows) {
   $page = arg(2);
@@ -243,9 +244,10 @@ function ding_dashboard_comments_dashboard_rows(&$rows) {
 /**
  * Format comments into some HTML.
  *
- * @param $comments
+ * @param array $comments
  *   Array of comment objects.
- * @return
+ *
+ * @return array
  *   Comments markup.
  */
 function ding_dashboard_comments_format_comments($comments) {
@@ -291,7 +293,7 @@ function ding_dashboard_comments_node_update($node) {
   if (!empty($editorial_content_types)) {
     $node_types = array();
     foreach ($editorial_content_types as $content_type) {
-      if(!empty($content_type)) {
+      if (!empty($content_type)) {
         $node_types[] = $content_type;
       }
     }
@@ -352,11 +354,11 @@ function ding_dashboard_comments_node_delete($node) {
 /**
  * Insert a new comment to the database.
  *
- * @param $nid
- * Node id, referencing the comment.
- * @param $uid
+ * @param int $nid
+ *   Node id, referencing the comment.
+ * @param int $uid
  *   User id (uid), the comment author.
- * @param $comment
+ * @param string $comment
  *   Comment contents.
  */
 function ding_dashboard_comments_place_comment($nid = 0, $uid = 0, $comment = '') {
@@ -380,7 +382,7 @@ function ding_dashboard_comments_place_comment($nid = 0, $uid = 0, $comment = ''
  * Marking occurs if a user, with an id different from author's,
  * opened triggers this.
  *
- * @param $nid
+ * @param int $nid
  *   Node id (nid) which comments are to be marked.
  */
 function ding_dashboard_comments_mark_comments($nid) {
@@ -402,12 +404,15 @@ function ding_dashboard_comments_mark_comments($nid) {
 }
 
 /**
+ * Get last comment user id.
+ *
  * Retrieve whether a certain node editorial comment were viewed by anyone,
  * except author.
  *
- * @param $nid
+ * @param int $nid
  *   Node id (uid), which comments status is fetched.
- * @return
+ *
+ * @return int
  *   Node id (uid) on success, 0 on failure.
  */
 function ding_dashboard_comments_get_last_commented_userid($nid) {
@@ -452,9 +457,10 @@ function ding_dashboard_comments_node_load($nodes) {
 /**
  * Fetch a collection of editorial comments for a certain node.
  *
- * @param $nid
+ * @param int $nid
  *   Node id (nid).
- * @return
+ *
+ * @return array
  *   Array of comment objects.
  */
 function ding_dashboard_comments_fetch_comments($nid) {

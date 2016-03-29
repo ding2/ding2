@@ -136,8 +136,8 @@ function ding_dashboard_permission() {
 }
 
 /**
-* Implements hook_secure_permissions().
-*/
+ * Implements hook_secure_permissions().
+ */
 function ding_dashboard_secure_permissions($role) {
   $permissions = array(
     'guest blogger' => array(
@@ -186,10 +186,13 @@ function ding_dashboard_secure_permissions($role) {
 /**
  * Access callback for editorial dashboard actions.
  *
- * @param nid
- *   Id of node.
- * @param action
+ * @param object $node
+ *   Node object.
+ * @param string $action
  *   Action name.
+ *
+ * @return array
+ *   Returns an array of permissions.
  */
 function ding_dashboard_access_callback($node, $action) {
   global $user;
@@ -214,7 +217,6 @@ function ding_dashboard_access_callback($node, $action) {
 
       default:
         return FALSE;
-        break;
     }
   }
   return $perms[$user->uid][$node->nid][$action];
@@ -238,6 +240,7 @@ function ding_dashboard_node_access($node, $op, $account) {
           $state = NODE_ACCESS_DENY;
         }
         break;
+
       case 'delete':
         $access = ding_dashboard_access_callback($node, EDITORIAL_ACTION_DELETE);
         if ($access === TRUE) {
@@ -251,7 +254,7 @@ function ding_dashboard_node_access($node, $op, $account) {
 }
 
 /**
- * Impement hook_form_BASE_FORM_ID_alter().
+ * Implements hook_form_BASE_FORM_ID_alter().
  */
 function ding_dashboard_form_node_form_alter(&$form, &$form_state, $form_id) {
   $editorial_types = array_filter(variable_get('editorial_content_types', array()));
@@ -315,7 +318,7 @@ function ding_dashboard_form_node_form_alter(&$form, &$form_state, $form_id) {
 /**
  * Submit function push content into ED.
  *
- * @see ding_dashboard_form_node_form_alter().
+ * @see ding_dashboard_form_node_form_alter()
  */
 function ding_dashboard_save_push_submit($form, &$form_state) {
   $node = $form_state['node'];
@@ -325,7 +328,7 @@ function ding_dashboard_save_push_submit($form, &$form_state) {
 /**
  * Submit function approve content into ED.
  *
- * @see ding_dashboard_form_node_form_alter().
+ * @see ding_dashboard_form_node_form_alter()
  */
 function ding_dashboard_save_approve_submit($form, &$form_state) {
   $node = $form_state['node'];
@@ -418,8 +421,6 @@ function ding_dashboard_query_alter($query) {
  *
  * @param mixed $type
  *   Node bundles, whose nodes should be altered.
- * @param string $status
- *   Editorial status to set.
  *
  * @return mixed
  *   Number of nodes altered, FALSE on error.

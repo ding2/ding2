@@ -3,6 +3,7 @@
  * @file
  * Admin-related stuff in this file.
  */
+
 /**
  * Module settings form.
  *
@@ -91,7 +92,7 @@ function ding_dashboard_notification_admin_form() {
 
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => t('Save')
+    '#value' => t('Save'),
   );
   return $form;
 }
@@ -99,7 +100,7 @@ function ding_dashboard_notification_admin_form() {
 /**
  * Validate editorial dashboard notification admin form.
  *
- * @see ding_dashboard_notification_admin_form().
+ * @see ding_dashboard_notification_admin_form()
  */
 function ding_dashboard_notification_admin_form_validate($form, &$form_state) {
   $values = &$form_state['values'];
@@ -116,7 +117,7 @@ function ding_dashboard_notification_admin_form_validate($form, &$form_state) {
 /**
  * Validate editorial dashboard notification admin form.
  *
- * @see ding_dashboard_notification_admin_form().
+ * @see ding_dashboard_notification_admin_form()
  */
 function ding_dashboard_notification_admin_form_submit($form, &$form_state) {
   $values = $form_state['values'];

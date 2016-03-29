@@ -4,12 +4,21 @@
  * Views related items definition.
  */
 
-class ding_dashboard_editorial_delete extends views_handler_field_node_link {
+/**
+ * Class DingDashboardEditorialDelete.
+ */
+class DingDashboardEditorialDelete extends views_handler_field_node_link {
 
   /**
    * Renders the link.
+   *
+   * @param object $node
+   *   Node object.
+   *
+   * @return string
+   *   Returns action text.
    */
-  function render_link($node, $values) {
+  public function renderLink($node, $values) {
     global $user;
 
     if (!ding_dashboard_access_callback($node, EDITORIAL_ACTION_DELETE) || !isset($node->field_editorial_status[LANGUAGE_NONE][0]['value'])) {
@@ -31,4 +40,5 @@ class ding_dashboard_editorial_delete extends views_handler_field_node_link {
 
     return $text;
   }
+
 }
