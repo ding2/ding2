@@ -293,7 +293,7 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
     '#weight' => 0,
   );
 
-  $int_per = variable_get('disable_interest_date', '');
+  $int_per = variable_get('ding_reservation_disable_interest_date', '');
   $profile_provider = 'profile_' . $profile_type->type;
   $field = 'field_' . $profile_type->module . '_interest_period';
 
@@ -956,7 +956,7 @@ function ding_user_profile2_view($profile, $view_mode, $langcode) {
   $field_items = field_get_items('profile2', $profile, $field);
 
   if ($field_items) {
-    $int_per = variable_get('disable_interest_date', '');
+    $int_per = variable_get('ding_reservation_disable_interest_date', '');
 
     if ($int_per == 1) {
       $profile->content[$field]['#access'] = FALSE;

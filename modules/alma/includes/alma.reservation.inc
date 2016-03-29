@@ -44,7 +44,7 @@ function alma_reservation_options($account, $default_value = '') {
 
   $form = array();
   $form += ding_reservation_default_options_branch('alma_preferred_branch', $default, $branches);
-  $int_per = variable_get('disable_interest_date');
+  $int_per = variable_get('ding_reservation_disable_interest_date');
   if ($int_per != 1) {
     $form += ding_reservation_interest_period_selector('interest_period', $interest_period, $periods);
   }
@@ -239,10 +239,10 @@ function alma_reservation_create($account, $id, $options = array(), $expiry = NU
   $entity = ding_user_provider_profile($account);
   if (!empty($entity)) {
     $wrapper = entity_metadata_wrapper('profile2', $entity);
-    $int_per = variable_get('disable_interest_date', '');
+    $int_per = variable_get('ding_reservation_disable_interest_date', '');
 
     // Interest period.
-    if ($int_per != 1) {
+    if ($int_per) {
       if (!isset($options['interest_period'])) {
         if (!isset($expiry)) {
           // Use a metadata wrapper to access the data.
