@@ -51,7 +51,7 @@ function ding_dashboard_notification_admin_form() {
   $roles = array_combine($roles, $roles);
   // Makes header translatible.
   $header = array_map(function($v) {
-    return t($v);
+    return $v;
   }, $roles);
   // Adds custom elem to header.
   array_unshift($header, 'Action');
