@@ -334,3 +334,10 @@ function ding2_update_7015() {
 function ding2_update_7016() {
   ding2_translation_update();
 }
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7017() {
+  ding2_translation_update();
+}
