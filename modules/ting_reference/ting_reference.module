@@ -270,8 +270,21 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
 
       // Extract the IDs for the ting_object entities we need to load.
       foreach ($items as $item) {
-        $entity_id = $item['value']->endpoints[$langcode][1]['entity_id'];
-        $entity_ids[$item['value']->rid] = $entity_id;
+        if (!isset($item['value'])) {
+          $rid = db_select('field_data_endpoints', 'e')
+            ->fields('e', array('entity_id'))
+            ->condition('e.endpoints_entity_id', $entity->nid)
+            ->execute()
+            ->fetchField();
+          $relation = relation_load($rid);
+          $endpoints = $relation;
+        }
+        else {
+          $endpoints = $item['value'];
+        }
+
+        $entity_id = $endpoints->endpoints[$langcode][1]['entity_id'];
+        $entity_ids[$endpoints->rid] = $entity_id;
       }
       // Load the ting objects found.
       $ding_entities = entity_load('ting_object', $entity_ids);
