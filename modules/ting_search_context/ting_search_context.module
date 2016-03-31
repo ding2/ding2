@@ -785,13 +785,20 @@ function ting_search_context_search_string_context_exists($search_string) {
 /**
  * Checks to see if an identical subject context already exists.
  *
+ * @param string $parent_context
+ *   The parent context to search for identical subjects in.
  * @param array $subjects
  *   The subjects the search for. The order doesn't matter.
  */
-function ting_search_context_subject_context_exists(array $subjects) {
+function ting_search_context_subject_context_exists($parent_context, array $subjects) {
   $subject_contexts = ting_search_context_get_all_contexts('subject');
 
   foreach ($subject_contexts as $subject_context) {
+    // We only care for subject contexts with the same parent.
+    if ($subject_context->context !== $parent_context) {
+      continue;
+    }
+
     $db_subjects = explode(', ', $subject_context->subjects);
     // Since we make sure the user can't create contexts with duplicate subjects
     // it's easy to check for identical contexts. If this wasn't the case, we

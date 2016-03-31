@@ -221,12 +221,15 @@ function ting_search_context_admin_context_form_validate($form, &$form_state) {
       ));
     }
 
+    // Get the selected parent for the subject context.
+    $parent_context = $form_state['values']['context'];
+
     if ($context) {
-      $changed = $subjects !== $context->subjects;
+      $changed = ($subjects !== $context->subjects || $context->context !== $parent_context);
     }
     // Don't let the user create identical subject contexts.
     if ($is_new || $changed) {
-      if ($identical = ting_search_context_subject_context_exists($trimmed_subjects)) {
+      if ($identical = ting_search_context_subject_context_exists($parent_context, $trimmed_subjects)) {
         $error_messages[] = t('An identical subject context already exists: %identical', array(
           '%identical' => check_plain($identical->name),
         ));
