@@ -201,6 +201,10 @@ function ting_search_context_admin_context_form_validate($form, &$form_state) {
       }
     }
 
+    // We want to show all subject related errors at once. Unfortunately, this
+    // is not possible by calling form_set_error separately for all errors. So
+    // we collect the error messages in an array and use an "implode hack" to
+    // show them at once.
     $error_messages = array();
     // Inform the user of invalid subjects, if any.
     if (!empty($invalid_subjects)) {
