@@ -245,7 +245,6 @@ function ding_place2book_prices_add_submit($form, &$form_state) {
   $form_state['prices_count'][$id] = $id;
 }
 
-
 /**
  * Ajax handler for remove button.
  */
@@ -350,8 +349,9 @@ function ding_place2book_field_presave($entity_type, $entity, $field, $instance,
               $event = $p2b->updateEvent($event_maker_id, $event_id, $options);
 
               foreach ($prices as $key => $price) {
-                if (empty($price['name']) || empty($price['value']))
+                if (empty($price['name']) || empty($price['value'])) {
                   continue;
+                }
 
                 $data = [
                   'name' => $price['name'],
