@@ -28,4 +28,3 @@ features[variable][] = p2b_kultunaut_age_group
 features[variable][] = p2b_kultunaut_export_category
 features[variable][] = p2b_library_event_maker
 mtime = 1458827824
-required = 1

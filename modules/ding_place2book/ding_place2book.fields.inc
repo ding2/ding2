@@ -40,7 +40,7 @@ function ding_place2book_field_widget_info() {
       'field types' => ['ding_p2b'],
       'behaviors' => [
         'multiple values' => FIELD_BEHAVIOR_CUSTOM,
-        'default value' => FIELD_BEHAVIOR_NONE,
+        'default value' => FIELD_BEHAVIOR_CUSTOM,
       ],
     ],
   ];

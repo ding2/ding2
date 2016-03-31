@@ -13,28 +13,7 @@ function ding_place2book_field_default_field_instances() {
   // Exported field_instance: 'node-ding_event-field_place2book'
   $field_instances['node-ding_event-field_place2book'] = array(
     'bundle' => 'ding_event',
-    'default_value' => array(
-      0 => array(
-        'place2book' => array(
-          'capacity' => 1,
-          'kultunaut_export' => 1,
-          'passive' => 1,
-          'prices_wrapper' => array(
-            'add' => 'Add',
-            'prices' => array(
-              0 => array(
-                'value' => '',
-                'name' => '',
-                'id' => NULL,
-                'remove' => 'Remove',
-              ),
-            ),
-          ),
-          'synchronize' => 1,
-        ),
-        'ids' => array(),
-      ),
-    ),
+    'default_value' => array(),
     'deleted' => 0,
     'description' => '',
     'display' => array(
