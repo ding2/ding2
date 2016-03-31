@@ -411,7 +411,6 @@ function ding_place2book_field_formatter_view($entity_type, $entity, $field, $in
           $meta_data = $event->meta_data;
           $start = strtotime($event->begin_at);
           if (in_array($meta_data->event_state, ['passive', 'published',]) && time() < $start) {
-            $meta_data->sales_status = 'closed';
             switch ($meta_data->sales_status) {
               case 'open':
                 if (isset($event->links->sales_location) && ($meta_data->available_tickets > 0 || $meta_data->available_tickets == '∞')) {
