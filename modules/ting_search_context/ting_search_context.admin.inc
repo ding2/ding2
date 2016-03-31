@@ -230,7 +230,7 @@ function ting_search_context_admin_context_form_validate($form, &$form_state) {
     }
 
     if (!empty($error_messages)) {
-      form_set_error('subjects', theme('item_list', array('items' => $error_messages)));
+      form_set_error('subjects', implode('</li><li>', $error_messages));
     }
 
     // Recreate the input string with the trimmed subjects.
