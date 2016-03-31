@@ -48252,7 +48252,7 @@ msgstr "Opret bruger"
 
 #: /gatewayf/callback?destination=ding_frontpage?eduPersonTargetedID=WAYF-DK-e767c06edaad0f8d23e785bbc470e7f37ad03e8d&mail=&logintype=nemlogin
 msgid "You do not have an user account at the public library. If you wish to create an user account !user_url . You are still logged in at WAYF, so you can !logout to logout of WAYF."
-msgstr "<p>Du er ikke låner ved ved biblioteket. Hvis du ønsker at oprette dig som låner kan du !user_url.</p>\r\n <p>Du er stadig logget ind ved NemID, så du kan !logout for at logge ud.</p>"
+msgstr "<p>Du er ikke låner ved biblioteket. Hvis du ønsker at oprette dig som låner kan du !user_url.</p>\r\n <p>Du er stadig logget ind ved NemID, så du kan !logout for at logge ud.</p>"
 
 #: /search/ting/+.net
 msgid "Best match on title"
@@ -48363,3 +48363,6 @@ msgstr "Du er nu logget ud af NemID."
 
 msgid "The pincode must consist of exactly %number digits."
 msgstr "Pinkoden skal bestå af %number cifre."
+
+msgid "You are not allowed to automatically be created because of the age limit (!limit years). Please go to your local library to registry."
+msgstr "Du kan ikke oprette dig som bruger via NemID på grund af aldersbegrænsningen (!limit år). Du kan blive oprettet som bruger ved personlig henvendelse på biblioteket."

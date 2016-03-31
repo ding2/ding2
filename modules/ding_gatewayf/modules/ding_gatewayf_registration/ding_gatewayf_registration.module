@@ -134,7 +134,7 @@ function ding_gatewayf_registration_form_ding_gatewayf_admin_settings_form_alter
   $form['ding_gatewayf_registration']['age_limit'] = array(
     '#type' => 'textfield',
     '#title' => t('Age limit'),
-    '#description' => t('The age limit will be used to ensure that no user is created without begin above the limit. If left empty no age limit is enforced.'),
+    '#description' => t('The age limit will be used to ensure that no user is created without being above the limit. If left empty no age limit is enforced.'),
     '#default_value' => $defaults['age_limit'],
     '#element_validate' => array('element_validate_integer_positive'),
   );
