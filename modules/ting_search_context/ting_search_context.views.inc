@@ -90,7 +90,7 @@ function ting_search_context_views_data() {
     'title' => t('Name'),
     'help' => t('The human-readable name of the context'),
     'field' => array(
-      'handler' => 'views_handler_field',
+      'handler' => 'ting_search_context_handler_field_context_name',
       'click sortable' => TRUE,
     ),
     'sort' => array(

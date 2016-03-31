@@ -137,40 +137,7 @@ function ting_search_context_uninstall() {
  * nodes in the same way as user-defined contexts (they need a context_id).
  */
 function _ting_search_context_install_system_contexts() {
-  $system_contexts = array(
-    'film' => array(
-      'name' => 'Film',
-      'context' => 'film',
-    ),
-    'musik' => array(
-      'name' => 'Musik',
-      'context' => 'musik',
-    ),
-    'lydbøger' => array(
-      'name' => 'Lydbøger',
-      'context' => 'lydbøger',
-    ),
-    'voksen_fag' => array(
-      'name' => 'Voksen faglitteratur',
-      'context' => 'voksen_fag',
-    ),
-    'voksen_skøn' => array(
-      'name' => 'Voksen skønlitteratur',
-      'context' => 'voksen_skøn',
-    ),
-    'børne_fag' => array(
-      'name' => 'Børne faglitteratur',
-      'context' => 'børne_fag',
-    ),
-    'børne_skøn' => array(
-      'name' => 'Børne skønlitteratur',
-      'context' => 'børne_skøn',
-    ),
-    'neutral' => array(
-      'name' => 'Neutral',
-      'context' => 'neutral',
-    ),
-  );
+  $system_contexts = _ting_search_context_system_contexts();
 
   foreach ($system_contexts as $system_context) {
     $system_context += array('type' => 'system');
@@ -181,6 +148,51 @@ function _ting_search_context_install_system_contexts() {
       '%name' => $system_context['name'],
     ), WATCHDOG_INFO);
   }
+}
+
+/**
+ * Keep a seperate function for system type contexts in the install file, which
+ * can be used by update functions. Also, we don't wanna save any translated
+ * strings in the DB.
+ * This should be kept in sync. with the definitions in the .module file.
+ *
+ * @see ting_search_context_get_system_contexts()
+ */
+function _ting_search_context_system_contexts() {
+  return array(
+    'movie' => array(
+      'name' => 'Movie',
+      'context' => 'movie',
+    ),
+    'music' => array(
+      'name' => 'Music',
+      'context' => 'music',
+    ),
+    'audio_books' => array(
+      'name' => 'Audio books',
+      'context' => 'audio_books',
+    ),
+    'adult_nonfiction' => array(
+      'name' => 'Adult nonfiction',
+      'context' => 'adult_nonfiction',
+    ),
+    'adult_fiction' => array(
+      'name' => 'Adult fiction',
+      'context' => 'adult_fiction',
+    ),
+    'children_nonfiction' => array(
+      'name' => 'Children nonfiction',
+      'context' => 'children_nonfiction',
+    ),
+    'children_fiction' => array(
+      'name' => 'Children fiction',
+      'context' => 'children_fiction',
+    ),
+    'neutral' => array(
+      'name' => 'Neutral',
+      'context' => 'neutral',
+    ),
+  );
 }
 
 /**
@@ -197,4 +209,42 @@ function ting_search_context_disable() {
     $view->delete(TRUE);
   }
   views_invalidate_cache();
+}
+
+/**
+ * Convert existing context machine names (and title for system contexts) to
+ * english.
+ */
+function ting_search_context_update_7000() {
+  // Ignore search contexts and the neutral context.
+  $contexts = db_select('ting_search_context_contexts', 'tsc')
+    ->fields('tsc', array('context_id', 'name', 'context', 'type'))
+    ->condition('tsc.context', 'neutral', '!=')
+    ->condition('tsc.type', 'type', '!=')
+    ->execute()
+    ->fetchAll();
+
+  // Create a translate map to use in the update.
+  $old_contexts = array('film', 'musik', 'lydbøger', 'voksen_fag',
+    'voksen_skøn', 'børne_fag', 'børne_skøn', 'neutral');
+  $system_contexts = _ting_search_context_system_contexts();
+  $translate_map = array_combine($old_contexts, $system_contexts);
+
+  foreach ($contexts as $context) {
+    // Just to be sure..
+    if (isset($translate_map[$context->context])) {
+      $new_context = $translate_map[$context->context];
+      $fields = array('context' => $new_context['context']);
+      // Only for system type contexts will we update the name, since the others
+      // are user created.
+      if ($context->type == 'system') {
+        $fields['name'] = $new_context['name'];
+      }
+
+      db_update('ting_search_context_contexts')
+        ->fields($fields)
+        ->condition('context_id', $context->context_id)
+        ->execute();
+    }
+  }
 }

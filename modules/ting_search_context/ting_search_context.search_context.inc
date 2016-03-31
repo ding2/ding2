@@ -110,13 +110,13 @@ function ting_search_context_get_material_type(array $facets, $total_number) {
   $film_types = explode (',', variable_get('ting_search_context_film_types', 'film (net),dvd,blue-ray'));
   $music_types = explode (',', variable_get('ting_search_context_music_types', 'cd (musik),grammofonplade,node'));
   if (ting_search_context_matches_material_type($facets, $total_number, $film_types)) {
-    return 'film';
+    return 'movie';
   }
   elseif (ting_search_context_matches_material_type($facets, $total_number, $music_types)) {
-    return 'musik';
+    return 'music';
   }
   elseif (ting_search_context_matches_material_type($facets, $total_number, $audio_types)) {
-    return 'lydbøger';
+    return 'audio_books';
   }
   else {
     return 'book';
@@ -158,16 +158,16 @@ function ting_search_context_get_audience_fiction(array $facets) {
   $children = ting_search_context_is_children($facets, $pass_ratio);
   $nonfiction = ting_search_context_is_nonfiction($facets, $pass_ratio);
   if ($adult &&  $fiction) {
-    return 'voksen_skøn';
+    return 'adult_fiction';
   }
   elseif ($adult &&  $nonfiction) {
-    return 'voksen_fag';
+    return 'adult_nonfiction';
   }
   elseif ($children  &&  $fiction) {
-    return 'børne_skøn';
+    return 'children_fiction';
   }
   elseif ($children  &&  $nonfiction) {
-    return 'børne_fag';
+    return 'children_nonfiction';
   }
   else {
     return 'neutral';
@@ -284,13 +284,13 @@ function ting_search_context_check_subject_contexts(array $facets, array $subjec
  */
 function ting_search_context_get_subject_index_by_type($type) {
   $indexes = array(
-    'film' => 'subject',
-    'musik' => 'subject',
-    'lydbøger' => 'subject',
-    'voksen_skøn' => 'fictionSubject',
-    'voksen_fag' => 'subject',
-    'børne_skøn' => 'fictionSubject',
-    'børne_fag' => 'subject',
+    'movie' => 'subject',
+    'music' => 'subject',
+    'audio_books' => 'subject',
+    'adult_fiction' => 'fictionSubject',
+    'adult_nonfiction' => 'subject',
+    'children_fiction' => 'fictionSubject',
+    'children_nonfiction' => 'subject',
     'neutral' => 'subject',
   );
   return 'facet.' . $indexes[$type];

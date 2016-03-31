@@ -69,10 +69,16 @@ class ting_search_context_handler_field_node_ratings extends views_handler_field
 
       // Populate each item with node ratings data retrieved from the database.
       foreach ($result as $node_rating) {
+        // Enable translation of system context names.
+        $context_name = $node_rating->name;
+        if ($node_rating->type == 'system') {
+          $context_name = t($context_name);
+        }
+
         $nid = $node_rating->nid;
         $context_id = $node_rating->context_id;
         $item = array(
-          'name' => check_plain($node_rating->name),
+          'name' => $context_name,
           'context_type' => $node_rating->type,
           'context_machine_name' => $node_rating->context,
           'context_id' => $context_id,

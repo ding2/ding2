@@ -89,10 +89,10 @@ function ting_search_context_admin_context_form($form, &$form_state, $context = 
     '#title' => t('Parent context'),
     '#description' => t('Select the parent context'),
     '#options' => array(
-      'voksen_fag' => t('Voksen faglitteratur'),
-      'voksen_skøn' => t('Voksen skønlitteratur'),
-      'børne_fag' => t('Børne faglitteratur'),
-      'børne_skøn' => t('Børne skønlitteratur'),
+      'adult_nonfiction' => t('Adult nonfiction'),
+      'adult_fiction' => t('Adult fiction'),
+      'children_nonfiction' => t('Children nonfiction'),
+      'children_fiction' => t('Children fiction'),
     ),
     '#states' => array(
       'visible' => array(

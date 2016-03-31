@@ -259,25 +259,57 @@ function ting_search_context_ting_search_context_field_name() {
 }
 
 /**
- * Handler for the autocomplete field on the VBO-configuration form.
+ * Callback for the autocomplete field on the VBO-configuration form.
  *
  * Searches for at context by the human-readable name. Will output a JSON-array
  * with the name and the identifying id in paranthesis, so that we can fectch
  * the correct context in the validate handler.
  */
 function ting_search_context_autocomplete($string = '') {
+  // Search in the translated names for system contexts.
+  $system_contexts = ting_search_context_get_system_contexts();
+  $matching_system_contexts = array();
+  foreach ($system_contexts as $context => $system_context) {
+    if (mb_stripos($system_context['name'], $string) !== FALSE) {
+      $matching_system_contexts[$context] = $context;
+    }
+  }
+
+  // Search the context names in the DB for user created contexts, while also
+  // collecting the matching system contexts above since we need the ids.
+  $db_and = db_and();
+  $db_and->condition('tsc.name', '%' . db_like($string) . '%', 'LIKE');
+  $db_and->condition('tsc.type', 'system', '!=');
+
+  $query = db_select('ting_search_context_contexts', 'tsc')
+    ->fields('tsc', array('context_id', 'name', 'type', 'context'))
+    ->range(0, 10);
+
+  if (empty($matching_system_contexts)) {
+    $query->condition($db_and);
+  }
+  else {
+    $system_condition = db_and();
+    $system_condition->condition('tsc.context', $matching_system_contexts);
+    // We need this constraint to filter out user created subject contexts.
+    $system_condition->condition('tsc.type', 'system');
+    $db_or = db_or();
+    $db_or->condition($system_condition);
+    $db_or->condition($db_and);
+    $query->condition($db_or);
+  }
+  $result = $query->execute()->fetchAll();
+
   $matches = array();
-
-  $result = db_select('ting_search_context_contexts', 'tsc')
-    ->fields('tsc')
-    ->condition('name', '%' . db_like($string) . '%', 'LIKE')
-  // Note: this could be a setting.
-    ->range(0, 10)
-    ->execute();
-
   foreach ($result as $context) {
     $id = $context->context_id;
-    $name = check_plain($context->name);
+    // If this is a system type use the translated name.
+    if ($context->type == 'system') {
+      $name = $system_contexts[$context->context]['name'];
+    }
+    else {
+      $name = check_plain($context->name);
+    }
     $matches[$name . " ($id)"] = $name . " ($id)";
   }
 
@@ -564,7 +596,8 @@ function ting_search_context_views_bulk_operations_form_alter(&$form, &$form_sta
           $ratings = ting_search_context_ratings_load(NULL, $node->nid);
           foreach ($ratings as $rating) {
             $context = ting_search_context_load($rating->context_id);
-            $item['children'][] = check_plain($context->name) . " ($rating->rating)";
+            $context_name = check_plain($context->name);
+            $item['children'][] = $context_name . " ($rating->rating)";
           }
 
           // Add to main list.
@@ -980,10 +1013,15 @@ function ting_search_context_load_multiple($context_ids = array(), $reset = FALS
 
   // Get the contexts that wasn't found in the static cache.
   if (!empty($missing)) {
-    $cached_contexts += db_select('ting_search_context_contexts', 'tsc')
+    $new_contexts = db_select('ting_search_context_contexts', 'tsc')
       ->fields('tsc')
       ->condition('tsc.context_id', $missing, 'IN')
       ->execute()->fetchAllAssoc('context_id');
+
+    // Translate new contexts.
+    ting_search_context_translate_system_contexts($new_contexts);
+
+    $cached_contexts += $new_contexts;
   }
 
   return array_intersect_key($cached_contexts, array_flip($context_ids));
@@ -1012,7 +1050,23 @@ function ting_search_context_get_all_contexts($type = NULL) {
     $query->condition('tsc.type', $type);
   }
 
-  return $query->execute()->fetchAll();
+  $contexts = $query->execute()->fetchAll();
+  ting_search_context_translate_system_contexts($contexts);
+  return $contexts;
+}
+
+/**
+ * Translates names for all system contexts in the $context array.
+ *
+ * @param array $contexts
+ *   The contexts to be tranlated.
+ */
+function ting_search_context_translate_system_contexts(&$contexts) {
+  foreach ($contexts as $key => $context) {
+    if ($context->type == 'system') {
+      $contexts[$key]->name = t($context->name);
+    }
+  }
 }
 
 /**
@@ -1037,6 +1091,50 @@ function ting_search_context_get_types() {
     'system' => t('System context'),
     'subject' => t('Subject context'),
     'search' => t('Search string context'),
+  );
+}
+
+/**
+ * Defines the system context types we support.
+ *
+ * Note that these are only 'defintions' and is primarly included for
+ * translation support of system type context names. The 'real' contexts lives
+ * in the DB and should be fetched with the load functions.
+ */
+function ting_search_context_get_system_contexts() {
+  return array(
+    'movie' => array(
+      'name' => t('Movie'),
+      'context' => 'movie',
+    ),
+    'music' => array(
+      'name' => t('Music'),
+      'context' => 'music',
+    ),
+    'audio_books' => array(
+      'name' => t('Audio books'),
+      'context' => 'audio_books',
+    ),
+    'adult_nonfiction' => array(
+      'name' => t('Adult nonfiction'),
+      'context' => 'adult_nonfiction',
+    ),
+    'adult_fiction' => array(
+      'name' => t('Adult fiction'),
+      'context' => 'adult_fiction',
+    ),
+    'children_nonfiction' => array(
+      'name' => t('Children nonfiction'),
+      'context' => 'children_nonfiction',
+    ),
+    'children_fiction' => array(
+      'name' => t('Children fiction'),
+      'context' => 'children_fiction',
+    ),
+    'neutral' => array(
+      'name' => t('Neutral'),
+      'context' => 'neutral',
+    ),
   );
 }
 
