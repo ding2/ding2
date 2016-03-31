@@ -6,6 +6,7 @@
 
 include_once 'ding_place2book.features.inc';
 require_once 'ding_place2book.fields.inc';
+require_once "lib/p2b/P2b.php";
 
 /**
  * Implements hook_image_default_styles().
@@ -69,27 +70,38 @@ function ding_place2book_menu() {
     'file' => 'ding_place2book.admin.inc',
   ];
 
-  $items['admin/config/ding/place2book/event_makers'] = [
-    'title' => 'Event Makers',
-    'description' => 'Configuration form for P2b event makers',
+  $items['admin/config/ding/place2book/defaults'] = [
+    'title' => 'Defaults',
+    'description' => 'Configuration form for P2b default values',
     'page callback' => 'drupal_get_form',
-    'page arguments' => ['ding_place2book_eventmakers_admin_form'],
+    'page arguments' => ['ding_place2book_defaults_admin_form'],
     'access arguments' => ['administer place2book settings'],
     'type' => MENU_LOCAL_TASK,
     'file' => 'ding_place2book.admin.inc',
   ];
 
-  $items['admin/config/ding/place2book/kultunaut'] = [
-    'title' => 'Kultunaut',
-    'description' => 'Kultunaut-specific settings',
+  $items['admin/config/ding/place2book/mappings'] = [
+    'title' => 'Mappings',
+    'description' => 'Mappings for P2b service.',
     'page callback' => 'drupal_get_form',
-    'page arguments' => ['ding_place2book_kultunaut_admin_form'],
+    'page arguments' => ['ding_place2book_mappings_admin_form'],
     'access arguments' => ['administer place2book settings'],
     'type' => MENU_LOCAL_TASK,
     'file' => 'ding_place2book.admin.inc',
   ];
 
   return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_place2book_theme($existing, $type, $theme, $path) {
+  return [
+    'ding_p2b_prices_table' => [
+      'render element' => 'form',
+    ],
+  ];
 }
 
 /**
@@ -133,51 +145,76 @@ function ding_p2b_format_options($node, $additional) {
     "description_long" => ['field_ding_event_body', LANGUAGE_NONE, 0, 'value'],
     "begin_at" => ['field_ding_event_date', LANGUAGE_NONE, 0, 'value'],
     "end_at" => ['field_ding_event_date', LANGUAGE_NONE, 0, 'value2'],
-    "address" => [
-      "address1" => [
-        'field_ding_event_location',
-        LANGUAGE_NONE,
-        0,
-        'thoroughfare',
-      ],
-      "address2" => ['field_ding_event_location', LANGUAGE_NONE, 0, 'premise'],
-      "postal_code" => [
-        'field_ding_event_location',
-        LANGUAGE_NONE,
-        0,
-        'postal_code',
-      ],
-      "city" => ['field_ding_event_location', LANGUAGE_NONE, 0, 'locality'],
-      "country" => ['field_ding_event_location', LANGUAGE_NONE, 0, 'country'],
-    ],
   ];
   $data = (array) $node;
   foreach ($options as $name => $option) {
-    if ($name == 'address') {
-      foreach ($option as $key => $value) {
-        $options[$name][$key] = (string) drupal_array_get_nested_value($data, $value);
-      }
+
+    if (in_array($name, ['begin_at', 'end_at', 'sale_open_at', 'sale_close_at'])) {
+      $date = (string) drupal_array_get_nested_value($data, $option);
+      array_pop($option);
+      $option[] = 'timezone_db';
+      $timezone = $options[$name] = (string) drupal_array_get_nested_value($data, $option);
+      $options[$name] = format_date(strtotime($date), 'custom', 'Y-m-d\TH:i:sO', $timezone);
     }
     else {
       $options[$name] = (string) drupal_array_get_nested_value($data, $option);
     }
-    if (in_array($name, ['begin_at', 'end_at', 'sale_open_at', 'sale_close_at'])) {
-      array_pop($option);
-      $option[] = 'timezone_db';
-      $options[$name] .= (string) drupal_array_get_nested_value($data, $option);
-    }
   }
-  // @todo Find source for this param.
-  $options['address']['phone'] = 'phone';
+  $options['address'] = _ding_p2b_get_address_data($node);
   if ($additional['kultunaut_export']) {
     $field = field_get_items('node', $node, 'field_ding_event_category');
     if ($field) {
       $additional['kultunaut_export_category'] = _ding_place2book_get_export_category($field[0]['tid']);
     }
+
+    $field = field_get_items('node', $node, 'field_ding_event_target');
+    if ($field) {
+      $additional['kultunaut_age_group'] = _ding_place2book_get_age_group($field[0]['tid']);
+    }
   }
 
   $options += $additional;
   return $options;
+}
+
+/**
+ * Collects address data from referenced library or current node.
+ *
+ * @param object $node
+ *   Object of node.
+ *
+ * @return array
+ *   Array with addresses.
+ */
+function _ding_p2b_get_address_data($node) {
+  $field = field_get_items('node', $node, 'og_group_ref');
+  $node = (array) $node;
+  $lib = FALSE;
+  if ($field) {
+    $lib = (array) node_load($field[0]['target_id']);
+  }
+  $options = [
+    "address1" => ['field_ding_event_location', LANGUAGE_NONE, 0, 'thoroughfare'],
+    "address2" => ['field_ding_event_location', LANGUAGE_NONE, 0, 'premise'],
+    "postal_code" => ['field_ding_event_location', LANGUAGE_NONE, 0, 'postal_code'],
+    "city" => ['field_ding_event_location', LANGUAGE_NONE, 0, 'locality'],
+    "country" => ['field_ding_event_location', LANGUAGE_NONE, 0, 'country'],
+    "phone" => ['field_ding_library_phone_number', LANGUAGE_NONE, 0, 'value'],
+  ];
+
+  $data = [];
+  foreach ($options as $name => $option) {
+    $result = NULL;
+    $data[$name] = drupal_array_get_nested_value($node, $option, $result);
+    if (($result === FALSE || empty($data[$name])) && $lib) {
+      $option[0] = 'field_ding_library_addresse';
+      $data[$name] = drupal_array_get_nested_value($lib, $option);
+    }
+  }
+  $data['phone'] = empty($data['phone']) ? '1' : $data['phone'];
+  $data['address2'] = empty($data['address2']) ? 'None' : $data['address2'];
+
+  return $data;
 }
 
 /**
@@ -212,9 +249,50 @@ function _ding_place2book_get_event_maker($node) {
  * @return string
  *   Export category or empty.
  *
- * @see _ding_place2book_load_export_category()
+ * @see ding_p2b_format_options().
  */
 function _ding_place2book_get_export_category($tid) {
-  $categories = variable_get('p2b_kultunaut_export_category', []);
-  return isset($categories[$tid]) ? $categories[$tid] : '';
+  $mappings = variable_get('ding_p2b_kultunaut_export_category', []);
+  return isset($mappings[$tid]) ? $mappings[$tid] : '';
+}
+
+/**
+ * Get associated  category by tid.
+ *
+ * @param string $tid
+ *   Tid of event age group.
+ *
+ * @return string
+ *   Export category or empty.
+ *
+ * @see ding_p2b_format_options().
+ */
+function _ding_place2book_get_age_group($tid) {
+  $mappings = variable_get('ding_p2b_kultunaut_age_group', []);
+  return isset($mappings[$tid]) ? $mappings[$tid] : '';
+}
+
+/**
+ * Custom theme handler for rendering prices as table.
+ */
+function theme_ding_p2b_prices_table($variables) {
+  $form = $variables['form'];
+  $rows = [];
+  foreach (element_children($form['prices']) as $id) {
+    $rows[] = [
+      'name' => drupal_render($form['prices'][$id]['name']),
+      'value' => drupal_render($form['prices'][$id]['value']),
+      'remove' => drupal_render($form['prices'][$id]['remove']),
+    ];
+  }
+
+  $header = [
+    t('Name'),
+    t('Price'),
+    t('Remove'),
+  ];
+
+  $output = theme('table', ['rows' => $rows, 'header' => $header, 'empty' => t('Click to add more for adding a row.')]);
+  $output .= drupal_render_children($form);
+  return $output;
 }

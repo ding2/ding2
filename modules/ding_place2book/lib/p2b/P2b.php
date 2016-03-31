@@ -97,6 +97,13 @@ class P2b {
   private static $getPrice;
 
   /**
+   * Url on remote service for getting list of prices.
+   *
+   * @var string
+   */
+  private static $getPrices;
+
+  /**
    * Url on remote service for update price.
    *
    * @var string
@@ -140,6 +147,7 @@ class P2b {
       self::$deleteEvent = (string) $settings->deleteEvent;
       self::$createPrice = (string) $settings->createPrice;
       self::$getPrice = (string) $settings->getPrice;
+      self::$getPrices = (string) $settings->getPrices;
       self::$updatePrice = (string) $settings->updatePrice;
       self::$deletePrice = (string) $settings->deletePrice;
     }
@@ -238,7 +246,6 @@ class P2b {
       'capacity' => FALSE,
       'address' => [
         'address1' => FALSE,
-        'address2' => FALSE,
         'postal_code' => FALSE,
         'city' => FALSE,
         'phone' => FALSE,
@@ -378,6 +385,7 @@ class P2b {
     return $price;
   }
 
+
   /**
    * Request to p2b for getting price of event.
    *
@@ -398,7 +406,7 @@ class P2b {
    */
   public function getPrice($event_maker_id, $event_id, $price_id) {
     if (empty($event_id) || empty($event_maker_id) || empty($price_id)) {
-      throw new \Exception("Params event_id, event_maker_id are required. Was given event_maker_id: {$event_maker_id}, event_id: {$event_id}, price_id: {$price_id}.");
+      throw new \Exception("Params event_id, event_maker_id and price_id are required. Was given event_maker_id: {$event_maker_id}, event_id: {$event_id}, price_id: {$price_id}.");
     }
     $placeholders = [
       ':event_id' => $event_id,
@@ -411,6 +419,35 @@ class P2b {
     return $result;
   }
 
+  /**
+   * Request to p2b for getting prices of event.
+   *
+   * @param string $event_maker_id
+   *   String that represents eventMaker id on p2b service.
+   * @param string $event_id
+   *   String that represents event id on p2b service.
+   *
+   * @return object
+   *   Return object with list of prices.
+   *
+   * @throws \Exception
+   *   In case when not all required params was given.
+   *
+   * @see http://developer.place2book.com/v1/prices/
+   */
+  public function getPrices($event_maker_id, $event_id) {
+    if (empty($event_id) || empty($event_maker_id)) {
+      throw new \Exception("Params event_id, event_maker_id are required. Was given event_maker_id: {$event_maker_id}, event_id: {$event_id}.");
+    }
+    $placeholders = [
+      ':event_id' => $event_id,
+      ':event_maker_id' => $event_maker_id,
+    ];
+    $url = $this->p2bFormatUrl(self::$getPrices, $placeholders);
+    $result = $this->p2bRequest($url, 'GET');
+
+    return $result;
+  }
   /**
    * Request to p2b for update price.
    *
@@ -503,7 +540,7 @@ class P2b {
    * @return object If as result got FALSE.
    *   If as result got FALSE.
    *
-   * @throws \P2b\Exception
+   * @throws \Exception
    *   In case when response code not equal to excepted.
    */
   private function p2bRequest($url, $type, array $params = [], $code = 200) {
@@ -529,7 +566,7 @@ class P2b {
       $data = $this->parseResponse($response->getBody());
     }
     else {
-      throw new Exception('Error. Wrong code was returned.');
+      throw new \Exception('Error. Wrong code was returned.');
     }
 
     return $data;

@@ -4,11 +4,9 @@ core = 7.x
 package = Ding!
 dependencies[] = ctools
 dependencies[] = ding_event
-dependencies[] = ding_place2book
 dependencies[] = features
 dependencies[] = number
 dependencies[] = strongarm
-files[] = lib/p2b/P2b.php
 configure = admin/config/ding/place2book
 explanation = Field type(s) in use - see <a href="/admin/reports/fields">Field list</a>
 features[ctools][] = strongarm:strongarm:1

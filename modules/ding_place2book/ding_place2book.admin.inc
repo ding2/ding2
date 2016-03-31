@@ -169,7 +169,7 @@ function ding_place2book_service_admin_form_submit($form, &$form_state) {
 /**
  * Form handler for configuration Event makers.
  */
-function ding_place2book_eventmakers_admin_form($form, &$form_state) {
+function ding_place2book_defaults_admin_form($form, &$form_state) {
   $p2b = P2b\P2b::getInstance();
   $event_makers = $p2b->getEventMakers();
 
@@ -180,28 +180,85 @@ function ding_place2book_eventmakers_admin_form($form, &$form_state) {
 
   $form['ding_p2b_default_event_maker'] = [
     '#type' => 'radios',
+    '#title' => t('Default event maker'),
     '#options' => $options,
     '#default_value' => variable_get('ding_p2b_default_event_maker', NULL),
-    '#description' => t('Choose default event maker for transaction with P2b service.'),
+    '#description' => t('It will be used in case when will be missed mappings from library.'),
     '#required' => TRUE,
   ];
 
-  $form['event_makers'] = [
+  $form['ding_p2b_default_synchronize'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Default status of syncronisation'),
+    '#default_value' => variable_get('ding_p2b_default_synchronize', FALSE),
+    '#description' => t('Indicates status of event. If checked, then event will be synchronized with P2b by default.'),
+    '#required' => TRUE,
+  ];
+
+  $form['ding_p2b_default_kultunaut_export'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Default status of kultunaut export'),
+    '#default_value' => variable_get('ding_p2b_default_kultunaut_export', FALSE),
+    '#description' => t('If checked, then kultunaut export will be enabled by default.'),
+    '#required' => TRUE,
+  ];
+
+  $form['ding_p2b_default_passive'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Default status of passive attribute'),
+    '#default_value' => variable_get('ding_p2b_default_passive', FALSE),
+    '#description' => t('If checked, then event will be marked as passive by default.'),
+    '#required' => TRUE,
+  ];
+
+  $form['ding_p2b_default_capacity'] = [
+    '#type' => 'textfield',
+    '#title' => t('Default value for capacity of event'),
+    '#default_value' => variable_get('ding_p2b_default_capacity', 0),
+    '#description' => t('By default event capacity will be set to entered value(0 - unlimited).'),
+    '#required' => TRUE,
+    '#element_validate' => ['element_validate_integer'],
+  ];
+
+  $form['ding_p2b_default_price_name'] = [
+    '#type' => 'textfield',
+    '#title' => t('Default name of event\'s price.'),
+    '#default_value' => variable_get('ding_p2b_default_price_name', ''),
+    '#description' => t('Represents default name of price.'),
+    '#required' => TRUE,
+  ];
+
+  return system_settings_form($form);
+}
+
+
+/**
+ * Form handler for configuration Event makers.
+ */
+function ding_place2book_mappings_admin_form($form, &$form_state) {
+  $form['#tree'] = TRUE;
+
+  $p2b = P2b\P2b::getInstance();
+  $event_makers = $p2b->getEventMakers();
+  $options = [];
+  array_map(function ($i) use (&$options) {
+    $options[$i->id] = $i->name;
+  }, $event_makers);
+  $form['ding_p2b_library_event_makers'] = [
     '#type' => 'fieldset',
     '#title' => t('Event makers'),
     '#description' => t('Associate each library with some event maker.'),
     '#tree' => TRUE,
   ];
-
   $query = new EntityFieldQuery();
   $result = $query->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'ding_library')
     ->execute();
-  $defaults = variable_get('p2b_library_event_maker', []);
+  $defaults = variable_get('ding_p2b_library_event_makers', []);
   if (isset($result['node'])) {
     foreach ($result['node'] as $value) {
       $node = node_load($value->nid);
-      $form['event_makers'][$node->nid] = [
+      $form['ding_p2b_library_event_makers'][$node->nid] = [
         '#type' => 'select',
         '#title' => $node->title,
         '#default_value' => isset($defaults[$node->nid]) ? $defaults[$node->nid] : NULL,
@@ -211,61 +268,41 @@ function ding_place2book_eventmakers_admin_form($form, &$form_state) {
     }
   }
 
-  $form['save'] = [
-    '#type' => 'submit',
-    '#value' => t('Save'),
-  ];
-
-  return $form;
-}
-
-/**
- * Submit handler for configuration Event makers.
- */
-function ding_place2book_eventmakers_admin_form_submit($form, &$form_state) {
-  $values = $form_state['values'];
-  if (!empty($values['ding_p2b_default_event_maker'])) {
-    variable_set('ding_p2b_default_event_maker', $values['ding_p2b_default_event_maker']);
-  }
-
-  if (!empty($values['event_makers'])) {
-    $vals = array_filter($values['event_makers']);
-    variable_set('p2b_library_event_maker', $vals);
-  }
-
-}
-
-/**
- * Form handler for configuration Event makers.
- */
-function ding_place2book_kultunaut_admin_form($form, &$form_state) {
-  $form['#tree'] = TRUE;
-
-  $default = [];
-  $p2b_kultunaut_age_group = variable_get('p2b_kultunaut_age_group', []);
-  array_walk($p2b_kultunaut_age_group, function ($i, $k) use (&$default) {
-    $default[] = "{$k}|{$i}";
-  });
-  $default = implode("\r\n", $default);
-  $form['p2b_kultunaut_age_group'] = [
-    '#type' => 'textarea',
-    '#rows' => 5,
-    '#default_value' => $default,
+  $form['ding_p2b_kultunaut_age_group'] = [
+    '#type' => 'fieldset',
     '#title' => t('Kultunaut age group'),
-    '#description' => t('Provides values for "Kultunaut age group" field on node editing. Example: None|Choose, etc'),
   ];
+  $vocabulary = taxonomy_vocabulary_machine_name_load('event_target');
+  $terms = taxonomy_get_tree($vocabulary->vid);
+  $options = [
+    'Alle' => 'Alle',
+    'Børn' => 'Børn',
+    'Unge' => 'Unge',
+    'Voksne' => 'Voksne',
+    'Ældre' => 'Ældre',
+  ];
+  $defaults = variable_get('ding_p2b_kultunaut_age_group', []);
+  foreach ($terms as $term) {
+    $form['ding_p2b_kultunaut_age_group'][$term->tid] = [
+      '#type' => 'select',
+      '#title' => $term->name,
+      '#description' => t('Associate event target :term with kultunaut age group.', [':term' => $term->name]),
+      '#default_value' => isset($defaults[$term->tid]) ? $defaults[$term->tid] : NULL,
+      '#options' => $options,
+      '#required' => TRUE,
+    ];
+  }
 
-  $form['kultunaut_export_category'] = [
+  $form['ding_p2b_kultunaut_export_category'] = [
     '#type' => 'fieldset',
     '#title' => t('Kultunaut export category'),
   ];
-
   $vocabulary = taxonomy_vocabulary_machine_name_load('event_category');
   $terms = taxonomy_get_tree($vocabulary->vid);
   $options = _ding_place2book_load_export_category();
-  $defaults = variable_get('p2b_kultunaut_export_category', []);
+  $defaults = variable_get('ding_p2b_kultunaut_export_category', []);
   foreach ($terms as $term) {
-    $form['kultunaut_export_category'][$term->tid] = [
+    $form['ding_p2b_kultunaut_export_category'][$term->tid] = [
       '#type' => 'select',
       '#title' => $term->name,
       '#description' => t('Associate event category :term with kultunaut category.', [':term' => $term->name]),
@@ -284,32 +321,19 @@ function ding_place2book_kultunaut_admin_form($form, &$form_state) {
 }
 
 /**
- * Validate handler for processing values.
- */
-function ding_place2book_kultunaut_admin_form_validate($form, &$form_state) {
-  $values = $form_state['values'];
-  $items = array_filter(preg_split('/[\r\n]+/', trim($values['p2b_kultunaut_age_group'])));
-  $form_state['p2b_kultunaut_age_group'] = [];
-  foreach ($items as $item) {
-    if (!preg_match('/[^|]|[^\r\n]+/i', $item)) {
-      $form_state['p2b_kultunaut_age_group'] = [];
-      form_set_error('p2b_kultunaut_age_group', t('Wrong format.'));
-    }
-    $parts = explode('|', $item);
-    $form_state['p2b_kultunaut_age_group'][$parts[0]] = $parts[1];
-  }
-}
-
-/**
  * Submit handler for processing and storing values.
  */
-function ding_place2book_kultunaut_admin_form_submit($form, &$form_state) {
+function ding_place2book_mappings_admin_form_submit($form, &$form_state) {
   $values = $form_state['values'];
-  if (!empty($form_state['p2b_kultunaut_age_group'])) {
-    variable_set('p2b_kultunaut_age_group', $form_state['p2b_kultunaut_age_group']);
+  if (!empty($values['ding_p2b_kultunaut_age_group'])) {
+    variable_set('ding_p2b_kultunaut_age_group', $values['ding_p2b_kultunaut_age_group']);
   }
-  if (!empty($values['kultunaut_export_category'])) {
-    variable_set('p2b_kultunaut_export_category', $values['kultunaut_export_category']);
+  if (!empty($values['ding_p2b_kultunaut_export_category'])) {
+    variable_set('ding_p2b_kultunaut_export_category', $values['ding_p2b_kultunaut_export_category']);
+  }
+  if (!empty($values['ding_p2b_library_event_makers'])) {
+    $vals = array_filter($values['ding_p2b_library_event_makers']);
+    variable_set('ding_p2b_library_event_makers', $vals);
   }
 }
 
@@ -328,7 +352,7 @@ function _ding_place2book_load_export_category() {
   if ($data) {
     $xml = new \SimpleXMLElement($data);
     foreach ($xml->genregroup as $genregroup) {
-      $group = (string) $xml->genregroup[0]['id'];
+      $group = (string) $genregroup['id'];
       foreach ($genregroup as $genre) {
         $val = "{$group}: {$genre}";
         $options[$val] = $val;
