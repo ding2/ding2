@@ -15,6 +15,7 @@ dependencies[] = link
 dependencies[] = media
 dependencies[] = node
 dependencies[] = strongarm
+dependencies[] = libraries
 dependencies[] = ting_search
 dependencies[] = views
 dependencies[] = views_bulk_operations

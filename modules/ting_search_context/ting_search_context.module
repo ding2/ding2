@@ -1185,10 +1185,21 @@ function ting_search_context_image_default_styles() {
  * Wrapper function that adds the modules JavaScript.
  */
 function _ting_search_context_add_javascript() {
-  $path = drupal_get_path('module', 'ting_search_context');
-  drupal_add_library('system', 'ui.widget');
-  drupal_add_js($path . '/js/jquery.rs.carousel.js');
-  drupal_add_js($path . '/js/ting_search_context.js');
+  // We will add nothing if our required library is not present. This will have
+  // the desired effect of not showing anything to the user. The check could be
+  // better integrated in the theme hook, but this will do for now.
+  if ($library_path = libraries_get_path('jquery-ui-carousel')) {
+    drupal_add_library('system', 'ui.widget');
+
+    // Use the minified versions.
+    $library_path .= '/dist/js/min/';
+    $options = array('group' => JS_LIBRARY);
+    drupal_add_js($library_path . 'jquery.rs.carousel-min.js', $options);
+
+    // Ad our own JS to control and setup the carousel.
+    $module_path = drupal_get_path('module', 'ting_search_context');
+    drupal_add_js($module_path . '/js/ting_search_context.js');
+  }
 }
 
 /**
