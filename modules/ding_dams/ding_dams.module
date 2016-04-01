@@ -1,0 +1,493 @@
+<?php
+/**
+ * @file
+ * Code for DAMS module.
+ */
+
+include_once 'ding_dams.features.inc';
+
+/**
+ * Implements hook_wysiwyg_include_directory().
+ */
+function ding_dams_wysiwyg_include_directory($type) {
+  switch ($type) {
+    case 'plugins':
+      return 'wysiwyg_plugins';
+      break;
+
+  }
+}
+
+/**
+ * Media manager page.
+ */
+function ding_dams_media_manager_page() {
+  $content = '';
+  if (module_exists('media')) {
+    module_load_include('inc', 'media', 'includes/media.browser');
+    $content = media_browser();
+  }
+
+  return $content;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_dams_menu() {
+  $items = array();
+
+  $items['admin/ding_dams_media_manager'] = array(
+    'title' => 'Media manager',
+    'description' => 'Upload and manage the media library',
+    'page arguments' => array(),
+    'page callback' => 'ding_dams_media_manager_page',
+    'access arguments' => array('use ding dams'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['ding-dams/%/popup/%'] = array(
+    'page callback' => 'ding_dams_popup_callback',
+    'page arguments' => array(1, 3),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_dams_media_browser_permission() {
+  return array(
+    'use ding dams' => array(
+      'title' => t('Use ding dams.'),
+      'description' => t('Allows use ding dams.'),
+    ),
+  );
+}
+
+/**
+ * Ajax handler for creating popup.
+ *
+ * @param string $ajax
+ *   Indicates JS state.
+ * @param int $fid
+ *   Represents file id.
+ *
+ * @return mixed
+ *   Return rendered form or json.
+ */
+function ding_dams_popup_callback($ajax, $fid) {
+  if (!empty($fid)) {
+    if ($ajax) {
+      $file = file_load($fid);
+      $display = array(
+        'status' => TRUE,
+        'type' => 'file_field_file_' . $file->type,
+      );
+      $element = file_entity_file_formatter_file_field_view($file, $display, LANGUAGE_NONE);
+      $output = render($element);
+      $commands = array();
+      $commands[] = ajax_command_ding_popup("easddb_dams_popup_{$fid}", $file->filename, $output, array(
+        'extra_data' => array(
+          'fit_popup' => TRUE,
+        ),
+      ));
+      print ajax_render($commands);
+      exit;
+    }
+    else {
+      $file = file_load($fid);
+      $display = array(
+        'status' => TRUE,
+        'type' => 'file_field_file_' . $file->type,
+      );
+      return file_entity_file_formatter_file_field_view($file, $display, LANGUAGE_NONE);
+    }
+  }
+}
+
+/**
+ * Implements hook_page_alter().
+ */
+function ding_dams_page_alter(&$page) {
+  $args = arg();
+  $media_page = $args[0] == 'admin' && $args[1] == 'ding_dams_media_manager';
+  $media_browser = $args[0] == 'media' && $args[1] == 'browser';
+
+  if ($media_page || $media_browser) {
+    $css_file = drupal_get_path('module', 'ding_dams') . '/css/ding_dams.css';
+    drupal_add_css($css_file);
+    $js_file = drupal_get_path('module', 'ding_dams') . '/js/ding_dams.scripts.js';
+    drupal_add_js($js_file, array('scope' => 'footer'));
+  }
+
+  ctools_include('modal');
+  ctools_modal_add_js();
+
+  if ($media_page) {
+    $page['#theme'] = 'media_dialog_page';
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function ding_dams_form_alter(&$form, &$form_state, $form_id) {
+  if ($form_id == 'file_entity_add_upload' && arg(1) == 'ding_dams_media_manager') {
+    array_unshift($form['#submit'], 'ding_dams_add_upload_submit');
+  }
+  elseif ($form_id == 'media_youtube_add') {
+    $form['#action'] = $form['#action'] . '#media-youtube-search-tab';
+  }
+
+  // Removing unnecessary options from media.
+  if ($form_id == 'media_format_form') {
+    unset($form['options']['format']['#options']['media_link']);
+    unset($form['options']['format']['#options']['token']);
+  }
+  // Add new styles to media edit form.
+  if ($form_id == 'file_entity_edit') {
+    $form['file_preview'] = array(
+      '#type' => 'markup',
+      '#markup' => '<div class="file-preview"></div>',
+      '#weight' => -100,
+    );
+    drupal_add_css(drupal_get_path('module', 'ding_dams') . '/css/ding_dams.media_edit.css');
+  }
+}
+
+/**
+ * Custom submit for file upload.
+ *
+ * @see ding_dams_form_alter()
+ */
+function ding_dams_add_upload_submit($form, $form_state) {
+  // If file uploaded form DAMS page redirect to it, not to default page.
+  $_GET['destination'] = 'admin/ding_dams_media_manager';
+}
+
+/**
+ * Implements hook_media_wysiwyg_format_form_prepare_alter().
+ *
+ * Add tracking list to form of editing file.
+ */
+function ding_dams_media_wysiwyg_format_form_prepare_alter(&$form, &$form_state, $file) {
+  $form['usage'] = array(
+    '#type' => 'fieldset',
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#title' => t('File usages'),
+  );
+
+  module_load_include('inc', 'file_entity', 'file_entity.pages');
+  $form['usage']['content'] = file_entity_usage_page($file);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ding_dams_form_file_entity_edit_alter(&$form, &$form_state) {
+  // Make adjustments to the file edit form when used in a CTools modal.
+  if (!empty($form_state['ajax'])) {
+    // Remove the preview and the delete button.
+    $form['preview']['#access'] = FALSE;
+    $form['actions']['delete']['#access'] = FALSE;
+
+    // Convert the cancel link to a button which triggers a modal close.
+    $form['actions']['cancel']['#attributes']['class'][] = 'button';
+    $form['actions']['cancel']['#attributes']['class'][] = 'button-no';
+    $form['actions']['cancel']['#attributes']['class'][] = 'ctools-close-modal';
+  }
+}
+
+
+/**
+ * Implements hook_media_wysiwyg_allowed_view_modes_alter().
+ */
+function ding_dams_media_wysiwyg_wysiwyg_allowed_view_modes_alter(&$view_modes, $file) {
+  switch ($file->type) {
+    case 'audio':
+    case 'video':
+      $view_modes = array(
+        'ding_dams_inline' => array(
+          'label' => t('DAMS inline'),
+          'custom settings' => FALSE,
+        ),
+        'ding_dams_popup' => array(
+          'label' => t('DAMS popup'),
+          'custom settings' => FALSE,
+        ),
+        'ding_dams_download_icon' => array(
+          'label' => t('DAMS icon'),
+          'custom settings' => FALSE,
+        ),
+        'ding_dams_download_link' => array(
+          'label' => t('DAMS link'),
+          'custom settings' => FALSE,
+        ),
+      );
+      break;
+
+    case 'image':
+      $view_modes = array(
+        'ding_dams_inline' => array(
+          'label' => t('DAMS inline'),
+          'custom settings' => FALSE,
+        ),
+        'ding_dams_download_link' => array(
+          'label' => t('DAMS link'),
+          'custom settings' => FALSE,
+        ),
+      );
+      break;
+
+    case 'document':
+      $view_modes = array(
+        'ding_dams_download_icon' => array(
+          'label' => t('DAMS icon'),
+          'custom settings' => FALSE,
+        ),
+        'ding_dams_download_link' => array(
+          'label' => t('DAMS link'),
+          'custom settings' => FALSE,
+        ),
+      );
+      break;
+  }
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function ding_dams_entity_info_alter(&$entity_info) {
+  $entity_info['file']['view modes'] = array(
+    'ding_dams_inline' => array(
+      'label' => t('DAMS inline'),
+      'custom settings' => FALSE,
+    ),
+    'ding_dams_popup' => array(
+      'label' => t('DAMS popup'),
+      'custom settings' => FALSE,
+    ),
+    'ding_dams_download_icon' => array(
+      'label' => t('DAMS icon'),
+      'custom settings' => FALSE,
+    ),
+    'ding_dams_download_link' => array(
+      'label' => t('DAMS link'),
+      'custom settings' => FALSE,
+    ),
+  );
+}
+
+/**
+ * Implements hook_media_token_to_markup_alter().
+ */
+function ding_dams_media_wysiwyg_token_to_markup_alter(&$element, $tag_info, $settings) {
+  $ding_view_modes = array(
+    'ding_dams_inline',
+    'ding_dams_popup',
+    'ding_dams_download_icon',
+    'ding_dams_download_link',
+  );
+  if (in_array($tag_info['view_mode'], $ding_view_modes)) {
+    switch ($tag_info['view_mode']) {
+      case 'ding_dams_download_link':
+        $theming_function = 'ding_dams_download_link';
+        break;
+
+      case 'ding_dams_inline':
+        $theming_function = 'ding_dams_inline';
+        break;
+
+      case 'ding_dams_popup':
+        $theming_function = 'ding_dams_popup';
+        break;
+
+      case 'ding_dams_download_icon':
+        $theming_function = 'ding_dams_download_icon';
+        break;
+
+    }
+    $element['#theme'] = $theming_function;
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_dams_theme($existing, $type, $theme, $path) {
+  return array(
+    // Inline view of items.
+    'ding_dams_inline' => array(
+      'render element' => 'element',
+    ),
+    // Popup view of items.
+    'ding_dams_popup' => array(
+      'render element' => 'element',
+    ),
+    // Download icon.
+    'ding_dams_download_icon' => array(
+      'render element' => 'element',
+    ),
+    // Download link.
+    'ding_dams_download_link' => array(
+      'render element' => 'element',
+    ),
+  );
+}
+
+/**
+ * Helper function to get the doctype_icon
+ */
+function ding_dams_get_doctype_icon($file = NULL) {
+  if (is_null($file)) {
+    return FALSE;
+  }
+
+  $doctype_icon = '/' . drupal_get_path('module', 'ding_dams') . '/wysiwyg_plugins/images/';
+  // Setting icon by file type and extension
+  if ($file->type == 'document') {
+    $extension = explode('.', $file->uri);
+    $extension = array_pop($extension);
+    switch ($extension) {
+      case 'doc':
+      case 'docx':
+        $doctype_icon .= 'doc_doc.png';
+        break;
+
+      case 'xls':
+      case 'xlsx':
+        $doctype_icon .= 'doc_xls.png';
+        break;
+
+      case 'ppt':
+      case 'pptx':
+        $doctype_icon .= 'doc_ppt.png';
+        break;
+
+      case 'pdf':
+        $doctype_icon .= 'doc_pdf.png';
+        break;
+
+      default:
+        $doctype_icon .= 'doc_txt.png';
+        break;
+    }
+  }
+
+  if ($file->type == 'audio') {
+    $doctype_icon .= 'doc_mp3.png';
+  }
+
+  if ($file->type == 'video') {
+    $doctype_icon .= 'doc_flv.png';
+  }
+
+  return $doctype_icon;
+}
+
+/**
+ * Theme function for dams_inline display mode.
+ */
+function theme_ding_dams_inline(&$variables) {
+  $file = isset($variables['element']['#file']) ? $variables['element']['#file'] : $variables['element']['content']['file']['#file'];
+  $output = '';
+  if ($file) {
+    if ($file->type == 'image') {
+      $output =  theme(
+        'image',
+        array(
+          'path' => $file->uri,
+        )
+      );
+    }
+    else {
+      $display = array(
+        'status' => TRUE,
+        'type' => 'file_field_file_' . $file->type,
+        'settings' => array(
+          'image_style' => 'teaser',
+        ),
+      );
+      $element = file_entity_file_formatter_file_field_view($file, $display, LANGUAGE_NONE);
+      $output = render($element);
+    }
+  }
+  return $output;
+}
+
+/**
+ * Theme function for dams_popup display mode.
+ */
+function theme_ding_dams_popup(&$variables) {
+  $file = isset($variables['element']['#file']) ? $variables['element']['#file'] : $variables['element']['content']['file']['#file'];
+  $output = '';
+  if ($file) {
+    $doctype_icon = ding_dams_get_doctype_icon($file);
+    $classes = 'ctools-modal-ding-dams-popup-modal ';
+    if (isset($file->override['attributes']['class'])) {
+      $classes .= implode(' ', $file->override['attributes']['class']);
+    }
+
+    $output = '<a href="ding-dams/nojs/popup/' . $file->fid .'" ' .
+      'alt="' . $file->alt . '" ' .
+      'title="' . $file->title . '" ' .
+      'class="' . $classes . '">' .
+      '<img src="' . $doctype_icon . '"/>' .
+      '</a>';
+  }
+  return $output;
+}
+
+/**
+ * Theme function for dams_download_icon display mode.
+ */
+function theme_ding_dams_download_icon(&$variables) {
+  $file = isset($variables['element']['#file']) ? $variables['element']['#file'] : $variables['element']['content']['file']['#file'];
+  $output = '';
+  if ($file) {
+    $doctype_icon = ding_dams_get_doctype_icon($file);
+    $classes = '';
+    if (isset($file->override['attributes']['class'])) {
+      $classes = implode(' ', $file->override['attributes']['class']);
+    }
+
+    $url = file_create_url($file->uri);
+    $output = '<a href="' . $url . '" ' .
+      'alt="' . $file->alt . '" ' .
+      'title="' . $file->title . '" ' .
+      'target="_blank" ' .
+      'class="' . $classes . '">' .
+      '<img src="' . $doctype_icon . '"/>' .
+      '</a>';
+  }
+  return $output;
+}
+
+/**
+ * Theme function for dams_download_link display mode.
+ */
+function theme_ding_dams_download_link($variables) {
+  $file = isset($variables['element']['#file']) ? $variables['element']['#file'] : $variables['element']['content']['file']['#file'];
+  $output = '';
+  if ($file) {
+    $classes = '';
+    if (isset($file->override['attributes']['class'])) {
+      $classes = implode(' ', $file->override['attributes']['class']);
+    }
+    $url = file_create_url($file->uri);
+    $title = !empty($file->title) ? $file->title : $file->filename;
+    $output = '<a href="' . $url . '" ' .
+      'alt="' . $file->alt . '" ' .
+      'title="' . $file->title . '" ' .
+      'target="_blank" ' .
+      'class="' . $classes . '">' .
+      $title .
+      '</a>';
+  }
+  return $output;
+}

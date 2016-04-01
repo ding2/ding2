@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * @file
+ * Install routine file.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ding_dams_install() {
+  // Disable default media module view.
+  module_load_include('inc', 'media', 'views/media_default.view');
+  $default_views = array_keys(module_invoke('media', 'views_default_views'));
+  $views_status = variable_get('views_defaults', array());
+
+  foreach ($default_views as $view_name) {
+    if ($view_name == 'media_default') {
+      $views_status[$view_name] = TRUE;
+      break;
+    }
+  }
+
+  variable_set('views_defaults', $views_status);
+}
+

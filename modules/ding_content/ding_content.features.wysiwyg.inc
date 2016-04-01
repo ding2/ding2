@@ -72,5 +72,19 @@ function ding_content_wysiwyg_default_profiles() {
     'name' => 'formatding_wysiwyg',
   );
 
+  // Enable DAMS buttons on feature revert.
+  if (module_exists('ding_dams')) {
+    $dams_buttons = array(
+      'dams_document',
+      'dams_video',
+      'dams_audio',
+      'dams_image',
+    );
+
+    foreach ($dams_buttons as $dams_button) {
+      $profiles['ding_wysiwyg']['settings']['buttons']['drupal'][$dams_button] = 1;
+    }
+  }
+
   return $profiles;
 }

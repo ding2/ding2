@@ -1,0 +1,18 @@
+.page-admin-ding-dams-media-manager .media-browser-tab .fake-submit,
+.page-admin-ding-dams-media-manager .media-browser-tab .fake-cancel {
+  display: none;
+}
+
+.media-item {
+    background: #eee;
+    border: 1px solid #CCCCCC;
+    box-shadow: inset 0 0 15px rgba(0,0,0,.1), inset 0 0 0 1px rgba(0,0,0,.05);
+    display: inline-block;
+    padding: 5px;
+    position: relative;
+    min-width: 100px;
+    max-width: 100px;
+    min-height: 100px;
+    max-height: 100px;
+    overflow: hidden;
+}
