@@ -1,0 +1,79 @@
+<?php
+/**
+ * @file
+ * Code for DAMS module.
+ */
+
+/**
+ * Implements hook_media_wysiwyg_wysiwyg_allowed_view_modes_alter().
+ */
+function easyddb_dams_media_wysiwyg_wysiwyg_allowed_view_modes_alter(&$view_modes, $file) {
+  switch ($file->type) {
+    case 'audio':
+    case 'video':
+      $view_modes = array(
+        'edams_inline' => array(
+          'label' => t('Inline'),
+          'custom_settings' => FALSE,
+        ),
+        'edams_popup' => array(
+          'label' => t('Popup'),
+          'custom_settings' => FALSE,
+        ),
+        'edams_icon' => array(
+          'label' => t('Icon'),
+          'custom_settings' => FALSE,
+        ),
+        'edams_link' => array(
+          'label' => t('Link'),
+          'custom_settings' => FALSE,
+        ),
+      );
+      break;
+
+    case 'image':
+      $view_modes = array(
+        'edams_link' => array(
+          'label' => t('Link'),
+          'custom_settings' => FALSE,
+        ),
+      );
+      break;
+
+    case 'document':
+      $view_modes = array(
+        'edams_icon' => array(
+          'label' => t('Icon'),
+          'custom_settings' => FALSE,
+        ),
+        'edams_link' => array(
+          'label' => t('Link'),
+          'custom_settings' => FALSE,
+        ),
+      );
+      break;
+  }
+}
+
+
+/**
+ * Tracker form will be added to file edit popup.
+ */
+function easyddb_dams_media_wysiwyg_format_form_prepare_alter(&$form, &$form_state, $file) {
+  $form['usage'] = [
+    '#type' => 'fieldset',
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#title' => t('File usages'),
+  ];
+
+  module_load_include('inc', 'file_entity', 'file_entity.pages');
+  $form['usage']['content'] = file_entity_usage_page($file);
+}
+
+function easyddb_dams_wysiwyg_include_directory($type) {
+  switch ($type) {
+    case 'plugins':
+      return $type;
+  }
+}

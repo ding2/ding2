@@ -1,0 +1,9 @@
+.wysiwyg-break {
+    display: block;
+    border: 0;
+    border-top: 1px dotted #ccc;
+    margin-top: 1em;
+    width: 100%;
+    height: 12px;
+    background: transparent url(images/wysiwig_edams_audio.png) no-repeat center top;
+}
