@@ -5,6 +5,7 @@ package = Ding!
 dependencies[] = ctools
 dependencies[] = ding_ting_frontend
 dependencies[] = page_manager
+dependencies[] = ting_search_context
 features[ctools][] = page_manager:pages_default:1
 features[features_api][] = api:2
 features[page_manager_handlers][] = search_ting_search_panel_context_with_related_content
