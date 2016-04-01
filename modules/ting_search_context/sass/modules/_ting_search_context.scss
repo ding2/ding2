@@ -87,7 +87,7 @@ $vertical-carousel-image-height-x-large:         195px;
   .rs-carousel-action-prev,
   .rs-carousel-action-next {
     @include opacity(.25);
-    background-image: url('../images/arrows.png');
+    background-image: url('../img/arrows.png');
     height: 55px;
     overflow: hidden;
     margin-top: -27px;
@@ -125,7 +125,7 @@ $vertical-carousel-image-height-x-large:         195px;
   /* Carousel content, mask, title etc.
   ========================================================================== */
   .ajax-loader {
-    background: transparent url('../images/ajax-loader.gif') no-repeat center center;
+    background: transparent url('../img/ajax-loader.gif') no-repeat center center;
     left: 50%;
     height: 20px;
     margin-top: -10px;
