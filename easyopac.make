@@ -149,6 +149,12 @@ projects[ding_menu_alt][download][type] = "git"
 projects[ding_menu_alt][download][url]  = "git@github.com:easySuite/ding_menu_alt.git"
 projects[ding_menu_alt][download][branch]  = "master"
 
+projects[ding_titles_decoration][type]           = "module"
+projects[ding_titles_decoration][subdir]         = ""
+projects[ding_titles_decoration][download][type] = "git"
+projects[ding_titles_decoration][download][url]  = "git@github.com:easySuite/ding_titles_decoration.git"
+projects[ding_titles_decoration][download][branch]  = "development"
+
 projects[ding_nodelist][type]           = "module"
 projects[ding_nodelist][subdir]         = ""
 projects[ding_nodelist][download][type] = "git"
