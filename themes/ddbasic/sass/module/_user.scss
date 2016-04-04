@@ -226,6 +226,10 @@
     @extend %button-action;
   }
 
+  .bookmark-button {
+    margin: 20px 0 0;
+  }
+
   .delete-reservation,
   .delete-reservations {
     .form-submit {

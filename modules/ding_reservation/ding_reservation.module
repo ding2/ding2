@@ -495,6 +495,7 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
     }
 
     $pickup_branch = ding_provider_invoke('reservation', 'branch_name', $reservation->pickup_branch_id);
+    $bookmark_button = ding_bookmark_ding_entity_buttons('ding_entity', $entity, 'ajax');
     switch ($reservation->reservation_type) {
       case DING_RESERVATION_READY:
         $item = array(
@@ -526,6 +527,11 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
               'data' => $reservation->created ? format_date(strtotime(check_plain($reservation->created)), 'ding_material_lists_date') : '',
               'class' => 'created-date',
               '#weight' => 16,
+            ),
+            'bookmark' => array(
+              'class' => 'bookmark',
+              'data' => drupal_render($bookmark_button),
+              '#weight' => 33,
             ),
           ),
         );
@@ -568,6 +574,11 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
               'class' => 'pickup-id',
               '#weight' => 32,
             ),
+            'bookmark' => array(
+              'class' => 'bookmark',
+              'data' => drupal_render($bookmark_button),
+              '#weight' => 33,
+            ),
           ),
         );
         break;
@@ -608,6 +619,11 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
               'data' => ding_reservation_get_order_nr($reservation),
               'class' => 'pickup-id',
               '#weight' => 32,
+            ),
+            'bookmark' => array(
+              'class' => 'bookmark',
+              'data' => drupal_render($bookmark_button),
+              '#weight' => 33,
             ),
           ),
         );
