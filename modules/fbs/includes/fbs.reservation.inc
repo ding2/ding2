@@ -220,9 +220,17 @@ function fbs_reservation_default_options($account) {
  *   The reservation options.
  */
 function fbs_reservation_options($account, $default_branch) {
-  $patron_info = fbs_get_patron_info($account);
+  $preferred_branch = NULL;
 
-  $preferred_branch = empty($default_branch) ? $patron_info['preferred_branch'] : $default_branch;
+  if (ding_user_is_provider_user()) {
+    $patron_info = fbs_get_patron_info($account);
+
+    $preferred_branch = empty($default_branch) ? $patron_info['preferred_branch'] : $default_branch;
+  }
+
+  if ((!empty($default_branch))) {
+    $preferred_branch = $default_branch;
+  }
 
   $form = array();
   $form += ding_reservation_default_options_branch('preferred_branch', $preferred_branch, fbs_branches());
