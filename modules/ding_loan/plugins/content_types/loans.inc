@@ -171,6 +171,13 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
         );
       }
 
+      $bookmark_button = ding_bookmark_ding_entity_buttons('ding_entity', $entity, 'ajax');
+      $item['#information']['bookmark'] = array(
+        'class' => 'bookmark',
+        'data' => drupal_render($bookmark_button),
+        '#weight' => 10,
+      );
+
       // If not renewable set message.
       if (empty($loan->renewable)) {
         $disabled_count++;
