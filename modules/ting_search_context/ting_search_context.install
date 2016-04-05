@@ -212,6 +212,28 @@ function ting_search_context_disable() {
 }
 
 /**
+ * Implements hook_requirements().
+ */
+function ting_search_context_requirements($phase) {
+  $requirements = array();
+
+  if ($phase == 'runtime' && !libraries_get_path('jquery-ui-carousel')) {
+    $message = t('The jQuery RS carousel is not avialable. Ting search context uses this library to show the related content and will not function proberly without it.');
+    $message .= '<br>' . t('Please use the provided download link, extract the .zip file and place its content in profiles/ding2/libraries/jquery-ui-carousel');
+    $requirements['ting_search_context_jquery_carousel_library'] = array(
+      'title' => 'Ting search context missing carousel library',
+      // No need to use get_t() since this will only be executed in runtime.
+      'description' => $message,
+      'value' => l('Download jQuery RS carousel library', 'https://github.com/richardscarrott/jquery-ui-carousel/archive/1.0.1.zip'),
+      'severity' => REQUIREMENT_ERROR,
+      'weight' => -1000,
+    );
+  }
+
+  return $requirements;
+}
+
+/**
  * Convert existing context machine names (and title for system contexts) to
  * english.
  */
