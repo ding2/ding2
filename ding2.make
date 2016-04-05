@@ -25,6 +25,9 @@ projects[block_access][version] = "1.5"
 projects[cache_actions][subdir] = "contrib"
 projects[cache_actions][version] = "2.0-alpha5"
 
+projects[ckeditor_link][subdir] = "contrib"
+projects[ckeditor_link][version] = "2.4"
+
 projects[conditional_styles][subdir] = "contrib"
 projects[conditional_styles][version] = "2.2"
 
