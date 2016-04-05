@@ -398,3 +398,8 @@ libraries[zen-grids][download][type] = "git"
 libraries[zen-grids][download][url] = "https://github.com/JohnAlbin/zen-grids.git"
 libraries[zen-grids][download][tag] = "1.4"
 libraries[zen-grids][destination] = "libraries"
+
+libraries[jquery-ui-carousel][download][type] = "get"
+libraries[jquery-ui-carousel][download][url] = "https://github.com/richardscarrott/jquery-ui-carousel/archive/1.0.1.zip"
+libraries[jquery-ui-carousel][directory_name] = "jquery-ui-carousel"
+libraries[jquery-ui-carousel][destination] = "libraries"
