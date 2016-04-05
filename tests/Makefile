@@ -25,7 +25,8 @@ setup-config:
 	drush vset -y ting_search_profile test
 
 	# Configure openlist.
-	drush vset -y ting_search_profileting_openlist_prefix test
+	drush vset -y ting_search_profile test
+	drush vset -y ting_openlist_prefix test
 	drush vset -y ting_openlist_wsdl 'http://v2_test.openlist.server003.b14cms.dk/?wsdl'
 
 	# Activate consent and set config.
