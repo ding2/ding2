@@ -73,7 +73,10 @@ function ting_reference_field_info() {
       'description' => t('Nodes referencing this Ting object.'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_reference_reverse_default',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
   );
 }

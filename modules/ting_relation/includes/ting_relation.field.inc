@@ -17,7 +17,10 @@ function ting_relation_field_info() {
       'description' => t('Ting relations.'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_relations_default',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
   );
 }

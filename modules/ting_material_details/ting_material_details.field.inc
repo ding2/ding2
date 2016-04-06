@@ -15,7 +15,10 @@ function ting_material_details_field_info() {
       'description' => t('Material type'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines dc:format.
     'ting_details_format' => array(
@@ -23,7 +26,10 @@ function ting_material_details_field_info() {
       'description' => t('Material format'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines dcterms:isPartOf (Availability).
     'ting_details_ispartof' => array(
@@ -31,7 +37,10 @@ function ting_material_details_field_info() {
       'description' => t('dcterms:isPartOf'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_is_part_of_search',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines dc:language.
     'ting_details_language' => array(
@@ -39,7 +48,10 @@ function ting_material_details_field_info() {
       'description' => t('Language'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines dkdcplus:spoken.
     'ting_details_spoken' => array(
@@ -47,7 +59,10 @@ function ting_material_details_field_info() {
       'description' => t('spoken language'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines dkdcplus:subtitles.
     'ting_details_subtitles' => array(
@@ -55,7 +70,10 @@ function ting_material_details_field_info() {
       'description' => t('Material subtitles'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines dkdcplus:genre.
     'ting_details_genre' => array(
@@ -63,7 +81,10 @@ function ting_material_details_field_info() {
       'description' => t('Material genre'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines dc:subjects.
     'ting_details_subjects' => array(
@@ -72,7 +93,10 @@ function ting_material_details_field_info() {
       'default_widget' => 'hidden',
       // 'default_formatter' => 'ting_details_single',
       'default_formatter' => 'ting_details_subject_search',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines classification (dc:subject->dkdcplus:DK5).
     'ting_details_classification' => array(
@@ -80,7 +104,10 @@ function ting_material_details_field_info() {
       'description' => t('Material classification'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines dcterms:spatial (geo encoding).
     'ting_details_spatial' => array(
@@ -88,7 +115,10 @@ function ting_material_details_field_info() {
       'description' => t('Material spatial'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines dc:contributor.
     'ting_details_contributor' => array(
@@ -96,7 +126,10 @@ function ting_material_details_field_info() {
       'description' => t('Material contributor'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_creator_search',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines dkdcplus:mus (musician).
     'ting_details_musician' => array(
@@ -104,7 +137,10 @@ function ting_material_details_field_info() {
       'description' => t('Material musician'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines dkdcplus:track.
     'ting_details_tracks' => array(
@@ -112,7 +148,10 @@ function ting_material_details_field_info() {
       'description' => t('Material tracks'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines dcterms:isReferencedBy.
     'ting_details_referenced' => array(
@@ -120,7 +159,10 @@ function ting_material_details_field_info() {
       'description' => t('Material referenced'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines dc:description.
     'ting_details_description' => array(
@@ -128,7 +170,10 @@ function ting_material_details_field_info() {
       'description' => t('Material description'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines dc:description (dkdcplus:series).
     'ting_details_seriesdescription' => array(
@@ -136,7 +181,10 @@ function ting_material_details_field_info() {
       'description' => t('Series description'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_seriesdescription_search',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines dc:source (original title).
     'ting_details_source' => array(
@@ -144,7 +192,10 @@ function ting_material_details_field_info() {
       'description' => t('Material original title'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines dcterms:replaces.
     'ting_details_replaces' => array(
@@ -152,7 +203,10 @@ function ting_material_details_field_info() {
       'description' => t('Material previous title'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines dcterms:isReplacedBy.
     'ting_details_replaced_by' => array(
@@ -160,7 +214,10 @@ function ting_material_details_field_info() {
       'description' => t('Material later title'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines dkdcplus:ISBN.
     'ting_details_isbn' => array(
@@ -168,7 +225,10 @@ function ting_material_details_field_info() {
       'description' => t('Material ISBN'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines dcterms:URI.
     'ting_details_uri' => array(
@@ -176,7 +236,10 @@ function ting_material_details_field_info() {
       'description' => t('Material URI'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines dkdcplus:version.
     'ting_details_version' => array(
@@ -184,7 +247,10 @@ function ting_material_details_field_info() {
       'description' => t('Material version'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines dcterms:extent.
     'ting_details_extent' => array(
@@ -192,7 +258,10 @@ function ting_material_details_field_info() {
       'description' => t('Material extent'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines dc:publisher.
     'ting_details_publisher' => array(
@@ -200,7 +269,10 @@ function ting_material_details_field_info() {
       'description' => t('Material publisher'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines dc:rights.
     'ting_details_rights' => array(
@@ -208,7 +280,10 @@ function ting_material_details_field_info() {
       'description' => t('Material rights'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines dcterms:audience.
     'ting_details_audience' => array(
@@ -216,7 +291,10 @@ function ting_material_details_field_info() {
       'description' => t('Material audience'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines dkdcplus:age.
     'ting_details_age' => array(
@@ -224,7 +302,10 @@ function ting_material_details_field_info() {
       'description' => t('Material age'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // Defines dkdcplus:pegi.
     'ting_details_pegi' => array(
@@ -232,7 +313,10 @@ function ting_material_details_field_info() {
       'description' => t('Material PEGI-mark'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
   );
 
@@ -584,4 +668,3 @@ function ting_material_details_field_formatter_prepare_view($entity_type, $entit
     );
   }
 }
-
