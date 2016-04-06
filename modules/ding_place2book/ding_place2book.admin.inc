@@ -30,7 +30,6 @@ function ding_place2book_service_admin_form($form, &$form_state) {
     '#title' => t('Place2Book service URL'),
     '#default_value' => isset($settings->url) ? $settings->url : 'https://apitest.place2book.com',
     '#description' => t('Enter a valid Place2book service endpoint, such as https://www.place2book.com/da/event_api'),
-    '#required' => TRUE,
     '#size' => 100,
   ];
 
@@ -38,7 +37,6 @@ function ding_place2book_service_admin_form($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Place2Book authorisation token'),
     '#default_value' => isset($settings->token) ? $settings->token : '',
-    '#required' => TRUE,
     '#description' => t('This is the default API key used when connecting to Place2book.'),
   ];
 
@@ -184,7 +182,6 @@ function ding_place2book_defaults_admin_form($form, &$form_state) {
     '#options' => $options,
     '#default_value' => variable_get('ding_p2b_default_event_maker', NULL),
     '#description' => t('It will be used in case when will be missed mappings from library.'),
-    '#required' => TRUE,
   ];
 
   $form['ding_p2b_default_synchronize'] = [
@@ -192,7 +189,6 @@ function ding_place2book_defaults_admin_form($form, &$form_state) {
     '#title' => t('Default status of syncronisation'),
     '#default_value' => variable_get('ding_p2b_default_synchronize', FALSE),
     '#description' => t('Indicates status of event. If checked, then event will be synchronized with P2b by default.'),
-    '#required' => TRUE,
   ];
 
   $form['ding_p2b_default_kultunaut_export'] = [
@@ -200,7 +196,6 @@ function ding_place2book_defaults_admin_form($form, &$form_state) {
     '#title' => t('Default status of kultunaut export'),
     '#default_value' => variable_get('ding_p2b_default_kultunaut_export', FALSE),
     '#description' => t('If checked, then kultunaut export will be enabled by default.'),
-    '#required' => TRUE,
   ];
 
   $form['ding_p2b_default_passive'] = [
@@ -208,7 +203,6 @@ function ding_place2book_defaults_admin_form($form, &$form_state) {
     '#title' => t('Default status of passive attribute'),
     '#default_value' => variable_get('ding_p2b_default_passive', FALSE),
     '#description' => t('If checked, then event will be marked as passive by default.'),
-    '#required' => TRUE,
   ];
 
   $form['ding_p2b_default_capacity'] = [
@@ -216,7 +210,6 @@ function ding_place2book_defaults_admin_form($form, &$form_state) {
     '#title' => t('Default value for capacity of event'),
     '#default_value' => variable_get('ding_p2b_default_capacity', 0),
     '#description' => t('By default event capacity will be set to entered value(0 - unlimited).'),
-    '#required' => TRUE,
     '#element_validate' => ['element_validate_integer'],
   ];
 
@@ -225,7 +218,6 @@ function ding_place2book_defaults_admin_form($form, &$form_state) {
     '#title' => t('Default name of event\'s price.'),
     '#default_value' => variable_get('ding_p2b_default_price_name', ''),
     '#description' => t('Represents default name of price.'),
-    '#required' => TRUE,
   ];
 
   return system_settings_form($form);

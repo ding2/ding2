@@ -159,6 +159,7 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
       if (!isset($form_state['prices_count'])) {
         $form_state['prices_count'] = empty($items) ? range(0, 0) : range(0, count($items));
       }
+      $price_name = variable_get('ding_p2b_default_price_name', '');
       foreach ($form_state['prices_count'] as $key) {
         $price = $price_id = NULL;
         if (isset($items[$key])) {
@@ -177,7 +178,7 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
 
         $element['place2book']['prices_wrapper']['prices'][$key]['name'] = [
           '#type' => 'textfield',
-          '#default_value' => !empty($price) ? $price->name : '',
+          '#default_value' => !empty($price) ? $price->name : $price_name,
         ];
 
         $element['place2book']['prices_wrapper']['prices'][$key]['id'] = [
@@ -220,10 +221,57 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
         '#value' => !empty($items) ? $items : [],
       ];
 
+      $element['#element_validate'] = ['ding_place2book_widget_validate'];
+
       break;
   }
 
   return $element;
+}
+
+/**
+ * Validate handler for place2book widget.
+ */
+function ding_place2book_widget_validate($form, &$form_state) {
+  $values = $form_state['values'];
+  $place2book = $values['field_place2book'][LANGUAGE_NONE]['place2book'];
+  if ($place2book['synchronize']) {
+    $library = array_filter($values['og_group_ref'][LANGUAGE_NONE], function ($i) {
+      return !empty($i['target_id']);
+    });
+    if (empty($library)) {
+      $address = $values['field_ding_event_location'][LANGUAGE_NONE];
+      if (empty($address[0]['name_line'])) {
+        form_set_error('field_ding_event_location][und][0][name_line', t('Name is required for creating event on P2b.'));
+      }
+
+      if (empty($address[0]['thoroughfare'])) {
+        form_set_error('field_ding_event_location][und][0][thoroughfare', t('Address is required for creating event on P2b.'));
+      }
+
+      if (empty($address[0]['postal_code'])) {
+        form_set_error('field_ding_event_location][und][0][postal_code', t('Postal code is required for creating event on P2b.'));
+      }
+
+      if (empty($address[0]['locality'])) {
+        form_set_error('field_ding_event_location][und][0][locality', t('City is required for creating event on P2b.'));
+      }
+    }
+
+    $prices = $place2book['prices_wrapper']['prices'];
+    $prices = array_filter($prices, function ($i) {
+      return !empty($i['name']) && !empty($i['value']);
+    });
+
+    if (empty($prices)) {
+      form_set_error('field_place2book][und][place2book][prices_wrapper][prices', t('At least one price should exist.'));
+    }
+    $start = $values['field_ding_event_date'][LANGUAGE_NONE][0]['value'];
+    $start = strtotime($start);
+    if (round(abs(time() - $start) / 60, 2) == 0) {
+      form_set_error('field_ding_event_date][und][0][value][date', t('Event date can\'t be in the past.'));
+    }
+  }
 }
 
 /**
@@ -303,9 +351,7 @@ function ding_place2book_field_presave($entity_type, $entity, $field, $instance,
         $items = [];
         if (empty($event_id)) {
           $event_maker_id = _ding_place2book_get_event_maker($entity);
-          $date = field_get_items('node', $entity, 'field_ding_event_date');
-          $start = strtotime($date[0]['value']);
-          if ($event_maker_id && round(abs(time() - $start) / 60, 2) != 0) {
+          if ($event_maker_id) {
             try {
               // Collect data for creating event.
               $prices = $settings['prices_wrapper']['prices'];
@@ -327,17 +373,17 @@ function ding_place2book_field_presave($entity_type, $entity, $field, $instance,
                   'price_id' => $price->id,
                 ];
               }
+              drupal_set_message(t('Event was successfully created.'));
             }
             catch (Exception $ex) {
               watchdog_exception('ding_place2book', $ex);
               $items = [];
+              drupal_set_message(t('Error on creating p2b event. For mor information look to reports.'), 'error');
             }
           }
         }
         else {
-          $date = field_get_items('node', $entity, 'field_ding_event_date');
-          $start = strtotime($date[0]['value']);
-          if ($event_maker_id && round(abs(time() - $start) / 60, 2) != 0) {
+          if ($event_maker_id) {
             try {
               // Collect data for updating event.
               $prices = $settings['prices_wrapper']['prices'];
@@ -369,10 +415,12 @@ function ding_place2book_field_presave($entity_type, $entity, $field, $instance,
                   'price_id' => $price->id,
                 ];
               }
+              drupal_set_message(t('Event was successfully updated.'));
             }
             catch (Exception $ex) {
               watchdog_exception('ding_place2book', $ex);
               $items = [];
+              drupal_set_message(t('Error on updating p2b event. For mor information look to reports.'), 'error');
             }
           }
         }
@@ -410,25 +458,48 @@ function ding_place2book_field_formatter_view($entity_type, $entity, $field, $in
           $event = $p2b->getEvent($event_maker_id, $event_id);
           $meta_data = $event->meta_data;
           $start = strtotime($event->begin_at);
-          if (in_array($meta_data->event_state, ['passive', 'published',]) && time() < $start) {
-            switch ($meta_data->sales_status) {
-              case 'open':
-                if (isset($event->links->sales_location) && ($meta_data->available_tickets > 0 || $meta_data->available_tickets == '∞')) {
-                  $data = l(t('Book a ticket'), $event->links->sales_location, ['attributes' => ['_target' => 'blank']]);
-                  $class = 'order';
-                }
-                else {
-                  $data = t('Sold out');
-                  $class = 'info ticket-info';
+          if (time() < $start) {
+            // Go through the event state.
+            switch ($meta_data->event_state) {
+              case 'published':
+                // Go through the sales status.
+                switch ($meta_data->sales_status) {
+                  case 'open':
+                    // Check if there is any available tickets for sale.
+                    if (isset($event->links->sales_location) && ($meta_data->available_tickets > 0 || $meta_data->available_tickets == '∞')) {
+                      $data = l(t('Book a ticket'), $event->links->sales_location, ['attributes' => ['_target' => 'blank']]);
+                      $class = 'order';
+                    }
+                    else {
+                      $data = t('Sold out');
+                      $class = 'info';
+                    }
+                    break;
+                  case 'upcoming':
+                    $data = t('Ticket sale has not yet started for this event');
+                    $class = 'info';
+                    break;
+                  case 'closed':
+                    $data = t('The event is closed for admission');
+                    $class = 'info';
+                    break;
+                  // Temporary for debugging.
+                  default:
+                    $data = t('Sales status unknown');
+                    break;
                 }
                 break;
-              case 'upcoming':
-                $data = t('Ticket sale has not yet started for this event');
-                $class = 'info ticket-info';
+              // Temporary for debugging.
+              case 'passive':
+                $data = 'Event is passive';
                 break;
-              case 'closed':
-                $data = t('The event is closed for admission');
-                $class = 'info ticket-info';
+              // Temporary for debugging.
+              case 'pause':
+                $data = 'Event is on pause';
+                break;
+              // Temporary for debugging.
+              default:
+                $data = 'Event state unknown';
                 break;
             }
           }
