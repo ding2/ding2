@@ -56,7 +56,7 @@ class ItemPageTest extends PHPUnit_Extensions_SeleniumTestCase {
 
     // Check specific row in the availability table.
     $this->abstractedPage->waitForElement('css=.availability-holdings-table td');
-    $this->assertElementContainsText('css=.availability-holdings-table td', 'Hovedbiblioteket > Voksen > Sæsondepot > > Nors');
+    $this->assertElementContainsText('css=.availability-holdings-table td', 'Hovedbiblioteket > Voksen > > > Nors');
 
     // Test bookmarking & reserving.
     // Try to bookmark with logging in, if required.
@@ -67,6 +67,7 @@ class ItemPageTest extends PHPUnit_Extensions_SeleniumTestCase {
     if ($is_present) {
       $this->abstractedPage->fillDingPopupLogin($this->config->getUser(), $this->config->getPass());
     }
+    sleep(5);
     $this->abstractedPage->waitForElement('css=div.ding-bookmark-message');
     $msgs = array(
       'Added to bookmarks',
