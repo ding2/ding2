@@ -28,8 +28,8 @@ class UserProfileTest extends PHPUnit_Extensions_SeleniumTestCase {
     $this->abstractedPage->waitForPage();
 
     // Check for user status link.
-    $this->assertElementPresent('link=Edit user profile');
-    $this->click('link=Edit user profile');
+    $this->assertElementPresent('link=Redigér brugerprofil');
+    $this->click('link=Redigér brugerprofil');
     $this->abstractedPage->waitForPage();
 
     // Check for pane title.
@@ -57,7 +57,7 @@ class UserProfileTest extends PHPUnit_Extensions_SeleniumTestCase {
     $this->type('css=#edit-pincode-pass2', '6666');
 
     // Save the form.
-    $this->click('css=#user-profile-form input[type="submit"]');
+    $this->click('css=#user-profile-form input.form-submit');
     $this->abstractedPage->waitForPage();
 
     // Log out, to test new pin code.

@@ -25,9 +25,9 @@ class ItemPageTest extends PHPUnit_Extensions_SeleniumTestCase {
     $this->abstractedPage->userMakeSearch('dorthe nors');
 
     // Check the item title on search result page.
-    $this->assertTrue($this->isElementPresent('link=Stormesteren : roman'));
+    $this->assertTrue($this->isElementPresent('link=Stormesteren'));
     // Click on title. Goes to collection page.
-    $this->click('link=Stormesteren : roman');
+    $this->click('link=Stormesteren');
     $this->abstractedPage->waitForPage();
 
     // Check the item title on the collection page.
@@ -56,7 +56,7 @@ class ItemPageTest extends PHPUnit_Extensions_SeleniumTestCase {
 
     // Check specific row in the availability table.
     $this->abstractedPage->waitForElement('css=.availability-holdings-table td');
-    $this->assertElementContainsText('css=.availability-holdings-table td', 'Hovedbiblioteket > Voksen > > > Nors');
+    $this->assertElementContainsText('css=.availability-holdings-table td', 'Hovedbiblioteket > Voksen > Sæsondepot > > Nors');
 
     // Test bookmarking & reserving.
     // Try to bookmark with logging in, if required.
@@ -85,17 +85,15 @@ class ItemPageTest extends PHPUnit_Extensions_SeleniumTestCase {
 
     // Refresh and reserve same item.
     $this->abstractedPage->refresh();
-    sleep(5);
     $this->abstractedPage->userReserve('.action-button.reserve-button:eq(0)');
-    $this->abstractedPage->waitForElement('css=div.ding-popup-content .messages.status');
-    $this->assertTrue($this->isElementPresent('css=div.ding-popup-content .messages.status'));
-
-    // Refresh and try to reserve again, normally this should not be allowed.
-    $this->abstractedPage->refresh();
     sleep(5);
-    $this->abstractedPage->userReserve('.action-button.reserve-button:eq(0)');
-    $this->abstractedPage->waitForElement('css=div.ding-popup-content .messages.error');
-    $this->assertTrue($this->isElementPresent('css=div.ding-popup-content .messages.error'));
+    $element = $this->isElementPresent('css=div.ding-popup-content .messages.status');
+    if(($element)==FALSE){
+      $this->assertTrue($this->isElementPresent('css=div.ding-popup-content .messages.error'));
+    }
+    else {
+      $this->assertTrue($this->isElementPresent('css=div.ding-popup-content .messages.status'));
+     } 
   }
 
   /**

@@ -57,7 +57,7 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
         '12846959',
       ), 
       array(
-        'Alt interiør : trendguide',
+        'Title not available',
         '2012, Januar, 1',
         '1',
         '24. May 2016',
@@ -155,7 +155,7 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
         'Beder-Malling',
       ),
       array(
-        'Alt interiør : trendguide',
+        'Title not available',
         '20. November 2016',
         'Beder-Malling',
       ),
@@ -186,7 +186,7 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
 
     // This should trigger a popup confirmation.
     $this->abstractedPage->waitForElement('css=.ding-popup-content #ding-reservation-delete-reservations-form');
-    $this->mouseDown('css=.ding-popup-content #ding-reservation-delete-reservations-form input[type="submit"]');
+    $this->click('css=.ding-popup-content #ding-reservation-delete-reservations-form a#edit-delete');
     // Wait for ajax to finish.
     sleep(5);
     $this->abstractedPage->refresh();
