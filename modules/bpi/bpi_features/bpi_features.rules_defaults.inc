@@ -13,7 +13,7 @@ function bpi_features_default_rules_configuration() {
       "LABEL" : "After workflow is set to \\u0027Sent to BPI\\u0027",
       "PLUGIN" : "reaction rule",
       "OWNER" : "rules",
-      "REQUIRES" : [ "rules" ],
+      "REQUIRES" : [ "rules", "bpi" ],
       "ON" : { "node_update--ding_news" : { "bundle" : "ding_news" } },
       "IF" : [
         { "data_is" : { "data" : [ "node:field-bpi-workflow" ], "value" : "4" } }
@@ -25,7 +25,7 @@ function bpi_features_default_rules_configuration() {
       "LABEL" : "Before changing workflow to Delete from BPI",
       "PLUGIN" : "reaction rule",
       "OWNER" : "rules",
-      "REQUIRES" : [ "rules" ],
+      "REQUIRES" : [ "rules", "bpi" ],
       "ON" : { "node_update--ding_news" : { "bundle" : "ding_news" } },
       "IF" : [
         { "data_is" : { "data" : [ "node:field-bpi-workflow" ], "value" : "7" } }
