@@ -24,13 +24,14 @@ class ItemPageRelationsTest extends PHPUnit_Extensions_SeleniumTestCase {
     $this->abstractedPage->userMakeSearch('dorthe nors');
 
     // Check the item title on search result page.
-    $this->assertTrue($this->isElementPresent('link=Stormesteren : roman'));
+    $this->assertTrue($this->isElementPresent('link=Stormesteren'));
     // Click on title. Goes to collection page.
-    $this->click('link=Stormesteren : roman');
+    $this->click('link=Stormesteren');
     $this->abstractedPage->waitForPage();
-
+    sleep(5);
     // Check the item title on the collection page.
     $this->assertTrue($this->isElementPresent('link=Stormesteren : roman'));
+    sleep(5);
     // Click on title. Goes to item page.
     $this->click('link=Stormesteren : roman');
     $this->abstractedPage->waitForPage();
