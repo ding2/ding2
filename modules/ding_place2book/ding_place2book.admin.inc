@@ -216,7 +216,7 @@ function ding_place2book_defaults_admin_form($form, &$form_state) {
   $form['ding_p2b_default_price_name'] = [
     '#type' => 'textfield',
     '#title' => t('Default name of event\'s price.'),
-    '#default_value' => variable_get('ding_p2b_default_price_name', ''),
+    '#default_value' => variable_get('ding_p2b_default_price_name', 'Adgang'),
     '#description' => t('Represents default name of price.'),
   ];
 

@@ -315,6 +315,7 @@ function ding_place2book_prices_remove_submit($form, &$form_state) {
     }
     catch (Exception $ex) {
       watchdog_exception('ding_place2book', $ex);
+      drupal_set_message($ex->getMessage(), 'error');
     }
     if (!empty($element['#node_id'])) {
       $original = $form_state['node'];
@@ -347,6 +348,7 @@ function ding_place2book_field_presave($entity_type, $entity, $field, $instance,
       if (!empty($items)) {
         $p2b = P2b\P2b::getInstance();
         $settings = reset($items);
+        $settings['ids'] = empty($settings['ids']) ? [] : $settings['ids'];
         list($event_id, $event_maker_id) = array_values(reset($settings['ids']));
         $items = [];
         if (empty($event_id)) {
@@ -378,7 +380,7 @@ function ding_place2book_field_presave($entity_type, $entity, $field, $instance,
             catch (Exception $ex) {
               watchdog_exception('ding_place2book', $ex);
               $items = [];
-              drupal_set_message(t('Error on creating p2b event. For mor information look to reports.'), 'error');
+              drupal_set_message($ex->getMessage(), 'error');
             }
           }
         }
@@ -420,7 +422,7 @@ function ding_place2book_field_presave($entity_type, $entity, $field, $instance,
             catch (Exception $ex) {
               watchdog_exception('ding_place2book', $ex);
               $items = [];
-              drupal_set_message(t('Error on updating p2b event. For mor information look to reports.'), 'error');
+              drupal_set_message($ex->getMessage(), 'error');
             }
           }
         }
@@ -518,7 +520,8 @@ function ding_place2book_field_formatter_view($entity_type, $entity, $field, $in
           ];
         }
         catch (Exception $ex) {
-          watchdog_exception('ding_place2book', $ex, t('Error appeared on getting date form p2b.'));
+          watchdog_exception('ding_place2book', $ex);
+          drupal_set_message($ex->getMessage(), 'error');
         }
       }
       break;

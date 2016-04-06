@@ -544,6 +544,10 @@ class P2b {
    *   In case when response code not equal to excepted.
    */
   private function p2bRequest($url, $type, array $params = [], $code = 200) {
+
+    if (empty( self::$token)) {
+      throw new \Exception("Token empty.");
+    }
     $options = [];
     $options['headers'] = [
       "X-PLACE2BOOK-API-TOKEN" => self::$token,
@@ -566,7 +570,8 @@ class P2b {
       $data = $this->parseResponse($response->getBody());
     }
     else {
-      throw new \Exception('Error. Wrong code was returned.');
+      $res_code = $response->getStatusCode();
+      throw new \Exception("Wrong code. Expected - {$code}, was returned - {$res_code}.");
     }
 
     return $data;
