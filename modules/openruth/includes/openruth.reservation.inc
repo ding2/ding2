@@ -7,16 +7,10 @@
 /**
  * Get list of pickup branches.
  *
- * @param StdClass $account
- *   Drupal user object.
- *
  * @return array
  *   OpenRuth pickup branches.
  */
-function openruth_reservation_pickup_branches($account) {
-  // Throw exception if we're not logged in.
-  ding_user_get_creds($account);
-
+function openruth_reservation_pickup_branches() {
   $branches = openruth_client_invoke('get_agencycounters');
   return $branches;
 }
