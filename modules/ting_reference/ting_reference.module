@@ -132,6 +132,17 @@ function ting_reference_field_update($entity_type, $entity, $field, $instance, $
   // Get existing relations.
   $relations = ting_reference_get_relations($entity_type, $entity);
 
+  // Since there is no way to update the delta value of the endpoints, we need
+  // to delete all relations, and re-add them.
+  foreach ($relations as $rid => $relation) {
+    relation_delete($rid);
+  }
+  foreach ($items as $item) {
+    if (!empty($item['tid'])) {
+      ting_reference_create_relation($entity_type, $entity_id, $item['tid']);
+    }
+  }
+
   // Book keeping.
   $keep = array();
   $clear_cache = FALSE;
@@ -166,12 +177,6 @@ function ting_reference_field_update($entity_type, $entity, $field, $instance, $
     field_cache_clear('field:' . $entity_type . ':' . $entity_id);
   }
 
-  // Delete the relations that aren't present anymore.
-  foreach ($relations as $rid => $relation) {
-    if (!in_array($rid, $keep)) {
-      relation_delete($rid);
-    }
-  }
 }
 
 
@@ -455,6 +460,7 @@ function ting_reference_get_relations($entity_type, $entity) {
       ->condition('bundle', 'ting_reference')
       ->condition('endpoints_entity_type', $entity_type)
       ->condition('endpoints_entity_id', $entity_id)
+      ->orderBy('endpoints.entity_id')
       ->execute()
       ->fetchAllAssoc('entity_id');
 
