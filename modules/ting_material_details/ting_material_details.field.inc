@@ -11,7 +11,7 @@ function ting_material_details_field_info() {
   $ret = array(
     // Defines dc:type.
     'ting_details_type' => array(
-      'label' => t('Type'),
+      'label' => t('Material type'),
       'description' => t('Material type'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
@@ -22,7 +22,7 @@ function ting_material_details_field_info() {
     ),
     // Defines dc:format.
     'ting_details_format' => array(
-      'label' => t('Format'),
+      'label' => t('Material format'),
       'description' => t('Material format'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
@@ -33,8 +33,8 @@ function ting_material_details_field_info() {
     ),
     // Defines dcterms:isPartOf (Availability).
     'ting_details_ispartof' => array(
-      'label' => t('Available in'),
-      'description' => t('dcterms:isPartOf'),
+      'label' => t('Material available in'),
+      'description' => t('Material available in'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_is_part_of_search',
       'virtual_field' => array(
@@ -44,8 +44,8 @@ function ting_material_details_field_info() {
     ),
     // Defines dc:language.
     'ting_details_language' => array(
-      'label' => t('Language'),
-      'description' => t('Language'),
+      'label' => t('Material language'),
+      'description' => t('Material language'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
       'virtual_field' => array(
@@ -55,8 +55,8 @@ function ting_material_details_field_info() {
     ),
     // Defines dkdcplus:spoken.
     'ting_details_spoken' => array(
-      'label' => t('Speech'),
-      'description' => t('spoken language'),
+      'label' => t('Material spoken language'),
+      'description' => t('Material spoken language'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
       'virtual_field' => array(
@@ -66,7 +66,7 @@ function ting_material_details_field_info() {
     ),
     // Defines dkdcplus:subtitles.
     'ting_details_subtitles' => array(
-      'label' => t('Subtitle'),
+      'label' => t('Material subtitles'),
       'description' => t('Material subtitles'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
@@ -77,7 +77,7 @@ function ting_material_details_field_info() {
     ),
     // Defines dkdcplus:genre.
     'ting_details_genre' => array(
-      'label' => t('Genre'),
+      'label' => t('Material genre'),
       'description' => t('Material genre'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
@@ -88,10 +88,9 @@ function ting_material_details_field_info() {
     ),
     // Defines dc:subjects.
     'ting_details_subjects' => array(
-      'label' => t('Subject'),
+      'label' => t('Material subject'),
       'description' => t('Material subject'),
       'default_widget' => 'hidden',
-      // 'default_formatter' => 'ting_details_single',
       'default_formatter' => 'ting_details_subject_search',
       'virtual_field' => array(
         'entity_types' => array('ting_object'),
@@ -100,7 +99,7 @@ function ting_material_details_field_info() {
     ),
     // Defines classification (dc:subject->dkdcplus:DK5).
     'ting_details_classification' => array(
-      'label' => t('Classification'),
+      'label' => t('Material classification'),
       'description' => t('Material classification'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
@@ -111,7 +110,7 @@ function ting_material_details_field_info() {
     ),
     // Defines dcterms:spatial (geo encoding).
     'ting_details_spatial' => array(
-      'label' => t('spatial'),
+      'label' => t('Material spatial'),
       'description' => t('Material spatial'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
@@ -122,7 +121,7 @@ function ting_material_details_field_info() {
     ),
     // Defines dc:contributor.
     'ting_details_contributor' => array(
-      'label' => t('Reader'),
+      'label' => t('Material contributor'),
       'description' => t('Material contributor'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_creator_search',
@@ -133,7 +132,7 @@ function ting_material_details_field_info() {
     ),
     // Defines dkdcplus:mus (musician).
     'ting_details_musician' => array(
-      'label' => t('Musician'),
+      'label' => t('Material musician'),
       'description' => t('Material musician'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
@@ -144,7 +143,7 @@ function ting_material_details_field_info() {
     ),
     // Defines dkdcplus:track.
     'ting_details_tracks' => array(
-      'label' => t('Contains'),
+      'label' => t('Material tracks'),
       'description' => t('Material tracks'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
@@ -155,8 +154,8 @@ function ting_material_details_field_info() {
     ),
     // Defines dcterms:isReferencedBy.
     'ting_details_referenced' => array(
-      'label' => t('Referenced by'),
-      'description' => t('Material referenced'),
+      'label' => t('Material referenced by'),
+      'description' => t('Material referenced by'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
       'virtual_field' => array(
@@ -166,7 +165,7 @@ function ting_material_details_field_info() {
     ),
     // Defines dc:description.
     'ting_details_description' => array(
-      'label' => t('Description'),
+      'label' => t('Material description'),
       'description' => t('Material description'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
@@ -177,8 +176,8 @@ function ting_material_details_field_info() {
     ),
     // Defines dc:description (dkdcplus:series).
     'ting_details_seriesdescription' => array(
-      'label' => t('Series description'),
-      'description' => t('Series description'),
+      'label' => t('Material series description'),
+      'description' => t('Material series description'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_seriesdescription_search',
       'virtual_field' => array(
@@ -188,7 +187,7 @@ function ting_material_details_field_info() {
     ),
     // Defines dc:source (original title).
     'ting_details_source' => array(
-      'label' => t('Original title'),
+      'label' => t('Material original title'),
       'description' => t('Material original title'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
@@ -199,7 +198,7 @@ function ting_material_details_field_info() {
     ),
     // Defines dcterms:replaces.
     'ting_details_replaces' => array(
-      'label' => t('Previous title'),
+      'label' => t('Material previous title'),
       'description' => t('Material previous title'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
@@ -210,7 +209,7 @@ function ting_material_details_field_info() {
     ),
     // Defines dcterms:isReplacedBy.
     'ting_details_replaced_by' => array(
-      'label' => t('Later title'),
+      'label' => t('Material later title'),
       'description' => t('Material later title'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
@@ -221,8 +220,8 @@ function ting_material_details_field_info() {
     ),
     // Defines dkdcplus:ISBN.
     'ting_details_isbn' => array(
-      'label' => t('ISBN no.'),
-      'description' => t('Material ISBN'),
+      'label' => t('Material ISBN no.'),
+      'description' => t('Material ISBN no.'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
       'virtual_field' => array(
@@ -232,7 +231,7 @@ function ting_material_details_field_info() {
     ),
     // Defines dcterms:URI.
     'ting_details_uri' => array(
-      'label' => t('Host publication'),
+      'label' => t('Material URI'),
       'description' => t('Material URI'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
@@ -243,7 +242,7 @@ function ting_material_details_field_info() {
     ),
     // Defines dkdcplus:version.
     'ting_details_version' => array(
-      'label' => t('Version'),
+      'label' => t('Material version'),
       'description' => t('Material version'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
@@ -254,7 +253,7 @@ function ting_material_details_field_info() {
     ),
     // Defines dcterms:extent.
     'ting_details_extent' => array(
-      'label' => t('Extent'),
+      'label' => t('Material extent'),
       'description' => t('Material extent'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
@@ -265,7 +264,7 @@ function ting_material_details_field_info() {
     ),
     // Defines dc:publisher.
     'ting_details_publisher' => array(
-      'label' => t('Publisher'),
+      'label' => t('Material publisher'),
       'description' => t('Material publisher'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
@@ -276,7 +275,7 @@ function ting_material_details_field_info() {
     ),
     // Defines dc:rights.
     'ting_details_rights' => array(
-      'label' => t('Rights'),
+      'label' => t('Material rights'),
       'description' => t('Material rights'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
@@ -287,7 +286,7 @@ function ting_material_details_field_info() {
     ),
     // Defines dcterms:audience.
     'ting_details_audience' => array(
-      'label' => t('Audience'),
+      'label' => t('Material audience'),
       'description' => t('Material audience'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
@@ -298,7 +297,7 @@ function ting_material_details_field_info() {
     ),
     // Defines dkdcplus:age.
     'ting_details_age' => array(
-      'label' => t('Age'),
+      'label' => t('Material age'),
       'description' => t('Material age'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
@@ -309,7 +308,7 @@ function ting_material_details_field_info() {
     ),
     // Defines dkdcplus:pegi.
     'ting_details_pegi' => array(
-      'label' => t('Pegi'),
+      'label' => t('Material PEGI-mark'),
       'description' => t('Material PEGI-mark'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_details_single',
