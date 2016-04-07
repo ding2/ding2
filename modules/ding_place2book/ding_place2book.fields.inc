@@ -455,76 +455,21 @@ function ding_place2book_field_formatter_view($entity_type, $entity, $field, $in
     case 'field_place2book':
       if ($display['type'] == 'ding_p2b_formatter_default' && !empty($items)) {
         list($event_id, $event_maker_id, $price_id) = array_values(reset($items));
-        try {
-          $p2b = P2b\P2b::getInstance();
-          $event = $p2b->getEvent($event_maker_id, $event_id);
-          $meta_data = $event->meta_data;
-          $start = strtotime($event->begin_at);
-          if (time() < $start) {
-            // Go through the event state.
-            switch ($meta_data->event_state) {
-              case 'published':
-                // Go through the sales status.
-                switch ($meta_data->sales_status) {
-                  case 'open':
-                    // Check if there is any available tickets for sale.
-                    if (isset($event->links->sales_location) && ($meta_data->available_tickets > 0 || $meta_data->available_tickets == '∞')) {
-                      $data = l(t('Book a ticket'), $event->links->sales_location, ['attributes' => ['_target' => 'blank']]);
-                      $class = 'order';
-                    }
-                    else {
-                      $data = t('Sold out');
-                      $class = 'info';
-                    }
-                    break;
-                  case 'upcoming':
-                    $data = t('Ticket sale has not yet started for this event');
-                    $class = 'info';
-                    break;
-                  case 'closed':
-                    $data = t('The event is closed for admission');
-                    $class = 'info';
-                    break;
-                  // Temporary for debugging.
-                  default:
-                    $data = t('Sales status unknown');
-                    break;
-                }
-                break;
-              // Temporary for debugging.
-              case 'passive':
-                $data = 'Event is passive';
-                break;
-              // Temporary for debugging.
-              case 'pause':
-                $data = 'Event is on pause';
-                break;
-              // Temporary for debugging.
-              default:
-                $data = 'Event state unknown';
-                break;
-            }
-          }
-          else {
-            $data = t('The event has already taken place');
-            $class = 'info ticket-info';
-          }
 
-          $element[0] = [
-            '#markup' => "<div class='place2book {$class}'>{$data}</div>",
-            '#attached' => [
-              'css' => [
-                drupal_get_path('module', 'ding_place2book') . '/css/ding_place2book.css',
-              ],
+        $element[0] = [
+          '#markup' => "<div data-event-id='{$event_id}' data-event-maker-id='{$event_maker_id}' class='place2book'>Fetching data from p2b..</div>",
+          '#attached' => [
+            'css' => [
+              drupal_get_path('module', 'ding_place2book') . '/css/ding_place2book.css',
             ],
-          ];
-        }
-        catch (Exception $ex) {
-          watchdog_exception('ding_place2book', $ex);
-          drupal_set_message($ex->getMessage(), 'error');
-        }
+            'js' => [
+              drupal_get_path('module', 'ding_place2book') . '/js/ding_place2book.js',
+            ],
+          ],
+        ];
+
       }
-      break;
   }
   return $element;
 }
+
