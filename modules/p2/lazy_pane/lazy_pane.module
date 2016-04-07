@@ -1,0 +1,90 @@
+<?php
+
+/**
+ * @file
+ * Main file for lazy_pane module.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function lazy_pane_menu() {
+  $items = array();
+
+  $items['lazy-pane/ajax'] = array(
+    'title' => 'Lazy Pane',
+    'page callback' => 'lazy_pane_ajax',
+    'theme callback' => 'ajax_base_page_theme',
+    'delivery callback' => 'ajax_deliver',
+    'access callback' => TRUE,
+    'file' => 'lazy_pane.inc',
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function lazy_pane_ctools_plugin_directory($owner, $plugin_type) {
+  if ($plugin_type == 'cache') {
+    return 'plugins/cache';
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Ensures all forms generated within a lazy pane request that have an empty
+ * #action parameter or one equal to the current request uri are overriden with
+ * an #action uri equal to that of the host page.
+ */
+function lazy_pane_form_alter(&$form, $form_state, $form_id) {
+  if (!lazy_pane_is_lazy_request()) {
+    return;
+  }
+
+  if (empty($form['#action']) || $form['#action'] == request_uri()) {
+    $form['#action'] = url(lazy_pane_get_request_path());
+  }
+}
+
+// Helpers
+// -----------------------------------------------------------------------------
+
+/**
+ * Checks if the current request has been originated from a lazy request.
+ *
+ * @param bool $status
+ *  Sets the request status. Do not modify.
+ * @return bool
+ *  TRUE if the request has been originated from a lazy request, FALSE otherwise.
+ */
+function lazy_pane_is_lazy_request($status = NULL) {
+  $lazy_request = &drupal_static(__FUNCTION__, FALSE);
+
+  if (!empty($status) && is_bool($status)) {
+    $lazy_request = $status;
+  }
+
+  return $lazy_request;
+}
+
+/**
+ * Returns the lazy pane host page path.
+ *
+ * @param string $path
+ *  Sets the lazy pane request path. Do not modify.
+ * @return string
+ *  The lazy pane request path, or an empty string if not set.
+ */
+function lazy_pane_get_request_path($path = NULL) {
+  $request_path = &drupal_static(__FUNCTION__, '');
+
+  if (!empty($path) && is_string($path)) {
+    $request_path = $path;
+  }
+
+  return $request_path;
+}

@@ -1,0 +1,59 @@
+.pane-notifications-top-menu {
+  .notifications-lists {
+    &:before {
+      content: "\f0f3";
+    }
+  }
+  .notifications-pickup {
+    &:before {
+      content: "\f02d";
+    }
+  }
+  .notifications-fines {
+    &:before {
+      content: "\f06a";
+    }
+  }
+}
+
+.ting-object.view-mode-compact {
+  .contentbox {
+    overflow: hidden;
+  }
+  .field-name-ting-title h2 {
+    font-size: 100%;
+    padding-top: 10px;
+    padding-right: 15px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    @include box-sizing(border-box);
+    a {
+      color: $white;
+    }
+  }
+  
+}
+
+.draggable {
+  > .views-field-id {
+    // Small
+    @include small() {
+      display: none; 
+    }
+  }
+}
+
+.ting-cover {
+  &:before {
+    left: 50%;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -o-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+  }
+}
+
+.view-ding-list-elements caption {
+  margin-bottom: 10px;
+}

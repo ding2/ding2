@@ -1,0 +1,63 @@
+<?php
+
+/**
+ * Helper function to update row weights of extra fields.
+ */
+function ding_p2_installer_extra_field_update_weight($field_name, $entity_type, $bundle, $view_mode, $weight = 0, $visible = TRUE) {
+  $settings = field_bundle_settings($entity_type, $bundle);
+
+  // Set the weight and visibility of the field for this view mode.
+  $settings['extra_fields']['display'][$field_name][$view_mode] = array(
+    'weight' => $weight,
+    'visible' => $visible,
+  );
+  
+  field_bundle_settings($entity_type, $bundle, $settings);  
+}
+
+/**
+ * Helper function to update row weights of normal fields.
+ */
+function ding_p2_installer_field_update_weight($field_name, $entity_type, $bundle, $view_mode, $weight = 0) {
+  $instance = field_read_instance($entity_type, $field_name, $bundle);
+  $instance['display'][$view_mode]['weight'] = $weight;
+  field_update_instance($instance);  
+}
+
+/**
+ * Implements hook_ctools_plugin_api().
+ */
+function ding_p2_installer_ctools_plugin_api($module = NULL, $api = NULL) {
+  if ($module == "page_manager" && $api == "pages_default") {
+    return array("version" => "1");
+  }
+}
+
+/**
+ * Implements hook_permission().
+ *
+ * Set up the two main permissions for P2.
+ */
+function ding_p2_installer_permission() {
+  return array(
+    'use personalisation' => array(
+      'title' => t('Use personalisation'),
+    ),
+    'administer personalisation' => array(
+      'title' => t('Administer personalisation'),
+    ),    
+  );
+}
+
+/**
+ * Implements hook_secure_permissions().
+ */
+function ding_p2_installer_secure_permissions($role) {
+  $permissions = array(
+    'authenticated user' => array('use personalisation'),
+    'local administrator' => array('administer personalisation'),
+  );
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
+}

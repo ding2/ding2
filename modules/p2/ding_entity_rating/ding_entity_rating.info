@@ -1,0 +1,18 @@
+name = Ding entity rating
+description = Allow users to rate ting objects
+package = Ding!
+core = 7.x
+
+dependencies[] = ding_list
+dependencies[] = ding_user
+dependencies[] = ding_entity
+dependencies[] = ding_serendipity
+dependencies[] = ding_provider
+dependencies[] = ting_carousel
+dependencies[] = virtual_field
+dependencies[] = features
+features[features_api][] = api:2
+features[field_base][] = ding_entity_rating_action
+features[field_instance][] = ting_object-ting_object-ding_entity_rating_action
+features[field_base][] = ding_entity_rating_result
+features[field_instance][] = ting_object-ting_object-ding_entity_rating_result

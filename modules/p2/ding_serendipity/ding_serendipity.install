@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * @file
+ * Install file
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_serendipity_uninstall() {
+  variable_del('ding_serendipity_enable_cache');
+  variable_del('ding_serendipity_cache_lifetime');
+  variable_del('ding_serendipity_isslow_timeout');
+  variable_del('ding_serendipity_search_string_final');
+  variable_del('ding_serendipity_weights');
+}

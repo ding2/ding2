@@ -1,0 +1,5 @@
+name = Ding interaction
+description = Interaction delivery for users
+package = Ding!
+version = "7.x-1.x-dev"
+core = 7.x

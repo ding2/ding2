@@ -1,0 +1,11 @@
+name = Lazy Pane
+description = A ctools "cache" plugin that prevents a pane from rendering, loading it later on demand from the client side when it's actually needed, through AJAX.
+package = Chaos tool suite
+core = 7.x
+
+; Information added by Drupal.org packaging script on 2015-07-14
+version = "7.x-1.2"
+core = "7.x"
+project = "lazy_pane"
+datestamp = "1436880840"
+
