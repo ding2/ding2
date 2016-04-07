@@ -336,6 +336,7 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
     $event = $p2b->getEvent($event_maker_id, $event_id);
     $meta_data = $event->meta_data;
     $start = strtotime($event->begin_at);
+
     if (time() < $start) {
       // Go through the event state.
       switch ($meta_data->event_state) {
@@ -344,7 +345,7 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
           switch ($meta_data->sales_status) {
             case 'open':
               // Check if there is any available tickets for sale.
-              if ($meta_data->available_tickets > 0 || $meta_data->available_tickets == '∞') {
+              if ($meta_data->available_tickets > 0 || strval($meta_data->available_tickets) == '∞') {
                 $status = 'open';
               }
               else {
@@ -352,6 +353,15 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
               }
               break;
 
+            default:
+              $status = 'closed';
+              break;
+          }
+          break;
+
+        case 'pause':
+          // Go through the sales status.
+          switch ($meta_data->sales_status) {
             case 'upcoming':
               $status = 'upcoming';
               break;
@@ -360,6 +370,7 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
               $status = 'closed';
               break;
           }
+          break;
 
         default:
           $status = 'closed';
@@ -368,7 +379,7 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
     }
     else {
       $status = 'event-over';
-      $class = 'info ticket-info';
+      $class = 'info';
 
     }
 
