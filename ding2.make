@@ -276,7 +276,7 @@ projects[realname][subdir] = "contrib"
 projects[realname][version] = "1.2"
 
 projects[redirect][subdir] = "contrib"
-projects[redirect][version] = "1.0-rc1"
+projects[redirect][version] = "1.0-rc3"
 
 projects[relation][subdir] = "contrib"
 projects[relation][version] = "1.0"
