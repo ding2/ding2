@@ -30,11 +30,10 @@ class ReservationReadyToPickupTest extends PHPUnit_Extensions_SeleniumTestCase {
     $this->abstractedPage->waitForPage();
 
     // Check for reservation ready for pickup quick link.
-    $this->assertElementPresent('link=User status');
-    $this->click('link=User status');
+    $this->assertElementPresent('link=1 Reservation ready for pick-up');
+    $this->click('link=1 Reservation ready for pick-up');
     $this->abstractedPage->waitForPage();
 
-    $this->click('link=Mine reserveringer');
     // Check for correct page heading.
     sleep(5);
     $this->assertElementContainsText('css=h2.pane-title', 'My reservations');
@@ -89,7 +88,7 @@ class ReservationReadyToPickupTest extends PHPUnit_Extensions_SeleniumTestCase {
 
     // This should trigger a popup confirmation.
     $this->abstractedPage->waitForElement('css=.ding-popup-content #ding-reservation-delete-reservations-form');
-    $this->mouseDown('css=.ding-popup-content #ding-reservation-delete-reservations-form input[type="submit"]');
+    $this->mouseDown('css=.ding-popup-content #ding-reservation-delete-reservations-form a#edit-delete');
     // Wait for ajax to finish.
     sleep(5);
     $this->abstractedPage->refresh();

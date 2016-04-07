@@ -1,7 +1,7 @@
 Selenium tests for DDB CMS
 ==========================
 
-Latest changes viable for ding2 tag: `7.x-2.4.4`
+Latest changes viable for ding2 tag: `7.x-2.5.0`
 All tests are grouped in files, by area of testing.
 Method name denotes the tested feature.
 
@@ -94,7 +94,7 @@ Any settings different from these, can lead to some assertions fail.
 Some of the assertions might fail as well, due to changed responses from various servies (e.g.: OpenSearch).
 
 ### Webservices
-The tests cover the ding2 `7.x-2.4.4` clean installation with the following settings:
+The tests cover the ding2 `7.x-2.5.0` clean installation with the following settings:
 - `/admin/config/ting/settings`
 - TING OpenSearch agencyId:   **775100**
 - TING OpenSearch Profile:    **ding2taltest**
