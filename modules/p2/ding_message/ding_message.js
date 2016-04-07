@@ -4,6 +4,18 @@
  */
 
 (function ($) {
+  
+  function get_url_parameter(sParam) {
+    var sPageURL = window.location.search.substring(1);
+    var sURLVariables = sPageURL.split('&');
+    for (var i = 0; i < sURLVariables.length; i++) {
+      var sParameterName = sURLVariables[i].split('=');
+      if (sParameterName[0] == sParam) {
+        return decodeURIComponent(sParameterName[1]);
+      }
+    }
+    return false;
+  }
 
   // Handle display of new content in the search by marking new since last check.
   // We add a star to show that the content is new.
@@ -54,16 +66,4 @@
       }
     }
   };
-  
-  function get_url_parameter(sParam) {
-    var sPageURL = window.location.search.substring(1);
-    var sURLVariables = sPageURL.split('&');
-    for (var i = 0; i < sURLVariables.length; i++) {
-      var sParameterName = sURLVariables[i].split('=');
-      if (sParameterName[0] == sParam) {
-        return decodeURIComponent(sParameterName[1]);
-      }
-    }
-    return false;
-  }
 })(jQuery);

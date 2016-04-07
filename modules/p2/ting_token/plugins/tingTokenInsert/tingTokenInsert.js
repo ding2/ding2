@@ -21,10 +21,12 @@ Drupal.wysiwyg.plugins['tingTokenInsert'] = {
    * Invoke is called when the toolbar button is clicked.
    */
   invoke: function(data, settings, instanceId) {
+    var content = undefined;
+    
     // Typically, an icon might be added to the WYSIWYG, which HTML gets added
     // to the plain-text version.
     if (data.format == 'html') {
-      var content = this._getIds(data.content);
+      content = this._getIds(data.content);
       if (content !== '') {
         settings.tingIds = content;
       } else {
@@ -32,7 +34,7 @@ Drupal.wysiwyg.plugins['tingTokenInsert'] = {
       }
     }
     else {
-      var content = '<!--tingInsert-->';
+      content = '<!--tingInsert-->';
     }
     if (typeof content !== 'undefined') {
       Drupal.wysiwyg.plugins.tingTokenInsert.insert_form(data, settings, instanceId);
@@ -123,7 +125,7 @@ Drupal.wysiwyg.plugins['tingTokenInsert'] = {
    * Helper function to return ids from a placeholder.
    */
   _getIds: function (content) {
-    var ids = ''
+    var ids = '',
       viewMode = Drupal.settings.ting_token.viewMode;
     if(content.indexOf('[ting:' + viewMode + ':') === 0 && content.indexOf(']') === (content.length - 1)) {
       content = content.replace('[ting:' + viewMode + ':', '');

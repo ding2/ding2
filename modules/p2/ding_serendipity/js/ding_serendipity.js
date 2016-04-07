@@ -11,8 +11,9 @@
    */
   Drupal.ding_serendipity = {};
   Drupal.ding_serendipity.refresh_content = function(ajax, response, status) {
-    var $serendipitypane = $('.pane-serendipity-ting-object .pane-content');
-    $context = Drupal.settings.ding_serendipity.context;
+    var
+      $serendipitypane = $('.pane-serendipity-ting-object .pane-content'),
+      $context = Drupal.settings.ding_serendipity.context;
       
     if(response.data) {
       var _data = JSON.parse(response.data);
@@ -45,7 +46,7 @@
       $('div[class*="pane-serendipity"] .ting-object, .ding-serendipity-analytics .ting-object', context).each(function() {
         var _source = $('.ding-serendipity-source', this).text();
         $('a', this).click(function(evt) {
-          _gaq.push(['_trackEvent', 'Serendipy', 'click', _source]);
+          this._gaq.push(['_trackEvent', 'Serendipy', 'click', _source]);
         });
       });
     }
