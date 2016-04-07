@@ -183,7 +183,7 @@ projects[media_youtube][download][revision] = "ca46aba"
 projects[media_youtube][patch][] = "http://drupal.org/files/issues/provide-access-wrapper-1823376-6.patch"
 
 projects[memcache][subdir] = "contrib"
-projects[memcache][version] = "1.0"
+projects[memcache][version] = "1.5"
 
 ; Get a this special version that has support for features export.
 projects[menu_block][type] = "module"
