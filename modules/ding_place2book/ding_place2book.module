@@ -90,11 +90,11 @@ function ding_place2book_menu() {
     'file' => 'ding_place2book.admin.inc',
   ];
 
-  $items['ding/p2b/event_maker/%/event/%'] = array(
+  $items['ding/p2b/event_maker/%/event/%'] = [
     'page callback' => 'ding_place2book_get_event_state',
-    'page arguments' => array(3, 5),
-    'access arguments' => array('access content'),
-  );
+    'page arguments' => [3, 5],
+    'access arguments' => ['access content'],
+  ];
 
   return $items;
 }
@@ -144,7 +144,7 @@ function ding_place2book_node_delete($node) {
  * @return array
  *   Array with need for request data.
  */
-function ding_p2b_format_options($node, $additional) {
+function ding_p2b_format_options($node, array $additional) {
   $options = [
     "name" => ['title'],
     "description_short" => ['field_ding_event_lead', LANGUAGE_NONE, 0, 'value'],
@@ -155,7 +155,12 @@ function ding_p2b_format_options($node, $additional) {
   $data = (array) $node;
   foreach ($options as $name => $option) {
 
-    if (in_array($name, ['begin_at', 'end_at', 'sale_open_at', 'sale_close_at'])) {
+    if (in_array($name, [
+      'begin_at',
+      'end_at',
+      'sale_open_at',
+      'sale_close_at',
+    ])) {
       $date = (string) drupal_array_get_nested_value($data, $option);
       array_pop($option);
       $option[] = 'timezone_db';
@@ -200,9 +205,19 @@ function _ding_p2b_get_address_data($node) {
     $lib = (array) node_load($field[0]['target_id']);
   }
   $options = [
-    "address1" => ['field_ding_event_location', LANGUAGE_NONE, 0, 'thoroughfare'],
+    "address1" => [
+      'field_ding_event_location',
+      LANGUAGE_NONE,
+      0,
+      'thoroughfare',
+    ],
     "address2" => ['field_ding_event_location', LANGUAGE_NONE, 0, 'premise'],
-    "postal_code" => ['field_ding_event_location', LANGUAGE_NONE, 0, 'postal_code'],
+    "postal_code" => [
+      'field_ding_event_location',
+      LANGUAGE_NONE,
+      0,
+      'postal_code',
+    ],
     "city" => ['field_ding_event_location', LANGUAGE_NONE, 0, 'locality'],
     "country" => ['field_ding_event_location', LANGUAGE_NONE, 0, 'country'],
     "phone" => ['field_ding_library_phone_number', LANGUAGE_NONE, 0, 'value'],
@@ -255,7 +270,7 @@ function _ding_place2book_get_event_maker($node) {
  * @return string
  *   Export category or empty.
  *
- * @see ding_p2b_format_options().
+ * @see ding_p2b_format_options()
  */
 function _ding_place2book_get_export_category($tid) {
   $mappings = variable_get('ding_p2b_kultunaut_export_category', []);
@@ -271,7 +286,7 @@ function _ding_place2book_get_export_category($tid) {
  * @return string
  *   Export category or empty.
  *
- * @see ding_p2b_format_options().
+ * @see ding_p2b_format_options()
  */
 function _ding_place2book_get_age_group($tid) {
   $mappings = variable_get('ding_p2b_kultunaut_age_group', []);
@@ -298,7 +313,11 @@ function theme_ding_p2b_prices_table($variables) {
     t('Remove'),
   ];
 
-  $output = theme('table', ['rows' => $rows, 'header' => $header, 'empty' => t('Click to add more for adding a row.')]);
+  $output = theme('table', [
+    'rows' => $rows,
+    'header' => $header,
+    'empty' => t('Click to add more for adding a row.'),
+  ]);
   $output .= drupal_render_children($form);
   return $output;
 }
@@ -308,10 +327,8 @@ function theme_ding_p2b_prices_table($variables) {
  *
  * @param string $event_id
  *   Event id of remote service.
- * @param $event_maker_id
+ * @param string $event_maker_id
  *   EventMaker id on remote service.
- *
- * @return string
  */
 function ding_place2book_get_event_state($event_maker_id, $event_id) {
   try {
@@ -360,18 +377,22 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
         $data = l(t('Book a ticket'), $event->links->sales_location, ['attributes' => ['_target' => 'blank']]);
         $class = 'order';
         break;
+
       case 'closed':
         $data = t('The event is closed for admission');
         $class = 'info';
         break;
+
       case 'sold-out':
         $data = t('Sold out');
         $class = 'info';
         break;
+
       case 'upcoming':
         $data = t('Ticket sale has not yet started for this event');
         $class = 'info';
         break;
+
       case 'event-over':
         $data = t('The event has already taken place');
         $class = 'info';

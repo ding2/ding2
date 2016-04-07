@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains all method which relates to installing/uninstalling module and DB scheme..
+ * Contains all methods, related to in/uninstalling module and DB scheme.
  */
 
 /**

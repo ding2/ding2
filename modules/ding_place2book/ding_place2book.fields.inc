@@ -269,7 +269,7 @@ function ding_place2book_widget_validate($form, &$form_state) {
     $start = $values['field_ding_event_date'][LANGUAGE_NONE][0]['value'];
     $start = strtotime($start);
     if (round(abs(time() - $start) / 60, 2) == 0) {
-      form_set_error('field_ding_event_date][und][0][value][date', t('Event date can\'t be in the past.'));
+      form_set_error('field_ding_event_date][und][0][value][date', t("Event date can't be in the past."));
     }
   }
 }
@@ -472,4 +472,3 @@ function ding_place2book_field_formatter_view($entity_type, $entity, $field, $in
   }
   return $element;
 }
-
