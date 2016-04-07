@@ -110,3 +110,40 @@ function fbs_user_update_pincode($account, $new_pincode) {
   $result['creds']['library_card_number'] = $patron_info['library_card_number'];
   return $result;
 }
+
+/**
+ * Create new user through self registration.
+ *
+ * @param string $cpr
+ *   The users CPR/borrow id.
+ * @param string $pin_code
+ *   Selected pin code.
+ * @param string $name
+ *   The borrowers name.
+ * @param string $mail
+ *   The borrowers e-mail.
+ * @param string $branch_id
+ *   The selected default branch's id.
+ *
+ * @throws \Exception
+ *   If the user exists at the provider.
+ */
+function fbs_user_create($cpr, $pin_code, $name, $mail, $branch_id) {
+  try {
+    $create_request = new FBS\Model\CreatePatronRequest();
+    $create_request->cprNumber = $cpr;
+    $create_request->pincode = $pin_code;
+    $create_request->patron = new FBS\Model\PatronSettings();
+    $create_request->patron->emailAddress = $mail;
+    $create_request->patron->preferredPickupBranch = $branch_id;
+    $create_request->patron->receiveEmail = TRUE;
+    $create_request->patron->receivePostalMail = FALSE;
+    $create_request->patron->receiveSms = FALSE;
+
+    fbs_service()->Patron->create(fbs_service()->agencyId, $create_request);
+  }
+  catch (AlmaClientUserAlreadyExistsError $exception) {
+    // Throw new exception that is not provider dependent.
+    throw new Exception('User account already exists');
+  }
+}
