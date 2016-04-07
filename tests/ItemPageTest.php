@@ -25,9 +25,9 @@ class ItemPageTest extends PHPUnit_Extensions_SeleniumTestCase {
     $this->abstractedPage->userMakeSearch('dorthe nors');
 
     // Check the item title on search result page.
-    $this->assertTrue($this->isElementPresent('link=Stormesteren'));
+    $this->assertTrue($this->isElementPresent('link=Stormesteren : roman'));
     // Click on title. Goes to collection page.
-    $this->click('link=Stormesteren');
+    $this->click('link=Stormesteren : roman');
     $this->abstractedPage->waitForPage();
 
     // Check the item title on the collection page.
