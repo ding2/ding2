@@ -35,7 +35,7 @@ class UserProfileTest extends PHPUnit_Extensions_SeleniumTestCase {
     // Check for pane title.
     $this->assertElementContainsText('css=.pane-title', 'Profile for Alma');
     // Set new branch and period.
-    $this->select('css=#edit-profile-provider-alma-field-alma-preferred-branch-und', 'value=l~oek');
+    $this->select('css=#edit-profile-provider-alma-field-alma-preferred-branch-und', 'value=bed');
     $this->select('css=#edit-profile-provider-alma-field-alma-interest-period-und', 'value=360');
 
     // Set reservation pause start.
@@ -57,7 +57,7 @@ class UserProfileTest extends PHPUnit_Extensions_SeleniumTestCase {
     $this->type('css=#edit-pincode-pass2', '6666');
 
     // Save the form.
-    $this->click('css=#user-profile-form input[type="submit"]');
+    $this->click('css=#user-profile-form input.form-submit');
     $this->abstractedPage->waitForPage();
 
     // Log out, to test new pin code.
@@ -75,14 +75,14 @@ class UserProfileTest extends PHPUnit_Extensions_SeleniumTestCase {
 
     // Check various fields on profile page for updated information.
     $this->assertElementContainsText('css=.pane-profile2 h2', 'Your information');
-    $this->assertElementContainsText('css=.pane-profile2 .field-name-field-alma-full-name .field-items', 'Fagreferent.CS');
-    $this->assertElementContainsText('css=.pane-profile2 .field-name-field-alma-street-name .field-items', 'Adresse --');
-    $this->assertElementContainsText('css=.pane-profile2 .field-name-field-alma-postal-code .field-items', '9800');
-    $this->assertElementContainsText('css=.pane-profile2 .field-name-field-alma-city .field-items', 'Hjørring');
-    $this->assertElementContainsText('css=.pane-profile2 .field-name-field-alma-mail .field-items', 'claus.just@hjoerring.dk');
-    $this->assertElementContainsText('css=.pane-profile2 .field-name-field-alma-sms .field-items', '40207780(Notice that there is a fee for receiving a SMS)');
-    $this->assertElementContainsText('css=.pane-profile2 .field-name-field-alma-preferred-branch .field-items', 'Løkken');
-    $this->assertElementContainsText('css=.pane-profile2 .field-name-field-alma-reservation-pause .field-items', 'Saturday, 30. September, 2017 to Sunday, 30. September, 2018');
+    $this->assertElementContainsText('css=.pane-profile2 .field-name-field-alma-full-name .field-items', 'DDBCMS - testbruger 1');
+    $this->assertElementContainsText('css=.pane-profile2 .field-name-field-alma-street-name .field-items', 'Vestre Ringgade 200');
+    $this->assertElementContainsText('css=.pane-profile2 .field-name-field-alma-postal-code .field-items', '8000');
+    $this->assertElementContainsText('css=.pane-profile2 .field-name-field-alma-city .field-items', 'Århus C.');
+    $this->assertElementContainsText('css=.pane-profile2 .field-name-field-alma-mail .field-items', 'gba@aarhus.dk');
+    $this->assertElementContainsText('css=.pane-profile2 .field-name-field-alma-mobile-phone .field-items', '11223344');
+    $this->assertElementContainsText('css=.pane-profile2 .field-name-field-alma-preferred-branch .field-items', 'Beder-Malling');
+    $this->assertElementContainsText('css=.pane-profile2 .field-name-field-alma-reservation-pause .field-items', 'Friday, 30. June, 2017 to Saturday, 30. June, 2018');
     $this->assertElementContainsText('css=.pane-profile2 .field-name-field-alma-interest-period .field-items', '12 months');
   }
 }

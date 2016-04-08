@@ -39,31 +39,40 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
     // This relies on the dummy LMS service, so the data should be pre-defined.
     $notready_for_pickup = array(
       array(
-        'Nøglen til Da Vinci mysteriet',
+        'Alt om haven',
+        '2012, 15',
+        '1',
+        '7. September 2015',
+        'Hovedbiblioteket',
+        '11. March 2015',
+        '12846957',
+      ), 
+      array(
+        'Mad & venner',
+        '2012, December, Nr. 092',
+        '1',
+        '5. March 2016',
+        'Hovedbiblioteket',
+        '11. March 2015',
+        '12846959',
+      ), 
+      array(
+        'Title not available',
+        '2012, Januar, 1',
+        '1',
+        '24. May 2016',
+        'Hovedbiblioteket',
+        '26. November 2015',
+        '12846996',
+      ),
+      array(
+        'Hr. Peters blomster',
         '',
         '1',
-        '2. December 2014',
-        'Sindal',
-        '4. September 2014',
-        '1415027',
-      ),
-      array(
-        'Alt for damerne',
-        '2010, 39',
-        '1',
-        '30. November 2014',
-        'Sindal',
-        '2. September 2014',
-        '1414204',
-      ),
-      array(
-        'Folkepension og delpension',
-        '2014, 130. udgave',
-        '1',
-        '3. September 2015',
-        'Sindal',
-        '2. September 2014',
-        '1415949',
+        '15. June 2016',
+        'Hovedbiblioteket',
+        '21. June 2015',
+        '12846965',
       ),
     );
     for ($i = 0; $i < count($notready_for_pickup); $i++) {
@@ -121,7 +130,7 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
     $this->assertElementPresent('css=#ding-reservation-update-reservations-form #edit-provider-options-interest-period');
 
     // Select a different branch.
-    $this->select('css=#ding-reservation-update-reservations-form #edit-provider-options-alma-preferred-branch', 'value=hj~oe');
+    $this->select('css=#ding-reservation-update-reservations-form #edit-provider-options-alma-preferred-branch', 'value=bed');
 
     // Select a different interest period.
     $this->select('css=#ding-reservation-update-reservations-form #edit-provider-options-interest-period', 'value=360');
@@ -136,20 +145,25 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
     // Check the results again.
     $notready_for_pickup = array(
       array(
-          'Nøglen til Da Vinci mysteriet',
-          '30. August 2015',
-          'Hjørring',
+        'Alt om haven',
+        '5. March 2016',
+        'Beder-Malling',
       ),
       array(
-          'Folkepension og delpension',
-          '3. September 2015',
-          'Hjørring',
+        'Mad & venner',
+        '5. March 2016',
+        'Beder-Malling',
       ),
       array(
-          'Alt for damerne',
-          '28. August 2015',
-          'Hjørring',
+        'Title not available',
+        '20. November 2016',
+        'Beder-Malling',
       ),
+      array(
+        'Hr. Peters blomster',
+        '15. June 2016',
+        'Beder-Malling',
+      ),    
     );
     for ($i = 0; $i < count($notready_for_pickup); $i++) {
       // Check title field.
@@ -161,10 +175,10 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
     }
 
 
-    // Test the ability to delete a reservation .
-    // Check if the checkbox for certain item is present, then click it.
-    $this->assertElementPresent('css=#ding-reservation-reservations-notready-form .material-item:eq(2) input[type="checkbox"]');
-    $this->click('css=#ding-reservation-reservations-notready-form .material-item:eq(2) input[type="checkbox"]');
+    // Test the ability to delete a reservation.
+    // Check if the checkbox for FIRST item is present, then click it.
+    $this->assertElementPresent('css=#ding-reservation-reservations-notready-form .material-item:eq(3) input[type="checkbox"]');
+    $this->click('css=#ding-reservation-reservations-notready-form .material-item:eq(3) input[type="checkbox"]');
 
     // A delete button should appear.
     $this->abstractedPage->waitForElement('css=#edit-actions-top-delete--2');
@@ -172,11 +186,11 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
 
     // This should trigger a popup confirmation.
     $this->abstractedPage->waitForElement('css=.ding-popup-content #ding-reservation-delete-reservations-form');
-    $this->mouseDown('css=.ding-popup-content #ding-reservation-delete-reservations-form input[type="submit"]');
+    $this->click('css=.ding-popup-content #ding-reservation-delete-reservations-form a#edit-delete');
     // Wait for ajax to finish.
     sleep(5);
     $this->abstractedPage->refresh();
-    // Check the item is deleted.
-    $this->assertElementNotPresent('css=#ding-reservation-reservations-notready-form .material-item:eq(2)');
+    // Check the item is no more present.
+    $this->assertElementNotPresent('link=Hr. Peters blomster');
   }
 }
