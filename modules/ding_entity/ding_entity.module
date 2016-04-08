@@ -179,10 +179,10 @@ function ding_entity_field_info() {
     'description' => t('Action buttons.'),
     'default_widget' => 'hidden',
     'default_formatter' => 'ding_entity_buttons_default',
-      'virtual_field' => array(
-        'entity_types' => array('ting_object'),
-        'add_widget' => TRUE,
-      ),
+    'virtual_field' => array(
+      'entity_types' => array('ting_object'),
+      'add_widget' => TRUE,
+    ),
   );
 
   return $fields;
@@ -360,6 +360,9 @@ abstract class DingEntity extends DingEntityBase {
    */
   public $abstract = DingEntityBase::NULL;
 
+  /**
+   * Get ID of this object.
+   */
   public function getId() {
     return $this->id = $this->ding_entity_id;
   }
@@ -409,6 +412,9 @@ abstract class DingEntityCollection extends DingEntityBase {
    */
   public $entities = DingEntityBase::NULL;
 
+  /**
+   * Get ID of this object.
+   */
   public function getId() {
     return $this->id = $this->ding_entity_id;
   }
