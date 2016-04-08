@@ -142,8 +142,11 @@ function fbs_user_create($cpr, $pin_code, $name, $mail, $branch_id) {
 
     fbs_service()->Patron->create(fbs_service()->agencyId, $create_request);
   }
-  catch (AlmaClientUserAlreadyExistsError $exception) {
-    // Throw new exception that is not provider dependent.
-    throw new Exception('User account already exists');
+  catch (\Reload\Prancer\SwaggerApiExtendedError $exception) {
+    if ($exception->payload->errorCode == 'CPR_NUMBER_EXISTS') {
+      throw new DingProviderAuthUserExistsError('User account already exists');
+    }
+    // Re-throw other errors.
+    throw new $exception;
   }
 }
