@@ -1,16 +1,10 @@
 <?php
 
-require_once(__DIR__ . '/../bootstrap.php');
+require_once 'Ding2TestBase.php';
 
-class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
-  protected $abstraction;
-  protected $config;
-
+class ReservationTest extends Ding2TestBase {
   protected function setUp() {
-    $this->abstractedPage = new DDBTestPageAbstraction($this);
-    $this->config = new DDBTestConfig();
-    $this->setBrowser($this->config->getBrowser());
-    $this->setBrowserUrl($this->config->getUrl());
+    parent::setUp();
     resetState($this->config->getLms());
   }
 
@@ -46,7 +40,7 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
         'Hovedbiblioteket',
         '11. March 2015',
         '12846957',
-      ), 
+      ),
       array(
         'Mad & venner',
         '2012, December, Nr. 092',
@@ -55,7 +49,7 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
         'Hovedbiblioteket',
         '11. March 2015',
         '12846959',
-      ), 
+      ),
       array(
         'Title not available',
         '2012, Januar, 1',
@@ -163,7 +157,7 @@ class ReservationTest extends PHPUnit_Extensions_SeleniumTestCase {
         'Hr. Peters blomster',
         '15. June 2016',
         'Beder-Malling',
-      ),    
+      ),
     );
     for ($i = 0; $i < count($notready_for_pickup); $i++) {
       // Check title field.

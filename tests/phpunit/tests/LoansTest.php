@@ -1,18 +1,10 @@
 <?php
 
-require_once(__DIR__ . '/../bootstrap.php');
+require_once 'Ding2TestBase.php';
 
-class LoansTest extends PHPUnit_Extensions_SeleniumTestCase {
-  protected $abstractedPage;
-  protected $config;
-
+class LoansTest extends Ding2TestBase {
   protected function setUp() {
-    $this->abstractedPage = new DDBTestPageAbstraction($this);
-    $this->config = new DDBTestConfig();
-
-    $this->setBrowser($this->config->getBrowser());
-    $this->setBrowserUrl($this->config->getUrl());
-
+    parent::setUp();
     $url = $this->config->getLms() . '/alma/patron/loans?borrCard=' . $this->config->getUser() . '&pinCode=' . $this->config->getPass();
     $this->mock = new DOMDocument();
     $this->mock->loadXML(@file_get_contents($url));
