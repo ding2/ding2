@@ -13,23 +13,23 @@ function ding_place2book_field_schema($field) {
   switch ($field['type']) {
     case 'ding_p2b':
       $schema['columns'] = [
-        'p2b_id' => [
+        'event_id' => [
           'type' => 'varchar',
           'length' => 256,
-          'not null' => TRUE,
-          'default' => '',
+          'not null' => FALSE,
+          'default' => NULL,
         ],
-        'event_maker' => [
+        'event_maker_id' => [
           'type' => 'varchar',
           'length' => 256,
-          'not null' => TRUE,
-          'default' => '',
+          'not null' => FALSE,
+          'default' => NULL,
         ],
-        'price_id' => [
-          'type' => 'varchar',
-          'length' => 256,
+        'synchronize' => [
+          'type' => 'int',
+          'size' => 'tiny',
           'not null' => TRUE,
-          'default' => '',
+          'default' => 0,
         ],
       ];
       break;

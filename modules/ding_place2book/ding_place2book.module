@@ -118,16 +118,20 @@ function ding_place2book_node_delete($node) {
     $p2b = P2b\P2b::getInstance();
     $field_place2book = field_get_items('node', $node, 'field_place2book');
     if (!empty($field_place2book)) {
-      list($event_id, $event_maker_id, $price_id) = array_values($field_place2book[0]);
+      list($event_id, $event_maker_id) = array_values($field_place2book[0]);
       try {
-        $p2b->deletePrice($event_id, $event_maker_id, $price_id);
-        $p2b->deleteEvent($event_id, $event_maker_id);
+        $prices = $p2b->getPrices($event_maker_id, $event_id);
+        foreach ($prices as $price) {
+          $p2b->deletePrice($event_maker_id, $event_id, $price->id);
+        }
       }
       catch (Exception $ex) {
         watchdog_exception('ding_place2book', $ex, t('Error appeared on deleting node: nid - :nid, title - :title.', [
           ':nid' => $node->nid,
           ':title' => $node->title,
         ]));
+      } finally {
+        $p2b->deleteEvent($event_maker_id, $event_id);
       }
     }
   }
@@ -414,7 +418,6 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
   }
   catch (Exception $ex) {
     watchdog_exception('ding_place2book', $ex);
-    $output = "<div class='place2book>Error on fetching.</div>";
   }
   print ajax_render($output);
   exit();

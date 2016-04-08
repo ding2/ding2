@@ -522,7 +522,7 @@ class P2b {
     $url = $this->p2bFormatUrl(self::$deletePrice, $placeholders);
     $result = $this->p2bRequest($url, 'DELETE', [], 204);
 
-    return $result->price;
+    return $result;
   }
 
   /**
@@ -537,8 +537,8 @@ class P2b {
    * @param int $code
    *   Correct code of response.
    *
-   * @return object If as result got FALSE.
-   *   If as result got FALSE.
+   * @return object
+   *   If we have result or throws exception.
    *
    * @throws \Exception
    *   In case when response code not equal to excepted.
@@ -567,7 +567,7 @@ class P2b {
 
     $response = self::$client->request($type, $url, $options);
     if ($response->getStatusCode() == $code) {
-      $data = $this->parseResponse($response->getBody());
+      $data = $type == 'DELETE' ? new \stdClass() : $this->parseResponse($response->getBody());
     }
     else {
       $res_code = $response->getStatusCode();
