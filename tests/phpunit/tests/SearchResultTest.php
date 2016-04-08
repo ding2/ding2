@@ -1,16 +1,8 @@
 <?php
 
-class SearchResultTest extends PHPUnit_Extensions_SeleniumTestCase {
-  protected $abstractedPage;
-  protected $config;
+require_once 'Ding2TestBase.php';
 
-  protected function setUp() {
-    $this->abstractedPage = new DDBTestPageAbstraction($this);
-    $this->config = new DDBTestConfig();
-    $this->setBrowser($this->config->getBrowser());
-    $this->setBrowserUrl($this->config->getUrl());
-  }
-
+class SearchResultTest extends Ding2TestBase {
   /**
    * Test search functionality as anonymous.
    *

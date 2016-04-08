@@ -1,17 +1,10 @@
 <?php
 
-require_once(__DIR__ . '/../bootstrap.php');
+require_once 'Ding2TestBase.php';
 
-class ItemPageTest extends PHPUnit_Extensions_SeleniumTestCase {
-  protected $abstractedPage;
-  protected $config;
-
+class ItemPageTest extends Ding2TestBase {
   protected function setUp() {
-    $this->abstractedPage = new DDBTestPageAbstraction($this);
-    $this->config = new DDBTestConfig();
-
-    $this->setBrowser($this->config->getBrowser());
-    $this->setBrowserUrl($this->config->getUrl());
+    parent::setUp();
     resetState($this->config->getLms());
   }
 
@@ -94,7 +87,7 @@ class ItemPageTest extends PHPUnit_Extensions_SeleniumTestCase {
     }
     else {
       $this->assertTrue($this->isElementPresent('css=div.ding-popup-content .messages.status'));
-     } 
+     }
   }
 
   /**

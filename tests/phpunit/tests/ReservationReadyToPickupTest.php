@@ -1,18 +1,10 @@
 <?php
 
-require_once(__DIR__ . '/../bootstrap.php');
+require_once 'Ding2TestBase.php';
 
-class ReservationReadyToPickupTest extends PHPUnit_Extensions_SeleniumTestCase {
-  protected $abstraction;
-  protected $config;
-
+class ReservationReadyToPickupTest extends Ding2TestBase {
   protected function setUp() {
-    $this->abstractedPage = new DDBTestPageAbstraction($this);
-    $this->config = new DDBTestConfig();
-
-    $this->setBrowser($this->config->getBrowser());
-    $this->setBrowserUrl($this->config->getUrl());
-
+    parent::setUp();
     resetState($this->config->getLms());
   }
 
