@@ -147,6 +147,6 @@ function fbs_user_create($cpr, $pin_code, $name, $mail, $branch_id) {
       throw new DingProviderAuthUserExistsError('User account already exists');
     }
     // Re-throw other errors.
-    throw new $exception;
+    throw $exception;
   }
 }
