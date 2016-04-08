@@ -89,31 +89,7 @@
         update_carousel(false, $(this).find(':selected').index());
       });
 
-      // Get the list of tabs and the number of tabs in the list.
-      var tabsList = $('.ting-search-carousel-list-tabs');
-      var childCount = tabsList.children('li').length;
-
-      // Only do somehting if there actually is tabs
-      if (childCount > 0) {
-
-        // Get the width of the <ul> list element.
-        var parentWidth = tabsList.width();
-
-        // Calculate the width of the <li>'s.
-        var childWidth = Math.floor(parentWidth / childCount);
-
-        // Calculate the last <li> width to combined childrens width it self not
-        // included.
-        var childWidthLast = parentWidth - ( childWidth * (childCount -1) );
-
-        // Set the tabs css widths.
-        tabsList.children().css({'width' : childWidth + 'px'});
-        tabsList.children(':last-child').css({'width' : childWidthLast + 'px'});
-      }
-
       /**
-       * Function updates carousel on tab switching.
-       *
        * @param bool increment
        *   Determines if we should we switch to next tab or to first.
        * @param bool|string user_selected
