@@ -267,9 +267,6 @@ function _ting_field_search_append_cql($request, $cql) {
  * thereofore moved to seperate helper function.
  * Implements a special modifier which bypasses the broken sort behavior in the
  * Ting search module.
- *
- * TODO: Need to find a way remove the modifier in certain cases. Maybe set a
- * flag in the validate handler when the search form is submitted...
  */
 function _ting_field_search_detect_sort($profile) {
   $sort = FALSE;
@@ -475,8 +472,6 @@ function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_
       // It is unclear at this point whether webtrends parametets should be
       // added here, so just add the profile directly for now.
       $options['query']['profile'] = $profile;
-
-      unset($options['query']['sort']);
     }
   }
 
@@ -721,6 +716,13 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
     '#default_value' => $profile ? $profile : '',
   );
 
+  // Store the name of the name of the profile that was active when rendering
+  // the form. This can be usefull information in form submission.
+  $form['ting_field_search_profile'] = array(
+    '#type' => 'hidden',
+    '#default_value' => $profile ? $profile : '',
+  );
+
   // Use a validate handler for its timing before ting_search_submit() which is
   // a submit handler. This makes us independent of a specific module weight.
   $form['#validate'][] = 'ting_field_search_search_block_validate';
@@ -746,11 +748,23 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
 }
 
 /**
- * Custom validate handler for the search block form.
+ * Validate handler for the search block form.
  */
 function ting_field_search_search_block_validate($form, &$form_state) {
-  if (!empty($form_state['values']['ting_field_search'])) {
-    ting_field_search_set_selected_profile($form_state['values']['ting_field_search']);
+  $previous_profile = $form_state['values']['ting_field_search_profile'];
+  $selected_profile = $form_state['values']['ting_field_search'];
+
+  // Reset the sort if the user is changing profile. This is the most intuitive
+  // and fixes several issues when the different profiles is using different
+  // default sort settings.
+  if ($previous_profile != $selected_profile) {
+    $form_state['values']['sort'] = '';
+  }
+
+  // Flag that a profile was selected for later in the redirect.
+  // See: ting_field_search_goto_alter().
+  if ($selected_profile) {
+    ting_field_search_set_selected_profile($selected_profile);
   }
 }
 
