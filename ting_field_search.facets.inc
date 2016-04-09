@@ -40,7 +40,7 @@ function ting_field_search_form_ding_facetbrowser_form_alter(&$form, &$form_stat
     $parameters = drupal_get_query_parameters(NULL, array('q', 'page'));
     // We'll just pass the parameters array through the helper to ensure all
     // parameters are added to the query.
-    _ting_field_search_append_query($parameters, $profile);
+    ting_field_search_append_query($parameters, $profile);
     if (!empty($parameters['facets'])) {
       $facet_parameters = $parameters['facets'];
       foreach ($facet_parameters as $key => $facet) {
