@@ -185,67 +185,70 @@ function ting_field_search_get_status() {
  */
 function ting_field_search_ting_pre_execute($request) {
   if ($profile = ting_field_search_profile_is_active()) {
-    // Use the active profile (VIP) on any request that supports it.
-    if (method_exists($request, 'setProfile')) {
-      $request->setProfile($profile->config['search_request']['search_well_profile']);
-    }
+    $config = $profile->config;
+    $search_well_profile = $config['search_request']['search_well_profile'];
+    $result_well_profile = $config['search_request']['result_well_profile'];
 
-    // Ensure that we only inject CQL into searches against the datawell.
-    if (get_class($request) == 'TingClientSearchRequest') {
-      // Additional CQL setting.
-      if (!empty($profile->query)) {
-        _ting_field_search_append_cql($request, $profile->query);
-      }
-
-      // Default sort.
-      if ($sort = _ting_field_search_detect_sort($profile)) {
-        $request->setSort($sort);
-      }
-
-      // Default size (results per page).
-      if (empty($_REQUEST['size'])) {
-        $size = $profile->config['search_result']['results_per_page'];
-
-        // Ensure the start position is right. We need to override this here as
-        // Ting module has calculated it directly from the default variable
-        // (ting_search_results_per_page).
-        $page = pager_find_page();
-        $request->setStart(($size * $page) + 1);
-        $request->setNumResults($size);
-      }
-
-      // New materials.
-      if ($profile->config['search_request']['new_materials']) {
-        // Get the current date and year.
-        $current_date = new DateTime();
-        $current_year = $current_date->format('Y');
-
-        $days = $profile->config['search_request']['new_materials'];
-        $target_date = $current_date->sub(new DateInterval('P' . $days . 'D'));
-        $target_year = $target_date->format('Y');
-        $expression = 'term.acquisitionDate>=' . $target_date->format('Ymd');
-
-        // Add a 'år=YYYY' condition for every year between target and current
-        // to filter out newly acquired, but older published materials.
-        $year_conditions = ' and (år=' . $target_year++;
-        for (;$target_year <= $current_year; $target_year++) {
-          $year_conditions .= ' or år=' . $target_year;
+    // Using get_class() to ensure we target the correct classes.
+    switch (get_class($request)) {
+      case 'TingClientCollectionRequest':
+        // Fall through.
+      case 'TingClientObjectRequest':
+        // Use an alternative well profile for results if set. Hopefully the
+        // administrator knows what they are doing.
+        if ($result_well_profile) {
+          $request->setProfile($result_well_profile);
         }
-        $year_conditions .= ')';
-        $expression .= $year_conditions;
+        // Otherwise remeber to use the search well profile to ensure results
+        // can be shown.
+        else if ($search_well_profile) {
+          $request->setProfile($search_well_profile);
+        }
+        break;
+      case 'TingClientSearchRequest':
+        // Always use the search well profile on search requests if set.
+        // Otherwise this profile wants to use the default from ting module.
+        if ($search_well_profile) {
+          $request->setProfile($search_well_profile);
+        }
 
-        _ting_field_search_append_cql($request, $expression);
-      }
+        // Additional CQL setting.
+        if ($cql = $config['search_request']['query']) {
+          _ting_field_search_append_cql($request, $cql);
+        }
 
-      // If the profile is using facets, ensure that every configured facet is
-      // sent with the request to the well.
-      if ($profile->config['facets']['use_facets']) {
-        $profile_facets = ting_field_search_facets_load($profile->pid);
-        $request_facets = array_flip($request->getFacets()) + $profile_facets;
-        // Need the keys as values for the request object.
-        $request_facets = array_keys($request_facets);
-        $request->setFacets($request_facets);
-      }
+        // Default sort.
+        if ($sort = _ting_field_search_detect_sort($profile)) {
+          $request->setSort($sort);
+        }
+
+        // Default size (results per page).
+        if ($size = $config['search_result']['results_per_page']) {
+          if (empty($_REQUEST['size'])) {
+            // Override the start posision set by Ting search.
+            $page = pager_find_page();
+            $request->setStart(($size * $page) + 1);
+            $request->setNumResults($size);
+          }
+        }
+
+        // New materials.
+        if ($days = $config['search_request']['new_materials']) {
+          $expression = _ting_field_search_new_materials_cql($days);
+          _ting_field_search_append_cql($request, $expression);
+        }
+
+        // If the profile is using facets, ensure that every configured facet
+        // is sent with the request to the well.
+        if ($config['facets']['use_facets']) {
+          $profile_facets = ting_field_search_facets_load($profile->pid);
+          $request_facets = array_flip($request->getFacets()) + $profile_facets;
+          // Need the keys as values for the request object.
+          $request_facets = array_keys($request_facets);
+          $request->setFacets($request_facets);
+        }
+
+        break;
     }
   }
 }
@@ -292,6 +295,29 @@ function _ting_field_search_detect_sort($profile) {
   }
 
   return $sort;
+}
+
+/**
+ * Helper function to create new materials CQL.
+ */
+function _ting_field_search_new_materials_cql($days) {
+  // Get the current date and year.
+  $current_date = new DateTime();
+  $current_year = $current_date->format('Y');
+
+  // Get the target date and year.
+  $target_date = $current_date->sub(new DateInterval('P' . $days . 'D'));
+  $target_year = $target_date->format('Y');
+  $expression = 'term.acquisitionDate>=' . $target_date->format('Ymd');
+
+  // Add a 'år=YYYY' condition for every year between target and current
+  // to filter out newly acquired, but older published materials.
+  $year_conditions = ' and (år=' . $target_year++;
+  for (;$target_year <= $current_year; $target_year++) {
+    $year_conditions .= ' or år=' . $target_year;
+  }
+  $year_conditions .= ')';
+  $expression .= $year_conditions;
 }
 
 /**
