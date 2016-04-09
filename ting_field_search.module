@@ -185,10 +185,9 @@ function ting_field_search_get_status() {
  */
 function ting_field_search_ting_pre_execute($request) {
   if ($profile = ting_field_search_profile_is_active()) {
-    //file_put_contents("/home/simon/debug/request.txt", print_r($request, TRUE), FILE_APPEND);
     // Use the active profile (VIP) on any request that supports it.
     if (method_exists($request, 'setProfile')) {
-      $request->setProfile($profile->profile);
+      $request->setProfile($profile->config['search_request']['search_well_profile']);
     }
 
     // Ensure that we only inject CQL into searches against the datawell.
@@ -216,12 +215,12 @@ function ting_field_search_ting_pre_execute($request) {
       }
 
       // New materials.
-      if ($profile->config['new_materials']) {
+      if ($profile->config['search_request']['new_materials']) {
         // Get the current date and year.
         $current_date = new DateTime();
         $current_year = $current_date->format('Y');
 
-        $days = $profile->config['new_materials'];
+        $days = $profile->config['search_request']['new_materials'];
         $target_date = $current_date->sub(new DateInterval('P' . $days . 'D'));
         $target_year = $target_date->format('Y');
         $expression = 'term.acquisitionDate>=' . $target_date->format('Ymd');
@@ -240,7 +239,7 @@ function ting_field_search_ting_pre_execute($request) {
 
       // If the profile is using facets, ensure that every configured facet is
       // sent with the request to the well.
-      if ($profile->config['use_facets']) {
+      if ($profile->config['facets']['use_facets']) {
         $profile_facets = ting_field_search_facets_load($profile->pid);
         $request_facets = array_flip($request->getFacets()) + $profile_facets;
         // Need the keys as values for the request object.
@@ -329,24 +328,12 @@ function ting_field_search_profile_is_active() {
       if (ting_field_search_get_status()) {
         // Now we load the profile since this is the most expensive.
         $profile = ting_field_search_profiles_load($_GET['profile']);
-        $profile = array_shift($profile);
 
-        // Ensure the profile exists and is active.
-        if ($profile && $profile->config['active']) {
+        // If the profile exists, store it in the static variable for fast
+        // retrieval later in the request.
+        if ($profile = array_shift($profile)) {
           $result = $profile;
         }
-      }
-      else {
-        watchdog('ting_field_search',
-          'Attempt to activate profile: %profile was blocked, because of incompatible cache backend. Please go to <a href="@install">Installation</a> to correct this.', array(
-            '%profile' => $profile_name,
-            '@install' => url('admin/config/ting-field-search/install', array(
-              // This will be show on the admin reports page.
-              'query' => array('destination' => 'admin/reports/event/9139'),
-            )),
-          ),
-          WATCHDOG_WARNING
-        );
       }
     }
   }
@@ -431,9 +418,7 @@ function ting_field_search_ting_collection_uri($collection) {
  */
 function _ting_field_search_alter_entity_uri($path) {
   if ($profile = ting_field_search_profile_is_active()) {
-    if ($profile->config['search_result']['profile_display']) {
-      _ting_field_search_append_query($path['options']['query'], $profile);
-    }
+    _ting_field_search_append_query($path['options']['query'], $profile);
   }
   return $path;
 }
@@ -483,19 +468,15 @@ function ting_field_search_url_outbound_alter(&$path, &$options, $original_path)
 /**
  * Implements hook_preprocess_ding_availability_types().
  *
- * To fully support the 'profile_display' setting, we need to make sure the
- * avialability links also point to a object/collection profile displays.
- * Since the formatter doesn'ts use entity_uri(), we need to target them with
- * this preproccesor.
+ * Ensure that the availability links gets the profile parameter appended.
  *
  * @see ding_availability_field_formatter_view()
  * @see ting_field_search_entity_info_alter()
  */
 function ting_field_search_preprocess_ding_availability_types(&$variables) {
   $profile = ting_field_search_profile_is_active();
-  // Nothing to do if a profile isn't active or if it doesn't support profile
-  // display.
-  if (!$profile || !$profile->config['search_result']['profile_display']) {
+  // Nothing to do if a profile isn't active.
+  if (!$profile) {
     return;
   }
 
@@ -624,7 +605,7 @@ function ting_field_search_form_ting_admin_ting_settings_alter(&$form, &$form_st
   // A simple table of existing special search profiles.
   // TODO: Add table sort?
   $profiles = ting_field_search_profiles_load();
-  $profile_header = t('Profile (!link)', array(
+  $profile_header = t('Search well profile (!link)', array(
     '!link' => l('VIP', 'http://vip.dbc.dk/', array(
       'attributes' => array('target'=>'_blank')
       )),
@@ -634,22 +615,21 @@ function ting_field_search_form_ting_admin_ting_settings_alter(&$form, &$form_st
     t('Name'),
     $profile_header,
     t('Query'),
-    t('Alter links'),
-    t('Active'),
     t('Exposed'),
+    t('Alter links'),
     t('Weight'),
   );
   $rows = array();
   foreach ($profiles as $profile) {
+    $query = check_plain($profile->config['search_request']['query']);
     $path = 'admin/config/ting/settings/ting-field-search-profiles/' . $profile->name .'/edit';
     $rows[] = array(
       l($profile->title, $path),
       $profile->name,
-      check_plain($profile->profile),
-      empty($profile->query) ? t('None') : $profile->query,
-      $profile->config['alter_links'] ? t('Yes') : t('No'),
-      $profile->config['active'] ? t('Yes') : t('No'),
-      $profile->config['exposed'] ? t('Yes') : t('No'),
+      check_plain($profile->config['search_request']['search_well_profile']),
+      empty($query) ? t('- None -') : $query,
+      $profile->config['user_interaction']['exposed'] ? t('Yes') : t('No'),
+      $profile->config['user_interaction']['alter_links'] ? t('Yes') : t('No'),
       $profile->weight,
     );
   }
@@ -692,8 +672,8 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
 
   $profiles = array();
   foreach (ting_field_search_profiles_load() as $name => $profile) {
-    // Profile needs to be active and exposed.
-    if ($profile->config['active'] && $profile->config['exposed']) {
+    // Only exposed profiles will be shown to the user.
+    if ($profile->config['user_interaction']['exposed']) {
       $profiles[$name] = t('Search in @profile', array(
        '@profile'  => check_plain($profile->title),
       ));
@@ -707,7 +687,7 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
 
   // If there's an active profile and it is stick; set it as default value.
   if ($profile = ting_field_search_profile_is_active()) {
-    $profile = $profile->config['sticky'] ? $profile->name : '';
+    $profile = $profile->config['user_interaction']['sticky'] ? $profile->name : '';
   }
   $form['ting_field_search'] = array(
     '#type' => 'select',
@@ -845,30 +825,13 @@ function ting_field_search_profiles_load($name = NULL) {
   foreach ($results as $profile) {
     // Prepare the config data.
     $profile->config = unserialize($profile->config);
-    // As it stands defaults are handled here and in form builder for profile
-    // form. This is not optimal and should be replaced by a profile_create
-    // function.
-    $profile->config += array(
-      'active' => 1,
-      'exposed' => 0,
-      'sticky' => 0,
-      'alter_links' => 1,
-      'weight' => 0,
-      'new_materials' => '',
-      'use_facets' => 0,
-      'facet_count' => 5,
-      'term_count' => 5,
-      'search_result' => array(
-        'profile_display' => 1,
-        'results_per_page' => 10,
-        'default_sort' => '',
-        'ranking' => 'rank_frequency',
-      ),
-      'webtrends' => array(
-        'onsite_ad' => 0,
-        'onsite_ad_id' => '',
-      ),
-    );
+
+    // Apply defaults for any missing config values.
+    foreach (ting_field_search_config_default() as $key => $config_defaults) {
+      $config = isset($profile->config[$key]) ? $profile->config[$key] : array();
+      $profile->config[$key] = array_merge($config_defaults, $config);
+    }
+
     $profiles[$profile->name] = $profile;
   }
 
@@ -937,6 +900,24 @@ function ting_field_search_profile_save(array $profile) {
 }
 
 /**
+ * Creates a new profile object with defaults.
+ *
+ * @return object $profile
+ *   The profile object.
+ */
+function ting_field_search_profile_create() {
+  $profile = new stdClass();
+
+  $profile->pid = '';
+  $profile->name = '';
+  $profile->title = '';
+  $profile->weight = 0;
+  $profile->config = ting_field_search_config_default();
+
+  return $profile;
+}
+
+/**
  * Deletes a profile.
  *
  * @param string $name
@@ -989,4 +970,46 @@ function ting_field_search_facets_load($pid) {
     ->condition('pid', $pid)
     ->orderBy('weight')
     ->execute()->fetchAllAssoc('name');
+}
+
+/**
+ * Defines the defaults for profile config array. The defaults are based on the
+ * default settings from the Ting search related modules.
+ */
+function ting_field_search_config_default() {
+  return array(
+    'user_interaction' => array(
+      'exposed' => 1,
+      'sticky' => 1,
+      'alter_links' => 1,
+    ),
+    'search_request' => array(
+      'search_well_profile' => '',
+      'result_well_profile' => '',
+      'query' => '',
+      'new_materials' => '',
+    ),
+    'search_result' => array(
+      'results_per_page' => 10,
+      'default_sort' => '',
+      'ranking' => 'rank_frequency',
+    ),
+    'facets' => array(
+      'use_facets' => 0,
+      'number_of_facets' => 25,
+      'facet_count' => 5,
+      'term_count' => 5,
+    ),
+    'webtrends' => array(
+      'onsite_ad' => 0,
+      'onsite_ad_id' => '',
+    ),
+  );
+}
+
+function ting_field_search_ting_search_settings() {
+  variable_get('ting_search_results_per_page', 10);
+  variable_get('ting_search_default_sort', ''); // ting_search.admin.inc
+  variable_get('ting_sort_default', 'rank_frequency'); // ting.admin.inc
+  variable_get('ting_search_number_of_facets', 25);
 }

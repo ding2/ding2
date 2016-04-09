@@ -52,20 +52,6 @@ function ting_field_search_schema() {
         'default' => '',
         'description' => 'Profile title: Displayed to users of the site.',
       ),
-      'profile' => array(
-        'type' => 'varchar',
-        'length' => 128,
-        'not null' => TRUE,
-        'default' => '',
-        'description' => 'VIP Profile: The name of the profile as in http://vip.dbc.dk/',
-      ),
-      'query' => array(
-        'type' => 'varchar',
-        'length' => 255,
-        'not null' => TRUE,
-        'default' => '',
-        'description' => 'Additional CQL-code to append when using this profile',
-      ),
       'config' => array(
         'type' => 'blob',
         'size' => 'big',
@@ -81,7 +67,6 @@ function ting_field_search_schema() {
         'description' => 'Profile weight: Used to order profiles in UI.',
       ),
     ),
-    //'primary key' => array('name'),
     'primary key' => array('pid'),
     'unique keys' => array(
       'name' => array('name'),
@@ -154,9 +139,7 @@ function ting_field_search_requirements($phase) {
   if (!ting_field_search_get_status()) {
     $requirements['ting_field_search'] = array(
       'title' => t('Ting field search'),
-      'value' => t('Ting field search is NOT installed correctly and will
-        not work proberly. Please go to <a href="@install">Installation</a> to
-        correct this.', array(
+      'value' => t('Ting field search is NOT installed correctly and will not work proberly. Please go to <a href="@install">Installation</a> to correct this.', array(
           '@install' => url('admin/config/ting-field-search/install', array(
             'query' => drupal_get_destination()
           )),
@@ -268,4 +251,60 @@ function ting_field_search_update_7000() {
   db_drop_primary_key('ting_field_search_facet');
   db_drop_field('ting_field_search_facet', 'profile');
   db_add_primary_key('ting_field_search_facet', array('name', 'pid'));
+}
+
+/**
+ * Move the query and profile fields to the config array.
+ * Migrate existing config values to the new array structure.
+ */
+function ting_field_search_update_7001() {
+  // We need to migrate existing data, so fetch the profiles now.
+  $profiles = _ting_field_search_load_profiles_7000();
+
+  $migrate_map = array(
+    'exposed' => 'user_interaction',
+    'sticky' => 'user_interaction',
+    'alter_links' => 'user_interaction',
+    'query' => 'search_request',
+    'new_materials' => 'search_request',
+    'use_facets' => 'facets',
+    'facet_count' => 'facets',
+    'term_count' => 'facets',
+  );
+
+  $new_configs = array();
+  foreach ($profiles as $name => $profile) {
+    $old_config = unserialize($profile->config);
+    $old_config['query'] = $profile->query;
+
+    $new_config = array();
+    $new_config['search_result'] = $old_config['search_result'];
+    $new_config['webtrends'] = $old_config['webtrends'];
+
+    foreach ($migrate_map as $setting => $destination) {
+      if (isset($old_config[$setting])) {
+        $new_config[$destination][$setting] = $old_config[$setting];
+      }
+    }
+
+    // The VIP profile is being split up and needs special handling.
+    $new_config['search_request']['search_well_profile'] = $profile->profile;
+
+    $new_configs[$name] = $new_config;
+  }
+
+  // Drop the fields and save the new config arrays.
+  db_drop_field('ting_field_search_profile', 'profile');
+  db_drop_field('ting_field_search_profile', 'query');
+
+  foreach ($new_configs as $name => $new_config) {
+    db_merge('ting_field_search_profile')
+      ->key(array(
+        'name' => $name,
+      ))
+      ->fields(array(
+        'config' => serialize($new_config),
+      ))
+      ->execute();
+  }
 }

@@ -18,3 +18,11 @@
 #ting-field-search-profile-form-add #edit-facets-import {
   margin-bottom: 0.5em;
 }
+
+#facets .form-type-textfield {
+  overflow: hidden;
+}
+
+#edit-config-facets .fieldset-wrapper {
+  padding: 0;
+}

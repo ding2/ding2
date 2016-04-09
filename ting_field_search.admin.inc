@@ -24,15 +24,18 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
   if ($profile) {
     $profile = array_shift($profile);
     $profile->facets = ting_field_search_facets_load($profile->pid);
-
-    // Save the original profile object in form_state for later use.
-    $form_state['original_profile'] = $profile;
   }
+  else {
+    // If we're creating get a new profile object with defaults.
+    $profile = ting_field_search_profile_create();
+  }
+
+  // Save the original profile object in form_state for later use.
+  $form_state['original_profile'] = $profile;
 
   $form['profile'] = array(
     '#type' => 'fieldset',
     '#title' => t('Create profile'),
-    '#tree' => TRUE,
   );
 
   $form['profile']['title'] = array(
@@ -41,110 +44,128 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
     '#description' => t('Enter the title of the profile'),
     '#required' => TRUE,
     '#maxlength' => 255,
-    '#default_value' => $profile ? $profile->title : '',
+    '#default_value' => $profile->title,
   );
   $form['profile']['name'] = array(
     '#type' => 'machine_name',
     '#title' => t('Name (identificator used in URI)'),
     '#description' => t('Enter a unique machine-name for this profile.'),
     '#maxlength' => 64,
-    '#default_value' => $profile ? $profile->name : '',
+    '#default_value' => $profile->name,
     '#machine_name' => array(
       'exists' => 'ting_field_search_profile_exists',
       'source' => array('profile', 'title'),
       'label' => t('Name'),
     ),
-    // It should'nt be necesarry to change machine-name of existing profiles.
-    '#disabled' => $profile,
-  );
-  $form['profile']['profile'] = array(
-    '#type' => 'textfield',
-    '#title' => t('VIP profile name (http://vip.dbc.dk)'),
-    '#description' => t('Use a special VIP profile. Leave blank to use the standard search profile.'),
-    '#default_value' => $profile ? $profile->profile : '',
-  );
-  $form['profile']['query'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Query'),
-    '#description' => t('Enter a search code (CQL) to use with this profile.'),
-    '#maxlength' => 256,
-    '#default_value' => $profile ? $profile->query : '',
-  );
-  $form['profile']['active'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Active'),
-    '#description' => t('Activated profiles can be used in the URI with the profile query parameter.'),
-    '#default_value' => $profile ? $profile->config['active'] : 1,
-  );
-  $form['profile']['exposed'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Exposed'),
-    '#description' => t('Exposed profiles is shown to the user and can be selected before searching.'),
-    '#default_value' => $profile ? $profile->config['exposed'] : 0,
-  );
-  $form['profile']['sticky'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Sticky'),
-    '#description' => t('Sticky profiles stay selected when the user navigates the search result.'),
-    '#default_value' => $profile ? $profile->config['sticky'] : 0,
-  );
-  $form['profile']['alter_links'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Alter links'),
-    '#description' => t('Use this profile on ting search links generated on search result, collection and object pages, when using this profile.'),
-    '#default_value' => $profile ? $profile->config['alter_links'] : 1,
+    '#disabled' => $profile->pid,
   );
   $form['profile']['weight'] = array(
     '#type' => 'select',
     '#title' => t('Weight'),
-    '#description' => t('Profiles with lower weight will be positioned closer to the top in the select box.'),
+    '#description' => t('Determines the profile\'s position when shown in the admin UI and to the user in the select box.'),
     '#options' => drupal_map_assoc(range(-15, 15)),
-    '#default_value' => $profile ? $profile->weight : 0,
-  );
-  $form['profile']['new_materials'] = array(
-    '#type' => 'textfield',
-    '#title' => t('New materials'),
-    '#description' => t('Restrict the search result to only contain new materials acquired whitin the specified number of days.'),
-    '#default_value' => $profile ? $profile->config['new_materials'] : '',
-    '#element_validate' => array('element_validate_number'),
-  );
-  $form['profile']['use_facets'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Use specialized facets'),
-    '#description' => t('Leave unchecked to use the standard Ting search facets.'),
-    '#default_value' => $profile ? $profile->config['use_facets'] : 0,
+    '#default_value' => $profile->weight,
   );
 
-  // Search result fieldset.
- $form['search_result'] = array(
+  // The main config element. Note that we don't use #tree = TRUE; this should
+  // not be needed and saves a level in the hierarchy.
+  $form['config'] = array(
+    '#type' => 'vertical_tabs',
+    '#tree' => TRUE,
+  );
+
+  // User interaction
+  $form['config']['user_interaction'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Search settings'),
+    '#title' => t('User interaction'),
     '#tree' => TRUE,
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
+    '#weight' => -15,
   );
-  $form['search_result']['profile_display'] = array(
+  $form['config']['user_interaction']['exposed'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Profile display'),
-    '#description' => t('Display the search results with this profile. Note that if used together with \'sticky\', this will also keep the profile selected on ting object and collection pages.'),
-    '#default_value' => $profile ? $profile->config['search_result']['profile_display'] : 1,
+    '#title' => t('Exposed'),
+    '#description' => t('Show this profile in the select box, so the user can select it before searching.'),
+    '#default_value' => $profile->config['user_interaction']['exposed'],
   );
-  $form['search_result']['results_per_page'] = array(
+  $form['config']['user_interaction']['sticky'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Sticky'),
+    '#description' => t('Sticky profiles stay selected when the user navigates the search result.'),
+    '#default_value' => $profile->config['user_interaction']['sticky'],
+  );
+  $form['config']['user_interaction']['alter_links'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Alter links'),
+    '#description' => t('Append the profile on search links generated on all the search related pages shown with this profile (search result, collection and object pages).'),
+    '#default_value' => $profile->config['user_interaction']['alter_links'],
+  );
+
+  // Search request settings.
+  $form['config']['search_request'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Search request'),
+    '#description' => t('These settings all effect how the search request is altered when the profile is used on the search result and material pages.'),
+    '#tree' => TRUE,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#weight' => -14,
+  );
+  $form['config']['search_request']['search_well_profile'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Search well profile'),
+    '#description' => t('Enter the name of the well profile to use when searching. Leave empty to use the <strong>%standard</strong> profile configured in the standard search settings.', array(
+      '%standard' => variable_get('ting_search_profile', ''),
+    )),
+    '#default_value' => $profile->config['search_request']['search_well_profile'],
+  );
+  $form['config']['search_request']['result_well_profile'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Result well profile'),
+    '#description' => t('Enter name of an alternative well profile to use when displaying search results with this profile. Leave empty to use the same for all requests.'),
+    '#default_value' => $profile->config['search_request']['result_well_profile'],
+  );
+  $form['config']['search_request']['query'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Query'),
+    '#description' => t('Enter a base search query that is appended to every search request, when using this profile.'),
+    '#maxlength' => 256,
+    '#default_value' => $profile->config['search_request']['query'],
+  );
+  $form['config']['search_request']['new_materials'] = array(
+    '#type' => 'textfield',
+    '#title' => t('New materials'),
+    '#description' => t('Restrict the search result to only contain new materials acquired whitin the specified number of days.'),
+    '#default_value' => $profile->config['search_request']['new_materials'],
+    '#element_validate' => array('element_validate_number'),
+  );
+
+  // Search result fieldset.
+ $form['config']['search_result'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Search result'),
+    '#tree' => TRUE,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#weight' => -13,
+  );
+  $form['config']['search_result']['results_per_page'] = array(
     '#type' => 'textfield',
     '#title' => t('Results per page'),
     '#description' => t('Enter the number of results to display on the search page by default.'),
-    '#default_value' => $profile ? $profile->config['search_result']['results_per_page'] : 10,
+    '#default_value' => $profile->config['search_result']['results_per_page'],
     '#element_validate' => array('element_validate_integer_positive'),
   );
-  $form['search_result']['default_sort'] = array(
+  $form['config']['search_result']['default_sort'] = array(
     '#type' => 'select',
     '#title' => t('Default sorting'),
     '#description' => t('Select the default sorting'),
     // Use a helper function from ting_search to get available sort options.
     '#options' => ting_search_sort_options(),
-    '#default_value' => $profile ? $profile->config['search_result']['default_sort'] : '',
+    '#default_value' => $profile->config['search_result']['default_sort'],
   );
-  $form['search_result']['ranking'] = array(
+  $form['config']['search_result']['ranking'] = array(
     '#type' => 'select',
     '#title' => t('Ranking type'),
     '#description' => t('Set the ranking to use when using the best match sort option above.'),
@@ -158,24 +179,25 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
   );
 
   // Webtrends fieldset.
-  $form['webtrends'] = array(
+  $form['config']['webtrends'] = array(
     '#type' => 'fieldset',
     '#title' => t('Webtrends Analytics'),
     '#tree' => TRUE,
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
+    '#weight' => -11,
   );
-  $form['webtrends']['onsite_ad'] = array(
+  $form['config']['webtrends']['onsite_ad'] = array(
     '#type' => 'checkbox',
     '#title' => t('Onsite ads reports'),
     '#description' => t('Track the use of this profile as an onsite ad in Webtrends.'),
-    '#default_value' => $profile ? $profile->config['webtrends']['onsite_ad'] : 0,
+    '#default_value' => $profile->config['webtrends']['onsite_ad'],
   );
-  $form['webtrends']['onsite_ad_id'] = array(
+  $form['config']['webtrends']['onsite_ad_id'] = array(
     '#type' => 'textfield',
     '#title' => t('Onsite ad identificator'),
     '#description' => t('Enter an identificator for the ad which will be shown in the Webtrends UI. Capital letters and spaces are allowed. If left empty the profile title will be used.'),
-    '#default_value' => $profile ? $profile->config['webtrends']['onsite_ad_id'] : '',
+    '#default_value' => $profile->config['webtrends']['onsite_ad_id'],
     '#states' => array(
       'disabled' => array(
         ':input[name="webtrends[onsite_ad]"]' => array('checked' => FALSE),
@@ -184,15 +206,31 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
   );
 
   // Facet settings.
-  $form['facets'] = array(
+  $form['config']['facets'] = array(
     '#type' => 'fieldset',
     '#title' => t('Facets'),
     '#tree' => TRUE,
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
+    '#weight' => -12,
+    'use_facets' => array(
+      '#type' => 'checkbox',
+      '#title' => t('Use specialized facets'),
+      '#description' => t('Leave unchecked to use the standard Ting search facets.'),
+      '#default_value' => $profile->config['facets']['use_facets'],
+    ),
+  );
+  // Separate the rest of the facet settings in a container, so they can be
+  // easily disabled/enabled by the use_facets. The facet container will be
+  // embedded into facet config group
+  // This might seem like a weird construct, but for now it works ;).
+  $form['facets'] = array(
+    '#type' => 'container',
+    '#title' => t('Facets'),
+    '#tree' => TRUE,
     '#states' => array(
       'disabled' => array(
-        ':input[name="profile[use_facets]"]' => array('checked' => FALSE),
+        ':input[name="config[facets][use_facets]"]' => array('checked' => FALSE),
       ),
     ),
   );
@@ -201,14 +239,14 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
     '#title' => t('Visible facets amount'),
     '#description' => t('The amount of facets that will be visible on the search page by default. The rest of the facets will be hidden and the user have to click to show them.'),
     '#options' => drupal_map_assoc(range(1, 15)),
-    '#default_value' => $profile ? $profile->config['facet_count'] : 5,
+    '#default_value' => $profile->config['facets']['facet_count'],
   );
   $form['facets']['term_count'] = array(
     '#type' => 'select',
     '#title' => t('Number of terms'),
     '#description' => t('The number of facts terms to display in each facet group.'),
     '#options' => drupal_map_assoc(range(1, 25)),
-    '#default_value' => $profile ? $profile->config['term_count'] : 5,
+    '#default_value' => $profile->config['facets']['term_count'],
   );
   $form['facets']['import'] = array(
     '#type' => 'submit',
@@ -284,55 +322,43 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
  * @see ting_field_search_profile_form()
  */
 function ting_field_search_profile_form_submit($form, &$form_state) {
-  // TODO: Changes in some profile values might need a cache clear before fully
-  // taking effect. Consider clearing the cache in these cases - not the page
-  // cache, but a wild card flush on entries for this profile in ting_cache.
-  $profile_values = $form_state['values']['profile'];
+  $profile = $form_state['values'];
+  $original_profile = (array) $form_state['original_profile'];
 
-  // Some values from the main profile form belong in config.
-  $config_keys = array(
-    'active',
-    'exposed',
-    'sticky',
-    'alter_links',
-    'new_materials',
-    'use_facets',
+  // The facet settings are kept in a different container; isolate the first.
+  $facets = $profile['facets']['table'];
+  $facet_settings = array_intersect_key(
+    $profile['facets'],
+    $original_profile['config']['facets']
   );
-  // Isolate the 'pure' profile values.
-  $profile = array_diff_key($profile_values, array_flip($config_keys));
-  // Extract the config values.
-  $profile['config'] = array_diff_key($profile_values, $profile);
 
-  // Handle the facet related settings. Some go in config and some go in the
-  // facet array because these live in a seperate table.
-  $facets = $form_state['values']['facets'];
-  $profile['config']['facet_count'] = $facets['facet_count'];
-  $profile['config']['term_count'] = $facets['term_count'];
-  $profile['facets'] = $facets['table'];
+  // Isolate the profile values.
+  $profile = array_intersect_key($profile, $original_profile);
+  // Save and unset the the identifying key added by vertical tabs.
+  $active_tab = $profile['config']['config__active_tab'];
+  unset($profile['config']['config__active_tab']);
+
+  $profile['facets'] = $facets;
   // Mark any facet with no name to be deleted.
   foreach ($profile['facets'] as $key => $facet) {
     if (!$facet['name']) {
       unset($profile['facets'][$key]);
     }
   }
+  $profile['config']['facets'] += $facet_settings;
 
-  // TODO: Try to merge all fieldsets with config settings into one.
-
-  // Transfer Webtrends settings to config array.
-  $profile['config']['webtrends'] = $form_state['values']['webtrends'];
-
-  // Transfer settings related to search result display.
-  $profile['config']['search_result'] = $form_state['values']['search_result'];
-
-  // If updating an existing profile transfer the profile ID.
-  if (isset($form_state['original_profile'])) {
-    $profile['pid'] = $form_state['original_profile']->pid;
+  // If updating attach the profile id.
+  if ($original_profile['pid']) {
+    $profile['pid'] = $original_profile['pid'];
   }
 
-  // If this is a new profile rediredt to its edit page.
-  if (!isset($form_state['original_profile'])) {
-    $form_state['redirect'] = 'admin/config/ting/settings/ting-field-search-profiles/' .$profile['name'] . '/edit';
-  }
+  // Regardless, always redirect to ensure the active tab is selected.
+  $form_state['redirect'] = array(
+    'admin/config/ting/settings/ting-field-search-profiles/' . $profile['name'] . '/edit',
+    array(
+      'fragment' => $active_tab,
+    ),
+  );
 
   if (ting_field_search_profile_save($profile)) {
     drupal_set_message(t('Profile saved'));
@@ -348,22 +374,14 @@ function ting_field_search_profile_form_submit($form, &$form_state) {
  * @see ting_field_search_profile_form().
  */
 function theme_ting_field_search_profile_form($variables) {
-  // Code mostly copied from Ding facetbrowser module.
-
   $form = $variables['form'];
-
-  // Render profile settings.
-  $output = drupal_render($form['profile']);
-
-  // Render search result settings.
-  $output .= drupal_render($form['search_result']);
 
   // Render facet table.
   $map = array('disabled' => t('Disabled'), 'enabled' => t('Enabled'));
   $header = array(t('Name'), t('Title'), t('Facet name sorting'), t('Weight'), t('Operations'));
   $rows = array();
   foreach (element_children($form['facets']['table']) as $index) {
-    $facet = &$form['facets']['table'][$index];
+    $facet = $form['facets']['table'][$index];
     $row = array();
     $row[] = drupal_render($facet['name']);
     $row[] = drupal_render($facet['title']);
@@ -375,17 +393,18 @@ function theme_ting_field_search_profile_form($variables) {
       'class' => array('draggable'),
     );
   }
-  $form['facets']['settings'] = array(
+  $form['facets']['table'] = array(
     '#theme' => 'table',
     '#header' => $header,
     '#rows' => $rows,
     '#attributes' => array('id' => 'facets'),
   );
-  $output .= drupal_render($form['facets']);
+  $form['config']['facets']['settings']['#markup'] = drupal_render($form['facets']);
+  //$output .= drupal_render($form['facets']);
   drupal_add_tabledrag('facets', 'order', 'sibling', 'facet-weight');
 
   // Render action buttons and remaining elements.
-  $output .= drupal_render_children($form);
+  $output = drupal_render_children($form);
 
   return $output;
 }

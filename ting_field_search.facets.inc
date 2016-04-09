@@ -12,7 +12,7 @@
  */
 function _ting_field_search_alter_facets() {
   $profile = ting_field_search_profile_is_active();
-  if ($profile && $profile->config['use_facets']) {
+  if ($profile && $profile->config['facets']['use_facets']) {
     return $profile;
   }
   return FALSE;
@@ -57,7 +57,7 @@ function ting_field_search_form_ding_facetbrowser_form_alter(&$form, &$form_stat
     // Profile facet settings
     $profile_facets = ting_field_search_facets_load($profile->pid);
     $count = 1;
-    $facet_count = $profile->config['facet_count'];
+    $facet_count = $profile->config['facets']['facet_count'];
 
     foreach ($profile_facets as $name => $profile_facet) {
       $facet = isset($facets[$name]) ? $facets[$name] : FALSE;
@@ -139,7 +139,7 @@ function ting_field_search_form_ding_facetbrowser_form_alter(&$form, &$form_stat
     $form['#attached']['js'][] = array(
       'data' => array(
         'ding_facetbrowser' => array(
-          'number_of_terms' => $profile->config['term_count'],
+          'number_of_terms' => $profile->config['facets']['term_count'],
         ),
       ),
       'type' => 'setting',
