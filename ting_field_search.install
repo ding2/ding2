@@ -31,12 +31,36 @@ function ting_field_search_disable() {
 function ting_field_search_schema() {
   $schema['ting_field_search_profile'] = array(
     'description' => 'Holds the definitions of the installed search profiles.',
+    'export' => array(
+      'key' => 'name',
+      'key name' => 'Name',
+      'admin_title' => 'title',
+      'primary key' => 'pid',
+      'identifier' => 'profile',
+      'default hook' => 'ting_field_search_default_profiles',
+      'api' => array(
+        'owner' => 'ting_field_search',
+        'api' => 'ting_field_search_default_profiles',
+        'minimum_version' => 1,
+        'current_version' => 1,
+      ),
+      // Take full control of the export workflow.
+      'subrecords callback' => 'ting_field_search_subrecords_callback',
+      'load callback' => 'ting_field_search_profiles_load',
+      'load multiple callback' => 'ting_field_search_profiles_load_mutliple',
+      'load all callback' => 'ting_field_search_profiles_load_all',
+      'create callback' => 'ting_field_search_profile_create',
+      'save callback' => 'ting_field_search_profile_save',
+      'delete callback' => 'ting_field_search_profile_delete',
+      'export callback' => 'ting_field_search_profile_export',
+    ),
     'fields' => array(
       'pid' => array(
         'type' => 'serial',
         'unsigned' => TRUE,
         'not null' => TRUE,
         'description' => 'The primary identifier for a profile.',
+        'no export' => TRUE,
       ),
       'name' => array(
         'type' => 'varchar',

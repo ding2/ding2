@@ -1,35 +1,33 @@
 <?php
 
 /**
- * @file
- *
- * Admin page callbacks for the Ting field search module.
+ * Defines the Ting field search profile export UI.
  */
+$plugin = array(
+  'schema' => 'ting_field_search_profile',
+  'access' => 'administer site configuration',
 
-/**
- * Profile form builder.
- */
-function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
-  // Show a message to the administrator if the module isn't installed
-  // correctly. We provide a callback to correct this.
-  if (!ting_field_search_get_status()) {
-    drupal_set_message(t('Ting field search is NOT installed correctly and will not work properly. Please go to <a href="@install">Installation</a> to correct this.', array(
-        '@install' => url('admin/config/ting-field-search/install', array(
-          'query' => drupal_get_destination()
-        )),
-      )
-    ), 'error');
-  }
+  'menu' => array(
+    'menu prefix' => 'admin/config/ting/ting-field-search',
+    'menu item' => 'profiles',
+    'menu title' => 'Ting field search profiles',
+    'menu description' => 'Manage Ting field search profiles',
+  ),
 
-  $profile = $profile ? $profile : ting_field_search_profile_create();
+  // Provide proper strings for reffering to a profile exportable.
+  'title singular' => t('Profile'),
+  'title singular proper' => t('Ting field search profile'),
+  'title plural' => t('Profiles'),
+  'title plural proper' => t('Ting field search profiles'),
 
-  // Save the original profile object in form_state for later use.
-  $form_state['original_profile'] = $profile;
+  'form' => array(
+    'settings' => 'ting_field_search_profile_export_form',
+    'submit' => 'ting_field_search_profile_export_form_submit'
+  ),
+);
 
-  $form['profile'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Create profile'),
-  );
+function ting_field_search_profile_export_form(&$form, &$form_state) {
+  $profile = $form_state['item'];
 
   $form['profile']['title'] = array(
     '#type' => 'textfield',
@@ -50,7 +48,7 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
       'source' => array('profile', 'title'),
       'label' => t('Name'),
     ),
-    '#disabled' => $profile->pid,
+    '#disabled' => !empty($profile->pid),
   );
   $form['profile']['weight'] = array(
     '#type' => 'select',
@@ -255,7 +253,7 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
   );
 
   // Build facet rows.
-  $index = 0;
+  /*$index = 0;
   $last_facet = NULL;
   if (!empty($profile->facets)) {
     foreach ($profile->facets as $facet) {
@@ -274,7 +272,7 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
   if (isset($last_facet)) {
     $weight = $last_facet['weight'] + 1;
     $form['facets']['table'][$index]['weight']['#default_value'] = $weight;
-  }
+  }*/
 
   // Form actions
   $form['actions'] = array('#type' => 'actions');
@@ -307,272 +305,8 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
   // Add some correcting CSS.
   $path = drupal_get_path('module', 'ting_field_search');
   $form['#attached']['css'][] = $path . '/css/ting_field_search.admin.css';
-
-  return $form;
 }
 
-/**
- * Submit callback for the profile form.
- *
- * @see ting_field_search_profile_form()
- */
-function ting_field_search_profile_form_submit($form, &$form_state) {
-  $profile = $form_state['values'];
-  $original_profile = (array) $form_state['original_profile'];
+function ting_field_search_profile_export_form_submit($form, &$form_state) {
 
-  // The facet settings are kept in a different container; isolate the first.
-  $facets = $profile['facets']['table'];
-  $facet_settings = array_intersect_key(
-    $profile['facets'],
-    $original_profile['config']['facets']
-  );
-
-  // Isolate the profile values.
-  $profile = array_intersect_key($profile, $original_profile);
-  // Save and unset the the identifying key added by vertical tabs.
-  $active_tab = $profile['config']['config__active_tab'];
-  unset($profile['config']['config__active_tab']);
-
-  $profile['facets'] = $facets;
-  // Mark any facet with no name to be deleted.
-  foreach ($profile['facets'] as $key => $facet) {
-    if (!$facet['name']) {
-      unset($profile['facets'][$key]);
-    }
-  }
-  $profile['config']['facets'] += $facet_settings;
-
-  // If updating attach the profile id.
-  if ($original_profile['pid']) {
-    $profile['pid'] = $original_profile['pid'];
-  }
-
-  // Regardless, always redirect to ensure the active tab is selected.
-  $form_state['redirect'] = array(
-    'admin/config/ting/settings/ting-field-search-profiles/' . $profile['name'] . '/edit',
-    array(
-      'fragment' => $active_tab,
-    ),
-  );
-
-  // Our CRUD layer deals with objects.
-  $profile = (object) $profile;
-
-  if (ting_field_search_profile_save($profile)) {
-    drupal_set_message(t('Profile saved'));
-  }
-  else {
-    drupal_set_message(t('Something went wrong saving profile. See log for details.'));
-  }
-}
-
-/**
- * Theme function for the profile edit form.
- *
- * @see ting_field_search_profile_form().
- */
-function theme_ting_field_search_profile_form($variables) {
-  $form = $variables['form'];
-
-  // Render facet table.
-  $map = array('disabled' => t('Disabled'), 'enabled' => t('Enabled'));
-  $header = array(t('Name'), t('Title'), t('Facet name sorting'), t('Weight'), t('Operations'));
-  $rows = array();
-  foreach (element_children($form['facets']['table']) as $index) {
-    $facet = $form['facets']['table'][$index];
-    $row = array();
-    $row[] = drupal_render($facet['name']);
-    $row[] = drupal_render($facet['title']);
-    $row[] = drupal_render($facet['sorting']);
-    $row[] = drupal_render($facet['weight']);
-    $row[] = drupal_render($facet['delete']);
-    $rows[] = array(
-      'data' => $row,
-      'class' => array('draggable'),
-    );
-  }
-  $form['facets']['table'] = array(
-    '#theme' => 'table',
-    '#header' => $header,
-    '#rows' => $rows,
-    '#attributes' => array('id' => 'facets'),
-  );
-  $form['config']['facets']['settings']['#markup'] = drupal_render($form['facets']);
-  //$output .= drupal_render($form['facets']);
-  drupal_add_tabledrag('facets', 'order', 'sibling', 'facet-weight');
-
-  // Render action buttons and remaining elements.
-  $output = drupal_render_children($form);
-
-  return $output;
-}
-
-/**
- * Submit callback for the delete button on the context form.
- *
- * @see ting_field_search_profile_form()
- */
-function ting_field_search_profile_form_delete($form, &$form_state) {
-  // Pass along any destination parameter set from previous pages
-  $destination = array();
-  if (isset($_GET['destination'])) {
-    $destination = drupal_get_destination();
-    unset($_GET['destination']);
-  }
-
-  $profile = $form_state['original_profile'];
-  $path = 'admin/config/ting/settings/ting-field-search-profiles/' . $profile->name .'/delete';
-  $form_state['redirect'] = array($path, array('query' => $destination));
-}
-
-/**
- * Form builder for the profile delete confirm form.
- */
-function ting_field_search_profile_form_delete_confirm_form($form, &$form_state, $profile) {
-  // Store the profile for later use in the submit handler.
-  $profile = array_shift($profile);
-  $form['ting_field_search_profile'] = array(
-    '#type' => 'value',
-    '#value' => $profile,
-  );
-
-  return confirm_form($form,
-    t('Are you sure you want to delete the @profile profile?', array(
-      '@profile' => check_plain($profile->title),
-    )),
-    'admin/config/ting/settings/ting-field-search-profiles/' . $profile->name .'/edit',
-    NULL, // This action cannot be undone.
-    t('Delete'),
-    t('Cancel')
-  );
-}
-
-/**
- * Submit handler for the profile delete confirm form.
- */
-function ting_field_search_profile_form_delete_confirm_form_submit($form, &$form_state) {
-  $profile = $form_state['values']['ting_field_search_profile'];
-
-  if (ting_field_search_profile_delete($profile->name)) {
-    drupal_set_message(t('Profile @profile deleted', array(
-      '@profile' => check_plain($profile->title),
-    )));
-  }
-  else {
-    drupal_set_message(t('Something went wrong saving profile. See log for details.'));
-  }
-
-  $form_state['redirect'] = 'admin/config/ting/settings';
-}
-
-/**
- * Submit calback for the cancel callback on the context form.
- *
- * @see ting_field_search_profile_form()
- */
-function ting_field_search_profile_form_cancel($form, &$form_state) {
-  // Go back to ting settings
-  $form_state['redirect'] = 'admin/config/ting/settings';
-}
-
-/**
- * Exists callback for the profile machine-name element.
- */
-function ting_field_search_profile_exists($value) {
-  // Retrieve existing profile names.
-  $profiles = array_keys(ting_field_search_profiles_load());
-
-  return in_array($value, $profiles);
-}
-
-function ting_field_search_facet_delete_confirm_form($form, &$form_state, $facet) {
-
-}
-
-/**
- * Helper function to prepare a row for the facet table.
- */
-function _ting_field_search_prepare_facet_row(&$element, $index, $facet = NULL) {
-  // Code mostly copied from Ding facetbrowser module.
-
-  $element[$index]['name'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Facet id'),
-    '#title_display' => 'invisible',
-    '#default_value' => isset($facet) ? $facet['name'] : '',
-  );
-
-  $element[$index]['title'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Title'),
-    '#title_display' => 'invisible',
-    '#default_value' => isset($facet) ? $facet['title'] : '',
-  );
-
-  $element[$index]['sorting'] = array(
-    '#type' => 'select',
-    '#title' => t('Facet name sorting'),
-    '#title_display' => 'invisible',
-    '#options' => array(
-      'default' => t('Ranking (default)'),
-      'alphabetical' => t('Alphabetic'),
-      'aphabetical_reverse' => t('Alphabetic (reverse)'),
-      'numeric' => t('Numeric'),
-      'numeric_reverse' => t('Numeric (reverse)'),
-    ),
-    '#default_value' => isset($facet['sorting']) ? $facet['sorting'] : 'default',
-  );
-
-  $element[$index]['weight'] = array(
-    '#type' => 'weight',
-    '#title' => t('Weight'),
-    '#default_value' => isset($facet) ? $facet['weight'] : 0,
-    '#title_display' => 'invisible',
-    '#attributes' => array('class' => array('facet-weight')),
-  );
-
-  $element[$index]['delete'] = array(
-    '#type' => 'link',
-    '#title' => t('delete'),
-    '#href' =>  'admin/config/ting/settings/ting-field-search-profiles/create',
-    '#options' => array('attributes' => array('title' => t('Delete facet.'))),
-  );
-}
-
-function ting_field_search_install_confirm_form($form, &$form_state) {
-  // Nothing to do here if installed correctly.
-  if (ting_field_search_get_status()) {
-    drupal_goto('admin/config/ting/settings');
-  }
-
-  $backend = variable_get('cache_class_cache_ting', FALSE);
-  if (!$backend) {
-    // A default is being used and it's not one if ours.
-    $backend = variable_get('cache_default_class', 'DrupalDatabaseCache');
-  }
-
-  $message = '<p>' . t('Ting field search will <strong>NOT</strong> function correctly without the proper backend for cache_ting.') . '<//p>';
-  $message .= '<p>' . t('The current backend %backend will <strong>NOT</strong> work with Ting field search. Please press install below to correct this.', array('%backend' => $backend)) . '</p>';
-
-  return confirm_form($form,
-    t('Confirm installation of Ting field search cache backend'),
-    'admin/config/ting/settings',
-    $message,
-    t('Install'),
-    t('Cancel')
-  );
-}
-
-function ting_field_search_install_confirm_form_submit($form, &$form_state) {
-  ting_field_search_install_backend();
-
-  // Verify
-  if (ting_field_search_get_status()) {
-    drupal_set_message(t('A compatible backend was installed and Ting field search is now functioning properly.'));
-  }
-  else {
-    drupal_set_message(t('Something went wrong. A compatible backend was NOT installed and Ting field search will NOT function properly.'));
-  }
-
-  $form_state['#redirect'] = 'admin/config/ting/settings';
 }

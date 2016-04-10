@@ -75,6 +75,15 @@ function ting_field_search_hook_info() {
 }
 
 /**
+ * Implements hook_ctools_plugin_directury().
+ */
+function ting_field_search_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && $plugin == 'export_ui') {
+    return 'plugins';
+  }
+}
+
+/**
  * Implements hook_forms().
  */
 function ting_field_search_forms() {
@@ -317,6 +326,8 @@ function _ting_field_search_new_materials_cql($days) {
   }
   $year_conditions .= ')';
   $expression .= $year_conditions;
+
+  return $expression;
 }
 
 /**
@@ -356,7 +367,7 @@ function ting_field_search_profile_is_active() {
 
         // If the profile exists, store it in the static variable for fast
         // retrieval later in the request.
-        if ($profile = array_shift($profile)) {
+        if ($profile) {
           $result = $profile;
         }
       }
@@ -626,7 +637,7 @@ function ting_field_search_form_ting_admin_ting_settings_alter(&$form, &$form_st
 
   // A simple table of existing special search profiles.
   // TODO: Add table sort?
-  $profiles = ting_field_search_profiles_load();
+  $profiles = ting_field_search_profiles_load_all();
   $profile_header = t('Search well profile (!link)', array(
     '!link' => l('VIP', 'http://vip.dbc.dk/', array(
       'attributes' => array('target'=>'_blank')
@@ -693,7 +704,7 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
   }
 
   $profiles = array();
-  foreach (ting_field_search_profiles_load() as $name => $profile) {
+  foreach (ting_field_search_profiles_load_all() as $name => $profile) {
     // Only exposed profiles will be shown to the user.
     if ($profile->config['user_interaction']['exposed']) {
       $profiles[$name] = t('Search in @profile', array(
@@ -840,7 +851,34 @@ function ting_field_search_form_ting_search_per_page_form_alter(&$form, &$form_s
 }
 
 /**
- * Loads a single profile or all profiles from the database.
+ * Loads a single profile from code or DB.
+ *
+ * @param string $name
+ *   The machine name of the profile to load.
+ *
+ * @return object $profile
+ *   A single profile object.
+ */
+function ting_field_search_profiles_load($name) {
+  $profile = ting_field_search_profiles_load_mutliple(array($name));
+  return array_shift($profile);
+}
+
+/**
+ * Loads all profiles from code or DB.
+ *
+ * @param bool $reset (optional)
+ *   Wether or not to reset to the ctools object cache.
+ *
+ * @return array $profiles.
+ *   An array of profile objects keyed bt profile machine name.
+ */
+function ting_field_search_profiles_load_all($reset = FALSE) {
+  return ting_field_search_profiles_load_mutliple();
+}
+
+/**
+ * Loads multiple profiles from code or DB.
  *
  * @param string $name (optional)
  *   Load a single profile by machine-name.
@@ -848,25 +886,19 @@ function ting_field_search_form_ting_search_per_page_form_alter(&$form, &$form_s
  * @return array $profiles
  *   An array of profile objects keyed by profile machine name.
  */
-function ting_field_search_profiles_load($name = NULL) {
-  $query = db_select('ting_field_search_profile', 'tp')
-    ->fields('tp');
-
-  if (isset($name)) {
-    $query->condition('tp.name', $name);
-  }
-  // If all profiles was requested, order by weight.
-  else {
-    $query->orderBy('weight');
-  }
-
-  $results = $query->execute();
+function ting_field_search_profiles_load_mutliple($names = NULL) {
+  ctools_include('export');
 
   $profiles = array();
-  foreach ($results as $profile) {
-    // Prepare the config data.
-    $profile->config = unserialize($profile->config);
+  $table = 'ting_field_search_profile';
+  if (isset($names)) {
+    $profiles = ctools_export_load_object($table, 'names', $names);
+  }
+  else {
+    $profiles = ctools_export_load_object($table, 'all');
+  }
 
+  foreach ($profiles as $profile) {
     // Apply defaults for any missing config values.
     foreach (ting_field_search_config_default() as $key => $config_defaults) {
       $config = isset($profile->config[$key]) ? $profile->config[$key] : array();
@@ -880,9 +912,36 @@ function ting_field_search_profiles_load($name = NULL) {
 }
 
 /**
+ * Subrecords callback to attach facets when profiles are loaded via ctools
+ * exportables API.
+ *
+ * @see ting_field_search_schema()
+ */
+function ting_field_search_subrecords_callback(&$profiles) {
+  if (!$profiles) {
+    return;
+  }
+
+  // Need the profiles keyed by pids.
+  $profiles_pids = array();
+  foreach ($profiles as $profile) {
+    $profile->facets = array();
+    $profiles_pids[$profile->pid] = $profile;
+  }
+
+  // Load and attach facets to each profile object.
+  $facets = ting_field_search_facets_load(array_keys($profiles_pids));
+
+  foreach ($facets as $key => $facet) {
+    $profile = $profiles_pids[$facet->pid];
+    $profiles[$profile->name]->facets[] = (array) $facet;
+  }
+}
+
+/**
  * Saves a profile in the database.
  *
- * @param mixed $profile
+ * @param object $profile
  *   An array representing a new or existing profile.
  *   This function can also handle updating of the profile's facets. The facet
  *   records should be passed as arrays in the 'facet' key of the profile array.
@@ -891,35 +950,35 @@ function ting_field_search_profiles_load($name = NULL) {
  *   FALSE, if the record inserts updated or failed.
  *   SAVED_NEW or SAVED_UDPATED depending on the operations performed.
  */
-function ting_field_search_profile_save(array $profile) {
+function ting_field_search_profile_save($profile) {
   $transaction = db_transaction();
 
   try {
-    $update = isset($profile['pid']) && is_numeric($profile['pid']);
+    $update = isset($profile->pid) && is_numeric($profile->pid);
     $key = $update ? array('pid') : array();
 
     $result = drupal_write_record('ting_field_search_profile', $profile, $key);
 
     // Do not proceed if drupal_write_record reported that something was wrong.
-    if ($result === FALSE || empty($profile['pid'])) {
+    if ($result === FALSE || empty($profile->pid)) {
       watchdog(
         'ting_field_search',
         'Something went wrong saving profile %profile',
-        array('%profile' => $profile['name']),
+        array('%profile' => $profile->name),
         WATCHDOG_ERROR
       );
       return FALSE;
     }
 
     // If facets is passed handle them too.
-    if (isset($profile['facets']) && is_array($profile['facets'])) {
+    if (isset($profile->facets) && is_array($profile->facets)) {
       // Get the newly generated pid serial.
-      $pid = $profile['pid'];
+      $pid = $profile->pid;
 
       // Only the facets passed with the profile should remain.
       ting_field_search_facets_delete($pid);
 
-      foreach ($profile['facets'] as $facet) {
+      foreach ($profile->facets as $facet) {
         $facet['pid'] = $pid;
         ting_field_search_facet_save($facet);
       }
@@ -940,28 +999,39 @@ function ting_field_search_profile_save(array $profile) {
  * @return object $profile
  *   The profile object.
  */
-function ting_field_search_profile_create() {
-  $profile = new stdClass();
+function ting_field_search_profile_create($set_defaults = TRUE) {
+  $profile = ctools_export_new_object('ting_field_search_profile', $set_defaults);
 
-  $profile->pid = '';
-  $profile->name = '';
-  $profile->title = '';
-  $profile->weight = 0;
+  // This wrapper gives us a chance to set some defaults.
   $profile->config = ting_field_search_config_default();
+  $profile->facets = array();
 
   return $profile;
 }
 
 /**
+ * Profile export callback for ctools exportable API.
+ */
+function ting_field_search_profile_export($profile, $indenct) {
+  $table = 'ting_field_search_profile';
+  ctools_include('export');
+
+  $facets['facets'] = $profile->facets;
+  return ctools_export_object($table, $profile, $indent, NULL, array(), $facets);
+}
+
+/**
  * Deletes a profile.
  *
- * @param string $name
- *   The macinhe-name of the profile to delete.
+ * @param mixed $profile
+ *   A profile object or the macinhe-name of the profile to delete.
  */
-function ting_field_search_profile_delete($name) {
+function ting_field_search_profile_delete($profile) {
   $transaction = db_transaction();
 
   try {
+    $name = is_object($profile) ? $profile->name : $profile;
+
     // Ensure that associated facet settings is deleted too.
     ting_field_search_facets_delete($name);
 
@@ -977,12 +1047,15 @@ function ting_field_search_profile_delete($name) {
 }
 
 /**
- * Saves a facet for a profile.
+ * Saves a single facet for a profile.
  *
- * @param array $facet
- *   An array representing the facet record to be saved.
+ * @param mixed $facet
+ *   An array or object representing the facet record to be saved.
  */
-function ting_field_search_facet_save(array $facet) {
+function ting_field_search_facet_save($facet) {
+  // Merge query needs arrays.
+  $facet = is_object($facet) ? (array) $facet : $facet;
+
   // Isoloate the composite key and fields.
   $keys = array(
     'name' => $facet['name'],
@@ -1021,12 +1094,16 @@ function ting_field_search_facets_delete($pid, $facet = NULL) {
 /**
  * Loads all facets accociated with the specified profile.
  */
-function ting_field_search_facets_load($pid) {
-  return db_select('ting_field_search_facet', 'tf')
+function ting_field_search_facets_load($pids) {
+  $query = db_select('ting_field_search_facet', 'tf')
     ->fields('tf')
-    ->condition('pid', $pid)
-    ->orderBy('weight')
-    ->execute()->fetchAllAssoc('name');
+    ->condition('pid', $pids)
+    ->orderBy('weight');
+
+  if (is_array($pids) && count($pids) > 1) {
+    return $query->execute();
+  }
+  return $query->execute()->fetchAllAssoc('name');
 }
 
 /**
