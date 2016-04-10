@@ -234,6 +234,13 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
       ),
     ),
   );
+  $form['facets']['number_of_facets'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Number of facets'),
+    '#description' => t('Enter the number of facets the search well should return.'),
+    '#default_value' => $profile->config['facets']['number_of_facets'],
+    '#element_validate' => array('element_validate_integer_positive'),
+  );
   $form['facets']['facet_count'] = array(
     '#type' => 'select',
     '#title' => t('Visible facets amount'),

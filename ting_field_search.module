@@ -238,14 +238,16 @@ function ting_field_search_ting_pre_execute($request) {
           _ting_field_search_append_cql($request, $expression);
         }
 
-        // If the profile is using facets, ensure that every configured facet
-        // is sent with the request to the well.
+        // Handle facets.
         if ($config['facets']['use_facets']) {
+          // Ensure that the profile's facets is returned from the well.
           $profile_facets = ting_field_search_facets_load($profile->pid);
           $request_facets = array_flip($request->getFacets()) + $profile_facets;
           // Need the keys as values for the request object.
           $request_facets = array_keys($request_facets);
           $request->setFacets($request_facets);
+
+          $request->setNumFacets($config['facets']['number_of_facets']);
         }
 
         break;
