@@ -884,54 +884,48 @@ function ting_field_search_profiles_load($name = NULL) {
  *
  * @param mixed $profile
  *   An array representing a new or existing profile.
- *   If 'facets' is set all associated facet settings is updated too.
- *
+ *   This function can also handle updating of the profile's facets. The facet
+ *   records should be passed as arrays in the 'facet' key of the profile array.
+ *s
  * @return mixed $result
- *   FALSE, if something went wrong.
- *   1 or 2 if an insert or update was performed.
+ *   FALSE, if the record inserts updated or failed.
+ *   SAVED_NEW or SAVED_UDPATED depending on the operations performed.
  */
 function ting_field_search_profile_save(array $profile) {
   $transaction = db_transaction();
 
   try {
-    // If facets is passed; handle them first.
-    // NOTE: isset($profile['pid']) should be replaces by a solution that saves
-    // the profile first and loads the newly generated id afterwards. The
-    // current solution prevents the creation of facets when creating a new
-    // profile.
-    if (isset($profile['facets']) && isset($profile['pid'])) {
-      // Ensure that only the facets passed with the profile remains.
-      ting_field_search_facets_delete($profile['pid']);
+    $update = isset($profile['pid']) && is_numeric($profile['pid']);
+    $key = $update ? array('pid') : array();
 
-      $query = db_insert('ting_field_search_facet')
-        ->fields(array(
-          'name',
-          'pid',
-          'title',
-          'sorting',
-          'weight',
-        ));
+    $result = drupal_write_record('ting_field_search_profile', $profile, $key);
 
-      foreach ($profile['facets'] as $key => $facet) {
-        // Ensure an array is passed to query.
-        $facet = is_object($facet) ? (array) $facet : $facet;
-        // Link facet to profile.
-        $facet['pid'] = $profile['pid'];
-        $query->values($facet);
-      }
-
-      $query->execute();
-
-      // Remove it so it doesn't screw up the merge query.
-      unset($profile['facets']);
+    // Do not proceed if drupal_write_record reported that something was wrong.
+    if ($result === FALSE || empty($profile['pid'])) {
+      watchdog(
+        'ting_field_search',
+        'Something went wrong saving profile %profile',
+        array('%profile' => $profile['name']),
+        WATCHDOG_ERROR
+      );
+      return FALSE;
     }
 
-    // Tell drupal_write_record whether this is a new record or an existing.
-    $pid = empty($profile['pid']) ? array() : 'pid';
+    // If facets is passed handle them too.
+    if (isset($profile['facets']) && is_array($profile['facets'])) {
+      // Get the newly generated pid serial.
+      $pid = $profile['pid'];
 
-    // drupal_write_record uses shcema API to determine if a field should be
-    // serialized, so we need not bother with serializing the config array.
-    return drupal_write_record('ting_field_search_profile', $profile, $pid);
+      // Only the facets passed with the profile should remain.
+      ting_field_search_facets_delete($pid);
+
+      foreach ($profile['facets'] as $facet) {
+        $facet['pid'] = $pid;
+        ting_field_search_facet_save($facet);
+      }
+    }
+
+    return $result;
   }
   catch (Exception $e) {
     $transaction->rollback();
@@ -980,6 +974,28 @@ function ting_field_search_profile_delete($name) {
     watchdog_exception('ting_field_search', $e);
     return FALSE;
   }
+}
+
+/**
+ * Saves a facet for a profile.
+ *
+ * @param array $facet
+ *   An array representing the facet record to be saved.
+ */
+function ting_field_search_facet_save(array $facet) {
+  // Isoloate the composite key and fields.
+  $keys = array(
+    'name' => $facet['name'],
+    'pid' => $facet['pid'],
+  );
+  $facet_fields = array('title', 'sorting', 'weight');
+  $facet = array_intersect_key($facet, array_flip($facet_fields));
+
+  // Using a merge query to ensure only one facet per profile.
+  return db_merge('ting_field_search_facet')
+    ->key($keys)
+    ->fields($facet)
+    ->execute();
 }
 
 /**
