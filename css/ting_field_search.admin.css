@@ -14,15 +14,27 @@
   display: inline-block;
 }
 
-
-#ting-field-search-profile-form-add #edit-facets-import {
-  margin-bottom: 0.5em;
-}
-
 #facets .form-type-textfield {
   overflow: hidden;
 }
 
 #edit-config-facets .fieldset-wrapper {
   padding: 0;
+}
+
+.vertical-tabs .form-type-textfield input[type="text"] {
+  width: auto;
+}
+
+#facets input[type="text"] {
+  width: 100%;
+}
+
+.vertical-tabs .fieldset-wrapper .form-type-checkbox:nth-child(2) {
+  padding-top: 10px;
+}
+
+.vertical-tabs .fieldset-wrapper .fieldset-description {
+  margin-bottom: 15px;
+  border-bottom: 1px solid grey;
 }

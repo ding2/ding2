@@ -74,43 +74,15 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
     '#tree' => TRUE,
   );
 
-  // User interaction
-  $form['config']['user_interaction'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('User interaction'),
-    '#tree' => TRUE,
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
-    '#weight' => -15,
-  );
-  $form['config']['user_interaction']['exposed'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Exposed'),
-    '#description' => t('Show this profile in the select box, so the user can select it before searching.'),
-    '#default_value' => $profile->config['user_interaction']['exposed'],
-  );
-  $form['config']['user_interaction']['sticky'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Sticky'),
-    '#description' => t('Sticky profiles stay selected when the user navigates the search result.'),
-    '#default_value' => $profile->config['user_interaction']['sticky'],
-  );
-  $form['config']['user_interaction']['alter_links'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Alter links'),
-    '#description' => t('Append the profile on search links generated on all the search related pages shown with this profile (search result, collection and object pages).'),
-    '#default_value' => $profile->config['user_interaction']['alter_links'],
-  );
-
   // Search request settings.
   $form['config']['search_request'] = array(
     '#type' => 'fieldset',
     '#title' => t('Search request'),
-    '#description' => t('These settings all effect how the search request is altered when the profile is used on the search result and material pages.'),
+    '#description' => '<strong>' .  t('Settings related to the search request') . '</strong>',
     '#tree' => TRUE,
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
-    '#weight' => -14,
+    '#weight' => -15,
   );
   $form['config']['search_request']['search_well_profile'] = array(
     '#type' => 'textfield',
@@ -132,19 +104,50 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
     '#description' => t('Enter a base search query that is appended to every search request, when using this profile.'),
     '#maxlength' => 256,
     '#default_value' => $profile->config['search_request']['query'],
+    '#size' => 150,
   );
   $form['config']['search_request']['new_materials'] = array(
     '#type' => 'textfield',
     '#title' => t('New materials'),
     '#description' => t('Restrict the search result to only contain new materials acquired whitin the specified number of days.'),
     '#default_value' => $profile->config['search_request']['new_materials'],
-    '#element_validate' => array('element_validate_number'),
+    '#element_validate' => array('element_validate_integer_positive'),
+  );
+
+  // User interaction
+  $form['config']['user_interaction'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('User interaction'),
+    '#description' => '<strong>' . t('Control how the profile behaves in the UI') . '</strong>',
+    '#tree' => TRUE,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#weight' => -14,
+  );
+  $form['config']['user_interaction']['exposed'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Exposed'),
+    '#description' => t('Show this profile in the select box, so the user can select it before searching.'),
+    '#default_value' => $profile->config['user_interaction']['exposed'],
+  );
+  $form['config']['user_interaction']['sticky'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Sticky'),
+    '#description' => t('Sticky profiles stay selected when the user navigates the search result.'),
+    '#default_value' => $profile->config['user_interaction']['sticky'],
+  );
+  $form['config']['user_interaction']['alter_links'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Alter links'),
+    '#description' => t('Append the profile on search links generated on all the search related pages shown with this profile (search result, collection and object pages).'),
+    '#default_value' => $profile->config['user_interaction']['alter_links'],
   );
 
   // Search result fieldset.
  $form['config']['search_result'] = array(
     '#type' => 'fieldset',
     '#title' => t('Search result'),
+    '#description' => '<strong>'. t('Control how the search result is presented to the user') . '</strong>',
     '#tree' => TRUE,
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
@@ -182,6 +185,7 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
   $form['config']['webtrends'] = array(
     '#type' => 'fieldset',
     '#title' => t('Webtrends Analytics'),
+    '#description' => '<strong>'. t('Settings for webtrends integration') . '</strong>',
     '#tree' => TRUE,
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
@@ -209,6 +213,7 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
   $form['config']['facets'] = array(
     '#type' => 'fieldset',
     '#title' => t('Facets'),
+    '#description' => '<strong>' . t('Facet settings') . '</strong>',
     '#tree' => TRUE,
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
@@ -252,18 +257,8 @@ function ting_field_search_profile_form($form, &$form_state, $profile = FALSE) {
     '#type' => 'select',
     '#title' => t('Number of terms'),
     '#description' => t('The number of facts terms to display in each facet group.'),
-    '#options' => drupal_map_assoc(range(1, 25)),
+    '#options' => drupal_map_assoc(range(1, $profile->config['facets']['number_of_facets'])),
     '#default_value' => $profile->config['facets']['term_count'],
-  );
-  $form['facets']['import'] = array(
-    '#type' => 'submit',
-    '#value' => t('Import standard facets'),
-    '#suffix' => '<div class="description">' . t('Populate the table with the standard facets used in Ting search.') . '</div>',
-    '#submit' => array('ting_field_search_import_facets'),
-    '#ajax' => array(
-      'callback' => 'ting_field_search_import_facets_callback',
-      'wrapper' => 'facets',
-    ),
   );
 
   // Build facet rows.
