@@ -29,7 +29,7 @@ function ding_entity_rating_serendipity_info() {
  * @return array
  *   A serendipity results array.
  */
-function ding_entity_rating_materials_by_rating_serendipity_add($context) {
+function ding_entity_rating_materials_by_rating_serendipity_add(array $context) {
   global $user;
   // TODO why do we return an empty array is we are not on the frontpage? @MSD
   if (!$context['frontpage'] || !ding_user_is_provider_user($user)) {

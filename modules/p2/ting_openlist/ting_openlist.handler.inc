@@ -22,6 +22,6 @@
  * @return mixed
  *   The Openlist request.
  */
-function ting_openlist_handler_request($function, $arguments, $detailed_log = FALSE) {
+function ting_openlist_handler_request($function, array $arguments, $detailed_log = FALSE) {
   return ting_openlist_request($function, $arguments, $detailed_log);
 }

@@ -329,10 +329,9 @@ function ding_interests_remove_from_list_callback($ajax, $term, $account) {
  * @rating number
  *   The rating to give the element.
  *
- * @return
- *    False if the interest was inserted as a new interest
+ * @return bool
+ *    FALSE if the interest was inserted as a new interest
  *    TRUE if the interest already existed.
- *    
  */
 function ding_interests_add_to_list($term, $account, $rating) {
   // Get the historical loan list.
@@ -629,8 +628,6 @@ function ding_interests_get_status_tids() {
  * To-do: doc here.
  */
 function ding_interests_all_recommended_subjects() {
-  // @TODO grouped list of highlighted subjects.
-
   return '<h1>' . t('The librarys selected subjects') . '</h1>' . theme('ding_interests_tree');
 }
 
@@ -638,7 +635,7 @@ function ding_interests_all_recommended_subjects() {
  * Create CQL to lookup results for a term.
  * 
  * @param object $term
- *    The term to look up
+ *    The term to look up.
  * 
  * @return string 
  *    The CQL to lookup the term in Brønden.

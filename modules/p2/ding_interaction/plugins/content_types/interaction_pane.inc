@@ -64,7 +64,7 @@ function ding_interaction_content_type_render($subtype, $conf, $panel_args, $con
       'title' => $data['title'],
       'data' => $data['data'],
       'close_btn' => $close_btn,
-      'help_text' => $help_text
+      'help_text' => $help_text,
     ));
     $output->css_class = isset($data['css_class']) ? $data['css_class'] : "default-interaction";
   }

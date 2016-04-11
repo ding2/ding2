@@ -37,7 +37,7 @@ function ding_interests_serendipity_info() {
  * @return array
  *   Array of results.
  */
-function ding_interests_materials_serendipity_add($context) {
+function ding_interests_materials_serendipity_add(array $context) {
   // These are only shown on the front page if the user is logged in.
   if (!user_is_logged_in() || !$context['frontpage']) {
     return array();

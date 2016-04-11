@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Install ding interests.
+ */
+
+/**
  * Implements hook_install().
  */
 function ding_interests_install() {

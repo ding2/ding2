@@ -133,7 +133,7 @@ function ding_list_get_lists($list_type = NULL, $account = NULL, $range = array(
  * @return mixed
  *   The ding_list_element object.
  */
-function ding_list_create_ding_list_element(&$list, $type, $values, $account = NULL, $save_list = TRUE, $openlist_id = FALSE) {
+function ding_list_create_ding_list_element(&$list, $type, array $values, $account = NULL, $save_list = TRUE, $openlist_id = FALSE) {
 
   $element = entity_create('ding_type', array(
     'type' => 'ding_list_element',
@@ -260,7 +260,7 @@ function ding_list_create_ding_list($title, $type = DING_LIST_TYPE_USER_LIST, $a
  *   An array with field names and values. The single item array should have
  *   the following values mapped: value, value_type and name.
  */
-function ding_list_handle_fields_in_list(&$list, $fields) {
+function ding_list_handle_fields_in_list(&$list, array $fields) {
   if (!empty($fields)) {
     foreach ($fields as $field) {
       if (!is_array($field['value'])) {
@@ -472,7 +472,7 @@ function ding_list_delete_list($list, $tell_openlist = TRUE) {
  *   List of elements to preload the connected ting_object.
  *   Any element is allowed, but only ting_object references are preloaded.
  */
-function ding_list_pre_call_elements($elements) {
+function ding_list_pre_call_elements(array $elements) {
   $keys = array();
   foreach ($elements as $element) {
     if (ding_base_get_value('ding_type', $element, 'field_element_type') === 'ting_object') {
@@ -574,7 +574,7 @@ function ding_list_get_list($list, $account = NULL) {
  * @return mixed
  *   The ding_list_element
  */
-function ding_list_edit_ding_list_element(&$element, $type = NULL, $values = NULL, $tell_openlist = TRUE, $no_save = FALSE) {
+function ding_list_edit_ding_list_element(&$element, $type = NULL, array $values = NULL, $tell_openlist = TRUE, $no_save = FALSE) {
   if ($type !== NULL) {
     $element->field_element_type[LANGUAGE_NONE][] = array('value' => $type);
   }

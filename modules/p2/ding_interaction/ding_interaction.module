@@ -86,7 +86,7 @@ function ding_interaction_theme($existing, $type, $theme, $path) {
         'title' => NULL,
         'data' => NULL,
         'close_btn' => NULL,
-        'help_text' => NULL
+        'help_text' => NULL,
       ),
     ),
   );
@@ -105,14 +105,13 @@ function theme_ding_interaction_pane_content($variables) {
  *
  * @param array $module_list
  *   Array of modules that provide content for ding_interaction.
- *
  * @param int $count
  *   The amount of page views between each interaction.
  *
  * @return array
  *   A render array for output.
  */
-function ding_interaction_content($module_list = NULL, $count = DING_INTERACTION_DEFAULT_COUNT) {
+function ding_interaction_content(array $module_list = NULL, $count = DING_INTERACTION_DEFAULT_COUNT) {
   global $user;
   $data = NULL;
 

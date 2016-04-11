@@ -157,7 +157,7 @@ function ding_interests_by_history_get_loan_entities() {
  * @return array
  *   The ordered array of terms.
  */
-function ding_interests_by_history_sort_terms($terms, $loan_terms) {
+function ding_interests_by_history_sort_terms(array $terms, array $loan_terms) {
   $result = array();
   foreach ($terms as $tid => $term) {
     if (isset($loan_terms[$term])) {

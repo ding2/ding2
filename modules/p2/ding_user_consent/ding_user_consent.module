@@ -241,7 +241,7 @@ function ding_user_consent_form_profile2_edit_provider_alma_form_submit($form_id
  * @param object $account
  *   The account to set consent for, if null current user is used.
  */
-function ding_user_consent_set($values, $account = NULL) {
+function ding_user_consent_set(array $values, $account = NULL) {
   if ($account === NULL) {
     global $user;
     $account = $user;

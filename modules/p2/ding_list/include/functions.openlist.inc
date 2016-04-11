@@ -34,7 +34,7 @@ function ding_list_reset_openlist_modified($account = NULL) {
  * @return array
  *   An array which maps all the ids to their entity.
  */
-function ding_list_create_map($type, $property, $ids) {
+function ding_list_create_map($type, $property, array $ids) {
   if (empty($ids)) {
     return array();
   }

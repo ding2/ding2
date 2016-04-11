@@ -135,7 +135,7 @@ function ding_message_get_users_to_check() {
  * @param bool $reset
  *   Flag to reset messages for the user, so all messages are fetched again.
  */
-function ding_message_update_users($accounts, $debug = FALSE, $reset = FALSE) {
+function ding_message_update_users(array $accounts, $debug = FALSE, $reset = FALSE) {
   // Get lists which can be followed.
   $follow_lists = ding_list_get_list_types_by_operations(DING_LIST_OPERATION_FOLLOW);
   // Iterate accounts.
@@ -223,8 +223,8 @@ function ding_message_update_users($accounts, $debug = FALSE, $reset = FALSE) {
  *
  * @param int $uid
  *   Uid of the user being checked.
- * @param array $element_id
- *   A list of user lists to check for updates.
+ * @param int $element_id
+ *   Element id.
  * @param int $mid
  *   The entity id the message previously created if any.
  * @param bool $debug
@@ -610,12 +610,13 @@ function ding_message_get_ding_list_notification($list) {
  * Load sum of update notifications.
  *
  * @param array $items
- *    Array of lists to check for notification counts.
+ *   Array of lists to check for notification counts.
  *
- * @return sum of available update notifications.
+ * @return array
+ *   sum of available update notifications.
  *    
  */
-function ding_message_get_update_count($items) {
+function ding_message_get_update_count(array $items) {
   // Collect the ids for sorting.
   $element_ids = ding_message_get_list_element_ids($items);
   // Query for messages with updates.
@@ -639,7 +640,7 @@ function ding_message_get_update_count($items) {
  * @return array
  *   An array of the target_id values on one level.
  */
-function ding_message_get_list_element_ids($items) {
+function ding_message_get_list_element_ids(array $items) {
   $element_ids = array();
   foreach ($items as $element) {
     $element_ids[] = $element['target_id'];
@@ -709,7 +710,7 @@ function ding_message_build_query($query) {
  * should be enough to see all new elements in most cases.
  *
  * @param string $url
- *   The url to modify
+ *   The url to modify.
  * @param string $eid
  *   The id of the first new element in the notification list.
  *

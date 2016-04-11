@@ -76,7 +76,7 @@ function ding_interaction_manual_ding_interaction_view() {
 }
 
 /**
- * Implementation of hook_query_TAG_alter().
+ * Implements hook_query_TAG_alter().
  */
 function ding_interaction_manual_query_random_alter($query) {
   $query->orderRandom();

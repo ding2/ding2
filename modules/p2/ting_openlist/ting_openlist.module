@@ -446,7 +446,7 @@ function ting_openlist_get_user($openlist_uid) {
 /**
  * Get a user identifier.
  *
- * @param array $account
+ * @param object $account
  *   The user account.
  *
  * @return mixed

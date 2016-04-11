@@ -47,7 +47,7 @@ function hook_serendipity_info() {
  * @param array $context
  *   The context to get the serendipity from.
  */
-function hook_serendipity_context_alter(&$context) {
+function hook_serendipity_context_alter(array &$context) {
   // Alter the context.
 }
 
@@ -59,7 +59,7 @@ function hook_serendipity_context_alter(&$context) {
  * @param array $context
  *   The context to get the serendipity from.
  */
-function hook_serendipity_results_alter(&$results, &$context) {
+function hook_serendipity_results_alter(array &$results, array &$context) {
   // Alter results.
 }
 
@@ -69,6 +69,6 @@ function hook_serendipity_results_alter(&$results, &$context) {
  * @param array $context
  *   The context to get the serendipity from.
  */
-function hook_serendipity_fallback($context) {
+function hook_serendipity_fallback(array $context) {
   // Add fallback content based on the context.
 }

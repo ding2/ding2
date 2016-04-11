@@ -6,10 +6,9 @@
  */
 
 (function ($) {
+  "use strict";
 
   $.widget("ding.rating", {
-    "use strict";
-    
     options: {
       'average': 1,
       'submitted': false,

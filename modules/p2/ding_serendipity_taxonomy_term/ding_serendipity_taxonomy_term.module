@@ -192,10 +192,10 @@ function ding_serendipity_taxonomy_term_popular_objects_serendipity_add($context
 /**
  * Fetch object id's from any term field.
  *
- * @param string field
- *  Name of field to retrieve.
- * @param object term
- *  Term to retrive objects from.
+ * @param string $field
+ *   Name of field to retrieve.
+ * @param object $term
+ *   Term to retrive objects from.
  *
  * @return array
  *   Array of results, each result should contain a type and an id key.

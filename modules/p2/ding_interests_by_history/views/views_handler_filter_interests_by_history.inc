@@ -17,10 +17,7 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
   public $value_options = NULL;
 
   /**
-   * Provide some extra help to get the operator/value easier to use.
-   *
-   * This likely has to be overridden by filters which are more complex
-   * than simple operator/value.
+   * @inheritdoc
    */
   public function init(&$view, &$options) {
     parent::init($view, $options);
@@ -54,7 +51,7 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
   }
 
   /**
-   * Default construct.
+   * @inheritdoc
    */
   public function construct() {
     parent::construct();
@@ -63,15 +60,7 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
   }
 
   /**
-   * Child classes should be used to override this function and set the
-   * 'value options', unless 'options callback' is defined as a valid function
-   * or static public method to generate these values.
-   *
-   * This can use a guard to be used to reduce database hits as much as
-   * possible.
-   *
-   * @return
-   *   Return the stored values in $this->value_options if someone expects it.
+   * @inheritdoc
    */
   public function get_value_options() {
     if (isset($this->value_options)) {
@@ -93,14 +82,23 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
     return $this->value_options;
   }
 
+  /**
+   * @inheritdoc
+   */
   public function expose_options() {
     parent::expose_options();
   }
 
+  /**
+   * @inheritdoc
+   */
   public function expose_form(&$form, &$form_state) {
     parent::expose_form($form, $form_state);
   }
 
+  /**
+   * @inheritdoc
+   */
   public function option_definition() {
     $options = parent::option_definition();
 
@@ -111,9 +109,7 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
   }
 
   /**
-   * This kind of construct makes it relatively easy for a child class
-   * to add or remove functionality by overriding this function and
-   * adding/removing items from this array.
+   * @inheritdoc
    */
   public function operators() {
     $operators = array(
@@ -155,7 +151,7 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
   }
 
   /**
-   * Build strings from the operators() for 'select' options
+   * @inheritdoc
    */
   public function operator_options($which = 'title') {
     $options = array();
@@ -166,6 +162,9 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
     return $options;
   }
 
+  /**
+   * @inheritdoc
+   */
   public function operator_values($values = 1) {
     $options = array();
     foreach ($this->operators() as $id => $info) {
@@ -177,6 +176,9 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
     return $options;
   }
 
+  /**
+   * @inheritdoc
+   */
   public function value_form(&$form, &$form_state) {
     $form['value'] = array();
     $options = array();
@@ -221,9 +223,12 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
     }
   }
 
+  /**
+   * @inheritdoc
+   */
   public function accept_exposed_input($input) {
     // A very special override because the All state for this type of
-    // filter could have a default:
+    // filter could have a default.
     if (empty($this->options['exposed'])) {
       return TRUE;
     }
@@ -240,10 +245,16 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
     return parent::accept_exposed_input($input);
   }
 
+  /**
+   * @inheritdoc
+   */
   public function value_submit($form, &$form_state) {
-    // Prevent value submit
+    // Prevent value submit.
   }
 
+  /**
+   * @inheritdoc
+   */
   public function admin_summary() {
     if ($this->is_a_group()) {
       return t('grouped');
@@ -264,7 +275,10 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
 
     return $operator . (($values !== '') ? ' ' . $values : '');
   }
-
+  
+  /**
+   * @inheritdoc
+   */
   public function op_simple() {
     $this->ensure_my_table();
     $this->value = ding_interests_by_history_suggested_terms();
@@ -277,4 +291,3 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
     $this->query->add_where($this->options['group'], "$this->table_alias.$this->real_field", array_keys($this->value), $this->operator);
   }
 }
-

@@ -33,7 +33,7 @@ function ding_special_user_update_7001() {
   // Save terms in the database.
   foreach ($items as $vid => $terms) {
     foreach ($terms as $term) {
-      taxonomy_term_save((object)array(
+      taxonomy_term_save((object) array(
         'name' => $term,
         'vid' => $vid,
         'format' => 'ding_wysiwyg',

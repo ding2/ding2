@@ -106,7 +106,7 @@ function ding_entity_rating_loan_history_get_suggested_entities($max_count = DIN
  * @return array
  *   An array of TingObject ids.
  */
-function ding_entity_rating_loan_history_filter_by_rated($ids) {
+function ding_entity_rating_loan_history_filter_by_rated(array $ids) {
   $list = ding_list_get_list(DING_ENTITY_RATING_LIST);
   foreach ($ids as $key => $id) {
     if (ding_list_has_ding_list_element($list, 'ting_object', $id)) {

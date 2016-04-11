@@ -246,7 +246,7 @@ function ding_list_share_token($list, $permission, $date = FALSE) {
  * @return array
  *   The cleaned list operations array.
  */
-function ding_list_clean_list_operations($list_operations) {
+function ding_list_clean_list_operations(array $list_operations) {
   foreach ($list_operations as $list => & $operations) {
     if (isset($operations['_data'])) {
       unset($operations['_data']);
@@ -635,7 +635,7 @@ function ding_list_update_historical_loans($account = NULL) {
  * @return array
  *   An array of nids tagged with one or more of the provided taxonomy terms.
  */
-function ding_list_tids_to_nids($tids, $type = FALSE, $limit = FALSE) {
+function ding_list_tids_to_nids(array $tids, $type = FALSE, $limit = FALSE) {
   // No tids no nids.
   if (empty($tids)) {
     return array();

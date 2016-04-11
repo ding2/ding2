@@ -35,7 +35,6 @@ define('DING_LIST_OPERATION_SORT', 'sort');
 define('DING_LIST_OPERATION_FOLLOW', 'follow');
 define('DING_LIST_OPERATION_AUTO_CREATE', 'auto_create');
 define('DING_LIST_OPERATION_CHECK_EXISTS', 'check_exists');
-// Extend here with care.
 
 /**
  * View list permission.
@@ -116,7 +115,7 @@ function ding_list__list_title_callback($entity_id) {
  * @return bool
  *   Either TRUE or FALSE depending on access granted.
  */
-function ding_list__list_access_check($perms, $b_own = FALSE, $account = NULL) {
+function ding_list__list_access_check(array $perms, $b_own = FALSE, $account = NULL) {
   // The output of arg(2) will be the list id (ding_type/ding_list/%).
   $list = ding_list_get_list(arg(2));
 
