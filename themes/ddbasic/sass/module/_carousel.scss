@@ -75,7 +75,7 @@ $carousel-tab-color:                       $white;
   border: 2px solid $navigation-background-color;
   background-image: url('../images/arrows-carousel.png');
   border-radius: 40px;
-  z-index: 100;
+  z-index: 50;
 
   @include small-medium() {
     display: none;
