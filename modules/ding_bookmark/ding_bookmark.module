@@ -248,7 +248,7 @@ function ding_bookmark_add_ajax($entity) {
     drupal_get_messages(NULL, TRUE);
 
     global $user;
-    $bookmarks_button = array(
+    $bookmarks_button['buttons'] = array(
       '#theme' => 'link',
       '#text' => t('My bookmarks'),
       '#path' => '/user/' . $user->uid . '/bookmarks',
@@ -256,6 +256,10 @@ function ding_bookmark_add_ajax($entity) {
       '#prefix' => '<p>',
       '#suffix' => '</p>',
     );
+
+    // Add social services lists form.
+    drupal_alter('ss_lists', $bookmarks_button);
+
     $form_state['storage']['response_html'] .= drupal_render($bookmarks_button);
 
     // Get generated message.
