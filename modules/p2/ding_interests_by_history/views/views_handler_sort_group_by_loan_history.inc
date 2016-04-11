@@ -13,7 +13,7 @@
 class views_handler_sort_group_by_loan_history extends views_handler_sort_group_by_numeric {
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function init(&$view, &$options) {
     parent::init($view, $options);
@@ -24,7 +24,7 @@ class views_handler_sort_group_by_loan_history extends views_handler_sort_group_
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function query() {
     $this->ensure_my_table();
@@ -35,7 +35,7 @@ class views_handler_sort_group_by_loan_history extends views_handler_sort_group_
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function ui_name($short = FALSE) {
     return $this->get_field(parent::ui_name($short));

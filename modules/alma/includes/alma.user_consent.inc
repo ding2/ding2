@@ -12,7 +12,7 @@
 /**
  * Retrieve an array of user consent options.
  *
- * @return Array
+ * @return array
  *   An array of consent options, containing a title and a description of the
  *   option.
  */
@@ -29,14 +29,15 @@ function alma_user_consent_info() {
 /**
  * Update the user consent.
  *
- * @param $account Object
- * @param $consent String
- * @param $previous_consents Boolean
+ * @param object $account
+ *   User account.
+ * @param string $consent
+ *   Consent category.
  *
- * @return Boolean
+ * @return bool
  *   TRUE or FALSE depending on the success of the request.
  */
-function alma_user_consent_add($account, $consent, $previous_consents) {
+function alma_user_consent_add($account, $consent) {
   switch($consent) {
     case 'loan_history_store':
       $creds = ding_user_get_creds($account);
@@ -56,15 +57,16 @@ function alma_user_consent_add($account, $consent, $previous_consents) {
 /**
  * Delete the users consent.
  *
- * @param $account Object
- * @param $consent String
- * @param $previous_consents Boolean
+ * @param object $account
+ *   User account.
+ * @param string $consent
+ *   Consent category.
  *
- * @return Boolean
+ * @return bool
  *   TRUE or FALSE depending on the success of the request
  */
-function alma_user_consent_remove($account, $consent, $previous_consents) {
-  switch($consent) {
+function alma_user_consent_remove($account, $consent) {
+  switch ($consent) {
     case 'loan_history_store':
       $creds = ding_user_get_creds($account);
       $patron = alma_get_patron($creds);
@@ -87,10 +89,10 @@ function alma_user_consent_remove($account, $consent, $previous_consents) {
 /**
  * Retrieve any consent record which the user has saved.
  *
- * @param $account Object
- * @param $reset Boolean
+ * @param object $account
+ *   The user account.
  *
- * @return Array
+ * @return array
  *   An array of consent arrays sorted by the date they were accepted.
  */
 function alma_user_consent_get_consent($account) {
@@ -104,7 +106,7 @@ function alma_user_consent_get_consent($account) {
   if (ding_user_is_provider_user($account)) {
     $consents = alma_user_consent_info();
     $return = array();
-    foreach($consents as $id => $values) {
+    foreach ($consents as $id => $values) {
       $new_category = alma_user_consent_get_category_change($id);
       if (isset($patron->allows)) {
         $return[$id] = isset($patron->allows[$new_category]);
@@ -120,11 +122,13 @@ function alma_user_consent_get_consent($account) {
 /**
  * Get the category which matches the current when changing.
  *
- * @alma currently only supports one type of consent.
+ * Alma currently only supports one type of consent.
  *
- * @param $category String
+ * @param string $category
+ *   Category.
  *
- * @return String
+ * @return string
+ *   Category name.
  */
 function alma_user_consent_get_category_change($category) {
   $consent_categories = array(

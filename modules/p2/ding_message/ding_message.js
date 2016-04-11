@@ -11,7 +11,7 @@
     var sURLVariables = sPageURL.split('&');
     for (var i = 0; i < sURLVariables.length; i++) {
       var sParameterName = sURLVariables[i].split('=');
-      if (sParameterName[0] == sParam) {
+      if (sParameterName[0] === sParam) {
         return decodeURIComponent(sParameterName[1]);
       }
     }
@@ -39,7 +39,7 @@
       if(latestId && $('.ting-object-collection', context).size() > 0) {
         $('.ting-object-collection', context).each(function() {
           if(!isSet) {
-            if($(this).attr('data-ting-object-id') == latestId) {
+            if($(this).attr('data-ting-object-id') === latestId) {
               isSet = true;
             }
             $(this).addClass('new-content-pending');
@@ -50,14 +50,14 @@
         if(isSet) {
           $(this).addClass('new-content');
           $(this).removeClass('new-content-pending');
-          if($(this).attr('data-ting-object-id') == latestId) {
+          if($(this).attr('data-ting-object-id') === latestId) {
             return false;
           }            
         }
       });
       if(latestId && $('.ding-message-item', context).size() > 0) {
         $('.ding-message-item', context).each(function() {
-          if($(this).attr('data-ting-object-id') == latestId) {
+          if($(this).attr('data-ting-object-id') === latestId) {
             isSet = true;
           }
           if(isSet) {

@@ -17,7 +17,7 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
   public $value_options = NULL;
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function init(&$view, &$options) {
     parent::init($view, $options);
@@ -51,7 +51,7 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function construct() {
     parent::construct();
@@ -60,7 +60,7 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function get_value_options() {
     if (isset($this->value_options)) {
@@ -83,21 +83,21 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function expose_options() {
     parent::expose_options();
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function expose_form(&$form, &$form_state) {
     parent::expose_form($form, $form_state);
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function option_definition() {
     $options = parent::option_definition();
@@ -109,7 +109,7 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function operators() {
     $operators = array(
@@ -151,7 +151,7 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function operator_options($which = 'title') {
     $options = array();
@@ -163,7 +163,7 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function operator_values($values = 1) {
     $options = array();
@@ -177,7 +177,7 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function value_form(&$form, &$form_state) {
     $form['value'] = array();
@@ -224,7 +224,7 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function accept_exposed_input($input) {
     // A very special override because the All state for this type of
@@ -246,14 +246,14 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function value_submit($form, &$form_state) {
     // Prevent value submit.
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function admin_summary() {
     if ($this->is_a_group()) {
@@ -277,7 +277,7 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
   }
   
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function op_simple() {
     $this->ensure_my_table();

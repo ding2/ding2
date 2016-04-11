@@ -614,7 +614,6 @@ function ding_message_get_ding_list_notification($list) {
  *
  * @return array
  *   sum of available update notifications.
- *    
  */
 function ding_message_get_update_count(array $items) {
   // Collect the ids for sorting.

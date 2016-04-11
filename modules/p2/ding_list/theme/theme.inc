@@ -89,12 +89,6 @@ function template_preprocess_ding_list_add_button(&$variables) {
       $variables['single_link'] = TRUE;
     }
   }
-
-  // Translating this late, enables customized titles.
-  // @TODO: Are we sure these titles should be translated?
-  if (isset($options[0]['title'])) {
-    $variables['title'] = t($variables['title'], array('@list' => $options[0]['title']));
-  }
 }
 
 /**

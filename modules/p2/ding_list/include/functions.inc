@@ -8,46 +8,6 @@
 require_once __DIR__ . '/functions.openlist.inc';
 require_once __DIR__ . '/functions.handler.inc';
 
-if (!function_exists('ding_base_get_value')) {
-  // TODO: Judging by the name it is not the intent that these functions belong
-  // here. In that case please add a todo stating that they should be moved.
-  // @TODO: Move this to ding_base module.
-
-  /**
-   * Get the first value of a field item.
-   *
-   * This is a simple wrapper for the field_get_items() function.
-   */
-  function ding_base_get_value($entity_type, $entity, $field_name, $field_value = 'value', $default = FALSE) {
-    $items = field_get_items($entity_type, $entity, $field_name);
-    if ($items !== FALSE) {
-      if (isset($items[0][$field_value])) {
-        return $items[0][$field_value];
-      }
-    }
-
-    return $default;
-  }
-}
-
-if (!function_exists('ding_base_get_items')) {
-  // @TODO: Move this to ding_base module.
-
-  /**
-   * Get the fields, like field_get_items. But always return an array.
-   *
-   * This way you don't have to check for FALSE in your own code, but can move
-   * straight into a foreach loop.
-   */
-  function ding_base_get_items($entity_type, $entity, $field_name) {
-    $items = field_get_items($entity_type, $entity, $field_name);
-    if ($items === FALSE) {
-      return array();
-    }
-    return $items;
-  }
-}
-
 /**
  * Get the list of actions, depending on type and value.
  *
