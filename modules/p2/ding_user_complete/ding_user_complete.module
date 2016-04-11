@@ -1,6 +1,8 @@
 <?php
 /**
  * @file
+ * Ding user profile completion.
+ *
  * Ding user complete was a stand alone module to display how many percent
  * of available features a user had explored. Like LinkedIn presents how many
  * percent the user profile is complete.

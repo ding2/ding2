@@ -134,7 +134,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
     watchdog_exception('ding_list', $e);
   }
 
-  // Remove groups with no list, and sort groups
+  // Remove groups with no list, and sort groups.
   foreach ($groups as $group_key => $group) {
     if (count($group['lists']) == 0) {
       unset($groups[$group_key]);
@@ -155,7 +155,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
  * A custom sorting function.
  */
 function ding_list_custom_sort_changed($a, $b) {
-  if($a && $b) {
+  if ($a && $b) {
     if ($a[0]['#list']->changed == $b[0]['#list']->changed) {
       return 0;
     }

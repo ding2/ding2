@@ -235,7 +235,8 @@ function ding_list_sync_openlist($account = NULL) {
         );
       }
     }
-    // The element is not present in the local database, so we need to create it.
+    // The element is not present in the local database, so we need to create
+    // it.
     else {
       // We only create the element, if it has the status of 1
       if ($openlist_element['status'] == 1) {

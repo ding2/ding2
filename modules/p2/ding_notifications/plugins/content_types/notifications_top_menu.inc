@@ -6,8 +6,7 @@
  */
 
 /**
- * Plugins are described by creating a $plugin array which will be used
- * by the system that includes this file.
+ * Plugin description.
  */
 $plugin = array(
   'title' => t('Ding notifications top menu'),
@@ -35,12 +34,14 @@ function ding_notifications_admin_info($subtype, $conf, $context) {
 function ding_notifications_content_type_render($subtype, $conf, $panel_args, $context) {
   global $user;
 
-  // Create a custom cache_key that is a product of both the user and the configuration.
+  // Create a custom cache_key that is a product of both the user and the
+  // configuration.
   $cache_key = DING_NOTIFICATIONS_CACHE_PREFIX . ':' . $user->uid;
   $cache = cache_get($cache_key);
 
   // Checking out the user page flushes the cache.
-  // By doing so we ensure users always see freshly updated notification counts on the user landing page.
+  // By doing so we ensure users always see freshly updated notification counts
+  // on the user landing page.
   if (isset($cache->expire) && $cache->expire > time() && arg(0) != 'user') {
     return $cache->data;
   }

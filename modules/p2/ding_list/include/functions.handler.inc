@@ -120,10 +120,10 @@ function ding_list_get_lists($list_type = NULL, $account = NULL, $range = array(
  * @param string $type
  *   Type of the element.
  * @param array $values
- *   An array of elements
+ *   An array of elements.
  * @param object $account
- *   The user attaching the element
- * @param boolean $save_list
+ *   The user attaching the element.
+ * @param bool $save_list
  *   Automatically save the list after the element is attached.
  *   It's useful not to auto save the list if multiple elements are added at
  *   once.
@@ -258,7 +258,7 @@ function ding_list_create_ding_list($title, $type = DING_LIST_TYPE_USER_LIST, $a
  *   The list object.
  * @param array $fields
  *   An array with field names and values. The single item array should have
- *   the following values mapped: value, value_type and name
+ *   the following values mapped: value, value_type and name.
  */
 function ding_list_handle_fields_in_list(&$list, $fields) {
   if (!empty($fields)) {
@@ -425,7 +425,6 @@ function ding_list_detach_ding_list_element(&$list, $element_ids = array(), $sav
  * @param bool $tell_openlist
  *   Tell Openlist about the changes.
  *
- *
  * @return bool
  *   TRUE or FALSE depending on if the list was deleted or not.
  */
@@ -533,7 +532,7 @@ function ding_list_get_list($list, $account = NULL) {
     return $list;
   }
 
-  $lists = &drupal_static(__FUNCTION__,array());
+  $lists = &drupal_static(__FUNCTION__, array());
   
   // Create the unique key using the list input and account uid.
   $key = $list . "_" . ($account ? $account->uid : "");
@@ -548,7 +547,7 @@ function ding_list_get_list($list, $account = NULL) {
     $lists[$key] = entity_load_single('ding_type', $list);
   }
   // If it's a string, we assume it's a DING_LIST_TYPE, and we grab the first.
-  else if (is_string($list)) {
+  elseif (is_string($list)) {
     $list_element = ding_list_get_lists($list, $account, array(0, 1));
     if ($list_element !== FALSE) {
       $lists[$key] = array_shift($list_element);

@@ -9,6 +9,7 @@
  * Form builder; Configure online resource types and their URL labels.
  *
  * @ingroup forms
+ *
  * @see system_settings_form()
  */
 function ding_interests_admin_form($form, $form_state) {

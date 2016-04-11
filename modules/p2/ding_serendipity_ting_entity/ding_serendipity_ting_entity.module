@@ -109,9 +109,9 @@ function ding_serendipity_ting_entity_ting_object_author_serendipity_add($contex
 
   $results = ding_serendipity_do_search($query, array());
 
-  foreach($results as &$item) {
+  foreach ($results as &$item) {
     $item['info'] = array(
-      'description' =>  t('This material has been selected based on the authors of the material you are viewing.'),
+      'description' => t('This material has been selected based on the authors of the material you are viewing.'),
     );
   }
   return $results;
@@ -207,8 +207,6 @@ function ding_serendipity_ting_entity_ting_object_adhl_serendipity_add($context)
   if (!empty($obj) && isset($accepted_types[$obj->getType()]) && $accepted_types[$obj->getType()]) {
     $record = $obj->getRecord();
 
-    // Lookup in ADHL service.
-
     // TODO Use ting_get_object_recommendations() instead.
     $request = ting_get_request_factory()->getObjectRecommendationRequest();
     // TODO We have a getIsbn function for retrieving this value.
@@ -220,11 +218,9 @@ function ding_serendipity_ting_entity_ting_object_adhl_serendipity_add($context)
         $agency .= ':';
       }
 
-      /**
-       * @TODO: Later. Create the ting_object id correct instead of hardcoded
-       *        "870970-basis:", but ding_provider_build_entity_id doesn't
-       *        work.
-       */
+      // @TODO: Later. Create the ting_object id correct instead of hardcoded
+      // "870970-basis:", but ding_provider_build_entity_id doesn't
+      // work.
       $agency = '870970-basis:';
       $recommendations = ting_execute_cache($request);
       foreach ($recommendations as $recommendation) {

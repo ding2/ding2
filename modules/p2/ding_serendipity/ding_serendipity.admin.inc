@@ -2,8 +2,7 @@
 
 /**
  * @file
- * This file contains admin forms and functionality,
- * for to the ding_serendipity admin interface.
+ * This file contains admin forms and functionality.
  */
 
 /**

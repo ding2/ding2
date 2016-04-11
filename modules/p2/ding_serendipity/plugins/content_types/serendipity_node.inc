@@ -6,8 +6,7 @@
  */
 
 /**
- * Plugins are described by creating a $plugin array which will be used
- * by the system that includes this file.
+ * Plugin description.
  */
 $plugin = array(
   'title' => t('Ding serendipity content with nodes'),
@@ -36,38 +35,38 @@ function ding_serendipity_serendipity_node_admin_info($subtype, $conf, $context)
 function ding_serendipity_serendipity_node_content_type_render($subtype, $conf, $panel_args, $context) {
   $context_data = array();
 
-  // Build a context that can be rendered by the serendipity plugins 
-  // Transfer selected keys from panel settings
+  // Build a context that can be rendered by the serendipity plugins.
+  // Transfer selected keys from panel settings.
   if (isset($conf['selected_keys'])) {
     foreach ($conf['selected_keys'] as $key => $value) {
       $context_data[$key] = TRUE;
     }
   }
 
-  // Transfer current node nid 
+  // Transfer current node nid.
   if (!empty($context[0]->data)) {
     $context_data['node'] = $context[0]->data;
     $context_data['node_nid'] = $panel_args[0];
   }
   
-  // Insert optional manual search term
+  // Insert optional manual search term.
   if (!empty($context[1]->data)) {
     $context_data['search_term'] = $context[1]->data;
   }
   
-  // Insert term and tid
+  // Insert term and tid.
   if (!empty($context[2]->data)) {
     $context_data['taxonomy_term'] = $context[2]->data;
     $context_data['taxonomy_tid'] = $panel_args[0];
   }
   
-  // Insert manually selected object ids
+  // Insert manually selected object ids.
   if (!empty($context[3]->data)) {
     $context_data['ting_object'] = $context[2]->data;
     $context_data['ting_object_id'] = $panel_args[0];
   }
 
-  // Complete the context array  
+  // Complete the context array.
   $context_data += array(
     'view_mode' => isset($conf['view_mode']) ? $conf['view_mode'] : 'teaser',
     'bundle' => isset($conf['bundle']) ? $conf['bundle'] : 'teaser',
@@ -77,7 +76,7 @@ function ding_serendipity_serendipity_node_content_type_render($subtype, $conf, 
     'random' => isset($conf['random']) ? $conf['random'] : FALSE,
   );
 
-  // And render the array
+  // And render the array.
   $content = ding_serendipity_render($context_data);
 
   $output = array();
@@ -124,8 +123,6 @@ function ding_serendipity_serendipity_node_content_type_edit_form($form, &$form_
     '#description' => t('Select the bundle to list serendipity content for.'),
   );
 
-
-  
   return $form;
 }
 

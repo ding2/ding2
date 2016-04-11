@@ -24,7 +24,7 @@ function ding_entity_rating_serendipity_info() {
  * Select random objects depending on previously rated objects.
  *
  * @param array $context
- *   Serendipity context
+ *   Serendipity context.
  *
  * @return array
  *   A serendipity results array.
@@ -136,5 +136,5 @@ function ding_entity_rating_get_material_by_rating() {
     $entity_id = ding_list_get_list_element_value($rated_element);
     return ding_entity_load($entity_id);
   }
-  return null;
+  return NULL;
 }

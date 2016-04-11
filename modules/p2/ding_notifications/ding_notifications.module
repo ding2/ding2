@@ -1,11 +1,11 @@
 <?php
 
-define('DING_NOTIFICATIONS_CACHE_PREFIX', 'ding_notifications');
-
 /**
  * @file
  * Code for the Ding special user feature.
  */
+
+define('DING_NOTIFICATIONS_CACHE_PREFIX', 'ding_notifications');
 
 /**
  * Implements hook_ctools_plugin_directory().
@@ -16,6 +16,9 @@ function ding_notifications_ctools_plugin_directory($owner, $plugin_type) {
   }
 }
 
+/**
+ * Clears ding notifications cache.
+ */
 function ding_notifications_clear_cache($account = NULL) {
   global $user;
   

@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * @file
+ * P2 Installer.
+ */
+ 
 /**
  * Helper function to update row weights of extra fields.
  */

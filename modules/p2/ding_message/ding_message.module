@@ -110,12 +110,12 @@ function ding_message_get_users_to_check() {
   // This means users recently logged in gets (re)checked first
   // But only rechecked after a certain delay.
   $query->condition('u.status', 1)->distinct()
-  ->fields('u', array('uid'))
-  ->condition('u.login', $time, '<')
-  ->condition('edt.type', 'ding_list')
-  ->orderBy('u.login', 'DESC')
-  ->orderBy('dmc.time', 'ASC')
-  ->range(0, variable_get('ding_message_batch_size', 50));
+    ->fields('u', array('uid'))
+    ->condition('u.login', $time, '<')
+    ->condition('edt.type', 'ding_list')
+    ->orderBy('u.login', 'DESC')
+    ->orderBy('dmc.time', 'ASC')
+    ->range(0, variable_get('ding_message_batch_size', 50));
 
   $accounts = array_values($query->execute()->fetchAllKeyed(0, 0));
 
@@ -130,10 +130,8 @@ function ding_message_get_users_to_check() {
  *   An array of user uids to check.
  *   This should be a limited list of users since,
  *   the message generation process could take some time.
- *
  * @param bool $debug
  *   Show debug information while updating.
- *
  * @param bool $reset
  *   Flag to reset messages for the user, so all messages are fetched again.
  */
@@ -609,12 +607,12 @@ function ding_message_get_ding_list_notification($list) {
 }
 
 /**
- * Load sum of update notifications 
+ * Load sum of update notifications.
  *
  * @param array $items
- *    Array of lists to check for notification counts
+ *    Array of lists to check for notification counts.
  *
- * @return sum of available update notifications
+ * @return sum of available update notifications.
  *    
  */
 function ding_message_get_update_count($items) {
@@ -672,11 +670,11 @@ function ding_message_preprocess_ting_object(&$vars) {
  * Build a ting search query.
  *
  * @param string $query
- *   The query string to rebuild
+ *   The query string to rebuild.
  *
  * @return string
- *   A rebuild query string which matches the
- *   required structure of the ting client.
+ *   A rebuild query string which matches the required structure of the ting
+ *   client.
  */
 function ding_message_build_query($query) {
   // Separate path and query.
@@ -748,14 +746,15 @@ function ding_message_change_status() {
     $wrapper->save();
     
     // Clear cache (to update the header) if ding_notifications is enabled.
-    if(module_exists('ding_notifications')) {
+    if (module_exists('ding_notifications')) {
       ding_notifications_clear_cache();
     }
   }
 }
 
 /**
- * THIS FUNCTION IS FOR TESTING PURPOSES.
+ * This function is for testing purposes.
+ *
  * Deletes all messages for a specific uid.
  */
 function ding_message_purge_messages($uid = NULL) {

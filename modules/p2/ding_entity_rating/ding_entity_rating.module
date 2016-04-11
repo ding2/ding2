@@ -2,7 +2,8 @@
 
 /**
  * @file
- * Ding entity rating module
+ * Ding entity rating module.
+ *
  * User rating of ting_objects with storage in OpenList
  */
 
@@ -44,6 +45,9 @@ function ding_entity_rating_menu() {
   return $items;
 }
 
+/**
+ * Menu hook callback for getting rating.
+ */
 function ding_entity_rating_get_user_rating_callback() {
   $ratings = array();
   
@@ -70,7 +74,7 @@ function ding_entity_rating_get_user_rating_callback() {
 function ding_entity_rating_add_to_list_callback($ajax, $entity, $account, $rating) {
   // Access check for permission.
   global $user;
-  if($user->uid != $account->uid) {
+  if ($user->uid != $account->uid) {
     return '';
   }
   
@@ -93,8 +97,6 @@ function ding_entity_rating_add_to_list_callback($ajax, $entity, $account, $rati
 
 /**
  * Implements hook_ding_list_operations().
- *
- * @see ding_list_list_operations()
  */
 function ding_entity_rating_ding_list_operations() {
   return array(
@@ -275,12 +277,7 @@ function template_preprocess_ding_entity_rating_display(&$variables) {
   
   // If the user hasn't rated and this isn't the rating list itself, enable
   // rating.
-  // if (!ding_entity_rating_is_rating_list()) {
-    // $variables['classes_array'][] = 'ding-entity-rating-submitted';
-  // }
-  // else {
-    $variables['classes_array'][] = 'ding-entity-rating';
-  // }
+  $variables['classes_array'][] = 'ding-entity-rating';
 
   if (user_access('use personalisation')) {
     $variables['classes_array'][] = 'rateable';
@@ -387,6 +384,7 @@ function ding_entity_rating_get_average($entity) {
  *   The user account who's rating list to use.
  * @param int $rating
  *   The rating given to the ting object entity.
+ *
  * @return object $entity
  *   Return the added ding list element entity.
  */
@@ -417,6 +415,7 @@ function ding_entity_rating_add_to_list($entity, $account, $rating) {
  *   The ting object entity to remove from the rating list.
  * @param object $account
  *   The user account who's rating list to use.
+ *
  * @return bool
  *   Return TRUE if entity was successfully removed, FALSE if not. 
  */
@@ -426,7 +425,8 @@ function ding_entity_rating_remove_from_list($entity, $account) {
   if ($element = ding_list_has_ding_list_element($list, 'ting_object', $entity->ding_entity_id)) {
     ding_list_detach_ding_list_element($list, array($element->id));
     return TRUE;
-  } else {
+  }
+  else {
     return FALSE;
   }
 }

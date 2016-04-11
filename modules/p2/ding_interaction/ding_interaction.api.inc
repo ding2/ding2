@@ -2,8 +2,7 @@
 
 /**
  * @file
- * This file contains the api functions which developers can use to
- * influence the interaction panes.
+ * This file contains the api functions.
  *
  * The hooks can be used to define and provide new interaction content panes,
  * and to alter or implement new output.

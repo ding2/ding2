@@ -32,7 +32,7 @@ function ding_interests_serendipity_info() {
  * and fetch recommended objecs via ADHL service.
  *
  * @param array $context
- *   Serendipity context
+ *   Serendipity context.
  *
  * @return array
  *   Array of results.
@@ -59,9 +59,6 @@ function ding_interests_materials_serendipity_add($context) {
     else {
       $query = "facet.subject=\"$term->name\"";
     };
-
-    // Backward compatibility.
-    // $query = str_replace("dc.subject", "facet.subject", $query);
 
     $query = ding_list_convert_cql($query);
 

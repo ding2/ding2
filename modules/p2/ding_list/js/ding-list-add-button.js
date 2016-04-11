@@ -7,7 +7,7 @@
   "use strict";
 
   Drupal.behaviors.ding_list_add_button = {
-    attach: function (context, settings) {
+    attach: function (context) {
       // Pull out the content of each ding-list-add-button, and place it in an
       // element, that will be positioned absolute under the add-button when
       // hovered.
@@ -21,13 +21,13 @@
           .appendTo('body');
 
         // The .trigger is the "hit area" of the hover effect.
-        $('.trigger', dlab).bind('mouseenter', function (evt) {
+        $('.trigger', dlab).bind('mouseenter', function () {
           $buttons.css($(this).offset())
             .css('display', 'block');
           $(dlab).addClass('showing');
         });
 
-        $buttons.bind('mouseleave', function (evt) {
+        $buttons.bind('mouseleave', function () {
           $buttons.css('display', 'none');
           $(dlab).removeClass('showing');
         });

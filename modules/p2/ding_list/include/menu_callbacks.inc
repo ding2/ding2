@@ -104,7 +104,6 @@ function ding_list_attach_element_callback($type, $list_id, $value) {
  * @return array
  *   Ajax commands, with information about the process.
  */
-// @TODO: PBJ: Ryk til FKB modul
 function ding_list_remove_element_from_list_callback($list_id, $element_id) {
   $list = ding_list_get_list($list_id);
   $context = drupal_get_query_parameters();

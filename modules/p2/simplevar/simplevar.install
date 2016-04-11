@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * @file
+ * Simplevar install.
+ */
+
+/**
+ * Implements hook_schema().
+ */
 function simplevar_schema() {
   $schema['simplevar'] = array(
     'description' => 'Simplevar table',

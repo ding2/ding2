@@ -15,7 +15,7 @@
  *   Function name of the function to call on the service.
  * @param array $arguments
  *   Numerical array with the arguments, in their respectable order.
- * @param boolean $detailed_log
+ * @param bool $detailed_log
  *   If set to true, the arguments send is logged by watchdog, if logging is
  *   active.
  *

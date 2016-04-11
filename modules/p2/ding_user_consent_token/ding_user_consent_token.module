@@ -1,8 +1,7 @@
 <?php
 /**
  * @file
- * Implement tokens to display various user consent functionality based on the
- * users current consent state
+ * Implement tokens to display user consent.
  *
  * Example:
  *   In some textfield the editor would like to insert a button so the

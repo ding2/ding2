@@ -116,10 +116,10 @@ function ding_list_get_add_to_list_data($type, $value, $value_title = FALSE) {
   if ($type === 'ting_object') {
     $ting_object = ting_object_load($value);
 
-    // Add a follow action for subjects
+    // Add a follow action for subjects.
     $data = array_merge($data, ding_list_get_add_to_list_ting_object_subjects($ting_object));
 
-    // Add a follow action for authors
+    // Add a follow action for authors.
     $data = array_merge($data, ding_list_get_add_to_list_ting_object_creators($ting_object));
   }
 
@@ -370,7 +370,7 @@ function ding_list_allowed($list, $operation) {
  * @param mixed $lid
  *   ID of user list OR list identifier.
  * @param mixed $key_type
- *   optional type of key to extract.
+ *   Optional type of key to extract.
  *
  * @return array
  *   An array of keys.

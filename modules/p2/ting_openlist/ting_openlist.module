@@ -1,8 +1,7 @@
 <?php
 /**
  * @file
- * Ting OpenList is the provider and configuration layer for connection with the
- * OpenList service
+ * Provider and configuration layer for connection with the OpenList service.
  */
 
 /**
@@ -17,7 +16,9 @@ function ting_openlist_requirements($phase) {
     if (!$a || !$b) {
       $requirements['ting_openlist'] = array(
         'title' => 'Ting Openlist',
-        'description' => t('Ting Openlist is not configured, please configure the module ' . l('here', 'admin/config/ding/provider/ting_openlist') . ' before continuing.'),
+        'description' => t('Ting Openlist is not configured, please configure the module @here before continuing.', array(
+          '@here' => l(t('here'), 'admin/config/ding/provider/ting_openlist'),
+        )),
         'value' => t('Not configured'),
         'severity' => REQUIREMENT_ERROR,
       );
@@ -491,7 +492,7 @@ function ting_openlist_user_identifier($account = NULL) {
 /**
  * Calculate the user identifier.
  *
- * @param string $name 
+ * @param string $name
  *   Name of the user.
  *
  * @return string

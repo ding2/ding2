@@ -11,11 +11,8 @@
 (function ($) {
   "use strict";
 
-
-
   var TingCarousel = (function() {
     var carousel;
-
 
     /**
      * Private: Check is the device have support for touch events.
@@ -69,7 +66,7 @@
       // Select the carousel element.
       carousel = $(prefixer + ' .rs-carousel-items', context);
 
-      if (carousel.length == 0) {
+      if (carousel.length === 0) {
         return;
       }
 
@@ -99,14 +96,14 @@
   })();
 
   Drupal.behaviors.ting_carousel = {
-    attach: function (context, settings) {
+    attach: function (context) {
       for (var i in Drupal.settings.ting_carousel) {
         TingCarousel.init(Drupal.settings.ting_carousel[i], context);
       }
     }
   };
 
-  $(window).bind('resize', function (evt) {
+  $(window).bind('resize', function () {
     for (var i in Drupal.settings.ting_carousel) {
       TingCarousel.init(Drupal.settings.ting_carousel[i]);
     }

@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * ding_list_installer.pm_existing_pages.inc
+ * Auto created: ding_list_installer.pm_existing_pages.inc.
  */
 
 /**

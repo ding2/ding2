@@ -1,8 +1,7 @@
 <?php
 /**
  * @file
- * Ting Carousel offers a more general implementation of a carousel
- * that displays a list of materials.
+ * Carousel that displays a list of materials.
  *
  * This is a first draft that enables multiple lists per page and a
  * proper drupal theming of the carousel. But since this it is a highly
@@ -50,7 +49,6 @@ function template_preprocess_ting_carousel(&$vars, $hook) {
   _ting_search_carousel_add_css();
 
   drupal_add_js(drupal_get_path('module', 'ting_carousel') . '/js/ting_carousel.js');
-
 
   $vars['object_items'] = '';
   foreach ($vars['objects'] as $object) {

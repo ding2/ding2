@@ -4,8 +4,9 @@
  */
  
 (function ($) {
+"use strict";
  
-Drupal.wysiwyg.plugins['tingTokenInsert'] = {
+Drupal.wysiwyg.plugins.tingTokenInsert = {
  
   /**
    * Return whether the passed node belongs to this plugin (note that "node" in this context is a JQuery node, not a Drupal node).
@@ -21,11 +22,11 @@ Drupal.wysiwyg.plugins['tingTokenInsert'] = {
    * Invoke is called when the toolbar button is clicked.
    */
   invoke: function(data, settings, instanceId) {
-    var content = undefined;
+    var content;
     
     // Typically, an icon might be added to the WYSIWYG, which HTML gets added
     // to the plain-text version.
-    if (data.format == 'html') {
+    if (data.format === 'html') {
       content = this._getIds(data.content);
       if (content !== '') {
         settings.tingIds = content;
@@ -54,13 +55,13 @@ Drupal.wysiwyg.plugins['tingTokenInsert'] = {
       var dialogClose = function () {
         try {
           dialogdiv.dialog('destroy').remove();
-        } catch (e) {};
+        } catch (e) {}
       };
       var btns = {};
       btns[Drupal.t('Cancel')] = function () {
         $(this).dialog("close");
       };
-      var $this = this;
+      
       dialogdiv.find('.form-save-ids').click(function(evt) {
         evt.preventDefault();
         var ids = [],
@@ -69,7 +70,7 @@ Drupal.wysiwyg.plugins['tingTokenInsert'] = {
           ids.push($(this).val());
         });
         settings.tingIds = ids;
-        var content = Drupal.wysiwyg.plugins['tingTokenInsert']._getPlaceholder(settings);
+        var content = Drupal.wysiwyg.plugins.tingTokenInsert._getPlaceholder(settings);
         Drupal.wysiwyg.instances[instanceId].insert(content);
         dialogdiv.dialog("close");
       });
@@ -94,7 +95,7 @@ Drupal.wysiwyg.plugins['tingTokenInsert'] = {
   /**
    * Replace all <!--tingInsert--> tags with the icon.
    */
-  attach: function(content, settings, instanceId) {
+  attach: function(content, settings) {
     content = content.replace(/<!--tingInsert-->/g, this._getPlaceholder(settings));
     return content;
   },
@@ -102,7 +103,7 @@ Drupal.wysiwyg.plugins['tingTokenInsert'] = {
   /**
    * Replace the icons with <!--wysiwyg_example_plugin--> tags in content upon detaching editor.
    */
-  detach: function(content, settings, instanceId) {
+  detach: function(content) {
     var $content = $('<div>' + content + '</div>');
     $.each($('.mainTingInsert', $content), function (i, elem) {
       elem.parentNode.removeChild(elem);
@@ -115,7 +116,7 @@ Drupal.wysiwyg.plugins['tingTokenInsert'] = {
    */
   _getPlaceholder: function (settings) {
     if(settings.tingIds) {
-      var viewMode = Drupal.settings.ting_token.viewMode
+      var viewMode = Drupal.settings.ting_token.viewMode;
       return '[ting:' + viewMode + ':' + settings.tingIds.join() + ']';
     }
     return '';

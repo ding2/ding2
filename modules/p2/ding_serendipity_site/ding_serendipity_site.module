@@ -36,6 +36,7 @@ function ding_serendipity_site_serendipity_info() {
 
 /**
  * Implements hook_PLUGIN_NAME_serendipity_add().
+ *
  * Fetch objects via field_materials
  */
 function ding_serendipity_site_field_related_material_serendipity_add($context) {
@@ -45,7 +46,8 @@ function ding_serendipity_site_field_related_material_serendipity_add($context) 
     return array();
   }
 
-  // Load the node to access relevant fields and resolve endpoints of ting_objects
+  // Load the node to access relevant fields and resolve endpoints of
+  // ting_objects.
   $node = $context['node'];
 
   // Get relations to ting_objects through ting_reference.
@@ -69,7 +71,7 @@ function ding_serendipity_site_field_related_material_serendipity_add($context) 
           'id' => $obj->ding_entity_id,
           'weight' => 50 + $count,
           'info' => array(
-            // Descriptions for nodes are usually not displayed
+            // Descriptions for nodes are usually not displayed.
             'description' => t('This material is related to this page.'),
           ),
         );
@@ -82,6 +84,7 @@ function ding_serendipity_site_field_related_material_serendipity_add($context) 
 
 /**
  * Implements hook_PLUGIN_NAME_serendipity_add().
+ *
  * Adds nodes via field_related_content
  */
 function ding_serendipity_site_field_related_content_serendipity_add($context) {
@@ -100,10 +103,7 @@ function ding_serendipity_site_field_related_content_serendipity_add($context) {
 
   $content = field_get_items('node', $node, 'field_related_content');
   if (!empty($content)) {
-    // Iterate through the items.
-
     foreach ($content as $key => $item) {
-      // Add it to the results.
       $results[] = array(
         'type' => 'node',
         'id' => $item['target_id'],
@@ -136,5 +136,3 @@ function ding_serendipity_site_field_related_content_serendipity_add($context) {
   }
   return $results;
 }
-
-

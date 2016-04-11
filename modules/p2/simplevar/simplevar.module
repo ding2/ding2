@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * @file
+ * Simplevar
+ */
+
 define('SIMPLEVAR_SPLITTER', '__');
 
 /**
@@ -34,7 +40,7 @@ function simplevar_set($category, $name, $value) {
   db_merge('simplevar')
     ->key(array(
       'category' => $category,
-      'name' => $name
+      'name' => $name,
     ))
     ->fields(array('value' => serialize($value)))
     ->execute();

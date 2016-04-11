@@ -2,8 +2,7 @@
 
 /**
  * @file
- * This serendipity plugin module provides serendipity based on user lists
- * and previous loans
+ * Serendipity based on user lists and previous loans.
  */
 
 /**
@@ -18,7 +17,7 @@ function ding_serendipity_lists_form_ding_frontpage_admin_settings_alter(&$form,
     '#collapsed' => FALSE,
   );
 
-  // Default CQL for frontpage serendipity in case everything else fails
+  // Default CQL for frontpage serendipity in case everything else fails.
   $form['ding_serendipity_lists']['ding_frontpage_serendipity_search_string'] = array(
     '#type' => 'textfield',
     '#title' => t('Front page serendipity fallback search string'),
@@ -122,8 +121,8 @@ function ding_serendipity_lists_ting_objects_adhr_serendipity_add($context) {
     ->condition('l.type', 'ding_list')
     ->condition('l.uid', $user->uid);
 
-  $item_ids = array(); // All rated ids
-  $five_ids = array(); // All top rated ids
+  $item_ids = array();
+  $five_ids = array();
   
   foreach ($query->execute()->fetchAll() as $row) {
 
@@ -165,7 +164,7 @@ function ding_serendipity_lists_ting_objects_adhr_serendipity_add($context) {
     }
   }
 
-  // Add serendipity suggestion
+  // Add serendipity suggestion.
   foreach ($results as &$result) {
     $obj = ding_entity_load($result[1], 'ting_object');
 
@@ -314,12 +313,10 @@ function ding_serendipity_lists_loan_adhl_serendipity_add($context) {
             $isbn = current($isbn);
           }
           $recommendations = ting_get_object_recommendations($isbn, 4);
-
-          /**
-           * @TODO: Later. Create the ting_object id correct instead of hardcoded
-           *        "870970-basis:", but ding_provider_build_entity_id doesn't
-           *        work.
-           */
+          
+          // @TODO: Later. Create the ting_object id correct instead of hardcoded
+          // "870970-basis:", but ding_provider_build_entity_id doesn't
+          // work.
           $agency = '870970-basis:';
           if (!empty($recommendations)) {
             // Collect ADHL recommendations to results.
@@ -343,6 +340,7 @@ function ding_serendipity_lists_loan_adhl_serendipity_add($context) {
 
 /**
  * Implements hook_PLUGIN_NAME_serendipity_add().
+ *
  * Find objects matching some random author from the user lists.
  */
 function ding_serendipity_lists_author_from_lists_serendipity_add($context) {
@@ -362,10 +360,11 @@ function ding_serendipity_lists_author_from_lists_serendipity_add($context) {
       return array();
     }
 
-    // Pick the first author
+    // Pick the first author.
     $terms[] = 'facet.creator="' . $author[0] . '"';
 
-    // Taxonomy term pages (except frontpage) has a subject we want to add to the CQL
+    // Taxonomy term pages (except frontpage) has a subject we want to add to
+    // the CQL.
     if ($context['frontpage'] !== "1" && isset($context['taxonomy_tid'])) {
       $term = taxonomy_term_load($context['taxonomy_tid']);
 
@@ -429,13 +428,12 @@ function ding_serendipity_lists_followed_terms_nodes_serendipity_add($context) {
  * Implements hook_PLUGIN_NAME_serendipity_add().
  *
  * Collect TingObjects based on followed terms
- *
  */
 function ding_serendipity_lists_followed_terms_ting_objects_serendipity_add($context) {
   global $user;
 
-  // Require the context is for ting_objects
-  if (!user_is_logged_in() || empty($context['bundle']) || $context['bundle'] != 'ting_object' ) {
+  // Require the context is for ting_objects.
+  if (!user_is_logged_in() || empty($context['bundle']) || $context['bundle'] != 'ting_object') {
     return array();
   }
 
@@ -450,26 +448,25 @@ function ding_serendipity_lists_followed_terms_ting_objects_serendipity_add($con
   $term = taxonomy_term_load($tids[array_rand($tids)]);
 
   if (empty($term)) {
-    // No followed terms no serendipity
+    // No followed terms no serendipity.
     return array();
   }
 
   if (!empty($term->field_search_string)) {
-    // Use specific CQL from field_search_string
+    // Use specific CQL from field_search_string.
     $query = $term->field_search_string[field_language('taxonomy_term', $term, 'field_search_string')][0]['value'];
   }
   else {
-    // Fallback to default term search via facet
+    // Fallback to default term search via facet.
     $query = "facet.subject=\"$term->name\"";
   }
-
 
   // Fetch search results.
   $results = ding_serendipity_do_search(
     $query,
     array(
       'shuffle' => TRUE,
-      'limit' => 4, // Pick just a few recent materials
+      'limit' => 4,
     )
   );
 

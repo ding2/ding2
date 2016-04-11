@@ -15,7 +15,7 @@ class views_handler_sort_group_by_loan_history extends views_handler_sort_group_
   /**
    * Default init.
    */
-  function init(&$view, &$options) {
+  public function init(&$view, &$options) {
     parent::init($view, $options);
 
     // Initialize the original handler.
@@ -26,7 +26,7 @@ class views_handler_sort_group_by_loan_history extends views_handler_sort_group_
   /**
    * Called to add the field to a query.
    */
-  function query() {
+  public function query() {
     $this->ensure_my_table();
 
     $params = array(
@@ -34,20 +34,20 @@ class views_handler_sort_group_by_loan_history extends views_handler_sort_group_
     );
   }
 
-  function ui_name($short = FALSE) {
+  public function ui_name($short = FALSE) {
     return $this->get_field(parent::ui_name($short));
   }
 
   /**
    * Creates a new temporary table from a Drupal table definition.
    *
-   * @param (string) $table
+   * @param string $table
    *   A Schema API table definition array.
    *
    * @return
    *   The name of the temporary table.
    */
-  function db_create_temporary_table($table) {
+  public function db_create_temporary_table($table) {
     static $index = 0;
 
     $connection = Database::getConnection();

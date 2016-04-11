@@ -30,9 +30,9 @@ function ding_list_list_followers_content_type_render($subtype, $conf, $panel_ar
       '#attributes' => array(
         'class' => array('pane-title'),
       ),
-      '#value' => entity_label('ding_type', $list)
+      '#value' => entity_label('ding_type', $list),
     ),
-    array('#theme' => 'ding_list_followers', '#list' => $list)
+    array('#theme' => 'ding_list_followers', '#list' => $list),
   );
 
   return $block;

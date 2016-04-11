@@ -8,6 +8,8 @@
 (function ($) {
 
   $.widget("ding.rating", {
+    "use strict";
+    
     options: {
       'average': 1,
       'submitted': false,
@@ -38,11 +40,8 @@
     
     /**
      * On mouse in.
-     *
-     * @param Event evt
-     *   Mouseenter event
      */
-    starMouseIn: function(evt) {
+    starMouseIn: function() {
       var $this = $(this);
       $this.parent().children('.submitted').addClass('has-sub').removeClass('submitted');
       $this.siblings().removeClass('active');
@@ -52,11 +51,8 @@
     
     /**
      * On mouse out.
-     *
-     * @param Event evt
-     *   Mouseleave event
      */
-    starMouseOut: function(evt) {
+    starMouseOut: function() {
       var $this = $(this);
       $this.parent().children('.has-sub').addClass('submitted').removeClass('has-sub');
       $this.removeClass('active');
@@ -123,7 +119,7 @@
 
   // Drupal behavior.
   Drupal.behaviors.ding_entity_rating = {
-    attach: function (context, settings) {
+    attach: function (context) {
       // Attach rating widget.
       $('.ding-entity-rating, .ding-entity-rating-submitted', context).rating();
       
@@ -136,7 +132,7 @@
         data: {ids: rating_ids},
         dataType: 'json',
         method: 'get',
-        success: function (data, textStatus, jqXHR) {
+        success: function (data) {
           for (var i in data) {
             if (data[i] !== false) {
               $('.ding-entity-rating[data-ding-entity-rating-id="' + i + '"] .star')
@@ -148,7 +144,7 @@
             }
           }
         }
-      })
+      });
     }
   };
 })(jQuery);

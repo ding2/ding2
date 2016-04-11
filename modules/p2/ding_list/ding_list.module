@@ -2,11 +2,7 @@
 
 /**
  * @file
- * Ding List synchronizes OpenList lists and elements with Drupal entities:
- * /admin/structure/entity-type/ding_type/ding_list
- * and
- * /admin/structure/entity-type/ding_type/ding_list_element
- * Certain list definitions are hardcoded and can be considered core list types
+ * Ding list.
  */
 
 // Core defined types of lists.
@@ -29,8 +25,8 @@ define('DING_LIST_TYPE_FOLLOW_AUTHOR', 'follow_author');
 define('DING_LIST_TYPE_SPECIAL_DEPTS', 'special_depts');
 define('DING_LIST_TYPE_SPECIAL_RESERVATIONS', 'special_reservations');
 define('DING_LIST_TYPE_SPECIAL_LOANS', 'special_loans');
-// Extend here with care.
 
+// Extend here with care.
 define('DING_LIST_OPERATION_DELETE', 'delete');
 define('DING_LIST_OPERATION_ATTACH', 'attach');
 define('DING_LIST_OPERATION_ATTACH_TING_OBJECT', 'attach_ting_object');
@@ -41,11 +37,17 @@ define('DING_LIST_OPERATION_AUTO_CREATE', 'auto_create');
 define('DING_LIST_OPERATION_CHECK_EXISTS', 'check_exists');
 // Extend here with care.
 
-/** View list permission. */
+/**
+ * View list permission.
+ */
 define('DING_LIST_PERMISSION_VIEW', 'view');
-/** Edit list permission. */
+/**
+ * Edit list permission.
+ */
 define('DING_LIST_PERMISSION_EDIT', 'edit');
-/** Is owner list permission. */
+/**
+ * Is owner list permission.
+ */
 define('DING_LIST_PERMISSION_OWNER', 'owner');
 
 // Include seperate hook files.
@@ -55,7 +57,8 @@ require_once __DIR__ . '/include/functions.inc';
 /**
  * Implements hook_entity_info_alter().
  *
- * We need to change the default uri callback, so it will use the list/*.
+ * We need to change the default uri callback, so it will use the list.
+ *
  * @see ding_list__list_uri()
  */
 function ding_list_entity_info_alter(&$entity_info) {
@@ -387,8 +390,8 @@ function ding_list_import_bookmarks($account) {
     return;
   }
   
-  // Using simplevar module here, because compatibility with lazy_vars is broken,
-  // ill be fixed later.
+  // Using simplevar module here, because compatibility with lazy_vars is
+  // broken, will be fixed later.
   if (simplevar_get('ding_list_import_bookmarks', $account->uid, FALSE) === TRUE) {
     return;
   }
@@ -597,7 +600,6 @@ function ding_list_preprocess_entity(&$variables) {
           '@list_title (@count)',
           array('@list_title' => $variables['title'])
         );
-        
 
         switch ($variables['view_mode']) {
           case 'carousel':
@@ -859,7 +861,8 @@ function ding_list_preprocess_views_view_table(&$vars) {
     }
     
     $dragging = ding_list_allowed($list, DING_LIST_OPERATION_SORT) && ding_list_user_has_access($list, 'edit', $account);
-    // Enable dragging
+    
+    // Enable dragging.
     if ($dragging) {
       $vars['theme_hook_suggestions'][] = 'ding-list--views-view-table.tpl.php';
       $vars['attributes_array']['data-list-id'] = $list->id;

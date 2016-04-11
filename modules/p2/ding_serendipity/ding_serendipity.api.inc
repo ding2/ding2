@@ -2,8 +2,7 @@
 
 /**
  * @file
- * This file contains the api functions which developers can use to
- * influence the serendipity results.
+ * API Documentation.
  */
 
 /**
@@ -57,7 +56,7 @@ function hook_serendipity_context_alter(&$context) {
  *
  * @param array $results
  *   The serendipity results.
- * @param array $results
+ * @param array $context
  *   The context to get the serendipity from.
  */
 function hook_serendipity_results_alter(&$results, &$context) {

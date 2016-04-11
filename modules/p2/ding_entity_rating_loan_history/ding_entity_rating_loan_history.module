@@ -49,7 +49,7 @@ function ding_entity_rating_loan_history_ding_interaction_view($count = DING_ENT
  * Retrieve a list of ting entities to rate, based on the users loan history.
  * Ordered by most recently added to the list.
  *
- * @param int $count
+ * @param int $max_count
  *   Number of suggestions to get.
  *
  * @return array

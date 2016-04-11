@@ -8,7 +8,7 @@
   "use strict";
   
   Drupal.behaviors.ding_sharer = {
-    attach: function(context, settings) {
+    attach: function(context) {
     
       $('a.sharer-button', context).bind('click', function (evt) {
         evt.preventDefault();
@@ -21,18 +21,18 @@
           url = '';
           
         if ($(this).hasClass('sharer-facebook')) {
-          url = 'http://www.facebook.com/sharer/sharer.php?u='
-              + 'url=' + share_url
-              + '&amp;t=' + title;
-          options['width'] = 720;
-          options['height'] = 460;
+          url = 'http://www.facebook.com/sharer/sharer.php?u=' +
+              'url=' + share_url +
+              '&amp;t=' + title;
+          options.width = 720;
+          options.height = 460;
         } else if ($(this).hasClass('sharer-twitter')) {
-          url = 'https://twitter.com/share?'
-              + 'url=' + share_url
-              + '&amp;text=' + title;
+          url = 'https://twitter.com/share?' +
+              'url=' + share_url +
+              '&amp;text=' + title;
 
-          options['width'] = 720;
-          options['height'] = 460;
+          options.width = 720;
+          options.height = 460;
         }
         
         var window_features = [];
@@ -43,6 +43,6 @@
         window.open(url, window_name, window_features.join(','));
       });
     }
-  }
+  };
   
 }(jQuery));

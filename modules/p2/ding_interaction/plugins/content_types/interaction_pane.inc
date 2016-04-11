@@ -6,8 +6,7 @@
  */
 
 /**
- * Plugins are described by creating a $plugin array which will be used
- * by the system that includes this file.
+ * Plugin description.
  */
 $plugin = array(
   'title' => t('Ding interaction pane'),
@@ -35,7 +34,7 @@ function ding_interaction_admin_info($subtype, $conf, $context) {
 function ding_interaction_content_type_render($subtype, $conf, $panel_args, $context) {
   // Only show on front if serendipity is enabled for the frontpage.
   // See ding_frontpage config at /admin/config/ding/frontend.
-  if(drupal_is_front_page() && !variable_get('ding_frontpage_serendipity') && variable_get('ding_frontpage_promoter') != 'serendipity') {
+  if (drupal_is_front_page() && !variable_get('ding_frontpage_serendipity') && variable_get('ding_frontpage_promoter') != 'serendipity') {
     return;
   }
 
@@ -48,7 +47,7 @@ function ding_interaction_content_type_render($subtype, $conf, $panel_args, $con
   
   $output = new stdClass();
   if ($data) {
-    $close_btn = l(' ' . t('Close'), '', array('attributes' => array('class' => array('close-btn'))));
+    $close_btn = l(t('Close'), '', array('attributes' => array('class' => array('close-btn'))));
 
     $help_text = empty($data['more_title']) ? "" : l(
       $data['more_title'],
@@ -61,7 +60,12 @@ function ding_interaction_content_type_render($subtype, $conf, $panel_args, $con
     );
 
     $output->title = '';
-    $output->content = theme('ding_interaction_pane_content', array('title' => $data['title'], 'data' => $data['data'], 'close_btn' => $close_btn, 'help_text' => $help_text));
+    $output->content = theme('ding_interaction_pane_content', array(
+      'title' => $data['title'],
+      'data' => $data['data'],
+      'close_btn' => $close_btn,
+      'help_text' => $help_text
+    ));
     $output->css_class = isset($data['css_class']) ? $data['css_class'] : "default-interaction";
   }
   return $output;

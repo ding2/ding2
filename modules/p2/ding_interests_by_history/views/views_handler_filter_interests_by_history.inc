@@ -11,10 +11,10 @@
  * @ingroup views_filter_handlers
  */
 class Views_handler_filter_interests_by_history extends views_handler_filter_in_operator {
-  var $value_form_type = 'checkboxes';
+  public $value_form_type = 'checkboxes';
 
   // Stores all operations which are available on the form.
-  var $value_options = NULL;
+  public $value_options = NULL;
 
   /**
    * Provide some extra help to get the operator/value easier to use.
@@ -22,7 +22,7 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
    * This likely has to be overridden by filters which are more complex
    * than simple operator/value.
    */
-  function init(&$view, &$options) {
+  public function init(&$view, &$options) {
     parent::init($view, $options);
 
     $this->operator = $this->options['operator'];
@@ -56,7 +56,7 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
   /**
    * Default construct.
    */
-  function construct() {
+  public function construct() {
     parent::construct();
     $this->value_title = t('Options');
     $this->value_options = NULL;
@@ -73,7 +73,7 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
    * @return
    *   Return the stored values in $this->value_options if someone expects it.
    */
-  function get_value_options() {
+  public function get_value_options() {
     if (isset($this->value_options)) {
       return;
     }
@@ -93,15 +93,15 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
     return $this->value_options;
   }
 
-  function expose_options() {
+  public function expose_options() {
     parent::expose_options();
   }
 
-  function expose_form(&$form, &$form_state) {
+  public function expose_form(&$form, &$form_state) {
     parent::expose_form($form, $form_state);
   }
 
-  function option_definition() {
+  public function option_definition() {
     $options = parent::option_definition();
 
     $options['operator']['default'] = 'in';
@@ -115,7 +115,7 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
    * to add or remove functionality by overriding this function and
    * adding/removing items from this array.
    */
-  function operators() {
+  public function operators() {
     $operators = array(
       'in' => array(
         'title' => t('Is one of'),
@@ -132,7 +132,8 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
         'values' => 1,
       ),
     );
-    // if the definition allows for the empty operator, add it.
+    
+    // If the definition allows for the empty operator, add it.
     if (!empty($this->definition['allow empty'])) {
       $operators += array(
         'empty' => array(
@@ -156,7 +157,7 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
   /**
    * Build strings from the operators() for 'select' options
    */
-  function operator_options($which = 'title') {
+  public function operator_options($which = 'title') {
     $options = array();
     foreach ($this->operators() as $id => $info) {
       $options[$id] = $info[$which];
@@ -165,7 +166,7 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
     return $options;
   }
 
-  function operator_values($values = 1) {
+  public function operator_values($values = 1) {
     $options = array();
     foreach ($this->operators() as $id => $info) {
       if (isset($info['values']) && $info['values'] == $values) {
@@ -176,7 +177,7 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
     return $options;
   }
 
-  function value_form(&$form, &$form_state) {
+  public function value_form(&$form, &$form_state) {
     $form['value'] = array();
     $options = array();
 
@@ -197,7 +198,7 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
       $identifier = $this->options['expose']['identifier'];
 
       if (empty($this->options['expose']['use_operator']) || empty($this->options['expose']['operator_id'])) {
-        // exposed and locked.
+        // Exposed and locked.
         $which = in_array($this->operator, $this->operator_values(1)) ? 'value' : 'none';
       }
       else {
@@ -220,7 +221,7 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
     }
   }
 
-  function accept_exposed_input($input) {
+  public function accept_exposed_input($input) {
     // A very special override because the All state for this type of
     // filter could have a default:
     if (empty($this->options['exposed'])) {
@@ -239,11 +240,11 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
     return parent::accept_exposed_input($input);
   }
 
-  function value_submit($form, &$form_state) {
+  public function value_submit($form, &$form_state) {
     // Prevent value submit
   }
 
-  function admin_summary() {
+  public function admin_summary() {
     if ($this->is_a_group()) {
       return t('grouped');
     }
@@ -264,7 +265,7 @@ class Views_handler_filter_interests_by_history extends views_handler_filter_in_
     return $operator . (($values !== '') ? ' ' . $values : '');
   }
 
-  function op_simple() {
+  public function op_simple() {
     $this->ensure_my_table();
     $this->value = ding_interests_by_history_suggested_terms();
 

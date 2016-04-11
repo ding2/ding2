@@ -2,8 +2,9 @@
 
 /**
  * @file
- * Ding Interaction Manual implements manual editable entities via ECK
- * so editors of the website can enter text and links to be displayed
+ * Ding Interaction Manual implements manual editable entities via ECK.
+ *
+ * So editors of the website can enter text and links to be displayed
  * in rotation with all the other available ding_interactions
  * Overview: /admin/structure/entity-type/ding_type/ding_interaction
  */
@@ -62,7 +63,6 @@ function ding_interaction_manual_ding_interaction_view() {
     ->addTag('random')
     ->range(0, 1);
 
-
   $result = $query->execute();
   if (isset($result['ding_type'])) {
     $id = array_keys($result['ding_type']);
@@ -76,7 +76,7 @@ function ding_interaction_manual_ding_interaction_view() {
 }
 
 /**
- * Implementation of hook_query_TAG_alter
+ * Implementation of hook_query_TAG_alter().
  */
 function ding_interaction_manual_query_random_alter($query) {
   $query->orderRandom();
@@ -99,7 +99,7 @@ function ding_interaction_manual_ding_interaction_info() {
  * Adds manual interaction help description to config page.
  */
 function ding_interaction_manual_form_alter(&$form, &$form_state, $form_id) {
-  if($form_id == 'ding_interaction_admin_overview') {
+  if ($form_id == 'ding_interaction_admin_overview') {
     $form['ding_interaction_help'] = array(
       '#type' => 'fieldset',
       '#title' => t('Ding interaction help'),

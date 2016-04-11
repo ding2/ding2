@@ -5,6 +5,7 @@
  */
 
 (function ($) {
+  "use strict";
   
   $.widget("ding.interaction", {
     // the constructor
@@ -26,7 +27,7 @@
   });
   
   Drupal.behaviors.ding_interaction = {
-    attach: function (context, settings) {
+    attach: function (context) {
       $('.ding-interaction-pane', context).interaction();
     }
   };

@@ -118,7 +118,7 @@ function ding_serendipity_taxonomy_term_related_by_term_serendipity_add($context
   if ($context['bundle'] == 'ting_object') {
     $results = ding_serendipity_do_search($query, array('limit' => $context['min']));
 
-    // Frontpage could be a taxonomy term
+    // Frontpage could be a taxonomy term.
     $description = t('This content has been promoted to you by the library.');
     if ($context['frontpage'] !== TRUE) {
       $description = t('Content connected to the current term');
@@ -192,10 +192,10 @@ function ding_serendipity_taxonomy_term_popular_objects_serendipity_add($context
 /**
  * Fetch object id's from any term field.
  *
- * @field
- *  Name of field to retrieve
- * @term
- *  Term to retrive objects from
+ * @param string field
+ *  Name of field to retrieve.
+ * @param object term
+ *  Term to retrive objects from.
  *
  * @return array
  *   Array of results, each result should contain a type and an id key.

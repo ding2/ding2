@@ -615,7 +615,7 @@ function ding_list_list_permissions_form_share_callback($form, &$form_state) {
     ));
 
   // Get generated message.
-  $html = theme('ding_list_message', array('message' =>  t('Mail sent')));
+  $html = theme('ding_list_message', array('message' => t('Mail sent')));
   // Popup.
   $response['#commands'][] = ajax_command_ding_popup('ding_list', t('Share'), $html);
 

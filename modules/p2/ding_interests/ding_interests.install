@@ -4,7 +4,8 @@
  * Implements hook_install().
  */
 function ding_interests_install() {
-  // Set an initial value for the schema version so we can run updates after install.
+  // Set an initial value for the schema version so we can run updates after
+  // install.
   drupal_set_installed_schema_version('ding_interests', 7000);
 }
 

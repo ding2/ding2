@@ -1,27 +1,34 @@
 <?php
 
 /**
+ * @file
+ * P2 installation.
+ */
+
+/**
  * Implements hook_install().
  *
  * Add Danish p2 translations.
  */
 function ding_p2_installer_install() {
   $path = drupal_get_path('module', 'ding_p2_installer');
-  $poFile = $path . '/ding_p2_install_da.po';
-  $file = new stdClass;
-  $file->uri = $poFile;
-  $file->filename = basename($poFile); 
+  $po_file = $path . '/ding_p2_install_da.po';
+  $file = new stdClass();
+  $file->uri = $po_file;
+  $file->filename = basename($po_file); 
   _locale_import_po($file, 'da', LOCALE_IMPORT_KEEP, 'default');
   drupal_set_message('Please run a database update to finish the installation of Personalisering / P2.', 'warning');
 
   // Make sure the installer is called after all other ding modules.
-  // This is needed to make sure P2 page variants override those defined in ding core.
+  // This is needed to make sure P2 page variants override those defined in
+  // ding core.
   db_update('system')
-  ->fields(array('weight' => 1001))
-  ->condition('name', 'ding_p2_installer', '=')
-  ->execute();  
+    ->fields(array('weight' => 1001))
+    ->condition('name', 'ding_p2_installer', '=')
+    ->execute();  
   
-  // Set an initial value for the schema version so we can run updates after install.
+  // Set an initial value for the schema version so we can run updates after
+  // install.
   drupal_set_installed_schema_version('ding_p2_installer', 7000);
 }
  
@@ -29,15 +36,14 @@ function ding_p2_installer_install() {
  * Implements hook_update().
  *
  * Inserts ratings and serendipity extra fields on Ting Objects.
+ * This installer sets up a default installation for the whole P2 package
+ * If you install each P2 module individually we assume you don't want the
+ * default installation settings.
+ *
+ * Load each field group for each display mode,
+ * and insert rating and serendipity fields in the correct field groups.
  */
 function ding_p2_installer_update_7001() {
-  // This installer sets up a default installation for the whole P2 package
-  // If you install each P2 module individually we assume you don't want the
-  // default installation settings.
-  
-  // Load each field group for each display mode,
-  // and insert rating and serendipity fields in the correct field groups.
-  
   // Default:
   $view_mode = 'default';
   $group = field_group_load_field_group('group_ting_object_right_column', 'ting_object', 'ting_object', $view_mode);
@@ -121,7 +127,7 @@ function ding_p2_installer_update_7001() {
     'ding_serendipity_lists_followed_terms_ting_objects' => 0,
     'ding_serendipity_site' => 0,
     'ding_serendipity_taxonomy_term' => 0,
-    'ding_serendipity_ting_entity' => 0
+    'ding_serendipity_ting_entity' => 0,
   );
   variable_set('ding_serendipity_callbacks', $defaults);
   

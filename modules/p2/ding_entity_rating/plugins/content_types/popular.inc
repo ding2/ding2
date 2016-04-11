@@ -18,7 +18,7 @@ $plugin = array(
 function ding_entity_rating_popular_content_type_render($subtype, $conf, $panel_args, $context) {
   // Only show on front if serendipity is enabled for the frontpage.
   // See ding_frontpage config at /admin/config/ding/frontend.
-  if(drupal_is_front_page() && !variable_get('ding_frontpage_serendipity') && variable_get('ding_frontpage_promoter') != 'serendipity') {
+  if (drupal_is_front_page() && !variable_get('ding_frontpage_serendipity') && variable_get('ding_frontpage_promoter') != 'serendipity') {
     return;
   }
   
@@ -97,14 +97,14 @@ function ding_entity_rating_popular_content_type_edit_form($form, &$form_state) 
  * Validates the entered date to correct format.
  */
 function ding_entity_rating_popular_content_type_edit_form_validate($form, &$form_state) {
-  if(empty($form_state['values']['month'])) {
+  if (empty($form_state['values']['month'])) {
     return;
   }
   
   $date = DateTime::createFromFormat('Y-m', $form_state['values']['month']);
   $error = !$date || $date->format('Y-m') != $form_state['values']['month'];
 
-  if($error) {
+  if ($error) {
     form_error($form['month'], t('Please make sure you used the correct date format.'));
   }
 }

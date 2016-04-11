@@ -6,8 +6,7 @@
  */
 
 /**
- * Plugins are described by creating a $plugin array which will be used
- * by the system that includes this file.
+ * Plugin description.
  */
 $plugin = array(
   'title' => t('Ding user complete barometer pane'),

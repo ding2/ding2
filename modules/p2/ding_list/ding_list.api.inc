@@ -1,6 +1,12 @@
 <?php
 
 /**
+ * @file
+ *
+ * API documentation.
+ */
+
+/**
  * Add new list types with allowed operations to the current list types.
  *
  * The returned array is mapped by the list type name, and then a list of

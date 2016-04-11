@@ -2,8 +2,8 @@
 
 /**
  * @file
- * This file contains the api functions which developers can use to
- * influence the interaction results.
+ *
+ * Admin forms.
  */
 
 /**
@@ -139,4 +139,3 @@ function ding_interaction_process_options($element) {
   }
   return $element;
 }
-

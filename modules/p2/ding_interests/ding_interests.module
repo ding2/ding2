@@ -62,8 +62,9 @@ function ding_interests_entity_info_alter(&$entity_info) {
 }
 
 /**
- * Synchronize with openlist, create missing lists and update the historical
- * loans list.
+ * Synchronize with openlist.
+ *
+ * Create missing lists and update the historical loans list.
  */
 function ding_interests_ding_list_operations() {
   return array(
@@ -173,7 +174,8 @@ function ding_interests_preprocess_taxonomy_term(&$variables) {
       $status = $status_term->tid;
     }
     
-    // Show the term if its part of "På baggrund af dine lån foreslår vi emneord".
+    // Show the term if its part of "På baggrund af dine lån foreslår vi
+    // emneord".
     // And if the term is "Udvalgt", which is a field set on the term page.
     if ($status == variable_get('ding_interests_selected_tid') && drupal_is_front_page() || !drupal_is_front_page() || isset($variables['content']['show_anyway'])) {
       $account = $variables['user'];
@@ -230,8 +232,10 @@ function ding_interests_preprocess_taxonomy_term(&$variables) {
  *
  * @ajax boolean
  *   Indicates if this call is running through Ajax.
+ *
  * @term object taxonomy_term
  *   The taxonomy term being added.
+ *
  * @account object user
  *   The user to act on.
  *
@@ -283,8 +287,10 @@ function ding_interests_add_to_list_callback($ajax, $term_id, $account, $rating 
  *
  * @ajax boolean
  *   Indicates if this call is running through Ajax.
+ *
  * @term object taxonomy_term
  *   The taxonomy term being added.
+ *
  * @account object user
  *   The user to act on.
  *
@@ -316,8 +322,10 @@ function ding_interests_remove_from_list_callback($ajax, $term, $account) {
  *
  * @term object taxonomy_term
  *   The taxonomy term being added.
+ 
  * @account object user
  *   The user to act on.
+ 
  * @rating number
  *   The rating to give the element.
  *
@@ -330,7 +338,6 @@ function ding_interests_add_to_list($term, $account, $rating) {
   // Get the historical loan list.
   $list = ding_list_get_list(DING_INTERESTS_LIST, $account);
 
-  
   $value = ding_interest_get_term_cql($term);
 
   if (!ding_list_has_ding_list_element($list, 'taxonomy_term', $value)) {
@@ -352,10 +359,13 @@ function ding_interests_add_to_list($term, $account, $rating) {
  *
  * @term object taxonomy_term
  *   The taxonomy term being added.
+ *
  * @account object user
  *   The user to act on.
+ *
  * @rating number
  *   The rating to give the element.
+ *
  * @remove boolean
  *   Indicates if this is a remove button or not.
  *
@@ -627,17 +637,17 @@ function ding_interests_all_recommended_subjects() {
 /**
  * Create CQL to lookup results for a term.
  * 
- * @param term
+ * @param object $term
  *    The term to look up
  * 
  * @return string 
  *    The CQL to lookup the term in Brønden.
  */
 function ding_interest_get_term_cql($term) {
-  // Check if term has a specific CQL already set
+  // Check if term has a specific CQL already set.
   $value = ding_base_get_value('taxonomy_term', $term, 'field_search_string');
   
-  // Fallback to dc.subject
+  // Fallback to dc.subject.
   if ($value === FALSE) {
     $value = 'dc.subject=' . $term->name . '';
   }

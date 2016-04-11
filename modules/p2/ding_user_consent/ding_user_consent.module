@@ -1,7 +1,5 @@
 <?php
 
-define('DING_USER_CONSENT_LOAN_HISTORY_STORE', 'loan_history_store');
-
 /**
  * @file
  * Ding user consent handles the consent of the user.
@@ -12,6 +10,8 @@ define('DING_USER_CONSENT_LOAN_HISTORY_STORE', 'loan_history_store');
  * Once the dispute has settled on CULR, OpenList or something else this should
  * be rewritten and cleaned up.
  */
+
+define('DING_USER_CONSENT_LOAN_HISTORY_STORE', 'loan_history_store');
 
 /**
  * Implements hook_ding_provider_user().
@@ -81,7 +81,8 @@ function ding_user_consent_callback($ajax, $id, $set) {
   if ($ajax) {
     $commands[] = ajax_command_replace('.ding-user-consent-set .choice', $output);
     ajax_deliver($commands);
-  } else {
+  }
+  else {
     return $output;
   }
 }
@@ -160,12 +161,12 @@ function ding_user_consent_has_consent($consent_id = NULL, $account = FALSE) {
  */
 function ding_user_consent_form_profile2_edit_provider_alma_form_alter(&$form, &$form_state, $form_id) {
   global $user;
-  
+
   // If consent longer than 30 days is disabled, ignore the form below.
   if (!variable_get('user_consent_activate')) {
     return;
   }
-  
+
   $profile = $form['profile_provider_alma']['#entity'];
   $account = user_load($profile->uid);
   // Ensure that the user related to this profile form is a valid user.
@@ -199,7 +200,7 @@ function ding_user_consent_form_profile2_edit_provider_alma_form_alter(&$form, &
           );
         }
       }
-      
+
       $form['#validate'][] = 'ding_user_consent_form_profile2_edit_provider_alma_form_validate';
       $form['#submit'][] = 'ding_user_consent_form_profile2_edit_provider_alma_form_submit';
     }
@@ -239,9 +240,6 @@ function ding_user_consent_form_profile2_edit_provider_alma_form_submit($form_id
  *   A mapped array setting consents, where the consent to set is the key.
  * @param object $account
  *   The account to set consent for, if null current user is used.
- *
- * @param array
- *   The changed values.
  */
 function ding_user_consent_set($values, $account = NULL) {
   if ($account === NULL) {
@@ -250,10 +248,10 @@ function ding_user_consent_set($values, $account = NULL) {
   }
   $all_consents = ding_provider_invoke('user_consent', 'info');
   $user_consent = ding_provider_invoke('user_consent', 'get_consent', $account);
-  
+
   $changes = array();
   $consents = array_intersect_key($values, $all_consents);
-  
+
   foreach ($consents as $consent_key => $consent_value) {
     $consent_value = (bool) $consent_value;
     if ($consent_value !== $user_consent[$consent_key]) {
@@ -266,12 +264,12 @@ function ding_user_consent_set($values, $account = NULL) {
       $changes[$consent_key] = $consent_value;
     }
   }
-  
+
   if (!empty($changes)) {
     user_save($account, array('data' => array('consent' => time())));
     module_invoke_all('ding_user_consent_changed', $changes);
   }
-  
+
   return $changes;
 }
 
@@ -404,11 +402,11 @@ function ding_user_consent_ding_interaction_view() {
  */
 function ding_user_consent_ding_interaction_info() {
   global $user;
-  
+
   $active = user_is_logged_in()
     && !ding_user_consent_has_consent(DING_USER_CONSENT_LOAN_HISTORY_STORE)
     && !ding_user_consent_previously_displayed($user);
-    
+
   return array(
     'title' => t('Storage of your loan history'),
     'active' => $active,
