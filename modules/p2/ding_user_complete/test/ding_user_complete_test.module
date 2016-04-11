@@ -80,11 +80,11 @@ function ding_user_complete_test_user_complete() {
     'markup' =>
     "<div class='description'>" .
     t('Vi har noteret at din email er test@ok.dk og dit telefonnummer er 12345678.') .
-    "</div>" .
-    "<ul class='actions'>" .
-    "<li>" . l(t('Ret mine personlige oplysninger'), "user/{$user->uid}/edit") . "</li>" .
-    "<li>" . ctools_ajax_text_button($title, $path, $title, "") . "</li>" .
-    "</ul>",
+    "</div>
+    <ul class='actions'>
+    <li>" . l(t('Ret mine personlige oplysninger'), "user/{$user->uid}/edit") . "</li>
+    <li>" . ctools_ajax_text_button($title, $path, $title, "") . "</li>
+    </ul>",
   );
 
   return $set;

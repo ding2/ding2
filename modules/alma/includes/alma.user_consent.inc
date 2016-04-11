@@ -38,7 +38,7 @@ function alma_user_consent_info() {
  *   TRUE or FALSE depending on the success of the request.
  */
 function alma_user_consent_add($account, $consent) {
-  switch($consent) {
+  switch ($consent) {
     case 'loan_history_store':
       $creds = ding_user_get_creds($account);
       $patron = alma_get_patron($creds);
