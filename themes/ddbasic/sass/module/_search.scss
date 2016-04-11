@@ -528,16 +528,6 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
-.pane-ding-toggle-format-toggle {
-  @extend .pane-ting-search-records-per-page;
-
-  float: right;
-
-  #ding-toggle-format-image {
-    height: 0;
-  }
-}
-
 /* Availability explaination legend */
 .pane-ding-availability-legend {
   clear: both;
