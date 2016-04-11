@@ -703,11 +703,12 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
     return;
   }
 
-  $profiles = array();
-  foreach (ting_field_search_profiles_load_all() as $name => $profile) {
+  $exposed_profiles = array();
+  $profiles = ting_field_search_profiles_load_all();
+  foreach (ting_field_search_profiles_sort($profiles) as $name => $profile) {
     // Only exposed profiles will be shown to the user.
     if ($profile->config['user_interaction']['exposed']) {
-      $profiles[$name] = t('Search in @profile', array(
+      $exposed_profiles[$name] = t('Search in @profile', array(
        '@profile'  => check_plain($profile->title),
       ));
     }
@@ -724,7 +725,7 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
   }
   $form['ting_field_search'] = array(
     '#type' => 'select',
-    '#options' => $profiles,
+    '#options' => $exposed_profiles,
     '#empty_option' => t('Search in standard'),
     '#default_value' => $profile ? $profile : '',
   );
@@ -1012,7 +1013,7 @@ function ting_field_search_profile_create($set_defaults = TRUE) {
 /**
  * Profile export callback for ctools exportable API.
  */
-function ting_field_search_profile_export($profile, $indenct) {
+function ting_field_search_profile_export($profile, $indent) {
   $table = 'ting_field_search_profile';
   ctools_include('export');
 
@@ -1104,6 +1105,18 @@ function ting_field_search_facets_load($pids) {
     return $query->execute();
   }
   return $query->execute()->fetchAllAssoc('name');
+}
+
+/**
+ * Sorts profiles by weight.
+ */
+function ting_field_search_profiles_sort(&$profiles) {
+  uasort($profiles, '_ting_field_search_profiles_weight_sort');
+  return $profiles;
+}
+
+function _ting_field_search_profiles_weight_sort($profile_a, $profile_b) {
+  return $profile_a->weight - $profile_b->weight;
 }
 
 /**
