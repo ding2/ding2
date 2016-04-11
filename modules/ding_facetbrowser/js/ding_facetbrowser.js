@@ -13,7 +13,7 @@ Drupal.behaviors.ding_facetbrowser = {
     var facet_browsers = $(Drupal.settings.ding_facetbrowser.selector);
 
     // Hide extra facet groups (groups that have js-hidden class).
-    facet_browsers.each(function(index, facet_browser) {
+    factet_browsers.once('ding-facetbrowser', function(index, facet_browser) {
       // Create show more link.
       var show_more_groups = $('<a />', {
         href: '#',
@@ -88,7 +88,7 @@ function ding_facetbrowser_fold_facet_group() {
   var facet_browser = $(Drupal.settings.ding_facetbrowser.selector);
 
   // Add show more button to each facet group and hide some terms.
-  facet_browser.find('fieldset.form-wrapper').each(function() {
+  factet_browser.find('fieldset.form-wrapper').once('ding-facetbrowser-group', function() {
     var facetGroup = $(this);
 
     // Limit the number of visible terms in the group.
@@ -191,5 +191,3 @@ function ding_facetbrowser_fold_facet_group() {
 };
 
 })(jQuery);
-
-
