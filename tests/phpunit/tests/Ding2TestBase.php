@@ -16,7 +16,7 @@ class Ding2TestBase extends PHPUnit_Extensions_SeleniumTestCase {
     if ($screenshot_path) {
       $this->captureScreenshotOnFailure = TRUE;
       $this->screenshotPath = $screenshot_path;
-      $screenshot_url = $this->getScreenshotPath();
+      $screenshot_url = $this->getScreenshotUrl();
       $this->screenshotUrl = $screenshot_url ? $screenshot_url : $this->getScreenshotPath();
     }
   }
