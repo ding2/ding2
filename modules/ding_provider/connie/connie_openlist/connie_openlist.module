@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * Testing Openlist provider.
+ */
+
+/**
+ * Implements hook_ding_provider().
+ */
+function connie_openlist_ding_provider() {
+  $path = drupal_get_path('module', 'connie_openlist');
+
+  return array(
+    'title' => 'Connie Openlist provider',
+    'provides' => array(
+      'openlist' => array(
+        'prefix' => 'openlist',
+        'file' => $path . '/connie_openlist.openlist.inc',
+      ),
+    ),
+  );
+}
