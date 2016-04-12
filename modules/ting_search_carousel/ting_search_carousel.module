@@ -168,7 +168,7 @@ function _ting_search_carousel_get_frontpage_covers($index, $start, $count, $que
     return FALSE;
   }
 
-  return ting_search_carousel_get_covers($query['query'], $start, $count, $query_only = FALSE);
+  return ting_search_carousel_get_covers($query['query'], $start, $count, $query_only);
 }
 
 /**
