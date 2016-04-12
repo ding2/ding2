@@ -21,7 +21,7 @@ circle-setup:
 	# Install the site using the ding2 profile
 	cd $(DRUPAL_SITE_PATH) && drush site-install ding2 --db-url=mysql://ubuntu@127.0.0.1/circle_test -y
 	# Set up test site.
-	cd $(DRUPAL_SITE_PATH)/profiles/ding2/tests && make test-setup
+	cd $(DRUPAL_SITE_PATH)/profiles/ding2/tests && make test-setup-phpunit
 	# Make the files directory writable for the web server user.
 	cd $(DRUPAL_SITE_PATH)/sites/default && sudo chown www-data. files
 
