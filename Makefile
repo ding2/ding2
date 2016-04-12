@@ -32,5 +32,5 @@ circle-run-tests:
 	DDBTEST_PASS=12345 \
 	DDBTEST_URL=http://ding2.dev/ \
 	DDBTEST_SCREENSHOT_PATH="$(CIRCLE_ARTIFACTS)/phpunit" \
-	DDBTEST_SCREENSHOT_URL="https://circleci.com/api/v1/project/$(CIRCLE_PROJECT)_USERNAME/$(CIRCLE_PROJECT_REPONAME)/$(CIRCLE_BUILD_NUM)/artifacts/$(CIRCLE_NODE_INDEX)/$(CIRCLE_ARTIFACTS)/phpunit" \
+	DDBTEST_SCREENSHOT_URL="https://circleci.com/api/v1/project/$(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME)/$(CIRCLE_BUILD_NUM)/artifacts/$(CIRCLE_NODE_INDEX)/$(CIRCLE_ARTIFACTS)/phpunit" \
 	./vendor/bin/phpunit --color
