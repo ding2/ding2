@@ -37,3 +37,31 @@ function ding_place2book_field_schema($field) {
 
   return $schema;
 }
+
+/**
+ * Implements hook_update_N().
+ *
+ * Adds defaults for each existing event.
+ */
+function ding_place2book_update_7001(&$sandbox) {
+  $query = new EntityFieldQuery();
+  $result = $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'ding_event')
+    ->execute();
+  
+  if (isset($result['node'])) {
+    foreach ($result['node'] as $item) {
+      $node = new stdClass();
+      $node->nid = $item->nid;
+      $node->type = 'ding_event';
+      $node->field_place2book[LANGUAGE_NONE][0] = [
+        'event_id' => NULL,
+        'event_maker_id' => NULL,
+        'synchronize' => 0,
+      ];
+
+      field_attach_presave('node', $node);
+      field_attach_update('node', $node);
+    }
+  }
+}

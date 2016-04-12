@@ -168,8 +168,15 @@ function ding_place2book_service_admin_form_submit($form, &$form_state) {
  * Form handler for configuration Event makers.
  */
 function ding_place2book_defaults_admin_form($form, &$form_state) {
-  $p2b = P2b\P2b::getInstance();
-  $event_makers = $p2b->getEventMakers();
+  $event_makers = [];
+  try {
+    $p2b = P2b\P2b::getInstance();
+    $event_makers = $p2b->getEventMakers();
+  }
+  catch (Exception $ex) {
+    watchdog_exception('ding_place2book', $ex);
+    drupal_set_message($ex->getMessage(), 'error');
+  }
 
   $options = [];
   array_map(function ($i) use (&$options) {
@@ -186,38 +193,38 @@ function ding_place2book_defaults_admin_form($form, &$form_state) {
 
   $form['ding_p2b_default_synchronize'] = [
     '#type' => 'checkbox',
-    '#title' => t('Default status of syncronisation'),
+    '#title' => t('Maintain copy'),
     '#default_value' => variable_get('ding_p2b_default_synchronize', FALSE),
     '#description' => t('Indicates status of event. If checked, then event will be synchronized with P2b by default.'),
   ];
 
   $form['ding_p2b_default_kultunaut_export'] = [
     '#type' => 'checkbox',
-    '#title' => t('Default status of kultunaut export'),
+    '#title' => t('Kultunaut export'),
     '#default_value' => variable_get('ding_p2b_default_kultunaut_export', FALSE),
     '#description' => t('If checked, then kultunaut export will be enabled by default.'),
   ];
 
   $form['ding_p2b_default_passive'] = [
     '#type' => 'checkbox',
-    '#title' => t('Default status of passive attribute'),
+    '#title' => t('Passive event'),
     '#default_value' => variable_get('ding_p2b_default_passive', FALSE),
     '#description' => t('If checked, then event will be marked as passive by default.'),
   ];
 
   $form['ding_p2b_default_capacity'] = [
     '#type' => 'textfield',
-    '#title' => t('Default value for capacity of event'),
+    '#title' => t('Capacity'),
     '#default_value' => variable_get('ding_p2b_default_capacity', 0),
-    '#description' => t('By default event capacity will be set to entered value(0 - unlimited).'),
+    '#description' => t('The default capacity for new events. Set to 0 for unlimited capacity.'),
     '#element_validate' => ['element_validate_integer'],
   ];
 
   $form['ding_p2b_default_price_name'] = [
     '#type' => 'textfield',
-    '#title' => t("Default name of event's price."),
+    '#title' => t("Ticket type."),
     '#default_value' => variable_get('ding_p2b_default_price_name', 'Adgang'),
-    '#description' => t('Represents default name of price.'),
+    '#description' => t('The default ticket type for new events.'),
   ];
 
   return system_settings_form($form);

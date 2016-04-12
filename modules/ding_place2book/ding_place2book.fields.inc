@@ -53,6 +53,7 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
     try {
       $p2b = P2b\P2b::getInstance();
       $event = $p2b->getEvent($event_maker_id, $event_id);
+      $meta_data = isset($event->meta_data) ? $event->meta_data : NULL;
       $prices = $p2b->getPrices($event_maker_id, $event_id);
     }
     catch (Exception $ex) {
@@ -130,12 +131,21 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
         }
       }
 
+      if (!isset($event->capacity)) {
+        $capacity = variable_get('ding_p2b_default_capacity', 0);
+      }
+      elseif ($event->capacity == '∞') {
+        $capacity = 0;
+      }
+      else {
+        $capacity = $event->capacity;
+      }
       $element['place2book']['capacity'] = [
         '#type' => 'textfield',
         '#title' => t('Event capacity'),
         '#size' => 5,
         '#maxlength' => 5,
-        '#default_value' => isset($event->capacity) ? $event->capacity : variable_get('ding_p2b_default_capacity', 0),
+        '#default_value' => $capacity,
         '#description' => t('Capacity of event. 0 - unlimited.'),
         '#element_validate' => ['element_validate_integer'],
         '#states' => [
@@ -145,10 +155,17 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
         ],
       ];
 
+      $passive = 0;
+      if (!isset($meta_data->event_state)) {
+        $passive = variable_get('ding_p2b_default_passive', FALSE);
+      }
+      elseif ($meta_data->event_state == 'passive') {
+        $passive = 1;
+      }
       $element['place2book']['passive'] = [
         '#type' => 'checkbox',
         '#title' => t('Passive event'),
-        '#default_value' => isset($event->mute) ? $event->mute : variable_get('ding_p2b_default_passive', FALSE),
+        '#default_value' => $passive,
         '#description' => t('If checked, event will be marked as passive with no ticket sale.'),
         '#states' => [
           'visible' => [

@@ -14,14 +14,14 @@ function ding_place2book_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'ding_p2b_default_capacity';
-  $strongarm->value = '1';
+  $strongarm->value = '0';
   $export['ding_p2b_default_capacity'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'ding_p2b_default_event_maker';
-  $strongarm->value = '227';
+  $strongarm->value = NULL;
   $export['ding_p2b_default_event_maker'] = $strongarm;
 
   $strongarm = new stdClass();
