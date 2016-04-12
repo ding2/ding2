@@ -275,6 +275,12 @@ projects[emailkanon][download][type] = "git"
 projects[emailkanon][download][url]  = "git@github.com:easySuite/emailkanon.git"
 projects[emailkanon][download][branch]  = "development"
 
+projects[ding_event_calendar][type]           = "module"
+projects[ding_event_calendar][subdir]         = ""
+projects[ding_event_calendar][download][type] = "git"
+projects[ding_event_calendar][download][url]  = "git@github.com:easySuite/ding_event_calendar.git"
+projects[ding_event_calendar][download][branch]  = "development"
+
 ; Social Services modules and libraries
 projects[social_services][type]             = "module"
 projects[social_services][download][type]   = "git"
