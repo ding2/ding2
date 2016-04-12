@@ -1,0 +1,12 @@
+
+.lazy-pane-placeholder {
+  text-align: center;
+}
+
+.lazy-pane-placeholder .lazy-pane-spinner {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  padding: 20px;
+  background: transparent url('../images/loading.gif') no-repeat center center;
+}

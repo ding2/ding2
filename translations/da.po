@@ -13363,7 +13363,7 @@ msgstr "Administration"
 
 #: bpi.module:190
 msgid "Syndicate content"
-msgstr "Syndikér indhold"
+msgstr "Hent indhold"
 
 #: bpi.module:194
 msgid "Push content"
@@ -44660,7 +44660,7 @@ msgstr "Overskredne lån"
 
 #: /user/36/status
 msgid "Due in @count, @date"
-msgstr "Afleveres senest om @count, @date"
+msgstr "Aflevér senest <B>@date</B>"
 
 #: /user/36/status
 msgid "Material no."
@@ -45450,6 +45450,10 @@ msgstr "Log ind typer"
 #: /
 msgid "Login with NemID"
 msgstr "Log ind med NemID"
+
+#: /
+msgid "Login with !logo"
+msgstr "Log ind med !logo"
 
 msgid "Close"
 msgstr "Luk"
@@ -47754,7 +47758,7 @@ msgid "Exclude paths"
 msgstr ""
 
 msgid "The material is in transit and is still not available for loan on the library"
-msgstr "Materialet er på vej til dit afhentningsbibliotek"
+msgstr "materiale(r) er på vej til dit afhentningsbibliotek"
 
 #: /user/6/status/debts
 msgid "* Invoiced fees can't be paid online."
@@ -48224,3 +48228,141 @@ msgstr "Ding!"
 #: ting_oembed_features/ting_oembed_features.info:0
 msgid "Ting oEmbed Features"
 msgstr "Ting oEmbed funktioner"
+
+#: /wayf/login?eduPersonTargetedID=WAYF-DK-e767c06edaad0f8d23e785bbc470e7f37ad03e8d&mail=&logintype=nemlogin
+msgid "Something went wrong. Please try again or !url of WAYF."
+msgstr ""
+"Du er stadig logget ind ved NemID, og det anbefales derfor at du klikker på !url for at logge ud, samt at du derefter lukker din browser."
+
+#: /wayf/login?eduPersonTargetedID=WAYF-DK-e767c06edaad0f8d23e785bbc470e7f37ad03e8d&mail=&logintype=nemlogin
+msgid "logout"
+msgstr "Log ud"
+
+#: /system/ajax
+msgid "Authenticate"
+msgstr "<p>Du har indtastet et forkert lånernummer/cpr eller en forkert pinkode, eller du er ikke oprettet som låner ved biblioteket.</p><p>Har du glemt din pinkode så kontakt dit lokale  <a href="@url">bibliotek</a>.</p>"
+
+#: /ding_availability/holdings/45435865
+msgid "The waiting time is currently: <strong>@wait</strong>."
+msgstr "Ventetiden er i øjeblikket ca.: <strong>@wait</strong>."
+
+#: /
+msgid "Create user"
+msgstr "Opret bruger"
+
+#: /gatewayf/callback?destination=ding_frontpage?eduPersonTargetedID=WAYF-DK-e767c06edaad0f8d23e785bbc470e7f37ad03e8d&mail=&logintype=nemlogin
+msgid "You do not have an user account at the public library. If you wish to create an user account !user_url . You are still logged in at WAYF, so you can !logout to logout of WAYF."
+msgstr "<p>Du er ikke låner ved biblioteket. Hvis du ønsker at oprette dig som låner kan du !user_url.</p>\r\n <p>Du er stadig logget ind ved NemID, så du kan !logout for at logge ud.</p>"
+
+#: /search/ting/+.net
+msgid "Best match on title"
+msgstr "Jeg leder efter en titel"
+
+#: /search/ting/+.net
+msgid "Best match on creator"
+msgstr "Jeg leder efter en forfatter"
+
+#: /search/ting/+.net
+msgid "Best match on subject"
+msgstr "Jeg leder efter et emne"
+
+#: /node/add/ding-news?render=overlay&render=overlay
+msgid "This post is unpublished and will be published @publish_time."
+msgstr "Indlægget er ikke publiceret. Det vil blive publiceret @publish_time.\r\n"
+
+#: /node/38/done?sid=1&token=5ca52221875f9ad73112d147e3eb37fe
+msgid "Thank you, your submission has been received."
+msgstr "Tak for din henvendelse. Vi vender snarest tilbage. "
+
+#: /node/38/done?sid=1&token=5ca52221875f9ad73112d147e3eb37fe
+msgid "Go back to the form"
+msgstr "Tilbage til formularen. "
+
+#: /content/testform
+msgid "You have already submitted this form."
+msgstr "Du har allerede indsendt en henvendelse med formularen. "
+
+#: /content/testform
+msgid "<a href=\"!url\">View your previous submissions</a>."
+msgstr "<a href=\"!url\">Se din tidligere henvendelse</a>."
+
+#: /content/testform
+msgid "The entered e-mail address \"@email\" does not appear valid."
+msgstr "Den indtastede e-mailadresse \"@email\" er ikke korrekt formateret. "
+
+#: /admin/config/ding/gatewayf?render=overlay
+msgid "I accept the library's regulations and rules."
+msgstr "Jeg accepterer bibliotekets reglement"
+
+#: /gatewayf/registration/acceptance
+msgid "I accept the user agreements"
+msgstr "Accept af betingelser"
+
+#: /gatewayf/registration/acceptance
+msgid "The Email address that we can use to get in contact with you."
+msgstr "Din emailadresse"
+
+#: /gatewayf/registration/acceptance
+msgid "Pin code"
+msgstr "Pinkode"
+
+#: /gatewayf/registration/acceptance
+msgid "Pin code with an max length of %length"
+msgstr "Pinkode <b>skal</b> være %length tal\r\n"
+
+#: /gatewayf/registration/acceptance
+msgid "Create me"
+msgstr "Opret mig"
+
+#: /admin/config/ding/gatewayf?render=overlay
+msgid "Success"
+msgstr "Gennemført"
+
+#: /admin/config/ding/gatewayf?render=overlay
+msgid "You have been registered at the library as an user."
+msgstr "Du er nu oprettet som bruger."
+
+#: /ting/object/870970-basis%3A49401841/reserve/NDk0MDE4NDFaWE5yLiAwMDYvMDA3WlhKdW5pL0p1bGlaWDIwMTNaWFpY/MjAxMw%3D%3D/SnVuaS9KdWxpLCBOci4gMDA2LzAwNw%3D%3D
+msgid "\"@title\" is not available for reservation."
+msgstr "\"@title\" kan ikke reserveres."
+
+#: /admin/config/ding/gatewayf?render=overlay
+msgid "Self registration"
+msgstr "Ny bruger - NemID"
+
+#: /admin/config/ding/gatewayf?render=overlay
+msgid "Start self registration"
+msgstr "Opret dig som bruger"
+
+#: /admin/config/ding/gatewayf?render=overlay
+msgid "Please read the library's regulations for usage before you use self registration."
+msgstr "<p>Her kan du oprette dig som bruger ved biblioteket.</p><p>For at oprette dig skal du bruge dit NemID, og du skal være:<ol><li>fyldt 18 år</li><li>godkende at have læst og accepteret bibliotekets reglement og takster</li></ol></p><p>Du kan selvfølgelig stadig oprette dig som bruger ved personlig henvendelse.</p>"
+
+#: /gatewayf/registration/acceptance
+msgid "You already have an user account at the library. So we have just logged you in."
+msgstr "Du er allerede oprettet som bruger hos biblioteket, og du er derfor logget ind."
+
+#: /
+msgid "NemID logo"
+msgstr "NemID logo"
+
+#: /gatewayf/callback?destination=ding_frontpage?eduPersonTargetedID=WAYF-DK-e767c06edaad0f8d23e785bbc470e7f37ad03e8d&mail=&logintype=nemlogin
+msgid "click here"
+msgstr "klikke her"
+
+#: /gatewayf/registration/acceptance
+msgid "Your full name."
+msgstr "Dit fulde navn"
+
+#: /gatewayf/registration/acceptance
+msgid "Select an interest period."
+msgstr "Vælg en interesseperiode"
+
+msgid "You are now logged out of WAYF."
+msgstr "Du er nu logget ud af NemID."
+
+msgid "The pincode must consist of exactly %number digits."
+msgstr "Pinkoden skal bestå af %number cifre."
+
+msgid "You are not allowed to automatically be created because of the age limit (!limit years). Please go to your local library to registry."
+msgstr "Du kan ikke oprette dig som bruger via NemID på grund af aldersbegrænsningen (!limit år). Du kan blive oprettet som bruger ved personlig henvendelse på biblioteket."

@@ -122,6 +122,10 @@ function ddbasic_form_alter(&$form, &$form_state, $form_id) {
       $form['pass']['#field_prefix'] = '<i class="icon-lock"></i>';
       $form['pass']['#attributes']['placeholder'] = t('Pincode is 4 digits');
 
+      // Add JavaScript that will place focus in the login box, when the Login
+      // is clicked.
+      drupal_add_js(drupal_get_path('theme', 'ddbasic') . '/scripts/ddbasic.login.js', 'file');
+
       unset($form['links']);
 
       // Temporary hack to get rid of open id links.
@@ -679,7 +683,7 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       $title_prefix = '<i class="icon-user"></i>';
       // If a user is logged in we change the menu item title.
       if (user_is_logged_in()) {
-        $element['#title'] = t('My Account');
+        $element['#title'] = 'My Account';
         $element['#attributes']['class'][] = 'topbar-link-user-account';
         $element['#localized_options']['attributes']['class'][] = 'topbar-link-user-account';
       }
@@ -694,8 +698,6 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       $element['#localized_options']['attributes']['class'][] = 'topbar-link-signout';
       $element['#attributes']['class'][] = 'topbar-link-signout';
 
-      // For some unknown issue translation fails for this title.
-      $element['#title'] = t($element['#title']);
       break;
 
     default:
@@ -704,6 +706,9 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       $element['#attributes']['class'][] = 'topbar-link-menu';
       break;
   }
+
+   // For some unknown issue translation fails.
+  $element['#title'] = t($element['#title']);
 
   $output = l($title_prefix . '<span>' . $element['#title'] . '</span>', $element['#href'], $element['#localized_options']);
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";

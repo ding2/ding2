@@ -1,0 +1,490 @@
+<?php
+/**
+ * @file
+ * Defines hooks into the system and main functionality for the module.
+ */
+
+define('DING_GATEWAYF_LOGIN_URL', 'gatewayf/login');
+define('DING_GATEWAYF_LOGOUT_URL', 'gatewayf/logout');
+define('DING_GATEWAYF_CALLBACK_URL', 'gatewayf/callback');
+
+// Constant used as index into the users session.
+define('DING_GATEWAYF_IS_LOGGED_IN', 'wayf_logged_in');
+define('DING_GATEWAYF_ATTRIBUTES', 'ding_gatewayf_attributes');
+
+/**
+ * Implements hook_permission().
+ */
+function ding_gatewayf_permission() {
+  return array(
+    'configure gatewayf' => array(
+      'title' => t('Configure gateway WAYF'),
+      'description' => t('Allow role to configure gate WAYF settings.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_gatewayf_menu() {
+  $items = array();
+
+  // Administration config page.
+  $items['admin/config/ding/gatewayf'] = array(
+    'title' => 'Gateway WAYF',
+    'description' => 'Configure gateway WAYF access (NemID)',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_gatewayf_admin_settings_form'),
+    'access arguments' => array('configure gatewayf'),
+    'file' => 'includes/ding_gatewayf.admin.inc',
+  );
+
+  // Redirect the user to gatewayf for authentication.
+  $items[DING_GATEWAYF_LOGIN_URL] = array(
+    'page callback' => 'ding_gatewayf_login',
+    'access callback' => 'user_is_anonymous',
+    'type' => MENU_CALLBACK,
+  );
+
+  // Redirect the user to gatewayf for logout.
+  $items[DING_GATEWAYF_LOGOUT_URL] = array(
+    'page callback' => 'ding_gatewayf_logout',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  $items[DING_GATEWAYF_CALLBACK_URL] = array(
+    'page callback' => 'ding_gatewayf_callback',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Check that gatewayf was used to login with.
+ *
+ * @return bool
+ *   TRUE if used else FALSE.
+ */
+function ding_gatewayf_logout_access_check() {
+  return _ding_gatewayf_is_logged_in_with_gatewayf();
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_gatewayf_theme($existing, $type, $theme, $path) {
+  return array(
+    'ding_gatewayf_login' => array(
+      'template' => 'ding-gatewayf-login',
+      'variables' => array(
+        'link' => NULL,
+      ),
+      'path' => $path . '/templates',
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function ding_gatewayf_block_info() {
+  return array(
+    'login' => array(
+      'info' => t('Ding GateWAYF login link'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function ding_gatewayf_block_view() {
+  $block = new stdClass();
+
+  $img = array(
+    '#theme' => 'image',
+    '#path' => drupal_get_path('module', 'ding_gatewayf') . '/images/nemid_logo.png',
+    '#alt' => t('NemID logo'),
+    '#title' => t('NemID logo'),
+  );
+
+  $block->content = array(
+    '#theme' => 'ding_gatewayf_login',
+    '#link' => array(
+      '#theme' => 'link',
+      '#text' => t('Login with !logo', array('!logo' => drupal_render($img))),
+      '#path' => DING_GATEWAYF_LOGIN_URL,
+      '#options' => array(
+        // The attributes array is required or drupal_render will return WSOD.
+        'attributes' => array(),
+        'query' => array(
+          drupal_get_destination(),
+        ),
+        'html' => TRUE,
+      ),
+    ),
+  );
+
+  return $block;
+}
+
+/**
+ * Implements hook_user_logout().
+ */
+function ding_gatewayf_user_logout() {
+  // Check if the user used gatewayf to login, there is no need to redirect the
+  // user if gatewayf was not used.
+  if (_ding_gatewayf_is_logged_in_with_gatewayf()) {
+    ding_gatewayf_logout();
+  }
+}
+
+
+/**
+ * Redirect the user to login page at the gatewayf service.
+ */
+function ding_gatewayf_login() {
+  $config = _ding_gatewayf_load_configuration();
+
+  // Check if destination is set and if it is encode it into the callback URL so
+  // the user can be redirect to correct page after login at gatewayf.
+  $callback = $config['service']['callback'];
+  if (!empty($_REQUEST['destination'])) {
+    $callback = urlencode($callback . '?destination=' . $_REQUEST['destination']);
+  }
+
+  // Redirect the user by setting the location header.
+  header('Location:' . $config['service']['endpoint'] . '?returnUrl=' . $callback . '&idp=' . $config['service']['idp']);
+
+  drupal_exit();
+}
+
+/**
+ * Redirect the user to logout page at the gatewayf service.
+ */
+function ding_gatewayf_logout() {
+  $config = _ding_gatewayf_load_configuration();
+
+  // Remove indication of WAYF login.
+  if (!empty($_SESSION[DING_GATEWAYF_IS_LOGGED_IN])) {
+    unset($_SESSION[DING_GATEWAYF_IS_LOGGED_IN]);
+  }
+
+  drupal_set_message(t('You are now logged out of WAYF.'));
+
+  // Get the logout url for the site, which is used to redirect the user after
+  // logout. This needs to handle two cases:
+  // - If the Drupal user is logged in then return to the Drupal logout path
+  //   This ensures that the logout process is completed even if this function
+  //   is not the last to complete
+  // - If no Drupal user is logged in and we still want to log the user out
+  //   then we just return to the frontpage.
+  $return_path = (!user_is_anonymous()) ? 'user/logout' : '<front>';
+  $return_url = url($return_path, array('absolute' => TRUE));
+
+  // Redirect to the gateway to perform the actual logout.
+  header('Location:' . $config['service']['endpoint'] . '?op=logout&returnUrl=' . $return_url);
+
+  drupal_exit();
+}
+
+/**
+ * Handle callback from the gatewayf service.
+ *
+ * This handles all callbacks from the service after login.
+ */
+function ding_gatewayf_callback() {
+  // Check error callback.
+  $error = isset($_GET['error']) ? $_GET['error'] : FALSE;
+  if ($error) {
+    watchdog('ding_gatewayf', 'The gateway returned an error: %error', array('%error' => $error), WATCHDOG_ERROR);
+  }
+
+  // Gatewayf does some url encoding of the destination parameter in the
+  // request, so we need to clean it up.
+  if (!empty($_REQUEST['destination'])) {
+    $_REQUEST['destination'] = substr($_REQUEST['destination'], 0, strpos($_REQUEST['destination'], '?'));
+  }
+
+  $attributes = $_POST;
+
+  // Check if the login was successful and the users information was returned.
+  if (!empty($attributes['schacPersonalUniqueID'])) {
+    $config = _ding_gatewayf_load_configuration();
+
+    if ($config['development']['log_auth_data']) {
+      watchdog('ding_gatewayf', 'Authentication data: %data', array('%data' => var_export($_POST, TRUE)), WATCHDOG_DEBUG);
+    }
+
+    // Set flag in session that we are logged in via gateway. It's not
+    // prefixed with gatewayf, but just wayf so it can be used by all wayf
+    // modules to indicate that the user was logged in via wayf. This could
+    // then be used to change behaviour in forgotten pin-code in the user
+    // profile (not requiring old password when logged in with wayf).
+    $_SESSION[DING_GATEWAYF_IS_LOGGED_IN] = TRUE;
+
+    // Log into the library system and Drupal.
+    _ding_gatewayf_provider_login($attributes);
+  }
+  else {
+    watchdog('ding_gatewayf', 'The gateway returned no error and no schacPersonalUniqueID', array(), WATCHDOG_ERROR);
+
+    // Set message to the user.
+    drupal_set_message(t('The login with nem-login failed please try again later.'), 'error');
+
+    _ding_gatewayf_redirect_user('<front>');
+  }
+}
+
+/**
+ * Implements hook_ding_provider_user().
+ *
+ * This module requires that the provider has WAYF support.
+ */
+function ding_gatewayf_ding_provider_user() {
+  return array(
+    'wayf' => array(
+      'required' => TRUE,
+      'install time setup' => FALSE,
+    ),
+  );
+}
+
+/**
+ * Login user to the library system and Drupal.
+ *
+ * @param array $attributes
+ *   Attributes returned by gatewayf service.
+ */
+function _ding_gatewayf_provider_login(array $attributes) {
+  if (ding_provider_implements('wayf', 'login_credentials')) {
+    // Parse the attributes required by the current provider.
+    $required_attr = _ding_gatewayf_get_credentials($attributes);
+
+    // Ding gatewayf comes with an hidden variable that can be used to map the
+    // CPR return from gatewayf to another user. This is very useful during
+    // development, if the developer does not have real library account.
+    if (variable_get('ding_gatewayf_cpr_mapping', 0)) {
+      // It's inserted into the name credential.
+      $required_attr['schacPersonalUniqueID'] = variable_get('ding_gatewayf_cpr_mapping', '');
+    }
+
+    // Get credentials from the provider.
+    $credentials = ding_provider_invoke('wayf', 'login_credentials', $required_attr);
+    if (!empty($credentials)) {
+      // Set values to send with the login form.
+      $form_state = array(
+        'values' => $credentials,
+      );
+
+      // Submit login form to trigger login, where the login process goes
+      // through the whole process in ding_user.
+      drupal_form_submit('user_login_block', $form_state);
+
+      // Check if the submission trigger any form errors. If there where errors
+      // in the form and the registration module exists and this is a
+      // registration request then go to the user registration pages. On the
+      // other hand if no errors and this was a registration request display
+      // message that the user simply have been logged in and already has an
+      // user in the library system.
+      $errors = form_get_errors();
+      if (!empty($errors)) {
+
+        if (module_exists('ding_gatewayf_registration')) {
+          // Clean out message from the login form.
+          drupal_get_messages(NULL, TRUE);
+
+          // Check if this was an register user request and temporally store
+          // information about the user in the session. Due to the redirects
+          // this is the only way to get the information from login callback to
+          // the acceptance form.
+          if (_ding_gatewayf_registration_is_registration_request()) {
+            $_SESSION[DING_GATEWAYF_ATTRIBUTES] = $attributes;
+          }
+          else {
+            // Display message that the user don't have an account an then can
+            // create on or logout.
+            drupal_set_message(t('You do not have an user account at the public library. If you wish to create an user account !user_url . You are still logged in at WAYF, so you can !logout to logout of WAYF.', array(
+              '!logout' => l(t('click here'), DING_GATEWAYF_LOGOUT_URL),
+              '!user_url' => l(t('click here'), DING_GATEWAYF_REGISTRATION_INFORMATION_URL),
+            )), 'warning');
+          }
+        }
+        else {
+          // Set new default message.
+          drupal_set_message(t('Something went wrong. Please try again or !url of WAYF.', array('!url' => l(t('logout'), DING_GATEWAYF_LOGOUT_URL))), 'warning');
+        }
+      }
+      elseif (_ding_gatewayf_registration_is_registration_request()) {
+        // Account exists in the library system, so skip self registration
+        // request.
+        drupal_set_message(t('You already have an user account at the library. So we have just logged you in.'));
+
+        // Remove the redirect to acceptance page.
+        unset($_REQUEST['destination']);
+        unset($_GET['destination']);
+
+        // Redirect to the front-page.
+        _ding_gatewayf_redirect_user('<front>');
+      }
+    }
+    else {
+      drupal_set_message(t('Something went wrong. Please try again or !url of WAYF.', array('!url' => l(t('logout'), DING_GATEWAYF_LOGOUT_URL))), 'warning');
+    }
+  }
+
+  _ding_gatewayf_redirect_user();
+}
+
+/**
+ * Redirect the user after login.
+ *
+ * If destination query string exists the user is redirect to it else send to
+ * profile page.
+ *
+ * @param string $url
+ *   The url to redirect to if destination is not set in the request. Defaults
+ *   to /user.
+ */
+function _ding_gatewayf_redirect_user($url = 'user') {
+  if (!empty($_REQUEST['destination'])) {
+    // When logged in with gatewayf the destination is part of the get request.
+    // So to use the cleaned up destination we unset it.
+    unset($_GET['destination']);
+
+    // We do not user drupal_get_destination here as it will set the destination
+    // if one do not exists.
+    $url = $_REQUEST['destination'];
+  }
+
+  drupal_goto($url);
+}
+
+/**
+ * Get user credentials from SAML attributes and the user provider.
+ *
+ * @param array $attributes
+ *   WAYF attributes.
+ *
+ * @return array
+ *   Attributes filter based on the active provider. Defaults to
+ *   'schacPersonalUniqueID' with social security number (CPR).
+ */
+function _ding_gatewayf_get_credentials(array $attributes) {
+  // Set default required attributes.
+  $required_attributes = array(
+    'schacPersonalUniqueID' => array(
+      'field' => 'CPR',
+      'authname' => TRUE,
+    ),
+  );
+
+  // Ask the provider about required attributes and give it a change to override
+  // defaults.
+  if (ding_provider_implements('wayf', 'attributes')) {
+    $required_attributes = ding_provider_invoke('wayf', 'attributes', $required_attributes);
+  }
+
+  // Filter the attributes from WAYF/SAML and only return required once.
+  return _ding_gatewayf_get_required_attributes($attributes, $required_attributes);
+}
+
+/**
+ * Extract required attributes from available WAYF attributes.
+ *
+ * @param array $attributes
+ *   WAYF attributes.
+ * @param array $required_attributes
+ *   Required attributes.
+ *
+ * @return array
+ *   Will be empty if not all required attributes is present.
+ */
+function _ding_gatewayf_get_required_attributes(array $attributes, array $required_attributes) {
+  $attribute_list = array();
+
+  if (!empty($attributes)) {
+    foreach ($required_attributes as $attribute => $value) {
+      if (isset($attributes[$attribute])) {
+        $attribute_list[$attribute] = _ding_gatewayf_extract_data($attributes[$attribute], $value['field']);
+      }
+    }
+  }
+
+  // Check that required attributes where found. If not reset the array to be
+  // empty as some attributes may have been found.
+  if (count($required_attributes) != count($attribute_list)) {
+    watchdog('ding_gatewayf', t('Not all required attributes was returned from gatewayf'), array(), WATCHDOG_ERROR);
+    $attribute_list = array();
+  }
+
+  return $attribute_list;
+}
+
+/**
+ * Extracts a field from a SAML attribute string.
+ *
+ * @param string $data
+ *   The attribute form the authentication provider.
+ * @param string $field
+ *   The field to extract from the string.
+ *
+ * @return string
+ *   The value of the field.
+ */
+function _ding_gatewayf_extract_data($data, $field = '') {
+  if (empty($field)) {
+    return $data[0];
+  }
+  else {
+    $field .= ':';
+
+    if (($pos = strpos($data[0], $field)) !== FALSE) {
+      return drupal_substr($data[0], $pos + strlen($field));
+    }
+    else {
+      return '';
+    }
+  }
+}
+
+/**
+ * Load configuration and set valid defaults.
+ *
+ * @return array
+ *   The configuration with valid default values.
+ */
+function _ding_gatewayf_load_configuration() {
+  $config = variable_get('ding_gatewayf', array()) + array(
+    'service' => array(
+      'endpoint' => 'https://bibliotek.dk/gatewayf/gatewayf.php',
+    ),
+    // The development configuration array is wrapped in the variable get to
+    // allow developers to set the configutation in settings.php.
+    'development' => variable_get('ding_gatewayf_development', array(
+      'log_auth_data' => FALSE,
+    )),
+  );
+
+  // Extend configuration with hard-coded values.
+  $config['service'] += array(
+    'callback' => url(DING_GATEWAYF_CALLBACK_URL, array('absolute' => TRUE)),
+    'idp' => 'nemlogin',
+  );
+
+  return $config;
+}
+
+/**
+ * Check if the current user session is logged in with gatewayf service.
+ *
+ * @return bool
+ *   TRUE if logged in with gatewayf else FALSE.
+ */
+function _ding_gatewayf_is_logged_in_with_gatewayf() {
+  return isset($_SESSION[DING_GATEWAYF_IS_LOGGED_IN]) ? $_SESSION[DING_GATEWAYF_IS_LOGGED_IN] : FALSE;
+}

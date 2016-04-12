@@ -39,17 +39,17 @@ function ding_periodical_menu() {
  * @param TingEntity $entity
  *   Ting entity for the periodical.
  * @param string $local_id
- *   Local library id (faust) for the issue.
+ *   Local library id (faust) for the issue (base64 encoded).
  * @param string $volume
- *   Volume number (for year books the year).
+ *   Volume number (for year books the year, base64 encoded).
  * @param string $issue
- *   The issue in the volume to reserve.
+ *   The issue in the volume to reserve (base64_encoded).
  *
  * @return array
  *   Render array with Ajax commands.
  */
 function ding_periodical_reserve_ajax($entity, $local_id, $volume, $issue) {
-  $reservable = new DingPeriodicalReservable($local_id, $volume, $issue, $entity);
+  $reservable = new DingPeriodicalReservable(base64_decode($local_id), base64_decode($volume), base64_decode($issue), $entity);
 
   // Use ding reservation logic to create the reservation and ajax commands.
   return ding_reservation_reserve_ajax($entity, $reservable);
@@ -135,12 +135,14 @@ function theme_ding_periodical_issues($variables) {
 
       // Check if the volume is reservable and add reservation button.
       if (!empty($issue_id) && ding_periodical_is_reservable($issues[$key])) {
-        $path = array($issue_id, $volume, $key);
+        $item_id = array($issue_id, $volume, $key);
+        $item_id = array_map('base64_encode', $item_id);
+
         $button = array(
           array(
             '#theme' => 'link',
             '#text' => t('Reserve'),
-            '#path' => 'ting/object/' . $variables['entity']->id . '/reserve/' . implode('/', $path),
+            '#path' => 'ting/object/' . $variables['entity']->id . '/reserve/' . implode('/', $item_id),
             '#options' => array(
               'attributes' => array(
                 'class' => array(

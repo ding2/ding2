@@ -92,6 +92,14 @@ class AlmaClient {
           case 'reservationNotFound':
             throw new AlmaClientReservationNotFound('Reservation not found');
 
+          case 'invalidPatron':
+            if ($method == 'patron/selfReg') {
+              throw new AlmaClientUserAlreadyExistsError();
+            }
+            else {
+              throw new AlmaClientInvalidPatronError();
+            }
+
           default:
             throw new AlmaClientCommunicationError('Status is not okay: ' . $message);
         }
@@ -120,6 +128,9 @@ class AlmaClient {
       'pinCodeChange',
       'address',
       'emailAddress',
+      'securityNumber',
+      'pin',
+      'email',
     );
 
     $log_params = array();
@@ -365,6 +376,23 @@ class AlmaClient {
   }
 
   /**
+   * Get a list of historical loans.
+   */
+  public function get_historical_loans($borr_card, $from = 0) {
+    $doc = $this->request('patron/loans/historical', array('borrCard' => $borr_card, 'fromDate' => date('Y-m-d', $from)));
+
+    $loans = array();
+    foreach ($doc->getElementsByTagName('catalogueRecord') as $item) {
+      $loans[] = array(
+        'id' => $item->getAttribute('id'),
+        'loan_date' => strtotime($item->parentNode->getAttribute('loanDate'))
+      );
+    }
+
+    return $loans;
+  }
+
+  /**
    * Get patron's current loans.
    */
   public function get_loans($borr_card, $pin_code) {
@@ -396,6 +424,70 @@ class AlmaClient {
    */
   private static function loan_sort($a, $b) {
     return strcmp($a['due_date'], $b['due_date']);
+  }
+
+  /**
+   * Add user consent.
+   */
+  public function add_user_consent($borr_card, $pin_code, $type) {
+    // Initialise the query parameters with the current value from the
+    // reservation array.
+    $params = array(
+      'borrCard' => $borr_card,
+      'pinCode' => $pin_code,
+      'allowType' => $type,
+    );
+
+    try {
+      $doc = $this->request('patron/allow/add', $params);
+      $res_status = $doc->getElementsByTagName('status')->item(0)->getAttribute('value');
+      // Return error code when patron is blocked.
+      if ($res_status != 'ok') {
+        return ALMA_AUTH_BLOCKED;
+      }
+
+      // General catchall if status is not okay is to report failure.
+      if ($res_status == 'consentNotOk') {
+        return FALSE;
+      }
+    }
+    catch (AlmaClientConsentNotFound $e) {
+      return FALSE;
+    }
+
+    return $res_status;
+  }
+
+  /**
+   * Remove user consent.
+   */
+  public function remove_user_consent($borr_card, $pin_code, $type) {
+    // Initialise the query parameters with the current value from the
+    // reservation array.
+    $params = array(
+      'borrCard' => $borr_card,
+      'pinCode' => $pin_code,
+      'allowType' => $type,
+    );
+
+    try {
+      $doc = $this->request('patron/allow/remove', $params);
+      $res_status = $doc->getElementsByTagName('status')->item(0)->getAttribute('value');
+      // Return error code when patron is blocked.
+      if ($res_status != 'ok') {
+        return ALMA_AUTH_BLOCKED;
+      }
+
+      // General catch all if status is not okay is to report failure.
+      if ($res_status == 'consentNotOk') {
+        return FALSE;
+      }
+    }
+    catch (AlmaClientConsentNotFound $e) {
+      return FALSE;
+    }
+
+    return $res_status;
   }
 
   /**
@@ -438,7 +530,7 @@ class AlmaClient {
     $params = array(
       'borrCard' => $borr_card,
       'pinCode' => $pin_code,
-      'reservable' => $reservation['id'],
+      'reservable' => rawurlencode($reservation['id']),
       'reservationPickUpBranch' => $reservation['pickup_branch'],
       'reservationValidFrom' => $reservation['valid_from'],
       'reservationValidTo' => $reservation['valid_to'],
@@ -980,6 +1072,44 @@ class AlmaClient {
     return TRUE;
   }
 
+  /**
+   * Create new user at alma.
+   *
+   * @param $cpr
+   *   The users CPR number.
+   * @param $pin_code
+   *   The users pin-code.
+   * @param $name
+   *   The users full name.
+   * @param $mail
+   *   The users e-mail address.
+   * @param $branch
+   *   The users preferred pick-up branch.
+   *
+   * @return bool
+   *   Always returns TRUE. If any errors happens exception is thrown in the
+   *   request function.
+   */
+  public function self_register($cpr, $pin_code, $name, $mail, $branch) {
+    $params = array(
+      'securityNumber' => $cpr,
+      'borrCard' => $cpr,
+      'pin' => $pin_code,
+      'name' => $name,
+      'email' => $mail,
+      'branch' => $branch,
+      'addr1' => '+++',
+      // Verified has to be set to the string value true
+      // for this to work. Booleans are converted to integers
+      // and they are no good.
+      'verified' => 'true',
+      'locale' => 'da_DK'
+    );
+
+    $this->request('patron/selfReg', $params);
+    return TRUE;
+  }
+
 }
 
 /**
@@ -988,12 +1118,13 @@ class AlmaClient {
 
 class AlmaClientInvalidURLError extends Exception { }
 
-
 class AlmaClientHTTPError extends Exception { }
-
 
 class AlmaClientCommunicationError extends Exception { }
 
+class AlmaClientInvalidPatronError extends Exception { }
+
+class AlmaClientUserAlreadyExistsError extends Exception { }
 
 class AlmaClientBorrCardNotFound extends Exception { }
 

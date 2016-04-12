@@ -250,6 +250,15 @@ function ding_user_get_pincode_length() {
 }
 
 /**
+ * Form element validation handler for pincode elements.
+ */
+function ding_user_element_validate_pincode($element, &$form_state, $form) {
+  if (!preg_match('/^\d{' . ding_user_get_pincode_length() . '}$/', $element['#value'])) {
+    form_error($element, t('The pincode must consist of exactly %number digits.', array('%number' => ding_user_get_pincode_length())));
+  }
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  *
  * Add pin-code fields to the provider profile(s), so the users can change their

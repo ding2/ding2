@@ -19,4 +19,9 @@ if ($ordered_count) {
 $total_text = format_plural($total_plus_ordered_count, 'We have 1 copy.', 'We have @count copies.', array('@count' => $total_plus_ordered_count));
 ?>
 <p><?php print "$total_text $reserved_text $acquisition_text"; ?></p>
+
+<?php if (!empty($closest_loan)): ?>
+  <p><?php print $closest_loan; ?></p>
+<?php endif; ?>
+
 <?php print render($holdings); ?>
