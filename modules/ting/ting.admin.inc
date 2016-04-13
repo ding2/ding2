@@ -35,6 +35,46 @@ function ting_admin_ting_settings($form_state) {
     '#default_value' => variable_get('ting_search_url', ''),
   );
 
+  $form['ting']['authentification'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Authentication'),
+    '#tree' => FALSE,
+  );
+
+  $form['ting']['authentification']['ting_use_auth'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Use authentication'),
+    '#default_value' => variable_get('ting_use_auth', FALSE),
+    '#description' => t('Use authentication rather than rely on IP granted access.'),
+  );
+
+  $auth_states = array(
+    'enabled' => array(
+      'input[name=ting_use_auth]' => array('checked' => TRUE),
+    ),
+  );
+
+  $form['ting']['authentification']['ting_auth_name'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Name'),
+    '#default_value' => variable_get('ting_auth_name', ''),
+    '#states' => $auth_states,
+  );
+
+  $form['ting']['authentification']['ting_auth_pass'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Password'),
+    '#default_value' => variable_get('ting_auth_pass', ''),
+    '#states' => $auth_states,
+  );
+
+  $form['ting']['authentification']['ting_auth_group'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Group'),
+    '#default_value' => variable_get('ting_auth_group', ''),
+    '#states' => $auth_states,
+  );
+
   $form['ting']['ting_filter_by_local_holdings']= array(
     '#type' => 'checkbox',
     '#title' => t('Filter search queries on holdingsItem'),
