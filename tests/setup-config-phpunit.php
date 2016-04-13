@@ -59,3 +59,11 @@ variable_set('locale_language_providers_weight_language', array(
   'locale-browser' => '-7',
   'language-default' => '-6',
 ));
+
+// Set ting_search_autocomplete settings.
+$settings = ting_search_autocomplete_settings();
+
+$settings['index'] = 'scanterm.default';
+$settings['facetIndex'] = 'scanphrase.default';
+
+variable_set('ting_search_autocomplete_settings', $settings);
