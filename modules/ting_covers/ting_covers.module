@@ -9,6 +9,7 @@
 
 // Default cache lifetime for covers (24 timer).
 define('TING_COVERS_DEFAULT_CACHE_LIFETIME', 86400);
+define('TING_COVERS_MAX_SIZE', 1200);
 
 // Load field module hooks.
 module_load_include('inc', 'ting_covers', 'ting_covers.field');
@@ -264,5 +265,25 @@ function ting_covers_fetch_image($filename, $image_url) {
     return FALSE;
   }
 
-  return file_unmanaged_save_data($result->data, $filename, FILE_EXISTS_REPLACE);
+  $file = file_unmanaged_save_data($result->data, $filename, FILE_EXISTS_REPLACE);
+  // Sometimes we get images in print quality, which makes imagecache run out
+  // of memory in the attempt to resize it. So we check the image size and
+  // scale it down to a more manageable size using the Imagemagick shell
+  // command which gets around the memory limit.
+  if ($file) {
+    $realpath = drupal_realpath($filename);
+    $size = getimagesize($realpath);
+    if ($size[0] > TING_COVERS_MAX_SIZE || $size[1] > TING_COVERS_MAX_SIZE) {
+      exec('convert ' . $realpath . ' -resize ' . TING_COVERS_MAX_SIZE . 'x ' .
+           $realpath . '.tmp', $output, $rc);
+      // If successful, replace original image with scaled version.
+      if ($rc == 0) {
+        rename($realpath . '.tmp', $realpath);
+      }
+    }
+
+    return $file;
+  }
+
+  return FALSE;
 }
