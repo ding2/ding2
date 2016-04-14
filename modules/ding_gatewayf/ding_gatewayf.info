@@ -1,0 +1,6 @@
+name = Ding gatewayf
+description = Support for login at gatewayf.
+core = 7.x
+package = Ding!
+dependencies[] = ding_provider
+dependencies[] = ding_user

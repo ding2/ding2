@@ -64,7 +64,14 @@ function _admin_bpi_preview_output($type, $output) {
       'bpi-preview',
       t('BPI Preview'),
       $output,
-      array('refresh' => TRUE, 'width' => '75%')
+      array(
+        'refresh' => TRUE,
+        'extra_data' => array(
+          'dialog_options' => array(
+            'width' => '80%',
+          ),
+        ),
+      )
     );
     $page = array('#type' => 'ajax', '#commands' => $commands);
     ajax_deliver($page);

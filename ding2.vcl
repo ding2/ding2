@@ -27,7 +27,7 @@ sub vcl_recv {
   }
 
   # Ensure that ding_wayf and SimpleSAMLphp is not cached.
-  if (req.url ~ "^/simplesaml" || req.url ~ "^/wayf") {
+  if (req.url ~ "^/simplesaml" || req.url ~ "^/wayf" || req.url ~ "^/gatewayf") {
     return (pipe);
   }
 

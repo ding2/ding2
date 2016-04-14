@@ -67,6 +67,7 @@ function ding_content_wysiwyg_default_profiles() {
       'stylesSet' => '',
       'block_formats' => 'p,address,pre,h2,h3,h4,h5,h6,div',
       'advanced__active_tab' => 'edit-paste',
+      'block_formats' => 'p,h2,h3,div',
       'forcePasteAsPlainText' => 0,
     ),
   );

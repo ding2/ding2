@@ -1,6 +1,6 @@
 name = Ding 2
 description = Install a Ding based library site.
-version = 7.x-2.4.4+easy
+version = 7.x-2.5.0
 core = 7.x
 distribution_name = "Ding 2"
 exclusive = TRUE
@@ -25,6 +25,7 @@ dependencies[] = menu_position
 dependencies[] = eu_cookie_compliance
 dependencies[] = view_unpublished
 dependencies[] = redirect
+dependencies[] = pagepreview
 
 ; Ding modules.
 dependencies[] = ding_base

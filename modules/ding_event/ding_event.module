@@ -23,11 +23,11 @@ function ding_event_menu() {
     'file path' => drupal_get_path('module', 'system'),
   );
 
-  $items['admin/config/ding_event/currency'] = array(
-    'title' => 'Event currency',
-    'description' => 'Select which currency to show on events.',
+  $items['admin/config/ding_event/settings'] = array(
+    'title' => 'Ding event settings',
+    'description' => 'Administer event settings.',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('ding_event_admin_currency_setting_form'),
+    'page arguments' => array('ding_event_admin_setting_form'),
     'access arguments' => array('administer event settings'),
     'file' => 'ding_event.admin.inc',
   );
@@ -225,5 +225,26 @@ function ding_event_preprocess_views_view(&$vars) {
         )
       );
     }
+  }
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_event_permission() {
+  return array(
+    'administer event settings' => array(
+      'title' => t('Administer event settings'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_views_pre_build().
+ */
+function ding_event_views_pre_build(&$view) {
+  if ($view->name == "ding_event" && $view->current_display == 'ding_event_list_frontpage') {
+    $view_items_per_page = $view->display['ding_event_list_frontpage']->display_options['pager']['options']['items_per_page'];
+    $view->items_per_page = variable_get('ding_event_frontpage_items_per_page', $view_items_per_page);
   }
 }
