@@ -195,36 +195,36 @@ function ding_place2book_defaults_admin_form($form, &$form_state) {
     '#type' => 'checkbox',
     '#title' => t('Maintain copy'),
     '#default_value' => variable_get('ding_p2b_default_synchronize', FALSE),
-    '#description' => t('Indicates status of event. If checked, then event will be synchronized with P2b by default.'),
+    '#description' => t('When set, a corresponding event is created and updated on the ticket booking service Place2Book.com.'),
   ];
 
   $form['ding_p2b_default_kultunaut_export'] = [
     '#type' => 'checkbox',
     '#title' => t('Kultunaut export'),
     '#default_value' => variable_get('ding_p2b_default_kultunaut_export', FALSE),
-    '#description' => t('If checked, then kultunaut export will be enabled by default.'),
+    '#description' => t('If checked, Place2book will forward this ding-event to Kultunaut.'),
   ];
 
   $form['ding_p2b_default_passive'] = [
     '#type' => 'checkbox',
     '#title' => t('Passive event'),
     '#default_value' => variable_get('ding_p2b_default_passive', FALSE),
-    '#description' => t('If checked, then event will be marked as passive by default.'),
+    '#description' => t('If checked, Place2book flags the event as passive with no ticket sale. This can be useful for sending events to Kultunaut without actually using Place2book, or using Place2book for keeping record of all events with or without tickets.'),
   ];
 
   $form['ding_p2b_default_capacity'] = [
     '#type' => 'textfield',
     '#title' => t('Capacity'),
     '#default_value' => variable_get('ding_p2b_default_capacity', 0),
-    '#description' => t('The default capacity for new events. Set to 0 for unlimited capacity.'),
+    '#description' => t('Optional. Maximum capacity on this event. Set to 0 for unlimited capacity.'),
     '#element_validate' => ['element_validate_integer'],
   ];
 
   $form['ding_p2b_default_price_name'] = [
     '#type' => 'textfield',
-    '#title' => t("Ticket type."),
+    '#title' => t("Ticket type"),
     '#default_value' => variable_get('ding_p2b_default_price_name', 'Adgang'),
-    '#description' => t('The default ticket type for new events.'),
+    '#description' => t('E. g. Adult, Child or Standard. Adgang is the default ticket type.'),
   ];
 
   return system_settings_form($form);
