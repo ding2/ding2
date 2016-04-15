@@ -84,6 +84,17 @@
       $(this).toggleClass('js-toggled');
     });
 
+    $('.primary-content video, .primary-content audio').on('loadedmetadata', function (i) {
+      // If video size bigger then window size, it should be resized.
+      var video = i.currentTarget;
+      var width = $(this).parent().width() * 0.8;
+
+
+      if (video.videoWidth > width) {
+        $(this).width(width * 0.9);
+      }
+    });
+
     // Check an organic group and library content.
     // If a group does not contain both news and events
     // then add an additional class to the content lists.
