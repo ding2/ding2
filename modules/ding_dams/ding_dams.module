@@ -14,6 +14,7 @@ function ding_dams_wysiwyg_include_directory($type) {
     case 'plugins':
       return 'wysiwyg_plugins';
       break;
+    
   }
 }
 
@@ -70,10 +71,13 @@ function ding_dams_media_browser_permission() {
 /**
  * Ajax handler for creating popup.
  *
- * @param $ajax
- * @param $fid
+ * @param string $ajax
+ *   Indicates JS state.
+ * @param int $fid
+ *   Represents file id.
  *
  * @return mixed
+ *   Return rendered form or json.
  */
 function ding_dams_popup_callback($ajax, $fid) {
   if (!empty($fid)) {
@@ -84,11 +88,13 @@ function ding_dams_popup_callback($ajax, $fid) {
         'type' => 'file_field_file_' . $file->type,
       );
       $element = file_entity_file_formatter_file_field_view($file, $display, LANGUAGE_NONE);
-      $output =  render($element);
+      $output = render($element);
       $commands = array();
-      $commands[] = ajax_command_ding_popup("easddb_dams_popup{$fid}", $file->filename, $output, array('extra_data' => array(
-        'fit_popup' => TRUE,
-      )));
+      $commands[] = ajax_command_ding_popup("easddb_dams_popup_{$fid}", $file->filename, $output, array(
+        'extra_data' => array(
+          'fit_popup' => TRUE,
+        ),
+      ));
       print ajax_render($commands);
       exit;
     }
@@ -137,12 +143,12 @@ function ding_dams_form_alter(&$form, &$form_state, $form_id) {
     $form['#action'] = $form['#action'] . '#media-youtube-search-tab';
   }
 
-  // Removing unnecessary options from media
+  // Removing unnecessary options from media.
   if ($form_id == 'media_format_form') {
     unset($form['options']['format']['#options']['media_link']);
     unset($form['options']['format']['#options']['token']);
   }
-  // Add new styles to media edit form
+  // Add new styles to media edit form.
   if ($form_id == 'file_entity_edit') {
     $form['file_preview'] = array(
       '#type' => 'markup',
@@ -224,6 +230,7 @@ function ding_dams_media_wysiwyg_wysiwyg_allowed_view_modes_alter(&$view_modes, 
         ),
       );
       break;
+
     case 'image':
       $view_modes = array(
         'ding_dams_inline' => array(
@@ -233,9 +240,10 @@ function ding_dams_media_wysiwyg_wysiwyg_allowed_view_modes_alter(&$view_modes, 
         'ding_dams_download_link' => array(
           'label' => t('DAMS link'),
           'custom settings' => FALSE,
-        )
+        ),
       );
       break;
+
     case 'document':
       $view_modes = array(
         'ding_dams_download_icon' => array(
@@ -248,7 +256,6 @@ function ding_dams_media_wysiwyg_wysiwyg_allowed_view_modes_alter(&$view_modes, 
         ),
       );
       break;
-    default:
   }
 }
 
@@ -291,20 +298,23 @@ function ding_dams_media_wysiwyg_token_to_markup_alter(&$element, $tag_info, $se
       case 'ding_dams_download_link':
         $theming_function = 'ding_dams_download_link';
         break;
+
       case 'ding_dams_inline':
         $theming_function = 'ding_dams_inline';
         break;
+
       case 'ding_dams_popup':
         $theming_function = 'ding_dams_popup';
         break;
+
       case 'ding_dams_download_icon':
         $theming_function = 'ding_dams_download_icon';
         break;
+
     }
     $element['#theme'] = $theming_function;
   }
 }
-
 
 /**
  * Implements hook_theme().
@@ -339,7 +349,6 @@ function ding_dams_get_doctype_icon($file = NULL) {
   }
 
   $doctype_icon = '/' . drupal_get_path('module', 'ding_dams') . '/wysiwyg_plugins/images/';
-
   // Setting icon by file type and extension
   if ($file->type == 'document') {
     $extension = explode('.', $file->uri);
@@ -349,18 +358,21 @@ function ding_dams_get_doctype_icon($file = NULL) {
       case 'docx':
         $doctype_icon .= 'doc_doc.png';
         break;
+
       case 'xls':
       case 'xlsx':
         $doctype_icon .= 'doc_xls.png';
         break;
+
       case 'ppt':
       case 'pptx':
         $doctype_icon .= 'doc_ppt.png';
         break;
+
       case 'pdf':
         $doctype_icon .= 'doc_pdf.png';
         break;
-      case 'txt':
+
       default:
         $doctype_icon .= 'doc_txt.png';
         break;
@@ -395,7 +407,7 @@ function theme_ding_dams_inline(&$variables) {
     $element['height'] = '100%';
     $output = render($element);
   }
-   return $output;
+  return $output;
 }
 
 /**
@@ -411,8 +423,7 @@ function theme_ding_dams_popup(&$variables) {
       $classes .= implode(' ', $file->override['attributes']['class']);
     }
 
-    $url = "ding-dams/nojs/popup/{$file->fid}";
-    $output = '<a href="' . $url . '" ' .
+    $output = '<a href="ding-dams/nojs/popup/' . $file->fid .'" ' .
       'alt="' . $file->alt . '" ' .
       'title="' . $file->title . '" ' .
       'class="' . $classes . '">' .
@@ -470,4 +481,3 @@ function theme_ding_dams_download_link($variables) {
   }
   return $output;
 }
-
