@@ -14,7 +14,7 @@ function ding_dams_wysiwyg_include_directory($type) {
     case 'plugins':
       return 'wysiwyg_plugins';
       break;
-    
+
   }
 }
 
@@ -47,7 +47,7 @@ function ding_dams_menu() {
   );
 
   $items['ding-dams/%/popup/%'] = array(
-    'page callback' => 'ding_dams_media_browser_popup_callback',
+    'page callback' => 'ding_dams_popup_callback',
     'page arguments' => array(1, 3),
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
@@ -391,27 +391,37 @@ function ding_dams_get_doctype_icon($file = NULL) {
 }
 
 /**
- * Implements hook_preprocess_ding_dams_inline().
+ * Theme function for dams_inline display mode.
  */
 function theme_ding_dams_inline(&$variables) {
   $file = isset($variables['element']['#file']) ? $variables['element']['#file'] : $variables['element']['content']['file']['#file'];
   $output = '';
   if ($file) {
-    $display = array(
-      'status' => TRUE,
-      'type' => 'file_field_file_' . $file->type,
-      'settings' => NULL,
-    );
-    $element = file_entity_file_formatter_file_field_view($file, $display, LANGUAGE_NONE);
-    $element['width'] = '100%';
-    $element['height'] = '100%';
-    $output = render($element);
+    if ($file->type == 'image') {
+      $output =  theme(
+        'image',
+        array(
+          'path' => $file->uri,
+        )
+      );
+    }
+    else {
+      $display = array(
+        'status' => TRUE,
+        'type' => 'file_field_file_' . $file->type,
+        'settings' => array(
+          'image_style' => 'teaser',
+        ),
+      );
+      $element = file_entity_file_formatter_file_field_view($file, $display, LANGUAGE_NONE);
+      $output = render($element);
+    }
   }
   return $output;
 }
 
 /**
- * Implements hook_preprocess_ding_dams_popup().
+ * Theme function for dams_popup display mode.
  */
 function theme_ding_dams_popup(&$variables) {
   $file = isset($variables['element']['#file']) ? $variables['element']['#file'] : $variables['element']['content']['file']['#file'];
@@ -434,7 +444,7 @@ function theme_ding_dams_popup(&$variables) {
 }
 
 /**
- * Implements hook_preprocess_ding_dams_download_icon().
+ * Theme function for dams_download_icon display mode.
  */
 function theme_ding_dams_download_icon(&$variables) {
   $file = isset($variables['element']['#file']) ? $variables['element']['#file'] : $variables['element']['content']['file']['#file'];
@@ -459,7 +469,7 @@ function theme_ding_dams_download_icon(&$variables) {
 }
 
 /**
- * Implements hook_preprocess_ding_dams_download_icon().
+ * Theme function for dams_download_link display mode.
  */
 function theme_ding_dams_download_link($variables) {
   $file = isset($variables['element']['#file']) ? $variables['element']['#file'] : $variables['element']['content']['file']['#file'];
