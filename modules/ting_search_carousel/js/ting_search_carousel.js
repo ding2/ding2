@@ -11,268 +11,109 @@
 (function ($) {
   "use strict";
 
-  var TingSearchCarousel = (function() {
+  /**
+   * Start the carousel when the document is ready.
+   */
+  $(document).ready(function() {
+    $('.ting-search-carousel').each(function(i, e) {
+      var carousel_wrapper = $(e).children('div[id^="ting-search-carousel-"]');
+      var carousel_tabs = $(e).find('ul.ting-search-carousel-list-tabs');
+      var carousel_select_tabs = $(e).find('select.ting-search-carousel-select-tabs');
+      var tabs_index = $(carousel_tabs).children().length - 1;
+      var autoplay = $(carousel_wrapper).attr('ting-search-carousel-autoplay') * 1000;
+      var index = 0;
 
-    var cache = [];
-    var carousel;
-    var current_tab = 0;
-    var navigation;
+      // Init carousel
+      $(carousel_wrapper).slick({
+        arrows: true,
+        infinite: true,
+        slidesToShow: 7,
+        slidesToScroll: 3,
 
-    /**
-     * Private: Ensures that the tabs have the same size. This is purly a design
-     * thing.
-     */
-    function _equale_tab_width() {
-      // Get the list of tabs and the number of tabs in the list.
-      var tabsList = $('.rs-carousel-list-tabs');
-      var childCount = tabsList.children('li').length;
+        responsive: [{
 
-      // Only do somehting if there actually is tabs
-      if (childCount > 0) {
-
-        // Get the width of the <ul> list element.
-        var parentWidth = tabsList.width();
-
-        // Calculate the width of the <li>'s.
-        var childWidth = Math.floor(parentWidth / childCount);
-
-        // Calculate the last <li> width to combined childrens width it self not
-        // included.
-        var childWidthLast = parentWidth - ( childWidth * (childCount -1) );
-
-        // Set the tabs css widths.
-        tabsList.children().css({'width' : childWidth + 'px'});
-        tabsList.children(':last-child').css({'width' : childWidthLast + 'px'});
-      }
-    }
-
-    /**
-     * Private: Handler activated when the user changes tab.
-     */
-    function _change_tab(index) {
-      // Remove navigation selection.
-      navigation.find('.active').removeClass('active');
-      navigation.find(':selected').removeAttr('selected');
-
-      // Add new navigation seletions.
-      $(navigation.find('li')[index]).addClass('active');
-      $(navigation.find('option')[index]).attr('selected', true);
-
-      // Remove current content and show spinner.
-      $('.rs-carousel-title').html('');
-      $('.rs-carousel .rs-carousel-runner').children().remove();
-      $('.rs-carousel-inner .ajax-loader').removeClass('element-hidden');
-
-      // Hide navigation arrows.
-      $('.rs-carousel-action-prev').hide();
-      $('.rs-carousel-action-next').hide();
-
-      current_tab = index;
-      _update(current_tab);
-    }
-
-    /**
-     * Private: Check is the device have support for touch events.
-     */
-    function _is_touch_device() {
-      // First part work in most browser the last in IE 10.
-      return !!('ontouchstart' in window) || !!('onmsgesturechange' in window);
-    }
-
-    /**
-     * Private: Enable draggable touch support to the carousel, but only if the
-     * device is touch enabled.
-     */
-    function _add_touch_support() {
-      if (_is_touch_device()) {
-        // Add support for touch displays (requires jQuery Touch Punch).
-        $('.rs-carousel-runner').draggable({
-          axis: "x",
-          stop: function() {
-            var left = $('.rs-carousel-runner').position().left;
-
-            // Left side reached.
-            if (left > 0) {
-              carousel.carousel('goToPage', 0);
-            }
-
-            // Right side reached.
-            if ($('.rs-carousel-mask').width() - $('.rs-carousel-runner').width() > left) {
-              var lastIndex = carousel.carousel('getNoOfPages') - 1;
-              carousel.carousel('goToPage', lastIndex);
-            }
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 3
           }
-        });
 
-        // Hide navigation arrows.
-        $('.rs-carousel-action-prev').hide();
-        $('.rs-carousel-action-next').hide();
-      }
-    }
+        }, {
 
-    /**
-     * Private: Start the tables and attach event handler for click and change
-     * events.
-     */
-    function _init_tabs() {
-      // Select navigation wrapper.
-      navigation = $('.rs-carousel-tabs');
-
-      // Sett equal with on the tab navigation menu.
-      _equale_tab_width();
-
-      // Attach click events to tabs.
-      $('.rs-carousel-list-tabs').on("click", "li", (
-        function(e) {
-          e.preventDefault();
-          _change_tab($(this).index());
-          return false;
-        }
-      ));
-
-      // Add change event to tabs.
-      $('.rs-carousel-select-tabs').live('change', function() {
-        _change_tab($(this).find(':selected').index());
-      });
-    }
-
-    /**
-     * Private: Updates the content when the user changes tabs. It will fetch
-     * the content from the server if it's not fetched allready.
-     */
-    function _update(index) {
-      // Get content from cache, if it have been fetched.
-      if (!(index in cache)) {
-        _fetch(index);
-
-        // Return as the fetch will call update once more when the Ajax call
-        // have completed.
-        return;
-      }
-
-      var data = cache[index];
-
-      // Remove spinner.
-      $('.rs-carousel-inner .ajax-loader').addClass('element-hidden');
-
-      // Update content.
-      $('.rs-carousel-title').html(data.subtitle);
-      $('.rs-carousel .rs-carousel-runner').append(data.content);
-
-      // Show navigation arrows.
-      $('.rs-carousel-action-prev').show();
-      $('.rs-carousel-action-next').show();
-
-      // Get the carousel running.
-      carousel.carousel('refresh');
-      carousel.carousel('goToPage', 0);
-    }
-
-    /**
-     * Private: Makes an ajax call to the server to get new content for the
-     * active navigation tab.
-     */
-    function _fetch(index) {
-      $.ajax({
-        type: 'get',
-        url : Drupal.settings.basePath + 'ting_search_carousel/results/ajax/' + index,
-        dataType : 'json',
-        success : function(data) {
-          cache[index] = {
-            'subtitle' : data.subtitle,
-            'content' : data.content
-          };
-
-          // If we still are on the same tab update it elese the content have
-          // been saved to the cache.
-          if (current_tab == data.index) {
-            _update(index);
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 2,
+            nextArrow: false,
+            prevArrow: false
           }
-        }
+
+        }, {
+
+          breakpoint: 300,
+          settings: "unslick" // destroys slick
+
+        }]
       });
-    }
 
-    /**
-     * Private: Switches automaticaly carousel tabs.
-     */
-    function _animate_delay(delay) {
-      if (delay == 0) {
-        return;
-      }
+      update_carousel(false, false);
 
-      var tabs_count = $('.rs-carousel-select-tabs .rs-carousel-item').length;
-      var next_tab = current_tab;
-      
-      // Keep track of the mouse position.
-      // Do not swtich tabs when hovering over the carousel wrapper.
-      // This will not interrupt manual usage of the carousel.
-      //
-      // @todo
-      // Touch devices approach.
+      // Stop tab switching if mouse enters carousel.
       var is_active = true;
-      $('.rs-carousel-wrapper').mouseenter(function() {
+      $(e).mouseenter(function() {
         is_active = false;
       }).mouseleave(function() {
         is_active = true;
       });
 
-      setInterval(function() {
-        next_tab = current_tab + 1;
-        if (next_tab > tabs_count - 1) {
-          next_tab = 0;
-        }
+      if (autoplay != 0) {
+        // Switch tabs by timer.
+        setInterval(function() {
+          if (is_active) {
+            if (index == tabs_index) {
+              update_carousel(false, false);
+            }
+            else {
+              update_carousel(true, false);
+            }
+          }
+        }, autoplay);
+      }
 
-        if (is_active) {
-          _change_tab(next_tab);
-        }
-
-      }, delay * 1000);
-    }
-
-    /**
-     * Public: Init the carousel and fetch content for the first tab.
-     */
-    function init() {
-      // Select the carousel element.
-      carousel = $('.rs-carousel-items');
-
-      // Fix the tables and fetch the first tabs content.
-      _init_tabs();
-
-      // Start the carousel.
-      carousel.carousel({
-        noOfRows: 1,
-        orientation: 'horizontal',
-        itemsPerTransition: 'auto'
+      // Switch tabs on click by it.
+      $(carousel_tabs).find('li').on('click', function(event) {
+        event.preventDefault();
+        update_carousel(false, $(this).attr('tab-index'));
       });
 
-      // Maybe add support for touch devices (will only be applied on touch
-      // enabled devices).
-      _add_touch_support();
+      $(carousel_select_tabs).on('change', function() {
+        event.preventDefault();
+        update_carousel(false, $(this).find(':selected').index());
+      });
 
-      // Will get content for the first tab.
-      _change_tab(0);
+      /**
+       * @param bool increment
+       *   Determines if we should we switch to next tab or to first.
+       * @param bool|string user_selected
+       *
+       */
+      function update_carousel(increment, user_selected) {
+        var prev_index = index;
 
-      var delay = Drupal.settings.ting_search_carousel.animate_delay || 0;
-      _animate_delay(delay);
-    }
+        if (user_selected) {
+          index = user_selected;
+        }
+        else {
+          index = (increment) ? index + 1 : 0;
+        }
 
-    /**
-     * Expoes public functions.
-     */
-    return {
-        name: 'ting_search_carousel',
-        init: init
-    };
-  })();
+        $(carousel_tabs).find('li.index-' + prev_index).removeClass('active');
+        $(carousel_tabs).find('li.index-' + index).addClass('active');
 
-  /**
-   * Start the carousel when the document is ready.
-   */
-  $(document).ready(function() {
-    TingSearchCarousel.init();
-    $("div.rs-carousel-mask").on('click', 'li', function() {
-      Drupal.TingSearchOverlay();
+        $(carousel_select_tabs).find(':selected').removeAttr('selected');
+        $(carousel_select_tabs.find('option')[index]).attr('selected', true);
+
+        $(carousel_wrapper).slick('slickUnfilter');
+        $(carousel_wrapper).slick('slickFilter', '.index-' + index);
+      }
     });
   });
 })(jQuery);

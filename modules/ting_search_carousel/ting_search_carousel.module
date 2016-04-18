@@ -6,61 +6,7 @@
 
 define('TING_SEARCH_CAROUSEL_ANIMATE_DELAY', 5);
 
-/**
- * Implements hook_menu().
- */
-function ting_search_carousel_menu() {
-  $items = array();
-
-  $items['ting_search_carousel/results/ajax'] = array(
-    'title' => 'Show search carousel results',
-    'page callback' => 'ting_search_carousel_result',
-    'access arguments' => array('access content'),
-    'file' => 'ting_search_carousel.pages.inc',
-    'type' => MENU_CALLBACK,
-  );
-
-  $items['admin/config/ting/ting_search_carousel'] = array(
-    'title' => 'Ting search carousel',
-    'description' => 'Manage content for frontpage carousel.',
-    'page callback' => 'ting_search_carousel_admin_page',
-    'page arguments' => array(),
-    'access arguments' => array('configure carousel'),
-    'file' => 'ting_search_carousel.admin.inc',
-  );
-
-  $items['admin/config/ting/ting_search_carousel/settings'] = array(
-    'title' => 'Content',
-    'description' => 'Manage content for frontpage carousel.',
-    'type' => MENU_DEFAULT_LOCAL_TASK,
-    'weight' => -10,
-  );
-
-  $items['admin/config/ting/ting_search_carousel/frontend_settings'] = array(
-    'title' => 'Frontend settings',
-    'description' => 'Manage settings for the display of frontpage carousel',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ting_search_carousel_settings_admin_form'),
-    'access arguments' => array('configure carousel'),
-    'file' => 'ting_search_carousel.admin.inc',
-    'type' => MENU_LOCAL_TASK,
-    'weight' => 0,
-  );
-
-  return $items;
-}
-
-/**
- * Implements hook_permission().
- */
-function ting_search_carousel_permission() {
-  return array(
-    'configure carousel' => array(
-      'title' => t('Configure carousel'),
-      'description' => t('Allow role to configure carousel.'),
-    ),
-  );
-}
+define('TING_SEARCH_CAROUSEL_MODULE_PATH', drupal_get_path('module', 'ting_search_carousel'));
 
 /**
  * Implements hook_theme().
@@ -68,42 +14,13 @@ function ting_search_carousel_permission() {
 function ting_search_carousel_theme($existing, $type, $theme, $path) {
   return array(
     'ting_search_carousel' => array(
-      'variables' => array('searches' => NULL, 'tab_position' => NULL),
+      'variables' => array('searches' => NULL, 'index' => NULL, 'autoplay' => NULL),
       'template' => 'templates/ting_search_carousel',
       'file' => 'ting_search_carousel.theme.inc',
     ),
-    'ting_search_carousel_collection' => array(
-      'variables' => array('collection' => NULL),
-      'template' => 'templates/ting_search_carousel_collection',
-    ),
-    'ting_search_carousel_admin_form' => array(
+    'ting_search_carousel_queries' => array(
       'render element' => 'form',
     ),
-  );
-}
-
-/**
- * Implements hook_block_info().
- */
-function ting_search_carousel_block_info() {
-  return array(
-    'ting_search_carousel' => array(
-      'info' => 'Ting search carousel, block',
-    ),
-  );
-}
-
-/**
- * Implements hook_block_view().
- *
- * We ignore delta in this block view, as we only have one block.
- */
-function ting_search_carousel_block_view($delta) {
-  return array(
-    'content' => theme('ting_search_carousel', array(
-        'searches' => variable_get('ting_carousel_search_queries', array()),
-        'tab_position' => variable_get('ting_search_carousel_tabs_position'),
-    )),
   );
 }
 
@@ -117,173 +34,10 @@ function ting_search_carousel_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
- * Perform a ting search, retrieve covers and store some of data in cache.
- *
- * @param int $index
- *   Search carsousel tab index.
- */
-function ting_search_carousel_do_request($index) {
-  // Get query based in the index parameter.
-  $queries = variable_get('ting_carousel_search_queries', array());
-  $query = isset($queries[$index]) ? $queries[$index] : FALSE;
-  $sort = variable_get('ting_search_carousel_item_sorting', '');
-
-  // If a query is defined, do a look-up else do nothing.
-  if ($query) {
-    // Load the ting client.
-    module_load_include('client.inc', 'ting');
-
-    // Try to fetch results 50 at a time.
-    $result = NULL;
-    $page = 1;
-    $collections = array();
-    $ting_search_options = array(
-      'facets' => array(),
-      'enrich' => TRUE,
-      'allObjects' => FALSE,
-      'sort' => $sort
-    );
-
-    $search_keys = '(' . _ting_search_quote($query['query']) . ')';
-
-    while ($result = ting_do_search($search_keys, $page++, 50, $ting_search_options)) {
-      $collections[] = $result;
-
-      if (!$result->more) {
-        // If no more result exists break the loop.
-        break;
-      }
-    }
-  }
-
-  // Loop over the search results collecting basic object information.
-  $local_ids = array();
-  $objects = array();
-  foreach ($collections as $collection) {
-    foreach ($collection->collections as $ting_collection) {
-      foreach ($ting_collection->reply->objects as $object) {
-        $local_ids[] = $object->localId;
-        $objects[$object->localId] = array(
-          'id' => $object->id,
-          'title' => isset($object->record['dc:title'][''][0]) ? $object->record['dc:title'][''][0] : '',
-          'creator' => isset($object->record['dc:creator']['oss:aut'][0]) ? $object->record['dc:creator']['oss:aut'][0] : '',
-          'type' => isset($object->record['dc:type']['dkdcplus:BibDK-Type'][0]) ? $object->record['dc:type']['dkdcplus:BibDK-Type'][0] : '',
-        );
-      }
-    }
-  }
-
-  // Load helper function form the covers module.
-  module_load_include('pages.inc', 'ting_covers');
-
-  // Get cover service client.
-  $service = new AdditionalInformationService(
-          variable_get('addi_wsdl_url'),
-          variable_get('addi_username'),
-          variable_get('addi_group'),
-          variable_get('addi_password'));
-
-  // Initialize items array.
-  $items = array();
-
-  // Get covers for the ids.
-  $covers = $service->getByFaustNumber($local_ids);
-
-  // Loop over the fetched covers and build items.
-  $limit = variable_get('ting_search_carousel_item_limit', 6);
-  $obj_counter = 0;
-
-  foreach ($covers as $local_id => $cover) {
-    // Build cover filename.
-    $filename = 'public://ting_search_carousel/' . md5($local_id) . '.jpg';
-
-    // Check if file have been downloaded.
-    if (!file_exists($filename)) {
-      // Extract the image source url.
-      $source_url = FALSE;
-      if ($cover->detailUrl) {
-        $source_url = $cover->detailUrl;
-      }
-      elseif ($cover->thumbnailUrl) {
-        $source_url = $cover->thumbnailUrl;
-      }
-
-      // Download the cover image and get local uri.
-      $file = _ting_covers_pages_fetch_image($filename, $source_url);
-      $filename = isset($file->uri) ? $file->uri : $filename;
-    }
-
-    // Build object with the information collected.
-    $item = new stdClass();
-    $item->id = $objects[$local_id]['id'];
-    $item->title = $objects[$local_id]['title'];
-    $item->creator = $objects[$local_id]['creator'];
-    $item->image = image_style_url('ting_search_carousel', $filename);
-    $item->type = $objects[$local_id]['type'];
-
-    $items[] = $item;
-
-    $obj_counter++;
-    if ($obj_counter == $limit) {
-      break;
-    }
-  }
-
-  // Update the cache with the fetched items.
-  _ting_search_carousel_set_cache($index, $items);
-}
-
-/**
- * Returns the content for a search carousel tab. It utilizes both static and
- * database cache to optimize the cover page search. It will slowly fill the
- * cache based on the tab index provide. This index matches the search carousel
- * query index set in the administration backend, when defining the tabs.
- *
- * If no cache is found it tries to search the data well and calls it self once
- * more to fetch the newly fetch data. If data still do not exists in the cache
- * an empty string is returned.
- *
- * @param int $index
- *   Search carsousel tab index.
- *
- * @param bool $search
- *   If FALSE an attempt to fetch data _not_ be tried. Defaults to TRUE.
- *
- * @return mixed
- *   Returns an array with ting covers or the empty string if non is found.
- */
-function _ting_search_carousel_get_content($index, $search = TRUE) {
-  // Utilize the static cache.
-  $static = &drupal_static(__FUNCTION__);
-  if (isset($static[$index]) && !empty($static[$index])) {
-    return $static[$index];
-  }
-
-  // Check if there is a database cache of the search results.
-  if ($cache = cache_get('ting_search_carousel_result')) {
-    // Get cached data and store it in the static cache.
-    $data = $cache->data;
-    $static = $data;
-
-    // Check if data exists for the index.
-    if (isset($data[$index]) && !empty($data[$index])) {
-      return $data[$index];
-    }
-  }
-
-  // No cache found for that index, so try getting information from the
-  // data well and cover service.
-  if ($search) {
-    ting_search_carousel_do_request($index);
-    return _ting_search_carousel_get_content($index, FALSE);
-  }
-
-  // No form for cached data was found.
-  return '';
-}
-
-/**
  * Set database cache base on tab index in the front-end.
+ *
+ * @param string $hash
+ *   Search carousel personal hash.
  *
  * @param int $index
  *   Search carousel tab index.
@@ -291,13 +45,13 @@ function _ting_search_carousel_get_content($index, $search = TRUE) {
  * @param mixed $items
  *   Search carousel items, containing id, title, creator and image url.
  */
-function _ting_search_carousel_set_cache($index, $items) {
+function _ting_search_carousel_set_cache($hash, $index, $items) {
   $data = array();
-  if ($cache = cache_get('ting_search_carousel_result')) {
+  if ($cache = cache_get('ting_search_carousel_result_' . $hash)) {
     $data = $cache->data;
   }
-  $data[$index] = $items;
-  cache_set('ting_search_carousel_result', $data, 'cache');
+  $data[$hash][$index] = $items;
+  cache_set('ting_search_carousel_result_' . $hash, $data, 'cache');
 }
 
 /**
@@ -329,23 +83,446 @@ function ting_search_carousel_image_default_styles() {
  * Wrapper function that adds the modules JavaScript.
  */
 function _ting_search_carousel_add_javascript() {
-  $path = drupal_get_path('module', 'ting_search_carousel');
-
-  drupal_add_library('system', 'ui.widget');
-  drupal_add_library('system', 'ui.draggable');
-  drupal_add_js($path . '/js/jquery.ui.touch-punch.min.js');
-  drupal_add_js($path . '/js/jquery.rs.carousel.js');
-  drupal_add_js($path . '/js/ting_search_carousel.js');
-  drupal_add_js(drupal_get_path('module', 'ting_search') . '/js/ting_search_overlay.js');
-
-  $delay = variable_get('ting_search_carousel_animate', TING_SEARCH_CAROUSEL_ANIMATE_DELAY);
-  drupal_add_js(array('ting_search_carousel' => array('animate_delay' => $delay)), 'setting');
+  drupal_add_js(TING_SEARCH_CAROUSEL_MODULE_PATH . '/js/slick.js');
+  drupal_add_js(TING_SEARCH_CAROUSEL_MODULE_PATH . '/js/ting_search_carousel.js');
 }
 
 /**
  * Wrapper function that adds the modules css.
  */
 function _ting_search_carousel_add_css() {
-  $path = drupal_get_path('module', 'ting_search_carousel');
-  drupal_add_css($path . '/css/ting_search_carousel.css');
+  drupal_add_css(TING_SEARCH_CAROUSEL_MODULE_PATH . '/css/ting_search_carousel.css');
+  drupal_add_css(TING_SEARCH_CAROUSEL_MODULE_PATH . '/css/slick.css');
+  drupal_add_css(TING_SEARCH_CAROUSEL_MODULE_PATH . '/css/slick-theme.css');
+}
+
+/**
+ * Return the pane contents.
+ */
+function ting_search_carousel_content_type_render($subtype, $conf, $panel_args, $context) {
+  $search_results_cache = cache_get($conf['cache_id']);
+  $searches = $conf['searches'];
+  $searches_configuration = $conf['ting_search_carousel_settings'];
+
+  if (empty($search_results_cache->data)) {
+    $cache_id = ting_search_carousel_search_queries($searches, $searches_configuration);
+    $search_results_cache = cache_get($cache_id);
+    $search_results = $search_results_cache->data;
+  }
+  else {
+    $search_results = $search_results_cache->data;
+  }
+
+  // Add rendered items to searches configuration.
+  foreach ($searches as $search_key => $search) {
+    $searches[$search_key]['search_items'] = $search_results[$search_key];
+  }
+
+  $carousel_content = theme('ting_search_carousel',
+                            array(
+                              'searches' => $searches,
+                              'hash' => $conf['cache_id'],
+                              'autoplay' => $searches_configuration['ting_search_carousel_animate'],
+                            ));
+
+  $block = new stdClass();
+  $block->content = $carousel_content;
+
+  return $block;
+}
+
+/**
+ * Search queries admin form.
+ *
+ * @param $form
+ *   Form.
+ * @param $form_state
+ *   Form state.
+ *
+ * @return
+ *   Form structure.
+ */
+function ting_search_carousel_settings_form($form, &$form_state) {
+  $form['#tree'] = TRUE;
+
+  if (!isset($form_state['num_searches'])) {
+    $form_state['num_searches'] =  $form_state['conf']['searches'] ?  count($form_state['conf']['searches']) - 1 : 0;
+  }
+
+  $form['ting_search_carousel'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Searches'),
+    '#description' => t('Leave fields blank if you want to remove query'),
+    '#prefix' => '<div id="ting-search-carousel">',
+    '#suffix' => '</div>',
+    '#theme' => 'ting_search_carousel_queries',
+  );
+
+  for ($i = 0; $i <= $form_state['num_searches']; $i++) {
+    $search = ($form_state['conf']['searches'][$i]) ? $form_state['conf']['searches'][$i] : array();
+    $form['ting_search_carousel']['ting_searches'][$i] = _ting_search_carousel_queries($i, $search);
+  }
+
+  $form['add_ting_search'] = array(
+    '#type' => 'submit',
+    '#value' => t('Add new query'),
+    '#submit' => array('_ting_search_carousel_add_query_submit'),
+    '#ajax' => array(
+      'callback' => '_ting_search_carousel_add_query_ajax',
+      'wrapper' => 'ting-search-carousel',
+    ),
+  );
+
+  // Prepare settings form data.
+  $settings = array(
+    'ting_search_carousel_settings' => array(
+      'ting_search_carousel_tabs_position' => 'bottom',
+      'ting_search_carousel_item_limit' => 12,
+      'ting_search_carousel_description_toggle' => 0,
+      'ting_search_carousel_item_sorting' => '',
+      'ting_search_carousel_animate' => TING_SEARCH_CAROUSEL_ANIMATE_DELAY,
+    ),
+  );
+
+  foreach ($settings['ting_search_carousel_settings'] as $key => $val) {
+    $settings['ting_search_carousel_settings'][$key] =
+      isset($form_state['conf']['ting_search_carousel_settings'][$key])
+        ? $form_state['conf']['ting_search_carousel_settings'][$key]
+        : $val;
+  }
+
+  // Ting search carousel settings.
+  $form['ting_search_carousel_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Frontend settings'),
+  );
+
+  $form['ting_search_carousel_settings']['ting_search_carousel_tabs_position'] = array(
+    '#title' => t('Position of navigational tabs'),
+    '#type' => 'select',
+    '#options' => array(
+      'bottom' => t("Bottom"),
+    ),
+    '#default_value' => $settings['ting_search_carousel_settings']['ting_search_carousel_tabs_position'],
+    '#required' => TRUE,
+    '#description' => t('Select where you want the tabs for displaying the various searches to be placed in frontend.'),
+  );
+
+  $form['ting_search_carousel_settings']['ting_search_carousel_item_limit'] = array(
+    '#type' => 'select',
+    '#title' => t('Item limit'),
+    '#options' => array_combine(range(6, 24, 6), range(6, 24, 6)),
+    '#description' => t('The number of items to be returned in search result.'),
+    '#default_value' => $settings['ting_search_carousel_settings']['ting_search_carousel_item_limit'],
+  );
+
+  $form['ting_search_carousel_settings']['ting_search_carousel_description_toggle'] = array(
+    '#title' => t('Show descriptions for navigational tabs'),
+    '#type' => 'checkbox',
+    '#default_value' => $settings['ting_search_carousel_settings']['ting_search_carousel_description_toggle'],
+    '#required' => FALSE,
+    '#description' => t('Toggle whether descriptions of the various searches are displayed or not.'),
+  );
+
+  $form['ting_search_carousel_settings']['ting_search_carousel_item_sorting'] = array(
+    '#type' => 'select',
+    '#title' => t('Sorting'),
+    '#options' => array(
+      '' => t('- None -'),
+      'title_ascending' => t('Title (Ascending)'),
+      'title_descending' => t('Title (Descending)'),
+      'creator_ascending' => t('Creator (Ascending)'),
+      'creator_descending' => t('Creator (Descending)'),
+      'date_ascending' => t('Date (Ascending)'),
+      'date_descending' => t('Date (Descending)'),
+      'acquisitionDate_ascending' => t('Acquisition date (Ascending)'),
+      'acquisitionDate_descending' => t('Acquisition date (Descending)'),
+    ),
+    '#default_value' => $settings['ting_search_carousel_settings']['ting_search_carousel_item_sorting'],
+    '#description' => t('If not set, defaults to Ranking'),
+  );
+
+  $form['ting_search_carousel_settings']['ting_search_carousel_animate'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Auto-animate delay (seconds)'),
+    '#default_value' => $settings['ting_search_carousel_settings']['ting_search_carousel_animate'],
+    '#description' => t('Enter "0"  to not animate.'),
+    '#element_validate' => array('_ting_search_carousel_element_validate_delay'),
+    '#size' => 4,
+    '#maxlength' => 3,
+  );
+
+  // Custom form submit handler.
+  $form['#submit'] = array('ting_search_carousel_search_submit');
+
+  return $form;
+}
+
+/**
+ * @param int $i number of query in form.
+ *
+ * @param array $query if was submitted earlier.
+ *
+ * @return array renderable array.
+ */
+function _ting_search_carousel_queries($i, $query = array()) {
+  $q = array(
+    'sort' => array(
+      '#type' => 'weight',
+      '#delta' => 5,
+      '#default_value' => isset($query['sort']) ? $query['sort'] : '',
+      '#value' => 0,
+      '#attributes' => array('class' => array('sort')),
+    ),
+    'title' => array(
+      '#type' => 'textfield',
+      '#title' => t('Title'),
+      '#description' => t('The title of the search is used for the tab in the carousel. Keep it short.'),
+      '#default_value' => isset($query['title']) ? $query['title'] : '',
+    ),
+    'subtitle' => array(
+      '#type' => 'textfield',
+      '#title' => t('Description'),
+      '#description' => t('The subtitle displayed next to the search results.'),
+      '#default_value' => isset($query['subtitle']) ? $query['subtitle'] : '',
+    ),
+    'query' => array(
+      '#type' => 'textfield',
+      '#title' => t('Query'),
+      '#maxlength' => 2048,
+      '#description' => t('The query to display search results for.'),
+      '#default_value' => isset($query['query']) ? $query['query'] : '',
+    ),
+  );
+
+  return $q;
+}
+
+/**
+ * Custom form theme function.
+ */
+function theme_ting_search_carousel_queries($variables) {
+  $form = $variables['form'];
+  drupal_add_tabledrag('ting-search-carousel-queries', 'order', 'sibling', 'sort');
+
+  $header = array('Searches', '');
+  $rows = array();
+
+  foreach (element_children($form['ting_searches']) as $id) {
+    $form['ting_searches'][$id]['sort']['#attributes']['class'][] = 'sort';
+
+    $sort = $form['ting_searches'][$id]['sort'];
+    unset($form['ting_searches'][$id]['sort']);
+
+    $rows[] = array(
+      'data' => array(
+        drupal_render($form['ting_searches'][$id]),
+        drupal_render($sort),
+      ),
+      'class' => array('draggable'),
+    );
+  }
+
+  $output = theme_table(array(
+    'header' => $header,
+    'rows' => $rows,
+    'attributes' => array('id' => 'ting-search-carousel-queries'),
+  ));
+
+  $output .= drupal_render_children($form);
+
+  return $output;
+}
+
+/**
+ * Submit function for adding query in form.
+ */
+function _ting_search_carousel_add_query_submit($form, &$form_state) {
+  $form_state['num_searches']++;
+  $form_state['rebuild'] = TRUE;
+}
+
+/**
+ * Ajax callback for adding query in form.
+ */
+function _ting_search_carousel_add_query_ajax($form, $form_state) {
+  return $form['ting_search_carousel'];
+}
+
+/**
+ * Validate animation delay value.
+ *
+ * @param $element
+ * @param $form_state
+ *
+ * @see ting_search_carousel_settings_form().
+ */
+function _ting_search_carousel_element_validate_delay($element, &$form_state) {
+  $delay = $form_state['values']['ting_search_carousel_settings']['ting_search_carousel_animate'];
+
+  if (!is_numeric($delay) && $delay !== 0) {
+    form_set_error('ting_search_carousel_animate', t('Animate delay value must be a number.'));
+  }
+  elseif ($delay < 0) {
+    form_set_error('ting_search_carousel_animate', t('Animate delay value must be a positive number.'));
+  }
+}
+
+/**
+ * Submit handler for admin backend queries form.
+ *
+ * @param $form
+ *   Form.
+ * @param $form_state
+ *   Form state.
+ */
+function ting_search_carousel_search_submit($form, &$form_state) {
+  $values = $form_state['values'];
+
+  // Set ting carousel delay.
+  $settings_values = $values['ting_search_carousel_settings'];
+  $form_state['conf'] = array(
+    'ting_search_carousel_settings' => array(
+      'ting_search_carousel_tabs_position' => $settings_values['ting_search_carousel_tabs_position'],
+      'ting_search_carousel_item_limit' => $settings_values['ting_search_carousel_item_limit'],
+      'ting_search_carousel_description_toggle' => $settings_values['ting_search_carousel_description_toggle'],
+      'ting_search_carousel_item_sorting' => $settings_values['ting_search_carousel_item_sorting'],
+      'ting_search_carousel_animate' => $settings_values['ting_search_carousel_animate'],
+    ),
+  );
+
+  // Check if some queries was removed.
+  $searches = array();
+  foreach ($values['ting_search_carousel']['ting_searches'] as $search_key => $ting_search) {
+    if (!empty($ting_search['query']) && !empty($ting_search['title']) && !empty($ting_search['subtitle'])) {
+      $searches[$search_key] = $values['ting_search_carousel']['ting_searches'][$search_key];
+    }
+  }
+
+  // Reset array index.
+  $searches = array_values($searches);
+
+  function cmp_sort($a, $b)  {
+    if ($a['sort'] == $b['sort']) {
+      return 0;
+    }
+    return ($a['sort'] < $b['sort']) ? -1 : 1;
+  }
+  usort($searches, "cmp_sort");
+
+  $form_state['conf']['searches'] = $searches;
+
+  $form_state['conf']['cache_id'] = ting_search_carousel_search_queries($searches, $settings_values);
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function ting_search_carousel_entity_info_alter(&$entity_info) {
+  $entity_info['ting_object']['view modes'] += array(
+    'ting_search_carousel' => array(
+      'label' => t('Ting search carousel'),
+      'custom settings' => TRUE,
+    ),
+  );
+}
+
+/**
+ * Return ting objects by search query.
+ *
+ * @param array $searches
+ * @param array $search_options
+ *
+ * @return bool|array of ting objects.
+ */
+function ting_search_carousel_search_queries(array $searches, array $search_options) {
+  $hash_string = '';
+  $items = array();
+  foreach ($searches as $search_key => $search) {
+    $hash_string .= trim($search['query']);
+
+    $sort = $search_options['ting_search_carousel_item_sorting'];
+    $ting_search_options = array(
+      'facets' => array(),
+      'enrich' => TRUE,
+      'allObjects' => FALSE,
+      'sort' => $sort
+    );
+
+    $search_result = ting_do_search($search['query'], 1, 50, $ting_search_options);
+    $count_search_results = $search_result->numTotalCollections;
+
+    if ($count_search_results > 0) {
+      $collection_ids = array_keys($search_result->collections);
+      $cover_exists = ting_search_carousel_check_covers($collection_ids);
+      $item_ids = array_keys($cover_exists);
+
+      $objects = ding_entity_load_multiple($item_ids);
+
+      foreach ($objects as $item) {
+        $build = ting_object_view($item, 'ting_search_carousel');
+
+        $items[$search_key][$item->localId] = drupal_render($build);
+      }
+    }
+  }
+
+  $cache_id = ting_search_carousel_generate_cache_id($hash_string);
+
+  // Clear carousel search cache
+  cache_clear_all('ting_search_carousel_result', 'cache');
+
+  // Cache rendered items.
+  cache_set($cache_id, $items, 'cache');
+
+  return $cache_id;
+}
+
+/**
+ * Check covers for certain identifiers.
+ *
+ * This also stores the original images.
+ *
+ * @param array $ids
+ *   Items faust number.
+ *
+ * @return array
+ *   Set of results, keyed by id with boolean values.
+ */
+function ting_search_carousel_check_covers(array $ids) {
+  module_load_include('inc', 'ting_covers', 'ting_covers.pages');
+
+  $cover_data = array();
+  array_walk($ids, function($v) use (&$cover_data) {
+    $local_id = explode(':', $v);
+
+    $cover_data[$local_id[1]] = array(
+      'local_id' => $local_id[1],
+      'owner_id' => $local_id[0],
+      'image_style' => 'large',
+    );
+  });
+
+  $covers = ting_covers_objects(FALSE, $cover_data);
+
+  $result = array();
+  array_walk($covers, function($v) use (&$result, $cover_data) {
+    $faust_number = $cover_data[$v['local_id']]['owner_id'] . ':' . $cover_data[$v['local_id']]['local_id'] ;
+    $result[$faust_number] = TRUE;
+  });
+
+  return $result;
+}
+
+/**
+ * Generate a cache id, based on a keyword.
+ *
+ * @param string $keyword
+ *   A generic keyword.
+ *
+ * @return string
+ *   Hash string, meaning a certain cache id.
+ */
+function ting_search_carousel_generate_cache_id($keyword) {
+  return 'ting_search_carousel_' . drupal_hash_base64($keyword);
 }

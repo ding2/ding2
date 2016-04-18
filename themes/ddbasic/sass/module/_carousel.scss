@@ -21,11 +21,7 @@ $carousel-tab-color:                       $white;
 /* Wrapper, load and inner
    ========================================================================== */
 
-.rs-carousel-wrapper {
-  @include zen-grid-container;
-}
-
-.rs-carousel {
+.ting-search-carousel {
   @include zen-grid-item(12, 1);
 
   padding: 0;
@@ -38,33 +34,31 @@ $carousel-tab-color:                       $white;
     top: 100px;
   }
 
-  .rs-carousel-items {
-    background-color: transparent;
-  }
-
   @include small-medium() {
     background-color: $gray;
   }
 }
 
-.rs-carousel-inner {
-  background-color: $carousel-background-color;
-  min-height: 225px;
-  padding-top: 20px;
-  padding-right: 20px;
-  padding-bottom: 30px;
-  padding-left: 20px;
-
-  @include small-medium() {
-    background-color: transparent;
-    min-height: 150px;
+.ting-search-carousel {
+  .slick-slider {
+    background-color: $carousel-background-color;
+    min-height: 225px;
     padding-top: 20px;
     padding-right: 20px;
-    padding-bottom: 20px;
+    padding-bottom: 30px;
     padding-left: 20px;
+    margin-bottom: 0;
+
+    @include small-medium() {
+      background-color: transparent;
+      min-height: 150px;
+      padding-top: 20px;
+      padding-right: 20px;
+      padding-bottom: 20px;
+      padding-left: 20px;
+    }
   }
 }
-
 
 
 /* Pagination and previous and next buttons
@@ -74,29 +68,36 @@ $carousel-tab-color:                       $white;
   display: none;
 }
 
-.rs-carousel-action-prev,
-.rs-carousel-action-next {
-  @include opacity(.25);
+.ting-search-carousel .slick-prev,
+.ting-search-carousel .slick-next {
+  @include opacity(1);
   background-color: $header-background-color;
   border: 2px solid $navigation-background-color;
   background-image: url('../images/arrows-carousel.png');
   border-radius: 40px;
-
-  &.rs-carousel-action-active {
-    @include opacity(1);
-  }
+  z-index: 50;
 
   @include small-medium() {
     display: none;
   }
 }
 
-.rs-carousel-action-prev {
-  left: 20px;
-}
+.ting-search-carousel {
+  .slick-prev {
+    left: 40px;
 
-.rs-carousel-action-next {
-  right: 20px;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .slick-next {
+    right: 40px;
+    
+    &:focus {
+      outline: none;
+    }
+  }
 }
 
 
@@ -121,70 +122,112 @@ $carousel-tab-color:                       $white;
   }
 }
 
-.rs-carousel-mask {
-  li {
-    margin-right: 20px;
-    position: relative;
+.slick-track .ting-search-carousel-item {
+  margin-right: 20px;
+  position: relative;
+  width: $carousel-image-width !important;
+
+  img {
+    min-width: 100%;
+    padding: 0;
+    width: 135px;
+    height: 196px;
+
+    @include small() {
+      width: 68px;
+      height: 96px;
+      margin-bottom: 20px;
+    }
+  }
+
+  &:hover {
+    .field-type-ting-title {
+      background-color: $black;
+      text-decoration: none;
+    }
+  }
+
+  .a {
+    max-height: $carousel-image-max-height;
     width: $carousel-image-width;
-
-    img {
-      min-width: 100%;
-      padding: 0;
+     &:hover {
+      text-decoration: none;
     }
+  }
 
-    &:hover {
-      .rs-carousel-item-title {
-        background-color: $black;
-        text-decoration: none;
+  .field-type-ting-title {
+    @include box-sizing(border-box);
+
+    background-color: transparentize($black, .25);
+    bottom: 0;
+    color: $white;
+    left: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    z-index: 100;
+
+    h2 {
+      font-size: 100%;
+      font-family: $font-regular;
+      margin: 0 15px;
+
+      a {
+        color: $white;
       }
     }
+  }
 
-    a {
-      max-height: $carousel-image-max-height;
-      width: $carousel-image-width;
+  .field-type-ting-details-type {
+    background-color: transparentize($black, .25);
+    color: $white;
+    line-height: 1.2em;
+    padding: 0px 4px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    width: auto;
+    z-index: 100;
 
-      &:hover {
-        text-decoration: none;
-      }
+    .field-label {
+      display: none;
     }
 
-    .rs-carousel-item-title {
-      @include box-sizing(border-box);
-
-      background-color: transparentize($black, .25);
-      bottom: 0;
-      color: $white;
-      left: 0;
-      padding-top: 10px;
-      padding-right: 15px;
-      padding-bottom: 10px;
-      padding-left: 15px;
-      position: absolute;
-    }
-
-    .rs-carousel-item-type {
-      background-color: transparentize($black, .25);
-      color: $white;
-      line-height: 1.2em;
-      padding: 0px 4px;
-      position: absolute;
-      right: 5px;
-      top: 5px;
-      width: auto;
+    @include small() {
+      font-size: 80%;
+      max-width: 50px;
     }
   }
 
   @include small() {
-    li {
-      width: $carousel-image-width / 2;
+    width: $carousel-image-width / 2 !important;
 
-      a {
-        max-height: $carousel-image-max-height / 2;
-        width: $carousel-image-width / 2;
+    a {
+      max-height: $carousel-image-max-height / 2;
+      width: $carousel-image-width / 2;
+    }
+
+    .field-type-ting-title {
+      background: none;
+      height: 100%;
+      padding: 0;
+      position: absolute;
+      width: 100%;
+      z-index: 100;
+
+      a, h2 {
+        display: block;
+        height: 100%;
+        margin: 0;
+        position: absolute;
+        text-indent: -9000px;
+        width: 100%;
       }
 
-      .rs-carousel-item-title {
-        display: none;
+      &:hover {
+        background: none;
       }
     }
   }
@@ -199,15 +242,60 @@ $carousel-tab-color:                       $white;
 /* Carousel tabs
    ========================================================================== */
 
-.rs-carousel-tabs {
-  .rs-carousel-list-tabs {
+.ting-search-carousel-select-tabs {
+  display: none;
+  
+  @include small-medium() {
+    display: block;
+    width: 100%;
+    
+    .rs-carousel-item {
+      @include border-radius(12px);
+
+      display: block;
+      background-color: $white;
+      color: $black;
+      padding-left: 20px;
+      text-align: left;
+
+      &:before {
+        @include border-radius(12px);
+
+        background-color: $black;
+        color: $white;
+        cursor: pointer;
+        display: block;
+        font-family: $base-icon-library-font;
+        padding-top: 15px;
+        padding-right: 20px;
+        padding-bottom: 15px;
+        padding-left: 20px;
+        position: absolute;
+        right: 0;
+        z-index: 99;
+      }
+
+      &.js-tab-hidden {
+        display: none;
+      }
+
+      &.js-tab-visible {
+        display: block;
+      }
+    }
+  }
+}   
+
+.ting-search-carousel-tabs {
+  .ting-search-carousel-list-tabs {
     margin: 0;
     padding: 0;
     position: relative;
     text-align: center;
 
-    .rs-carousel-item {
+    .ting-search-carousel-item {
       @extend .icon-chevron-down;
+      float: left;
 
       a {
         background-color: $carousel-tab-background-color;
@@ -216,6 +304,7 @@ $carousel-tab-color:                       $white;
         margin-right: 1px;
         padding-top: 15px;
         padding-bottom: 15px;
+        position: relative;
 
         &:hover {
           background-color: $carousel-active-tab-background-color;
@@ -241,59 +330,9 @@ $carousel-tab-color:                       $white;
     }
   }
 
-  .rs-carousel-select-tabs {
-    display: none;
-  }
+  
 
   @include small-medium() {
-    @include box-sizing(border-box);
-
-    padding-right: 20px;
-    padding-bottom: 20px;
-    padding-left: 20px;
-
-    .rs-carousel-list-tabs {
-      display: none;
-    }
-
-    .rs-carousel-select-tabs {
-      display: block;
-      width: 100%;
-
-      .rs-carousel-item {
-        @include border-radius(12px);
-
-        display: block;
-        background-color: $white;
-        color: $black;
-        padding-left: 20px;
-        text-align: left;
-
-        &:before {
-          @include border-radius(12px);
-
-          background-color: $black;
-          color: $white;
-          cursor: pointer;
-          display: block;
-          font-family: $base-icon-library-font;
-          padding-top: 15px;
-          padding-right: 20px;
-          padding-bottom: 15px;
-          padding-left: 20px;
-          position: absolute;
-          right: 0;
-          z-index: 99;
-        }
-
-        &.js-tab-hidden {
-          display: none;
-        }
-
-        &.js-tab-visible {
-          display: block;
-        }
-      }
-    }
+    display: none;
   }
 }
