@@ -328,22 +328,23 @@ function _ting_search_carousel_find_covers($query, $start, $size, array $ignore)
         'creator' => isset($object->record['dc:creator']['oss:aut'][0]) ? $object->record['dc:creator']['oss:aut'][0] : '',
       );
     }
-
-    // See what materials have covers.
-    $covers = ting_covers_get(array_keys($objects));
-
-    // Loop over the fetched covers and build items.
-    foreach ($covers as $id => $path) {
-      // Build object with the information collected.
-      $item = new stdClass();
-      $item->id = $id;
-      $item->title = $objects[$id]['title'];
-      $item->creator = $objects[$id]['creator'];
-      $item->image = image_style_url('ting_search_carousel', $path);
-
-      $found_covers[$id] = $item;
-    }
   }
+
+  // See what materials have covers.
+  $covers = ting_covers_get(array_keys($objects));
+
+  // Loop over the fetched covers and build items.
+  foreach ($covers as $id => $path) {
+    // Build object with the information collected.
+    $item = new stdClass();
+    $item->id = $id;
+    $item->title = $objects[$id]['title'];
+    $item->creator = $objects[$id]['creator'];
+    $item->image = image_style_url('ting_search_carousel', $path);
+
+    $found_covers[$id] = $item;
+  }
+
   return array($found_covers, $start, $finished);
 }
 
