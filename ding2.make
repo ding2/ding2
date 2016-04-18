@@ -462,12 +462,6 @@ projects[xmlsitemap][subdir]                = "contrib"
 projects[references][version]               = "2.1"
 projects[references][subdir]                = "contrib"
 
-projects[search_api][version]               = "1.14"
-projects[search_api][subdir]                = "contrib"
-
-projects[search_api_db][version]            = "1.4"
-projects[search_api_db][subdir]             = "contrib"
-
 projects[taxonomy_menu][version]            = "1.4"
 projects[taxonomy_menu][subdir]             = "contrib"
 projects[taxonomy_menu][patch][]            = "http://drupal.org/files/issues/taxonomy_menu-variable-and-array-check.patch"
