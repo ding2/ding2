@@ -205,14 +205,26 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
       $price_name = variable_get('ding_p2b_default_price_name', '');
       foreach ($form_state['prices_count'] as $key) {
         $price = isset($prices[$key]) ? $prices[$key] : NULL;
-        $element['place2book']['prices_wrapper']['prices'][$key]['value'] = [
-          '#type' => 'textfield',
-          '#default_value' => !empty($price) ? $price->value : '',
-        ];
 
         $element['place2book']['prices_wrapper']['prices'][$key]['name'] = [
           '#type' => 'textfield',
           '#default_value' => !empty($price) ? $price->name : $price_name,
+        ];
+
+        $element['place2book']['prices_wrapper']['prices'][$key]['value'] = [
+          '#type' => 'textfield',
+          '#default_value' => !empty($price) ? $price->value : '',
+        ];
+        $sale_begin_at = !empty($price->sale_begin_at) ? date('Y-m-d H:i:s', strtotime($price->sale_begin_at)) : date('Y-m-d H:i:s');
+        $element['place2book']['prices_wrapper']['prices'][$key]['sale_begin_at'] = [
+          '#type' => 'date_popup',
+          '#default_value' => $sale_begin_at,
+        ];
+
+        $sale_end_at = !empty($price->sale_end_at) ? date('Y-m-d H:i:s', strtotime($price->sale_end_at)) : date('Y-m-d H:i:s');
+        $element['place2book']['prices_wrapper']['prices'][$key]['sale_end_at'] = [
+          '#type' => 'date_popup',
+          '#default_value' => $sale_end_at,
         ];
 
         $element['place2book']['prices_wrapper']['prices'][$key]['id'] = [
@@ -296,15 +308,17 @@ function ding_place2book_widget_validate($form, &$form_state) {
         form_set_error('field_ding_event_location][und][0][locality', t('City is required for creating event on P2b.'));
       }
     }
+    if (!$place2book['passive'] && isset($place2book['prices_wrapper']['prices'])) {
+      $prices = $place2book['prices_wrapper']['prices'];
+      $prices = array_filter($prices, function ($i) {
+        return !empty($i['name']) && !empty($i['value']);
+      });
 
-    $prices = $place2book['prices_wrapper']['prices'];
-    $prices = array_filter($prices, function ($i) {
-      return !empty($i['name']) && !empty($i['value']);
-    });
-
-    if (empty($prices)) {
-      form_set_error('field_place2book][und][place2book][prices_wrapper][prices', t('At least one price should exist.'));
+      if (empty($prices)) {
+        form_set_error('field_place2book][und][place2book][prices_wrapper][prices', t('At least one price should exist.'));
+      }
     }
+
     $start = $values['field_ding_event_date'][LANGUAGE_NONE][0]['value'];
     $start = strtotime($start);
     if (round(abs(time() - $start) / 60, 2) == 0) {
@@ -462,9 +476,13 @@ function _ding_place2book_create_p2b_entities($entity, array $settings) {
           continue;
         }
 
+        $sale_begin = format_date(strtotime($price['sale_begin_at']), 'custom', 'Y-m-d\TH:i:sO', date_default_timezone());
+        $sale_end = format_date(strtotime($price['sale_end_at']), 'custom', 'Y-m-d\TH:i:sO', date_default_timezone());
         $data = [
           'name' => $price['name'],
           'value' => $price['value'],
+          'sale_begin_at' => $sale_begin,
+          'sale_end_at' => $sale_end,
         ];
         $p2b->createPrice($event_maker_id, $event->id, ['price' => $data]);
       }
@@ -515,9 +533,13 @@ function _ding_place2book_update_p2b_entities($entity, array $settings) {
           continue;
         }
 
+        $sale_begin = format_date(strtotime($price['sale_begin_at']), 'custom', 'Y-m-d\TH:i:sO', date_default_timezone());
+        $sale_end = format_date(strtotime($price['sale_end_at']), 'custom', 'Y-m-d\TH:i:sO', date_default_timezone());
         $data = [
           'name' => $price['name'],
           'value' => $price['value'],
+          'sale_begin_at' => $sale_begin,
+          'sale_end_at' => $sale_end,
         ];
         if (!empty($price['id'])) {
           $p2b->updatePrice($event_maker_id, $event->id, $price['id'], ['price' => $data]);

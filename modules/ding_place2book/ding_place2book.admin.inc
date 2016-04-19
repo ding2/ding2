@@ -96,6 +96,14 @@ function ding_place2book_service_admin_form($form, &$form_state) {
     '#size' => 100,
   ];
 
+  $form['ding_place2book']['getPrices'] = [
+    '#type' => 'textfield',
+    '#title' => t('Place2Book get prices of event URL'),
+    '#default_value' => isset($settings->getPrices) ? $settings->getPrices : 'https://apitest.place2book.com//event_makers/:event_maker_id/events/:event_id/prices',
+    '#required' => TRUE,
+    '#size' => 100,
+  ];
+
   $form['ding_place2book']['getPrice'] = [
     '#type' => 'textfield',
     '#title' => t('Place2Book get price URL'),
@@ -236,9 +244,15 @@ function ding_place2book_defaults_admin_form($form, &$form_state) {
  */
 function ding_place2book_mappings_admin_form($form, &$form_state) {
   $form['#tree'] = TRUE;
-
-  $p2b = P2b\P2b::getInstance();
-  $event_makers = $p2b->getEventMakers();
+  $event_makers = array();
+  try {
+    $p2b = P2b\P2b::getInstance();
+    $event_makers = $p2b->getEventMakers();
+  }
+  catch (Exception $ex) {
+    watchdog_exception('ding_place2book', $ex);
+    drupal_set_message('Error on getting data from p2b. Check reports.');
+  }
   $options = [];
   array_map(function ($i) use (&$options) {
     $options[$i->id] = $i->name;

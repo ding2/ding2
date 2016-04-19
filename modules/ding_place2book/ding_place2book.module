@@ -111,6 +111,35 @@ function ding_place2book_theme($existing, $type, $theme, $path) {
 }
 
 /**
+ * Implements hook_node_view_alter().
+ */
+function ding_place2book_node_view_alter(&$build) {
+  if ($build['#entity_type'] == 'node' && $build['#bundle'] == 'ding_event') {
+    if (!empty($build['field_place2book'])) {
+      $place2book = field_get_items('node', $build['field_place2book']['#object'], 'field_place2book');
+      list($event_id, $event_maker_id) = array_values($place2book[0]);
+      try {
+        $p2b = P2b\P2b::getInstance();
+        $prices = $p2b->getPrices($event_maker_id, $event_id);
+        $price = $build['field_ding_event_price']['#items'];
+        if (!empty($price[0])) {
+          $vals[] = $price[0];
+        }
+        foreach ($prices as $price) {
+          $vals[] = ['value' => $price->value];;
+        }
+        $build['field_ding_event_price']['#items'] = $vals;
+      }
+      catch (Exception $ex) {
+        watchdog_exception('ding_place2book', $ex);
+      }
+    }
+  }
+
+  $a = 1;
+}
+
+/**
  * Implements hook_node_delete().
  */
 function ding_place2book_node_delete($node) {
@@ -256,7 +285,7 @@ function _ding_place2book_get_event_maker($node) {
   $default = variable_get('ding_p2b_default_event_maker', FALSE);
   $field = field_get_items('node', $node, 'og_group_ref');
   if ($field) {
-    $event_makers = variable_get('p2b_library_event_maker', []);
+    $event_makers = variable_get('ding_p2b_library_event_makers', []);
     $event_maker_id = isset($event_makers[$field[0]['target_id']]) ? $event_makers[$field[0]['target_id']] : $default;
   }
   else {
@@ -308,6 +337,8 @@ function theme_ding_p2b_prices_table($variables) {
     $rows[] = [
       'name' => drupal_render($form['prices'][$id]['name']),
       'value' => drupal_render($form['prices'][$id]['value']),
+      'sale_begin' => drupal_render($form['prices'][$id]['sale_begin_at']),
+      'sale_end' => drupal_render($form['prices'][$id]['sale_end_at']),
       'remove' => drupal_render($form['prices'][$id]['remove']),
     ];
   }
@@ -315,6 +346,8 @@ function theme_ding_p2b_prices_table($variables) {
   $header = [
     t('Name'),
     t('Price'),
+    t('Sale start'),
+    t('Sale end'),
     t('Remove'),
   ];
 
@@ -391,8 +424,7 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
     switch ($status) {
       case 'open':
         $data = l(t('Book a ticket'), $event->links->sales_location, ['attributes' => ['_target' => 'blank']]);
-        $class = 'order';
-        break;
+        $class = 'order';break;
 
       case 'closed':
         $data = t('The event is closed for admission');
