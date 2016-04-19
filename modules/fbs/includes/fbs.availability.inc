@@ -11,15 +11,20 @@
  *   Array of ting object ids (faust).
  *
  * @return array
- *   Avaliability info.
+ *   Availability info.
  */
 function fbs_availability_items($provider_ids) {
-  $avails = fbs_service()->Catalog->getAvailability(fbs_service()->agencyId, $provider_ids);
-  $result = array();
-  foreach ($avails as $item) {
-    $result[$item->recordId] = array('available' => $item->available, 'reservable' => $item->reservable);
+  try {
+    $avails = fbs_service()->Catalog->getAvailability(fbs_service()->agencyId, $provider_ids);
+    $result = array();
+    foreach ($avails as $item) {
+      $result[$item->recordId] = array('available' => $item->available, 'reservable' => $item->reservable);
+    }
+    return $result;
   }
-  return $result;
+  catch (Exception $e) {
+    watchdog_exception('fbs', $e);
+  }
 }
 
 /**
@@ -32,7 +37,14 @@ function fbs_availability_items($provider_ids) {
  *   Holdings info.
  */
 function fbs_availability_holdings($provider_ids) {
-  $holdings = fbs_service()->Catalog->getHoldings(fbs_service()->agencyId, $provider_ids);
+  $holdings = array();
+  try {
+    $holdings = fbs_service()->Catalog->getHoldings(fbs_service()->agencyId, $provider_ids);
+  }
+  catch (Exception $e) {
+    watchdog_exception('fbs', $e);
+  }
+  
   $result = array();
   $tmp_issues = array();
   foreach ($holdings as $item) {
@@ -79,11 +91,11 @@ function fbs_availability_holdings($provider_ids) {
         if ($material->periodical) {
           // Add to issues.
           $key = (!empty($material->periodical->volumeYear) ?
-                  $material->periodical->volumeYear : '') . ':' .
-               $material->periodical->volume . ':' .
-               (!empty($material->periodical->volumeNumber) ?
-               $material->periodical->volumeNumber : '') . ':' .
-               $placement_string;
+              $material->periodical->volumeYear : '') . ':' .
+            $material->periodical->volume . ':' .
+            (!empty($material->periodical->volumeNumber) ?
+              $material->periodical->volumeNumber : '') . ':' .
+            $placement_string;
           if (isset($tmp_issues[$key])) {
             $tmp_issues[$key]['available'] += $material->available ? 1 : 0;
             $tmp_issues[$key]['total'] += 1;
@@ -134,4 +146,5 @@ function fbs_availability_holdings($provider_ids) {
   }
 
   return $result;
+
 }
