@@ -212,7 +212,6 @@
 
       // Add change event to selector.
       navigation.find('.rs-carousel-select-tabs').on('change', function() {
-        console.log($(this).find(':selected').index());
         _change_tab($(this).find(':selected').index());
       });
 
