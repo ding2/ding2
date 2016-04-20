@@ -126,38 +126,6 @@ function ding_frontpage_default_page_manager_pages() {
     $display->content['new-74a49488-f11d-40b6-8211-52e84c8b296a'] = $pane;
     $display->panels['primary'][0] = 'new-74a49488-f11d-40b6-8211-52e84c8b296a';
     $pane = new stdClass();
-    $pane->pid = 'new-18cfc092-1d0f-42e4-bde8-8a6e314c9bd0';
-    $pane->panel = 'primary';
-    $pane->type = 'carousel';
-    $pane->subtype = 'carousel';
-    $pane->shown = TRUE;
-    $pane->access = array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'frontpage_promoter',
-          'settings' => array(
-            'promoter' => 'ting_search_carousel',
-          ),
-          'not' => FALSE,
-        ),
-      ),
-    );
-    $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => '',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $pane->uuid = '18cfc092-1d0f-42e4-bde8-8a6e314c9bd0';
-    $display->content['new-18cfc092-1d0f-42e4-bde8-8a6e314c9bd0'] = $pane;
-    $display->panels['primary'][1] = 'new-18cfc092-1d0f-42e4-bde8-8a6e314c9bd0';
-    $pane = new stdClass();
     $pane->pid = 'new-20a8af4e-90a0-42a4-be60-89cb72e44127';
     $pane->panel = 'secondary';
     $pane->type = 'views_panes';
