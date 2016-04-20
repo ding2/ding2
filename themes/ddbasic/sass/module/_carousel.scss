@@ -23,7 +23,8 @@ $carousel-tab-color:                       $white;
 
 .ting-search-carousel {
   @include zen-grid-item(12, 1);
-
+  clear: both;
+  margin-bottom: 20px;
   padding: 0;
 
   .ajax-loader {
@@ -75,11 +76,25 @@ $carousel-tab-color:                       $white;
   border: 2px solid $navigation-background-color;
   background-image: url('../images/arrows-carousel.png');
   border-radius: 40px;
+  height: 50px;
+  width: 50px;
   z-index: 50;
+  
+  &:before {
+    display: none;
+  }
 
   @include small-medium() {
     display: none;
   }
+}
+
+.ting-search-carousel .slick-prev {
+  background-position: -3px -4px;
+}
+
+.ting-search-carousel .slick-next {
+  background-position: -60px -4px;
 }
 
 .ting-search-carousel {
@@ -93,7 +108,7 @@ $carousel-tab-color:                       $white;
 
   .slick-next {
     right: 40px;
-    
+
     &:focus {
       outline: none;
     }
@@ -180,7 +195,7 @@ $carousel-tab-color:                       $white;
     }
   }
 
-  .field-type-ting-details-type {
+  .field-type-ting-type {
     background-color: transparentize($black, .25);
     color: $white;
     line-height: 1.2em;
@@ -193,6 +208,12 @@ $carousel-tab-color:                       $white;
 
     .field-label {
       display: none;
+    }
+
+    ul,
+    li {
+      margin: 0;
+      padding: 0;
     }
 
     @include small() {
