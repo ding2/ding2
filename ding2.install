@@ -327,3 +327,24 @@ function ding2_update_7014() {
 function ding2_update_7015() {
   module_enable(array('search_api', 'search_api_multi', 'search_api_db', 'search_api_views'));
 }
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7016() {
+  ding2_translation_update();
+}
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7017() {
+  ding2_translation_update();
+}
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7018() {
+  ding2_translation_update();
+}

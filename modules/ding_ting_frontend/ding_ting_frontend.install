@@ -6,3 +6,10 @@
 function ding_ting_frontend_update_7000(&$sandbox) {
     module_enable(array('ting_infomedia'));
 }
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_ting_frontend_uninstall() {
+  variable_del('ding_ting_frontend_group_holdings_available');
+}
