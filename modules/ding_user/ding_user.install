@@ -129,5 +129,4 @@ function ding_user_update_7008(&$sandbox) {
 function ding_user_update_7009(&$sandbox) {
   db_query("DELETE a.* FROM redirect a INNER JOIN ( SELECT concat('user/', u.uid) s FROM users u INNER JOIN authmap a ON u.uid=a.uid ) b ON a.redirect=b.s;")
     ->execute();
-
 }
