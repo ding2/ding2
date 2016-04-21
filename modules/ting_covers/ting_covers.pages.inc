@@ -36,7 +36,6 @@ function ting_covers_objects() {
  * Wraps image_style_deliver to fetch covers beforehand.
  */
 function ting_cover_deliver($style) {
-  sleep(2);
   $args = func_get_args();
   array_shift($args);
 
