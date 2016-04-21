@@ -64,7 +64,7 @@
         is_active = true;
       });
 
-      if (autoplay != 0) {
+      if (autoplay != 0 && carousel_tabs.length > 1) {
         // Switch tabs by timer.
         setInterval(function() {
           if (is_active) {
