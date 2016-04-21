@@ -64,7 +64,7 @@
         is_active = true;
       });
 
-      if (autoplay != 0) {
+      if (autoplay != 0 && carousel_tabs.length > 1) {
         // Switch tabs by timer.
         setInterval(function() {
           if (is_active) {
@@ -90,26 +90,30 @@
       });
 
       // Get the list of tabs and the number of tabs in the list.
-      var tabsList = $('.ting-search-carousel-list-tabs');
-      var childCount = tabsList.children('li').length;
+      $('.ting-search-carousel').each(function() {
+        var tabsList = $(this).find('.ting-search-carousel-list-tabs');
+        var childCount = tabsList.children('li').length;
 
-      // Only do somehting if there actually is tabs
-      if (childCount > 0) {
+        // Only do somehting if there actually is tabs
+        if (childCount > 0) {
 
-        // Get the width of the <ul> list element.
-        var parentWidth = tabsList.width();
+          // Get the width of the <ul> list element.
+          var parentWidth = tabsList.width();
 
-        // Calculate the width of the <li>'s.
-        var childWidth = Math.floor(parentWidth / childCount);
+          // Calculate the width of the <li>'s.
+          var childWidth = Math.floor(parentWidth / childCount);
 
-        // Calculate the last <li> width to combined childrens width it self not
-        // included.
-        var childWidthLast = parentWidth - ( childWidth * (childCount -1) );
+          // Calculate the last <li> width to combined childrens width it self not
+          // included.
+          var childWidthLast = parentWidth - ( childWidth * (childCount -1) );
 
-        // Set the tabs css widths.
-        tabsList.children().css({'width' : childWidth + 'px'});
-        tabsList.children(':last-child').css({'width' : childWidthLast + 'px'});
-      }
+          // Set the tabs css widths.
+          tabsList.children().css({'width' : childWidth + 'px'});
+          tabsList.children(':last-child').css({'width' : childWidthLast + 'px'});
+        }
+      });
+
+
 
       /**
        * Function updates carousel on tab switching.
