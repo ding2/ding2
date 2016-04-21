@@ -33,7 +33,7 @@ function ding_user_preprocess_html(&$variables) {
 }
 
 /**
- * Implement hook_pathauto_alias_alter().
+ * Implements hook_pathauto_alias_alter().
  *
  * Ensures that provider user don't have aliases create for their accounts.
  *
@@ -192,7 +192,7 @@ function ding_user_page_delivery_callback_alter(&$callback, $set = FALSE) {
  */
 function ding_user_deliver_html_page($page_callback_result) {
   if ($page_callback_result == MENU_ACCESS_DENIED) {
-      drupal_deliver_page(MENU_NOT_FOUND);
+    drupal_deliver_page(MENU_NOT_FOUND);
   }
   else {
     drupal_deliver_html_page($page_callback_result);
