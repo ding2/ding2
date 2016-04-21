@@ -341,15 +341,11 @@ function ding_user_frontend_build_menu($path = NULL) {
 function ding_user_frontend_url_outbound_alter(&$path, &$options, $original_path) {
   global $user;
   if (preg_match('/^user\/(\d+)\/(.*)$/', $path, $matches)) {
-    // As default change the path to use "me".
-    $path = 'user/me/' . $matches[2];
-
     // To allow site administrators to edit other user they have to be filter
     // out of this alter. When accessing another drupal user account.
-    if ($user->uid != $matches[1] && (array_search("administrators", $user->roles) || array_search("local administrator", $user->roles))) {
-      // This is an "administrators" or "local administrator" trying to edit
-      // another user. To "allow" this we reset the path.
-      $path = $original_path;
+    if ($user->uid == $matches[1] && !(in_array("administrators", $user->roles) || in_array("local administrator", $user->roles))) {
+      // This was not the above case, so we change the path to use "me".
+      $path = 'user/me/' . $matches[2];
     }
   }
 
