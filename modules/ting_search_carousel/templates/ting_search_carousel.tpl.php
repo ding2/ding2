@@ -24,25 +24,23 @@
     <?php endforeach; ?>
   </div>
 
-  <!-- Only print tabs if there is more than 1 -->
-  <?php if (count($searches) > 1): ?>
-    <div class="ting-search-carousel-tabs">
-      <ul class="ting-search-carousel-list-tabs">
-        <?php foreach ($searches as $i => $search): ?>
-          <li class="ting-search-carousel-item index-<?php echo $i; ?>" tab-index="<?php echo $i; ?>">
-            <a href="#"><?php echo $search['title'] ?></a>
-          </li>
-        <?php endforeach; ?>
-      </ul>
-    </div>
-
-    <!-- Used for responsive -->
-    <select class="ting-search-carousel-select-tabs">
+  <!-- Tabs -->
+  <div class="ting-search-carousel-tabs">
+    <ul class="ting-search-carousel-list-tabs">
       <?php foreach ($searches as $i => $search): ?>
-        <option class="rs-carousel-item">
-          <?php echo $search['title'] ?>
-        </option>
+        <li class="ting-search-carousel-item index-<?php echo $i; ?>" tab-index="<?php echo $i; ?>">
+          <a href="#"><?php echo $search['title'] ?></a>
+        </li>
       <?php endforeach; ?>
-    </select>
-  <?php endif; ?>
+    </ul>
+  </div>
+
+  <!-- Used for responsive -->
+  <select class="ting-search-carousel-select-tabs">
+    <?php foreach ($searches as $i => $search): ?>
+      <option class="rs-carousel-item">
+        <?php echo $search['title'] ?>
+      </option>
+    <?php endforeach; ?>
+  </select>
 </div>
