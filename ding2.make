@@ -48,6 +48,12 @@ projects[dibs][patch][] = "http://drupal.org/files/dibs-2107389-2.patch"
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
 
+projects[domain][subdir] = "contrib"
+projects[domain][version] = "3.12"
+
+projects[domain_menu_access][subdir] = "contrib"
+projects[domain_menu_access][version] = "1.2"
+
 ; The patch ensures that file upload patch is created on file upload. It normally
 ; created on settings form save, but as we use feature this do not work.
 ; See https://www.drupal.org/node/2410241
