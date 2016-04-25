@@ -1,0 +1,196 @@
+<?php
+/**
+ * @file
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ding_item_viewer_install() {
+  module_enable(array('ding_more_info'));
+
+  // Create field group.
+  $group = (object) array(
+    'identifier' => 'group_data|ting_object|ting_object|ding_item_viewer_big',
+    'group_name' => 'group_data',
+    'entity_type' => 'ting_object',
+    'bundle' => 'ting_object',
+    'mode' => 'ding_item_viewer_big',
+    'parent_name' => '',
+    'disabled' => false,
+    'label' => 'Data',
+    'weight' => '1',
+    'children' => array(
+      0 => 'ting_title',
+      1 => 'ting_abstract',
+      2 => 'ting_author',
+      3 => 'ting_subjects',
+      4 => 'ting_more_info',
+      5 => 'ding_entity_buttons',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Data',
+      'instance_settings' => array(
+        'classes' => '',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+
+  ctools_include('export');
+  field_group_group_save($group);
+  ctools_export_crud_enable('field_group', $group->identifier);
+
+  // Set field settings.
+  // Cover.
+  $instance = field_info_instance('ting_object', 'ting_cover', 'ting_object');
+  $instance['display']['ding_item_viewer_big'] = array(
+    'label' => 'hidden',
+    'type' => 'ting_cover_ding_item_viewer',
+    'weight' => '0',
+    'settings' => array(
+      'image_style' => 'ding_item_viewer_image_big',
+    ),
+    'module' => 'ding_item_viewer',
+  );
+  $instance['display']['ding_item_viewer_small'] = array(
+    'label' => 'hidden',
+    'type' => 'ting_cover_ding_item_viewer',
+    'weight' => '0',
+    'settings' => array(
+      'image_style' => 'ding_item_viewer_image_small',
+    ),
+    'module' => 'ding_item_viewer',
+  );
+  field_update_instance($instance);
+
+  // Title.
+  $instance = field_info_instance('ting_object', 'ting_title', 'ting_object');
+  $instance['display']['ding_item_viewer_big'] = array(
+    'label' => 'hidden',
+    'type' => 'ting_title_ding_item_viewer',
+    'weight' => '2',
+    'settings' => array(
+      'link_type' => 'none',
+    ),
+    'module' => 'ding_item_viewer',
+  );
+  $instance['display']['ding_item_viewer_small'] = array(
+    'label' => 'hidden',
+    'type' => 'ting_title_ding_item_viewer',
+    'weight' => '1',
+    'settings' => array(
+      'link_type' => 'none',
+    ),
+    'module' => 'ding_item_viewer',
+  );
+  field_update_instance($instance);
+
+  // Author.
+  $instance = field_info_instance('ting_object', 'ting_author', 'ting_object');
+  $instance['display']['ding_item_viewer_big'] = array(
+    'label' => 'hidden',
+    'type' => 'ting_author_ding_item_viewer',
+    'weight' => '4',
+    'settings' => array(),
+    'module' => 'ding_item_viewer',
+  );
+  $instance['display']['ding_item_viewer_small'] = array(
+    'label' => 'hidden',
+    'type' => 'ting_author_ding_item_viewer',
+    'weight' => '2',
+    'settings' => array(),
+    'module' => 'ding_item_viewer',
+  );
+  field_update_instance($instance);
+
+  // Abstract.
+  $instance = field_info_instance('ting_object', 'ting_abstract', 'ting_object');
+  $instance['display']['ding_item_viewer_big'] = array(
+    'label' => 'hidden',
+    'type' => 'ting_abstract_ding_item_viewer',
+    'weight' => '3',
+    'settings' => array(
+      'trim_length' => '200',
+    ),
+    'module' => 'ding_item_viewer',
+  );
+  field_update_instance($instance);
+
+  // Subjects.
+  $instance = field_info_instance('ting_object', 'ting_subjects', 'ting_object');
+  $instance['display']['ding_item_viewer_big'] = array(
+    'label' => 'hidden',
+    'type' => 'ting_subjects_ding_item_viewer',
+    'weight' => '5',
+    'settings' => array(),
+    'module' => 'ding_item_viewer'
+  );
+  field_update_instance($instance);
+
+  //   More info.
+  if (module_exists('ding_more_info')) {
+    $instance = field_info_instance('ting_object', 'ting_more_info', 'ting_object');
+    $instance['display']['ding_item_viewer_big'] = array(
+      'label' => 'hidden',
+      'type' => 'ting_more_info_default',
+      'weight' => '6',
+      'settings' => array(),
+      'module' => 'ding_more_info',
+    );
+    field_update_instance($instance);
+  }
+
+  // Action buttons.
+  $instance = field_info_instance('ting_object', 'ding_entity_buttons', 'ting_object');
+  $instance['display']['ding_item_viewer_big'] = array(
+    'label' => 'hidden',
+    'type' => 'ding_entity_buttons_ajax',
+    'weight' => '7',
+    'settings' => array(),
+    'module' => 'ding_entity',
+  );
+  field_update_instance($instance);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_item_viewer_uninstall() {
+  // Remove settings.
+  variable_del('ding_item_viewer_search_queries');
+  variable_del('ding_item_viewer_item_limit');
+  variable_del('ding_item_viewer_item_sorting');
+  variable_del('ding_item_viewer_cache_ttl');
+  variable_del('ding_item_viewer_interval');
+  variable_del('ding_item_viewer_debug');
+
+  // Remove field groups.
+  $groups = array(
+    'group_data',
+  );
+
+  foreach ($groups as $group) {
+    $group_object  = field_group_load_field_group($group, 'ting_object', 'ting_object', 'ding_item_viewer_big');
+    field_group_group_export_delete($group_object);
+  }
+}
+
+/**
+ * Wipe out old more_info field.
+ */
+function ding_item_viewer_update_7004() {
+  $field_name = 'more_info';
+  $field = field_info_field($field_name);
+  if ($field) {
+    $instance = field_info_instance('ting_object', $field_name, 'ting_object');
+    field_purge_instance($instance);
+    field_purge_field($field);
+  }
+}

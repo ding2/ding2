@@ -1,0 +1,173 @@
+/* Ding item viewer styles */
+
+.ding-item-viewer {
+
+  margin: 10px 0;
+  height: 420px;
+  font-size: 16px;
+
+  .slick-track {
+    padding: 0 0 20px 0;
+  }
+
+  .slick-arrow {
+    display: block;
+    height: 55px;
+    position: absolute;
+    text-indent: -9000px;
+    top: calc(50% - 23px);
+    width: 55px;
+    opacity: 1;
+    background-color: #00caff;
+    border: 2px solid #fffffc;
+    background-image: url("../img/arrows-carousel.png");
+    background-position: -1px -1px;
+    border-radius: 40px;
+    z-index: 50;
+
+    &.slick-next {
+      background-position: calc(100% + 1px) -1px;
+      right: 0;
+    }
+
+    &:active,
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .slick-slider {
+    position: relative;
+    overflow: hidden;
+    margin: 10px auto 0;
+    padding: 0 0 10px;
+    max-height: 375px;
+    width: 100%;
+    height: 360px;
+
+    .ding-item-viewer-item {
+      margin-left: -60px;
+
+      opacity: 0;
+      transition: opacity .25s ease-in-out;
+      -moz-transition: opacity .25s ease-in-out;
+      -webkit-transition: opacity .25s ease-in-out;
+
+      &.slick-active {
+        opacity: 1;
+        transition: opacity .25s ease-in-out;
+        -moz-transition: opacity .25s ease-in-out;
+        -webkit-transition: opacity .25s ease-in-out;
+      }
+
+      .field-type-ting-title {
+        clear: both;
+        padding-top: 3px;
+      }
+
+      &:nth-child(even) {
+        margin-top: 40px;
+      }
+
+      &.slick-current {
+        margin-top: 0;
+
+        .field-type-ting-title {
+          clear: none;
+        }
+      }
+
+      .ting-object {
+        position: relative;
+        float: left;
+        margin: 10px 0 0 0;
+        padding: 10px 10px 20px;
+        width: 120px !important;
+        -webkit-box-shadow: 0 0 9px #969488;
+        -moz-box-shadow: 0 0 9px #969488;
+        box-shadow: 0 0 9px #969488;
+        cursor: pointer;
+        background: #fff;
+        line-height: 1.2;
+        height: 260px;
+
+        &:hover {
+          z-index: 100;
+        }
+
+        img {
+          position: relative;
+          float: left;
+          overflow: hidden;
+          width: 120px;
+          max-height: 193px;
+        }
+
+        h2 {
+          font-weight: 600;
+          font-size: 100%;
+          display: block;
+          margin: 8px 0 0 0;
+          color: #000;
+        }
+
+        &.view-mode-ding-item-viewer-big {
+          max-height: 410px;
+          height: auto;
+          overflow: hidden;
+          margin: 10px 86px 0 84px;
+          width: 360px !important;
+          height: 310px;
+          cursor: default;
+          z-index: 99;
+
+          .field-type-ting-cover {
+            overflow: hidden;
+            margin: 0 20px 20px 0;
+            float: left;
+          }
+
+          .field-name-ting-author {
+            display: block;
+            margin: 0 0 8px 0;
+            text-transform: uppercase;
+          }
+        }
+      }
+    }
+  }
+
+  .ding-item-viewer-tabs {
+    margin: 10px 0;
+    padding: 0;
+    height: 28px;
+    background-color: #ccc;
+
+    ul {
+      padding: 0;
+    }
+
+    li {
+      position: relative;
+      float: left;
+      margin: 0;
+      padding: 0 10px;
+      height: 28px;
+      list-style: none;
+      white-space: nowrap;
+      font-size: 13px;
+      line-height: 30px;
+
+      a {
+        position: static;
+        color: #fff;
+        text-decoration: none;
+        line-height: 28px;
+      }
+
+      &.active {
+        background-color: #333;
+      }
+    }
+  }
+}
