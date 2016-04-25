@@ -1,0 +1,254 @@
+# $Id$
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  ding_item_viewer.admin.inc: n/a
+#  ding_item_viewer.module: n/a
+#  templates/ding_item_viewer.item.tpl.php: n/a
+#  templates/ding_item_viewer.item_active.tpl.php: n/a
+#  ding_item_viewer.info: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2015-02-19 16:14+0100\n"
+"PO-Revision-Date: 2015-05-13 09:44+0100\n"
+"Last-Translator: Martin Cording <mc@inlead.dk>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Language: da\n"
+"X-Generator: Poedit 1.7.4\n"
+
+#: ding_item_viewer.admin.inc:112
+msgid "Add another"
+msgstr "Tilføj en fane mere"
+
+#: ding_item_viewer.admin.inc:124
+msgid "Item limit"
+msgstr "Antal af materialer til visning"
+
+#: ding_item_viewer.admin.inc:126
+msgid "The number of items to be returned in search result."
+msgstr "Antallet af elementer, der skal returneres i søgeresultatet."
+
+#: ding_item_viewer.admin.inc:132
+msgid "Sorting"
+msgstr "Sortering af materialer"
+
+#: ding_item_viewer.admin.inc:134
+msgid "- None -"
+msgstr "- Ingen -"
+
+#: ding_item_viewer.admin.inc:135
+msgid "Title (Ascending)"
+msgstr "Titel (stigende)"
+
+#: ding_item_viewer.admin.inc:136
+msgid "Title (Descending)"
+msgstr "Titel (faldende)"
+
+#: ding_item_viewer.admin.inc:137
+msgid "Creator (Ascending)"
+msgstr "Forfatter (stigende)"
+
+#: ding_item_viewer.admin.inc:138
+msgid "Creator (Descending)"
+msgstr "Forfatter (faldende)"
+
+#: ding_item_viewer.admin.inc:139
+msgid "Date (Ascending)"
+msgstr "Dato (stigende)"
+
+#: ding_item_viewer.admin.inc:140
+msgid "Date (Descending)"
+msgstr "Dato (faldende)"
+
+#: ding_item_viewer.admin.inc:141
+msgid "Acquisition date (Ascending)"
+msgstr "Anskaffelsesdato (stigende)"
+
+#: ding_item_viewer.admin.inc:142
+msgid "Acquisition date (Descending)"
+msgstr "Anskaffelsesdato (faldende)"
+
+#: ding_item_viewer.admin.inc:145
+msgid "If not set, defaults to Ranking"
+msgstr "Standard værdien er Rankering."
+
+#: ding_item_viewer.admin.inc:150
+msgid "Cache TTL"
+msgstr "Mellemlagring"
+
+#: ding_item_viewer.admin.inc:151
+msgid "How many hours the cache lives."
+msgstr "Antal timer som der skal mellemlagres."
+
+#: ding_item_viewer.admin.inc:157
+msgid "Slide interval"
+msgstr "Intervalskift"
+
+#: ding_item_viewer.admin.inc:159
+msgid "The interval between sliding in seconds."
+msgstr "Antal sekunder mellem automatisk skift af fanerne."
+
+#: ding_item_viewer.admin.inc:268
+msgid "Title"
+msgstr "Titel"
+
+#: ding_item_viewer.admin.inc:269
+msgid "The title of the search is used for the tab in the browsebar. Keep it short."
+msgstr "Titlen som vises i fane-menuen. Hold det kort."
+
+#: ding_item_viewer.admin.inc:276
+msgid "Description"
+msgstr "Beskrivelse"
+
+#: ding_item_viewer.admin.inc:277
+msgid "The subtitle displayed next to the search results."
+msgstr "Teksten som vises når fanen er aktiv."
+
+#: ding_item_viewer.admin.inc:283
+msgid "Query"
+msgstr "Søgestreng til brønden (CQL)"
+
+#: ding_item_viewer.admin.inc:285
+msgid "The query to display search results for."
+msgstr "Forespørgslen som laves til Brønden og bruges til at finde materialer."
+
+#: ding_item_viewer.admin.inc:291
+msgid "Remove"
+msgstr "Fjern"
+
+#: ding_item_viewer.admin.inc:361
+msgid "Please enter a valid number."
+msgstr ""
+
+#: ding_item_viewer.module:52
+msgid "Manage ding item viewer"
+msgstr ""
+
+#: ding_item_viewer.module:53
+msgid "Configure ding item viewer settings such as search query and cache time."
+msgstr ""
+
+#: ding_item_viewer.module:79
+msgid "Loading"
+msgstr ""
+
+#: ding_item_viewer.module:124;274;326;335;343;351;368;19
+msgid "Ding item viewer"
+msgstr "Materialekarrusel"
+
+#: ding_item_viewer.module:309
+msgid "Ding item viewer (small)"
+msgstr ""
+
+#: ding_item_viewer.module:313
+msgid "Ding item viewer (big)"
+msgstr ""
+
+#: ding_item_viewer.module:327
+msgid "Show title (truncates if it is too long)"
+msgstr ""
+
+#: ding_item_viewer.module:336
+msgid "Show authors as plain text (without links)"
+msgstr ""
+
+#: ding_item_viewer.module:344
+msgid "Show one subject"
+msgstr ""
+
+#: ding_item_viewer.module:352
+msgid "Show trimmed abstract"
+msgstr ""
+
+#: ding_item_viewer.module:360
+msgid "Default"
+msgstr ""
+
+#: ding_item_viewer.module:361;581
+msgid "Link to Ting object"
+msgstr ""
+
+#: ding_item_viewer.module:369
+msgid "Cover image without ajax"
+msgstr ""
+
+#: ding_item_viewer.module:389
+msgid "Link title to"
+msgstr ""
+
+#: ding_item_viewer.module:391
+msgid "Don't link"
+msgstr ""
+
+#: ding_item_viewer.module:392
+msgid "Object"
+msgstr ""
+
+#: ding_item_viewer.module:393
+msgid "Collection, if part of a collection"
+msgstr ""
+
+#: ding_item_viewer.module:401;437
+msgid "Trim length"
+msgstr ""
+
+#: ding_item_viewer.module:433
+msgid "Link type: @type"
+msgstr ""
+
+#: ding_item_viewer.module:542;594;595
+#: templates/ding_item_viewer.item.tpl.php:28
+#: templates/ding_item_viewer.item_active.tpl.php:42
+msgid "More info"
+msgstr "Mere information"
+
+#: ding_item_viewer.module:580
+msgid "More info link"
+msgstr ""
+
+#: ding_item_viewer.module:20
+msgid "Configure ding item viewer"
+msgstr "Indstil Materialekarrusellen"
+
+#: ding_item_viewer.module:29
+msgid "Ding item viewer AJAX handler"
+msgstr ""
+
+#: ding_item_viewer.module:30
+msgid "Sends rendered items over AJAX"
+msgstr ""
+
+#: ding_item_viewer.module:36
+msgid "Ding item viewer data AJAX handler"
+msgstr ""
+
+#: ding_item_viewer.info:0
+msgid "Ding Item Viewer"
+msgstr "Materialeliste"
+
+#: ding_item_viewer.info:0
+msgid "Display ting objects in a carousel view"
+msgstr ""
+
+#: ding_item_viewer.info:0
+msgid "easyDDB"
+msgstr ""
+
+#: templates/ding_item_viewer.item_active.tpl.php:34
+msgid "Genre"
+msgstr ""
+
+#: templates/ding_item_viewer.item_active.tpl.php:40
+msgid "Reviews"
+msgstr ""
+
+#: templates/ding_item_viewer.item_active.tpl.php:46
+msgid "Reserve"
+msgstr "Reservér"

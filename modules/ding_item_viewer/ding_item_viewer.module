@@ -1,0 +1,738 @@
+<?php
+/**
+ * @file
+ * Ding item viewer module.
+ *
+ * Shows ting items in form of a tabbed carousel.
+ */
+
+require_once 'ding_item_viewer.field.inc';
+include_once 'ding_item_viewer.features.inc';
+
+define('DING_ITEM_VIEWER_CONF_CACHE_ID', 'ding_item_viewer_conf_');
+define('DING_ITEM_VIEWER_MODULE_PATH', drupal_get_path('module', 'ding_item_viewer'));
+
+/**
+ * Implements hook_menu().
+ */
+function ding_item_viewer_menu() {
+  $menu = array();
+
+  // AJAX handler.
+  $menu['ding_item_viewer/%'] = array(
+    'title' => 'Ding item viewer AJAX handler',
+    'description' => 'Sends rendered items over AJAX',
+    'page callback' => 'ding_item_viewer_ajax',
+    'page arguments' => array(1),
+    'access callback' => TRUE,
+  );
+  $menu['ding_item_viewer_get_data'] = array(
+    'title' => 'Ding item viewer data AJAX handler',
+    'page callback' => 'ding_item_viewer_get_data',
+    'page arguments' => array(),
+    'access callback' => TRUE,
+  );
+
+  return $menu;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_item_viewer_permission() {
+  $perm = array();
+
+  $perm['manage item viewer'] = array(
+    'title' => t('Manage ding item viewer'),
+    'description' => t(
+      'Configure ding item viewer settings such as search query and cache time.'
+    ),
+  );
+
+  return $perm;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_item_viewer_theme($existing, $type, $theme, $path) {
+  $hooks = array();
+
+  $mod_path = DING_ITEM_VIEWER_MODULE_PATH;
+
+  $hooks['ding_item_viewer_queries'] = array(
+    'render element' => 'form',
+  );
+
+  $hooks['ding_item_viewer_container'] = array(
+    'variables' => array(
+      'url' => NULL,
+      'preload_image' => theme_image(
+        array(
+          'path' => $mod_path . '/img/loader.gif',
+          'alt' => t('Loading'),
+          'attributes' => array(),
+        )
+      ),
+      'query_hash' => NULL,
+    ),
+    'template' => 'templates/ding_item_viewer.container',
+  );
+
+  $hooks['item_viewer_tab_single'] = array(
+    'variables' => array(),
+    'template' => 'templates/ding_item_viewer.single-tab',
+  );
+
+  $hooks['item_viewer_tabs'] = array(
+    'variables' => array(),
+    'template' => 'templates/ding_item_viewer.tabs',
+  );
+
+  $hooks['item_viewer_content'] = array(
+    'variables' => array(),
+    'template' => 'templates/ding_item_viewer.content',
+  );
+
+  $hooks['ding_item_viewer_item'] = array(
+    'variables' => array(),
+    'template' => 'ding_item_viewer.item',
+    'path' => $path . '/templates',
+  );
+
+  $hooks['ding_item_viewer_item_active'] = array(
+    'variables' => array(),
+    'template' => 'ding_item_viewer.item_active',
+    'path' => $path . '/templates',
+  );
+
+  $hooks['ding_item_viewer'] = array(
+    'variables' => array(
+      'item_viewer' => NULL,
+    ),
+    'template' => 'ding_item_viewer',
+    'path' => '/templates',
+  );
+
+  return $hooks;
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ding_item_viewer_ctools_plugin_directory($owner, $plugin_type) {
+  // we'll be nice and limit scandir() calls
+  if ($owner == 'ctools' && $plugin_type == 'content_types') {
+    return 'plugins/content_types';
+  }
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function ding_item_viewer_block_info() {
+  $blocks = array();
+
+  $blocks['item_viewer'] = array(
+    'info' => t('Ding item viewer'),
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function ding_item_viewer_block_view($delta) {
+  $block = array();
+  $block['content'] = '';
+
+  switch ($delta) {
+    case 'item_viewer':
+      // Load required JS and CSS files.
+      drupal_add_library('system', 'drupal.ajax');
+      drupal_add_css(DING_ITEM_VIEWER_MODULE_PATH . '/css/ding_item_viewer.css');
+      drupal_add_js(DING_ITEM_VIEWER_MODULE_PATH . '/js/ding_item_viewer.js');
+
+      if (module_exists('ding_availability')) {
+        drupal_add_js(drupal_get_path('module', 'ding_availability') . '/js/ding_availability.js');
+      }
+
+      $js_setting = array(
+        'ding_item_viewer' => array(
+          'visible_items' => 6,
+          'big_item_positon' => 3,
+          'interval' => variable_get('ding_item_viewer_interval', 5),
+        ),
+      );
+      drupal_add_js($js_setting, 'setting');
+
+      $block['content'] = theme('ding_item_viewer_container');
+      break;
+  }
+
+  return $block;
+}
+
+/**
+ * Check covers for certain identifiers.
+ *
+ * This also stores the original images.
+ *
+ * @param array $ids
+ *   Items faust number.
+ *
+ * @return array
+ *   Set of results, keyed by id with boolean values.
+ */
+function ding_item_viewer_check_covers(array $ids) {
+  module_load_include('inc', 'ting_covers', 'ting_covers.pages');
+
+  $cover_data = array();
+  array_walk($ids, function($v) use (&$cover_data) {
+    $local_id = explode(':', $v);
+
+    $cover_data[$local_id[1]] = array(
+      'local_id' => $local_id[1],
+      'owner_id' => $local_id[0],
+      'image_style' => 'large',
+    );
+  });
+
+  $covers = ting_covers_get_objects($cover_data);
+
+  $result = array();
+  array_walk($covers, function($v) use (&$result, $cover_data) {
+    $faust_number = $cover_data[$v['local_id']]['owner_id'] . ':' . $cover_data[$v['local_id']]['local_id'] ;
+    $result[$faust_number] = TRUE;
+  });
+
+  return $result;
+}
+
+/**
+ * Perform ting search.
+ *
+ * @param string $query
+ *   Searched query string.
+ * @param int $page
+ *   Requested results page.
+ * @param int $records
+ *   Number of records to fetch.
+ * @param string $sort
+ *   Sorting order.
+ *
+ * @return object|bool
+ *   Ting search result object or FALSE.
+ */
+function ding_item_viewer_search_ting($query = '', $page = 1, $records = 10, $sort = '') {
+  module_load_include('inc', 'ting', 'ting.client');
+
+  if (!empty($query)) {
+    $options = array(
+      'allObjects' => FALSE,
+      'enrich' => TRUE,
+      'sort' => $sort,
+    );
+
+    $query = '(' . _ting_search_quote($query) . ')';
+    $search_result = ting_do_search($query, $page, $records, $options);
+
+    return $search_result;
+  }
+
+  return FALSE;
+}
+
+/**
+ * Generate a cache id, based on a keyword.
+ *
+ * @param string $keyword
+ *   A generic keyword.
+ *
+ * @return string
+ *   Hash string, meaning a certain cache id.
+ */
+function ding_item_viewer_generate_cache_id($keyword) {
+  return 'ding_item_viewer-' . drupal_hash_base64($keyword);
+}
+
+/**
+ * Implements hook_ding_item_cache().
+ */
+function ding_item_viewer_ding_item_cache() {
+  return array(
+    'ding_item_viewer' => t('Ding item viewer'),
+  );
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ *
+ * Set special view modes for item viewer.
+ */
+function ding_item_viewer_entity_info_alter(&$entity_info) {
+  if (!isset($entity_info['ting_object']['view modes'])) {
+    return;
+  }
+
+  $entity_info['ting_object']['view modes'] += array(
+    'ding_item_viewer_small' => array(
+      'label' => t('Ding item viewer (small)'),
+      'custom settings' => TRUE,
+    ),
+    'ding_item_viewer_big' => array(
+      'label' => t('Ding item viewer (big)'),
+      'custom settings' => TRUE,
+    ),
+  );
+}
+
+
+/**
+ * Assembles item viewer data.
+ *
+ * @param string $hash.
+ *
+ * @return array.
+ */
+function ding_item_viewer_get_data($hash) {
+  $result = array(
+    'tabs' => ding_item_viewer_build_tabs($hash),
+    'content' => theme('item_viewer_content'),
+    'items' => ding_item_viewer_build_data($hash),
+  );
+
+  return $result;
+}
+
+/**
+ * Get cached configuration by it's hash.
+ *
+ * @param string $cache_id
+ *
+ * @param string $hash
+ *
+ * @return array|boolean
+ */
+function ding_item_viewer_get_cache_by_hash($cache_id, $hash) {
+  $cache = cache_get($cache_id . $hash);
+
+  if (!empty($cache->data)) {
+    return reset($cache->data);
+  }
+
+  return FALSE;
+}
+
+/**
+ * Build tabs for item viewer.
+ *
+ * @param string $hash.
+ *
+ * @return string
+ *   Tabs layout markup.
+ */
+function ding_item_viewer_build_tabs($hash) {
+  $cached_setting = ding_item_viewer_get_cache_by_hash(DING_ITEM_VIEWER_CONF_CACHE_ID, $hash);
+  $queries = $cached_setting['searches'];
+
+  $tabs = '';
+
+  if (is_array($queries)) {
+    foreach ($queries as $k => $query) {
+      $tabs .= theme('item_viewer_tab_single', array('tab_index' => $k, 'tab_title' => $query['title']));
+    }
+  }
+
+  return theme('item_viewer_tabs', array('tabs' => $tabs));
+}
+
+/**
+ * Fetches items markup from cache.
+ *
+ * @param string $hash.
+ *
+ * @return array.
+ */
+function ding_item_viewer_build_data($hash) {
+  $cached_setting = ding_item_viewer_get_cache_by_hash(DING_ITEM_VIEWER_CONF_CACHE_ID, $hash);
+  $queries = $cached_setting['searches'];
+
+  $result = array();
+
+  if (is_array($queries)) {
+    foreach ($queries as $query) {
+      $cid = ding_item_viewer_generate_cache_id($query['title'] . $query['query']);
+      $cache = cache_get($cid, 'cache_ding_item');
+      if ($cache == false) {
+        ding_item_viewer_build_searches($queries, $cached_setting['config']);
+        ding_item_viewer_build_data($hash);
+      }
+      $items = isset($cache->data) ? $cache->data : array();
+      $result[] = $items;
+    }
+  }
+
+  return $result;
+}
+
+/**
+ * Outputs item viewer markup as a JSON object.
+ *
+ * @param string $hash
+ *   Ding item viewer hash identifier.
+ */
+function ding_item_viewer_ajax($hash) {
+  $response = array(
+    'status' => 'OK',
+    'data' => array(),
+    'error' => '',
+  );
+
+  $result = ding_item_viewer_get_data($hash);
+  $response['data'] = $result;
+
+  drupal_json_output($response);
+}
+
+/**
+ * Search queries admin form.
+ */
+function ding_item_viewer_content_type_edit_form($form, &$form_state) {
+  $form['#tree'] = TRUE;
+
+  if (!isset($form_state['num_searches'])) {
+    $form_state['num_searches'] =  $form_state['conf']['searches'] ?  count($form_state['conf']['searches']) - 1 : 0;
+  }
+
+  $form['ding_item_viewer'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Searches'),
+    '#prefix' => '<div id="ding-item-viewer">',
+    '#suffix' => '</div>',
+    '#theme' => 'ding_item_viewer_queries',
+  );
+
+  for ($i = 0; $i <= $form_state['num_searches']; $i++) {
+    $search = ($form_state['conf']['searches'][$i]) ? $form_state['conf']['searches'][$i] : array();
+    $form['ding_item_viewer']['ting_searches'][$i] = _ding_item_viewer_query_form($i, $search);
+  }
+
+  $form['add_ding_item_viewer'] = array(
+    '#type' => 'submit',
+    '#value' => t('Add new query'),
+    '#submit' => array('_ding_item_viewer_add_query_submit'),
+    '#ajax' => array(
+      'callback' => '_ding_item_viewer_add_query_ajax',
+      'wrapper' => 'ding-item-viewer',
+    ),
+  );
+
+  $settings = array(
+    'ding_item_viewer_settings' => array(
+      'ding_item_viewer_item_limit' => 18,
+      'ding_item_viewer_item_sorting' => '',
+      'ding_item_viewer_cache_ttl' => 1,
+      'ding_item_viewer_interval' => 5,
+      'ding_item_viewer_debug' => FALSE,
+    ),
+  );
+
+  foreach ($settings['ding_item_viewer_settings'] as $key => $val) {
+    $settings['ding_item_viewer_settings'][$key] =
+      isset($form_state['conf']['ding_item_viewer_settings'][$key])
+        ? $form_state['conf']['ding_item_viewer_settings'][$key]
+        : $val;
+  }
+
+  $form['ding_item_viewer_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Frontend settings'),
+  );
+
+  $form['ding_item_viewer_settings']['ding_item_viewer_item_limit'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Item limit'),
+    '#description' => t('The number of items to be returned in search result.'),
+    '#default_value' => $settings['ding_item_viewer_settings']['ding_item_viewer_item_limit'],
+    '#size' => 3,
+    '#element_validate' => array('element_validate_integer_positive'),
+  );
+
+  $form['ding_item_viewer_settings']['ding_item_viewer_item_sorting'] = array(
+    '#type' => 'select',
+    '#title' => t('Sorting'),
+    '#options' => array(
+      '' => t('- None -'),
+      'title_ascending' => t('Title (Ascending)'),
+      'title_descending' => t('Title (Descending)'),
+      'creator_ascending' => t('Creator (Ascending)'),
+      'creator_descending' => t('Creator (Descending)'),
+      'date_ascending' => t('Date (Ascending)'),
+      'date_descending' => t('Date (Descending)'),
+      'acquisitionDate_ascending' => t('Acquisition date (Ascending)'),
+      'acquisitionDate_descending' => t('Acquisition date (Descending)'),
+    ),
+    '#default_value' => $settings['ding_item_viewer_settings']['ding_item_viewer_item_sorting'],
+    '#description' => t('If not set, defaults to Ranking'),
+  );
+
+  $form['ding_item_viewer_settings']['ding_item_viewer_cache_ttl'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Cache TTL'),
+    '#description' => t('How many hours the cache lives.'),
+    '#default_value' => $settings['ding_item_viewer_settings']['ding_item_viewer_cache_ttl'],
+    '#size' => '3',
+    '#element_validate' => array('element_validate_integer_positive'),
+
+  );
+
+  $form['ding_item_viewer_settings']['ding_item_viewer_interval'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Slide interval'),
+    '#default_value' => $settings['ding_item_viewer_settings']['ding_item_viewer_interval'],
+    '#description' => t('The interval between sliding in seconds.'),
+    '#size' => '3',
+    '#element_validate' => array('element_validate_integer_positive'),
+    '#required' => TRUE,
+  );
+
+  $form['ding_item_viewer_settings']['ding_item_viewer_debug'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Debug'),
+    '#default_value' => $settings['ding_item_viewer_settings']['ding_item_viewer_debug'],
+    '#description' => t('Log the search process information.'),
+  );
+
+  // Custom form submit handler.
+  $form['#submit'] = array('ding_item_viewer_content_type_edit_form_submit');
+
+  return $form;
+}
+
+/**
+ * Form part, describing query fields.
+ *
+ * @param array $item
+ *   Values for existing query.
+ *
+ * @return array
+ *   Fields structure.
+ */
+function _ding_item_viewer_query_form($index, $item = array()) {
+  $form = array();
+
+  $form['sort'] = array(
+    '#type' => 'weight',
+    '#delta' => 5,
+    '#default_value' => 0,
+    '#value' => 0,
+  );
+
+  $form['title'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Title'),
+    '#description' => t('The title of the search is used for the tab in the browsebar. Keep it short.'),
+    '#default_value' => isset($item['title']) ? $item['title'] : '',
+  );
+
+  $form['subtitle'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Description'),
+    '#description' => t('The subtitle displayed next to the search results.'),
+    '#default_value' => isset($item['subtitle']) ? $item['subtitle'] : '',
+  );
+
+  $form['query'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Query'),
+    '#maxlength' => 2048,
+    '#description' => t('The query to display search results for.'),
+    '#default_value' => isset($item['query']) ? $item['query'] : '',
+  );
+
+  return $form;
+}
+
+/**
+ * Custom form theme function.
+ */
+function theme_ding_item_viewer_queries($variables) {
+  $form = $variables['form'];
+  drupal_add_tabledrag('ding-item-viewer-queries', 'order', 'sibling', 'sort');
+
+  $header = array('Searches', '');
+  $rows = array();
+
+  foreach (element_children($form['ting_searches']) as $id) {
+    $form['ting_searches'][$id]['sort']['#attributes']['class'][] = 'sort';
+
+    $sort = $form['ting_searches'][$id]['sort'];
+    unset($form['ting_searches'][$id]['sort']);
+
+    $rows[] = array(
+      'data' => array(
+        drupal_render($form['ting_searches'][$id]),
+        drupal_render($sort),
+      ),
+      'class' => array('draggable'),
+    );
+  }
+
+  $output = theme_table(array(
+                          'header' => $header,
+                          'rows' => $rows,
+                          'attributes' => array('id' => 'ding-item-viewer-queries'),
+                        ));
+
+  $output .= drupal_render_children($form);
+
+  return $output;
+}
+
+/**
+ * Submit function for adding query in form.
+ */
+function _ding_item_viewer_add_query_submit($form, &$form_state) {
+  $form_state['num_searches']++;
+  $form_state['rebuild'] = TRUE;
+}
+
+/**
+ * Ajax callback for adding query in form.
+ */
+function _ding_item_viewer_add_query_ajax($form, $form_state) {
+  return $form['ding_item_viewer'];
+}
+
+/**
+ * Submit handler for admin backend queries form.
+ */
+function ding_item_viewer_content_type_edit_form_submit($form, &$form_state) {
+  $values = $form_state['values'];
+
+  $settings_values = $values['ding_item_viewer_settings'];
+  $form_state['conf'] = array(
+    'ding_item_viewer_settings' => array(
+      'ding_item_viewer_item_limit' => $settings_values['ding_item_viewer_item_limit'],
+      'ding_item_viewer_item_sorting' => $settings_values['ding_item_viewer_item_sorting'],
+      'ding_item_viewer_cache_ttl' => $settings_values['ding_item_viewer_cache_ttl'] * 3600,
+      'ding_item_viewer_interval' => $settings_values['ding_item_viewer_interval'],
+      'ding_item_viewer_debug' => $settings_values['ding_item_viewer_debug'],
+    ),
+  );
+
+  // Check if some queries was removed.
+  $searches = array();
+  foreach ($values['ding_item_viewer']['ting_searches'] as $key => $ting_search) {
+    if (!empty($ting_search['query']) && !empty($ting_search['title']) && !empty($ting_search['subtitle'])) {
+      $searches[$key] = $values['ding_item_viewer']['ting_searches'][$key];
+    }
+  }
+
+  // Reset array index.
+  $searches = array_values($searches);
+
+  function cmp_sort($a, $b)  {
+    if ($a['sort'] == $b['sort']) {
+      return 0;
+    }
+    return ($a['sort'] < $b['sort']) ? -1 : 1;
+  }
+  usort($searches, "cmp_sort");
+
+  $form_state['conf']['searches'] = $searches;
+
+  // Clear all item list cache.
+  module_invoke('ding_item_cache', 'clear_all');
+
+  // Start batch operations if there are some themes.
+  if (count($searches) < 1) {
+    return;
+  }
+
+  ding_item_viewer_build_searches($searches, $form_state['conf']['ding_item_viewer_settings']);
+}
+
+function ding_item_viewer_build_searches(array $searches, array $settings) {
+  foreach ($searches as $search) {
+    $sort = $settings['ding_item_viewer_item_sorting'];
+    $search_result = ding_item_viewer_search_ting($search['query'], 1, 50, $sort);
+
+    $count_search_results = $search_result->numTotalCollections;
+    if ($count_search_results > 0) {
+      $collection_ids = array_keys($search_result->collections);
+      $cover_exists = ding_item_viewer_check_covers($collection_ids);
+      $cache_id = ding_item_viewer_generate_cache_id($search['title'] . $search['query']);
+      $item_ids = array_keys($cover_exists);
+
+      $objects = ding_entity_load_multiple($item_ids);
+
+      $items = array();
+      foreach ($objects as $item) {
+        $build = ting_object_view($item, 'ding_item_viewer_big');
+        $big = drupal_render($build);
+        $build = ting_object_view($item, 'ding_item_viewer_small');
+        $small = drupal_render($build);
+
+        $items[$item->localId] = array(
+          'small' => $small,
+          'big' => $big,
+        );
+      }
+
+      // Cache rendered items.
+      cache_set($cache_id, $items, 'cache_ding_item', REQUEST_TIME + $settings['ding_item_viewer_cache_ttl']);
+    }
+  }
+}
+
+/**
+ * Return the pane contents.
+ */
+function ding_item_viewer_content_type_render($subtype, $conf, $panel_args, $context) {
+  $searches = $conf['searches'];
+  unset($conf['searches']);
+
+  $hash_string = '';
+  foreach ($searches as $search) {
+    $hash_string .= trim($search['query']);
+  }
+  $ding_item_viewer_hash = md5($hash_string);
+
+  $ding_item_viewer_conf = array(
+    $ding_item_viewer_hash => array(
+      'hash' => $ding_item_viewer_hash,
+      'searches' => $searches,
+      'config' => $conf['ding_item_viewer_settings'],
+    ),
+  );
+
+  $cache_id = DING_ITEM_VIEWER_CONF_CACHE_ID . $ding_item_viewer_hash;
+  cache_set($cache_id, $ding_item_viewer_conf, 'cache');
+
+  $block = new stdClass();
+
+  // Load required JS and CSS files.
+  drupal_add_library('system', 'drupal.ajax');
+  drupal_add_css(DING_ITEM_VIEWER_MODULE_PATH . '/css/ding_item_viewer.css');
+  drupal_add_js(DING_ITEM_VIEWER_MODULE_PATH . '/js/ding_item_viewer.js');
+
+  if (module_exists('ding_availability')) {
+    drupal_add_js(drupal_get_path('module', 'ding_availability') . '/js/ding_availability.js');
+  }
+
+  $js_setting = array(
+    'ding_item_viewer' => array(
+      'visible_items' => 6,
+      'big_item_positon' => 3,
+      'interval' => $conf['ding_item_viewer_settings']['ding_item_viewer_interval'],
+    ),
+  );
+  drupal_add_js($js_setting, 'setting');
+
+  $block->content = theme('ding_item_viewer_container', array('hash' => $ding_item_viewer_hash));
+
+  return $block;
+}

@@ -1,0 +1,287 @@
+@import "susy";
+
+/* Colors variables
+   ========================================================================== */
+
+$white:                   #fff;
+$dark-gray:               #ccc;
+$darker-gray:             #333;
+$light-gray:              #dadada;
+$lighter-gray:            #e5e5e5;
+$gray:                    #ccc;
+$black:                   #000;
+$box-shadow:              0 0 9px #969488;
+
+/* Font variables
+   ========================================================================== */
+
+$base-font-size:                  16px;
+$font-size-reset:                 100%;
+$font-size-large:                 130%;
+$font-size-small:                 80%;
+$base-font-weight-bold:           600;
+
+.search-item_viewer-query {
+  float: left;
+}
+
+.sort-hidden, .search-query-hidden {
+  display: none;
+}
+
+.ding-item-viewer {
+  margin: 10px 0;
+  height: 420px;
+  font-size: $base-font-size;
+
+  .ui-tabs-nav {
+    background: darken($darker-gray, 5%);
+  }
+
+  // Items container
+
+  .browsebar-inner {
+    position: relative;
+    overflow: hidden;
+    margin: 10px auto 0;
+    padding: 0 0 10px;
+    max-width: 942px;
+    max-height: 375px;
+    width: 100%;
+    height: 360px;
+  }
+
+  .browsebar-items-wrapper {
+    width: 942px;
+  }
+  
+  .cover-wrapper {
+    float: left;
+    width: 160px;
+  }
+  
+  .properties-wrapper {
+    float: left;
+    margin-left: 5px;
+    width: 195px;
+  }
+  
+  .cover-wrapper-inner {
+    overflow: hidden;
+    max-height: 250px;
+  }
+  
+  // Items
+
+  .browsebar-item {
+    position: relative;
+    float: left;
+    margin: 0 0 0 -66px;
+    padding: 10px 10px 20px;
+    width: 120px;
+    -webkit-box-shadow: $box-shadow;
+    -moz-box-shadow: $box-shadow;
+    box-shadow: $box-shadow;
+    cursor: pointer;
+    background: $white;
+    line-height: 1.2;
+    height: 260px;
+
+    &.first{
+      margin: 0 0 0 9px;
+    }
+
+    &:hover {
+      z-index: 100;
+    }
+
+    &.even {
+      margin-top: 20px;
+    }
+
+    &.odd {
+      margin-top: 60px;
+    }
+    // Title
+
+    h2 {
+      font-weight: $base-font-weight-bold;
+      font-size: $font-size-reset;
+      display: block;
+      margin: 8px 0 0 0;
+      color: $black;
+    }
+
+    img {
+      position: relative;
+      float: left;
+      overflow: hidden;
+      width: 120px;
+      max-height: 193px;
+    }
+
+    &.active {
+      max-height: 410px;
+      height: auto;
+      overflow: hidden;
+      margin: 20px 86px 0 20px;
+      width: 360px;
+      height: 310px;
+      cursor: default;
+
+      // Title
+      h2 {
+        font-size: $font-size-large;
+        clear: both;
+        overflow: hidden;
+        margin: 0 0 5px 0;
+        max-height: 70px;
+
+        a {
+          font-weight: $base-font-weight-bold;
+        }
+      }
+      
+      .group-data {
+        float: left;
+        width: 200px;
+      }
+
+      // Cover
+      
+      .field-type-ting-cover {
+        float: left;
+        margin-right: 10px;
+        height: 100%;
+      }
+      
+      .image-wrapper {
+        float: left;
+      }
+      
+      img {
+        margin-right: 10px;
+        margin-bottom: 8px;
+        width: 140px;
+        height: auto;
+        max-height: 215px;
+      }
+
+      // Author
+      .field-type-ting-author {
+        display: block;
+        margin: 0 0 8px 0;
+        text-transform: uppercase;
+      }
+      
+      // Subject
+      .subject {
+        display: block;
+        float: left;
+        margin: 3px 3px 3px 0;
+        white-space: nowrap;
+      }
+
+      .subjects {
+        max-height: 55px;
+        overflow: hidden;
+
+        strong {
+          display: block;
+          float: left;
+          line-height: 2em;
+          margin-right: 5px;
+        }
+      }
+
+      // Entity buttons
+      .field-type-ding-entity-buttons a {
+        margin-left: 5px;
+      }
+
+      // Author
+      .field-type-ting-author {
+        font-weight: bold;
+        margin-top: 10px;
+        display: block;
+        font-size: $font-size-small;
+      }
+
+      // Abstract
+      .field-type-ting-abstract {
+        max-height: 117px;
+        overflow: hidden;
+      }
+
+    }
+  }
+
+  // Bottom tabs
+
+  .ui-tabs-nav {
+    margin: 10px 0;
+    padding: 0;
+    height: 28px;
+    background-color: $dark-gray;
+
+    li {
+      position: relative;
+      float: left;
+      margin: 0;
+      padding: 0 10px;
+      height: 28px;
+      list-style:none;
+      white-space: nowrap;
+      font-size: 13px;
+      line-height: 30px;
+      
+      a {
+        position: static;
+        color: $white;
+        text-decoration: none;
+        line-height: 28px;
+      }
+    }
+
+    // Active tab
+
+    .active {
+      background-color: $darker-gray;
+
+      a {
+        background: none;
+        display: block;
+        margin-top: -5px;
+        padding-top: 5px;
+        height: 28px;
+      }
+    }
+  }
+
+  // Header
+  .view-mode-ding-item-viewer-small {
+    h2 {
+      clear: both;
+      height: 35px;
+      max-height: 35px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .image-wrapper {
+      background: darken($darker-gray, 5%);
+      height: 170px;
+      margin-bottom: 10px;
+      max-height: 170px;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .field-name-ting-author {
+      height: 38px;
+      overflow: hidden;
+      font-size: $font-size-small;
+      margin-top: 10px;
+    }
+  }
+}
