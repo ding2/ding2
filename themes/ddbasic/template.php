@@ -362,9 +362,9 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     switch ($variables['node']->type) {
       case 'ding_event':
         $more_link = array(
-          '#theme' => 'link',
-          '#text' => t('Read more'),
-          '#path' => 'node/' . $variables['nid'],
+          '#type' => 'link',
+          '#title' => t('Read more'),
+          '#href' => 'node/' . $variables['nid'],
           '#options' => array(
             'attributes' => array(
               'title' => $variables['title'],
@@ -381,9 +381,9 @@ function ddbasic_preprocess_node(&$variables, $hook) {
 
       case 'ding_news':
         $more_link = array(
-          '#theme' => 'link',
-          '#text' => t('Read more'),
-          '#path' => 'node/' . $variables['nid'],
+          '#type' => 'link',
+          '#title' => t('Read more'),
+          '#href' => 'node/' . $variables['nid'],
           '#options' => array(
             'attributes' => array(
               'title' => $variables['title'],
@@ -400,9 +400,9 @@ function ddbasic_preprocess_node(&$variables, $hook) {
 
       case 'ding_eresource':
         $more_link = array(
-          '#theme' => 'link',
-          '#text' => t('Read more'),
-          '#path' => 'node/' . $variables['nid'],
+          '#type' => 'link',
+          '#title' => t('Read more'),
+          '#href' => 'node/' . $variables['nid'],
           '#options' => array(
             'attributes' => array(
               'title' => $variables['title'],
@@ -419,9 +419,9 @@ function ddbasic_preprocess_node(&$variables, $hook) {
 
       case 'ding_page':
         $more_link = array(
-          '#theme' => 'link',
-          '#text' => t('Read more'),
-          '#path' => 'node/' . $variables['nid'],
+          '#type' => 'link',
+          '#title' => t('Read more'),
+          '#href' => 'node/' . $variables['nid'],
           '#options' => array(
             'attributes' => array(
               'title' => $variables['title'],
@@ -441,9 +441,9 @@ function ddbasic_preprocess_node(&$variables, $hook) {
   // For search result view mode move title into left col. group.
   if (isset($variables['content']['group_right_col_search'])) {
     $variables['content']['group_right_col_search']['title'] = array(
-      '#theme' => 'link',
-      '#text' => decode_entities($variables['title']),
-      '#path' => 'node/' . $variables['nid'],
+      '#type' => 'link',
+      '#title' => decode_entities($variables['title']),
+      '#href' => 'node/' . $variables['nid'],
       '#options' => array(
         'attributes' => array(
           'title' => $variables['title'],
