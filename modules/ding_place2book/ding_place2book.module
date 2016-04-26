@@ -177,8 +177,18 @@ function ding_place2book_node_delete($node) {
 function ding_p2b_format_options($node, array $additional) {
   $options = array(
     "name" => array('title'),
-    "description_short" => array('field_ding_event_lead', LANGUAGE_NONE, 0, 'value'),
-    "description_long" => array('field_ding_event_body', LANGUAGE_NONE, 0, 'value'),
+    "description_short" => array(
+      'field_ding_event_lead',
+      LANGUAGE_NONE,
+      0,
+      'value',
+    ),
+    "description_long" => array(
+      'field_ding_event_body',
+      LANGUAGE_NONE,
+      0,
+      'value',
+    ),
     "begin_at" => array('field_ding_event_date', LANGUAGE_NONE, 0, 'value'),
     "end_at" => array('field_ding_event_date', LANGUAGE_NONE, 0, 'value2'),
   );
@@ -241,7 +251,12 @@ function _ding_p2b_get_address_data($node) {
       0,
       'thoroughfare',
     ),
-    "address2" => array('field_ding_event_location', LANGUAGE_NONE, 0, 'premise'),
+    "address2" => array(
+      'field_ding_event_location',
+      LANGUAGE_NONE,
+      0,
+      'premise',
+    ),
     "postal_code" => array(
       'field_ding_event_location',
       LANGUAGE_NONE,
@@ -250,7 +265,12 @@ function _ding_p2b_get_address_data($node) {
     ),
     "city" => array('field_ding_event_location', LANGUAGE_NONE, 0, 'locality'),
     "country" => array('field_ding_event_location', LANGUAGE_NONE, 0, 'country'),
-    "phone" => array('field_ding_library_phone_number', LANGUAGE_NONE, 0, 'value'),
+    "phone" => array(
+      'field_ding_library_phone_number',
+      LANGUAGE_NONE,
+      0,
+      'value',
+    ),
   );
 
   $data = array();
