@@ -121,14 +121,11 @@ function ding_place2book_node_view_alter(&$build) {
       try {
         $p2b = P2b\P2b::getInstance();
         $prices = $p2b->getPrices($event_maker_id, $event_id);
-        $price = $build['field_ding_event_price']['#items'];
-        if (!empty($price[0])) {
-          $vals[] = $price[0];
-        }
+        $output = '';
         foreach ($prices as $price) {
-          $vals[] = array('value' => $price->value);
+          $output .=  "<p><i class='icon-tag'></i>{$price->value} kr.</p>";
         }
-        $build['field_ding_event_price']['#items'] = $vals;
+        $build['place2book_event_prices'] = $output;
       }
       catch (Exception $ex) {
         watchdog_exception('ding_place2book', $ex);

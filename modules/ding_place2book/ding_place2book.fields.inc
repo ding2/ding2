@@ -143,8 +143,8 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
       $element['place2book']['capacity'] = array(
         '#type' => 'textfield',
         '#title' => t('Event capacity'),
-        '#size' => 5,
-        '#maxlength' => 5,
+        '#size' => 6,
+        '#maxlength' => 6,
         '#default_value' => $capacity,
         '#description' => t('Capacity of event. 0 - unlimited.'),
         '#element_validate' => array('element_validate_integer'),
