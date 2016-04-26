@@ -51,8 +51,14 @@ projects[diff][version] = "3.2"
 projects[domain][subdir] = "contrib"
 projects[domain][version] = "3.12"
 
+projects[domain_ctools][subdir] = "contrib"
+projects[domain_ctools][version] = "1.3"
+
 projects[domain_menu_access][subdir] = "contrib"
 projects[domain_menu_access][version] = "1.2"
+
+projects[domain_variable][subdir] = "contrib"
+projects[domain_variable][version] = "1.1"
 
 ; The patch ensures that file upload patch is created on file upload. It normally
 ; created on settings form save, but as we use feature this do not work.
