@@ -434,9 +434,6 @@ function ding_place2book_field_formatter_view($entity_type, $entity, $field, $in
         $element[0] = array(
           '#markup' => "<div data-event-id='{$event_id}' data-event-maker-id='{$event_maker_id}' class='place2book'></div>",
           '#attached' => array(
-            'css' => array(
-              drupal_get_path('module', 'ding_place2book') . '/css/ding_place2book.css',
-            ),
             'js' => array(
               drupal_get_path('module', 'ding_place2book') . '/js/ding_place2book.js',
             ),
