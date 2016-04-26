@@ -18,131 +18,131 @@ function ding_place2book_service_admin_form($form, &$form_state) {
     $settings = new \SimpleXMLElement($data);
   }
 
-  $form['ding_place2book'] = [
+  $form['ding_place2book'] = array(
     '#type' => 'fieldset',
     '#title' => t('Place2Book service'),
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
-  ];
+  );
 
-  $form['ding_place2book']['url'] = [
+  $form['ding_place2book']['url'] = array(
     '#type' => 'textfield',
     '#title' => t('Place2Book service URL'),
     '#default_value' => isset($settings->url) ? $settings->url : 'https://apitest.place2book.com',
     '#description' => t('Enter a valid Place2book service endpoint, such as https://www.place2book.com/da/event_api'),
     '#size' => 100,
-  ];
+  );
 
-  $form['ding_place2book']['token'] = [
+  $form['ding_place2book']['token'] = array(
     '#type' => 'textfield',
     '#title' => t('Place2Book authorisation token'),
     '#default_value' => isset($settings->token) ? $settings->token : '',
     '#description' => t('This is the default API key used when connecting to Place2book.'),
-  ];
+  );
 
-  $form['ding_place2book']['eventMakers'] = [
+  $form['ding_place2book']['eventMakers'] = array(
     '#type' => 'textfield',
     '#title' => t('Place2Book event makers URL'),
     '#default_value' => isset($settings->eventMakers) ? $settings->eventMakers : 'https://apitest.place2book.com/event_makers',
     '#required' => TRUE,
     '#size' => 100,
-  ];
+  );
 
-  $form['ding_place2book']['editEvent'] = [
+  $form['ding_place2book']['editEvent'] = array(
     '#type' => 'textfield',
     '#title' => t('Place2Book edit event URL'),
     '#default_value' => isset($settings->editEvent) ? $settings->editEvent : 'https://apitest.place2book.com/event_makers/:event_maker_id/events/:event_id',
     '#required' => TRUE,
     '#size' => 100,
-  ];
+  );
 
-  $form['ding_place2book']['getEvent'] = [
+  $form['ding_place2book']['getEvent'] = array(
     '#type' => 'textfield',
     '#title' => t('Place2Book get event URL'),
     '#default_value' => isset($settings->getEvent) ? $settings->getEvent : 'https://apitest.place2book.com/event_makers/:event_maker_id/events/:event_id',
     '#required' => TRUE,
     '#size' => 100,
-  ];
+  );
 
-  $form['ding_place2book']['updateEvent'] = [
+  $form['ding_place2book']['updateEvent'] = array(
     '#type' => 'textfield',
     '#title' => t('Place2Book update event URL'),
     '#default_value' => isset($settings->updateEvent) ? $settings->updateEvent : 'https://apitest.place2book.com/event_makers/:event_maker_id/events/:event_id',
     '#required' => TRUE,
     '#size' => 100,
-  ];
+  );
 
-  $form['ding_place2book']['deleteEvent'] = [
+  $form['ding_place2book']['deleteEvent'] = array(
     '#type' => 'textfield',
     '#title' => t('Place2Book delete event URL'),
     '#default_value' => isset($settings->deleteEvent) ? $settings->deleteEvent : 'https://apitest.place2book.com/event_makers/:event_maker_id/events/:event_id',
     '#required' => TRUE,
     '#size' => 100,
-  ];
+  );
 
-  $form['ding_place2book']['createEvent'] = [
+  $form['ding_place2book']['createEvent'] = array(
     '#type' => 'textfield',
     '#title' => t('Place2Book create event URL'),
     '#default_value' => isset($settings->createEvent) ? $settings->createEvent : 'https://apitest.place2book.com/event_makers/:event_maker_id/events',
     '#required' => TRUE,
     '#size' => 100,
-  ];
+  );
 
-  $form['ding_place2book']['createPrice'] = [
+  $form['ding_place2book']['createPrice'] = array(
     '#type' => 'textfield',
     '#title' => t('Place2Book create price URL'),
     '#default_value' => isset($settings->createPrice) ? $settings->createPrice : 'https://apitest.place2book.com/event_makers/:event_maker_id/events/:event_id/prices',
     '#required' => TRUE,
     '#size' => 100,
-  ];
+  );
 
-  $form['ding_place2book']['getPrices'] = [
+  $form['ding_place2book']['getPrices'] = array(
     '#type' => 'textfield',
     '#title' => t('Place2Book get prices of event URL'),
     '#default_value' => isset($settings->getPrices) ? $settings->getPrices : 'https://apitest.place2book.com//event_makers/:event_maker_id/events/:event_id/prices',
     '#required' => TRUE,
     '#size' => 100,
-  ];
+  );
 
-  $form['ding_place2book']['getPrice'] = [
+  $form['ding_place2book']['getPrice'] = array(
     '#type' => 'textfield',
     '#title' => t('Place2Book get price URL'),
     '#default_value' => isset($settings->getPrice) ? $settings->getPrice : 'https://apitest.place2book.com//event_makers/:event_maker_id/events/:event_id/prices/:price_id',
     '#required' => TRUE,
     '#size' => 100,
-  ];
+  );
 
-  $form['ding_place2book']['updatePrice'] = [
+  $form['ding_place2book']['updatePrice'] = array(
     '#type' => 'textfield',
     '#title' => t('Place2Book update price URL'),
     '#default_value' => isset($settings->updatePrice) ? $settings->updatePrice : 'https://apitest.place2book.com//event_makers/:event_maker_id/events/:event_id/prices/:price_id',
     '#required' => TRUE,
     '#size' => 100,
-  ];
+  );
 
-  $form['ding_place2book']['deletePrice'] = [
+  $form['ding_place2book']['deletePrice'] = array(
     '#type' => 'textfield',
     '#title' => t('Place2Book delete price URL'),
     '#default_value' => isset($settings->deletePrice) ? $settings->deletePrice : 'https://apitest.place2book.com//event_makers/:event_maker_id/events/:event_id/prices/:price_id',
     '#required' => TRUE,
     '#size' => 100,
-  ];
+  );
 
-  $form['settings'] = [
+  $form['settings'] = array(
     '#type' => 'value',
     '#value' => $settings,
-  ];
+  );
 
-  $form['path'] = [
+  $form['path'] = array(
     '#type' => 'value',
     '#value' => $path,
-  ];
+  );
 
-  $form['submit'] = [
+  $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save'),
-    '#submit' => ['ding_place2book_service_admin_form_submit'],
-  ];
+    '#submit' => array('ding_place2book_service_admin_form_submit'),
+  );
 
   return $form;
 }
@@ -176,7 +176,7 @@ function ding_place2book_service_admin_form_submit($form, &$form_state) {
  * Form handler for configuration Event makers.
  */
 function ding_place2book_defaults_admin_form($form, &$form_state) {
-  $event_makers = [];
+  $event_makers = array();
   try {
     $p2b = P2b\P2b::getInstance();
     $event_makers = $p2b->getEventMakers();
@@ -186,54 +186,54 @@ function ding_place2book_defaults_admin_form($form, &$form_state) {
     drupal_set_message($ex->getMessage(), 'error');
   }
 
-  $options = [];
+  $options = array();
   array_map(function ($i) use (&$options) {
     $options[$i->id] = $i->name;
   }, $event_makers);
 
-  $form['ding_p2b_default_event_maker'] = [
+  $form['ding_p2b_default_event_maker'] = array(
     '#type' => 'radios',
     '#title' => t('Default event maker'),
     '#options' => $options,
     '#default_value' => variable_get('ding_p2b_default_event_maker', NULL),
     '#description' => t('It will be used in case when will be missed mappings from library.'),
-  ];
+  );
 
-  $form['ding_p2b_default_synchronize'] = [
+  $form['ding_p2b_default_synchronize'] = array(
     '#type' => 'checkbox',
     '#title' => t('Maintain copy'),
     '#default_value' => variable_get('ding_p2b_default_synchronize', FALSE),
     '#description' => t('When set, a corresponding event is created and updated on the ticket booking service Place2Book.com.'),
-  ];
+  );
 
-  $form['ding_p2b_default_kultunaut_export'] = [
+  $form['ding_p2b_default_kultunaut_export'] = array(
     '#type' => 'checkbox',
     '#title' => t('Kultunaut export'),
     '#default_value' => variable_get('ding_p2b_default_kultunaut_export', FALSE),
     '#description' => t('If checked, Place2book will forward this ding-event to Kultunaut.'),
-  ];
+  );
 
-  $form['ding_p2b_default_passive'] = [
+  $form['ding_p2b_default_passive'] = array(
     '#type' => 'checkbox',
     '#title' => t('Passive event'),
     '#default_value' => variable_get('ding_p2b_default_passive', FALSE),
     '#description' => t('If checked, Place2book flags the event as passive with no ticket sale. This can be useful for sending events to Kultunaut without actually using Place2book, or using Place2book for keeping record of all events with or without tickets.'),
-  ];
+  );
 
-  $form['ding_p2b_default_capacity'] = [
+  $form['ding_p2b_default_capacity'] = array(
     '#type' => 'textfield',
     '#title' => t('Capacity'),
     '#default_value' => variable_get('ding_p2b_default_capacity', 0),
     '#description' => t('Optional. Maximum capacity on this event. Set to 0 for unlimited capacity.'),
-    '#element_validate' => ['element_validate_integer'],
-  ];
+    '#element_validate' => array('element_validate_integer'),
+  );
 
-  $form['ding_p2b_default_price_name'] = [
+  $form['ding_p2b_default_price_name'] = array(
     '#type' => 'textfield',
     '#title' => t("Ticket type"),
     '#default_value' => variable_get('ding_p2b_default_price_name', 'Adgang'),
     '#description' => t('E. g. Adult, Child or Standard. Adgang is the default ticket type.'),
-  ];
+  );
 
   return system_settings_form($form);
 }
@@ -253,82 +253,82 @@ function ding_place2book_mappings_admin_form($form, &$form_state) {
     watchdog_exception('ding_place2book', $ex);
     drupal_set_message('Error on getting data from p2b. Check reports.');
   }
-  $options = [];
+  $options = array();
   array_map(function ($i) use (&$options) {
     $options[$i->id] = $i->name;
   }, $event_makers);
-  $form['ding_p2b_library_event_makers'] = [
+  $form['ding_p2b_library_event_makers'] = array(
     '#type' => 'fieldset',
     '#title' => t('Event makers'),
     '#description' => t('Associate each library with some event maker.'),
     '#tree' => TRUE,
-  ];
+  );
   $query = new EntityFieldQuery();
   $result = $query->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'ding_library')
     ->execute();
-  $defaults = variable_get('ding_p2b_library_event_makers', []);
+  $defaults = variable_get('ding_p2b_library_event_makers', array());
   if (isset($result['node'])) {
     foreach ($result['node'] as $value) {
       $node = node_load($value->nid);
-      $form['ding_p2b_library_event_makers'][$node->nid] = [
+      $form['ding_p2b_library_event_makers'][$node->nid] = array(
         '#type' => 'select',
         '#title' => $node->title,
         '#default_value' => isset($defaults[$node->nid]) ? $defaults[$node->nid] : NULL,
         '#options' => $options,
         '#required' => TRUE,
-      ];
+      );
     }
   }
 
-  $form['ding_p2b_kultunaut_age_group'] = [
+  $form['ding_p2b_kultunaut_age_group'] = array(
     '#type' => 'fieldset',
     '#title' => t('Kultunaut age group'),
-  ];
+  );
   $vocabulary = taxonomy_vocabulary_machine_name_load('event_target');
   $terms = taxonomy_get_tree($vocabulary->vid);
-  $options = [
+  $options = array(
     'Alle' => 'Alle',
     'Børn' => 'Børn',
     'Unge' => 'Unge',
     'Voksne' => 'Voksne',
     'Ældre' => 'Ældre',
-  ];
-  $defaults = variable_get('ding_p2b_kultunaut_age_group', []);
+  );
+  $defaults = variable_get('ding_p2b_kultunaut_age_group', array());
   foreach ($terms as $term) {
-    $form['ding_p2b_kultunaut_age_group'][$term->tid] = [
+    $form['ding_p2b_kultunaut_age_group'][$term->tid] = array(
       '#type' => 'select',
       '#title' => $term->name,
-      '#description' => t('Associate event target :term with kultunaut age group.', [':term' => $term->name]),
+      '#description' => t('Associate event target :term with kultunaut age group.', array(':term' => $term->name)),
       '#default_value' => isset($defaults[$term->tid]) ? $defaults[$term->tid] : NULL,
       '#options' => $options,
       '#required' => TRUE,
-    ];
+    );
   }
 
-  $form['ding_p2b_kultunaut_export_category'] = [
+  $form['ding_p2b_kultunaut_export_category'] = array(
     '#type' => 'fieldset',
     '#title' => t('Kultunaut export category'),
-  ];
+  );
   $vocabulary = taxonomy_vocabulary_machine_name_load('event_category');
   $terms = taxonomy_get_tree($vocabulary->vid);
   $options = _ding_place2book_load_export_category();
-  $defaults = variable_get('ding_p2b_kultunaut_export_category', []);
+  $defaults = variable_get('ding_p2b_kultunaut_export_category', array());
   foreach ($terms as $term) {
-    $form['ding_p2b_kultunaut_export_category'][$term->tid] = [
+    $form['ding_p2b_kultunaut_export_category'][$term->tid] = array(
       '#type' => 'select',
       '#title' => $term->name,
-      '#description' => t('Associate event category :term with kultunaut category.', [':term' => $term->name]),
+      '#description' => t('Associate event category :term with kultunaut category.', array(':term' => $term->name)),
       '#default_value' => isset($defaults[$term->tid]) ? $defaults[$term->tid] : NULL,
       '#options' => $options,
       '#required' => TRUE,
-    ];
+    );
   }
 
-  $form['save'] = [
+  $form['save'] = array(
     '#type' => 'submit',
     '#value' => t('Save'),
-  ];
+  );
 
   return $form;
 }
@@ -360,7 +360,7 @@ function ding_place2book_mappings_admin_form_submit($form, &$form_state) {
  */
 function _ding_place2book_load_export_category() {
   $path = 'http://www.kultunaut.dk/perl/export/nautgenrerxml';
-  $options = [];
+  $options = array();
   $data = file_get_contents($path);
   if ($data) {
     $xml = new \SimpleXMLElement($data);

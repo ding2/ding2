@@ -8,15 +8,15 @@
  * Implements hook_field_info().
  */
 function ding_place2book_field_info() {
-  return [
-    'ding_p2b' => [
+  return array(
+    'ding_p2b' => array(
       'label' => t('Place2book field'),
       'description' => t('Information about place2book ticket.'),
       'default_widget' => 'ding_p2b_widget_default',
       'default_formatter' => 'ding_p2b_formatter_default',
-      'settings' => [],
-    ],
-  ];
+      'settings' => array(),
+    ),
+  );
 }
 
 /**
@@ -30,16 +30,16 @@ function ding_place2book_field_is_empty($item, $field) {
  * Implements hook_field_widget_info().
  */
 function ding_place2book_field_widget_info() {
-  return [
-    'ding_p2b_widget_default' => [
+  return array(
+    'ding_p2b_widget_default' => array(
       'label' => t('Default'),
-      'field types' => ['ding_p2b'],
-      'behaviors' => [
+      'field types' => array('ding_p2b'),
+      'behaviors' => array(
         'multiple values' => FIELD_BEHAVIOR_CUSTOM,
         'default value' => FIELD_BEHAVIOR_CUSTOM,
-      ],
-    ],
-  ];
+      ),
+    ),
+  );
 }
 
 /**
@@ -63,41 +63,41 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
 
   switch ($instance['widget']['type']) {
     case 'ding_p2b_widget_default':
-      $element['place2book'] = [
+      $element['place2book'] = array(
         '#type' => 'fieldset',
         '#title' => t('Place2Book'),
         '#description' => t('Information about event on Place2book service.'),
         '#collapsible' => TRUE,
         '#collapsed' => TRUE,
         '#tree' => TRUE,
-      ];
+      );
 
-      $element['place2book']['synchronize'] = [
+      $element['place2book']['synchronize'] = array(
         '#type' => 'checkbox',
         '#title' => t('Synchronize event with Place2book service'),
         '#description' => t('If checked, then event on Place2book will be updated with data from local event.'),
         '#default_value' => $synchronize !== NULL ? $synchronize : variable_get('ding_p2b_default_synchronize', FALSE),
-      ];
+      );
 
       if (!empty($event)) {
         $begin_at = date('d/m/Y H:i:s', strtotime($event->begin_at));
         $end_at = date('d/m/Y H:i:s', strtotime($event->end_at));
-        $element['place2book']['event_data'] = [
+        $element['place2book']['event_data'] = array(
           '#type' => 'container',
-          '#states' => [
-            'visible' => [
-              ':input[name="field_place2book[und][place2book][synchronize]"]' => ['checked' => TRUE],
-            ],
-          ],
-        ];
+          '#states' => array(
+            'visible' => array(
+              ':input[name="field_place2book[und][place2book][synchronize]"]' => array('checked' => TRUE),
+            ),
+          ),
+        );
 
-        $element['place2book']['event_data'] += [
-          'name' => ['#markup' => "<p><strong>Name:</strong> <span>{$event->name}</span></p>"],
-          'description_short' => ['#markup' => "<p><strong>Short description:</strong> <span>{$event->description_short}</span></p>"],
-          'description_long' => ['#markup' => "<p><strong>Long description:</strong> <span>{$event->description_long}</span></p>"],
-          'begin_at' => ['#markup' => "<p><strong>Begin at:</strong> <span>{$begin_at}</span></p>"],
-          'end_at' => ['#markup' => "<p><strong>End at:</strong> <span>{$end_at}</span></p>"],
-        ];
+        $element['place2book']['event_data'] += array(
+          'name' => array('#markup' => "<p><strong>Name:</strong> <span>{$event->name}</span></p>"),
+          'description_short' => array('#markup' => "<p><strong>Short description:</strong> <span>{$event->description_short}</span></p>"),
+          'description_long' => array('#markup' => "<p><strong>Long description:</strong> <span>{$event->description_long}</span></p>"),
+          'begin_at' => array('#markup' => "<p><strong>Begin at:</strong> <span>{$begin_at}</span></p>"),
+          'end_at' => array('#markup' => "<p><strong>End at:</strong> <span>{$end_at}</span></p>"),
+        );
 
         if (!empty($price)) {
           $element['place2book']['event_data']['price']['#markup'] = "<p><strong>Event price:</strong> <span>{$price->value}</span></p>";
@@ -119,15 +119,15 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
         }
 
         if (isset($event->kultunaut_age_group)) {
-          $element['place2book']['event_data']['kultunaut_age_group'] = [
+          $element['place2book']['event_data']['kultunaut_age_group'] = array(
             '#markup' => "<p><strong>Kultunaut export category</strong> <span>{$event->kultunaut_age_group}</span></p>",
-          ];
+          );
         }
 
         if (isset($event->kultunaut_export_category)) {
-          $element['place2book']['event_data']['kultunaut_export_category'] = [
+          $element['place2book']['event_data']['kultunaut_export_category'] = array(
             '#markup' => "<p><strong>Kultunaut export category</strong> <span>{$event->kultunaut_export_category}</span></p>",
-          ];
+          );
         }
       }
 
@@ -140,20 +140,20 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
       else {
         $capacity = $event->capacity;
       }
-      $element['place2book']['capacity'] = [
+      $element['place2book']['capacity'] = array(
         '#type' => 'textfield',
         '#title' => t('Event capacity'),
         '#size' => 5,
         '#maxlength' => 5,
         '#default_value' => $capacity,
         '#description' => t('Capacity of event. 0 - unlimited.'),
-        '#element_validate' => ['element_validate_integer'],
-        '#states' => [
-          'visible' => [
-            ':input[name="field_place2book[und][place2book][synchronize]"]' => ['checked' => TRUE],
-          ],
-        ],
-      ];
+        '#element_validate' => array('element_validate_integer'),
+        '#states' => array(
+          'visible' => array(
+            ':input[name="field_place2book[und][place2book][synchronize]"]' => array('checked' => TRUE),
+          ),
+        ),
+      );
 
       $passive = 0;
       if (!isset($meta_data->event_state)) {
@@ -162,42 +162,42 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
       elseif ($meta_data->event_state == 'passive') {
         $passive = 1;
       }
-      $element['place2book']['passive'] = [
+      $element['place2book']['passive'] = array(
         '#type' => 'checkbox',
         '#title' => t('Passive event'),
         '#default_value' => $passive,
         '#description' => t('If checked, event will be marked as passive with no ticket sale.'),
-        '#states' => [
-          'visible' => [
-            ':input[name="field_place2book[und][place2book][synchronize]"]' => ['checked' => TRUE],
-          ],
-        ],
-      ];
+        '#states' => array(
+          'visible' => array(
+            ':input[name="field_place2book[und][place2book][synchronize]"]' => array('checked' => TRUE),
+          ),
+        ),
+      );
 
-      $element['place2book']['kultunaut_export'] = [
+      $element['place2book']['kultunaut_export'] = array(
         '#type' => 'checkbox',
         '#title' => t('Kultunaut export'),
         '#default_value' => isset($event->kultunaut_export) ? $event->kultunaut_export : variable_get('ding_p2b_default_kultunaut_export', FALSE),
         '#description' => t('If checked, Place2book will forward this ding-event to Kultunaut.'),
-        '#states' => [
-          'visible' => [
-            ':input[name="field_place2book[und][place2book][synchronize]"]' => ['checked' => TRUE],
-          ],
-        ],
-      ];
+        '#states' => array(
+          'visible' => array(
+            ':input[name="field_place2book[und][place2book][synchronize]"]' => array('checked' => TRUE),
+          ),
+        ),
+      );
 
-      $element['place2book']['prices_wrapper'] = [
+      $element['place2book']['prices_wrapper'] = array(
         '#type' => 'fieldset',
         '#title' => t('Prices'),
         '#prefix' => '<div id="ding-place2book-prices-wrapper">',
         '#suffix' => '</div>',
         '#theme' => 'ding_p2b_prices_table',
-        '#states' => [
-          'visible' => [
-            ':input[name="field_place2book[und][place2book][synchronize]"]' => ['checked' => TRUE],
-          ],
-        ],
-      ];
+        '#states' => array(
+          'visible' => array(
+            ':input[name="field_place2book[und][place2book][synchronize]"]' => array('checked' => TRUE),
+          ),
+        ),
+      );
 
       if (!isset($form_state['prices_count'])) {
         $form_state['prices_count'] = empty($prices) ? range(0, 0) : range(0, count($prices));
@@ -206,33 +206,33 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
       foreach ($form_state['prices_count'] as $key) {
         $price = isset($prices[$key]) ? $prices[$key] : NULL;
 
-        $element['place2book']['prices_wrapper']['prices'][$key]['name'] = [
+        $element['place2book']['prices_wrapper']['prices'][$key]['name'] = array(
           '#type' => 'textfield',
           '#default_value' => !empty($price) ? $price->name : $price_name,
-        ];
+        );
 
-        $element['place2book']['prices_wrapper']['prices'][$key]['value'] = [
+        $element['place2book']['prices_wrapper']['prices'][$key]['value'] = array(
           '#type' => 'textfield',
           '#default_value' => !empty($price) ? $price->value : '',
-        ];
+        );
         $sale_begin_at = !empty($price->sale_begin_at) ? date('Y-m-d H:i:s', strtotime($price->sale_begin_at)) : date('Y-m-d H:i:s');
-        $element['place2book']['prices_wrapper']['prices'][$key]['sale_begin_at'] = [
+        $element['place2book']['prices_wrapper']['prices'][$key]['sale_begin_at'] = array(
           '#type' => 'date_popup',
           '#default_value' => $sale_begin_at,
-        ];
+        );
 
         $sale_end_at = !empty($price->sale_end_at) ? date('Y-m-d H:i:s', strtotime($price->sale_end_at)) : date('Y-m-d H:i:s');
-        $element['place2book']['prices_wrapper']['prices'][$key]['sale_end_at'] = [
+        $element['place2book']['prices_wrapper']['prices'][$key]['sale_end_at'] = array(
           '#type' => 'date_popup',
           '#default_value' => $sale_end_at,
-        ];
+        );
 
-        $element['place2book']['prices_wrapper']['prices'][$key]['id'] = [
+        $element['place2book']['prices_wrapper']['prices'][$key]['id'] = array(
           '#type' => 'hidden',
           '#value' => isset($price->id) ? $price->id : NULL,
-        ];
+        );
 
-        $element['place2book']['prices_wrapper']['prices'][$key]['remove'] = [
+        $element['place2book']['prices_wrapper']['prices'][$key]['remove'] = array(
           '#type' => 'submit',
           '#value' => t('Remove'),
           '#name' => 'prices_remove_' . $key,
@@ -241,38 +241,38 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
           '#price_id' => isset($price->id) ? $price->id : NULL,
           '#event_id' => $event_id,
           '#event_maker_id' => $event_maker_id,
-          '#submit' => ['ding_place2book_prices_remove_submit'],
-          '#limit_validation_errors' => [],
-          '#ajax' => [
+          '#submit' => array('ding_place2book_prices_remove_submit'),
+          '#limit_validation_errors' => array(),
+          '#ajax' => array(
             'wrapper' => 'ding-place2book-prices-wrapper',
             'callback' => 'ding_p2b_prices_remove_ajax_handler',
-          ],
-        ];
+          ),
+        );
       }
 
-      $element['place2book']['prices_wrapper']['add'] = [
+      $element['place2book']['prices_wrapper']['add'] = array(
         '#type' => 'submit',
         '#value' => t('Add'),
         '#name' => 'p2b_prices_add_btn',
-        '#submit' => ['ding_place2book_prices_add_submit'],
-        '#limit_validation_errors' => [],
-        '#ajax' => [
+        '#submit' => array('ding_place2book_prices_add_submit'),
+        '#limit_validation_errors' => array(),
+        '#ajax' => array(
           'wrapper' => 'ding-place2book-prices-wrapper',
           'callback' => 'ding_p2b_prices_add_ajax_handler',
-        ],
-      ];
+        ),
+      );
 
-      $element['place2book']['event_id'] = [
+      $element['place2book']['event_id'] = array(
         '#type' => 'value',
         '#value' => $event_id,
-      ];
+      );
 
-      $element['place2book']['event_maker_id'] = [
+      $element['place2book']['event_maker_id'] = array(
         '#type' => 'value',
         '#value' => $event_maker_id,
-      ];
+      );
 
-      $element['#element_validate'] = ['ding_place2book_widget_validate'];
+      $element['#element_validate'] = array('ding_place2book_widget_validate');
 
       break;
   }
@@ -393,13 +393,13 @@ function ding_place2book_field_presave($entity_type, $entity, $field, $instance,
           }
         }
         else {
-          $items = [
-            [
+          $items = array(
+            array(
               'event_id' => $settings['event_id'],
               'event_maker_id' => $settings['event_maker_id'],
               'synchronize' => $settings['synchronize'],
-            ],
-          ];
+            ),
+          );
         }
       }
       break;
@@ -410,39 +410,38 @@ function ding_place2book_field_presave($entity_type, $entity, $field, $instance,
  * Implements hook_field_formatter_info().
  */
 function ding_place2book_field_formatter_info() {
-  return [
-    'ding_p2b_formatter_default' => [
+  return array(
+    'ding_p2b_formatter_default' => array(
       'label' => t('Default'),
-      'field types' => [
+      'field types' => array(
         'ding_p2b',
-      ],
-      'settings' => [],
-    ],
-  ];
+      ),
+      'settings' => array(),
+    ),
+  );
 }
 
 /**
  * Implements hook_field_formatter_view().
  */
 function ding_place2book_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
-  $element = [];
+  $element = array();
   switch ($field['field_name']) {
     case 'field_place2book':
       if ($display['type'] == 'ding_p2b_formatter_default' && !empty($items)) {
         list($event_id, $event_maker_id) = array_values(reset($items));
 
-        $element[0] = [
+        $element[0] = array(
           '#markup' => "<div data-event-id='{$event_id}' data-event-maker-id='{$event_maker_id}' class='place2book'></div>",
-          '#attached' => [
-            'css' => [
+          '#attached' => array(
+            'css' => array(
               drupal_get_path('module', 'ding_place2book') . '/css/ding_place2book.css',
-            ],
-            'js' => [
+            ),
+            'js' => array(
               drupal_get_path('module', 'ding_place2book') . '/js/ding_place2book.js',
-            ],
-          ],
-        ];
-
+            ),
+          ),
+        );
       }
   }
   return $element;
@@ -452,13 +451,16 @@ function ding_place2book_field_formatter_view($entity_type, $entity, $field, $in
  * Helper function for creating p2b entities.
  *
  * @param object $entity
+ *   Object of node.
  * @param array $settings
+ *   Represents array of data and settings.
  *
  * @return array
+ *   Array of items for field_place2book.
  */
 function _ding_place2book_create_p2b_entities($entity, array $settings) {
   $p2b = P2b\P2b::getInstance();
-  $items = [];
+  $items = array();
   $event_maker_id = _ding_place2book_get_event_maker($entity);
   if ($event_maker_id) {
     try {
@@ -478,26 +480,26 @@ function _ding_place2book_create_p2b_entities($entity, array $settings) {
 
         $sale_begin = format_date(strtotime($price['sale_begin_at']), 'custom', 'Y-m-d\TH:i:sO', date_default_timezone());
         $sale_end = format_date(strtotime($price['sale_end_at']), 'custom', 'Y-m-d\TH:i:sO', date_default_timezone());
-        $data = [
+        $data = array(
           'name' => $price['name'],
           'value' => $price['value'],
           'sale_begin_at' => $sale_begin,
           'sale_end_at' => $sale_end,
-        ];
-        $p2b->createPrice($event_maker_id, $event->id, ['price' => $data]);
+        );
+        $p2b->createPrice($event_maker_id, $event->id, array('price' => $data));
       }
-      $items = [
-        [
+      $items = array(
+        array(
           'event_id' => $event->id,
           'event_maker_id' => $event_maker_id,
           'synchronize' => 1,
-        ],
-      ];
+        ),
+      );
       drupal_set_message(t('Event was successfully created.'));
     }
     catch (Exception $ex) {
       watchdog_exception('ding_place2book', $ex);
-      $items = [];
+      $items = array();
       drupal_set_message($ex->getMessage(), 'error');
     }
   }
@@ -508,13 +510,16 @@ function _ding_place2book_create_p2b_entities($entity, array $settings) {
  * Helper function for creating p2b entities.
  *
  * @param object $entity
+ *   Object of node.
  * @param array $settings
+ *   Represents array of data and settings.
  *
  * @return array
+ *   Array of items for field_place2book.
  */
 function _ding_place2book_update_p2b_entities($entity, array $settings) {
   $p2b = P2b\P2b::getInstance();
-  $items = [];
+  $items = array();
   if ($settings['event_maker_id']) {
     try {
       // Collect data for updating event.
@@ -535,31 +540,31 @@ function _ding_place2book_update_p2b_entities($entity, array $settings) {
 
         $sale_begin = format_date(strtotime($price['sale_begin_at']), 'custom', 'Y-m-d\TH:i:sO', date_default_timezone());
         $sale_end = format_date(strtotime($price['sale_end_at']), 'custom', 'Y-m-d\TH:i:sO', date_default_timezone());
-        $data = [
+        $data = array(
           'name' => $price['name'],
           'value' => $price['value'],
           'sale_begin_at' => $sale_begin,
           'sale_end_at' => $sale_end,
-        ];
+        );
         if (!empty($price['id'])) {
-          $p2b->updatePrice($event_maker_id, $event->id, $price['id'], ['price' => $data]);
+          $p2b->updatePrice($event_maker_id, $event->id, $price['id'], array('price' => $data));
         }
         else {
-          $p2b->createPrice($event_maker_id, $event->id, ['price' => $data]);
+          $p2b->createPrice($event_maker_id, $event->id, array('price' => $data));
         }
-        $items = [
-          [
+        $items = array(
+          array(
             'event_id' => $event->id,
             'event_maker_id' => $event_maker_id,
             'synchronize' => 1,
-          ],
-        ];
+          ),
+        );
       }
       drupal_set_message(t('Event was successfully updated.'));
     }
     catch (Exception $ex) {
       watchdog_exception('ding_place2book', $ex);
-      $items = [];
+      $items = array();
       drupal_set_message($ex->getMessage(), 'error');
     }
   }

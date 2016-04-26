@@ -178,7 +178,7 @@ class P2b {
    * @see http://developer.place2book.com/v1/event_makers
    */
   public function getEventMakers() {
-    $event_makers = [];
+    $event_makers = array();
     $result = $this->p2bRequest(self::$eventMakers, 'GET');
     foreach ($result as $item) {
       $event_makers[$item->id] = $item;
@@ -208,10 +208,10 @@ class P2b {
       throw new \Exception("Params event_id, event_maker_id are required. Was given event_maker_id: {$event_maker_id}, event_id: {$event_id}.");
     }
 
-    $placeholders = [
+    $placeholders = array(
       ':event_id' => $event_id,
       ':event_maker_id' => $event_maker_id,
-    ];
+    );
 
     $url = $this->p2bFormatUrl(self::$getEvent, $placeholders);
     $result = $this->p2bRequest($url, 'GET');
@@ -240,24 +240,24 @@ class P2b {
       throw new \Exception("Params event_maker_id is required. Was given event_id: {$event_maker_id} and empty $data param.");
     }
 
-    $required = [
+    $required = array(
       'name' => FALSE,
       'begin_at' => FALSE,
       'capacity' => FALSE,
-      'address' => [
+      'address' => array(
         'address1' => FALSE,
         'postal_code' => FALSE,
         'city' => FALSE,
         'phone' => FALSE,
         'country' => FALSE,
-      ],
-    ];
+      ),
+    );
     $this->p2bCheckRequired($required, $data['event']);
     $this->p2bGenerateException($required, __FUNCTION__);
 
-    $placeholders = [
+    $placeholders = array(
       ':event_maker_id' => $event_maker_id,
-    ];
+    );
     $url = $this->p2bFormatUrl(self::$createEvent, $placeholders);
 
     $event = $this->p2bRequest($url, 'POST', $data, 201);
@@ -288,26 +288,26 @@ class P2b {
       throw new \Exception("Params event_id, event_maker_id are required. Was given event_maker_id: {$event_maker_id}, event_id: {$event_id}.");
     }
 
-    $required = [
+    $required = array(
       'name' => FALSE,
       'begin_at' => FALSE,
       'capacity' => FALSE,
-      'address' => [
+      'address' => array(
         'address1' => FALSE,
         'address2' => FALSE,
         'postal_code' => FALSE,
         'city' => FALSE,
         'phone' => FALSE,
         'country' => FALSE,
-      ],
-    ];
+      ),
+    );
     $this->p2bCheckRequired($required, $data['event']);
     $this->p2bGenerateException($required, __FUNCTION__);
 
-    $placeholders = [
+    $placeholders = array(
       ':event_id' => $event_id,
       ':event_maker_id' => $event_maker_id,
-    ];
+    );
     $url = $this->p2bFormatUrl(self::$updateEvent, $placeholders);
     $event = $this->p2bRequest($url, 'PUT', $data);
 
@@ -335,12 +335,12 @@ class P2b {
       throw new \Exception("Params event_id, event_maker_id are required. Was given event_maker_id: {$event_maker_id}, event_id: {$event_id}.");
     }
 
-    $placeholders = [
+    $placeholders = array(
       ':event_id' => $event_id,
       ':event_maker_id' => $event_maker_id,
-    ];
+    );
     $url = $this->p2bFormatUrl(self::$deleteEvent, $placeholders);
-    $event = $this->p2bRequest($url, 'DELETE', [], 204);
+    $event = $this->p2bRequest($url, 'DELETE', array(), 204);
 
     return $event;
   }
@@ -368,17 +368,17 @@ class P2b {
       throw new \Exception("Params event_id, event_maker_id are required. Was given event_maker_id: {$event_maker_id}, event_id: {$event_id}.");
     }
 
-    $required = [
+    $required = array(
       'name' => FALSE,
       'value' => FALSE,
-    ];
+    );
     $this->p2bCheckRequired($required, $data['price']);
     $this->p2bGenerateException($required, __FUNCTION__);
 
-    $placeholders = [
+    $placeholders = array(
       ':event_maker_id' => $event_maker_id,
       ':event_id' => $event_id,
-    ];
+    );
     $url = $this->p2bFormatUrl(self::$createPrice, $placeholders);
     $price = $this->p2bRequest($url, 'POST', $data, 201);
 
@@ -408,11 +408,11 @@ class P2b {
     if (empty($event_id) || empty($event_maker_id) || empty($price_id)) {
       throw new \Exception("Params event_id, event_maker_id and price_id are required. Was given event_maker_id: {$event_maker_id}, event_id: {$event_id}, price_id: {$price_id}.");
     }
-    $placeholders = [
+    $placeholders = array(
       ':event_id' => $event_id,
       ':event_maker_id' => $event_maker_id,
       ':price_id' => $price_id,
-    ];
+    );
     $url = $this->p2bFormatUrl(self::$getPrice, $placeholders);
     $result = $this->p2bRequest($url, 'GET');
 
@@ -439,10 +439,10 @@ class P2b {
     if (empty($event_id) || empty($event_maker_id)) {
       throw new \Exception("Params event_id, event_maker_id are required. Was given event_maker_id: {$event_maker_id}, event_id: {$event_id}.");
     }
-    $placeholders = [
+    $placeholders = array(
       ':event_id' => $event_id,
       ':event_maker_id' => $event_maker_id,
-    ];
+    );
     $url = $this->p2bFormatUrl(self::$getPrices, $placeholders);
     $result = $this->p2bRequest($url, 'GET');
 
@@ -473,18 +473,18 @@ class P2b {
       throw new \Exception("Params event_id, event_maker_id and price_id are required. Was given event_maker_id: {$event_maker_id}, event_id: {$event_id}, price_id: {$price_id}.");
     }
 
-    $required = [
+    $required = array(
       'name' => FALSE,
       'value' => FALSE,
-    ];
+    );
     $this->p2bCheckRequired($required, $data['price']);
     $this->p2bGenerateException($required, __FUNCTION__);
 
-    $placeholders = [
+    $placeholders = array(
       ':event_maker_id' => $event_maker_id,
       ':event_id' => $event_id,
       ':price_id' => $price_id,
-    ];
+    );
     $url = $this->p2bFormatUrl(self::$updatePrice, $placeholders);
     $result = $this->p2bRequest($url, 'PUT', $data);
 
@@ -514,13 +514,13 @@ class P2b {
       throw new \Exception("Params event_id, event_maker_id and required are required. Was given event_maker_id: {$event_maker_id}, event_id: {$event_id}, price_id: {$price_id}.");
     }
 
-    $placeholders = [
+    $placeholders = array(
       ':event_maker_id' => $event_maker_id,
       ':event_id' => $event_id,
       ':price_id' => $price_id,
-    ];
+    );
     $url = $this->p2bFormatUrl(self::$deletePrice, $placeholders);
-    $result = $this->p2bRequest($url, 'DELETE', [], 204);
+    $result = $this->p2bRequest($url, 'DELETE', array(), 204);
 
     return $result;
   }
@@ -543,16 +543,16 @@ class P2b {
    * @throws \Exception
    *   In case when response code not equal to excepted.
    */
-  private function p2bRequest($url, $type, array $params = [], $code = 200) {
+  private function p2bRequest($url, $type, array $params = array(), $code = 200) {
 
     if (empty( self::$token)) {
       throw new \Exception("Token empty.");
     }
-    $options = [];
-    $options['headers'] = [
+    $options = array();
+    $options['headers'] = array(
       "X-PLACE2BOOK-API-TOKEN" => self::$token,
       "Accept" => "application/vnd.place2book.v1+json",
-    ];
+    );
 
     if (!empty($params)) {
       if ($type == 'POST') {
@@ -648,7 +648,7 @@ class P2b {
    */
   private function p2bGenerateException(array $required, $method) {
     $required = $this->p2bArrayFilterRecursive($required);
-    $missed = [];
+    $missed = array();
     foreach ($required as $key => $v) {
       if (is_array($v)) {
         $missed += array_keys($v);

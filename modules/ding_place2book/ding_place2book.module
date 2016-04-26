@@ -12,21 +12,21 @@ require_once "lib/p2b/P2b.php";
  * Implements hook_image_default_styles().
  */
 function ding_place2book_image_default_styles() {
-  $styles = [];
+  $styles = array();
 
-  $styles['ding_place2book_kultunaut_square'] = [
+  $styles['ding_place2book_kultunaut_square'] = array(
     'name' => 'ding_place2book_kultunaut_square',
-    'effects' => [
-      [
+    'effects' => array(
+      array(
         'name' => 'image_scale_and_crop',
-        'data' => [
+        'data' => array(
           'width' => 120,
           'height' => 120,
-        ],
+        ),
         'weight' => 0,
-      ],
-    ],
-  ];
+      ),
+    ),
+  );
 
   return $styles;
 }
@@ -35,66 +35,66 @@ function ding_place2book_image_default_styles() {
  * Implements hook_permission().
  */
 function ding_place2book_permission() {
-  return [
-    'administer place2book settings' => [
+  return array(
+    'administer place2book settings' => array(
       'title' => t('Administer place2book settings'),
       'description' => t('Perform administration tasks for ding_place2book.'),
-    ],
-  ];
+    ),
+  );
 }
 
 /**
  * Implements hook_menu().
  */
 function ding_place2book_menu() {
-  $items = [];
+  $items = array();
 
-  $items['admin/config/ding/place2book'] = [
+  $items['admin/config/ding/place2book'] = array(
     'title' => 'Place2book settings',
     'description' => 'Settings and defaults for Place2book integration',
     'page callback' => 'drupal_get_form',
-    'page arguments' => ['ding_place2book_service_admin_form'],
-    'access arguments' => ['administer place2book settings'],
+    'page arguments' => array('ding_place2book_service_admin_form'),
+    'access arguments' => array('administer place2book settings'),
     'type' => MENU_NORMAL_ITEM,
     'file' => 'ding_place2book.admin.inc',
-  ];
+  );
 
-  $items['admin/config/ding/place2book/settings'] = [
+  $items['admin/config/ding/place2book/settings'] = array(
     'title' => 'Place2book settings',
     'description' => 'Settings and defaults for Place2book integration',
     'weight' => -20,
     'page callback' => 'drupal_get_form',
-    'page arguments' => ['ding_place2book_admin_settings_form'],
-    'access arguments' => ['administer place2book settings'],
+    'page arguments' => array('ding_place2book_admin_settings_form'),
+    'access arguments' => array('administer place2book settings'),
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'file' => 'ding_place2book.admin.inc',
-  ];
+  );
 
-  $items['admin/config/ding/place2book/defaults'] = [
+  $items['admin/config/ding/place2book/defaults'] = array(
     'title' => 'Defaults',
     'description' => 'Configuration form for P2b default values',
     'page callback' => 'drupal_get_form',
-    'page arguments' => ['ding_place2book_defaults_admin_form'],
-    'access arguments' => ['administer place2book settings'],
+    'page arguments' => array('ding_place2book_defaults_admin_form'),
+    'access arguments' => array('administer place2book settings'),
     'type' => MENU_LOCAL_TASK,
     'file' => 'ding_place2book.admin.inc',
-  ];
+  );
 
-  $items['admin/config/ding/place2book/mappings'] = [
+  $items['admin/config/ding/place2book/mappings'] = array(
     'title' => 'Mappings',
     'description' => 'Mappings for P2b service.',
     'page callback' => 'drupal_get_form',
-    'page arguments' => ['ding_place2book_mappings_admin_form'],
-    'access arguments' => ['administer place2book settings'],
+    'page arguments' => array('ding_place2book_mappings_admin_form'),
+    'access arguments' => array('administer place2book settings'),
     'type' => MENU_LOCAL_TASK,
     'file' => 'ding_place2book.admin.inc',
-  ];
+  );
 
-  $items['ding/p2b/event_maker/%/event/%'] = [
+  $items['ding/p2b/event_maker/%/event/%'] = array(
     'page callback' => 'ding_place2book_get_event_state',
-    'page arguments' => [3, 5],
-    'access arguments' => ['access content'],
-  ];
+    'page arguments' => array(3, 5),
+    'access arguments' => array('access content'),
+  );
 
   return $items;
 }
@@ -103,11 +103,11 @@ function ding_place2book_menu() {
  * Implements hook_theme().
  */
 function ding_place2book_theme($existing, $type, $theme, $path) {
-  return [
-    'ding_p2b_prices_table' => [
+  return array(
+    'ding_p2b_prices_table' => array(
       'render element' => 'form',
-    ],
-  ];
+    ),
+  );
 }
 
 /**
@@ -126,7 +126,7 @@ function ding_place2book_node_view_alter(&$build) {
           $vals[] = $price[0];
         }
         foreach ($prices as $price) {
-          $vals[] = ['value' => $price->value];;
+          $vals[] = array('value' => $price->value);
         }
         $build['field_ding_event_price']['#items'] = $vals;
       }
@@ -135,8 +135,6 @@ function ding_place2book_node_view_alter(&$build) {
       }
     }
   }
-
-  $a = 1;
 }
 
 /**
@@ -155,14 +153,12 @@ function ding_place2book_node_delete($node) {
         }
       }
       catch (Exception $ex) {
-        watchdog_exception('ding_place2book', $ex, t('Error appeared on deleting node: nid - :nid, title - :title.', [
+        watchdog_exception('ding_place2book', $ex, t('Error appeared on deleting node: nid - :nid, title - :title.', array(
           ':nid' => $node->nid,
           ':title' => $node->title,
-        ]));
+        )));
       }
-      finally {
-        $p2b->deleteEvent($event_maker_id, $event_id);
-      }
+      $p2b->deleteEvent($event_maker_id, $event_id);
     }
   }
 }
@@ -179,22 +175,22 @@ function ding_place2book_node_delete($node) {
  *   Array with need for request data.
  */
 function ding_p2b_format_options($node, array $additional) {
-  $options = [
-    "name" => ['title'],
-    "description_short" => ['field_ding_event_lead', LANGUAGE_NONE, 0, 'value'],
-    "description_long" => ['field_ding_event_body', LANGUAGE_NONE, 0, 'value'],
-    "begin_at" => ['field_ding_event_date', LANGUAGE_NONE, 0, 'value'],
-    "end_at" => ['field_ding_event_date', LANGUAGE_NONE, 0, 'value2'],
-  ];
+  $options = array(
+    "name" => array('title'),
+    "description_short" => array('field_ding_event_lead', LANGUAGE_NONE, 0, 'value'),
+    "description_long" => array('field_ding_event_body', LANGUAGE_NONE, 0, 'value'),
+    "begin_at" => array('field_ding_event_date', LANGUAGE_NONE, 0, 'value'),
+    "end_at" => array('field_ding_event_date', LANGUAGE_NONE, 0, 'value2'),
+  );
   $data = (array) $node;
   foreach ($options as $name => $option) {
 
-    if (in_array($name, [
+    if (in_array($name, array(
       'begin_at',
       'end_at',
       'sale_open_at',
       'sale_close_at',
-    ])) {
+    ))) {
       $date = (string) drupal_array_get_nested_value($data, $option);
       array_pop($option);
       $option[] = 'timezone_db';
@@ -238,26 +234,26 @@ function _ding_p2b_get_address_data($node) {
   if ($field) {
     $lib = (array) node_load($field[0]['target_id']);
   }
-  $options = [
-    "address1" => [
+  $options = array(
+    "address1" => array(
       'field_ding_event_location',
       LANGUAGE_NONE,
       0,
       'thoroughfare',
-    ],
-    "address2" => ['field_ding_event_location', LANGUAGE_NONE, 0, 'premise'],
-    "postal_code" => [
+    ),
+    "address2" => array('field_ding_event_location', LANGUAGE_NONE, 0, 'premise'),
+    "postal_code" => array(
       'field_ding_event_location',
       LANGUAGE_NONE,
       0,
       'postal_code',
-    ],
-    "city" => ['field_ding_event_location', LANGUAGE_NONE, 0, 'locality'],
-    "country" => ['field_ding_event_location', LANGUAGE_NONE, 0, 'country'],
-    "phone" => ['field_ding_library_phone_number', LANGUAGE_NONE, 0, 'value'],
-  ];
+    ),
+    "city" => array('field_ding_event_location', LANGUAGE_NONE, 0, 'locality'),
+    "country" => array('field_ding_event_location', LANGUAGE_NONE, 0, 'country'),
+    "phone" => array('field_ding_library_phone_number', LANGUAGE_NONE, 0, 'value'),
+  );
 
-  $data = [];
+  $data = array();
   foreach ($options as $name => $option) {
     $result = NULL;
     $data[$name] = drupal_array_get_nested_value($node, $option, $result);
@@ -285,7 +281,7 @@ function _ding_place2book_get_event_maker($node) {
   $default = variable_get('ding_p2b_default_event_maker', FALSE);
   $field = field_get_items('node', $node, 'og_group_ref');
   if ($field) {
-    $event_makers = variable_get('ding_p2b_library_event_makers', []);
+    $event_makers = variable_get('ding_p2b_library_event_makers', array());
     $event_maker_id = isset($event_makers[$field[0]['target_id']]) ? $event_makers[$field[0]['target_id']] : $default;
   }
   else {
@@ -307,7 +303,7 @@ function _ding_place2book_get_event_maker($node) {
  * @see ding_p2b_format_options()
  */
 function _ding_place2book_get_export_category($tid) {
-  $mappings = variable_get('ding_p2b_kultunaut_export_category', []);
+  $mappings = variable_get('ding_p2b_kultunaut_export_category', array());
   return isset($mappings[$tid]) ? $mappings[$tid] : '';
 }
 
@@ -323,7 +319,7 @@ function _ding_place2book_get_export_category($tid) {
  * @see ding_p2b_format_options()
  */
 function _ding_place2book_get_age_group($tid) {
-  $mappings = variable_get('ding_p2b_kultunaut_age_group', []);
+  $mappings = variable_get('ding_p2b_kultunaut_age_group', array());
   return isset($mappings[$tid]) ? $mappings[$tid] : '';
 }
 
@@ -332,30 +328,30 @@ function _ding_place2book_get_age_group($tid) {
  */
 function theme_ding_p2b_prices_table($variables) {
   $form = $variables['form'];
-  $rows = [];
+  $rows = array();
   foreach (element_children($form['prices']) as $id) {
-    $rows[] = [
+    $rows[] = array(
       'name' => drupal_render($form['prices'][$id]['name']),
       'value' => drupal_render($form['prices'][$id]['value']),
       'sale_begin' => drupal_render($form['prices'][$id]['sale_begin_at']),
       'sale_end' => drupal_render($form['prices'][$id]['sale_end_at']),
       'remove' => drupal_render($form['prices'][$id]['remove']),
-    ];
+    );
   }
 
-  $header = [
+  $header = array(
     t('Name'),
     t('Price'),
     t('Sale start'),
     t('Sale end'),
     t('Remove'),
-  ];
+  );
 
-  $output = theme('table', [
+  $output = theme('table', array(
     'rows' => $rows,
     'header' => $header,
     'empty' => t('Click to add more for adding a row.'),
-  ]);
+  ));
   $output .= drupal_render_children($form);
   return $output;
 }
@@ -363,10 +359,10 @@ function theme_ding_p2b_prices_table($variables) {
 /**
  * Ajax callback for fetching event state from P2b.
  *
- * @param string $event_id
- *   Event id of remote service.
  * @param string $event_maker_id
  *   EventMaker id on remote service.
+ * @param string $event_id
+ *   Event id of remote service.
  */
 function ding_place2book_get_event_state($event_maker_id, $event_id) {
   try {
@@ -423,8 +419,9 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
 
     switch ($status) {
       case 'open':
-        $data = l(t('Book a ticket'), $event->links->sales_location, ['attributes' => ['_target' => 'blank']]);
-        $class = 'order';break;
+        $data = l(t('Book a ticket'), $event->links->sales_location, array('attributes' => array('_target' => 'blank')));
+        $class = 'order';
+        break;
 
       case 'closed':
         $data = t('The event is closed for admission');
