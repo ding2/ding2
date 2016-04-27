@@ -1,21 +1,28 @@
 $a-tags: 'a, a:active, a:hover, a:visited, a:hover, a:active';
 
 .field-name-field-place2book {
-  padding-left: 36px;
+  padding-left: 20px;
+
+  @include small-medium() {
+    margin: 20px 0;
+    padding-left: 0;
+  }
 }
 
 .place2book {
 
   #{$a-tags} {
     @extend %button-action;
+    display: block;
   }
 
   &.info {
-    background: $dialog-background;
-    border: 1px solid darken($dialog-background, 10%);
-    margin: 20px 0;
-    padding: 5px;
-    text-align: center;
-    color: $dialog-text;
+    @extend %button-warning;
+    display: block;
+
+    &:hover {
+      @include create-gradient-button($button-warning-color, $button-warning-bg, darken($button-warning-bg, 10%));
+      cursor: default;
+    }
   }
 }
