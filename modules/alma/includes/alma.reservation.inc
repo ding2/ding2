@@ -9,7 +9,7 @@
  *
  * It's used to select preferred branch and interest period.
  *
- * @param stdClass $account
+ * @param object $account
  *   Drupal user account object.
  * @param string $default_value
  *   The name of the branch that should be selected as default value.
@@ -55,7 +55,7 @@ function alma_reservation_options($account, $default_value = '') {
 /**
  * Validate reservations options.
  *
- * @param stdClass $account
+ * @param object $account
  *   Drupal user account object.
  *
  * @return array
@@ -83,7 +83,7 @@ function alma_reservation_default_options($account) {
 /**
  * Submit handler for reservations options.
  *
- * @param stdClass $account
+ * @param object $account
  *   Drupal user account object.
  * @param array $values
  *   The values that should be submitted (@todo needs better description).
@@ -109,7 +109,7 @@ function alma_reservation_options_submit($account, $values) {
 /**
  * Get list of reserved items index by reservation type.
  *
- * @param stdClass $account
+ * @param object $account
  *   Drupal user account object.
  * @param string $type
  *   Reservation type to return. The sting should be one of
@@ -217,12 +217,17 @@ function alma_reservation_list($account, $type = NULL) {
 /**
  * Create a new reservation in the library system.
  *
- * @param stdClass $account
+ * @param object $account
+ *   Drupal user account object.
  * @param string $id
+ *   ID of reservation.
  * @param array $options
+ *   Options array.
  * @param string $expiry
+ *   Expiry.
  *
  * @return array
+ *   Reservation information.
  *
  * @throws DingProviderReservationExists
  * @throws DingProviderReservationNotAllowed
@@ -310,11 +315,15 @@ function alma_reservation_create($account, $id, $options = array(), $expiry = NU
 /**
  * Update order, by defining new expiry date or pickup branch.
  *
- * @param stdClass $account
+ * @param object $account
+ *   Drupal user account object.
  * @param array $ids
+ *   Reservations ID's array.
  * @param array $options
+ *   Options array.
  *
  * @return bool
+ *   Reservation update status.
  */
 function alma_reservation_update($account, $ids, $options) {
   $creds = ding_user_get_creds($account);
@@ -347,10 +356,13 @@ function alma_reservation_update($account, $ids, $options) {
 /**
  * Delete a reservation for a given account.
  *
- * @param stdClass $account
+ * @param object $account
+ *   Drupal user account object.
  * @param string $id
+ *   ID of a reservation.
  *
- * @return type
+ * @return bool
+ *   Reservation deletion.
  */
 function alma_reservation_delete($account, $id) {
   $creds = ding_user_get_creds($account);
@@ -410,7 +422,7 @@ function alma_reservation_reservation_deletion_enabled() {
  * Return a branch name for a given branch id.
  *
  * @param string $branch_id
- *   The identifier for a given pick-up branch (e.g. hb)
+ *   The identifier for a given pick-up branch (e.g. hb).
  *
  * @return string
  *   The human name for the id or NULL if one do not exist.
@@ -428,9 +440,8 @@ function alma_reservation_branch_name($branch_id) {
 /**
  * Get all reservation from Alma and store them in the cache.
  *
- * @param stdClass $account
+ * @param object $account
  *   Drupal user account object.
- *
  * @param bool $reset
  *   If TRUE the cache will be by-passed.
  *
@@ -461,7 +472,7 @@ function alma_reservation_clear_cache() {
 /**
  * Check if a reservation exists at the provider (ALMA).
  *
- * @param stdClass $account
+ * @param object $account
  *   Drupal user account object.
  * @param string $reservation_id
  *   The id of the reservation to test for.
