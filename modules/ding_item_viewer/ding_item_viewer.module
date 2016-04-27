@@ -716,7 +716,6 @@ function ding_item_viewer_content_type_render($subtype, $conf, $panel_args, $con
 
   // Load required JS and CSS files.
   drupal_add_library('system', 'drupal.ajax');
-  drupal_add_css(DING_ITEM_VIEWER_MODULE_PATH . '/css/ding_item_viewer.css');
   drupal_add_js(DING_ITEM_VIEWER_MODULE_PATH . '/js/ding_item_viewer.js');
 
   if (module_exists('ding_availability')) {
