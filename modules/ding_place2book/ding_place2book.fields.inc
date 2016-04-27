@@ -51,7 +51,7 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
   if (!empty($items)) {
     list($event_id, $event_maker_id, $synchronize) = array_values(reset($items));
     try {
-      $p2b = P2b\P2b::getInstance();
+      $p2b = ding_place2book_instance();
       $event = $p2b->getEvent($event_maker_id, $event_id);
       $meta_data = isset($event->meta_data) ? $event->meta_data : NULL;
       $prices = $p2b->getPrices($event_maker_id, $event_id);
@@ -363,7 +363,7 @@ function ding_place2book_prices_remove_submit($form, &$form_state) {
   $element = $form_state['triggering_element'];
   if (!empty($element['#price_id']) && !empty($element['#event_id']) && !empty($element['#event_maker_id'])) {
     try {
-      $p2b = P2b\P2b::getInstance();
+      $p2b = ding_place2book_instance();
       $p2b->deletePrice($element['#event_maker_id'], $element['#event_id'], $element['#price_id']);
     }
     catch (Exception $ex) {
@@ -434,6 +434,9 @@ function ding_place2book_field_formatter_view($entity_type, $entity, $field, $in
         $element[0] = array(
           '#markup' => "<div data-event-id='{$event_id}' data-event-maker-id='{$event_maker_id}' class='place2book'></div>",
           '#attached' => array(
+            'css' => array(
+              drupal_get_path('module', 'ding_place2book') . '/css/ding_place2book.css',
+            ),
             'js' => array(
               drupal_get_path('module', 'ding_place2book') . '/js/ding_place2book.js',
             ),
@@ -456,11 +459,12 @@ function ding_place2book_field_formatter_view($entity_type, $entity, $field, $in
  *   Array of items for field_place2book.
  */
 function _ding_place2book_create_p2b_entities($entity, array $settings) {
-  $p2b = P2b\P2b::getInstance();
+
   $items = array();
   $event_maker_id = _ding_place2book_get_event_maker($entity);
   if ($event_maker_id) {
     try {
+      $p2b = ding_place2book_instance();
       // Collect data for creating event.
       $prices = $settings['prices_wrapper']['prices'];
       unset($settings['prices_wrapper']);
@@ -515,7 +519,7 @@ function _ding_place2book_create_p2b_entities($entity, array $settings) {
  *   Array of items for field_place2book.
  */
 function _ding_place2book_update_p2b_entities($entity, array $settings) {
-  $p2b = P2b\P2b::getInstance();
+  $p2b = ding_place2book_instance();
   $items = array();
   if ($settings['event_maker_id']) {
     try {

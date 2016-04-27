@@ -4,6 +4,8 @@
  * Represents hooks implementations and definitions.
  */
 
+use P2b\P2b;
+
 include_once 'ding_place2book.features.inc';
 require_once 'ding_place2book.fields.inc';
 require_once "lib/p2b/P2b.php";
@@ -29,6 +31,13 @@ function ding_place2book_image_default_styles() {
   );
 
   return $styles;
+}
+
+/**
+ * Implements hook_libraries_info().
+ */
+function ding_place2book_libraries_info() {
+  
 }
 
 /**
@@ -119,7 +128,7 @@ function ding_place2book_node_view_alter(&$build) {
       $place2book = field_get_items('node', $build['field_place2book']['#object'], 'field_place2book');
       list($event_id, $event_maker_id) = array_values($place2book[0]);
       try {
-        $p2b = P2b\P2b::getInstance();
+        $p2b = ding_place2book_instance();
         $prices = $p2b->getPrices($event_maker_id, $event_id);
         $output = '';
         foreach ($prices as $price) {
@@ -139,11 +148,11 @@ function ding_place2book_node_view_alter(&$build) {
  */
 function ding_place2book_node_delete($node) {
   if ($node->type == 'ding_event') {
-    $p2b = P2b\P2b::getInstance();
     $field_place2book = field_get_items('node', $node, 'field_place2book');
     if (!empty($field_place2book)) {
       list($event_id, $event_maker_id) = array_values($field_place2book[0]);
       try {
+        $p2b = ding_place2book_instance();
         $prices = $p2b->getPrices($event_maker_id, $event_id);
         foreach ($prices as $price) {
           $p2b->deletePrice($event_maker_id, $event_id, $price->id);
@@ -158,6 +167,23 @@ function ding_place2book_node_delete($node) {
       $p2b->deleteEvent($event_maker_id, $event_id);
     }
   }
+}
+
+/**
+ * Creates and initializes instance of P2b class.
+ *
+ * @return object
+ *   Instance of P2b class.
+ */
+function ding_place2book_instance() {
+  $p2b = drupal_static(__FUNCTION__, NULL);
+
+  if (empty($settings)) {
+    $settings = variable_get('ding_place2book_settings', array());
+    $p2b = P2b::getInstance($settings);
+  }
+
+  return $p2b;
 }
 
 /**
@@ -383,7 +409,7 @@ function theme_ding_p2b_prices_table($variables) {
  */
 function ding_place2book_get_event_state($event_maker_id, $event_id) {
   try {
-    $p2b = P2b\P2b::getInstance();
+    $p2b = ding_place2book_instance();
     $event = $p2b->getEvent($event_maker_id, $event_id);
     $meta_data = $event->meta_data;
     $start = strtotime($event->begin_at);

@@ -31,98 +31,111 @@ class P2b {
    *
    * @var object
    */
-  private static $client;
+  private $client;
 
   /**
    * Represents token for authorisation on remote service.
    *
    * @var string
    */
-  private static $token;
+  private $token;
 
   /**
    * Url of remote service.
    *
    * @var string
    */
-  private static $url;
+  private $url;
 
   /**
    * Url on remote service for getting list of event makers.
    *
    * @var string
    */
-  private static $eventMakers;
+  private $eventMakers;
 
   /**
    * Url on remote service for getting specific event.
    *
    * @var string
    */
-  private static $getEvent;
+  private $getEvent;
 
   /**
    * Url on remote service for creating a event.
    *
    * @var string
    */
-  private static $createEvent;
+  private $createEvent;
 
   /**
    * Url on remote service for updating specific event.
    *
    * @var string
    */
-  private static $updateEvent;
+  private $updateEvent;
 
   /**
    * Url on remote service for deleting specific event.
    *
    * @var string
    */
-  private static $deleteEvent;
+  private $deleteEvent;
 
   /**
    * Url on remote service for creating price.
    *
    * @var string
    */
-  private static $createPrice;
+  private $createPrice;
 
   /**
    * Url on remote service for getting price.
    *
    * @var string
    */
-  private static $getPrice;
+  private $getPrice;
 
   /**
    * Url on remote service for getting list of prices.
    *
    * @var string
    */
-  private static $getPrices;
+  private $getPrices;
 
   /**
    * Url on remote service for update price.
    *
    * @var string
    */
-  private static $updatePrice;
+  private $updatePrice;
 
   /**
    * Url on remote service for delete price.
    *
    * @var string
    */
-  private static $deletePrice;
+  private $deletePrice;
 
   /**
    * P2b protected constructor for realisation singleton design pattern.
+   *
+   * @param array $settings
+   *   Contains list of urls for initialising.
+   *
+   * @throws \Exception
+   *   On assigning empty value.
    */
-  protected function __construct() {
-    self::$client = new HttpClient();
-    $this->getSettings();
+  protected function __construct(array $settings) {
+    $this->client = new HttpClient();
+    foreach ($settings as $name => $value) {
+      if (property_exists($this, $name)) {
+        if (empty($value)) {
+          throw new \Exception("Error. Value {$value} can not be assigned to {$name}.");
+        }
+        $this->{$name} = $value;
+      }
+    }
   }
 
   /**
@@ -132,39 +145,17 @@ class P2b {
   }
 
   /**
-   * Get settings from conf file and stores it in class attributes.
-   */
-  private function getSettings() {
-    $data = file_get_contents('p2b.conf', FILE_USE_INCLUDE_PATH);
-    if ($data) {
-      $settings = new \SimpleXMLElement($data);
-      self::$token = (string) $settings->token;
-      self::$url = (string) $settings->url;
-      self::$eventMakers = (string) $settings->eventMakers;
-      self::$getEvent = (string) $settings->getEvent;
-      self::$createEvent = (string) $settings->createEvent;
-      self::$updateEvent = (string) $settings->updateEvent;
-      self::$deleteEvent = (string) $settings->deleteEvent;
-      self::$createPrice = (string) $settings->createPrice;
-      self::$getPrice = (string) $settings->getPrice;
-      self::$getPrices = (string) $settings->getPrices;
-      self::$updatePrice = (string) $settings->updatePrice;
-      self::$deletePrice = (string) $settings->deletePrice;
-    }
-    else {
-      throw new \Exception('Error. Can\'t read setting from file.');
-    }
-  }
-
-  /**
    * Static method for getting instance of P2b client.
+   *
+   * @param array $settings
+   *   Represents array of url for initialising.
    *
    * @return object
    *   Instance of P2b class.
    */
-  public static function getInstance() {
+  public static function getInstance(array $settings) {
     if (self::$instance === NULL) {
-      self::$instance = new P2b();
+      self::$instance = new P2b($settings);
     }
     return self::$instance;
   }
@@ -179,7 +170,7 @@ class P2b {
    */
   public function getEventMakers() {
     $event_makers = array();
-    $result = $this->p2bRequest(self::$eventMakers, 'GET');
+    $result = $this->p2bRequest($this-eventMakers, 'GET');
     foreach ($result as $item) {
       $event_makers[$item->id] = $item;
     }
@@ -213,7 +204,7 @@ class P2b {
       ':event_maker_id' => $event_maker_id,
     );
 
-    $url = $this->p2bFormatUrl(self::$getEvent, $placeholders);
+    $url = $this->p2bFormatUrl($this->getEvent, $placeholders);
     $result = $this->p2bRequest($url, 'GET');
 
     return $result->event;
@@ -258,7 +249,7 @@ class P2b {
     $placeholders = array(
       ':event_maker_id' => $event_maker_id,
     );
-    $url = $this->p2bFormatUrl(self::$createEvent, $placeholders);
+    $url = $this->p2bFormatUrl($this->createEvent, $placeholders);
 
     $event = $this->p2bRequest($url, 'POST', $data, 201);
 
@@ -308,7 +299,7 @@ class P2b {
       ':event_id' => $event_id,
       ':event_maker_id' => $event_maker_id,
     );
-    $url = $this->p2bFormatUrl(self::$updateEvent, $placeholders);
+    $url = $this->p2bFormatUrl($this->updateEvent, $placeholders);
     $event = $this->p2bRequest($url, 'PUT', $data);
 
     return $event->event;
@@ -339,7 +330,7 @@ class P2b {
       ':event_id' => $event_id,
       ':event_maker_id' => $event_maker_id,
     );
-    $url = $this->p2bFormatUrl(self::$deleteEvent, $placeholders);
+    $url = $this->p2bFormatUrl($this->deleteEvent, $placeholders);
     $event = $this->p2bRequest($url, 'DELETE', array(), 204);
 
     return $event;
@@ -379,7 +370,7 @@ class P2b {
       ':event_maker_id' => $event_maker_id,
       ':event_id' => $event_id,
     );
-    $url = $this->p2bFormatUrl(self::$createPrice, $placeholders);
+    $url = $this->p2bFormatUrl($this->createPrice, $placeholders);
     $price = $this->p2bRequest($url, 'POST', $data, 201);
 
     return $price;
@@ -413,7 +404,7 @@ class P2b {
       ':event_maker_id' => $event_maker_id,
       ':price_id' => $price_id,
     );
-    $url = $this->p2bFormatUrl(self::$getPrice, $placeholders);
+    $url = $this->p2bFormatUrl($this->getPrice, $placeholders);
     $result = $this->p2bRequest($url, 'GET');
 
     return $result;
@@ -443,7 +434,7 @@ class P2b {
       ':event_id' => $event_id,
       ':event_maker_id' => $event_maker_id,
     );
-    $url = $this->p2bFormatUrl(self::$getPrices, $placeholders);
+    $url = $this->p2bFormatUrl($this->getPrices, $placeholders);
     $result = $this->p2bRequest($url, 'GET');
 
     return $result;
@@ -485,7 +476,7 @@ class P2b {
       ':event_id' => $event_id,
       ':price_id' => $price_id,
     );
-    $url = $this->p2bFormatUrl(self::$updatePrice, $placeholders);
+    $url = $this->p2bFormatUrl($this->updatePrice, $placeholders);
     $result = $this->p2bRequest($url, 'PUT', $data);
 
     return $result;
@@ -519,7 +510,7 @@ class P2b {
       ':event_id' => $event_id,
       ':price_id' => $price_id,
     );
-    $url = $this->p2bFormatUrl(self::$deletePrice, $placeholders);
+    $url = $this->p2bFormatUrl($this->deletePrice, $placeholders);
     $result = $this->p2bRequest($url, 'DELETE', array(), 204);
 
     return $result;
@@ -545,12 +536,12 @@ class P2b {
    */
   private function p2bRequest($url, $type, array $params = array(), $code = 200) {
 
-    if (empty( self::$token)) {
+    if (empty( $this->token)) {
       throw new \Exception("Token empty.");
     }
     $options = array();
     $options['headers'] = array(
-      "X-PLACE2BOOK-API-TOKEN" => self::$token,
+      "X-PLACE2BOOK-API-TOKEN" => $this->token,
       "Accept" => "application/vnd.place2book.v1+json",
     );
 
@@ -565,7 +556,7 @@ class P2b {
 
     $options['http_errors'] = FALSE;
 
-    $response = self::$client->request($type, $url, $options);
+    $response = $this->client->request($type, $url, $options);
     if ($response->getStatusCode() == $code) {
       $data = $type == 'DELETE' ? new \stdClass() : $this->parseResponse($response->getBody());
     }

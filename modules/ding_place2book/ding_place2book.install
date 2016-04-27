@@ -8,30 +8,30 @@
  * Implements hook_field_schema().
  */
 function ding_place2book_field_schema($field) {
-  $schema = [];
+  $schema = array();
 
   switch ($field['type']) {
     case 'ding_p2b':
-      $schema['columns'] = [
-        'event_id' => [
+      $schema['columns'] = array(
+        'event_id' => array(
           'type' => 'varchar',
           'length' => 256,
           'not null' => FALSE,
           'default' => NULL,
-        ],
-        'event_maker_id' => [
+         ),
+        'event_maker_id' => array(
           'type' => 'varchar',
           'length' => 256,
           'not null' => FALSE,
           'default' => NULL,
-        ],
-        'synchronize' => [
+          ),
+        'synchronize' => array(
           'type' => 'int',
           'size' => 'tiny',
           'not null' => TRUE,
           'default' => 0,
-        ],
-      ];
+        ),
+      );
       break;
   }
 
@@ -54,11 +54,11 @@ function ding_place2book_update_7001(&$sandbox) {
       $node = new stdClass();
       $node->nid = $item->nid;
       $node->type = 'ding_event';
-      $node->field_place2book[LANGUAGE_NONE][0] = [
+      $node->field_place2book[LANGUAGE_NONE][0] = array(
         'event_id' => NULL,
         'event_maker_id' => NULL,
         'synchronize' => 0,
-      ];
+      );
 
       field_attach_presave('node', $node);
       field_attach_update('node', $node);

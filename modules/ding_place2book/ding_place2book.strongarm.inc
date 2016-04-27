@@ -21,7 +21,7 @@ function ding_place2book_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'ding_p2b_default_event_maker';
-  $strongarm->value = NULL;
+  $strongarm->value = '540';
   $export['ding_p2b_default_event_maker'] = $strongarm;
 
   $strongarm = new stdClass();
