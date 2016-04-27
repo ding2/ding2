@@ -227,29 +227,3 @@ function ding_event_preprocess_views_view(&$vars) {
     }
   }
 }
-
-/**
- * Implements hook_form_views_exposed_form_alter().
- *
- * Setting placeholder for search field of exposed filter on events page.
- */
-function ding_event_form_views_exposed_form_alter(&$form, &$form_state, $form_id) {
-  if (arg(0) == 'arrangementer' && $form_id == 'views_exposed_form') {
-    $form['combine']['#attributes'] = array('placeholder' => array(t('Search')));
-  }
-}
-
-/**
- * Implements hook_date_popup_process_alter().
- *
- * Adding placeholder for date popup selection exposed filter on events page and
- * hiding description.
- */
-function ding_event_date_popup_process_alter(&$element, &$form_state, $context) {
-  if ($form_state['complete form']['#form_id'] == 'views_exposed_form') {
-    if ($element['#id'] == 'edit-field-ding-event-date-value-value') {
-      $element['date']['#attributes']['placeholder'] = $element['date']['#description'];
-      $element['date']['#description'] = '';
-    }
-  }
-}
