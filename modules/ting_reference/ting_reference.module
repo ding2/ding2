@@ -139,7 +139,8 @@ function ting_reference_field_update($entity_type, $entity, $field, $instance, $
 
   if ($update) {
     _ting_reference_field_update($entity_type, $entity, $items);
-  } else {
+  }
+  else {
     _ting_reference_field_update_cron($entity_type, $entity, $items);
   }
 
@@ -147,7 +148,7 @@ function ting_reference_field_update($entity_type, $entity, $field, $instance, $
 
 
 /**
- * field_update for edit form.
+ * Field_update for edit form.
  */
 function _ting_reference_field_update($entity_type, $entity, &$items) {
 
@@ -178,7 +179,7 @@ function _ting_reference_field_update($entity_type, $entity, &$items) {
 
 
 /**
- * field_update for cron.
+ * Field_update for cron.
  */
 function _ting_reference_field_update_cron($entity_type, $entity, &$items) {
 
