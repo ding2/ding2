@@ -20,6 +20,4 @@ features[variable][] = ding_p2b_default_kultunaut_export
 features[variable][] = ding_p2b_default_passive
 features[variable][] = ding_p2b_default_price_name
 features[variable][] = ding_p2b_default_synchronize
-features_exclude[dependencies][ding_place2book] = ding_place2book
 mtime = 1461048413
-required = 1

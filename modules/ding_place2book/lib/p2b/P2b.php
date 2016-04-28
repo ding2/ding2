@@ -170,7 +170,7 @@ class P2b {
    */
   public function getEventMakers() {
     $event_makers = array();
-    $result = $this->p2bRequest($this-eventMakers, 'GET');
+    $result = $this->p2bRequest($this->eventMakers, 'GET');
     foreach ($result as $item) {
       $event_makers[$item->id] = $item;
     }
