@@ -1,0 +1,168 @@
+<?php
+/**
+ * @file
+ * Implement tokens to display user consent.
+ *
+ * Example:
+ *   In some textfield the editor would like to insert a button so the
+ *   user can accept conditions and activate consent right away.
+ *   The editor inserts the consent token in the text.
+ */
+
+/**
+ * Ding_user_consent_token_quick_accept form builder.
+ */
+function ding_user_consent_token_quick_accept($form, &$form_state) {
+  global $user;
+  $account = (isset($form_state['user'])) ? $form_state['user'] : NULL;
+  if (!isset($account)) {
+    $account = $user;
+  }
+  if (ding_user_is_provider_user($account)) {
+    $consent_id = (isset($form_state['consent_id'])) ? $form_state['consent_id'] : 'loan_history_store';
+    // Try to get the user consent.
+    try {
+      $consent = ding_user_consent_get_consent($consent_id);
+    }
+    catch (DingProviderConsentException $e) {
+      // Catch the DingProviderConsentException, which is thrown if the user has
+      // been presented with the consent options yet or if the user has denied
+      // consent but consent is required for this type.
+      $consent = NULL;
+    }
+    
+    // If the user is valid but hasn't given consent, present a submit form
+    // which allows the user to instantly give consent.
+    if (!$consent) {
+      $html_id = drupal_html_id('ding-user-consent-submit');
+
+      $form['ding_user_consent_submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Allow storage of loans and other personal data'),
+        '#attributes' => array('id' => $html_id),
+        '#ajax' => array(
+          'callback' => 'ding_user_consent_token_quick_accept_callback',
+          'wrapper' => $html_id,
+          'method' => 'replace',
+          'effect' => 'fade',
+        ),
+      );
+
+      // In case the hide description state is not set, display a short
+      // description of this form.
+      if (!isset($form_state['hide_description']) || !$form_state['hide_description']) {
+        $description = variable_get($consent_id . '_description_token', '');
+        $description = (is_array($description)) ? $description['value'] : $description;
+        $form['ding_user_consent'] = array(
+          '#type' => 'item',
+          '#markup' => $description,
+        );
+      }
+    }
+    else {
+      // If consent has been given display a short message.
+      $description = variable_get($consent_id . '_description_token_given', '');
+      $description = (is_array($description)) ? $description['value'] : $description;
+      $form['ding_user_consent'] = array(
+        '#type' => 'item',
+        '#markup' => token_replace($description, array('user' => $account)),
+      );
+    }
+  }
+  else {
+    // Provide a link to login before allowing her to give consent.
+    $form['ding_user_consent'] = array(
+      '#type' => 'item',
+      '#markup' => t('Please !login as a user of the library to use this function', array('!login' => l(t('login'), 'user'))),
+    );
+  }
+
+  return $form;
+}
+
+/**
+ * Submit function for ding_user_consent_token_quick_accept_submit form submit.
+ */
+function ding_user_consent_token_quick_accept_submit($form, &$form_state) {
+  global $user;
+  if (!empty($form['#user'])) {
+    $account = $form['#user'];
+  }
+  else {
+    $account = $user;
+  }
+  $consent_id = (isset($form_state['consent_id'])) ? $form_state['consent_id'] : 'loan_history_store';
+  $result = ding_provider_invoke('user_consent', 'add', $account, $consent_id, 1);
+  if ($result) {
+    if (empty($account->data['consent'])) {
+      $auth_res['data']['consent'] = 1;
+      user_save($account, $auth_res);
+    }
+    drupal_set_message(t('Thank you for allowing us to store your personal data.'));
+    module_invoke_all('ding_user_consent_changed', array($consent_id => 1));
+  }
+}
+
+/**
+ * Submit function for ding_user_consent_token_quick_accept_callback.
+ */
+function ding_user_consent_token_quick_accept_callback($form, $form_state) {
+  $description = variable_get($consent_id . '_description_token_given', '');
+  $description = (is_array($description)) ? $description['value'] : $description;
+  $return = array();
+  $return['ding_user_consent'] = array(
+    '#type' => 'item',
+    '#markup' => $description,
+  );
+  return $return;
+}
+
+/**
+ * Implements hook_token_info().
+ */
+function ding_user_consent_token_token_info() {
+  $type = array(
+    'name' => t('Ding user consent'),
+    'description' => t('Tokens related to user consent.'),
+  );
+
+  // Core tokens for nodes.
+  $consent['consent'] = array(
+    'name' => t("User consent status"),
+    'description' => t("The states of the current users consent settings."),
+  );
+
+  return array(
+    'types' => array('ding_user_consent' => $type),
+    'tokens' => array('ding_user_consent' => $consent),
+  );
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function ding_user_consent_token_tokens($type, $tokens, $data = array(), $options = array()) {
+  $replacements = array();
+  if ($type == 'ding_user_consent') {
+    foreach ($tokens as $name => $original) {
+      $args = explode(':', $name);
+      $consent_id = (isset($args[1])) ? $args[1] : 'loan_history_store';
+
+      $form_state = array('consent_id' => $consent_id);
+      if (isset($args[2])) {
+        switch ($args[2]) {
+          // Simple key values on the node.
+          case 'accept':
+            $form_state += array('hide_description' => TRUE);
+            break;
+        }
+      }
+      $form = drupal_build_form('ding_user_consent_token_quick_accept', $form_state);
+      $consent_form = drupal_render($form);
+
+      $replacements[$original] = $consent_form;
+    }
+  }
+
+  return $replacements;
+}
