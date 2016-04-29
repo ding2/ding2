@@ -16,7 +16,7 @@ function ting_covers_objects() {
   foreach ($_POST['coverData'] as $cover_info) {
     // Determine if the local id is a known negative.
     if (cache_get('ting_covers:' . $cover_info['local_id'], FALSE)) {
-      break;
+      continue;
     }
 
     $path = ting_covers_object_path($cover_info['local_id']);
