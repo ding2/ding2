@@ -17,9 +17,7 @@
         search.insertAfter('.pane-search-result-count');
       }
       else {
-        if ($('.view-ding-multiple-search').length) {
-          search.insertBefore('.view-ding-multiple-search');
-        }
+        search.insertBefore('.view-ding-node-search');
       }
 
       // Ensure that the spinner and other stuff works by wrapping it in a
