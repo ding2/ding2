@@ -31,12 +31,16 @@ function fbs_user_authenticate($name, $pincode) {
     $res = fbs_service()->Patron->getPreAuthenticatedPatron(fbs_service()->agencyId, $name);
   }
   else {
-    // Normal login.
-    $auth = new FBS\Model\AuthenticationRequest();
-    $auth->libraryCardNumber = $name;
-    $auth->pincode = $pincode;
-
-    $res = fbs_service()->Patron->authenticate(fbs_service()->agencyId, $auth);
+    try {
+      // Normal login.
+      $auth = new FBS\Model\AuthenticationRequest();
+      $auth->libraryCardNumber = $name;
+      $auth->pincode = $pincode;
+      $res = fbs_service()->Patron->authenticate(fbs_service()->agencyId, $auth);
+    }
+    catch (Exception $e) {
+      watchdog_exception('fbs', $e);
+    }
   }
 
   $result = array(

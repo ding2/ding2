@@ -252,3 +252,15 @@ function fbs_reservation_options_submit($account, $values) {
 function fbs_reservation_default_interest_period() {
   return variable_get('fbs_default_interest_period', 180);
 }
+
+/**
+ * Get list of pickup branches.
+ *
+ * @return array
+ *   FBS pickup branches.
+ */
+function fbs_reservation_pickup_branches() {
+  $branches = fbs_branches();
+
+  return $branches;
+}

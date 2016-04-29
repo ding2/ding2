@@ -25,6 +25,9 @@ projects[block_access][version] = "1.5"
 projects[cache_actions][subdir] = "contrib"
 projects[cache_actions][version] = "2.0-alpha5"
 
+projects[ckeditor_link][subdir] = "contrib"
+projects[ckeditor_link][version] = "2.4"
+
 projects[conditional_styles][subdir] = "contrib"
 projects[conditional_styles][version] = "2.2"
 
@@ -46,6 +49,18 @@ projects[dibs][patch][] = "http://drupal.org/files/dibs-2107389-2.patch"
 
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
+
+projects[domain][subdir] = "contrib"
+projects[domain][version] = "3.12"
+
+projects[domain_ctools][subdir] = "contrib"
+projects[domain_ctools][version] = "1.3"
+
+projects[domain_menu_access][subdir] = "contrib"
+projects[domain_menu_access][version] = "1.2"
+
+projects[domain_variable][subdir] = "contrib"
+projects[domain_variable][version] = "1.1"
 
 ; The patch ensures that file upload patch is created on file upload. It normally
 ; created on settings form save, but as we use feature this do not work.

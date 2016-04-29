@@ -77,14 +77,13 @@
   }
 }
 
-
 /* /user/$uid/status/*
    ========================================================================== */
-
 .pane-reservations,
 .pane-loans,
 .pane-debts,
-.pane-bookmarks {
+.pane-bookmarks,
+.pane-social-services-lists {
   padding-bottom: 30px;
   border-bottom: 1px solid $gray;
   margin-bottom: 30px;
@@ -180,11 +179,30 @@
       vertical-align: middle;
     }
   }
-
+  .social-service-lists-buttons {
+    display: inline-flex;
+    float: right;
+    margin-bottom: 15px;
+  }
+  .social-services-lists-fieldset {
+    .material-item {
+      float: right;
+      width: 100%;
+    }
+  }
   .form-item {
     margin-bottom: 0;
-  }
 
+    .social-services-lists-update {
+      float: left;
+      margin: 0;
+    }
+  }
+  .social-services-delete-item {
+    a {
+      text-decoration: underline;
+    }
+  }
   .messages {
     padding-top: 5px;
     padding-right: 5px;
@@ -334,7 +352,8 @@
 @include small() {
   .pane-reservations,
   .pane-loans,
-  .pane-bookmarks {
+  .pane-bookmarks,
+  .pane-social-services-lists {
     h3 {
       font-size: 130%;
     }
@@ -393,7 +412,8 @@
 @include medium() {
   .pane-reservations,
   .pane-loans,
-  .pane-bookmarks {
+  .pane-bookmarks,
+  .pane-social-services-lists {
     .left-column {
       @include zen-grid-item(3, 1);
     }
@@ -428,7 +448,8 @@
 @include large() {
   .pane-reservations,
   .pane-loans,
-  .pane-bookmarks {
+  .pane-bookmarks,
+  .pane-social-services-lists {
     .item-checkbox {
       width: 35%;
     }
@@ -781,7 +802,8 @@
 
 .pane-loans,
 .pane-reservations,
-.pane-bookmarks {
+.pane-bookmarks,
+.pane-social-services-lists {
   ul {
     margin: 0;
     padding: 0;
@@ -805,7 +827,8 @@
   @extend %button-default;
 }
 
-.pane-bookmarks .action-button {
+.pane-bookmarks .action-button,
+.pane-social-services-lists .action-button {
   margin-top: 10px;
   margin-right: 0;
 }
@@ -837,7 +860,6 @@
 
 // Page user roles
 // ========================================================
-
 .page-user-roles {
   #tabs {
     margin-bottom: 0;

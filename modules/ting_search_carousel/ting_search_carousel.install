@@ -5,13 +5,6 @@
  */
 
 /**
- * Implements hook_install().
- */
-function ting_search_carousel_install() {
-  @drupal_mkdir('public://ting_search_carousel');
-}
-
-/**
  * Implements hook_uninstall().
  */
 function ting_search_carousel_uninstall() {

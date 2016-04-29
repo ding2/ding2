@@ -49,6 +49,9 @@ function ding_content_wysiwyg_default_profiles() {
           'Table' => 1,
           'CreateDiv' => 1,
         ),
+        'drupal_path' => array(
+          'Link' => 1,
+        ),
         'drupal' => array(
           'dams_document' => 1,
           'dams_video' => 1,
