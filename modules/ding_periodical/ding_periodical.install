@@ -19,7 +19,9 @@ function ding_periodical_update_7000() {
 }
 
 /**
- * Unlock fields, see ding_entity_unlock_fields().
+ * Unlock fields.
+ *
+ * @see ding_entity_unlock_fields()
  */
 function ding_periodical_update_7001() {
   ding_entity_unlock_fields('ding_periodical', array('ding_periodical_issues'));

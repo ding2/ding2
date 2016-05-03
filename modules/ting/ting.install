@@ -245,7 +245,9 @@ function ting_update_7009() {
 }
 
 /**
- * Unlock fields, see ding_entity_unlock_fields().
+ * Unlock fields.
+ *
+ * @see ding_entity_unlock_fields()
  */
 function ting_update_7010() {
   ding_entity_unlock_fields('ting', array(

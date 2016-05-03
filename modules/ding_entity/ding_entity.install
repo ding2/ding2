@@ -19,7 +19,9 @@ function ding_entity_update_7000() {
 }
 
 /**
- * Unlock fields, see ding_entity_unlock_fields().
+ * Unlock fields.
+ *
+ * @see ding_entity_unlock_fields()
  */
 function ding_entity_update_7001() {
   ding_entity_unlock_fields('ding_entity', array('ding_entity_buttons'));

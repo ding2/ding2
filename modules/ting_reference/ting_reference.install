@@ -18,7 +18,9 @@ function ting_reference_update_7000() {
 }
 
 /**
- * Unlock fields, see ding_entity_unlock_fields().
+ * Unlock fields.
+ *
+ * @see ding_entity_unlock_fields()
  */
 function ting_reference_7001() {
   ding_entity_unlock_fields('ting_reference', array('ting_reference_reverse'));

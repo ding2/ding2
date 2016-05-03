@@ -18,7 +18,9 @@ function ting_relation_update_7000() {
 }
 
 /**
- * Unlock fields, see ding_entity_unlock_fields().
+ * Unlock fields.
+ *
+ * @see ding_entity_unlock_fields()
  */
 function ting_relation_update_7001() {
   ding_entity_unlock_fields('ting_relation', array('ting_relations'));

@@ -46,7 +46,9 @@ function ting_infomedia_update_7000() {
 }
 
 /**
- * Unlock fields, see ding_entity_unlock_fields().
+ * Unlock fields.
+ *
+ * @see ding_entity_unlock_fields()
  */
 function ting_infomedia_update_7001() {
   ding_entity_unlock_fields('ting_infomedia', array('ting_infomedia'));
