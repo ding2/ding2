@@ -203,7 +203,7 @@ function ding_item_viewer_check_covers(array $ids) {
 
   $result = array();
   array_walk($covers, function($v) use (&$result, $cover_data) {
-    $faust_number = $cover_data[$v['local_id']]['owner_id'] . ':' . $cover_data[$v['local_id']]['local_id'] ;
+    $faust_number = $cover_data[$v['local_id']]['owner_id'] . ':' . $cover_data[$v['local_id']]['local_id'];
     $result[$faust_number] = TRUE;
   });
 
@@ -356,7 +356,7 @@ function ding_item_viewer_build_data($hash) {
     foreach ($queries as $query) {
       $cid = ding_item_viewer_generate_cache_id($query['title'] . $query['query']);
       $cache = cache_get($cid, 'cache_ding_item');
-      if ($cache == false) {
+      if ($cache == FALSE) {
         ding_item_viewer_build_searches($queries, $cached_setting['config']);
         ding_item_viewer_build_data($hash);
       }
