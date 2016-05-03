@@ -258,15 +258,6 @@ function ding_item_viewer_generate_cache_id($keyword) {
 }
 
 /**
- * Implements hook_ding_item_cache().
- */
-function ding_item_viewer_ding_item_cache() {
-  return array(
-    'ding_item_viewer' => t('Ding item viewer'),
-  );
-}
-
-/**
  * Implements hook_entity_info_alter().
  *
  * Set special view modes for item viewer.
@@ -644,9 +635,6 @@ function ding_item_viewer_content_type_edit_form_submit($form, &$form_state) {
 
   $form_state['conf']['searches'] = $searches;
 
-  // Clear all item list cache.
-  module_invoke('ding_item_cache', 'clear_all');
-
   // Start batch operations if there are some themes.
   if (count($searches) < 1) {
     return;
@@ -682,8 +670,11 @@ function ding_item_viewer_build_searches(array $searches, array $settings) {
         );
       }
 
+      // Clear cache for current item viewer.
+      cache_clear_all($cache_id, 'cache');
+
       // Cache rendered items.
-      cache_set($cache_id, $items, 'cache_ding_item', REQUEST_TIME + $settings['ding_item_viewer_cache_ttl']);
+      cache_set($cache_id, $items, 'cache', REQUEST_TIME + $settings['ding_item_viewer_cache_ttl']);
     }
   }
 }
