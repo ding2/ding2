@@ -1,4 +1,5 @@
 (function ($) {
+  "use strict";
   $(document).ready(function(){
     $('[id^=ding-item-viewer-]').each(function (index, element) {
       var container,// Ding Item Viewer container (main div).
@@ -8,10 +9,59 @@
         items = [],// Items received from server.
         current_tab = 0,
         starting_item = 0,
-        wait_time = 5000, // Time interval when to try to fetch data in ms.
         timeOut = null,
         uri = '',
         interval = 5000;
+
+      /**
+       * Slides ding item viewer.
+       */
+      function slide() {
+        var tabs = $('li', container);
+        if (tabs.length > 1) {
+          var current = $('li.active a.tab', container);
+          var next = $(current).parent().next();
+          next = next.length > 0 ? next : $(current).parent().siblings().first();
+          tab_change(null, next.children());
+          timeOut = setTimeout(slide, interval);
+        }
+      }
+
+      /**
+       * Tab click event handler.
+       *
+       * Changes shown tab.
+       */
+      function tab_change(e, obj) {
+        if(e !== null) {
+          e.preventDefault();
+        }
+
+        starting_item = 0;
+        current_tab = $(obj).data('tab');
+        container.find('.ui-tabs-nav li').removeClass('active');
+        $(obj).parent().addClass('active');
+
+        show_items();
+      }
+
+      /**
+       * Preloads images.
+       *
+       * @param item
+       */
+      function preload_images(item) {
+        var $item, src, img;
+        $item = $(item.big);
+        src = $item.find('img').attr('src');
+        img = new Image();
+        img.src = src;
+
+        $item = $(item.small);
+        src = $item.find('img').attr('src');
+        img = new Image();
+        img.src = src;
+      }
 
       // Convert seconds to miliseconds.
       interval = Drupal.settings.ding_item_viewer.interval * 1000;
@@ -34,45 +84,19 @@
         timeOut = setTimeout(slide, interval);
       });
 
-      fetch_data();
-
       /**
-       * Slides ding item viewer.
+       * Display the reservation button for items that can be reserved.
        */
-      function slide() {
-        var tabs = $('li', container);
-        if (tabs.length > 1) {
-          var current = $('li.active a.tab', container);
-          var next = $(current).parent().next();
-          next = next.length > 0 ? next : $(current).parent().siblings().first();
-          tab_change(null, next.children());
-          timeOut = setTimeout(slide, interval);
-        }
-      }
-
-      function fetch_data() {
-        $.get(uri, container_callback);
-      }
-
-      /**
-       * AJAX success callback function.
-       *
-       * @see jQuery.get()
-       */
-      function container_callback(response, textStatus, jqXHR) {
-        if (response.status === 'OK') {
-          container.html(response.data.content);
-          container.append(response.data.tabs);
-          items = response.data.items;
-          container.find('.ui-tabs-nav li:first').addClass('active');
-
-          prepare_data();
-          show_items();
-          // Begin slide.
-          timeOut = setTimeout(slide, interval);
-        }
-        else {
-          container.html(response.error);
+      function show_reservation_button() {
+        // Show reservation button.
+        var r_button = container.find('.reserve-button');
+        if (r_button.length > 0) {
+          var id = r_button.attr('id').match(/reservation-[0-9]+-[\w]+:(\w+)/);
+          if (typeof id[1] !== 'undefined' && typeof Drupal.DADB[id[1]] !== 'undefined') {
+            if (Drupal.DADB[id[1]].reservable === true) {
+              r_button.show();
+            }
+          }
         }
       }
 
@@ -108,6 +132,35 @@
 
         // Get item container.
         content = container.find('.browsebar-items-wrapper');
+      }
+
+      /**
+       * Small item onclick event handler.
+       *
+       * Moves clicked item in "big" view and shifts all other items in "circle".
+       */
+      function item_click() {
+        var item = $(this),
+          position = item.data('position'),
+          index = item.data('index'),
+          rotation; // Shift and direction of rotation.
+
+        // Recalculate starting_item index and redraw content.
+        var visible = Math.min(settings.visible_items, tabs[current_tab].length);
+        var big_item_positon = settings.big_item_positon;
+        if (visible < settings.visible_items) {
+          big_item_positon = Math.floor(visible / 2);
+        }
+
+        rotation = position - big_item_positon;
+        starting_item = starting_item + rotation;
+        // For negative value start from the tail of list.
+        if (starting_item < 0) {
+          starting_item = tabs[current_tab].length + starting_item;
+        }
+        show_items();
+
+        return false;
       }
 
       /**
@@ -174,7 +227,7 @@
 
         var ajax_ele = content.find('.use-ajax');
         ajax_ele.each(function() {
-          ele = $(this);
+          var ele = $(this);
           new Drupal.ajax('#' + ele.attr('id'), ele, {
             url: ele.attr('href'),
             effect: 'fade',
@@ -185,84 +238,38 @@
             event: 'click tap'
           });
         });
-
       }
 
       /**
-       * Display the reservation button for items that can be reserved.
-       */
-      function show_reservation_button() {
-        // Show reservation button.
-        var r_button = container.find('.reserve-button');
-        if (r_button.length > 0) {
-          var id = r_button.attr('id').match(/reservation-[0-9]+-[\w]+:(\w+)/);
-          if (typeof id[1] !== 'undefined' && typeof Drupal.DADB[id[1]] !== 'undefined') {
-            if (Drupal.DADB[id[1]].reservable === true) {
-              r_button.show();
-            }
-          }
-        }
-      }
-
-      /**
-       * Small item onclick event handler.
+       * AJAX success callback function.
        *
-       * Moves clicked item in "big" view and shifts all other items in "circle".
+       * @see jQuery.get()
        */
-      function item_click() {
-        var item = $(this),
-          position = item.data('position'),
-          index = item.data('index'),
-          rotation; // Shift and direction of rotation.
+      function container_callback(response, textStatus, jqXHR) {
+        if (response.status === 'OK') {
+          container.html(response.data.content);
+          container.append(response.data.tabs);
+          items = response.data.items;
+          container.find('.ui-tabs-nav li:first').addClass('active');
 
-        // Recalculate starting_item index and redraw content.
-        var visible = Math.min(settings.visible_items, tabs[current_tab].length);
-        var big_item_positon = settings.big_item_positon;
-        if (visible < settings.visible_items) {
-          big_item_positon = Math.floor(visible / 2);
+          prepare_data();
+          show_items();
+          // Begin slide.
+          timeOut = setTimeout(slide, interval);
         }
-
-        rotation = position - big_item_positon;
-        starting_item = starting_item + rotation;
-        // For negative value start from the tail of list.
-        if (starting_item < 0) {
-          starting_item = tabs[current_tab].length + starting_item;
+        else {
+          container.html(response.error);
         }
-        show_items();
-
-        return false;
       }
 
       /**
-       * Tab click event handler.
-       *
-       * Changes shown tab.
+       * Fetch carousel information via ajax.
        */
-      function tab_change(e, obj) {
-        if(e !== null) {
-          e.preventDefault();
-        }
-
-        starting_item = 0;
-        current_tab = $(obj).data('tab');
-        container.find('.ui-tabs-nav li').removeClass('active');
-        $(obj).parent().addClass('active');
-
-        show_items();
+      function fetch_data() {
+        $.get(uri, container_callback);
       }
 
-      function preload_images(item) {
-        var $item, src, img;
-        $item = $(item.big);
-        src = $item.find('img').attr('src');
-        img = new Image();
-        img.src = src;
-
-        $item = $(item.small);
-        src = $item.find('img').attr('src');
-        img = new Image();
-        img.src = src;
-      }
+      fetch_data();
     });
   });
 })(jQuery);
