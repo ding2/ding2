@@ -101,8 +101,22 @@ function _ting_search_carousel_add_css() {
  */
 function ting_search_carousel_content_type_render($subtype, $conf, $panel_args, $context) {
   $search_results_cache = cache_get($conf['cache_id']);
-  $searches = $conf['searches'];
-  $searches_configuration = $conf['ting_search_carousel_settings'];
+  $searches = array();
+  $searches_configuration = array();
+
+  if ($conf['searches']) {
+    $searches = $conf['searches'];
+  }
+  elseif (variable_get('ting_carousel_search_queries', array())) {
+    $searches = variable_get('ting_carousel_search_queries', array());
+  }
+
+  if ($conf['ting_search_carousel_settings']) {
+    $searches_configuration = $conf['ting_search_carousel_settings'];
+  }
+  elseif (variable_get('ting_search_carousel_settings', array())) {
+    $searches_configuration = variable_get('ting_search_carousel_settings', array());
+  }
 
   if (empty($search_results_cache->data)) {
     $cache_id = ting_search_carousel_search_queries($searches, $searches_configuration);
