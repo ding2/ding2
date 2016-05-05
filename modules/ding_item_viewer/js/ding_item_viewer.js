@@ -14,20 +14,6 @@
         interval = 5000;
 
       /**
-       * Slides ding item viewer.
-       */
-      function slide() {
-        var tabs = $('li', container);
-        if (tabs.length > 1) {
-          var current = $('li.active a.tab', container);
-          var next = $(current).parent().next();
-          next = next.length > 0 ? next : $(current).parent().siblings().first();
-          tab_change(null, next.children());
-          timeOut = setTimeout(slide, interval);
-        }
-      }
-
-      /**
        * Tab click event handler.
        *
        * Changes shown tab.
@@ -43,6 +29,20 @@
         $(obj).parent().addClass('active');
 
         show_items();
+      }
+
+      /**
+       * Slides ding item viewer.
+       */
+      function slide() {
+        var tabs = $('li', container);
+        if (tabs.length > 1) {
+          var current = $('li.active a.tab', container);
+          var next = $(current).parent().next();
+          next = next.length > 0 ? next : $(current).parent().siblings().first();
+          tab_change(null, next.children());
+          timeOut = setTimeout(slide, interval);
+        }
       }
 
       /**
@@ -135,35 +135,6 @@
       }
 
       /**
-       * Small item onclick event handler.
-       *
-       * Moves clicked item in "big" view and shifts all other items in "circle".
-       */
-      function item_click() {
-        var item = $(this),
-          position = item.data('position'),
-          index = item.data('index'),
-          rotation; // Shift and direction of rotation.
-
-        // Recalculate starting_item index and redraw content.
-        var visible = Math.min(settings.visible_items, tabs[current_tab].length);
-        var big_item_positon = settings.big_item_positon;
-        if (visible < settings.visible_items) {
-          big_item_positon = Math.floor(visible / 2);
-        }
-
-        rotation = position - big_item_positon;
-        starting_item = starting_item + rotation;
-        // For negative value start from the tail of list.
-        if (starting_item < 0) {
-          starting_item = tabs[current_tab].length + starting_item;
-        }
-        show_items();
-
-        return false;
-      }
-
-      /**
        * Show initial items.
        */
       function show_items() {
@@ -238,6 +209,34 @@
             event: 'click tap'
           });
         });
+      }
+
+      /**
+       * Small item onclick event handler.
+       *
+       * Moves clicked item in "big" view and shifts all other items in "circle".
+       */
+      function item_click() {
+        var item = $(this),
+          position = item.data('position'),
+          rotation; // Shift and direction of rotation.
+
+        // Recalculate starting_item index and redraw content.
+        var visible = Math.min(settings.visible_items, tabs[current_tab].length);
+        var big_item_positon = settings.big_item_positon;
+        if (visible < settings.visible_items) {
+          big_item_positon = Math.floor(visible / 2);
+        }
+
+        rotation = position - big_item_positon;
+        starting_item = starting_item + rotation;
+        // For negative value start from the tail of list.
+        if (starting_item < 0) {
+          starting_item = tabs[current_tab].length + starting_item;
+        }
+        show_items();
+
+        return false;
       }
 
       /**

@@ -3,7 +3,6 @@
  * Field API file.
  */
 
-
 /**
  * Implements hook_field_formatter_info().
  */
@@ -163,7 +162,7 @@ function ding_item_viewer_field_formatter_view($entity_type, $entity, $field, $i
         );
         break;
 
-        // Use same logic as for default view, but without adding URLs.
+      // Use same logic as for default view, but without adding URLs.
       case 'ting_author_ding_item_viewer':
         $creator = NULL;
         if (isset($entity->reply->record['dc:creator'])) {
