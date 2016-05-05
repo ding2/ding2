@@ -121,7 +121,7 @@ function ding_item_viewer_theme($existing, $type, $theme, $path) {
  * Implements hook_ctools_plugin_directory().
  */
 function ding_item_viewer_ctools_plugin_directory($owner, $plugin_type) {
-  // we'll be nice and limit scandir() calls
+  // Limit scandir() calls.
   if ($owner == 'ctools' && $plugin_type == 'content_types') {
     return 'plugins/content_types';
   }
@@ -283,9 +283,11 @@ function ding_item_viewer_entity_info_alter(&$entity_info) {
 /**
  * Assembles item viewer data.
  *
- * @param string $hash.
+ * @param string $hash
+ *  current item viewer hash.
  *
- * @return array.
+ * @return array
+ *  of rendered searches.
  */
 function ding_item_viewer_get_data($hash) {
   $result = array(
@@ -301,10 +303,13 @@ function ding_item_viewer_get_data($hash) {
  * Get cached configuration by it's hash.
  *
  * @param string $cache_id
+ *  identifier of cache in DB.
  *
  * @param string $hash
+ *  hash of current item viewer.
  *
- * @return array|boolean
+ * @return array|bool
+ *  cached data for current viewer | FALSE if no cache data.
  */
 function ding_item_viewer_get_cache_by_hash($cache_id, $hash) {
   $cache = cache_get($cache_id . $hash);
@@ -319,7 +324,8 @@ function ding_item_viewer_get_cache_by_hash($cache_id, $hash) {
 /**
  * Build tabs for item viewer.
  *
- * @param string $hash.
+ * @param string $hash
+ *  current item viewer hash.
  *
  * @return string
  *   Tabs layout markup.
@@ -342,9 +348,11 @@ function ding_item_viewer_build_tabs($hash) {
 /**
  * Fetches items markup from cache.
  *
- * @param string $hash.
+ * @param string $hash
+ *  current item viewer hash.
  *
- * @return array.
+ * @return array
+ *  with searches information for current item viewer.
  */
 function ding_item_viewer_build_data($hash) {
   $cached_setting = ding_item_viewer_get_cache_by_hash(DING_ITEM_VIEWER_CONF_CACHE_ID, $hash);
@@ -394,7 +402,7 @@ function ding_item_viewer_content_type_edit_form($form, &$form_state) {
   $form['#tree'] = TRUE;
 
   if (!isset($form_state['num_searches'])) {
-    $form_state['num_searches'] =  $form_state['conf']['searches'] ?  count($form_state['conf']['searches']) - 1 : 0;
+    $form_state['num_searches'] = $form_state['conf']['searches'] ? count($form_state['conf']['searches']) - 1 : 0;
   }
 
   $form['ding_item_viewer'] = array(
@@ -431,8 +439,8 @@ function ding_item_viewer_content_type_edit_form($form, &$form_state) {
   );
 
   foreach ($settings['ding_item_viewer_settings'] as $key => $val) {
-    $settings['ding_item_viewer_settings'][$key] =
-      isset($form_state['conf']['ding_item_viewer_settings'][$key])
+    $settings['ding_item_viewer_settings'][$key]
+      = isset($form_state['conf']['ding_item_viewer_settings'][$key])
         ? $form_state['conf']['ding_item_viewer_settings'][$key]
         : $val;
   }
@@ -625,7 +633,15 @@ function ding_item_viewer_content_type_edit_form_submit($form, &$form_state) {
   // Reset array index.
   $searches = array_values($searches);
 
-  function cmp_sort($a, $b)  {
+  /**
+   * Callback function for usort.
+   *
+   * @param $a
+   * @param $b
+   *
+   * @return int
+   */
+  function cmp_sort($a, $b) {
     if ($a['sort'] == $b['sort']) {
       return 0;
     }
@@ -643,6 +659,15 @@ function ding_item_viewer_content_type_edit_form_submit($form, &$form_state) {
   ding_item_viewer_build_searches($searches, $form_state['conf']['ding_item_viewer_settings']);
 }
 
+/**
+ * Build and set cache for current item viewer.
+ *
+ * @param array $searches
+ *  current item viewer searches.
+ *
+ * @param array $settings
+ *  current item viewer configuration.
+ */
 function ding_item_viewer_build_searches(array $searches, array $settings) {
   foreach ($searches as $search) {
     $sort = $settings['ding_item_viewer_item_sorting'];

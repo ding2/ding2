@@ -18,8 +18,10 @@ function ting_covers_objects() {
  * Return the URL for the cover of an object.
  *
  * @param array $cover_data
+ *  cover information.
  *
- * @return array of cover objects.
+ * @return array
+ *  of cover objects.
  */
 function ting_covers_get_objects(array $cover_data = array()) {
   $covers = array();
