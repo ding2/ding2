@@ -284,10 +284,10 @@ function ding_item_viewer_entity_info_alter(&$entity_info) {
  * Assembles item viewer data.
  *
  * @param string $hash
- *  current item viewer hash.
+ *   Current item viewer hash.
  *
  * @return array
- *  of rendered searches.
+ *   rendered searches.
  */
 function ding_item_viewer_get_data($hash) {
   $result = array(
@@ -303,13 +303,12 @@ function ding_item_viewer_get_data($hash) {
  * Get cached configuration by it's hash.
  *
  * @param string $cache_id
- *  identifier of cache in DB.
- *
+ *   Identifier of cache in DB.
  * @param string $hash
- *  hash of current item viewer.
+ *   Hash of current item viewer.
  *
  * @return array|bool
- *  cached data for current viewer | FALSE if no cache data.
+ *   cached data for current viewer | FALSE if no cache data.
  */
 function ding_item_viewer_get_cache_by_hash($cache_id, $hash) {
   $cache = cache_get($cache_id . $hash);
@@ -325,10 +324,10 @@ function ding_item_viewer_get_cache_by_hash($cache_id, $hash) {
  * Build tabs for item viewer.
  *
  * @param string $hash
- *  current item viewer hash.
+ *   Current item viewer hash.
  *
  * @return string
- *   Tabs layout markup.
+ *   tabs layout markup.
  */
 function ding_item_viewer_build_tabs($hash) {
   $cached_setting = ding_item_viewer_get_cache_by_hash(DING_ITEM_VIEWER_CONF_CACHE_ID, $hash);
@@ -349,10 +348,10 @@ function ding_item_viewer_build_tabs($hash) {
  * Fetches items markup from cache.
  *
  * @param string $hash
- *  current item viewer hash.
+ *   Current item viewer hash.
  *
  * @return array
- *  with searches information for current item viewer.
+ *   with searches information for current item viewer.
  */
 function ding_item_viewer_build_data($hash) {
   $cached_setting = ding_item_viewer_get_cache_by_hash(DING_ITEM_VIEWER_CONF_CACHE_ID, $hash);
@@ -635,11 +634,6 @@ function ding_item_viewer_content_type_edit_form_submit($form, &$form_state) {
 
   /**
    * Callback function for usort.
-   *
-   * @param $a
-   * @param $b
-   *
-   * @return int
    */
   function cmp_sort($a, $b) {
     if ($a['sort'] == $b['sort']) {
@@ -663,10 +657,10 @@ function ding_item_viewer_content_type_edit_form_submit($form, &$form_state) {
  * Build and set cache for current item viewer.
  *
  * @param array $searches
- *  current item viewer searches.
+ *   Current item viewer searches.
  *
  * @param array $settings
- *  current item viewer configuration.
+ *   current item viewer configuration.
  */
 function ding_item_viewer_build_searches(array $searches, array $settings) {
   foreach ($searches as $search) {
