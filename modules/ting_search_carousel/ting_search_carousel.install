@@ -12,3 +12,51 @@ function ting_search_carousel_uninstall() {
   variable_del('ting_carousel_search_queries_hidden');
   variable_del('ting_carousel_search_queries');
 }
+
+/**
+ * Move carousel configuration into panels pane.
+ */
+function ting_search_carousel_update_7000() {
+  $query = db_select('panels_pane', 'pp');
+
+  $query->condition('type', 'carousel')
+    ->condition('subtype', 'carousel')
+    ->fields('pp', array('pid', 'configuration'));
+
+  $results = $query->execute();
+
+  $default_configuration = array(
+    'ting_search_carousel_tabs_position' => 'bottom',
+    'ting_search_carousel_item_limit' => 12,
+    'ting_search_carousel_description_toggle' => 0,
+    'ting_search_carousel_item_sorting' => '',
+    'ting_search_carousel_animate' => TING_SEARCH_CAROUSEL_ANIMATE_DELAY,
+  );
+
+  $searches = variable_get('ting_carousel_search_queries', array());
+  $searches_configuration = variable_get('ting_search_carousel_settings', $default_configuration);
+  $hash_string = '';
+  foreach ($searches as $search) {
+    $hash_string .= $search['query'];
+  }
+  $cache_id = ting_search_carousel_generate_cache_id($hash_string);
+
+  $carousel_configuration = array(
+    'searches' => $searches,
+    'cache_id' => $cache_id,
+    'ting_search_carousel_settings' => $searches_configuration,
+  );
+
+  foreach ($results as $result) {
+    $panel_configuration = unserialize($result->configuration);
+    if (!isset($panel_configuration['searches']) || empty($panel_configuration['searches'])) {
+      $panel_configuration = $carousel_configuration;
+      db_update('panels_pane')
+        ->fields(array('configuration' => serialize($panel_configuration)))
+        ->condition('pid', $result->pid, '=')
+        ->execute();
+    }
+  }
+  variable_del('ting_carousel_search_queries');
+  variable_del('ting_search_carousel_settings');
+}
