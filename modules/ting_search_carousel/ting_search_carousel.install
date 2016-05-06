@@ -57,6 +57,6 @@ function ting_search_carousel_update_7000() {
         ->execute();
     }
   }
-  variable_delete('ting_carousel_search_queries');
-  variable_delete('ting_search_carousel_settings');
+  variable_del('ting_carousel_search_queries');
+  variable_del('ting_search_carousel_settings');
 }
