@@ -1,0 +1,53 @@
+<?php
+/**
+ * @file
+ * Provide functionality for section header image.
+ */
+
+include_once 'ding_sections_header_image.features.inc';
+
+/**
+ * Implements hook_page_alter().
+ *
+ * Sets specific header image for taxonomy term page.
+ */
+function ding_sections_header_image_page_alter(&$page) {
+  $term = menu_get_object('taxonomy_term', 2);
+  if ($term && $term->vocabulary_machine_name == 'section') {
+    $lang = field_language('taxonomy_term', $term, 'field_header_image');
+    if (isset($term->field_header_image[$lang][0]) && !empty($term->field_header_image[$lang][0])) {
+      $image = $term->field_header_image[$lang][0];
+      if (!empty($image['uri'])) {
+        $url = image_style_url('section_header_image', $image['uri']);
+      }
+
+      // Set specific background.
+      if (!empty($url)) {
+        $css = ".topbar-inner {
+          background-image: url({$url}) !important;
+        }";
+        drupal_add_css($css, array('type' => 'inline'));
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ding_sections_header_image_form_taxonomy_form_term_alter(&$form, &$form_state, $form_id) {
+  if (!isset($form['#bundle']) || $form['#bundle'] != 'section') {
+    return;
+  }
+
+  if (!isset($form_state['triggering_element'])) {
+    // Add header image into tab.
+    $form['ding_sections']['header_image'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Header image'),
+      '#group' => 'section_tabs',
+    );
+    $form['ding_sections']['header_image']['field_header_image'] = $form['field_header_image'];
+    unset($form['field_header_image']);
+  }
+}

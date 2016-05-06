@@ -1,0 +1,13 @@
+name = Ding Sections Header Image
+description = Displays specific header image on Section term page.
+core = 7.x
+package = Ding!
+dependencies[] = ding_sections
+dependencies[] = features
+dependencies[] = file
+dependencies[] = image
+dependencies[] = media
+features[features_api][] = api:1
+features[field_base][] = field_header_image
+features[field_instance][] = taxonomy_term-section-field_header_image
+features[image][] = section_header_image
