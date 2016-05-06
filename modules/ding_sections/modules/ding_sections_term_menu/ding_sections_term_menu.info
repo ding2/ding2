@@ -1,0 +1,6 @@
+name = Ding Sections Term Menu
+description = Create menu for Section term.
+package = Ding!
+core = 7.x
+
+dependencies[] = ding_sections
