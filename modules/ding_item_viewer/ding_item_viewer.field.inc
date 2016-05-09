@@ -227,7 +227,7 @@ function ding_item_viewer_field_formatter_view($entity_type, $entity, $field, $i
             'owner_id' => $owner_id,
           ),
         );
-        $images = ting_covers_objects(FALSE, $cover_data);
+        $images = ting_covers_get_objects($cover_data);
         $element[$delta] = array(
           '#theme' => 'image',
           '#path' => $images[0]['url'],
