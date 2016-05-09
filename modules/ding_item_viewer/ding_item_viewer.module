@@ -356,13 +356,11 @@ function ding_item_viewer_build_tabs($hash) {
 function ding_item_viewer_build_data($hash) {
   $cached_setting = ding_item_viewer_get_cache_by_hash(DING_ITEM_VIEWER_CONF_CACHE_ID, $hash);
   $queries = $cached_setting['searches'];
-
   $result = array();
-
   if (is_array($queries)) {
     foreach ($queries as $query) {
       $cid = ding_item_viewer_generate_cache_id($query['title'] . $query['query']);
-      $cache = cache_get($cid, 'cache_ding_item');
+      $cache = cache_get($cid, 'cache');
       if ($cache == FALSE) {
         ding_item_viewer_build_searches($queries, $cached_setting['config']);
         ding_item_viewer_build_data($hash);
@@ -387,7 +385,6 @@ function ding_item_viewer_ajax($hash) {
     'data' => array(),
     'error' => '',
   );
-
   $result = ding_item_viewer_get_data($hash);
   $response['data'] = $result;
 
@@ -688,9 +685,6 @@ function ding_item_viewer_build_searches(array $searches, array $settings) {
           'big' => $big,
         );
       }
-
-      // Clear cache for current item viewer.
-      cache_clear_all($cache_id, 'cache');
 
       // Cache rendered items.
       cache_set($cache_id, $items, 'cache', REQUEST_TIME + $settings['ding_item_viewer_cache_ttl']);
