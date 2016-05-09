@@ -322,13 +322,6 @@ function ding2_update_7014() {
 }
 
 /**
- * Enable search_api modules.
- */
-function ding2_update_7015() {
-  module_enable(array('search_api', 'search_api_multi', 'search_api_db', 'search_api_views'));
-}
-
-/**
  * Update our own translations.
  */
 function ding2_update_7016() {
