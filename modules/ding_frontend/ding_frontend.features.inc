@@ -908,10 +908,8 @@ function ding_frontend_default_search_api_index() {
         "node:comment" : { "type" : "integer" },
         "node:created" : { "type" : "date" },
         "node:ding_news_groups_ref" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
-        "node:field_bpi_workflow" : { "type" : "string" },
         "node:field_ding_event_category" : { "type" : "integer", "entity_type" : "taxonomy_term" },
         "node:field_ding_event_lead" : { "type" : "text" },
-        "node:field_ding_event_price" : { "type" : "integer" },
         "node:field_ding_event_tags" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "node:field_ding_event_target" : { "type" : "integer", "entity_type" : "taxonomy_term" },
         "node:field_ding_group_lead" : { "type" : "text" },
@@ -919,42 +917,179 @@ function ding_frontend_default_search_api_index() {
         "node:field_ding_library_lead" : { "type" : "text" },
         "node:field_ding_library_mail" : { "type" : "text" },
         "node:field_ding_library_phone_number" : { "type" : "text" },
-        "node:field_ding_library_slug" : { "type" : "text" },
         "node:field_ding_news_category" : { "type" : "integer", "entity_type" : "taxonomy_term" },
         "node:field_ding_news_lead" : { "type" : "text" },
         "node:field_ding_news_tags" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "node:field_ding_page_lead" : { "type" : "text" },
         "node:field_ding_page_tags" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
-        "node:field_ding_tabroll_lead" : { "type" : "text" },
-        "node:group_group" : { "type" : "boolean" },
         "node:language" : { "type" : "string" },
         "node:nid" : { "type" : "integer" },
         "node:og_group_ref" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
-        "node:og_membership" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "node:promote" : { "type" : "boolean" },
-        "node:revision" : { "type" : "boolean" },
-        "node:source" : { "type" : "integer", "entity_type" : "node" },
-        "node:status" : { "type" : "integer" },
         "node:title" : { "type" : "text" },
-        "node:type" : { "type" : "string" },
-        "node:vid" : { "type" : "integer" },
         "search_api_language" : { "type" : "string" },
         "user" : { "type" : "integer", "entity_type" : "user" },
         "user:created" : { "type" : "date" },
-        "user:language" : { "type" : "string" },
         "user:mail" : { "type" : "text" },
         "user:name" : { "type" : "text" },
-        "user:og_membership" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "user:og_membership__1" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "user:og_membership__2" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "user:og_membership__3" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "og_membership" },
-        "user:og_user_node" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
         "user:profile_ding_staff_profile" : { "type" : "integer", "entity_type" : "profile2" },
         "user:profile_provider_alma" : { "type" : "integer", "entity_type" : "profile2" },
         "user:relation_ting_reference_ting_object" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "ting_object" },
         "user:roles" : { "type" : "list\\u003Cinteger\\u003E" },
         "user:status" : { "type" : "integer" },
         "user:uid" : { "type" : "integer" }
+      },
+      "data_alter_callbacks" : {
+        "search_api_alter_bundle_filter" : {
+          "status" : 1,
+          "weight" : "-10",
+          "settings" : {
+            "default" : "0",
+            "bundles" : {
+              "node:ding_event" : "node:ding_event",
+              "node:ding_group" : "node:ding_group",
+              "node:ding_library" : "node:ding_library",
+              "node:ding_news" : "node:ding_news",
+              "node:ding_page" : "node:ding_page"
+            }
+          }
+        },
+        "search_api_alter_language_control" : {
+          "status" : 0,
+          "weight" : "0",
+          "settings" : { "lang_field" : "", "languages" : [] }
+        },
+        "search_api_alter_add_hierarchy" : { "status" : 0, "weight" : "0", "settings" : { "fields" : [] } },
+        "search_api_alter_add_aggregation" : { "status" : 0, "weight" : "0", "settings" : [] },
+        "search_api_alter_add_url" : { "status" : 0, "weight" : "0", "settings" : [] }
+      },
+      "processors" : {
+        "search_api_case_ignore" : {
+          "status" : 0,
+          "weight" : "0",
+          "settings" : { "fields" : {
+              "item_label" : true,
+              "node:title" : true,
+              "node:field_ding_news_lead" : true,
+              "node:field_ding_page_lead" : true,
+              "node:field_ding_event_lead" : true,
+              "node:field_ding_library_fax_number" : true,
+              "node:field_ding_library_lead" : true,
+              "node:field_ding_library_mail" : true,
+              "node:field_ding_library_phone_number" : true,
+              "node:field_ding_library_slug" : true,
+              "node:field_ding_group_lead" : true,
+              "node:field_ding_tabroll_lead" : true,
+              "user:name" : true,
+              "user:mail" : true
+            }
+          }
+        },
+        "search_api_html_filter" : {
+          "status" : 0,
+          "weight" : "10",
+          "settings" : {
+            "fields" : {
+              "item_label" : true,
+              "node:title" : true,
+              "node:field_ding_news_lead" : true,
+              "node:field_ding_page_lead" : true,
+              "node:field_ding_event_lead" : true,
+              "node:field_ding_library_fax_number" : true,
+              "node:field_ding_library_lead" : true,
+              "node:field_ding_library_mail" : true,
+              "node:field_ding_library_phone_number" : true,
+              "node:field_ding_library_slug" : true,
+              "node:field_ding_group_lead" : true,
+              "node:field_ding_tabroll_lead" : true,
+              "user:name" : true,
+              "user:mail" : true
+            },
+            "title" : 0,
+            "alt" : 1,
+            "tags" : "h1 = 5\\r\\nh2 = 3\\r\\nh3 = 2\\r\\nstrong = 2\\r\\nb = 2\\r\\nem = 1.5\\r\\nu = 1.5"
+          }
+        },
+        "search_api_transliteration" : {
+          "status" : 0,
+          "weight" : "15",
+          "settings" : { "fields" : {
+              "item_label" : true,
+              "node:title" : true,
+              "node:field_ding_news_lead" : true,
+              "node:field_ding_page_lead" : true,
+              "node:field_ding_event_lead" : true,
+              "node:field_ding_library_fax_number" : true,
+              "node:field_ding_library_lead" : true,
+              "node:field_ding_library_mail" : true,
+              "node:field_ding_library_phone_number" : true,
+              "node:field_ding_library_slug" : true,
+              "node:field_ding_group_lead" : true,
+              "node:field_ding_tabroll_lead" : true,
+              "user:name" : true,
+              "user:mail" : true
+            }
+          }
+        },
+        "search_api_tokenizer" : {
+          "status" : 0,
+          "weight" : "20",
+          "settings" : {
+            "fields" : {
+              "item_label" : true,
+              "node:title" : true,
+              "node:field_ding_news_lead" : true,
+              "node:field_ding_page_lead" : true,
+              "node:field_ding_event_lead" : true,
+              "node:field_ding_library_fax_number" : true,
+              "node:field_ding_library_lead" : true,
+              "node:field_ding_library_mail" : true,
+              "node:field_ding_library_phone_number" : true,
+              "node:field_ding_library_slug" : true,
+              "node:field_ding_group_lead" : true,
+              "node:field_ding_tabroll_lead" : true,
+              "user:name" : true,
+              "user:mail" : true
+            },
+            "spaces" : "[^[:alnum:]]",
+            "ignorable" : "[\\u0027]"
+          }
+        },
+        "search_api_stopwords" : {
+          "status" : 0,
+          "weight" : "30",
+          "settings" : {
+            "fields" : {
+              "item_label" : true,
+              "node:title" : true,
+              "node:field_ding_news_lead" : true,
+              "node:field_ding_page_lead" : true,
+              "node:field_ding_event_lead" : true,
+              "node:field_ding_library_fax_number" : true,
+              "node:field_ding_library_lead" : true,
+              "node:field_ding_library_mail" : true,
+              "node:field_ding_library_phone_number" : true,
+              "node:field_ding_library_slug" : true,
+              "node:field_ding_group_lead" : true,
+              "node:field_ding_tabroll_lead" : true,
+              "user:name" : true,
+              "user:mail" : true
+            },
+            "file" : "",
+            "stopwords" : "but\\r\\ndid\\r\\nthe this that those\\r\\netc"
+          }
+        },
+        "search_api_highlighting" : {
+          "status" : 0,
+          "weight" : "35",
+          "settings" : {
+            "prefix" : "\\u003Cstrong\\u003E",
+            "suffix" : "\\u003C\\/strong\\u003E",
+            "excerpt" : 1,
+            "excerpt_length" : "256",
+            "exclude_fields" : [],
+            "highlight" : "always"
+          }
+        }
       }
     },
     "enabled" : "1",
@@ -1406,18 +1541,6 @@ function ding_frontend_default_search_api_server() {
             "type" : "integer",
             "boost" : "1.0"
           },
-          "node:vid" : {
-            "table" : "search_api_db_default_multiple_index",
-            "column" : "node_vid",
-            "type" : "integer",
-            "boost" : "1.0"
-          },
-          "node:type" : {
-            "table" : "search_api_db_default_multiple_index",
-            "column" : "node_type",
-            "type" : "string",
-            "boost" : "1.0"
-          },
           "node:title" : {
             "table" : "search_api_db_default_multiple_index_text",
             "type" : "text",
@@ -1427,18 +1550,6 @@ function ding_frontend_default_search_api_server() {
             "table" : "search_api_db_default_multiple_index",
             "column" : "node_language",
             "type" : "string",
-            "boost" : "1.0"
-          },
-          "node:status" : {
-            "table" : "search_api_db_default_multiple_index",
-            "column" : "node_status",
-            "type" : "integer",
-            "boost" : "1.0"
-          },
-          "node:promote" : {
-            "table" : "search_api_db_default_multiple_index",
-            "column" : "node_promote",
-            "type" : "boolean",
             "boost" : "1.0"
           },
           "node:created" : {
@@ -1459,28 +1570,10 @@ function ding_frontend_default_search_api_server() {
             "type" : "integer",
             "boost" : "1.0"
           },
-          "node:source" : {
-            "table" : "search_api_db_default_multiple_index",
-            "column" : "node_source",
-            "type" : "integer",
-            "boost" : "1.0"
-          },
-          "node:revision" : {
-            "table" : "search_api_db_default_multiple_index",
-            "column" : "node_revision",
-            "type" : "boolean",
-            "boost" : "1.0"
-          },
           "node:comment" : {
             "table" : "search_api_db_default_multiple_index",
             "column" : "node_comment",
             "type" : "integer",
-            "boost" : "1.0"
-          },
-          "node:field_bpi_workflow" : {
-            "table" : "search_api_db_default_multiple_index",
-            "column" : "node_field_bpi_workflow",
-            "type" : "string",
             "boost" : "1.0"
           },
           "node:og_group_ref" : {
@@ -1512,12 +1605,6 @@ function ding_frontend_default_search_api_server() {
             "type" : "list\\u003Cinteger\\u003E",
             "boost" : "1.0"
           },
-          "node:og_membership" : {
-            "table" : "search_api_db_default_multiple_index_node_og_membership",
-            "column" : "value",
-            "type" : "list\\u003Cinteger\\u003E",
-            "boost" : "1.0"
-          },
           "node:field_ding_page_lead" : {
             "table" : "search_api_db_default_multiple_index_text",
             "type" : "text",
@@ -1538,12 +1625,6 @@ function ding_frontend_default_search_api_server() {
           "node:field_ding_event_lead" : {
             "table" : "search_api_db_default_multiple_index_text",
             "type" : "text",
-            "boost" : "1.0"
-          },
-          "node:field_ding_event_price" : {
-            "table" : "search_api_db_default_multiple_index",
-            "column" : "node_field_ding_event_price",
-            "type" : "integer",
             "boost" : "1.0"
           },
           "node:field_ding_event_tags" : {
@@ -1578,23 +1659,7 @@ function ding_frontend_default_search_api_server() {
             "type" : "text",
             "boost" : "1.0"
           },
-          "node:field_ding_library_slug" : {
-            "table" : "search_api_db_default_multiple_index_text",
-            "type" : "text",
-            "boost" : "1.0"
-          },
-          "node:group_group" : {
-            "table" : "search_api_db_default_multiple_index",
-            "column" : "node_group_group",
-            "type" : "boolean",
-            "boost" : "1.0"
-          },
           "node:field_ding_group_lead" : {
-            "table" : "search_api_db_default_multiple_index_text",
-            "type" : "text",
-            "boost" : "1.0"
-          },
-          "node:field_ding_tabroll_lead" : {
             "table" : "search_api_db_default_multiple_index_text",
             "type" : "text",
             "boost" : "1.0"
@@ -1633,12 +1698,6 @@ function ding_frontend_default_search_api_server() {
             "type" : "integer",
             "boost" : "1.0"
           },
-          "user:language" : {
-            "table" : "search_api_db_default_multiple_index",
-            "column" : "user_language",
-            "type" : "string",
-            "boost" : "1.0"
-          },
           "user:profile_ding_staff_profile" : {
             "table" : "search_api_db_default_multiple_index",
             "column" : "user_profile_ding_staff_profile",
@@ -1653,36 +1712,6 @@ function ding_frontend_default_search_api_server() {
           },
           "user:relation_ting_reference_ting_object" : {
             "table" : "search_api_db_default_multiple_index_user_relation_ting_refere",
-            "column" : "value",
-            "type" : "list\\u003Cinteger\\u003E",
-            "boost" : "1.0"
-          },
-          "user:og_user_node" : {
-            "table" : "search_api_db_default_multiple_index_user_og_user_node",
-            "column" : "value",
-            "type" : "list\\u003Cinteger\\u003E",
-            "boost" : "1.0"
-          },
-          "user:og_membership" : {
-            "table" : "search_api_db_default_multiple_index_user_og_membership",
-            "column" : "value",
-            "type" : "list\\u003Cinteger\\u003E",
-            "boost" : "1.0"
-          },
-          "user:og_membership__1" : {
-            "table" : "search_api_db_default_multiple_index_user_og_membership__1",
-            "column" : "value",
-            "type" : "list\\u003Cinteger\\u003E",
-            "boost" : "1.0"
-          },
-          "user:og_membership__2" : {
-            "table" : "search_api_db_default_multiple_index_user_og_membership__2",
-            "column" : "value",
-            "type" : "list\\u003Cinteger\\u003E",
-            "boost" : "1.0"
-          },
-          "user:og_membership__3" : {
-            "table" : "search_api_db_default_multiple_index_user_og_membership__3",
             "column" : "value",
             "type" : "list\\u003Cinteger\\u003E",
             "boost" : "1.0"
