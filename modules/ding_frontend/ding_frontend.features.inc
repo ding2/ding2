@@ -939,6 +939,7 @@ function ding_frontend_default_search_api_index() {
         "user:uid" : { "type" : "integer" }
       },
       "data_alter_callbacks" : {
+        "published_filter" : { "status" : 1, "weight" : "-50", "settings" : [] },
         "search_api_alter_bundle_filter" : {
           "status" : 1,
           "weight" : "-10",
@@ -959,8 +960,8 @@ function ding_frontend_default_search_api_index() {
           "settings" : { "lang_field" : "", "languages" : [] }
         },
         "search_api_alter_add_hierarchy" : { "status" : 0, "weight" : "0", "settings" : { "fields" : [] } },
-        "search_api_alter_add_aggregation" : { "status" : 0, "weight" : "0", "settings" : [] },
-        "search_api_alter_add_url" : { "status" : 0, "weight" : "0", "settings" : [] }
+        "search_api_alter_add_url" : { "status" : 0, "weight" : "0", "settings" : [] },
+        "search_api_alter_add_aggregation" : { "status" : 0, "weight" : "0", "settings" : [] }
       },
       "processors" : {
         "search_api_case_ignore" : {
@@ -976,9 +977,7 @@ function ding_frontend_default_search_api_index() {
               "node:field_ding_library_lead" : true,
               "node:field_ding_library_mail" : true,
               "node:field_ding_library_phone_number" : true,
-              "node:field_ding_library_slug" : true,
               "node:field_ding_group_lead" : true,
-              "node:field_ding_tabroll_lead" : true,
               "user:name" : true,
               "user:mail" : true
             }
@@ -998,9 +997,7 @@ function ding_frontend_default_search_api_index() {
               "node:field_ding_library_lead" : true,
               "node:field_ding_library_mail" : true,
               "node:field_ding_library_phone_number" : true,
-              "node:field_ding_library_slug" : true,
               "node:field_ding_group_lead" : true,
-              "node:field_ding_tabroll_lead" : true,
               "user:name" : true,
               "user:mail" : true
             },
@@ -1022,9 +1019,7 @@ function ding_frontend_default_search_api_index() {
               "node:field_ding_library_lead" : true,
               "node:field_ding_library_mail" : true,
               "node:field_ding_library_phone_number" : true,
-              "node:field_ding_library_slug" : true,
               "node:field_ding_group_lead" : true,
-              "node:field_ding_tabroll_lead" : true,
               "user:name" : true,
               "user:mail" : true
             }
@@ -1044,9 +1039,7 @@ function ding_frontend_default_search_api_index() {
               "node:field_ding_library_lead" : true,
               "node:field_ding_library_mail" : true,
               "node:field_ding_library_phone_number" : true,
-              "node:field_ding_library_slug" : true,
               "node:field_ding_group_lead" : true,
-              "node:field_ding_tabroll_lead" : true,
               "user:name" : true,
               "user:mail" : true
             },
@@ -1068,9 +1061,7 @@ function ding_frontend_default_search_api_index() {
               "node:field_ding_library_lead" : true,
               "node:field_ding_library_mail" : true,
               "node:field_ding_library_phone_number" : true,
-              "node:field_ding_library_slug" : true,
               "node:field_ding_group_lead" : true,
-              "node:field_ding_tabroll_lead" : true,
               "user:name" : true,
               "user:mail" : true
             },

@@ -121,4 +121,4 @@ features[variable][] = panels_everywhere_site_template_enabled_admin
 features[variable][] = panels_everywhere_site_template_per_theme
 features[views_view][] = ding_multiple_search
 features[views_view][] = ding_node_search
-mtime = 1450343334
+files[] = includes/callback_published_filter.inc

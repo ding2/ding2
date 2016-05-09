@@ -7,6 +7,20 @@
 include_once 'ding_frontend.features.inc';
 
 /**
+ * Implements hook_search_api_alter_callback_info().
+ */
+function ding_frontend_search_api_alter_callback_info() {
+  return array(
+    'published_filter' => array(
+      'name' => t('Exclude unpublished users and content'),
+      'description' => t('Exclude unpublished user or content from the index. <strong>Caution:</strong> This only affects the indexed nodes themselves. If an enabled node has references to disabled nodes, those will still be indexed (or displayed) normally.'),
+      'class' => 'DingFrontendPublishedStateFilter',
+      'weight' => 100,
+    ),
+  );
+}
+
+/**
  * Implements hook_theme().
  *
  * Field formatter theme function mainly used in event views to create the nice
