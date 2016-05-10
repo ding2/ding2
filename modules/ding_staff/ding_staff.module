@@ -166,8 +166,6 @@ function ding_staff_profile2_view($profile, $view_mode, $langcode) {
   if (arg(0) == 'search') {
     $forename = field_get_items('profile2', $profile, 'field_ding_staff_forename');
     $surname = field_get_items('profile2', $profile, 'field_ding_staff_surname');
-
-
     $full_name = $forename[0]['value'] . ' ' . $surname[0]['value'];
 
     $output = '<h2>';
