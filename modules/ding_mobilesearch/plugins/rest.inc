@@ -9,8 +9,9 @@
  * Call a REST service method.
  *
  * @param string $method
+ *   Name of method.
  * @param array $body
- *
+ *   Array with request body.
  * @return mixed
  *    response object or NULL.
  */
@@ -26,7 +27,7 @@ function mobilesearch_rest_service_call($method, $body = array()) {
       array(
         '!configure_url' => l(
           t('configure'),
-          'admin/config/mobilesearch/content-export/plugin',
+          'admin/config/mobilesearch/content-export/plugin'
         ),
       ),
       WATCHDOG_ERROR
@@ -360,6 +361,7 @@ function mobilesearch_rest_exec($op, $entity_type, $entity) {
  *   - mobilesearch_rest_key: Service key.
  *
  * @return bool
+ *   Returns status of response.
  */
 function mobilesearch_rest_test_service($config = array()) {
   $service_url = $config['mobilesearch_rest_url'];

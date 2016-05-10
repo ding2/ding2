@@ -158,8 +158,11 @@ function ding_mobilesearch_settings_submit($form, &$form_state) {
  *   - form: A render element representing the form.
  *
  * @ingroup themeable
+ *
+ * @return string
+ *   Rendered table.
  */
-function theme_ding_mobilesearch_types_table($variables) {
+function theme_ding_mobilesearch_types_table(array $variables) {
   $form = $variables['form'];
   $header = array(
     t('Content type'),
@@ -197,8 +200,11 @@ function theme_ding_mobilesearch_types_table($variables) {
  *   - form: A render element representing the form.
  *
  * @ingroup themeable
+ *
+ * @return string
+ *   Rendered table.
  */
-function theme_ding_mobilesearch_menus_table($variables) {
+function theme_ding_mobilesearch_menus_table(array $variables) {
   $form = $variables['form'];
   $header = array(
     t('Menu'),
