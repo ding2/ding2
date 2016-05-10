@@ -939,8 +939,8 @@ function ding_frontend_default_search_api_index() {
         "user:uid" : { "type" : "integer" }
       },
       "data_alter_callbacks" : {
-        "published_filter" : { "status" : 1, "weight" : "-50", "settings" : [] },
-        "search_api_alter_bundle_filter" : {
+        "ding_frontend_published_filter" : { "status" : 1, "weight" : "-10", "settings" : [] },
+        "ding_frontend_bundle_filter" : {
           "status" : 1,
           "weight" : "-10",
           "settings" : {
@@ -954,14 +954,33 @@ function ding_frontend_default_search_api_index() {
             }
           }
         },
+        "search_api_alter_bundle_filter" : {
+          "status" : 0,
+          "weight" : "-10",
+          "settings" : {
+            "default" : "0",
+            "bundles" : {
+              "node:ding_event" : "node:ding_event",
+              "node:ding_group" : "node:ding_group",
+              "node:ding_library" : "node:ding_library",
+              "node:ding_news" : "node:ding_news",
+              "node:ding_page" : "node:ding_page"
+            }
+          }
+        },
+        "ding_frontend_role_filter" : {
+          "status" : 1,
+          "weight" : "-10",
+          "settings" : { "default" : "0", "roles" : { "9" : "9" } }
+        },
         "search_api_alter_language_control" : {
           "status" : 0,
           "weight" : "0",
           "settings" : { "lang_field" : "", "languages" : [] }
         },
         "search_api_alter_add_hierarchy" : { "status" : 0, "weight" : "0", "settings" : { "fields" : [] } },
-        "search_api_alter_add_url" : { "status" : 0, "weight" : "0", "settings" : [] },
-        "search_api_alter_add_aggregation" : { "status" : 0, "weight" : "0", "settings" : [] }
+        "search_api_alter_add_aggregation" : { "status" : 0, "weight" : "0", "settings" : [] },
+        "search_api_alter_add_url" : { "status" : 0, "weight" : "0", "settings" : [] }
       },
       "processors" : {
         "search_api_case_ignore" : {
