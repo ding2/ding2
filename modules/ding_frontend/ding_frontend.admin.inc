@@ -55,7 +55,7 @@ function ding_frontend_settings_submit($form, &$form_state) {
  *
  * @see ding_frontend_settings()
  */
-function ding_frontend_set_promote_configuration($custom_promote_settings) {
+function ding_frontend_set_promote_configuration(array $custom_promote_settings) {
   $types = array(
     'ding_news',
     'ding_event',

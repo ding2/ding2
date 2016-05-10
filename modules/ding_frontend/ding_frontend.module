@@ -6,6 +6,9 @@
 
 include_once 'ding_frontend.features.inc';
 
+/**
+ * Implements hook_permission().
+ */
 function ding_frontend_permission() {
   return array(
     'administer fe promote' => array(
