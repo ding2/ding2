@@ -13,17 +13,30 @@ function ding_frontend_settings($form, &$form_state) {
     'ding_news' => t('News'),
     'ding_event' => t('Event'),
   );
+
+  // Determine default promote to frontpage using CT settings.
+  $default_values = array();
+  foreach ($types as $key => $type) {
+    $promote_status = variable_get('node_options_' . $key);
+
+    if (in_array('promote', $promote_status)) {
+      $default_values[$key] = $key;
+    }
+  }
+
   $form['ding_frontend_fe_promote_types'] = array(
     '#title' => t('Promote types to Frontpage'),
     '#type' => 'checkboxes',
     '#options' => $types,
-    '#default_value' => variable_get('ding_frontend_fe_promote_types', array('ding_event' => 'ding_event')),
+    '#default_value' => $default_values,
     '#description' => t('Please specify types which can be promoted to Frontpage.'),
   );
+
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save configuration'),
   );
+
   return $form;
 }
 
@@ -47,6 +60,7 @@ function ding_frontend_set_promote_configuration($custom_promote_settings) {
     'ding_news',
     'ding_event',
   );
+
   foreach ($types as $type) {
     $conf = variable_get('node_options_' . $type, array('status', 'promote'));
     if (in_array('promote', $conf)) {
