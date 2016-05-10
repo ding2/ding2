@@ -34,6 +34,12 @@ function ding_frontend_views_default_views() {
   $handler->display->display_options['style_options']['class'] = 'list';
   $handler->display->display_options['style_options']['wrapper_class'] = 'search-results';
   $handler->display->display_options['row_plugin'] = 'fields';
+  /* No results behavior: Global: Unfiltered text */
+  $handler->display->display_options['empty']['area_text_custom']['id'] = 'area_text_custom';
+  $handler->display->display_options['empty']['area_text_custom']['table'] = 'views';
+  $handler->display->display_options['empty']['area_text_custom']['field'] = 'area_text_custom';
+  $handler->display->display_options['empty']['area_text_custom']['empty'] = TRUE;
+  $handler->display->display_options['empty']['area_text_custom']['content'] = '<span>No items found in your search.</span>';
   /* Field: Indexed Multiple types: Node */
   $handler->display->display_options['fields']['node']['id'] = 'node';
   $handler->display->display_options['fields']['node']['table'] = 'search_api_index_default_multiple_index';
@@ -91,6 +97,7 @@ function ding_frontend_views_default_views() {
     t('‹ previous'),
     t('next ›'),
     t('last »'),
+    t('<span>No items found in your search.</span>'),
     t('All'),
     t('Content pane'),
     t('View panes'),

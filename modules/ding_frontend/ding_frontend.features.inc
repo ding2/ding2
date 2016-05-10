@@ -898,16 +898,12 @@ function ding_frontend_default_search_api_index() {
       "cron_limit" : "50",
       "fields" : {
         "item_bundle" : { "type" : "string" },
-        "item_entity_id" : { "type" : "string" },
         "item_id" : { "type" : "string" },
-        "item_label" : { "type" : "text" },
         "item_type" : { "type" : "string" },
         "node" : { "type" : "integer", "entity_type" : "node" },
         "node:author" : { "type" : "integer", "entity_type" : "user" },
         "node:changed" : { "type" : "date" },
-        "node:comment" : { "type" : "integer" },
         "node:created" : { "type" : "date" },
-        "node:ding_news_groups_ref" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
         "node:field_ding_event_category" : { "type" : "integer", "entity_type" : "taxonomy_term" },
         "node:field_ding_event_lead" : { "type" : "text" },
         "node:field_ding_event_tags" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
@@ -922,17 +918,20 @@ function ding_frontend_default_search_api_index() {
         "node:field_ding_news_tags" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
         "node:field_ding_page_lead" : { "type" : "text" },
         "node:field_ding_page_tags" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
-        "node:language" : { "type" : "string" },
         "node:nid" : { "type" : "integer" },
-        "node:og_group_ref" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "node" },
-        "node:title" : { "type" : "text" },
+        "node:title" : { "type" : "text", "boost" : "2.0" },
+        "node:type" : { "type" : "string" },
+        "node:url" : { "type" : "uri" },
         "search_api_language" : { "type" : "string" },
         "user" : { "type" : "integer", "entity_type" : "user" },
-        "user:created" : { "type" : "date" },
-        "user:mail" : { "type" : "text" },
-        "user:name" : { "type" : "text" },
         "user:profile_ding_staff_profile" : { "type" : "integer", "entity_type" : "profile2" },
-        "user:profile_provider_alma" : { "type" : "integer", "entity_type" : "profile2" },
+        "user:profile_ding_staff_profile:field_ding_staff_department" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "taxonomy_term" },
+        "user:profile_ding_staff_profile:field_ding_staff_email" : { "type" : "text" },
+        "user:profile_ding_staff_profile:field_ding_staff_forename" : { "type" : "text", "boost" : "2.0" },
+        "user:profile_ding_staff_profile:field_ding_staff_phone" : { "type" : "text" },
+        "user:profile_ding_staff_profile:field_ding_staff_position" : { "type" : "text" },
+        "user:profile_ding_staff_profile:field_ding_staff_surname" : { "type" : "text", "boost" : "2.0" },
+        "user:profile_ding_staff_profile:field_ding_staff_work_areas" : { "type" : "text" },
         "user:relation_ting_reference_ting_object" : { "type" : "list\\u003Cinteger\\u003E", "entity_type" : "ting_object" },
         "user:roles" : { "type" : "list\\u003Cinteger\\u003E" },
         "user:status" : { "type" : "integer" },
@@ -1510,21 +1509,10 @@ function ding_frontend_default_search_api_server() {
             "type" : "string",
             "boost" : "1.0"
           },
-          "item_entity_id" : {
-            "table" : "search_api_db_default_multiple_index",
-            "column" : "item_entity_id",
-            "type" : "string",
-            "boost" : "1.0"
-          },
           "item_bundle" : {
             "table" : "search_api_db_default_multiple_index",
             "column" : "item_bundle",
             "type" : "string",
-            "boost" : "1.0"
-          },
-          "item_label" : {
-            "table" : "search_api_db_default_multiple_index_text",
-            "type" : "text",
             "boost" : "1.0"
           },
           "node" : {
@@ -1554,13 +1542,7 @@ function ding_frontend_default_search_api_server() {
           "node:title" : {
             "table" : "search_api_db_default_multiple_index_text",
             "type" : "text",
-            "boost" : "1.0"
-          },
-          "node:language" : {
-            "table" : "search_api_db_default_multiple_index",
-            "column" : "node_language",
-            "type" : "string",
-            "boost" : "1.0"
+            "boost" : "2.0"
           },
           "node:created" : {
             "table" : "search_api_db_default_multiple_index",
@@ -1578,24 +1560,6 @@ function ding_frontend_default_search_api_server() {
             "table" : "search_api_db_default_multiple_index",
             "column" : "node_author",
             "type" : "integer",
-            "boost" : "1.0"
-          },
-          "node:comment" : {
-            "table" : "search_api_db_default_multiple_index",
-            "column" : "node_comment",
-            "type" : "integer",
-            "boost" : "1.0"
-          },
-          "node:og_group_ref" : {
-            "table" : "search_api_db_default_multiple_index_node_og_group_ref",
-            "column" : "value",
-            "type" : "list\\u003Cinteger\\u003E",
-            "boost" : "1.0"
-          },
-          "node:ding_news_groups_ref" : {
-            "table" : "search_api_db_default_multiple_index_node_ding_news_groups_ref",
-            "column" : "value",
-            "type" : "list\\u003Cinteger\\u003E",
             "boost" : "1.0"
           },
           "node:field_ding_news_category" : {
@@ -1680,22 +1644,6 @@ function ding_frontend_default_search_api_server() {
             "type" : "integer",
             "boost" : "1.0"
           },
-          "user:name" : {
-            "table" : "search_api_db_default_multiple_index_text",
-            "type" : "text",
-            "boost" : "1.0"
-          },
-          "user:mail" : {
-            "table" : "search_api_db_default_multiple_index_text",
-            "type" : "text",
-            "boost" : "1.0"
-          },
-          "user:created" : {
-            "table" : "search_api_db_default_multiple_index",
-            "column" : "user_created",
-            "type" : "date",
-            "boost" : "1.0"
-          },
           "user:roles" : {
             "table" : "search_api_db_default_multiple_index_user_roles",
             "column" : "value",
@@ -1714,16 +1662,58 @@ function ding_frontend_default_search_api_server() {
             "type" : "integer",
             "boost" : "1.0"
           },
-          "user:profile_provider_alma" : {
-            "table" : "search_api_db_default_multiple_index",
-            "column" : "user_profile_provider_alma",
-            "type" : "integer",
-            "boost" : "1.0"
-          },
           "user:relation_ting_reference_ting_object" : {
             "table" : "search_api_db_default_multiple_index_user_relation_ting_refere",
             "column" : "value",
             "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "node:type" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "node_type",
+            "type" : "string",
+            "boost" : "1.0"
+          },
+          "node:url" : {
+            "table" : "search_api_db_default_multiple_index",
+            "column" : "node_url",
+            "type" : "uri",
+            "boost" : "1.0"
+          },
+          "user:profile_ding_staff_profile:field_ding_staff_department" : {
+            "table" : "search_api_db_default_multiple_index_user_profile_ding_staff_p",
+            "column" : "value",
+            "type" : "list\\u003Cinteger\\u003E",
+            "boost" : "1.0"
+          },
+          "user:profile_ding_staff_profile:field_ding_staff_email" : {
+            "table" : "search_api_db_default_multiple_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "user:profile_ding_staff_profile:field_ding_staff_forename" : {
+            "table" : "search_api_db_default_multiple_index_text",
+            "type" : "text",
+            "boost" : "2.0"
+          },
+          "user:profile_ding_staff_profile:field_ding_staff_phone" : {
+            "table" : "search_api_db_default_multiple_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "user:profile_ding_staff_profile:field_ding_staff_position" : {
+            "table" : "search_api_db_default_multiple_index_text",
+            "type" : "text",
+            "boost" : "1.0"
+          },
+          "user:profile_ding_staff_profile:field_ding_staff_surname" : {
+            "table" : "search_api_db_default_multiple_index_text",
+            "type" : "text",
+            "boost" : "2.0"
+          },
+          "user:profile_ding_staff_profile:field_ding_staff_work_areas" : {
+            "table" : "search_api_db_default_multiple_index_text",
+            "type" : "text",
             "boost" : "1.0"
           }
         }
