@@ -125,6 +125,9 @@ projects[globalredirect][patch][] = "http://drupal.org/files/language_redirect_v
 projects[google_analytics][subdir] = "contrib"
 projects[google_analytics][version] = "1.3"
 
+projects[htmlmail][subdir] = "contrib"
+projects[htmlmail][version] = "2.65"
+
 projects[honeypot][subdir] = "contrib"
 projects[honeypot][version] = "1.21"
 

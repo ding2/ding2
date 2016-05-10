@@ -1,7 +1,37 @@
 <?php
 
 /**
- * Implements hook_install().
+ * Implements hook_schema().
+ */
+function ding_dibs_schema() {
+  $schema['ding_dibs_report_cron'] = array(
+    'description' => 'Report cron table.',
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Id record',
+      ),
+      'time_start' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'description' => 'The start time cron mailing unicode format',
+      ),
+      'status' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'default' => '',
+        'description' => '0 - sending not successful 1 - successful sending',
+      ),
+    ),
+    'primary key' => array('id'),
+  );
+  return $schema;
+}
+
+/**
+* Implements hook_install().
  */
 function ding_dibs_install() {
   // Inserting default order id setting.
@@ -30,6 +60,24 @@ function ding_dibs_install() {
     'default' => 0,
     'description' => '0 = capture failed, 1 = capture succeeded',
   ));
+  variable_set('ding_dibs_start_cron_hour', 2);
+  drupal_install_schema('ding_dibs');
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_dibs_uninstall() {
+  $variables = array(
+    'ding_dibs_start_cron_hour',
+    'ding_dibs_last_cron',
+    'ding_dibs_start_cron_minute',
+    'ding_dibs_emails_validate',
+  );
+  foreach ($variables as $value) {
+    variable_del($value);
+  }
+  drupal_uninstall_schema('ding_dibs');
 }
 
 /**
@@ -52,3 +100,13 @@ function ding_dibs_update_7000(&$sandbox) {
     'description' => t('0 = capture failed, 1 = capture succeeded'),
   ));
 }
+
+/**
+ * Add column for storing provider payment status and DIBS capture status.
+ */
+function ding_dibs_update_7001(&$sandbox) {
+  if (db_table_exists('ding_dibs_report_cron') == FALSE) {
+    drupal_install_schema('ding_dibs');
+  }
+}
+
