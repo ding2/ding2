@@ -122,3 +122,5 @@ features[variable][] = panels_everywhere_site_template_per_theme
 features[views_view][] = ding_multiple_search
 features[views_view][] = ding_node_search
 files[] = includes/callback_published_filter.inc
+files[] = includes/callback_user_role_filter.inc
+files[] = includes/callback_bundle_filter.inc
