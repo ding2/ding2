@@ -236,16 +236,10 @@ projects[og_menu][version] = "3.0-rc5"
 ; Fixes JavaScript menu selection in edit node forms.
 projects[og_menu][patch][0] = "http://drupal.org/files/issues/selector_not_found-2276951-2.patch"
 
-; This version is patch to make the next/prev links work.
-projects[opening_hours][type] = "module"
 projects[opening_hours][subdir] = "contrib"
-projects[opening_hours][download][type] = "git"
-projects[opening_hours][download][url] = "http://git.drupal.org/project/opening_hours.git"
-projects[opening_hours][download][revision] = "81146d1e8ab63ca70976596d928e4ec46dfdfd57"
-projects[opening_hours][patch][] = "http://drupal.org/files/issues/is-string-check-2260505-2.patch"
-projects[opening_hours][patch][] = "http://drupal.org/files/issues/change-path-2270935-2.patch"
-projects[opening_hours][patch][] = "http://www.drupal.org/files/issues/Issue620-single-minute-opening-hours.patch"
-projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/opening_hours-2194867-D7.patch"
+projects[opening_hours][version] = "1.5"
+; Add categroy render support
+projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/opening_hours-view_modes-2607314-3.patch"
 
 projects[pagepreview][subdir] = "contrib"
 projects[pagepreview][version] = "1.0-alpha1"
