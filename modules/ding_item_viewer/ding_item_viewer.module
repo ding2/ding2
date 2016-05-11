@@ -655,9 +655,8 @@ function ding_item_viewer_content_type_edit_form_submit($form, &$form_state) {
  *
  * @param array $searches
  *   Current item viewer searches.
- *
  * @param array $settings
- *   current item viewer configuration.
+ *   Current item viewer configuration.
  */
 function ding_item_viewer_build_searches(array $searches, array $settings) {
   foreach ($searches as $search) {

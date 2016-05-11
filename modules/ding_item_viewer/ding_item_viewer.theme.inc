@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- *  Theme functionality for ding item viewer.
+ * Theme functionality for ding item viewer.
  */
 
 /**
