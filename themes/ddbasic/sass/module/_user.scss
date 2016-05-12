@@ -529,6 +529,11 @@
       @include zen-clear();
     }
 
+    div .form-item-name,
+    div .form-item-pass {
+      width: 100%;
+    }
+
     .form-actions {
       margin-bottom: 0;
     }
