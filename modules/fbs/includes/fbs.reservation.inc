@@ -117,12 +117,17 @@ function fbs_reservation_create($account, $record_id, $options) {
   $reservation->pickupBranch = $options['preferred_branch'];
   $batch->reservations[] = $reservation;
   $result = fbs_service()->Reservations->addReservations(fbs_service()->agencyId, fbs_patron_id($account), $batch);
+  $res_results = $result->reservationResults;
+  $res_details = $res_results[0]->reservationDetails;
 
-  $res_details = reset($result);
-  return array(
-    'branch' => $res_details->pickupBranch,
-    'queue_number' => $res_details->numberInQueue,
-  );
+  if ($res_details) {
+    return array(
+      'branch' => $res_details->pickupBranch,
+      'queue_number' => $res_details->numberInQueue,
+    );
+  }
+
+  return FALSE;
 }
 
 /**
