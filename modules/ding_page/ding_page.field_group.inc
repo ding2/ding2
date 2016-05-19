@@ -23,7 +23,7 @@ function ding_page_field_group_info() {
     'label' => 'Attachments',
     'weight' => '3',
     'children' => array(
-      0 => 'field_ding_page_materials',
+      0 => 'field_ding_page_material',
       1 => 'field_ding_page_files',
     ),
     'format_type' => 'fieldset',
