@@ -132,7 +132,7 @@ function ding_place2book_node_view_alter(&$build) {
         $prices = $p2b->getPrices($event_maker_id, $event_id);
         $output = '';
         foreach ($prices as $price) {
-          $output .= "<p>{$price->name} <i class='icon-tag'></i>{$price->value} kr.</p>";
+          $output .= "<p><i class='icon-tag'></i>{$price->name} {$price->value} kr.</p>";
         }
         $build['place2book_event_prices'] = $output;
       }
