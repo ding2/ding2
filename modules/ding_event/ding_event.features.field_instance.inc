@@ -546,15 +546,15 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_materials'
-  $field_instances['node-ding_event-field_ding_event_materials'] = array(
+  // Exported field_instance: 'node-ding_event-field_ding_event_material'
+  $field_instances['node-ding_event-field_ding_event_material'] = array(
     'bundle' => 'ding_event',
     'default_value' => NULL,
     'deleted' => 0,
     'description' => '',
     'display' => array(
       'default' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'ting_reference',
         'settings' => array(
           'view_mode' => 'teaser',
@@ -583,7 +583,7 @@ function ding_event_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'fences_wrapper' => 'div',
-    'field_name' => 'field_ding_event_materials',
+    'field_name' => 'field_ding_event_material',
     'label' => 'Materials',
     'required' => 0,
     'settings' => array(

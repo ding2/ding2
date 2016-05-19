@@ -24,7 +24,6 @@ function ding_event_field_group_info() {
     'weight' => '6',
     'children' => array(
       0 => 'field_ding_event_files',
-      1 => 'field_ding_event_materials',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -172,7 +171,7 @@ function ding_event_field_group_info() {
     'label' => 'Ting',
     'weight' => '6',
     'children' => array(
-      0 => 'field_ding_event_materials',
+      0 => 'field_ding_event_material',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
