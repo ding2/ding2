@@ -87,16 +87,8 @@ function ting_reference_field_is_empty($item, $field) {
     $empty = FALSE;
   }
 
-  $columns = array_keys($field['columns']);
-  // Headline can be empty even if all other fields aren't.
-  if (!empty($columns['headline'])) {
-    unset($columns['headline']);
-  }
-
-  foreach ($columns as $column) {
-    if (!empty($item['search'][$column])) {
-      $empty = FALSE;
-    }
+  if (!empty($item['search']['query'])) {
+    $empty = FALSE;
   }
 
   return $empty;
@@ -116,7 +108,6 @@ function ting_reference_field_insert($entity_type, $entity, $field, $instance, $
   // Save ting materials to ting_reference table.
   ting_reference_set_relation($entity_id, $settings['materials']);
 
-  // Clear cache if some search fields are changed.
   $items = array(
     array(
       'headline' => $settings['headline'],
@@ -143,16 +134,21 @@ function ting_reference_field_update($entity_type, $entity, $field, $instance, $
     // Save ting materials to ting_reference table.
     ting_reference_set_relation($entity_id, $settings['materials']);
 
-    // Clear cache if some search fields are changed.
-    $result = ting_reference_get_search_references($entity_id);
+    $result = ting_reference_get_search_references($field, $entity_id);
+    $clear_cache = FALSE;
     if (!empty($settings['search'])) {
       foreach ($settings['search'] as $key => $value) {
-        if ($value != $result['field_ting_reference_' . $key]) {
-          $cid = ting_reference_generate_cache_id($result);
-          cache_clear_all($cid, 'cache');
+        if ($value != $result[$field['field_name'] . '_' . $key]) {
+          $clear_cache = TRUE;
           break;
         }
       }
+    }
+
+    // Clear cache if some search fields are changed.
+    if ($clear_cache) {
+      $cid = ting_reference_generate_cache_id($result);
+      cache_clear_all($cid, 'cache');
     }
 
     // Presave fields settings on node update.
@@ -362,7 +358,7 @@ function ting_reference_field_widget_form(&$form, &$form_state, $field, $instanc
         '#type' => 'fieldset',
         '#title' => t('Materials'),
         '#prefix' => '<div id="ting-materials-wrapper">',
-        '#suffix' => '</div>'
+        '#suffix' => '</div>',
       );
 
       if (empty($form_state['materials_count'])) {
@@ -442,8 +438,11 @@ function ting_reference_field_widget_form(&$form, &$form_state, $field, $instanc
 function ting_reference_object_id_validate($element, &$form_state, $form) {
   // Get the value entered in ting_object_id (the visible element).
   $parents = $element['#parents'];
+  end($parents);
+  $lastKey = key($parents);
+  $parents[$lastKey] = 'materials';
 
-  $materials = $form_state['values'][$parents[0]][$parents[1]][$parents[2]]['materials'];
+  $materials = drupal_array_get_nested_value($form_state['values'], $parents);
 
   // Don't bother validating empty fields.
   if (!empty($materials)) {
@@ -454,8 +453,9 @@ function ting_reference_object_id_validate($element, &$form_state, $form) {
         // both ends of the input string.
         $ting_object_id = trim(str_replace('%3A', ':', $material['ting_object_id']));
 
-        // Load the object to validate it exists.
+        // Load the object to validate if exists.
         // Loading it should make it available for use with ting_get_object().
+        // Using on the validation step will make sure that ting object is available.
         $ting_entity = ting_object_load($ting_object_id);
 
         if ($ting_entity) {
@@ -463,7 +463,7 @@ function ting_reference_object_id_validate($element, &$form_state, $form) {
           form_set_value($element, $ting_entity->tid, $form_state);
         }
         else {
-          form_set_error(implode('][', $element['#parents']), t('Object “%identifier” could not be found.', array('%identifier' => $ting_object_id)));
+          form_set_error(implode('][', $parents), t('Object “%identifier” could not be found.', array('%identifier' => $ting_object_id)));
         }
       }
     }

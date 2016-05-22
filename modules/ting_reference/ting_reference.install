@@ -23,7 +23,7 @@ function ting_reference_schema() {
       ),
     ),
     'unique keys' => array(
-      'nid_tid' => array('nid', 'ting_object_id'),
+      'uk_nid_tid' => array('nid', 'ting_object_id'),
     ),
   );
 

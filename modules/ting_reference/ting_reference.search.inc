@@ -33,18 +33,18 @@ function ting_reference_set_relation($nid, $tids) {
  * @param string $field
  *   Name of the ting reference field related to entity.
  *
- * @param array $entity_ids
- *   Array of the entity info ids.
+ * @param array $entity_id
+ *   Unique Id of the entity(node) related to field.
  *
  * @return array
  *   With loaded relation entities.
  */
-function ting_reference_get_search_references($entity_id) {
+function ting_reference_get_search_references($field, $entity_id) {
   $result = array();
   if (!empty($entity_id)) {
     // For some unknown reason EntityFieldQuery fails and loads both endpoint
     // types, resulting in false relations. So we are forced to use a db_select.
-    $result = db_select('field_data_field_ting_reference', 'material')
+    $result = db_select('field_data_' . $field['field_name'], 'material')
       ->fields('material')
       ->condition('entity_id', $entity_id)
       ->execute()
@@ -66,6 +66,7 @@ function ting_reference_get_relation($nid) {
     ->fields('tr', array('ting_object_id'))
     ->condition('nid', $nid)
     ->execute();
+
   foreach ($results as $result) {
     $tids[] = $result->ting_object_id;
   }
