@@ -116,12 +116,44 @@ function fbs_reservation_create($account, $record_id, $options) {
   $reservation->pickupBranch = $options['preferred_branch'];
   $batch->reservations[] = $reservation;
 
-  $result = fbs_service()->Reservations->addReservationsDeprecated(fbs_service()->agencyId, fbs_patron_id($account), $batch);
-  $res_details = reset($result);
-  return array(
-    'branch' => $res_details->pickupBranch,
-    'queue_number' => $res_details->numberInQueue,
-  );
+  /** @var \FBS\Model\ReservationResponse $response */
+  $response = fbs_service()->Reservations->addReservations(fbs_service()->agencyId, fbs_patron_id($account), $batch);
+
+  /** @var \FBS\Model\ReservationResult $result */
+  $result = current($response->reservationResults);
+
+  if ($response->success) {
+    /** @var \FBS\Model\ReservationDetails $res_details */
+    $res_details = $result->reservationDetails;
+    return array(
+      'branch' => $res_details->pickupBranch,
+      'queue_number' => $res_details->numberInQueue,
+    );
+  }
+  else {
+    switch ($result->result) {
+      case 'already_reserved':
+        throw new DingProviderReservationExists();
+
+      case 'patron_is_blocked':
+      case 'loaning_profile_not_found':
+      case 'patron_not_found':
+        throw new DingProviderReservationNotAllowed();
+
+      case 'material_not_loanable':
+      case 'material_not_reservable':
+      case 'material_lost':
+      case 'material_not_found':
+      case 'material_part_of_collection':
+        throw new DingProviderReservationNotAvailable();
+
+        // Success shouldn't happen.
+      case 'success':
+      default:
+        watchdog('fbs', 'Unexpected state "@state" on failed reservaiton', array('@state' => $result->result), WATCHDOG_WARNING);
+        throw new DingProviderUserException('Unknown error from library system while attempting to reserve.');
+    };
+  }
 }
 
 /**
