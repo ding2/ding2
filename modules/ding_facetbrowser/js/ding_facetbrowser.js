@@ -7,7 +7,7 @@
 Drupal.behaviors.ding_facetbrowser = {
   attach: function(context, settings) {
     // Fold facet groups as default.
-    ding_facetbrowser_fold_facet_group();
+    ding_facetbrowser_fold_facet_group(context);
 
     // Select the facet browser(s) HTML element.
     var facet_browsers = $(Drupal.settings.ding_facetbrowser.selector);
@@ -83,9 +83,9 @@ Drupal.behaviors.ding_facetbrowser = {
 /**
  * Fold facet groups to show only x unselected checkboxes per group.
  */
-function ding_facetbrowser_fold_facet_group() {
-  // Select the facet browser HTML element.
-  var facet_browser = $(Drupal.settings.ding_facetbrowser.selector);
+function ding_facetbrowser_fold_facet_group(context) {
+  // Select the fact browser HTML element.
+  var fact_browser = $(Drupal.settings.ding_facetbrowser.selector, context);
 
   // Add show more button to each facet group and hide some terms.
   facet_browser.find('fieldset.form-wrapper').each(function() {
