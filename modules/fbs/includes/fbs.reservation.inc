@@ -147,7 +147,7 @@ function fbs_reservation_create($account, $record_id, $options) {
       case 'material_part_of_collection':
         throw new DingProviderReservationNotAvailable();
 
-        // Success shouldn't happen.
+      // Success shouldn't happen.
       case 'success':
       default:
         watchdog('fbs', 'Unexpected state "@state" on failed reservaiton', array('@state' => $result->result), WATCHDOG_WARNING);
