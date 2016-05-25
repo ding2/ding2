@@ -36,6 +36,7 @@ function ding_ipe_filter_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => 2,
   );
+
   return $items;
 }
 
@@ -133,7 +134,7 @@ function _ding_ipe_filter_add_pane_buttons($variables = array()) {
     }
   }
 
-  $buttons = '<div id="ipe-add-' . $region_id . '" class="panels-ipe-newblock ipe-popup">' . theme('item_list', array('items' => $buttons)) . '</div>';
+  $buttons = '<div id="ipe-add-' . $region_id . '" class="panels-ipe-newblock ipe-popup hide">' . theme('item_list', array('items' => $buttons)) . '</div>';
 
   if (!$assets_loaded) {
     $path = drupal_get_path('module', 'ding_ipe_filter');
