@@ -889,25 +889,25 @@ function ding_list_installer_default_page_manager_pages() {
     $display->content['new-e1195ffb-63fb-4b67-9ee9-6d20d0c0ead0'] = $pane;
     $display->panels['main_content'][1] = 'new-e1195ffb-63fb-4b67-9ee9-6d20d0c0ead0';
     $pane = new stdClass();
-    $pane->pid = 'new-1bb43a37-2dd8-41d8-b920-5c6a2e41765d';
-    $pane->panel = 'main_content';
-    $pane->type = 'list_view';
-    $pane->subtype = 'list_view';
-    $pane->shown = FALSE;
-    $pane->access = array();
-    $pane->configuration = array();
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 2;
-    $pane->locks = array();
-    $pane->uuid = '1bb43a37-2dd8-41d8-b920-5c6a2e41765d';
-    $display->content['new-1bb43a37-2dd8-41d8-b920-5c6a2e41765d'] = $pane;
-    $display->panels['main_content'][2] = 'new-1bb43a37-2dd8-41d8-b920-5c6a2e41765d';
-    $pane = new stdClass();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     $pane->pid = 'new-f0e76ffa-abea-407f-a468-692229c54e81';
     $pane->panel = 'main_content';
     $pane->type = 'add_list';
@@ -921,11 +921,12 @@ function ding_list_installer_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 3;
+
+    $pane->position = 2;
     $pane->locks = array();
     $pane->uuid = 'f0e76ffa-abea-407f-a468-692229c54e81';
     $display->content['new-f0e76ffa-abea-407f-a468-692229c54e81'] = $pane;
-    $display->panels['main_content'][3] = 'new-f0e76ffa-abea-407f-a468-692229c54e81';
+    $display->panels['main_content'][2] = 'new-f0e76ffa-abea-407f-a468-692229c54e81';
     $pane = new stdClass();
     $pane->pid = 'new-be8eb5bc-a163-4123-97a3-7df269deff17';
     $pane->panel = 'main_content';
@@ -948,11 +949,12 @@ function ding_list_installer_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 4;
+
+    $pane->position = 3;
     $pane->locks = array();
     $pane->uuid = 'be8eb5bc-a163-4123-97a3-7df269deff17';
     $display->content['new-be8eb5bc-a163-4123-97a3-7df269deff17'] = $pane;
-    $display->panels['main_content'][4] = 'new-be8eb5bc-a163-4123-97a3-7df269deff17';
+    $display->panels['main_content'][3] = 'new-be8eb5bc-a163-4123-97a3-7df269deff17';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = 'new-aea07c96-ad88-4e14-80a7-23264747e203';
   $handler->conf['display'] = $display;

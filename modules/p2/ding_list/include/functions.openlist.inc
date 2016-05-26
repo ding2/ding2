@@ -70,7 +70,7 @@ function ding_list_create_map($type, $property, array $ids) {
  *   no new lists or elements ot sync.
  */
 function ding_list_sync_openlist($account = NULL) {
-  if (!module_exists('ting_openlist')) {
+  if (!ding_provider_implements('openlist', 'user_identifier')) {
     return FALSE;
   }
 
@@ -84,8 +84,9 @@ function ding_list_sync_openlist($account = NULL) {
 
   // Fetch the modified lists and elements.
   try {
-    $openlist_lists = ding_provider_invoke('openlist', 'request', 'getLists', array(ting_openlist_user_identifier($account), $from));
-    $openlist_elements = ding_provider_invoke('openlist', 'request', 'getUserElements', array(ting_openlist_user_identifier($account), $from));
+    $id = ding_provider_invoke('openlist', 'user_identifier', $account);
+    $openlist_lists = ding_provider_invoke('openlist', 'get_lists', $id, $from);
+    $openlist_elements = ding_provider_invoke('openlist', 'get_user_elements', $id, $from);
   }
   catch (Exception $e) {
     return FALSE;

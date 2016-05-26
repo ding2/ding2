@@ -23,12 +23,10 @@ function ding_list_set_order_callback($list_id) {
   $list = ding_list_get_list($list_id);
 
   $item = entity_load_single('ding_type', $_POST['item']);
-  $previous = FALSE;
   $previous = entity_load_single('ding_type', $_POST['previous']);
   ding_list_set_element_position($list, $item, $previous);
 
   $html = t('List changed');
-  $status = array('status' => TRUE);
   $commands = array();
 
   $commands[] = ajax_command_changed('#' . $context['html_id'], $html);

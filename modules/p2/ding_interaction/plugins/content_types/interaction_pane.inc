@@ -23,8 +23,8 @@ $plugin = array(
  */
 function ding_interaction_admin_info($subtype, $conf, $context) {
   $output = new stdClass();
-  $output->title = t('Serendipity inspiration list');
-  $output->content = t('Serendipity content. Page view interval: @count', array('@count' => $conf['count'])) . '<br/>';
+  $output->title = t('Interaction');
+  $output->content = t('Interaction count: @count', array('@count' => $conf['count'])) . '<br/>';
   return $output;
 }
 
@@ -78,7 +78,7 @@ function ding_interaction_content_type_edit_form($form, &$form_state) {
   $form['count'] = array(
     '#type' => 'textfield',
     '#title' => t('Count'),
-    '#default_value' => (isset($form_state['conf']['count'])) ? $form_state['conf']['count'] : '5',
+    '#default_value' => (isset($form_state['conf']['count'])) ? $form_state['conf']['count'] : DING_INTERACTION_DEFAULT_COUNT,
     '#description' => t('How many page views should there be between showing this pane.'),
   );
 
@@ -96,5 +96,5 @@ function ding_interaction_content_type_edit_form_validate($form, &$form_state) {
  * Implements hook_content_type_edit_form_submit().
  */
 function ding_interaction_content_type_edit_form_submit($form, &$form_state) {
-  $form_state['conf']['count'] = !empty($form_state['values']['count']) ? $form_state['values']['count'] : '5';
+  $form_state['conf']['count'] = !empty($form_state['values']['count']) ? $form_state['values']['count'] : DING_INTERACTION_DEFAULT_COUNT;
 }

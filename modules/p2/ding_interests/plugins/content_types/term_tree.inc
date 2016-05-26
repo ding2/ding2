@@ -9,7 +9,6 @@ $plugin = array(
   'title' => t('Ding interests: Term tree'),
   'description' => '',
   'single' => TRUE,
-  // 'content_types' => array('list'),
   'content_types' => array('taxonomy_term'),
   'required context' => new ctools_context_required(t('Term'), 'taxonomy_term'),
   'category' => t('Ding!'),

@@ -24,10 +24,7 @@ function ding_interests_term_ting_objects_content_type_render($subtype, $conf, $
   $block = new stdClass();
 
   // TODO This code is duplicated throughout the codebase. Please refactor. @MSD
-  $search_string = ding_base_get_value('taxonomy_term', $term, 'field_search_string');
-  if ($search_string === FALSE) {
-    $search_string = 'facet.subject=' . $term->name . '';
-  }
+  $search_string = ding_interest_get_term_cql($term);
 
   $options = array(
     'limit' => 10,
@@ -40,28 +37,16 @@ function ding_interests_term_ting_objects_content_type_render($subtype, $conf, $
   }
 
   $ids = array();
-  $type = 'ting_object';
   foreach ($results as $item) {
     $ids[] = $item['id'];
   }
-
-  if ($type == 'ting_object') {
-    $conditions['ding_entity_id'] = $ids;
-    $ids = FALSE;
-  }
-  $objects = entity_load($type, $ids, $conditions);
+  $objects = entity_load('ting_object', FALSE, array('ding_entityid' => $ids));
 
   $buffer = array();
   foreach ($objects as $key => $object) {
     $content = ting_object_view($object, 'compact');
     $content['#weight'] = $key;
-    // $output['content'][] = $item;
     $buffer[] = $content;
-  }
-
-  $search_string = ding_base_get_value('taxonomy_term', $term, 'field_search_string');
-  if ($search_string === FALSE) {
-    $search_string = 'facet.subject=' . $term->name . '';
   }
 
   $block->content = theme('ting_carousel', array(

@@ -45,9 +45,7 @@ function alma_user_consent_add($account, $consent) {
       if (isset($patron->category)) {
         // Changes mapped from the category structure in Axiell.
         $new_category = alma_user_consent_get_category_change($consent);
-        // Alma do not return a status.
-        $res = alma_client_invoke('add_user_consent', $creds['name'], $creds['pass'], $new_category);
-        return ($res == 'ok');
+        return alma_client_invoke('add_user_consent', $creds['name'], $creds['pass'], $new_category);
       }
       break;
   }
@@ -73,9 +71,7 @@ function alma_user_consent_remove($account, $consent) {
       if (isset($patron->category)) {
         // Changes mapped from the category structure in Axiell.
         $new_category = alma_user_consent_get_category_change($consent);
-        // Alma do not return a status.
-        $res = alma_client_invoke('remove_user_consent', $creds['name'], $creds['pass'], $new_category);
-        return ($res == 'ok');
+        return alma_client_invoke('remove_user_consent', $creds['name'], $creds['pass'], $new_category);
       }
       break;
   }

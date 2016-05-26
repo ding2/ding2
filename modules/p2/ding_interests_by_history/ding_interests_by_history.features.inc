@@ -20,13 +20,3 @@ function ding_interests_by_history_ctools_plugin_api() {
     return array("version" => "1");
   }
 }
-
-/**
- * Implements hook_views_api().
- */
-function ding_interests_by_history_views_api() {
-  return array(
-    'api' => 3,
-    'path' => drupal_get_path('module', 'ding_interests_by_history') . '/views',
-  );
-}

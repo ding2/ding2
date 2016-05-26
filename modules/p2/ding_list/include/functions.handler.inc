@@ -82,8 +82,8 @@ function ding_list_get_lists($list_type = NULL, $account = NULL, $range = array(
 
   if (user_is_logged_in()) {
     $id = $account->uid;
-    if (module_exists('ting_openlist')) {
-      $id = ting_openlist_user_identifier($account);
+    if (ding_provider_implements('openlist', 'user_identifier')) {
+      $id = ding_provider_invoke('openlist', 'user_identifier', $account);
     }
 
     $query->join('field_data_field_ding_list_user', 'fdlu', 'fdlu.entity_id = fdlp.field_ding_list_permissions_target_id');
@@ -156,10 +156,11 @@ function ding_list_create_ding_list_element(&$list, $type, array $values, $accou
     $element->{'field_' . $key}[LANGUAGE_NONE][] = array('value' => $value);
   }
 
-  if (module_exists('ting_openlist') && $openlist_id === FALSE) {
+  // TODO I suggest replacing module_exists with ding_provider_implements.
+  if (ding_provider_implements('openlist', 'create_element') && $openlist_id === FALSE) {
     try {
       $openlist_data = $values + array('type' => $type);
-      $openlist_id = ding_provider_invoke('openlist', 'request', 'createElement', array($list->openlist_id, $openlist_data));
+      $openlist_id = ding_provider_invoke('openlist', 'create_element', $list->openlist_id, $openlist_data);
     }
     catch (Exception $e) {
       watchdog_exception('ding_list', $e);
@@ -228,14 +229,17 @@ function ding_list_create_ding_list($title, $type = DING_LIST_TYPE_USER_LIST, $a
 
   ding_list_handle_fields_in_list($list, $fields);
 
-  if (module_exists('ting_openlist') && $openlist_id === NULL) {
+  if ($openlist_id === NULL && ding_provider_implements('openlist', 'user_identifier')
+      && ding_provider_implements('openlist', 'create_list')) {
     try {
-      $openlist_id = ding_provider_invoke('openlist', 'request', 'createList', array(
-        ting_openlist_user_identifier($account),
+      $openlist_id = ding_provider_invoke(
+        'openlist',
+        'create_list', 
+        ding_provider_invoke('openlist', 'user_identifier', $account),
         $title,
         $type,
-        array('more' => $more, 'fields' => $fields),
-      ));
+        array('more' => $more, 'fields' => $fields)
+      );
     }
     catch (Exception $e) {
       return FALSE;
@@ -317,18 +321,20 @@ function ding_list_edit_ding_list(&$list, $title, $more = NULL, $tell_openlist =
 
   ding_list_handle_fields_in_list($list, $fields);
 
-  if (module_exists('ting_openlist') && $tell_openlist === TRUE && $list->openlist_id > 0) {
+  if (ding_provider_implements('openlist', 'edit_list') && $tell_openlist === TRUE && $list->openlist_id > 0) {
     // Remove site specific values before sending to list.
     unset($fields['field_ding_list_permissions']);
     try {
-      ding_provider_invoke('openlist', 'request', 'editList', array(
-          $list->openlist_id,
-          $list->title,
-          array(
-            'more' => $list->more,
-            'fields' => $fields,
-          ),
-        ));
+      ding_provider_invoke(
+        'openlist',
+        'edit_list',
+        $list->openlist_id,
+        $list->title,
+        array(
+          'more' => $list->more,
+          'fields' => $fields,
+        )
+      );
     }
     catch (Exception $e) {
       drupal_set_message(t("An error occurred while changing your list. Please contact the administrator if this problem persists."), 'error');
@@ -383,7 +389,7 @@ function ding_list_detach_ding_list_element(&$list, $element_ids = array(), $sav
     }
   }
 
-  if (module_exists('ting_openlist') && $tell_openlist === TRUE) {
+  if (ding_provider_implements('openlist', 'delete_element') && $tell_openlist === TRUE) {
     $query = db_select('eck_ding_type', 'e');
     $result = $query->fields('e', array('openlist_id'))
       ->condition('id', $element_ids)
@@ -393,7 +399,7 @@ function ding_list_detach_ding_list_element(&$list, $element_ids = array(), $sav
 
     if (!empty($openlist_ids)) {
       try {
-        ding_provider_invoke('openlist', 'request', 'deleteElement', array($openlist_ids));
+        ding_provider_invoke('openlist', 'delete_element', $openlist_ids);
       }
       catch (Exception $e) {
         drupal_set_message(t("An error occurred while deleting your element. Please contact the administrator if this problem persists."), 'error');
@@ -429,7 +435,6 @@ function ding_list_detach_ding_list_element(&$list, $element_ids = array(), $sav
  *   TRUE or FALSE depending on if the list was deleted or not.
  */
 function ding_list_delete_list($list, $tell_openlist = TRUE) {
-  // Open a transaction, so we can rollback if ting_openlist fails.
   $transaction = db_transaction();
 
   // Auto load the ding_list if $list is a number.
@@ -449,9 +454,10 @@ function ding_list_delete_list($list, $tell_openlist = TRUE) {
     ding_list_detach_ding_list_element($list, $keys, TRUE, $tell_openlist);
   }
 
-  if (module_exists('ting_openlist') && $tell_openlist === TRUE && $list->openlist_id > 0) {
+  // TODO I suggest replacing module_exists with ding_provider_implements.
+  if (ding_provider_implements('openlist', 'delete_list') && $tell_openlist === TRUE && $list->openlist_id > 0) {
     try {
-      ding_provider_invoke('openlist', 'request', 'deleteList', array($list->openlist_id));
+      ding_provider_invoke('openlist', 'delete_list', $list->openlist_id);
     }
     catch (Exception $e) {
       $transaction->rollback();
@@ -583,10 +589,11 @@ function ding_list_edit_ding_list_element(&$element, $type = NULL, array $values
     $element->{'field_' . $key}[LANGUAGE_NONE] = array(array('value' => $value));
   }
 
-  if (module_exists('ting_openlist') && $tell_openlist === TRUE && $element->openlist_id > 0) {
+  // TODO I suggest replacing module_exists with ding_provider_implements.
+  if (ding_provider_implements('openlist', 'edit_element') && $tell_openlist === TRUE && $element->openlist_id > 0) {
     try {
       $openlist_data = $values + array('type' => $type);
-      ding_provider_invoke('openlist', 'request', 'editElement', array($element->openlist_id, $openlist_data));
+      ding_provider_invoke('openlist', 'edit_element', $element->openlist_id, $openlist_data);
     }
     catch (Exception $e) {
       drupal_set_message(t("An error occurred while editing your element. Please contact the administrator if this problem persists."), 'error');

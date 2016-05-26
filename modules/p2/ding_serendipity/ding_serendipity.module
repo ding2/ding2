@@ -67,6 +67,8 @@ function ding_serendipity_menu() {
   );
   
   // Returns AJAX commands if the user has JavaScript turned on.
+  // TODO: Would it be possible to replace our custom code for implementing this
+  // with lazy_pane once that is in place?
   $items['ding/serendipity/ajax'] = array(
     'title' => 'Refresh serendipity content ajax callback',
     'page callback' => 'ding_serendipity_ajax_callback',
@@ -232,7 +234,7 @@ function ding_serendipity_fetch(array $context = NULL) {
     }
     $cache_id = "ding_serendipity" . implode(':', $cache_id);
 
-    $cache = cache_get($cache_id, 'cache_variable');
+    $cache = cache_get($cache_id);
     if (!empty($cache) && REQUEST_TIME < $cache->expire) {
       $cache->data['cache'] = REQUEST_TIME . ':' . $cache->expire . '<br/>';
       return $cache->data;
@@ -319,7 +321,6 @@ function ding_serendipity_fetch(array $context = NULL) {
           // If the callback could not be found commit a watchdog warning.
           $path = drupal_get_path('module', $values['module']);
           watchdog('ding_serendipity', "Serendipity can't find function: @func", array('@func' => $values['callback']), WATCHDOG_WARNING, $path);
-          drupal_set_message(t("Serendipity can't find function: @func", array('@func' => $values['callback'])), 'error');
         }
       }
       
@@ -353,7 +354,7 @@ function ding_serendipity_fetch(array $context = NULL) {
   // Skip caching of partial results.
   if (!$is_slow && variable_get('ding_serendipity_enable_cache', FALSE)) {
     $expire = variable_get('ding_serendipity_cache_lifetime', 600);
-    cache_set($cache_id, $results, 'cache_variable', REQUEST_TIME + $expire);
+    cache_set($cache_id, $results, 'cache', REQUEST_TIME + $expire);
   }
 
   return $results;
@@ -790,10 +791,10 @@ function ding_serendipity_ding_serendipity_results_alter(&$results) {
  */
 function ding_serendipity_get_default_admin_info($subtype, $conf, $context) {
   $output = new stdClass();
-  $output->title = t('Serendipity inspiration list');
+  $output->title = t('Serendipity inspiration list (@subtype)', array('@subtype' => $subtype));
   $output->content = t('Serendipity content. View mode: @view_mode', array('@view_mode' => $conf['view_mode'])) . '<br/>';
-  $output->content .= t('Serendipity keys: @keys', array('@keys' => $conf['selected_keys'])) . '<br/>';
-  $output->content .= t('Sort by weight: @sort_weight', array('@sort_weight' => $conf['sort_weight'])) . '<br/>';
+  $output->content .= t('Serendipity keys: @keys', array('@keys' => implode(', ', $conf['selected_keys']))) . '<br/>';
+  $output->content .= t('Sort by weight: @sort_weight', array('@sort_weight' => ($conf['sort_weight'] ? t('Yes') : t('No')))) . '<br/>';
   $output->content .= t('Maximum items: @max', array('@max' => $conf['max'])) . '<br/>';
   $output->content .= t('Minimum items: @min', array('@min' => $conf['min'])) . '<br/>';
   $output->content .= t('Sort random: @random', array('@random' => $conf['random'])) . '<br/>';

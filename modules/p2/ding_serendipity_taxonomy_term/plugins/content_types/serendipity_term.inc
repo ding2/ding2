@@ -27,7 +27,7 @@ function ding_serendipity_term_admin_info($subtype, $conf, $context) {
 /**
  * Implements hook_content_type_edit_form().
  */
-function ding_stt_serendipity_term_content_type_edit_form($form, &$form_state) {
+function ding_serendipity_term_content_type_edit_form($form, &$form_state) {
   module_load_include('inc', 'ding_serendipity', 'plugins/content_types/serendipity');
   $base = ding_serendipity_form_base($form_state);
   $form += $base;
@@ -53,6 +53,11 @@ function ding_stt_serendipity_term_content_type_edit_form($form, &$form_state) {
     '#options' => $node_options,
     '#default_value' => (isset($form_state['conf']['bundle'])) ? $form_state['conf']['bundle'] : 'ding_event',
     '#description' => t('Select a node type if node is selected above.'),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="entity_type"]' => array('value' => 'node'),
+      )
+    )
   );
   return $form;
 }

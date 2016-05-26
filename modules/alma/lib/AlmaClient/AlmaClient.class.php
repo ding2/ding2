@@ -443,7 +443,7 @@ class AlmaClient {
       $res_status = $doc->getElementsByTagName('status')->item(0)->getAttribute('value');
       // Return error code when patron is blocked.
       if ($res_status != 'ok') {
-        return ALMA_AUTH_BLOCKED;
+        return FALSE;
       }
 
       // General catchall if status is not okay is to report failure.
@@ -455,7 +455,7 @@ class AlmaClient {
       return FALSE;
     }
 
-    return $res_status;
+    return TRUE;
   }
 
   /**
@@ -475,7 +475,7 @@ class AlmaClient {
       $res_status = $doc->getElementsByTagName('status')->item(0)->getAttribute('value');
       // Return error code when patron is blocked.
       if ($res_status != 'ok') {
-        return ALMA_AUTH_BLOCKED;
+        return FALSE;
       }
 
       // General catch all if status is not okay is to report failure.
@@ -487,7 +487,7 @@ class AlmaClient {
       return FALSE;
     }
 
-    return $res_status;
+    return TRUE;
   }
 
   /**

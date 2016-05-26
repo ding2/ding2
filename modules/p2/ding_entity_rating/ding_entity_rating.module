@@ -32,13 +32,13 @@ function ding_entity_rating_menu() {
     'title' => 'Ding entity rating add to list',
     'page callback' => 'ding_entity_rating_add_to_list_callback',
     'page arguments' => array(1, 2, 3, 4),
-    'access arguments' => array('use personalisation'),
+    'access arguments' => array(3),
+    'access callback' => 'ding_entity_rating_access',
   );
   
   $items['ding_entity_rating/get'] = array(
     'title' => 'Ding entity get rating',
     'page callback' => 'ding_entity_rating_get_user_rating_callback',
-    // 'page arguments' => array(2),
     'access arguments' => array('use personalisation'),
   );
 
@@ -57,6 +57,11 @@ function ding_entity_rating_get_user_rating_callback() {
   
   echo drupal_json_encode($ratings);
   drupal_exit();
+}
+
+function ding_entity_rating_access($account) {
+  global $user;
+  return $user->uid == $account->uid && user_access('use personalisation');
 }
 
 /**
@@ -272,11 +277,7 @@ function template_preprocess_ding_entity_rating_display(&$variables) {
   $module_path = drupal_get_path('module', 'ding_entity_rating');
   drupal_add_css($module_path . '/css/ding_entity_rating.css');
   drupal_add_js($module_path . '/js/ding_entity_rating.js');
-
-  $variables['rating'] = FALSE;
   
-  // If the user hasn't rated and this isn't the rating list itself, enable
-  // rating.
   $variables['classes_array'][] = 'ding-entity-rating';
 
   if (user_access('use personalisation')) {
@@ -285,12 +286,8 @@ function template_preprocess_ding_entity_rating_display(&$variables) {
 
   $variables['path'] = $entity->ding_entity_id . '/' . $user->uid;
 
-  $variables['avg'] = 0;
-  // If the user has not rated the entity then display an average.
-  if ($variables['rating'] === FALSE) {
-    $variables['avg'] = ding_entity_rating_get_average($entity);
-    $variables['rating'] = ($variables['avg']) ? round($variables['avg']) : -1;
-  }
+  $variables['avg'] = ding_entity_rating_get_average($entity);
+  $variables['rating'] = ($variables['avg']) ? round($variables['avg']) : -1;
 }
 
 /**
@@ -342,17 +339,6 @@ function ding_entity_rating_build_theme_list($rating) {
   }
   
   return $output;
-}
-
-/**
- * Check if the current path is a rating list path.
- *
- * @return bool
- *   TRUE if this is a rating list and FALSE if not.
- */
-function ding_entity_rating_is_rating_list() {
-  $list = ding_list_get_list(DING_ENTITY_RATING_LIST);
-  return arg(0) == 'list' && arg(1) == $list->id;
 }
 
 /**

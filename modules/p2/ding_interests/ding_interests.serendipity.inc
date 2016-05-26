@@ -46,21 +46,14 @@ function ding_interests_materials_serendipity_add(array $context) {
   $results = array();
   // Fetch followed terms.
   if (!isset($context['interest'])) {
-    $term = ding_interests_get_random_interest_term(DING_INTERESTS_LIST);
+    $term = ding_interests_get_random_list_item(DING_INTERESTS_LIST);
   }
   else {
     $term = taxonomy_term_load($context['interest']);
   }
 
   if (!empty($term)) {
-    if (!empty($term->field_search_string)) {
-      $query = $term->field_search_string[field_language('taxonomy_term', $term, 'field_search_string')][0]['value'];
-    }
-    else {
-      $query = "facet.subject=\"$term->name\"";
-    };
-
-    $query = ding_list_convert_cql($query);
+    $query = ding_list_convert_cql(ding_interest_get_term_cql($terms));
 
     // Fetch search results.
     $options = array(
@@ -92,7 +85,7 @@ function ding_interests_materials_serendipity_add(array $context) {
 function ding_interests_nodes_by_bundle_serendipity_add($context) {
   $results = array();
   // Fetch followed terms.
-  $term = ding_interests_get_random_interest_term('interests');
+  $term = ding_interests_get_random_list_item('interests');
   if (!empty($term)) {
     // We could do this using EntityFieldQuery, but every tag field
     // has a different name for each bundle, so this approach is simpler.

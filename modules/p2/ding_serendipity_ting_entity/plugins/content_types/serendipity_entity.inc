@@ -66,11 +66,7 @@ function ding_serendipity_ting_entity_serendipity_entity_content_type_edit_form(
  * Implements hook_content_type_edit_form_submit().
  */
 function ding_serendipity_ting_entity_serendipity_entity_content_type_edit_form_submit($form, &$form_state) {
-  $form_state['conf']['view_mode'] = isset($form_state['values']['view_mode']) ? $form_state['values']['view_mode'] : 'big_teaser';
-  $form_state['conf']['sort_weight'] = isset($form_state['values']['sort_weight']) ? $form_state['values']['sort_weight'] : FALSE;
-  $form_state['conf']['max'] = isset($form_state['values']['max']) ? $form_state['values']['max'] : 3;
-  $form_state['conf']['min'] = isset($form_state['values']['min']) ? $form_state['values']['min'] : 3;
-  $form_state['conf']['random'] = isset($form_state['values']['random']) ? $form_state['values']['random'] : FALSE;
+  ding_serendipity_form_base_submit($form_state);
   $form_state['conf']['entity_type'] = $form_state['values']['entity_type'];
   $form_state['conf']['bundle'] = ($form_state['conf']['entity_type'] == 'ting_object') ? 'ting_object' : '';
   $form_state['conf']['limit'] = $form_state['values']['limit'];
@@ -82,7 +78,6 @@ function ding_serendipity_ting_entity_serendipity_entity_content_type_edit_form_
  */
 function ding_serendipity_ting_entity_type_render($subtype, $conf, $args, $context) {
   if ($conf['entity_type'] == 'node') {
-    // TODO: Why do we use an argument here instead of a context?
     $node = node_load($args[0]);
     $conf['bundle'] = $node->type;
   }

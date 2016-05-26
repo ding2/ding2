@@ -450,7 +450,6 @@ function ding_list_get_element_position(&$list, $element) {
  *   If the move is successful or not.
  */
 function ding_list_set_element_position(&$list, $element, $previous = FALSE, $tell_openlist = TRUE) {
-  // Open a transaction, so we can rollback if ting_openlist.
   $transaction = db_transaction();
 
   if (!$previous) {
@@ -475,10 +474,9 @@ function ding_list_set_element_position(&$list, $element, $previous = FALSE, $te
   }
 
   if ($new_order != $items) {
-
-    if (module_exists('ting_openlist') && $tell_openlist === TRUE) {
+    if (ding_provider_implements('openlist', 'set_element_after') && $tell_openlist === TRUE) {
       try {
-        ding_provider_invoke('openlist', 'request', 'setElementAfter', array($element->openlist_id, $previous->openlist_id));
+        ding_provider_invoke('openlist', 'set_element_after', $element->openlist_id, $previous->openlist_id);
       }
       catch (Exception $e) {
         $transaction->rollback();
@@ -659,8 +657,9 @@ function ding_list_add_permission($list, $permission, $account = NULL) {
       ));
 
       $id = $account->uid;
-      if (module_exists('ting_openlist')) {
-        $id = ting_openlist_user_identifier($account);
+      // TODO I suggest replacing module_exists with ding_provider_implements.
+      if (ding_provider_implements('openlist', 'user_identifier')) {
+        $id = ding_provider_invoke('openlist', 'user_identifier', $account);
       }
       $element->field_ding_list_user[LANGUAGE_NONE] = array(array('value' => $id));
     }
@@ -708,7 +707,7 @@ function ding_list_list_username($list) {
   global $user;
   
   if ($list->uid != $user->uid) {
-    return 'Another loaner';
+    return t('Another loaner');
   }
   
   $owner = user_load($list->uid);
@@ -734,8 +733,8 @@ function ding_list_get_permission($list, $account) {
   $query->condition('fdlps.entity_id', $list->id);
 
   $id = $account->uid;
-  if (module_exists('ting_openlist')) {
-    $id = ting_openlist_user_identifier($account);
+  if (ding_provider_implements('openlist', 'user_identifier')) {
+    $id = ding_provider_invoke('openlist', 'user_identifier', $account);
   }
 
   $query->join('field_data_field_ding_list_user', 'fdlu', 'fdlu.entity_id = edt.id');

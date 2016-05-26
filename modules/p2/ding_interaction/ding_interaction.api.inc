@@ -16,6 +16,9 @@
  *   - "title": The title to display when the interaction pane is display.
  *   - "active": Status of this interaction content.
  *     TRUE if this pane should be displayed, FALSE if not.
+ *   - "more_title": Title of the read more link.
+ *   - "more_url": URL of the read more link.
+ *   - "css_class": Extra css class of the interaction box.
  */
 function hook_ding_interaction_info() {
   return array(

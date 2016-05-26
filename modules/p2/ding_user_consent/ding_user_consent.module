@@ -18,7 +18,7 @@ define('DING_USER_CONSENT_LOAN_HISTORY_STORE', 'loan_history_store');
  */
 function ding_user_consent_ding_provider_user() {
   return array(
-    'user_content' => array(
+    'user_consent' => array(
       'required' => TRUE,
       'install time setup' => TRUE,
     ),
@@ -159,6 +159,8 @@ function ding_user_consent_has_consent($consent_id = NULL, $account = FALSE) {
 /**
  * Attach consent for to profile form.
  */
+// TODO: The following three functions only work for Alma. It should work for
+// all providers.
 function ding_user_consent_form_profile2_edit_provider_alma_form_alter(&$form, &$form_state, $form_id) {
   global $user;
 
@@ -190,12 +192,12 @@ function ding_user_consent_form_profile2_edit_provider_alma_form_alter(&$form, &
           '#default_value' => !empty($consent[$id]) ? $consent[$id] : 0,
         );
         $form['user_consent'][$id]['#description'] = (!empty($values['description'])) ? check_plain($values['description']) : '';
-        if (variable_get($id . '_description_link', '')) {
+        if (variable_get('ding_user_consent_' . $id . '_description_link', '')) {
           $form['user_consent'][$id]['#description'] = format_string(
             $form['user_consent'][$id]['#description'] . ' !br !url',
             array(
               '!br' => '<br/>',
-              '!url' => l(t('Read more'), variable_get($id . '_description_link', '')),
+              '!url' => l(t('Read more'), variable_get('ding_user_consent_' . $id . '_description_link', '')),
             )
           );
         }
@@ -378,8 +380,8 @@ function theme_ding_user_consent_set($variables) {
 
   $consents = ding_provider_invoke('user_consent', 'info');
   foreach ($consents as $id => $values) {
-    $title = check_plain(variable_get($id . '_title', $values['title']));
-    $description = variable_get($id . '_description', $values['description']);
+    $title = check_plain(variable_get('ding_user_consent_' . $id . '_title', $values['title']));
+    $description = variable_get('ding_user_consent_' . $id . '_description', $values['description']);
   }
 
   return '<div class="ding-user-consent-set">' . '<div class="description">' . $description['value'] . '</div>' . '<div class="choice">' . ctools_ajax_text_button(t('No thanks, not interested'), 'ding/consent/nojs/' . $variables['id'] . '/0', t('No'), "transparent-button negative") . ctools_ajax_text_button(t('Yes please, the library can store my previous loans'), 'ding/consent/nojs/' . $variables['id'] . '/1', $title, "transparent-button positive") . '</div>' . '</div>';

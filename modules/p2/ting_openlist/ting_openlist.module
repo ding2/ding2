@@ -52,6 +52,12 @@ function ting_openlist_ding_provider() {
  *
  * This fixes the ding_provider menu, without the need to do any changes
  * to the core module (although the ding_provider module should get fixed)
+ *
+ * TODO Why is this needed? Could we fix this in ding_provider instead?
+ *
+ * TODO-REPLY ding_provider needs to implement the file path option in the
+ *            hook_menu. If file path is not supplied it looks for file in
+ *            the ding_provider folder.
  */
 function ting_openlist_menu_alter(&$items) {
   $items['admin/config/ding/provider/ting_openlist']['file path'] = drupal_get_path('module', 'ting_openlist');

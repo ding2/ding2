@@ -39,11 +39,7 @@ function ding_entity_rating_popular_content_type_render($subtype, $conf, $panel_
 
   $openlist_items = array();
   try {
-    $openlist_items = ding_provider_invoke('openlist', 'request', 'callModule', array(
-      'TingObjectRating',
-      'getPopular',
-      array($month, $libcode, 10),
-    ));
+    $openlist_items = ding_provider_invoke('openlist', 'call_module', 'TingObjectRating', 'getPopular', array($month, $libcode, 10));
   }
   catch (Exception $e) {
     watchdog_exception('ding_entity_rating', $e);

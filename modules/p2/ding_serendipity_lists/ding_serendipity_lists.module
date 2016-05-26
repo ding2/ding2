@@ -33,7 +33,7 @@ function ding_serendipity_lists_form_ding_frontpage_admin_settings_alter(&$form,
 function ding_serendipity_lists_serendipity_info() {
   $items = array();
 
-  if (module_exists('ting_openlist')) {
+  if (ding_provider_implements('openlist', 'call_module')) {
     $items['ting_objects_adhr'] = array(
       'title' => 'Ting objects via openlist ADHR service',
       'description' => 'Call ADHR service on the current object',
@@ -142,11 +142,7 @@ function ding_serendipity_lists_ting_objects_adhr_serendipity_add($context) {
     // Id of the rated item.
     $rid = ding_list_get_list_element_value($item);
     try {
-      $openlist_items = ding_provider_invoke('openlist', 'request', 'callModule', array(
-        'TingObjectRating',
-        'getSuggestion',
-        array($rid),
-      ));
+      $openlist_items = ding_provider_invoke('openlist', 'call_module', 'TingObjectRating', 'getSuggestion', array($rid));
     
       // Only suggest items not already rated by the user.
       foreach ($openlist_items as $openlist_item) {
@@ -208,11 +204,7 @@ function ding_serendipity_lists_ting_objects_adhl_serendipity_add($context) {
     $value = ding_list_convert_cql(ding_list_get_list_element_value($item));
     
     try {
-      $buffer = array_merge($buffer, ding_provider_invoke('openlist', 'request', 'callModule', array(
-        'LoanHistory',
-        'getSuggestion',
-        array($value, ting_openlist_user_identifier(), 4),
-      )));
+      $buffer = array_merge($buffer, ding_provider_invoke('openlist', 'call_module', 'LoanHistory', 'getSuggestion', array($value, ding_provider_invoke('openlist', 'user_identifier', $user), 4)));
     }
     catch (Exception $e) {
       watchdog_exception('ding_serendipity_lists', $e);
@@ -318,6 +310,8 @@ function ding_serendipity_lists_loan_adhl_serendipity_add($context) {
           // @TODO: Later. Create the ting_object id correct instead of hardcoded
           // "870970-basis:", but ding_provider_build_entity_id doesn't
           // work.
+          // TODO Please explain why ding_provider_build_entity_id does not work
+          // Otherwise we have no chance of knowing when this can be refactored,
           $agency = '870970-basis:';
           if (!empty($recommendations)) {
             // Collect ADHL recommendations to results.
@@ -368,13 +362,7 @@ function ding_serendipity_lists_author_from_lists_serendipity_add($context) {
     // the CQL.
     if ($context['frontpage'] !== "1" && isset($context['taxonomy_tid'])) {
       $term = taxonomy_term_load($context['taxonomy_tid']);
-
-      if (!empty($term->field_search_string)) {
-        $terms[] = $term->field_search_string[field_language('taxonomy_term', $term, 'field_search_string')][0]['value'];
-      }
-      else {
-        $terms[] = 'facet.subject="' . $term->name . '"';
-      }
+      $terms[] = ding_interest_get_term_cql($term);
     }
 
     $query = implode(" AND ", $terms);
@@ -452,14 +440,7 @@ function ding_serendipity_lists_followed_terms_ting_objects_serendipity_add($con
     return array();
   }
 
-  if (!empty($term->field_search_string)) {
-    // Use specific CQL from field_search_string.
-    $query = $term->field_search_string[field_language('taxonomy_term', $term, 'field_search_string')][0]['value'];
-  }
-  else {
-    // Fallback to default term search via facet.
-    $query = "facet.subject=\"$term->name\"";
-  }
+  $query = ding_interest_get_term_cql($term);
 
   // Fetch search results.
   $results = ding_serendipity_do_search(

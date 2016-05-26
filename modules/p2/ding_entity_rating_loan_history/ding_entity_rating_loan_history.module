@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Implement ding_interaction plugin to display recent loans for rating.
+ * Handle rating of recent loans.
  */
 
 define('DING_ENTITY_RATING_LOAN_HISTORY_MAX_AMOUNT', 5);
@@ -11,7 +11,7 @@ define('DING_ENTITY_RATING_LOAN_HISTORY_MAX_AMOUNT', 5);
  * Implements hook_ding_interaction_info().
  */
 function ding_entity_rating_loan_history_ding_interaction_info() {
-  $active = (user_is_logged_in() && ding_user_consent_has_consent('loan_history_store'));
+  $active = ding_user_consent_has_consent('loan_history_store');
   $previous_loans = "user";
 
   return array(
@@ -68,14 +68,6 @@ function ding_entity_rating_loan_history_get_suggested_entities($max_count = DIN
     // Newer elements have a higher list id, so we sort the array reversely.
     krsort($list_elements);
 
-    // Extract all ting object ids from the loan history.
-    $object_ids = array();
-
-    // Remove entities which have already been rated.
-    $object_ids = ding_entity_rating_loan_history_filter_by_rated($object_ids);
-   
-    // Fetch recent non rated materials from loan history.
-    $object_ids = array_unique($object_ids);
     foreach ($list_elements as $element) {
       if (count($objects) >= $max_count) {
         break;

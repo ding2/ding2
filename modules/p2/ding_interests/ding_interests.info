@@ -6,8 +6,6 @@ core = 7.x
 
 dependencies[] = ding_content
 dependencies[] = ding_list
-dependencies[] = flag
-dependencies[] = conditional_flags
 dependencies[] = taxonomy
 dependencies[] = ding_serendipity
 dependencies[] = ting_carousel

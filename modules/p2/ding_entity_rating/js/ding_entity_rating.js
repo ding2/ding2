@@ -29,14 +29,14 @@
       }
       this._refresh();
     },
-    
+
     /**
      * Called when created, and later when changing options.
      */
     _refresh: function() {
       this._trigger( "change" );
     },
-    
+
     /**
      * On mouse in.
      */
@@ -47,7 +47,7 @@
       $this.addClass('active');
       $this.prevAll().addClass('active');
     },
-    
+
     /**
      * On mouse out.
      */
@@ -57,7 +57,7 @@
       $this.removeClass('active');
       $this.siblings().removeClass('active');
     },
-    
+
     /**
      * On click.
      *
@@ -86,7 +86,7 @@
         $('.ding-entity-rating-respons', $this.parent()).delay(5000).fadeOut();
       });
     },
-    
+
     /**
      * Events bound via _on are removed automatically revert other
      * modifications here.
@@ -121,12 +121,12 @@
     attach: function (context) {
       // Attach rating widget.
       $('.ding-entity-rating, .ding-entity-rating-submitted', context).rating();
-      
+
       var rating_ids = [];
       $('.ding-entity-rating', context).each(function () {
         rating_ids.push($(this).attr('data-ding-entity-rating-id'));
       });
-      
+
       $.ajax('/ding_entity_rating/get', {
         data: {ids: rating_ids},
         dataType: 'json',

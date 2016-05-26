@@ -363,8 +363,8 @@ function ding_list_ctools_plugin_directory($owner, $plugin_type) {
  * loans list.
  */
 function ding_list_user_login(&$edit, $account) {
-  if (module_exists('ting_openlist')) {
-    ting_openlist_update_user($account);
+  if (ding_provider_implements('openlist', 'update_user')) {
+    ding_provider_invoke('openlist', 'update_user', $account);
     
     // Synchronize with openlist.
     ding_list_sync_openlist($account);
@@ -391,6 +391,7 @@ function ding_list_import_bookmarks($account) {
   
   // Using simplevar module here, because compatibility with lazy_vars is
   // broken, will be fixed later.
+  // Bail out if the bookmarks is already imported.
   if (simplevar_get('ding_list_import_bookmarks', $account->uid, FALSE) === TRUE) {
     return;
   }
@@ -467,9 +468,9 @@ function ding_list_ding_user_consent_changed($consent) {
     }
     else {
       ding_list_reset_openlist_modified();
-
-      if (module_exists('ting_openlist')) {
-        if (ting_openlist_user_identifier() !== FALSE) {
+      
+      if (ding_provider_implements('openlist', 'user_identifier')) {
+        if (ding_provider_invoke('openlist', 'user_identifier') !== FALSE) {
           // Synchronize with openlist.
           ding_list_sync_openlist();
         }
@@ -693,8 +694,8 @@ function ding_list_preprocess_entity(&$variables) {
             $variables['page'] = TRUE;
 
             $user_id = ding_list_get_list_element_value($element);
-            if (module_exists('ting_openlist')) {
-              $account = ting_openlist_get_user($user_id);
+            if (ding_provider_implements('openlist', 'get_user')) {
+              $account = ding_provider_invoke('openlist', 'get_user', $user_id);
             }
             else {
               $account = user_load($user_id);
@@ -925,6 +926,9 @@ function ding_list_html_head_alter(&$head_elements) {
  * Implements hook_entity_load().
  *
  * When a list is loaded convert the cql of ting_objects to the new cql.
+ *
+ * Note this will only update the convet the cql if it hasn't already been
+ * converted.
  */
 function ding_list_entity_load($entities, $type) {
   $saved = &drupal_static(__FUNCTION__, array());

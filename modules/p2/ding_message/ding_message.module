@@ -140,8 +140,6 @@ function ding_message_update_users(array $accounts, $debug = FALSE, $reset = FAL
   $follow_lists = ding_list_get_list_types_by_operations(DING_LIST_OPERATION_FOLLOW);
   // Iterate accounts.
   foreach ($accounts as $uid) {
-    // Record the time when this iteration was begun.
-    $begin = time();
     // Load user object.
     $account = user_load($uid);
     // Get the users lists.
@@ -207,10 +205,6 @@ function ding_message_update_users(array $accounts, $debug = FALSE, $reset = FAL
     }
     // Save the user check.
     ding_message_save_user_check($uid);
-    // Record the time when this iteration ended.
-    $end = time();
-    // Log the time spent checking for updates.
-    ding_message_save_log($account, $begin, $end);
   }
 }
 
@@ -576,7 +570,7 @@ function ding_message_preprocess_entity(&$vars) {
     elseif ($bundle == 'ding_list') {
       // Get list elements.
       $result = ding_message_get_ding_list_notification($entity);
-      
+
       // If a result was found, render a message with the total amount.
       if ($result) {
         $output = l($result, 'list/' . $entity->id, array('html' => TRUE));
@@ -704,8 +698,8 @@ function ding_message_build_query($query) {
 /**
  * Add additional elements to the url.
  *
- * If the url is a search page add the size parameter 
- * so the search result contains 50 elements, which 
+ * If the url is a search page add the size parameter
+ * so the search result contains 50 elements, which
  * should be enough to see all new elements in most cases.
  *
  * @param string $url
@@ -718,12 +712,12 @@ function ding_message_build_query($query) {
  */
 function ding_message_modify_url($url, $eid) {
   $url .= (strpos($url, '?') !== FALSE) ? '&' : '?';
-  
+
   if (stripos($url, 'search/ting') !== FALSE) {
     $url .= 'size=50&';
   }
   $url .= 'message=' . $eid;
-    
+
   return $url;
 }
 
@@ -744,7 +738,7 @@ function ding_message_change_status() {
     $wrapper->field_state->set(DING_MESSAGE_CLOSED);
     // Save new state.
     $wrapper->save();
-    
+
     // Clear cache (to update the header) if ding_notifications is enabled.
     if (module_exists('ding_notifications')) {
       ding_notifications_clear_cache();
@@ -790,12 +784,4 @@ function ding_message_get_message_count($uid = NULL) {
   $result = $query->execute()->fetchField(1);
 
   return $result;
-}
-
-/**
- * Save execution time to log.
- */
-function ding_message_save_log($account, $begin, $end) {
-  $log_message = 'Runtime: ' . ($end - $begin) . 's Uid: ' . $account->uid . ' Begin: ' . $begin . ' End: ' . $end;
-  // watchdog('Ding message', $log_message);
 }

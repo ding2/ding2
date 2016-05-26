@@ -477,8 +477,8 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
     // Add an item to the shared list, for each user with access.
     foreach ($permissions as $permission) {
       $user_id = ding_base_get_value('ding_type', $permission, 'field_ding_list_user');
-      if (module_exists('ting_openlist')) {
-        $user_account = ting_openlist_get_user($user_id);
+      if (ding_provider_implements('openlist', 'get_user')) {
+        $user_account = ding_provider_invoke('openlist', 'get_user', $user_id);
       }
       else {
         // User with access permissions, has accepted sharing of email.

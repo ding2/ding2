@@ -80,7 +80,7 @@ function ding_interests_by_history_get_selected_terms() {
  * @return array
  *   The returned array contains a list of ding_content_tags,
  *   which correspond to loans previous made by the user.
- *   These elements are keyed by their tid and their value is the term name.
+ *   Keyed by the term name.
  */
 function ding_interests_by_history_suggested_terms() {
   if (!ding_user_consent_has_consent('loan_history_store')) {
@@ -105,8 +105,6 @@ function ding_interests_by_history_suggested_terms() {
     $subject = $tojb->getSubjects();
     $historical_terms = array_merge($historical_terms, $subject);
 
-    // $type = $tojb->getType();
-    // $historical_terms = array_merge($historical_terms, array($type));
     $record = $tojb->getRecord();
     if (isset($record['dc:subject']['dkdcplus:genre'])) {
       $genre = $record['dc:subject']['dkdcplus:genre'];
@@ -177,25 +175,6 @@ function ding_interests_by_history_sort_terms(array $terms, array $loan_terms) {
 }
 
 /**
- * Define site permissions in code.
- *
- * Create a secure_permissions_data module directory and place this function
- * in secure_permissions_data.module.
- *
- * @param string $role
- *   The role for which the permissions are being requested.
- *
- * @return array
- *   An array defining all the permissions for the site.
- */
-function ding_interests_by_history_secure_permissions($role) {
-  $permissions = array();
-  if (isset($permissions[$role])) {
-    return $permissions[$role];
-  }
-}
-
-/**
  * Implements hook_ding_interaction_view().
  *
  * Look up terms from previous loan history.
@@ -213,6 +192,7 @@ function ding_interests_by_history_ding_interaction_view() {
 
     // Fetch the list of current interest. Both likes and dislikes.
     $interests_list = ding_list_get_list(DING_INTERESTS_LIST);
+    $tags_voc = taxonomy_vocabulary_machine_name_load('ding_content_tags');
 
     // Using db_query here, so we can nest joins.
     $result = db_query('SELECT
@@ -223,10 +203,14 @@ FROM
   (field_data_field_value fv
   JOIN field_data_field_list_objects flo ON (fv.entity_id = flo.field_list_objects_target_id AND flo.entity_id = :list_id)) ON (td.tid = fv.field_value_value)
 WHERE
-  td.vid = 2
+  td.vid = :tags_vid
   AND td.name IN (:names)
   AND fv.field_value_value IS NULL
-', array(':list_id' => $interests_list->id, ':names' => array_keys($loan_terms)));
+', array(
+    ':list_id' => $interests_list->id,
+    ':names' => array_keys($loan_terms),
+    ':tags_vid' => $tags_voc->vid
+  ));
 
     $loan_terms = array_fill_keys(array_keys($loan_terms), 0);
 
@@ -294,11 +278,4 @@ function ding_interests_by_history_ding_interaction_info() {
     'more_title' => t('Read more about library topics'),
     'more_url' => "ding/interests/overview",
   );
-}
-
-/**
- * Compare count of a and b.
- */
-function ding_interests_by_history_compare_order($a, $b) {
-  return $a['count'] < $b['count'];
 }
