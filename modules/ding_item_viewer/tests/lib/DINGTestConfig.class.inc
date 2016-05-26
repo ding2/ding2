@@ -2,22 +2,25 @@
 /**
  * @file
  * Config class implementation.
- *
- * Uses environment variables as a default setting.
  */
-class DDBTestConfig {
+
+/**
+ * Class DINGTestConfig variables as a default setting.
+ */
+class DINGTestConfig {
   private $browser;
   private $url;
-  private $locale;
   private $user;
   private $pass;
-  private $lms;
 
+  /**
+   * Initialize the default variable.
+   */
   public function __construct() {
-    $this->browser = isset($_SERVER['DDBTEST_BROWSER']) ? $_SERVER['DDBTEST_BROWSER'] : '*firefox';
-    $this->url = isset($_SERVER['DDBTEST_URL']) ? $_SERVER['DDBTEST_URL'] : 'http://md.ding2.dev.inlead.dk/';
-    $this->user = isset($_SERVER['DDBTEST_USER']) ? $_SERVER['DDBTEST_USER'] : 'admin';
-    $this->pass = isset($_SERVER['DDBTEST_PASS']) ? $_SERVER['DDBTEST_PASS'] : '1234';
+    $this->browser = isset($_SERVER['DINGTEST_BROWSER']) ? $_SERVER['DINGTEST_BROWSER'] : 'firefox';
+    $this->url = isset($_SERVER['DINGTEST_URL']) ? $_SERVER['DINGTEST_URL'] : 'http://md.ding2.dev.inlead.dk';
+    $this->user = isset($_SERVER['DINGTEST_USER']) ? $_SERVER['DINGTEST_USER'] : 'admin';
+    $this->pass = isset($_SERVER['DINGTEST_PASS']) ? $_SERVER['DINGTEST_PASS'] : '1234';
   }
 
   /**
@@ -41,16 +44,6 @@ class DDBTestConfig {
   }
 
   /**
-   * Get the URL locale suffix.
-   *
-   * @return string
-   *   Drupal locale string.
-   */
-  public function getLocale() {
-    return $this->locale;
-  }
-
-  /**
    * Get the user login, used for authenticated tests.
    *
    * @return string
@@ -68,9 +61,5 @@ class DDBTestConfig {
    */
   public function getPass() {
     return $this->pass;
-  }
-
-  public function getLms() {
-    return $this->lms;
   }
 }
