@@ -51,8 +51,7 @@ Class ItemWTest extends PHPUnit_Extensions_SeleniumTestCase {
     // Save changes
     $this->click("id=edit-save");
     $this->click("id=edit-save");
-    $this->waitForPageToLoad("30000");
+    $this->sllep(5);
     $this->click("id=edit-save");
   }
 }
-?>

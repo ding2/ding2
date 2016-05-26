@@ -22,10 +22,8 @@ Installation
 
    `DDBTEST_BROWSER` - '*firefox' as default
    `DDBTEST_URL` - target url where the test should run
-   `DDBTEST_LOCALE` - language code, set to 'en'
    `DDBTEST_USER` - test user, see dummy_alma repo.
    `DDBTEST_PASS` - test user pass, see dummy_alma repo.
-   `DDBTEST_LMS` - Dummy alma LMS url.
    
 3. Install Firefox browser:
 
@@ -92,33 +90,3 @@ Prerequisites
 -------------
 Any settings different from these, can lead to some assertions fail.
 Some of the assertions might fail as well, due to changed responses from various servies (e.g.: OpenSearch).
-
-### Webservices
-The tests cover the ding2 `7.x-2.3.1` clean installation with the following settings:
-- `/admin/config/ting/settings`
-- TING OpenSearch agencyId:   **775100**
-- TING OpenSearch Profile:    **ding2taltest**
-- TING OpenSearch URL:        **http://opensearch.addi.dk/4.0.1/**
-- `/admin/config/ding/provider/alma`
-- Provider:                   ***ALMA***
-- Provider URL:               ***http://dummy-alma.inlead.dk/web/alma/***
-- Enable reservation deletion: ***On***
-- `/admin/config/ting/covers/addi`
-- ADDI Service:               **http://moreinfo.addi.dk/2.1/**
-- Addi Group:                 ***(Anyone)***
-- Addi User:                  ***(Anyone)***
-- Addi Pass:                  ***(Anyone)***
-- `/admin/config/ting/autocomplete`
-- Autocomplete URL:           **http://opensuggestion.addi.dk/b3.0_2.0/**
-- Autocomplete method:        **facets**
-- Match index:                **scanterm.default**
-- Facet Index:                **scanphrase.default**
-- Agency and profile:         ***(similar to TING OpenSearch settings)***
-
-A test provider, separated from real one, can be found @ https://github.com/easyddb/dummy_alma/.
-This project emulates alma provider with most of the calls real ALMA provides.
-Usage of such dummy provider allows to have a fixed, yet responsive, set of data returned from the service.
-
-### Other
-Enable English locale and make sure it's set by default.
-Also set the language detection to use URL prefix at: `/admin/config/regional/language/configure`
