@@ -22,7 +22,7 @@ class ItemListTest extends PHPUnit_Extensions_Selenium2TestCase {
     $this->url("/");
     $this->abstractedPage->userLogin($this->config->getUser(), $this->config->getPass());
     // get
-     $this->url("/" . "/admin/modules");
+    $this->url("/" . "/admin/modules");
     // setElementText
     $element = $this->byId("edit-module-filter-name");
     // $element->click();
@@ -103,7 +103,7 @@ class ItemListTest extends PHPUnit_Extensions_Selenium2TestCase {
     sleep(50);
     $this->byId("panels-ipe-save")->click();
 
-     /* // add ding item list with panel
+    /* // add ding item list with panel
      $this->url("/"."/admin/structure/pages/nojs/operation/page-ding_frontpage/handlers/page_ding_frontpage_panel_context/content");
     // clickElement
     sleep(5);
