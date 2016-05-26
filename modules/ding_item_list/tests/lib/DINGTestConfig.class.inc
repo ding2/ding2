@@ -5,8 +5,7 @@
  */
 
 /**
- * Class DINGTestConfig
- * Uses environment variables as a default setting.
+ * Class DINGTestConfig variables as a default setting.
  */
 class DINGTestConfig {
   private $browser;
