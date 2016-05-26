@@ -9,7 +9,6 @@ Class SectionsTest extends PHPUnit_Extensions_SeleniumTestCase {
 
     $this->setBrowser($this->config->getBrowser());
     $this->setBrowserUrl($this->config->getUrl());
-    // resetState($this->config->getLms());
   }
 
   /**
@@ -46,12 +45,6 @@ Class SectionsTest extends PHPUnit_Extensions_SeleniumTestCase {
     $this->type("id=edit-name", "Section-term");
     $this->click("id=edit-submit");
     $this->abstractedPage->waitForPage();
-    sleep(5);
-    $this->open("/admin/structure/taxonomy/section");
-    sleep(5);
-    $this->click("link=Section-term");
-    $this->abstractedPage->waitForPage();
-    $this->open("/");
     sleep(5);
   }
 }

@@ -16,7 +16,6 @@ class DDBTestConfig {
   public function __construct() {
     $this->browser = isset($_SERVER['DDBTEST_BROWSER']) ? $_SERVER['DDBTEST_BROWSER'] : '*firefox';
     $this->url = isset($_SERVER['DDBTEST_URL']) ? $_SERVER['DDBTEST_URL'] : 'http://md.ding2.dev.inlead.dk/';
-    // $this->locale = isset($_SERVER['DDBTEST_LOCALE']) ? $_SERVER['DDBTEST_LOCALE'] : 'en';
     $this->user = isset($_SERVER['DDBTEST_USER']) ? $_SERVER['DDBTEST_USER'] : 'admin';
     $this->pass = isset($_SERVER['DDBTEST_PASS']) ? $_SERVER['DDBTEST_PASS'] : '1234';
     $this->lms = isset($_SERVER['DDBTEST_LMS']) ? $_SERVER['DDBTEST_LMS'] : '';
