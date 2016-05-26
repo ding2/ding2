@@ -14,7 +14,7 @@ class DINGTestPageAbstraction {
   const WAIT_FOR_ELEMENT = 5;
 
   /**
-   *  construct initialize the instace.
+   * Construct initialize the instace.
    */
   public function __construct(PHPUnit_Extensions_Selenium2TestCase $instance) {
     $this->phpunit_instance = $instance;
