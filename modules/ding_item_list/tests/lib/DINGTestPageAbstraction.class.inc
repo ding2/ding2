@@ -14,7 +14,7 @@ class DINGTestPageAbstraction {
   const WAIT_FOR_ELEMENT = 5;
 
   /**
-   * @param PHPUnit_Extensions_Selenium2TestCase $instance
+   *  construct initialize the instace.
    */
   public function __construct(PHPUnit_Extensions_Selenium2TestCase $instance) {
     $this->phpunit_instance = $instance;
@@ -30,8 +30,6 @@ class DINGTestPageAbstraction {
 
   /**
    * Function user login
-   * @param $user
-   * @param $pass
    */
   public function userLogin($user, $pass) {
     $this->phpunit_instance->byLinkText("Login")->click();
@@ -48,13 +46,9 @@ class DINGTestPageAbstraction {
 
   /**
    * Function waitForElement wait until the element is appear.
-   * @param $selector
-   * @param int $time
-   * @param bool|TRUE $force
-   * @return bool
    */
   public function waitForElement($selector, $time = self::WAIT_FOR_ELEMENT, $force = TRUE) {
-    for($second = 0; ; $second++) {
+    for ($second = 0; $second++) {
       if ($second >= $time) {
         if ($force) {
           $this->phpunit_instance->fail('Element ' . $selector . ' not found.');
@@ -73,8 +67,7 @@ class DINGTestPageAbstraction {
   }
 
   /**
-   * function waitForPage.
-   * @param int $time
+   * Function waitForPage.
    */
   public function waitForPage($time = self::WAIT_FOR_PAGE) {
     $this->phpunit_instance->waitForPageToLoad($time * 1000);
