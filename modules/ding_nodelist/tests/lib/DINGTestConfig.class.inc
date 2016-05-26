@@ -2,23 +2,25 @@
 /**
  * @file
  * Config class implementation.
- *
- * Uses environment variables as a default setting.
  */
 
+/**
+ * Class DINGTestConfig variables as a default setting.
+ */
 class DINGTestConfig {
   private $browser;
   private $url;
   private $user;
   private $pass;
-  private $lms;
 
+  /**
+   * Initialize the default variable.
+   */
   public function __construct() {
     $this->browser = isset($_SERVER['DINGTEST_BROWSER']) ? $_SERVER['DINGTEST_BROWSER'] : 'firefox';
     $this->url = isset($_SERVER['DINGTEST_URL']) ? $_SERVER['DINGTEST_URL'] : 'http://md.ding2.dev.inlead.dk';
     $this->user = isset($_SERVER['DINGTEST_USER']) ? $_SERVER['DINGTEST_USER'] : 'admin';
     $this->pass = isset($_SERVER['DINGTEST_PASS']) ? $_SERVER['DINGTEST_PASS'] : '1234';
-    $this->lms = isset($_SERVER['DINGTEST_LMS']) ? $_SERVER['DINGTEST_LMS'] : '';
   }
 
   /**
@@ -60,10 +62,4 @@ class DINGTestConfig {
   public function getPass() {
     return $this->pass;
   }
-
-  /**
-   * 
-   */
-  public function getLms() {
-    return $this->lms;
-  }
+}
