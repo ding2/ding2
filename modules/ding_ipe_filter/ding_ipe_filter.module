@@ -121,10 +121,10 @@ function _ding_ipe_filter_add_pane_buttons($variables = array()) {
   $renderer = $variables['renderer'];
 
   $buttons = array();
-  $menu_width = 300;
+  $menu_width = 'calc(100% - 18px)';
   $attributes = array(
     'class' => 'ctools-use-modal ding-ipe-menu-item',
-    'style' => 'width: ' . $menu_width . 'px; height: auto;',
+    'style' => 'width: ' . $menu_width . '; height: auto;',
   );
 
   foreach ($settings as $subtype_name => $setting) {
