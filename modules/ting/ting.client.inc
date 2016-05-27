@@ -47,6 +47,12 @@ function ting_get_object($object_id, $collection = FALSE, $with_relations = FALS
       // Build request request and set object id.
       $request = ting_get_request_factory()->getObjectRequest();
 
+      if ($collection) {
+        // If this is a collection we need to do a collection request, which is
+        // a search request.
+        $request = ting_get_request_factory()->getCollectionRequest();
+        $request->setAllObjects(FALSE);
+      }
       $request->setObjectId($object_id);
 
       // Set agency from the administration interface.
