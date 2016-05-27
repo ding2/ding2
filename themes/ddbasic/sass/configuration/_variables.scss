@@ -115,9 +115,10 @@ $navbar-text-color-active:        lighten($black, 30%);
 /* Availability
    ========================================================================== */
 
-$availability-pending:                  $gray-darker;
-$availability-processed:                $gray-darker;
-$availability-available:                $green;
-$availability-reservable:               $yellow;
-$availability-available-reservable:     $green;
-$availability-available-not-reservable: $red;
+$availability-pending:                      $gray-darker;
+$availability-processed:                    $yellow;
+$availability-available:                    $green;
+$availability-available-reservable:         $green;
+$availability-available-not-reservable:     $yellow;
+$availability-not-available-reservable:     $yellow;
+$availability-not-available-not-reservable: $red;
