@@ -10641,10 +10641,6 @@ msgid "perform bookmark"
 msgstr ""
 
 #: /admin/people?render=overlay
-msgid "administer frontpage settings"
-msgstr ""
-
-#: /admin/people?render=overlay
 msgid "administer user role 3"
 msgstr ""
 
