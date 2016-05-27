@@ -142,55 +142,50 @@ function ting_get_objects($ids) {
     }
   }
 
-  // Not all object are searchable, such as relation etc. So to get over this we
-  // split the request into to groups "own id's" and "others". Where the first
-  // is ensured to be searchable.
-  $agency = variable_get('ting_agency', FALSE);
-  $query = array();
   foreach ($objects as $id => $object) {
     if ($object === FALSE) {
-      // So if the agency match lets search theme as that's faster then fetching
-      // them one by one.
-      if (preg_match('/^(890790-basis|' . $agency . '-katalog|' . $agency . ')/', $id)) {
-        $query[] = 'rec.id=' . $id;
-      }
-      else {
-        // Get objects as it was not local.
-        $objects[$id] = ting_get_object($id);
-      }
+      // Collect ids to getObjectRequest
+      $get_ids[] = $id;
     }
   }
-  // Open search is limited to 50 results per call, so iterate until all results
-  // have been fetched. It has a limit on the size of the query (>187 rec.id=
-  // ORed together seems to break it).
-  $query_chunks = array_chunk($query, 50);
-  foreach ($query_chunks as $query_chunk) {
-    $request = ting_get_request_factory()->getSearchRequest();
-    if ($agency) {
-      $request->setAgency($agency);
-    }
-    $profile = variable_get('ting_search_profile', '');
-    if (!empty($profile) && method_exists($request, 'setProfile')) {
-      $request->setProfile($profile);
-    }
-    $request->setQuery(implode(' OR ', $query_chunk));
-    $request->setStart(1);
-    $request->setNumResults(50);
-    $request->setAllObjects(TRUE);
 
-    $result = ting_execute_cache($request);
+  if(!empty($get_ids)) {
+    // Get the missing objects.
+    $objects = ting_do_get_objects($ids);
+  }
+  return $objects;
+}
 
-    if ($result && is_array($result->collections)) {
-      foreach ($result->collections as $collection) {
-        if (is_array($collection->objects) && count($collection->objects)) {
-          foreach ($collection->objects as $object) {
-            $objects[$object->id] = $object;
-          }
+/**
+ * Do a getObject request.
+ *
+ * @param $ids
+ * @return array
+ * @throws TingClientException
+ */
+function ting_do_get_objects($ids){
+  $objects = array();
+  $agency = variable_get('ting_agency', FALSE);
+
+  $request = ting_get_request_factory()->getObjectRequest();
+  if ($agency) {
+    $request->setAgency($agency);
+  }
+  $profile = variable_get('ting_search_profile', '');
+  if (!empty($profile) && method_exists($request, 'setProfile')) {
+    $request->setProfile($profile);
+  }
+
+  $result = ting_execute_cache($request);
+  if ($result && is_array($result->collections)) {
+    foreach ($result->collections as $collection) {
+      if (is_array($collection->objects) && count($collection->objects)) {
+        foreach ($collection->objects as $object) {
+          $objects[$object->id] = $object;
         }
       }
     }
   }
-
   return $objects;
 }
 
