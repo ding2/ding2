@@ -477,7 +477,7 @@ function ding_dashboard_views_data() {
     'field' => array(
       'title' => t('Editorial Push link'),
       'help' => t('Provide a simple link to push the content in editorial system.'),
-      'handler' => 'ding_dashboard_editorial_push',
+      'handler' => 'DingDashboardEditorialPush',
     ),
   );
 
@@ -485,7 +485,7 @@ function ding_dashboard_views_data() {
     'field' => array(
       'title' => t('Editorial Approve link'),
       'help' => t('Provide a simple link to approve the content in editorial system.'),
-      'handler' => 'ding_dashboard_editorial_approve',
+      'handler' => 'DingDashboardEditorialApprove',
     ),
   );
 
@@ -493,7 +493,7 @@ function ding_dashboard_views_data() {
     'field' => array(
       'title' => t('Editorial Reject link'),
       'help' => t('Provide a simple link to reject the content in editorial system.'),
-      'handler' => 'ding_dashboard_editorial_reject',
+      'handler' => 'DingDashboardEditorialReject',
     ),
   );
 
@@ -501,7 +501,7 @@ function ding_dashboard_views_data() {
     'field' => array(
       'title' => t('Editorial Delete link'),
       'help' => t('Provide a simple link to delete the content from editorial system.'),
-      'handler' => 'ding_dashboard_editorial_delete',
+      'handler' => 'DingDashboardEditorialDelete',
     ),
   );
 
