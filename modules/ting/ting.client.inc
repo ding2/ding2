@@ -167,6 +167,7 @@ function ting_do_get_objects($ids){
   $objects = array();
   $agency = variable_get('ting_agency', FALSE);
 
+  /** @var TingClientObjectRequest $request */
   $request = ting_get_request_factory()->getObjectRequest();
   if ($agency) {
     $request->setAgency($agency);
@@ -175,6 +176,8 @@ function ting_do_get_objects($ids){
   if (!empty($profile) && method_exists($request, 'setProfile')) {
     $request->setProfile($profile);
   }
+
+  $request->setObjectId($ids);
 
   $result = ting_execute_cache($request);
   if ($result && is_array($result->collections)) {
