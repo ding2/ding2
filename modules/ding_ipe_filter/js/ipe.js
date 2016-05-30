@@ -18,7 +18,9 @@
       $(menu).toggleClass('left');
     }
     // Move menu on top if it is too close to bottom of the page.
-    if (parseInt($(this).parent().offset().top) > 2200) {
+    var containerHeight = $('.panels-ipe-display-container').height();
+    var menuPosition = $(this).parent().offset().top;
+    if (parseInt(containerHeight - menuPosition) < 0) {
       $(menu).toggleClass('top');
     }
     // Display element on click.
