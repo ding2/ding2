@@ -9,26 +9,17 @@
  *
  * Return the URL and style for the cover of an object.
  */
-function ting_covers_objects() {
-  // Return all image information.
-  drupal_json_output(ting_covers_get_objects());
-}
-
-/**
- * Return the URL for the cover of an object.
- *
- * @param array $cover_data
- *   Cover information.
- *
- * @return array
- *   of cover objects.
- */
-function ting_covers_get_objects(array $cover_data = array()) {
+function ting_covers_objects($http_request = TRUE, $cover_data = array()) {
   $covers = array();
   $image_styles = array();
   $missing_images_local_ids = array();
-
-  $cover_data = (empty($cover_data) ? $_POST['coverData'] : $cover_data);
+  
+  if ($http_request) {
+    $cover_data = $_POST['coverData'];
+  }
+  elseif (!$http_request && empty($cover_data)) {
+    return $covers;
+  }
 
   foreach ($cover_data as $cover_info) {
     // Determine if the local id is a known negative.
@@ -67,7 +58,12 @@ function ting_covers_get_objects(array $cover_data = array()) {
   }
 
   // Return all image information.
-  drupal_json_output($return);
+  if ($http_request) {
+    drupal_json_output($covers);
+  }
+  else {
+    return $covers;
+  }
 }
 
 /**
