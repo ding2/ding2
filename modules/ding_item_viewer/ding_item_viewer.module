@@ -199,7 +199,7 @@ function ding_item_viewer_check_covers(array $ids) {
     );
   });
 
-  $covers = ting_covers_get_objects($cover_data);
+  $covers = ting_covers_objects(FALSE, $cover_data);
 
   $result = array();
   array_walk($covers, function($v) use (&$result, $cover_data) {
