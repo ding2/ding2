@@ -18,7 +18,7 @@ class DingDashboardEditorialDelete extends views_handler_field_node_link {
    * @return string
    *   Returns action text.
    */
-  public function renderLink($node, $values) {
+  public function render_link($node, $values) {
     global $user;
 
     if (!ding_dashboard_access_callback($node, EDITORIAL_ACTION_DELETE) || !isset($node->field_editorial_status[LANGUAGE_NONE][0]['value'])) {
