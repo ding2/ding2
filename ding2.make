@@ -183,7 +183,7 @@ projects[media_youtube][download][revision] = "ca46aba"
 projects[media_youtube][patch][] = "http://drupal.org/files/issues/provide-access-wrapper-1823376-6.patch"
 
 projects[memcache][subdir] = "contrib"
-projects[memcache][version] = "1.0"
+projects[memcache][version] = "1.5"
 
 ; Get a this special version that has support for features export.
 projects[menu_block][type] = "module"
@@ -300,15 +300,6 @@ projects[secure_permissions][download][url] = "http://git.drupal.org/project/sec
 projects[secure_permissions][download][revision] = "ef5eec5"
 projects[secure_permissions][patch][] = "http://drupal.org/files/issues/2188491-features-multilingual-2.patch"
 projects[secure_permissions][patch][] = "http://drupal.org/files/issues/secure_permissions-dont_disable_all_permissions-2499607-3.patch"
-
-projects[search_api][subdir] = "contrib"
-projects[search_api][version] = "1.16"
-
-projects[search_api_multi][subdir] = "contrib"
-projects[search_api_multi][version] = "1.3"
-
-projects[search_api_db][subdir] = "contrib"
-projects[search_api_db][version] = "1.5"
 
 projects[similarterms][subdir] = "contrib"
 projects[similarterms][version] = "2.3"

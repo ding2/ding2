@@ -4,8 +4,6 @@
  * Syndication logic here.
  */
 
-include_once drupal_get_path('module', 'bpi') . '/bpi.images.inc';
-
 /**
  * BPI http push form, used in save and push on node/edit page.
  *
@@ -212,32 +210,24 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
   $bpi_content['related_materials'] = $materials_drupal;
   $bpi_content['editable'] = (int) $editable;
   $bpi_content['authorship'] = ($authorship) ? FALSE : TRUE;
-  $bpi_content['assets'] = array();
+  $bpi_content['images'] = array();
 
   if ($with_images) {
     $image_fields = bpi_fetch_image_fields($node->type);
 
     if (!empty($image_fields)) {
       foreach ($image_fields as $field_name) {
-        $image_type = bpi_get_image_type($field_name, $node);
-        if (!empty($image_type)) {
-          $field_items = field_get_items('node', $node, $field_name);
-          if (is_array($field_items)) {
-            foreach ($field_items as $item) {
-              if (isset($item['fid'])) {
-                $file = file_load($item['fid']);
-                if (is_object($file)) {
-                  $bpi_content['assets'][] = array(
-                    'path' => file_create_url($file->uri),
-                    'alt' => $file->alt ?: $file->filename,
-                    'title' => $file->title ?: $file->filename,
-                    'type' => $image_type,
-                    'name' => $file->filename,
-                    'extension' => pathinfo($file->uri, PATHINFO_EXTENSION),
-                  );
-                }
-              }
-            }
+        $field_value = field_view_field('node', $node, $field_name);
+
+        if (!empty($field_value['#items'][0]['uri'])) {
+          $file_url = file_create_url($field_value['#items'][0]['uri']);
+          // Image pseudo-check.
+          if (@getimagesize($file_url)) {
+            $bpi_content['images'][] = array(
+              'path' => $file_url,
+              'alt' => '',
+              'title' => '',
+            );
           }
         }
       }
@@ -250,22 +240,6 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
       $bpi_content['body']
     );
   }
-
-  $tags = array();
-  $tags_field_name = variable_get('bpi_field_tags', '');
-  if (!empty($tags_field_name)) {
-    // We use field_view_field (rather than field_get_items, say) to get the
-    // actual taxonomy term names which we need to push to bpi.
-    $tags_field = field_view_field('node', $node, $tags_field_name);
-    if ($tags_field && isset($tags_field['#items'])) {
-      foreach ($tags_field['#items'] as $item) {
-        if (isset($item['taxonomy_term'])) {
-          $tags[] = $item['taxonomy_term']->name;
-        }
-      }
-    }
-  }
-  $bpi_content['tags'] = implode(',', $tags);
 
   return $bpi_content;
 }

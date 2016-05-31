@@ -134,7 +134,7 @@ function ding_gatewayf_registration_form_ding_gatewayf_admin_settings_form_alter
   $form['ding_gatewayf_registration']['age_limit'] = array(
     '#type' => 'textfield',
     '#title' => t('Age limit'),
-    '#description' => t('The age limit will be used to ensure that no user is created without begin above the limit. If left empty no age limit is enforced.'),
+    '#description' => t('The age limit will be used to ensure that no user is created without being above the limit. If left empty no age limit is enforced.'),
     '#default_value' => $defaults['age_limit'],
     '#element_validate' => array('element_validate_integer_positive'),
   );
@@ -158,8 +158,8 @@ function ding_gatewayf_registration_form_ding_gatewayf_admin_settings_form_alter
   $form['ding_gatewayf_registration']['information']['content'] = array(
     '#type' => 'text_format',
     '#title' => t('Content'),
-    '#default_value' => $defaults['information']['content'],
-    '#format' => 'ding_wysiwyg',
+    '#default_value' => $defaults['information']['content']['value'],
+    '#format' => $defaults['information']['content']['format'],
   );
 
   $form['ding_gatewayf_registration']['information']['link'] = array(
@@ -182,8 +182,8 @@ function ding_gatewayf_registration_form_ding_gatewayf_admin_settings_form_alter
     '#type' => 'text_format',
     '#title' => t('Acceptance text'),
     '#description' => t('Description displayed next to the user acceptance check box.'),
-    '#default_value' => $defaults['acceptance']['description'],
-    '#format' => 'ding_wysiwyg',
+    '#default_value' => $defaults['acceptance']['description']['value'],
+    '#format' => $defaults['acceptance']['description']['format'],
   );
 
   // Define after create info page.
@@ -205,8 +205,8 @@ function ding_gatewayf_registration_form_ding_gatewayf_admin_settings_form_alter
   $form['ding_gatewayf_registration']['success']['content'] = array(
     '#type' => 'text_format',
     '#title' => t('Content'),
-    '#default_value' => $defaults['success']['content'],
-    '#format' => 'ding_wysiwyg',
+    '#default_value' => $defaults['success']['content']['value'],
+    '#format' => $defaults['success']['content']['format'],
   );
 }
 
@@ -225,7 +225,7 @@ function ding_gatewayf_registration_information() {
   return array(
     '#theme' => 'ding_gatewayf_registration_information',
     '#title' => $config['information']['title'],
-    '#content' => $config['information']['content'],
+    '#content' => $config['information']['content']['value'],
     '#link' => array(
       '#theme' => 'link',
       '#text' => $config['information']['link'],
@@ -265,7 +265,7 @@ function ding_gatewayf_registration_acceptance_form() {
   $form['accept'] = array(
     '#type' => 'checkbox',
     '#title' => t('I accept the user agreements'),
-    '#description' => $config['acceptance']['description'],
+    '#description' => $config['acceptance']['description']['value'],
     '#required' => TRUE,
   );
 
@@ -307,6 +307,7 @@ function ding_gatewayf_registration_acceptance_form() {
     '#description' => t('Pin code with an max length of %length', array('%length' => ding_user_get_pincode_length())),
     '#maxlength' => ding_user_get_pincode_length(),
     '#required' => TRUE,
+    '#element_validate' => array('ding_user_element_validate_pincode'),
     '#attributes' => array(
       'autocomplete' => 'off',
     ),
@@ -336,7 +337,14 @@ function ding_gatewayf_registration_acceptance_form_submit($form, $form_state) {
 
   // This value was not store in the form to ensure that the user can reload the
   // form.
-  $required_attributes = $_SESSION[DING_GATEWAYF_ATTRIBUTES];
+  $required_attributes = array(
+    'schacPersonalUniqueID' => array(
+      'field' => 'CPR',
+      'authname' => TRUE,
+    ),
+  );
+  $wayf_attributes = $_SESSION[DING_GATEWAYF_ATTRIBUTES];
+  $required_attributes = _ding_gatewayf_get_required_attributes($wayf_attributes, $required_attributes);
   unset($_SESSION[DING_GATEWAYF_ATTRIBUTES]);
 
   // Check that the logged in user is over the age limit.
@@ -355,7 +363,7 @@ function ding_gatewayf_registration_acceptance_form_submit($form, $form_state) {
     ding_provider_invoke('user', 'create', $required_attributes['schacPersonalUniqueID'], $values['pin'], $values['name'], $values['mail'], $values['branch']);
 
     $_REQUEST['destination'] = DING_GATEWAYF_REGISTRATION_SUCCESS_URL;
-    _ding_gatewayf_provider_login($required_attributes);
+    _ding_gatewayf_provider_login($wayf_attributes);
 
     // Clean out message from the login form. Provider do not always allow login
     // at once, so the login attempt above may fail. But we have tried.
@@ -366,7 +374,7 @@ function ding_gatewayf_registration_acceptance_form_submit($form, $form_state) {
     //         exists is provider "named", hence for now we capture all
     //         exceptions. This should be fixed with FBS.
     drupal_set_message(t('You already have an user account at the library. So we have just logged you in.'));
-    _ding_gatewayf_provider_login($required_attributes);
+    _ding_gatewayf_provider_login($wayf_attributes);
   }
 }
 
@@ -382,7 +390,7 @@ function ding_gatewayf_registration_success() {
   return array(
     '#theme' => 'ding_gatewayf_registration_success_page',
     '#title' => $config['success']['title'],
-    '#content' => $config['success']['content'],
+    '#content' => $config['success']['content']['value'],
   );
 }
 
@@ -462,15 +470,24 @@ function _ding_gatewayf_registration_load_config() {
     'age_limit' => 18,
     'information' => array(
       'title' => t('Self registration'),
-      'content' => t("Please read the library's regulations for usage before you use self registration."),
+      'content' => array(
+        'value' => t("Please read the library's regulations for usage before you use self registration."),
+        'format' => 'ding_wysiwyg',
+      ),
       'link' => t('Start self registration'),
     ),
     'acceptance' => array(
-      'description' => t("I accept the library's regulations and rules."),
+      'description' => array(
+        'value' => t("I accept the library's regulations and rules."),
+        'format' => 'ding_wysiwyg',
+      ),
     ),
     'success' => array(
       'title' => t('Success'),
-      'content' => t('You have been registered at the library as an user.'),
+      'content' => array(
+        'value' => t('You have been registered at the library as an user.'),
+        'format' => 'ding_wysiwyg',
+      ),
     ),
   );
 }

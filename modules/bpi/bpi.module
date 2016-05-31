@@ -6,7 +6,6 @@
  * Defines BPI specific constants, menu, theme and node hooks.
  */
 
-include_once drupal_get_path('module', 'bpi') . '/bpi.images.inc';
 include_once drupal_get_path('module', 'bpi') . '/bpi.push.inc';
 
 /**
@@ -319,25 +318,11 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
 
     // Guessing where to put 'body' text in the form.
     $bpi_body = isset($bpi_content['body']) ? $bpi_content['body'] : '';
-
-    $syndicated_images = bpi_get_syndicated_images();
-    if (is_array($syndicated_images)) {
-      // We have syndicated images from popup.
-      bpi_place_images($form, $current_language, $syndicated_images);
-      $bpi_body = bpi_place_inline_images($body, $bpi_body, $current_language, $syndicated_images);
-      bpi_clear_syndicated_images();
+    if (isset($form[$body][$current_language][0]['value'])) {
+      $form[$body][$current_language][0]['value']['#default_value'] = $bpi_body;
     }
-    elseif ($syndicated_images === NULL) {
-      // Signal that we're syndicating images.
-      bpi_set_syndicated_images(FALSE);
-    }
-
-    if (variable_get('bpi_syndicate_tags')) {
-      $bpi_tags = $bpi_node->getTags();
-      $tags_field = variable_get('bpi_field_tags', '');
-      if (!empty($bpi_tags) && !empty($tags_field) && isset($form[$tags_field][$current_language])) {
-        $form[$tags_field][$current_language]['#default_value'] = implode(', ', $bpi_tags);
-      }
+    elseif (isset($form[$body][$current_language][0])) {
+      $form[$body][$current_language][0]['#default_value'] = $bpi_body;
     }
 
     if ($bpi_id) {
@@ -348,17 +333,6 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
       drupal_add_js(drupal_get_path('module', 'ding_popup') . '/ding_popup.js', 'file');
       drupal_add_css(drupal_get_path('module', 'bpi') . '/css/bpi-admin.styles.css', 'file');
       $_SESSION['bpi']['assets'] = $bpi_assets;
-    }
-    elseif ($syndicated_images === FALSE) {
-      // No images syndicated from popup.
-      bpi_clear_syndicated_images();
-    }
-
-    if (isset($form[$body][$current_language][0]['value'])) {
-      $form[$body][$current_language][0]['value']['#default_value'] = $bpi_body;
-    }
-    elseif (isset($form[$body][$current_language][0])) {
-      $form[$body][$current_language][0]['#default_value'] = $bpi_body;
     }
   }
 
@@ -420,120 +394,6 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
       unset($form['field_bpi_workflow'][LANGUAGE_NONE][0]['workflow']['workflow_sid']['#options'][$frombpi_sid]);
     }
   }
-}
-
-/**
- * Decide if the given field is a container for the given bpi image type.
- *
- * @param string $field_name
- *   The field name.
- * @param stdClass $node
- *   The node.
- * @param string $image_type
- *   The bpi image type.
- *
- * @return bool
- *   True if the field is a container for the the bpi image type.
- */
-function bpi_is_bpi_image_field($field_name, $node, $image_type) {
-  return bpi_get_image_type($field_name, $node) == $image_type;
-}
-
-/**
- * Place syndicated images in node edit form.
- *
- * @param array $form
- *   The form.
- * @param string $current_language
- *   The current language.
- * @param array $syndicated_images
- *   The syndicated images.
- */
-function bpi_place_images(array &$form, $current_language, array $syndicated_images) {
-  $node = $form['#node'];
-  $image_field_names = bpi_fetch_image_fields($node->type);
-  if (!empty($image_field_names)) {
-    foreach ($syndicated_images as $image_type => $images) {
-      foreach ($image_field_names as $image_field_name) {
-        if (bpi_is_bpi_image_field($image_field_name, $node, $image_type)) {
-          $field = &$form[$image_field_name][$current_language];
-          $cardinality = isset($field['#cardinality']) ? $field['#cardinality'] : 1;
-          // The cardinality of a field with an unlimited number of values is -1.
-          if ($cardinality < 0) {
-            $cardinality = PHP_INT_MAX;
-          }
-          $number_of_images_to_place = min(count($images), $cardinality);
-          for ($i = 0; $i < $number_of_images_to_place; $i++) {
-            if (is_object($images[$i]['@managed_file'])) {
-              $field[$i]['#default_value'] = array('fid' => $images[$i]['@managed_file']->fid);
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-/**
- * Replace inline images in content with references to syndicated images.
- *
- * @param string $field_name
- *   The field name.
- * @param string $content
- *   The content.
- * @param string $current_language
- *    The current language.
- * @param array $syndicated_images
- *   The syndicated images.
- *
- * @return string
- *   The content with inline images replaced by references to syndicated images.
- */
-function bpi_place_inline_images($field_name, $content, $current_language, array $syndicated_images) {
-  if (!empty($syndicated_images)) {
-    $url_to_image_map = array();
-    foreach ($syndicated_images as $type => $images) {
-      foreach ($images as $image) {
-        $url_to_image_map[$image['path']] = $image;
-      }
-    }
-
-    // Find <img/> elements in content and replace with file placeholders.
-    $image_pattern = '@<img\s*[^>]*\ssrc=[\'"](?<url>[^\'">]+)[\'"][^>]*>@i';
-
-    $content = preg_replace_callback($image_pattern, function($matches) use ($current_language, $url_to_image_map) {
-      $url = $matches['url'];
-      if (isset($url_to_image_map[$url])) {
-        $image = $url_to_image_map[$url];
-        $file = $image['@managed_file'];
-
-        // Build file placeholder as used by the media_wysiwyg module.
-        $data = array(
-          'fid' => $file->fid,
-          'view_mode' => 'default',
-          'fields' => array(
-            'format' => 'default',
-            'field_file_image_alt_text[' . $current_language . '][0][value]' => isset($image['alt']) ? $image['alt'] : $image['name'],
-            'field_file_image_title_text[' . $current_language . '][0][value]' => isset($image['title']) ? $image['title'] : $image['name'],
-          ),
-          'type' => 'media',
-          'attributes' => array(
-            'width' => $image['width'],
-            'height' => $image['height'],
-            'alt' => isset($image['alt']) ? $image['alt'] : $image['name'],
-            'title' => isset($image['title']) ? $image['title'] : $image['name'],
-            'class' => 'media-element file-default',
-          ),
-        );
-
-        return '[[' . drupal_json_encode($data) . ']]';
-      }
-
-      return $matches[0];
-    }, $content);
-  }
-
-  return $content;
 }
 
 /**

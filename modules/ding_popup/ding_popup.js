@@ -50,6 +50,12 @@ Drupal.ding_popup = {
           }
       });
     }
+    // Pass dialog options on the the actual dialog.
+    // We could check the options for validity, but for now we just
+    // pass everything on to the dialog.
+    if (response.extra_data.dialog_options) {
+      this.dialogs[response.name].dialog('option', response.extra_data.dialog_options);
+    }
     this.dialogs[response.name].dialog('option', {'title': response.title});
     this.dialogs[response.name].html(response.data);
 

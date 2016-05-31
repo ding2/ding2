@@ -107,3 +107,8 @@ div.form-item-bpi-search-query {
 .bpi-facet .chosen-choices .default {
 	width: 100% !important;
 }
+
+/* Fix (sort of) height of preview of bpi content in popup. */
+.ding-popup-content .bpi-single-preview-item {
+	max-height: 60vh;
+}

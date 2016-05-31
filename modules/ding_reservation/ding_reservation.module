@@ -388,7 +388,8 @@ function ding_reservation_reserve_form_submit($form, &$form_state) {
       // @todo use profile
       if (!empty($reservation_result['branch']) && ding_provider_implements('reservation', 'branch_name')) {
         $branch_name = ding_provider_invoke('reservation', 'branch_name', $reservation_result['branch']);
-        drupal_set_message(t('"@title" reserved and will be available for pickup at @branch.', array('@title' => $reservable->getTitle(), '@branch' => $branch_name)));
+        $reservable_title = htmlspecialchars_decode($reservable->getTitle());
+        drupal_set_message(t('"@title" reserved and will be available for pickup at @branch.', array('@title' => $reservable_title, '@branch' => $branch_name)));
       }
       else {
         drupal_set_message(t('"@title" reserved.', array('@title' => $reservable->getTitle())));
