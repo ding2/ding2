@@ -473,16 +473,28 @@ class AlmaClient {
 
       // Return error code when patron is blocked.
       if ($res_message == 'reservationPatronBlocked') {
-        return ALMA_AUTH_BLOCKED;
+        return array(
+          'alma_status' => ALMA_AUTH_BLOCKED,
+          'res_status' => $res_status,
+          'message' => $res_message
+        );
       }
 
       // General catchall if status is not okay is to report failure.
       if ($res_status == 'reservationNotOk') {
-        return FALSE;
+        return array(
+          'alma_status' => ALMA_AUTH_BLOCKED,
+          'res_status' => $res_status,
+          'message' => $res_message
+        );
       }
     }
     catch (AlmaClientReservationNotFound $e) {
-      return FALSE;
+        return array(
+          'alma_status' => ALMA_AUTH_BLOCKED,
+          'res_status' => $res_status,
+          'message' => $res_message
+        );
     }
 
     return $queue_number;
