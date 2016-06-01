@@ -32,3 +32,13 @@ function ding_page_update_7003() {
   variable_del('pathauto_node_ding_page_en_pattern');
   variable_del('pathauto_node_ding_page_und_pattern');
 }
+
+/**
+ * Migrate to the sql field storage & remove virtual field ding page materials.
+ */
+function ding_page_update_7004() {
+  // TODO: Migration should be done first to the field_ding_page_material.
+
+  // Delete field_ding_event_materials field.
+  field_delete_field('field_ding_page_materials');
+}

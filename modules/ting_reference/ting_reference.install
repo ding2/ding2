@@ -4,6 +4,70 @@
  * Defines the field schema and entity fields.
  */
 
+function ting_reference_schema() {
+  $schema['ting_reference'] = array(
+    'description' => 'Provide ting reference relations.',
+    'fields' => array(
+      'nid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'ting_object_id' => array(
+        'description' => 'Ting object id.',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+    ),
+    'unique keys' => array(
+      'uk_nid_tid' => array('nid', 'ting_object_id'),
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implements hook_field_schema().
+ */
+function ting_reference_field_schema($field) {
+  $columns = array();
+  switch ($field['type']) {
+    case 'ting_reference':
+      $columns = array(
+        'headline' => array(
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => FALSE,
+        ),
+        'query' => array(
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => FALSE,
+        ),
+        'sorting' => array(
+          'type' => 'varchar',
+          'length' => 255,
+          'not null' => FALSE,
+        ),
+        'amount' => array(
+          'type' => 'int',
+          'size' => 'tiny',
+          'not null' => TRUE,
+          'default' => 0,
+        ),
+      );
+      break;
+  }
+
+  return array(
+    'columns' => $columns,
+  );
+}
+
 /**
  * Implements hook_ding_entity_fields().
  */
@@ -34,4 +98,33 @@ function ting_reference_update_7000() {
     ))
     ->condition('module', 'ting_reference')
     ->execute();
+}
+
+/**
+ * Add ting reference relations table.
+ */
+function ting_reference_update_7001() {
+  $schema['ting_reference'] = array(
+    'description' => 'Provide ting reference relations.',
+    'fields' => array(
+      'nid' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'ting_object_id' => array(
+        'description' => 'Ting object id.',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+    ),
+    'unique keys' => array(
+      'uk_nid_tid' => array('nid', 'ting_object_id'),
+    ),
+  );
+
+  db_create_table('ting_reference', $schema['ting_reference']);
 }
