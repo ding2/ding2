@@ -1,10 +1,5 @@
 <?php
 /**
- * @file
- * ding_services.services.inc
- */
-
-/**
  * Implements hook_default_services_endpoint().
  */
 function ding_services_default_services_endpoint() {

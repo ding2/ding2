@@ -5,5 +5,3 @@
  */
 
 include_once 'ding_services_events.features.inc';
-
-
