@@ -16,8 +16,12 @@
  */
 function fbs_debt_list($account) {
   $result = array();
+  $res = array();
 
-  $res = fbs_service()->Payment->getFees(fbs_service()->agencyId, fbs_patron_id($account), FALSE, FALSE);
+  $service = fbs_service();
+  if ($service) {
+    $res = $service->Payment->getFees($service->agencyId, fbs_patron_id($account), FALSE, FALSE);
+  }
 
   foreach ($res as $fee) {
     $id = $fee->feeId;
@@ -81,7 +85,11 @@ function fbs_debt_payment_received($account, $debt_ids = array(), $order_id = NU
   foreach ($debt_ids as $debt_id) {
     $payment_order->feeIds[] = $debt_id;
   }
-  $res = fbs_service()->Payment->payFees(fbs_service()->agencyId, fbs_patron_id($account), $payment_order);
+  $res = array();
+  $service = fbs_service();
+  if ($service) {
+    $res = $service->Payment->payFees($service->agencyId, fbs_patron_id($account), $payment_order);
+  }
 
   foreach ($res as $confirmation) {
     if ($confirmation->paymentStatus !== 'paymentRegistered') {
