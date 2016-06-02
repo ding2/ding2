@@ -2,7 +2,6 @@
 
 use Reload\Prancer;
 use Reload\Prancer\HttpClient;
-use \JsonMapper;
 use Reload\Prancer\Serializer;
 use Reload\Prancer\Serializer\JsonMapperSerializer;
 
@@ -88,9 +87,13 @@ class FBS {
    * @param Serializer|null $serializer
    *   Serializer to use. Defaults to JsonMapperSerializer instance.
    */
-  public  function __construct($agency_id, $endpoint, HttpClient $client = NULL, Serializer $serializer = NULL) {
+  public function __construct($agency_id, $endpoint, HttpClient $client = NULL, Serializer $serializer = NULL) {
+    if (empty($agency_id) || empty($endpoint)) {
+      throw new FBSException('Provider agency id or endpoint are not set.');
+    }
     $this->agencyId = $agency_id;
     $this->endpoint = $endpoint;
+
     if (empty($client)) {
       $client = new FBSDrupalHttpClient();
       $client = new FBSAuthenticationHandler(variable_get('fbs_username', ''), variable_get('fbs_password', ''), $client, new FBSCacheDrupal(), new FBSLogDrupal());
