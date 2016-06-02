@@ -16,8 +16,12 @@
  */
 function fbs_loan_list($account) {
   $result = array();
-
-  $res = fbs_service()->MaterialLoans->getLoans(fbs_service()->agencyId, fbs_patron_id($account));
+  $res = array();
+  
+  $service = fbs_service();
+  if ($service) {
+    $res = $service->MaterialLoans->getLoans($service->agencyId, fbs_patron_id($account));
+  }
 
   foreach ($res as $loan) {
     $id = $loan->loanDetails->loanId;
@@ -69,8 +73,12 @@ function fbs_loan_list($account) {
  */
 function fbs_loan_renew($account, $loans) {
   $result = array();
+  $res = array();
 
-  $res = fbs_service()->MaterialLoans->renewLoans(fbs_service()->agencyId, fbs_patron_id($account), $loans);
+  $service = fbs_service();
+  if ($service) {
+    $res = $service->MaterialLoans->renewLoans($service->agencyId, fbs_patron_id($account), $loans);
+  }
 
   foreach ($res as $loan) {
     // Using an array for renewalStatus is an odd choice, but we'll only
