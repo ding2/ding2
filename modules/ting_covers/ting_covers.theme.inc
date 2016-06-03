@@ -24,7 +24,7 @@ function template_preprocess_ting_object_cover(&$variables) {
   $variables['elements']['#front_cover_large_image'] = array('#markup' => 'fubar');
   $variables['elements']['#back_cover_large_pdf'] = array('#markup' => 'fubar');
   $variables['elements']['#close_button'] = array(
-    '#markup' => '<a class="close-reveal-modal">&#215;</a>',
+    '#markup' => '<a class="reveal-cover close-reveal-modal">&#215;</a>',
   );
   // Set initial values required by the template, and check if there's an image available locally.
   $cover_file_path = FALSE;

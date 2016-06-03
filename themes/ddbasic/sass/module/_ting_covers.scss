@@ -59,7 +59,7 @@
 
     a {
       color: $gray-dark;
-    
+
       &.active {
         color: $link-color;
       }
@@ -70,7 +70,7 @@
       height: 30px;
       margin-right: 10px;
       width: 30px;
-      
+
       &:before {
         content: "\f02d";
         display: inline-block;
@@ -81,12 +81,12 @@
         -moz-osx-font-smoothing: grayscale;
       }
     }
-    
+
     .cover-back {
       display: inline-block;
       height: 30px;
       width: 30px;
-      
+
       &:before {
         content: "\f030";
         display: inline-block;
@@ -104,6 +104,22 @@
   text-align: center;
 }
 
-#reveal-cover-back-yth {
-  top: 10px !important;
+.reveal-modal.reveal-cover-back,
+.reveal-modal.reveal-cover-large {
+  top: 10% !important;
+  position: fixed;
+
+  overflow: hidden;
+}
+
+.reveal-modal.reveal-cover-back {
+  height: 80%;
+
+  .reveal-cover-back-image {
+    height: 100%;
+
+	object {
+	  height: 100%;
+	}
+  }
 }
