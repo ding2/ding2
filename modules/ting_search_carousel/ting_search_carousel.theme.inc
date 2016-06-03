@@ -43,6 +43,9 @@ function template_preprocess_ting_search_carousel(&$vars, $hook) {
         $tab['content'] = implode('', $rendered);
       }
     }
+    if ($index == 0) {
+      $vars['subtitle'] = $tab['subtitle'];
+    }
     $vars['tabs'][$index] = $tab;
   }
 
