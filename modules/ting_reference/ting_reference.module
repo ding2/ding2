@@ -275,7 +275,10 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
       // Extract the IDs for the entities we need to load.
       // @TODO: make view mode configurable.
       // Load the entity and build it.
-      $entities = entity_load('ting_object', array(), array('ding_entity_id' => $entity_ids));
+      $entities = array();
+      if (!empty($entity_ids)) {
+        $entities = entity_load('ting_object', array(), array('ding_entity_id' => $entity_ids));
+      }
       $build = entity_view($entity_type, $entities, 'search_result');
 
       // Don't show links. Should be an option.
