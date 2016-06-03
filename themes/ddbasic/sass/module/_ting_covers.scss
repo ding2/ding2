@@ -128,10 +128,9 @@
 
     object {
       height: 100%;
-	  
-	  @include small-medium() {
-	    
-	  }
+      @include small-medium() {
+        width: 100%;
+      }
     }
   }
 }
