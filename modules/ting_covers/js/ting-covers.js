@@ -13,7 +13,6 @@
   };
 
   var ting_cover_insert = function(coverData) {
-    debugger;
     if(coverData === false){
       return;
     }

@@ -55,13 +55,14 @@ function template_preprocess_ting_object_cover(&$variables) {
     '#href' => '#',
     '#options' => array(
       'attributes' => array(
+        'class' => array('reveal-cover'),
         'title' => t('See large image', array(), array('context' => 'ting_covers')),
         'aria-label' => t('See large image', array(), array('context' => 'ting_covers')),
         'data-reveal-id' => 'reveal-cover-large-' . $variables['elements']['#id'],
       ),
     ),
   );
-  $variables['elements']['#no_image_style'] = ' style="display:none"';
+
   if ($cover_file_path) {
     $alt = '';
     if (isset($object->creators)) {
@@ -80,6 +81,7 @@ function template_preprocess_ting_object_cover(&$variables) {
       '#options' => array(
         'html' => TRUE,
         'attributes' => array(
+          'class' => array('reveal-cover'),
           'title' => t('See large image foo', array(), array('context' => 'ting_covers')),
           'aria-label' => t('See large image', array(), array('context' => 'ting_covers')),
           'data-reveal-id' => 'reveal-cover-large-' . $variables['elements']['#id'],
@@ -115,7 +117,7 @@ function template_preprocess_ting_object_cover(&$variables) {
   $options = array(
     'html' => FALSE,
     'attributes' => array(
-      'class' => array('cover-front', 'active'),
+      'class' => array('cover-front', 'active', 'reveal-cover'),
       'title' => t('See large cover image', array(), array('context' => 'ting_covers')),
       'aria-label' => t('See large cover image', array(), array('context' => 'ting_covers')),
       'data-reveal-id' => 'reveal-cover-large-' . $variables['elements']['#id'],
@@ -133,7 +135,7 @@ function template_preprocess_ting_object_cover(&$variables) {
   $options = array(
     'html' => FALSE,
     'attributes' => array(
-      'class' => array('cover-back'),
+      'class' => array('cover-back', 'reveal-cover'),
       'title' => t('See large back cover image', array(), array('context' => 'ting_covers')),
       'aria-label' => t('See large back cover image', array(), array('context' => 'ting_covers')),
       'data-reveal-id' => 'reveal-cover-back-' . $variables['elements']['#id'],
