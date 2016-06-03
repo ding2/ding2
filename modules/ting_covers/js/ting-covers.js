@@ -4,22 +4,38 @@
   // Helper function to get information about a given cover place holder.
   var ting_covers_extract_data = function(e) {
     var classname = $(e).attr('class');
-    var local_id = classname.match(/ting-cover-object-id-(\S+)/);
-    var image_style = classname.match(/ting-cover-style-(\S+)/);
-    var owner_id = classname.match(/ting-cover-owner-id-(\S+)/);
-    if (!local_id) {
-      return false;
-    }
+    var imageStyle = classname.match(/ting-cover-style-(\S+)/);
+    var id = classname.match(/ting-cover-object-id-(\S+)/);
     return {
-      local_id : local_id[1],
-      owner_id : owner_id[1],
-      image_style : image_style[1]
+      local_id : id[1],
+      image_style : imageStyle[1]
     };
   };
 
-  var ting_cover_insert = function(covers) {
-    $.each(covers, function(index, cover_info) {
-      $('.ting-cover-processing' + '.ting-cover-object-id-' + cover_info.local_id + '.ting-cover-style-' + cover_info.image_style).html('<img src="' + cover_info.url + '"/>');
+  var ting_cover_insert = function(coverData) {
+    debugger;
+    if(coverData === false){
+      return;
+    }
+    $.each(coverData, function(coverInfo, data) {
+      // thumbnail
+      if (data.urls.thumbnail != undefined) {
+        var img = '<img src="' + data.urls.thumbnail + '" alt=""/>';
+        $('.ting-cover-processing' + '.ting-cover-object-id-' + data.local_id + ' a').html(img);
+        $('.ting-cover-processing' + '.ting-cover-object-id-' + data.local_id + ' a').parents('.work-cover').show();
+      }
+      // large
+      if (data.urls.detail != undefined) {
+        var img = '<img src="' + data.urls.detail + '" alt=""/>';
+        $('.ting-cover-processing' + '.ting-cover-object-id-' + data.local_id).parents('.field-items').find('.reveal-cover-large-image').foundation('reflow').html(img);
+      }
+      // back cover
+      if (data.urls.backpage != undefined) {
+        var pdf = '<object data="' + data.urls.backpage + '?page=1&amp;view=Fit" type="application/pdf" width="590" height="925"><p>It appears you dont have a PDF plugin for this browser. No biggie... you can <a href="' + url + '">click here to download the PDF file.</a></p></object>';
+        $('.ting-cover-processing' + '.ting-cover-object-id-' + data.local_id).parents('.work-cover').find('.cover-front').show().foundation('reflow');
+        $('.ting-cover-processing' + '.ting-cover-object-id-' + data.local_id).parents('.work-cover').find('.cover-back').show().foundation('reflow');
+        $('.ting-cover-processing' + '.ting-cover-object-id-' + data.local_id).parents('.field-items').find('.reveal-cover-back-image').html(pdf).foundation('reflow');
+      }
     });
   };
 

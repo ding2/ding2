@@ -61,6 +61,11 @@ function ting_covers_theme() {
   return array(
     'ting_object_cover' => array(
       'render element' => 'elements',
+      'template' => 'templates/ting-covers-object',
+      'preprocess functions' => array('template_preprocess_ting_object_cover'),
+      'attached' => array(
+        'js' => array(drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js'),
+      ),
       'file' => 'ting_covers.theme.inc',
     ),
   );
@@ -90,7 +95,7 @@ function ting_covers_ding_install_tasks() {
 /**
  * Template preprocessor.
  */
-function ting_covers_preprocess_ting_object(&$variables) {
+function ting_covers_preprocess_ting_object_cover(&$variables) {
   /*
    * Add the image style as a class, allowing templates to react on the size.
    */
@@ -105,7 +110,7 @@ function ting_covers_preprocess_ting_object(&$variables) {
  * @todo: handle image styles better and use API to flush expired images.
  *
  * @param int $time
- *   Timestamp where older files will be deleted.	Omit or set to NULL to delete
+ *   Timestamp where older files will be deleted.  Omit or set to NULL to delete
  *   all files.
  */
 function _ting_covers_delete_old_files($time = NULL) {
@@ -141,6 +146,7 @@ function _ting_covers_delete_old_files($time = NULL) {
 /**
  * Return the path to the cover of the object.
  */
-function ting_covers_object_path($object_id) {
-  return file_default_scheme() . '://ting' . DIRECTORY_SEPARATOR . 'covers' . DIRECTORY_SEPARATOR . 'object' . DIRECTORY_SEPARATOR . md5($object_id) . '.jpg';
+function ting_covers_object_path($object_id, $type = 'detail') {
+  $ext = $type == 'backpage' ? 'pdf' : 'jpg';
+  return file_default_scheme() . '://ting' . DIRECTORY_SEPARATOR . 'covers' . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . md5($object_id) . '.' . $ext;
 }

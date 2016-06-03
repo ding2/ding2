@@ -12,38 +12,43 @@ function ting_covers_objects($http_request = TRUE, $cover_data = array()) {
   $covers = array();
   $image_styles = array();
   $missing_images_local_ids = array();
-
   if ($http_request) {
     $cover_data = $_POST['coverData'];
   }
   elseif (!$http_request && empty($cover_data)) {
     return $covers;
   }
-
   foreach ($cover_data as $cover_info) {
     // Determine if the local id is a known negative.
     if (cache_get('ting_covers:' . $cover_info['local_id'], FALSE)) {
       break;
     }
 
-    $path = ting_covers_object_path($cover_info['local_id']);
-    if (file_exists($path)) {
-      // If we we already have a valid cover image w/o style then just use it.
-      $covers[] = array(
-        'local_id' => $cover_info['local_id'],
-        'image_style' => $cover_info['image_style'],
-        'url' => image_style_url($cover_info['image_style'], $path),
-      );
-    }
-    else {
-      // Mark the image for retrieval.
-      $missing_images_local_ids[] = (object) array(
-        'localIdentifier' => $cover_info['local_id'],
-        'libraryCode' => $cover_info['owner_id'],
-      );
+    $urls = array(
+      'detail',
+      'thumbnail',
+      'backpage',
+    );
 
-      // Image style to match later one.
-      $image_styles[$cover_info['local_id']] = $cover_info['image_style'];
+    foreach ($urls as $type) {
+      $path = ting_covers_object_path($cover_info['local_id'], $type);
+      if (file_exists($path)) {
+        $covers[$cover_info['local_id']] = array(
+          'local_id' => $cover_info['local_id'],
+          'image_style' => $cover_info['image_style'],
+        );
+        $covers[$cover_info['local_id']]['urls'][$type] = image_style_url($cover_info['image_style'], $path);
+      }
+      else {
+        // Mark the image for retrieval.
+        $missing_images_local_ids[$cover_info['local_id']] = (object) array(
+          'localIdentifier' => $cover_info['local_id'],
+          'libraryCode' => $cover_info['owner_id'],
+        );
+
+        // Image style to match later one.
+        $image_styles[$cover_info['local_id']] = $cover_info['image_style'];
+      }
     }
   }
 
@@ -55,31 +60,29 @@ function ting_covers_objects($http_request = TRUE, $cover_data = array()) {
     $additional_informations = $service->getByLocalIdentifier($missing_images_local_ids);
     foreach ($missing_images_local_ids as $local_id) {
       // Try to extract the image url from the result.
-      $source_url = FALSE;
       if (isset($additional_informations[$local_id->localIdentifier]) && $ai = $additional_informations[$local_id->localIdentifier]) {
-        if ($ai->detailUrl) {
-          $source_url = $ai->detailUrl;
-        }
-        elseif ($ai->thumbnailUrl) {
-          $source_url = $ai->thumbnailUrl;
-        }
-      }
+        $urls = array(
+          'detail' => $ai->detailUrl,
+          'thumbnail' => $ai->thumbnailUrl,
+          'backpage' => $ai->backPageUrl,
+        );
+        $urls = array_filter($urls);
 
-      // No cover image found? Cache this for future reference to avoid
-      // unnecessary requests.
-      if (!$source_url) {
-        cache_set('ting_covers:' . $local_id->localIdentifier, 1, 'cache', $_SERVER['REQUEST_TIME'] + TING_COVERS_DEFAULT_CACHE_LIFETIME);
-        continue;
-      }
-
-      // Try to download the image locally.
-      if ($file = _ting_covers_pages_fetch_image(ting_covers_object_path($local_id->localIdentifier), $source_url)) {
-        // Generate a path corresponding to the downloaded image, styled.
-        $covers[] = array(
+        if (empty($urls)) {
+          cache_set('ting_covers:' . $local_id->localIdentifier, 1, 'cache', $_SERVER['REQUEST_TIME'] + TING_COVERS_DEFAULT_CACHE_LIFETIME);
+          continue;
+        }
+        $covers[$local_id->localIdentifier] = array(
           'local_id' => $local_id->localIdentifier,
           'image_style' => $image_styles[$cover_info['local_id']],
-          'url' => image_style_url($image_styles[$cover_info['local_id']], $file),
         );
+        foreach ($urls as $type => $uri) {
+          // Try to download the image locally.
+          if ($file = _ting_covers_pages_fetch_image(ting_covers_object_path($local_id->localIdentifier, $type), $uri)) {
+            // Generate a path corresponding to the downloaded image, styled.
+            $covers[$local_id->localIdentifier]['urls'][$type] = image_style_url($image_styles[$cover_info['local_id']], $file);
+          }
+        }
       }
     }
   }
