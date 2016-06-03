@@ -11,7 +11,7 @@
 ?>
 
 <!-- The wrapper div is important because rs-carousel replaces it -->
-<div id="<?php print $id;?>" class="rs-carousel-wrapper <?php print $toggle_description; ?>">
+<div id="<?php print $id;?>" class="rs-carousel-wrapper">
   <div class="rs-carousel">
     <div class="rs-carousel-inner">
       <?php if ($toggle_description): ?>
