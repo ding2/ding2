@@ -23,6 +23,7 @@
   scripts[] = scripts/jquery.cookie.js
   scripts[] = scripts/respond.min.js
   scripts[] = scripts/jquery.scrollto.js
+  scripts[] = scripts/jquery.reveal.js
   scripts[] = scripts/html5shiv.js
   scripts[] = scripts/modernizr.js
   scripts[] = scripts/equalize.min.js

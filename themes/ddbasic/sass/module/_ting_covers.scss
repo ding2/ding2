@@ -1,0 +1,148 @@
+/**
+ * Module
+ *
+ * Styles for front covers and back covers
+ *
+ * @author ac
+ */
+
+.reveal-modal-bg { 
+  position: fixed; 
+  height: 100%;
+  width: 100%;
+  background: #000;
+  background: rgba(0,0,0,.8);
+  z-index: 100;
+  display: none;
+  top: 0;
+  left: 0; 
+}
+
+.reveal-modal {
+  visibility: hidden;
+  top: 100px; 
+  left: 50%;
+  margin-left: -300px;
+  width: 590px;
+  background: #eee url('../images/modal-gloss.png') no-repeat -200px -80px;
+  position: absolute;
+  z-index: 101;
+  padding: 30px 40px 34px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  -moz-box-shadow: 0 0 10px rgba(0,0,0,.4);
+  -webkit-box-shadow: 0 0 10px rgba(0,0,0,.4);
+  -box-shadow: 0 0 10px rgba(0,0,0,.4);
+}
+
+.reveal-modal.small         { width: 200px; margin-left: -140px;}
+.reveal-modal.medium         { width: 400px; margin-left: -240px;}
+.reveal-modal.large         { width: 600px; margin-left: -340px;}
+.reveal-modal.xlarge         { width: 800px; margin-left: -440px;}
+    
+.reveal-modal .close-reveal-modal {
+  font-size: 22px;
+  line-height: .5;
+  position: absolute;
+  top: 8px;
+  right: 11px;
+  color: #aaa;
+  text-shadow: 0 -1px 1px rbga(0,0,0,.6);
+  font-weight: bold;
+  cursor: pointer;
+} 
+
+.ting-object {
+  .work-cover-selector {
+    padding-top: 20px;
+
+    a {
+      color: $gray-dark;
+
+      &.active {
+        color: $link-color;
+      }
+    }
+
+    .cover-front {
+      display: inline-block;
+      height: 30px;
+      margin-right: 10px;
+      width: 30px;
+
+      &:before {
+        content: "\f02d";
+        display: inline-block;
+        font-family: FontAwesome;
+        font-size: 30px;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+    }
+
+    .cover-back {
+      display: inline-block;
+      height: 30px;
+      width: 30px;
+
+      &:before {
+        content: "\f030";
+        display: inline-block;
+        font-family: FontAwesome;
+        font-size: 30px;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+    }
+  }
+}
+
+.reveal-cover-large-image {
+  text-align: center;
+}
+
+.reveal-modal.reveal-cover-back,
+.reveal-modal.reveal-cover-large {
+  top: 10% !important;
+  position: fixed;
+
+  overflow: hidden;
+
+  @include small-medium() {
+    left: 0 !important;
+    margin-left: 5% !important;
+    width: calc(90% - 40px) !important;
+    height: 80% !important;
+    padding: 20px;
+  }
+}
+
+.reveal-modal.reveal-cover-back {
+  height: 80%;
+
+  .reveal-cover-back-image {
+    height: 100%;
+
+    object {
+      height: 100%;
+      @include small-medium() {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.page-search-ting .ting-object .work-cover-selector {
+  a.cover-back,
+  a.cover-front {
+    height: 20px;
+    width: 20px;
+
+    &:before {
+      font-size: 20px;
+    }
+  }
+}
