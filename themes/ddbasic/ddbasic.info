@@ -13,6 +13,7 @@
   stylesheets[all][] = css/system.messages.css
   stylesheets[all][] = css/addressfield.css
   stylesheets[all][] = css/date.css
+  stylesheets[all][] = css/reveal.css
   stylesheets[all][] = css/jquery.ui.theme.css
   stylesheets[all][] = css/jquery.ui.theme.min.css
   stylesheets[all][] = css/jquery.ui.dialog.css
@@ -23,6 +24,7 @@
   scripts[] = scripts/jquery.cookie.js
   scripts[] = scripts/respond.min.js
   scripts[] = scripts/jquery.scrollto.js
+  scripts[] = scripts/jquery.reveal.js
   scripts[] = scripts/html5shiv.js
   scripts[] = scripts/modernizr.js
   scripts[] = scripts/equalize.min.js
