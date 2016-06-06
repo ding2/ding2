@@ -237,7 +237,7 @@ projects[og_menu][version] = "3.0-rc5"
 projects[og_menu][patch][0] = "http://drupal.org/files/issues/selector_not_found-2276951-2.patch"
 
 projects[opening_hours][subdir] = "contrib"
-projects[opening_hours][version] = "1.5"
+projects[opening_hours][version] = "1.6"
 ; Adjust granularity to one minte.
 ; https://www.drupal.org/node/2381127
 projects[opening_hours][patch][] = "http://www.drupal.org/files/issues/Issue620-single-minute-opening-hours.patch"
