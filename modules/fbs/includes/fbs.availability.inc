@@ -15,6 +15,7 @@
  */
 function fbs_availability_items($provider_ids) {
   $avails = array();
+
   try {
     $avails = fbs_service()->Catalog->getAvailability(fbs_service()->agencyId, $provider_ids);
   }
@@ -41,6 +42,7 @@ function fbs_availability_items($provider_ids) {
  */
 function fbs_availability_holdings($provider_ids) {
   $holdings = array();
+
   try {
     $holdings = fbs_service()->Catalog->getHoldings(fbs_service()->agencyId, $provider_ids);
   }
@@ -63,7 +65,6 @@ function fbs_availability_holdings($provider_ids) {
       'reserved_count' => 0,
       'is_periodical' => FALSE,
     );
-
 
     $placement_parts = array('branch', 'department', 'location', 'sublocation');
     foreach ($item->holdings as $item_holding) {

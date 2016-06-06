@@ -61,7 +61,6 @@ function fbs_debt_list($account) {
     }
 
     $result[$id] = new DingProviderDebt($id, $data);
-
   }
 
   return $result;
@@ -84,9 +83,11 @@ function fbs_debt_payment_received($account, $debt_ids = array(), $order_id = NU
   $payment_order = new FBS\Model\PaymentOrder();
   $payment_order->orderId = $order_id;
   $payment_order->feeIds = array();
+
   foreach ($debt_ids as $debt_id) {
     $payment_order->feeIds[] = $debt_id;
   }
+
   $res = array();
   try {
     $res = fbs_service()->Payment->payFees(fbs_service()->agencyId, fbs_patron_id($account), $payment_order);

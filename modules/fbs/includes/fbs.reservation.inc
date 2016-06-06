@@ -17,13 +17,7 @@
  *   Reservation info.
  */
 function fbs_reservation_list($account, $requested_type = NULL) {
-  $result = array(
-    DING_RESERVATION_READY => array(),
-    DING_RESERVATION_NOT_READY => array(),
-    DING_RESERVATION_INTERLIBRARY_LOANS => array(),
-  );
   $res = array();
-
   try {
     $res = fbs_service()->Reservations->getReservations(fbs_service()->agencyId, fbs_patron_id($account));
   }
@@ -31,6 +25,11 @@ function fbs_reservation_list($account, $requested_type = NULL) {
     watchdog_exception('FBS', $e);
   }
 
+  $result = array(
+    DING_RESERVATION_READY => array(),
+    DING_RESERVATION_NOT_READY => array(),
+    DING_RESERVATION_INTERLIBRARY_LOANS => array(),
+  );
   foreach ($res as $reservation) {
     $type = $reservation->state == 'readyForPickup' ? DING_RESERVATION_READY : DING_RESERVATION_NOT_READY;
     $type = $reservation->state == 'interLibraryReservation' ? DING_RESERVATION_INTERLIBRARY_LOANS : $type;
@@ -195,6 +194,8 @@ function fbs_reservation_update($account, $reservation_ids, $options) {
   }
   catch (Exception $e) {
     watchdog_exception('FBS', $e);
+    
+    return FALSE;
   }
 }
 
@@ -212,6 +213,8 @@ function fbs_reservation_delete($account, $reservation_id) {
   }
   catch (Exception $e) {
     watchdog_exception('FBS', $e);
+
+    return FALSE;
   }
 }
 

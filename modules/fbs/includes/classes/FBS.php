@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Define FBS class for ding provider integration.
+ */
 
 use Reload\Prancer;
 use Reload\Prancer\HttpClient;
@@ -86,6 +90,9 @@ class FBS {
    *   FBSAuthenticationHandler.
    * @param Serializer|null $serializer
    *   Serializer to use. Defaults to JsonMapperSerializer instance.
+   *
+   * @throws FBSException
+   *   If provider agency id or endpoint are not set.
    */
   public function __construct($agency_id, $endpoint, HttpClient $client = NULL, Serializer $serializer = NULL) {
     if (empty($agency_id) || empty($endpoint)) {
@@ -120,6 +127,6 @@ class FBS {
       $class = '\FBS\External' . $api . 'Api';
       $this->{$api} = new $class($endpoint, $this->httpClient, $this->serializer);
     }
-
   }
+
 }
