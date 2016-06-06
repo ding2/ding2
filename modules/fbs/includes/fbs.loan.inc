@@ -20,7 +20,12 @@ function fbs_loan_list($account) {
   
   $service = fbs_service();
   if ($service) {
-    $res = $service->MaterialLoans->getLoans($service->agencyId, fbs_patron_id($account));
+    try {
+      $res = $service->MaterialLoans->getLoans($service->agencyId, fbs_patron_id($account));
+    }
+    catch (Exception $e) {
+      watchdog_exception('fbs', $e);
+    }
   }
 
   foreach ($res as $loan) {
@@ -77,7 +82,12 @@ function fbs_loan_renew($account, $loans) {
 
   $service = fbs_service();
   if ($service) {
-    $res = $service->MaterialLoans->renewLoans($service->agencyId, fbs_patron_id($account), $loans);
+    try {
+      $res = $service->MaterialLoans->renewLoans($service->agencyId, fbs_patron_id($account), $loans);
+    }
+    catch (Exception $e) {
+      watchdog_exception($e);
+    }
   }
 
   foreach ($res as $loan) {

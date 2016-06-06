@@ -110,9 +110,15 @@ class FBSAuthenticationHandler implements HttpClient {
     $login->username = $this->username;
     $login->password = $this->password;
 
+    $res = NULL;
     $service = fbs_service();
     if ($service) {
-      $res = $service->Authentication->login($service->agencyId, $login);
+      try {
+        $res = $service->Authentication->login($service->agencyId, $login);
+      }
+      catch (Exception $e) {
+        watchdog_exception('fbs', $e);
+      }
     }
 
     if (isset($res->sessionKey)) {
