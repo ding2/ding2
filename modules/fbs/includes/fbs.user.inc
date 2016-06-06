@@ -123,3 +123,15 @@ function fbs_user_update_pincode($account, $new_pincode) {
 
   return $result;
 }
+
+/**
+ * Implements clear_cache().
+ *
+ * This hook is only called from ding_dibs after a payment have been accepted.
+ *
+ * @param stdClass $account
+ *   Drupal user account object.
+ */
+function fbs_user_clear_cache($account) {
+  // As the FBS currently only uses a static cache for debt... do nothing.
+}
