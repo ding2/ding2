@@ -116,7 +116,7 @@ function fbs_user_update_pincode($account, $new_pincode) {
     watchdog_exception('FBS', $e);
     
     return array(
-      'creds' => FALSE
+      'creds' => FALSE,
     );
   }
   // FBS doesn't give any other indication of success than returning rather
