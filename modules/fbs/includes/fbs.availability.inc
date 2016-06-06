@@ -17,7 +17,12 @@ function fbs_availability_items($provider_ids) {
   $avails = array();
   $service = fbs_service();
   if ($service) {
-    $avails = $service->Catalog->getAvailability($service->agencyId, $provider_ids);
+    try {
+      $avails = $service->Catalog->getAvailability($service->agencyId, $provider_ids);
+    }
+    catch (Exception $e) {
+      watchdog_exception('fbs', $e);
+    }
   }
 
   $result = array();
@@ -41,7 +46,12 @@ function fbs_availability_holdings($provider_ids) {
   $holdings = array();
   $service = fbs_service();
   if ($service) {
-    $holdings = $service->Catalog->getHoldings($service->agencyId, $provider_ids);
+    try {
+      $holdings = $service->Catalog->getHoldings($service->agencyId, $provider_ids);
+    }
+    catch (Exception $e) {
+      watchdog_exception($e);
+    }
   }
 
   $result = array();

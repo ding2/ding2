@@ -126,7 +126,12 @@ function fbs_reservation_create($account, $record_id, $options) {
   if (!$service) {
     return FALSE;
   }
-  $response = $service->Reservations->addReservations($service->agencyId, fbs_patron_id($account), $batch);
+  try {
+    $response = $service->Reservations->addReservations($service->agencyId, fbs_patron_id($account), $batch);
+  }
+  catch (Exception $e) {
+    watchdog_exception('fbs', $e);
+  }
 
   /** @var \FBS\Model\ReservationResult $result */
   $result = current($response->reservationResults);
@@ -156,7 +161,7 @@ function fbs_reservation_create($account, $record_id, $options) {
       case 'material_part_of_collection':
         throw new DingProviderReservationNotAvailable();
 
-        // Success shouldn't happen.
+      // Success shouldn't happen.
       case 'success':
       default:
         watchdog('fbs', 'Unexpected state "@state" on failed reservaiton', array('@state' => $result->result), WATCHDOG_WARNING);
