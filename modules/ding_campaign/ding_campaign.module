@@ -758,7 +758,7 @@ function _ding_campaign_image_styles() {
 
   foreach ($image_styles as $style) {
     if ($style['module'] == 'ding_campaign' && strpos($style['name'], 'ding_campaign_p') !== FALSE) {
-      $styles[$style['name']] = t('@value', array('@value' => $style['label']));
+      $styles[$style['name']] = t($style['label']);
     }
   }
 
