@@ -281,9 +281,17 @@ function fbs_profile2_presave($entity) {
 
     $service = fbs_service();
     if ($service) {
-      $res = $service->Patron->update($service->agencyId, $patron['patronId'], $update);
-      $result['creds'] = _fbs_patron_info($res->patron);
-      ding_user_save_creds($result);
+      $res = NULL;
+      try {
+        $res = $service->Patron->update($service->agencyId, $patron['patronId'], $update);
+      }
+      catch (Exception $e) {
+        watchdog_exception('FBS', $e);
+      }
+      if ($res) {
+        $result['creds'] = _fbs_patron_info($res->patron);
+        ding_user_save_creds($result);
+      }
     }
   }
 }
@@ -326,7 +334,15 @@ function fbs_branches() {
     $service = fbs_service();
 
     if ($service) {
-      $res = $service->Placement->getBranches($service->agencyId);
+      $res = array();
+      $branches = array();
+      try {
+        $res = $service->Placement->getBranches($service->agencyId);
+      }
+      catch (Exception $e) {
+        watchdog_exception('fbs', $e);
+      }
+
       foreach ($res as $branch) {
         $branches[$branch->branchId] = $branch->title;
       }
