@@ -379,7 +379,7 @@ projects[ask_vopros][download][type] = "git"
 projects[ask_vopros][download][url] = "git@github.com:Biblioteksvagten/ask_vopros.git"
 projects[ask_vopros][download][tag] = "1.1"
 
-projects[xautload][subdir] = "contrib"
+projects[xautoload][subdir] = "contrib"
 projects[xautoload][version] = "5.7"
 
 ; Libraries
