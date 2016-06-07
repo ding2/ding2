@@ -5,9 +5,6 @@
  */
 
 namespace P2b;
-
-require_once __DIR__ . '/../vendor/autoload.php';
-
 use GuzzleHttp\Client as HttpClient;
 
 /**

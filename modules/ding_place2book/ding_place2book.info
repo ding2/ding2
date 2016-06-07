@@ -7,6 +7,7 @@ dependencies[] = ding_event
 dependencies[] = features
 dependencies[] = number
 dependencies[] = strongarm
+dependencies[] = xautoload
 configure = admin/config/ding/place2book
 explanation = Field type(s) in use - see <a href="/admin/reports/fields">Field list</a>
 features[ctools][] = strongarm:strongarm:1

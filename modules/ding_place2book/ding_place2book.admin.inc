@@ -9,7 +9,6 @@
  */
 function ding_place2book_service_admin_form($form, &$form_state) {
   $form['#tree'] = TRUE;
-
   $settings = variable_get('ding_place2book_settings', array());
 
   $form['ding_place2book'] = array(

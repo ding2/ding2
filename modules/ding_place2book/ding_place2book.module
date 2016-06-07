@@ -37,7 +37,44 @@ function ding_place2book_image_default_styles() {
  * Implements hook_libraries_info().
  */
 function ding_place2book_libraries_info() {
-  
+  return array(
+    'guzzle' => array(
+      'name' => 'Guzzle',
+      'vendor url' => 'https://github.com/guzzle/guzzle',
+      'download url' => 'https://github.com/guzzle/guzzle',
+      'version' => '6.2',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
+    'promises' => array(
+      'name' => 'Guzzle promises library',
+      'vendor url' => 'https://github.com/guzzle/promises',
+      'download url' => 'https://github.com/guzzle/promises',
+      'version' => '1.2',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
+    'http-message' => array(
+      'name' => 'Common interface for HTTP messages',
+      'vendor url' => 'https://github.com/php-fig/http-message',
+      'download url' => 'https://github.com/php-fig/http-message',
+      'version' => '1.0',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
+    'psr7' => array(
+      'name' => 'PSR-7 message implementation',
+      'vendor url' => 'https://github.com/guzzle/psr7',
+      'download url' => 'https://github.com/guzzle/psr7',
+      'version' => '1.3',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
+  );
 }
 
 /**
@@ -177,7 +214,6 @@ function ding_place2book_node_delete($node) {
  */
 function ding_place2book_instance() {
   $p2b = drupal_static(__FUNCTION__, NULL);
-
   if (empty($settings)) {
     $settings = variable_get('ding_place2book_settings', array());
     $p2b = P2b::getInstance($settings);
@@ -287,7 +323,12 @@ function _ding_p2b_get_address_data($node) {
       'postal_code',
     ),
     "city" => array('field_ding_event_location', LANGUAGE_NONE, 0, 'locality'),
-    "country" => array('field_ding_event_location', LANGUAGE_NONE, 0, 'country'),
+    "country" => array(
+      'field_ding_event_location',
+      LANGUAGE_NONE,
+      0,
+      'country',
+    ),
     "phone" => array(
       'field_ding_library_phone_number',
       LANGUAGE_NONE,
