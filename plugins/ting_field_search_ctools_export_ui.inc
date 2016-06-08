@@ -10,7 +10,7 @@ $plugin = array(
   'menu' => array(
     'menu prefix' => 'admin/config/ting/ting-field-search',
     'menu item' => 'profiles',
-    'menu title' => 'Ting field search profiles',
+    'menu title' => 'Profiles',
     'menu description' => 'Manage Ting field search profiles',
   ),
 
@@ -24,10 +24,20 @@ $plugin = array(
     'settings' => 'ting_field_search_profile_export_form',
     'submit' => 'ting_field_search_profile_export_form_submit'
   ),
+
+  'handler' => array(
+    'class' => 'ting_field_search_ctools_export_ui',
+    'parent' => 'ctools_export_ui',
+  ),
 );
 
 function ting_field_search_profile_export_form(&$form, &$form_state) {
   $profile = $form_state['item'];
+
+  $form['profile'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Create profile'),
+  );
 
   $form['profile']['title'] = array(
     '#type' => 'textfield',
@@ -70,7 +80,6 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     '#type' => 'fieldset',
     '#title' => t('Search request'),
     '#description' => '<strong>' .  t('Settings related to the search request') . '</strong>',
-    '#tree' => TRUE,
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
     '#weight' => -15,
@@ -110,7 +119,6 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     '#type' => 'fieldset',
     '#title' => t('User interaction'),
     '#description' => '<strong>' . t('Control how the profile behaves in the UI') . '</strong>',
-    '#tree' => TRUE,
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
     '#weight' => -14,
@@ -139,7 +147,6 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     '#type' => 'fieldset',
     '#title' => t('Search result'),
     '#description' => '<strong>'. t('Control how the search result is presented to the user') . '</strong>',
-    '#tree' => TRUE,
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
     '#weight' => -13,
@@ -177,7 +184,6 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     '#type' => 'fieldset',
     '#title' => t('Webtrends Analytics'),
     '#description' => '<strong>'. t('Settings for webtrends integration') . '</strong>',
-    '#tree' => TRUE,
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
     '#weight' => -11,
@@ -205,7 +211,6 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     '#type' => 'fieldset',
     '#title' => t('Facets'),
     '#description' => '<strong>' . t('Facet settings') . '</strong>',
-    '#tree' => TRUE,
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
     '#weight' => -12,
@@ -216,53 +221,82 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
       '#default_value' => $profile->config['facets']['use_facets'],
     ),
   );
-  // Separate the rest of the facet settings in a container, so they can be
-  // easily disabled/enabled by the use_facets. The facet container will be
-  // embedded into facet config group
-  // This might seem like a weird construct, but for now it works ;).
-  $form['facets'] = array(
+  // Nest the rest of the facet settings in a container, so they can be
+  // easily disabled/enabled by the use_facets.
+  $form['config']['facets']['facets'] = array(
     '#type' => 'container',
     '#title' => t('Facets'),
-    '#tree' => TRUE,
     '#states' => array(
       'disabled' => array(
         ':input[name="config[facets][use_facets]"]' => array('checked' => FALSE),
       ),
     ),
   );
-  $form['facets']['number_of_facets'] = array(
+  $form['config']['facets']['facets']['number_of_facets'] = array(
     '#type' => 'textfield',
     '#title' => t('Number of facets'),
     '#description' => t('Enter the number of facets the search well should return.'),
     '#default_value' => $profile->config['facets']['number_of_facets'],
     '#element_validate' => array('element_validate_integer_positive'),
+    '#parents' => array('config', 'facets', 'number_of_facets'),
   );
-  $form['facets']['facet_count'] = array(
+  $form['config']['facets']['facets']['facet_count'] = array(
     '#type' => 'select',
     '#title' => t('Visible facets amount'),
     '#description' => t('The amount of facets that will be visible on the search page by default. The rest of the facets will be hidden and the user have to click to show them.'),
     '#options' => drupal_map_assoc(range(1, 15)),
     '#default_value' => $profile->config['facets']['facet_count'],
+    '#parents' => array('config', 'facets', 'facet_count'),
   );
-  $form['facets']['term_count'] = array(
+  $form['config']['facets']['facets']['term_count'] = array(
     '#type' => 'select',
     '#title' => t('Number of terms'),
     '#description' => t('The number of facts terms to display in each facet group.'),
     '#options' => drupal_map_assoc(range(1, $profile->config['facets']['number_of_facets'])),
     '#default_value' => $profile->config['facets']['term_count'],
+    '#parents' => array('config', 'facets', 'term_count'),
   );
 
+  $rows = array();
+  $row_elements = array();
+
   // Build facet rows.
-  /*$index = 0;
+  $index = 0;
   $last_facet = NULL;
   if (!empty($profile->facets)) {
     foreach ($profile->facets as $facet) {
-      _ting_field_search_prepare_facet_row($form['facets']['table'], $index, $facet);
+      $row = _ting_field_search_build_facet_row($index, $facet);
+      $row_elements[$index] = array(
+        'name' => &$row['data'][0]['data'],
+        'title' => &$row['data'][1]['data'],
+        'sorting' => &$row['data'][2]['data'],
+        'weight' => &$row['data'][3]['data'],
+      );
+      $rows[$index] = $row;
+      //_ting_field_search_prepare_facet_row($form['facets']['table'], $index, $facet);
       $index++;
       $last_facet = $facet;
     }
   }
-  _ting_field_search_prepare_facet_row($form['facets']['table'], $index);
+  $row = _ting_field_search_build_facet_row($index);
+  $row_elements[$index] = array(
+    'name' => &$row['data'][0]['data'],
+    'title' => &$row['data'][1]['data'],
+    'sorting' => &$row['data'][2]['data'],
+    'weight' => &$row['data'][3]['data'],
+  );
+  $rows[$index] = $row;
+
+  $header = array(t('Name'), t('Title'), t('Facet name sorting'), t('Weight'), t('Operations'));
+  $form['config']['facets']['facets']['table'] = array(
+    '#theme' => 'table',
+    'elements' => $row_elements,
+    '#header' => $header,
+    '#rows' => $rows,
+    '#attributes' => array('id' => 'facets'),
+  );
+
+  drupal_add_tabledrag('facets', 'order', 'sibling', 'facet-weight');
 
   // When a new facet is added, ensure that it has a higher weight than the
   // last existing facet, if any.
@@ -272,41 +306,93 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
   if (isset($last_facet)) {
     $weight = $last_facet['weight'] + 1;
     $form['facets']['table'][$index]['weight']['#default_value'] = $weight;
-  }*/
-
-  // Form actions
-  $form['actions'] = array('#type' => 'actions');
-
-  // Save
-  $form['actions']['submit'] = array(
-    '#type' => 'submit',
-    '#value' => t('Save'),
-  );
-
-  // Delete
-  if ($profile) {
-    $form['actions']['delete'] = array(
-      '#type' => 'submit',
-      '#value' => t('Delete'),
-      '#submit' => array('ting_field_search_profile_form_delete'),
-    );
   }
-
-  // Cancel
-  $form['actions']['cancel'] = array(
-    '#type' => 'submit',
-    '#value' => t('Back'),
-    '#submit' => array('ting_field_search_profile_form_cancel'),
-    // Bypass form-validation since this is a cancel-button
-    '#limit_validation_errors' => array(),
-    '#weight' => 40,
-  );
 
   // Add some correcting CSS.
   $path = drupal_get_path('module', 'ting_field_search');
   $form['#attached']['css'][] = $path . '/css/ting_field_search.admin.css';
+
+  unset($form['info']);
 }
 
 function ting_field_search_profile_export_form_submit($form, &$form_state) {
+  // Mark any input facet with an empty name to be deleted.
+  $form_state['item']->facets = array();
+  if ($facets = $form_state['values']['facets']) {
+    foreach ($facets as $key => $facet) {
+      $current = $facets[$key];
+      if ($current['name']) {
+        $form_state['item']->facets[] = $current;
+      }
+    }
+  }
 
+  // Save the active tab for later in the redirect. (TODO)
+  $active_tab = &drupal_static(__FUNCTION__);
+  $active_tab = $form_state['values']['config']['config__active_tab'];
+  // Remove it so it doesn't get saved in the DB.
+  unset($form_state['values']['config']['config__active_tab']);
+}
+
+/**
+ * Exists callback for the profile machine-name element.
+ */
+function ting_field_search_profile_exists($value) {
+  // Retrieve existing profile names.
+  $profiles = array_keys(ting_field_search_profiles_load_all());
+
+  return in_array($value, $profiles);
+}
+
+/**
+ * Helper function to prepare a row for the facet table.
+ */
+function _ting_field_search_build_facet_row($index, $facet = NULL) {
+  return array(
+    'data' => array(
+      array('data' => array(
+        '#type' => 'textfield',
+        '#title' => t('Facet id'),
+        '#title_display' => 'invisible',
+        '#default_value' => isset($facet) ? $facet['name'] : '',
+        '#parents' => array('facets', $index, 'name'),
+      )),
+      array('data' => array(
+        '#type' => 'textfield',
+        '#title' => t('Title'),
+        '#title_display' => 'invisible',
+        '#default_value' => isset($facet) ? $facet['title'] : '',
+        '#parents' => array('facets', $index, 'title'),
+      )),
+      array('data' => array(
+        '#type' => 'select',
+        '#title' => t('Facet name sorting'),
+        '#title_display' => 'invisible',
+        '#options' => array(
+          'default' => t('Ranking (default)'),
+          'alphabetical' => t('Alphabetic'),
+          'aphabetical_reverse' => t('Alphabetic (reverse)'),
+          'numeric' => t('Numeric'),
+          'numeric_reverse' => t('Numeric (reverse)'),
+        ),
+        '#default_value' => isset($facet['sorting']) ? $facet['sorting'] : 'default',
+        '#parents' => array('facets', $index, 'sorting'),
+      )),
+      array('data' => array(
+        '#type' => 'weight',
+        '#title' => t('Weight'),
+        '#default_value' => isset($facet) ? $facet['weight'] : 0,
+        '#title_display' => 'invisible',
+        '#attributes' => array('class' => array('facet-weight')),
+        '#parents' => array('facets', $index, 'weight'),
+      )),
+      array('data' => array(
+        '#type' => 'link',
+        '#title' => t('delete'),
+        '#href' =>  'admin/config/ting/settings/ting-field-search-profiles/create',
+        '#options' => array('attributes' => array('title' => t('Delete facet.'))),
+      )),
+    ),
+    'class' => array('draggable'),
+  );
 }

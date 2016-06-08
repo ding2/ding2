@@ -12,40 +12,21 @@
 function ting_field_search_menu() {
   $items = array();
 
-  // Menu items for administering profiles.
-  $items['admin/config/ting/settings/ting-field-search-profiles/create'] = array(
-    'title' => 'Create profile',
-    'description' => 'Create a new Ting field search profile.',
+  // The profile list is attached to this tab root with ctools export ui plugin.
+  $items['admin/config/ting/ting-field-search'] = array(
+    'title' => 'Ting field search',
+    'description' => 'Manage settings and profiles.',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('ting_field_search_profile_form_add'),
+    'page arguments' => array('ting_field_search_settings_form'),
     'access arguments' => array('administer site configuration'),
     'file' => 'ting_field_search.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
   );
-  $items['admin/config/ting/settings/ting-field-search-profiles/%ting_field_search_profiles/edit'] = array(
-    'title' => 'Edit profile',
-    'description' => 'Edit or delete an existing profile',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ting_field_search_profile_form_edit', 5),
-    'access arguments' => array('administer site configuration'),
-    'file' => 'ting_field_search.admin.inc',
-  );
-  $items['admin/config/ting/settings/ting-field-search-profiles/%ting_field_search_profiles/delete'] = array(
-    'title' => 'Delete profile',
-    'description' => 'Deletes an existing profile',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ting_field_search_profile_form_delete_confirm_form', 5),
-    'access arguments' => array('administer site configuration'),
-    'file' => 'ting_field_search.admin.inc',
-    'type' => MENU_CALLBACK,
-  );
-  $items['admin/config/ting/settings/ting-field-search-profiles/%ting_field_search_profiles/delete/%ting_field_search_facets'] = array(
-    'title' => 'Delete facet',
-    'description' => 'Deletes a facet setting.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ting_field_search_profile_form_delete_confirm_form', 5, 7),
-    'access arguments' => array('administer site configuration'),
-    'file' => 'ting_field_search.admin.inc',
-    'type' => MENU_CALLBACK,
+  $items['admin/config/ting/ting-field-search/settings'] = array(
+    'title' => 'Settings',
+    'description' => 'Manage settings for Ting field search.',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
   );
 
   // Give administrators a chance to install a compatible cache backend, if
@@ -72,6 +53,10 @@ function ting_field_search_hook_info() {
     'group' => 'facets',
   );
   return $hooks;
+}
+
+function ting_field_search_ctools_plugin_pre_alter(&$plugin, &$info) {
+  //file_put_contents("/home/simon/debug/i-was-here.txt", print_r($plugin, FILE_APPEND));
 }
 
 /**
@@ -592,105 +577,6 @@ function ting_field_search_preprocess_html(&$variables) {
       ), 'ting_field_search_onsite_ad');
     }
   }
-}
-
-/**
- * Implements hook_form_FORM_ID_alter().
- */
-function ting_field_search_form_ting_admin_ting_settings_alter(&$form, &$form_state) {
-  // Show a message to the administrator if the module isn't installed
-  // correctly. We provide a callback to correct this.
-  if (!ting_field_search_get_status()) {
-    drupal_set_message(t('Ting field search is NOT installed correctly and will
-      not work proberly. Please go to <a href="@install">Installation</a> to
-      correct this.', array(
-        '@install' => url('admin/config/ting-field-search/install', array(
-          'query' => drupal_get_destination()
-        )),
-      )
-    ), 'error');
-  }
-
-  // Change the title of default profile textfield and insert it a new fieldset.
-  $standard = $form['ting']['ting_search_profile'];
-  $standard['#title'] = t('Standard search profile');
-  unset($form['ting']['ting_search_profile']);
-  $form['ting']['search_profile'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Search profile'),
-    '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
-    '#tree' => FALSE,
-  );
-  $form['ting']['search_profile']['ting_search_profile'] = $standard;
-
-  // Attach the Ting field search settings.
-  $form['ting']['search_profile']['ting_field_search'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Ting field search'),
-    // There's a bug that will show icon anyway.
-    // See: https://www.drupal.org/node/1361810 for more info (Fixed with CSS).
-    '#collapsible' => FALSE,
-    '#prefix' => '<div id="ting-field-search-wrapper">',
-    '#suffix' => '</div>',
-  );
-
-  // A simple table of existing special search profiles.
-  // TODO: Add table sort?
-  $profiles = ting_field_search_profiles_load_all();
-  $profile_header = t('Search well profile (!link)', array(
-    '!link' => l('VIP', 'http://vip.dbc.dk/', array(
-      'attributes' => array('target'=>'_blank')
-      )),
-  ));
-  $header = array(
-    t('Title'),
-    t('Name'),
-    $profile_header,
-    t('Query'),
-    t('Exposed'),
-    t('Alter links'),
-    t('Weight'),
-  );
-  $rows = array();
-  foreach ($profiles as $profile) {
-    $query = check_plain($profile->config['search_request']['query']);
-    $path = 'admin/config/ting/settings/ting-field-search-profiles/' . $profile->name .'/edit';
-    $rows[] = array(
-      l($profile->title, $path),
-      $profile->name,
-      check_plain($profile->config['search_request']['search_well_profile']),
-      empty($query) ? t('- None -') : $query,
-      $profile->config['user_interaction']['exposed'] ? t('Yes') : t('No'),
-      $profile->config['user_interaction']['alter_links'] ? t('Yes') : t('No'),
-      $profile->weight,
-    );
-  }
-
-  // If the current administrator has persmission, insert a link to profile
-  // creation (emulating a local action link).
-  $item = menu_get_item('admin/config/ting/settings/ting-field-search-profiles/create');
-  if ($item['access']) {
-    $form['ting']['search_profile']['ting_field_search']['add'] = array(
-      '#prefix' => '<ul class="action-links">',
-      '#theme' => 'menu_local_action',
-      '#link' => $item,
-      '#suffix' => '</ul>',
-    );
-  }
-  $form['ting']['search_profile']['ting_field_search']['profiles'] = array(
-    '#theme' => 'table',
-    '#header' => $header,
-    '#rows' => $rows,
-    '#empty' => t('No profiles found'),
-    '#attributes' => array(
-      'id' => 'ting-field-search-profiles',
-    ),
-  );
-
-  // Add some correcting CSS.
-  $path = drupal_get_path('module', 'ting_field_search');
-  $form['#attached']['css'][] = $path . '/css/ting_field_search.admin.css';
 }
 
 /**

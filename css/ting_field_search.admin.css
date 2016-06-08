@@ -38,3 +38,7 @@
   margin-bottom: 15px;
   border-bottom: 1px solid grey;
 }
+
+td.ctools-export-ui-operations .ctools-dropbutton {
+  right: 40px;
+}

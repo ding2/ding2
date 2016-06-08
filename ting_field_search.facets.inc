@@ -54,12 +54,14 @@ function ting_field_search_form_ding_facetbrowser_form_alter(&$form, &$form_stat
       unset($parameters['facets']);
     }
 
-    // Profile facet settings
-    $profile_facets = ting_field_search_facets_load($profile->pid);
+    // Number of visible facets by default. Need to keep count to enforce this.
     $count = 1;
     $facet_count = $profile->config['facets']['facet_count'];
-
-    foreach ($profile_facets as $name => $profile_facet) {
+    // Keep a record of the facets we've added.
+    $profile_facets = array();
+    foreach ($profile->facets as $profile_facet) {
+      $name = $profile_facet['name'];
+      $profile_facets[$name] = $profile_facet;
       $facet = isset($facets[$name]) ? $facets[$name] : FALSE;
 
       // No need to do anything if the profile facet wasn't returned.
@@ -71,8 +73,8 @@ function ting_field_search_form_ding_facetbrowser_form_alter(&$form, &$form_stat
 
         $form[$name] = array(
           '#type' => 'fieldset',
-          '#title' => check_plain($profile_facet->title),
-          '#weight' => $profile_facet->weight,
+          '#title' => check_plain($profile_facet['title']),
+          '#weight' => $profile_facet['weight'],
           '#attributes'  => array(
             'id' => str_replace('.', '-', $name),
             'data' => array($name),
@@ -81,7 +83,7 @@ function ting_field_search_form_ding_facetbrowser_form_alter(&$form, &$form_stat
           ),
         );
 
-        _ting_field_search_sort_terms($facet->terms, $profile_facet->sorting);
+        _ting_field_search_sort_terms($facet->terms, $profile_facet['sorting']);
 
         $selected = array();
         $not_selected = array();
