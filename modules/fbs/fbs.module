@@ -26,35 +26,33 @@ function fbs_init() {
  * Implements hook_ding_provider().
  */
 function fbs_ding_provider() {
-  $path = drupal_get_path('module', 'fbs');
-
   return array(
     'title' => 'FBS provider',
     'settings' => 'fbs_settings_form',
     'provides' => array(
       'availability' => array(
         'prefix' => 'availability',
-        'file' => $path . '/includes/fbs.availability.inc',
+        'file' => 'includes/fbs.availability.inc',
       ),
       'debt' => array(
         'prefix' => 'debt',
-        'file' => $path . '/includes/fbs.debt.inc',
+        'file' => 'includes/fbs.debt.inc',
       ),
       'loan' => array(
         'prefix' => 'loan',
-        'file' => $path . '/includes/fbs.loan.inc',
+        'file' => 'includes/fbs.loan.inc',
       ),
       'reservation' => array(
         'prefix' => 'reservation',
-        'file' => $path . '/includes/fbs.reservation.inc',
+        'file' => 'includes/fbs.reservation.inc',
       ),
       'user' => array(
         'prefix' => 'user',
-        'file' => $path . '/includes/fbs.user.inc',
+        'file' => 'includes/fbs.user.inc',
       ),
       'wayf' => array(
         'prefix' => 'wayf',
-        'file' => $path . '/includes/fbs.wayf.inc',
+        'file' => 'includes/fbs.wayf.inc',
       ),
     ),
   );
