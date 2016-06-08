@@ -70,15 +70,7 @@ function ding_campaign_campaign_content_type_edit_form($form, &$form_state) {
     '#type' => 'select',
     '#title' => t('Campaign image width'),
     '#description' => t('Applicable for image campaigns. Image will be resized to selected width, height will be selected automatically.'),
-    '#options' => array(
-      'ding_campaign_p_25' => t('25% (280px)'),
-      'ding_campaign_p_33' => t('33% (380px)'),
-      'ding_campaign_p_50' => t('50% (580px)'),
-      'ding_campaign_p_66' => t('66% (780px)'),
-      'ding_campaign_p_75' => t('75% (880px)'),
-      'ding_campaign_p_100' => t('100% (1200px)'),
-
-    ),
+    '#options' => _ding_campaign_image_styles(),
     '#default_value' => (isset($form_state['conf']['ding_campaign_image_style'])) ? $form_state['conf']['ding_campaign_image_style'] : 'ding_campaign_p_25',
   );
 

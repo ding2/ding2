@@ -746,3 +746,21 @@ function _ding_campaign_rule_by_type($node_type) {
   return $type;
 }
 
+/**
+ * Get list of ding campaign image styles.
+ *
+ * @return array
+ *   List machine names with human readable names.
+ */
+function _ding_campaign_image_styles() {
+  $image_styles = image_styles();
+  $styles = array();
+
+  foreach ($image_styles as $style) {
+    if ($style['module'] == 'ding_campaign' && strpos($style['name'], 'ding_campaign_p') !== FALSE) {
+      $styles[$style['name']] = t($style['label']);
+    }
+  }
+
+  return $styles;
+}
