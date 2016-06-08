@@ -319,6 +319,10 @@
      */
     function init(id, settings) {
       element = $('#' + id);
+      if (element.hasClass('ting_search_carousel_inited')) {
+        return;
+      }
+      element.addClass('ting_search_carousel_inited');
 
       tabs = settings.tabs;
 
