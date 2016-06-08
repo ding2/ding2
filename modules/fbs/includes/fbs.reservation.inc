@@ -102,6 +102,7 @@ function fbs_reservation_create($account, $record_id, $options) {
   $batch->reservations = array();
 
   $reservation = new FBS\Model\CreateReservation();
+
   // We use our own custom ids prefixed with "fbs-" for periodicals.
   if (preg_match('/^fbs-/', $record_id)) {
     list($record_id, $periodical) = _fbs_periodical_parse_local_id($record_id);
@@ -115,13 +116,18 @@ function fbs_reservation_create($account, $record_id, $options) {
   $reservation->expiryDate = date('Y-m-d', REQUEST_TIME + ($options['interest_period'] * 24 * 60 * 60));
   $reservation->pickupBranch = $options['preferred_branch'];
   $batch->reservations[] = $reservation;
+  $result = fbs_service()->Reservations->addReservations(fbs_service()->agencyId, fbs_patron_id($account), $batch);
+  $res_results = $result->reservationResults;
+  $res_details = $res_results[0]->reservationDetails;
 
-  $result = fbs_service()->Reservations->addReservationsDeprecated(fbs_service()->agencyId, fbs_patron_id($account), $batch);
-  $res_details = reset($result);
-  return array(
-    'branch' => $res_details->pickupBranch,
-    'queue_number' => $res_details->numberInQueue,
-  );
+  if ($res_details) {
+    return array(
+      'branch' => $res_details->pickupBranch,
+      'queue_number' => $res_details->numberInQueue,
+    );
+  }
+
+  return FALSE;
 }
 
 /**
