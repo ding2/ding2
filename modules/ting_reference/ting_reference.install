@@ -101,7 +101,7 @@ function ting_reference_update_7000() {
 }
 
 /**
- * Add ting reference relations table.
+ * Add ting reference relations table & migrate ting reference fields.
  */
 function ting_reference_update_7001() {
   $schema['ting_reference'] = array(
@@ -127,4 +127,60 @@ function ting_reference_update_7001() {
   );
 
   db_create_table('ting_reference', $schema['ting_reference']);
+
+  // Migrate references(materials) field data.
+  _ting_reference_migrate_fields();
+}
+
+/**
+ * Migrate ting reference materials fields.
+ */
+function _ting_reference_migrate_fields() {
+  // Get content types that have materials field.
+  $content_types = field_info_instances('node');
+  $node_types = array();
+  foreach ($content_types as $content_type => $fields) {
+    foreach ($fields as $field) {
+      if (strpos($field['field_name'], 'materials') !== FALSE) {
+        $node_types[$content_type] = $content_type;
+      }
+    }
+  }
+  // Get node ids of the selected types.
+  $nids = array();
+  foreach ($node_types as $node_type) {
+    $result = db_select('node', 'n')
+      ->fields('n', array('nid'))
+      ->condition('type', $node_type)
+      ->execute()
+      ->fetchCol();
+    $nids = array_merge($nids, $result);
+  }
+
+  foreach ($nids as $nid) {
+    // Get all tids(ting object ids) related to a given node id.
+    $query = db_select('field_data_endpoints', 'e1');
+    $query->join('field_data_endpoints', 'e2', 'e1.entity_id = e2.entity_id');
+
+    $query->fields('e2', array('endpoints_entity_id'))
+      ->condition('e1.endpoints_entity_type', 'node')
+      ->condition('e1.endpoints_entity_id', $nid)
+      ->condition('e2.endpoints_entity_type', 'ting_object');
+    $tids = $query->execute();
+
+    // Get all ding entity ids related to tids and insert into the ting_reference table.
+    $query = db_insert('ting_reference')->fields(array('nid', 'ting_object_id'));
+    foreach ($tids as $tid) {
+      $result = db_select('ting_object', 't')
+        ->fields('t', array('ding_entity_id'))
+        ->condition('tid', $tid->endpoints_entity_id)
+        ->execute()
+        ->fetchField();
+
+      if ($result) {
+        $query->values(array('nid' => $nid, 'ting_object_id' => $result));
+      }
+    }
+    $query->execute();
+  }
 }

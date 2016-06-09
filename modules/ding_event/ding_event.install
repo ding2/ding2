@@ -147,11 +147,9 @@ function ding_event_update_7008() {
 }
 
 /**
- * Migrate to the sql field storage & remove virtual field ding event materials.
+ * Remove virtual field ding event materials.
  */
 function ding_event_update_7009() {
-  // TODO: Migration should be done first to the field_ding_event_material.
-
   // Delete field_ding_event_materials field.
   field_delete_field('field_ding_event_materials');
 }

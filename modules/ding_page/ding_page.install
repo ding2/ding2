@@ -34,11 +34,9 @@ function ding_page_update_7003() {
 }
 
 /**
- * Migrate to the sql field storage & remove virtual field ding page materials.
+ * Remove virtual field ding page materials.
  */
 function ding_page_update_7004() {
-  // TODO: Migration should be done first to the field_ding_page_material.
-
   // Delete field_ding_event_materials field.
   field_delete_field('field_ding_page_materials');
 }
