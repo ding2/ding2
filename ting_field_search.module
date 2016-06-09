@@ -273,7 +273,8 @@ function _ting_field_search_detect_sort($profile) {
     // Look for the modifier in the sort query parameter.
     $modifier = ':' . $profile->name;
     if (substr($input_sort, -drupal_strlen($modifier)) === $modifier) {
-      $sort = explode(':', $input_sort)[0];
+      $sort = explode(':', $input_sort);
+      $sort = $sort[0];
     }
   }
   else {
