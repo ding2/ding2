@@ -101,7 +101,7 @@ function ting_reference_update_7000() {
 }
 
 /**
- * Add ting reference relations table.
+ * Add ting reference relations table & migrate ting reference fields.
  */
 function ting_reference_update_7001() {
   $schema['ting_reference'] = array(
@@ -166,21 +166,21 @@ function _ting_reference_migrate_fields() {
       ->condition('e1.endpoints_entity_type', 'node')
       ->condition('e1.endpoints_entity_id', $nid)
       ->condition('e2.endpoints_entity_type', 'ting_object');
-    $tids = $query->execute()->fetchCol();
+    $tids = $query->execute();
 
     // Get all ding entity ids related to tids and insert into the ting_reference table.
-    if (!empty($tids)) {
-      $query = db_insert('ting_reference')->fields(array('nid', 'ting_object_id'));
-      foreach ($tids as $tid) {
-        $result = db_select('ting_object', 't')
-          ->fields('t', array('ding_entity_id'))
-          ->condition('tid', $tid)
-          ->execute()
-          ->fetchCol();
+    $query = db_insert('ting_reference')->fields(array('nid', 'ting_object_id'));
+    foreach ($tids as $tid) {
+      $result = db_select('ting_object', 't')
+        ->fields('t', array('ding_entity_id'))
+        ->condition('tid', $tid->endpoints_entity_id)
+        ->execute()
+        ->fetchField();
 
-        $query->values(array('nid' => $nid, 'ting_object_id' => $result[0]));
+      if ($result) {
+        $query->values(array('nid' => $nid, 'ting_object_id' => $result));
       }
-      $query->execute();
     }
+    $query->execute();
   }
 }
