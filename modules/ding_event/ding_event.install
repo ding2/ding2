@@ -145,11 +145,3 @@ function ding_event_update_7008() {
       ->execute();
   }
 }
-
-/**
- * Remove virtual field ding event materials.
- */
-function ding_event_update_7009() {
-  // Delete field_ding_event_materials field.
-  field_delete_field('field_ding_event_materials');
-}
