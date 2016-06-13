@@ -104,7 +104,7 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
     '#description' => t('Enter a base search query that is appended to every search request, when using this profile.'),
     '#maxlength' => 256,
     '#default_value' => $profile->config['search_request']['query'],
-    '#size' => 150,
+    '#size' => 100,
   );
   $form['config']['search_request']['new_materials'] = array(
     '#type' => 'textfield',
