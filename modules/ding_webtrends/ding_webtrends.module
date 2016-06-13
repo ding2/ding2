@@ -92,7 +92,7 @@ EOT;
     $meta_tag['#tag'] = 'meta';
     $meta_tag['#attributes'] = array(
       'name' => 'WT.oss',
-      'content' => $search_info['search_key'],
+      'content' => $search_info['type'] . ':' . $search_info['search_key'],
     );
     drupal_add_html_head($meta_tag, 'search_query_meta_tag');
     $meta_tag['#attributes'] = array(
@@ -111,18 +111,36 @@ function ding_webtrends_panels_pane_content_alter($content, $pane, $args, $conte
     $search_result = drupal_static('ting_search_results', FALSE);
     $search_key = $search_result->search_key;
     $count = $search_result->numTotalObjects;
-    ding_webtrends_set_search_info($search_key, $count);
+    ding_webtrends_set_search_info($search_key, $count, 'ting_search');
   }
 }
 
-function ding_webtrends_set_search_info($search_key, $count) {
+/**
+ * Implemenents hook_views_post_execute().
+ */
+function ding_webtrends_views_post_execute(&$view) {
+  if ($view->name == 'ding_multiple_search') {
+    $count = $view->total_rows;
+    $search_key = array_shift($view->args);
+    ding_webtrends_set_search_info($search_key, $count, 'node');
+  }
+}
+
+/**
+ * Set info about a search has been performed for later use in page building.
+ */
+function ding_webtrends_set_search_info($search_key, $count, $type) {
   $search_info = &drupal_static(__FUNCTION__);
   $search_info = array(
     'search_key' => $search_key,
     'count' => $count,
+    'type' => $type,
   );
 }
 
+/**
+ * Helper function to get info about a performed search.
+ */
 function ding_webtrends_get_search_info() {
   return drupal_static('ding_webtrends_set_search_info', FALSE);
 }
