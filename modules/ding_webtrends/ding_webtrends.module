@@ -111,6 +111,25 @@ function ding_webtrends_panels_pane_content_alter($content, $pane, $args, $conte
     if ($search_result = drupal_static('ting_search_results', FALSE)) {
       $search_key = $search_result->search_key;
       $count = $search_result->numTotalObjects;
+
+      // Look for facets in the query parameters, which are selected by the user
+      // in the UI. Ting search only saves the search key without the appended
+      // facets, so at this point this is the only way to get this information.
+      // We append them exactly like Ting search does, to reflect the actual
+      // query send to the data well.
+      if (isset($_GET['facets']) && is_array($_GET['facets'])) {
+        $facets = array();
+        foreach ($_GET['facets'] as $facet) {
+          $facet = explode(':', $facet, 2);
+          if (count($facet) > 1) {
+            $facets[] = $facet[0] . '="' . rawurldecode($facet[1]) . '"';
+          }
+        }
+        if ($facets) {
+          $search_key .= ' AND ' . implode(' AND ', $facets);
+        }
+      }
+
       ding_webtrends_set_search_info($search_key, $count, 'ting_search');
     }
   }
