@@ -104,29 +104,8 @@ function ting_reference_update_7000() {
  * Add ting reference relations table & migrate ting reference fields.
  */
 function ting_reference_update_7001() {
-  $schema['ting_reference'] = array(
-    'description' => 'Provide ting reference relations.',
-    'fields' => array(
-      'nid' => array(
-        'type' => 'int',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
-        'default' => 0,
-      ),
-      'ting_object_id' => array(
-        'description' => 'Ting object id.',
-        'type' => 'varchar',
-        'length' => 32,
-        'not null' => TRUE,
-        'default' => '',
-      ),
-    ),
-    'unique keys' => array(
-      'uk_nid_tid' => array('nid', 'ting_object_id'),
-    ),
-  );
-
-  db_create_table('ting_reference', $schema['ting_reference']);
+  $schema = drupal_get_schema('ting_reference', TRUE);
+  db_create_table('ting_reference', $schema);
 
   // Migrate references(materials) field data and delete old field.
   _ting_reference_migrate_fields();
@@ -138,6 +117,10 @@ function ting_reference_update_7001() {
 function _ting_reference_migrate_fields() {
   $fields = field_read_fields(array('type' => 'ting_reference'));
   foreach ($fields as $field) {
+    // Delete materials old field.
+    field_delete_field($field['field_name']);
+
+    // Get node ids for migration.
     $field_info = field_info_field($field['field_name']);
     $bundles = reset($field_info['bundles']);
     $query = new EntityFieldQuery();
@@ -151,9 +134,6 @@ function _ting_reference_migrate_fields() {
       if (strpos($field['field_name'], 'materials') !== FALSE) {
         // Move ting object id to the ting_reference table.
         _ting_reference_migrate_tids($nid);
-
-        // Delete materials old field.
-        field_delete_field($field['field_name']);
       }
       else {
         // Update newly created ting_reference field.
@@ -167,9 +147,9 @@ function _ting_reference_migrate_fields() {
  * Attach field update function on the newly created field.
  *
  * @param $type string
- *   Content type
+ *   Content type.
  * @param $field_name string
- *   Field machine name
+ *   Field machine name.
  * @param $nid int
  *   Node id.
  */
