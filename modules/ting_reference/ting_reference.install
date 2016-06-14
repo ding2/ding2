@@ -104,31 +104,10 @@ function ting_reference_update_7000() {
  * Add ting reference relations table & migrate ting reference fields.
  */
 function ting_reference_update_7001() {
-  $schema['ting_reference'] = array(
-    'description' => 'Provide ting reference relations.',
-    'fields' => array(
-      'nid' => array(
-        'type' => 'int',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
-        'default' => 0,
-      ),
-      'ting_object_id' => array(
-        'description' => 'Ting object id.',
-        'type' => 'varchar',
-        'length' => 32,
-        'not null' => TRUE,
-        'default' => '',
-      ),
-    ),
-    'unique keys' => array(
-      'uk_nid_tid' => array('nid', 'ting_object_id'),
-    ),
-  );
+  $schema = drupal_get_schema('ting_reference', TRUE);
+  db_create_table('ting_reference', $schema);
 
-  db_create_table('ting_reference', $schema['ting_reference']);
-
-  // Migrate references(materials) field data.
+  // Migrate references(materials) field data and delete old field.
   _ting_reference_migrate_fields();
 }
 
@@ -136,51 +115,87 @@ function ting_reference_update_7001() {
  * Migrate ting reference materials fields.
  */
 function _ting_reference_migrate_fields() {
-  // Get content types that have materials field.
-  $content_types = field_info_instances('node');
-  $node_types = array();
-  foreach ($content_types as $content_type => $fields) {
-    foreach ($fields as $field) {
+  $fields = field_read_fields(array('type' => 'ting_reference'));
+  foreach ($fields as $field) {
+    // Delete materials old field.
+    field_delete_field($field['field_name']);
+
+    // Get node ids for migration.
+    $field_info = field_info_field($field['field_name']);
+    $bundles = reset($field_info['bundles']);
+    $query = new EntityFieldQuery();
+    $query
+      ->entityCondition('entity_type', 'node')
+      ->entityCondition('bundle', $bundles[0]);
+    $result = $query->execute();
+    $nids = (!empty($result)) ? array_keys($result['node']) : array();
+
+    foreach ($nids as $nid) {
       if (strpos($field['field_name'], 'materials') !== FALSE) {
-        $node_types[$content_type] = $content_type;
+        // Move ting object id to the ting_reference table.
+        _ting_reference_migrate_tids($nid);
+      }
+      else {
+        // Update newly created ting_reference field.
+        _ting_reference_update_fields($bundles[0], $field['field_name'], $nid);
       }
     }
   }
-  // Get node ids of the selected types.
-  $nids = array();
-  foreach ($node_types as $node_type) {
-    $result = db_select('node', 'n')
-      ->fields('n', array('nid'))
-      ->condition('type', $node_type)
+}
+
+/**
+ * Attach field update function on the newly created field.
+ *
+ * @param $type string
+ *   Content type.
+ * @param $field_name string
+ *   Field machine name.
+ * @param $nid int
+ *   Node id.
+ */
+function _ting_reference_update_fields($type, $field_name, $nid) {
+  $node = new stdClass();
+  $node->type = $type;
+  $node->nid = $nid;
+  $node->{$field_name}[LANGUAGE_NONE][0] = array(
+    'headline' => '',
+    'query' => '',
+    'sorting' => '',
+    'amount' => 0,
+  );
+
+  field_attach_update('node', $node);
+}
+
+/**
+ * Migrate ting object ids from ding entity id to the ting_reference table.
+ *
+ * @param $nid int
+ *   Node id.
+ */
+function _ting_reference_migrate_tids($nid) {
+  // Get all tids(ting object ids) related to a given node id.
+  $query = db_select('field_data_endpoints', 'e1');
+  $query->join('field_data_endpoints', 'e2', 'e1.entity_id = e2.entity_id');
+
+  $query->fields('e2', array('endpoints_entity_id'))
+    ->condition('e1.endpoints_entity_type', 'node')
+    ->condition('e1.endpoints_entity_id', $nid)
+    ->condition('e2.endpoints_entity_type', 'ting_object');
+  $tids = $query->execute();
+
+  // Get all ding entity ids related to tids and insert into the ting_reference table.
+  $query = db_insert('ting_reference')->fields(array('nid', 'ting_object_id'));
+  foreach ($tids as $tid) {
+    $result = db_select('ting_object', 't')
+      ->fields('t', array('ding_entity_id'))
+      ->condition('tid', $tid->endpoints_entity_id)
       ->execute()
-      ->fetchCol();
-    $nids = array_merge($nids, $result);
-  }
+      ->fetchField();
 
-  foreach ($nids as $nid) {
-    // Get all tids(ting object ids) related to a given node id.
-    $query = db_select('field_data_endpoints', 'e1');
-    $query->join('field_data_endpoints', 'e2', 'e1.entity_id = e2.entity_id');
-
-    $query->fields('e2', array('endpoints_entity_id'))
-      ->condition('e1.endpoints_entity_type', 'node')
-      ->condition('e1.endpoints_entity_id', $nid)
-      ->condition('e2.endpoints_entity_type', 'ting_object');
-    $tids = $query->execute();
-
-    // Get all ding entity ids related to tids and insert into the ting_reference table.
-    $query = db_insert('ting_reference')->fields(array('nid', 'ting_object_id'));
-    foreach ($tids as $tid) {
-      $result = db_select('ting_object', 't')
-        ->fields('t', array('ding_entity_id'))
-        ->condition('tid', $tid->endpoints_entity_id)
-        ->execute()
-        ->fetchField();
-
-      if ($result) {
-        $query->values(array('nid' => $nid, 'ting_object_id' => $result));
-      }
+    if ($result) {
+      $query->values(array('nid' => $nid, 'ting_object_id' => $result));
     }
-    $query->execute();
   }
+  $query->execute();
 }

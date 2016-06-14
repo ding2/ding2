@@ -32,11 +32,3 @@ function ding_page_update_7003() {
   variable_del('pathauto_node_ding_page_en_pattern');
   variable_del('pathauto_node_ding_page_und_pattern');
 }
-
-/**
- * Remove virtual field ding page materials.
- */
-function ding_page_update_7004() {
-  // Delete field_ding_event_materials field.
-  field_delete_field('field_ding_page_materials');
-}
