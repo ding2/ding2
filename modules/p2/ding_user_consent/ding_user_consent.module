@@ -379,6 +379,7 @@ function theme_ding_user_consent_set($variables) {
   drupal_add_css(drupal_get_path('module', 'ding_user_consent') . '/css/ding-user-consent.css');
 
   $consents = ding_provider_invoke('user_consent', 'info');
+  $description = '';
   foreach ($consents as $id => $values) {
     $title = check_plain(variable_get('ding_user_consent_' . $id . '_title', $values['title']));
     $description = variable_get('ding_user_consent_' . $id . '_description', $values['description']);

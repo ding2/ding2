@@ -1,8 +1,0 @@
-; $Id$
-name = Ting token
-description = Provides tokens for inserting ting objects in text fields.
-core = 7.x
-package = Ding!
-files[] = ting_token.module
-files[] = ting_token.token.inc
-; TODO I would expect that this modules dependend on the tokens module?

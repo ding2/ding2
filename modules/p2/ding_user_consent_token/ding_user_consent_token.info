@@ -1,6 +1,0 @@
-name = Ding user consent token
-description = This module provides user consent tokens
-package = Ding!
-core = 7.x
-files[] = ding_user_consent_token.module
-dependencies[] = ding_user_consent

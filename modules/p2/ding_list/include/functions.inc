@@ -657,7 +657,6 @@ function ding_list_add_permission($list, $permission, $account = NULL) {
       ));
 
       $id = $account->uid;
-      // TODO I suggest replacing module_exists with ding_provider_implements.
       if (ding_provider_implements('openlist', 'user_identifier')) {
         $id = ding_provider_invoke('openlist', 'user_identifier', $account);
       }

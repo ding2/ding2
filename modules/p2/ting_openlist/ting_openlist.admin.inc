@@ -50,7 +50,7 @@ function ting_openlist_settings_form($form, &$form_state) {
     '#type' => 'checkbox',
     '#title' => t('Enable WSDL caching'),
     '#description' => '',
-    '#default_value' => variable_get('ting_openlist_wsdl_cache', FALSE),
+    '#default_value' => variable_get('ting_openlist_wsdl_cache', TRUE),
   );
 
   // Debugging settings.

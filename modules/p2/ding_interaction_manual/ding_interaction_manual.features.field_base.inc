@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * ding_interaction_manual.features.field_base.inc

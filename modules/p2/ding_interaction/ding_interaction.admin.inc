@@ -14,30 +14,17 @@ function ding_interaction_admin_overview($form, &$form_state) {
     '#type' => 'tableselect',
     '#header' => array(
       'title' => t('Title'),
-      'weight' => t('Weight'),
       'settings' => t('Settings'),
     ),
     '#options' => array(),
     '#default_value' => variable_get('ding_interaction_callbacks', array()),
   );
 
-  $weights = variable_get('ding_interaction_weights', array());
   $form['ding_interaction_callbacks']['#process'][] = 'ding_interaction_process_options';
   $info = ding_interaction_available_content(TRUE);
   foreach ($info as $key => $value) {
-    $weight = isset($value['weight']) ? $value['weight'] : 1;
     $form['ding_interaction_callbacks']['#options'][$key] = array(
       'title' => $value['title'],
-      'weight' => array(
-        'data' => array(
-          '#type' => 'select',
-          '#title' => '',
-          '#options' => range(0, 5),
-          '#value' => (isset($weights[$key])) ? array($weights[$key]) : array($weight),
-          '#description' => t('Choose a weight for this interaction function.'),
-          '#name' => 'ding_interaction_weights[' . $key . ']',
-        ),
-      ),
       'settings' => '',
     );
     if (!empty($value['settings'])) {
@@ -50,9 +37,6 @@ function ding_interaction_admin_overview($form, &$form_state) {
       );
     }
   }
-  $form['ding_interaction_weights'] = array(
-    '#type' => 'value',
-  );
 
   $form['ding_interaction_settings'] = array(
     '#type' => 'fieldset',

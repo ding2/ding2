@@ -37,7 +37,7 @@ function ding_serendipity_menu() {
     'description' => 'Ding serendipity settings and overview',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('ding_serendipity_admin_form'),
-    'access arguments' => array('administer ding serendipity'),
+    'access arguments' => array('administer personalisation'),
     'file' => 'ding_serendipity.admin.inc',
   );
   
@@ -53,7 +53,7 @@ function ding_serendipity_menu() {
     'description' => 'Get an overview of the current registered serendipity functions and keys',
     'type' => MENU_LOCAL_TASK,
     'page arguments' => array('ding_serendipity_admin_overview'),
-    'access arguments' => array('administer ding serendipity'),
+    'access arguments' => array('administer personalisation'),
     'file' => 'ding_serendipity.admin.inc',
   );
   
@@ -63,7 +63,7 @@ function ding_serendipity_menu() {
     'type' => MENU_CALLBACK,
     'page callback' => 'drupal_get_form',
     'page arguments' => array(5),
-    'access arguments' => array('administer ding serendipity'),
+    'access arguments' => array('administer personalisation'),
   );
   
   // Returns AJAX commands if the user has JavaScript turned on.
@@ -78,17 +78,6 @@ function ding_serendipity_menu() {
   );
 
   return $items;
-}
-
-/**
- * Implements hook_permission().
- */
-function ding_serendipity_permission() {
-  return array(
-    'administer ding serendipity' => array(
-      'title' => t('Administer Ding serendipity'),
-    ),
-  );
 }
 
 /**
