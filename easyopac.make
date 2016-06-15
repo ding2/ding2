@@ -59,6 +59,12 @@ projects[ding_item_viewer][download][type] = "git"
 projects[ding_item_viewer][download][url]  = "git@github.com:easySuite/ding_item_viewer.git"
 projects[ding_item_viewer][download][branch]  = "development"
 
+projects[ding_calendar][type]           = "module"
+projects[ding_calendar][subdir]         = ""
+projects[ding_calendar][download][type] = "git"
+projects[ding_calendar][download][url]  = "git@github.com:easySuite/ding_calendar.git"
+projects[ding_calendar][download][branch]  = "development"
+
 projects[ding_collection_reservation][type]           = "module"
 projects[ding_collection_reservation][subdir]         = ""
 projects[ding_collection_reservation][download][type] = "git"
