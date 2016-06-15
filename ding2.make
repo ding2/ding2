@@ -374,8 +374,8 @@ projects[wysiwyg][download][revision] = "7981731f4f3db2f932419499d2ec13a073e9b88
 projects[ask_vopros][type] = "module"
 projects[ask_vopros][subdir] = "contrib"
 projects[ask_vopros][download][type] = "git"
-projects[ask_vopros][download][url] = "git@github.com:Biblioteksvagten/ask_vopros.git"
-projects[ask_vopros][download][tag] = "1.1"
+projects[ask_vopros][download][url] = "git@github.com:vopros-dk/ask_vopros.git"
+projects[ask_vopros][download][tag] = "1.4"
 
 ; Libraries
 libraries[bpi-client][destination] = "modules/bpi/lib"
