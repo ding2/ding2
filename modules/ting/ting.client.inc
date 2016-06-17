@@ -160,7 +160,7 @@ function ting_get_objects($ids) {
 /**
  * Do a getObject request.
  *
- * @param array $ids;
+ * @param array $ids
  *   The object(s) to fetch.
  *
  * @return array;
