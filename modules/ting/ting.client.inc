@@ -160,16 +160,16 @@ function ting_get_objects($ids) {
 /**
  * Do a getObject request.
  *
- * @param array $ids ;
- *  Id(s) of the object(s) to fetch.
+ * @param array $ids;
+ *   Id(s) of the object(s) to fetch.
  *
  * @return array;
- *  One or more object(s) in an array keyed by the id given..
+ *   One or more object(s) in an array keyed by the id given..
  *
  * @throws TingClientException
- *  Exception can be thrown from tingClient.
+ *   Exception can be thrown from tingClient.
  */
-function ting_do_get_objects($ids) {
+function ting_do_get_objects(array $ids) {
   $objects = array();
   $agency = variable_get('ting_agency', FALSE);
 
