@@ -145,12 +145,12 @@ function ting_get_objects($ids) {
 
   foreach ($objects as $id => $object) {
     if ($object === FALSE) {
-      // Collect ids to getObjectRequest
+      // Collect ids to getObjectRequest.
       $get_ids[] = $id;
     }
   }
 
-  if(!empty($get_ids)) {
+  if (!empty($get_ids)) {
     // Get the missing objects.
     $objects = ting_do_get_objects($ids);
   }
@@ -160,11 +160,16 @@ function ting_get_objects($ids) {
 /**
  * Do a getObject request.
  *
- * @param $ids
- * @return array
+ * @param array $ids ;
+ *  Id(s) of the object(s) to fetch.
+ *
+ * @return array;
+ *  One or more object(s) in an array keyed by the id given..
+ *
  * @throws TingClientException
+ *  Exception can be thrown from tingClient.
  */
-function ting_do_get_objects($ids){
+function ting_do_get_objects($ids) {
   $objects = array();
   $agency = variable_get('ting_agency', FALSE);
 
@@ -450,7 +455,7 @@ function ting_execute_cache($request) {
  * To retrieve an reply simple extract the params from the request object,
  * serialize them and make a MD5 hash as id.
  *
- * @see ting_execute_cache()
+ * see ting_execute_cache()
  *
  * @param string $id
  *   Object id or the MD5 hash of the parameters used to execute a search
@@ -497,7 +502,7 @@ function ting_cache_get($id, $type = TING_CACHE_TING_OBJECT, $with_relations = F
  * To store an reply simple extract the params from the request object,
  * serialize them and make a MD5 hash as id.
  *
- * @see ting_execute_cache()
+ * see ting_execute_cache()
  *
  * @param string $id
  *   Id that the item was cached under.
