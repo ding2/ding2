@@ -40,7 +40,7 @@ function _ding_christmas_calendar_create_quiz() {
   $quiz->uid = 1;
   $quiz->type = 'quiz';
   $quiz->title = t('Christmas calendar');
-  $quiz->status = 0;
+  $quiz->status = 1;
   $quiz->language = 'en';
   $quiz->number_of_random_questions = '0';
   $quiz->max_score_for_random = '1';
@@ -50,7 +50,7 @@ function _ding_christmas_calendar_create_quiz() {
   $quiz->summary_default = '';
   $quiz->summary_default_format = 'plain_text';
   $quiz->randomization = '0';
-  $quiz->backwards_navigation = '1';
+  $quiz->backwards_navigation = '0';
   $quiz->repeat_until_correct = '0';
   $quiz->feedback_time = '2';
   $quiz->display_feedback = '0';

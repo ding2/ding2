@@ -91,6 +91,15 @@ function ding_christmas_calendar_generate_content($quiz_id) {
     $output['table'] = theme('table', array(
       'rows' => $rows,
     ));
+
+    $body = field_get_items('node', $quiz, 'body');
+    if (isset($body[0]['value'])) {
+      $output['body'] = $body[0]['value'];
+    }
+
+    if (isset($body[0]['summary'])) {
+      $output['summary'] = $body[0]['summary'];
+    }
   }
   return $output;
 }
@@ -114,7 +123,7 @@ function ding_christmas_calendar_generate_url($quiz_id, $number, $page) {
   $query->condition('n.nid', $page->nid);
   $question_status = $query->execute()->fetchField();
 
-  $output = $page->title;
+  $output = '<span>' . $page->title . '</span>';
   if ($question_status) {
     $output = l("{$page->title}", "ding-christmas-calendar/{$quiz_id}/take");
   }
@@ -154,7 +163,13 @@ function ding_christmas_calendar_questions($nid, $vid, $type = NULL) {
   }
   $query->condition('qnr.parent_nid', $nid);
   $query->condition('qnr.parent_vid', $vid);
-  $query->condition('qnr_pid', NULL, 'IS');
+  if (empty($type)) {
+    $query->condition('qnr_pid', NULL, 'IS');
+  }
+  elseif ($type == 'multichoice') {
+    $query->condition('qnr_pid', NULL, 'IS NOT');
+  }
+
   $query->orderBy('qnr.weight');
 
   $result = $query->execute();

@@ -11,57 +11,105 @@ function ding_christmas_calendar_settings_form($form, $form_state) {
   $id = variable_get('ding_christmas_calendar_quiz_id');
   $quiz = node_load($id);
   if ($quiz) {
-    $questions = ding_christmas_calendar_questions($quiz->nid, $quiz->vid);
+    $form['view'] = array(
+      '#markup' => '<strong>' . t('Press !ph for viewing page with Christmas calendar', array('!ph' => l(t('here'), 'ding-christmas-calendar'))) . '</strong>',
+    );
+
+    $questions = ding_christmas_calendar_questions($quiz->nid, $quiz->vid, 'multichoice');
     if (count($questions) > 0) {
-      $form['delete'] = array(
+      $form['questions'] = array(
+        '#type' => 'fieldset',
+        '#collapsible' => FALSE,
+        '#title' => t('Questions'),
+      );
+
+      $rows = array();
+      foreach ($questions as $question) {
+        $rows[] = array(
+          'title' => $question->title,
+          'url' => l(t('Edit'), "node/{$question->nid}/edit"),
+        );
+      }
+      $form['questions']['table'] = array(
+        '#rows' => $rows,
+        '#header' => array(
+          t('Title'),
+          t('Operations'),
+        ),
+        '#theme' => 'table',
+        '#sticky' => TRUE,
+        '#weight' => 0,
+      );
+
+      $form['questions']['pager']['#theme'] = 'pager';
+
+      $form['questions']['delete'] = array(
         '#type' => 'submit',
         '#value' => t('Delete questions'),
         '#prefix' => '<p>' . t('At this moment already  exists questions for christmas calendar. Calendar can purged by pressing this button.') . '</p>',
         '#submit' => array('ding_christmas_calendar_settings_form_remove_submit'),
         '#questions' => $questions,
         '#limit_validation_errors' => array(),
+        '#weight' => 1,
+      );
+    }
+    else {
+
+      $form['dates'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Dates:'),
+        '#tree' => TRUE,
+      );
+      $date = new DateTime();
+      $form['dates']['start'] = array(
+        '#type' => 'date_popup',
+        '#title' => t('Start date of Christmas calendar'),
+        '#date_format' => 'd/m/Y',
+        '#default_value' => $date->format('Y-m-d H:i:s'),
+        '#weight' => 1,
+      );
+
+      $form['dates']['duration'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Duration in days'),
+        '#default_value' => variable_get('ding_christmas_calendar_duration', 24),
+        '#weight' => 2,
+        '#element_validate' => array('element_validate_integer_positive'),
+      );
+
+      $form['dates']['generate'] = array(
+        '#type' => 'submit',
+        '#value' => t('Generate'),
+        '#weight' => 3,
+        '#name' => 'generate',
+        '#validate' => array('ding_christmas_calendar_settings_form_validate'),
+        '#submit' => array('ding_christmas_calendar_settings_generate_form_submit'),
       );
     }
 
-    $form['dates'] = array(
+    $form['quiz'] = array(
       '#type' => 'fieldset',
-      '#title' => t('Dates:'),
-      '#tree' => TRUE,
-    );
-    $date = new DateTime();
-    $form['dates']['start'] = array(
-      '#type' => 'date_popup',
-      '#title' => t('Start date of Christmas calendar'),
-      '#date_format' => 'd/m/Y',
-      '#default_value' => $date->format('Y-m-d H:i:s'),
-      '#weight' => 1,
-    );
-
-    $form['dates']['duration'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Duration in days'),
-      '#default_value' => variable_get('ding_christmas_calendar_duration', 24),
-      '#weight' => 2,
-      '#element_validate' => array('element_validate_integer_positive'),
+      '#collapsible' => FALSE,
+      '#title' => t('Quiz:'),
     );
 
     $background = field_get_items('node', $quiz, 'field_background');
-    $form['background'] = array(
+    $form['quiz']['background'] = array(
       '#type' => 'managed_file',
       '#title' => t('Background image'),
       '#description' => t('Background image for Christmas calendar.'),
       '#default_value' => isset($background[0]['fid']) ? $background[0]['fid'] : NULL,
     );
 
-    $form['save'] = array(
+    $form['quiz']['save'] = array(
       '#type' => 'submit',
-      '#value' => t('Save settings'),
-      '#submit' => array('ding_christmas_calendar_settings_form_submit'),
+      '#value' => t('Save quiz settings'),
+      '#name' => 'quiz_save',
+      '#submit' => array('ding_christmas_calendar_settings_form_quiz_submit'),
       '#validate' => array('ding_christmas_calendar_settings_form_validate'),
-      '#access' => !count($questions),
     );
 
-    $form['quiz'] = array(
+    $form['object'] = array(
       '#type' => 'value',
       '#value' => $quiz,
     );
@@ -79,36 +127,58 @@ function ding_christmas_calendar_settings_form($form, $form_state) {
  */
 function ding_christmas_calendar_settings_form_validate($form, $form_state) {
   $values = $form_state['values'];
-  list($start, $duration) = array_values($values['dates']);
+  $element = $form_state['triggering_element'];
 
-  if (empty($start)) {
-    form_set_error('dates][start', t('Please enter valid date.'));
-  }
+  switch ($element['#name']) {
+    case 'generate':
+      list($start, $duration) = array_values($values['dates']);
 
-  if (empty($duration)) {
-    form_set_error('dates][duration', t('Please enter valid duration.'));
-  }
+      if (empty($start)) {
+        form_set_error('dates][start', t('Please enter valid date.'));
+      }
 
-  if (empty($values['background'])) {
-    form_set_error('background', t('Please provide image.'));
+      if (empty($duration)) {
+        form_set_error('dates][duration', t('Please enter valid duration.'));
+      }
+      break;
+
+    case 'quiz_save':
+      if (empty($values['background'])) {
+        form_set_error('background', t('Please provide image.'));
+      }
+      break;
   }
 }
 
 /**
- * Submit handler for calendar settings form.
+ * Submit handler for generating questions for calendar.
  */
-function ding_christmas_calendar_settings_form_submit($form, $form_state) {
+function ding_christmas_calendar_settings_form_quiz_submit($form, $form_state) {
   $values = $form_state['values'];
-  list($start, $duration) = array_values($values['dates']);
-  $quiz = $values['quiz'];
+  $quiz = $values['object'];
   $fid = $values['background'];
   if ($fid) {
-    $file = file_load($fid);
-    $file->display = 1;
-    $quiz->field_background[LANGUAGE_NONE][0] = (array) $file;
-    node_save($quiz);
+    try {
+      $file = file_load($fid);
+      $file->display = 1;
+      $quiz->field_background[LANGUAGE_NONE][0] = (array) $file;
+      node_save($quiz);
+      drupal_set_message(t('Image was successfully saved.'));
+    }
+    catch (Exception $ex) {
+      watchdog_exception('ding_christmas_calendar', $ex);
+      drupal_set_message(t('Error occurred. Check log for details.'), 'error');
+    }
   }
+}
 
+/**
+ * Submit handler for generating questions for calendar.
+ */
+function ding_christmas_calendar_settings_generate_form_submit($form, $form_state) {
+  $values = $form_state['values'];
+  list($start, $duration) = array_values($values['dates']);
+  $quiz = $values['object'];
   module_load_include('inc', 'multichoice', 'multichoice.classes');
   try {
     $current = DateTime::createFromFormat('Y-m-d', $start);
@@ -164,7 +234,7 @@ function ding_christmas_calendar_settings_form_submit($form, $form_state) {
   }
   catch (Exception $ex) {
     watchdog_exception('ding_christmas_calendar', $ex);
-    drupal_set_message(t('Something goes wrong. Check reports.'), 'error');
+    drupal_set_message(t('Error occurred. Check log for details.'), 'error');
   }
 }
 
