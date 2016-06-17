@@ -12,6 +12,7 @@
  *   Name of method.
  * @param array $body
  *   Array with request body.
+ *
  * @return mixed
  *    response object or NULL.
  */

@@ -145,7 +145,7 @@ abstract class GenericStorage implements \NationalStorageComponent\StorageCrudIn
   }
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    *
    * @see \NationalStorageComponent\StorageCrudInterface::addContent($params)
    */
@@ -158,7 +158,7 @@ abstract class GenericStorage implements \NationalStorageComponent\StorageCrudIn
   }
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    *
    * @see \NationalStorageComponent\StorageCrudInterface::updateContent()
    */
@@ -171,7 +171,7 @@ abstract class GenericStorage implements \NationalStorageComponent\StorageCrudIn
   }
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    *
    * @see \NationalStorageComponent\StorageCrudInterface::deleteContent($params)
    */
@@ -184,7 +184,7 @@ abstract class GenericStorage implements \NationalStorageComponent\StorageCrudIn
   }
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    *
    * @see \NationalStorageComponent\StorageCrudInterface::addMenu($params)
    */
@@ -197,7 +197,7 @@ abstract class GenericStorage implements \NationalStorageComponent\StorageCrudIn
   }
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    *
    * @see \NationalStorageComponent\StorageCrudInterface::updateMenu($params)
    */
@@ -210,7 +210,7 @@ abstract class GenericStorage implements \NationalStorageComponent\StorageCrudIn
   }
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    *
    * @see \NationalStorageComponent\StorageCrudInterface::deleteMenu($params)
    */
@@ -223,7 +223,7 @@ abstract class GenericStorage implements \NationalStorageComponent\StorageCrudIn
   }
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    *
    * @see \NationalStorageComponent\StorageCrudInterface::addList($params)
    */
@@ -236,7 +236,7 @@ abstract class GenericStorage implements \NationalStorageComponent\StorageCrudIn
   }
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    *
    * @see \NationalStorageComponent\StorageCrudInterface::updateList($params)
    */
@@ -249,7 +249,7 @@ abstract class GenericStorage implements \NationalStorageComponent\StorageCrudIn
   }
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    *
    * @see \NationalStorageComponent\StorageCrudInterface::deleteList($params)
    */

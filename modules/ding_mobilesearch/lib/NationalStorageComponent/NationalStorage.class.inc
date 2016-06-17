@@ -26,7 +26,7 @@ class NationalStorage extends \NationalStorageComponent\GenericStorage {
   }
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    *
    * @see \NationalStorageComponent\StorageCommunicatorInterface::sendRequest()
    */
@@ -36,7 +36,7 @@ class NationalStorage extends \NationalStorageComponent\GenericStorage {
   }
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    *
    * @see \NationalStorageComponent\GenericStorage::callEndpoint()
    */
@@ -69,7 +69,7 @@ class NationalStorage extends \NationalStorageComponent\GenericStorage {
   }
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    *
    * @see \NationalStorageComponent\GenericStorage::processResponse()
    */
