@@ -1,0 +1,5 @@
+#ding-christmas-calendar-content tr,
+#ding-christmas-calendar-content td{
+    background-color: transparent !important;
+    border: none;
+}

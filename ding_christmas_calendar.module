@@ -1,0 +1,189 @@
+<?php
+/**
+ * @file
+ * Code for the Ding Christmas calendar feature.
+ */
+
+include_once 'ding_christmas_calendar.features.inc';
+/**
+ * @file
+ * Represents functionality for Christmas calendar.
+ */
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ding_christmas_calendar_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'ctools' && $plugin_type == 'content_types') {
+    return 'plugins/' . $plugin_type;
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_christmas_calendar_menu() {
+  $items = array();
+
+  $items['admin/config/ding/ding-christmas-calendar'] = array(
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_christmas_calendar_settings_form'),
+    'title' => 'Ding Christmas calendar settings',
+    'description' => 'Configure the start and end dates of Christmas calendar.',
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ding_christmas_calendar.admin.inc',
+  );
+
+  $items['ding-christmas-calendar/%/take'] = array(
+    'page callback' => 'ding_christmas_calendar_take_wrapper',
+    'page arguments' => array(1),
+    'description' => 'Represents wrapper for quiz_quiztake function.',
+    'access arguments' => array('access quiz'),
+    'file' => 'ding_christmas_calendar.pages.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_christmas_calendar_theme($existing, $type, $theme, $path) {
+  return array(
+    'ding_christmas_calendar_widget' => array(
+      'variables' => array(
+        'quiz_id' => NULL,
+      ),
+      'template' => 'ding_christmas_calendar',
+      'path' => $path . '/templates',
+    ),
+  );
+}
+
+/**
+ * Support function for generating content of Christmas calendar.
+ *
+ * @param string $quiz_id
+ *   ID of quiz node.
+ *
+ * @return array
+ *   Structured array for template.
+ */
+function ding_christmas_calendar_generate_content($quiz_id) {
+  $output = array();
+  if (!empty($quiz_id)) {
+    $quiz = node_load($quiz_id);
+    $background = field_get_items('node', $quiz, 'field_background');
+    if ($background) {
+      $output['background'] = file_create_url($background[0]['uri']);
+    }
+    else {
+      // @todo add default background.
+    }
+
+    $questions = ding_christmas_calendar_questions($quiz->nid, $quiz->vid, 'quiz_page');
+    $rows = array();
+    for ($i = 0; $i < count($questions); $i++) {
+      $rid = (int) ($i / 6);
+      $cid = $i % 6;
+      $rows[$rid][$cid] = ding_christmas_calendar_generate_url($quiz_id, $i + 1, $questions[$i]);
+    }
+
+    $output['table'] = theme('table', array(
+      'rows' => $rows,
+    ));
+  }
+  return $output;
+}
+
+/**
+ * Support function for generating content of Christmas calendar.
+ *
+ * @param string $quiz_id
+ *   ID of quiz node.
+ * @param string $number
+ *   Represents number of page.
+ * @param object $page
+ *   Object of page.
+ *
+ * @return string
+ *   Generated url.
+ */
+function ding_christmas_calendar_generate_url($quiz_id, $number, $page) {
+  $query = db_select('node', 'n');
+  $query->fields('n', array('status'));
+  $query->condition('n.nid', $page->nid);
+  $question_status = $query->execute()->fetchField();
+
+  $output = $page->title;
+  if ($question_status) {
+    $output = l("{$page->title}", "ding-christmas-calendar/{$quiz_id}/take");
+  }
+
+  return $output;
+}
+
+/**
+ * Support function for getting questions.
+ *
+ * @param string $nid
+ *   Id of Quiz.
+ *
+ * @return array
+ *   Array with id of questions.
+ */
+function ding_christmas_calendar_questions($nid, $vid, $type = NULL) {
+  $questions = array();
+  $query = db_select('node', 'n');
+  $query->fields('n', array('nid', 'type'));
+  $query->fields('nr', array('vid', 'title'));
+  $query->fields('qnr', array(
+    'question_status',
+    'weight',
+    'max_score',
+    'auto_update_max_score',
+    'qnr_id',
+    'qnr_pid',
+    'child_nid',
+    'child_vid',
+  ));
+  $query->addField('n', 'vid', 'latest_vid');
+  $query->join('node_revision', 'nr', 'n.nid = nr.nid');
+  $query->leftJoin('quiz_node_relationship', 'qnr', 'nr.vid = qnr.child_vid');
+  if (!empty($type)) {
+    $query->condition('n.type', $type);
+  }
+  $query->condition('qnr.parent_nid', $nid);
+  $query->condition('qnr.parent_vid', $vid);
+  $query->condition('qnr_pid', NULL, 'IS');
+  $query->orderBy('qnr.weight');
+
+  $result = $query->execute();
+  foreach ($result as $question) {
+    $questions[] = $question;
+    if (empty($type)) {
+      quiz_get_sub_questions($question->qnr_id, $questions);
+    }
+  }
+
+  return $questions;
+}
+
+/**
+ * Support function for getting id of page.
+ *
+ * @param mixed $input
+ *   Id of node or object of node.
+ *
+ * @return mixed
+ *   Actual id of page or FALSE.
+ */
+function ding_christmas_get_question_id($input) {
+  $nid = is_object($input) ? $input->nid : $input;
+  $id = db_select('quiz_node_relationship', 't')
+    ->fields('t', array('qnr_id'))
+    ->condition('t.child_nid', $nid)
+    ->execute()
+    ->fetchField();
+
+  return $id;
+}
