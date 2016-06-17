@@ -161,7 +161,7 @@ function ting_get_objects($ids) {
  * Do a getObject request.
  *
  * @param array $ids;
- *   Id(s) of the object(s) to fetch.
+ *   The object(s) to fetch.
  *
  * @return array;
  *   One or more object(s) in an array keyed by the id given..
