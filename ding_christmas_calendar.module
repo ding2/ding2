@@ -132,7 +132,7 @@ function ding_christmas_calendar_generate_url($quiz_id, $number, $page) {
 
   $output = '<span>' . $page->title . '</span>';
   if ($question_status) {
-    $output = l("{$page->title}", "ding-christmas-calendar/{$quiz_id}/take");
+    $output = '<span class="active-day">' . l("{$page->title}", "ding-christmas-calendar/{$quiz_id}/take") . '</span>';
   }
 
   return $output;
