@@ -1,5 +1,102 @@
-#ding-christmas-calendar-content tr,
-#ding-christmas-calendar-content td{
-    background-color: transparent !important;
-    border: none;
+/**
+ * Mixins
+ *
+ * @author magnify
+ */
+/* Breakpoints
+   ========================================================================== */
+/* Media query
+   ========================================================================== */
+/* Breakpoints
+   ========================================================================== */
+/* Typography mixins
+ *
+ * These are mixins to allow for use in media queries
+   ========================================================================== */
+/* Availability
+   ========================================================================== */
+/* Pseudo arrow
+ *
+ * Usage example: pseudo-arrow(10px, #000, top, center, $offset: 20px)
+   ========================================================================== */
+.pane-ding-christmas-calendar-widget .calendar-summary {
+  font-size: 130%;
+  font-weight: bold;
+  line-height: 1.2em;
+}
+
+#ding-christmas-calendar-content {
+  background-size: cover;
+  background-repeat: none;
+}
+#ding-christmas-calendar-content table {
+  border: none;
+}
+#ding-christmas-calendar-content tr {
+  background-color: transparent !important;
+  border: none;
+  text-align: center;
+  border-radius: 0;
+}
+#ding-christmas-calendar-content td {
+  border: 5px solid #efefef;
+  border-radius: 0;
+  height: 150px;
+  overflow: hidden;
+  padding: 0;
+  text-align: center;
+  vertical-align: top;
+}
+#ding-christmas-calendar-content td span {
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  font-weight: bold;
+  display: block;
+  padding: 5px 0;
+}
+#ding-christmas-calendar-content td span.active-day {
+  background: none;
+  height: 100%;
+  padding: 0;
+}
+#ding-christmas-calendar-content td span.active-day:hover {
+  cursor: pointer;
+}
+#ding-christmas-calendar-content td span.active-day:hover a {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+#ding-christmas-calendar-content td a {
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  font-weight: bold;
+  display: block;
+  padding: 5px 0;
+}
+#ding-christmas-calendar-content td a:hover:before {
+  content: "+";
+  font-size: 3em;
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: calc(50% - 10px);
+}
+
+.page-node-take .quiz-question-quiz-page,
+.page-node-take .question_type_name,
+.page-node-take #quiz-progress {
+  display: none;
+}
+
+@media only screen and (max-width: 768px) {
+  #ding-christmas-calendar-content table,
+  #ding-christmas-calendar-content th,
+  #ding-christmas-calendar-content tr,
+  #ding-christmas-calendar-content td,
+  #ding-christmas-calendar-content tbody {
+    display: inline-block;
+  }
 }
