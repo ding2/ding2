@@ -3,6 +3,12 @@
 $zen-columns:             12;
 $zen-gutters:             20px;
 
+.page-ding-christmas-calendar {
+  .pane-page-content {
+    clear: both;
+  }
+}
+
 .pane-ding-christmas-calendar-widget {
   .calendar-summary {
     font-size: 130%;
@@ -29,7 +35,7 @@ $zen-gutters:             20px;
   td {
     border: 5px solid #efefef;
     border-radius: 0;
-    height: 150px;
+    height: 180px;
     overflow: hidden;
     padding: 0;
     text-align: center;
@@ -60,15 +66,14 @@ $zen-gutters:             20px;
     }
     
     a {
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 183, 231, 0.7);
       color: #fff;
       font-weight: bold;
       display: block;
       padding: 5px 0;
       
       &:hover {
-        
-        
+
         &:before {
           content: "+";
           font-size: 3em;
