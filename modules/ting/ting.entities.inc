@@ -151,7 +151,7 @@ class TingEntity extends DingEntity {
     return $this->splitSerie();
   }
 
- function getSerieDescription() {
+  function getSerieDescription() {
     $serie = !empty($this->reply->record['dc:description']['dkdcplus:series'][0]) ? $this->reply->record['dc:description']['dkdcplus:series'][0] : '';
     return $this->process_series_description($serie);
   }
@@ -288,6 +288,7 @@ class TingEntity extends DingEntity {
       // relations. First check if relations are set; if not do another request
       // to get relations
       if (!isset($this->reply->relationsData)) {
+        module_load_include('inc', 'ting', 'ting.client');
         $tingClientObject = ting_get_object($this->ding_entity_id, FALSE, TRUE);
         if (isset($tingClientObject->relationsData)) {
           $this->reply->relationsData = $tingClientObject->relationsData;
