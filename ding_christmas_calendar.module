@@ -230,14 +230,16 @@ function ding_christmas_get_question_id($input) {
 }
 
 /**
- * Implements hook_preprocess_HOOK().
+ * Implements hook_node_view().
  */
-function ding_christmas_calendar_preprocess_page(&$variables) {
-  $object = menu_get_object('node', 1);
-  $quiz_id = variable_get('ding_christmas_calendar_quiz_id', NULL);
-  if ($object && $object->type == 'quiz' && $object->nid == $quiz_id) {
+function ding_christmas_calendar_node_view($node, $view_mode, $langcode) {
+  if (in_array($node->type, array('quiz_page', 'multichoice'))) {
     $path = drupal_get_path('module', 'ding_christmas_calendar');
-    drupal_add_js($path . '/js/ding_christmas_calendar.js');
-    drupal_add_css($path . '/css/mymodule.awesome.css');
+    drupal_add_js($path . '/js/slick.js');
+	drupal_add_js($path . '/js/ding_christmas_calendar.js');
+    drupal_add_css($path . '/css/ding_christmas_calendar.css');
+	drupal_add_css($path . '/css/slick.css');
+	drupal_add_css($path . '/css/slick-theme.css');
+	
   }
 }
