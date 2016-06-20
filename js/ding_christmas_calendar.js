@@ -21,14 +21,16 @@
           dots: true,
           arrows: false,
         }
-      }, {
+      },
+      {
         breakpoint: 600,
         settings: {
           slidesToShow: 3,
           dots: true,
           arrows: false,
         }
-      }, {
+      },
+      {
         breakpoint: 480,
         settings: {
           slidesToShow: 1,

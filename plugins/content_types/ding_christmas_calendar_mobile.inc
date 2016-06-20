@@ -21,17 +21,18 @@ function ding_christmas_calendar_mobile_render($subtype, $conf, $args, $contexts
   $block->title = t('Christmas calendar');
   $quiz_id = variable_get('ding_christmas_calendar_quiz_id', NULL);
   $vars = ding_christmas_calendar_generate_content($quiz_id, TRUE);
+  $path = drupal_get_path('module', 'ding_christmas_calendar');
   $block->content = array(
     '#markup' => theme('ding_christmas_calendar_widget', $vars),
     '#attached' => array(
       'css' => array(
-        drupal_get_path('module', 'ding_christmas_calendar') . '/css/ding_christmas_calendar.css',
-        drupal_get_path('module', 'ding_christmas_calendar') . '/css/slick.css',
-        drupal_get_path('module', 'ding_christmas_calendar') . '/css/slick-theme.css',
+        $path . '/css/ding_christmas_calendar.css',
+        $path . '/css/slick.css',
+        $path . '/css/slick-theme.css',
       ),
       'js' => array(
-        drupal_get_path('module', 'ding_christmas_calendar') . '/js/slick.js',
-        drupal_get_path('module', 'ding_christmas_calendar') . '/js/ding_christmas_calendar.js',
+        $path . '/js/slick.js',
+        $path . '/js/ding_christmas_calendar.js',
       ),
     ),
   );
