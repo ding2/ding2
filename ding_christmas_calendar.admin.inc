@@ -286,6 +286,29 @@ function _ding_christmas_calendar_question_stub() {
   $question->max_score = 1;
   $question->auto_update_max_score = 1;
   $question->refresh = 1;
+  $question->alternatives = array(
+    array(
+      'id' => '1',
+      'answer' => array(
+        'value' => '<p>Answer stub1</p>',
+        'format' => 'ding_wysiwyg',
+      ),
+      'score_if_chosen' => '0',
+      'score_if_not_chosen' => '0',
+      'weight' => '0',
+    ),
+    array(
+      'id' => '2',
+      'answer' => array(
+        'value' => '<p>Answer stub2</p>',
+        'format' => 'ding_wysiwyg',
+      ),
+    ),
+  );
+
+  $question->body[LANGUAGE_NONE][] = array(
+    'value' => '<p>Question stub</p>',
+  );
 
   return $question;
 }

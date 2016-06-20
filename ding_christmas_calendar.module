@@ -68,22 +68,30 @@ function ding_christmas_calendar_theme($existing, $type, $theme, $path) {
  * @return array
  *   Structured array for template.
  */
-function ding_christmas_calendar_generate_content($quiz_id) {
-  $output = array();
+function ding_christmas_calendar_generate_content($quiz_id, $mobile = FALSE) {
+  $output = array(
+    'content' => '',
+    'body' => '',
+    'summary' => '',
+    'background' => '',
+  );
   if (!empty($quiz_id)) {
     $quiz = node_load($quiz_id);
+    if (!$quiz) {
+      $output['content'] = t('Sorry at this moment Christmas calendar not available.');
+      return $output;
+    }
     $background = field_get_items('node', $quiz, 'field_background');
     if ($background) {
       $output['background'] = file_create_url($background[0]['uri']);
-    }
-    else {
-      // @todo add default background.
     }
 
     $questions = ding_christmas_calendar_questions($quiz->nid, $quiz->vid, 'quiz_page');
     $rows = array();
     $count = count($questions);
-    $count = $count - ($count % 4) + 4;
+    if (($count % 4) > 0) {
+      $count = $count - ($count % 4) + 4;
+    }
     for ($i = 0; $i < $count; $i++) {
       $rid = (int) ($i / 4);
       $cid = $i % 4;
@@ -95,9 +103,20 @@ function ding_christmas_calendar_generate_content($quiz_id) {
       }
     }
 
-    $output['table'] = theme('table', array(
-      'rows' => $rows,
-    ));
+    if (!$mobile) {
+      $output['classes'] = 'ding-christmas-calendar-mobile';
+      $output['content'] = theme('table', array(
+        'rows' => $rows,
+      ));
+    }
+    else {
+      $output['classes'] = 'ding-christmas-calendar';
+      foreach ($rows as $row) {
+        foreach ($row as $item) {
+          $output['content'] .= '<div class="ding-christmas-calendar-mobile-cell">' . $item . '</div>';
+        }
+      }
+    }
 
     $body = field_get_items('node', $quiz, 'body');
     if (isset($body[0]['value'])) {
@@ -208,4 +227,17 @@ function ding_christmas_get_question_id($input) {
     ->fetchField();
 
   return $id;
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ding_christmas_calendar_preprocess_page(&$variables) {
+  $object = menu_get_object('node', 1);
+  $quiz_id = variable_get('ding_christmas_calendar_quiz_id', NULL);
+  if ($object && $object->type == 'quiz' && $object->nid == $quiz_id) {
+    $path = drupal_get_path('module', 'ding_christmas_calendar');
+    drupal_add_js($path . '/js/ding_christmas_calendar.js');
+    drupal_add_css($path . '/css/mymodule.awesome.css');
+  }
 }

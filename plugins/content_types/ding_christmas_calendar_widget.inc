@@ -7,7 +7,7 @@
 $plugin = array(
   'single' => TRUE,
   'title' => t('Full-page Christmas calendar'),
-  'description' => t('Represents widget for displaying Christmas calendar'),
+  'description' => t('Represents widget for displaying Christmas calendar.'),
   'category' => t('Christmas calendar'),
   'render callback' => 'ding_christmas_calendar_render',
   'all contexts' => TRUE,
