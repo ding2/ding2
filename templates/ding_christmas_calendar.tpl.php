@@ -3,7 +3,6 @@
  * @file
  * Represents a template for displaying Christmas calendar.
  */
-$a = 1;
 ?>
 <div class="calendar-summary">
   <?php print $summary; ?>
@@ -11,6 +10,7 @@ $a = 1;
 <div class="calendar-body">
   <?php print $body; ?>
 </div>
-<div id="ding-christmas-calendar-content" style="background-image: url(<?php print $background;?>)">
-  <?php print $table ?>
+<div id="ding-christmas-calendar-content" class="<?php print $classes;?>"
+     style="background-image: url(<?php print $background;?>)">
+  <?php print $content ?>
 </div>
