@@ -48,7 +48,6 @@ function ding_christmas_calendar_settings_form($form, $form_state) {
         '#value' => t('Delete questions'),
         '#prefix' => '<p>' . t('At this moment already  exists questions for christmas calendar. Calendar can purged by pressing this button.') . '</p>',
         '#submit' => array('ding_christmas_calendar_settings_form_remove_submit'),
-        '#questions' => $questions,
         '#limit_validation_errors' => array(),
         '#weight' => 1,
       );
@@ -243,8 +242,11 @@ function ding_christmas_calendar_settings_generate_form_submit($form, $form_stat
  */
 function ding_christmas_calendar_settings_form_remove_submit($form, $form_state) {
   $element = $form_state['triggering_element'];
+  $values = $form_state['values'];
+  $quiz = $values['object'];
   try {
-    foreach ($element['#questions'] as $question) {
+    $questions = ding_christmas_calendar_questions($quiz->nid, $quiz->vid);
+    foreach ($questions as $question) {
       node_delete($question->nid);
     }
     drupal_set_message(t('Calendar was successfully cleared'));

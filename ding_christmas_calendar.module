@@ -82,10 +82,17 @@ function ding_christmas_calendar_generate_content($quiz_id) {
 
     $questions = ding_christmas_calendar_questions($quiz->nid, $quiz->vid, 'quiz_page');
     $rows = array();
-    for ($i = 0; $i < count($questions); $i++) {
-      $rid = (int) ($i / 6);
-      $cid = $i % 6;
-      $rows[$rid][$cid] = ding_christmas_calendar_generate_url($quiz_id, $i + 1, $questions[$i]);
+    $count = count($questions);
+    $count = $count - ($count % 4) + 4;
+    for ($i = 0; $i < $count; $i++) {
+      $rid = (int) ($i / 4);
+      $cid = $i % 4;
+      if (isset($questions[$i])) {
+        $rows[$rid][$cid] = ding_christmas_calendar_generate_url($quiz_id, $i + 1, $questions[$i]);
+      }
+      else {
+        $rows[$rid][$cid] = '<span></span>';
+      }
     }
 
     $output['table'] = theme('table', array(
