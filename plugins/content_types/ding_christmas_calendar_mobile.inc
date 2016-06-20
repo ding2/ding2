@@ -26,12 +26,12 @@ function ding_christmas_calendar_mobile_render($subtype, $conf, $args, $contexts
     '#attached' => array(
       'css' => array(
         drupal_get_path('module', 'ding_christmas_calendar') . '/css/ding_christmas_calendar.css',
-		drupal_get_path('module', 'ding_christmas_calendar') . '/css/slick.css',
-		drupal_get_path('module', 'ding_christmas_calendar') . '/css/slick-theme.css',
+        drupal_get_path('module', 'ding_christmas_calendar') . '/css/slick.css',
+        drupal_get_path('module', 'ding_christmas_calendar') . '/css/slick-theme.css',
       ),
       'js' => array(
         drupal_get_path('module', 'ding_christmas_calendar') . '/js/slick.js',
-		drupal_get_path('module', 'ding_christmas_calendar') . '/js/ding_christmas_calendar.js',
+        drupal_get_path('module', 'ding_christmas_calendar') . '/js/ding_christmas_calendar.js',
       ),
     ),
   );
