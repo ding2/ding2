@@ -27,6 +27,15 @@ function ting_search_carousel_menu() {
     'file' => 'ting_search_carousel.admin.inc',
   );
 
+  $items['admin/ting_search_carousel'] = array(
+    'title' => 'Ting search carousel',
+    'description' => 'Manage content for frontpage carousel.',
+    'page callback' => 'ting_search_carousel_admin_page',
+    'page arguments' => array(),
+    'access arguments' => array('configure carousel'),
+    'file' => 'ting_search_carousel.admin.inc',
+  );
+
   $items['admin/config/ting/ting_search_carousel/settings'] = array(
     'title' => 'Content',
     'description' => 'Manage content for frontpage carousel.',
