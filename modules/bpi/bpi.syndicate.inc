@@ -884,26 +884,3 @@ function bpi_facets_to_array(\Bpi\Sdk\Facets $facets) {
 
   return $data;
 }
-
-/**
- * Implements hook_libraries_info().
- *
- * For defining external libraries.
- */
-function bpi_libraries_info() {
-  $libraries['chosen'] = array(
-    'name' => 'Chosen',
-    'vendor url' => 'https://github.com/harvesthq/chosen',
-    'download url' => 'https://github.com/harvesthq/chosen/releases',
-    'version arguments' => array(
-      'file' => 'chosen.jquery.min.js',
-      'pattern' => '@(?:Chosen v|Version\s+)([0-9a-zA-Z\.-]+)@',
-    ),
-    'files' => array(
-      'css' => array('chosen.min.css'),
-      'js' => array('chosen.jquery.min.js'),
-    ),
-  );
-
-  return $libraries;
-}
