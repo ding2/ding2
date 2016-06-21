@@ -48,6 +48,7 @@ function ding_christmas_calendar_settings_form($form, $form_state) {
         '#value' => t('Delete questions'),
         '#prefix' => '<p>' . t('At this moment already  exists questions for christmas calendar. Calendar can purged by pressing this button.') . '</p>',
         '#submit' => array('ding_christmas_calendar_settings_form_remove_submit'),
+        '#quiz' => $quiz,
         '#limit_validation_errors' => array(),
         '#weight' => 1,
       );
@@ -242,8 +243,7 @@ function ding_christmas_calendar_settings_generate_form_submit($form, $form_stat
  */
 function ding_christmas_calendar_settings_form_remove_submit($form, $form_state) {
   $element = $form_state['triggering_element'];
-  $values = $form_state['values'];
-  $quiz = $values['object'];
+  $quiz = $element['#quiz'];
   try {
     $questions = ding_christmas_calendar_questions($quiz->nid, $quiz->vid);
     foreach ($questions as $question) {
@@ -293,7 +293,15 @@ function _ding_christmas_calendar_question_stub() {
         'value' => '<p>Answer stub1</p>',
         'format' => 'ding_wysiwyg',
       ),
-      'score_if_chosen' => '0',
+      'feedback_if_chosen' => array(
+        'value' => '',
+        'format' => 'ding_wysiwyg',
+      ),
+      'feedback_if_not_chosen' => array(
+        'value' => '',
+        'format' => 'ding_wysiwyg',
+      ),
+      'score_if_chosen' => '1',
       'score_if_not_chosen' => '0',
       'weight' => '0',
     ),
@@ -303,6 +311,17 @@ function _ding_christmas_calendar_question_stub() {
         'value' => '<p>Answer stub2</p>',
         'format' => 'ding_wysiwyg',
       ),
+      'feedback_if_chosen' => array(
+        'value' => '',
+        'format' => 'ding_wysiwyg',
+      ),
+      'feedback_if_not_chosen' => array(
+        'value' => '',
+        'format' => 'ding_wysiwyg',
+      ),
+      'score_if_chosen' => '0',
+      'score_if_not_chosen' => '0',
+      'weight' => '0',
     ),
   );
 
