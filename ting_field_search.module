@@ -546,9 +546,9 @@ function ting_field_search_preprocess_ding_availability_types(&$variables) {
         // We'll cheat a bit here and pass an empty array through the helper.
         $query = array();
         ting_field_search_append_query($query, $profile);
-        $replace = 'href="$1?profile=' . $profile->name;
+        $replace = 'href="$1?profile=' . rawurlencode($profile->name);
         if (isset($query['WT.ac'])) {
-          $replace .= '&WT.ac=' . $query['WT.ac'] . '"';
+          $replace .= '&WT.ac=' . rawurlencode($query['WT.ac']) . '"';
         }
         $replace .= '"';
         $links[$key]['link']['#markup'] = preg_replace($pattern, $replace, $link);
