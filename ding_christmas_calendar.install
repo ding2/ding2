@@ -58,7 +58,7 @@ function _ding_christmas_calendar_create_quiz() {
   $quiz->quiz_open = $date;
   $date = mktime(0, 0, 0, 12, 24, date('Y'));
   $quiz->quiz_close = $date;
-  $quiz->takes = '0';
+  $quiz->takes = '1';
   $quiz->show_attempt_stats = '1';
   $quiz->keep_results = '2';
   $quiz->time_limit = '0';

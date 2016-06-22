@@ -5,6 +5,8 @@
  */
 
 include_once 'ding_christmas_calendar.features.inc';
+include_once 'ding_christmas_calendar.cron.inc';
+
 /**
  * @file
  * Represents functionality for Christmas calendar.
@@ -171,6 +173,7 @@ function ding_christmas_calendar_questions($nid, $vid, $type = NULL) {
   $query = db_select('node', 'n');
   $query->fields('n', array('nid', 'type'));
   $query->fields('nr', array('vid', 'title'));
+  $query->fields('s', array('publish_on', 'unpublish_on'));
   $query->fields('qnr', array(
     'question_status',
     'weight',
@@ -183,6 +186,7 @@ function ding_christmas_calendar_questions($nid, $vid, $type = NULL) {
   ));
   $query->addField('n', 'vid', 'latest_vid');
   $query->join('node_revision', 'nr', 'n.nid = nr.nid');
+  $query->leftJoin('scheduler', 's', 's.nid = n.nid');
   $query->leftJoin('quiz_node_relationship', 'qnr', 'nr.vid = qnr.child_vid');
   if (!empty($type)) {
     $query->condition('n.type', $type);
@@ -240,6 +244,5 @@ function ding_christmas_calendar_node_view($node, $view_mode, $langcode) {
     drupal_add_css($path . '/css/ding_christmas_calendar.css');
     drupal_add_css($path . '/css/slick.css');
     drupal_add_css($path . '/css/slick-theme.css');
-    
   }
 }

@@ -179,6 +179,7 @@ function ding_christmas_calendar_settings_generate_form_submit($form, $form_stat
   $values = $form_state['values'];
   list($start, $duration) = array_values($values['dates']);
   $quiz = $values['object'];
+  node_save($quiz);
   module_load_include('inc', 'multichoice', 'multichoice.classes');
   try {
     $current = DateTime::createFromFormat('Y-m-d', $start);
@@ -245,6 +246,16 @@ function ding_christmas_calendar_settings_form_remove_submit($form, $form_state)
   $element = $form_state['triggering_element'];
   $quiz = $element['#quiz'];
   try {
+    db_truncate('quiz_node_results');
+    $revisions = node_revision_list($quiz);
+    $revisions = array_filter($revisions, function ($i) use ($quiz) {
+      return $quiz->vid != $i->vid;
+    });
+
+    array_map(function ($i) {
+      return node_revision_delete($i->vid);;
+    }, $revisions);
+
     $questions = ding_christmas_calendar_questions($quiz->nid, $quiz->vid);
     foreach ($questions as $question) {
       node_delete($question->nid);
@@ -327,6 +338,7 @@ function _ding_christmas_calendar_question_stub() {
 
   $question->body[LANGUAGE_NONE][] = array(
     'value' => '<p>Question stub</p>',
+    'format' => 'ding_wysiwyg',
   );
 
   return $question;
