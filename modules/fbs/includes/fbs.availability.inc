@@ -14,17 +14,23 @@
  *   Availability info.
  */
 function fbs_availability_items($provider_ids) {
-  try {
-    $avails = fbs_service()->Catalog->getAvailability(fbs_service()->agencyId, $provider_ids);
-    $result = array();
-    foreach ($avails as $item) {
-      $result[$item->recordId] = array('available' => $item->available, 'reservable' => $item->reservable);
+  $avails = array();
+  $service = fbs_service();
+  if ($service) {
+    try {
+      $avails = $service->Catalog->getAvailability($service->agencyId, $provider_ids);
     }
-    return $result;
+    catch (Exception $e) {
+      watchdog_exception('fbs', $e);
+    }
   }
-  catch (Exception $e) {
-    watchdog_exception('fbs', $e);
+
+  $result = array();
+  foreach ($avails as $item) {
+    $result[$item->recordId] = array('available' => $item->available, 'reservable' => $item->reservable);
   }
+
+  return $result;
 }
 
 /**
@@ -38,13 +44,16 @@ function fbs_availability_items($provider_ids) {
  */
 function fbs_availability_holdings($provider_ids) {
   $holdings = array();
-  try {
-    $holdings = fbs_service()->Catalog->getHoldings(fbs_service()->agencyId, $provider_ids);
+  $service = fbs_service();
+  if ($service) {
+    try {
+      $holdings = $service->Catalog->getHoldings($service->agencyId, $provider_ids);
+    }
+    catch (Exception $e) {
+      watchdog_exception($e);
+    }
   }
-  catch (Exception $e) {
-    watchdog_exception('fbs', $e);
-  }
-  
+
   $result = array();
   $tmp_issues = array();
   foreach ($holdings as $item) {

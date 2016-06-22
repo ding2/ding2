@@ -126,15 +126,23 @@ function fbs_service($agency_id = NULL, $endpoint = NULL, $client = NULL, $seria
   // No drupal_static. We want to be callable from tests.
   static $service;
   if (!$service || $reset) {
-    $agency_id = !is_null($agency_id) ? $agency_id : variable_get('fbs_agency', '');
-    $endpoint = !is_null($endpoint) ? $endpoint : variable_get('fbs_endpoint', '');
+    $agency_id = !empty($agency_id) ? $agency_id : variable_get('fbs_agency', '');
+    $endpoint = !empty($endpoint) ? $endpoint : variable_get('fbs_endpoint', '');
+
     if ($endpoint && preg_match('{localtest}', $endpoint)) {
       $client = new FBSFakeHttpClient();
     }
 
     // Ensure exactly one trailing slash.
     $endpoint = rtrim($endpoint, '/') . '/';
-    $service = new FBS($agency_id, $endpoint, $client, $serializer);
+    try {
+      $service = new FBS($agency_id, $endpoint, $client, $serializer);
+    }
+    catch (FBSException $e) {
+      watchdog_exception('fbs', $e);
+
+      return FALSE;
+    }
   }
   return $service;
 }
@@ -163,6 +171,7 @@ function fbs_settings_form() {
     '#type' => 'textfield',
     '#title' => t('ISIL'),
     '#description' => t('ISIL code of the library, for example DK-810015.'),
+    '#required' => TRUE,
     '#default_value' => variable_get('fbs_agency', ''),
   );
 
@@ -269,9 +278,21 @@ function fbs_profile2_presave($entity) {
     $patron_settings->onHold = $period;
 
     $update->patron = $patron_settings;
-    $res = fbs_service()->Patron->update(fbs_service()->agencyId, $patron['patronId'], $update);
-    $result['creds'] = _fbs_patron_info($res->patron);
-    ding_user_save_creds($result);
+
+    $service = fbs_service();
+    if ($service) {
+      $res = NULL;
+      try {
+        $res = $service->Patron->update($service->agencyId, $patron['patronId'], $update);
+      }
+      catch (Exception $e) {
+        watchdog_exception('FBS', $e);
+      }
+      if ($res) {
+        $result['creds'] = _fbs_patron_info($res->patron);
+        ding_user_save_creds($result);
+      }
+    }
   }
 }
 
@@ -310,12 +331,24 @@ function fbs_update_preferred_branch($account, $branch_id) {
 function fbs_branches() {
   $branches = &drupal_static(__FUNCTION__, NULL);
   if (is_null($branches)) {
-    $res = fbs_service()->Placement->getBranches(fbs_service()->agencyId);
-    foreach ($res as $branch) {
-      $branches[$branch->branchId] = $branch->title;
-    }
+    $service = fbs_service();
 
-    asort($branches);
+    if ($service) {
+      $res = array();
+      $branches = array();
+      try {
+        $res = $service->Placement->getBranches($service->agencyId);
+      }
+      catch (Exception $e) {
+        watchdog_exception('fbs', $e);
+      }
+
+      foreach ($res as $branch) {
+        $branches[$branch->branchId] = $branch->title;
+      }
+
+      asort($branches);
+    }
   }
   return $branches;
 }

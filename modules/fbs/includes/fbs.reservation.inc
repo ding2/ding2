@@ -22,8 +22,12 @@ function fbs_reservation_list($account, $requested_type = NULL) {
     DING_RESERVATION_NOT_READY => array(),
     DING_RESERVATION_INTERLIBRARY_LOANS => array(),
   );
+  $res = array();
 
-  $res = fbs_service()->Reservations->getReservations(fbs_service()->agencyId, fbs_patron_id($account));
+  $service = fbs_service();
+  if ($service) {
+    $res = $service->Reservations->getReservations($service->agencyId, fbs_patron_id($account));
+  }
 
   foreach ($res as $reservation) {
     $type = $reservation->state == 'readyForPickup' ? DING_RESERVATION_READY : DING_RESERVATION_NOT_READY;
@@ -102,6 +106,7 @@ function fbs_reservation_create($account, $record_id, $options) {
   $batch->reservations = array();
 
   $reservation = new FBS\Model\CreateReservation();
+
   // We use our own custom ids prefixed with "fbs-" for periodicals.
   if (preg_match('/^fbs-/', $record_id)) {
     list($record_id, $periodical) = _fbs_periodical_parse_local_id($record_id);
@@ -116,12 +121,55 @@ function fbs_reservation_create($account, $record_id, $options) {
   $reservation->pickupBranch = $options['preferred_branch'];
   $batch->reservations[] = $reservation;
 
-  $result = fbs_service()->Reservations->addReservationsDeprecated(fbs_service()->agencyId, fbs_patron_id($account), $batch);
-  $res_details = reset($result);
-  return array(
-    'branch' => $res_details->pickupBranch,
-    'queue_number' => $res_details->numberInQueue,
-  );
+  /** @var \FBS\Model\ReservationResponse $response */
+  $service = fbs_service();
+  if (!$service) {
+    return FALSE;
+  }
+  try {
+    $response = $service->Reservations->addReservations($service->agencyId, fbs_patron_id($account), $batch);
+  }
+  catch (Exception $e) {
+    watchdog_exception('fbs', $e);
+  }
+
+  /** @var \FBS\Model\ReservationResult $result */
+  $result = current($response->reservationResults);
+
+  if ($response->success) {
+    /** @var \FBS\Model\ReservationDetails $res_details */
+    $res_details = $result->reservationDetails;
+    return array(
+      'branch' => $res_details->pickupBranch,
+      'queue_number' => $res_details->numberInQueue,
+    );
+  }
+  else {
+    switch ($result->result) {
+      case 'already_reserved':
+        throw new DingProviderReservationExists();
+
+      case 'patron_is_blocked':
+      case 'loaning_profile_not_found':
+      case 'patron_not_found':
+        throw new DingProviderReservationNotAllowed();
+
+      case 'material_not_loanable':
+      case 'material_not_reservable':
+      case 'material_lost':
+      case 'material_not_found':
+      case 'material_part_of_collection':
+        throw new DingProviderReservationNotAvailable();
+
+      // Success shouldn't happen.
+      case 'success':
+      default:
+        watchdog('fbs', 'Unexpected state "@state" on failed reservaiton', array('@state' => $result->result), WATCHDOG_WARNING);
+        throw new DingProviderUserException('Unknown error from library system while attempting to reserve.');
+    };
+  }
+
+  return FALSE;
 }
 
 /**
@@ -144,7 +192,10 @@ function fbs_reservation_update($account, $reservation_ids, $options) {
     $reservation->pickupBranch = $options['preferred_branch'];
     $batch->reservations[] = $reservation;
   }
-  fbs_service()->Reservations->updateReservations(fbs_service()->agencyId, fbs_patron_id($account), $batch);
+  $service = fbs_service();
+  if ($service) {
+    $service->Reservations->updateReservations($service->agencyId, fbs_patron_id($account), $batch);
+  }
 }
 
 /**
@@ -156,7 +207,10 @@ function fbs_reservation_update($account, $reservation_ids, $options) {
  *   Reservations to delete.
  */
 function fbs_reservation_delete($account, $reservation_id) {
-  fbs_service()->Reservations->deleteReservations(fbs_service()->agencyId, fbs_patron_id($account), $reservation_id);
+  $service = fbs_service();
+  if ($service) {
+    $service->Reservations->deleteReservations($service->agencyId, fbs_patron_id($account), $reservation_id);
+  }
 }
 
 /**
@@ -181,7 +235,12 @@ function fbs_reservation_reservation_deletion_enabled() {
  *   The branch name or null if not found.
  */
 function fbs_reservation_branch_name($branch_id) {
-  $res = fbs_service()->Placement->getBranches(fbs_service()->agencyId);
+  $res = array();
+  $service = fbs_service();
+  if ($service) {
+    $res = $service->Placement->getBranches($service->agencyId);
+  }
+
   foreach ($res as $branch) {
     if ($branch->branchId == $branch_id) {
       return $branch->title;

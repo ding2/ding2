@@ -17,6 +17,13 @@
  *   Authentication result.
  */
 function fbs_user_authenticate($name, $pincode) {
+  $service = fbs_service();
+  if (!$service) {
+    return array(
+      'success' => FALSE,
+    );
+  }
+
   $pass = _fbs_wayf_login($name);
   if ($pass) {
     // Wayf login.
@@ -28,19 +35,14 @@ function fbs_user_authenticate($name, $pincode) {
       );
     }
 
-    $res = fbs_service()->Patron->getPreAuthenticatedPatron(fbs_service()->agencyId, $name);
+    $res = $service->Patron->getPreAuthenticatedPatron($service->agencyId, $name);
   }
   else {
-    try {
-      // Normal login.
-      $auth = new FBS\Model\AuthenticationRequest();
-      $auth->libraryCardNumber = $name;
-      $auth->pincode = $pincode;
-      $res = fbs_service()->Patron->authenticate(fbs_service()->agencyId, $auth);
-    }
-    catch (Exception $e) {
-      watchdog_exception('fbs', $e);
-    }
+    // Normal login.
+    $auth = new FBS\Model\AuthenticationRequest();
+    $auth->libraryCardNumber = $name;
+    $auth->pincode = $pincode;
+    $res = $service->Patron->authenticate($service->agencyId, $auth);
   }
 
   $result = array(
@@ -107,10 +109,29 @@ function fbs_user_update_pincode($account, $new_pincode) {
   $pincode_change->libraryCardNumber = $patron_info['library_card_number'];
   $update->pincodeChange = $pincode_change;
 
-  $res = fbs_service()->Patron->update(fbs_service()->agencyId, fbs_patron_id($account), $update);
+  $service = fbs_service();
+  if (!$service) {
+    return array(
+      'creds' => FALSE
+    );
+  }
+  $res = $service->Patron->update($service->agencyId, fbs_patron_id($account), $update);
   // FBS doesn't give any other indication of success than returning rather
   // than throwing an error.
   $result = array('creds' => _fbs_patron_info($res->patron));
   $result['creds']['library_card_number'] = $patron_info['library_card_number'];
+
   return $result;
+}
+
+/**
+ * Implements clear_cache().
+ *
+ * This hook is only called from ding_dibs after a payment have been accepted.
+ *
+ * @param stdClass $account
+ *   Drupal user account object.
+ */
+function fbs_user_clear_cache($account) {
+  // As the FBS currently only uses a static cache for debt... do nothing.
 }
