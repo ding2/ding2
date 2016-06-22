@@ -1,0 +1,17 @@
+name = Ding Christmas calendar
+description = Represents christmas calendar widget based on quiz module.
+core = 7.x
+package = Ding!
+project = ding_christmas_calendar
+dependencies[] = ctools
+dependencies[] = multichoice
+dependencies[] = page_manager
+dependencies[] = quiz
+dependencies[] = quiz_page
+dependencies[] = scheduler
+configure = admin/config/ding/ding-christmas-calendar
+features[ctools][] = page_manager:pages_default:1
+features[features_api][] = api:2
+features[page_manager_pages][] = christmas_calendar
+files[] = ding_christmas_calendar.pages.inc
+mtime = 1466068944

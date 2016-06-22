@@ -1,0 +1,269 @@
+/**
+ * Mixins
+ *
+ * @author magnify
+ */
+/* Breakpoints
+   ========================================================================== */
+/* Media query
+   ========================================================================== */
+/* Breakpoints
+   ========================================================================== */
+/* Typography mixins
+ *
+ * These are mixins to allow for use in media queries
+   ========================================================================== */
+/* Availability
+   ========================================================================== */
+/* Pseudo arrow
+ *
+ * Usage example: pseudo-arrow(10px, #000, top, center, $offset: 20px)
+   ========================================================================== */
+.page-ding-christmas-calendar .pane-page-content {
+  clear: both;
+}
+
+.pane-ding-christmas-calendar-mobile {
+  display: none;
+}
+
+.pane-ding-christmas-calendar-widget {
+  background: #fff;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+.pane-ding-christmas-calendar-widget .calendar-summary {
+  font-weight: bold;
+}
+
+#ding-christmas-calendar-content {
+  background-size: cover;
+  background-repeat: none;
+}
+#ding-christmas-calendar-content table {
+  border: none;
+}
+#ding-christmas-calendar-content tr {
+  background-color: transparent !important;
+  border: none;
+  text-align: center;
+  border-radius: 0;
+}
+#ding-christmas-calendar-content td {
+  border: 5px solid #fff;
+  border-radius: 0;
+  height: 180px;
+  overflow: hidden;
+  padding: 0;
+  text-align: center;
+  vertical-align: top;
+}
+#ding-christmas-calendar-content td span {
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  font-weight: bold;
+  display: block;
+  padding: 5px 0;
+}
+#ding-christmas-calendar-content td span.active-day {
+  background: none;
+  height: 100%;
+  padding: 0;
+}
+#ding-christmas-calendar-content td span.active-day:hover {
+  cursor: pointer;
+}
+#ding-christmas-calendar-content td span.active-day:hover a {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+#ding-christmas-calendar-content td a {
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-weight: bold;
+  display: block;
+  padding: 5px 0;
+  text-decoration: underline;
+}
+#ding-christmas-calendar-content td a:hover:before {
+  content: "+";
+  font-size: 3em;
+  position: absolute;
+  display: block;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: calc(50% - 10px);
+}
+
+.page-node-take .pane-page-content,
+.page-node-quiz-results .pane-page-content {
+  clear: both;
+  background: #fff;
+  padding: 20px;
+  margin: 20px 0;
+}
+.page-node-take .pane-page-content td,
+.page-node-quiz-results .pane-page-content td {
+  vertical-align: middle;
+}
+.page-node-take .pane-page-content td:first-child,
+.page-node-quiz-results .pane-page-content td:first-child {
+  text-align: center;
+}
+.page-node-take .pane-page-content tr.selected td,
+.page-node-quiz-results .pane-page-content tr.selected td {
+  background: #00cafe;
+  color: #fff;
+}
+.page-node-take .pane-page-content tr.selected td:first-child + td,
+.page-node-quiz-results .pane-page-content tr.selected td:first-child + td {
+  border-left: 1px solid #fff;
+}
+.page-node-take .pane-page-tabs,
+.page-node-quiz-results .pane-page-tabs {
+  margin: 10px 0;
+}
+.page-node-take #quiz-progress,
+.page-node-take .quiz-question-quiz-page,
+.page-node-take .question_type_name,
+.page-node-quiz-results #quiz-progress,
+.page-node-quiz-results .quiz-question-quiz-page,
+.page-node-quiz-results .question_type_name {
+  display: none;
+}
+.page-node-take .form-actions,
+.page-node-quiz-results .form-actions {
+  margin-top: 30px;
+}
+.page-node-take #quiz_score_possible,
+.page-node-quiz-results #quiz_score_possible {
+  font-size: 130%;
+  font-weight: bold;
+  margin: 20px 0;
+}
+.page-node-take #quiz_score_possible em,
+.page-node-quiz-results #quiz_score_possible em {
+  font-weight: bold;
+}
+.page-node-take #quiz_score_percent,
+.page-node-quiz-results #quiz_score_percent {
+  font-weight: bold;
+  margin: 20px 0;
+}
+.page-node-take .quiz-report-score-container,
+.page-node-quiz-results .quiz-report-score-container {
+  display: none;
+}
+
+@media only screen and (max-width: 768px) {
+  .pane-ding-christmas-calendar-widget {
+    display: none;
+  }
+
+  .pane-ding-christmas-calendar-mobile {
+    display: block;
+    background: #fff;
+    margin: 0 20px;
+    padding: 20px 20px 40px 20px;
+  }
+  .pane-ding-christmas-calendar-mobile .ding-christmas-calendar-mobile-cell {
+    height: 180px;
+    border-right: 5px solid #fff;
+    text-align: center;
+    font-size: 130%;
+  }
+  .pane-ding-christmas-calendar-mobile .ding-christmas-calendar-mobile-cell span {
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    font-weight: bold;
+    display: block;
+    padding: 5px 0;
+  }
+  .pane-ding-christmas-calendar-mobile .ding-christmas-calendar-mobile-cell span.active-day {
+    background: none;
+    height: 100%;
+    padding: 0;
+  }
+  .pane-ding-christmas-calendar-mobile .ding-christmas-calendar-mobile-cell a {
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-weight: bold;
+    display: block;
+    padding: 5px 0;
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  .pane-ding-christmas-calendar-mobile .ding-christmas-calendar-mobile-cell a:before {
+    content: "+";
+    font-size: 3em;
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: calc(50% - 10px);
+  }
+  .pane-ding-christmas-calendar-mobile .calendar-summary {
+    font-weight: bold;
+  }
+  .pane-ding-christmas-calendar-mobile .slick-dots li button {
+    background: #ccc;
+    border-radius: 50px;
+    color: #fff;
+  }
+  .pane-ding-christmas-calendar-mobile .slick-dots li button:before {
+    font-size: 2em;
+  }
+  .pane-ding-christmas-calendar-mobile .slick-dots li.slick-active button {
+    background: #00b7e7;
+  }
+  .pane-ding-christmas-calendar-mobile .slick-prev,
+  .pane-ding-christmas-calendar-mobile .slick-next {
+    display: none;
+  }
+}
+@media only screen and (max-width: 480px) {
+  .pane-ding-christmas-calendar-mobile .ding-christmas-calendar-mobile-cell {
+    border: none;
+  }
+  .pane-ding-christmas-calendar-mobile .slick-prev,
+  .pane-ding-christmas-calendar-mobile .slick-next {
+    display: block;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 50px;
+    height: 40px;
+    line-height: 40px;
+    width: 40px;
+    z-index: 200;
+  }
+  .pane-ding-christmas-calendar-mobile .slick-prev {
+    left: 10px;
+  }
+  .pane-ding-christmas-calendar-mobile .slick-next {
+    right: 10px;
+  }
+  .pane-ding-christmas-calendar-mobile .slick-prev:hover, .pane-ding-christmas-calendar-mobile .slick-prev:focus, .pane-ding-christmas-calendar-mobile .slick-next:hover, .pane-ding-christmas-calendar-mobile .slick-next:focus {
+    background: black;
+  }
+  .pane-ding-christmas-calendar-mobile .slick-prev:before {
+    color: #fff;
+    content: "\f053";
+    font-family: FontAwesome;
+    font-weight: normal;
+    font-style: normal;
+    position: relative;
+    top: 7px;
+  }
+  .pane-ding-christmas-calendar-mobile .slick-next:before {
+    color: #fff;
+    content: "\f054";
+    font-family: FontAwesome;
+    font-weight: normal;
+    font-style: normal;
+    position: relative;
+    top: 7px;
+  }
+}
