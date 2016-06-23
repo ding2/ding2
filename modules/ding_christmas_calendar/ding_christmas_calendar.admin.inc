@@ -12,7 +12,12 @@ function ding_christmas_calendar_settings_form($form, $form_state) {
   $quiz = node_load($id);
   if ($quiz) {
     $form['view'] = array(
-      '#markup' => '<strong>' . t('Press !ph for viewing page with Christmas calendar', array('!ph' => l(t('here'), 'ding-christmas-calendar'))) . '</strong>',
+      '#prefix' => '<strong>',
+      '#suffix' => '</strong>',
+      '#markup' => t('For !ph1 or !ph2 Christmas calendar page', array(
+        '!ph1' => l(t('viewing'), 'ding-christmas-calendar'),
+        '!ph2' => l(t('editing'), "node/{$id}/edit"),
+      )),
     );
 
     $questions = ding_christmas_calendar_questions($quiz->nid, $quiz->vid, 'multichoice');
@@ -193,17 +198,12 @@ function ding_christmas_calendar_settings_generate_form_submit($form, $form_stat
       $page->title = $current->format('d F');
       $page->quiz_nid = $quiz->nid;
       $page->quiz_vid = $quiz->vid;
-      $page->publish_on = $current->getTimestamp();
-      $end = clone $current;
-      $end->add($step);
-      $page->unpublish_on = $end->getTimestamp();
       node_save($page);
       $page_qnr_id = ding_christmas_get_question_id($page);
 
       $question = _ding_christmas_calendar_question_stub();
-      $question->publish_on = $current->getTimestamp();
-      $question->unpublish_on = $end->getTimestamp();
       $question->title = $current->format('d F');
+      $question->field_quiz_date[LANGUAGE_NONE][0]['value'] = $current->getTimestamp();
       $question->quiz_nid = $quiz->nid;
       $question->quiz_vid = $quiz->vid;
       node_save($question);
@@ -246,7 +246,8 @@ function ding_christmas_calendar_settings_form_remove_submit($form, $form_state)
   $element = $form_state['triggering_element'];
   $quiz = $element['#quiz'];
   try {
-    db_truncate('quiz_node_results');
+    db_truncate('quiz_node_results')->execute();
+    db_truncate('quiz_node_results_answers')->execute();
     $revisions = node_revision_list($quiz);
     $revisions = array_filter($revisions, function ($i) use ($quiz) {
       return $quiz->vid != $i->vid;
@@ -279,7 +280,7 @@ function _ding_christmas_calendar_question_stub() {
   $question = new stdClass();
   $question->uid = '1';
   $question->title = "";
-  $question->status = '0';
+  $question->status = '1';
   $question->comment = '2';
   $question->promote = '0';
   $question->sticky = '0';

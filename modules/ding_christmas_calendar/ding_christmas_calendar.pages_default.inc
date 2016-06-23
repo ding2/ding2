@@ -89,6 +89,25 @@ function ding_christmas_calendar_default_page_manager_pages() {
     $pane->uuid = '1d09154e-738d-4384-8a72-1467f4e2eeb8';
     $display->content['new-1d09154e-738d-4384-8a72-1467f4e2eeb8'] = $pane;
     $display->panels['middle'][0] = 'new-1d09154e-738d-4384-8a72-1467f4e2eeb8';
+    $pane = new stdClass();
+    $pane->pid = 'new-50a4e080-5ddd-4262-82d8-3a04dba2bcba';
+    $pane->panel = 'middle';
+    $pane->type = 'ding_christmas_calendar_mobile';
+    $pane->subtype = 'ding_christmas_calendar_mobile';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $pane->uuid = '50a4e080-5ddd-4262-82d8-3a04dba2bcba';
+    $display->content['new-50a4e080-5ddd-4262-82d8-3a04dba2bcba'] = $pane;
+    $display->panels['middle'][1] = 'new-50a4e080-5ddd-4262-82d8-3a04dba2bcba';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = 'new-1d09154e-738d-4384-8a72-1467f4e2eeb8';
   $handler->conf['display'] = $display;

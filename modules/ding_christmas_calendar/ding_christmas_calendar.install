@@ -10,9 +10,6 @@
 function ding_christmas_calendar_install() {
   _ding_christmas_calendar_create_quiz();
   _ding_christmas_calendar_create_field();
-  variable_set('scheduler_publish_enable_multichoice', TRUE);
-  variable_set('scheduler_publish_touch_multichoice', TRUE);
-  variable_set('scheduler_unpublish_enable_multichoice', TRUE);
 }
 
 
@@ -21,14 +18,29 @@ function ding_christmas_calendar_install() {
  */
 function ding_christmas_calendar_uninstall() {
   field_delete_field('field_background');
+  field_delete_field('field_quiz_date');
 
   $id = variable_get('ding_christmas_calendar_quiz_id', NULL);
-  if (!empty($id)) {
-//    $questions = ding_christmas_calendar_questions($id);
-//    foreach ($questions as $question) {
-//      node_delete($question->nid);
-//    }
-//    node_delete($id);
+  $quiz = node_load($id);
+  try {
+    db_truncate('quiz_node_results');
+    $revisions = node_revision_list($quiz);
+    $revisions = array_filter($revisions, function ($i) use ($quiz) {
+      return $quiz->vid != $i->vid;
+    });
+
+    array_map(function ($i) {
+      return node_revision_delete($i->vid);;
+    }, $revisions);
+
+    $questions = ding_christmas_calendar_questions($quiz->nid, $quiz->vid);
+    foreach ($questions as $question) {
+      node_delete($question->nid);
+    }
+    node_delete($id);
+  }
+  catch (Exception $ex) {
+    watchdog_exception('ding_christmas_calendar', $ex);
   }
 }
 
@@ -67,12 +79,40 @@ function _ding_christmas_calendar_create_quiz() {
   $quiz->has_userpoints = '0';
   $quiz->userpoints_tid = '0';
   $quiz->allow_skipping = '0';
-  $quiz->allow_resume = '0';
+  $quiz->allow_resume = '1';
   $quiz->allow_jumping = '0';
   $quiz->show_passed = '0';
   $quiz->mark_doubtful = '0';
   $quiz->max_score = '24';
   $quiz->allow_change_blank = '0';
+  $quiz->review_options = array(
+    'question' => array(
+      'quiz_question_view_full' => 'quiz_question_view_full',
+      'attempt' => 'attempt',
+      'choice' => 'choice',
+      'score' => 'score',
+      'solution' => 'solution',
+      'quiz_question_view_teaser' => 0,
+      'quiz_question_view_teaser_highlight' => 0,
+      'correct' => 0,
+      'answer_feedback' => 0,
+      'question_feedback' => 0,
+      'quiz_feedback' => 0,
+    ),
+    'end' => array(
+      'quiz_question_view_full' => 0,
+      'attempt' => 0,
+      'choice' => 0,
+      'score' => 0,
+      'solution' => 0,
+      'quiz_question_view_teaser' => 0,
+      'quiz_question_view_teaser_highlight' => 0,
+      'correct' => 0,
+      'answer_feedback' => 0,
+      'question_feedback' => 0,
+      'quiz_feedback' => 0,
+    ),
+  );
 
   node_save($quiz);
   variable_set('ding_christmas_calendar_quiz_id', $quiz->nid);
@@ -187,4 +227,96 @@ function _ding_christmas_calendar_create_field() {
   );
 
   field_create_instance($field_background_instance);
+
+  $field_quiz_date = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_quiz_date',
+    'foreign keys' => array(),
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'date',
+    'settings' => array(
+      'cache_count' => 4,
+      'cache_enabled' => 0,
+      'granularity' => array(
+        'day' => 'day',
+        'hour' => 0,
+        'minute' => 0,
+        'month' => 'month',
+        'second' => 0,
+        'year' => 'year',
+      ),
+      'profile2_private' => FALSE,
+      'timezone_db' => '',
+      'todate' => '',
+      'tz_handling' => 'none',
+    ),
+    'translatable' => 0,
+    'type' => 'datestamp',
+  );
+  field_create_field($field_quiz_date);
+
+  $field_quiz_date_instance = array(
+    'bundle' => 'multichoice',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'date',
+        'settings' => array(
+          'format_type' => 'long',
+          'fromto' => 'both',
+          'multiple_from' => '',
+          'multiple_number' => '',
+          'multiple_to' => '',
+        ),
+        'type' => 'date_default',
+        'weight' => 1,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_quiz_date',
+    'label' => t('Quiz date'),
+    'required' => 0,
+    'settings' => array(
+      'default_value' => 'now',
+      'default_value2' => 'same',
+      'default_value_code' => '',
+      'default_value_code2' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'date',
+      'settings' => array(
+        'display_all_day' => 0,
+        'increment' => 15,
+        'input_format' => 'd-m-Y H:i:s',
+        'input_format_custom' => '',
+        'label_position' => 'above',
+        'text_parts' => array(),
+        'year_range' => '-3:+3',
+      ),
+      'type' => 'date_text',
+      'weight' => 31,
+    ),
+  );
+
+  field_create_field($field_quiz_date_instance);
 }
