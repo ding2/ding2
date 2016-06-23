@@ -40,5 +40,18 @@
         }
       }]
     });
+
+    $('.future-day a').click(function(e) {
+      var popUp = $('#ding-christmas-calendar-content .future-day-popup');
+
+      popUp.fadeIn( 300, function() {
+        
+        setTimeout(function () {
+          popUp.fadeOut(300);
+        }, 1500);
+      });
+      e.preventDefault();
+    });
+
   });
 })(jQuery);

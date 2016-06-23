@@ -1,8 +1,3 @@
-@import "_mixins";
-
-$zen-columns:             12;
-$zen-gutters:             20px;
-
 .page-ding-christmas-calendar {
   .pane-page-content {
     clear: both;
@@ -14,19 +9,43 @@ $zen-gutters:             20px;
 }
 
 .pane-ding-christmas-calendar-widget {
-  background: #fff;
+  background: $white;
   margin-bottom: 20px;
   padding: 20px;
 
   .calendar-summary {
     font-weight: bold;
   }
+
 }
 
 #ding-christmas-calendar-content {
   background-size: cover;
   background-repeat: none;
+  position: relative;
 
+  .future-day-popup {
+    background: $white;
+    border-radius: 20px;
+    display: none;
+    height: 200px;
+    left: calc(50% - 150px);
+    margin-top: -50px;
+    padding: 20px;
+    position: fixed;
+    text-align: center;
+    top: 190px;
+    width: 260px;
+    touch-action: manipulation;
+    z-index: 100;
+    
+    strong {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      display: block;
+    }
+  }
+  
   table {
     border: none;
   }
@@ -39,7 +58,7 @@ $zen-gutters:             20px;
   }
 
   td {
-    border: 5px solid #fff;
+    border: 5px solid $white;
     border-radius: 0;
     height: 180px;
     overflow: hidden;
@@ -48,17 +67,57 @@ $zen-gutters:             20px;
     vertical-align: top;
 
     span {
-      background: rgba(0, 0, 0, 0.7);
-      color: #fff;
+      color: $white;
       font-weight: bold;
       display: block;
-      padding: 5px 0;
+      padding: 0;
+      height: 100%;
+      
+      
+      a {
+        position: relative;
+      }
 
+      &.past-day {
+        &:hover {
+          cursor: pointer;
+
+          a {
+            width: 100%;
+            height: 100%;
+            position: relative;
+          }
+        }
+
+        a {
+          background: rgba(255, 255, 255, 0.2);
+          color: $white;
+          text-decoration: none;
+        }
+      }
+      
+      &.future-day {
+        &:hover {
+          a {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            cursor: default;
+          }
+        }
+
+        a {
+          background: rgba(0, 0, 0, 0.4);
+          color: $white;
+          text-decoration: none;
+        }
+      }
+      
       &.active-day {
         background: none;
         height: 100%;
         padding: 0;
-
+        
         &:hover {
           cursor: pointer;
 
@@ -72,12 +131,13 @@ $zen-gutters:             20px;
     }
 
     a {
-      background: rgba(0, 0, 0, 0.5);
-      color: #fff;
+      background: rgba(0, 0, 0, 0.7);
+      color: $white;
       font-weight: bold;
       display: block;
       padding: 5px 0;
       text-decoration: underline;
+
 
       &:hover {
         &:before {
@@ -99,7 +159,7 @@ $zen-gutters:             20px;
 .page-node-quiz-results {
   .pane-page-content {
     clear: both;
-    background: #fff;
+    background: $white;
     padding: 20px;
     margin: 20px 0;
 
@@ -114,12 +174,16 @@ $zen-gutters:             20px;
     tr.selected {
       td {
         background: #00cafe;
-        color: #fff;
+        color: $white;
 
         &:first-child + td {
-          border-left: 1px solid #fff;
+          border-left: 1px solid $white;
         }
       }
+    }
+    
+    .form-submit {
+      margin-right: 20px;
     }
   }
 
@@ -164,33 +228,46 @@ $zen-gutters:             20px;
 
   .pane-ding-christmas-calendar-mobile {
     display: block;
-    background: #fff;
+    background: $white;
     margin: 0 20px;
     padding: 20px 20px 40px 20px;
 
     .ding-christmas-calendar-mobile-cell {
       height: 180px;
-      border-right: 5px solid #fff;
+      border-right: 5px solid $white;
       text-align: center;
       font-size: 130%;
 
       span {
-        background: rgba(0, 0, 0, 0.7);
-        color: #fff;
+        color: $white;
         font-weight: bold;
         display: block;
-        padding: 5px 0;
+        padding: 0;
+        height: 100%;
 
         &.active-day {
-          background: none;
-          height: 100%;
-          padding: 0;
+          a {
+            background: rgba(0, 0, 0, 0.7);
+            color: $white;
+          }
+        }
+        
+        &.past-day {
+          a {
+            background: rgba(255, 255, 255, 0.2);
+            color: $white;
+          }
+        }
+        
+        &.future-day {
+          a {
+            background: rgba(0, 0, 0, 0.3);
+            color: $white;
+          }
         }
       }
 
       a {
-        background: rgba(0, 0, 0, 0.5);
-        color: #fff;
         font-weight: bold;
         display: block;
         padding: 5px 0;
@@ -220,7 +297,7 @@ $zen-gutters:             20px;
         button {
           background: #ccc;
           border-radius: 50px;
-          color: #fff;
+          color: $white;
 
           &:before {
             font-size: 2em;
@@ -228,7 +305,7 @@ $zen-gutters:             20px;
         }
 
         &.slick-active button {
-          background: #00b7e7;
+          background: $link-color;
         }
       }
     }
@@ -265,12 +342,15 @@ $zen-gutters:             20px;
       right: 10px;
     }
 
-    .slick-prev:hover, .slick-prev:focus, .slick-next:hover, .slick-next:focus {
+    .slick-prev:hover,
+    .slick-prev:focus,
+    .slick-next:hover,
+    .slick-next:focus {
       background: rgba(0, 0, 0, 1);
     }
 
     .slick-prev:before {
-      color: #fff;
+      color: $white;
       content: "\f053";
       font-family: FontAwesome;
       font-weight: normal;
@@ -280,7 +360,7 @@ $zen-gutters:             20px;
     }
 
     .slick-next:before {
-      color: #fff;
+      color: $white;
       content: "\f054";
       font-family: FontAwesome;
       font-weight: normal;

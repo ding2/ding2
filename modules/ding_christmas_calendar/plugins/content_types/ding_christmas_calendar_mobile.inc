@@ -26,7 +26,6 @@ function ding_christmas_calendar_mobile_render($subtype, $conf, $args, $contexts
     '#markup' => theme('ding_christmas_calendar_widget', $vars),
     '#attached' => array(
       'css' => array(
-        $path . '/css/ding_christmas_calendar.css',
         $path . '/css/slick.css',
         $path . '/css/slick-theme.css',
       ),
