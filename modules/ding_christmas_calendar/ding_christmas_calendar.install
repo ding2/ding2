@@ -78,9 +78,9 @@ function _ding_christmas_calendar_create_quiz() {
   $quiz->tid = '0';
   $quiz->has_userpoints = '0';
   $quiz->userpoints_tid = '0';
-  $quiz->allow_skipping = '0';
+  $quiz->allow_skipping = '1';
   $quiz->allow_resume = '1';
-  $quiz->allow_jumping = '0';
+  $quiz->allow_jumping = '1';
   $quiz->show_passed = '0';
   $quiz->mark_doubtful = '0';
   $quiz->max_score = '24';
