@@ -23,7 +23,8 @@ function ding_christmas_calendar_uninstall() {
   $id = variable_get('ding_christmas_calendar_quiz_id', NULL);
   $quiz = node_load($id);
   try {
-    db_truncate('quiz_node_results');
+    db_truncate('quiz_node_results')->execute();
+    db_truncate('quiz_node_results_answers')->execute();
     $revisions = node_revision_list($quiz);
     $revisions = array_filter($revisions, function ($i) use ($quiz) {
       return $quiz->vid != $i->vid;
@@ -33,6 +34,7 @@ function ding_christmas_calendar_uninstall() {
       return node_revision_delete($i->vid);;
     }, $revisions);
 
+    module_load_include('module', 'ding_christmas_calendar');
     $questions = ding_christmas_calendar_questions($quiz->nid, $quiz->vid);
     foreach ($questions as $question) {
       node_delete($question->nid);
@@ -318,5 +320,5 @@ function _ding_christmas_calendar_create_field() {
     ),
   );
 
-  field_create_field($field_quiz_date_instance);
+  field_create_instance($field_quiz_date_instance);
 }
