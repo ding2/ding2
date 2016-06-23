@@ -9,7 +9,6 @@ dependencies[] = multichoice
 dependencies[] = page_manager
 dependencies[] = quiz
 dependencies[] = quiz_page
-dependencies[] = scheduler
 configure = admin/config/ding/ding-christmas-calendar
 features[ctools][] = page_manager:pages_default:1
 features[features_api][] = api:2
