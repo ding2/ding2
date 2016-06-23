@@ -156,55 +156,49 @@ function ding_user_consent_has_consent($consent_id = NULL, $account = FALSE) {
   return FALSE;
 }
 
-/**
- * Attach consent for to profile form.
- */
-// TODO: The following three functions only work for Alma. It should work for
-// all providers.
-function ding_user_consent_form_profile2_edit_provider_alma_form_alter(&$form, &$form_state, $form_id) {
-  global $user;
-
+function ding_user_consent_form_profile2_form_alter(&$form, &$form_state) {
   // If consent longer than 30 days is disabled, ignore the form below.
   if (!variable_get('user_consent_activate')) {
     return;
   }
-
-  $profile = $form['profile_provider_alma']['#entity'];
-  $account = user_load($profile->uid);
-  // Ensure that the user related to this profile form is a valid user.
-  if (ding_user_is_provider_user($account) && $account->uid == $user->uid) {
-    $consents = ding_provider_invoke('user_consent', 'info');
-    if ($consents) {
-      $form['user_consent'] = array(
-        '#type' => 'fieldset',
-        '#title' => t('Legal consent'),
-        '#collapsible' => FALSE,
-        '#collapsed' => FALSE,
-      );
-      $consent = ding_provider_invoke('user_consent', 'get_consent', $account);
-      foreach ($consents as $id => $values) {
-        if (!isset($values['title'])) {
-          $values['title'] = t('Legal consent');
-        }
-        $form['user_consent'][$id] = array(
-          '#type' => 'checkbox',
-          '#title' => check_plain($values['title']),
-          '#default_value' => !empty($consent[$id]) ? $consent[$id] : 0,
+  
+  $account = user_load($form['profile_provider_alma']['#entity']->uid);
+  if (ding_user_is_provider_user($account)) {
+    $profile_type = ding_user_get_provider_profile_type();
+    if ($form_state['profile2']->type == $profile_type->type) {
+      $consents = ding_provider_invoke('user_consent', 'info');
+      if ($consents) {
+        $form['user_consent'] = array(
+          '#type' => 'fieldset',
+          '#title' => t('Legal consent'),
+          '#collapsible' => FALSE,
+          '#collapsed' => FALSE,
         );
-        $form['user_consent'][$id]['#description'] = (!empty($values['description'])) ? check_plain($values['description']) : '';
-        if (variable_get('ding_user_consent_' . $id . '_description_link', '')) {
-          $form['user_consent'][$id]['#description'] = format_string(
-            $form['user_consent'][$id]['#description'] . ' !br !url',
-            array(
-              '!br' => '<br/>',
-              '!url' => l(t('Read more'), variable_get('ding_user_consent_' . $id . '_description_link', '')),
-            )
+        $consent = ding_provider_invoke('user_consent', 'get_consent', $account);
+        foreach ($consents as $id => $values) {
+          if (!isset($values['title'])) {
+            $values['title'] = t('Legal consent');
+          }
+          $form['user_consent'][$id] = array(
+            '#type' => 'checkbox',
+            '#title' => check_plain($values['title']),
+            '#default_value' => !empty($consent[$id]) ? $consent[$id] : 0,
           );
+          $form['user_consent'][$id]['#description'] = (!empty($values['description'])) ? check_plain($values['description']) : '';
+          if (variable_get('ding_user_consent_' . $id . '_description_link', '')) {
+            $form['user_consent'][$id]['#description'] = format_string(
+              $form['user_consent'][$id]['#description'] . ' !br !url',
+              array(
+                '!br' => '<br/>',
+                '!url' => l(t('Read more'), variable_get('ding_user_consent_' . $id . '_description_link', '')),
+              )
+            );
+          }
         }
-      }
 
-      $form['#validate'][] = 'ding_user_consent_form_profile2_edit_provider_alma_form_validate';
-      $form['#submit'][] = 'ding_user_consent_form_profile2_edit_provider_alma_form_submit';
+        $form['#validate'][] = 'ding_user_consent_form_profile2_form_validate';
+        $form['#submit'][] = 'ding_user_consent_form_profile2_form_submit';
+      }
     }
   }
 }
@@ -212,7 +206,7 @@ function ding_user_consent_form_profile2_edit_provider_alma_form_alter(&$form, &
 /**
  * Validate user consent before submitting profile edit data.
  */
-function ding_user_consent_form_profile2_edit_provider_alma_form_validate($form, &$form_state) {
+function ding_user_consent_form_profile2_form_validate($form, &$form_state) {
   $profile = $form_state['profile2'];
   $user = user_load($profile->uid);
   if (empty($user->data['consent'])) {
@@ -229,7 +223,7 @@ function ding_user_consent_form_profile2_edit_provider_alma_form_validate($form,
 /**
  * Submit user consent on profile edit save.
  */
-function ding_user_consent_form_profile2_edit_provider_alma_form_submit($form_id, &$form_state) {
+function ding_user_consent_form_profile2_form_submit($form_id, &$form_state) {
   $profile = $form_state['profile2'];
   $account = user_load($profile->uid);
   ding_user_consent_set($form_state['values'], $account);
@@ -385,7 +379,7 @@ function theme_ding_user_consent_set($variables) {
     $description = variable_get('ding_user_consent_' . $id . '_description', $values['description']);
   }
 
-  return '<div class="ding-user-consent-set">' . '<div class="description">' . $description['value'] . '</div>' . '<div class="choice">' . ctools_ajax_text_button(t('No thanks, not interested'), 'ding/consent/nojs/' . $variables['id'] . '/0', t('No'), "transparent-button negative") . ctools_ajax_text_button(t('Yes please, the library can store my previous loans'), 'ding/consent/nojs/' . $variables['id'] . '/1', $title, "transparent-button positive") . '</div>' . '</div>';
+  return '<div class="ding-user-consent-set">' . '<div class="description">' . $description . '</div>' . '<div class="choice">' . ctools_ajax_text_button(t('No thanks, not interested'), 'ding/consent/nojs/' . $variables['id'] . '/0', t('No'), "transparent-button negative") . ctools_ajax_text_button(t('Yes please, the library can store my previous loans'), 'ding/consent/nojs/' . $variables['id'] . '/1', $title, "transparent-button positive") . '</div>' . '</div>';
 }
 
 /**

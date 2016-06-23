@@ -14,7 +14,7 @@ function ting_openlist_install() {
   db_add_field('users', 'openlist_uid', $schema['users']['fields']['openlist_uid']);
   drupal_set_message('!IMPORTANT: Configure Ting Openlist ' . l(t('here'), 'admin/config/ding/provider/ting_openlist') . ' before continuing!');
   
-  variable_set('ting_library_code', variables_get('ting_agency', ''));
+  variable_set('ting_library_code', variable_get('ting_agency', ''));
 }
 
 /**

@@ -213,19 +213,12 @@ function ding_serendipity_ting_entity_ting_object_adhl_serendipity_add($context)
       if (($agency = variable_get('ting_agency', '')) != '') {
         $agency .= ':';
       }
-
-      // @TODO: Later. Create the ting_object id correct instead of hardcoded
-      // "870970-basis:", but ding_provider_build_entity_id doesn't
-      // work.
-      // TODO Please explain why ding_provider_build_entity_id does not work
-      // Otherwise we have no chance of knowing when this can be refactored,
-      $agency = '870970-basis:';
       
       $recommendations = ting_get_object_recommendations($obj->getIsbn());
       foreach ($recommendations as $recommendation) {
         $results[] = array(
           'type' => 'ting_object',
-          'id' => $agency . $recommendation->localId,
+          'id' => ding_provider_build_entity_id($recommendation->localId),
           'info' => array(
             'adhl' => 'adhl',
           ),

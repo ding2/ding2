@@ -217,11 +217,11 @@ function ding_serendipity_lists_ting_objects_adhl_serendipity_add($context) {
     $item = ding_list_convert_cql($item['object_id']);
   }
   $buffer = array_unique($buffer);
-
+  
   foreach ($buffer as $id) {
     $obj = ding_entity_load($id, 'ting_object');
     if ($obj) {
-      $title = l($obj->getTitle(), entity_uri('ting_object', $obj));
+      $title = l($obj->getTitle(), entity_uri('ting_object', $obj)['path']);
 
       $results[] = array(
         'type' => 'ting_object',
@@ -307,18 +307,12 @@ function ding_serendipity_lists_loan_adhl_serendipity_add($context) {
           }
           $recommendations = ting_get_object_recommendations($isbn, 4);
           
-          // @TODO: Later. Create the ting_object id correct instead of hardcoded
-          // "870970-basis:", but ding_provider_build_entity_id doesn't
-          // work.
-          // TODO Please explain why ding_provider_build_entity_id does not work
-          // Otherwise we have no chance of knowing when this can be refactored,
-          $agency = '870970-basis:';
           if (!empty($recommendations)) {
             // Collect ADHL recommendations to results.
             foreach ($recommendations as $recommendation) {
               $results[] = array(
                 'type' => 'ting_object',
-                'id' => $agency . $recommendation->localId,
+                'id' => ding_provider_build_entity_id($recommendation->localId),
                 'info' => array(
                   'adhl' => 'adhl',
                   'description' => t('Because others also borrowed !item', array('!item' => l($obj->getTitle(), 'ting/object/' . $obj->getId()))),

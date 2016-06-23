@@ -960,14 +960,10 @@ function ding_list_entity_load($entities, $type) {
  *
  * We need to convert old cql to new cql. Old cql will occur if ding_list has
  * been used on an environment using the old cql before upgrading.
- *
- * This function is needed, because the cql converter included in ding core is
- * incomplete.
  */
 function ding_list_convert_cql($string) {
   $pattern = '/(\s+?|^)(\(?dc|\(?phrase)\.(.+?)\s?="?(.+?)"?(\s+|$)(AND|OR|NOT|$)/';
   $string = preg_replace_callback($pattern, 'ding_list_convert_cql_replace_callback', $string);
-
   $string = preg_replace('/\d{6}:I?(\d+)/', '870970-basis:$1', $string);
 
   return $string;
