@@ -173,6 +173,12 @@ projects[ding_print_button][download][type] = "git"
 projects[ding_print_button][download][url]  = "git@github.com:easySuite/ding_print_button.git"
 projects[ding_print_button][download][branch]  = "development"
 
+projects[ding_video][type]           = "module"
+projects[ding_video][subdir]         = ""
+projects[ding_video][download][type] = "git"
+projects[ding_video][download][url]  = "git@github.com:easySuite/ding_video.git"
+projects[ding_video][download][branch]  = "development"
+
 projects[easyddb_dams][type]           = "module"
 projects[easyddb_dams][subdir]         = ""
 projects[easyddb_dams][download][type] = "git"
