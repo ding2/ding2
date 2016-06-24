@@ -48366,3 +48366,171 @@ msgstr "Pinkoden skal bestå af %number cifre."
 
 msgid "You are not allowed to automatically be created because of the age limit (!limit years). Please go to your local library to registry."
 msgstr "Du kan ikke oprette dig som bruger via NemID på grund af aldersbegrænsningen (!limit år). Du kan blive oprettet som bruger ved personlig henvendelse på biblioteket."
+
+#: ding_christmas_calendar.admin.inc:17
+msgid "For !ph1 or !ph2 Christmas calendar page"
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:18
+msgid "viewing"
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:19
+msgid "editing"
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:28
+msgid "Questions"
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:35
+msgid "Edit"
+msgstr "Redigér"
+
+#: ding_christmas_calendar.admin.inc:41
+msgid "Title"
+msgstr "titel"
+
+#: ding_christmas_calendar.admin.inc:42
+msgid "Operations"
+msgstr "Handlinger"
+
+#: ding_christmas_calendar.admin.inc:53
+msgid "Delete questions"
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:54
+msgid "At this moment already  exists questions for christmas calendar. Calendar can purged by pressing this button."
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:65
+msgid "Dates:"
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:71
+msgid "Start date of Christmas calendar"
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:79
+msgid "Duration in days"
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:87
+msgid "Generate"
+msgstr "Opret"
+
+#: ding_christmas_calendar.admin.inc:98
+msgid "Quiz:"
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:104
+msgid "Background image"
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:105
+msgid "Background image for Christmas calendar."
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:111
+msgid "Save quiz settings"
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:124
+msgid "Something happened. Variable `ding_christmas_calendar_quiz_id` is empty. Reinstall module or create a quiz and initialize variable with actual value"
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:142
+msgid "Please enter valid date."
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:146
+msgid "Please enter valid duration."
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:152
+msgid "Please provide image."
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:172
+msgid "Image was successfully saved."
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:176;239
+msgid "Error occurred. Check log for details."
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:265
+msgid "Calendar was successfully cleared"
+msgstr ""
+
+#: ding_christmas_calendar.admin.inc:269
+msgid "Something goes wrong. Check reports."
+msgstr ""
+
+#: ding_christmas_calendar.module:308
+msgid "Save"
+msgstr "Gem"
+
+#: ding_christmas_calendar.module:309;314
+msgid "Back to calendar"
+msgstr ""
+
+#: ding_christmas_calendar.module:32
+msgid "Ding Christmas calendar settings"
+msgstr ""
+
+#: ding_christmas_calendar.module:33
+msgid "Configure the start and end dates of Christmas calendar."
+msgstr ""
+
+#: ding_christmas_calendar.module:41
+msgid "Represents wrapper for quiz_quiztake function."
+msgstr ""
+
+#: ding_christmas_calendar.install:56 plugins/content_types/ding_christmas_calendar_mobile.inc:11;21 plugins/content_types/ding_christmas_calendar_widget.inc:11;21
+msgid "Christmas calendar"
+msgstr ""
+
+#: ding_christmas_calendar.install:297
+msgid "Quiz date"
+msgstr ""
+
+#: ding_christmas_calendar.info:0
+msgid "Ding Christmas calendar"
+msgstr ""
+
+#: ding_christmas_calendar.info:0
+msgid "Represents christmas calendar widget based on quiz module."
+msgstr ""
+
+#: ding_christmas_calendar.info:0
+msgid "Ding!"
+msgstr "Ding!"
+
+#: js/ding_christmas_calendar.js:0
+msgid "Hov Hov. Do not cheat! You can not open the door yet"
+msgstr ""
+
+#: plugins/content_types/ding_christmas_calendar_mobile.inc:9
+msgid "Mobile Christmas calendar"
+msgstr ""
+
+#: plugins/content_types/ding_christmas_calendar_mobile.inc:10
+msgid "Represents widget for displaying Christmas calendar for mobile devices."
+msgstr ""
+
+#: plugins/content_types/ding_christmas_calendar_widget.inc:9
+msgid "Full-page Christmas calendar"
+msgstr ""
+
+#: plugins/content_types/ding_christmas_calendar_widget.inc:10
+msgid "Represents widget for displaying Christmas calendar."
+msgstr ""
+
+#: templates/ding_christmas_calendar.tpl.php:20
+msgid "Hov Hov"
+msgstr ""
+
+#: templates/ding_christmas_calendar.tpl.php:21
+msgid "Do not cheat! You can not open the door yet"
+msgstr ""
