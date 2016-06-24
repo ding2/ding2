@@ -2,6 +2,11 @@
   .pane-page-content {
     clear: both;
   }
+  
+  .notifyjs-bootstrap-info {
+    background: $link-color;
+    color: $white;
+  }
 }
 
 .pane-ding-christmas-calendar-mobile {
@@ -16,7 +21,40 @@
   .calendar-summary {
     font-weight: bold;
   }
+}
 
+.pane-ding-christmas-calendar-mobile {
+  .calendar-popup {
+    display: none !important;
+  }
+}
+
+.pane-ding-christmas-calendar-widget,
+.pane-ding-christmas-calendar-mobile {
+
+  .calendar-popup {
+    .future-day-popup {
+      background: $white;
+      border-radius: 20px;
+      display: none;
+      height: 200px;
+      left: calc(50% - 150px);
+      margin-top: -100px;
+      padding: 20px;
+      position: fixed;
+      text-align: center;
+      top: 50%;
+      width: 260px;
+      touch-action: manipulation;
+      z-index: 100;
+
+      strong {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        display: block;
+      }
+    }
+  }
 }
 
 #ding-christmas-calendar-content {
@@ -24,28 +62,6 @@
   background-repeat: none;
   position: relative;
 
-  .future-day-popup {
-    background: $white;
-    border-radius: 20px;
-    display: none;
-    height: 200px;
-    left: calc(50% - 150px);
-    margin-top: -50px;
-    padding: 20px;
-    position: fixed;
-    text-align: center;
-    top: 190px;
-    width: 260px;
-    touch-action: manipulation;
-    z-index: 100;
-    
-    strong {
-      margin-top: 20px;
-      margin-bottom: 20px;
-      display: block;
-    }
-  }
-  
   table {
     border: none;
   }

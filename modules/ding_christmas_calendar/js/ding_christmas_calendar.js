@@ -10,14 +10,14 @@
     // Init carousel
     $(carousel_wrapper).slick({
 
-      infinite: true,
+      infinite: false,
       slidesToShow: 7,
       slidesToScroll: 3,
 
       responsive: [{
         breakpoint: 1024,
         settings: {
-        slidesToShow: 4,
+        slidesToShow: 3,
           dots: true,
           arrows: false,
         }
@@ -41,17 +41,20 @@
       }]
     });
 
-    $('.future-day a').click(function(e) {
-      var popUp = $('#ding-christmas-calendar-content .future-day-popup');
-
+    $('.pane-ding-christmas-calendar-widget .future-day a').click(function(e) {
+      var popUp = $('.calendar-popup .future-day-popup');
       popUp.fadeIn( 300, function() {
-        
         setTimeout(function () {
           popUp.fadeOut(300);
         }, 1500);
       });
       e.preventDefault();
     });
-
+    
+    $('.pane-ding-christmas-calendar-mobile .future-day a').click(function(e) {
+      $.notify(Drupal.t("Hov Hov. Do not cheat! You can not open the door yet"), "info");
+      e.preventDefault();
+    });
+    //.pane-ding-christmas-calendar-mobile
   });
 })(jQuery);

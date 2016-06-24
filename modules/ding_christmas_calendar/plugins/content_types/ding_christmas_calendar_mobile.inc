@@ -31,6 +31,7 @@ function ding_christmas_calendar_mobile_render($subtype, $conf, $args, $contexts
       ),
       'js' => array(
         $path . '/js/slick.js',
+        $path . '/js/notify.js',
         $path . '/js/ding_christmas_calendar.js',
       ),
     ),

@@ -291,6 +291,7 @@ function ding_christmas_calendar_node_view($node, $view_mode, $langcode) {
   if (in_array($node->type, array('quiz_page', 'multichoice'))) {
     $path = drupal_get_path('module', 'ding_christmas_calendar');
     drupal_add_js($path . '/js/slick.js');
+	drupal_add_js($path . '/js/notify.js');
     drupal_add_js($path . '/js/ding_christmas_calendar.js');
     drupal_add_css($path . '/css/slick.css');
     drupal_add_css($path . '/css/slick-theme.css');
