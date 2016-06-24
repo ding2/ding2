@@ -100,7 +100,7 @@ function ding_christmas_calendar_generate_content($quiz_id, $mobile = FALSE) {
       $quiz_result->save();
       $_SESSION['quiz'][$quiz_result->nid]['result_id'] = $quiz_result->result_id;
       $_SESSION['quiz'][$quiz_result->nid]['current'] = 1;
-
+      quiz_take_quiz($quiz);
     }
 
     $background = field_get_items('node', $quiz, 'field_background');
@@ -170,18 +170,18 @@ function ding_christmas_calendar_generate_content($quiz_id, $mobile = FALSE) {
  */
 function ding_christmas_calendar_generate_url($quiz_id, DateTime $current, $question) {
   $result = ding_christmas_get_question_number($question, $quiz_id);
+  $number = !$result ? 1 : $result->number--;
   $question = node_load($question->nid);
   $date = field_get_items('node', $question, 'field_quiz_date');
   $class = 'future-day';
   $path = "#";
-  $result->number--;
   if ($date[0]['value'] < $current->getTimestamp()) {
     $class = 'past-day';
-    $path = "ding-christmas-calendar/{$quiz_id}/take/{$result->number}";
+    $path = "ding-christmas-calendar/{$quiz_id}/take/{$number}";
   }
   elseif ($date[0]['value'] == $current->getTimestamp()) {
     $class = 'active-day';
-    $path = "ding-christmas-calendar/{$quiz_id}/take/{$result->number}";
+    $path = "ding-christmas-calendar/{$quiz_id}/take/{$number}";
   }
 
   return '<span class="' . $class . '">' . l("{$question->title}", $path) . '</span>';
@@ -291,7 +291,7 @@ function ding_christmas_calendar_node_view($node, $view_mode, $langcode) {
   if (in_array($node->type, array('quiz_page', 'multichoice'))) {
     $path = drupal_get_path('module', 'ding_christmas_calendar');
     drupal_add_js($path . '/js/slick.js');
-	drupal_add_js($path . '/js/notify.js');
+    drupal_add_js($path . '/js/notify.js');
     drupal_add_js($path . '/js/ding_christmas_calendar.js');
     drupal_add_css($path . '/css/slick.css');
     drupal_add_css($path . '/css/slick-theme.css');
@@ -306,6 +306,8 @@ function ding_christmas_calendar_form_alter(&$form, &$form_state, $form_id) {
 
     case 'quiz_question_answering_form':
       $form['navigation']['submit']['#value'] = t('Save');
+      $form['navigation']['skip']['#value'] = t('Back to calendar');
+      $form['navigation']['skip']['#submit'] = array('ding_christmas_calendar_back_submit');
       break;
 
     case 'quiz_take_question_feedback_form':

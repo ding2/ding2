@@ -165,6 +165,7 @@ function ding_christmas_calendar_settings_form_quiz_submit($form, $form_state) {
   if ($fid) {
     try {
       $file = file_load($fid);
+      file_move($file, 'public://' . $file->filename);
       $file->display = 1;
       $quiz->field_background[LANGUAGE_NONE][0] = (array) $file;
       node_save($quiz);
