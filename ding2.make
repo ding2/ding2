@@ -278,6 +278,9 @@ projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/opening-
 projects[override_node_options][subdir] = "contrib"
 projects[override_node_options][version] = "1.13"
 
+projects[quiz][subdir] = "contrib"
+projects[quiz][version] = "5.0-rc1"
+
 projects[pagepreview][subdir] = "contrib"
 projects[pagepreview][version] = "1.0-alpha1"
 
