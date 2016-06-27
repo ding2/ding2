@@ -56,7 +56,7 @@ function ting_field_search_hook_info() {
 }
 
 /**
- * Implements hook_ctools_plugin_directury().
+ * Implements hook_ctools_plugin_directory().
  */
 function ting_field_search_ctools_plugin_directory($module, $plugin) {
   if ($module == 'ctools' && $plugin == 'export_ui') {
