@@ -58,7 +58,11 @@ function ting_field_search_profile_export_form(&$form, &$form_state) {
       'source' => array('profile', 'title'),
       'label' => t('Name'),
     ),
-    '#disabled' => !empty($profile->pid),
+    // Profiles can live in code and db, or both. In any case, we can't allow
+    // editing of a profile's machine-name, when it also has a definition in
+    // code. Use a bit-wise operator to catch all these cases.
+    // See ctools export.inc for more info.
+    '#disabled' => $profile->export_type & EXPORT_IN_CODE,
   );
   $form['profile']['weight'] = array(
     '#type' => 'select',
