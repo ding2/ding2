@@ -6,6 +6,9 @@
  * Module file for Ting field search.
  */
 
+// Separate handling of facets.
+include_once 'ting_field_search.facets.inc';
+
 /**
  * Implements hook_menu().
  */
@@ -43,16 +46,6 @@ function ting_field_search_menu() {
   );
 
   return $items;
-}
-
-/**
- * Implements hook_hook_info().
- */
-function ting_field_search_hook_info() {
-  $hooks['form_ding_facetbrowser_form_alter'] = array(
-    'group' => 'facets',
-  );
-  return $hooks;
 }
 
 /**
