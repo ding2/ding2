@@ -55,10 +55,6 @@ function ting_field_search_hook_info() {
   return $hooks;
 }
 
-function ting_field_search_ctools_plugin_pre_alter(&$plugin, &$info) {
-  //file_put_contents("/home/simon/debug/i-was-here.txt", print_r($plugin, FILE_APPEND));
-}
-
 /**
  * Implements hook_ctools_plugin_directury().
  */
