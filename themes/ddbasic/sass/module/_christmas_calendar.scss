@@ -6,6 +6,10 @@
   .notifyjs-bootstrap-info {
     background: $link-color;
     color: $white;
+
+    span {
+      white-space: normal;
+    }
   }
 }
 
