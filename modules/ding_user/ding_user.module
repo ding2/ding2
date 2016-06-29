@@ -628,6 +628,24 @@ function _ding_user_create_account($auth_name, $auth_res) {
   // and invokes hook_user_login before we have a chance to mess with it. So
   // we do what it would do.
   $account = user_external_load($auth_name);
+
+  $mail = NULL;
+  $display_name = '';
+  $blocked = FALSE;
+  if (isset($auth_res['user'])) {
+    if (isset($auth_res['user']['mail'])) {
+      $mail = $auth_res['user']['mail'];
+    }
+
+    if (isset($auth_res['user']['data']['display_name'])) {
+      $display_name = $auth_res['user']['data']['display_name'];
+    }
+
+    if (isset($auth_res['user']['blocked'])) {
+      $blocked = $auth_res['user']['blocked'];
+    }
+  }
+
   if (!$account) {
     // Register this new user.
     $fields = array(
@@ -641,13 +659,13 @@ function _ding_user_create_account($auth_name, $auth_res) {
       'mail' => '',
     );
 
-    if (isset($auth_res['user'])) {
-      $fields['mail'] = $auth_res['user']['mail'];
-      $fields['data'] = array(
-        'display_name' => $auth_res['user']['data']['display_name'],
-        'blocked' => $auth_res['user']['blocked'],
-      );
+    if ($mail) {
+      $fields['mail'] = $mail;
     }
+    $fields['data'] = array(
+      'display_name' => $display_name,
+      'blocked' => $blocked,
+    );
 
     // Set provider role.
     $roles = user_roles(TRUE);
@@ -670,10 +688,12 @@ function _ding_user_create_account($auth_name, $auth_res) {
     // Update display name and mail address as they may have been change in the
     // library system.
     $edit = array();
-    $edit['mail'] = $auth_res['user']['mail'];
+    if ($mail) {
+      $edit['mail'] = $mail;
+    }
     $edit['data'] = array(
-      'display_name' => $auth_res['user']['data']['display_name'],
-      'blocked' => $auth_res['user']['blocked'],
+      'display_name' => $display_name,
+      'blocked' => $blocked,
     );
     user_save($account, $edit);
   }
@@ -853,6 +873,11 @@ function ding_user_save_creds($auth_res) {
  * Check if the given account is a user authenticated through a provider.
  */
 function ding_user_is_provider_user($account) {
+  // If someone calls us on a new user object before it's saved, we have no
+  // idea, so return false.
+  if (!isset($account->uid)) {
+    return FALSE;
+  }
   $names = &drupal_static(__FUNCTION__);
   if (!isset($names)) {
     $names = db_select('authmap')
