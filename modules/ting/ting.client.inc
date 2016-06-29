@@ -485,8 +485,8 @@ function ting_cache_get($id, $type = TING_CACHE_TING_OBJECT, $with_relations = F
       // about this object and no where found.
       return $data;
     }
-    return FALSE;
   }
+  return FALSE;
 }
 
 /**
