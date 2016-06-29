@@ -27,19 +27,19 @@ function connie_ding_provider() {
       ),
       'user' => array(
         'prefix' => 'user',
-        'file' => drupal_get_path('module', 'connie') . '/connie.user.inc',
+        'file' => 'connie.user.inc',
       ),
       'reservation' => array(
         'prefix' => 'reservation',
-        'file' => drupal_get_path('module', 'connie') . '/connie.reservation.inc',
+        'file' => 'connie.reservation.inc',
       ),
       'loan' => array(
         'prefix' => 'loan',
-        'file' => drupal_get_path('module', 'connie') . '/connie.loan.inc',
+        'file' => 'connie.loan.inc',
       ),
       'branch' => array(
         'prefix' => 'branch',
-        'file' => drupal_get_path('module', 'connie') . '/connie.branch.inc',
+        'file' => 'connie.branch.inc',
       ),
     ),
   );

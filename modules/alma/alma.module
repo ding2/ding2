@@ -54,31 +54,29 @@ function alma_get_interest_periods() {
  * Implements hook_ding_provider().
  */
 function alma_ding_provider() {
-  $path = drupal_get_path('module', 'alma');
-
   return array(
     'title' => 'Alma provider',
     'settings' => 'alma_settings_form',
     'provides' => array(
       'availability' => array(
         'prefix' => 'availability',
-        'file' => $path . '/includes/alma.availability.inc',
+        'file' => 'includes/alma.availability.inc',
       ),
       'debt' => array(
         'prefix' => 'debt',
-        'file' => $path . '/includes/alma.debt.inc',
+        'file' => 'includes/alma.debt.inc',
       ),
       'loan' => array(
         'prefix' => 'loan',
-        'file' => $path . '/includes/alma.loan.inc',
+        'file' => 'includes/alma.loan.inc',
       ),
       'reservation' => array(
         'prefix' => 'reservation',
-        'file' => $path . '/includes/alma.reservation.inc',
+        'file' => 'includes/alma.reservation.inc',
       ),
       'user' => array(
         'prefix' => 'user',
-        'file' => $path . '/includes/alma.user.inc',
+        'file' => 'includes/alma.user.inc',
       ),
       'user_consent' => array(
         'prefix' => 'user_consent',
@@ -90,7 +88,7 @@ function alma_ding_provider() {
       ),
       'wayf' => array(
         'prefix' => 'wayf',
-        'file' => $path . '/includes/alma.wayf.inc',
+        'file' => 'includes/alma.wayf.inc',
       ),
     ),
   );
