@@ -86,10 +86,12 @@ function ting_search_search_result_content_type_render($subtype, $conf, $panel_a
 
     $frequency_rank = array(
       'rank_main_title' => t('Title'),
+      'rank_title' => t('Title'),
       'rank_creator' => t('Creator'),
       'rank_subject' => t('Subject')
     );
-    if (isset($search_result) && in_array($search_result->sortUsed, array_keys($frequency_rank))) {
+
+    if (isset($search_result) && empty($conditions['sort']) && in_array($search_result->sortUsed, array_keys($frequency_rank))) {
       $msg = t('Records are sorted by %sortUsed . Select another sort if it is not suited', array('%sortUsed' => $frequency_rank[$search_result->sortUsed]));
       $message .= '<div class="messages status">' . $msg . '</div>';
     }
