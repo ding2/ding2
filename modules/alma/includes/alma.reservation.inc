@@ -241,17 +241,16 @@ function alma_reservation_create($account, $id, $options = array(), $expiry = NU
     throw new DingProviderReservationExists();
   }
 
-  $entity = ding_user_provider_profile($account);
-  if (!empty($entity)) {
-    $wrapper = entity_metadata_wrapper('profile2', $entity);
+  $profile = ding_user_provider_profile($account);
+  if (!empty($profile)) {
+    $wrapper = entity_metadata_wrapper('profile2', $profile);
     $int_per = variable_get('ding_reservation_disable_interest_date', '');
 
     // Interest period.
     if ($int_per) {
       if (!isset($options['interest_period'])) {
         if (!isset($expiry)) {
-          // Use a metadata wrapper to access the data.
-          $interest_period = $wrapper->field_alma_interest_period->value();
+          $interest_period = alma_reservation_default_interest_period($profile);
           if ($interest_period) {
             // Change it to seconds from days.
             $expiry = $interest_period * 86400;
