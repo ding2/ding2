@@ -27,8 +27,8 @@ function ting_tasks_ting_object_id_context($arg = NULL, $conf = NULL, $empty = F
     return FALSE;
   }
   module_load_include('client.inc', 'ting');
-  $object = ting_get_object($arg);
-  if (!($object instanceOf TingClientObject)) {
+  $object = ding_entity_load($arg, 'ting_object');
+  if (!$object) {
     return FALSE;
   }
 
