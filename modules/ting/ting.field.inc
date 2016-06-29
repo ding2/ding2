@@ -16,42 +16,60 @@ function ting_field_info() {
       'description' => t('Ting object title'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_title_default',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     'ting_type' => array(
       'label' => t('Ting object type'),
       'description' => t('Ting object type'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_type_default',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     'ting_series' => array(
       'label' => t('Ting object series'),
       'description' => t('Ting object series'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_series_default',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     'ting_abstract' => array(
       'label' => t('Ting object abstract'),
       'description' => t('Ting object abstract'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_abstract_default',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     'ting_author' => array(
       'label' => t('Ting object author'),
       'description' => t('Ting object author'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_author_default',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     'ting_subjects' => array(
       'label' => t('Ting object subjects'),
       'description' => t('Ting object subjects'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_subjects_default',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     // ting_collection
     'ting_primary_object' => array(
@@ -59,21 +77,30 @@ function ting_field_info() {
       'description' => t('Ting collection primary object'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_primary_object_default',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_collection'),
+        'add_widget' => TRUE,
+      ),
     ),
     'ting_entities' => array(
       'label' => t('Ting collection listing'),
       'description' => t('Ting collection listing'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_entities_default',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_collection'),
+        'add_widget' => TRUE,
+      ),
     ),
     'ting_collection_types' => array(
       'label' => t('Ting collection object types'),
       'description' => t('Ting collection object types'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_collection_types_default',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_collection'),
+        'add_widget' => TRUE,
+      ),
     ),
   );
 }

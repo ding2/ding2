@@ -6,26 +6,6 @@
  */
 
 /**
- * Implements hook_ding_entity_fields().
- */
-function ding_periodical_ding_entity_fields() {
-  return array(
-    'ding_periodical_issues' => array(
-      'field' => array(
-        'locked' => TRUE,
-        'storage' => array(
-          'type' => 'virtual_field',
-        ),
-      ),
-      'instance' => array(
-        'label' => t('Issue list for periodicals.'),
-      ),
-    ),
-  );
-}
-
-
-/**
  * Convert blackhole field storage to virtual field.
  */
 function ding_periodical_update_7000() {
@@ -36,4 +16,13 @@ function ding_periodical_update_7000() {
     ))
     ->condition('module', 'ding_periodical')
     ->execute();
+}
+
+/**
+ * Unlock fields.
+ *
+ * @see ding_entity_unlock_fields()
+ */
+function ding_periodical_update_7001() {
+  ding_entity_unlock_fields('ding_periodical', array('ding_periodical_issues'));
 }

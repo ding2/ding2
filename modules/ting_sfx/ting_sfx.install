@@ -59,3 +59,14 @@ function ting_sfx_update_7000() {
     ->condition('module', 'ting_sfx')
     ->execute();
 }
+
+/**
+ * Unlock fields.
+ *
+ * @see ding_entity_unlock_fields()
+ */
+function ting_sfx_update_7001() {
+  ding_entity_unlock_fields('ting_sfx', array(
+    'ting_sfx',
+  ));
+}
