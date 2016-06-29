@@ -379,6 +379,20 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           $title = check_plain($title);
         }
 
+        $is_book = '';
+        if (isset($entity)) {
+          $_string = $entity->type;
+
+          if (isset($_string) && preg_match('~\bBog\b~', $_string) != FALSE) {
+            $is_book = TRUE;
+          }
+
+          $lang = $entity->getLanguage();
+          if ($is_book && $lang != 'Dansk') {
+            $title = $title . ' (' . $lang . ')';
+          }
+        }
+
         $element[$delta] = array(
           '#prefix' => $prefix . '<h2>',
           '#suffix' => '</h2>',
