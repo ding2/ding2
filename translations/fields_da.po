@@ -735,6 +735,11 @@ msgctxt "field_alma_interest_period:#allowed_values:360"
 msgid "12 months"
 msgstr "12 måneder"
 
+#: field:field_alma_interest_period:#allowed_values:720
+msgctxt "field_alma_interest_period:#allowed_values:720"
+msgid "24 months"
+msgstr "24 måneder"
+
 #: field:field_alma_city:provider_alma:label
 msgctxt "field_alma_city:provider_alma:label"
 msgid "City"
@@ -904,6 +909,11 @@ msgstr "6 måneder"
 msgctxt "field_openruth_interest_period:#allowed_values:360"
 msgid "12 months"
 msgstr "12 måneder"
+
+#: field:field_openruth_interest_period:#allowed_values:720
+msgctxt "field_openruth_interest_period:#allowed_values:720"
+msgid "24 months"
+msgstr "24 måneder"
 
 #: field:field_ding_news_comment_body:comment_node_ding_news:label
 msgctxt "field_ding_news_comment_body:comment_node_ding_news:label"

@@ -46316,6 +46316,10 @@ msgstr "3 måneder"
 msgid "12 months"
 msgstr "12 måneder"
 
+#: /install.php?profile=ding2&locale=en
+msgid "24 months"
+msgstr "24 måneder"
+
 #: profiles/ding2/modules/ding_availability/js/ding_availability_labels.js
 msgid "Can be obtained"
 msgstr "Kan fremskaffes"
