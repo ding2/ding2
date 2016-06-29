@@ -283,6 +283,15 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
         '#type' => 'fieldset',
         '#title' => t('Change pincode'),
       );
+      if (!isset($_SESSION['wayf_login'])) {
+        $form['pass']['pincode_old'] = array(
+          '#type' => 'password',
+          '#title' => t('Confirm old pincode'),
+          '#size' => $maxlength,
+          '#maxlength' => $maxlength,
+          '#attributes' => array('class' => array('password-confirm')),
+        );
+      }
       $form['pass']['pincode'] = array(
         '#type' => 'password_confirm',
         '#size' => $maxlength,
@@ -301,6 +310,8 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
       $form['#submit'][] = 'ding_user_profile_update_submit';
     }
   }
+
+  $form['#validate'][] = 'ding_user_profile_update_validate';
 
   $fee_sms = variable_get('ding_user_fee_sms', t('Notice that there is a fee for receiving a SMS'));
   $form['ding_user_fee_sms'] = array(
@@ -329,6 +340,26 @@ function ding_user_form_process_password_confirm($element) {
   $element['pass2']['#title'] = t('Confirm pincode');
 
   return $element;
+}
+
+/**
+ * Validate the user profile form.
+ *
+ * Check if the old pincode (if present) match the pincode stored in $_SESSION.
+ */
+function ding_user_profile_update_validate($form, &$form_state) {
+  if (isset($form_state['values']['pincode_old'])) {
+    if (!empty($form_state['values']['pincode'])) {
+      $creds = ding_user_get_creds();
+      if (empty($form_state['values']['pincode_old'])) {
+        form_set_error('pincode_old', t('The old pincode confirm is empty.'));
+        return;
+      }
+      if ($creds['pass'] != $form_state['values']['pincode_old']) {
+        form_set_error('pincode_old', t('The old pincode confirm does not match.'));
+      }
+    }
+  }
 }
 
 /**
