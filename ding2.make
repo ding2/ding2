@@ -392,6 +392,9 @@ projects[ask_vopros][download][type] = "git"
 projects[ask_vopros][download][url] = "git@github.com:vopros-dk/ask_vopros.git"
 projects[ask_vopros][download][tag] = "1.4"
 
+projects[xautoload][subdir] = "contrib"
+projects[xautoload][version] = "5.7"
+
 ; Libraries
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
@@ -407,6 +410,14 @@ libraries[chosen][download][type] = "get"
 libraries[chosen][download][url] = "https://github.com/harvesthq/chosen/releases/download/1.4.2/chosen_v1.4.2.zip"
 libraries[chosen][destination] = "libraries"
 
+libraries[guzzle][download][type] = "git"
+libraries[guzzle][download][url] = "git@github.com:guzzle/guzzle.git"
+libraries[guzzle][destination] = "libraries"
+
+libraries[http-message][download][type] = "git"
+libraries[http-message][download][url] = "git@github.com:php-fig/http-message.git"
+libraries[http-message][destination] = "libraries"
+
 libraries[leaflet][download][type] = "get"
 libraries[leaflet][download][url] = "http://cdn.leafletjs.com/downloads/leaflet-0.7.3.zip"
 libraries[leaflet][directory_name] = "leaflet"
@@ -417,6 +428,14 @@ libraries[profiler][download][url] = "http://git.drupal.org/project/profiler.git
 libraries[profiler][download][branch] = "7.x-2.0-beta1"
 ; https://drupal.org/node/1328796, keep dependency order of base profile.
 libraries[profiler][patch][0] = "http://drupal.org/files/profiler-reverse.patch"
+
+libraries[promises][download][type] = "git"
+libraries[promises][download][url] = "git@github.com:guzzle/promises.git"
+libraries[promises][destination] = "libraries"
+
+libraries[psr7][download][type] = "git"
+libraries[psr7][download][url] = "git@github.com:guzzle/psr7.git"
+libraries[psr7][destination] = "libraries"
 
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
