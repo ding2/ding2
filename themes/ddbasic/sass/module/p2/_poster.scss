@@ -1,0 +1,436 @@
+@mixin clearfix() {
+  &:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+}
+
+// <--- @todo : Integrate primary colors
+.ddb-primary-logo-background-color-1 {
+  background-color: transparent;
+}
+
+.ddb-primary-background-color-1 {
+  background-color: #ddd;
+}
+
+.ddb-primary-background-color-2 {
+  background-color: #000;
+}
+
+.ddb-primary-background-color-3 {
+  background-color: #fff;
+}
+
+
+.node-type-ding-poster {
+  padding-top: 0 !important;
+  
+  .contextual-links-wrapper,
+  .pane-page-tabs,
+  .footer,
+  .bottom,
+  .site-header,
+  #toolbar,
+  #cccwr {
+    display: none !important;
+  }
+  
+  .content-wrapper {
+    margin: 0 !important;
+    .default-layout {
+      margin: 0 !important;
+  
+      .layout-wrapper {
+          margin: 0;
+          padding: 0;
+          background-color: transparent !important;
+        .primary-content {
+          margin: 0px auto !important;
+          padding: 0 !important;
+          
+          .pane-title {
+            display: none;
+          }
+        }
+      }
+    }   
+  }
+}
+
+
+.node-ding-poster {
+  max-width: 210mm;
+  min-height: 297mm;
+  padding: 50px !important;
+  margin: 20px auto !important;
+  
+  &.print-a3 {
+    max-width: 297mm;
+    min-height: 420mm;
+    
+    font-size: 150%;
+    .read-more {
+     margin-top: 100px; 
+      img {
+        width: 90px;
+        height: 90px;
+      }
+    }
+  }
+
+  @include small-medium {
+   padding: 20px !important;
+  }
+  @include small-medium {
+   padding: 10px !important;
+    margin: 0px auto !important;
+  }
+
+  background-color: #fff;
+
+
+  
+  .page-title,
+  .pane-title {
+    display: none;
+  }
+  
+  .read-more {
+    display: inline-block;
+    float: right;
+    margin-top: 50px;
+    vertical-align:bottom;
+    position: relative;
+    p {
+      display: inline-block;
+      margin: 0;
+      font-size: 100%;
+      padding-right: 10px;
+    }
+    
+    img {
+      width: 60px;
+      height: 60px;
+    }
+    @include small-medium {
+      display:none;
+    }
+  }
+} 
+
+.group_poster_header {
+  display: none;
+  
+  .include-logo & {
+    display: block;
+    max-height: 60px;
+    padding: 20px;
+    @extend .ddb-primary-logo-background-color-1; 
+    margin-bottom: 30px;
+  }
+
+  img {
+    max-height: 60px;
+    width: auto;
+  }
+}
+
+.group_poster_top {
+  position: relative;
+
+  min-height: 200px;
+  
+    
+  .field-name-field-poster-image {
+    z-index: 0;
+    img {
+      width: 100%;
+    }
+  }    
+  
+  .group_poster_top_text {
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    padding: 20px;
+    width: 65%;
+    color: #000;
+    -webkit-print-color-adjust: exact;
+    
+    @include small-medium {
+      width: 90%;
+      padding: 10px;
+    }
+  
+    
+    .white-text & {
+      color: #fff;
+    }
+    
+    .field-name-body {
+      font-size: 100%;
+      line-height: normal;
+      
+      @include small-medium {
+        font-size: 80%;
+      }
+    }
+    .poster-title {
+      h1 {
+        font-size: 280%;
+        line-height: normal;
+        font-family: $font-regular;
+        
+         @include small-medium {
+          font-size: 120%;
+        }       
+      }
+    }
+  }
+}
+
+  
+.field-name-field-ding-poster-materials {
+  @include clearfix();
+  
+  .ting-object {
+    height: 150px;
+    
+    .print-a3 & {
+      height: 200px;
+    }
+  }
+  
+  .field-label {
+    margin-top: 50px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #000;
+  }
+  
+  > .field-items {
+    @include clearfix();
+    
+    > .field-item {
+      float: left;
+      margin-top: 40px;
+      
+      .print-a3 & {
+        margin-top: 80px;
+      }
+      
+      @include small-medium {
+        width: 100% !important;
+        
+        .group_ting_object_teaser_left {
+          width: 30% !important;
+          .ting-cover {
+            height: 100% !important;
+          }
+        }
+        .group_ting_object_teaser_right {
+          width: 70% !important;
+          float: right !important;
+          margin-left: -58.33333% !important;
+          margin-right: 0 !important
+        }
+      }
+      
+      .layout-1 & {
+        width: 33%;
+        
+        &:nth-child(1n+10){
+          display: none;
+        }
+      }
+      .layout-2 & {
+        width: 50%;
+        
+        &:nth-child(1n+7){
+          display: none;
+        }
+        
+        .group_ting_object_teaser_left {
+            width: 30%;
+            .ting-cover {
+              height: 100%;
+            }
+          }
+        .group_ting_object_teaser_right {
+          width: 70%;
+        }
+      }
+      .layout-3 & {
+        width: 33%;
+        
+        &:nth-child(1n+7){
+          display: none;
+        }
+        
+        &:first-child {
+          width: 66%;
+          height: 300px;
+          
+          @include small-medium {
+            height: 150px;
+          }
+          
+          .group_ting_object_teaser_left {
+            width: 25%;
+            
+            .ting-cover {
+              height: 100%;
+            }
+          }
+          .group_ting_object_teaser_right {
+            width: 75%;
+            
+            h2 {
+              font-size: 120%;
+              @include small-medium {
+                font-size: 80%; 
+              }
+            }
+            .field-name-ting-abstract {
+              display: block;
+              width: 80%;
+              margin-top: 20px;
+              line-height: normal;
+              
+              @include small-medium {
+                display: none;  
+              }
+            }
+            .field-name-ding-poster-qr {
+              margin-top: 20px;
+              position: relative;
+              
+            }
+          }
+        }
+      }
+      
+      .group_ting_object_teaser_left {
+        width: 20%;
+        height: 100%;
+        
+        .ting-cover {
+          height: auto;
+          position: relative;
+          @extend .ddb-primary-background-color-1;
+          
+          .undercover {
+            display: none;
+          }
+          
+          img {
+            margin: auto;
+            max-width: 75%;
+            max-height: 100%;
+            height: auto;
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+          }
+        }
+      }
+      
+      
+      .group_ting_object_teaser_right {
+        position: relative;
+        width: 80%;
+        height: 100%;
+        
+        
+        .field-name-ting-title {
+          width: 100%;
+          
+          
+          h2 {
+            border-top: 1px solid black;
+            padding-top: 10px;
+            margin-right: 20px;
+            font-size: 80%;
+          }
+        }
+        .field-name-ding-poster-qr {
+          position: absolute;
+          bottom: 0;
+          
+          @include small-medium {
+            display:none;
+          }
+          
+          .field-item {
+            width: 100%;
+            img {
+              height: 60px;
+              width: 60px;
+              
+              .print-a3 & {
+                height: 90px;
+                width: 90px;
+              }
+            }
+          }
+        }
+        .field-name-ting-author {
+          margin-top: -10px;
+          font-size: 70%;
+          a {
+            color: rgba(0, 0, 0, 0.7);
+          }
+          
+        }
+        .field-name-ting-abstract {
+          display: none;
+        }
+      }
+    }
+  }
+} 
+
+
+@page {
+  margin: 6%;
+  size: portrait;
+}
+
+
+@media print {
+
+  body {
+    background-color: #fff;
+    -webkit-print-color-adjust:exact;
+  }
+  
+  .node-ding-poster {
+    width: 210mm;
+    height: 297mm;
+    padding: 0px !important;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    margin: 0 auto;
+  
+    position: absolute;
+    top: 0;
+    font-size: 12pt;
+    
+    &.print-a3 {
+      width: 297mm;
+      height: 420mm;
+    }
+  }
+} 
+/*
+@media print and (width: 297mm) and (height: 420mm) {
+  .node-ding-poster {
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
+*/
+

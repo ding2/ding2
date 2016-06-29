@@ -54,6 +54,9 @@ projects[dynamic_background][subdir] = "contrib"
 projects[dynamic_background][version] = "2.0-rc4"
 projects[dynamic_background][patch][] = "https://www.drupal.org/files/issues/create_file_path-2410241-1.patch"
 
+projects[eck][subdir] = "contrib"
+projects[eck][version] = "2.0-rc7"
+
 projects[email][subdir] = "contrib"
 projects[email][version] = "1.3"
 
@@ -137,6 +140,9 @@ projects[jquery_update][version] = "2.6"
 projects[languageicons][subdir] = "contrib"
 projects[languageicons][version] = "1.0"
 
+projects[lazy_pane][subdir] = "contrib"
+projects[lazy_pane][version] = "1.2"
+
 projects[leaflet][subdir] = "contrib"
 projects[leaflet][version] = "1.1"
 ; OSM Mapnik is hard-coded to be accessed via http, but some sites may need maps to render under https.
@@ -198,6 +204,9 @@ projects[menu_breadcrumb][version] = "1.5"
 
 projects[menu_position][subdir] = "contrib"
 projects[menu_position][version] = "1.1"
+
+projects[message][subdir] = "contrib"
+projects[message][version] = "1.10"
 
 projects[module_filter][subdir] = "contrib"
 projects[module_filter][version] = "1.8"

@@ -80,6 +80,14 @@ function alma_ding_provider() {
         'prefix' => 'user',
         'file' => $path . '/includes/alma.user.inc',
       ),
+      'user_consent' => array(
+        'prefix' => 'user_consent',
+        'file' => $path . '/includes/alma.user_consent.inc',
+      ),
+      'historical_loans' => array(
+        'prefix' => 'historical_loans',
+        'file' => $path . '/includes/alma.historical_loans.inc',
+      ),
       'wayf' => array(
         'prefix' => 'wayf',
         'file' => $path . '/includes/alma.wayf.inc',
@@ -619,6 +627,8 @@ function alma_get_patron($creds = NULL, $reset = FALSE, $as_array = FALSE) {
         'branch' => empty($info['preferences']['patron_branch']) ? FALSE : $info['preferences']['patron_branch'],
         'branchName' => !empty($info['preferences']['patron_branch']) ? $organisation['branch'][$info['preferences']['patron_branch']] : FALSE,
         'absentPeriods' => isset($info['absent_periods']) ? $info['absent_periods'] : '',
+        'category' => isset($info['category']) ? $info['category'] : '',
+        'allows' => isset($info['allows']) ? $info['allows'] : '',
       );
 
       // Store information in session cache.
