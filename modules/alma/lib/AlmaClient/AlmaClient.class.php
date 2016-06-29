@@ -12,7 +12,7 @@ define('ALMA_SERVICE_METHOD_SMS', 'sms');
 
 class AlmaClient {
   /**
-   * @var AlmaClientBaseURL
+   * @var $base_url
    * The base server URL to run the requests against.
    */
   private $base_url;
@@ -24,9 +24,22 @@ class AlmaClient {
   private static $salt;
 
   /**
-   * Constructor, checking if we have a sensible value for $base_url.
+   * @var $ssl_version
+   * The SSL/TLS version to use when communicating with the service.
    */
-  public function __construct($base_url) {
+  private $ssl_version;
+
+  /**
+   * Constructor, checking if we have a sensible value for $base_url.
+    *
+   * @param string $base_url
+   *   The base url for the Alma end-point.
+   * @param string $ssl_version
+   *   The TLS/SSL version to use ('ssl', 'sslv2', 'sslv3' or 'tls').
+   *
+   * @throws \Exception
+   */
+  public function __construct($base_url, $ssl_version) {
     if (stripos($base_url, 'http') === 0 && filter_var($base_url, FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED)) {
       $this->base_url = $base_url;
     }
@@ -34,6 +47,8 @@ class AlmaClient {
       // TODO: Use a specialised exception for this.
       throw new Exception('Invalid base URL: ' . $base_url);
     }
+
+    $this->ssl_version = $ssl_version;
 
     self::$salt = mt_rand();
   }
@@ -56,7 +71,7 @@ class AlmaClient {
     $start_time = explode(' ', microtime());
     // For use with a non-Drupal-system, we should have a way to swap
     // the HTTP client out.
-    $request = drupal_http_request(url($this->base_url . $method, array('query' => $params)), array('secure_socket_transport' => 'sslv3'));
+    $request = drupal_http_request(url($this->base_url . $method, array('query' => $params)), array('secure_socket_transport' => $this->ssl_version));
     $stop_time = explode(' ', microtime());
     // For use with a non-Drupal-system, we should have a way to swap
     // logging and logging preferences out.
