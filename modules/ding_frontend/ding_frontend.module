@@ -18,6 +18,35 @@ function ding_frontend_permission() {
 }
 
 /**
+ * Implements hook_search_api_alter_callback_info().
+ */
+function ding_frontend_search_api_alter_callback_info() {
+  return array(
+    'ding_frontend_published_filter' => array(
+      'name' => t('Exclude unpublished users and content'),
+      'description' => t('Exclude unpublished user or content from the index. <strong>Caution:</strong> This only affects the indexed nodes themselves. If an enabled node has references to disabled nodes, those will still be indexed (or displayed) normally.'),
+      'class' => 'DingFrontendPublishedStateFilter',
+      // Filters should be executed first.
+      'weight' => -10,
+    ),
+    'ding_frontend_role_filter' => array(
+      'name' => t('Role filter'),
+      'description' => t('Exclude users from indexing based on their role.'),
+      'class' => 'DingFrontendUserRoleFilter',
+      // Filters should be executed first.
+      'weight' => -10,
+    ),
+    'ding_frontend_bundle_filter' => array(
+      'name' => t('Bundle filter (not users)'),
+      'description' => t('Exclude items from indexing based on their bundle (content type, vocabulary, …).'),
+      'class' => 'DingFrontendBundleFilter',
+      // Filters should be executed first.
+      'weight' => -10,
+    ),
+  );
+}
+
+/**
  * Implements hook_menu().
  */
 function ding_frontend_menu() {

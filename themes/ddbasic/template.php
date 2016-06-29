@@ -397,6 +397,25 @@ function ddbasic_preprocess_node(&$variables, $hook) {
 
         $variables['content']['group_right_col_search']['more_link'] = $more_link;
         break;
+
+      case 'ding_page':
+        $more_link = array(
+          '#theme' => 'link',
+          '#text' => t('Read more'),
+          '#path' => 'node/' . $variables['nid'],
+          '#options' => array(
+            'attributes' => array(
+              'title' => $variables['title'],
+            ),
+            'html' => FALSE,
+          ),
+          '#prefix' => '<span class="page-link">',
+          '#surfix' => '</span>',
+          '#weight' => 6,
+        );
+
+        $variables['content']['group_right_col_search']['more_link'] = $more_link;
+        break;
     }
   }
 
