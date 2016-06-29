@@ -18,31 +18,34 @@ function template_preprocess_ting_object_cover(&$variables) {
   // Set initial values required by the template.
   $variables['classes'] = array(
     'ting-cover',
-    'ting-cover-object-id-' . $object->localId,
-    'ting-cover-style-' . $variables['image_style'],
-    'ting-cover-owner-id-' . $object->ownerId,
+  );
+  $variables['data'] = array(
+    'ting-cover-object-id' => $object->id,
+    'ting-cover-style' => $variables['image_style'],
   );
   $variables['image'] = '';
 
-  // If we already have the image available locally then just use it.
-  $path = ting_covers_object_path($object->localId);
-  if (file_exists($path)) {
-    // Generate an alt tag.
-    $alt = implode(', ', $object->creators) . ': ' . $object->title;
-
-    $variables['image'] = theme('image_style', array(
-      'style_name' => $variables['image_style'],
-      'path' => $path,
-      'alt' => $alt,
-    ));
-
-    // Avoid further javascript processing.
-    $variables['classes'][] = 'ting-cover-processed';
-  }
-  elseif (cache_get('ting_covers:' . $object->localId)) {
+  if (cache_get('ting_covers:' . $object->id)) {
     // We know that there is no cover available for this object so avoid
     // further javascript processing.
     $variables['classes'][] = 'ting-cover-processed';
+  }
+  else {
+    $path = ting_covers_object_path($object->id);
+    if (file_exists($path)) {
+      // Generate an alt tag.
+      $alt = implode(', ', $object->creators) . ': ' . $object->title;
+
+      // Render the img element.
+      $variables['image'] = theme('image_style', array(
+                              'style_name' => $variables['image_style'],
+                              'path' => $path,
+                              'alt' => $alt,
+                            ));
+
+      // Avoid further javascript processing. Just load the image.
+      $variables['classes'][] = 'ting-cover-processed';
+    }
   }
 }
 
@@ -52,5 +55,9 @@ function template_preprocess_ting_object_cover(&$variables) {
  * Default theme function implementation.
  */
 function theme_ting_object_cover($variables) {
-  return '<div class="' . implode(' ', $variables['classes']) . '">' . $variables['image'] . '</div>';
+  $data = "";
+  foreach ($variables['data'] as $name => $value) {
+    $data .= 'data-' . $name . '="' . htmlentities($value) . '" ';
+  }
+  return '<div class="' . implode(' ', $variables['classes']) . '" ' . trim($data) . '>' . $variables['image'] . '</div>';
 }
