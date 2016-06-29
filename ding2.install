@@ -117,6 +117,11 @@ function ding2_install() {
   variable_set('theme_' . $default_theme . '_settings', ding2_theme_settings());
   ding_base_rewrite_color_stylesheet();
 
+  // Disable overlay.
+  if (module_exists('overlay')) {
+    module_disable(array('overlay'));
+  }
+
   // Ignore any rebuild messages.
   node_access_needs_rebuild(FALSE);
 
@@ -341,3 +346,13 @@ function ding2_update_7017() {
 function ding2_update_7018() {
   ding2_translation_update();
 }
+
+/**
+ * Disable overlay.
+ */
+function ding2_update_7019() {
+  if (module_exists('overlay')) {
+    module_disable(array('overlay'));
+  }
+}
+
