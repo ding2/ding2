@@ -806,9 +806,6 @@ function ting_search_sort_form($form_state) {
 function ting_search_sort_options() {
   $options = array(
     '' => t('Ranking'),
-    'rank_title' => t('Best match on title'),
-    'rank_creator' => t('Best match on creator'),
-    'rank_subject' => t('Best match on subject'),
     'title_ascending' => t('Title (Ascending)'),
     'title_descending' => t('Title (Descending)'),
     'creator_ascending' => t('Creator (Ascending)'),
@@ -816,6 +813,19 @@ function ting_search_sort_options() {
     'date_ascending' => t('Date (Ascending)'),
     'date_descending' => t('Date (Descending)'),
   );
+
+  // Do not show sort-options specific for rank_frequency if
+  // custom_ranking is enabled or another rank is selected.
+  $default_sort = variable_get('ting_sort_default', 'rank_frequency');
+  $custom_ranking = variable_get('ting_ranking_custom', FALSE);
+  if ($default_sort == 'rank_frequency' && empty($custom_ranking)) {
+    $more_options = array(
+      'rank_title' => t('Best match on title'),
+      'rank_creator' => t('Best match on creator'),
+      'rank_subject' => t('Best match on subject'),
+    );
+    $options += $more_options;
+  }
 
   // Add label to the front of the options.
   foreach ($options as $key => $option) {
@@ -945,7 +955,6 @@ function ting_search_submit($form, &$form_state) {
   if ($s != "") {
     $controls['size'] = $s;
   }
-
 
   // Check to see if the form was submitted empty.
   // If it is empty, display an error message.

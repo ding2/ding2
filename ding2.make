@@ -189,7 +189,7 @@ projects[media_youtube][download][revision] = "ca46aba"
 projects[media_youtube][patch][] = "http://drupal.org/files/issues/provide-access-wrapper-1823376-6.patch"
 
 projects[memcache][subdir] = "contrib"
-projects[memcache][version] = "1.0"
+projects[memcache][version] = "1.5"
 
 ; Get a this special version that has support for features export.
 projects[menu_block][type] = "module"
@@ -245,15 +245,13 @@ projects[og_menu][version] = "3.0-rc5"
 ; Fixes JavaScript menu selection in edit node forms.
 projects[og_menu][patch][0] = "http://drupal.org/files/issues/selector_not_found-2276951-2.patch"
 
-; This version is patch to make the next/prev links work.
-projects[opening_hours][type] = "module"
 projects[opening_hours][subdir] = "contrib"
-projects[opening_hours][download][type] = "git"
-projects[opening_hours][download][url] = "http://git.drupal.org/project/opening_hours.git"
-projects[opening_hours][download][revision] = "81146d1e8ab63ca70976596d928e4ec46dfdfd57"
-projects[opening_hours][patch][] = "http://drupal.org/files/issues/is-string-check-2260505-2.patch"
-projects[opening_hours][patch][] = "http://drupal.org/files/issues/change-path-2270935-2.patch"
+projects[opening_hours][version] = "1.6"
+; Adjust granularity to one minte.
+; https://www.drupal.org/node/2381127
 projects[opening_hours][patch][] = "http://www.drupal.org/files/issues/Issue620-single-minute-opening-hours.patch"
+; Support series longer than a year.
+; https://www.drupal.org/node/2194867
 projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/opening_hours-2194867-D7.patch"
 
 projects[pagepreview][subdir] = "contrib"
@@ -309,15 +307,6 @@ projects[secure_permissions][download][url] = "http://git.drupal.org/project/sec
 projects[secure_permissions][download][revision] = "ef5eec5"
 projects[secure_permissions][patch][] = "http://drupal.org/files/issues/2188491-features-multilingual-2.patch"
 projects[secure_permissions][patch][] = "http://drupal.org/files/issues/secure_permissions-dont_disable_all_permissions-2499607-3.patch"
-
-projects[search_api][subdir] = "contrib"
-projects[search_api][version] = "1.16"
-
-projects[search_api_multi][subdir] = "contrib"
-projects[search_api_multi][version] = "1.3"
-
-projects[search_api_db][subdir] = "contrib"
-projects[search_api_db][version] = "1.5"
 
 projects[similarterms][subdir] = "contrib"
 projects[similarterms][version] = "2.3"

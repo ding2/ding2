@@ -368,7 +368,8 @@ function ding_user_profile_update_submit(&$form, &$form_state) {
  */
 function ding_user_provider_profile($account) {
   $profile_type = ding_user_get_provider_profile_type();
-  return profile2_load_by_user($account, $profile_type->type);
+  $profile2 = profile2_load_by_user($account, $profile_type->type);
+  return is_array($profile2) ? NULL : $profile2;
 }
 
 /**
