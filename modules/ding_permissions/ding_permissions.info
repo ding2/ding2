@@ -4,6 +4,7 @@ core = 7.x
 package = Ding!
 php = 5.2.4
 dependencies[] = ctools
+dependencies[] = override_node_options
 dependencies[] = secure_permissions
 dependencies[] = strongarm
 dependencies[] = role_delegation

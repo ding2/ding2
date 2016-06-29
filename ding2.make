@@ -254,6 +254,9 @@ projects[opening_hours][patch][] = "http://www.drupal.org/files/issues/Issue620-
 ; https://www.drupal.org/node/2194867
 projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/opening_hours-2194867-D7.patch"
 
+projects[override_node_options][subdir] = "contrib"
+projects[override_node_options][version] = "1.13"
+
 projects[pagepreview][subdir] = "contrib"
 projects[pagepreview][version] = "1.0-alpha1"
 
