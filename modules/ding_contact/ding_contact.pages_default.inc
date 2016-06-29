@@ -28,6 +28,14 @@ function ding_contact_default_page_manager_handlers() {
     'css' => '',
     'contexts' => array(),
     'relationships' => array(),
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'Contact | [current-page:pager][site:name]',
+        ),
+      ),
+    ),
   );
   $display = new panels_display();
   $display->layout = '25_50_25';
@@ -77,7 +85,7 @@ function ding_contact_default_page_manager_handlers() {
     $pane->uuid = '171476c7-96e5-4336-9fa5-4ee911445302';
     $display->content['new-171476c7-96e5-4336-9fa5-4ee911445302'] = $pane;
     $display->panels['main_content'][0] = 'new-171476c7-96e5-4336-9fa5-4ee911445302';
-  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $export['contact_site_panel_context'] = $handler;

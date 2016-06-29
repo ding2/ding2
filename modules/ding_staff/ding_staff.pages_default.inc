@@ -197,6 +197,14 @@ function ding_staff_default_page_manager_pages() {
     'css' => '',
     'contexts' => array(),
     'relationships' => array(),
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => '%slug:title | Departments and Staff | [current-page:pager][site:name]',
+        ),
+      ),
+    ),
   );
   $display = new panels_display();
   $display->layout = '25_50_25';
@@ -220,7 +228,7 @@ function ding_staff_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = 'Staff at: %node:title';
+  $display->title = '';
   $display->uuid = 'd250e77c-be00-4883-b131-50c8668105cb';
   $display->content = array();
   $display->panels = array();
@@ -296,7 +304,7 @@ function ding_staff_default_page_manager_pages() {
     $pane->uuid = '6171a17a-4789-4aac-86de-eb9c76dee003';
     $display->content['new-6171a17a-4789-4aac-86de-eb9c76dee003'] = $pane;
     $display->panels['main_content'][1] = 'new-6171a17a-4789-4aac-86de-eb9c76dee003';
-  $display->hide_title = PANELS_TITLE_PANE;
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = 'new-6171a17a-4789-4aac-86de-eb9c76dee003';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;

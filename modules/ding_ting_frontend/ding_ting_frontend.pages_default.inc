@@ -179,6 +179,14 @@ Well
 search/ting
 <none>
 ',
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'Search Ting | %keywords:html_safe | [current-page:pager][site:name]',
+        ),
+      ),
+    ),
   );
   $display = new panels_display();
   $display->layout = '25_50_25';
@@ -450,6 +458,14 @@ search/ting
     'css' => '',
     'contexts' => array(),
     'relationships' => array(),
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'Ting collection | %ting_collection:title_full | [current-page:pager][site:name]',
+        ),
+      ),
+    ),
   );
   $display = new panels_display();
   $display->layout = '25_50_25';
@@ -577,7 +593,7 @@ search/ting
     $pane->uuid = '26a27e6c-f934-4169-a06e-04db0f61ebf6';
     $display->content['new-26a27e6c-f934-4169-a06e-04db0f61ebf6'] = $pane;
     $display->panels['left_sidebar'][2] = 'new-26a27e6c-f934-4169-a06e-04db0f61ebf6';
-  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $export['ting_collection_panel_context'] = $handler;
@@ -598,6 +614,14 @@ search/ting
     'css' => '',
     'contexts' => array(),
     'relationships' => array(),
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'Ting object | %ting_object:title_full | [current-page:pager][site:name]',
+        ),
+      ),
+    ),
   );
   $display = new panels_display();
   $display->layout = '25_50_25';
@@ -734,7 +758,7 @@ search/ting
     $pane->uuid = '2c6af9c6-63ae-4100-9b56-e3b1bee1ce9a';
     $display->content['new-2c6af9c6-63ae-4100-9b56-e3b1bee1ce9a'] = $pane;
     $display->panels['left_sidebar'][3] = 'new-2c6af9c6-63ae-4100-9b56-e3b1bee1ce9a';
-  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $export['ting_object_panel_context'] = $handler;
