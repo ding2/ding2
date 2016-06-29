@@ -23,11 +23,10 @@ function ding_staff_field_group_info() {
     'label' => 'contact info',
     'weight' => '4',
     'children' => array(
-      0 => 'field_ding_staff_department',
-      1 => 'field_ding_staff_email',
-      2 => 'field_ding_staff_phone',
+      0 => 'field_ding_staff_email',
+      1 => 'field_ding_staff_phone',
+      2 => 'field_ding_staff_work_areas',
       3 => 'og_group_ref',
-      4 => 'field_ding_staff_work_areas',
     ),
     'format_type' => 'div',
     'format_settings' => array(
