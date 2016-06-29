@@ -67,16 +67,7 @@ window.webtrendsAsyncInit=function(){
             facebook:{src:"//s.webtrends.com/js/webtrends.fb.js"},
             yt:{src:"//s.webtrends.com/js/webtrends.yt.js"}
         }
-        });
-
-        // @TODO: Prepare for search-data
-        var count = jQuery('.js-count');
-        if(count.length > 0) {
-          dcs.WT.oss = jQuery('.form-type-textfield input').val();  // search query
-          dcs.WT.oss_r = count.attr('data-js-count'); // search hits
-        }
-        
-        dcs.track();
+        }).track();
 };
 EOT;
 
@@ -96,4 +87,61 @@ EOT;
     '#markup' => $html,
   );
 
+  // Check to see if a search needs to be tracked.
+  if ($search_info = ding_webtrends_get_search_info()) {
+    $meta_tag['#tag'] = 'meta';
+    $meta_tag['#attributes'] = array(
+      'name' => 'WT.oss',
+      'content' => $search_info['type'] . ':' . $search_info['search_key'],
+    );
+    drupal_add_html_head($meta_tag, 'search_query_meta_tag');
+    $meta_tag['#attributes'] = array(
+      'name' => 'WT.oss_r',
+      'content' => $search_info['count'],
+    );
+    drupal_add_html_head($meta_tag, 'search_count_meta_tag');
+  }
+}
+
+/**
+ * Implements hook_panels_pane_content_alter().
+ */
+function ding_webtrends_panels_pane_content_alter($content, $pane, $args, $contexts) {
+  if ($pane->type == 'search_result' && $pane->configuration['type'] == 'ting_search') {
+    if ($search_result = drupal_static('ting_search_results', FALSE)) {
+      $search_key = $search_result->search_key;
+      $count = $search_result->numTotalObjects;
+      ding_webtrends_set_search_info($search_key, $count, 'ting_search');
+    }
+  }
+}
+
+/**
+ * Implemenents hook_views_post_execute().
+ */
+function ding_webtrends_views_post_execute(&$view) {
+  if ($view->name == 'ding_multiple_search') {
+    $count = $view->total_rows;
+    $search_key = array_shift($view->args);
+    ding_webtrends_set_search_info($search_key, $count, 'node');
+  }
+}
+
+/**
+ * Set info about a search has been performed for later use in page building.
+ */
+function ding_webtrends_set_search_info($search_key, $count, $type) {
+  $search_info = &drupal_static(__FUNCTION__);
+  $search_info = array(
+    'search_key' => $search_key,
+    'count' => $count,
+    'type' => $type,
+  );
+}
+
+/**
+ * Helper function to get info about a performed search.
+ */
+function ding_webtrends_get_search_info() {
+  return drupal_static('ding_webtrends_set_search_info', FALSE);
 }
