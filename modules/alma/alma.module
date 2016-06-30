@@ -369,7 +369,7 @@ function alma_profile2_presave($entity) {
 
     // Get the mail.
     $value = $wrapper->field_alma_mail->value();
-    if (!is_null($value) && $value != $wrapper_original->field_alma_mail->value()) {
+    if ($value != $wrapper_original->field_alma_mail->value()) {
       $changes['mail'] = $value;
     }
 
@@ -589,6 +589,24 @@ function alma_update_provider($changes, $entity) {
     else {
       // Update drupal user account mail.
       $user->mail = $changes['mail'];
+      user_save($user);
+    }
+  }
+  else {
+    // Delete the email from ALMA and database.
+    global $user;
+
+    if (isset($user->mail) && empty($changes['mail'])) {
+      $res = alma_client_invoke('remove_email_address', $creds['name'], $creds['pass'], $user->mail);
+    }
+
+    if (empty($res)) {
+      $error_message .= t('mail was not deleted');
+      drupal_set_message($error_message, 'warning');
+    }
+    else {
+      // Update drupal user account mail.
+      $user->mail = '';
       user_save($user);
     }
   }
