@@ -61,6 +61,45 @@ function ding_christmas_calendar_theme($existing, $type, $theme, $path) {
 }
 
 /**
+ * Implements hook_libraries_info().
+ */
+function ding_christmas_calendar_libraries_info() {
+  $libraries = array();
+
+  $libraries['slick'] = array(
+    'name' => 'Slick.js library',
+    'path' => 'slick',
+    'vendor url' => 'https://github.com/kenwheeler/slick',
+    'download url' => 'https://github.com/kenwheeler/slick/archive/master.zip',
+    'version callback' => 'ding_christmas_calendar_get_version',     
+    'files' => array(
+      'js' => array('slick.min.js'),
+      'css' => array('slick.css', 'slick-theme.css'),
+    ),
+  );
+
+  $libraries['notify'] = array(
+    'name' => 'Notify.js library',
+    'path' => 'dist',
+    'vendor url' => 'https://github.com/notifyjs/notifyjs/',
+    'download url' => 'https://github.com/notifyjs/notifyjs/archive/master.zip',
+    'version callback' => 'ding_christmas_calendar_get_version',     
+    'files' => array(
+      'js' => array('notify.js'),
+    ),
+  );
+
+  return $libraries;
+}
+
+/**
+ * Helper function.
+ */
+function ding_christmas_calendar_get_version() {
+  return TRUE;
+}
+
+/**
  * Support function for generating content of Christmas calendar.
  *
  * @param string $quiz_id
@@ -290,11 +329,9 @@ function ding_christmas_get_question_number($input, $quiz_id) {
 function ding_christmas_calendar_node_view($node, $view_mode, $langcode) {
   if (in_array($node->type, array('quiz_page', 'multichoice'))) {
     $path = drupal_get_path('module', 'ding_christmas_calendar');
-    drupal_add_js($path . '/js/slick.js');
-    drupal_add_js($path . '/js/notify.js');
     drupal_add_js($path . '/js/ding_christmas_calendar.js');
-    drupal_add_css($path . '/css/slick.css');
-    drupal_add_css($path . '/css/slick-theme.css');
+    libraries_load('slick');
+    libraries_load('notify');
   }
 }
 

@@ -464,6 +464,12 @@ libraries[leaflet][download][url] = "http://cdn.leafletjs.com/downloads/leaflet-
 libraries[leaflet][directory_name] = "leaflet"
 libraries[leaflet][destination] = "libraries"
 
+libraries[notify][download][type] = "git"
+libraries[notify][download][url] = "git@github.com:notifyjs/notifyjs.git"
+libraries[notify][download][branch] = "master"
+libraries[notify][directory_name] = "notify"
+libraries[notify][destination] = "libraries"
+
 libraries[profiler][download][type] = "git"
 libraries[profiler][download][url] = "http://git.drupal.org/project/profiler.git"
 libraries[profiler][download][branch] = "7.x-2.0-beta1"
@@ -477,6 +483,12 @@ libraries[promises][destination] = "libraries"
 libraries[psr7][download][type] = "git"
 libraries[psr7][download][url] = "git@github.com:guzzle/psr7.git"
 libraries[psr7][destination] = "libraries"
+
+libraries[slick][download][type] = "git"
+libraries[slick][download][url] = "git@github.com:kenwheeler/slick.git"
+libraries[slick][download][branch] = "master"
+libraries[slick][directory_name] = "slick"
+libraries[slick][destination] = "libraries"
 
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"

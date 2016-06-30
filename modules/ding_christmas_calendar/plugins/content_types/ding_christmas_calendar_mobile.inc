@@ -25,16 +25,12 @@ function ding_christmas_calendar_mobile_render($subtype, $conf, $args, $contexts
   $block->content = array(
     '#markup' => theme('ding_christmas_calendar_widget', $vars),
     '#attached' => array(
-      'css' => array(
-        $path . '/css/slick.css',
-        $path . '/css/slick-theme.css',
-      ),
       'js' => array(
-        $path . '/js/slick.js',
-        $path . '/js/notify.js',
         $path . '/js/ding_christmas_calendar.js',
       ),
     ),
   );
+  libraries_load('slick');
+  libraries_load('notify');
   return $block;
 }
