@@ -319,7 +319,7 @@ function _ding_gatewayf_provider_login(array $attributes) {
           drupal_set_message(t('Something went wrong. Please try again or !url of WAYF.', array('!url' => l(t('logout'), DING_GATEWAYF_LOGOUT_URL))), 'warning');
         }
       }
-      elseif (_ding_gatewayf_registration_is_registration_request()) {
+      elseif (module_exists('ding_gatewayf_registration') && _ding_gatewayf_registration_is_registration_request()) {
         // Account exists in the library system, so skip self registration
         // request.
         drupal_set_message(t('You already have an user account at the library. So we have just logged you in.'));

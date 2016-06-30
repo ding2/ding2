@@ -1,0 +1,4 @@
+name = Simplevar
+description = Similar to the drupal variables, but this lazy loads from the database.
+core = 7.x
+package = Other

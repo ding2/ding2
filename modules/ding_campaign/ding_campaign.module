@@ -21,7 +21,7 @@ function ding_campaign_menu() {
     'file' => 'ding_campaign.admin.inc',
   );
 
-  $items['node/%node/campaign_rules'] = array(
+  $items['node/%/campaign_rules'] = array(
     'title' => 'Campaign rules',
     'description' => 'Edit campaign rules',
     'page callback' => 'ding_campaign_rules_admin',
@@ -52,18 +52,16 @@ function ding_campaign_menu() {
  * Used to define access to ding campaign rules. Limits the menu item only for
  * ding_campaign node types.
  *
- * @param entity $node
- *   The node loaded in the menu callback.
+ * @param string $nid
+ *   The node id loaded in the menu callback.
  *
  * @return bool
  *   TRUE or FALSE value.
  */
-function ding_campaign_rules_access($node) {
-  if ($node->type == 'ding_campaign') {
-    return TRUE;
-  }
+function ding_campaign_rules_access($nid) {
+  $node = node_load($nid);
 
-  return FALSE;
+  return is_object($node) && $node->type == 'ding_campaign';
 }
 
 /**
@@ -167,7 +165,6 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
       $current = array(
         '#theme' => 'ding_campaign',
         '#type' => $type,
-        '#weight' => 0,
       );
 
       // Get link value.
@@ -223,11 +220,6 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
           $current['#image']['#text'] = drupal_render($image);
           $current['#image']['#options']['html'] = TRUE;
         }
-      }
-      // Get weight.
-      $weight = $wrapper->field_camp_weight->value();
-      if (!empty($weight)) {
-        $current['#weight'] = $weight;
       }
 
       // Add current campaign to content array.
@@ -334,17 +326,25 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
 
   // Process search campaigns.
   if ($context['search_term'] != NULL) {
-    $terms = trim(drupal_strtolower(check_plain($context['search_term'])));
+    $terms = trim(drupal_strtolower($context['search_term']));
 
     // Multiple keywords, comma and/or space separated.
     if (strpos($terms, ',') || strpos($terms, ' ')) {
-      $terms = preg_replace('/(,?\s+)/', ',', $terms);
-      $terms = implode('\',\'', explode(',', $terms));
-      $condition = 'IN (\'' . $terms . '\')';
+      $terms = preg_split('/,|\s/', $terms);
+      $terms = array_filter($terms);
+
+      array_walk($terms, function(&$v) {
+        $v = addslashes($v);
+      });
+
+      $terms = implode("','", $terms);
+
+      $condition = "IN ('$terms')";
     }
     // Single keyword.
     else {
-      $condition = ' = \'' . $context['search_term'] . '\'';
+      $term = addslashes($context['search_term']);
+      $condition = " = '$term'";
     }
 
     $result = db_query('SELECT r.cid
@@ -411,12 +411,11 @@ function ding_campaign_get_campaigns($context, $limit, $offset) {
     ->fetchAll();
 
   foreach ($result as $key => $value) {
-    if (!isset($campaigns[$value->cid]) || $campaigns[$value->cid] == 0) {
-      $campaigns[$value->cid] = (mt_rand(1, 10) / 10);
-    }
+    @$campaigns[$value->cid] += 0.5;
   }
 
   arsort($campaigns);
+
   return array_slice(array_keys($campaigns), $offset, $limit);
 }
 
@@ -483,11 +482,13 @@ function ding_campaign_form_ding_campaign_node_form_submit(&$form, &$form_state)
       $form_state['values']['field_camp_text_plain'][LANGUAGE_NONE][0]['value'] = '';
       $form_state['values']['field_camp_image'][LANGUAGE_NONE][0]['fid'] = '';
       break;
+
     case 'plain':
       $form_state['values']['field_camp_text_full'][LANGUAGE_NONE][0]['value'] = '';
       $form_state['values']['field_camp_image'][LANGUAGE_NONE][0]['fid'] = '';
       break;
-   case 'image':
+
+    case 'image':
       $form_state['values']['field_camp_text_full'][LANGUAGE_NONE][0]['value'] = '';
       $form_state['values']['field_camp_text_plain'][LANGUAGE_NONE][0]['value'] = '';
       break;
@@ -732,4 +733,3 @@ function _ding_campaign_rule_by_type($node_type) {
 
   return $type;
 }
-

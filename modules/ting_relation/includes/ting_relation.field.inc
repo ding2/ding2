@@ -17,7 +17,10 @@ function ting_relation_field_info() {
       'description' => t('Ting relations.'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_relations_default',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
   );
 }
@@ -208,7 +211,7 @@ function ting_relation_get_abstract($relation) {
       $abstract = t('You can find more information about the material on the creators homapge.');
       break;
 
-    case 'isPartOfManifestation':
+    case 'dbcbib:isPartOfManifestation':
       $abstract = $relation->object->getSerieDescription();
       break;
   }
@@ -264,7 +267,7 @@ function ting_relation_get_online_url($relation) {
       $title = $relation->uri;
       break;
 
-    case 'isPartOfManifestation':
+    case 'dbcbib:isPartOfManifestation':
       $uri = entity_uri('ting_object', $relation->getObject());
       $url = '/' . $uri['path'];
       $title = $relation->object->getTitle();

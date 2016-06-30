@@ -155,6 +155,6 @@ function alma_user_create($cpr, $pin_code, $name, $mail, $branch_id) {
   }
   catch (AlmaClientUserAlreadyExistsError $exception) {
     // Throw new exception that is not provider dependent.
-    throw new Exception('User account already exists');
+    throw new DingProviderAuthUserExistsError('User account already exists');
   }
 }

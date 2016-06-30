@@ -369,12 +369,13 @@ function ding_gatewayf_registration_acceptance_form_submit($form, $form_state) {
     // at once, so the login attempt above may fail. But we have tried.
     drupal_get_messages(NULL, TRUE);
   }
-  catch (Exception $exception) {
-    // @TODO: The exception thrown by the providers to say that a user already
-    //         exists is provider "named", hence for now we capture all
-    //         exceptions. This should be fixed with FBS.
+  catch (DingProviderAuthUserExistsError $exception) {
     drupal_set_message(t('You already have an user account at the library. So we have just logged you in.'));
     _ding_gatewayf_provider_login($wayf_attributes);
+  }
+  catch (Exception $exception) {
+    watchdog_exception('ding_gatewayf_registration', $exception);
+    drupal_set_message(t('There was an error creating your account, please try again later or contact the library.'), 'error');
   }
 }
 

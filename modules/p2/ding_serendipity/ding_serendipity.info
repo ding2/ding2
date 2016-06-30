@@ -1,0 +1,11 @@
+name = Ding serendipity
+description = Collection of entities from different sources based on user context
+package = Ding!
+core = 7.x
+files[] = ding_serendipity.module
+dependencies[] = ding_provider
+dependencies[] = ding_base
+dependencies[] = ding_popup
+dependencies[] = ding_entity
+dependencies[] = ting
+configure = admin/config/ding/serendipity

@@ -20,7 +20,9 @@
           <?php if (isset($info['label'])) : ?>
             <div class="item-information-label"><?php print $info['label']; ?>:</div>
           <?php endif; ?>
-          <div class="item-information-data"><?php print $info['data']; ?></div>
+          <?php if (isset($info['data'])) : ?>
+            <div class="item-information-data"><?php print $info['data']; ?></div>
+          <?php endif; ?>
         </li>
       <?php endforeach; ?>
     </ul>

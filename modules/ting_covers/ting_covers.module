@@ -1,12 +1,15 @@
 <?php
 /**
  * @file
- * Provide functionality and page callbacks for retrieving covers for Ting
- * objects and collections
+ * Get covers for ting objects.
+ *
+ * This module provide functionality and page callbacks for retrieving covers
+ * for Ting objects and collections
  */
 
 // Default cache lifetime for covers (24 timer).
 define('TING_COVERS_DEFAULT_CACHE_LIFETIME', 86400);
+define('TING_COVERS_MAX_SIZE', 1200);
 
 // Load field module hooks.
 module_load_include('inc', 'ting_covers', 'ting_covers.field');
@@ -25,6 +28,16 @@ function ting_covers_menu() {
     'file' => 'ting_covers.pages.inc',
   );
 
+  $directory_path = file_stream_wrapper_get_instance_by_scheme('public')->getDirectoryPath();
+  $items[$directory_path . '/styles/%image_style/public/ting/covers'] = array(
+    'title' => 'Generate image style',
+    'page callback' => 'ting_cover_deliver',
+    'page arguments' => array(count(explode('/', $directory_path)) + 1),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+    'file' => 'ting_covers.pages.inc',
+  );
+
   $items['admin/config/ting/covers'] = array(
     'title' => 'Covers',
     'description' => 'Configure how covers are handled.',
@@ -39,16 +52,6 @@ function ting_covers_menu() {
     'description' => 'Configure how covers are handled.',
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'weight' => -10,
-  );
-
-  $items['admin/config/ting/covers/addi'] = array(
-    'title' => 'ADDI service',
-    'description' => 'Configure integration with the ADDI service.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ting_covers_admin_addi_settings_form'),
-    'access arguments' => array('administer site configuration'),
-    'file' => 'ting_covers.admin.inc',
-    'type' => MENU_LOCAL_TASK,
   );
 
   return $items;
@@ -74,20 +77,6 @@ function ting_covers_cron() {
 }
 
 /**
- * Implements hook_ding_install_tasks().
- */
-function ting_covers_ding_install_tasks() {
-  module_load_include('inc', 'ting_covers', 'ting_covers.admin');
-  return array(
-    'ting_covers_admin_addi_settings_form' => array(
-      'display_name' => st('ADDI service settings'),
-      'type' => 'form',
-      'file' => drupal_get_path('module', 'ting_covers') . '/ting_covers.admin.inc',
-    ),
-  );
-}
-
-/**
  * Template preprocessor.
  */
 function ting_covers_preprocess_ting_object(&$variables) {
@@ -102,10 +91,8 @@ function ting_covers_preprocess_ting_object(&$variables) {
 /**
  * Delete ting covers files.
  *
- * @todo: handle image styles better and use API to flush expired images.
- *
  * @param int $time
- *   Timestamp where older files will be deleted.	Omit or set to NULL to delete
+ *   Timestamp where older files will be deleted. Omit or set to NULL to delete
  *   all files.
  */
 function _ting_covers_delete_old_files($time = NULL) {
@@ -134,13 +121,169 @@ function _ting_covers_delete_old_files($time = NULL) {
   foreach ($cover_files as $file) {
     if (!$time || (filemtime($file->uri) < $time)) {
       file_unmanaged_delete($file->uri);
+      // Delete image cache derivatives.
+      image_path_flush($file->uri);
     }
   }
 }
 
 /**
  * Return the path to the cover of the object.
+ *
+ * The filename is the ID base64 encoded, so we can reverse it later.
  */
 function ting_covers_object_path($object_id) {
-  return file_default_scheme() . '://ting' . DIRECTORY_SEPARATOR . 'covers' . DIRECTORY_SEPARATOR . 'object' . DIRECTORY_SEPARATOR . md5($object_id) . '.jpg';
+  return file_default_scheme() . '://ting' . DIRECTORY_SEPARATOR . 'covers' . DIRECTORY_SEPARATOR . base64_encode($object_id) . '.jpg';
+}
+
+/**
+ * Get covers for an array of ids.
+ *
+ * @param array $requested_covers
+ *   Ids of entities to return covers for.
+ *
+ * @return array
+ *   Array of id => file path for found covers.
+ */
+function ting_covers_get(array $requested_covers) {
+  $entities = array();
+  $covers = array();
+
+  // Create array of loaded entities for passing to hooks.
+  foreach ($requested_covers as $id) {
+    // Ensure that the id at least seems valid.
+    if (!mb_check_encoding($id, "UTF-8")) {
+      continue;
+    }
+
+    // Determine if the local id is a known negative.
+    if (cache_get('ting_covers:' . $id, FALSE)) {
+      continue;
+    }
+
+    // If we we already have a valid cover image, use it.
+    $path = ting_covers_object_path($id);
+    if (file_exists($path)) {
+      $covers[$id] = $path;
+      continue;
+    }
+
+    // Queue for fetching by hook.
+    $entities[$id] = ding_entity_load($id);
+  }
+
+  // Fetch covers by calling hook.
+  foreach (module_implements('ting_covers') as $module) {
+    foreach (module_invoke($module, 'ting_covers', $entities) as $id => $uri) {
+      if ($uri && $path = _ting_covers_get_file($id, $uri)) {
+        $covers[$id] = $path;
+      }
+      // Remove elements where a cover has been found, or suppressed.
+      unset($entities[$id]);
+    }
+  }
+
+  // Mark all remaining as not found in cache.
+  foreach ($entities as $id => $entity) {
+    cache_set('ting_covers:' . $id, 1, 'cache', $_SERVER['REQUEST_TIME'] + TING_COVERS_DEFAULT_CACHE_LIFETIME);
+  }
+
+  return $covers;
+}
+
+/**
+ * Moves/downloads an URI into the cover cache.
+ *
+ * @param string $id
+ *   Ting entity id.
+ * @param string $uri
+ *   URI of file or local path.
+ */
+function _ting_covers_get_file($id, $uri) {
+  if (!($url = parse_url($uri))) {
+    // Seriously malformed, ignore it.
+    return FALSE;
+  }
+
+  // Flat paths don't get a scheme.
+  if (!isset($url['scheme']) && file_exists($uri)) {
+    $url['scheme'] = 'file';
+  }
+
+  $path = ting_covers_object_path($id);
+
+  switch ($url['scheme']) {
+    case 'http':
+    case 'https':
+      if (ting_covers_fetch_image($path, $uri)) {
+        return $path;
+      }
+      break;
+
+    case 'public':
+    case 'private':
+    case 'file':
+      if (file_unmanaged_mv($uri, $path)) {
+        return $path;
+      }
+  }
+
+  return FALSE;
+}
+
+
+/**
+ * Helper function to fetch and save a cover image file.
+ *
+ * Cover fetching modules should use this if fetching the cover is a simple GET
+ * request.
+ *
+ * @param string $filename
+ *   File name, including its path within Drupal's file folder.
+ * @param string $image_url
+ *   URL for the source image file.
+ *
+ * @return mixed
+ *   A file object or FALSE on error.
+ *
+ * @see image_style_create_derivative()
+ */
+function ting_covers_fetch_image($filename, $image_url) {
+  $result = drupal_http_request($image_url);
+
+  // Bail if the HTTP request failed.
+  if ($result->code != 200) {
+    return FALSE;
+  }
+
+  // Get the folder for the final location of this preset.
+  $directory = dirname($filename);
+
+  // Build the destination folder tree if it doesn't already exist.
+  if (!file_prepare_directory($directory, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS)) {
+    watchdog('ting_covers', 'Failed to create directory: %directory', array('%directory' => $directory), WATCHDOG_ERROR);
+    return FALSE;
+  }
+
+  $file = file_unmanaged_save_data($result->data, $filename, FILE_EXISTS_REPLACE);
+  // Sometimes we get images in print quality, which makes imagecache run out
+  // of memory in the attempt to resize it. So we check the image size and
+  // scale it down to a more manageable size using the Imagemagick shell
+  // command which gets around the memory limit.
+  if ($file) {
+    $realpath = drupal_realpath($filename);
+    $size = getimagesize($realpath);
+    if ($size[0] > TING_COVERS_MAX_SIZE || $size[1] > TING_COVERS_MAX_SIZE) {
+      exec('convert ' . $realpath . ' -resize ' . TING_COVERS_MAX_SIZE . 'x ' .
+           $realpath . '.tmp', $output, $rc);
+      // If successful, replace original image with scaled version.
+      if ($rc == 0) {
+        rename($realpath . '.tmp', $realpath);
+      }
+    }
+
+    return $file;
+  }
+
+  return FALSE;
 }

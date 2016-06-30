@@ -6,25 +6,6 @@
  */
 
 /**
- * Implements hook_ding_entity_fields().
- */
-function ding_availability_ding_entity_fields() {
-  return array(
-    'ding_availability_holdings' => array(
-      'field' => array(
-        'locked' => TRUE,
-        'storage' => array(
-          'type' => 'virtual_field',
-        ),
-      ),
-      'instance' => array(
-        'label' => t('Holdings information'),
-      ),
-    ),
-  );
-}
-
-/**
  * Convert blackhole field storage to virtual field.
  */
 function ding_availability_update_7000() {
@@ -35,4 +16,15 @@ function ding_availability_update_7000() {
     ))
     ->condition('module', 'ding_availability')
     ->execute();
+}
+
+/**
+ * Unlock fields.
+ *
+ * @see ding_entity_unlock_fields()
+ */
+function ding_availability_update_7001() {
+  ding_entity_unlock_fields('ding_availability', array(
+    'ding_availability_holdings',
+  ));
 }

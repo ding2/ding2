@@ -47,3 +47,10 @@ function ding_permissions_update_7003() {
 function ding_permissions_update_7004() {
   secure_permissions_rebuild();
 }
+
+/**
+ * Enable override_node_options module.
+ */
+function ding_permissions_update_7005() {
+  module_enable(array('override_node_options'));
+}

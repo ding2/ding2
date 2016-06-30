@@ -13,25 +13,6 @@ function ting_infomedia_uninstall() {
 }
 
 /**
- * Implements hook_ding_entity_fields().
- */
-function ting_infomedia_ding_entity_fields() {
-  return array(
-    'ting_infomedia' => array(
-      'field' => array(
-        'locked' => FALSE,
-        'storage' => array(
-          'type' => 'virtual_field',
-        ),
-      ),
-      'instance' => array(
-        'label' => t('Link to infomedia articles'),
-      ),
-    ),
-  );
-}
-
-/**
  * Implementing hook_requirements()
  */
 function ting_infomedia_requirements($phase) {
@@ -65,13 +46,10 @@ function ting_infomedia_update_7000() {
 }
 
 /**
- * Unlock ding_entity_field to allow deletion of field
+ * Unlock fields.
+ *
+ * @see ding_entity_unlock_fields()
  */
 function ting_infomedia_update_7001() {
-  db_update('field_config')
-    ->fields(array(
-      'locked' => 0,
-    ))
-    ->condition('module', 'ting_infomedia')
-    ->execute();
+  ding_entity_unlock_fields('ting_infomedia', array('ting_infomedia'));
 }

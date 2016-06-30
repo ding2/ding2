@@ -5,25 +5,6 @@
  */
 
 /**
- * Implements hook_ding_entity_fields().
- */
-function ting_reference_ding_entity_fields() {
-  return array(
-    'ting_reference_reverse' => array(
-      'field' => array(
-        'locked' => TRUE,
-        'storage' => array(
-          'type' => 'virtual_field',
-        ),
-      ),
-      'instance' => array(
-        'label' => t('Nodes referencing this Ting object.'),
-      ),
-    ),
-  );
-}
-
-/**
  * Convert blackhole field storage to virtual field.
  */
 function ting_reference_update_7000() {
@@ -34,4 +15,13 @@ function ting_reference_update_7000() {
     ))
     ->condition('module', 'ting_reference')
     ->execute();
+}
+
+/**
+ * Unlock fields.
+ *
+ * @see ding_entity_unlock_fields()
+ */
+function ting_reference_7001() {
+  ding_entity_unlock_fields('ting_reference', array('ting_reference_reverse'));
 }
