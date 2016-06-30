@@ -188,7 +188,6 @@ function ding_frontend_views_default_views() {
   $handler->display->display_options['filters']['type']['operator'] = 'not in';
   $handler->display->display_options['filters']['type']['value'] = array(
     'ding_campaign' => 'ding_campaign',
-    'new_materials' => 'new_materials',
     'panel' => 'panel',
     'ding_rolltab' => 'ding_rolltab',
   );
