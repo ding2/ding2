@@ -199,6 +199,13 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
       }
 
       break;
+
+    case 'user_register_form':
+      global $user;
+      if (user_access('administer users') && !in_array('administrators', $user->roles)) {
+        $form['#validate'][] = '_ding_user_roles_form_validate';
+      }
+      break;
   }
 }
 
@@ -1034,5 +1041,19 @@ function ding_user_profile2_view($profile, $view_mode, $langcode) {
     if ($int_per == 1) {
       $profile->content[$field]['#access'] = FALSE;
     }
+  }
+}
+
+/**
+ * Check if newly created user has assigned new roles.
+ *
+ * @param array $form
+ *   Register form elements.
+ * @param array $form_state
+ *   State of the submitted form.
+ */
+function _ding_user_roles_form_validate(array $form, array &$form_state) {
+  if (!array_filter($form_state['values']['roles_change'])) {
+    form_set_error('roles', t('Roles field is required.'));
   }
 }
