@@ -283,7 +283,6 @@ function ding_base_strongarm() {
     'ding_library' => 'ding_library',
     'ding_news' => 'ding_news',
     'ding_page' => 'ding_page',
-    'new_materials' => 'new_materials',
     'ding_campaign' => 0,
     'ding_rolltab' => 0,
     'panel' => 0,
