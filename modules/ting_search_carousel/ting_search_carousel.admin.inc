@@ -45,7 +45,7 @@ function ting_search_carousel_settings_admin_form($form, &$form_state) {
  * @param array $form_state
  *   Form state.
  *
- * @return
+ * @return array
  *   Form structure.
  */
 function ting_search_carousel_admin_form(array $form, array &$form_state) {
@@ -154,7 +154,7 @@ function ting_search_carousel_admin_form(array $form, array &$form_state) {
  * @param array $form
  *   Form.
  *
- * @return string
+ * @return array
  *   Changed field to be updated.
  */
 function ting_search_carousel_admin_form_ajaxify(array $form, array &$form_state) {
@@ -164,10 +164,10 @@ function ting_search_carousel_admin_form_ajaxify(array $form, array &$form_state
 /**
  * Theme the queries form, mainly adding a table drag-n-drop feature.
  *
- * @param $variables
+ * @param array $variables
  *   Theme related variables.
  *
- * @return
+ * @return string
  *   Themed form output.
  */
 function theme_ting_search_carousel_admin_form(array $variables) {
@@ -287,12 +287,12 @@ function ting_search_carousel_query_form($item = array(), $index = 0) {
 /**
  * Submit handler for admin backend queries form.
  *
- * @param arary $form
+ * @param array $form
  *   Form.
  * @param array $form_state
  *   Form state.
  */
-function ting_search_carousel_search_submit($form, &$form_state) {
+function ting_search_carousel_search_submit(array $form, array &$form_state) {
   $count = count($form_state['input']['title']);
   $searches = array();
   $search_items = array();
