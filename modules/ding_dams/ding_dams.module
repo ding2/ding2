@@ -13,8 +13,6 @@ function ding_dams_wysiwyg_include_directory($type) {
   switch ($type) {
     case 'plugins':
       return 'wysiwyg_plugins';
-      break;
-
   }
 }
 
@@ -59,7 +57,7 @@ function ding_dams_menu() {
 /**
  * Implements hook_permission().
  */
-function ding_dams_media_browser_permission() {
+function ding_dams_permission() {
   return array(
     'use ding dams' => array(
       'title' => t('Use ding dams.'),
@@ -433,12 +431,12 @@ function theme_ding_dams_popup(&$variables) {
       $classes .= implode(' ', $file->override['attributes']['class']);
     }
 
-    $output = '<a href="ding-dams/nojs/popup/' . $file->fid .'" ' .
+    $output = '<a href="/ding-dams/nojs/popup/' . $file->fid . '" ' .
       'alt="' . $file->alt . '" ' .
       'title="' . $file->title . '" ' .
       'class="' . $classes . '">' .
       '<img src="' . $doctype_icon . '"/>' .
-      '</a>';
+    '</a>';
   }
   return $output;
 }
@@ -463,7 +461,7 @@ function theme_ding_dams_download_icon(&$variables) {
       'target="_blank" ' .
       'class="' . $classes . '">' .
       '<img src="' . $doctype_icon . '"/>' .
-      '</a>';
+    '</a>';
   }
   return $output;
 }

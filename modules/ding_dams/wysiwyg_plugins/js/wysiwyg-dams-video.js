@@ -106,7 +106,7 @@
       }
       switch (formatted_media.type) {
         case 'ding_dams_download_link':
-          var name = element[0].src.split('/').pop().split('.')[0];
+          var name = $(formatted_media.html).children('a').html();
           markup = '<a href="' + element[0].src + '" ' +
             'target="_blank" ' +
             'data-file_info="' + element.attr('data-file_info') + '" ' +

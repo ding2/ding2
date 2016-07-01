@@ -94,29 +94,33 @@ Drupal.wysiwyg.plugins.dams_image = {
       });
 
       var markup = '';
+      var macro = Drupal.media.filter.create_macro(element);
+      Drupal.media.filter.ensure_tagmap();
+      var i = 1;
+      for (var key in Drupal.settings.tagmap) {
+        i++;
+      }
       if (formatted_media.type == 'ding_dams_download_link') {
-        var macro = Drupal.media.filter.create_macro(element);
+        var data = JSON.parse(decodeURI(element.attr('data-file_info')));
+        var name = '';
+        if (data.fields['field_file_image_alt_text[und][0][value]'].length > 0) {
+          name = data.fields['field_file_image_alt_text[und][0][value]'];
+        }
+        else {
+          name = element[0].src.split('/').pop().split('.')[0];
+        }
         markup = '<a href="' + element[0].src + '" ' +
-        'alt="' + element[0].alt + '" ' +
         'title="' + element[0].title + '" ' +
         'target="_blank" ' +
         'data-file_info="' + element.attr('data-file_info') +  '" ' +
-        'class="' + element[0].className + '">' + element[0].title +
-        '</a>';
-
-        // Store macro/markup in the tagmap.
-        Drupal.media.filter.ensure_tagmap();
-        var i = 1;
-        for (var key in Drupal.settings.tagmap) {
-          i++;
-        }
-        Drupal.settings.tagmap[macro] = markup;
+        'class="' + element[0].className + '">' + element[0].title + name + '</a>';
       }
       else {
         // Get the markup and register it for the macro / placeholder handling.
         markup = Drupal.media.filter.getWysiwygHTML(element);
       }
 
+      Drupal.settings.tagmap[macro] = markup;
       // Insert placeholder markup into wysiwyg.
       Drupal.wysiwyg.instances[this.instanceId].insert(markup);
     }
