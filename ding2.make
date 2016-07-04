@@ -169,6 +169,9 @@ projects[i18n][version] = "1.11"
 projects[manualcrop][subdir] = "contrib"
 projects[manualcrop][version] = "1.5"
 
+projects[mailsystem][subdir] = "contrib"
+projects[mailsystem][version] = "2.34"
+
 projects[maintenance_mode_api][subdir] = "contrib"
 projects[maintenance_mode_api][version] = "1.0-beta1"
 
