@@ -378,7 +378,7 @@ function ding2_update_7021() {
 }
 
 /**
- * Enable metatag and metatag_panels modules.
+ * Enable P2 installer module.
  */
 function ding2_update_7022() {
   module_enable(array('ding_p2_installer'));
