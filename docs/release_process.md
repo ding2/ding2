@@ -24,7 +24,7 @@ An example name could be `7.x-3.4.2-rc1`.
 
 	4.2. Checkout the existing `release` branch `git checkout release`
 
-	4.3. Rebase the release branch on master `git rebase master
+	4.3. Rebase the release branch on master `git rebase master`
 
 	4.5. Force push your changes to the release branch on GitHub `git push origin release --force`
 
@@ -36,13 +36,13 @@ An example name could be `7.x-3.4.2-rc1`.
 
 	5.2. Checkout the existing `release` branch `git checkout release`
 
-	5.3. Rebase the release branch on master `git rebase master
+	5.3. Rebase the release branch on master `git rebase master`
 
 	5.5. Force push your changes to the release branch on GitHub `git push origin release --force`
 
 	5.6. Tag the commit with the release name og push it `git tag 7.x-3.4.2-rc1 && git push origin 7.x-3.4.2-rc1`
 
-6. Update ding2.make to point to the new releases of ting_client and bpi_client.
+6. Update ding2.make to point to the new releases of `ting_client` and `bpi_client`.
 
 7. In `ding2.info` set `version = 7.x-3.4.2-rc1`
 
