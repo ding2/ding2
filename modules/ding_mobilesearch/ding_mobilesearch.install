@@ -26,6 +26,22 @@ function ding_mobilesearch_install() {
 }
 
 /**
+ * Implements hook_uninstall().
+ */
+function ding_mobilesearch_uninstall() {
+  $types_to_enable = array('ding_event', 'ding_library', 'ding_news');
+  foreach ($types_to_enable as $type) {
+    $key = 'mobilesearch_type__' . $type;
+    variable_del($key);
+    variable_del($key . '__trigger');
+    variable_del($key . '__plugin');
+  }
+  variable_del('mobilesearch_rest_url');
+  variable_del('mobilesearch_rest_debug');
+  variable_del('mobilesearch_rest_key');
+}
+
+/**
  * Implements hook_update_N().
  */
 function ding_mobilesearch_update_7000() {

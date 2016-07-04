@@ -37,7 +37,7 @@ function ding_mobilesearch_workflow($op, $id, $new_sid, $entity, $force, $entity
         $trigger = variable_get($key . '__trigger', NULL);
         if ($trigger == 'hook_workflow__' . $state->name) {
           $plugin = $trigger = variable_get($key . '__plugin', NULL);
-          $plugin_info = module_invoke_all('mobilesearch_plugin_info');
+          $plugin_info = module_invoke_all('ding_mobilesearch_plugin_info');
           $plugin = $plugin_info[$plugin];
 
           if (!empty($plugin['exec_callback']) && function_exists($plugin['exec_callback'])) {

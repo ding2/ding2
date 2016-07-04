@@ -68,17 +68,17 @@ function ding_mobilesearch_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Implements hook_mobilesearch_plugin_info().
+ * Implements hook_ding_mobilesearch_plugin_info().
  */
-function ding_mobilesearch_mobilesearch_plugin_info() {
+function ding_mobilesearch_ding_mobilesearch_plugin_info() {
   return array(
     'mobilesearch_rest' => array(
       'title' => t('REST plugin'),
       'description' => t('Export data to Mongo through REST API.'),
-      'exec_callback' => 'mobilesearch_rest_exec',
-      'config_form_callback' => 'mobilesearch_rest_config_form',
-      'config_form_validate' => 'mobilesearch_rest_config_form_validate',
-      'node_form_callback' => 'mobilesearch_rest_node_form',
+      'exec_callback' => 'ding_mobilesearch_rest_exec',
+      'config_form_callback' => 'ding_mobilesearch_rest_config_form',
+      'config_form_validate' => 'ding_mobilesearch_rest_config_form_validate',
+      'node_form_callback' => 'ding_mobilesearch_rest_node_form',
     ),
   );
 }
@@ -87,7 +87,7 @@ function ding_mobilesearch_mobilesearch_plugin_info() {
  * Implements hook_form_BASE_ID_alter().
  */
 function ding_mobilesearch_form_node_form_alter(&$form, &$form_state, $form_id) {
-  $plugin_info = module_invoke_all('mobilesearch_plugin_info');
+  $plugin_info = module_invoke_all('ding_mobilesearch_plugin_info');
   foreach ($plugin_info as $row) {
     if (!empty($row['node_form_callback']) && function_exists($row['node_form_callback'])) {
       $row['node_form_callback']($form, $form_state);
@@ -101,7 +101,7 @@ function ding_mobilesearch_form_node_form_alter(&$form, &$form_state, $form_id) 
 function _ding_mobilesearch_types() {
   $names = node_type_get_names();
   $types = array();
-  $plugin_info = module_invoke_all('mobilesearch_plugin_info');
+  $plugin_info = module_invoke_all('ding_mobilesearch_plugin_info');
   foreach ($names as $machine_name => $name) {
     $key = 'mobilesearch_type__' . $machine_name;
     if (variable_get($key, FALSE)) {
@@ -117,10 +117,12 @@ function _ding_mobilesearch_types() {
   return $types;
 }
 
+
+
 /**
  * Implements hook_mobilesearch_node_export_mapping().
  */
-function ding_mobilesearch_mobilesearch_node_export_mapping($node) {
+function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
   $username = db_select('users', 'u')
     ->fields('u', array('name'))
     ->condition('u.uid', $node->uid)

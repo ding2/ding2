@@ -15,7 +15,7 @@
  *
  * @see hook_mobilesearch_plugin_config()
  */
-function hook_mobilesearch_plugin_info() {
+function hook_ding_mobilesearch_plugin_info() {
   return array(
     'mobilesearch_example_plugin' => array(
       'title' => t('Example plugin'),
@@ -24,7 +24,7 @@ function hook_mobilesearch_plugin_info() {
       'config_form_callback' => 'mobilesearch_example_plugin_config_form',
       'config_form_validate' => 'mobilesearch_example_plugin_config_form_validate',
       'config_form_submit' => 'mobilesearch_example_plugin_config_form_submit',
-    )
+    ),
   );
 }
 
@@ -34,10 +34,9 @@ function hook_mobilesearch_plugin_info() {
  * @param $node
  *   The node that is being proceed.
  */
-function hook_mobilesearch_node_export_mapping($node) {
+function hook_ding_mobilesearch_node_export_mapping($node) {
   $mapping = array(
-    'special' => array(
-      // 'faust' => '...',
+    'special' => array(// 'faust' => '...',
     ),
     'fields' => array(
       'title' => array(

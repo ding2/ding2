@@ -30,7 +30,7 @@ function ding_mobilesearch_settings($form, &$form_state) {
     $type_map = workflow_get_workflow_type_map();
   }
 
-  $plugin_info = module_invoke_all('mobilesearch_plugin_info');
+  $plugin_info = module_invoke_all('ding_mobilesearch_plugin_info');
   $plugins = array();
   foreach ($plugin_info as $key => $info) {
     $plugins[$key] = $info['title'];
@@ -122,7 +122,7 @@ function ding_mobilesearch_plugin_settings($form, &$form_state) {
     '#weight' => 99,
   );
 
-  $plugin_info = module_invoke_all('mobilesearch_plugin_info');
+  $plugin_info = module_invoke_all('ding_mobilesearch_plugin_info');
   foreach ($plugin_info as $plugin => $info) {
     $config_form_func = $info['config_form_callback'];
     if (function_exists($config_form_func)) {
