@@ -191,6 +191,38 @@ function ding_frontpage_default_page_manager_pages() {
     $pane->uuid = 'b14f0ccc-f81c-4267-b843-2fd333f260f8';
     $display->content['new-b14f0ccc-f81c-4267-b843-2fd333f260f8'] = $pane;
     $display->panels['tertiary'][1] = 'new-b14f0ccc-f81c-4267-b843-2fd333f260f8';
+    $pane = new stdClass();
+    $pane->pid = 'new-4d4dcf37-22f7-4160-83ad-42b73356bdb0';
+    $pane->panel = 'tertiary';
+    $pane->type = 'campaign';
+    $pane->subtype = 'campaign';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'ding_campaign_count' => 3,
+      'ding_campaign_offset' => 0,
+      'ding_campaign_image_style' => 'ding_campaign_p_25',
+      'context' => array(
+        0 => 'empty',
+        1 => 'empty',
+        2 => 'empty',
+        3 => 'empty',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $pane->uuid = '4d4dcf37-22f7-4160-83ad-42b73356bdb0';
+    $display->content['new-4d4dcf37-22f7-4160-83ad-42b73356bdb0'] = $pane;
+    $display->panels['tertiary'][2] = 'new-4d4dcf37-22f7-4160-83ad-42b73356bdb0';
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
