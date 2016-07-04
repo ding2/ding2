@@ -4087,8 +4087,9 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
   _overflow-y: visible;
   margin-bottom: 20px; }
 
-/* Using zen-grids on messages require that tabs get a clear */
-.pane-page-tabs {
+/* Using zen-grids on messages require that tabs or page-content get a clear */
+.pane-page-tabs,
+.pane-page-content {
   clear: left; }
 
 .messages {
