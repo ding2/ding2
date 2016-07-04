@@ -16,7 +16,10 @@ function ding_p2_installer_install() {
   $file = new stdClass();
   $file->uri = $po_file;
   $file->filename = basename($po_file); 
-  _locale_import_po($file, 'da', LOCALE_IMPORT_KEEP, 'default');
+
+// Translation is handled outside p2 project
+//  _locale_import_po($file, 'da', LOCALE_IMPORT_KEEP, 'default');
+
   drupal_set_message('Please run a database update to finish the installation of Personalisering / P2.', 'warning');
 
   // Make sure the installer is called after all other ding modules.
