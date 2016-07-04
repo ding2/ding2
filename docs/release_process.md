@@ -44,6 +44,8 @@ An example name could be `7.x-3.4.2-rc1`.
 
 6. Update ding2.make to point to the new releases of `ting_client` and `bpi_client`.
 
+7. Update drupal.make to point to the new ding2 release tag.
+
 7. In `ding2.info` set `version = 7.x-3.4.2-rc1`
 
 8. Commit your changes `git add ding2.info ding2.make && git commit -m "Set version in info file to 7.x-3.4.2-rc1"`
