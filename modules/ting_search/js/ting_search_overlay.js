@@ -61,9 +61,10 @@
     $(window).keydown(function(event) {
       // Keycode for the ESC-button.
       if (event.which === 27) {
-        var $overlay = $('.search-overlay--wrapper');
-        if ($overlay !== undefined) {
-          $overlay.remove();
+        var overlay = $('.search-overlay--wrapper');
+
+        if (overlay.length) {
+          Drupal.TingSearchOverlay(true);
         }
       }
     });
