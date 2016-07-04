@@ -446,7 +446,8 @@ function ding_dibs_cards() {
 
 /**
  * Implements hook_cron().
- * This is done by sending written reports and email adresses result cron launches in the database
+ * This is done by sending written reports and email adresses result cron
+ * launches in the database
  */
 function ding_dibs_cron() {
   $start_cron = FALSE;
@@ -502,10 +503,10 @@ function ding_dibs_mail($key, &$message, $params) {
 /**
  * Insert information in a table ding_dibs_report_cron.
  *
- * @param $start
+ * @param string $start
  *   The start time is in Unicode.
  *
- * @return
+ * @return int
  *   Id outcome writing new values to the table ding_dibs_report_cron.
  */
 function _ding_dibs_insert_table($start) {
@@ -518,13 +519,11 @@ function _ding_dibs_insert_table($start) {
 /**
  * Updating information in a DB table "ding_dibs_report_cron".
  *
- * @param $id
+ * @param int $id
  *   Id database table "ding_dibs_report_cron".
- *
- * @param $start_hours
+ * @param string $start_hours
  *   Hours run cron.
- *
- * @param $start_minute
+ * @param string $start_minute
  *   Minutes run cron.
  */
 function _ding_dibs_update_table($id) {
@@ -541,16 +540,14 @@ function _ding_dibs_update_table($id) {
 /**
  * Select info from the table ding_dibs_report_cron.
  *
- * @param $id
+ * @param int $id
  *   id database table ding_dibs_report_cron.
- *
- * @param $status
+ * @param string $status
  *   status database table ding_dibs_report_cron.
- *
- * @param $id_report
+ * @param int $id_report
  *   ID report which will be started sample database.
  *
- * @return
+ * @return array
  *   The result of the database query.
  */
 function _ding_dibs_select_report_cron_table($id = FALSE, $status = FALSE, $id_report = FALSE) {
