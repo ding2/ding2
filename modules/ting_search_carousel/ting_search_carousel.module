@@ -36,6 +36,36 @@ function ting_search_carousel_theme($existing, $type, $theme, $path) {
   );
 }
 
+
+ /**
+ * Implements hook_libraries_info().
+ */
+function ting_search_carousel_libraries_info() {
+  $libraries = array();
+
+  $libraries['slick'] = array(
+    'name' => 'Slick.js library',
+    'path' => 'slick',
+    'vendor url' => 'https://github.com/kenwheeler/slick',
+    'download url' => 'https://github.com/kenwheeler/slick/archive/master.zip',
+    'version callback' => 'ting_search_carousel_get_version',     
+    'files' => array(
+      'css' => array('slick.css', 'slick-theme.css'),
+      'js' => array('slick.min.js'),
+    ),
+  );
+
+  return $libraries;
+}
+
+/**
+ * Helper function.
+ */
+function ting_search_carousel_get_version() {
+  return TRUE;
+}
+
+
 /**
  * Implements hook_ctools_plugin_directory().
  */
@@ -93,7 +123,6 @@ function ting_search_carousel_image_default_styles() {
  * Wrapper function that adds the modules JavaScript.
  */
 function _ting_search_carousel_add_javascript() {
-  drupal_add_js(TING_SEARCH_CAROUSEL_MODULE_PATH . '/js/slick.js');
   drupal_add_js(TING_SEARCH_CAROUSEL_MODULE_PATH . '/js/ting_search_carousel.js');
 }
 
@@ -102,8 +131,7 @@ function _ting_search_carousel_add_javascript() {
  */
 function _ting_search_carousel_add_css() {
   drupal_add_css(TING_SEARCH_CAROUSEL_MODULE_PATH . '/css/ting_search_carousel.css');
-  drupal_add_css(TING_SEARCH_CAROUSEL_MODULE_PATH . '/css/slick.css');
-  drupal_add_css(TING_SEARCH_CAROUSEL_MODULE_PATH . '/css/slick-theme.css');
+  libraries_load('slick');
 }
 
 /**
