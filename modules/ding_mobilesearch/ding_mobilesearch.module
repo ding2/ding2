@@ -1,0 +1,487 @@
+<?php
+
+/**
+ * @file
+ * Mobilesearch logic.
+ */
+
+include_once 'includes/trigger.inc';
+include_once 'lib/bootstrap.inc';
+include_once 'plugins/rest.inc';
+
+/**
+ * Implements hook_permission().
+ */
+function ding_mobilesearch_permission() {
+  return array(
+    'administer mobilesearch' => array(
+      'title' => t('Administer mobilesearch'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_mobilesearch_menu() {
+  $items = array();
+
+  $items['admin/config/ding/mobilesearch/content-export'] = array(
+    'title' => 'Content export',
+    'description' => 'Content exporting settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_mobilesearch_settings'),
+    'access arguments' => array('administer mobilesearch'),
+    'file' => 'includes/admin.inc',
+  );
+
+  $items['admin/config/ding/mobilesearch/content-export/settings'] = array(
+    'title' => 'Settings',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );
+
+  $items['admin/config/ding/mobilesearch/content-export/plugin'] = array(
+    'title' => 'Plugins',
+    'description' => 'Set a special configuration options for plugins.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_mobilesearch_plugin_settings'),
+    'access arguments' => array('administer mobilesearch'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 1,
+    'file' => 'includes/admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_mobilesearch_theme($existing, $type, $theme, $path) {
+  return array(
+    'ding_mobilesearch_types_table' => array(
+      'render element' => 'form',
+      'file' => 'includes/admin.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_ding_mobilesearch_plugin_info().
+ */
+function ding_mobilesearch_ding_mobilesearch_plugin_info() {
+  return array(
+    'mobilesearch_rest' => array(
+      'title' => t('REST plugin'),
+      'description' => t('Export data to Mongo through REST API.'),
+      'exec_callback' => 'ding_mobilesearch_rest_exec',
+      'config_form_callback' => 'ding_mobilesearch_rest_config_form',
+      'config_form_validate' => 'ding_mobilesearch_rest_config_form_validate',
+      'node_form_callback' => 'ding_mobilesearch_rest_node_form',
+    ),
+  );
+}
+
+/**
+ * Implements hook_form_BASE_ID_alter().
+ */
+function ding_mobilesearch_form_node_form_alter(&$form, &$form_state, $form_id) {
+  $plugin_info = module_invoke_all('ding_mobilesearch_plugin_info');
+  foreach ($plugin_info as $row) {
+    if (!empty($row['node_form_callback']) && function_exists($row['node_form_callback'])) {
+      $row['node_form_callback']($form, $form_state);
+    }
+  }
+}
+
+/**
+ * Returns list of content types with plugin associations.
+ */
+function _ding_mobilesearch_types() {
+  $names = node_type_get_names();
+  $types = array();
+  $plugin_info = module_invoke_all('ding_mobilesearch_plugin_info');
+  foreach ($names as $machine_name => $name) {
+    $key = 'mobilesearch_type__' . $machine_name;
+    if (variable_get($key, FALSE)) {
+      $trigger = variable_get($key . '__trigger', NULL);
+      $plugin = variable_get($key . '__plugin', NULL);
+
+      $types[$machine_name] = $plugin_info[$plugin];
+      $types[$machine_name]['trigger'] = $trigger;
+      $types[$machine_name]['plugin'] = $plugin;
+    }
+  }
+
+  return $types;
+}
+
+
+
+/**
+ * Implements hook_mobilesearch_node_export_mapping().
+ */
+function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
+  $username = db_select('users', 'u')
+    ->fields('u', array('name'))
+    ->condition('u.uid', $node->uid)
+    ->execute()
+    ->fetchField();
+
+  $mapping = array(
+    'fields' => array(
+      'title' => array(
+        'name' => t('Title'),
+        'value' => $node->title,
+        'attr' => array(),
+      ),
+      'author' => array(
+        'name' => t('Author'),
+        'value' => $username,
+        'attr' => array(),
+      ),
+      'created' => array(
+        'name' => t('Created'),
+        'value' => $node->created,
+        'attr' => array(),
+      ),
+      'changed' => array(
+        'name' => t('Updated'),
+        'value' => $node->changed,
+        'attr' => array(),
+      ),
+      'status' => array(
+        'name' => t('Status'),
+        'value' => $node->status,
+        'attr' => array(),
+      ),
+    ),
+    'taxonomy' => array(),
+  );
+  $instances = field_info_instances('node', $node->type);
+  foreach ($instances as $machine_name => $field) {
+    switch ($field['widget']['type']) {
+      case 'text':
+      case 'text_long':
+      case 'text_textfield':
+      case 'text_textarea':
+      case 'text_with_summary':
+      case 'number':
+        $items = field_get_items('node', $node, $machine_name);
+        $mapping['fields'][$machine_name] = array(
+          'name' => $field['label'],
+          'value' => array(),
+          'attr' => array(),
+        );
+        foreach ($items as $item) {
+          if (preg_match_all('/(\[\[\{.*\}\]\])/', $item['value'], $matches, PREG_SET_ORDER)) {
+            if (!empty($matches[0])) {
+              foreach ($matches[0] as $key => $value) {
+                $json = drupal_json_decode($value);
+                if (is_array($json) && !empty($json[0][0]['fid'])) {
+                  $fid = $json[0][0]['fid'];
+                  $file = file_load($fid);
+                  if (is_object($file) && $file->type == 'image') {
+                    $base64 = base64_encode(file_get_contents($file->uri));
+                    $render = "<img src=\"data:{$file->filemime};base64,{$base64}\" alt=\"\" />";
+                    $item['value'] = str_replace($value, $render, $item['value']);
+                  }
+                  else {
+                    $item['value'] = str_replace($value, '', $item['value']);
+                  }
+                }
+              }
+            }
+          }
+          $mapping['fields'][$machine_name]['value'][] = $item['value'];
+        }
+        if (count($mapping['fields'][$machine_name]['value']) == 1) {
+          $mapping['fields'][$machine_name]['value'] = reset($mapping['fields'][$machine_name]['value']);
+        }
+        break;
+
+      case 'email_textfield':
+        $items = field_get_items('node', $node, $machine_name);
+        if (is_array($items) && !empty($items)) {
+          $item = reset($items);
+          $mapping['fields'][$machine_name] = array(
+            'name' => $field['label'],
+            'value' => array($item['email']),
+            'attr' => array(),
+          );
+        }
+        break;
+
+      case 'image':
+      case 'media_generic':
+      case 'file_generic':
+        $items = field_get_items('node', $node, $machine_name);
+        if ($items) {
+          $mapping['fields'][$machine_name] = array(
+            'name' => $field['label'],
+            'value' => array(),
+          );
+          foreach ($items as $delta => $row) {
+            $file = file_load($row['fid']);
+            $mapping['fields'][$machine_name]['value'][$delta] = base64_encode(file_get_contents($file->uri));
+            $mapping['fields'][$machine_name]['attr'][$delta] = $file->filemime;
+          }
+        }
+        break;
+
+      case 'options_select':
+      case 'options_buttons':
+      case 'options_autocomplete':
+      case 'taxonomy_term_reference':
+        $vocabulary_machine_name = NULL;
+        $info = field_info_field($machine_name);
+        if (!empty($info['settings']['allowed_values']) && is_array($info['settings']['allowed_values'])) {
+          $settings = reset($info['settings']['allowed_values']);
+          if (!empty($settings['vocabulary'])) {
+            $vocabulary_machine_name = $settings['vocabulary'];
+          }
+        }
+        if ($vocabulary_machine_name) {
+          $vocabulary = taxonomy_vocabulary_machine_name_load($vocabulary_machine_name);
+          $vocabulary = $vocabulary->name;
+        }
+        else {
+          $vocabulary = $field['label'];
+        }
+        $items = field_get_items('node', $node, $machine_name);
+        $mapping['taxonomy'][$machine_name] = array(
+          'name' => $vocabulary,
+          'terms' => array(),
+        );
+        if (is_array($items)) {
+          foreach ($items as $row) {
+            if (!empty($row['tid'])) {
+              $term = taxonomy_term_load($row['tid']);
+              $mapping['taxonomy'][$machine_name]['terms'][] = $term->name;
+            }
+          }
+        }
+        if (empty($mapping['taxonomy'][$machine_name]['terms'])) {
+          unset($mapping['taxonomy'][$machine_name]);
+        }
+
+        if ($info['type'] == 'entityreference') {
+          $mapping['fields'][$machine_name] = array(
+            'name' => $field['label'],
+            'value' => array(),
+            'attr' => array(),
+          );
+          foreach ($items as $item) {
+            $mapping['fields'][$machine_name]['value'][] = $item['target_id'];
+          }
+        }
+        break;
+
+      case 'ting_reference_advanced':
+        $items = field_get_items('node', $node, $machine_name);
+        $mapping['fields'][$machine_name] = array(
+          'name' => $field['label'],
+          'value' => array(),
+          'attr' => array(),
+        );
+        foreach ($items as $item) {
+          $mapping['fields'][$machine_name]['value'][] = $item['ting_object_id'];
+        }
+        if (count($mapping['fields'][$machine_name]['value']) == 1) {
+          $mapping['fields'][$machine_name]['value'] = reset($mapping['fields'][$machine_name]['value']);
+        }
+        break;
+
+      case 'addressfield_standard':
+        $items = field_get_items('node', $node, $machine_name);
+        foreach ($items as $ikey => $row) {
+          foreach ($row as $key => $value) {
+            if ($key == 'element_key') {
+              continue;
+            }
+            $mapping['fields'][$machine_name . '__' . $key] = array(
+              'name' => $field['label'] . ' (' . str_replace('_', ' ', $key) . ')',
+              'value' => array(),
+              'attr' => array(),
+            );
+            $mapping['fields'][$machine_name . '__' . $key]['value'][$ikey] = $value;
+          }
+        }
+        break;
+    }
+  }
+
+  if (module_exists('opening_hours')) {
+    $result = db_select('opening_hours', 'oh')
+      ->fields('oh')
+      ->condition('oh.nid', $node->nid)
+      ->execute();
+    foreach ($result as $row) {
+      $mapping['fields']['opening_hours'][] = (array) $row;
+    }
+  }
+
+  $tag_field = NULL;
+  // Content type specific fields.
+  switch ($node->type) {
+    case 'ding_event':
+      $items = field_get_items('node', $node, 'field_ding_event_date');
+      if (is_array($items) && !empty($items)) {
+        $item = reset($items);
+        $mapping['fields']['field_ding_event_date'] = array(
+          'name' => 'Event date',
+          'value' => array(
+            'from' => $item['value'],
+            'to' => $item['value2'],
+          ),
+          'attr' => array(),
+        );
+      }
+      $tag_field = 'field_ding_event_tags';
+      break;
+
+    case 'ding_news':
+      $tag_field = 'field_ding_news_tags';
+      break;
+
+    case 'ding_page':
+      $tag_field = 'field_ding_page_tags';
+      break;
+  }
+
+  if ($tag_field) {
+    $items = field_get_items('node', $node, $tag_field);
+    if (is_array($items) && !empty($items)) {
+      $mapping['fields'][$tag_field] = array(
+        'name' => 'Tags',
+        'value' => array(),
+        'attr' => array(),
+      );
+      foreach ($items as $item) {
+        $mapping['fields'][$tag_field]['value'][] = $item['name'];
+      }
+    }
+  }
+
+  return $mapping;
+}
+
+/**
+ * Implements hook_action_info().
+ *
+ * Registers custom VBO actions as Drupal actions.
+ */
+function ding_mobilesearch_action_info() {
+  return array(
+    'views_bulk_operations_push_mongo_rest' => array(
+      'type' => 'entity',
+      'label' => t('Push to Mongo'),
+      'configurable' => FALSE,
+      'triggers' => array('any'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_ding_install_tasks().
+ */
+function ding_mobilesearch_ding_install_tasks() {
+  return array(
+    'ding_mobilesearch_settings' => array(
+      'display_name' => st('Mobilesearch mapping settings'),
+      'type' => 'form',
+      'file' => drupal_get_path('module', 'ding_mobilesearch') . '/includes/admin.inc',
+    ),
+    'ding_mobilesearch_plugin_settings' => array(
+      'display_name' => st('Mobilesearch plugins settings'),
+      'type' => 'form',
+      'file' => drupal_get_path('module', 'ding_mobilesearch') . '/includes/admin.inc',
+    ),
+  );
+}
+
+/**
+ * Implements hook_flag_default_flags().
+ */
+function ding_mobilesearch_flag_default_flags() {
+  $types = node_type_get_names();
+  $flags = array();
+  // Exported flag: "Push to Mongo".
+  $flags['push_to_mongo'] = array(
+    'content_type' => 'node',
+    'title' => 'Push to Mongo',
+    'global' => 1,
+    'types' => array_keys($types),
+    'flag_short' => 'Push to Mongo',
+    'flag_long' => '',
+    'flag_message' => '',
+    'unflag_short' => 'Remove from Mongo',
+    'unflag_long' => '',
+    'unflag_message' => '',
+    'unflag_denied_text' => '',
+    'link_type' => 'normal',
+    'roles' => array(
+      'flag' => array(
+        0 => 3,
+        1 => 4,
+      ),
+      'unflag' => array(
+        0 => 3,
+        1 => 4,
+      ),
+    ),
+    'weight' => 0,
+    'show_on_form' => 1,
+    'access_author' => '',
+    'show_on_page' => 0,
+    'show_on_teaser' => 0,
+    'show_contextual_link' => 0,
+    'i18n' => 0,
+    'api_version' => 2,
+  );
+
+  return $flags;
+}
+
+/**
+ * Returns HTML for the content types exporting form.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - form: A render element representing the form.
+ *
+ * @ingroup themeable
+ *
+ * @return string
+ *   Rendered table.
+ */
+function theme_ding_mobilesearch_types_table(array $variables) {
+  $form = $variables['form'];
+  $header = array(
+    t('Content type'),
+    t('Trigger'),
+    t('Export plugin'),
+  );
+
+  $rows = array();
+  foreach (element_children($form['rows']) as $key) {
+    $type = drupal_render($form['rows'][$key]['type']);
+    $trigger = drupal_render($form['rows'][$key]['trigger']);
+    $plugin = drupal_render($form['rows'][$key]['plugin']);
+    $row = array();
+    $row[] = $type;
+    $row[] = $trigger;
+    $row[] = $plugin;
+    $rows[] = $row;
+  }
+
+  $output = theme('table', array(
+    'header' => $header,
+    'rows' => $rows,
+    'empty' => t('No content types available.'),
+  ));
+  $output .= drupal_render_children($form);
+
+  return $output;
+}
