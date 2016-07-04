@@ -18,7 +18,7 @@
  */
 function mobilesearch_rest_service_call($method, $body = array()) {
   $service_url = variable_get('mobilesearch_rest_url', '');
-  $agency_id = variable_get('mobilesearch_rest_agency_id', '100000');
+  $agency_id = variable_get('ting_agency', NULL);
   $key = variable_get('mobilesearch_rest_key', NULL);
   $debug = variable_get('mobilesearch_rest_debug', FALSE);
   if (empty($service_url) || empty($agency_id) || empty($key)) {
@@ -28,7 +28,7 @@ function mobilesearch_rest_service_call($method, $body = array()) {
       array(
         '!configure_url' => l(
           t('configure'),
-          'admin/config/mobilesearch/content-export/plugin'
+          'admin/config/ding/mobilesearch/content-export'
         ),
       ),
       WATCHDOG_ERROR
@@ -104,7 +104,7 @@ function mobilesearch_rest_node_agency_diff($node, $original = NULL, $op = NULL)
     'to_delete' => array(),
   );
 
-  $agency_id = variable_get('mobilesearch_rest_agency_id', '100000');
+  $agency_id = variable_get('ting_agency', NULL);
   if ($agency_id && $op) {
     switch ($op) {
       case 'hook_node_insert':
@@ -121,33 +121,6 @@ function mobilesearch_rest_node_agency_diff($node, $original = NULL, $op = NULL)
     }
   }
 
-  $node_realm = array();
-  if (!empty($node->field_realm[LANGUAGE_NONE])) {
-    foreach ($node->field_realm[LANGUAGE_NONE] as $row) {
-      $term = taxonomy_term_load($row['tid']);
-      if (!empty($term->field_agency_id[LANGUAGE_NONE][0]['value'])) {
-        $agency_id = $term->field_agency_id[LANGUAGE_NONE][0]['value'];
-        $node_realm[] = $agency_id;
-      }
-    }
-  }
-  $orig_realm = array();
-  if (is_object($original)) {
-    if (!empty($original->field_realm[LANGUAGE_NONE])) {
-      foreach ($original->field_realm[LANGUAGE_NONE] as $row) {
-        $term = taxonomy_term_load($row['tid']);
-        if (!empty($term->field_agency_id[LANGUAGE_NONE][0]['value'])) {
-          $agency_id = $term->field_agency_id[LANGUAGE_NONE][0]['value'];
-          $orig_realm[] = $agency_id;
-        }
-      }
-    }
-  }
-
-  $result['to_add'] = array_diff($node_realm, $orig_realm);
-  $result['to_update'] = array_diff($node_realm, $result['to_add']);
-  $result['to_delete'] = array_diff($orig_realm, $node_realm);
-
   return $result;
 }
 
@@ -162,18 +135,12 @@ function mobilesearch_rest_config_form($form, &$form_state) {
     '#description' => t('URL to service (trailing slash needed).'),
     '#required' => TRUE,
   );
-  $ting_agency = variable_get('ting_agency', '100000');
-  $agency_id = variable_get('mobilesearch_rest_agency_id', '');
-  if ($ting_agency != $agency_id) {
-    drupal_set_message(t('T!NG agency ID %ting_agency does not match REST plugin agency ID %agency_id', array(
-      '%ting_agency' => $ting_agency,
-      '%agency_id' => $agency_id,
-    )), 'warning');
-  }
+
   $form['mobilesearch_rest_agency_id'] = array(
     '#type' => 'textfield',
-    '#title' => t('Agency ID'),
-    '#default_value' => variable_get('mobilesearch_rest_agency_id', $ting_agency),
+    '#title' => t('Ting Agency ID'),
+    '#default_value' => variable_get('ting_agency', NULL),
+    '#attributes' => array('disabled' => TRUE),
     '#required' => TRUE,
   );
   $form['mobilesearch_rest_key'] = array(
@@ -224,7 +191,7 @@ function mobilesearch_rest_node_submit($form, &$form_state) {
 
       $config = array(
         'mobilesearch_rest_url' => variable_get('mobilesearch_rest_url', ''),
-        'mobilesearch_rest_agency_id' => variable_get('mobilesearch_rest_agency_id', '100000'),
+        'mobilesearch_rest_agency_id' => variable_get('ting_agency', NULL),
         'mobilesearch_rest_key' => variable_get('mobilesearch_rest_key', NULL),
       );
       $test_result = mobilesearch_rest_test_service($config);
@@ -242,10 +209,10 @@ function mobilesearch_rest_node_submit($form, &$form_state) {
       $plugin = $types[$node->type];
       if (!empty($plugin['exec_callback']) && function_exists($plugin['exec_callback'])) {
         if (!$is_new) {
-          $plugin['exec_callback']('hook_node_delete', 'node', $node);
+          call_user_func($plugin['exec_callback'], 'hook_node_delete', 'node', $node);
         }
         if ($flags['push_to_mongo']) {
-          $plugin['exec_callback']('hook_node_insert', 'node', $node);
+          call_user_func($plugin['exec_callback'], 'hook_node_insert', 'node', $node);
         }
       }
     }
@@ -256,32 +223,7 @@ function mobilesearch_rest_node_submit($form, &$form_state) {
  * Plugin execute callback.
  */
 function mobilesearch_rest_exec($op, $entity_type, $entity) {
-  // Export menu links.
-  if ($entity_type == 'menu_link') {
-    $method_mapping = array(
-      'hook_menu_link_insert' => 'addMenu',
-      'hook_menu_link_update' => 'updateMenu',
-      'hook_menu_link_delete' => 'deleteMenu',
-    );
-
-    if (!preg_match('/(main|left)/', $entity['menu_name'], $matches)) {
-      return;
-    }
-    $type = $matches[1] . '_menu';
-
-    $agency_id = variable_get('mobilesearch_menu_agency_id__' . $entity['menu_name'], 0);
-    $request_body = array(
-      'mlid' => $entity['mlid'],
-      'agency' => $agency_id,
-      'type' => $type,
-      'name' => $entity['link_title'],
-      'url' => '/' . $entity['link_path'],
-      'order' => $entity['weight'],
-    );
-    mobilesearch_rest_service_call($method_mapping[$op], $request_body);
-  }
-  // Export content through node hooks.
-  elseif ($entity_type == 'node') {
+  if ($entity_type == 'node') {
     switch ($op) {
       case 'hook_node_insert':
         $diff = mobilesearch_rest_node_agency_diff($entity, NULL, $op);

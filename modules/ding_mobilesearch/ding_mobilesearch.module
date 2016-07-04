@@ -64,10 +64,6 @@ function ding_mobilesearch_theme($existing, $type, $theme, $path) {
       'render element' => 'form',
       'file' => 'includes/admin.inc',
     ),
-    'ding_mobilesearch_menus_table' => array(
-      'render element' => 'form',
-      'file' => 'includes/admin.inc',
-    ),
   );
 }
 
@@ -88,33 +84,6 @@ function ding_mobilesearch_mobilesearch_plugin_info() {
 }
 
 /**
- * Implements hook_form_FORM_ID_alter().
- */
-function ding_mobilesearch_form_menu_edit_menu_alter(&$form, &$form_state, $form_id) {
-  $vocabulary = taxonomy_vocabulary_machine_name_load('realm');
-  $tree = taxonomy_get_tree($vocabulary->vid, 0, NULL, TRUE);
-  $realm = array();
-  foreach ($tree as $term) {
-    if (!empty($term->field_agency_id[LANGUAGE_NONE][0]['value'])) {
-      $agency_id = $term->field_agency_id[LANGUAGE_NONE][0]['value'];
-      $realm[$agency_id] = $term->name . ' (' . $agency_id . ')';
-    }
-  }
-  if ($realm) {
-    $menu_name = $form['old_name']['#value'];
-    $form['agency_id'] = array(
-      '#type' => 'radios',
-      '#title' => t('Realm'),
-      '#description' => t('Please specify the realm for this menu.'),
-      '#options' => $realm,
-      '#default_value' => variable_get('mobilesearch_menu_agency_id__' . $menu_name, 0),
-      '#required' => TRUE,
-    );
-    $form['#submit'][] = 'ding_mobilesearch_menu_edit_submit';
-  }
-}
-
-/**
  * Implements hook_form_BASE_ID_alter().
  */
 function ding_mobilesearch_form_node_form_alter(&$form, &$form_state, $form_id) {
@@ -124,39 +93,6 @@ function ding_mobilesearch_form_node_form_alter(&$form, &$form_state, $form_id) 
       $row['node_form_callback']($form, $form_state);
     }
   }
-}
-
-/**
- * Submit handler for a menu editing form.
- */
-function ding_mobilesearch_menu_edit_submit($form, &$form_state) {
-  $menu_name = $form_state['values']['menu_name'];
-  variable_set('mobilesearch_menu_agency_id__' . $menu_name, $form_state['values']['agency_id']);
-}
-
-/**
- * Returns list of menus with plugin associations.
- */
-function _ding_mobilesearch_menus() {
-  $result = db_select('menu_custom', 'm')
-    ->fields('m', array('menu_name', 'title'))
-    ->orderBy('m.title')
-    ->execute();
-  $menus = array();
-  $plugin_info = module_invoke_all('mobilesearch_plugin_info');
-  foreach ($result as $row) {
-    if (preg_match('/^menu-og/', $row->menu_name)) {
-      continue;
-    }
-    $key = 'mobilesearch_menu__' . $row->menu_name;
-    if (variable_get($key, FALSE)) {
-      $plugin = variable_get($key . '__plugin', NULL);
-
-      $menus[$row->menu_name] = $plugin_info[$plugin];
-    }
-  }
-
-  return $menus;
 }
 
 /**
@@ -185,7 +121,12 @@ function _ding_mobilesearch_types() {
  * Implements hook_mobilesearch_node_export_mapping().
  */
 function ding_mobilesearch_mobilesearch_node_export_mapping($node) {
-  $account = user_load($node->uid);
+  $username = db_select('users', 'u')
+    ->fields('u', array('name'))
+    ->condition('u.uid', $node->uid)
+    ->execute()
+    ->fetchField();
+
   $mapping = array(
     'fields' => array(
       'title' => array(
@@ -195,7 +136,7 @@ function ding_mobilesearch_mobilesearch_node_export_mapping($node) {
       ),
       'author' => array(
         'name' => t('Author'),
-        'value' => $account->name,
+        'value' => $username,
         'attr' => array(),
       ),
       'created' => array(
@@ -369,8 +310,7 @@ function ding_mobilesearch_mobilesearch_node_export_mapping($node) {
     }
   }
 
-  $module_enabled = system_list('module_enabled');
-  if (isset($module_enabled['opening_hours'])) {
+  if (module_exists('opening_hours')) {
     $result = db_select('opening_hours', 'oh')
       ->fields('oh')
       ->condition('oh.nid', $node->nid)
@@ -445,7 +385,6 @@ function ding_mobilesearch_action_info() {
  * Implements hook_ding_install_tasks().
  */
 function ding_mobilesearch_ding_install_tasks() {
-  // module_load_include('inc', 'ding_mobilesearch', 'includes/admin');
   return array(
     'ding_mobilesearch_settings' => array(
       'display_name' => st('Mobilesearch mapping settings'),
@@ -501,4 +440,46 @@ function ding_mobilesearch_flag_default_flags() {
   );
 
   return $flags;
+}
+
+/**
+ * Returns HTML for the content types exporting form.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - form: A render element representing the form.
+ *
+ * @ingroup themeable
+ *
+ * @return string
+ *   Rendered table.
+ */
+function theme_ding_mobilesearch_types_table(array $variables) {
+  $form = $variables['form'];
+  $header = array(
+    t('Content type'),
+    t('Trigger'),
+    t('Export plugin'),
+  );
+
+  $rows = array();
+  foreach (element_children($form['rows']) as $key) {
+    $type = drupal_render($form['rows'][$key]['type']);
+    $trigger = drupal_render($form['rows'][$key]['trigger']);
+    $plugin = drupal_render($form['rows'][$key]['plugin']);
+    $row = array();
+    $row[] = $type;
+    $row[] = $trigger;
+    $row[] = $plugin;
+    $rows[] = $row;
+  }
+
+  $output = theme('table', array(
+    'header' => $header,
+    'rows' => $rows,
+    'empty' => t('No content types available.'),
+  ));
+  $output .= drupal_render_children($form);
+
+  return $output;
 }

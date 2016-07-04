@@ -12,7 +12,7 @@ function ding_mobilesearch_settings($form, &$form_state) {
   $form['export'] = array(
     '#type' => 'fieldset',
     '#title' => t('Export'),
-    '#description' => t('Specify the node types and menus which should be exported.'),
+    '#description' => t('Specify the node types which should be exported.'),
   );
 
   // Content types exporting settings.
@@ -25,8 +25,7 @@ function ding_mobilesearch_settings($form, &$form_state) {
   $base_trigger = array(
     'hook_node_insert' => t('Node hooks (insert, update, delete)'),
   );
-  $module_enabled = system_list('module_enabled');
-  $workflow_enabled = !empty($module_enabled['workflownode']);
+  $workflow_enabled = module_exists('workflownode');
   if ($workflow_enabled) {
     $type_map = workflow_get_workflow_type_map();
   }
@@ -69,33 +68,6 @@ function ding_mobilesearch_settings($form, &$form_state) {
     );
   }
 
-  // Menus exporting settings.
-  $form['export']['menus'] = array(
-    '#theme' => 'ding_mobilesearch_menus_table',
-    '#tree' => TRUE,
-  );
-  $result = db_select('menu_custom', 'm')
-    ->fields('m', array('menu_name', 'title'))
-    ->orderBy('m.title')
-    ->execute();
-  $menus = array();
-  foreach ($result as $row) {
-    if (preg_match('/^menu-og/', $row->menu_name)) {
-      continue;
-    }
-    $key = 'mobilesearch_menu__' . $row->menu_name;
-    $form['export']['menus']['rows'][$row->menu_name]['menu'] = array(
-      '#type' => 'checkbox',
-      '#title' => $row->title,
-      '#default_value' => variable_get($key, FALSE),
-    );
-    $form['export']['menus']['rows'][$row->menu_name]['plugin'] = array(
-      '#type' => 'select',
-      '#options' => $plugins,
-      '#default_value' => variable_get($key . '__plugin', NULL),
-    );
-  }
-
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save configuration'),
@@ -111,8 +83,7 @@ function ding_mobilesearch_settings_submit($form, &$form_state) {
   $types = $form_state['values']['types']['rows'];
 
   // Assing CT's with flag (if possible).
-  $module_enabled = system_list('module_enabled');
-  if (isset($module_enabled['flag'])) {
+  if (module_exists('flag')) {
     $flag = flag_get_flag('push_to_mongo');
     if ($flag !== FALSE) {
       db_delete('flag_types')
@@ -139,96 +110,7 @@ function ding_mobilesearch_settings_submit($form, &$form_state) {
     variable_set($key . '__plugin', $row['plugin']);
   }
 
-  // Save menus settings.
-  $menus = $form_state['values']['menus']['rows'];
-  foreach ($menus as $machine_name => $row) {
-    $key = 'mobilesearch_menu__' . $machine_name;
-    variable_set($key, $row['menu']);
-    variable_set($key . '__plugin', $row['plugin']);
-  }
-
   drupal_set_message(t('The configuration options have been saved.'));
-}
-
-/**
- * Returns HTML for the content types exporting form.
- *
- * @param array $variables
- *   An associative array containing:
- *   - form: A render element representing the form.
- *
- * @ingroup themeable
- *
- * @return string
- *   Rendered table.
- */
-function theme_ding_mobilesearch_types_table(array $variables) {
-  $form = $variables['form'];
-  $header = array(
-    t('Content type'),
-    t('Trigger'),
-    t('Export plugin'),
-  );
-
-  $rows = array();
-  foreach (element_children($form['rows']) as $key) {
-    $type = drupal_render($form['rows'][$key]['type']);
-    $trigger = drupal_render($form['rows'][$key]['trigger']);
-    $plugin = drupal_render($form['rows'][$key]['plugin']);
-    $row = array();
-    $row[] = $type;
-    $row[] = $trigger;
-    $row[] = $plugin;
-    $rows[] = $row;
-  }
-
-  $output = theme('table', array(
-    'header' => $header,
-    'rows' => $rows,
-    'empty' => t('No content types available.'),
-  ));
-  $output .= drupal_render_children($form);
-
-  return $output;
-}
-
-/**
- * Returns HTML for the content types exporting form.
- *
- * @param array $variables
- *   An associative array containing:
- *   - form: A render element representing the form.
- *
- * @ingroup themeable
- *
- * @return string
- *   Rendered table.
- */
-function theme_ding_mobilesearch_menus_table(array $variables) {
-  $form = $variables['form'];
-  $header = array(
-    t('Menu'),
-    t('Export plugin'),
-  );
-
-  $rows = array();
-  foreach (element_children($form['rows']) as $key) {
-    $menu = drupal_render($form['rows'][$key]['menu']);
-    $plugin = drupal_render($form['rows'][$key]['plugin']);
-    $row = array();
-    $row[] = $menu;
-    $row[] = $plugin;
-    $rows[] = $row;
-  }
-
-  $output = theme('table', array(
-    'header' => $header,
-    'rows' => $rows,
-    'empty' => t('No menus available.'),
-  ));
-  $output .= drupal_render_children($form);
-
-  return $output;
 }
 
 /**

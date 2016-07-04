@@ -6,51 +6,6 @@
  */
 
 /**
- * Implements hook_menu_link_insert().
- */
-function ding_mobilesearch_menu_link_insert($link) {
-  $menus = _ding_mobilesearch_menus();
-  if (!in_array($link['menu_name'], array_keys($menus), TRUE)) {
-    return;
-  }
-
-  $plugin = $menus[$link['menu_name']];
-  if (!empty($plugin['exec_callback']) && function_exists($plugin['exec_callback'])) {
-    $plugin['exec_callback']('hook_menu_link_insert', 'menu_link', $link);
-  }
-}
-
-/**
- * Implements hook_menu_link_update().
- */
-function ding_mobilesearch_menu_link_update($link) {
-  $menus = _ding_mobilesearch_menus();
-  if (!in_array($link['menu_name'], array_keys($menus), TRUE)) {
-    return;
-  }
-
-  $plugin = $menus[$link['menu_name']];
-  if (!empty($plugin['exec_callback']) && function_exists($plugin['exec_callback'])) {
-    $plugin['exec_callback']('hook_menu_link_update', 'menu_link', $link);
-  }
-}
-
-/**
- * Implements hook_menu_link_delete().
- */
-function ding_mobilesearch_menu_link_delete($link) {
-  $menus = _ding_mobilesearch_menus();
-  if (!in_array($link['menu_name'], array_keys($menus), TRUE)) {
-    return;
-  }
-
-  $plugin = $menus[$link['menu_name']];
-  if (!empty($plugin['exec_callback']) && function_exists($plugin['exec_callback'])) {
-    $plugin['exec_callback']('hook_menu_link_delete', 'menu_link', $link);
-  }
-}
-
-/**
  * Implements hook_node_delete().
  */
 function ding_mobilesearch_node_delete($node) {
