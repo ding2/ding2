@@ -11,14 +11,6 @@
  * Add Danish p2 translations.
  */
 function ding_p2_installer_install() {
-  $path = drupal_get_path('module', 'ding_p2_installer');
-  $po_file = $path . '/ding_p2_install_da.po';
-  $file = new stdClass();
-  $file->uri = $po_file;
-  $file->filename = basename($po_file); 
-
-// Translation is handled outside p2 project
-//  _locale_import_po($file, 'da', LOCALE_IMPORT_KEEP, 'default');
 
   drupal_set_message('Please run a database update to finish the installation of Personalisering / P2.', 'warning');
 
