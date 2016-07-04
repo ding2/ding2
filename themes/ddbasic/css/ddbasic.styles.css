@@ -4186,6 +4186,9 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
 .news-list .news-date {
   color: rgba(76, 76, 76, 0.5); }
 
+article .red-highlight {
+  color: #a32e10; }
+
 /* Styling for material list items (example use: search results, related materials on news etc.) */
 .field-name-field-ding-news-materials .field-item, .field-name-field-ding-event-materials .field-item, .library-list .views-row, .field-name-field-ding-page-materials .field-item {
   overflow: hidden;
