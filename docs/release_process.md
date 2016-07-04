@@ -48,7 +48,7 @@ An example name could be `7.x-3.4.2-rc1`.
 
 7. In `ding2.info` set `version = 7.x-3.4.2-rc1`
 
-8. Commit your changes `git add ding2.info ding2.make && git commit -m "Set version in info file to 7.x-3.4.2-rc1"`
+8. Commit your changes `git add ding2.info ding2.make && git commit -m "Core: Bumped version to 7.x-3.4.2-rc1"`
 
 9. Force push your changes to the release branch on GitHub `git push origin release --force`
 
