@@ -66637,15 +66637,15 @@ msgstr ""
 
 #: ding_christmas_calendar.admin.inc:18
 msgid "viewing"
-msgstr ""
+msgstr "ser"
 
 #: ding_christmas_calendar.admin.inc:19
 msgid "editing"
-msgstr ""
+msgstr "redigerer"
 
 #: ding_christmas_calendar.admin.inc:28
 msgid "Questions"
-msgstr ""
+msgstr "Spørgsmål"
 
 #: ding_christmas_calendar.admin.inc:35
 msgid "Edit"
@@ -66653,7 +66653,7 @@ msgstr "Redigér"
 
 #: ding_christmas_calendar.admin.inc:41
 msgid "Title"
-msgstr "titel"
+msgstr "Titel"
 
 #: ding_christmas_calendar.admin.inc:42
 msgid "Operations"
@@ -66661,23 +66661,23 @@ msgstr "Handlinger"
 
 #: ding_christmas_calendar.admin.inc:53
 msgid "Delete questions"
-msgstr ""
+msgstr "Slet spørgsmål"
 
 #: ding_christmas_calendar.admin.inc:54
 msgid "At this moment already  exists questions for christmas calendar. Calendar can purged by pressing this button."
-msgstr ""
+msgstr "Der findes allerede spørgsmål til Julekalendere. De skal slettes ved at trykke på denne knap."
 
 #: ding_christmas_calendar.admin.inc:65
 msgid "Dates:"
-msgstr ""
+msgstr "Datoer:"
 
 #: ding_christmas_calendar.admin.inc:71
 msgid "Start date of Christmas calendar"
-msgstr ""
+msgstr "Start dato for Julekalenderen:"
 
 #: ding_christmas_calendar.admin.inc:79
 msgid "Duration in days"
-msgstr ""
+msgstr "Længde i dage:"
 
 #: ding_christmas_calendar.admin.inc:87
 msgid "Generate"
@@ -66689,47 +66689,47 @@ msgstr ""
 
 #: ding_christmas_calendar.admin.inc:104
 msgid "Background image"
-msgstr ""
+msgstr "Baggrundsbillede"
 
 #: ding_christmas_calendar.admin.inc:105
 msgid "Background image for Christmas calendar."
-msgstr ""
+msgstr "Baggrundsbillede for Julekalenderen"
 
 #: ding_christmas_calendar.admin.inc:111
 msgid "Save quiz settings"
-msgstr ""
+msgstr "Gem quiz indstillinger"
 
 #: ding_christmas_calendar.admin.inc:124
 msgid "Something happened. Variable `ding_christmas_calendar_quiz_id` is empty. Reinstall module or create a quiz and initialize variable with actual value"
-msgstr ""
+msgstr "Der skete noget uforventet. Variablen `ding_christmas_calendar_quiz_id` er tom. Gen-installer modulet eller opret en quiz og initialiser med en udfyldt værdi."
 
 #: ding_christmas_calendar.admin.inc:142
 msgid "Please enter valid date."
-msgstr ""
+msgstr "Indtast en valid dato."
 
 #: ding_christmas_calendar.admin.inc:146
 msgid "Please enter valid duration."
-msgstr ""
+msgstr "Indtast en valid længde."
 
 #: ding_christmas_calendar.admin.inc:152
 msgid "Please provide image."
-msgstr ""
+msgstr "Vælg et billede."
 
 #: ding_christmas_calendar.admin.inc:172
 msgid "Image was successfully saved."
-msgstr ""
+msgstr "Billedet blev gemt."
 
 #: ding_christmas_calendar.admin.inc:176;239
 msgid "Error occurred. Check log for details."
-msgstr ""
+msgstr "Der skete en fejl. Check rapporter."
 
 #: ding_christmas_calendar.admin.inc:265
 msgid "Calendar was successfully cleared"
-msgstr ""
+msgstr "Julekalenderen blev renset."
 
 #: ding_christmas_calendar.admin.inc:269
 msgid "Something goes wrong. Check reports."
-msgstr ""
+msgstr "Noget gik galt. Check rapporter."
 
 #: ding_christmas_calendar.module:308
 msgid "Save"
@@ -66737,15 +66737,15 @@ msgstr "Gem"
 
 #: ding_christmas_calendar.module:309;314
 msgid "Back to calendar"
-msgstr ""
+msgstr "Tilbage til Julekalenderen"
 
 #: ding_christmas_calendar.module:32
 msgid "Ding Christmas calendar settings"
-msgstr ""
+msgstr "Julekalender indstillinger"
 
 #: ding_christmas_calendar.module:33
 msgid "Configure the start and end dates of Christmas calendar."
-msgstr ""
+msgstr "Konfigurer start og slut datoer til Julekalenderen."
 
 #: ding_christmas_calendar.module:41
 msgid "Represents wrapper for quiz_quiztake function."
@@ -66753,15 +66753,15 @@ msgstr ""
 
 #: ding_christmas_calendar.install:56 plugins/content_types/ding_christmas_calendar_mobile.inc:11;21 plugins/content_types/ding_christmas_calendar_widget.inc:11;21
 msgid "Christmas calendar"
-msgstr ""
+msgstr "Julekalender"
 
 #: ding_christmas_calendar.install:297
 msgid "Quiz date"
-msgstr ""
+msgstr "Quiz dato"
 
 #: ding_christmas_calendar.info:0
 msgid "Ding Christmas calendar"
-msgstr ""
+msgstr "Julekalender"
 
 #: ding_christmas_calendar.info:0
 msgid "Represents christmas calendar widget based on quiz module."
@@ -66773,11 +66773,11 @@ msgstr "Ding!"
 
 #: js/ding_christmas_calendar.js:0
 msgid "Hov Hov. Do not cheat! You can not open the door yet"
-msgstr ""
+msgstr "Hov Hov! Du kan endnu ikke se denne låge :)"
 
 #: plugins/content_types/ding_christmas_calendar_mobile.inc:9
 msgid "Mobile Christmas calendar"
-msgstr ""
+msgstr "Julekalender (mobil)"
 
 #: plugins/content_types/ding_christmas_calendar_mobile.inc:10
 msgid "Represents widget for displaying Christmas calendar for mobile devices."
@@ -66785,7 +66785,7 @@ msgstr ""
 
 #: plugins/content_types/ding_christmas_calendar_widget.inc:9
 msgid "Full-page Christmas calendar"
-msgstr ""
+msgstr "Julekalender (desktop)"
 
 #: plugins/content_types/ding_christmas_calendar_widget.inc:10
 msgid "Represents widget for displaying Christmas calendar."
@@ -66793,9 +66793,9 @@ msgstr ""
 
 #: templates/ding_christmas_calendar.tpl.php:20
 msgid "Hov Hov"
-msgstr ""
+msgstr "Hov Hov"
 
 #: templates/ding_christmas_calendar.tpl.php:21
 msgid "Do not cheat! You can not open the door yet"
-msgstr ""
+msgstr "Du kan endnu ikke se denne låse :)""
 
