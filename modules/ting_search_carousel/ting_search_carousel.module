@@ -106,7 +106,11 @@ function ting_search_carousel_permission() {
 function ting_search_carousel_theme($existing, $type, $theme, $path) {
   return array(
     'ting_search_carousel' => array(
-      'variables' => array('searches' => NULL),
+      'variables' => array(
+        'tabs' => NULL,
+        'transition' => NULL,
+        'show_desciption' => NULL,
+      ),
       'template' => 'templates/ting_search_carousel',
       'file' => 'ting_search_carousel.theme.inc',
     ),
