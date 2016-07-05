@@ -25,6 +25,7 @@ dependencies[] = view_unpublished
 dependencies[] = redirect
 dependencies[] = pagepreview
 dependencies[] = admin_menu
+dependencies[] = admin_menu_toolbar
 
 ; Ding modules.
 dependencies[] = ding_base

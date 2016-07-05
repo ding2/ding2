@@ -842,6 +842,9 @@ function ding2_admin_menu_shortcuts() {
       admin_menu_theme_settings();
     }
 
+    $content['icon'] = '1';
+    $content['menu'] = '1';
+    $content['account'] = '1';
     $content['shortcut.links'] = '1';
 
     variable_set('admin_menu_components', $content);
