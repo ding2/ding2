@@ -13,7 +13,10 @@ function connie_user_authenticate($name, $pass) {
     'success' => FALSE,
   );
 
-  if (drupal_substr($name, -4) == $pass) {
+  // We log in users if the four last letters in the name matches the password
+  // or if the username matched our list of created users.
+  if (drupal_substr($name, -4) == $pass ||
+      !empty($_SESSION['connie_created_users'][$name])) {
     $res['success'] = TRUE;
     if (preg_match('/blocked/', $name)) {
       $res['success'] = FALSE;
@@ -63,7 +66,7 @@ function connie_user_is_authenticated($creds) {
  * @returns array
  *   An array, optionally with new 'creds' which will be cached.
  */
-function connie_user_account_update($account, $changes) {
+function connie_user_account_update($account, array $changes) {
   $result = array();
   $creds = ding_user_get_creds($account);
   $res = connie_client_invoke('update_userinfo', $creds['name'], $creds['pass'], $changes);
@@ -88,6 +91,28 @@ function connie_user_account_update($account, $changes) {
     _connie_user_status($creds, TRUE);
   }
   return $result;
+}
+
+/**
+ * Create a user.
+ *
+ * @param string $cpr
+ *   The CPR number for the user.
+ * @param string $pin_code
+ *   The password for the user.
+ * @param string $name
+ *   The name of the user.
+ * @param string $mail
+ *   The user email address.
+ * @param string $branch_id
+ *   The id for the branch which should be the users preferred branch.
+ */
+function connie_user_create($cpr, $pin_code, $name, $mail, $branch_id) {
+  if (empty($_SESSION['connie_created_users'])) {
+    $_SESSION['connie_created_users'] = array();
+  }
+  // Remember which users that have created so they can be logged in afterwards.
+  $_SESSION['connie_created_users'][$cpr] = func_get_args();
 }
 
 /**

@@ -1,0 +1,11 @@
+name = Ding services
+core = 7.x
+package = Ding!
+version = 7.x-1.0
+project = ding_services
+dependencies[] = ctools
+dependencies[] = services
+features[ctools][] = services:services:3
+features[features_api][] = api:2
+features[services_endpoint][] = services
+project path = profiles/ding2/modules

@@ -9,11 +9,11 @@ Drupal.behaviors.ding_facetbrowser = {
     // Fold facet groups as default.
     ding_facetbrowser_fold_facet_group();
 
-    // Select the fact browser(s) HTML element.
-    var fact_browsers = $(Drupal.settings.ding_facetbrowser.selector);
+    // Select the facet browser(s) HTML element.
+    var facet_browsers = $(Drupal.settings.ding_facetbrowser.selector);
 
     // Hide extra facet groups (groups that have js-hidden class).
-    fact_browsers.each(function(index, facet_browser) {
+    facet_browsers.each(function(index, facet_browser) {
       // Create show more link.
       var show_more_groups = $('<a />', {
         href: '#',
@@ -39,7 +39,7 @@ Drupal.behaviors.ding_facetbrowser = {
         // Get the link clicked.
         var self = $(this);
 
-        // Toggle facts groups and update link/button text.
+        // Toggle facets groups and update link/button text.
         wrapper.toggle('fast', function () {
           var cookie = 0;
           if (self.hasClass('expand-more')) {
@@ -53,26 +53,26 @@ Drupal.behaviors.ding_facetbrowser = {
           }
 
           // Set cookie, so to remember if they where shown.
-          $.cookie('ding_factbrowers_groups_shown', cookie);
+          $.cookie('ding_facetbrowers_groups_shown', cookie);
         });
 
         return false;
       });
 
       // Check the cookie, if facet groups should be hidden or shown as default.
-      if (parseInt($.cookie('ding_factbrowers_groups_shown'), 10) === 1) {
+      if (parseInt($.cookie('ding_facetbrowers_groups_shown'), 10) === 1) {
         show_more_groups.trigger('click');
       }
     });
 
     // Check for click in checkbox, and execute search.
-    fact_browsers.find('.form-type-checkbox input').change(function(e) {
+    facet_browsers.find('.form-type-checkbox input').change(function(e) {
       Drupal.TingSearchOverlay();
       window.location = $(e.target).parent().find('a').attr('href');
     });
 
     // Check facet links for click events.
-    fact_browsers.find('.form-type-checkbox a').click(function(e) {
+    facet_browsers.find('.form-type-checkbox a').click(function(e) {
       if ($(this).not('[target="_blank"]').length) {
         Drupal.TingSearchOverlay();
       }
@@ -84,11 +84,11 @@ Drupal.behaviors.ding_facetbrowser = {
  * Fold facet groups to show only x unselected checkboxes per group.
  */
 function ding_facetbrowser_fold_facet_group() {
-  // Select the fact browser HTML element.
-  var fact_browser = $(Drupal.settings.ding_facetbrowser.selector);
+  // Select the facet browser HTML element.
+  var facet_browser = $(Drupal.settings.ding_facetbrowser.selector);
 
   // Add show more button to each facet group and hide some terms.
-  fact_browser.find('fieldset.form-wrapper').each(function() {
+  facet_browser.find('fieldset.form-wrapper').each(function() {
     var facetGroup = $(this);
 
     // Limit the number of visible terms in the group.
@@ -121,7 +121,7 @@ function ding_facetbrowser_fold_facet_group() {
   /**
    * Bind click function to show more and show less links.
    */
-  fact_browser.find('.expand').live('click', function(e) {
+  facet_browser.find('.expand').live('click', function(e) {
     e.preventDefault();
 
     var clickedKey = $(this);
@@ -166,7 +166,7 @@ function ding_facetbrowser_fold_facet_group() {
   /**
    * Bind click function to the un-select all selected checkboxes link.
    */
-  fact_browser.find('.unselect').live('click', function(e) {
+  facet_browser.find('.unselect').live('click', function(e) {
     e.preventDefault();
 
     var clickedKey = this;

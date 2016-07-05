@@ -7,6 +7,65 @@
 include_once 'ding_frontend.features.inc';
 
 /**
+ * Implements hook_permission().
+ */
+function ding_frontend_permission() {
+  return array(
+    'administer fe promote' => array(
+      'title' => t('Administer promoting to frontpage'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_search_api_alter_callback_info().
+ */
+function ding_frontend_search_api_alter_callback_info() {
+  return array(
+    'ding_frontend_published_filter' => array(
+      'name' => t('Exclude unpublished users and content'),
+      'description' => t('Exclude unpublished user or content from the index. <strong>Caution:</strong> This only affects the indexed nodes themselves. If an enabled node has references to disabled nodes, those will still be indexed (or displayed) normally.'),
+      'class' => 'DingFrontendPublishedStateFilter',
+      // Filters should be executed first.
+      'weight' => -10,
+    ),
+    'ding_frontend_role_filter' => array(
+      'name' => t('Role filter'),
+      'description' => t('Exclude users from indexing based on their role.'),
+      'class' => 'DingFrontendUserRoleFilter',
+      // Filters should be executed first.
+      'weight' => -10,
+    ),
+    'ding_frontend_bundle_filter' => array(
+      'name' => t('Bundle filter (not users)'),
+      'description' => t('Exclude items from indexing based on their bundle (content type, vocabulary, …).'),
+      'class' => 'DingFrontendBundleFilter',
+      // Filters should be executed first.
+      'weight' => -10,
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_frontend_menu() {
+  $items = array();
+
+  $items['admin/config/ding/fe-promote'] = array(
+    'title' => 'Promote content types to frontpage',
+    'description' => 'Administer promotion of content types to the frontpage.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_frontend_settings'),
+    'access arguments' => array('administer fe promote'),
+    'file' => 'ding_frontend.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
  * Implements hook_theme().
  *
  * Field formatter theme function mainly used in event views to create the nice
@@ -27,6 +86,10 @@ function ding_frontend_theme() {
         'today' => FALSE,
       ),
       'template' => 'templates/calendar-header',
+    ),
+    'ding_frontend_panel_wrapper' => array(
+      'render element'  => 'element',
+      'template' => 'templates/ding-frontend-panel-wrapper'
     ),
   );
 }
@@ -67,6 +130,13 @@ function ding_frontend_field_formatter_view($entity_type, $entity, $field, $inst
 
   foreach ($items as $delta => $item) {
     if ($display['type'] == 'calendar_header') {
+      // Display today date if event continues (current date is between start
+      // and end date of an event).
+      if ($entity_type == 'node' && $entity->type == 'ding_event') {
+        if (strtotime($item['value']) <= REQUEST_TIME && strtotime($item['value2']) >= REQUEST_TIME) {
+          $item['value'] = format_date(REQUEST_TIME, 'custom', 'Y-m-d H:i:s');
+        }
+      }
       // Create timestamp base on current timezone.
       $date = new DateObject(
         $item['value'],

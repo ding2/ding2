@@ -15,7 +15,10 @@ function ding_periodical_field_info() {
       'description' => t('Issue list for periodicals.'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ding_periodical_issues_default',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
   );
 }

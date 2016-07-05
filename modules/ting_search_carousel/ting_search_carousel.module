@@ -4,15 +4,21 @@
  * Ting search carousel module main file.
  */
 
+// The number of covers returned in each chunk.
+define('TING_SEARCH_CAROUSEL_CHUNK_SIZE', 12);
+// Number of search results processed for covers at a time.
+define('TING_SEARCH_CAROUSEL_SEARCH_SIZE', 20);
+
 /**
  * Implements hook_menu().
  */
 function ting_search_carousel_menu() {
   $items = array();
 
-  $items['ting_search_carousel/results/ajax'] = array(
+  $items['ting_search_carousel/results/ajax/%/%'] = array(
     'title' => 'Show search carousel results',
     'page callback' => 'ting_search_carousel_result',
+    'page arguments' => array(3, 4),
     'access arguments' => array('access content'),
     'file' => 'ting_search_carousel.pages.inc',
     'type' => MENU_CALLBACK,
@@ -115,167 +121,231 @@ function ting_search_carousel_ctools_plugin_directory($module, $plugin) {
 }
 
 /**
- * Perform a ting search, retrieve covers and store some of data in cache.
+ * Implements hook_ting_search_carousel_transitions().
+ */
+function ting_search_carousel_ting_search_carousel_transitions() {
+  return array(
+    'none' => array(
+      'name' => t('No transition'),
+    ),
+    'fade' => array(
+      'name' => t('Fade out-in'),
+    ),
+    'crossFade' => array(
+      'name' => t('Cross fade (beta)'),
+    ),
+  );
+}
+
+/**
+ * Get defined carousel JS transitions.
+ */
+function ting_search_carousel_transitions() {
+  return module_invoke_all('ting_search_carousel_transitions');
+}
+
+
+/**
+ * Get front page covers.
  *
  * @param int $index
- *   Search carsousel tab index.
+ *   The ting_carousel_search_queries index to get.
+ * @param int $start
+ *   Start offset.
+ * @param int $count
+ *   Number to return.
+ * @param bool $query_only
+ *   Whether to only consult the already cached data.
+ *
+ * @return array
+ *   Array with the keys 'collections', and array of covers, and 'next_offset',
+ *   which is the next offset to use or -1.
  */
-function ting_search_carousel_do_request($index) {
-  // Get query based in the index parameter.
+function _ting_search_carousel_get_frontpage_covers($index, $start, $count, $query_only = FALSE) {
   $queries = variable_get('ting_carousel_search_queries', array());
   $query = isset($queries[$index]) ? $queries[$index] : FALSE;
+  if (!$query) {
+    return FALSE;
+  }
 
-  // If a query is defined, do a look-up else do nothing.
-  if ($query) {
-    // Load the ting client.
-    module_load_include('client.inc', 'ting');
+  return ting_search_carousel_get_covers($query['query'], $start, $count, $query_only);
+}
 
-    // Try to fetch results 50 at a time.
-    $result = NULL;
-    $page = 1;
-    $collections = array();
-    while ($result = ting_do_search($query['query'], $page++, 50, array('facets' => array(), 'enrich' => TRUE, 'allObjects' => FALSE))) {
-      $collections[] = $result;
+/**
+ * Get covers.
+ *
+ * Returns sets of covers by looping through search result and collecting
+ * materials with covers. Internally caches and processes the search result in
+ * chunks as needed.
+ *
+ * @param string $query
+ *   The query to use.
+ * @param int $start
+ *   Start offset.
+ * @param int $count
+ *   Number to return.
+ * @param bool $query_only
+ *   Whether to only consult the already cached data.
+ *
+ * @return array
+ *   Array with the keys 'collections', and array of covers, and 'next_offset',
+ *   which is the next offset to use or -1.
+ */
+function ting_search_carousel_get_covers($query, $start, $count, $query_only = FALSE) {
+  $query_id = md5($query);
+  $cache_data = array(
+    // All found covers.
+    'pool' => array(),
+    // Lookup table of seen IDs for this search.
+    'all_ids' => array(),
+    // Whether we've gone through all pages in the search result.
+    'finished' => FALSE,
+    // Next page to process.
+    'search_page' => 0,
+    // Size of each page.
+    'search_page_size' => TING_SEARCH_CAROUSEL_SEARCH_SIZE,
+  );
 
-      if (!$result->more) {
-        // If no more result exists break the loop.
+  if ($cache = cache_get("ting_search_carousel_search_" . $query_id)) {
+    $cache_data = $cache->data;
+  }
+
+  $slice = _ting_search_carousel_get_slice($cache_data, $start, $count);
+  if ($query_only || $slice['next_offset'] != $start) {
+    return $slice;
+  }
+  else {
+    $lock_name = 'ting_search_carousel_index_' . $query_id;
+    // Use a lock to avoid stampedes.
+    if (!lock_acquire($lock_name, 30)) {
+      // We don't care if the lock is available or not, we'll just check if the
+      // desired chunk has appeared or return an empty result.
+      lock_wait($lock_name, 5);
+      if ($cache = cache_get("ting_search_carousel_search_" . $query_id)) {
+        if (isset($cache->data)) {
+          $cache_data = $cache->data;
+        }
+      }
+      return _ting_search_carousel_get_slice($cache_data, $start, $count);
+    }
+
+    while (count($cache_data['pool'] < $start + $count) &&
+      !$cache_data['finished']) {
+      $ignore_ids = $cache_data['all_ids'];
+
+      // Search well for materials with covers.
+      list($found_covers, $cache_data['search_page'], $cache_data['finished'])
+        = _ting_search_carousel_find_covers($query,
+          $cache_data['search_page'],
+          $cache_data['search_page_size'],
+          $ignore_ids);
+      foreach ($found_covers as $id => $cover) {
+        $ignore_ids[$id] = TRUE;
+        $cache_data['pool'][] = $cover;
+
+      }
+    }
+
+    cache_set("ting_search_carousel_search_" . $query_id, $cache_data, 'cache');
+    lock_release($lock_name);
+
+    return _ting_search_carousel_get_slice($cache_data, $start, $count);
+  }
+}
+
+/**
+ * Get a slice of cached cover data.
+ */
+function _ting_search_carousel_get_slice($cache_data, $start, $count) {
+  $pool_size = count($cache_data['pool']);
+  // All inside our already collected data.
+  if (($start + $count) < $pool_size) {
+    return array(
+      'collections' => array_slice($cache_data['pool'], $start, $count),
+      'next_offset' => $start + $count,
+    );
+  }
+  // No more data to be fetched. Return the rest or nothing if $start is beyond
+  // the end of data.
+  elseif ($cache_data['finished']) {
+    return array(
+      'collections' => $start < $pool_size ? array_slice($cache_data['pool'], $start) : array(),
+      'next_offset' => -1,
+    );
+  }
+  // Not inside, and we're not finished yet.
+  else {
+    return array(
+      'collections' => array(),
+      'next_offset' => $start,
+    );
+  }
+}
+
+/**
+ * Find covers from a query.
+ *
+ * @param string $query
+ *   Query to use.
+ * @param int $start
+ *   Offset to start from.
+ * @param int $size
+ *   Search chunk size to use.
+ * @param array $ignore
+ *   Material ids to skip.
+ *
+ * @return array
+ *   Array of found covers (an array), next start to use, and whether the result
+ *   end was reached.
+ */
+function _ting_search_carousel_find_covers($query, $start, $size, array $ignore) {
+  $found_covers = array();
+  $finished = FALSE;
+
+  $options = array(
+    'facets' => array(),
+    'enrich' => TRUE,
+    'allObjects' => FALSE,
+  );
+  $result = ting_do_search($query, $start++, $size, $options);
+
+  // Bail out if the search failed.
+  if (!$result) {
+    return array(array(), $start, TRUE);
+  }
+
+  if (!$result->more) {
+    $finished = TRUE;
+  }
+  foreach ($result->collections as $collection) {
+    foreach ($collection->reply->objects as $object) {
+      // Skip ignored ids.
+      if (isset($ignore[$object->id])) {
         break;
       }
+      $objects[$object->id] = array(
+        'title' => isset($object->record['dc:title'][''][0]) ? $object->record['dc:title'][''][0] : '',
+        'creator' => isset($object->record['dc:creator']['oss:aut'][0]) ? $object->record['dc:creator']['oss:aut'][0] : '',
+      );
     }
   }
 
-  // Loop over the search results collecting basic object information.
-  $local_ids = array();
-  $objects = array();
-  foreach ($collections as $collection) {
-    foreach ($collection->collections as $ting_collection) {
-      foreach ($ting_collection->reply->objects as $object) {
-        $local_ids[] = $object->localId;
-        $objects[$object->localId] = array(
-          'id' => $object->id,
-          'title' => isset($object->record['dc:title'][''][0]) ? $object->record['dc:title'][''][0] : '',
-          'creator' => isset($object->record['dc:creator']['oss:aut'][0]) ? $object->record['dc:creator']['oss:aut'][0] : '',
-        );
-      }
-    }
-  }
-
-  // Load helper function form the covers module.
-  module_load_include('pages.inc', 'ting_covers');
-
-  // Get cover service client.
-  $service = new AdditionalInformationService(
-          variable_get('addi_wsdl_url'),
-          variable_get('addi_username'),
-          variable_get('addi_group'),
-          variable_get('addi_password'));
-
-  // Initialize items array.
-  $items = array();
-
-  // Get covers for the ids.
-  $covers = $service->getByFaustNumber($local_ids);
+  // See what materials have covers.
+  $covers = ting_covers_get(array_keys($objects));
 
   // Loop over the fetched covers and build items.
-  foreach ($covers as $local_id => $cover) {
-    // Build cover filename.
-    $filename = 'public://ting_search_carousel/' . md5($local_id) . '.jpg';
-
-    // Check if file have been downloaded.
-    if (!file_exists($filename)) {
-      // Extract the image source url.
-      $source_url = FALSE;
-      if ($cover->detailUrl) {
-        $source_url = $cover->detailUrl;
-      }
-      elseif ($cover->thumbnailUrl) {
-        $source_url = $cover->thumbnailUrl;
-      }
-
-      // Download the cover image and get local uri.
-      $file = _ting_covers_pages_fetch_image($filename, $source_url);
-      $filename = isset($file->uri) ? $file->uri : $filename;
-    }
-
+  foreach ($covers as $id => $path) {
     // Build object with the information collected.
     $item = new stdClass();
-    $item->id = $objects[$local_id]['id'];
-    $item->title = $objects[$local_id]['title'];
-    $item->creator = $objects[$local_id]['creator'];
-    $item->image = image_style_url('ting_search_carousel', $filename);
+    $item->id = $id;
+    $item->title = $objects[$id]['title'];
+    $item->creator = $objects[$id]['creator'];
+    $item->image = image_style_url('ting_search_carousel', $path);
 
-    $items[] = $item;
+    $found_covers[$id] = $item;
   }
 
-  // Update the cache with the fetched items.
-  _ting_search_carousel_set_cache($index, $items);
-}
-
-/**
- * Returns the content for a search carousel tab. It utilizes both static and
- * database cache to optimize the cover page search. It will slowly fill the
- * cache based on the tab index provide. This index matches the search carousel
- * query index set in the administration backend, when defining the tabs.
- *
- * If no cache is found it tries to search the data well and calls it self once
- * more to fetch the newly fetch data. If data still do not exists in the cache
- * an empty string is returned.
- *
- * @param int $index
- *   Search carsousel tab index.
- *
- * @param bool $search
- *   If FALSE an attempt to fetch data _not_ be tried. Defaults to TRUE.
- *
- * @return mixed
- *   Returns an array with ting covers or the empty string if non is found.
- */
-function _ting_search_carousel_get_content($index, $search = TRUE) {
-  // Utilize the static cache.
-  $static = &drupal_static(__FUNCTION__);
-  if (isset($static[$index]) && !empty($static[$index])) {
-    return $static[$index];
-  }
-
-  // Check if there is a database cache of the search results.
-  if ($cache = cache_get('ting_search_carousel_result')) {
-    // Get cached data and store it in the static cache.
-    $data = $cache->data;
-    $static = $data;
-
-    // Check if data exists for the index.
-    if (isset($data[$index]) && !empty($data[$index])) {
-      return $data[$index];
-    }
-  }
-
-  // No cache found for that index, so try getting information from the
-  // data well and cover service.
-  if ($search) {
-    ting_search_carousel_do_request($index);
-    return _ting_search_carousel_get_content($index, FALSE);
-  }
-
-  // No form for cached data was found.
-  return '';
-}
-
-/**
- * Set database cache base on tab index in the front-end.
- *
- * @param int $index
- *   Search carousel tab index.
- *
- * @param mixed $items
- *   Search carousel items, containing id, title, creator and image url.
- */
-function _ting_search_carousel_set_cache($index, $items) {
-  $data = array();
-  if ($cache = cache_get('ting_search_carousel_result')) {
-    $data = $cache->data;
-  }
-  $data[$index] = $items;
-  cache_set('ting_search_carousel_result', $data, 'cache');
+  return array($found_covers, $start, $finished);
 }
 
 /**

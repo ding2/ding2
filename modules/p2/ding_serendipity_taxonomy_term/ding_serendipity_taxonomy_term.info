@@ -1,0 +1,12 @@
+name = Ding serendipity taxonomy term
+description = Serendipity based on taxonomy terms
+package = Ding!
+version = "7.x-1.1-dev"
+core = 7.x
+files[] = ding_serendipity_taxonomy_term.module
+dependencies[] = ding_serendipity
+dependencies[] = features
+dependencies[] = text
+features[features_api][] = api:2
+features[field_base][] = field_taxonomy_ting_objects
+features[field_instance][] = taxonomy_term-ding_content_tags-field_taxonomy_ting_objects

@@ -113,12 +113,18 @@
       <p><i class="icon-user"></i> <?php print render($content['field_ding_event_target']); ?></p>
     <?php endif; ?>
 
-    <?php if (isset($content['field_ding_event_price'])): ?>
-      <p><i class="icon-tag"></i> <?php print render($content['field_ding_event_price']); ?></p>
-    <?php endif; ?>
+    <p>
+      <?php if (isset($content['field_ding_event_price'])): ?>
+        <i class="icon-tag"></i> <?php print render($content['field_ding_event_price']); ?>
+      <?php endif; ?>
 
-    <?php if (isset($content['field_place2book_tickets'])): ?>
-      <div><?php print render($content['field_place2book_tickets']); ?></div>
+      <?php if (isset($content['place2book_event_prices'])): ?>
+        <?php print $content['place2book_event_prices']; ?>
+      <?php endif; ?>
+    </p>
+
+    <?php if (isset($content['field_place2book'])): ?>
+      <div><?php print render($content['field_place2book']); ?></div>
     <?php endif; ?>
   </div>
   <div class="event-content">

@@ -16,6 +16,7 @@ dependencies[] = field_group
 dependencies[] = file
 dependencies[] = file_entity
 dependencies[] = image
+dependencies[] = manualcrop
 dependencies[] = media
 dependencies[] = menu
 dependencies[] = menu_position

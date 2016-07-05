@@ -166,11 +166,11 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
             $term_name_title = drupal_substr($term_name, 0, $substr_length) . '...';
           }
 
-          if (_ding_factbrowser_is_facet_set($facet->name, $term_name) === TRUE) {
+          if (_ding_facetbrowser_is_facet_set($facet->name, $term_name) === TRUE) {
             $default_values[] = $term_name;
             $facets_string = '-' . $facets_string;
 
-            $uri = $base_root . _ding_factbrowser_parse_request_uri();
+            $uri = $base_root . _ding_facetbrowser_parse_request_uri();
             $selected[$term_name] = l($term_name_title . ' <span class="count">(' . $term_count . ')</span>', $uri, array(
               'html' => TRUE,
               'query' => array(
@@ -182,7 +182,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
             ));
           }
           else {
-            $uri = $base_root . _ding_factbrowser_parse_request_uri();
+            $uri = $base_root . _ding_facetbrowser_parse_request_uri();
             $not_selected[$term_name] = l($term_name_title . ' <span class="count">(' . $term_count . ')</span>', $uri, array(
               'html' => TRUE,
               'query' => array(
@@ -222,7 +222,7 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
  * @return Boolean
  */
 
-function _ding_factbrowser_is_facet_set($term_cat, $term_name) {
+function _ding_facetbrowser_is_facet_set($term_cat, $term_name) {
   $facets = &drupal_static('ding_facetbrowser_facets');
   if (!isset($facets)) {
     $request_uri_parts = explode('?', request_uri());
@@ -242,7 +242,7 @@ function _ding_factbrowser_is_facet_set($term_cat, $term_name) {
  *
  * @return String
  */
-function _ding_factbrowser_parse_request_uri() {
+function _ding_facetbrowser_parse_request_uri() {
   $new_query_part = array();
 
   if (!stristr(request_uri(), '?')) {
@@ -277,7 +277,7 @@ function _ding_factbrowser_parse_request_uri() {
  *
  * @return string
  */
-function _ding_factbrowser_facet_string($form_state = NULL) {
+function _ding_facetbrowser_facet_string($form_state = NULL) {
   $facets = array();
   if (!empty($form_state['values']) && is_array($form_state['values'])) {
     foreach ($form_state['values'] as $name => $data) {

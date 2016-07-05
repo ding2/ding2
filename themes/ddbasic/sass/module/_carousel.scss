@@ -117,7 +117,12 @@ $carousel-tab-color:                       $white;
   }
 }
 
-.rs-carousel-mask {
+.rs-carousel-items {
+  ul {
+    li {
+      list-style: none;
+    }
+  }
   li {
     margin-right: 20px;
     position: relative;

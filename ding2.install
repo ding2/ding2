@@ -117,6 +117,11 @@ function ding2_install() {
   variable_set('theme_' . $default_theme . '_settings', ding2_theme_settings());
   ding_base_rewrite_color_stylesheet();
 
+  // Disable overlay.
+  if (module_exists('overlay')) {
+    module_disable(array('overlay'));
+  }
+
   // Ignore any rebuild messages.
   node_access_needs_rebuild(FALSE);
 
@@ -312,4 +317,55 @@ function ding2_update_7012() {
  */
 function ding2_update_7013() {
   ding2_translation_update();
+}
+
+/**
+ * Enable pagepreview module.
+ */
+function ding2_update_7014() {
+  module_enable(array('pagepreview'));
+}
+
+/**
+ * Enable search_api modules.
+ */
+function ding2_update_7015() {
+  module_enable(array('search_api', 'search_api_multi', 'search_api_db', 'search_api_views'));
+}
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7016() {
+  ding2_translation_update();
+}
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7017() {
+  ding2_translation_update();
+}
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7018() {
+  ding2_translation_update();
+}
+
+/**
+ * Disable overlay.
+ */
+function ding2_update_7019() {
+  if (module_exists('overlay')) {
+    module_disable(array('overlay'));
+  }
+}
+
+/**
+ * Enable metatag and metatag_panels modules.
+ */
+function ding2_update_7020() {
+  module_enable(array('metatag', 'metatag_panels'));
 }

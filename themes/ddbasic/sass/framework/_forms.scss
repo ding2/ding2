@@ -55,6 +55,10 @@ textarea {
   margin-bottom: $medium-spacing;
   padding: $medium-spacing;
   min-width: 99%;
+  
+  @include small-medium() {
+    max-width: 99%;
+  }
 
   &:focus {
     background-color: darken($white, 5%);

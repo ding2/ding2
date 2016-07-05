@@ -1,0 +1,13 @@
+name = Ding user consent
+description = User privacy module.
+package = Ding!
+core = 7.x
+files[] = ding_user_consent.module
+files[] = DingProviderConsentException.php
+
+dependencies[] = ding_provider
+dependencies[] = ding_base
+dependencies[] = ding_popup
+dependencies[] = ding_entity
+dependencies[] = ding_user
+configure = admin/config/ding/user_consent

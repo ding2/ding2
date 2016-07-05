@@ -12,165 +12,100 @@ include_once 'ding_ekurser.features.inc';
 /**
  * Implements hook_form_alter().
  *
- * Set search phrase to 'ekurser.nu', hide facets from facet browser and add
- * facet types.
+ * Replace the facetbrowser with a custom subjectbrowser.
  * Also hide certain fields via css.
  */
 function ding_ekurser_form_alter(&$form, &$form_state, $form_id) {
+  // Only alter the ekurser facetbrowser.
   if ($form_id != 'ding_facetbrowser_form' || strpos($form['#action'], '/' . DING_EKURSER_PATH) !== 0) {
     return;
   }
 
-  // Add css to adjust the searchresult and facets.
-  drupal_add_css(drupal_get_path('module', 'ding_ekurser') . '/css/ding_ekurser.css', 'file');
-  
-  // If the subject facet is not available then show the standard facets.
-  if (!isset($form['facet.subject'])) {
-    return;
-  }
-  
-  // Get the selected subject term.
-  $default_term = $form['facet.subject']['subject']['#default_value'];
-  
-  // Remove all facets so we can make a custom list from the subject facet.
+  // Remove all facets from the form, so we can add a custom subjectbrowser.
   foreach ($form as $form_key => $form_val) {
     if (strpos($form_key, 'facet.') === 0) {
       unset($form[$form_key]);
     }
   }
-  
-  // Make our own list of terms.
-  $terms = NULL;
-  $uri = NULL;
-  $num_total_objects = NULL;
 
-  // We want to save the total amount of results when not searching for any
-  // specific terms, and we want to save the list of subjects for this search.
-  // So we save the subject facets (in the cache) from an "empty" search.
-  if (empty($default_term)) {
-    $search_result = drupal_static('ting_search_results');
-    $num_total_objects = $search_result->numTotalObjects;
-    list($uri, $current_term) = _ding_ekurser_facetbrowser_parse_request_uri();
-    $terms = array(t('All') => $num_total_objects);
-    $terms_ = $form_state['build_info']['args'][0]['facet.subject']->terms;
-    $terms = array_merge($terms, _ding_ekurser_remove_terms($num_total_objects, $terms_));
-    cache_set('ding_ekurser_subject_facets', $terms, 'cache', CACHE_PERMANENT);
-  }
-  else {
-    // When the user has chosen a subject facet, we get the list of facets from
-    // the cache. If the cache is empty, we redirect to a search without
-    // facets to warm up the cache.
-    list($uri, $current_term) = _ding_ekurser_facetbrowser_parse_request_uri();
-    $cache = cache_get('ding_ekurser_subject_facets');
-
-    if (!$cache) {
-      drupal_goto(DING_EKURSER_PATH);
-    }
-    else {
-      $terms = $cache->data;
-    }
-  }
-
-  // Fetch everything from the uri after the first '?'.
-  $url = preg_replace('/[^\?]*\?/', '', $uri);
-  $matches = array();
-  $query = array();
-  // All parameters in the uri that wasn't removed by the parse_request_uri
-  // function are added to the subject facet links.
-  preg_match_all('/&?(.*)=(.*)&?/', $url, $matches, PREG_SET_ORDER);
-  foreach ($matches as $match) {
-    $query[$match[1]] = $match[2];
-  }
-  foreach ($terms as $term => $count) {
-    $options['query'] = $query;
-    // Add subject parameter to link, but not for the term that is the current.
-    if ($term != $current_term && $term != t('All')) {
-      $options['query']['facets[]'] = 'facet.subject:' . $term;
-    }
-
-    // Link to search for specific term (with count).
-    $options['html'] = TRUE;
-    $terms[$term] = l($term . ' <span class="count">(' . $count . ')</span>', DING_EKURSER_PATH, $options);
-
-    // Remove 'active' class on terms, except for the current chosen term.
-    if ($term != $current_term && !($term == t('All') && !$current_term)) {
-      $terms[$term] = preg_replace('/(class\s*="[^"]*?)(?:\bactive\b\s*)*(")/', '$1$2', $terms[$term]);
-    }
-  }
-
+  // Add subjectbrowsers headline to the form.
   $form['subjects_begin'] = array(
     '#markup' => '<h2 class="sub-menu-title">' . t('Popular subjects') . '</h2><ul class="sub-menu">',
   );
-  foreach ($terms as $term) {
+
+  // Query most popular subject terms.
+  $terms = _ding_ekurser_get_subject_terms();
+
+  // Get current term from the URI.
+  $current_term = '';
+  $request_uri = rawurldecode(request_uri());
+  if (preg_match('/facet\.subject:([^\&]*)/', $request_uri, $match)) {
+    if (array_key_exists($match[1], $terms)) {
+      $current_term = $match[1];
+    }
+  }
+
+  // Build the subjectbrowsers links.
+  foreach ($terms as $term => $count) {
+   
+    // Create options for the link.
+    $options = array(
+      'query' => array(),
+      'html' => TRUE,
+    );
+
+    // Add subject to the link.
+    if ($term != t('All')) {
+      $options['query']['facets[]'] = 'facet.subject:' . $term;
+    }
+
+    // Create the link.
+    $link = l($term . ' <span class="count">(' . $count . ')</span>', DING_EKURSER_PATH, $options);
+
+    // Remove 'active' class from the link, except for the current chosen term.
+    if ($term != $current_term && !($term == t('All') && !$current_term)) {
+      $link = preg_replace('/(class\s*="[^"]*?)(?:\bactive\b\s*)*(")/', '$1$2', $link);
+    }
+
+    // Add link to the form.
     $form[$term] = array(
-      '#markup' => '<li>' . $term . '</li>',
+      '#markup' => '<li>' . $link . '</li>',
     );
   }
+
+  // Add subjectbrowsers footer to the form.
   $form['subjects_end'] = array(
     '#markup' => '</ul>',
   );
+
+  // Add css to adjust the searchresult and subjectbrowser.
+  drupal_add_css(drupal_get_path('module', 'ding_ekurser') . '/css/ding_ekurser.css', 'file');
 }
 
 /**
- * Parse request uri and remove unwanted elements such as page and facets.
+ * Query ting for 'ekurser.nu', and return top 20 terms from 'facet.subject'.
  *
- * This function is copied from ding_facetbrowser and modified.
- *
- * @return array
- *   Return pair of uri and found facet.subject if any.
+ * Ignore terms that cover more than 80% of the total resultset.
  */
-function _ding_ekurser_facetbrowser_parse_request_uri() {
-  $current_term = '';
-  $new_query_part = array();
-  if (stristr(request_uri(), '?')) {
-    $request_uri_parts = explode('?', request_uri());
+function _ding_ekurser_get_subject_terms() {
+  // Query ting.
+  module_load_include('client.inc', 'ting');
+  $search_result = ting_do_search('ekurser.nu', 0, 0, array(
+    'sort' => 'acquisitionDate_descending',
+    'facets' => array('facet.subject'),
+    'numFacets' => 20,
+  ));
 
-    $query = rawurldecode(end($request_uri_parts));
-    $query_parts = explode('&', $query);
-    foreach ($query_parts as $key => $part) {
-      if (preg_match('/^page\=/', $part)) {
-        unset($query_parts[$key]);
-        continue;
-      }
-      elseif (preg_match('/^facets\[\d*\]\=/', $part)) {
-        $match = array();
-        unset($query_parts[$part]);
-        if (preg_match('/^facets\[\d*\]\=facet\.subject:(.*)/', $part, $match)) {
-          $current_term = $match[1];
-        }
-        continue;
-      }
-      $new_query_part[] = $part;
-    }
-    $query = $new_query_part;
-    return array(
-      $request_uri_parts[0] . '?' . implode('&', $query),
-      $current_term,
-    );
-  }
-  else {
-    return array(request_uri(), $current_term);
-  }
-}
-
-/**
- * Remove terms that have a count of 80% or more of total count.
- *
- * @param int $total_count
- *   Total count.
- * @param array $terms
- *   Array of term => count.
- *
- * @return array
- *   Return terms
- */
-function _ding_ekurser_remove_terms($total_count, $terms = array()) {
+  // Remove terms that covers more than 80% of the resultset.
+  $terms = $search_result->facets['facet.subject']->terms;
   foreach ($terms as $term => $count) {
-    if ($count >= (0.8 * $total_count)) {
+    if ($count >= (0.8 * $search_result->numTotalObjects)) {
       unset($terms[$term]);
     }
   }
-  return $terms;
+
+  // Return remaining terms and their count, plus the term 'All'.
+  return array_merge(array(t('All') => $search_result->numTotalObjects), $terms);
 }
 
 /**

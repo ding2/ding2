@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ * Setup the fields needed for ding list.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ding_list_install() {
+  $schema = array();
+  ding_list_schema_alter($schema);
+  db_add_field('users', 'openlist_modified', $schema['users']['fields']['openlist_modified']);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_list_uninstall() {
+  db_drop_field('users', 'openlist_modified');
+}

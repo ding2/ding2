@@ -1,11 +1,11 @@
 <?php
 /**
  * @file
- * Handles update tasks for the module. 
+ * Handles update tasks for the module.
  */
 
 /**
- * Remove old ting reference field table from events. 
+ * Remove old ting reference field table from events.
  */
 function ding_event_update_7000() {
   // The tables are left over after change to virtual field, hence we have to
@@ -115,6 +115,12 @@ function ding_event_update_7006() {
  * Update all events to be promoted to front page.
  */
 function ding_event_update_7007() {
+  // If promote to front page not set don't make this update.
+  $node_options_status = variable_get('node_options_ding_event');
+  if (!in_array('promote', $node_options_status)) {
+    return;
+  }
+
   db_update('node')
     ->fields(array('promote' => 1))
     ->condition('type', 'ding_event')
@@ -125,6 +131,12 @@ function ding_event_update_7007() {
  * Update all events to be promoted to front page for revisions.
  */
 function ding_event_update_7008() {
+  // If promote to front page not set don't make this update.
+  $node_options_status = variable_get('node_options_ding_event');
+  if (!in_array('promote', $node_options_status)) {
+    return;
+  }
+
   // This is need to ensure that the edit node form actually reelects that right
   // data in to database. If we don't do this is will be promoted but the edit
   // form may say it's not promoted.

@@ -558,6 +558,14 @@ Events
     'panels_breadcrumbs_paths' => '<front>
 events
 <none>',
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => 'Events | [current-page:pager][site:name]',
+        ),
+      ),
+    ),
   );
   $display = new panels_display();
   $display->layout = '25_50_25';
@@ -584,7 +592,7 @@ events
     ),
   );
   $display->cache = array();
-  $display->title = 'Events';
+  $display->title = '';
   $display->uuid = 'd49a3b8f-8e68-4ec6-8382-b2d01945b356';
   $display->content = array();
   $display->panels = array();
@@ -741,7 +749,7 @@ events
     $pane->uuid = 'fb32e006-e3f2-4f14-a1a2-0513758f77e8';
     $display->content['new-fb32e006-e3f2-4f14-a1a2-0513758f77e8'] = $pane;
     $display->panels['left_sidebar'][1] = 'new-fb32e006-e3f2-4f14-a1a2-0513758f77e8';
-  $display->hide_title = PANELS_TITLE_PANE;
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
@@ -849,6 +857,14 @@ Events
 node/%node:nid
 node/%node:nid/events
 <none>',
+    'metatag_panels' => array(
+      'enabled' => 1,
+      'metatags' => array(
+        'title' => array(
+          'value' => '%slug:title | Events | [current-page:pager][site:name]',
+        ),
+      ),
+    ),
   );
   $display = new panels_display();
   $display->layout = '25_50_25';
@@ -1016,7 +1032,7 @@ node/%node:nid/events
     $pane->uuid = '150601e8-429a-4460-8500-c20fc264900a';
     $display->content['new-150601e8-429a-4460-8500-c20fc264900a'] = $pane;
     $display->panels['left_sidebar'][1] = 'new-150601e8-429a-4460-8500-c20fc264900a';
-  $display->hide_title = PANELS_TITLE_PANE;
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;

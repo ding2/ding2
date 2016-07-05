@@ -191,6 +191,20 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
           'wrapper' => drupal_html_id($form_id),
         );
       }
+
+      // Allow user provider to alter the login form.
+      $function = ding_provider_function('user', 'form_alter', TRUE);
+      if ($function) {
+        $function($form, $form_state);
+      }
+
+      break;
+
+    case 'user_register_form':
+      global $user;
+      if (user_access('administer users') && !in_array('administrators', $user->roles)) {
+        $form['#validate'][] = '_ding_user_roles_form_validate';
+      }
       break;
   }
 }
@@ -250,6 +264,15 @@ function ding_user_get_pincode_length() {
 }
 
 /**
+ * Form element validation handler for pincode elements.
+ */
+function ding_user_element_validate_pincode($element, &$form_state, $form) {
+  if (!preg_match('/^\d{' . ding_user_get_pincode_length() . '}$/', $element['#value'])) {
+    form_error($element, t('The pincode must consist of exactly %number digits.', array('%number' => ding_user_get_pincode_length())));
+  }
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  *
  * Add pin-code fields to the provider profile(s), so the users can change their
@@ -267,6 +290,15 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
         '#type' => 'fieldset',
         '#title' => t('Change pincode'),
       );
+      if (!isset($_SESSION['wayf_login'])) {
+        $form['pass']['pincode_old'] = array(
+          '#type' => 'password',
+          '#title' => t('Confirm old pincode'),
+          '#size' => $maxlength,
+          '#maxlength' => $maxlength,
+          '#attributes' => array('class' => array('password-confirm')),
+        );
+      }
       $form['pass']['pincode'] = array(
         '#type' => 'password_confirm',
         '#size' => $maxlength,
@@ -286,12 +318,22 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
     }
   }
 
+  $form['#validate'][] = 'ding_user_profile_update_validate';
+
   $fee_sms = variable_get('ding_user_fee_sms', t('Notice that there is a fee for receiving a SMS'));
   $form['ding_user_fee_sms'] = array(
     '#type' => 'item',
     '#markup' => $fee_sms,
     '#weight' => 0,
   );
+
+  $int_per = variable_get('ding_reservation_disable_interest_date', '');
+  $profile_provider = 'profile_' . $profile_type->type;
+  $field = 'field_' . $profile_type->module . '_interest_period';
+
+  if (!empty($int_per)) {
+    $form[$profile_provider][$field]['#access'] = FALSE;
+  }
 }
 
 /**
@@ -313,6 +355,26 @@ function ding_user_form_process_password_confirm($element) {
   $element['pass2']['#title'] = t('Confirm pincode');
 
   return $element;
+}
+
+/**
+ * Validate the user profile form.
+ *
+ * Check if the old pincode (if present) match the pincode stored in $_SESSION.
+ */
+function ding_user_profile_update_validate($form, &$form_state) {
+  if (isset($form_state['values']['pincode_old'])) {
+    if (!empty($form_state['values']['pincode'])) {
+      $creds = ding_user_get_creds();
+      if (empty($form_state['values']['pincode_old'])) {
+        form_set_error('pincode_old', t('The old pincode confirm is empty.'));
+        return;
+      }
+      if ($creds['pass'] != $form_state['values']['pincode_old']) {
+        form_set_error('pincode_old', t('The old pincode confirm does not match.'));
+      }
+    }
+  }
 }
 
 /**
@@ -359,7 +421,8 @@ function ding_user_profile_update_submit(&$form, &$form_state) {
  */
 function ding_user_provider_profile($account) {
   $profile_type = ding_user_get_provider_profile_type();
-  return profile2_load_by_user($account, $profile_type->type);
+  $profile2 = profile2_load_by_user($account, $profile_type->type);
+  return is_array($profile2) ? NULL : $profile2;
 }
 
 /**
@@ -521,7 +584,7 @@ function ding_user_user_login_validate($form, &$form_state) {
   }
   try {
     // Trying to login the user using the provider.
-    $auth_res = ding_provider_invoke('user', 'authenticate', $form_state['values']['name'], $form_state['values']['pass']);
+    $auth_res = ding_provider_invoke('user', 'authenticate', $form_state['values']['name'], $form_state['values']['pass'], $form_state['values']);
     if (!is_array($auth_res) || !isset($auth_res['success'])) {
       watchdog('ding_user', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
       return;
@@ -586,7 +649,7 @@ function ding_user_user_login_validate($form, &$form_state) {
       form_set_value($form['name'], ding_user_default_authname($form_state['values']['name']), $form_state);
     }
   }
-  catch (DingProviderException $exception) {
+  catch (Exception $exception) {
     // Exception thrown, log error and carry on.
     watchdog_exception('ding_user', $exception);
   }
@@ -961,4 +1024,36 @@ function ding_user_form_contact_site_form_alter(&$form, $form_state, $form_id) {
  */
 function _ding_user_comment_cache_id($uid) {
   return 'ding_user_comment_user_name:' . $uid;
+}
+
+/**
+ * Implements hook_profile2_view().
+ */
+function ding_user_profile2_view($profile, $view_mode, $langcode) {
+  $provider = _ding_provider_get_provider('user');
+  $field = 'field_' . $provider['module'] . '_interest_period';
+
+  $field_items = field_get_items('profile2', $profile, $field);
+
+  if ($field_items) {
+    $int_per = variable_get('ding_reservation_disable_interest_date', '');
+
+    if ($int_per == 1) {
+      $profile->content[$field]['#access'] = FALSE;
+    }
+  }
+}
+
+/**
+ * Check if newly created user has assigned new roles.
+ *
+ * @param array $form
+ *   Register form elements.
+ * @param array $form_state
+ *   State of the submitted form.
+ */
+function _ding_user_roles_form_validate(array $form, array &$form_state) {
+  if (!array_filter($form_state['values']['roles_change'])) {
+    form_set_error('roles', t('Roles field is required.'));
+  }
 }

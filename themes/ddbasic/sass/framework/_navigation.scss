@@ -453,6 +453,16 @@
   }
 
   @include small-medium {
+    // Swap the icons as the menu is collapsed by default on mobile. We need
+    // a higher spcificity than the .js-toggled above, in order to swap the
+    // icons.
+    .panel-pane .pane-title {
+      @extend .icon-chevron-right;
+      &.js-toggled {
+        @extend .icon-chevron-down;
+      }
+    }
+
     .menu {
       display: none;
     }
