@@ -169,9 +169,10 @@
 
       // Make the tabs equal size.
       this.equalizeTabWith();
+      var self = this;
       // Resize the tabs if the window size changes.
       $(window).bind('resize', function () {
-        this.equalizeTabWith();
+        self.equalizeTabWith();
       });
 
       // Activate the first tab.
