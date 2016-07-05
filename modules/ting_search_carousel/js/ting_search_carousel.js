@@ -113,7 +113,7 @@
       var option = $('<option>').text(title).data('target', element);
       element.data('tabset-option', option);
       this.select.append(option);
-    }
+    };
 
     /**
      * Change tab.
@@ -123,7 +123,7 @@
       this.tabs.find('.active').removeClass('active');
       this.select.find(':selected').removeAttr('selected');
 
-      if (typeof this.beforeChange == 'function') {
+      if (typeof this.beforeChange === 'function') {
         this.beforeChange(target, this.tingCarousel);
       }
       this.transition.switchTo(target, this.tingCarousel);
@@ -131,8 +131,7 @@
       // Activate the current tab.
       $(target).data('tabset-tab').addClass('active');
       $(target).data('tabset-option').attr('selected', true);
-
-    }
+    };
 
     /**
      * Make tabs equal width.
@@ -160,7 +159,7 @@
         this.tabs.children().css({'width' : childWidth + 'px'});
         this.tabs.children(':last-child').css({'width' : childWidthLast + 'px'});
       }
-    }
+    };
 
     /**
      * Insert the tabs into the page.
@@ -179,7 +178,7 @@
       var target = this.tabs.find('li:first-child').data('target');
       $(target).data('tabset-tab').addClass('active');
       $(target).data('tabset-option').attr('selected', true);
-    }
+    };
   };
 
   /**
@@ -191,96 +190,18 @@
     if (tab.data('offset') > -1 &&
         (slick.slideCount - slick.currentSlide) <
         (slick.options.slidesToShow * 2)) {
-        // Disable updates while updating.
+      // Disable updates while updating.
       var offset = tab.data('offset');
-        tab.data('offset', -1)
-        $.ajax({
-          type: 'get',
-          url : Drupal.settings.basePath + tab.data('path') + '/' + offset,
-          dataType : 'json',
-          success : function(data) {
-            $(e.target).slick('slickAdd', data.content);
-            tab.data('offset', data.offset)
-          }
-        });
-      });
-    }
-
-    /**
-     * Private: Fetch content for carousels.
-     */
-    function _fetch(index, offset, callback) {
+      tab.data('offset', -1);
       $.ajax({
         type: 'get',
-        url : Drupal.settings.basePath + tabs[index].path + '/' + offset,
+        url : Drupal.settings.basePath + tab.data('path') + '/' + offset,
         dataType : 'json',
         success : function(data) {
-          callback(data);
+          $(e.target).slick('slickAdd', data.content);
+          tab.data('offset', data.offset);
         }
       });
-    }
-
-    /**
-     * Private: Updates the content when the user changes tabs.
-     *
-     * It will fetch the content from the server if it's not fetched
-     * allready.
-     */
-    function _update(index) {
-      var offset = tabs[index].offset;
-      // Either there's no more data to be fetched, or we're already
-      // fetching. Skip.
-      if (offset < 0) {
-        return;
-      }
-      // Disable updates while updating.
-      tabs[index].offset = -1;
-      _fetch(index, offset, function (data) {
-        var content = $(data.content);
-        Drupal.attachBehaviors(content);
-
-        tabs[index].offset = data.offset;
-        tabs[index].wrapper.find('.rs-title').append(data.subtitle);
-        tabs[index].carousel.find('.rs-carousel-runner').append(content);
-        tabs[index].carousel.carousel('refresh');
-      });
-    }
-
-    /**
-     * Public: Init the carousel and fetch content for the first tab.
-     */
-    function init(id, settings) {
-      element = $('#' + id);
-      if (element.hasClass('ting_search_carousel_inited')) {
-        return;
-      }
-      element.addClass('ting_search_carousel_inited');
-
-      tabs = settings.tabs;
-
-      // Initialize tabs.
-      _init_tabs();
-
-      // Start the carousels.
-      _init_carousels();
-
-      if (typeof settings.transition === 'string' &&
-          typeof Drupal.tingSearchCarouselTransitions[settings.transition] === 'function') {
-        transition = new Drupal.tingSearchCarouselTransitions[settings.transition]();
-      }
-      else {
-        transition = new Drupal.tingSearchCarouselTransitions.fade();
-      }
-
-      if (typeof transition.init === 'function') {
-        transition.init(element);
-      }
-
-      // Maybe add support for touch devices (will only be applied on touch
-      // enabled devices).
-      _add_touch_support();
-=======
->>>>>>> 1770: Replace old carousel with Slick
     }
   };
 
@@ -288,9 +209,9 @@
    * Start the carousel when the document is ready.
    */
   Drupal.behaviors.ting_search_carousel = {
-    attach: function (context, settings) {
+    attach: function (context) {
 
-      $('.ting-search-carousel').once('ting-search-carousel', function() {
+      $('.ting-search-carousel', context).once('ting-search-carousel', function() {
 
         var transition;
         if (typeof $(this).data('transition') === 'string' &&
@@ -333,7 +254,7 @@
         });
 
         // Add tabs.
-        var tabs = new Tabset($(this), transition, function (tab, carousel) {
+        var tabs = new Tabset($(this), transition, function (tab) {
           if (tab.hasClass('additional-tab')) {
             // Silck cannot find the proper width when the parent is hidden, so
             // show the tab, reinit slick and immediately hide it again, before
