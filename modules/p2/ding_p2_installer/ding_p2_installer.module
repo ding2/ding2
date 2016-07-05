@@ -1,9 +1,9 @@
 <?php
 /**
  * @file
- * P2 Installer.
+ * Handles the installation process and enabling of the P2 modules.
  */
- 
+
 /**
  * Helper function to update row weights of extra fields.
  */
@@ -15,8 +15,8 @@ function ding_p2_installer_extra_field_update_weight($field_name, $entity_type, 
     'weight' => $weight,
     'visible' => $visible,
   );
-  
-  field_bundle_settings($entity_type, $bundle, $settings);  
+
+  field_bundle_settings($entity_type, $bundle, $settings);
 }
 
 /**
@@ -25,7 +25,7 @@ function ding_p2_installer_extra_field_update_weight($field_name, $entity_type, 
 function ding_p2_installer_field_update_weight($field_name, $entity_type, $bundle, $view_mode, $weight = 0) {
   $instance = field_read_instance($entity_type, $field_name, $bundle);
   $instance['display'][$view_mode]['weight'] = $weight;
-  field_update_instance($instance);  
+  field_update_instance($instance);
 }
 
 /**
@@ -49,7 +49,7 @@ function ding_p2_installer_permission() {
     ),
     'administer personalisation' => array(
       'title' => t('Administer personalisation'),
-    ),    
+    ),
   );
 }
 

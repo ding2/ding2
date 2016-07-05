@@ -80,11 +80,11 @@ function alma_ding_provider() {
       ),
       'user_consent' => array(
         'prefix' => 'user_consent',
-        'file' => $path . '/includes/alma.user_consent.inc',
+        'file' => 'includes/alma.user_consent.inc',
       ),
       'historical_loans' => array(
         'prefix' => 'historical_loans',
-        'file' => $path . '/includes/alma.historical_loans.inc',
+        'file' => 'includes/alma.historical_loans.inc',
       ),
       'wayf' => array(
         'prefix' => 'wayf',
