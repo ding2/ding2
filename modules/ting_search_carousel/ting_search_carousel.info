@@ -1,8 +1,9 @@
 name = Ting search carousel
 description = Show Ting search results in a carousel
 package = Ding!
-version = "7.x-0.3"
+version = "7.x-0.4"
 core = "7.x"
+dependencies[] = libraries
 dependencies[] = ting
 dependencies[] = ting_search
 dependencies[] = ting_covers

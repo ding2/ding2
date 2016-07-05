@@ -9,20 +9,26 @@
  * Implements default preprocess function for the search carsousel.
  */
 function template_preprocess_ting_search_carousel(&$vars, $hook) {
-  // Add JavaScript and CSS using wrapper functions.
-  _ting_search_carousel_add_javascript();
-  _ting_search_carousel_add_css();
+  // Add JavaScript and CSS.
+  $path = drupal_get_path('module', 'ting_search_carousel');
+  drupal_add_js($path . '/js/ting_search_carousel.js');
+  drupal_add_css($path . '/css/ting_search_carousel.css');
 
-  $css_id = drupal_html_id('ting_search_carousel');
-  $vars['id'] = $css_id;
   $vars['content'] = '';
+  $vars += array(
+    'show_description' => FALSE,
+    'transition' => 'fade',
+  );
 
   foreach ($vars['tabs'] as $index => $tab) {
     $tab += array(
       'title' => '',
       'subtitle' => '',
       'path' => '',
+      // If an ajax path is given, default to the first page, else disable
+      // ajax.
       'offset' => empty($tab['path']) ? -1 : 0,
+      'classes' => '',
     );
 
     // Render the items.
@@ -30,50 +36,29 @@ function template_preprocess_ting_search_carousel(&$vars, $hook) {
     foreach ($tab['content'] as $item) {
       $rendered[] = theme('ting_search_carousel_collection', array('collection' => $item));
     }
+    $tab['description'] = $tab['subtitle'];
 
-    if ($rendered) {
-      // Add in the content of the first tab, as it's rendered by the server.
-      if ($index == 0) {
-        $preload = !empty($vars['preload']) ? $vars['preload'] : 5;
-        // Render the first part in the template and add the rest to the JS.
-        $vars['content'] = implode('', array_slice($rendered, 0, $preload));
-        $tab['content'] = implode('', array_slice($rendered, $preload));
-      }
-      else {
-        $tab['content'] = implode('', $rendered);
-      }
-    }
-    if ($index == 0) {
-      $vars['subtitle'] = $tab['subtitle'];
+    $tab['content'] = implode('', $rendered);
+
+    if ($index != 0) {
+      $tab['classes'] = 'additional-tab';
     }
     $vars['tabs'][$index] = $tab;
   }
 
-  $transition = 'fade';
   $transitions = ting_search_carousel_transitions();
-  if (!empty($vars['transition']) &&
-    isset($transitions[$vars['transition']])) {
-    $transition = $vars['transition'];
+  if (isset($transitions[$vars['transition']])) {
     if (!empty($transitions[$vars['transition']]['file'])) {
       drupal_add_js($transitions[$vars['transition']]['file']);
     }
   }
+  else {
+    $vars['transition'] = 'fade';
+  }
 
-  // Load toggle configuration.
-  $toggle = variable_get('ting_search_carousel_description_toggle', FALSE);
-  $settings = array(
-    'ting_search_carousel' => array(
-      'show_description' => $toggle,
-      'carousels' => array(
-        $css_id => array(
-          'tabs' => $vars['tabs'],
-          'transition' => $transition,
-        ),
-      ),
-    ),
-  );
-  drupal_add_js($settings, 'setting');
+  if (!$vars['show_description']) {
+    $vars['classes_array'][] = 'no-description';
+  }
 
-  $vars['toggle_description'] = $toggle;
-
+  $loaded = libraries_load('slick', 'non-minified');
 }

@@ -1,20 +1,17 @@
 /* ==========================================================================
    ting search carousel styling
    ========================================================================== */
-.rs-carousel,
-.rs-carousel-runner {
-  position: relative;
+
+.ting-search-carousel .additional-tab {
+  /* Hide all but the first tab. */
+  display: none;
 }
 
-.rs-carousel-runner {
-  overflow: hidden;
+.ting-search-carousel .carousel {
+  width: 100%;
 }
 
-.rs-carousel-inner {
-  overflow: hidden;
-}
-
-rs-carousel-runner {
+carousel-runner {
   -moz-transform: translate3d(0, 0, 0);
   -webkit-transform: translate3d(0, 0, 0);
   -o-transform: translate3d(0, 0, 0);
@@ -32,8 +29,11 @@ rs-carousel-runner {
 
 /* Pagination and previous and next buttons
    ========================================================================== */
-.rs-carousel-action-prev,
-.rs-carousel-action-next {
+.ting-search-carousel .slick-arrow {
+  color: transparent;
+  border: none;
+  outline: none;
+  background: transparent;
   background-image: url('../images/arrows.png');
   height: 55px;
   overflow: hidden;
@@ -42,54 +42,50 @@ rs-carousel-runner {
   text-indent: -1000px;
   top: 50%;
   width: 55px;
+  z-index: 1;
+
 }
 
-.rs-carousel-action-next {
+.ting-search-carousel .slick-prev {
+  left: 20px;
+}
+
+.ting-search-carousel .slick-next {
   background-position: right 0;
-  right: 0;
+  right: 20px;
 }
-
-.rs-carousel-disabled .rs-carousel-action-prev,
-.rs-carousel-disabled .rs-carousel-action-next {
-  display: none;
-}
-
 
 /* Carousel content, mask, title etc.
    ========================================================================== */
-.ajax-loader {
-  background: transparent url('../images/ajax-loader.gif') no-repeat center center;
-  left: 50%;
-  height: 20px;
-  margin-top: -10px;
-  margin-left: -110px;
-  position: absolute;
-  top: 50%;
-  width: 220px;
+.ting-search-carousel.no-description .description {
+  display: none;
 }
 
-.rs-carousel-items ul {
+.carousel-tab ul {
   display: inline-block;
   vertical-align: top;
-}
-
-.rs-carousel-items ul {
   margin: 0;
   padding: 0;
   list-style: none;
+  /* Clip to one row to avoid flickering. */
+  height: 315px;
+  overflow: hidden;
 }
 
-.rs-carousel-items li {
+.carousel-tab li {
   float: left;
-  width: 100px;
+  width: 200px;
   text-align: center;
+  margin-right: 2em;
+  margin-bottom: 1em;
+  overflow: hidden;
 }
 
-.rs-carousel-item-image {
+.carousel-item-image {
   display: block;
 }
 
-.rs-carousel-item-image img {
+.carousel-item-image img {
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -98,18 +94,18 @@ rs-carousel-runner {
 
 /* Carousel tabs
    ========================================================================== */
-.rs-carousel-tabs ul {
+.carousel-tabs ul {
   margin: 0;
   position: relative;
   text-align: center;
 }
 
-.rs-carousel-tabs ul li {
+.carousel-tabs ul li {
   display: table-cell;
   vertical-align: top;
   text-align: center;
 }
 
-.rs-carousel-tabs ul li.active a {
+.carousel-tabs ul li.active a {
   position: relative;
 }
