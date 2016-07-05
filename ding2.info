@@ -32,7 +32,6 @@ dependencies[] = ding_user_frontend
 dependencies[] = ding_ting_frontend
 dependencies[] = ding_frontpage
 dependencies[] = ding_session_cache
-dependencies[] = ding_bookmark
 dependencies[] = ding_staff
 dependencies[] = bpi
 dependencies[] = ding_p2_installer
