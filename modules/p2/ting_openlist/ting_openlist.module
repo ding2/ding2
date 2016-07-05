@@ -31,8 +31,6 @@ function ting_openlist_requirements($phase) {
  * Implements hook_ding_provider().
  */
 function ting_openlist_ding_provider() {
-  $path = drupal_get_path('module', 'ting_openlist');
-
   return array(
     'title' => 'Ting Openlist provider',
     // Notice we set the file path in hook_menu_alter()
@@ -41,20 +39,10 @@ function ting_openlist_ding_provider() {
     'provides' => array(
       'openlist' => array(
         'prefix' => 'handler',
-        'file' => $path . '/ting_openlist.handler.inc',
+        'file' => 'ting_openlist.handler.inc',
       ),
     ),
   );
-}
-
-/**
- * Implements hook_menu_alter().
- *
- * This fixes the ding_provider menu, without the need to do any changes
- * to the core module (although the ding_provider module should get fixed)
- */
-function ting_openlist_menu_alter(&$items) {
-  $items['admin/config/ding/provider/ting_openlist']['file path'] = drupal_get_path('module', 'ting_openlist');
 }
 
 /**
