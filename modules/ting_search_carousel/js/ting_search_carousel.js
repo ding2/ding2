@@ -113,7 +113,7 @@
       var option = $('<option>').text(title).data('target', element);
       element.data('tabset-option', option);
       this.select.append(option);
-    }
+    };
 
     /**
      * Change tab.
@@ -123,7 +123,7 @@
       this.tabs.find('.active').removeClass('active');
       this.select.find(':selected').removeAttr('selected');
 
-      if (typeof this.beforeChange == 'function') {
+      if (typeof this.beforeChange === 'function') {
         this.beforeChange(target, this.tingCarousel);
       }
       this.transition.switchTo(target, this.tingCarousel);
@@ -131,8 +131,7 @@
       // Activate the current tab.
       $(target).data('tabset-tab').addClass('active');
       $(target).data('tabset-option').attr('selected', true);
-
-    }
+    };
 
     /**
      * Make tabs equal width.
@@ -160,7 +159,7 @@
         this.tabs.children().css({'width' : childWidth + 'px'});
         this.tabs.children(':last-child').css({'width' : childWidthLast + 'px'});
       }
-    }
+    };
 
     /**
      * Insert the tabs into the page.
@@ -179,7 +178,7 @@
       var target = this.tabs.find('li:first-child').data('target');
       $(target).data('tabset-tab').addClass('active');
       $(target).data('tabset-option').attr('selected', true);
-    }
+    };
   };
 
   /**
@@ -191,18 +190,18 @@
     if (tab.data('offset') > -1 &&
         (slick.slideCount - slick.currentSlide) <
         (slick.options.slidesToShow * 2)) {
-        // Disable updates while updating.
+      // Disable updates while updating.
       var offset = tab.data('offset');
-        tab.data('offset', -1)
-        $.ajax({
-          type: 'get',
-          url : Drupal.settings.basePath + tab.data('path') + '/' + offset,
-          dataType : 'json',
-          success : function(data) {
-            $(e.target).slick('slickAdd', data.content);
-            tab.data('offset', data.offset)
-          }
-        });
+      tab.data('offset', -1);
+      $.ajax({
+        type: 'get',
+        url : Drupal.settings.basePath + tab.data('path') + '/' + offset,
+        dataType : 'json',
+        success : function(data) {
+          $(e.target).slick('slickAdd', data.content);
+          tab.data('offset', data.offset);
+        }
+      });
     }
   };
 
@@ -210,9 +209,9 @@
    * Start the carousel when the document is ready.
    */
   Drupal.behaviors.ting_search_carousel = {
-    attach: function (context, settings) {
+    attach: function (context) {
 
-      $('.ting-search-carousel').once('ting-search-carousel', function() {
+      $('.ting-search-carousel', context).once('ting-search-carousel', function() {
 
         var transition;
         if (typeof $(this).data('transition') === 'string' &&
@@ -255,7 +254,7 @@
         });
 
         // Add tabs.
-        var tabs = new Tabset($(this), transition, function (tab, carousel) {
+        var tabs = new Tabset($(this), transition, function (tab) {
           if (tab.hasClass('additional-tab')) {
             // Silck cannot find the proper width when the parent is hidden, so
             // show the tab, reinit slick and immediately hide it again, before
