@@ -490,6 +490,12 @@ libraries[psr7][download][url] = "https://github.com/guzzle/psr7.git"
 libraries[psr7][download][tag] = "1.3.1"
 libraries[psr7][destination] = "libraries"
 
+libraries[slick][download][type] = "git"
+libraries[slick][download][url] = "git@github.com:kenwheeler/slick.git"
+libraries[slick][download][branch] = "master"
+libraries[slick][directory_name] = "slick"
+libraries[slick][destination] = "libraries"
+
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
 libraries[ting-client][download][branch] = "master"

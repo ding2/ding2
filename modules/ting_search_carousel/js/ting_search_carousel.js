@@ -21,36 +21,39 @@
   // Shorthand for the following code.
   var transitions = Drupal.tingSearchCarouselTransitions;
 
-  transitions.none = function() {};
+  transitions.none = function() {
+  };
 
   transitions.none.prototype.switchTo = function (to, element) {
-    element.find('.rs-carousel-inner:visible').hide();
+    element.find('.carousel-tab:visible').hide();
     to.show();
   };
 
-  transitions.fade = function() {};
+  transitions.fade = function() {
+  };
 
   transitions.fade.prototype.switchTo = function (to, element) {
     // Freeze height so it wont collapse in the instant that both tabs
     // are invisible. Avoids odd scrolling.
     element.height(element.height());
-    element.find('.rs-carousel-inner:visible').fadeOut(200, function() {
+    element.find('.carousel-tab:visible').fadeOut(200, function() {
       to.fadeIn(200);
       element.height('auto');
     });
   };
 
-  transitions.crossFade = function() {};
+  transitions.crossFade = function() {
+  };
 
   transitions.crossFade.prototype.init = function (element) {
     // Add a delay so things have time to find their size.
     window.setTimeout(function () {
       // Add a wrapper and set position/width height, so we can
       // cross-fade between carousels.
-      element.find('.rs-carousel-inner').wrapAll($('<div class=fade-container>'));
+      element.find('.carousel-tab').wrapAll($('<div class=fade-container>'));
       var container = element.find('.fade-container');
       container.css('position', 'relative').height(container.height());
-      container.find('.rs-carousel-inner').css({
+      container.find('.carousel-tab').css({
         'position': 'absolute',
         'width': '100%',
         'box-sizing': 'border-box'
@@ -59,7 +62,7 @@
   };
 
   transitions.crossFade.prototype.switchTo = function (to, element) {
-    element.find('.rs-carousel-inner').fadeOut(200);
+    element.find('.carousel-tab').fadeOut(200);
     to.fadeIn(200);
   };
 
@@ -67,171 +70,138 @@
    * End of transition definitions.
    */
 
-  Drupal.theme.tingSearchCarousel = function(subtitle, content) {
-    var carousel = $("<div>").addClass('rs-carousel-inner');
-    if (Drupal.settings.ting_search_carousel.show_description) {
-      carousel.append($('<div>').addClass('rs-carousel-title').text(subtitle));
-    }
-    carousel.append($('<div>').addClass('rs-carousel-items').append($('<ul>').append(content)));
-    return carousel;
-  };
+  /**
+   * Object handling tabs.
+   */
+  var Tabset = function(tingCarousel, transition, beforeChange) {
+    var self = this;
+    this.tingCarousel = tingCarousel;
+    this.beforeChange = beforeChange;
+    this.transition = transition;
+    this.element = $('<div>').addClass('carousel-tabs');
+    this.tabs = $('<ul>');
+    this.select = $('<select>');
 
-  Drupal.theme.tingSearchCarouselTabs = function(tab_defs) {
-    if (tab_defs.length < 1) {
-      return "";
+    // Make basic tab structure.
+    this.element.append(this.tabs).append(this.select);
+
+    // Initialize transition.
+    if (typeof this.transition.init === 'function') {
+        this.transition.init(this.tingCarousel);
     }
-    var tabs = $('<ul>').addClass('rs-carousel-list-tabs');
-    var select = $('<select>').addClass('rs-carousel-select-tabs');
-    $.each(tab_defs, function (index, tab) {
-      // Without the href, the styling suffers.
-      tabs.append($("<li>").addClass('rs-carousel-item').append($('<a>').text(tab.title).attr('href', '#')));
-      select.append($('<option>').addClass('rs-carousel-item').text(tab.title));
+
+    // Add event handler for changing tabs when clicked.
+    this.tabs.on('click', 'li', function (e) {
+      e.preventDefault();
+      self.changeTab($(this).data('target'));
+      return false;
     });
 
-    return $('<div>').addClass('rs-carousel-tabs').append(tabs).append(select);
+    // Add event handler for the select for mobile users.
+    this.select.on('change', function() {
+        self.changeTab($(this).find(':selected').data('target'));
+    });
+
+    /**
+     * Add a tab.
+     */
+    this.addTab = function(title, element) {
+      // Without the href, the styling suffers.
+      var tab = $('<li>').append($('<a>').text(title).attr('href', '#')).data('target', element);
+      element.data('tabset-tab', tab);
+      this.tabs.append(tab);
+      var option = $('<option>').text(title).data('target', element);
+      element.data('tabset-option', option);
+      this.select.append(option);
+    }
+
+    /**
+     * Change tab.
+     */
+    this.changeTab = function(target) {
+      // De-activate current tab.
+      this.tabs.find('.active').removeClass('active');
+      this.select.find(':selected').removeAttr('selected');
+
+      if (typeof this.beforeChange == 'function') {
+        this.beforeChange(target, this.tingCarousel);
+      }
+      this.transition.switchTo(target, this.tingCarousel);
+
+      // Activate the current tab.
+      $(target).data('tabset-tab').addClass('active');
+      $(target).data('tabset-option').attr('selected', true);
+
+    }
+
+    /**
+     * Make tabs equal width.
+     *
+     * @todo This might be done with CSS these days.
+     */
+    this.equalizeTabWith = function () {
+      // Get the list of tabs and the number of tabs in the list.
+      var childCount = this.tabs.children('li').length;
+
+      // Only do somehting if there actually is tabs.
+      if (childCount > 0) {
+
+        // Get the width of the <ul> list element.
+        var parentWidth = this.tabs.width();
+
+        // Calculate the width of the <li>'s.
+        var childWidth = Math.floor(parentWidth / childCount);
+
+        // Calculate the last <li> width to combined childrens width it self not
+        // included.
+        var childWidthLast = parentWidth - (childWidth * (childCount - 1));
+
+        // Set the tabs css widths.
+        this.tabs.children().css({'width' : childWidth + 'px'});
+        this.tabs.children(':last-child').css({'width' : childWidthLast + 'px'});
+      }
+    }
+
+    /**
+     * Insert the tabs into the page.
+     */
+    this.insert = function(element) {
+      $(element).after(this.element);
+
+      // Make the tabs equal size.
+      this.equalizeTabWith();
+      // Resize the tabs if the window size changes.
+      $(window).bind('resize', function () {
+        this.equalizeTabWith();
+      });
+
+      // Activate the first tab.
+      var target = this.tabs.find('li:first-child').data('target');
+      $(target).data('tabset-tab').addClass('active');
+      $(target).data('tabset-option').attr('selected', true);
+    }
   };
 
-  Drupal.TingSearchCarousel = (function() {
-
-    // Root element that contains both carousels and navigation.
-    var element;
-    // Tab definition.
-    var tabs;
-    // Transition for this carousel.
-    var transition;
-    // Tabs and mobile select for switching carousels.
-    var navigation;
-
-    /**
-     * Private: Handler activated when the user changes tab.
-     */
-    function _change_tab(index) {
-      // Remove navigation selection.
-      navigation.find('.active').removeClass('active');
-      navigation.find(':selected').removeAttr('selected');
-
-      // Add new navigation seletions.
-      $(navigation.find('li')[index]).addClass('active');
-      $(navigation.find('option')[index]).attr('selected', true);
-
-      transition.switchTo(tabs[index].wrapper, element);
-
-      // Refresh carousel so it knows how many items are visible and
-      // can scroll accordingly.
-      tabs[index].carousel.carousel('refresh');
-
-      _update(index);
-    }
-
-    /**
-     * Private: Check is the device have support for touch events.
-     */
-    function _is_touch_device() {
-      // First part work in most browser the last in IE 10.
-      return !!('ontouchstart' in window) || !!('onmsgesturechange' in window);
-    }
-
-    /**
-     * Private: Enable draggable touch support to the carousel.
-     *
-     * But only if the device is touch enabled.
-     */
-    function _add_touch_support() {
-      if (_is_touch_device()) {
-        $.each(tabs, function (index, tab) {
-          // Add support for touch displays (requires jQuery Touch Punch).
-          $('.rs-carousel-runner', tab.wrapper).draggable({
-            axis: "x",
-            stop: function() {
-              var left = $('.rs-carousel-runner', tab.wrapper).position().left;
-
-              // Left side reached.
-              if (left > 0) {
-                tab.carousel.carousel('goToPage', 0);
-              }
-
-              // Right side reached.
-              if ($('.rs-carousel-mask', tab.wrapper).width() - $('.rs-carousel-runner', tab.wrapper).width() > left) {
-                var lastIndex = tab.carousel.carousel('getNoOfPages') - 1;
-                tab.carousel.carousel('goToPage', lastIndex);
-              }
-            }
-          });
-        });
-      }
-    }
-
-    /**
-     * Private: Create tabs and attach events.
-     */
-    function _init_tabs() {
-      if (tabs.length < 2 && !tabs[0].title) {
-        return;
-      }
-      // Create tabs.
-      navigation = Drupal.theme.tingSearchCarouselTabs(tabs);
-
-      // Attach click events to tabs.
-      navigation.find('.rs-carousel-list-tabs').on("click", "li", function(e) {
-        e.preventDefault();
-        _change_tab($(this).index());
-        return false;
-      });
-
-      // Add change event to selector.
-      navigation.find('.rs-carousel-select-tabs').on('change', function() {
-        _change_tab($(this).find(':selected').index());
-      });
-
-      element.find('.rs-carousel').append(navigation);
-
-      // Highlight the default tab.
-      $(navigation.find('li')[0]).addClass('active');
-      $(navigation.find('option')[0]).attr('selected', true);
-
-    }
-
-    /**
-     * Private: Create the carousels.
-     */
-    function _init_carousels() {
-      var first_carousel = element.find('.rs-carousel-inner');
-      $.each(tabs, function (index, tab) {
-        var carousel;
-        // Skip first, it was supplied by the server.
-        if (index !== 0) {
-          carousel = Drupal.theme.tingSearchCarousel(tab.subtitle, tab.content).hide();
-          delete tab.content;
-          first_carousel.after(carousel);
-        }
-        else {
-          carousel = first_carousel;
-          // Add in extra content.
-          if (tab.content) {
-            carousel.find('ul.rs-carousel-runner').append(tab.content);
+  /**
+   * Event handler for progressively loading more covers.
+   */
+  var update = function(e, slick) {
+    var tab = e.data;
+    // Fetch more covers as we approach the end.
+    if (tab.data('offset') > -1 &&
+        (slick.slideCount - slick.currentSlide) <
+        (slick.options.slidesToShow * 2)) {
+        // Disable updates while updating.
+      var offset = tab.data('offset');
+        tab.data('offset', -1)
+        $.ajax({
+          type: 'get',
+          url : Drupal.settings.basePath + tab.data('path') + '/' + offset,
+          dataType : 'json',
+          success : function(data) {
+            $(e.target).slick('slickAdd', data.content);
+            tab.data('offset', data.offset)
           }
-        }
-
-        tabs[index].wrapper = carousel;
-        tabs[index].carousel = carousel.find('.rs-carousel-items');
-
-        var updateData = function () {
-          // Update if there's still data to be fetched and we're near
-          // the end of the carousel.
-          if (tabs[index].offset >= 0) {
-            if ($(this).carousel('getIndex') >
-                ($(this).carousel('getNoOfPages') - 3)) {
-              _update(index);
-            }
-          }
-        };
-
-        tabs[index].carousel.carousel({
-          noOfRows: 1,
-          orientation: 'horizontal',
-          itemsPerTransition: 'auto',
-          create: updateData,
-          after: updateData,
         });
       });
     }
@@ -309,26 +279,77 @@
       // Maybe add support for touch devices (will only be applied on touch
       // enabled devices).
       _add_touch_support();
+=======
+>>>>>>> 1770: Replace old carousel with Slick
     }
-
-    /**
-     * Expoes public functions.
-     */
-    return {
-        name: 'ting_search_carousel',
-        init: init
-    };
-  })();
+  };
 
   /**
    * Start the carousel when the document is ready.
    */
   Drupal.behaviors.ting_search_carousel = {
     attach: function (context, settings) {
-      $.each(settings.ting_search_carousel.carousels, function (id, carousel_settings) {
-        Drupal.TingSearchCarousel.init(id, carousel_settings);
+
+      $('.ting-search-carousel').once('ting-search-carousel', function() {
+
+        var transition;
+        if (typeof $(this).data('transition') === 'string' &&
+            typeof Drupal.tingSearchCarouselTransitions[$(this).data('transition')] === 'function') {
+          transition = new Drupal.tingSearchCarouselTransitions[$(this).data('transition')]();
+        }
+        else {
+          transition = new Drupal.tingSearchCarouselTransitions.fade();
+        }
+
+        $('.carousel-tab', this).each(function () {
+          var tab = $(this);
+
+          // Init carousels. In order to react to the init event, the
+          // event handler needs to be defined before triggering Slick
+          // (obviously in hindsight).
+          $('.carousel', this).on('init reInit afterChange', tab, update).slick({
+            arrows: true,
+            infinite: false,
+            slidesToShow: 5,
+            slidesToScroll: 4,
+            responsive: [{
+              breakpoint: 1024,
+              settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3
+              }
+            }, {
+              breakpoint: 600,
+              settings: {
+                slidesToShow: 2,
+                arrows: false
+              }
+            }, {
+              breakpoint: 300,
+              // No carousel.
+              settings: "unslick"
+            }]
+          });
+        });
+
+        // Add tabs.
+        var tabs = new Tabset($(this), transition, function (tab, carousel) {
+          if (tab.hasClass('additional-tab')) {
+            // Silck cannot find the proper width when the parent is hidden, so
+            // show the tab, reinit slick and immediately hide it again, before
+            // running the real transition.
+            tab.show();
+            $('.slick-slider', tab).slick('reinit');
+            tab.hide();
+          }
+        });
+        $('.carousel-tab', this).each(function () {
+          tabs.addTab($(this).data('title'), $(this));
+        });
+        tabs.insert($(this));
       });
     }
+
   };
 
 })(jQuery);

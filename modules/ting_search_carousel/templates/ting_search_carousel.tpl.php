@@ -1,24 +1,19 @@
 <?php
 /**
  * @file
- *
- *
- * * Available variables:
- * - $searches: Array with each tab search.
- *
  */
 ?>
-
-<!-- The wrapper div is important because rs-carousel replaces it -->
-<div id="<?php print $id;?>" class="rs-carousel-wrapper">
-  <div class="rs-carousel">
-    <div class="rs-carousel-inner">
-      <?php if ($toggle_description): ?>
-        <div class="rs-carousel-title"><?php print $subtitle; ?></div>
-      <?php endif; ?>
-      <div class="rs-carousel-items">
-        <ul><?php print $content; ?></ul>
-      </div>
-    </div>
+<div class="<?php print $classes; ?>"
+  data-transition="<?php print $transition; ?>"
+  >
+  <?php foreach ($tabs as $tab): ?>
+  <div class="carousel-tab <?php print $tab['classes']; ?>"
+   data-title="<?php print $tab['title']; ?>"
+   data-offset="<?php print $tab['offset']; ?>"
+   data-path="<?php print $tab['path']; ?>"
+  >
+    <div class="description"><?php print $tab['description']; ?></div>
+    <ul class="carousel"><?php print $tab['content']; ?></ul>
   </div>
+  <?php endforeach; ?>
 </div>

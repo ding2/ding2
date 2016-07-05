@@ -50,14 +50,6 @@ function ting_search_carousel_settings_admin_form($form, &$form_state) {
     '#description' => t('The JS transition used when switching tabs. This applies to the front page carousel.'),
   );
 
-  $form['settings']['ting_search_carousel_server_render'] = array(
-    '#title' => t('Number of items pre-loaded in carousel'),
-    '#type' => 'select',
-    '#options' => array_combine(range(3, 10), range(3, 10)),
-    '#default_value' => variable_get('ting_search_carousel_server_render', 5),
-    '#description' => t("Number of items that's fully visible. Used for fall-back purposes."),
-  );
-
   return system_settings_form($form);
 }
 

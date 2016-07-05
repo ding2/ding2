@@ -55,6 +55,40 @@ function ting_search_carousel_menu() {
 }
 
 /**
+ * Implements hook_libraries_info().
+ *
+ * @todo Should be defined in another module, to facilitate re-use.
+ */
+function ting_search_carousel_libraries_info() {
+  $libraries = array();
+
+  $libraries['slick'] = array(
+    'name' => 'Slick.js carousel library',
+    'path' => 'slick',
+    'vendor url' => 'https://github.com/kenwheeler/slick',
+    'download url' => 'https://github.com/kenwheeler/slick/archive/1.6.0.zip',
+    'version arguments' => array(
+      'file' => 'slick/slick.js',
+      'pattern' => '@Version:\s+([0-9a-zA-Z\.-]+)@',
+    ),
+    'files' => array(
+      'js' => array('slick.min.js'),
+      'css' => array('slick.css'),
+    ),
+    'variants' => array(
+      'non-minified' => array(
+        'files' => array(
+          'js' => array('slick.js'),
+          'css' => array('slick.css'),
+        ),
+      ),
+    ),
+  );
+
+  return $libraries;
+}
+
+/**
  * Implements hook_permission().
  */
 function ting_search_carousel_permission() {
@@ -105,7 +139,12 @@ function ting_search_carousel_block_info() {
 function ting_search_carousel_block_view($delta) {
   return array(
     'content' => theme('ting_search_carousel', array(
+<<<<<<< HEAD
         'searches' => variable_get('ting_carousel_search_queries', array()),
+=======
+      'searches' => variable_get('ting_carousel_search_queries', array()),
+      'tab_position' => variable_get('ting_search_carousel_tabs_position'),
+>>>>>>> 1770: Replace old carousel with Slick
     )),
   );
 }
@@ -142,7 +181,6 @@ function ting_search_carousel_ting_search_carousel_transitions() {
 function ting_search_carousel_transitions() {
   return module_invoke_all('ting_search_carousel_transitions');
 }
-
 
 /**
  * Get front page covers.
@@ -228,7 +266,13 @@ function ting_search_carousel_get_covers($query, $start, $count, $query_only = F
       }
     }
 
+<<<<<<< HEAD
     while (count($cache_data['pool']) < $start + $count &&
+=======
+    // If the pool exactly matches the requested items, we'll fetch the next
+    // chunk. Else search_page wouldn't get incremented.
+    while ((count($cache_data['pool']) <= $start + $count) &&
+>>>>>>> 1770: Replace old carousel with Slick
       !$cache_data['finished']) {
       $ignore_ids = $cache_data['all_ids'];
 
@@ -238,6 +282,7 @@ function ting_search_carousel_get_covers($query, $start, $count, $query_only = F
           $cache_data['search_page'],
           $cache_data['search_page_size'],
           $ignore_ids);
+
       foreach ($found_covers as $id => $cover) {
         $ignore_ids[$id] = TRUE;
         $cache_data['pool'][] = $cover;
@@ -370,25 +415,4 @@ function ting_search_carousel_image_default_styles() {
       ),
     ),
   );
-}
-
-/**
- * Wrapper function that adds the modules JavaScript.
- */
-function _ting_search_carousel_add_javascript() {
-  $path = drupal_get_path('module', 'ting_search_carousel');
-
-  drupal_add_library('system', 'ui.widget');
-  drupal_add_library('system', 'ui.draggable');
-  drupal_add_js($path . '/js/jquery.ui.touch-punch.min.js');
-  drupal_add_js($path . '/js/jquery.rs.carousel.js');
-  drupal_add_js($path . '/js/ting_search_carousel.js');
-}
-
-/**
- * Wrapper function that adds the modules css.
- */
-function _ting_search_carousel_add_css() {
-  $path = drupal_get_path('module', 'ting_search_carousel');
-  drupal_add_css($path . '/css/ting_search_carousel.css');
 }
