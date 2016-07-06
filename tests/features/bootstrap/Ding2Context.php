@@ -142,7 +142,10 @@ class Ding2Context implements Context, SnippetAcceptingContext
         return '/user/' . $this->drupalContext->user->uid;
     }
 
-  public function userUid()
+    /**
+     * Get the uid of the current logged in user.
+     */
+    public function userUid()
     {
         if (!isset($this->drupalContext->user->uid)) {
             throw new Exception('No currently logged in user.');
@@ -197,8 +200,8 @@ class Ding2Context implements Context, SnippetAcceptingContext
     public function waitForPage()
     {
         try {
-        // Strictly, this waits for jQuery to be loaded, but it seems
-        // sufficient.
+            // Strictly, this waits for jQuery to be loaded, but it seems
+            // sufficient.
             $this->drupalContext->getSession()->wait(5000, 'typeof window.jQuery == "function"');
         } catch (UnsupportedDriverActionException $e) {
             // Ignore.
