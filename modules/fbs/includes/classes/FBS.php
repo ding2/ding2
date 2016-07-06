@@ -98,6 +98,7 @@ class FBS {
     if (empty($agency_id) || empty($endpoint)) {
       throw new RuntimeException('Provider agency id or endpoint are not set.');
     }
+
     $this->agencyId = $agency_id;
     $this->endpoint = $endpoint;
 

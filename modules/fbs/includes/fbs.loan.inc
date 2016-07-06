@@ -20,7 +20,7 @@ function fbs_loan_list($account) {
     $res = fbs_service()->MaterialLoans->getLoans(fbs_service()->agencyId, fbs_patron_id($account));
   }
   catch (Exception $e) {
-    watchdog_exception('FBS', $e);
+    watchdog_exception('fbs', $e);
   }
 
   $result = array();
@@ -78,7 +78,7 @@ function fbs_loan_renew($account, $loans) {
     $res = fbs_service()->MaterialLoans->renewLoans(fbs_service()->agencyId, fbs_patron_id($account), $loans);
   }
   catch (Exception $e) {
-    watchdog_exception('FBS', $e);
+    watchdog_exception('fbs', $e);
   }
 
   $result = array();

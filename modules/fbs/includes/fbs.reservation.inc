@@ -22,7 +22,7 @@ function fbs_reservation_list($account, $requested_type = NULL) {
     $res = fbs_service()->Reservations->getReservations(fbs_service()->agencyId, fbs_patron_id($account));
   }
   catch (Exception $e) {
-    watchdog_exception('FBS', $e);
+    watchdog_exception('fbs', $e);
   }
 
   $result = array(
@@ -130,7 +130,7 @@ function fbs_reservation_create($account, $record_id, $options) {
     $result = current($response->reservationResults);
   }
   catch (Exception $e) {
-    watchdog_exception('FBS', $e);
+    watchdog_exception('fbs', $e);
   }
 
   if (!empty($response->success)) {
@@ -193,8 +193,8 @@ function fbs_reservation_update($account, $reservation_ids, $options) {
     fbs_service()->Reservations->updateReservations(fbs_service()->agencyId, fbs_patron_id($account), $batch);
   }
   catch (Exception $e) {
-    watchdog_exception('FBS', $e);
-    
+    watchdog_exception('fbs', $e);
+
     return FALSE;
   }
 }
@@ -212,7 +212,7 @@ function fbs_reservation_delete($account, $reservation_id) {
     fbs_service()->Reservations->deleteReservations(fbs_service()->agencyId, fbs_patron_id($account), $reservation_id);
   }
   catch (Exception $e) {
-    watchdog_exception('FBS', $e);
+    watchdog_exception('fbs', $e);
 
     return FALSE;
   }
@@ -245,7 +245,7 @@ function fbs_reservation_branch_name($branch_id) {
     $res = fbs_service()->Placement->getBranches(fbs_service()->agencyId);
   }
   catch (Exception $e) {
-    watchdog_exception('FBS', $e);
+    watchdog_exception('fbs', $e);
   }
 
   foreach ($res as $branch) {

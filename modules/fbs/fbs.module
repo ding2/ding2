@@ -270,16 +270,20 @@ function fbs_profile2_presave($entity) {
     $patron_settings->onHold = $period;
     $update->patron = $patron_settings;
 
-
+    $res = NULL;
     try {
       $res = fbs_service()->Patron->update(fbs_service()->agencyId, $patron['patronId'], $update);
-      $result['creds'] = _fbs_patron_info($res->patron);
-
-      ding_user_save_creds($result);
     }
     catch (Exception $e) {
-      watchdog_exception('FBS', $e);
+      watchdog_exception('fbs', $e);
     }
+
+    $result = array();
+    if ($res) {
+      $result['creds'] = _fbs_patron_info($res->patron);
+    }
+
+    ding_user_save_creds($result);
   }
 }
 

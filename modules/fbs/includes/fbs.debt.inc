@@ -22,7 +22,7 @@ function fbs_debt_list($account) {
     $res = fbs_service()->Payment->getFees(fbs_service()->agencyId, fbs_patron_id($account), FALSE, FALSE);
   }
   catch (Exception $e) {
-    watchdog_exception('FBS', $e);
+    watchdog_exception('fbs', $e);
   }
 
   foreach ($res as $fee) {
@@ -93,7 +93,7 @@ function fbs_debt_payment_received($account, $debt_ids = array(), $order_id = NU
     $res = fbs_service()->Payment->payFees(fbs_service()->agencyId, fbs_patron_id($account), $payment_order);
   }
   catch (Exception $e) {
-    watchdog_exception('FBS', $e);
+    watchdog_exception('fbs', $e);
   }
 
   foreach ($res as $confirmation) {

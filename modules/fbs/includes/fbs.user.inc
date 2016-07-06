@@ -109,20 +109,25 @@ function fbs_user_update_pincode($account, $new_pincode) {
   $pincode_change->libraryCardNumber = $patron_info['library_card_number'];
   $update->pincodeChange = $pincode_change;
 
+  $res = NULL;
   try {
     $res = fbs_service()->Patron->update(fbs_service()->agencyId, fbs_patron_id($account), $update);
   }
   catch (Exception $e) {
-    watchdog_exception('FBS', $e);
-    
+    watchdog_exception('fbs', $e);
+
     return array(
       'creds' => FALSE,
     );
   }
+
   // FBS doesn't give any other indication of success than returning rather
   // than throwing an error.
-  $result = array('creds' => _fbs_patron_info($res->patron));
-  $result['creds']['library_card_number'] = $patron_info['library_card_number'];
+  $result = array();
+  if ($res) {
+    $result = array('creds' => _fbs_patron_info($res->patron));
+    $result['creds']['library_card_number'] = $patron_info['library_card_number'];
+  }
 
   return $result;
 }
