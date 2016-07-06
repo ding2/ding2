@@ -7,10 +7,7 @@ install-site:
 
 # Setup test modules on site.
 setup-modules:
-	# Enable P2.
-	drush en -y ding_p2_installer
-
-	# We use the connie test provider for testing. Enable it an
+	# We use the connie test provider for testing. Enable it and
 	# disable the default alma.
 	drush en -y connie
 	drush dis -y alma
