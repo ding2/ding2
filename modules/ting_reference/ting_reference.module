@@ -103,10 +103,13 @@ function ting_reference_field_insert($entity_type, $entity, $field, $instance, $
   $entity_id = array_shift($entity_ids);
 
   $settings = reset($items);
-  unset($settings['materials']['add']);
+  if (!empty($settings['materials']['add']) && is_array( $settings['materials'])) {
+    unset($settings['materials']['add']);
 
-  // Save ting materials to ting_reference table.
-  ting_reference_set_relation($entity_id, $settings['materials']);
+    // Save ting materials to ting_reference table.
+    ting_reference_set_relation($entity_id, $settings['materials']);
+  }
+
 
   $items = array(
     array(
@@ -128,7 +131,7 @@ function ting_reference_field_update($entity_type, $entity, $field, $instance, $
   $entity_id = array_shift($entity_ids);
 
   $settings = reset($items);
-  if (!empty($settings['materials']) && $entity_id) {
+  if (!empty($settings['materials']) && is_array($settings['metarials']) && $entity_id) {
     unset($settings['materials']['add']);
 
     // Save ting materials to ting_reference table.
@@ -162,7 +165,6 @@ function ting_reference_field_update($entity_type, $entity, $field, $instance, $
     );
   }
 }
-
 
 /**
  * Implements hook_field_delete().
