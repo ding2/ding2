@@ -17,13 +17,7 @@
  *   Authentication result.
  */
 function fbs_user_authenticate($name, $pincode) {
-  $service = fbs_service();
-  if (!$service) {
-    return array(
-      'success' => FALSE,
-    );
-  }
-
+  $res = new stdClass();
   $pass = _fbs_wayf_login($name);
   if ($pass) {
     // Wayf login.
@@ -35,20 +29,33 @@ function fbs_user_authenticate($name, $pincode) {
       );
     }
 
-    $res = $service->Patron->getPreAuthenticatedPatron($service->agencyId, $name);
+    try {
+      $res = fbs_service()->Patron->getPreAuthenticatedPatron(fbs_service()->agencyId, $name);
+    }
+    catch (Exception $e) {
+      watchdog_exception('fbs', $e);
+    }
   }
   else {
     // Normal login.
     $auth = new FBS\Model\AuthenticationRequest();
     $auth->libraryCardNumber = $name;
     $auth->pincode = $pincode;
-    $res = $service->Patron->authenticate($service->agencyId, $auth);
+
+    try {
+      $res = fbs_service()->Patron->authenticate(fbs_service()->agencyId, $auth);
+    }
+    catch (Exception $e) {
+      watchdog_exception('fbs', $e);
+    }
   }
 
   $result = array(
-    'success' => $res->authenticated,
+    'success' => FALSE,
   );
-  if ($res->authenticated) {
+  if (!empty($res->authenticated)) {
+    $result['success'] = TRUE;
+
     // Save patron info in creds.
     $result['creds'] = _fbs_patron_info($res->patron);
 

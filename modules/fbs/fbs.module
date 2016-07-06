@@ -322,24 +322,21 @@ function fbs_update_preferred_branch($account, $branch_id) {
 function fbs_branches() {
   $branches = &drupal_static(__FUNCTION__, NULL);
   if (is_null($branches)) {
-    $service = fbs_service();
 
-    if ($service) {
-      $res = array();
-      $branches = array();
-      try {
-        $res = $service->Placement->getBranches($service->agencyId);
-      }
-      catch (Exception $e) {
-        watchdog_exception('fbs', $e);
-      }
-
-      foreach ($res as $branch) {
-        $branches[$branch->branchId] = $branch->title;
-      }
-
-      asort($branches);
+    $res = array();
+    try {
+      $res = fbs_service()->Placement->getBranches(fbs_service()->agencyId);
     }
+    catch (Exception $e) {
+      watchdog_exception('fbs', $e);
+    }
+
+    $branches = array();
+    foreach ($res as $branch) {
+      $branches[$branch->branchId] = $branch->title;
+    }
+
+    asort($branches);
   }
   return $branches;
 }
