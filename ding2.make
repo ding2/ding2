@@ -404,11 +404,6 @@ projects[ask_vopros][download][tag] = "1.4"
 projects[xautoload][subdir] = "contrib"
 projects[xautoload][version] = "5.7"
 
-projects[p2][type] = "module"
-projects[p2][download][type] = "git"
-projects[p2][download][url] = "git@github.com:b14/p2.git"
-projects[p2][download][revision] = "e8c04fe"
-
 ; Libraries
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
