@@ -55,7 +55,7 @@
             }
           });
         },
-        error: function (xhr, status, error) {
+        error: function () {
           $('div.loader').remove();
         }
       });
