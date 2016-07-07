@@ -27,7 +27,7 @@ dependencies:
 test:
   override:
     # Build profile using drush make
-    - drush make ding2.make --no-core --contrib-destination=. -y
+    - drush make ding2.make --no-core --contrib-destination=. -y --concurrency=5
     # Install theme dependencies
     - (cd themes/ddbasic && npm install --no-spin)
     # Process theme files.
