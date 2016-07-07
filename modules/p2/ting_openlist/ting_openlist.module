@@ -5,29 +5,6 @@
  */
 
 /**
- * Implements hook_requirements().
- *
- * Give a warning in the status report if the module is not configured.
- */
-function ting_openlist_requirements($phase) {
-  if ($phase == 'runtime') {
-    $a = variable_get('ting_openlist_wsdl');
-    $b = variable_get('ting_library_code');
-    if (!$a || !$b) {
-      $requirements['ting_openlist'] = array(
-        'title' => 'Ting Openlist',
-        'description' => t('Ting Openlist is not configured, please configure the module @here before continuing.', array(
-          '@here' => l(t('here'), 'admin/config/ding/provider/ting_openlist'),
-        )),
-        'value' => t('Not configured'),
-        'severity' => REQUIREMENT_ERROR,
-      );
-      return $requirements;
-    }
-  }
-}
-
-/**
  * Implements hook_ding_provider().
  */
 function ting_openlist_ding_provider() {
@@ -90,7 +67,7 @@ function ting_openlist_field_widget_form(&$form, &$form_state, $field, $instance
           '#description' => t('Search for a public openlist list.'),
           '#element_validate' => array('ting_openlist_field_validate'),
         );
-        
+
         $element['ting_openlist_add'] = array(
           '#type' => 'submit',
           '#value' => t('Add openlist elements'),
@@ -162,7 +139,7 @@ function ting_openlist_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
- * Autocomplete callback for searching after a list directly in openlist.
+ * Auto-complete callback for searching after a list directly in openlist.
  */
 function ting_openlist_autocomplete_list($string) {
   $buffer = array();

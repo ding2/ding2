@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Admin related functionality.
@@ -9,12 +8,11 @@
  * The admin settings form.
  */
 function ting_openlist_settings_form($form, &$form_state) {
-  // Default settings.
   $form['settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Openlist settings'),
   );
-  
+
   $form['settings']['ting_openlist_wsdl'] = array(
     '#type' => 'textfield',
     '#title' => t('URI of the WSDL file'),
@@ -22,7 +20,7 @@ function ting_openlist_settings_form($form, &$form_state) {
     '#default_value' => variable_get('ting_openlist_wsdl', ''),
     '#required' => TRUE,
   );
-  
+
   $form['settings']['ting_library_code'] = array(
     '#type' => 'textfield',
     '#title' => t('Library code'),
@@ -30,7 +28,7 @@ function ting_openlist_settings_form($form, &$form_state) {
     '#default_value' => variable_get('ting_library_code', ''),
     '#required' => TRUE,
   );
-  
+
   $form['settings']['ting_openlist_prefix'] = array(
     '#type' => 'textfield',
     '#title' => t('Openlist prefix'),
@@ -45,7 +43,7 @@ function ting_openlist_settings_form($form, &$form_state) {
     '#title' => t('Openlist WSDL caching'),
     '#description' => t('These settings only affect the SoapClients created for openlist, and will not interfere with other SoapClients on your site.'),
   );
-  
+
   $form['caching']['ting_openlist_wsdl_cache'] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable WSDL caching'),
@@ -59,7 +57,7 @@ function ting_openlist_settings_form($form, &$form_state) {
     '#title' => t('Debugging settings'),
     '#description' => t('Do not enable these settings in a production environment.<br />Even without any debugging on, openlist will log actual errors'),
   );
-  
+
   $form['debugging']['ting_openlist_log'] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable logging'),
@@ -74,7 +72,7 @@ function ting_openlist_settings_form($form, &$form_state) {
     '#description' => t('If logging, this will log more details, but the log messages can get big and confusing.'),
     '#default_value' => variable_get('ting_openlist_log_details', FALSE),
   );
-  
+
   $form['debugging']['ting_openlist_developer'] = array(
     '#type' => 'checkbox',
     '#title' => t('Developer'),
