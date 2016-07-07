@@ -21,8 +21,7 @@ dependencies:
     - rm ~/.composer/composer.*
     - rm -rf ~/.composer/vendor
     # Install drush globally using composer.
-    # Use prefer-source to get around GitHub API rate limits.
-    - composer global require drush/drush:6.* --prefer-source --no-interaction --no-progress
+    - composer global require drush/drush:6.* --no-interaction --no-progress
 
 test:
   override:
