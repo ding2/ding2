@@ -47,6 +47,12 @@ Drupal.ding_popup = {
               }
               window.location.reload(true);
             }
+            else {
+              // Unload content. Needed if the content was a video,
+              // for instance.
+              $(this).remove();
+            }
+
           }
       });
     }
