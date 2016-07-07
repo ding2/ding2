@@ -22,14 +22,14 @@ dependencies:
     - rm -rf ~/.composer/vendor
     # Install drush globally using composer.
     # Use prefer-source to get around GitHub API rate limits.
-    - composer global require drush/drush:6.* --prefer-source --no-interaction
+    - composer global require drush/drush:6.* --prefer-source --no-interaction --no-progress
 
 test:
   override:
     # Build profile using drush make
     - drush make ding2.make --no-core --contrib-destination=. -y
     # Install theme dependencies
-    - (cd themes/ddbasic && npm install)
+    - (cd themes/ddbasic && npm install --no-spin)
     # Process theme files.
     # If there are any changes then fail the build. The result of processing
     # should be committed along with the source changes.
