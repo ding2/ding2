@@ -496,6 +496,12 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
       $title = l($entity->getTitle(), $uri['path']);
     }
 
+    // Add creator(s).
+    $creators = $entity->creators;
+
+    // Add type.
+    $mat_type = $entity->type;
+
     $pickup_branch = ding_provider_invoke('reservation', 'branch_name', $reservation->pickup_branch_id);
     switch ($reservation->reservation_type) {
       case DING_RESERVATION_READY:
@@ -503,6 +509,8 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
           '#type' => 'material_item',
           '#reservation' => $reservation,
           '#id' => $reservation->id,
+          '#creators' => $creators,
+          '#material_type' => $mat_type,
           '#title' => $title,
           '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
           '#information' => array(
@@ -539,6 +547,8 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
           '#type' => 'material_item',
           '#reservation' => $reservation,
           '#id' => $reservation->id,
+          '#creators' => $creators,
+          '#material_type' => $mat_type,
           '#title' => $title,
           '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
           '#information' => array(
@@ -585,6 +595,8 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
           '#type' => 'material_item',
           '#reservation' => $reservation,
           '#id' => $reservation->id,
+          '#creators' => $creators,
+          '#material_type' => $mat_type,
           '#title' => $title,
           '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
           '#information' => array(

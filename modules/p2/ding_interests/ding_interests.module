@@ -50,9 +50,36 @@ function ding_interests_menu() {
   return $items;
 }
 
+/**
+ * Implements hook_access().
+ */
 function ding_interests_access($account) {
   global $user;
   return $user->uid == $account->uid && user_access('use personalisation');
+}
+
+/**
+ * Implements hook_modules_enabled().
+ *
+ * Add "fravalgt" and "udvalgt" terms needed for ding_interests.
+ */
+function ding_interests_modules_enabled($modules) {
+  // Clear cache or the vocabulary below will not exists.
+  drupal_flush_all_caches();
+
+  $vocab = taxonomy_vocabulary_machine_name_load('interest_status');
+
+  $term = new stdClass();
+  $term->name = 'Udvalgt';
+  $term->vid = $vocab->vid;
+  taxonomy_term_save($term);
+  variable_set('ding_interests_selected_tid', $term->tid);
+
+  $term = new stdClass();
+  $term->name = 'Fravalgt';
+  $term->vid = $vocab->vid;
+  taxonomy_term_save($term);
+  variable_set('ding_interests_optedout_tid', $term->tid);
 }
 
 /**
@@ -94,7 +121,7 @@ function ding_interests_ding_list_operations() {
  */
 function ding_interests_ding_interaction_view() {
   if (user_is_logged_in()) {
-    
+
     // UI for following interests is ajax time.
     ctools_include('ajax');
     $interests_list = ding_list_get_list(DING_INTERESTS_LIST);
@@ -181,7 +208,7 @@ function ding_interests_preprocess_taxonomy_term(&$variables) {
       }
       $status = $status_term->tid;
     }
-    
+
     // Show the term if its part of "På baggrund af dine lån foreslår vi
     // emneord".
     // And if the term is "Udvalgt", which is a field set on the term page.
@@ -205,7 +232,7 @@ function ding_interests_preprocess_taxonomy_term(&$variables) {
       $list = ding_list_get_list(DING_INTERESTS_LIST, $account);
 
       $value = ding_interest_get_term_cql($term);
-      
+
       if (!ding_list_has_ding_list_element($list, 'taxonomy_term', $value)) {
         $interest_flag = ding_interests_ajax_button($term, $account, DING_INTERESTS_INTERESTING);
         $no_interest_flag = ding_interests_ajax_button($term, $account, DING_INTERESTS_NOT_INTERESTING);
@@ -330,10 +357,10 @@ function ding_interests_remove_from_list_callback($ajax, $term, $account) {
  *
  * @term object taxonomy_term
  *   The taxonomy term being added.
- 
+
  * @account object user
  *   The user to act on.
- 
+
  * @rating number
  *   The rating to give the element.
  *
@@ -357,7 +384,7 @@ function ding_interests_add_to_list($term, $account, $rating) {
 
     return TRUE;
   }
-  
+
   return FALSE;
 }
 
@@ -617,17 +644,17 @@ function ding_interests_all_recommended_subjects() {
 
 /**
  * Create CQL to lookup results for a term.
- * 
+ *
  * @param object $term
  *    The term to look up.
- * 
- * @return string 
+ *
+ * @return string
  *    The CQL to lookup the term in Brønden.
  */
 function ding_interest_get_term_cql($term) {
   // Check if term has a specific CQL already set.
   $value = ding_base_get_value('taxonomy_term', $term, 'field_search_string');
-  
+
   // Fallback to dc.subject.
   if ($value === FALSE) {
     $value = 'facet.subject="' . $term->name . '"';

@@ -22,7 +22,7 @@ function ting_covers_addi_install() {
     $value = variable_get($variable, NULL);
     if ($value) {
       // The 'addi' part is part of the existing name.
-      variable_set('ting_covers_' . $migrate_variables, $value);
+      variable_set('ting_covers_' . $variable, $value);
     }
   }
 }

@@ -10,3 +10,33 @@
  */
 
 include_once 'ding_special_user.features.inc';
+
+/**
+ * Implements hook_modules_enabled().
+ *
+ * Add ding_special_user terms to the category.
+ */
+function ding_special_user_modules_enabled($modules) {
+  $items = array();
+
+  // Clear cache or the vocabulary below will not exists.
+  drupal_flush_all_caches();
+
+  // Define terms for the event category.
+  $vocab = taxonomy_vocabulary_machine_name_load('special_user_category');
+  $items[$vocab->vid] = array(
+    'Ambassadør',
+    'Månedens bruger',
+  );
+
+  // Save terms in the database.
+  foreach ($items as $vid => $terms) {
+    foreach ($terms as $term) {
+      taxonomy_term_save((object) array(
+        'name' => $term,
+        'vid' => $vid,
+        'format' => 'ding_wysiwyg',
+      ));
+    }
+  }
+}
