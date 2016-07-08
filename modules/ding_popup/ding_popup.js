@@ -51,7 +51,7 @@
             else {
               // Unload content. Needed if the content was a video,
               // for instance.
-              $(this).remove();
+              $(this).empty();
             }
 
           }
