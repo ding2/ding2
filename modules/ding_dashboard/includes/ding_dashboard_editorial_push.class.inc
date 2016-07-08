@@ -7,7 +7,7 @@
 /**
  * Class DingDashboardEditorialPush.
  */
-class DingDashboardEditorialPush extends views_handler_field_node_link {
+class ding_dashboard_editorial_push extends views_handler_field_node_link {
 
   /**
    * Renders the link.

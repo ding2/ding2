@@ -7,7 +7,7 @@
 /**
  * Class DingDashboardEditorialApprove.
  */
-class DingDashboardEditorialApprove extends views_handler_field_node_link {
+class ding_dashboard_editorial_approve extends views_handler_field_node_link {
 
   /**
    * Renders the link.
