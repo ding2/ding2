@@ -30,7 +30,7 @@ $modal-border-radius:             12px;
 
   background: $dialog-background;
   min-width: $modal-min-width;
-  max-width: $modal-max-width;
+  max-width: inherit;
 
   /* Media queries */
   @include small-medium() {

@@ -1,0 +1,284 @@
+# $Id$
+#
+# LANGUAGE translation of Drupal (general)
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# Generated from files:
+#  ding_dams.module: n/a
+#  ding_dams.info: n/a
+#  modules/dams_media_tracker/dams_media_tracker.info: n/a
+#  modules/ding_dams/ding_dams.info: n/a
+#  modules/ding_dams/ding_dams.views_default.inc: n/a
+#  modules/ding_dams/ding_dams.module: n/a
+#  modules/ding_dams/wysiwyg_plugins/ding_dams.inc: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2015-07-28 11:34+0300\n"
+"PO-Revision-Date: 2015-07-30 16:27+0100\n"
+"Last-Translator: Martin Cording <mc@inlead.dk>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"Language: da\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"X-Generator: Poedit 1.7.4\n"
+
+#: profiles/ding2/modules/ding_dams/ding_dams.module:31
+msgid "Use ding dams."
+msgstr "Brug DAMS"
+
+#: profiles/ding2/modules/ding_dams/ding_dams.module:32
+msgid "Allows use ding dams."
+msgstr "Tillad brug af DAMS."
+
+#: profiles/ding2/modules/ding_dams/ding_dams.module:14
+msgid "Media manager"
+msgstr "Mediebibliotek"
+
+#: profiles/ding2/modules/ding_dams/ding_dams.module:15
+msgid "Upload and manage the media library"
+msgstr "Upload og administrer medier"
+
+#: profiles/ding2/modules/ding_dams/ding_dams.info:0
+msgid "Ding DAMS"
+msgstr "DAMS"
+
+#: profiles/ding2/modules/ding_dams/ding_dams.info:0
+msgid "Digital Asset Management System"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dams/ding_dams.info:0
+#: profiles/ding2/modules/ding_dams/modules/dams_media_tracker/dams_media_tracker.info:0
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.info:0
+msgid "Ding"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dams/modules/dams_media_tracker/dams_media_tracker.info:0
+msgid "Ding DAMS Media Tracker"
+msgstr "DAMS tracking"
+
+#: profiles/ding2/modules/ding_dams/modules/dams_media_tracker/dams_media_tracker.info:0
+msgid "Digital Asset Management System Media Tracker"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:332
+msgid "Master"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:333
+msgid "more"
+msgstr "mere"
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:334
+#, fuzzy
+msgid "Apply"
+msgstr "Gem"
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:335
+#, fuzzy
+msgid "Reset"
+msgstr "Nulstil"
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:336
+#, fuzzy
+msgid "Sort by"
+msgstr "Sortér efter"
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:337
+#, fuzzy
+msgid "Asc"
+msgstr "Stigende"
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:338
+#, fuzzy
+msgid "Desc"
+msgstr "Faldende"
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:339
+#, fuzzy
+msgid "Items per page"
+msgstr "Antal per side"
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:340
+#, fuzzy
+msgid "- All -"
+msgstr "- Alt indhold -"
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:341
+msgid "Offset"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:342
+#, fuzzy
+msgid "« first"
+msgstr "« første"
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:343
+#, fuzzy
+msgid "‹ previous"
+msgstr "‹ forrige"
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:344
+#, fuzzy
+msgid "next ›"
+msgstr "næste ›"
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:345
+#, fuzzy
+msgid "last »"
+msgstr "sidste »"
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:346
+msgid "No files available."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:347
+#, fuzzy
+msgid "Title"
+msgstr "Titel"
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:348
+msgid "Size"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:349
+msgid "Upload date"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:350
+msgid "Category"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:351
+msgid "File name"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:352
+#, fuzzy
+msgid "Type"
+msgstr "Type"
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:353
+msgid "DAMS Image"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:354
+#, fuzzy
+msgid "Image"
+msgstr "Billede"
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:355
+msgid "File name/Title/Alternative name/Note/Credit"
+msgstr "Filnavn, titel, alt, etc."
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:356
+msgid "DAMS Video"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:357
+msgid "Video"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:358
+msgid "DAMS Audio"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:359
+msgid "Audio"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:360
+msgid "DAMS Document"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.views_default.inc:361
+msgid "Document"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.module:133;178
+msgid "DAMS inline"
+msgstr "Inline"
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.module:137;182
+msgid "DAMS popup"
+msgstr "Popup"
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.module:141;159;186
+msgid "DAMS icon"
+msgstr "Som ikon"
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.module:145;152;163;190
+msgid "DAMS link"
+msgstr "Som link"
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.module:269
+msgid "Select media"
+msgstr "Vælg medie"
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.module:282
+msgid "Edit media"
+msgstr "Redigér medie"
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.module:299
+msgid "Remove media"
+msgstr "Fjern medie"
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.module:346
+msgid "Could not retrieve the specified file."
+msgstr ""
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.module:357
+msgid "No file appears to have been selected."
+msgstr "Ingen fil valgt."
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.module:360
+msgid "File upload error."
+msgstr "Fejl under upload."
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.info:0
+msgid "Ding DAMS Media Browser"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/ding_dams.info:0
+msgid "Additional tabs for Media Browser"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/wysiwyg_plugins/ding_dams.inc:19
+msgid "Ding DAMS Document Plugin"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/wysiwyg_plugins/ding_dams.inc:22
+msgid "Insert document"
+msgstr "Indsæt dokument"
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/wysiwyg_plugins/ding_dams.inc:44
+msgid "Ding DAMS Video Plugin"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/wysiwyg_plugins/ding_dams.inc:47
+msgid "Insert video"
+msgstr "Indsæt video"
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/wysiwyg_plugins/ding_dams.inc:69
+msgid "Ding DAMS Audio Plugin"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/wysiwyg_plugins/ding_dams.inc:72
+msgid "Insert audio"
+msgstr "Indsæt lyd"
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/wysiwyg_plugins/ding_dams.inc:94
+msgid "Ding DAMS Image Plugin"
+msgstr ""
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/wysiwyg_plugins/ding_dams.inc:97
+msgid "Insert image"
+msgstr "Indsæt billede"
+
+#: profiles/ding2/modules/ding_dams/modules/ding_dams/wysiwyg_plugins/ding_dams.inc:158
+msgid ""
+"The <em>Convert Media tags to markup</em> filter must be enabled for the <a href="
+"\"@format-link\">@format format</a> in order to use the Media browser WYSIWYG button."
+msgstr ""
