@@ -20,6 +20,7 @@ dependencies[] = pm_existing_pages
 dependencies[] = strongarm
 dependencies[] = ting
 dependencies[] = ting_covers
+dependencies[] = ting_covers_addi
 dependencies[] = ting_fulltext
 dependencies[] = ting_oembed_features
 dependencies[] = ting_proxy
