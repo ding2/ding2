@@ -1,3 +1,4 @@
+// jshint latedef: false
 (function ($) {
   "use strict";
   $(document).ready(function(){
@@ -12,38 +13,6 @@
         timeOut = null,
         uri = '',
         interval = 5000;
-
-      /**
-       * Tab click event handler.
-       *
-       * Changes shown tab.
-       */
-      function tab_change(e, obj) {
-        if(e !== null) {
-          e.preventDefault();
-        }
-
-        starting_item = 0;
-        current_tab = $(obj).data('tab');
-        container.find('.ui-tabs-nav li').removeClass('active');
-        $(obj).parent().addClass('active');
-
-        show_items();
-      }
-
-      /**
-       * Slides ding item viewer.
-       */
-      function slide() {
-        var tabs = $('li', container);
-        if (tabs.length > 1) {
-          var current = $('li.active a.tab', container);
-          var next = $(current).parent().next();
-          next = next.length > 0 ? next : $(current).parent().siblings().first();
-          tab_change(null, next.children());
-          timeOut = setTimeout(slide, interval);
-        }
-      }
 
       /**
        * Preloads images.
@@ -63,27 +32,6 @@
         img.src = src;
       }
 
-      // Convert seconds to miliseconds.
-      interval = Drupal.settings.ding_item_viewer.interval * 1000;
-      // Load data from server.
-      container = $(element);
-      uri = 'ding_item_viewer/' + container.attr('data-hash');
-      $('a.tab', container).live('click', function(e) {
-        // In case when user click to tab, stop sliding.
-        clearTimeout(timeOut);
-        tab_change(e, $(this));
-        // And begin again.
-        timeOut = setTimeout(slide, interval);
-      });
-
-      $('div.browsebar-inner', container).live('mouseover', function() {
-        clearTimeout(timeOut);
-      });
-
-      $('div.browsebar-inner', container).live('mouseout', function() {
-        timeOut = setTimeout(slide, interval);
-      });
-
       /**
        * Display the reservation button for items that can be reserved.
        */
@@ -98,40 +46,6 @@
             }
           }
         }
-      }
-
-      /**
-       * Prepare data before viewing it.
-       */
-      function prepare_data() {
-        var tab, i, id, ids = [];
-        // Build index => object_id mapping for quick access (DingItemViewer.tabs).
-        for (tab = 0; tab < items.length; tab++) {
-          tabs[tab] = [];
-          i = 0;
-          for (id in items[tab]) {
-            tabs[tab][i] = id;
-            i++;
-            ids.push(id);
-          }
-        }
-        // Get settings.
-        settings = Drupal.settings.ding_item_viewer;
-        var path = Drupal.settings.basePath + 'ding_availability/items/' + ids.join(',');
-        $.ajax({
-          dataType: "json",
-          url: path,
-          success: function(data) {
-            $.each(data, function(id, item) {
-              // Update cache.
-              Drupal.DADB[id] = item;
-            });
-            show_reservation_button();
-          }
-        });
-
-        // Get item container.
-        content = container.find('.browsebar-items-wrapper');
       }
 
       /**
@@ -173,7 +87,7 @@
             item.data('position', i);
 
             // Attach onclick handler.
-            item.click(item_click);
+            item.click(item_click());
           }
           // Index in DingItemViewer.tabs (helper info).
           item.data('index', index);
@@ -212,11 +126,100 @@
       }
 
       /**
+       * Tab click event handler.
+       *
+       * Changes shown tab.
+       */
+      function tab_change(e, obj) {
+        if(e !== null) {
+          e.preventDefault();
+        }
+
+        starting_item = 0;
+        current_tab = $(obj).data('tab');
+        container.find('.ui-tabs-nav li').removeClass('active');
+        $(obj).parent().addClass('active');
+
+        show_items();
+      }
+
+      /**
+       * Slides ding item viewer.
+       */
+      function slide() {
+        var tabs = $('li', container);
+        if (tabs.length > 1) {
+          var current = $('li.active a.tab', container);
+          var next = $(current).parent().next();
+          next = next.length > 0 ? next : $(current).parent().siblings().first();
+          tab_change(null, next.children());
+          timeOut = setTimeout(slide, interval);
+        }
+      }
+
+      // Convert seconds to miliseconds.
+      interval = Drupal.settings.ding_item_viewer.interval * 1000;
+      
+      // Load data from server.
+      container = $(element);
+      uri = 'ding_item_viewer/' + container.attr('data-hash');
+      $('a.tab', container).live('click', function(e) {
+        // In case when user click to tab, stop sliding.
+        clearTimeout(timeOut);
+        tab_change(e, $(this));
+        // And begin again.
+        timeOut = setTimeout(slide, interval);
+      });
+
+      $('div.browsebar-inner', container).live('mouseover', function() {
+        clearTimeout(timeOut);
+      });
+
+      $('div.browsebar-inner', container).live('mouseout', function() {
+        timeOut = setTimeout(slide, interval);
+      });
+
+      /**
+       * Prepare data before viewing it.
+       */
+      function prepare_data() {
+        var tab, i, id, ids = [];
+        // Build index => object_id mapping for quick access (DingItemViewer.tabs).
+        for (tab = 0; tab < items.length; tab++) {
+          tabs[tab] = [];
+          i = 0;
+          for (id in items[tab]) {
+            tabs[tab][i] = id;
+            i++;
+            ids.push(id);
+          }
+        }
+        // Get settings.
+        settings = Drupal.settings.ding_item_viewer;
+        var path = Drupal.settings.basePath + 'ding_availability/items/' + ids.join(',');
+        $.ajax({
+          dataType: "json",
+          url: path,
+          success: function(data) {
+            $.each(data, function(id, item) {
+              // Update cache.
+              Drupal.DADB[id] = item;
+            });
+            show_reservation_button();
+          }
+        });
+
+        // Get item container.
+        content = container.find('.browsebar-items-wrapper');
+      }
+
+      /**
        * Small item onclick event handler.
        *
        * Moves clicked item in "big" view and shifts all other items in "circle".
        */
       function item_click() {
+        /*jshint validthis: true */
         var item = $(this),
           position = item.data('position'),
           rotation; // Shift and direction of rotation.
@@ -244,7 +247,7 @@
        *
        * @see jQuery.get()
        */
-      function container_callback(response, textStatus, jqXHR) {
+      function container_callback(response) {
         if (response.status === 'OK') {
           container.html(response.data.content);
           container.append(response.data.tabs);
