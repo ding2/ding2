@@ -9,12 +9,43 @@
  *
  * Return the URL and style for the cover of an object.
  */
-function ting_covers_objects() {
-  $ids = array();
-  $styles = array();
-  foreach ($_POST['coverData'] as $cover_info) {
-    $ids[] = $cover_info['id'];
-    $styles[$cover_info['id']] = $cover_info['image_style'];
+function ting_covers_objects($http_request = TRUE, $cover_data = array()) {
+  $covers = array();
+  $image_styles = array();
+  $missing_images_local_ids = array();
+  
+  if ($http_request) {
+    $cover_data = $_POST['coverData'];
+  }
+  elseif (!$http_request && empty($cover_data)) {
+    return $covers;
+  }
+
+  foreach ($cover_data as $cover_info) {
+    // Determine if the local id is a known negative.
+    if (cache_get('ting_covers:' . $cover_info['local_id'], FALSE)) {
+      break;
+    }
+
+    $path = ting_covers_object_path($cover_info['local_id']);
+    if (file_exists($path)) {
+      // If we we already have a valid cover image w/o style then just use it.
+      $covers[] = array(
+        'local_id' => $cover_info['local_id'],
+        'image_style' => $cover_info['image_style'],
+        'url' => image_style_url($cover_info['image_style'], $path),
+      );
+    }
+    else {
+      // Mark the image for retrieval.
+      $missing_images_local_ids[] = (object) array(
+        'localIdentifier' => $cover_info['local_id'],
+        'libraryCode' => $cover_info['owner_id'],
+      );
+
+      // Image style to match later one.
+      $image_styles[$cover_info['local_id']] = $cover_info['image_style'];
+    }
   }
   $covers = ting_covers_get($ids);
   $return = array();
@@ -27,7 +58,12 @@ function ting_covers_objects() {
   }
 
   // Return all image information.
-  drupal_json_output($return);
+  if ($http_request) {
+    drupal_json_output($covers);
+  }
+  else {
+    return $covers;
+  }
 }
 
 /**
