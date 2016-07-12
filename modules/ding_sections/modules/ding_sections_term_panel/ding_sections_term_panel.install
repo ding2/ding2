@@ -107,7 +107,7 @@ function ding_sections_term_panel_create_variant() {
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
-  $handler->name = 'term_view__panel_context_dbedfcc2-0d9e-47db-8f28-9969375e2f1b';
+  $handler->name = 'term_section_panel_context';
   $handler->task = 'term_view';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
