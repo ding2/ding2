@@ -93,19 +93,20 @@ function ding_sections_term_panel_create_term_variant($term) {
   $task = page_manager_get_task('term_view');
   $handlers = page_manager_load_task_handlers($task, '');
 
-  if (!isset($handlers['term_section_panel_context'])) {
+  if (!isset($handlers[$handler_name])) {
     return FALSE;
   }
 
-  $export = page_manager_export_task_handler($handlers['term_section_panel_context']);
+  $handler = page_manager_export_task_handler($handlers[$handler_name]);
+
   ob_start();
-  eval($export);
+  eval($handler);
   ob_end_clean();
 
   $tid = $term->tid;
   // Normally, panels do not support specific panel to node id mapping, so use
   // php code instead.
-  $php_code = '$item = menu_get_object(\'taxonomy_term\', 2);if (isset($item->tid) && $item->tid == ' . $tid . ') {return TRUE;}return FALSE;';
+  $php_code = '$item = menu_get_object(\'taxonomy_term\', 2); if (!empty($item->tid) && $item->tid == ' . $tid . ') {return TRUE;} return FALSE;';
 
   $php_filter = array(
     'name' => 'php',
@@ -116,11 +117,10 @@ function ding_sections_term_panel_create_term_variant($term) {
     'not' => FALSE,
   );
 
-  $handler_name = "term_view_panel_context_tid_{$tid}";
+  $handler_name = 'term_view_panel_context_tid_' . $tid;
   $variant_title = t('Sections term (@term)', array('@term' => $term->name));
   $pipeline = module_exists('panels_ipe') ? 'ipe' : 'standard';
 
-  $handler = new stdClass();
   $handler->name = $handler_name;
   $handler->conf['title'] = $variant_title;
   $handler->conf['pipeline'] = $pipeline;
