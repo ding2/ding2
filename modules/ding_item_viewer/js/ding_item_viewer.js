@@ -87,7 +87,7 @@
             item.data('position', i);
 
             // Attach onclick handler.
-            item.click(item_click());
+            item.click(item_click);
           }
           // Index in DingItemViewer.tabs (helper info).
           item.data('index', index);
