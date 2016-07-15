@@ -54,7 +54,7 @@ function ding_dibs_install() {
     'length' => 1,
     'size' => 'tiny',
     'default' => 0,
-    'description' => '0 = payment not recieved, 1 = payment recieved',
+    'description' => '0 = payment not received, 1 = payment received',
   ));
 
   db_add_field('dibs_transactions', 'dibs_capture_status', array(
@@ -65,13 +65,13 @@ function ding_dibs_install() {
     'description' => '0 = capture failed, 1 = capture succeeded',
   ));
   variable_set('ding_dibs_start_cron_hour', 2);
-  drupal_install_schema('ding_dibs');
 }
 
 /**
  * Implements hook_uninstall().
  */
 function ding_dibs_uninstall() {
+  // Removing variables.
   $variables = array(
     'ding_dibs_start_cron_hour',
     'ding_dibs_last_cron',
@@ -81,19 +81,32 @@ function ding_dibs_uninstall() {
   foreach ($variables as $value) {
     variable_del($value);
   }
+
+  // Removing ding_dibs record from order settings.
+  db_delete('dibs_order_id_settings')
+    ->condition('api_module', 'ding_dibs', '=')
+    ->execute();
+
+  // Delete fields added by ding_dibs.
+  $fields = array('provider_payment_status', 'dibs_capture_status');
+  foreach ($fields as $field) {
+    db_drop_field('dibs_transactions', $field);
+  }
+
+  // Drop schema.
   drupal_uninstall_schema('ding_dibs');
 }
 
 /**
  * Add column for storing provider payment status and DIBS capture status.
  */
-function ding_dibs_update_7000(&$sandbox) {
+function ding_dibs_update_7000() {
   db_add_field('dibs_transactions', 'provider_payment_status', array(
     'type' => 'int',
     'length' => 1,
     'size' => 'tiny',
     'default' => 0,
-    'description' => t('0 = payment not recieved, 1 = payment recieved'),
+    'description' => t('0 = payment not received, 1 = payment received'),
   ));
 
   db_add_field('dibs_transactions', 'dibs_capture_status', array(
@@ -108,8 +121,8 @@ function ding_dibs_update_7000(&$sandbox) {
 /**
  * Add column for storing provider payment status and DIBS capture status.
  */
-function ding_dibs_update_7001(&$sandbox) {
-  if (db_table_exists('ding_dibs_report_cron') == FALSE) {
+function ding_dibs_update_7001() {
+  if (!db_table_exists('ding_dibs_report_cron')) {
     drupal_install_schema('ding_dibs');
   }
 }
