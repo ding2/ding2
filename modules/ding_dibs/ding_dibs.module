@@ -466,8 +466,9 @@ function ding_dibs_cron() {
     }
   }
   if ($start_cron) {
-    if (!empty(variable_get('ding_dibs_emails', ''))) {
-      $emails_array = preg_split("/\,|\r\n|\n/", variable_get('ding_dibs_emails', ''));
+    $ding_dibs_email = variable_get('ding_dibs_emails', '');
+    if (!empty($ding_dibs_email)) {
+      $emails_array = preg_split("/\,|\r\n|\n/", $ding_dibs_email);
       if (count($emails_array) >= 1) {
         variable_set('ding_dibs_last_cron', REQUEST_TIME);
         $id = _ding_dibs_insert_table(variable_get('ding_dibs_last_cron', REQUEST_TIME));

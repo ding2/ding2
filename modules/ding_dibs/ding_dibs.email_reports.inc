@@ -196,7 +196,7 @@ function _ding_dibs_generate_zero($item) {
  * The function generates a table row.
  *
  * @param object $dibs_transactions_value
- *   Object database table data dibs transactions
+ *   Object database table data dibs transactions.
  *
  * @return array
  *   Return table row for mailing reports.
