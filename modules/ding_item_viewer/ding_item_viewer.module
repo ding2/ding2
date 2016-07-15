@@ -661,32 +661,36 @@ function ding_item_viewer_content_type_edit_form_submit($form, &$form_state) {
 function ding_item_viewer_build_searches(array $searches, array $settings) {
   foreach ($searches as $search) {
     $sort = $settings['ding_item_viewer_item_sorting'];
-    $search_result = ding_item_viewer_search_ting($search['query'], 1, 50, $sort);
+    try {
+      $search_result = ding_item_viewer_search_ting($search['query'], 1, 50, $sort);
 
-    $count_search_results = $search_result->numTotalCollections;
-    if ($count_search_results > 0) {
-      $collection_ids = array_keys($search_result->collections);
-      $cover_exists = ding_item_viewer_check_covers($collection_ids);
-      $cache_id = ding_item_viewer_generate_cache_id($search['title'] . $search['query']);
-      $item_ids = array_keys($cover_exists);
+      $count_search_results = $search_result->numTotalCollections;
+      if ($count_search_results > 0) {
+        $collection_ids = array_keys($search_result->collections);
+        $cover_exists = ding_item_viewer_check_covers($collection_ids);
+        $cache_id = ding_item_viewer_generate_cache_id($search['title'] . $search['query']);
+        $item_ids = array_keys($cover_exists);
+        $objects = ding_entity_load_multiple($item_ids);
+        $items = array();
+        foreach ($objects as $item) {
+          $build = ting_object_view($item, 'ding_item_viewer_big');
+          $big = drupal_render($build);
+          $build = ting_object_view($item, 'ding_item_viewer_small');
+          $small = drupal_render($build);
 
-      $objects = ding_entity_load_multiple($item_ids);
+          $items[$item->localId] = array(
+            'small' => $small,
+            'big' => $big,
+          );
+        }
 
-      $items = array();
-      foreach ($objects as $item) {
-        $build = ting_object_view($item, 'ding_item_viewer_big');
-        $big = drupal_render($build);
-        $build = ting_object_view($item, 'ding_item_viewer_small');
-        $small = drupal_render($build);
-
-        $items[$item->localId] = array(
-          'small' => $small,
-          'big' => $big,
-        );
+        // Cache rendered items.
+        cache_set($cache_id, $items, 'cache', REQUEST_TIME + $settings['ding_item_viewer_cache_ttl']);
       }
-
-      // Cache rendered items.
-      cache_set($cache_id, $items, 'cache', REQUEST_TIME + $settings['ding_item_viewer_cache_ttl']);
+    }
+    catch (Exception $ex) {
+      cache_set($cache_id, array(), 'cache', REQUEST_TIME + $settings['ding_item_viewer_cache_ttl']);
+      watchdog('ding_item_viewer', $ex);
     }
   }
 }
