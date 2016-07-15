@@ -2,9 +2,7 @@
 /**
  * @file
  * E-mail reports functionality.
- *
  */
-
 
 /**
  * Form settings mailing reports.
@@ -168,7 +166,11 @@ function ding_dibs_cron_report() {
     }
     $rows[] = array(
       // Date and time run cron.
-      array('data' => check_plain(format_date($record->time_start, 'custom', 'dS F H:i', date_default_timezone_get()))),
+      array(
+        'data' => check_plain(
+          format_date($record->time_start, 'custom', 'dS F H:i', date_default_timezone_get())
+        ),
+      ),
       // Text output run cron.
       array('data' => $text),
     );
@@ -193,7 +195,7 @@ function _ding_dibs_generate_zero($item) {
 /**
  * The function generates a table row.
  *
- * @param $dibs_transactions_value
+ * @param object $dibs_transactions_value
  *   Object database table data dibs transactions
  *
  * @return array

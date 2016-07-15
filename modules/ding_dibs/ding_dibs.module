@@ -5,7 +5,7 @@
  */
 
 /**
- * Implements of hook_dibsapi().
+ * Implements hook_dibsapi().
  */
 function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a3 = NULL, $a4 = NULL) {
   global $user;
@@ -446,8 +446,9 @@ function ding_dibs_cards() {
 
 /**
  * Implements hook_cron().
+ *
  * This is done by sending written reports and email adresses result cron
- * launches in the database
+ * launches in the database.
  */
 function ding_dibs_cron() {
   $start_cron = FALSE;
@@ -521,10 +522,6 @@ function _ding_dibs_insert_table($start) {
  *
  * @param int $id
  *   Id database table "ding_dibs_report_cron".
- * @param string $start_hours
- *   Hours run cron.
- * @param string $start_minute
- *   Minutes run cron.
  */
 function _ding_dibs_update_table($id) {
   $query = db_update('ding_dibs_report_cron');
@@ -540,11 +537,11 @@ function _ding_dibs_update_table($id) {
 /**
  * Select info from the table ding_dibs_report_cron.
  *
- * @param int $id
- *   id database table ding_dibs_report_cron.
- * @param string $status
- *   status database table ding_dibs_report_cron.
- * @param int $id_report
+ * @param mixed $id
+ *   ID database table ding_dibs_report_cron.
+ * @param mixed $status
+ *   Status database table ding_dibs_report_cron.
+ * @param mixed $id_report
  *   ID report which will be started sample database.
  *
  * @return array
