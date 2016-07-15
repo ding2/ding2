@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Ding Dibs install.
+ */
 
 /**
  * Implements hook_schema().
@@ -31,7 +35,7 @@ function ding_dibs_schema() {
 }
 
 /**
-* Implements hook_install().
+ * Implements hook_install().
  */
 function ding_dibs_install() {
   // Inserting default order id setting.
@@ -100,13 +104,3 @@ function ding_dibs_update_7000(&$sandbox) {
     'description' => t('0 = capture failed, 1 = capture succeeded'),
   ));
 }
-
-/**
- * Add column for storing provider payment status and DIBS capture status.
- */
-function ding_dibs_update_7001(&$sandbox) {
-  if (db_table_exists('ding_dibs_report_cron') == FALSE) {
-    drupal_install_schema('ding_dibs');
-  }
-}
-

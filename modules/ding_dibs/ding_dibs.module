@@ -466,6 +466,7 @@ function ding_dibs_cron() {
     }
   }
   if ($start_cron) {
+    // Moving ding_dibs_emails into variable.
     $ding_dibs_email = variable_get('ding_dibs_emails', '');
     if (!empty($ding_dibs_email)) {
       $emails_array = preg_split("/\,|\r\n|\n/", $ding_dibs_email);
