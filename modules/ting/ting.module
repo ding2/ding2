@@ -278,7 +278,7 @@ function ting_block_view($delta = '') {
 
           foreach ($relations as $key => $relation) {
             if (isset($relation_types[$key])) {
-              $items[] = l($relation_types[$key] . ' (' . count($relation) . ') ', '#' . $key, array('external' => TRUE));
+              $items[] = l($relation_types[$key] . ' (' . count($relation) . ') ', '#' . urlencode($key), array('external' => TRUE));
             }
           }
           $block->content = array(
