@@ -142,8 +142,9 @@ function ding_event_field_group_info() {
     'weight' => '3',
     'children' => array(
       0 => 'field_ding_event_category',
-      1 => 'field_ding_event_target',
-      2 => 'field_ding_event_tags',
+      1 => 'field_ding_event_tags',
+      2 => 'field_ding_event_target',
+      3 => 'field_rooms',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(

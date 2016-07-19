@@ -25,5 +25,13 @@ function ding_event_taxonomy_default_vocabularies() {
       'module' => 'taxonomy',
       'weight' => 0,
     ),
+    'rooms' => array(
+      'name' => 'Rooms',
+      'machine_name' => 'rooms',
+      'description' => '',
+      'hierarchy' => 0,
+      'module' => 'taxonomy',
+      'weight' => 0,
+    ),
   );
 }
