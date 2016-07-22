@@ -6,7 +6,9 @@
 
 
 .page-ting-object .field.field-name-field-ss-comment .field-label:before,
-.page-ting-collection .field.field-name-field-ss-comment .field-label:before {
+.page-ting-collection .field.field-name-field-ss-comment .field-label:before,
+.page-ting-collection .ss-tags-outer-wrapper .ss-tags-inner-wrapper h2:before,
+.page-ting-object .ss-tags-outer-wrapper .ss-tags-inner-wrapper h2:before {
   color: $link-color;
 }
 
@@ -17,4 +19,8 @@
   padding: $label-padding;
 
   @include border-radius($label-border-radius);
+
+  &:hover {
+    background-color: $label-bg-color-hover;
+  }
 }
