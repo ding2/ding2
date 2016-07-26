@@ -77,7 +77,7 @@ function ting_search_carousel_configure_display() {
   $instance = field_info_instance('ting_object', 'ting_cover', 'ting_object');
   $instance['display']['ting_search_carousel'] = array(
     'label' => 'hidden',
-    'type' => 'ting_cover_ting_search_carousel',
+    'type' => 'ting_cover_simple',
     'weight' => '0',
     'settings' => array(
       'image_style' => 'medium',
