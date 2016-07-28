@@ -94,14 +94,6 @@ function ding_place2book_get_ticketinfo($nid) {
 }
 
 /**
- * Implementation of hook_init().
- */
-function ding_place2book_init() {
-  drupal_add_js(drupal_get_path('module', 'ding_place2book') . '/js/ding_place2book.js');
-  drupal_add_css(drupal_get_path('module', 'ding_place2book') . '/css/ding_place2book.css');
-}
-
-/**
 * Implements hook_image_default_styles().
 */
 function ding_place2book_image_default_styles() {
