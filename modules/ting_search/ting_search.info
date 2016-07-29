@@ -7,3 +7,4 @@ files[] = ting_search.module
 files[] = tests/ting_search.test
 dependencies[] = ting
 dependencies[] = search
+scripts[] = js/ting_search_overlay.js
