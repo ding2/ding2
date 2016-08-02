@@ -251,6 +251,12 @@ projects[easyddb_search_result_reservation][download][type] = "git"
 projects[easyddb_search_result_reservation][download][url]  = "git@github.com:easySuite/easyddb_search_result_reservation.git"
 projects[easyddb_search_result_reservation][download][branch]  = "development"
 
+projects[easyddb_xml_events][type] = "module"
+projects[easyddb_xml_events][subdir] = ""
+projects[easyddb_xml_events][download][type] = "git"
+projects[easyddb_xml_events][download][url] = "git@github.com:easySuite/easyddb_xml_events.git"
+projects[easyddb_xml_events][download][branch] = "development"
+
 projects[easyddb_zerohit_redirect][type]           = "module"
 projects[easyddb_zerohit_redirect][subdir]         = ""
 projects[easyddb_zerohit_redirect][download][type] = "git"
