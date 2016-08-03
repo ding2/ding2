@@ -223,35 +223,19 @@
           transition = new Drupal.tingSearchCarouselTransitions.fade();
         }
 
+        var settings = {};
+        if (typeof $(this).data('settings') === 'object') {
+          settings = $(this).data('settings');
+        }
+
         $('.carousel-tab', this).each(function () {
           var tab = $(this);
 
           // Init carousels. In order to react to the init event, the
           // event handler needs to be defined before triggering Slick
           // (obviously in hindsight).
-          $('.carousel', this).on('init reInit afterChange', tab, update).slick({
-            arrows: true,
-            infinite: false,
-            slidesToShow: 5,
-            slidesToScroll: 4,
-            responsive: [{
-              breakpoint: 1024,
-              settings: {
-                slidesToShow: 3,
-                slidesToScroll: 3
-              }
-            }, {
-              breakpoint: 600,
-              settings: {
-                slidesToShow: 2,
-                arrows: false
-              }
-            }, {
-              breakpoint: 300,
-              // No carousel.
-              settings: "unslick"
-            }]
-          });
+          $('.carousel', this).on('init reInit afterChange', tab, update)
+            .slick(settings);
         });
 
         // Add tabs.

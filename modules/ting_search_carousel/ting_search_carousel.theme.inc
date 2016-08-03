@@ -56,6 +56,36 @@ function template_preprocess_ting_search_carousel(&$vars, $hook) {
     $vars['transition'] = 'fade';
   }
 
+  // Default Slick settings.
+  $vars['settings'] = array(
+    'arrows' => TRUE,
+    'infinite' => FALSE,
+    'slidesToShow' => 5,
+    'slidesToScroll' => 4,
+    'responsive' => array(
+      array(
+        'breakpoint' => 1024,
+        'settings' => array(
+          'slidesToShow' => 3,
+          'slidesToScroll' => 3,
+        ),
+      ),
+      array(
+        'breakpoint' => 600,
+        'settings' => array(
+          'slidesToShow' => 2,
+          'slidesToScroll' => 2,
+          'arrows' => FALSE,
+        ),
+      ),
+      array(
+        'breakpoint' => 300,
+        // No carousel.
+        'settings' => "unslick",
+      ),
+    ),
+  );
+
   if (!$vars['show_description']) {
     $vars['classes_array'][] = 'no-description';
   }
