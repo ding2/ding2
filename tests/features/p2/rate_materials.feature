@@ -7,19 +7,19 @@ Feature: Rate materials
     Given I am logged in as a library user
     And the list of rated materials exists
 
-  @api @javascript @no_circle_selenium
+  @api @javascript
   Scenario: Rate material
     Given I have rated the material "The riddle of Nostradamus" with "2" stars
     When I go to the list of rated materials
     Then I should see that the material "The riddle of Nostradamus" is marked with "2" stars
 
-  @api @javascript  @no_circle_selenium
+  @api @javascript
   Scenario: See materials I have rated
     Given I have rated the material "Asimov on physics" with "3" stars
     When I go to the list of rated materials
     Then I should see that the material "Asimov on physics" is marked with "3" stars
 
-  @api @javascript @no_circle_selenium
+  @api @javascript
   Scenario: Change rating of material
     Given I have rated the material "Debrett's etiquette and modern manners" with "4" stars
     When I go to the list of rated materials
