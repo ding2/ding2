@@ -851,8 +851,8 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_rooms'
-  $field_instances['node-ding_event-field_rooms'] = array(
+  // Exported field_instance: 'node-ding_event-field_ding_event_rooms'
+  $field_instances['node-ding_event-field_ding_event_rooms'] = array(
     'bundle' => 'ding_event',
     'default_value' => NULL,
     'deleted' => 0,
@@ -885,7 +885,7 @@ function ding_event_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'field_name' => 'field_rooms',
+    'field_name' => 'field_ding_event_rooms',
     'label' => 'Rooms',
     'required' => 0,
     'settings' => array(
