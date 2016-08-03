@@ -1141,16 +1141,17 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should be able to add material :material to the list :title as a different user
+     * @Then I should be able to add material :materialTitle to the list :title as a different user
      */
-    public function iShouldBeAbleToAddMaterialToTheListAsADifferentUser($material, $title)
+    public function iShouldBeAbleToAddMaterialToTheListAsADifferentUser($materialTitle, $title)
     {
+        $material = $this->titleToMaterial($materialTitle);
         $this->gotoPage('/ting/object/' . $material);
 
         // Check that the link for add element to shared list exists.
         $listId = $this->getListId($title);
         $this->ding2Context->minkContext->assertElementOnPage(
-          '.buttons li a[href^="/dinglist/attach/ting_object/' . $listId . '"]'
+          '.buttons li a[href="/dinglist/attach/ting_object/' . $listId . '/' . $material . '"]'
         );
 
         // If the add link is there, test that the user can add material.
