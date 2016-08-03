@@ -140,6 +140,7 @@ class P2Context implements Context, SnippetAcceptingContext
      *
      * @return string
      *   The list id.
+     * @throws \Exception
      */
     public function getListId($list)
     {

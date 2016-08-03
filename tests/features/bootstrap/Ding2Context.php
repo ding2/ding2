@@ -180,6 +180,7 @@ class Ding2Context implements Context, SnippetAcceptingContext
      *
      * @param ElementInterface $element
      *   Element to scroll to.
+     * @throws \Exception
      */
     public function scrollTo(ElementInterface $element)
     {
