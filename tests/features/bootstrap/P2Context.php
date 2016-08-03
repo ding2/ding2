@@ -219,8 +219,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeALinkToTheCreateListPage()
     {
-        $this->ding2Context->iSeeALinkTo($this->ding2Context->userPath() .
-                                         '/createlist');
+        $this->ding2Context->iSeeALinkTo('/list/create');
     }
 
     /**
@@ -529,7 +528,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iAmOnMyCreateListPage()
     {
-        $this->createListPage->open(['uid' => $this->ding2Context->userUid()]);
+        $this->createListPage->open();
     }
 
     /**
