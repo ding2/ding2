@@ -5,6 +5,7 @@
 ?>
 <div class="<?php print $classes; ?>"
   data-transition="<?php print $transition; ?>"
+  data-settings="<?php print htmlentities(json_encode($settings)); ?>"
   >
   <?php foreach ($tabs as $tab): ?>
   <div class="carousel-tab <?php print $tab['classes']; ?>"
