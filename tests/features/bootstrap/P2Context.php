@@ -846,8 +846,6 @@ class P2Context implements Context, SnippetAcceptingContext
             throw new Exception("Found list '$listTitle' is not the same as '$title'");
         }
 
-        $link = $this->dataRegistry[$access . ' link:' .$title];
-        $this->gotoPage($link);
         $this->iFollowTheList($title);
     }
 
