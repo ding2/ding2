@@ -107,8 +107,6 @@ function ting_covers_objects($http_request = TRUE, $cover_data = array()) {
 /**
  * Helper function to fetch and save a cover image file.
  *
- * @see image_style_create_derivative()
- *
  * @param string $filename
  *   File name, including its path within Drupal's file folder.
  * @param string $image_url
@@ -116,6 +114,8 @@ function ting_covers_objects($http_request = TRUE, $cover_data = array()) {
  *
  * @return mixed
  *   A file object or FALSE on error.
+ *
+ * @see image_style_create_derivative()
  */
 function _ting_covers_pages_fetch_image($filename, $image_url) {
   $result = drupal_http_request($image_url);
@@ -130,7 +130,7 @@ function _ting_covers_pages_fetch_image($filename, $image_url) {
 
   // Build the destination folder tree if it doesn't already exist.
   if (!file_prepare_directory($directory, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS)) {
-    watchdog('ting_covers', 'Failed  to create directory: %directory', array('%directory' => $directory), WATCHDOG_ERROR);
+    watchdog('ting_covers', 'Failed to create directory: %directory', array('%directory' => $directory), WATCHDOG_ERROR);
     return FALSE;
   }
 

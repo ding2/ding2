@@ -30,7 +30,7 @@
       }
       // back cover
       if (data.urls.backpage != undefined) {
-        var pdf = '<object data="' + data.urls.backpage + '?page=1&amp;view=Fit" type="application/pdf" width="590" height="925">' +
+        var pdf = '<object data="' + data.urls.backpage + '" type="application/pdf" width="590" height="925">' +
           '<p>It appears you dont have a PDF plugin for this browser. ' +
           'No biggie... you can ' +
           '<a href="' + data.urls.backpage + '">click here to download the PDF file.</a>' +
