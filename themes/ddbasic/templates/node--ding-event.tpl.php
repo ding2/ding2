@@ -112,8 +112,8 @@
         <p itemprop="location"><i class="icon-home"></i> <?php print render($ddbasic_event_location); ?></p>
     <?php endif; ?>
 
-    <?php if (isset($content['field_rooms'])): ?>
-        <div class="event-room"><i class="icon-location-arrow"></i> <?php print render($content['field_rooms']); ?></div>
+    <?php if (isset($content['field_ding_event_rooms'])): ?>
+        <div class="event-room"><i class="icon-location-arrow"></i> <?php print render($content['field_ding_event_rooms']); ?></div>
     <?php endif; ?>
 
     <?php if (isset($content['field_ding_event_target'])): ?>
