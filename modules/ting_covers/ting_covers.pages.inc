@@ -81,7 +81,7 @@ function ting_covers_objects($http_request = TRUE, $cover_data = array()) {
           if ($file = _ting_covers_pages_fetch_image(ting_covers_object_path($local_id->localIdentifier, $type), $uri)) {
             // Generate a path corresponding to the downloaded image, styled.
             if ($type == 'backpage') {
-              $covers[$local_id->localIdentifier]['urls'][$type] = $file;
+              $covers[$local_id->localIdentifier]['urls'][$type] = file_create_url($file);
             }
             else {
               $covers[$local_id->localIdentifier]['urls'][$type] = image_style_url($image_styles[$cover_info['local_id']], $file);
