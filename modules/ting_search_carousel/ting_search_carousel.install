@@ -69,6 +69,13 @@ function ting_search_carousel_update_7000() {
 }
 
 /**
+ * Adds defaults config.
+ */
+function ting_search_carousel_update_7001() {
+  ting_search_carousel_configure_display();
+}
+
+/**
  * Rearrange fields in ting search carousel display of ting object.
  */
 function ting_search_carousel_configure_display() {
