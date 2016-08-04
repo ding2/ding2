@@ -66773,7 +66773,7 @@ msgstr "Ding!"
 
 #: js/ding_christmas_calendar.js:0
 msgid "Hov Hov. Do not cheat! You can not open the door yet"
-msgstr "Hov Hov! Du kan endnu ikke se denne låge :)"
+msgstr "Hov Hov! Du kan endnu ikke åbne denne låge :)"
 
 #: plugins/content_types/ding_christmas_calendar_mobile.inc:9
 msgid "Mobile Christmas calendar"
@@ -66797,5 +66797,5 @@ msgstr "Hov Hov"
 
 #: templates/ding_christmas_calendar.tpl.php:21
 msgid "Do not cheat! You can not open the door yet"
-msgstr "Du kan endnu ikke se denne låse :)""
+msgstr "Du kan endnu ikke åbne denne låge :)"
 
