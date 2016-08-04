@@ -8,7 +8,7 @@ projects[addressfield][subdir] = "contrib"
 projects[addressfield][version] = "1.0-beta5"
 
 projects[admin_views][subdir] = "contrib"
-projects[admin_views][version] = "1.4"
+projects[admin_views][version] = "1.6"
 
 projects[apc][subdir] = "contrib"
 projects[apc][version] = "1.0-beta4"
