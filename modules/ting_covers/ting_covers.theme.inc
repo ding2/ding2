@@ -31,7 +31,7 @@ function template_preprocess_ting_object_cover(&$variables) {
   $backcoverpdf_file_path = $backcoverpdf_local_id = FALSE;
   $variables['elements']['#classes'] = array(
     'ting-cover',
-    'ting-cover-style-' . $image_style
+    'ting-cover-style-' . $image_style,
   );
   foreach ($local_ids as $key => $lid) {
     // If there's a cover in the file system, we'll use it. Otherwise, we'll get it by AJAX.
@@ -75,7 +75,7 @@ function template_preprocess_ting_object_cover(&$variables) {
       '#title' => theme('image_style', array(
         'style_name' => $image_style,
         'path' => $cover_file_path,
-        'alt' => $alt
+        'alt' => $alt,
       )),
       '#href' => '#',
       '#options' => array(
@@ -107,7 +107,7 @@ function template_preprocess_ting_object_cover(&$variables) {
           '<object data="' . $backcover_uri . '?page=1&amp;view=Fit" type="application/pdf" width="590" height="925">
               <p>It appears you don\'t have a PDF plugin for this browser.
                  No biggie... you can <a href="' . $backcover_uri . '">click here to download the PDF file.</a></p>
-           </object>'
+           </object>',
       );
     }
     // Avoid further javascript processing.
@@ -121,7 +121,7 @@ function template_preprocess_ting_object_cover(&$variables) {
       'title' => t('See large cover image', array(), array('context' => 'ting_covers')),
       'aria-label' => t('See large cover image', array(), array('context' => 'ting_covers')),
       'data-reveal-id' => 'reveal-cover-large-' . $variables['elements']['#id'],
-    )
+    ),
   );
   if (!file_exists($backcoverpdf_file_path)) {
     $options['attributes']['style'] = 'display:none';

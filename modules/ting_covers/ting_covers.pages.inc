@@ -80,7 +80,12 @@ function ting_covers_objects($http_request = TRUE, $cover_data = array()) {
           // Try to download the image locally.
           if ($file = _ting_covers_pages_fetch_image(ting_covers_object_path($local_id->localIdentifier, $type), $uri)) {
             // Generate a path corresponding to the downloaded image, styled.
-            $covers[$local_id->localIdentifier]['urls'][$type] = image_style_url($image_styles[$cover_info['local_id']], $file);
+            if ($type == 'backpage') {
+              $covers[$local_id->localIdentifier]['urls'][$type] = $file;
+            }
+            else {
+              $covers[$local_id->localIdentifier]['urls'][$type] = image_style_url($image_styles[$cover_info['local_id']], $file);
+            }
           }
         }
       }
@@ -125,7 +130,7 @@ function _ting_covers_pages_fetch_image($filename, $image_url) {
 
   // Build the destination folder tree if it doesn't already exist.
   if (!file_prepare_directory($directory, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS)) {
-    watchdog('ting_covers', 'Failed to create directory: %directory', array('%directory' => $directory), WATCHDOG_ERROR);
+    watchdog('ting_covers', 'Failed  to create directory: %directory', array('%directory' => $directory), WATCHDOG_ERROR);
     return FALSE;
   }
 
