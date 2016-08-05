@@ -48370,3 +48370,2319 @@ msgstr "Pinkoden skal bestå af %number cifre."
 
 msgid "You are not allowed to automatically be created because of the age limit (!limit years). Please go to your local library to registry."
 msgstr "Du kan ikke oprette dig som bruger via NemID på grund af aldersbegrænsningen (!limit år). Du kan blive oprettet som bruger ved personlig henvendelse på biblioteket."
+
+#: ding_entity_rating/ding_entity_rating.features.field_instance.inc:77 ding_entity_rating/ding_entity_rating.module:134
+msgid "Rate this"
+msgstr "Bedøm dette"
+
+#: ding_entity_rating/ding_entity_rating.features.field_instance.inc:78 ding_entity_rating/ding_entity_rating.module:127
+msgid "Average rating"
+msgstr ""
+
+#: ding_entity_rating/ding_entity_rating.serendipity.inc:79
+msgid "Because you liked !item"
+msgstr "Fordi du tidligere har anbefalet !item"
+
+#: ding_entity_rating/ding_entity_rating.module:113
+msgid "Ratings"
+msgstr "Materialer jeg har bedømt"
+
+#: ding_entity_rating/ding_entity_rating.module:114
+msgid "This is the list of materials you have rated. Rate materials and get recommendations for similar content."
+msgstr ""
+"Dette er listen over materialer du har bedømt. Jo flere materialer du "
+"bedømmer jo bedre forslag til lignende nye materialer bliver du "
+"foreslået."
+
+#: ding_entity_rating/ding_entity_rating.module:128
+msgid "Average result of all ratings given to this entity"
+msgstr ""
+
+#: ding_entity_rating/ding_entity_rating.module:135
+msgid "Enables the users to rate this entity"
+msgstr ""
+
+#: ding_entity_rating/ding_entity_rating.module:173;179
+msgid "Default"
+msgstr "Standard"
+
+#: ding_entity_rating/ding_entity_rating.module:251
+msgid "Thank you for your input"
+msgstr "Tak for din bedømmelse!"
+
+#: ding_entity_rating/ding_entity_rating.module:259
+msgid "Rate previous loans"
+msgstr "Vurdér det, du har lånt, og få forslag specielt til dig"
+
+#: ding_entity_rating/ding_entity_rating.module:262
+msgid "You could rate materials to give us an idea of your preferences."
+msgstr ""
+"Vidste du at du kan bedømme bibliotekets materialer, og at det kan "
+"give dig bedre forslag til andre materialer du kan låne?"
+
+#: ding_entity_rating/ding_entity_rating.module:263
+msgid "Rate your current loans"
+msgstr "Vurdér det, du har lånt, og få forslag specielt til dig"
+
+#: ding_entity_rating/ding_entity_rating.module:303
+msgid "Average:"
+msgstr "Gennemsnit:"
+
+#: ding_entity_rating/ding_entity_rating.module:432
+msgid "It pays to judge"
+msgstr "Det betaler sig at bedømme"
+
+#: ding_entity_rating/ding_entity_rating.module:32
+msgid "Ding entity rating add to list"
+msgstr "Tilføj til liste"
+
+#: ding_entity_rating/ding_entity_rating.module:40
+msgid "Ding entity get rating"
+msgstr ""
+
+#: ding_entity_rating/ding_entity_rating.info:0
+msgid "Ding entity rating"
+msgstr ""
+
+#: ding_entity_rating/ding_entity_rating.info:0
+msgid "Allow users to rate ting objects"
+msgstr ""
+
+#: ding_entity_rating/plugins/content_types/popular.inc:9
+msgid "Ding Entity Rating: Popular"
+msgstr "Populært"
+
+#: ding_entity_rating/plugins/content_types/popular.inc:10
+msgid "Popular objects, from openlist data."
+msgstr ""
+
+#: ding_entity_rating/plugins/content_types/popular.inc:76
+msgid "Use library code"
+msgstr ""
+
+#: ding_entity_rating/plugins/content_types/popular.inc:82
+msgid "Month"
+msgstr "Måned"
+
+#: ding_entity_rating/plugins/content_types/popular.inc:83
+msgid "It is important to use YYYY-MM as format, like @example. If not filled out the system will use current month."
+msgstr ""
+
+#: ding_entity_rating/plugins/content_types/popular.inc:104
+msgid "Please make sure you used the correct date format."
+msgstr ""
+
+#: ding_entity_rating_loan_history/ding_entity_rating_loan_history.module:18
+msgid "Rate your previous loans"
+msgstr "Vurdér det, du har lånt, og få forslag specielt til dig"
+
+#: ding_entity_rating_loan_history/ding_entity_rating_loan_history.module:20
+msgid "Lookup your previous loans"
+msgstr "Se dine tidligere hjemlån"
+
+#: ding_entity_rating_loan_history/ding_entity_rating_loan_history.info:0
+msgid "Ding entity rating by loan history"
+msgstr ""
+
+#: ding_entity_rating_loan_history/ding_entity_rating_loan_history.info:0
+msgid "Suggest entities to rate based on the uses loan history."
+msgstr ""
+
+#: ding_interaction/ding_interaction.admin.inc:16 ding_list/include/form.inc:217 ding_serendipity/ding_serendipity.admin.inc:63 ding_user_complete/ding_user_complete.admin.inc:25
+msgid "Title"
+msgstr "titel"
+
+#: ding_interaction/ding_interaction.admin.inc:17;33 ding_interaction/ding_interaction.module:46 ding_list/include/form.inc:392 ding_message/ding_message.module:35 ding_serendipity/ding_serendipity.admin.inc:66;106 ding_serendipity/ding_serendipity.module:45;61 ding_serendipity_ting_entity/ding_serendipity_ting_entity.module:69
+msgid "Settings"
+msgstr "Indstillinger"
+
+#: ding_interaction/ding_interaction.admin.inc:43
+msgid "Ding interaction settings"
+msgstr ""
+
+#: ding_interaction/ding_interaction.admin.inc:49
+msgid "Page count"
+msgstr ""
+
+#: ding_interaction/ding_interaction.admin.inc:50
+msgid "Set the amount of page views between ding interaction displays"
+msgstr ""
+
+#: ding_interaction/ding_interaction.admin.inc:87 ding_serendipity/ding_serendipity.admin.inc:167 ding_user_complete/ding_user_complete.admin.inc:100
+msgid "Update @title"
+msgstr "Opdatér @title"
+
+#: ding_interaction/ding_interaction.api.inc:25
+msgid "Title to display"
+msgstr ""
+
+#: ding_interaction/ding_interaction.module:38
+msgid "Ding interaction overview"
+msgstr ""
+
+#: ding_interaction/ding_interaction.module:39
+msgid "Get an overview of the interaction elements"
+msgstr ""
+
+#: ding_interaction/ding_interaction.module:47
+msgid "Set the settings for an interaction function"
+msgstr ""
+
+#: ding_interaction/ding_interaction.info:0
+msgid "Ding interaction"
+msgstr ""
+
+#: ding_interaction/ding_interaction.info:0
+msgid "Interaction delivery for users"
+msgstr ""
+
+#: ding_interaction/plugins/content_types/interaction_pane.inc:12
+msgid "Ding interaction pane"
+msgstr ""
+
+#: ding_interaction/plugins/content_types/interaction_pane.inc:13
+msgid "Displays interaction to the user"
+msgstr ""
+
+#: ding_interaction/plugins/content_types/interaction_pane.inc:26
+msgid "Interaction"
+msgstr ""
+
+#: ding_interaction/plugins/content_types/interaction_pane.inc:27
+msgid "Interaction count: @count"
+msgstr ""
+
+#: ding_interaction/plugins/content_types/interaction_pane.inc:50
+msgid "Close"
+msgstr "Luk"
+
+#: ding_interaction/plugins/content_types/interaction_pane.inc:80 ding_interests_by_history/ding_interests_by_history.module:18 ding_message/ding_message.admin.inc:28
+msgid "Count"
+msgstr "Antal"
+
+#: ding_interaction/plugins/content_types/interaction_pane.inc:82
+msgid "How many page views should there be between showing this pane."
+msgstr ""
+
+#: ding_interaction_manual/ding_interaction_manual.features.field_instance.inc:172
+msgid "Ding Interaction Body"
+msgstr ""
+
+#: ding_interaction_manual/ding_interaction_manual.features.field_instance.inc:173
+msgid "Ding Interaction Links"
+msgstr ""
+
+#: ding_interaction_manual/ding_interaction_manual.features.field_instance.inc:174
+msgid "Enabled"
+msgstr "Aktiveret"
+
+#: ding_interaction_manual/ding_interaction_manual.module:90
+msgid "Ding interaction manual single random"
+msgstr ""
+
+#: ding_interaction_manual/ding_interaction_manual.module:105
+msgid "Ding interaction help"
+msgstr ""
+
+#: ding_interaction_manual/ding_interaction_manual.module:112
+msgid "Ding Interactions are all sorts of information and interaction with the user which we want to present in rotation. In order not to overload the user with information, just one Ding Interaction is shown per page view. This way the user can casually be informed with deeper features of the website, occasionally be asked to interact (Like when asking the user to rate previous loans) and have an area which changes relevant content with no need for manual editing or administration.<br /><br />\n       Insert a \"Ding interaction pane\" on any page to display the Ding Interactions in rotation."
+msgstr ""
+
+#: ding_interaction_manual/ding_interaction_manual.module:114
+msgid "> Overview of all manual Ding Interactions"
+msgstr ""
+
+#: ding_interaction_manual/ding_interaction_manual.module:116
+msgid "> Create new manual Ding Interaction"
+msgstr ""
+
+#: ding_interaction_manual/ding_interaction_manual.info:0
+msgid "Ding interaction manual"
+msgstr ""
+
+#: ding_interaction_manual/ding_interaction_manual.info:0
+msgid "Create custom ding interaction messages."
+msgstr ""
+
+#: ding_interests/ding_interests.features.field_instance.inc:212
+msgid "Angiv interesse status for dette tag."
+msgstr ""
+
+#: ding_interests/ding_interests.features.field_instance.inc:213
+msgid "Liste billede"
+msgstr ""
+
+#: ding_interests/ding_interests.features.field_instance.inc:214
+msgid "Skriv den søgestreng som systemet skal bruge til at finde materialer i brønden, som matcher dette tag."
+msgstr ""
+
+#: ding_interests/ding_interests.features.field_instance.inc:215 ding_list/include/form.inc:377
+msgid "Status"
+msgstr "Status"
+
+#: ding_interests/ding_interests.features.field_instance.inc:216
+msgid "Søgestreng"
+msgstr ""
+
+#: ding_interests/ding_interests.features.field_instance.inc:217
+msgid "Titel Billede"
+msgstr ""
+
+#: ding_interests/ding_interests.features.field_instance.inc:218
+msgid "Upload et billede som vises i lister"
+msgstr ""
+
+#: ding_interests/ding_interests.features.field_instance.inc:219
+msgid "Upload et billede som vises på tag siden."
+msgstr ""
+
+#: ding_interests/ding_interests.serendipity.inc:67
+msgid "Because you selected !term as an interest."
+msgstr "Fordi du følger emnet !term "
+
+#: ding_interests/ding_interests.serendipity.inc:109
+msgid "Because you selected @term as an interest."
+msgstr "Fordi du har udpeget @term som en interesse."
+
+#: ding_interests/ding_interests.module:57
+msgid "Teaser"
+msgstr "Smagsprøve"
+
+#: ding_interests/ding_interests.module:75;77
+msgid "Interests"
+msgstr "Mine interesser"
+
+#: ding_interests/ding_interests.module:76
+msgid "Follow your favorite topics and recieve notifications when new materials arrive. <a href=\"/ding/interests/overview\">Check out recommended topics here</a>"
+msgstr ""
+"Følg dine favoritemner og få besked når biblioteket får nye "
+"materialer. <a href=\"/ding/interests/overview\">Se listen over "
+"bibliotekets anbefalede emner her</a>"
+
+#: ding_interests/ding_interests.module:78
+msgid "Topics I have no interrest in."
+msgstr "Emner jeg ikke er interesseret i"
+
+#: ding_interests/ding_interests.module:137
+msgid "View all subjects"
+msgstr "Vis alle anbefalede emner"
+
+#: ding_interests/ding_interests.module:151
+msgid "Recommended subjects from the library staff"
+msgstr "Biblioteket anbefaler disse emner"
+
+#: ding_interests/ding_interests.module:190
+msgid "Are you interested in more content about"
+msgstr "Er du interesseret i mere indhold om"
+
+#: ding_interests/ding_interests.module:218
+msgid "Already added to !list"
+msgstr "Findes allerede i !list"
+
+#: ding_interests/ding_interests.module:218;254
+msgid "interests"
+msgstr "mine interesser"
+
+#: ding_interests/ding_interests.module:254
+msgid "not interested"
+msgstr "ting der ikke interesserer mig"
+
+#: ding_interests/ding_interests.module:255
+msgid "Added to !list"
+msgstr "Tilføjet til !list"
+
+#: ding_interests/ding_interests.module:264 ding_list/include/form.inc:160 ding_list/include/menu_callbacks.inc:84
+msgid "Already added to !name"
+msgstr "Allerede tilføjet til !name"
+
+#: ding_interests/ding_interests.module:265;269 ding_list/ding_list_installer/ding_list_installer.views_default.inc:372 ding_list/include/form.inc:175 ding_list/include/menu_callbacks.inc:87 ding_list/views/ding_list.views_default.inc:285
+msgid "List"
+msgstr "Vis"
+
+#: ding_interests/ding_interests.module:268 ding_list/include/form.inc:153 ding_list/include/menu_callbacks.inc:76
+msgid "Added to !name"
+msgstr "Tilføjet til !name"
+
+#: ding_interests/ding_interests.module:387
+msgid "Yes! Add to my interests"
+msgstr "Ja tak, tilføj til mine interesser"
+
+#: ding_interests/ding_interests.module:390 ding_user_consent/ding_user_consent.module:391
+msgid "No thanks, not interested"
+msgstr "Nej tak"
+
+#: ding_interests/ding_interests.module:433
+msgid "Follow topics from the library"
+msgstr "Følg emneord fra biblioteket"
+
+#: ding_interests/ding_interests.module:438
+msgid "You could start building a list of your interests to make your profile more complete."
+msgstr ""
+"Biblioteket har udvalgt en række emner, som du kan følge og få "
+"besked om, når der er kommet nye materialer."
+
+#: ding_interests/ding_interests.module:440
+msgid "Check out the topics"
+msgstr "Se udvalgte emner"
+
+#: ding_interests/ding_interests.module:567
+msgid "Sub subjects for !link"
+msgstr "Underemner for !link"
+
+#: ding_interests/ding_interests.module:607
+msgid "The librarys selected subjects"
+msgstr "Bibliotekets udvalgte emner"
+
+#: ding_interests/ding_interests.module:23 ding_user_complete/test/ding_user_complete_test.module:13
+msgid "Ding interests add to list"
+msgstr ""
+
+#: ding_interests/ding_interests.module:30
+msgid "Ding interests remove from list"
+msgstr ""
+
+#: ding_interests/ding_interests.module:37
+msgid "List of all recommended subjects"
+msgstr ""
+
+#: ding_interests/ding_interests.info:0
+msgid "Ding interests"
+msgstr ""
+
+#: ding_interests/ding_interests.info:0
+msgid "Allows users to select subjects/genres/materialtypes which they like."
+msgstr ""
+
+#: ding_interests/plugins/content_types/overview.inc:9
+msgid "Ding interests: Overview"
+msgstr ""
+
+#: ding_interests/plugins/content_types/term_ting_objects.inc:9
+msgid "Ding interests: Term Ting Objects"
+msgstr ""
+
+#: ding_interests/plugins/content_types/term_ting_objects.inc:13 ding_interests/plugins/content_types/term_tree.inc:13 ding_list/plugins/content_types/add_term.inc:13 ding_serendipity_taxonomy_term/plugins/content_types/serendipity_term.inc:16
+msgid "Term"
+msgstr "Term"
+
+#: ding_interests/plugins/content_types/term_ting_objects.inc:54
+msgid "More"
+msgstr "Mere"
+
+#: ding_interests/plugins/content_types/term_tree.inc:9
+msgid "Ding interests: Term tree"
+msgstr ""
+
+#: ding_interests/views/ding_interests.views_default.inc:97 ding_list/ding_list_installer/ding_list_installer.views_default.inc:74;371 ding_list/views/ding_list.views_default.inc:284 ding_special_user/ding_special_user.views_default.inc:126
+msgid "Master"
+msgstr "Master"
+
+#: ding_interests/views/ding_interests.views_default.inc:98
+msgid "Biblioteket anbefaler emneord"
+msgstr ""
+
+#: ding_interests/views/ding_interests.views_default.inc:99 ding_special_user/ding_special_user.views_default.inc:127
+msgid "mere"
+msgstr "mere"
+
+#: ding_interests/views/ding_interests.views_default.inc:100 ding_special_user/ding_special_user.views_default.inc:128
+msgid "Udfør"
+msgstr "Udfør"
+
+#: ding_interests/views/ding_interests.views_default.inc:101 ding_special_user/ding_special_user.views_default.inc:129
+msgid "Gendan"
+msgstr "Gendan"
+
+#: ding_interests/views/ding_interests.views_default.inc:102 ding_special_user/ding_special_user.views_default.inc:130
+msgid "Sortér efter"
+msgstr "Sortér efter"
+
+#: ding_interests/views/ding_interests.views_default.inc:103 ding_special_user/ding_special_user.views_default.inc:131
+msgid "Stigende"
+msgstr "Stigende"
+
+#: ding_interests/views/ding_interests.views_default.inc:104 ding_special_user/ding_special_user.views_default.inc:132
+msgid "Faldende"
+msgstr "Faldende"
+
+#: ding_interests/views/ding_interests.views_default.inc:105
+msgid "Ding interest"
+msgstr ""
+
+#: ding_interests/views/ding_interests.views_default.inc:106 ding_list/ding_list_installer/ding_list_installer.views_default.inc:90 ding_special_user/ding_special_user.views_default.inc:142
+msgid "Content pane"
+msgstr "Content pane"
+
+#: ding_interests/views/ding_interests.views_default.inc:107 ding_list/ding_list_installer/ding_list_installer.views_default.inc:91;385 ding_list/views/ding_list.views_default.inc:298 ding_special_user/ding_special_user.views_default.inc:143
+msgid "View panes"
+msgstr "View panes"
+
+#: ding_interests_by_history/ding_interests_by_history.module:19
+msgid "Enter the amount of items to display in the ding interaction streamer."
+msgstr ""
+
+#: ding_interests_by_history/ding_interests_by_history.module:275
+msgid "Based on your loan history we suggest subjects"
+msgstr ""
+
+#: ding_interests_by_history/ding_interests_by_history.module:278
+msgid "Read more about library topics"
+msgstr "Læs mere om bibliotekets emner"
+
+#: ding_interests_by_history/ding_interests_by_history.info:0
+msgid "Ding interests by user history"
+msgstr ""
+
+#: ding_interests_by_history/ding_interests_by_history.info:0
+msgid "Expands the suggested interests with terms based on the users loan history."
+msgstr ""
+
+#: ding_list/ding_list.api.inc:39
+msgid "Describe the list type"
+msgstr ""
+
+#: ding_list/ding_list.pages.inc:18 ding_list/include/form.inc:246
+msgid "Add new list"
+msgstr "Opret en ny liste"
+
+#: ding_list/ding_list.module:75
+msgid "Carousel"
+msgstr "Karusel"
+
+#: ding_list/ding_list.module:191
+msgid "You need to login to view the list."
+msgstr "Du skal logge ind for at se denne liste."
+
+#: ding_list/ding_list.module:262
+msgid "Add objects to your own lists as you browse the website."
+msgstr ""
+
+#: ding_list/ding_list.module:263
+msgid "Create new lists to group objects"
+msgstr "Du kan oprette flere lister hvis du vil inddele dine materialer."
+
+#: ding_list/ding_list.module:273
+msgid "Users I follow"
+msgstr "Brugere jeg følger"
+
+#: ding_list/ding_list.module:283
+msgid "Lists I follow"
+msgstr "Lister jeg følger"
+
+#: ding_list/ding_list.module:284
+msgid "When you find interesting lists other users maintain, you can follow them and recieve notifications when the author adds new materials to the list."
+msgstr ""
+"Du kan følge andre brugeres lister hvis de har gjort dem offentligt "
+"tilgængelige. Følg <a href='/public-lists'>andre brugeres lister</a> "
+"og få besked når de tilføjer nye materialer."
+
+#: ding_list/ding_list.module:294
+msgid "Subjects I follow"
+msgstr "Emner jeg følger"
+
+#: ding_list/ding_list.module:305
+msgid "Authors I follow"
+msgstr "Forfattere jeg følger"
+
+#: ding_list/ding_list.module:306
+msgid "Follow authors to get notifications when new materials are relased by the author. To follow an author, find a material by the author and select follow author."
+msgstr ""
+"Klik ind på et materiale og vælg \"Følg forfatter\" så får du "
+"besked når der er nyt fra denne forfatter. "
+
+#: ding_list/ding_list.module:317
+msgid "Searches I follow"
+msgstr "Søgninger jeg følger"
+
+#: ding_list/ding_list.module:318
+msgid "You can save your searches and get notifications when new materiales matches your search query. Search for something and use facets to narrow your search. Select \"add to searches I follow\" to save your query."
+msgstr ""
+"Du kan gemme dine søgninger og få besked når nye materialer matcher "
+"din søgning. Brug søgefunktionen og præcisér evt. din søgning med "
+"facetter. Vælg \"Tilføj til søgninger jeg følger\" for at gemme "
+"din søgning."
+
+#: ding_list/ding_list.module:325
+msgid "Loan history"
+msgstr "Tidligere lån"
+
+#: ding_list/ding_list.module:326
+msgid "Find your previous loans here. You can enable/disable the history in your profile."
+msgstr ""
+"Se tidligere lån her. Du kan slå denne liste til eller fra inde i "
+"din profil."
+
+#: ding_list/ding_list.module:335
+msgid "Books I've read"
+msgstr "Bøger jeg har læst"
+
+#: ding_list/ding_list.module:336
+msgid "Keep a collection of books you have read here."
+msgstr ""
+"Du kan gemme bøger du har læst i denne liste. Klik ind på et "
+"materiale og vælg \"Tilføj til bøger jeg har læst\" "
+
+#: ding_list/ding_list.module:345
+msgid "Read later"
+msgstr "Huskeliste"
+
+#: ding_list/ding_list.module:346
+msgid "Keep a collection of books you want to read later here."
+msgstr ""
+"I denne liste kan du gemme materialer, som du vil huske på eller "
+"låne på et senere tidspunkt. Klik ind på et materiale og vælg "
+"\"Tilføj til Huskeliste\""
+
+#: ding_list/ding_list.module:434
+msgid "Openlist modified"
+msgstr ""
+
+#: ding_list/ding_list.module:435
+msgid "Last openlist sync"
+msgstr ""
+
+#: ding_list/ding_list.module:467
+msgid "Your historical loans list has been deleted."
+msgstr ""
+
+#: ding_list/ding_list.module:589
+msgid "@list_title, By @list_author"
+msgstr ""
+
+#: ding_list/ding_list.module:782
+msgid "@user has shared a personal list with you at @library"
+msgstr "@user har delt en personlig liste med dig på @library"
+
+#: ding_list/ding_list.module:783
+msgid "Please use the following link to access this list.\nThe link is active for 7 days from today, after which it will be disabled for security reasons.\n\n!link"
+msgstr ""
+
+#: ding_list/ding_list.module:800
+msgid "Create your own lists"
+msgstr "Lav dine egne lister"
+
+#: ding_list/ding_list.module:804
+msgid "Did you know you can create your own lists and add objects to them?"
+msgstr ""
+"<p>Vidste du at man kan oprette sine egne lister og tilføje "
+"materialer til dem?</p><p>Du kan f.eks. oprette din egen liste med "
+"yndlingsgysere eller bøger du vil læse i din sommerferie.</p>"
+
+#: ding_list/ding_list.module:805
+msgid "> Create my own list"
+msgstr "> Opret en ny liste"
+
+#: ding_list/ding_list.module:812
+msgid "Follow an author"
+msgstr "Følg en forfatter"
+
+#: ding_list/ding_list.module:815
+msgid "Try following an author"
+msgstr ""
+"<p>Vidste du at man kan få besked når der kommer nye materialer fra "
+"en forfatter?</p>\r\n"
+"<p>Klik ind på en bog eller andet materiale og vælg <em>Følg "
+"forfatter</em> i menuen <em>Gem, del og følg</em></p>"
+
+#: ding_list/ding_list.module:823
+msgid "Search subscriptions"
+msgstr "Få besked når der kommer nyt til dine søgninger"
+
+#: ding_list/ding_list.module:827
+msgid "Subscribe for a search result and recieve notifications when new content arrives"
+msgstr ""
+"Du kan abonnere på søgninger, så du automatisk får notifikationer "
+"om nye bøger eller film på din side."
+
+#: ding_list/ding_list.module:829
+msgid "Search here"
+msgstr "Søg her"
+
+#: ding_list/ding_list.module:597
+msgid "@list_title (1)"
+msgid_plural "@list_title (@count)"
+msgstr[0] ""
+msgstr[1] ""
+
+#: ding_list/ding_list.module:153
+msgid "Set elements order callback"
+msgstr ""
+
+#: ding_list/ding_list.module:159
+msgid "Login"
+msgstr "Log ind"
+
+#: ding_list/ding_list.module:166
+msgid "Attach elements callback"
+msgstr ""
+
+#: ding_list/ding_list.module:173
+msgid "Detach elements callback"
+msgstr ""
+
+#: ding_list/ding_list.module:179
+msgid "Delete a list callback"
+msgstr ""
+
+#: ding_list/ding_list.info:0
+msgid "Ding list module"
+msgstr ""
+
+#: ding_list/ding_list.info:0
+msgid "Base and API for personal lists"
+msgstr ""
+
+#: ding_list/ding_list_installer/ding_list_installer.features.field_instance.inc:1166
+msgid "Contains notes about this list element."
+msgstr ""
+
+#: ding_list/ding_list_installer/ding_list_installer.features.field_instance.inc:1167
+msgid "Contains the value of this list element."
+msgstr ""
+
+#: ding_list/ding_list_installer/ding_list_installer.features.field_instance.inc:1168
+msgid "Content status"
+msgstr ""
+
+#: ding_list/ding_list_installer/ding_list_installer.features.field_instance.inc:1169
+msgid "Current state of this list element."
+msgstr ""
+
+#: ding_list/ding_list_installer/ding_list_installer.features.field_instance.inc:1170
+msgid "Ding List"
+msgstr ""
+
+#: ding_list/ding_list_installer/ding_list_installer.features.field_instance.inc:1171
+msgid "Ding List Permission"
+msgstr ""
+
+#: ding_list/ding_list_installer/ding_list_installer.features.field_instance.inc:1172
+msgid "Ding List Permissions"
+msgstr ""
+
+#: ding_list/ding_list_installer/ding_list_installer.features.field_instance.inc:1173
+msgid "Ding List Status"
+msgstr ""
+
+#: ding_list/ding_list_installer/ding_list_installer.features.field_instance.inc:1174
+msgid "Ding List User"
+msgstr ""
+
+#: ding_list/ding_list_installer/ding_list_installer.features.field_instance.inc:1175
+msgid "Elementer"
+msgstr ""
+
+#: ding_list/ding_list_installer/ding_list_installer.features.field_instance.inc:1176 ding_list/include/form.inc:224
+msgid "Note"
+msgstr ""
+
+#: ding_list/ding_list_installer/ding_list_installer.features.field_instance.inc:1177
+msgid "Noter"
+msgstr ""
+
+#: ding_list/ding_list_installer/ding_list_installer.features.field_instance.inc:1178
+msgid "Search Query"
+msgstr ""
+
+#: ding_list/ding_list_installer/ding_list_installer.features.field_instance.inc:1179 ding_list/ding_list_installer/ding_list_installer.views_default.inc:388 ding_list/views/ding_list.views_default.inc:301
+msgid "Search Title"
+msgstr ""
+
+#: ding_list/ding_list_installer/ding_list_installer.features.field_instance.inc:1180 ding_message/ding_message_p2_installer/ding_message_p2_installer.features.field_instance.inc:232
+msgid "State"
+msgstr "Status"
+
+#: ding_list/ding_list_installer/ding_list_installer.features.field_instance.inc:1181
+msgid "Tags"
+msgstr "Tags"
+
+#: ding_list/ding_list_installer/ding_list_installer.features.field_instance.inc:1182
+msgid "Taxonomy term"
+msgstr "Ord i ordforråd"
+
+#: ding_list/ding_list_installer/ding_list_installer.features.field_instance.inc:1183
+msgid "The weight of this field element"
+msgstr ""
+
+#: ding_list/ding_list_installer/ding_list_installer.features.field_instance.inc:1184
+msgid "Ting Object"
+msgstr ""
+
+#: ding_list/ding_list_installer/ding_list_installer.features.field_instance.inc:1185
+msgid "Type"
+msgstr "Type"
+
+#: ding_list/ding_list_installer/ding_list_installer.features.field_instance.inc:1186
+msgid "Value"
+msgstr "Værdi"
+
+#: ding_list/ding_list_installer/ding_list_installer.features.field_instance.inc:1187 ding_serendipity/ding_serendipity.admin.inc:65
+msgid "Weight"
+msgstr "Vægt"
+
+#: ding_list/ding_list_installer/ding_list_installer.views_default.inc:75
+msgid "Public lists"
+msgstr "Offentlige lister"
+
+#: ding_list/ding_list_installer/ding_list_installer.views_default.inc:76;373 ding_list/views/ding_list.views_default.inc:286
+msgid "more"
+msgstr "mere"
+
+#: ding_list/ding_list_installer/ding_list_installer.views_default.inc:77;374 ding_list/views/ding_list.views_default.inc:287
+msgid "Apply"
+msgstr "Udfør"
+
+#: ding_list/ding_list_installer/ding_list_installer.views_default.inc:78;375 ding_list/views/ding_list.views_default.inc:288
+msgid "Reset"
+msgstr "Gendan"
+
+#: ding_list/ding_list_installer/ding_list_installer.views_default.inc:79;376 ding_list/views/ding_list.views_default.inc:289
+msgid "Sort by"
+msgstr "Sortér efter"
+
+#: ding_list/ding_list_installer/ding_list_installer.views_default.inc:80;377 ding_list/views/ding_list.views_default.inc:290
+msgid "Asc"
+msgstr "Stigende"
+
+#: ding_list/ding_list_installer/ding_list_installer.views_default.inc:81;378 ding_list/views/ding_list.views_default.inc:291
+msgid "Desc"
+msgstr "Faldende"
+
+#: ding_list/ding_list_installer/ding_list_installer.views_default.inc:82
+msgid "Items per page"
+msgstr "Antal elementer"
+
+#: ding_list/ding_list_installer/ding_list_installer.views_default.inc:83
+msgid "- All -"
+msgstr "- Alle -"
+
+#: ding_list/ding_list_installer/ding_list_installer.views_default.inc:84
+msgid "Offset"
+msgstr "Forskydning"
+
+#: ding_list/ding_list_installer/ding_list_installer.views_default.inc:85
+msgid "« first"
+msgstr "« første"
+
+#: ding_list/ding_list_installer/ding_list_installer.views_default.inc:86
+msgid "‹ previous"
+msgstr "‹ forrige"
+
+#: ding_list/ding_list_installer/ding_list_installer.views_default.inc:87
+msgid "next ›"
+msgstr "næste ›"
+
+#: ding_list/ding_list_installer/ding_list_installer.views_default.inc:88
+msgid "last »"
+msgstr "sidste »"
+
+#: ding_list/ding_list_installer/ding_list_installer.views_default.inc:89;383 ding_list/views/ding_list.views_default.inc:296
+msgid "All"
+msgstr "Alle"
+
+#: ding_list/ding_list_installer/ding_list_installer.views_default.inc:379 ding_list/views/ding_list.views_default.inc:292
+msgid "Vis"
+msgstr ""
+
+#: ding_list/ding_list_installer/ding_list_installer.views_default.inc:381 ding_list/views/ding_list.views_default.inc:294
+msgid "."
+msgstr "."
+
+#: ding_list/ding_list_installer/ding_list_installer.views_default.inc:382 ding_list/views/ding_list.views_default.inc:295
+msgid ","
+msgstr ","
+
+#: ding_list/ding_list_installer/ding_list_installer.views_default.inc:384 ding_list/views/ding_list.views_default.inc:297
+msgid "Content pane: Default list"
+msgstr ""
+
+#: ding_list/ding_list_installer/ding_list_installer.views_default.inc:386 ding_list/views/ding_list.views_default.inc:299
+msgid "Content pane: With state"
+msgstr ""
+
+#: ding_list/ding_list_installer/ding_list_installer.views_default.inc:387 ding_list/views/ding_list.views_default.inc:300
+msgid "List with state"
+msgstr ""
+
+#: ding_list/ding_list_installer/ding_list_installer.views_default.inc:389 ding_list/views/ding_list.views_default.inc:302
+msgid "Content pane: With weight"
+msgstr ""
+
+#: ding_list/ding_list_installer/ding_list_installer.views_default.inc:390 ding_list/views/ding_list.views_default.inc:303
+msgid "List with weight"
+msgstr ""
+
+#: ding_list/ding_list_installer/ding_list_installer.info:0
+msgid "Ding List Installer"
+msgstr ""
+
+#: ding_list/ding_list_installer/ding_list_installer.info:0
+msgid "Installs everything needed for ding list module"
+msgstr ""
+
+#: ding_list/include/form.inc:35
+msgid "Remove from list"
+msgstr "Fjern fra listen"
+
+#: ding_list/include/form.inc:156 ding_list/include/menu_callbacks.inc:80
+msgid "An error occurred, your element wasn't created. Please contact the administrator if this problem persists."
+msgstr ""
+"Der opstod en fejl, dit element blev ikke oprettet. Kontakt venligst "
+"sidens administrator hvis problemet vedbliver."
+
+#: ding_list/include/form.inc:198;200
+msgid "Do you really want to delete !list?"
+msgstr "Ønsker du at slette !list?"
+
+#: ding_list/include/form.inc:232
+msgid "Save list"
+msgstr "Gem liste"
+
+#: ding_list/include/form.inc:238
+msgid "Delete list"
+msgstr "Slet liste"
+
+#: ding_list/include/form.inc:252
+msgid "Cancel"
+msgstr "Annullér"
+
+#: ding_list/include/form.inc:329
+msgid "An error occurred, your list wasn't created. Please contact the administrator if this problem persists."
+msgstr ""
+"Der opstod en fejl, din liste blev ikke oprettet. Kontakt venligst "
+"sidens administrator hvis problemet vedbliver."
+
+#: ding_list/include/form.inc:333
+msgid "You've create the list !list.<br/>Read more about how you use the lists !help"
+msgstr ""
+"Du har nu oprettet din egen liste !list.<br />Læs mere om hvordan du "
+"kan bruge lister !help"
+
+#: ding_list/include/form.inc:337
+msgid "Here"
+msgstr ""
+
+#: ding_list/include/form.inc:401
+msgid "Allow to view this list"
+msgstr "Giv adgang til at se listens indhold"
+
+#: ding_list/include/form.inc:402
+msgid "Allow to view and edit this list"
+msgstr "Giv adgang til at se og redigere listens indhold"
+
+#: ding_list/include/form.inc:407
+msgid "Select which type of access to share"
+msgstr ""
+"Vælg om der skal deles adgang til at se listen, eller også til at "
+"redigere listen"
+
+#: ding_list/include/form.inc:417
+msgid "Share link"
+msgstr "Link med adgang til din delte liste"
+
+#: ding_list/include/form.inc:429;620
+msgid "Share"
+msgstr "Inviter andre til at se eller redigere din liste"
+
+#: ding_list/include/form.inc:441
+msgid "Send invitation to this email adress:"
+msgstr "Send en invitation med den delte liste til følgende email adresse:"
+
+#: ding_list/include/form.inc:446
+msgid "Send mail invitation with share link"
+msgstr "Send mail invitation med ovenstående deling af listen"
+
+#: ding_list/include/form.inc:466
+msgid "Shared"
+msgstr "Delt"
+
+#: ding_list/include/form.inc:467
+msgid "The following users has access to this shared list."
+msgstr ""
+
+#: ding_list/include/form.inc:492
+msgid "Revoke access to this list"
+msgstr ""
+
+#: ding_list/include/form.inc:515 ding_list/plugins/access/user_list.inc:15 ding_list/plugins/content_types/lists.inc:13 ding_list/plugins/content_types/manager.inc:13
+msgid "User"
+msgstr "Bruger"
+
+#: ding_list/include/form.inc:516
+msgid "Permission"
+msgstr "Tilladelse"
+
+#: ding_list/include/form.inc:586
+msgid "Your list is now shared."
+msgstr ""
+
+#: ding_list/include/form.inc:587
+msgid "Your list is now public."
+msgstr ""
+
+#: ding_list/include/form.inc:588
+msgid "Your list is now private."
+msgstr ""
+
+#: ding_list/include/form.inc:618
+msgid "Mail sent"
+msgstr ""
+
+#: ding_list/include/functions.handler.inc:340
+msgid "An error occurred while changing your list. Please contact the administrator if this problem persists."
+msgstr ""
+
+#: ding_list/include/functions.handler.inc:405
+msgid "An error occurred while deleting your element. Please contact the administrator if this problem persists."
+msgstr ""
+
+#: ding_list/include/functions.handler.inc:464
+msgid "An error occurred while deleting your list. Please contact the administrator if this problem persists."
+msgstr ""
+
+#: ding_list/include/functions.handler.inc:599
+msgid "An error occurred while editing your element. Please contact the administrator if this problem persists."
+msgstr ""
+
+#: ding_list/include/functions.inc:68
+msgid "Add to @list"
+msgstr "Tilføj til @list"
+
+#: ding_list/include/functions.inc:109
+msgid "Follow the author @author"
+msgstr "Følg forfatteren @author"
+
+#: ding_list/include/functions.inc:126
+msgid "Already following @author"
+msgstr "Du følger @author"
+
+#: ding_list/include/functions.inc:153
+msgid "Follow the subject @subject"
+msgstr "Følg emnet @subject"
+
+#: ding_list/include/functions.inc:483
+msgid "An error occurred while sorting your elements. Please contact the administrator if this problem persists."
+msgstr ""
+"Der opstod en fejl i sorteringen af dine elementer. Kontakt venligst "
+"sidens administrator hvis problemet vedbliver."
+
+#: ding_list/include/functions.inc:569
+msgid "Sorry but no list is available at this time"
+msgstr ""
+
+#: ding_list/include/functions.inc:709
+msgid "Another loaner"
+msgstr ""
+
+#: ding_list/include/menu_callbacks.inc:29
+msgid "List changed"
+msgstr "Liste ændret"
+
+#: ding_list/include/menu_callbacks.inc:109
+msgid "Removed from !name"
+msgstr "Fjernet fra listen !name"
+
+#: ding_list/include/menu_callbacks.inc:112
+msgid "An error occurred while removing your element. Please contact the administrator if this problem persists."
+msgstr ""
+
+#: ding_list/include/menu_callbacks.inc:150
+msgid "List deleted"
+msgstr "Liste slettet"
+
+#: ding_list/plugins/access/user_list.inc:9
+msgid "User: list"
+msgstr ""
+
+#: ding_list/plugins/access/user_list.inc:10
+msgid "Control access by to user lists."
+msgstr ""
+
+#: ding_list/plugins/access/user_list.inc:16 ding_list/plugins/content_types/add_list.inc:13 ding_list/plugins/content_types/edit_list.inc:15 ding_list/plugins/content_types/list_create.inc:13 ding_list/plugins/content_types/list_followers.inc:13;15 ding_list/plugins/content_types/list_info.inc:13;15 ding_list/plugins/content_types/list_menu.inc:13;15 ding_list/plugins/content_types/lists.inc:14 ding_list/plugins/content_types/manager.inc:14 ding_list/plugins/content_types/search_query.inc:15 ding_list/plugins/content_types/share_list.inc:12;14
+msgid "Dinglist"
+msgstr ""
+
+#: ding_list/plugins/access/user_list.inc:29
+msgid "Visibility settings for the list"
+msgstr ""
+
+#: ding_list/plugins/access/user_list.inc:31
+msgid "View"
+msgstr "Vis"
+
+#: ding_list/plugins/access/user_list.inc:32
+msgid "Edit"
+msgstr "Redigér"
+
+#: ding_list/plugins/access/user_list.inc:33
+msgid "Owner"
+msgstr "Ejer"
+
+#: ding_list/plugins/access/user_list.inc:63
+msgid "@identifier @setting"
+msgstr ""
+
+#: ding_list/plugins/content_types/add_list.inc:9
+msgid "Add list to list"
+msgstr "Tilføj liste til liste"
+
+#: ding_list/plugins/content_types/add_list.inc:10
+msgid "Add list to list."
+msgstr ""
+
+#: ding_list/plugins/content_types/add_list.inc:31
+msgid "Add to lists I follow"
+msgstr ""
+
+#: ding_list/plugins/content_types/add_term.inc:9
+msgid "Add term to list"
+msgstr "Tilføj emne til liste"
+
+#: ding_list/plugins/content_types/add_term.inc:10
+msgid "Add term to list."
+msgstr "Tilføj emne til liste."
+
+#: ding_list/plugins/content_types/edit_list.inc:9
+msgid "Edit ding list"
+msgstr ""
+
+#: ding_list/plugins/content_types/edit_list.inc:10
+msgid "Edit list."
+msgstr "Redigér liste."
+
+#: ding_list/plugins/content_types/list_create.inc:9;10
+msgid "Create list"
+msgstr "Opret liste"
+
+#: ding_list/plugins/content_types/list_create.inc:23
+msgid "Create new list"
+msgstr "Opret en ny liste"
+
+#: ding_list/plugins/content_types/list_create.inc:27
+msgid "Create your own lists and collect books and other materials as you browse the library."
+msgstr ""
+"Du kan oprette dine egne lister og fremover gemme og inddele "
+"materialer du finder på websitet. Du kan f.eks. oprette en liste med "
+"\"Bøger til sommerferien\", \"Mine yndlingsgysere\" eller \"Bøger "
+"til mit projekt\"."
+
+#: ding_list/plugins/content_types/list_followers.inc:9
+msgid "Ding list followers"
+msgstr ""
+
+#: ding_list/plugins/content_types/list_followers.inc:10 ding_list/plugins/content_types/list_info.inc:10
+msgid "Ding list."
+msgstr ""
+
+#: ding_list/plugins/content_types/list_info.inc:9
+msgid "Ding list info"
+msgstr ""
+
+#: ding_list/plugins/content_types/list_menu.inc:9
+msgid "Ding list menu"
+msgstr ""
+
+#: ding_list/plugins/content_types/list_menu.inc:10
+msgid "Ding menu."
+msgstr ""
+
+#: ding_list/plugins/content_types/list_menu.inc:38
+msgid "To your lists"
+msgstr "Vis alle mine lister"
+
+#: ding_list/plugins/content_types/list_menu.inc:44
+msgid "View list"
+msgstr "Vis listen"
+
+#: ding_list/plugins/content_types/list_menu.inc:55
+msgid "Edit list"
+msgstr "Rediger listen"
+
+#: ding_list/plugins/content_types/list_menu.inc:63
+msgid "Share list"
+msgstr "Del listen"
+
+#: ding_list/plugins/content_types/lists.inc:9
+msgid "Lists"
+msgstr "Lister"
+
+#: ding_list/plugins/content_types/lists.inc:10
+msgid "Lists."
+msgstr "Lister."
+
+#: ding_list/plugins/content_types/lists.inc:30
+msgid "Library user status"
+msgstr "Lånerstatus"
+
+#: ding_list/plugins/content_types/lists.inc:39
+msgid "My library"
+msgstr "Mit bibliotek"
+
+#: ding_list/plugins/content_types/lists.inc:112
+msgid "Fines"
+msgstr "Ubetalte gebyrer"
+
+#: ding_list/plugins/content_types/lists.inc:120
+msgid "Loans"
+msgstr "Lån"
+
+#: ding_list/plugins/content_types/lists.inc:129
+msgid "Reservations"
+msgstr "Reserveringer"
+
+#: ding_list/plugins/content_types/manager.inc:9
+msgid "List manager"
+msgstr ""
+
+#: ding_list/plugins/content_types/manager.inc:10
+msgid "List manger"
+msgstr ""
+
+#: ding_list/plugins/content_types/search_query.inc:9
+msgid "Add search to list"
+msgstr "Tilføj søgning til liste"
+
+#: ding_list/plugins/content_types/search_query.inc:10
+msgid "Add search query to list."
+msgstr "Tilføj søgestreng til liste."
+
+#: ding_list/plugins/content_types/search_query.inc:14
+msgid "Keywords"
+msgstr "Nøgleord"
+
+#: ding_list/plugins/content_types/share_list.inc:8
+msgid "Share ding list"
+msgstr "Del liste"
+
+#: ding_list/plugins/content_types/share_list.inc:9
+msgid "Share list."
+msgstr "Del liste."
+
+#: ding_list/theme/theme.inc:60
+msgid "Add to new list"
+msgstr "Tilføj til ny liste"
+
+#: ding_list/theme/theme.inc:136
+msgid "No elements in this list."
+msgstr "Denne liste er tom"
+
+#: ding_list/theme/theme.inc:171
+msgid "> Mark all notifications as read"
+msgstr "> Marker alle beskeder som læst"
+
+#: ding_list/theme/theme.inc:172
+msgid "> Create new list"
+msgstr "> Opret en ny liste"
+
+#: ding_list/theme/theme.inc:120
+msgid "1 user following this list"
+msgid_plural "@count users following this list"
+msgstr[0] "1 bruger følger listen"
+msgstr[1] "@count brugere følger denne liste"
+
+#: ding_message/ding_message.admin.inc:28
+msgid "Date"
+msgstr "Dato"
+
+#: ding_message/ding_message.admin.inc:41
+msgid "Login delay"
+msgstr ""
+
+#: ding_message/ding_message.admin.inc:42
+msgid "The time to pass after a user logs out before they come into consideration for message updates. The number is the amount of seconds."
+msgstr ""
+
+#: ding_message/ding_message.admin.inc:47
+msgid "Batch size"
+msgstr "Batch størrelse"
+
+#: ding_message/ding_message.admin.inc:48
+msgid "The number of users to evaluate each time cron runs."
+msgstr ""
+
+#: ding_message/ding_message.admin.inc:53
+msgid "Lists to check"
+msgstr ""
+
+#: ding_message/ding_message.admin.inc:54
+msgid "The number of lists to check for each user."
+msgstr ""
+
+#: ding_message/ding_message.admin.inc:59
+msgid "Search size"
+msgstr ""
+
+#: ding_message/ding_message.admin.inc:60
+msgid "The maximum number of searches to run for each list.."
+msgstr ""
+
+#: ding_message/ding_message.admin.inc:65
+msgid "Maximum messages pr. channel"
+msgstr ""
+
+#: ding_message/ding_message.admin.inc:66
+msgid "The maximum number of messages in a channel before channel is bypassed"
+msgstr ""
+
+#: ding_message/ding_message.admin.inc:79
+msgid "Uid to fetch new messages for"
+msgstr ""
+
+#: ding_message/ding_message.admin.inc:80
+msgid "Update a specific user and fetch notifications about new list updates."
+msgstr ""
+
+#: ding_message/ding_message.admin.inc:104
+msgid "User updated"
+msgstr "Bruger opdateret"
+
+#: ding_message/ding_message.admin.inc:113
+msgid "Your notifications has been marked as read"
+msgstr ""
+"Alle dine beskeder er nu markeret som læst. Der kommer nye beskeder "
+"igen når de kilder du følger får nye materialer."
+
+#: ding_message/ding_message.module:439
+msgid "New elements: @count"
+msgstr ""
+
+#: ding_message/ding_message.module:27
+msgid "Ding message administation page"
+msgstr ""
+
+#: ding_message/ding_message.module:28
+msgid "Ding message administation options and configurations."
+msgstr ""
+
+#: ding_message/ding_message.module:39
+msgid "Ding message update user"
+msgstr ""
+
+#: ding_message/ding_message.module:40
+msgid "Update messages for a specific user."
+msgstr ""
+
+#: ding_message/ding_message.module:49
+msgid "Report: User checks"
+msgstr ""
+
+#: ding_message/ding_message.module:50
+msgid "Report over users checked."
+msgstr ""
+
+#: ding_message/ding_message.module:57
+msgid "Change message status"
+msgstr ""
+
+#: ding_message/ding_message.module:63
+msgid "Purge user messages"
+msgstr ""
+
+#: ding_message/ding_message.module:70
+msgid "Message test"
+msgstr ""
+
+#: ding_message/ding_message.module:77
+msgid "Message check test"
+msgstr ""
+
+#: ding_message/ding_message.info:0
+msgid "Ding message"
+msgstr ""
+
+#: ding_message/ding_message.info:0
+msgid "Extend the message module with ding functionality"
+msgstr ""
+
+#: ding_message/ding_message_p2_installer/ding_message_p2_installer.features.field_instance.inc:224
+msgid "Enter the list this message is related to."
+msgstr ""
+
+#: ding_message/ding_message_p2_installer/ding_message_p2_installer.features.field_instance.inc:225
+msgid "Enter the time of the last check for updates as a unix timestamp."
+msgstr ""
+
+#: ding_message/ding_message_p2_installer/ding_message_p2_installer.features.field_instance.inc:226
+msgid "First element"
+msgstr ""
+
+#: ding_message/ding_message_p2_installer/ding_message_p2_installer.features.field_instance.inc:227
+msgid "Last check"
+msgstr ""
+
+#: ding_message/ding_message_p2_installer/ding_message_p2_installer.features.field_instance.inc:228
+msgid "Last element"
+msgstr ""
+
+#: ding_message/ding_message_p2_installer/ding_message_p2_installer.features.field_instance.inc:229
+msgid "List id"
+msgstr ""
+
+#: ding_message/ding_message_p2_installer/ding_message_p2_installer.features.field_instance.inc:230
+msgid "New count"
+msgstr ""
+
+#: ding_message/ding_message_p2_installer/ding_message_p2_installer.features.field_instance.inc:231
+msgid "Number of new elements."
+msgstr ""
+
+#: ding_message/ding_message_p2_installer/ding_message_p2_installer.features.field_instance.inc:233
+msgid "The first element of the new items."
+msgstr ""
+
+#: ding_message/ding_message_p2_installer/ding_message_p2_installer.features.field_instance.inc:234
+msgid "The last element when we last did an update check."
+msgstr ""
+
+#: ding_message/ding_message_p2_installer/ding_message_p2_installer.info:0
+msgid "Ding Message p2 Installer"
+msgstr ""
+
+#: ding_message/ding_message_p2_installer/ding_message_p2_installer.info:0
+msgid "p2"
+msgstr ""
+
+#: ding_notifications/ding_notifications.info:0
+msgid "Ding notifications"
+msgstr ""
+
+#: ding_notifications/ding_notifications.info:0
+msgid "Notification module."
+msgstr ""
+
+#: ding_notifications/plugins/content_types/notifications_top_menu.inc:12
+msgid "Ding notifications top menu"
+msgstr ""
+
+#: ding_notifications/plugins/content_types/notifications_top_menu.inc:13
+msgid "Displays status notifications to the user"
+msgstr ""
+
+#: ding_notifications/plugins/content_types/notifications_top_menu.inc:26
+msgid "User status list"
+msgstr ""
+
+#: ding_notifications/plugins/content_types/notifications_top_menu.inc:27
+msgid "Notifications displayed: @status"
+msgstr ""
+
+#: ding_notifications/plugins/content_types/notifications_top_menu.inc:51;119
+msgid "User status"
+msgstr "Lån, reserveringer og mellemværende"
+
+#: ding_notifications/plugins/content_types/notifications_top_menu.inc:72
+msgid "Notifications: @count"
+msgstr "Notifikationer: @count"
+
+#: ding_notifications/plugins/content_types/notifications_top_menu.inc:92
+msgid "Ready to Pickup: @count"
+msgstr "Klar til afhentning: @count"
+
+#: ding_notifications/plugins/content_types/notifications_top_menu.inc:110
+msgid "Fines: @count"
+msgstr "Bøder: @count"
+
+#: ding_notifications/plugins/content_types/notifications_top_menu.inc:141
+msgid "Select which elements to display"
+msgstr ""
+
+#: ding_notifications/plugins/content_types/notifications_top_menu.inc:171
+msgid "Ready to pickup"
+msgstr "Klar til afhentning "
+
+#: ding_notifications/plugins/content_types/notifications_top_menu.inc:172
+msgid "Dept"
+msgstr "Gæld"
+
+#: ding_p2_installer/ding_p2_installer.module:48
+msgid "Use personalisation"
+msgstr ""
+
+#: ding_p2_installer/ding_p2_installer.module:51
+msgid "Administer personalisation"
+msgstr ""
+
+#: ding_p2_installer/ding_p2_installer.info:0
+msgid "Personalisation / P2"
+msgstr ""
+
+#: ding_p2_installer/ding_p2_installer.info:0
+msgid "Enable this module to install the entire personalisation package for the library."
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.admin.inc:14
+msgid "Enable cache"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.admin.inc:15
+msgid "Allow the serendipity functionality to cache results to boost performance."
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.admin.inc:21
+msgid "Cache lifetime"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.admin.inc:22
+msgid "Enter the amount of seconds you want the serendipity cache to last."
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.admin.inc:28
+msgid "Is slow limit"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.admin.inc:29
+msgid "Enter the amount of seconds you want the serendipity functionality to be limited to."
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.admin.inc:35
+msgid "Serendipity final fallback search string"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.admin.inc:36
+msgid "Should all other serendipity plugins fail to deliver enough materials, this search string provides a final list of materials"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.admin.inc:44
+msgid "Serendipity final fallback description"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.admin.inc:45
+msgid "Let the user know why they get suggestions from this final fallback. Keep it very short."
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.admin.inc:46 ding_serendipity_fallback/ding_serendipity_fallback.module:52
+msgid "The library recommends this"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.admin.inc:64
+msgid "Context Keys"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.admin.inc:95
+msgid "Choose a weight for this serendipity function."
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.admin.inc:120
+msgid "keys"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:89
+msgid "Ding Serendipity"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:93
+msgid "Show Ding Serendipity on the frontpage"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:95
+msgid "If you selected Ding tab-roll or carousel above, check this option to also show Serendipity on the frontpage"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:608;617
+msgid "isslow(@group) @func():@line"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:664;679;698
+msgid "Serendipity info"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:665;680
+msgid "Returned serendipity info"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:783
+msgid "Serendipity inspiration list (@subtype)"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:784
+msgid "Serendipity content. View mode: @view_mode"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:785
+msgid "Serendipity keys: @keys"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:786
+msgid "Sort by weight: @sort_weight"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:786
+msgid "Yes"
+msgstr "Ja"
+
+#: ding_serendipity/ding_serendipity.module:786 ding_user_consent/ding_user_consent.module:391
+msgid "No"
+msgstr "Nej"
+
+#: ding_serendipity/ding_serendipity.module:787
+msgid "Maximum items: @max"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:788
+msgid "Minimum items: @min"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:789
+msgid "Sort random: @random"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:812;871 ding_serendipity_ting_entity/plugins/content_types/serendipity_entity.inc:33;44
+msgid "Selected"
+msgstr "Valgt"
+
+#: ding_serendipity/ding_serendipity.module:815 ding_serendipity_ting_entity/plugins/content_types/serendipity_entity.inc:39
+msgid "Select the view mode which the content will display with."
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:820
+msgid "Sort by by weight."
+msgstr "Sortér efter vægt."
+
+#: ding_serendipity/ding_serendipity.module:826
+msgid "Serendipity maximum"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:827
+msgid "The maximum number of items to display."
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:835
+msgid "Serendipity minimum"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:836
+msgid "Select the minimum amount of items displayed."
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:844
+msgid "Sort by random order."
+msgstr "Sortér tilfældigt"
+
+#: ding_serendipity/ding_serendipity.module:875
+msgid "Select any additional keys which apply to the serendipity display you wish to present."
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:312;617;736
+msgid "ding_serendipity"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:312
+msgid "Serendipity can't find function: @func"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:736
+msgid "BAD Search:@query"
+msgstr "Fejl i søgestreng: @query"
+
+#: ding_serendipity/ding_serendipity.module:36 ding_serendipity/ding_serendipity.info:0
+msgid "Ding serendipity"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:37
+msgid "Ding serendipity settings and overview"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:46
+msgid "View serendipity specific settings"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:52
+msgid "Key overview"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:53
+msgid "Get an overview of the current registered serendipity functions and keys"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:62
+msgid "Set the settings for a serendipity function"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.module:73
+msgid "Refresh serendipity content ajax callback"
+msgstr ""
+
+#: ding_serendipity/ding_serendipity.info:0
+msgid "Collection of entities from different sources based on user context"
+msgstr ""
+
+#: ding_serendipity/plugins/content_types/serendipity.inc:9
+msgid "Ding serendipity content"
+msgstr ""
+
+#: ding_serendipity/plugins/content_types/serendipity.inc:10
+msgid "Display serendipity content"
+msgstr ""
+
+#: ding_serendipity/plugins/content_types/serendipity.inc:14 ding_serendipity/plugins/content_types/serendipity_ting_object.inc:14 ding_serendipity/plugins/content_types/serendipity_ting_object_related.inc:14 ding_serendipity_taxonomy_term/plugins/content_types/serendipity_term.inc:38 ding_serendipity_ting_entity/plugins/content_types/serendipity_entity.inc:35
+msgid "Node"
+msgstr "Indholdselement"
+
+#: ding_serendipity/plugins/content_types/serendipity.inc:15 ding_serendipity/plugins/content_types/serendipity_ting_object.inc:15 ding_serendipity/plugins/content_types/serendipity_ting_object_related.inc:15
+msgid "Search term"
+msgstr "Søg efter emneord"
+
+#: ding_serendipity/plugins/content_types/serendipity.inc:16 ding_serendipity/plugins/content_types/serendipity_ting_object.inc:16 ding_serendipity/plugins/content_types/serendipity_ting_object_related.inc:16
+msgid "Taxonomy terms"
+msgstr "Taksonomitermer"
+
+#: ding_serendipity/plugins/content_types/serendipity.inc:72
+msgid "Serendipity content"
+msgstr "Relateret indhold"
+
+#: ding_serendipity/plugins/content_types/serendipity_ting_object.inc:9
+msgid "Ding serendipity with TingObject"
+msgstr ""
+
+#: ding_serendipity/plugins/content_types/serendipity_ting_object.inc:10 ding_serendipity/plugins/content_types/serendipity_ting_object_related.inc:10
+msgid "Display serendipity content of type the ting object."
+msgstr ""
+
+#: ding_serendipity/plugins/content_types/serendipity_ting_object.inc:17 ding_serendipity/plugins/content_types/serendipity_ting_object_related.inc:17 ding_serendipity_taxonomy_term/plugins/content_types/serendipity_term.inc:39 ding_serendipity_ting_entity/plugins/content_types/serendipity_entity.inc:36
+msgid "Ting object"
+msgstr ""
+
+#: ding_serendipity/plugins/content_types/serendipity_ting_object.inc:104
+msgid "Serendipity materials"
+msgstr "Biblioteket foreslår materialer til dig"
+
+#: ding_serendipity/plugins/content_types/serendipity_ting_object.inc:125 ding_serendipity/plugins/content_types/serendipity_ting_object_related.inc:115
+msgid "Please specify some keys for the serendipity filter."
+msgstr ""
+
+#: ding_serendipity/plugins/content_types/serendipity_ting_object_related.inc:9
+msgid "Ding serendipity with TingObject Related"
+msgstr ""
+
+#: ding_serendipity/plugins/content_types/serendipity_ting_object_related.inc:93
+msgid "Serendipity related materials"
+msgstr ""
+
+#: ding_serendipity_fallback/ding_serendipity_fallback.info:0
+msgid "Ding serendipity fallback"
+msgstr ""
+
+#: ding_serendipity_fallback/ding_serendipity_fallback.info:0
+msgid "Provides fallback serendipity content."
+msgstr ""
+
+#: ding_serendipity_lists/ding_serendipity_lists.module:14
+msgid "Ding serendipity lists front page settings"
+msgstr ""
+
+#: ding_serendipity_lists/ding_serendipity_lists.module:23
+msgid "Front page serendipity fallback search string"
+msgstr ""
+
+#: ding_serendipity_lists/ding_serendipity_lists.module:52
+msgid "Front page fallback content"
+msgstr ""
+
+#: ding_serendipity_lists/ding_serendipity_lists.module:53
+msgid "Allow the library admin to enter a search string which pulls materials to be pushed to the front page."
+msgstr ""
+
+#: ding_serendipity_lists/ding_serendipity_lists.module:57
+msgid "ADHL on random loan items"
+msgstr ""
+
+#: ding_serendipity_lists/ding_serendipity_lists.module:58
+msgid "Check a random current loan via ADHL for serendipity."
+msgstr ""
+
+#: ding_serendipity_lists/ding_serendipity_lists.module:62
+msgid "Objects matching random author from lists"
+msgstr ""
+
+#: ding_serendipity_lists/ding_serendipity_lists.module:63
+msgid "Objects matching random author from lists."
+msgstr ""
+
+#: ding_serendipity_lists/ding_serendipity_lists.module:67
+msgid "p1 / obsolete / Nodes matching followed terms"
+msgstr ""
+
+#: ding_serendipity_lists/ding_serendipity_lists.module:68
+msgid "Nodes matching followed terms. Filter by <em>bundle</em>"
+msgstr ""
+
+#: ding_serendipity_lists/ding_serendipity_lists.module:72
+msgid "p1 / obsolete / Ting objects matching followed terms"
+msgstr ""
+
+#: ding_serendipity_lists/ding_serendipity_lists.module:73
+msgid "Ting objects matching a random followed term."
+msgstr ""
+
+#: ding_serendipity_lists/ding_serendipity_lists.module:173 ding_serendipity_ting_entity/ding_serendipity_ting_entity.module:258
+msgid "Because other people who also liked !title liked this."
+msgstr "Fordi andre der også kunne lide !title har anbefalet dette."
+
+#: ding_serendipity_lists/ding_serendipity_lists.module:230;318 ding_serendipity_ting_entity/ding_serendipity_ting_entity.module:291
+msgid "Because others also borrowed !item"
+msgstr ""
+
+#: ding_serendipity_lists/ding_serendipity_lists.module:251
+msgid "Recommended by the library."
+msgstr "Biblioteket anbefaler"
+
+#: ding_serendipity_lists/ding_serendipity_lists.module:371
+msgid "Because you have a list with materials by the author @author."
+msgstr "Fordi du har gemt materialer med forfatteren @author"
+
+#: ding_serendipity_lists/ding_serendipity_lists.module:401
+msgid "Because you follow @term"
+msgstr ""
+
+#: ding_serendipity_lists/ding_serendipity_lists.module:452
+msgid "Because you are following !term."
+msgstr ""
+
+#: ding_serendipity_lists/ding_serendipity_lists.info:0
+msgid "Ding serendipity lists"
+msgstr ""
+
+#: ding_serendipity_lists/ding_serendipity_lists.info:0
+msgid "Serendipity based on user ding_lists"
+msgstr ""
+
+#: ding_serendipity_site/ding_serendipity_site.module:75
+msgid "This material is related to this page."
+msgstr ""
+
+#: ding_serendipity_site/ding_serendipity_site.module:133
+msgid "These items match terms on the item you are viewing."
+msgstr ""
+
+#: ding_serendipity_site/ding_serendipity_site.info:0
+msgid "Ding serendipity site"
+msgstr ""
+
+#: ding_serendipity_site/ding_serendipity_site.info:0
+msgid "Provides serendipity content specific for this site."
+msgstr ""
+
+#: ding_serendipity_taxonomy_term/ding_serendipity_taxonomy_term.features.field_instance.inc:48
+msgid "Materials"
+msgstr "Materialer"
+
+#: ding_serendipity_taxonomy_term/ding_serendipity_taxonomy_term.module:122;153;171
+msgid "This content has been promoted to you by the library."
+msgstr ""
+
+#: ding_serendipity_taxonomy_term/ding_serendipity_taxonomy_term.module:124
+msgid "Content connected to the current term"
+msgstr ""
+
+#: ding_serendipity_taxonomy_term/ding_serendipity_taxonomy_term.module:217
+msgid "This material has been promoted to you by the library."
+msgstr ""
+
+#: ding_serendipity_taxonomy_term/ding_serendipity_taxonomy_term.module:308
+msgid "Fallback content are provided to meet minimum count of result."
+msgstr ""
+
+#: ding_serendipity_taxonomy_term/ding_serendipity_taxonomy_term.info:0 ding_serendipity_taxonomy_term/plugins/content_types/serendipity_term.inc:8
+msgid "Ding serendipity taxonomy term"
+msgstr ""
+
+#: ding_serendipity_taxonomy_term/ding_serendipity_taxonomy_term.info:0
+msgid "Serendipity based on taxonomy terms"
+msgstr ""
+
+#: ding_serendipity_taxonomy_term/plugins/content_types/serendipity_term.inc:9
+msgid "Displays serendipity content based on a taxonomy term."
+msgstr ""
+
+#: ding_serendipity_taxonomy_term/plugins/content_types/serendipity_term.inc:36
+msgid "Entity type"
+msgstr "Entitetstype"
+
+#: ding_serendipity_taxonomy_term/plugins/content_types/serendipity_term.inc:42
+msgid "Select the entity type to display in this list."
+msgstr ""
+
+#: ding_serendipity_taxonomy_term/plugins/content_types/serendipity_term.inc:52
+msgid "Node type"
+msgstr "Indholdstype"
+
+#: ding_serendipity_taxonomy_term/plugins/content_types/serendipity_term.inc:55
+msgid "Select a node type if node is selected above."
+msgstr ""
+
+#: ding_serendipity_taxonomy_term/plugins/content_types/serendipity_term.inc:99
+msgid "Inspiration"
+msgstr ""
+
+#: ding_serendipity_ting_entity/ding_serendipity_ting_entity.module:77
+msgid "Accepted adhl types"
+msgstr ""
+
+#: ding_serendipity_ting_entity/ding_serendipity_ting_entity.module:114
+msgid "This material has been selected based on the authors of the material you are viewing."
+msgstr ""
+
+#: ding_serendipity_ting_entity/ding_serendipity_ting_entity.module:147
+msgid "This material has been selected based on the subjects of the material you are viewing."
+msgstr ""
+
+#: ding_serendipity_ting_entity/ding_serendipity_ting_entity.module:184
+msgid "This material has been selected based on the type of the material you are viewing."
+msgstr ""
+
+#: ding_serendipity_ting_entity/ding_serendipity_ting_entity.info:0 ding_serendipity_ting_entity/plugins/content_types/serendipity_entity.inc:8
+msgid "Ding serendipity ting entity"
+msgstr ""
+
+#: ding_serendipity_ting_entity/ding_serendipity_ting_entity.info:0
+msgid "Serendipity based on ting entities"
+msgstr ""
+
+#: ding_serendipity_ting_entity/plugins/content_types/serendipity_entity.inc:9
+msgid "Provide serendipity based on entities."
+msgstr ""
+
+#: ding_serendipity_ting_entity/plugins/content_types/serendipity_entity.inc:46
+msgid "Site content"
+msgstr ""
+
+#: ding_serendipity_ting_entity/plugins/content_types/serendipity_entity.inc:47
+msgid "Material"
+msgstr ""
+
+#: ding_serendipity_ting_entity/plugins/content_types/serendipity_entity.inc:50
+msgid "Select the type of content you wish to display."
+msgstr ""
+
+#: ding_serendipity_ting_entity/plugins/content_types/serendipity_entity.inc:55
+msgid "Serendipity limit"
+msgstr ""
+
+#: ding_serendipity_ting_entity/plugins/content_types/serendipity_entity.inc:56
+msgid "The maximum number of items to display in the initial list."
+msgstr ""
+
+#: ding_serendipity_ting_entity/plugins/content_types/serendipity_entity.inc:107
+msgid "Related material"
+msgstr "Relateret materiale"
+
+#: ding_serendipity_ting_entity/plugins/content_types/serendipity_entity.inc:107
+msgid "Related content"
+msgstr "Relateret indhold"
+
+#: ding_sharer/ding_sharer.info:0
+msgid "Ding sharer"
+msgstr ""
+
+#: ding_sharer/ding_sharer.info:0
+msgid "Share buttons."
+msgstr ""
+
+#: ding_sharer/plugins/content_types/sharer_pane.inc:12
+msgid "Ding sharer pane"
+msgstr ""
+
+#: ding_sharer/plugins/content_types/sharer_pane.inc:41
+msgid "Share on @community"
+msgstr "Del på @community"
+
+#: ding_sharer/plugins/content_types/sharer_pane.inc:56
+msgid "Communities"
+msgstr ""
+
+#: ding_special_user/ding_special_user.features.field_instance.inc:108
+msgid "Category"
+msgstr "Kategori"
+
+#: ding_special_user/ding_special_user.features.field_instance.inc:109
+msgid "List image"
+msgstr "Liste billede"
+
+#: ding_special_user/ding_special_user.features.field_instance.inc:110
+msgid "Choose category of the user"
+msgstr ""
+
+#: ding_special_user/ding_special_user.views_default.inc:133
+msgid "Antal elementer"
+msgstr "Antal elementer"
+
+#: ding_special_user/ding_special_user.views_default.inc:134
+msgid "- Alle -"
+msgstr "- Alle -"
+
+#: ding_special_user/ding_special_user.views_default.inc:135
+msgid "Forskydning"
+msgstr "Forskydning"
+
+#: ding_special_user/ding_special_user.views_default.inc:136
+msgid "« første"
+msgstr "« første"
+
+#: ding_special_user/ding_special_user.views_default.inc:137
+msgid "‹ forrige"
+msgstr "‹ forrige"
+
+#: ding_special_user/ding_special_user.views_default.inc:138
+msgid "næste ›"
+msgstr "næste ›"
+
+#: ding_special_user/ding_special_user.views_default.inc:139
+msgid "sidste »"
+msgstr "sidste »"
+
+#: ding_special_user/ding_special_user.views_default.inc:140
+msgid "Profil"
+msgstr "Profil"
+
+#: ding_special_user/ding_special_user.views_default.inc:141
+msgid "Kategori"
+msgstr ""
+
+#: ding_special_user/ding_special_user.info:0
+msgid "Ding special user"
+msgstr ""
+
+#: ding_special_user/ding_special_user.info:0
+msgid "Profile for special users"
+msgstr ""
+
+#: ding_user_complete/ding_user_complete.admin.inc:16
+msgid "No modules implement the user complete hook yet."
+msgstr ""
+
+#: ding_user_complete/ding_user_complete.admin.inc:26
+msgid "Points"
+msgstr "Point"
+
+#: ding_user_complete/ding_user_complete.admin.inc:44
+msgid "Choose the amount of points this function gives when completed."
+msgstr ""
+
+#: ding_user_complete/ding_user_complete.module:149
+msgid "Did you know?"
+msgstr "Vidste du?"
+
+#: ding_user_complete/ding_user_complete.module:27
+msgid "Ding user complete settings"
+msgstr ""
+
+#: ding_user_complete/ding_user_complete.module:28
+msgid "Get an overview of the activated elements implementing user completeness points"
+msgstr ""
+
+#: ding_user_complete/ding_user_complete.info:0
+msgid "Ding user complete"
+msgstr ""
+
+#: ding_user_complete/ding_user_complete.info:0
+msgid "Provides a set of features and hooks to show user profile completeness."
+msgstr ""
+
+#: ding_user_complete/plugins/content_types/user_complete_pane.inc:12
+msgid "Ding user complete barometer pane"
+msgstr ""
+
+#: ding_user_complete/plugins/content_types/user_complete_pane.inc:13
+msgid "Displays a barometer displaying how complete the profile of a user is."
+msgstr ""
+
+#: ding_user_complete/plugins/content_types/user_complete_pane.inc:27
+msgid "Ding user completeness"
+msgstr ""
+
+#: ding_user_complete/test/ding_user_complete_test.module:66
+msgid "Bekræft"
+msgstr ""
+
+#: ding_user_complete/test/ding_user_complete_test.module:80
+msgid "Vi har noteret at din email er test@ok.dk og dit telefonnummer er 12345678."
+msgstr ""
+
+#: ding_user_complete/test/ding_user_complete_test.module:80
+msgid "Ret mine personlige oplysninger"
+msgstr ""
+
+#: ding_user_complete/test/ding_user_complete_test.info:0
+msgid "Ding user complete test case"
+msgstr ""
+
+#: ding_user_complete/test/ding_user_complete_test.info:0
+msgid "A simple test implementation of ding user complete."
+msgstr ""
+
+#: ding_user_complete/theme/user-complete-barometer.tpl.php:14
+msgid "Your user profile is @procent % completed"
+msgstr "Din brugerprofil er @procent % fuldført"
+
+#: ding_user_consent/DingProviderConsentException.php:9
+msgid "Missing user consent"
+msgstr ""
+
+#: ding_user_consent/ding_user_consent.admin.inc:14
+msgid "Enable user consent"
+msgstr ""
+
+#: ding_user_consent/ding_user_consent.admin.inc:15
+msgid "Give users access to consent to store their loan history for more than 30 days."
+msgstr ""
+
+#: ding_user_consent/ding_user_consent.admin.inc:24
+msgid "Consent for %title"
+msgstr ""
+
+#: ding_user_consent/ding_user_consent.admin.inc:30
+msgid "Notice the settings below will only take effect if user consent is enabled in the checkbox above."
+msgstr ""
+
+#: ding_user_consent/ding_user_consent.admin.inc:36
+msgid "Link to consent description"
+msgstr ""
+
+#: ding_user_consent/ding_user_consent.admin.inc:37
+msgid "Write a link to the page containing a description of user consent. Use whether the format node/!nid or a path alias."
+msgstr ""
+
+#: ding_user_consent/ding_user_consent.admin.inc:44
+msgid "First time"
+msgstr ""
+
+#: ding_user_consent/ding_user_consent.admin.inc:51
+msgid "First login message title"
+msgstr ""
+
+#: ding_user_consent/ding_user_consent.admin.inc:52
+msgid "Write a title for the message a first time user will receive"
+msgstr ""
+
+#: ding_user_consent/ding_user_consent.admin.inc:60
+msgid "First login message description"
+msgstr ""
+
+#: ding_user_consent/ding_user_consent.admin.inc:61
+msgid "Write a message for a first time user"
+msgstr ""
+
+#: ding_user_consent/ding_user_consent.admin.inc:69
+msgid "Request"
+msgstr ""
+
+#: ding_user_consent/ding_user_consent.admin.inc:76
+msgid "Consent title"
+msgstr "Samtykke titel"
+
+#: ding_user_consent/ding_user_consent.admin.inc:77
+msgid "Write a title for the message which the user will see when requested to give consent"
+msgstr ""
+
+#: ding_user_consent/ding_user_consent.admin.inc:85
+msgid "Consent description"
+msgstr "Samtykke beskrivelse"
+
+#: ding_user_consent/ding_user_consent.admin.inc:86
+msgid "Write a message for the user when requested to give consent"
+msgstr ""
+
+#: ding_user_consent/ding_user_consent.pages.inc:57
+msgid "Save"
+msgstr "Gem"
+
+#: ding_user_consent/ding_user_consent.module:84
+msgid "You said yes"
+msgstr "Du sagde ja"
+
+#: ding_user_consent/ding_user_consent.module:87
+msgid "You said no"
+msgstr "Du sagde nej"
+
+#: ding_user_consent/ding_user_consent.module:182;189
+msgid "Legal consent"
+msgstr "Juridisk samtykke"
+
+#: ding_user_consent/ding_user_consent.module:202
+msgid "Read more"
+msgstr "Læs mere"
+
+#: ding_user_consent/ding_user_consent.module:324;45;56
+msgid "Give consent"
+msgstr "Giv samtykke"
+
+#: ding_user_consent/ding_user_consent.module:391
+msgid "Yes please, the library can store my previous loans"
+msgstr "Ja tak, biblioteket må gerne huske mine tidligere lån"
+
+#: ding_user_consent/ding_user_consent.module:417
+msgid "Storage of your loan history"
+msgstr "Opbevaring af dine tidligere lån"
+
+#: ding_user_consent/ding_user_consent.module:36
+msgid "Ding consent"
+msgstr ""
+
+#: ding_user_consent/ding_user_consent.module:64
+msgid "Ding user consent set consent"
+msgstr ""
+
+#: ding_user_consent/ding_user_consent.info:0
+msgid "Ding user consent"
+msgstr "Samtykke"
+
+#: ding_user_consent/ding_user_consent.info:0
+msgid "User privacy module."
+msgstr ""
+
+#: simplevar/simplevar.info:0
+msgid "Simplevar"
+msgstr ""
+
+#: simplevar/simplevar.info:0
+msgid "Similar to the drupal variables, but this lazy loads from the database."
+msgstr ""
+
+#: simplevar/simplevar.info:0
+msgid "Other"
+msgstr "Andet"
+
+#: ting_carousel/ting_carousel.module:18
+msgid "Compact"
+msgstr "Kompakt"
+
+#: ting_carousel/ting_carousel.info:0
+msgid "Ting Carousel"
+msgstr ""
+
+#: ting_carousel/ting_carousel.info:0
+msgid "Ting Carousel, and themer module."
+msgstr ""
+
+#: ting_openlist/ting_openlist.admin.inc:15
+msgid "Openlist settings"
+msgstr ""
+
+#: ting_openlist/ting_openlist.admin.inc:20
+msgid "URI of the WSDL file"
+msgstr ""
+
+#: ting_openlist/ting_openlist.admin.inc:21
+msgid "The client doesn't support non-WSDL mode, so this is required."
+msgstr ""
+
+#: ting_openlist/ting_openlist.admin.inc:28
+msgid "Library code"
+msgstr "Bibliotekskode"
+
+#: ting_openlist/ting_openlist.admin.inc:36
+msgid "Openlist prefix"
+msgstr ""
+
+#: ting_openlist/ting_openlist.admin.inc:37
+msgid "The prefix used for creating a unique hashed user id."
+msgstr ""
+
+#: ting_openlist/ting_openlist.admin.inc:45
+msgid "Debugging settings"
+msgstr ""
+
+#: ting_openlist/ting_openlist.admin.inc:46
+msgid "Do not enable these settings in a production environment.<br />Even without any debugging on, openlist will log actual errors"
+msgstr ""
+
+#: ting_openlist/ting_openlist.admin.inc:51
+msgid "Enable logging"
+msgstr ""
+
+#: ting_openlist/ting_openlist.admin.inc:52
+msgid "Log requests send to the openlist service."
+msgstr ""
+
+#: ting_openlist/ting_openlist.admin.inc:59
+msgid "Enable detailed logging"
+msgstr ""
+
+#: ting_openlist/ting_openlist.admin.inc:60
+msgid "If logging, this will log more details, but the log messages can get big and confusing."
+msgstr ""
+
+#: ting_openlist/ting_openlist.admin.inc:66
+msgid "Developer"
+msgstr ""
+
+#: ting_openlist/ting_openlist.admin.inc:67
+msgid "Send the developer cookie to the service."
+msgstr ""
+
+#: ting_openlist/ting_openlist.admin.inc:73
+msgid "Disable WSDL caching"
+msgstr ""
+
+#: ting_openlist/ting_openlist.module:19
+msgid "Ting Openlist is not configured, please configure the module @here before continuing."
+msgstr ""
+
+#: ting_openlist/ting_openlist.module:20 ting_openlist/ting_openlist.install:15
+msgid "here"
+msgstr "her"
+
+#: ting_openlist/ting_openlist.module:22
+msgid "Not configured"
+msgstr "Ikke konfigureret"
+
+#: ting_openlist/ting_openlist.module:82
+msgid "Ting openlist importer"
+msgstr ""
+
+#: ting_openlist/ting_openlist.module:84
+msgid "Only works if you set unlimited amount."
+msgstr ""
+
+#: ting_openlist/ting_openlist.module:100
+msgid "Openlist"
+msgstr ""
+
+#: ting_openlist/ting_openlist.module:102
+msgid "Search for a public openlist list."
+msgstr ""
+
+#: ting_openlist/ting_openlist.module:108
+msgid "Add openlist elements"
+msgstr ""
+
+#: ting_openlist/ting_openlist.module:140
+msgid "Openlist User ID"
+msgstr ""
+
+#: ting_openlist/ting_openlist.module:141
+msgid "Openlist user id"
+msgstr ""
+
+#: ting_openlist/ting_openlist.module:273
+msgid "Invalid openlist list"
+msgstr ""
+
+#: ting_openlist/ting_openlist.module:440
+msgid "User missing"
+msgstr ""
+
+#: ting_openlist/ting_openlist.module:313;364;378
+msgid "openlist"
+msgstr ""
+
+#: ting_openlist/ting_openlist.module:313
+msgid "Unable to create SoapClient(@wsdl). Exception:<br />@exception"
+msgstr ""
+
+#: ting_openlist/ting_openlist.module:364
+msgid "@function (@execution_time s)!details"
+msgstr ""
+
+#: ting_openlist/ting_openlist.module:378
+msgid "Error (@execution_time s).<br /><strong>Function:</strong> @function.<br /><strong>Exception:</strong>@exception<hr /><pre>!details</pre>"
+msgstr ""
+
+#: ting_openlist/ting_openlist.info:0
+msgid "Ting Openlist"
+msgstr ""
+
+#: ting_openlist/ting_openlist.info:0
+msgid "Handle the communication with the openlist service."
+msgstr ""
+
