@@ -33,7 +33,7 @@ function ting_search_carousel_carousel_content_type_render($subtype, $conf, $pan
     $vars = array(
       'tabs' => $tabs,
       'transition' => variable_get('ting_search_carousel_transition', 'fade'),
-      'show_desciption' => variable_get('ting_search_carousel_description_toggle', FALSE),
+      'show_description' => variable_get('ting_search_carousel_description_toggle', FALSE),
     );
     $block->content = theme('ting_search_carousel', $vars);
   }
