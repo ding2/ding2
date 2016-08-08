@@ -191,6 +191,42 @@ function fbs_settings_form() {
     '#description' => t('Allow users to delete their reservations as well as ready for pickup ones.'),
   );
 
+  // Update list of branches.
+  $form['update'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Update from library system'),
+  );
+
+  $form['update']['fbs_branches_last_updated'] = array(
+    '#markup' => '<label>Last updated:</label>' . (variable_get('fbs_branches_last_updated', 0) ? date('Y-m-d H:i:s', variable_get('fbs_branches_last_updated')) : '<em>' . t('Never') . '</em>'),
+  );
+
+  $form['update']['fbs_update'] = array(
+    '#type' => 'actions',
+    'submit' => array(
+      '#type' => 'submit',
+      '#value' => t('Update list')
+    ),
+  );
+
+  // Branches and blacklisted branches.
+  $form['branches'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Branches Blacklist'),
+    '#description' => t('Choose which branches to blacklist from searches'),
+  );
+  $fbs_branches = variable_get('fbs_branches', array());
+  $fbs_branches_blacklist = variable_get('fbs_branches_blacklist', array());
+  foreach ($fbs_branches as $id => $branch) {
+    $form['branches']['fbs_branch_' . $id] = array(
+      '#type' => 'checkbox',
+      '#title' => check_plain($branch),
+      '#default_value' => isset($fbs_branches_blacklist[$id]) ? TRUE : FALSE,
+    );
+  }
+
+  $form['#submit'][] = 'fbs_settings_form_submit';
+
   return system_settings_form($form);
 }
 
@@ -201,6 +237,31 @@ function fbs_settings_form_submit($form, &$form_state) {
   foreach ($form_state['values'] as $name => $value) {
     $form_state['values'][$name] = trim($value);
   }
+
+  // If update button has been chosen, get a fresh list of branches.
+  if (in_array('fbs_update', array_values($form_state['triggering_element']['#array_parents']))) {
+    // Update fbs.
+    $branches = fbs_branches();
+    variable_set('fbs_branches', $branches);
+    variable_set('fbs_branches_last_updated', time());
+  }
+
+  // Get list of branches and mark blacklisted branches.
+  $fbs_branches = variable_get('fbs_branches', array());
+  $fbs_branches_blacklist = array();
+  foreach ($form_state['values'] as $key => $value) {
+    $matches = array();
+    if (preg_match('/^fbs_branch_(\w+-\d+)$/', $key, $matches)) {
+      $branch_id = $matches[1];
+      if (isset($fbs_branches[$branch_id]) && $value) {
+        if ($value) {
+          $fbs_branches_blacklist[$branch_id] = $branch_id;
+        }
+      }
+    }
+  }
+  variable_set('fbs_branches_blacklist', $fbs_branches_blacklist);
+
   system_settings_form_submit($form, $form_state);
 }
 
