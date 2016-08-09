@@ -131,7 +131,7 @@ function ting_reference_field_update($entity_type, $entity, $field, $instance, $
   $entity_id = array_shift($entity_ids);
 
   $settings = reset($items);
-  if (!empty($settings['materials']) && is_array($settings['metarials']) && $entity_id) {
+  if (!empty($settings['materials']) && is_array($settings['materials']) && $entity_id) {
     unset($settings['materials']['add']);
 
     // Save ting materials to ting_reference table.

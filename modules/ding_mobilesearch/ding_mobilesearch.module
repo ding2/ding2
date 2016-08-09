@@ -285,11 +285,14 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
           'value' => array(),
           'attr' => array(),
         );
+
         foreach ($items as $item) {
-          $mapping['fields'][$machine_name]['value'][] = $item['ting_object_id'];
+          $mapping['fields'][$machine_name]['value']['materials'] = $item;
         }
-        if (count($mapping['fields'][$machine_name]['value']) == 1) {
-          $mapping['fields'][$machine_name]['value'] = reset($mapping['fields'][$machine_name]['value']);
+
+        $ting_object_ids = ting_reference_get_relation($node->nid);
+        foreach ($ting_object_ids as $tid) {
+          $mapping['fields'][$machine_name]['value']['search'][] += $tid;
         }
         break;
 
