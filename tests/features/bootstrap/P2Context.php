@@ -997,7 +997,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iFollowTheTag($tag)
     {
-        $this->moreDropdownSelect('Følg ' . $tag, "Couldn't find tag '$tag' on material");
+        $this->moreDropdownSelect('Følg emnet ' . $tag, "Couldn't find tag '$tag' on material");
     }
 
     /**
