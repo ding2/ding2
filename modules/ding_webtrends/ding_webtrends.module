@@ -101,6 +101,9 @@ EOT;
     );
     drupal_add_html_head($meta_tag, 'search_count_meta_tag');
   }
+
+  // Add JavaScript for tracking certain link buttons via webtrends.
+  drupal_add_js(drupal_get_path('module', 'ding_webtrends') . '/js/webtrends_add.js');
 }
 
 /**
