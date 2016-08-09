@@ -964,8 +964,11 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeTheTagOnTheMaterial($tag)
     {
-        $button = $this->ding2Context->minkContext->getSession()->getPage()
+        $subject = $this->ding2Context->minkContext->getSession()->getPage()
           ->find('css', '.subjects .subject:contains("' . $tag . '")');
+        if (!$subject) {
+          throw new Exception("Couldn't find tag.");
+        }
     }
 
     /**
