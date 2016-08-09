@@ -349,6 +349,7 @@ function _ting_search_carousel_get_slice($cache_data, $start, $count) {
 function _ting_search_carousel_find_covers($query, $start, $size, array $ignore) {
   $found_covers = array();
   $finished = FALSE;
+  $objects = array();
 
   $options = array(
     'facets' => array(),
