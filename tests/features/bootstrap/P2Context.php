@@ -954,7 +954,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iAmOnAMaterialPageThatHasTheSubject()
     {
-        $material = '870970-basis%3A06333737';
+        $material = '870970-basis%3A08983127';
         $this->gotoPage('/ting/object/' . $material);
     }
 
