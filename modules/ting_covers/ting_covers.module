@@ -96,25 +96,11 @@ function ting_covers_preprocess_ting_object(&$variables) {
  *   all files.
  */
 function _ting_covers_delete_old_files($time = NULL) {
-  // Collect potential locations of cover folders.
-  $files_dir = file_default_scheme() . '://';
-  $image_dirs = array($files_dir);
-
-  $styles_dir = $files_dir . 'styles';
-  foreach (scandir($styles_dir) as $style_dir) {
-    $style_dir = $styles_dir . DIRECTORY_SEPARATOR . $style_dir . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR;
-    if (is_dir($style_dir)) {
-      $image_dirs[] = $style_dir;
-    }
-  }
-
   // Collect cover files.
   $cover_files = array();
-  foreach ($image_dirs as $uri) {
-    $ting_covers_dir = $uri . 'ting' . DIRECTORY_SEPARATOR . 'covers';
-    if (is_dir($ting_covers_dir)) {
-      $cover_files = array_merge($cover_files, file_scan_directory($ting_covers_dir, "/./"));
-    }
+  $ting_covers_dir = file_default_scheme() . '://ting' . DIRECTORY_SEPARATOR . 'covers';
+  if (is_dir($ting_covers_dir)) {
+    $cover_files = array_merge($cover_files, file_scan_directory($ting_covers_dir, "/./"));
   }
 
   // Delete obsolete files.
