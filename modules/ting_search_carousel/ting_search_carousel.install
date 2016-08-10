@@ -5,13 +5,6 @@
  */
 
 /**
- * Implements hook_install().
- */
-function ting_search_carousel_install() {
-  ting_search_carousel_configure_display();
-}
-
-/**
  * Implements hook_uninstall().
  */
 function ting_search_carousel_uninstall() {
@@ -66,55 +59,4 @@ function ting_search_carousel_update_7000() {
   }
   variable_del('ting_carousel_search_queries');
   variable_del('ting_search_carousel_settings');
-}
-
-/**
- * Adds defaults config.
- */
-function ting_search_carousel_update_7001() {
-  ting_search_carousel_configure_display();
-}
-
-/**
- * Rearrange fields in ting search carousel display of ting object.
- */
-function ting_search_carousel_configure_display() {
-  // Set field settings.
-  // Cover.
-  $instance = field_info_instance('ting_object', 'ting_cover', 'ting_object');
-  $instance['display']['ting_search_carousel'] = array(
-    'label' => 'hidden',
-    'type' => 'ting_cover_simple',
-    'weight' => '0',
-    'settings' => array(
-      'image_style' => 'medium',
-    ),
-    'module' => 'ting_search_carousel',
-  );
-  field_update_instance($instance);
-
-  // Type.
-  $instance = field_info_instance('ting_object', 'ting_type', 'ting_object');
-  $instance['display']['ting_search_carousel'] = array(
-    'label' => 'hidden',
-    'type' => 'ting_type_ting_search_carousel',
-    'weight' => '1',
-    'settings' => array(),
-    'module' => 'ting_search_carousel',
-  );
-  field_update_instance($instance);
-
-  // Title.
-  $instance = field_info_instance('ting_object', 'ting_title', 'ting_object');
-  $instance['display']['ting_search_carousel'] = array(
-    'label' => 'hidden',
-    'type' => 'ting_title_ting_search_carousel',
-    'weight' => '2',
-    'settings' => array(
-      'link_type' => 'object',
-      'prefix_type' => 'no',
-    ),
-    'module' => 'ting_search_carousel',
-  );
-  field_update_instance($instance);
 }

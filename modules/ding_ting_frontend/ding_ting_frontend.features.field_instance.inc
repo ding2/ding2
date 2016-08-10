@@ -565,11 +565,11 @@ function ding_ting_frontend_field_default_field_instances() {
       ),
       'ting_search_carousel' => array(
         'label' => 'hidden',
-        'module' => 'ting_covers',
+        'module' => 'ting_search_carousel',
         'settings' => array(
-          'image_style' => 'ting_search_carousel',
+          'image_style' => 'medium',
         ),
-        'type' => 'ting_cover_default',
+        'type' => 'ting_cover_simple',
         'weight' => 0,
       ),
       'user_list' => array(
@@ -975,7 +975,7 @@ function ding_ting_frontend_field_default_field_instances() {
           'prefix_type' => 'no',
         ),
         'type' => 'ting_title_default',
-        'weight' => 0,
+        'weight' => 2,
       ),
       'user_list' => array(
         'label' => 'hidden',
@@ -1055,7 +1055,7 @@ function ding_ting_frontend_field_default_field_instances() {
         'module' => 'ting',
         'settings' => array(),
         'type' => 'ting_type_default',
-        'weight' => 0,
+        'weight' => 1,
       ),
       'user_list' => array(
         'label' => 'hidden',
