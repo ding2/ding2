@@ -44,7 +44,7 @@ class ExternalMaterialLoansApi extends SwaggerApi
      */
     public function getLoans($agencyid, $patronid)
     {
-        $request = $this->newRequest("GET", "/external/v1/{agencyid}/patrons/{patronid}/loans");
+        $request = $this->newRequest("GET", "/external/v2/{agencyid}/patrons/{patronid}/loans");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("path", "patronid", $patronid);
 
@@ -96,7 +96,7 @@ class ExternalMaterialLoansApi extends SwaggerApi
      */
     public function renewLoans($agencyid, $patronid, $materialLoanIds)
     {
-        $request = $this->newRequest("POST", "/external/v1/{agencyid}/patrons/{patronid}/loans/renew");
+        $request = $this->newRequest("POST", "/external/v2/{agencyid}/patrons/{patronid}/loans/renew");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("path", "patronid", $patronid);
         $request->addParameter("body", "materialLoanIds", $materialLoanIds);
@@ -124,7 +124,7 @@ class ExternalMaterialLoansApi extends SwaggerApi
      */
     public function getBookingLoans($agencyid, $patronid, $bookingid)
     {
-        $request = $this->newRequest("GET", "/external/v1/{agencyid}/patrons/{patronid}/loans/{bookingid}");
+        $request = $this->newRequest("GET", "/external/v2/{agencyid}/patrons/{patronid}/loans/{bookingid}");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("path", "patronid", $patronid);
         $request->addParameter("path", "bookingid", $bookingid);
