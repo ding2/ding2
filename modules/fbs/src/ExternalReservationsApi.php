@@ -40,7 +40,7 @@ class ExternalReservationsApi extends SwaggerApi
      */
     public function getReservations($agencyid, $patronid)
     {
-        $request = $this->newRequest("GET", "/external/v1/{agencyid}/patrons/{patronid}/reservations");
+        $request = $this->newRequest("GET", "/external/v2/{agencyid}/patrons/{patronid}/reservations");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("path", "patronid", $patronid);
 
@@ -76,7 +76,7 @@ class ExternalReservationsApi extends SwaggerApi
      *      When making a reservation of a periodical, the values to put in the PeriodicalReservation structure can be obtained
      *      from the periodical information retrieved with the Catalog service.
      *  
-     *  This method has been deprecated use /external/v1/{agencyid}/patrons/{patronid}/reservations/add instead
+     *  This method has been deprecated use /external/v2/{agencyid}/patrons/{patronid}/reservations/add instead
      *
      * @param string $agencyid ISIL of the agency (e.g. DK-761500)
      * @param integer $patronid the patron that makes the reservations
@@ -85,7 +85,7 @@ class ExternalReservationsApi extends SwaggerApi
      */
     public function addReservationsDeprecated($agencyid, $patronid, Model\CreateReservationBatch $createReservationBatch)
     {
-        $request = $this->newRequest("POST", "/external/v1/{agencyid}/patrons/{patronid}/reservations");
+        $request = $this->newRequest("POST", "/external/v2/{agencyid}/patrons/{patronid}/reservations");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("path", "patronid", $patronid);
         $request->addParameter("body", "createReservationBatch", $createReservationBatch);
@@ -127,7 +127,7 @@ class ExternalReservationsApi extends SwaggerApi
      */
     public function updateReservations($agencyid, $patronid, Model\UpdateReservationBatch $reservations)
     {
-        $request = $this->newRequest("PUT", "/external/v1/{agencyid}/patrons/{patronid}/reservations");
+        $request = $this->newRequest("PUT", "/external/v2/{agencyid}/patrons/{patronid}/reservations");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("path", "patronid", $patronid);
         $request->addParameter("body", "reservations", $reservations);
@@ -151,7 +151,7 @@ class ExternalReservationsApi extends SwaggerApi
      */
     public function deleteReservations($agencyid, $patronid, $reservationid)
     {
-        $request = $this->newRequest("DELETE", "/external/v1/{agencyid}/patrons/{patronid}/reservations");
+        $request = $this->newRequest("DELETE", "/external/v2/{agencyid}/patrons/{patronid}/reservations");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("path", "patronid", $patronid);
         $request->addParameter("query", "reservationid", $reservationid);
@@ -222,7 +222,7 @@ class ExternalReservationsApi extends SwaggerApi
      */
     public function addReservations($agencyid, $patronid, Model\CreateReservationBatch $createReservationBatch)
     {
-        $request = $this->newRequest("POST", "/external/v1/{agencyid}/patrons/{patronid}/reservations/add");
+        $request = $this->newRequest("POST", "/external/v2/{agencyid}/patrons/{patronid}/reservations/add");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("path", "patronid", $patronid);
         $request->addParameter("body", "createReservationBatch", $createReservationBatch);

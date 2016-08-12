@@ -23,7 +23,7 @@ class ExternalAuthenticationApiTest extends \PHPUnit_Framework_TestCase
 
         // Invalid login.
         $prophecy->request(Argument::that(function ($request) {
-            $this->assertEquals('/banana/external/v1/1234/authentication/login', $request->getUri()->getPath());
+            $this->assertEquals('/banana/external/v2/1234/authentication/login', $request->getUri()->getPath());
             return strpos((string) $request->getBody(), 'badpass') !== false;
         }))->will(function ($args) {
             return new Response('php://memory', 403);

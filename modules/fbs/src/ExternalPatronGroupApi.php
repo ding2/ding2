@@ -21,7 +21,7 @@ class ExternalPatronGroupApi extends SwaggerApi
      */
     public function getRootGroup($agencyid)
     {
-        $request = $this->newRequest("GET", "/external/v1/{agencyid}/patrongroups");
+        $request = $this->newRequest("GET", "/external/v2/{agencyid}/patrongroups");
         $request->addParameter("path", "agencyid", $agencyid);
 
         $request->defineResponse(200, "", '\\FBS\\Model\\PatronGroup');

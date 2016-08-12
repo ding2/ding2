@@ -24,7 +24,7 @@ class ExternalConfigurationApi extends SwaggerApi
      */
     public function getConfiguration($agencyid, $key)
     {
-        $request = $this->newRequest("GET", "/external/v1/{agencyid}/configuration/{key}");
+        $request = $this->newRequest("GET", "/external/v2/{agencyid}/configuration/{key}");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("path", "key", $key);
 
@@ -52,7 +52,7 @@ class ExternalConfigurationApi extends SwaggerApi
      */
     public function getConfigurationList($agencyid, $key)
     {
-        $request = $this->newRequest("GET", "/external/v1/{agencyid}/configuration/{key}/list");
+        $request = $this->newRequest("GET", "/external/v2/{agencyid}/configuration/{key}/list");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("path", "key", $key);
 

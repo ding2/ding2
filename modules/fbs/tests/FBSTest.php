@@ -22,7 +22,7 @@ class ExternalAuthenticationApiTest extends \PHPUnit_Framework_TestCase
 
         // Invalid login.
         $httpclient->request(Argument::that(function ($request) {
-            $this->assertEquals('/banana/external/v1/1234/authentication/login', $request->getUri());
+            $this->assertEquals('/banana/external/v2/1234/authentication/login', $request->getUri());
             return strpos((string) $request->getBody(), 'badpass') !== false;
         }))->will(function ($args) {
             return new Response('php://memory', 403);
