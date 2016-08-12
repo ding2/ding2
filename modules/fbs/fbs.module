@@ -554,3 +554,22 @@ function _fbs_wayf_login($name, $value = NULL) {
 
   return NULL;
 }
+
+/**
+ * Implements hook_ting_pre_execute().
+ *
+ * Filter out blacklisted branches from search.
+ */
+function fbs_ting_pre_execute($request) {
+  // We only want to modify searches.
+  if (gettype($request) != 'TingClientSearchRequest') {
+    return;
+  }
+  $fbs_branches_blacklist = variable_get('fbs_branches_blacklist', array());
+  $query = $request->getQuery();
+  if (!empty($fbs_branches_blacklist)) {
+    $query .= ' AND (holdingsitem.branch = (* not ' . implode(' not ',
+        $fbs_branches_blacklist) . '))';
+    $request->setQuery($query);
+  }
+}
