@@ -25,7 +25,7 @@ class ExternalAuthenticationApi extends SwaggerApi
      */
     public function login($agencyid, Model\Login $login)
     {
-        $request = $this->newRequest("POST", "/external/v1/{agencyid}/authentication/login");
+        $request = $this->newRequest("POST", "/external/v2/{agencyid}/authentication/login");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("body", "login", $login);
 

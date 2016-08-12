@@ -22,7 +22,7 @@ class ExternalPlacementApi extends SwaggerApi
      */
     public function getBranches($agencyid, $exclude = null)
     {
-        $request = $this->newRequest("GET", "/external/v1/{agencyid}/branches");
+        $request = $this->newRequest("GET", "/external/v2/{agencyid}/branches");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("query", "exclude", $exclude);
 
@@ -44,7 +44,7 @@ class ExternalPlacementApi extends SwaggerApi
      */
     public function getDepartments($agencyid)
     {
-        $request = $this->newRequest("GET", "/external/v1/{agencyid}/departments");
+        $request = $this->newRequest("GET", "/external/v2/{agencyid}/departments");
         $request->addParameter("path", "agencyid", $agencyid);
 
         $request->defineResponse(200, "", array('\\FBS\\Model\\AgencyDepartment'));
@@ -65,7 +65,7 @@ class ExternalPlacementApi extends SwaggerApi
      */
     public function getLocations($agencyid)
     {
-        $request = $this->newRequest("GET", "/external/v1/{agencyid}/locations");
+        $request = $this->newRequest("GET", "/external/v2/{agencyid}/locations");
         $request->addParameter("path", "agencyid", $agencyid);
 
         $request->defineResponse(200, "", array('\\FBS\\Model\\AgencyLocation'));
@@ -86,7 +86,7 @@ class ExternalPlacementApi extends SwaggerApi
      */
     public function getSublocations($agencyid)
     {
-        $request = $this->newRequest("GET", "/external/v1/{agencyid}/sublocations");
+        $request = $this->newRequest("GET", "/external/v2/{agencyid}/sublocations");
         $request->addParameter("path", "agencyid", $agencyid);
 
         $request->defineResponse(200, "", array('\\FBS\\Model\\AgencySublocation'));
