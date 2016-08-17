@@ -83,11 +83,7 @@ function ting_reference_field_info() {
  */
 function ting_reference_field_is_empty($item, $field) {
   $empty = TRUE;
-  if (!empty($item['materials'][0]['ting_object_id'])) {
-    $empty = FALSE;
-  }
-
-  if (!empty($item['search']['query'])) {
+  if (!empty($item['materials'][0]['ting_object_id']) || !empty($item['search']['query'])) {
     $empty = FALSE;
   }
 
@@ -157,10 +153,10 @@ function ting_reference_field_update($entity_type, $entity, $field, $instance, $
     // Presave fields settings on node update.
     $items = array(
       array(
-        'headline' => $settings['headline'],
-        'query' => $settings['search']['query'],
-        'sorting' => $settings['search']['sorting'],
-        'amount' => (int) $settings['search']['amount'],
+        'headline' => (!empty($settings['headline'])) ? $settings['headline'] : '',
+        'query' => (!empty($settings['search'])) ? $settings['search']['query'] : '',
+        'sorting' => (!empty($settings['search'])) ? $settings['search']['sorting'] : '',
+        'amount' => (!empty($settings['search'])) ? (int) $settings['search']['amount'] : 0,
       ),
     );
   }
