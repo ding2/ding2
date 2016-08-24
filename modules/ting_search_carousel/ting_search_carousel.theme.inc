@@ -105,12 +105,20 @@ function template_preprocess_ting_search_carousel_collection(&$vars) {
   $vars['title'] = check_plain($collection->title);
   $vars['creator'] = check_plain($collection->creator);
 
-  $image = array(
-    'style_name' => 'ting_search_carousel',
-    'path' => $collection->path,
-    // 'width' =>
-    // 'height' =>
-    'alt' => '',
-  );
-  $vars['image'] = theme('image_style', $image);
+  $image_info = image_get_info($collection->path);
+  if ($image_info) {
+    $image = array(
+      'style_name' => 'ting_search_carousel',
+      'path' => $collection->path,
+      'width' => $image_info['width'],
+      'height' => $image_info['height'],
+      'alt' => '',
+    );
+    $vars['image'] = theme('image_style', $image);
+  }
+  else {
+    // If image_get_info() couldn't get the image size, image style is likely
+    // to fail too. So we give up here.
+    $vars['image'] = '';
+  }
 }
