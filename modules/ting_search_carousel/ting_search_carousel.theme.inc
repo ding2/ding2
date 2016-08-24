@@ -92,3 +92,25 @@ function template_preprocess_ting_search_carousel(&$vars, $hook) {
 
   $loaded = libraries_load('slick', 'non-minified');
 }
+
+/**
+ * Preprocess ting_search_carousel template.
+ */
+function template_preprocess_ting_search_carousel_collection(&$vars) {
+  // $vars['collection'] is the legacy variable, leaving it in to not mess
+  // with existing templates.
+  $collection = $vars['collection'];
+  $uri = entity_uri('ting_collection', $collection);
+  $vars['path'] = url($uri['path'], $uri['options']);
+  $vars['title'] = check_plain($collection->title);
+  $vars['creator'] = check_plain($collection->creator);
+
+  $image = array(
+    'style_name' => 'ting_search_carousel',
+    'path' => $collection->path,
+    // 'width' =>
+    // 'height' =>
+    'alt' => '',
+  );
+  $vars['image'] = theme('image_style', $image);
+}
