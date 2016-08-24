@@ -374,7 +374,7 @@ function _ting_search_carousel_find_covers($query, $start, $size, array $ignore)
       }
       $objects[$object->id] = array(
         'title' => isset($object->record['dc:title'][''][0]) ? $object->record['dc:title'][''][0] : '',
-        'creator' => isset($object->record['dc:creator']['oss:aut'][0]) ? $object->record['dc:creator']['oss:aut'][0] : '',
+        'creator' => isset($object->record['dc:creator']['dkdcplus:aut'][0]) ? $object->record['dc:creator']['dkdcplus:aut'][0] : '',
       );
     }
   }
