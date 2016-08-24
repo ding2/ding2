@@ -66,8 +66,8 @@ function template_preprocess_ting_search_carousel(&$vars, $hook) {
       array(
         'breakpoint' => 1024,
         'settings' => array(
-          'slidesToShow' => 3,
-          'slidesToScroll' => 3,
+          'slidesToShow' => 4,
+          'slidesToScroll' => 4,
         ),
       ),
       array(
