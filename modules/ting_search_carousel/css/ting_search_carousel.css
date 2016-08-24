@@ -2,29 +2,18 @@
    ting search carousel styling
    ========================================================================== */
 
+/* Go away on really small screens. */
+@media (max-width: 300px) {
+  .ting-search-carousel,
+  .carousel-tabs {
+    display: none;
+  }
+}
+
+
 .ting-search-carousel .additional-tab {
   /* Hide all but the first tab. */
   display: none;
-}
-
-.ting-search-carousel .carousel {
-  width: 100%;
-}
-
-carousel-runner {
-  -moz-transform: translate3d(0, 0, 0);
-  -webkit-transform: translate3d(0, 0, 0);
-  -o-transform: translate3d(0, 0, 0);
-  -ms-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
-}
-
-.rs-carousel-transition .rs-carousel-runner {
-  -moz-transition: -moz-transform .400s ease;
-  -webkit-transition: -webkit-transform .400s ease;
-  -o-transition: -o-transform .400s ease;
-  -ms-transition: -ms-transform .400s ease;
-  transition: transform .400s ease;
 }
 
 /* Pagination and previous and next buttons
@@ -39,11 +28,11 @@ carousel-runner {
   overflow: hidden;
   margin-top: -27px;
   position: absolute;
+  direction: ltr;
   text-indent: -1000px;
   top: 50%;
   width: 55px;
   z-index: 1;
-
 }
 
 .ting-search-carousel .slick-prev {
@@ -61,22 +50,27 @@ carousel-runner {
   display: none;
 }
 
+.carousel-tab {
+  /* Hide the overflow of the extra wide ul below. */
+  overflow: hidden;
+}
+
 .carousel-tab ul {
   display: inline-block;
   vertical-align: top;
   margin: 0;
   padding: 0;
   list-style: none;
-  /* Clip to one row to avoid flickering. */
-  height: 315px;
-  overflow: hidden;
+  /* Set the width to ensure (within reason) that all covers are rendered on one
+   * line, let the parent clip. It is restored to 100% by the JS before
+   * activating the carousel. */
+  width: 3000px;
 }
 
 .carousel-tab li {
   float: left;
   width: 200px;
   text-align: center;
-  margin-bottom: 1em;
   overflow: hidden;
 }
 
@@ -86,10 +80,8 @@ carousel-runner {
 
 .carousel-item-image img {
   display: block;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
 }
-
 
 /* Carousel tabs
    ========================================================================== */
@@ -103,8 +95,4 @@ carousel-runner {
   display: table-cell;
   vertical-align: top;
   text-align: center;
-}
-
-.carousel-tabs ul li.active a {
-  position: relative;
 }
