@@ -292,7 +292,9 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
 
         $ting_object_ids = ting_reference_get_relation($node->nid);
         foreach ($ting_object_ids as $tid) {
-          $mapping['fields'][$machine_name]['value']['search'][] += $tid;
+          if (!empty($mapping['fields'][$machine_name]['value']['search'])) {
+            $mapping['fields'][$machine_name]['value']['search'][] += $tid;
+          }
         }
         break;
 
