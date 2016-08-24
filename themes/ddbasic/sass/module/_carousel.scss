@@ -21,20 +21,27 @@ $carousel-tab-color:                       $white;
   background-color: $carousel-background-color;
   min-height: 225px;
   padding-top: 20px;
-  padding-right: 20px;
+  padding-right: 10px;
   padding-bottom: 30px;
-  padding-left: 20px;
+  padding-left: 10px;
 
   @include small-medium() {
     background-color: $red;
     min-height: 150px;
     padding-top: 20px;
-    padding-right: 20px;
+    padding-right: 10px;
     padding-bottom: 20px;
-    padding-left: 20px;
+    padding-left: 10px;
   }
 }
 
+.carousel-tabs {
+  background-color: $carousel-background-color;
+
+  @include small-medium() {
+    background-color: $red;
+  }
+}
 
 
 /* Previous and next buttons
@@ -80,7 +87,6 @@ $carousel-tab-color:                       $white;
 
 .ting-search-carousel .carousel-tab {
   ul {
-    height: 250px;
     overflow: hidden;
 
     li {
@@ -89,7 +95,8 @@ $carousel-tab-color:                       $white;
     }
   }
   li {
-    margin-right: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
     position: relative;
 
     img {
@@ -105,8 +112,7 @@ $carousel-tab-color:                       $white;
     }
 
     a {
-      max-height: $carousel-image-max-height;
-      width: $carousel-image-width;
+      width: 100%;
 
       &:hover {
         text-decoration: none;
@@ -133,8 +139,7 @@ $carousel-tab-color:                       $white;
       width: $carousel-image-width;
 
       a {
-        max-height: $carousel-image-max-height / 2;
-        width: $carousel-image-width / 2;
+        width: 100%;
       }
 
       .carousel-item-title {
@@ -156,6 +161,7 @@ $carousel-tab-color:                       $white;
 
     li {
       @extend .icon-chevron-down;
+      position: relative;
 
       a {
         background-color: $carousel-tab-background-color;

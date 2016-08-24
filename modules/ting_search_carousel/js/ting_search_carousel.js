@@ -230,7 +230,8 @@
 
         $('.carousel-tab', this).each(function () {
           var tab = $(this);
-
+          // Reset ul to 100% width before we start Slick. See the CSS.
+          tab.find('ul').css('width', '100%');
           // Init carousels. In order to react to the init event, the
           // event handler needs to be defined before triggering Slick
           // (obviously in hindsight).
