@@ -74,6 +74,11 @@
   overflow: hidden;
 }
 
+/* Image loading placeholder. */
+.carousel-tab .carousel-item-image {
+  background-color: #eee;
+}
+
 .carousel-item-image {
   display: block;
 }
