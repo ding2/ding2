@@ -389,6 +389,8 @@ function _ting_search_carousel_find_covers($query, $start, $size, array $ignore)
     $item->id = $id;
     $item->title = $objects[$id]['title'];
     $item->creator = $objects[$id]['creator'];
+    $item->path = $path;
+    // Legacy.
     $item->image = image_style_url('ting_search_carousel', $path);
 
     $found_covers[$id] = $item;
