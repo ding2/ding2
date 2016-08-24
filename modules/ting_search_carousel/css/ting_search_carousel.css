@@ -76,15 +76,8 @@ carousel-runner {
   float: left;
   width: 200px;
   text-align: center;
-  /* Default margin for non-JS. */
-  margin-right: 2em;
   margin-bottom: 1em;
   overflow: hidden;
-}
-
-.carousel-tab li.slick-slide {
-  /* Remove margin so Slick can calculate the slide size properly. */
-  margin-right: 0;
 }
 
 .carousel-item-image {
