@@ -410,7 +410,7 @@ function ting_search_carousel_image_default_styles() {
         array(
           'label' => 'Scale and crop',
           'effect callback' => 'image_scale_and_crop_effect',
-          'dimensions callback' => 'image_scale_dimensions',
+          'dimensions callback' => 'image_resize_dimensions',
           'module' => 'image',
           'name' => 'image_scale_and_crop',
           'data' => array(
