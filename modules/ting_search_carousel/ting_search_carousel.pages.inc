@@ -13,7 +13,6 @@
  *   Offset into result to fetch from.
  */
 function ting_search_carousel_result($index, $offset) {
-  module_load_include('theme.inc', 'ting_search_carousel');
   $content = '';
   $chunk = _ting_search_carousel_get_frontpage_covers($index, $offset, TING_SEARCH_CAROUSEL_CHUNK_SIZE);
   foreach ($chunk['collections'] as $collection) {
