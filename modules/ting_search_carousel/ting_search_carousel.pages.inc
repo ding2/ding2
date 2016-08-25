@@ -20,6 +20,13 @@ function ting_search_carousel_result($index, $offset) {
     $content .= theme('ting_search_carousel_collection', array('collection' => $collection));
   }
 
+  // If there's more covers, add a placeholder at the end to signal the user
+  // that it's loading.
+  if ($chunk['next_offset']) {
+    $content .= theme('ting_search_carousel_collection',
+                      array('collection' => ting_search_carousel_collection_placeholder()));
+  }
+
   // Return JSON output.
   drupal_json_output(array(
     'content' => $content,

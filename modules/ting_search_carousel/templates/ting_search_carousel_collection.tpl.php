@@ -11,7 +11,15 @@
  * - $path: Path to the collection/material.
  */
 ?>
-<li class="carousel-item">
-  <a href="<?php print $path; ?>" class="carousel-item-image"><?php print render($image); ?></a>
-  <a href="<?php print $path; ?>" class="carousel-item-title"><?php print $title; ?></a>
+<li class="carousel-item <?php print $classes; ?>">
+  <?php if ($path): ?>
+    <a href="<?php print $path; ?>" class="carousel-item-link">
+  <?php endif; ?>
+    <div class="carousel-item-image"><?php print render($image); ?></div>
+    <?php if ($title): ?>
+      <div class="carousel-item-title"><?php print $title; ?></div>
+    <?php endif; ?>
+  <?php if ($path): ?>
+    </a>
+  <?php endif; ?>
 </li>
