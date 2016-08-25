@@ -182,31 +182,56 @@
     };
   };
 
+  var queue = [];
+  var running = false;
   /**
    * Event handler for progressively loading more covers.
    */
-  var update = function(e, slick) {
+  var update_handler = function(e, slick) {
     var tab = e.data;
-    // Fetch more covers as we approach the end.
-    if (tab.data('offset') == 0 ||
-        (tab.data('offset') > -1 &&
-         (slick.slideCount - slick.currentSlide) <
-         (slick.options.slidesToShow * 2))) {
-      // Disable updates while updating.
-      var offset = tab.data('offset');
-      tab.data('offset', -1);
-      $.ajax({
-        type: 'get',
-        url : Drupal.settings.basePath + tab.data('path') + '/' + offset,
-        dataType : 'json',
-        success : function(data) {
-          // Remove placeholders.
-          $(e.target).find('.carousel-item.placeholder').remove();
-          $(e.target).slick('slickAdd', data.content);
-          tab.data('offset', data.offset);
-        }
-      });
+    if (!tab.data('updating')) {
+      // If its the first batch or we're near the end.
+      if (tab.data('offset') == 0 ||
+           (tab.data('offset') > -1 &&
+            (slick.slideCount - slick.currentSlide) <
+            (slick.options.slidesToShow * 2))) {
+        // Disable updates while updating.
+        tab.data('updating', true);
+        // Add to queue.
+        queue.push({'tab': tab, 'slick': slick, 'target': $(e.target)});
+      }
     }
+    // Run queue.
+    update();
+  };
+
+  /**
+   * Fetches more covers.
+   *
+   * Runs the queue if not already running.
+   */
+  var update = function() {
+    if (running || queue.length < 1) {
+      return;
+    }
+    running = true;
+    var item = queue.shift();
+
+    $.ajax({
+      type: 'get',
+      url : Drupal.settings.basePath + item.tab.data('path') + '/' + item.tab.data('offset'),
+      dataType : 'json',
+      success : function(data) {
+        // Remove placeholders.
+        item.target.find('.carousel-item.placeholder').remove();
+        item.target.slick('slickAdd', data.content);
+        item.tab.data('updating', false);
+        // Carry on processing the queue.
+        running = false;
+        update();
+      }
+    });
+
   };
 
   /**
@@ -238,7 +263,7 @@
           // Init carousels. In order to react to the init event, the
           // event handler needs to be defined before triggering Slick
           // (obviously in hindsight).
-          $('.carousel', this).on('init reInit afterChange', tab, update)
+          $('.carousel', this).on('init reInit afterChange', tab, update_handler)
             .slick(settings);
         });
 
