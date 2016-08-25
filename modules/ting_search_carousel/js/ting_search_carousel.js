@@ -188,9 +188,10 @@
   var update = function(e, slick) {
     var tab = e.data;
     // Fetch more covers as we approach the end.
-    if (tab.data('offset') > -1 &&
-        (slick.slideCount - slick.currentSlide) <
-        (slick.options.slidesToShow * 2)) {
+    if (tab.data('offset') == 0 ||
+        (tab.data('offset') > -1 &&
+         (slick.slideCount - slick.currentSlide) <
+         (slick.options.slidesToShow * 2))) {
       // Disable updates while updating.
       var offset = tab.data('offset');
       tab.data('offset', -1);
@@ -199,6 +200,8 @@
         url : Drupal.settings.basePath + tab.data('path') + '/' + offset,
         dataType : 'json',
         success : function(data) {
+          // Remove placeholders.
+          $(e.target).find('.carousel-item.placeholder').remove();
           $(e.target).slick('slickAdd', data.content);
           tab.data('offset', data.offset);
         }

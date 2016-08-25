@@ -111,7 +111,7 @@ $carousel-tab-color:                       $white;
       }
     }
 
-    a {
+    .carousel-item-title {
       width: 100%;
 
       &:hover {
@@ -137,10 +137,6 @@ $carousel-tab-color:                       $white;
   @include small() {
     li {
       width: $carousel-image-width;
-
-      a {
-        width: 100%;
-      }
 
       .carousel-item-title {
         display: none;

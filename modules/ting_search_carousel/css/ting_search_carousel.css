@@ -76,7 +76,9 @@
 
 /* Image loading placeholder. */
 .carousel-tab .carousel-item-image {
-  background-color: #eee;
+  background-image: url(../images/placeholder.png);
+  background-size: cover;
+  background-position: center;
 }
 
 .carousel-item-image {
