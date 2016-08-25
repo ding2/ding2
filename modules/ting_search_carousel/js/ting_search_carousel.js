@@ -205,6 +205,7 @@
         // Remove placeholders.
         item.target.find('.carousel-item.placeholder').remove();
         item.target.slick('slickAdd', data.content);
+        item.tab.data('offset', data.offset);
         item.tab.data('updating', false);
         // Carry on processing the queue.
         running = false;
