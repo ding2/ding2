@@ -28,13 +28,22 @@ function template_preprocess_ting_search_carousel(&$vars, $hook) {
       // If an ajax path is given, default to the first page, else disable
       // ajax.
       'offset' => empty($tab['path']) ? -1 : 0,
+      'placeholders' => 1,
       'classes' => '',
     );
 
-    // Render the items.
+    // Render the items, or some placeholders.
     $rendered = array();
-    foreach ($tab['content'] as $item) {
-      $rendered[] = theme('ting_search_carousel_collection', array('collection' => $item));
+    if (count($tab['content'])) {
+      foreach ($tab['content'] as $item) {
+        $rendered[] = theme('ting_search_carousel_collection', array('collection' => $item));
+      }
+    }
+    else {
+      foreach (range(0, $tab['placeholders']) as $dummy) {
+        $rendered[] = theme('ting_search_carousel_collection',
+                            array('collection' => ting_search_carousel_collection_placeholder()));
+      }
     }
     $tab['description'] = $tab['subtitle'];
 
@@ -100,8 +109,16 @@ function template_preprocess_ting_search_carousel_collection(&$vars) {
   // $vars['collection'] is the legacy variable, leaving it in to not mess
   // with existing templates.
   $collection = $vars['collection'];
-  $uri = entity_uri('ting_collection', $collection);
-  $vars['path'] = url($uri['path'], $uri['options']);
+  $vars['path'] = '';
+  if (!isset($collection->placeholder)) {
+    $uri = entity_uri('ting_collection', $collection);
+    $vars['path'] = url($uri['path'], $uri['options']);
+  }
+
+  if (isset($collection->placeholder)) {
+    $vars['classes_array'][] = 'placeholder';
+  }
+
   $vars['title'] = check_plain($collection->title);
   $vars['creator'] = check_plain($collection->creator);
 

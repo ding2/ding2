@@ -5537,9 +5537,9 @@ input#edit-search-block-form--2.spinner {
   .ting-search-carousel .carousel-tab li:hover .carousel-item-title {
     background-color: #000;
     text-decoration: none; }
-  .ting-search-carousel .carousel-tab li a {
+  .ting-search-carousel .carousel-tab li .carousel-item-title {
     width: 100%; }
-    .ting-search-carousel .carousel-tab li a:hover {
+    .ting-search-carousel .carousel-tab li .carousel-item-title:hover {
       text-decoration: none; }
   .ting-search-carousel .carousel-tab li .carousel-item-title {
     -webkit-box-sizing: border-box;
@@ -5558,8 +5558,6 @@ input#edit-search-block-form--2.spinner {
 @media only screen and (max-width: 480px) {
   .ting-search-carousel .carousel-tab li {
     width: 200px; }
-    .ting-search-carousel .carousel-tab li a {
-      width: 100%; }
     .ting-search-carousel .carousel-tab li .carousel-item-title {
       display: none; } }
 
