@@ -404,7 +404,7 @@ function _ting_search_carousel_find_covers($query, $start, $size, array $ignore)
 }
 
 /**
- *
+ * Returns an placeholder collection item.
  */
 function ting_search_carousel_collection_placeholder() {
   // Image styles only work on files in the files dir, so we copy our
