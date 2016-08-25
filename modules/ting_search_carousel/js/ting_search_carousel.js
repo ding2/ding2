@@ -184,26 +184,6 @@
 
   var queue = [];
   var running = false;
-  /**
-   * Event handler for progressively loading more covers.
-   */
-  var update_handler = function(e, slick) {
-    var tab = e.data;
-    if (!tab.data('updating')) {
-      // If its the first batch or we're near the end.
-      if (tab.data('offset') == 0 ||
-           (tab.data('offset') > -1 &&
-            (slick.slideCount - slick.currentSlide) <
-            (slick.options.slidesToShow * 2))) {
-        // Disable updates while updating.
-        tab.data('updating', true);
-        // Add to queue.
-        queue.push({'tab': tab, 'slick': slick, 'target': $(e.target)});
-      }
-    }
-    // Run queue.
-    update();
-  };
 
   /**
    * Fetches more covers.
@@ -231,7 +211,27 @@
         update();
       }
     });
+  };
 
+  /**
+   * Event handler for progressively loading more covers.
+   */
+  var update_handler = function(e, slick) {
+    var tab = e.data;
+    if (!tab.data('updating')) {
+      // If its the first batch or we're near the end.
+      if (tab.data('offset') === 0 ||
+           (tab.data('offset') > -1 &&
+            (slick.slideCount - slick.currentSlide) <
+            (slick.options.slidesToShow * 2))) {
+        // Disable updates while updating.
+        tab.data('updating', true);
+        // Add to queue.
+        queue.push({'tab': tab, 'slick': slick, 'target': $(e.target)});
+      }
+    }
+    // Run queue.
+    update();
   };
 
   /**
