@@ -21,7 +21,7 @@ function ting_search_carousel_result($index, $offset) {
 
   // If there's more covers, add a placeholder at the end to signal the user
   // that it's loading.
-  if ($chunk['next_offset']) {
+  if ($chunk['next_offset'] > -1) {
     $content .= theme('ting_search_carousel_collection',
                       array('collection' => ting_search_carousel_collection_placeholder()));
   }
