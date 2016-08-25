@@ -119,6 +119,7 @@ function ting_search_carousel_theme($existing, $type, $theme, $path) {
     ),
     'ting_search_carousel_collection' => array(
       'variables' => array('collection' => NULL),
+      'file' => 'ting_search_carousel.theme.inc',
       'template' => 'templates/ting_search_carousel_collection',
     ),
     'ting_search_carousel_admin_form' => array(
