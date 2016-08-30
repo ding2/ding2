@@ -97,7 +97,7 @@ function ding_library_library_list_sort_title($a, $b) {
  */
 function ding_library_library_list_select_library($form, &$form_state, $items, $context, $selected_url) {
   $form = array();
-  
+
   $form['select_library'] = array(
     '#type' => 'select',
     '#title' => t('Choose library'),
