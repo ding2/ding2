@@ -13,15 +13,18 @@
  * @param array $tids
  *   Array of ting object ids.
  */
-function ting_reference_set_relation($nid, $tids) {
+function ting_reference_set_relation($nid, $field_name, $tids) {
   // Delete all records for current nid.
-  db_delete('ting_reference')->condition('nid', $nid)->execute();
+  db_delete('ting_reference')
+    ->condition('nid', $nid)
+    ->condition('field_name', $field_name)
+    ->execute();
 
-  $query = db_insert('ting_reference')->fields(array('nid', 'ting_object_id'));
+  $query = db_insert('ting_reference')->fields(array('nid', 'field_name', 'ting_object_id'));
   foreach ($tids as $tid) {
     if (!empty($tid['ting_object_id'])) {
       // Insert new record.
-      $query->values(array('nid' => $nid, 'ting_object_id' => $tid['ting_object_id']));
+      $query->values(array('nid' => $nid, 'field_name' => $field_name,'ting_object_id' => $tid['ting_object_id']));
     }
   }
   $query->execute();
@@ -60,11 +63,12 @@ function ting_reference_get_search_references($field, $entity_id) {
  * @param int $nid
  *   Node id.
  */
-function ting_reference_get_relation($nid) {
+function ting_reference_get_relation($nid, $field_name) {
   $tids = array();
   $results = db_select('ting_reference', 'tr')
     ->fields('tr', array('ting_object_id'))
     ->condition('nid', $nid)
+    ->condition('field_name', $field_name)
     ->execute();
 
   foreach ($results as $result) {

@@ -14,6 +14,13 @@ function ting_reference_schema() {
         'not null' => TRUE,
         'default' => 0,
       ),
+      'field_name' => array(
+        'description' => 'Field machine name',
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => TRUE,
+        'default' => '',
+      ),
       'ting_object_id' => array(
         'description' => 'Ting object id.',
         'type' => 'varchar',
@@ -23,7 +30,7 @@ function ting_reference_schema() {
       ),
     ),
     'unique keys' => array(
-      'uk_nid_tid' => array('nid', 'ting_object_id'),
+      'uk_nid_fn_tid' => array('nid', 'field_name', 'ting_object_id'),
     ),
   );
 
@@ -199,4 +206,24 @@ function _ting_reference_migrate_tids($nid) {
     }
   }
   $query->execute();
+}
+
+/**
+ * Add field name column.
+ */
+function ting_reference_update_7002() {
+  $table_name = 'ting_reference';
+  db_add_field($table_name, 'field_name', array(
+    'description' => 'Field machine name',
+    'type' => 'varchar',
+    'length' => '255',
+    'not null' => TRUE,
+    'default' => '',
+  ));
+
+  // Drop previous unique key.
+  db_drop_unique_key($table_name, 'uk_nid_tid');
+
+  // Add new unique key.
+  db_add_unique_key($table_name, 'uk_nid_fn_tid', array('nid', 'field_name', 'ting_object_id'));
 }
