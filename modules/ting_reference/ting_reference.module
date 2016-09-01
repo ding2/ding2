@@ -103,7 +103,7 @@ function ting_reference_field_insert($entity_type, $entity, $field, $instance, $
     unset($settings['materials']['add']);
 
     // Save ting materials to ting_reference table.
-    ting_reference_set_relation($entity_id, $settings['materials']);
+    ting_reference_set_relation($entity_id, $field['field_name'], $settings['materials']);
   }
 
 
@@ -131,7 +131,7 @@ function ting_reference_field_update($entity_type, $entity, $field, $instance, $
     unset($settings['materials']['add']);
 
     // Save ting materials to ting_reference table.
-    ting_reference_set_relation($entity_id, $settings['materials']);
+    ting_reference_set_relation($entity_id, $field['field_name'], $settings['materials']);
 
     $result = ting_reference_get_search_references($field, $entity_id);
     $clear_cache = FALSE;
@@ -171,7 +171,7 @@ function ting_reference_field_delete($entity_type, $entity, $field, $instance, $
   $entity_id = array_shift($entity_ids);
 
   // When saving empty array to ting reference table it will remove all records.
-  ting_reference_set_relation($entity_id, array());
+  ting_reference_set_relation($entity_id, $field['field_name'], array());
 }
 
 /**
@@ -252,7 +252,7 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
   $settings = reset($items);
   $entity_info = entity_get_info($entity_type);
   $entity_id = $entity->{$entity_info['entity keys']['id']};
-  $entity_ids = ting_reference_get_relation($entity_id);
+  $entity_ids = ting_reference_get_relation($entity_id, $field['field_name']);
 
   switch ($display['type']) {
     case 'ting_reference_default':
@@ -326,7 +326,7 @@ function ting_reference_field_widget_form(&$form, &$form_state, $field, $instanc
 
   $entity = $element['#entity'];
   if (!empty($entity->nid)) {
-    $ting_object_ids = ting_reference_get_relation($entity->nid);
+    $ting_object_ids = ting_reference_get_relation($entity->nid, $field['field_name']);
   }
 
   // Hidden field used to get the drupal entity id (tid) for a ting_object_id.
@@ -335,7 +335,9 @@ function ting_reference_field_widget_form(&$form, &$form_state, $field, $instanc
     '#element_validate' => array('ting_reference_object_id_validate'),
     '#default_value' => $ting_object_ids,
   );
-
+  $element['title'] = array(
+    '#markup' => '<h3>' . $element['#title'] . '</h3>',
+  );
   switch ($instance['widget']['type']) {
     case 'ting_reference_simple':
       $element['ting_object_id'] = array(
