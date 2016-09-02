@@ -44,7 +44,7 @@ function ding_user_frontend_default_page_manager_handlers() {
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => '[current-user:name] | Edit profile | [current-page:pager][site:name]',
+          'value' => 'Edit profile | [current-page:pager][site:name]',
         ),
       ),
     ),
@@ -153,7 +153,7 @@ function ding_user_frontend_default_page_manager_handlers() {
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => '[current-user:name] | Edit profile | [current-page:pager][site:name]',
+          'value' => 'Edit profile | [current-page:pager][site:name]',
         ),
       ),
     ),
@@ -258,7 +258,7 @@ function ding_user_frontend_default_page_manager_handlers() {
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => '[current-user:name] | [current-page:pager][site:name]',
+          'value' => 'User profile | [current-page:pager][site:name]',
         ),
       ),
     ),
@@ -375,7 +375,7 @@ function ding_user_frontend_default_page_manager_handlers() {
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => '[current-user:name] | [current-page:pager][site:name]',
+          'value' => 'User profile | [current-page:pager][site:name]',
         ),
       ),
     ),
@@ -556,7 +556,7 @@ function ding_user_frontend_default_page_manager_pages() {
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => '[current-user:name] | Bookmarks | [current-page:pager][site:name]',
+          'value' => 'Bookmarks | [current-page:pager][site:name]',
         ),
       ),
     ),
@@ -747,7 +747,7 @@ function ding_user_frontend_default_page_manager_pages() {
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => '[current-user:name] | Debts | [current-page:pager][site:name]',
+          'value' => 'Debts | [current-page:pager][site:name]',
         ),
       ),
     ),
@@ -959,7 +959,7 @@ function ding_user_frontend_default_page_manager_pages() {
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => '[current-user:name] | Loans | [current-page:pager][site:name]',
+          'value' => 'Loans | [current-page:pager][site:name]',
         ),
       ),
     ),
@@ -1127,7 +1127,7 @@ function ding_user_frontend_default_page_manager_pages() {
       'enabled' => 1,
       'metatags' => array(
         'title' => array(
-          'value' => '[current-user:name] | Reservations | [current-page:pager][site:name]',
+          'value' => 'Reservations | [current-page:pager][site:name]',
         ),
       ),
     ),
