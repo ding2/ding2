@@ -1,0 +1,34 @@
+<?php
+
+/**
+ * @file
+ * Ding user consent install.
+ */
+
+/**
+ * Implements hook_install().
+ *
+ * - Add the /samtykke node.
+ */
+function ding_user_consent_install() {
+  $consent_path = drupal_lookup_path('source', 'samtykke');
+  if ($consent_path === FALSE) {
+    $node = new stdClass();
+    $node->title = 'Samtykke';
+    $node->type = 'ding_page';
+    $node->status = NODE_PUBLISHED;
+    $node->uid = 1;
+    $node->field_ding_page_body[LANGUAGE_NONE] = array(array(
+      'value' => '<p>Når du logger ind igen, vil du blive præsenteret for bøger og andet indhold, som relaterer sig til dine interesser og dine tidligere hjemlån.<br>Hvis du ønsker det, kan du desuden få mulighed for at lave dine egne inspirationslister, dele dem med andre, give stjerner til dine yndlingsbøger og på sigt få et overblik over dine tidligere lån og lister på tværs af de bibliotekstjenester, du anvender. Det bidrager alt sammen til, at du får bedre anbefalinger når du besøger bibliotekets hjemmeside.<br>Det er let at melde sig til og fra igen. Læs mere herunder.</p><h2>Tilmelding</h2><p><a href="' . url('user/consent') . '">Tilmeld dig her</a></p><h2>Lov om behandling af personoplysninger.</h2><p>Loven om behandling af personoplysninger kræver, at du giver dit samtykke til, at bibliotekssystemet må opbevare oplysninger om dine &lsquo;Tidligere lån&rsquo;. Data deles ikke med 3. part. Hvis du ønsker at dine bibliotekslån fremover automatisk gemmes, skal du derfor afgive en samtykkeerklæring.<br>Ved at tiltræde denne erklæring giver du samtykke til følgende:</p><ol><li><strong>Opbevaring af oplysninger om dine lån</strong><br>I din lånerstatus, som du får adgang til, når du logger ind på hjemmesiden, får du et overblik over, hvilke materialer du har hjemlånt. Som et ekstra tilbud kan biblioteket, hvis du afgiver samtykke, tilbyde automatisk at gemme oplysninger om dine &lsquo;Tidligere lån&rsquo; løbende. Formålet hermed er, at give dig et overblik over dine tidligere bibliotekslån på hjemmesiden under &lsquo;Tidligere lån&rsquo;. Det er kun dig der kan se dem. Desuden vil anbefalingerne du møder på forsiden under &lsquo;Biblioteket foreslår materialer til dig&rsquo; være inspireret af det du tidligere har lånt. Servicen gemmer de lån af fysiske bøger og andre materialer du har foretaget på biblioteket. På sigt vil det også blive muligt at se dine tidligere lån af digitale materialer såsom e-bøger. Lånet kan ses under &lsquo;Tidligere lån&rsquo; dagen efter at det er foretaget.</li><li><strong>Udveksling af oplysninger med andre systemer</strong><br>Når du anvender tjenester på eller via bibliotekets hjemmeside, sker der en udveksling af dine personlige oplysninger med andre systemer, som tilbyder biblioteksrelevante materialer. Det drejer sig om dit navn, dit cpr-nummer og det bibliotek du kommer fra. Udvekslingen har til formål at sikre en entydig identifikation af, hvem du er, samt muliggøre din anvendelse af tjenesten.&nbsp;<br>Hvis du har afgivet samtykkeerklæring, vil det i mange tilfælde være muligt at overføre og dele oplysningerne om din tidligere lånehistorik med andre bibliotekstjenester, der tilbyder personaliseringsløsningen, og på den måde udvide dine muligheder for at holde dig ajour med din brug af biblioteksydelser på tværs af forskellige tjenester.</li><li><strong>Deling af personlige data</strong><br>Personaliseringsløsningen giver dig mulighed for at sammensætte inspirationslister af indholdselementer fra bibliotekets samlede vifte af tilbud, med udgangspunkt i dine egne data. Du vil få mulighed for at dele dine personlige data med andre. Det sker ikke per automatisk, hvis du afgiver samtykkeerklæring, men du får muligheden stillet til rådighed.</li><li><strong>Sikkerhed</strong><br>Det er afgørende, at du som bruger kan føle dig tryg ved behandlingen af de personoplysninger, bibliotekets hjemmeside gemmer i forbindelse med din lånerprofil. Biblioteket overholder naturligvis gældende lovgivning om behandling af personoplysninger, bl.a. ved anvendelse af NemID, WAYF eller digital signatur og avanceret krypteringsteknologi.</li><li><strong>Tilbagekaldelse af samtykke</strong><br>Du kan til enhver tid tilbagekalde din samtykkeerklæring. Tilbagekalder du samtykket kan du ikke genskabe dine tidligere lån. Giver du senere et samtykke igen, vil du kun kunne se dine tidligere lån fra det tidspunkt, hvor du igen har givet samtykke.</li></ol>',
+      'format' => 'ding_wysiwyg',
+    ));
+    $node->field_ding_page_lead[LANGUAGE_NONE] = array(array(
+      'value' => 'Hvorfor ikke gøre bibliotekets hjemmeside til en mere personlig oplevelse? Det kræver kun, at du siger ’ja tak’ til den indbyggede personaliserings løsning',
+    ));
+
+    node_save($node);
+
+    $path = array('source' => 'node/' . $node->nid, 'alias' => 'samtykke');
+    path_save($path);
+  }
+}

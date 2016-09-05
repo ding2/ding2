@@ -298,7 +298,7 @@ function ting_openlist_get_soap($wsdl = NULL, $trace = FALSE) {
       $clients[$wsdl] = @new SoapClient(
         $wsdl, array(
           'trace' => $trace,
-          'cache_wsdl' => variable_get('ting_openlist_wsdl_cache', TRUE) && !$trace ? WSDL_CACHE_DISK : WSDL_CACHE_NONE,
+          'cache_wsdl' => !variable_get('ting_openlist_no_wsdl_cache', FALSE) && !$trace ? WSDL_CACHE_DISK : WSDL_CACHE_NONE,
         )
       );
 

@@ -50,6 +50,15 @@ function ding_user_consent_menu() {
     'file' => 'ding_user_consent.pages.inc',
     'type' => MENU_CALLBACK,
   );
+  
+  // User consent form page.
+  $items['user/consent'] = array(
+    'title' => 'Give consent',
+    'page callback' => 'ding_user_consent_page',
+    'access arguments' => array('use personalisation'),
+    'file' => 'ding_user_consent.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
 
   $items['ding/consent/%ctools_js/%/%'] = array(
     'title' => 'Ding user consent set consent',

@@ -53,7 +53,7 @@ function ding_interests_materials_serendipity_add(array $context) {
   }
 
   if (!empty($term)) {
-    $query = ding_list_convert_cql(ding_interest_get_term_cql($terms));
+    $query = ding_list_convert_cql(ding_interest_get_term_cql($term));
 
     // Fetch search results.
     $options = array(

@@ -594,12 +594,12 @@ function ding_list_preprocess_entity(&$variables) {
         }
         $objects = ding_base_get_items('ding_type', $variables['ding_type'], 'field_list_objects');
         $count = count($objects);
-        $variables['title'] = format_plural(
-          $count,
-          '@list_title (1)',
-          '@list_title (@count)',
-          array('@list_title' => $variables['title'])
-        );
+        // $variables['title'] = format_plural(
+          // $count,
+          // '@list_title (1)',
+          // '@list_title (@count)',
+          // array('@list_title' => $variables['title'])
+        // );
 
         switch ($variables['view_mode']) {
           case 'carousel':

@@ -39,20 +39,6 @@ function ting_openlist_settings_form($form, &$form_state) {
     '#required' => TRUE,
   );
 
-  // Caching settings.
-  $form['caching'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Openlist WSDL caching'),
-    '#description' => t('These settings only affect the SoapClients created for openlist, and will not interfere with other SoapClients on your site.'),
-  );
-  
-  $form['caching']['ting_openlist_wsdl_cache'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Enable WSDL caching'),
-    '#description' => '',
-    '#default_value' => variable_get('ting_openlist_wsdl_cache', TRUE),
-  );
-
   // Debugging settings.
   $form['debugging'] = array(
     '#type' => 'fieldset',
@@ -80,6 +66,13 @@ function ting_openlist_settings_form($form, &$form_state) {
     '#title' => t('Developer'),
     '#description' => t('Send the developer cookie to the service.'),
     '#default_value' => variable_get('ting_openlist_developer', FALSE),
+  );
+  
+  $form['debugging']['ting_openlist_no_wsdl_cache'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Disable WSDL caching'),
+    '#description' => '',
+    '#default_value' => variable_get('ting_openlist_no_wsdl_cache', FALSE),
   );
 
   return system_settings_form($form);
