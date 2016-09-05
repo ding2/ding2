@@ -4,6 +4,17 @@
  * @file
  * Ding user pages.
  */
+ 
+/**
+ * Redirect to the consent form.
+ */
+function ding_user_consent_page() {
+  global $user;
+  
+  if (ding_user_is_provider_user($user)) {
+    drupal_goto('user/' . $user->uid . '/consent');
+  }
+}
 
 /**
  * Ask consent form.
@@ -37,7 +48,7 @@ function ding_user_consent_form($form, &$form_state) {
     $form['content'][$id] = array(
       '#type' => 'checkbox',
       '#title' => check_plain($title),
-      '#description' => filter_xss($description['value']),
+      '#description' => filter_xss($description),
       '#default_value' => !empty($consent[$id]) ? $consent[$id] : 0,
     );
   }
