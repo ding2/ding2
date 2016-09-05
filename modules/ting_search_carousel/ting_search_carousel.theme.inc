@@ -122,20 +122,24 @@ function template_preprocess_ting_search_carousel_collection(&$vars) {
   $vars['title'] = check_plain($collection->title);
   $vars['creator'] = check_plain($collection->creator);
 
-  $image_info = image_get_info($collection->path);
-  if ($image_info) {
-    $image = array(
-      'style_name' => 'ting_search_carousel',
-      'path' => $collection->path,
-      'width' => $image_info['width'],
-      'height' => $image_info['height'],
-      'alt' => '',
-    );
-    $vars['image'] = theme('image_style', $image);
+  $image = array(
+    'style_name' => 'ting_search_carousel',
+    'path' => $collection->path,
+    'alt' => '',
+  );
+
+  // Add width and height to img tag to avoid layout jumping when loading.
+  // However, the file might not exist (ting_cover cleans up once in a while),
+  // but the cover will still be loaded as ting_cover hooks into the image style
+  // callback to fetch the image on demand. So we just add the sizes if they're
+  // available or hope the best.
+  if (file_exists($collection->path)) {
+    $image_info = image_get_info($collection->path);
+    if ($image_info) {
+      $image['width'] = $image_info['width'];
+      $image['height'] = $image_info['height'];
+    }
   }
-  else {
-    // If image_get_info() couldn't get the image size, image style is likely
-    // to fail too. So we give up here.
-    $vars['image'] = '';
-  }
+
+  $vars['image'] = theme('image_style', $image);
 }
