@@ -22,6 +22,7 @@ $plugin = array(
  */
 function ding_sharer_content_type_render($subtype, $conf, $panel_args, $context) {
   drupal_add_js(drupal_get_path('module', 'ding_sharer') . '/ding-sharer.js');
+  drupal_add_css(drupal_get_path('module', 'ding_sharer') . '/ding-sharer.css');
 
   $output = new stdClass();
 

@@ -19,14 +19,6 @@ define('DING_INTERESTS_NOT_INTERESTING', 0);
 function ding_interests_menu() {
   $items = array();
 
-  $items['admin/config/ding/interests'] = array(
-    'title' => 'Ding interests settings',
-    'description' => 'Setup and configure ding interests.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('ding_interests_admin_form'),
-    'access arguments' => array('administer personalisation'),
-    'file' => 'ding_interests.admin.inc',
-  );
   $items['ding/interests/%ctools_js/%/%user/%'] = array(
     'title' => 'Ding interests add to list',
     'page callback' => 'ding_interests_add_to_list_callback',
@@ -93,6 +85,7 @@ function ding_interests_ding_list_operations() {
  * Implements hook_ding_interaction_view().
  */
 function ding_interests_ding_interaction_view() {
+  kpr(debug_backtrace());
   if (user_is_logged_in()) {
     
     // UI for following interests is ajax time.
