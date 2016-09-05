@@ -39,7 +39,7 @@ function ding_entity_rating_menu() {
   $items['ding_entity_rating/get'] = array(
     'title' => 'Ding entity get rating',
     'page callback' => 'ding_entity_rating_get_user_rating_callback',
-    'access arguments' => array('use personalisation'),
+    'access callback' => TRUE,
   );
 
   return $items;
