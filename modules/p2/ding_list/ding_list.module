@@ -868,11 +868,10 @@ function ding_list_preprocess_views_view_table(&$vars) {
       $vars['attributes_array']['data-list-id'] = $list->id;
       $table_id = drupal_html_id('ding-list');
       $vars['attributes_array']['id'] = $table_id;
-      $vars['row_attributes'] = array();
-      foreach ($vars['result'] as $item) {
-        $vars['row_attributes'][]['data-item-id'] = $item->id;
+      foreach ($vars['result'] as $delta => $item) {
+        $vars['field_attributes']['id'][$delta]['data-item-id'] = $item->id;
       }
-
+      
       $path = drupal_get_path('module', 'ding_list');
       drupal_add_tabledrag($table_id, 'order', 'sibling', 'views-field-delta');
       drupal_add_js($path . '/js/ding_list_tabledrag.js');
