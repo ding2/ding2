@@ -85,7 +85,6 @@ function ding_interests_ding_list_operations() {
  * Implements hook_ding_interaction_view().
  */
 function ding_interests_ding_interaction_view() {
-  kpr(debug_backtrace());
   if (user_is_logged_in()) {
     
     // UI for following interests is ajax time.
