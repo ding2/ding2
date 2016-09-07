@@ -165,6 +165,7 @@ function ding_message_update_users(array $accounts, $debug = FALSE, $reset = FAL
       else {
         $mids = array();
       }
+
       // Fetch eligible lists.
       $query = db_select('eck_ding_type', 'e');
       $query->join(
@@ -235,6 +236,7 @@ function ding_message_check_list_for_updates($uid, $element_id, $mid, $debug = F
   // Set default values.
   $has_updates = FALSE;
   $status = 0;
+
   // Load message if one was found.
   if (!is_null($mid)) {
     $message = message_load($mid);
@@ -385,6 +387,9 @@ function ding_message_check_list_for_updates($uid, $element_id, $mid, $debug = F
         if ($list) {
           // Get all elements in the list.
           $items = field_get_items('ding_type', $list, 'field_list_objects');
+          if ($items === FALSE) {
+            $items = array();
+          }
           // Get the element its.
           $elements = ding_message_get_list_element_ids($items);
           if ($elements) {
