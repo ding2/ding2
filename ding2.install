@@ -93,12 +93,17 @@ function ding2_install() {
   //
   // Enable ting search as default.
   //
-  variable_set('search_active_modules', array(
-      'node' => 'node',
-      'ting_search' => 'ting_search',
-      'user' => 0,
-      'mkdru' => 'mkdru',
-    ));
+
+  $active_search = variable_get('search_active_modules', array());
+  $search_defaults = array(
+    'node' => 'node',
+    'ting_search' => 'ting_search',
+    'user' => 0,
+    'mkdru' => 'mkdru',
+  );
+  // Avoid overwriting other modules search settings.
+  // Search default has precedence
+  variable_set('search_active_modules', $search_defaults + $active_search);
   variable_set('search_default_module', 'ting_search');
 
   //
