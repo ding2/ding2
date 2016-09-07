@@ -43,3 +43,11 @@ function ding_ekurser_uninstall() {
     variable_set('search_active_modules', $search_modules);
   }
 }
+
+/**
+ * Implement hook_update_N.
+ * Set as active searchmodule and import translations.
+ */
+function ding_ekurser_update_7001() {
+  ding_ekurser_install();
+}
