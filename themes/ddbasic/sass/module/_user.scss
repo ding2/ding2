@@ -695,6 +695,40 @@
   margin-top: $medium-spacing;
 }
 
+.header-wrapper .header-inner>section.user {
+  padding-bottom: 60px;
+
+  @include small() {
+    padding-bottom: 100px;
+
+    .pane-ding-gatewayf-registration-registration {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.header-wrapper .header-inner>section.wayf-wrapper {
+  bottom: 5px;
+  right: 10px;
+
+  @include small() {
+    left: 5%;
+    width: 90%;
+
+    .pane-ding-gatewayf-registration-registration {
+      margin-bottom: 10px;
+      display: block;
+      text-align: center;
+    }
+
+    .pane-ding-gatewayf-login {
+      display: block;
+      text-align: center;
+      margin-left: 0;
+    }
+  }
+}
+
 /* User profile
    ========================================================================== */
 
