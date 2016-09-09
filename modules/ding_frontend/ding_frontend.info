@@ -15,6 +15,7 @@ dependencies[] = features
 dependencies[] = image
 dependencies[] = languageicons
 dependencies[] = locale
+dependencies[] = manualcrop
 dependencies[] = menu
 dependencies[] = menu_block
 dependencies[] = menu_breadcrumb

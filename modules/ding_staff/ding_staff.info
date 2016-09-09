@@ -16,6 +16,7 @@ dependencies[] = entityreference
 dependencies[] = features
 dependencies[] = field_group
 dependencies[] = image
+dependencies[] = manualcrop
 dependencies[] = media
 dependencies[] = og
 dependencies[] = options

@@ -178,7 +178,7 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
       'description' => t('Enter subject keywords'),
     ),
   );
-  
+
   // Remove the form token so the form becomes cachable. If we don't, all
   // pages with the search form becomes un-cachable, as drupal_validate_form()
   // will check the token and fail if the current user is not the same as the
@@ -284,7 +284,7 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
  * @param array $keys
  *   Keys to extract.
  *
- * @return array 
+ * @return array
  *   Where the array keys are the search keys, and the remainder
  *   search string in 'q'.
  */
@@ -803,6 +803,19 @@ function ting_search_sort_options() {
     'date_ascending' => t('Date (Ascending)'),
     'date_descending' => t('Date (Descending)'),
   );
+
+  // Do not show sort-options specific for rank_frequency if
+  // custom_ranking is enabled or another rank is selected.
+  $default_sort = variable_get('ting_sort_default', 'rank_frequency');
+  $custom_ranking = variable_get('ting_ranking_custom', FALSE);
+  if ($default_sort == 'rank_frequency' && empty($custom_ranking)) {
+    $more_options = array(
+      'rank_title' => t('Best match on title'),
+      'rank_creator' => t('Best match on creator'),
+      'rank_subject' => t('Best match on subject'),
+    );
+    $options += $more_options;
+  }
 
   // Add label to the front of the options.
   foreach ($options as $key => $option) {

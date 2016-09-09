@@ -20,16 +20,15 @@ function ding_library_field_group_info() {
   $field_group->mode = 'form';
   $field_group->parent_name = '';
   $field_group->data = array(
-    'label' => 'Attachments',
+    'label' => 'Links',
     'weight' => '5',
     'children' => array(
       0 => 'field_ding_library_geocode',
       1 => 'field_ding_library_links',
-      2 => 'field_ding_library_opening_hours',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
-      'label' => 'Attachments',
+      'label' => 'Links',
       'instance_settings' => array(
         'required_fields' => 1,
         'classes' => '',

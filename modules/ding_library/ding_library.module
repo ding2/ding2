@@ -191,12 +191,22 @@ function ding_library_ctools_plugin_directory($owner, $plugin_type) {
  * Implements hook_form_FORM_ID_alter().
  */
 function ding_library_form_ding_library_node_form_alter(&$form, &$form_state) {
+  $form['#after_build'][] = 'ding_library_remove_path_auto';
+
   if (isset($form['field_ding_library_slug'][$form['#node']->language])) {
     $form['field_ding_library_slug'][$form['#node']->language][0]['#element_validate'][] = 'ding_library_slug_validate';
   }
   elseif (isset($form['field_ding_library_slug']['und'])) {
     $form['field_ding_library_slug']['und'][0]['#element_validate'][] = 'ding_library_slug_validate';
   }
+}
+
+/**
+ * After build method. Take out path auto option for ding libraries
+ */
+function ding_library_remove_path_auto($form, &$form_state) {
+  $form['path']['#access'] = FALSE;
+  return $form;
 }
 
 /**

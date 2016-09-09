@@ -15,6 +15,7 @@ dependencies[] = field_group
 dependencies[] = file
 dependencies[] = image
 dependencies[] = media
+dependencies[] = manualcrop
 dependencies[] = menu
 dependencies[] = menu_block
 dependencies[] = og

@@ -116,15 +116,15 @@
         var available = status['available'];
 
         var group = null;
-        if ($('.js-online', groups_wrapper).length !== 0) {
-          group = $('.js-online', groups_wrapper);
-        }
-        else if (available) {
+        if (available) {
           group = $('.js-available', groups_wrapper);
 
           if (group.length === 0) {
             group = $('<p class="js-available">' + Drupal.t('Available') + ': </p>');
             groups_wrapper.append(group);
+          }
+          else if ($('.js-online', groups_wrapper).length !== 0) {
+            group = $('.js-online', groups_wrapper);
           }
         }
         else if (reservable) {

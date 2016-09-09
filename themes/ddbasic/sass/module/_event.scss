@@ -132,16 +132,14 @@
   .event-arrow-link {
     @extend %arrow-link;
   }
-  
-  /* Media queries */  
+
+  /* Media queries */
   @include small-medium() {
     .event-list-description {
       display: none;
     }
   }
 }
-
-
 
 /* Event
    ========================================================================== */
@@ -221,6 +219,18 @@
     padding-left: 0;
   }
 
+  .field-name-field-ding-event-materials {
+    clear: left;
+
+    .ting-object {
+      margin: $large-spacing 0;
+    }
+
+    .subjects {
+      margin-top: $large-spacing;
+    }
+  }
+
   .event-footer {
     border-bottom: 1px solid $gray-light;
     clear: both;
@@ -277,7 +287,7 @@
   .field-label {
     display: none;
   }
-  
+
   .field-item {
     @extend %material-list-item;
   }
@@ -285,7 +295,7 @@
   /* Media queries */
   @include small() {
     .group_ting_object_teaser_left {
-      display:none;
+      display: none;
     }
 
     .group_ting_object_teaser_right {

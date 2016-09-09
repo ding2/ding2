@@ -95,6 +95,12 @@ function ting_menu() {
     'page arguments' => array('ting_admin_ting_settings'),
     'access arguments' => array('administer ting settings'),
     'file' => 'ting.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+  $items['admin/config/ting/settings/general'] = array(
+    'title' => t('General settings'),
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
   );
 
   $items['admin/config/ting/ranking'] = array(
@@ -823,6 +829,8 @@ function ting_boost_field_element_process($element, $form_state) {
       'term.language' => t('Language'),
       'term.type' => t('Material type'),
       'term.identifier' => t('ISBN number'),
+      'term.subject' => t('Subject'),
+      'facet.dk5' => t('Classification'),
     ),
     '#default_value' => (isset($element['#value']['field_name'])) ? $element['#value']['field_name'] : NULL,
     '#attributes' => array('class' => array('field-name')),
