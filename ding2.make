@@ -373,6 +373,15 @@ projects[views_bulk_operations][version] = "3.2"
 projects[views_responsive_grid][subdir] = "contrib"
 projects[views_responsive_grid][version] = "1.3"
 
+projects[views_rss][subdir] = "contrib"
+projects[views_rss][version] = "2.0-rc4"
+
+; No stable release of this module. This is the current latest commit that have been tested.
+projects[views_rss_media][subdir] = "contrib"
+projects[views_rss_media][download][type] = "git"
+projects[views_rss_media][download][url] = "http://git.drupal.org/project/views_rss_media.git"
+projects[views_rss_media][download][revision] = "14f7cc90d41c0186d2356ff528ac316a16eba3fd"
+
 ; Development version where the "unpublished" status have been fixed on the content edit page.
 projects[view_unpublished][subdir] = "contrib"
 projects[view_unpublished][download][type] = "git"
