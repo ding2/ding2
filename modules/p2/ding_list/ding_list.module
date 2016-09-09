@@ -646,7 +646,7 @@ function ding_list_preprocess_entity(&$variables) {
 
             $variables['content']['query'] = array(
               '#theme' => 'link',
-              '#text' => $title,
+              '#text' => check_plain($title),
               '#path' => 'search/ting/' . $parsed['path'],
               '#options' => array(
                 'query' => $parsed['query'],
@@ -679,7 +679,7 @@ function ding_list_preprocess_entity(&$variables) {
 
             $variables['content']['query'] = array(
               '#theme' => 'link',
-              '#text' => $title,
+              '#text' => check_plain($title),
               '#path' => 'search/ting/' . $parsed['path'],
               '#options' => array(
                 'query' => $parsed['query'],
@@ -727,7 +727,7 @@ function ding_list_preprocess_entity(&$variables) {
           case 'taxonomy_term':
             $variables['page'] = TRUE;
             
-            $title = ding_base_get_value('ding_type', $element, 'field_search_title');
+            $title = check_plain(ding_base_get_value('ding_type', $element, 'field_search_title'));
             $term = ding_list_get_taxonomy_term($title);
 
             $variables['content']['item'] = taxonomy_term_view($term, 'teaser');
