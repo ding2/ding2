@@ -6,8 +6,7 @@
 
 #user-profile-form {
   input[type=text]:not(.date-clear),
-  input[type=password]
-   {
+  input[type=password] {
     border-radius: 0;
     background-color: $grey-medium;
     color: $charcoal;
@@ -20,20 +19,20 @@
   }
   .form-submit {
     width: auto;
-    padding-right: 80px; 
+    padding-right: 80px;
   }
-  
+
   .pane-content {
     > div {
       > .form-wrapper:not(#edit-pass--2):not(#edit-profile-provider-alma-field-alma-reservation-pause):not(#edit-profile-provider-alma-field-alma-mail) {
         @include span-columns(6);
         @include omega(2n);
-        
-        @include media($mobile){
+
+        @include media($mobile) {
           width: 100%;
         }
       }
-      
+
       #edit-pass--2 {
         width: 100%;
         float: left;
@@ -48,19 +47,20 @@
         .form-type-password {
           @include span-columns(6);
           @include omega(2n);
-          @include media($mobile){
+
+          @include media($mobile) {
             width: 100%;
           }
         }
       }
-      
+
       #edit-profile-provider-alma-field-alma-reservation-pause {
         width: 100%;
         float: left;
         padding: 20px 0;
         margin: 20px 0;
         border-top: 1px solid $grey;
-        border-bottom: 1px solid $grey; 
+        border-bottom: 1px solid $grey;
         .fieldset-wrapper {
           width: 100%;
           .fieldset-description {
@@ -69,7 +69,8 @@
           .date-no-float {
             @include span-columns(6);
             clear: none;
-            @include media($mobile){
+
+            @include media($mobile) {
               width: 100%;
             }
             .form-type-date-popup {
@@ -78,7 +79,7 @@
               .date-padding {
                 width: 100%;
                 padding: 0;
-        
+
                 .form-item {
                   width: 100%;
                   position: relative;
@@ -87,13 +88,14 @@
                   background-color: $white;
                   border: 1px solid $grey;
                   border-radius: $round-corner;
+
                   @include place-icon(arrow-down-small, $charcoal-opacity-dark);
-        
-                  &:after {
+
+                  &::after {
                     right: 0;
                     pointer-events: none;
                   }
-                  &:before {
+                  &::before {
                     content: '';
                     display: block;
                     background-color: $grey;
@@ -121,19 +123,20 @@
           }
         }
       }
-      
+
       #edit-ding-user-fee-sms {
         width: 100%;
         float: left;
       }
-      
+
       #edit-profile-provider-alma-field-alma-mail {
         width: 100%;
         float: left;
         margin-bottom: 20px;
         input {
           @include span-columns(6);
-          @include media($mobile){
+
+          @include media($mobile) {
             width: 100%;
             margin-bottom: 10px;
           }
@@ -141,14 +144,12 @@
         .description {
           @include span-columns(6);
           margin-right: 0;
-          @include media($mobile){
+
+          @include media($mobile) {
             width: 100%;
           }
         }
       }
-      
     }
   }
-  
 }
-

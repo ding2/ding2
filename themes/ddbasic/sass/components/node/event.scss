@@ -42,7 +42,6 @@
           right: 15px;
           bottom: 15px;
           max-width: 156px;
-          float: right;
           opacity: 0;
 
           // Mobile
@@ -183,10 +182,13 @@
         @include span-columns(5);
         min-height: 1px;
 
+        // Tablet
         @include media($tablet) {
           @include span-columns(6);
         }
-        @include media($mobile){
+
+        // Mobile
+        @include media($mobile) {
           @include span-columns(12);
         }
 
@@ -194,54 +196,63 @@
           @include span-columns(4 of 5);
           float: none;
           padding-bottom: 20px;
-          margin: 0px 0px 30px 0px;
+          margin: 0 0 30px;
           border-bottom: 1px solid $grey-medium;
-          @include media($tablet){
+
+          // Tablet
+          @include media($tablet) {
             @include span-columns(5 of 5);
           }
-          @include media($mobile){
+
+          // Mobile
+          @include media($mobile) {
             @include span-columns(12);
           }
         }
 
         .button {
           @include span-columns(3 of 5);
-          margin: 20px 0px;
+          margin: 20px 0;
           color: $white;
           background: $color-primary;
 
-          @include media($tablet){
+          // Tablet
+          @include media($tablet) {
             @include span-columns(5 of 5);
           }
         }
       }
       .right {
         @include span-columns(5);
+
+        // Tablet
         @include media($tablet) {
           @include span-columns(6);
         }
-        @include media($mobile){
+
+        // Mobile
+        @include media($mobile) {
           @include span-columns(12);
         }
       }
 
       h1 {
-        margin-bottom: 0;
         @include font('header');
+        margin-bottom: 0;
         color: $charcoal;
       }
 
       h2 {
         @include font('header-small');
-        margin: 20px 0px 5px 0px;
+        margin: 20px 0 5px;
       }
 
       .field {
         .field-label {
-            @include font('base-bold');
-          }
+          @include font('base-bold');
+        }
 
-        &.field-type-image{
+        &.field-type-image {
           margin-bottom: 30px;
         }
         &.field-label-inline {
@@ -250,7 +261,8 @@
             float: left;
             width: 100px;
 
-            @include media($tablet){
+            // Tablet
+            @include media($tablet) {
               @include span-columns(2 of 5);
             }
           }
@@ -262,14 +274,16 @@
         }
         &.field-name-field-ding-event-files {
           @include span-columns(6 of 8);
-          margin: 0 0 30px 0;
+          margin: 0 0 30px;
 
+          // Tablet
           @include media($tablet) {
             @include span-columns(8 of 8);
           }
 
-          @include media($mobile){
-            margin: 15px 0px 30px;
+          // Tablet
+          @include media($mobile) {
+            margin: 15px 0 30px;
           }
 
           .field-label {
@@ -280,13 +294,14 @@
           }
         }
         &.field-name-field-ding-event-tags {
-          padding: 10px 0px;
+          @include span-columns(6 of 8);
+          padding: 10px 0;
           border-top: 1px solid $grey-medium;
           border-bottom: 1px solid $grey-medium;
           margin-bottom: 30px;
-          @include span-columns(6 of 8);
 
-          @include media($mobile){
+          // Mobile
+          @include media($mobile) {
             @include span-columns(8 of 8);
           }
           .field-items .field-item {
@@ -308,8 +323,8 @@
         }
 
         &.field-name-field-ding-event-lead,
-         .field-name-field-ding-event-body p {
-          margin: 20px 0px;
+        .field-name-field-ding-event-body p {
+          margin: 20px 0;
         }
       }
     }

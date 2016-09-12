@@ -12,7 +12,9 @@
     width: 100%;
     .group-ding-library-left-column {
       @include span-columns(3);
-      @include media($tablet){
+
+      // Tablet
+      @include media($tablet) {
         display: none;
       }
     }
@@ -21,7 +23,8 @@
       @include omega();
       margin-bottom: 40px;
 
-      @include media($tablet){
+      // Tablet
+      @include media($tablet) {
         @include span-columns(10);
       }
 
@@ -35,9 +38,10 @@
     margin-top: -20px;
     margin-left: getColumn(3) + getGutter(12);
 
-    @include media($tablet){
+    // Tablet
+    @include media($tablet) {
       margin-top: -20px;
-      margin-left: 0px;
+      margin-left: 0;
     }
   }
   .libraries-opening-hours {
@@ -59,12 +63,13 @@
       }
     }
 
-    @include media($tablet){
+    // Tablet
+    @include media($tablet) {
       @include span-columns(10 of 10);
-        display: none;
-        margin: 0px;
-      }
+      display: none;
+      margin: 0;
     }
+  }
   .page-title {
     @include font('header-small');
     margin: 5px 0 15px;
@@ -75,7 +80,8 @@
   .field-name-field-ding-library-addresse {
     @include span-columns(3 of 9);
 
-    @include media($mobile){
+    // Mobile
+    @include media($mobile) {
       @include span-columns(10 of 10);
       margin-bottom: 20px;
     }
@@ -87,9 +93,10 @@
     float: right;
     margin-right: getColumn(2 of 9);
 
-    @include media($mobile){
+    // Mobile
+    @include media($mobile) {
       @include span-columns(9 of 9);
-      margin-right: 0px;
+      margin-right: 0;
     }
     .field-label {
       width: 100px;

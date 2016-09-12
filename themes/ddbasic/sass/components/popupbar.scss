@@ -13,21 +13,18 @@
   background-color: $grey-light;
   z-index: $z-header + 1;
   overflow: hidden;
-  
   .popupbar-is-open & {
     @include transition(
-      transform $speed $ease, 
+      transform $speed $ease,
       height $speed $ease
     );
     @include transform(translateY(0));
     box-shadow: $box-shadow;
   }
-  
   .popupbar-container {
     @include wrapper;
     position: relative;
   }
-  
   .popupbar-close {
     @include place-icon(close);
     position: absolute;
@@ -37,7 +34,7 @@
     width: 24px;
     height: 24px;
     text-indent: -9999px;
-    &:after {
+    &::after {
       @include transform(translate(-50%, -50%));
       @include transition(color $speed $ease);
       top: 50%;
@@ -45,12 +42,11 @@
       text-indent: 0;
     }
     &:hover {
-      &:after {
+      &::after {
         color: $color-text;
       }
     }
   }
-  
   .popupbar-content {
     @include transition(opacity $speed $ease);
     position: absolute;
@@ -61,7 +57,6 @@
     opacity: 0;
     pointer-events: none;
     z-index: 5;
-    
     &.selected {
       opacity: 1;
       pointer-events: auto;
@@ -75,8 +70,9 @@
           @include font('header-small');
           margin-bottom: 20px;
         }
+
         // Mobile
-        @include media($mobile){
+        @include media($mobile) {
           display: none;
         }
       }
@@ -89,6 +85,7 @@
           @include omega;
           float: right;
         }
+
         // Tablet
         @include media($tablet) {
           @include span-columns(6);
@@ -100,8 +97,9 @@
             float: right;
           }
         }
+
         // Mobile
-        @include media($mobile){
+        @include media($mobile) {
           width: 100%;
           float: left;
         }
@@ -126,10 +124,10 @@ body {
     pointer-events: none;
   }
 }
+
 footer {
   .popupbar-is-open & {
     opacity: 0.5;
     pointer-events: none;
   }
 }
-
