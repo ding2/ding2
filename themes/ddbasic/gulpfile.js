@@ -43,11 +43,21 @@ gulp.task('uglify', 'Minify JavaScript using Uglify',
   }
 );
 
-gulp.task('testsass', function lintCssTask() {
+/**
+  * Usage:
+  * gulp validate-sass [--dir=foldername]
+  *
+  * Check that all .scss files are style compliant
+  *
+  * Arguments:
+  *
+  * foldername - Optional foldername to check just a single folder
+  *
+  */
+gulp.task('validate-sass', function lintCssTask() {
   const gulpStylelint = require('gulp-stylelint');
   var argv = require('yargs').argv;
-  var testPath = ['./sass/' + argv.dir + "/*.scss"];
-  console.log("Testing: " + testPath);
+  var testPath = argv.dir ? ['./sass/' + argv.dir + "/*.scss"] : sassPath;
   return gulp
     .src(testPath)
     .pipe(gulpStylelint({
@@ -58,18 +68,13 @@ gulp.task('testsass', function lintCssTask() {
     }));
 });
 
-gulp.task('testsassall', function lintCssTask() {
-  const gulpStylelint = require('gulp-stylelint');
-  return gulp
-    .src(sassPath)
-    .pipe(gulpStylelint({
-     syntax: 'scss',
-     reporters: [
-        {formatter: 'string', console: true}
-      ]
-    }));
-});
-
+/**
+  * Usage:
+  * gulp sass
+  *
+  * Precompile all sass files into css files in the sass_css folder
+  *
+  */
 gulp.task('sass', 'Process SCSS using libsass',
   function () {
     gulp.src(sassPath)
@@ -88,21 +93,33 @@ gulp.task('sass', 'Process SCSS using libsass',
   }
 );
 
-gulp.task('kss', 'Process SCSS using KSS',
+/**
+  * Usage:
+  * gulp kss
+  *
+  * Create the KSS micro site in the stylesheets folder
+  * See ./sass/homepage.md
+  *
+  */
+gulp.task('kss', 'Process SCSS using KSS / kss-node',
   function () {
-    var gulpkss = require('gulp-kss');
-    gulp.src(['sass/**/*.scss'])
-      .pipe(gulpkss({
-        overview: './sass/kss_styleguide.md',
-        // kss-node options https://github.com/kss-node/kss-node
-        kss: {
-          css: './sass_css/bundle.css'
-        }
-      }))
-      .pipe(gulp.dest('styleguide/'));
+    // Use kss-node and not gulp-kss
+    var kss = require('kss');
+    var styleGuide = {
+        source: './sass',
+        css: '../sass_css/bundle.css'
+    };
+    return kss(styleGuide);
   }
 );
 
+/**
+  * Usage:
+  * gulp watch
+  *
+  * Watch js and sass files for changes and gulp accordingly
+  *
+  */
 gulp.task('watch', 'Watch and process JS and SCSS files', ['uglify', 'sass'],
   function() {
     gulp.watch(jsPath, ['jshint', 'uglify']);
