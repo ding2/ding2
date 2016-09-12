@@ -1,17 +1,22 @@
 @import '../base.scss';
 
 .js-opening-hours-toggle-element {
-  display: none; 
+  display: none;
 }
+
 .opening-hours-week {
   padding: 0;
 }
 
 .opening-hours-table {
-  table, thead, tbody, th, td, tr { 
-		display: block; 
-	}
-
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
   // The default Drupal theme_table() doesn't support adding attributes to the
   // thead or thead > tr element, so we need to style these directly on their
   // element selectors.
@@ -25,42 +30,42 @@
     .node-ding-library.node-teaser &,
     .left-and-main-content .primary-content & {
       @include span-columns(2 of 8);
+
+      // Tablet
       @include media($tablet) {
         display: none;
         &:first-child {
+          @include font('base-bold');
           display: block;
           width: 100%;
-          @include font('base-bold');
         }
       }
     }
-    
+
+    // Tablet
     @include media($tablet) {
       display: none;
-      
-      //.front & { // on the frontpage we display the first header column
-        &:first-child {
-          display: block;
-          width: 100%;
-          @include font('base-bold');
-        }
-      //}
+      &:first-child {
+        @include font('base-bold');
+        display: block;
+        width: 100%;
+      }
     }
   }
   tr {
     width: 100%;
     float: left;
-    
-    @include media($tablet){      
+
+    // Tablet
+    @include media($tablet) {
       &.even {
         background: $grey;
         padding: 20px;
       }
-      
       &.odd {
         background: $white;
         padding: 20px;
-      }    
+      }
     }
   }
   td {
@@ -73,42 +78,37 @@
     .node-ding-library.node-teaser &,
     .left-and-main-content .primary-content & {
       @include span-columns(2 of 8);
-      @include media($tablet){
+
+      // Tablet
+      @include media($tablet) {
         @include span-columns(8 of 8);
       }
     }
-    
+
+    // Tablet
     @include media($tablet) {
       display: block;
-      width: 100%; 
+      width: 100%;
       padding: 0;
       margin-top: 10px;
-        &:first-child {
-          color: $color-primary;
-          margin-bottom: 0;
-          padding: 0;
-        }
-        
-
-        //&:last-child {
-        //  margin-top: 10px;
-        //  margin-bottom: 0;
-        //}
-        
-
-        &.empty {
-          display: none !important;
-        }
-      
-        &:before {
-          display: block;
-          content: attr(data-label)" "; 
-          @include font('base-bold');            
-        }
+      &:first-child {
+        color: $color-primary;
+        margin-bottom: 0;
+        padding: 0;
+      }
+      &.empty {
+        display: none !important;
+      }
+      &::before {
+        @include font('base-bold');
+        display: block;
+        content: attr(data-label) " ";
+      }
     }
   }
-  
- @include media($tablet){
+
+  // Tablet
+  @include media($tablet) {
     margin-top: 20px;
   }
 }

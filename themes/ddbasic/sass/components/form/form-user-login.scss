@@ -19,17 +19,18 @@
     float: right;
     margin-bottom: 30px;
     cursor: pointer;
-    &:after {
+    &::after {
       @include transform(translate(-50%, -50%));
       @include transition(color $speed $ease);
       top: 50%;
       left: 50%;
     }
     &:hover {
-      &:after {
+      &::after {
         color: $color-text;
       }
     }
+
     @include media($mobile) {
       display: none;
     }

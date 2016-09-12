@@ -1,13 +1,12 @@
 @import '../base.scss';
 
-
 // Components
 //
 //Styleguide 2.
 
 // Class
 //
-// Elements difened by a class that are formattet the same way, 
+// Elements difened by a class that are formattet the same way,
 // no matter what context they appear in.
 //
 // Styleguide 2.1
@@ -36,13 +35,16 @@ body > .ding2-site-template {
 
 .is-tablet {
   display: none;
+
   // Tablet
   @include media($tablet) {
     display: block;
   }
 }
+
 .is-mobile {
   display: none;
+
   // Mobile
   @include media($mobile) {
     display: block;
@@ -71,9 +73,10 @@ body > .ding2-site-template {
   text-align: left;
   a {
     @include button(arrow-right);
-    &:after {
+    &::after {
       color: $charcoal-opacity-dark;
     }
+
     // Mobile
     @include media($mobile) {
       padding: 20px 20px 14px 15px; //@TODO padding should be like this for all buttons, mobile
@@ -81,10 +84,10 @@ body > .ding2-site-template {
       white-space: nowrap;
       overflow: hidden;
       width: 96px;
-      &:after {
+      &::after {
         display: none; // hide arrow on mobile
       }
-      &:before {
+      &::before {
         text-indent: 0%;
         content: "Se alle";
         display: inline-block;
@@ -95,7 +98,6 @@ body > .ding2-site-template {
   }
 }
 
-
 // Button
 //
 // Place button class on any element to style it as a button
@@ -104,7 +106,7 @@ body > .ding2-site-template {
 //
 // Markup:
 // <div class="button {{modifier_class}}">Button</div>
-// 
+//
 // Styleguide 2.1.2
 
 .button {
@@ -118,7 +120,7 @@ body > .ding2-site-template {
 //
 // Markup:
 // <div class="action-button {{modifier_class}}">Button</div>
-// 
+//
 // Styleguide 2.1.3
 
 .action-button {
@@ -144,10 +146,9 @@ body > .ding2-site-template {
   @extend .action-button;
 }
 
-
 // Submit-button with icon
 //
-// In order to place icon on submit-button we wrap it in a div with the class "submit-button-with-icon" 
+// In order to place icon on submit-button we wrap it in a div with the class "submit-button-with-icon"
 // and place an empty div before it with the class "color-and-icon".
 // Specific icons and hover styles are placed on specific classes in scss
 //
@@ -156,10 +157,10 @@ body > .ding2-site-template {
 //
 // Markup:
 // <div class="submit-button-with-icon {{modifier_class}}">
-// <div class="color-and-icon"></div>
-// <input type="submit" value="Submit button with icon">
+//  <div class="color-and-icon"></div>
+//  <input type="submit" value="Submit button with icon">
 // </div>
-// 
+//
 // Styleguide 2.1.4
 
 .submit-button-with-icon {
@@ -200,22 +201,22 @@ body > .ding2-site-template {
 a.topbar-link-user {
   @include button(profile);
   .pane-login-is-open & {
-    &:after {
+    &::after {
       content: "\e907";
     }
   }
 }
 
-//Topbar mobile menu 
+//Topbar mobile menu
 a.topbar-link-menu {
   @include button(menu, $charcoal);
   &:hover {
-    &:after {
+    &::after {
       color: $charcoal;
     }
   }
   .mobile-menu-is-open & {
-    &:after {
+    &::after {
       content: "\e907";
     }
   }
@@ -225,7 +226,7 @@ a.topbar-link-menu {
 a.topbar-link-search {
   @include button(search, $white);
   .mobile-search-is-open & {
-    &:after {
+    &::after {
       content: "\e907";
     }
   }
@@ -234,7 +235,7 @@ a.topbar-link-search {
 // Topbar opening hours
 a.topbar-link-opening-hours {
   @include button(clock, $charcoal-opacity-dark, $white, $white, $color-primary);
-  &:after {
+  &::after {
     color: $color-text;
   }
 }
@@ -243,6 +244,7 @@ a.topbar-link-opening-hours {
 a.topbar-link-signout {
   @include button(close, $charcoal-opacity-dark, $grey-medium);
 }
+
 // Topbar link user account
 a.topbar-link-user-account {
   @extend .button;
@@ -260,12 +262,12 @@ a.search-extended-button {
   height: 54px;
   padding: 0;
   text-indent: -9999px;
-  &:after {
+  &::after {
     text-indent: 0;
-    right: 0px;
+    right: 0;
   }
   .extended-search-is-open & {
-    &:after {
+    &::after {
       content: "\e907";
     }
   }
@@ -282,7 +284,7 @@ a.print-button {
 // Image styles
 // ==========================================================================
 
-// Image styling 16:9 
+// Image styling 16:9
 //
 // The class image-styling-16-9 keeps a 16:9 format for images even if the image is another format.
 // This is done by adding a box around the image.
@@ -290,7 +292,7 @@ a.print-button {
 //
 // Markup:
 // <div class="image-styling-16-9">
-// <img src="" />
+//  <img src="" />
 // </div>
 //
 // Styleguide 2.1.5
@@ -323,11 +325,11 @@ a.print-button {
 //
 // Markup:
 // <ul class="pager">
-// <li class="pager-previous"><a>previous</a></li>
-// <li class="pager-item"><a>1</a></li>
-// <li class="pager-current">2</li>
-// <li class="pager-item"><a>3</a></li>
-// <li class="pager-next"><a>next</a></li>
+//  <li class="pager-previous"><a>previous</a></li>
+//  <li class="pager-item"><a>1</a></li>
+//  <li class="pager-current">2</li>
+//  <li class="pager-item"><a>3</a></li>
+//  <li class="pager-next"><a>next</a></li>
 // </ul>
 //
 // Styleguide 2.1.6
@@ -362,8 +364,7 @@ ul.pager {
       float: left;
       a {
         @include arrow-button(arrow-left);
-        &:after {
-          
+        &::after {
           top: 0;
           left: 0;
           text-indent: 0;
@@ -374,8 +375,7 @@ ul.pager {
       float: right;
       a {
         @include arrow-button(arrow-right);
-        &:after {
-          
+        &::after {
           top: 0;
           right: 0;
           text-indent: 0;
@@ -394,20 +394,20 @@ a.js-opening-hours-toggle {
   position: relative;
   float: left;
   width: 100%;
-  &:after {
+  &::after {
     right: 0;
     top: 0;
     background-color: $grey-dark;
     color: $white-opacity-dark;
   }
   &.js-collapsed {
-    &:after {
+    &::after {
       content: "\e901";
       background-color: $grey;
       color: $charcoal-opacity-dark;
     }
     &:hover {
-      &:after {
+      &::after {
         background-color: $grey-dark;
         color: $white-opacity-dark;
       }
@@ -417,7 +417,7 @@ a.js-opening-hours-toggle {
   .default-panel-layout .primary-content & {
     padding: 27px 0;
     border-top: 1px solid $charcoal-opacity-light;
-    &:after {
+    &::after {
       top: 10px;
     }
   }
@@ -437,7 +437,7 @@ a.js-opening-hours-toggle {
     margin-bottom: 0;
     .field-group-format-toggler a {
       @include arrow-button(arrow-up);
-      &:after {
+      &::after {
         right: 0;
         top: 10px;
         background-color: $grey-dark;
@@ -452,13 +452,13 @@ a.js-opening-hours-toggle {
   &.collapsed {
     > h2 {
       .field-group-format-toggler a {
-        &:after {
+        &::after {
           content: "\e901";
           background-color: $grey;
           color: $charcoal-opacity-dark;
         }
         &:hover {
-          &:after {
+          &::after {
             background-color: $grey-dark;
             color: $white-opacity-dark;
           }
@@ -477,7 +477,7 @@ a.js-opening-hours-toggle {
   h4 {
     margin-bottom: 5px;
   }
-  
+
 }
 
 // ==========================================================================
@@ -487,17 +487,19 @@ a.js-opening-hours-toggle {
 .availability.reservable {
   color: $yellow-text;
 }
-.availability.available, 
+
+.availability.available,
 .availability.available.reservable {
   color: $green-text;
 }
+
 .availability.available.not-reservable {
   color: $red-text;
 }
+
 .availability:hover {
   color: $charcoal;
 }
-
 
 // ==========================================================================
 // Menu titles
@@ -545,26 +547,26 @@ ul.tabs.primary {
     background-color: $color-primary;
     text-align: center;
     .icon-spinner {
-      
       position: relative;
       display: block;
       width: 84px;
       height: 84px;
       margin: 0 auto 20px;
-      &:after {
+      &::after {
+        @include animation(spin 1s linear infinite);
         content: '';
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        //@include place-icon(spinner, $white, 84px);
         background-image: url('../../images/spinner.png'); // Changed to background-image because the center was of in icomoon
         background-size: 100% auto;
-        @include animation(spin 1.0s linear infinite);
       }
+
+      // Hidpi
       @include hidpi() {
-        &:after {
+        &::after {
           background-image: url('../../images/spinner@x2.png');
           background-size: 100% auto;
         }
@@ -591,14 +593,14 @@ ul.tabs.primary {
 //
 // Markup:
 // <div class="social-share-container">
-// <div class="inner">
-// <div class="label">Share this</div>
-// <div class="share-buttons">
-// <a href="#" class="fb-share">Facebook</a>
-// <a href="#" class="twitter-share">Twitter</a>
-// <a href="#" class="mail-share">E-mail</a>
-// </div>
-// </div>
+//  <div class="inner">
+//    <div class="label">Share this</div>
+//    <div class="share-buttons">
+//      <a href="#" class="fb-share">Facebook</a>
+//      <a href="#" class="twitter-share">Twitter</a>
+//      <a href="#" class="mail-share">E-mail</a>
+//    </div>
+//  </div>
 // </div>
 //
 // Styleguide 2.1.7
@@ -629,11 +631,11 @@ ul.tabs.primary {
   //  background-color: $grey-medium;
   //  cursor: pointer;
   //  @include transition(
-  //	   height $speed $ease,
-  //	   width $speed $ease,
-  //	   background-color $speed $ease,
-  //	   box-shadow $speed $ease
-  //	 );
+  //     height $speed $ease,
+  //     width $speed $ease,
+  //     background-color $speed $ease,
+  //     box-shadow $speed $ease
+  //   );
   //  .share-buttons {
   //    float: left;
   //    width: 100%;
@@ -666,6 +668,7 @@ ul.tabs.primary {
   //  }
   //}
 }
+
 // ==========================================================================
 // Video
 // ==========================================================================
@@ -674,16 +677,15 @@ ul.tabs.primary {
   position: relative;
   width: 100%;
   padding-top: 60.93%;
-  
+
   iframe {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%
+    height: 100%;
   }
 }
-
 
 // ==========================================================================
 // Misc
@@ -712,52 +714,49 @@ ul.tabs.primary {
       padding-bottom: 70px;
     }
   }
-  
   .slick-arrow {
     @include transition(
       opacity $speed $ease
     );
     position: absolute;
-    bottom: 0px;
+    bottom: 0;
     text-indent: -9999px;
     width: 68px;
     height: 54px;
     overflow: hidden;
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
     z-index: 1;
     cursor: pointer;
     border: 0;
     background: none;
-    
-    @include media($mobile){
+
+    // Mobile
+    @include media($mobile) {
       width: 54px;
     }
-       
-    &:after {
+    &::after {
       bottom: 0;
       right: 0;
       width: 100%;
       height: 100%;
       text-indent: 0;
     }
-  
     &:focus {
-      outline: 0px;
+      outline: 0;
     }
-    
     &.slick-prev {
-      right: 80px;
       @include arrow-button(arrow-left, $color-secondary);
+      right: 80px;
+
       // Mobile
       @include media($mobile) {
         right: 66px;
       }
     }
-    
     &.slick-next {
-      right: 0;
       @include arrow-button(arrow-right, $color-secondary);
+      right: 0;
     }
     &.slick-prev,
     &.slick-next {
@@ -766,7 +765,7 @@ ul.tabs.primary {
         // Hover
         &:hover {
           cursor: default;
-          &:after {
+          &::after {
             background-color: $grey;
             color: $charcoal-opacity-dark;
           }
@@ -784,11 +783,10 @@ body {
     margin-left: 0;
     .ask-vopros-icon {
       img {
-        display: inline;
+        display: inline-block;
         width: 36px;
         height: auto;
       }
     }
   }
 }
-

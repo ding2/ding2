@@ -1,10 +1,8 @@
 @import '../base.scss';
 
-
 // ==========================================================================
 // Menu
 // ==========================================================================
-
 ul {
   &.menu,
   &.main-menu,
@@ -21,10 +19,10 @@ ul {
     }
   }
 }
+
 // ==========================================================================
 // Main menu & Main menu second level
 // ==========================================================================
-
 ul {
   &.main-menu,
   &.main-menu-second-level {
@@ -35,9 +33,8 @@ ul {
       &:last-child {
         margin-right: 0;
       }
-      
       a {
-        &:after {
+        &::after {
           @include transition(height $speed-fast $ease);
           content: '';
           position: absolute;
@@ -47,14 +44,14 @@ ul {
           height: 0;
         }
         &:hover {
-          &:after {
+          &::after {
             height: 5px;
           }
         }
       }
       &.active-trail {
         a {
-          &:after {
+          &::after {
             height: 5px;
           }
         }
@@ -69,6 +66,7 @@ ul {
 .main-menu-wrapper {
   > ul.main-menu {
     @include font('header-small');
+
     // Notebook
     @include media($notebook) {
       @include font('base');
@@ -76,6 +74,7 @@ ul {
     }
     > li {
       padding: 30px 0;
+
       // Tablet
       @include media($tablet) {
         width: 100%;
@@ -88,8 +87,9 @@ ul {
       }
       a {
         color: $color-text-on-primary;
-        &:after {
+        &::after {
           background-color: $color-text-on-primary;
+
           // Tablet
           @include media($tablet) {
             display: none;
@@ -147,13 +147,12 @@ ul {
 // ==========================================================================
 // Main menu second level
 // ==========================================================================
-
 ul.main-menu-second-level {
   li.leaf {
     padding: 20px 0;
     a {
       color: $white;
-      &:after {
+      &::after {
         background-color: $color-text-on-primary;
       }
     }
@@ -177,7 +176,6 @@ ul.main-menu-second-level {
       .flexMenu-popup {
         @include wrapper;
         margin-bottom: 0;
-        
       }
     }
     // Active
@@ -198,7 +196,6 @@ ul.main-menu-second-level {
 // ==========================================================================
 // Main menu third level
 // ==========================================================================
-
 ul.main-menu-third-level {
   li {
     margin-bottom: 20px;
@@ -210,13 +207,13 @@ ul.main-menu-third-level {
         @include place-icon('arrow-right-small', $color-text, 8px);
         position: relative;
         padding-left: 20px;
-        &:after {
+        &::after {
           top: 3px;
           left: 0;
-        }  
+        }
       }
       &:hover {
-        color: $charcoal; 
+        color: $charcoal;
       }
     }
     ul.main-menu-third-level {
@@ -229,7 +226,6 @@ ul.main-menu-third-level {
 // ==========================================================================
 // Secondary menu
 // ==========================================================================
-
 ul.secondary-menu {
   text-align: right;
   li {
@@ -242,7 +238,7 @@ ul.secondary-menu {
     }
     a {
       color: $color-text-on-primary;
-      &:after {
+      &::after {
         @include transition(height $speed-fast $ease);
         content: '';
         position: absolute;
@@ -253,20 +249,20 @@ ul.secondary-menu {
         background-color: $color-text-on-primary;
       }
       &:hover {
-        &:after {
+        &::after {
           height: 5px;
         }
       }
     }
     &.active-trail {
       a {
-        &:after {
+        &::after {
           height: 5px;
         }
       }
     }
   }
-  
+
   // Tablet
   @include media($tablet) {
     padding: 10px 0;
@@ -276,7 +272,7 @@ ul.secondary-menu {
       padding: 5px 5%;
       a {
         color: $charcoal;
-        &:after {
+        &::after {
           display: none;
         }
       }
@@ -284,11 +280,9 @@ ul.secondary-menu {
   }
 }
 
-
 // ==========================================================================
 // Top menu
 // ==========================================================================
-
 ul.topbar-menu {
   @include span-columns(4);
   @include omega;
@@ -308,7 +302,7 @@ ul.topbar-menu {
     }
     &.topbar-link-search {
       display: none;
-      margin-left: getGutter(4)/2;
+      margin-left: getGutter(4) / 2;
       a {
         margin: 5px 0;
       }
@@ -327,6 +321,7 @@ ul.topbar-menu {
       a {
         margin: 5px 0;
       }
+
       // Tablet
       @include media($tablet) {
         display: block;
@@ -343,6 +338,7 @@ ul.topbar-menu {
       a {
         margin: 5px 0;
       }
+
       // Tablet
       @include media($tablet) {
         min-width: 0;
@@ -356,6 +352,7 @@ ul.topbar-menu {
     &.topbar-link-user,
     &.topbar-link-search,
     &.topbar-link-menu {
+
       // Tablet
       @include media($tablet) {
         width: 54px;
@@ -364,41 +361,44 @@ ul.topbar-menu {
           height: 54px;
           padding: 0;
           text-indent: -9999px;
-          &:after {
+          &::after {
             text-indent: 0;
-            right: 0px;
+            right: 0;
           }
         }
       }
     }
-    
+
     &.topbar-link-user-account,
     &.topbar-link-signout,
-    &.topbar-link-opening-hours  {
+    &.topbar-link-opening-hours {
       @include span-columns(2 of 4);
       a {
         margin: 5px 0;
       }
     }
     &.topbar-link-user-account {
-      margin-right: getGutter(4)/2;
-      margin-left: getGutter(4)/2;
+      margin-right: getGutter(4) / 2;
+      margin-left: getGutter(4) / 2;
+
       // Tablet
       @include media($tablet) {
         @include span-columns(3);
         margin-left: 0;
       }
+
       // Mobile
       @include media($mobile) {
         @include span-columns(5);
       }
     }
     &.topbar-link-opening-hours {
-      margin-right: getGutter(4)/2;
-      margin-left: getGutter(4)/2;
+      margin-right: getGutter(4) / 2;
+      margin-left: getGutter(4) / 2;
       .logged-in & {
         display: none;
       }
+
       // Tablet
       @include media($tablet) {
         display: none;
@@ -408,6 +408,7 @@ ul.topbar-menu {
       display: none;
     }
     &.topbar-link-signout {
+
       // Tablet
       @include media($tablet) {
         display: none;
@@ -419,7 +420,6 @@ ul.topbar-menu {
 // ==========================================================================
 // User menu in Header wrapper
 // ==========================================================================
-
 .header-wrapper .navigation-inner {
   > ul.main-menu-third-level {
     //Mouseover style
@@ -435,18 +435,18 @@ ul.topbar-menu {
     .toolbar & {
       top: 71px + $toolbar-height;
     }
-    &:before {
+    &::before {
+      @include transform(rotate(-45deg));
       width: 18px;
       height: 18px;
       content: "";
       display: block;
       background-color: $white;
-      @include transform(rotate(-45deg));
       position: absolute;
       right: 20px;
       top: -8px;
     }
-    &:after {
+    &::after {
       position: absolute;
       top: -4px;
       left: 0;
@@ -458,6 +458,7 @@ ul.topbar-menu {
       display: block;
     }
 
+    // Tablet
     @include media($tablet) {
       @include font('header-small');
       //Reset desktop styles
@@ -470,13 +471,11 @@ ul.topbar-menu {
       margin: 0;
       box-shadow: none;
       left: 0;
-      
-      &:before {
-      //&:after {
+      &::before {
         display: none;
       }
       // Create log-out link for tablet/mobile
-      &:after {
+      &::after {
         content: 'Log ud';
         position: static;
         display: block;
@@ -486,23 +485,24 @@ ul.topbar-menu {
         border-bottom: 1px solid $charcoal-opacity-light;
       }
     }
-    
+
+    // Notebook
     @include media($notebook) {
       @include font('base');
       font-family: $font-family-bold;
     }
-    
     li {
       text-align: right;
       margin: 0;
       a {
         display: block;
         padding: 10px 0;
-        &:after {
+        &::after {
           display: none;
         }
       }
-      
+
+      // Tablet
       @include media($tablet) {
         width: 100%;
         padding: 0;
@@ -516,6 +516,8 @@ ul.topbar-menu {
       }
       > ul {
         display: none;
+
+        // Tablet
         @include media($tablet) {
           @include font('base');
           display: block;
@@ -530,7 +532,7 @@ ul.topbar-menu {
               display: block;
               padding: 30px 5%;
               border-bottom: 1px solid $white-opacity-light;
-              &:after {
+              &::after {
                 display: none;
               }
             }
