@@ -1,9 +1,5 @@
-/**
- * Variables
- *
- * @author magnify
- */
 
+<<<<<<< HEAD
 
 
 /* Spacing variables
@@ -122,3 +118,75 @@ $availability-available-reservable:         $green;
 $availability-available-not-reservable:     $yellow;
 $availability-not-available-reservable:     $yellow;
 $availability-not-available-not-reservable: $red;
+=======
+// ==========================================================================
+// Color
+// ==========================================================================
+@import 'colors';
+
+$black: #000;
+$black-overlay: rgba(0, 0, 0, 0.8);
+
+$color-standard-text: #474747;
+
+$charcoal: #262626;
+$charcoal-opacity-extra-dark: rgba(38, 38, 38, 0.8);
+$charcoal-opacity-dark: rgba(38, 38, 38, 0.54);
+$charcoal-opacity-light: rgba(38, 38, 38, 0.2); 
+$white: #fff;
+$white-opacity-dark: rgba(255, 255, 255, 0.54);
+$white-opacity-light: rgba(255, 255, 255, 0.2);
+
+$grey-light: #f1f2f2;
+$grey: #e5e5e5;
+$grey-medium: #cccccc;
+$grey-dark: #808285;
+
+$green: #24D273;
+$green-text: darken($green, 10);
+$red: #E22045;
+$red-text: $red;
+$yellow: #FFCA5F;
+$yellow-text: darken($yellow, 15);
+
+
+// ==========================================================================
+// Distance
+// ==========================================================================
+$header-height: 148px;
+$topbar-height: 64px;
+$second-level-menu-height: 61px;
+$distance-paragraph: 30px;
+$element-height: 54px;
+$wrapper-width: 90%;
+$search-form-extended-height: 84px;
+$toolbar-height: 65px;
+
+
+// ==========================================================================
+// Misc
+// ==========================================================================
+$round-corner: 5px;
+$box-shadow: 0px 5px 15px 0px rgba(0,0,0,0.3);
+$box-padding: 15px;
+$disabled: 0.3;
+
+// ==========================================================================
+// Transition
+// ==========================================================================
+$speed: 300ms;
+$speed-fast: 150ms;
+$hover-delay: 400ms;
+$ease: $ease-out-quart;
+
+
+// ==========================================================================
+// z-index
+// ==========================================================================
+$z-below: 50;
+$z-content: 100;
+$z-above: 150;
+$z-header: 300;
+$z-overlay: 900;
+$z-debug: 999;
+>>>>>>> Initial commit

@@ -40,6 +40,7 @@
  * @see template_preprocess_html()
  * @see template_process()
  */
+
 ?><!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php print $language->language; ?>" lang="<?php print $language->language; ?>" dir="<?php print $language->dir; ?>"<?php print $rdf_namespaces; ?>>
 <head>
@@ -52,6 +53,8 @@
   <?php print $scripts; ?>
 </head>
 <body <?php print $attributes;?> class="<?php print $classes; ?>">
+  <div class="is-tablet"></div>
+  <div class="is-mobile"></div> 
   <?php print $page_top; ?>
   <?php print $page; ?>
   <?php print $page_bottom; ?>

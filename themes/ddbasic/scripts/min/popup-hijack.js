@@ -1,0 +1,1 @@
+!function(a,$){"use strict";Drupal.ajax.prototype.commands.ding_popup=function(a,p,o){var t=ddbasic.popupbar.set(p.name,p.data);Drupal.attachBehaviors(t)},Drupal.ajax.prototype.commands.ding_popup_close=function(a,p,o){ddbasic.popupbar.close()}}(this,jQuery);

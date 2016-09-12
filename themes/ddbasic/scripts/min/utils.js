@@ -1,0 +1,1 @@
+!function(i,$){"use strict";var s={};void 0===i.ddbasic&&(i.ddbasic={}),i.ddbasic.breakpoint={IN:!0,OUT:!1,NOP:null,is:function(i,t){var e=$(".is-"+i),d=e.is(":visible");return void 0===t?d?this.IN:this.OUT:s[t]!==d?(s[t]=d,d?this.IN:this.OUT):this.NOP},reset:function(i){delete s[i]}}}(this,jQuery);
