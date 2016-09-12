@@ -360,9 +360,8 @@
     display: block;
   }
   h2 {
-    margin: 0;
-
     @include font('base');
+    margin: 0;
     text-align: right;
   }
   .pane-content {
@@ -411,6 +410,13 @@
 // ==========================================================================
 // Node panes
 // ==========================================================================
+
+.pane-node-title {
+  h2 {
+    @include font('header-large');
+    color: $color-text;
+  }
+}
 
 .pane-node-field-ding-library-lead,
 .pane-node-field-ding-library-body {
