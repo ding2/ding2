@@ -1,5 +1,5 @@
 ;----------// Theme Information
-  name        = DDBasic
+  name        = DDBasic 2.0
   description = The default theme for the danish library distribution
   core        = 7.x
   release     = 7.x-1.x
