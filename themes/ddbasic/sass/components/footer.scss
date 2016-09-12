@@ -3,7 +3,8 @@
 .footer {
   background-color: $charcoal;
   color: $white;
-  a, a.active {
+  a,
+  a.active {
     @include transition(color $speed $ease);
     color: $white;
     &:hover {
@@ -13,8 +14,9 @@
   .footer-inner {
     @include wrapper;
     padding: 50px 0;
-    
-    @include media($mobile){
+
+    // Mobile
+    @include media($mobile) {
       width: auto;
       padding: 0;
     }
@@ -22,38 +24,31 @@
       @include span-columns(3);
       @include omega(4n);
       margin-bottom: 50px;
-      
       .pane-title {
         @include font('header-small');
         @include arrow-button(arrow-down);
         pointer-events: none;
-
-        
         &.js-toggled { // js toggled arrow colors on hover
           @include arrow-button(arrow-up);
-          &:after {
+          &::after {
             background-color: $black;
             color: $white;
             display: none;
           }
         }
-        
-        &:after {  
+        &::after {
           display: none; // hide arrow on desktop
         }
       }
-      
       .pane-content {
         ul {
           display: block !important;
         }
-        
         .icon {
           line-height: 30px;
           span {
             margin-left: 30px;
           }
-          
           &.facebook {
             @include place-icon-before('facebook-with-circle');
           }
@@ -65,61 +60,48 @@
           }
         }
       }
-      
+
       // Mobile
       @include media($mobile) {
         @include span-columns(12);
-        margin-bottom: 0px;
-        
+        margin-bottom: 0;
         .pane-title {
           position: relative;
           display: inline-block;
           width: 100%;
           padding: 12px 5%;
-          margin-bottom: 0px;
-          line-height: 54px;    
-          border-bottom: 1px solid black;         
+          margin-bottom: 0;
+          line-height: 54px;
+          border-bottom: 1px solid black;
           pointer-events: all;
-              
           h2 {
-            margin-bottom: 0px;         
+            margin-bottom: 0;
           }
-          
-          &:after { // show arrow on mobile
+          &::after { // show arrow on mobile
             display: inline;
             top: 12px;
-            right: 5%;      
+            right: 5%;
             background: $black;
             color: $white;
           }
-          
           &.js-toggled { // js toggled arrow colors on hover
-            &:after {
+            &::after {
               display: inline;
             }
+          }
         }
-        }
-        
-        .pane-content {          
+        .pane-content {
           position: relative;
           display: none;
           border-bottom: 1px solid $black;
           padding: 20px;
-          
           ul li {
             line-height: 30px;
           }
-          
-/*
-          > * { // all first children of pane-content
-            margin: 20px;
-          }  
-*/   
         }
       }
     }
   }
-  
   // When topbar is open
   .topbar-is-open &,
   .overlay-is-active & {
@@ -127,4 +109,3 @@
     pointer-events: none;
   }
 }
-

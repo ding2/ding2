@@ -16,8 +16,8 @@
     .ui-datepicker-title {
       width: 100%;
       height: 30px;
-      padding: 0 25px 0 25px;
-      margin: 3px 0 0 0;
+      padding: 0 25px;
+      margin: 3px 0 0;
       select {
         @include font('base');
         cursor: pointer;
@@ -31,12 +31,12 @@
     .ui-corner-all {
       cursor: pointer;
       .ui-icon {
+        background: $color-primary;
         background-image: none;
         border-radius: 50%;
-        background: $color-primary;
-        &:before {
+        &::before {
           font-family: 'icomoon';
-          text-indent: 0px;
+          text-indent: 0;
           font-size: 24px;
           margin-left: -4px;
           margin-top: -1px;
@@ -46,12 +46,12 @@
           -moz-osx-font-smoothing: grayscale;
         }
         &.ui-icon-circle-triangle-w {
-          &:before {
+          &::before {
             content: "\e902";
           }
         }
         &.ui-icon-circle-triangle-e {
-          &:before {
+          &::before {
             content: "\e904";
           }
         }
@@ -61,8 +61,8 @@
         background: transparent;
         .ui-icon {
           background-color: $white;
-          &:before {
-            color: $color-primary
+          &::before {
+            color: $color-primary;
           }
         }
       }

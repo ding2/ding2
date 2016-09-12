@@ -6,7 +6,7 @@
   border-radius: 0;
   border: 0;
   background-color: transparent;
-  
+
   //Mobile
   @include media($mobile) {
     position: relative;
@@ -19,12 +19,12 @@
     background: none;
     text-align: left;
     margin-bottom: 10px;
-    
+
     // Tablet
     @include media($tablet) {
       text-align: left;
     }
-    
+
     //Mobile
     @include media($mobile) {
       position: absolute;
@@ -35,18 +35,18 @@
     .ui-tabs-nav-item {
       position: relative;
       display: inline-block;
-      float: none;
       margin: 0 20px 0 0;
       padding-bottom: 5px;
       border-radius: 0;
       border: 0;
       background: none;
-      
+
       // Tablet
       @include media($tablet) {
         margin: 0 10px 2px 0;
         padding-bottom: 3px;
       }
+
       //Mobile
       @include media($mobile) {
         margin: 0 10px 0 0;
@@ -57,7 +57,7 @@
         @include font('base');
         padding: 0;
         color: $charcoal-opacity-dark;
-        &:after {
+        &::after {
           @include transition(height $speed-fast $ease);
           content: '';
           position: absolute;
@@ -70,19 +70,19 @@
         .no-touch & {
           &:hover {
             color: $color-standard-text;
-            &:after {
+            &::after {
               height: 3px;
             }
           }
         }
-        
+
         //Mobile
         @include media($mobile) {
           text-indent: -9999px;
           overflow: hidden;
           width: 10px;
           height: 10px;
-          &:before {
+          &::before {
             @include transition(background-color $speed-fast $ease);
             content: '';
             display: block;
@@ -92,7 +92,7 @@
             border-radius: 50%;
             background-color: $grey;
           }
-          &:after {
+          &::after {
             display: none;
           }
         }
@@ -100,27 +100,27 @@
       &.ui-state-active {
         padding-bottom: 5px;
         margin-bottom: 0;
-        
+
         // Tablet
         @include media($tablet) {
           padding-bottom: 3px;
           margin-bottom: 2px;
         }
-        
-        // mobile
+
+        // Mobile
         @include media($mobile) {
           padding-bottom: 0;
           margin-bottom: 0;
         }
         a {
           color: $color-standard-text;
-          &:after {
+          &::after {
             height: 3px;
           }
-          
+
           //Mobile
           @include media($mobile) {
-            &:before {
+            &::before {
               background-color: $charcoal;
             }
           }
@@ -133,7 +133,7 @@
     padding: 0;
     .info {
       @include linear-gradient(
-        transparent 0%, 
+        transparent 0%,
         $charcoal-opacity-extra-dark 100%
       );
       @include font('header-small');
@@ -147,18 +147,17 @@
         @include font('header');
         @include span-columns(6);
         margin-bottom: 0;
-        
+
         // Tablet
         @include media($tablet) {
           @include span-columns(10);
         }
-        
+
         // Mobile
         @include media($mobile) {
           width: 100%;
           margin-right: 0;
         }
-        
         a {
           display: block;
           padding: 40px $box-padding $box-padding;
@@ -170,20 +169,19 @@
         @include span-columns(6);
         margin-bottom: 0;
         padding: 0 $box-padding;
-        
+
         // Tablet
         @include media($tablet) {
           @include span-columns(10);
         }
-        
+
         // Mobile
         @include media($mobile) {
           width: 100%;
           margin-right: 0;
         }
-        
       }
-      
+
       // Mobile
       @include media($mobile) {
         @include font('base');
@@ -200,9 +198,10 @@
           padding: 0;
         }
       }
-    } 
+    }
   }
 }
+
 select.ding-tabroll-select-tabs {
   display: none;
 }

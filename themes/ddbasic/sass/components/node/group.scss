@@ -6,7 +6,7 @@
   // Full
   // ==========================================================================
 
-	&.node-full {
+  &.node-full {
     h1.title {
       margin-bottom: 15px;
     }
@@ -32,51 +32,51 @@
   // Teaser
   // ==========================================================================
 
-	&.node-teaser {
-  	a {
-    	display: block;
-    	position: relative;
-    	padding-top: 56.25%;
-    	background-color: $grey; // Fallback if no background-image
-    	background-size: cover;
-    	background-position: center center;
-    	border-radius: $round-corner;
-    	&:before {
-      	@include transition(background-color $speed $ease);
+  &.node-teaser {
+    a {
+      display: block;
+      position: relative;
+      padding-top: 56.25%;
+      background-color: $grey; // Fallback if no background-image
+      background-size: cover;
+      background-position: center center;
+      border-radius: $round-corner;
+      &::before {
+        @include transition(background-color $speed $ease);
         content: '';
-      	position: absolute;
-      	top: 0;
-      	left: 0;
-      	width: 100%;
-      	height: 100%;
-      	background-color: $charcoal-opacity-light;
-      	border-radius: $round-corner;
-    	}
-    	.group-text {
-      	@include linear-gradient(
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: $charcoal-opacity-light;
+        border-radius: $round-corner;
+      }
+      .group-text {
+        @include linear-gradient(
           transparent 0%,
           $charcoal-opacity-extra-dark 100%
         );
-      	position: absolute;
-      	left: 0;
-      	bottom: 0;
-      	width: 100%;
-      	padding: 25px $box-padding $box-padding;
-      	color: $white;
-      	border-bottom-right-radius: $round-corner;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        padding: 25px $box-padding $box-padding;
+        color: $white;
+        border-bottom-right-radius: $round-corner;
         border-bottom-left-radius: $round-corner;
-      	h3.title {
-        	@include font('header-small');
-        	margin-bottom: 0;
-      	}
-      	.field-name-field-ding-group-lead {
+        h3.title {
+          @include font('header-small');
+          margin-bottom: 0;
+        }
+        .field-name-field-ding-group-lead {
           display: none;
         }
-    	}
-    	// First two teasers in view
-    	.view-ding-groups .views-row:nth-child(1) &,
-    	.view-ding-groups .views-row:nth-child(2) & {
-      	.group-text {
+      }
+      // First two teasers in view
+      .view-ding-groups .views-row:nth-child(1) &,
+      .view-ding-groups .views-row:nth-child(2) & {
+        .group-text {
           h3.title {
             @include font('header');
             // Tablet
@@ -92,13 +92,13 @@
             }
           }
         }
-    	}
-    	// Hover
-    	&:hover {
-      	&:before {
+      }
+      // Hover
+      &:hover {
+        &::before {
           background-color: $charcoal-opacity-dark;
         }
-    	}
-  	}
+      }
+    }
   }
 }

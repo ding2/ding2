@@ -7,7 +7,7 @@
 // ==========================================================================
 
 .form-item {
-  margin: 0 0 10px 0;
+  margin: 0 0 10px;
   .count {
     color: $charcoal-opacity-dark;
   }
@@ -26,23 +26,23 @@ fieldset.collapsible {
   }
   .fieldset-title {
     @include arrow-button(arrow-up);
-    &:after {
+    &::after {
       right: 0;
       top: 10px;
       background-color: $grey-dark;
       color: $white-opacity-dark;
     }
   }
-  
+
   &.collapsed {
     .fieldset-title {
-      &:after {
+      &::after {
         content: "\e901";
         background-color: $grey;
         color: $charcoal-opacity-dark;
       }
       &:hover {
-        &:after {
+        &::after {
           background-color: $grey-dark;
           color: $white-opacity-dark;
         }

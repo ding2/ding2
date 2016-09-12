@@ -18,7 +18,7 @@
           @include span-columns(2.4);
           @include omega(5n);
         }
-        
+
         // Mobil
         @include media($mobile) {
           @include omega-reset(5n, 12);
@@ -27,7 +27,7 @@
         }
         img {
           @include transition(opacity $speed $ease);
-          box-shadow: #000 0em 0em 0em; // Fixes width error on hover
+          box-shadow: #000 0 0 0; // Fixes width error on hover
         }
         .no-touch & {
           a:hover {
@@ -40,6 +40,7 @@
     }
   }
 }
+
 .pane-new-materials-covers,
 .pane-inspiration-page-covers {
   .new-materials-title {
@@ -52,6 +53,7 @@
     }
   }
 }
+
 .pane-top-recommendation-list {
   // ==========================================================================
   // ADHL

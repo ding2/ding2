@@ -22,7 +22,7 @@
       }
       .field-name-field-ding-news-list-image {
         position: relative;
-        &:after {
+        &::after {
           @include transition(opacity $speed $ease);
           content: '';
           position: absolute;
@@ -35,7 +35,7 @@
         }
         .no-touch & {
           &:hover {
-            &:after {
+            &::after {
               opacity: 0.5;
             }
           }
