@@ -1,0 +1,40 @@
+@import '../base.scss';
+
+
+// ==========================================================================
+// Entity Profile
+// ==========================================================================
+
+.entity-profile2 {
+  .field-name-field-ding-staff-position { 
+    @include span-columns(4 of 4);
+    float: none;    
+    padding-bottom: 20px;
+    margin: 20px 0px 30px 0px;
+    border-bottom: 1px solid $grey-medium;
+    @include font('header-small');
+  }
+  .field-name-og-group-ref,
+  .field-name-field-ding-staff-department,
+  .field-name-field-ding-staff-email,
+  .field-name-field-ding-staff-phone,
+  .field-name-field-ding-staff-work-areas {
+    .field-label {
+      @include font('base-bold');
+      float: left;
+      width: 120px;
+    }
+    .field-items {
+      float: left;
+      width: calc(100% - 120px);
+      word-break: break-all;
+    }
+  }
+  .field-name-field-ding-staff-description {
+    float: left;
+    width: 100%;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid $grey-medium;
+  }
+}

@@ -1,0 +1,12 @@
+// -------------------------------------------------------------------------------------------------
+// Remember that SASS includes 1 by 1, so you need to make sure the order of
+// the imports handle this.
+// Meaning you can't define a variable in an include that is used in a previous
+// included file.
+// -------------------------------------------------------------------------------------------------
+
+// Include contribs.
+@import 'contrib/bourbon/bourbon', 'configuration/grid-settings', 'contrib/neat/neat';
+
+// Include the rest.
+@import 'configuration/variables', 'configuration/typography', 'configuration/mixin', 'configuration/function', 'configuration/animation', 'configuration/extend';

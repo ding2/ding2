@@ -1,0 +1,317 @@
+@import '../../base.scss';
+
+.node-ding-event {
+  // ==========================================================================
+  // Teaser
+  // ==========================================================================
+  &.node-teaser {
+    position: relative;
+    float: left;
+    width: 100%;
+
+    // Mobile
+    @include media($mobile) {
+      height: 210px !important;
+    }
+    a {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    .inner {
+      position: absolute;
+      width: 100%;
+      top: 0;
+      left: 0;
+      padding: $box-padding $box-padding 10px $box-padding;
+      .background {
+        @include transition(
+          width $speed $ease,
+          background-color $speed $ease,
+          box-shadow $speed $ease
+        );
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-color: $grey;
+        .button {
+          @include transition(opacity $speed $ease);
+          position: absolute;
+          right: 15px;
+          bottom: 15px;
+          max-width: 156px;
+          float: right;
+          opacity: 0;
+
+          // Mobile
+          @include media($mobile) {
+            display: none;
+          }
+        }
+      }
+      .event-text {
+        position: relative;
+        z-index: 1;
+        .info-top {
+          color: $charcoal-opacity-dark;
+          > div {
+            float: left;
+          }
+        }
+        .date {
+          @include font('header-small');
+          clear: left;
+          color: $color-text;
+        }
+        .title-and-lead {
+          @include transition(
+            min-height $speed $ease
+          );
+          min-height: 61px;
+          .title {
+            margin-bottom: 10px;
+          }
+          .field-name-field-ding-event-lead {
+            @include transition(
+              opacity $speed $ease
+            );
+            width: calc(100% + 15px);
+            opacity: 0;
+            height: 0;
+
+            @include media($mobile) {
+              display: none;
+            }
+          }
+
+          @include media($mobile) {
+            min-height: 50px !important; //overwrite jquery height animation on mobile
+          }
+        }
+        .info-bottom {
+          float: left;
+          width: calc(115% - 156px);
+          min-height: 60px;
+          color: $color-text;
+        }
+      }
+    }
+    .event-list-image {
+      position: absolute;
+      z-index: 1;
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center center;
+
+      @include media($mobile) {
+        display: none;
+      }
+    }
+    &.has-image {
+      .inner {
+        padding: 0 $box-padding 10px $box-padding;
+        .event-text {
+          //padding-top: calc(56.1798% + 15px);
+          padding-top: 215px;
+
+          @include media($mobile) {
+            padding-top: 15px;
+          }
+        }
+      }
+    }
+    // Hover for non touch devices
+    .no-touch & {
+      &:hover {
+        .background {
+          @include transition(
+            width $speed $hover-delay $ease,
+            background-color $speed $ease,
+            box-shadow $speed $ease
+          );
+          width: 115%;
+          background-color: $white;
+          box-shadow: $box-shadow;
+          // Tablet
+          @include media($tablet) {
+            width: 110%;
+          }
+          // Mobile
+          @include media($mobile) {
+            width: 100%;
+            background-color: $grey;
+            box-shadow: none;
+          }
+          .button {
+            @include transition(
+              opacity $speed $hover-delay $ease,
+              background-color $speed $ease,
+              color $speed $ease
+            );
+            opacity: 1;
+          }
+        }
+        .title-and-lead {
+          @include transition(
+            min-height $speed $hover-delay $ease
+          );
+          min-height: 118px;
+
+          .field-name-field-ding-event-lead {
+            @include transition(
+              opacity $speed $hover-delay $ease
+            );
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+  // ==========================================================================
+  // Full
+  // ==========================================================================
+  &.node-full {
+    @include linear-gradient(to top, $white 30px, $grey-light 100%);
+    padding: 40px 0 30px;
+    > .inner {
+      @include wrapper;
+      .left {
+        @include span-columns(5);
+        min-height: 1px;
+
+        @include media($tablet) {
+          @include span-columns(6);
+        }
+        @include media($mobile){
+          @include span-columns(12);
+        }
+
+        h2 {
+          @include span-columns(4 of 5);
+          float: none;
+          padding-bottom: 20px;
+          margin: 0px 0px 30px 0px;
+          border-bottom: 1px solid $grey-medium;
+          @include media($tablet){
+            @include span-columns(5 of 5);
+          }
+          @include media($mobile){
+            @include span-columns(12);
+          }
+        }
+
+        .button {
+          @include span-columns(3 of 5);
+          margin: 20px 0px;
+          color: $white;
+          background: $color-primary;
+
+          @include media($tablet){
+            @include span-columns(5 of 5);
+          }
+        }
+      }
+      .right {
+        @include span-columns(5);
+        @include media($tablet) {
+          @include span-columns(6);
+        }
+        @include media($mobile){
+          @include span-columns(12);
+        }
+      }
+
+      h1 {
+        margin-bottom: 0;
+        @include font('header');
+        color: $charcoal;
+      }
+
+      h2 {
+        @include font('header-small');
+        margin: 20px 0px 5px 0px;
+      }
+
+      .field {
+        .field-label {
+            @include font('base-bold');
+          }
+
+        &.field-type-image{
+          margin-bottom: 30px;
+        }
+        &.field-label-inline {
+          position: relative;
+          .field-label {
+            float: left;
+            width: 100px;
+
+            @include media($tablet){
+              @include span-columns(2 of 5);
+            }
+          }
+
+          .field-item {
+            float: left;
+            width: calc(100% - 100px);
+          }
+        }
+        &.field-name-field-ding-event-files {
+          @include span-columns(6 of 8);
+          margin: 0 0 30px 0;
+
+          @include media($tablet) {
+            @include span-columns(8 of 8);
+          }
+
+          @include media($mobile){
+            margin: 15px 0px 30px;
+          }
+
+          .field-label {
+            @include font('base-bold');
+          }
+          .file-type {
+            margin-left: 6px;
+          }
+        }
+        &.field-name-field-ding-event-tags {
+          padding: 10px 0px;
+          border-top: 1px solid $grey-medium;
+          border-bottom: 1px solid $grey-medium;
+          margin-bottom: 30px;
+          @include span-columns(6 of 8);
+
+          @include media($mobile){
+            @include span-columns(8 of 8);
+          }
+          .field-items .field-item {
+            display: inline;
+            margin-right: 15px;
+          }
+        }
+
+        &.field-name-field-ding-event-category {
+          margin-bottom: 5px;
+        }
+
+        &.field-name-field-ding-event-date {
+          @include font('header');
+          padding-bottom: 15px;
+          margin-bottom: 30px;
+          border-bottom: 1px solid $grey-medium;
+          color: $color-primary;
+        }
+
+        &.field-name-field-ding-event-lead,
+         .field-name-field-ding-event-body p {
+          margin: 20px 0px;
+        }
+      }
+    }
+  }
+}
