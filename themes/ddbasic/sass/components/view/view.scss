@@ -13,57 +13,56 @@
       @include media($tablet) {
         margin-bottom: 30px;
       }
-      
       // Grid classes
       //
       // Add classes grid-small, grid-medium or grid-large to panel to float rows in desired grid
       //
       // Markup:
       // <div class="panel-pane">
-      // <div class="pane-content">
-      // <div class="frontpage-layout">
-      // <div class="panel-pane grid-small">
-      // <div class="panel-pane-inner">
-      //  View in panel with grid-small class
-      // <div class="view">
-      // <div class="view-content">
-      // <div class="views-row dummy-row"></div>
-      // <div class="views-row dummy-row"></div>
-      // <div class="views-row dummy-row"></div>
-      // <div class="views-row dummy-row"></div>
-      // </div>
-      // </div>
-      // </div>
-      // </div>
-      // <div class="panel-pane grid-medium">
-      // <div class="panel-pane-inner">
-      //  View in panel with grid-medium class
-      // <div class="view">
-      // <div class="view-content">
-      // <div class="views-row dummy-row"></div>
-      // <div class="views-row dummy-row"></div>
-      // <div class="views-row dummy-row"></div>
-      // </div>
-      // </div>
-      // </div>
-      // </div>
-      // <div class="panel-pane grid-large">
-      // <div class="panel-pane-inner">
-      //  View in panel with grid-large class
-      // <div class="view">
-      // <div class="view-content">
-      // <div class="views-row dummy-row"></div>
-      // <div class="views-row dummy-row"></div>
-      // </div>
-      // </div>
-      // </div>
-      // </div>
-      // </div>
-      // </div>
+      //  <div class="pane-content">
+      //    <div class="frontpage-layout">
+      //      <div class="panel-pane grid-small">
+      //        <div class="panel-pane-inner">
+      //          View in panel with grid-small class
+      //          <div class="view">
+      //            <div class="view-content">
+      //              <div class="views-row dummy-row"></div>
+      //              <div class="views-row dummy-row"></div>
+      //              <div class="views-row dummy-row"></div>
+      //              <div class="views-row dummy-row"></div>
+      //            </div>
+      //          </div>
+      //        </div>
+      //      </div>
+      //      <div class="panel-pane grid-medium">
+      //        <div class="panel-pane-inner">
+      //          View in panel with grid-medium class
+      //          <div class="view">
+      //            <div class="view-content">
+      //              <div class="views-row dummy-row"></div>
+      //              <div class="views-row dummy-row"></div>
+      //              <div class="views-row dummy-row"></div>
+      //            </div>
+      //          </div>
+      //        </div>
+      //      </div>
+      //      <div class="panel-pane grid-large">
+      //        <div class="panel-pane-inner">
+      //          View in panel with grid-large class
+      //          <div class="view">
+      //            <div class="view-content">
+      //              <div class="views-row dummy-row"></div>
+      //              <div class="views-row dummy-row"></div>
+      //            </div>
+      //          </div>
+      //        </div>
+      //      </div>
+      //    </div>
+      //  </div>
       // </div>
       //
       // Styleguide 2.1.9
-    
+
       // Small grid
       .grid-small & {
         @include span-columns(3);
@@ -190,7 +189,7 @@
       .views-row {
         // First child
         &:first-child {
-          // Medium grid 
+          // Medium grid
           .grid-medium & {
             // In Ding frontpage layout
             .frontpage-layout & {
@@ -351,7 +350,7 @@
         }
       }
     }
-    
+
     .view-content {
       .group-row {
         // No flex
@@ -359,12 +358,12 @@
           .views-row {
             @include span-columns(4);
             @include omega(3n);
-            
+
           }
         }
       }
     }
-    
+
     .view-content {
       .group-row {
         width: 100%;
@@ -418,6 +417,7 @@
         width: 100%;
         margin-right: 0;
         background-color: $grey;
+
         @include placeholder {
           color: $charcoal-opacity-dark;
         }

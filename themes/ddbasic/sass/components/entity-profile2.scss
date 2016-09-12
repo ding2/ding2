@@ -1,18 +1,16 @@
 @import '../base.scss';
 
-
 // ==========================================================================
 // Entity Profile
 // ==========================================================================
-
 .entity-profile2 {
-  .field-name-field-ding-staff-position { 
-    @include span-columns(4 of 4);
-    float: none;    
-    padding-bottom: 20px;
-    margin: 20px 0px 30px 0px;
-    border-bottom: 1px solid $grey-medium;
+  .field-name-field-ding-staff-position {
     @include font('header-small');
+    @include span-columns(4 of 4);
+    float: none;
+    padding-bottom: 20px;
+    margin: 20px 0 30px;
+    border-bottom: 1px solid $grey-medium;
   }
   .field-name-og-group-ref,
   .field-name-field-ding-staff-department,

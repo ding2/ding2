@@ -3,23 +3,21 @@
 #sliding-popup {
   &.sliding-popup-bottom {
     background: $black;
-    
     .popup-content {
-      position: relative;
       @include wrapper;
+      position: relative;
       height: 180px;
       #popup-text {
-        max-width: none;
         @include font('base');
+        max-width: none;
         float: none;
         padding-top: 20px;
-        padding-bottom: 10px;  
+        padding-bottom: 10px;
         p {
-          margin: 0px;
-          &:nth-child(1){
+          margin: 0;
+          &:nth-child(1) {
             @include font('header-small');
           }
-          
           a {
             color: $white;
             &:hover {
@@ -27,14 +25,14 @@
             }
           }
         }
-        
+
+        // Mobile
         @include media($mobile) {
           float: left;
           padding-bottom: 10px;
           width: calc(100% - 40px);
         }
       }
-      
       #popup-buttons {
         max-width: none;
         float: left;
@@ -49,29 +47,29 @@
           text-shadow: none;
           border: none;
           box-shadow: none;
-          
+
+          // Mobile
           @include media($mobile) {
             width: 100% !important;
-            margin: 0px 0px 15px 0px !important;
+            margin: 0 0 15px !important;
             text-align: left;
           }
         }
       }
-      
       .close {
         @include place-icon('close', $white, 60px);
         position: absolute;
-        right: 0px;
+        right: 0;
         width: 40px;
         height: 40px;
         line-height: 60px;
         top: 50%;
         margin-top: -20px;
         cursor: pointer;
-        
+
+        // Mobile
         @include media($mobile) {
           top: 25px;
-   
         }
       }
     }
