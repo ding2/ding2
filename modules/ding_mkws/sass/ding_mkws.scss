@@ -1,0 +1,139 @@
+@import "_mixins";
+@import "_spinner";
+@import "susy";
+@import "zen-grids";
+
+
+
+$zen-columns:             12;
+$zen-gutters:             20px;
+
+
+.ding-mkws-widget {
+  margin-bottom: 20px;
+
+  > .ding-mkws-title {
+    color: #7c7c7c;
+    font-weight: bold;
+    display: block;
+    font-size: 110%;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+  
+  .ding-mkws-content {
+    ul {
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+      overflow: hidden;
+      padding: 10px 0;
+
+      &:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      &:nth-child(odd) {
+        background-color: #e8e8e8;
+      }
+
+      .ding-mkws-header {
+        @include zen-grid-item(4, 1);
+
+        .ding-mkws-target,
+        .ding-mkws-name,
+        .ding-mkws-title {
+          font-weight: bold;
+        }
+      }
+
+      .ding-mkws-values {
+        @include zen-grid-item(8, 1, right);
+
+        .ding-mkws-target,
+        .ding-mkws-title {
+          font-weight: normal;
+        }
+      }
+
+      p {
+        margin: 0 0 5px 0;
+        padding: 0;
+      }
+
+      p, a {
+        display: block;
+        height: 22px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+.page-node {
+  .ding-mkws-widget {
+    overflow: hidden;
+
+    .ding-mkws-content li .ding-mkws-header {
+      @include zen-grid-item(3, 1);
+    }
+
+    .ding-mkws-content li .ding-mkws-values {
+      @include zen-grid-item(9, 1, right);
+    }
+
+    .ding-mkws-left {
+      @include zen-grid-item(6, 1);
+      margin-left: -10px;
+
+      @include small-medium() {
+        @include zen-grid-item(12, 1);
+
+        clear: both;
+        margin-left: 0;
+      }
+    }
+
+    .ding-mkws-rigt {
+      @include zen-grid-item(6, 1, right);
+      margin-right: -10px;
+
+      @include small-medium() {
+        @include zen-grid-item(12, 1);
+
+        clear: both;
+        margin-right: 0;
+      }
+    }
+
+    p, a {
+      display: block;
+      height: 22px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
+
+.ding-campaign--content {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.page-node .ding-campaign--content .ding-mkws-widget {
+  .ding-mkws-left,
+  .ding-mkws-rigt {
+    @include zen-grid-item(12, 1);
+
+    clear: both;
+    margin-right: -10px;
+    margin-left: -10px;
+  }
+}
+

@@ -1,0 +1,245 @@
+@import "_mixins";
+@import "susy";
+@import "zen-grids";
+
+$zen-columns:             12;
+$zen-gutters:             20px;
+
+a.cross:hover {
+  text-decoration: line-through;
+}
+
+/* Page search results
+   ========================================================================== */
+
+.page-search-meta {
+
+  /* Form styles
+   ========================================================================== */
+
+  .pane-search-form {
+    .pane-title {
+      font-size: 200%;
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      position: relative;
+    }
+
+    .search-form {
+      .row {
+        clear: both;
+        overflow: hidden;
+      }
+
+      .form-text {
+        border: 1px solid #d5d5d5;
+        box-sizing: border-box;
+        border-radius: 12px;
+        display: inline;
+        font-size: 110%;
+        margin-right: 20px;
+        min-height: 60px;
+        padding: 0 0 0 49px;
+        width: 100%;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-border-radius: 12px;
+        -moz-border-radius: 12px;  
+      }
+    }
+
+    .form-type-textfield {
+      position: relative;
+
+      &:before {
+        bottom: 30px;
+        color: #959595;
+        content: "\f002";
+        display: inline-block;
+        font-family: FontAwesome;
+        font-weight: normal;
+        font-size: 180%;
+        left: 13px;
+        position: absolute;
+      }
+    }
+
+    .input-group-btn {
+      position: absolute;
+      right: 0;
+      text-align: right;
+      top: 0;
+
+      input[type="submit"] {
+        border-radius: 12px;
+        font-size: 160%;
+        margin-top: 0;
+        min-width: 110px;
+        min-height: 60px;
+        padding-bottom: 1px;
+        padding-top: 0;
+        -webkit-border-radius: 12px;
+        -moz-border-radius: 12px;
+      }
+    }
+
+    .dropdown-wrapper {
+      overflow: hidden;
+
+      .mkdru-sort {
+        @include zen-grid-item(6, 1);
+
+        min-width: inherit;
+        width: 49%;
+      }
+
+      .mkdru-perpage {
+        @include zen-grid-item(6, 1, right);
+
+        min-width: inherit;
+        width: 49%;
+      }
+    }
+  }
+
+  /* Results styles
+   ========================================================================== */
+
+  .pane-search-results {
+    .mkdru-status-container {
+      background: none;
+      border: none;
+      padding: 0;
+    }
+
+    .mkdru-status-inner-container {
+      background-color: #528c10;
+      border: none;
+      color: #fff;
+      font-family: "SourceSansProSemibold";
+      font-weight: normal;
+      margin-bottom: 30px;
+      padding: 20px 20px 20px 60px;
+      position: relative;
+
+      &:before {
+        color: #fff;
+        content: "\f058";
+        font-family: "FontAwesome";
+        font-size: 200%;
+        left: 20px;
+        margin-top: -11px;
+        margin-right: 15px;
+        position: absolute;
+        top: 50%;
+      }
+    }
+  }
+
+  .mkdru-result-list {
+    .search-result {
+      background-image: url("../images/pw_maze_white.png");
+      margin-bottom: 1em;
+      padding: 15px;
+
+      .result-inner-wrapper {
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 20px;
+
+        .search-snippet-info {
+          padding-left: 0;
+        }
+
+        .mkdru-result-subject a {
+          background-color: #00cafe;
+          border-radius: 8px;
+          color: #fffffd;
+          display: inline-block;
+          font-size: 14px;
+          margin-right: 5px;
+          margin-bottom: 5px;
+          padding: 3px 10px;
+          white-space: normal;
+          -webkit-border-radius: 8px;
+          -moz-border-radius: 8px;
+          -ms-border-radius: 8px;
+          -o-border-radius: 8px;
+        }
+      }
+    }
+  }
+
+  /* Pagination styles
+   ========================================================================== */
+
+  .mkdru-above-below {
+    border: none;
+
+    .mkdru-pager {
+      a, span {
+        background-color: #efefef;
+        display: inline-block;
+        margin-left: -4px;
+        margin-right: 4px;
+        margin-bottom: 1em;
+        padding-top: 5px;
+        padding-right: 15px;
+        padding-bottom: 5px;
+        padding-left: 15px;
+      }
+
+      .mkdru-pager-current {
+        font-weight: bold;
+      }
+    }
+  }
+
+  /* Facets styles
+   ========================================================================== */
+
+  .pane-search-facets {
+    .pane-title {
+      color: #7c7c7c;
+      margin-bottom: 30px;
+    }
+
+    .mkdru-facet-section {
+      border: 1px solid #efefef;
+      margin: 0 0 40px 0;
+      padding: 10px 20px;
+
+      .mkdru-facet-title {
+        background: #fff;
+        color: #7c7c7c;
+        display: block;
+        font-weight: normal;
+        font-size: 110%;
+        float: left;
+        left: -10px;
+        margin-top: -20px;
+        padding: 0 10px;
+        position: relative;
+      }
+
+      .mkdru-facet {
+        clear: both;
+
+        input[type="checkbox"] {
+          float: left;
+          height: 16px;
+          margin-top: 4px;
+          margin-right: 8px;
+          vertical-align: baseline;
+          width: 16px;
+        }
+
+        label {
+          color: #00b7e7;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

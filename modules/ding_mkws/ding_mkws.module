@@ -1,0 +1,309 @@
+<?php
+/**
+ * @file
+ * Represents main hooks implementations and other common functions.
+ */
+
+include_once 'ding_mkws.fields.inc';
+
+/**
+ * Implements hook_libraries_info().
+ */
+function ding_mkws_libraries_info() {
+  $libraries = array();
+
+  $libraries['pz2'] = array(
+    'name' => 'Pazpar2 library',
+    'vendor url' => 'http://www.indexdata.com/pazpar2/',
+    'download url' => 'http://ftp.indexdata.dk/pub/pazpar2/pazpar2-1.12.5.tar.gz',
+    'version callback' => 'ding_mkws_version_callback',
+    'files' => array(
+      'js' => array('pz2.js'),
+    ),
+  );
+
+  $libraries['jsrender'] = array(
+    'name' => 'JS Render',
+    'vendor url' => 'https://github.com//BorisMoore/jsrender',
+    'download url' => 'https://github.com//BorisMoore/jsrender/archive/master.zip',
+    'version callback' => 'ding_mkws_version_callback',
+    'files' => array(
+      'js' => array('jsrender.min.js'),
+    ),
+  );
+
+  return $libraries;
+}
+
+/**
+ * Support function for detecting versions of library.
+ *
+ * @return bool
+ *   Status of version detection.
+ */
+function ding_mkws_version_callback() {
+  return TRUE;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_mkws_menu() {
+  $items = array();
+
+  $items['admin/config/ding/mkws'] = array(
+    'title' => 'MKWS settings',
+    'description' => 'Settings and defaults for MKWS implementation',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_mkws_service_settings_form'),
+    'access arguments' => array('administer MKWS settings'),
+    'file' => 'ding_mkws.admin.inc',
+  );
+
+  $items['admin/config/ding/mkws/service'] = array(
+    'title' => 'Service settings',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );
+
+  $items['admin/config/ding/mkws/widget'] = array(
+    'title' => 'MKWS Widget settings',
+    'description' => 'Settings and defaults for MKWS widgets',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_mkws_widget_settings_form'),
+    'access arguments' => array('administer MKWS settings'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'ding_mkws.admin.inc',
+  );
+
+  $items['admin/config/ding/mkws/types'] = array(
+    'title' => 'MKWS content types',
+    'description' => 'Represents form for adding fields to content types.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_mkws_types_settings_form'),
+    'access arguments' => array('administer MKWS settings'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'ding_mkws.admin.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_mkws_permission() {
+  return array(
+    'administer MKWS settings' => array(
+      'title' => t('Administer MKWS settings'),
+      'description' => t('Perform administration tasks for MKWS.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ding_mkws_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && $plugin == 'content_types') {
+    return 'plugins/content_types';
+  }
+}
+
+/**
+ * Represents a wrapper for making backend request to service.
+ *
+ * @param string $command
+ *   String representation of command.
+ * @param array $settings
+ *   Array of settings data.
+ * @param string $action
+ *   String representation of action.
+ *
+ * @return mixed
+ *   Bool or object.
+ *
+ * @throws Exception.
+ */
+function _ding_mkws_request($command, $settings, $action = NULL) {
+  $sid = &drupal_static(__FUNCTION__);
+  if (empty($settings['user']) || empty($settings['password']) || empty($settings['url'])) {
+    throw new Exception(t('Please configure mkdru !settings first.', array('!settings' => l(t('settings'), 'admin/config/ding/mkws'))));
+  }
+
+  switch ($command) {
+    case 'auth':
+      $data = array(
+        'command' => $command,
+        'action' => $action,
+        'username' => $settings['user'],
+        'password' => $settings['password'],
+      );
+      $url = url($settings['url'], array('query' => $data));
+      $result = simplexml_load_file($url);
+      if (!isset($result->status[0]) || (string) $result->status[0] != 'OK' || !isset($result['jsessionId'][0])) {
+        return FALSE;
+      }
+      else {
+        $sid = (string) $result['jsessionId'][0];
+        return $sid;
+      }
+      break;
+
+    default:
+      if (empty($sid)) {
+        $sid = _ding_mkws_request('auth', $settings, 'login');
+      }
+
+      $data = array(
+        'command' => $command,
+        'action' => $action,
+      );
+
+      $data = array_filter($data);
+      $url = url($settings['url'], array('query' => $data));
+      $context = stream_context_create(array('http' => array('header' => "Cookie:JSESSIONID={$sid}")));
+      $xml = file_get_contents($url, FALSE, $context);
+      $xml_result = simplexml_load_string($xml);
+
+      return $xml_result;
+  }
+}
+
+/**
+ * Helper function for including all libraries and settings.
+ */
+function ding_mkws_include_all() {
+  $sid = &drupal_static(__FUNCTION__);
+  libraries_load('pz2');
+  libraries_load('jsrender');
+  $settings = variable_get('ding_mkws_settings', array());
+
+  try {
+    $sid = _ding_mkws_request('auth', $settings, 'login');
+  }
+  catch (Exception $ex) {
+    watchdog_exception('ding mkws', $ex);
+    drupal_set_message(t('Something goes wrong. Check reports for details.'));
+  }
+
+  $path = drupal_get_path('module', 'ding_mkws');
+  drupal_add_js($path . '/js/ding_mkws.theme.js', array(
+    'type' => 'file',
+    'scope' => 'footer',
+    'defer' => FALSE,
+    'preprocess' => TRUE,
+  ));
+  drupal_add_js($path . '/js/ding_mkws.js', array(
+    'type' => 'file',
+    'scope' => 'footer',
+    'defer' => FALSE,
+    'preprocess' => TRUE,
+  ));
+
+  $settings['sid'] = $sid;
+
+  // Integrate ting_proxy features.
+  $callbacks = array();
+
+  if (module_exists('ting_proxy')) {
+    $proxy_settings = variable_get('ting_proxy', array());
+    $callbacks[] = 'ting_proxy';
+
+    $settings['proxy_settings'] = $proxy_settings;
+  }
+
+  drupal_alter('spt_external_url', $callbacks);
+
+  drupal_add_js(
+    array(
+      'mkwsPreprocessExternalUrlCallbacks' => $callbacks,
+    ),
+    array('type' => 'setting')
+  );
+
+  drupal_add_js(array('ding_mkws' => $settings), 'setting');
+}
+
+
+/**
+ * Implements hook_init().
+ */
+function ding_mkws_init() {
+  ding_mkws_include_all();
+}
+
+
+/**
+ * Helper function for getting and processing resources.
+ */
+function _ding_mkws_process_resources() {
+  $settings = variable_get('ding_mkws_settings', array());
+  try {
+    $result = _ding_mkws_request('targets', $settings);
+    $resources = array();
+    foreach ($result->target as $resource) {
+      $id = (string) $resource->id;
+      $resources[$id] = (string) $resource->displayName;
+    }
+    return $resources;
+  }
+  catch (Exception $ex) {
+    watchdog_exception('ding mkws', $ex);
+    drupal_set_message(t('Something goes wrong. Check reports for details.'));
+    return array();
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function ding_mkws_form_ding_campaign_node_form_alter(&$form, &$form_state, $form_id) {
+  $form['field_mkws_node_widget']['#weight'] = 3;
+  $form['field_mkws_node_widget']['#states'] = array(
+    'visible' => array(
+      ':input[name="field_camp_settings[und]"]' => array('value' => 'mkws'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_theme_registry_alter().
+ */
+function ding_mkws_theme_registry_alter(&$theme_registry) {
+  $theme_registry['ding_campaign']['variables']['wrapper'] = NULL;
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ding_mkws_preprocess_ding_campaign(&$variables) {
+  if ($variables['type'] == "mkws") {
+    $value = $variables['wrapper']->raw();
+
+    $items = field_get_items('node', $value, 'field_mkws_node_widget');
+
+    $item = reset($items);
+    $hash = md5(implode('', $item));
+
+    $variables['text'][] = array(
+      '#markup' => "<div data-hash='{$hash}' 
+            data-process='ProcessDataForNodeWidget' 
+            data-template='dingMkwsNodeWidget' 
+            class='ding-mkws-widget ding-mkws-node-widget'>
+        </div>",
+      '#attached' => array(
+        'css' => array(drupal_get_path('module', 'ding_mkws') . '/css/ding_mkws.css'),
+        'js' => array(
+          drupal_get_path('module', 'ding_mkws') . '/js/ding_mkws.js',
+          array(
+            'type' => 'setting',
+            'data' => array(
+              $hash => $item,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}

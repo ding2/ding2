@@ -1,0 +1,312 @@
+<?php
+
+/**
+ * @file
+ * MKDRU Ding module.
+ */
+
+include_once 'mkdru_ding.features.inc';
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function mkdru_ding_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && $plugin == 'content_types') {
+    return 'plugins/' . $plugin;
+  }
+}
+
+/**
+ * Implements hook_search_info().
+ */
+function mkdru_ding_search_info() {
+  return array(
+    'title' => 'Meta search',
+    'path' => 'meta',
+    'conditions_callback' => 'mkdru_ding_search_conditions_callback',
+  );
+}
+
+/**
+ * Implements hook_search_page().
+ */
+function mkdru_ding_search_page($results) {
+  $output['prefix']['#markup'] = theme('mkdru_results');
+  $output['suffix']['#markup'] = '';
+  return $output;
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function mkdru_ding_block_info() {
+  $blocks['mkdru_ding_search_results'] = array(
+    'info' => t('mkdru ding search results container.'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function mkdru_ding_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'mkdru_ding_search_results':
+      $block['subject'] = t('mkdru ding search results');
+      $block['content'] = '<div class="mkdru-pager"></div><div class="mkdru-counts"></div><p></p><div class="mkdru-result-list"></div><div class="mkdru-pager"></div><div class="mkdru-counts"></div>';
+      break;
+
+    case 'mkdru_search_form':
+      $block['subject'] = '';
+      $form = drupal_get_form('mkdru_ding_search_form', FALSE);
+      $block['content'] = drupal_render($form);
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Search callback function that is invoked by search_view().
+ */
+function mkdru_ding_search_conditions_callback($keys) {}
+
+/**
+ * Implements hook_ding_facetbrowser().
+ */
+function mkdru_ding_facetbrowser() {
+  $results = new stdClass();
+  $results->facets = array();
+  // Show an empty facetbrowser block, even if search didn't return any results.
+  $results->show_empty = TRUE;
+  return $results;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function mkdru_ding_menu() {
+  $items['admin/config/search/mkdru_ding'] = array(
+    'title' => 'Pazpar2 Metasearch Ding Integration',
+    'description' => 'Search settings for mkdru instance integrated into Ding.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('mkdru_ding_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_init().
+ */
+function mkdru_ding_init() {
+  // Applies our module specific CSS to all pages. This works best because
+  // all CSS is aggregated and cached so we reduce the number of HTTP
+  // requests and the size is negligible.
+  drupal_add_css(drupal_get_path('module', 'mkdru_ding') . '/css/mkdru_ding.css');
+}
+
+/**
+ * Settings form handler.
+ */
+function mkdru_ding_settings_form($form, &$form_state) {
+  $form = array();
+
+  // Gets current values.
+  $mkdru = variable_get('mkdru_defaults', array());
+  if (isset($mkdru) && empty($form_state['build_info']['args'])) {
+    $form_state['build_info']['args'] = $mkdru;
+  }
+
+  $form = drupal_retrieve_form('mkdru_settings_form', $form_state);
+  $form['#title'] = t('Search settings for integration');
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Save configuration',
+  );
+  return $form;
+}
+
+/**
+ * Submit for settings form.
+ */
+function mkdru_ding_settings_form_submit($form, &$form_state) {
+  $settings = array();
+  $values = $form_state['values'];
+  $settings['sp_server_auth'] = $values['settings']['is_service_proxy'] ? $values['sp_server_auth'] : 0;
+  if ($settings['sp_server_auth'] == 0) {
+    $settings['sp_user'] = $values['sp_user'];
+    $settings['sp_pass'] = $values['sp_pass'];
+  }
+  $settings['pz2_path'] = $values['pz2_path'];
+  $settings['is_service_proxy'] = $values['settings']['is_service_proxy'];
+
+  uasort($values['settings']['facets'], function ($a, $b) {
+    if ($a['orderWeight'] == $b['orderWeight']) {
+      return 0;
+    }
+    return $a['orderWeight'] < $b['orderWeight'] ? -1 : 1;
+  });
+
+  $settings['facets'] = $values['settings']['facets'];
+  $mkdru_defaults = array(
+    'settings' => $settings,
+    'pz2_path' => $values['pz2_path'],
+    'sp_user' => $values['sp_user'],
+    'sp_pass' => $values['sp_pass'],
+    'sp_server_auth' => $settings['sp_server_auth'],
+    'facets' => $values['settings']['facets'],
+  );
+
+  variable_set('mkdru_defaults', $mkdru_defaults);
+  drupal_set_message(t('The configuration options have been saved.'));
+}
+
+/**
+ * Implements hook_theme().
+ */
+function mkdru_ding_theme() {
+  return array(
+    'mkdru_results' => array(
+      'template' => 'templates/mkdru-results',
+      'arguments' => array(),
+    ),
+    'mkdru_search_form' => array(
+      'template' => 'templates/mkdru-search-form',
+      'render element' => 'form',
+    ),
+    'mkdru_block_facet' => array(
+      'template' => 'templates/mkdru-block-facet',
+      'arguments' => array('class' => NULL),
+    ),
+  );
+}
+
+/**
+ * Custom search form.
+ */
+function mkdru_ding_search_form($form, &$form_state) {
+  $form = array();
+  drupal_add_library('system', 'jquery.bbq');
+
+  $form_state['action'] = "search/meta";
+
+  $form['#attributes']['class'][] = 'search-form';
+  $form['#theme'] = 'mkdru_search_form';
+
+  $params = drupal_get_query_parameters();
+
+  $keys = isset($params['query']) ? $params['query'] : arg(2);
+
+  $form['basic']['keys'] = array(
+    '#type' => 'textfield',
+    '#default_value' => $keys,
+    '#maxlength' => 255,
+    '#attributes' => array(
+      'placeholder' => array(t('Search the catalogues, sources and the website...')),
+    ),
+  );
+
+  $form['basic']['submit'] = array(
+    '#type' => 'submit',
+    '#name' => 'simple_search',
+    '#value' => t('Search'),
+    '#submit' => array('mkdru_ding_search_form_submit'),
+    '#validate' => array('mkdru_ding_search_form_validate'),
+  );
+  return $form;
+}
+
+/**
+ * Validate handler for advanced search form.
+ */
+function mkdru_ding_search_form_validate($form, &$form_state) {
+  $values = $form_state['values'];
+  if (empty($values['keys'])) {
+    form_set_error('keys', t('Please specify at least one term.'));
+  }
+}
+
+/**
+ * Submit handler for simple search form.
+ */
+function mkdru_ding_search_form_submit($form, &$form_state) {
+  $params = array();
+  $values = $form_state['values'];
+  if (!empty($values['keys'])) {
+    $params['query'] = $values['keys'];
+  }
+  $form_state['redirect'] = array(
+    $form_state['action'] . '/' . $form_state['values']['keys'],
+    array(
+      'query' => $params,
+    ),
+  );
+}
+
+/**
+ * Implements hook_search_execute().
+ */
+function mkdru_ding_search_execute($keys = '', $conditions = NULL) {
+  $state = array();
+
+  if ($keys) {
+    $state['query'] = $keys;
+  }
+
+  $mkdru_defaults = variable_get('mkdru_defaults', array());
+  $path = drupal_get_path('module', 'mkdru_ding');
+  theme('mkdru_js', array(
+    'setting' => array(
+      'mkdru' => array(
+        'settings' => json_encode($mkdru_defaults['settings']),
+        'state' => $state,
+      ),
+    ),
+  ));
+
+  // Integrate ting_proxy features.
+  $callbacks = array();
+  if (module_exists('ting_proxy')) {
+    $proxy_settings = variable_get('ting_proxy', array());
+
+    $callbacks[] = 'ting_proxy';
+    drupal_add_js(
+      array(
+        'mkdru_ding' => array(
+          'proxy_settings' => $proxy_settings,
+        ),
+      ),
+      array('type' => 'setting'));
+  }
+
+  drupal_alter('spt_external_url', $callbacks);
+
+  drupal_add_js(
+    array(
+      'mkdruPreprocessExternalUrlCallbacks' => $callbacks,
+    ),
+    array('type' => 'setting')
+  );
+
+  drupal_add_js($path . '/js/recipe.js');
+  drupal_add_js($path . '/js/mkdru_ding.theme.js', array(
+    'type' => 'file',
+    'scope' => 'footer',
+    'defer' => FALSE,
+    'preprocess' => TRUE,
+  ));
+
+  drupal_add_js($path . '/js/mkdru_ding.js', array(
+    'type' => 'file',
+    'scope' => 'footer',
+    'defer' => FALSE,
+    'preprocess' => TRUE,
+  ));
+
+  return array();
+}
