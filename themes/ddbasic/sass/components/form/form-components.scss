@@ -1,0 +1,69 @@
+@import '../../base.scss';
+
+// TODO Why not have this in base/form.scss?
+
+// ==========================================================================
+// Form item
+// ==========================================================================
+
+.form-item {
+  margin: 0 0 10px 0;
+  .count {
+    color: $charcoal-opacity-dark;
+  }
+}
+
+// ==========================================================================
+// Collapsible fieldset
+// ==========================================================================
+
+fieldset.collapsible {
+  legend {
+    margin-bottom: 20px;
+    .summary {
+      margin: 0;
+    }
+  }
+  .fieldset-title {
+    @include arrow-button(arrow-up);
+    &:after {
+      right: 0;
+      top: 10px;
+      background-color: $grey-dark;
+      color: $white-opacity-dark;
+    }
+  }
+  
+  &.collapsed {
+    .fieldset-title {
+      &:after {
+        content: "\e901";
+        background-color: $grey;
+        color: $charcoal-opacity-dark;
+      }
+      &:hover {
+        &:after {
+          background-color: $grey-dark;
+          color: $white-opacity-dark;
+        }
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// Search form
+// ==========================================================================
+
+.form-item-search-block-form {
+  margin: 0;
+  > label {
+    display: none;
+  }
+  input[type="text"].form-autocomplete {
+    background-image: none;
+    &::-ms-clear {
+      display: none;
+    }
+  }
+}

@@ -8,10 +8,16 @@ var jshint = require('gulp-jshint');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var sass = require('gulp-sass');
+var cleanCSS = require('gulp-clean-css');
+var concatCss = require('gulp-concat-css');
+var gulpStylelint = require('gulp-stylelint');
+var gdeb = require('gulp-debug');
+
 
 // We only want to process our own non-processed JavaScript files.
-var jsPath = './scripts/ddbasic.!(*.min).js';
-var sassPath = './sass/**/*.scss';
+// var jsPath = './scripts/ddbasic.!(*.min).js';
+var jsPath = ['./scripts/**/*.js', '!./scripts/contrib/*'];
+var sassPath = ['./sass/**/*.scss', , '!./sass/contrib/**'];
 
 gulp.task('jshint', 'Run Javascript through JSHint',
   function() {
@@ -30,41 +36,55 @@ gulp.task('uglify', 'Minify JavaScript using Uglify',
       }).on('error', gutil.log))
       // Use gulp-rename to change the name of processed files.
       // We keep them in the same folder as the originals.
-      .pipe(rename(function (path) {
-        path.extname = '.min.js';
-      }))
-      .pipe(gulp.dest('./scripts'));
+      // .pipe(rename(function (path) {
+        // path.extname = '.min.js';
+      // }))
+      .pipe(gulp.dest('./scripts/min'));
   }
 );
 
+gulp.task('testsass', function lintCssTask() {
+  const gulpStylelint = require('gulp-stylelint');
+  var argv = require('yargs').argv;
+  var testPath = ['./sass/' + argv.dir + "/*.scss"];
+  console.log("Testing: " + testPath);
+  return gulp
+    .src(testPath)
+    .pipe(gulpStylelint({
+     syntax: 'scss',
+     reporters: [
+        {formatter: 'string', console: true}
+      ]
+    }));
+});
+
+gulp.task('testsassall', function lintCssTask() {
+  const gulpStylelint = require('gulp-stylelint');
+  return gulp
+    .src(sassPath)
+    .pipe(gulpStylelint({
+     syntax: 'scss',
+     reporters: [
+        {formatter: 'string', console: true}
+      ]
+    }));
+});
+
 gulp.task('sass', 'Process SCSS using libsass',
   function () {
-    var includePaths = [
-      'node_modules/compass-mixins/lib',
-      // Zen grids is downloaded as a library using drush make.
-      '../../libraries/zen-grids/stylesheets'
-    ];
-
-    // Reference version of compiled files.
-    // These can be used for debugging or determining changes.
     gulp.src(sassPath)
-      .pipe(sass({
-        // The nested output style is the most verbose one.
-        outputStyle: 'nested',
-        includePaths: includePaths
-      }).on('error', sass.logError))
-      .pipe(gulp.dest('./css'));
-    // Production version of compiled files. These are used by default.
-    gulp.src(sassPath)
-      .pipe(sass({
-        outputStyle: 'compressed',
-        includePaths: includePaths
-      }).on('error', sass.logError))
-      // Add a .min to compiled files to separate them from the verbose set.
-      .pipe(rename(function (path) {
-        path.extname = '.min.css';
+      .pipe(gulpStylelint({
+        syntax: 'scss',
+        failAfterError: false,
+        reporters: [
+          {formatter: 'string', console: true},
+        ]
       }))
-      .pipe(gulp.dest('./css'));
+      .pipe(sass({outputStyle: 'compressed'})
+        .on('error', sass.logError))
+      .pipe(concatCss("bundle.css"))
+      .pipe(cleanCSS())
+      .pipe(gulp.dest('./sass_css'));
   }
 );
 

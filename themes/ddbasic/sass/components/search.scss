@@ -1,0 +1,99 @@
+@import '../base.scss';
+
+// ==========================================================================
+// Search filters
+// ==========================================================================
+.page-search-ting,
+.page-ekurser {
+  .secondary-content {
+    .expand-search {
+      display: none;     
+      @include button(arrow-down);
+      @include media($tablet) {
+        display: block;
+        background: $black;
+        cursor: pointer; 
+        &:hover {
+          display: block;
+          background: $black;
+        }
+      }
+      
+      &.expanded {
+        background: $grey;
+        margin-bottom: 15px;
+        color: $charcoal-opacity-dark;
+        &:after {
+         @include arrow-button(arrow-up);  
+         color: $charcoal-opacity-dark;       
+        }
+      }
+    }
+    .hide-wrap {
+      @include media($tablet) {
+        @include span-columns(12);
+        display: none;
+        @include transition(
+            max-height $speed ease-out, 
+            opacity $speed-fast ease-out
+          );
+        
+        &.open {
+          @include transition(
+            max-height $speed ease-in, 
+            opacity $speed ease-in
+          );
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+
+
+// ==========================================================================
+// Search options
+// ==========================================================================
+
+.pane-search-per-page {
+  @include span-columns(4 of 8);
+  @include media($tablet) {
+    @include span-columns(12);  
+  }
+}
+
+.pane-ting-search-sort-form {
+  @include span-columns(4 of 8);
+  @include omega();
+  @include media($tablet) {
+    @include span-columns(12);  
+    padding-bottom: 40px;
+  }
+}
+
+//.pane-search-result {
+//  float: left;
+//}
+
+
+
+// ==========================================================================
+// Search results
+// ==========================================================================
+
+.ting_search-results,
+.ding_ekurser-results {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  .search-result {
+    float: left;
+    width: 100%;
+    margin-bottom: 10px;
+    
+    @include media($mobile) {
+      margin: 0px;
+    }
+  }
+}
