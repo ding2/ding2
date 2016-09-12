@@ -12,8 +12,9 @@
       width: 100%;
       float: left;
       padding: 23px 20px;
-      margin: 10px 0 10px 0;
+      margin: 10px 0;
       background-color: $grey-dark;
+
       @include media($mobile) {
         padding: 10px;
       }
@@ -21,7 +22,7 @@
         margin: 0;
         color: $white;
         &.form-disabled {
-          label:before {
+          label::before {
             visibility: hidden;
           }
         }

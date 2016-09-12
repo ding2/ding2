@@ -4,108 +4,111 @@
 // User material item
 // ==========================================================================
 
-
 .material-item {
   position: relative;
   float: left;
-  
   min-height: 136px;
   width: 100%;
   padding: 10px 20px;
-  
+
   @include clearfix();
-  
-  @include media($mobile){
+
+  @include media($mobile) {
     padding: 10px;
   }
-  
+
   .left-column {
     float: left;
-    
+
     min-width: 130px;
     min-height: 28px;
-    
-    @include media($mobile){
+
+    @include media($mobile) {
       position: absolute;
-      top: 0px;
-      left: 0px;
+      top: 0;
+      left: 0;
       min-width: 60px;
       min-height: 60px;
     }
-    
+
     .item-checkbox {
       position: absolute;
       left: 20px;
       top: 50%;
+
       @include transform(translateY(-50%));
-      
-      @include media($mobile){
+
+      @include media($mobile) {
         left: 10px;
         top: 10px;
+
         @include transform(translateY(0%));
       }
-      
+
       .form-type-checkbox {
         position: relative;
-        
+
         width: 28px;
         height: 28px;
         margin: 0;
         &.form-disabled {
           visibility: hidden;
         }
-        
+
         label {
           text-indent: -9999px;
-          &:after {
+          &::after {
             text-indent: 0;
           }
         }
       }
     }
-    
+
     .ting-cover {
       float: left;
-      
+
       width: 70px;
       margin-left: 60px;
-      
-      @include media($mobile){
+
+      @include media($mobile) {
         display: none;
       }
     }
-    
+
   }
   .right-column {
     float: left;
     width: calc(100% - 130px);
     padding-left: 30px;
-    
-    @include media($mobile){
+
+    @include media($mobile) {
       width: 100%;
       padding: 0;
     }
-    
+
     .item-title {
       width: 100%;
       float: left;
-      margin: 10px 0 10px 0;
+      margin: 10px 0;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       color: $color-primary;
       &.has-message {
         width: calc(100% - 190px);
+
         @include media($mobile) {
           width: 100%;
         }
       }
       #ding-bookmark-remove-form & {
         width: calc(100% - 170px);
+
         @include media($mobile) {
           width: 100%;
         }
       }
+
       @include media($mobile) {
         width: 100%;
         min-height: 50px;
@@ -114,7 +117,7 @@
         white-space: normal;
       }
     }
-    
+
     .messages.warning {
       position: absolute;
       top: 16px;
@@ -128,13 +131,14 @@
       color: $white;
       border: 0;
       text-align: right;
+
       @include media($mobile) {
         position: static;
         float: right;
         margin-right: -10px;
       }
     }
-    
+
     .item-information-list {
       width: 100%;
       float: left;
@@ -142,6 +146,7 @@
       padding: 0;
       #ding-bookmark-remove-form & {
         width: calc(100% - 170px);
+
         @include media($mobile) {
           width: 100%;
         }
@@ -174,28 +179,27 @@
             }
           }
         }
-        @include media($mobile){
+
+        @include media($mobile) {
           width: 50%;
           box-sizing: border-box;
           padding-right: 10px;
-          margin: 0 0 20px 0;
+          margin: 0 0 20px;
         }
-        
-        
 
-        
         &.loan-date {
           clear: left;
         }
+
         &.url,
         &.created-date {
           display: none;
         }
-        
+
         &.material-number {
           //display: none;
         }
-        
+
         &.pickup-id {
           //display: none;
         }
@@ -205,24 +209,26 @@
         position: absolute;
         right: 20px;
         top: 50%;
+
         @include transform(translateY(-50%));
         margin: 0;
+
         a {
           display: block;
         }
-        
-        @include media($mobile){
+
+        @include media($mobile) {
           @include transform(translateY(0%));
           position: static;
           float: left;
         }
-        
+
       }
     }
   }
   &.odd {
     background-color: $grey-medium;
-    
+
     @include media($mobile) {
       padding-top: 20px;
     }
@@ -230,7 +236,7 @@
       top: 10px;
       .item-checkbox {
         .form-type-checkbox {
-          &:before {
+          &::before {
             background-color: $grey-light;
           }
         }
@@ -238,5 +244,3 @@
     }
   }
 }
-
-
