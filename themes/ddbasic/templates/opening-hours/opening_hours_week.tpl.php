@@ -1,22 +1,12 @@
 <?php
-/**
- * @file
- * Template for rendering opening hours week.
- */
 
+// We need to include the preface, or the openeing_hours module will trigger an
+// error in JavaScript.
 if (!empty($preface)):
   print $preface;
 endif;
 ?>
-<div class="opening-hours-week placeholder" data-nid="<?php print $node->nid; ?>">
-  <div class="header">
-    <a class="prev" href="#prev"><i class="icon-arrow-left"></i></a>
-    <?php print t('Week'); ?>
-    <span class="week_num"></span> –
-    <span class="from_date"></span> –
-    <span class="to_date"></span>
-    <a class="next" href="#next"><i class="icon-arrow-right"></i></a>
-  </div>
-  <div class="days"></div>
+<div class="opening-hours-week">
+  <?php print render($table); ?>
 </div>
 

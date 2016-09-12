@@ -1,0 +1,307 @@
+@import '../../base.scss';
+
+
+.node-ding-news{
+	// ==========================================================================
+	// Teaser
+	// ==========================================================================
+	&.node-teaser {
+	  position: relative;
+	  a {
+	    display: block;
+	    color: $charcoal;
+	    .ding-news-list-image {
+	      &:after {
+	        @include transition(background-color $speed $ease);
+	        content: '';
+	        position: absolute;
+	        top: 0;
+	        left: 0;
+	        width: 100%;
+	        height: 100%;
+	        background-color: transparent;
+	      }
+	      // First child large
+	      .view-ding-news.first-child-large .views-row:first-child & {
+	        padding-top: 40.9090%;
+	        overflow: hidden;
+	        background-size: cover;
+	        &:after {
+	          @include transition(background-color $speed $ease);
+	          opacity: 1;
+	          content: '';
+	          position: absolute;
+	          top: 0;
+	          left: 0;
+	          width: 100%;
+	          height: 100%;
+	        }
+	      }
+	      // Mobile
+	      @include media($mobile) {
+    	     // Make all rows like first child large in slide-on-mobile views
+  	      .view-ding-news.slide-on-mobile .views-row &,
+  	      .view-ding-news.slide-on-mobile .views-row:first-child & {
+  	        padding-top: 55.9090%;
+  	        overflow: hidden;
+            background-size: cover;
+  	      }
+  	      // Make first child like other teaser in views without slide-on-mobile class
+  	      .view-ding-news.first-child-large:not(.slide-on-mobile) .views-row:first-child & {
+    	      padding-top: 55.9090%;
+  	      }
+	      }
+	    }
+
+	    .news-text {
+	      h3.title {
+	        margin: 10px 0 5px;
+	      }
+	      .category-and-submitted {
+	        float: left;
+	        width: 100%;
+	        color: $charcoal-opacity-dark;
+	        > div {
+	          float: left;
+	        }
+	      }
+	      .field-name-field-ding-news-lead {
+	        @include transition(opacity $speed $ease);
+	        position: absolute;
+	        top: 0;
+	        left: 0;
+	        width: 100%;
+	        padding: 25px 15px;
+	        color: $white;
+	        opacity: 0;
+	        overflow: hidden;
+	      }
+	      // First child large
+	      .view-ding-news.first-child-large .views-row:first-child & {
+  	      @include linear-gradient(
+            transparent 0%,
+            $charcoal-opacity-extra-dark 100%
+          );
+	        position: absolute;
+	        bottom: 0;
+	        width: 100%;
+	        padding: 25px 15px 5px;
+	        h3.title {
+	          @include font('header');
+	          margin-top: 0;
+	          color: $white;
+	        }
+	        .category-and-submitted {
+	          margin-bottom: 20px;
+	          color: $white-opacity-dark;
+	        }
+	        .field-name-field-ding-news-lead {
+	          @include span-columns(6 of 8);
+	          @include font('header-small');
+	          @include transition(
+	            height $speed $ease,
+	            opacity $speed $ease
+	          );
+	          position: static;
+	          height: 0;
+	          padding: 0;
+	        }
+	      }
+
+	      // Mobile
+	      @include media($mobile) {
+    	    // Make all rows like first child large in slide-on-mobile views
+  	      .view-ding-news.slide-on-mobile .views-row:first-child &,
+  	      .view-ding-news.slide-on-mobile .views-row & {
+    	      @include linear-gradient(
+              transparent 0%,
+              $charcoal-opacity-extra-dark 100%
+            );
+  	        position: absolute;
+  	        bottom: 0;
+  	        width: 100%;
+  	        padding: 25px 15px 5px;
+  	        h3.title {
+  	          @include font('header');
+  	          margin-top: 0;
+  	          color: $white;
+  	        }
+  	        .category-and-submitted {
+  	          margin-bottom: 20px;
+  	          color: $white-opacity-dark;
+
+  	          @include media($mobile) {
+    	          margin-bottom: 5px;
+  	          }
+  	        }
+  	        .field-name-field-ding-news-lead {
+  	          @include span-columns(6 of 8);
+  	          @include font('header-small');
+  	          @include transition(
+  	            height $speed $ease,
+  	            opacity $speed $ease
+  	          );
+  	          position: static;
+  	          height: 0;
+  	          padding: 0;
+  	        }
+  	      }
+  	      // Make first child like other teaser in views without slide-on-mobile class
+  	      .view-ding-news.first-child-large:not(.slide-on-mobile) .views-row:first-child & {
+    	      @include linear-gradient(
+              transparent 0%,
+              transparent 100%
+            );
+    	      position: static;
+    	      padding: 0;
+    	      h3.title {
+      	      margin: 10px 0 5px;
+              color: $charcoal;
+            }
+            .category-and-submitted {
+              float: left;
+    	        width: 100%;
+    	        margin-bottom: 0;
+    	        color: $charcoal-opacity-dark;
+    	        > div {
+    	          float: left;
+    	        }
+            }
+            .field-name-field-ding-news-lead {
+              display: none;
+            }
+  	      }
+	      }
+	    }
+	    // Hover for non touch devices
+      .no-touch & {
+  	    &:hover {
+  	      .ding-news-list-image {
+  	        &:after {
+  	          background-color: $black-overlay;
+  	        }
+  	        // First child large
+  	        .view-ding-news.first-child-large .views-row:first-child & {
+  	          &:after {
+  	            background-color: $black-overlay;
+  	          }
+  	        }
+  	      }
+  	      .news-text {
+  	        .field-name-field-ding-news-lead {
+  	          opacity: 1;
+  	        }
+  	      }
+  	    }
+	    }
+	  }
+	}
+	// ==========================================================================
+	// Full
+	// ==========================================================================
+	&.node-full {
+  	@include linear-gradient(to top, $white 30px, $grey-light 100%);
+  	padding: 40px 0 30px;
+  	> .inner {
+  		@include wrapper;
+  		.left {
+    		min-height: 1px;
+  			@include span-columns(5);
+  			@include media($tablet)	{
+    		  @include span-columns(6);
+  		  }
+  		  @include media($mobile)	{
+    		  @include span-columns(12);
+    		  margin-bottom: 20px;
+  		  }
+  		}
+  		.right {
+  			@include span-columns(5);
+  			@include media($tablet)	{
+    		  @include span-columns(6);
+  		  }
+  			@include media($mobile)	{
+    		  @include span-columns(12);
+  		  }
+  		}
+
+
+  		h1 {
+  			margin-bottom: 0;
+  			color: $charcoal;
+  			@include font('header');
+  		}
+
+  		h2 {
+  			@include font('header-small');
+  			margin: 20px 0px 5px 0px;
+  		}
+
+  		.meta,
+  		.field-name-field-ding-news-tags {
+  			padding: 10px 0px;
+  			border-top: 1px solid $grey-medium;
+  			border-bottom: 1px solid $grey-medium;
+  			margin: 30px 0px;
+
+  			@include media($mobile){
+    			margin: 15px 0px 30px;
+  			}
+
+  			.author {
+  				margin-bottom: 5px;
+  			}
+
+  			&.field-type-taxonomy-term-reference {
+  				@include span-columns(6 of 8);
+  				margin: 0 0 30px 0;
+
+  				@include media($tablet)	{
+    		    @include span-columns(8 of 8);
+  		    }
+
+  				.field-label {
+  					@include font('base-bold');
+  				}
+  				.field-items .field-item {
+  				    display: inline;
+  				    margin-right: 15px;
+  				}
+  			}
+  		}
+
+  		.field-name-field-ding-news-files {
+    		@include span-columns(6 of 8);
+        margin: 0 0 30px 0;
+
+  			@include media($tablet)	{
+    		  @include span-columns(8 of 8);
+  		  }
+
+  			@include media($mobile){
+    			margin: 15px 0px 30px;
+  			}
+
+  			.field-label {
+  		    @include font('base-bold');
+  		  }
+  		  .file-type {
+    		  margin-left: 6px;
+  		  }
+  		}
+
+  		.field {
+
+  			&.field-name-field-ding-news-lead {
+  				margin: 20px 0px;
+  			}
+
+  			&.field-name-field-ding-news-body {
+  				p {
+  					margin: 20px 0px;
+  				}
+  			}
+  		}
+		}
+	}
+}
