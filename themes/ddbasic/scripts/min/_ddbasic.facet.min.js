@@ -1,0 +1,1 @@
+!function($){$(document).ready(function(){$(".pane-ding-facetbrowser").length&&($("<a />",{"class":"facet-browser-toggle js-facet-browser-hide",href:"#toggle-facet-browser",text:Drupal.t("Limit search results")}).prependTo(".primary-content"),$(".facet-browser-toggle").live("click",function(){$(".js-mobile-facets").toggle()}))})}(jQuery);

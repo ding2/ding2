@@ -1,0 +1,794 @@
+@import '../base.scss';
+
+
+// Components
+//
+//Styleguide 2.
+
+// Class
+//
+// Elements difened by a class that are formattet the same way, 
+// no matter what context they appear in.
+//
+// Styleguide 2.1
+
+*:focus {
+  outline: none !important;
+}
+
+.content-wrapper {
+  @include transition(opacity $speed $ease);
+  // When topbar is open
+  .topbar-is-open &,
+  .overlay-is-active & {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+body > .ding2-site-template {
+  overflow-x: hidden; // Prevent horisontal scroll
+}
+
+// ==========================================================================
+// Responsive step indicators for check in jQuery
+// ==========================================================================
+
+.is-tablet {
+  display: none;
+  // Tablet
+  @include media($tablet) {
+    display: block;
+  }
+}
+.is-mobile {
+  display: none;
+  // Mobile
+  @include media($mobile) {
+    display: block;
+  }
+}
+
+// ==========================================================================
+// Buttons
+// ==========================================================================
+
+// More link button
+//
+// A link button used to link to more content of same type as in the context of the link button
+//
+// :hover  - hover
+//
+// Markup:
+// <div class="more-link">
+//  <a class="{{modifier_class}}">More link</a>
+// </div>
+//
+//Styleguide 2.1.1
+
+.more-link {
+  clear: left;
+  text-align: left;
+  a {
+    @include button(arrow-right);
+    &:after {
+      color: $charcoal-opacity-dark;
+    }
+    // Mobile
+    @include media($mobile) {
+      padding: 20px 20px 14px 15px; //@TODO padding should be like this for all buttons, mobile
+      text-indent: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 96px;
+      &:after {
+        display: none; // hide arrow on mobile
+      }
+      &:before {
+        text-indent: 0%;
+        content: "Se alle";
+        display: inline-block;
+        position: absolute;
+        left: 15px;
+      }
+    }
+  }
+}
+
+
+// Button
+//
+// Place button class on any element to style it as a button
+//
+// :hover  - hover
+//
+// Markup:
+// <div class="button {{modifier_class}}">Button</div>
+// 
+// Styleguide 2.1.2
+
+.button {
+  @extend %button;
+}
+
+// Action Button
+//
+// :hover   - hover
+// .reserve-button       - button for reserving material
+//
+// Markup:
+// <div class="action-button {{modifier_class}}">Button</div>
+// 
+// Styleguide 2.1.3
+
+.action-button {
+  @include transition(
+    background-color $speed $ease,
+    color $speed $ease
+  );
+  color: $charcoal-opacity-dark;
+  background-color: $grey;
+  padding: 20px 80px 14px 15px;
+  border-radius: $round-corner;
+  &.reserve-button {
+    color: $white;
+    background-color: $black;
+  }
+  &:hover {
+    background-color: $grey-dark;
+    color: $white;
+  }
+}
+
+.button-see-online {
+  @extend .action-button;
+}
+
+
+// Submit-button with icon
+//
+// In order to place icon on submit-button we wrap it in a div with the class "submit-button-with-icon" 
+// and place an empty div before it with the class "color-and-icon".
+// Specific icons and hover styles are placed on specific classes in scss
+//
+// .example-icon        - example icon
+// .example-icon:hover  - example-icon hover
+//
+// Markup:
+// <div class="submit-button-with-icon {{modifier_class}}">
+// <div class="color-and-icon"></div>
+// <input type="submit" value="Submit button with icon">
+// </div>
+// 
+// Styleguide 2.1.4
+
+.submit-button-with-icon {
+  position: relative;
+  .color-and-icon {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: $round-corner;
+    background-color: $charcoal;
+  }
+  input[type="submit"] {
+    position: relative;
+    z-index: 2;
+    background-color: transparent;
+  }
+  // Example icon
+  &.example-icon {
+    .color-and-icon {
+      @include button(profile, $white);
+      position: absolute;
+    }
+    // Hover for non touch devices
+    .no-touch & {
+      &:hover {
+        .color-and-icon {
+          background-color: $grey-dark;
+        }
+      }
+    }
+  }
+}
+
+// Topbar link user (Log-in)
+a.topbar-link-user {
+  @include button(profile);
+  .pane-login-is-open & {
+    &:after {
+      content: "\e907";
+    }
+  }
+}
+
+//Topbar mobile menu 
+a.topbar-link-menu {
+  @include button(menu, $charcoal);
+  &:hover {
+    &:after {
+      color: $charcoal;
+    }
+  }
+  .mobile-menu-is-open & {
+    &:after {
+      content: "\e907";
+    }
+  }
+}
+
+//Topbar mobile search
+a.topbar-link-search {
+  @include button(search, $white);
+  .mobile-search-is-open & {
+    &:after {
+      content: "\e907";
+    }
+  }
+}
+
+// Topbar opening hours
+a.topbar-link-opening-hours {
+  @include button(clock, $charcoal-opacity-dark, $white, $white, $color-primary);
+  &:after {
+    color: $color-text;
+  }
+}
+
+// Topbar link signout
+a.topbar-link-signout {
+  @include button(close, $charcoal-opacity-dark, $grey-medium);
+}
+// Topbar link user account
+a.topbar-link-user-account {
+  @extend .button;
+  padding-right: 14px;
+  background-color: $white;
+  &.js-active {
+    @extend .button:hover;
+  }
+}
+
+// Search extended open button
+a.search-extended-button {
+  @include button(search, $white, $charcoal);
+  width: 54px;
+  height: 54px;
+  padding: 0;
+  text-indent: -9999px;
+  &:after {
+    text-indent: 0;
+    right: 0px;
+  }
+  .extended-search-is-open & {
+    &:after {
+      content: "\e907";
+    }
+  }
+  .front & {
+    display: none;
+  }
+}
+
+a.print-button {
+  @include button(print, $charcoal-opacity-dark, $grey-medium);
+}
+
+// ==========================================================================
+// Image styles
+// ==========================================================================
+
+// Image styling 16:9 
+//
+// The class image-styling-16-9 keeps a 16:9 format for images even if the image is another format.
+// This is done by adding a box around the image.
+// The class can also be used on an element with a background-image
+//
+// Markup:
+// <div class="image-styling-16-9">
+// <img src="" />
+// </div>
+//
+// Styleguide 2.1.5
+
+.image-styling-16-9 {
+  display: block;
+  position: relative;
+  background-color: $grey;
+  padding-top: 56.25%; // Creates a 16:9 format
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  img {
+    @include transform(translate(-50%, -50%));
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    max-height: 100%;
+    max-width: 100%;
+    height: auto;
+    width: auto;
+  }
+}
+
+// ==========================================================================
+// Pager
+// ==========================================================================
+
+// Pager
+//
+// Markup:
+// <ul class="pager">
+// <li class="pager-previous"><a>previous</a></li>
+// <li class="pager-item"><a>1</a></li>
+// <li class="pager-current">2</li>
+// <li class="pager-item"><a>3</a></li>
+// <li class="pager-next"><a>next</a></li>
+// </ul>
+//
+// Styleguide 2.1.6
+
+ul.pager {
+  float: left;
+  width: 100%;
+  padding: 0;
+  margin-top: 30px;
+  text-align: center;
+  li {
+    display: inline-block;
+    padding: 0;
+    margin: 17px 5px;
+    a {
+      color: $charcoal;
+    }
+    &.pager-current {
+      color: $color-text;
+      font-weight: $weight-normal;
+    }
+    &.pager-previous,
+    &.pager-next {
+      margin: 0;
+      text-indent: -9999px;
+      a {
+        position: relative;
+        display: block;
+      }
+    }
+    &.pager-previous {
+      float: left;
+      a {
+        @include arrow-button(arrow-left);
+        &:after {
+          
+          top: 0;
+          left: 0;
+          text-indent: 0;
+        }
+      }
+    }
+    &.pager-next {
+      float: right;
+      a {
+        @include arrow-button(arrow-right);
+        &:after {
+          
+          top: 0;
+          right: 0;
+          text-indent: 0;
+        }
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// Opening hours collapsible
+// ==========================================================================
+
+a.js-opening-hours-toggle {
+  @include arrow-button(arrow-up);
+  position: relative;
+  float: left;
+  width: 100%;
+  &:after {
+    right: 0;
+    top: 0;
+    background-color: $grey-dark;
+    color: $white-opacity-dark;
+  }
+  &.js-collapsed {
+    &:after {
+      content: "\e901";
+      background-color: $grey;
+      color: $charcoal-opacity-dark;
+    }
+    &:hover {
+      &:after {
+        background-color: $grey-dark;
+        color: $white-opacity-dark;
+      }
+    }
+  }
+  // When placed in primary content of default panel layout
+  .default-panel-layout .primary-content & {
+    padding: 27px 0;
+    border-top: 1px solid $charcoal-opacity-light;
+    &:after {
+      top: 10px;
+    }
+  }
+}
+
+// ==========================================================================
+// Collapsible field groups
+// ==========================================================================
+
+.field-group-format.collapsible {
+  position: relative;
+  width: 100%;
+  padding: 28px 0 26px;
+  border-top: 1px solid $charcoal-opacity-light;
+  > h2 {
+    @include font('base');
+    margin-bottom: 0;
+    .field-group-format-toggler a {
+      @include arrow-button(arrow-up);
+      &:after {
+        right: 0;
+        top: 10px;
+        background-color: $grey-dark;
+        color: $white-opacity-dark;
+      }
+    }
+  }
+  > div {
+    width: 100% !important;
+    margin-top: 40px;
+  }
+  &.collapsed {
+    > h2 {
+      .field-group-format-toggler a {
+        &:after {
+          content: "\e901";
+          background-color: $grey;
+          color: $charcoal-opacity-dark;
+        }
+        &:hover {
+          &:after {
+            background-color: $grey-dark;
+            color: $white-opacity-dark;
+          }
+        }
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// Ting object related items
+// ==========================================================================
+
+.ting-object-related-item {
+  margin-bottom: 30px;
+  h4 {
+    margin-bottom: 5px;
+  }
+  
+}
+
+// ==========================================================================
+// Ding availability
+// ==========================================================================
+
+.availability.reservable {
+  color: $yellow-text;
+}
+.availability.available, 
+.availability.available.reservable {
+  color: $green-text;
+}
+.availability.available.not-reservable {
+  color: $red-text;
+}
+.availability:hover {
+  color: $charcoal;
+}
+
+
+// ==========================================================================
+// Menu titles
+// ==========================================================================
+
+.sub-menu-title {
+  @include font('header-small');
+  margin-top: 10px;
+  margin-bottom: 20px;
+  a {
+    color: $charcoal;
+  }
+}
+
+// ==========================================================================
+// Primary tabs
+// ==========================================================================
+
+ul.tabs.primary {
+  // Hide on search page
+  // @TODO can we hide these in a better way
+  .page-search & {
+    display: none;
+  }
+}
+
+// ==========================================================================
+// Search overlay
+// ==========================================================================
+
+.search-overlay--wrapper {
+  position: fixed;
+  z-index: $z-overlay;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: $charcoal-opacity-dark;
+  .search-overlay--inner {
+    @include transform(translate(-167px, -105px));
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    padding: 30px 100px 20px;
+    background-color: $color-primary;
+    text-align: center;
+    .icon-spinner {
+      
+      position: relative;
+      display: block;
+      width: 84px;
+      height: 84px;
+      margin: 0 auto 20px;
+      &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        //@include place-icon(spinner, $white, 84px);
+        background-image: url('../../images/spinner.png'); // Changed to background-image because the center was of in icomoon
+        background-size: 100% auto;
+        @include animation(spin 1.0s linear infinite);
+      }
+      @include hidpi() {
+        &:after {
+          background-image: url('../../images/spinner@x2.png');
+          background-size: 100% auto;
+        }
+      }
+    }
+    .search-overlay--text {
+      color: $white;
+      margin-bottom: 15px;
+    }
+    .cancel {
+      margin-bottom: 0;
+      a {
+        color: $charcoal-opacity-dark;
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// Share Buttons
+// ==========================================================================
+
+// Share Button
+//
+// Markup:
+// <div class="social-share-container">
+// <div class="inner">
+// <div class="label">Share this</div>
+// <div class="share-buttons">
+// <a href="#" class="fb-share">Facebook</a>
+// <a href="#" class="twitter-share">Twitter</a>
+// <a href="#" class="mail-share">E-mail</a>
+// </div>
+// </div>
+// </div>
+//
+// Styleguide 2.1.7
+
+.social-share-container {
+  width: 100%;
+  float: left;
+  padding-bottom: 10px;
+  border-bottom: 1px solid $grey-medium;
+  margin-bottom: 30px;
+  .label {
+    @include font('base-bold');
+  }
+  a {
+    display: block;
+    float: left;
+    margin-right: 16px;
+  }
+  //@include span-columns(6 of 8);
+  //height: 74px;
+  //.inner {
+  //  @include span-columns(5 of 6);
+  //  margin: 0;
+  //  clear: both;
+  //  height: 54px;
+  //  border-radius: $round-corner;
+  //  padding: 20px 15px 14px 15px;
+  //  background-color: $grey-medium;
+  //  cursor: pointer;
+  //  @include transition(
+  //	   height $speed $ease,
+  //	   width $speed $ease,
+  //	   background-color $speed $ease,
+  //	   box-shadow $speed $ease
+  //	 );
+  //  .share-buttons {
+  //    float: left;
+  //    width: 100%;
+  //    opacity: 0;
+  //    @include transition(
+  //      opacity $speed $ease
+  //    );
+  //    a {
+  //      display: block;
+  //      float: left;
+  //      color: $color-text;
+  //      margin-right: 16px;
+  //      &:hover {
+  //        color: $charcoal;
+  //      }
+  //    }
+  //  }
+  //  //Hover
+  //  &:hover {
+  //    @include span-columns(6 of 6);
+  //    height: 74px;
+  //    background-color: $white;
+  //    box-shadow: $box-shadow;
+  //    .share-buttons {
+  //      @include transition(
+  //        opacity $speed $hover-delay $ease
+  //      );
+  //      opacity: 1;
+  //    }
+  //  }
+  //}
+}
+// ==========================================================================
+// Video
+// ==========================================================================
+.media-youtube-video,
+.media-vimeo-video {
+  position: relative;
+  width: 100%;
+  padding-top: 60.93%;
+  
+  iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%
+  }
+}
+
+
+// ==========================================================================
+// Misc
+// ==========================================================================
+
+// Info dash is used between information elements on fx. news and events
+.info-dash {
+  margin: 0 5px;
+}
+
+.page-lead {
+  margin-bottom: 20px;
+}
+
+// Hide ajax progress throbber
+.ajax-progress-throbber {
+  display: none;
+}
+
+// Slick slider
+.slick-slider {
+  .slick-list {
+    padding-bottom: 80px;
+    // In event view
+    .view-ding-event & {
+      padding-bottom: 70px;
+    }
+  }
+  
+  .slick-arrow {
+    @include transition(
+      opacity $speed $ease
+    );
+    position: absolute;
+    bottom: 0px;
+    text-indent: -9999px;
+    width: 68px;
+    height: 54px;
+    overflow: hidden;
+    padding: 0px;
+    margin: 0px;
+    z-index: 1;
+    cursor: pointer;
+    border: 0;
+    background: none;
+    
+    @include media($mobile){
+      width: 54px;
+    }
+       
+    &:after {
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      height: 100%;
+      text-indent: 0;
+    }
+  
+    &:focus {
+      outline: 0px;
+    }
+    
+    &.slick-prev {
+      right: 80px;
+      @include arrow-button(arrow-left, $color-secondary);
+      // Mobile
+      @include media($mobile) {
+        right: 66px;
+      }
+    }
+    
+    &.slick-next {
+      right: 0;
+      @include arrow-button(arrow-right, $color-secondary);
+    }
+    &.slick-prev,
+    &.slick-next {
+      &.slick-disabled {
+        opacity: $disabled;
+        // Hover
+        &:hover {
+          cursor: default;
+          &:after {
+            background-color: $grey;
+            color: $charcoal-opacity-dark;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Ask vopros tab
+body {
+  .ask-vopros-tab {
+    z-index: $z-overlay;
+    right: 0;
+    margin-left: 0;
+    .ask-vopros-icon {
+      img {
+        display: inline;
+        width: 36px;
+        height: auto;
+      }
+    }
+  }
+}
+
