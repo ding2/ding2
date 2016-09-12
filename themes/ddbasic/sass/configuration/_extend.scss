@@ -1,0 +1,24 @@
+
+
+%button {
+  @include transition(
+    background-color $speed $ease,
+    color $speed $ease
+  );
+  display: block;
+  border-radius: $round-corner;
+  padding: 20px 80px 14px 15px;
+  background-color: $grey;
+  color: $charcoal;
+  // Hover for non touch devices
+  .no-touch & {
+    &:hover {
+      background-color: $color-secondary;
+      color: $color-text-on-secondary;
+    }
+  }
+  
+  @include media($mobile) {
+    padding: 20px 20px 14px 15px;
+  }
+}

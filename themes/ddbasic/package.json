@@ -8,7 +8,6 @@
   "author": "",
   "homepage": "https://github.com/ding2/ding2",
   "dependencies": {
-    "compass-mixins": "^0.12.7",
     "gulp": "^3.9.0",
     "gulp-help": "^1.6.1",
     "gulp-jshint": "^1.11.2",
@@ -16,6 +15,24 @@
     "gulp-sass": "^2.0.4",
     "gulp-uglify": "^1.2.0",
     "gulp-util": "^3.0.6",
-    "jshint-stylish": "^2.0.1"
+    "jshint-stylish": "^2.0.1",
+    "gulp-clean-css": "^2.0.11",
+    "gulp-concat-css": "^2.3.0",
+    "gulp-stylelint": "^2.0.2",
+    "stylelint-config-standard":"^10.0.0",    
+    "gulp-filter": "^4.0.0",
+    "gulp-debug": "^2.1.2"
+    
+  },
+  "devDependencies": {
+    "kss": "^3.0.0-beta.14"
+  },
+  "stylelint": {
+    "extends": "stylelint-config-standard",
+    "rules": {
+      "no-invalid-double-slash-comments": null,
+      "at-rule-no-unknown": null,
+      "function-name-case": null
+    }
   }
 }

@@ -1,0 +1,79 @@
+@import '../base.scss';
+
+#sliding-popup {
+  &.sliding-popup-bottom {
+    background: $black;
+    
+    .popup-content {
+      position: relative;
+      @include wrapper;
+      height: 180px;
+      #popup-text {
+        max-width: none;
+        @include font('base');
+        float: none;
+        padding-top: 20px;
+        padding-bottom: 10px;  
+        p {
+          margin: 0px;
+          &:nth-child(1){
+            @include font('header-small');
+          }
+          
+          a {
+            color: $white;
+            &:hover {
+              color: $white;
+            }
+          }
+        }
+        
+        @include media($mobile) {
+          float: left;
+          padding-bottom: 10px;
+          width: calc(100% - 40px);
+        }
+      }
+      
+      #popup-buttons {
+        max-width: none;
+        float: left;
+        .agree-button,
+        .find-more-button {
+          @extend %button;
+          @include font('base');
+          background: $charcoal;
+          color: white;
+          float: left;
+          margin-right: 20px;
+          text-shadow: none;
+          border: none;
+          box-shadow: none;
+          
+          @include media($mobile) {
+            width: 100% !important;
+            margin: 0px 0px 15px 0px !important;
+            text-align: left;
+          }
+        }
+      }
+      
+      .close {
+        @include place-icon('close', $white, 60px);
+        position: absolute;
+        right: 0px;
+        width: 40px;
+        height: 40px;
+        line-height: 60px;
+        top: 50%;
+        margin-top: -20px;
+        cursor: pointer;
+        
+        @include media($mobile) {
+          top: 25px;
+   
+        }
+      }
+    }
+  }
+}
