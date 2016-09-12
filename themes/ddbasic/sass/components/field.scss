@@ -1,13 +1,12 @@
 @import '../base.scss';
 
-
 // ==========================================================================
 // Ting fields
 // ==========================================================================
-
 .field-name-ting-author {
   color: $charcoal-opacity-dark;
 }
+
 .field-name-ting-subjects {
   strong {
     display: block;
@@ -16,11 +15,13 @@
     margin-right: 15px;
   }
 }
+
 .field-name-ting-series {
   .field-label {
     @include font('base-bold');
-  } 
+  }
 }
+
 .field-name-ding-availability-holdings {
   p {
     margin-bottom: 0;
@@ -29,6 +30,7 @@
     margin-top: 20px;
   }
 }
+
 .field-name-ting-type {
   ul {
     margin: 0;
@@ -39,16 +41,17 @@
     }
   }
 }
+
 .field-name-ting-details-subjects,
 .field-name-ting-details-contributor,
 .field-name-ting-details-tracks,
 .field-name-ting-details-genre {
   .ting-material-detail {
-    &:after {
+    &::after {
       content: ', ';
     }
     &:last-child {
-      &:after {
+      &::after {
         content: '';
       }
     }
@@ -58,7 +61,6 @@
 // ==========================================================================
 // Ding fields
 // ==========================================================================
-
 .field-name-field-ding-library-title-image {
   margin-bottom: 20px;
 }
@@ -90,7 +92,6 @@
 // ==========================================================================
 // Ting Carousel field
 // ==========================================================================
-
 .ting-carousel-field {
   margin-left: -2.5%;
   > .field-items {
@@ -103,6 +104,7 @@
       }
     }
   }
+
   // Notebook
   @include media($notebook) {
     > .field-items {
@@ -115,6 +117,7 @@
       }
     }
   }
+
   // Mobile
   @include media($mobile) {
     margin-left: 0;
@@ -133,7 +136,6 @@
 // ==========================================================================
 // Search fields
 // ==========================================================================
-
 div.search-field-in-content--message {
   width: 100%;
   float: left;
@@ -147,7 +149,6 @@ div.search-field-in-content--message {
 // ==========================================================================
 // Ting reference reverse
 // ==========================================================================
-
 .field-name-ting-reference-reverse {
   .search-results {
     ul {

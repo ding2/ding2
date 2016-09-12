@@ -1,6 +1,5 @@
 @import '../base.scss';
 
-
 // Base
 //
 // Styleguide 1.
@@ -9,15 +8,17 @@
 //
 // Styleguide 1.1
 
-
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
+
   @include font('base');
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: $color-standard-text;
 }
+
 body {
   @include transition(background-color $speed $ease);
   padding-top: $header-height; // Compensate for fixed header
@@ -25,7 +26,6 @@ body {
   // Toolbar
   &.toolbar {
     padding-top: $header-height + $toolbar-height !important;
-    
     &.search-form-extended.front {
       padding-top: $header-height + $search-form-extended-height + $toolbar-height !important;
     }
@@ -61,7 +61,6 @@ body {
       }
     }
   }
-  
 }
 
 // Headers
@@ -73,23 +72,30 @@ body {
 //
 // Styleguide 1.1.1
 
-h1,h2,h3,h4 {
+h1,
+h2,
+h3,
+h4 {
   margin-top: 0;
   font-weight: $weight-normal;
 }
+
 h1 {
   @include font('header-large');
   color: $color-primary;
   margin-bottom: 30px;
 }
+
 h2 {
   @include font('header');
   margin-bottom: 30px;
 }
+
 h3 {
   @include font('header-small');
   margin-bottom: 20px;
 }
+
 h4 {
   @include font('base-bold');
   margin-bottom: 20px;
@@ -111,9 +117,8 @@ img.file-icon {
   display: none;
 }
 
-
 // Links
-// 
+//
 // :hover   - hover
 //
 // Markup:

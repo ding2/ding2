@@ -14,9 +14,10 @@
         margin-bottom: 8px;
         a {
           @include button(arrow-right, $charcoal-opacity-dark, $grey);
-          &:after {
+          &::after {
             color: $charcoal-opacity-dark;
           }
+
           @include font('base');
         }
       }

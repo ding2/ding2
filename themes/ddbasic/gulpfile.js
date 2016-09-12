@@ -88,11 +88,26 @@ gulp.task('sass', 'Process SCSS using libsass',
   }
 );
 
+gulp.task('kss', 'Process SCSS using KSS',
+  function () {
+    var gulpkss = require('gulp-kss');
+    gulp.src(['sass/**/*.scss'])
+      .pipe(gulpkss({
+        overview: './sass/kss_styleguide.md',
+        // kss-node options https://github.com/kss-node/kss-node
+        kss: {
+          css: './sass_css/bundle.css'
+        }
+      }))
+      .pipe(gulp.dest('styleguide/'));
+  }
+);
+
 gulp.task('watch', 'Watch and process JS and SCSS files', ['uglify', 'sass'],
   function() {
     gulp.watch(jsPath, ['jshint', 'uglify']);
     gulp.watch(sassPath, ['sass']);
-  }
+    }
 );
 
 gulp.task('default', ['help']);

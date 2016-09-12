@@ -14,7 +14,7 @@
           width: 100%;
           margin-right: 0;
         }
-        &:before {
+        &::before {
           content: '';
           position: absolute;
           z-index: 1;
@@ -27,7 +27,7 @@
         }
         h2 {
           @include linear-gradient(
-            transparent 0%, 
+            transparent 0%,
             $charcoal-opacity-extra-dark 100%
           );
           border-radius: $round-corner;
@@ -55,6 +55,7 @@
           img {
             @include transition(opacity $speed $ease);
             border-radius: $round-corner;
+
             @include filter(grayscale(100%));
             position: relative;
             z-index: $z-content - 2;

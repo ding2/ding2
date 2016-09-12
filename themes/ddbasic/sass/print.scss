@@ -1,23 +1,22 @@
 //Default settings
-
 @media print {
   body {
     padding-top: 0;
   }
-  
+
   .site-header,
   .footer {
     display: none;
   }
-  
+
   .secondary-content {
     display: none !important;
   }
-  
+
   .primary-content {
     width: 100% !important;
   }
-  
+
   //Hide specific elements
   a.print-button,
   .actions-container,
@@ -25,37 +24,35 @@
   .pane-page-messages {
     display: none !important;
   }
-  
-  
-  
+
   .pane-title {
     width: 100% !important;
   }
-  
+
   //User
   .material-item {
     .left-column {
-      min-width: 0;   
+      min-width: 0;
       .item-checkbox {
         display: none;
       }
       .ting-cover {
-        margin-left: 0px;
+        margin-left: 0;
       }
     }
     &.odd {
-      background-color: #cccccc;
-      -webkit-print-color-adjust: exact; 
+      background-color: #ccc;
+      -webkit-print-color-adjust: exact;
     }
   }
-  
+
   .select-all {
     -webkit-print-color-adjust: exact;
     label.option {
       padding-left: 0;
-      &:before {
+      &::before {
         display: none;
       }
-    } 
+    }
   }
 }

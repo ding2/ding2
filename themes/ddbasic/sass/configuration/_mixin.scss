@@ -21,7 +21,7 @@
 // Omega reset
 @mixin omega-reset($nth, $columns) {
   &:nth-child(#{$nth}) { margin-right: flex-gutter($columns); }
-  &:nth-child(#{$nth}+1) { clear: none }
+  &:nth-child(#{$nth}+1) { clear: none; }
 }
 
 // ==========================================================================
@@ -32,48 +32,63 @@
 %icon-arrow-down-small {
   content: "\e900";
 }
+
 %icon-arrow-down {
   content: "\e901";
 }
+
 %icon-arrow-left {
   content: "\e902";
 }
+
 %icon-arrow-right {
   content: "\e904";
 }
+
 %icon-arrow-up {
   content: "\e905";
 }
+
 %icon-close {
   content: "\e907";
 }
+
 %icon-menu {
   content: "\e908";
 }
+
 %icon-print {
   content: "\e90a";
 }
+
 %icon-profile {
   content: "\e90b";
 }
+
 %icon-search {
   content: "\e90c";
 }
+
 %icon-arrow-right-small {
   content: "\e903";
 }
+
 %icon-plus {
   content: "\e909";
 }
+
 %icon-minus {
   content: "\e90d";
 }
+
 %icon-check {
   content: "\e906";
 }
-%icon-clock{
+
+%icon-clock {
   content: "\e90e";
 }
+
 %icon-spinner {
   content: "\e90f";
 }
@@ -81,22 +96,26 @@
 %icon-facebook-with-circle {
   content: "\e910";
 }
+
 %icon-facebook {
   content: "\e911";
 }
+
 %icon-instagram-with-circle {
   content: "\e912";
 }
+
 %icon-instagram {
   content: "\e913";
 }
+
 %icon-twitter-with-circle {
   content: "\e914";
 }
+
 %icon-twitter {
   content: "\e915";
 }
-
 
 // Place-icon
 //
@@ -111,12 +130,11 @@
 // Styleguide 3.1.2
 
 @mixin place-icon(
-  $icon, 
-  $color: $charcoal-opacity-dark, 
-  $size: 54px
-  ) {
+  $icon,
+  $color: $charcoal-opacity-dark,
+  $size: 54px) {
   position: relative;
-  &:after {
+  &::after {
     @extend %icon-#{$icon};
     font-family: 'icomoon';
     font-size: $size;
@@ -134,12 +152,11 @@
 }
 
 @mixin place-icon-before(
-  $icon, 
+  $icon,
   $color: #fff,
-  $size: 20px
-  ) {
+  $size: 20px) {
   position: relative;
-  &:before {
+  &::before {
     @extend %icon-#{$icon};
     font-family: 'icomoon';
     font-size: $size;
@@ -171,12 +188,12 @@
 // Styleguide 3.1.3
 
 @mixin button(
-  $icon, 
-  $color: $color-text-on-secondary, 
+  $icon,
+  $color: $color-text-on-secondary,
   $background-color: $color-secondary,
   $color-hover: $white,
   $background-color-hover: $grey-dark
-  ) {
+) {
   @include place-icon($icon, $color);
   @include transition(
     background-color $speed $ease,
@@ -188,7 +205,7 @@
   padding: 20px 80px 14px 15px;
   background-color: $background-color;
   color: $color;
-  &:after {
+  &::after {
     @include transition(color $speed $ease);
     right: 7px;
   }
@@ -197,7 +214,7 @@
     &:hover {
       background-color: $background-color-hover;
       color: $color-hover;
-      &:after {
+      &::after {
         color: $color-hover;
       }
     }
@@ -218,8 +235,8 @@
 @mixin arrow-button(
   $icon,
   $background-color: $grey
-  ) {
-  &:after {
+) {
+  &::after {
     @extend %icon-#{$icon};
     @include transition(
       background-color $speed $ease,
@@ -241,6 +258,7 @@
     background-color: $background-color;
     color: $charcoal-opacity-dark;
     border-radius: $round-corner;
+
     @include media($mobile) {
       width: 54px;
     }
@@ -248,12 +266,10 @@
   // Hover for non touch devices
   .no-touch & {
     &:hover {
-      &:after {
+      &::after {
         background-color: $grey-dark;
         color: $white;
       }
     }
   }
 }
-
-

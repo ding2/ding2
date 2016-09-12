@@ -6,7 +6,10 @@
     margin-bottom: 20px;
   }
   .kss-style {
-    h1,h2,h3,h4 {
+    h1,
+    h2,
+    h3,
+    h4 {
       .kss-title__ref {
         margin-bottom: 5px;
       }
@@ -31,14 +34,13 @@
     border-bottom: 1px solid $grey;
   }
 
-
   // Navigation
   .kss-nav {
     > .kss-nav__menu {
       > .kss-nav__menu-item {
         > .kss-nav__menu-child {
           font-size: 14px;
-        }  
+        }
       }
     }
     .kss-nav__menu-link {
@@ -63,7 +65,7 @@
   .kss-modifier__example {
     @include clearfix();
   }
-  
+
   // Dummy content
   .dummy-content {
     height: 200px;

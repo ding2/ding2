@@ -1,6 +1,5 @@
 @import '../base.scss';
 
-
 // ==========================================================================
 // Messages
 // ==========================================================================
@@ -14,11 +13,9 @@
     .pane-content {
       position: relative;
       .messages {
-        padding: 40px 0 20px 0;
+        padding: 40px 0 20px;
         border: none;
         background-color: $grey-light;
-        
-        
         > ul {
           list-style: none;
           margin: 0;
@@ -36,15 +33,14 @@
         right: -18px;
         width: 54px;
         height: 54px;
-        
         .close-messages-button {
           @include place-icon(close);
           display: block;
-          &:after {
+          &::after {
             @include transition(color $speed $ease);
           }
           &:hover {
-            &:after {
+            &::after {
               color: $charcoal;
             }
           }

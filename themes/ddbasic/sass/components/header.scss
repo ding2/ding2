@@ -16,12 +16,11 @@
     width: 100%;
     background-color: $grey-light;
     box-shadow: $box-shadow;
-    
+
     // Tablet
-    @include media($tablet){
+    @include media($tablet) {
       box-shadow: none;
     }
-    
     // Toolbar
     .toolbar & {
       top: $toolbar-height;
@@ -31,12 +30,12 @@
       @include transition(height $speed $ease);
       position: relative;
       height: 64px;
-      
+
       // Tablet
       @include media($tablet) {
         width: 100%;
       }
-      
+
       .logo {
         @include span-columns(3);
         height: 44px;
@@ -50,7 +49,7 @@
           }
           &.logo-container {
             .site-name {
-              display: none; 
+              display: none;
             }
             .vertical-helper {
               display: inline-block;
@@ -59,7 +58,6 @@
             }
             img {
               display: inline-block;
-              //float: left;
               vertical-align: middle;
               max-height: 100%;
               max-width: 95%;
@@ -68,7 +66,7 @@
             }
           }
         }
-        
+
         // Tablet
         @include media($tablet) {
           position: relative;
@@ -83,12 +81,13 @@
             width: 100%;
           }
         }
+
         // Tablet
         @include media($mobile) {
           .site-name-container {
             &.logo-container {
               .site-name {
-                display: block; 
+                display: block;
               }
               .vertical-helper,
               img {
@@ -99,7 +98,7 @@
         }
       }
       .topbar-menu {
-        
+
         // Tablet
         @include media($tablet) {
           width: 100%;
@@ -110,15 +109,15 @@
           background-color: $color-primary;
           box-shadow: $box-shadow;
         }
-        
+
       }
       .pane-user-name {
         float: right;
         width: getColumn(4);
-        margin-right: getGutter(12)/2;
-        
+        margin-right: getGutter(12) / 2;
+
         // Tablet
-        @include media($tablet){
+        @include media($tablet) {
           display: none;
         }
       }
@@ -130,6 +129,7 @@
     z-index: $z-header - 1;
     top: $topbar-height;
     width: 100%;
+
     // Tablet
     @include media($tablet) {
       z-index: $z-header - 1;
@@ -145,6 +145,7 @@
         position: fixed;
         z-index: $z-header + 1;
         top: 0;
+
         // Tablet
         @include media($tablet) {
           @include transition(
@@ -177,6 +178,7 @@
         z-index: 2;
         right: 0;
         padding: 15px 0;
+
         // Tablet
         @include media($tablet) {
           @include transform(translateY(-102%));
@@ -186,24 +188,23 @@
           box-shadow: $box-shadow;
           background-color: $color-primary;
           padding: 15px 5%;
-          
           .mobile-search-is-open & {
             @include transform(translateY(0%));
           }
         }
-        
         .form-item-search-block-form {
           width: getColumn(2 of 3) + getGutter(3);
           float: left;
           input[type="text"] {
             @include transition(width $speed $ease);
-            border-radius: $round-corner 0px 0px $round-corner;
+            border-radius: $round-corner 0 0 $round-corner;
             width: 100%;
             float: right;
             &:focus {
               width: getColumn(4 of 2);
             }
           }
+
           // Tablet
           @include media($tablet) {
             width: getColumn(10) + getGutter();
@@ -214,6 +215,7 @@
               }
             }
           }
+
           // Mobile
           @include media($mobile) {
             width: getColumn(9) + getGutter();
@@ -223,18 +225,19 @@
           width: getColumn(1 of 3);
           float: left;
           input[type="submit"] {
-            border-radius: 0px $round-corner $round-corner 0px;
+            border-radius: 0 $round-corner $round-corner 0;
           }
+
           // Tablet
           @include media($tablet) {
             width: getColumn(2);
           }
+
           // Mobile
           @include media($mobile) {
             width: getColumn(3);
           }
         }
-        
         // Search form extended
         .search-form-extended & {
           @include transition(
@@ -260,7 +263,6 @@
             margin-left: 0;
             margin-right: 0;
           }
-          
           .search-field-wrapper {
             @include wrapper;
             position: relative;
@@ -270,17 +272,16 @@
               width: 100%;
             }
           }
-          
           .search-extended-button {
             position: absolute;
             right: 0;
             top: $search-form-extended-height;
+
             // Tablet
             @include media($tablet) {
               display: none;
             }
           }
-          
           .search-field {
             width: 100%;
             .form-item-search-block-form {
@@ -290,12 +291,12 @@
                   width: 100%;
                 }
               }
+
               // Tablet
               @include media($tablet) {
                 width: calc(68.3274% - 70px);
               }
             }
-            
             .form-actions {
               width: getColumn(1);
               float: right;
@@ -311,13 +312,13 @@
                   color: $white;
                 }
               }
+
               // Tablet
               @include media($tablet) {
                 width: 70px;
               }
             }
           }
-          
           .form-item-material-type {
             position: absolute;
             right: getColumn(1);
@@ -328,10 +329,11 @@
               border-radius: 0;
               border: 1px solid $white;
               border-left: 1px solid $grey;
-              &:before {
+              &::before {
                 background-color: $white;
               }
             }
+
             // Tablet
             @include media($tablet) {
               width: getColumn(4);
@@ -339,7 +341,6 @@
             }
           }
         }
-        
         // Toolbar
         .toolbar & {
           top: $toolbar-height;
@@ -365,7 +366,6 @@
         .extended-search-is-open.toolbar & {
           top: $topbar-height + $toolbar-height;
         }
-          
         // Search form extended front
         .search-form-extended.front & {
           box-shadow: $box-shadow;
@@ -373,12 +373,10 @@
             display: none;
           }
         }
-        
         // Mobile search open
         .mobile-search-is-open & {
           top: $header-height !important;
         }
-        
         .search-form-extended.search-form-no-materials & {
           .search-field {
             width: 100%;
@@ -406,10 +404,11 @@
     width: 100%;
     background-color: $color-primary;
     box-shadow: $box-shadow;
+
     // Tablet
     @include media($tablet) {
       display: block;
-      height: 0px;
+      height: 0;
     }
     // Toolbar
     .toolbar & {
@@ -447,6 +446,7 @@
     .navigation-inner {
       @include wrapper;
       position: relative;
+
       // Tablet
       @include media($tablet) {
         @include transition(
@@ -466,7 +466,6 @@
           @include transform(translateY(0%));
         }
       }
-      
       .main-menu-wrapper {
         @include transition(
           transform $speed $ease,
@@ -485,7 +484,6 @@
             width: 100%;
           }
         }
-        
       }
       .secondary-menu-wrapper {
         display: none;
@@ -494,7 +492,7 @@
           display: block;
           float: right;
           padding-right: 69px;
-          
+
           // Tablet
           @include media($tablet) {
             width: 100%;
@@ -515,6 +513,7 @@
         width: 100%;
         background-color: $charcoal;
         box-shadow: $box-shadow;
+
         // Tablet
         @include media($tablet) {
           display: none;
@@ -529,13 +528,13 @@
         .search-form-extended.extended-search-is-open & {
           top: $header-height + $search-form-extended-height;
         }
-        &:before {
+        &::before {
           content: '';
           display: block;
           height: 1px;
           width: 100%;
           background-color: $black;
-          box-shadow: 0px 5px 10px 0px $black;
+          box-shadow: 0 5px 10px 0 $black;
         }
         > .panel-pane-inner {
           @include wrapper;
@@ -550,7 +549,7 @@
       @include transform(translateY(-64px));
       .topbar-inner {
         .logo {
-          box-shadow: none;  
+          box-shadow: none;
         }
       }
     }
@@ -558,6 +557,7 @@
       > .header-inner {
         .js-mobile-user-menu,
         .pane-search-form {
+
           // Mobile
           @include media($mobile) {
             @include transition(
@@ -568,6 +568,7 @@
           }
         }
         .js-mobile-user-menu {
+
           // Mobile
           @include media($mobile) {
             max-height: calc(100% - 84px);
@@ -591,6 +592,5 @@
         }
       }
     }
-    
   }
 }

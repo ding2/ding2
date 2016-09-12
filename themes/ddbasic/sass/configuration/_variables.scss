@@ -12,23 +12,22 @@ $color-standard-text: #474747;
 $charcoal: #262626;
 $charcoal-opacity-extra-dark: rgba(38, 38, 38, 0.8);
 $charcoal-opacity-dark: rgba(38, 38, 38, 0.54);
-$charcoal-opacity-light: rgba(38, 38, 38, 0.2); 
+$charcoal-opacity-light: rgba(38, 38, 38, 0.2);
 $white: #fff;
 $white-opacity-dark: rgba(255, 255, 255, 0.54);
 $white-opacity-light: rgba(255, 255, 255, 0.2);
 
 $grey-light: #f1f2f2;
 $grey: #e5e5e5;
-$grey-medium: #cccccc;
+$grey-medium: #ccc;
 $grey-dark: #808285;
 
-$green: #24D273;
+$green: #24d273;
 $green-text: darken($green, 10);
-$red: #E22045;
+$red: #e22045;
 $red-text: $red;
-$yellow: #FFCA5F;
+$yellow: #ffca5f;
 $yellow-text: darken($yellow, 15);
-
 
 // ==========================================================================
 // Distance
@@ -42,12 +41,11 @@ $wrapper-width: 90%;
 $search-form-extended-height: 84px;
 $toolbar-height: 65px;
 
-
 // ==========================================================================
 // Misc
 // ==========================================================================
 $round-corner: 5px;
-$box-shadow: 0px 5px 15px 0px rgba(0,0,0,0.3);
+$box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.3);
 $box-padding: 15px;
 $disabled: 0.3;
 
@@ -58,7 +56,6 @@ $speed: 300ms;
 $speed-fast: 150ms;
 $hover-delay: 400ms;
 $ease: $ease-out-quart;
-
 
 // ==========================================================================
 // z-index

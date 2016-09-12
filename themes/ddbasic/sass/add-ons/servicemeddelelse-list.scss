@@ -22,7 +22,7 @@
       display: block;
       a {
         @include transition(
-          background-color $speed $ease, 
+          background-color $speed $ease,
           color $speed $ease
         );
         @include font('header-small');

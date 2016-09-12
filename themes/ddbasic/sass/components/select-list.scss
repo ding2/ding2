@@ -22,16 +22,13 @@
     padding: 0;
     margin: 0;
     list-style: none;
-    
     li {
       margin-bottom: 15px;
-      
       .list-item {
         position: relative;
         display: inline-block;
         padding: 7px 0 1px 42px;
-        
-        &:before {
+        &::before {
           content: '';
           position: absolute;
           left: 0;
@@ -42,15 +39,12 @@
           border-radius: $round-corner;
           background-color: $grey;
         }
-        
         &.active {
           @include place-icon(check, $color-text-on-primary, 28px);
-          
-          &:after {
+          &::after {
             left: 0;
           }
-          
-          &:before {
+          &::before {
             background-color: $color-primary;
           }
         }

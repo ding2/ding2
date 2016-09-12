@@ -4,64 +4,65 @@
   // ==========================================================================
   // Full
   // ==========================================================================
-  &.view-mode-full {  
+  &.view-mode-full {
     .ting-object-left {
       @include span-columns(3 of 12);
       min-height: 1px;
-      
+
       @include media($mobile) {
-         width: auto;
-         float: none;
-         
-         .ting-cover{
+        width: auto;
+        float: none;
+
+        .ting-cover {
           @include span-columns(4 of 12);
-          float: left;          
+          float: left;
 
           &:last-child {
-            margin-right: inherit; 
+            margin-right: inherit;
           }
-
-         }
+        }
       }
     }
-    
+
     .ting-object-right {
       @include span-columns(9 of 12);
       @include omega();
-      
-      @include media($mobile){
+
+      @include media($mobile) {
         width: auto;
         float: none;
       }
-      
+
       .ting-object-right-meta {
         float: left;
-        @include media($mobile){
+
+        @include media($mobile) {
           @include span-columns(8 of 12);
-          margin-right: 0px;
-        }  
+          margin-right: 0;
+        }
       }
-      
+
       .ting-object-right-content {
         @include span-columns(5 of 9);
         margin-bottom: 20px;
-        
-        @include media($mobile){
+
+        @include media($mobile) {
           width: auto;
         }
       }
-      
+
       .ting-object-right-actions {
         @include span-columns(3 of 9);
         @include omega();
         float: right;
-        @include media($mobile){
+
+        @include media($mobile) {
           @include span-columns(9 of 9);
           margin-top: 20px;
         }
       }
-    } 
-    
+    }
+
     .ting-object-inner-wrapper {
       .field-name-ting-series {
         margin-top: 30px;
@@ -71,27 +72,27 @@
         display: block;
         padding-right: 15px;
         margin-bottom: 15px;
-        
-        @include media($mobile){
+
+        @include media($mobile) {
           @include span-columns(6);
           margin-bottom: 10px;
-          padding-right: 0px;
+          padding-right: 0;
         }
-      } 
+      }
       .field-name-ting-type {
-        ul {      
+        ul {
           margin: 0;
-          
+
           list-style: none;
-          
+
           li {
             margin: 0;
-            color: $charcoal-opacity-dark;  
+            color: $charcoal-opacity-dark;
           }
         }
       }
       .field-name-ting-title h2 {
-        @include font('header'); 
+        @include font('header');
         margin-bottom: 5px;
       }
       .field-name-ting-author {
@@ -104,9 +105,9 @@
       }
       .field-name-ting-subjects {
         margin-bottom: 30px;
-        
-        @include media($mobile){
-          margin-bottom: 0px;
+
+        @include media($mobile) {
+          margin-bottom: 0;
         }
       }
       .group-material-details {
@@ -126,18 +127,18 @@
       }
     }
   }
-  
+
   // ==========================================================================
   // Teaser
   // ==========================================================================
 
   &.view-mode-teaser {
-    >.inner {     
+    > .inner {
       position: relative;
       width: 100%;
       padding-top: 130%;
       background: $grey-dark;
-      
+
       /* book-cover */
       .ting-cover {
         position: absolute;
@@ -146,13 +147,13 @@
         width: 100%;
         height: 100%;
         overflow: hidden;
-        
+
         img {
           position: absolute;
           left: 50%;
           top: 50%;
           transform: translate(-50%, -50%);
-          
+
           &.scale-height {
             height: 100%;
             width: auto;
@@ -164,21 +165,22 @@
             max-height: none;
           }
         }
-        
+
         /* gradient */
-        &:after {
+        &::after {
           position: absolute;
           top: 0;
           left: 0;
           display: block;
           width: 100%;
           height: 100%;
-          content: ""; 
-          background: linear-gradient( $charcoal 0%, $charcoal-opacity-light 60%, transparent 100% );
-          @include transition( opacity $speed $ease );
+          content: "";
+          background: linear-gradient($charcoal 0%, $charcoal-opacity-light 60%, transparent 100%);
+
+          @include transition(opacity $speed $ease);
         }
       }
-            
+
       .group_text {
         @include transition(
           left $speed $ease,
@@ -190,86 +192,88 @@
         left: 0;
         width: 100%;
         height: 100%;
-        
+
         .touch & {
           pointer-events: none;
         }
-        
+
         .field-name-ting-details-type {
           color: $white;
-          padding: 20px 20px 0px 20px;
+          padding: 20px 20px 0;
         }
-        
+
         .field-name-ting-title {
           h2 {
             @include transition(width $speed $ease);
             @include font('header-small');
             width: 100%;
-            margin-bottom: 0px;
-            padding: 0px 20px;
+            margin-bottom: 0;
+            padding: 0 20px;
             color: $white;
           }
         }
-        
+
         .field-name-ting-author {
           @include transition(width $speed $ease);
           @include font('header-small');
           width: 100%;
           margin-bottom: 15px;
-          padding: 0px 20px;
+          padding: 0 20px;
           color: $color-primary;
-                   
+
           a:hover {
-            color: $color-primary;  
+            color: $color-primary;
           }
         }
-        
+
         .field-name-ting-abstract {
           width: 100%;
-          padding: 0px 20px;
+          padding: 0 20px;
           color: white;
-          opacity: 0;    
-                   
+          opacity: 0;
+
           .full {
             display: none;
           }
         }
-        
+
         .action-button {
           position: absolute;
           bottom: 20px;
           width: calc(50% - 30px);
           padding-right: 0;
           opacity: 0;
-          
+
           &.read-more-button {
             left: 20px;
           }
           &.reserve-button {
             left: calc(50% + 10px);
           }
-        }  
+        }
       }
-      
+
       // Hover for non touch devices
       &:hover {
-        .ting-cover:after {
+        .ting-cover::after {
           .no-touch & {
             opacity: 0;
-            @include transition(opacity $speed $hover-delay $ease);  
-          }   
+
+            @include transition(opacity $speed $hover-delay $ease);
+          }
         }
-        
+
         .field-name-ting-title h2,
         .field-name-ting-author {
           .no-touch & {
             width: getColumn(2 of 3);
+
             @include transition (
               width $speed-fast $hover-delay $ease
             );
           }
         }
-        
+
         .group-text {
           .no-touch & {
             @include transition(
@@ -291,14 +295,14 @@
               opacity: 1;
             }
           }
-        }        
+        }
       }
     }
   }
 
-// ==========================================================================
-// List item style
-// ==========================================================================
+  // ==========================================================================
+  // List item style
+  // ==========================================================================
 
   &.list-item-style {
     position: relative;
@@ -314,46 +318,45 @@
       padding: 15px;
       box-sizing: border-box;
       background-color: $grey;
-      
-      
+
       .ting-object-left {
         float: left;
-        width: getColumn(2 of 8) + (getGutter(8)/2);
-        margin-right: getGutter(8)/2;
+        width: getColumn(2 of 8) + (getGutter(8) /2);
+        margin-right: getGutter(8) /2;
         min-height: 1px;
       }
       .ting-object-right {
         @include span-columns(5 of 8);
         @include omega();
       }
-      
+
       .search-result--heading-type {
         @include arrow-button(arrow-down);
-      
+
         &.js-toggled {
-          @include arrow-button(arrow-up); //arrow turns up on click 
-          &:after{
+          @include arrow-button(arrow-up); //arrow turns up on click
+          &::after {
             display: none; //hide arrow up button on desktop
           }
         }
-        
-        &:after{
+
+        &::after {
           display: none; //hide arrow down button on desktop
         }
-        
+
         @include media($mobile) {
-          &:after {
-          display: block; // show arrow down on mobile
-          top: 15px;
-          right: 0;
-          cursor: pointer;
-        }
-        
-        &.js-toggled {
-          &:after{
-            display: block; //show arrow up button on mobile
+          &::after {
+            display: block; // show arrow down on mobile
+            top: 15px;
+            right: 0;
+            cursor: pointer;
           }
-        }  
+
+          &.js-toggled {
+            &::after {
+              display: block; //show arrow up button on mobile
+            }
+          }
         }
       }
       .field-name-ting-title {
@@ -375,7 +378,7 @@
       .field-name-ting-series {
         margin-bottom: 20px;
       }
-    
+
       .search-result--availability {
         padding-top: 20px;
         border-top: 1px solid $charcoal-opacity-light;
@@ -387,19 +390,17 @@
           }
         }
       }
-      
+
       &:hover {
         background-color: $white;
         box-shadow: $box-shadow;
       }
-      
-      @include media($mobile){  
+
+      @include media($mobile) {
         position: relative;
-        padding: 15px 0px;
+        padding: 15px 0;
         background: none;
-        border-top: 1px solid $charcoal-opacity-light;      
-      
-        
+        border-top: 1px solid $charcoal-opacity-light;
 
         .ting-object-right {
           @include span-columns(6 of 8);
@@ -408,21 +409,21 @@
         .field-name-ting-title { margin-top: 0; }
         .field-name-ting-series,
         .field-name-ting-abstract { margin: 0; }
-        .search-result--availability { 
+        .search-result--availability {
           padding-top: 0;
-          border-top: 0; 
+          border-top: 0;
         }
-        
+
         .hide-wrap {
           position: relative;
           display: none;
           margin-top: 20px;
-          
+
           .field-items {
             margin-bottom: 10px;
           }
         }
-        
+
         &:hover {
           background: none;
           box-shadow: none;
@@ -434,8 +435,8 @@
   // ==========================================================================
   // Search result & Collection list
   // ==========================================================================
-  
-  &.view-mode-collection-list { 
+
+  &.view-mode-collection-list {
     margin-bottom: 10px;
   }
 }
