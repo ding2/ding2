@@ -165,6 +165,7 @@ function ding_campaign_display($context, $count, $offset, $style = 'medium') {
       $current = array(
         '#theme' => 'ding_campaign',
         '#type' => $type,
+        '#wrapper' => $wrapper,
       );
 
       // Get link value.

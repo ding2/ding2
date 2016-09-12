@@ -1,0 +1,158 @@
+<?php
+/**
+ * @file
+ * Implementation of hooks and basic functionality goes here.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ding_spt_statistics_menu() {
+  $items = array();
+
+  $items['spt/redirect'] = array(
+    'title' => 'Ding SPT redirect',
+    'description' => 'Count click and redirect to the external resource',
+    'type' => MENU_CALLBACK,
+    'access arguments' => array('access content'),
+    'page callback' => 'ding_spt_statistics_redirect',
+  );
+  $items['admin/reports/spt-statistics'] = array(
+    'title' => 'Ding SPT statistics',
+    'description' => 'Count click and redirect to the external resource',
+    'type' => MENU_NORMAL_ITEM,
+    'access arguments' => array('view spt statistics'),
+    'page callback' => 'ding_spt_statistics_display',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_spt_statistics_permission() {
+  return array(
+    'view spt statistics' => array(
+      'title' => t('View SPT statistics'),
+      'description' => t('View statistics for clicked external SPT resources.'),
+    ),
+  );
+}
+
+/**
+ * Count click and redirect to the resource.
+ */
+function ding_spt_statistics_redirect() {
+  $params = drupal_get_query_parameters();
+
+  // Register statistical data.
+  $hostname = !empty($params['hostname']) ? $params['hostname'] : FALSE;
+  ding_spt_statistics_register($hostname);
+
+  // Redirect to the external resource.
+  $path = !empty($params['path']) ? $params['path'] : '';
+  drupal_goto($path);
+}
+
+/**
+ * Register hostname into the statistics table.
+ *
+ * @param $hostname string
+ *   Name of the external host.
+ */
+function ding_spt_statistics_register($hostname) {
+  if (!$hostname) {
+    return;
+  }
+
+  // Insert values in statistics, if there is duplicate then update counter.
+  $id = db_query('INSERT INTO ding_spt_statistics (hostname, count) 
+    VALUES (:hostname, 1) ON DUPLICATE KEY UPDATE count = count + 1',
+    array(':hostname' => $hostname),
+    array('return' => Database::RETURN_INSERT_ID)
+  );
+
+  // Insert new record to the data table.
+  db_insert('ding_spt_hits')
+    ->fields(array(
+      'hid' => $id,
+      'accessed' => REQUEST_TIME,
+    ))
+    ->execute();
+}
+
+/**
+ * Display statistics of the hits as a table.
+ *
+ * @return string
+ *   Themed table.
+ */
+function ding_spt_statistics_display() {
+  $header = array(
+    array('data' => t('Hostname'), 'field' => 'hostname', 'sort' => 'ASC'),
+    array('data' => t('Day'), 'field' => 'day'),
+    array('data' => t('Week'), 'field' => 'week'),
+    array('data' => t('Month'), 'field' => 'month'),
+    array('data' => t('3 Months'), 'field' => '3months'),
+    array('data' => t('All'), 'field' => 'count'),
+  );
+
+  // Get data from db.
+  $query = db_select('ding_spt_statistics', 's')
+    ->extend('PagerDefault')
+    ->extend('TableSort')
+    ->orderByHeader($header)
+    ->groupBy('s.hid')
+    ->limit(10);
+
+  $query->leftJoin('ding_spt_hits', 'h', 's.hid = h.hid');
+  $query->fields('s', array('hostname', 'count'));
+
+  $query->addExpression('SUM(CASE WHEN UNIX_TIMESTAMP(NOW()) - h.accessed < 86400 THEN 1 ELSE 0 END)', 'day');
+  $query->addExpression('SUM(CASE WHEN UNIX_TIMESTAMP(NOW()) - h.accessed < 7 * 86400 THEN 1 ELSE 0 END)', 'week');
+  $query->addExpression('SUM(CASE WHEN UNIX_TIMESTAMP(NOW()) - h.accessed < 30 * 86400 THEN 1 ELSE 0 END)', 'month');
+  $query->addExpression('SUM(CASE WHEN UNIX_TIMESTAMP(NOW()) - h.accessed < 90 * 86400 THEN 1 ELSE 0 END)', '3months');
+
+  $result = $query->execute()->fetchAllAssoc('hostname');
+
+  // Build markup for the table.
+  $rows = array();
+  foreach ($result as &$item) {
+    $rows[] = array(
+      l($item->hostname, 'http://' . $item->hostname, array('attributes' => array('target'=>'_blank'))),
+      $item->day,
+      $item->week,
+      $item->month,
+      $item->{'3months'},
+      $item->count,
+    );
+  }
+
+
+  $output = theme('table', array('header' => $header, 'rows' => $rows));
+  $output .= theme('pager');
+
+  return $output;
+}
+
+/**
+ * Implements hook_cron().
+ */
+function ding_spt_statistics_cron() {
+  // Delete all records older then 3 months.
+  // Consider month as a period of 30 days.
+  db_delete('ding_spt_hits')
+    ->condition('accessed', REQUEST_TIME - 86400 * 90, '<')
+    ->execute();
+}
+
+/**
+ * Implements hook_spt_external_url_alter().
+ */
+function ding_spt_statistics_spt_external_url_alter(&$callbacks) {
+  // Add url preprocess callback.
+  $callbacks[] = 'dingSPTStatisticsUrlPreprocess';
+
+  drupal_add_js(drupal_get_path('module', 'ding_spt_statistics'). '/js/ding_spt_statistics.js');
+}
