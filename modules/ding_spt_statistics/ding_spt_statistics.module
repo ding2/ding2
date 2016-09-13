@@ -120,7 +120,7 @@ function ding_spt_statistics_display() {
   $rows = array();
   foreach ($result as &$item) {
     $rows[] = array(
-      l($item->hostname, 'http://' . $item->hostname, array('attributes' => array('target'=>'_blank'))),
+      $item->hostname,
       $item->day,
       $item->week,
       $item->month,

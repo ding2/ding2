@@ -107,16 +107,14 @@ var ding_mkws = {
           settings.resources = null;
         }
         ding_mkws.init(settings, function (data) {
-            if (data.activeclients == 0) {
-              /**
-               * Process data from service and render template.
-               *
-               * @see ding_mkws.theme.js
-               */
-              var variables = ding_mkws_process[process](data);
-              var html = $.templates[template](variables);
-              $this.html(html);
-            }
+            /**
+             * Process data from service and render template.
+             *
+             * @see ding_mkws.theme.js
+             */
+            var variables = ding_mkws_process[process](data);
+            var html = $.templates[template](variables);
+            $this.html(html);
           },
           function () {
             $this.html(Drupal.t("Sorry, something goes wrong. Can't connect to server."));
