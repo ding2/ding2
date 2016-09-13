@@ -80,6 +80,7 @@ function ding_mkws_panel_widget_render($subtype, $conf, $args, $context) {
                                 data-template='dingMkwsPaneWidget' 
                                 class='ding-mkws-widget ding-mkws-panel-widget'>
                                </div>";
+  ding_mkws_include_all();
   $pane->content['#attached'] = array(
     'css' => array(
       drupal_get_path('module', 'ding_mkws') . '/css/ding_mkws.css',

@@ -7,9 +7,9 @@
 /**
  * Preprocess url before attach to template.
  * @param data
+ * @param target
  */
-function dingSPTStatisticsUrlPreprocess(data) {
+function dingSPTStatisticsUrlPreprocess(data, target) {
   var url = new URL(data);
-
-  return url.href = '/spt/redirect?path=' + url.href + '&hostname=' + url.hostname;
+  return url.href = '/spt/redirect?path=' + url.href + '&hostname=' + target;
 }

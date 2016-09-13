@@ -55,6 +55,7 @@ function ding_mkws_item_list_render($subtype, $conf, $panel_args, $context) {
             data-template='dingMkwsPaneWidget' 
             class='ding-mkws-widget ding-mkws-pane-widget'>
         </div>";
+  ding_mkws_include_all();
   $pane->content['#attached'] = array(
     'css' => array(
       drupal_get_path('module', 'ding_mkws') . '/css/ding_mkws.css',

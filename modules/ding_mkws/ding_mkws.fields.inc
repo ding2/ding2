@@ -92,6 +92,7 @@ function ding_mkws_field_widget_form(&$form, &$form_state, $field, $instance, $l
         '#maxlength' => 4,
       );
 
+      ding_mkws_include_all();
       $element['#attached'] = array(
         'css' => array(
           drupal_get_path('module', 'ding_mkws') . '/css/ding_mkws.fields.css',
@@ -141,6 +142,7 @@ function ding_mkws_field_formatter_view($entity_type, $entity, $field, $instance
       case 'ding_mkws_node_formatter_default':
         $item = reset($items);
         $hash = md5(implode('', $item));
+        ding_mkws_include_all();
         $element[0] = array(
           '#markup' => "<div data-hash='{$hash}' 
             data-process='ProcessDataForNodeWidget' 
