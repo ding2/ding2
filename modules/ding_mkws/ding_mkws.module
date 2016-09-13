@@ -225,15 +225,6 @@ function ding_mkws_include_all() {
   drupal_add_js(array('ding_mkws' => $settings), 'setting');
 }
 
-
-/**
- * Implements hook_init().
- */
-function ding_mkws_init() {
-  ding_mkws_include_all();
-}
-
-
 /**
  * Helper function for getting and processing resources.
  */
@@ -286,7 +277,8 @@ function ding_mkws_preprocess_ding_campaign(&$variables) {
     $item = reset($items);
     $hash = md5(implode('', $item));
 
-    $variables['text'][] = array(
+    ding_mkws_include_all();
+    $variables['text'] = array(
       '#markup' => "<div data-hash='{$hash}' 
             data-process='ProcessDataForNodeWidget' 
             data-template='dingMkwsNodeWidget' 
