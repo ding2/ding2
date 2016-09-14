@@ -26,19 +26,21 @@
   position: relative;
   margin-bottom: 25px;
 
+  // Tablet
   @include media($tablet) {
     cursor: pointer;
   }
-
   .sub-menu-title {
     position: relative;
     border-top: 1px solid $charcoal-opacity-light;
     padding-top: 25px;
 
+    // Tablet
     @include media($tablet) {
       padding-right: 78px;
     }
 
+    // Mobile
     @include media($mobile) {
       padding-right: 64px;
     }
@@ -53,6 +55,7 @@
       display: none;
     }
 
+    // Tablet
     @include media($tablet) {
       margin-bottom: 25px;
       &::after {
@@ -62,12 +65,23 @@
       }
     }
   }
+  &:first-child {
+    .sub-menu-title {
+      border-top: none;
+      padding-top: 0;
 
+      // Tablet
+      @include media($tablet) {
+        padding-top: 25px;
+      }
+    }
+  }
   ul.sub-menu,
   ul.list-items,
   ul.main-menu-third-level {
     display: block;
 
+    // Tablet
     @include media($tablet) {
       display: none;
     }
