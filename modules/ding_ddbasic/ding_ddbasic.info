@@ -1,0 +1,4 @@
+name = DDBasic theme module
+description = Module that help integrate the ddbasic theme.
+package = "Ding!"
+core = 7.x
