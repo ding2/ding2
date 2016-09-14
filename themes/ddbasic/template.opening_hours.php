@@ -107,6 +107,10 @@ function ddbasic_preprocess_opening_hours_week(&$variables) {
   $today = strtotime('today');
   $structured = array();
   $categories = array();
+  
+  if (isset($GLOBALS['ddbasic_opening_hours_week_timespan'])) {
+    $timespan = $GLOBALS['ddbasic_opening_hours_week_timespan'];
+  }
 
   // Get and sort all the instances in the given timespan.
   $instances = opening_hours_instance_load_multiple(
@@ -192,6 +196,24 @@ function ddbasic_preprocess_opening_hours_week(&$variables) {
     )),
     $categories,
     $structured
+  );
+  
+  $variables['table']['#prefix'] = l(
+    'Previous',
+    'ding-ddbasic/opening-hours/week/' . $variables['node']->nid
+    . '/' . strtotime('last monday', $timespan[0])
+    . '/' . strtotime('last sunday', $timespan[0]),
+    array(
+      'attributes' => array('class' => array('use-ajax')),
+    )
+  ) . l(
+    'Next',
+    'ding-ddbasic/opening-hours/week/' . $variables['node']->nid
+    . '/' . strtotime('next monday', $timespan[1])
+    . '/' . strtotime('next sunday', $timespan[1]),
+    array(
+      'attributes' => array('class' => array('use-ajax')),
+    )
   );
 }
 

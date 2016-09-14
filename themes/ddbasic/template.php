@@ -23,7 +23,7 @@ require_once __DIR__ . '/template.ctools_plugin.php';
  */
 function ddbasic_preprocess_html(&$vars) {
   global $language;
-  
+
   // Setup iOS logo if it's set.
   $vars['ios_logo'] = theme_get_setting('iosicon_upload');
 
@@ -63,7 +63,7 @@ function ddbasic_preprocess_html(&$vars) {
 
   // Add additional body classes
   $vars['classes_array'] = array_merge($vars['classes_array'], ddbasic_body_class());
-  
+
   if (variable_get('ting_search_extend_form', FALSE)) {
     $vars['classes_array'][] = 'search-form-extended';
     if (!ding_ddbasic_is_search_form_extended()) {
@@ -122,7 +122,7 @@ function ddbasic_process_html(&$vars) {
   //if (module_exists('color')) {
   //  _color_html_alter($vars);
   //}
-  
+
 }
 
 
@@ -230,7 +230,7 @@ function ddbasic_menu_tree__user_menu($vars) {
  * Overwrite views row classes
  */
 function ddbasic_preprocess_views_view(&$vars) {
-  
+
   switch ($vars['name']) {
     case 'ding_event':
       switch ($vars['view']->current_display) {
@@ -264,11 +264,11 @@ function ddbasic_preprocess_views_view(&$vars) {
           // Add slide-on-mobile class
           $vars['classes_array'][] = 'slide-on-mobile';
         break;
-        
-       
+
+
       }
     break;
-    
+
   }
 
 }
@@ -502,13 +502,13 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       $element['#attributes']['class'][] = 'topbar-link-signout';
 
       break;
-    
+
     case 'libraries':
       $title_prefix = '<i class="icon-clock"></i>';
       $element['#localized_options']['attributes']['class'][] = 'topbar-link-opening-hours';
       $element['#attributes']['class'][] = 'topbar-link-opening-hours';
       break;
-      
+
     default:
       $title_prefix = '<i class="icon-align-justify"></i>';
       $element['#localized_options']['attributes']['class'][] = 'topbar-link-menu';
@@ -607,6 +607,15 @@ function ddbasic_js_alter(&$javascript) {
   $ding_popup = drupal_get_path('module', 'ding_popup') . '/ding_popup.js';
   if (isset($javascript[$ding_popup])) {
     $javascript[$ding_popup]['data'] = drupal_get_path('theme', 'ddbasic') . '/scripts/popup-hijack.js';
+  }
+  
+  // Remove the opening_hours files, so they dont't cause a JavaScript error
+  // when outputting the theme specific opening_hours template.
+  $opening_hours_path = drupal_get_path('module', 'opening_hours');
+  foreach ($javascript as $key => $value) {
+    if (strpos($key, $opening_hours_path) !== FALSE) {
+      unset($javascript[$key]);
+    }
   }
 }
 
@@ -733,7 +742,6 @@ function ddbasic_process_page(&$vars) {
  * Adds wrapper classes to the different groups on the ting object.
  */
 function ddbasic_preprocess_ting_object(&$vars) {
-  
   //
   // Add tpl suggestions for node view modes.
   if (isset($vars['elements']['#view_mode'])) {
@@ -748,20 +756,20 @@ function ddbasic_preprocess_ting_object(&$vars) {
         $ting_entity->in_collection = $vars['object'];
       }
       break;
-      
+
     case 'ting_object':
       $uri_collection = entity_uri('ting_collection', $vars['object']);
       $vars['ting_object_url_collection'] = url($uri_collection['path']);
-      
+
       $uri_object = entity_uri('ting_object', $vars['object']);
       $vars['ting_object_url_object'] = url($uri_object['path']);
-      
+
       switch ($vars['elements']['#view_mode']) {
         case 'teaser':
           if ($vars['object']->is('reservable')) {
             //$vars['content']['reserve_button'] = array(ding_provider_get_form('ding_reservation_reserve_form', new DingReservationReservableEntity($vars['object']), TRUE));
             drupal_add_library('system', 'drupal.ajax');
-            
+
             $vars['content']['group_text']['read_more_button'] = array(
               array(
                 '#theme' => 'link',
@@ -779,7 +787,7 @@ function ddbasic_preprocess_ting_object(&$vars) {
               ),
               '#weight' => 9998,
             );
-            
+
             $vars['content']['group_text']['reserve_button'] = array(
               array(
                 '#theme' => 'link',
@@ -802,7 +810,7 @@ function ddbasic_preprocess_ting_object(&$vars) {
           }
           break;
       }
-      
+
       break;
     //case '':
     //  break;
@@ -934,10 +942,10 @@ function ddbasic_preprocess_ting_object(&$vars) {
 }
 
 /**
- * Preprocess function for material_item theme function. 
+ * Preprocess function for material_item theme function.
  */
 function ddbasic_preprocess_material_item(&$variables) {
-  
+
   //Add label for styling to checkbox
   $element = $variables['element'];
 
@@ -945,16 +953,16 @@ function ddbasic_preprocess_material_item(&$variables) {
 
   // Render the checkbox.
   $variables['checkbox'] = drupal_render($element[$element['#id']]);
-  
+
   // Get url to ting object
   $variables['ting_object_url_object'] = $variables['element']['#information']['ting_object_url_object']['url'];
-  
+
   $variables['information']['expiry']['#weight'] = 1;
-  
+
   //$variables['information']['ting_object_url_object']['#visibility'] = 'hidden';
-  
+
   unset($variables['information']['ting_object_url_object']);
-  
+
 }
 
 /**
@@ -974,7 +982,7 @@ function ddbasic_preprocess_form_element(&$variables) {
   if($variables['element']['#id'] == 'edit-profile-provider-alma-field-alma-reservation-pause-und-0-value-datepicker-popup-0') {
     $variables['element']['#title'] = 'Fra dato:';
   }
-  
+
 }
 
 /**
@@ -1011,7 +1019,7 @@ function ddbasic_date_display_range($variables) {
     $start_date .= '<meta' . drupal_attributes($variables['microdata']['value']['#attributes']) . '/>';
     $end_date .= '<meta' . drupal_attributes($variables['microdata']['value2']['#attributes']) . '/>';
   }
-  
+
   // Wrap the result with the attributes.
   return t('!start-date - !end-date', array(
     '!start-date' => $start_date,
