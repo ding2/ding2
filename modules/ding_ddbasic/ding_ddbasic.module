@@ -1,0 +1,302 @@
+<?php
+
+/**
+ * Implements hook_ding_entity_buttons().
+ *
+ * - Add other formats button.
+ */
+function ding_ddbasic_ding_entity_buttons($type, $entity) {
+  $result = array();
+
+  switch ($type) {
+    case 'ding_entity':
+      $collection = ting_collection_load($entity->id);
+      if (count($collection->types) > 1) {
+        $result[] = array(
+          '#theme' => 'link',
+          '#text' => t('Other formats'),
+          '#path' => '#',
+          '#options' => array(
+            'attributes' => array(
+              'class' => array('action-button', 'other-formats'),
+            ),
+            'html' => FALSE,
+            'external' => TRUE,
+          )
+        );
+      }
+      break;
+  }
+
+  return $result;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_ddbasic_menu() {
+  $items = array();
+  
+  $items['ding-ddbasic/opening-hours/week/%node/%/%'] = array(
+    'title' => 'Opening hours',
+    'page callback' => 'ding_ddbasic_opening_hours_week_callback',
+    'page arguments' => array(3, 4, 5),
+    'delivery callback' => 'ajax_deliver',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+    'file' => 'ding_ddbasic.pages.inc',
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ding_ddbasic_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
+ * Implements hook_theme().
+ *
+ * - All opening hours theme.
+ */
+function ding_ddbasic_theme($existing, $type, $theme, $path) {
+  return array(
+    'ding_ddbasic_all_opening_hours' => array(
+      'file' => 'ding_ddbasic.theme.inc'
+    )
+  );
+}
+
+/**
+ * Implements hook_menu_alter().
+ *
+ * - Move around the menu items in the user menu.
+ */
+function ding_ddbasic_menu_alter(&$items) {
+  // Primary
+  $items['user/%pm_arg/status']['type'] = MENU_CALLBACK;
+  $items['user/%pm_arg/status']['page callback'] = 'ding_ddbasic_redirect_user_menu_callback';
+  $items['user/%pm_arg/status']['page arguments'] = array('user/%pm_arg/status-loans');
+
+  // Loans
+  $items['user/%pm_arg/status-loans'] = $items['user/%pm_arg/status/loans'];
+  $items['user/%pm_arg/status-loans']['type'] = MENU_LOCAL_TASK;
+
+  $items['user/%pm_arg/status/loans']['type'] = MENU_CALLBACK;
+  $items['user/%pm_arg/status/loans']['page callback'] = 'ding_ddbasic_redirect_user_menu_callback';
+  $items['user/%pm_arg/status/loans']['page arguments'] = array('user/%pm_arg/status-loans');
+
+  // Depts
+  $items['user/%pm_arg/status-debts'] = $items['user/%pm_arg/status/debts'];
+  $items['user/%pm_arg/status-debts']['type'] = MENU_LOCAL_TASK;
+
+  $items['user/%pm_arg/status/debts']['type'] = MENU_CALLBACK;
+  $items['user/%pm_arg/status/debts']['page callback'] = 'ding_ddbasic_redirect_user_menu_callback';
+  $items['user/%pm_arg/status/debts']['page arguments'] = array('user/%pm_arg/status-debts');
+
+  // Reservations
+  $items['user/%pm_arg/status-reservations'] = $items['user/%pm_arg/status/reservations'];
+  $items['user/%pm_arg/status-reservations']['type'] = MENU_LOCAL_TASK;
+
+  $items['user/%pm_arg/status/reservations']['type'] = MENU_CALLBACK;
+  $items['user/%pm_arg/status/reservations']['page callback'] = 'ding_ddbasic_redirect_user_menu_callback';
+  $items['user/%pm_arg/status/reservations']['page arguments'] = array('user/%pm_arg/status-reservations');
+
+  // Change names of edit and view.
+  $items['user/%user/edit']['title'] = t('User profile');
+  $items['user/%user/view']['title'] = t('My account');
+
+  // Set the order of the user menu.
+  $items['user/%user/view']['weight'] = 1;
+  $items['user/%user/edit']['weight'] = 2;
+  $items['user/%pm_arg/status-loans']['weight'] = 3;
+  $items['user/%pm_arg/status-reservations']['weight'] = 4;
+  $items['user/%pm_arg/status-debts']['weight'] = 5;
+  $items['user/%pm_arg/bookmarks']['weight'] = 6;
+}
+
+/**
+ * Redirect the old user menu items to the new ones.
+ */
+function ding_ddbasic_redirect_user_menu_callback($redirect) {
+  drupal_goto(str_replace('%pm_arg', arg(1), $redirect));
+}
+
+/**
+ *
+ */
+function ding_ddbasic_form_ting_search_admin_settings_alter(&$form, &$form_state) {
+  // TODO: Remove the variable in an unintall function.
+  $form['ting_search']['ting_search_extend_form'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Extend search form.'),
+    '#default_value' => variable_get('ting_search_extend_form', FALSE),
+  );
+}
+
+/**
+ *
+ */
+function ding_ddbasic_form_ding_frontpage_admin_settings_alter(&$form, &$form_state) {
+  // TODO: Remove the variables in an unintall function.
+  $form['ding_frontpage']['ding_frontpage_events'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Events'),
+  );
+  $form['ding_frontpage']['ding_frontpage_events']['ding_frontpage_events_count'] = array(
+    '#type' => 'select',
+    '#title' => t('Count'),
+    '#options' => array(
+      '6' => '3 - 6',
+      '12' => '6 - 12',
+      '18' => '9 - 18',
+    ),
+    '#default_value' => variable_get('ding_frontpage_events_count', 6),
+  );
+  $form['ding_frontpage']['ding_frontpage_events']['ding_frontpage_events_promoted'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Only promoted events'),
+    '#default_value' => variable_get('ding_frontpage_events_promoted', TRUE),
+  );
+}
+
+/**
+ *
+ */
+function ding_ddbasic_views_query_alter(&$view, &$query) {
+  switch ($view->name . ' ' . $view->current_display) {
+    case 'ding_event ding_event_list_frontpage':
+      // dpm($view);
+      break;
+  }
+}
+
+/**
+ *
+ */
+function ding_ddbasic_views_pre_build(&$view) {
+  switch ($view->name . ' ' . $view->current_display) {
+    case 'ding_event ding_event_list_frontpage':
+      if (variable_get('ding_frontpage_events_promoted', TRUE) === FALSE) {
+        unset($view->filter['promote']);
+      }
+
+      $view->display_handler->options['pager']['options']['items_per_page'] = variable_get('ding_frontpage_events_count', 6);
+      break;
+    case 'ding_event ding_event_list':
+
+      $view->display_handler->options['pager']['options']['items_per_page'] = ddbasic_theme_setting('number_of_events', 10);
+
+      break;
+    case 'ding_news ding_news_list':
+
+      $view->display_handler->options['pager']['options']['items_per_page'] = ddbasic_theme_setting('number_of_news', 10);
+
+      break;
+  }
+}
+
+/**
+ *
+ */
+function ding_ddbasic_is_search_form_extended() {
+  return menu_get_item()['path'] !== 'search/ting/%';
+}
+
+/**
+ * Implements hook_form_[FORM_ID]_alter().
+ */
+function ding_ddbasic_form_search_block_form_alter(&$form, &$form_state) {
+  if (variable_get('ting_search_extend_form', FALSE)) {
+    $form['search_field'] = array(
+      '#type' => 'container',
+      '#weight' => 5,
+      '#attributes' => array('class' => array('search-field')),
+      'search_block_form' => $form['search_block_form'],
+      'actions' => $form['actions'],
+    );
+    unset($form['search_block_form'], $form['actions']);
+
+    $form['search_extended_open_button'] = array(
+      '#markup' => '<a href="#" class="search-extended-button">Search extended button</a>',
+    );
+
+    if (ding_ddbasic_is_search_form_extended()) {
+      $form['material_type'] = array(
+        '#type' => 'select',
+        '#options' => array('' => t('Select material')) + drupal_map_assoc(array_keys(_ting_fetch_well_types())),
+        '#weight' => 10,
+        '#default_value' => 'bog',
+      );
+    }
+
+    array_unshift($form['#submit'], 'ding_ddbasic_form_search_block_form_submit');
+  }
+}
+
+/**
+ *
+ */
+function ding_ddbasic_form_search_block_form_submit($form, &$form_state) {
+  if (!empty($form_state['values']['material_type'])) {
+    if (!empty($form_state['values']['search_block_form'])) {
+      $form_state['extra_query_parameters']['facets'][] = 'facet.type:' . $form_state['values']['material_type'];
+    }
+    else {
+      $form_state['values']['search_block_form'] = 'facet.type="' . $form_state['values']['material_type'] . '"';
+      $form_state['extra_query_parameters']['sort'] = 'date_descending';
+    }
+  }
+}
+
+function ding_ddbasic_form_views_exposed_form_alter(&$form, &$form_state) {
+  if($form_state['view']->name == 'ding_event' && $form_state['view']->current_display == 'ding_event_list') {
+
+    // Hide reset button if there's nothing to reset
+    foreach ($form_state['view']->exposed_input as $exposed_input) {
+      $input = $exposed_input;
+    }
+    if(empty($input)) {
+      $form['reset']['#access'] = FALSE;
+    }
+  }
+}
+
+/**
+ * Date popup
+ */
+function ding_ddbasic_date_popup_process_alter(&$element, &$form_state, $context) {
+  // Add placeholder in event view
+  if($form_state['view']->name == 'ding_event' && $form_state['view']->current_display == 'ding_event_list') {
+    $element['date']['#attributes']['placeholder'] = t('Select a date');
+  }
+}
+
+/**
+ * Implements hook_module_implements_alter().
+ */
+function ding_ddbasic_module_implements_alter(&$implementations, $hook) {
+  if (in_array($hook, array('form_alter', 'menu_alter'))) {
+    $group = $implementations['ding_ddbasic'];
+    unset($implementations['ding_ddbasic']);
+    $implementations['ding_ddbasic'] = $group;
+  }
+}
+
+/**
+ * Wrapper for theme_get_settings(), with a default argument.
+ */
+function ddbasic_theme_setting($name, $default = FALSE) {
+  $value = theme_get_setting($name, 'ddbasic');
+
+  if (empty($value)) {
+    $value = $default;
+  }
+
+  return $value;
+}
