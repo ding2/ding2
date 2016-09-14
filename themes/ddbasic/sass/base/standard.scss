@@ -29,6 +29,9 @@ body {
     &.search-form-extended.front {
       padding-top: $header-height + $search-form-extended-height + $toolbar-height !important;
     }
+    &.has-second-level-menu {
+      padding-top: $header-height + $second-level-menu-height + $toolbar-height !important;
+    }
   }
   // When topbar is open
   &.topbar-is-open,

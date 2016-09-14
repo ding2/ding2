@@ -188,12 +188,13 @@
 
 .panel-pane.pane-menu-title,
 .panel-pane.pane-page-title {
-
   h2 {
     @include font('header-large');
-    margin-top: 15px;
-    margin-bottom: 46px;
     color: $color-text;
+    .secondary-content & {
+      margin-top: 15px;
+      margin-bottom: 46px;
+    }
   }
 }
 
@@ -433,5 +434,105 @@
   @include media($mobile) {
     width: 100%;
     margin-right: 0;
+  }
+}
+
+// ==========================================================================
+// @TODO flyt til egen scss fil
+// Pane-views-exp-ding-event-ding-event-list
+// ==========================================================================
+
+.pane-views-exp-ding-event-ding-event-list {
+  .views-exposed-form {
+    border-top: 1px solid $charcoal-opacity-light;
+    padding-top: 25px;
+    .views-exposed-widget {
+      padding: 0 0;
+      margin-bottom: 30px;
+
+      // Mobile
+      @include media($mobile) {
+        margin-bottom: 20px;
+      }
+    }
+    .views-widget-filter-title {
+      width: 100%;
+
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(4);
+      }
+
+      // Mobile
+      @include media($mobile) {
+        width: 100%;
+        margin-right: 0;
+      }
+    }
+    .views-widget-filter-field_ding_event_date_value,
+    .views-widget-filter-field_ding_event_date_value_1 {
+      @include span-columns(2 of 4);
+
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(4);
+      }
+
+      // Mobile
+      @include media($mobile) {
+        width: 100%;
+        margin-right: 0;
+      }
+    }
+    .views-widget-filter-field_ding_event_date_value_1 {
+      @include omega();
+    }
+    label {
+      @include font('header-small');
+      font-weight: normal;
+      margin-bottom: 20px;
+
+      // Mobile
+      @include media($mobile) {
+        margin-bottom: 10px;
+      }
+    }
+    .form-item {
+      display: block;
+      margin-right: 0;
+      .date-padding,
+      .form-item {
+        float: none;
+      }
+      input {
+        width: 100%;
+        margin-right: 0;
+        background-color: $grey;
+
+        @include placeholder {
+          color: $charcoal-opacity-dark;
+        }
+      }
+    }
+    .description {
+      display: none;
+    }
+    .views-submit-button {
+      margin-right: 20px;
+    }
+    .form-submit {
+      margin-top: 0;
+      padding-right: 40px;
+      margin-right: getGutter(4);
+    }
+  }
+  .views-submit-button {
+    padding: 0;
+  }
+  .views-reset-button {
+    padding: 0;
+    .form-submit {
+      margin-top: 0;
+    }
   }
 }
