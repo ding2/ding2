@@ -1,5 +1,15 @@
 @import '../base.scss';
 
+// Opening hours in animation
+@include keyframes(opening-hours-in) {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1
+  }
+}
+
 .js-opening-hours-toggle-element {
   display: none;
 }
@@ -9,6 +19,10 @@
 }
 
 .opening-hours-table {
+  // Animate the opening-hours in, so the user get a response when fetching the
+  // previous or next.
+  @include animation(opening-hours-in $speed $ease);
+  
   table,
   thead,
   tbody,
