@@ -1,4 +1,4 @@
-# DDBCMS Personalisering #
+# DDBCMS Personalisering 2.0 #
 
 This is a collection of modules related to personal user experience in DDBCMS / Ding2
 
