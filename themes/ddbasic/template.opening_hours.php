@@ -198,6 +198,7 @@ function ddbasic_preprocess_opening_hours_week(&$variables) {
     $structured
   );
   
+  drupal_add_library('system', 'drupal.ajax');
   $variables['table']['#prefix'] = l(
     'Previous',
     'ding-ddbasic/opening-hours/week/' . $variables['node']->nid
