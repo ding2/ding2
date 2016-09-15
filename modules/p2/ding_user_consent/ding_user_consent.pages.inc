@@ -75,3 +75,30 @@ function ding_user_consent_form_submit($form, &$form_state) {
   
   $form_state['redirect'] = 'user/' . $account->uid;
 }
+
+/**
+ * Information page.
+ */
+function ding_user_consent_info_page() {
+  global $user;
+  
+  $buffer = file_get_contents(__DIR__ . '/information');
+  
+  if (user_is_logged_in()) {
+    $buffer = str_replace(
+      '[ding_user_consent:accept]',
+      url('user/' . $user->uid . '/edit'),
+      $buffer
+    );
+  }
+  else {
+    $buffer = str_replace(
+      '[ding_user_consent:accept]',
+      url('samtykke-info', array('query' => array('buster' => time()), 'fragment' => 'login')),
+      $buffer
+    );
+  }
+  
+  return $buffer;
+}
+ 

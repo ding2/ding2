@@ -67,6 +67,15 @@ function ding_user_consent_menu() {
     'access arguments' => array('use personalisation'),
   );
 
+  // User consent information page
+  $items['samtykke-info'] = array(
+    'title' => t('Samtykke'),
+    'page callback' => 'ding_user_consent_info_page',
+    'access callback' => TRUE,
+    'file' => 'ding_user_consent.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+
   return $items;
 }
 
