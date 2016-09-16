@@ -439,6 +439,7 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
   $form['mail_sharer']['email'] = array(
     '#type' => 'textfield',
     '#title' => t('Send invitation to this email adress:'),
+    '#description' => t('At the moment only users at this library can share your lists.'),
   );
 
   $form['mail_sharer']['share'] = array(
