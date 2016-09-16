@@ -11,7 +11,7 @@
  * Most of them are overridden copies of Ding core page variants.
  */
 function ding_p2_installer_default_page_manager_handlers() {
-  $handler = new stdClass();7$handler = new stdClass();
+  $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
   $handler->name = 'page_ding_frontpage__panel_context_1';
@@ -314,6 +314,8 @@ function ding_p2_installer_default_page_manager_handlers() {
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
 
+
+
   $handlers['page_ding_frontpage__panel_context_1'] = $handler;
 
   // Tags variant
@@ -559,9 +561,9 @@ function ding_p2_installer_default_page_manager_handlers() {
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
-
+  
   $handlers['term_view_panel_context_4'] = $handler;
-
+  
   // Ding site template
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
@@ -1027,7 +1029,7 @@ function ding_p2_installer_default_page_manager_handlers() {
   $handler->conf['display'] = $display;
 
   $handlers['site_template_panel_context_1'] = $handler;
-
+  
   // Provider profile
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
@@ -1173,9 +1175,9 @@ function ding_p2_installer_default_page_manager_handlers() {
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
 
-
+  
   $handlers['user_view_panel_context_5'] = $handler;
-
+  
   // User profile
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
@@ -1293,7 +1295,7 @@ function ding_p2_installer_default_page_manager_handlers() {
   $handler->conf['display'] = $display;
 
   $handlers['user_view_panel_context_4'] = $handler;
-
+  
   // Search page:
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
@@ -1605,9 +1607,9 @@ function ding_p2_installer_default_page_manager_handlers() {
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
 
-
+  
   $handlers['search_ting_search_panel_context_1'] = $handler;
-
+  
   // Ting Object
   $handler = new stdClass();
   $handler->disabled = FALSE;
@@ -1814,8 +1816,8 @@ function ding_p2_installer_default_page_manager_handlers() {
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
-
+  
   $handlers['ting_object_panel_context_1'] = $handler;
-
+  
   return $handlers;
 }
