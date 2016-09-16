@@ -1,6 +1,6 @@
 <?php
 /**
- * @file field--ddbasic-tags--full.tpl.php
+ * @file
  * Removed default field wrapper.
  *
  * Available variables:

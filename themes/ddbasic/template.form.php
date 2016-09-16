@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * @TODO Missing file description
+ * @TODO Remove commented out code
+ *
+ * @param $form
+ * @param $form_state
+ * @param $form_id
+ */
 function ddbasic_form_alter(&$form, &$form_state, $form_id) {
   // Reservations & Bookmarks, group select-all button and action-buttons in div.
   if(
@@ -30,6 +37,7 @@ function ddbasic_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
+ * @TODO Wrong function description
  * Select library list.
  */
 function ddbasic_form_ding_library_library_list_select_library_alter(&$form, &$form_state, $form_id) {
@@ -61,6 +69,7 @@ function ddbasic_form_ding_library_library_list_select_library_alter(&$form, &$f
 } 
 
 /**
+ * @TODO Wrong function description (Implements hook_form_alter())
  * Search form
  */
 function ddbasic_form_search_block_form_alter(&$form, &$form_state, $form_id) {
@@ -78,6 +87,8 @@ function ddbasic_form_search_block_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
+ * @TODO Wrong function description
+ * @TODO Use translation system for strings
  * User login form
  */
 function ddbasic_form_user_login_block_alter(&$form, &$form_state, $form_id) {
@@ -111,6 +122,8 @@ function ddbasic_form_user_login_block_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
+ * @TODO Wrong function description
+ * @TODO Use translation system for strings
  * User login
  */
 function ddbasic_form_user_login_alter(&$form, &$form_state, $form_id) {
@@ -140,6 +153,7 @@ function ddbasic_form_user_login_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
+ * @TODO Wrong function description
  * Facet browser
  */
 function ddbasic_form_ding_facetbrowser_form_alter(&$form, &$form_state, $form_id) {
@@ -167,6 +181,8 @@ function ddbasic_select($variables) {
 }
 
 /**
+ * @TODO Wrong function description
+ * @TODO Use translation system for strings
  * Ding loans form
  */
 function ddbasic_form_ding_loan_loans_form_alter(&$form, &$form_state, $form_id) {
@@ -190,6 +206,8 @@ function ddbasic_form_ding_loan_loans_form_alter(&$form, &$form_state, $form_id)
 }
 
 /**
+ * @TODO Wrong function description
+ * @TODO Use translation system for strings
  * Ding reservations ready form
  */
 function ddbasic_form_ding_reservation_reservations_ready_form_alter(&$form, &$form_state, $form_id) {
@@ -210,6 +228,8 @@ function ddbasic_form_ding_reservation_reservations_ready_form_alter(&$form, &$f
 }
 
 /**
+ * @TODO Wrong function description
+ * @TODO Use translation system for strings
  * Ding reservations not ready form
  */
 function ddbasic_form_ding_reservation_reservations_notready_form_alter(&$form, &$form_state, $form_id) {
@@ -229,6 +249,14 @@ function ddbasic_form_ding_reservation_reservations_notready_form_alter(&$form, 
   }
 }
 
+/**
+ * @TODO Missing Description
+ * @TODO Use translation system for strings
+ *
+ * @param $form
+ * @param $form_state
+ * @param $form_id
+ */
 function ddbasic_form_ding_bookmark_remove_form_alter(&$form, &$form_state, $form_id) {
   $form['actions_top']['delete_all'] = array(
     '#type' => 'markup',

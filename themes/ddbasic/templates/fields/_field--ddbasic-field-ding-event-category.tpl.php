@@ -1,6 +1,6 @@
 <?php
 /**
- * @file field--ddbasic-field-ding-event-category.tpl.php
+ * @file
  * Added label classes to category field elements.
  *
  * Available variables:

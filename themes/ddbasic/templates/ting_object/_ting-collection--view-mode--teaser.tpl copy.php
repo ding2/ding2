@@ -1,5 +1,6 @@
 <?php
 /**
+ * @TODO Cleanup 'test'
  * @file
  * Template to render objects from the Ting database.
  *

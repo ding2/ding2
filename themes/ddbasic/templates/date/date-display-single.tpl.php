@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * @file
  * DDBasic's theme implementation to display a single date.
  * 
