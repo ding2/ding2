@@ -1250,25 +1250,6 @@ function ding_p2_installer_default_page_manager_handlers() {
     $display->content['new-cf25769d-7de8-4ef1-8d55-ae6c8a338ee3'] = $pane;
     $display->panels['left_sidebar'][0] = 'new-cf25769d-7de8-4ef1-8d55-ae6c8a338ee3';
     $pane = new stdClass();
-    $pane->pid = 'new-e5289475-70d1-4e3e-b26a-ffa09036a687';
-    $pane->panel = 'main_content';
-    $pane->type = 'lists';
-    $pane->subtype = 'lists';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array();
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = 'e5289475-70d1-4e3e-b26a-ffa09036a687';
-    $display->content['new-e5289475-70d1-4e3e-b26a-ffa09036a687'] = $pane;
-    $display->panels['main_content'][0] = 'new-e5289475-70d1-4e3e-b26a-ffa09036a687';
-    $pane = new stdClass();
     $pane->pid = 'new-dc4b2f5e-f42e-48bd-9f01-f81841042dbf';
     $pane->panel = 'main_content';
     $pane->type = 'user_profile';
@@ -1286,14 +1267,15 @@ function ding_p2_installer_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 0;
     $pane->locks = '';
     $pane->uuid = 'dc4b2f5e-f42e-48bd-9f01-f81841042dbf';
     $display->content['new-dc4b2f5e-f42e-48bd-9f01-f81841042dbf'] = $pane;
-    $display->panels['main_content'][1] = 'new-dc4b2f5e-f42e-48bd-9f01-f81841042dbf';
+    $display->panels['main_content'][0] = 'new-dc4b2f5e-f42e-48bd-9f01-f81841042dbf';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
+
 
   $handlers['user_view_panel_context_4'] = $handler;
 
