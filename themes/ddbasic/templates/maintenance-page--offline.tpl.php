@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * @TODO Cleanup line spacing
+ * @TODO Have all strings go throught translation
  * @file
  * DDBasic theme implementation to display a single Drupal page while offline.
  *

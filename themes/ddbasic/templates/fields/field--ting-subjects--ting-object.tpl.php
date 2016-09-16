@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file @file field--ting-subjects--ting-object.tpl.php
+ * @file
  * Changed classes of field wrapper.
  *
  * Available variables:

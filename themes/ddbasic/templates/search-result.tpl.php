@@ -1,11 +1,9 @@
-
 <?php
 
 /**
  * @file
  * Modified version of the default theme implementation for displaying a single
  * search result. The h3 title have been removed.
- *
  *
  * @see template_preprocess()
  * @see template_preprocess_search_result()
