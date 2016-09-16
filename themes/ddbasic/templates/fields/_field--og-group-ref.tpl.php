@@ -1,6 +1,6 @@
 <?php
 /**
- * @file field--og-group-ref.tpl.php
+ * @file
  * Removed default field wrapper. Add label classes.
  *
  * Available variables:
