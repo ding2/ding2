@@ -55,6 +55,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
   if ($lists !== FALSE) {
     foreach ($lists as $list) {
       $list_type = ding_base_get_value('ding_type', $list, 'field_list_type');
+      $list_label = check_plain(entity_label('ding_type', $list));
 
       foreach ($groups as $group_name => $group) {
         if (isset($group['lists'][$list_type])) {
@@ -63,7 +64,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
             case 'users':
               $groups[$group_name]['lists'][$list_type][] = array(
                 'data' =>
-                '<a href="' . url($uri['path']) . '" class="signature-label"><span class="icon"></span>' . entity_label('ding_type', $list) . '</a>',
+                '<a href="' . url($uri['path']) . '" class="signature-label"><span class="icon"></span>' . $list_label . '</a>',
                 'class' => array(drupal_html_class($list_type)),
                 '#list' => $list,
               );
@@ -78,7 +79,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
 
               $groups[$group_name]['lists'][$list_type][] = array(
                 'data' =>
-                '<a href="' . url($uri['path']) . '" class="signature-label"><span class="icon"></span>' . entity_label('ding_type', $list) . '</a>' . $notout,
+                '<a href="' . url($uri['path']) . '" class="signature-label"><span class="icon"></span>' . $list_label . '</a>' . $notout,
                 'class' => array(drupal_html_class($list_type)),
                 '#list' => $list,
               );
@@ -89,7 +90,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
 
               $groups[$group_name]['lists'][$list_type][] = array(
                 'data' =>
-                '<a href="' . url($uri['path']) . '" class="signature-label"><span class="icon"></span>' . entity_label('ding_type', $list) . '</a>' . '<span class="label">' . count($items) . '</span>',
+                '<a href="' . url($uri['path']) . '" class="signature-label"><span class="icon"></span>' . $list_label . '</a>' . '<span class="label">' . count($items) . '</span>',
                 'class' => array(drupal_html_class($list_type)),
                 '#list' => $list,
               );

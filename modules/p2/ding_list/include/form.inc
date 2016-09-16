@@ -195,9 +195,9 @@ function ding_list_create_list_form($form, &$form_state, $existing = FALSE) {
 
       $tmp = confirm_form(
         $form,
-        t('Do you really want to delete !list?', array('!list' => $existing->title)),
+        t('Do you really want to delete !list?', array('!list' => check_plain($existing->title))),
         current_path(),
-        t('Do you really want to delete !list?', array('!list' => $existing->title))
+        t('Do you really want to delete !list?', array('!list' => check_plain($existing->title)))
       );
 
       return $tmp;
@@ -216,13 +216,13 @@ function ding_list_create_list_form($form, &$form_state, $existing = FALSE) {
     '#type' => 'textfield',
     '#title' => t('Title'),
     '#required' => TRUE,
-    '#default_value' => isset($existing->title) ? filter_xss($existing->title) : '',
+    '#default_value' => isset($existing->title) ? $existing->title : '',
   );
 
   $form['notes'] = array(
     '#type' => 'textarea',
     '#title' => t('Note'),
-    '#default_value' => isset($note) ? filter_xss($note) : '',
+    '#default_value' => isset($note) ? $note : '',
   );
 
   if ($existing) {
