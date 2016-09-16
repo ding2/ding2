@@ -597,12 +597,17 @@ function ding_list_list_permissions_form_state_callback($form, &$form_state) {
 function ding_list_list_permissions_form_share_callback($form, &$form_state) {
   global $language;
 
-  $list = $form_state['build_info']['args'][0];
-
   $response = array(
     '#type' => 'ajax',
     '#commands' => array(),
   );
+  
+  if (empty($form_state['values']['email'])) {
+    $response['#commands'][] = ajax_command_ding_popup('ding_list', t('The emails field is required to send out invitations.'), t('No mails send.'));
+    return $response;
+  }
+  
+  $list = $form_state['build_info']['args'][0];
 
   $uri = entity_uri('ding_type', $list);
   $token = ding_list_share_token($form_state['build_info']['args'][0], $form_state['values']['permission']);
