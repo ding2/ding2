@@ -13,6 +13,7 @@ require_once __DIR__ . '/template.ctools_plugin.php';
  * Preprocess and Process Functions.
  */
 
+// @TODO Remove unused code
 // Includes frequently used theme functions that gets theme info, css files etc.
 // @B14 outcommentet
 //include_once drupal_get_path('theme', 'ddbasic') . '/inc/functions.inc';
@@ -33,6 +34,7 @@ function ddbasic_preprocess_html(&$vars) {
   // Clean up the lang attributes.
   $vars['html_attributes'] = 'lang="' . $language->language . '" dir="' . $language->dir . '"';
 
+  // @TODO Remove unused code
   // Load ddbasic plugins.
   // @B14 outcommentet
   //ddbasic_load_plugins();
@@ -115,7 +117,7 @@ function ddbasic_process_html(&$vars) {
         break;
     }
   }
-
+// @TODO Remove unused code
   // Color module.
   // Hook into color.module.
   // @B14 outcommentet
@@ -225,6 +227,7 @@ function ddbasic_menu_tree__user_menu($vars) {
 }
 
 /**
+ * @TODO CLeanup line spacing
  * Implements hook_preprocess_views_view_unformatted().
  *
  * Overwrite views row classes
@@ -575,6 +578,7 @@ function ddbasic_remove_default_link_classes($classes) {
  *
  * Ex. add a javascript depending on the settings in the theme.
  */
+// @TODO Remove unused code
 //
 // @B14 outcommentet
 //
@@ -929,7 +933,7 @@ function ddbasic_preprocess_ting_object(&$vars) {
         }
 
         break;
-
+      // @TODO Remove unused code
       //case 'ting_collection':
       //  // Assumes that field only has one value.
       //  foreach ($vars['content']['ting_entities'][0] as &$type) {
@@ -1001,7 +1005,7 @@ function ddbasic_preprocess_ting_search_carousel_collection(&$variables) {
 }
 
 /**
- *
+ * @TODO Missing description
  */
 function ddbasic_date_display_range($variables) {
   $date1 = $variables['date1'];

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file field--ddbasic-field-ding-event-category.tpl.php
+ * @file
  * Template for ddbasic field implementation to display the value of a field.
  *
  * Available variables:

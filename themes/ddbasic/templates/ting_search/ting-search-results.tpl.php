@@ -1,5 +1,6 @@
 <?php
 /**
+ * @TODO Variables list
  * @file
  * Default theme implementation for displaying ting search results.
  *

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file field--ddbasic-field-ding-event-price.tpl.php
+ * @file
  * Stripped all wrappers for this field.
  *
  * Available variables:
