@@ -36,7 +36,7 @@ function ding_ddbasic_ding_entity_buttons($type, $entity) {
  */
 function ding_ddbasic_menu() {
   $items = array();
-  
+
   $items['ding-ddbasic/opening-hours/week/%node/%/%'] = array(
     'title' => 'Opening hours',
     'page callback' => 'ding_ddbasic_opening_hours_week_callback',
@@ -257,6 +257,11 @@ function ding_ddbasic_form_search_block_form_submit($form, &$form_state) {
 function ding_ddbasic_form_views_exposed_form_alter(&$form, &$form_state) {
   if($form_state['view']->name == 'ding_event' && $form_state['view']->current_display == 'ding_event_list') {
 
+    // Add placeholder to title field
+    if (!empty($form['title'])) {
+      $form['title']['#attributes']['placeholder'] = t('Search for an event');
+    }
+
     // Hide reset button if there's nothing to reset
     foreach ($form_state['view']->exposed_input as $exposed_input) {
       $input = $exposed_input;
@@ -266,6 +271,7 @@ function ding_ddbasic_form_views_exposed_form_alter(&$form, &$form_state) {
     }
   }
 }
+
 
 /**
  * Date popup
