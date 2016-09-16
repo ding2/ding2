@@ -311,7 +311,7 @@ function ding_p2_installer_default_page_manager_handlers() {
 
   // Tags variant
   $handler = new stdClass();
-  $handler->disabled = FALSE;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
   $handler->name = 'term_view_panel_context_4';
   $handler->task = 'term_view';
@@ -507,7 +507,7 @@ function ding_p2_installer_default_page_manager_handlers() {
     $pane->panel = 'right_above';
     $pane->type = 'entity_view';
     $pane->subtype = 'taxonomy_term';
-    $pane->shown = TRUE;
+    $pane->shown = FALSE;
     $pane->access = array();
     $pane->configuration = array(
       'view_mode' => 'teaser',
@@ -552,7 +552,6 @@ function ding_p2_installer_default_page_manager_handlers() {
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
-  
   $handlers['term_view_panel_context_4'] = $handler;
   
   // Ding site template
