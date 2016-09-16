@@ -1,5 +1,6 @@
 <?php
 /**
+ * @TODO Missing variables list
  * @file
  * Template for rendering opening hours week.
  */
