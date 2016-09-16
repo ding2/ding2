@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file field--ting-title--ting-object.tpl.php
+ * @file
  * Removed Default field wrapper.
  *
  * Available variables:

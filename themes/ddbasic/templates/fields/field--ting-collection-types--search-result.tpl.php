@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file field--ting-collection-types--search-result.tpl.php
+ * @file
  * Changed wrapper classes from default.
  *
  * Available variables:

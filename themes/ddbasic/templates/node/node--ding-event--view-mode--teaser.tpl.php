@@ -1,3 +1,9 @@
+<?php
+/**
+ * @TODO Missing description
+ * @TODO User proper template If...Else Statements
+ */
+?>
 <article class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <a href="<?php print $node_url; ?>">
     

@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * @TODO Cleanup line spacing
  * @file
  * DDBasic's theme implementation to display news nodes.
  *
