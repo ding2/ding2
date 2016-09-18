@@ -11,7 +11,7 @@
  * Helper function to determine if facets should be altered.
  */
 function _ting_field_search_alter_facets() {
-  $profile = ting_field_search_profile_is_active();
+  $profile = ting_field_search_get_active_profile();
   if ($profile && $profile->config['facets']['use_facets']) {
     return $profile;
   }

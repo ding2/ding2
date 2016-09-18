@@ -9,6 +9,11 @@
 // Separate handling of facets.
 include_once 'ting_field_search.facets.inc';
 
+// Ting field search context.
+define('TING_FIELD_SEARCH_SEARCH', 1);
+define('TING_FIELD_SEARCH_COLLECTION', 2);
+define('TING_FIELD_SEARCH_OBJECT', 3);
+
 /**
  * Implements hook_menu().
  */
@@ -164,19 +169,118 @@ function ting_field_search_get_status() {
 }
 
 /**
+ * Implements hook_panels_pane_prerender().
+ *
+ * We use this hook as a main entry for activating profiles. All the targeted
+ * request-types are made from panel panes and this panels hook has the perfect
+ * timing while also being invoked for cached panes.
+ */
+function ting_field_search_panels_pane_prerender($pane) {
+  // If the module isn't installed properly it can lead to unexpected behavior.
+  if (!ting_field_search_get_status()) {
+    return;
+  }
+
+  $context = NULL;
+
+  if ($pane->type == 'search_result') {
+    $context = TING_FIELD_SEARCH_SEARCH;
+  }
+  elseif ($pane->type == 'ting_collection') {
+    $context =  TING_FIELD_SEARCH_COLLECTION;
+  }
+  elseif ($pane->type == 'ting_object') {
+    $context = TING_FIELD_SEARCH_OBJECT;
+  }
+
+  // If we have a supported context, attempt to activate a profile.
+  if (isset($context) && ting_field_search_get_active_profile()) {
+    // Initialize the alteration of the ting request and cache_ting by also
+    // activating the context.
+    ting_field_search_set_context($context);
+  }
+}
+
+/**
+ * Implements hook_panels_panel_content_alter().
+ */
+function ting_field_search_panels_pane_content_alter($content, $pane, $args, $contexts) {
+  if (ting_field_search_get_context()) {
+    // If we have an active context; end it now that the related content has
+    // been rendered. This prevents unwanted tampering with requests initiated
+    // by other panel panes, blocks etc.
+    ting_field_search_set_context(NULL);
+  }
+}
+
+/**
+ * Gets the active profile if any. Any code that performs alterations based on
+ * an active profile should use this to get it, since it handles the detection
+ * and loading correcty and stores it in a fast static.
+ *
+ * The first time this functon is called on a request it will attempt to
+ * activate a profile by looking for a profile GET-parameter in the URI.
+ *
+ * @return object $profile
+ *   If a profile is/was activated, the fully loaded object.
+ *   FALSE otherwise.
+ */
+function ting_field_search_get_active_profile() {
+  static $drupal_static_fast;
+  if (!isset($drupal_static_fast)) {
+    $drupal_static_fast['profile'] = &drupal_static(__FUNCTION__);
+  }
+  $profile = &$drupal_static_fast['profile'];
+
+  if (!isset($profile)) {
+    $profile = FALSE;
+
+    // Look for the profile query parameter.
+    if (!empty($_GET['profile'])) {
+      // Check to see if it is defined in the system.
+      $result = ting_field_search_profiles_load($_GET['profile']);
+      if ($result) {
+        $profile = $result;
+      }
+    }
+  }
+
+  return $profile;
+}
+
+/**
+ * Set the current search request type when a profile was activated.
+ */
+function ting_field_search_set_context($request_type) {
+  $static = &drupal_static(__FUNCTION__);
+  $static = $request_type;
+}
+
+/**
+ * If a profile is active this returns the associated ting request type.
+ */
+function ting_field_search_get_context() {
+  return drupal_static('ting_field_search_set_context');
+}
+
+/**
  * Implements hook_ting_pre_execute().
  */
 function ting_field_search_ting_pre_execute($request) {
-  if ($profile = ting_field_search_profile_is_active()) {
+  //$status = ting_field_search_get_request_status();
+  $context = ting_field_search_get_context();
+  $profile = ting_field_search_get_active_profile();
+
+  if ($profile && $context) {
+    // Initialize some often used variables.
     $config = $profile->config;
     $search_well_profile = $config['search_request']['search_well_profile'];
     $result_well_profile = $config['search_request']['result_well_profile'];
 
-    // Using get_class() to ensure we target the correct classes.
+    // Alter the request based on the profile settings and request class.
     switch (get_class($request)) {
-      case 'TingClientCollectionRequest':
-        // Fall through.
       case 'TingClientObjectRequest':
+      case 'TingClientCollectionRequest':
         // Use an alternative well profile for results if set. Hopefully the
         // administrator knows what they are doing.
         if ($result_well_profile) {
@@ -232,7 +336,6 @@ function ting_field_search_ting_pre_execute($request) {
 
           $request->setNumFacets($config['facets']['number_of_facets']);
         }
-
         break;
     }
   }
@@ -303,70 +406,6 @@ function _ting_field_search_new_materials_cql($days) {
   $expression .= $year_conditions;
 
   return $expression;
-}
-
-/**
- * Detects if a profile is active. Functions that perform modifications based
- * on the active profile, should use this to verify and/or get the profile.
- *
- * @return mixed $result
- *   The active profile object.
- *   FALSE if no profile was active.
- */
-function ting_field_search_profile_is_active() {
-  // This has the potential to be called many times on a request.
-  static $drupal_static_fast;
-  if (!isset($drupal_static_fast)) {
-    $drupal_static_fast['result'] = &drupal_static(__FUNCTION__);
-  }
-  $result = &$drupal_static_fast['result'];
-
-  if (!isset($result)) {
-    $result = FALSE;
-
-    // If there's a profile parameter present and we're on a supported path;
-    // attempt to active the profile requested in the parameter.
-    if (!empty($_GET['profile']) && ting_field_search_path_is_supported()) {
-      $profile_name = $_GET['profile'];
-
-      // Without the correct cache backend, modifying the ting request can give
-      // unexpected behavior. For example, if the profile is used on a cold
-      // cache search, the response with the modifications will be locked and
-      // the "profil response" will be served on a every subsequent search -
-      // with or without that profile parameter.
-      // We therefore block any attempt to activate a profile when this is the
-      // case. This will in turn disable all profile related activity.
-      if (ting_field_search_get_status()) {
-        // Now we load the profile since this is the most expensive.
-        $profile = ting_field_search_profiles_load($_GET['profile']);
-
-        // If the profile exists, store it in the static variable for fast
-        // retrieval later in the request.
-        if ($profile) {
-          $result = $profile;
-        }
-      }
-    }
-  }
-
-  return $result;
-}
-
-/**
- * Checks to see if a profile is applicable on the current path.
- */
-function ting_field_search_path_is_supported() {
-  $result = &drupal_static(__FUNCTION__);
-
-  if (!isset($result)) {
-    $result = drupal_match_path(current_path(), implode(PHP_EOL, array(
-      'search/ting/*',
-      'ting/object/*',
-      'ting/collection/*',
-    )));
-  }
-
-  return $result;
 }
 
 /**
@@ -443,7 +482,7 @@ function ting_field_search_ting_collection_uri($collection) {
  * Private helper function to alter entity uri of ting collectons and objects.
  */
 function _ting_field_search_alter_entity_uri($path) {
-  if ($profile = ting_field_search_profile_is_active()) {
+  if ($profile = ting_field_search_get_active_profile()) {
     ting_field_search_append_query($path['options']['query'], $profile);
   }
   return $path;
@@ -467,7 +506,7 @@ function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_
   // from ting_collection to ting_object, when there's only one object in the
   // collection.
   // See: ting_collection_page_view()
-  if ($profile = ting_field_search_profile_is_active()) {
+  if ($profile = ting_field_search_get_active_profile()) {
     if (drupal_match_path(current_path(), 'ting/collection/*') && preg_match('/^ting\/object/', $path)) {
       ting_field_search_append_query($options['query'], $profile);
     }
@@ -480,7 +519,7 @@ function ting_field_search_drupal_goto_alter(&$path, &$options, &$http_response_
  * Alter outbound links based on active profile settings.
  */
 function ting_field_search_url_outbound_alter(&$path, &$options, $original_path) {
-  if ($profile = ting_field_search_profile_is_active()) {
+  if ($profile = ting_field_search_get_active_profile()) {
     // Alter search links.
     if ($profile->config['user_interaction']['alter_links'] && preg_match('/^search\/ting/', $path)) {
       // Possibly add the Webtrends parameter here too, so use the helper.
@@ -498,7 +537,7 @@ function ting_field_search_url_outbound_alter(&$path, &$options, $original_path)
  * @see ting_field_search_entity_info_alter()
  */
 function ting_field_search_preprocess_ding_availability_types(&$variables) {
-  $profile = ting_field_search_profile_is_active();
+  $profile = ting_field_search_get_active_profile();
   // Nothing to do if a profile isn't active.
   if (!$profile) {
     return;
@@ -551,7 +590,7 @@ function ting_field_search_preprocess_ding_availability_types(&$variables) {
  * Implements hook_preprocess_html().
  */
 function ting_field_search_preprocess_html(&$variables) {
-  if ($profile = ting_field_search_profile_is_active()) {
+  if ($profile = ting_field_search_get_active_profile()) {
     // Add the Webtrends WT.ad meta tag. This is the onsite ad view query
     // paranmeter and it works together with the WT.ac click parameter which
     // we add to some of the links.
@@ -596,7 +635,7 @@ function ting_field_search_form_search_block_form_alter(&$form, &$form_state) {
   }
 
   // If there's an active profile and it is stick; set it as default value.
-  if ($profile = ting_field_search_profile_is_active()) {
+  if ($profile = ting_field_search_get_active_profile()) {
     $profile = $profile->config['user_interaction']['sticky'] ? $profile->name : '';
   }
   $form['ting_field_search'] = array(
@@ -664,7 +703,7 @@ function ting_field_search_search_block_validate($form, &$form_state) {
  * Insert the default sort for the active profile on the sort form.
  */
 function ting_field_search_form_ting_search_sort_form_alter(&$form, &$form_state) {
-  if ($profile = ting_field_search_profile_is_active()) {
+  if ($profile = ting_field_search_get_active_profile()) {
     $ting_search_default_sort = variable_get('ting_search_default_sort', '');
     $profile_default_sort = $profile->config['search_result']['default_sort'];
 
@@ -703,7 +742,7 @@ function ting_field_search_form_ting_search_sort_form_alter(&$form, &$form_state
  * supporting that as well.
  */
 function ting_field_search_form_ting_search_per_page_form_alter(&$form, &$form_state) {
-  if ($profile = ting_field_search_profile_is_active()) {
+  if ($profile = ting_field_search_get_active_profile()) {
     $def_size = $profile->config['search_result']['results_per_page'];
     if (!empty($form['size']['#options']) && $def_size) {
       $sizes = &$form['size']['#options'];
