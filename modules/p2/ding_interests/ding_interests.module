@@ -85,7 +85,7 @@ function ding_interests_ding_list_operations() {
  * Implements hook_ding_interaction_view().
  */
 function ding_interests_ding_interaction_view() {
-  if (user_is_logged_in()) {
+  if (ding_user_is_provider_user()) {
     
     // UI for following interests is ajax time.
     ctools_include('ajax');
