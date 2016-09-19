@@ -112,6 +112,10 @@
       }
       .group-holdings-available {
         clear: both;
+        &:not(.collapsible) {
+          padding: 28px 0 26px;
+          border-top: 1px solid $charcoal-opacity-light;
+        }
       }
       .group-material-details {
         .field-group-format-wrapper {
