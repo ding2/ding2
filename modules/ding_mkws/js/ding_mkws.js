@@ -76,7 +76,7 @@ var ding_mkws = {
     ding_mkws.pz2.showFastCount = 1;
 
     ding_mkws.auth(function () {
-        ding_mkws.search(settings.term, settings.amount, settings.resources, settings.limit)
+        ding_mkws.search(settings.term, settings.amount, settings.filter, settings.limit)
       },
       failCallback
     );
@@ -92,19 +92,18 @@ var ding_mkws = {
         var process = $this.data('process');
         var template = $this.data('template');
         var settings = Drupal.settings[hash];
-        if (settings.limit === undefined) {
-          settings.limit = null;
+        if (settings.resources === undefined) {
+          settings.resources = null;
         }
         else {
-          var out = null;
-          for (var key in settings.limit) {
-            out = key + "=" + settings.limit[key];
+          var out = 'pz:id=';
+          for (var key in settings.resources) {
+            out += settings.resources[key];
+            if (key != settings.resources.length - 1) {
+               out += '|';
+            }
           }
-          settings.limit = out;
-        }
-
-        if (settings.resources.length == 0) {
-          settings.resources = null;
+          settings.filter = out;
         }
         ding_mkws.init(settings, function (data) {
             /**

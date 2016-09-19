@@ -63,10 +63,9 @@ function ding_mkws_field_schema($field) {
           'default' => '',
         ),
         'resources' => array(
-          'type' => 'varchar',
-          'length' => '255',
+          'type' => 'text',
+          'size' => 'medium',
           'not null' => TRUE,
-          'default' => '',
         ),
         'amount' => array(
           'type' => 'int',
