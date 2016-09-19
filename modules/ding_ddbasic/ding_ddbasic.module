@@ -168,17 +168,6 @@ function ding_ddbasic_form_ding_frontpage_admin_settings_alter(&$form, &$form_st
 /**
  *
  */
-function ding_ddbasic_views_query_alter(&$view, &$query) {
-  switch ($view->name . ' ' . $view->current_display) {
-    case 'ding_event ding_event_list_frontpage':
-      // dpm($view);
-      break;
-  }
-}
-
-/**
- *
- */
 function ding_ddbasic_views_pre_build(&$view) {
   switch ($view->name . ' ' . $view->current_display) {
     case 'ding_event ding_event_list_frontpage':
@@ -240,7 +229,7 @@ function ding_ddbasic_form_search_block_form_alter(&$form, &$form_state) {
 }
 
 /**
- *
+ * Pre submit action for form_search_block_form().
  */
 function ding_ddbasic_form_search_block_form_submit($form, &$form_state) {
   if (!empty($form_state['values']['material_type'])) {
@@ -254,6 +243,9 @@ function ding_ddbasic_form_search_block_form_submit($form, &$form_state) {
   }
 }
 
+/**
+ * Implements hook_form_[FORM_ID]_alter().
+ */
 function ding_ddbasic_form_views_exposed_form_alter(&$form, &$form_state) {
   if($form_state['view']->name == 'ding_event' && $form_state['view']->current_display == 'ding_event_list') {
 
@@ -271,7 +263,6 @@ function ding_ddbasic_form_views_exposed_form_alter(&$form, &$form_state) {
     }
   }
 }
-
 
 /**
  * Date popup

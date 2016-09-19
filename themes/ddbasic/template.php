@@ -608,7 +608,7 @@ function ddbasic_js_alter(&$javascript) {
   if (isset($javascript[$ding_popup])) {
     $javascript[$ding_popup]['data'] = drupal_get_path('theme', 'ddbasic') . '/scripts/popup-hijack.js';
   }
-  
+
   // Remove the opening_hours files, so they dont't cause a JavaScript error
   // when outputting the theme specific opening_hours template.
   $opening_hours_path = drupal_get_path('module', 'opening_hours');
