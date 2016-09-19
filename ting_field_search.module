@@ -1068,10 +1068,3 @@ function ting_field_search_config_default() {
     ),
   );
 }
-
-function ting_field_search_ting_search_settings() {
-  variable_get('ting_search_results_per_page', 10);
-  variable_get('ting_search_default_sort', ''); // ting_search.admin.inc
-  variable_get('ting_sort_default', 'rank_frequency'); // ting.admin.inc
-  variable_get('ting_search_number_of_facets', 25);
-}
