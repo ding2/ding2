@@ -28,7 +28,7 @@ function ting_proxy(data) {
   var url = new URL(data);
   var ting_proxy = Drupal.settings.mkdru_ding.proxy_settings;
 
-  if (ting_proxy.hostnames.length > 0) {
+  if (ting_proxy.length > 0 && ting_proxy.hostnames.length > 0) {
     for (var i = 0; i < ting_proxy.hostnames.length; i++) {
       if (ting_proxy.hostnames[i].hostname === data.hostname && ting_proxy.hostnames[i].disable_prefix === 0) {
         var regexp = ting_proxy.hostnames[i].expression.regex;

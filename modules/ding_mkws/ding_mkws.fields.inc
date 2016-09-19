@@ -81,6 +81,7 @@ function ding_mkws_field_widget_form(&$form, &$form_state, $field, $instance, $l
         '#default_value' => !empty($item['resources']) ? $item['resources'] : NULL,
         '#options' => $options,
         '#empty_option' => t('Choose LBRs'),
+        '#multiple' => TRUE,
       );
 
       $element['wrapper']['amount'] = array(
@@ -112,8 +113,22 @@ function ding_mkws_field_presave($entity_type, $entity, $field, $instance, $lang
     case 'ding_mkws_node_widget_default':
       foreach ($items as $delta => &$item) {
         $item = $item['wrapper'];
+        $item['resources'] = serialize($item['resources']);
       }
       break;
+  }
+}
+
+/**
+ * Implements hook_field_load().
+ */
+function ding_mkws_field_load($entity_type, $entities, $field, $instances, $langcode, &$items, $age) {
+  foreach ($entities as $id => $entity) {
+    foreach ($items[$id] as $delta => $item) {
+      if ($field['type'] == 'ding_mkws_node') {
+        $items[$id][$delta]['resources'] = unserialize($items[$id][$delta]['resources']);
+      }
+    }
   }
 }
 
@@ -141,7 +156,10 @@ function ding_mkws_field_formatter_view($entity_type, $entity, $field, $instance
     switch ($display['type']) {
       case 'ding_mkws_node_formatter_default':
         $item = reset($items);
-        $hash = md5(implode('', $item));
+        $imploded = array_map(function ($i) {
+          return is_array($i) ? implode('', $i) : $i;
+        }, $item);
+        $hash = md5(implode('', $imploded));
         ding_mkws_include_all();
         $element[0] = array(
           '#markup' => "<div data-hash='{$hash}' 

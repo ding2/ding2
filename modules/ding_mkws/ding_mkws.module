@@ -178,7 +178,6 @@ function ding_mkws_include_all() {
   libraries_load('pz2');
   libraries_load('jsrender');
   $settings = variable_get('ding_mkws_settings', array());
-
   try {
     $sid = _ding_mkws_request('auth', $settings, 'login');
   }
@@ -221,7 +220,6 @@ function ding_mkws_include_all() {
     ),
     array('type' => 'setting')
   );
-
   drupal_add_js(array('ding_mkws' => $settings), 'setting');
 }
 
