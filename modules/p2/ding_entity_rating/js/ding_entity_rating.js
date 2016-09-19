@@ -69,7 +69,12 @@
       evt.preventDefault();
 
       if (!$this.closest('.ding-rating').hasClass('rateable')) {
-        location.href = '/user?destination=' + location.pathname;
+        location.hash = 'login';
+        if (location.search.indexOf('?') == -1) {
+          location.search = '?' + new Date().getTime();
+        } else {
+          location.search += '&' + new Date().getTime();
+        }
         return;
       }
 
@@ -126,24 +131,26 @@
       $('.ding-entity-rating', context).each(function () {
         rating_ids.push($(this).attr('data-ding-entity-rating-id'));
       });
-
-      $.ajax('/ding_entity_rating/get', {
-        data: {ids: rating_ids},
-        dataType: 'json',
-        method: 'get',
-        success: function (data) {
-          for (var i in data) {
-            if (data[i] !== false) {
-              $('.ding-entity-rating[data-ding-entity-rating-id="' + i + '"] .star')
-                .eq(data[i])
-                .removeClass('submitted')
-                .prevAll().addClass('submitted')
-                .end().nextAll().removeClass('submitted')
-                .end().parent().find('.ding-entity-rating-avg').remove();
+      
+      if (rating_ids.length > 0) {
+        $.ajax('/ding_entity_rating/get', {
+          data: {ids: rating_ids},
+          dataType: 'json',
+          method: 'get',
+          success: function (data) {
+            for (var i in data) {
+              if (data[i] !== false) {
+                $('.ding-entity-rating[data-ding-entity-rating-id="' + i + '"] .star')
+                  .eq(data[i])
+                  .removeClass('submitted')
+                  .prevAll().addClass('submitted')
+                  .end().nextAll().removeClass('submitted')
+                  .end().parent().find('.ding-entity-rating-avg').remove();
+              }
             }
           }
-        }
-      });
+        });
+      }
     }
   };
 })(jQuery);
