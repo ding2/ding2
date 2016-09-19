@@ -690,10 +690,21 @@ function ting_field_search_search_block_validate($form, &$form_state) {
     $form_state['values']['sort'] = '';
   }
 
-  // Flag that a profile was selected for later in the redirect.
-  // See: ting_field_search_goto_alter().
   if ($selected_profile) {
+    // Flag that a profile was selected for later in the redirect.
+    // See: ting_field_search_goto_alter().
     ting_field_search_set_selected_profile($selected_profile);
+
+    // To support the allow empty feature, we may have to load a profile to
+    // see its config.
+    $form_id = $form['form_id']['#value'];
+    $keys = &$form_state['values'][$form_id];
+    if (empty($keys)) {
+      $profile = ting_field_search_profiles_load($selected_profile);
+      if ($profile && $profile->config['search_request']['allow_empty']) {
+        $keys = '*';
+      }
+    }
   }
 }
 
@@ -1050,6 +1061,7 @@ function ting_field_search_config_default() {
       'result_well_profile' => '',
       'query' => '',
       'new_materials' => '',
+      'allow_empty' => 0,
     ),
     'search_result' => array(
       'results_per_page' => 10,
