@@ -60,7 +60,9 @@ function ting_proxy(data, target) {
       try {
         out = {
           target: data.hits[i].location[0]['@name'],
-          title: data.hits[i]['md-title']
+          title: data.hits[i]['md-title'],
+          author: data.hits[i]['md-author'],
+          date: data.hits[i]['md-date']
         };
         url = data.hits[i]['md-electronic-url'][0];
       }
@@ -85,7 +87,9 @@ function ting_proxy(data, target) {
       try {
         out = {
           target: data.hits[i].location[0]['@name'],
-          title: data.hits[i]['md-title'][0]
+          title: data.hits[i]['md-title'][0],
+          author: data.hits[i]['md-author'],
+          date: data.hits[i]['md-date']
         };
         url = data.hits[i]['md-electronic-url'][0];
       }
@@ -121,6 +125,12 @@ function ting_proxy(data, target) {
                 "<p class='ding-mkws-title'>" +
                   Drupal.t('Title') +
                 "</p>" +
+                "<p class='ding-mkws-author'>" +
+                  Drupal.t('Author') +
+                "</p>" +
+                "<p class='ding-mkws-date'>" +
+                  Drupal.t('Date') +
+                "</p>" +
               "</div>" +
               "<div class='ding-mkws-values'>" +
                 "<p class='ding-mkws-target'>" +
@@ -129,6 +139,12 @@ function ting_proxy(data, target) {
                 "<a class='ding-mkws-title' href='{{:url}}' target='_blank'>" +
                   '{{:title}}' +
                 "</a>" +
+                "<p class='ding-mkws-author'>" +
+                  '{{:author}}' +
+                "</p>" +
+                "<p class='ding-mkws-date'>" +
+                  '{{:date}}' +
+                "</p>" +
               "</div>" +
             "</li>"+
           "{{/for}}</ul>" +
@@ -143,14 +159,26 @@ function ting_proxy(data, target) {
                 "<p class='ding-mkws-title'>" +
                   Drupal.t('Title') +
                 "</p>" +
+                "<p class='ding-mkws-author'>" +
+                  Drupal.t('Author') +
+                "</p>" +
+                "<p class='ding-mkws-date'>" +
+                  Drupal.t('Date') +
+                "</p>" +
               "</div>" +
               "<div class='ding-mkws-values'>" +
                 "<p class='ding-mkws-target'>" +
                   '{{:target}}' +
                 "</p>" +
                 "<a class='ding-mkws-title'  href='{{:url}}' target='_blank'>" +
-                '{{:title}}' +
+                  '{{:title}}' +
                 "</a>" +
+                "<p class='ding-mkws-author'>" +
+                  '{{:author}}' +
+                "</p>" +
+                "<p class='ding-mkws-date'>" +
+                  '{{:date}}' +
+                 "</p>" +
               "</div>" +
             "</li>"+
           "{{/for}}</ul>" +
@@ -173,6 +201,12 @@ function ting_proxy(data, target) {
               "<p class='ding-mkws-name'>" +
                 Drupal.t('Title') +
               "</p>" +
+              "<p class='ding-mkws-author'>" +
+                Drupal.t('Author') +
+              "</p>" +
+              "<p class='ding-mkws-date'>" +
+                Drupal.t('Date') +
+              "</p>" +
             "</div>" +
             "<div class='ding-mkws-values'>" +
               "<p class='ding-mkws-target'>" +
@@ -181,6 +215,12 @@ function ting_proxy(data, target) {
               "<a class='ding-mkws-title'  href='{{:url}}' target='_blank'>" +
                 '{{:title}}' +
               "</a>" +
+              "<p class='ding-mkws-author'>" +
+                '{{:author}}' +
+              "</p>" +
+              "<p class='ding-mkws-date'>" +
+                '{{:date}}' +
+              "</p>" +
             "</div>" +
           "</li>"+
         "{{/for}}</ul>" +

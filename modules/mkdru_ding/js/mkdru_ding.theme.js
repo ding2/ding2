@@ -56,6 +56,14 @@
       html += " (" + hit['location'][0]['md-medium'] + ")";
     }
     html += '</h3>';
+
+    // Add target to each result item.
+    var target = ''
+    if (typeof (hit.location[0]['@name']) != 'undefined') {
+      target =  hit.location[0]['@name'];
+    }
+    
+    html += '<div class="mkdru-target">' + target + '</div>';
     html += '<div class="search-snippet-info">' +
       '<p class="search-snippet"></p>' +
       '<div class="ting-object clearfix">' +
