@@ -11,7 +11,7 @@ function ddbasic_preprocess_field(&$vars, $hook) {
       unset($item['#prefix']);
     }
   }
- 
+
   // Get current view mode (teaser).
   $view_mode = $vars['element']['#view_mode'];
   $field_name = $vars['element']['#field_name'];
@@ -60,7 +60,7 @@ function ddbasic_preprocess_field(&$vars, $hook) {
   if ($view_mode == 'search_result') {
     // Add suggestion that only hits the search result page.
     $vars['theme_hook_suggestions'][] = 'field__' . $vars['element']['#field_type'] . '__' . $view_mode;
-    
+
     // @B14 Outcommented by B14
     //
     //switch ($vars['element']['#field_name']) {
@@ -75,7 +75,7 @@ function ddbasic_preprocess_field(&$vars, $hook) {
     //    break;
     //}
   }
-  
+
 
   // Make suggestion for the availability on the search result page.
   if ($vars['element']['#field_type'] == 'ting_collection_types' &&
@@ -123,7 +123,7 @@ function preprocess__field__ting_abstract(&$vars) {
     case 'teaser':
       $text = $vars['items'][0]['#markup'];
       $vars['items'][0]['#markup'] = mb_strimwidth($text, 0, 120, "...");
-      break;  
+      break;
   }
 }
 
@@ -131,19 +131,19 @@ function preprocess__field__ting_abstract(&$vars) {
  * Ting author
  */
 function preprocess__field__ting_author(&$vars) {
-  
+
   // In view mode teaser
-  // We overwrite the markup so the creator is no longer a link, 
+  // We overwrite the markup so the creator is no longer a link,
   // using the same method as in ting module
   if ($vars['element']['#view_mode'] == 'teaser') {
-  
+
     $creators = array();
     foreach ($vars['element']['#object']->creators as $i => $creator) {
       $creators[] = $creator;
     }
 
     $markup_string = '';
-        
+
     if (count($creators)) {
       if ($vars['element']['#object']->date != '') {
         $markup_string = t('By !author_link (@year)', array(
@@ -164,7 +164,7 @@ function preprocess__field__ting_author(&$vars) {
       '#markup' => $markup_string,
     );
   }
-  
+
 }
 
 /**
@@ -191,7 +191,7 @@ function preprocess__field__field_ding_news_files(&$vars) {
   foreach ($vars['items'] as $delta => $item) {
     $file_type = strstr($item['#file']->filemime, '/');
     $file_type = ltrim($file_type, '/');
-    
+
     $vars['items'][$delta]['#suffix'] = '<span class="file-type">(' . $file_type . ')</span>';
 
   }

@@ -758,6 +758,7 @@ function ddbasic_preprocess_ting_object(&$vars) {
       break;
 
     case 'ting_object':
+
       $uri_collection = entity_uri('ting_collection', $vars['object']);
       $vars['ting_object_url_collection'] = url($uri_collection['path']);
 

@@ -129,19 +129,6 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     '#default_value' => ddbasic_theme_setting('social_link_instagram', ''),
   );
 
-  // Ting object holdings collapsed
-  $form['ddbasic_settings']['ting_object_holdings'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Ting object holdings'),
-  );
-
-  $form['ddbasic_settings']['ting_object_holdings']['ting_object_holdings_open'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Open'),
-    '#description' => t('Show holdings (availability and placement on libraries) on ting object as open instead of collapsed'),
-    '#default_value' => ddbasic_theme_setting('ting_object_holdings_open', FALSE),
-  );
-
   $form['#validate'][] = 'ddbasic_form_system_theme_settings_validate';
   $form['#submit'][] = 'ddbasic_form_system_theme_settings_submit';
 }
