@@ -384,7 +384,7 @@ function ding_christmas_calendar_menu_alter(&$items) {
 }
 
 /**
- *  Custom access callback for preventing access to quiz for provider role.
+ * Custom access callback for preventing access to quiz for provider role.
  */
 function ding_christmas_calendar_access_callback($arg, $original) {
   global $user;
