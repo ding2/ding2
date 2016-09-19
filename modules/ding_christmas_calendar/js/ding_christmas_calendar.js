@@ -50,7 +50,7 @@
       });
       e.preventDefault();
     });
-    
+
     $('.pane-ding-christmas-calendar-mobile .future-day a').click(function(e) {
       $.notify(Drupal.t("Hov Hov. Do not cheat! You can not open the door yet"), "info");
       e.preventDefault();

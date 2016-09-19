@@ -41,6 +41,7 @@ function ding_christmas_calendar_menu() {
     'description' => 'Represents wrapper for quiz_quiztake function.',
     'access arguments' => array('access quiz'),
     'file' => 'ding_christmas_calendar.pages.inc',
+    'delivery callback' => 'ding_christmas_delivery_callback',
   );
   return $items;
 }
@@ -71,7 +72,7 @@ function ding_christmas_calendar_libraries_info() {
     'path' => 'slick',
     'vendor url' => 'https://github.com/kenwheeler/slick',
     'download url' => 'https://github.com/kenwheeler/slick/archive/master.zip',
-    'version callback' => 'ding_christmas_calendar_get_version',     
+    'version callback' => 'ding_christmas_calendar_get_version',
     'files' => array(
       'js' => array('slick.min.js'),
       'css' => array('slick.css', 'slick-theme.css'),
@@ -83,7 +84,7 @@ function ding_christmas_calendar_libraries_info() {
     'path' => 'dist',
     'vendor url' => 'https://github.com/notifyjs/notifyjs/',
     'download url' => 'https://github.com/notifyjs/notifyjs/archive/master.zip',
-    'version callback' => 'ding_christmas_calendar_get_version',     
+    'version callback' => 'ding_christmas_calendar_get_version',
     'files' => array(
       'js' => array('notify.js'),
     ),
@@ -283,26 +284,6 @@ function ding_christmas_calendar_questions($nid, $vid, $type = NULL) {
 }
 
 /**
- * Support function for getting id of question.
- *
- * @param mixed $input
- *   Id of node or object of node.
- *
- * @return mixed
- *   Actual id of question or FALSE.
- */
-function ding_christmas_get_question_id($input) {
-  $nid = is_object($input) ? $input->nid : $input;
-  $id = db_select('quiz_node_relationship', 't')
-    ->fields('t', array('qnr_id'))
-    ->condition('t.child_nid', $nid)
-    ->execute()
-    ->fetchField();
-
-  return $id;
-}
-
-/**
  * Support function for getting number of question.
  *
  * @param mixed $input
@@ -359,4 +340,72 @@ function ding_christmas_calendar_form_alter(&$form, &$form_state, $form_id) {
  */
 function ding_christmas_calendar_back_submit($form, &$form_state) {
   $form_state['redirect'] = 'ding-christmas-calendar';
+}
+
+
+/**
+ * Support function for getting id of question.
+ *
+ * @param mixed $input
+ *   Id of node or object of node.
+ *
+ * @return mixed
+ *   Actual id of question or FALSE.
+ */
+function ding_christmas_get_question_id($input) {
+  $nid = is_object($input) ? $input->nid : $input;
+  $id = db_select('quiz_node_relationship', 't')
+    ->fields('t', array('qnr_id'))
+    ->condition('t.child_nid', $nid)
+    ->execute()
+    ->fetchField();
+
+  return $id;
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ding_christmas_delivery_callback($page_callback_result) {
+  if ($page_callback_result === MENU_ACCESS_DENIED) {
+    drupal_goto('user/login');
+  }
+  drupal_deliver_html_page($page_callback_result);
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function ding_christmas_calendar_menu_alter(&$items) {
+  $items['node/%quiz_menu/take']['access arguments'][] = $items['node/%quiz_menu/take']['access callback'];
+  $items['node/%quiz_menu/take']['access callback'] = 'ding_christmas_calendar_access_callback';
+  $items['node/%quiz_menu/quiz']['access arguments'][] = $items['node/%quiz_menu/quiz']['access callback'];
+  $items['node/%quiz_menu/quiz']['access callback'] = 'ding_christmas_calendar_access_callback';
+}
+
+/**
+ *  Custom access callback for preventing access to quiz for provider role.
+ */
+function ding_christmas_calendar_access_callback($arg, $original) {
+  global $user;
+  if (in_array('provider', $user->roles)) {
+    return FALSE;
+  }
+  else {
+    if (function_exists($original)) {
+      call_user_func($original, $arg);
+    }
+  }
+}
+
+/**
+ * Implements hook_node_access().
+ */
+function ding_christmas_calendar_node_access($node, $op, $account) {
+  $user = user_load($account->uid);
+  $quiz_id = variable_get('ding_christmas_calendar_quiz_id', NULL);
+  $obj = menu_get_object();
+  if (!empty($obj) && $obj->nid == $quiz_id && $op == 'view' && in_array('provider', $user->roles)) {
+    return NODE_ACCESS_DENY;
+  }
 }

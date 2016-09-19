@@ -10,6 +10,8 @@
 function ding_christmas_calendar_install() {
   _ding_christmas_calendar_create_quiz();
   _ding_christmas_calendar_create_field();
+  variable_set('scheduler_publish_enable_quiz_page', TRUE);
+  variable_set('scheduler_unpublish_enable_quiz_page', TRUE);
 }
 
 
@@ -44,6 +46,9 @@ function ding_christmas_calendar_uninstall() {
   catch (Exception $ex) {
     watchdog_exception('ding_christmas_calendar', $ex);
   }
+  variable_del('scheduler_publish_enable_quiz_page');
+  variable_del('scheduler_unpublish_enable_quiz_page');
+  variable_del('ding_christmas_calendar_quiz_id');
 }
 
 /**
