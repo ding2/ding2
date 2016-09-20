@@ -171,11 +171,13 @@ function ding_ddbasic_form_ding_frontpage_admin_settings_alter(&$form, &$form_st
 function ding_ddbasic_views_pre_build(&$view) {
   switch ($view->name . ' ' . $view->current_display) {
     case 'ding_event ding_event_list_frontpage':
-      if (variable_get('ding_frontpage_events_promoted', TRUE) === FALSE) {
+
+      if (variable_get('ding_frontpage_events_promoted', TRUE) == FALSE) {
         unset($view->filter['promote']);
       }
 
-      $view->display_handler->options['pager']['options']['items_per_page'] = variable_get('ding_frontpage_events_count', 6);
+      $view->display_handler->display->display_options['pager']['options']['items_per_page'] = variable_get('ding_frontpage_events_count', 6);
+
       break;
     case 'ding_event ding_event_list':
 

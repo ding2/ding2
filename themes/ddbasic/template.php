@@ -234,12 +234,21 @@ function ddbasic_preprocess_views_view(&$vars) {
   switch ($vars['name']) {
     case 'ding_event':
       switch ($vars['view']->current_display) {
-        case 'ding_event_list_frontpage':
         case 'ding_event_library_list':
         case 'ding_event_groups_list':
         case 'ding_event_list_same_tag':
           // Add max-two-rows class
           $vars['classes_array'][] = 'max-two-rows';
+
+        break;
+        case 'ding_event_list_frontpage':
+          // Add max-two-rows class
+          $vars['classes_array'][] = 'max-two-rows';
+
+          // Add event count setting as js variable
+          $count = variable_get('ding_frontpage_events_count', 6);
+          drupal_add_js(array('number_of_events' => $count), 'setting');
+
         break;
       }
     break;
