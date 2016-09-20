@@ -49,7 +49,7 @@ function ding_mkws_item_list_render($subtype, $conf, $panel_args, $context) {
     $params['term'] = reset($panel_args);
   }
 
-  $params['resources'] = (!empty($global_settings)) ? $global_settings['resources'] : NULL;
+  $params['resources'] = (!empty($global_settings)) ? array_values($global_settings['resources']) : NULL;
   $pane->content['#markup'] = "<div data-hash='{$hash}' 
             data-process='ProcessDataForPaneWidget' 
             data-template='dingMkwsPaneWidget' 
