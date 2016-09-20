@@ -162,6 +162,8 @@
         }
         &.delete-all {
           a {
+            color: white;
+            background-color: $red;
             .no-touch & {
               &:hover {
                 background-color: $red;
