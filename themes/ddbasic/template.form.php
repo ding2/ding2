@@ -124,7 +124,14 @@ function ddbasic_form_user_login_alter(&$form, &$form_state, $form_id) {
 
   $form['#attributes']['class'][] = 'user-login-form';
 
-  $form['intro_text']['#markup'] = '<div class="intro-text"><div class="lead">' . t('To borrow books, renew loans etc. you must have a user and be logged in.') . '</div><div class="text">Mere intro-tekst her...</div></div>';
+  $form['intro_text']['#markup'] = '<div class="intro-text"><div class="lead">' . t('If you want to see what you have borrowed, reserve books or edit your user profile, you must be logged in.') . '</div>';
+
+  $user_signup_link = ddbasic_theme_setting('user_signup_link');
+  if (!empty($user_signup_link)) {
+    $form['intro_text']['#markup'] .= '<div class="text">' . t('If you are not a registered user, you can register ') . l(t('here'), $user_signup_link, array('external' => TRUE)) . t(', or you can sign up in person at your local library.') . '</div></div>';
+  } else {
+    $form['intro_text']['#markup'] .= '<div class="text">' . t('If you are not a registered user, you can sign up in person at your local library.') . '</div></div>';
+  }
   $form['intro_text']['#weight'] = -9999;
 
   $form['container']['#markup'] = '<div class="user-login-container">';
