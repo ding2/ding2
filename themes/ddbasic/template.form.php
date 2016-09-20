@@ -34,7 +34,7 @@ function ddbasic_form_alter(&$form, &$form_state, $form_id) {
  */
 function ddbasic_form_ding_library_library_list_select_library_alter(&$form, &$form_state, $form_id) {
   $links = array();
-  
+
   foreach ($form['select_library']['#options'] as $href => $title) {
     $links[] = array(
       'title' => $title,
@@ -42,7 +42,7 @@ function ddbasic_form_ding_library_library_list_select_library_alter(&$form, &$f
       'attributes' => array('class' => array('list-item')),
     );
   }
-  
+
   $form['select_library'] = array(
     '#theme' => 'links',
     '#links' => $links,
@@ -58,7 +58,7 @@ function ddbasic_form_ding_library_library_list_select_library_alter(&$form, &$f
     '#suffix' => '</div>',
   );
   unset($form['submit']);
-} 
+}
 
 /**
  * Search form
@@ -70,7 +70,7 @@ function ddbasic_form_search_block_form_alter(&$form, &$form_state, $form_id) {
 
   // Remove element-invisible
   //unset($form['search_block_form']['#title_display']);
-  
+
   //Placeholder on extended form
   if(variable_get('ting_search_extend_form', FALSE)) {
     $form['search_field']['search_block_form']['#attributes']['placeholder'] = t('Search the library');
@@ -83,27 +83,34 @@ function ddbasic_form_search_block_form_alter(&$form, &$form_state, $form_id) {
 function ddbasic_form_user_login_block_alter(&$form, &$form_state, $form_id) {
 
   $form['#attributes']['class'][] = 'user-login-form';
-  
-  $form['intro_text']['#markup'] = '<div class="intro-text"><div class="lead">' . t('To borrow books, renew loans etc. you must have a user and be logged in.') . '</div><div class="text">Mere intro-tekst her...</div></div>';
+
+  $form['intro_text']['#markup'] = '<div class="intro-text"><div class="lead">' . t('If you want to see what you have borrowed, reserve books or edit your user profile, you must be logged in.') . '</div>';
+
+  $user_signup_link = ddbasic_theme_setting('user_signup_link');
+  if (!empty($user_signup_link)) {
+    $form['intro_text']['#markup'] .= '<div class="text">' . t('If you are not a registered user, you can register ') . l(t('here'), $user_signup_link, array('external' => TRUE)) . t(', or you can sign up in person at your local library.') . '</div></div>';
+  } else {
+    $form['intro_text']['#markup'] .= '<div class="text">' . t('If you are not a registered user, you can sign up in person at your local library.') . '</div></div>';
+  }
   $form['intro_text']['#weight'] = -9999;
-  
+
   $form['close']['#markup'] = '<div class="user-login-container"><div class="close-user-login"></div>';
   $form['close']['#weight'] = -9998;
-  
+
   $form['name']['#title'] = t('Loan or social security number');
   $form['name']['#attributes']['placeholder'] = t('Loan/social security number (without dash)');
   $form['name']['#type'] = 'password';
 
   $form['pass']['#title'] = t('Pincode');
   $form['pass']['#attributes']['placeholder'] = t('Pincode (4 digits)');
-  
+
   $form['links']['#weight'] = 9999;
   $form['links']['#prefix'] = '<div class="form-links">';
   $form['links']['#suffix'] = '</div></div>';
-  
+
   $form['actions']['submit']['#prefix'] = '<div class="submit-button-with-icon"><div class="color-and-icon"></div>';
   $form['actions']['submit']['#suffix'] = '</div>';
-  
+
   // Temporary hack to get rid of open id links.
   unset($form['openid_links']);
   unset($form['#attached']['js']);
@@ -114,26 +121,26 @@ function ddbasic_form_user_login_block_alter(&$form, &$form_state, $form_id) {
  * User login
  */
 function ddbasic_form_user_login_alter(&$form, &$form_state, $form_id) {
-  
+
   $form['#attributes']['class'][] = 'user-login-form';
-  
+
   $form['intro_text']['#markup'] = '<div class="intro-text"><div class="lead">' . t('To borrow books, renew loans etc. you must have a user and be logged in.') . '</div><div class="text">Mere intro-tekst her...</div></div>';
   $form['intro_text']['#weight'] = -9999;
-  
+
   $form['container']['#markup'] = '<div class="user-login-container">';
   $form['container']['#weight'] = -9998;
-  
+
   $form['name']['#title'] = t('Loan or social security number');
   $form['name']['#attributes']['placeholder'] = t('Loan/social security number (without dash)');
   $form['name']['#type'] = 'password';
 
   $form['pass']['#title'] = t('Pincode');
   $form['pass']['#attributes']['placeholder'] = t('Pincode (4 digits)');
-  
+
   $form['links']['#weight'] = 9999;
   $form['links']['#prefix'] = '<div class="form-links">';
   $form['links']['#suffix'] = '</div></div>';
-  
+
   $form['actions']['submit']['#prefix'] = '<div class="submit-button-with-icon"><div class="color-and-icon"></div>';
   $form['actions']['submit']['#suffix'] = '</div>';
 
