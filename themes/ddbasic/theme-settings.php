@@ -129,6 +129,19 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     '#default_value' => ddbasic_theme_setting('social_link_instagram', ''),
   );
 
+  // User signup link
+  $form['ddbasic_settings']['signup_link'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('User signup link'),
+  );
+
+  $form['ddbasic_settings']['signup_link']['user_signup_link'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Link'),
+    '#default_value' => ddbasic_theme_setting('user_signup_link', ''),
+    '#description' => t('The link is used in the text next to the log-in form'),
+  );
+
   $form['#validate'][] = 'ddbasic_form_system_theme_settings_validate';
   $form['#submit'][] = 'ddbasic_form_system_theme_settings_submit';
 }
@@ -148,6 +161,11 @@ function ddbasic_form_system_theme_settings_validate($form, &$form_state) {
   $form_state['color_path'] = drupal_get_path('theme', 'ddbasic') . '/sass/configuration/_colors.scss';
   if (!is_writable($form_state['color_path'])) {
     form_set_error('ddbasic_settings', t('Please make the color file (%path) writable', array('%path' => $form_state['color_path'])));
+  }
+  if (!empty($form_state['values']['user_signup_link'])) {
+    if (!(0 === strpos($form_state['values']['user_signup_link'], 'http'))) {
+      form_set_error('user_signup_link', t('User signup link must start with "http"'));
+    }
   }
 }
 
