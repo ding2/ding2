@@ -404,8 +404,7 @@ function ding_christmas_calendar_access_callback($arg, $original) {
 function ding_christmas_calendar_node_access($node, $op, $account) {
   $user = user_load($account->uid);
   $quiz_id = variable_get('ding_christmas_calendar_quiz_id', NULL);
-  $obj = menu_get_object();
-  if (!empty($obj) && $obj->nid == $quiz_id && $op == 'view' && in_array('provider', $user->roles)) {
+  if (is_object($node)&& $node->nid == $quiz_id && $op == 'view' && in_array('provider', $user->roles)) {
     return NODE_ACCESS_DENY;
   }
 }
