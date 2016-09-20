@@ -170,9 +170,11 @@ function preprocess__field__ting_author(&$vars) {
 /**
  * Ding library list image
  */
-function preprocess__field__field_ding_library_list_image(&$vars) {
-  // Set image styling class
-  $vars['classes_array'][] = 'image-styling-16-9';
+function preprocess__field__field_ding_library_title_image(&$vars) {
+  if ($vars['element']['#view_mode'] == 'teaser') {
+    // Set image styling class
+    $vars['classes_array'][] = 'image-styling-16-9';
+  }
 }
 
 /**
