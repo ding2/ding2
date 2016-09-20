@@ -489,3 +489,13 @@ libraries[jquery.imagesloaded][download][type] = "get"
 libraries[jquery.imagesloaded][download][url] = https://github.com/desandro/imagesloaded/archive/v2.1.2.tar.gz
 libraries[jquery.imagesloaded][directory_name] = "jquery.imagesloaded"
 libraries[jquery.imagesloaded][destination] = "libraries"
+
+libraries[pz2][download][type] = "get"
+libraries[pz2][download][url] =  http://ftp.indexdata.dk/pub/pazpar2/pazpar2-1.12.5.tar.gz
+libraries[pz2][directory_name] = "pz2"
+libraries[pz2][destination] = "libraries"
+
+libraries[jsrender][download][type] = "get"
+libraries[jsrender][download][url] =  https://github.com//BorisMoore/jsrender/archive/master.zip
+libraries[jsrender][directory_name] = "jsrender"
+libraries[jsrender][destination] = "libraries"
