@@ -18,7 +18,7 @@ function ding_mkws_libraries_info() {
     'download url' => 'http://ftp.indexdata.dk/pub/pazpar2/pazpar2-1.12.5.tar.gz',
     'version callback' => 'ding_mkws_version_callback',
     'files' => array(
-      'js' => array('pz2.js'),
+      'js' => array('js/pz2.js'),
     ),
   );
 
