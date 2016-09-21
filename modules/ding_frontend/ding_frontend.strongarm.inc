@@ -123,7 +123,7 @@ background-attachment: fixed;',
     'domain' => '',
     'prefix' => 'da',
     'weight' => '0',
-    'javascript' => 'MCHIQJ7ZJ9LKx7dqsQAD4mx7uk7AMRr7-_F3jAKnZ3k',
+    'javascript' => 'GUlW4kYICSBc3Us6kWb7LzI-SSdjyj9fbRxegtAhyHY',
   );
   $export['language_default'] = $strongarm;
 
