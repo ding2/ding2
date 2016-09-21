@@ -58,5 +58,5 @@ To accomplish this please follow the steps:
 
 1. Go to /admin/config/ding/mkws/types
 2. Uncheck all checked content types
-3. Run cron
+3. Run cron (there is probability that will be a need to repeat this several times)
 4. Disable and uninstall module
