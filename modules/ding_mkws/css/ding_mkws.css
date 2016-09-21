@@ -210,7 +210,9 @@
 }
 .ding-mkws-widget .ding-mkws-content li .ding-mkws-header .ding-mkws-target,
 .ding-mkws-widget .ding-mkws-content li .ding-mkws-header .ding-mkws-name,
-.ding-mkws-widget .ding-mkws-content li .ding-mkws-header .ding-mkws-title {
+.ding-mkws-widget .ding-mkws-content li .ding-mkws-header .ding-mkws-title,
+.ding-mkws-widget .ding-mkws-content li .ding-mkws-header .ding-mkws-author,
+.ding-mkws-widget .ding-mkws-content li .ding-mkws-header .ding-mkws-date {
   font-weight: bold;
 }
 .ding-mkws-widget .ding-mkws-content li .ding-mkws-values {
@@ -225,7 +227,9 @@
   box-sizing: border-box;
 }
 .ding-mkws-widget .ding-mkws-content li .ding-mkws-values .ding-mkws-target,
-.ding-mkws-widget .ding-mkws-content li .ding-mkws-values .ding-mkws-title {
+.ding-mkws-widget .ding-mkws-content li .ding-mkws-values .ding-mkws-title,
+.ding-mkws-widget .ding-mkws-content li .ding-mkws-values .ding-mkws-author,
+.ding-mkws-widget .ding-mkws-content li .ding-mkws-values .ding-mkws-date {
   font-weight: normal;
 }
 .ding-mkws-widget .ding-mkws-content li p {
@@ -235,6 +239,7 @@
 .ding-mkws-widget .ding-mkws-content li p, .ding-mkws-widget .ding-mkws-content li a {
   display: block;
   height: 22px;
+  margin: 0 0 5px 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
