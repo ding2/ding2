@@ -135,6 +135,7 @@ function ding_news_field_group_info() {
     'children' => array(
       0 => 'field_ding_news_list_image',
       1 => 'field_ding_news_title_image',
+      2 => 'field_video',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -161,8 +162,8 @@ function ding_news_field_group_info() {
     'label' => 'Relations',
     'weight' => '6',
     'children' => array(
-      0 => 'og_group_ref',
-      1 => 'ding_news_groups_ref',
+      0 => 'ding_news_groups_ref',
+      1 => 'og_group_ref',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(

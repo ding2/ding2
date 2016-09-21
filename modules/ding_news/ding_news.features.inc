@@ -32,9 +32,9 @@ function ding_news_views_api($module = NULL, $api = NULL) {
 function ding_news_node_info() {
   $items = array(
     'ding_news' => array(
-      'name' => t('News'),
+      'name' => t('Nyhed'),
       'base' => 'node_content',
-      'description' => t('A content type for news concerning libraries.'),
+      'description' => t('Nyheder er en indholdstyper der kan tilføjes til forsiden, den generelle nyhedsliste eller de enkelte bibliotekers nyhedslister.'),
       'has_title' => '1',
       'title_label' => t('Overskrift'),
       'help' => '',

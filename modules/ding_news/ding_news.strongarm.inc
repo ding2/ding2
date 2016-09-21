@@ -93,6 +93,9 @@ function ding_news_strongarm() {
       'token' => array(
         'custom_settings' => FALSE,
       ),
+      'workflow_tab' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -102,8 +105,30 @@ function ding_news_strongarm() {
         'path' => array(
           'weight' => '30',
         ),
+        'redirect' => array(
+          'weight' => '30',
+        ),
       ),
-      'display' => array(),
+      'display' => array(
+        'webform' => array(
+          'teaser' => array(
+            'weight' => '3',
+            'visible' => TRUE,
+          ),
+          'teaser_highlight' => array(
+            'weight' => '3',
+            'visible' => TRUE,
+          ),
+          'default' => array(
+            'weight' => '8',
+            'visible' => TRUE,
+          ),
+          'search_result' => array(
+            'weight' => '3',
+            'visible' => FALSE,
+          ),
+        ),
+      ),
     ),
   );
   $export['field_bundle_settings_node__ding_news'] = $strongarm;
