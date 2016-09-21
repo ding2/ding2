@@ -49,6 +49,19 @@ function connie_user_authenticate($name, $pass) {
 }
 
 /**
+ * Get the name of the current user.
+ *
+ * This is actually just an implementation of what ding_user_name() falls back
+ * to in the absence of this function.
+ */
+function connie_user_get_name($account) {
+  if (($creds = ding_user_get_creds($account)) && isset($creds['name'])) {
+    return $creds['name'];
+  }
+  return NULL;
+}
+
+/**
  * Test that credentials is still valid.
  *
  * If this function is not defined, it is assumed that having credentials

@@ -916,6 +916,29 @@ function ding_user_save_creds($auth_res) {
 }
 
 /**
+ * Returns user login name of the current user, if available.
+ *
+ * Checks if provider has a get_name function, or has set name in creds.
+ */
+function ding_user_name() {
+  global $user;
+  try {
+    if (ding_provider_implements('user', 'get_name')) {
+      return ding_provider_invoke('user', 'get_name', $user);
+    }
+    $creds = ding_user_get_creds($user);
+    if (isset($creds['name'])) {
+      return $creds['name'];
+    }
+  }
+  catch (Exception $e) {
+    // Do nothing.
+  }
+
+  return NULL;
+}
+
+/**
  * Check if the given account is a user authenticated through a provider.
  */
 function ding_user_is_provider_user($account) {
