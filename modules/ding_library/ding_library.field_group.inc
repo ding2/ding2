@@ -141,7 +141,7 @@ function ding_library_field_group_info() {
     'label' => 'Left column',
     'weight' => '0',
     'children' => array(
-      0 => 'field_ding_library_list_image',
+      0 => 'field_ding_library_title_image',
     ),
     'format_type' => 'div',
     'format_settings' => array(
