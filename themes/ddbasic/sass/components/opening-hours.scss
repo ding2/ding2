@@ -16,13 +16,37 @@
 
 .opening-hours-week {
   padding: 0;
+  .button-previous,
+  .button-next {
+    position: relative;
+    float: right;
+    width: 68px;
+    height: 54px;
+    text-indent: -9999px;
+    margin-top: 20px;
+    &::after {
+      top: 0;
+      text-indent: 0;
+    }
+    // Mobile
+    @include media($mobile) {
+      width: 54px;
+    }
+  }
+  .button-previous {
+    @include arrow-button(arrow-left, $color-secondary);
+    margin-right: 12px;
+  }
+  .button-next {
+    @include arrow-button(arrow-right, $color-secondary);
+  }
 }
 
 .opening-hours-table {
   // Animate the opening-hours in, so the user get a response when fetching the
   // previous or next.
-  @include animation(opening-hours-in $speed $ease);
-  
+  @include animation(opening-hours-in 1s $ease-out-sine);
+
   table,
   thead,
   tbody,
