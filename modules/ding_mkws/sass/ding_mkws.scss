@@ -45,7 +45,9 @@ $zen-gutters:             20px;
 
         .ding-mkws-target,
         .ding-mkws-name,
-        .ding-mkws-title {
+        .ding-mkws-title,
+        .ding-mkws-author,
+        .ding-mkws-date {
           font-weight: bold;
         }
       }
@@ -54,7 +56,9 @@ $zen-gutters:             20px;
         @include zen-grid-item(8, 1, right);
 
         .ding-mkws-target,
-        .ding-mkws-title {
+        .ding-mkws-title,
+        .ding-mkws-author,
+        .ding-mkws-date {
           font-weight: normal;
         }
       }
@@ -67,6 +71,7 @@ $zen-gutters:             20px;
       p, a {
         display: block;
         height: 22px;
+        margin: 0 0 5px 0;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
