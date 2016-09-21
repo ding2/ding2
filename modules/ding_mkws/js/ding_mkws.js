@@ -105,6 +105,17 @@ var ding_mkws = {
           }
           settings.filter = out;
         }
+
+        if (settings.limit === undefined) {
+          settings.limit = null;
+        }
+        else {
+          var out = null;
+          for (var key in settings.limit) {
+            out = key + "=" + settings.limit[key];
+          }
+          settings.limit = out;
+        }
         ding_mkws.init(settings, function (data) {
             /**
              * Process data from service and render template.
