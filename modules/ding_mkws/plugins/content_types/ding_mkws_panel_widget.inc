@@ -43,6 +43,7 @@ function ding_mkws_panel_widget_edit_form($form, &$form_state) {
     '#title' => t('Resources:'),
     '#default_value' => $conf['resources'],
     '#options' => $resources,
+    '#multiple' => TRUE,
     '#empty_option' => t('Choose LBRs'),
   );
 
