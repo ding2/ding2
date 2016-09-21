@@ -151,10 +151,19 @@ a.cross:hover {
   background-image: url("../images/pw_maze_white.png");
   margin-bottom: 1em;
   padding: 15px;
+  position: relative;
+  overflow: hidden;
+}
+.page-search-meta .mkdru-result-list .search-result .title {
+  margin-right: 150px;
+}
+.page-search-meta .mkdru-result-list .search-result .results-see-online {
+  float: right;
 }
 .page-search-meta .mkdru-result-list .search-result .result-inner-wrapper {
   background-color: rgba(255, 255, 255, 0.9);
   padding: 20px;
+  overflow: hidden;
 }
 .page-search-meta .mkdru-result-list .search-result .result-inner-wrapper .search-snippet-info {
   padding-left: 0;
@@ -173,6 +182,12 @@ a.cross:hover {
   -moz-border-radius: 8px;
   -ms-border-radius: 8px;
   -o-border-radius: 8px;
+}
+.page-search-meta .mkdru-result-list .search-result .mkdru-target {
+  font-size: 90%;
+  position: absolute;
+  top: 30px;
+  right: 35px;
 }
 .page-search-meta .mkdru-above-below {
   border: none;
