@@ -143,10 +143,21 @@ a.cross:hover {
       background-image: url("../images/pw_maze_white.png");
       margin-bottom: 1em;
       padding: 15px;
+      position: relative;
+      overflow: hidden;
+
+      .title {
+        margin-right: 150px;
+      }
+
+      .results-see-online {
+        float: right;
+      }
 
       .result-inner-wrapper {
         background-color: rgba(255, 255, 255, 0.9);
         padding: 20px;
+        overflow: hidden;
 
         .search-snippet-info {
           padding-left: 0;
@@ -167,6 +178,13 @@ a.cross:hover {
           -ms-border-radius: 8px;
           -o-border-radius: 8px;
         }
+      }
+      
+      .mkdru-target {
+        font-size: 90%;
+        position: absolute;
+        top: 30px;
+        right: 35px;
       }
     }
   }
