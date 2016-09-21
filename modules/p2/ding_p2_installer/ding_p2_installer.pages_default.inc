@@ -970,6 +970,52 @@ function ding_p2_installer_default_page_manager_handlers() {
     $display->content['new-d9c1432b-77cc-432c-987a-eb64569a0b88'] = $pane;
     $display->panels['header'][2] = 'new-d9c1432b-77cc-432c-987a-eb64569a0b88';
     $pane = new stdClass();
+    $pane->pid = 'new-889a855f-046c-4c3c-ba14-3e19231a6d4a';
+    $pane->panel = 'header';
+    $pane->type = 'block';
+    $pane->subtype = 'ding_gatewayf-login';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 3;
+    $pane->locks = array();
+    $pane->uuid = '889a855f-046c-4c3c-ba14-3e19231a6d4a';
+    $display->content['new-889a855f-046c-4c3c-ba14-3e19231a6d4a'] = $pane;
+    $display->panels['header'][3] = 'new-889a855f-046c-4c3c-ba14-3e19231a6d4a';
+    $pane = new stdClass();
+    $pane->pid = 'new-cbaa0816-bd36-4c61-a038-5b49d0d434bd';
+    $pane->panel = 'header';
+    $pane->type = 'block';
+    $pane->subtype = 'ding_gatewayf_registration-registration';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 4;
+    $pane->locks = array();
+    $pane->uuid = 'cbaa0816-bd36-4c61-a038-5b49d0d434bd';
+    $display->content['new-cbaa0816-bd36-4c61-a038-5b49d0d434bd'] = $pane;
+    $display->panels['header'][4] = 'new-cbaa0816-bd36-4c61-a038-5b49d0d434bd';
+    $pane = new stdClass();
     $pane->pid = 'new-94a239e5-00e0-4807-917f-df52c53405e7';
     $pane->panel = 'navigation';
     $pane->type = 'block';
