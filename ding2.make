@@ -226,6 +226,9 @@ projects[metatag][version] "1.10"
 projects[mmeu][subdir] = "contrib"
 projects[mmeu][version] = "1.0"
 
+projects[mkdru][subdir] = "contrib"
+projects[mkdru][version] "1.7"
+
 projects[module_filter][subdir] = "contrib"
 projects[module_filter][version] = "1.8"
 
