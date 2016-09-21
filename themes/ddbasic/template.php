@@ -272,7 +272,7 @@ function ddbasic_preprocess_views_view(&$vars) {
     break;
     case 'ding_groups':
        switch ($vars['view']->current_display) {
-        case 'panel_pane_1':
+        case 'panel_pane_frontpage':
           // Add slide-on-mobile class
           $vars['classes_array'][] = 'slide-on-mobile';
         break;
