@@ -24,22 +24,21 @@
   // Grid small
   &.grid-small {
     .pane-content {
-      > ul {
-        li {
-          @include span-columns(3);
-          @include omega(4n);
-          margin-bottom: getGutter();
-          // Tablet
-          @include media($tablet) {
-            @include omega-reset(4n, 12);
-            @include span-columns(4);
-            @include omega(3n);
-          }
-          // Mobile
-          @include media($mobile) {
-            width: 100%;
-            margin-right: 0;
-          }
+      > ul li,
+      > .field > .field-items > .field-item {
+        @include span-columns(3);
+        @include omega(4n);
+        margin-bottom: getGutter();
+        // Tablet
+        @include media($tablet) {
+          @include omega-reset(4n, 12);
+          @include span-columns(4);
+          @include omega(3n);
+        }
+        // Mobile
+        @include media($mobile) {
+          width: 100%;
+          margin-right: 0;
         }
       }
     }
