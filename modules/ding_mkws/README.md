@@ -21,6 +21,9 @@ ProxyPassReverse /service-proxy/ http://sp-emusikk-no.eu.indexdata.com/service-p
 After download the module, download the third party libraries:
 pz2 and jsrender
 
+##Attention##
+In order to make Campaign widget work properly, the Ding Campaign module **MUST** be enabled before enabling Ding MKWS.
+
 To accomplish this please follow the steps:
 
 **Configure pz2 library**
@@ -50,3 +53,10 @@ To accomplish this please follow the steps:
  * password: emusik_no462
  * service proxy url: /service-proxy/
 3. Save form
+
+**Disable ding_mkws module**
+
+1. Go to /admin/config/ding/mkws/types
+2. Uncheck all checked content types
+3. Run cron
+4. Disable and uninstall module
