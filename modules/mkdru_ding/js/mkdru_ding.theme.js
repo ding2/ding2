@@ -120,6 +120,7 @@
     html += '</div>';
     html += '</div>';
     html += '</div>';
+    html += '<a href="' + link + '" target="_blank" class="results-see-online">' + Drupal.t("See online") + '</a>';
     html += '</div></li>';
     return html;
   };
