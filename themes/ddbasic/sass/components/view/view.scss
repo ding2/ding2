@@ -404,47 +404,95 @@
 // ==========================================================================
 
 .view-ding-groups {
-
   .views-row {
     margin-bottom: getGutter();
-    &:nth-child(1),
-    &:nth-child(2) {
-      @include span-columns(6);
-      // Mobile
-      @include media($mobile) {
-        @include span-columns(12);
+  }
+  &.view-display-id-panel_pane_frontpage {
+    .views-row {
+      &:nth-child(1),
+      &:nth-child(2) {
+        @include span-columns(6);
+        // Mobile
+        @include media($mobile) {
+          @include span-columns(12);
+        }
+      }
+      &:nth-child(2) {
+        @include omega();
+      }
+      &:nth-child(n+3) {
+        @include span-columns(3);
+      }
+      &:nth-child(4n+6) {
+        @include omega();
+      }
+      &:nth-child(4n+7) {
+        clear: left;
       }
     }
-    &:nth-child(2) {
-      @include omega();
+    // Tablet
+    @include media($tablet) {
+      .view-content {
+        .views-row {
+          @include span-columns(4);
+          @include omega(3n);
+        }
+      }
     }
-    &:nth-child(n+3) {
-      @include span-columns(3);
-    }
-    &:nth-child(4n+6) {
-      @include omega();
-    }
-    &:nth-child(4n+7) {
-      clear: left;
-    }
-
-  }
-  // Tablet
-  @include media($tablet) {
-    .view-content {
-      .views-row {
-        @include span-columns(4);
-        @include omega(3n);
+    // Mobile
+    @include media($mobile) {
+      .view-content {
+        .views-row {
+          width: 100%;
+          margin: 0 !important;
+          clear: none !important;
+        }
       }
     }
   }
-  // Mobile
-  @include media($mobile) {
-    .view-content {
-      .views-row {
-        width: 100%;
-        margin: 0 !important;
-        clear: none !important;
+  &.view-display-id-ding_group_overview_simple {
+    .views-row {
+      &:nth-child(1),
+      &:nth-child(2),
+      &:nth-child(3),
+      &:nth-child(4) {
+        @include span-columns(6);
+        // Mobile
+        @include media($mobile) {
+          @include span-columns(12);
+        }
+      }
+      &:nth-child(2),
+      &:nth-child(4) {
+        @include omega();
+      }
+      &:nth-child(n+5) {
+        @include span-columns(3);
+      }
+      &:nth-child(4n+8) {
+        @include omega();
+      }
+      &:nth-child(4n+9) {
+        clear: left;
+      }
+    }
+    // Tablet
+    @include media($tablet) {
+      .view-content {
+        .views-row {
+          @include span-columns(4);
+          @include omega(3n);
+        }
+      }
+    }
+    // Mobile
+    @include media($mobile) {
+      .view-content {
+        .views-row {
+          width: 100%;
+          margin: 0 !important getGutter();
+          clear: none !important;
+        }
       }
     }
   }
