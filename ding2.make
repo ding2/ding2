@@ -211,6 +211,9 @@ projects[message][version] = "1.10"
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] "1.10"
 
+projects[mkdru][subdir] = "contrib"
+projects[mkdru][version] "1.7"
+
 projects[module_filter][subdir] = "contrib"
 projects[module_filter][version] = "1.8"
 
