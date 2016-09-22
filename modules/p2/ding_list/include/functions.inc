@@ -76,9 +76,6 @@ function ding_list_get_add_to_list_data($type, $value, $value_title = FALSE) {
   if ($type === 'ting_object') {
     $ting_object = ting_object_load($value);
 
-    // Add a follow action for subjects.
-    $data = array_merge($data, ding_list_get_add_to_list_ting_object_subjects($ting_object));
-
     // Add a follow action for authors.
     $data = array_merge($data, ding_list_get_add_to_list_ting_object_creators($ting_object));
   }
@@ -130,46 +127,6 @@ function ding_list_get_add_to_list_ting_object_creators($ting_object) {
           ),
         );
       }
-    }
-  }
-  
-  return $data;
-}
-
-/**
- * Get follow subject actions for a ting_object.
- *
- * @see ding_list_get_add_to_list_data()
- */
-function ding_list_get_add_to_list_ting_object_subjects($ting_object) {
-  global $user;
-  
-  $data = array();
-  
-  foreach ($ting_object->getSubjects() as $subject) {
-    $lists = ding_list_get_lists(DING_LIST_TYPE_FOLLOW);
-
-    foreach ($lists as $list) {
-      $list_title = t('Follow the subject @subject', array('@subject' => $subject));
-
-      // Add username to shared lists.
-      if ($list->uid != $user->uid) {
-        $username = ding_list_list_username($list);
-        if ($username) {
-          $list_title .= '(' . $username . ')';
-        }
-      }
-
-      $data[] = array(
-        'custom' => array(
-          'title' => $list_title,
-          'href' => 'ding/interests/nojs/' . $subject . '/' . $user->uid . '/5',
-          'attributes' => array(
-            'class' => array('use-ajax'),
-          ),
-          'query' => array('frombutton' => NULL),
-        ),
-      );
     }
   }
   

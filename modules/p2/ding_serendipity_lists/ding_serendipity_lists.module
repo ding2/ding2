@@ -63,16 +63,6 @@ function ding_serendipity_lists_serendipity_info() {
       'description' => t('Objects matching random author from lists.'),
       'keys' => array('ting_object', 'frontpage'),
     ),
-    'followed_terms_nodes' => array(
-      'title' => t('p1 / obsolete / Nodes matching followed terms'),
-      'description' => t('Nodes matching followed terms. Filter by <em>bundle</em>'),
-      'keys' => array('node', 'frontpage'),
-    ),
-    'followed_terms_ting_objects' => array(
-      'title' => t('p1 / obsolete / Ting objects matching followed terms'),
-      'description' => t('Ting objects matching a random followed term.'),
-      'keys' => array('ting_object', 'frontpage'),
-    ),
   );
 
   return $items;
@@ -356,7 +346,16 @@ function ding_serendipity_lists_author_from_lists_serendipity_add($context) {
     // the CQL.
     if ($context['frontpage'] !== "1" && isset($context['taxonomy_tid'])) {
       $term = taxonomy_term_load($context['taxonomy_tid']);
-      $terms[] = ding_interest_get_term_cql($term);
+      
+      // Check if term has a specific CQL already set.
+      $value = ding_base_get_value('taxonomy_term', $term, 'field_search_string');
+      
+      // Fallback to dc.subject.
+      if ($value === FALSE) {
+        $value = 'facet.subject="' . $term->name . '"';
+      }
+      
+      $terms[] = $value;
     }
 
     $query = implode(" AND ", $terms);
@@ -374,83 +373,5 @@ function ding_serendipity_lists_author_from_lists_serendipity_add($context) {
     }
   }
 
-  return $results;
-}
-
-/**
- * Implements hook_PLUGIN_NAME_serendipity_add().
- *
- * Fetch nodes of type $context['bundle'] matching followed terms.
- */
-function ding_serendipity_lists_followed_terms_nodes_serendipity_add($context) {
-  global $user;
-
-  if (!user_is_logged_in() || empty($context['bundle']) || !$context['frontpage']) {
-    return array();
-  }
-
-  $tids = ding_list_load_keys($user, DING_LIST_TYPE_FOLLOW, 'taxonomy_term');
-  $nids = ding_list_tids_to_nids($tids, $context['bundle']);
-
-  $result = array();
-  foreach ($nids as $nid) {
-    $result[] = array(
-      'type' => 'node',
-      'id' => $nid,
-      'info' => array(
-        'description' => t('Because you follow @term', array('@term', $termname)),
-      ),
-    );
-  }
-
-  return $result;
-}
-
-/**
- * Implements hook_PLUGIN_NAME_serendipity_add().
- *
- * Collect TingObjects based on followed terms
- */
-function ding_serendipity_lists_followed_terms_ting_objects_serendipity_add($context) {
-  global $user;
-
-  // Require the context is for ting_objects.
-  if (!user_is_logged_in() || empty($context['bundle']) || $context['bundle'] != 'ting_object') {
-    return array();
-  }
-
-  // Fetch followed terms.
-  $tids = ding_list_load_keys($user, DING_LIST_TYPE_FOLLOW, 'taxonomy_term');
-
-  if (count($tids) == 0) {
-    return array();
-  }
-
-  // Load random term.
-  $term = taxonomy_term_load($tids[array_rand($tids)]);
-
-  if (empty($term)) {
-    // No followed terms no serendipity.
-    return array();
-  }
-
-  $query = ding_interest_get_term_cql($term);
-
-  // Fetch search results.
-  $results = ding_serendipity_do_search(
-    $query,
-    array(
-      'shuffle' => TRUE,
-      'limit' => 4,
-    )
-  );
-
-  // Append source info.
-  foreach ($results as & $item) {
-    $item['info'] = array(
-      'Term' => $term->name,
-      'description' => t('Because you are following !term.', array('!term' => $term->name)),
-    );
-  }
   return $results;
 }

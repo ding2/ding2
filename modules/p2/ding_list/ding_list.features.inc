@@ -2,7 +2,7 @@
 
 /**
  * @file
- * ding_interests.features.inc
+ * ding_list.features.inc
  */
 
 /**

@@ -12,6 +12,8 @@ include_once 'ding_entity_rating.serendipity.inc';
 // Ding rating list.
 define('DING_ENTITY_RATING_LIST', 'ratings');
 
+define('DING_ENTITY_RATING_MAX_RATING', 5);
+
 /**
  * Implements hook_ctools_plugin_directory().
  */
