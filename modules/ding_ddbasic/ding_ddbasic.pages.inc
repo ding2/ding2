@@ -14,7 +14,7 @@ function ding_ddbasic_opening_hours_week_callback($node, $from, $to) {
   
   // Note that we trim the output, so Drupal doesn't add the surrounding div
   // elements.
-  $commands[] = ajax_command_replace('.opening-hours-week', trim($tmp));
+  $commands[] = ajax_command_replace('.opening-hours-week-' . $node->nid, trim($tmp));
   
   return array('#type' => 'ajax', '#commands' => $commands);
 }
