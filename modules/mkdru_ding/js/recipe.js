@@ -37,7 +37,7 @@ function ting_proxy(data) {
         url = ting_proxy.prefix + data.href;
 
         if (regexp.length > 0 && replacement.length > 0) {
-          var url = url.replace(new RegExp(regexp), replacement);
+          url = url.replace(new RegExp(regexp), replacement);
         }
       }
       else {

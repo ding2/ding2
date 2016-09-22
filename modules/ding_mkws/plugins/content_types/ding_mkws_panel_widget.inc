@@ -71,10 +71,12 @@ function ding_mkws_panel_widget_render($subtype, $conf, $args, $context) {
     'type' => $subtype,
     'term' => (!empty($conf)) ? $conf['term'] : '',
     'amount' => (!empty($conf)) ? $conf['amount'] : '0',
-    'resources' => (!empty($conf)) ? $conf['resources'] : array(),
   );
 
   $hash = md5(implode('', $params));
+
+  // Add resources after hash is generated in order to prevent array to string conversion notice.
+  $params['resources'] = (!empty($conf)) ? $conf['resources'] : array();
 
   $pane->content['#markup'] = "<div data-hash='{$hash}' 
                                 data-process='ProcessDataForPaneWidget' 
