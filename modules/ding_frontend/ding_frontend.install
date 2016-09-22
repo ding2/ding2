@@ -191,7 +191,7 @@ function ding_frontend_update_7003() {
 /**
  * Add shortcut to carousel.
  */
-function ding_frontend_update_7004() {
+function ding_frontend_update_7011() {
   $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
   $shortcut_set->links = array(
     array(
