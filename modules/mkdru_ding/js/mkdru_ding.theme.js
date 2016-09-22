@@ -43,6 +43,7 @@
       link = choose_url(hit['location'][0]);
     }
     var html = "";
+
     html += '<li class="search-result" id="rec_' + hit.recid + '" ><div class="result-inner-wrapper">' +
       '<h3 class="title">';
     if (link) {
@@ -58,7 +59,7 @@
     html += '</h3>';
 
     // Add target to each result item.
-    var target = ''
+    var target = '';
     if (typeof (hit.location[0]['@name']) != 'undefined') {
       target =  hit.location[0]['@name'];
     }
@@ -120,7 +121,9 @@
     html += '</div>';
     html += '</div>';
     html += '</div>';
-    html += '<a href="' + link + '" target="_blank" class="results-see-online">' + Drupal.t("See online") + '</a>';
+    if (link !== null) {
+      html += '<a href="' + link + '" target="_blank" class="results-see-online">' + Drupal.t("See online") + '</a>';
+    }
     html += '</div></li>';
     return html;
   };
