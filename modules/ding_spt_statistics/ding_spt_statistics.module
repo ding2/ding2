@@ -154,5 +154,5 @@ function ding_spt_statistics_spt_external_url_alter(&$callbacks) {
   // Add url preprocess callback.
   $callbacks[] = 'dingSPTStatisticsUrlPreprocess';
 
-  drupal_add_js(drupal_get_path('module', 'ding_spt_statistics'). '/js/ding_spt_statistics.js');
+  drupal_add_js(drupal_get_path('module', 'ding_spt_statistics') . '/js/ding_spt_statistics.js');
 }
