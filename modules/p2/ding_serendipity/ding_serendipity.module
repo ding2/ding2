@@ -9,7 +9,7 @@
  *
  * Example1:
  *   The frontpage presents ting_object suggestions for the user based on
- *   previous ratings, loan history, interests, items in lists etc.
+ *   previous ratings, loan history, items in lists etc.
  *
  * Example2:
  *   The ting_object landing page suggests related materials based on ADHL,
