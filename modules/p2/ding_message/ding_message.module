@@ -450,7 +450,7 @@ function ding_message_check_list_for_updates($uid, $element_id, $mid, $debug = F
     // Limit maximum news per channel.
     $channel_max = variable_get('ding_message_channel_max', 10);
     if ($new_elements_count > $channel_max) {
-      $new_elements_count = $channel_max;
+      $new_elements_count = $channel_max . '+';
     }
 
     // Set message values.
@@ -513,7 +513,11 @@ function ding_message_preprocess_entity(&$vars) {
     if ($bundle == 'ding_list_element') {
       // Check for existing message.
       $query = new EntityFieldQuery();
-      $query->entityCondition('entity_type', 'message', '=')->propertyCondition('type', 'new_content', '=')->fieldCondition('field_list_id', 'target_id', $entity->id, '=')->fieldCondition('field_state', 'value', DING_MESSAGE_CLOSED, '!=')->range(0, 1);
+      $query->entityCondition('entity_type', 'message', '=')
+        ->propertyCondition('type', 'new_content', '=')
+        ->fieldCondition('field_list_id', 'target_id', $entity->id, '=')
+        ->fieldCondition('field_state', 'value', DING_MESSAGE_CLOSED, '!=')
+        ->range(0, 1);
       $result = $query->execute();
       // If a message was found, render the message.
       if ($result) {
@@ -553,7 +557,7 @@ function ding_message_preprocess_entity(&$vars) {
             break;
         }
         // Modify the url so new elements can be identified.
-        $url = ding_message_modify_url($url, $last_element);
+        $url = ding_message_modify_url($url, $last_element, $values->mid);
         // Wrap the message in a link to the targeted page.
         $output = '<a href="/' . $url . '" data-item-id="' . $values->mid . '">' . $rendered_message . '</a>';
         // Add message to content.
@@ -715,13 +719,17 @@ function ding_message_build_query($query) {
  * @return string
  *   The modified url containing the first new item id.
  */
-function ding_message_modify_url($url, $eid) {
+function ding_message_modify_url($url, $eid, $mid = FALSE) {
   $url .= (strpos($url, '?') !== FALSE) ? '&' : '?';
 
   if (stripos($url, 'search/ting') !== FALSE) {
     $url .= 'size=50&';
   }
   $url .= 'message=' . $eid;
+  
+  if ($mid !== FALSE) {
+    $url .= '&midc=' . $mid;
+  }
 
   return $url;
 }
@@ -731,9 +739,12 @@ function ding_message_modify_url($url, $eid) {
  *
  * When a notification link is clicked the messages state is set to closed.
  */
-function ding_message_change_status() {
-  // Message id from post variables.
-  $mid = $_POST['mid'];
+function ding_message_change_status($mid = NULL) {
+  if (empty($mid)) {
+    // Message id from post variables.
+    $mid = $_POST['mid'];
+  }
+  
   // Load message.
   $message = message_load($mid);
   if (is_object($message)) {
@@ -748,6 +759,12 @@ function ding_message_change_status() {
     if (module_exists('ding_notifications')) {
       ding_notifications_clear_cache();
     }
+  }
+}
+
+function ding_message_init() {
+  if (!empty($_GET['midc'])) {
+    ding_message_change_status($_GET['midc']);
   }
 }
 
