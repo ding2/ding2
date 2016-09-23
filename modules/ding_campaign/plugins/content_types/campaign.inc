@@ -40,11 +40,6 @@ function ding_campaign_campaign_content_type_render($subtype, $conf, $panel_args
 
   $output = ding_campaign_display($context_data, $count, $offset, $style);
   $block->content['#markup'] = drupal_render($output);
-  $block->content['#attached'] = array(
-    'css' => array(
-      drupal_get_path('module', 'ding_campaign') . '/css/ding_campaign.css',
-    ),
-  );
 
   return $block;
 }
