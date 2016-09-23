@@ -584,7 +584,7 @@ function ding_list_list_permissions_form_state_callback($form, &$form_state) {
 
   $output = array(
     'shared' => t('Your list is now shared.'),
-    'public' => t('Your list is now public.'),
+    'public' => t('Your list is now public. You can find it under !link', array('!link' => l(t('Public lists'), 'public-lists'))),
     'private' => t('Your list is now private.'),
   );
   
