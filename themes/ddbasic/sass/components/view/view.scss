@@ -553,3 +553,17 @@
     }
   }
 }
+
+// ==========================================================================
+// View E-resources
+// ==========================================================================
+
+.views-widget-filter-field_ding_eresource_access_tid {
+  @include span-columns(4 of 8);
+  padding: 0;
+
+  // Mobile
+  @include media($mobile) {
+    width: 100%;
+  }
+}
