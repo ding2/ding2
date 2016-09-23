@@ -795,7 +795,10 @@ function ding_list_mail($key, &$message, $params) {
       }
       
       $list = $params['list'];
-      $message['subject'] = t('@user has shared a personal list with you at @library', array('@user' => $username, '@library' => variable_get('site_name', '')));
+      $message['subject'] = t('@user has shared a personal list with you at @library', array(
+        '@user' => $username,
+        '@library' => variable_get('site_name', ''),
+      ));
       $message['body'][] = t('Please use the following link to access this list.
 The link is active for 7 days from today, after which it will be disabled for security reasons.
 
