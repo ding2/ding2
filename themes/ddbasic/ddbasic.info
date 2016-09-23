@@ -37,6 +37,7 @@
   stylesheets[all][] = sass_css/components/form/form-loans.css
   stylesheets[all][] = sass_css/components/form/form-class.css
 
+  stylesheets[all][] = sass_css/components/node/eresource.css
   stylesheets[all][] = sass_css/components/node/event.css
   stylesheets[all][] = sass_css/components/node/group.css
   stylesheets[all][] = sass_css/components/node/library.css

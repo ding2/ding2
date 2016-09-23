@@ -438,6 +438,44 @@
 }
 
 // ==========================================================================
+// Eresource index
+// ==========================================================================
+
+.pane-ding-eresource-index {
+  width: 100%;
+  float: left;
+  ul.eresource-index {
+    list-style: none;
+    > li {
+      float: left;
+      margin-right: 10px;
+      a {
+        @include font('base-bold');
+        text-transform: uppercase;
+      }
+    }
+  }
+}
+
+// ==========================================================================
+// E-resource category
+// ==========================================================================
+
+.pane-ding-eresource-ding-eresource-category {
+  @include span-columns(6 of 8);
+
+  // Tablet
+  @include media($tablet) {
+    @include span-columns(8);
+  }
+
+  // Mobile
+  @include media($mobile) {
+    width: 100%;
+  }
+}
+
+// ==========================================================================
 // @TODO flyt til egen scss fil
 // Pane-views-exp-ding-event-ding-event-list
 // ==========================================================================
