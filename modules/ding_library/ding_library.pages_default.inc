@@ -760,7 +760,7 @@ function ding_library_default_page_manager_pages() {
       'ding_campaign_count' => 3,
       'ding_campaign_offset' => 0,
       'context' => array(
-        0 => 'empty',
+        0 => 'argument_slug_1',
         1 => 'empty',
         2 => 'empty',
         3 => 'empty',

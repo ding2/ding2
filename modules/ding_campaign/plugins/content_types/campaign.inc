@@ -38,7 +38,13 @@ function ding_campaign_campaign_content_type_render($subtype, $conf, $panel_args
   // Set default value if it was not set in panel settings.
   $style = (!empty($conf['ding_campaign_image_style'])) ? $conf['ding_campaign_image_style'] : 'medium';
 
-  $block->content = ding_campaign_display($context_data, $count, $offset, $style);
+  $output = ding_campaign_display($context_data, $count, $offset, $style);
+  $block->content['#markup'] = drupal_render($output);
+  $block->content['#attached'] = array(
+    'css' => array(
+      drupal_get_path('module', 'ding_campaign') . '/css/ding_campaign.css',
+    ),
+  );
 
   return $block;
 }
