@@ -332,8 +332,7 @@ function alma_reservation_update($account, $ids, $options) {
   // Processing IDs. If at least one is updated, return true.
   foreach ($ids as $id) {
     if (isset($reservations[$id])) {
-      $current = date('Y-m-d');
-      $expiry_date = !empty($options['interest_period']) ? alma_reservation_format_date(strtotime($current) + $options['interest_period'] * 86400) : $reservations[$id]['valid_to'];
+      $expiry_date = !empty($options['interest_period']) ? alma_reservation_format_date(strtotime(date(ALMA_DATE)) + $options['interest_period'] * 86400) : $reservations[$id]['valid_to'];
       $pickup_branch = !empty($options['alma_preferred_branch']) ? $options['alma_preferred_branch'] : $reservations[$id]['pickup_branch'];
       $changes = array(
         'valid_to' => $expiry_date,
