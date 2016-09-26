@@ -512,6 +512,24 @@
 }
 
 // ==========================================================================
+// Pane bibliotek info
+// ==========================================================================
+
+.pane-bibliotek-info {
+  width: 100%;
+  float: left;
+  padding: 40px 0;
+  border-top: 1px solid $charcoal-opacity-light;
+  background-image: none;
+  .pane-content {
+    padding: 0;
+    strong {
+      @include font('header-small');
+    }
+  }
+}
+
+// ==========================================================================
 // @TODO flyt til egen scss fil
 // Pane-views-exp-ding-event-ding-event-list
 // ==========================================================================
