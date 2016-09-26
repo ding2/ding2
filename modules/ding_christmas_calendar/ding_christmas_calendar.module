@@ -120,24 +120,30 @@ function ding_christmas_calendar_generate_content($quiz_id, $mobile = FALSE) {
   );
   if (!empty($quiz_id)) {
     $quiz = node_load($quiz_id);
-    if ($quiz_result = quiz_take_quiz($quiz)) {
+      if ($quiz_result = quiz_take_quiz($quiz)) {
     }
     else {
-      if (quiz_start_check($quiz)) {
+      if ($result['success']) {
         $quiz_result = entity_create('quiz_result', array(
           'nid' => $quiz->nid,
           'vid' => $quiz->vid,
           'uid' => $GLOBALS['user']->uid,
+          'type' => $quiz->quiz->result_type,
         ));
       }
     }
 
     $build_on_last = !empty($quiz->build_on_last) && QuizResultController::findOldResult($quiz_result);
-    if ($build_on_last || $instances = field_info_instances('quiz_result', 'quiz_result')) {
+    if ($build_on_last || $instances = field_info_instances('quiz_result', $quiz->quiz->result_type)) {
+      // @kludge above, how are we going to check this form for fields? checking
+      // for field instances is easy, but what about these one-offs? maybe we can
+      // require add-on field items to put something in the $form so that we can
+      // check it. I don't want to have the "start" button show if we don't have
+      // anything to ask the user.
+      return entity_ui_get_form('quiz_result', $quiz_result);
     }
     else {
       // New attempt.
-      $quiz_result->save();
       $_SESSION['quiz'][$quiz_result->nid]['result_id'] = $quiz_result->result_id;
       $_SESSION['quiz'][$quiz_result->nid]['current'] = 1;
       quiz_take_quiz($quiz);
@@ -210,7 +216,7 @@ function ding_christmas_calendar_generate_content($quiz_id, $mobile = FALSE) {
  */
 function ding_christmas_calendar_generate_url($quiz_id, DateTime $current, $question) {
   $result = ding_christmas_get_question_number($question, $quiz_id);
-  $number = !$result ? 1 : $result->number--;
+  $number = !$result ? 1 : $result->number - 1;
   $question = node_load($question->nid);
   $date = field_get_items('node', $question, 'field_quiz_date');
   $class = 'future-day';
@@ -313,6 +319,9 @@ function ding_christmas_calendar_node_view($node, $view_mode, $langcode) {
     drupal_add_js($path . '/js/ding_christmas_calendar.js');
     libraries_load('slick');
     libraries_load('notify');
+  }
+  elseif (in_array($node->type, array('quiz')) && isset($node->content['take'])) {
+    unset($node->content['take']);
   }
 }
 

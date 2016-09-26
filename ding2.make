@@ -279,7 +279,7 @@ projects[override_node_options][subdir] = "contrib"
 projects[override_node_options][version] = "1.13"
 
 projects[quiz][subdir] = "contrib"
-projects[quiz][version] = "5.0-rc1"
+projects[quiz][version] = "5.0-rc4"
 
 projects[pagepreview][subdir] = "contrib"
 projects[pagepreview][version] = "1.0-alpha1"
