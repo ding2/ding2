@@ -120,26 +120,19 @@ function ding_christmas_calendar_generate_content($quiz_id, $mobile = FALSE) {
   );
   if (!empty($quiz_id)) {
     $quiz = node_load($quiz_id);
-      if ($quiz_result = quiz_take_quiz($quiz)) {
-    }
-    else {
-      if ($result['success']) {
-        $quiz_result = entity_create('quiz_result', array(
-          'nid' => $quiz->nid,
-          'vid' => $quiz->vid,
-          'uid' => $GLOBALS['user']->uid,
-          'type' => $quiz->quiz->result_type,
-        ));
-      }
+    $result = quiz_access('take', $quiz);
+    $quiz_result = quiz_take_quiz($quiz);
+    if (!$quiz_result && $result['success']) {
+      $quiz_result = entity_create('quiz_result', array(
+        'nid' => $quiz->nid,
+        'vid' => $quiz->vid,
+        'uid' => $GLOBALS['user']->uid,
+        'type' => $quiz->quiz->result_type,
+      ));
     }
 
     $build_on_last = !empty($quiz->build_on_last) && QuizResultController::findOldResult($quiz_result);
     if ($build_on_last || $instances = field_info_instances('quiz_result', $quiz->quiz->result_type)) {
-      // @kludge above, how are we going to check this form for fields? checking
-      // for field instances is easy, but what about these one-offs? maybe we can
-      // require add-on field items to put something in the $form so that we can
-      // check it. I don't want to have the "start" button show if we don't have
-      // anything to ask the user.
       return entity_ui_get_form('quiz_result', $quiz_result);
     }
     else {
@@ -413,7 +406,7 @@ function ding_christmas_calendar_access_callback($arg, $original) {
 function ding_christmas_calendar_node_access($node, $op, $account) {
   $user = user_load($account->uid);
   $quiz_id = variable_get('ding_christmas_calendar_quiz_id', NULL);
-  if (is_object($node)&& $node->nid == $quiz_id && $op == 'view' && in_array('provider', $user->roles)) {
+  if (is_object($node) && $node->nid == $quiz_id && $op == 'view' && in_array('provider', $user->roles)) {
     return NODE_ACCESS_DENY;
   }
 }
