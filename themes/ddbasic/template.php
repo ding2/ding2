@@ -776,27 +776,27 @@ function ddbasic_preprocess_ting_object(&$vars) {
 
       switch ($vars['elements']['#view_mode']) {
         case 'teaser':
-          if ($vars['object']->is('reservable')) {
-            //$vars['content']['reserve_button'] = array(ding_provider_get_form('ding_reservation_reserve_form', new DingReservationReservableEntity($vars['object']), TRUE));
-            drupal_add_library('system', 'drupal.ajax');
-
-            $vars['content']['group_text']['read_more_button'] = array(
-              array(
-                '#theme' => 'link',
-                '#text' => t('Read more'),
-                '#path' => $uri_object['path'],
-                '#options' => array(
-                  'attributes' => array(
-                    'class' => array(
-                      'action-button',
-                      'read-more-button',
-                    ),
+          $vars['content']['group_text']['read_more_button'] = array(
+            array(
+              '#theme' => 'link',
+              '#text' => t('Read more'),
+              '#path' => $uri_object['path'],
+              '#options' => array(
+                'attributes' => array(
+                  'class' => array(
+                    'action-button',
+                    'read-more-button',
                   ),
-                  'html' => FALSE,
                 ),
+                'html' => FALSE,
               ),
-              '#weight' => 9998,
-            );
+            ),
+            '#weight' => 9998,
+          );
+
+          if ($vars['object']->is('reservable')) {
+
+            drupal_add_library('system', 'drupal.ajax');
 
             $vars['content']['group_text']['reserve_button'] = array(
               array(
@@ -818,12 +818,37 @@ function ddbasic_preprocess_ting_object(&$vars) {
               '#weight' => 9999,
             );
           }
+          if ($vars['object']->online_url) {
+
+            $settings = variable_get('ting_url_labels', _ting_default_url_labels());
+            $type = drupal_strtolower($vars['object']->type);
+            $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
+
+            $vars['content']['group_text']['online_link'] = array(
+              array(
+                '#theme' => 'link',
+                '#text' => $label,
+                '#path' => $vars['object']->getOnline_url(),
+                '#options' => array(
+                  'attributes' => array(
+                    'class' => array(
+                      'action-button',
+                      'button-see-online',
+                    ),
+                    'target' => '_blank',
+                  ),
+                  'html' => FALSE,
+                  'external' => TRUE,
+                ),
+              ),
+              '#weight' => 9999,
+            );
+
+          }
+
           break;
       }
-
       break;
-    //case '':
-    //  break;
   }
 
   // Inject the availability from the collection into the actual ting object.
