@@ -65,31 +65,35 @@
      *   Click event
      */
     starClick: function(evt) {
-      var $this = $(this);
       evt.preventDefault();
-
-      if (!$this.closest('.ding-rating').hasClass('rateable')) {
-        location.hash = 'login';
-        if (location.search.indexOf('?') == -1) {
-          location.search = '?' + new Date().getTime();
-        } else {
-          location.search += '&' + new Date().getTime();
-        }
-        return;
-      }
-
-      $this.parent().children('.has-sub').removeClass('has-sub');
-      $this.addClass('submitted');
-      $this.prevAll().addClass('submitted');
-      $this.nextAll().removeClass('submitted');
-      // TODO Why not put the entire path as the data attribute? This
-      // avoids spreading paths acrosss JS and Drupal code.
-      var _path = $this.parent().attr('data-ding-entity-rating-path'),
-        _index = $this.index() + 1;
-      $.get('/ding_entity_rating/ajax/' + _path + '/' + _index, function(responseText) {
-        $this.parent().append(responseText);
-        $('.ding-entity-rating-respons', $this.parent()).delay(5000).fadeOut();
-      });
+      
+      var $this = $(this),
+        _path = $this.parent().attr('data-ding-entity-rating-path'),
+        _index = $this.index() + 1,
+        
+        url = '/ding_entity_rating/' + _path + '/' + _index,
+        $dummy = $('<a href="' + url + '"></a>'),
+        drupal_ajax = new Drupal.ajax('fake', $dummy, {
+          url: url,
+          event: 'click',
+          progress: { type: 'custom' },
+        }),
+        ofunc_complete = drupal_ajax.options.complete;
+      
+      
+      drupal_ajax.options.complete = function (xmlhttprequest, status) {
+        $this.addClass('submitted');
+        $this.prevAll().addClass('submitted');
+        $this.nextAll().removeClass('submitted');
+        
+        return ofunc_complete(xmlhttprequest, status);
+      };
+      
+      drupal_ajax.beforeSerialize(drupal_ajax.element, drupal_ajax.options);
+      
+      $.ajax(drupal_ajax.options)
+      
+      return;
     },
 
     /**
