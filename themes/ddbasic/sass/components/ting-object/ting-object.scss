@@ -132,6 +132,22 @@
           }
         }
       }
+      .group-oembed {
+        .ekursus {
+          @include span-columns(6 of 8);
+
+          // Tablet
+          @include media($tablet) {
+            width: 100%;
+          }
+          .ekursus-header {
+            img {
+              display: inline-block;
+              margin-left: 5px;
+            }
+          }
+        }
+      }
     }
   }
 

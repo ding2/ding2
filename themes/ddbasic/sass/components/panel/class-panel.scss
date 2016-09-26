@@ -530,6 +530,27 @@
 }
 
 // ==========================================================================
+// Pane print button
+// ==========================================================================
+
+.pane-print-button {
+  position: relative;
+  z-index: $z-content;
+  display: block;
+  float: right;
+  width: 164px;
+  margin-bottom: -50px;
+
+  // Mobile
+  @include media($mobile) {
+    display: none;
+  }
+  .print-button {
+    margin: 0;
+  }
+}
+
+// ==========================================================================
 // @TODO flyt til egen scss fil
 // Pane-views-exp-ding-event-ding-event-list
 // ==========================================================================

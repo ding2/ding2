@@ -23,18 +23,6 @@
         width: 100%;
       }
     }
-    a.print-button {
-      display: block;
-      float: right;
-      width: 164px;
-      padding-right: 60px;
-      margin-top: -10px;
-
-      // Mobile
-      @include media($mobile) {
-        display: none;
-      }
-    }
   }
 
   .pane-content {

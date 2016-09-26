@@ -15,7 +15,7 @@
  * - $feeds: Any feed icons or associated with the content
  * - $display: The complete panels display object containing all kinds of
  *   data including the contexts and all of the other panes being displayed.
- * 
+ *
  * Changed: Add t() function to pane title.
  */
 
@@ -29,32 +29,31 @@
     <?php if ($admin_links): ?>
       <?php print $admin_links; ?>
     <?php endif; ?>
-  
+
     <?php print render($title_prefix); ?>
     <?php if (!empty($title)): ?>
       <div class="title-container">
         <h2<?php print $title_attributes; ?>><?php print t($title); ?></h2>
-        <a href="#" class="print-button"><?php print t('Print listen'); ?></a> 
-      </div> 
+      </div>
     <?php endif; ?>
     <?php print render($title_suffix); ?>
-  
+
     <?php if ($feeds): ?>
       <div class="feed">
         <?php print $feeds; ?>
       </div>
     <?php endif; ?>
-  
+
     <div class="pane-content">
       <?php print render($content); ?>
     </div>
-  
+
     <?php if ($links): ?>
       <div class="links">
         <?php print $links; ?>
       </div>
     <?php endif; ?>
-  
+
     <?php if ($more): ?>
       <div class="more-link">
         <?php print $more; ?>
