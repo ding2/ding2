@@ -279,6 +279,19 @@ a.search-extended-button {
 
 a.print-button {
   @include button(print, $charcoal-opacity-dark, $grey-medium);
+
+  // Overwrite module styling
+  border: none;
+  background-image: none;
+  font-size: 14px;
+  line-height: 20px;
+  text-shadow: none;
+  img {
+    display: none;
+  }
+  &:hover {
+    background-image: none;
+  }
 }
 
 // ==========================================================================
