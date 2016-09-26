@@ -254,7 +254,8 @@
           &.read-more-button {
             left: 20px;
           }
-          &.reserve-button {
+          &.reserve-button,
+          &.button-see-online {
             left: calc(50% + 10px);
           }
         }
