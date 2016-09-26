@@ -132,7 +132,8 @@ body > .ding2-site-template {
   background-color: $grey;
   padding: 20px 80px 14px 15px;
   border-radius: $round-corner;
-  &.reserve-button {
+  &.reserve-button,
+  &.button-see-online {
     color: $white;
     background-color: $black;
   }
