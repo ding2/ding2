@@ -28,12 +28,12 @@ function ding_entity_rating_menu() {
   $items = array();
   
   // Add to list callback.
-  $items['ding_entity_rating/%ctools_js/%ting_object/%user/%'] = array(
+  $items['ding_entity_rating/%ting_object/%'] = array(
     'title' => 'Ding entity rating add to list',
     'page callback' => 'ding_entity_rating_add_to_list_callback',
-    'page arguments' => array(1, 2, 3, 4),
-    'access arguments' => array(3),
-    'access callback' => 'ding_entity_rating_access',
+    'page arguments' => array(1, 2),
+    'access callback' => TRUE,
+    'delivery callback' => 'ajax_deliver',
   );
   
   $items['ding_entity_rating/get'] = array(
@@ -76,28 +76,31 @@ function ding_entity_rating_access($account) {
  * @param int $rating
  *   The given rating / weight.
  */
-function ding_entity_rating_add_to_list_callback($ajax, $entity, $account, $rating) {
-  // Access check for permission.
+function ding_entity_rating_add_to_list_callback($entity, $rating) {
   global $user;
-  if ($user->uid != $account->uid) {
-    return '';
-  }
   
-  if ($ajax) {
-    // Add to rated materials list.
-    ding_entity_rating_add_to_list($entity, $account, $rating);
-    
-    // Build response.
-    $output = theme('ding_entity_rating_thank_you', array());
-    
-    // Return response.
-    print $output;
-    drupal_exit();
+  $commands = array();
+  
+  // Grabbed from ding_reservation_reserve_ajax()
+  if (!user_is_logged_in()) {
+    // Trigger log-in (the reservation link will be triggered on success).
+    $commands[] = ajax_command_ding_user_authenticate('');
+  }
+  elseif (!ding_user_is_provider_user($user)) {
+    // Error not library user.
+    $commands[] = ajax_command_ding_popup('ding_reservation', t('Error'), '<p>' . t('Only library user can make reservations.') . '</p>');
   }
   else {
-    // Only ajax supported.
-    return '';
+    ding_entity_rating_add_to_list($entity, $user, $rating);
+    
+    $commands[] = ajax_command_ding_popup(
+      'ding_reservation',
+      t('Rated'), 
+      '<p>' . theme('ding_entity_rating_thank_you') . '</p>'
+    );
   }
+  
+  return array('#type' => 'ajax', '#commands' => $commands);
 }
 
 /**
@@ -269,11 +272,11 @@ function theme_ding_entity_rating_ding_user_complete_description($variables) {
  * Preprocessor for ding_entity_rating_display.
  */
 function template_preprocess_ding_entity_rating_display(&$variables) {
-  global $user;
   $entity = $variables['entity'];
   
   // Add styling and javascript.
   // Since we don't use render here, we attach them old fashioned way.
+  drupal_add_library('system', 'drupal.ajax');
   $module_path = drupal_get_path('module', 'ding_entity_rating');
   drupal_add_css($module_path . '/css/ding_entity_rating.css');
   drupal_add_js($module_path . '/js/ding_entity_rating.js');
@@ -284,7 +287,7 @@ function template_preprocess_ding_entity_rating_display(&$variables) {
     $variables['classes_array'][] = 'rateable';
   }
 
-  $variables['path'] = $entity->ding_entity_id . '/' . $user->uid;
+  $variables['path'] = $entity->ding_entity_id;
 
   $variables['avg'] = ding_entity_rating_get_average($entity);
   $variables['rating'] = ($variables['avg']) ? round($variables['avg']) : -1;
