@@ -48,11 +48,10 @@
   stylesheets[all][] = sass_css/components/panel/account.css
   stylesheets[all][] = sass_css/components/panel/class-panel.css
   stylesheets[all][] = sass_css/components/panel/pane-ding-facetbrowser.css
-  stylesheets[all][] = sass_css/components/panel/pane-taxonomy-menu.css
-  stylesheets[all][] = sass_css/components/panel/pane-user-login.css
   stylesheets[all][] = sass_css/components/panel/pane-ding-user-frontend-ding-user-loan-number.css
-  stylesheets[all][] = sass_css/components/panel/pane-profile2.css
   stylesheets[all][] = sass_css/components/panel/pane-menu.css
+  stylesheets[all][] = sass_css/components/panel/pane-profile2.css
+  stylesheets[all][] = sass_css/components/panel/pane-user-login.css
 
   stylesheets[all][] = sass_css/components/ting-object/ting-object.css
   stylesheets[all][] = sass_css/components/ting-object/ting-collection.css
