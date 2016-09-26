@@ -18,14 +18,12 @@ function ddbasic_form_alter(&$form, &$form_state, $form_id) {
       $form['actions_top']['update']['#prefix'] = "<div class='update-reservations'>";
     }
   }
-  if($form_id == 'ding_loan_loans_form') {
-  }
-  if($form_id == 'profile2_edit_provider_alma_form') {
-    //dpm($form);
-    //$form['profile_provider_alma']['field_alma_preferred_branch']['#weight'] = '4';
-    //$form['profile_provider_alma']['field_alma_interest_period']['#weight'] = '6';
-    //$form['profile_provider_alma']['field_alma_reservation_pause']['#weight'] = '5';
-    //$form
+
+  // Change all-text in select list in exposed filter for e-resources
+  if($form['#id'] == 'views-exposed-form-ding-eresource-ding-eresource-list') {
+    if (!empty($form['access']['#options']['All'])) {
+      $form['access']['#options']['All'] = t('Access: All e-materials');
+    }
   }
 }
 
@@ -165,7 +163,6 @@ function ddbasic_form_ding_facetbrowser_form_alter(&$form, &$form_state, $form_i
     }
   }
 }
-
 
 /**
  * Implements hook_preprocess_select().
