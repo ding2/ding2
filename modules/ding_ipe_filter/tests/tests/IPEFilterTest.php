@@ -92,4 +92,3 @@ Class IPETest extends PHPUnit_Extensions_SeleniumTestCase {
     sleep(5);
   }
 }
-?>
