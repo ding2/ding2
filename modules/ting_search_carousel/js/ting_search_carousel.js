@@ -158,6 +158,9 @@
       // Update content.
       $('.rs-carousel-title').html(data.subtitle);
       $('.rs-carousel .rs-carousel-runner').append(data.content);
+      
+      // Attach behaviors to the carousel content.
+      Drupal.attachBehaviors($('.rs-carousel .rs-carousel-runner'));
 
       // Show navigation arrows.
       $('.rs-carousel-action-prev').show();

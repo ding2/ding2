@@ -1026,6 +1026,10 @@ function ddbasic_preprocess_form_element(&$variables) {
 function ddbasic_preprocess_ting_search_carousel(&$variables) {
   // Add ajax to make reserve links work
   drupal_add_library('system', 'drupal.ajax');
+  
+  // The search carousel doesn't use the standard Drupal ajax API so it doesn't
+  // automatically include the ting-covers.js.
+  drupal_add_js(drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js');
 }
 /**
  * Implements hook_preprocess_ting_search_carousel_collection().
