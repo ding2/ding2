@@ -56,35 +56,6 @@ function ding_ipe_filter_admin_panes_form() {
       );
     }
   }
-  return system_settings_form($form);
-}
-
-/**
- * Defines admin form.
- */
-function ding_ipe_filter_default_settings_form() {
-  $form = array();
-  $form['filter_fieldset'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Default IPE filter settings.'),
-    '#collapsible' => FALSE,
-    '#collapsed' => FALSE,
-  );
-
-  $roles = user_roles(TRUE);
-  // Unset anonymous and authenticated roles.
-  unset($roles[1], $roles[2]);
-
-  $role_names = array_values($roles);
-  $ipe_roles = variable_get('ding_ipe_filter_roles', array());
-  $form['filter_fieldset']['ding_ipe_filter_roles'] = array(
-    '#type' => 'checkboxes',
-    '#options' => array_combine($role_names, $role_names),
-    '#default_value' => $ipe_roles,
-  );
-
-  // Clear theme cache for hook_theme_registry_alter implementation.
-  $form['#submit'][] = 'drupal_theme_rebuild';
 
   return system_settings_form($form);
 }

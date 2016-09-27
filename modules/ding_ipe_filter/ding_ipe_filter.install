@@ -6,6 +6,8 @@
 
 /**
  * Implements hook_install().
+ *
+ * Change the front page panel renderer so the IPE is used.
  */
 function ding_ipe_filter_install() {
   $task = page_manager_get_task('page');
@@ -31,6 +33,5 @@ function ding_ipe_filter_install() {
  * Implements hook_uninstall().
  */
 function ding_ipe_filter_uninstall() {
-  variable_del('ding_ipe_filter_roles');
   variable_del('ding_ipe_filter_table');
 }

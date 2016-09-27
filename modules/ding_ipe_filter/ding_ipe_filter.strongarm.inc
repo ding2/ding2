@@ -13,21 +13,6 @@ function ding_ipe_filter_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'ding_ipe_filter_roles';
-  $strongarm->value = array(
-    'administrators' => 'administrators',
-    'local administrator' => 'local administrator',
-    'editor' => 0,
-    'guest blogger' => 0,
-    'local editor' => 0,
-    'provider' => 0,
-    'staff' => 0,
-  );
-  $export['ding_ipe_filter_roles'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'ding_ipe_filter_table';
   $strongarm->value = array(
     'ding_tabroll-ding_frontpage_tabroll' => array(
