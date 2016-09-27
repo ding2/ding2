@@ -37,7 +37,7 @@ function ding_ipe_filter_permission() {
 }
 
 /**
- * Check if user has all the necessary permissions to access the IPE filter menu.
+ * Check if user has necessary permissions to access the IPE filter menu.
  *
  * @return array
  *   If empty array, then user has all the necessary permissions.
@@ -89,9 +89,9 @@ function theme_ding_ipe_filter_table($variables) {
     else {
       $content['rows'][] = array(
         array(
-        'data' => drupal_render($form[$row_index]),
-        'colspan' => 2,
-        'header' => TRUE,
+          'data' => drupal_render($form[$row_index]),
+          'colspan' => 2,
+          'header' => TRUE,
         ),
       );
     }
@@ -107,11 +107,8 @@ function theme_ding_ipe_filter_table($variables) {
  *
  * @param array $registry
  *   Theme registry variables.
- *
- * @return string
- *   Rendered IPE filter menu.
  */
-function ding_ipe_filter_theme_registry_alter(&$registry) {
+function ding_ipe_filter_theme_registry_alter(&$registry = array()) {
   $registry['panels_ipe_add_pane_button']['function'] = '_ding_ipe_filter_callback';
 }
 
@@ -162,8 +159,8 @@ function _ding_ipe_filter_callback($variables = array()) {
   $links = l(t('Add'), NULL, array(
     'attributes' => array(
       'class' => 'ipe-trigger',
-      'target_region' => $region_id
-    )
+      'target_region' => $region_id,
+    ),
   ));
 
   // If user roles are not set then display default ipe modal window.
