@@ -331,7 +331,7 @@ function ding_christmas_calendar_form_alter(&$form, &$form_state, $form_id) {
 
     case 'quiz_take_question_feedback_form':
       $form['actions']['next']['#value'] = t('Back to calendar');
-      $form['actioncs']['next']['#submit'] = array('ding_christmas_calendar_back_submit');
+      $form['actions']['next']['#submit'] = array('ding_christmas_calendar_back_submit');
       break;
 
     case 'quiz_jumper_form':
