@@ -120,9 +120,8 @@ function ding_christmas_calendar_generate_content($quiz_id, $mobile = FALSE) {
   );
   if (!empty($quiz_id)) {
     $quiz = node_load($quiz_id);
-    $result = quiz_access('take', $quiz);
     $quiz_result = quiz_take_quiz($quiz);
-    if (!$quiz_result && $result['success']) {
+    if (!$quiz_result) {
       $quiz_result = entity_create('quiz_result', array(
         'nid' => $quiz->nid,
         'vid' => $quiz->vid,
@@ -137,7 +136,7 @@ function ding_christmas_calendar_generate_content($quiz_id, $mobile = FALSE) {
     }
     else {
       // New attempt.
-      $_SESSION['quiz'][$quiz_result->nid]['result_id'] = $quiz_result->result_id;
+      $_SESSION['quiz'][$quiz_result->nid]['result_id'] = empty($quiz_result->result_id) ? 1 : $quiz_result->result_id;
       $_SESSION['quiz'][$quiz_result->nid]['current'] = 1;
       quiz_take_quiz($quiz);
     }
@@ -293,10 +292,11 @@ function ding_christmas_calendar_questions($nid, $vid, $type = NULL) {
  */
 function ding_christmas_get_question_number($input, $quiz_id) {
   $nid = is_object($input) ? $input->nid : $input;
+  $result = isset($_SESSION['quiz'][$quiz_id]['result_id']) ? $_SESSION['quiz'][$quiz_id]['result_id'] : NULL;
   $obj = db_select('quiz_node_results_answers', 't')
     ->fields('t')
     ->condition('t.question_nid', $nid)
-    ->condition('t.result_id', $_SESSION['quiz'][$quiz_id]['result_id'])
+    ->condition('t.result_id', $result)
     ->execute()
     ->fetch();
 
@@ -323,7 +323,6 @@ function ding_christmas_calendar_node_view($node, $view_mode, $langcode) {
  */
 function ding_christmas_calendar_form_alter(&$form, &$form_state, $form_id) {
   switch ($form_id) {
-
     case 'quiz_question_answering_form':
       $form['navigation']['submit']['#value'] = t('Save');
       $form['navigation']['skip']['#value'] = t('Back to calendar');
@@ -332,7 +331,11 @@ function ding_christmas_calendar_form_alter(&$form, &$form_state, $form_id) {
 
     case 'quiz_take_question_feedback_form':
       $form['actions']['next']['#value'] = t('Back to calendar');
-      $form['actions']['next']['#submit'] = array('ding_christmas_calendar_back_submit');
+      $form['actioncs']['next']['#submit'] = array('ding_christmas_calendar_back_submit');
+      break;
+
+    case 'quiz_jumper_form':
+      unset($form['question_number']);
       break;
   }
 }
