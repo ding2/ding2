@@ -53,7 +53,6 @@
     .color-and-icon {
       @include button(profile, $white);
       position: absolute;
-      background-color: $color-secondary;
     }
     // Hover for non touch devices
     .no-touch & {
@@ -62,6 +61,12 @@
           background-color: $grey-dark;
         }
       }
+    }
+  }
+  .ding-gatewayf--login-block {
+    margin-top: 10px;
+    a {
+      @include button(nemid, $charcoal-opacity-dark, $grey-medium);
     }
   }
   .form-links {

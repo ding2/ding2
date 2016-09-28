@@ -109,6 +109,14 @@ function ddbasic_form_user_login_block_alter(&$form, &$form_state, $form_id) {
   $form['actions']['submit']['#prefix'] = '<div class="submit-button-with-icon"><div class="color-and-icon"></div>';
   $form['actions']['submit']['#suffix'] = '</div>';
 
+  // Add NemID if the gatewayf module exists.
+  if (module_exists('ding_gatewayf')) {
+    $form['#attributes']['class'][] = 'has-nemid-login';
+    $block = module_invoke('ding_gatewayf', 'block_view', 'login');
+    $block->content['#link']['#text'] = t('Login with');
+    $form['actions']['nemid'] = array('#markup' => render($block->content));
+  }
+
   // Temporary hack to get rid of open id links.
   unset($form['openid_links']);
   unset($form['#attached']['js']);
