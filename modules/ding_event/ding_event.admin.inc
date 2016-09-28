@@ -20,7 +20,7 @@ function ding_event_admin_setting_form(array $form, array &$form_state) {
   $form['ding_event']['ding_event_currency_type'] = array(
     '#type' => 'radios',
     '#title' => t('Currency'),
-    '#options' => drupal_map_assoc(array('Kr', '€')),
+    '#options' => drupal_map_assoc(array('kr.', '€')),
     '#default_value' => $currency,
     '#description' => t("Select which currency to use on events"),
   );
