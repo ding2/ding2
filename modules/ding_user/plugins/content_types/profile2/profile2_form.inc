@@ -49,9 +49,6 @@ function ding_user_profile2_form_content_type_render($subtype, $conf, $panel_arg
       $form = entity_ui_get_form('profile2', $profile);
     }
 
-    $form['profile_provider_alma']['field_alma_mail']['und'][0]['email']['#description'] =
-      $form['profile_provider_alma']['field_alma_mail']['und'][0]['#description'];
-
     // Set block delta and title.
     $block->title = $profile_type->profile_type->label;
     $block->delta = $form['#form_id'];
