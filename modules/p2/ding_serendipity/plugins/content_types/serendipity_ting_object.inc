@@ -99,10 +99,11 @@ function ding_serendipity_serendipity_ting_object_content_type_render($subtype, 
       '#objects' => $tmp,
     );
   }
-
+  
   $block = new stdClass();
   $block->title = t('Serendipity materials');
   $block->content = $output;
+
   return $block;
 }
 
