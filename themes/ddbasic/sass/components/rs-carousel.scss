@@ -9,8 +9,8 @@
   // Title
   .rs-carousel-title {
     @include font('header-large');
-    @include span-columns(6);
     color: $color-text;
+    min-height: 44px; // Prevent page from jumping when content is loaded in (If title is more than one line - page will still jump)
     margin-bottom: 60px;
 
     // Tablet
@@ -21,12 +21,20 @@
     // Mobile
     @include media($mobile) {
       margin-bottom: 10px;
+      min-height: 36px; // Prevent page from jumping when content is loaded in (If title is more than one line - page will still jump)
     }
   }
   // Items
   .rs-carousel-items {
     position: relative;
+    clear: left;
     padding-bottom: 80px;
+    min-height: 418px; // Prevent page from jumping when content is loaded in
+
+    // Tablet
+    @include media($tablet) {
+      min-height: 363px; // Prevent page from jumping when content is loaded in
+    }
     .rs-carousel-mask {
       // Item
       .rs-carousel-item {
