@@ -361,7 +361,7 @@ function ding_serendipity_lists_author_from_lists_serendipity_add($context) {
 
     $query = implode(" AND ", $terms);
 
-    // Limit to same language to reduce signal to noise
+    // Limit to same language to reduce signal to noise.
     $lang = $ting_entity->getLanguage();
     if (!empty($lang)) {
       $query = "(" . $query . ") AND facet.language=" . $obj->getLanguage();
