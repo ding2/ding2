@@ -276,21 +276,21 @@ function ting_search_carousel_settings_form($form, &$form_state) {
 /**
  * Handler for building part of form.
  *
- * @param int $i
- *   Number of query in form.
+ * @param int $weight
+ *   Weight of the search query form.
+ *
  * @param array $query
  *   Array of quires.
  *
  * @return array
  *   Renderable array.
  */
-function _ting_search_carousel_queries($i, $query = array()) {
-  $q = array(
+function _ting_search_carousel_queries($weight = 0, $query = array()) {
+  return array(
     'sort' => array(
       '#type' => 'weight',
       '#delta' => 5,
-      '#default_value' => isset($query['sort']) ? $query['sort'] : '',
-      '#value' => 0,
+      '#default_value' => $weight,
       '#attributes' => array('class' => array('sort')),
     ),
     'title' => array(
@@ -313,8 +313,6 @@ function _ting_search_carousel_queries($i, $query = array()) {
       '#default_value' => isset($query['query']) ? $query['query'] : '',
     ),
   );
-
-  return $q;
 }
 
 /**
@@ -410,7 +408,7 @@ function ting_search_carousel_search_submit($form, &$form_state) {
   // Check if some queries was removed.
   $searches = array();
   foreach ($values['ting_search_carousel']['ting_searches'] as $search_key => $ting_search) {
-    if (!empty($ting_search['query']) && !empty($ting_search['title']) && !empty($ting_search['subtitle'])) {
+    if (!empty($ting_search['query']) && !empty($ting_search['title'])) {
       $searches[$search_key] = $values['ting_search_carousel']['ting_searches'][$search_key];
     }
   }
