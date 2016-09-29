@@ -893,11 +893,10 @@ function ding_serendipity_form_base_submit(&$form_state) {
 /**
  * Exclude one or more ids from a serendipity result.
  *
- *  @param array list
- *    Serendipity result to be altered.
- *
- *  @param excludes
- *    Array or id of material(s) to exclude.
+ * @param array $list
+ *   Serendipity result to be altered.
+ * @param $excludes
+ *   Array or id of material(s) to exclude.
  */ 
 function ding_serendipity_exclude(&$list, $excludes) {
 
@@ -905,13 +904,13 @@ function ding_serendipity_exclude(&$list, $excludes) {
     return;
   }
 
-  // Convert single id into array
+  // Convert single id into array.
   if (!is_array($excludes)) {
     $excludes = array($excludes);
   }
 
-  foreach( $list as $id => $item ) {
-    foreach( $excludes as $needle ) {
+  foreach ($list as $id => $item) {
+    foreach ($excludes as $needle) {
       if ($item["id"] == $needle) {
         unset($list[$id]);
       }
