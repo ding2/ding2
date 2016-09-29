@@ -183,7 +183,7 @@ function ding_serendipity_ting_entity_ting_object_type_serendipity_add($context)
   // @Todo extend with types where this plugin clearly is useless.
   // We would like to present other PS3 games for a PS3 game for instance.
   // But not just books for a book.
-  if (empty($type) || $type == 'bog') {
+  if (empty($type) || $type == 'Bog' || $type == 'Avisartikel' || $type == 'Tidsskriftsartikel' ) {
     return $results;
   }
   
