@@ -83,13 +83,16 @@
         &:not(.no-gradient) {
           @include linear-gradient(to top, $white 30px, $grey-light 100%);
         }
-        &.no-gradient {
-          background-color: $white;
-        }
         .panel-pane-inner {
           @include wrapper;
           position: relative; // Is set to relative to position absolute elements inside panels correct
           padding: 40px 0 30px;
+        }
+        &.no-gradient {
+          background-color: $white;
+          .panel-pane-inner {
+            padding-top: 20px;
+          }
         }
       }
     }

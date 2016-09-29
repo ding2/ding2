@@ -255,27 +255,13 @@
         .author {
           margin-bottom: 5px;
         }
-        &.field-type-taxonomy-term-reference {
-          @include span-columns(6 of 8);
-          margin: 0 0 30px;
-
-          // Tablet
-          @include media($tablet) {
-            @include span-columns(8 of 8);
-          }
-          .field-label {
-            @include font('base-bold');
-          }
-          .field-items .field-item {
-            display: inline;
-            margin-right: 15px;
-          }
-        }
       }
-
       .field-name-field-ding-news-files {
         @include span-columns(6 of 8);
         margin: 0 0 30px;
+        &:last-child {
+          margin-bottom: 0;
+        }
 
         // Tablet
         @include media($tablet) {
@@ -291,6 +277,25 @@
         }
         .file-type {
           margin-left: 6px;
+        }
+      }
+      .field-name-field-ding-news-tags.field-type-taxonomy-term-reference {
+        @include span-columns(6 of 8);
+        margin: 0 0 30px;
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        // Tablet
+        @include media($tablet) {
+          @include span-columns(8 of 8);
+        }
+        .field-label {
+          @include font('base-bold');
+        }
+        .field-items .field-item {
+          display: inline;
+          margin-right: 15px;
         }
       }
       .field {
