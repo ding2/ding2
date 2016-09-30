@@ -8391,6 +8391,33 @@ input#edit-search-block-form--2.spinner {
   .page-ding-christmas-calendar .notifyjs-bootstrap-info span {
     white-space: normal; }
 
+.page-ding-christmas-calendar #quiz-progress,
+.page-ding-christmas-calendar .quiz-question-multichoice .field-type-text-with-summary,
+.page-ding-christmas-calendar .quiz-question-multichoice .field-name-field-quiz-date,
+.page-ding-christmas-calendar .quiz-question-multichoice .form-type-radios {
+  display: none; }
+
+.page-ding-christmas-calendar table td {
+  vertical-align: inherit;
+  padding-left: 20px;
+  padding-right: 0; }
+
+.page-ding-christmas-calendar div.form-actions {
+  margin-bottom: 10px;
+  padding-top: 20px; }
+
+.page-ding-christmas-calendar #quiz-question-answering-form {
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px; }
+
+.page-ding-christmas-calendar input#edit-navigation-submit {
+  margin-left: 10px; }
+
+.page-node-take-feedback .entity-quiz-result-answer .field-type-text-with-summary,
+.page-node-take-feedback .entity-quiz-result-answer .field-name-field-quiz-date {
+  display: none; }
+
 .pane-ding-christmas-calendar-mobile {
   display: none; }
 
@@ -8524,14 +8551,6 @@ input#edit-search-block-form--2.spinner {
 .page-node-take .pane-page-tabs,
 .page-node-quiz-results .pane-page-tabs {
   margin: 10px 0; }
-
-.page-node-take #quiz-progress,
-.page-node-take .quiz-question-quiz-page,
-.page-node-take .question_type_name,
-.page-node-quiz-results #quiz-progress,
-.page-node-quiz-results .quiz-question-quiz-page,
-.page-node-quiz-results .question_type_name {
-  display: none; }
 
 .page-node-take .form-actions,
 .page-node-quiz-results .form-actions {
