@@ -15,13 +15,31 @@
   outline: none !important;
 }
 
-.content-wrapper {
-  @include transition(opacity $speed $ease);
-  // When topbar is open
-  .topbar-is-open &,
-  .overlay-is-active & {
-    opacity: 0.5;
-    pointer-events: none;
+body {
+  &::after {
+    @include transition(
+      opacity $speed $ease,
+      height 0s $ease $speed
+    );
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0;
+    background-color: $charcoal;
+    opacity: 0;
+  }
+  &.topbar-is-open,
+  &.overlay-is-active {
+    &::after {
+      @include transition(
+        opacity $speed $ease,
+        height 0s $ease
+      );
+      height: 100%;
+      opacity: 0.5;
+    }
   }
 }
 
