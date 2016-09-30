@@ -25,6 +25,7 @@ $carousel-tab-color:                       $white;
   @include zen-grid-item(12, 1);
   clear: both;
   margin-bottom: 20px;
+  margin-right: 0;
   padding: 0;
 
   .ajax-loader {
