@@ -11,6 +11,43 @@
       white-space: normal;
     }
   }
+
+  #quiz-progress,
+  .quiz-question-multichoice .field-type-text-with-summary,
+  .quiz-question-multichoice .field-name-field-quiz-date,
+  .quiz-question-multichoice .form-type-radios {
+    display: none;
+  }
+
+  table td {
+    vertical-align: inherit;
+    padding-left: 20px;
+    padding-right: 0;
+  }
+
+  div.form-actions {
+    margin-bottom: 10px;
+    padding-top: 20px
+  }
+
+  #quiz-question-answering-form {
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  input#edit-navigation-submit {
+    margin-left: 10px;
+  }
+}
+
+.page-node-take-feedback {
+  .entity-quiz-result-answer {
+    .field-type-text-with-summary,
+    .field-name-field-quiz-date {
+      display: none;
+    }
+  }
 }
 
 .pane-ding-christmas-calendar-mobile {
@@ -209,12 +246,6 @@
 
   .pane-page-tabs {
     margin: 10px 0;
-  }
-
-  #quiz-progress,
-  .quiz-question-quiz-page,
-  .question_type_name {
-    display: none;
   }
 
   .form-actions {
