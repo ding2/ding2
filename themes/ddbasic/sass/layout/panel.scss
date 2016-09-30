@@ -46,6 +46,11 @@
     .frontpage-layout {
       .panel-pane {
         @include linear-gradient(to top, $white 30px, $grey-light 100%);
+        // Has dynamic background
+        .has-dynamic-background & {
+          max-width: $dynamic-background-width;
+          margin: 0 auto;
+        }
         .panel-pane-inner {
           @include wrapper;
           position: relative; // Is set to relative to position absolute elements inside panels correct
@@ -82,6 +87,11 @@
       .panel-pane {
         &:not(.no-gradient) {
           @include linear-gradient(to top, $white 30px, $grey-light 100%);
+        }
+        // Has dynamic background
+        .has-dynamic-background & {
+          max-width: $dynamic-background-width;
+          margin: 0 auto;
         }
         .panel-pane-inner {
           @include wrapper;
@@ -133,6 +143,11 @@
       .left-and-main-content {
         @include linear-gradient(to top, $white 30px, $grey-light 100%);
         padding: 40px 0 30px;
+        // Has dynamic background
+        .has-dynamic-background & {
+          max-width: $dynamic-background-width;
+          margin: 0 auto;
+        }
         .layout-wrapper {
           @include wrapper;
           .secondary-content {
@@ -158,6 +173,11 @@
         .panel-pane:not(.pane-tags-list-ding-content-tags) {
           &:not(.no-gradient) {
             @include linear-gradient(to top, $white 30px, $grey-light 100%);
+          }
+          // Has dynamic background
+          .has-dynamic-background & {
+            max-width: $dynamic-background-width;
+            margin: 0 auto;
           }
           &.no-gradient {
             background-color: $white;

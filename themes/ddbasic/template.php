@@ -71,6 +71,13 @@ function ddbasic_preprocess_html(&$vars) {
     }
   }
 
+  // If dynamic background
+  $image_conf = dynamic_background_load_image_configuration($vars);
+
+  if (!empty($image_conf)) {
+    $vars['classes_array'][] = 'has-dynamic-background';
+  }
+
 }
 
 /**
@@ -1026,7 +1033,7 @@ function ddbasic_preprocess_form_element(&$variables) {
 function ddbasic_preprocess_ting_search_carousel(&$variables) {
   // Add ajax to make reserve links work
   drupal_add_library('system', 'drupal.ajax');
-  
+
   // The search carousel doesn't use the standard Drupal ajax API so it doesn't
   // automatically include the ting-covers.js.
   drupal_add_js(drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js');

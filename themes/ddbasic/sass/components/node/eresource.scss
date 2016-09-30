@@ -109,6 +109,11 @@
   &.node-full {
     @include linear-gradient(to top, $white 30px, $grey-light 100%);
     padding: 40px 0 30px;
+    // Has dynamic background
+    .has-dynamic-background & {
+      max-width: $dynamic-background-width;
+      margin: 0 auto;
+    }
     > .inner {
       @include wrapper;
       .left {
