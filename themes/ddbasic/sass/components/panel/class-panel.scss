@@ -82,34 +82,6 @@
 }
 
 // ==========================================================================
-// Hide overflow
-// ==========================================================================
-
-.panel-pane {
-  &.hide-overflow-before {
-    .panel-pane-inner {
-      position: relative;
-      &::before {
-        @include linear-gradient(to top, $white 30px, $grey-light 100%);
-        content: '';
-        position: absolute;
-        z-index: $z-above;
-        top: 0;
-        right: 100%;
-        height: 100%;
-        width: calc(50vw - 50%);
-        background-color: red;
-        // No-gradient
-        @at-root .no-gradient#{&} {
-          background-image: none;
-          background-color: $white;
-        }
-      }
-    }
-  }
-}
-
-// ==========================================================================
 // Ding labrary address & ding library contact
 // ==========================================================================
 
