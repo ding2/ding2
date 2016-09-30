@@ -1,0 +1,19 @@
+/*
+    Document   : ting_new_materials.css
+*/
+
+
+/* New materials list */
+
+
+.new-materials-header .new-materials-title {
+  padding-left: 16px;
+}
+
+.new-materials-covers li {
+  margin-bottom: 1.5em;
+  margin-right: 15px;
+}
+
+
+

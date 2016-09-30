@@ -75,7 +75,7 @@ function ting_new_materials_field_default_field_instances() {
       ),
     ),
     'deleted' => 0,
-    'description' => 'Limits how the number of months worth of new materials there are shown. E.g. value of 3  means results from current month and the last three are shown. If left empty users can see all results of a query sorted newest first',
+    'description' => 'Limits in days how old the new materials may be. E.g. a value of 90 limits to last 90 days',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -105,9 +105,9 @@ function ting_new_materials_field_default_field_instances() {
     'entity_type' => 'node',
     'field_name' => 'field_ting_new_materials_limit',
     'label' => 'Limit period',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
-      'max' => 12,
+      'max' => 365,
       'min' => 0,
       'prefix' => '',
       'suffix' => '',
@@ -168,6 +168,56 @@ function ting_new_materials_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-new_materials-field_ting_new_materials_covers'
+  $field_instances['node-new_materials-field_ting_new_materials_covers'] = array(
+    'bundle' => 'new_materials',
+    'default_value' => array(
+      0 => array(
+        'value' => 1,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => 'If sat the module only shows the covers of new materials. Materials without coverimage are filtered out.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'list',
+        'settings' => array(),
+        'type' => 'list_default',
+        'weight' => 3,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_ting_new_materials_covers',
+    'label' => 'Show Covers',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 1,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 34,
+    ),
+  );
+
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Limit period');
@@ -176,6 +226,8 @@ function ting_new_materials_field_default_field_instances() {
   t('Search query');
   t('Search query used to get new materials. In order to get rid of non relevant posts use following syntax: query AND NOT (id OR id) where faustnumber is the id of the posts to exclude. E.g. "krimi bog engelsk AND NOT  (25863690 OR 29258341)"');
   t('The number of items to display on each page, if the number of results are grater than this a pager will be used. ');
+  t('If sat the module only shows the covers of new materials. Materials without coverimage are filtered out.');
+  t('Show Covers');
 
   return $field_instances;
 }
