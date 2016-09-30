@@ -17,6 +17,7 @@
  */
 function ding_christmas_calendar_take_wrapper($quiz_id, $number) {
   $quiz = node_load($quiz_id);
+  quiz_take_quiz($quiz);
   $_SESSION['quiz'][$quiz->nid]['current'] = $number;
   module_load_include('inc', 'quiz', 'plugins/page_manager/tasks/quiztake');
   $output = quiz_take_question($quiz, $number);

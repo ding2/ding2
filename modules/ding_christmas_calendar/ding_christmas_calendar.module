@@ -136,6 +136,7 @@ function ding_christmas_calendar_generate_content($quiz_id, $mobile = FALSE) {
     }
     else {
       // New attempt.
+      $quiz_result->save();
       $_SESSION['quiz'][$quiz_result->nid]['result_id'] = empty($quiz_result->result_id) ? 1 : $quiz_result->result_id;
       $_SESSION['quiz'][$quiz_result->nid]['current'] = 1;
       quiz_take_quiz($quiz);
