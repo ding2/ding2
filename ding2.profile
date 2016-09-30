@@ -839,7 +839,6 @@ function ding2_admin_menu_shortcuts() {
 
     if (empty($content)) {
       module_load_include('inc', 'admin_menu', 'admin_menu');
-      admin_menu_theme_settings();
     }
 
     $content['icon'] = '1';
