@@ -100,6 +100,9 @@ function ding_event_strongarm() {
       'token' => array(
         'custom_settings' => FALSE,
       ),
+      'workflow_tab' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -109,8 +112,26 @@ function ding_event_strongarm() {
         'path' => array(
           'weight' => '7',
         ),
+        'redirect' => array(
+          'weight' => '30',
+        ),
       ),
-      'display' => array(),
+      'display' => array(
+        'webform' => array(
+          'teaser' => array(
+            'weight' => '4',
+            'visible' => TRUE,
+          ),
+          'default' => array(
+            'weight' => '10',
+            'visible' => TRUE,
+          ),
+          'search_result' => array(
+            'weight' => '4',
+            'visible' => FALSE,
+          ),
+        ),
+      ),
     ),
   );
   $export['field_bundle_settings_node__ding_event'] = $strongarm;

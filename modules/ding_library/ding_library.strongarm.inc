@@ -86,14 +86,23 @@ function ding_library_strongarm() {
       'token' => array(
         'custom_settings' => FALSE,
       ),
+      'workflow_tab' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
         'title' => array(
-          'weight' => '0',
+          'weight' => '1',
         ),
         'path' => array(
-          'weight' => '7',
+          'weight' => '9',
+        ),
+        'og_menu' => array(
+          'weight' => '0',
+        ),
+        'redirect' => array(
+          'weight' => '10',
         ),
       ),
       'display' => array(),

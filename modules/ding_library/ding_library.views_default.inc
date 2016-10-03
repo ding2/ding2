@@ -41,7 +41,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['style_options']['class'] = 'library-list';
   $handler->display->display_options['style_options']['wrapper_class'] = '';
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Field: Content: Nid */
+  /* Felt: Indhold: Nid */
   $handler->display->display_options['fields']['nid']['id'] = 'nid';
   $handler->display->display_options['fields']['nid']['table'] = 'node';
   $handler->display->display_options['fields']['nid']['field'] = 'nid';
@@ -50,7 +50,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['nid']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['nid']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['nid']['hide_alter_empty'] = FALSE;
-  /* Field: Content: Title */
+  /* Felt: Indhold: titel */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
@@ -63,7 +63,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['title']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['title']['hide_alter_empty'] = FALSE;
-  /* Field: Broken/missing handler */
+  /* Felt: List image */
   $handler->display->display_options['fields']['field_ding_library_list_image']['id'] = 'field_ding_library_list_image';
   $handler->display->display_options['fields']['field_ding_library_list_image']['table'] = 'field_data_field_ding_library_list_image';
   $handler->display->display_options['fields']['field_ding_library_list_image']['field'] = 'field_ding_library_list_image';
@@ -73,7 +73,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['field_ding_library_list_image']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_library_list_image']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['field_ding_library_list_image']['element_default_classes'] = FALSE;
-  /* Field: Content: Address */
+  /* Felt: Indhold: Address */
   $handler->display->display_options['fields']['field_ding_library_addresse']['id'] = 'field_ding_library_addresse';
   $handler->display->display_options['fields']['field_ding_library_addresse']['table'] = 'field_data_field_ding_library_addresse';
   $handler->display->display_options['fields']['field_ding_library_addresse']['field'] = 'field_ding_library_addresse';
@@ -92,11 +92,11 @@ function ding_library_views_default_views() {
       'address' => 'address',
     ),
   );
-  /* Field: Content: Phone number */
+  /* Felt: Indhold: Phone number */
   $handler->display->display_options['fields']['field_ding_library_phone_number']['id'] = 'field_ding_library_phone_number';
   $handler->display->display_options['fields']['field_ding_library_phone_number']['table'] = 'field_data_field_ding_library_phone_number';
   $handler->display->display_options['fields']['field_ding_library_phone_number']['field'] = 'field_ding_library_phone_number';
-  $handler->display->display_options['fields']['field_ding_library_phone_number']['label'] = 'Phone';
+  $handler->display->display_options['fields']['field_ding_library_phone_number']['label'] = 'Telefon';
   $handler->display->display_options['fields']['field_ding_library_phone_number']['element_type'] = 'div';
   $handler->display->display_options['fields']['field_ding_library_phone_number']['element_class'] = 'dd phone tel';
   $handler->display->display_options['fields']['field_ding_library_phone_number']['element_label_type'] = 'div';
@@ -104,7 +104,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['field_ding_library_phone_number']['element_wrapper_class'] = 'dl phone-content';
   $handler->display->display_options['fields']['field_ding_library_phone_number']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_ding_library_phone_number']['hide_empty'] = TRUE;
-  /* Field: Content: Fax number */
+  /* Felt: Indhold: Fax number */
   $handler->display->display_options['fields']['field_ding_library_fax_number']['id'] = 'field_ding_library_fax_number';
   $handler->display->display_options['fields']['field_ding_library_fax_number']['table'] = 'field_data_field_ding_library_fax_number';
   $handler->display->display_options['fields']['field_ding_library_fax_number']['field'] = 'field_ding_library_fax_number';
@@ -116,7 +116,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['field_ding_library_fax_number']['element_wrapper_class'] = 'dl fax-content';
   $handler->display->display_options['fields']['field_ding_library_fax_number']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_ding_library_fax_number']['hide_empty'] = TRUE;
-  /* Field: Content: E-mail */
+  /* Felt: Indhold: E-mail */
   $handler->display->display_options['fields']['field_ding_library_mail']['id'] = 'field_ding_library_mail';
   $handler->display->display_options['fields']['field_ding_library_mail']['table'] = 'field_data_field_ding_library_mail';
   $handler->display->display_options['fields']['field_ding_library_mail']['field'] = 'field_ding_library_mail';
@@ -127,7 +127,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['field_ding_library_mail']['element_wrapper_class'] = 'dl email-content';
   $handler->display->display_options['fields']['field_ding_library_mail']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['field_ding_library_mail']['hide_empty'] = TRUE;
-  /* Field: Content: Title */
+  /* Felt: Indhold: titel */
   $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
   $handler->display->display_options['fields']['title_1']['table'] = 'node';
   $handler->display->display_options['fields']['title_1']['field'] = 'title';
@@ -141,18 +141,18 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['title_1']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['title_1']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['title_1']['element_default_classes'] = FALSE;
-  /* Sort criterion: Content: Title */
+  /* Sorteringskriterie: Indhold: titel */
   $handler->display->display_options['sorts']['title']['id'] = 'title';
   $handler->display->display_options['sorts']['title']['table'] = 'node';
   $handler->display->display_options['sorts']['title']['field'] = 'title';
-  /* Filter criterion: Content: Published */
+  /* Filterkriterie: Indhold: Udgivet */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
   $handler->display->display_options['filters']['status']['value'] = 1;
   $handler->display->display_options['filters']['status']['group'] = 0;
   $handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
-  /* Filter criterion: Content: Type */
+  /* Filterkriterie: Indhold: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
@@ -172,7 +172,7 @@ function ding_library_views_default_views() {
   $handler->display->display_options['row_plugin'] = 'node';
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['relationships'] = FALSE;
-  /* Relationship: Nodequeue: Queue */
+  /* Forbindelse: Nodekø: Kø */
   $handler->display->display_options['relationships']['nodequeue_rel']['id'] = 'nodequeue_rel';
   $handler->display->display_options['relationships']['nodequeue_rel']['table'] = 'node';
   $handler->display->display_options['relationships']['nodequeue_rel']['field'] = 'nodequeue_rel';
@@ -183,7 +183,7 @@ function ding_library_views_default_views() {
     'ding_tabroll_frontpage' => 0,
   );
   $handler->display->display_options['defaults']['sorts'] = FALSE;
-  /* Sort criterion: Nodequeue: Position */
+  /* Sorteringskriterie: Nodekø: Placering */
   $handler->display->display_options['sorts']['position']['id'] = 'position';
   $handler->display->display_options['sorts']['position']['table'] = 'nodequeue_nodes';
   $handler->display->display_options['sorts']['position']['field'] = 'position';
@@ -220,19 +220,19 @@ function ding_library_views_default_views() {
   $handler->display->display_options['defaults']['row_plugin'] = FALSE;
   $handler->display->display_options['defaults']['row_options'] = FALSE;
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Field: Content: Body */
+  /* Felt: Indhold: Body */
   $handler->display->display_options['fields']['field_ding_library_body']['id'] = 'field_ding_library_body';
   $handler->display->display_options['fields']['field_ding_library_body']['table'] = 'field_data_field_ding_library_body';
   $handler->display->display_options['fields']['field_ding_library_body']['field'] = 'field_ding_library_body';
   $handler->display->display_options['fields']['field_ding_library_body']['label'] = '';
   $handler->display->display_options['fields']['field_ding_library_body']['element_label_colon'] = FALSE;
-  /* Field: Content: Title */
+  /* Felt: Indhold: titel */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['label'] = '';
   $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
-  /* Field: Content: Address */
+  /* Felt: Indhold: Address */
   $handler->display->display_options['fields']['field_ding_library_addresse']['id'] = 'field_ding_library_addresse';
   $handler->display->display_options['fields']['field_ding_library_addresse']['table'] = 'field_data_field_ding_library_addresse';
   $handler->display->display_options['fields']['field_ding_library_addresse']['field'] = 'field_ding_library_addresse';
@@ -248,10 +248,11 @@ function ding_library_views_default_views() {
       'address' => 'address',
     ),
   );
-  /* Field: Content: Geocode */
+  /* Felt: Indhold: Geocode */
   $handler->display->display_options['fields']['field_ding_library_geocode']['id'] = 'field_ding_library_geocode';
   $handler->display->display_options['fields']['field_ding_library_geocode']['table'] = 'field_data_field_ding_library_geocode';
   $handler->display->display_options['fields']['field_ding_library_geocode']['field'] = 'field_ding_library_geocode';
+  $handler->display->display_options['fields']['field_ding_library_geocode']['label'] = 'Geografiske koordinater';
   $handler->display->display_options['fields']['field_ding_library_geocode']['click_sort_column'] = 'geom';
   $handler->display->display_options['fields']['field_ding_library_geocode']['type'] = 'geofield_leaflet';
   $handler->display->display_options['fields']['field_ding_library_geocode']['settings'] = array(
@@ -314,18 +315,17 @@ function ding_library_views_default_views() {
     t('Stigende'),
     t('Faldende'),
     t('Adresse'),
-    t('Phone'),
+    t('Telefon'),
     t('Fax'),
     t('E-mail'),
     t('<i class="icon-chevron-right"></i> [title_1]'),
     t('Libraries list'),
-    t('more'),
-    t('queue'),
+    t('kø'),
     t('Library panes'),
     t('Leaflet Pane'),
     t('[title]
 [field_ding_library_addresse]'),
-    t('Geocode'),
+    t('Geografiske koordinater'),
   );
   $export['ding_library'] = $view;
 

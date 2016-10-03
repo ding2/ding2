@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * ting_new_materials.pages_default.inc
@@ -68,60 +67,83 @@ function ting_new_materials_default_page_manager_handlers() {
   );
   $display->cache = array();
   $display->title = '';
-  $display->uuid = '36835cd4-cd1b-4616-a833-0ecb235494cb';
+  $display->uuid = '19feff8c-d0b9-4f29-a7f8-9cf187f0f6c2';
   $display->content = array();
   $display->panels = array();
-  $pane = new stdClass();
-  $pane->pid = 'new-0e287121-f776-49bb-8663-c4a21de2a5b6';
-  $pane->panel = 'left_sidebar';
-  $pane->type = 'block';
-  $pane->subtype = 'menu_block-3';
-  $pane->shown = TRUE;
-  $pane->access = array();
-  $pane->configuration = array(
-    'override_title' => 0,
-    'override_title_text' => '',
-  );
-  $pane->cache = array();
-  $pane->style = array(
-    'settings' => NULL,
-  );
-  $pane->css = array();
-  $pane->extras = array();
-  $pane->position = 0;
-  $pane->locks = array();
-  $pane->uuid = '0e287121-f776-49bb-8663-c4a21de2a5b6';
-  $display->content['new-0e287121-f776-49bb-8663-c4a21de2a5b6'] = $pane;
-  $display->panels['left_sidebar'][0] = 'new-0e287121-f776-49bb-8663-c4a21de2a5b6';
-  $pane = new stdClass();
-  $pane->pid = 'new-88baaf0d-bddf-4649-9029-d84fec86a486';
-  $pane->panel = 'main_content';
-  $pane->type = 'new_materials';
-  $pane->subtype = 'new_materials';
-  $pane->shown = TRUE;
-  $pane->access = array();
-  $pane->configuration = array(
-    'context' => array(
-      0 => 'argument_entity_id:node_1',
-    ),
-    'override_title' => 0,
-    'override_title_text' => '',
-  );
-  $pane->cache = array();
-  $pane->style = array(
-    'settings' => NULL,
-  );
-  $pane->css = array();
-  $pane->extras = array();
-  $pane->position = 0;
-  $pane->locks = array();
-  $pane->uuid = '88baaf0d-bddf-4649-9029-d84fec86a486';
-  $display->content['new-88baaf0d-bddf-4649-9029-d84fec86a486'] = $pane;
-  $display->panels['main_content'][0] = 'new-88baaf0d-bddf-4649-9029-d84fec86a486';
+    $pane = new stdClass();
+    $pane->pid = 'new-657ca275-957d-4357-be9f-f0ce047c693e';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'menu_title';
+    $pane->subtype = 'menu_title';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = '657ca275-957d-4357-be9f-f0ce047c693e';
+    $display->content['new-657ca275-957d-4357-be9f-f0ce047c693e'] = $pane;
+    $display->panels['left_sidebar'][0] = 'new-657ca275-957d-4357-be9f-f0ce047c693e';
+    $pane = new stdClass();
+    $pane->pid = 'new-ed908802-482e-447b-ab62-49f405a680bc';
+    $pane->panel = 'left_sidebar';
+    $pane->type = 'block';
+    $pane->subtype = 'menu_block-3';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 1;
+    $pane->locks = array();
+    $pane->uuid = 'ed908802-482e-447b-ab62-49f405a680bc';
+    $display->content['new-ed908802-482e-447b-ab62-49f405a680bc'] = $pane;
+    $display->panels['left_sidebar'][1] = 'new-ed908802-482e-447b-ab62-49f405a680bc';
+    $pane = new stdClass();
+    $pane->pid = 'new-e9d51fe1-7066-4df9-9b84-80b790d8abd3';
+    $pane->panel = 'main_content';
+    $pane->type = 'new_materials';
+    $pane->subtype = 'new_materials';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'context' => array(
+        0 => 'argument_entity_id:node_1',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = 'e9d51fe1-7066-4df9-9b84-80b790d8abd3';
+    $display->content['new-e9d51fe1-7066-4df9-9b84-80b790d8abd3'] = $pane;
+    $display->panels['main_content'][0] = 'new-e9d51fe1-7066-4df9-9b84-80b790d8abd3';
   $display->hide_title = PANELS_TITLE_FIXED;
-  $display->title_pane = 'new-88baaf0d-bddf-4649-9029-d84fec86a486';
+  $display->title_pane = 'new-e9d51fe1-7066-4df9-9b84-80b790d8abd3';
   $handler->conf['display'] = $display;
-
   $export['node_view_panel_context_new_materials'] = $handler;
 
   return $export;

@@ -78,14 +78,13 @@ function ding_frontpage_default_page_manager_pages() {
   $display->content = array();
   $display->panels = array();
     $pane = new stdClass();
-    $pane->pid = 'new-a3e659f7-e285-4383-aefa-dd87b563ade6';
+    $pane->pid = 'new-21e4a892-88bb-4aa3-9fc4-fa91c0333938';
     $pane->panel = 'attachment_1_1';
     $pane->type = 'views_panes';
-    $pane->subtype = 'ding_groups-panel_pane_1';
+    $pane->subtype = 'ding_groups-panel_pane_frontpage';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'more_link' => 1,
       'override_title' => 1,
       'override_title_text' => 'Udvalgte temaer',
       'override_title_heading' => 'h2',
@@ -94,16 +93,13 @@ function ding_frontpage_default_page_manager_pages() {
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array(
-      'css_id' => '',
-      'css_class' => '',
-    );
+    $pane->css = array();
     $pane->extras = array();
     $pane->position = 0;
     $pane->locks = array();
-    $pane->uuid = 'a3e659f7-e285-4383-aefa-dd87b563ade6';
-    $display->content['new-a3e659f7-e285-4383-aefa-dd87b563ade6'] = $pane;
-    $display->panels['attachment_1_1'][0] = 'new-a3e659f7-e285-4383-aefa-dd87b563ade6';
+    $pane->uuid = '21e4a892-88bb-4aa3-9fc4-fa91c0333938';
+    $display->content['new-21e4a892-88bb-4aa3-9fc4-fa91c0333938'] = $pane;
+    $display->panels['attachment_1_1'][0] = 'new-21e4a892-88bb-4aa3-9fc4-fa91c0333938';
     $pane = new stdClass();
     $pane->pid = 'new-fb7b719e-6a34-4a49-a5d2-94fce3fc0355';
     $pane->panel = 'primary';
