@@ -35,7 +35,7 @@ function ding_library_views_api($module = NULL, $api = NULL) {
 function ding_library_node_info() {
   $items = array(
     'ding_library' => array(
-      'name' => t('Library'),
+      'name' => t('Bibliotek'),
       'base' => 'node_content',
       'description' => t('Add a new library to the site.'),
       'has_title' => '1',

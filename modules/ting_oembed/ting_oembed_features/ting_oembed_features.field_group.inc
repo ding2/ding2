@@ -18,10 +18,10 @@ function ting_oembed_features_field_group_info() {
   $field_group->entity_type = 'ting_object';
   $field_group->bundle = 'ting_object';
   $field_group->mode = 'default';
-  $field_group->parent_name = '';
+  $field_group->parent_name = 'group_ting_object_right_column';
   $field_group->data = array(
     'label' => 'Material content',
-    'weight' => '6',
+    'weight' => '8',
     'children' => array(
       0 => 'field_ting_oembed_oembed',
     ),
@@ -67,6 +67,46 @@ function ting_oembed_features_field_group_info() {
     ),
   );
   $export['group_oembed|ting_object|ting_object|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_ting_object_right_column|ting_object|ting_object|default';
+  $field_group->group_name = 'group_ting_object_right_column';
+  $field_group->entity_type = 'ting_object';
+  $field_group->bundle = 'ting_object';
+  $field_group->mode = 'default';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Right column',
+    'weight' => '1',
+    'children' => array(
+      0 => 'ting_relations',
+      1 => 'ting_infomedia',
+      2 => 'group_holdings_available',
+      3 => 'group_on_this_site',
+      4 => 'group_periodical_issues',
+      5 => 'group_material_details',
+      6 => 'group_oembed',
+      7 => 'group_ting_object_right_c',
+      8 => 'group_ting_object_right_a',
+      9 => 'group_ting_object_meta',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Right column',
+      'instance_settings' => array(
+        'classes' => 'ting-object-right',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'none',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $export['group_ting_object_right_column|ting_object|ting_object|default'] = $field_group;
 
   return $export;
 }

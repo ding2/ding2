@@ -7,32 +7,13 @@
 /**
  * Implements hook_ctools_plugin_api().
  */
-function ting_new_materials_ctools_plugin_api() {
-  list($module, $api) = func_get_args();
+function ting_new_materials_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "page_manager" && $api == "pages_default") {
     return array("version" => "1");
   }
-  list($module, $api) = func_get_args();
   if ($module == "strongarm" && $api == "strongarm") {
     return array("version" => "1");
   }
-}
-
-/**
- * Implements hook_node_info().
- */
-function ting_new_materials_node_info() {
-  $items = array(
-    'new_materials' => array(
-      'name' => t('New Materials'),
-      'base' => 'node_content',
-      'description' => t('Creates a list of new materials'),
-      'has_title' => '1',
-      'title_label' => t('Title'),
-      'help' => '',
-    ),
-  );
-  return $items;
 }
 
 /**
@@ -41,7 +22,7 @@ function ting_new_materials_node_info() {
 function ting_new_materials_image_default_styles() {
   $styles = array();
 
-  // Exported image style: ting_inspiration_list_cover.
+  // Exported image style: ting_new_materials_cover.
   $styles['ting_new_materials_cover'] = array(
     'name' => 'ting_new_materials_cover',
     'label' => 'ting_new_materials_cover',
@@ -65,4 +46,21 @@ function ting_new_materials_image_default_styles() {
   );
 
   return $styles;
+}
+
+/**
+ * Implements hook_node_info().
+ */
+function ting_new_materials_node_info() {
+  $items = array(
+    'new_materials' => array(
+      'name' => t('New Materials'),
+      'base' => 'node_content',
+      'description' => t('Creates a list of new materials'),
+      'has_title' => '1',
+      'title_label' => t('titel'),
+      'help' => '',
+    ),
+  );
+  return $items;
 }

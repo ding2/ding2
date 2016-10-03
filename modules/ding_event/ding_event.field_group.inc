@@ -24,7 +24,6 @@ function ding_event_field_group_info() {
     'weight' => '6',
     'children' => array(
       0 => 'field_ding_event_files',
-      1 => 'field_ding_event_materials',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -81,11 +80,12 @@ function ding_event_field_group_info() {
     'label' => 'Date, location and price',
     'weight' => '4',
     'children' => array(
-      0 => 'field_ding_event_date',
-      1 => 'field_ding_event_location',
-      2 => 'field_ding_event_price',
-      3 => 'og_group_ref',
-      4 => 'ding_event_groups_ref',
+      0 => 'ding_event_groups_ref',
+      1 => 'field_ding_event_date',
+      2 => 'field_ding_event_location',
+      3 => 'field_ding_event_price',
+      4 => 'og_group_ref',
+      5 => 'field_ding_event_ticket_link',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -143,8 +143,8 @@ function ding_event_field_group_info() {
     'weight' => '3',
     'children' => array(
       0 => 'field_ding_event_category',
-      1 => 'field_ding_event_target',
-      2 => 'field_ding_event_tags',
+      1 => 'field_ding_event_tags',
+      2 => 'field_ding_event_target',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -221,6 +221,40 @@ function ding_event_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_left|node|ding_event|default';
+  $field_group->group_name = 'group_left';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'ding_event';
+  $field_group->mode = 'default';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Left',
+    'weight' => '1',
+    'children' => array(
+      0 => 'field_ding_event_target',
+      1 => 'field_ding_event_title_image',
+      2 => 'og_group_ref',
+      3 => 'field_place2book_tickets',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Left',
+      'instance_settings' => array(
+        'classes' => '',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'none',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $export['group_left|node|ding_event|default'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_right_col_search|node|ding_event|search_result';
   $field_group->group_name = 'group_right_col_search';
   $field_group->entity_type = 'node';
@@ -250,6 +284,42 @@ function ding_event_field_group_info() {
     ),
   );
   $export['group_right_col_search|node|ding_event|search_result'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_right|node|ding_event|default';
+  $field_group->group_name = 'group_right';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'ding_event';
+  $field_group->mode = 'default';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Right',
+    'weight' => '2',
+    'children' => array(
+      0 => 'field_ding_event_body',
+      1 => 'field_ding_event_date',
+      2 => 'field_ding_event_files',
+      3 => 'field_ding_event_lead',
+      4 => 'field_ding_event_tags',
+      5 => 'webform',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Right',
+      'instance_settings' => array(
+        'classes' => '',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'none',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $export['group_right|node|ding_event|default'] = $field_group;
 
   return $export;
 }

@@ -21,22 +21,12 @@ function ding_frontend_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Left column',
-    'weight' => '8',
-    'children' => array(
-      0 => 'field_ding_staff_image',
-    ),
-    'format_type' => 'div',
+    'weight' => '2',
+    'children' => array(),
+    'format_type' => 'hidden',
     'format_settings' => array(
-      'label' => 'Left column',
-      'instance_settings' => array(
-        'classes' => 'search-left',
-        'description' => '',
-        'show_label' => '0',
-        'label_element' => 'h3',
-        'effect' => 'none',
-        'speed' => 'fast',
-      ),
-      'formatter' => 'open',
+      'formatter' => '',
+      'instance_settings' => array(),
     ),
   );
   $export['group_left_col_search|profile2|ding_staff_profile|default'] = $field_group;
@@ -52,26 +42,12 @@ function ding_frontend_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Right column',
-    'weight' => '11',
-    'children' => array(
-      0 => 'field_ding_staff_description',
-      1 => 'field_ding_staff_forename',
-      2 => 'field_ding_staff_position',
-      3 => 'field_ding_staff_surname',
-      4 => 'group_contactinfo',
-    ),
-    'format_type' => 'div',
+    'weight' => '3',
+    'children' => array(),
+    'format_type' => 'hidden',
     'format_settings' => array(
-      'label' => 'Right column',
-      'instance_settings' => array(
-        'classes' => 'search-right',
-        'description' => '',
-        'show_label' => '0',
-        'label_element' => 'h3',
-        'effect' => 'none',
-        'speed' => 'fast',
-      ),
-      'formatter' => 'open',
+      'formatter' => '',
+      'instance_settings' => array(),
     ),
   );
   $export['group_right_col_search|profile2|ding_staff_profile|default'] = $field_group;

@@ -32,7 +32,7 @@ function ding_event_views_api($module = NULL, $api = NULL) {
 function ding_event_node_info() {
   $items = array(
     'ding_event' => array(
-      'name' => t('Event'),
+      'name' => t('Begivenhed'),
       'base' => 'node_content',
       'description' => t('A content type for events concerning libraries.'),
       'has_title' => '1',

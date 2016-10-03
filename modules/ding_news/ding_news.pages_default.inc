@@ -316,7 +316,7 @@ function ding_news_default_page_manager_handlers() {
     );
     $pane->css = array(
       'css_id' => '',
-      'css_class' => 'grid-small hide-overflow-before no-gradient',
+      'css_class' => 'grid-small no-gradient',
     );
     $pane->extras = array();
     $pane->position = 5;

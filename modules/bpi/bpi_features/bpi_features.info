@@ -31,5 +31,5 @@ features[rules_config][] = rules_after_workflow_sent_to_bpi
 features[rules_config][] = rules_before_changing_workflow_to_delete_from_bpi
 features[rules_config][] = rules_new_content_with_save_and_push_
 features[views_view][] = content
-mtime = 1432735784
+mtime = 1473948626
 project path = profiles/ding2/modules/bpi

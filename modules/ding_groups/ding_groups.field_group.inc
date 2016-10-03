@@ -19,23 +19,7 @@ function ding_groups_field_group_info() {
   $field_group->bundle = 'ding_group';
   $field_group->mode = 'form';
   $field_group->parent_name = '';
-  $field_group->data = array(
-    'label' => 'Content',
-    'weight' => '2',
-    'children' => array(
-      0 => 'field_ding_group_lead',
-      1 => 'field_ding_group_body',
-    ),
-    'format_type' => 'fieldset',
-    'format_settings' => array(
-      'formatter' => 'collapsible',
-      'instance_settings' => array(
-        'description' => '',
-        'classes' => '',
-        'required_fields' => 1,
-      ),
-    ),
-  );
+  $field_group->data = '';
   $export['group_ding_group_content|node|ding_group|form'] = $field_group;
 
   $field_group = new stdClass();
@@ -47,24 +31,7 @@ function ding_groups_field_group_info() {
   $field_group->bundle = 'ding_group';
   $field_group->mode = 'form';
   $field_group->parent_name = '';
-  $field_group->data = array(
-    'label' => 'Images',
-    'weight' => '1',
-    'children' => array(
-      0 => 'field_ding_group_title_image',
-      1 => 'field_ding_group_list_image',
-    ),
-    'format_type' => 'fieldset',
-    'format_settings' => array(
-      'label' => 'Images',
-      'instance_settings' => array(
-        'required_fields' => 1,
-        'classes' => '',
-        'description' => '',
-      ),
-      'formatter' => 'collapsed',
-    ),
-  );
+  $field_group->data = '';
   $export['group_ding_group_images|node|ding_group|form'] = $field_group;
 
   $field_group = new stdClass();
@@ -76,22 +43,7 @@ function ding_groups_field_group_info() {
   $field_group->bundle = 'ding_group';
   $field_group->mode = 'form';
   $field_group->parent_name = '';
-  $field_group->data = array(
-    'label' => 'Tagging',
-    'weight' => '3',
-    'children' => array(
-      0 => 'field_ding_group_category',
-    ),
-    'format_type' => 'fieldset',
-    'format_settings' => array(
-      'formatter' => 'collapsible',
-      'instance_settings' => array(
-        'description' => '',
-        'classes' => '',
-        'required_fields' => 1,
-      ),
-    ),
-  );
+  $field_group->data = '';
   $export['group_ding_group_tagging|node|ding_group|form'] = $field_group;
 
   return $export;

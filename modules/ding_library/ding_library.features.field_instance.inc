@@ -36,7 +36,7 @@ function ding_library_field_default_field_instances() {
           'use_widget_handlers' => 1,
         ),
         'type' => 'addressfield_default',
-        'weight' => 13,
+        'weight' => 2,
       ),
       'search_result' => array(
         'label' => 'hidden',
@@ -102,7 +102,7 @@ function ding_library_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 19,
+        'weight' => 7,
       ),
       'search_result' => array(
         'label' => 'above',
@@ -154,7 +154,7 @@ function ding_library_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 15,
+        'weight' => 4,
       ),
       'search_result' => array(
         'label' => 'above',
@@ -209,7 +209,7 @@ function ding_library_field_default_field_instances() {
           'data' => '',
         ),
         'type' => 'geofield_wkt',
-        'weight' => 21,
+        'weight' => 9,
       ),
       'search_result' => array(
         'label' => 'above',
@@ -268,7 +268,7 @@ function ding_library_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 20,
+        'weight' => 8,
       ),
       'search_result' => array(
         'label' => 'hidden',
@@ -320,7 +320,7 @@ function ding_library_field_default_field_instances() {
         'module' => 'link',
         'settings' => array(),
         'type' => 'link_default',
-        'weight' => 16,
+        'weight' => 5,
       ),
       'search_result' => array(
         'label' => 'above',
@@ -372,6 +372,96 @@ function ding_library_field_default_field_instances() {
       'settings' => array(),
       'type' => 'link_field',
       'weight' => 8,
+    ),
+  );
+
+  // Exported field_instance: 'node-ding_library-field_ding_library_list_image'
+  $field_instances['node-ding_library-field_ding_library_list_image'] = array(
+    'bundle' => 'ding_library',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 10,
+      ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_ding_library_list_image',
+    'label' => 'List image',
+    'required' => 0,
+    'settings' => array(
+      'alt_field' => 0,
+      'default_image' => 0,
+      'file_directory' => 'ding_library_list_image',
+      'file_extensions' => 'png jpg jpeg',
+      'max_filesize' => '',
+      'max_resolution' => '',
+      'min_resolution' => '',
+      'title_field' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'media',
+      'settings' => array(
+        'allowed_schemes' => array(
+          'oembed' => 0,
+          'private' => 0,
+          'public' => 'public',
+          'vimeo' => 0,
+          'youtube' => 0,
+        ),
+        'allowed_types' => array(
+          'audio' => 0,
+          'document' => 0,
+          'image' => 'image',
+          'video' => 0,
+        ),
+        'browser_plugins' => array(
+          'ding_content' => 0,
+          'media_default--media_browser_1' => 0,
+          'media_default--media_browser_my_files' => 0,
+          'media_internet' => 0,
+          'upload' => 0,
+          'youtube' => 0,
+        ),
+        'manualcrop_crop_info' => 1,
+        'manualcrop_default_crop_area' => 1,
+        'manualcrop_enable' => 0,
+        'manualcrop_inline_crop' => 0,
+        'manualcrop_instant_crop' => FALSE,
+        'manualcrop_instant_preview' => 1,
+        'manualcrop_keyboard' => 1,
+        'manualcrop_maximize_default_crop_area' => 0,
+        'manualcrop_require_cropping' => array(),
+        'manualcrop_styles_list' => array(),
+        'manualcrop_styles_mode' => 'include',
+        'manualcrop_thumblist' => 0,
+        'progress_indicator' => 'throbber',
+      ),
+      'type' => 'media_generic',
+      'weight' => 11,
     ),
   );
 
@@ -439,7 +529,7 @@ function ding_library_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 14,
+        'weight' => 3,
       ),
       'search_result' => array(
         'label' => 'hidden',
@@ -492,7 +582,7 @@ function ding_library_field_default_field_instances() {
         'module' => 'text',
         'settings' => array(),
         'type' => 'text_default',
-        'weight' => 3,
+        'weight' => 1,
       ),
       'search_result' => array(
         'label' => 'above',
@@ -528,7 +618,7 @@ function ding_library_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 1,
+      'weight' => 2,
     ),
   );
 
@@ -553,7 +643,7 @@ function ding_library_field_default_field_instances() {
           ),
         ),
         'type' => 'cs_adaptive_image',
-        'weight' => 17,
+        'weight' => 6,
       ),
       'search_result' => array(
         'label' => 'above',
@@ -655,7 +745,7 @@ function ding_library_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 23,
+        'weight' => 11,
       ),
       'search_result' => array(
         'label' => 'above',
@@ -703,7 +793,7 @@ function ding_library_field_default_field_instances() {
         'og_hide' => 1,
       ),
       'type' => 'options_onoff',
-      'weight' => 6,
+      'weight' => 8,
     ),
     'widget_type' => 'options_select',
   );
@@ -718,6 +808,7 @@ function ding_library_field_default_field_instances() {
   t('If enabled, events and news can be marked as related to this library and will show up on its library page.');
   t('Lead');
   t('Links');
+  t('List image');
   t('Phone number');
   t('Show related content on library page');
   t('Slug');
