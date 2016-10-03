@@ -1,6 +1,7 @@
 @import '../base.scss';
 
 .pane-top-recommendation-list,
+.pane-recommendation-list,
 .pane-new-materials-covers,
 .pane-inspiration-page-covers {
   .search-results {
@@ -54,7 +55,8 @@
   }
 }
 
-.pane-top-recommendation-list {
+.pane-top-recommendation-list,
+.pane-recommendation-list {
   // ==========================================================================
   // ADHL
   // ==========================================================================
