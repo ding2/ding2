@@ -38,6 +38,31 @@ function ding_frontend_views_api($module = NULL, $api = NULL) {
 function ding_frontend_image_default_styles() {
   $styles = array();
 
+  // Exported image style: crop_16_9.
+  $styles['crop_16_9'] = array(
+    'name' => 'crop_16_9',
+    'label' => 'Crop 16:9',
+    'effects' => array(
+      9 => array(
+        'label' => 'Manual Crop: Custom crop',
+        'help' => 'Crop a freely user-selected area.',
+        'effect callback' => 'manualcrop_crop_effect',
+        'form callback' => 'manualcrop_crop_form',
+        'summary theme' => 'manualcrop_crop_summary',
+        'module' => 'manualcrop',
+        'name' => 'manualcrop_crop',
+        'data' => array(
+          'width' => 160,
+          'height' => 90,
+          'keepproportions' => 1,
+          'reuse_crop_style' => '',
+          'style_name' => 'crop_16_9',
+        ),
+        'weight' => 0,
+      ),
+    ),
+  );
+
   // Exported image style: ding_attachment_large.
   $styles['ding_attachment_large'] = array(
     'name' => 'ding_attachment_large',
@@ -116,8 +141,8 @@ function ding_frontend_image_default_styles() {
     'label' => 'ding_list_large',
     'effects' => array(
       1 => array(
-        'label' => 'Scale',
-        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'label' => 'Skalér',
+        'help' => 'Skalering bevarer billedets højde-bredde-forhold. Hvis kun den ene dimension angives vil den anden blive beregnet.',
         'effect callback' => 'image_scale_effect',
         'dimensions callback' => 'image_scale_dimensions',
         'form callback' => 'image_scale_form',
@@ -140,8 +165,8 @@ function ding_frontend_image_default_styles() {
     'label' => 'ding_list_medium',
     'effects' => array(
       27 => array(
-        'label' => 'Scale',
-        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'label' => 'Skalér',
+        'help' => 'Skalering bevarer billedets højde-bredde-forhold. Hvis kun den ene dimension angives vil den anden blive beregnet.',
         'effect callback' => 'image_scale_effect',
         'dimensions callback' => 'image_scale_dimensions',
         'form callback' => 'image_scale_form',
@@ -164,8 +189,8 @@ function ding_frontend_image_default_styles() {
     'label' => 'ding_list_small',
     'effects' => array(
       3 => array(
-        'label' => 'Scale',
-        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'label' => 'Skalér',
+        'help' => 'Skalering bevarer billedets højde-bredde-forhold. Hvis kun den ene dimension angives vil den anden blive beregnet.',
         'effect callback' => 'image_scale_effect',
         'dimensions callback' => 'image_scale_dimensions',
         'form callback' => 'image_scale_form',
@@ -271,8 +296,8 @@ function ding_frontend_image_default_styles() {
         'weight' => 0,
       ),
       5 => array(
-        'label' => 'Scale',
-        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'label' => 'Skalér',
+        'help' => 'Skalering bevarer billedets højde-bredde-forhold. Hvis kun den ene dimension angives vil den anden blive beregnet.',
         'effect callback' => 'image_scale_effect',
         'dimensions callback' => 'image_scale_dimensions',
         'form callback' => 'image_scale_form',
@@ -309,8 +334,8 @@ function ding_frontend_image_default_styles() {
         'weight' => 0,
       ),
       19 => array(
-        'label' => 'Scale',
-        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'label' => 'Skalér',
+        'help' => 'Skalering bevarer billedets højde-bredde-forhold. Hvis kun den ene dimension angives vil den anden blive beregnet.',
         'effect callback' => 'image_scale_effect',
         'dimensions callback' => 'image_scale_dimensions',
         'form callback' => 'image_scale_form',
@@ -347,8 +372,8 @@ function ding_frontend_image_default_styles() {
         'weight' => 0,
       ),
       7 => array(
-        'label' => 'Scale',
-        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'label' => 'Skalér',
+        'help' => 'Skalering bevarer billedets højde-bredde-forhold. Hvis kun den ene dimension angives vil den anden blive beregnet.',
         'effect callback' => 'image_scale_effect',
         'dimensions callback' => 'image_scale_dimensions',
         'form callback' => 'image_scale_form',
@@ -637,8 +662,8 @@ function ding_frontend_image_default_styles() {
         'weight' => 0,
       ),
       8 => array(
-        'label' => 'Scale',
-        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'label' => 'Skalér',
+        'help' => 'Skalering bevarer billedets højde-bredde-forhold. Hvis kun den ene dimension angives vil den anden blive beregnet.',
         'effect callback' => 'image_scale_effect',
         'dimensions callback' => 'image_scale_dimensions',
         'form callback' => 'image_scale_form',

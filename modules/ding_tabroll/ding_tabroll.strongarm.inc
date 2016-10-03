@@ -86,6 +86,9 @@ function ding_tabroll_strongarm() {
       'token' => array(
         'custom_settings' => FALSE,
       ),
+      'workflow_tab' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
