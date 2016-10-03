@@ -21,7 +21,7 @@ function ding_library_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Links',
-    'weight' => '5',
+    'weight' => '6',
     'children' => array(
       0 => 'field_ding_library_geocode',
       1 => 'field_ding_library_links',
@@ -50,7 +50,7 @@ function ding_library_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Contact',
-    'weight' => '4',
+    'weight' => '5',
     'children' => array(
       0 => 'field_ding_library_addresse',
       1 => 'field_ding_library_fax_number',
@@ -81,7 +81,7 @@ function ding_library_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Content',
-    'weight' => '3',
+    'weight' => '4',
     'children' => array(
       0 => 'field_ding_library_body',
       1 => 'field_ding_library_lead',
@@ -110,10 +110,9 @@ function ding_library_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Images',
-    'weight' => '2',
+    'weight' => '3',
     'children' => array(
-      0 => 'field_ding_library_list_image',
-      1 => 'field_ding_library_title_image',
+      0 => 'field_ding_library_title_image',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
