@@ -39,6 +39,7 @@
 
   stylesheets[all][] = sass_css/components/node/eresource.css
   stylesheets[all][] = sass_css/components/node/event.css
+  stylesheets[all][] = sass_css/components/node/faq-question.css
   stylesheets[all][] = sass_css/components/node/group.css
   stylesheets[all][] = sass_css/components/node/library.css
   stylesheets[all][] = sass_css/components/node/news.css
