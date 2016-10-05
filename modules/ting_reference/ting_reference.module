@@ -82,7 +82,8 @@ function ting_reference_field_info() {
  */
 function ting_reference_field_is_empty($item, $field) {
   $empty = TRUE;
-  if (!empty($item['materials'][$item['_weight']]['ting_object_id']) || !empty($item['search']['query'])) {
+  $weight = !empty($item['_weight']) ? $item['_weight'] : 0;
+  if (!empty($item['materials'][$weight]['ting_object_id']) || !empty($item['search']['query'])) {
     $empty = FALSE;
   }
 
