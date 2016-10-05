@@ -256,7 +256,7 @@ function ding_event_default_page_manager_handlers() {
     $pane->pid = 'new-08a07e54-e9f5-44f6-b7d0-6bdc36009637';
     $pane->panel = 'main_content';
     $pane->type = 'views_panes';
-    $pane->subtype = 'related_club_events-pane_related_club_events';
+    $pane->subtype = 'rc_events-pane_related_rc_events';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array();
