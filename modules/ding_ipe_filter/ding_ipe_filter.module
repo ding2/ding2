@@ -135,7 +135,6 @@ function _ding_ipe_filter_callback($variables = array()) {
   $buttons = array();
   $attributes = array(
     'class' => 'ctools-use-modal ding-ipe-menu-item',
-    'style' => 'width: calc(100% - 18px); height: auto;',
   );
 
   foreach ($settings as $subtype_name => $setting) {

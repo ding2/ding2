@@ -47,3 +47,7 @@ div.ipe-popup .item-list ul li {
 .layout-wrapper .group-blocks--wrapper {
   overflow: visible;
 }
+.ding-ipe-menu-item {
+  width: calc(100% - 18px);
+  height: auto;
+}
