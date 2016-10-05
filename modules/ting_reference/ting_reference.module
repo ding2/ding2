@@ -22,7 +22,6 @@ function ting_reference_menu() {
   return $items;
 }
 
-
 /**
  * Implements hook_entity_info_alter().
  *
@@ -83,7 +82,8 @@ function ting_reference_field_info() {
  */
 function ting_reference_field_is_empty($item, $field) {
   $empty = TRUE;
-  if (!empty($item['materials'][0]['ting_object_id']) || !empty($item['search']['query'])) {
+  $weight = !empty($item['_weight']) ? $item['_weight'] : 0;
+  if (!empty($item['materials'][$weight]['ting_object_id']) || !empty($item['search']['query'])) {
     $empty = FALSE;
   }
 
@@ -98,25 +98,21 @@ function ting_reference_field_insert($entity_type, $entity, $field, $instance, $
   $entity_ids = entity_extract_ids($entity_type, $entity);
   $entity_id = array_shift($entity_ids);
 
-  $settings = reset($items);
-  if (!empty($settings['materials']['add']) && is_array( $settings['materials'])) {
-    unset($settings['materials']['add']);
+  $tids = ting_reference_get_materials($entity_id, $instance['widget']['type'], $items);
 
-    // Save ting materials to ting_reference table.
-    ting_reference_set_relation($entity_id, $field['field_name'], $settings['materials']);
-  }
+  // Save ting materials to ting_reference table.
+  ting_reference_set_relation($entity_id, $field['field_name'], $tids);
 
-
+  // Presave fields settings on node update.
   $items = array(
     array(
-      'headline' => $settings['headline'],
-      'query' => $settings['search']['query'],
-      'sorting' => $settings['search']['sorting'],
-      'amount' => (int) $settings['search']['amount'],
+      'headline' => (!empty($settings['headline'])) ? $settings['headline'] : '',
+      'query' => (!empty($settings['search'])) ? $settings['search']['query'] : '',
+      'sorting' => (!empty($settings['search'])) ? $settings['search']['sorting'] : '',
+      'amount' => (!empty($settings['search'])) ? (int) $settings['search']['amount'] : 0,
     ),
   );
 }
-
 
 /**
  * Implements hook_field_update().
@@ -126,40 +122,20 @@ function ting_reference_field_update($entity_type, $entity, $field, $instance, $
   $entity_ids = entity_extract_ids($entity_type, $entity);
   $entity_id = array_shift($entity_ids);
 
-  $settings = reset($items);
-  if (!empty($settings['materials']) && is_array($settings['materials']) && $entity_id) {
-    unset($settings['materials']['add']);
+  $tids = ting_reference_get_materials($entity_id, $instance['widget']['type'], $items);
 
-    // Save ting materials to ting_reference table.
-    ting_reference_set_relation($entity_id, $field['field_name'], $settings['materials']);
+  // Save ting materials to ting_reference table.
+  ting_reference_set_relation($entity_id, $field['field_name'], $tids);
 
-    $result = ting_reference_get_search_references($field, $entity_id);
-    $clear_cache = FALSE;
-    if (!empty($settings['search'])) {
-      foreach ($settings['search'] as $key => $value) {
-        if ($value != $result[$field['field_name'] . '_' . $key]) {
-          $clear_cache = TRUE;
-          break;
-        }
-      }
-    }
-
-    // Clear cache if some search fields are changed.
-    if ($clear_cache) {
-      $cid = ting_reference_generate_cache_id($result);
-      cache_clear_all($cid, 'cache');
-    }
-
-    // Presave fields settings on node update.
-    $items = array(
-      array(
-        'headline' => (!empty($settings['headline'])) ? $settings['headline'] : '',
-        'query' => (!empty($settings['search'])) ? $settings['search']['query'] : '',
-        'sorting' => (!empty($settings['search'])) ? $settings['search']['sorting'] : '',
-        'amount' => (!empty($settings['search'])) ? (int) $settings['search']['amount'] : 0,
-      ),
-    );
-  }
+  // Presave fields settings on node update.
+  $items = array(
+    array(
+      'headline' => (!empty($settings['headline'])) ? $settings['headline'] : '',
+      'query' => (!empty($settings['search'])) ? $settings['search']['query'] : '',
+      'sorting' => (!empty($settings['search'])) ? $settings['search']['sorting'] : '',
+      'amount' => (!empty($settings['search'])) ? (int) $settings['search']['amount'] : 0,
+    ),
+  );
 }
 
 /**
@@ -248,7 +224,6 @@ function ting_reference_field_formatter_settings_summary($field, $instance, $vie
  */
 function ting_reference_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
   $element = array();
-
   $settings = reset($items);
   $entity_info = entity_get_info($entity_type);
   $entity_id = $entity->{$entity_info['entity keys']['id']};
@@ -256,6 +231,7 @@ function ting_reference_field_formatter_view($entity_type, $entity, $field, $ins
 
   switch ($display['type']) {
     case 'ting_reference_default':
+    case 'ting_reference_search':
       $output = (!empty($settings['headline'])) ? '<h3>' . t($settings['headline']) . '</h3>' : '';
 
       // Load the ting objects found.
@@ -302,6 +278,10 @@ function ting_reference_field_widget_info() {
     ),
     'ting_reference_advanced' => array(
       'label' => t('Ting reference (advanced)'),
+      'field types' => array('ting_reference'),
+    ),
+    'ting_reference_search' => array(
+      'label' => t('Ting reference (search)'),
       'field types' => array('ting_reference'),
     ),
   );
@@ -427,6 +407,16 @@ function ting_reference_field_widget_form(&$form, &$form_state, $field, $instanc
       );
       $element['#attached']['css'] = array(
         drupal_get_path('module', 'ting_reference') . '/css/ting_reference.css',
+      );
+      break;
+
+    case 'ting_reference_search':
+      $element['materials'][$delta]['ting_object_id'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Search'),
+        '#autocomplete_path' => 'ting_reference/autocomplete/object/js',
+        '#description' => t('Enter a query to search for objects or collections to reference'),
+        '#default_value' => (!empty($ting_object_ids[$delta])) ? $ting_object_ids[$delta] : '',
       );
       break;
   }
