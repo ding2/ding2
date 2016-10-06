@@ -530,6 +530,25 @@
   margin-top: $medium-spacing;
 }
 
+/* nemId-knapper på mobilen */
+@include small {
+  .wayf-wrapper {
+	left: 20px;
+  }
+  .pane-ding-gatewayf-registration-registration {
+    max-width: 45%;
+  }
+  .pane-ding-gatewayf-login {
+    max-width: 50%;
+	float: right;
+	margin-left: 5%;
+  }
+  .header-wrapper .user {
+    padding-bottom: 100px;
+  }
+}
+
+
 /* User profile
    ========================================================================== */
 
