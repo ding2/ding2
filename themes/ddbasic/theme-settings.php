@@ -47,8 +47,8 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     '#description' => t('Choose a color that is legible on the primary color'),
     '#default_value' => ddbasic_theme_setting('color_text_on_primary', 'white'),
     '#options' => array(
-      'ffffff' => t('white'),
-      '000000' => t('black'),
+      'fff' => t('white'),
+      '000' => t('black'),
     )
   );
   $form['ddbasic_settings']['colors']['color_text_on_secondary'] = array(
@@ -57,8 +57,8 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     '#description' => t('Choose a color that is legible on the secondary color'),
     '#default_value' => ddbasic_theme_setting('color_text_on_secondary', 'white'),
     '#options' => array(
-      'ffffff' => t('white'),
-      '000000' => t('black'),
+      'fff' => t('white'),
+      '000' => t('black'),
     )
   );
 
