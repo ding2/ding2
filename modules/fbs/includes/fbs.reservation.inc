@@ -61,7 +61,11 @@ function fbs_reservation_list($account, $requested_type = NULL) {
       if (!empty($periodical->volumeNumber)) {
         $vol .= '.' . $periodical->volumeNumber;
       }
-      if (!empty($periodical->volumeYear)) {
+
+      if (!empty($periodical->displayText)) {
+        $ding_reservation['notes'] = check_plain($periodical->displayText);
+      }
+      elseif (!empty($periodical->volumeYear)) {
         $ding_reservation['notes'] = t('Issue @vol, @year', array('@vol' => $vol, '@year' => $periodical->volumeYear));
       }
       else {
