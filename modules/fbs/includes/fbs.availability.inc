@@ -109,19 +109,22 @@ function fbs_availability_holdings($provider_ids) {
       $issues = array();
       $result[$item->recordId]['is_periodical'] = TRUE;
       foreach ($tmp_issues as $issue) {
-        if (!isset($issues[$issue['year']])) {
-          $issues[$issue['year']] = array();
+        // ding_periodical does not like null values.
+        $year = isset($issue['year']) ? $issue['year'] : '0';
+        if (!isset($issues[$year])) {
+          $issues[$year] = array();
         }
 
-        $year = &$issues[$issue['year']];
+        $year_collection = &$issues[$year];
 
-        if (!isset($year[$issue['vol']])) {
-          $year[$issue['vol']] = array(
+        $vol = !empty($issue['vol']) ? $issue['vol'] : '0';
+        if (!isset($year_collection[$vol])) {
+          $year_collection[$vol] = array(
             'local_id' => $issue['local_id'],
             'placement' => array(),
           );
         }
-        $year[$issue['vol']]['placement'][] = array(
+        $year_collection[$vol]['placement'][] = array(
           'reservable' => $item->reservable,
           'available_count' => $issue['available'],
           'location' => $issue['placement'],
