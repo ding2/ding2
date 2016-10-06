@@ -219,7 +219,7 @@ ul.main-menu-third-level {
     &.expanded {
       &.active-trail,
       &.active {
-      > a {
+        > a {
           color: $charcoal;
           &::after {
             color: $charcoal;
