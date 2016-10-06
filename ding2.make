@@ -399,6 +399,9 @@ projects[views][version] = "3.8"
 projects[views_bulk_operations][subdir] = "contrib"
 projects[views_bulk_operations][version] = "3.2"
 
+projects[views_data_export][subdir] = "contrib"
+projects[views_data_export][version] = "3.1"
+
 projects[views_responsive_grid][subdir] = "contrib"
 projects[views_responsive_grid][version] = "1.3"
 
