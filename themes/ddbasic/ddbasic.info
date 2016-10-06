@@ -62,6 +62,7 @@
 
   stylesheets[all][] = sass_css/layout/panel.css
 
+  stylesheets[all][] = sass_css/add-ons/factbox.css
   stylesheets[all][] = sass_css/add-ons/frontpage-header.css
   stylesheets[all][] = sass_css/add-ons/genre-list.css
   stylesheets[all][] = sass_css/add-ons/material-list.css
