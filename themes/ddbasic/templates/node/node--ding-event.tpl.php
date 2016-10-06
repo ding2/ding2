@@ -96,11 +96,11 @@
 
 <article class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <div class="inner">
-    <div class="left">  
+    <div class="left">
       <?php print render($content['group_left']['field_ding_event_title_image']); ?>
       <h2><?php print t('Information about the event'); ?></h2>
       <?php print render($content['group_left']['og_group_ref']); ?>
-      
+
       <!-- insert time-field markup -->
       <div class="field field-name-field-ding-event-target field-label-inline clearfix">
         <div class="field-label"><?php print t('Time'); ?></div>
@@ -115,9 +115,7 @@
           <div class="field-item even"><?php print $event_price; ?></div>
         </div>
       </div>
-      <?php print render($content['group_left']['field_ding_event_target']); ?>
-      <?php print render($content['group_left']['field_ding_event_place2book_tickets']); ?>
-      <?php print render($content['group_left']['field_ding_library_links']); ?>
+      <?php print render($content['group_left']); ?>
       <?php
         if (!empty($book_button)) {
           print $book_button;
@@ -130,7 +128,7 @@
       <?php print render($content['group_right']['field_ding_event_date']);?>
       <?php print $share_button; ?>
       <?php print render($content['group_right']);?>
-      
+
     </div>
   </div>
 </article>
