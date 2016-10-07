@@ -50,8 +50,12 @@ function ding_list_user_list_ctools_access_check($conf, $context) {
   $list = $context[1]->data;
 
   $token = isset($_GET['token']) ? $_GET['token'] : FALSE;
-  
+
   $result = ding_list_user_has_access($list, $conf['visibility_settings'], $account, $token);
+
+  if (!$result) {
+    drupal_set_message(t('The list is no longer public or shared.'));
+  }
 
   return $result;
 }
