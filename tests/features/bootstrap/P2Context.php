@@ -140,6 +140,7 @@ class P2Context implements Context, SnippetAcceptingContext
      *
      * @return string
      *   The list id.
+     * @throws \Exception
      */
     public function getListId($list)
     {
@@ -218,8 +219,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeALinkToTheCreateListPage()
     {
-        $this->ding2Context->iSeeALinkTo($this->ding2Context->userPath() .
-                                         '/createlist');
+        $this->ding2Context->iSeeALinkTo('/list/create');
     }
 
     /**
@@ -528,7 +528,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iAmOnMyCreateListPage()
     {
-        $this->createListPage->open(['uid' => $this->ding2Context->userUid()]);
+        $this->createListPage->open();
     }
 
     /**
@@ -846,8 +846,6 @@ class P2Context implements Context, SnippetAcceptingContext
             throw new Exception("Found list '$listTitle' is not the same as '$title'");
         }
 
-        $link = $this->dataRegistry[$access . ' link:' .$title];
-        $this->gotoPage($link);
         $this->iFollowTheList($title);
     }
 
@@ -956,7 +954,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iAmOnAMaterialPageThatHasTheSubject()
     {
-        $material = '870970-basis%3A06333737';
+        $material = '870970-basis%3A08983127';
         $this->gotoPage('/ting/object/' . $material);
     }
 
@@ -966,7 +964,11 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iShouldSeeTheTagOnTheMaterial($tag)
     {
-        $this->ding2Context->minkContext->assertElementContainsText('.subjects .subject', $tag);
+        $subject = $this->ding2Context->minkContext->getSession()->getPage()
+          ->find('css', '.subjects .subject:contains("' . $tag . '")');
+        if (!$subject) {
+          throw new Exception("Couldn't find tag.");
+        }
     }
 
     /**
@@ -999,7 +1001,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iFollowTheTag($tag)
     {
-        $this->moreDropdownSelect('Følg ' . $tag, "Couldn't find tag '$tag' on material");
+        $this->moreDropdownSelect('Følg emnet ' . $tag, "Couldn't find tag '$tag' on material");
     }
 
     /**
@@ -1143,16 +1145,17 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Then I should be able to add material :material to the list :title as a different user
+     * @Then I should be able to add material :materialTitle to the list :title as a different user
      */
-    public function iShouldBeAbleToAddMaterialToTheListAsADifferentUser($material, $title)
+    public function iShouldBeAbleToAddMaterialToTheListAsADifferentUser($materialTitle, $title)
     {
+        $material = $this->titleToMaterial($materialTitle);
         $this->gotoPage('/ting/object/' . $material);
 
         // Check that the link for add element to shared list exists.
         $listId = $this->getListId($title);
         $this->ding2Context->minkContext->assertElementOnPage(
-          '.buttons li a[href^="/dinglist/attach/ting_object/' . $listId . '"]'
+          '.buttons li a[href="/dinglist/attach/ting_object/' . $listId . '/' . $material . '"]'
         );
 
         // If the add link is there, test that the user can add material.

@@ -385,8 +385,8 @@ function ding_message_check_list_for_updates($uid, $element_id, $mid, $debug = F
         if ($list) {
           // Get all elements in the list.
           $items = field_get_items('ding_type', $list, 'field_list_objects');
-          // Get the element its.
-          $elements = ding_message_get_list_element_ids($items);
+          // Get the elements.
+          $elements = $items ? ding_message_get_list_element_ids($items) : array();
           if ($elements) {
             // Fetch the last element for comparison
             // with the current stored last element.
@@ -395,7 +395,7 @@ function ding_message_check_list_for_updates($uid, $element_id, $mid, $debug = F
               // New elements are identified relative to the previous
               // most recent element as a first order approximation.
               // This is not compatible with reordering and should be improved
-              // in future updates where we want different stratergies per
+              // in future updates where we want different strategies per
               // channel.
               if (in_array($last_element_id, $elements)) {
                 if ($last_element_id <> $current_last_element) {

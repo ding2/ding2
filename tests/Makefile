@@ -28,8 +28,8 @@ setup-config:
 
 	# Activate consent and set config.
 	drush vset -y user_consent_activate true
-	drush vset -y loan_history_store_title_first_time ''
 	drush vset -y loan_history_store_title ''
+	drush vset -y loan_history_store_title_first_time ''
 	drush php-eval 'variable_set("loan_history_store_description_first_time", array("value" => ""));'
 	drush php-eval 'variable_set("loan_history_store_description", array("value" => ""));'
 

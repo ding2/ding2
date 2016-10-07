@@ -9,7 +9,7 @@ class CreateListPage extends PageBase
     /**
      * @var string $path
      */
-    protected $path = '/user/{uid}/createlist';
+    protected $path = 'list/create';
 
     public function verifyCurrentPage()
     {

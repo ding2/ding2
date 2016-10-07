@@ -1,4 +1,4 @@
-Feature: Follow subjects
+Feature: Follow tags
   In order to be notified when there is new content for specific subjects
   As a library user
   I want to be able to follow and unfollow subjects
