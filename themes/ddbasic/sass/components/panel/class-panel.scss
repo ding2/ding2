@@ -363,6 +363,11 @@
 
   .logged-in & {
     display: block;
+
+    // Tablet
+    @include media($tablet) {
+      display: none;
+    }
   }
   h2 {
     @include font('base');
