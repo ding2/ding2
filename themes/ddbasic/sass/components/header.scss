@@ -3,12 +3,12 @@
 
 @import '../base.scss';
 
-// ==========================================================================
-// Site header
-// ==========================================================================
-
+// In order to make the theme backwards compatible we are styling the existing markup.
+// This makes the code in this file a bit messy.
 .site-header {
+  // ==========================================================================
   // Topbar
+  // ==========================================================================
   .topbar {
     @include transition(transform $speed $ease);
     @include transform(translateY(0%));
@@ -99,7 +99,6 @@
         }
       }
     }
-
     .topbar-menu {
 
       // Tablet
@@ -120,7 +119,9 @@
       margin-right: getGutter(12) / 2;
     }
   }
+  // ==========================================================================
   // Header wrapper
+  // ==========================================================================
   .header-wrapper {
     position: fixed;
     z-index: $z-header - 1;
@@ -150,7 +151,7 @@
           transform $speed $ease,
           top 0ms $ease $speed
         );
-        @include transform(translateY(-102%));
+        @include transform(translateY(calc(-100% - 15px))); // Translate 15px more than -100% to hide box-shadow
         z-index: $z-header - 1;
         width: 100%;
         left: 0;
@@ -179,7 +180,7 @@
 
       // Tablet
       @include media($tablet) {
-        @include transform(translateY(-102%));
+        @include transform(translateY(calc(-100% - 15px))); // Translate 15px more than -100% to hide box-shadow
         position: fixed;
         top: $header-height;
         width: 100%;
@@ -388,7 +389,9 @@
       }
     }
   }
+  // ==========================================================================
   // Navigation
+  // ==========================================================================
   > .navigation-wrapper {
     @include transition(
       transform $speed $ease,
@@ -451,7 +454,7 @@
         transform $speed $ease,
         top 0ms $ease $speed
       );
-      @include transform(translateY(-102%));
+      @include transform(translateY(calc(-100% - 15px))); // Translate 15px more than -100% to hide box-shadow
       position: fixed;
       width: 100%;
       max-height: calc(100% - 148px);
