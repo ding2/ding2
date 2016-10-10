@@ -1,13 +1,18 @@
+//
+// To be moved to other files
+
 @import '../../base.scss';
 
 // ==========================================================================
 // User loan status panel
 // ==========================================================================
 
+// Move to panel-class.scss
 .pane-ding-user-frontend-ding-user-loan-number {
   margin-bottom: 40px;
 }
 
+// Move to class.scss
 .user-status {
   position: relative;
   display: block;
