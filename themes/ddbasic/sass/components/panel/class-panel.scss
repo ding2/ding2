@@ -7,18 +7,19 @@
 // General
 // ==========================================================================
 
-.panel-pane {
-  .pane-content {
-    .pane-title {
-      @include font('header-large');
-      color: $color-text;
-      margin-bottom: 20px;
-      // Mobile
-      @include media($mobile) {
-        margin-bottom: 10px;
-      }
+.pane-content {
+  .pane-title {
+    @include font('header-large');
+    color: $color-text;
+    margin-bottom: 20px;
+    // Mobile
+    @include media($mobile) {
+      margin-bottom: 10px;
     }
   }
+}
+
+.panel-pane {
   // Sub menu
   ul.sub-menu {
     padding: 0;
@@ -92,14 +93,12 @@
   &.ding-library-address,
   &.ding-library-contact {
     margin-bottom: 40px;
-    .panel-pane-inner {
-      .pane-title {
-        @include font('header-small');
-        padding-bottom: 20px;
-        border-bottom: 1px solid $charcoal-opacity-light;
-        margin-bottom: 25px;
-        color: $charcoal;
-      }
+    .pane-title {
+      @include font('header-small');
+      padding-bottom: 20px;
+      border-bottom: 1px solid $charcoal-opacity-light;
+      margin-bottom: 25px;
+      color: $charcoal;
     }
     // When placed in primary content of default panel layout
     .default-panel-layout .primary-content & {
@@ -112,23 +111,18 @@
     }
   }
   &.ding-library-contact {
-    .library-contact-phone {
-      .library-contact-phone-label {
-        width: 100px;
-        float: left;
-      }
-    }
-    .library-contact-email {
-      .library-contact-email-label {
-        width: 100px;
-        float: left;
-      }
-    }
-
     // When placed in primary content of default panel layout
     .default-panel-layout .primary-content & {
       @include omega();
     }
+  }
+  .library-contact-phone-label {
+    width: 100px;
+    float: left;
+  }
+  .library-contact-email-label {
+    width: 100px;
+    float: left;
   }
 }
 
@@ -228,17 +222,17 @@
 .panel-pane.pane-search-result-count {
   .pane-content {
     margin-bottom: 20px;
-    .page-title {
-      margin-bottom: 5px;
-    }
-    .search-string,
-    .count {
-      @include font('header-small');
-    }
+  }
+  .page-title {
+    margin-bottom: 5px;
+  }
+  .search-string,
+  .count {
+    @include font('header-small');
+  }
 
-    .count {
-      color: $charcoal-opacity-dark;
-    }
+  .count {
+    color: $charcoal-opacity-dark;
   }
 }
 
@@ -250,17 +244,17 @@
   border-bottom: 1px solid $charcoal-opacity-light;
   .pane-content {
     margin-bottom: 20px;
-    .page-title {
-      margin-bottom: 5px;
-    }
-    .material-title,
-    .count {
-      @include font('header-small');
-    }
+  }
+  .page-title {
+    margin-bottom: 5px;
+  }
+  .material-title,
+  .count {
+    @include font('header-small');
+  }
 
-    .count {
-      color: $charcoal-opacity-dark;
-    }
+  .count {
+    color: $charcoal-opacity-dark;
   }
 }
 
@@ -317,7 +311,6 @@
   }
   form {
     // Hide expand link
-    // @TODO can we hide these in a better way
     > div > a.expand {
       display: none;
     }
@@ -541,85 +534,85 @@
   .views-exposed-form {
     border-top: 1px solid $charcoal-opacity-light;
     padding-top: 25px;
-    .views-exposed-widget {
-      padding: 0;
-      margin-bottom: 30px;
-
-      // Mobile
-      @include media($mobile) {
-        margin-bottom: 20px;
-      }
-    }
-    .views-widget-filter-title {
-      width: 100%;
-
-      // Tablet
-      @include media($tablet) {
-        @include span-columns(4);
-      }
-
-      // Mobile
-      @include media($mobile) {
-        width: 100%;
-        margin-right: 0;
-      }
-    }
-    .views-widget-filter-field_ding_event_date_value,
-    .views-widget-filter-field_ding_event_date_value_1 {
-      @include span-columns(2 of 4);
-
-      // Tablet
-      @include media($tablet) {
-        @include span-columns(4);
-      }
-
-      // Mobile
-      @include media($mobile) {
-        width: 100%;
-        margin-right: 0;
-      }
-    }
-    .views-widget-filter-field_ding_event_date_value_1 {
-      @include omega();
-    }
-    label {
-      @include font('header-small');
-      font-weight: normal;
-      margin-bottom: 20px;
-
-      // Mobile
-      @include media($mobile) {
-        margin-bottom: 10px;
-      }
-    }
-    .form-item {
-      display: block;
-      margin-right: 0;
-      .date-padding,
-      .form-item {
-        float: none;
-      }
-      input {
-        width: 100%;
-        margin-right: 0;
-        background-color: $grey;
-
-        @include placeholder {
-          color: $charcoal-opacity-dark;
-        }
-      }
-    }
-    .description {
-      display: none;
-    }
-    .views-submit-button {
-      margin-right: 20px;
-    }
     .form-submit {
       margin-top: 0;
       padding-right: 40px;
       margin-right: getGutter(4);
     }
+  }
+  .views-exposed-widget {
+    padding: 0;
+    margin-bottom: 30px;
+
+    // Mobile
+    @include media($mobile) {
+      margin-bottom: 20px;
+    }
+  }
+  .views-widget-filter-title {
+    width: 100%;
+
+    // Tablet
+    @include media($tablet) {
+      @include span-columns(4);
+    }
+
+    // Mobile
+    @include media($mobile) {
+      width: 100%;
+      margin-right: 0;
+    }
+  }
+  .views-widget-filter-field_ding_event_date_value,
+  .views-widget-filter-field_ding_event_date_value_1 {
+    @include span-columns(2 of 4);
+
+    // Tablet
+    @include media($tablet) {
+      @include span-columns(4);
+    }
+
+    // Mobile
+    @include media($mobile) {
+      width: 100%;
+      margin-right: 0;
+    }
+  }
+  .views-widget-filter-field_ding_event_date_value_1 {
+    @include omega();
+  }
+  label {
+    @include font('header-small');
+    font-weight: normal;
+    margin-bottom: 20px;
+
+    // Mobile
+    @include media($mobile) {
+      margin-bottom: 10px;
+    }
+  }
+  .form-item {
+    display: block;
+    margin-right: 0;
+    .date-padding,
+    .form-item {
+      float: none;
+    }
+    input {
+      width: 100%;
+      margin-right: 0;
+      background-color: $grey;
+
+      @include placeholder {
+        color: $charcoal-opacity-dark;
+      }
+    }
+  }
+  .description {
+    display: none;
+  }
+  .views-submit-button {
+    margin-right: 20px;
   }
   .views-submit-button {
     padding: 0;

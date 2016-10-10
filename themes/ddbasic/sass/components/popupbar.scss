@@ -65,54 +65,54 @@
       pointer-events: auto;
       z-index: 10;
     }
-    // User login
-    .user-login-form {
-      .intro-text {
-        @include span-columns(5);
-        .lead {
-          @include font('header-small');
-          margin-bottom: 20px;
-        }
-
-        // Mobile
-        @include media($mobile) {
-          display: none;
-        }
+  }
+  // User login
+  .user-login-form {
+    .intro-text {
+      @include span-columns(5);
+      .lead {
+        @include font('header-small');
+        margin-bottom: 20px;
       }
-      .user-login-container {
-        @include span-columns(4);
+
+      // Mobile
+      @include media($mobile) {
+        display: none;
+      }
+    }
+    .user-login-container {
+      @include span-columns(4);
+      @include omega;
+      float: right;
+      .form-actions {
+        @include span-columns(2 of 4);
+        @include omega;
+        float: right;
+      }
+
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(6);
         @include omega;
         float: right;
         .form-actions {
-          @include span-columns(2 of 4);
+          @include span-columns(3 of 6);
           @include omega;
           float: right;
         }
+      }
 
-        // Tablet
-        @include media($tablet) {
-          @include span-columns(6);
-          @include omega;
-          float: right;
-          .form-actions {
-            @include span-columns(3 of 6);
-            @include omega;
-            float: right;
-          }
-        }
-
-        // Mobile
-        @include media($mobile) {
-          width: 100%;
-          float: left;
-        }
+      // Mobile
+      @include media($mobile) {
+        width: 100%;
+        float: left;
       }
     }
-    form:not(.user-login-form) {
-      a {
-        display: inline-block;
-        margin: 10px 10px 0 0;
-      }
+  }
+  form:not(.user-login-form) {
+    a {
+      display: inline-block;
+      margin: 10px 10px 0 0;
     }
   }
 }

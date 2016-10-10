@@ -16,57 +16,57 @@
     background: none;
     height: 30px;
     border-bottom: 1px solid $grey;
-    .ui-datepicker-title {
-      width: 100%;
-      height: 30px;
-      padding: 0 25px;
-      margin: 3px 0 0;
-      select {
-        @include font('base');
-        cursor: pointer;
-        color: $charcoal;
-        line-height: normal;
-        position: static;
-        height: auto;
-        padding: 0 10px;
+  }
+  .ui-datepicker-title {
+    width: 100%;
+    height: 30px;
+    padding: 0 25px;
+    margin: 3px 0 0;
+    select {
+      @include font('base');
+      cursor: pointer;
+      color: $charcoal;
+      line-height: normal;
+      position: static;
+      height: auto;
+      padding: 0 10px;
+    }
+  }
+  .ui-corner-all {
+    cursor: pointer;
+    .ui-icon {
+      background: $color-primary;
+      background-image: none;
+      border-radius: 50%;
+      &::before {
+        font-family: 'icomoon';
+        text-indent: 0;
+        font-size: 24px;
+        margin-left: -4px;
+        margin-top: -1px;
+        display: block;
+        color: $white;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      &.ui-icon-circle-triangle-w {
+        &::before {
+          content: "\e902";
+        }
+      }
+      &.ui-icon-circle-triangle-e {
+        &::before {
+          content: "\e904";
+        }
       }
     }
-    .ui-corner-all {
-      cursor: pointer;
+    &.ui-state-hover {
+      border: none;
+      background: transparent;
       .ui-icon {
-        background: $color-primary;
-        background-image: none;
-        border-radius: 50%;
+        background-color: $white;
         &::before {
-          font-family: 'icomoon';
-          text-indent: 0;
-          font-size: 24px;
-          margin-left: -4px;
-          margin-top: -1px;
-          display: block;
-          color: $white;
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-        }
-        &.ui-icon-circle-triangle-w {
-          &::before {
-            content: "\e902";
-          }
-        }
-        &.ui-icon-circle-triangle-e {
-          &::before {
-            content: "\e904";
-          }
-        }
-      }
-      &.ui-state-hover {
-        border: none;
-        background: transparent;
-        .ui-icon {
-          background-color: $white;
-          &::before {
-            color: $color-primary;
-          }
+          color: $color-primary;
         }
       }
     }
