@@ -90,9 +90,9 @@ function ding_list_get_add_to_list_data($type, $value, $value_title = FALSE) {
  */
 function ding_list_get_add_to_list_ting_object_creators($ting_object) {
   global $user;
-  
+
   $data = array();
-  
+
   $creators = $ting_object->getCreators();
   foreach ($creators as & $creator) {
     $creator = 'phrase.creator="' . $creator . '"';
@@ -129,7 +129,7 @@ function ding_list_get_add_to_list_ting_object_creators($ting_object) {
       }
     }
   }
-  
+
   return $data;
 }
 
@@ -659,16 +659,13 @@ function ding_list_set_permission($entity, $permission) {
  *   The username (or an empty string if no username was retrieved).
  */
 function ding_list_list_username($list) {
-  // Temporary fix, till we can load username of other users.
-  global $user;
-  
-  if ($list->uid != $user->uid) {
-    return t('Another loaner');
-  }
-  
   $owner = user_load($list->uid);
-  
-  return $owner->name;
+
+  if (!empty($owner->data) && isset($owner->data['display_name'])) {
+    return $owner->data['display_name'];
+  }
+
+  return t('Another loaner');
 }
 
 /**
@@ -765,7 +762,7 @@ function ding_list_remove_permission($element) {
   $list->field_ding_list_permissions[LANGUAGE_NONE] = $keep;
   entity_save('ding_type', $list);
   entity_delete('ding_type', $element->id);
-  
+
   return TRUE;
 }
 
@@ -803,7 +800,7 @@ function ding_list_get_permission_permissions($permission = FALSE) {
  */
 function ding_list_user_has_access($list, $permission = DING_LIST_PERMISSION_VIEW, $account = NULL, $token = FALSE) {
   $access = &drupal_static(__FUNCTION__, array());
-  
+
   // The access key is the key used by the static cache, and it's a unique key
   // defined by all the arguments given the function.
   $access_key = md5(serialize(func_get_args()));
@@ -864,7 +861,7 @@ function ding_list_user_has_access($list, $permission = DING_LIST_PERMISSION_VIE
   }
 
   $access[$access_key] = FALSE;
-  
+
   return $access[$access_key];
 }
 
