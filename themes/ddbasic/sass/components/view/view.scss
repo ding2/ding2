@@ -78,6 +78,7 @@
         .ding2-site-template .ding2-site-template & {
           @include span-columns(4);
           @include omega(3n);
+
           // Tablet
           @include media($tablet) {
             @include omega-reset(3n, 12);
@@ -98,10 +99,12 @@
         .default-panel-layout .primary-content & {
           @include span-columns(4 of 8);
           @include omega(2n);
+
           // Tablet
           @include media($tablet) {
             @include span-columns(6);
           }
+
           // Mobile
           @include media($mobile) {
             @include span-columns(12);
@@ -110,12 +113,14 @@
         .default-panel-layout .attachments-wrapper & {
           @include span-columns(4);
           @include omega(3n);
+
           // Tablet
           @include media($tablet) {
             @include omega-reset(3n, 12);
             @include span-columns(6);
             @include omega(2n);
           }
+
           // Mobile
           @include media($mobile) {
             @include omega-reset(2n, 12);
@@ -197,6 +202,7 @@
             // In Ding frontpage layout
             .frontpage-layout & {
               @include span-columns(8);
+
               // Tablet
               @include media($tablet) {
                 width: 100%;
@@ -221,6 +227,7 @@
             &:nth-child(3n + 3) {
               clear: left;
             }
+
             // Tablet
             @include media($tablet) {
               @include omega-reset(2n, 12);
@@ -243,7 +250,6 @@
               width: 100%;
               margin: 0 !important;
               clear: none !important;
-              //display: block !important;
             }
           }
           // In Default panel layout (Two sidebars, content in middle)
@@ -255,6 +261,7 @@
             &:nth-child(2n + 4) {
               clear: left;
             }
+
             // Tablet
             @include media($tablet) {
               @include omega-reset(2n, 12);
@@ -266,6 +273,7 @@
   }
   // Slide on mobile
   &.slide-on-mobile {
+
     // Mobile
     @include media($mobile) {
       .view-content {
@@ -328,12 +336,14 @@
         &.hide {
           display: none;
         }
+
         // Tablet
         @include media($tablet) {
           @include omega-reset(3n, 12);
           @include span-columns(6);
           @include omega(2n);
         }
+
         // Mobile
         @include media($mobile) {
           @include span-columns(12);
@@ -346,6 +356,7 @@
       .grid-gutter {
         width: getGutter();
       }
+
       // Tablet
       @include media($tablet) {
         .grid-sizer {
@@ -415,6 +426,7 @@
       &:nth-child(1),
       &:nth-child(2) {
         @include span-columns(6);
+
         // Mobile
         @include media($mobile) {
           @include span-columns(12);
@@ -433,6 +445,7 @@
         clear: left;
       }
     }
+
     // Tablet
     @include media($tablet) {
       .view-content {
@@ -442,6 +455,7 @@
         }
       }
     }
+
     // Mobile
     @include media($mobile) {
       .view-content {
@@ -479,6 +493,7 @@
         clear: left;
       }
     }
+
     // Tablet
     @include media($tablet) {
       .view-content {
@@ -488,6 +503,7 @@
         }
       }
     }
+
     // Mobile
     @include media($mobile) {
       .view-content {
