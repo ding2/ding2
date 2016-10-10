@@ -361,7 +361,11 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
         if ($display['settings']['prefix_type'] == 'yes') {
           $collection = ting_collection_load($entity->id);
           $ting_type = $entity->getType();
-          if (count($collection->types) > 1) {
+
+          $entity_count = count($collection->entities);
+          $type_count = count($collection->types);
+
+          if ($type_count < $entity_count) {
             $ting_type = t('Material collection');
             // Replace title with the more generic collection title.
             $title = $collection->title;
