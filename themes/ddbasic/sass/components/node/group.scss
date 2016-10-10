@@ -29,51 +29,49 @@
         background-color: $charcoal-opacity-light;
         border-radius: $round-corner;
       }
-      .group-text {
-        @include linear-gradient(
-          transparent 0%,
-          $charcoal-opacity-extra-dark 100%
-        );
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        padding: 25px $box-padding $box-padding;
-        color: $white;
-        border-bottom-right-radius: $round-corner;
-        border-bottom-left-radius: $round-corner;
-        h3.title {
-          @include font('header-small');
-          margin-bottom: 0;
-        }
-        .field-name-field-ding-group-lead {
-          display: none;
-        }
-      }
-      // First two teasers in view
-      .view-ding-groups .views-row:nth-child(1) &,
-      .view-ding-groups .views-row:nth-child(2) & {
-        .group-text {
-          h3.title {
-            @include font('header');
-            // Tablet
-            @include media($tablet) {
-              @include font('header-small');
-            }
-          }
-          .field-name-field-ding-group-lead {
-            display: block;
-            // Tablet
-            @include media($tablet) {
-              display: none;
-            }
-          }
-        }
-      }
       // Hover
       &:hover {
         &::before {
           background-color: $charcoal-opacity-dark;
+        }
+      }
+    }
+    .group-text {
+      @include linear-gradient(
+        transparent 0%,
+        $charcoal-opacity-extra-dark 100%
+      );
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      padding: 25px $box-padding $box-padding;
+      color: $white;
+      border-bottom-right-radius: $round-corner;
+      border-bottom-left-radius: $round-corner;
+    }
+    h3.title {
+      @include font('header-small');
+      margin-bottom: 0;
+    }
+    .field-name-field-ding-group-lead {
+      display: none;
+    }
+    // First two teasers in view
+    .view-ding-groups .views-row:nth-child(1) &,
+    .view-ding-groups .views-row:nth-child(2) & {
+      h3.title {
+        @include font('header');
+        // Tablet
+        @include media($tablet) {
+          @include font('header-small');
+        }
+      }
+      .field-name-field-ding-group-lead {
+        display: block;
+        // Tablet
+        @include media($tablet) {
+          display: none;
         }
       }
     }
