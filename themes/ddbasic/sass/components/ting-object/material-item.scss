@@ -23,7 +23,6 @@
 
   .left-column {
     float: left;
-
     min-width: 130px;
     min-height: 28px;
 
@@ -35,53 +34,46 @@
       min-width: 60px;
       min-height: 60px;
     }
-
-    .item-checkbox {
-      @include transform(translateY(-50%));
-      position: absolute;
-      left: 20px;
-      top: 50%;
-
-      // Mobile
-      @include media($mobile) {
-        left: 10px;
-        top: 10px;
-
-        @include transform(translateY(0%));
-      }
-
-      .form-type-checkbox {
-        position: relative;
-
-        width: 28px;
-        height: 28px;
-        margin: 0;
-        &.form-disabled {
-          visibility: hidden;
-        }
-
-        label {
-          text-indent: -9999px;
-          &::after {
-            text-indent: 0;
-          }
-        }
-      }
-    }
-
-    .ting-cover {
-      float: left;
-
-      width: 70px;
-      margin-left: 60px;
-
-      // Mobile
-      @include media($mobile) {
-        display: none;
-      }
-    }
-
   }
+  .item-checkbox {
+    @include transform(translateY(-50%));
+    position: absolute;
+    left: 20px;
+    top: 50%;
+
+    // Mobile
+    @include media($mobile) {
+      @include transform(translateY(0%));
+      left: 10px;
+      top: 10px;
+    }
+    .form-type-checkbox {
+      position: relative;
+      width: 28px;
+      height: 28px;
+      margin: 0;
+      &.form-disabled {
+        visibility: hidden;
+      }
+      label {
+        text-indent: -9999px;
+        &::after {
+          text-indent: 0;
+        }
+      }
+    }
+  }
+  .ting-cover {
+    float: left;
+    width: 70px;
+    margin-left: 60px;
+
+    // Mobile
+    @include media($mobile) {
+      display: none;
+    }
+  }
+
   .right-column {
     float: left;
     width: calc(100% - 130px);
@@ -92,150 +84,142 @@
       width: 100%;
       padding: 0;
     }
+  }
 
-    .item-title {
-      width: 100%;
-      float: left;
-      margin: 10px 0;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      color: $color-primary;
-      &.has-message {
-        width: calc(100% - 190px);
-
-        // Mobile
-        @include media($mobile) {
-          width: 100%;
-        }
-      }
-      #ding-bookmark-remove-form & {
-        width: calc(100% - 170px);
-
-        // Mobile
-        @include media($mobile) {
-          width: 100%;
-        }
-      }
+  .item-title {
+    width: 100%;
+    float: left;
+    margin: 10px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: $color-primary;
+    &.has-message {
+      width: calc(100% - 190px);
 
       // Mobile
       @include media($mobile) {
         width: 100%;
-        min-height: 50px;
-        margin-top: 0;
-        padding: 0 10px 0 60px;
-        white-space: normal;
       }
     }
-
-    .messages.warning {
-      position: absolute;
-      top: 16px;
-      right: 0;
-      width: 190px;
-      height: 28px;
-      padding: 5px 10px 0 0;
-      margin: 0;
-      background-color: $red;
-      background-image: none;
-      color: $white;
-      border: 0;
-      text-align: right;
+    #ding-bookmark-remove-form & {
+      width: calc(100% - 170px);
 
       // Mobile
       @include media($mobile) {
-        position: static;
-        float: right;
-        margin-right: -10px;
+        width: 100%;
       }
     }
 
-    .item-information-list {
+    // Mobile
+    @include media($mobile) {
       width: 100%;
-      float: left;
-      margin: 0;
-      padding: 0;
-      #ding-bookmark-remove-form & {
-        width: calc(100% - 170px);
+      min-height: 50px;
+      margin-top: 0;
+      padding: 0 10px 0 60px;
+      white-space: normal;
+    }
+  }
 
-        // Mobile
-        @include media($mobile) {
-          width: 100%;
+  // Specific style for message warning in material item
+  .messages.warning {
+    position: absolute;
+    top: 16px;
+    right: 0;
+    width: 190px;
+    height: 28px;
+    padding: 5px 10px 0 0;
+    margin: 0;
+    background-color: $red;
+    background-image: none;
+    color: $white;
+    border: 0;
+    text-align: right;
+
+    // Mobile
+    @include media($mobile) {
+      position: static;
+      float: right;
+      margin-right: -10px;
+    }
+  }
+
+  .item-information-list {
+    width: 100%;
+    float: left;
+    margin: 0;
+    padding: 0;
+    #ding-bookmark-remove-form & {
+      width: calc(100% - 170px);
+
+      // Mobile
+      @include media($mobile) {
+        width: 100%;
+      }
+    }
+    > li {
+      float: left;
+      list-style: none;
+      > div {
+        margin-right: 30px;
+        &:last-child {
+          margin-bottom: 10px;
         }
       }
-      > li {
-        float: left;
-        list-style: none;
-        > div {
-          margin-right: 30px;
-          &:last-child {
-            margin-bottom: 10px;
-          }
-        }
+      // Mobile
+      @include media($mobile) {
+        width: 50%;
+        box-sizing: border-box;
+        padding-right: 10px;
+        margin: 0 0 20px;
+      }
+
+      &.loan-date {
+        clear: left;
+      }
+
+      &.url,
+      &.created-date {
+        display: none;
+      }
+    }
+    .item-information-label {
+      @include font('base-bold');
+      color: $grey-dark;
+    }
+    #ding-loan-loans-form & {
+      width: 50%;
+      .item-information-label {
+        @include font('base');
+        color: $color-standard-text;
+      }
+      &.loan-date,
+      &.expire-date,
+      &.material-number {
         .item-information-label {
           @include font('base-bold');
           color: $grey-dark;
         }
-        #ding-loan-loans-form & {
-          width: 50%;
-          .item-information-label {
-            @include font('base');
-            color: $color-standard-text;
-          }
-          &.loan-date,
-          &.expire-date,
-          &.material-number {
-            .item-information-label {
-              @include font('base-bold');
-              color: $grey-dark;
-            }
-          }
-        }
-
-        // Mobile
-        @include media($mobile) {
-          width: 50%;
-          box-sizing: border-box;
-          padding-right: 10px;
-          margin: 0 0 20px;
-        }
-
-        &.loan-date {
-          clear: left;
-        }
-
-        &.url,
-        &.created-date {
-          display: none;
-        }
-
-        &.material-number {
-          //display: none;
-        }
-
-        &.pickup-id {
-          //display: none;
-        }
       }
-      li.reserve {
-        list-style: none;
-        position: absolute;
-        right: 20px;
-        top: 50%;
+    }
+    li.reserve {
+      list-style: none;
+      position: absolute;
+      right: 20px;
+      top: 50%;
 
-        @include transform(translateY(-50%));
-        margin: 0;
+      @include transform(translateY(-50%));
+      margin: 0;
 
-        a {
-          display: block;
-        }
+      a {
+        display: block;
+      }
 
-        // Mobile
-        @include media($mobile) {
-          @include transform(translateY(0%));
-          position: static;
-          float: left;
-        }
+      // Mobile
+      @include media($mobile) {
+        @include transform(translateY(0%));
+        position: static;
+        float: left;
       }
     }
   }
@@ -248,12 +232,10 @@
     }
     .left-column {
       top: 10px;
-      .item-checkbox {
-        .form-type-checkbox {
-          &::before {
-            background-color: $grey-light;
-          }
-        }
+    }
+    .form-type-checkbox {
+      &::before {
+        background-color: $grey-light;
       }
     }
   }

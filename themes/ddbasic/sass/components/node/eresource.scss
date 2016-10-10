@@ -24,54 +24,54 @@
       @include media($mobile) {
         width: 100%;
       }
-      .field-name-field-ding-eresource-list-image {
-        @include span-columns(2 of 6);
-        padding-left: $box-padding;
+    }
+    .field-name-field-ding-eresource-list-image {
+      @include span-columns(2 of 6);
+      padding-left: $box-padding;
 
-        // Tablet
-        @include media($tablet) {
-          @include span-columns(3 of 8);
-        }
-        // Mobile
-        @include media($mobile) {
-          @include span-columns(5);
-          margin-bottom: 20px;
-        }
-        .field-item {
-          position: relative;
-          background-color: $white;
-          padding-top: 77.78%; // Creates a 16:9 format
-          img {
-            @include transform(translate(-50%, -50%));
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            max-height: 100%;
-            max-width: 100%;
-            height: auto;
-            width: auto;
-          }
-        }
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(3 of 8);
       }
-      .text {
-        @include span-columns(4 of 6);
-        margin-top: 5px;
-        color: $charcoal;
+      // Mobile
+      @include media($mobile) {
+        @include span-columns(5);
+        margin-bottom: 20px;
+      }
+      .field-item {
+        position: relative;
+        background-color: $white;
+        padding-top: 77.78%; // Creates a 16:9 format
+      }
+      img {
+        @include transform(translate(-50%, -50%));
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        max-height: 100%;
+        max-width: 100%;
+        height: auto;
+        width: auto;
+      }
+    }
+    .text {
+      @include span-columns(4 of 6);
+      margin-top: 5px;
+      color: $charcoal;
 
-        // Tablet
-        @include media($tablet) {
-          @include span-columns(5 of 8);
-        }
-        // Mobile
-        @include media($mobile) {
-          @include span-columns(7);
-          @include omega();
-          padding-right: $box-padding;
-          margin-bottom: 20px;
-        }
-        h3 {
-          margin-bottom: 10px;
-        }
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(5 of 8);
+      }
+      // Mobile
+      @include media($mobile) {
+        @include span-columns(7);
+        @include omega();
+        padding-right: $box-padding;
+        margin-bottom: 20px;
+      }
+      h3 {
+        margin-bottom: 10px;
       }
     }
     .buttons {
@@ -119,7 +119,7 @@
     }
     > .inner {
       @include wrapper;
-      .left {
+      > .left {
         @include span-columns(5);
         min-height: 1px;
 
@@ -134,7 +134,7 @@
           margin-bottom: 20px;
         }
       }
-      .right {
+      > .right {
         @include span-columns(5);
 
         // Tablet
@@ -147,7 +147,7 @@
           @include span-columns(12);
         }
       }
-      .buttons {
+      > .buttons {
         @include span-columns(2);
         @include omega();
 
@@ -167,31 +167,30 @@
           padding-right: 45px;
         }
       }
-
-      h1 {
-        @include font('header');
-        margin-bottom: 0;
-        color: $charcoal;
+    }
+    h1 {
+      @include font('header');
+      margin-bottom: 0;
+      color: $charcoal;
+    }
+    .field-name-field-ding-eresource-access {
+      padding: 10px 0;
+      border-top: 1px solid $grey-medium;
+      border-bottom: 1px solid $grey-medium;
+      margin: 30px 0;
+      .field-label {
+        @include font('base-bold');
       }
-      .field-name-field-ding-eresource-access {
-        padding: 10px 0;
-        border-top: 1px solid $grey-medium;
-        border-bottom: 1px solid $grey-medium;
-        margin: 30px 0;
-        .field-label {
-          @include font('base-bold');
-        }
-      }
-      .field-name-field-ding-eresource-lead,
-      .field-name-field-ding-eresource-body {
-        margin-bottom: 20px;
-      }
-      .field-name-field-ding-eresource-link {
-        margin-top: 40px;
-        a {
-          display: block;
-          float: left;
-        }
+    }
+    .field-name-field-ding-eresource-lead,
+    .field-name-field-ding-eresource-body {
+      margin-bottom: 20px;
+    }
+    .field-name-field-ding-eresource-link {
+      margin-top: 40px;
+      a {
+        display: block;
+        float: left;
       }
     }
   }

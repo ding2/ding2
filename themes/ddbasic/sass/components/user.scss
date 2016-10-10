@@ -51,11 +51,11 @@
         }
       }
     }
-    .group-right {
-      clear: left;
-      .field-name-field-ding-staff-position {
-        color: $color-text;
-      }
+  }
+  .group-right {
+    clear: left;
+    .field-name-field-ding-staff-position {
+      color: $color-text;
     }
   }
 }
@@ -64,17 +64,15 @@
 // Staff list item
 // ==========================================================================
 .staff-list-item {
-  .staff-name-title {
-    .staff-name {
-      margin: 10px 0 5px;
-      a {
-        @include font('header-small');
-        color: $charcoal;
-      }
+  .staff-name {
+    margin: 10px 0 5px;
+    a {
+      @include font('header-small');
+      color: $charcoal;
     }
-    .staff-position {
-      color: $charcoal-opacity-dark;
-    }
+  }
+  .staff-position {
+    color: $charcoal-opacity-dark;
   }
   .staff-contact {
     color: $charcoal-opacity-dark;

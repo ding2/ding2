@@ -13,27 +13,27 @@
   .libraries {
     float: left;
     width: 100%;
-    .group-ding-library-left-column {
-      @include span-columns(3);
+  }
+  .group-ding-library-left-column {
+    @include span-columns(3);
 
-      // Tablet
-      @include media($tablet) {
-        display: none;
-      }
+    // Tablet
+    @include media($tablet) {
+      display: none;
     }
-    .group-ding-library-right-column {
-      @include span-columns(9);
-      @include omega();
-      margin-bottom: 40px;
+  }
+  .group-ding-library-right-column {
+    @include span-columns(9);
+    @include omega();
+    margin-bottom: 40px;
 
-      // Tablet
-      @include media($tablet) {
-        @include span-columns(10);
-      }
+    // Tablet
+    @include media($tablet) {
+      @include span-columns(10);
+    }
 
-      a.maps-link {
-        float: left;
-      }
+    a.maps-link {
+      float: left;
     }
   }
   a.opening-hours-toggle {

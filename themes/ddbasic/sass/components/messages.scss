@@ -13,41 +13,41 @@
   box-shadow: $box-shadow;
   .panel-pane-inner {
     @include wrapper;
-    .pane-content {
-      position: relative;
-      .messages {
-        padding: 40px 0 20px;
-        border: none;
-        background-color: $grey-light;
-        > ul {
-          list-style: none;
-          margin: 0;
-          > li {
-            padding: 5px 0;
-            margin: 5px 0;
-            color: $color-standard-text;
-            border-bottom: 1px solid $grey;
-          }
-        }
+  }
+  .pane-content {
+    position: relative;
+  }
+  .messages {
+    padding: 40px 0 20px;
+    border: none;
+    background-color: $grey-light;
+    > ul {
+      list-style: none;
+      margin: 0;
+      > li {
+        padding: 5px 0;
+        margin: 5px 0;
+        color: $color-standard-text;
+        border-bottom: 1px solid $grey;
       }
-      .close-container {
-        position: absolute;
-        top: -8px;
-        right: -18px;
-        width: 54px;
-        height: 54px;
-        .close-messages-button {
-          @include place-icon(close);
-          display: block;
-          &::after {
-            @include transition(color $speed $ease);
-          }
-          &:hover {
-            &::after {
-              color: $charcoal;
-            }
-          }
-        }
+    }
+  }
+  .close-container {
+    position: absolute;
+    top: -8px;
+    right: -18px;
+    width: 54px;
+    height: 54px;
+  }
+  .close-messages-button {
+    @include place-icon(close);
+    display: block;
+    &::after {
+      @include transition(color $speed $ease);
+    }
+    &:hover {
+      &::after {
+        color: $charcoal;
       }
     }
   }

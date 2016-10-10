@@ -27,28 +27,32 @@
           color: $color-text;
         }
       }
+      // Hide show less link
+      &.expand-less {
+        display: none;
+      }
     }
     &.collapsed {
       > .expand {
         display: none;
       }
     }
-    .selected-checkbox-group {
-      margin-bottom: 20px;
-      .unselect {
-        @include place-icon(minus, $size: 8px);
-        padding-left: 42px;
-        color: $charcoal-opacity-dark;
+  }
+  .selected-checkbox-group {
+    margin-bottom: 20px;
+    .unselect {
+      @include place-icon(minus, $size: 8px);
+      padding-left: 42px;
+      color: $charcoal-opacity-dark;
+      &::after {
+        @include transition(color $speed $ease);
+        top: 4px;
+        left: 10px;
+      }
+      &:hover {
+        color: $color-text;
         &::after {
-          @include transition(color $speed $ease);
-          top: 4px;
-          left: 10px;
-        }
-        &:hover {
           color: $color-text;
-          &::after {
-            color: $color-text;
-          }
         }
       }
     }
