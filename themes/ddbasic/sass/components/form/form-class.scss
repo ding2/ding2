@@ -1,8 +1,7 @@
-@import '../../base.scss';
+//
+// Context-specific form styles to overwrite base form styles
 
-// ==========================================================================
-// Specific form styles to overwrite base form styles
-// ==========================================================================
+@import '../../base.scss';
 
 .page-user {
   input[type="checkbox"],

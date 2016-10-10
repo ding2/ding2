@@ -1,8 +1,9 @@
+//
+// Set up the grid by changing the grid settings
+// Create breakpoints
+
 @import '../contrib/neat/neat-helpers';
 
-// ==========================================================================
-// Change the grid settings
-// ==========================================================================
 $column: 68px;
 $gutter: 28px;
 $grid-columns: 12;
