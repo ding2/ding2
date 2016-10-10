@@ -29,13 +29,16 @@ body {
     position: fixed;
     top: 0;
     left: 0;
+    z-index: $z-above;
     width: 100%;
     height: 0;
     background-color: $charcoal;
     opacity: 0;
   }
   &.topbar-is-open,
-  &.overlay-is-active {
+  &.overlay-is-active,
+  &.popupbar-is-open {
+    overflow: hidden;
     &::after {
       @include transition(
         opacity $speed $ease,

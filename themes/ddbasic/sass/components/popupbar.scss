@@ -116,27 +116,3 @@
     }
   }
 }
-
-// Remove the scrolling from body, and darken the background.
-body {
-  &.popupbar-is-open {
-    background-color: $charcoal;
-    overflow: hidden;
-  }
-}
-
-// Fade out and remove any pointer events from the content, so the now darkened
-// body background shows.
-.content-wrapper {
-  .popupbar-is-open & {
-    opacity: 0.5;
-    pointer-events: none;
-  }
-}
-
-footer {
-  .popupbar-is-open & {
-    opacity: 0.5;
-    pointer-events: none;
-  }
-}
