@@ -286,11 +286,6 @@ function theme_ding_entity_rating_display($variables) {
   
   $output .= ding_entity_rating_build_theme_list($variables['rating']);
   
-  // Add average value if the entity has ratings already.
-  if (!empty($variables['avg'])) {
-    $output .= '<span class="ding-entity-rating-avg">' . t('Average:') . ' ' . round($variables['avg'], 2) . '</span>';
-  }
-  
   return $output . '</div>';
 }
 
