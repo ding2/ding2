@@ -118,11 +118,6 @@
       float: right;
       width: getColumn(4);
       margin-right: getGutter(12) / 2;
-
-      // Tablet
-      @include media($tablet) {
-        display: none;
-      }
     }
   }
   // Header wrapper
