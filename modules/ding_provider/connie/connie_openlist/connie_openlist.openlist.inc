@@ -95,7 +95,7 @@ function connie_openlist_openlist_create_element($list_id, $data) {
     'created' => REQUEST_TIME,
     'modified' => REQUEST_TIME,
     'list_id' => $list_id,
-    'data' => $data
+    'data' => $data,
   );
   drupal_write_record('connie_openlist_list_items', $item);
   return $item['element_id'];
