@@ -71,3 +71,16 @@
     background-color: $grey-light;
   }
 }
+
+.form-item-search-block-form {
+  margin: 0;
+  > label {
+    display: none;
+  }
+  input[type="text"].form-autocomplete {
+    background-image: none;
+    &::-ms-clear {
+      display: none;
+    }
+  }
+}

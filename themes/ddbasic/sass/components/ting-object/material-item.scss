@@ -16,6 +16,7 @@
 
   @include clearfix();
 
+  // Mobile
   @include media($mobile) {
     padding: 10px;
   }
@@ -26,6 +27,7 @@
     min-width: 130px;
     min-height: 28px;
 
+    // Mobile
     @include media($mobile) {
       position: absolute;
       top: 0;
@@ -35,12 +37,12 @@
     }
 
     .item-checkbox {
+      @include transform(translateY(-50%));
       position: absolute;
       left: 20px;
       top: 50%;
 
-      @include transform(translateY(-50%));
-
+      // Mobile
       @include media($mobile) {
         left: 10px;
         top: 10px;
@@ -73,6 +75,7 @@
       width: 70px;
       margin-left: 60px;
 
+      // Mobile
       @include media($mobile) {
         display: none;
       }
@@ -84,6 +87,7 @@
     width: calc(100% - 130px);
     padding-left: 30px;
 
+    // Mobile
     @include media($mobile) {
       width: 100%;
       padding: 0;
@@ -100,6 +104,7 @@
       &.has-message {
         width: calc(100% - 190px);
 
+        // Mobile
         @include media($mobile) {
           width: 100%;
         }
@@ -107,11 +112,13 @@
       #ding-bookmark-remove-form & {
         width: calc(100% - 170px);
 
+        // Mobile
         @include media($mobile) {
           width: 100%;
         }
       }
 
+      // Mobile
       @include media($mobile) {
         width: 100%;
         min-height: 50px;
@@ -135,6 +142,7 @@
       border: 0;
       text-align: right;
 
+      // Mobile
       @include media($mobile) {
         position: static;
         float: right;
@@ -150,6 +158,7 @@
       #ding-bookmark-remove-form & {
         width: calc(100% - 170px);
 
+        // Mobile
         @include media($mobile) {
           width: 100%;
         }
@@ -183,6 +192,7 @@
           }
         }
 
+        // Mobile
         @include media($mobile) {
           width: 50%;
           box-sizing: border-box;
@@ -220,18 +230,19 @@
           display: block;
         }
 
+        // Mobile
         @include media($mobile) {
           @include transform(translateY(0%));
           position: static;
           float: left;
         }
-
       }
     }
   }
   &.odd {
     background-color: $grey-medium;
 
+    // Mobile
     @include media($mobile) {
       padding-top: 20px;
     }

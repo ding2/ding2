@@ -20,9 +20,6 @@ fieldset {
   &.collapsible {
     overflow: hidden;
     padding: 28px 0 26px;
-    &.collapsed {
-      height: 75px !important;
-    }
 
     .fieldset-legend {
       padding-left: 0 !important;
@@ -30,6 +27,41 @@ fieldset {
 
       a {
         color: $black;
+      }
+    }
+
+    legend {
+      margin-bottom: 20px;
+      .summary {
+        margin: 0;
+      }
+    }
+
+    .fieldset-title {
+      @include arrow-button(arrow-up);
+      &::after {
+        right: 0;
+        top: 10px;
+        background-color: $grey-dark;
+        color: $white-opacity-dark;
+      }
+    }
+
+    // Collapsed
+    &.collapsed {
+      height: 75px !important;
+      .fieldset-title {
+        &::after {
+          content: "\e901";
+          background-color: $grey;
+          color: $charcoal-opacity-dark;
+        }
+        &:hover {
+          &::after {
+            background-color: $grey-dark;
+            color: $white-opacity-dark;
+          }
+        }
       }
     }
   }
@@ -46,6 +78,13 @@ legend {
 
   @include font('header-small');
   margin-bottom: 10px;
+}
+
+.form-item {
+  margin: 0 0 10px;
+  .count {
+    color: $charcoal-opacity-dark;
+  }
 }
 
 // ==========================================================================
@@ -225,7 +264,6 @@ input[type="radio"] {
 //
 // Styleguide 1.2.5
 
-//.form-type-select {
 .select-wrapper {
   position: relative;
   overflow: hidden;
@@ -251,7 +289,6 @@ input[type="radio"] {
     top: 0;
   }
 }
-//}
 
 select {
   @include font('base');

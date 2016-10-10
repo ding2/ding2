@@ -6,32 +6,6 @@
 .node-ding-group {
 
   // ==========================================================================
-  // Full
-  // ==========================================================================
-
-  &.node-full {
-    h1.title {
-      margin-bottom: 15px;
-    }
-    .field-name-field-ding-group-title-image {
-      margin-bottom: 25px;
-    }
-    .field-name-field-ding-group-lead,
-    .field-name-field-ding-group-body {
-      @include span-columns(5 of 8);
-      // Tablet
-      @include media($tablet) {
-        @include span-columns(8);
-      }
-      // Mobile
-      @include media($mobile) {
-        width: 100%;
-        margin-right: 0;
-      }
-    }
-  }
-
-  // ==========================================================================
   // Teaser
   // ==========================================================================
 
@@ -101,6 +75,32 @@
         &::before {
           background-color: $charcoal-opacity-dark;
         }
+      }
+    }
+  }
+
+  // ==========================================================================
+  // Full
+  // ==========================================================================
+
+  &.node-full {
+    h1.title {
+      margin-bottom: 15px;
+    }
+    .field-name-field-ding-group-title-image {
+      margin-bottom: 25px;
+    }
+    .field-name-field-ding-group-lead,
+    .field-name-field-ding-group-body {
+      @include span-columns(5 of 8);
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(8);
+      }
+      // Mobile
+      @include media($mobile) {
+        width: 100%;
+        margin-right: 0;
       }
     }
   }
