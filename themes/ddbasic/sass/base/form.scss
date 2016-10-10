@@ -248,6 +248,9 @@ input[type="radio"] {
 // Select list
 // ==========================================================================
 
+// In order to hide the default select list button in all browsers we need to wrap all select lists in a div.
+// We can then hide the button by making the select list wider than its wrapper. And then place our own button.
+
 // Select list
 //
 // A select list needs to be wrapped in a div with the class "form-type-select" to be styled correct
