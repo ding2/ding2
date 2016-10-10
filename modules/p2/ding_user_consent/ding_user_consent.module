@@ -424,6 +424,7 @@ function ding_user_consent_ding_interaction_info() {
 
   return array(
     'title' => t('Storage of your loan history'),
+    'description' => t("Promote the load history 30+ storage to users not already using the feature"),
     'active' => $active,
   );
 }

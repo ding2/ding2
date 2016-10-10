@@ -243,9 +243,6 @@ function ding_entity_rating_theme($existing, $type, $theme, $path) {
     'ding_entity_rating_thank_you' => array(
       'variables' => array(),
     ),    
-    'ding_entity_rating_ding_user_complete_description' => array(
-      'variables' => array('history_list' => NULL, 'account' => NULL),
-    ),
   );
 }
 
@@ -254,20 +251,6 @@ function ding_entity_rating_theme($existing, $type, $theme, $path) {
  */
 function theme_ding_entity_rating_thank_you($variables) {
   return '<div class="ding-entity-rating-respons">' . t('Thank you for your input') . '</div>';
-}
-
-/**
- * Theme function for theme_ding_entity_rating_ding_user_complete_description.
- */
-function theme_ding_entity_rating_ding_user_complete_description($variables) {
-  $uid = $variables['account']->uid;
-  $history_button = isset($variables['history_list']) ? "<li>" . l(t("Rate previous loans"), "list/" . $variables['history_list']->id) . "</li>" : "";
-  
-  return "<div class='description'>" .
-    t('You could rate materials to give us an idea of your preferences.') .
-    "</div><ul class='actions'><li>" . l(t("Rate your current loans"), "user/$uid/status/loans") . "</li>" .
-    $history_button .
-    "</ul>";
 }
 
 /**
@@ -422,25 +405,37 @@ function ding_entity_rating_remove_from_list($entity, $account) {
   }
 }
 
-/**
- * Implements hook_ding_user_complete().
- */
-function ding_entity_rating_ding_user_complete() {
-  $complete = FALSE;
-
-  $user_history_list = ding_list_get_lists(DING_LIST_TYPE_LOAN_HISTORY);
-  $history_list = current($user_history_list);
+function ding_entity_rating_ding_interaction_info() {
   global $user;
-  
   return array(
-    'ding_entity_rating' => array(
-      'title' => t('It pays to judge'),
-      'points' => 3,
-      'completed' => $complete,
-      'markup' => theme('ding_entity_rating_ding_user_complete_description', array('history_list' => $history_list, 'account' => $user)),
-    ),
+    'title' => t('Rate materials and get better serendipity'),
+    'description' => t('If the user has not rated any materials yet, ' .
+      'suggest this can be done for instance in the loan history.'),
+    'active' => ding_user_is_provider_user($user),
+    'css_class' => 'complete-info',
+
   );
 }
+
+/**
+ * Implements hook_ding_interaction_view().
+ */
+function ding_entity_rating_ding_interaction_view() {
+  global $user;
+  $user_history_list = ding_list_get_lists(DING_LIST_TYPE_LOAN_HISTORY);
+  $history_list = current($user_history_list);
+
+  $uid = $user->uid;
+  $history_button = isset($history_list) ? "<li>" . l(t("Rate previous loans"), "list/" . $history_list->id) . "</li>" : "";
+  
+  return "<div class='description'>" .
+    t('You could rate materials to give us an idea of your preferences.') .
+    "</div><ul class='actions'><li>" . l(t("Rate your current loans"), "user/$uid/status/loans") . "</li>" .
+    $history_button .
+    "</ul>";
+
+}
+
 
 /**
  * Return a list of loans not yet rated.

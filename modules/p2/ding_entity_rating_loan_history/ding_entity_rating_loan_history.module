@@ -16,6 +16,8 @@ function ding_entity_rating_loan_history_ding_interaction_info() {
 
   return array(
     'title' => t('Rate your previous loans'),
+    'description' => t('Present historical non rated loans to the user ' .
+      'and request the user to rate them in order to get better serendipity.'),
     'active' => $active,
     'more_title' => t('Lookup your previous loans'),
     'more_url' => $previous_loans,
