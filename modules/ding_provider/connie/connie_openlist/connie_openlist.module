@@ -14,7 +14,7 @@ function connie_openlist_ding_provider() {
     'provides' => array(
       'openlist' => array(
         'prefix' => 'openlist',
-        'file' => '/connie_openlist.openlist.inc',
+        'file' => 'connie_openlist.openlist.inc',
       ),
     ),
   );
