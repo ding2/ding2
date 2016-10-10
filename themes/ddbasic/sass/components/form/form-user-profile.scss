@@ -66,61 +66,61 @@
         border-bottom: 1px solid $grey;
         .fieldset-wrapper {
           width: 100%;
-          .fieldset-description {
-            margin-bottom: 10px;
+        }
+        .fieldset-description {
+          margin-bottom: 10px;
+        }
+        .date-no-float {
+          @include span-columns(6);
+          clear: none;
+
+          @include media($mobile) {
+            width: 100%;
           }
-          .date-no-float {
-            @include span-columns(6);
-            clear: none;
+        }
+        .form-type-date-popup {
+          width: 100%;
+          margin: 0;
+          .date-padding {
+            width: 100%;
+            padding: 0;
 
-            @include media($mobile) {
+            .form-item {
               width: 100%;
-            }
-            .form-type-date-popup {
-              width: 100%;
-              margin: 0;
-              .date-padding {
+              position: relative;
+              height: $element-height;
+              margin: 20px 0;
+              background-color: $white;
+              border: 1px solid $grey;
+              border-radius: $round-corner;
+
+              @include place-icon(arrow-down-small, $charcoal-opacity-dark);
+
+              &::after {
+                right: 0;
+                pointer-events: none;
+              }
+              &::before {
+                content: '';
+                display: block;
+                background-color: $grey;
+                background-repeat: no-repeat;
+                background-position: right 4px center;
+                width: $element-height;
+                height: 52px;
+                position: absolute;
+                right: 0;
+                top: 0;
+                pointer-events: none;
+              }
+              input {
                 width: 100%;
-                padding: 0;
-
-                .form-item {
-                  width: 100%;
-                  position: relative;
-                  height: $element-height;
-                  margin: 20px 0;
-                  background-color: $white;
-                  border: 1px solid $grey;
-                  border-radius: $round-corner;
-
-                  @include place-icon(arrow-down-small, $charcoal-opacity-dark);
-
-                  &::after {
-                    right: 0;
-                    pointer-events: none;
-                  }
-                  &::before {
-                    content: '';
-                    display: block;
-                    background-color: $grey;
-                    background-repeat: no-repeat;
-                    background-position: right 4px center;
-                    width: $element-height;
-                    height: 52px;
-                    position: absolute;
-                    right: 0;
-                    top: 0;
-                    pointer-events: none;
-                  }
-                  input {
-                    width: 100%;
-                    background-color: transparent;
-                    cursor: pointer;
-                  }
-                  > label {
-                    position: absolute;
-                    top: -20px;
-                  }
-                }
+                background-color: transparent;
+                cursor: pointer;
+              }
+              > label {
+                position: absolute;
+                top: -20px;
               }
             }
           }
