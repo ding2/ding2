@@ -6,12 +6,6 @@
 .footer {
   background-color: $charcoal;
   color: $white;
-  // When topbar is open
-  .topbar-is-open &,
-  .overlay-is-active & {
-    opacity: 0.5;
-    pointer-events: none;
-  }
   a,
   a.active {
     @include transition(color $speed $ease);
