@@ -279,8 +279,8 @@ projects[pathauto][version] = "1.2"
 projects[pm_existing_pages][subdir] = "contrib"
 projects[pm_existing_pages][version] = "1.4"
 
-;projects[proj4js][subdir] = "contrib"
-;projects[proj4js][version] = "1.2"
+projects[proj4js][subdir] = "contrib"
+projects[proj4js][version] = "1.2"
 
 projects[profile2][subdir] = "contrib"
 projects[profile2][version] = "1.3"
