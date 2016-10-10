@@ -582,41 +582,41 @@ ul.tabs.primary {
     padding: 30px 100px 20px;
     background-color: $color-primary;
     text-align: center;
-    .icon-spinner {
-      position: relative;
-      display: block;
-      width: 84px;
-      height: 84px;
-      margin: 0 auto 20px;
+  }
+  .icon-spinner {
+    position: relative;
+    display: block;
+    width: 84px;
+    height: 84px;
+    margin: 0 auto 20px;
+    &::after {
+      @include animation(spin 1s linear infinite);
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('../../images/spinner.png');
+      background-size: 100% auto;
+    }
+
+    // Hidpi
+    @include hidpi() {
       &::after {
-        @include animation(spin 1s linear infinite);
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: url('../../images/spinner.png'); // Changed to background-image because the center was of in icomoon
+        background-image: url('../../images/spinner@x2.png');
         background-size: 100% auto;
       }
-
-      // Hidpi
-      @include hidpi() {
-        &::after {
-          background-image: url('../../images/spinner@x2.png');
-          background-size: 100% auto;
-        }
-      }
     }
-    .search-overlay--text {
-      color: $white;
-      margin-bottom: 15px;
-    }
-    .cancel {
-      margin-bottom: 0;
-      a {
-        color: $charcoal-opacity-dark;
-      }
+  }
+  .search-overlay--text {
+    color: $white;
+    margin-bottom: 15px;
+  }
+  .cancel {
+    margin-bottom: 0;
+    a {
+      color: $charcoal-opacity-dark;
     }
   }
 }
