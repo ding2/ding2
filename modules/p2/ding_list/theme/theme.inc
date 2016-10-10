@@ -148,6 +148,7 @@ function theme_ding_list_lists($variables) {
   $out = '';
   
   foreach ($variables['groups'] as $group_name => $group) {
+    $out .= "<a name='" . $group_name . "'></a>";
     $rows = array();
 
     foreach ($group['lists'] as $lists) {

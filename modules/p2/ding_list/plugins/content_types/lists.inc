@@ -35,7 +35,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
         DING_LIST_TYPE_LOAN_HISTORY => array(),
       ),
     ),
-    'hardcoded' => array(
+    'userlists' => array(
       'title' => t('My library'),
       'lists' => array(
         DING_LIST_TYPE_SEARCHES => array(),
@@ -69,7 +69,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
               );
               break;
 
-            case 'hardcoded':
+            case 'userlists':
               $notifications = ding_message_get_ding_list_notification($list);
               $notout = '';
               if (!empty($notifications)) {
