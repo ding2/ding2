@@ -213,12 +213,14 @@ function preprocess__node__ding_news(&$variables) {
       $variables['share_button'] = $share;
     break;
     case 'teaser':
-      // Get image url to use as background image
-      $uri = $variables['field_ding_news_list_image'][0]['uri'];
 
-      $image_title = $variables['field_ding_news_list_image'][0]['title'];
 
-      if (!empty($uri)) {
+      if (!empty($variables['field_ding_news_list_image'][0]['uri'])) {
+        // Get image url to use as background image
+        $uri = $variables['field_ding_news_list_image'][0]['uri'];
+
+        $image_title = $variables['field_ding_news_list_image'][0]['title'];
+
         // If in view with large first teaser and first in view
         $current_view = $variables['view']->current_display;
         $views_with_large_first = array('ding_news_frontpage_list', 'ding_news_list');
@@ -259,19 +261,15 @@ function preprocess__node__ding_event(&$variables) {
         $variables['classes_array'][] = 'has-image';
       }
       // Create image url
-      $uri = $variables['field_ding_event_list_image'][0]['uri'];
+      $uri = empty($variables['field_ding_event_list_image'][0]['uri']) ?
+        "" : $variables['field_ding_event_list_image'][0]['uri'];
 
       if (!empty($uri)) {
         $variables['event_background_image'] = image_style_url('ding_panorama_list_large', $uri);
       }
 
-      $image_title = $variables['field_ding_event_list_image'][0]['title'];
-
-      if (!empty($image_title)) {
-        $variables['image_title'] = 'title="' . $image_title . '"';
-      } else {
-        $variables['image_title'] = '';
-      }
+      $variables['image_title'] = empty($variables['field_ding_event_list_image'][0]['title']) ?
+        "" : 'title="' . $variables['field_ding_event_list_image'][0]['title'] . '"';
 
       // Date
       if (!empty($date)) {
