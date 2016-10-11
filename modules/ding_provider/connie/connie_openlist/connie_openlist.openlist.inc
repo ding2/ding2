@@ -109,3 +109,30 @@ function connie_openlist_openlist_delete_element($element_id) {
     ->condition('element_id', $element_id)
     ->execute();
 }
+
+/**
+ * Provide identifier for user.
+ *
+ * @param object $account
+ *   The user account.
+ *
+ * @return mixed
+ *   The identifier or FALSE otherwise.
+ */
+function connie_openlist_openlist_user_identifier($account = NULL) {
+  // Use the current user account, if no account is specified.
+  if ($account === NULL) {
+    global $user;
+    $account = $user;
+  }
+
+  // Something simple.
+  return 'connie_' . $account->uid;
+}
+
+/**
+ * Stop warnings from P2 that doesn't check if this is availble before calling.
+ */
+function connie_openlist_openlist_call_module() {
+  return array();
+}
