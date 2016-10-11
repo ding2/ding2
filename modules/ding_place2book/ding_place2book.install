@@ -51,17 +51,13 @@ function ding_place2book_update_7001(&$sandbox) {
   
   if (isset($result['node'])) {
     foreach ($result['node'] as $item) {
-      $node = new stdClass();
-      $node->nid = $item->nid;
-      $node->type = 'ding_event';
+      $node = node_load($item->nid);
       $node->field_place2book[LANGUAGE_NONE][0] = array(
         'event_id' => NULL,
         'event_maker_id' => NULL,
         'synchronize' => 0,
       );
-
-      field_attach_presave('node', $node);
-      field_attach_update('node', $node);
+      node_save($node);
     }
   }
 }
