@@ -28,19 +28,6 @@
         var img = '<img src="' + data.urls.detail + '" alt=""/>';
           $('.ting-cover-processing' + '.ting-cover-object-id-' + data.local_id).parents('.work-cover').siblings('.reveal-cover-large').find('.reveal-cover-large-image').html(img);
       }
-      // back cover
-      if (data.urls.backpage != undefined) {
-        var pdf = '<object data="' + data.urls.backpage + '" type="application/pdf" width="590" height="925">' +
-          '<p>It appears you dont have a PDF plugin for this browser. ' +
-          'No biggie... you can ' +
-          '<a href="' + data.urls.backpage + '">click here to download the PDF file.</a>' +
-          '</p>' +
-          '</object>';
-        $('.ting-cover-processing' + '.ting-cover-object-id-' + data.local_id).parents('.work-cover').siblings('.reveal-cover-back').find('.reveal-cover-back-image').html(pdf);
-        $('.ting-cover-processing' + '.ting-cover-object-id-' + data.local_id).parents('.work-cover').find('.cover-front').show();
-        $('.ting-cover-processing' + '.ting-cover-object-id-' + data.local_id).parents('.work-cover').find('.cover-back').show();
-
-      }
     });
   };
 

@@ -99,17 +99,6 @@ function template_preprocess_ting_object_cover(&$variables) {
         'title' => t('large cover image', array(), array('context' => 'ting_covers')),
       ),
     );
-    // Back cover pdf object (shown in modal window).
-    if ($wrapper = file_stream_wrapper_get_instance_by_uri($backcoverpdf_file_path)) {
-      $backcover_uri = $wrapper->getExternalUrl();
-      $variables['elements']['#back_cover_large_pdf'] = array(
-        '#markup' =>
-          '<object data="' . $backcover_uri . '?page=1&amp;view=Fit" type="application/pdf" width="590" height="925">
-              <p>It appears you don\'t have a PDF plugin for this browser.
-                 No biggie... you can <a href="' . $backcover_uri . '">click here to download the PDF file.</a></p>
-           </object>',
-      );
-    }
     // Avoid further javascript processing.
     $variables['elements']['#classes'][] = 'ting-cover-processed';
   }
@@ -127,24 +116,6 @@ function template_preprocess_ting_object_cover(&$variables) {
     $options['attributes']['style'] = 'display:none';
   }
   $variables['elements']['#front_cover_large_link'] = array(
-    '#type' => 'link',
-    '#title' => '',
-    '#href' => '',
-    '#options' => $options,
-  );
-  $options = array(
-    'html' => FALSE,
-    'attributes' => array(
-      'class' => array('cover-back', 'reveal-cover'),
-      'title' => t('See large back cover image', array(), array('context' => 'ting_covers')),
-      'aria-label' => t('See large back cover image', array(), array('context' => 'ting_covers')),
-      'data-reveal-id' => 'reveal-cover-back-' . $variables['elements']['#id'],
-    ),
-  );
-  if (!file_exists($backcoverpdf_file_path)) {
-    $options['attributes']['style'] = 'display:none';
-  }
-  $variables['elements']['#back_cover_large_link'] = array(
     '#type' => 'link',
     '#title' => '',
     '#href' => '',
