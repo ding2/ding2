@@ -538,3 +538,24 @@ function ting_reference_object_id_add_submit($form, &$form_state) {
   $field = $form_state['clicked_button']['#related_field'];
   $form_state[$field]['materials_count']++;
 }
+
+/**
+ * Implements hook_field_validate().
+ */
+function ting_reference_field_validate($entity_type, $entity, $field, $instance, $langcode, $items, &$errors) {
+  foreach ($items as $delta => $item) {
+    $materials = $item['materials'];
+    unset($materials['add']);
+    $tids = array();
+    foreach ($materials as $material) {
+      $tids[] = $material['ting_object_id'];
+    }
+
+    if (count(array_unique($tids)) < count($tids)) {
+      $errors[$field['field_name']][$langcode][$delta][] = array(
+        'error' => 'ting_reference_duplicate',
+        'message' => t('No duplicates are allowed in ting reference fields.'),
+      );
+    }
+  }
+}
