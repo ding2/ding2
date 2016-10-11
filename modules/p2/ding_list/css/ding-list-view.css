@@ -30,6 +30,14 @@
   white-space: nowrap;
 }
 
+.ding-user-lists ul li .label.warn {
+  background-color: #a32e10;
+}
+
+.ding-user-lists ul li .label.ready {
+  background-color: #528c10;
+}
+
 .ding-user-lists ul.bottom-links li {
   background: none;
 }
