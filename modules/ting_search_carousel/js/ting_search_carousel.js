@@ -15,6 +15,7 @@
 
     var cache = [];
     var carousel;
+    var carousel_context;
     var current_tab = 0;
     var navigation;
 
@@ -24,7 +25,7 @@
      */
     function _equale_tab_width() {
       // Get the list of tabs and the number of tabs in the list.
-      var tabsList = $('.rs-carousel-list-tabs');
+      var tabsList = $('.rs-carousel-list-tabs', carousel_context);
       var childCount = tabsList.children('li').length;
 
       // Only do somehting if there actually is tabs
@@ -59,13 +60,13 @@
       $(navigation.find('option')[index]).attr('selected', true);
 
       // Remove current content and show spinner.
-      $('.rs-carousel-title').html('');
-      $('.rs-carousel .rs-carousel-runner').children().remove();
-      $('.rs-carousel-inner .ajax-loader').removeClass('element-hidden');
+      $('.rs-carousel-title', carousel_context).html('');
+      $('.rs-carousel .rs-carousel-runner', carousel_context).children().remove();
+      $('.rs-carousel-inner .ajax-loader', carousel_context).removeClass('element-hidden');
 
       // Hide navigation arrows.
-      $('.rs-carousel-action-prev').hide();
-      $('.rs-carousel-action-next').hide();
+      $('.rs-carousel-action-prev', carousel_context).hide();
+      $('.rs-carousel-action-next', carousel_context).hide();
 
       current_tab = index;
       _update(current_tab);
@@ -86,10 +87,10 @@
     function _add_touch_support() {
       if (_is_touch_device()) {
         // Add support for touch displays (requires jQuery Touch Punch).
-        $('.rs-carousel-runner').draggable({
+        $('.rs-carousel-runner', carousel_context).draggable({
           axis: "x",
           stop: function() {
-            var left = $('.rs-carousel-runner').position().left;
+            var left = $('.rs-carousel-runner', carousel_context).position().left;
 
             // Left side reached.
             if (left > 0) {
@@ -97,7 +98,7 @@
             }
 
             // Right side reached.
-            if ($('.rs-carousel-mask').width() - $('.rs-carousel-runner').width() > left) {
+            if ($('.rs-carousel-mask', carousel_context).width() - $('.rs-carousel-runner', carousel_context).width() > left) {
               var lastIndex = carousel.carousel('getNoOfPages') - 1;
               carousel.carousel('goToPage', lastIndex);
             }
@@ -105,8 +106,8 @@
         });
 
         // Hide navigation arrows.
-        $('.rs-carousel-action-prev').hide();
-        $('.rs-carousel-action-next').hide();
+        $('.rs-carousel-action-prev', carousel_context).hide();
+        $('.rs-carousel-action-next', carousel_context).hide();
       }
     }
 
@@ -116,13 +117,13 @@
      */
     function _init_tabs() {
       // Select navigation wrapper.
-      navigation = $('.rs-carousel-tabs');
+      navigation = $('.rs-carousel-tabs', carousel_context);
 
       // Sett equal with on the tab navigation menu.
       _equale_tab_width();
 
       // Attach click events to tabs.
-      $('.rs-carousel-list-tabs').on("click", "li", (
+      $('.rs-carousel-list-tabs', carousel_context).on("click", "li", (
         function(e) {
           e.preventDefault();
           _change_tab($(this).index());
@@ -131,7 +132,7 @@
       ));
 
       // Add change event to tabs.
-      $('.rs-carousel-select-tabs').live('change', function() {
+      $('.rs-carousel-select-tabs', carousel_context).live('change', function() {
         _change_tab($(this).find(':selected').index());
       });
     }
@@ -153,15 +154,15 @@
       var data = cache[index];
 
       // Remove spinner.
-      $('.rs-carousel-inner .ajax-loader').addClass('element-hidden');
+      $('.rs-carousel-inner .ajax-loader', carousel_context).addClass('element-hidden');
 
       // Update content.
-      $('.rs-carousel-title').html(data.subtitle);
-      $('.rs-carousel .rs-carousel-runner').append(data.content);
+      $('.rs-carousel-title', carousel_context).html(data.subtitle);
+      $('.rs-carousel .rs-carousel-runner', carousel_context).append(data.content);
 
       // Show navigation arrows.
-      $('.rs-carousel-action-prev').show();
-      $('.rs-carousel-action-next').show();
+      $('.rs-carousel-action-prev', carousel_context).show();
+      $('.rs-carousel-action-next', carousel_context).show();
 
       // Get the carousel running.
       carousel.carousel('refresh');
@@ -198,6 +199,7 @@
     function init() {
       // Select the carousel element.
       carousel = $('.rs-carousel-items');
+      carousel_context = carousel.closest('.rs-carousel');
 
       // Fix the tables and fetch the first tabs content.
       _init_tabs();
