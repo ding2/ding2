@@ -17,6 +17,10 @@
   height: 250px;
 }
 
+.ting-object.view-mode-compact .contentbox {
+  background-color: #eee;
+}
+
 .ting-object.view-mode-compact .field-name-ting-title {
   position: absolute;
   z-index: 99;
@@ -35,4 +39,29 @@
   margin-bottom: 0;
 }
 
- 
+.ting-object.view-mode-compact .field.field-name-ding-serendipity-info.field-label-inline .field-label {
+  width: 20px;
+  line-height: 20px;
+  padding: 10px;
+  background-color: rgba(255, 255, 225, 0.75);
+  position: absolute;
+  z-index: 99;
+  top: 10px;
+  right: 10px;
+}
+
+.ting-object.view-mode-compact .field.field-name-ding-serendipity-info.field-label-inline .field-item {
+  position: absolute;
+  padding: 10px;
+  top: 0;
+  z-index: 101;
+  background-color: #000;
+  color: #fff;
+}
+
+.ting-object.view-mode-compact .field.field-name-ding-serendipity-info.field-label-inline .field-item {
+  display: none;
+}
+.ting-object.view-mode-compact .field.field-name-ding-serendipity-info.field-label-inline:hover .field-item {
+  display: block;
+}

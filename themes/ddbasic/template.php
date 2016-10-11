@@ -1007,5 +1007,8 @@ function ddbasic_preprocess_ting_object(&$vars) {
         }
         break;
     }
+  } else if (isset($vars['elements']['#view_mode']) && $vars['elements']['#view_mode'] == 'compact') {
+    $vars['content']['ding_serendipity_info']['#access'] = TRUE;
+    $vars['content']['ding_serendipity_info']['#title'] = '?';
   }
 }
