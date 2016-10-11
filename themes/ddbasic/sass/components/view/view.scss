@@ -89,8 +89,10 @@
         @include media($mobile) {
           @include omega-reset(2n, 12);
           width: 100%;
-          margin-right: 0 !important;
           margin-bottom: 0;
+          &:nth-child(n) { // Overwrite previous set nth children for all children
+            margin-right: 0;
+          }
         }
 
       }
@@ -106,7 +108,8 @@
 
         // Mobile
         @include media($mobile) {
-          @include span-columns(12);
+          width: 100%;
+          margin-right: 0;
         }
       }
       .default-panel-layout .attachments-wrapper & {
@@ -124,7 +127,9 @@
         @include media($mobile) {
           @include omega-reset(2n, 12);
           width: 100%;
-          margin-right: 0 !important;
+          &:nth-child(n) { // Overwrite previous set nth children for all children
+            margin-right: 0;
+          }
         }
       }
     }
@@ -245,9 +250,11 @@
 
           // Mobile
           @include media($mobile) {
-            width: 100%;
-            margin: 0 !important;
-            clear: none !important;
+            &:nth-child(n) { // Overwrite previous set nth children for all children
+              width: 100%;
+              margin: 0;
+              clear: none;
+            }
           }
         }
         // In Default panel layout (Two sidebars, content in middle)
@@ -307,10 +314,9 @@
       width: 100%;
     }
     .views-row {
-      margin-bottom: 10px !important;
-      margin-right: 0 !important;
+      margin-bottom: 10px;
       &:last-child {
-        margin-bottom: 30px !important;
+        margin-bottom: 30px;
       }
     }
   }
@@ -337,8 +343,10 @@
 
       // Mobile
       @include media($mobile) {
-        @include span-columns(12);
-        display: block !important;
+        width: 100%;
+        &:nth-child(n) { // Overwrite previous set nth children for all children
+          margin-right: 0;
+        }
       }
     }
     .grid-sizer {
@@ -362,7 +370,6 @@
         .views-row {
           @include span-columns(4);
           @include omega(3n);
-
         }
       }
       // Flex
@@ -439,9 +446,11 @@
     // Mobile
     @include media($mobile) {
       .views-row {
-        width: 100%;
-        margin: 0 !important;
-        clear: none !important;
+        &:nth-child(n) { // Overwrite previous set nth children for all children
+          width: 100%;
+          margin: 0;
+          clear: none;
+        }
       }
     }
   }
@@ -483,9 +492,11 @@
     // Mobile
     @include media($mobile) {
       .views-row {
-        width: 100%;
-        margin: 0 !important getGutter();
-        clear: none !important;
+        &:nth-child(n) { // Overwrite previous set nth children for all children
+          width: 100% ;
+          margin: 0 0 20px;
+          clear: none;
+        }
       }
     }
   }
