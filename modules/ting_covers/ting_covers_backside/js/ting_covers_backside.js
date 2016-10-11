@@ -41,7 +41,7 @@
     });
 
     // Load PDF file on modal open.
-    $(document).on('reveal:open', '.reveal-modal', function () {
+    $(document).on('reveal:open', 'div[id^="reveal-cover-back-"]', function () {
       var modal = $(this);
       var reg_exp = /\d+/;
       var local_id = reg_exp.exec($(modal).attr('id'))[0];
