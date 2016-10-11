@@ -238,6 +238,10 @@ function ding_entity_rating_theme($existing, $type, $theme, $path) {
     'ding_entity_rating_thank_you' => array(
       'variables' => array(),
     ),    
+    'ding_entity_rating_promote_ratings' => array(
+      'variables' => array('history_list' => NULL, 'account' => NULL),
+    ),
+
   );
 }
 
@@ -419,16 +423,22 @@ function ding_entity_rating_ding_interaction_view() {
   global $user;
   $user_history_list = ding_list_get_lists(DING_LIST_TYPE_LOAN_HISTORY);
   $history_list = current($user_history_list);
-
-  $uid = $user->uid;
-  $history_button = isset($history_list) ? "<li>" . l(t("Rate previous loans"), "list/" . $history_list->id) . "</li>" : "";
   
+  return theme('ding_entity_rating_promote_ratings', array('history_list' => $history_list, 'account' => $user));
+}
+
+/**
+ * Theme function for theme_ding_entity_rating_promote_ratings.
+ */
+function theme_ding_entity_rating_promote_ratings($variables) {
+  $uid = $variables['account']->uid;
+  $history_button = isset($variables['history_list']) ? "<li>" . l(t("Rate previous loans"), "list/" . $variables['history_list']->id) . "</li>" : "";
+
   return "<div class='description'>" .
     t('You could rate materials to give us an idea of your preferences.') .
     "</div><ul class='actions'><li>" . l(t("Rate your current loans"), "user/$uid/status/loans") . "</li>" .
     $history_button .
     "</ul>";
-
 }
 
 
