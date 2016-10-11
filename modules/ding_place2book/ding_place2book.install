@@ -69,7 +69,7 @@ function ding_place2book_update_7001(&$sandbox) {
   // Remove field.
   field_delete_field('field_place2book_tickets');
 
-  //Get settings.
+  // Get settings.
   $ding_place2book = variable_get('ding_place2book', array());
   $ding_place2book_event_nodes = variable_get('ding_place2book_event_nodes', array());
 
@@ -84,7 +84,7 @@ function ding_place2book_update_7001(&$sandbox) {
   variable_set('ding_p2b_default_capacity', $ding_place2book_event_nodes['capacity']);
   variable_set('ding_p2b_default_price_name', $ding_place2book_event_nodes['ticket_type']);
 
-  //Remove old variables.
+  // Remove old variables.
   variable_del('ding_place2book');
   variable_del('ding_place2book_event_nodes');
 }
