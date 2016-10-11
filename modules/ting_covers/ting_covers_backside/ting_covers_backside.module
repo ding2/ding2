@@ -25,9 +25,15 @@ function ting_covers_backside_menu() {
  */
 function ting_covers_backside_theme($existing, $type, $theme, $path) {
   return array(
-    'ting_object_backside' => array(
+    'ting_object_backside_wrapper' => array(
       'render element' => 'elements',
       'template' => 'templates/ting-covers-backside',
+      'variables' => array(
+        'local_id' => NULL,
+      ),
+    ),
+    'ting_object_backside_data' => array(
+      'template' => 'templates/ting-covers-backside-data',
       'variables' => array(
         'local_id' => NULL,
         'backside_uri' => NULL,
@@ -46,6 +52,9 @@ function ting_covers_backside_preprocess_field(&$variables) {
   }
 }
 
+/**
+ * Menu callback to get backside cover information.
+ */
 function ting_covers_backside_objects() {
   module_load_include('pages.inc', 'ting_covers');
   $cover_data = $_POST['coverData'];
@@ -74,10 +83,12 @@ function ting_covers_backside_objects() {
       )
     );
     $result[$local_id]['link'] = l('', '/', $link_attr);
-    $result[$local_id]['popup'] = theme('ting_object_backside', array(
+    $result[$local_id]['popup']['wrapper'] = theme('ting_object_backside_wrapper', array('local_id' => $local_id));
+    $result[$local_id]['popup']['data'] = theme('ting_object_backside_data', array(
       'local_id' => $local_id,
       'backside_uri' => $backside_file['urls']['backpage'],
     ));
+
   }
 
   drupal_json_output($result);

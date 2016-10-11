@@ -1,6 +1,8 @@
 (function($) {
   "use strict";
 
+  var backside_popup_data = {};
+
   // Helper function to get information about a given cover place holder.
   var ting_covers_backside_extract_data = function(e) {
     var classname = $(e).attr('class');
@@ -29,12 +31,21 @@
       },
       dataType: 'json',
       success: function (coverData) {
-        $.each(coverData, function(coverInfo, data) {
-          var $cover_wrapper = $('.ting-cover-object-id-' + coverInfo).parents('.work-cover');
+        $.each(coverData, function(local_id, data) {
+          var $cover_wrapper = $('.ting-cover-object-id-' + local_id).parents('.work-cover');
           $(data.link).appendTo($cover_wrapper.find('.work-cover-selector'));
-          $(data.popup).appendTo($cover_wrapper.parent());
+          backside_popup_data[local_id] = data.popup.data;
+          $(data.popup.wrapper).appendTo($cover_wrapper.parent());
         });
       }
+    });
+
+    // Load PDF file on modal open.
+    $(document).on('reveal:open', '.reveal-modal', function () {
+      var modal = $(this);
+      var reg_exp = /\d+/;
+      var local_id = reg_exp.exec($(modal).attr('id'))[0];
+      $(backside_popup_data[local_id]).appendTo($(modal).find('.reveal-cover-back-image'));
     });
   });
 }(jQuery));
