@@ -14,7 +14,7 @@
 
     // Mobile
     @include media($mobile) {
-      height: 210px !important;
+      height: 200px !important;
     }
     a {
       position: absolute;
@@ -101,6 +101,11 @@
       width: calc(115% - 156px);
       min-height: 60px;
       color: $color-text;
+
+      // Mobile
+      @include media($mobile) {
+        width: 100%;
+      }
     }
     .event-list-image {
       position: absolute;
