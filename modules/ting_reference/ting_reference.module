@@ -548,7 +548,9 @@ function ting_reference_field_validate($entity_type, $entity, $field, $instance,
     unset($materials['add']);
     $tids = array();
     foreach ($materials as $material) {
-      $tids[] = $material['ting_object_id'];
+      if (!empty($material['ting_object_id'])) {
+        $tids[] = $material['ting_object_id'];
+      }
     }
 
     if (count(array_unique($tids)) < count($tids)) {
