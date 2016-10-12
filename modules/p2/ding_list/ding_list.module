@@ -35,6 +35,7 @@ define('DING_LIST_OPERATION_SORT', 'sort');
 define('DING_LIST_OPERATION_FOLLOW', 'follow');
 define('DING_LIST_OPERATION_AUTO_CREATE', 'auto_create');
 define('DING_LIST_OPERATION_CHECK_EXISTS', 'check_exists');
+define('DING_LIST_OPERATION_SHARE', 'share');
 
 /**
  * View list permission.
@@ -161,7 +162,7 @@ function ding_list_menu() {
     'access callback' => TRUE,
     'page arguments' => array(2),
   );
-    
+
   $items['dinglist/attach/%/%/%'] = array_merge($edit_list_base, array(
     'title' => 'Attach elements callback',
     'page callback' => 'ding_list_attach_element_callback',
@@ -257,6 +258,7 @@ function ding_list_ding_list_operations() {
       DING_LIST_OPERATION_ATTACH => array('ting_object'),
       DING_LIST_OPERATION_DETACH => TRUE,
       DING_LIST_OPERATION_SORT => TRUE,
+      DING_LIST_OPERATION_SHARE => TRUE,
       '_data' => array(
         'description' =>
         t('Add objects to your own lists as you browse the website.') .
@@ -331,6 +333,7 @@ function ding_list_ding_list_operations() {
       DING_LIST_OPERATION_DETACH => TRUE,
       DING_LIST_OPERATION_SORT => TRUE,
       DING_LIST_OPERATION_AUTO_CREATE => TRUE,
+      DING_LIST_OPERATION_SHARE => TRUE,
       '_data' => array(
         'default_title' => t("Books I've read"),
         'description' => t('Keep a collection of books you have read here.'),
@@ -341,6 +344,7 @@ function ding_list_ding_list_operations() {
       DING_LIST_OPERATION_DETACH => TRUE,
       DING_LIST_OPERATION_SORT => TRUE,
       DING_LIST_OPERATION_AUTO_CREATE => TRUE,
+      DING_LIST_OPERATION_SHARE => TRUE,
       '_data' => array(
         'default_title' => t('Read later'),
         'description' => t('Keep a collection of books you want to read later here.'),
@@ -365,7 +369,7 @@ function ding_list_ctools_plugin_directory($owner, $plugin_type) {
 function ding_list_user_login(&$edit, $account) {
   if (ding_provider_implements('openlist', 'update_user')) {
     ding_provider_invoke('openlist', 'update_user', $account);
-    
+
     // Synchronize with openlist.
     ding_list_sync_openlist($account);
   }
@@ -388,31 +392,31 @@ function ding_list_import_bookmarks($account) {
   if (!module_exists('ding_bookmark')) {
     return;
   }
-  
+
   // Using simplevar module here, because compatibility with lazy_vars is
   // broken, will be fixed later.
   // Bail out if the bookmarks is already imported.
   if (simplevar_get('ding_list_import_bookmarks', $account->uid, FALSE) === TRUE) {
     return;
   }
-  
+
   // Because we need the user credentials, the conversion is lazy, and not
   // performed on install.
-  $bookmarks = ding_bookmark_load_bookmarks($account);    
+  $bookmarks = ding_bookmark_load_bookmarks($account);
   if (empty($bookmarks)) {
     simplevar_set('ding_list_import_bookmarks', $account->uid, TRUE);
   }
-  
+
   try {
     $list = ding_list_get_list(DING_LIST_TYPE_REMEMBER);
-    
+
     if ($list) {
       foreach ($bookmarks as $bookmark) {
         ding_list_create_ding_list_element($list, 'ting_object', array('value' => $bookmark->ding_entity_id), $account, FALSE);
       }
-      
+
       $list->save();
-      
+
       simplevar_set('ding_list_import_bookmarks', $account->uid, TRUE);
     }
   }
@@ -468,7 +472,7 @@ function ding_list_ding_user_consent_changed($consent) {
     }
     else {
       ding_list_reset_openlist_modified();
-      
+
       if (ding_provider_implements('openlist', 'user_identifier')) {
         if (ding_provider_invoke('openlist', 'user_identifier') !== FALSE) {
           // Synchronize with openlist.
@@ -578,7 +582,7 @@ function ding_list_secure_permissions($role) {
  */
 function ding_list_preprocess_entity(&$variables) {
   global $user;
-  
+
   if ($variables['entity_type'] == 'ding_type') {
     switch ($variables['ding_type']->type) {
       case 'ding_list':
@@ -726,8 +730,8 @@ function ding_list_preprocess_entity(&$variables) {
           // Display a teaser of the taxonomy term referred to.
           case 'taxonomy_term':
             $variables['page'] = TRUE;
-            
-            $title = ding_base_get_value('ding_type', $element, 'field_search_title');
+
+            $title = check_plain(ding_base_get_value('ding_type', $element, 'field_search_title'));
             $term = ding_list_get_taxonomy_term($title);
 
             $variables['content']['item'] = taxonomy_term_view($term, 'teaser');
@@ -776,10 +780,29 @@ function ding_list_get_taxonomy_term($id) {
  * Implements hook_list_mail().
  */
 function ding_list_mail($key, &$message, $params) {
+  global $user;
+
   switch ($key) {
     case 'share':
+      $username = $user->name;
+      if (isset($user->data)) {
+        if (is_string($user->data)) {
+          $data = unserialize($user->data);
+        }
+        else {
+          $data = $user->data;
+        }
+
+        if (!empty($data) && isset($data['display_name'])) {
+          $username = $data['display_name'];
+        }
+      }
+
       $list = $params['list'];
-      $message['subject'] = t('@user has shared a personal list with you at @library', array('@user' => ding_list_list_username($list), '@library' => ''));
+      $message['subject'] = t('@user has shared a personal list with you at @library', array(
+        '@user' => $username,
+        '@library' => variable_get('site_name', ''),
+      ));
       $message['body'][] = t('Please use the following link to access this list.
 The link is active for 7 days from today, after which it will be disabled for security reasons.
 
@@ -845,13 +868,13 @@ function ding_list_preprocess_views_view_table(&$vars) {
   if ($view->name == 'ding_list_elements') {
     global $user;
     $account = $user;
-    
+
     // Set the title depending on the list type.
     $list = ding_list_get_list($view->args[0]);
     $operations = ding_list_list_operations();
     if (isset($operations[ding_base_get_value('ding_type', $list, 'field_list_type')]['_data'])) {
       $data = $operations[ding_base_get_value('ding_type', $list, 'field_list_type')]['_data'];
-      
+
       if (isset($data[$vars['title']])) {
         $vars['title'] = $data[$vars['title']];
       }
@@ -859,9 +882,9 @@ function ding_list_preprocess_views_view_table(&$vars) {
         $vars['title'] = $data['default_title'];
       }
     }
-    
+
     $dragging = ding_list_allowed($list, DING_LIST_OPERATION_SORT) && ding_list_user_has_access($list, 'edit', $account);
-    
+
     // Enable dragging.
     if ($dragging) {
       $vars['theme_hook_suggestions'][] = 'ding-list--views-view-table.tpl.php';
@@ -886,7 +909,7 @@ function ding_list_preprocess_views_view_table(&$vars) {
           $classes .= ' element-hidden';
         }
       }
-      
+
       if (isset($vars['field_classes']['delta'])) {
         foreach ($vars['field_classes']['delta'] as &$classes) {
           $classes .= ' element-hidden';
