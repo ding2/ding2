@@ -12,6 +12,10 @@ function ding_list_install() {
   $schema = array();
   ding_list_schema_alter($schema);
   db_add_field('users', 'openlist_modified', $schema['users']['fields']['openlist_modified']);
+
+  if (module_exists('ding_bookmark')) {
+    module_disable('ding_bookmark');
+  }
 }
 
 /**
