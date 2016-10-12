@@ -332,6 +332,7 @@ function ding_serendipity_lists_author_from_lists_serendipity_add($context) {
 
   // Random user list item.
   $ting_entity = ding_list_get_random_user_list_item();
+  
   // Fetch author.
   if ($ting_entity) {
     $author = $ting_entity->getCreators();

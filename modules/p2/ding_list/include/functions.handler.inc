@@ -51,7 +51,13 @@ function ding_list_get_list_by_element($element) {
  */
 function ding_list_get_lists($list_type = NULL, $account = NULL, $range = array(), $order_by = array('changed', 'DESC')) {
   if ($account === NULL) {
-    global $user;
+    
+    // Only authenticated users can have lists
+    if (!user_is_logged_in()) {
+      return FALSE;
+    }
+    
+    global $user;    
     $account = $user;
   }
 
