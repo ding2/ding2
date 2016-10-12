@@ -14,10 +14,8 @@ profiler_v2('ding2');
  *
  * Allows the profile to alter the site configuration form.
  */
-if (!function_exists("system_form_install_configure_form_alter")) {
-  function system_form_install_configure_form_alter(&$form, $form_state) {
-    $form['site_information']['site_name']['#default_value'] = 'ding2';
-  }
+function ding2_form_install_configure_form_alter(&$form, $form_state) {
+  $form['site_information']['site_name']['#default_value'] = $_SERVER['SERVER_NAME'];
 }
 
 /**
