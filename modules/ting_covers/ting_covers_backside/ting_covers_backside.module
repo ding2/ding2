@@ -1,0 +1,96 @@
+<?php
+/**
+ * @file
+ *  Backside functionality.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ting_covers_backside_menu() {
+  $items = array();
+
+  $items['ting/covers/backside'] = array(
+    'title' => 'Retreives backside cover for Ting objects',
+    'page callback' => 'ting_covers_backside_objects',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ting_covers_backside_theme($existing, $type, $theme, $path) {
+  return array(
+    'ting_object_backside_wrapper' => array(
+      'render element' => 'elements',
+      'template' => 'templates/ting-covers-backside',
+      'variables' => array(
+        'local_id' => NULL,
+      ),
+    ),
+    'ting_object_backside_data' => array(
+      'template' => 'templates/ting-covers-backside-data',
+      'variables' => array(
+        'local_id' => NULL,
+        'backside_uri' => NULL,
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ting_covers_backside_preprocess_field(&$variables) {
+  if ($variables['element']['#field_type'] == 'ting_cover') {
+    $js_file = drupal_get_path('module', 'ting_covers_backside') . '/js/ting_covers_backside.js';
+    $variables['items'][0]['#attached']['js'][] = $js_file;
+  }
+}
+
+/**
+ * Menu callback to get backside cover information.
+ */
+function ting_covers_backside_objects() {
+  module_load_include('pages.inc', 'ting_covers');
+  $cover_data = $_POST['coverData'];
+  $backside_files = array();
+  foreach ($cover_data as $item) {
+    $file = ting_covers_object_path($item['local_id'], 'backpage');
+    if (file_exists($file)) {
+      $backside_files[$item['local_id']]['image_style'] = 'backpage';
+      $backside_files[$item['local_id']]['local_id'] = $item['local_id'];
+      $backside_files[$item['local_id']]['urls']['backpage'] = file_create_url($file);
+    }
+  }
+
+  if (empty($backside_files)) {
+    $backside_files = ting_covers_objects(TRUE, $cover_data);
+  }
+
+  $result = array();
+  foreach ($backside_files as $local_id => $backside_file) {
+    $link_attr = array(
+      'attributes' => array(
+        'class' => array('cover-back', 'reveal-cover'),
+        'title' => t('See large back cover image', array(), array('context' => 'ting_covers')),
+        'aria-label' => t('See large back cover image', array(), array('context' => 'ting_covers')),
+        'data-reveal-id' => 'reveal-cover-back-' . $local_id,
+      )
+    );
+    $result[$local_id]['link'] = l('', '/', $link_attr);
+    $result[$local_id]['popup']['wrapper'] = theme('ting_object_backside_wrapper', array('local_id' => $local_id));
+    $result[$local_id]['popup']['data'] = theme('ting_object_backside_data', array(
+      'local_id' => $local_id,
+      'backside_uri' => $backside_file['urls']['backpage'],
+    ));
+
+  }
+
+  drupal_json_output($result);
+  drupal_exit();
+}
