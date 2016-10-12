@@ -809,7 +809,7 @@ function ding_list_ding_interaction_info() {
  */
 function ding_list_ding_interaction_view() {
   $user_lists = ding_list_get_list(DING_LIST_TYPE_USER_LIST);
-  if (true || empty($user_lists)) {
+  if (empty($user_lists)) {
     $interaction = array(
       '#theme' => 'ding_list_promote_lists',
     );
