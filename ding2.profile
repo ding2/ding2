@@ -23,19 +23,6 @@ if (!function_exists("system_form_install_configure_form_alter")) {
 /**
  * Implements hook_form_alter().
  *
- * Select the current install profile by default.
- */
-if (!function_exists("system_form_install_select_profile_form_alter")) {
-  function system_form_install_select_profile_form_alter(&$form, $form_state) {
-    foreach ($form['profile'] as $key => $element) {
-      $form['profile'][$key]['#value'] = 'ding2';
-    }
-  }
-}
-
-/**
- * Implements hook_form_alter().
- *
  * Remove #required attribute for form elements in the installer
  * as they prevent the install profile from being run using drush
  * site-install.
