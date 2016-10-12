@@ -16,6 +16,12 @@ profiler_v2('ding2');
  */
 function ding2_form_install_configure_form_alter(&$form, $form_state) {
   $form['site_information']['site_name']['#default_value'] = $_SERVER['SERVER_NAME'];
+
+  $form['server_settings']['site_default_country']['#default_value'] = 'DK';
+  $form['server_settings']['date_default_timezone']['#default_value'] = 'Europe/Copenhagen';
+  // Remove the timezone-detect class to stop auto detection (which guesses
+  // Berlin, not Copenhagen).
+  unset($form['server_settings']['date_default_timezone']['#attributes']);
 }
 
 /**
