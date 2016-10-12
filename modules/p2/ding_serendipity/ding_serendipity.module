@@ -280,7 +280,7 @@ function ding_serendipity_fetch(array $context = NULL) {
   $is_slow = FALSE;
   $count = 0;
   $slow_timeout = variable_get('ding_serendipity_isslow_timeout', 10);
-
+  
   // Collect serendipity from each weight pool of plugins.
   foreach ($ordered_info as $weight => $plugin) {
     // Stop consecutive collection when max has been reached.
@@ -294,6 +294,7 @@ function ding_serendipity_fetch(array $context = NULL) {
 
     // Collect serendipity from each weight pool of plugins.
     foreach ($plugin as $name => $values) {
+
       // Skip additional serendipity hooks if we have spent too much time.
       if (ding_serendipity_isslow('serendipity', $slow_timeout)) {
         $is_slow = TRUE;

@@ -42,7 +42,7 @@ function ding_serendipity_fallback_ting_object_serendipity_add($context) {
 
   if (!empty($query)) {
     try {
-      $results = ding_serendipity_do_search($query);
+      $results = ding_serendipity_do_search($query,array('limit' => 8));
     }
     catch (Exception $e) {
       watchdog_exception('ding_serendipity_fallback', $e);
