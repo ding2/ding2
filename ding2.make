@@ -399,7 +399,7 @@ projects[ask_vopros][type] = "module"
 projects[ask_vopros][subdir] = "contrib"
 projects[ask_vopros][download][type] = "git"
 projects[ask_vopros][download][url] = "git@github.com:vopros-dk/ask_vopros.git"
-projects[ask_vopros][download][tag] = "1.4"
+projects[ask_vopros][download][tag] = "1.5"
 
 projects[xautoload][subdir] = "contrib"
 projects[xautoload][version] = "5.7"
