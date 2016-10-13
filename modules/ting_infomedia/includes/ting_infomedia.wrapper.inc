@@ -121,7 +121,14 @@ function ting_infomedia_check_review($id, $id_is_isbn = FALSE) {
 function ting_infomedia_add_user_creds(TingClientInfomediaRequest $request) {
   try {
     $creds = ding_user_get_creds();
-    $request->setUser($creds['name']);
+
+    if(isset($creds['library_card_number'])){
+      $userid = $creds['library_card_number'];
+    }
+    else{
+      $userid = $creds['name'];
+    }
+    $request->setUser($userid);
     $request->setPin($creds['pass']);
     if ($agency = variable_get('ting_agency', FALSE)) {
       $request->setAgency($agency);
