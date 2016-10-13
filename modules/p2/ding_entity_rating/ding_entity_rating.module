@@ -67,12 +67,8 @@ function ding_entity_rating_access($account) {
 /**
  * Add to list callback.
  *
- * @param bool $ajax
- *   If it's an ajax call or not.
  * @param object $entity
  *   The ting object to rate.
- * @param object $account
- *   The user account.
  * @param int $rating
  *   The given rating / weight.
  */
@@ -83,20 +79,26 @@ function ding_entity_rating_add_to_list_callback($entity, $rating) {
   
   // Grabbed from ding_reservation_reserve_ajax()
   if (!user_is_logged_in()) {
-    // Trigger log-in (the reservation link will be triggered on success).
+    // Trigger log-in (the link will be triggered on success).
     $commands[] = ajax_command_ding_user_authenticate('');
   }
   elseif (!ding_user_is_provider_user($user)) {
     // Error not library user.
-    $commands[] = ajax_command_ding_popup('ding_reservation', t('Error'), '<p>' . t('Only library user can make reservations.') . '</p>');
+    $commands[] = ajax_command_ding_popup('ding_reservation', t('Error'), '<p>' . t('Only provider users can rate materials.') . '</p>');
   }
   else {
     ding_entity_rating_add_to_list($entity, $user, $rating);
     
+    $message = array(
+      '#theme' => 'ding_entity_rating_thank_you',
+      '#prefix' => '<p>',
+      '#suffix' => '</p>',
+    );
+    
     $commands[] = ajax_command_ding_popup(
       'ding_reservation',
       t('Rated'), 
-      '<p>' . theme('ding_entity_rating_thank_you') . '</p>'
+      drupal_render($message)
     );
   }
   

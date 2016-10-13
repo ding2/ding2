@@ -70,8 +70,7 @@
       var $this = $(this),
         _path = $this.parent().attr('data-ding-entity-rating-path'),
         _index = $this.index() + 1,
-        
-        url = '/ding_entity_rating/' + _path + '/' + _index,
+        url = Drupal.settings.basePath + 'ding_entity_rating/' + _path + '/' + _index,
         $dummy = $('<a href="' + url + '"></a>'),
         drupal_ajax = new Drupal.ajax('fake', $dummy, {
           url: url,
@@ -91,7 +90,7 @@
       
       drupal_ajax.beforeSerialize(drupal_ajax.element, drupal_ajax.options);
       
-      $.ajax(drupal_ajax.options)
+      $.ajax(drupal_ajax.options);
       
       return;
     },
