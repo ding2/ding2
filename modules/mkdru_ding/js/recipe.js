@@ -25,7 +25,9 @@ Drupal.mkdruProcessExternalUrl = function (url) {
  * @returns {*}
  */
 function ting_proxy(data) {
-  var url = new URL(data);
+  var url = document.createElement("a");
+  url.href = data;
+
   var ting_proxy = Drupal.settings.mkdru_ding.proxy_settings;
 
   if (ting_proxy.length > 0 && ting_proxy.hostnames.length > 0) {
