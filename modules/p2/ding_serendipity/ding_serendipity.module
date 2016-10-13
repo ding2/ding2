@@ -895,7 +895,7 @@ function ding_serendipity_form_base_submit(&$form_state) {
  *
  * @param array $list
  *   Serendipity result to be altered.
- * @param $excludes
+ * @param mixed $excludes
  *   Array or id of material(s) to exclude.
  */ 
 function ding_serendipity_exclude(&$list, $excludes) {
