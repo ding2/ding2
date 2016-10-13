@@ -91,7 +91,16 @@
 <article class="news">
   <header class="page-header">
     <div class="image-container">
-      <?php print render($content['field_ding_news_title_image']); ?>
+      <?php
+        $img_to_show = (isset($content['field_ding_news_image_carousel']) && !empty($content['field_ding_news_image_carousel'])) ?
+          $content['field_ding_news_image_carousel'] :
+          $content['field_ding_news_title_image'];
+      ?>
+      <?php print render($img_to_show); ?>
+      <?php
+        hide($content['field_ding_news_image_carousel']);
+        hide($content['field_ding_news_title_image']);
+      ?>
     </div>
     <div class="super-heading">
       <span class="news-category label"><?php print render($content['field_ding_news_category']); ?></span>
