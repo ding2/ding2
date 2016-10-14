@@ -50,13 +50,19 @@
           height: 100%;
           content: "";
           background: linear-gradient($charcoal 0%, $charcoal-opacity-light 60%, transparent 100%);
+
+          // No overlay - when overlay is disabled in theme settings
+          @at-root .no-overlay#{&} {
+            background: transparent;
+          }
         }
       }
       .group_text {
         @include transition(
           left $speed $ease,
           width $speed $ease,
-          background $speed $hover-delay $ease
+          background $speed $hover-delay $ease,
+          opacity $speed $hover-delay $ease
         );
         position: absolute;
         top: 0;
@@ -66,6 +72,11 @@
 
         .touch & {
           pointer-events: none;
+        }
+
+        // No overlay - when overlay is disabled in theme settings
+        @at-root .no-overlay#{&} {
+          opacity: 0;
         }
       }
       .field-name-ting-details-type {
@@ -139,7 +150,8 @@
               left $speed $hover-delay $ease,
               width $speed-fast $hover-delay $ease,
               background $speed $ease,
-              box-shadow $speed $hover-delay $ease
+              box-shadow $speed $hover-delay $ease,
+              opacity $speed $ease
             );
             z-index: 10;
             width: getColumn(3 of 2);
@@ -157,6 +169,16 @@
               color $speed $ease
             );
             opacity: 1;
+          }
+        }
+      }
+      // No overlay - when overlay is disabled in theme settings
+      @at-root .no-overlay#{&} {
+        &:hover {
+          .no-touch & {
+            .group-text {
+              opacity: 1;
+            }
           }
         }
       }

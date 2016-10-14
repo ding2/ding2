@@ -853,6 +853,11 @@ function ddbasic_preprocess_ting_object(&$vars) {
 
           }
 
+          // Check if overlay is disabled and set class
+          if (ddbasic_theme_setting('ting_object_disable_overlay', false) == TRUE) {
+            $vars['classes_array'][] = 'no-overlay';
+          }
+
           break;
       }
       break;
@@ -1004,7 +1009,6 @@ function ddbasic_preprocess_material_item(&$variables) {
   //$variables['information']['ting_object_url_object']['#visibility'] = 'hidden';
 
   unset($variables['information']['ting_object_url_object']);
-
 }
 
 /**
