@@ -196,7 +196,7 @@ function ding_serendipity_lists_ting_objects_adhl_serendipity_add($context) {
   // 4 Forces the load not to explode.
   $list = ding_list_get_list(DING_LIST_TYPE_LOAN_HISTORY);
 
-  if (empty($lit)) {
+  if (empty($list)) {
     return $results;
   }
 
