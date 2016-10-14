@@ -82,7 +82,7 @@ function ting_openlist_settings_form($form, &$form_state) {
     '#default_value' => variable_get('ting_openlist_developer', FALSE),
   );
 
-  // Stats
+  // Statistics.
   $form['stats'] = array(
     '#type' => 'fieldset',
     '#title' => t('Statistics'),
@@ -93,14 +93,17 @@ function ting_openlist_settings_form($form, &$form_state) {
     '#value' => t('Fetch statistics'),
     '#ajax' => array(
       'wrapper' => 'show-stats-container',
-      'callback' => 'ting_openlist_show_stats_form_callback'
+      'callback' => 'ting_openlist_show_stats_form_callback',
     ),
-    '#suffix' => '<div id="show-stats-container"></div>'
+    '#suffix' => '<div id="show-stats-container"></div>',
   );
 
   return system_settings_form($form);
 }
 
+/**
+ * Callback for satistics.
+ */
 function ting_openlist_show_stats_form_callback($form, &$form_state) {
   $out = array();
 
@@ -121,7 +124,7 @@ function ting_openlist_show_stats_form_callback($form, &$form_state) {
     '#suffix' => '</div>',
   );
 
-  // Machine names to readable text
+  // Machine names to readable text.
   $m2r = array(
     'books_read' => t("Books I've read"),
     'follow' => t('Subjects I follow'),
@@ -138,19 +141,32 @@ function ting_openlist_show_stats_form_callback($form, &$form_state) {
 
   $table = array(
     '#caption' => t('Lists'),
-    '#header' => array(t('List type'), t('Machine name'), t('List count'), t('Element count')),
+    '#header' => array(
+      t('List type'),
+      t('Machine name'),
+      t('List count'),
+      t('Element count'),
+    ),
     '#rows' => array(),
   );
 
   $stats = ding_provider_invoke('openlist', 'call_module', 'ListStats', 'lists');
   foreach ($stats as $list_type => $counts) {
     if (isset($m2r[$list_type])) {
-      $table['#rows'][] = array($m2r[$list_type], $list_type, $counts['lists'], $counts['elements']);
+      $table['#rows'][] = array(
+        $m2r[$list_type],
+        $list_type,
+        $counts['lists'],
+        $counts['elements'],
+      );
     }
     else {
       $table['#rows'][] = array(
         'style' => 'opacity: 0.5',
-        'data' => array(t('@list_type (unsupported)', array('@list_type' => $list_type)), $counts['lists'], $counts['elements'])
+        'data' => array(
+          t('@list_type (unsupported)', array('@list_type' => $list_type)),
+          $counts['lists'], $counts['elements'],
+        ),
       );
     }
   }
