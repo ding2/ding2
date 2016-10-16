@@ -400,6 +400,8 @@ projects[ask_vopros][subdir] = "contrib"
 projects[ask_vopros][download][type] = "git"
 projects[ask_vopros][download][url] = "git@github.com:vopros-dk/ask_vopros.git"
 projects[ask_vopros][download][tag] = "1.4"
+; Fix browser incompatilities. Included in 1.5.
+projects[ask_vopros][patch][] = https://github.com/vopros-dk/ask_vopros/pull/2.patch
 
 projects[xautoload][subdir] = "contrib"
 projects[xautoload][version] = "5.7"
