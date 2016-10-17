@@ -74,7 +74,7 @@ function ding_mkws_field_widget_form(&$form, &$form_state, $field, $instance, $l
         '#attributes' => array('placeholder' => t('Type in your term(s) here...')),
       );
 
-      $options = _ding_mkws_process_resources();
+      $options = _ding_mkws_get_processed_resources();
       $element['wrapper']['resources'] = array(
         '#type' => 'select',
         '#title' => t('Resources:'),

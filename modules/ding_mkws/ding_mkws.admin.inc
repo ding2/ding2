@@ -90,6 +90,12 @@ function ding_mkws_widget_settings_form($form, $form_state) {
   $settings = variable_get('ding_mkws_global', array());
 
   $resources = _ding_mkws_process_resources();
+  $options = array();
+  foreach ($settings['resources']['values'] as $value) {
+    if ($value) {
+      $options[$value] = $resources[$value];
+    }
+  }
   $form['resources'] = array(
     '#type' => 'fieldset',
     '#collapsible' => FALSE,
@@ -97,7 +103,7 @@ function ding_mkws_widget_settings_form($form, $form_state) {
   );
   $form['resources']['values'] = array(
     '#type' => 'checkboxes',
-    '#options' => $resources,
+    '#options' => $options,
     '#default_value' => !empty($settings['resources']['values']) ? $settings['resources']['values'] : array(),
   );
 
@@ -107,25 +113,13 @@ function ding_mkws_widget_settings_form($form, $form_state) {
     '#title' => t('OPAC'),
   );
 
-  /**
-   * Keys of the array $items represent name of the page manager tasks
-   *
-   * They are created during module install.
-   * @see _ding_mkws_create_pane.
-   */
-  $items = array(
-    'search' => t('Search result'),
-    'ting_collection' => t('Collection view'),
-    'ting_object' => t('Item page'),
-  );
-
+  $items = variable_get('ding_mkws_panes', array());
   foreach ($items as $key => $title) {
     $form['opac'][$key] = array(
       '#type' => 'fieldset',
       '#collapsible' => FALSE,
       '#title' => $title,
     );
-
     $form['opac'][$key]['show'] = array(
       '#type' => 'checkbox',
       '#title' => t('Show the widget on @item', array('@item' => drupal_strtolower($title))),
@@ -139,10 +133,16 @@ function ding_mkws_widget_settings_form($form, $form_state) {
       '#element_validate' => array('element_validate_integer_positive'),
     );
 
+    $options = array();
+    foreach ($settings['resources']['values'] as $value) {
+      if ($value) {
+        $options[$value] = $resources[$value];
+      }
+    }
     $form['opac'][$key]['resources'] = array(
       '#type' => 'select',
       '#multiple' => TRUE,
-      '#options' => $resources,
+      '#options' => $options,
       '#title' => t("LBR's to search for this widget"),
       '#default_value' => !empty($settings['opac'][$key]['resources']) ? $settings['opac'][$key]['resources'] : NULL,
     );
@@ -152,6 +152,7 @@ function ding_mkws_widget_settings_form($form, $form_state) {
     '#type' => 'submit',
     '#value' => t('Save'),
   );
+
   return $form;
 }
 

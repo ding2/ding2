@@ -37,7 +37,7 @@ function ding_mkws_panel_widget_edit_form($form, &$form_state) {
     '#description' => t('Amount of items to display.'),
   );
 
-  $resources = _ding_mkws_process_resources();
+  $resources =_ding_mkws_get_processed_resources();
   $form['resources'] = array(
     '#type' => 'select',
     '#title' => t('Resources:'),
