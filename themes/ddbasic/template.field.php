@@ -124,6 +124,10 @@ function preprocess__field__ting_abstract(&$vars) {
       $text = $vars['items'][0]['#markup'];
       $vars['items'][0]['#markup'] = mb_strimwidth($text, 0, 120, "...");
       break;
+    case 'ting_reference_preview':
+      $text = $vars['items'][0]['#markup'];
+      $vars['items'][0]['#markup'] = mb_strimwidth($text, 0, 120, "...");
+      break;
   }
 }
 
