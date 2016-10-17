@@ -1,6 +1,16 @@
 <?php
 
 /**
+ * Implements hook_entity_info_alter().
+ */
+function ding_ddbasic_entity_info_alter(&$entity_info) {
+  $entity_info['node']['view modes']['alternative_layout_full'] = array(
+    'label' => t('Alternative layout full'),
+    'custom settings' => TRUE,
+  );
+}
+
+/**
  * Implements hook_ding_entity_buttons().
  *
  * - Add other formats button.
