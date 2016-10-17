@@ -222,7 +222,7 @@ function ding_serendipity_fetch(array $context = NULL) {
     }
 
     // Prefix cid with uid for per-user serendipity cache clear.
-    $user_key = isset($context['current-user']) ? ("_" . $context['current-user']) . "_" : "";
+    $user_key = isset($context['current-user']) ? "_" . $context['current-user'] . "_" : "";
     $cache_id = "ding_serendipity" . $user_key . implode(':', $cache_id);
     
     $cache = cache_get($cache_id);
@@ -357,11 +357,7 @@ function ding_serendipity_fetch(array $context = NULL) {
  * @param int $uid
  *   The user uid.
  */
-function ding_serendipity_user_cache_clear($uid=NULL) {
-  if ($uid === NULL) {
-    $uid = $GLOBALS['user']->uid;
-  }
-
+function ding_serendipity_user_cache_clear($uid) {
   cache_clear_all("ding_serendipity_" . $uid . "_", "cache", TRUE);
 }
 
@@ -369,8 +365,8 @@ function ding_serendipity_user_cache_clear($uid=NULL) {
  * Flush serendipity cache of current user if list elements change.
  */
 function ding_serendipity_entity_presave($entity, $type) {
-  if (isset($entity->type) && $entity->type == "ding_list_element" && user_is_logged_in()) {
-    ding_serendipity_user_cache_clear();
+  if (isset($entity->type) && $entity->type == "ding_list_element" && user_is_logged_in() && isset($entity->uid)) {
+    ding_serendipity_user_cache_clear($entity->uid);
   }
 }
 
