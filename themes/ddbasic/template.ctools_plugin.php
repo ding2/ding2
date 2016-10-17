@@ -11,6 +11,9 @@ function ddbasic_ctools_plugin_pre_alter(&$plugin, &$info) {
   }
 }
 
+/**
+ * @TODO Missing description
+ */
 function ddbasic_ctools_plugin__ting_search_result_count_content_type_render($subtype, $conf, $panel_args, $context) {
   $block = new stdClass();
 

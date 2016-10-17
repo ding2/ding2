@@ -7,7 +7,6 @@
  * - $object: The TingClientObject instance we're rendering.
  * - $content: Render array of content.
  */
- //dpm($content);
 ?>
 <div class="<?php print $classes; ?> list-item-style clearfix"<?php print $attributes; ?>>
   <div class="inner">

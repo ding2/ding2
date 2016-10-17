@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * @TODO Missing description
+ */
 function ddbasic_block_view_alter(&$data, $block) {
 
   switch ($block->module . '__' . $block->delta) {

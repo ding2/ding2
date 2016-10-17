@@ -1,3 +1,8 @@
+<?php
+/**
+ * @TODO Missing comments
+ */
+?>
 <div id="page<?php print $css_id ? " $css_id" : ''; ?>" class="<?php print $classes; ?>">
   <?php if (!empty($content['branding']) || !empty($content['header']) || !empty($content['navigation'])): ?>
     <header class="site-header">

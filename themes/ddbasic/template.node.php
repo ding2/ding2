@@ -46,7 +46,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
         $variables['ddbasic_event_location'] = $variables['content']['og_group_ref'];
       }
     }
-
+    // @TODO Remove unused code
     // Add event date to variables. A render array is created based on the date
     // format "date_only".
     //$event_date_ra = field_view_field('node', $variables['node'], 'field_ding_event_date', array(
@@ -77,6 +77,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     $variables['theme_hook_suggestions'][] = 'node__view_mode__' . $variables['view_mode'];
   }
 
+  // @TODO Remove unused code
   // Add "read more" links to event, news and e-resource in search result view
   // mode.
   //
@@ -186,6 +187,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
 }
 
 /**
+ * @TODO Use proper naming convention for custom functions (ddbasic_ prefix)
  * Ding news
  */
 function preprocess__node__ding_news(&$variables) {
@@ -284,6 +286,7 @@ function preprocess__node__ding_news(&$variables) {
 }
 
 /**
+ * @TODO Use proper naming convention for custom functions (ddbasic_ prefix)
  * Ding event
  */
 function preprocess__node__ding_event(&$variables) {
@@ -397,6 +400,7 @@ function preprocess__node__ding_event(&$variables) {
 }
 
 /**
+ * @TODO Use proper naming convention for custom functions (_ddbasic_ prefix)
  * Ding Library
  */
 function preprocess__node__ding_library(&$variables) {
@@ -418,6 +422,7 @@ function preprocess__node__ding_library(&$variables) {
 }
 
 /**
+ * @TODO Use proper naming convention for custom functions (ddbasic_ prefix)
  * Ding Group
  */
 function preprocess__node__ding_group(&$variables) {

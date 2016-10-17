@@ -60,20 +60,6 @@ function ddbasic_preprocess_field(&$vars, $hook) {
   if ($view_mode == 'search_result') {
     // Add suggestion that only hits the search result page.
     $vars['theme_hook_suggestions'][] = 'field__' . $vars['element']['#field_type'] . '__' . $view_mode;
-
-    // @B14 Outcommented by B14
-    //
-    //switch ($vars['element']['#field_name']) {
-    //  case 'ting_author':
-    //  case 'ting_abstract':
-    //  case 'ting_subjects':
-    //    $vars['classes_array'] = array('content');
-    //    break;
-    //
-    //  case 'ting_title':
-    //    $vars['classes_array'] = array('heading');
-    //    break;
-    //}
   }
 
 
@@ -112,6 +98,7 @@ function ddbasic_preprocess_field(&$vars, $hook) {
 }
 
 /**
+ * @TODO Wrong function name prefix with theme name.
  * Ting abstract
  */
 function preprocess__field__ting_abstract(&$vars) {
@@ -132,6 +119,7 @@ function preprocess__field__ting_abstract(&$vars) {
 }
 
 /**
+ * @TODO Wrong function name prefix with theme name.
  * Ting author
  */
 function preprocess__field__ting_author(&$vars) {
@@ -172,6 +160,7 @@ function preprocess__field__ting_author(&$vars) {
 }
 
 /**
+ * @TODO Wrong function name prefix with theme name.
  * Ding library list image
  */
 function preprocess__field__field_ding_library_title_image(&$vars) {
@@ -182,6 +171,7 @@ function preprocess__field__field_ding_library_title_image(&$vars) {
 }
 
 /**
+ * @TODO Wrong function name prefix with theme name.
  * Ding news list image
  */
 function preprocess__field__field_ding_news_list_image(&$vars) {
@@ -190,6 +180,7 @@ function preprocess__field__field_ding_news_list_image(&$vars) {
 }
 
 /**
+ * @TODO Wrong function name prefix with theme name.
  * Ding news attachments
  */
 function preprocess__field__field_ding_news_files(&$vars) {

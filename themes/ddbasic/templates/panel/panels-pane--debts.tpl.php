@@ -1,6 +1,6 @@
 <?php
 /**
- * @file panels-pane.tpl.php
+ * @file
  * Main panel pane template
  *
  * Variables available:
@@ -18,9 +18,7 @@
  *
  * Changed: Add t() function to pane title.
  */
-
 ?>
-
 <?php if ($pane_prefix): ?>
   <?php print $pane_prefix; ?>
 <?php endif; ?>

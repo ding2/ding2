@@ -1,3 +1,8 @@
+<?php
+/**
+ * @TODO Missing description
+ */
+?>
 <article class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <a href="<?php print $node_url; ?>">
     <?php print $news_teaser_image; ?>
