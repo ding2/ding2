@@ -210,7 +210,49 @@ function preprocess__node__ding_news(&$variables) {
           </div>
         </div>
       ';
-      $variables['share_button'] = $share;
+      $share_button = array(
+        '#theme' => 'field',
+        '#selected_theme_hook' => 'simple',
+        '#field_name' => 'share_button',
+        '#field_type' => 'fake',
+        '#label_display' => 'hidden',
+        '#bundle' => 'fake',
+        '#items' => array('0' => $share),
+        '0' => array('#markup' => $share),
+        '#weight' => 1,
+      );
+      $variables['content']['group_right']['share_button'] = $share_button;
+
+    break;
+    case 'alternative_layout_full':
+      array_push($variables['classes_array'], 'node-full', 'alternative-layout-full');
+
+      //Make social-share button
+      $share = '
+        <div class="social-share-container">
+          <div class="inner">
+            <div class="label">' . t('Share this news') . '</div>
+            <div class="share-buttons">
+              <a href="#" class="fb-share">Facebook</a>
+              <a href="#" class="twitter-share">Twitter</a>
+              <a href="#" class="mail-share">E-mail</a>
+            </div>
+          </div>
+        </div>
+      ';
+      $share_button = array(
+        '#theme' => 'field',
+        '#selected_theme_hook' => 'simple',
+        '#field_name' => 'share_button',
+        '#field_type' => 'fake',
+        '#label_display' => 'hidden',
+        '#bundle' => 'fake',
+        '#items' => array('0' => $share),
+        '0' => array('#markup' => $share),
+        '#weight' => 2,
+      );
+      $variables['content']['group_left']['share_button'] = $share_button;
+
     break;
     case 'teaser':
 

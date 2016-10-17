@@ -782,6 +782,8 @@ function ddbasic_preprocess_ting_object(&$vars) {
       $vars['ting_object_url_object'] = url($uri_object['path']);
 
       switch ($vars['elements']['#view_mode']) {
+
+        // Teaser
         case 'teaser':
           $vars['content']['group_text']['read_more_button'] = array(
             array(
@@ -859,6 +861,86 @@ function ddbasic_preprocess_ting_object(&$vars) {
           }
 
           break;
+
+        // Ting reference preview
+        case 'ting_reference_preview':
+          $vars['content']['buttons'] = array(
+            '#prefix' => '<div class="buttons">',
+            '#suffix' => '</div>',
+            '#weight' => 9999,
+          );
+          $vars['content']['buttons']['read_more_button'] = array(
+            array(
+              '#theme' => 'link',
+              '#text' => t('Read more'),
+              '#path' => $uri_object['path'],
+              '#options' => array(
+                'attributes' => array(
+                  'class' => array(
+                    'action-button',
+                    'read-more-button',
+                  ),
+                ),
+                'html' => FALSE,
+              ),
+            ),
+            '#weight' => 9998,
+          );
+
+          if ($vars['object']->is('reservable')) {
+
+            drupal_add_library('system', 'drupal.ajax');
+
+            $vars['content']['buttons']['reserve_button'] = array(
+              array(
+                '#theme' => 'link',
+                '#text' => t('Reserve'),
+                '#path' => 'ting/object/' . $vars['object']->id . '/reserve',
+                '#options' => array(
+                  'attributes' => array(
+                    'class' => array(
+                      'action-button',
+                      'reserve-button',
+                      'use-ajax',
+                    ),
+                    'id' => 'reservation-' . $vars['object']->id,
+                  ),
+                  'html' => FALSE,
+                ),
+              ),
+              '#weight' => 9999,
+            );
+          }
+          if ($vars['object']->online_url) {
+
+            $settings = variable_get('ting_url_labels', _ting_default_url_labels());
+            $type = drupal_strtolower($vars['object']->type);
+            $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
+
+            $vars['content']['buttons']['online_link'] = array(
+              array(
+                '#theme' => 'link',
+                '#text' => $label,
+                '#path' => $vars['object']->getOnline_url(),
+                '#options' => array(
+                  'attributes' => array(
+                    'class' => array(
+                      'action-button',
+                      'button-see-online',
+                    ),
+                    'target' => '_blank',
+                  ),
+                  'html' => FALSE,
+                  'external' => TRUE,
+                ),
+              ),
+              '#weight' => 9999,
+            );
+
+          }
+
+          break;
+
       }
       break;
   }

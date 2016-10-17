@@ -100,6 +100,61 @@
   }
 }
 
+.field-name-field-ding-news-materials {
+  width: 100%;
+  float: left;
+
+  // When placed directly after .inner in node ding news
+  .node-ding-news .inner > & {
+    padding-top: 20px;
+    .field-label {
+      @include font('header-large');
+      color: $color-text;
+      margin-bottom: 20px;
+      // Mobile
+      @include media($mobile) {
+        margin-bottom: 10px;
+      }
+    }
+    > .field-items {
+      > .field-item {
+        @include span-columns(3);
+        @include omega(4n);
+        margin-bottom: getGutter();
+        // Tablet
+        @include media($tablet) {
+          @include omega-reset(4n, 12);
+          @include span-columns(4);
+          @include omega(3n);
+        }
+        // Mobile
+        @include media($mobile) {
+          width: 100%;
+          margin-right: 0;
+        }
+      }
+    }
+  }
+
+  // When placed in group-right in node ding news
+  .group-right & {
+    @include span-columns(7 of 5);
+
+    // Tablet
+    @include media($tablet) {
+      width: 100%;
+    }
+    > .field-items {
+      > .field-item {
+        width: 100%;
+        float: left;
+        margin-bottom: 20px;
+      }
+    }
+  }
+
+}
+
 // ==========================================================================
 // Ting Carousel field
 // ==========================================================================
