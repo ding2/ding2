@@ -86,8 +86,12 @@ function _ding_mkws_create_pane() {
   ctools_include('plugins');
   ctools_get_plugins('page_manager', 'task_handlers', 'panel_context');
 
-  $task_names = array('search', 'ting_collection', 'ting_object');
-  foreach ($task_names as $task_name) {
+  $task_names = array(
+    'search' => t('Search result'),
+    'ting_collection' => t('Collection view'),
+    'ting_object' => t('Item page'),
+  );
+  foreach (array_keys($task_names) as $task_name) {
     $pane_id = 'new-ding_mkws_' . $task_name;
     $pane = ding_mkws_get_items_pane($pane_id, $task_name);
 
@@ -108,6 +112,8 @@ function _ding_mkws_create_pane() {
       }
     }
   }
+
+  variable_set('ding_mkws_panes', $task_names);
 }
 
 /**
