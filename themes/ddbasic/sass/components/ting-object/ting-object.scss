@@ -186,6 +186,94 @@
   }
 
   // ==========================================================================
+  // Ting reference preview
+  // ==========================================================================
+
+  &.view-mode-ting-reference-preview {
+    padding: 15px 0;
+    background-color: $grey;
+    > a.cover {
+      @include span-columns(2 of 7);
+      padding-left: 15px;
+
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(2 of 6);
+      }
+
+      // Mobile
+      @include media($mobile) {
+        @include span-columns(4);
+      }
+    }
+    > .group-text {
+      @include span-columns(3 of 7);
+
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(4 of 6);
+        margin-right: 0;
+        padding-right: 15px;
+      }
+
+      // Mobile
+      @include media($mobile) {
+        @include span-columns(8);
+        margin-right: 0;
+      }
+    }
+    > .buttons {
+      @include span-columns(2 of 7);
+      padding-right: 15px;
+
+      // Tablet
+      @include media($tablet) {
+        width: 100%;
+        padding: 0;
+        margin-top: 20px;
+      }
+      a {
+        width: 100%;
+        float: left;
+        display: block;
+        padding-right: 45px;
+
+        // Tablet
+        @include media($tablet) {
+          width: calc(50% - 20px);
+          &:first-child {
+            margin: 0 10px 0 15px;
+          }
+        }
+      }
+      .read-more-button {
+        @include button(arrow-right, $background-color: $grey-dark);
+        padding-right: 45px;
+        margin-bottom: 10px;
+        &::after {
+          color: $charcoal-opacity-dark;
+        }
+
+        // Tablet
+        @include media($tablet) {
+          width: calc(50% - 20px);
+        }
+      }
+    }
+    .field-name-ting-title {
+      h2 {
+        margin: 0;
+      }
+      a {
+        color: $black;
+      }
+    }
+    .field-name-ting-author {
+      margin-bottom: 10px;
+    }
+  }
+
+  // ==========================================================================
   // List item style
   // ==========================================================================
 
