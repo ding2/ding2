@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @TODO Variables list
+ * @TODO Variables list @b14 Alt er default variabler
  * @file
  * Default simple view template to display a list of rows.
  *

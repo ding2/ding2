@@ -1,6 +1,5 @@
 <?php
 /**
- * @TODO Wrong indent
  * @file
  * Main panel pane template
  *
@@ -18,13 +17,12 @@
  *   data including the contexts and all of the other panes being displayed.
  */
 ?>
-
-  <div class="user-menu js-topbar-user <?php print $classes; ?>">
-    <?php if ($admin_links): ?>
-      <?php print $admin_links; ?>
-    <?php endif; ?>
-    <?php if ($title): ?>
-      <h3 class="block-title"><?php print $title; ?></h3>
-    <?php endif ?>
-    <?php print render($content); ?>
-  </div>
+<div class="user-menu js-topbar-user <?php print $classes; ?>">
+  <?php if ($admin_links): ?>
+    <?php print $admin_links; ?>
+  <?php endif; ?>
+  <?php if ($title): ?>
+    <h3 class="block-title"><?php print $title; ?></h3>
+  <?php endif ?>
+  <?php print render($content); ?>
+</div>
