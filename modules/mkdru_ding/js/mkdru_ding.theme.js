@@ -70,9 +70,16 @@
       '<div class="ting-object clearfix">' +
       '<div class="ting-overview clearfix">' +
       '<div class="left-column left">' +
-      '<div class="picture"></div>' +
+      '<div class="picture">';
+
+    if (hit['md-thumburl']) {
+      html += '<img src="' + hit['md-thumburl'][0] + '" alt="' + hit['md-title'] + '" />'
+    }
+
+    html += '</div>' +
       '</div>' +
       '<div class="right-column left">';
+
     if (hit["md-author"]) {
       // expand on ; and reprint in the same form
       var authors = hit["md-author"][0].split(';');
@@ -101,7 +108,6 @@
       }
       html += '<a href="' + basePath + 'search/meta/' + specific_subject_field + dhit["md-subject"][dhit["md-subject"].length - 1] + '">' + dhit["md-subject"][dhit["md-subject"].length - 1] + '</a></p></div>';
     }
-    html += "</div>";
     if (hit["md-description"]) {
       // limit description to 600 characters
       var d = hit["md-description"][0];
@@ -118,6 +124,8 @@
       }
       html += '</span>';
     }
+
+    html += '</div>';
     html += '</div>';
     html += '</div>';
     html += '</div>';

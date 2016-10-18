@@ -90,12 +90,6 @@ function ding_mkws_widget_settings_form($form, $form_state) {
   $settings = variable_get('ding_mkws_global', array());
 
   $resources = _ding_mkws_process_resources();
-  $options = array();
-  foreach ($settings['resources']['values'] as $value) {
-    if ($value) {
-      $options[$value] = $resources[$value];
-    }
-  }
   $form['resources'] = array(
     '#type' => 'fieldset',
     '#collapsible' => FALSE,
@@ -103,7 +97,7 @@ function ding_mkws_widget_settings_form($form, $form_state) {
   );
   $form['resources']['values'] = array(
     '#type' => 'checkboxes',
-    '#options' => $options,
+    '#options' => $resources,
     '#default_value' => !empty($settings['resources']['values']) ? $settings['resources']['values'] : array(),
   );
 
