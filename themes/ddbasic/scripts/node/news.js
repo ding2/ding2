@@ -4,17 +4,19 @@
    */
   Drupal.behaviors.hover_view_ding_news_first_child_large = {
     attach: function(context, settings) {
-      if($('.is-mobile').is(':hidden')) { // @TODO change to ddbasic.breakpoint
-        var text_element_height;
-        $('.view-ding-news.first-child-large .views-row:first-child', context).mouseenter(function() {
+      var text_element_height;
+      $('.view-ding-news.first-child-large .views-row:first-child', context).mouseenter(function() {
+        if(!ddbasic.breakpoint.is('mobile')) {
           text_element_height = $(this).outerHeight() - $(this).find('.news-text').outerHeight();
           $(this).find('.field-name-field-ding-news-lead').height(text_element_height);
-        });
-        $('.view-ding-news.first-child-large .views-row:first-child', context).mouseleave(function() {
+        }
+      });
+      $('.view-ding-news.first-child-large .views-row:first-child', context).mouseleave(function() {
+        if(!ddbasic.breakpoint.is('mobile')) {
           $(this).find('.field-name-field-ding-news-lead').height(0);
-        });
-      }
+        }
+      });
     }
   };
-  
+
 })(jQuery);
