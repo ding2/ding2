@@ -2,7 +2,6 @@
 /**
  * @file
  *
- *
  * * Available variables:
  * - $tab_position: String with settings info, values: top,bottom,left,right.
  * - $searches: Array with each tab search.

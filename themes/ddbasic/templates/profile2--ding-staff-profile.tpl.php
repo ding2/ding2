@@ -36,14 +36,7 @@
 		<h1>
   		<?php print render($content['group_right']['field_ding_staff_forename']); ?>
   		<?php print render($content['group_right']['field_ding_staff_surname']); ?>
-		</h1>	
+		</h1>
 		<?php print render($content['group_right']); ?>
 	</div>
-  <?php
-    // @TODO Remove unused code.
-    // Hide name fields - they are present in the panel pane title.
-    //hide($content['field_ding_staff_forename']);
-    //hide($content['field_ding_staff_surname']);
-  ?>
-
 </div>
