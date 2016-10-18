@@ -1,8 +1,5 @@
 (function($) {
-  
-  
-  
-  
+
   $(function () {
     // Set height for event teasers
     var ding_event_teaser_height;
@@ -11,10 +8,10 @@
         ding_event_teaser_height = $(this).find('.inner').outerHeight();
         $(this).height(ding_event_teaser_height);
       });
-      
+
     });
   });
-  
+
   // Call resize function when images are loaded
   Drupal.behaviors.ding_event_teaser_loaded = {
     attach: function(context, settings) {
@@ -23,7 +20,7 @@
       });
     }
   };
-  
+
   // Hover functions for event teasers
   Drupal.behaviors.ding_event_teaser_hover = {
     attach: function(context, settings) {
@@ -45,6 +42,5 @@
       });
     }
   };
-  
-  
+
 })(jQuery);
