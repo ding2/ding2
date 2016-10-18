@@ -15,7 +15,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
 
   //
   // Call our own custom preprocess functions.
-  $function = 'preprocess__node__' . $variables['type'];
+  $function = 'ddbasic_preprocess__node__' . $variables['type'];
   if (function_exists($function)) {
     call_user_func_array($function, array(&$variables));
   }
@@ -46,103 +46,12 @@ function ddbasic_preprocess_node(&$variables, $hook) {
         $variables['ddbasic_event_location'] = $variables['content']['og_group_ref'];
       }
     }
-    // @TODO Remove unused code
-    // Add event date to variables. A render array is created based on the date
-    // format "date_only".
-    //$event_date_ra = field_view_field('node', $variables['node'], 'field_ding_event_date', array(
-    //  'label' => 'hidden',
-    //  'type' => 'date_default',
-    //  'settings' => array(
-    //    'format_type' => 'ding_date_only',
-    //    'fromto' => 'both',
-    //  ),
-    //));
-    //$variables['ddbasic_event_date'] = $event_date_ra[0]['#markup'];
-
-    // Add event time to variables. A render array is created based on the date
-    // format "time_only".
-    //$event_time_ra = field_view_field('node', $variables['node'], 'field_ding_event_date', array(
-    //  'label' => 'hidden',
-    //  'type' => 'date_default',
-    //  'settings' => array(
-    //    'format_type' => 'ding_time_only',
-    //    'fromto' => 'both',
-    //  ),
-    //));
-    //$variables['ddbasic_event_time'] = $event_time_ra[0]['#markup'];
   }
 
   // Add tpl suggestions for node view modes.
   if (isset($variables['view_mode'])) {
     $variables['theme_hook_suggestions'][] = 'node__view_mode__' . $variables['view_mode'];
   }
-
-  // @TODO Remove unused code
-  // Add "read more" links to event, news and e-resource in search result view
-  // mode.
-  //
-  // @B14 outcommentet
-  //if ($variables['view_mode'] == 'search_result') {
-  //
-  //  switch ($variables['node']->type) {
-  //    case 'ding_event':
-  //      $more_link = array(
-  //        '#theme' => 'link',
-  //        '#text' => '<i class="icon-chevron-right"></i>',
-  //        '#path' => 'node/' . $variables['nid'],
-  //        '#options' => array(
-  //          'attributes' => array(
-  //            'title' => $variables['title'],
-  //          ),
-  //          'html' => TRUE,
-  //        ),
-  //        '#prefix' => '<div class="event-arrow-link">',
-  //        '#surfix' => '</div>',
-  //        '#weight' => 6,
-  //      );
-  //
-  //      $variables['content']['group_right_col_search']['more_link'] = $more_link;
-  //      break;
-  //
-  //    case 'ding_news':
-  //      $more_link = array(
-  //        '#theme' => 'link',
-  //        '#text' => t('Read more'),
-  //        '#path' => 'node/' . $variables['nid'],
-  //        '#options' => array(
-  //          'attributes' => array(
-  //            'title' => $variables['title'],
-  //          ),
-  //          'html' => FALSE,
-  //        ),
-  //        '#prefix' => '<span class="news-link">',
-  //        '#surfix' => '</span>',
-  //        '#weight' => 6,
-  //      );
-  //
-  //      $variables['content']['group_right_col_search']['more_link'] = $more_link;
-  //      break;
-  //
-  //    case 'ding_eresource':
-  //      $more_link = array(
-  //        '#theme' => 'link',
-  //        '#text' => t('Read more'),
-  //        '#path' => 'node/' . $variables['nid'],
-  //        '#options' => array(
-  //          'attributes' => array(
-  //            'title' => $variables['title'],
-  //          ),
-  //          'html' => FALSE,
-  //        ),
-  //        '#prefix' => '<span class="eresource-link">',
-  //        '#surfix' => '</span>',
-  //        '#weight' => 6,
-  //      );
-  //
-  //      $variables['content']['group_right_col_search']['more_link'] = $more_link;
-  //      break;
-  //  }
-  //}
 
   // For search result view mode move title into left col. group.
   if (isset($variables['content']['group_right_col_search'])) {
@@ -187,10 +96,9 @@ function ddbasic_preprocess_node(&$variables, $hook) {
 }
 
 /**
- * @TODO Use proper naming convention for custom functions (ddbasic_ prefix)
  * Ding news
  */
-function preprocess__node__ding_news(&$variables) {
+function ddbasic_preprocess__node__ding_news(&$variables) {
 
   $variables['news_submitted'] = format_date($variables['created'], 'ding_date_only_version2');
   $variables['news_full_submitted'] = format_date($variables['created'], 'ding_date_and_time');
@@ -257,8 +165,6 @@ function preprocess__node__ding_news(&$variables) {
 
     break;
     case 'teaser':
-
-
       if (!empty($variables['field_ding_news_list_image'][0]['uri'])) {
         // Get image url to use as background image
         $uri = $variables['field_ding_news_list_image'][0]['uri'];
@@ -286,10 +192,9 @@ function preprocess__node__ding_news(&$variables) {
 }
 
 /**
- * @TODO Use proper naming convention for custom functions (ddbasic_ prefix)
  * Ding event
  */
-function preprocess__node__ding_event(&$variables) {
+function ddbasic_preprocess__node__ding_event(&$variables) {
   $date = field_get_items('node', $variables['node'], 'field_ding_event_date');
 
   $price = field_get_items('node', $variables['node'], 'field_ding_event_price');
@@ -400,10 +305,9 @@ function preprocess__node__ding_event(&$variables) {
 }
 
 /**
- * @TODO Use proper naming convention for custom functions (_ddbasic_ prefix)
  * Ding Library
  */
-function preprocess__node__ding_library(&$variables) {
+function ddbasic_preprocess__node__ding_library(&$variables) {
 
   // Google maps addition to library list
   $address = $variables['content']['group_ding_library_right_column']['field_ding_library_addresse'][0]['#address'];
@@ -422,10 +326,9 @@ function preprocess__node__ding_library(&$variables) {
 }
 
 /**
- * @TODO Use proper naming convention for custom functions (ddbasic_ prefix)
  * Ding Group
  */
-function preprocess__node__ding_group(&$variables) {
+function ddbasic_preprocess__node__ding_group(&$variables) {
   switch ($variables['view_mode']) {
     case 'teaser':
       $img_uri = $variables['field_ding_group_list_image'][0]['uri'];
@@ -442,7 +345,7 @@ function preprocess__node__ding_group(&$variables) {
 /**
  * Ding E-resource
  */
-function preprocess__node__ding_eresource(&$variables) {
+function ddbasic_preprocess__node__ding_eresource(&$variables) {
   switch ($variables['view_mode']) {
     case 'teaser':
       $variables['link_url'] = $variables['field_ding_eresource_link'][0]['url'];
