@@ -12,7 +12,7 @@ function ddbasic_ctools_plugin_pre_alter(&$plugin, &$info) {
 }
 
 /**
- * @TODO Missing description
+ * Render callback for the ting_search search_result_count pane.
  */
 function ddbasic_ctools_plugin__ting_search_result_count_content_type_render($subtype, $conf, $panel_args, $context) {
   $block = new stdClass();
@@ -26,8 +26,6 @@ function ddbasic_ctools_plugin__ting_search_result_count_content_type_render($su
         '#theme' => 'html_tag',
         '#tag' => 'h1',
         '#attributes' => array('class' => array('page-title')),
-        // '#prefix' => '<h1 class="page-title">',
-        // '#suffix' => '</h1>',
         '#value' => t('Search result')
       ),
       'string' => array(

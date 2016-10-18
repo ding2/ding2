@@ -76,21 +76,16 @@
  * ddbasic specific variables:
  * - $ddbasic_updated: Information about latest update on the node created from
  *   $date during ddbasic_preprocess_node().
- * - $ddbasic_ding_news_tags: Tags, as a comma-separated list of links with
- *   leading text "Tags: "
- * - $ddbasic_news_location: String containing address info for either
- *   field_address or group_audience,
- *   as relevant for the news node
  * - $ddbasic_byline: outputs byline to be used before $name
+ * - $news_full_submitted: Submitted date and time
+ * - $news_full_changed: Changed date and time
+ * - §news_submitted: Submitted date
  *
  * @see template_preprocess()
  * @see template_preprocess_node()
  * @see template_process()
  */
-
-hide($content['group_right']['field_ding_news_category']); ?>
-
-
+?>
 <article class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <div class="inner">
     <div class="right">
@@ -101,7 +96,7 @@ hide($content['group_right']['field_ding_news_category']); ?>
     	<?php print render($content['group_left']['field_ding_news_title_image']); ?>
     	<div class="section meta">
   			<div class="author"><?php print t("By"); ?> <?php print $name; ?></div>
-  			<div class="created"><?php print $news_full_submitted ?> (Opdateret <?php print $news_full_changed ?>)</div>
+  			<div class="created"><?php print $news_full_submitted ?> (<?php print t('Updated')?> <?php print $news_full_changed ?>)</div>
   		</div>
   		<?php print render($content['group_left']); ?>
   	</div>

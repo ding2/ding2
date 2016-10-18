@@ -1,7 +1,6 @@
 <?php
 
 /**
- * @TODO Cleanup line spacing
  * @file
  * DDBasic's theme implementation to display event nodes.
  *
@@ -78,23 +77,21 @@
  * - $ddbasic_updated: Information about latest update on the node created from
  *   $date during
  *   ddbasic_preprocess_node().
- * - $ddbasic_event_date: Event date or period, printed as date(s)
- * - $ddbasic_event_time: Event time, printed as time(s)
- * - $ddbasic_ding_event_tags: Tags, as a comma-separated list of links with
- *   leading text "Tags: "
  * - $ddbasic_event_location: String containing adress info for either
  *   field_address or group_audience,
  *   as relevant for the event node
  * - $ddbasic_byline: outputs byline to be used before $name
+ * - $event_date: Event date or period
+ * - $event_time: Event time or time-span
+ * - $event_price: Event price with 'kr.' suffix - if no price is set $event_price equals 'Free'
+ * - $book_button: Link to event-signup or event-tickets
+ * - $share_button: Share links for Facebook, Twitter and email
  *
  * @see template_preprocess()
  * @see template_preprocess_node()
  * @see template_process()
  */
  ?>
-
-
-
 <article class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <div class="inner">
     <div class="left">
@@ -118,9 +115,9 @@
       </div>
       <?php print render($content['group_left']); ?>
       <?php
-        if (!empty($book_button)) {
+        if (!empty($book_button)):
           print $book_button;
-        }
+        endif;
       ?>
     </div>
     <div class="right">
