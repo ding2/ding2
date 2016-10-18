@@ -9,15 +9,13 @@ class ExternalPatronApi extends SwaggerApi
 {
 
     /**
-     * Create a new patron.
+     * Create a new patron who is a person.
      *
      *
      *  When a patron doesn't have a patron account in the library system, but logs in using a trusted authentication
-     *  source
-     *  (e.g NemId), the patron account can be created using this service. Name and address will be automatically
-     *  fetched from
-     *  CPR-Registry, and cannot be supplied by the client. If the CPR-Registry is not authorized to provide
-     *  information about the patron, then the name and address will not be set.
+     *  source (e.g NemId), the patron account can be created using this service. Name and address will be automatically
+     *  fetched from CPR-Registry, and cannot be supplied by the client. If the CPR-Registry is not authorized to
+     *  provide information about the patron, then repsonse message 404 will be sent back
      *  
      *  If a patron is blocked the reason is available as a code:
      *  
@@ -41,8 +39,9 @@ class ExternalPatronApi extends SwaggerApi
         $request->addParameter("body", "createPatronRequest", $createPatronRequest);
 
         $request->defineResponse(200, "", '\\FBS\\Model\\AuthenticatedPatron');
-        $request->defineResponse("400", 'bad request', '\\FBS\\Model\\RestException');
+        $request->defineResponse("400", 'bad request', null);
         $request->defineResponse("401", 'client unauthorized', null);
+        $request->defineResponse("404", 'Data not found', null);
 
         return $request->execute();
     }
@@ -76,7 +75,7 @@ class ExternalPatronApi extends SwaggerApi
         $request->addParameter("body", "authenticationRequest", $authenticationRequest);
 
         $request->defineResponse(200, "", '\\FBS\\Model\\AuthenticatedPatron');
-        $request->defineResponse("400", 'bad request', '\\FBS\\Model\\RestException');
+        $request->defineResponse("400", 'bad request', null);
         $request->defineResponse("401", 'client unauthorized', null);
 
         return $request->execute();
@@ -87,7 +86,8 @@ class ExternalPatronApi extends SwaggerApi
      *
      *
      *  The returned patron details includes a patronId that has to be used by all subsequent
-     *  service calls made on behalf of that patron.
+     *  service calls made on behalf of that patron. Note: Whis method can only be used for patrons who
+     *  are people, and not e.g. Companies or Libraries.
      *  
      *  If a patron is blocked the reason is available as a code:
      *  
@@ -111,7 +111,7 @@ class ExternalPatronApi extends SwaggerApi
         $request->addParameter("body", "cprNumber", $cprNumber);
 
         $request->defineResponse(200, "", '\\FBS\\Model\\AuthenticatedPatron');
-        $request->defineResponse("400", 'bad request', '\\FBS\\Model\\RestException');
+        $request->defineResponse("400", 'bad request', null);
         $request->defineResponse("401", 'client unauthorized', null);
 
         return $request->execute();
@@ -122,7 +122,8 @@ class ExternalPatronApi extends SwaggerApi
      *
      *
      *  The returned patron details includes a patronId that has to be used by all subsequent
-     *  service calls made on behalf of that patron.
+     *  service calls made on behalf of that patron. Note: Whis method can only be used for patrons who
+     *  are persons, and not e.g. Companies or Libraries.
      *  
      *  If a patron is blocked the reason is available as a code:
      *  
@@ -146,7 +147,7 @@ class ExternalPatronApi extends SwaggerApi
         $request->addParameter("body", "unicUsername", $unicUsername);
 
         $request->defineResponse(200, "", '\\FBS\\Model\\AuthenticatedPatron');
-        $request->defineResponse("400", 'bad request', '\\FBS\\Model\\RestException');
+        $request->defineResponse("400", 'bad request', null);
         $request->defineResponse("401", 'client unauthorized', null);
 
         return $request->execute();
@@ -184,7 +185,7 @@ class ExternalPatronApi extends SwaggerApi
         $request->addParameter("body", "updatePatron", $updatePatron);
 
         $request->defineResponse(200, "", '\\FBS\\Model\\AuthenticatedPatron');
-        $request->defineResponse("400", 'bad request', '\\FBS\\Model\\RestException');
+        $request->defineResponse("400", 'bad request', null);
         $request->defineResponse("401", 'client unauthorized', null);
         $request->defineResponse("404", 'patron not found', null);
 

@@ -13,6 +13,13 @@ class HoldingsForBibliographicalRecord
     public $recordId = null;
 
     /**
+     * @var integer Total number of current active reservations for the bibliographical
+     * record
+     * @required
+     */
+    public $reservations = null;
+
+    /**
      * @var boolean True if there is any reservable materials
      * @required
      */

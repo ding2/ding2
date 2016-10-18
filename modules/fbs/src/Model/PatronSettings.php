@@ -7,11 +7,15 @@ class PatronSettings
 
     /**
      * @var string Required if patron should receive email notifications
+     *  Existing email addresses are overwritten with this value
+     *  If left empty existing email addresses are deleted
      */
     public $emailAddress = null;
 
     /**
      * @var string Required if patron should receive SMS notifications
+     *  Existing phonenumbers are overwritten with this value
+     *  If left empty existing phonenumbers are deleted
      */
     public $phoneNumber = null;
 
