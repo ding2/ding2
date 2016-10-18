@@ -189,6 +189,27 @@ a.cross:hover {
   top: 30px;
   right: 35px;
 }
+.page-search-meta .mkdru-result-list .search-result .left-column {
+  float: left;
+  width: 16.66667%;
+}
+.page-search-meta .mkdru-result-list .search-result .left-column .picture img {
+  z-index: 100;
+  position: relative;
+}
+.page-search-meta .mkdru-result-list .search-result .left-column .picture:before {
+  color: #bcbcbc;
+  font-family: "FontAwesome";
+  font-size: 200%;
+  position: absolute;
+  top: 50%;
+  left: 9%;
+  content: "\f030";
+}
+.page-search-meta .mkdru-result-list .search-result .right-column {
+  float: right;
+  width: 83.33333%;
+}
 .page-search-meta .mkdru-above-below {
   border: none;
 }
