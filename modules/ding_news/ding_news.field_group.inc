@@ -135,6 +135,7 @@ function ding_news_field_group_info() {
     'children' => array(
       0 => 'field_ding_news_list_image',
       1 => 'field_ding_news_title_image',
+      2 => 'field_ding_news_image_carousel',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
