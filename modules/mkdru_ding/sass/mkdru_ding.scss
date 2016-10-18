@@ -186,6 +186,30 @@ a.cross:hover {
         top: 30px;
         right: 35px;
       }
+      .left-column {
+        float: left;
+        width: 16.66667%;
+
+        .picture {
+          img {
+            z-index: 100;
+            position: relative;
+          }
+          &:before{
+            color: #bcbcbc;
+            font-family: "FontAwesome";
+            font-size: 200%;
+            position: absolute;
+            top: 50%;
+            left: 9%;
+            content: "\f030";
+          }
+        }
+      }
+      .right-column {
+        float: right;
+        width: 83.33333%;
+      }
     }
   }
 
