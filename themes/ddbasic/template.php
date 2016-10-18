@@ -9,17 +9,6 @@ require_once __DIR__ . '/template.opening_hours.php';
 require_once __DIR__ . '/template.ctools_plugin.php';
 
 /**
- * @file
- * Preprocess and Process Functions.
- */
-
-// @TODO Remove unused code
-// Includes frequently used theme functions that gets theme info, css files etc.
-// @B14 outcommentet
-//include_once drupal_get_path('theme', 'ddbasic') . '/inc/functions.inc';
-
-
-/**
  * Implements hook_preprocess_html().
  */
 function ddbasic_preprocess_html(&$vars) {
@@ -33,35 +22,6 @@ function ddbasic_preprocess_html(&$vars) {
 
   // Clean up the lang attributes.
   $vars['html_attributes'] = 'lang="' . $language->language . '" dir="' . $language->dir . '"';
-
-  // @TODO Remove unused code
-  // Load ddbasic plugins.
-  // @B14 outcommentet
-  //ddbasic_load_plugins();
-
-  // Add conditional CSS for IE8.
-  // @B14 outcommentet
-  //drupal_add_css(path_to_theme() . '/css/ddbasic.ie8.css', array(
-  //  'group' => CSS_THEME,
-  //  'browsers' => array(
-  //    'IE' => 'lte IE 8',
-  //    '!IE' => FALSE,
-  //  ),
-  //  'weight' => 999,
-  //  'preprocess' => FALSE,
-  //));
-
-  // Add conditional CSS for IE9.
-  // @B14 outcommentet
-  //drupal_add_css(path_to_theme() . '/css/ddbasic.ie9.css', array(
-  //  'group' => CSS_THEME,
-  //  'browsers' => array(
-  //    'IE' => 'lte IE 9',
-  //    '!IE' => FALSE,
-  //  ),
-  //  'weight' => 999,
-  //  'preprocess' => FALSE,
-  //));
 
   // Add additional body classes
   $vars['classes_array'] = array_merge($vars['classes_array'], ddbasic_body_class());
@@ -124,16 +84,7 @@ function ddbasic_process_html(&$vars) {
         break;
     }
   }
-// @TODO Remove unused code
-  // Color module.
-  // Hook into color.module.
-  // @B14 outcommentet
-  //if (module_exists('color')) {
-  //  _color_html_alter($vars);
-  //}
-
 }
-
 
 /**
  * Implements hook_preprocess_panels_pane().
@@ -234,13 +185,11 @@ function ddbasic_menu_tree__user_menu($vars) {
 }
 
 /**
- * @TODO CLeanup line spacing
  * Implements hook_preprocess_views_view_unformatted().
  *
  * Overwrite views row classes
  */
 function ddbasic_preprocess_views_view(&$vars) {
-
   switch ($vars['name']) {
     case 'ding_event':
       switch ($vars['view']->current_display) {
@@ -283,14 +232,11 @@ function ddbasic_preprocess_views_view(&$vars) {
           // Add slide-on-mobile class
           $vars['classes_array'][] = 'slide-on-mobile';
         break;
-
-
       }
     break;
-
   }
-
 }
+
 /**
  * Implements hook_preprocess_views_view_unformatted().
  *
@@ -347,25 +293,6 @@ function ddbasic_preprocess_views_view_unformatted(&$vars) {
     }
   }
 }
-
-
-/**
- * Implements hook_preprocess_user_picture().
- *
- * Override or insert variables into template user_picture.tpl.php
- *
- * @TODO: Is there an render array for this, str replacement is not cheap.
- * @TODO: Why do we replace and insert span2 thumbnail classes? Aren't they
- *        bootstrap specific?
- */
-function ddbasic_preprocess_user_picture(&$variables) {
-  // Inject the class we need into the A tag of user_picture.
-  $variables['user_picture'] = str_replace('<a ', '<a class="span2 thumbnail" ', $variables['user_picture']);
-
-  // Inject the class we need into the IMG tag of user_picture.
-  $variables['user_picture'] = str_replace('<img ', '<img class="pull-left" ', $variables['user_picture']);
-}
-
 
 /**
  * Implements theme_link().
@@ -588,36 +515,6 @@ function ddbasic_remove_default_link_classes($classes) {
 
   return $classes;
 }
-
-/**
- * Allows us to add script plugins to the theme via theme settings.
- *
- * Ex. add a javascript depending on the settings in the theme.
- */
-// @TODO Remove unused code
-//
-// @B14 outcommentet
-//
-//function ddbasic_load_plugins() {
-//  $theme_path = drupal_get_path('theme', 'ddbasic');
-//
-//  // If sticky menus is enabled in the theme load it.
-//  if (theme_get_setting('main_menu_sticky')) {
-//
-//    // Add variable to js so we can check if it is set.
-//    drupal_add_js(array('ddbasic' => array('main_menu_sticky' => theme_get_setting('main_menu_sticky'))), 'setting');
-//  }
-//
-//  // If equalize is enabled in the theme load it.
-//  if (theme_get_setting('load_equalize')) {
-//
-//    // Add the script.
-//    drupal_add_js($theme_path . '/scripts/contrib/equalize.min.js');
-//
-//    // Add variable to js so we can check if it is set.
-//    drupal_add_js(array('ddbasic' => array('load_equalize' => theme_get_setting('load_equalize'))), 'setting');
-//  }
-//}
 
 /**
  * Implements hook_js_alter().
@@ -1062,14 +959,6 @@ function ddbasic_preprocess_ting_object(&$vars) {
         }
 
         break;
-      // @TODO Remove unused code
-      //case 'ting_collection':
-      //  // Assumes that field only has one value.
-      //  foreach ($vars['content']['ting_entities'][0] as &$type) {
-      //    $type['#prefix'] = '<div class="ting-collection-wrapper"><div class="ting-collection-inner-wrapper">' . $type['#prefix'];
-      //    $type['#suffix'] = '</div></div>';
-      //  }
-      //  break;
     }
   }
 }
@@ -1137,7 +1026,7 @@ function ddbasic_preprocess_ting_search_carousel_collection(&$variables) {
 }
 
 /**
- * @TODO Missing description
+ * Override theme_date_display_range()
  */
 function ddbasic_date_display_range($variables) {
   $date1 = $variables['date1'];

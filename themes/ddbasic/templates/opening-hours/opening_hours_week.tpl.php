@@ -1,15 +1,12 @@
 <?php
 /**
- * @TODO Missing description
+ * @file
+ * Template for rendering opening hours week.
+ *
+ * ddbasic specific variables:
+ * - $table: Table of opening hours
  */
 ?>
 <div class="opening-hours-week">
-  <?php
-  // We need to include the preface, or the openeing_hours module will trigger an
-  // error in JavaScript.
-  if (!empty($preface)):
-    // print $preface;
-  endif;
-  ?>
   <?php print render($table); ?>
 </div>

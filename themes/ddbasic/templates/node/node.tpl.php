@@ -1,8 +1,6 @@
 <?php
 
 /**
- * @TODO Cleanup line spacing
- *
  * @file
  * DDBasic theme's implementation to display a node.
  *
@@ -85,13 +83,9 @@
   hide($content['comments']);
   hide($content['links']);
 ?>
-
 <div class="<?php print $classes; ?>">
-
   <h1 class="page-title"><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h1>
-
   <div class="content"<?php print $content_attributes; ?>>
     <?php print render($content); ?>
   </div>
-
 </div>

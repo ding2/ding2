@@ -1,6 +1,6 @@
 <?php
 /**
- * @TODO Missing description
+ * Implements hook_block_view_alter().
  */
 function ddbasic_block_view_alter(&$data, $block) {
 

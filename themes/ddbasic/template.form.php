@@ -1,11 +1,6 @@
 <?php
 /**
- * @TODO Missing file description
- * @TODO Remove commented out code
- *
- * @param $form
- * @param $form_state
- * @param $form_id
+ * Implements hook_form_alter().
  */
 function ddbasic_form_alter(&$form, &$form_state, $form_id) {
   // Reservations & Bookmarks, group select-all button and action-buttons in div.
@@ -35,8 +30,7 @@ function ddbasic_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
- * @TODO Wrong function description
- * Select library list.
+ * Implements hook_form_FORM_ID_alter().
  */
 function ddbasic_form_ding_library_library_list_select_library_alter(&$form, &$form_state, $form_id) {
   $links = array();
@@ -67,16 +61,11 @@ function ddbasic_form_ding_library_library_list_select_library_alter(&$form, &$f
 }
 
 /**
- * @TODO Wrong function description (Implements hook_form_alter())
- * Search form
+ * Implements hook_form_FORM_ID_alter().
  */
 function ddbasic_form_search_block_form_alter(&$form, &$form_state, $form_id) {
   $form['search_block_form']['#attributes']['placeholder'] = t('Search the library');
-  //$form['search_block_form']['#field_prefix'] = '<i class="icon-search"></i>';
   $form['search_block_form']['#title'] = t('Search the library database and the website');
-
-  // Remove element-invisible
-  //unset($form['search_block_form']['#title_display']);
 
   //Placeholder on extended form
   if(variable_get('ting_search_extend_form', FALSE)) {
@@ -85,9 +74,7 @@ function ddbasic_form_search_block_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
- * @TODO Wrong function description
- * @TODO Use translation system for strings
- * User login form
+ * Implements hook_form_FORM_ID_alter().
  */
 function ddbasic_form_user_login_block_alter(&$form, &$form_state, $form_id) {
 
@@ -135,9 +122,7 @@ function ddbasic_form_user_login_block_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
- * @TODO Wrong function description
- * @TODO Use translation system for strings
- * User login
+ * Implements hook_form_FORM_ID_alter().
  */
 function ddbasic_form_user_login_alter(&$form, &$form_state, $form_id) {
 
@@ -173,8 +158,7 @@ function ddbasic_form_user_login_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
- * @TODO Wrong function description
- * Facet browser
+ * Implements hook_form_FORM_ID_alter().
  */
 function ddbasic_form_ding_facetbrowser_form_alter(&$form, &$form_state, $form_id) {
   foreach (element_children($form) as $key) {
@@ -200,15 +184,13 @@ function ddbasic_select($variables) {
 }
 
 /**
- * @TODO Wrong function description
- * @TODO Use translation system for strings
- * Ding loans form
+ * Implements hook_form_FORM_ID_alter().
  */
 function ddbasic_form_ding_loan_loans_form_alter(&$form, &$form_state, $form_id) {
   $form['actions_top']['renew_all'] = array(
     '#type' => 'markup',
     '#prefix' => '<div class="renew-all action-all action-button">',
-    '#markup' => '<a href="#">Forny alle</a>',
+    '#markup' => '<a href="#">' . t('Forny alle') . '</a>',
     '#suffix' => '</div>',
   );
   // Create url to ting object
@@ -225,15 +207,13 @@ function ddbasic_form_ding_loan_loans_form_alter(&$form, &$form_state, $form_id)
 }
 
 /**
- * @TODO Wrong function description
- * @TODO Use translation system for strings
- * Ding reservations ready form
+ * Implements hook_form_FORM_ID_alter().
  */
 function ddbasic_form_ding_reservation_reservations_ready_form_alter(&$form, &$form_state, $form_id) {
   $form['actions_top']['delete_all'] = array(
     '#type' => 'markup',
     '#prefix' => '<div class="delete-all action-all action-button">',
-    '#markup' => '<a href="#">Slet alle</a>',
+    '#markup' => '<a href="#">' . t('Delete all') . '</a>',
     '#suffix' => '</div>',
   );
   // Create url to ting object
@@ -247,15 +227,13 @@ function ddbasic_form_ding_reservation_reservations_ready_form_alter(&$form, &$f
 }
 
 /**
- * @TODO Wrong function description
- * @TODO Use translation system for strings
- * Ding reservations not ready form
+ * Implements hook_form_FORM_ID_alter().
  */
 function ddbasic_form_ding_reservation_reservations_notready_form_alter(&$form, &$form_state, $form_id) {
   $form['actions_top']['delete_all'] = array(
     '#type' => 'markup',
     '#prefix' => '<div class="delete-all action-all action-button">',
-    '#markup' => '<a href="#">Slet alle</a>',
+    '#markup' => '<a href="#">' . t('Delete all') . '</a>',
     '#suffix' => '</div>',
   );
   // Create url to ting object
@@ -269,18 +247,13 @@ function ddbasic_form_ding_reservation_reservations_notready_form_alter(&$form, 
 }
 
 /**
- * @TODO Missing Description
- * @TODO Use translation system for strings
- *
- * @param $form
- * @param $form_state
- * @param $form_id
+ * Implements hook_form_FORM_ID_alter().
  */
 function ddbasic_form_ding_bookmark_remove_form_alter(&$form, &$form_state, $form_id) {
   $form['actions_top']['delete_all'] = array(
     '#type' => 'markup',
     '#prefix' => '<div class="delete-all action-all action-button">',
-    '#markup' => '<a href="#">Slet alle</a>',
+    '#markup' => '<a href="#">' . t('Delete all') . '</a>',
     '#suffix' => '</div>',
   );
   foreach ($form_state['build_info']['args'][0] as $bookmark) {

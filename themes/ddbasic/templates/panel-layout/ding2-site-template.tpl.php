@@ -1,6 +1,8 @@
 <?php
+
 /**
- * @TODO Missing comments
+ * @file
+ * ddbasic implementation to present a Panels layout.
  */
 ?>
 <div id="page<?php print $css_id ? " $css_id" : ''; ?>" class="<?php print $classes; ?>">

@@ -32,12 +32,10 @@ function ddbasic_preprocess_field(&$vars, $hook) {
 
   //
   // Call our own custom preprocess functions.
-  $preprocess_function = 'preprocess__field__' . $vars['element']['#field_type'];
-  $preprocess_function = 'preprocess__field__' . $vars['element']['#field_name'];
+  $preprocess_function = 'ddbasic_preprocess__field__' . $vars['element']['#field_name'];
   if (function_exists($preprocess_function)) {
     call_user_func_array($preprocess_function, array(&$vars));
   }
-
 
   // Ensure that all OG group ref field are the same.
   if ($field_name == 'ding_event_groups_ref' || $field_name == 'ding_news_groups_ref' || $field_name == 'og_group_ref') {
@@ -98,10 +96,9 @@ function ddbasic_preprocess_field(&$vars, $hook) {
 }
 
 /**
- * @TODO Wrong function name prefix with theme name.
  * Ting abstract
  */
-function preprocess__field__ting_abstract(&$vars) {
+function ddbasic_preprocess__field__ting_abstract(&$vars) {
   switch ($vars['element']['#view_mode']) {
     case 'search_result':
       $text = $vars['items'][0]['#markup'];
@@ -119,10 +116,9 @@ function preprocess__field__ting_abstract(&$vars) {
 }
 
 /**
- * @TODO Wrong function name prefix with theme name.
  * Ting author
  */
-function preprocess__field__ting_author(&$vars) {
+function ddbasic_preprocess__field__ting_author(&$vars) {
 
   // In view mode teaser
   // We overwrite the markup so the creator is no longer a link,
@@ -160,10 +156,9 @@ function preprocess__field__ting_author(&$vars) {
 }
 
 /**
- * @TODO Wrong function name prefix with theme name.
  * Ding library list image
  */
-function preprocess__field__field_ding_library_title_image(&$vars) {
+function ddbasic_preprocess__field__field_ding_library_title_image(&$vars) {
   if ($vars['element']['#view_mode'] == 'teaser') {
     // Set image styling class
     $vars['classes_array'][] = 'image-styling-16-9';
@@ -171,19 +166,17 @@ function preprocess__field__field_ding_library_title_image(&$vars) {
 }
 
 /**
- * @TODO Wrong function name prefix with theme name.
  * Ding news list image
  */
-function preprocess__field__field_ding_news_list_image(&$vars) {
+function ddbasic_preprocess__field__field_ding_news_list_image(&$vars) {
   // Set image styling class
   $vars['classes_array'][] = 'image-styling-16-9';
 }
 
 /**
- * @TODO Wrong function name prefix with theme name.
  * Ding news attachments
  */
-function preprocess__field__field_ding_news_files(&$vars) {
+function ddbasic_preprocess__field__field_ding_news_files(&$vars) {
   // Add filetype to output
   foreach ($vars['items'] as $delta => $item) {
     $file_type = strstr($item['#file']->filemime, '/');
