@@ -48,6 +48,11 @@ body {
       opacity: 0.5;
     }
   }
+  // Maintenance mode
+  &.in-maintenance {
+    @include wrapper;
+    padding-top: 100px;
+  }
 }
 
 body > .ding2-site-template {
