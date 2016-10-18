@@ -253,17 +253,6 @@ function ding_christmas_calendar_settings_form_remove_submit($form, $form_state)
   $quiz = $element['#quiz'];
   try {
     quiz_delete($quiz);
-//    db_truncate('quiz_node_results')->execute();
-//    db_truncate('quiz_node_results_answers')->execute();
-//    $revisions = node_revision_list($quiz);
-//    $revisions = array_filter($revisions, function ($i) use ($quiz) {
-//      return $quiz->vid != $i->vid;
-//    });
-//
-//    array_map(function ($i) {
-//      return node_revision_delete($i->vid);;
-//    }, $revisions);
-
     $questions = ding_christmas_calendar_questions($quiz->nid, $quiz->vid);
     foreach ($questions as $question) {
       node_delete($question->nid);
