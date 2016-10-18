@@ -41,7 +41,14 @@ function ding_christmas_calendar_menu() {
     'description' => 'Represents wrapper for quiz_quiztake function.',
     'access arguments' => array('access quiz'),
     'file' => 'ding_christmas_calendar.pages.inc',
-    'delivery callback' => 'ding_christmas_delivery_callback',
+  );
+
+  $items['ding-christmas-calendar/%ctools_js/login'] = array(
+    'page callback' => 'ding_christmas_login_popup',
+    'page arguments' => array(1),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+    'file' => 'ding_christmas_calendar.pages.inc',
   );
   return $items;
 }
@@ -112,6 +119,30 @@ function ding_christmas_calendar_get_version() {
  *   Structured array for template.
  */
 function ding_christmas_calendar_generate_content($quiz_id, $mobile = FALSE) {
+  if (user_is_anonymous()) {
+    ctools_include('ajax');
+    ctools_include('modal');
+    ctools_modal_add_js();
+    $modal = array(
+      'ding-christmas-modal-style' => array(
+        'modalSize' => array(
+          'type' => 'fixed',
+          'width' => 600,
+          'height' => 300,
+          'addWidth' => 10,
+          'addHeight' => 10,
+          'contentRight' => 0,
+          'contentBottom' => 0,
+        ),
+        'modalOptions' => array(
+          'opacity' => .6,
+          'background-color' => '#684C31',
+        ),
+        'animation' => 'fadeIn',
+      ),
+    );
+    drupal_add_js($modal, 'setting');
+  }
   $output = array(
     'content' => '',
     'body' => '',
@@ -120,28 +151,6 @@ function ding_christmas_calendar_generate_content($quiz_id, $mobile = FALSE) {
   );
   if (!empty($quiz_id)) {
     $quiz = node_load($quiz_id);
-    $quiz_result = quiz_take_quiz($quiz);
-    if (!$quiz_result) {
-      $quiz_result = entity_create('quiz_result', array(
-        'nid' => $quiz->nid,
-        'vid' => $quiz->vid,
-        'uid' => $GLOBALS['user']->uid,
-        'type' => $quiz->quiz->result_type,
-      ));
-    }
-
-    $build_on_last = !empty($quiz->build_on_last) && QuizResultController::findOldResult($quiz_result);
-    if ($build_on_last || $instances = field_info_instances('quiz_result', $quiz->quiz->result_type)) {
-      return entity_ui_get_form('quiz_result', $quiz_result);
-    }
-    else {
-      // New attempt.
-      $quiz_result->save();
-      $_SESSION['quiz'][$quiz_result->nid]['result_id'] = empty($quiz_result->result_id) ? 1 : $quiz_result->result_id;
-      $_SESSION['quiz'][$quiz_result->nid]['current'] = 1;
-      quiz_take_quiz($quiz);
-    }
-
     $background = field_get_items('node', $quiz, 'field_background');
     if ($background) {
       $output['background'] = file_create_url($background[0]['uri']);
@@ -223,7 +232,18 @@ function ding_christmas_calendar_generate_url($quiz_id, DateTime $current, $ques
     $path = "ding-christmas-calendar/{$quiz_id}/take/{$number}";
   }
 
-  return '<span class="' . $class . '">' . l("{$question->title}", $path) . '</span>';
+  $attributes = array();
+  if (user_is_anonymous()) {
+    $attributes = array(
+      'class' => array(
+        'ctools-use-modal',
+        'ctools-modal-ding-christmas-modal-style',
+      ),
+    );
+    $path = 'ding-christmas-calendar/nojs/login';
+  }
+
+  return '<span class="' . $class . '">' . l("{$question->title}", $path, array('attributes' => $attributes)) . '</span>';
 }
 
 /**
@@ -367,16 +387,6 @@ function ding_christmas_get_question_id($input) {
     ->fetchField();
 
   return $id;
-}
-
-/**
- * Implements hook_preprocess_HOOK().
- */
-function ding_christmas_delivery_callback($page_callback_result) {
-  if ($page_callback_result === MENU_ACCESS_DENIED) {
-    drupal_goto('user/login');
-  }
-  drupal_deliver_html_page($page_callback_result);
 }
 
 /**

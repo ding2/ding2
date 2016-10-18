@@ -9,6 +9,7 @@
  */
 function ding_christmas_calendar_settings_form($form, $form_state) {
   $id = variable_get('ding_christmas_calendar_quiz_id');
+
   $quiz = node_load($id);
   if ($quiz) {
     $form['view'] = array(
@@ -51,7 +52,7 @@ function ding_christmas_calendar_settings_form($form, $form_state) {
       $form['questions']['delete'] = array(
         '#type' => 'submit',
         '#value' => t('Delete questions'),
-        '#prefix' => '<p>' . t('At this moment already  exists questions for christmas calendar. Calendar can purged by pressing this button.') . '</p>',
+        '#prefix' => '<p>' . t('At this moment already exists questions for christmas calendar. Calendar can purged by pressing this button.') . '</p>',
         '#submit' => array('ding_christmas_calendar_settings_form_remove_submit'),
         '#quiz' => $quiz,
         '#limit_validation_errors' => array(),
@@ -84,6 +85,7 @@ function ding_christmas_calendar_settings_form($form, $form_state) {
 
       $form['dates']['generate'] = array(
         '#type' => 'submit',
+        '#prefix' => '<p>' . t('On pressing this button will be generated questions for XMas, starting from date which is defined above.') . '</p>',
         '#value' => t('Generate'),
         '#weight' => 3,
         '#name' => 'generate',
@@ -108,6 +110,7 @@ function ding_christmas_calendar_settings_form($form, $form_state) {
 
     $form['quiz']['save'] = array(
       '#type' => 'submit',
+      '#prefix' => '<p>' . t('Allow to add background image for Xmas calendar.') . '</p>',
       '#value' => t('Save quiz settings'),
       '#name' => 'quiz_save',
       '#submit' => array('ding_christmas_calendar_settings_form_quiz_submit'),
@@ -183,8 +186,10 @@ function ding_christmas_calendar_settings_form_quiz_submit($form, $form_state) {
  */
 function ding_christmas_calendar_settings_generate_form_submit($form, $form_state) {
   $values = $form_state['values'];
+  unset($_SESSION['quiz']);
   list($start, $duration) = array_values($values['dates']);
   $quiz = $values['object'];
+  quiz_delete($quiz);
   node_save($quiz);
   module_load_include('inc', 'multichoice', 'multichoice.classes');
   try {
@@ -247,21 +252,23 @@ function ding_christmas_calendar_settings_form_remove_submit($form, $form_state)
   $element = $form_state['triggering_element'];
   $quiz = $element['#quiz'];
   try {
-    db_truncate('quiz_node_results')->execute();
-    db_truncate('quiz_node_results_answers')->execute();
-    $revisions = node_revision_list($quiz);
-    $revisions = array_filter($revisions, function ($i) use ($quiz) {
-      return $quiz->vid != $i->vid;
-    });
-
-    array_map(function ($i) {
-      return node_revision_delete($i->vid);;
-    }, $revisions);
+    quiz_delete($quiz);
+//    db_truncate('quiz_node_results')->execute();
+//    db_truncate('quiz_node_results_answers')->execute();
+//    $revisions = node_revision_list($quiz);
+//    $revisions = array_filter($revisions, function ($i) use ($quiz) {
+//      return $quiz->vid != $i->vid;
+//    });
+//
+//    array_map(function ($i) {
+//      return node_revision_delete($i->vid);;
+//    }, $revisions);
 
     $questions = ding_christmas_calendar_questions($quiz->nid, $quiz->vid);
     foreach ($questions as $question) {
       node_delete($question->nid);
     }
+    unset($_SESSION['quiz']);
     drupal_set_message(t('Calendar was successfully cleared'));
   }
   catch (Exception $ex) {

@@ -12,8 +12,14 @@ function ding_christmas_calendar_install() {
   _ding_christmas_calendar_create_field();
   variable_set('scheduler_publish_enable_quiz_page', TRUE);
   variable_set('scheduler_unpublish_enable_quiz_page', TRUE);
-}
 
+  $shortcut_set = new stdClass();
+  $shortcut_set->set_name = 'shortcut-set-1';
+  $shortcut_set->links = array(
+    array('link_path' => 'admin/config/ding/ding-christmas-calendar', 'link_title' => t('XMas calendar settings'),),
+  );
+  shortcut_set_save($shortcut_set);
+}
 
 /**
  * Implements hook_uninstall().
@@ -25,16 +31,7 @@ function ding_christmas_calendar_uninstall() {
   $id = variable_get('ding_christmas_calendar_quiz_id', NULL);
   $quiz = node_load($id);
   try {
-    db_truncate('quiz_node_results')->execute();
-    db_truncate('quiz_node_results_answers')->execute();
-    $revisions = node_revision_list($quiz);
-    $revisions = array_filter($revisions, function ($i) use ($quiz) {
-      return $quiz->vid != $i->vid;
-    });
-
-    array_map(function ($i) {
-      return node_revision_delete($i->vid);;
-    }, $revisions);
+    quiz_delete($quiz);
 
     module_load_include('module', 'ding_christmas_calendar');
     $questions = ding_christmas_calendar_questions($quiz->nid, $quiz->vid);
@@ -49,6 +46,12 @@ function ding_christmas_calendar_uninstall() {
   variable_del('scheduler_publish_enable_quiz_page');
   variable_del('scheduler_unpublish_enable_quiz_page');
   variable_del('ding_christmas_calendar_quiz_id');
+
+  $shortcut_set = shortcut_set_load("shortcut-set-1");
+  $link = reset(array_filter(array_map(function($i) {
+    return $i['link_path'] == 'admin/config/ding/ding-christmas-calendar' ? $i : NULL;
+  }, $shortcut_set->links)));
+  menu_link_delete($link['mlid']);
 }
 
 /**
