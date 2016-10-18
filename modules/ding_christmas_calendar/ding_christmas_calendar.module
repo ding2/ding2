@@ -31,7 +31,7 @@ function ding_christmas_calendar_menu() {
     'page arguments' => array('ding_christmas_calendar_settings_form'),
     'title' => 'Ding Christmas calendar settings',
     'description' => 'Configure the start and end dates of Christmas calendar.',
-    'access arguments' => array('administer site configuration'),
+    'access arguments' => array('administer xmas calendar'),
     'file' => 'ding_christmas_calendar.admin.inc',
   );
 
@@ -51,6 +51,18 @@ function ding_christmas_calendar_menu() {
     'file' => 'ding_christmas_calendar.pages.inc',
   );
   return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_christmas_calendar_permission() {
+  return array(
+    'administer xmas calendar' => array(
+      'title' => t('Administer Xmas calendar'),
+      'description' => t('Perform administration tasks for Xmas calendar.'),
+    ),
+  );
 }
 
 /**

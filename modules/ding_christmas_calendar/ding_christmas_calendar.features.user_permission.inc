@@ -30,6 +30,16 @@ function ding_christmas_calendar_user_default_permissions() {
     'module' => 'quiz',
   );
 
+  // Exported permission: 'administer xmas calendar'.
+  $permissions['administer xmas calendar'] = array(
+    'name' => 'administer xmas calendar',
+    'roles' => array(
+      'editor' => 'editor',
+      'local administrator' => 'local administrator',
+    ),
+    'module' => 'ding_christmas_calendar',
+  );
+
   // Exported permission: 'create quiz content'.
   $permissions['create quiz content'] = array(
     'name' => 'create quiz content',
