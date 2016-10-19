@@ -4,6 +4,7 @@
  * Code for the Alma feature.
  */
 
+
 define('ALMA_AUTH_BLOCKED', '4e5531951f55ab8f6895684999c69c2');
 
 // Define date formats used by Alma.
@@ -596,7 +597,7 @@ function alma_update_provider($changes, $entity) {
     // Delete the email from ALMA and database.
     global $user;
 
-    if (isset($user->mail) && empty($changes['mail'])) {
+    if (!empty($user->mail) && empty($changes['mail'])) {
       $res = alma_client_invoke('remove_email_address', $creds['name'], $creds['pass'], $user->mail);
     }
 
