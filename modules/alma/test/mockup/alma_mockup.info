@@ -1,0 +1,6 @@
+<?php
+
+name = Alma_mockup
+core = 7.x
+
+files[] = AlmaMockup.class.php
