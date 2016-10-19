@@ -108,11 +108,11 @@ function ding_mkws_widget_settings_form($form, $form_state) {
   );
 
   $items = variable_get('ding_mkws_panes', array());
-  foreach ($items as $key => $title) {
+  foreach ($items as $key => $item) {
     $form['opac'][$key] = array(
       '#type' => 'fieldset',
       '#collapsible' => FALSE,
-      '#title' => $title,
+      '#title' => $item['title'],
     );
     $form['opac'][$key]['show'] = array(
       '#type' => 'checkbox',
