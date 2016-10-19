@@ -40,6 +40,15 @@ var ding_mkws_queue = {
     }
   };
 
+  ding_mkws_queue.remove = function(key) {
+    ding_mkws_queue.processing = false;
+    delete ding_mkws_queue.requests[key];
+  };
+
+  ding_mkws_queue.next = function() {
+    return Object.keys(ding_mkws_queue.requests)[0]
+  };
+
   ding_mkws.search = function (query, amount, filter, limit) {
     ding_mkws.pz2.search(query, amount, ding_mkws.sort, filter, null, {limit: limit});
     ding_mkws.active = true;
@@ -99,9 +108,8 @@ var ding_mkws_queue = {
     attach: function (context) {
       var settings = null;
       $(document).on('ding_mkws_request_finished', function (event, key) {
-        ding_mkws_queue.processing = false;
-        delete ding_mkws_queue.requests[key];
-        key = Object.keys(ding_mkws_queue.requests)[0]
+        ding_mkws_queue.remove(key);
+        key = ding_mkws_queue.next();
         settings = ding_mkws_queue.requests[key];
         ding_mkws.init(settings, OnShowCallback, OnFailCallback);
       });
