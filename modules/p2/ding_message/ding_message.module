@@ -542,12 +542,17 @@ function ding_message_preprocess_entity(&$vars) {
         // Set list url as default.
         $value = ding_list_get_list_element_value($entity);
         $url = 'list/' . $value;
+        $link_query = array(
+          'message' => $last_element,
+          'midc' => $values->mid,
+        );
         // Change url based on the element type.
         switch ($type) {
           case 'follow_author':
           case 'search_query':
             $query = ding_list_get_list_element_value($entity);
-            $url = 'search/ting/' . htmlentities($query);
+            $url = 'search/ting/' . $query;
+            $link_query['size'] = 50;
             break;
 
           case 'taxonomy_term':
@@ -556,12 +561,22 @@ function ding_message_preprocess_entity(&$vars) {
             $url = 'search/ting/facet.subject=' . $term->name;
             break;
         }
-        // Modify the url so new elements can be identified.
-        $url = ding_message_modify_url($url, $last_element, $values->mid);
-        // Wrap the message in a link to the targeted page.
-        $output = '<a href="/' . $url . '" data-item-id="' . $values->mid . '">' . $rendered_message . '</a>';
+
         // Add message to content.
-        $vars['content']['message'] = array('#markup' => '<div class="ding-message label">' . $output . '</div>');
+        $vars['content']['message'] = array(
+          '#type' => 'container',
+          '#attributes' => array('class' => array('ding-message', 'label')),
+          'link' => array(
+            '#theme' => 'link',
+            '#text' => $rendered_message,
+            '#path' => $url,
+            '#options' => array(
+              'attributes' => array('data-item-id' => $values->mid),
+              'query' => $link_query,
+              'html' => TRUE,
+            ),
+          ),
+        );
 
         // Add message link to title.
         $vars['content']['query']['#options']['query'] = array('size' => 50, 'message' => $last_element);
@@ -702,36 +717,6 @@ function ding_message_build_query($query) {
   }
   // Return the new query.
   return $new_query;
-}
-
-/**
- * Add additional elements to the url.
- *
- * If the url is a search page add the size parameter
- * so the search result contains 50 elements, which
- * should be enough to see all new elements in most cases.
- *
- * @param string $url
- *   The url to modify.
- * @param string $eid
- *   The id of the first new element in the notification list.
- *
- * @return string
- *   The modified url containing the first new item id.
- */
-function ding_message_modify_url($url, $eid, $mid = FALSE) {
-  $url .= (strpos($url, '?') !== FALSE) ? '&' : '?';
-
-  if (stripos($url, 'search/ting') !== FALSE) {
-    $url .= 'size=50&';
-  }
-  $url .= 'message=' . $eid;
-
-  if ($mid !== FALSE) {
-    $url .= '&midc=' . $mid;
-  }
-
-  return $url;
 }
 
 /**
