@@ -33,19 +33,19 @@ var ding_mkws_queue = {
 };
 
 (function ($) {
-  ding_mkws_queue.add = function(key, value) {
+  ding_mkws_queue.add = function (key, value) {
     ding_mkws_queue.requests[key] = value;
-    if (Object.keys( ding_mkws_queue.requests).length == 1 && !ding_mkws_queue.processing) {
+    if (Object.keys(ding_mkws_queue.requests).length == 1 && !ding_mkws_queue.processing) {
       $(document).trigger('ding_mkws_request_added', key);
     }
   };
 
-  ding_mkws_queue.remove = function(key) {
+  ding_mkws_queue.remove = function (key) {
     ding_mkws_queue.processing = false;
     delete ding_mkws_queue.requests[key];
   };
 
-  ding_mkws_queue.next = function() {
+  ding_mkws_queue.next = function () {
     return Object.keys(ding_mkws_queue.requests)[0]
   };
 
@@ -144,7 +144,7 @@ var ding_mkws_queue = {
           for (var key in settings.resources) {
             out += settings.resources[key];
             if (key != settings.resources.length - 1) {
-               out += '|';
+              out += '|';
             }
           }
           settings.filter = out;
@@ -163,7 +163,7 @@ var ding_mkws_queue = {
         settings.term = query;
 
         //Processing limits.
-        if (settings.limit === undefined|| settings.limit.length == 0) {
+        if (settings.limit === undefined || settings.limit.length == 0) {
           settings.limit = null;
         }
         else {
@@ -183,7 +183,7 @@ var ding_mkws_queue = {
       };
 
       // Handling result which returns remote service.
-      function OnShowCallback (data) {
+      function OnShowCallback(data) {
         /**
          * Process data from service and render template.
          *
