@@ -25,8 +25,21 @@ var ding_mkws = {
   '<div class="ispinner-blade"></div>' +
   '</div>'
 };
+// Wrapper for storing requests.
+// @todo do not forget to test for other browsers.
+var ding_mkws_queue = {
+  requests: new Array(),
+  processing: false
+};
 
 (function ($) {
+  ding_mkws_queue.add = function(key, value) {
+    ding_mkws_queue.requests[key] = value;
+    if (Object.keys( ding_mkws_queue.requests).length == 1 && !ding_mkws_queue.processing) {
+      $(document).trigger('ding_mkws_request_added', key);
+    }
+  };
+
   ding_mkws.search = function (query, amount, filter, limit) {
     ding_mkws.pz2.search(query, amount, ding_mkws.sort, filter, null, {limit: limit});
     ding_mkws.active = true;
@@ -84,7 +97,23 @@ var ding_mkws = {
 
   Drupal.behaviors.ding_mkws = {
     attach: function (context) {
+      var settings = null;
+      $(document).on('ding_mkws_request_finished', function (event, key) {
+        ding_mkws_queue.processing = false;
+        delete ding_mkws_queue.requests[key];
+        key = Object.keys(ding_mkws_queue.requests)[0]
+        settings = ding_mkws_queue.requests[key];
+        ding_mkws.init(settings, OnShowCallback, OnFailCallback);
+      });
+
+      $(document).on('ding_mkws_request_added', function (event, key) {
+        settings = ding_mkws_queue.requests[key];
+        ding_mkws_queue.processing = true;
+        ding_mkws.init(settings, OnShowCallback, OnFailCallback);
+      });
+
       $('.ding-mkws-widget', context).each(function () {
+        // Collection data and processing data.
         var $this = $(this, context);
         $this.html(ding_mkws.spinner);
         // Gets settings.
@@ -92,7 +121,14 @@ var ding_mkws = {
         var process = $this.data('process');
         var template = $this.data('template');
         var settings = Drupal.settings[hash];
-        if (settings.resources === undefined) {
+        settings.process = process;
+        settings.template = template;
+        settings.element = $this;
+        settings.hash = hash;
+
+        // Processing resources.
+        // @todo at this moment doesnt works.
+        if (settings.resources === undefined || settings.resources.length == 0) {
           settings.resources = null;
         }
         else {
@@ -106,15 +142,20 @@ var ding_mkws = {
           settings.filter = out;
         }
 
+        // Processing query.
+        //@todo not working for node and widget.
         var query = '';
         if (settings.term.type) {
           query = settings.term.type + '=' + settings.term.query;
         }
         else {
+          // @todo remember to check for all widgets and panes.
           query = settings.term.query;
         }
         settings.term = query;
-        if (settings.limit === undefined) {
+
+        //Processing limits.
+        if (settings.limit === undefined|| settings.limit.length == 0) {
           settings.limit = null;
         }
         else {
@@ -124,20 +165,30 @@ var ding_mkws = {
           }
           settings.limit = out;
         }
-        ding_mkws.init(settings, function (data) {
-            /**
-             * Process data from service and render template.
-             *
-             * @see ding_mkws.theme.js
-             */
-            var variables = ding_mkws_process[process](data);
-            var html = $.templates[template](variables);
-            $this.html(html);
-          },
-          function () {
-            $this.html(Drupal.t("Sorry, something goes wrong. Can't connect to server."));
-          });
+
+        // Adds to queue.
+        ding_mkws_queue.add(hash, settings);
       });
+      // Represents callback for handling errors.
+      function OnFailCallback() {
+        $this.html(Drupal.t("Sorry, something goes wrong. Can't connect to server."));
+      };
+
+      // Handling result which returns remote service.
+      function OnShowCallback (data) {
+        /**
+         * Process data from service and render template.
+         *
+         * @see ding_mkws.theme.js
+         */
+        var variables = ding_mkws_process[settings.process](data);
+        var html = $.templates[settings.template](variables);
+        settings.element.html(html);
+
+        if (data.activeclients == 0) {
+          $(document).trigger('ding_mkws_request_finished', settings.hash);
+        }
+      }
     }
   };
 })(jQuery);
