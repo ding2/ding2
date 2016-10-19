@@ -87,28 +87,30 @@ function _ding_mkws_create_pane() {
   ctools_get_plugins('page_manager', 'task_handlers', 'panel_context');
 
   $task_names = array(
-    'search' => t('Search result'),
-    'ting_collection' => t('Collection view'),
-    'ting_object' => t('Item page'),
+    'search' => array('title' => t('Search result'), 'scope' => array('')),
+    'ting_collection' => array('title' => t('Collection view'), 'scope' => array('', 'au')),
+    'ting_object' => array('title' => t('Item page'), 'scope' => array('', 'au')),
   );
-  foreach (array_keys($task_names) as $task_name) {
-    $pane_id = 'new-ding_mkws_' . $task_name;
-    $pane = ding_mkws_get_items_pane($pane_id, $task_name);
+  foreach ($task_names as $task_name => $task) {
+    foreach ($task['scope'] as $scope) {
+      $pane_id = "new-ding_mkws_" . $task_name . '_' . $scope;
+      $pane = ding_mkws_get_items_pane($pane_id, $task_name, $scope);
 
-    $task = page_manager_get_task($task_name);
-    $handlers = page_manager_load_task_handlers($task);
+      $task = page_manager_get_task($task_name);
+      $handlers = page_manager_load_task_handlers($task);
 
-    foreach ($handlers as $handler_name => &$handler) {
-      if (strpos($handler_name, $task_name . '_panel_context') !== FALSE) {
-        $display = panels_panel_context_get_display($handler);
+      foreach ($handlers as $handler_name => &$handler) {
+        if (strpos($handler_name, $task_name . '_panel_context') !== FALSE) {
+          $display = panels_panel_context_get_display($handler);
 
-        $display->content[$pane_id] = $pane;
-        $display->panels['left_sidebar'][] = $pane_id;
+          $display->content[$pane_id] = $pane;
+          $display->panels['left_sidebar'][] = $pane_id;
 
-        panels_save_display($display);
-        page_manager_save_task_handler($handler);
+          panels_save_display($display);
+          page_manager_save_task_handler($handler);
 
-        break;
+          break;
+        }
       }
     }
   }
@@ -118,8 +120,18 @@ function _ding_mkws_create_pane() {
 
 /**
  * Create mkws pane object.
+ *
+ * @param string $panel_id
+ *   Machine name of the pane.
+ * @param string $subtype
+ *   Pane subtype.
+ * @param string $scope
+ *   Scope of the search query.
+ *
+ * @return object
+ *   Panels pane object.
  */
-function ding_mkws_get_items_pane($panel_id, $subtype) {
+function ding_mkws_get_items_pane($panel_id, $subtype = '', $scope = NULL) {
   $pane = new stdClass();
   $pane->pid = $panel_id;
   $pane->panel = 'left_sidebar';
@@ -132,6 +144,7 @@ function ding_mkws_get_items_pane($panel_id, $subtype) {
     'override_title' => 0,
     'override_title_text' => '',
     'override_title_heading' => 'h2',
+    'scope' => $scope,
   );
   $pane->cache = array();
   $pane->style = array(

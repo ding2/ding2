@@ -23,7 +23,7 @@ var ding_mkws = {
   '<div class="ispinner-blade"></div>' +
   '<div class="ispinner-blade"></div>' +
   '<div class="ispinner-blade"></div>' +
-  '</div>',
+  '</div>'
 };
 
 (function ($) {
@@ -106,6 +106,14 @@ var ding_mkws = {
           settings.filter = out;
         }
 
+        var query = '';
+        if (settings.term.type) {
+          query = settings.term.type + '=' + settings.term.query;
+        }
+        else {
+          query = settings.term.query;
+        }
+        settings.term = query;
         if (settings.limit === undefined) {
           settings.limit = null;
         }
