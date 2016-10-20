@@ -113,17 +113,17 @@ background-attachment: fixed;',
   $strongarm->api_version = 1;
   $strongarm->name = 'language_default';
   $strongarm->value = (object) array(
-    'language' => 'da',
-    'name' => 'Danish',
-    'native' => 'Dansk',
+    'language' => 'en',
+    'name' => 'English',
+    'native' => 'English',
     'direction' => '0',
-    'enabled' => '1',
-    'plurals' => '2',
-    'formula' => '($n!=1)',
+    'enabled' => 1,
+    'plurals' => '0',
+    'formula' => '',
     'domain' => '',
-    'prefix' => 'da',
-    'weight' => '-10',
-    'javascript' => 'Fkh0QkvBEWWnm6g_nWkpAH5TKkKGcMpP0hLf4ArCiYs',
+    'prefix' => 'en',
+    'weight' => '-9',
+    'javascript' => '',
   );
   $export['language_default'] = $strongarm;
 
