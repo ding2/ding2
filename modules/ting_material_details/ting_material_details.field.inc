@@ -102,11 +102,8 @@ function ting_material_details_field_info() {
       'label' => t('Material classification'),
       'description' => t('Material classification'),
       'default_widget' => 'hidden',
-      'default_formatter' => 'ting_details_single',
-      'virtual_field' => array(
-        'entity_types' => array('ting_object'),
-        'add_widget' => TRUE,
-      ),
+      'default_formatter' => 'ting_details_linked_dk5',
+      'no_ui' => TRUE,
     ),
     // Defines dcterms:spatial (geo encoding).
     'ting_details_spatial' => array(
@@ -362,6 +359,13 @@ function ting_material_details_field_formatter_info() {
       ),
     ),
 
+    'ting_details_linked_dk5' => array(
+      'label' => t('DK5 Link w/ Classification'),
+      'field types' => array(
+        'ting_details_classification',
+      ),
+    ),
+
     'ting_details_creator_search' => array(
       'label' => t('Creator search link'),
       'field types' => array(
@@ -593,6 +597,18 @@ function ting_material_details_field_formatter_view($entity_type, $entity, $fiel
           else {
             $details = $val;
           }
+          $element[$delta] = array(
+            '#markup' => $details,
+          );
+          break;
+
+        case 'ting_details_linked_dk5':
+          $dk5_text = $entity->getClassificationText();
+          $val = l($val, 'search/ting/phrase.subject="' . $val . '"');
+          if (!empty($dk5_text)) {
+            $val .= ' (' . $dk5_text . ')';
+          }
+          $details = $val;
           $element[$delta] = array(
             '#markup' => $details,
           );
