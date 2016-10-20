@@ -33,7 +33,7 @@ function ding_frontpage_default_page_manager_pages() {
   $handler->task = 'page';
   $handler->subtask = 'ding_frontpage';
   $handler->handler = 'panel_context';
-  $handler->weight = 0;
+  $handler->weight = -1;
   $handler->conf = array(
     'title' => 'Ding frontpage',
     'no_blocks' => 0,
@@ -42,6 +42,9 @@ function ding_frontpage_default_page_manager_pages() {
     'css' => '',
     'contexts' => array(),
     'relationships' => array(),
+    'name' => '',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
   );
   $display = new panels_display();
   $display->layout = 'ding_layout_1';
@@ -157,6 +160,105 @@ function ding_frontpage_default_page_manager_pages() {
     $pane->uuid = '18cfc092-1d0f-42e4-bde8-8a6e314c9bd0';
     $display->content['new-18cfc092-1d0f-42e4-bde8-8a6e314c9bd0'] = $pane;
     $display->panels['primary'][1] = 'new-18cfc092-1d0f-42e4-bde8-8a6e314c9bd0';
+    $pane = new stdClass();
+    $pane->pid = 'new-5bf05877-cd2f-42d8-92a9-fbe2ef5163ba';
+    $pane->panel = 'primary';
+    $pane->type = 'interaction_pane';
+    $pane->subtype = 'interaction_pane';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'count' => '5',
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $pane->uuid = '5bf05877-cd2f-42d8-92a9-fbe2ef5163ba';
+    $display->content['new-5bf05877-cd2f-42d8-92a9-fbe2ef5163ba'] = $pane;
+    $display->panels['primary'][2] = 'new-5bf05877-cd2f-42d8-92a9-fbe2ef5163ba';
+    $pane = new stdClass();
+    $pane->pid = 'new-4f1daf85-2201-4a37-8823-f4ee028e1b5a';
+    $pane->panel = 'primary';
+    $pane->type = 'serendipity_ting_object';
+    $pane->subtype = 'serendipity_ting_object';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'view_mode' => 'compact',
+      'sort_weight' => FALSE,
+      'max' => '20',
+      'min' => '10',
+      'random' => 1,
+      'selected_keys' => array(
+        'ting_object' => 'ting_object',
+        'frontpage' => 'frontpage',
+      ),
+      'context' => array(
+        0 => 'empty',
+        1 => 'empty',
+        2 => 'empty',
+        3 => 'empty',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array(
+      'method' => 'lazy',
+      'settings' => array(
+        'load_strategy' => 'pane-visible',
+        'show_spinner' => 1,
+        'load_text' => '',
+      ),
+    );
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 3;
+    $pane->locks = array();
+    $pane->uuid = '4f1daf85-2201-4a37-8823-f4ee028e1b5a';
+    $display->content['new-4f1daf85-2201-4a37-8823-f4ee028e1b5a'] = $pane;
+    $display->panels['primary'][3] = 'new-4f1daf85-2201-4a37-8823-f4ee028e1b5a';
+    $pane = new stdClass();
+    $pane->pid = 'new-f07e8331-b359-407f-9361-860846c78da1';
+    $pane->panel = 'primary';
+    $pane->type = 'popular';
+    $pane->subtype = 'popular';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'plugins' => array(),
+    );
+    $pane->configuration = array(
+      'month' => '',
+      'libcode' => 0,
+      'override_title' => 1,
+      'override_title_text' => 'Månedens populæreste titler',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array(
+      'method' => '0',
+      'settings' => array(),
+    );
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 4;
+    $pane->locks = array();
+    $pane->uuid = 'f07e8331-b359-407f-9361-860846c78da1';
+    $display->content['new-f07e8331-b359-407f-9361-860846c78da1'] = $pane;
+    $display->panels['primary'][4] = 'new-f07e8331-b359-407f-9361-860846c78da1';
     $pane = new stdClass();
     $pane->pid = 'new-20a8af4e-90a0-42a4-be60-89cb72e44127';
     $pane->panel = 'secondary';
