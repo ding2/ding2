@@ -93,6 +93,15 @@ function ding_mkws_field_widget_form(&$form, &$form_state, $field, $instance, $l
         '#maxlength' => 4,
       );
 
+      $element['wrapper']['maxrecs'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Maxrecs'),
+        '#default_value' => !empty($item['maxrecs']) ? $item['maxrecs'] : '',
+        '#element_validate' => array('element_validate_integer_positive'),
+        '#size' => 6,
+        '#maxlength' => 4,
+      );
+
       ding_mkws_include_all();
       $element['#attached'] = array(
         'css' => array(

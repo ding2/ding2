@@ -53,8 +53,13 @@ function ting_proxy(data, target) {
 
 (function ($) {
 
-  ding_mkws_process.ProcessDataForNodeWidget = function(data) {
-    var variables = {title: "", items: {left: [], right: []}};
+  ding_mkws_process.ProcessDataForNodeWidget = function(data, params) {
+    var variables = {
+      title: params.title,
+      items: {left: [], right: []},
+      more_text: Drupal.t('See all results'),
+      more_link: params.query
+    };
     for (var i = 0; i < data.hits.length; i++) {
       var idx = (i % 2) ? 'left' : 'right';
       var out = {};
@@ -90,8 +95,14 @@ function ting_proxy(data, target) {
    return variables;
   };
 
-  ding_mkws_process.ProcessDataForPaneWidget = function(data) {
-    var variables = {title: Drupal.t('Content for LBR'), items: []};
+  ding_mkws_process.ProcessDataForPaneWidget = function(data, params) {
+    var variables = {
+      title: params.title,
+      items: [],
+      more_text: Drupal.t('See all results'),
+      more_link: params.query
+    };
+
     for (var i = 0 ; i < data.hits.length; i++) {
       var out = {};
       var url = '';
@@ -218,6 +229,7 @@ function ting_proxy(data, target) {
           "{{/for}}</ul>" +
         "</div>" +
       "</div>" +
+      "<a class='ding-mkws-more-link' href='/search/meta/{{:more_link}}'>{{:more_text}}</a>" +
     "</div>");
 
   $.templates("dingMkwsPaneWidget", "" +
@@ -265,5 +277,6 @@ function ting_proxy(data, target) {
           "</li>"+
         "{{/for}}</ul>" +
       "</div>" +
+      "<a href='/search/meta/{{:more_link}}'>{{:more_text}}</a>" +
     "</div>");
 })(jQuery);
