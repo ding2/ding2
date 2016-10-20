@@ -81,6 +81,7 @@
 // Hide elements we don't want displayed.
 hide($content['comments']);
 hide($content['links']);
+hide($content['opening_hours_week']);
 
 /*
  * If displaying teaser mode we need the node title in the render array
