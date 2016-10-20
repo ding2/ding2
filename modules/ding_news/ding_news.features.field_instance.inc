@@ -380,7 +380,7 @@ function ding_news_field_default_field_instances() {
           'slideshow_controls_position' => 'after',
           'slideshow_field_collection_image' => 'field_ding_news_carousel_image',
           'slideshow_fx' => 'fade',
-          'slideshow_image_style' => '',
+          'slideshow_image_style' => 'carousel-news',
           'slideshow_link' => '',
           'slideshow_order' => '',
           'slideshow_pager' => '',

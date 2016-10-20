@@ -75,6 +75,7 @@ features[field_instance][] = node-ding_news-field_ding_news_materials
 features[field_instance][] = node-ding_news-field_ding_news_tags
 features[field_instance][] = node-ding_news-field_ding_news_title_image
 features[field_instance][] = node-ding_news-og_group_ref
+features[image][] = carousel-news
 features[node][] = ding_news
 features[page_manager_handlers][] = node_view_panel_context
 features[page_manager_handlers][] = term_view_panel_context_2
