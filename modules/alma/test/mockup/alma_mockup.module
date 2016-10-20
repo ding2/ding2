@@ -109,12 +109,7 @@ function alma_mockup_admin() {
   $form['alma_mockup']['description']['afsnit'] = array(
     '#theme' => 'html_tag',
     '#tag' => 'p',
-    '#value' => 'To use, set Alma base URL to: ' . $GLOBALS['base_url'] . '</code>/alma_mockup/<br>
-    If a provider reply to a request is recorded, it will be retuned.<br>
-    Otherwise, if a Fallback URL is added, the request will be forwarded to the provider,
-    and the reply returned.<br>
-    Additionally, if "Enable recording" is checked, the reply from the provider is saved,
-    and is returned next time the request is sent to the Alma mockup.',
+    '#value' => 'To use, set Alma base URL to: ' . $GLOBALS['base_url'] . '</code>/alma_mockup/<br>If a provider reply to a request is recorded, it will be retuned.<br>Otherwise, if a Fallback URL is added, the request will be forwarded to the provider, and the reply returned.<br>Additionally, if "Enable recording" is checked, the reply from the provider is saved, and is returned next time the request is sent to the Alma mockup.',
   );
   $form['alma_mockup']['alma_mockup_fallback_url'] = array(
     '#type' => 'textfield',
