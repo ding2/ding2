@@ -5,7 +5,7 @@
  */
 
 /**
- * Implements hook_menu().;
+ * Implements hook_menu().
  */
 function alma_mockup_menu() {
   $items['alma_mockup/%/%'] = array(
@@ -35,7 +35,7 @@ function alma_mockup_ding_provider() {
     'provides' => array(
       'mockup' => array(
         'prefix' => 'alma_mockup',
-	  ),
+      ),
     ),
   );
 }
@@ -67,24 +67,24 @@ function alma_mockup_page($section, $method, $set) {
       $mockup->pass_through($alma_mockup_fallback_url, $alma_ssl_version);
       drupal_set_message('Pass call to Alma: ' . $url, $type = 'status');
       watchdog('alma_mockup', "Pass call to Alma: %url", 
-	    $variables = array('%url' => $alma_mockup_fallback_url), WATCHDOG_DEBUG);
+        $variables = array('%url' => $alma_mockup_fallback_url), WATCHDOG_DEBUG);
     }
     if ($recording) {
       try {
         $mockup->record();
       }
-	  catch (AlmaMockupException $e) {
+      catch (AlmaMockupException $e) {
         watchdog('alma_mockup', "Failed to save record: %url", 
 		  $variables = array('%url' => $alma_mockup_fallback_url), WATCHDOG_ERROR);
         drupal_set_message('Failed to save record:' . $alma_mockup_fallback_url, 
-		  $type = 'status');
+          $type = 'status');
       }
     }
   }
   catch (Exception $e) {
     drupal_set_message('Caught exception: ' .  $e->getMessage(), $type = 'status');
     watchdog('alma_mockup', "Caught exception: %e", 
-	  $variables = array('%e' => $e->getMessage()), WATCHDOG_ERROR);
+      $variables = array('%e' => $e->getMessage()), WATCHDOG_ERROR);
   }
 
   drupal_exit();
@@ -92,6 +92,7 @@ function alma_mockup_page($section, $method, $set) {
 
 /**
  * Alma mockup administration form.
+ *
  *
  * @return array
  */
@@ -108,11 +109,11 @@ function alma_mockup_admin() {
     '#theme' => 'html_tag',
     '#tag' => 'p',
     '#value' => 'To use, set Alma base URL to: ' . $GLOBALS['base_url'] . '</code>/alma_mockup/<br>
-                 If a provider reply to a request is recorded, it will be retuned.<br>
-                 Otherwise, if a Fallback URL is added, the request will be forwarded to the provider,
-                 and the reply returned.<br>
-                 Additionally, if "Enable recording" is checked, the reply from the provider is saved,
-                 and is returned next time the request is sent to the Alma mockup.',
+      If a provider reply to a request is recorded, it will be retuned.<br>
+      Otherwise, if a Fallback URL is added, the request will be forwarded to the provider,
+      and the reply returned.<br>
+      Additionally, if "Enable recording" is checked, the reply from the provider is saved,
+      and is returned next time the request is sent to the Alma mockup.',
   );
   $form['alma_mockup']['alma_mockup_fallback_url'] = array(
     '#type' => 'textfield',
