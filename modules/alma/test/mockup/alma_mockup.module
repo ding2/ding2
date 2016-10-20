@@ -49,13 +49,14 @@ function alma_mockup_page($section, $method, $set) {
   $alma_mockup_fallback_url = variable_get('alma_mockup_fallback_url', NULL); 
   $alma_ssl_version = variable_get('alma_ssl_version', 'sslv3');
   $recording = variable_get('alma_mockup_recording', FALSE);
+  $log = variable_get('alma_mockup_log', FALSE);
   $path = array_filter(array($section, $method, $set));
   if (!empty($_GET['q'])) {
     unset($_GET['q']);
   }
   $params = array_filter($_GET);
  
-  $mockup = new AlmaMockup($path, $params, $drupal_path);
+  $mockup = new AlmaMockup($path, $params, $drupal_path, $log);
 
   try {
     // Let's see if we have a mockup for this request.
@@ -65,7 +66,7 @@ function alma_mockup_page($section, $method, $set) {
     // If not, pass it on to, say, AAKB's test provider.
     if ($alma_mockup_fallback_url) {
       $mockup->pass_through($alma_mockup_fallback_url, $alma_ssl_version);
-      drupal_set_message('Pass call to Alma: ' . $url, $type = 'status');
+      drupal_set_message('Pass call to Alma: ' . $alma_mockup_fallback_url, $type = 'status');
       watchdog('alma_mockup', "Pass call to Alma: %url", 
         $variables = array('%url' => $alma_mockup_fallback_url), WATCHDOG_DEBUG);
     }
@@ -128,6 +129,12 @@ function alma_mockup_admin() {
     '#title' => t('Enable recording'),
     '#default_value' => variable_get('alma_mockup_recording', FALSE),
     '#description' => t('Record the reply from the fallback provider (Needs file permissions to be set).'),
+  );
+  $form['alma_mockup']['alma_mockup_log'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable log'),
+    '#default_value' => variable_get('alma_mockup_log', FALSE),
+    '#description' => t('Log mockup functions in /tmp/alma_mockup_log.txt.'),
   );
   return system_settings_form($form);
 }

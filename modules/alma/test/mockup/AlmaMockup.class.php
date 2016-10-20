@@ -13,11 +13,13 @@ class AlmaMockup {
   protected $params;
   protected $drupal_path;
   protected $request_data;
+  protected $log;
 
-  public function __construct($path, $params, $drupal_path) {
+  public function __construct($path, $params, $drupal_path, $log) {
     $this->path = $path;
     $this->params = $params;
     $this->drupal_path = $drupal_path;
+    $this->log = $log;
     $this->request_data = NULL;
   }
   
@@ -71,9 +73,11 @@ class AlmaMockup {
   }
 
   private function log($text) {
-	$f = fopen('/tmp/alma_mockup_log.txt', 'a');
-	fwrite($f, date('Ymd H:i:s - ') . "\n" . print_r($text,1) . "\n\n");
-	fclose($f);
+    if ($this->log) {
+      $f = fopen('/tmp/alma_mockup_log.txt', 'a');
+      fwrite($f, date('Ymd H:i:s - ') . "\n" . print_r($text,1) . "\n\n");
+      fclose($f);
+    }
   }
 
 }
