@@ -4,7 +4,6 @@
  * Code for the Alma feature.
  */
 
-
 define('ALMA_AUTH_BLOCKED', '4e5531951f55ab8f6895684999c69c2');
 
 // Define date formats used by Alma.
