@@ -49,6 +49,12 @@ function ding_list_user_list_ctools_access_check($conf, $context) {
   $account = $context[0]->data;
   $list = $context[1]->data;
 
+  // Reload the entity if the uid is missing.
+  if ($list->uid == 0) {
+    $tmp = entity_load('ding_type', array($list->id), array(), TRUE);
+    $list = reset($tmp);
+  }
+
   $token = isset($_GET['token']) ? $_GET['token'] : FALSE;
 
   $result = ding_list_user_has_access($list, $conf['visibility_settings'], $account, $token);

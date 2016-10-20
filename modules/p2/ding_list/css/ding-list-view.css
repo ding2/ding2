@@ -1,3 +1,10 @@
+.ding-type-ding-list.no-access h2 {
+  opacity: 0.4;
+}
+.ding-type-ding-list.no-access .note {
+  font-size: 0.9em;
+}
+
 .view-ding-list-elements .views-field-id {
   width: 30px;
 }
@@ -64,7 +71,7 @@
     width: 100%;
     margin-left: 0;
   }
-  
+
   .page-user- .pane-content .pane-user-menu {
     margin-bottom: 20px;
   }
