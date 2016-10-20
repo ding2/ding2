@@ -33,18 +33,21 @@ function ding_list_installer_eck_bundle_info() {
       'entity_type' => 'ding_type',
       'name' => 'ding_list',
       'label' => 'ding_list',
+      'config' => array(),
     ),
     'ding_type_ding_list_element' => array(
       'machine_name' => 'ding_type_ding_list_element',
       'entity_type' => 'ding_type',
       'name' => 'ding_list_element',
       'label' => 'Ding List Element',
+      'config' => array(),
     ),
     'ding_type_permission' => array(
       'machine_name' => 'ding_type_permission',
       'entity_type' => 'ding_type',
       'name' => 'permission',
       'label' => 'permission',
+      'config' => array(),
     ),
   );
   return $items;
