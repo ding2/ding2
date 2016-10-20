@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Code for the Alma mockup feature.
+ */
 
 /**
  * Class AlmaMockup
