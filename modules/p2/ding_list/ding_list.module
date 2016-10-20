@@ -588,7 +588,7 @@ function ding_list_preprocess_entity(&$variables) {
             '#type' => 'html_tag',
             '#tag' => 'div',
             '#attributes' => array('class' => array('note')),
-            '#value' => t('The list is no longer public or shared.')
+            '#value' => t('The list is no longer public or shared.'),
           );
           $variables['url'] = FALSE;
         }
