@@ -592,7 +592,7 @@ function alma_update_provider($changes, $entity) {
       user_save($user);
     }
   }
-  else if (!empty($user->mail)) {
+  elseif (!empty($user->mail)) {
     // Delete the email from ALMA and database.
     global $user;
 
