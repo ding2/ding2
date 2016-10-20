@@ -331,6 +331,9 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.page-node .ding-mkws-widget .ding-mkws-more-link {
+  clear: left;
+}
 
 .ding-campaign--content {
   margin-top: 20px;

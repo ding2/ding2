@@ -21,11 +21,14 @@ $plugin = array(
 function ding_mkws_item_list_render($subtype, $conf, $panel_args, $context) {
   $pane = new stdClass();
   $global_options = variable_get('ding_mkws_global', array());
-  $global_settings = (!empty($global_options['opac'])) ? $global_options['opac'][$subtype] : array();
+  $key = $subtype . '_' . $conf['scope'];
+  $global_settings = (!empty($global_options['opac'])) ? $global_options['opac'][$key] : array();
 
   $params = array(
     'type' => $subtype,
     'amount' => (!empty($global_settings)) ? $global_settings['amount'] : ' 0',
+    'scope' => $conf['scope'],
+    'title' => $global_settings['title'],
   );
   $hash = md5(implode('', $params));
 
@@ -52,6 +55,9 @@ function ding_mkws_item_list_render($subtype, $conf, $panel_args, $context) {
 
       }
       $params['term']['query'] = str_replace(array('.', '!', '?', '#', ','), ' ', $query);
+    }
+    if (!empty($global_settings['maxrecs'])) {
+      $params['maxrecs'] = $global_settings['maxrecs'];
     }
   }
   else {

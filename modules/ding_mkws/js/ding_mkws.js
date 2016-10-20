@@ -49,8 +49,8 @@ var ding_mkws_queue = {
     return Object.keys(ding_mkws_queue.requests)[0]
   };
 
-  ding_mkws.search = function (query, amount, filter, limit) {
-    ding_mkws.pz2.search(query, amount, ding_mkws.sort, filter, null, {limit: limit});
+  ding_mkws.search = function (query, amount, filter, params) {
+    ding_mkws.pz2.search(query, amount, ding_mkws.sort, filter, null, params);
     ding_mkws.active = true;
   };
 
@@ -98,7 +98,7 @@ var ding_mkws_queue = {
     ding_mkws.pz2.showFastCount = 1;
 
     ding_mkws.auth(function () {
-        ding_mkws.search(settings.term, settings.amount, settings.filter, settings.limit)
+        ding_mkws.search(settings.term, settings.amount, settings.filter, settings.parameters);
       },
       failCallback
     );
@@ -110,8 +110,11 @@ var ding_mkws_queue = {
       $(document).on('ding_mkws_request_finished', function (event, key) {
         ding_mkws_queue.remove(key);
         key = ding_mkws_queue.next();
-        settings = ding_mkws_queue.requests[key];
-        ding_mkws.init(settings, OnShowCallback, OnFailCallback);
+
+        if (key !== undefined) {
+          settings = ding_mkws_queue.requests[key];
+          ding_mkws.init(settings, OnShowCallback, OnFailCallback);
+        }
       });
 
       $(document).on('ding_mkws_request_added', function (event, key) {
@@ -129,6 +132,7 @@ var ding_mkws_queue = {
         var process = $this.data('process');
         var template = $this.data('template');
         var settings = Drupal.settings[hash];
+
         settings.process = process;
         settings.template = template;
         settings.element = $this;
@@ -158,12 +162,12 @@ var ding_mkws_queue = {
         }
         else {
           // @todo remember to check for all widgets and panes.
-          query = settings.term.query;
+          query = (settings.term.query !== undefined) ? settings.term.query : settings.term;
         }
         settings.term = query;
 
         //Processing limits.
-        if (settings.limit === undefined || settings.limit.length == 0) {
+        if (settings.limit === undefined) {
           settings.limit = null;
         }
         else {
@@ -174,13 +178,21 @@ var ding_mkws_queue = {
           settings.limit = out;
         }
 
+        settings.parameters = {
+          limit: settings.limit
+        };
+
+        if (settings.maxrecs !== undefined) {
+          settings.parameters.maxrecs = settings.maxrecs;
+        }
+
         // Adds to queue.
         ding_mkws_queue.add(hash, settings);
       });
       // Represents callback for handling errors.
       function OnFailCallback() {
         $this.html(Drupal.t("Sorry, something goes wrong. Can't connect to server."));
-      };
+      }
 
       // Handling result which returns remote service.
       function OnShowCallback(data) {
@@ -189,7 +201,11 @@ var ding_mkws_queue = {
          *
          * @see ding_mkws.theme.js
          */
-        var variables = ding_mkws_process[settings.process](data);
+        var params = {
+          title: Drupal.t(settings.title),
+          query: settings.term
+        };
+        var variables = ding_mkws_process[settings.process](data, params);
         var html = $.templates[settings.template](variables);
         settings.element.html(html);
 
