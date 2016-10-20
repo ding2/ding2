@@ -94,6 +94,10 @@ function ting_reference_field_is_empty($item, $field) {
  * Implements hook_field_insert().
  */
 function ting_reference_field_insert($entity_type, $entity, $field, $instance, $langcode, &$items) {
+  if (empty($items)) {
+    return;
+  }
+
   // Get the entity's id.
   $entity_ids = entity_extract_ids($entity_type, $entity);
   $entity_id = array_shift($entity_ids);
@@ -118,6 +122,10 @@ function ting_reference_field_insert($entity_type, $entity, $field, $instance, $
  * Implements hook_field_update().
  */
 function ting_reference_field_update($entity_type, $entity, $field, $instance, $langcode, &$items) {
+  if (empty($items)) {
+    return;
+  }
+
   // Get the entity's id.
   $entity_ids = entity_extract_ids($entity_type, $entity);
   $entity_id = array_shift($entity_ids);
