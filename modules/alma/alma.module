@@ -570,11 +570,11 @@ function alma_update_provider($changes, $entity) {
     // Update or add mail to ALMA.
     try {
       // Add email.
-      if (empty($user->mail) && !empty($changes['mail'])) {
+      if (empty($user->mail)) {
         $res = alma_client_invoke('add_email_address', $creds['name'], $creds['pass'], $changes['mail']);
       }
       // Change email.
-      elseif (isset($user->mail) && !empty($changes['mail'])) {
+      elseif (isset($user->mail)) {
         $res = alma_client_invoke('change_email_address', $creds['name'], $creds['pass'], $user->mail, $changes['mail']);
       }
     }
@@ -592,13 +592,11 @@ function alma_update_provider($changes, $entity) {
       user_save($user);
     }
   }
-  else {
+  elseif (!empty($user->mail)) {
     // Delete the email from ALMA and database.
     global $user;
 
-    if (isset($user->mail) && empty($changes['mail'])) {
-      $res = alma_client_invoke('remove_email_address', $creds['name'], $creds['pass'], $user->mail);
-    }
+    $res = alma_client_invoke('remove_email_address', $creds['name'], $creds['pass'], $user->mail);
 
     if (empty($res)) {
       $error_message .= t('mail was not deleted');
