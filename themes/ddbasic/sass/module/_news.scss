@@ -183,3 +183,62 @@
     }
   }
 }
+
+.node-type-ding-news .field-slideshow-wrapper {
+  position: relative;
+  min-height: 550px;
+
+  .field-slideshow {
+    padding-bottom: 0px !important;
+  }
+
+  .field-slideshow-slide {
+    margin-right: 5px;
+
+    .field-slideshow-caption-text {
+      font-style: italic;
+    }
+
+    img {
+      margin-bottom: 10px;
+    }
+  }
+
+  .field-slideshow-controls {
+    position: absolute;
+    top: calc(50% - 18px);
+    z-index: 99;
+    width: 100%;
+
+    a.prev {
+      float: left;
+      color: transparent;
+      font-size: 100px;
+
+      &:before {
+        content: "\f104";
+        font-family: "FontAwesome";
+        margin-left: 5px;
+        margin-bottom: -1px;
+        color: #00b7e7;
+      }
+    }
+
+    a.next {
+      float: right;
+      color: transparent;
+      position: relative;
+      font-size: 100px;
+
+      &:before {
+        content: "\f105";
+        font-family: "FontAwesome";
+        margin-right: 8px;
+        margin-bottom: -1px;
+        color: #00b7e7;
+        position: absolute;
+        right: 3px;
+      }
+    }
+  }
+}
