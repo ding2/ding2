@@ -24,7 +24,7 @@ function ding_mkws_install() {
  * Implements hook_uninstall().
  */
 function ding_mkws_uninstall() {
-  db_update('ding_campaign')
+/*  db_update('ding_campaign')
     ->fields(array(
       'type' => 'plain',
     ))
@@ -37,7 +37,7 @@ function ding_mkws_uninstall() {
     unset($allowed_values['mkws']);
   }
   $field['settings']['allowed_values'] = $allowed_values;
-  field_update_field($field);
+  field_update_field($field);*/
 
   _ding_mkws_delete_pane();
   $base = field_info_field('field_mkws_node_widget');
@@ -72,6 +72,11 @@ function ding_mkws_field_schema($field) {
           'not null' => TRUE,
           'default' => 0,
         ),
+        'maxrecs' => array(
+          'type' => 'int',
+          'not null' => TRUE,
+          'default' => 0,
+        ),
       );
       break;
   }
@@ -86,36 +91,36 @@ function _ding_mkws_create_pane() {
   ctools_include('plugins');
   ctools_get_plugins('page_manager', 'task_handlers', 'panel_context');
 
-  $task_names = array(
-    'search' => array('title' => t('Search result'), 'scope' => array('')),
-    'ting_collection' => array('title' => t('Collection view'), 'scope' => array('', 'au')),
-    'ting_object' => array('title' => t('Item page'), 'scope' => array('', 'au')),
+  $items = array(
+   'search_' => array('task_name' => 'search', 'location'=> t('Search result'), 'title' => t('Related content'), 'scope' => ''),
+    'ting_collection_' => array('task_name' => 'ting_collection', 'location'=> t('Collection view'), 'title' => t('Related content'), 'scope' => ''),
+    'ting_collection_au' => array('task_name' => 'ting_collection', 'location'=> t('Collection view'), 'title' => t('More by same author'), 'scope' => 'au'),
+    'ting_object_' => array('task_name' => 'ting_object', 'location'=> t('Item page'), 'title' => t('Related content'), 'scope' => ''),
+    'ting_object_au' => array('task_name' => 'ting_object', 'location'=> t('Item page'), 'title' => t('More by same author'), 'scope' => 'au'),
   );
-  foreach ($task_names as $task_name => $task) {
-    foreach ($task['scope'] as $scope) {
-      $pane_id = "new-ding_mkws_" . $task_name . '_' . $scope;
-      $pane = ding_mkws_get_items_pane($pane_id, $task_name, $scope);
+  variable_set('ding_mkws_panes', $items);
 
-      $task = page_manager_get_task($task_name);
-      $handlers = page_manager_load_task_handlers($task);
+  foreach ($items as $item) {
+    $pane_id = "new-ding_mkws_" . $item['task_name'] . '_' . $item['scope'];
+    $pane = ding_mkws_get_items_pane($pane_id, $item['task_name'], $item['scope']);
 
-      foreach ($handlers as $handler_name => &$handler) {
-        if (strpos($handler_name, $task_name . '_panel_context') !== FALSE) {
-          $display = panels_panel_context_get_display($handler);
+    $task = page_manager_get_task($item['task_name']);
+    $handlers = page_manager_load_task_handlers($task);
 
-          $display->content[$pane_id] = $pane;
-          $display->panels['left_sidebar'][] = $pane_id;
+    foreach ($handlers as $handler_name => &$handler) {
+      if (strpos($handler_name, $item['task_name'] . '_panel_context') !== FALSE) {
+        $display = panels_panel_context_get_display($handler);
 
-          panels_save_display($display);
-          page_manager_save_task_handler($handler);
+        $display->content[$pane_id] = $pane;
+        $display->panels['left_sidebar'][] = $pane_id;
 
-          break;
-        }
+        panels_save_display($display);
+        page_manager_save_task_handler($handler);
+
+        break;
       }
     }
   }
-
-  variable_set('ding_mkws_panes', $task_names);
 }
 
 /**
@@ -164,16 +169,16 @@ function _ding_mkws_delete_pane() {
   ctools_include('plugins');
   ctools_get_plugins('page_manager', 'task_handlers', 'panel_context');
 
-  $task_names = array('search', 'ting_collection', 'ting_object');
-  foreach ($task_names as $task_name) {
-    $pane_id = 'new-ding_mkws_' . $task_name;
+  $items = variable_get('ding_mkws_panes', array());
+  foreach ($items as $item) {
+    $pane_id = 'new-ding_mkws_' . $item['task_name'] . '_' . $item['scope'];
     $pane = ding_mkws_get_items_pane($pane_id);
 
-    $task = page_manager_get_task($task_name);
+    $task = page_manager_get_task($item['task_name']);
     $handlers = page_manager_load_task_handlers($task);
 
     foreach ($handlers as $handler_name => &$handler) {
-      if (strpos($handler_name, $task_name . '_panel_context') !== FALSE) {
+      if (strpos($handler_name, $item['task_name'] . '_panel_context') !== FALSE) {
         $display = panels_panel_context_get_display($handler);
 
         $display->content[$pane_id] = $pane;
