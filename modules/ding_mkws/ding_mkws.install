@@ -92,11 +92,11 @@ function _ding_mkws_create_pane() {
   ctools_get_plugins('page_manager', 'task_handlers', 'panel_context');
 
   $items = array(
-   'search_' => array('task_name' => 'search', 'location'=> t('Search result'), 'title' => t('Related content'), 'scope' => ''),
-    'ting_collection_' => array('task_name' => 'ting_collection', 'location'=> t('Collection view'), 'title' => t('Related content'), 'scope' => ''),
-    'ting_collection_au' => array('task_name' => 'ting_collection', 'location'=> t('Collection view'), 'title' => t('More by same author'), 'scope' => 'au'),
-    'ting_object_' => array('task_name' => 'ting_object', 'location'=> t('Item page'), 'title' => t('Related content'), 'scope' => ''),
-    'ting_object_au' => array('task_name' => 'ting_object', 'location'=> t('Item page'), 'title' => t('More by same author'), 'scope' => 'au'),
+    'search_' => array('task_name' => 'search', 'region' => 'right_sidebar', 'location'=> t('Search result'), 'title' => t('Related content'), 'scope' => ''),
+    'ting_collection_' => array('task_name' => 'ting_collection', 'region' => 'left_sidebar', 'location'=> t('Collection view'), 'title' => t('Related content'), 'scope' => ''),
+    'ting_collection_au' => array('task_name' => 'ting_collection', 'region' => 'left_sidebar', 'location'=> t('Collection view'), 'title' => t('More by same author'), 'scope' => 'au'),
+    'ting_object_' => array('task_name' => 'ting_object', 'region' => 'left_sidebar', 'location'=> t('Item page'), 'title' => t('Related content'), 'scope' => ''),
+    'ting_object_au' => array('task_name' => 'ting_object', 'region' => 'left_sidebar', 'location'=> t('Item page'), 'title' => t('More by same author'), 'scope' => 'au'),
   );
   variable_set('ding_mkws_panes', $items);
 
@@ -112,7 +112,7 @@ function _ding_mkws_create_pane() {
         $display = panels_panel_context_get_display($handler);
 
         $display->content[$pane_id] = $pane;
-        $display->panels['left_sidebar'][] = $pane_id;
+        $display->panels[$item['region']][] = $pane_id;
 
         panels_save_display($display);
         page_manager_save_task_handler($handler);
