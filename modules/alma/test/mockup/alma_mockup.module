@@ -37,7 +37,7 @@ function alma_mockup_ding_provider() {
 /**
  * Construct the mockup page
  */
-function alma_mockup_page($section, $method, $set1=NULL, $set2=NULL) {
+function alma_mockup_page($section, $method, $set1 = NULL, $set2 = NULL) {
   
   $drupal_path = DRUPAL_ROOT . '/' . drupal_get_path('module', 'alma_mockup');
   $alma_mockup_fallback_url = variable_get('alma_mockup_fallback_url', NULL); 
