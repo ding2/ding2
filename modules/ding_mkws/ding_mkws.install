@@ -24,20 +24,22 @@ function ding_mkws_install() {
  * Implements hook_uninstall().
  */
 function ding_mkws_uninstall() {
-  db_update('ding_campaign')
-    ->fields(array(
-      'type' => 'plain',
-    ))
-    ->condition('type', 'mkws', '=')
-    ->execute();
+  if (module_exists('ding_campaign')) {
+    db_update('ding_campaign')
+      ->fields(array(
+        'type' => 'plain',
+      ))
+      ->condition('type', 'mkws', '=')
+      ->execute();
 
-  $field = field_read_field('field_camp_settings');
-  $allowed_values = &$field['settings']['allowed_values'];
-  if (in_array('mkws', $allowed_values)) {
-    unset($allowed_values['mkws']);
+    $field = field_read_field('field_camp_settings');
+    $allowed_values = &$field['settings']['allowed_values'];
+    if (in_array('mkws', $allowed_values)) {
+      unset($allowed_values['mkws']);
+    }
+    $field['settings']['allowed_values'] = $allowed_values;
+    field_update_field($field);
   }
-  $field['settings']['allowed_values'] = $allowed_values;
-  field_update_field($field);
 
   _ding_mkws_delete_pane();
   $base = field_info_field('field_mkws_node_widget');
