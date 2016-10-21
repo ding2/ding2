@@ -1,6 +1,5 @@
 <?php
 /**
- * @TODO Cleanup comments @b14 which comments need cleanup?
  * @file
  * ddbasic implementation to present a Panels layout.
  *
