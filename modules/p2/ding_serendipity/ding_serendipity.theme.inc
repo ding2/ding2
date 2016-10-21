@@ -12,7 +12,7 @@ function ding_serendipity_preprocess_ding_serendipity_info(&$variables) {
   if (!isset($variables['classes_array']) || !is_array($variables['classes_array'])) {
     $variables['classes_array'] = array();
   }
-  
+
   $variables['classes_array'] += array('field', 'field-name-ding-serendipity-info');
   if ($variables['label_display'] == 'hidden') {
     $variables['classes_array'][] = 'field-label-hidden';
