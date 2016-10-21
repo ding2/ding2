@@ -24,7 +24,7 @@ function ding_mkws_install() {
  * Implements hook_uninstall().
  */
 function ding_mkws_uninstall() {
-/*  db_update('ding_campaign')
+  db_update('ding_campaign')
     ->fields(array(
       'type' => 'plain',
     ))
@@ -37,7 +37,7 @@ function ding_mkws_uninstall() {
     unset($allowed_values['mkws']);
   }
   $field['settings']['allowed_values'] = $allowed_values;
-  field_update_field($field);*/
+  field_update_field($field);
 
   _ding_mkws_delete_pane();
   $base = field_info_field('field_mkws_node_widget');
@@ -102,7 +102,7 @@ function _ding_mkws_create_pane() {
 
   foreach ($items as $item) {
     $pane_id = "new-ding_mkws_" . $item['task_name'] . '_' . $item['scope'];
-    $pane = ding_mkws_get_items_pane($pane_id, $item['task_name'], $item['scope']);
+    $pane = ding_mkws_get_items_pane($pane_id, $item['task_name'], $item['scope'], $item['region']);
 
     $task = page_manager_get_task($item['task_name']);
     $handlers = page_manager_load_task_handlers($task);
@@ -132,14 +132,16 @@ function _ding_mkws_create_pane() {
  *   Pane subtype.
  * @param string $scope
  *   Scope of the search query.
+ * @param string $region
+ *   Region where the pane will be saved.
  *
  * @return object
  *   Panels pane object.
  */
-function ding_mkws_get_items_pane($panel_id, $subtype = '', $scope = NULL) {
+function ding_mkws_get_items_pane($panel_id, $subtype = '', $scope = NULL, $region = 'left_sidebar') {
   $pane = new stdClass();
   $pane->pid = $panel_id;
-  $pane->panel = 'left_sidebar';
+  $pane->panel = $region;
   $pane->type = 'ding_mkws_item_list';
   $pane->subtype = $subtype;
   // By default pane is hidden.
