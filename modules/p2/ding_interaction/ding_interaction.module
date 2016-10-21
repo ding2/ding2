@@ -17,6 +17,8 @@
  * to rate them
  */
 
+include_once 'ding_interaction.features.inc';
+
 define('DING_INTERACTION_DEFAULT_COUNT', 5);
 
 /**
