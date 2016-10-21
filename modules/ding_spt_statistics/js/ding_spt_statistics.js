@@ -10,6 +10,15 @@
  * @param data
  */
 function dingSPTStatisticsUrlPreprocess(data) {
-  var url = new URL(data);
-  return url.href = '/spt/redirect?path=' + url.href + '&hostname=' + url.hostname;
+  var url = document.createElement("a");
+  url.href = data;
+  var params = {path: url.href};
+
+  var hostname = url.hostname;
+  if (url.href.indexOf('hostname') !== -1) {
+    hostname = url.href.split('hostname=')[1];
+  }
+  params.hostname = hostname;
+
+  return '/spt/redirect?' + jQuery.param(params);
 }

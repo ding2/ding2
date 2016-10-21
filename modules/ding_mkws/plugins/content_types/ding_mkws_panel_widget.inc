@@ -37,7 +37,7 @@ function ding_mkws_panel_widget_edit_form($form, &$form_state) {
     '#description' => t('Amount of items to display.'),
   );
 
-  $resources = _ding_mkws_process_resources();
+  $resources =_ding_mkws_get_processed_resources();
   $form['resources'] = array(
     '#type' => 'select',
     '#title' => t('Resources:'),
@@ -46,7 +46,12 @@ function ding_mkws_panel_widget_edit_form($form, &$form_state) {
     '#multiple' => TRUE,
     '#empty_option' => t('Choose LBRs'),
   );
-
+  $form['maxrecs'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Maxrecs'),
+    '#default_value' => $conf['scope'],
+    '#element_validate' => array('element_validate_integer_positive'),
+  );
   return $form;
 }
 
@@ -71,6 +76,7 @@ function ding_mkws_panel_widget_render($subtype, $conf, $args, $context) {
     'type' => $subtype,
     'term' => (!empty($conf)) ? $conf['term'] : '',
     'amount' => (!empty($conf)) ? $conf['amount'] : '0',
+    'maxrecs' => (!empty($conf)) ? $conf['maxrecs'] : '',
   );
 
   $hash = md5(implode('', $params));

@@ -21,11 +21,14 @@ $plugin = array(
 function ding_mkws_item_list_render($subtype, $conf, $panel_args, $context) {
   $pane = new stdClass();
   $global_options = variable_get('ding_mkws_global', array());
-  $global_settings = (!empty($global_options['opac'])) ? $global_options['opac'][$subtype] : array();
+  $key = $subtype . '_' . $conf['scope'];
+  $global_settings = (!empty($global_options['opac'])) ? $global_options['opac'][$key] : array();
 
   $params = array(
     'type' => $subtype,
     'amount' => (!empty($global_settings)) ? $global_settings['amount'] : ' 0',
+    'scope' => $conf['scope'],
+    'title' => $global_settings['title'],
   );
   $hash = md5(implode('', $params));
 
@@ -33,20 +36,32 @@ function ding_mkws_item_list_render($subtype, $conf, $panel_args, $context) {
     $entities = ding_entity_load_multiple($panel_args);
     foreach ($entities as $entity) {
       $record = $entity->reply->record;
-      $title = $record['dc:title'][''][0];
-      $params['limit'] = null;
-      if (count($record['dc:creator']) > 0) {
-        $result = reset($record['dc:creator']);
-        if (isset($result[0])) {
-          $author = $result[0];
-          $params['limit'] = array('author' => drupal_strtolower($author));
+      $query = $record['dc:title'][''][0];
+
+      if (!empty($conf['scope'])) {
+        $params['term']['type'] = $conf['scope'];
+
+        switch ($conf['scope']) {
+          case 'au':
+            if (count($record['dc:creator']) > 0) {
+              $result = reset($record['dc:creator']);
+              if (isset($result[0])) {
+                $author = $result[0];
+                $query = drupal_strtolower($author);
+              }
+            }
+            break;
         }
+
       }
-      $params['term'] = str_replace(array('.', '!', '?', '#', ','), ' ', $title);
+      $params['term']['query'] = str_replace(array('.', '!', '?', '#', ','), ' ', $query);
+    }
+    if (!empty($global_settings['maxrecs'])) {
+      $params['maxrecs'] = $global_settings['maxrecs'];
     }
   }
   else {
-    $params['term'] = reset($panel_args);
+    $params['term']['query'] = reset($panel_args);
   }
 
   $params['resources'] = (!empty($global_settings)) ? array_values($global_settings['resources']) : NULL;

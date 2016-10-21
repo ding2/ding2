@@ -245,6 +245,25 @@ function _ding_mkws_process_resources() {
 }
 
 /**
+ * Get only the resources that are saved on the admin page.
+ *
+ * @return array
+ *   Processed resources.
+ */
+function _ding_mkws_get_processed_resources() {
+  $resources = _ding_mkws_process_resources();
+  $settings = variable_get('ding_mkws_global', array());
+  $options = array();
+  foreach ($settings['resources']['values'] as $value) {
+    if ($value) {
+      $options[$value] = $resources[$value];
+    }
+  }
+
+  return $options;
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function ding_mkws_form_ding_campaign_node_form_alter(&$form, &$form_state, $form_id) {

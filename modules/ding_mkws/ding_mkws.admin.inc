@@ -107,28 +107,17 @@ function ding_mkws_widget_settings_form($form, $form_state) {
     '#title' => t('OPAC'),
   );
 
-  /**
-   * Keys of the array $items represent name of the page manager tasks
-   *
-   * They are created during module install.
-   * @see _ding_mkws_create_pane.
-   */
-  $items = array(
-    'search' => t('Search result'),
-    'ting_collection' => t('Collection view'),
-    'ting_object' => t('Item page'),
-  );
-
-  foreach ($items as $key => $title) {
+  $items = variable_get('ding_mkws_panes', array());
+  foreach ($items as $key => $item) {
     $form['opac'][$key] = array(
       '#type' => 'fieldset',
       '#collapsible' => FALSE,
-      '#title' => $title,
+      '#title' => t('@title widget on @item', array('@title' => $item['title'], '@item' => $item['location'])),
     );
 
     $form['opac'][$key]['show'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Show the widget on @item', array('@item' => drupal_strtolower($title))),
+      '#title' => t('Show @title widget on @item', array('@title' => drupal_strtolower($item['title']), '@item' => drupal_strtolower($item['location']))),
       '#default_value' => !empty($settings['opac'][$key]['show']) ? $settings['opac'][$key]['show'] : NULL,
     );
 
@@ -139,12 +128,27 @@ function ding_mkws_widget_settings_form($form, $form_state) {
       '#element_validate' => array('element_validate_integer_positive'),
     );
 
+    $options = array();
+    if (!empty($settings)) {
+      foreach ($settings['resources']['values'] as $value) {
+        if ($value) {
+          $options[$value] = $resources[$value];
+        }
+      }
+    }
     $form['opac'][$key]['resources'] = array(
       '#type' => 'select',
       '#multiple' => TRUE,
-      '#options' => $resources,
+      '#options' => $options,
       '#title' => t("LBR's to search for this widget"),
       '#default_value' => !empty($settings['opac'][$key]['resources']) ? $settings['opac'][$key]['resources'] : NULL,
+    );
+
+    $form['opac'][$key]['maxrecs'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Maxrecs'),
+      '#default_value' => !empty($settings['opac'][$key]['maxrecs']) ? $settings['opac'][$key]['maxrecs'] : '',
+      '#element_validate' => array('element_validate_integer_positive'),
     );
   }
 
@@ -152,6 +156,7 @@ function ding_mkws_widget_settings_form($form, $form_state) {
     '#type' => 'submit',
     '#value' => t('Save'),
   );
+
   return $form;
 }
 
@@ -159,20 +164,22 @@ function ding_mkws_widget_settings_form($form, $form_state) {
  * Submit handler of widget configuration.
  */
 function ding_mkws_widget_settings_form_submit($form, $form_state) {
-  $values = $form_state['values'];
-  variable_set('ding_mkws_global', $values);
+  $items = variable_get('ding_mkws_panes', array());
 
   ctools_include('plugins');
   ctools_get_plugins('page_manager', 'task_handlers', 'panel_context');
 
+  $values = $form_state['values'];
   foreach ($values['opac'] as $key => $variable) {
-    $task = page_manager_get_task($key);
+    $task = page_manager_get_task($items[$key]['task_name']);
     $handlers = page_manager_load_task_handlers($task);
     foreach ($handlers as $handler_name => &$handler) {
-      if (strpos($handler_name, $key . '_panel_context') !== FALSE) {
+      if (strpos($handler_name, $items[$key]['task_name'] . '_panel_context') !== FALSE) {
         $display = panels_panel_context_get_display($handler);
         foreach ($display->content as &$pane) {
-          if ($pane->type == 'ding_mkws_item_list') {
+          $pane_scope = (!empty($pane->configuration['scope'])) ? $pane->configuration['scope'] : NULL;
+          $scope = $items[$key]['scope'];
+          if ($pane->type == 'ding_mkws_item_list' && $pane_scope == $scope) {
             // Enable panes.
             if ($values['opac'][$key]['show'] && !$pane->shown) {
               $pane->shown = TRUE;
@@ -187,7 +194,13 @@ function ding_mkws_widget_settings_form_submit($form, $form_state) {
         }
       }
     }
+
+    $values['opac'][$key]['title'] = $items[$key]['title'];
+    $values['opac'][$key]['task_name'] = $items[$key]['task_name'];
+    $values['opac'][$key]['scope'] = $items[$key]['scope'];
   }
+
+  variable_set('ding_mkws_global', $values);
 }
 
 /**
