@@ -12,15 +12,9 @@ function alma_mockup_menu() {
     'title' => 'Alma mockup',
     'description' => 'Alma mockup',
     'page callback' => 'alma_mockup_page',
-    'page arguments' => array(1, 2, NULL),
+    'page arguments' => array(1, 2),
     'access arguments' => array('access content'),
-  );
-  $items['alma_mockup/%/%/%'] = array(
-    'title' => 'Alma mockup',
-    'description' => 'Alma mockup',
-    'page callback' => 'alma_mockup_page',
-    'page arguments' => array(1, 2, 3),
-    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
   );
   return $items;
 }
@@ -43,14 +37,14 @@ function alma_mockup_ding_provider() {
 /**
  * Construct the mockup page
  */
-function alma_mockup_page($section, $method, $set) {
+function alma_mockup_page($section, $method, $set1=NULL, $set2=NULL) {
   
   $drupal_path = DRUPAL_ROOT . '/' . drupal_get_path('module', 'alma_mockup');
   $alma_mockup_fallback_url = variable_get('alma_mockup_fallback_url', NULL); 
   $alma_ssl_version = variable_get('alma_ssl_version', 'sslv3');
   $recording = variable_get('alma_mockup_recording', FALSE);
   $log = variable_get('alma_mockup_log', FALSE);
-  $path = array_filter(array($section, $method, $set));
+  $path = array_filter(array($section, $method, $set1, $set2));
   if (!empty($_GET['q'])) {
     unset($_GET['q']);
   }
