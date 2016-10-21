@@ -362,10 +362,10 @@ function ding_serendipity_user_cache_clear($uid) {
 }
 
 /**
- * Flush serendipity cache of current user if list elements change.
+ * Flush serendipity cache of a list element owner when the element is presaved
  */
 function ding_serendipity_entity_presave($entity, $type) {
-  if (isset($entity->type) && $entity->type == "ding_list_element" && user_is_logged_in() && isset($entity->uid)) {
+  if (isset($entity->type) && $entity->type == "ding_list_element" && isset($entity->uid)) {
     ding_serendipity_user_cache_clear($entity->uid);
   }
 }
