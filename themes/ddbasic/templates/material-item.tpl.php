@@ -1,9 +1,15 @@
 <?php
 /**
- * @TODO Variables list
- * @TODO Missing file description
- * @b14 Oprinde material-item fil har hverken description eller variables list - ligger i ding_base modul
  * @file
+ * Material item template
+ *
+ * Variables available:
+ * - $zebra: odd/even class
+ * - $checkbox: Checkbox
+ * - $ting_object_url_object: Url to Ting object
+ * - $cover: Cover-image for material
+ * - $information: Array of informations
+ * - $material_message: Material message
  *
  */
 ?>

@@ -1,9 +1,13 @@
 <?php
 
 /**
- * @TODO Variables list @b14 Alt er default variabler
  * @file
  * Default simple view template to display a list of rows.
+ *
+ * Variables available:
+ * - $title: The view title
+ * - $rows: Array of view rows
+ * - $classes_array: Array of classes for the rows
  *
  * @ingroup views_templates
  */
