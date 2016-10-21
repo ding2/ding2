@@ -18,13 +18,13 @@ function ding_place2book_field_schema($field) {
           'length' => 256,
           'not null' => FALSE,
           'default' => NULL,
-         ),
+        ),
         'event_maker_id' => array(
           'type' => 'varchar',
           'length' => 256,
           'not null' => FALSE,
           'default' => NULL,
-          ),
+        ),
         'synchronize' => array(
           'type' => 'int',
           'size' => 'tiny',
@@ -48,7 +48,7 @@ function ding_place2book_update_7001(&$sandbox) {
   $result = $query->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'ding_event')
     ->execute();
-  
+
   if (isset($result['node'])) {
     foreach ($result['node'] as $item) {
       $node = node_load($item->nid);
