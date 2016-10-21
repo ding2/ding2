@@ -61,11 +61,6 @@ function ding_place2book_update_7001(&$sandbox) {
     }
   }
 
-  // Drop table.
-  if (db_table_exists('ding_place2book')) {
-    db_drop_table('ding_place2book');
-  }
-
   // Remove field.
   field_delete_field('field_place2book_tickets');
 

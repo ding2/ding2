@@ -70,6 +70,10 @@ function _ding_place2book_migrate_batch_finished($success, $results, $operations
   $message = t('Finished with an error.');
   if ($success) {
     $message = t('Events migration completed.');
+    // Drop table.
+    if (db_table_exists('ding_place2book')) {
+      db_drop_table('ding_place2book');
+    }
   }
 
   drupal_set_message($message);
