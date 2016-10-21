@@ -21,18 +21,23 @@ function ting_search_carousel_uninstall() {
   variable_del('ting_carousel_search_queries');
 }
 
+/**
+ * Add a shortcut for configuring ting_search_carousel.
+ */
 function ting_search_carousel_add_shortcut() {
-  // Add shortcut to carousel.
-  $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
-  $shortcut_set->links = array(
-    array(
-      'link_path' => 'admin/config/ting/ting_search_carousel',
-      'link_title' => st('Configure carousel'),
-      'weight' => -14,
-    ),
-  );
+  if(module_exists('shortcut')) {
+    // Add shortcut to carousel.
+    $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
+    $shortcut_set->links = array(
+      array(
+        'link_path' => 'admin/config/ting/ting_search_carousel',
+        'link_title' => st('Configure carousel'),
+        'weight' => -14,
+      ),
+    );
 
-  shortcut_set_save($shortcut_set);
+    shortcut_set_save($shortcut_set);
+  }
 }
 
 /**
@@ -41,16 +46,8 @@ function ting_search_carousel_add_shortcut() {
 function ting_search_carousel_update_7001() {
   db_delete('menu_links')
     ->condition('link_path', 'admin/config/ting/ting_search_carousel')
+    ->condition('menu_name', 'shortcut-set-1')
     ->execute();
 
-  $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
-  $shortcut_set->links = array(
-    array(
-      'link_path' => 'admin/config/ting/ting_search_carousel',
-      'link_title' => st('Configure carousel'),
-      'weight' => -14,
-    ),
-  );
-
-  shortcut_set_save($shortcut_set);
+  ting_search_carousel_add_shortcut();
 }
