@@ -40,6 +40,17 @@ function ding_christmas_calendar_user_default_permissions() {
     'module' => 'ding_christmas_calendar',
   );
 
+  // Exported permission: 'create multichoice content'.
+  $permissions['create multichoice content'] = array(
+    'name' => 'create multichoice content',
+    'roles' => array(
+      'administrators' => 'administrators',
+      'editor' => 'editor',
+      'local administrator' => 'local administrator',
+    ),
+    'module' => 'node',
+  );
+
   // Exported permission: 'create quiz content'.
   $permissions['create quiz content'] = array(
     'name' => 'create quiz content',
@@ -54,6 +65,17 @@ function ding_christmas_calendar_user_default_permissions() {
   // Exported permission: 'create quiz_page content'.
   $permissions['create quiz_page content'] = array(
     'name' => 'create quiz_page content',
+    'roles' => array(
+      'administrators' => 'administrators',
+      'editor' => 'editor',
+      'local administrator' => 'local administrator',
+    ),
+    'module' => 'node',
+  );
+
+  // Exported permission: 'delete any multichoice content'.
+  $permissions['delete any multichoice content'] = array(
+    'name' => 'delete any multichoice content',
     'roles' => array(
       'administrators' => 'administrators',
       'editor' => 'editor',
@@ -95,6 +117,17 @@ function ding_christmas_calendar_user_default_permissions() {
     'module' => 'node',
   );
 
+  // Exported permission: 'delete own multichoice content'.
+  $permissions['delete own multichoice content'] = array(
+    'name' => 'delete own multichoice content',
+    'roles' => array(
+      'administrators' => 'administrators',
+      'editor' => 'editor',
+      'local administrator' => 'local administrator',
+    ),
+    'module' => 'node',
+  );
+
   // Exported permission: 'delete own quiz content'.
   $permissions['delete own quiz content'] = array(
     'name' => 'delete own quiz content',
@@ -126,6 +159,17 @@ function ding_christmas_calendar_user_default_permissions() {
     'module' => 'quiz',
   );
 
+  // Exported permission: 'edit any multichoice content'.
+  $permissions['edit any multichoice content'] = array(
+    'name' => 'edit any multichoice content',
+    'roles' => array(
+      'administrators' => 'administrators',
+      'editor' => 'editor',
+      'local administrator' => 'local administrator',
+    ),
+    'module' => 'node',
+  );
+
   // Exported permission: 'edit any quiz content'.
   $permissions['edit any quiz content'] = array(
     'name' => 'edit any quiz content',
@@ -140,6 +184,17 @@ function ding_christmas_calendar_user_default_permissions() {
   // Exported permission: 'edit any quiz_page content'.
   $permissions['edit any quiz_page content'] = array(
     'name' => 'edit any quiz_page content',
+    'roles' => array(
+      'administrators' => 'administrators',
+      'editor' => 'editor',
+      'local administrator' => 'local administrator',
+    ),
+    'module' => 'node',
+  );
+
+  // Exported permission: 'edit own multichoice content'.
+  $permissions['edit own multichoice content'] = array(
+    'name' => 'edit own multichoice content',
     'roles' => array(
       'administrators' => 'administrators',
       'editor' => 'editor',
