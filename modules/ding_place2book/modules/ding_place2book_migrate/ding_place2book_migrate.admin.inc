@@ -28,7 +28,6 @@ function ding_place2book_migrate_admin_form_submit($form, &$form_state) {
   $result = $query->execute()->fetchAll();
   $operations = array(array('_ding_place2book_migrate_batch', array($result)));
 
-
   $batch = array(
     'operations' => $operations,
     'finished' => '_ding_place2book_migrate_batch_finished',
