@@ -426,11 +426,11 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   padding: 20px;
-  color: #000003;
+  color: $dialog-text;
 
   .modal-header {
-    background: #00cafd;
-    color: #000003;
+    background: $dialog-background;
+    color: $dialog-text;
     padding: 20px 20px 0 20px;
   }
 
@@ -452,7 +452,7 @@
         right: 60px;
         position: absolute;
         content: "\f00d";
-        color: #000003;
+        color: $dialog-text;
       }
 
       img {
@@ -462,7 +462,7 @@
   }
 
   span {
-    color: #000003;
+    color: $dialog-text;
     font-family: "SourceSansProSemibold";
     font-weight: normal;
     font-size: 200%;
@@ -486,7 +486,7 @@
     -ms-border-radius: 8px;
     -o-border-radius: 8px;
     border-radius: 8px;
-    background: #00cafd;
+    background: $dialog-background;
     min-width: 450px;
     max-width: 450px;
     padding: 15px;
