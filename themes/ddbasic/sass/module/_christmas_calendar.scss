@@ -420,3 +420,108 @@
     }
   }
 }
+
+.not-logged-in.page-ding-christmas-calendar .modal-default {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 20px;
+  color: #000003;
+
+  .modal-header {
+    background: #00cafd;
+    color: #000003;
+    padding: 20px 20px 0 20px;
+  }
+
+  div.ctools-modal-content {
+    border: none;
+
+    a.close {
+      float: right;
+      padding: 0;
+      top: 10px;
+      width: auto;
+      background: none;
+      border: none;
+      color: transparent;
+
+      &:before {
+        font-family: "FontAwesome";
+        margin-bottom: -1px;
+        right: 60px;
+        position: absolute;
+        content: "\f00d";
+        color: #000003;
+      }
+
+      img {
+        display: none;
+      }
+    }
+  }
+
+  span {
+    color: #000003;
+    font-family: "SourceSansProSemibold";
+    font-weight: normal;
+    font-size: 200%;
+
+    .modal-title {
+      float: left;
+      margin: .1em 0;
+      white-space: nowrap;
+      width: 90%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .ctools-modal-content {
+    -webkit-box-shadow: rgba(0,0,0,0.35) 0 0 10px;
+    -moz-box-shadow: rgba(0,0,0,0.35) 0 0 10px;
+    box-shadow: rgba(0,0,0,0.35) 0 0 10px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    border-radius: 8px;
+    background: #00cafd;
+    min-width: 450px;
+    max-width: 450px;
+    padding: 15px;
+
+    .modal-content {
+      position: relative;
+      border: 0;
+      padding: 1em 1.5em;
+      background: 0;
+      overflow: hidden;
+      width: auto !important;
+
+      .form-type-password input[type="password"] {
+        max-width: 150px;
+      }
+
+      label {
+        font-family: "SourceSansProSemibold";
+        font-weight: normal;
+      }
+    }
+  }
+
+  .modal-content {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 20px;
+  }
+}
+
+.not-logged-in.page-ding-christmas-calendar {
+  .ctools-modal-content .modal-content {
+    form div.form-actions {
+      padding-top: 0;
+    }
+  }
+}
