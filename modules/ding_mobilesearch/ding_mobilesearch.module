@@ -267,13 +267,26 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
         }
 
         if ($info['type'] == 'entityreference') {
+          $target = $info['settings']['target_type'];
+
           $mapping['fields'][$machine_name] = array(
             'name' => $field['label'],
             'value' => array(),
             'attr' => array(),
           );
+
           foreach ($items as $item) {
-            $mapping['fields'][$machine_name]['value'][] = $item['target_id'];
+            $entity = entity_load_single($target, $item['target_id']);
+            if ($entity) {
+              // TODO: Consider taxonomies as well.
+              if ($target == 'node') {
+                $value = $entity->title;
+              }
+
+              if (!empty($value)) {
+                $mapping['fields'][$machine_name]['value'][] = $value;
+              }
+            }
           }
         }
         break;
