@@ -129,9 +129,11 @@ function ding_mkws_widget_settings_form($form, $form_state) {
     );
 
     $options = array();
-    foreach ($settings['resources']['values'] as $value) {
-      if ($value) {
-        $options[$value] = $resources[$value];
+    if (!empty($settings)) {
+      foreach ($settings['resources']['values'] as $value) {
+        if ($value) {
+          $options[$value] = $resources[$value];
+        }
       }
     }
     $form['opac'][$key]['resources'] = array(
