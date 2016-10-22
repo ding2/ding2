@@ -81,6 +81,7 @@
 // Hide elements we don't want displayed.
 hide($content['comments']);
 hide($content['links']);
+hide($content['opening_hours_week']);
 
 /*
  * If displaying teaser mode we need the node title in the render array
@@ -88,6 +89,7 @@ hide($content['links']);
 if ($view_mode == 'teaser') {
   $content['group_ding_library_right_column']['title'][0]['#markup'] = '<h2 class="page-title library-title"><a href="' . $node_url . '">' . $title . '</a></h2>';
   $content['group_ding_library_right_column']['title']['#weight'] = '0';
+  $content['opening_hours_week']['#label_display'] = 'hidden';
 }
 ?>
 <div class="<?php print $classes; ?>">
@@ -98,10 +100,10 @@ if ($view_mode == 'teaser') {
     <div class="libraries">
       <?php print render($content); ?>
     </div>
-    <?php if (!empty($opening_hours)) : ?>
-    <div class="libraries-opening-hours js-opening-hours-toggle-element">
-      <?php print $opening_hours;  ?>
-    </div>
+    <?php if (!empty($content['opening_hours_week'])) : ?>
+      <div class="libraries-opening-hours js-opening-hours-toggle-element">
+        <?php print render($content['opening_hours_week']); ?>
+      </div>
     <?php endif; ?>
   </div>
 </div>

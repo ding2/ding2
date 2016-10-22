@@ -259,6 +259,9 @@ projects[opening_hours][patch][] = "http://www.drupal.org/files/issues/Issue620-
 ; Support series longer than a year.
 ; https://www.drupal.org/node/2194867
 projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/opening_hours-2194867-D7.patch"
+; Add "hide if empty" option to field settings.
+; https://www.drupal.org/node/2820005
+projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/opening-hours-2820005-hide-field-if-empty.patch"
 
 projects[override_node_options][subdir] = "contrib"
 projects[override_node_options][version] = "1.13"
