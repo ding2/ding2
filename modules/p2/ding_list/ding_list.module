@@ -769,10 +769,29 @@ function ding_list_get_taxonomy_term($id) {
  * Implements hook_list_mail().
  */
 function ding_list_mail($key, &$message, $params) {
+  global $user;
+  
   switch ($key) {
     case 'share':
+      $username = $user->name;
+      if (isset($user->data)) {
+        if (is_string($user->data)) {
+          $data = unserialize($user->data);
+        }
+        else {
+          $data = $user->data;
+        }
+
+        if (!empty($data) && isset($data['display_name'])) {
+          $username = $data['display_name'];
+        }
+      }
+      
       $list = $params['list'];
-      $message['subject'] = t('@user has shared a personal list with you at @library', array('@user' => ding_list_list_username($list), '@library' => ''));
+      $message['subject'] = t('@user has shared a personal list with you at @library', array(
+        '@user' => $username,
+        '@library' => variable_get('site_name', ''),
+      ));
       $message['body'][] = t('Please use the following link to access this list.
 The link is active for 7 days from today, after which it will be disabled for security reasons.
 
