@@ -8,6 +8,11 @@
   margin: 0;
 }
 
+.ding-user-lists ul.bottom-links li {
+  padding: 0;
+  margin-top: 20px;
+}
+
 .ding-user-lists ul li:nth-child(2n){
   background: #efefef;
 }

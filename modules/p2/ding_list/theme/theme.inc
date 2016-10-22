@@ -168,8 +168,8 @@ function theme_ding_list_lists($variables) {
   // Footer links.
   $out .= theme('item_list', array(
     'items' => array(
-      l(t("> Mark all notifications as read"), "ding_message/purge_user_messages"),
-      l(t("> Create new list"), "list/create"),
+      l(t("Mark all notifications as read"), "ding_message/purge_user_messages", array('attributes' => array('class' => array('button')))),
+      l(t("Create new list"), "list/create", array('attributes' => array('class' => array('button')))),
     ),
     'title' => "",
     'type' => 'ul',
