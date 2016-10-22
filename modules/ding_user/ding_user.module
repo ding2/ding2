@@ -290,7 +290,7 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
         '#type' => 'fieldset',
         '#title' => t('Change pincode'),
       );
-      if (!isset($_SESSION['wayf_login'])) {
+      if (ding_user_name() && !isset($_SESSION['wayf_login'])) {
         $form['pass']['pincode_old'] = array(
           '#type' => 'password',
           '#title' => t('Confirm old pincode'),
@@ -365,12 +365,20 @@ function ding_user_form_process_password_confirm($element) {
 function ding_user_profile_update_validate($form, &$form_state) {
   if (isset($form_state['values']['pincode_old'])) {
     if (!empty($form_state['values']['pincode'])) {
-      $creds = ding_user_get_creds();
       if (empty($form_state['values']['pincode_old'])) {
         form_set_error('pincode_old', t('The old pincode confirm is empty.'));
         return;
       }
-      if ($creds['pass'] != $form_state['values']['pincode_old']) {
+
+      // Check the old pincode with the provider.
+      $auth_res = ding_provider_invoke('user', 'authenticate', ding_user_name(), $form_state['values']['pincode_old']);
+      if (!is_array($auth_res) || !isset($auth_res['success'])) {
+        watchdog('ding_user', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
+        form_set_error('pincode_old', t('There was an error checking the old pincode. Please try again later.'));
+        return;
+      }
+
+      if (!$auth_res['success']) {
         form_set_error('pincode_old', t('The old pincode confirm does not match.'));
       }
     }
@@ -913,6 +921,29 @@ function ding_user_save_creds($auth_res) {
   if (isset($auth_res['creds'])) {
     $_SESSION['ding_user'] = $auth_res;
   }
+}
+
+/**
+ * Returns user login name of the current user, if available.
+ *
+ * Checks if provider has a get_name function, or has set name in creds.
+ */
+function ding_user_name() {
+  global $user;
+  try {
+    if (ding_provider_implements('user', 'get_name')) {
+      return ding_provider_invoke('user', 'get_name', $user);
+    }
+    $creds = ding_user_get_creds($user);
+    if (isset($creds['name'])) {
+      return $creds['name'];
+    }
+  }
+  catch (Exception $e) {
+    // Do nothing.
+  }
+
+  return NULL;
 }
 
 /**

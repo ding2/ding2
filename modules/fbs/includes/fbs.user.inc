@@ -84,6 +84,21 @@ function fbs_user_authenticate($name, $pincode) {
 }
 
 /**
+ * Get the name of the current user.
+ *
+ * This is actually just an implementation of what ding_user_name() falls back
+ * to in the absence of this function.
+ */
+function fbs_user_get_name($account) {
+  if ($patron_info = fbs_get_patron_info($account)
+      && isset($patron_info['name'])) {
+    return $patron_info['name'];
+  }
+
+  return NULL;
+}
+
+/**
  * Implements provider user, update_pincode.
  *
  * @param string $name
