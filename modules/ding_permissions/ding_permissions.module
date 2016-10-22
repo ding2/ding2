@@ -170,6 +170,7 @@ function ding_permissions_secure_permissions($role) {
       'view own ding_staff_profile profile',
       'view own files',
       'view own private files',
+      'use personalisation',
     ),
     'administrators' => array(
       'access administration pages',
@@ -837,6 +838,7 @@ function ding_permissions_secure_permissions($role) {
       'view private files',
       'view revisions',
       'view the administration theme',
+      'administer personalisation',
     ),
     'local editor' => array(
       'access administration menu',

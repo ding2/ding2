@@ -183,16 +183,3 @@ function ding_p2_installer_permission() {
     ),
   );
 }
-
-/**
- * Implements hook_secure_permissions().
- */
-function ding_p2_installer_secure_permissions($role) {
-  $permissions = array(
-    'authenticated user' => array('use personalisation'),
-    'local administrator' => array('administer personalisation'),
-  );
-  if (isset($permissions[$role])) {
-    return $permissions[$role];
-  }
-}
