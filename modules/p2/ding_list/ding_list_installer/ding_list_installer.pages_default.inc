@@ -16,7 +16,19 @@ function ding_list_installer_default_page_manager_pages() {
   $page->admin_title = 'Page Ding List Create';
   $page->admin_description = '';
   $page->path = 'list/create';
-  $page->access = array();
+  $page->access = array(
+    'plugins' => array(
+      0 => array(
+        'name' => 'external_user',
+        'settings' => NULL,
+        'context' => array(
+          0 => 'logged-in-user',
+        ),
+        'not' => FALSE,
+      ),
+    ),
+    'logic' => 'and',
+  );
   $page->menu = array(
     'type' => 'action',
     'title' => 'asf',
