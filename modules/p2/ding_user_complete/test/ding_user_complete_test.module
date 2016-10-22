@@ -10,7 +10,7 @@
 function ding_user_complete_test_menu() {
   $items = array();
   $items['ding/user-complete/confirm-data/%ctools_js/%user'] = array(
-    'title' => 'Ding interests add to list',
+    'title' => 'Ding user complete test',
     'page callback' => 'ding_user_complete_test_confirm_data_callback',
     'page arguments' => array(3, 4),
     'access arguments' => array('access content'),

@@ -44,7 +44,6 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
         DING_LIST_TYPE_BOOKS_READ => array(),
         DING_LIST_TYPE_REMEMBER => array(),
         DING_ENTITY_RATING_LIST => array(),
-        DING_INTERESTS_LIST => array(),
         DING_LIST_TYPE_USER_LIST => array(),
       ),
       'sort' => 'ding_list_custom_sort_changed',
