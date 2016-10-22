@@ -63,6 +63,7 @@ function template_preprocess_ding_list_add_button(&$variables) {
           'class' => array(),
         ),
         'query' => array('at' => $variables['type'], 'av' => $variables['value']),
+        'html' => TRUE,
       ),
     );
   }
@@ -74,6 +75,7 @@ function template_preprocess_ding_list_add_button(&$variables) {
         'attributes' => array(
           'class' => array('use-ajax', drupal_html_class($option['type'])),
         ),
+        'html' => TRUE,
       );
 
       if (!empty($option['value_title'])) {
