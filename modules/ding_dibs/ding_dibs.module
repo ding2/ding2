@@ -123,14 +123,12 @@ function ding_dibs_dibsapi($op = 'info', $delta = NULL, &$transaction = NULL, $a
  * Implements hook_ding_provider().
  */
 function ding_dibs_ding_provider() {
-  $path = drupal_get_path('module', 'ding_dibs');
-
   return array(
     'title' => 'DIBS payment provider',
     'provides' => array(
       'payment' => array(
         'prefix' => 'payment',
-        'file' => $path . '/includes/dibs.payment.inc',
+        'file' => 'includes/dibs.payment.inc',
       ),
     ),
   );
