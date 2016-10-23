@@ -9,6 +9,7 @@
  */
 function ting_search_carousel_install() {
   @drupal_mkdir('public://ting_search_carousel');
+  ting_search_carousel_add_shortcut();
 }
 
 /**
@@ -18,4 +19,35 @@ function ting_search_carousel_uninstall() {
   @drupal_rmdir('public://ting_search_carousel');
   variable_del('ting_carousel_search_queries_hidden');
   variable_del('ting_carousel_search_queries');
+}
+
+/**
+ * Add a shortcut for configuring ting_search_carousel.
+ */
+function ting_search_carousel_add_shortcut() {
+  if(module_exists('shortcut')) {
+    // Add shortcut to carousel.
+    $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
+    $shortcut_set->links = array(
+      array(
+        'link_path' => 'admin/config/ting/ting_search_carousel',
+        'link_title' => st('Configure carousel'),
+        'weight' => -14,
+      ),
+    );
+
+    shortcut_set_save($shortcut_set);
+  }
+}
+
+/**
+ * Remove previously added shortcut and add shortcut to carousel again.
+ */
+function ting_search_carousel_update_7001() {
+  db_delete('menu_links')
+    ->condition('link_path', 'admin/config/ting/ting_search_carousel')
+    ->condition('menu_name', 'shortcut-set-1')
+    ->execute();
+
+  ting_search_carousel_add_shortcut();
 }
