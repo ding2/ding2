@@ -120,7 +120,15 @@ function ding_p2_installer_default_page_manager_handlers() {
     $pane->subtype = 'carousel';
     $pane->shown = TRUE;
     $pane->access = array(
-      'plugins' => array(),
+      'plugins' => array(
+        0 => array(
+          'name' => 'frontpage_promoter',
+          'settings' => array(
+            'promoter' => 'ting_search_carousel',
+          ),
+          'not' => FALSE,
+        ),
+      ),
     );
     $pane->configuration = array(
       'override_title' => 1,
