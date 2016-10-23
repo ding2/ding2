@@ -1,5 +1,0 @@
-name = Ding user complete
-description = Provides a set of features and hooks to show user profile completeness.
-package = Ding!
-core = 7.x
-files[] = ding_user_complete.module
