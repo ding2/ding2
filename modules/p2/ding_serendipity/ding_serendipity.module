@@ -212,7 +212,6 @@ function ding_serendipity_get_info() {
 function ding_serendipity_fetch(array $context = NULL) {
   // Allow modules to modify the provided context.
   drupal_alter('serendipity_context', $context);
-
   if (variable_get('ding_serendipity_enable_cache', FALSE)) {
     // Caching of serendipity.
     $cache_id = array();
@@ -221,8 +220,11 @@ function ding_serendipity_fetch(array $context = NULL) {
         $cache_id[] = $ct;
       }
     }
-    $cache_id = "ding_serendipity" . implode(':', $cache_id);
 
+    // Prefix cid with uid for per-user serendipity cache clear.
+    $user_key = isset($context['current-user']) ? "_" . $context['current-user'] . "_" : "";
+    $cache_id = "ding_serendipity" . $user_key . implode(':', $cache_id);
+    
     $cache = cache_get($cache_id);
     if (!empty($cache) && REQUEST_TIME < $cache->expire) {
       $cache->data['cache'] = REQUEST_TIME . ':' . $cache->expire . '<br/>';
@@ -347,6 +349,25 @@ function ding_serendipity_fetch(array $context = NULL) {
   }
 
   return $results;
+}
+
+/**
+ * Flush serendipity cache of one user.
+ *
+ * @param int $uid
+ *   The user uid.
+ */
+function ding_serendipity_user_cache_clear($uid) {
+  cache_clear_all("ding_serendipity_" . $uid . "_", "cache", TRUE);
+}
+
+/**
+ * Flush serendipity cache of a list element owner when the element is presaved
+ */
+function ding_serendipity_entity_presave($entity, $type) {
+  if (isset($entity->type) && $entity->type == "ding_list_element" && isset($entity->uid)) {
+    ding_serendipity_user_cache_clear($entity->uid);
+  }
 }
 
 /**
