@@ -83,3 +83,10 @@ function ding_place2book_update_7001(&$sandbox) {
   variable_del('ding_place2book');
   variable_del('ding_place2book_event_nodes');
 }
+
+/**
+ * Enable migration module for existing sites.
+ */
+function ding_place2book_update_7002() {
+  module_enable(array('ding_place2book_migrate'));
+}
