@@ -16,6 +16,7 @@ dependencies[] = page_manager
 dependencies[] = panels
 dependencies[] = strongarm
 dependencies[] = uuid
+dependencies[] = metatag_panels
 features[ctools][] = page_manager:pages_default:1
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:2
