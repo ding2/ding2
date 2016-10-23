@@ -387,12 +387,11 @@ function ding_list_user_login(&$edit, $account) {
 
 /**
  * Import from bookmarks.
+ *
+ * We need the user credentials, which is why this conversion is lazy and
+ * not performed on install.
  */
 function ding_list_import_bookmarks($account) {
-  if (!module_exists('ding_bookmark')) {
-    return;
-  }
-
   // Using simplevar module here, because compatibility with lazy_vars is
   // broken, will be fixed later.
   // Bail out if the bookmarks is already imported.
@@ -400,19 +399,24 @@ function ding_list_import_bookmarks($account) {
     return;
   }
 
-  // Because we need the user credentials, the conversion is lazy, and not
-  // performed on install.
-  $bookmarks = ding_bookmark_load_bookmarks($account);
-  if (empty($bookmarks)) {
-    simplevar_set('ding_list_import_bookmarks', $account->uid, TRUE);
-  }
+  // Fetch all the content_ids from the flag_content table.
+  $query = db_select('flag_content', 'fc');
+  $query->join('flags', 'f', 'f.fid = fc.fid');
+  $cids = $query
+    ->fields('fc', array('content_id'))
+    ->condition('fc.uid', $account->uid)
+    ->condition('fc.content_type', 'ding_entity')
+    ->condition('f.name', 'bookmark')
+    ->execute()->fetchCol();
 
+  // Add the bookmarks to the remember ding list.
   try {
     $list = ding_list_get_list(DING_LIST_TYPE_REMEMBER);
 
     if ($list) {
-      foreach ($bookmarks as $bookmark) {
-        ding_list_create_ding_list_element($list, 'ting_object', array('value' => $bookmark->ding_entity_id), $account, FALSE);
+      $type_info = ding_entity_info('ding_entity');
+      foreach (entity_load($type_info['entity_type'], $cids) as $entity) {
+        ding_list_create_ding_list_element($list, 'ting_object', array('value' => $entity->ding_entity_id), $account, FALSE);
       }
 
       $list->save();
