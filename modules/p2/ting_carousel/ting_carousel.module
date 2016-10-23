@@ -72,19 +72,19 @@ function ting_carousel_preprocess_ting_object(&$variables, $hook) {
     return;
   }
 
-  // Because of browser compatibility we truncate server time.
-  $variables['content']['ting_title'][0]['#markup'] = truncate_utf8($variables['content']['ting_title'][0]['#markup'], 33, FALSE, TRUE);
-
   $entity_uri = entity_uri('ting_object', $variables['object']);
   if (isset($entity_uri)) {
     $entity_link = url($entity_uri['path'], array('absolute' => TRUE));
-    $variables['content']['ting_cover']['#prefix'] = '<div class="contentbox"><a href="' . $entity_link . '">';
-    $variables['content']['ting_title']['#suffix'] = '</a></div>';
+    $variables['content']['ting_cover']['#prefix'] = '<div class="contentbox">';
+    $variables['content']['group_overlay']['ting_title']['#prefix'] = '<a href="' . $entity_link . '" class="item-link">';
+    $variables['content']['group_overlay']['ting_title']['#suffix'] = '</a>';
+    $variables['content']['group_overlay']['#suffix'] .= '</div>';
   }
 
   $object = $variables['object'];
   if (isset($object->serendipity_info)) {
-    $variables['content']['ting_title'][0]['#markup'] = $object->serendipity_info;
+    $variables['content']['ding_serendipity_info']['#access'] = TRUE;
+    $variables['content']['ding_serendipity_info']['#weight'] = $variables['content']['group_overlay']['#weight'] + 0.1;
   }
 
   $variables['content']['#attached']['css'][] = drupal_get_path('module', 'ting_carousel') . '/css/ting-carousel-compact.css';
