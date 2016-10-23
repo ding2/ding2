@@ -35,6 +35,7 @@ define('DING_LIST_OPERATION_SORT', 'sort');
 define('DING_LIST_OPERATION_FOLLOW', 'follow');
 define('DING_LIST_OPERATION_AUTO_CREATE', 'auto_create');
 define('DING_LIST_OPERATION_CHECK_EXISTS', 'check_exists');
+define('DING_LIST_OPERATION_SHARE', 'share');
 
 /**
  * View list permission.
@@ -257,6 +258,7 @@ function ding_list_ding_list_operations() {
       DING_LIST_OPERATION_ATTACH => array('ting_object'),
       DING_LIST_OPERATION_DETACH => TRUE,
       DING_LIST_OPERATION_SORT => TRUE,
+      DING_LIST_OPERATION_SHARE => TRUE,
       '_data' => array(
         'description' =>
         t('Add objects to your own lists as you browse the website.') .
@@ -331,6 +333,7 @@ function ding_list_ding_list_operations() {
       DING_LIST_OPERATION_DETACH => TRUE,
       DING_LIST_OPERATION_SORT => TRUE,
       DING_LIST_OPERATION_AUTO_CREATE => TRUE,
+      DING_LIST_OPERATION_SHARE => TRUE,
       '_data' => array(
         'default_title' => t("Books I've read"),
         'description' => t('Keep a collection of books you have read here.'),
@@ -341,6 +344,7 @@ function ding_list_ding_list_operations() {
       DING_LIST_OPERATION_DETACH => TRUE,
       DING_LIST_OPERATION_SORT => TRUE,
       DING_LIST_OPERATION_AUTO_CREATE => TRUE,
+      DING_LIST_OPERATION_SHARE => TRUE,
       '_data' => array(
         'default_title' => t('Read later'),
         'description' => t('Keep a collection of books you want to read later here.'),

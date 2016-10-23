@@ -57,7 +57,8 @@ function ding_list_list_menu_content_type_render($subtype, $conf, $panel_args, $
         'html' => TRUE,
       );
     }
-    if (ding_list_user_has_access($list, 'owner', $user)) {
+    if (ding_list_user_has_access($list, 'owner', $user)
+        && ding_list_allowed($list, DING_LIST_OPERATION_SHARE)) {
       $block->content['#links']['share'] = array(
         'href' => $uri['path'] . '/share',
         'title' => t('Share list'),
