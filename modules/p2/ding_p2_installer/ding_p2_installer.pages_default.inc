@@ -1316,7 +1316,7 @@ function ding_p2_installer_default_page_manager_handlers() {
   
   // Search page:
   $handler = new stdClass();
-  $handler->disabled = FALSE;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
   $handler->name = 'search_ting_search_panel_context_1';
   $handler->task = 'search';
@@ -1333,12 +1333,12 @@ function ding_p2_installer_default_page_manager_handlers() {
     'relationships' => array(),
     'panels_breadcrumbs_state' => 1,
     'panels_breadcrumbs_titles' => 'Search
-  Well
-  %keywords:html_safe',
+    Well
+    %keywords:html_safe',
     'panels_breadcrumbs_paths' => 'search
-  search/ting
-  <none>
-  ',
+    search/ting
+    <none>
+    ',
   );
   $display = new panels_display();
   $display->layout = '25_50_25';
@@ -1516,7 +1516,20 @@ function ding_p2_installer_default_page_manager_handlers() {
     $pane->type = 'search_query';
     $pane->subtype = 'search_query';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'role',
+          'settings' => array(
+            'rids' => array(
+              0 => 8,
+            ),
+          ),
+          'context' => 'logged-in-user',
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array();
     $pane->cache = array();
     $pane->style = array(
@@ -1611,6 +1624,7 @@ function ding_p2_installer_default_page_manager_handlers() {
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
+
   
   $handlers['search_ting_search_panel_context_1'] = $handler;
   
