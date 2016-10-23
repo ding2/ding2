@@ -1,0 +1,17 @@
+/** This file is used to display:none on colorbox preview **/
+
+#color_scheme_form h2 {
+  display: none;
+}
+
+#color_scheme_form #preview {
+  display: none;
+}
+
+.form-item-palette-base {
+  display: none;
+}
+
+.form-item-palette-text {
+  display: none;
+}
