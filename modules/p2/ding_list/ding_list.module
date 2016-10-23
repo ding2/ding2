@@ -23,8 +23,10 @@ define('DING_LIST_TYPE_FOLLOW_USER', 'follow_user');
 define('DING_LIST_TYPE_FOLLOW_AUTHOR', 'follow_author');
 
 define('DING_LIST_TYPE_SPECIAL_DEPTS', 'special_depts');
+define('DING_LIST_TYPE_SPECIAL_RESERVATIONS_READY', 'special_reservations_ready');
 define('DING_LIST_TYPE_SPECIAL_RESERVATIONS', 'special_reservations');
 define('DING_LIST_TYPE_SPECIAL_LOANS', 'special_loans');
+define('DING_LIST_TYPE_SPECIAL_LOANS_OVERDUE', 'special_loans_overdue');
 
 // Extend here with care.
 define('DING_LIST_OPERATION_DELETE', 'delete');
