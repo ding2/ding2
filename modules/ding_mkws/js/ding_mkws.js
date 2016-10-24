@@ -26,7 +26,6 @@ var ding_mkws = {
   '</div>'
 };
 // Wrapper for storing requests.
-// @todo do not forget to test for other browsers.
 var ding_mkws_queue = {
   requests: new Array(),
   processing: false
@@ -139,7 +138,6 @@ var ding_mkws_queue = {
         settings.hash = hash;
 
         // Processing resources.
-        // @todo at this moment doesnt works.
         if (settings.resources === undefined || settings.resources.length == 0) {
           settings.resources = null;
         }
@@ -166,10 +164,6 @@ var ding_mkws_queue = {
 
         //Processing parameters.
         settings.parameters = {};
-        if (settings.amount !== "") {
-          settings.parameters.amount = settings.amount;
-        }
-
         if (settings.maxrecs !== "") {
           settings.parameters.maxrecs = settings.maxrecs;
         }
