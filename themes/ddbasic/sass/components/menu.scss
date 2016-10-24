@@ -162,6 +162,7 @@ ul.main-menu-second-level {
   }
   // Flexmenu
   li.flexMenu-viewMore {
+    position: static;
     float: left;
     padding: 20px 0;
     > a {
@@ -179,6 +180,12 @@ ul.main-menu-second-level {
       .flexMenu-popup {
         @include wrapper;
         margin-bottom: 0;
+        li {
+          position: relative;
+          float: left;
+          padding: 20px 0;
+          margin-right: 20px;
+        }
       }
     }
     // Active
