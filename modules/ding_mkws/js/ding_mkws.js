@@ -8,7 +8,7 @@
  */
 var ding_mkws = {
   active: false,
-  sort: 'relevance',
+  sort: 'retrieval',
   settings: {},
   spinner: '<div class="ispinner large gray animating">' +
   '<div class="ispinner-blade"></div>' +
@@ -155,34 +155,22 @@ var ding_mkws_queue = {
         }
 
         // Processing query.
-        //@todo not working for node and widget.
         var query = '';
         if (settings.term.type) {
           query = settings.term.type + '=' + settings.term.query;
         }
         else {
-          // @todo remember to check for all widgets and panes.
           query = (settings.term.query !== undefined) ? settings.term.query : settings.term;
         }
         settings.term = query;
 
-        //Processing limits.
-        if (settings.limit === undefined) {
-          settings.limit = null;
-        }
-        else {
-          var out = null;
-          for (var key in settings.limit) {
-            out = key + "=" + settings.limit[key];
-          }
-          settings.limit = out;
+        //Processing parameters.
+        settings.parameters = {};
+        if (settings.amount !== "") {
+          settings.parameters.amount = settings.amount;
         }
 
-        settings.parameters = {
-          limit: settings.limit
-        };
-
-        if (settings.maxrecs !== undefined) {
+        if (settings.maxrecs !== "") {
           settings.parameters.maxrecs = settings.maxrecs;
         }
 
