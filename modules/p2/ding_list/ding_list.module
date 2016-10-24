@@ -409,6 +409,8 @@ function ding_list_import_bookmarks($account) {
   }
 
   // Fetch all the content_ids from the flag_content table.
+  // We use raw queries here as the flag module has been disabled and its API is
+  // not available.
   $query = db_select('flag_content', 'fc');
   $query->join('flags', 'f', 'f.fid = fc.fid');
   $cids = $query
