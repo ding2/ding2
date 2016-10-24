@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AlmaMessage xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:alma="http://www.axiell.com/Schema/alma/v1.0">
+  <getPatronInformationExtendedResponse>
+    <status key="moduleNotAvailable" value="ok"></status>
+    <patronInformationExtended patronCategory="07" patronName="Testkort testbruger 1 ddbcms" patronId="ID301124">
+      <addresses isAddable="no">
+        <address zipCode="8000" type="1" streetAddress="Vestre Ringgade 200" isEditable="no" isDeletable="no" isActive="yes" country="SKIP" city="&#197;rhus C." careOf="" id="Vestre Ringgade 200"></address>
+      </addresses>
+      <borrCards isAddable="no">
+        <borrCard isValid="yes" cardNumber="0123456789" isEditable="no" isDeletable="no"></borrCard>
+      </borrCards>
+      <emailAddresses isAddable="yes"></emailAddresses>
+      <messageServices isAddable="yes"></messageServices>
+      <phoneNumbers isAddable="yes">
+        <phoneNumber localCode="11111111" showArea="no" showCountry="no" isEditable="yes" isDeletable="yes" id="11111111"><sms useForSms="no" isEditable="yes"></sms></phoneNumber>
+        <phoneNumber localCode="22222222" showArea="no" showCountry="no" isEditable="yes" isDeletable="yes" id="22222222"><sms useForSms="yes" isEditable="yes"></sms></phoneNumber>
+      </phoneNumbers>
+      <patronBlocks>
+        <patronBlock isSystemBlock="yes" code="0"></patronBlock>
+      </patronBlocks>
+      <absentPeriods>
+        <absentPeriod absentToDate="2018-04-30" absentFromDate="2017-04-30" absentId="2017043020180430">
+      </absentPeriod></absentPeriods>
+      <patronPreferences patronBranch="bed"></patronPreferences>
+      <patronAllows></patronAllows>
+    </patronInformationExtended>
+  </getPatronInformationExtendedResponse>
+</AlmaMessage>

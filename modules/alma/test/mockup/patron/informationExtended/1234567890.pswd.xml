@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AlmaMessage xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:alma="http://www.axiell.com/Schema/alma/v1.0">
+<getPatronInformationExtendedResponse>
+  <status key="moduleNotAvailable" value="ok"></status>
+  <patronInformationExtended patronCategory="01" patronName="Hans-Peter Jensen" patronId="ID164277">
+    <addresses isAddable="no">
+	  <address zipCode="8000" type="1" streetAddress="Silkeborgvej 232, st.tv" isEditable="no" isDeletable="no" isActive="yes" country="SKIP" city="&#197;rhus C." careOf="" id="Silkeborgvej 232, st.tv"></address>
+	</addresses>
+	<borrCards isAddable="no">
+	  <borrCard isValid="yes" cardNumber="1234567890" isEditable="no" isDeletable="no"></borrCard>
+	</borrCards>
+	<emailAddresses isAddable="yes"></emailAddresses>
+	<messageServices isAddable="yes"></messageServices>
+	<phoneNumbers isAddable="yes">
+	  <phoneNumber localCode="12345678" showArea="no" showCountry="no" isEditable="yes" isDeletable="yes" id="12345678">
+	    <sms useForSms="yes" isEditable="yes"></sms>
+	  </phoneNumber>
+	</phoneNumbers>
+	<patronBlocks></patronBlocks>
+	<absentPeriods></absentPeriods>
+	<patronPreferences patronBranch=""></patronPreferences>
+	<patronAllows></patronAllows>
+  </patronInformationExtended>
+</getPatronInformationExtendedResponse>
+</AlmaMessage>
