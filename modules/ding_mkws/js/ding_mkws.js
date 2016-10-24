@@ -8,7 +8,7 @@
  */
 var ding_mkws = {
   active: false,
-  sort: 'relevance',
+  sort: 'retrieval',
   settings: {},
   spinner: '<div class="ispinner large gray animating">' +
   '<div class="ispinner-blade"></div>' +
@@ -26,7 +26,6 @@ var ding_mkws = {
   '</div>'
 };
 // Wrapper for storing requests.
-// @todo do not forget to test for other browsers.
 var ding_mkws_queue = {
   requests: new Array(),
   processing: false
@@ -139,7 +138,6 @@ var ding_mkws_queue = {
         settings.hash = hash;
 
         // Processing resources.
-        // @todo at this moment doesnt works.
         if (settings.resources === undefined || settings.resources.length == 0) {
           settings.resources = null;
         }
@@ -155,34 +153,18 @@ var ding_mkws_queue = {
         }
 
         // Processing query.
-        //@todo not working for node and widget.
         var query = '';
         if (settings.term.type) {
           query = settings.term.type + '=' + settings.term.query;
         }
         else {
-          // @todo remember to check for all widgets and panes.
           query = (settings.term.query !== undefined) ? settings.term.query : settings.term;
         }
         settings.term = query;
 
-        //Processing limits.
-        if (settings.limit === undefined) {
-          settings.limit = null;
-        }
-        else {
-          var out = null;
-          for (var key in settings.limit) {
-            out = key + "=" + settings.limit[key];
-          }
-          settings.limit = out;
-        }
-
-        settings.parameters = {
-          limit: settings.limit
-        };
-
-        if (settings.maxrecs !== undefined) {
+        //Processing parameters.
+        settings.parameters = {};
+        if (settings.maxrecs !== "") {
           settings.parameters.maxrecs = settings.maxrecs;
         }
 
