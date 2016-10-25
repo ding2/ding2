@@ -247,7 +247,7 @@ function ding_user_frontend_default_page_manager_handlers() {
   $handler->handler = 'panel_context';
   $handler->weight = -28;
   $handler->conf = array(
-    'title' => 'Use profile',
+    'title' => 'User profile',
     'no_blocks' => 0,
     'pipeline' => 'standard',
     'css_id' => '',
