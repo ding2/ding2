@@ -247,6 +247,9 @@ function ding_ting_frontend_field_group_info() {
       4 => 'ting_author',
       5 => 'ting_subjects',
       6 => 'ding_entity_buttons',
+      7 => 'ding_serendipity_info',
+      8 => 'ding_entity_rating_action',
+      9 => 'ding_entity_rating_result',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -313,6 +316,9 @@ function ding_ting_frontend_field_group_info() {
       2 => 'ting_abstract',
       3 => 'ting_author',
       4 => 'ting_subjects',
+      5 => 'ding_serendipity_info',
+      6 => 'ding_entity_rating_action',
+      7 => 'ding_entity_rating_result',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -420,6 +426,8 @@ function ding_ting_frontend_field_group_info() {
       1 => 'ting_series',
       2 => 'ting_abstract',
       3 => 'ting_author',
+      4 => 'ding_entity_rating_action',
+      5 => 'ding_entity_rating_result',
     ),
     'format_type' => 'div',
     'format_settings' => array(

@@ -114,15 +114,6 @@ function ding_p2_installer_field_update_weight($field_name, $entity_type, $bundl
 }
 
 /**
- * Implements hook_ctools_plugin_api().
- */
-function ding_p2_installer_ctools_plugin_api($module = NULL, $api = NULL) {
-  if ($module == "page_manager" && $api == "pages_default") {
-    return array("version" => "1");
-  }
-}
-
-/**
  * Implements hook_permission().
  *
  * Set up the two main permissions for P2.
