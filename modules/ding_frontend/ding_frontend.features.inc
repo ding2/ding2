@@ -970,7 +970,7 @@ function ding_frontend_default_search_api_index() {
         "ding_frontend_role_filter" : {
           "status" : 1,
           "weight" : "-10",
-          "settings" : { "default" : "0", "match_type": "partial", "roles" : { "9" : "9" } }
+          "settings" : { "default" : "0", "match_type" : "partial", "roles" : { "9" : "9" } }
         },
         "search_api_alter_language_control" : {
           "status" : 0,
