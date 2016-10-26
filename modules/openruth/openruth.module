@@ -38,6 +38,10 @@ function openruth_ding_provider() {
         'prefix' => 'wayf',
         'file' => 'includes/openruth.wayf.inc',
       ),
+      'user_consent' => array(
+        'prefix' => 'user_consent',
+        'file' => 'includes/openruth.user_consent.inc',
+      ),
     ),
   );
 }
@@ -45,7 +49,7 @@ function openruth_ding_provider() {
 /**
  * Implements hook_form_FORM_ID_alter (ding_debts_form)
  *
- * Integra only suppurt payment of FULL amount. 
+ * Integra only suppurt payment of FULL amount.
  */
 function openruth_form_ding_debt_debts_form_alter(&$form, &$form_stats) {
   unset($form['pay_selected']);

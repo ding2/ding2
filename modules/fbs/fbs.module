@@ -54,6 +54,10 @@ function fbs_ding_provider() {
         'prefix' => 'wayf',
         'file' => 'includes/fbs.wayf.inc',
       ),
+      'user_consent' => array(
+        'prefix' => 'user_consent',
+        'file' => 'includes/fbs.user_consent.inc',
+      ),
     ),
   );
 }
