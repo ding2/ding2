@@ -108,10 +108,9 @@ function ding_entity_rating_field_default_field_instances() {
       ),
       'compact' => array(
         'label' => 'above',
-        'module' => 'ding_entity_rating',
         'settings' => array(),
-        'type' => 'ding_entity_rating_result_default',
-        'weight' => 3,
+        'type' => 'hidden',
+        'weight' => 4,
       ),
       'default' => array(
         'label' => 'hidden',
