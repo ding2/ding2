@@ -1,4 +1,25 @@
-(function ($) {
+(function ($) { 
+  "use strict";
+
+  function get_advanced_search_params() {
+    var query = window.location.search;
+    if (query.length === 0) {
+      return false;
+    }
+    query = decodeURIComponent(query);
+    var vars = query.split("&");
+    var adv_q = [];
+    for (var i = 0; i < vars.length; i++) {
+      var pair = vars[i].split("=");
+      pair[0] = pair[0].replace(/[^a-zA-Z ]/g, "");
+      if (pair[0] === 'ti' || pair[0] === 'au') {
+        adv_q.push(pair[0] + '="' + pair[1] + '"');
+      }
+    }
+
+    return adv_q.join(' AND ');
+  }
+
   mkdru.search = function () {
     var filter = null;
     var limit = null;
@@ -28,12 +49,17 @@
     if (mkdru.state['filter']) {
       filters.push(mkdru.state['filter']);
     }
-    if (limits.length > 0) limit = limits.join(',');
-    if (filters.length > 0) filter = filters.join(',');
+    if (limits.length > 0) {
+      limit = limits.join(',');
+    }
+    if (filters.length > 0) {
+      filter = filters.join(',');
+    }
 
     var query = [];
-    if (mkdru.state.query)
+    if (mkdru.state.query) {
       query.push(mkdru.state.query);
+    }
 
     var advanced_query = get_advanced_search_params();
     if (advanced_query)
@@ -45,25 +71,6 @@
       mkdru.sortOrder(), filter, null, {limit: limit});
     mkdru.active = true;
   };
-
-  function get_advanced_search_params() {
-    var query = window.location.search;
-    if (query.length === 0) {
-      return false;
-    }
-    query = decodeURIComponent(query);
-    var vars = query.split("&");
-    var adv_q = [];
-    for (var i = 0; i < vars.length; i++) {
-      var pair = vars[i].split("=");
-      pair[0] = pair[0].replace(/[^a-zA-Z ]/g, "");
-      if (pair[0] === 'ti' || pair[0] === 'au') {
-        adv_q.push(pair[0] + '="' + pair[1] + '"');
-      }
-    }
-
-    return adv_q.join(' AND ');
-  }
 
   mkdru.hashChange = function () {
     // Return to top of page.
@@ -77,19 +84,24 @@
     // Only have to compare values since all keys are initialised.
     for (key in mkdru.state) {
       var changed = (mkdru.state[key] !== oldState[key]);
-      if ((key.substring(0, 5) === 'limit' || key.substring(0, 6) === 'filter') && changed)
+      if ((key.substring(0, 5) === 'limit' || key.substring(0, 6) === 'filter') && changed) {
         searchTrigger = true;
-      if (key === 'page' && changed)
+      }
+      if (key === 'page' && changed) {
         mkdru.pz2.showPage(mkdru.state.page - 1);
-      if (key === 'query' && changed)
+      }
+      if (key === 'query' && changed) {
         searchTrigger = true;
-      if (key === 'adv_query' && changed)
+      }
+      if (key === 'adv_query' && changed) {
         searchTrigger = true;
+      }
     }
-    if (searchTrigger)
+    if (searchTrigger) {
       mkdru.search();
+    }
     // Request for record detail.
-    if (mkdru.state.recid && (mkdru.state.recid != oldState.recid)) {
+    if (mkdru.state.recid && (mkdru.state.recid !== oldState.recid)) {
       mkdru.pz2.record(mkdru.state.recid);
     }
     else {
@@ -145,14 +157,20 @@
         $(document).trigger('mkdru.onrecord', [data]);
       }
     };
-    if (mkdru.settings.mergekey) pz2Params.mergekey = mkdru.settings.mergekey;
-    if (mkdru.settings.rank) pz2Params.rank = mkdru.settings.rank;
-    if (mkdru.settings.sp_server_auth) pz2Params.pazpar2path += ';jsessionid=' + Drupal.settings.mkdru.jsessionid;
+    if (mkdru.settings.mergekey) {
+      pz2Params.mergekey = mkdru.settings.mergekey;
+    }
+    if (mkdru.settings.rank) {
+      pz2Params.rank = mkdru.settings.rank;
+    }
+    if (mkdru.settings.sp_server_auth) {
+      pz2Params.pazpar2path += ';jsessionid=' + Drupal.settings.mkdru.jsessionid;
+    }
     mkdru.pz2 = new pz2(pz2Params);
     mkdru.pz2.showFastCount = 1;
+
     // Callback for access to DOM and pz2 object pre-search.
     for (var i = 0; i < mkdru.callbacks.length; i++) {
-
       mkdru.callbacks[i]();
     }
 
@@ -172,10 +190,11 @@
 
     if (mkdru.settings.is_service_proxy) {
       // SP doesn't trigger the init callback.
-      if (!mkdru.settings.sp_server_auth)
+      if (!mkdru.settings.sp_server_auth) {
         mkdru.auth();
-      else
+      } else {
         mkdru.pz2Init();
+      }
     } else {
       mkdru.pz2.init();
     }

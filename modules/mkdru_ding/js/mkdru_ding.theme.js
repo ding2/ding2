@@ -35,8 +35,12 @@
     var specific_author_field = "";
     var specific_subject_field = "";
     if (mkdru.settings) {
-      if (mkdru.settings.specific_author_field) specific_author_field = mkdru.settings.specific_author_field + '=';
-      if (mkdru.settings.specific_subject_field) specific_subject_field = mkdru.settings.specific_subject_field + '=';
+      if (mkdru.settings.specific_author_field) {
+        specific_author_field = mkdru.settings.specific_author_field + '=';
+      }
+      if (mkdru.settings.specific_subject_field) {
+        specific_subject_field = mkdru.settings.specific_subject_field + '=';
+      }
     }
 
     if (!link) {
@@ -60,7 +64,7 @@
 
     // Add target to each result item.
     var target = '';
-    if (typeof (hit.location[0]['@name']) != 'undefined') {
+    if (typeof (hit.location[0]['@name']) !== 'undefined') {
       target =  hit.location[0]['@name'];
     }
     
@@ -73,7 +77,7 @@
       '<div class="picture">';
 
     if (hit['md-thumburl']) {
-      html += '<img src="' + hit['md-thumburl'][0] + '" alt="' + hit['md-title'] + '" />'
+      html += '<img src="' + hit['md-thumburl'][0] + '" alt="' + hit['md-title'] + '" />';
     }
 
     html += '</div>' +
@@ -185,7 +189,7 @@
         if (selections[i]) {
           // since we have no target name (only id) go for the basename
           // FIXME get the proper target name
-          var name = facet == "source" ? selections[i].replace(/.*[\/\\]/, "").replace(/\?.*/, '') : selections[i];
+          var name = facet === "source" ? selections[i].replace(/.*[\/\\]/, "").replace(/\?.*/, '') : selections[i];
           html += '<div class="form-item form-type-checkbox">';
           html += '<input type="checkbox" checked="checked" id="' + name + '" ' +
             'onclick="window.location=\'' + mkdru.removeLimit(facet, selections[i]) +
@@ -217,32 +221,30 @@
  */
 Drupal.theme.prototype.mkdruPager = function (pages, start, current, total, prev, next) {
   var html = "";
-  if (prev)
-    html += '<a href="' + prev + '" class="mkdru-pager-prev">&#60; '
-         + Drupal.t("Prev") + '</a>';
-  else
-    html += '<span class="mkdru-pager-prev">&#60; ' + Drupal.t("Prev")
-         + '</span>';
-
-  if (start > 1)
+  if (prev) {
+    html += '<a href="' + prev + '" class="mkdru-pager-prev">&#60; ' + Drupal.t("Prev") + '</a>';
+  } else {
+    html += '<span class="mkdru-pager-prev">&#60; ' + Drupal.t("Prev") + '</span>';
+  }
+  if (start > 1) {
     html += ' ';
+  }
 
   for (var i = 0; i < pages.length; i++) {
-    if (i + start == current)
+    if (i + start == current) {
       html += ' <span class="mkdru-pager-current">' + (i + start) + '</span>';
-    else
+    } else {
       html += ' <a href="' + pages[i] + '">' + (i + start) + '</a>';
   }
 
-  if (total > i)
+  if (total > i) {
     html += ' ';
-
-  if (next)
-    html += ' <a href="' + next + '" class="mkdru-pager-next">'
-      + Drupal.t("Next") + ' &#62;</a>';
-  else
-    html += ' <span class="mkdru-pager-next">' + Drupal.t("Next")
-      + ' &#62;</span>';
+  }
+  if (next) {
+    html += ' <a href="' + next + '" class="mkdru-pager-next">' + Drupal.t("Next") + ' &#62;</a>';
+  } else {
+    html += ' <span class="mkdru-pager-next">' + Drupal.t("Next") + ' &#62;</span>';
+  }
 
   return html;
 };

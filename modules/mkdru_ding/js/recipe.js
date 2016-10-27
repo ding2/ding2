@@ -51,6 +51,60 @@ function ting_proxy(data) {
   return url;
 }
 
+// Exec perl-like substitution regexes in the form: pattern/replacement/mode.
+function exec_sregex (regex_str, input_str) {
+  var regex_parts = ["", "", ""];
+  var i = 0;
+  for (var j=0; j<regex_str.length && i<3; j++) {
+    if (j>0 && regex_str.charAt(j) === '/' && regex_str.charAt(j-1) !== '\\') {
+      i++;
+    } else {
+      regex_parts[i] += regex_str.charAt(j);
+    }
+  }
+  var regex_obj = new RegExp(regex_parts[0], regex_parts[2]);
+  return input_str.replace(regex_obj, regex_parts[1]);
+}
+
+function get_var_value (expr_in, meta_data) {
+  // Strip ${ and }.
+  var expr = expr_in.substring(2, expr_in.length-1);
+  if (expr === "") return "";
+
+  // Extract name.
+  var var_name = expr.match(/^[^\[]+/)[0];
+  if (typeof meta_data[var_name] === "undefined") {
+    return "";
+  } else {
+    var var_value = meta_data[var_name][0];
+    if (var_name.length < expr.length) { // Possibly a regex
+     var_value = exec_sregex(
+      expr.substring(var_name.length+1, expr.length-1),
+      var_value);
+    }
+  }
+  return var_value;
+}
+
+// Prepares urls from recipes with expressions in the form:
+// ${variable-name[pattern/replacement/mode]}, [regex] is optional
+// eg. http://sever.com?title=${md-title[\s+//]} will strip all whitespaces.
+function prepare_url(url_recipe, meta_data) {
+  if (typeof url_recipe !== "string" || url_recipe.length === 0) {
+    return null;
+  }
+  if (typeof meta_data !== "object") {
+    return null;
+  }
+  try {
+    return url_recipe.replace(/\${[^}]*}/g, function(match) {
+      return get_var_value(match, meta_data);
+    });
+  } catch (e) {
+    return "Malformed URL recipe: " + e.message;
+  }
+}
+
 function choose_url(data, proxyPattern) {
   // First try to prepare local_url from recipe.
   var local_url = data["md-url_recipe"] !== undefined ? prepare_url(data["md-url_recipe"][0], data) : null;
@@ -92,7 +146,7 @@ function has_recipe (data) {
   var has = false;
   if (data["md-url_recipe"] !== undefined) {
      var recipe = data["md-url_recipe"][0];
-     if (typeof recipe == "string" && recipe.length>0) {
+     if (typeof recipe === "string" && recipe.length>0) {
        has = true;
      }
   }
@@ -120,59 +174,9 @@ function getElectronicUrls (data) {
   return urls;
 }
 
-
-// Prepares urls from recipes with expressions in the form:
-// ${variable-name[pattern/replacement/mode]}, [regex] is optional
-// eg. http://sever.com?title=${md-title[\s+//]} will strip all whitespaces.
-function prepare_url(url_recipe, meta_data) {
-    if (typeof url_recipe != "string" || url_recipe.length === 0) {
-        return null;
-    }
-    if (typeof meta_data != "object") {
-        return null;
-    }
-    try {
-        return url_recipe.replace(/\${[^}]*}/g, function(match) {
-          return get_var_value(match, meta_data);
-        });
-    } catch (e) {
-        return "Malformed URL recipe: " + e.message;
-    }
-}
-
-function get_var_value (expr_in, meta_data) {
-    // Strip ${ and }.
-    var expr = expr_in.substring(2, expr_in.length-1)
-    if (expr == "") return "";
-    // Extract name.
-    var var_name = expr.match(/^[^\[]+/)[0];
-    if (typeof meta_data[var_name] == "undefined") return "";
-    else var var_value = meta_data[var_name][0];
-    if (var_name.length < expr.length) { //possibly a regex
-       var_value = exec_sregex(
-          expr.substring(var_name.length+1, expr.length-1),
-          var_value);
-    }
-    return var_value;
-}
-
-// Exec perl-like substitution regexes in the form: pattern/replacement/mode.
-function exec_sregex (regex_str, input_str) {
-    var regex_parts = ["", "", ""];
-    var i = 0;
-    for (var j=0; j<regex_str.length && i<3; j++) {
-        if (j>0 && regex_str.charAt(j) == '/' && regex_str.charAt(j-1) != '\\')
-            i++;
-        else
-            regex_parts[i] += regex_str.charAt(j);
-    }
-    var regex_obj = new RegExp(regex_parts[0], regex_parts[2]);
-    return input_str.replace(regex_obj, regex_parts[1]);
-}
-
 function test_url_recipe() {
   var url_recipe = "http://www.indexdata.com/?title=${md-title[\\s+/+/g]}&author=${md-author}";
-  var meta_data = { "md-title" : ["Art of Computer Programming"], "md-author" : ["Knuth"]}
+  var meta_data = { "md-title" : ["Art of Computer Programming"], "md-author" : ["Knuth"]};
   var final_url = prepare_url(url_recipe, meta_data);
   alert(final_url);
 }
