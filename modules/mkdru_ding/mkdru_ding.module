@@ -72,7 +72,8 @@ function mkdru_ding_block_view($delta = '') {
 /**
  * Search callback function that is invoked by search_view().
  */
-function mkdru_ding_search_conditions_callback($keys) {}
+function mkdru_ding_search_conditions_callback($keys) {
+}
 
 /**
  * Implements hook_ding_facetbrowser().

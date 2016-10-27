@@ -27,14 +27,16 @@ var ding_mkws = {
 };
 // Wrapper for storing requests.
 var ding_mkws_queue = {
-  requests: new Array(),
+  requests: [],
   processing: false
 };
 
 (function ($) {
+  "use strict";
+
   ding_mkws_queue.add = function (key, value) {
     ding_mkws_queue.requests[key] = value;
-    if (Object.keys(ding_mkws_queue.requests).length == 1 && !ding_mkws_queue.processing) {
+    if (Object.keys(ding_mkws_queue.requests).length === 1 && !ding_mkws_queue.processing) {
       $(document).trigger('ding_mkws_request_added', key);
     }
   };
@@ -45,7 +47,7 @@ var ding_mkws_queue = {
   };
 
   ding_mkws_queue.next = function () {
-    return Object.keys(ding_mkws_queue.requests)[0]
+    return Object.keys(ding_mkws_queue.requests)[0];
   };
 
   ding_mkws.search = function (query, amount, filter, params) {
@@ -67,10 +69,10 @@ var ding_mkws_queue = {
     authReq.get(params,
       function (data) {
         var s = data.getElementsByTagName('status');
-        if (s.length && Element_getTextContent(s[0]) == "OK") {
-          if (typeof successCb == "function") successCb();
+        if (s.length && Element_getTextContent(s[0]) === "OK") {
+          if (typeof successCb === "function") successCb();
         } else {
-          if (typeof failCb == "function") failCb();
+          if (typeof failCb === "function") failCb();
           else alert(Drupal.t("Failed to authenticate against the metasearch gateway"));
         }
       }
@@ -105,6 +107,31 @@ var ding_mkws_queue = {
 
   Drupal.behaviors.ding_mkws = {
     attach: function (context) {
+      // Represents callback for handling errors.
+      function OnFailCallback() {
+        $this.html(Drupal.t("Sorry, something goes wrong. Can't connect to server."));
+      }
+
+      // Handling result which returns remote service.
+      function OnShowCallback(data) {
+        /**
+         * Process data from service and render template.
+         *
+         * @see ding_mkws.theme.js
+         */
+        var params = {
+          title: Drupal.t(settings.title),
+          query: settings.term
+        };
+        var variables = ding_mkws_process[settings.process](data, params);
+        var html = $.templates[settings.template](variables);
+        settings.element.html(html);
+
+        if (data.activeclients === 0) {
+          $(document).trigger('ding_mkws_request_finished', settings.hash);
+        }
+      }
+
       var settings = null;
       $(document).on('ding_mkws_request_finished', function (event, key) {
         ding_mkws_queue.remove(key);
@@ -138,14 +165,14 @@ var ding_mkws_queue = {
         settings.hash = hash;
 
         // Processing resources.
-        if (settings.resources === undefined || settings.resources.length == 0) {
+        if (settings.resources === undefined || settings.resources.length === 0) {
           settings.resources = null;
         }
         else {
           var out = 'pz:id=';
           for (var key in settings.resources) {
             out += settings.resources[key];
-            if (key != settings.resources.length - 1) {
+            if (key !== settings.resources.length - 1) {
               out += '|';
             }
           }
@@ -171,30 +198,7 @@ var ding_mkws_queue = {
         // Adds to queue.
         ding_mkws_queue.add(hash, settings);
       });
-      // Represents callback for handling errors.
-      function OnFailCallback() {
-        $this.html(Drupal.t("Sorry, something goes wrong. Can't connect to server."));
-      }
 
-      // Handling result which returns remote service.
-      function OnShowCallback(data) {
-        /**
-         * Process data from service and render template.
-         *
-         * @see ding_mkws.theme.js
-         */
-        var params = {
-          title: Drupal.t(settings.title),
-          query: settings.term
-        };
-        var variables = ding_mkws_process[settings.process](data, params);
-        var html = $.templates[settings.template](variables);
-        settings.element.html(html);
-
-        if (data.activeclients == 0) {
-          $(document).trigger('ding_mkws_request_finished', settings.hash);
-        }
-      }
     }
   };
 })(jQuery);

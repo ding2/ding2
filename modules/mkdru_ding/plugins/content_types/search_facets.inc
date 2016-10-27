@@ -3,6 +3,7 @@
  * @file
  * Search facets pane plugin.
  */
+
 $plugin = array(
   'single' => TRUE,
   'title' => t('Mkdru DING! search facets'),

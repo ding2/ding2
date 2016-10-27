@@ -81,7 +81,8 @@ function ding_mkws_panel_widget_render($subtype, $conf, $args, $context) {
 
   $hash = md5(implode('', $params));
 
-  // Add resources after hash is generated in order to prevent array to string conversion notice.
+  // Add resources after hash is generated
+  // in order to prevent array to string conversion notice.
   $params['resources'] = (!empty($conf)) ? $conf['resources'] : array();
 
   $pane->content['#markup'] = "<div data-hash='{$hash}' 

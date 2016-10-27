@@ -129,7 +129,6 @@ function ding_spt_statistics_display() {
     );
   }
 
-
   $output = theme('table', array('header' => $header, 'rows' => $rows));
   $output .= theme('pager');
 
