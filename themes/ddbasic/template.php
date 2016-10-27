@@ -198,11 +198,13 @@ function ddbasic_preprocess_views_view(&$vars) {
         case 'ding_event_list_same_tag':
           // Add max-two-rows class
           $vars['classes_array'][] = 'max-two-rows';
+          $vars['classes_array'][] = 'not-frontpage-view';
 
         break;
         case 'ding_event_list_frontpage':
           // Add max-two-rows class
           $vars['classes_array'][] = 'max-two-rows';
+          $vars['classes_array'][] = 'frontpage-view';
 
           // Add event count setting as js variable
           $count = variable_get('ding_frontpage_events_count', 6);
