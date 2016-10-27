@@ -1,0 +1,357 @@
+/**
+ * Mixins
+ *
+ * @author magnify
+ */
+/* Breakpoints
+   ========================================================================== */
+/* Media query
+   ========================================================================== */
+/* Breakpoints
+   ========================================================================== */
+/* Typography mixins
+ *
+ * These are mixins to allow for use in media queries
+   ========================================================================== */
+/* Availability
+   ========================================================================== */
+/* Pseudo arrow
+ *
+ * Usage example: pseudo-arrow(10px, #000, top, center, $offset: 20px)
+   ========================================================================== */
+/*
+    Spinner styles.
+*/
+.ispinner {
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+
+.ispinner .ispinner-blade {
+  position: absolute;
+  left: 44.5%;
+  top: 37%;
+  width: 10%;
+  height: 25%;
+  border-radius: 50%/20%;
+  -webkit-animation: ispinner-blade--fade 1s linear infinite;
+  animation: ispinner-blade--fade 1s linear infinite;
+  -webkit-animation-play-state: paused;
+  animation-play-state: paused;
+}
+
+.ispinner .ispinner-blade:nth-child(1) {
+  -webkit-animation-delay: -1.66667s;
+  animation-delay: -1.66667s;
+  -webkit-transform: rotate(30deg) translate(0, -150%);
+  transform: rotate(30deg) translate(0, -150%);
+}
+
+.ispinner .ispinner-blade:nth-child(2) {
+  -webkit-animation-delay: -1.58333s;
+  animation-delay: -1.58333s;
+  -webkit-transform: rotate(60deg) translate(0, -150%);
+  transform: rotate(60deg) translate(0, -150%);
+}
+
+.ispinner .ispinner-blade:nth-child(3) {
+  -webkit-animation-delay: -1.5s;
+  animation-delay: -1.5s;
+  -webkit-transform: rotate(90deg) translate(0, -150%);
+  transform: rotate(90deg) translate(0, -150%);
+}
+
+.ispinner .ispinner-blade:nth-child(4) {
+  -webkit-animation-delay: -1.41667s;
+  animation-delay: -1.41667s;
+  -webkit-transform: rotate(120deg) translate(0, -150%);
+  transform: rotate(120deg) translate(0, -150%);
+}
+
+.ispinner .ispinner-blade:nth-child(5) {
+  -webkit-animation-delay: -1.33333s;
+  animation-delay: -1.33333s;
+  -webkit-transform: rotate(150deg) translate(0, -150%);
+  transform: rotate(150deg) translate(0, -150%);
+}
+
+.ispinner .ispinner-blade:nth-child(6) {
+  -webkit-animation-delay: -1.25s;
+  animation-delay: -1.25s;
+  -webkit-transform: rotate(180deg) translate(0, -150%);
+  transform: rotate(180deg) translate(0, -150%);
+}
+
+.ispinner .ispinner-blade:nth-child(7) {
+  -webkit-animation-delay: -1.16667s;
+  animation-delay: -1.16667s;
+  -webkit-transform: rotate(210deg) translate(0, -150%);
+  transform: rotate(210deg) translate(0, -150%);
+}
+
+.ispinner .ispinner-blade:nth-child(8) {
+  -webkit-animation-delay: -1.08333s;
+  animation-delay: -1.08333s;
+  -webkit-transform: rotate(240deg) translate(0, -150%);
+  transform: rotate(240deg) translate(0, -150%);
+}
+
+.ispinner .ispinner-blade:nth-child(9) {
+  -webkit-animation-delay: -1s;
+  animation-delay: -1s;
+  -webkit-transform: rotate(270deg) translate(0, -150%);
+  transform: rotate(270deg) translate(0, -150%);
+}
+
+.ispinner .ispinner-blade:nth-child(10) {
+  -webkit-animation-delay: -0.91667s;
+  animation-delay: -0.91667s;
+  -webkit-transform: rotate(300deg) translate(0, -150%);
+  transform: rotate(300deg) translate(0, -150%);
+}
+
+.ispinner .ispinner-blade:nth-child(11) {
+  -webkit-animation-delay: -0.83333s;
+  animation-delay: -0.83333s;
+  -webkit-transform: rotate(330deg) translate(0, -150%);
+  transform: rotate(330deg) translate(0, -150%);
+}
+
+.ispinner .ispinner-blade:nth-child(12) {
+  -webkit-animation-delay: -0.75s;
+  animation-delay: -0.75s;
+  -webkit-transform: rotate(360deg) translate(0, -150%);
+  transform: rotate(360deg) translate(0, -150%);
+}
+
+.ispinner.ispinner.animating .ispinner-blade {
+  -webkit-animation-play-state: running;
+  animation-play-state: running;
+}
+
+.ispinner.ispinner.white .ispinner-blade {
+  background-color: white;
+}
+
+.ispinner.ispinner.gray .ispinner-blade {
+  background-color: #8C8C8C;
+}
+
+.ispinner.ispinner.large {
+  width: 35px;
+  height: 35px;
+}
+
+.ispinner.ispinner.large .ispinner-blade {
+  width: 8.57143%;
+  height: 25.71429%;
+  border-radius: 50%/16.67%;
+}
+
+@-webkit-keyframes ispinner-blade--fade {
+  0% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 0.25;
+  }
+  100% {
+    opacity: 0.25;
+  }
+}
+@keyframes ispinner-blade--fade {
+  0% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 0.25;
+  }
+  100% {
+    opacity: 0.25;
+  }
+}
+.ding-mkws-widget {
+  margin-bottom: 20px;
+}
+.ding-mkws-widget > .ding-mkws-title {
+  color: #7c7c7c;
+  font-weight: bold;
+  display: block;
+  font-size: 110%;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+.ding-mkws-widget .ding-mkws-content ul {
+  margin: 0;
+  padding: 0;
+}
+.ding-mkws-widget .ding-mkws-content li {
+  margin-bottom: 10px;
+  overflow: hidden;
+  padding: 10px 0;
+}
+.ding-mkws-widget .ding-mkws-content li:nth-child(even) {
+  background-color: #f2f2f2;
+}
+.ding-mkws-widget .ding-mkws-content li:nth-child(odd) {
+  background-color: #e8e8e8;
+}
+.ding-mkws-widget .ding-mkws-content li .ding-mkws-header {
+  float: left;
+  width: 33.33333%;
+  margin-left: 0%;
+  margin-right: -100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.ding-mkws-widget .ding-mkws-content li .ding-mkws-header .ding-mkws-target,
+.ding-mkws-widget .ding-mkws-content li .ding-mkws-header .ding-mkws-name,
+.ding-mkws-widget .ding-mkws-content li .ding-mkws-header .ding-mkws-title,
+.ding-mkws-widget .ding-mkws-content li .ding-mkws-header .ding-mkws-author,
+.ding-mkws-widget .ding-mkws-content li .ding-mkws-header .ding-mkws-date {
+  font-weight: bold;
+}
+.ding-mkws-widget .ding-mkws-content li .ding-mkws-values {
+  float: right;
+  width: 66.66667%;
+  margin-right: 0%;
+  margin-left: -100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.ding-mkws-widget .ding-mkws-content li .ding-mkws-values .ding-mkws-target,
+.ding-mkws-widget .ding-mkws-content li .ding-mkws-values .ding-mkws-title,
+.ding-mkws-widget .ding-mkws-content li .ding-mkws-values .ding-mkws-author,
+.ding-mkws-widget .ding-mkws-content li .ding-mkws-values .ding-mkws-date {
+  font-weight: normal;
+}
+.ding-mkws-widget .ding-mkws-content li p {
+  margin: 0 0 5px 0;
+  padding: 0;
+}
+.ding-mkws-widget .ding-mkws-content li p, .ding-mkws-widget .ding-mkws-content li a {
+  display: block;
+  height: 22px;
+  margin: 0 0 5px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.page-node .ding-mkws-widget {
+  overflow: hidden;
+}
+.page-node .ding-mkws-widget .ding-mkws-content li .ding-mkws-header {
+  float: left;
+  width: 25%;
+  margin-left: 0%;
+  margin-right: -100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.page-node .ding-mkws-widget .ding-mkws-content li .ding-mkws-values {
+  float: right;
+  width: 75%;
+  margin-right: 0%;
+  margin-left: -100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.page-node .ding-mkws-widget .ding-mkws-left {
+  float: left;
+  width: 50%;
+  margin-left: 0%;
+  margin-right: -100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin-left: -10px;
+}
+@media only screen and (max-width: 768px) {
+  .page-node .ding-mkws-widget .ding-mkws-left {
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    clear: both;
+    margin-left: 0;
+  }
+}
+.page-node .ding-mkws-widget .ding-mkws-rigt {
+  float: right;
+  width: 50%;
+  margin-right: 0%;
+  margin-left: -100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin-right: -10px;
+}
+@media only screen and (max-width: 768px) {
+  .page-node .ding-mkws-widget .ding-mkws-rigt {
+    float: left;
+    width: 100%;
+    margin-left: 0%;
+    margin-right: -100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    clear: both;
+    margin-right: 0;
+  }
+}
+.page-node .ding-mkws-widget p, .page-node .ding-mkws-widget a {
+  display: block;
+  height: 22px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.page-node .ding-mkws-widget .ding-mkws-more-link {
+  clear: left;
+}
+
+.ding-campaign--content {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.page-node .ding-campaign--content .ding-mkws-widget .ding-mkws-left,
+.page-node .ding-campaign--content .ding-mkws-widget .ding-mkws-rigt {
+  float: left;
+  width: 100%;
+  margin-left: 0%;
+  margin-right: -100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  clear: both;
+  margin-right: -10px;
+  margin-left: -10px;
+}
