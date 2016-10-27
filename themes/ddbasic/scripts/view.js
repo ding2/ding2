@@ -75,7 +75,9 @@
               third_group_element = '<div class="third-group-row group-row"></div>',
               current_group,
               current;
-          $('.view-ding-event.max-two-rows .views-row').each(function( index ) {
+
+          // Frontpge view has special setting because row_count is a variable set in theme-settings
+          $('.view-ding-event.max-two-rows.frontpage-view .views-row').each(function( index ) {
             // First element
             if (teaser_number == 0) {
               $(view_inner).append(first_group_element);
@@ -147,6 +149,34 @@
               //$(this).remove();
               $(this).addClass('hide');
             }
+
+          });
+
+          // Not frontpage views
+          $('.view-ding-event.max-two-rows.not-frontpage-view .views-row').each(function( index ) {
+            // First element
+            if (teaser_number == 0) {
+              $(view_inner).append(first_group_element);
+              current_group = $('.first-group-row');
+            }
+
+            // A row with an image counts for 2
+            if($(this).find('.event-list-image').length) {
+              teaser_number = teaser_number + 2;
+            }
+            else {
+              teaser_number = teaser_number + 1;
+            }
+
+            // Append rows
+            $(current_group).append($(this));
+
+
+            if (teaser_number > 6) {
+              //$(this).remove();
+              $(this).addClass('hide');
+            }
+
 
           });
           $('.view-ding-event.max-two-rows .view-elements .view-elements-inner .group-row').each(function() {
