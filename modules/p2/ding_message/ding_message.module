@@ -1,0 +1,820 @@
+<?php
+
+/**
+ * @file
+ * Messages and notifications for ding users
+ */
+
+// Define states for ding_message:
+define('DING_MESSAGE_ACTIVE', 1);
+define('DING_MESSAGE_CLOSED', 2);
+define('DING_MESSAGE_IGNORE', 3);
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ding_message_ctools_plugin_directory($owner, $plugin_type) {
+  if ($owner == 'ctools' && $plugin_type == 'content_types') {
+    return 'plugins/content_types';
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function ding_message_menu() {
+  $items['admin/config/ding/ding_message'] = array(
+    'title' => 'Ding message administation page',
+    'description' => 'Ding message administation options and configurations.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_message_admin_form'),
+    'access arguments' => array('administer personalisation'),
+    'file' => 'ding_message.admin.inc',
+  );
+  $items['admin/config/ding/ding_message/settings'] = array(
+    'title' => 'Settings',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
+  $items['admin/config/ding/ding_message/update'] = array(
+    'title' => 'Ding message update user',
+    'description' => 'Update messages for a specific user.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_message_update_form'),
+    'access arguments' => array('administer personalisation'),
+    'file' => 'ding_message.admin.inc',
+    'type' => MENU_LOCAL_TASK,
+  );
+
+  $items['admin/config/ding/ding_message/report-user-checks'] = array(
+    'title' => 'Report: User checks',
+    'description' => 'Report over users checked.',
+    'page callback' => 'ding_messages_admin_user_checks',
+    'access arguments' => array('administer personalisation'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'ding_message.admin.inc',
+  );
+  $items['ding_message/status/change'] = array(
+    'title' => 'Change message status',
+    'page callback' => 'ding_message_change_status',
+    'access arguments' => array('use personalisation'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['ding_message/purge_user_messages'] = array(
+    'title' => 'Purge user messages',
+    'page callback' => 'ding_message_purge_user_messages',
+    'access arguments' => array('use personalisation'),
+    'type' => MENU_CALLBACK,
+    'file' => 'ding_message.admin.inc',
+  );
+  $items['admin/ding_message/purge'] = array(
+    'title' => 'Message test',
+    'page callback' => 'ding_message_purge',
+    'access arguments' => array('administer personalisation'),
+    'type' => MENU_CALLBACK,
+    'file' => 'ding_message.admin.inc',
+  );
+  $items['admin/ding_message/test-check'] = array(
+    'title' => 'Message check test',
+    'page callback' => 'ding_message_get_users_to_check',
+    'access arguments' => array('administer personalisation'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_cron().
+ */
+function ding_message_cron() {
+  $accounts = ding_message_get_users_to_check();
+  ding_message_update_users($accounts);
+
+  // @todo: delete messages with orphan source relations
+}
+
+/**
+ * Get a limited list of users to check for updates.
+ *
+ * @return array
+ *   An array of uids to check for updates.
+ */
+function ding_message_get_users_to_check() {
+  $time = time() - variable_get('ding_message_login_delay', 3600);
+
+  $query = db_select('users', 'u');
+  $query->join('eck_ding_type', 'edt', 'edt.uid = u.uid');
+  $query->leftJoin('ding_message_check', 'dmc', 'dmc.uid = u.uid');
+
+  // Only check users outside delay time interval
+  // This means users recently logged in gets (re)checked first
+  // But only rechecked after a certain delay.
+  $query->condition('u.status', 1)->distinct()
+    ->fields('u', array('uid'))
+    ->condition('u.login', $time, '<')
+    ->condition('edt.type', 'ding_list')
+    ->orderBy('u.login', 'DESC')
+    ->orderBy('dmc.time', 'ASC')
+    ->range(0, variable_get('ding_message_batch_size', 50));
+
+  $accounts = array_values($query->execute()->fetchAllKeyed(0, 0));
+
+  // Return accounts.
+  return $accounts;
+}
+
+/**
+ * Update a users messages.
+ *
+ * @param array $accounts
+ *   An array of user uids to check.
+ *   This should be a limited list of users since,
+ *   the message generation process could take some time.
+ * @param bool $debug
+ *   Show debug information while updating.
+ * @param bool $reset
+ *   Flag to reset messages for the user, so all messages are fetched again.
+ */
+function ding_message_update_users(array $accounts, $debug = FALSE, $reset = FALSE) {
+  // Get lists which can be followed.
+  $follow_lists = ding_list_get_list_types_by_operations(DING_LIST_OPERATION_FOLLOW);
+
+  // Iterate accounts.
+  foreach ($accounts as $uid) {
+    // Load user object.
+    $account = user_load($uid);
+    // Get the users lists.
+    $lists = ding_list_get_lists($follow_lists, $account);
+
+    if ($reset) {
+      // Delete existing messages for the user so everything is fetched again.
+      ding_message_purge_messages($uid);
+    }
+
+    if (!empty($lists)) {
+      // Get lists which have not been checked
+      // or with the oldest recorded check.
+      $list_ids = array_keys($lists);
+
+      // Fetch messages generated by the user to check.
+      // Skip full channels = DING_MESSAGE_IGNORE
+      $mquery = new EntityFieldQuery();
+      $mquery
+        ->entityCondition('entity_type', 'message', '=')
+        ->propertyCondition('type', 'new_content', '=')
+        ->propertyCondition('uid', $uid, '=')
+        ->fieldCondition('field_state', 'value', DING_MESSAGE_IGNORE, '!=');
+      $result = $mquery->execute();
+      if (!empty($result)) {
+        $mids = array_keys($result['message']);
+      }
+      else {
+        $mids = array();
+      }
+
+      // Fetch eligible lists.
+      $query = db_select('eck_ding_type', 'e');
+      $query->join(
+        'field_data_field_list_objects',
+        'lo',
+        'e.id = lo.field_list_objects_target_id AND lo.entity_id IN (:lists)',
+        array(':lists' => $list_ids)
+      );
+
+      // Join on the message ids if any exists.
+      if (!empty($mids)) {
+        $query->join(
+          'field_data_field_list_id',
+          'm',
+          'e.id = m.field_list_id_target_id AND (m.entity_id IN (:mids) OR m.entity_id IS NULL)',
+          array(':mids' => $mids)
+        );
+      }
+      else {
+        $query->leftjoin('field_data_field_list_id', 'm', 'e.id = m.field_list_id_target_id');
+      }
+      $query->leftjoin('field_data_field_last_check', 'c', 'm.entity_id = c.entity_id');
+      $query->addField('lo', 'entity_id', 'list_id');
+      $query->condition('e.type', 'ding_list_element', '=')
+        ->fields('e', array('id', 'title'))
+        ->fields('m', array('entity_id'))
+        ->fields('c', array('field_last_check_value'))
+        ->orderBy('c.field_last_check_value', 'ASC')
+        ->distinct()
+        ->range(0, variable_get('ding_message_list_check_size', 10));
+      $result = $query->execute();
+      $list_to_check = $result->fetchAll();
+
+      // Check the lists for updates.
+      if ($debug) {
+        drupal_set_message(check_plain('Number of lists to check: ' . count($list_to_check)));
+      }
+
+      foreach ($list_to_check as $check) {
+        $list = $lists[$check->list_id];
+        $element_id = $check->id;
+        $mid = $check->entity_id;
+        ding_message_check_list_for_updates($uid, $element_id, $mid, $debug);
+      }
+    }
+    // Save the user check.
+    ding_message_save_user_check($uid);
+  }
+}
+
+/**
+ * Check the provided lists for any updates since last check.
+ *
+ * Creates a new message if there are new updates to a
+ * list which has not previously been checked.
+ * Otherwise the previously created message is updated with new values.
+ *
+ * @param int $uid
+ *   Uid of the user being checked.
+ * @param int $element_id
+ *   Element id.
+ * @param int $mid
+ *   The entity id the message previously created if any.
+ * @param bool $debug
+ *   Show debug information while checking.
+ */
+function ding_message_check_list_for_updates($uid, $element_id, $mid, $debug = FALSE) {
+  // Load ding_type element.
+  $element = entity_load('ding_type', array($element_id));
+  $element = current($element);
+  // Get entity wrapper.
+  $ding_type_wrapper = entity_metadata_wrapper('ding_type', $element);
+  // Get ding_list type.
+  $type = $ding_type_wrapper->field_element_type->value();
+  // Set default values.
+  $has_updates = FALSE;
+  $status = 0;
+
+  // Load message if one was found.
+  if (!is_null($mid)) {
+    $message = message_load($mid);
+    // Get message entity wrapper.
+    $wrapper = entity_metadata_wrapper('message', $message);
+    // Get id values of the last and first element from last check.
+    $first_element_id = $wrapper->field_first_element->value();
+    $last_element_id = $wrapper->field_last_element->value();
+    // Set status.
+    $status = $wrapper->field_state->value();
+    // Set new elements count.
+    if ($status == DING_MESSAGE_ACTIVE) {
+      $new_elements_count = $wrapper->field_new_count->value();
+    }
+    else {
+      $new_elements_count = 0;
+    }
+  }
+  else {
+    // Set default values.
+    $first_element_id = NULL;
+    $last_element_id = NULL;
+    $new_elements_count = 0;
+  }
+
+  if ($debug) {
+    drupal_set_message(check_plain('Updating list of type: ' . $type));
+  }
+
+  // Handle the different ding_list types.
+  switch ($type) {
+    case 'ting_object':
+    case 'ding_list_user':
+      // Types not eglible for further processing.
+      break;
+
+    case 'taxonomy_term':
+      module_load_include('inc', 'ting', 'ting.client');
+      // Get the element value.
+      $value = ding_list_get_list_element_value($element);
+      // Load taxonomy term.
+      $term = taxonomy_term_load($value);
+      // Taxonomy terms updates are a ting search
+      // for materials with the subject = term->name.
+      $query = 'dc.subject=' . check_plain($term->name);
+      // Perform search.
+      $result = ting_do_search($value, 1, 50);
+      if (is_object($result) || $result->numTotalCollections != 0) {
+        // Get the first element in the search result set.
+        $first_collection = current($result->collections);
+        if (!empty($message)) {
+          // If the first search result element
+          // doesn't match the stored last id,
+          // update the message.
+          if ($first_collection->ding_entity_id != $last_element_id) {
+            // Get the result set ids.
+            $collection_ids = array_keys($result->collections);
+            // Get the amount of new elements since last check.
+            $count = array_search($last_element_id, $collection_ids);
+            // Add the count to the new elements count.
+            $new_elements_count += $count;
+            if ($status != DING_MESSAGE_ACTIVE) {
+              // If the messages have been seen,
+              // set the last and first element ids.
+              $last_element_id = $first_collection->ding_entity_id;
+              $first_element_id = $result->collections[$collection_ids[$count - 1]]->ding_entity_id;
+            }
+            // Tell the function that there are updates to save.
+            $has_updates = TRUE;
+          }
+        }
+        else {
+          if (count($result->collections)) {
+            // Set all values for a new message to be created.
+            // First element is the first item of the search, which
+            // is actually the last in the array, and last element
+            // is therefore the first item in the array.
+            $last_element_id = $first_collection->ding_entity_id;
+            $first_element = end($result->collections);
+            $first_element_id = $first_element->ding_entity_id;
+            $new_elements_count += $result->numTotalCollections;
+            $has_updates = TRUE;
+          }
+        }
+      }
+      break;
+
+    case 'follow_author':
+    case 'search_query':
+      module_load_include('inc', 'ting', 'ting.client');
+      // Get the element value.
+      $value = ding_list_get_list_element_value($element);
+      if ($value) {
+        // Build a search query, since the url path doesn't
+        // match the query accepted by ting_do_search.
+        $query = ding_message_build_query($value);
+        // Perform search.
+        $result = ting_do_search($query, 1, 50);
+        if (is_object($result) || $result->numTotalCollections > 0) {
+          // Get the first element in the search result set.
+          $first_collection = current($result->collections);
+          if (!empty($message)) {
+            // If the first search result element
+            // doesn't match the stored last id, update the message.
+            if ($first_collection->ding_entity_id != $last_element_id) {
+              // Get the result set ids.
+              $collection_ids = array_keys($result->collections);
+              // Get the amount of new elements since last check.
+              // We assume the result set is consistently ranked by date.
+              $count = array_search($last_element_id, $collection_ids);
+              // Add the count to the new elements count.
+              $new_elements_count += $count;
+              if ($status != DING_MESSAGE_ACTIVE) {
+                // If the messages has been seen,
+                // set the last and first element ids.
+                // Set all values for a new message to be created.
+                $last_element_id = $first_collection->ding_entity_id;
+                $first_element_id = $result->collections[$collection_ids[$count - 1]]->ding_entity_id;
+              }
+              // Tell the function that there are updates to save.
+              $has_updates = TRUE;
+            }
+          }
+          else {
+            if (count($result->collections)) {
+              // Set all values for a new message to be created.
+              // First element is the first item of the search, which
+              // is actually the last in the array, and last element
+              // is therefore the first item in the array.
+              $last_element_id = $first_collection->ding_entity_id;
+              $first_element = end($result->collections);
+              $first_element_id = $first_element->ding_entity_id;
+              $new_elements_count += $result->numTotalCollections;
+              $has_updates = TRUE;
+            }
+          }
+        }
+      }
+      break;
+
+    case 'ding_list':
+      // Get the element value, to retrieve the followed list.
+      $value = ding_list_get_list_element_value($element);
+      if ($value) {
+        // Load ding_type ding_list.
+        // TODO entity_load always returns an array.
+        $list = current(entity_load('ding_type', array($value)));
+        if ($list) {
+          // Get all elements in the list.
+          $items = field_get_items('ding_type', $list, 'field_list_objects');
+          if ($items === FALSE) {
+            $items = array();
+          }
+          // Get the element its.
+          $elements = ding_message_get_list_element_ids($items);
+          if ($elements) {
+            // Fetch the last element for comparison
+            // with the current stored last element.
+            $current_last_element = end($elements);
+            if (!empty($message)) {
+              
+              // New elements are identified relative to the previous
+              // most recent element as a first order approximation.
+              // This is not compatible with reordering and should be improved
+              // in future updates where we want different stratergies per
+              // channel.
+              if (in_array($last_element_id, $elements)) {
+                if ($last_element_id <> $current_last_element) {
+                  // Get the position of the last stored element.
+                  $last_element_position = array_search($last_element_id, $elements);
+                  $new_elements = array_slice($elements, $last_element_position + 1);
+                  // Add the count to the new elements count.
+                  $new_elements_count += count($new_elements);
+                  if ($status != DING_MESSAGE_ACTIVE) {
+                    // If the messages has been seen,
+                    // set the first element ids.
+                    $first_element_id = reset($new_elements);
+                  }
+                  $last_element_id = $current_last_element;
+                  // Tell the function that there are updates to save.
+                  $has_updates = TRUE;
+                }
+              }
+              // The element no longer exists in the list.
+              else {
+                $last_element_id = $current_last_element;
+                $first_element_id = NULL;
+                // No way of knowing how many has been deleted, so simply set
+                // it to 1.
+                $new_elements_count = 1;
+                $has_updates = TRUE;
+              }
+            }
+            elseif (count($elements)) {
+              // Set all values for a new message to be created.
+              $last_element_id = $current_last_element;
+              $first_element_id = reset($elements);
+              $new_elements_count += count($elements);
+              $has_updates = TRUE;
+            }
+          }
+        }
+      }
+  }
+  // Handle updates.
+  if ($has_updates) {
+    // If no message exists, create a new message entity.
+    if (empty($message)) {
+      $message = message_create('new_content', array('uid' => $uid));
+    }
+    if (!$new_elements_count) {
+      $new_elements_count = count($elements);
+    }
+    // Set message text.
+    $message_text = t('New elements: @count', array('@count' => $new_elements_count));
+
+    if ($debug) {
+      drupal_set_message(check_plain('Fetched ' . $new_elements_count . ' new elements for list: ' . $element->title . '. First element was:' . $first_element_id));
+    }
+
+    // Limit maximum news per channel.
+    $channel_max = variable_get('ding_message_channel_max', 10);
+    if ($new_elements_count > $channel_max) {
+      $new_elements_count = $channel_max . '+';
+    }
+
+    // Set message values.
+    $wrapper = entity_metadata_wrapper('message', $message);
+    $wrapper->field_list_id->set($element->id);
+    $wrapper->field_last_check->set(time());
+    $wrapper->field_first_element->set($first_element_id);
+    $wrapper->field_last_element->set($last_element_id);
+    $wrapper->field_new_count->set($new_elements_count);
+    if ($new_elements_count >= $channel_max) {
+      // When a channel has max new elements, lets not waste cpu checking
+      // that channel until the user checks out that channel again.
+      $wrapper->field_state->set(DING_MESSAGE_IGNORE);
+    }
+    else {
+      $wrapper->field_state->set(DING_MESSAGE_ACTIVE);
+    }
+    // Save message.
+    $wrapper->save();
+  }
+  else {
+    if ($debug) {
+      drupal_set_message(check_plain('No new elements for list: ' . $element->title));
+    }
+  }
+}
+
+/**
+ * Save when the given user was checked for updates.
+ */
+function ding_message_save_user_check($uid) {
+  // Get previous record if any.
+  $query = db_select('ding_message_check', 'c')->condition('c.uid', $uid)->fields('c', array('id'))->range(0, 1);
+  $result = $query->execute();
+  $id = $result->fetchField();
+  if ($id) {
+    // Update record.
+    $num_updated = db_update('ding_message_check')->fields(array(
+        'uid' => $uid,
+        'time' => time(),
+      ))->condition('id', $id, '=')->execute();
+  }
+  else {
+    // Insert record.
+    $id = db_insert('ding_message_check')->fields(array('uid', 'time'))->values(array(
+        'uid' => $uid,
+        'time' => time(),
+      ))->execute();
+  }
+}
+
+/**
+ * Implements hook_preprocess_entity().
+ */
+function ding_message_preprocess_entity(&$vars) {
+  $entity_type = $vars['elements']['#entity_type'];
+  $bundle = $vars['elements']['#bundle'];
+  $entity = $vars['elements']['#entity'];
+  if ($entity_type == 'ding_type') {
+    if ($bundle == 'ding_list_element') {
+      // Check for existing message.
+      $query = new EntityFieldQuery();
+      $query->entityCondition('entity_type', 'message', '=')
+        ->propertyCondition('type', 'new_content', '=')
+        ->fieldCondition('field_list_id', 'target_id', $entity->id, '=')
+        ->fieldCondition('field_state', 'value', DING_MESSAGE_CLOSED, '!=')
+        ->range(0, 1);
+      $result = $query->execute();
+      // If a message was found, render the message.
+      if ($result) {
+        $values = current($result['message']);
+        // Get message.
+        $message = message_load($values->mid);
+        // Get entity wrapper.
+        $message_wrapper = entity_metadata_wrapper('message', $message);
+        // Get last element identifier.
+        $last_element = $message_wrapper->field_first_element->value();
+        // Prepare message for rendering.
+        $render = $message->view();
+        // Render message.
+        $rendered_message = render($render);
+        // Add message javascript and base styling.
+        $vars['content']['query']['#attached']['css'] = array(drupal_get_path('module', 'ding_message') . '/ding_message.css');
+        $vars['content']['query']['#attached']['js'] = array(drupal_get_path('module', 'ding_message') . '/ding_message.js');
+        // Get current entity wrapper.
+        $entity_wrapper = entity_metadata_wrapper('ding_type', $entity);
+        // Get entity element type.
+        $type = $entity_wrapper->field_element_type->value();
+        // Set list url as default.
+        $value = ding_list_get_list_element_value($entity);
+        $url = 'list/' . $value;
+        $link_query = array(
+          'message' => $last_element,
+          'midc' => $values->mid,
+        );
+        // Change url based on the element type.
+        switch ($type) {
+          case 'follow_author':
+          case 'search_query':
+            $query = ding_list_get_list_element_value($entity);
+            $url = 'search/ting/' . $query;
+            $link_query['size'] = 50;
+            break;
+
+          case 'taxonomy_term':
+            $tid = ding_list_get_list_element_value($entity);
+            $term = taxonomy_term_load($tid);
+            $url = 'search/ting/facet.subject=' . $term->name;
+            break;
+        }
+
+        // Add message to content.
+        $vars['content']['message'] = array(
+          '#type' => 'container',
+          '#attributes' => array('class' => array('ding-message', 'label')),
+          'link' => array(
+            '#theme' => 'link',
+            '#text' => $rendered_message,
+            '#path' => $url,
+            '#options' => array(
+              'attributes' => array('data-item-id' => $values->mid),
+              'query' => $link_query,
+              'html' => TRUE,
+            ),
+          ),
+        );
+
+        // Add message link to title.
+        $vars['content']['query']['#options']['query'] = array('size' => 50, 'message' => $last_element);
+        $vars['content']['query']['#options']['attributes']['data-item-id'] = $values->mid;
+        $vars['content']['query']['#options']['attributes']['class'] = array('ding-message-link');
+      }
+      // Globals have been set on the links that show the new items in the list.
+      if (isset($_GET['message'])) {
+        $vars['content']['query']['#attached']['css'] = array(drupal_get_path('module', 'ding_message') . '/ding_message.css');
+        $vars['content']['query']['#attached']['js'] = array(drupal_get_path('module', 'ding_message') . '/ding_message.js');
+        $vars['attributes_array']['data-ting-object-id'] = $entity->id;
+        $vars['classes_array'][] = 'ding-message-item';
+      }
+    }
+    elseif ($bundle == 'ding_list') {
+      // Get list elements.
+      $result = ding_message_get_ding_list_notification($entity);
+
+      // If a result was found, render a message with the total amount.
+      if ($result) {
+        $output = l($result, 'list/' . $entity->id, array('html' => TRUE));
+        $vars['content']['message'] = array('#markup' => '<div class="ding-message label">' . $output . '</div>');
+      }
+    }
+  }
+}
+
+/**
+ * Render a notification.
+ */
+function ding_message_get_ding_list_notification($list) {
+  $output = '';
+  // Get list elements.
+  $items = field_get_items('ding_type', $list, 'field_list_objects');
+  if ($items) {
+    $result = ding_message_get_update_count($items);
+    // If a result was found, render a message with the total amount.
+    if ($result) {
+      // @TODO convert to render array and use #attached.
+      drupal_add_css(drupal_get_path('module', 'ding_message') . '/ding_message.css');
+      $output = $result;
+    }
+  }
+
+  return $output;
+}
+
+/**
+ * Load sum of update notifications.
+ *
+ * @param array $items
+ *   Array of lists to check for notification counts.
+ *
+ * @return array
+ *   sum of available update notifications.
+ */
+function ding_message_get_update_count(array $items) {
+  // Collect the ids for sorting.
+  $element_ids = ding_message_get_list_element_ids($items);
+  // Query for messages with updates.
+  $query = db_select('field_data_field_new_count', 'c');
+  $query->join('field_data_field_list_id', 'e', 'c.entity_id = e.entity_id');
+  $query->join('field_data_field_state', 's', 'c.entity_id = s.entity_id');
+  $query->condition('e.field_list_id_target_id', $element_ids, 'IN');
+  $query->condition('s.field_state_value', DING_MESSAGE_CLOSED, '!=');
+  $query->fields('c', array('field_new_count_value'));
+  $query->addExpression('SUM(c.field_new_count_value)', 'count');
+  $result = $query->execute()->fetchField(1);
+  return $result;
+}
+
+/**
+ * Build an array of list element ids.
+ *
+ * @param array $items
+ *   The list of ding_type ding_list elements.
+ *
+ * @return array
+ *   An array of the target_id values on one level.
+ */
+function ding_message_get_list_element_ids(array $items) {
+  $element_ids = array();
+  foreach ($items as $element) {
+    $element_ids[] = $element['target_id'];
+  }
+  return $element_ids;
+}
+
+/**
+ * Implements hook_preprocess_ting_object().
+ */
+function ding_message_preprocess_ting_object(&$vars) {
+  $entity_type = $vars['elements']['#entity_type'];
+  $bundle = $vars['elements']['#bundle'];
+  $entity = $vars['elements']['#object'];
+  if ($entity_type == 'ting_collection') {
+    if (isset($_GET['message'])) {
+      // If the user is comming from a notification link add js,
+      // css and html attributes.
+      drupal_add_js(drupal_get_path('module', 'ding_message') . '/ding_message.js');
+      drupal_add_css(drupal_get_path('module', 'ding_message') . '/ding_message.css');
+      $vars['attributes_array']['data-ting-object-id'] = $entity->ding_entity_id;
+      $vars['classes_array'][] = 'ting-object-collection';
+    }
+  }
+}
+
+/**
+ * Build a ting search query.
+ *
+ * @param string $query
+ *   The query string to rebuild.
+ *
+ * @return string
+ *   A rebuild query string which matches the required structure of the ting
+ *   client.
+ */
+function ding_message_build_query($query) {
+  // Separate path and query.
+  $qs = explode('?', urldecode($query));
+  // Build the path as required.
+  $new_query = '(' . _ting_search_quote($qs[0]) . ')';
+  if (isset($gs[1])) {
+    // Build facets.
+    $facets = explode('&', $qs[1]);
+    $facet_array = array();
+    foreach ($facets as $facet) {
+      $fs = explode('=', $facet);
+      $fs = explode(':', $fs[1], 2);
+      if ($fs[0]) {
+        $facet_array[] = $fs[0] . '="' . rawurldecode($fs[1]) . '"';
+      }
+    }
+    // Merge facets.
+    if (count($facet_array)) {
+      $new_query .= ' AND ' . implode(' AND ', $facet_array);
+    }
+  }
+  // Return the new query.
+  return $new_query;
+}
+
+/**
+ * Menu callback for message clicks.
+ *
+ * When a notification link is clicked the messages state is set to closed.
+ */
+function ding_message_change_status($mid = NULL) {
+  if (empty($mid)) {
+    // Message id from post variables.
+    $mid = $_POST['mid'];
+  }
+
+  // Load message.
+  $message = message_load($mid);
+  if (is_object($message)) {
+    // Get message wrapper.
+    $wrapper = entity_metadata_wrapper('message', $message);
+    // Set state to closed.
+    $wrapper->field_state->set(DING_MESSAGE_CLOSED);
+    // Save new state.
+    $wrapper->save();
+
+    // Clear cache (to update the header) if ding_notifications is enabled.
+    if (module_exists('ding_notifications')) {
+      ding_notifications_clear_cache();
+    }
+  }
+}
+
+/**
+ * Implements hook_init().
+ */
+function ding_message_init() {
+  if (!empty($_GET['midc'])) {
+    ding_message_change_status($_GET['midc']);
+  }
+}
+
+/**
+ * This function is for testing purposes.
+ *
+ * Deletes all messages for a specific uid.
+ */
+function ding_message_purge_messages($uid = NULL) {
+  // Base query for both purging methods.
+  $base_query = new EntityFieldQuery();
+  $base_query->entityCondition('entity_type', 'message', '=')->propertyCondition('type', 'new_content', '=');
+  if ($uid !== NULL) {
+    $base_query->propertyCondition('uid', $uid);
+  }
+  $result = $base_query->execute();
+  $purge_messages = $result['message'];
+  if (!empty($purge_messages)) {
+    message_delete_multiple(array_keys($purge_messages));
+  }
+}
+
+/**
+ * Function get count.
+ */
+function ding_message_get_message_count($uid = NULL) {
+  if ($uid === NULL) {
+    global $user;
+    $uid = $user->uid;
+  }
+
+  $query = db_select('field_data_field_new_count', 'c');
+  $query->join('field_data_field_state', 's', 'c.entity_id = s.entity_id');
+  $query->join('message', 'm', 'c.entity_id = m.mid');
+  $query->condition('m.uid', $uid, '=');
+  $query->condition('s.field_state_value', array(DING_MESSAGE_CLOSED), 'NOT IN');
+  $query->fields('c', array('field_new_count_value'));
+  $query->addExpression('SUM(c.field_new_count_value)', 'count');
+  $result = $query->execute()->fetchField(1);
+
+  return $result;
+}

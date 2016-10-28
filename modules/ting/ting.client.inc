@@ -485,8 +485,8 @@ function ting_cache_get($id, $type = TING_CACHE_TING_OBJECT, $with_relations = F
       // about this object and no where found.
       return $data;
     }
-    return FALSE;
   }
+  return FALSE;
 }
 
 /**
@@ -631,7 +631,16 @@ function ting_get_request_factory() {
       }
     }
 
-    $request_factory = new TingClientRequestFactory($urls);
+    $auth = array();
+    if (variable_get('ting_use_auth', FALSE)) {
+      $auth = array(
+        'name' => variable_get('ting_auth_name', ''),
+        'pass' => variable_get('ting_auth_pass', ''),
+        'group' => variable_get('ting_auth_group', ''),
+      );
+    }
+
+    $request_factory = new TingClientRequestFactory($urls, $auth);
   }
 
   return $request_factory;

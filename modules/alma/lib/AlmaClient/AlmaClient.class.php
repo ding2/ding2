@@ -12,7 +12,7 @@ define('ALMA_SERVICE_METHOD_SMS', 'sms');
 
 class AlmaClient {
   /**
-   * @var AlmaClientBaseURL
+   * @var $base_url
    * The base server URL to run the requests against.
    */
   private $base_url;
@@ -24,9 +24,22 @@ class AlmaClient {
   private static $salt;
 
   /**
-   * Constructor, checking if we have a sensible value for $base_url.
+   * @var $ssl_version
+   * The SSL/TLS version to use when communicating with the service.
    */
-  public function __construct($base_url) {
+  private $ssl_version;
+
+  /**
+   * Constructor, checking if we have a sensible value for $base_url.
+    *
+   * @param string $base_url
+   *   The base url for the Alma end-point.
+   * @param string $ssl_version
+   *   The TLS/SSL version to use ('ssl', 'sslv2', 'sslv3' or 'tls').
+   *
+   * @throws \Exception
+   */
+  public function __construct($base_url, $ssl_version) {
     if (stripos($base_url, 'http') === 0 && filter_var($base_url, FILTER_VALIDATE_URL, FILTER_FLAG_SCHEME_REQUIRED)) {
       $this->base_url = $base_url;
     }
@@ -34,6 +47,8 @@ class AlmaClient {
       // TODO: Use a specialised exception for this.
       throw new Exception('Invalid base URL: ' . $base_url);
     }
+
+    $this->ssl_version = $ssl_version;
 
     self::$salt = mt_rand();
   }
@@ -56,7 +71,7 @@ class AlmaClient {
     $start_time = explode(' ', microtime());
     // For use with a non-Drupal-system, we should have a way to swap
     // the HTTP client out.
-    $request = drupal_http_request(url($this->base_url . $method, array('query' => $params)), array('secure_socket_transport' => 'sslv3'));
+    $request = drupal_http_request(url($this->base_url . $method, array('query' => $params)), array('secure_socket_transport' => $this->ssl_version));
     $stop_time = explode(' ', microtime());
     // For use with a non-Drupal-system, we should have a way to swap
     // logging and logging preferences out.
@@ -329,6 +344,12 @@ class AlmaClient {
       );
     }
 
+    foreach ($info->getElementsByTagName('patronAllow') as $allow) {
+      $data['allows'][$allow->getAttribute('allowType')] = array(
+        'date' => $allow->getAttribute('allowDate'),
+      );
+    }
+
     return $data;
   }
 
@@ -376,6 +397,23 @@ class AlmaClient {
   }
 
   /**
+   * Get a list of historical loans.
+   */
+  public function get_historical_loans($borr_card, $from = 0) {
+    $doc = $this->request('patron/loans/historical', array('borrCard' => $borr_card, 'fromDate' => date('Y-m-d', $from)));
+
+    $loans = array();
+    foreach ($doc->getElementsByTagName('catalogueRecord') as $item) {
+      $loans[] = array(
+        'id' => $item->getAttribute('id'),
+        'loan_date' => strtotime($item->parentNode->getAttribute('loanDate'))
+      );
+    }
+
+    return $loans;
+  }
+
+  /**
    * Get patron's current loans.
    */
   public function get_loans($borr_card, $pin_code) {
@@ -407,6 +445,70 @@ class AlmaClient {
    */
   private static function loan_sort($a, $b) {
     return strcmp($a['due_date'], $b['due_date']);
+  }
+
+  /**
+   * Add user consent.
+   */
+  public function add_user_consent($borr_card, $pin_code, $type) {
+    // Initialise the query parameters with the current value from the
+    // reservation array.
+    $params = array(
+      'borrCard' => $borr_card,
+      'pinCode' => $pin_code,
+      'allowType' => $type,
+    );
+
+    try {
+      $doc = $this->request('patron/allow/add', $params);
+      $res_status = $doc->getElementsByTagName('status')->item(0)->getAttribute('value');
+      // Return error code when patron is blocked.
+      if ($res_status != 'ok') {
+        return FALSE;
+      }
+
+      // General catchall if status is not okay is to report failure.
+      if ($res_status == 'consentNotOk') {
+        return FALSE;
+      }
+    }
+    catch (AlmaClientConsentNotFound $e) {
+      return FALSE;
+    }
+
+    return TRUE;
+  }
+
+  /**
+   * Remove user consent.
+   */
+  public function remove_user_consent($borr_card, $pin_code, $type) {
+    // Initialise the query parameters with the current value from the
+    // reservation array.
+    $params = array(
+      'borrCard' => $borr_card,
+      'pinCode' => $pin_code,
+      'allowType' => $type,
+    );
+
+    try {
+      $doc = $this->request('patron/allow/remove', $params);
+      $res_status = $doc->getElementsByTagName('status')->item(0)->getAttribute('value');
+      // Return error code when patron is blocked.
+      if ($res_status != 'ok') {
+        return FALSE;
+      }
+
+      // General catch all if status is not okay is to report failure.
+      if ($res_status == 'consentNotOk') {
+        return FALSE;
+      }
+    }
+    catch (AlmaClientConsentNotFound $e) {
+      return FALSE;
+    }
+
+    return TRUE;
   }
 
   /**
@@ -473,16 +575,28 @@ class AlmaClient {
 
       // Return error code when patron is blocked.
       if ($res_message == 'reservationPatronBlocked') {
-        return ALMA_AUTH_BLOCKED;
+        return array(
+          'alma_status' => ALMA_AUTH_BLOCKED,
+          'res_status' => $res_status,
+          'message' => $res_message
+        );
       }
 
       // General catchall if status is not okay is to report failure.
       if ($res_status == 'reservationNotOk') {
-        return FALSE;
+        return array(
+          'alma_status' => ALMA_AUTH_BLOCKED,
+          'res_status' => $res_status,
+          'message' => $res_message
+        );
       }
     }
     catch (AlmaClientReservationNotFound $e) {
-      return FALSE;
+        return array(
+          'alma_status' => ALMA_AUTH_BLOCKED,
+          'res_status' => $res_status,
+          'message' => $res_message
+        );
     }
 
     return $queue_number;

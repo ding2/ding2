@@ -54,35 +54,41 @@ function alma_get_interest_periods() {
  * Implements hook_ding_provider().
  */
 function alma_ding_provider() {
-  $path = drupal_get_path('module', 'alma');
-
   return array(
     'title' => 'Alma provider',
     'settings' => 'alma_settings_form',
     'provides' => array(
       'availability' => array(
         'prefix' => 'availability',
-        'file' => $path . '/includes/alma.availability.inc',
+        'file' => 'includes/alma.availability.inc',
       ),
       'debt' => array(
         'prefix' => 'debt',
-        'file' => $path . '/includes/alma.debt.inc',
+        'file' => 'includes/alma.debt.inc',
       ),
       'loan' => array(
         'prefix' => 'loan',
-        'file' => $path . '/includes/alma.loan.inc',
+        'file' => 'includes/alma.loan.inc',
       ),
       'reservation' => array(
         'prefix' => 'reservation',
-        'file' => $path . '/includes/alma.reservation.inc',
+        'file' => 'includes/alma.reservation.inc',
       ),
       'user' => array(
         'prefix' => 'user',
-        'file' => $path . '/includes/alma.user.inc',
+        'file' => 'includes/alma.user.inc',
+      ),
+      'user_consent' => array(
+        'prefix' => 'user_consent',
+        'file' => 'includes/alma.user_consent.inc',
+      ),
+      'historical_loans' => array(
+        'prefix' => 'historical_loans',
+        'file' => 'includes/alma.historical_loans.inc',
       ),
       'wayf' => array(
         'prefix' => 'wayf',
-        'file' => $path . '/includes/alma.wayf.inc',
+        'file' => 'includes/alma.wayf.inc',
       ),
     ),
   );
@@ -108,6 +114,20 @@ function alma_settings_form() {
     '#description' => t('Base URL for Alma service.'),
     '#required' => TRUE,
     '#default_value' => variable_get('alma_base_url', ''),
+  );
+
+  $form['alma']['alma_ssl_version'] = array(
+    '#type' => 'select',
+    '#title' => t('SSL/TLS version'),
+    '#description' => t('Select the security method used by your Alma installation (Default: sslv3).'),
+    '#options' => array(
+      'ssl' => 'SSL',
+      'sslv2' => 'SSL version 2',
+      'sslv3' => 'SSL version 3',
+      'tls'  => 'Transport Layer Security (TLS)',
+    ),
+    '#required' => TRUE,
+    '#default_value' => variable_get('alma_ssl_version', 'sslv3'),
   );
 
   // Add the option to select a default interest period for reservations, if not
@@ -145,7 +165,7 @@ function alma_client() {
   static $client;
   if (!isset($client)) {
     try {
-      $client = new AlmaClient(variable_get('alma_base_url', ''));
+      $client = new AlmaClient(variable_get('alma_base_url', ''), variable_get('alma_ssl_version', 'sslv3'));
     }
     catch (Exception $e) {
       watchdog('alma', 'Constructor error: “@message”', array('@message' => $e->getMessage(), WATCHDOG_ERROR));
@@ -349,7 +369,7 @@ function alma_profile2_presave($entity) {
 
     // Get the mail.
     $value = $wrapper->field_alma_mail->value();
-    if (!is_null($value) && $value != $wrapper_original->field_alma_mail->value()) {
+    if ($value != $wrapper_original->field_alma_mail->value()) {
       $changes['mail'] = $value;
     }
 
@@ -572,6 +592,25 @@ function alma_update_provider($changes, $entity) {
       user_save($user);
     }
   }
+  else {
+    // Delete the email from ALMA and database.
+    global $user;
+
+    $res = TRUE;
+    if (!empty($user->mail) && empty($changes['mail'])) {
+      $res = alma_client_invoke('remove_email_address', $creds['name'], $creds['pass'], $user->mail);
+    }
+
+    if (empty($res)) {
+      $error_message .= t('mail was not deleted');
+      drupal_set_message($error_message, 'warning');
+    }
+    else {
+      // Update drupal user account mail.
+      $user->mail = '';
+      user_save($user);
+    }
+  }
 
   // Update patron information and update cache.
   if (!empty($changes)) {
@@ -619,6 +658,8 @@ function alma_get_patron($creds = NULL, $reset = FALSE, $as_array = FALSE) {
         'branch' => empty($info['preferences']['patron_branch']) ? FALSE : $info['preferences']['patron_branch'],
         'branchName' => !empty($info['preferences']['patron_branch']) ? $organisation['branch'][$info['preferences']['patron_branch']] : FALSE,
         'absentPeriods' => isset($info['absent_periods']) ? $info['absent_periods'] : '',
+        'category' => isset($info['category']) ? $info['category'] : '',
+        'allows' => isset($info['allows']) ? $info['allows'] : '',
       );
 
       // Store information in session cache.

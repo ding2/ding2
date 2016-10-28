@@ -3,23 +3,20 @@
 
   // Helper function to get information about a given cover place holder.
   var ting_covers_extract_data = function(e) {
-    var classname = $(e).attr('class');
-    var local_id = classname.match(/ting-cover-object-id-(\S+)/);
-    var image_style = classname.match(/ting-cover-style-(\S+)/);
-    var owner_id = classname.match(/ting-cover-owner-id-(\S+)/);
-    if (!local_id) {
+    var id = $(e).data('ting-cover-object-id');
+    var image_style = $(e).data('ting-cover-style');
+    if (!id) {
       return false;
     }
     return {
-      local_id : local_id[1],
-      owner_id : owner_id[1],
-      image_style : image_style[1]
+      id : id,
+      image_style : image_style
     };
   };
 
   var ting_cover_insert = function(covers) {
     $.each(covers, function(index, cover_info) {
-      $('.ting-cover-processing' + '.ting-cover-object-id-' + cover_info.local_id + '.ting-cover-style-' + cover_info.image_style).html('<img src="' + cover_info.url + '"/>');
+      $('.ting-cover-processing[data-ting-cover-object-id="' + cover_info.id + '"][data-ting-cover-style="' + cover_info.image_style + '"').html('<img src="' + cover_info.url + '"/>');
     });
   };
 

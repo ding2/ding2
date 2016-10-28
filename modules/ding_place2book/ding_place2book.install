@@ -1,109 +1,92 @@
 <?php
-
 /**
  * @file
- * Installation file for ding_place2book module.
+ * Contains all methods, related to in/uninstalling module and DB scheme.
  */
 
 /**
- * Implementation of hook_schema().
+ * Implements hook_field_schema().
  */
-function ding_place2book_schema() {
-  return array(
-    'ding_place2book' => array(
-      'description' => 'Table to hold information about Place2Book tickets.',
-      'fields' => array(
-        'nid' => array(
-          'description' => 'The foreign key to {node}.nid',
-          'type' => 'int',
-          'unsigned' => TRUE,
-          'not null' => TRUE,
-        ),
-        'place2book_id' => array(
-          'description' => 'An ID-reference to the corresponding event on the ticket booking service',
-          'type' => 'int',
-          'unsigned' => FALSE,
-          'not null' => TRUE,
-          'default' => 0,
-        ),
-        'capacity' => array(
-          'description' => 'The maximum capacity on the Place2Book event. 0 is interpreted as unlimited capacity on the event (default)',
-          'type' => 'int',
-          'unsigned' => TRUE,
-          'not null' => TRUE,
-          'default' => 0,
-        ),
-        'maintain_copy' => array(
-          'description' => 'Event is created and updated on Place2Book',
-          'type' => 'int',
-          'unsigned' => TRUE,
-          'not null' => TRUE,
-          'default' => 1,
-        ),
-        'kultunaut_export' => array(
-          'description' => 'Place2Book forwards the event to kultunaut',
-          'type' => 'int',
-          'unsigned' => TRUE,
-          'not null' => TRUE,
-          'default' => 0,
-        ),
-        'passive' => array(
-          'description' => 'Event on Place2Book is flagged as passive',
-          'type' => 'int',
-          'unsigned' => TRUE,
-          'not null' => TRUE,
-          'default' => 0,
-        ),
-        'ticket_type' => array(
-          'description' => t('Ticket type'),
+function ding_place2book_field_schema($field) {
+  $schema = array();
+
+  switch ($field['type']) {
+    case 'ding_p2b':
+      $schema['columns'] = array(
+        'event_id' => array(
           'type' => 'varchar',
-          'length' => 255,
-          'not null' => TRUE,
-          'default' => '',
+          'length' => 256,
+          'not null' => FALSE,
+          'default' => NULL,
         ),
-      ),
-      'primary key' => array('nid'),
-    ),
-  );
+        'event_maker_id' => array(
+          'type' => 'varchar',
+          'length' => 256,
+          'not null' => FALSE,
+          'default' => NULL,
+        ),
+        'synchronize' => array(
+          'type' => 'int',
+          'size' => 'tiny',
+          'not null' => TRUE,
+          'default' => 0,
+        ),
+      );
+      break;
+  }
+
+  return $schema;
 }
 
 /**
- * Implementation of hook_install().
+ * Implements hook_update_N().
+ *
+ * Adds defaults for each existing event.
  */
-function ding_place2book_install() {
-  // Set 'Maintain copy on Place2Book' as default.
-  variable_set('ding_place2book_event_nodes', array('defaults' => array('maintain_copy' => 'maintain_copy')));
-  // Update moduel weight to make it heavier then CCK field groups.
-  db_query("UPDATE {system} SET weight = 10 WHERE name = 'ding_place2book';");
-}
+function ding_place2book_update_7001(&$sandbox) {
+  $query = new EntityFieldQuery();
+  $result = $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'ding_event')
+    ->execute();
 
-/**
- * Implementation of hook_uninstall().
- */
-function ding_place2book_uninstall() {
+  if (isset($result['node'])) {
+    foreach ($result['node'] as $item) {
+      $node = node_load($item->nid);
+      $node->field_place2book[LANGUAGE_NONE][0] = array(
+        'event_id' => NULL,
+        'event_maker_id' => NULL,
+        'synchronize' => 0,
+      );
+      node_save($node);
+    }
+  }
+
+  // Remove field.
+  field_delete_field('field_place2book_tickets');
+
+  // Get settings.
+  $ding_place2book = variable_get('ding_place2book', array());
+  $ding_place2book_event_nodes = variable_get('ding_place2book_event_nodes', array());
+
+  // Copy to current settings.
+  $ding_place2book_settings = variable_get('$ding_place2book_settings', array());
+  $ding_place2book_settings['token'] = $ding_place2book['api_key'];
+  variable_set('ding_place2book_settings', $ding_place2book_settings);
+
+  variable_set('ding_p2b_default_kultunaut_export', $ding_place2book_event_nodes['defaults']['kultunaut_export']);
+  variable_set('ding_p2b_default_passive', $ding_place2book_event_nodes['defaults']['passive']);
+  variable_set('ding_p2b_default_synchronize', $ding_place2book_event_nodes['defaults']['maintain_copy']);
+  variable_set('ding_p2b_default_capacity', $ding_place2book_event_nodes['capacity']);
+  variable_set('ding_p2b_default_price_name', $ding_place2book_event_nodes['ticket_type']);
+
+  // Remove old variables.
   variable_del('ding_place2book');
-  variable_del('ding_place2book_libraries');
   variable_del('ding_place2book_event_nodes');
 }
 
 /**
- * Add column for storing ticket type
+ * Enable migration module for existing sites.
  */
-function ding_place2book_update_7000() {
-  db_add_field('ding_place2book', 'ticket_type', array(
-    'type' => 'varchar',
-    'length' => 255,
-    'not null' => TRUE,
-    'default' => '',
-    'description' => t('Ticket type'),
-  ));
-}
-
-/**
- * Update ticket_type in all existing place2book-settings to 'Adgang'.
- */
-function ding_place2book_update_7001() {
-  $num_upd = db_update('ding_place2book')
-    ->fields(array('ticket_type' => 'Adgang'))
-    ->execute();
+function ding_place2book_update_7002() {
+  module_enable(array('ding_place2book_migrate'));
 }

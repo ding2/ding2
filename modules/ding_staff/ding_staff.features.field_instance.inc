@@ -26,10 +26,9 @@ function ding_staff_field_default_field_instances() {
       ),
       'default' => array(
         'label' => 'inline',
-        'module' => 'taxonomy',
         'settings' => array(),
-        'type' => 'taxonomy_term_reference_link',
-        'weight' => 2,
+        'type' => 'hidden',
+        'weight' => 6,
       ),
       'token' => array(
         'label' => 'hidden',
@@ -487,7 +486,7 @@ function ding_staff_field_default_field_instances() {
     'description' => 'Select the libraries this content should be associated with.',
     'display' => array(
       'default' => array(
-        'label' => 'inline',
+        'label' => 'hidden',
         'module' => 'entityreference',
         'settings' => array(
           'link' => 1,

@@ -6,4 +6,4 @@ version = 7.x-1.x
 
 ;files[] =
 dependencies[] = oembed
-dependencies[] = ting_oembed_features
+dependencies[] = virtual_field

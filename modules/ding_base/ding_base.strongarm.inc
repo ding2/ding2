@@ -13,6 +13,20 @@ function ding_base_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'admin_menu_components';
+  $strongarm->value = array(
+    'admin_menu.icon' => TRUE,
+    'admin_menu.menu' => TRUE,
+    'admin_menu.account' => TRUE,
+    'shortcut.links' => TRUE,
+    'admin_menu.search' => FALSE,
+    'admin_menu.users' => FALSE,
+  );
+  $export['admin_menu_components'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'autologout_enforce_admin';
   $strongarm->value = 1;
   $export['autologout_enforce_admin'] = $strongarm;
@@ -283,7 +297,6 @@ function ding_base_strongarm() {
     'ding_library' => 'ding_library',
     'ding_news' => 'ding_news',
     'ding_page' => 'ding_page',
-    'new_materials' => 'new_materials',
     'ding_campaign' => 0,
     'ding_rolltab' => 0,
     'panel' => 0,
@@ -686,6 +699,13 @@ temaer/*';
   $strongarm->name = 'jquery_update_jquery_version';
   $strongarm->value = '1.7';
   $export['jquery_update_jquery_version'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'metatag_tag_admin_pages';
+  $strongarm->value = 1;
+  $export['metatag_tag_admin_pages'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */

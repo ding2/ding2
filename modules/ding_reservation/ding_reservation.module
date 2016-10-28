@@ -456,6 +456,8 @@ function ding_reservation_reserve_form_callback($form, &$form_state) {
  * Show a reservation list form.
  */
 function ding_reservation_reservations_form($form, &$form_state, $reservations, $type = DING_RESERVATION_NOT_READY, $conf = array()) {
+  $int_per = variable_get('ding_reservation_disable_interest_date', '');
+
   $form = array(
     '#tree' => TRUE,
   );
@@ -494,12 +496,21 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
       $title = l($entity->getTitle(), $uri['path']);
     }
 
+    // Add creator(s).
+    $creators = $entity->creators;
+
+    // Add type.
+    $mat_type = $entity->type;
+
     $pickup_branch = ding_provider_invoke('reservation', 'branch_name', $reservation->pickup_branch_id);
     switch ($reservation->reservation_type) {
       case DING_RESERVATION_READY:
         $item = array(
           '#type' => 'material_item',
+          '#reservation' => $reservation,
           '#id' => $reservation->id,
+          '#creators' => $creators,
+          '#material_type' => $mat_type,
           '#title' => $title,
           '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
           '#information' => array(
@@ -534,7 +545,10 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
       case DING_RESERVATION_NOT_READY:
         $item = array(
           '#type' => 'material_item',
+          '#reservation' => $reservation,
           '#id' => $reservation->id,
+          '#creators' => $creators,
+          '#material_type' => $mat_type,
           '#title' => $title,
           '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
           '#information' => array(
@@ -570,12 +584,19 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
             ),
           ),
         );
+
+        if (!empty($int_per)) {
+          $item['#information']['expiry'] = '';
+        }
         break;
 
       case DING_RESERVATION_INTERLIBRARY_LOANS:
         $item = array(
           '#type' => 'material_item',
+          '#reservation' => $reservation,
           '#id' => $reservation->id,
+          '#creators' => $creators,
+          '#material_type' => $mat_type,
           '#title' => $title,
           '#cover' => field_view_field('ting_object', $entity, 'ting_cover', 'user_list'),
           '#information' => array(
@@ -614,15 +635,19 @@ function ding_reservation_reservations_form($form, &$form_state, $reservations, 
         break;
     }
 
-    if (in_array($type, array(DING_RESERVATION_NOT_READY, DING_RESERVATION_INTERLIBRARY_LOANS))) {
-      // Set reservation expire message.
-      $expire = strtotime(check_plain($reservation->expiry));
-      if ($expire - variable_get('reservation_expire', 604800) <= time()) {
-        $item['#material_message'] = array(
-          'message' => t('This reservation is about to expire.'),
-          'class' => 'messages warning',
-        );
-        $item['#weight'] = -30;
+    $reservation_eligibility = in_array($type, array(DING_RESERVATION_NOT_READY, DING_RESERVATION_INTERLIBRARY_LOANS));
+
+    if (empty($int_per)) {
+      if ($reservation_eligibility) {
+        // Set reservation expire message.
+        $expire = strtotime(check_plain($reservation->expiry));
+        if ($expire - variable_get('reservation_expire', 604800) <= time()) {
+          $item['#material_message'] = array(
+            'message' => t('This reservation is about to expire.'),
+            'class'   => 'messages warning',
+          );
+          $item['#weight'] = -30;
+        }
       }
     }
 
@@ -1058,4 +1083,20 @@ function ding_reservation_ding_session_cache_defaults() {
     'enabled' => TRUE,
     'expire' => 3600,
   );
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function ding_reservation_form_alter(&$form, &$form_state, $form_id) {
+  $provider = _ding_provider_get_provider('user');
+
+  if ($form_id == $provider['module'] . '_settings_form') {
+    $form[$provider['module']]['ding_reservation_disable_interest_date'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Disable interests period'),
+      '#description' => t('This will disable "Interest date" functionality.'),
+      '#default_value' => variable_get('ding_reservation_disable_interest_date', FALSE),
+    );
+  }
 }

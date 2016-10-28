@@ -1,0 +1,43 @@
+<?php
+
+/**
+ * @file
+ * Setup the fields needed for ding list.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ding_list_install() {
+  $schema = array();
+  ding_list_schema_alter($schema);
+  db_add_field('users', 'openlist_modified', $schema['users']['fields']['openlist_modified']);
+
+  if (module_exists('ding_bookmark')) {
+    module_disable(array('ding_bookmark'));
+
+    // Also remove the flag module, if there's no other module requiring it.
+    $modules = system_rebuild_module_data();
+    $remove_flag = TRUE;
+    foreach ($modules['flag']->required_by as $module_name => $module) {
+      if ($module_name == 'ding2') {
+        continue;
+      }
+      elseif (module_exists($module_name)) {
+        $remove_flag = FALSE;
+        break;
+      }
+    }
+
+    if ($remove_flag) {
+      module_disable(array('flag'));
+    }
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_list_uninstall() {
+  db_drop_field('users', 'openlist_modified');
+}

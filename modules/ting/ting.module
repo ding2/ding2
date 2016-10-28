@@ -299,9 +299,15 @@ function ting_block_view($delta = '') {
       if ($collection = menu_get_object('ting_collection', 2)) {
         $block->subject = t('Other materialtypes');
         $items = array();
-        foreach ($collection->types as $type) {
-          $items[] = l($type . ' (' . $collection->types_count[$type] . ')', '#' . $type, array('external' => TRUE));
+        foreach ($collection->types as $k => $type) {
+          if ($collection->types_count[$type] == 1) {
+            $items[] = l($type . ' (' . $collection->types_count[$type] . ')', 'ting/object/' . $collection->entities[$k]->ding_entity_id);
+          }
+          else {
+            $items[] = l($type . ' (' . $collection->types_count[$type] . ')', '#' . $type, array('external' => TRUE));
+          }
         }
+
         $block->content = array(
           '#theme' => 'item_list',
           '#items' => $items,
@@ -313,10 +319,17 @@ function ting_block_view($delta = '') {
       $object = menu_get_object('ting_object', 2);
       if ($object && $collection = ting_collection_load($object->id)) {
         $items = array();
-        foreach ($collection->types as $type) {
-          $uri = entity_uri('ting_collection', $collection);
-          $uri['options']['fragment'] = _ting_anchor_name($type);
-          $uri['options']['attributes'] = array('class' => array('js-search-overlay'));
+        foreach ($collection->types as $k => $type) {
+          if ($collection->types_count[$type] == 1) {
+            $uri = entity_uri('ting_object', $collection);
+            $uri['path'] = urldecode(url('ting/object/' . $uri['options']['entity']->entities[$k]->ding_entity_id));
+          }
+          else {
+            $uri = entity_uri('ting_collection', $collection);
+            $uri['options']['fragment'] = $type;
+            $uri['options']['attributes'] = array('class' => array('js-search-overlay'));
+          }
+
           $items[] = l($type . ' (' . $collection->types_count[$type] . ')', $uri['path'], $uri['options']);
         }
 

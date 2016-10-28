@@ -11,7 +11,7 @@ function ting_covers_field_info() {
   return array(
     'ting_cover' => array(
       'label' => t('Ting cover'),
-      'description' => t('Cover image from the ADDI service, if any.'),
+      'description' => t('Cover image from external services, if any.'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ting_cover_default',
       'no_ui' => TRUE,

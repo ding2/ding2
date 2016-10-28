@@ -109,12 +109,12 @@ function ding_library_library_list_select_library($form, &$form_state, $items, $
   $form['submit'] = array(
     '#type' => 'submit',
     '#attributes' => array(
-      'class' => array(
-        'button',
-      ),
+      'class' => array('button'),
+      'style' => array('display: none;'),
     ),
     '#value' => t('Show'),
   );
+  
   return $form;
 }
 

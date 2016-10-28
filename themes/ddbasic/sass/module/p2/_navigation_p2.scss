@@ -1,0 +1,12 @@
+/* Topbar menu
+   ========================================================================== */
+
+.topbar-menu {
+  @include small() {
+    clear: both;
+    margin-top: 16px;
+    .menu-item {
+      padding: 10px 9px;
+    }
+  }
+}

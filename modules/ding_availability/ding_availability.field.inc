@@ -15,14 +15,20 @@ function ding_availability_field_info() {
       'description' => t('Availability information.'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ding_availability_default',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
     'ding_availability_holdings' => array(
       'label' => t('Holdings information.'),
       'description' => t('Holdings information.'),
       'default_widget' => 'hidden',
       'default_formatter' => 'ding_availability_default',
-      'no_ui' => TRUE,
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
     ),
   );
 }

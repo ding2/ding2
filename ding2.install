@@ -93,12 +93,17 @@ function ding2_install() {
   //
   // Enable ting search as default.
   //
-  variable_set('search_active_modules', array(
-      'node' => 'node',
-      'ting_search' => 'ting_search',
-      'user' => 0,
-      'mkdru' => 'mkdru',
-    ));
+
+  $active_search = variable_get('search_active_modules', array());
+  $search_defaults = array(
+    'node' => 'node',
+    'ting_search' => 'ting_search',
+    'user' => 0,
+    'mkdru' => 'mkdru',
+  );
+  // Avoid overwriting other modules search settings.
+  // Search default has precedence
+  variable_set('search_active_modules', $search_defaults + $active_search);
   variable_set('search_default_module', 'ting_search');
 
   //
@@ -116,6 +121,11 @@ function ding2_install() {
   // Submit theme settings.
   variable_set('theme_' . $default_theme . '_settings', ding2_theme_settings());
   ding_base_rewrite_color_stylesheet();
+
+  // Disable overlay.
+  if (module_exists('overlay')) {
+    module_disable(array('overlay'));
+  }
 
   // Ignore any rebuild messages.
   node_access_needs_rebuild(FALSE);
@@ -322,6 +332,13 @@ function ding2_update_7014() {
 }
 
 /**
+ * Enable search_api modules.
+ */
+function ding2_update_7015() {
+  module_enable(array('search_api', 'search_api_multi', 'search_api_db', 'search_api_views'));
+}
+
+/**
  * Update our own translations.
  */
 function ding2_update_7016() {
@@ -340,4 +357,53 @@ function ding2_update_7017() {
  */
 function ding2_update_7018() {
   ding2_translation_update();
+}
+
+/**
+ * Disable overlay.
+ */
+function ding2_update_7019() {
+  if (module_exists('overlay')) {
+    module_disable(array('overlay'));
+  }
+}
+
+/**
+ * Enable metatag and metatag_panels modules.
+ */
+function ding2_update_7020() {
+  module_enable(array('metatag', 'metatag_panels'));
+}
+
+/**
+ * Disable ding_bookmark module.
+ */
+function ding2_update_7021() {
+  module_disable(array('ding_bookmark'));
+}
+
+/**
+ * Enable P2 installer module.
+ */
+function ding2_update_7022() {
+  module_enable(array('ding_p2_installer'));
+}
+
+/**
+ * Enable admin_menu modules.
+ */
+function ding2_update_7023() {
+  if (module_exists('toolbar')) {
+    module_disable(array('toolbar'), TRUE);
+  }
+  module_enable(array('admin_menu', 'admin_menu_toolbar'));
+
+  ding2_admin_menu_shortcuts();
+}
+
+/**
+ * Enable htmlmail module.
+ */
+function ding2_update_7024() {
+  module_enable(array('htmlmail'));
 }

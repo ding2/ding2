@@ -1,0 +1,63 @@
+<?php
+/**
+ * @file
+ * Install file.
+ */
+
+
+/**
+ * Implements hook_requirements().
+ *
+ * Give a warning in the status report if the module is not configured.
+ */
+function ting_openlist_requirements($phase) {
+  $requirements = array();
+
+  if ($phase == 'runtime') {
+    $a = variable_get('ting_openlist_wsdl');
+    $b = variable_get('ting_library_code');
+    if (!$a || !$b) {
+      $requirements['ting_openlist'] = array(
+        'title' => 'Ting Openlist',
+        'description' => t('Ting Openlist is not configured, please configure the module @here before continuing.', array(
+          '@here' => l(t('here'), 'admin/config/ding/provider/ting_openlist'),
+        )),
+        'value' => t('Not configured'),
+        'severity' => REQUIREMENT_ERROR,
+      );
+    }
+  }
+
+  return $requirements;
+}
+
+/**
+ * Implements hook_install().
+ */
+function ting_openlist_install() {
+  // Extend the users table with openlist_uid field.
+  $schema = array();
+  ting_openlist_schema_alter($schema);
+  db_add_field('users', 'openlist_uid', $schema['users']['fields']['openlist_uid']);
+
+  // Set default configuration (so site install will work).
+  variable_set('ting_openlist_wsdl', 'http://v2_test.openlist.server003.b14cms.dk/?wsdl');
+  variable_set('ting_openlist_prefix', uniqid());
+  variable_set('ting_library_code', variable_get('ting_agency', ''));
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ting_openlist_uninstall() {
+  variable_del('ting_openlist_developer');
+  variable_del('ting_openlist_log');
+  variable_del('ting_openlist_wsdl');
+  variable_del('ting_library_code');
+  variable_del('ting_openlist_prefix');
+  variable_del('ting_openlist_wsdl_cache');
+  variable_del('ting_openlist_log_details');
+  variable_del('ting_openlist_developer');
+
+  db_drop_field('users', 'openlist_uid');
+}

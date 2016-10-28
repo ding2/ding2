@@ -39,27 +39,34 @@ function ding_campaign_admin_settings($form, $form_state) {
  * @return
  *   Campaign rules edit form.
  */
-function ding_campaign_rules_admin($node) {
+function ding_campaign_rules_admin($nid) {
   drupal_add_js(array('ding_campaing_init' => array(
     'autocompleteUrl' => url('ding_campaign/autocomplete/'),
   )), 'setting');
+
+  // Can't use hook_menu placeholder (%node) since they are cached
+  // and eventually hook_node_load() is not called, so infomation
+  // regarding campaign rules is not shown until a cache clear.
+  // Force load the node, so hook_node_load() is called, therefore
+  // adding rules information.
+  $node = node_load($nid, NULL, TRUE);
   return drupal_get_form('ding_campaign_edit_rules_form', $node);
 }
 
 /**
  * Campaign rules edit form.
  *
- * @param $form
- *   Rules form.
- * @param $form_state
- *   Form state.
- * @param $node
+ * @param array $form
+ *   Rules form array.
+ * @param array $form_state
+ *   Form state array.
+ * @param object $node
  *   Campaign node object whose rules are edited.
- *
- * @return
+
+ * @return array
  *   Campaign rules edit form.
  */
-function ding_campaign_edit_rules_form($form, &$form_state, $node = NULL) {
+function ding_campaign_edit_rules_form(array $form, array &$form_state, $node = NULL) {
   $num_rules = !empty($form_state['values']['howmany_select']) ? $form_state['values']['howmany_select'] : 0;
 
   $form['ding_campaign_rules'] = array(
@@ -75,8 +82,9 @@ function ding_campaign_edit_rules_form($form, &$form_state, $node = NULL) {
     $c = count($node->camp_rule);
     for ($i = 0; $i < $c; $i++) {
       $form['ding_campaign_rules']['rules']['rule_' . $i] = ding_campaign_rule_form(
-              isset($node->camp_rule[$i]) ? $node->camp_rule[$i] : NULL,
-              isset($node->camp_type[$i]) ? $node->camp_type[$i] : 'rule_page');
+        isset($node->camp_rule[$i]) ? $node->camp_rule[$i] : NULL,
+        isset($node->camp_type[$i]) ? $node->camp_type[$i] : 'rule_page'
+      );
     }
   }
 
@@ -118,15 +126,15 @@ function ding_campaign_edit_rules_form($form, &$form_state, $node = NULL) {
 /**
  * Appends rule form via AJAX.
  *
- * @param $form
- *   Form.
- * @param $form_state
- *   Form state.
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Form state array.
  *
- * @return
+ * @return array
  *   Form element - rule fields.
  */
-function ding_campaign_add_rule($form, $form_state) {
+function ding_campaign_add_rule(array $form, array $form_state) {
   $c = count(element_children($form['ding_campaign_rules']['rules']));
   return $form['ding_campaign_rules']['rules']['rule_' . ($c - 1)];
 }
@@ -144,6 +152,7 @@ function ding_campaign_campaign_rule_form_submit($form, &$form_state) {
       ->condition('cid', $nid)
       ->execute();
 
+    // Clear node cache after campaign rule was deleted from DB.
     entity_get_controller('node')->resetCache(array($nid));
 
     // Add new rules.
@@ -176,12 +185,12 @@ function ding_campaign_campaign_rule_form_submit($form, &$form_state) {
 /**
  * Rule form fields chunk.
  *
- * @param $rule
- *   Current rule.
- * @param $type
+ * @param string $rule
+ *   Current rule machine name.
+ * @param string $type
  *   Current type.
  *
- * @return
+ * @return array
  *   Rule fields structure.
  */
 function ding_campaign_rule_form($rule = NULL, $type = NULL) {
@@ -222,9 +231,9 @@ function ding_campaign_rule_form($rule = NULL, $type = NULL) {
 /**
  * Autocomplete handler.
  *
- * @param $type
+ * @param string $type
  *   Type.
- * @param $input
+ * @param string $input
  *   Input.
  */
 function ding_campaign_admin_autocomplete($type, $input) {

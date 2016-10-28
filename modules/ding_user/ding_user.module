@@ -33,6 +33,23 @@ function ding_user_preprocess_html(&$variables) {
 }
 
 /**
+ * Implements hook_pathauto_alias_alter().
+ *
+ * Ensures that provider user don't have aliases create for their accounts.
+ */
+function ding_user_pathauto_alias_alter(&$alias, $context) {
+  if ($context['module'] == 'user') {
+    $user = reset($context['data']);
+    // The function ding_user_is_provider_user can not be used here. Because if
+    // the user is logging in for the first time the "authmap" table have not
+    // been populated when this alias function is called.
+    if (in_array('provider', $user->roles)) {
+      $alias = '';
+    }
+  }
+}
+
+/**
  * Implements hook_ctools_plugin_directory().
  *
  * It simply tells panels where to find the .inc files that define various
@@ -91,6 +108,14 @@ function ding_user_menu_alter(&$items) {
   $items['user/%user/view']['title'] = t('User profile');
   $items['user/%user/edit']['title'] = t('Edit user profile');
   $items['user/%pm_arg/status']['title'] = t('User status');
+
+  // Limit access to provider users page.
+  $items['user/%user/view']['access callback'] = 'ding_user_provider_user_access';
+  $items['user/%user/view']['access arguments'] = array(1);
+  $items['user/%user']['access callback'] = 'ding_user_provider_user_access';
+  $items['user/%user']['access arguments'] = array(1);
+
+  $items['user']['delivery callback'] = 'ding_user_deliver_html_page';
 }
 
 
@@ -142,6 +167,43 @@ function ding_user_entity_info_alter(&$entity_info) {
 }
 
 /**
+ * Page deliver callback.
+ *
+ * Disables a "page not found" when trying to access provider user account that
+ * results in a page denied. This is to prevent enclosing information about the
+ * existent of a given user account.
+ */
+function ding_user_deliver_html_page($page_callback_result) {
+  if ($page_callback_result == MENU_ACCESS_DENIED) {
+    drupal_deliver_page(MENU_NOT_FOUND);
+  }
+  else {
+    drupal_deliver_html_page($page_callback_result);
+  }
+}
+
+/**
+ * Access callback.
+ *
+ * Allow access if it's a provider account and the user logged in owns the
+ * account or is admin user.
+ */
+function ding_user_provider_user_access($account) {
+  global $user;
+  if (ding_user_is_provider_user($account)) {
+    if (user_is_logged_in() && !ding_user_is_provider_user($user, TRUE)) {
+      return TRUE;
+    }
+
+    return ding_user_access($account);
+  }
+
+  // Check that the account tried to access is an staff account, if not don't
+  // show it.
+  return in_array('staff', $account->roles) == FALSE ? ding_user_access($account) : TRUE;
+}
+
+/**
  * Access callback.
  *
  * Allows access if the account is the same as the logged in user.
@@ -190,6 +252,20 @@ function ding_user_form_alter(&$form, $form_state, $form_id) {
           'callback' => 'ding_user_authenticate_form_callback',
           'wrapper' => drupal_html_id($form_id),
         );
+      }
+
+      // Allow user provider to alter the login form.
+      $function = ding_provider_function('user', 'form_alter', TRUE);
+      if ($function) {
+        $function($form, $form_state);
+      }
+
+      break;
+
+    case 'user_register_form':
+      global $user;
+      if (user_access('administer users') && !in_array('administrators', $user->roles)) {
+        $form['#validate'][] = '_ding_user_roles_form_validate';
       }
       break;
   }
@@ -276,6 +352,15 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
         '#type' => 'fieldset',
         '#title' => t('Change pincode'),
       );
+      if (ding_user_name() && !isset($_SESSION['wayf_login'])) {
+        $form['pass']['pincode_old'] = array(
+          '#type' => 'password',
+          '#title' => t('Confirm old pincode'),
+          '#size' => $maxlength,
+          '#maxlength' => $maxlength,
+          '#attributes' => array('class' => array('password-confirm')),
+        );
+      }
       $form['pass']['pincode'] = array(
         '#type' => 'password_confirm',
         '#size' => $maxlength,
@@ -295,12 +380,22 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
     }
   }
 
+  $form['#validate'][] = 'ding_user_profile_update_validate';
+
   $fee_sms = variable_get('ding_user_fee_sms', t('Notice that there is a fee for receiving a SMS'));
   $form['ding_user_fee_sms'] = array(
     '#type' => 'item',
     '#markup' => $fee_sms,
     '#weight' => 0,
   );
+
+  $int_per = variable_get('ding_reservation_disable_interest_date', '');
+  $profile_provider = 'profile_' . $profile_type->type;
+  $field = 'field_' . $profile_type->module . '_interest_period';
+
+  if (!empty($int_per)) {
+    $form[$profile_provider][$field]['#access'] = FALSE;
+  }
 }
 
 /**
@@ -322,6 +417,34 @@ function ding_user_form_process_password_confirm($element) {
   $element['pass2']['#title'] = t('Confirm pincode');
 
   return $element;
+}
+
+/**
+ * Validate the user profile form.
+ *
+ * Check if the old pincode (if present) match the pincode stored in $_SESSION.
+ */
+function ding_user_profile_update_validate($form, &$form_state) {
+  if (isset($form_state['values']['pincode_old'])) {
+    if (!empty($form_state['values']['pincode'])) {
+      if (empty($form_state['values']['pincode_old'])) {
+        form_set_error('pincode_old', t('The old pincode confirm is empty.'));
+        return;
+      }
+
+      // Check the old pincode with the provider.
+      $auth_res = ding_provider_invoke('user', 'authenticate', ding_user_name(), $form_state['values']['pincode_old']);
+      if (!is_array($auth_res) || !isset($auth_res['success'])) {
+        watchdog('ding_user', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
+        form_set_error('pincode_old', t('There was an error checking the old pincode. Please try again later.'));
+        return;
+      }
+
+      if (!$auth_res['success']) {
+        form_set_error('pincode_old', t('The old pincode confirm does not match.'));
+      }
+    }
+  }
 }
 
 /**
@@ -531,7 +654,7 @@ function ding_user_user_login_validate($form, &$form_state) {
   }
   try {
     // Trying to login the user using the provider.
-    $auth_res = ding_provider_invoke('user', 'authenticate', $form_state['values']['name'], $form_state['values']['pass']);
+    $auth_res = ding_provider_invoke('user', 'authenticate', $form_state['values']['name'], $form_state['values']['pass'], $form_state['values']);
     if (!is_array($auth_res) || !isset($auth_res['success'])) {
       watchdog('ding_user', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
       return;
@@ -596,7 +719,7 @@ function ding_user_user_login_validate($form, &$form_state) {
       form_set_value($form['name'], ding_user_default_authname($form_state['values']['name']), $form_state);
     }
   }
-  catch (DingProviderException $exception) {
+  catch (Exception $exception) {
     // Exception thrown, log error and carry on.
     watchdog_exception('ding_user', $exception);
   }
@@ -621,6 +744,24 @@ function _ding_user_create_account($auth_name, $auth_res) {
   // and invokes hook_user_login before we have a chance to mess with it. So
   // we do what it would do.
   $account = user_external_load($auth_name);
+
+  $mail = NULL;
+  $display_name = '';
+  $blocked = FALSE;
+  if (isset($auth_res['user'])) {
+    if (isset($auth_res['user']['mail'])) {
+      $mail = $auth_res['user']['mail'];
+    }
+
+    if (isset($auth_res['user']['data']['display_name'])) {
+      $display_name = $auth_res['user']['data']['display_name'];
+    }
+
+    if (isset($auth_res['user']['blocked'])) {
+      $blocked = $auth_res['user']['blocked'];
+    }
+  }
+
   if (!$account) {
     // Register this new user.
     $fields = array(
@@ -634,13 +775,13 @@ function _ding_user_create_account($auth_name, $auth_res) {
       'mail' => '',
     );
 
-    if (isset($auth_res['user'])) {
-      $fields['mail'] = $auth_res['user']['mail'];
-      $fields['data'] = array(
-        'display_name' => $auth_res['user']['data']['display_name'],
-        'blocked' => $auth_res['user']['blocked'],
-      );
+    if ($mail) {
+      $fields['mail'] = $mail;
     }
+    $fields['data'] = array(
+      'display_name' => $display_name,
+      'blocked' => $blocked,
+    );
 
     // Set provider role.
     $roles = user_roles(TRUE);
@@ -663,10 +804,12 @@ function _ding_user_create_account($auth_name, $auth_res) {
     // Update display name and mail address as they may have been change in the
     // library system.
     $edit = array();
-    $edit['mail'] = $auth_res['user']['mail'];
+    if ($mail) {
+      $edit['mail'] = $mail;
+    }
     $edit['data'] = array(
-      'display_name' => $auth_res['user']['data']['display_name'],
-      'blocked' => $auth_res['user']['blocked'],
+      'display_name' => $display_name,
+      'blocked' => $blocked,
     );
     user_save($account, $edit);
   }
@@ -843,10 +986,48 @@ function ding_user_save_creds($auth_res) {
 }
 
 /**
- * Check if the given account is a user authenticated through a provider.
+ * Returns user login name of the current user, if available.
+ *
+ * Checks if provider has a get_name function, or has set name in creds.
  */
-function ding_user_is_provider_user($account) {
-  $names = &drupal_static(__FUNCTION__);
+function ding_user_name() {
+  global $user;
+  try {
+    if (ding_provider_implements('user', 'get_name')) {
+      return ding_provider_invoke('user', 'get_name', $user);
+    }
+    $creds = ding_user_get_creds($user);
+    if (isset($creds['name'])) {
+      return $creds['name'];
+    }
+  }
+  catch (Exception $e) {
+    // Do nothing.
+  }
+
+  return NULL;
+}
+
+/**
+ * Check if the given account is a user authenticated through a provider.
+ *
+ * @param object $account
+ *   The user account to check.
+ * @param bool $reset
+ *   If TRUE static cache is ignored else FALSE. Default FALSE.
+ *
+ * @return bool
+ *   TRUE if account is a provider account else FALSE.
+ */
+function ding_user_is_provider_user($account, $reset = FALSE) {
+  // If someone calls us on a new user object before it's saved, we have no
+  // idea, so return false.
+  if (!isset($account->uid)) {
+    return FALSE;
+  }
+  if (!$reset) {
+    $names = &drupal_static(__FUNCTION__);
+  }
   if (!isset($names)) {
     $names = db_select('authmap')
       ->fields('authmap', array('authname'))
@@ -946,4 +1127,36 @@ function ding_user_form_contact_site_form_alter(&$form, $form_state, $form_id) {
  */
 function _ding_user_comment_cache_id($uid) {
   return 'ding_user_comment_user_name:' . $uid;
+}
+
+/**
+ * Implements hook_profile2_view().
+ */
+function ding_user_profile2_view($profile, $view_mode, $langcode) {
+  $provider = _ding_provider_get_provider('user');
+  $field = 'field_' . $provider['module'] . '_interest_period';
+
+  $field_items = field_get_items('profile2', $profile, $field);
+
+  if ($field_items) {
+    $int_per = variable_get('ding_reservation_disable_interest_date', '');
+
+    if ($int_per == 1) {
+      $profile->content[$field]['#access'] = FALSE;
+    }
+  }
+}
+
+/**
+ * Check if newly created user has assigned new roles.
+ *
+ * @param array $form
+ *   Register form elements.
+ * @param array $form_state
+ *   State of the submitted form.
+ */
+function _ding_user_roles_form_validate(array $form, array &$form_state) {
+  if (!array_filter($form_state['values']['roles_change'])) {
+    form_set_error('roles', t('Roles field is required.'));
+  }
 }

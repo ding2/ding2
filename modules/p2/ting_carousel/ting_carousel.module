@@ -1,0 +1,91 @@
+<?php
+/**
+ * @file
+ * Carousel that displays a list of materials.
+ *
+ * This is a first draft that enables multiple lists per page and a
+ * proper drupal theming of the carousel. But since this it is a highly
+ * central and most important part of the user interface to be able to
+ * present lists, it deserves much more work from here.
+ */
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function ting_carousel_entity_info_alter(&$entity_info) {
+  // The compact view mode fits into the carousel.
+  $entity_info['ting_object']['view modes']['compact'] = array(
+    'label' => t('Compact'),
+    'custom settings' => TRUE,
+  );
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ting_carousel_theme($existing, $type, $theme, $path) {
+  return array(
+    'ting_carousel' => array(
+      'template' => 'ting-carousel',
+      'variables' => array(
+        'objects' => NULL,
+        'extra' => '',
+      ),
+      'path' => $path . '/theme',
+    ),
+    'ting_carousel_object' => array(
+      'template' => 'ting-carousel-object',
+      'variables' => array('obj' => NULL),
+      'path' => $path . '/theme',
+    ),
+  );
+}
+
+/**
+ * Implements hook_preprocess_ting_carousel().
+ */
+function template_preprocess_ting_carousel(&$vars, $hook) {
+  $path = drupal_get_path('module', 'ting_search_carousel');
+  drupal_add_library('system', 'ui.widget');
+  drupal_add_library('system', 'ui.draggable');
+  drupal_add_js($path . '/js/jquery.ui.touch-punch.min.js');
+  drupal_add_js($path . '/js/jquery.rs.carousel.js');
+
+  _ting_search_carousel_add_css();
+
+  drupal_add_js(drupal_get_path('module', 'ting_carousel') . '/js/ting_carousel.js');
+
+  $vars['object_items'] = '';
+  foreach ($vars['objects'] as $object) {
+    $vars['object_items'] .= theme('ting_carousel_object', array('object' => $object));
+  }
+
+  $vars['id'] = drupal_html_id('ting-carousel');
+  drupal_add_js(array('ting_carousel' => array('#' . $vars['id'])), 'setting');
+}
+
+/**
+ * Implements hook_preprocess_ting_object().
+ */
+function ting_carousel_preprocess_ting_object(&$variables, $hook) {
+  if ($variables['elements']['#view_mode'] !== 'compact') {
+    return;
+  }
+
+  $entity_uri = entity_uri('ting_object', $variables['object']);
+  if (isset($entity_uri)) {
+    $entity_link = url($entity_uri['path'], array('absolute' => TRUE));
+    $variables['content']['ting_cover']['#prefix'] = '<div class="contentbox">';
+    $variables['content']['group_overlay']['ting_title']['#prefix'] = '<a href="' . $entity_link . '" class="item-link">';
+    $variables['content']['group_overlay']['ting_title']['#suffix'] = '</a>';
+    $variables['content']['group_overlay']['#suffix'] .= '</div>';
+  }
+
+  $object = $variables['object'];
+  if (isset($object->serendipity_info)) {
+    $variables['content']['ding_serendipity_info']['#access'] = TRUE;
+    $variables['content']['ding_serendipity_info']['#weight'] = $variables['content']['group_overlay']['#weight'] + 0.1;
+  }
+
+  $variables['content']['#attached']['css'][] = drupal_get_path('module', 'ting_carousel') . '/css/ting-carousel-compact.css';
+}

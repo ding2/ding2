@@ -371,7 +371,18 @@ function ding_base_preprocess_material_item(&$variables) {
   // Render the checkbox.
   $variables['checkbox'] = drupal_render($element[$element['#id']]);
 
-  // Get the title and cover.
+  // Get the creator, materialtype, title and cover.
+  if (isset($element['#creators'])) {
+    // Concat creator(s) if needed.
+    $creators = $element['#creators'];
+    if (!is_array($creators)) {
+      $creators = array($creators);
+    }
+    $variables['creators'] = implode(', ', $creators);
+  }
+  if (isset($element['#material_type'])) {
+    $variables['material_type'] = $element['#material_type'];
+  }
   $variables['title'] = $element['#title'];
   $variables['cover'] = drupal_render($element['#cover']);
 
@@ -588,4 +599,34 @@ function ding_base_field_widget_form_alter(&$element, &$form_state, $context) {
       }
     }
   }
+}
+
+/**
+ * Get the first value of a field item.
+ *
+ * This is a simple wrapper for the field_get_items() function.
+ */
+function ding_base_get_value($entity_type, $entity, $field_name, $field_value = 'value', $default = FALSE) {
+  $items = field_get_items($entity_type, $entity, $field_name);
+  if ($items !== FALSE) {
+    if (isset($items[0][$field_value])) {
+      return $items[0][$field_value];
+    }
+  }
+
+  return $default;
+}
+
+/**
+ * Get the fields, like field_get_items. But always return an array.
+ *
+ * This way you don't have to check for FALSE in your own code, but can move
+ * straight into a foreach loop.
+ */
+function ding_base_get_items($entity_type, $entity, $field_name) {
+  $items = field_get_items($entity_type, $entity, $field_name);
+  if ($items === FALSE) {
+    return array();
+  }
+  return $items;
 }

@@ -10,7 +10,7 @@
 .unavailable:visited,
 .unavailable:hover,
 .unavailable:active {
-  color: darken($availability-reservable, 10%);
+  color: darken($availability-not-available-reservable, 10%);
 }
 
 .material-item .action-button.reserve-button,
@@ -28,7 +28,7 @@
   }
 
   &.unavailable.reservable {
-    @include create-gradient-button($white, $availability-reservable, darken($availability-reservable, 15%));
+    @include create-gradient-button($white, $availability-not-available-reservable, darken($availability-not-available-reservable, 15%));
   }
 }
 
@@ -47,35 +47,43 @@
     padding: 0;
 
     &.pending {
+      // Sets the reservation color to grey.
       @include availability($availability-pending);
     }
 
     &.availability.processed {
+      // Sets the reservation color to yellow.
       @include availability($availability-processed);
     }
 
     &.availability.available {
+      // Sets the reservation color to green.
       @include availability($availability-available);
     }
 
     &.availability.reservable {
-      @include availability($availability-reservable);
+      // Sets the reservation color to green.
+      @include availability($availability-available);
     }
 
     &.availability.available.reservable {
+      // Sets the reservation color to green.
       @include availability($availability-available-reservable);
     }
 
     &.availability.available.not-reservable {
+      // Sets the reservation color to yellow.
       @include availability($availability-available-not-reservable);
     }
 
     &.availability.unavailable.reservable {
-      @include availability($availability-reservable);
+      // Sets the reservation color to yellow.
+      @include availability($availability-not-available-reservable);
     }
 
     &.availability.unavailable.not-reservable {
-      @include availability($availability-available-not-reservable);
+      // Sets the reservation color to red.
+      @include availability($availability-not-available-not-reservable);
     }
 
     .availability-status {

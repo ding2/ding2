@@ -875,11 +875,6 @@ msgctxt "field_ding_staff_surname:staff:label"
 msgid "Surname"
 msgstr "Efternavn"
 
-#: field:comment_body:comment_node_new_materials:label
-msgctxt "comment_body:comment_node_new_materials:label"
-msgid "Comment"
-msgstr "Kommentar"
-
 #: field:field_openruth_interest_period:#allowed_values:30
 msgctxt "field_openruth_interest_period:#allowed_values:30"
 msgid "1 month"

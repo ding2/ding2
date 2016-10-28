@@ -2,10 +2,9 @@
 /**
  * @file
  * Helper module for the Ding provider tests.
- *
  */
 
-include_once('connie.features.inc');
+include_once 'connie.features.inc';
 
 /**
  * Allowed values callback for field.
@@ -16,7 +15,7 @@ function connie_allowed_branches() {
 }
 
 /**
- * Implement hook_ding_provider().
+ * Implements hook_ding_provider().
  */
 function connie_ding_provider() {
   return array(
@@ -27,19 +26,27 @@ function connie_ding_provider() {
       ),
       'user' => array(
         'prefix' => 'user',
-        'file' => drupal_get_path('module', 'connie') . '/connie.user.inc',
+        'file' => 'connie.user.inc',
       ),
       'reservation' => array(
         'prefix' => 'reservation',
-        'file' => drupal_get_path('module', 'connie') . '/connie.reservation.inc',
+        'file' => 'connie.reservation.inc',
       ),
       'loan' => array(
         'prefix' => 'loan',
-        'file' => drupal_get_path('module', 'connie') . '/connie.loan.inc',
+        'file' => 'connie.loan.inc',
       ),
       'branch' => array(
         'prefix' => 'branch',
-        'file' => drupal_get_path('module', 'connie') . '/connie.branch.inc',
+        'file' => 'connie.branch.inc',
+      ),
+      'debt' => array(
+        'prefix' => 'debt',
+        'file' => 'connie.debt.inc',
+      ),
+      'wayf' => array(
+        'prefix' => 'wayf',
+        'file' => 'connie.wayf.inc',
       ),
     ),
   );
@@ -63,31 +70,26 @@ function connie_profile_update($profile, $data) {
  * Sends changes to Connie and updates profile with real values.
  */
 function connie_profile2_presave($profile) {
-  if (// Only work on our own profile type.
-      $profile->type == 'provider_connie' &&
-      // Don't try to sync to backend if called from profile_init, the
-      // profile has just been updated with data from the backend and
-      // is being saved locally.
-      !isset($profile->connie_init) &&
-      // Check that there's actually changed something.
-      $profile->connie_preferred_branch != $profile->original->connie_preferred_branch) {
-    $langs = field_language('profile2', $profile);
-    $changes['preferred_branch'] = $profile->connie_preferred_branch[$langs['connie_preferred_branch']][0]['value'];
-
-    /**
-     * Here would be the code to update the backend...
+  // Check if the profile is just being created and is an connie_provider
+  // profile. If it's being created the fields are not yet loaded and can't be
+  // saved back to the provider.
+  $try_to_save = ($profile->created == $profile->changed) ? FALSE : TRUE;
+  if ($profile->type == 'provider_connie' && $try_to_save) {
+    /*
+     * Here would be the code to update the backend.
+     *
+     * We'd use a metadata wrapper to access the data.
+     *
+     * @code
+     * $wrapper_original = entity_metadata_wrapper('profile2',
+     *   $profile->original);
+     * $wrapper = entity_metadata_wrapper('profile2', $profile);
+     * @endcode
      */
-
-
-    // Update the profile with whatever Connie says.
-    $creds = ding_user_get_creds($profile);
-    if ($data = FALSE /* Imagine a function that fetches data from backend.*/) {
-      connie_profile_update($profile, $data);
-    }
   }
 }
 
-/*
+/**
  * Availability functions.
  */
 function connie_availability_items($provider_ids) {
@@ -127,6 +129,7 @@ function connie_availability_items($provider_ids) {
 }
 
 /**
+ * Provider function, return holdings.
  */
 function connie_availability_holdings($provider_ids) {
   // Holdings is a superset of items.
@@ -147,7 +150,7 @@ function connie_availability_holdings($provider_ids) {
 }
 
 /**
- *
+ * Provider function, return holdings for periodical.
  */
 function connie_availability_periodical($provider_ids) {
   $res = array();

@@ -34,6 +34,9 @@
 @import "framework/_modal";
 @import "framework/_fontawesome";
 
+// Include p2 settings
+@import "p2settings/_p2_mixins";
+@import "p2settings/_p2_variables";
 
 // Include media queries (displays and attachments)
 @import "layout/_layout";
@@ -47,7 +50,6 @@
 @import "module/_availability";
 @import "module/_campaign";
 @import "module/_search";
-@import "module/_newmaterials";
 @import "module/_carousel";
 @import "module/_news";
 @import "module/_event";
@@ -62,6 +64,18 @@
 @import "module/_groups";
 @import "module/_page";
 @import "module/_webforms";
+@import "module/_place2book";
+
+// Include p2 modules sass & p2 style add ons
+@import "module/p2/_tables";
+@import "module/p2/_lists";
+@import "module/p2/_style";
+@import "module/p2/_panels";
+@import "module/p2/_poster";
+@import "module/p2/_overwrites";
+@import "module/p2/_navigation_p2";
+@import "module/p2/_notifications_p2";
+@import "module/p2/_search_p2";
 
 // Include print stylesheet
 @import "module/_print";
