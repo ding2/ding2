@@ -425,8 +425,9 @@ projects[xautoload][version] = "5.7"
 ; Libraries
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
-libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
-libraries[bpi-client][download][tag] = "7.x-3.0.0-rc2"
+libraries[bpi-client][download][url] = "https://github.com/rimi-itk/bpi-client.git"
+libraries[bpi-client][download][branch] = "Issue-1476-and-1497"
+
 
 libraries[ckeditor][download][type] = "get"
 libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.7/ckeditor_4.4.7_full.zip
