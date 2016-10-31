@@ -1,8 +1,8 @@
 Test users:
-UserId: 3206596642, Pass: 12345
+UserId: 0123456789, Password: pswd
 - User with loans, reservations and unpaid bills.
-UserId: 3206596685, Pass: 45678, Fail pass: 11111
-- User with no preffered branch.
+UserId: 1234567890, Password: pswd, Fail password: fail
+- User with no preferred branch.
 
 OPAC records: 
 Redord ID: 25979966
