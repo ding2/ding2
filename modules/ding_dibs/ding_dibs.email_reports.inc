@@ -13,9 +13,9 @@
 function ding_dibs_setting_emails($form, &$form_state) {
   drupal_add_css(drupal_get_path('module', 'ding_dibs') . '/css/ding_dibs.css');
   $hour = range(0, 23);
-  $options_hour = array_map(_ding_dibs_generate_zero, $hour);
+  $options_hour = array_map("_ding_dibs_generate_zero", $hour);
   $minute = range(0, 59);
-  $options_minute = array_map(_ding_dibs_generate_zero, $minute);
+  $options_minute = array_map("_ding_dibs_generate_zero", $minute);
   $form = array();
   $form['ding_dibs'] = array(
     '#type' => 'fieldset',
