@@ -28,9 +28,12 @@ circle-setup:
 circle-run-tests:
 	# Run PHPUnit Selenium tests
 	cd $(DRUPAL_SITE_PATH)/profiles/ding2/tests/phpunit && \
-	DDBTEST_USER=3207795592 \
+	DDBTEST_LMS=http://dummy-alma.inlead.dk/web/ \
+	DDBTEST_USER=3206596642 \
 	DDBTEST_PASS=12345 \
+	# DDBTEST_URL=http://md.ding2.dev.inlead.dk/ \
 	DDBTEST_URL=http://ding2.dev/ \
+	#DDBTEST_SERVER=CircleCI \
 	DDBTEST_SCREENSHOT_PATH="$(CIRCLE_ARTIFACTS)/phpunit" \
 	DDBTEST_SCREENSHOT_URL="https://circle-artifacts.com/gh/$(CIRCLE_PROJECT_USERNAME)/$(CIRCLE_PROJECT_REPONAME)/$(CIRCLE_BUILD_NUM)/artifacts/$(CIRCLE_NODE_INDEX)$(CIRCLE_ARTIFACTS)/phpunit" \
 	./vendor/bin/phpunit --color

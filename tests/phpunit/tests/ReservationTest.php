@@ -6,13 +6,14 @@ class ReservationTest extends Ding2TestBase {
   protected function setUp() {
     parent::setUp();
     resetState($this->config->getLms());
+    $this->config->resetLms();
   }
 
   /**
    * Check material information on user reservation page.
    */
   public function testReservation() {
-    $this->open('/' . $this->config->getLocale());
+    $this->open($this->config->getUrl() . $this->config->getLocale());
     $this->abstractedPage->waitForPage();
     $this->abstractedPage->userLogin($this->config->getUser(), $this->config->getPass());
 
@@ -21,13 +22,17 @@ class ReservationTest extends Ding2TestBase {
     $this->click('link=My Account');
     $this->abstractedPage->waitForPage();
 
-    // Check for reservation ready for pickup quick link.
-    $this->assertElementPresent('link=5 Reservations');
-    $this->click('link=5 Reservations');
+    // Check for reservation quick link.
+    $this->assertElementContainsText('css=div.ding-user-lists li.reservations a.signature-label', 'Reservations');
+/* counter is not reset on $this->config->resetLms();
+    $this->assertElementContainsText('css=div.ding-user-lists li.reservations span.label', '56');
+*/
+    $this->assertElementPresent('link=Reservations');
+    $this->click('link=Reservations');
     $this->abstractedPage->waitForPage();
 
     // Check for correct page heading.
-    $this->assertElementContainsText('css=h2.pane-title', 'My reservations');
+    $this->assertElementContainsText('css=div.pane-reservations h2.pane-title', 'My reservations');
 
     // Next section roughly checks the markup.
     // This relies on the dummy LMS service, so the data should be pre-defined.
@@ -51,15 +56,6 @@ class ReservationTest extends Ding2TestBase {
         '12846959',
       ),
       array(
-        'Title not available',
-        '2012, Januar, 1',
-        '1',
-        '24. May 2016',
-        'Hovedbiblioteket',
-        '26. November 2015',
-        '12846996',
-      ),
-      array(
         'Hr. Peters blomster',
         '',
         '1',
@@ -67,6 +63,15 @@ class ReservationTest extends Ding2TestBase {
         'Hovedbiblioteket',
         '21. June 2015',
         '12846965',
+      ),
+      array(
+        'Title not available',
+        '2012, Januar, 1',
+        '1',
+        '24. May 2016',
+        'Hovedbiblioteket',
+        '26. November 2015',
+        '12846996',
       ),
     );
     for ($i = 0; $i < count($notready_for_pickup); $i++) {
@@ -137,25 +142,26 @@ class ReservationTest extends Ding2TestBase {
     $this->abstractedPage->refresh();
 
     // Check the results again.
+    $next_year_date = date("j. F Y", strtotime("+360 days", time()));
     $notready_for_pickup = array(
       array(
-        'Alt om haven',
-        '5. March 2016',
-        'Beder-Malling',
-      ),
-      array(
-        'Mad & venner',
-        '5. March 2016',
-        'Beder-Malling',
-      ),
-      array(
         'Title not available',
-        '20. November 2016',
+        $next_year_date,
         'Beder-Malling',
       ),
       array(
         'Hr. Peters blomster',
-        '15. June 2016',
+        $next_year_date,
+        'Beder-Malling',
+      ),
+      array(
+        'Mad & venner',
+        $next_year_date,
+        'Beder-Malling',
+      ),
+      array(
+        'Alt om haven',
+        $next_year_date,
         'Beder-Malling',
       ),
     );
@@ -185,6 +191,6 @@ class ReservationTest extends Ding2TestBase {
     sleep(5);
     $this->abstractedPage->refresh();
     // Check the item is no more present.
-    $this->assertElementNotPresent('link=Hr. Peters blomster');
+    $this->assertElementNotPresent('link=Title not available');
   }
 }

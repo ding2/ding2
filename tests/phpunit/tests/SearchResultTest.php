@@ -3,32 +3,37 @@
 require_once 'Ding2TestBase.php';
 
 class SearchResultTest extends Ding2TestBase {
+  protected function setUp() {
+    parent::setUp();
+    resetState($this->config->getLms());
+    $this->config->resetLms();
+  }
+
   /**
    * Test search functionality as anonymous.
    *
    * Check when filled and empty search is made.
    */
   public function testSearchPageAnonymous() {
-    $this->open('/' . $this->config->getLocale());
+    $this->open($this->config->getUrl() . $this->config->getLocale());
     $this->abstractedPage->waitForPage();
-
     // Check for no results page.
     $this->abstractedPage->userMakeSearch('');
     $this->assertElementContainsText('css=div.messages.error', 'Please enter some keywords.');
 
     // Check for search results page.
-    $this->abstractedPage->userMakeSearch('dorthe nors');
+    $this->abstractedPage->userMakeSearch('hest');
     $this->assertElementPresent("css=li.list-item.search-result");
 
     // Check for search with cql.
-    $this->abstractedPage->userMakeSearch('"23685531" or "51109635"');
+    $this->abstractedPage->userMakeSearch('28954263 or 27994431');
     $this->assertElementPresent("css=li.list-item.search-result");
 
     // Check facets.
     // Check the pre-defined result.
     $results = array(
-      'Bog:',
       'Ebog:',
+      'Film (net):',
     );
 
     for ($i = 0; $i < count($results); $i++) {
@@ -36,12 +41,13 @@ class SearchResultTest extends Ding2TestBase {
       $this->assertElementContainsText('css=.search-result--heading-type:eq(' . $i . ')', $results[$i]);
     }
 
+
     // Two type facets should be available.
-    $this->assertElementPresent('link=bog (1)');
     $this->assertElementPresent('link=ebog (1)');
+    $this->assertElementPresent('link=film (net) (1)');
 
     // Now filter, using a type facet.
-    $this->click('link=bog (1)');
+    $this->click('link=film (net) (1)');
     $this->abstractedPage->waitForPage();
 
     // Check that there is no ebog type facet.
@@ -49,28 +55,28 @@ class SearchResultTest extends Ding2TestBase {
     // Check that there is no more a second item.
     $this->assertElementNotPresent('css=.pane-search-result .search-results li.search-result:eq(1)');
 
-    // And the first one is of type Bog.
-    $this->assertElementContainsText('css=.search-result--heading-type:eq(0)', 'Bog:');
+    // And the first one is of type film.
+    $this->assertElementContainsText('css=.search-result--heading-type:eq(0)', 'Film (net):');
 
     // Click the bog facet again, to uncheck.
-    $this->click('link=bog (1)');
+    $this->click('link=film (net) (1)');
     $this->abstractedPage->waitForPage();
 
     // Try the year facet.
-    $this->assertElementPresent('link=2001 (1)');
-    $this->click('link=2001 (1)');
+    $this->assertElementPresent('link=2009 (1)');
+    $this->click('link=2009 (1)');
     $this->abstractedPage->waitForPage();
 
     // One single item has to have year 2001.
-    $this->assertElementContainsText('css=.pane-search-result .search-results li.search-result:eq(0) .content:first', 'By Dorthe Nors (2001)');
+    $this->assertElementContainsText('css=.pane-search-result .search-results li.search-result:eq(0) .content:first', 'By Peder Bundgaard (2009)');
     // Restore the facet.
-    $this->click('link=2001 (1)');
+    $this->click('link=2009 (1)');
     $this->abstractedPage->waitForPage();
 
     // Check ascending title sorting.
     $this->select('css=#edit-sort', 'value=title_ascending');
     $this->abstractedPage->waitForPage();
-    $results = array('Gravgæst', 'Soul : roman');
+    $results = array('Cowboy, Indianer og Hest', 'Sorte Hest : roman');
     for ($i = 0; $i < count($results); $i++) {
       $this->assertElementContainsText('css=.pane-search-result .search-result:eq(' . $i . ') .heading a', $results[$i]);
     }
@@ -78,30 +84,14 @@ class SearchResultTest extends Ding2TestBase {
     // Check descending title sorting.
     $this->select('css=#edit-sort', 'value=title_descending');
     $this->abstractedPage->waitForPage();
-    $results = array('Soul : roman', 'Gravgæst');
+    $results = array('Sorte Hest : roman', 'Cowboy, Indianer og Hest');
     for ($i = 0; $i < count($results); $i++) {
       $this->assertElementContainsText('css=.pane-search-result .search-result:eq(' . $i . ') .heading a', $results[$i]);
     }
 
-    // Check descending title sorting.
-    $this->select('css=#edit-sort', 'value=date_ascending');
-    $this->abstractedPage->waitForPage();
-    $results = array('By Dorthe Nors (2001)', 'By Johan Theorin (2014)');
-    for ($i = 0; $i < count($results); $i++) {
-      $this->assertElementContainsText('css=.pane-search-result .search-result:eq(' . $i . ') .content:first', $results[$i]);
-    }
-
-    // Check ascending title sorting.
-    $this->select('css=#edit-sort', 'value=date_descending');
-    $this->abstractedPage->waitForPage();
-    $results = array('By Johan Theorin (2014)', 'By Dorthe Nors (2001)');
-    for ($i = 0; $i < count($results); $i++) {
-      $this->assertElementContainsText('css=.pane-search-result .search-result:eq(' . $i . ') .content:first', $results[$i]);
-    }
-
     // Check the search results limits.
     // 10 by default.
-    $this->abstractedPage->userMakeSearch('bog');
+    $this->abstractedPage->userMakeSearch('alle');
     $this->assertEquals(9, $this->getElementIndex('css=.search-result:last'));
 
     // 25
@@ -149,7 +139,7 @@ class SearchResultTest extends Ding2TestBase {
    * @see testSubmitAnonymous()
    */
   public function testSearchPageLoggedIn() {
-    $this->open('/' . $this->config->getLocale());
+    $this->open($this->config->getUrl() . $this->config->getLocale());
     $this->abstractedPage->waitForPage();
     $this->abstractedPage->userLogin($this->config->getUser(), $this->config->getPass());
     $this->testSearchPageAnonymous();

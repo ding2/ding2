@@ -5,16 +5,18 @@ require_once 'Ding2TestBase.php';
 class LoansTest extends Ding2TestBase {
   protected function setUp() {
     parent::setUp();
-    $url = $this->config->getLms() . '/alma/patron/loans?borrCard=' . $this->config->getUser() . '&pinCode=' . $this->config->getPass();
+    $url = $this->config->getLms() . 'patron/loans?borrCard=' . $this->config->getUser() . '&pinCode=' . $this->config->getPass();
     $this->mock = new DOMDocument();
     $this->mock->loadXML(@file_get_contents($url));
-
     resetState($this->config->getLms());
+    $this->config->resetLms();
   }
 
   public function testLoansMaterialInformation() {
-    $this->open('/' . $this->config->getLocale());
+
+    $this->open($this->config->getUrl() . $this->config->getLocale());
     $this->abstractedPage->waitForPage();
+
     $this->abstractedPage->userLogin($this->config->getUser(), $this->config->getPass());
 
     // Check for user account link.
@@ -22,23 +24,19 @@ class LoansTest extends Ding2TestBase {
     $this->click('link=My Account');
     $this->abstractedPage->waitForPage();
 
-    // Check for user status link.
-    $this->assertElementPresent('link=Lån, reserveringer og mellemværende');
-    $this->click('link=Lån, reserveringer og mellemværende');
-    $this->abstractedPage->waitForPage();
-
     // Check for material related links.
-    // Weird, but these are not translated.
-    $this->assertElementPresent('link=Mine bøder');
-    $this->assertElementPresent('link=Mine reserveringer');
-    $this->assertElementPresent('link=Mine hjemlån');
+    $this->assertElementPresent('link=Fines');
+    $this->assertElementPresent('link=Loans overdue');
+    $this->assertElementPresent('link=Reservations ready for pick-up');
+    $this->assertElementPresent('link=Reservations');
+    $this->assertElementPresent('link=Loans');
 
     // Go to loans page.
-    $this->click('link=Mine hjemlån');
+    $this->click('link=Loans');
     $this->abstractedPage->waitForPage();
 
     // Check for page title.
-    $this->assertElementContainsText('css=h2.pane-title', 'Loan list');
+    $this->assertElementContainsText('css=div.primary-content h2.pane-title', 'Loan list');
 
     // Tricky part.
     // In order to check the data shown, it's required to have the raw

@@ -6,6 +6,7 @@ class OpenSuggestionTest extends Ding2TestBase {
   protected function setUp() {
     parent::setUp();
     resetState($this->config->getLms());
+    $this->config->resetLms();
   }
 
   /**
@@ -15,7 +16,7 @@ class OpenSuggestionTest extends Ding2TestBase {
    * Check some pre-tested values to be autosuggested.
    */
   public function testSearchAutosuggestionAnonymous() {
-    $this->open('/' . $this->config->getLocale());
+    $this->open($this->config->getUrl() . $this->config->getLocale());
     // Type something in search field and force autocomplete
     // to be shown. Check simple query.
     $this->type('css=#edit-search-block-form--2', 'nors');
@@ -48,7 +49,7 @@ class OpenSuggestionTest extends Ding2TestBase {
    * @see testSearchAutosuggestionAnonymous()
    */
   public function testSearchAutosuggestionLoggedIn() {
-    $this->open('/' . $this->config->getLocale());
+    $this->open($this->config->getUrl() . $this->config->getLocale());
     $this->abstractedPage->waitForPage();
     $this->abstractedPage->userLogin($this->config->getUser(), $this->config->getPass());
     $this->testSearchAutosuggestionAnonymous();

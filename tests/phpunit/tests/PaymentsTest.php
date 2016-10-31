@@ -5,11 +5,11 @@ require_once 'Ding2TestBase.php';
 class PaymentsTest extends Ding2TestBase {
   protected function setUp() {
     parent::setUp();
-    $url = $this->config->getLms() . '/alma/patron/debts?borrCard=' . $this->config->getUser() . '&pinCode=' . $this->config->getPass();
+    $url = $this->config->getLms() . 'patron/debts?borrCard=' . $this->config->getUser() . '&pinCode=' . $this->config->getPass();
     $this->mock = new DOMDocument();
     $this->mock->loadXML(@file_get_contents($url));
-
     resetState($this->config->getLms());
+    $this->config->resetLms();
   }
 
   /**
@@ -18,7 +18,7 @@ class PaymentsTest extends Ding2TestBase {
    * Check that each payment in account form equal to payment on server side.
    */
   public function testPayments() {
-    $this->open('/' . $this->config->getLocale());
+    $this->open($this->config->getUrl() . $this->config->getLocale());
     $this->abstractedPage->waitForPage();
     $this->abstractedPage->userLogin($this->config->getUser(), $this->config->getPass());
 
@@ -27,10 +27,17 @@ class PaymentsTest extends Ding2TestBase {
     $this->click('link=My Account');
     $this->abstractedPage->waitForPage();
 
-    // Check for user status link.
-    $this->assertElementPresent('link=Lån, reserveringer og mellemværende');
-    $this->click('link=Lån, reserveringer og mellemværende');
-    $this->abstractedPage->waitForPage();
+    // Check for the user menu.
+    //if ($this->config->getServer() == 'localhost') {
+      $this->assertElementPresent('link=User status');
+      $this->click('link=User status');
+      $this->abstractedPage->waitForPage();
+    //}
+    /*else if ($this->config->getServer() == 'CircleCI') {
+      $this->assertElementPresent('link=Lån, reserveringer og mellemværende');
+      $this->click('link=Lån, reserveringer og mellemværende');
+      $this->abstractedPage->waitForPage();
+    }*/
 
     // Go to debts page.
     $this->assertElementPresent('link=Mine bøder');
@@ -38,7 +45,7 @@ class PaymentsTest extends Ding2TestBase {
     $this->abstractedPage->waitForPage();
 
     // Check for page title.
-    $this->assertElementContainsText('css=h2.pane-title', 'My debts');
+    $this->assertElementContainsText('css=div.pane-debts h2.pane-title', 'My debts');
 
     // Tricky part.
     // In order to check the data shown, it's required to have the raw
