@@ -30,7 +30,7 @@ variable_set('language_negotiation_language', array(
     ),
     'file' => 'includes/locale.inc',
   ),
-  'locale-user' => array(
+  /*'locale-user' => array(
     'callbacks' => array(
       'language' => 'locale_language_from_user',
     ),
@@ -43,7 +43,7 @@ variable_set('language_negotiation_language', array(
       'url_rewrite' => 'locale_language_url_rewrite_session',
     ),
     'file' => 'includes/locale.inc',
-  ),
+  ),*/
   'language-default' => array(
     'callbacks' => array(
       'language' => 'language_from_default',
@@ -53,11 +53,11 @@ variable_set('language_negotiation_language', array(
 
 // Set priority of language negotiation plugins so URL comes first.
 variable_set('locale_language_providers_weight_language', array(
-  'locale-user' => '-9',
-  'locale-session' => '-8',
+  //'locale-user' => '-6',
+  //'locale-session' => '-8',
   'locale-url' => '-10',
-  'locale-browser' => '-7',
-  'language-default' => '-6',
+  //'locale-browser' => '-7',
+  'language-default' => '-9',
 ));
 
 // Set ting_search_autocomplete settings.

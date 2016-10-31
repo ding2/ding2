@@ -28,7 +28,8 @@ circle-setup:
 circle-run-tests:
 	# Run PHPUnit Selenium tests
 	cd $(DRUPAL_SITE_PATH)/profiles/ding2/tests/phpunit && \
-	DDBTEST_USER=3207795592 \
+	DDBTEST_LMS=http://dummy-alma.inlead.dk/web/ \
+	DDBTEST_USER=3206596642 \
 	DDBTEST_PASS=12345 \
 	DDBTEST_URL=http://ding2.dev/ \
 	DDBTEST_SCREENSHOT_PATH="$(CIRCLE_ARTIFACTS)/phpunit" \

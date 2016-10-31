@@ -12,7 +12,7 @@ class ReservationReadyToPickupTest extends Ding2TestBase {
    * Check reservation ready for pickup data on my reservation page.
    */
   public function testReadyReservation() {
-    $this->open('/' . $this->config->getLocale());
+    $this->open($this->config->getUrl() . $this->config->getLocale());
     $this->abstractedPage->waitForPage();
     $this->abstractedPage->userLogin($this->config->getUser(), $this->config->getPass());
 
@@ -22,13 +22,16 @@ class ReservationReadyToPickupTest extends Ding2TestBase {
     $this->abstractedPage->waitForPage();
 
     // Check for reservation ready for pickup quick link.
-    $this->assertElementPresent('link=1 Reservation ready for pick-up');
-    $this->click('link=1 Reservation ready for pick-up');
-    $this->abstractedPage->waitForPage();
+    $this->assertElementContainsText('css=div.ding-user-lists li.ready a.signature-label', 'Reservations ready for pick-up');
+    $this->assertElementContainsText('css=div.ding-user-lists li.ready span.label', '1');
 
+    $this->assertElementPresent('link=Reservations ready for pick-up');
+    $this->click('link=Reservations ready for pick-up');
+    $this->abstractedPage->waitForPage();
+    
     // Check for correct page heading.
     sleep(5);
-    $this->assertElementContainsText('css=h2.pane-title', 'My reservations');
+    $this->assertElementContainsText('css=div.pane-reservations h2.pane-title', 'My reservations');
     // Next section roughly checks the markup.
     // This relies on the dummy LMS service, so the data should be pre-defined.
     $ready_for_pickup = array(
