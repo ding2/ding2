@@ -1,0 +1,62 @@
+<?php
+/**
+ * @file
+ * Represents definition of DB schema and all installation tasks.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function ding_event_subscriptions_install() {
+  ding_event_subscriptions_add_panes();
+}
+
+/**
+ * Helper function for adding pane to specific pages.
+ */
+function ding_event_subscriptions_add_panes() {
+  $settings = array(
+    array(
+      'task' => 'term_view',
+      'name' => 'term_view_panel_context',
+    ),
+    array(
+      'task' => 'node_view',
+      'name' => 'ding_event_node_view',
+    ),
+    array(
+      'task' => 'node_view',
+      'name' => 'node_view_panel_context_3',
+    ),
+  );
+  ctools_get_plugins('page_manager', 'task_handlers', 'panel_context');
+  foreach ($settings as $setting) {
+    $handler = page_manager_load_task_handler($setting['task'], '', $setting['name']);
+    $display = panels_panel_context_get_display($handler);
+
+    $pane = new stdClass();
+    $pane->pid = 'new-05a7891f-60a5-4df6-9537-ac832dd3fdbd';
+    $pane->panel = 'main_content';
+    $pane->type = 'des_subscribe';
+    $pane->subtype = 'des_subscribe';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array();
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 3;
+    $pane->locks = array();
+    $pane->uuid = '05a7891f-60a5-4df6-9537-ac832dd3fdbd';
+    $display->content['new-05a7891f-60a5-4df6-9537-ac832dd3fdbd'] = $pane;
+    $display->panels['main_content'][3] = 'new-05a7891f-60a5-4df6-9537-ac832dd3fdbd';
+    $display->hide_title = PANELS_TITLE_PANE;
+    $display->title_pane = '0';
+    $handler->conf['display'] = $display;
+    page_manager_save_task_handler($handler);
+  }
+}
+
