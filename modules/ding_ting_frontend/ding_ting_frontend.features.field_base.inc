@@ -19,7 +19,7 @@ function ding_ting_frontend_field_default_field_bases() {
     'field_name' => 'ding_availability_holdings',
     'foreign keys' => array(),
     'indexes' => array(),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'ding_availability',
     'settings' => array(),
     'storage' => array(
@@ -41,7 +41,7 @@ function ding_ting_frontend_field_default_field_bases() {
     'field_name' => 'ding_entity_buttons',
     'foreign keys' => array(),
     'indexes' => array(),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'ding_entity',
     'settings' => array(),
     'storage' => array(
@@ -63,7 +63,7 @@ function ding_ting_frontend_field_default_field_bases() {
     'field_name' => 'ding_periodical_issues',
     'foreign keys' => array(),
     'indexes' => array(),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'ding_periodical',
     'settings' => array(),
     'storage' => array(
@@ -85,7 +85,7 @@ function ding_ting_frontend_field_default_field_bases() {
     'field_name' => 'ting_abstract',
     'foreign keys' => array(),
     'indexes' => array(),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'ting',
     'settings' => array(),
     'storage' => array(
@@ -107,7 +107,7 @@ function ding_ting_frontend_field_default_field_bases() {
     'field_name' => 'ting_author',
     'foreign keys' => array(),
     'indexes' => array(),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'ting',
     'settings' => array(),
     'storage' => array(
@@ -129,7 +129,7 @@ function ding_ting_frontend_field_default_field_bases() {
     'field_name' => 'ting_collection_types',
     'foreign keys' => array(),
     'indexes' => array(),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'ting',
     'settings' => array(),
     'storage' => array(
@@ -167,7 +167,7 @@ function ding_ting_frontend_field_default_field_bases() {
     'field_name' => 'ting_entities',
     'foreign keys' => array(),
     'indexes' => array(),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'ting',
     'settings' => array(),
     'storage' => array(
@@ -189,7 +189,7 @@ function ding_ting_frontend_field_default_field_bases() {
     'field_name' => 'ting_primary_object',
     'foreign keys' => array(),
     'indexes' => array(),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'ting',
     'settings' => array(),
     'storage' => array(
@@ -211,7 +211,7 @@ function ding_ting_frontend_field_default_field_bases() {
     'field_name' => 'ting_reference_reverse',
     'foreign keys' => array(),
     'indexes' => array(),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'ting_reference',
     'settings' => array(),
     'storage' => array(
@@ -233,7 +233,7 @@ function ding_ting_frontend_field_default_field_bases() {
     'field_name' => 'ting_relations',
     'foreign keys' => array(),
     'indexes' => array(),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'ting_relation',
     'settings' => array(),
     'storage' => array(
@@ -255,7 +255,7 @@ function ding_ting_frontend_field_default_field_bases() {
     'field_name' => 'ting_series',
     'foreign keys' => array(),
     'indexes' => array(),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'ting',
     'settings' => array(),
     'storage' => array(
@@ -277,7 +277,7 @@ function ding_ting_frontend_field_default_field_bases() {
     'field_name' => 'ting_subjects',
     'foreign keys' => array(),
     'indexes' => array(),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'ting',
     'settings' => array(),
     'storage' => array(
@@ -299,7 +299,7 @@ function ding_ting_frontend_field_default_field_bases() {
     'field_name' => 'ting_title',
     'foreign keys' => array(),
     'indexes' => array(),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'ting',
     'settings' => array(),
     'storage' => array(
@@ -321,7 +321,7 @@ function ding_ting_frontend_field_default_field_bases() {
     'field_name' => 'ting_type',
     'foreign keys' => array(),
     'indexes' => array(),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'ting',
     'settings' => array(),
     'storage' => array(
