@@ -69,7 +69,9 @@ function exec_sregex (regex_str, input_str) {
 function get_var_value (expr_in, meta_data) {
   // Strip ${ and }.
   var expr = expr_in.substring(2, expr_in.length-1);
-  if (expr === "") return "";
+  if (expr === "") {
+    return "";
+  }
 
   // Extract name.
   var var_name = expr.match(/^[^\[]+/)[0];
@@ -82,8 +84,8 @@ function get_var_value (expr_in, meta_data) {
       expr.substring(var_name.length+1, expr.length-1),
       var_value);
     }
+    return var_value;
   }
-  return var_value;
 }
 
 // Prepares urls from recipes with expressions in the form:

@@ -44,7 +44,7 @@
     }
 
     if (!link) {
-      link = choose_url(hit['location'][0]);
+      link = choose_url(hit.location[0]);
     }
     var html = "";
 
@@ -57,8 +57,8 @@
     if (link) {
       html += '</a>';
     }
-    if (hit['location'][0]['md-medium']) {
-      html += " (" + hit['location'][0]['md-medium'] + ")";
+    if (hit.location[0]['md-medium']) {
+      html += " (" + hit.location[0]['md-medium'] + ")";
     }
     html += '</h3>';
 
@@ -67,7 +67,7 @@
     if (typeof (hit.location[0]['@name']) !== 'undefined') {
       target =  hit.location[0]['@name'];
     }
-    
+
     html += '<div class="mkdru-target">' + target + '</div>';
     html += '<div class="search-snippet-info">' +
       '<p class="search-snippet"></p>' +
@@ -97,7 +97,7 @@
       }
       html += '</div><p></p>';
     }
-    var dhit = hit['location'][0];
+    var dhit = hit.location[0];
     if (dhit["md-journal-subpart"]) {
       html += '<div class="mkdru-result-journal-subpart">' + dhit["md-journal-subpart"];
       html += '</div><p/>';
@@ -231,10 +231,11 @@ Drupal.theme.prototype.mkdruPager = function (pages, start, current, total, prev
   }
 
   for (var i = 0; i < pages.length; i++) {
-    if (i + start == current) {
+    if (i + start === current) {
       html += ' <span class="mkdru-pager-current">' + (i + start) + '</span>';
     } else {
       html += ' <a href="' + pages[i] + '">' + (i + start) + '</a>';
+    }
   }
 
   if (total > i) {
@@ -248,6 +249,5 @@ Drupal.theme.prototype.mkdruPager = function (pages, start, current, total, prev
 
   return html;
 };
-  
-  
+
 })(jQuery);

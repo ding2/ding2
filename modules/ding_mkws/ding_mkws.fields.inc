@@ -170,12 +170,13 @@ function ding_mkws_field_formatter_view($entity_type, $entity, $field, $instance
         }, $item);
         $hash = md5(implode('', $imploded));
         ding_mkws_include_all();
-        $element[0] = array(
-          '#markup' => "<div data-hash='{$hash}' 
+        $markup = "<div data-hash='{$hash}'
                           data-process='ProcessDataForNodeWidget'
                           data-template='dingMkwsNodeWidget'
                           class='ding-mkws-widget ding-mkws-node-widget'>
-                        </div>",
+                        </div>";
+        $element[0] = array(
+          '#markup' => $markup,
           '#attached' => array(
             'css' => array(
               drupal_get_path('module', 'ding_mkws') . '/css/ding_mkws.css',
