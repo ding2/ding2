@@ -19,6 +19,16 @@ function ding_ddbasic_opening_hours_menu() {
     'file' => 'ding_ddbasic_opening_hours.admin.inc',
   );
 
+  $items['ding-ddbasic/opening-hours/week/%node/%/%'] = array(
+    'title' => 'Opening hours',
+    'page callback' => 'ding_ddbasic_opening_hours_week_callback',
+    'page arguments' => array(3, 4, 5),
+    'delivery callback' => 'ajax_deliver',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+    'file' => 'ding_ddbasic_opening_hours.pages.inc',
+  );
+
   return $items;
 }
 
@@ -33,4 +43,29 @@ function ding_ddbasic_opening_hours_init() {
       drupal_add_js(array('ding_ddbasic_opening_hours_expand_on_library' => TRUE), 'setting');
     }
   }
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ding_ddbasic_opening_hours_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
+ * Implements hook_theme().
+ *
+ * - All opening hours theme.
+ */
+function ding_ddbasic_opening_hours_theme($existing, $type, $theme, $path) {
+  return array(
+    'ding_ddbasic_opening_hours_all' => array(
+      'file' => 'ding_ddbasic_opening_hours.theme.inc',
+      'variables' => array(
+        'today' => NULL,
+      ),
+    ),
+  );
 }

@@ -1,100 +1,8 @@
 <?php
-
 /**
- * Implements hook_preprocess_ding_ddbasic_all_opening_hours().
+ * @file
+ * Template opening hours.
  */
-function ddbasic_preprocess_ding_ddbasic_all_opening_hours(&$variables) {
-  $today = strtotime('today');
-
-  if (!empty($variables['today'])) {
-    $today = $variables['today'];
-  }
-
-  $structured = array();
-  $categories = array();
-
-  // TODO Get rid of the magical nodequeue number.
-  $order = array();
-  foreach (nodequeue_load_nodes(1, FALSE, 0, FALSE) as $node) {
-    $order[$node->title] = $node->nid;
-  }
-
-  // Get and sort all the instances in the given timespan.
-  $instances = opening_hours_instance_load_multiple(
-    array_values($order),
-    date('Y-m-d', $today),
-    date('Y-m-d', $today)
-  );
-
-  // Fill in closed instances.
-  foreach ($order as $library_nid) {
-    $closed = TRUE;
-    foreach ($instances as $instance) {
-      if ($instance->nid == $library_nid) {
-        $closed = FALSE;
-      }
-    }
-
-    if ($closed === TRUE) {
-      $instances[] = (object) array(
-        'instance_id' => -1,
-        'nid' => $library_nid,
-        'start_time' => '0',
-        'end_time' => '0',
-        'category_tid' => NULL,
-        'date' => date('Y-m-d', $today),
-        'closed' => TRUE,
-        'notice' => t('Closed'),
-      );
-    }
-  }
-
-  usort($instances, '_ddbasic_opening_hours_sort');
-
-  $order = array_flip($order);
-
-  foreach ($instances as $instance) {
-    $category_weight = _ddbasic_opening_hours_get_category_weight($instance->category_tid);
-    $library = $order[$instance->nid];
-
-    if (!isset($structured[$library])) {
-      $structured[$library] = array(
-        'cols' => array(),
-        'extra' => array(),
-        'name' => l($library, 'node/' . $instance->nid),
-      );
-    }
-
-    if(!empty($instance->notice)) {
-      $notice = '<span class="notice">' . $instance->notice . '</span>';
-    } else {
-      $notice = '';
-    }
-
-    if (empty($instance->closed)) {
-      $structured[$library]['cols'][$category_weight] = t('@from - @to', array(
-        '@from' => $instance->start_time,
-        '@to' => $instance->end_time,
-      )) . $notice;
-    }
-    else {
-      $structured[$library]['cols'][$category_weight] = $notice;
-    }
-
-    if (!isset($categories[$category_weight])) {
-      $categories[$category_weight] = _ddbasic_opening_hours_get_category_name($instance->category_tid);
-    }
-  }
-
-  // Order the structure by the nodequeue order.
-  $structured = array_merge(array_intersect_key(array_flip($order), $structured), $structured);
-
-  $variables['table'] = _ddbasic_opening_hours_table(
-    t('Today: @date', array('@date' => format_date(time(), 'ding_date_only'))),
-    $categories,
-    $structured
-  );
-}
 
 /**
  * Implements hook_preprocess_opening_hours_week().
@@ -102,7 +10,7 @@ function ddbasic_preprocess_ding_ddbasic_all_opening_hours(&$variables) {
 function ddbasic_preprocess_opening_hours_week(&$variables) {
   $timespan = array(
     strtotime('last monday', strtotime('+1 day')),
-    strtotime('next sunday', strtotime('-1 day'))
+    strtotime('next sunday', strtotime('-1 day')),
   );
   $today = strtotime('today');
   $structured = array();
@@ -162,9 +70,10 @@ function ddbasic_preprocess_opening_hours_week(&$variables) {
       }
     }
 
-    if(!empty($instance->notice)) {
+    if (!empty($instance->notice)) {
       $notice = '<span class="notice">' . $instance->notice . '</span>';
-    } else {
+    }
+    else {
       $notice = '';
     }
 
@@ -200,7 +109,7 @@ function ddbasic_preprocess_opening_hours_week(&$variables) {
 
   drupal_add_library('system', 'drupal.ajax');
   $variables['table']['#suffix'] = l(
-    'Next',
+    t('Next'),
     'ding-ddbasic/opening-hours/week/' . $variables['node']->nid
     . '/' . strtotime('next monday', $timespan[1])
     . '/' . strtotime('next sunday', $timespan[1]),
@@ -208,7 +117,7 @@ function ddbasic_preprocess_opening_hours_week(&$variables) {
       'attributes' => array('class' => array('use-ajax', 'button-next')),
     )
   ) . l(
-    'Previous',
+    t('Previous'),
     'ding-ddbasic/opening-hours/week/' . $variables['node']->nid
     . '/' . strtotime('last monday', $timespan[0])
     . '/' . strtotime('last sunday', $timespan[0]),
@@ -246,7 +155,7 @@ function _ddbasic_opening_hours_table($title, $categories, $structured) {
       if (!empty($row['cols'][$category_weight])) {
         $col = array(
           'data' => $row['cols'][$category_weight],
-          'data-label' => $header
+          'data-label' => $header,
         );
       }
       else {
