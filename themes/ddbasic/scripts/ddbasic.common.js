@@ -5,11 +5,25 @@
    */
   function toggle_opening_hours() {
     // Create toggle link
-    $('<a />', {
-      'class' : 'opening-hours-toggle js-opening-hours-toggle js-collapsed',
-      'href' : Drupal.t('#toggle-opening-hours'),
-      'text' : Drupal.t('Opening hours')
-    }).insertBefore('.js-opening-hours-toggle-element');
+    $('.js-opening-hours-toggle-element').each(function () {
+      var
+        $this = $(this),
+        text = [];
+
+      if ($this.attr('data-extended-title')) {
+        $('th:not(:first)', this).each(function () {
+          text.push($(this).text());
+        });
+      } else {
+        text.push(Drupal.t('Opening hours'));
+      }
+
+      $('<a />', {
+        'class' : 'opening-hours-toggle js-opening-hours-toggle js-collapsed',
+        'href' : Drupal.t('#toggle-opening-hours'),
+        'text' : text.join(', ')
+      }).insertBefore(this);
+    });
 
     // Set variables
     var element = $('.js-opening-hours-toggle');
@@ -25,7 +39,7 @@
         // Toggle class
         $(element)
           .toggleClass('js-collapsed js-expanded')
-          
+
           // Remove focus from link
           .blur();
       });
@@ -62,11 +76,11 @@
       });
     });
   });
-  
+
   // Submenus
   Drupal.behaviors.ding_submenu = {
     attach: function(context, settings) {
-      
+
       $('.sub-menu-title', context).click(function(evt) {
         if ($('.is-tablet').is(':visible')) {
           evt.preventDefault();
