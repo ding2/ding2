@@ -216,7 +216,7 @@ function ddbasic_preprocess_opening_hours_week(&$variables) {
       'attributes' => array('class' => array('use-ajax', 'button-previous')),
     )
   );
-  
+
   $variables['classes_array'][] = 'opening-hours-week-' . $variables['node']->nid;
 }
 
