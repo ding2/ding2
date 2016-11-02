@@ -51,11 +51,11 @@ function ddbasic_preprocess_opening_hours_week(&$variables) {
     }
   }
 
-  usort($instances, '_ddbasic_opening_hours_sort');
+  usort($instances, 'ding_ddbasic_opening_hours_sort');
 
   // Insert the instances into the structured array.
   foreach ($instances as $instance) {
-    $category_weight = _ddbasic_opening_hours_get_category_weight($instance->category_tid);
+    $category_weight = ding_ddbasic_opening_hours_get_category_weight($instance->category_tid);
     $time = strtotime($instance->date);
     $day = format_date($time, 'custom', 'l');
 
@@ -88,14 +88,14 @@ function ddbasic_preprocess_opening_hours_week(&$variables) {
     }
 
     if (!isset($categories[$category_weight])) {
-      $categories[$category_weight] = _ddbasic_opening_hours_get_category_name($instance->category_tid);
+      $categories[$category_weight] = ding_ddbasic_opening_hours_get_category_name($instance->category_tid);
     }
   }
 
   // Sort the categories by key (weight).
   ksort($categories);
 
-  $variables['table'] = _ddbasic_opening_hours_table(
+  $variables['table'] = ding_ddbasic_opening_hours_table(
     // TODO Use preset date types from admin/config/regional/date-time instead
     // of the custom format, so it can be customized in the interface.
     t('Week @week, @from - @to', array(
@@ -127,92 +127,4 @@ function ddbasic_preprocess_opening_hours_week(&$variables) {
   );
 
   $variables['classes_array'][] = 'opening-hours-week-' . $variables['node']->nid;
-}
-
-/**
- * Turn a structrued "opening hours" array into a table theme render array.
- */
-function _ddbasic_opening_hours_table($title, $categories, $structured) {
-  $table = array(
-    '#theme' => 'table',
-    '#header' => array_merge(array($title), $categories),
-    '#rows' => array(),
-    '#attributes' => array('class' => array('opening-hours-table')),
-    // TODO If we want to use sticky, we need to look into how to set the table
-    // header sticky offset (see the tableheader.js in root/misc).
-    '#sticky' => FALSE,
-  );
-
-  foreach ($structured as $label => $row) {
-    if (!isset($row['name'])) {
-      $cols = array($label);
-    }
-    else {
-      $cols = array($row['name']);
-    }
-
-    foreach ($categories as $category_weight => $header) {
-      if (!empty($row['cols'][$category_weight])) {
-        $col = array(
-          'data' => $row['cols'][$category_weight],
-          'data-label' => $header,
-        );
-      }
-      else {
-        $col = array('class' => array('empty'));
-      }
-
-      $cols[] = $col;
-    }
-
-    $table['#rows'][] = array('data' => $cols) + $row['extra'];
-  }
-
-  return $table;
-}
-
-/**
- * Get name of an opening hours category tid.
- */
-function _ddbasic_opening_hours_get_category_name($category_tid) {
-  $name = &drupal_static(__FUNCTION__, array());
-
-  if (!isset($name[$category_tid])) {
-    if ($category_tid === NULL) {
-      $name[$category_tid] = t('Opening hours');
-    }
-    else {
-      $name[$category_tid] = taxonomy_term_load($category_tid)->name;
-    }
-  }
-
-  return $name[$category_tid];
-}
-
-/**
- * Get weight of an opening hours category tid.
- */
-function _ddbasic_opening_hours_get_category_weight($category_tid) {
-  $weight = &drupal_static(__FUNCTION__, array());
-
-  if (!isset($weight[$category_tid])) {
-    if ($category_tid === NULL) {
-      $weight[$category_tid] = -1;
-    }
-    else {
-      $weight[$category_tid] = taxonomy_term_load($category_tid)->weight;
-    }
-  }
-  return $weight[$category_tid];
-}
-
-/**
- * Array sort function.
- *
- * Sort opening hours instances in an array, by date and category weight.
- */
-function _ddbasic_opening_hours_sort($a, $b) {
-  return $a->date > $b->date ?
-    1 : ($a->date < $b->date ?
-    -1 : _ddbasic_opening_hours_get_category_weight($a->category_tid) > _ddbasic_opening_hours_get_category_weight($b->category_tid));
 }

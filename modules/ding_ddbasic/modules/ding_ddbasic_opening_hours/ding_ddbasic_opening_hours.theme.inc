@@ -60,12 +60,12 @@ function template_preprocess_ding_ddbasic_opening_hours_all(&$variables) {
     }
   }
 
-  usort($instances, '_ddbasic_opening_hours_sort');
+  usort($instances, 'ding_ddbasic_opening_hours_sort');
 
   $order = array_flip($order);
 
   foreach ($instances as $instance) {
-    $category_weight = _ddbasic_opening_hours_get_category_weight($instance->category_tid);
+    $category_weight = ding_ddbasic_opening_hours_get_category_weight($instance->category_tid);
     $library = $order[$instance->nid];
 
     if (!isset($structured[$library])) {
@@ -94,14 +94,14 @@ function template_preprocess_ding_ddbasic_opening_hours_all(&$variables) {
     }
 
     if (!isset($categories[$category_weight])) {
-      $categories[$category_weight] = _ddbasic_opening_hours_get_category_name($instance->category_tid);
+      $categories[$category_weight] = ding_ddbasic_opening_hours_get_category_name($instance->category_tid);
     }
   }
 
   // Order the structure by the nodequeue order.
   $structured = array_merge(array_intersect_key(array_flip($order), $structured), $structured);
 
-  $variables['table'] = _ddbasic_opening_hours_table(
+  $variables['table'] = ding_ddbasic_opening_hours_table(
     t('Today: @date', array('@date' => format_date(time(), 'ding_date_only'))),
     $categories,
     $structured
