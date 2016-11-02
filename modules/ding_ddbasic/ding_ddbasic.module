@@ -42,44 +42,12 @@ function ding_ddbasic_ding_entity_buttons($type, $entity) {
 }
 
 /**
- * Implements hook_menu().
- */
-function ding_ddbasic_menu() {
-  $items = array();
-
-  $items['ding-ddbasic/opening-hours/week/%node/%/%'] = array(
-    'title' => 'Opening hours',
-    'page callback' => 'ding_ddbasic_opening_hours_week_callback',
-    'page arguments' => array(3, 4, 5),
-    'delivery callback' => 'ajax_deliver',
-    'access callback' => TRUE,
-    'type' => MENU_CALLBACK,
-    'file' => 'ding_ddbasic.pages.inc',
-  );
-
-  return $items;
-}
-
-/**
  * Implements hook_ctools_plugin_directory().
  */
 function ding_ddbasic_ctools_plugin_directory($module, $plugin) {
   if ($module == 'ctools' && !empty($plugin)) {
     return "plugins/$plugin";
   }
-}
-
-/**
- * Implements hook_theme().
- *
- * - All opening hours theme.
- */
-function ding_ddbasic_theme($existing, $type, $theme, $path) {
-  return array(
-    'ding_ddbasic_all_opening_hours' => array(
-      'file' => 'ding_ddbasic.theme.inc'
-    )
-  );
 }
 
 /**

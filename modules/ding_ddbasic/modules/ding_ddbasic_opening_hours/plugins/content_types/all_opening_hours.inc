@@ -16,13 +16,13 @@ $plugin = array(
 );
 
 /**
- * Render the block
+ * Render the block.
  */
-function ding_ddbasic_all_opening_hours_content_type_render($subtype, $conf, $panel_args, $context) {
+function ding_ddbasic_opening_hours_all_opening_hours_content_type_render($subtype, $conf, $panel_args, $context) {
   $block = new stdClass();
 
   $block->title = t('Opening hours');
-  $block->content = theme('ding_ddbasic_all_opening_hours') . '<div class="more-link">' . l(t('View all opening hours'), '/libraries') . '</div>';
+  $block->content = theme('ding_ddbasic_opening_hours_all') . '<div class="more-link">' . l(t('View all opening hours'), '/libraries') . '</div>';
 
   return $block;
 }
