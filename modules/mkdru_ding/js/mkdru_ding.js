@@ -1,5 +1,7 @@
-(function ($) { 
+(function ($) {
   "use strict";
+
+  var mkdru = {};
 
   function get_advanced_search_params() {
     var query = window.location.search;
@@ -40,14 +42,14 @@
             facetLimit = facetLimit.replace(/\\/g, '\\\\')
               .replace(/,/g, '\\,')
               .replace(/\|/g, '\\|');
-            limits.push(mkdru.facets[facet]['pz2Name'] + '=' + facetLimit);
+            limits.push(mkdru.facets[facet].pz2Name + '=' + facetLimit);
           }
         }
       }
     }
 
-    if (mkdru.state['filter']) {
-      filters.push(mkdru.state['filter']);
+    if (mkdru.state.filter) {
+      filters.push(mkdru.state.filter);
     }
     if (limits.length > 0) {
       limit = limits.join(',');
@@ -62,8 +64,9 @@
     }
 
     var advanced_query = get_advanced_search_params();
-    if (advanced_query)
+    if (advanced_query) {
       query.push(advanced_query);
+    }
 
     query = query.join(" AND ");
 
@@ -82,7 +85,7 @@
     mkdru.stateFromHash();
     mkdru.form.fromState();
     // Only have to compare values since all keys are initialised.
-    for (key in mkdru.state) {
+    for (var key in mkdru.state) {
       var changed = (mkdru.state[key] !== oldState[key]);
       if ((key.substring(0, 5) === 'limit' || key.substring(0, 6) === 'filter') && changed) {
         searchTrigger = true;
@@ -112,8 +115,8 @@
 
   mkdru.addCategory = function (filter) {
     var newHash = $.deparam.fragment();
-    delete newHash['page'];
-    newHash['filter'] = filter;
+    delete newHash.page;
+    newHash.filter = filter;
     return $.param.fragment("#", newHash);
   };
 
@@ -125,7 +128,7 @@
       mkdru.defaultState['limit_' + key] = null;
     }
 
-    mkdru.defaultState['filter'] = null;
+    mkdru.defaultState.filter = null;
 
     $(document).bind('mkdru.onrecord', mkdru.pz2Record);
     $(document).bind('mkdru.onshow', mkdru.pz2Show);

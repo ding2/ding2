@@ -86,7 +86,7 @@ function ting_proxy(data, target) {
       }
       finally {
         if (url !== false) {
-          out['url'] = Drupal.mkwsProcessExternalUrl(url, out['target']);
+          out.url = Drupal.mkwsProcessExternalUrl(url, out.target);
         }
         variables.items[idx].push(out);
       }
@@ -129,7 +129,7 @@ function ting_proxy(data, target) {
       }
       finally {
         if (url !== false) {
-          out['url'] = Drupal.mkwsProcessExternalUrl(url, out['target']);
+          out.url = Drupal.mkwsProcessExternalUrl(url, out.target);
         }
         variables.items.push(out);
       }

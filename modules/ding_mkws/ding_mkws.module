@@ -123,9 +123,10 @@ function ding_mkws_ctools_plugin_directory($module, $plugin) {
  * @return mixed
  *   Bool or object.
  *
- * @throws Exception.
+ * @throws Exception
+ *   If mkdru service not configured.
  */
-function _ding_mkws_request($command, $settings, $action = NULL) {
+function _ding_mkws_request($command, array $settings, $action = NULL) {
   $sid = &drupal_static(__FUNCTION__);
   if (empty($settings['user']) || empty($settings['password']) || empty($settings['url'])) {
     throw new Exception(t('Please configure mkdru !settings first.', array('!settings' => l(t('settings'), 'admin/config/ding/mkws'))));
@@ -295,12 +296,13 @@ function ding_mkws_preprocess_ding_campaign(&$variables) {
     $hash = md5(implode('', $item));
 
     ding_mkws_include_all();
-    $variables['text'] = array(
-      '#markup' => "<div data-hash='{$hash}' 
+    $markup = "<div data-hash='{$hash}'
             data-process='ProcessDataForNodeWidget' 
             data-template='dingMkwsNodeWidget' 
             class='ding-mkws-widget ding-mkws-node-widget'>
-        </div>",
+        </div>";
+    $variables['text'] = array(
+      '#markup' => $markup,
       '#attached' => array(
         'css' => array(drupal_get_path('module', 'ding_mkws') . '/css/ding_mkws.css'),
         'js' => array(

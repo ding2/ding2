@@ -58,7 +58,7 @@ function ding_spt_statistics_redirect() {
 /**
  * Register hostname into the statistics table.
  *
- * @param $hostname string
+ * @param string $hostname
  *   Name of the external host.
  */
 function ding_spt_statistics_register($hostname) {

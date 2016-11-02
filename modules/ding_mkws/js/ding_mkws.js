@@ -59,21 +59,27 @@ var ding_mkws_queue = {
     var user = ding_mkws.settings.user;
     var password = ding_mkws.settings.password;
     var params = {};
-    params['command'] = 'auth';
+    params.command = 'auth';
     if (user && password) {
-      params['action'] = 'login';
-      params['username'] = user;
-      params['password'] = password;
+      params.action = 'login';
+      params.username = user;
+      params.password = password;
     }
     var authReq = new pzHttpRequest(ding_mkws.settings.proxy, failCb);
     authReq.get(params,
       function (data) {
         var s = data.getElementsByTagName('status');
         if (s.length && Element_getTextContent(s[0]) === "OK") {
-          if (typeof successCb === "function") successCb();
+          if (typeof successCb === "function") {
+            successCb();
+          }
         } else {
-          if (typeof failCb === "function") failCb();
-          else alert(Drupal.t("Failed to authenticate against the metasearch gateway"));
+          if (typeof failCb === "function") {
+            failCb();
+          }
+          else {
+            alert(Drupal.t("Failed to authenticate against the metasearch gateway"));
+          }
         }
       }
     );
