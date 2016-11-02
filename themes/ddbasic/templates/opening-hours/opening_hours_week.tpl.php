@@ -3,10 +3,10 @@
  * @file
  * Template for rendering opening hours week.
  *
- * ddbasic specific variables:
- * - $table: Table of opening hours
+ * Ddbasic specific variables:
+ * - $table: Table of opening hours.
  */
 ?>
-<div class="opening-hours-week">
+<div class="<?php print $classes; ?>">
   <?php print render($table); ?>
 </div>
