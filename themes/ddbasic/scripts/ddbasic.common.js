@@ -47,6 +47,11 @@
       // Prevent default (href)
       event.preventDefault();
     });
+
+    // Expand opening hours on library pages.
+    if (Drupal.settings.ding_ddbasic_opening_hours_expand_on_library) {
+      element.triggerHandler('click');
+    }
   }
 
   // When ready start the magic.

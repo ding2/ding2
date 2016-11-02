@@ -22,3 +22,16 @@ function ding_ddbasic_opening_hours_menu() {
 
   return $items;
 }
+
+/**
+ * Implements hook_init().
+ */
+function ding_ddbasic_opening_hours_init() {
+  $item = menu_get_item();
+  if ($item['path'] === 'node/%') {
+    $node = menu_get_object();
+    if ($node->type === 'ding_library' && variable_get('ding_ddbasic_opening_hours_expand_on_library', FALSE)) {
+      drupal_add_js(array('ding_ddbasic_opening_hours_expand_on_library' => TRUE), 'setting');
+    }
+  }
+}
