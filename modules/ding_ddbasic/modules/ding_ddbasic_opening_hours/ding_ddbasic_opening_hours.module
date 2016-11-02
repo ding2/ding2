@@ -10,7 +10,6 @@
 function ding_ddbasic_opening_hours_menu() {
   $items = array();
 
-  // Serendipity admin page.
   $items['admin/config/ding/ddbasic-opening-hours'] = array(
     'title' => 'Ding DDBasic opening hours',
     'description' => 'Opening hours settings for the DDBasic theme',
