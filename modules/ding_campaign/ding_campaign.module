@@ -683,9 +683,9 @@ function ding_campaign_ctools_plugin_directory($module, $plugin) {
 }
 
 function ding_campaign_campaign_node_form_validate($form, &$form_state) {
-  if ($form_state['input']['field_camp_settings'][$form['field_camp_settings']['#language']] == 'plain' || $form_state['input']['field_camp_settings'][$form['field_camp_settings']['#language']] == 'image') {
+  if ($form_state['input']['field_camp_settings'][$form['field_camp_settings']['#language']] == 'image') {
     if (empty($form_state['input']['field_camp_link'][$form['field_camp_link']['#language']][0]['value'])) {
-      form_set_error('field_camp_link', 'Empty links are not allowed for plain text and image type campaigns.');
+      form_set_error('field_camp_link', 'Empty links are not allowed for image type campaigns.');
     }
   }
 }
