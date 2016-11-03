@@ -254,7 +254,7 @@ function fbs_reservation_default_options($account) {
 function fbs_reservation_options($account, $default_branch) {
   $preferred_branch = NULL;
 
-  if (ding_user_is_provider_user()) {
+  if (ding_user_is_provider_user($account)) {
     $patron_info = fbs_get_patron_info($account);
 
     $preferred_branch = empty($default_branch) ? $patron_info['preferred_branch'] : $default_branch;
