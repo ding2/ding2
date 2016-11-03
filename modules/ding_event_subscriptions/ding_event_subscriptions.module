@@ -5,6 +5,8 @@
  * Represents hook definitions and common functions.
  */
 
+require_once 'ding_event_subscriptions.pages.inc';
+
 /**
  * Implements hook_ctools_plugin_directory().
  */
@@ -14,3 +16,165 @@ function ding_event_subscriptions_ctools_plugin_directory($owner, $plugin_type) 
   }
 }
 
+/**
+ * Implements hook_menu().
+ */
+function ding_event_subscriptions_menu() {
+  $items = array();
+
+  $items['ding-event-subscriptions/download-ics'] = array(
+    'page callback' => 'ding_event_subscriptions_callback',
+    'access arguments' => array('access content'),
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ding_event_subscriptions_theme($existing, $type, $theme, $path) {
+  return array(
+    'ding_event_subscriptions_ics' => array(
+      'variables' => array('events' => NULL),
+    ),
+  );
+}
+
+/**
+ * Helper function for generating url with params depending on current path.
+ *
+ * @return bool|string
+ *   Generated url of FALSE on failing/error.
+ */
+function ding_event_subscriptions_generate_url() {
+  try {
+    $menu = menu_get_item();
+    $maps = $menu['map'];
+    $conditions = array();
+    switch ($maps[0]) {
+      case 'node':
+        $node = $maps[1];
+        switch ($node->type) {
+          case 'ding_library':
+            $conditions['library'] = $node->nid;
+            break;
+
+          case 'ding_event':
+            $conditions['event'] = $node->nid;
+            break;
+        }
+        break;
+
+      case 'bibliotek':
+        $context = $maps[1];
+        $conditions['library'] = $context->argument;
+        if (!empty($maps[3])) {
+          $conditions['category'] = $maps[3];
+        }
+        break;
+
+      case 'taxonomy':
+        $term = $maps[2];
+        $conditions['category'] = $term->tid;
+        break;
+    }
+
+    return url('ding-event-subscriptions/download-ics', array(
+      'query' => $conditions,
+      'absolute' => TRUE,
+    ));
+  }
+  catch (Exception $ex) {
+    watchdog_exception('ding event subscriptions', $ex, t('During url generation something happened.'));
+    return FALSE;
+  }
+}
+
+/**
+ * Helper function for getting events by conditions.
+ *
+ * @param array $conditions
+ *   Array with conditions for getting events.
+ *
+ * @return array
+ *   Array of event nodes.
+ */
+function ding_event_subscriptions_get_events(array $conditions = array()) {
+  $events = array();
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+    ->entityCondition('bundle', 'ding_event')
+    ->propertyCondition('status', NODE_PUBLISHED);
+
+  if (!empty($conditions['event'])) {
+    $query->propertyCondition('nid', $conditions['event']);
+  }
+
+  if (!empty($conditions['category'])) {
+    $query->fieldCondition('field_ding_event_category  ', 'tid', $conditions['category'], '=');
+  }
+
+  if (!empty($conditions['library'])) {
+    $query->fieldCondition('og_group_ref  ', 'target_id ', $conditions['library'], '=');
+  }
+
+  $result = $query->execute();
+  if (isset($result['node'])) {
+    foreach ($result['node'] as $data) {
+      $events[$data->nid] = node_load($data->nid);
+    }
+  }
+
+  return $events;
+}
+
+/**
+ * Theme function for generating ics file based on list of events.
+ *
+ * @param array $variables
+ *   Array with accessible variables.
+ *
+ * @return string
+ *   Generated list of events in ICS format.
+ */
+function theme_ding_event_subscriptions_ics(&$variables) {
+  $output = '';
+  $events = $variables['events'];
+  $output .= "BEGIN:VCALENDAR\n";
+  $output .= "VERSION:2.0\n";
+  $output .= "CALSCALE:GREGORIAN\n";
+  foreach ($events as $event) {
+    // Body/desctiption processing.
+    $body = field_get_items('node', $event, 'field_ding_event_body');
+    $teaser = trim(render(field_view_value('node', $event, 'field_ding_event_body', $body[0], 'teaser')));
+    $body = trim(render(field_view_value('node', $event, 'field_ding_event_body', $body[0])));
+
+    // Price processing.
+    $price = field_get_items('node', $event, 'field_ding_event_price');
+    $price = !empty($price[0]['value']) ? $price[0]['value'] : '';
+
+    // Dates processing.
+    $date = field_get_items('node', $event, 'field_ding_event_date');
+    $start = new DateTime($date[0]['value']);
+    $end = new DateTime($date[0]['value2']);
+
+    // Location processing.
+    $location = field_get_items('node', $event, 'field_ding_event_location');
+    $location = implode(',', array_filter($location[0]));
+
+    $output .= "BEGIN:VEVENT\n";
+    $output .= "SUMMARY:{$teaser}\n";
+    $output .= "DESCRIPTION: {$body}\n";
+    $output .= "PRICE:{$price}\n";
+    $output .= "DTSTART:{$start->format('Ymd\THis')}\n";
+    $output .= "DTEND:{$end->format('Ymd\THis')}\n";
+    $output .= "LOCATION:{$location}\n";
+    $output .= "STATUS:CONFIRMED\n";
+    $output .= "END:VEVENT\n";
+  }
+  $output .= "END:VCALENDAR\n";
+
+  return $output;
+}

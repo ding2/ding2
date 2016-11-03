@@ -21,11 +21,12 @@ function ding_event_subscriptions_subscribe_pane_render() {
 
   $block = new stdClass();
   $block->title = '';
+  $reference = ding_event_subscriptions_generate_url();
   $block->content = array(
-    '#markup' => l(t('Subscribe'), 'ding_event_subscriptions', array(
+    '#markup' => l(t('Subscribe'), '#', array(
       'attributes' => array(
         'class' => array('ding-event-subscriptions'),
-        'data-reference' => 'test',
+        'data-reference' => $reference,
       ),
     )),
     '#attached' => array(

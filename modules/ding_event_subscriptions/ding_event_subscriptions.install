@@ -17,18 +17,38 @@ function ding_event_subscriptions_install() {
 function ding_event_subscriptions_add_panes() {
   $settings = array(
     array(
-      'task' => 'term_view',
+      'task' => page_manager_get_task('term_view'),
       'name' => 'term_view_panel_context',
+      'subtask' => '',
     ),
     array(
-      'task' => 'node_view',
+      'task' => page_manager_get_task('node_view'),
       'name' => 'ding_event_node_view',
+      'subtask' => '',
     ),
     array(
-      'task' => 'node_view',
+      'task' => page_manager_get_task('node_view'),
+      'name' => 'node_view_panel_context',
+      'subtask' => '',
+    ),
+    array(
+      'task' => page_manager_get_task('node_view'),
       'name' => 'node_view_panel_context_3',
+      'subtask' => '',
+    ),
+    array(
+      'task' => page_manager_get_task('page'),
+      'name' => 'page_ding_events_panel_context',
+      'subtask' => '',
+    ),
+    array(
+      'task' => page_manager_get_task('page'),
+      'name' => 'page_ding_events_library_panel_context',
+      'subtask' => 'ding_events_library',
     ),
   );
+
+  ctools_include('plugins');
   ctools_get_plugins('page_manager', 'task_handlers', 'panel_context');
   foreach ($settings as $setting) {
     $handler = page_manager_load_task_handler($setting['task'], '', $setting['name']);
@@ -59,4 +79,3 @@ function ding_event_subscriptions_add_panes() {
     page_manager_save_task_handler($handler);
   }
 }
-
