@@ -195,9 +195,9 @@ function ding_list_create_list_form($form, &$form_state, $existing = FALSE) {
 
       $tmp = confirm_form(
         $form,
-        t('Do you really want to delete !list?', array('!list' => $existing->title)),
+        t('Do you really want to delete !list?', array('!list' => check_plain($existing->title))),
         current_path(),
-        t('Do you really want to delete !list?', array('!list' => $existing->title))
+        t('Do you really want to delete !list?', array('!list' => check_plain($existing->title)))
       );
 
       return $tmp;
@@ -216,13 +216,13 @@ function ding_list_create_list_form($form, &$form_state, $existing = FALSE) {
     '#type' => 'textfield',
     '#title' => t('Title'),
     '#required' => TRUE,
-    '#default_value' => isset($existing->title) ? filter_xss($existing->title) : '',
+    '#default_value' => isset($existing->title) ? $existing->title : '',
   );
 
   $form['notes'] = array(
     '#type' => 'textarea',
     '#title' => t('Note'),
-    '#default_value' => isset($note) ? filter_xss($note) : '',
+    '#default_value' => isset($note) ? $note : '',
   );
 
   if ($existing) {
@@ -439,6 +439,7 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
   $form['mail_sharer']['email'] = array(
     '#type' => 'textfield',
     '#title' => t('Send invitation to this email adress:'),
+    '#description' => t('At the moment only users at this library can share your lists.'),
   );
 
   $form['mail_sharer']['share'] = array(
@@ -584,7 +585,7 @@ function ding_list_list_permissions_form_state_callback($form, &$form_state) {
 
   $output = array(
     'shared' => t('Your list is now shared.'),
-    'public' => t('Your list is now public.'),
+    'public' => t('Your list is now public. You can find it under !link', array('!link' => l(t('Public lists'), 'public-lists'))),
     'private' => t('Your list is now private.'),
   );
   
@@ -597,12 +598,17 @@ function ding_list_list_permissions_form_state_callback($form, &$form_state) {
 function ding_list_list_permissions_form_share_callback($form, &$form_state) {
   global $language;
 
-  $list = $form_state['build_info']['args'][0];
-
   $response = array(
     '#type' => 'ajax',
     '#commands' => array(),
   );
+  
+  if (empty($form_state['values']['email'])) {
+    $response['#commands'][] = ajax_command_ding_popup('ding_list', t('The emails field is required to send out invitations.'), t('No mails send.'));
+    return $response;
+  }
+  
+  $list = $form_state['build_info']['args'][0];
 
   $uri = entity_uri('ding_type', $list);
   $token = ding_list_share_token($form_state['build_info']['args'][0], $form_state['values']['permission']);

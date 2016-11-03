@@ -1,6 +1,0 @@
-name = Ding user complete test case
-description = A simple test implementation of ding user complete.
-package = Ding!
-version = "7.x-1.x-dev"
-core = 7.x
-files[] = ding_user_complete_test.module

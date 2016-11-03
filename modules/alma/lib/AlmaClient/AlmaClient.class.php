@@ -344,6 +344,12 @@ class AlmaClient {
       );
     }
 
+    foreach ($info->getElementsByTagName('patronAllow') as $allow) {
+      $data['allows'][$allow->getAttribute('allowType')] = array(
+        'date' => $allow->getAttribute('allowDate'),
+      );
+    }
+
     return $data;
   }
 

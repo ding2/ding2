@@ -170,9 +170,12 @@ function ding_permissions_secure_permissions($role) {
       'view own ding_staff_profile profile',
       'view own files',
       'view own private files',
+      'use personalisation',
     ),
     'administrators' => array(
       'access administration pages',
+      'access administration menu',
+      'flush caches',
       'access all views',
       'access all webform results',
       'access campaign rules',
@@ -494,6 +497,7 @@ function ding_permissions_secure_permissions($role) {
       'view the administration theme',
     ),
     'editor' => array(
+      'access administration menu',
       'access all webform results',
       'access campaign rules',
       'access content overview',
@@ -659,6 +663,8 @@ function ding_permissions_secure_permissions($role) {
     ),
     'local administrator' => array(
       'access administration pages',
+      'access administration menu',
+      'flush caches',
       'access all webform results',
       'access campaign rules',
       'access content overview',
@@ -832,8 +838,10 @@ function ding_permissions_secure_permissions($role) {
       'view private files',
       'view revisions',
       'view the administration theme',
+      'administer personalisation',
     ),
     'local editor' => array(
+      'access administration menu',
       'access campaign rules',
       'access content overview',
       'access contextual links',

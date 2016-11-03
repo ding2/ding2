@@ -42,11 +42,11 @@ function connie_ding_provider() {
       ),
       'debt' => array(
         'prefix' => 'debt',
-        'file' => drupal_get_path('module', 'connie') . '/connie.debt.inc',
+        'file' => 'connie.debt.inc',
       ),
       'wayf' => array(
         'prefix' => 'wayf',
-        'file' => drupal_get_path('module', 'connie') . '/connie.wayf.inc',
+        'file' => 'connie.wayf.inc',
       ),
     ),
   );

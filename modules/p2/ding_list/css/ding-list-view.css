@@ -1,3 +1,10 @@
+.ding-type-ding-list.no-access h2 {
+  opacity: 0.4;
+}
+.ding-type-ding-list.no-access .note {
+  font-size: 0.9em;
+}
+
 .view-ding-list-elements .views-field-id {
   width: 30px;
 }
@@ -6,6 +13,11 @@
   background: #e4e4e4;
   padding: 10px;
   margin: 0;
+}
+
+.ding-user-lists ul.bottom-links li {
+  padding: 0;
+  margin-top: 20px;
 }
 
 .ding-user-lists ul li:nth-child(2n){
@@ -23,6 +35,14 @@
   padding: 0px 10px;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   white-space: nowrap;
+}
+
+.ding-user-lists ul li .label.warn {
+  background-color: #a32e10;
+}
+
+.ding-user-lists ul li .label.ready {
+  background-color: #528c10;
 }
 
 .ding-user-lists ul.bottom-links li {
@@ -64,7 +84,7 @@
     width: 100%;
     margin-left: 0;
   }
-  
+
   .page-user- .pane-content .pane-user-menu {
     margin-bottom: 20px;
   }
