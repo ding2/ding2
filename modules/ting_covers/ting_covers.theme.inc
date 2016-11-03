@@ -93,7 +93,7 @@ function template_preprocess_ting_object_cover(&$variables) {
     $variables['elements']['#front_cover_large_image'] = array(
       '#theme' => 'image_style',
       '#path' => $cover_file_path,
-      '#style_name' => 'large',
+      '#style_name' => 'ting_cover_large',
       '#attributes' => array(
         'alt' => $alt,
         'title' => t('large cover image', array(), array('context' => 'ting_covers')),
