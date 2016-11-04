@@ -19,7 +19,7 @@ function ding_ddbasic_opening_hours_menu() {
     'file' => 'ding_ddbasic_opening_hours.admin.inc',
   );
 
-  $items['ding-ddbasic/opening-hours/week/%node/%/%'] = array(
+  $items['ding-ddbasic/opening-hours/week/%node/%/%'] = $items['ding-ddbasic/opening-hours/week/%node/%/%/%'] = array(
     'title' => 'Opening hours',
     'page callback' => 'ding_ddbasic_opening_hours_week_callback',
     'page arguments' => array(3, 4, 5),
@@ -28,6 +28,7 @@ function ding_ddbasic_opening_hours_menu() {
     'type' => MENU_CALLBACK,
     'file' => 'ding_ddbasic_opening_hours.pages.inc',
   );
+  $items['ding-ddbasic/opening-hours/week/%node/%/%/%']['page arguments'][] = 6;
 
   return $items;
 }
@@ -67,6 +68,14 @@ function ding_ddbasic_opening_hours_theme($existing, $type, $theme, $path) {
         'today' => NULL,
       ),
     ),
+    'ding_ddbasic_opening_hours_week' => array(
+      'file' => 'ding_ddbasic_opening_hours.theme.inc',
+      'variables' => array(
+        'node' => NULL,
+        'categores' => array(),
+        'timespan' => array(),
+      ),
+    ),
   );
 }
 
@@ -79,8 +88,6 @@ function ding_ddbasic_opening_hours_table($title, $categories, $structured) {
     '#header' => array_merge(array($title), $categories),
     '#rows' => array(),
     '#attributes' => array('class' => array('opening-hours-table')),
-    // TODO If we want to use sticky, we need to look into how to set the table
-    // header sticky offset (see the tableheader.js in root/misc).
     '#sticky' => FALSE,
   );
 
