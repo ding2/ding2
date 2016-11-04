@@ -36,6 +36,18 @@
       width: 54px;
     }
   }
+  .opening-hours-title {
+    @include animation(opening-hours-in 1s $ease-out-sine);
+    display: none;
+
+    @include media($mobile) {
+      @include font('base-bold');
+      display: block;
+      float: left;
+      line-height: 54px;
+      margin-top: 20px;
+    }
+  }
   .button-previous {
     @include arrow-button(arrow-left, $color-secondary);
     margin-right: 12px;
