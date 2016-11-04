@@ -15,7 +15,7 @@ function ding_event_subscriptions_install() {
  * Implements hook_uninstall().
  */
 function ding_event_subscriptions_uninstall() {
-  ding_event_subscriptions_add_panes();
+  ding_event_subscriptions_remove_panes();
 }
 
 /**
@@ -130,7 +130,7 @@ function ding_event_subscriptions_remove_panes() {
     $handler = page_manager_load_task_handler($setting['task'], '', $setting['name']);
     $display = panels_panel_context_get_display($handler);
     $display->content = array_filter($display->content, function ($i) {
-      return $i->type == 'des_subscribe' ? FALSE : TRUE;
+      return $i->type != 'des_subscribe';
     });
     unset($display->panels['main_content'][3]);
     $handler->conf['display'] = $display;

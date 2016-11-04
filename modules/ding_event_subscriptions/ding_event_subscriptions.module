@@ -45,44 +45,47 @@ function ding_event_subscriptions_theme($existing, $type, $theme, $path) {
 /**
  * Helper function for generating url with params depending on current path.
  *
- * @return string
- *   Generated url.
+ * @return bool|string
+ *   Generated url or FALSE on failing.
  */
 function ding_event_subscriptions_generate_url() {
   $menu = menu_get_item();
-  $maps = $menu['map'];
-  $conditions = array();
-  switch ($maps[0]) {
-    case 'node':
-      $node = $maps[1];
-      switch ($node->type) {
-        case 'ding_library':
-          $conditions['library'] = $node->nid;
-          break;
+  if (!empty($menu)) {
+    $maps = $menu['map'];
+    $conditions = array();
+    switch ($maps[0]) {
+      case 'node':
+        $node = $maps[1];
+        switch ($node->type) {
+          case 'ding_library':
+            $conditions['library'] = $node->nid;
+            break;
 
-        case 'ding_event':
-          $conditions['event'] = $node->nid;
-          break;
-      }
-      break;
+          case 'ding_event':
+            $conditions['event'] = $node->nid;
+            break;
+        }
+        break;
 
-    case 'bibliotek':
-      $context = $maps[1];
-      $conditions['library'] = $context->argument;
-      if (!empty($maps[3])) {
-        $conditions['category'] = $maps[3];
-      }
-      break;
+      case 'bibliotek':
+        $context = $maps[1];
+        $conditions['library'] = $context->argument;
+        if (!empty($maps[3])) {
+          $conditions['category'] = $maps[3];
+        }
+        break;
 
-    case 'taxonomy':
-      $term = $maps[2];
-      $conditions['category'] = $term->tid;
-      break;
+      case 'taxonomy':
+        $term = $maps[2];
+        $conditions['category'] = $term->tid;
+        break;
+    }
+
+    return url('ding-event-subscriptions/download-ics', array(
+      'query' => $conditions,
+    ));
   }
-
-  return url('ding-event-subscriptions/download-ics', array(
-    'query' => $conditions,
-  ));
+  return FALSE;
 }
 
 /**

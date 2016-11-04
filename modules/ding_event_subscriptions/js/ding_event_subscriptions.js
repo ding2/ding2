@@ -1,16 +1,17 @@
 (function ($) {
   'use strict';
-  function copyToClipboard(element) {
-    var $temp = $("<input>");
-    $('body').append($temp);
-    var url = $(element).data('domain') + '/' + $(element).data('reference');
-    $temp.val(url).select();
-    document.execCommand('copy');
-    $temp.remove();
-  }
 
-  Drupal.behaviors.exampleModule = {
+  Drupal.behaviors.dingEventSubscriptions = {
     attach: function (context, settings) {
+      function copyToClipboard(element) {
+        var $temp = $("<input>");
+        $('body').append($temp);
+        var url = $(element).data('domain') + '/' + $(element).data('reference');
+        $temp.val(url).select();
+        document.execCommand('copy');
+        $temp.remove();
+      }
+
       $('.ding-event-subscriptions', context).on('click', function (e) {
         e.preventDefault();
         window.location.href = $(this).data('reference');
