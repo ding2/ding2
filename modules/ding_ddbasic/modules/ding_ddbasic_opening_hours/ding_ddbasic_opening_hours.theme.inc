@@ -114,12 +114,14 @@ function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
   // Sort the categories by key (weight).
   ksort($categories);
 
+  $title = t('Week @week, @from - @to', array(
+    '@week' => format_date($timespan[0], 'custom', 'W'),
+    '@from' => format_date($timespan[0], 'custom', 'd.m'),
+    '@to' => format_date($timespan[1], 'custom', 'd.m'),
+  ));
+
   $variables['table'] = ding_ddbasic_opening_hours_table(
-    t('Week @week, @from - @to', array(
-      '@week' => format_date($timespan[0], 'custom', 'W'),
-      '@from' => format_date($timespan[0], 'custom', 'd.m'),
-      '@to' => format_date($timespan[1], 'custom', 'd.m'),
-    )),
+    $title,
     $categories,
     $structured
   );
@@ -129,7 +131,8 @@ function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
   if (!empty($variables['categories'])) {
     $extra_categories = '/' . implode('|', $variables['categories']);
   }
-  $variables['table']['#suffix'] = l(
+  $variables['table']['#suffix'] = '<div class="opening-hours-title">' . $title . '</div>'
+  . l(
     t('Next'),
     'ding-ddbasic/opening-hours/week/' . $variables['node']->nid
     . '/' . strtotime('next monday', $timespan[1])
