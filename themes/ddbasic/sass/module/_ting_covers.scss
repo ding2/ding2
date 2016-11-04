@@ -102,13 +102,20 @@
 
 .reveal-cover-large-image {
   text-align: center;
+  height: 100%;
+
+  img {
+    height: 100%;
+    width: auto;
+    max-height: 100%;
+  }
 }
 
 .reveal-modal.reveal-cover-back,
 .reveal-modal.reveal-cover-large {
   top: 10% !important;
   position: fixed;
-
+  height: 80%;
   overflow: hidden;
 
   @include small-medium() {
