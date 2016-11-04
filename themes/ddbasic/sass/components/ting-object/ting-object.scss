@@ -38,24 +38,6 @@
             max-height: none;
           }
         }
-
-        // Gradient
-        &::after {
-          @include transition(opacity $speed $ease);
-          position: absolute;
-          top: 0;
-          left: 0;
-          display: block;
-          width: 100%;
-          height: 100%;
-          content: "";
-          background: linear-gradient($charcoal 0%, $charcoal-opacity-light 60%, transparent 100%);
-
-          // No overlay - when overlay is disabled in theme settings
-          @at-root .no-overlay#{&} {
-            background: transparent;
-          }
-        }
       }
       .group_text {
         @include transition(
@@ -70,8 +52,28 @@
         width: 100%;
         height: 100%;
 
-        .touch & {
+        .has-touch & {
           pointer-events: none;
+        }
+
+        .group_inner {
+          position: relative;
+          background: linear-gradient($charcoal 0%, $charcoal-opacity-extra-dark 100%);
+          &:after {
+            @include transition(opacity $speed $ease);
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            height: 30px;
+            background-image: url(../../../images/ting-object-gradient.png);
+            opacity: 1;
+            @include hidpi() {
+              background-image: url(../../../images/ting-object-gradient@x2.png);
+              background-size: auto 100%;
+            }
+          }
         }
 
         // No overlay - when overlay is disabled in theme settings
@@ -97,10 +99,9 @@
         @include transition(width $speed $ease);
         @include font('header-small');
         width: 100%;
-        margin-bottom: 15px;
         padding: 0 20px;
         color: $color-primary;
-
+        margin-bottom: 15px;
         a:hover {
           color: $color-primary;
         }
@@ -157,6 +158,14 @@
             width: getColumn(3 of 2);
             background: $charcoal;
             box-shadow: $box-shadow;
+            .group_inner {
+              &:after {
+                @include transition(
+                  opacity $speed-fast $hover-delay $ease
+                );
+                opacity: 0;
+              }
+            }
           }
           .field-name-ting-abstract {
             @include transition(opacity $speed 0.7s $ease);
