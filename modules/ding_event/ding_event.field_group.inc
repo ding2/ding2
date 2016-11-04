@@ -235,6 +235,7 @@ function ding_event_field_group_info() {
       1 => 'field_ding_event_title_image',
       2 => 'og_group_ref',
       3 => 'field_place2book_tickets',
+      4 => 'field_collection_fakta_box',
     ),
     'format_type' => 'div',
     'format_settings' => array(
