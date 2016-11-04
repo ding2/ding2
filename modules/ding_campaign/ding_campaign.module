@@ -61,7 +61,7 @@ function ding_campaign_menu() {
 function ding_campaign_rules_access($nid) {
   $node = node_load($nid);
 
-  return is_object($node) && $node->type == 'ding_campaign';
+  return is_object($node) && $node->type == 'ding_campaign' && user_access('access campaign rules');
 }
 
 /**
