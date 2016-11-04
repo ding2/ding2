@@ -100,9 +100,10 @@ function ddbasic_form_user_login_block_alter(&$form, &$form_state, $form_id) {
   $form['pass']['#title'] = t('Pincode');
   $form['pass']['#attributes']['placeholder'] = t('Pincode (4 digits)');
 
-  $form['links']['#weight'] = 9999;
-  $form['links']['#prefix'] = '<div class="form-links">';
-  $form['links']['#suffix'] = '</div></div>';
+  unset($form['links']);
+  //$form['links']['#weight'] = 9999;
+  //$form['links']['#prefix'] = '<div class="form-links">';
+  //$form['links']['#suffix'] = '</div></div>';
 
   $form['actions']['submit']['#prefix'] = '<div class="submit-button-with-icon"><div class="color-and-icon"></div>';
   $form['actions']['submit']['#suffix'] = '</div>';
@@ -148,9 +149,10 @@ function ddbasic_form_user_login_alter(&$form, &$form_state, $form_id) {
   $form['pass']['#title'] = t('Pincode');
   $form['pass']['#attributes']['placeholder'] = t('Pincode (4 digits)');
 
-  $form['links']['#weight'] = 9999;
-  $form['links']['#prefix'] = '<div class="form-links">';
-  $form['links']['#suffix'] = '</div></div>';
+  unset($form['links']);
+  //$form['links']['#weight'] = 9999;
+  //$form['links']['#prefix'] = '<div class="form-links">';
+  //$form['links']['#suffix'] = '</div></div>';
 
   $form['actions']['submit']['#prefix'] = '<div class="submit-button-with-icon"><div class="color-and-icon"></div>';
   $form['actions']['submit']['#suffix'] = '</div>';
