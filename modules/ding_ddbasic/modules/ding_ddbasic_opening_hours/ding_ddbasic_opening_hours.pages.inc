@@ -1,15 +1,25 @@
 <?php
+/**
+ * @file
+ * Ding DDBasic opening hours pages.
+ */
 
 /**
  * Callback for fetching a week of opening hours.
  */
-function ding_ddbasic_opening_hours_week_callback($node, $from, $to) {
+function ding_ddbasic_opening_hours_week_callback($node, $from, $to, $categories) {
   $commands = array();
 
-  $GLOBALS['ddbasic_opening_hours_week_timespan'] = array($from, $to);
-
   if (opening_hours_present_on_node($node->nid)) {
-    $tmp = theme('opening_hours_week', array('node' => $node));
+    if (!empty($categories)) {
+      $categories = explode('|', $categories);
+    }
+
+    $tmp = theme('ding_ddbasic_opening_hours_week', array(
+      'node' => $node,
+      'timespan' => array($from, $to),
+      'categories' => $categories,
+    ));
   }
 
   // Note that we trim the output, so Drupal doesn't add the surrounding div
