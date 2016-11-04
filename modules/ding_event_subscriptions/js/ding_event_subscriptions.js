@@ -3,7 +3,8 @@
   function copyToClipboard(element) {
     var $temp = $("<input>");
     $("body").append($temp);
-    $temp.val($(element).data('reference')).select();
+    var url = $(element).data('domain') + '/' + $(element).data('reference');
+    $temp.val(url).select();
     document.execCommand("copy");
     $temp.remove();
   }
@@ -11,6 +12,7 @@
   $(document).ready(function () {
     $('.ding-event-subscriptions').on('click', function (e) {
       e.preventDefault();
+      window.location.href = $(this).data('reference');
       copyToClipboard($(this));
       $(this).tooltip({
         items: ".ding-event-subscriptions",

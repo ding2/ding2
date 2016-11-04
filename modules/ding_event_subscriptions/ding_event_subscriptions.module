@@ -83,7 +83,6 @@ function ding_event_subscriptions_generate_url() {
 
     return url('ding-event-subscriptions/download-ics', array(
       'query' => $conditions,
-      'absolute' => TRUE,
     ));
   }
   catch (Exception $ex) {
@@ -142,13 +141,13 @@ function ding_event_subscriptions_get_events(array $conditions = array()) {
 function theme_ding_event_subscriptions_ics(&$variables) {
   $output = '';
   $events = $variables['events'];
-  $output .= "BEGIN:VCALENDAR\n";
-  $output .= "VERSION:2.0\n";
-  $output .= "CALSCALE:GREGORIAN\n";
+  ding_event_subscriptions_line($output, 'BEGIN', 'VCALENDAR', FALSE);
+  ding_event_subscriptions_line($output, 'PRODID', '-//EasySuite//DK', FALSE);
+  ding_event_subscriptions_line($output, 'VERSION', '2.0', FALSE);
+  ding_event_subscriptions_line($output, 'CALSCALE', 'GREGORIAN', FALSE);
   foreach ($events as $event) {
-    // Body/desctiption processing.
+    // Body/description processing.
     $body = field_get_items('node', $event, 'field_ding_event_body');
-    $teaser = trim(render(field_view_value('node', $event, 'field_ding_event_body', $body[0], 'teaser')));
     $body = trim(render(field_view_value('node', $event, 'field_ding_event_body', $body[0])));
 
     // Price processing.
@@ -159,22 +158,66 @@ function theme_ding_event_subscriptions_ics(&$variables) {
     $date = field_get_items('node', $event, 'field_ding_event_date');
     $start = new DateTime($date[0]['value']);
     $end = new DateTime($date[0]['value2']);
+    $now = new DateTime();
 
     // Location processing.
     $location = field_get_items('node', $event, 'field_ding_event_location');
     $location = implode(',', array_filter($location[0]));
 
-    $output .= "BEGIN:VEVENT\n";
-    $output .= "SUMMARY:{$teaser}\n";
-    $output .= "DESCRIPTION: {$body}\n";
-    $output .= "PRICE:{$price}\n";
-    $output .= "DTSTART:{$start->format('Ymd\THis')}\n";
-    $output .= "DTEND:{$end->format('Ymd\THis')}\n";
-    $output .= "LOCATION:{$location}\n";
-    $output .= "STATUS:CONFIRMED\n";
-    $output .= "END:VEVENT\n";
+    // UID processing.
+    $uid = uniqid();
+
+    // URL processing.
+    $url = url("node/{$event->nid}", array(
+      'absolute' => TRUE,
+    ));
+
+    ding_event_subscriptions_line($output, 'BEGIN', 'VEVENT', FALSE);
+    ding_event_subscriptions_line($output, 'UID', $uid, FALSE);
+    ding_event_subscriptions_line($output, 'SUMMARY', $event->title);
+    ding_event_subscriptions_line($output, 'DESCRIPTION', $body);
+    ding_event_subscriptions_line($output, 'URL;VALUE=URI', $url);
+    ding_event_subscriptions_line($output, 'PRICE', $price);
+    ding_event_subscriptions_line($output, 'DTSTART', $start->format('Ymd\THis'), FALSE);
+    ding_event_subscriptions_line($output, 'DTEND', $end->format('Ymd\THis'), FALSE);
+    ding_event_subscriptions_line($output, 'DTSTAMP', $now->format('Ymd\THis'), FALSE);
+    ding_event_subscriptions_line($output, 'LOCATION', $location);
+    ding_event_subscriptions_line($output, 'END', 'VEVENT');
+    ding_event_subscriptions_line($output, 'END', 'VCALENDAR');
   }
-  $output .= "END:VCALENDAR\n";
 
   return $output;
+}
+
+/**
+ * Helper function for generating line of ICF file.
+ *
+ * @param string $output
+ *   Resulting string.
+ * @param string $name
+ *   Name of param.
+ * @param string $value
+ *   Value of param.
+ * @param bool $escape
+ *   Indicates should value be escaped or not.
+ */
+function ding_event_subscriptions_line(&$output, $name, $value, $escape = TRUE) {
+  $name = drupal_strtoupper($name);
+  if ($escape) {
+    $value = ding_event_subscriptions_escape($value);
+  }
+  $output .= "{$name}:{$value}\n";
+}
+
+/**
+ * Helper function for escaping values of ICS file.
+ *
+ * @param string $data
+ *   Represent data which should be escaped.
+ *
+ * @return mixed
+ *   Escaped string or false.
+ */
+function ding_event_subscriptions_escape($data) {
+  return preg_replace('/([\,;])/','\\\$1', $data);
 }

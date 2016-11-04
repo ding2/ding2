@@ -17,6 +17,7 @@ $plugin = array(
  * Calendar results custom pane renderer.
  */
 function ding_event_subscriptions_subscribe_pane_render() {
+  global $base_url;
   $path = drupal_get_path('module', 'ding_event_subscriptions');
 
   $block = new stdClass();
@@ -27,6 +28,7 @@ function ding_event_subscriptions_subscribe_pane_render() {
       'attributes' => array(
         'class' => array('ding-event-subscriptions'),
         'data-reference' => $reference,
+        'data-domain' => $base_url,
       ),
     )),
     '#attached' => array(
