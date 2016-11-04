@@ -109,4 +109,4 @@ features[variable][] = scheduler_unpublish_enable_ding_event
 features[variable][] = webform_node_ding_event
 features[views_view][] = ding_event
 files[] = views/ding_event_handler_sort_ding_event_date.inc
-mtime = 1475482664
+mtime = 1475483801
