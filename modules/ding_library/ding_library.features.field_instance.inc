@@ -26,6 +26,12 @@ function ding_library_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'addressfield',
@@ -97,6 +103,12 @@ function ding_library_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -149,6 +161,12 @@ function ding_library_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -202,6 +220,12 @@ function ding_library_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'geofield',
@@ -263,6 +287,12 @@ function ding_library_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -315,6 +345,12 @@ function ding_library_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'link',
@@ -381,6 +417,12 @@ function ding_library_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'settings' => array(),
@@ -472,6 +514,12 @@ function ding_library_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'The main contact e-mail address for the library.',
     'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'email',
@@ -524,6 +572,12 @@ function ding_library_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -577,6 +631,12 @@ function ding_library_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -628,6 +688,12 @@ function ding_library_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'cs_adaptive_image',
@@ -741,6 +807,12 @@ function ding_library_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'If enabled, events and news can be marked as related to this library and will show up on its library page.',
     'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'settings' => array(),
