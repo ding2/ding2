@@ -104,6 +104,13 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     )
   );
 
+  $form['ddbasic_settings']['event_list']['group_events_by_date'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Group events by date'),
+    '#description' => t('Group events by date instead of month'),
+    '#default_value' => ddbasic_theme_setting('group_events_by_date', FALSE),
+  );
+
   // Disable overlay on Ting object teasers
   $form['ddbasic_settings']['ting_object_overlay'] = array(
     '#type' => 'fieldset',
