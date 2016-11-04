@@ -7,7 +7,7 @@
 $plugin = array(
   'single' => TRUE,
   'title' => t('Subscribe to events button'),
-  'description' => t('Represents a button for getting ICS file..'),
+  'description' => t('Represents a button for getting ICS file.'),
   'category' => t('Ding!'),
   'render callback' => 'ding_event_subscriptions_subscribe_pane_render',
   'all contexts' => TRUE,

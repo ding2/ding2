@@ -13,9 +13,9 @@ function ding_event_subscriptions_callback() {
   $events = ding_event_subscriptions_get_events($params);
   $output .= theme('ding_event_subscriptions_ics', array('events' => $events));
 
-  header('Content-type: text/calendar; charset=utf-8');
-  header('Content-Disposition: inline; filename=calendar.ics');
+  drupal_add_http_header('Content-type', 'text/calendar; charset=utf-8');
+  drupal_add_http_header('Content-Disposition', 'inline; filename=calendar.ics');
 
   echo $output;
-  exit;
+  drupal_exit();
 }

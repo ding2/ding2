@@ -45,50 +45,44 @@ function ding_event_subscriptions_theme($existing, $type, $theme, $path) {
 /**
  * Helper function for generating url with params depending on current path.
  *
- * @return bool|string
- *   Generated url of FALSE on failing/error.
+ * @return string
+ *   Generated url.
  */
 function ding_event_subscriptions_generate_url() {
-  try {
-    $menu = menu_get_item();
-    $maps = $menu['map'];
-    $conditions = array();
-    switch ($maps[0]) {
-      case 'node':
-        $node = $maps[1];
-        switch ($node->type) {
-          case 'ding_library':
-            $conditions['library'] = $node->nid;
-            break;
+  $menu = menu_get_item();
+  $maps = $menu['map'];
+  $conditions = array();
+  switch ($maps[0]) {
+    case 'node':
+      $node = $maps[1];
+      switch ($node->type) {
+        case 'ding_library':
+          $conditions['library'] = $node->nid;
+          break;
 
-          case 'ding_event':
-            $conditions['event'] = $node->nid;
-            break;
-        }
-        break;
+        case 'ding_event':
+          $conditions['event'] = $node->nid;
+          break;
+      }
+      break;
 
-      case 'bibliotek':
-        $context = $maps[1];
-        $conditions['library'] = $context->argument;
-        if (!empty($maps[3])) {
-          $conditions['category'] = $maps[3];
-        }
-        break;
+    case 'bibliotek':
+      $context = $maps[1];
+      $conditions['library'] = $context->argument;
+      if (!empty($maps[3])) {
+        $conditions['category'] = $maps[3];
+      }
+      break;
 
-      case 'taxonomy':
-        $term = $maps[2];
-        $conditions['category'] = $term->tid;
-        break;
-    }
-
-    return url('ding-event-subscriptions/download-ics', array(
-      'query' => $conditions,
-    ));
+    case 'taxonomy':
+      $term = $maps[2];
+      $conditions['category'] = $term->tid;
+      break;
   }
-  catch (Exception $ex) {
-    watchdog_exception('ding event subscriptions', $ex, t('During url generation something happened.'));
-    return FALSE;
-  }
+
+  return url('ding-event-subscriptions/download-ics', array(
+    'query' => $conditions,
+  ));
 }
 
 /**
@@ -112,11 +106,11 @@ function ding_event_subscriptions_get_events(array $conditions = array()) {
   }
 
   if (!empty($conditions['category'])) {
-    $query->fieldCondition('field_ding_event_category  ', 'tid', $conditions['category'], '=');
+    $query->fieldCondition('field_ding_event_category', 'tid', $conditions['category'], '=');
   }
 
   if (!empty($conditions['library'])) {
-    $query->fieldCondition('og_group_ref  ', 'target_id ', $conditions['library'], '=');
+    $query->fieldCondition('og_group_ref', 'target_id ', $conditions['library'], '=');
   }
 
   $result = $query->execute();
@@ -141,10 +135,10 @@ function ding_event_subscriptions_get_events(array $conditions = array()) {
 function theme_ding_event_subscriptions_ics(&$variables) {
   $output = '';
   $events = $variables['events'];
-  ding_event_subscriptions_line($output, 'BEGIN', 'VCALENDAR', FALSE);
-  ding_event_subscriptions_line($output, 'PRODID', '-//EasySuite//DK', FALSE);
-  ding_event_subscriptions_line($output, 'VERSION', '2.0', FALSE);
-  ding_event_subscriptions_line($output, 'CALSCALE', 'GREGORIAN', FALSE);
+  $output .= ding_event_subscriptions_line('BEGIN', 'VCALENDAR', FALSE);
+  $output .= ding_event_subscriptions_line('PRODID', '-//EasySuite//DK', FALSE);
+  $output .= ding_event_subscriptions_line('VERSION', '2.0', FALSE);
+  $output .= ding_event_subscriptions_line('CALSCALE', 'GREGORIAN', FALSE);
   foreach ($events as $event) {
     // Body/description processing.
     $body = field_get_items('node', $event, 'field_ding_event_body');
@@ -172,18 +166,18 @@ function theme_ding_event_subscriptions_ics(&$variables) {
       'absolute' => TRUE,
     ));
 
-    ding_event_subscriptions_line($output, 'BEGIN', 'VEVENT', FALSE);
-    ding_event_subscriptions_line($output, 'UID', $uid, FALSE);
-    ding_event_subscriptions_line($output, 'SUMMARY', $event->title);
-    ding_event_subscriptions_line($output, 'DESCRIPTION', $body);
-    ding_event_subscriptions_line($output, 'URL;VALUE=URI', $url);
-    ding_event_subscriptions_line($output, 'PRICE', $price);
-    ding_event_subscriptions_line($output, 'DTSTART', $start->format('Ymd\THis'), FALSE);
-    ding_event_subscriptions_line($output, 'DTEND', $end->format('Ymd\THis'), FALSE);
-    ding_event_subscriptions_line($output, 'DTSTAMP', $now->format('Ymd\THis'), FALSE);
-    ding_event_subscriptions_line($output, 'LOCATION', $location);
-    ding_event_subscriptions_line($output, 'END', 'VEVENT');
-    ding_event_subscriptions_line($output, 'END', 'VCALENDAR');
+    $output .= ding_event_subscriptions_line('BEGIN', 'VEVENT', FALSE);
+    $output .= ding_event_subscriptions_line('UID', $uid, FALSE);
+    $output .= ding_event_subscriptions_line('SUMMARY', $event->title);
+    $output .= ding_event_subscriptions_line('DESCRIPTION', $body);
+    $output .= ding_event_subscriptions_line('URL;VALUE=URI', $url);
+    $output .= ding_event_subscriptions_line('PRICE', $price);
+    $output .= ding_event_subscriptions_line('DTSTART', $start->format('Ymd\THis'), FALSE);
+    $output .= ding_event_subscriptions_line('DTEND', $end->format('Ymd\THis'), FALSE);
+    $output .= ding_event_subscriptions_line('DTSTAMP', $now->format('Ymd\THis'), FALSE);
+    $output .= ding_event_subscriptions_line('LOCATION', $location);
+    $output .= ding_event_subscriptions_line('END', 'VEVENT');
+    $output .= ding_event_subscriptions_line('END', 'VCALENDAR');
   }
 
   return $output;
@@ -192,21 +186,22 @@ function theme_ding_event_subscriptions_ics(&$variables) {
 /**
  * Helper function for generating line of ICF file.
  *
- * @param string $output
- *   Resulting string.
  * @param string $name
  *   Name of param.
  * @param string $value
  *   Value of param.
  * @param bool $escape
  *   Indicates should value be escaped or not.
+ *
+ * @return string
+ *   Formatted line of file.
  */
-function ding_event_subscriptions_line(&$output, $name, $value, $escape = TRUE) {
+function ding_event_subscriptions_line($name, $value, $escape = TRUE) {
   $name = drupal_strtoupper($name);
   if ($escape) {
     $value = ding_event_subscriptions_escape($value);
   }
-  $output .= "{$name}:{$value}\n";
+  return "{$name}:{$value}\n";
 }
 
 /**
@@ -219,5 +214,5 @@ function ding_event_subscriptions_line(&$output, $name, $value, $escape = TRUE) 
  *   Escaped string or false.
  */
 function ding_event_subscriptions_escape($data) {
-  return preg_replace('/([\,;])/','\\\$1', $data);
+  return preg_replace('/([\,;])/', '\\\$1', $data);
 }
