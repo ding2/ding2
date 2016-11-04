@@ -17,7 +17,7 @@ function ding_library_default_page_manager_handlers() {
   $handler->task = 'node_view';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
-  $handler->weight = -27;
+  $handler->weight = -26;
   $handler->conf = array(
     'title' => 'Library (organic group)',
     'no_blocks' => 0,
@@ -378,32 +378,31 @@ function ding_library_default_page_manager_handlers() {
     $display->content['new-4602ba44-8551-4fb5-bc15-d71383f42cbc'] = $pane;
     $display->panels['main_content'][5] = 'new-4602ba44-8551-4fb5-bc15-d71383f42cbc';
     $pane = new stdClass();
-    $pane->pid = 'new-21110f84-c932-4a89-8505-63d45b61c778';
+    $pane->pid = 'new-84994b0d-9cf7-4d87-a0dd-552d94fc24a1';
     $pane->panel = 'main_content';
-    $pane->type = 'week';
-    $pane->subtype = 'week';
+    $pane->type = 'weekly_opening_hours';
+    $pane->subtype = 'weekly_opening_hours';
     $pane->shown = TRUE;
     $pane->access = array();
     $pane->configuration = array(
-      'hide_if_empty' => 0,
+      'node' => '37',
       'context' => 'argument_entity_id:node_1',
       'override_title' => 0,
       'override_title_text' => '',
+      'override_title_heading' => 'h2',
+      'categories' => array(),
     );
     $pane->cache = array();
     $pane->style = array(
       'settings' => NULL,
     );
-    $pane->css = array(
-      'css_id' => '',
-      'css_class' => 'ding-library-opening-hours js-opening-hours-toggle-element',
-    );
+    $pane->css = array();
     $pane->extras = array();
     $pane->position = 6;
     $pane->locks = array();
-    $pane->uuid = '21110f84-c932-4a89-8505-63d45b61c778';
-    $display->content['new-21110f84-c932-4a89-8505-63d45b61c778'] = $pane;
-    $display->panels['main_content'][6] = 'new-21110f84-c932-4a89-8505-63d45b61c778';
+    $pane->uuid = '84994b0d-9cf7-4d87-a0dd-552d94fc24a1';
+    $display->content['new-84994b0d-9cf7-4d87-a0dd-552d94fc24a1'] = $pane;
+    $display->panels['main_content'][6] = 'new-84994b0d-9cf7-4d87-a0dd-552d94fc24a1';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
