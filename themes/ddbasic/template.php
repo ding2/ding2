@@ -25,8 +25,17 @@ function ddbasic_preprocess_html(&$vars) {
   // Add additional body classes
   $vars['classes_array'] = array_merge($vars['classes_array'], ddbasic_body_class());
 
-  if (variable_get('ting_search_extend_form', FALSE)) {
+  if (ding_ddbasic_is_ting_search_extend_form()) {
     $vars['classes_array'][] = 'search-form-extended';
+
+    if (variable_get('ting_search_extend_form', FALSE)) {
+      $vars['classes_array'][] = 'show-secondary-menu';
+    }
+
+    if (menu_get_item()['path'] === 'search/ting/%') {
+      $vars['classes_array'][] = 'extended-search-is-open';
+    }
+
     if (!ding_ddbasic_is_search_form_extended()) {
       $vars['classes_array'][] = 'search-form-no-materials';
     }
