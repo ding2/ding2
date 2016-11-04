@@ -247,7 +247,7 @@ function alma_reservation_create($account, $id, $options = array(), $expiry = NU
     $int_per = variable_get('ding_reservation_disable_interest_date', '');
 
     // Interest period.
-    if ($int_per) {
+    if (empty($int_per)) {
       if (!isset($options['interest_period'])) {
         if (!isset($expiry)) {
           $interest_period = alma_reservation_default_interest_period($profile);
