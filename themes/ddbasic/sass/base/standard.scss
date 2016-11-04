@@ -151,9 +151,11 @@ b {
 }
 
 // Lists
-ul {
+ul,
+ol {
   margin: 0 0 $distance-paragraph;
   padding: 0;
+  list-style-position: inside;
 }
 
 // Label
