@@ -155,15 +155,17 @@ function ding_ddbasic_views_pre_build(&$view) {
       }
 
       $view->display_handler->display->display_options['pager']['options']['items_per_page'] = variable_get('ding_frontpage_events_count', 6);
-
       break;
-    case 'ding_event ding_event_list':
 
+    case 'ding_event ding_event_list':
       $view->display_handler->options['pager']['options']['items_per_page'] = ddbasic_theme_setting('number_of_events', 10);
 
+      if (ddbasic_theme_setting('group_events_by_date', FALSE)) {
+        $view->field['field_ding_event_date_1']->options['settings']['format_type'] = 'ding_date_only_version2';
+      }
       break;
-    case 'ding_news ding_news_list':
 
+    case 'ding_news ding_news_list':
       $view->display_handler->options['pager']['options']['items_per_page'] = ddbasic_theme_setting('number_of_news', 10);
 
       break;
