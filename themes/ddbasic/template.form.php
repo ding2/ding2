@@ -67,8 +67,8 @@ function ddbasic_form_search_block_form_alter(&$form, &$form_state, $form_id) {
   $form['search_block_form']['#attributes']['placeholder'] = t('Search the library');
   $form['search_block_form']['#title'] = t('Search the library database and the website');
 
-  //Placeholder on extended form
-  if(variable_get('ting_search_extend_form', FALSE)) {
+  //Placeholder on extended form.
+  if(ding_ddbasic_is_ting_search_extend_form()) {
     $form['search_field']['search_block_form']['#attributes']['placeholder'] = t('Search the library');
   }
 }
@@ -262,4 +262,3 @@ function ddbasic_form_ding_bookmark_remove_form_alter(&$form, &$form_state, $for
     $form['bookmarks'][$bookmark->ding_entity_id]['#information']['ting_object_url_object']['class'] = 'url';
   }
 }
-

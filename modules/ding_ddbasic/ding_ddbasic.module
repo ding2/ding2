@@ -183,7 +183,7 @@ function ding_ddbasic_is_search_form_extended() {
  * Implements hook_form_[FORM_ID]_alter().
  */
 function ding_ddbasic_form_search_block_form_alter(&$form, &$form_state) {
-  if (variable_get('ting_search_extend_form', FALSE)) {
+  if (ding_ddbasic_is_ting_search_extend_form()) {
     $form['search_field'] = array(
       '#type' => 'container',
       '#weight' => 5,
@@ -278,4 +278,12 @@ function ddbasic_theme_setting($name, $default = FALSE) {
   }
 
   return $value;
+}
+
+/**
+ * Is ting search form extended.
+ */
+function ding_ddbasic_is_ting_search_extend_form() {
+  return variable_get('ting_search_extend_form', FALSE) ||
+    menu_get_item()['path'] === 'search/ting/%';
 }

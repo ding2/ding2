@@ -29,6 +29,7 @@ body {
   // Toolbar
   &.toolbar {
     padding-top: $header-height + $toolbar-height !important;
+    &.search-form-extended.page-search,
     &.search-form-extended.front {
       padding-top: $header-height + $search-form-extended-height + $toolbar-height !important;
     }
@@ -52,6 +53,7 @@ body {
     }
   }
   // When search form is extended
+  &.search-form-extended.page-search,
   &.search-form-extended.front {
     padding-top: $header-height + $search-form-extended-height; // Compensate for fixed header
     // Tablet
