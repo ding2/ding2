@@ -32,8 +32,19 @@
       @include span-columns(10);
     }
 
+    // Mobile
+    @include media($mobile) {
+      width: 100%;
+      margin-right: 0;
+    }
+
     a.maps-link {
       float: left;
+
+      // Mobile
+      @include media($mobile) {
+        margin-top: 20px;
+      }
     }
   }
   a.opening-hours-toggle {
@@ -79,19 +90,25 @@
     a {
       color: $charcoal;
     }
+
+    // Mobile
+    @include media($mobile) {
+      @include span-columns(9);
+    }
   }
   .field-name-field-ding-library-addresse {
     @include span-columns(3 of 9);
 
     // Mobile
     @include media($mobile) {
-      @include span-columns(10 of 10);
+      @include span-columns(9);
       margin-bottom: 20px;
     }
   }
   .field-name-field-ding-library-phone-number,
   .field-name-field-ding-library-fax-number,
-  .field-name-field-ding-library-mail {
+  .field-name-field-ding-library-mail,
+  .field-name-field-ding-library-links {
     @include span-columns(4 of 9);
     float: right;
     margin-right: getColumn(2 of 9);
@@ -108,5 +125,22 @@
   }
   .field-name-field-ding-library-mail:last-child {
     margin-right: getColumn(2 of 9);
+  }
+  .field-name-field-ding-library-links {
+    .field-items {
+      width: calc(100% - 100px);
+      float: right;
+      .field-item {
+        display: inline-block;
+        &:after {
+          content: ',';
+        }
+        &:last-child {
+          &:after {
+            content: none;
+          }
+        }
+      }
+    }
   }
 }
