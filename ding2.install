@@ -396,3 +396,9 @@ function ding2_update_7025() {
   }
 }
 
+/**
+ * Enable mmeu module.
+ */
+function ding2_update_7026() {
+  module_enable(array('mmeu'));
+}
