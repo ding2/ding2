@@ -939,3 +939,17 @@ function ding_permissions_secure_permissions($role) {
     return $permissions[$role];
   }
 }
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ding_permissions_preprocess_html(&$variables) {
+  global $user;
+
+  if (in_array('editor', $user->roles) && isset($variables['page']['page_bottom']['admin_menu'])) {
+    unset($variables['page']['page_bottom']['admin_menu']);
+  }
+  elseif (isset($variables['page']['page_top']['toolbar'])) {
+    unset($variables['page']['page_top']['toolbar']);
+  }
+}
