@@ -116,6 +116,8 @@ function ding_event_subscriptions_get_events(array $conditions = array()) {
     $query->fieldCondition('og_group_ref', 'target_id ', $conditions['library'], '=');
   }
 
+  $query->addTag('ding_event_subscriptions');
+
   $result = $query->execute();
   if (isset($result['node'])) {
     foreach ($result['node'] as $data) {
@@ -146,6 +148,9 @@ function theme_ding_event_subscriptions_ics(&$variables) {
     // Body/description processing.
     $body = field_get_items('node', $event, 'field_ding_event_body');
     $body = trim(render(field_view_value('node', $event, 'field_ding_event_body', $body[0])));
+    $teaser = field_get_items('node', $event, 'field_ding_event_lead');
+    $teaser = trim(render(field_view_value('node', $event, 'field_ding_event_lead', $teaser[0])));
+    $body = drupal_html_to_text("{$teaser} {$body}");
 
     // Price processing.
     $price = field_get_items('node', $event, 'field_ding_event_price');
@@ -218,4 +223,12 @@ function ding_event_subscriptions_line($name, $value, $escape = TRUE) {
  */
 function ding_event_subscriptions_escape($data) {
   return preg_replace('/([\,;])/', '\\\$1', $data);
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ */
+function ding_event_subscriptions_query_ding_event_subscriptions_alter(QueryAlterableInterface $query) {
+  $query->leftJoin('field_data_field_ding_event_date', 'f', 'node.nid = f.entity_id');
+  $query->where(':time >= f.field_ding_event_date_value2', array(':time' => date('Y-m-d H:i:s')));
 }
