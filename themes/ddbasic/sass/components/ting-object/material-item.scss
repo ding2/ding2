@@ -182,6 +182,11 @@
       &.created-date {
         display: none;
       }
+      &.reserve {
+        > div {
+          margin-right: 0;
+        }
+      }
     }
     .item-information-label {
       @include font('base-bold');
