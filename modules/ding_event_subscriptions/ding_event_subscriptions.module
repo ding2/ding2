@@ -177,7 +177,7 @@ function theme_ding_event_subscriptions_ics(&$variables) {
     $output .= ding_event_subscriptions_line('BEGIN', 'VEVENT', FALSE);
     $output .= ding_event_subscriptions_line('UID', $uid, FALSE);
     $output .= ding_event_subscriptions_line('SUMMARY', $event->title);
-    $output .= ding_event_subscriptions_line('DESCRIPTION', $teaser . $body);
+    $output .= ding_event_subscriptions_line('DESCRIPTION', $body);
     $output .= ding_event_subscriptions_line('URL;VALUE=URI', $url);
     $output .= ding_event_subscriptions_line('PRICE', $price);
     $output .= ding_event_subscriptions_line('DTSTART', $start->format('Ymd\THis'), FALSE);
