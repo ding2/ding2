@@ -179,9 +179,8 @@ function ddbasic_preprocess__field__field_ding_news_list_image(&$vars) {
 function ddbasic_preprocess__field__field_ding_news_files(&$vars) {
   // Add filetype to output
   foreach ($vars['items'] as $delta => $item) {
-    $file_type = strstr($item['#file']->filemime, '/');
-    $file_type = ltrim($file_type, '/');
-
+    $uri = $item['#file']->uri;
+    $file_type = pathinfo($uri, PATHINFO_EXTENSION);
     $vars['items'][$delta]['#suffix'] = '<span class="file-type">(' . $file_type . ')</span>';
 
   }
