@@ -198,7 +198,7 @@ function ding_list_installer_field_default_field_bases() {
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
-        'private' => 'Private - The list is only accesible to you',
+        'private' => 'Private - The list is only accessible to you',
         'shared' => 'Shared - Users with the secret link can view or edit your list',
         'public' => 'Public - Anybody can view your list from the public link',
       ),
