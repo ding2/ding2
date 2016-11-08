@@ -27,13 +27,46 @@
 
   .pane-content {
     > div {
-      > .form-wrapper:not(#edit-pass--2):not(#edit-profile-provider-alma-field-alma-reservation-pause):not(#edit-profile-provider-alma-field-alma-mail) {
+      > .form-wrapper {
+        margin-bottom: 20px;
+      }
+
+      .field-name-field-alma-preferred-branch,
+      .field-name-field-alma-sms,
+      .field-name-field-fbs-phone,
+      .field-name-field-fbs-mail,
+      .field-name-field-fbs-preferred-branch {
         @include span-columns(6);
-        @include omega(2n);
+        clear: left;
 
         @include media($mobile) {
           width: 100%;
         }
+      }
+
+      .field-name-field-alma-interest-period,
+      .field-name-field-alma-mobile-phone,
+      .field-name-field-fbs-phone-notification,
+      .field-name-field-fbs-mail-notification {
+        @include span-columns(6);
+        margin-right: 0;
+
+        @include media($mobile) {
+          width: 100%;
+        }
+      }
+
+      .field-name-field-fbs-phone-notification,
+      .field-name-field-fbs-mail-notification {
+        margin-top: 20px;
+
+        @include media($mobile) {
+          margin-top: 0;
+        }
+      }
+
+      .form-actions {
+        clear: left;
       }
 
       #edit-pass--2 {
@@ -57,26 +90,16 @@
         }
       }
 
-      #edit-profile-provider-alma-field-alma-reservation-pause {
+      #edit-profile-provider-alma-field-alma-reservation-pause,
+      #edit-profile-provider-fbs-field-fbs-on-hold {
         width: 100%;
         float: left;
         padding: 20px 0;
-        margin: 20px 0;
-        border-top: 1px solid $grey;
-        border-bottom: 1px solid $grey;
         .fieldset-wrapper {
           width: 100%;
         }
         .fieldset-description {
           margin-bottom: 10px;
-        }
-        .date-no-float {
-          @include span-columns(6);
-          clear: none;
-
-          @include media($mobile) {
-            width: 100%;
-          }
         }
         .form-type-date-popup {
           width: 100%;
@@ -89,7 +112,6 @@
               width: 100%;
               position: relative;
               height: $element-height;
-              margin: 20px 0;
               background-color: $white;
               border: 1px solid $grey;
               border-radius: $round-corner;
@@ -122,6 +144,55 @@
                 position: absolute;
                 top: -20px;
               }
+              .description {
+                font-size: 1em;
+                margin-top: 5px;
+              }
+            }
+          }
+        }
+      }
+      #edit-profile-provider-alma-field-alma-reservation-pause {
+        border-top: 1px solid $grey;
+        border-bottom: 1px solid $grey;
+        margin: 20px 0;
+        .date-no-float {
+          @include span-columns(6);
+          clear: none;
+          margin-bottom: 20px;
+
+          @include media($mobile) {
+            width: 100%;
+          }
+        }
+        .form-type-date-popup {
+          .date-padding {
+            .form-item {
+              margin: 20px 0;
+            }
+          }
+        }
+      }
+      #edit-profile-provider-fbs-field-fbs-on-hold {
+        border-top: 1px solid $grey;
+        margin: 20px 0 0;
+        .container-inline-date {
+          @include span-columns(6);
+          clear: none;
+          margin-bottom: 20px;
+
+          @include media($mobile) {
+            width: 100%;
+          }
+
+          .element-invisible {
+            display: none;
+          }
+        }
+        .form-type-date-popup {
+          .date-padding {
+            .form-item {
+              margin: 0 0 20px;
             }
           }
         }
