@@ -8,6 +8,8 @@
 // ==========================================================================
 
 .panel-pane.pane-profile2 {
+  width: 100%;
+  float: left;
   margin-bottom: 30px;
   h2 {
     @include font('header-large');
@@ -23,4 +25,8 @@
       }
     }
   }
+}
+.panel-pane.pane-profile2-form {
+  width: 100%;
+  float: left;
 }
