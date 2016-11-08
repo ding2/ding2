@@ -11,6 +11,9 @@ function ddbasic_ctools_plugin_pre_alter(&$plugin, &$info) {
     case 'ding_library contact':
       $plugin['render callback'] = 'ddbasic_ctools_plugin__ding_library_contact_content_type_render';
       break;
+    case 'ding_library address':
+      $plugin['render callback'] = 'ddbasic_ctools_plugin__ding_library_address_content_type_render';
+      break;
   }
 }
 
@@ -83,6 +86,29 @@ function ddbasic_ctools_plugin__ding_library_contact_content_type_render($subtyp
   $content .= '</div>';
 
   $block->title = t('Contact');
+  $block->content = $content;
+
+  return $block;
+}
+
+function ddbasic_ctools_plugin__ding_library_address_content_type_render($subtype, $conf, $panel_args, $context = NULL) {
+  $block = new stdClass();
+  if (empty($context->data)) {
+    return $block;
+  }
+  $node = $context->data;
+
+  $content = ' <div class="library-address">';
+  if (!empty($node->field_ding_library_addresse['und'])) {
+    $content .= '
+      <div class="library-address-street">' . $node->field_ding_library_addresse['und'][0]['thoroughfare'] . '</div>
+      <div class="library-address-city-wrapper">
+        <span class="library-address-postal-code">' . $node->field_ding_library_addresse['und'][0]['postal_code'] . '</span><span class="library-address-city">' . $node->field_ding_library_addresse['und'][0]['locality'] . '</span>
+      </div>';
+  }
+
+  $content .= '</div>';
+  $block->title = t('Address');
   $block->content = $content;
 
   return $block;
