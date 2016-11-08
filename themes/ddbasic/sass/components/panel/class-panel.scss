@@ -120,6 +120,10 @@
     width: 100px;
     float: left;
   }
+  .library-contact-fax-label {
+    width: 100px;
+    float: left;
+  }
   .library-contact-email-label {
     width: 100px;
     float: left;
@@ -130,6 +134,10 @@
 // Openening hours
 // ==========================================================================
 
+.panel-pane.pane-weekly-opening-hours {
+  width: 100%;
+  float: left;
+}
 .panel-pane.js-opening-hours-toggle-element {
   width: 100%;
   float: left;
