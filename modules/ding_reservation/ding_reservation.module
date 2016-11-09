@@ -392,7 +392,9 @@ function ding_reservation_reserve_form_submit($form, &$form_state) {
   if ($form_state['values']['reservable']) {
     $reservable = $form_state['values']['reservable'];
     try {
-      $reservation_result = ding_provider_invoke('reservation', 'create', $user, $reservable->getProviderId(), $form_state['values']['provider_options']);
+      // If no provider id is set, it is supposed to be an encoded periodical data.
+      $provider_id = $reservable->getProviderId() ? $reservable->getProviderId() : base64_decode($reservable->getEntity());
+      $reservation_result = ding_provider_invoke('reservation', 'create', $user, $provider_id, $form_state['values']['provider_options']);
       $form_state['reserved'] = TRUE;
       // @todo use profile
       if (!empty($reservation_result['branch']) && ding_provider_implements('reservation', 'branch_name')) {
