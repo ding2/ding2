@@ -149,12 +149,8 @@ function ding_base_update_7003() {
 }
 
 /**
- * Ensure critical variables for expire is set correctly.
+ * Enable ddbasic helper modules
  */
 function ding_base_update_7004() {
-  variable_set('expire_status', EXPIRE_STATUS_ENABLED_EXTERNAL);
-  variable_set('expire_include_base_url', FALSE);
-  variable_set('expire_node_actions', array(1 => '1', 2 => '2', 3 => '3'));
-  variable_set('expire_node_front_page', TRUE);
-  variable_set('expire_node_term_pages', TRUE);
+  module_enable(array('ting_carousel','ting_ddbasic','ding_ddbasic_opening_hours'));
 }
