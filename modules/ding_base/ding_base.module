@@ -619,3 +619,12 @@ function ding_base_get_items($entity_type, $entity, $field_name) {
   }
   return $items;
 }
+
+/**
+ * Implements hook_expire_cache().
+ *
+ * Prevents blocking of update.php when varnish module is disabled
+ */
+function ding_base_expire_cache($paths) {
+  return false;
+}
