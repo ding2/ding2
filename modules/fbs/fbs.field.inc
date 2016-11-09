@@ -288,7 +288,13 @@ function fbs_field_load($entity_type, $entities, $field, $instances, $langcode, 
     'fbs_address',
   );
   if (in_array($field['type'], $field_types)) {
-    $patron = ding_user_get_creds($user);
+    try {
+      $patron = ding_user_get_creds($user);
+    }
+    catch (Exception $e) {
+      // No creds, don't return anything.
+      return;
+    }
     foreach ($entities as $id => $entity) {
       // Only populate when the profile is for the current user.
       if ($entity->uid == $user->uid) {
