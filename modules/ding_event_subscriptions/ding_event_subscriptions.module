@@ -222,7 +222,7 @@ function ding_event_subscriptions_line($name, $value, $escape = TRUE) {
  *   Escaped string or false.
  */
 function ding_event_subscriptions_escape($data) {
-  return preg_replace('/([\,;])/', '\\\$1', $data);
+  return preg_replace('/([\,;]\s)/', '\\\$1', $data);
 }
 
 /**
