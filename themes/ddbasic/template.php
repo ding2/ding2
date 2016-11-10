@@ -259,6 +259,20 @@ function ddbasic_preprocess_views_view_unformatted(&$vars) {
 }
 
 /**
+ * Implements hook_preprocess_views_view_field().
+ */
+function ddbasic_preprocess_views_view_field(&$vars) {
+  $field = $vars['field'];
+
+  if (isset($field->field_info) && $field->field_info['field_name'] == 'field_ding_event_price') {
+    // Show "Free" text if ding_event_price is empty or zero.
+    if (empty(intval($vars['output']))) {
+      $vars['output'] = t('Free');
+    }
+  }
+}
+
+/**
  * Implements hook_preprocess_user_picture().
  *
  * Override or insert variables into template user_picture.tpl.php
@@ -321,6 +335,14 @@ function ddbasic_preprocess_node(&$variables, $hook) {
       ),
     ));
     $variables['ddbasic_event_time'] = $event_time_ra[0]['#markup'];
+
+    // Show "Free" text if ding_event_price is empty or zero. Unfortunately we
+    // can't use the field template for this, since it's not called when the
+    // price field is empty. This means we also need to handle this en the views
+    // field preprocess.
+    if (empty($variables['content']['field_ding_event_price']['#items'][0]['value'])) {
+      $variables['content']['field_ding_event_price'][0]['#markup'] = t('Free');
+    }
   }
 
   // Add tpl suggestions for node view modes.
