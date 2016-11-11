@@ -222,7 +222,7 @@ function ding_event_subscriptions_line($name, $value, $escape = TRUE) {
  *   Escaped string or false.
  */
 function ding_event_subscriptions_escape($data) {
-  return preg_replace('/([\,;])/', '\\\$1', $data);
+  return preg_replace('/([\,;]\s)/', '\\\$1', $data);
 }
 
 /**
@@ -230,5 +230,5 @@ function ding_event_subscriptions_escape($data) {
  */
 function ding_event_subscriptions_query_ding_event_subscriptions_alter(QueryAlterableInterface $query) {
   $query->leftJoin('field_data_field_ding_event_date', 'f', 'node.nid = f.entity_id');
-  $query->where(':time >= f.field_ding_event_date_value2', array(':time' => date('Y-m-d H:i:s')));
+  $query->where(':time <= f.field_ding_event_date_value2', array(':time' => date('Y-m-d H:i:s')));
 }
