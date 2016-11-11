@@ -18,7 +18,8 @@ module_load_include('client.inc', 'ting');
 function ting_infomedia_get_article($id) {
   try {
     $factory = ting_get_request_factory();
-  } catch (TingClientException $exception) {
+  }
+  catch (TingClientException $exception) {
     watchdog_exception('infomedia', $exception);
 
     return FALSE;
@@ -69,7 +70,8 @@ function ting_infomedia_get_review($id, $id_is_isbn = FALSE) {
 
   if ($id_is_isbn) {
     $request->setISBN($id);
-  } else {
+  }
+  else {
     $request->setFaust($id);
   }
 
@@ -95,7 +97,8 @@ function ting_infomedia_check_review($id, $id_is_isbn = FALSE) {
 
   if ($id_is_isbn) {
     $request->setISBN($id);
-  } else {
+  }
+  else {
     $request->setFaust($id);
   }
 
@@ -121,7 +124,8 @@ function ting_infomedia_add_user_creds(TingClientInfomediaRequest $request) {
 
     if (isset($creds['library_card_number'])) {
       $userid = $creds['library_card_number'];
-    } else {
+    }
+    else {
       $userid = $creds['name'];
     }
     $request->setUser($userid);
@@ -129,7 +133,8 @@ function ting_infomedia_add_user_creds(TingClientInfomediaRequest $request) {
     if ($agency = variable_get('ting_agency', FALSE)) {
       $request->setAgency($agency);
     }
-  } catch (DingProviderAuthException $e) {
+  }
+  catch (DingProviderAuthException $e) {
     //do nothing
   }
 
