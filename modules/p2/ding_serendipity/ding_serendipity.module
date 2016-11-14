@@ -23,6 +23,8 @@
  *   - hook_<plugin>_serendipity_add() - to add suggestions to the DS pool
  */
 
+include_once 'ding_serendipity.features.inc';
+
 define('DING_SERENDIPITY_FUNCTION_POSTFIX', '_serendipity_add');
 
 /**
@@ -224,7 +226,7 @@ function ding_serendipity_fetch(array $context = NULL) {
     // Prefix cid with uid for per-user serendipity cache clear.
     $user_key = isset($context['current-user']) ? "_" . $context['current-user'] . "_" : "";
     $cache_id = "ding_serendipity" . $user_key . implode(':', $cache_id);
-    
+
     $cache = cache_get($cache_id);
     if (!empty($cache) && REQUEST_TIME < $cache->expire) {
       $cache->data['cache'] = REQUEST_TIME . ':' . $cache->expire . '<br/>';
@@ -753,7 +755,7 @@ function ding_serendipity_do_search($query, $options = array()) {
   module_load_include('inc', 'ting', 'ting.client');
 
   $search_result = ting_do_search($query, $options['page'], $options['count'], $options['options']);
-    
+
   if (!isset($search_result->collections) || !is_array($search_result->collections)) {
     watchdog('ding_serendipity', 'BAD Search:@query', array('@query' => $query), WATCHDOG_WARNING);
   }
@@ -918,7 +920,7 @@ function ding_serendipity_form_base_submit(&$form_state) {
  *   Serendipity result to be altered.
  * @param mixed $excludes
  *   Array or id of material(s) to exclude.
- */ 
+ */
 function ding_serendipity_exclude(&$list, $excludes) {
 
   if (empty($excludes)) {

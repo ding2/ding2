@@ -901,25 +901,6 @@ function ding_list_installer_default_page_manager_pages() {
     $display->content['new-e1195ffb-63fb-4b67-9ee9-6d20d0c0ead0'] = $pane;
     $display->panels['main_content'][1] = 'new-e1195ffb-63fb-4b67-9ee9-6d20d0c0ead0';
     $pane = new stdClass();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     $pane->pid = 'new-f0e76ffa-abea-407f-a468-692229c54e81';
     $pane->panel = 'main_content';
     $pane->type = 'add_list';
@@ -933,7 +914,6 @@ function ding_list_installer_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-
     $pane->position = 2;
     $pane->locks = array();
     $pane->uuid = 'f0e76ffa-abea-407f-a468-692229c54e81';
@@ -961,7 +941,6 @@ function ding_list_installer_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-
     $pane->position = 3;
     $pane->locks = array();
     $pane->uuid = 'be8eb5bc-a163-4123-97a3-7df269deff17';

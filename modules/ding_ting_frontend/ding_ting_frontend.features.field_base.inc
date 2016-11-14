@@ -211,7 +211,7 @@ function ding_ting_frontend_field_default_field_bases() {
     'field_name' => 'ting_reference_reverse',
     'foreign keys' => array(),
     'indexes' => array(),
-    'locked' => 1,
+    'locked' => 0,
     'module' => 'ting_reference',
     'settings' => array(),
     'storage' => array(

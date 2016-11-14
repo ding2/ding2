@@ -1,18 +1,21 @@
 name = Ding entity rating
 description = Allow users to rate ting objects
-package = Ding!
 core = 7.x
-
-dependencies[] = ding_list
-dependencies[] = ding_user
+package = Ding!
 dependencies[] = ding_entity
-dependencies[] = ding_serendipity
+dependencies[] = ding_entity_rating
+dependencies[] = ding_list
 dependencies[] = ding_provider
+dependencies[] = ding_serendipity
+dependencies[] = ding_user
+dependencies[] = features
 dependencies[] = ting_carousel
 dependencies[] = virtual_field
-dependencies[] = features
+explanation = Field type(s) in use - see <a href="/admin/reports/fields">Field list</a>
 features[features_api][] = api:2
 features[field_base][] = ding_entity_rating_action
-features[field_instance][] = ting_object-ting_object-ding_entity_rating_action
 features[field_base][] = ding_entity_rating_result
+features[field_instance][] = ting_object-ting_object-ding_entity_rating_action
 features[field_instance][] = ting_object-ting_object-ding_entity_rating_result
+mtime = 1477398579
+required = 1
