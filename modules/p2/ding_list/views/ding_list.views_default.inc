@@ -2,7 +2,7 @@
 
 /**
  * @file
- * ding_interests.views_default.inc
+ * ding_list.views_default.inc
  */
 
 /**

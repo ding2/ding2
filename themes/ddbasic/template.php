@@ -281,15 +281,6 @@ function ddbasic_preprocess_user_picture(&$variables) {
  * Override or insert variables into the node templates.
  */
 function ddbasic_preprocess_node(&$variables, $hook) {
-  // Opening hours on library list. but not on the search page.
-  $path = drupal_get_path_alias();
-  if (!(strpos($path, 'search', 0) === 0)) {
-    $hooks = theme_get_registry(FALSE);
-    if (isset($hooks['opening_hours_week']) && $variables['type'] == 'ding_library') {
-      $variables['opening_hours'] = theme('opening_hours_week', array('node' => $variables['node']));
-    }
-  }
-
   // Add ddbasic_byline to variables.
   $variables['ddbasic_byline'] = t('By: ');
 

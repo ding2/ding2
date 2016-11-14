@@ -33,6 +33,23 @@ function ding_user_preprocess_html(&$variables) {
 }
 
 /**
+ * Implements hook_pathauto_alias_alter().
+ *
+ * Ensures that provider user don't have aliases create for their accounts.
+ */
+function ding_user_pathauto_alias_alter(&$alias, $context) {
+  if ($context['module'] == 'user') {
+    $user = reset($context['data']);
+    // The function ding_user_is_provider_user can not be used here. Because if
+    // the user is logging in for the first time the "authmap" table have not
+    // been populated when this alias function is called.
+    if (in_array('provider', $user->roles)) {
+      $alias = '';
+    }
+  }
+}
+
+/**
  * Implements hook_ctools_plugin_directory().
  *
  * It simply tells panels where to find the .inc files that define various
@@ -91,6 +108,14 @@ function ding_user_menu_alter(&$items) {
   $items['user/%user/view']['title'] = t('User profile');
   $items['user/%user/edit']['title'] = t('Edit user profile');
   $items['user/%pm_arg/status']['title'] = t('User status');
+
+  // Limit access to provider users page.
+  $items['user/%user/view']['access callback'] = 'ding_user_provider_user_access';
+  $items['user/%user/view']['access arguments'] = array(1);
+  $items['user/%user']['access callback'] = 'ding_user_provider_user_access';
+  $items['user/%user']['access arguments'] = array(1);
+
+  $items['user']['delivery callback'] = 'ding_user_deliver_html_page';
 }
 
 
@@ -139,6 +164,43 @@ function ding_user_entity_info_alter(&$entity_info) {
       ),
     );
   }
+}
+
+/**
+ * Page deliver callback.
+ *
+ * Disables a "page not found" when trying to access provider user account that
+ * results in a page denied. This is to prevent enclosing information about the
+ * existent of a given user account.
+ */
+function ding_user_deliver_html_page($page_callback_result) {
+  if ($page_callback_result == MENU_ACCESS_DENIED) {
+    drupal_deliver_page(MENU_NOT_FOUND);
+  }
+  else {
+    drupal_deliver_html_page($page_callback_result);
+  }
+}
+
+/**
+ * Access callback.
+ *
+ * Allow access if it's a provider account and the user logged in owns the
+ * account or is admin user.
+ */
+function ding_user_provider_user_access($account) {
+  global $user;
+  if (ding_user_is_provider_user($account)) {
+    if (user_is_logged_in() && !ding_user_is_provider_user($user, TRUE)) {
+      return TRUE;
+    }
+
+    return ding_user_access($account);
+  }
+
+  // Check that the account tried to access is an staff account, if not don't
+  // show it.
+  return in_array('staff', $account->roles) == FALSE ? ding_user_access($account) : TRUE;
 }
 
 /**
@@ -290,7 +352,7 @@ function ding_user_form_profile2_form_alter(&$form, &$form_state) {
         '#type' => 'fieldset',
         '#title' => t('Change pincode'),
       );
-      if (!isset($_SESSION['wayf_login'])) {
+      if (ding_user_name() && !isset($_SESSION['wayf_login'])) {
         $form['pass']['pincode_old'] = array(
           '#type' => 'password',
           '#title' => t('Confirm old pincode'),
@@ -365,12 +427,20 @@ function ding_user_form_process_password_confirm($element) {
 function ding_user_profile_update_validate($form, &$form_state) {
   if (isset($form_state['values']['pincode_old'])) {
     if (!empty($form_state['values']['pincode'])) {
-      $creds = ding_user_get_creds();
       if (empty($form_state['values']['pincode_old'])) {
         form_set_error('pincode_old', t('The old pincode confirm is empty.'));
         return;
       }
-      if ($creds['pass'] != $form_state['values']['pincode_old']) {
+
+      // Check the old pincode with the provider.
+      $auth_res = ding_provider_invoke('user', 'authenticate', ding_user_name(), $form_state['values']['pincode_old']);
+      if (!is_array($auth_res) || !isset($auth_res['success'])) {
+        watchdog('ding_user', 'Provider returned invalid result: @res', array('@res' => print_r($auth_res, TRUE)), WATCHDOG_DEBUG);
+        form_set_error('pincode_old', t('There was an error checking the old pincode. Please try again later.'));
+        return;
+      }
+
+      if (!$auth_res['success']) {
         form_set_error('pincode_old', t('The old pincode confirm does not match.'));
       }
     }
@@ -916,15 +986,48 @@ function ding_user_save_creds($auth_res) {
 }
 
 /**
- * Check if the given account is a user authenticated through a provider.
+ * Returns user login name of the current user, if available.
+ *
+ * Checks if provider has a get_name function, or has set name in creds.
  */
-function ding_user_is_provider_user($account) {
+function ding_user_name() {
+  global $user;
+  try {
+    if (ding_provider_implements('user', 'get_name')) {
+      return ding_provider_invoke('user', 'get_name', $user);
+    }
+    $creds = ding_user_get_creds($user);
+    if (isset($creds['name'])) {
+      return $creds['name'];
+    }
+  }
+  catch (Exception $e) {
+    // Do nothing.
+  }
+
+  return NULL;
+}
+
+/**
+ * Check if the given account is a user authenticated through a provider.
+ *
+ * @param object $account
+ *   The user account to check.
+ * @param bool $reset
+ *   If TRUE static cache is ignored else FALSE. Default FALSE.
+ *
+ * @return bool
+ *   TRUE if account is a provider account else FALSE.
+ */
+function ding_user_is_provider_user($account, $reset = FALSE) {
   // If someone calls us on a new user object before it's saved, we have no
   // idea, so return false.
   if (!isset($account->uid)) {
     return FALSE;
   }
-  $names = &drupal_static(__FUNCTION__);
+  if (!$reset) {
+    $names = &drupal_static(__FUNCTION__);
+  }
   if (!isset($names)) {
     $names = db_select('authmap')
       ->fields('authmap', array('authname'))

@@ -63,6 +63,7 @@ function template_preprocess_ding_list_add_button(&$variables) {
           'class' => array(),
         ),
         'query' => array('at' => $variables['type'], 'av' => $variables['value']),
+        'html' => TRUE,
       ),
     );
   }
@@ -74,6 +75,7 @@ function template_preprocess_ding_list_add_button(&$variables) {
         'attributes' => array(
           'class' => array('use-ajax', drupal_html_class($option['type'])),
         ),
+        'html' => TRUE,
       );
 
       if (!empty($option['value_title'])) {
@@ -146,6 +148,7 @@ function theme_ding_list_lists($variables) {
   $out = '';
   
   foreach ($variables['groups'] as $group_name => $group) {
+    $out .= "<a name='" . $group_name . "'></a>";
     $rows = array();
 
     foreach ($group['lists'] as $lists) {
@@ -168,8 +171,8 @@ function theme_ding_list_lists($variables) {
   // Footer links.
   $out .= theme('item_list', array(
     'items' => array(
-      l(t("> Mark all notifications as read"), "ding_message/purge_user_messages"),
-      l(t("> Create new list"), "list/create"),
+      l(t("Mark all notifications as read"), "ding_message/purge_user_messages", array('attributes' => array('class' => array('button')))),
+      l(t("Create new list"), "list/create", array('attributes' => array('class' => array('button')))),
     ),
     'title' => "",
     'type' => 'ul',

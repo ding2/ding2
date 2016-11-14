@@ -120,7 +120,15 @@ function ding_p2_installer_default_page_manager_handlers() {
     $pane->subtype = 'carousel';
     $pane->shown = TRUE;
     $pane->access = array(
-      'plugins' => array(),
+      'plugins' => array(
+        0 => array(
+          'name' => 'frontpage_promoter',
+          'settings' => array(
+            'promoter' => 'ting_search_carousel',
+          ),
+          'not' => FALSE,
+        ),
+      ),
     );
     $pane->configuration = array(
       'override_title' => 1,
@@ -311,7 +319,7 @@ function ding_p2_installer_default_page_manager_handlers() {
 
   // Tags variant
   $handler = new stdClass();
-  $handler->disabled = FALSE;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
   $handler->name = 'term_view_panel_context_4';
   $handler->task = 'term_view';
@@ -507,7 +515,7 @@ function ding_p2_installer_default_page_manager_handlers() {
     $pane->panel = 'right_above';
     $pane->type = 'entity_view';
     $pane->subtype = 'taxonomy_term';
-    $pane->shown = TRUE;
+    $pane->shown = FALSE;
     $pane->access = array();
     $pane->configuration = array(
       'view_mode' => 'teaser',
@@ -552,7 +560,6 @@ function ding_p2_installer_default_page_manager_handlers() {
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
-  
   $handlers['term_view_panel_context_4'] = $handler;
   
   // Ding site template
@@ -970,6 +977,52 @@ function ding_p2_installer_default_page_manager_handlers() {
     $display->content['new-d9c1432b-77cc-432c-987a-eb64569a0b88'] = $pane;
     $display->panels['header'][2] = 'new-d9c1432b-77cc-432c-987a-eb64569a0b88';
     $pane = new stdClass();
+    $pane->pid = 'new-889a855f-046c-4c3c-ba14-3e19231a6d4a';
+    $pane->panel = 'header';
+    $pane->type = 'block';
+    $pane->subtype = 'ding_gatewayf-login';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 3;
+    $pane->locks = array();
+    $pane->uuid = '889a855f-046c-4c3c-ba14-3e19231a6d4a';
+    $display->content['new-889a855f-046c-4c3c-ba14-3e19231a6d4a'] = $pane;
+    $display->panels['header'][3] = 'new-889a855f-046c-4c3c-ba14-3e19231a6d4a';
+    $pane = new stdClass();
+    $pane->pid = 'new-cbaa0816-bd36-4c61-a038-5b49d0d434bd';
+    $pane->panel = 'header';
+    $pane->type = 'block';
+    $pane->subtype = 'ding_gatewayf_registration-registration';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 4;
+    $pane->locks = array();
+    $pane->uuid = 'cbaa0816-bd36-4c61-a038-5b49d0d434bd';
+    $display->content['new-cbaa0816-bd36-4c61-a038-5b49d0d434bd'] = $pane;
+    $display->panels['header'][4] = 'new-cbaa0816-bd36-4c61-a038-5b49d0d434bd';
+    $pane = new stdClass();
     $pane->pid = 'new-94a239e5-00e0-4807-917f-df52c53405e7';
     $pane->panel = 'navigation';
     $pane->type = 'block';
@@ -1125,50 +1178,6 @@ function ding_p2_installer_default_page_manager_handlers() {
     $display->content['new-c73e6fbd-2403-4298-8cdb-00ed617c8e5d'] = $pane;
     $display->panels['main_content'][0] = 'new-c73e6fbd-2403-4298-8cdb-00ed617c8e5d';
     $pane = new stdClass();
-    $pane->pid = 'new-d8e66878-81ac-4da6-9c30-eb876b25af49';
-    $pane->panel = 'main_content';
-    $pane->type = 'block';
-    $pane->subtype = 'ding_user_frontend-ding-user-loan-number';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 0,
-      'override_title_text' => 'sdfsdf',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array(
-      'css_id' => '',
-      'css_class' => 'user-loan-status-wrapper',
-    );
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $pane->uuid = 'd8e66878-81ac-4da6-9c30-eb876b25af49';
-    $display->content['new-d8e66878-81ac-4da6-9c30-eb876b25af49'] = $pane;
-    $display->panels['main_content'][1] = 'new-d8e66878-81ac-4da6-9c30-eb876b25af49';
-    $pane = new stdClass();
-    $pane->pid = 'new-96284cb3-0776-42ec-808d-fbd0707cd346';
-    $pane->panel = 'main_content';
-    $pane->type = 'profile2';
-    $pane->subtype = 'profile2';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array();
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 2;
-    $pane->locks = array();
-    $pane->uuid = '96284cb3-0776-42ec-808d-fbd0707cd346';
-    $display->content['new-96284cb3-0776-42ec-808d-fbd0707cd346'] = $pane;
-    $display->panels['main_content'][2] = 'new-96284cb3-0776-42ec-808d-fbd0707cd346';
-    $pane = new stdClass();
     $pane->pid = 'new-19996eea-aa45-473a-b367-59aa7d1f1ed1';
     $pane->panel = 'main_content';
     $pane->type = 'lists';
@@ -1182,11 +1191,11 @@ function ding_p2_installer_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 3;
+    $pane->position = 1;
     $pane->locks = array();
     $pane->uuid = '19996eea-aa45-473a-b367-59aa7d1f1ed1';
     $display->content['new-19996eea-aa45-473a-b367-59aa7d1f1ed1'] = $pane;
-    $display->panels['main_content'][3] = 'new-19996eea-aa45-473a-b367-59aa7d1f1ed1';
+    $display->panels['main_content'][1] = 'new-19996eea-aa45-473a-b367-59aa7d1f1ed1';
     $pane = new stdClass();
     $pane->pid = 'new-8998a4b6-cfa0-4314-b510-4e8ed81cdd26';
     $pane->panel = 'main_content';
@@ -1201,14 +1210,15 @@ function ding_p2_installer_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 4;
+    $pane->position = 2;
     $pane->locks = array();
     $pane->uuid = '8998a4b6-cfa0-4314-b510-4e8ed81cdd26';
     $display->content['new-8998a4b6-cfa0-4314-b510-4e8ed81cdd26'] = $pane;
-    $display->panels['main_content'][4] = 'new-8998a4b6-cfa0-4314-b510-4e8ed81cdd26';
+    $display->panels['main_content'][2] = 'new-8998a4b6-cfa0-4314-b510-4e8ed81cdd26';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
+
   
   $handlers['user_view_panel_context_5'] = $handler;
   
@@ -1283,25 +1293,6 @@ function ding_p2_installer_default_page_manager_handlers() {
     $display->content['new-cf25769d-7de8-4ef1-8d55-ae6c8a338ee3'] = $pane;
     $display->panels['left_sidebar'][0] = 'new-cf25769d-7de8-4ef1-8d55-ae6c8a338ee3';
     $pane = new stdClass();
-    $pane->pid = 'new-e5289475-70d1-4e3e-b26a-ffa09036a687';
-    $pane->panel = 'main_content';
-    $pane->type = 'lists';
-    $pane->subtype = 'lists';
-    $pane->shown = TRUE;
-    $pane->access = array();
-    $pane->configuration = array();
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 0;
-    $pane->locks = array();
-    $pane->uuid = 'e5289475-70d1-4e3e-b26a-ffa09036a687';
-    $display->content['new-e5289475-70d1-4e3e-b26a-ffa09036a687'] = $pane;
-    $display->panels['main_content'][0] = 'new-e5289475-70d1-4e3e-b26a-ffa09036a687';
-    $pane = new stdClass();
     $pane->pid = 'new-dc4b2f5e-f42e-48bd-9f01-f81841042dbf';
     $pane->panel = 'main_content';
     $pane->type = 'user_profile';
@@ -1319,20 +1310,21 @@ function ding_p2_installer_default_page_manager_handlers() {
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 1;
+    $pane->position = 0;
     $pane->locks = '';
     $pane->uuid = 'dc4b2f5e-f42e-48bd-9f01-f81841042dbf';
     $display->content['new-dc4b2f5e-f42e-48bd-9f01-f81841042dbf'] = $pane;
-    $display->panels['main_content'][1] = 'new-dc4b2f5e-f42e-48bd-9f01-f81841042dbf';
+    $display->panels['main_content'][0] = 'new-dc4b2f5e-f42e-48bd-9f01-f81841042dbf';
   $display->hide_title = PANELS_TITLE_FIXED;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
+
 
   $handlers['user_view_panel_context_4'] = $handler;
   
   // Search page:
   $handler = new stdClass();
-  $handler->disabled = FALSE;
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
   $handler->name = 'search_ting_search_panel_context_1';
   $handler->task = 'search';
@@ -1349,12 +1341,12 @@ function ding_p2_installer_default_page_manager_handlers() {
     'relationships' => array(),
     'panels_breadcrumbs_state' => 1,
     'panels_breadcrumbs_titles' => 'Search
-  Well
-  %keywords:html_safe',
+    Well
+    %keywords:html_safe',
     'panels_breadcrumbs_paths' => 'search
-  search/ting
-  <none>
-  ',
+    search/ting
+    <none>
+    ',
   );
   $display = new panels_display();
   $display->layout = '25_50_25';
@@ -1532,7 +1524,20 @@ function ding_p2_installer_default_page_manager_handlers() {
     $pane->type = 'search_query';
     $pane->subtype = 'search_query';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'role',
+          'settings' => array(
+            'rids' => array(
+              0 => 8,
+            ),
+          ),
+          'context' => 'logged-in-user',
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array();
     $pane->cache = array();
     $pane->style = array(
@@ -1627,6 +1632,7 @@ function ding_p2_installer_default_page_manager_handlers() {
   $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
+
   
   $handlers['search_ting_search_panel_context_1'] = $handler;
   

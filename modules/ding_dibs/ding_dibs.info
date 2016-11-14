@@ -7,4 +7,5 @@ files[] = ding_dibs.module
 dependencies[] = dibs
 dependencies[] = ding_base
 dependencies[] = ding_provider
+dependencies[] = htmlmail
 configure = admin/config/payment/ding_dibs

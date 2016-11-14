@@ -115,7 +115,7 @@ function ding_entity_rating_get_material_by_rating() {
   
   // Start at 5 (the max rating).
   // being the max rating in the codebase.
-  $rating = DING_INTERESTS_INTERESTING;
+  $rating = DING_ENTITY_RATING_MAX_RATING;
   // And keep trying till this minimum rating.
   $min_rating = 3;
 

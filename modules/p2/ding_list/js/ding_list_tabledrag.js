@@ -18,17 +18,20 @@
         var list_id = $(this.table).attr('data-list-id'),
           $item = $(this.rowObject.element),
           self = this,
-          prev = $item.prev().attr('data-item-id');
+          data = {
+            previous: $item.prev().find('.views-field-id').attr('data-item-id'),
+            item: $item.find('.views-field-id').attr('data-item-id')
+          };
 
-        if (!prev) {
-          prev = 0;
+        if (!data.previous) {
+          data.previous = 0;
         }
 
         $.ajax({
           url: Drupal.settings.basePath + 'dinglist/set_order/' + list_id,
           type: 'POST',
           dataType: 'json',
-          data: {'item': $item.attr('data-item-id'), 'previous': prev},
+          data: data,
           success: function (data, textStatus, XMLHttpRequest) {
             $(self).children(':even').removeClass('even').addClass('odd');
             $(self).children(':odd').removeClass('odd').addClass('even');
