@@ -77,6 +77,9 @@ projects[entityreference][version] = "1.1"
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
 
+projects[environment_indicator][subdir] = "contrib"
+projects[environment_indicator][version] = "2.8"
+
 projects[expire][subdir] = "contrib"
 projects[expire][version] = "2.0-rc4"
 
