@@ -710,6 +710,13 @@ temaer/*';
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'mmeu_urls';
+  $strongarm->value = 'varnish/roles';
+  $export['mmeu_urls'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'og_context_negotiation_group_context';
   $strongarm->value = array(
     'url' => array(),
