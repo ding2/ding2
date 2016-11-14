@@ -108,6 +108,7 @@ features[variable][] = jquery_update_compression_type
 features[variable][] = jquery_update_jquery_cdn
 features[variable][] = jquery_update_jquery_version
 features[variable][] = metatag_tag_admin_pages
+features[variable][] = mmeu_urls
 features[variable][] = og_context_negotiation_group_context
 features[variable][] = og_context_providers_weight_group_context
 features[variable][] = og_menu_assignment

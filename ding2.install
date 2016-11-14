@@ -407,3 +407,10 @@ function ding2_update_7023() {
 function ding2_update_7024() {
   module_enable(array('htmlmail'));
 }
+
+/**
+ * Enable mmeu module.
+ */
+function ding2_update_7025() {
+  module_enable(array('mmeu'));
+}
