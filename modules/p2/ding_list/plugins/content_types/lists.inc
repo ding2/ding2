@@ -129,7 +129,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
     if ($overdues > 0) {
       $groups['specials']['lists']['special_loans_overdue'][] = array(
         'data' =>
-        '<a href="' . url($uri['path'] . '/status/status') . '" class="signature-label"><span class="icon"></span>' . t('Loans overdue') . '</a>' . '<span class="label warn">' . $overdues . '</span>',
+        '<a href="' . url($uri['path'] . '/status') . '" class="signature-label"><span class="icon"></span>' . t('Loans overdue') . '</a>' . '<span class="label warn">' . $overdues . '</span>',
         'class' => array('warn'),
       );
     } else {
