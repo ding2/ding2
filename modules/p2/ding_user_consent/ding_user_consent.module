@@ -11,6 +11,8 @@
  * be rewritten and cleaned up.
  */
 
+include_once 'ding_user_consent.features.inc';
+
 define('DING_USER_CONSENT_LOAN_HISTORY_STORE', 'loan_history_store');
 
 /**
@@ -161,7 +163,7 @@ function ding_user_consent_form_profile2_form_alter(&$form, &$form_state) {
   if (!variable_get('user_consent_activate')) {
     return;
   }
-  
+
   $account = user_load($form['profile_provider_alma']['#entity']->uid);
   if (ding_user_is_provider_user($account)) {
     $profile_type = ding_user_get_provider_profile_type();
