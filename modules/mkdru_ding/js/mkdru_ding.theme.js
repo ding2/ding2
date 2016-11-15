@@ -106,11 +106,14 @@
       html += '</div><p/>';
     }
     if (dhit["md-subject"] && dhit["md-subject"].length > 0) {
+      var search_query;
       html += '<div class="mkdru-result-subject"><p>';
       for (var i = 0; i < dhit["md-subject"].length - 1; i++) {
-        html += '<a href="' + basePath + 'search/meta/' + specific_subject_field + dhit["md-subject"][i] + '">' + dhit["md-subject"][i] + '</a> ';
+        search_query = 'su=&quot;' + specific_subject_field + dhit["md-subject"][i] + '&quot;';
+        html += '<a href="' + basePath + 'search/meta/' + search_query + '">' + dhit["md-subject"][i] + '</a> ';
       }
-      html += '<a href="' + basePath + 'search/meta/' + specific_subject_field + dhit["md-subject"][dhit["md-subject"].length - 1] + '">' + dhit["md-subject"][dhit["md-subject"].length - 1] + '</a></p></div>';
+      search_query = 'su=&quot;' + specific_subject_field + dhit["md-subject"][dhit["md-subject"].length - 1] + '&quot;';
+      html += '<a href="' + basePath + 'search/meta/' + search_query + '">' + dhit["md-subject"][dhit["md-subject"].length - 1] + '</a></p></div>';
     }
     if (hit["md-description"]) {
       // limit description to 600 characters
