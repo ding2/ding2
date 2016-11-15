@@ -91,8 +91,6 @@
       </div>
       <div class="event-text">
         <div class="info-top">
-          <div class="type"><?php print t('Event'); ?></div>
-          <div class="info-dash">-</div>
           <?php print render($content['field_ding_event_category']); ?>
         </div>
         <div class="date"><?php print $event_date; ?></div>
