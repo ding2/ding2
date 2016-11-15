@@ -65,12 +65,30 @@ function ting_proxy(data, target) {
       var out = {};
       var url = '';
       try {
-        out = {
-          target: data.hits[i].location[0]['@name'],
-          title: data.hits[i]['md-title'],
-          author: data.hits[i]['md-author'],
-          date: data.hits[i]['md-date']
-        };
+        if (typeof data.hits[i].location !== 'undefined' && data.hits[i].location.length > 1) {
+          var temp_location = [];
+          for (var j = 0; j < data.hits[i].location.length; j++) {
+            temp_location.push(data.hits[i].location[j]['@name']);
+          }
+          out.target = temp_location.join(', ');
+        }
+        else {
+          out.target = data.hits[i].location[0]['@name'];
+        }
+
+        out.title = (data.hits[i]['md-title'].length > 1)
+          ? data.hits[i]['md-title'].join(', ')
+          : data.hits[i]['md-title'];
+
+        // Concatenate author names if more than one.
+        out.author = (typeof data.hits[i]['md-author'] !== 'undefined' && data.hits[i]['md-author'].length > 1)
+          ? data.hits[i]['md-author'].join(', ')
+          : data.hits[i]['md-author'];
+
+        out.date = (typeof data.hits[i]['md-date'] !== 'undefined' && data.hits[i]['md-date'].length > 1)
+          ? data.hits[i]['md-date'].join(', ')
+          : data.hits[i]['md-date'];
+
         if (data.hits[i]['md-electronic-url'] !== undefined) {
           url = data.hits[i]['md-electronic-url'][0];
         }
@@ -108,12 +126,30 @@ function ting_proxy(data, target) {
       var url = '';
 
       try {
-        out = {
-          target: data.hits[i].location[0]['@name'],
-          title: data.hits[i]['md-title'][0],
-          author: data.hits[i]['md-author'],
-          date: data.hits[i]['md-date']
-        };
+        if (typeof data.hits[i].location !== 'undefined' && data.hits[i].location.length > 1) {
+          var temp_location = [];
+          for (var j = 0; j < data.hits[i].location.length; j++) {
+            temp_location.push(data.hits[i].location[j]['@name']);
+          }
+          out.target = temp_location.join(', ');
+        }
+        else {
+          out.target = data.hits[i].location[0]['@name'];
+        }
+
+        out.title = (data.hits[i]['md-title'].length > 1)
+          ? data.hits[i]['md-title'].join(', ')
+          : data.hits[i]['md-title'];
+
+        // Concatenate author names if more than one.
+        out.author = (typeof data.hits[i]['md-author'] !== 'undefined' && data.hits[i]['md-author'].length > 1)
+          ? data.hits[i]['md-author'].join(', ')
+          : data.hits[i]['md-author'];
+
+        out.date = (typeof data.hits[i]['md-date'] !== 'undefined' && data.hits[i]['md-date'].length > 1)
+          ? data.hits[i]['md-date'].join(', ')
+          : data.hits[i]['md-date'];
+
         if (data.hits[i]['md-electronic-url'] !== undefined) {
           url = data.hits[i]['md-electronic-url'][0];
         }
