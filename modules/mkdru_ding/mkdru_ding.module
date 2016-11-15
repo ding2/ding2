@@ -21,7 +21,7 @@ function mkdru_ding_ctools_plugin_directory($module, $plugin) {
  */
 function mkdru_ding_search_info() {
   return array(
-    'title' => 'Meta search',
+    'title' => t('Digital Resources'),
     'path' => 'meta',
     'conditions_callback' => 'mkdru_ding_search_conditions_callback',
   );
