@@ -318,3 +318,40 @@ function ding_mkws_preprocess_ding_campaign(&$variables) {
     );
   }
 }
+
+/**
+ * Implements hook_bpi_push_data_alter().
+ */
+function ding_mkws_bpi_push_data_alter(&$node, &$data) {
+  $allowed = variable_get('ding_mkws_types', array());
+  if (in_array($node->type, $allowed)) {
+    $value = field_get_items('entity', $node, 'field_mkws_node_widget');
+    if (!empty($value[0]['term']) && $value[0]['resources']) {
+      $value = serialize($value);
+      $value = '{{' . $value . '}}';
+      $data['body'] .= $value;
+    }
+  }
+}
+
+/**
+ * Implements hook_bpi_syndicate_data_alter().
+ */
+function ding_mkws_bpi_syndicate_data_alter(&$form, &$data) {
+  $allowed = variable_get('ding_mkws_types', array());
+  if (in_array($form['node']->type, $allowed)) {
+    if (isset($form['field_mkws_node_widget'][LANGUAGE_NONE][0])) {
+      preg_match_all('/{{([^}]+)}}/', $data['body'], $matches);
+      if (isset($matches[1])) {
+        $value = unserialize($matches[1]);
+        if (!empty($value[0]['term']) && $value[0]['resources']) {
+          $form['field_mkws_node_widget'][LANGUAGE_NONE][0]['wrapper']['term'] = $value['term'];
+          $form['field_mkws_node_widget'][LANGUAGE_NONE][0]['wrapper']['resources'] = $value['resources'];
+          $form['field_mkws_node_widget'][LANGUAGE_NONE][0]['wrapper']['amount'] = $value['amount'];
+          $form['field_mkws_node_widget'][LANGUAGE_NONE][0]['wrapper']['maxrecs'] = $value['maxrecs'];
+        }
+      }
+    }
+    preg_replace('/{{[^}]+}}/', '', $data['body']);
+  }
+}
