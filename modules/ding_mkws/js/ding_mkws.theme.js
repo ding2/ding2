@@ -152,38 +152,54 @@ function ting_proxy(data, target) {
           "<ul>{{for items.left}}" +
             "<li>" +
               "<div class='ding-mkws-header'>" +
-                "<p class='ding-mkws-target'>" +
-                  Drupal.t('Target') +
-                "</p>" +
-                "<p class='ding-mkws-title'>" +
-                  Drupal.t('Title') +
-                "</p>" +
-                "<p class='ding-mkws-author'>" +
-                  Drupal.t('Author') +
-                "</p>" +
-                "<p class='ding-mkws-date'>" +
-                  Drupal.t('Date') +
-                "</p>" +
-              "</div>" +
-              "<div class='ding-mkws-values'>" +
-                "<p class='ding-mkws-target'>" +
-                  '{{:target}}' +
-                "</p>" +
-                "{{if url}}" +
-                  "<a class='ding-mkws-title' href='{{:url}}' target='_blank'>" +
-                    '{{:title}}' +
-                  "</a>" +
-                  "{{else}}" +
-                  "<p class='ding-mkws-title'>" +
-                    '{{:title}}' +
+                "{{if target}}" +
+                  "<p class='ding-mkws-target'>" +
+                    Drupal.t('Target') +
                   "</p>" +
                 "{{/if}}" +
-                "<p class='ding-mkws-author'>" +
-                  '{{:author}}' +
-                "</p>" +
-                "<p class='ding-mkws-date'>" +
-                  '{{:date}}' +
-                "</p>" +
+                "{{if title}}" +
+                  "<p class='ding-mkws-title'>" +
+                    Drupal.t('Title') +
+                  "</p>" +
+                "{{/if}}" +
+                "{{if author}}" +
+                  "<p class='ding-mkws-author'>" +
+                    Drupal.t('Author') +
+                  "</p>" +
+                "{{/if}}" +
+                "{{if data}}" +
+                  "<p class='ding-mkws-date'>" +
+                    Drupal.t('Date') +
+                  "</p>" +
+                "{{/if}}" +
+              "</div>" +
+              "<div class='ding-mkws-values'>" +
+                "{{if target}}" +
+                  "<p class='ding-mkws-target'>" +
+                    '{{:target}}' +
+                  "</p>" +
+                "{{/if}}" +
+                "{{if title}}" +
+                  "{{if url}}" +
+                    "<a class='ding-mkws-title' href='{{:url}}' target='_blank'>" +
+                      '{{:title}}' +
+                    "</a>" +
+                    "{{else}}" +
+                    "<p class='ding-mkws-title'>" +
+                      '{{:title}}' +
+                    "</p>" +
+                  "{{/if}}" +
+                "{{/if}}" +
+                "{{if author}}" +
+                  "<p class='ding-mkws-author'>" +
+                    '{{:author}}' +
+                  "</p>" +
+                "{{/if}}" +
+                "{{if date}}" +
+                  "<p class='ding-mkws-date'>" +
+                    '{{:date}}' +
+                  "</p>" +
+                "{{/if}}" +
               "</div>" +
             "</li>"+
           "{{/for}}</ul>" +
@@ -192,38 +208,54 @@ function ting_proxy(data, target) {
           "<ul>{{for items.right}}" +
             "<li>" +
               "<div class='ding-mkws-header'>" +
-                "<p class='ding-mkws-target'>" +
-                  Drupal.t('Target') +
-                "</p>" +
-                "<p class='ding-mkws-title'>" +
-                  Drupal.t('Title') +
-                "</p>" +
-                "<p class='ding-mkws-author'>" +
-                  Drupal.t('Author') +
-                "</p>" +
-                "<p class='ding-mkws-date'>" +
-                  Drupal.t('Date') +
-                "</p>" +
-              "</div>" +
-              "<div class='ding-mkws-values'>" +
-                "<p class='ding-mkws-target'>" +
-                  '{{:target}}' +
-                "</p>" +
-                "{{if url}}" +
-                  "<a class='ding-mkws-title' href='{{:url}}' target='_blank'>" +
-                    '{{:title}}' +
-                  "</a>" +
-                "{{else}}" +
-                  "<p class='ding-mkws-title'>" +
-                    '{{:title}}' +
+                "{{if target}}" +
+                  "<p class='ding-mkws-target'>" +
+                    Drupal.t('Target') +
                   "</p>" +
                 "{{/if}}" +
-                "<p class='ding-mkws-author'>" +
-                  '{{:author}}' +
-                "</p>" +
-                "<p class='ding-mkws-date'>" +
-                  '{{:date}}' +
-                 "</p>" +
+                "{{if title}}" +
+                  "<p class='ding-mkws-title'>" +
+                    Drupal.t('Title') +
+                  "</p>" +
+                "{{/if}}" +
+                "{{if author}}" +
+                  "<p class='ding-mkws-author'>" +
+                    Drupal.t('Author') +
+                  "</p>" +
+                "{{/if}}" +
+                "{{if date}}" +
+                  "<p class='ding-mkws-date'>" +
+                    Drupal.t('Date') +
+                  "</p>" +
+                "{{/if}}" +
+              "</div>" +
+              "<div class='ding-mkws-values'>" +
+                "{{if target}}" +
+                  "<p class='ding-mkws-target'>" +
+                    '{{:target}}' +
+                  "</p>" +
+                "{{/if}}" +
+                "{{if title}}" +
+                  "{{if url}}" +
+                    "<a class='ding-mkws-title' href='{{:url}}' target='_blank'>" +
+                      '{{:title}}' +
+                    "</a>" +
+                  "{{else}}" +
+                    "<p class='ding-mkws-title'>" +
+                      '{{:title}}' +
+                    "</p>" +
+                  "{{/if}}" +
+                "{{/if}}" +
+                "{{if author}}" +
+                  "<p class='ding-mkws-author'>" +
+                    '{{:author}}' +
+                  "</p>" +
+                "{{/if}}" +
+                "{{if date}}" +
+                  "<p class='ding-mkws-date'>" +
+                    '{{:date}}' +
+                   "</p>" +
+                "{{/if}}" +
               "</div>" +
             "</li>"+
           "{{/for}}</ul>" +
@@ -241,38 +273,54 @@ function ting_proxy(data, target) {
         "<ul>{{for items}}" +
           "<li>" +
             "<div class='ding-mkws-header'>" +
-              "<p class='ding-mkws-target'>" +
-                Drupal.t('Target') +
-              "</p>" +
-              "<p class='ding-mkws-name'>" +
-                Drupal.t('Title') +
-              "</p>" +
-              "<p class='ding-mkws-author'>" +
-                Drupal.t('Author') +
-              "</p>" +
-              "<p class='ding-mkws-date'>" +
-                Drupal.t('Date') +
-              "</p>" +
-            "</div>" +
-            "<div class='ding-mkws-values'>" +
-              "<p class='ding-mkws-target'>" +
-                '{{:target}}' +
-              "</p>" +
-              "{{if url}}" +
-                "<a class='ding-mkws-title' href='{{:url}}' target='_blank'>" +
-                  '{{:title}}' +
-                "</a>" +
-              "{{else}}" +
-                "<p class='ding-mkws-title'>" +
-                  '{{:title}}' +
+              "{{if target}}" +
+                "<p class='ding-mkws-target'>" +
+                  Drupal.t('Target') +
                 "</p>" +
               "{{/if}}" +
-              "<p class='ding-mkws-author'>" +
-                '{{:author}}' +
-              "</p>" +
-              "<p class='ding-mkws-date'>" +
-                '{{:date}}' +
-              "</p>" +
+              "{{if title}}" +
+                "<p class='ding-mkws-name'>" +
+                  Drupal.t('Title') +
+                "</p>" +
+              "{{/if}}" +
+              "{{if author}}" +
+                "<p class='ding-mkws-author'>" +
+                  Drupal.t('Author') +
+                "</p>" +
+              "{{/if}}" +
+              "{{if date}}" +
+                "<p class='ding-mkws-date'>" +
+                  Drupal.t('Date') +
+                "</p>" +
+              "{{/if}}" +
+            "</div>" +
+            "<div class='ding-mkws-values'>" +
+              "{{if target}}" +
+                "<p class='ding-mkws-target'>" +
+                  '{{:target}}' +
+                "</p>" +
+              "{{/if}}" +
+              "{{if title}}" +
+                "{{if url}}" +
+                  "<a class='ding-mkws-title' href='{{:url}}' target='_blank'>" +
+                    '{{:title}}' +
+                  "</a>" +
+                "{{else}}" +
+                  "<p class='ding-mkws-title'>" +
+                    '{{:title}}' +
+                  "</p>" +
+                "{{/if}}" +
+              "{{/if}}" +
+              "{{if author}}" +
+                "<p class='ding-mkws-author'>" +
+                  '{{:author}}' +
+                "</p>" +
+              "{{/if}}" +
+              "{{if date}}" +
+                "<p class='ding-mkws-date'>" +
+                  '{{:date}}' +
+                "</p>" +
+              "{{/if}}" +
             "</div>" +
           "</li>"+
         "{{/for}}</ul>" +
