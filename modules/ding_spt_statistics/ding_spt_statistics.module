@@ -22,7 +22,8 @@ function ding_spt_statistics_menu() {
     'description' => 'Count click and redirect to the external resource',
     'type' => MENU_NORMAL_ITEM,
     'access arguments' => array('view spt statistics'),
-    'page callback' => 'ding_spt_statistics_display',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_spt_statistics_date_picker_form'),
   );
 
   return $items;
@@ -83,19 +84,112 @@ function ding_spt_statistics_register($hostname) {
 }
 
 /**
- * Display statistics of the hits as a table.
+ * Form to select date ranges for statistics.
+ */
+function ding_spt_statistics_date_picker_form($form, &$form_state) {
+  $default_from = (isset($form_state['input']['date_from']) && !empty($form_state['input']['date_from']))
+    ? $form_state['input']['date_from']['date']
+    : 0;
+  $default_to = (isset($form_state['input']['date_to']) && !empty($form_state['input']['date_to']))
+    ? $form_state['input']['date_to']['date']
+    : 0;
+  $date_format = 'd-m-Y';
+
+  $form['date_picker'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Date range.'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+  );
+
+  $form['date_picker']['date_from'] = array(
+    '#type' => 'date_popup',
+    '#required' => TRUE,
+    '#title' => t('From'),
+    '#default_value' => $default_from,
+    '#date_format' => $date_format,
+    '#date_year_range' => '-3:+3',
+    '#datepicker_options' => array(
+    ),
+  );
+
+  $form['date_picker']['date_to'] = array(
+    '#type' => 'date_popup',
+    '#required' => TRUE,
+    '#title' => t('To'),
+    '#default_value' => $default_to,
+    '#date_format' => $date_format,
+    '#date_year_range' => '-3:+3',
+    '#datepicker_options' => array(
+    ),
+  );
+
+  $form['actions'] = array(
+    '#type' => 'actions',
+  );
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+
+  $statistics_data = ding_spt_statistics_display($default_from, $default_to);
+
+  $form['statistics'] = array(
+    '#type' => 'tableselect',
+    '#header' => $statistics_data['header'],
+    '#options' => $statistics_data['rows'],
+    '#empty' => t('No content available.'),
+  );
+
+  return $form;
+}
+
+/**
+ * Validation callback.
+ * @see ding_spt_statistics_date_picker_form().
+ */
+function ding_spt_statistics_date_picker_form_validate($form, &$form_state) {
+  $date_from = $form_state['values']['date_from'];
+  $date_to = $form_state['values']['date_to'];
+
+  $from_timestamp = strtotime($date_from);
+  $to_timestamp = strtotime($date_to);
+
+  $till_now_90_days = time() - 90 * 86400;
+
+  if ($from_timestamp > $to_timestamp) {
+    form_set_error('date_from', t('From date can\'t be later then to date.'));
+  }
+
+  if ($from_timestamp < $till_now_90_days) {
+    form_set_error('date_from', t('Statistics saved only for last 90n days.'));
+  }
+}
+
+/**
+ * Submit callback.
+ * @see ding_spt_statistics_date_picker_form().
+ */
+function ding_spt_statistics_date_picker_form_submit($form, &$form_state) {
+  $form_state['storage']['date_from'] = $form_state['values']['date_from'];
+  $form_state['storage']['date_to'] = $form_state['values']['date_to'];
+  $form_state['rebuild'] = TRUE;
+}
+
+/**
+ * Prepare table header and body for statistics page.
+ *
+ * @param int $from date
+ *
+ * @param int $to date
  *
  * @return string
  *   Themed table.
  */
-function ding_spt_statistics_display() {
+function ding_spt_statistics_display($from = 0, $to = 0) {
   $header = array(
     array('data' => t('Hostname'), 'field' => 'hostname', 'sort' => 'ASC'),
-    array('data' => t('Day'), 'field' => 'day'),
-    array('data' => t('Week'), 'field' => 'week'),
-    array('data' => t('Month'), 'field' => 'month'),
-    array('data' => t('3 Months'), 'field' => '3months'),
-    array('data' => t('All'), 'field' => 'count'),
+    array('data' => t('Hits'), 'field' => 'hits'),
   );
 
   // Get data from db.
@@ -107,13 +201,18 @@ function ding_spt_statistics_display() {
     ->limit(10);
 
   $query->leftJoin('ding_spt_hits', 'h', 's.hid = h.hid');
-  $query->fields('s', array('hostname', 'count'));
+  $query->fields('s', array('hostname'/*, 'count'*/));
+  $query->fields('h', array('accessed'));
 
-  $query->addExpression('SUM(CASE WHEN UNIX_TIMESTAMP(NOW()) - h.accessed < 86400 THEN 1 ELSE 0 END)', 'day');
-  $query->addExpression('SUM(CASE WHEN UNIX_TIMESTAMP(NOW()) - h.accessed < 7 * 86400 THEN 1 ELSE 0 END)', 'week');
-  $query->addExpression('SUM(CASE WHEN UNIX_TIMESTAMP(NOW()) - h.accessed < 30 * 86400 THEN 1 ELSE 0 END)', 'month');
-  $query->addExpression('SUM(CASE WHEN UNIX_TIMESTAMP(NOW()) - h.accessed < 90 * 86400 THEN 1 ELSE 0 END)', '3months');
+  if (!empty($from) && !empty($to)) {
+    $from = $from . ' 00:00:00';
+    $from_timestamp = strtotime($from);
+    $to = $to . ' 23:59:59';
+    $to_timestamp = strtotime($to);
+    $query->condition('h.accessed', array($from_timestamp, $to_timestamp), 'BETWEEN');
+  }
 
+  $query->addExpression('COUNT(h.accessed)', 'hits');
   $result = $query->execute()->fetchAllAssoc('hostname');
 
   // Build markup for the table.
@@ -121,18 +220,11 @@ function ding_spt_statistics_display() {
   foreach ($result as &$item) {
     $rows[] = array(
       $item->hostname,
-      $item->day,
-      $item->week,
-      $item->month,
-      $item->{'3months'},
-      $item->count,
+      $item->hits,
     );
   }
 
-  $output = theme('table', array('header' => $header, 'rows' => $rows));
-  $output .= theme('pager');
-
-  return $output;
+  return array('header' => $header, 'rows' => $rows);
 }
 
 /**
