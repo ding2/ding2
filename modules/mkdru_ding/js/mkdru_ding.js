@@ -1,7 +1,7 @@
 (function ($) {
   "use strict";
 
-  var mkdru = {};
+  var mkdru_ding = {};
 
   function get_advanced_search_params() {
     var query = window.location.search;
@@ -22,7 +22,7 @@
     return adv_q.join(' AND ');
   }
 
-  mkdru.search = function () {
+  mkdru_ding.search = function () {
     var filter = null;
     var limit = null;
     var limits = [];
@@ -69,6 +69,21 @@
     }
 
     query = query.join(" AND ");
+
+    // Filtering response by MKWS resources settings.
+    var resources = Drupal.settings.mkdru_mkws_sources;
+
+    if (resources.length !== 0) {
+      var out = 'pz:id=';
+      for (var resource in resources) {
+        out += resource;
+
+        if (resource !== resources.length - 1) {
+          out += '|';
+        }
+      }
+      filter = out;
+    }
 
     mkdru.pz2.search(query, mkdru.state.perpage,
       mkdru.sortOrder(), filter, null, {limit: limit});
@@ -230,6 +245,6 @@
 
   // pz2.js event handlers:
   mkdru.pz2Init = function () {
-    mkdru.search();
+    mkdru_ding.search();
   };
 })(jQuery);
