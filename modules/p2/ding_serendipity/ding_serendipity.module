@@ -934,7 +934,7 @@ function ding_serendipity_exclude(&$list, $excludes) {
 
   foreach ($list as $id => $item) {
     foreach ($excludes as $needle) {
-      if ($item["id"] == $needle) {
+      if (!empty($item["id"]) && $item["id"] == $needle) {
         unset($list[$id]);
       }
     }
