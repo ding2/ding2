@@ -64,7 +64,7 @@ function ding_list_user_list_ctools_access_check($conf, $context) {
   }
 
   // Prevent back button from displaying the pages.
-  if (user_is_logged_in()) {
+  if (arg(0) === 'list' && user_is_logged_in()) {
     drupal_add_http_header('Cache-Control', 'no-store, must-revalidate');
     drupal_add_http_header('Pragma', 'no-cache');
   }
