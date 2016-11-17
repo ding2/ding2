@@ -70,7 +70,7 @@ function ding_list_add_element_form($form, &$form_state, $type, $value, $title =
   $options = ding_list_get_add_to_list_data($type, $value);
   if (count($options) > 1) {
     $submit_title = $title;
-    
+
     $form['list'] = array(
       '#type' => 'select',
       '#options' => array(),
@@ -187,6 +187,8 @@ function ding_list_add_element_form_callback($form, &$form_state) {
  *   This is the existing ding_list object.
  */
 function ding_list_create_list_form($form, &$form_state, $existing = FALSE) {
+  global $user;
+
   if ($existing !== FALSE) {
     $form_state['existing'] = $existing->id;
 
@@ -232,7 +234,8 @@ function ding_list_create_list_form($form, &$form_state, $existing = FALSE) {
       '#value' => t('Save list'),
     );
 
-    if (ding_list_allowed($existing, DING_LIST_OPERATION_DELETE)) {
+    if (ding_list_allowed($existing, DING_LIST_OPERATION_DELETE)
+      && $existing->uid == $user->uid) {
       $form['actions']['delete_list'] = array(
         '#type' => 'submit',
         '#value' => t('Delete list'),
@@ -329,7 +332,7 @@ function ding_list_create_list_form_submit($form, &$form_state) {
       drupal_set_message(t("An error occurred, your list wasn't created. Please contact the administrator if this problem persists."), 'error');
       return;
     }
-    
+
     drupal_set_message(t(
         "You've create the list !list.<br/>Read more about how you use the lists !help",
         array(
@@ -401,7 +404,7 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
     'view' => t('Allow to view this list'),
     'edit' => t('Allow to view and edit this list'),
   );
-  
+
   $form['sharer']['permission'] = array(
     '#type' => 'select',
     '#title' => t('Select which type of access to share'),
@@ -457,7 +460,7 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
     foreach ($permissions as $permission) {
       $keys[] = $permission['target_id'];
     }
-    
+
     // Load all permission entities.
     $permissions = entity_load('ding_type', $keys);
     $form['mail_sharer']['shared'] = array(
@@ -489,7 +492,7 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
       $form['mail_sharer']['shared'][$permission->id]['user'] = array(
         '#markup' => $user_account->mail,
       );
-      
+
       $permission_options['remove'] = t('Revoke access to this list');
       $form['mail_sharer']['shared'][$permission->id]['permission'] = array(
         '#type' => 'select',
@@ -540,7 +543,7 @@ function theme_ding_list_shared_permissions_table($variables) {
 function ding_list_list_permissions_form_set_permission_callback($form, &$form_state) {
   // Get the permission entity id, from the triggering elements parents.
   // The array parents will look  like: ["mail_sharer", "shared", ID,
-  // "permission"]
+  // "permission"].
   $permission_id = array_slice($form_state['triggering_element']['#array_parents'], -2, 1);
   $permission_id = $permission_id[0];
   $entity = entity_load_single('ding_type', $permission_id);
@@ -588,7 +591,7 @@ function ding_list_list_permissions_form_state_callback($form, &$form_state) {
     'public' => t('Your list is now public. You can find it under !link', array('!link' => l(t('Public lists'), 'public-lists'))),
     'private' => t('Your list is now private.'),
   );
-  
+
   return theme('ding_list_permission_description', array('message' => $output[$form_state['values']['status']]));
 }
 
@@ -602,12 +605,12 @@ function ding_list_list_permissions_form_share_callback($form, &$form_state) {
     '#type' => 'ajax',
     '#commands' => array(),
   );
-  
+
   if (empty($form_state['values']['email'])) {
     $response['#commands'][] = ajax_command_ding_popup('ding_list', t('The emails field is required to send out invitations.'), t('No mails send.'));
     return $response;
   }
-  
+
   $list = $form_state['build_info']['args'][0];
 
   $uri = entity_uri('ding_type', $list);
@@ -616,9 +619,9 @@ function ding_list_list_permissions_form_share_callback($form, &$form_state) {
   $link = url($uri['path'], array('absolute' => TRUE, 'query' => array('token' => $token)));
 
   drupal_mail('ding_list', 'share', $form_state['values']['email'], $language, array(
-      'link' => $link,
-      'list' => $list,
-    ));
+    'link' => $link,
+    'list' => $list,
+  ));
 
   // Get generated message.
   $html = theme('ding_list_message', array('message' => t('Mail sent')));
