@@ -76,18 +76,18 @@ function ting_proxy(data, target) {
           out.target = data.hits[i].location[0]['@name'];
         }
 
-        out.title = (data.hits[i]['md-title'].length > 1)
-          ? data.hits[i]['md-title'].join(', ')
-          : data.hits[i]['md-title'];
+        out.title = (data.hits[i]['md-title'].length > 1) ?
+          data.hits[i]['md-title'].join(', ') :
+          data.hits[i]['md-title'];
 
         // Concatenate author names if more than one.
-        out.author = (typeof data.hits[i]['md-author'] !== 'undefined' && data.hits[i]['md-author'].length > 1)
-          ? data.hits[i]['md-author'].join(', ')
-          : data.hits[i]['md-author'];
+        out.author = (typeof data.hits[i]['md-author'] !== 'undefined' && data.hits[i]['md-author'].length > 1) ?
+          data.hits[i]['md-author'].join(', ') :
+          data.hits[i]['md-author'];
 
-        out.date = (typeof data.hits[i]['md-date'] !== 'undefined' && data.hits[i]['md-date'].length > 1)
-          ? data.hits[i]['md-date'].join(', ')
-          : data.hits[i]['md-date'];
+        out.date = (typeof data.hits[i]['md-date'] !== 'undefined' && data.hits[i]['md-date'].length > 1) ?
+          data.hits[i]['md-date'].join(', ') :
+          data.hits[i]['md-date'];
 
         if (data.hits[i]['md-electronic-url'] !== undefined) {
           url = data.hits[i]['md-electronic-url'][0];
@@ -137,18 +137,18 @@ function ting_proxy(data, target) {
           out.target = data.hits[i].location[0]['@name'];
         }
 
-        out.title = (data.hits[i]['md-title'].length > 1)
-          ? data.hits[i]['md-title'].join(', ')
-          : data.hits[i]['md-title'];
+        out.title = (data.hits[i]['md-title'].length > 1) ?
+          data.hits[i]['md-title'].join(', ') :
+          data.hits[i]['md-title'];
 
         // Concatenate author names if more than one.
-        out.author = (typeof data.hits[i]['md-author'] !== 'undefined' && data.hits[i]['md-author'].length > 1)
-          ? data.hits[i]['md-author'].join(', ')
-          : data.hits[i]['md-author'];
+        out.author = (typeof data.hits[i]['md-author'] !== 'undefined' && data.hits[i]['md-author'].length > 1) ?
+          data.hits[i]['md-author'].join(', ') :
+          data.hits[i]['md-author'];
 
-        out.date = (typeof data.hits[i]['md-date'] !== 'undefined' && data.hits[i]['md-date'].length > 1)
-          ? data.hits[i]['md-date'].join(', ')
-          : data.hits[i]['md-date'];
+        out.date = (typeof data.hits[i]['md-date'] !== 'undefined' && data.hits[i]['md-date'].length > 1) ?
+          data.hits[i]['md-date'].join(', ') :
+          data.hits[i]['md-date'];
 
         if (data.hits[i]['md-electronic-url'] !== undefined) {
           url = data.hits[i]['md-electronic-url'][0];

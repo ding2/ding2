@@ -93,13 +93,7 @@ var ding_mkws_queue = {
       "usesessions": false,
       "autoInit": false,
       "showtime": 500,
-      "onshow": onShowCallback,
-      "onstat": function (data) {
-      },
-      "onterm": function (data) {
-      },
-      "onrecord": function (data) {
-      }
+      "onshow": onShowCallback
     };
     ding_mkws.pz2 = new pz2(pz2Params);
     ding_mkws.pz2.showFastCount = 1;
