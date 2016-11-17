@@ -184,6 +184,12 @@ function ding_list_menu() {
     'page arguments' => array(2),
   ));
 
+  $items['ding-list/private-share-message/%'] = array_merge($edit_list_base, array(
+    'title' => 'Share message',
+    'page callback' => 'ding_list_private_share_message_callback',
+    'page arguments' => array(2),
+  ));
+
   return $items;
 }
 
@@ -804,7 +810,7 @@ function ding_list_get_taxonomy_term($id) {
  */
 function ding_list_mail($key, &$message, $params) {
   global $user;
-  
+
   switch ($key) {
     case 'share':
       $username = $user->name;
@@ -820,7 +826,7 @@ function ding_list_mail($key, &$message, $params) {
           $username = $data['display_name'];
         }
       }
-      
+
       $list = $params['list'];
       $message['subject'] = t('@user has shared a personal list with you at @library', array(
         '@user' => $username,
@@ -856,7 +862,7 @@ function ding_list_ding_interaction_view() {
     $interaction = array(
       '#theme' => 'ding_list_promote_lists',
     );
-    return drupal_render($interaction); 
+    return drupal_render($interaction);
   }
   return '';
 }
@@ -903,7 +909,7 @@ function ding_list_preprocess_views_view_table(&$vars) {
       foreach ($vars['result'] as $delta => $item) {
         $vars['field_attributes']['id'][$delta]['data-item-id'] = $item->id;
       }
-      
+
       $path = drupal_get_path('module', 'ding_list');
       drupal_add_tabledrag($table_id, 'order', 'sibling', 'views-field-delta');
       drupal_add_js($path . '/js/ding_list_tabledrag.js');
