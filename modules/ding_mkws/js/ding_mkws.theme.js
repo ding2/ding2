@@ -316,7 +316,7 @@ function ting_proxy(data, target) {
                 "<div class='left-label'>" +
                   "<p class='ding-mkws-author'>" +
                     Drupal.t('Author') +
-                    "</p>" +
+                  "</p>" +
                 "</div>" +
               "{{/if}}" +
               "{{if author}}" +
