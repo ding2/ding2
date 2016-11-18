@@ -290,15 +290,17 @@ function mkdru_ding_search_execute($keys = '', $conditions = NULL) {
   if (module_exists('ding_mkws')) {
     $mkws_settings = variable_get('ding_mkws_global', array());
 
-    $all_resources = $mkws_settings['resources']['values'];
+    if (!empty($mkws_settings)) {
+      $all_resources = $mkws_settings['resources']['values'];
 
-    $resources = array();
-    foreach ($all_resources as $key => $resource) {
-      if (!empty($resource)) {
-        $resources[$key] = $resource;
+      $resources = array();
+      foreach ($all_resources as $key => $resource) {
+        if (!empty($resource)) {
+          $resources[$key] = $resource;
+        }
       }
+      drupal_add_js(array('mkdru_mkws_sources' => $resources), array('type' => 'setting'));
     }
-    drupal_add_js(array('mkdru_mkws_sources' => $resources), array('type' => 'setting'));
   }
 
   drupal_add_js(
