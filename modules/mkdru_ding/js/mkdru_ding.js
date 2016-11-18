@@ -1,8 +1,6 @@
 (function ($) {
   "use strict";
 
-  var mkdru_ding = {};
-
   function get_advanced_search_params() {
     var query = window.location.search;
     if (query.length === 0) {
@@ -22,11 +20,28 @@
     return adv_q.join(' AND ');
   }
 
-  mkdru_ding.search = function () {
+  mkdru.search = function () {
     var filter = null;
     var limit = null;
     var limits = [];
     var filters = [];
+
+    // Filtering response by MKWS resources settings.
+    var resources = Drupal.settings.mkdru_mkws_sources;
+
+    if (resources.length !== 0) {
+      var out = 'pz:id=';
+      for (var resource in resources) {
+        out += resource;
+
+        if (resource !== resources.length - 1) {
+          out += '|';
+        }
+      }
+      filter = out;
+      filters.push(filter);
+    }
+
     // Prepare filter and limit parameters for pz2.search() call.
     for (var facet in mkdru.facets) {
       // Facet is limited.
@@ -40,8 +55,8 @@
             // Escape backslashes, commas, and pipes as per docs.
             var facetLimit = facetLimits[i];
             facetLimit = facetLimit.replace(/\\/g, '\\\\')
-              .replace(/,/g, '\\,')
-              .replace(/\|/g, '\\|');
+                .replace(/,/g, '\\,')
+                .replace(/\|/g, '\\|');
             limits.push(mkdru.facets[facet].pz2Name + '=' + facetLimit);
           }
         }
@@ -70,56 +85,32 @@
 
     query = query.join(" AND ");
 
-    // Filtering response by MKWS resources settings.
-    var resources = Drupal.settings.mkdru_mkws_sources;
-
-    if (resources.length !== 0) {
-      var out = 'pz:id=';
-      for (var resource in resources) {
-        out += resource;
-
-        if (resource !== resources.length - 1) {
-          out += '|';
-        }
-      }
-      filter = out;
-    }
-
-    mkdru.pz2.search(query, mkdru.state.perpage,
-      mkdru.sortOrder(), filter, null, {limit: limit});
+    mkdru.pz2.search(query, mkdru.state.perpage, mkdru.sortOrder(), filter, null, {limit: limit});
     mkdru.active = true;
   };
 
   mkdru.hashChange = function () {
-    // Return to top of page.
-    window.scrollTo(0, 0);
-    // Do we need to restart the search?
+    window.scrollTo(0,0);
+    // do we need to restart the search?
     var searchTrigger = false;
-    // Shallow copy of state so we can see what changed.
+    // shallow copy of state so we can see what changed.
     var oldState = $.extend({}, mkdru.state);
     mkdru.stateFromHash();
     mkdru.form.fromState();
-    // Only have to compare values since all keys are initialised.
+    // only have to compare values since all keys are initialised
     for (var key in mkdru.state) {
-      var changed = (mkdru.state[key] !== oldState[key]);
-      if ((key.substring(0, 5) === 'limit' || key.substring(0, 6) === 'filter') && changed) {
+      var changed = (mkdru.state[key] != oldState[key]);
+      if (key.substring(0,5) === 'limit' && changed)
         searchTrigger = true;
-      }
-      if (key === 'page' && changed) {
-        mkdru.pz2.showPage(mkdru.state.page - 1);
-      }
-      if (key === 'query' && changed) {
+      if (key === 'page' && changed)
+        mkdru.pz2.showPage(mkdru.state.page-1);
+      if (key === 'query' && changed)
         searchTrigger = true;
-      }
-      if (key === 'adv_query' && changed) {
-        searchTrigger = true;
-      }
     }
-    if (searchTrigger) {
+    if (searchTrigger)
       mkdru.search();
-    }
-    // Request for record detail.
-    if (mkdru.state.recid && (mkdru.state.recid !== oldState.recid)) {
+    // request for record detail
+    if (mkdru.state.recid && (mkdru.state.recid != oldState.recid)) {
       mkdru.pz2.record(mkdru.state.recid);
     }
     else {
@@ -245,6 +236,6 @@
 
   // pz2.js event handlers:
   mkdru.pz2Init = function () {
-    mkdru_ding.search();
+    mkdru.search();
   };
 })(jQuery);
