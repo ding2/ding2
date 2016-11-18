@@ -178,9 +178,9 @@ function ding_spt_statistics_date_picker_form_submit($form, &$form_state) {
  * Prepare table header and body for statistics page.
  *
  * @param int $from
- *  some date.
+ *   Some date.
  * @param int $to
- *  some date.
+ *   Some date.
  *
  * @return string
  *   Themed table.
