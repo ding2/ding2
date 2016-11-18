@@ -20,17 +20,16 @@ $zen-gutters:             20px;
     margin-bottom: 10px;
     margin-top: 10px;
   }
-  
-  .ding-mkws-content {
-    ul {
-      margin: 0;
-      padding: 0;
-    }
 
-    li {
+  .ding-mkws-content {
+    margin: 0;
+    padding: 0;
+
+    .ding-mkws-rows {
       margin-bottom: 10px;
       overflow: hidden;
-      padding: 10px 0;
+      height: auto;
+      padding-top: 10px;
 
       &:nth-child(even) {
         background-color: #f2f2f2;
@@ -40,8 +39,9 @@ $zen-gutters:             20px;
         background-color: #e8e8e8;
       }
 
-      .ding-mkws-header {
+      .left-label {
         @include zen-grid-item(4, 1);
+        width: 100px;
 
         .ding-mkws-target,
         .ding-mkws-name,
@@ -52,8 +52,9 @@ $zen-gutters:             20px;
         }
       }
 
-      .ding-mkws-values {
+      .right-value {
         @include zen-grid-item(8, 1, right);
+        width: 180px;
 
         .ding-mkws-target,
         .ding-mkws-title,
@@ -61,6 +62,16 @@ $zen-gutters:             20px;
         .ding-mkws-date {
           font-weight: normal;
         }
+
+        .ding-mkws-title {
+          display: inline-block;
+          height: auto;
+          white-space: inherit;
+        }
+      }
+
+      .row {
+        display: inline-block;
       }
 
       p {
@@ -68,7 +79,7 @@ $zen-gutters:             20px;
         padding: 0;
       }
 
-      p, a {
+      .right-value p, a {
         display: block;
         height: 22px;
         margin: 0 0 5px 0;
@@ -84,17 +95,21 @@ $zen-gutters:             20px;
   .ding-mkws-widget {
     overflow: hidden;
 
-    .ding-mkws-content li .ding-mkws-header {
+    .ding-mkws-content .left-label {
       @include zen-grid-item(3, 1);
+      width: 100px;
     }
 
-    .ding-mkws-content li .ding-mkws-values {
+    .ding-mkws-content .right-value {
       @include zen-grid-item(9, 1, right);
+      width: 180px;
     }
 
-    .ding-mkws-left {
+    .left-label {
       @include zen-grid-item(6, 1);
-      margin-left: -10px;
+      margin: 0;
+      padding: 0;
+      width: 100px;
 
       @include small-medium() {
         @include zen-grid-item(12, 1);
@@ -104,9 +119,11 @@ $zen-gutters:             20px;
       }
     }
 
-    .ding-mkws-rigt {
+    .right-value {
       @include zen-grid-item(6, 1, right);
-      margin-right: -10px;
+      margin: 0;
+      padding: 0;
+      width: 180px;
 
       @include small-medium() {
         @include zen-grid-item(12, 1);
@@ -134,9 +151,9 @@ $zen-gutters:             20px;
   margin-bottom: 20px;
 }
 
-.page-node .ding-campaign--content .ding-mkws-widget {
-  .ding-mkws-left,
-  .ding-mkws-rigt {
+.page-node .ding-campaign--content .ding-mkws-rows {
+  .left-label,
+  .right-value {
     @include zen-grid-item(12, 1);
 
     clear: both;

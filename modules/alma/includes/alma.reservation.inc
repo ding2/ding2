@@ -247,7 +247,7 @@ function alma_reservation_create($account, $id, $options = array(), $expiry = NU
     $int_per = variable_get('ding_reservation_disable_interest_date', '');
 
     // Interest period.
-    if ($int_per) {
+    if (empty($int_per)) {
       if (!isset($options['interest_period'])) {
         if (!isset($expiry)) {
           $interest_period = alma_reservation_default_interest_period($profile);
@@ -332,7 +332,7 @@ function alma_reservation_update($account, $ids, $options) {
   // Processing IDs. If at least one is updated, return true.
   foreach ($ids as $id) {
     if (isset($reservations[$id])) {
-      $expiry_date = !empty($options['interest_period']) ? alma_reservation_format_date(strtotime($reservations[$id]['valid_from']) + $options['interest_period'] * 86400) : $reservations[$id]['valid_to'];
+      $expiry_date = !empty($options['interest_period']) ? alma_reservation_format_date(strtotime(date(ALMA_DATE)) + $options['interest_period'] * 86400) : $reservations[$id]['valid_to'];
       $pickup_branch = !empty($options['alma_preferred_branch']) ? $options['alma_preferred_branch'] : $reservations[$id]['pickup_branch'];
       $changes = array(
         'valid_to' => $expiry_date,

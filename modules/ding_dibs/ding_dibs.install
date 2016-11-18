@@ -1,4 +1,38 @@
 <?php
+/**
+ * @file
+ * Ding Dibs install.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ding_dibs_schema() {
+  $schema['ding_dibs_report_cron'] = array(
+    'description' => 'Report cron table.',
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Id record',
+      ),
+      'time_start' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'description' => 'The start time cron mailing unicode format',
+      ),
+      'status' => array(
+        'type' => 'varchar',
+        'length' => 32,
+        'default' => '',
+        'description' => '0 - sending not successful 1 - successful sending',
+      ),
+    ),
+    'primary key' => array('id'),
+  );
+  return $schema;
+}
 
 /**
  * Implements hook_install().
@@ -20,7 +54,7 @@ function ding_dibs_install() {
     'length' => 1,
     'size' => 'tiny',
     'default' => 0,
-    'description' => '0 = payment not recieved, 1 = payment recieved',
+    'description' => '0 = payment not received, 1 = payment received',
   ));
 
   db_add_field('dibs_transactions', 'dibs_capture_status', array(
@@ -30,18 +64,54 @@ function ding_dibs_install() {
     'default' => 0,
     'description' => '0 = capture failed, 1 = capture succeeded',
   ));
+  variable_set('ding_dibs_start_cron_hour', 2);
+
+  // Adding ding_dibs mail to be processed in HTMLMailSystem format by mail system.
+  $mail_settings = variable_get('mail_system', array());
+  $mail_settings['ding_dibs_ding_dibs_report'] = "HTMLMailSystem";
+  variable_set('mail_system', $mail_settings);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ding_dibs_uninstall() {
+  // Removing variables.
+  $variables = array(
+    'ding_dibs_start_cron_hour',
+    'ding_dibs_last_cron',
+    'ding_dibs_start_cron_minute',
+    'ding_dibs_emails_validate',
+  );
+  foreach ($variables as $value) {
+    variable_del($value);
+  }
+
+  // Removing ding_dibs record from order settings.
+  db_delete('dibs_order_id_settings')
+    ->condition('api_module', 'ding_dibs', '=')
+    ->execute();
+
+  // Delete fields added by ding_dibs.
+  $fields = array('provider_payment_status', 'dibs_capture_status');
+  foreach ($fields as $field) {
+    db_drop_field('dibs_transactions', $field);
+  }
+
+  // Drop schema.
+  drupal_uninstall_schema('ding_dibs');
 }
 
 /**
  * Add column for storing provider payment status and DIBS capture status.
  */
-function ding_dibs_update_7000(&$sandbox) {
+function ding_dibs_update_7000() {
   db_add_field('dibs_transactions', 'provider_payment_status', array(
     'type' => 'int',
     'length' => 1,
     'size' => 'tiny',
     'default' => 0,
-    'description' => t('0 = payment not recieved, 1 = payment recieved'),
+    'description' => t('0 = payment not received, 1 = payment received'),
   ));
 
   db_add_field('dibs_transactions', 'dibs_capture_status', array(
@@ -51,4 +121,22 @@ function ding_dibs_update_7000(&$sandbox) {
     'default' => 0,
     'description' => t('0 = capture failed, 1 = capture succeeded'),
   ));
+}
+
+/**
+ * Add column for storing provider payment status and DIBS capture status.
+ */
+function ding_dibs_update_7001() {
+  if (!db_table_exists('ding_dibs_report_cron')) {
+    drupal_install_schema('ding_dibs');
+  }
+}
+
+/**
+ * Adding ding_dibs mail to be processed in HTMLMailSystem format by mail system.
+ */
+function ding_dibs_update_7002() {
+  $mail_settings = variable_get('mail_system', array());
+  $mail_settings['ding_dibs_ding_dibs_report'] = "HTMLMailSystem";
+  variable_set('mail_system', $mail_settings);
 }

@@ -31,6 +31,7 @@ dependencies[] = strongarm
 dependencies[] = text
 dependencies[] = views
 dependencies[] = views_content
+dependencies[] = metatag_panels
 features[ctools][] = field_group:field_group:1
 features[ctools][] = page_manager:pages_default:1
 features[ctools][] = strongarm:strongarm:1

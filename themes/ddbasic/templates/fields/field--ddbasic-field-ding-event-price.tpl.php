@@ -38,5 +38,4 @@
  * @see template_preprocess_field()
  * @see theme_field()
  */
-$price = (intval($element['#items'][0]['value']) < 1) ? t('Free') : $element[0]['#markup'];
-print $price;
+print render($items);

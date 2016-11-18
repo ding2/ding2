@@ -55,8 +55,8 @@
             // Escape backslashes, commas, and pipes as per docs.
             var facetLimit = facetLimits[i];
             facetLimit = facetLimit.replace(/\\/g, '\\\\')
-                .replace(/,/g, '\\,')
-                .replace(/\|/g, '\\|');
+              .replace(/,/g, '\\,')
+              .replace(/\|/g, '\\|');
             limits.push(mkdru.facets[facet].pz2Name + '=' + facetLimit);
           }
         }

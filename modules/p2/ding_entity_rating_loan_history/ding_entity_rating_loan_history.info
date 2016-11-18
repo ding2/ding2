@@ -5,7 +5,6 @@ core = 7.x
 
 dependencies[] = ding_entity_rating
 dependencies[] = ding_user_consent
-dependencies[] = ding_interests
 dependencies[] = ding_loan
 dependencies[] = ting
 dependencies[] = ting_carousel

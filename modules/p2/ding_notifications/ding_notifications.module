@@ -26,5 +26,5 @@ function ding_notifications_clear_cache($account = NULL) {
     $account = $user;
   }
   
-  return cache_clear_all(DING_NOTIFICATIONS_CACHE_PREFIX . ':' . $user->uid);
+  return cache_clear_all(DING_NOTIFICATIONS_CACHE_PREFIX . ':' . $account->uid, 'cache');
 }

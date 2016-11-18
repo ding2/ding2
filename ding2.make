@@ -7,8 +7,11 @@ defaults[projects][subdir] = "contrib"
 projects[addressfield][subdir] = "contrib"
 projects[addressfield][version] = "1.0-beta5"
 
+projects[admin_menu][subdir] = "contrib"
+projects[admin_menu][version] = "3.0-rc5"
+
 projects[admin_views][subdir] = "contrib"
-projects[admin_views][version] = "1.4"
+projects[admin_views][version] = "1.6"
 
 projects[apc][subdir] = "contrib"
 projects[apc][version] = "1.0-beta4"
@@ -74,6 +77,9 @@ projects[entityreference][version] = "1.1"
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
 
+projects[environment_indicator][subdir] = "contrib"
+projects[environment_indicator][version] = "2.8"
+
 projects[expire][subdir] = "contrib"
 projects[expire][version] = "2.0-rc4"
 
@@ -125,6 +131,9 @@ projects[globalredirect][patch][] = "http://drupal.org/files/language_redirect_v
 projects[google_analytics][subdir] = "contrib"
 projects[google_analytics][version] = "1.3"
 
+projects[htmlmail][subdir] = "contrib"
+projects[htmlmail][version] = "2.65"
+
 projects[honeypot][subdir] = "contrib"
 projects[honeypot][version] = "1.21"
 
@@ -166,6 +175,9 @@ projects[i18n][version] = "1.11"
 projects[manualcrop][subdir] = "contrib"
 projects[manualcrop][version] = "1.5"
 
+projects[mailsystem][subdir] = "contrib"
+projects[mailsystem][version] = "2.34"
+
 projects[maintenance_mode_api][subdir] = "contrib"
 projects[maintenance_mode_api][version] = "1.0-beta1"
 
@@ -189,7 +201,7 @@ projects[media_youtube][download][revision] = "ca46aba"
 projects[media_youtube][patch][] = "http://drupal.org/files/issues/provide-access-wrapper-1823376-6.patch"
 
 projects[memcache][subdir] = "contrib"
-projects[memcache][version] = "1.0"
+projects[memcache][version] = "1.5"
 
 ; Get a this special version that has support for features export.
 projects[menu_block][type] = "module"
@@ -210,6 +222,9 @@ projects[message][version] = "1.10"
 
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] "1.10"
+
+projects[mmeu][subdir] = "contrib"
+projects[mmeu][version] = "1.0"
 
 projects[mkdru][subdir] = "contrib"
 projects[mkdru][version] "1.7"
@@ -259,6 +274,9 @@ projects[opening_hours][patch][] = "http://www.drupal.org/files/issues/Issue620-
 ; Support series longer than a year.
 ; https://www.drupal.org/node/2194867
 projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/opening_hours-2194867-D7.patch"
+; Add "hide if empty" option to field settings.
+; https://www.drupal.org/node/2820005
+projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/opening-hours-2820005-hide-field-if-empty.patch"
 
 projects[override_node_options][subdir] = "contrib"
 projects[override_node_options][version] = "1.13"
@@ -319,6 +337,9 @@ projects[secure_permissions][patch][] = "http://drupal.org/files/issues/secure_p
 
 projects[services][subdir] = "contrib"
 projects[services][version] = "3.14"
+
+projects[services_views][subdir] = "contrib"
+projects[services_views][version] = "1.1"
 
 projects[search_api][subdir] = "contrib"
 projects[search_api][version] = "1.16"
@@ -389,7 +410,10 @@ projects[workbench][subdir] = "contrib"
 projects[workbench][version] = "1.2"
 
 projects[workflow][subdir] = "contrib"
-projects[workflow][version] = "2.7"
+projects[workflow][version] = "2.5"
+projects[workflow][patch][] = "http://www.drupal.org/files/issues/features_import-2484297-10.patch"
+; Prevent fatal errors on cron when using Scheduler, https://www.drupal.org/node/2499193.
+projects[workflow][patch][] = "https://www.drupal.org/files/issues/workflow-php_fatal_error_call-2499193-7-2.5.patch"
 
 ; This revision support the CKEditor 4.x, and can be used until a new version is tagged.
 projects[wysiwyg][type] = "module"
@@ -402,7 +426,7 @@ projects[ask_vopros][type] = "module"
 projects[ask_vopros][subdir] = "contrib"
 projects[ask_vopros][download][type] = "git"
 projects[ask_vopros][download][url] = "git@github.com:vopros-dk/ask_vopros.git"
-projects[ask_vopros][download][tag] = "1.4"
+projects[ask_vopros][download][tag] = "1.5"
 
 projects[xautoload][subdir] = "contrib"
 projects[xautoload][version] = "5.7"
@@ -411,7 +435,7 @@ projects[xautoload][version] = "5.7"
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
 libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
-libraries[bpi-client][download][branch] = "master"
+libraries[bpi-client][download][tag] = "7.x-3.0.0-rc2"
 
 libraries[ckeditor][download][type] = "get"
 libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.7/ckeditor_4.4.7_full.zip
@@ -451,7 +475,7 @@ libraries[psr7][destination] = "libraries"
 
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
-libraries[ting-client][download][branch] = "master"
+libraries[ting-client][download][tag] = "7.x-3.0.0-rc2"
 libraries[ting-client][destination] = "modules/ting/lib"
 
 libraries[zen-grids][download][type] = "git"
