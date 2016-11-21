@@ -34,7 +34,6 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
         DING_LIST_TYPE_SPECIAL_RESERVATIONS_READY => array(),
         DING_LIST_TYPE_SPECIAL_RESERVATIONS => array(),
         DING_LIST_TYPE_SPECIAL_LOANS => array(),
-        DING_LIST_TYPE_LOAN_HISTORY => array(),
       ),
     ),
     'userlists' => array(
@@ -51,6 +50,10 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
       'sort' => 'ding_list_custom_sort_changed',
     ),
   );
+
+  if (variable_get('user_consent_activate')) {
+    $groups['specials']['lists'][DING_LIST_TYPE_LOAN_HISTORY] = array();
+  }
 
   $lists = ding_list_get_lists(NULL, $account);
   if ($lists !== FALSE) {
