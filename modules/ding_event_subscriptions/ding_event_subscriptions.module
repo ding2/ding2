@@ -147,9 +147,13 @@ function theme_ding_event_subscriptions_ics(&$variables) {
   foreach ($events as $event) {
     // Body/description processing.
     $body = field_get_items('node', $event, 'field_ding_event_body');
-    $body = trim(render(field_view_value('node', $event, 'field_ding_event_body', $body[0])));
+    if ($body) {
+      $body = trim(render(field_view_value('node', $event, 'field_ding_event_body', $body[0])));
+    }
     $teaser = field_get_items('node', $event, 'field_ding_event_lead');
-    $teaser = trim(render(field_view_value('node', $event, 'field_ding_event_lead', $teaser[0])));
+    if ($teaser) {
+      $teaser = trim(render(field_view_value('node', $event, 'field_ding_event_lead', $teaser[0])));
+    }
     $body = drupal_html_to_text("{$teaser} {$body}");
 
     // Price processing.
@@ -164,7 +168,7 @@ function theme_ding_event_subscriptions_ics(&$variables) {
 
     // Location processing.
     $location = field_get_items('node', $event, 'field_ding_event_location');
-    $location = implode(',', array_filter($location[0]));
+    $location = implode('; ', array_filter($location[0]));
 
     // UID processing.
     $uid = uniqid();
