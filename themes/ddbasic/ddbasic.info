@@ -108,6 +108,8 @@
 
   scripts[] = scripts/ting-object/ting-object.js
 
+  scripts[] = scripts/rs-carousel/rs-carousel.js
+
   scripts[] = scripts/view.js
 
 
