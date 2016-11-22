@@ -97,8 +97,14 @@ projects[fences][subdir] = "contrib"
 projects[fences][version] = "1.0"
 projects[fences][patch][0] = "http://drupal.org/files/field_for_wrapper_css_class-1679684-3.patch"
 
+projects[field_collection][subdir] = "contrib"
+projects[field_collection][version] = "1.0-beta11"
+
 projects[field_group][subdir] = "contrib"
 projects[field_group][version] = "1.1"
+
+projects[field_slideshow][subdir] = "contrib"
+projects[field_slideshow][version] = "1.82"
 
 projects[file_entity][subdir] = "contrib"
 projects[file_entity][version] = "2.0-alpha3"
@@ -488,4 +494,9 @@ libraries[jquery.imgareaselect][destination] = "libraries"
 libraries[jquery.imagesloaded][download][type] = "get"
 libraries[jquery.imagesloaded][download][url] = https://github.com/desandro/imagesloaded/archive/v2.1.2.tar.gz
 libraries[jquery.imagesloaded][directory_name] = "jquery.imagesloaded"
+libraries[jquery.imagesloaded][destination] = "libraries"
+
+libraries[jquery.imagesloaded][download][type] = "get"
+libraries[jquery.imagesloaded][download][url] = https://github.com/malsup/cycle/archive/3.0.3.zip
+libraries[jquery.imagesloaded][directory_name] = "jquery.cycle"
 libraries[jquery.imagesloaded][destination] = "libraries"
