@@ -234,13 +234,17 @@ function ding_list_create_list_form($form, &$form_state, $existing = FALSE) {
       '#value' => t('Save list'),
     );
 
-    if (ding_list_allowed($existing, DING_LIST_OPERATION_DELETE)
-      && $existing->uid == $user->uid) {
+    if (ding_list_allowed($existing, DING_LIST_OPERATION_DELETE)) {
       $form['actions']['delete_list'] = array(
         '#type' => 'submit',
         '#value' => t('Delete list'),
-        '#submit' => array('ding_list_create_list_form_submit_delete'),
       );
+      if ($existing->uid == $user->uid) {
+        $form['actions']['delete_list']['#submit'] = array('ding_list_create_list_form_submit_delete');
+      }
+      else {
+        $form['actions']['delete_list']['#submit'] = array('ding_list_create_list_form_submit_delete_share');
+      }
     }
   }
   else {
@@ -303,6 +307,16 @@ function ding_list_create_list_form_submit_delete($form, &$form_state) {
 
   $list = ding_list_get_list($form_state['existing']);
   ding_list_delete_list($list);
+
+  $form_state['redirect'] = 'user/' . $GLOBALS['user']->uid . '/dinglists';
+}
+
+/**
+ * Remove share from list.
+ */
+function ding_list_list_permissions_form_unfollow_shared($form, &$form_state) {
+  $permission = ding_list_get_permission($form_state['build_info']['args'][0]);
+  ding_list_remove_permission($permission);
 
   $form_state['redirect'] = 'user/' . $GLOBALS['user']->uid . '/dinglists';
 }
@@ -372,6 +386,16 @@ function ding_list_create_list_form_submit($form, &$form_state) {
  * This is a pure ajax interface form.
  */
 function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
+  if (!ding_list_user_has_access($list, 'owner')) {
+    $form['unfollow_shared'] = array(
+      '#type' => 'submit',
+      '#value' => t('Unfollowed shared list'),
+      '#submit' => array('ding_list_list_permissions_form_unfollow_shared'),
+    );
+
+    return $form;
+  }
+
   // Get the status options from the field_ding_list_status allowed values.
   $status = field_info_field('field_ding_list_status');
   $status = $status['settings']['allowed_values'];

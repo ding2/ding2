@@ -57,11 +57,18 @@ function ding_list_list_menu_content_type_render($subtype, $conf, $panel_args, $
         'html' => TRUE,
       );
     }
-    if (ding_list_user_has_access($list, 'owner', $user)
-        && ding_list_allowed($list, DING_LIST_OPERATION_SHARE)) {
+
+    if (ding_list_allowed($list, DING_LIST_OPERATION_SHARE)) {
+      if (ding_list_user_has_access($list, 'owner', $user)) {
+        $title = t('Share list');
+      }
+      else {
+        $title = t('Unfollow list');
+      }
+
       $block->content['#links']['share'] = array(
         'href' => $uri['path'] . '/share',
-        'title' => t('Share list'),
+        'title' => $title,
         'attributes' => array('class' => array('menu-item')),
         'html' => TRUE,
       );
