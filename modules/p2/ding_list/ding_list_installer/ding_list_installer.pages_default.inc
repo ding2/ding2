@@ -293,7 +293,7 @@ function ding_list_installer_default_page_manager_pages() {
       0 => array(
         'name' => 'user_list',
         'settings' => array(
-          'visibility_settings' => 'owner',
+          'visibility_settings' => 'view',
         ),
         'context' => array(
           0 => 'logged-in-user',
@@ -336,19 +336,7 @@ function ding_list_installer_default_page_manager_pages() {
     'contexts' => array(),
     'relationships' => array(),
     'access' => array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'user_list',
-          'settings' => array(
-            'visibility_settings' => 'edit',
-          ),
-          'context' => array(
-            0 => 'logged-in-user',
-            1 => 'argument_entity_id:ding_type_1',
-          ),
-          'not' => FALSE,
-        ),
-      ),
+      'plugins' => array(),
       'logic' => 'and',
     ),
   );
