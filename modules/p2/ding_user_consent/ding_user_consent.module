@@ -408,8 +408,6 @@ function ding_user_consent_ding_interaction_info() {
     && !ding_user_consent_has_consent(DING_USER_CONSENT_LOAN_HISTORY_STORE)
     && !ding_user_consent_previously_displayed($user);
 
-  $active = TRUE;
-
   return array(
     'title' => t('Storage of your loan history'),
     'description' => t("Promote the load history 30+ storage to users not already using the feature"),
