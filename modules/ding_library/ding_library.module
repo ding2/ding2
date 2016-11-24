@@ -406,3 +406,14 @@ function ding_library_node_delete($node) {
     nodequeue_subqueue_remove_node($sub_queue->sqid, $node->nid);
   }
 }
+
+/**
+ * Implements hook_field_extra_fields_display_alter().
+ */
+function ding_library_field_extra_fields_display_alter(&$displays, $context) {
+  if ($context['entity_type'] == 'node' && $context['bundle'] == 'ding_library' && $context['view_mode'] == 'search_result') {
+    if (isset($displays['opening_hours_week'])) {
+      $displays['opening_hours_week']['visible'] = FALSE;
+    }
+  }
+}
