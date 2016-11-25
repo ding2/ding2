@@ -197,6 +197,11 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
             ':input[name="field_place2book[und][place2book][synchronize]"]' => array('checked' => TRUE),
           ),
         ),
+        '#attached' => array(
+          'css' => array(
+            drupal_get_path('module', 'ding_place2book') . '/css/ding_place2book_fields.css',
+          ),
+        ),
       );
 
       if (!isset($form_state['prices_count'])) {
