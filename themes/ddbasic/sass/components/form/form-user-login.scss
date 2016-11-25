@@ -72,20 +72,13 @@
       @include button(nemid, $charcoal-opacity-dark, $grey-medium);
     }
   }
-  .form-links {
+  .sign-up-link {
     clear: both;
-    ul {
-      margin: 0;
-      list-style: none;
-      li {
-        float: right;
-        margin: 0;
-        a {
-          color: $charcoal-opacity-dark;
-          &:hover {
-            color: $color-text;
-          }
-        }
+    a {
+      float: right;
+      color: $charcoal-opacity-dark;
+      &:hover {
+        color: $color-text;
       }
     }
   }

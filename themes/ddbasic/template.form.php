@@ -101,9 +101,11 @@ function ddbasic_form_user_login_block_alter(&$form, &$form_state, $form_id) {
   $form['pass']['#attributes']['placeholder'] = t('Pincode (4 digits)');
 
   unset($form['links']);
-  //$form['links']['#weight'] = 9999;
-  //$form['links']['#prefix'] = '<div class="form-links">';
-  //$form['links']['#suffix'] = '</div></div>';
+
+  $form['sign_up_link']['#markup'] = l(t('Register as a user'), $user_signup_link, array('external' => TRUE));
+  $form['sign_up_link']['#weight'] = 9999;
+  $form['sign_up_link']['#prefix'] = '<div class="sign-up-link">';
+  $form['sign_up_link']['#suffix'] = '</div>';
 
   $form['actions']['submit']['#prefix'] = '<div class="submit-button-with-icon"><div class="color-and-icon"></div>';
   $form['actions']['submit']['#suffix'] = '</div>';
@@ -150,9 +152,11 @@ function ddbasic_form_user_login_alter(&$form, &$form_state, $form_id) {
   $form['pass']['#attributes']['placeholder'] = t('Pincode (4 digits)');
 
   unset($form['links']);
-  //$form['links']['#weight'] = 9999;
-  //$form['links']['#prefix'] = '<div class="form-links">';
-  //$form['links']['#suffix'] = '</div></div>';
+
+  $form['sign_up_link']['#markup'] = l(t('Register as a user'), $user_signup_link, array('external' => TRUE));
+  $form['sign_up_link']['#weight'] = 9999;
+  $form['sign_up_link']['#prefix'] = '<div class="sign-up-link">';
+  $form['sign_up_link']['#suffix'] = '</div>';
 
   $form['actions']['submit']['#prefix'] = '<div class="submit-button-with-icon"><div class="color-and-icon"></div>';
   $form['actions']['submit']['#suffix'] = '</div>';
