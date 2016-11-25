@@ -404,7 +404,7 @@ function ding_reservation_reserve_form_submit($form, &$form_state) {
         // by ":", so I had to clear and explode this.
         $clear = preg_replace('/(-)/i', '', $provider_id);
         $exploded = explode(':', $clear);
-        if (count($exploded) > 1) {
+        if (count($exploded) > 1 && isset($exploded[3]) && is_numeric($exploded[3])) {
           $ting_object = ding_entity_load(ding_provider_build_entity_id($exploded[3]));
           $reservable_title = htmlspecialchars_decode($ting_object->getTitle());
         }
