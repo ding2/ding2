@@ -386,7 +386,7 @@ function ding_serendipity_validate_materials(array $keys) {
   // Lookup the materials in Broenden to filter out local missing materials.
   $query = implode(" OR ", $keys);
   try {
-    $result = ding_serendipity_do_search($query,array('limit' => 1024));
+    $result = ding_serendipity_do_search($query, array('limit' => 1024));
   }
   catch (Exception $e) {
     watchdog_exception('ding_serendipity_sanitize', $e);
