@@ -57,6 +57,17 @@ function ding_list_user_list_ctools_access_check($conf, $context) {
 
   $token = isset($_GET['token']) ? $_GET['token'] : FALSE;
 
+  if ($token === FALSE) {
+    // Try to get the token from the destination.
+    $destination = drupal_get_destination();
+    if (!empty($destination['destination'])) {
+      $destination = drupal_parse_url($destination['destination']);
+      if (isset($destination['query']['token'])) {
+        $token = $destination['query']['token'];
+      }
+    }
+  }
+
   $result = ding_list_user_has_access($list, $conf['visibility_settings'], $account, $token);
 
   if (!$result) {
