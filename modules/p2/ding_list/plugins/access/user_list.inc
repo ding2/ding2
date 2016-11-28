@@ -74,6 +74,12 @@ function ding_list_user_list_ctools_access_check($conf, $context) {
     drupal_set_message(t('The list is no longer public or shared.'));
   }
 
+  // Prevent back button from displaying the pages.
+  if (arg(0) === 'list' && user_is_logged_in()) {
+    drupal_add_http_header('Cache-Control', 'no-store, must-revalidate');
+    drupal_add_http_header('Pragma', 'no-cache');
+  }
+
   return $result;
 }
 
