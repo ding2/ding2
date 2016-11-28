@@ -344,7 +344,7 @@ function ding_serendipity_fetch(array $context = NULL) {
   $keys = ding_serendipity_validate_materials($keys);
 
   foreach ($results['items'] as $key => $item) {
-    if (!in_array($item['id'],$keys)) {
+    if (!in_array($item['id'], $keys)) {
       unset($results['items'][$key]);
     }
   }
@@ -370,20 +370,21 @@ function ding_serendipity_fetch(array $context = NULL) {
 
 /**
  * Remove invalid materials from keys.
+ *
  * Invalid keys may appear when materials are removed from Broenden
  * or if cross library serendipity is introduced.
  *
  * @param array $keys
  *   Array of material ids.
  */
-function ding_serendipity_validate_materials($keys) {
+function ding_serendipity_validate_materials(array $keys) {
 
   if (empty($keys)) {
     return $keys;
   }
 
   // Lookup the materials in Broenden to filter out local missing materials.
-  $query = implode(" OR ",$keys);
+  $query = implode(" OR ", $keys);
   try {
     $result = ding_serendipity_do_search($query,array('limit' => 1024));
   }
