@@ -402,6 +402,7 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
   $form['status'] = array(
     '#type' => 'select',
     '#title' => t('Status'),
+    '#description' => t('Please note: When you share a list, your name will be displayed with the list.'),
     '#options' => $status,
     '#default_value' => ding_base_get_value('ding_type', $list, 'field_ding_list_status', 'value', 'private'),
     '#ajax' => array(
