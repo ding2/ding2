@@ -679,7 +679,12 @@ function ding_list_list_username($list) {
  * @return bool|object
  *   The permissions entity for the user, or FALSE if there's no permission.
  */
-function ding_list_get_permission($list, $account) {
+function ding_list_get_permission($list, $account = NULL) {
+  if ($account === NULL) {
+    global $user;
+    $account = $user;
+  }
+
   $query = db_select('eck_ding_type', 'edt')->fields('edt', array('id'))->condition('edt.type', 'permission');
 
   $query->join('field_data_field_ding_list_permissions', 'fdlps', 'fdlps.field_ding_list_permissions_target_id = edt.id');
