@@ -615,18 +615,15 @@ function ding_list_preprocess_entity(&$variables) {
           $variables['url'] = FALSE;
         }
 
-        // Add author to titles of lists, the user don't own.
-        if ($variables['ding_type']->uid != $user->uid) {
-          $username = ding_list_list_username($variables['ding_type']);
-          if ($username) {
-            $variables['title'] = t('@list_title, By @list_author', array(
-              '@list_title' => $variables['title'],
-              '@list_author' => $username,
-            ));
-          }
+        $username = ding_list_list_username($variables['ding_type']);
+        if ($username) {
+          $variables['title'] = t('@list_title, By @list_author', array(
+            '@list_title' => $variables['title'],
+            '@list_author' => $username,
+          ));
         }
-        $objects = ding_base_get_items('ding_type', $variables['ding_type'], 'field_list_objects');
 
+        $objects = ding_base_get_items('ding_type', $variables['ding_type'], 'field_list_objects');
         switch ($variables['view_mode']) {
           case 'carousel':
             $ids = array();
