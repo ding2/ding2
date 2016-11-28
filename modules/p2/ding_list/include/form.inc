@@ -399,6 +399,12 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
   // Get the status options from the field_ding_list_status allowed values.
   $status = field_info_field('field_ding_list_status');
   $status = $status['settings']['allowed_values'];
+
+  // Translate the allowed values.
+  foreach ($status as $key => &$value) {
+    $value = i18n_string('field:field_ding_list_status:#allowed_values:' . $key, $value);
+  }
+
   $form['status'] = array(
     '#type' => 'select',
     '#title' => t('Status'),
