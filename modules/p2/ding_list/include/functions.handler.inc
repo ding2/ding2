@@ -218,7 +218,7 @@ function ding_list_create_ding_list_element(&$list, $type, array $values, $accou
 function ding_list_create_ding_list($title, $type = DING_LIST_TYPE_USER_LIST, $account = NULL, $more = NULL, $openlist_id = NULL, $fields = array()) {
   $list = entity_create('ding_type', array(
     'type' => 'ding_list',
-    'title' => check_plain($title),
+    'title' => $title,
   ));
 
   // The entity_create automatically set the entity uid to the current user so
@@ -319,7 +319,7 @@ function ding_list_edit_ding_list(&$list, $title, $more = NULL, $tell_openlist =
     return $list;
   }
 
-  $list->title = check_plain($title);
+  $list->title = $title;
 
   if ($more !== NULL) {
     $list->more = $more;
