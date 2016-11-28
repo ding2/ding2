@@ -808,6 +808,12 @@ function ding_list_user_has_access($list, $permission = DING_LIST_PERMISSION_VIE
     return $access[$access_key];
   }
 
+  if (ding_base_get_value('ding_type', $list, 'field_list_type') == DING_LIST_TYPE_LOAN_HISTORY
+      && !variable_get('user_consent_activate')) {
+    $access[$access_key] = FALSE;
+    return $access[$access_key];
+  }
+
   if ($account === NULL) {
     global $user;
     $account = $user;
