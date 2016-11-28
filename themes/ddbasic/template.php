@@ -265,8 +265,9 @@ function ddbasic_preprocess_views_view_field(&$vars) {
   $field = $vars['field'];
 
   if (isset($field->field_info) && $field->field_info['field_name'] == 'field_ding_event_price') {
+    $ding_event_price = intval($vars['output']);
     // Show "Free" text if ding_event_price is empty or zero.
-    if (empty(intval($vars['output']))) {
+    if (empty($ding_event_price)) {
       $vars['output'] = t('Free');
     }
   }
