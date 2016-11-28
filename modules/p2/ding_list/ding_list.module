@@ -184,6 +184,12 @@ function ding_list_menu() {
     'page arguments' => array(2),
   ));
 
+  $items['ding-list/private-share-message/%'] = array_merge($edit_list_base, array(
+    'title' => 'Share message',
+    'page callback' => 'ding_list_private_share_message_callback',
+    'page arguments' => array(2),
+  ));
+
   return $items;
 }
 
