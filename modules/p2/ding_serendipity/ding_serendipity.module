@@ -335,7 +335,21 @@ function ding_serendipity_fetch(array $context = NULL) {
     }
     $results['items'] = array_merge($results['items'], $weight_results);
   }
+  
+  // Validate results with local Broend, remove missing items.
+  $keys = array();
+  foreach ($results['items'] as $key => $item) {
+    $keys[] = $item['id'];
+  }
 
+  $keys = ding_serendipity_validate_materials($keys);
+
+  foreach ($results['items'] as $key => $item) {
+    if (!in_array($item['id'], $keys)) {
+      unset($results['items'][$key]);
+    }
+  }
+      
   // Allow for alteration of the results.
   // Removing items are recommended in this hook.
   drupal_alter('ding_serendipity_results', $results, $context);
@@ -352,6 +366,39 @@ function ding_serendipity_fetch(array $context = NULL) {
   }
 
   return $results;
+}
+
+
+/**
+ * Remove invalid materials from keys.
+ *
+ * Invalid keys may appear when materials are removed from Broenden
+ * or if cross library serendipity is introduced.
+ *
+ * @param array $keys
+ *   Array of material ids.
+ */
+function ding_serendipity_validate_materials(array $keys) {
+
+  if (empty($keys)) {
+    return $keys;
+  }
+
+  // Lookup the materials in Broenden to filter out local missing materials.
+  $query = implode(" OR ", $keys);
+  try {
+    $result = ding_serendipity_do_search($query, array('limit' => 1024));
+  }
+  catch (Exception $e) {
+    watchdog_exception('ding_serendipity_sanitize', $e);
+  }
+
+  $sanitized = array();
+  foreach ($result as $item) {
+    $sanitized[] = $item['id'];
+  }
+  
+  return $sanitized;
 }
 
 /**

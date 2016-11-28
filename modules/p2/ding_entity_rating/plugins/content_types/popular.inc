@@ -59,6 +59,8 @@ function ding_entity_rating_popular_content_type_render($subtype, $conf, $panel_
     $keys[] = $id;
   }
 
+  $keys = ding_serendipity_validate_materials($keys);
+  
   $result = array();
   foreach ($keys as $key) {
     $obj = ding_entity_load($key, 'ting_object');
