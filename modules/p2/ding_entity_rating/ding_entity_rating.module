@@ -413,11 +413,25 @@ function ding_entity_rating_remove_from_list($entity, $account) {
 
 function ding_entity_rating_ding_interaction_info() {
   global $user;
+
+  $activity = ding_user_is_provider_user($user);
+
+  if ($activity) {
+    $has_loans = count(ding_provider_invoke('loan', 'list', $user)) > 0;
+
+    $history_list = ding_list_get_list(DING_LIST_TYPE_LOAN_HISTORY);
+    $has_history = ding_user_consent_has_consent('loan_history_store')
+      && $history_list
+      && field_get_items('ding_type', $history_list, 'field_list_objects');
+
+    $activity = $has_loans || $has_history;
+  }
+
   return array(
     'title' => t('Rate materials and get better serendipity'),
     'description' => t('If the user has not rated any materials yet, ' .
       'suggest this can be done for instance in the loan history.'),
-    'active' => ding_user_is_provider_user($user),
+    'active' => $activity,
     'css_class' => 'complete-info',
 
   );
@@ -428,8 +442,7 @@ function ding_entity_rating_ding_interaction_info() {
  */
 function ding_entity_rating_ding_interaction_view() {
   global $user;
-  $user_history_list = ding_list_get_lists(DING_LIST_TYPE_LOAN_HISTORY);
-  $history_list = current($user_history_list);
+  $history_list = ding_list_get_list(DING_LIST_TYPE_LOAN_HISTORY);
 
   return theme('ding_entity_rating_promote_ratings', array('history_list' => $history_list, 'account' => $user));
 }
@@ -439,13 +452,20 @@ function ding_entity_rating_ding_interaction_view() {
  */
 function theme_ding_entity_rating_promote_ratings($variables) {
   $uid = $variables['account']->uid;
-  $history_button = isset($variables['history_list']) ? "<li>" . l(t("Rate previous loans"), "list/" . $variables['history_list']->id) . "</li>" : "";
+  $loan_button = '';
+  $history_button = '';
+
+  if (count(ding_provider_invoke_page('loan', 'list', $variables['account'])) > 0) {
+    $loan_button = "<li>" . l(t("Rate your current loans"), "user/$uid/status/loans") . "</li>";
+  }
+
+  if (isset($variables['history_list']) && field_get_items('ding_type', $variables['history_list'], 'field_list_objects')) {
+    $history_button = "<li>" . l(t("Rate previous loans"), "list/" . $variables['history_list']->id) . "</li>";
+  }
 
   return "<div class='description'>" .
     t('You could rate materials to give us an idea of your preferences.') .
-    "</div><ul class='actions'><li>" . l(t("Rate your current loans"), "user/$uid/status/loans") . "</li>" .
-    $history_button .
-    "</ul>";
+    "</div><ul class='actions'>" . $loan_button . $history_button . "</ul>";
 }
 
 
@@ -490,5 +510,21 @@ function ding_entity_rating_form_ding_frontpage_admin_settings_alter(&$form, &$f
  * Submit handler for ding serendipity frontpage options.
  */
 function ding_entity_rating_frontpage_submit($form, $form_state) {
-  variable_set('ding_entity_rating_popular_on_frontpage', $form_state['values']['ding_entity_rating_popular_on_frontpage']);
+  variable_set(
+    'ding_entity_rating_popular_on_frontpage',
+    $form_state['values']['ding_entity_rating_popular_on_frontpage']
+  );
+}
+
+/**
+ * Preprocess materials_item.
+ */
+function ding_entity_rating_preprocess_material_item(&$variables) {
+  if (isset($variables['element']['#loan'])) {
+    $variables['information']['ding_entity_rating'] = array(
+      'label' => t('Rate'),
+      'data' => theme('ding_entity_rating_display', array('entity' => $variables['element']['#loan']->entity)),
+      'class' => 'class',
+    );
+  }
 }
