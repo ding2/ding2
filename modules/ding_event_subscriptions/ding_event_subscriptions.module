@@ -162,9 +162,14 @@ function theme_ding_event_subscriptions_ics(&$variables) {
 
     // Dates processing.
     $date = field_get_items('node', $event, 'field_ding_event_date');
-    $start = new DateTime($date[0]['value']);
-    $end = new DateTime($date[0]['value2']);
-    $now = new DateTime();
+    $timezone_db = new DateTimeZone($date[0]['timezone_db']);
+    $timezone = new DateTimeZone($date[0]['timezone']);
+    $start = new DateTime($date[0]['value'], $timezone_db);
+    $start->setTimezone($timezone);
+    $end = new DateTime($date[0]['value2'], $timezone_db);
+    $end->setTimezone($timezone);
+    $now = new DateTime(date('Y-m-d H:i:s'), $timezone_db);
+    $now->setTimezone($timezone);
 
     // Location processing.
     $location = field_get_items('node', $event, 'field_ding_event_location');
@@ -182,7 +187,7 @@ function theme_ding_event_subscriptions_ics(&$variables) {
     $output .= ding_event_subscriptions_line('UID', $uid, FALSE);
     $output .= ding_event_subscriptions_line('SUMMARY', $event->title);
     $output .= ding_event_subscriptions_line('DESCRIPTION', $body);
-    $output .= ding_event_subscriptions_line('URL;VALUE=URI', $url);
+    $output .= ding_event_subscriptions_line('URL', $url, FALSE);
     $output .= ding_event_subscriptions_line('PRICE', $price);
     $output .= ding_event_subscriptions_line('DTSTART', $start->format('Ymd\THis'), FALSE);
     $output .= ding_event_subscriptions_line('DTEND', $end->format('Ymd\THis'), FALSE);
@@ -213,7 +218,7 @@ function ding_event_subscriptions_line($name, $value, $escape = TRUE) {
   if ($escape) {
     $value = ding_event_subscriptions_escape($value);
   }
-  return "{$name}:{$value}\n";
+  return "{$name}:{$value}\r\n";
 }
 
 /**
