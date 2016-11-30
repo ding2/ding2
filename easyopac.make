@@ -317,8 +317,8 @@ libraries[SocialServices][download][url]    = "git@github.com:inleadmedia/Social
 libraries[SocialServices][download][branch] = "development"
 libraries[SocialServices][destination]      = "modules/social_services/lib"
 
-projects[vejlebib_fbs][type]           = "modules"
-projects[vejlebib_fbs][subdir]         = ""
-projects[vejlebib_fbs][download][type] = "git"
-projects[vejlebib_fbs][download][url]  = "git@github.com:vejlebib/vejlebib_fbs.git"
-projects[vejlebib_fbs][download][branch]  = "master"
+projects[vejlebib_fbs][type]             = "module"
+projects[vejlebib_fbs][download][type]   = "git"
+projects[vejlebib_fbs][subdir]           = ""
+projects[vejlebib_fbs][download][url]    = "git@github.com:vejlebib/vejlebib_fbs.git"
+projects[vejlebib_fbs][download][branch] = "master"
