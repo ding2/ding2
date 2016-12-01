@@ -1371,3 +1371,20 @@ div[class^="collection-bg"] {
     }
   }
 }
+.page-search-node {
+  .list-item.search-result {
+    background-image: url("../images/pw_maze_white.png");
+    padding: 15px;
+
+    .node {
+      padding: 20px;
+      background-color: rgba(255,255,255,0.9);
+      height: auto;
+      display: flex;
+
+      .content {
+        height: auto;
+      }
+    }
+  }
+}
