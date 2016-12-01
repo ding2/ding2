@@ -424,6 +424,7 @@ function ding_list_import_bookmarks($account) {
     ->condition('fc.uid', $account->uid)
     ->condition('fc.content_type', 'ding_entity')
     ->condition('f.name', 'bookmark')
+    ->orderBy('fc.timestamp', 'DESC')
     ->execute()->fetchCol();
 
   // Add the bookmarks to the remember ding list.
