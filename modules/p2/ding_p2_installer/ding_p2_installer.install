@@ -9,7 +9,7 @@
  *
  * @see ding_p2_installer_modules_enabled().
  */
-function ding_p2_installer_install($modules) {
+function ding_p2_installer_install() {
   // Make sure the installer is called after all other ding modules.
   // This is needed to make sure P2 page variants override those defined in
   // ding core.
