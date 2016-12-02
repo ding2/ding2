@@ -590,6 +590,12 @@ ul.tabs.primary {
     padding: 30px 100px 20px;
     background-color: $color-primary;
     text-align: center;
+
+    // Mobile
+    @include media($mobile) {
+      padding: 30px 80px 20px;
+      @include transform(translate(-122px, -105px));
+    }
   }
   .icon-spinner {
     position: relative;
