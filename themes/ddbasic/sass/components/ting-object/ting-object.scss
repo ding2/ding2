@@ -204,6 +204,7 @@
     > a.cover {
       @include span-columns(2 of 7);
       padding-left: 15px;
+      min-height: 1px;
 
       // Tablet
       @include media($tablet) {
