@@ -456,11 +456,11 @@
     // Swap the icons as the menu is collapsed by default on mobile. We need
     // a higher spcificity than the .js-toggled above, in order to swap the
     // icons.
-    .panel-pane .pane-title {
-      @extend .icon-chevron-right;
-      &.js-toggled {
-        @extend .icon-chevron-down;
-      }
+    .panel-pane .pane-title::before {
+      content: "\f054";
+    }
+    .panel-pane .pane-title.js-toggled::before {
+      content: "\f078";
     }
 
     .menu {
