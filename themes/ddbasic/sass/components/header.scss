@@ -388,6 +388,16 @@
           .form-actions {
             width: getColumn(1 of 12);
           }
+
+          // Mobile
+          @include media($mobile) {
+            .form-item-search-block-form {
+              width: getColumn(9 of 12) + getGutter(12);
+            }
+            .form-actions {
+              width: getColumn(3 of 12);
+            }
+          }
         }
       }
     }
