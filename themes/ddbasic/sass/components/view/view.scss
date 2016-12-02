@@ -9,7 +9,7 @@
 
 .view {
   .views-row,
-  ul li {
+  ul:not(.pager) li {
     margin-bottom: getGutter();
     // Tablet
     @include media($tablet) {
