@@ -39,3 +39,11 @@
 .view-ding-list-elements caption {
   margin-bottom: 10px;
 }
+
+.rs-carousel-items {
+  @include small() {
+    li {
+      width: $carousel-image-width;
+    }
+  }
+}
