@@ -113,7 +113,7 @@ function fbs_reservation_create($account, $record_id, $options) {
   }
 
   $reservation->expiryDate = date('Y-m-d', REQUEST_TIME + ($options['interest_period'] * 24 * 60 * 60));
-  $reservation->pickupBranch = $options['preferred_branch'];
+  $reservation->pickupBranch = $options['fbs_preferred_branch'];
   $batch->reservations[] = $reservation;
 
   /** @var \FBS\Model\ReservationResponse $response */
@@ -257,7 +257,7 @@ function fbs_reservation_options($account, $default_branch = NULL) {
   if (ding_user_is_provider_user($account)) {
     $patron_info = fbs_get_patron_info($account);
 
-    $preferred_branch = empty($default_branch) ? $patron_info['fbs_preferred_branch'] : $default_branch;
+    $preferred_branch = empty($default_branch) ? $patron_info['preferred_branch'] : $default_branch;
   }
 
   if ((!empty($default_branch))) {
