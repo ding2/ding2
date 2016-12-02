@@ -24,7 +24,7 @@
       h2 {
         margin-bottom: 10px;
       }
-    }    
+    }
   }
 }
 
@@ -119,7 +119,7 @@
           &:hover {
             background-color: $white;
             color: $interests-blue;
-            
+
           }
         }
         &:last-child {
@@ -148,6 +148,10 @@
     }
   }
   .pane-lists {
-    margin-right: 0;  
+    margin-right: 0;
   }
+}
+
+.pane-ding-tabroll-ding-frontpage-tabroll {
+  margin-bottom: 20px;
 }
