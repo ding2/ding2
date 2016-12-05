@@ -24,6 +24,10 @@ $plugin = array(
 function ding_list_private_share_content_type_render($subtype, $conf, $panel_args, $context) {
   $list = $context->data;
 
+  if (!ding_list_allowed($list, DING_LIST_OPERATION_SHARE)) {
+    return FALSE;
+  }
+
   drupal_add_css(drupal_get_path('module', 'ding_sharer') . '/ding-sharer.css');
 
   $output = new stdClass();
