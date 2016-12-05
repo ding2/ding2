@@ -47,6 +47,9 @@
               }
             });
             update_availability_remove_pending();
+          },
+          error: function () {
+            $('div.loader').remove();
           }
         });
       }

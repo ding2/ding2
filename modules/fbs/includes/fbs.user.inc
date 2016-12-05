@@ -17,6 +17,7 @@
  *   Authentication result.
  */
 function fbs_user_authenticate($name, $pincode) {
+  $res = new stdClass();
   $pass = _fbs_wayf_login($name);
   if ($pass) {
     // Wayf login.
@@ -28,7 +29,12 @@ function fbs_user_authenticate($name, $pincode) {
       );
     }
 
-    $res = fbs_service()->Patron->getPreAuthenticatedPatron(fbs_service()->agencyId, $name);
+    try {
+      $res = fbs_service()->Patron->getPreAuthenticatedPatron(fbs_service()->agencyId, $name);
+    }
+    catch (Exception $e) {
+      watchdog_exception('fbs', $e);
+    }
   }
   else {
     // Normal login.
@@ -36,13 +42,20 @@ function fbs_user_authenticate($name, $pincode) {
     $auth->libraryCardNumber = $name;
     $auth->pincode = $pincode;
 
-    $res = fbs_service()->Patron->authenticate(fbs_service()->agencyId, $auth);
+    try {
+      $res = fbs_service()->Patron->authenticate(fbs_service()->agencyId, $auth);
+    }
+    catch (Exception $e) {
+      watchdog_exception('fbs', $e);
+    }
   }
 
   $result = array(
-    'success' => $res->authenticated,
+    'success' => FALSE,
   );
-  if ($res->authenticated) {
+  if (!empty($res->authenticated)) {
+    $result['success'] = TRUE;
+
     // Save patron info in creds.
     $result['creds'] = _fbs_patron_info($res->patron);
 
@@ -118,11 +131,26 @@ function fbs_user_update_pincode($account, $new_pincode) {
   $pincode_change->libraryCardNumber = $patron_info['library_card_number'];
   $update->pincodeChange = $pincode_change;
 
-  $res = fbs_service()->Patron->update(fbs_service()->agencyId, fbs_patron_id($account), $update);
+  $res = NULL;
+  try {
+    $res = fbs_service()->Patron->update(fbs_service()->agencyId, fbs_patron_id($account), $update);
+  }
+  catch (Exception $e) {
+    watchdog_exception('fbs', $e);
+
+    return array(
+      'creds' => FALSE,
+    );
+  }
+
   // FBS doesn't give any other indication of success than returning rather
   // than throwing an error.
-  $result = array('creds' => _fbs_patron_info($res->patron));
-  $result['creds']['library_card_number'] = $patron_info['library_card_number'];
+  $result = array();
+  if ($res) {
+    $result = array('creds' => _fbs_patron_info($res->patron));
+    $result['creds']['library_card_number'] = $patron_info['library_card_number'];
+  }
+
   return $result;
 }
 
