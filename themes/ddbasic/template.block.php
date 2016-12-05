@@ -1,11 +1,7 @@
 <?php
-<<<<<<< HEAD
-
-=======
 /**
  * Implements hook_block_view_alter().
  */
->>>>>>> Fixing TODO's from core team. Commit adds file descriptions, variable lists and function descriptions. Deletes unused files and code.
 function ddbasic_block_view_alter(&$data, $block) {
 
   switch ($block->module . '__' . $block->delta) {
