@@ -209,7 +209,7 @@ projects[message][subdir] = "contrib"
 projects[message][version] = "1.10"
 
 projects[metatag][subdir] = "contrib"
-projects[metatag][version] "1.10"
+projects[metatag][version] = "1.10"
 
 projects[module_filter][subdir] = "contrib"
 projects[module_filter][version] = "1.8"
