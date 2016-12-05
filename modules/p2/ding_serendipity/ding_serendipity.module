@@ -280,7 +280,7 @@ function ding_serendipity_fetch(array $context = NULL) {
   $is_slow = FALSE;
   $count = 0;
   $slow_timeout = variable_get('ding_serendipity_isslow_timeout', 10);
-  
+
   // Collect serendipity from each weight pool of plugins.
   foreach ($ordered_info as $weight => $plugin) {
     // Stop consecutive collection when max has been reached.
@@ -333,9 +333,10 @@ function ding_serendipity_fetch(array $context = NULL) {
     if (empty($context['not_random'])) {
       shuffle($weight_results);
     }
+
     $results['items'] = array_merge($results['items'], $weight_results);
   }
-  
+
   // Validate results with local Broend, remove missing items.
   $keys = array();
   foreach ($results['items'] as $key => $item) {
@@ -349,7 +350,7 @@ function ding_serendipity_fetch(array $context = NULL) {
       unset($results['items'][$key]);
     }
   }
-      
+
   // Allow for alteration of the results.
   // Removing items are recommended in this hook.
   drupal_alter('ding_serendipity_results', $results, $context);
@@ -379,7 +380,6 @@ function ding_serendipity_fetch(array $context = NULL) {
  *   Array of material ids.
  */
 function ding_serendipity_validate_materials(array $keys) {
-
   if (empty($keys)) {
     return $keys;
   }
@@ -397,7 +397,7 @@ function ding_serendipity_validate_materials(array $keys) {
   foreach ($result as $item) {
     $sanitized[] = $item['id'];
   }
-  
+
   return $sanitized;
 }
 
