@@ -54,7 +54,7 @@
 </head>
 <body <?php print $attributes;?> class="<?php print $classes; ?>">
   <div class="is-tablet"></div>
-  <div class="is-mobile"></div> 
+  <div class="is-mobile"></div>
   <?php print $page_top; ?>
   <?php print $page; ?>
   <?php print $page_bottom; ?>
