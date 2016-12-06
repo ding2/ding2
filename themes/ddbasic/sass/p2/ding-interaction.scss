@@ -4,11 +4,53 @@
 @import '../base.scss';
 
 .pane-interaction-pane {
-  > .panel-pane-inner > .pane-content > h2 {
-    display: none;
+  h2 {
+    @include font('header-large');
+    width: calc(100% - 40px);
+    color: $color-text;
+    margin-bottom: 20px;
+
+    // Mobile
+    @include media($mobile) {
+      margin-bottom: 10px;
+    }
   }
 }
 .ding-interaction-pane {
+  .description {
+    @include span-columns(5);
+
+    // Tablet
+    @include media($tablet) {
+      @include span-columns(6);
+    }
+
+    // Mobile
+    @include media($mobile) {
+      width: 100%;
+    }
+  }
+  ul {
+    list-style-position: outside;
+    padding-left: 15px;
+
+  }
+  ul.actions {
+    width: 100%;
+    float: left;
+    clear: left;
+    margin: 0 0 -10px;
+    list-style: none;
+    a {
+      @include button(arrow-right);
+      width: auto;
+      margin-right: 20px;
+      margin-bottom: 10px;
+      &::after {
+        color: $charcoal-opacity-dark;
+      }
+    }
+  }
   .close-btn {
     @include place-icon(close);
     position: absolute;
@@ -36,14 +78,7 @@
 }
 .ding-type-ding-interaction {
   h2 {
-    @include font('header-large');
-    color: $color-text;
-    margin-bottom: 20px;
-
-    // Mobile
-    @include media($mobile) {
-      margin-bottom: 10px;
-    }
+    margin-top: -20px;
   }
   .field-name-field-ding-interaction-body {
     @include span-columns(5);
@@ -68,7 +103,6 @@
       &::after {
         color: $charcoal-opacity-dark;
       }
-
     }
   }
 }
