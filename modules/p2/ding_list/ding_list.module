@@ -648,7 +648,7 @@ function ding_list_preprocess_entity(&$variables) {
             if ($objects !== FALSE) {
               $items = array();
               foreach ($objects as $object) {
-                $items[] = ting_object_view($object, 'compact');
+                $items[] = ting_object_view($object, 'teaser');
               }
 
               $variables['content']['carousel'] = array(
