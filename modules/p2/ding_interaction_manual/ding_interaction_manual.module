@@ -59,7 +59,7 @@ function ding_interaction_manual_query_random_alter($query) {
  */
 function ding_interaction_manual_ding_interaction_info() {
   return array(
-    'title' => t('Ding Interaction manual single random'),
+    'title' => t('Manual Ding Interactions'),
     'description' => t('Manual Ding Interactions are banners with static text ' .
       'and optional link buttons created by local editors. Use this for nice tips ' .
       'and tricks for the visitors, or non critical information you would like ' .

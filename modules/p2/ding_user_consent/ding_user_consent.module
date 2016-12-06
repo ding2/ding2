@@ -376,6 +376,8 @@ function theme_ding_user_consent_set($variables) {
 
   $consents = ding_provider_invoke('user_consent', 'info');
   $description = '';
+  $translatables = ding_user_consent_translatables();
+
   foreach ($consents as $id => $values) {
     $title = check_plain(variable_get('ding_user_consent_' . $id . '_title', $values['title']));
     $description = variable_get('ding_user_consent_' . $id . '_description', $values['description']);
@@ -385,7 +387,7 @@ function theme_ding_user_consent_set($variables) {
     $description = $description['value'];
   }
 
-  return '<div class="ding-user-consent-set">' . '<div class="description">' . $description . '</div>' . '<div class="choice">' . ctools_ajax_text_button(t('No thanks, not interested'), 'ding/consent/nojs/' . $variables['id'] . '/0', t('No'), "transparent-button negative") . ctools_ajax_text_button(t('Yes please, the library can store my previous loans'), 'ding/consent/nojs/' . $variables['id'] . '/1', $title, "transparent-button positive") . '</div>' . '</div>';
+  return '<div class="ding-user-consent-set">' . '<div class="description">' . $description . '</div>' . '<div class="choice">' . ctools_ajax_text_button($translatables['reject'], 'ding/consent/nojs/' . $variables['id'] . '/0', t('No'), "transparent-button negative") . ctools_ajax_text_button($translatables['accept'], 'ding/consent/nojs/' . $variables['id'] . '/1', $title, "transparent-button positive") . '</div>' . '</div>';
 }
 
 /**
@@ -401,6 +403,21 @@ function ding_user_consent_ding_interaction_view() {
 }
 
 /**
+ * Get array of translatables.
+ *
+ * @return array
+ *   An array of strings that can be translated for this modules Ding Interactions.
+ */
+function ding_user_consent_translatables() {
+  return array(
+    'title' => t('Storage of your loan history'),
+    'accept' => t('Yes please, the library can store my previous loans'),
+    'reject' => t('No thanks, not interested'),
+  );
+}
+
+
+/**
  * Implements hook_ding_interaction_info().
  */
 function ding_user_consent_ding_interaction_info() {
@@ -410,9 +427,13 @@ function ding_user_consent_ding_interaction_info() {
     && !ding_user_consent_has_consent(DING_USER_CONSENT_LOAN_HISTORY_STORE)
     && !ding_user_consent_previously_displayed($user);
 
+  $translatables = ding_user_consent_translatables();
+  
   return array(
-    'title' => t('Storage of your loan history'),
-    'description' => t("Promote the load history 30+ storage to users not already using the feature"),
+    'title' => $translatables['title'],
+    'translatables' => $translatables,
+    'description' => t("Promote the load history 30+ storage to users not already using the feature. ") . 
+      l(t('Loan history configuration.'),"/admin/config/ding/consent"),
     'active' => $active,
   );
 }
