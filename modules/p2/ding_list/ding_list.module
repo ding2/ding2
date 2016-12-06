@@ -887,7 +887,7 @@ function ding_list_ding_interaction_view() {
 }
 
 function theme_ding_list_promote_lists() {
-  $translatables = ding_list_rating_translatables;
+  $translatables = ding_list_rating_translatables();
   return "<div class='description'>" .
     $translatables['info'] .
     "</div><ul class='actions'><li>" . l($translatables['create_title'], 'list/create') . "</li></ul>";
