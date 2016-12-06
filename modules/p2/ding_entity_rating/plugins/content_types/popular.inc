@@ -60,7 +60,7 @@ function ding_entity_rating_popular_content_type_render($subtype, $conf, $panel_
   }
 
   $keys = ding_serendipity_validate_materials($keys);
-  
+
   $result = array();
   foreach ($keys as $key) {
     $obj = ding_entity_load($key, 'ting_object');
@@ -68,7 +68,10 @@ function ding_entity_rating_popular_content_type_render($subtype, $conf, $panel_
     $result[] = ting_object_view($obj, 'compact');
   }
 
-  $block->content = theme('ting_carousel', array('objects' => $result));
+  $block->content = theme('ting_carousel', array(
+    'items' => $result,
+    'item_type' => 'items',
+  ));
 
   return $block;
 }
