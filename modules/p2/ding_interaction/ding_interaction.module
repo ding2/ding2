@@ -180,9 +180,9 @@ function ding_interaction_translatables(array $strings) {
   if (empty($strings)) {
     return "";
   }
-  return theme('item_list',array(
+  return theme('item_list', array(
     'items' => $strings,
     'type' => 'ul',
-    'title' => l(t('Translatable strings'),'admin/config/regional/translate/translate')
+    'title' => l(t('Translatable strings'), 'admin/config/regional/translate/translate'),
   ));
 }

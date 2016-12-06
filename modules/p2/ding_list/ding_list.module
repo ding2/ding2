@@ -861,7 +861,7 @@ function ding_list_ding_interaction_info() {
  * Get array of translatables.
  *
  * @return array
- *   An array of strings that can be translated for this modules Ding Interactions.
+ *   An array of strings that can be translated for this module.
  */
 function ding_list_rating_translatables() {
   return array(

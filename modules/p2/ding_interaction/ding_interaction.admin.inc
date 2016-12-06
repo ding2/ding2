@@ -27,7 +27,7 @@ function ding_interaction_admin_overview($form, &$form_state) {
     $form['ding_interaction_callbacks']['#options'][$key] = array(
       'title' => $value['title'],
       'description' => $value['description'] .
-        ding_interaction_translatables(empty($value['translatables']) ? array() : $value['translatables'] ),
+      ding_interaction_translatables(empty($value['translatables']) ? array() : $value['translatables']),
       'settings' => '',
     );
     if (!empty($value['settings'])) {

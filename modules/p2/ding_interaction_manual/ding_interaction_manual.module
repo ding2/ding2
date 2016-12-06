@@ -91,9 +91,9 @@ function ding_interaction_manual_form_alter(&$form, &$form_state, $form_id) {
       '<br />' .
       l(
         t('> Create new manual Ding Interaction'),
-          'admin/structure/entity-type/ding_type/ding_interaction/add',
-          array('query'=>array('destination' => 'admin/structure/entity-type/ding_type/ding_interaction'))
-        ) .
+        'admin/structure/entity-type/ding_type/ding_interaction/add',
+        array('query' => array('destination' => 'admin/structure/entity-type/ding_type/ding_interaction'))
+      ) .
       '<br /><br />' . 'Developers can use the API hooks to create new Ding Interactions.',
     );
   }

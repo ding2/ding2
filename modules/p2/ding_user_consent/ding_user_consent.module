@@ -406,7 +406,7 @@ function ding_user_consent_ding_interaction_view() {
  * Get array of translatables.
  *
  * @return array
- *   An array of strings that can be translated for this modules Ding Interactions.
+ *   An array of strings that can be translated for this module.
  */
 function ding_user_consent_translatables() {
   return array(
@@ -432,8 +432,8 @@ function ding_user_consent_ding_interaction_info() {
   return array(
     'title' => $translatables['title'],
     'translatables' => $translatables,
-    'description' => t("Promote the load history 30+ storage to users not already using the feature. ") . 
-      l(t('Loan history configuration.'),"/admin/config/ding/consent"),
+    'description' => t("Promote the load history 30+ storage to users not already using the feature.") . 
+    " " . l(t('Loan history configuration.'), "/admin/config/ding/consent"),
     'active' => $active,
   );
 }
