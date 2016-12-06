@@ -59,6 +59,7 @@
 
   stylesheets[all][] = sass_css/layout/panel.css
 
+  stylesheets[all][] = sass_css/p2/ding-interaction.css
   stylesheets[all][] = sass_css/p2/serendipity.css
 
   stylesheets[all][] = sass_css/add-ons/factbox.css
