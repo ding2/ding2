@@ -770,15 +770,21 @@ ul.tabs.primary {
 // Slick slider
 .slick-slider {
   .slick-list {
-    margin: 0 -13px;
     padding-bottom: 80px;
     // In event view
     .view-ding-event & {
       padding-bottom: 70px;
     }
+    // On Ting carousel
+    @at-root .ting-carousel#{&} {
+      margin: 0 -13px;
+    }
   }
-  .slick-slide {
-    margin: 0 13px;
+  // On Ting carousel
+  @at-root .ting-carousel#{&} {
+    .slick-slide {
+      margin: 0 13px;
+    }
   }
   .slick-arrow {
     @include transition(
