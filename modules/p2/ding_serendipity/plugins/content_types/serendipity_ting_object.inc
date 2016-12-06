@@ -88,15 +88,10 @@ function ding_serendipity_serendipity_ting_object_content_type_render($subtype, 
       'type' => 'setting',
     );
 
-    $tmp = array();
-    foreach ($content as $key => $item) {
-      $item['#weight'] = $key;
-      $tmp[] = $item;
-    }
-
     $output['content'][] = array(
       '#theme' => 'ting_carousel',
-      '#objects' => $tmp,
+      '#items' => $content,
+      '#item_type' => 'items',
     );
   }
 
