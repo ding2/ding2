@@ -1,0 +1,16 @@
+<?php
+/**
+ * @file
+ * Define ding item cache table.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ding_item_cache_schema() {
+  $schema['cache_ding_item'] = drupal_get_schema_unprocessed('system', 'cache');
+  $schema['cache_ding_item']['module'] = 'ding_item_cache';
+  $schema['cache_ding_item']['description'] = 'Cache table for Ding items containing extended information.';
+
+  return $schema;
+}
