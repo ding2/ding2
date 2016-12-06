@@ -458,104 +458,105 @@
     .extended-search-is-open.toolbar & {
       top: $topbar-height + $search-form-extended-height + $toolbar-height;
     }
-  }
-  .navigation-inner {
-    @include wrapper;
-    position: relative;
 
-    // Tablet
-    @include media($tablet) {
-      @include transition(
-        transform $speed $ease,
-        top 0ms $ease $speed
-      );
-      @include transform(translateY(calc(-100% - 15px))); // Translate 15px more than -100% to hide box-shadow
-      position: fixed;
-      width: 100%;
-      max-height: calc(100% - 148px);
-      display: block;
-      top: $header-height;
-      box-shadow: $box-shadow;
-      background-color: $color-primary;
-      overflow: scroll;
-      .mobile-menu-is-open & {
-        @include transform(translateY(0%));
-      }
-    }
-    .main-menu-wrapper {
-      @include transition(
-        transform $speed $ease,
-        top 0ms $ease $speed
-      );
-      @include span-columns(9);
+    .navigation-inner {
+      @include wrapper;
+      position: relative;
+
       // Tablet
       @include media($tablet) {
+        @include transition(
+          transform $speed $ease,
+          top 0ms $ease $speed
+        );
+        @include transform(translateY(calc(-100% - 15px))); // Translate 15px more than -100% to hide box-shadow
+        position: fixed;
         width: 100%;
-      }
-      // Search form extended
-      .search-form-extended & {
-        width: auto;
-        // Tablet
-        @include media($tablet) {
-          width: 100%;
-        }
-      }
-    }
-    .secondary-menu-wrapper {
-      display: none;
-      // Search Form Extended
-      .show-secondary-menu & {
+        max-height: calc(100% - 148px);
         display: block;
-        float: right;
-        padding-right: 69px;
-
+        top: $header-height;
+        box-shadow: $box-shadow;
+        background-color: $color-primary;
+        overflow: scroll;
+        .mobile-menu-is-open & {
+          @include transform(translateY(0%));
+        }
+      }
+      .main-menu-wrapper {
+        @include transition(
+          transform $speed $ease,
+          top 0ms $ease $speed
+        );
+        @include span-columns(9);
         // Tablet
         @include media($tablet) {
           width: 100%;
-          background-color: $grey;
+        }
+        // Search form extended
+        .search-form-extended & {
+          width: auto;
+          // Tablet
+          @include media($tablet) {
+            width: 100%;
+          }
         }
       }
-      // Search Form Extended
-      .search-form-extended.page-search &,
-      .search-form-extended.front & {
-        padding-right: 0;
-      }
-    }
-    .pane-menu-block-main-menu-second-level {
-      @include transition(top $speed $ease);
-      position: fixed;
-      z-index: $z-header - 1;
-      top: $header-height;
-      left: 0;
-      width: 100%;
-      background-color: $charcoal;
-      box-shadow: $box-shadow;
-
-      // Tablet
-      @include media($tablet) {
+      .secondary-menu-wrapper {
         display: none;
+        // Search Form Extended
+        .show-secondary-menu & {
+          display: block;
+          float: right;
+          padding-right: 69px;
+
+          // Tablet
+          @include media($tablet) {
+            width: 100%;
+            background-color: $grey;
+          }
+        }
+        // Search Form Extended
+        .search-form-extended.page-search &,
+        .search-form-extended.front & {
+          padding-right: 0;
+        }
       }
-      // Toolbar
-      .toolbar & {
-        top: $header-height + $toolbar-height;
-      }
-      .search-form-extended.page-search &
-      .search-form-extended.front & {
-        top: $header-height + $search-form-extended-height;
-      }
-      .search-form-extended.extended-search-is-open & {
-        top: $header-height + $search-form-extended-height;
-      }
-      &::before {
-        content: '';
-        display: block;
-        height: 1px;
+      .pane-menu-block-main-menu-second-level {
+        @include transition(top $speed $ease);
+        position: fixed;
+        z-index: $z-header - 1;
+        top: $header-height;
+        left: 0;
         width: 100%;
-        background-color: $black;
-        box-shadow: 0 5px 10px 0 $black;
-      }
-      > .panel-pane-inner {
-        @include wrapper;
+        background-color: $charcoal;
+        box-shadow: $box-shadow;
+
+        // Tablet
+        @include media($tablet) {
+          display: none;
+        }
+        // Toolbar
+        .toolbar & {
+          top: $header-height + $toolbar-height;
+        }
+        .search-form-extended.page-search &
+        .search-form-extended.front & {
+          top: $header-height + $search-form-extended-height;
+        }
+        .search-form-extended.extended-search-is-open & {
+          top: $header-height + $search-form-extended-height;
+        }
+        &::before {
+          content: '';
+          display: block;
+          height: 1px;
+          width: 100%;
+          background-color: $black;
+          box-shadow: 0 5px 10px 0 $black;
+        }
+        > .panel-pane-inner {
+          @include wrapper;
+        }
       }
     }
   }
