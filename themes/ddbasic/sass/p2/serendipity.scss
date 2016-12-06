@@ -1,0 +1,11 @@
+//
+// Styling of serendipity
+
+@import '../base.scss';
+
+.group-serendipity {
+  .field-name-ding-serendipity-info,
+  .field-name-ding-entity-rating-action {
+    margin-top: 10px;
+  }
+}

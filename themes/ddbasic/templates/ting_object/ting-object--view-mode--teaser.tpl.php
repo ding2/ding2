@@ -7,6 +7,7 @@
  * - $object: The TingClientObject instance we're rendering.
  * - $content: Render array of content.
  */
+ hide($content['group_serendipity']);
 ?>
 <div class="<?php print $classes; ?> clearfix"<?php print $attributes; ?>>
   <div class="inner">
@@ -14,6 +15,7 @@
       <?php print render($content['ting_cover']); ?>
     </a>
     <?php print render($content); ?>
-    
+
   </div>
+  <?php print render($content['group_serendipity']); ?>
 </div>
