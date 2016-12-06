@@ -869,7 +869,7 @@ function ding_list_ding_interaction_view() {
 function theme_ding_list_promote_lists() {
   return "<div class='description'>" .
     t("Did you know you can create your own lists and add objects to them?") .
-    "</div><ul class='actions'><li>" . l(t('> Create my own list'), 'list/create') . "</li></ul>";
+    "</div><ul class='actions'><li>" . l(t('Create my own list'), 'list/create') . "</li></ul>";
 }
 
 /**
