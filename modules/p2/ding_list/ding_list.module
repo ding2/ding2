@@ -655,7 +655,8 @@ function ding_list_preprocess_entity(&$variables) {
 
               $variables['content']['carousel'] = array(
                 '#theme' => 'ting_carousel',
-                '#objects' => $items,
+                '#items' => $items,
+                '#item_type' => 'item',
               );
             }
             break;
