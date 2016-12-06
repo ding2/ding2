@@ -236,11 +236,13 @@
         // Tablet
         @include media($tablet) {
           @include span-columns(6);
+          margin-right: 0;
         }
 
         // Mobile
         @include media($mobile) {
           @include span-columns(12);
+          margin-right: 0;
         }
       }
     }
