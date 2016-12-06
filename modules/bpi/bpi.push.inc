@@ -128,6 +128,8 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
   $bpi_content['agency_id'] = variable_get('bpi_agency_id', '');
   $bpi_content['local_id'] = $node->nid;
   $bpi_content['bpi_id'] = isset($node->bpi_id) ? $node->bpi_id : NULL;
+  $bpi_content['url'] = url('node/' . $node->nid, array('absolute' => TRUE, 'alias' => TRUE));
+  $bpi_content['data'] = '';
 
   $user = user_load($node->uid);
   $bpi_content['firstname'] = $user->name;
