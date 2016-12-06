@@ -63,7 +63,7 @@ function ding_serendipity_serendipity_ting_object_content_type_render($subtype, 
   }
 
   $context_data += array(
-    'view_mode' => isset($conf['view_mode']) ? $conf['view_mode'] : 'compact',
+    'view_mode' => isset($conf['view_mode']) ? $conf['view_mode'] : 'teaser',
     'sort_weight' => isset($conf['sort_weight']) ? $conf['sort_weight'] : FALSE,
     'max' => isset($conf['max']) ? $conf['max'] : 0,
     'min' => isset($conf['min']) ? $conf['min'] : 0,
