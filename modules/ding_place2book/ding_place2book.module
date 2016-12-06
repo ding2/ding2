@@ -10,6 +10,9 @@ include_once 'ding_place2book.features.inc';
 require_once 'ding_place2book.fields.inc';
 require_once "lib/p2b/P2b.php";
 
+define('P2B_CURRENCY_KRON', 1);
+define('P2B_CURRENCY_ERE', 100);
+
 /**
  * Implements hook_image_default_styles().
  */
@@ -169,7 +172,9 @@ function ding_place2book_node_view_alter(&$build) {
         $prices = $p2b->getPrices($event_maker_id, $event_id);
         $output = '';
         foreach ($prices as $price) {
-          $output .= "<p><i class='icon-tag'></i>{$price->name} {$price->value} kr.</p>";
+          $currency = variable_get('ding_event_currency_type', 'Kr');
+          $value = $price->value ?  "{$price->value} {$currency}" : t('Free');
+          $output .= "<p><i class='icon-tag'></i>{$price->name} {$value}</p>";
         }
         $build['place2book_event_prices'] = $output;
       }
@@ -537,3 +542,4 @@ function ding_place2book_get_event_state($event_maker_id, $event_id) {
   print ajax_render($output);
   exit();
 }
+

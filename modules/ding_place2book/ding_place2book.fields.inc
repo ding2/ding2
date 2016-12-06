@@ -91,42 +91,44 @@ function ding_place2book_field_widget_form(&$form, &$form_state, $field, $instan
           ),
         );
 
+        $short = check_plain($event->description_short);
+        $long = check_plain($event->description_long);
         $element['place2book']['event_data'] += array(
-          'name' => array('#markup' => "<p><strong>Name:</strong> <span>{$event->name}</span></p>"),
-          'description_short' => array('#markup' => "<p><strong>Short description:</strong> <span>{$event->description_short}</span></p>"),
-          'description_long' => array('#markup' => "<p><strong>Long description:</strong> <span>{$event->description_long}</span></p>"),
-          'begin_at' => array('#markup' => "<p><strong>Begin at:</strong> <span>{$begin_at}</span></p>"),
-          'end_at' => array('#markup' => "<p><strong>End at:</strong> <span>{$end_at}</span></p>"),
+          'name' => array('#markup' => "<p><strong>" . t('Name') . ":</strong> <span>{$event->name}</span></p>"),
+          'description_short' => array('#markup' => "<p><strong>" . t('Short description') . ":</strong> <span>{$short}</span></p>"),
+          'description_long' => array('#markup' => "<p><strong>" . t('Long description') . ":</strong> <span>{$long}</span></p>"),
+          'begin_at' => array('#markup' => "<p><strong>" . t('Begin at') . ":</strong> <span>{$begin_at}</span></p>"),
+          'end_at' => array('#markup' => "<p><strong>" . t('End at') . ":</strong> <span>{$end_at}</span></p>"),
         );
 
         if (!empty($price)) {
-          $element['place2book']['event_data']['price']['#markup'] = "<p><strong>Event price:</strong> <span>{$price->value}</span></p>";
+          $element['place2book']['event_data']['price']['#markup'] = "<p><strong>" . t('Event price') . ":</strong> <span>{$price->value}</span></p>";
         }
 
         if (!empty($event->address)) {
           $address = implode(', ', (array) $event->address);
-          $element['place2book']['event_data']['address']['#markup'] = "<p><strong>Sale open at:</strong> <span>{$address}</span></p>";
+          $element['place2book']['event_data']['address']['#markup'] = "<p><strong>" . t('Location') . ":</strong> <span>{$address}</span></p>";
         }
 
         if (!empty($event->sale_open_at)) {
           $sale_open_at = date('d/m/Y H:i:s', strtotime($event->sale_open_at));
-          $element['place2book']['event_data']['sale_open_at']['#markup'] = "<p><strong>Sale open at:</strong> <span>{$sale_open_at}</span></p>";
+          $element['place2book']['event_data']['sale_open_at']['#markup'] = "<p><strong>" . t('Sale open at') . ":</strong> <span>{$sale_open_at}</span></p>";
         }
 
         if (!empty($event->sale_close_at)) {
           $sale_close_at = date('d/m/Y H:i:s', strtotime($event->sale_close_at));
-          $element['place2book']['event_data']['sale_close_at']['#markup'] = "<p><strong>Sale end at:</strong> <span>{$sale_close_at}</span></p>";
+          $element['place2book']['event_data']['sale_close_at']['#markup'] = "<p><strong>" . t('Sale end at') . ":</strong> <span>{$sale_close_at}</span></p>";
         }
 
         if (isset($event->kultunaut_age_group)) {
           $element['place2book']['event_data']['kultunaut_age_group'] = array(
-            '#markup' => "<p><strong>Kultunaut export category</strong> <span>{$event->kultunaut_age_group}</span></p>",
+            '#markup' => "<p><strong>" . t('Kultunaut export category') . "</strong> <span>{$event->kultunaut_age_group}</span></p>",
           );
         }
 
         if (isset($event->kultunaut_export_category)) {
           $element['place2book']['event_data']['kultunaut_export_category'] = array(
-            '#markup' => "<p><strong>Kultunaut export category</strong> <span>{$event->kultunaut_export_category}</span></p>",
+            '#markup' => "<p><strong>" . t('Kultunaut export category') . "</strong> <span>{$event->kultunaut_export_category}</span></p>",
           );
         }
       }
