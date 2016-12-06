@@ -118,7 +118,7 @@
   // When placed directly after .inner in node ding news
   .node-ding-news .inner > & {
     padding-top: 20px;
-    .field-label {
+    > .field-label {
       @include font('header-large');
       color: $color-text;
       margin-bottom: 20px;
