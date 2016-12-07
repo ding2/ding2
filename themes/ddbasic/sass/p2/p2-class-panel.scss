@@ -101,19 +101,68 @@
         margin-bottom: 10px;
       }
     }
-    ul {
+    ul:not(.bottom-links) {
+      width: 100%;
+      float: left;
       list-style: none;
+      margin-bottom: 60px;
       li {
+        width: 100%;
+        float: left;
         position: relative;
+        padding: 20px;
+        a {
+          display: block;
+          float: left;
+          max-width: calc(100% - 40px);
+        }
+        .signature-label {
+          @include font('header-small');
+          //Right arrow
+          &::after {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+
+            @include transform(translateY(-50%));
+            font-family: 'icomoon';
+            content: "\e904";
+            font-size: 54px;
+            speak: none;
+            font-style: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
+            color: $charcoal-opacity-dark;
+          }
+        }
+        .label {
+          clear: left;
+          &:before {
+            content: 'Nyt i listen';
+            display: block;
+            margin-top: 10px;
+            color: $charcoal-opacity-dark;
+          }
+        }
+        &:nth-child(2n +1) {
+          background-color: $grey;
+        }
         &.fines,
         &.reservations,
         &.loan,
         &.user-loan-history {
+          padding: 0;
+          &:nth-child(2n +1) {
+            background-color: transparent;
+          }
           .signature-label {
             @include font('header-small');
-            position: relative;
             display: block;
+            position: relative;
             width: 100%;
+            max-width: 100%;
             padding: 30px 20px;
             border-radius: $round-corner;
             margin-bottom: 10px;
@@ -152,6 +201,16 @@
               color: $white;
             }
           }
+          .label {
+            @include font('header-small');
+            position: absolute;
+            top: 30px;
+            left: 20px;
+            color: $white;
+            &:before {
+              display: none;
+            }
+          }
         }
         &.fines,
         &.reservations,
@@ -170,12 +229,20 @@
             background-color: $green;
           }
         }
-        .label {
-          @include font('header-small');
-          position: absolute;
-          top: 30px;
-          left: 20px;
-          color: $white;
+      }
+    }
+    ul.bottom-links {
+      list-style: none;
+      li {
+        a {
+          float: left;
+          margin-right: 20px;
+          margin-bottom: 10px;
+        }
+        &:last-child {
+          a {
+            margin-right: 0;
+          }
         }
       }
     }
