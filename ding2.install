@@ -403,7 +403,7 @@ function ding2_update_7026() {
 /**
  * Enable CustomError modules.
  */
-function ding2_update_7021() {
+function ding2_update_7027() {
   module_enable(array('customerror', 'customerroralt'));
 
   if (module_exists('customerror')) {
