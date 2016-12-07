@@ -18,17 +18,6 @@ function ding_place2book_service_admin_form($form, &$form_state) {
     '#collapsed' => FALSE,
   );
 
-  $form['ding_place2book']['currency'] = array(
-    '#type' => 'select',
-    '#title' => t('Select currency for operating with p2b service'),
-    '#default_value' => isset($settings['currency']) ? $settings['currency'] : 'ere',
-    '#options' => array(
-      P2B_CURRENCY_ERE => t('Ere'),
-      P2B_CURRENCY_KRON => t('Kron'),
-    ),
-    '#description' => t('Indicates in which currency P2b prices stored. As example if you choose Kron, value will be presented as is.'),
-  );
-
   $form['ding_place2book']['url'] = array(
     '#type' => 'textfield',
     '#title' => t('Place2Book service URL'),

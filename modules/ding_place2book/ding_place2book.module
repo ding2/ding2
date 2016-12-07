@@ -10,9 +10,6 @@ include_once 'ding_place2book.features.inc';
 require_once 'ding_place2book.fields.inc';
 require_once "lib/p2b/P2b.php";
 
-define('P2B_CURRENCY_KRON', 1);
-define('P2B_CURRENCY_ERE', 100);
-
 /**
  * Implements hook_image_default_styles().
  */
