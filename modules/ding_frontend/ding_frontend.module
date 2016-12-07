@@ -217,7 +217,7 @@ function ding_frontend_form_customerror_admin_settings_alter(&$form, &$form_stat
     array(
       'value' => '',
       'format' => 'plain_text',
-    ),
+    )
   );
 
   $form['customerror_403_authenticated_group']['customerror_403_authenticated']['#type'] = 'text_format';
