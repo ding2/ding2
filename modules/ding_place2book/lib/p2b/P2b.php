@@ -245,6 +245,7 @@ class P2b {
         'city' => FALSE,
         'phone' => FALSE,
         'country' => FALSE,
+        'name' => FALSE,
       ),
     );
     $this->p2bCheckRequired($required, $data['event']);
@@ -289,11 +290,11 @@ class P2b {
       'capacity' => FALSE,
       'address' => array(
         'address1' => FALSE,
-        'address2' => FALSE,
         'postal_code' => FALSE,
         'city' => FALSE,
         'phone' => FALSE,
         'country' => FALSE,
+        'name ' => FALSE,
       ),
     );
     $this->p2bCheckRequired($required, $data['event']);
