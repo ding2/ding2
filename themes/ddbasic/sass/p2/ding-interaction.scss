@@ -19,6 +19,7 @@
 .ding-interaction-pane {
   .description {
     @include span-columns(5);
+    margin-bottom: 30px;
 
     // Tablet
     @include media($tablet) {
