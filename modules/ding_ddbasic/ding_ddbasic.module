@@ -287,3 +287,19 @@ function ding_ddbasic_is_ting_search_extend_form() {
   return variable_get('ting_search_extend_form', FALSE) ||
     menu_get_item()['path'] === 'search/ting/%';
 }
+
+/**
+ *
+ */
+function ding_ddbasic_colorize_css($cssfiles, $colors = array()) {
+  foreach ($cssfiles as $cssfile) {
+    file_put_contents($cssfile, strtr(file_get_contents($cssfile), array(
+      '#fF0001' => '#' . $colors['primary'],
+      '#fF0002' => '#' . $colors['secondary'],
+
+      '#fF0101' => '#' . $colors['text'],
+      '#fF0102' => '#' . $colors['text_on_primary'],
+      '#fF0103' => '#' . $colors['text_on_secondary'],
+    )));
+  }
+}

@@ -9,7 +9,7 @@
  */
 function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
   // CSS class and markup.
-  // Colors
+  // Colors.
   $form['ddbasic_settings']['colors'] = array(
     '#type' => 'fieldset',
     '#title' => t('Colors'),
@@ -25,20 +25,20 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
   $form['ddbasic_settings']['colors']['color_secondary'] = array(
     '#type' => 'textfield',
     '#title' => t('Secondary color'),
-    '#description' => t('Use hex (f66d70)')  . '<br />' . t('Is used e.g. as background-color for the log-in button, read-more buttons'),
+    '#description' => t('Use hex (f66d70)') . '<br />' . t('Is used e.g. as background-color for the log-in button, read-more buttons'),
     '#default_value' => ddbasic_theme_setting('color_secondary', 'f66d70'),
   );
 
   $form['ddbasic_settings']['colors']['color_text'] = array(
     '#type' => 'select',
     '#title' => t('Text color'),
-    '#description' => t('Choose a color that is legible on a white background')  . '<br />' . t('Is used e.g. for text-links and panel headers'),
+    '#description' => t('Choose a color that is legible on a white background') . '<br />' . t('Is used e.g. for text-links and panel headers'),
     '#default_value' => ddbasic_theme_setting('color_text', 'primary'),
     '#options' => array(
       'primary' => t('Primary'),
       'secondary' => t('Secondary'),
       '000000' => t('black'),
-    )
+    ),
   );
 
   $form['ddbasic_settings']['colors']['color_text_on_primary'] = array(
@@ -49,7 +49,7 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     '#options' => array(
       'fff' => t('white'),
       '000' => t('black'),
-    )
+    ),
   );
   $form['ddbasic_settings']['colors']['color_text_on_secondary'] = array(
     '#type' => 'select',
@@ -59,10 +59,10 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     '#options' => array(
       'fff' => t('white'),
       '000' => t('black'),
-    )
+    ),
   );
 
-  // Number of news in list
+  // Number of news in list.
   $form['ddbasic_settings']['news_list'] = array(
     '#type' => 'fieldset',
     '#title' => t('News list'),
@@ -80,10 +80,10 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
       '16' => '16',
       '18' => '18',
       '20' => '20',
-    )
+    ),
   );
 
-  // Number of events in list
+  // Number of events in list.
   $form['ddbasic_settings']['event_list'] = array(
     '#type' => 'fieldset',
     '#title' => t('Event list'),
@@ -101,7 +101,7 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
       '16' => '16',
       '18' => '18',
       '20' => '20',
-    )
+    ),
   );
 
   $form['ddbasic_settings']['event_list']['group_events_by_date'] = array(
@@ -111,7 +111,7 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     '#default_value' => ddbasic_theme_setting('group_events_by_date', FALSE),
   );
 
-  // Disable overlay on Ting object teasers
+  // Disable overlay on Ting object teasers.
   $form['ddbasic_settings']['ting_object_overlay'] = array(
     '#type' => 'fieldset',
     '#title' => t('Ting object overlay'),
@@ -120,10 +120,10 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     '#type' => 'checkbox',
     '#title' => t('Disable overlay'),
     '#description' => t('Disable gradient overlay with text on Ting object teasers'),
-    '#default_value' => ddbasic_theme_setting('ting_object_disable_overlay', false)
+    '#default_value' => ddbasic_theme_setting('ting_object_disable_overlay', FALSE),
   );
 
-  // Social links
+  // Social links.
   $form['ddbasic_settings']['social_links'] = array(
     '#type' => 'fieldset',
     '#title' => t('Social links'),
@@ -148,7 +148,7 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
     '#default_value' => ddbasic_theme_setting('social_link_instagram', ''),
   );
 
-  // User signup link
+  // User signup link.
   $form['ddbasic_settings']['signup_link'] = array(
     '#type' => 'fieldset',
     '#title' => t('User signup link'),
@@ -177,14 +177,35 @@ function ddbasic_form_system_theme_settings_validate($form, &$form_state) {
     form_set_error('color_primary', t('Only hex colors is allowed'));
   }
 
-  $form_state['color_path'] = drupal_get_path('theme', 'ddbasic') . '/sass/configuration/_colors.scss';
-  if (!is_writable($form_state['color_path'])) {
-    form_set_error('ddbasic_settings', t('Please make the color file (%path) writable', array('%path' => $form_state['color_path'])));
-  }
   if (!empty($form_state['values']['user_signup_link'])) {
     if (!(0 === strpos($form_state['values']['user_signup_link'], 'http'))) {
       form_set_error('user_signup_link', t('User signup link must start with "http"'));
     }
+  }
+
+  $theme_path = drupal_get_path('theme', 'ddbasic');
+  $cssfiles = array_merge(
+    file_scan_directory($theme_path . '/css', '/\.css$/'),
+    file_scan_directory($theme_path . '/sass_css', '/\.css$/')
+  );
+  $form_state['cssfiles'] = array();
+
+  $not_writable = array();
+  foreach ($cssfiles as $cssfile) {
+    $form_state['cssfiles'][$cssfile->uri] = drupal_realpath($cssfile->uri);
+    if (!is_writable($form_state['cssfiles'][$cssfile->uri])) {
+      $not_writable[] = $form_state['cssfiles'][$cssfile->uri];
+    }
+  }
+
+  if (!empty($not_writable)) {
+    form_set_error(
+      'ddbasic_settings',
+      theme('item_list', array(
+        'title' => t('Make the following files writable, for the coloring to work.'),
+        'items' => $not_writable,
+      ))
+    );
   }
 }
 
@@ -192,26 +213,19 @@ function ddbasic_form_system_theme_settings_validate($form, &$form_state) {
  * Custom submit for the theme_settings form.
  */
 function ddbasic_form_system_theme_settings_submit($form, &$form_state) {
-  file_put_contents($form_state['color_path'], ddbasic_create_colors_config($form_state['values']));
-  exec('cd ' . __DIR__ . ' && gulp sass');
-}
+  switch ($form_state['values']['color_text']) {
+    case 'primary': $form_state['values']['color_text'] = $form_state['values']['color_primary'];
+      break;
 
-/**
- * Get sass containing the color settings.
- */
-function ddbasic_create_colors_config($values) {
-  $color_text = $values['color_text'];
-  switch ($color_text) {
-    case 'primary': $color_text = $values['color_primary']; break;
-    case 'secondary': $color_text = $values['color_secondary']; break;
+    case 'secondary': $form_state['values']['color_text'] = $form_state['values']['color_secondary'];
+      break;
   }
 
-  return '// Autogenerated file.
-$color-primary: #' . $values['color_primary'] . ';
-$color-secondary: #' . $values['color_secondary'] . ';
-
-$color-text: #' . $color_text . ';
-$color-text-on-primary: #' . $values['color_text_on_primary'] . ';
-$color-text-on-secondary: #' . $values['color_text_on_secondary'] . ';
-';
+  $colors = array();
+  foreach ($form_state['values'] as $key => $value) {
+    if (strpos($key, 'color_') === 0) {
+      $colors[substr($key, 6)] = $value;
+    }
+  }
+  ding_ddbasic_colorize_css($form_state['cssfiles'], $colors);
 }
