@@ -10,6 +10,9 @@ tr.draggable {
   td:first-child {
     width: getColumn(1 of 8);
   }
+  .element-hidden:first-child + td {
+    padding-left: 15px;
+  }
   .tabledrag-handle {
     width: 20px;
     height: 20px;
