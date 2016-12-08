@@ -15,9 +15,20 @@
           $('.topbar-link-user-account .topbar-link-user-account').append('<div class="notification-count">' + count + '</div>');
         }
       }
+    }
+  };
 
-
-      console.log(count);
+  // P2 Ding list @TODO move to own file
+  Drupal.behaviors.ding_p2_list = {
+    attach: function(context, settings) {
+      $('.field-name-ding-entity-buttons .ding-list-add-button .trigger').on('click', function(evt) {
+        evt.preventDefault();
+        $(this).parent().addClass('open-overlay');
+      });
+      $('.field-name-ding-entity-buttons .ding-list-add-button .close').on('click', function(evt) {
+        evt.preventDefault();
+        $(this).parents('.ding-list-add-button').removeClass('open-overlay');
+      });
     }
   };
 

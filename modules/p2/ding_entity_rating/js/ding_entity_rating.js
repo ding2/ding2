@@ -66,7 +66,7 @@
      */
     starClick: function(evt) {
       evt.preventDefault();
-      
+
       var $this = $(this),
         _path = $this.parent().attr('data-ding-entity-rating-path'),
         _index = $this.index() + 1,
@@ -78,20 +78,20 @@
           progress: { type: 'custom' },
         }),
         ofunc_complete = drupal_ajax.options.complete;
-      
-      
+
+
       drupal_ajax.options.complete = function (xmlhttprequest, status) {
         $this.addClass('submitted');
         $this.prevAll().addClass('submitted');
         $this.nextAll().removeClass('submitted');
-        
+
         return ofunc_complete(xmlhttprequest, status);
       };
-      
+
       drupal_ajax.beforeSerialize(drupal_ajax.element, drupal_ajax.options);
-      
+
       $.ajax(drupal_ajax.options);
-      
+
       return;
     },
 
@@ -134,7 +134,7 @@
       $('.ding-entity-rating', context).each(function () {
         rating_ids.push($(this).attr('data-ding-entity-rating-id'));
       });
-      
+
       if (rating_ids.length > 0) {
         $.ajax('/ding_entity_rating/get', {
           data: {ids: rating_ids},
