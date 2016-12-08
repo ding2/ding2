@@ -21,6 +21,10 @@
     @include span-columns(5);
     margin-bottom: 30px;
 
+    p:last-child {
+      margin-bottom: 0;
+    }
+
     // Tablet
     @include media($tablet) {
       @include span-columns(6);
