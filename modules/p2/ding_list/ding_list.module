@@ -525,7 +525,7 @@ function ding_list_theme($existing, $type, $theme, $path) {
         'value' => NULL,
         // Don't run the title through the translator, because it's translated
         // in the preprocessor.
-        'title' => 'More...',
+        'title' => 'Add to list',
         'value_title' => FALSE,
         'options' => FALSE,
       ),
