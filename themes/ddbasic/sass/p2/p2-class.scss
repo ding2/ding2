@@ -30,6 +30,10 @@
     position: relative;
   }
   .notification-count {
+    @include transition(
+      color $speed $ease,
+      background-color $speed $ease
+    );
     @include transform(translateY(-14px));
     position: absolute;
     right: 14px;
@@ -41,6 +45,7 @@
     line-height: 33px;
     color: $color-text-on-primary;
     background-color: $color-primary;
+
     @include media($mobile) {
       @include transform(translateY(0));
       position: static;
@@ -50,6 +55,14 @@
       line-height: 20px;
       background-color: transparent;
       color: $color-primary;
+    }
+  }
+  .no-touch & {
+    &:hover {
+      .notification-count {
+        color: $color-standard-text;
+        background-color: $white;
+      }
     }
   }
 }
