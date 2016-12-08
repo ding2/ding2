@@ -1,3 +1,5 @@
+/*jshint forin:false, jquery:true, browser:true, indent:2, trailing:true, unused:false */
+/*globals require*/
 'use strict';
 
 var gulp = require('gulp-help')(require('gulp'));
@@ -17,7 +19,7 @@ var gdeb = require('gulp-debug');
 // We only want to process our own non-processed JavaScript files.
 // var jsPath = './scripts/ddbasic.!(*.min).js';
 var jsPath = ['./scripts/**/*.js', '!./scripts/contrib/*'];
-var sassPath = ['./sass/**/*.scss', , '!./sass/contrib/**'];
+var sassPath = ['./sass/**/*.scss', '!./sass/contrib/**'];
 
 gulp.task('jshint', 'Run Javascript through JSHint',
   function() {
@@ -55,7 +57,7 @@ gulp.task('uglify', 'Minify JavaScript using Uglify',
   *
   */
 gulp.task('validate-sass', function lintCssTask() {
-  const gulpStylelint = require('gulp-stylelint');
+  var gulpStylelint = require('gulp-stylelint');
   var argv = require('yargs').argv;
   var testPath = argv.dir ? ['./sass/' + argv.dir + "/*.scss"] : sassPath;
   return gulp
@@ -69,12 +71,12 @@ gulp.task('validate-sass', function lintCssTask() {
 });
 
 /**
-  * Usage:
-  * gulp sass
-  *
-  * Precompile all sass files into css files in the sass_css folder
-  *
-  */
+ * Usage:
+ * gulp sass
+ *
+ * Precompile all sass files into css files in the sass_css folder
+ *
+ */
 gulp.task('sass', 'Process SCSS using libsass',
   function () {
     gulp.src(sassPath)
