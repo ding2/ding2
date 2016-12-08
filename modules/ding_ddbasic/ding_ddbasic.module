@@ -289,17 +289,17 @@ function ding_ddbasic_is_ting_search_extend_form() {
 }
 
 /**
- *
+ * Colorize CSS files.
  */
 function ding_ddbasic_colorize_css($cssfiles, $colors = array()) {
   foreach ($cssfiles as $cssfile) {
     file_put_contents($cssfile, strtr(file_get_contents($cssfile), array(
-      '#fF0001' => '#' . $colors['primary'],
-      '#fF0002' => '#' . $colors['secondary'],
+      '#4300fF' => '#' . $colors['primary'],
+      '#fFaaaa' => '#' . $colors['secondary'],
 
-      '#fF0101' => '#' . $colors['text'],
-      '#fF0102' => '#' . $colors['text_on_primary'],
-      '#fF0103' => '#' . $colors['text_on_secondary'],
+      '#4301fF' => '#' . $colors['text'],
+      '#fFfFf9' => '#' . $colors['text_on_primary'],
+      '#0000aA' => '#' . $colors['text_on_secondary'],
     )));
   }
 }
