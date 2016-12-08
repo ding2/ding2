@@ -18,3 +18,38 @@
     }
   }
 }
+
+// ==========================================================================
+// Notifications
+// ==========================================================================
+.pane-notifications-top-menu {
+  display: none;
+}
+.topbar-link-user-account {
+  .topbar-link-user-account {
+    position: relative;
+  }
+  .notification-count {
+    @include transform(translateY(-14px));
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 33px;
+    color: $color-text-on-primary;
+    background-color: $color-primary;
+    @include media($mobile) {
+      @include transform(translateY(0));
+      position: static;
+      float: right;
+      width: auto;
+      height: auto;
+      line-height: 20px;
+      background-color: transparent;
+      color: $color-primary;
+    }
+  }
+}
