@@ -60,6 +60,7 @@
 
 .pane-search-per-page {
   @include span-columns(4 of 8);
+  clear: both;
 
   // Tablet
   @include media($tablet) {
