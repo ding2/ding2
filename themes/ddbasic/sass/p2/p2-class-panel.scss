@@ -257,6 +257,18 @@
 }
 
 // ==========================================================================
+// Pane add list
+// ==========================================================================
+.pane-add-list {
+  width: 100%;
+  float: left;
+  margin: 40px 0;
+  form {
+    float: left;
+  }
+}
+
+// ==========================================================================
 // Ding list add button @TODO move to own css file
 // ==========================================================================
 
@@ -281,14 +293,29 @@
       opacity: 0;
       background-color: $black-overlay-dark;
       overflow-y: scroll;
+      .wrapper {
+        @include wrapper;
+        position: relative;
+      }
       .inner {
         @include transform(translateX(-50%));
-        @include span-columns(4);
+        @include span-columns(6);
         @include omega();
         position: absolute;
         top: 100px;
         left: 50%;
         margin-bottom: 50px;
+
+        // Tablet
+        @include media($tablet) {
+          @include span-columns(10);
+          @include omega();
+        }
+
+        // Mobile
+        @include media($mobile) {
+          width: 90%;
+        }
       }
       h2 {
         @include font('header-large');
