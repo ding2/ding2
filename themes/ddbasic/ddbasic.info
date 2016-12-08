@@ -119,6 +119,8 @@
 
   scripts[] = scripts/view.js
 
+  scripts[] = scripts/p2/p2-notification.js
+
 
 ;----------// Regions
   regions[header]            = Header
