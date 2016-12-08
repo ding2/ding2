@@ -12,7 +12,7 @@
         });
 
         if($('.topbar-link-user-account .topbar-link-user-account')) {
-          $('.topbar-link-user-account .topbar-link-user-account').append('<div class="notification-count">' + count + '</div>');
+          $('.topbar-link-user-account .topbar-link-user-account', context).append('<div class="notification-count">' + count + '</div>');
         }
       }
     }
