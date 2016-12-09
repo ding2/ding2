@@ -468,6 +468,7 @@
     .ting-object-right-content {
       @include span-columns(5 of 9);
       margin-bottom: 20px;
+      clear: left;
 
       @include media($mobile) {
         width: auto;
