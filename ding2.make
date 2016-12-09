@@ -62,6 +62,9 @@ projects[domain_menu_access][version] = "1.2"
 projects[domain_variable][subdir] = "contrib"
 projects[domain_variable][version] = "1.1"
 
+projects[domain_views][subdir] = "contrib"
+projects[domain_views][version] = "1.5"
+
 ; The patch ensures that file upload patch is created on file upload. It normally
 ; created on settings form save, but as we use feature this do not work.
 ; See https://www.drupal.org/node/2410241
