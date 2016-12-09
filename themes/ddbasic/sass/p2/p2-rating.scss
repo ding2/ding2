@@ -6,7 +6,6 @@
 .ding-entity-rating-avg {
   float: left;
   margin-top: 5px;
-  margin-left: 10px;
 }
 
 // Overwrites for font-awsome
@@ -22,6 +21,9 @@
     &:first-child {
       margin-left: -2px;
     }
+    &:last-child {
+      margin-right: 10px;
+    }
     &:before {
       content: "\e918";
       position: absolute;
@@ -36,6 +38,14 @@
       text-transform: none;
       line-height: 1;
       color: $grey-medium;
+      // On ting teaser
+      .ting-object.view-mode-teaser & {
+        color: $color-standard-text;
+      }
+      // On ting search result
+      .ting-object.view-mode-search-result & {
+        color: $grey-medium;
+      }
     }
     &.active,
     &.submitted {
