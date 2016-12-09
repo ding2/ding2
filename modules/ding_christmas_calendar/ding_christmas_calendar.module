@@ -181,7 +181,7 @@ function ding_christmas_calendar_generate_content($quiz_id, $mobile = FALSE) {
       $rid = (int) ($i / 4);
       $cid = $i % 4;
       if (isset($questions[$i])) {
-        $rows[$rid][$cid] = ding_christmas_calendar_generate_url($quiz_id, $current, $questions[$i]);
+        $rows[$rid][$cid] = ding_christmas_calendar_generate_url($quiz, $current, $questions[$i]);
       }
       else {
         $rows[$rid][$cid] = '<span></span>';
@@ -218,8 +218,8 @@ function ding_christmas_calendar_generate_content($quiz_id, $mobile = FALSE) {
 /**
  * Support function for generating content of Christmas calendar.
  *
- * @param string $quiz_id
- *   ID of quiz node.
+ * @param object $quiz_id
+ *   Object of quiz.
  * @param DateTime $current
  *   Represents current date.
  * @param object $question
@@ -228,20 +228,36 @@ function ding_christmas_calendar_generate_content($quiz_id, $mobile = FALSE) {
  * @return string
  *   Generated url.
  */
-function ding_christmas_calendar_generate_url($quiz_id, DateTime $current, $question) {
-  $result = ding_christmas_get_question_number($question, $quiz_id);
+function ding_christmas_calendar_generate_url($quiz, DateTime $current, $question) {
+  $quiz_result = quiz_take_quiz($quiz);
+  if (!$quiz_result) {
+    $quiz_result = entity_create('quiz_result', array(
+      'nid' => $quiz->nid,
+      'vid' => $quiz->vid,
+      'uid' => $GLOBALS['user']->uid,
+      'type' => $quiz->quiz->result_type,
+    ));
+
+    $quiz_result->save();
+    $_SESSION['quiz'][$quiz_result->nid]['result_id'] = empty($quiz_result->result_id) ? 1 : $quiz_result->result_id;
+    $_SESSION['quiz'][$quiz_result->nid]['current'] = 1;
+    quiz_take_quiz($quiz);
+  }
+
+  $result = ding_christmas_get_question_number($question, $quiz->nid);
   $number = !$result ? 1 : $result->number - 1;
+  $_SESSION['quiz'][$quiz->nid]['current'] = $number;
   $question = node_load($question->nid);
   $date = field_get_items('node', $question, 'field_quiz_date');
   $class = 'future-day';
   $path = "#";
   if ($date[0]['value'] < $current->getTimestamp()) {
     $class = 'past-day';
-    $path = "ding-christmas-calendar/{$quiz_id}/take/{$number}";
+    $path = "ding-christmas-calendar/{$quiz->nid}/take/{$number}";
   }
   elseif ($date[0]['value'] == $current->getTimestamp()) {
     $class = 'active-day';
-    $path = "ding-christmas-calendar/{$quiz_id}/take/{$number}";
+    $path = "ding-christmas-calendar/{$quiz->nid}/take/{$number}";
   }
 
   $attributes = array();
@@ -357,6 +373,9 @@ function ding_christmas_calendar_node_view($node, $view_mode, $langcode) {
 function ding_christmas_calendar_form_alter(&$form, &$form_state, $form_id) {
   switch ($form_id) {
     case 'quiz_question_answering_form':
+      end($form['question']);
+      $key = key($form['question']);
+      $form['question'][$key]['header']['#markup'] = '<h2>' . $form['question'][$key]['question']['#node']->title . '</h2>  ';
       $form['navigation']['submit']['#value'] = t('Save');
       $form['navigation']['skip']['#value'] = t('Back to calendar');
       $form['navigation']['skip']['#submit'] = array('ding_christmas_calendar_back_submit');
@@ -379,7 +398,6 @@ function ding_christmas_calendar_form_alter(&$form, &$form_state, $form_id) {
 function ding_christmas_calendar_back_submit($form, &$form_state) {
   $form_state['redirect'] = 'ding-christmas-calendar';
 }
-
 
 /**
  * Support function for getting id of question.
@@ -405,10 +423,10 @@ function ding_christmas_get_question_id($input) {
  * Implements hook_menu_alter().
  */
 function ding_christmas_calendar_menu_alter(&$items) {
-  $items['node/%quiz_menu/take']['access arguments'][] = $items['node/%quiz_menu/take']['access callback'];
-  $items['node/%quiz_menu/take']['access callback'] = 'ding_christmas_calendar_access_callback';
-  $items['node/%quiz_menu/quiz']['access arguments'][] = $items['node/%quiz_menu/quiz']['access callback'];
-  $items['node/%quiz_menu/quiz']['access callback'] = 'ding_christmas_calendar_access_callback';
+  $items['node/%/take']['access arguments'][] = $items['node/%quiz_menu/take']['access callback'];
+  $items['node/%/take']['access callback'] = 'ding_christmas_calendar_access_callback';
+  $items['node/%/quiz']['access arguments'][] = $items['node/%quiz_menu/quiz']['access callback'];
+  $items['node/%/quiz']['access callback'] = 'ding_christmas_calendar_access_callback';
 }
 
 /**

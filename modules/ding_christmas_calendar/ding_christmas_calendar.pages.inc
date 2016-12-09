@@ -17,23 +17,6 @@
  */
 function ding_christmas_calendar_take_wrapper($quiz_id, $number) {
   $quiz = node_load($quiz_id);
-  $_SESSION['quiz'][$quiz->nid]['current'] = $number;
-  $quiz_result = quiz_take_quiz($quiz);
-  if (!$quiz_result) {
-    $quiz_result = entity_create('quiz_result', array(
-      'nid' => $quiz->nid,
-      'vid' => $quiz->vid,
-      'uid' => $GLOBALS['user']->uid,
-      'type' => $quiz->quiz->result_type,
-    ));
-
-    $quiz_result->save();
-    $_SESSION['quiz'][$quiz_result->nid]['result_id'] = empty($quiz_result->result_id) ? 1 : $quiz_result->result_id;
-    $_SESSION['quiz'][$quiz_result->nid]['current'] = 1;
-    quiz_take_quiz($quiz);
-  }
-
-
   module_load_include('inc', 'quiz', 'plugins/page_manager/tasks/quiztake');
   $output = quiz_take_question($quiz, $number);
   return $output;
@@ -49,7 +32,7 @@ function ding_christmas_calendar_take_wrapper($quiz_id, $number) {
 function ding_christmas_login_popup($ajax) {
   $form_state = array(
     'ajax' => TRUE,
-    'title' => t('Login form')
+    'title' => t('Login form'),
   );
   $form = 'user_login';
   if ($ajax) {
