@@ -427,15 +427,32 @@ function ding_entity_rating_ding_interaction_info() {
     $activity = $has_loans || $has_history;
   }
 
+  $translatables = ding_entity_rating_translatables();
+
   return array(
-    'title' => t('Rate materials and get better serendipity'),
+    'title' => $translatables['title'],
+    'translatables' => $translatables,
     'description' => t('If the user has not rated any materials yet, ' .
-      'suggest this can be done for instance in the loan history.'),
+    'suggest this can be done for instance in the loan history.'),
     'active' => $activity,
     'css_class' => 'complete-info',
-
   );
 }
+
+/**
+ * Get array of translatables.
+ *
+ * @return array
+ *   An array of strings that can be translated for this module.
+ */
+function ding_entity_rating_translatables() {
+  return array(
+    'title' => t('Rate materials and get better serendipity'),
+    'current_loans' => t("Rate your current loans"),
+    'previous_loans' => t("Rate previous loans"),
+  );
+}
+
 
 /**
  * Implements hook_ding_interaction_view().
@@ -454,13 +471,14 @@ function theme_ding_entity_rating_promote_ratings($variables) {
   $uid = $variables['account']->uid;
   $loan_button = '';
   $history_button = '';
+  $translatables = ding_entity_rating_ding_interaction_view();
 
   if (count(ding_provider_invoke_page('loan', 'list', $variables['account'])) > 0) {
-    $loan_button = "<li>" . l(t("Rate your current loans"), "user/$uid/status/loans") . "</li>";
+    $loan_button = "<li>" . l($translatables['current_loans'], "user/$uid/status/loans") . "</li>";
   }
 
   if (isset($variables['history_list']) && field_get_items('ding_type', $variables['history_list'], 'field_list_objects')) {
-    $history_button = "<li>" . l(t("Rate previous loans"), "list/" . $variables['history_list']->id) . "</li>";
+    $history_button = "<li>" . l($translatables['previous_loans'], "list/" . $variables['history_list']->id) . "</li>";
   }
 
   return "<div class='description'>" .

@@ -24,12 +24,27 @@ function ding_entity_rating_loan_history_ding_interaction_info() {
       );
     }
   }
-
+  
+  $translatables = ding_entity_rating_loan_history_translatables();
+  
   return array(
-    'title' => t('Rate your previous loans'),
+    'title' => $translatables['title'],
+    'translatables' => $translatables,
     'description' => t('Present historical non rated loans to the user and request the user to rate them in order to get better serendipity.'),
     'active' => $active,
   ) + $more_link;
+}
+
+/**
+ * Get array of translatables.
+ *
+ * @return array
+ *   An array of strings that can be translated for this module.
+ */
+function ding_entity_rating_loan_history_translatables() {
+  return array(
+    'title' => t('Rate your previous loans'),
+  );
 }
 
 /**
