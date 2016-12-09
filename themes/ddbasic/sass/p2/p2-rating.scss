@@ -38,19 +38,35 @@
       text-transform: none;
       line-height: 1;
       color: $grey-medium;
-      // On ting teaser
-      .ting-object.view-mode-teaser & {
-        color: $color-standard-text;
-      }
-      // On ting search result
-      .ting-object.view-mode-search-result & {
-        color: $grey-medium;
-      }
     }
     &.active,
     &.submitted {
       &:before {
         color: $color-primary;
+      }
+    }
+    // On ting teaser
+    .ting-object.view-mode-teaser & {
+      &:before {
+        color: $color-standard-text;
+      }
+      &.active,
+      &.submitted {
+        &:before {
+          color: $color-primary;
+        }
+      }
+    }
+    // On ting search result
+    .ting-object.view-mode-search-result & {
+      &:before {
+        color: $grey-medium;
+      }
+      &.active,
+      &.submitted {
+        &:before {
+          color: $color-primary;
+        }
       }
     }
     // Hover
