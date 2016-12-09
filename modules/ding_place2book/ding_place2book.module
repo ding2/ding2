@@ -169,7 +169,9 @@ function ding_place2book_node_view_alter(&$build) {
         $prices = $p2b->getPrices($event_maker_id, $event_id);
         $output = '';
         foreach ($prices as $price) {
-          $output .= "<p><i class='icon-tag'></i>{$price->name} {$price->value} kr.</p>";
+          $currency = variable_get('ding_event_currency_type', 'Kr');
+          $value = $price->value ? "{$price->value} {$currency}" : t('Free');
+          $output .= "<p><i class='icon-tag'></i>{$price->name} {$value}</p>";
         }
         $build['place2book_event_prices'] = $output;
       }
@@ -335,6 +337,12 @@ function _ding_p2b_get_address_data($node) {
       0,
       'value',
     ),
+    "name" => array(
+      'field_ding_event_location',
+      LANGUAGE_NONE,
+      0,
+      'name_line',
+    ),
   );
 
   $data = array();
@@ -342,12 +350,17 @@ function _ding_p2b_get_address_data($node) {
     $result = NULL;
     $data[$name] = drupal_array_get_nested_value($node, $option, $result);
     if (($result === FALSE || empty($data[$name])) && $lib) {
-      $option[0] = 'field_ding_library_addresse';
+      if ($name == 'name') {
+        $option = array('title');
+      }
+      else {
+        $option[0] = 'field_ding_library_addresse';
+      }
       $data[$name] = drupal_array_get_nested_value($lib, $option);
     }
   }
   $data['phone'] = empty($data['phone']) ? t('None') : $data['phone'];
-  $data['address2'] = empty($data['address2']) ? t('None') : $data['address2'];
+  $data['address2'] = '';
 
   return $data;
 }
