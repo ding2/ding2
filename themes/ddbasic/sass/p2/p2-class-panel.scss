@@ -115,6 +115,14 @@
           display: block;
           float: left;
           max-width: calc(100% - 40px);
+          &:after {
+            @include transition(color $speed $ease);
+          }
+          &:hover {
+            &:after {
+              color: $color-text;
+            }
+          }
         }
         .signature-label {
           @include font('header-small');
