@@ -55697,7 +55697,7 @@ msgstr "Note"
 
 #: /index.php
 msgid "Noter"
-mmsgstr "Noter"
+msgstr "Noter"
 
 #: /index.php
 msgid "Search Query"
