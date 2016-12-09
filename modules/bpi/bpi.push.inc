@@ -241,6 +241,7 @@ function bpi_convert_to_bpi($node, $category, $audience, $with_images = FALSE, $
     );
   }
 
+  drupal_alter('bpi_push_data', $node, $bpi_content);
   return $bpi_content;
 }
 

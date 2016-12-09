@@ -334,6 +334,8 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
       drupal_add_css(drupal_get_path('module', 'bpi') . '/css/bpi-admin.styles.css', 'file');
       $_SESSION['bpi']['assets'] = $bpi_assets;
     }
+
+    drupal_alter('bpi_syndicate_data', $form, $bpi_content);
   }
 
   // Add BPI fields.
