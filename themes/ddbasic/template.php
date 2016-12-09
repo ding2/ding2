@@ -771,6 +771,11 @@ function ddbasic_preprocess_ting_object(&$vars) {
             $vars['classes_array'][] = 'no-overlay';
           }
 
+          // Check if teaser has rating function and remove abstract
+          if (!empty($vars['content']['group_text']['group_rating']['ding_entity_rating_action'])) {
+            unset($vars['content']['group_text']['ting_abstract']);
+          }
+
           break;
 
         // Ting reference preview
