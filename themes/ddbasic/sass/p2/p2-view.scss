@@ -114,3 +114,14 @@ tr.draggable {
     }
   }
 }
+
+// ==========================================================================
+// View public lists
+// ==========================================================================
+.view-public-lists.view-id-public_lists{
+  .ding-type-ding-list {
+    > h2 {
+      @include font('header-large');
+    }
+  }
+}
