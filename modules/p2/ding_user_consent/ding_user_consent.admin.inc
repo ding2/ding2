@@ -34,7 +34,7 @@ function ding_user_consent_admin_form($form, &$form_state) {
     $form[$form_key][$form_key . '_description_link'] = array(
       '#type' => 'textfield',
       '#title' => t('Link to consent description'),
-      '#description' => t('Write a link to the page containing a description of user consent. Use whether the format node/!nid or a path alias.') . "<br/>" .ding_user_consent_get_description_link(),
+      '#description' => t('Write a link to the page containing a description of user consent. Use whether the format node/!nid or a path alias.') . "<br/>" . ding_user_consent_get_description_link(),
       '#default_value' => variable_get($form_key . '_description_link', ''),
     );
     

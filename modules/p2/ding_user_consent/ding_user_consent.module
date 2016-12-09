@@ -434,7 +434,7 @@ function ding_user_consent_get_description_link() {
       'promote' => 0,
     );
     $entity = entity_create('node', $values);
-    entity_save('node',$entity);
+    entity_save('node', $entity);
     $n = entity_metadata_wrapper('node', $entity);
     $n->title->set(t("About consent and storage of previous loans"));
     $n->field_ding_page_lead = t("The library will only store your previous loans in 30 days, unless you give us permission to keep them longer for you.");
@@ -444,7 +444,7 @@ function ding_user_consent_get_description_link() {
     variable_set('ding_user_consent_loan_history_store_description_link', $url); 
 
   }
-  return l(t("Read about storage of loan history"),$url,array('attributes' => array('target' => '_blank', 'class' => 'transparent-button positive')));
+  return l(t("Read about storage of loan history"), $url, array('attributes' => array('target' => '_blank', 'class' => 'transparent-button positive')));
 }
 
 /**
