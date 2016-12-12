@@ -523,9 +523,7 @@ function ding_list_theme($existing, $type, $theme, $path) {
       'variables' => array(
         'type' => NULL,
         'value' => NULL,
-        // Don't run the title through the translator, because it's translated
-        // in the preprocessor.
-        'title' => 'More...',
+        'title' => NULL,
         'value_title' => FALSE,
         'options' => FALSE,
       ),
@@ -844,13 +842,34 @@ The link is active for 7 days from today, after which it will be disabled for se
  */
 function ding_list_ding_interaction_info() {
   $active = user_is_logged_in();
+
+  $translatables = ding_list_rating_translatables();
+
   return array(
+    'title' => $translatables['title'],
+    'translatables' => $translatables,
     'title' => t('Create your own lists'),
     'description' => t('Promote creating your own lists to users with no personal lists yet.'),
     'css_class' => 'complete-info',
     'active' => $active,
   );
 }
+
+/**
+ * Get array of translatables.
+ *
+ * @return array
+ *   An array of strings that can be translated for this module.
+ */
+function ding_list_rating_translatables() {
+  return array(
+    'title' => t('Create your own lists'),
+    'info' => t("Did you know you can create your own lists and add objects to them?"),
+    'create_title' => t('> Create my own list'),
+  );
+}
+
+
 /**
  * Implements hook_ding_interaction_view().
  */
@@ -866,9 +885,10 @@ function ding_list_ding_interaction_view() {
 }
 
 function theme_ding_list_promote_lists() {
+  $translatables = ding_list_rating_translatables();
   return "<div class='description'>" .
-    t("Did you know you can create your own lists and add objects to them?") .
-    "</div><ul class='actions'><li>" . l(t('> Create my own list'), 'list/create') . "</li></ul>";
+    $translatables['info'] .
+    "</div><ul class='actions'><li>" . l($translatables['create_title'], 'list/create') . "</li></ul>";
 }
 
 /**

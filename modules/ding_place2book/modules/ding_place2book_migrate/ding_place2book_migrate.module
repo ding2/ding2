@@ -74,6 +74,9 @@ function _ding_place2book_migrate_batch_finished($success, $results, $operations
     if (db_table_exists('ding_place2book')) {
       db_drop_table('ding_place2book');
     }
+
+    // Disable module.
+    module_disable(array('ding_place2book_migrate'), TRUE);
   }
 
   drupal_set_message($message);
