@@ -77,6 +77,9 @@ projects[entityreference][version] = "1.1"
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
 
+projects[environment_indicator][subdir] = "contrib"
+projects[environment_indicator][version] = "2.8"
+
 projects[expire][subdir] = "contrib"
 projects[expire][version] = "2.0-rc4"
 
@@ -219,6 +222,9 @@ projects[message][version] = "1.10"
 
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] "1.10"
+
+projects[mmeu][subdir] = "contrib"
+projects[mmeu][version] = "1.0"
 
 projects[module_filter][subdir] = "contrib"
 projects[module_filter][version] = "1.8"
@@ -425,9 +431,8 @@ projects[xautoload][version] = "5.7"
 ; Libraries
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
-libraries[bpi-client][download][url] = "https://github.com/rimi-itk/bpi-client.git"
-libraries[bpi-client][download][branch] = "Issue-1999"
-
+libraries[bpi-client][download][url] = "http://github.com/ding2/bpi-client.git"
+libraries[bpi-client][download][branch] = "master"
 
 libraries[ckeditor][download][type] = "get"
 libraries[ckeditor][download][url] = http://download.cksource.com/CKEditor/CKEditor/CKEditor%204.4.7/ckeditor_4.4.7_full.zip
@@ -467,7 +472,7 @@ libraries[psr7][destination] = "libraries"
 
 libraries[ting-client][download][type] = "git"
 libraries[ting-client][download][url] = "http://github.com/ding2/ting-client.git"
-libraries[ting-client][download][tag] = "7.x-3.0.0-rc2"
+libraries[ting-client][download][branch] = "master"
 libraries[ting-client][destination] = "modules/ting/lib"
 
 libraries[zen-grids][download][type] = "git"

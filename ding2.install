@@ -5,27 +5,6 @@
  */
 
 /**
- * Implements hook_requirements().
- *
- * Display build version on the status report page.
- */
-function ding2_requirements($phase) {
-  $t = get_t();
-
-  // Get version form the profiles info file.
-  $info = install_profile_info('ding2');
-  if ($phase == 'runtime') {
-    return array(
-      'ddb_version' => array(
-        'title' => $t('DDB Version'),
-        'value' => !empty($info['version']) ? $info['version'] : 'development',
-        'severity' => REQUIREMENT_INFO,
-      ),
-    );
-  }
-}
-
-/**
  * Implements hook_install().
  *
  * Perform actions to set up the site for this profile.
@@ -393,9 +372,6 @@ function ding2_update_7022() {
  * Enable admin_menu modules.
  */
 function ding2_update_7023() {
-  if (module_exists('toolbar')) {
-    module_disable(array('toolbar'), TRUE);
-  }
   module_enable(array('admin_menu', 'admin_menu_toolbar'));
 
   ding2_admin_menu_shortcuts();
@@ -406,4 +382,20 @@ function ding2_update_7023() {
  */
 function ding2_update_7024() {
   module_enable(array('htmlmail'));
+}
+
+/**
+ * Enable environment indicator panel modules.
+ */
+function ding2_update_7025() {
+  if (module_exists('ddb_cp')) {
+    module_enable(array('environment_indicator'));
+  }
+}
+
+/**
+ * Enable mmeu module.
+ */
+function ding2_update_7026() {
+  module_enable(array('mmeu'));
 }

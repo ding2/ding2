@@ -23,6 +23,8 @@
  *   - hook_<plugin>_serendipity_add() - to add suggestions to the DS pool
  */
 
+include_once 'ding_serendipity.features.inc';
+
 define('DING_SERENDIPITY_FUNCTION_POSTFIX', '_serendipity_add');
 
 /**
@@ -224,7 +226,7 @@ function ding_serendipity_fetch(array $context = NULL) {
     // Prefix cid with uid for per-user serendipity cache clear.
     $user_key = isset($context['current-user']) ? "_" . $context['current-user'] . "_" : "";
     $cache_id = "ding_serendipity" . $user_key . implode(':', $cache_id);
-    
+
     $cache = cache_get($cache_id);
     if (!empty($cache) && REQUEST_TIME < $cache->expire) {
       $cache->data['cache'] = REQUEST_TIME . ':' . $cache->expire . '<br/>';
@@ -292,6 +294,7 @@ function ding_serendipity_fetch(array $context = NULL) {
 
     // Collect serendipity from each weight pool of plugins.
     foreach ($plugin as $name => $values) {
+
       // Skip additional serendipity hooks if we have spent too much time.
       if (ding_serendipity_isslow('serendipity', $slow_timeout)) {
         $is_slow = TRUE;
@@ -330,7 +333,22 @@ function ding_serendipity_fetch(array $context = NULL) {
     if (empty($context['not_random'])) {
       shuffle($weight_results);
     }
+
     $results['items'] = array_merge($results['items'], $weight_results);
+  }
+
+  // Validate results with local Broend, remove missing items.
+  $keys = array();
+  foreach ($results['items'] as $key => $item) {
+    $keys[] = $item['id'];
+  }
+
+  $keys = ding_serendipity_validate_materials($keys);
+
+  foreach ($results['items'] as $key => $item) {
+    if (!in_array($item['id'], $keys)) {
+      unset($results['items'][$key]);
+    }
   }
 
   // Allow for alteration of the results.
@@ -349,6 +367,38 @@ function ding_serendipity_fetch(array $context = NULL) {
   }
 
   return $results;
+}
+
+
+/**
+ * Remove invalid materials from keys.
+ *
+ * Invalid keys may appear when materials are removed from Broenden
+ * or if cross library serendipity is introduced.
+ *
+ * @param array $keys
+ *   Array of material ids.
+ */
+function ding_serendipity_validate_materials(array $keys) {
+  if (empty($keys)) {
+    return $keys;
+  }
+
+  // Lookup the materials in Broenden to filter out local missing materials.
+  $query = implode(" OR ", $keys);
+  try {
+    $result = ding_serendipity_do_search($query, array('limit' => 1024));
+  }
+  catch (Exception $e) {
+    watchdog_exception('ding_serendipity_sanitize', $e);
+  }
+
+  $sanitized = array();
+  foreach ($result as $item) {
+    $sanitized[] = $item['id'];
+  }
+
+  return $sanitized;
 }
 
 /**
@@ -753,7 +803,7 @@ function ding_serendipity_do_search($query, $options = array()) {
   module_load_include('inc', 'ting', 'ting.client');
 
   $search_result = ting_do_search($query, $options['page'], $options['count'], $options['options']);
-    
+
   if (!isset($search_result->collections) || !is_array($search_result->collections)) {
     watchdog('ding_serendipity', 'BAD Search:@query', array('@query' => $query), WATCHDOG_WARNING);
   }
@@ -918,7 +968,7 @@ function ding_serendipity_form_base_submit(&$form_state) {
  *   Serendipity result to be altered.
  * @param mixed $excludes
  *   Array or id of material(s) to exclude.
- */ 
+ */
 function ding_serendipity_exclude(&$list, $excludes) {
 
   if (empty($excludes)) {
@@ -932,7 +982,7 @@ function ding_serendipity_exclude(&$list, $excludes) {
 
   foreach ($list as $id => $item) {
     foreach ($excludes as $needle) {
-      if ($item["id"] == $needle) {
+      if (!empty($item["id"]) && $item["id"] == $needle) {
         unset($list[$id]);
       }
     }

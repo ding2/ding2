@@ -43,3 +43,4 @@ files[] = includes/classes/FBSLogDrupal.php
 files[] = includes/classes/FBSLogInterface.php
 files[] = includes/classes/FBSLogStdout.php
 files[] = includes/classes/FBS.php
+files[] = includes/classes/FBSException.php

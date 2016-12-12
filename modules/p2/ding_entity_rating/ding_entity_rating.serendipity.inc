@@ -70,6 +70,7 @@ function ding_entity_rating_materials_by_rating_serendipity_add(array $context) 
     if (empty($query)) {
       return array();
     }
+    
     $results = ding_serendipity_do_search($query, array());
 
     foreach ($results as & $item) {

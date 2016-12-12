@@ -49,6 +49,7 @@ function ding_redirect_admin_settings($form, $form_state) {
     '#title' => t('Enable redirect of login form except the /user/login.'),
     '#default_value' => variable_get('ding_redirect_settings_login_url', ''),
     '#description' => t('Enter the URL where to redirect users when they tries to log in. Keep blank to disable.'),
+    '#maxlength' => 500,
   );
 
   $form['ding_redirect_settings_dialog'] = array(

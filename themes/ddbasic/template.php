@@ -259,6 +259,21 @@ function ddbasic_preprocess_views_view_unformatted(&$vars) {
 }
 
 /**
+ * Implements hook_preprocess_views_view_field().
+ */
+function ddbasic_preprocess_views_view_field(&$vars) {
+  $field = $vars['field'];
+
+  if (isset($field->field_info) && $field->field_info['field_name'] == 'field_ding_event_price') {
+    $ding_event_price = intval($vars['output']);
+    // Show "Free" text if ding_event_price is empty or zero.
+    if (empty($ding_event_price)) {
+      $vars['output'] = t('Free');
+    }
+  }
+}
+
+/**
  * Implements hook_preprocess_user_picture().
  *
  * Override or insert variables into template user_picture.tpl.php
@@ -289,7 +304,8 @@ function ddbasic_preprocess_node(&$variables, $hook) {
 
     // Add event location variables.
     if (!empty($variables['content']['field_ding_event_location'][0]['#address']['name_line'])) {
-      $variables['ddbasic_event_location'] = $variables['content']['field_ding_event_location'][0]['#address']['name_line'] . '<br/>' . $variables['content']['field_ding_event_location'][0]['#address']['thoroughfare'] . ', ' . $variables['content']['field_ding_event_location'][0]['#address']['locality'];
+      $location = $variables['content']['field_ding_event_location'][0]['#address'];
+      $variables['ddbasic_event_location'] = $location['name_line'] . '<br/>' . $location['thoroughfare'] . ', ' . $location['postal_code'] . ', ' . $location['locality'];
     }
     else {
       // User OG group ref to link back to library.
@@ -321,6 +337,18 @@ function ddbasic_preprocess_node(&$variables, $hook) {
       ),
     ));
     $variables['ddbasic_event_time'] = $event_time_ra[0]['#markup'];
+
+    // Show "Free" text if ding_event_price is empty or zero. Unfortunately we
+    // can't use the field template for this, since it's not called when the
+    // price field is empty. This means we also need to handle this en the views
+    // field preprocess.
+    if (empty($variables['content']['field_ding_event_price']['#items'][0]['value'])) {
+      $variables['content']['field_ding_event_price'][0]['#markup'] = t('Free');
+    }
+    else {
+      $currency = variable_get('ding_event_currency_type', 'Kr');
+      $variables['content']['field_ding_event_price'][0]['#markup'] .= " {$currency}";
+    }
   }
 
   // Add tpl suggestions for node view modes.

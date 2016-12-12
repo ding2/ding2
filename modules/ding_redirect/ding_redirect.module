@@ -23,42 +23,13 @@ function ding_redirect_menu() {
 }
 
 /**
- * Implements of hook_init().
+ * Implements hook_init().
  */
 function ding_redirect_init() {
-
   // Add the login URL and JS to the page, if an url is provided.
-  $login_url = variable_get('ding_redirect_settings_login_url', '');
   $delay = variable_get('ding_redirect_settings_dialog_delay', 3000);
   $dialog_title = variable_get('ding_redirect_settings_dialog_title', t('Redirecting...'));
   $dialog_text = variable_get('ding_redirect_settings_dialog_text', t('You are being redirected to an external login page. Close this dialog to stop redirecting.'));
-
-  $redirect_well_url = variable_get('ding_redirect_settings_search_well', '');
-  $redirect_web_url  = variable_get('ding_redirect_settings_search_web', '');
-  $path = drupal_get_path('module', 'ding_redirect');
-
-  if (!empty($login_url)) {
-    drupal_add_js(array(
-      'ding_redirect' => array(
-        'login_url' => $login_url,
-      ),
-    ), 'setting');
-    drupal_add_js($path . '/js/ding_redirect_login.js');
-  }
-
-  if (!empty($redirect_web_url) || !empty($redirect_well_url)) {
-    // Add the URLs to redirect as JS settings.
-    drupal_add_js(array(
-      'ding_redirect' => array(
-        'well' => $redirect_well_url,
-        'web' => $redirect_web_url,
-      ),
-    ), 'setting');
-
-    // Add JS to redirecting the search form and CSS to style the radio buttons.
-    drupal_add_js($path . '/js/ding_redirect_search.js');
-    drupal_add_css($path . '/ding_redirect_search.css');
-  }
 
   // Add settings if we should show a dialog when redirecting.
   if ($delay > 0) {
@@ -77,21 +48,50 @@ function ding_redirect_init() {
  * Implements hook_form_FORM_ID_alter().
  */
 function ding_redirect_form_search_block_form_alter(&$form, &$form_state, $form_id) {
-
   // Only add the redirect radios when not on search page.
   $well_url = variable_get('ding_redirect_settings_search_well', '');
   $web_url  = variable_get('ding_redirect_settings_search_web', '');
+  $path = drupal_get_path('module', 'ding_redirect');
 
   if (!empty($well_url) || !empty($web_url)) {
+
+    drupal_add_js(array(
+      'ding_redirect' => array(
+        'well' => $well_url,
+        'web' => $web_url,
+      ),
+    ), 'setting');
+
     // Set some radio buttons to the search form.
     $form['ding_redirect_redirect_radios'] = array(
       '#type' => 'radios',
       '#default_value' => variable_get('ding_redirect_settings_search_default', 'well'),
       '#options' => _ding_redirect_get_options(),
     );
+
+    $form['#attached']['js'] = array($path . '/js/ding_redirect_search.js');
+    $form['#attached']['css'] = array($path . '/ding_redirect_search.css');
   }
 
   return $form;
+}
+
+/**
+ * Implements hook_page_build().
+ */
+function ding_redirect_page_build() {
+  $login_url = variable_get('ding_redirect_settings_login_url', '');
+  $path = drupal_get_path('module', 'ding_redirect');
+
+  if (!empty($login_url) && user_is_anonymous()) {
+    drupal_add_js(array(
+      'ding_redirect' => array(
+        'login_url' => $login_url,
+      ),
+    ), 'setting');
+
+    drupal_add_js($path . '/js/ding_redirect_login.js');
+  }
 }
 
 /**

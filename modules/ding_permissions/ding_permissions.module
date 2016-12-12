@@ -158,6 +158,11 @@ function ding_permissions_secure_permissions($role) {
     'authenticated user' => array(
       'access comments',
       'access content',
+      'access environment indicator',
+      'access environment indicator development',
+      'access environment indicator default_environment',
+      'access environment indicator staging',
+      'access environment indicator overwritten_environment',
       'access site-wide contact form',
       'access user profiles',
       'display EU Cookie Compliance popup',
@@ -183,6 +188,11 @@ function ding_permissions_secure_permissions($role) {
       'access content',
       'access content overview',
       'access contextual links',
+      'access environment indicator',
+      'access environment indicator development',
+      'access environment indicator default_environment',
+      'access environment indicator staging',
+      'access environment indicator overwritten_environment',
       'access overlay',
       'access own webform content',
       'access own webform results',
@@ -213,6 +223,7 @@ function ding_permissions_secure_permissions($role) {
       'administer dibs transactions',
       'administer ding provider',
       'administer EU Cookie Compliance popup',
+      'administer environment indicator settings',
       'administer event settings',
       'administer fe promote',
       'administer features',
@@ -497,11 +508,21 @@ function ding_permissions_secure_permissions($role) {
       'view the administration theme',
     ),
     'editor' => array(
+      'eck add ding_type ding_interaction entities',
+      'eck edit ding_type ding_interaction entities',
+      'eck delete ding_type ding_interaction entities',
+      'eck list ding_type ding_interaction entities',
+      'eck view ding_type ding_interaction entities',
       'access administration menu',
       'access all webform results',
       'access campaign rules',
       'access content overview',
       'access contextual links',
+      'access environment indicator',
+      'access environment indicator development',
+      'access environment indicator default_environment',
+      'access environment indicator staging',
+      'access environment indicator overwritten_environment',
       'access site-wide contact form',
       'access overlay',
       'access own webform results',
@@ -633,6 +654,11 @@ function ding_permissions_secure_permissions($role) {
       'view the administration theme',
     ),
     'guest blogger' => array(
+      'access environment indicator',
+      'access environment indicator development',
+      'access environment indicator default_environment',
+      'access environment indicator staging',
+      'access environment indicator overwritten_environment',
       'access overlay',
       'access site-wide contact form',
       'access toolbar',
@@ -662,12 +688,22 @@ function ding_permissions_secure_permissions($role) {
       'view the administration theme',
     ),
     'local administrator' => array(
+      'eck add ding_type ding_interaction entities',
+      'eck edit ding_type ding_interaction entities',
+      'eck delete ding_type ding_interaction entities',
+      'eck list ding_type ding_interaction entities',
+      'eck view ding_type ding_interaction entities',
       'access administration pages',
       'access administration menu',
       'flush caches',
       'access all webform results',
       'access campaign rules',
       'access content overview',
+      'access environment indicator',
+      'access environment indicator development',
+      'access environment indicator default_environment',
+      'access environment indicator staging',
+      'access environment indicator overwritten_environment',
       'access site-wide contact form',
       'access contextual links',
       'access overlay',
@@ -841,10 +877,20 @@ function ding_permissions_secure_permissions($role) {
       'administer personalisation',
     ),
     'local editor' => array(
+      'eck add ding_type ding_interaction entities',
+      'eck edit ding_type ding_interaction entities',
+      'eck delete ding_type ding_interaction entities',
+      'eck list ding_type ding_interaction entities',
+      'eck view ding_type ding_interaction entities',
       'access administration menu',
       'access campaign rules',
       'access content overview',
       'access contextual links',
+      'access environment indicator',
+      'access environment indicator development',
+      'access environment indicator default_environment',
+      'access environment indicator staging',
+      'access environment indicator overwritten_environment',
       'access site-wide contact form',
       'access overlay',
       'access toolbar',
@@ -903,6 +949,11 @@ function ding_permissions_secure_permissions($role) {
       'view the administration theme',
     ),
     'provider' => array(
+      'access environment indicator',
+      'access environment indicator development',
+      'access environment indicator default_environment',
+      'access environment indicator staging',
+      'access environment indicator overwritten_environment',
       'create files',
       'edit own provider_alma profile',
       'edit own provider_openruth profile',
@@ -914,6 +965,11 @@ function ding_permissions_secure_permissions($role) {
       'view own provider_openruth profile',
     ),
     'staff' => array(
+      'access environment indicator',
+      'access environment indicator development',
+      'access environment indicator default_environment',
+      'access environment indicator staging',
+      'access environment indicator overwritten_environment',
       'edit own ding_staff_profile profile',
     ),
     'user administrator' => array(
@@ -937,5 +993,19 @@ function ding_permissions_secure_permissions($role) {
 
   if (isset($permissions[$role])) {
     return $permissions[$role];
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function ding_permissions_preprocess_html(&$variables) {
+  global $user;
+
+  if (in_array('editor', $user->roles) && isset($variables['page']['page_bottom']['admin_menu'])) {
+    unset($variables['page']['page_bottom']['admin_menu']);
+  }
+  elseif (isset($variables['page']['page_top']['toolbar'])) {
+    unset($variables['page']['page_top']['toolbar']);
   }
 }

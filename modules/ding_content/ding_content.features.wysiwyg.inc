@@ -20,7 +20,7 @@ function ding_content_wysiwyg_default_profiles() {
       'show_toggle' => 1,
       'add_to_summaries' => 1,
       'theme' => 'advanced',
-      'language' => 'en',
+      'language' => 'da',
       'buttons' => array(
         'default' => array(
           'Bold' => 1,

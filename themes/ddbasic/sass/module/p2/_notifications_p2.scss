@@ -3,18 +3,21 @@
 
 .pane-notifications-top-menu {
   @include zen-grid-item(5, 5, right);
+  margin-right: 350px;
   margin-top: 45px;
   text-align: right;
   @include large() {
     @include zen-grid-item(5, 6, right);
+    margin-right: 350px;
   }
   @include small-medium() {
     //@include zen-grid-item(5, 7, right);
+    margin-right: 220px;
     padding: 0;
     margin-top: 10px;
   }
   @include small() {
-    float: left;
+    margin-right: 180px;
     margin-left: 0;
     margin-top: 15px;
   }

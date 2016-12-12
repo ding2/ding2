@@ -31,6 +31,10 @@ function template_preprocess_ding_list_list(&$variables) {
  * Add button.
  */
 function template_preprocess_ding_list_add_button(&$variables) {
+  if (empty($variables['title'])) {
+    $variables['title'] = t('More...');
+  }
+
   $path = drupal_get_path('module', 'ding_list');
   $variables['buttons'] = array(
     '#theme' => 'links',
@@ -99,7 +103,7 @@ function template_preprocess_ding_list_add_button(&$variables) {
 function template_preprocess_ding_list_followers(&$variables) {
   $list = $variables['list'];
   $variables['count'] = ding_list_get_list_followers_count($list);
-  
+
   $variables['note'] = ding_base_get_value('ding_type', $list, 'field_notes');
   if ($variables['note'] === FALSE) {
     $list_information = ding_list_list_operations();
@@ -111,7 +115,7 @@ function template_preprocess_ding_list_followers(&$variables) {
       }
     }
   }
-  
+
   $variables['no_objects'] = empty($list->field_list_objects);
 }
 
@@ -120,7 +124,7 @@ function template_preprocess_ding_list_followers(&$variables) {
  */
 function theme_ding_list_followers($variables) {
   $out = format_plural($variables['count'], '1 user following this list', '@count users following this list');
-  
+
   return $out;
 }
 
@@ -129,7 +133,7 @@ function theme_ding_list_followers($variables) {
  */
 function theme_ding_list_info($variables) {
   $out = '';
-  
+
   if ($variables['note'] !== FALSE) {
     $out .= '<div class="ding-list-note">' . $variables['note'] . '</div>';
   }
@@ -137,7 +141,7 @@ function theme_ding_list_info($variables) {
   if ($variables['no_objects']) {
     $out .= '<div class="ding-list-no-elements">' . t('No elements in this list.') . '</div>';
   }
-  
+
   return $out;
 }
 
@@ -146,7 +150,7 @@ function theme_ding_list_info($variables) {
  */
 function theme_ding_list_lists($variables) {
   $out = '';
-  
+
   foreach ($variables['groups'] as $group_name => $group) {
     $out .= "<a name='" . $group_name . "'></a>";
     $rows = array();
@@ -159,7 +163,7 @@ function theme_ding_list_lists($variables) {
         $rows[] = $list;
       }
     }
-    
+
     $out .= theme('item_list', array(
       'items' => $rows,
       'title' => $group['title'],

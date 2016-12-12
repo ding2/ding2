@@ -232,11 +232,11 @@ function ding_list_get_random_user_list_item() {
 
   // Select among these types.
   $lists = ding_list_get_lists(array(
-      DING_LIST_TYPE_USER_LIST,
-      DING_LIST_TYPE_LOAN_HISTORY,
-      DING_LIST_TYPE_BOOKS_READ,
-      DING_LIST_TYPE_REMEMBER,
-    ));
+    DING_LIST_TYPE_USER_LIST,
+    DING_LIST_TYPE_LOAN_HISTORY,
+    DING_LIST_TYPE_BOOKS_READ,
+    DING_LIST_TYPE_REMEMBER,
+  ));
 
   // No lists no result.
   if ($lists === FALSE) {
@@ -514,9 +514,9 @@ function ding_list_update_historical_loans($account = NULL) {
             $save_list = TRUE;
             $ding_entity_id = variable_get('ting_agency', '') . ':' . $loan['id'];
             ding_list_create_ding_list_element($list, 'ting_object', array(
-                'value' => $ding_entity_id,
-                'note' => serialize($loan),
-              ), $account, FALSE);
+              'value' => $ding_entity_id,
+              'note' => serialize($loan),
+            ), $account, FALSE);
             $latest = max($latest, $loan['loan_date']);
           }
         }
@@ -679,7 +679,12 @@ function ding_list_list_username($list) {
  * @return bool|object
  *   The permissions entity for the user, or FALSE if there's no permission.
  */
-function ding_list_get_permission($list, $account) {
+function ding_list_get_permission($list, $account = NULL) {
+  if ($account === NULL) {
+    global $user;
+    $account = $user;
+  }
+
   $query = db_select('eck_ding_type', 'edt')->fields('edt', array('id'))->condition('edt.type', 'permission');
 
   $query->join('field_data_field_ding_list_permissions', 'fdlps', 'fdlps.field_ding_list_permissions_target_id = edt.id');
@@ -808,17 +813,24 @@ function ding_list_user_has_access($list, $permission = DING_LIST_PERMISSION_VIE
     return $access[$access_key];
   }
 
+  if (ding_base_get_value('ding_type', $list, 'field_list_type') == DING_LIST_TYPE_LOAN_HISTORY
+      && !variable_get('user_consent_activate')) {
+    $access[$access_key] = FALSE;
+    return $access[$access_key];
+  }
+
   if ($account === NULL) {
     global $user;
     $account = $user;
   }
 
-  // 1) Is owner.
+  // Is owner.
   if ($account->uid == $list->uid) {
     $access[$access_key] = TRUE;
     return $access[$access_key];
   }
 
+  // List share status.
   switch (ding_base_get_value('ding_type', $list, 'field_ding_list_status', 'value', 'private')) {
     case 'private':
       $access[$access_key] = FALSE;
@@ -829,32 +841,36 @@ function ding_list_user_has_access($list, $permission = DING_LIST_PERMISSION_VIE
       return $access[$access_key];
   }
 
+  // User not logged in.
   if (!user_is_logged_in()) {
     $access[$access_key] = FALSE;
+
+    // Check token anonymous.
+    if (!empty($token)) {
+      foreach (ding_list_get_permission_permissions() as $key => $array) {
+        if (ding_list_check_token($list, $key, $token)) {
+          $access[$access_key] = TRUE;
+        }
+      }
+    }
     return $access[$access_key];
   }
 
-  // 2) Has permissions in table.
+  // Has permissions in table.
   if (ding_list_has_permission($list, $permission, $account)) {
     $access[$access_key] = TRUE;
     return $access[$access_key];
   }
 
-  // 3) Has Token.
+  // Check token for logged in users.
   if (!empty($token)) {
     if ($account->uid > 0) {
       foreach (ding_list_get_permission_permissions() as $key => $array) {
-        // A token only works 7 days, so create a token for each of the
-        // previous 7 days and test it against the given token.
-        for ($i = 0; $i < 7; $i++) {
-          $share_token = ding_list_share_token($list, $key, mktime(0, 0, 0, date('n'), date('j') - $i));
-          if ($token == $share_token) {
-            ding_list_add_permission($list, $key, $account);
-
-            $permissions = ding_list_get_permission_permissions($key);
-            $access[$access_key] = in_array($permission, $permissions);
-            return $access[$access_key];
-          }
+        if (ding_list_check_token($list, $key, $token)) {
+          ding_list_add_permission($list, $key, $account);
+          $permissions = ding_list_get_permission_permissions($key);
+          $access[$access_key] = in_array($permission, $permissions);
+          return $access[$access_key];
         }
       }
     }
@@ -863,6 +879,32 @@ function ding_list_user_has_access($list, $permission = DING_LIST_PERMISSION_VIE
   $access[$access_key] = FALSE;
 
   return $access[$access_key];
+}
+
+/**
+ * Check a token.
+ *
+ * @param object $list
+ *   The List.
+ * @param string $key
+ *   The permission to check.
+ * @param string $token
+ *   The token to check.
+ *
+ * @return bool
+ *   TRUE or FALSE if token is valid.
+ */
+function ding_list_check_token($list, $key, $token) {
+  // A token only works 7 days, so create a token for each of the
+  // previous 7 days and test it against the given token.
+  for ($i = 0; $i < 7; $i++) {
+    $share_token = ding_list_share_token($list, $key, mktime(0, 0, 0, date('n'), date('j') - $i));
+    if ($token == $share_token) {
+      return TRUE;
+    }
+  }
+
+  return FALSE;
 }
 
 /**

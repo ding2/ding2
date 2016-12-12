@@ -34,7 +34,6 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
         DING_LIST_TYPE_SPECIAL_RESERVATIONS_READY => array(),
         DING_LIST_TYPE_SPECIAL_RESERVATIONS => array(),
         DING_LIST_TYPE_SPECIAL_LOANS => array(),
-        DING_LIST_TYPE_LOAN_HISTORY => array(),
       ),
     ),
     'userlists' => array(
@@ -51,7 +50,11 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
       'sort' => 'ding_list_custom_sort_changed',
     ),
   );
-  
+
+  if (variable_get('user_consent_activate')) {
+    $groups['specials']['lists'][DING_LIST_TYPE_LOAN_HISTORY] = array();
+  }
+
   $lists = ding_list_get_lists(NULL, $account);
   if ($lists !== FALSE) {
     foreach ($lists as $list) {
@@ -119,20 +122,21 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
     $loans = ding_provider_invoke('loan', 'list', $account);
     $overdues = 0;
     $today = date('Y-m-d', REQUEST_TIME);
-    foreach($loans as $loan) {
+    foreach ($loans as $loan) {
 
       if ($loan->expiry < $today) {
         $overdues++;
       }
     }
-    
+
     if ($overdues > 0) {
       $groups['specials']['lists']['special_loans_overdue'][] = array(
         'data' =>
-        '<a href="' . url($uri['path'] . '/status/status') . '" class="signature-label"><span class="icon"></span>' . t('Loans overdue') . '</a>' . '<span class="label warn">' . $overdues . '</span>',
+        '<a href="' . url($uri['path'] . '/status') . '" class="signature-label"><span class="icon"></span>' . t('Loans overdue') . '</a>' . '<span class="label warn">' . $overdues . '</span>',
         'class' => array('warn'),
       );
-    } else {
+    }
+    else {
       unset($groups['specials']['lists']['special_loans_overdue']);
     }
 
@@ -144,25 +148,26 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
         '<a href="' . url($uri['path'] . '/status/reservations') . '" class="signature-label"><span class="icon"></span>' . t('Reservations ready for pick-up') . '</a>' . '<span class="label ready">' . $readys . '</span>',
         'class' => array('ready'),
       );
-    } else {
+    }
+    else {
       unset($groups['specials']['lists']['special_reservations_ready']);
     }
+
+    // All Reservations.
+    $count = $readys + count(ding_provider_invoke('reservation', 'list', $account, DING_RESERVATION_NOT_READY));
+    $groups['specials']['lists']['special_reservations'][] = array(
+      'data' =>
+      '<a href="' . url($uri['path'] . '/status/reservations') . '" class="signature-label"><span class="icon"></span>' . t('Reservations') . '</a>' . '<span class="label">' . $count . '</span>',
+      'class' => array('reservations'),
+    );
 
     // Loans.
     $loans = ding_provider_invoke('loan', 'list', $account);
     $count = count(ding_provider_invoke('loan', 'list', $account));
     $groups['specials']['lists']['special_loans'][] = array(
       'data' =>
-      '<a href="' . url($uri['path'] . '/status') .'" class="signature-label"><span class="icon"></span>' . t('Loans') . '</a>' . '<span class="label">' . $count . '</span>',
+      '<a href="' . url($uri['path'] . '/status') . '" class="signature-label"><span class="icon"></span>' . t('Loans') . '</a>' . '<span class="label">' . $count . '</span>',
       'class' => array('loan'),
-    );
-
-    // All Reservations.
-    $count += count(ding_provider_invoke('reservation', 'list', $account, DING_RESERVATION_NOT_READY));
-    $groups['specials']['lists']['special_reservations'][] = array(
-      'data' =>
-      '<a href="' . url($uri['path'] . '/status/reservations') . '" class="signature-label"><span class="icon"></span>' . t('Reservations') . '</a>' . '<span class="label">' . $count . '</span>',
-      'class' => array('reservations'),
     );
   }
   catch (Exception $e) {
@@ -174,7 +179,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
     if (count($group['lists']) == 0) {
       unset($groups[$group_key]);
     }
-    
+
     if (isset($group['sort']) && function_exists($group['sort'])) {
       uasort($groups[$group_key]['lists'], $group['sort']);
     }

@@ -184,6 +184,12 @@ function ding_list_menu() {
     'page arguments' => array(2),
   ));
 
+  $items['ding-list/private-share-message/%'] = array_merge($edit_list_base, array(
+    'title' => 'Share message',
+    'page callback' => 'ding_list_private_share_message_callback',
+    'page arguments' => array(2),
+  ));
+
   return $items;
 }
 
@@ -418,6 +424,7 @@ function ding_list_import_bookmarks($account) {
     ->condition('fc.uid', $account->uid)
     ->condition('fc.content_type', 'ding_entity')
     ->condition('f.name', 'bookmark')
+    ->orderBy('fc.timestamp', 'DESC')
     ->execute()->fetchCol();
 
   // Add the bookmarks to the remember ding list.
@@ -516,9 +523,7 @@ function ding_list_theme($existing, $type, $theme, $path) {
       'variables' => array(
         'type' => NULL,
         'value' => NULL,
-        // Don't run the title through the translator, because it's translated
-        // in the preprocessor.
-        'title' => 'More...',
+        'title' => NULL,
         'value_title' => FALSE,
         'options' => FALSE,
       ),
@@ -615,18 +620,15 @@ function ding_list_preprocess_entity(&$variables) {
           $variables['url'] = FALSE;
         }
 
-        // Add author to titles of lists, the user don't own.
-        if ($variables['ding_type']->uid != $user->uid) {
-          $username = ding_list_list_username($variables['ding_type']);
-          if ($username) {
-            $variables['title'] = t('@list_title, By @list_author', array(
-              '@list_title' => $variables['title'],
-              '@list_author' => $username,
-            ));
-          }
+        $username = ding_list_list_username($variables['ding_type']);
+        if ($username) {
+          $variables['title'] = t('@list_title, By @list_author', array(
+            '@list_title' => $variables['title'],
+            '@list_author' => $username,
+          ));
         }
-        $objects = ding_base_get_items('ding_type', $variables['ding_type'], 'field_list_objects');
 
+        $objects = ding_base_get_items('ding_type', $variables['ding_type'], 'field_list_objects');
         switch ($variables['view_mode']) {
           case 'carousel':
             $ids = array();
@@ -804,7 +806,7 @@ function ding_list_get_taxonomy_term($id) {
  */
 function ding_list_mail($key, &$message, $params) {
   global $user;
-  
+
   switch ($key) {
     case 'share':
       $username = $user->name;
@@ -820,7 +822,7 @@ function ding_list_mail($key, &$message, $params) {
           $username = $data['display_name'];
         }
       }
-      
+
       $list = $params['list'];
       $message['subject'] = t('@user has shared a personal list with you at @library', array(
         '@user' => $username,
@@ -840,13 +842,34 @@ The link is active for 7 days from today, after which it will be disabled for se
  */
 function ding_list_ding_interaction_info() {
   $active = user_is_logged_in();
+
+  $translatables = ding_list_rating_translatables();
+
   return array(
+    'title' => $translatables['title'],
+    'translatables' => $translatables,
     'title' => t('Create your own lists'),
     'description' => t('Promote creating your own lists to users with no personal lists yet.'),
     'css_class' => 'complete-info',
     'active' => $active,
   );
 }
+
+/**
+ * Get array of translatables.
+ *
+ * @return array
+ *   An array of strings that can be translated for this module.
+ */
+function ding_list_rating_translatables() {
+  return array(
+    'title' => t('Create your own lists'),
+    'info' => t("Did you know you can create your own lists and add objects to them?"),
+    'create_title' => t('> Create my own list'),
+  );
+}
+
+
 /**
  * Implements hook_ding_interaction_view().
  */
@@ -856,15 +879,16 @@ function ding_list_ding_interaction_view() {
     $interaction = array(
       '#theme' => 'ding_list_promote_lists',
     );
-    return drupal_render($interaction); 
+    return drupal_render($interaction);
   }
   return '';
 }
 
 function theme_ding_list_promote_lists() {
+  $translatables = ding_list_rating_translatables();
   return "<div class='description'>" .
-    t("Did you know you can create your own lists and add objects to them?") .
-    "</div><ul class='actions'><li>" . l(t('> Create my own list'), 'list/create') . "</li></ul>";
+    $translatables['info'] .
+    "</div><ul class='actions'><li>" . l($translatables['create_title'], 'list/create') . "</li></ul>";
 }
 
 /**
@@ -903,7 +927,7 @@ function ding_list_preprocess_views_view_table(&$vars) {
       foreach ($vars['result'] as $delta => $item) {
         $vars['field_attributes']['id'][$delta]['data-item-id'] = $item->id;
       }
-      
+
       $path = drupal_get_path('module', 'ding_list');
       drupal_add_tabledrag($table_id, 'order', 'sibling', 'views-field-delta');
       drupal_add_js($path . '/js/ding_list_tabledrag.js');

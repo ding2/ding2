@@ -12,7 +12,7 @@
   // Do not show overlay if ctrl key is pressed.
   $('body').live('keydown keyup', function(e) {
 
-    var keyPressState = e.type == 'keydown' ? true : false;
+    var keyPressState = e.type === 'keydown' ? true : false;
     if($.inArray(e.which, keyCodes) !== -1) {
       ctrlKeyIsPressed = keyPressState;
     }
@@ -50,9 +50,8 @@
 
     // Remove overlay on page unload, so it's not shown when back button is used
     // in the browser.
-    $(window).unload(function() {
-      var overlay = $('.search-overlay--wrapper');
-      if (overlay.length) {
+    $(window).bind("pageshow", function() {
+      if ($('.search-overlay--wrapper')[0]) {
         Drupal.TingSearchOverlay(true);
       }
     });

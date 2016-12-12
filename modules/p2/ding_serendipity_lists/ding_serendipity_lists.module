@@ -71,7 +71,7 @@ function ding_serendipity_lists_serendipity_info() {
 /**
  * Implements hook_PLUGIN_NAME_serendipity_add().
  *
- * Fetch ADHR materials via users own top rated materials
+ * Fetch ADHR materials via users own top rated materials.
  */
 function ding_serendipity_lists_ting_objects_adhr_serendipity_add($context) {
   global $user;
@@ -158,7 +158,7 @@ function ding_serendipity_lists_ting_objects_adhr_serendipity_add($context) {
 
     $result = array(
       'type' => 'ting_object',
-      'id' => $result[0],
+      'id' => $result[0]['object_id'],
       'info' => array(
         'description' => t('Because other people who also liked !title liked this.', array('!title' => $title)),
       ),
@@ -174,6 +174,7 @@ function ding_serendipity_lists_ting_objects_adhr_serendipity_add($context) {
  * Fetch ADHL materials through openlist.
  */
 function ding_serendipity_lists_ting_objects_adhl_serendipity_add($context) {
+
   global $user;
   $results = array();
 
@@ -185,7 +186,6 @@ function ding_serendipity_lists_ting_objects_adhl_serendipity_add($context) {
   // Get the latest 4 loaned items.
   // 4 Forces the load not to explode.
   $list = ding_list_get_list(DING_LIST_TYPE_LOAN_HISTORY);
-
   if (empty($list)) {
     return $results;
   }
@@ -196,35 +196,38 @@ function ding_serendipity_lists_ting_objects_adhl_serendipity_add($context) {
 
   $buffer = array();
   foreach ($items as $item) {
-    $value = ding_list_convert_cql(ding_list_get_list_element_value($item));
+
+    // Load source material title.
+    $source_id = ding_list_convert_cql(ding_list_get_list_element_value($item));
+    $obj = ding_entity_load($source_id, 'ting_object');
+    if (empty($obj)) {
+      continue;
+    }
+
+    $source_title = truncate_utf8($obj->getTitle(), 70, TRUE, TRUE);
+    $source_link = l($source_title, entity_uri('ting_object', $obj)['path']);
 
     try {
-      $buffer = array_merge($buffer, ding_provider_invoke('openlist', 'call_module', 'LoanHistory', 'getSuggestion', array($value, ding_provider_invoke('openlist', 'user_identifier', $user), 4)));
+      // Fetch suggestions from ADHL service.
+      $buffer = ding_provider_invoke('openlist', 'call_module', 'LoanHistory', 'getSuggestion', array(
+        $source_id,
+        ding_provider_invoke('openlist', 'user_identifier', $user),
+        4,
+      ));
+
+      // Insert suggestions and source into results.
+      foreach ($buffer as $id) {
+        $results[] = array(
+          'type' => 'ting_object',
+          'id' => $id,
+          'info' => array(
+            'description' => t('Because others also borrowed !item', array('!item' => $source_link)),
+          ),
+        );
+      }
     }
     catch (Exception $e) {
       watchdog_exception('ding_serendipity_lists', $e);
-    }
-  }
-
-  // Set the value of the item to the actual object_id, so array_unique can
-  // easily create a unique array.
-  foreach ($buffer as &$item) {
-    $item = ding_list_convert_cql($item['object_id']);
-  }
-  $buffer = array_unique($buffer);
-
-  foreach ($buffer as $id) {
-    $obj = ding_entity_load($id, 'ting_object');
-    if ($obj) {
-      $title = l($obj->getTitle(), entity_uri('ting_object', $obj)['path']);
-
-      $results[] = array(
-        'type' => 'ting_object',
-        'id' => $id,
-        'info' => array(
-          'description' => t('Because others also borrowed !item', array('!item' => $title)),
-        ),
-      );
     }
   }
 
@@ -254,8 +257,8 @@ function ding_serendipity_lists_frontpage_search_serendipity_add($context) {
 /**
  * Implements hook_PLUGIN_NAME_serendipity_add().
  *
- * Select random objects.
- * From current loans and fetch recommended objecs via ADHL service.
+ * Select random objects from current loans and
+ * fetch recommended objecs via ADHL service.
  */
 function ding_serendipity_lists_loan_adhl_serendipity_add($context) {
   global $user;
@@ -301,6 +304,7 @@ function ding_serendipity_lists_loan_adhl_serendipity_add($context) {
             $isbn = current($isbn);
           }
           $recommendations = ting_get_object_recommendations($isbn, 4);
+          $title = truncate_utf8($obj->getTitle(), 60, TRUE, TRUE);
 
           if (!empty($recommendations)) {
             // Collect ADHL recommendations to results.
@@ -310,7 +314,7 @@ function ding_serendipity_lists_loan_adhl_serendipity_add($context) {
                 'id' => ding_provider_build_entity_id($recommendation->localId),
                 'info' => array(
                   'adhl' => 'adhl',
-                  'description' => t('Because others also borrowed !item', array('!item' => l($obj->getTitle(), 'ting/object/' . $obj->getId()))),
+                  'description' => t('Because others also borrowed !item', array('!item' => l($title, 'ting/object/' . $obj->getId()))),
                 ),
               );
             }
@@ -337,6 +341,7 @@ function ding_serendipity_lists_author_from_lists_serendipity_add($context) {
 
   // Random user list item.
   $ting_entity = ding_list_get_random_user_list_item();
+
   // Fetch author.
   if ($ting_entity) {
     $author = $ting_entity->getCreators();
@@ -351,15 +356,15 @@ function ding_serendipity_lists_author_from_lists_serendipity_add($context) {
     // the CQL.
     if ($context['frontpage'] !== "1" && isset($context['taxonomy_tid'])) {
       $term = taxonomy_term_load($context['taxonomy_tid']);
-      
+
       // Check if term has a specific CQL already set.
       $value = ding_base_get_value('taxonomy_term', $term, 'field_search_string');
-      
+
       // Fallback to dc.subject.
       if ($value === FALSE) {
         $value = 'facet.subject="' . $term->name . '"';
       }
-      
+
       $terms[] = $value;
     }
 
