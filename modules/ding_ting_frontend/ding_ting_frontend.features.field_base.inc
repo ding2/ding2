@@ -290,6 +290,28 @@ function ding_ting_frontend_field_default_field_bases() {
     'type' => 'ting_subjects',
   );
 
+  // Exported field_base: 'ting_literary_form'
+  $field_bases['ting_literary_form'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'ting_literary_form',
+    'foreign keys' => array(),
+    'indexes' => array(),
+    'locked' => 0,
+    'module' => 'ting',
+    'settings' => array(),
+    'storage' => array(
+      'active' => 1,
+      'module' => 'virtual_field',
+      'settings' => array(),
+      'type' => 'virtual_field',
+    ),
+    'translatable' => 0,
+    'type' => 'ting_literary_form',
+  );
+
   // Exported field_base: 'ting_title'
   $field_bases['ting_title'] = array(
     'active' => 1,

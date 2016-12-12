@@ -883,7 +883,7 @@ tr.odd {
    ========================================================================== */
 /* Extends
    ========================================================================== */
-.material-item .action-button.reserve-button.available,
+.field-name-ding-entity-buttons .find-items-button, .material-item .action-button.reserve-button.available,
 .field-name-ding-entity-buttons .reserve-button.available,
 .ding-periodical-issues .reserve-button.available, .field-name-ding-entity-buttons .reserve-button, .button-see-online, .ticket-available, .pane-reservations .renew-loan-button .renewable,
 .pane-loans .renew-loan-button .renewable,
@@ -926,7 +926,7 @@ tr.odd {
   text-align: center;
   vertical-align: middle;
   line-height: 100%; }
-  .material-item .action-button.reserve-button.available:focus,
+  .field-name-ding-entity-buttons .find-items-button:focus, .material-item .action-button.reserve-button.available:focus,
   .ding-periodical-issues .reserve-button.available:focus, .field-name-ding-entity-buttons .reserve-button:focus, .button-see-online:focus, .ticket-available:focus, .pane-reservations .renew-loan-button .renewable:focus,
   .pane-loans .renew-loan-button .renewable:focus,
   .pane-debts .renew-loan-button .renewable:focus,
@@ -953,7 +953,7 @@ tr.odd {
   .pane-bookmarks .delete-reservations .form-submit:focus, #ding-bookmark-remove-form .form-submit:focus, .material-item .action-button.reserve-button.unavailable.reservable:focus,
   .field-name-ding-entity-buttons .reserve-button.unavailable.reservable:focus,
   .ding-periodical-issues .reserve-button.unavailable.reservable:focus, .pane-ting-collection .form-submit:focus, .pane-ting-object .form-submit:focus,
-  .pane-ting-collection .ding-entity-button:focus, .pane-ting-object .ding-entity-button:focus, .material-item .action-button.reserve-button.available:hover,
+  .pane-ting-collection .ding-entity-button:focus, .pane-ting-object .ding-entity-button:focus, .field-name-ding-entity-buttons .find-items-button:hover, .material-item .action-button.reserve-button.available:hover,
   .ding-periodical-issues .reserve-button.available:hover, .field-name-ding-entity-buttons .reserve-button:hover, .button-see-online:hover, .ticket-available:hover, .pane-reservations .renew-loan-button .renewable:hover,
   .pane-loans .renew-loan-button .renewable:hover,
   .pane-debts .renew-loan-button .renewable:hover,
@@ -980,7 +980,7 @@ tr.odd {
   .pane-bookmarks .delete-reservations .form-submit:hover, #ding-bookmark-remove-form .form-submit:hover, .material-item .action-button.reserve-button.unavailable.reservable:hover,
   .field-name-ding-entity-buttons .reserve-button.unavailable.reservable:hover,
   .ding-periodical-issues .reserve-button.unavailable.reservable:hover, .pane-ting-collection .form-submit:hover, .pane-ting-object .form-submit:hover,
-  .pane-ting-collection .ding-entity-button:hover, .pane-ting-object .ding-entity-button:hover, .material-item .action-button.reserve-button.available:active,
+  .pane-ting-collection .ding-entity-button:hover, .pane-ting-object .ding-entity-button:hover, .field-name-ding-entity-buttons .find-items-button:active, .material-item .action-button.reserve-button.available:active,
   .ding-periodical-issues .reserve-button.available:active, .field-name-ding-entity-buttons .reserve-button:active, .button-see-online:active, .ticket-available:active, .pane-reservations .renew-loan-button .renewable:active,
   .pane-loans .renew-loan-button .renewable:active,
   .pane-debts .renew-loan-button .renewable:active,
@@ -1009,7 +1009,7 @@ tr.odd {
   .ding-periodical-issues .reserve-button.unavailable.reservable:active, .pane-ting-collection .form-submit:active, .pane-ting-object .form-submit:active,
   .pane-ting-collection .ding-entity-button:active, .pane-ting-object .ding-entity-button:active {
     text-decoration: none; }
-  .material-item .disabled.action-button.reserve-button.available,
+  .field-name-ding-entity-buttons .disabled.find-items-button, .material-item .disabled.action-button.reserve-button.available,
   .ding-periodical-issues .disabled.reserve-button.available, .field-name-ding-entity-buttons .disabled.reserve-button, .disabled.button-see-online, .disabled.ticket-available, .pane-reservations .renew-loan-button .disabled.renewable,
   .pane-loans .renew-loan-button .disabled.renewable,
   .pane-debts .renew-loan-button .disabled.renewable,
@@ -1036,7 +1036,7 @@ tr.odd {
   .pane-bookmarks .delete-reservations .disabled.form-submit, #ding-bookmark-remove-form .disabled.form-submit, .material-item .disabled.action-button.reserve-button.unavailable.reservable,
   .field-name-ding-entity-buttons .disabled.reserve-button.unavailable.reservable,
   .ding-periodical-issues .disabled.reserve-button.unavailable.reservable, .pane-ting-collection .disabled.form-submit, .pane-ting-object .disabled.form-submit,
-  .pane-ting-collection .disabled.ding-entity-button, .pane-ting-object .disabled.ding-entity-button, .material-item [disabled].action-button.reserve-button.available,
+  .pane-ting-collection .disabled.ding-entity-button, .pane-ting-object .disabled.ding-entity-button, .field-name-ding-entity-buttons [disabled].find-items-button, .material-item [disabled].action-button.reserve-button.available,
   .ding-periodical-issues [disabled].reserve-button.available, .field-name-ding-entity-buttons [disabled].reserve-button, [disabled].button-see-online, [disabled].ticket-available, .pane-reservations .renew-loan-button [disabled].renewable,
   .pane-loans .renew-loan-button [disabled].renewable,
   .pane-debts .renew-loan-button [disabled].renewable,
@@ -1134,6 +1134,28 @@ a.button,
     background-image: none; }
 
 /* Theme button */
+.field-name-ding-entity-buttons .find-items-button {
+  background: -owg-linear-gradient(#00b7e7, #007a9b);
+  background: -webkit-linear-gradient(#00b7e7, #007a9b);
+  background: -moz-linear-gradient(#00b7e7, #007a9b);
+  background: -o-linear-gradient(#00b7e7, #007a9b);
+  -pie-background: -pie-linear-gradient(#00b7e7, #007a9b);
+  background: linear-gradient(#00b7e7, #007a9b);
+  /* Make sure buttons get a background color in IE */
+  background-color: #00b7e7;
+  border: 0;
+  color: #fff; }
+  .field-name-ding-entity-buttons .find-items-button:link, .field-name-ding-entity-buttons .find-items-button:visited {
+    color: #fff; }
+  .field-name-ding-entity-buttons .find-items-button:link, .field-name-ding-entity-buttons .find-items-button:visited, .field-name-ding-entity-buttons .find-items-button:focus, .field-name-ding-entity-buttons .find-items-button:hover, .field-name-ding-entity-buttons .find-items-button:active {
+    background: -owg-linear-gradient(#00a3ce, #006681);
+    background: -webkit-linear-gradient(#00a3ce, #006681);
+    background: -moz-linear-gradient(#00a3ce, #006681);
+    background: -o-linear-gradient(#00a3ce, #006681);
+    -pie-background: -pie-linear-gradient(#00a3ce, #006681);
+    background: linear-gradient(#00a3ce, #006681);
+    background-color: #007a9b; }
+
 /* Action button */
 .material-item .action-button.reserve-button.available,
 .field-name-ding-entity-buttons .reserve-button.available,
@@ -4787,6 +4809,9 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
 input#edit-search-block-form--2.spinner {
   background-image: none; }
 
+.field-name-ding-entity-buttons .find-items-button {
+  margin-left: 10px; }
+
 .button-see-online {
   margin-left: 10px;
   line-height: 125%; }
@@ -5119,6 +5144,10 @@ input#edit-search-block-form--2.spinner {
     .pane-search-result .search-results .list .heading h2, .view-node-search-result .search-results .list .heading h2, .ting-reference-reverse-list .search-results .list .heading h2 {
       margin-bottom: 10px;
       font-size: 130%; }
+    .pane-search-result .search-results .list .field-name-ting-literary-form, .view-node-search-result .search-results .list .field-name-ting-literary-form, .ting-reference-reverse-list .search-results .list .field-name-ting-literary-form {
+      color: #959595;
+      float: right;
+      font-size: 100%; }
     .pane-search-result .search-results .list .search-result--heading-type, .view-node-search-result .search-results .list .search-result--heading-type, .ting-reference-reverse-list .search-results .list .search-result--heading-type {
       color: #959595;
       padding-right: 5px; }
