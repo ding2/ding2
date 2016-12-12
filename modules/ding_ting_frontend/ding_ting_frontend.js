@@ -12,7 +12,7 @@
       $(".group-holdings-available a").click();
     }
     else {
-      $(".find-items-button").on('click', function () {
+      $(".find-items-button").on('click', function() {
         $(".group-holdings-available a").click();
       });
     }
