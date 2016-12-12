@@ -201,10 +201,17 @@ input#edit-search-block-form--2.spinner {
   background-image: none;
 }
 
-
 .field-name-ding-entity-buttons {
   .reserve-button {
     @extend %button-action;
+  }
+}
+
+.field-name-ding-entity-buttons {
+  .find-items-button {
+    @extend %button-theme;
+
+    margin-left: 10px;
   }
 }
 
@@ -565,8 +572,6 @@ input#edit-search-block-form--2.spinner {
   }
 }
 
-
-
 /* Search results list
    ========================================================================== */
 
@@ -594,6 +599,12 @@ input#edit-search-block-form--2.spinner {
         margin-bottom: 10px;
 
         font-size: $font-size-large;
+      }
+
+      .field-name-ting-literary-form {
+        color: $gray-darker;
+        float: right;
+        font-size: 100%;
       }
 
       .search-result--heading-type {

@@ -71,6 +71,16 @@ function ting_field_info() {
         'add_widget' => TRUE,
       ),
     ),
+    'ting_literary_form' => array(
+      'label' => t('Ting object literary form'),
+      'description' => t('Ting object literary form'),
+      'default_widget' => 'hidden',
+      'default_formatter' => 'ting_literary_form_default',
+      'virtual_field' => array(
+        'entity_types' => array('ting_object'),
+        'add_widget' => TRUE,
+      ),
+    ),
     // ting_collection
     'ting_primary_object' => array(
       'label' => t('Ting collection primary object'),
@@ -116,6 +126,7 @@ function ting_widget_info_alter(&$info) {
       'ting_abstract',
       'ting_author',
       'ting_subjects',
+      'ting_literary_form',
       'ting_primary_object',
       'ting_entities',
       'ting_collection_types',
@@ -189,6 +200,12 @@ function ting_field_formatter_info() {
       'label' => t('Default'),
       'field types' => array(
         'ting_subjects',
+      ),
+    ),
+    'ting_literary_form_default' => array(
+      'label' => t('Default'),
+      'field types' => array(
+        'ting_literary_form',
       ),
     ),
     'ting_primary_object_default' => array(
@@ -477,6 +494,18 @@ function ting_field_formatter_view($entity_type, $entity, $field, $instance, $la
           }
           $element[$delta] = array(
             '#markup' => implode(' ', $subjects),
+          );
+        }
+        break;
+
+      case 'ting_literary_form_default':
+        if (!empty($entity->reply->record['dc:subject']['dkdcplus:DK5'][0])) {
+          $dk5 = $entity->reply->record['dc:subject']['dkdcplus:DK5'][0];
+
+          $literary_form = ($dk5 == 'sk' || $dk5 == '86') ? t('Fiction') : t('Non-Fiction');
+
+          $element[$delta] = array(
+            '#markup' => $literary_form,
           );
         }
         break;
