@@ -59,7 +59,7 @@ function ding_interaction_manual_query_random_alter($query) {
  */
 function ding_interaction_manual_ding_interaction_info() {
   return array(
-    'title' => t('Ding Interaction manual single random'),
+    'title' => t('Manual Ding Interactions'),
     'description' => t('Manual Ding Interactions are banners with static text ' .
       'and optional link buttons created by local editors. Use this for nice tips ' .
       'and tricks for the visitors, or non critical information you would like ' .
@@ -89,7 +89,11 @@ function ding_interaction_manual_form_alter(&$form, &$form_state, $form_id) {
        Insert a "Ding interaction pane" on any page to display the Ding Interactions in rotation.') . '<br /><br />' .
       l(t('> Overview of all manual Ding Interactions'), 'admin/structure/entity-type/ding_type/ding_interaction') .
       '<br />' .
-      l(t('> Create new manual Ding Interaction'), 'admin/structure/entity-type/ding_type/ding_interaction/add') .
+      l(
+        t('> Create new manual Ding Interaction'),
+        'admin/structure/entity-type/ding_type/ding_interaction/add',
+        array('query' => array('destination' => 'admin/structure/entity-type/ding_type/ding_interaction'))
+      ) .
       '<br /><br />' . 'Developers can use the API hooks to create new Ding Interactions.',
     );
   }

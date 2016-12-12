@@ -11,7 +11,7 @@
 function ding_user_consent_admin_form($form, &$form_state) {
   $form['user_consent_activate'] = array(
     '#type' => 'checkbox',
-    '#title' => t('Enable user consent'),
+    '#title' => t('Enable Ding User Consent'),
     '#description' => t('Give users access to consent to store their loan history for more than 30 days.'),
     '#default_value' => variable_get('user_consent_activate', FALSE),
   );
@@ -34,7 +34,7 @@ function ding_user_consent_admin_form($form, &$form_state) {
     $form[$form_key][$form_key . '_description_link'] = array(
       '#type' => 'textfield',
       '#title' => t('Link to consent description'),
-      '#description' => t('Write a link to the page containing a description of user consent. Use whether the format node/!nid or a path alias.'),
+      '#description' => t('Write a link to the page containing a description of user consent. Use whether the format node/!nid or a path alias.') . "<br/>" . ding_user_consent_get_description_link(),
       '#default_value' => variable_get($form_key . '_description_link', ''),
     );
     
