@@ -33,6 +33,10 @@ function ding_list_install() {
       module_disable(array('flag'));
     }
   }
+
+  $mail_settings = variable_get('mail_system', array());
+  $mail_settings['ding_list_share'] = "HTMLMailSystem";
+  variable_set('mail_system', $mail_settings);
 }
 
 /**
@@ -40,4 +44,13 @@ function ding_list_install() {
  */
 function ding_list_uninstall() {
   db_drop_field('users', 'openlist_modified');
+}
+
+/**
+ * Add ding list share to HTMLMailSystem.
+ */
+function ding_list_update_7001() {
+  $mail_settings = variable_get('mail_system', array());
+  $mail_settings['ding_list_share'] = "HTMLMailSystem";
+  variable_set('mail_system', $mail_settings);
 }
