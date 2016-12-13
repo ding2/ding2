@@ -65,6 +65,7 @@ features[page_manager_pages][] = page_ding_list_create
 features[page_manager_pages][] = page_ding_list_edit
 features[page_manager_pages][] = page_ding_list_share
 features[page_manager_pages][] = page_ding_list_view
+features[page_manager_pages][] = public_lists
 features[taxonomy][] = content_status
 features[views_view][] = ding_list_elements
 features[views_view][] = public_lists
@@ -73,4 +74,5 @@ features_exclude[dependencies][features] = features
 features_exclude[dependencies][options] = options
 features_exclude[dependencies][page_manager] = page_manager
 features_exclude[dependencies][taxonomy] = taxonomy
-mtime = 1477379793
+
+mtime = 1479737495
