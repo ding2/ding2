@@ -96,17 +96,23 @@ function ding_news_strongarm() {
       'workflow_tab' => array(
         'custom_settings' => FALSE,
       ),
+      'block_feature' => array(
+        'custom_settings' => TRUE,
+      ),
+      'alternative_layout_full' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
         'title' => array(
-          'weight' => '-5',
+          'weight' => '0',
         ),
         'path' => array(
-          'weight' => '30',
+          'weight' => '8',
         ),
         'redirect' => array(
-          'weight' => '30',
+          'weight' => '9',
         ),
       ),
       'display' => array(
@@ -125,6 +131,18 @@ function ding_news_strongarm() {
           ),
           'search_result' => array(
             'weight' => '3',
+            'visible' => FALSE,
+          ),
+          'full' => array(
+            'weight' => '8',
+            'visible' => TRUE,
+          ),
+          'block_feature' => array(
+            'weight' => '8',
+            'visible' => TRUE,
+          ),
+          'alternative_layout_full' => array(
+            'weight' => '0',
             'visible' => FALSE,
           ),
         ),
