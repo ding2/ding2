@@ -651,7 +651,7 @@ Tip: Indicate different ticket prices for more than one audience group by enteri
     'label' => 'Price',
     'required' => 1,
     'settings' => array(
-      'suffix' => ' Kr',
+      'suffix' => ' kr.',
       'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
