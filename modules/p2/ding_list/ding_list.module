@@ -828,10 +828,9 @@ function ding_list_mail($key, &$message, $params) {
         '@user' => $username,
         '@library' => variable_get('site_name', ''),
       ));
-      $message['body'][] = nl2br(t('Please use the following link to access this list.
-The link is active for 7 days from today, after which it will be disabled for security reasons.
-
-<a href="!link">!link</a>', array('!link' => $params['link'])));
+      $message['body'][] = nl2br(t("Please use the following link to access this list.\nThe link is active for 7 days from today, after which it will be disabled for security reasons.\n\n!link.", array(
+        '!link' => l($params['link'], $params['link'], array('absolute' => TRUE)),
+      )));
       break;
   }
 }
