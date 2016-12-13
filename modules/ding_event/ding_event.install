@@ -246,6 +246,6 @@ Tip: Indicate different ticket prices for more than one audience group by enteri
   );
   db_change_field('field_data_field_ding_event_price', 'field_ding_event_price_value', 'field_ding_event_price_value', $field);
   db_change_field('field_revision_field_ding_event_price', 'field_ding_event_price_value', 'field_ding_event_price_value', $field);
-  db_change_field('field_data_field_ding_event_price', 'field_ding_event_price_format', 'field_ding_event_price_format', $field);
-  db_change_field('field_revision_field_ding_event_price', 'field_ding_event_price_format', 'field_ding_event_price_format', $field);
+  db_add_field('field_data_field_ding_event_price', 'field_ding_event_price_format', $field);
+  db_add_field('field_revision_field_ding_event_price', 'field_ding_event_price_format', $field);
 }
