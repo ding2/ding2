@@ -45,6 +45,7 @@ class SearchPage extends PageBase
         foreach ($results as $result) {
             if (strpos($result->getText(), $title) !== false) {
                 $path = $result->getAttribute('href');
+                break;
             }
         }
 
