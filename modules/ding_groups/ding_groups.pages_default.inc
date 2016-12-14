@@ -17,7 +17,7 @@ function ding_groups_default_page_manager_handlers() {
   $handler->task = 'node_view';
   $handler->subtask = '';
   $handler->handler = 'panel_context';
-  $handler->weight = -25;
+  $handler->weight = -23;
   $handler->conf = array(
     'title' => 'Groups (OG)',
     'no_blocks' => 0,
