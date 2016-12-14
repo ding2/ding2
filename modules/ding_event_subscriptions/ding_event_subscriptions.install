@@ -125,7 +125,7 @@ function ding_event_subscriptions_remove_panes() {
   ctools_include('plugins');
   ctools_get_plugins('page_manager', 'task_handlers', 'panel_context');
   foreach ($settings as $setting) {
-    $handler = page_manager_load_task_handler($setting['task'], $setting['sutask'], $setting['name']);
+    $handler = page_manager_load_task_handler($setting['task'], $setting['subtask'], $setting['name']);
     $display = panels_panel_context_get_display($handler);
     $display->content = array_filter($display->content, function ($i) {
       return $i->type != 'des_subscribe';
