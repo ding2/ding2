@@ -110,7 +110,14 @@ function ding_event_strongarm() {
           'weight' => '7',
         ),
       ),
-      'display' => array(),
+      'display' => array(
+        'webform' => array(
+          'search_result' => array(
+            'weight' => '10',
+            'visible' => FALSE,
+          ),
+        ),
+      ),
     ),
   );
   $export['field_bundle_settings_node__ding_event'] = $strongarm;

@@ -312,7 +312,14 @@ function ding_news_field_default_field_instances() {
         'module' => 'cs_adaptive_image',
         'settings' => array(
           'image_link' => '',
-          'styles' => '',
+          'styles' => array(
+            'breakpoint_1' => '',
+            'breakpoint_2' => '',
+            'fallback_style' => 'ding_list_large',
+            'max_style' => 'ding_list_large',
+            'style_1' => 'ding_list_medium',
+            'style_2' => 'ding_list_medium',
+          ),
         ),
         'type' => 'cs_adaptive_image',
         'weight' => 1,

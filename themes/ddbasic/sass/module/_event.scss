@@ -18,7 +18,8 @@
 
 
 /* Event list heading */
-.event-list-leaf {
+.event-list-leaf,
+.search-results .node-ding-event .field-name-field-ding-event-date .field-item {
   background: $gray;
   padding-top: 10px;
   padding-right: 10px;
@@ -67,6 +68,9 @@
   }
 }
 
+.search-results .node-ding-event .field-name-field-ding-event-date {
+  margin: -15px -15px 15px;
+}
 
 
 /* Event list
