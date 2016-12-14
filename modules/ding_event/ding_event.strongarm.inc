@@ -103,6 +103,9 @@ function ding_event_strongarm() {
       'workflow_tab' => array(
         'custom_settings' => FALSE,
       ),
+      'alternative_layout_full' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -129,6 +132,12 @@ function ding_event_strongarm() {
           'search_result' => array(
             'weight' => '4',
             'visible' => FALSE,
+          ),
+        ),
+        'ding_serendipity_info' => array(
+          'default' => array(
+            'weight' => '0',
+            'visible' => TRUE,
           ),
         ),
       ),
@@ -163,6 +172,7 @@ function ding_event_strongarm() {
   $strongarm->name = 'node_options_ding_event';
   $strongarm->value = array(
     0 => 'status',
+    1 => 'promote',
   );
   $export['node_options_ding_event'] = $strongarm;
 

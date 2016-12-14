@@ -27,7 +27,7 @@ function ding_event_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 7,
+        'weight' => 9,
       ),
       'search_result' => array(
         'label' => 'above',
@@ -139,7 +139,7 @@ function ding_event_field_default_field_instances() {
       'active' => 1,
       'module' => 'text',
       'settings' => array(
-        'rows' => 3,
+        'rows' => 20,
       ),
       'type' => 'text_textarea',
       'weight' => 6,
@@ -164,7 +164,7 @@ function ding_event_field_default_field_instances() {
         'module' => 'taxonomy',
         'settings' => array(),
         'type' => 'taxonomy_term_reference_plain',
-        'weight' => 0,
+        'weight' => 1,
       ),
       'rss' => array(
         'label' => 'hidden',
@@ -427,7 +427,7 @@ function ding_event_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 8,
+        'weight' => 10,
       ),
       'search_result' => array(
         'label' => 'hidden',
@@ -548,7 +548,7 @@ function ding_event_field_default_field_instances() {
         'label' => 'inline',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 5,
+        'weight' => 7,
       ),
       'search_result' => array(
         'label' => 'hidden',
@@ -613,7 +613,7 @@ function ding_event_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 6,
+        'weight' => 8,
       ),
       'search_result' => array(
         'label' => 'above',
@@ -668,7 +668,7 @@ function ding_event_field_default_field_instances() {
         'label' => 'inline',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 4,
+        'weight' => 6,
       ),
       'search_result' => array(
         'label' => 'hidden',
@@ -849,7 +849,7 @@ function ding_event_field_default_field_instances() {
         'module' => 'link',
         'settings' => array(),
         'type' => 'link_default',
-        'weight' => 3,
+        'weight' => 4,
       ),
       'search_result' => array(
         'label' => 'above',
