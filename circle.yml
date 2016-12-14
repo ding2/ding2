@@ -33,7 +33,12 @@ test:
     # If there are any changes then fail the build. The result of processing
     # should be committed along with the source changes.
     - (cd themes/ddbasic && node_modules/.bin/gulp uglify sass)
-    - git diff --exit-code
+    # Readable changes. Exclude minified CSS files compiled from SCSS. Changes
+    # in verbose version will probably also apply here.
+    - git diff --exit-code -- . ':(exclude)themes/ddbasic/css/*.min.css'
+    # Do a complete diff in short form as well for good measure. This will
+    # catch changes in excluded files.
+    - git diff --stat --exit-code
     # Built an entire Drupal site with core, contrib and custom code
     # First we build Drupal core only. Instead of using the profile specified in
     # the make  file we use the one we have just build.
