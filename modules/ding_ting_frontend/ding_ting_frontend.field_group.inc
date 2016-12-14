@@ -116,10 +116,9 @@ function ding_ting_frontend_field_group_info() {
     'label' => 'Text',
     'weight' => '1',
     'children' => array(
-      0 => 'ting_details_type',
-      1 => 'ting_title',
-      2 => 'ting_abstract',
-      3 => 'ting_author',
+      0 => 'ting_abstract',
+      1 => 'group_inner',
+      2 => 'group_rating',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -381,6 +380,7 @@ function ding_ting_frontend_field_group_info() {
       0 => 'ting_series',
       1 => 'ting_abstract',
       2 => 'ting_subjects',
+      3 => 'group_rating',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -409,7 +409,7 @@ function ding_ting_frontend_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Left column',
-    'weight' => '6',
+    'weight' => '8',
     'children' => array(),
     'format_type' => 'hidden',
     'format_settings' => array(
@@ -430,7 +430,7 @@ function ding_ting_frontend_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Right column',
-    'weight' => '4',
+    'weight' => '6',
     'children' => array(),
     'format_type' => 'hidden',
     'format_settings' => array(
@@ -529,6 +529,7 @@ function ding_ting_frontend_field_group_info() {
       1 => 'ting_series',
       2 => 'ting_abstract',
       3 => 'ting_author',
+      4 => 'group_rating',
     ),
     'format_type' => 'div',
     'format_settings' => array(
