@@ -534,7 +534,7 @@ search/node',
     $display->content['new-4b76f9e9-c425-4420-b18d-1b2168580aac'] = $pane;
     $display->panels['branding'][3] = 'new-4b76f9e9-c425-4420-b18d-1b2168580aac';
     $pane = new stdClass();
-    $pane->pid = 'new-192e7974-28a5-423a-874d-19f0945a1e5f';
+    $pane->pid = 'new-2a6f27cc-f492-403b-9d92-ce4808dc013a';
     $pane->panel = 'branding';
     $pane->type = 'notifications_top_menu';
     $pane->subtype = 'notifications_top_menu';
@@ -545,7 +545,7 @@ search/node',
         'ready_to_pickup' => 'ready_to_pickup',
         'dept' => 'dept',
       ),
-      'override_title' => 0,
+      'override_title' => 1,
       'override_title_text' => '',
       'override_title_heading' => 'h2',
     );
@@ -562,11 +562,11 @@ search/node',
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 2;
+    $pane->position = 4;
     $pane->locks = array();
-    $pane->uuid = '192e7974-28a5-423a-874d-19f0945a1e5f';
-    $display->content['new-192e7974-28a5-423a-874d-19f0945a1e5f'] = $pane;
-    $display->panels['branding'][2] = 'new-192e7974-28a5-423a-874d-19f0945a1e5f';
+    $pane->uuid = '2a6f27cc-f492-403b-9d92-ce4808dc013a';
+    $display->content['new-2a6f27cc-f492-403b-9d92-ce4808dc013a'] = $pane;
+    $display->panels['branding'][4] = 'new-2a6f27cc-f492-403b-9d92-ce4808dc013a';
     $pane = new stdClass();
     $pane->pid = 'new-1769a64d-2cbe-490d-87aa-a2c3ee082997';
     $pane->panel = 'content';
@@ -945,7 +945,7 @@ search/node',
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $export['site_template_panel_context'] = $handler;
-
+  
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;

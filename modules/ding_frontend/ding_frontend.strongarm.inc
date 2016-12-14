@@ -144,7 +144,7 @@ background-attachment: fixed;',
     'domain' => '',
     'prefix' => 'da',
     'weight' => '0',
-    'javascript' => 'J20h9zNL6w7cxztVaQlQvy_axmxCkdBwi89_YOy0jTk',
+    'javascript' => 'A3wOkYoh7dzgxCNlFqeQ4xJvXTEQRGfd1ViLoDFGolE',
   );
   $export['language_default'] = $strongarm;
 
