@@ -71,8 +71,8 @@ function ding_tabroll_image_default_styles() {
         'weight' => 0,
       ),
       31 => array(
-        'label' => 'Skalér og beskær',
-        'help' => 'Skalering og beskæring bevarer billedets højde-bredde-forhold og beskærer derefter den største dimension. Det er nyttigt til at generere kvadratiske thumbnails uden at forvrænge billedet.',
+        'label' => 'Scale and crop',
+        'help' => 'Scale and crop will maintain the aspect-ratio of the original image, then crop the larger dimension. This is most useful for creating perfectly square thumbnails without stretching the image.',
         'effect callback' => 'image_scale_and_crop_effect',
         'dimensions callback' => 'image_resize_dimensions',
         'form callback' => 'image_resize_form',
@@ -175,7 +175,7 @@ function ding_tabroll_node_info() {
       'base' => 'node_content',
       'description' => t('Rolltabs are shown in a Tabroll, where each rolltab slide into the next in a carousel.'),
       'has_title' => '1',
-      'title_label' => t('titel'),
+      'title_label' => t('Title'),
       'help' => '',
     ),
   );
