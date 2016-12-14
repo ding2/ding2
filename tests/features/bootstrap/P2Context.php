@@ -852,7 +852,10 @@ class P2Context implements Context, SnippetAcceptingContext
     public function iAmOnTheMaterial($material)
     {
         $this->searchPage->search($material);
-        $this->searchPage->gotoFirstResultNamed($material);
+        $page = $this->searchPage->gotoFirstResultNamed($material);
+        if ($page instanceof CollectionViewPage) {
+            $page->gotoFirstMateriol();
+        }
     }
 
     /**
