@@ -596,7 +596,7 @@ class P2Context implements Context, SnippetAcceptingContext
 
         $found->selectOption('public');
         $page->waitFor(10, function ($page) {
-            return $page->find('css', '#status-description:contains("Your list is now public")');
+            return $page->find('css', '#status-description:contains("Din liste er nu offentlig. Du kan finde den under")');
         });
 
         $form = $this->ding2Context->minkContext->getSession()->getPage()
