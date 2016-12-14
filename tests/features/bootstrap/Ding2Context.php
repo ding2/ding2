@@ -70,18 +70,35 @@ class Ding2Context implements Context, SnippetAcceptingContext
         $this->drupalContext->user = $user;
         $this->login();
 
-        // We need the user uid in order to construct some links to user
-        // pages, however it's not easily available. We rely on
-        // DrupalContext::login() using the /user page, and then look for the
-        // link to the user view page there and parse the UID out of the link.
+        // We need the user uid for various reasons, however it's not easily
+        // available. Apparently the only place it makes an appearance
+        // nowadays is in a class on the body element of the user page. So try
+        // to dig it out there.
+        $this->drupalContext->getSession()->visit($this->drupalContext->locatePath('/user'));
+        $body = $this->drupalContext->getSession()->getPage()->find('css', 'body');
+        $classes = explode(' ', $body->getAttribute('class'));
+        foreach ($classes as $class) {
+            if (preg_match('{^page-user-(\d+)$}', $class, $matches)) {
+                $user->uid = $matches[1];
+                break;
+            }
+        }
+        if (!$user->uid) {
+            throw new Exception('Could not sniff out user UID from profile page.');
+        }
+
+        // In addition, make a note of the "id" that is used in paths (which
+        // is most often "me"), so we can construct paths as would be
+        // expected. We're sniffing this rather than hardcoding it because
+        // some users are except from the "me" replacement.
         $link = $this->drupalContext->getSession()->getPage()->findLink('Brugerprofil');
         if (!$link) {
             throw new Exception('Could not find profile link on page.');
         }
-        if (preg_match('{user/(\d+)/view}', $link->getAttribute('href'), $matches)) {
-            $user->uid = $matches[1];
+        if (preg_match('{user/(.*)/view}', $link->getAttribute('href'), $matches)) {
+            $user->pathId = $matches[1];
         } else {
-            throw new Exception('Could not parse user UID from profile link.');
+            throw new Exception('Could not parse user path "UID" from profile link.');
         }
         $this->user = $user;
     }
@@ -139,7 +156,7 @@ class Ding2Context implements Context, SnippetAcceptingContext
         if (!isset($this->drupalContext->user->uid)) {
             throw new Exception('No currently logged in user.');
         }
-        return '/user/' . $this->drupalContext->user->uid;
+        return '/user/' . $this->drupalContext->user->pathId;
     }
 
     /**
