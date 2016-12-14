@@ -18,7 +18,7 @@ setup-modules:
 setup-config:
 	# Configure ting.module
 	drush vset -y ting_agency 100200
-	drush vset -y ting_search_url 'http://oss-services.dbc.dk/opensearch/4.0.1/'
+	drush vset -y ting_search_url 'http://oss-services.dbc.dk/opensearch/4.2/'
 	drush vset -y ting_search_profile test
 
 	# Configure openlist.
