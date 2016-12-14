@@ -947,38 +947,6 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @Given I am on a material page that has the subject science fiction
-     */
-    public function iAmOnAMaterialPageThatHasTheSubject()
-    {
-        $material = '870970-basis%3A08983127';
-        $this->gotoPage('/ting/object/' . $material);
-    }
-
-    /**
-     * @Then I should see the tag :tag on the material
-     * @Then I should see the subject :tag on the material
-     */
-    public function iShouldSeeTheTagOnTheMaterial($tag)
-    {
-        $subject = $this->ding2Context->minkContext->getSession()->getPage()
-          ->find('css', '.subjects .subject:contains("' . $tag . '")');
-        if (!$subject) {
-          throw new Exception("Couldn't find tag.");
-        }
-    }
-
-    /**
-     * @Given I have chosen a book material :material with the tag :tag
-     * @Given I have chosen a book material :material with the subject :tag
-     */
-    public function iHaveChosenABookMaterialWithTheTag($material, $tag)
-    {
-        $this->gotoPage('/ting/object/' . $material);
-        $this->ding2Context->minkContext->assertElementOnPage('.subject:contains("' . $tag . '")');
-    }
-
-    /**
      * @When I choose the first search result
      */
     public function iChooseTheFirstSearchResult()
@@ -993,96 +961,12 @@ class P2Context implements Context, SnippetAcceptingContext
     }
 
     /**
-     * @When I follow the tag :tag
-     * @When I follow the subject :tag
-     */
-    public function iFollowTheTag($tag)
-    {
-        $this->moreDropdownSelect('Følg emnet ' . $tag, "Couldn't find tag '$tag' on material");
-    }
-
-    /**
-     * @Then I should see the tag :tag on my list :list
-     * @Then I should see the subject :tag on my list :list
-     */
-    public function iShouldSeeTheTagOnMyList($tag, $list)
-    {
-        $this->gotoListPage($list);
-        $this->ding2Context->minkContext->assertElementContainsText('.vocabulary-ding-content-tags a', $tag);
-    }
-
-    /**
-     * @Then I should see the subject :tag on the list of my interests
-     */
-    public function iShouldSeeTheSubjectOnTheListOfMyInterests($tag)
-    {
-        $this->iShouldSeeTheTagOnMyList($tag, 'Mine interesser');
-    }
-
-    /**
-     * @Given I am following the tag :tag
-     * @Given I am following the subject :tag
-     */
-    public function iAmFollowingTheTag($tag)
-    {
-        // Some material with the subject "orkideer".
-        $material = "870970-basis%3A45614654";
-        $this->gotoPage('/ting/collection/' . $material);
-        $this->iFollowTheTag($tag);
-        $this->iShouldSeeTheTagOnMyList($tag, 'Mine interesser');
-    }
-
-    /**
-     * @When I unfollow the tag :tag
-     * @When I unfollow the subject :tag
-     */
-    public function iUnfollowTheTag($tag)
-    {
-        $this->gotoListPage('Mine interesser');
-
-        $found = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', 'a[href^="/tags/"]:contains("' . $tag . '")');
-        if (!$found) {
-            throw new Exception("Can't unfollow tag '$tag' when it's not being followed");
-        }
-        $deleteButton = $found->getParent()->getParent()->getParent()
-            ->find('css', '.close-btn');
-        if (!$deleteButton) {
-            throw new Exception("Couldn't find remove from list button");
-        }
-        $deleteButton->click();
-    }
-
-    /**
-     * @Then I should not see the tag :tag on the list of my interests
-     * @Then I should not see the subject :tag on the list of my interests
-     */
-    public function iShouldNotSeeTheTagOnMyList($tag)
-    {
-        $list = 'Mine interesser';
-        $this->gotoListPage($list);
-        $found = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '.vocabulary-ding-content-tags a:contains("' . $tag . '")');
-        if ($found) {
-            throw new Exception("Shouldn't find tag '$tag', but it is being followed");
-        }
-    }
-
-    /**
      * @Given the list :name exists
      */
     public function theListExists($name)
     {
         // Rely on getListId throwing an error for unknown lists.
         $this->getListId($name);
-    }
-
-    /**
-     * @Given the list of my interests exists
-     */
-    public function theListOfMyInterestsExists()
-    {
-        $this->theListExists('Mine interesser');
     }
 
     /**
@@ -1099,23 +983,6 @@ class P2Context implements Context, SnippetAcceptingContext
     public function theListOfFollowedAuthorsExists()
     {
         $this->theListExists('Forfattere jeg følger');
-    }
-
-    /**
-     * @Given I have searched for :search and the tag :tag
-     */
-    public function iHaveSearchedForAndTheTag($search, $tag)
-    {
-        $this->gotoSearchPage("$search $tag");
-
-        $found = $this->ding2Context->minkContext->getSession()->getPage()
-            ->find('css', '#edit-subject input[value="' . $tag . '"]');
-        if (!$found) {
-            throw new Exception("Couldn't filter for tag $tag");
-        }
-        $this->ding2Context->scrollTo($found);
-
-        $found->check();
     }
 
     /**
