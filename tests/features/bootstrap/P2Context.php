@@ -377,7 +377,7 @@ class P2Context implements Context, SnippetAcceptingContext
         $page = $this->ding2Context->minkContext->getSession()->getPage();
         $this->gotoListPage('Forfattere jeg følger');
         $link = '/search/ting/phrase.creator';
-        $page->waitFor(10000, function ($page) use ($link) {
+        $page->waitFor(10, function ($page) use ($link) {
             return $page->find('css', 'a[href^="' . $link . '"]');
         });
         $this->ding2Context->minkContext->assertElementContains('a[href^="' . $link . '"]', $author);
@@ -595,7 +595,7 @@ class P2Context implements Context, SnippetAcceptingContext
         }
 
         $found->selectOption('public');
-        $page->waitFor(10000, function ($page) {
+        $page->waitFor(10, function ($page) {
             return $page->find('css', '#status-description:contains("Your list is now public")');
         });
 
@@ -1196,7 +1196,7 @@ class P2Context implements Context, SnippetAcceptingContext
         $page = $this->ding2Context->minkContext->getSession()->getPage();
         $this->ding2Context->minkContext->visitPath('/user');
 
-        $page->waitFor(10000, function ($page) use ($num) {
+        $page->waitFor(10, function ($page) use ($num) {
             return $page->find('css', '.notifications-count:not(:contains("0"))');
         });
 
