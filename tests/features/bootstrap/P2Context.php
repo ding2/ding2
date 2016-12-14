@@ -428,9 +428,6 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iAmOnMyUserConsentPage()
     {
-        if (empty($this->ding2Context->user) || empty($this->ding2Context->user->uid)) {
-            throw new \Exception("User doesn't exist");
-        }
         $this->gotoPage($this->ding2Context->userPath() . "/consent");
         $this->ding2Context->waitForPage();
     }
@@ -557,7 +554,7 @@ class P2Context implements Context, SnippetAcceptingContext
      */
     public function iHaveCreatedAList($title)
     {
-        $this->createListPage->open(['uid' => $this->ding2Context->userUid()]);
+        $this->createListPage->open();
         $this->iCreateANewListWithDescription($title);
     }
 
@@ -1292,7 +1289,7 @@ class P2Context implements Context, SnippetAcceptingContext
         $nth = $num + 1;
 
         // Update notifications for user and find message id.
-        $uid = $this->ding2Context->drupalContext->user->uid;
+        $uid = $this->ding2Context->userUid();
         ding_message_update_users(array($uid), false);
         $query = db_select('message', 'm');
         $query->addField('m', 'mid');
