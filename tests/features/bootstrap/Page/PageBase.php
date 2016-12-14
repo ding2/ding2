@@ -5,7 +5,8 @@ namespace Page;
 use SensioLabs\Behat\PageObjectExtension\PageObject\Page;
 use SensioLabs\Behat\PageObjectExtension\PageObject\Exception\UnexpectedPageException;
 
-class PageBase extends Page {
+class PageBase extends Page
+{
 
     /**
      * Checks if the current Mink page matches this object.
