@@ -1054,16 +1054,12 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         $material = $this->titleToMaterial($title);
         $page = $this->ding2Context->minkContext->getSession()->getPage();
-
-        $found = $page->find('css', '.ding-rating[data-ding-entity-rating-path^="' . urldecode($material) . '/"]');
-        if (!$found) {
+        print(urldecode($material));
+        $rater = $page->find('css', '.ding-rating[data-ding-entity-rating-path^="' . urldecode($material) . '"]');
+        if (!$rater) {
             throw new Exception("Couldn't find material '$material'");
         }
-        $star = $page->find(
-            'css',
-            '.ding-rating[data-ding-entity-rating-path^="' . urldecode($material) . '/"]' .
-            ' .star:nth-child(' . $stars . ')'
-        );
+        $star = $rater->find('css', '.star:nth-child(' . $stars . ')');
         if (!$star) {
             throw new Exception("Couldn't find star");
         }
@@ -1142,10 +1138,10 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         $material = $this->titleToMaterial($title);
         $this->ding2Context->minkContext
-            ->assertElementOnPage('.ding-entity-rating[data-ding-entity-rating-path^="' . urldecode($material) . '/"]');
+            ->assertElementOnPage('.ding-entity-rating[data-ding-entity-rating-path^="' . urldecode($material) . '"]');
         $this->ding2Context->minkContext->assertNumElements(
             $stars,
-            '.ding-entity-rating[data-ding-entity-rating-path^="' . urldecode($material) . '/"]' .
+            '.ding-entity-rating[data-ding-entity-rating-path^="' . urldecode($material) . '"]' .
             ' .star.submitted'
         );
     }
