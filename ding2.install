@@ -399,3 +399,10 @@ function ding2_update_7025() {
 function ding2_update_7026() {
   module_enable(array('mmeu'));
 }
+
+/**
+ * Enable lazy_pane module.
+ */
+function ding2_update_7027() {
+  module_enable(array('lazy_pane'));
+}

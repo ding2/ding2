@@ -41,10 +41,6 @@ $carousel-tab-color:                       $white;
   .rs-carousel-items {
     background-color: transparent;
   }
-
-  @include small-medium() {
-    background-color: $red;
-  }
 }
 
 .rs-carousel-inner {
@@ -166,7 +162,7 @@ $carousel-tab-color:                       $white;
 
   @include small() {
     li {
-      width: $carousel-image-width / 2;
+      width: $carousel-image-width;
 
       a {
         max-height: $carousel-image-max-height / 2;
