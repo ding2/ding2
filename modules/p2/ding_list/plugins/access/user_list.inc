@@ -49,9 +49,36 @@ function ding_list_user_list_ctools_access_check($conf, $context) {
   $account = $context[0]->data;
   $list = $context[1]->data;
 
+  // Reload the entity if the uid is missing.
+  if ($list->uid == 0) {
+    $tmp = entity_load('ding_type', array($list->id), array(), TRUE);
+    $list = reset($tmp);
+  }
+
   $token = isset($_GET['token']) ? $_GET['token'] : FALSE;
-  
+
+  if ($token === FALSE) {
+    // Try to get the token from the destination.
+    $destination = drupal_get_destination();
+    if (!empty($destination['destination'])) {
+      $destination = drupal_parse_url($destination['destination']);
+      if (isset($destination['query']['token'])) {
+        $token = $destination['query']['token'];
+      }
+    }
+  }
+
   $result = ding_list_user_has_access($list, $conf['visibility_settings'], $account, $token);
+
+  if (!$result) {
+    drupal_set_message(t('The list is no longer public or shared.'));
+  }
+
+  // Prevent back button from displaying the pages.
+  if (arg(0) === 'list' && user_is_logged_in()) {
+    drupal_add_http_header('Cache-Control', 'no-store, must-revalidate');
+    drupal_add_http_header('Pragma', 'no-cache');
+  }
 
   return $result;
 }

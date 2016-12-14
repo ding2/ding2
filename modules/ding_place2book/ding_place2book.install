@@ -18,13 +18,13 @@ function ding_place2book_field_schema($field) {
           'length' => 256,
           'not null' => FALSE,
           'default' => NULL,
-         ),
+        ),
         'event_maker_id' => array(
           'type' => 'varchar',
           'length' => 256,
           'not null' => FALSE,
           'default' => NULL,
-          ),
+        ),
         'synchronize' => array(
           'type' => 'int',
           'size' => 'tiny',
@@ -48,20 +48,45 @@ function ding_place2book_update_7001(&$sandbox) {
   $result = $query->entityCondition('entity_type', 'node')
     ->entityCondition('bundle', 'ding_event')
     ->execute();
-  
+
   if (isset($result['node'])) {
     foreach ($result['node'] as $item) {
-      $node = new stdClass();
-      $node->nid = $item->nid;
-      $node->type = 'ding_event';
+      $node = node_load($item->nid);
       $node->field_place2book[LANGUAGE_NONE][0] = array(
         'event_id' => NULL,
         'event_maker_id' => NULL,
         'synchronize' => 0,
       );
-
-      field_attach_presave('node', $node);
-      field_attach_update('node', $node);
+      node_save($node);
     }
   }
+
+  // Remove field.
+  field_delete_field('field_place2book_tickets');
+
+  // Get settings.
+  $ding_place2book = variable_get('ding_place2book', array());
+  $ding_place2book_event_nodes = variable_get('ding_place2book_event_nodes', array());
+
+  // Copy to current settings.
+  $ding_place2book_settings = variable_get('$ding_place2book_settings', array());
+  $ding_place2book_settings['token'] = $ding_place2book['api_key'];
+  variable_set('ding_place2book_settings', $ding_place2book_settings);
+
+  variable_set('ding_p2b_default_kultunaut_export', $ding_place2book_event_nodes['defaults']['kultunaut_export']);
+  variable_set('ding_p2b_default_passive', $ding_place2book_event_nodes['defaults']['passive']);
+  variable_set('ding_p2b_default_synchronize', $ding_place2book_event_nodes['defaults']['maintain_copy']);
+  variable_set('ding_p2b_default_capacity', $ding_place2book_event_nodes['capacity']);
+  variable_set('ding_p2b_default_price_name', $ding_place2book_event_nodes['ticket_type']);
+
+  // Remove old variables.
+  variable_del('ding_place2book');
+  variable_del('ding_place2book_event_nodes');
+}
+
+/**
+ * Enable migration module for existing sites.
+ */
+function ding_place2book_update_7002() {
+  module_enable(array('ding_place2book_migrate'));
 }

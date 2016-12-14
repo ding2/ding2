@@ -12,13 +12,38 @@ define('DING_ENTITY_RATING_LOAN_HISTORY_MAX_AMOUNT', 5);
  */
 function ding_entity_rating_loan_history_ding_interaction_info() {
   $active = ding_user_consent_has_consent('loan_history_store');
-  $previous_loans = "user";
+  $more_link = array();
 
+  if ($active) {
+    $list = ding_list_get_list(DING_LIST_TYPE_LOAN_HISTORY);
+
+    if ($list) {
+      $more_link = array(
+        'more_title' => t('Lookup your previous loans'),
+        'more_url' => 'list/' . $list->id,
+      );
+    }
+  }
+  
+  $translatables = ding_entity_rating_loan_history_translatables();
+  
+  return array(
+    'title' => $translatables['title'],
+    'translatables' => $translatables,
+    'description' => t('Present historical non rated loans to the user and request the user to rate them in order to get better serendipity.'),
+    'active' => $active,
+  ) + $more_link;
+}
+
+/**
+ * Get array of translatables.
+ *
+ * @return array
+ *   An array of strings that can be translated for this module.
+ */
+function ding_entity_rating_loan_history_translatables() {
   return array(
     'title' => t('Rate your previous loans'),
-    'active' => $active,
-    'more_title' => t('Lookup your previous loans'),
-    'more_url' => $previous_loans,
   );
 }
 
@@ -62,7 +87,9 @@ function ding_entity_rating_loan_history_get_suggested_entities($max_count = DIN
 
   if (ding_user_consent_has_consent('loan_history_store') && !empty($user_history_list)) {
     $history_list = current($user_history_list);
+
     $list_elements = ding_list_load_elements($history_list);
+    $list_elements = ding_entity_rating_loan_history_filter_by_rated($list_elements);
 
     // Newest first.
     // Newer elements have a higher list id, so we sort the array reversely.
@@ -89,21 +116,21 @@ function ding_entity_rating_loan_history_get_suggested_entities($max_count = DIN
 /**
  * Filter list by previously rated entities.
  *
- * Remove all ids from the supplied array, which correspond with an entity in
+ * Remove all items from the supplied array, which correspond with an entity in
  * the users rating list.
  *
- * @param array $ids
- *   An array of TingObject ids.
+ * @param array $items
+ *   An array of TingObjects.
  *
  * @return array
- *   An array of TingObject ids.
+ *   An array of TingObjects.
  */
-function ding_entity_rating_loan_history_filter_by_rated(array $ids) {
+function ding_entity_rating_loan_history_filter_by_rated(array $items) {
   $list = ding_list_get_list(DING_ENTITY_RATING_LIST);
-  foreach ($ids as $key => $id) {
-    if (ding_list_has_ding_list_element($list, 'ting_object', $id)) {
-      unset($ids[$key]);
+  foreach ($items as $key => $item) {
+    if (ding_list_has_ding_list_element($list, 'ting_object', ding_list_get_list_element_value($item))) {
+      unset($items[$key]);
     }
   }
-  return $ids;
+  return $items;
 }

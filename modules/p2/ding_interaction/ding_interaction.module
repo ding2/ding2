@@ -17,6 +17,8 @@
  * to rate them
  */
 
+include_once 'ding_interaction.features.inc';
+
 define('DING_INTERACTION_DEFAULT_COUNT', 5);
 
 /**
@@ -163,4 +165,24 @@ function ding_interaction_content(array $module_list = NULL, $count = DING_INTER
   }
 
   return $output;
+}
+
+/**
+ * Create a list of translateable strings to display in config page.
+ *
+ * @param array $strings
+ *   Array of translatable strings.
+ *
+ * @return array
+ *   A formated output of translable strings.
+ */
+function ding_interaction_translatables(array $strings) {
+  if (empty($strings)) {
+    return "";
+  }
+  return theme('item_list', array(
+    'items' => $strings,
+    'type' => 'ul',
+    'title' => l(t('Translatable strings'), 'admin/config/regional/translate/translate'),
+  ));
 }

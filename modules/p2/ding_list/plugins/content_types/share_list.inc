@@ -21,7 +21,7 @@ function ding_list_share_list_content_type_render($subtype, $conf, $panel_args, 
   $list = $context->data;
 
   $block = new stdClass();
-  $block->title = entity_label('ding_type', $list);
+  $block->title = check_plain(entity_label('ding_type', $list));
   $block->content = drupal_get_form('ding_list_list_permissions_form', $list);
 
   return $block;

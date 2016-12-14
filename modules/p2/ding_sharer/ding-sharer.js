@@ -21,8 +21,8 @@
           url = '';
           
         if ($(this).hasClass('sharer-facebook')) {
-          url = 'http://www.facebook.com/sharer/sharer.php?u=' +
-              'url=' + share_url +
+          url = 'http://www.facebook.com/sharer/sharer.php?' +
+              'u=' + share_url +
               '&amp;t=' + title;
           options.width = 720;
           options.height = 460;

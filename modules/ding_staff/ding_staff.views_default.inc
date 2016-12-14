@@ -1009,7 +1009,6 @@ function ding_staff_views_default_views() {
     t('Change user roles'),
     t('Ret brugerindstillinger'),
     t('Send e-mail'),
-    t('Cancel user account'),
     t('Name'),
     t('Roles'),
     t('Name (in Staff)'),

@@ -157,3 +157,31 @@ function ding_list_delete_list_callback($list_id) {
     '#commands' => $commands,
   );
 }
+
+/**
+ * Private share message.
+ *
+ * @param string $list_id
+ *   The ID of the list.
+ *
+ * @return array
+ *   Ajax commands, with information about the process.
+ */
+function ding_list_private_share_message_callback($list_id) {
+  $list = ding_list_get_list($list_id);
+
+  $commands = array();
+
+  $commands[] = ajax_command_ding_popup(
+    'ding_list',
+    t('Info'),
+    '<p>' . t("You can only share public lists.") . '<br>' .
+      l(t('Click here and set this list status to public'), 'list/' . $list->id . '/share')
+    . '</p>'
+  );
+
+  return array(
+    '#type' => 'ajax',
+    '#commands' => $commands,
+  );
+}

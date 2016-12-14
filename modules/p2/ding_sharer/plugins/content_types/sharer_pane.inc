@@ -22,18 +22,19 @@ $plugin = array(
  */
 function ding_sharer_content_type_render($subtype, $conf, $panel_args, $context) {
   drupal_add_js(drupal_get_path('module', 'ding_sharer') . '/ding-sharer.js');
+  drupal_add_css(drupal_get_path('module', 'ding_sharer') . '/ding-sharer.css');
 
   $output = new stdClass();
 
   $output->content = '';
-  
+
   // Check if anonymous users have access to current page,
   // if not, then not much point in being able to share it.
   $item = menu_get_item();
   $item['map'][1]->data->uid = 0;
   _menu_check_access($item, $item['map']);
-  $access = $item['access'];  
-  
+  $access = $item['access'];
+
   if ($access) {
     foreach ($conf['communities'] as $community) {
       $title = ucfirst($community);

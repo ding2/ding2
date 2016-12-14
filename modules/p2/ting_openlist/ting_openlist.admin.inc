@@ -34,7 +34,7 @@ function ting_openlist_settings_form($form, &$form_state) {
     '#title' => t('Openlist prefix'),
     '#description' => t('The prefix used for creating a unique hashed user id.'),
     '#default_value' => variable_get('ting_openlist_prefix', uniqid()),
-    '#required' => TRUE,
+    '#disabled' => TRUE,
   );
 
   // Caching settings.
@@ -79,6 +79,104 @@ function ting_openlist_settings_form($form, &$form_state) {
     '#description' => t('Send the developer cookie to the service.'),
     '#default_value' => variable_get('ting_openlist_developer', FALSE),
   );
+  
+  $form['debugging']['ting_openlist_no_wsdl_cache'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Disable WSDL caching'),
+    '#description' => t('Only disable WSDL caching when testing experimental OpenList API'),
+    '#default_value' => variable_get('ting_openlist_no_wsdl_cache', FALSE),
+  );
+
+  // Statistics.
+  $form['stats'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Statistics'),
+  );
+
+  $form['stats']['show_stats'] = array(
+    '#type' => 'button',
+    '#value' => t('Fetch statistics'),
+    '#ajax' => array(
+      'wrapper' => 'show-stats-container',
+      'callback' => 'ting_openlist_show_stats_form_callback',
+    ),
+    '#suffix' => '<div id="show-stats-container"></div>',
+  );
 
   return system_settings_form($form);
+}
+
+/**
+ * Callback for satistics.
+ */
+function ting_openlist_show_stats_form_callback($form, &$form_state) {
+  $out = array();
+
+  $query = db_select('users', 'u');
+  $query->join('users_roles', 'ur', 'ur.uid = u.uid');
+  $query->join('role', 'r', "r.rid = ur.rid AND r.name = 'provider'");
+
+  $out[] = array(
+    '#markup' => '<strong>' . t('Local patrons') . '</strong> ' . $query->countQuery()->execute()->fetchField(),
+    '#prefix' => '<div>',
+    '#suffix' => '</div>',
+  );
+
+  $query->condition('u.login', strtotime('-1 month'), '>');
+  $out[] = array(
+    '#markup' => '<strong>' . t('Active patrons last 30 days') . '</strong> ' . $query->countQuery()->execute()->fetchField(),
+    '#prefix' => '<div>',
+    '#suffix' => '</div>',
+  );
+
+  // Machine names to readable text.
+  $m2r = array(
+    'books_read' => t("Books I've read"),
+    'follow' => t('Subjects I follow'),
+    'follow_author' => t('Authors I follow'),
+    'follow_user' => t('Users I follow'),
+    'interests' => t('Interests'),
+    'lists_list' => t('Lists I follow'),
+    'ratings' => t('Ratings'),
+    'remember' => t('Read later'),
+    'user_list' => t('User lists'),
+    'user_loan_history' => t('Loan history'),
+    'user_searches' => t('Searches I follow'),
+  );
+
+  $table = array(
+    '#caption' => t('Lists'),
+    '#header' => array(
+      t('List type'),
+      t('Machine name'),
+      t('List count'),
+      t('Element count'),
+    ),
+    '#rows' => array(),
+  );
+
+  $stats = ding_provider_invoke('openlist', 'call_module', 'ListStats', 'lists');
+  foreach ($stats as $list_type => $counts) {
+    if (isset($m2r[$list_type])) {
+      $table['#rows'][] = array(
+        $m2r[$list_type],
+        $list_type,
+        $counts['lists'],
+        $counts['elements'],
+      );
+    }
+    else {
+      $table['#rows'][] = array(
+        'style' => 'opacity: 0.5',
+        'data' => array(
+          t('@list_type (unsupported)', array('@list_type' => $list_type)),
+          $counts['lists'], $counts['elements'],
+        ),
+      );
+    }
+  }
+
+  $out[] = array('#theme' => 'table') + $table;
+
+  return '<div id="show-stats-container">' . render($out) . '</div>';
 }

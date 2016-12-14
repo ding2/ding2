@@ -115,6 +115,13 @@ class P2b {
   private $deletePrice;
 
   /**
+   * Divider for prices values.
+   *
+   * @var int
+   */
+  private $divider = 100;
+
+  /**
    * P2b protected constructor for realisation singleton design pattern.
    *
    * @param array $settings
@@ -238,6 +245,7 @@ class P2b {
         'city' => FALSE,
         'phone' => FALSE,
         'country' => FALSE,
+        'name' => FALSE,
       ),
     );
     $this->p2bCheckRequired($required, $data['event']);
@@ -282,11 +290,11 @@ class P2b {
       'capacity' => FALSE,
       'address' => array(
         'address1' => FALSE,
-        'address2' => FALSE,
         'postal_code' => FALSE,
         'city' => FALSE,
         'phone' => FALSE,
         'country' => FALSE,
+        'name ' => FALSE,
       ),
     );
     $this->p2bCheckRequired($required, $data['event']);
@@ -368,6 +376,7 @@ class P2b {
       ':event_id' => $event_id,
     );
     $url = $this->p2bFormatUrl($this->createPrice, $placeholders);
+    $data['price']['value'] *= $this->divider;
     $price = $this->p2bRequest($url, 'POST', $data, 201);
 
     return $price;
@@ -403,6 +412,9 @@ class P2b {
     );
     $url = $this->p2bFormatUrl($this->getPrice, $placeholders);
     $result = $this->p2bRequest($url, 'GET');
+    foreach ($result as $price) {
+      $price->value /= $this->divider;
+    }
 
     return $result;
   }
@@ -433,7 +445,9 @@ class P2b {
     );
     $url = $this->p2bFormatUrl($this->getPrices, $placeholders);
     $result = $this->p2bRequest($url, 'GET');
-
+    foreach ($result as $price) {
+      $price->value /= $this->divider;
+    }
     return $result;
   }
   /**
@@ -474,6 +488,7 @@ class P2b {
       ':price_id' => $price_id,
     );
     $url = $this->p2bFormatUrl($this->updatePrice, $placeholders);
+    $data['price']['value'] *= $this->divider;
     $result = $this->p2bRequest($url, 'PUT', $data);
 
     return $result;
@@ -552,7 +567,6 @@ class P2b {
     }
 
     $options['http_errors'] = FALSE;
-
     $response = $this->client->request($type, $url, $options);
     if ($response->getStatusCode() == $code) {
       $data = $type == 'DELETE' ? new \stdClass() : $this->parseResponse($response->getBody());

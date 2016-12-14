@@ -88,7 +88,7 @@ function ting_admin_ting_settings($form_state) {
     '#type' => 'textfield',
     '#title' => t('Recommendation service URL'),
     '#description' => t('URL to the Ting recommendation webservice (Andre der har lånt...) , e.g. http://openadhl.addi.dk/1.1/'),
-    '#required' => TRUE,
+    '#required' => FALSE,
     '#default_value' => variable_get('ting_recommendation_url', ''),
   );
 

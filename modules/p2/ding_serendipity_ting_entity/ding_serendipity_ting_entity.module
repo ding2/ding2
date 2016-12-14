@@ -86,7 +86,9 @@ function ding_serendipity_ting_entity_adhl_settings() {
  * Implements hook_PLUGIN_NAME_serendipity_add().
  */
 function ding_serendipity_ting_entity_ting_object_author_serendipity_add($context) {
+  
   $results = array();
+
   // Ensure that the active page is a ting_object
   if (!isset($context['ting_object_id'])) {
     return $results;
@@ -96,7 +98,7 @@ function ding_serendipity_ting_entity_ting_object_author_serendipity_add($contex
 
   // Get the creator if such entry exists.
   $creators = $obj->getCreators();
-  
+    
   if (empty($creators)) {
     return $results;
   }
@@ -105,10 +107,18 @@ function ding_serendipity_ting_entity_ting_object_author_serendipity_add($contex
     $creator = 'facet.creator="' . $creator . '"';
   }
   
-  $query = implode(' AND ', $creators);
-
+  // Find related content from any of the creators.
+  $query = implode(' OR ', $creators);
+  
+  // Limit to same language to reduce signal to noise.
+  $lang = $obj->getLanguage();
+  if (!empty($lang)) {
+    $query = "(" . $query . ") AND facet.language=" . $obj->getLanguage();
+  }
+  
   $results = ding_serendipity_do_search($query, array());
-
+  ding_serendipity_exclude($results, $context['ting_object_id']);
+    
   foreach ($results as &$item) {
     $item['info'] = array(
       'description' => t('This material has been selected based on the authors of the material you are viewing.'),
@@ -142,6 +152,8 @@ function ding_serendipity_ting_entity_ting_object_subject_serendipity_add($conte
   $query = implode(' OR ', $subject);
   if (!empty($query)) {
     $results = ding_serendipity_do_search($query, array());
+    ding_serendipity_exclude($results, $context['ting_object_id']);
+
     foreach ($results as & $item) {
       $item['info'] = array(
         'description' => t('This material has been selected based on the subjects of the material you are viewing.'),
@@ -171,7 +183,7 @@ function ding_serendipity_ting_entity_ting_object_type_serendipity_add($context)
   // @Todo extend with types where this plugin clearly is useless.
   // We would like to present other PS3 games for a PS3 game for instance.
   // But not just books for a book.
-  if (empty($type) || $type == 'bog') {
+  if (empty($type) || $type == 'Bog' || $type == 'Avisartikel' || $type == 'Tidsskriftsartikel') {
     return $results;
   }
   
@@ -179,6 +191,8 @@ function ding_serendipity_ting_entity_ting_object_type_serendipity_add($context)
     $query = 'dc.type="' . $type . '"';
     $query = ding_list_convert_cql($query);
     $results = ding_serendipity_do_search($query, array());
+    ding_serendipity_exclude($results, $context['ting_object_id']);
+
     foreach ($results as & $item) {
       $item['info'] = array(
         'description' => t('This material has been selected based on the type of the material you are viewing.'),
@@ -215,6 +229,8 @@ function ding_serendipity_ting_entity_ting_object_adhl_serendipity_add($context)
       }
       
       $recommendations = ting_get_object_recommendations($obj->getIsbn());
+      ding_serendipity_exclude($recommendations, $context['ting_object_id']);
+
       foreach ($recommendations as $recommendation) {
         $results[] = array(
           'type' => 'ting_object',
@@ -245,6 +261,7 @@ function ding_serendipity_ting_entity_ting_object_adhr_serendipity_add($context)
   
   try {
     $results = ding_provider_invoke('openlist', 'call_module', 'TingObjectRating', 'getSuggestion', array($obj->ding_entity_id, ding_provider_invoke('openlist', 'user_identifier')));
+    ding_serendipity_exclude($results, $context['ting_object_id']);
   }
   catch (Exception $e) {
     watchdog_exception('ding_serendipity_ting_entity', $e);

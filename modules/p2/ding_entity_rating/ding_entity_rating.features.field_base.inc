@@ -31,7 +31,7 @@ function ding_entity_rating_field_default_field_bases() {
     'translatable' => 0,
     'type' => 'ding_entity_rating_action',
   );
-  
+
   // Exported field_base: 'ding_entity_rating_result'
   $field_bases['ding_entity_rating_result'] = array(
     'active' => 1,
@@ -52,7 +52,7 @@ function ding_entity_rating_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'ding_entity_rating_result',
-  );  
+  );
 
   return $field_bases;
 }
