@@ -229,13 +229,12 @@ function ding_event_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Left',
-    'weight' => '1',
+    'weight' => '2',
     'children' => array(
       0 => 'field_ding_event_target',
       1 => 'field_ding_event_title_image',
       2 => 'og_group_ref',
       3 => 'field_place2book_tickets',
-      4 => 'field_collection_fakta_box',
     ),
     'format_type' => 'div',
     'format_settings' => array(
@@ -298,7 +297,7 @@ function ding_event_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Right',
-    'weight' => '2',
+    'weight' => '3',
     'children' => array(
       0 => 'field_ding_event_body',
       1 => 'field_ding_event_date',
