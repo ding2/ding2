@@ -49,6 +49,7 @@ function ding_event_subscriptions_theme($existing, $type, $theme, $path) {
  *   Generated url or FALSE on failing.
  */
 function ding_event_subscriptions_generate_url() {
+  global $base_url;
   $menu = menu_get_item();
   if (!empty($menu)) {
     $maps = $menu['map'];
@@ -80,8 +81,14 @@ function ding_event_subscriptions_generate_url() {
         $conditions['category'] = $term->tid;
         break;
     }
-
-    return url('ding-event-subscriptions/download-ics', array(
+    $url = url('ding-event-subscriptions/download-ics', array(
+      'query' => $conditions,
+    ));
+    $os = ding_event_subscriptions_get_os();
+    if (!empty($os) && in_array($os, array('Mac', 'iOS'))) {
+      $url = 'webcal://' . $_SERVER['SERVER_NAME'] . '/ding-event-subscriptions/download-ics';
+    }
+    return url($url, array(
       'query' => $conditions,
     ));
   }
@@ -194,8 +201,8 @@ function theme_ding_event_subscriptions_ics(&$variables) {
     $output .= ding_event_subscriptions_line('DTSTAMP', $now->format('Ymd\THis'), FALSE);
     $output .= ding_event_subscriptions_line('LOCATION', $location);
     $output .= ding_event_subscriptions_line('END', 'VEVENT');
-    $output .= ding_event_subscriptions_line('END', 'VCALENDAR');
   }
+  $output .= ding_event_subscriptions_line('END', 'VCALENDAR');
 
   return $output;
 }
@@ -240,4 +247,91 @@ function ding_event_subscriptions_escape($data) {
 function ding_event_subscriptions_query_ding_event_subscriptions_alter(QueryAlterableInterface $query) {
   $query->leftJoin('field_data_field_ding_event_date', 'f', 'node.nid = f.entity_id');
   $query->where(':time <= f.field_ding_event_date_value2', array(':time' => date('Y-m-d H:i:s')));
+}
+
+/**
+ * Implements hook_field_extra_fields().
+ */
+function ding_event_subscriptions_field_extra_fields() {
+  $extra = array();
+
+  $extra['node']['ding_event']['display'] = array(
+    'field_ding_event_subscriptions' => array(
+      'label' => t('Subscribe'),
+      'description' => t('Represents subscribe link.'),
+      'weight' => 99,
+      // It is required for integration with extrafield_views_integration.
+      'callback' => 'ding_event_subscriptions_extra_callback',
+    ),
+  );
+
+  return $extra;
+}
+
+/**
+ * Helper function for getting markup of extra field.
+ */
+function ding_event_subscriptions_extra_callback($entity) {
+  global $base_url;
+  $reference = ding_event_subscriptions_generate_url();
+  return l(t('Subscribe'), '#', array(
+    'attributes' => array(
+      'class' => array('ding-event-subscriptions'),
+      'data-reference' => $reference,
+      'data-domain' => $base_url,
+    ),
+  ));
+}
+
+/**
+ * Implements hook_entity_view().
+ */
+function ding_event_subscriptions_entity_view($entity, $type, $view_mode, $langcode) {
+  if (isset($entity->type)) {
+    $extra_fields = field_info_extra_fields($type, $entity->type, 'display');
+    if (isset($extra_fields['field_ding_event_subscriptions'])) {
+      $path = drupal_get_path('module', 'ding_event_subscriptions');
+      $entity->content['field_ding_event_subscriptions'] = array(
+        '#markup' => ding_event_subscriptions_extra_callback($entity),
+        '#attached' => array(
+          'js' => array($path . '/js/ding_event_subscriptions.js'),
+          'css' => array($path . '/css/ding_event_subscriptions.css'),
+        ),
+      );
+    }
+  }
+}
+
+/**
+ * Helper function for getting operation system.
+ *
+ * @return mixed|string
+ *   Detected system of NULL.
+ */
+function ding_event_subscriptions_get_os() {
+  $user_agent = $_SERVER['HTTP_USER_AGENT'];
+  $os_platform = NULL;
+
+  $os_array = array(
+    '/windows nt \d{1,2}\.\d/i' => 'Windows',
+    '/windows \w{2}/i' => 'Windows',
+    '/win\d{2}/i' => 'Windows 98',
+    '/macintosh|mac os x|mac_powerpc/i' => 'Mac',
+    '/linux/i' => 'Linux',
+    '/ubuntu/i' => 'Ubuntu',
+    '/iphone/i' => 'iOS',
+    '/ipod/i' => 'iOS',
+    '/ipad/i' => 'iOS',
+    '/android/i' => 'Android',
+    '/blackberry/i' => 'BlackBerry',
+    '/webos/i' => 'Mobile',
+  );
+
+  foreach ($os_array as $regex => $value) {
+    if (preg_match($regex, $user_agent)) {
+      $os_platform = $value;
+    }
+  }
+
+  return $os_platform;
 }
