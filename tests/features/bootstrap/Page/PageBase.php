@@ -21,6 +21,8 @@ class PageBase extends Page {
         if (!preg_match('@' . $urlRegex . '@', $currentUrl)) {
             throw new UnexpectedPageException(sprintf('URL "%s" does not match path "%s"', $currentUrl, $this->path));
         }
+
+        return $this;
     }
 
     public function waitForPopup()
