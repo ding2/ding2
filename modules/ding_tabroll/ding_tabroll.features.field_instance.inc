@@ -76,6 +76,12 @@ function ding_tabroll_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'content_glider' => array(
         'label' => 'above',
         'settings' => array(),
@@ -176,6 +182,12 @@ function ding_tabroll_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Short description displayed inside the tab in a overlay.',
     'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'content_glider' => array(
         'label' => 'above',
         'settings' => array(),
@@ -228,6 +240,12 @@ function ding_tabroll_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'Link to content that the tab should go to when clicked.',
     'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'content_glider' => array(
         'label' => 'above',
         'settings' => array(),
