@@ -9287,7 +9287,7 @@ msgstr ""
 #: /search/ting/vor%20jordklode
 #: /search/ting/s%C3%B8gninger%20der%20fejler%20skal%20linke%20til%20bibliotek.dk
 msgid "Result"
-msgstr ""
+msgstr "Resultat"
 
 #: /search/ting/vor%20jordklode
 #: /search/ting/s%C3%B8gninger%20der%20fejler%20skal%20linke%20til%20bibliotek.dk
@@ -48184,10 +48184,6 @@ msgid "Find your previous loans here. You can enable/disable the history in your
 msgstr "Se tidligere lån her. Du kan slå denne liste til eller fra inde i din profil."
 
 #: /index.php
-msgid "Books I've read"
-msgstr "Bøger jeg har læst"
-
-#: /index.php
 msgid "Keep a collection of books you have read here."
 msgstr "Du kan gemme bøger du har læst i denne liste. Klik ind på et materiale og vælg \"Tilføj til bøger jeg har læst\" "
 
@@ -56325,11 +56321,11 @@ msgstr ""
 
 #: /
 msgid "Ding consent"
-msgstr "Ding Samtykke"
+msgstr ""
 
 #: /
 msgid "Ding interaction overview"
-msgstr "Ding Interaction oversigt"
+msgstr ""
 
 #: /
 msgid "Get an overview of the interaction elements"
@@ -56353,7 +56349,7 @@ msgstr "Opdater beskeder for en specifik bruger."
 
 #: ding_message/ding_message.module:49
 msgid "Report: User checks"
-msgstr "Report: Bruger checks"
+msgstr ""
 
 #: ding_message/ding_message.module:50
 msgid "Report over users checked."
@@ -56369,7 +56365,7 @@ msgstr "Ding Serendipit indstillinger"
 
 #: /
 msgid "Key overview"
-msgstr "Nøgleoverblik"
+msgstr ""
 
 #: /
 msgid "\"Get an overview of the current registered serendipity functions and \"keys"
@@ -57985,7 +57981,7 @@ msgstr ""
 
 #: /
 msgid "Månedens populæreste titler"
-msgstr "Månedens bedst bedømte titler?"
+msgstr "Månedens bedst bedømte titler"
 
 #: /node/5/edit?destination=admin/content%3Fstatus%3DAll%26type%3Dding_library%26sid%3DAll%26language%3DAll
 msgid "Custom alias has been disabled"
@@ -66596,3 +66592,41 @@ msgstr "Ting openlist er ikke konfigureret. Konfigurér venligst modulet @here f
 msgid "Books I've read"
 msgstr "Bøger jeg har læst"
 
+#: /ting/object/870970-basis%3A50613038
+msgid "More..."
+msgstr "Mere..."
+
+#: /search/ting/findus
+msgid ""
+"<ul>\n"
+"<li>Check if your spelling is correct.</li>\n"
+"<li>Remove quotes around phrases to search for each word individually. "
+"<em>bike shed</em> will often show more results than <em>&quot;bike "
+"shed&quot;</em>.</li>\n"
+"<li>Consider loosening your query with <em>OR</em>. <em>bike OR "
+"shed</em> will often show more results than <em>bike shed</em>.</li>\n"
+"</ul>"
+msgstr ""
+"<p>Din søgning desværre ikke gav noget resultat, men vi vil gerne hjælpe dig med at komme videre!</p>""
+"<p>Spørg os på biblioteket eller få hjælp på <a href="http://biblioteksvagten.dk/">Biblioteksvagten.dk</a></p>""
+"<p>Du kan også søge videre på <a href="http://bibliotek.dk/">Bibliotek.dk</a></p>"
+
+#: /admin/config/ding/interaction
+msgid "About consent and storage of previous loans"
+msgstr "Samtykke og opbevaring af information tidligere lån"
+
+#: /admin/config/ding/interaction
+msgid ""
+"The library will only store your previous loans in 30 days, unless you "
+"give us permission to keep them longer for you."
+msgstr "Hvis du ikke giver biblioteket tilladelse til at gemme information om dine lån, må vi kun gemme dem i 30 dage."
+
+#: /admin/config/ding/interaction
+msgid ""
+"Log in and edit your account to give permission to store your personal "
+"loan history extending the default 30 days. You can edit this "
+"permission at any time. Once you retract your permission previous "
+"loans older than 30 days will be permanently deleted."
+msgstr ""
+"Log ind og rediger din brugerprofil for at give tilladelse til at gemme dine lån ud over 30 dage. Du kan altid fjerne tilladelsen igen hvis du fortryder. "
+"Hvis du vælger at fjerne tilladelsen vil information om lån ældre end 30 dage blive slettet permanent."
