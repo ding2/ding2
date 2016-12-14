@@ -12,8 +12,6 @@ class PageBase extends Page {
      */
     public function verifyCurrentPage()
     {
-        // @todo check URL.
-
         $currentUrl = $this->getDriver()->getCurrentUrl();
         // Replace placeholders with regexps. We have to match on quoted
         // placeholdes as preg_quote quotes them (naturally).

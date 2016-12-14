@@ -55,8 +55,6 @@ class SearchPage extends PageBase
         $baseUrl = rtrim($this->getParameter('base_url'), '/').'/';
 
         $this->getDriver()->visit($baseUrl . $path);
-        // sleep(10);
-        // $this->waitForPage();
 
         $url = $this->getDriver()->getCurrentUrl();
         if (preg_match('{ting/object/}', $url)) {
