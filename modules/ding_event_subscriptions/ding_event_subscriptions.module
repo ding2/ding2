@@ -87,9 +87,7 @@ function ding_event_subscriptions_generate_url() {
     if (!empty($os) && in_array($os, array('Mac', 'iOS'))) {
       $url = 'webcal://' . $_SERVER['SERVER_NAME'] . '/ding-event-subscriptions/download-ics';
     }
-    return url($url, array(
-      'query' => $conditions,
-    ));
+    return $url;
   }
   return FALSE;
 }
