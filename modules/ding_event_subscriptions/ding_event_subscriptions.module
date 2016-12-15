@@ -49,7 +49,6 @@ function ding_event_subscriptions_theme($existing, $type, $theme, $path) {
  *   Generated url or FALSE on failing.
  */
 function ding_event_subscriptions_generate_url() {
-  global $base_url;
   $menu = menu_get_item();
   if (!empty($menu)) {
     $maps = $menu['map'];
@@ -273,14 +272,37 @@ function ding_event_subscriptions_field_extra_fields() {
  */
 function ding_event_subscriptions_extra_callback($entity) {
   global $base_url;
+  $path = drupal_get_path('module', 'ding_event_subscriptions');
+  $os = ding_event_subscriptions_get_os();
   $reference = ding_event_subscriptions_generate_url();
-  return l(t('Subscribe'), '#', array(
-    'attributes' => array(
-      'class' => array('ding-event-subscriptions'),
-      'data-reference' => $reference,
-      'data-domain' => $base_url,
-    ),
-  ));
+  if (in_array($os, array('iOS', 'Mac'))) {
+    $output = array(
+      '#markup' => l(t('Subscribe'), $reference, array(
+        'attributes' => array(
+          'class' => array('ding-event-subscriptions'),
+        ),
+      )),
+      '#attached' => array(
+        'css' => array($path . '/css/ding_event_subscriptions.css'),
+      ),
+    );
+  }
+  else {
+    $output = array(
+      '#markup' => l(t('Subscribe'), '#', array(
+        'attributes' => array(
+          'class' => array('ding-event-subscriptions'),
+          'data-reference' => $reference,
+          'data-domain' => $base_url,
+        ),
+      )),
+      '#attached' => array(
+        'js' => array($path . '/js/ding_event_subscriptions.js'),
+        'css' => array($path . '/css/ding_event_subscriptions.css'),
+      ),
+    );
+  }
+  return $output;
 }
 
 /**
@@ -290,14 +312,7 @@ function ding_event_subscriptions_entity_view($entity, $type, $view_mode, $langc
   if (isset($entity->type)) {
     $extra_fields = field_info_extra_fields($type, $entity->type, 'display');
     if (isset($extra_fields['field_ding_event_subscriptions'])) {
-      $path = drupal_get_path('module', 'ding_event_subscriptions');
-      $entity->content['field_ding_event_subscriptions'] = array(
-        '#markup' => ding_event_subscriptions_extra_callback($entity),
-        '#attached' => array(
-          'js' => array($path . '/js/ding_event_subscriptions.js'),
-          'css' => array($path . '/css/ding_event_subscriptions.css'),
-        ),
-      );
+      $entity->content['field_ding_event_subscriptions'] = ding_event_subscriptions_extra_callback($entity);
     }
   }
 }
