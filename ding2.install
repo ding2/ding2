@@ -421,7 +421,8 @@ function ding2_update_7027() {
       'value' => '<h3>' . t('access denied: insufficient permissions') . '</h3><p>' . t('access denied: insufficient permissions') . '</p>',
       'format' => 'plain_text',
     );
-    variable_set('customerror_403_authenticated_title', t('access denied: insufficient permissions'));
+    variable_set('customerror_403_authenticated_title',
+      t('access denied: insufficient permissions'));
     variable_set('customerror_403_authenticated', $content_403_authenticated);
 
     // Set the 404 page.
@@ -433,4 +434,11 @@ function ding2_update_7027() {
     variable_set('customerror_404', $content_404);
     variable_set('site_404', 'customerror/404');
   }
+}
+
+/**
+ * Enable lazy_pane module.
+ */
+function ding2_update_7028() {
+  module_enable(array('lazy_pane'));
 }

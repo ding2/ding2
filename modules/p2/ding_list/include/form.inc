@@ -647,7 +647,7 @@ function ding_list_list_permissions_form_share_callback($form, &$form_state) {
   $uri = entity_uri('ding_type', $list);
   $token = ding_list_share_token($form_state['build_info']['args'][0], $form_state['values']['permission']);
 
-  $link = url($uri['path'], array('absolute' => TRUE, 'query' => array('token' => $token)));
+  $link = l($list->title, $uri['path'], array('absolute' => TRUE, 'query' => array('token' => $token)));
 
   drupal_mail('ding_list', 'share', $form_state['values']['email'], $language, array(
     'link' => $link,
