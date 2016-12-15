@@ -5501,9 +5501,6 @@ input#edit-search-block-form--2.spinner {
     top: 100px; }
   .rs-carousel .rs-carousel-items {
     background-color: transparent; }
-  @media only screen and (max-width: 768px) {
-    .rs-carousel {
-      background-color: #a32e10; } }
 
 .rs-carousel-inner {
   background-color: #fff;
@@ -5597,7 +5594,7 @@ input#edit-search-block-form--2.spinner {
 
 @media only screen and (max-width: 480px) {
   .rs-carousel-items li {
-    width: 100px; }
+    width: 200px; }
     .rs-carousel-items li a {
       max-height: 125px;
       width: 100px; }
@@ -8599,6 +8596,17 @@ a.tabledrag-handle .handle {
   .pane-serendipity-node .pane-content > article .signature-info {
     display: none; }
 
+/* Ding Interactive
+   ========================================================================== */
+.pane-interaction-pane {
+  position: relative; }
+  .pane-interaction-pane h2 {
+    width: calc(100% - 70px); }
+  .pane-interaction-pane .close-btn {
+    position: absolute;
+    top: 30px;
+    right: 30px; }
+
 /* Ding Interactive manual
    ========================================================================== */
 .pane-interaction-pane.ding-interaction-manual .ding-type-ding-interaction {
@@ -9035,6 +9043,10 @@ a.tabledrag-handle .handle {
       margin-right: 180px;
       margin-left: 0;
       margin-top: 15px; } }
+  .pane-notifications-top-menu .pane-notifications-top-menu {
+    width: 100%;
+    padding: 0;
+    margin: 0; }
   .pane-notifications-top-menu .pane-title {
     display: none; }
   .pane-notifications-top-menu .item-list ul {
