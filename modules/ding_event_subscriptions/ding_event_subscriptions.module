@@ -151,12 +151,20 @@ function theme_ding_event_subscriptions_ics(&$variables) {
   foreach ($events as $event) {
     // Body/description processing.
     $body = field_get_items('node', $event, 'field_ding_event_body');
-    if ($body) {
-      $body = trim(render(field_view_value('node', $event, 'field_ding_event_body', $body[0])));
+    if (isset($body[0])) {
+      $body = field_view_value('node', $event, 'field_ding_event_body', $body[0]);
+      $body = trim(render($body));
+    }
+    else {
+      $body = '';
     }
     $teaser = field_get_items('node', $event, 'field_ding_event_lead');
-    if ($teaser) {
-      $teaser = trim(render(field_view_value('node', $event, 'field_ding_event_lead', $teaser[0])));
+    if (isset($teaser[0])) {
+      $teaser = field_view_value('node', $event, 'field_ding_event_lead', $teaser[0]);
+      $teaser = trim(render($teaser));
+    }
+    else {
+      $teaser = '';
     }
     $body = drupal_html_to_text("{$teaser} {$body}");
 
