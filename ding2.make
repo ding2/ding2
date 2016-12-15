@@ -46,6 +46,10 @@ projects[ctools][patch][] = "https://www.drupal.org/files/issues/deprecating_php
 ; PHP7 - Uniform Variable Syntax updates are causing exported pages to not have names.
 projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-uniform-variable-syntax-2635876-6.patch"
 
+projects[customerror][subdir] = "contrib"
+projects[customerror][version] = "1.4"
+projects[customerror][patch][] = "https://www.drupal.org/files/issues/customerror-2836107-switch_between_text_formats.patch"
+
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.8"
 
