@@ -428,9 +428,6 @@ projects[ask_vopros][download][tag] = "1.5"
 projects[xautoload][subdir] = "contrib"
 projects[xautoload][version] = "5.7"
 
-projects[lazy_pane][subdir] = "contrib"
-projects[lazy_pane][version] = "7.x-1.2"
-
 ; Libraries
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
