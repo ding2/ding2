@@ -6,7 +6,7 @@
 
 
 ;----------// Stylesheets
-  stylesheets[all][] = css/ddbasic.styles.css
+  stylesheets[all][] = css/ddbasic.styles.min.css
 
   ; Override stylesheets
   stylesheets[all][] = css/system.menus.css
