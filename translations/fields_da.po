@@ -1155,6 +1155,11 @@ msgctxt "field_ding_list_permission:#allowed_values:edit"
 msgid "Edit"
 msgstr ""
 
+#: field:field_ding_list_status:#allowed_values:private
+msgctxt "field_ding_list_status:#allowed_values:private"
+msgid "Private - The list is only accessible to you"
+msgstr "Privat - Listen kan kun ses af dig"
+
 #: field:field_ding_list_status:#allowed_values:shared
 msgctxt "field_ding_list_status:#allowed_values:shared"
 msgid "Shared - Users with the secret link can view or edit your list"
