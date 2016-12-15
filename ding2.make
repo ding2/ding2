@@ -41,6 +41,7 @@ projects[ctools][patch][] = "https://www.drupal.org/files/issues/ctools-readd_ac
 
 projects[customerror][subdir] = "contrib"
 projects[customerror][version] = "1.4"
+projects[customerror][patch][] = "https://raw.githubusercontent.com/bozeak/hooman/development/customerror_change_fields_format.patch"
 
 projects[date][subdir] = "contrib"
 projects[date][version] = "2.8"
