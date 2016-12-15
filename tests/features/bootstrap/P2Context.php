@@ -1054,7 +1054,6 @@ class P2Context implements Context, SnippetAcceptingContext
     {
         $material = $this->titleToMaterial($title);
         $page = $this->ding2Context->minkContext->getSession()->getPage();
-        print(urldecode($material));
         $rater = $page->find('css', '.ding-rating[data-ding-entity-rating-path^="' . urldecode($material) . '"]');
         if (!$rater) {
             throw new Exception("Couldn't find material '$material'");
