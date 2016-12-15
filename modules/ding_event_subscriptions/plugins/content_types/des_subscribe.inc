@@ -23,7 +23,7 @@ function ding_event_subscriptions_subscribe_pane_render() {
   $block = new stdClass();
   $block->title = '';
   $os = ding_event_subscriptions_get_os();
-  $reference = ding_event_subscriptions_generate_url($os);
+  $reference = ding_event_subscriptions_generate_url();
   if (in_array($os, array('iOS', 'Mac'))) {
     $block->content = array(
       '#markup' => l(t('Subscribe'), $reference, array(
