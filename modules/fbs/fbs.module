@@ -382,6 +382,34 @@ function fbs_form_ding_reservation_reservations_form_alter(&$form, &$form_state)
   }
 }
 
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * FBS API delivers 1 more holding level, called "MaterialgroupDescription".
+ * A new option is added in order to show or not this.
+ */
+function fbs_form_ding_availability_admin_holdings_settings_alter(&$form, &$form_state, $form_id) {
+  $form['holdings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Holdings levels display'),
+    '#description' => t('Configure holdings display modes.'),
+  );
+  $form['holdings']['show_material_group'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show material group description'),
+    '#default_value' => variable_get('show_material_group', 0),
+  );
+  $form['holdings']['show_dk5_classification'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show dk5 classification'),
+    '#default_value' => variable_get('show_dk5_classification', 0),
+  );
+  $form['holdings']['show_sorted_creator'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show sorted author'),
+    '#default_value' => variable_get('show_sorted_creator', 0),
+  );
+}
 
 /**
  * Pack patron info in an array.

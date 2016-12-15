@@ -251,6 +251,15 @@ class TingEntity extends DingEntity {
     return $this->creators;
   }
 
+  function getSortCreator() {
+    $this->creator = '';
+    if (!empty($this->reply->record['dc:creator']['oss:sort'])) {
+      $this->creator = $this->reply->record['dc:creator']['oss:sort'][0];
+    }
+
+    return $this->creator;
+  }
+
   function getSubjects() {
     $this->subjects = array();
     if (!empty($this->reply->record['dc:subject'])) {
