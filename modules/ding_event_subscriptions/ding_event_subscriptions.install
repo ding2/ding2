@@ -41,7 +41,7 @@ function ding_event_subscriptions_add_panes() {
       'task' => page_manager_get_task('page'),
       'name' => 'page_ding_events_panel_context',
       'subtask' => 'ding_events',
-      'position' => 1,
+      'position' => 2,
       'region' => 'main_content',
     ),
     array(
@@ -110,7 +110,7 @@ function ding_event_subscriptions_remove_panes() {
       'task' => page_manager_get_task('page'),
       'name' => 'page_ding_events_panel_context',
       'subtask' => 'ding_events',
-      'position' => 1,
+      'position' => 2,
       'region' => 'main_content',
     ),
     array(
