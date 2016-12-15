@@ -22,20 +22,35 @@ function ding_event_subscriptions_subscribe_pane_render() {
 
   $block = new stdClass();
   $block->title = '';
+  $os = ding_event_subscriptions_get_os();
   $reference = ding_event_subscriptions_generate_url();
-  $block->content = array(
-    '#markup' => l(t('Subscribe'), '#', array(
-      'attributes' => array(
-        'class' => array('ding-event-subscriptions'),
-        'data-reference' => $reference,
-        'data-domain' => $base_url,
+  if (in_array($os, array('iOS', 'Mac'))) {
+    $block->content = array(
+      '#markup' => l(t('Subscribe'), $reference, array(
+        'attributes' => array(
+          'class' => array('ding-event-subscriptions'),
+        ),
+      )),
+      '#attached' => array(
+        'css' => array($path . '/css/ding_event_subscriptions.css'),
       ),
-    )),
-    '#attached' => array(
-      'js' => array($path . '/js/ding_event_subscriptions.js'),
-      'css' => array($path . '/css/ding_event_subscriptions.css'),
-    ),
-  );
+    );
+  }
+  else {
+    $block->content = array(
+      '#markup' => l(t('Subscribe'), '#', array(
+        'attributes' => array(
+          'class' => array('ding-event-subscriptions'),
+          'data-reference' => $reference,
+          'data-domain' => $base_url,
+        ),
+      )),
+      '#attached' => array(
+        'js' => array($path . '/js/ding_event_subscriptions.js'),
+        'css' => array($path . '/css/ding_event_subscriptions.css'),
+      ),
+    );
+  }
 
   return $block;
 }
