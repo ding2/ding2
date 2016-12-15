@@ -66,7 +66,13 @@ function fbs_availability_holdings($provider_ids) {
       'is_periodical' => FALSE,
     );
 
-    $placement_parts = array('branch', 'department', 'location', 'sublocation', 'materials');
+    $placement_parts = array(
+      'branch',
+      'department',
+      'location',
+      'sublocation',
+      'materials',
+    );
     foreach ($item->holdings as $item_holding) {
       $result_holding = array(
         'available_count' => 0,
@@ -89,7 +95,7 @@ function fbs_availability_holdings($provider_ids) {
         $result_holding['placement'][] = $material_description[0]->materialGroupName;
       }
 
-      // Add external fields for holdings.
+      // Load entity by the provider id.
       $entity = ding_entity_load(ding_provider_build_entity_id($provider_ids[0]));
 
       // Get DK5 classification.
@@ -97,9 +103,9 @@ function fbs_availability_holdings($provider_ids) {
         $result_holding['placement'][] = $classification;
       }
 
-      // Get sorted title.
-      if (variable_get('show_sorted_creator', 0) && $creator = $entity->getSortCreator()) {
-        $result_holding['placement'][] = $creator;
+      // Get inverted author.
+      if (variable_get('show_inverted_creator', 0) && $creator = $entity->getInvertedCreators()) {
+        $result_holding['placement'][] = $creator[0];
       }
 
       $placement_string = implode(' > ', $result_holding['placement']);

@@ -251,10 +251,16 @@ class TingEntity extends DingEntity {
     return $this->creators;
   }
 
-  function getSortCreator() {
-    $this->creator = '';
+  /**
+   * Get the creators field with inverted fields.
+   *
+   * @return array
+   *   List of item creators with inverted fields.
+   */
+  public function getInvertedCreators() {
+    $this->creator = array();
     if (!empty($this->reply->record['dc:creator']['oss:sort'])) {
-      $this->creator = $this->reply->record['dc:creator']['oss:sort'][0];
+      $this->creator = $this->reply->record['dc:creator']['oss:sort'];
     }
 
     return $this->creator;
