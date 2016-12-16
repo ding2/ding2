@@ -369,9 +369,16 @@ function ding2_update_7022() {
 }
 
 /**
- * Enable admin_menu modules.
+ * Set features variable.
  */
 function ding2_update_7023() {
+  variable_set('features_rebuild_on_flush', FALSE);
+}
+
+/**
+ * Enable admin_menu modules.
+ */
+function ding2_update_7024() {
   module_enable(array('admin_menu', 'admin_menu_toolbar'));
 
   ding2_admin_menu_shortcuts();
@@ -380,14 +387,14 @@ function ding2_update_7023() {
 /**
  * Enable htmlmail module.
  */
-function ding2_update_7024() {
+function ding2_update_7025() {
   module_enable(array('htmlmail'));
 }
 
 /**
  * Enable environment indicator panel modules.
  */
-function ding2_update_7025() {
+function ding2_update_7026() {
   if (module_exists('ddb_cp')) {
     module_enable(array('environment_indicator'));
   }
@@ -396,13 +403,21 @@ function ding2_update_7025() {
 /**
  * Enable mmeu module.
  */
-function ding2_update_7026() {
+function ding2_update_7027() {
   module_enable(array('mmeu'));
 }
 
 /**
  * Enable lazy_pane module.
  */
-function ding2_update_7027() {
+function ding2_update_7028() {
   module_enable(array('lazy_pane'));
 }
+
+/**
+ * Re-set features variable.
+ */
+function ding2_update_7029() {
+  variable_set('features_rebuild_on_flush', TRUE);
+}
+
