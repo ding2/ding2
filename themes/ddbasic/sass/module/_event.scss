@@ -178,6 +178,10 @@
       margin-bottom: 0;
       padding-bottom: $medium-spacing;
       padding-left: 36px;
+
+      &[itemprop="attendee"] {
+        float: left;
+      }
     }
 
     .event-room {
