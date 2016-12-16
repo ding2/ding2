@@ -212,7 +212,7 @@ function fbs_settings_form() {
     '#type' => 'actions',
     'submit' => array(
       '#type' => 'submit',
-      '#value' => t('Update list')
+      '#value' => t('Update list'),
     ),
   );
 
