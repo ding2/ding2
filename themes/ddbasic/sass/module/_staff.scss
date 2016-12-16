@@ -32,36 +32,30 @@
    ========================================================================== */
 
 .pane-staff-profile {
-  .field-name-field-ding-staff-position {
-    margin-bottom: 30px;
 
-    font-size: 125%;
+  .group-left-col-search {
+    @include zen-grid-item(3, 1);
   }
-
+  .group-right-col-search {
+    @include zen-grid-item(9, 1, right);
+  }
+  
   .field-name-field-ding-staff-image {
-    @include zen-grid-item(2, 1);
-    @include zen-nested-container();
-
     margin-right: 26px;
     margin-bottom: 30px;
-    padding-right: $zen-gutter-width / 2;
   }
 
+  .field-name-field-ding-staff-position,
   .group-contactinfo,
   .field-name-field-ding-staff-description {
-    @include zen-grid-item(10, 1, right);
-
     .field {
       border-top: 1px solid $gray-light;
-
       margin-bottom: 20px;
       padding-top: 20px;
     }
-
     .field-label {
       width: 125px;
     }
-
     .field-label,
     .field-items {
       display: inline-block;
@@ -72,22 +66,23 @@
     @include zen-clear(both);
   }
 
+  .field-name-field-ding-staff-position {
+    margin-bottom: 30px;
+    font-size: 125%;
+  }
+
   .pane-ding-news-ding-news-simple-list-user {
     border-top: 1px solid $gray-light;
-
     margin-top: 20px;
     padding-top: 30px;
   }
 
   @include small-medium() {
-    .field-name-field-ding-staff-image {
+    .group-left-col-search {
       @include zen-grid-item(6, 1);
     }
-
-    .group-contactinfo,
-    .field-name-field-ding-staff-description {
-      @include zen-grid-item(12, 1);
-      @include zen-clear(both);
+    .group-right-col-search {
+      @include zen-grid-item(6, 1, right);
     }
   }
 }

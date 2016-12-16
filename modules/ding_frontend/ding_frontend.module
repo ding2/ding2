@@ -195,3 +195,20 @@ function ding_frontend_query_alter($query) {
 function ding_frontend_change_maintenance_mode($maintenance_mode) {
   cache_clear_all();
 }
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function ding_frontend_views_pre_render(&$view) {
+  if ($view->name == 'ding_multiple_search') {
+    foreach ($view->result as $result) {
+      $res = explode('/', $result->entity);
+      if ($res[0] == 'user') {
+        $current_user = user_load($res[1]);
+        if (!in_array('staff', $current_user->roles)) {
+          unset($view->result);
+        }
+      }
+    }
+  }
+}
