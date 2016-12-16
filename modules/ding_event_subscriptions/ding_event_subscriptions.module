@@ -185,7 +185,13 @@ function theme_ding_event_subscriptions_ics(&$variables) {
 
     // Location processing.
     $location = field_get_items('node', $event, 'field_ding_event_location');
-    $location = implode('; ', array_filter($location[0]));
+    $target = array(
+      'name_line' => NULL,
+      'thoroughfare' => NULL,
+      'locality' => NULL,
+    );
+
+    $location = implode('; ', array_intersect_key($location[0], $target));
 
     // UID processing.
     $uid = uniqid();
