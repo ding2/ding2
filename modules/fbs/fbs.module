@@ -457,6 +457,14 @@ function fbs_branches() {
     }
 
     asort($branches);
+
+    // Filtering blacklisted branch if such exists.
+    $blacklisted = variable_get('fbs_branches_blacklist', array());
+    if (!empty($blacklisted)) {
+      foreach ($blacklisted as $item) {
+        unset($branches[$item]);
+      }
+    }
   }
   return $branches;
 }
