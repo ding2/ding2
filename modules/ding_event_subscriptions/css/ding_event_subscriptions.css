@@ -1,0 +1,27 @@
+/* FontAwesome
+   ========================================================================== */
+@font-face {
+  font-family: 'FontAwesome';
+  src: url("../font/fontawesome-webfont.eot?v=3.0.1");
+  src: url("../font/fontawesome-webfont.eot?#iefix&v=3.0.1") format("embedded-opentype"), url("../font/fontawesome-webfont.woff?v=3.0.1") format("woff"), url("../font/fontawesome-webfont.ttf?v=3.0.1") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+.node-type-ding-event .ding-event-subscriptions:before {
+  content: "\f019";
+  display: inline-block;
+  font-family: FontAwesome;
+  padding-right: 10px;
+  padding-left: 15px;
+  color: #4f4f4f;
+  border-left: 5px solid #efefef;
+}
+
+.page-arrangementer .ding-event-subscriptions:before,
+.page-taxonomy-term .ding-event-subscriptions:before {
+  content: "\f09e";
+  display: inline-block;
+  font-family: FontAwesome;
+  padding-right: 10px;
+  color: #4f4f4f;
+}
