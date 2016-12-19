@@ -44,6 +44,81 @@ function ding_ting_frontend_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_image|ting_object|ting_object|teaser';
+  $field_group->group_name = 'group_image';
+  $field_group->entity_type = 'ting_object';
+  $field_group->bundle = 'ting_object';
+  $field_group->mode = 'teaser';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Image',
+    'weight' => '5',
+    'children' => array(),
+    'format_type' => 'hidden',
+    'format_settings' => array(
+      'formatter' => '',
+      'instance_settings' => array(),
+    ),
+  );
+  $export['group_image|ting_object|ting_object|teaser'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_info|ting_object|ting_object|search_result';
+  $field_group->group_name = 'group_info';
+  $field_group->entity_type = 'ting_object';
+  $field_group->bundle = 'ting_object';
+  $field_group->mode = 'search_result';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Info',
+    'weight' => '7',
+    'children' => array(),
+    'format_type' => 'hidden',
+    'format_settings' => array(
+      'formatter' => '',
+      'instance_settings' => array(),
+    ),
+  );
+  $export['group_info|ting_object|ting_object|search_result'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_inner|ting_object|ting_object|teaser';
+  $field_group->group_name = 'group_inner';
+  $field_group->entity_type = 'ting_object';
+  $field_group->bundle = 'ting_object';
+  $field_group->mode = 'teaser';
+  $field_group->parent_name = 'group_text';
+  $field_group->data = array(
+    'label' => 'Inner',
+    'weight' => '43',
+    'children' => array(
+      0 => 'ting_details_type',
+      1 => 'ting_title',
+      2 => 'ting_author',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Inner',
+      'instance_settings' => array(
+        'classes' => '',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $export['group_inner|ting_object|ting_object|teaser'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_on_this_site|ting_object|ting_object|default';
   $field_group->group_name = 'group_on_this_site';
   $field_group->entity_type = 'ting_object';
@@ -106,6 +181,102 @@ function ding_ting_frontend_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_rating|ting_object|ting_object|default';
+  $field_group->group_name = 'group_rating';
+  $field_group->entity_type = 'ting_object';
+  $field_group->bundle = 'ting_object';
+  $field_group->mode = 'default';
+  $field_group->parent_name = 'group_ting_object_right_c';
+  $field_group->data = array(
+    'label' => 'Rating',
+    'weight' => '78',
+    'children' => array(
+      0 => 'ding_entity_rating_action',
+      1 => 'ding_entity_rating_result',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Rating',
+      'instance_settings' => array(
+        'classes' => '',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $export['group_rating|ting_object|ting_object|default'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_rating|ting_object|ting_object|search_result';
+  $field_group->group_name = 'group_rating';
+  $field_group->entity_type = 'ting_object';
+  $field_group->bundle = 'ting_object';
+  $field_group->mode = 'search_result';
+  $field_group->parent_name = 'group_ting_right_col_search';
+  $field_group->data = array(
+    'label' => 'Rating',
+    'weight' => '23',
+    'children' => array(
+      0 => 'ding_entity_rating_action',
+      1 => 'ding_entity_rating_result',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Rating',
+      'instance_settings' => array(
+        'classes' => '',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $export['group_rating|ting_object|ting_object|search_result'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_rating|ting_object|ting_object|teaser';
+  $field_group->group_name = 'group_rating';
+  $field_group->entity_type = 'ting_object';
+  $field_group->bundle = 'ting_object';
+  $field_group->mode = 'teaser';
+  $field_group->parent_name = 'group_text';
+  $field_group->data = array(
+    'label' => 'Rating',
+    'weight' => '45',
+    'children' => array(
+      0 => 'ding_entity_rating_action',
+      1 => 'ding_entity_rating_result',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Rating',
+      'instance_settings' => array(
+        'classes' => '',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $export['group_rating|ting_object|ting_object|teaser'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_text|ting_object|ting_object|teaser';
   $field_group->group_name = 'group_text';
   $field_group->entity_type = 'ting_object';
@@ -135,6 +306,40 @@ function ding_ting_frontend_field_group_info() {
     ),
   );
   $export['group_text|ting_object|ting_object|teaser'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_text|ting_object|ting_object|ting_reference_preview';
+  $field_group->group_name = 'group_text';
+  $field_group->entity_type = 'ting_object';
+  $field_group->bundle = 'ting_object';
+  $field_group->mode = 'ting_reference_preview';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Text',
+    'weight' => '1',
+    'children' => array(
+      0 => 'ting_details_type',
+      1 => 'ting_title',
+      2 => 'ting_abstract',
+      3 => 'ting_author',
+    ),
+    'format_type' => 'div',
+    'format_settings' => array(
+      'label' => 'Text',
+      'instance_settings' => array(
+        'classes' => '',
+        'description' => '',
+        'show_label' => '0',
+        'label_element' => 'h3',
+        'effect' => 'none',
+        'speed' => 'fast',
+      ),
+      'formatter' => 'open',
+    ),
+  );
+  $export['group_text|ting_object|ting_object|ting_reference_preview'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
