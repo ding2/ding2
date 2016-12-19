@@ -411,102 +411,6 @@ function ding_library_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_library-field_ding_library_list_image'
-  $field_instances['node-ding_library-field_ding_library_list_image'] = array(
-    'bundle' => 'ding_library',
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'alternative_layout_full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'default' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 10,
-      ),
-      'search_result' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser_highlight' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_ding_library_list_image',
-    'label' => 'List image',
-    'required' => 0,
-    'settings' => array(
-      'alt_field' => 0,
-      'default_image' => 0,
-      'file_directory' => 'ding_library_list_image',
-      'file_extensions' => 'png jpg jpeg',
-      'max_filesize' => '',
-      'max_resolution' => '',
-      'min_resolution' => '',
-      'title_field' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'media',
-      'settings' => array(
-        'allowed_schemes' => array(
-          'oembed' => 0,
-          'private' => 0,
-          'public' => 'public',
-          'vimeo' => 0,
-          'youtube' => 0,
-        ),
-        'allowed_types' => array(
-          'audio' => 0,
-          'document' => 0,
-          'image' => 'image',
-          'video' => 0,
-        ),
-        'browser_plugins' => array(
-          'ding_content' => 0,
-          'media_default--media_browser_1' => 0,
-          'media_default--media_browser_my_files' => 0,
-          'media_internet' => 0,
-          'upload' => 0,
-          'youtube' => 0,
-        ),
-        'manualcrop_crop_info' => 1,
-        'manualcrop_default_crop_area' => 1,
-        'manualcrop_enable' => 0,
-        'manualcrop_inline_crop' => 0,
-        'manualcrop_instant_crop' => FALSE,
-        'manualcrop_instant_preview' => 1,
-        'manualcrop_keyboard' => 1,
-        'manualcrop_maximize_default_crop_area' => 0,
-        'manualcrop_require_cropping' => array(),
-        'manualcrop_styles_list' => array(),
-        'manualcrop_styles_mode' => 'include',
-        'manualcrop_thumblist' => 0,
-        'progress_indicator' => 'throbber',
-      ),
-      'type' => 'media_generic',
-      'weight' => 11,
-    ),
-  );
-
   // Exported field_instance: 'node-ding_library-field_ding_library_mail'
   $field_instances['node-ding_library-field_ding_library_mail'] = array(
     'bundle' => 'ding_library',
@@ -880,7 +784,6 @@ function ding_library_field_default_field_instances() {
   t('If enabled, events and news can be marked as related to this library and will show up on its library page.');
   t('Lead');
   t('Links');
-  t('List image');
   t('Phone number');
   t('Show related content on library page');
   t('Slug');
