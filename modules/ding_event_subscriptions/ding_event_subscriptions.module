@@ -86,6 +86,14 @@ function ding_event_subscriptions_generate_url() {
     $os = ding_event_subscriptions_get_os();
     if (!empty($os) && in_array($os, array('Mac', 'iOS'))) {
       $url = 'webcal://' . $_SERVER['SERVER_NAME'] . '/ding-event-subscriptions/download-ics';
+      if (!empty($conditions)) {
+        array_walk($conditions, function(&$i, $k) {
+          $i = "{$k}={$i}";
+        });
+
+        $conditions = implode('&', $conditions);
+        $url .= '?' . $conditions;
+      }
     }
     return $url;
   }
@@ -189,8 +197,8 @@ function theme_ding_event_subscriptions_ics(&$variables) {
       'name_line' => NULL,
       'thoroughfare' => NULL,
       'locality' => NULL,
+      'postal_code' => NULL,
     );
-
     $location = implode('; ', array_intersect_key($location[0], $target));
 
     // UID processing.
