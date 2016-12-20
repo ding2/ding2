@@ -312,6 +312,13 @@ function _ding_gatewayf_provider_login(array $attributes) {
               '!logout' => l(t('click here'), DING_GATEWAYF_LOGOUT_URL),
               '!user_url' => l(t('click here'), DING_GATEWAYF_REGISTRATION_INFORMATION_URL),
             )), 'warning');
+
+            // Redirect with cache busting. Otherwise the user may get a cached
+            // page which does not show our message. Showing the message is
+            // especially important here as it informs the user that she is
+            // in fact logged into WAYF even though she is not logged into the
+            // site.
+            _ding_gatewayf_redirect_user('user', TRUE);
           }
         }
         else {
@@ -349,8 +356,11 @@ function _ding_gatewayf_provider_login(array $attributes) {
  * @param string $url
  *   The url to redirect to if destination is not set in the request. Defaults
  *   to /user.
+ * @param bool $bust_cache
+ *   Whether to employ cache busting techniques to ensure that the target page
+ *   is not served from the page cache.
  */
-function _ding_gatewayf_redirect_user($url = 'user') {
+function _ding_gatewayf_redirect_user($url = 'user', $bust_cache = FALSE) {
   if (!empty($_REQUEST['destination'])) {
     // When logged in with gatewayf the destination is part of the get request.
     // So to use the cleaned up destination we unset it.
@@ -359,6 +369,15 @@ function _ding_gatewayf_redirect_user($url = 'user') {
     // We do not user drupal_get_destination here as it will set the destination
     // if one do not exists.
     $url = $_REQUEST['destination'];
+  }
+
+  if ($bust_cache) {
+    // To bust page cache we add a random query argument to the url. The url
+    // must be absolute for this to work with drupal_goto properly.
+    $url = url($url, array(
+      'absolute' => TRUE,
+      'query' => array('r' => drupal_random_key()),
+    ));
   }
 
   drupal_goto($url);
