@@ -340,6 +340,10 @@ projects[services_views][version] = "1.1"
 
 projects[search_api][subdir] = "contrib"
 projects[search_api][version] = "1.16"
+; Fix search_api warnings and notices.
+; Both patches should be removed when upgrading to 1.17.
+projects[search_api][patch][] = "https://www.drupal.org/files/issues/2563793-9--multiple_types_issues.patch"
+projects[search_api][patch][] = "https://www.drupal.org/files/issues/2580975-2--fix_multi_type_index_incompatibilities.patch"
 
 projects[search_api_multi][subdir] = "contrib"
 projects[search_api_multi][version] = "1.3"
