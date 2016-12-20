@@ -35,10 +35,8 @@ function fbs_reservation_list($account, $requested_type = NULL) {
     $type = $reservation->state == 'readyForPickup' ? DING_RESERVATION_READY : DING_RESERVATION_NOT_READY;
     $type = $reservation->state == 'interLibraryReservation' ? DING_RESERVATION_INTERLIBRARY_LOANS : $type;
 
-    $obj = ting_do_search($reservation->recordId);
-    $entity_id = ($obj) ? key($obj->collections) : NULL;
     $ding_reservation = array(
-      'ding_entity_id' => $entity_id,
+      'ding_entity_id' => ding_provider_build_entity_id($reservation->recordId),
       'id' => $reservation->reservationId,
       'pickup_branch_id' => $reservation->pickupBranch,
       'created' => $reservation->dateOfReservation,
