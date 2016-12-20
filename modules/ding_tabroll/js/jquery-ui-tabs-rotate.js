@@ -1,76 +1,78 @@
-;(function($){
-	$.extend( $.ui.tabs.prototype, {
-		rotation: null,
-		rotationDelay: null,
-		continuing: null,
-		rotate: function( ms, continuing ) {
-			var self = this,
-				o = this.options;
+(function ($) {
+  "use strict";
 
-			if((ms > 1 || self.rotationDelay === null) && ms !== undefined){//only set rotationDelay if this is the first time through or if not immediately moving on from an unpause
-				self.rotationDelay = ms;
-			}
+  $.extend($.ui.tabs.prototype, {
+    rotation: null,
+    rotationDelay: null,
+    continuing: null,
+    rotate: function (ms, continuing) {
+      var self = this,
+        o = this.options;
 
-			if(continuing !== undefined){
-				self.continuing = continuing;
-			}
+      if ((ms > 1 || self.rotationDelay === null) && ms !== undefined) {//only set rotationDelay if this is the first time through or if not immediately moving on from an unpause
+        self.rotationDelay = ms;
+      }
 
-			var rotate = self._rotate || ( self._rotate = function( e ) {
-				clearTimeout( self.rotation );
-				self.rotation = setTimeout(function() {
-					var t = o.active;
-					self.option( "active",  ++t < self.anchors.length ? t : 0 );
-				}, ms );
+      if (continuing !== undefined) {
+        self.continuing = continuing;
+      }
 
-				if ( e ) {
-					e.stopPropagation();
-				}
-			});
+      var rotate = self._rotate || ( self._rotate = function (e) {
+          clearTimeout(self.rotation);
+          self.rotation = setTimeout(function () {
+            var t = o.active;
+            self.option("active", ++t < self.anchors.length ? t : 0);
+          }, ms);
 
-			var stop = self._unrotate || ( self._unrotate = !continuing
-				? function(e) {
-					if (e.clientX) { // in case of a true click
-						self.rotate(null);
-					}
-				}
-				: function( e ) {
-					t = o.active;
-					rotate();
-				});
+          if (e) {
+            e.stopPropagation();
+          }
+        });
 
-			// start rotation
-			if ( ms ) {
-				this.element.bind( "tabsactivate", rotate );
-				this.anchors.bind( o.event + ".tabs", $.proxy(self.unpause, self) );
-				rotate();
-			// stop rotation
-			} else {
-				clearTimeout( self.rotation );
-				this.element.unbind( "tabsactivate", rotate );
-				this.anchors.unbind( o.event + ".tabs", $.proxy(self.pause, self) );
-				delete this._rotate;
-				delete this._unrotate;
-			}
+      var stop = self._unrotate || ( self._unrotate = !continuing
+          ? function (e) {
+            if (e.clientX) { // in case of a true click
+              self.rotate(null);
+            }
+          }
+          : function (e) {
+            var t = o.active;
+            rotate();
+          });
 
-			//rotate immediately and then have normal rotation delay
-			if(ms === 1){
-				//set ms back to what it was originally set to
-				ms = self.rotationDelay;
-			}
+      // start rotation
+      if (ms) {
+        this.element.bind("tabsactivate", rotate);
+        this.anchors.bind(o.event + ".tabs", $.proxy(self.unpause, self));
+        rotate();
+        // stop rotation
+      } else {
+        clearTimeout(self.rotation);
+        this.element.unbind("tabsactivate", rotate);
+        this.anchors.unbind(o.event + ".tabs", $.proxy(self.pause, self));
+        delete this._rotate;
+        delete this._unrotate;
+      }
 
-			return this;
-		},
-		pause: function() {
-			var self = this,
-				o = this.options;
+      //rotate immediately and then have normal rotation delay
+      if (ms === 1) {
+        //set ms back to what it was originally set to
+        ms = self.rotationDelay;
+      }
 
-			self.rotate(0);
-		},
-		unpause: function(){
-			var self = this,
-				o = this.options;
+      return this;
+    },
+    pause: function () {
+      var self = this,
+        o = this.options;
 
-			self.rotate(1, self.continuing);
-		}
-	});
+      self.rotate(0);
+    },
+    unpause: function () {
+      var self = this,
+        o = this.options;
+
+      self.rotate(1, self.continuing);
+    }
+  });
 })(jQuery);
