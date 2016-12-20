@@ -203,19 +203,22 @@ input#edit-search-block-form--2.spinner {
 
 
 .field-name-ding-entity-buttons {
+  float: right;
+
+  .action-button {
+    margin-left: 10px;
+  }
+
   .reserve-button {
     @extend %button-action;
   }
 
   .find-items-button {
     @extend %button-theme;
-
-    float: left;
   }
 
   .bookmark-button {
     display: inline-block;
-    margin-left: 10px;
   }
 }
 
