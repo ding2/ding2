@@ -305,13 +305,22 @@ function _ding_gatewayf_provider_login(array $attributes) {
           if (_ding_gatewayf_registration_is_registration_request()) {
             $_SESSION[DING_GATEWAYF_ATTRIBUTES] = $attributes;
           }
-          else {
+          elseif (current_path() !== DING_GATEWAYF_REGISTRATION_ACCEPTANCE_URL) {
             // Display message that the user don't have an account an then can
-            // create on or logout.
-            drupal_set_message(t('You do not have an user account at the public library. If you wish to create an user account !user_url . You are still logged in at WAYF, so you can !logout to logout of WAYF.', array(
+            // create one or logout.
+            drupal_set_message(t('You do not have an user account at the public library. If you wish you can create an user account below. You are still logged in at WAYF, so you can !logout to logout of WAYF.', array(
               '!logout' => l(t('click here'), DING_GATEWAYF_LOGOUT_URL),
-              '!user_url' => l(t('click here'), DING_GATEWAYF_REGISTRATION_INFORMATION_URL),
             )), 'warning');
+
+            // Remove the redirect.
+            unset($_REQUEST['destination']);
+            unset($_GET['destination']);
+
+            // Redirect to the registration page. We avoid redirecting to the
+            // front page because messages will be lost on sites that strip
+            // sessions cookies from the front page (see #1527).
+            _ding_gatewayf_redirect_user(DING_GATEWAYF_REGISTRATION_INFORMATION_URL);
+            return;
           }
         }
         else {
