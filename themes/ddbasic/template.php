@@ -270,6 +270,10 @@ function ddbasic_preprocess_views_view_field(&$vars) {
     if (empty($ding_event_price)) {
       $vars['output'] = t('Free');
     }
+    else {
+      $currency = variable_get('ding_event_currency_type', 'Kr');
+      $vars['output'] .= " {$currency}";
+    }
   }
 }
 
