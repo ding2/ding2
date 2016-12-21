@@ -305,7 +305,7 @@ projects[ting_facet_custom][download][type] = "git"
 projects[ting_facet_custom][download][url]  = "git@github.com:easySuite/ting_facet_custom.git"
 projects[ting_facet_custom][download][branch]  = "development"
 
-projects[t ing_field_search][type]           = "module"
+projects[ting_field_search][type]           = "module"
 projects[ting_field_search][subdir]         = ""
 projects[ting_field_search][download][type] = "git"
 projects[ting_field_search][download][url]  = "git@github.com:easySuite/ting_field_search.git"
