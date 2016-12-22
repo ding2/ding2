@@ -144,14 +144,7 @@ function ding_list_installer_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_list_permissions',
-    'foreign keys' => array(
-      'eck_ding_type' => array(
-        'columns' => array(
-          'target_id' => 'id',
-        ),
-        'table' => 'eck_ding_type',
-      ),
-    ),
+    'foreign keys' => array(),
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
@@ -276,14 +269,7 @@ function ding_list_installer_field_default_field_bases() {
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_list_objects',
-    'foreign keys' => array(
-      'eck_ding_type' => array(
-        'columns' => array(
-          'target_id' => 'id',
-        ),
-        'table' => 'eck_ding_type',
-      ),
-    ),
+    'foreign keys' => array(),
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
