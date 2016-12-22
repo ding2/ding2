@@ -100,7 +100,14 @@ function ding_sections_term_panel_create_term_variant($term) {
   // Normally, panels do not support specific panel to node id mapping,
   // so, use php code instead.
   $php_code = '$item = menu_get_object(\'taxonomy_term\', 2); if (!empty($item->tid) && $item->tid == ' . $tid . ') {return TRUE;} return FALSE;';
-  $php_filter = array('name' => 'php', 'settings' => array('description' => t('Term being viewed has tid "@tid"', array('@tid' => $tid)), 'php' => $php_code,), 'not' => FALSE,);
+  $php_filter = array(
+    'name' => 'php',
+    'settings' => array(
+      'description' => t('Term being viewed has tid "@tid"', array('@tid' => $tid)),
+      'php' => $php_code,
+    ),
+    'not' => FALSE,
+  );
 
   $handler_name = 'term_view_panel_context_tid_' . $tid;
   $variant_title = t('Sections term (@term)', array('@term' => $term->name));
