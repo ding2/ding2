@@ -482,6 +482,26 @@ function ding_dibs_cron() {
         }
       }
     }
+
+    // Wipe out old dibs transactions.
+    $wipe_dibs_transactions_threshold = variable_get('wipe_transaction_threshold', 0);
+    if ($wipe_dibs_transactions_threshold) {
+      $threshold = REQUEST_TIME - $wipe_dibs_transactions_threshold;
+      $query = db_select('dibs_transactions', dt)
+        ->fields('dt', array('tid'))
+        ->where('UNIX_TIMESTAMP(dt.payment_time) < :threshold', array(':threshold' => $threshold))
+        ->execute();
+
+      $wipe_target = $query->fetchCol();
+
+      db_delete('dibs_transactions')
+        ->condition('tid', $wipe_target, 'IN')
+        ->execute();
+
+      db_delete('dibs_transactions_log')
+        ->condition('tid', $wipe_target, 'IN')
+        ->execute();
+    }
   }
 }
 
