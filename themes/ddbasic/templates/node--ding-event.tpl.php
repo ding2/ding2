@@ -117,10 +117,6 @@
       <?php if (isset($content['field_ding_event_price'])): ?>
         <i class="icon-tag"></i> <?php print render($content['field_ding_event_price']); ?>
       <?php endif; ?>
-
-      <?php if (isset($content['place2book_event_prices'])): ?>
-        <?php print $content['place2book_event_prices']; ?>
-      <?php endif; ?>
     </p>
 
     <?php if (isset($content['field_place2book'])): ?>
