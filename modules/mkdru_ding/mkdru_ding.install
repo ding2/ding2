@@ -1,0 +1,50 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function mkdru_ding_install() {
+  // Default settings.
+  $settings['pz2_path'] = "/pazpar2/search.pz2";
+  $settings['use_sessions'] = 1;
+  $settings['sp']['user'] = "";
+  $settings['sp']['pass'] = "";
+  $settings['facets']['source']['displayName'] = "Source";
+  $settings['facets']['source']['pz2Name'] = "xtargets";
+  $settings['facets']['source']['limiter'] = NULL;
+  $settings['facets']['source']['multiLimit'] = NULL;
+  $settings['facets']['source']['max'] = 10;
+  $settings['facets']['source']['orderWeight'] = 1;
+  $settings['facets']['subject']['displayName'] = "Subject";
+  $settings['facets']['subject']['pz2Name'] = "subject";
+  $settings['facets']['subject']['limiter'] = "su";
+  $settings['facets']['subject']['multiLimit'] = 1;
+  $settings['facets']['subject']['max'] = 10;
+  $settings['facets']['subject']['orderWeight'] = 2;
+  $settings['facets']['author']['displayName'] = "Author";
+  $settings['facets']['author']['pz2Name'] = "author";
+  $settings['facets']['author']['limiter'] = "au";
+  $settings['facets']['author']['multiLimit'] = 0;
+  $settings['facets']['author']['max'] = 10;
+  $settings['facets']['author']['orderWeight'] = 3;
+  variable_set('mkdru_ding', $settings);
+
+  // Make sure mkdru has already loaded so we can be a submodule of it.
+  db_update('system')
+    ->fields(array('weight' => 5))
+    ->condition('name', 'mkdru_ding')
+    ->execute();
+
+  features_revert_module('mkdru_ding');
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function mkdru_ding_uninstall() {
+  variable_del('mkdru_ding');
+}
