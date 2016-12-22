@@ -357,6 +357,8 @@ function bpi_form_node_form_alter(&$form, &$form_state, $form_id) {
     elseif (isset($form[$body][$current_language][0])) {
       $form[$body][$current_language][0]['#default_value'] = $bpi_body;
     }
+
+    drupal_alter('bpi_syndicate_data', $form, $bpi_content);
   }
 
   // Add BPI fields.

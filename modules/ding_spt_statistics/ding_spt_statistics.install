@@ -1,0 +1,71 @@
+<?php
+/**
+ * @file
+ * Define statistics schema and provide functionality on module (un)install.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function ding_spt_statistics_schema() {
+  $schema = array();
+
+  $schema['ding_spt_statistics'] = array(
+    'description' => 'Counter of the clicks on the external SPT resources.',
+    'fields' => array(
+      'hid' => array(
+        'description' => 'Unique host name id.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'hostname' => array(
+        'description' => 'External host name.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => TRUE,
+      ),
+      'count' => array(
+        'description' => 'Number of accesses of the external resource.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('hid'),
+    'unique keys' => array(
+      'hostname' => array('hostname'),
+    ),
+  );
+
+  $schema['ding_spt_hits'] = array(
+    'description' => 'Save all clicks timestamps for each hostname access.',
+    'fields' => array(
+      'did' => array(
+        'description' => 'Unique id of click registry.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'hid' => array(
+        'description' => 'External host id, taken from ding_spt_statistics table.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'accessed' => array(
+        'description' => 'Timestamp of the host access.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'primary key' => array('did'),
+  );
+
+  return $schema;
+}
