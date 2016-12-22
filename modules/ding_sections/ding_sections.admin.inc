@@ -8,7 +8,7 @@
  * Creates an administrative block on the configuration page.
  *
  * It is necessary for grouping various settings.
-
+ *
  * @return string
  *   HTML for the block.
  */
@@ -40,12 +40,12 @@ function ding_sections_admin_content_types($form, $form_state) {
     $node_bundles[$type->type] = $type->name;
   }
 
-  $form['section_content_types'] = array(
+  $form['ding_section_content_types'] = array(
     '#type' => 'checkboxes',
     '#title' => t('Available node types'),
     '#description' => t('Select which nodes should be a part of section system'),
     '#options' => $node_bundles,
-    '#default_value' => variable_get('section_content_types', array()),
+    '#default_value' => variable_get('ding_section_content_types', array()),
   );
 
   $form['#submit'][] = 'ding_sections_admin_content_types_submit';
@@ -61,16 +61,16 @@ function ding_sections_admin_content_types($form, $form_state) {
  */
 function ding_sections_admin_content_types_submit($form, $form_state) {
   $input = $form_state['input'];
-  $node_types = array_filter($input['section_content_types']);
-  $last_setting = array_filter(variable_get('section_content_types', array()));
+  $node_types = array_filter($input['ding_section_content_types']);
+  $last_setting = array_filter(variable_get('ding_section_content_types', array()));
 
-  if (count($node_types) == 0 && empty($last_setting)) {
+  if (empty($node_types) && empty($last_setting)) {
     return;
   }
 
   $instance_definition = array(
     'label' => 'Section',
-    'field_name' => 'field_section',
+    'field_name' => 'field_ding_section',
     'entity_type' => 'node',
     'required' => 0,
     'default_value' => NULL,
@@ -95,7 +95,7 @@ function ding_sections_admin_content_types_submit($form, $form_state) {
 
   // For each selected node bundle, create a field instance and attach it.
   foreach ($node_types as $type) {
-    if (!field_read_instance('node', 'field_section', $type)) {
+    if (!field_read_instance('node', 'field_ding_section', $type)) {
       $instance_definition['bundle'] = $type;
 
       $t = array(
@@ -123,7 +123,7 @@ function ding_sections_admin_content_types_submit($form, $form_state) {
   // Cleanup left over fields.
   $left_over = array_diff($last_setting, $node_types);
   foreach ($left_over as $entry) {
-    $instance = field_read_instance('node', 'field_section', $entry);
+    $instance = field_read_instance('node', 'field_ding_section', $entry);
 
     field_delete_instance($instance, FALSE);
 

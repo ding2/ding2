@@ -14,9 +14,9 @@ include_once 'ding_sections_header_image.features.inc';
 function ding_sections_header_image_page_alter(&$page) {
   $term = menu_get_object('taxonomy_term', 2);
   if ($term && $term->vocabulary_machine_name == 'section') {
-    $lang = field_language('taxonomy_term', $term, 'field_header_image');
-    if (isset($term->field_header_image[$lang][0]) && !empty($term->field_header_image[$lang][0])) {
-      $image = $term->field_header_image[$lang][0];
+    $lang = field_language('taxonomy_term', $term, 'field_ding_sections_header_image');
+    if (isset($term->field_ding_sections_header_image[$lang][0]) && !empty($term->field_ding_sections_header_image[$lang][0])) {
+      $image = $term->field_ding_sections_header_image[$lang][0];
       if (!empty($image['uri'])) {
         $url = image_style_url('section_header_image', $image['uri']);
       }
@@ -47,7 +47,7 @@ function ding_sections_header_image_form_taxonomy_form_term_alter(&$form, &$form
       '#title' => t('Header image'),
       '#group' => 'section_tabs',
     );
-    $form['ding_sections']['header_image']['field_header_image'] = $form['field_header_image'];
-    unset($form['field_header_image']);
+    $form['ding_sections']['header_image']['field_ding_sections_header_image'] = $form['field_ding_sections_header_image'];
+    unset($form['field_ding_sections_header_image']);
   }
 }

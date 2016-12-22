@@ -54,7 +54,7 @@ function ding_sections_section_add_access($voc) {
   global $user;
 
   if ($voc->machine_name == 'section') {
-    $access = user_access('edit terms in 8', $user);
+    $access = user_access('edit terms in ' . $voc->vid, $user);
   }
   else {
     $access = user_access('administer taxonomy', $user);
@@ -83,70 +83,6 @@ function ding_sections_permission() {
   );
 
   return $perm;
-}
-
-/**
- * Implements hook_secure_permissions().
- */
-function ding_sections_secure_permissions($role) {
-  $permissions = array(
-    'anonymous user' => array(
-      'view section panels terms',
-    ),
-    'authenticated user' => array(
-      'view section panels terms',
-    ),
-    'administrators' => array(
-      'change layouts in place editing',
-      'edit terms in 8',
-      'delete terms in 8',
-      'use ipe with page manager',
-      'use panels in place editing',
-      'view section panels terms',
-    ),
-    'editor' => array(
-      'view section panels terms',
-      'use section panels terms',
-      'edit terms in 8',
-      'delete terms in 8',
-      'use ipe with page manager',
-      'use panels in place editing',
-    ),
-    'guest blogger' => array(
-      'view section panels terms',
-    ),
-    'local administrator' => array(
-      'create section content',
-      'edit any section content',
-      'edit own section content',
-      'delete any section content',
-      'delete own section content',
-      'administer section',
-      'view section panels terms',
-      'use ipe with page manager',
-      'use section panels terms',
-      'use panels in place editing',
-      'edit terms in 8',
-      'delete terms in 8',
-    ),
-    'local editor' => array(
-      'view section panels terms',
-      'use section panels terms',
-      'edit terms in 8',
-      'delete terms in 8',
-      'use ipe with page manager',
-      'use panels in place editing',
-    ),
-    'provider' => array(
-      'view section panels terms',
-    ),
-    'staff' => array(
-      'view section panels terms',
-    ),
-  );
-  if (isset($permissions[$role])) {
-    return $permissions[$role];
-  }
 }
 
 /**

@@ -8,7 +8,7 @@
  * Implements hook_schema().
  */
 function ding_sections_term_menu_schema() {
-  $schema['section_term_menu'] = array(
+  $schema['ding_sections_term_menu'] = array(
     'description' => st('Map term ids to menu list id.'),
     'fields' => array(
       'tid' => array(

@@ -8,5 +8,5 @@ dependencies[] = ding_sections
 dependencies[] = features
 dependencies[] = text
 features[features_api][] = api:2
-features[field_base][] = field_custom_css
-features[field_instance][] = taxonomy_term-section-field_custom_css
+features[field_base][] = field_ding_sections_custom_css
+features[field_instance][] = taxonomy_term-section-field_ding_sections_custom_css

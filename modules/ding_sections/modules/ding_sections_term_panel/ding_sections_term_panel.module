@@ -84,44 +84,30 @@ function ding_sections_term_panel_create_term_variant($term) {
     return FALSE;
   }
 
-  $handler_name = variable_get('section_term_panel_handler', 'term_section_panel_context');
-  if (empty($handler_name)) {
-    drupal_set_message(t('Not possible to create term_view variant. Firstly, you should choose @handler', array('@handler' => l(t('handler'), 'admin/config/section/term_panel'))), 'warning');
-    return FALSE;
-  }
-
+  $handler_name = 'term_section_panel_context';
   $task = page_manager_get_task('term_view');
-  $handlers = page_manager_load_task_handlers($task, '');
 
-  if (!isset($handlers[$handler_name])) {
+  ctools_include('plugins');
+  ctools_get_plugins('page_manager', 'task_handlers', 'panel_context');
+
+  $handler = page_manager_load_task_handler($task, '', $handler_name);
+
+  if (empty($handler)) {
     return FALSE;
   }
-
-  $handler = page_manager_export_task_handler($handlers[$handler_name]);
-
-  ob_start();
-  eval($handler);
-  ob_end_clean();
 
   $tid = $term->tid;
-  // Normally, panels do not support specific panel to node id mapping, so use
-  // php code instead.
+  // Normally, panels do not support specific panel to node id mapping,
+  // so, use php code instead.
   $php_code = '$item = menu_get_object(\'taxonomy_term\', 2); if (!empty($item->tid) && $item->tid == ' . $tid . ') {return TRUE;} return FALSE;';
-
-  $php_filter = array(
-    'name' => 'php',
-    'settings' => array(
-      'description' => t('Term being viewed has tid "@tid"', array('@tid' => $tid)),
-      'php' => $php_code,
-    ),
-    'not' => FALSE,
-  );
+  $php_filter = array('name' => 'php', 'settings' => array('description' => t('Term being viewed has tid "@tid"', array('@tid' => $tid)), 'php' => $php_code,), 'not' => FALSE,);
 
   $handler_name = 'term_view_panel_context_tid_' . $tid;
   $variant_title = t('Sections term (@term)', array('@term' => $term->name));
   $pipeline = module_exists('panels_ipe') ? 'ipe' : 'standard';
 
   $handler->name = $handler_name;
+  $handler->did = NULL;
   $handler->conf['title'] = $variant_title;
   $handler->conf['pipeline'] = $pipeline;
   $handler->conf['access']['plugins'][] = $php_filter;

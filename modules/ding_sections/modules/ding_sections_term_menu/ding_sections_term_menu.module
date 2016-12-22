@@ -216,7 +216,7 @@ function ding_sections_term_submit($form, &$form_state) {
  *   false if no menu, array with mlid if exist.
  */
 function _ding_sections_menu_exist($tid) {
-  $mlid = db_select('section_term_menu', 'etm')
+  $mlid = db_select('ding_sections_term_menu', 'etm')
     ->fields('etm', array('mlid'))
     ->condition('tid', $tid)
     ->execute()
@@ -239,7 +239,7 @@ function _ding_sections_create_term_menu($tid, $mlid) {
     'mlid' => $mlid,
   );
 
-  db_merge('section_term_menu')
+  db_merge('ding_sections_term_menu')
     ->key($fields)
     ->insertFields($fields)
     ->updateFields($fields)
@@ -256,7 +256,7 @@ function _ding_sections_create_term_menu($tid, $mlid) {
  */
 function _ding_sections_remove_term_menu($tid, $mlid) {
   menu_link_delete($mlid);
-  db_delete('section_term_menu')
+  db_delete('ding_sections_term_menu')
     ->condition('tid', $tid)
     ->execute();
 }

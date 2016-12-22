@@ -10,8 +10,8 @@
 function ding_sections_header_image_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'taxonomy_term-section-field_header_image'
-  $field_instances['taxonomy_term-section-field_header_image'] = array(
+  // Exported field_instance: 'taxonomy_term-section-field_ding_sections_header_image'
+  $field_instances['taxonomy_term-section-field_ding_sections_header_image'] = array(
     'bundle' => 'section',
     'deleted' => 0,
     'description' => 'Use image proportional to 1200x90 size.',
@@ -24,7 +24,7 @@ function ding_sections_header_image_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'taxonomy_term',
-    'field_name' => 'field_header_image',
+    'field_name' => 'field_ding_sections_header_image',
     'label' => 'Header image',
     'required' => 0,
     'settings' => array(

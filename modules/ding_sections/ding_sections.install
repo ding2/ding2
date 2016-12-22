@@ -12,7 +12,7 @@ function ding_sections_install() {
   _ding_sections_create_fields();
   ding_sections_section_shortcut();
 
-  variable_set('section_content_types', array());
+  variable_set('ding_section_content_types', array());
 
   $submodules = array(
     'ding_sections_header_image',
@@ -30,7 +30,7 @@ function ding_sections_uninstall() {
   _ding_sections_purge_fields();
   _ding_sections_purge_base();
 
-  variable_del('section_content_types');
+  variable_del('ding_section_content_types');
 }
 
 /**
@@ -52,7 +52,7 @@ function _ding_sections_create_base() {
  */
 function _ding_sections_create_fields() {
   $field_definition = array(
-    'field_name' => 'field_section',
+    'field_name' => 'field_ding_section',
     'type' => 'taxonomy_term_reference',
     'module' => 'taxonomy',
     'active' => '1',
@@ -79,11 +79,11 @@ function _ding_sections_purge_fields() {
   $node_types = node_type_get_types();
 
   foreach ($node_types as $type) {
-    $instance = field_read_instance('node', 'field_section', $type->type);
+    $instance = field_read_instance('node', 'field_ding_section', $type->type);
     field_delete_instance($instance);
   }
 
-  field_delete_field('field_section');
+  field_delete_field('field_ding_section');
 }
 
 /**

@@ -10,8 +10,8 @@
 function ding_sections_custom_css_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'taxonomy_term-section-field_custom_css'
-  $field_instances['taxonomy_term-section-field_custom_css'] = array(
+  // Exported field_instance: 'taxonomy_term-section-field_ding_sections_custom_css'
+  $field_instances['taxonomy_term-section-field_ding_sections_custom_css'] = array(
     'bundle' => 'section',
     'default_value' => NULL,
     'deleted' => 0,
@@ -26,7 +26,7 @@ function ding_sections_custom_css_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'taxonomy_term',
-    'field_name' => 'field_custom_css',
+    'field_name' => 'field_ding_sections_custom_css',
     'label' => 'Custom CSS',
     'required' => 0,
     'settings' => array(
