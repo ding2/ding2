@@ -38,7 +38,7 @@ function ding_provider_admin_overview() {
       '126144000' => t('4 years'),
       '157680000' => t('5 years'),
     ),
-    '#default_value' => variable_get('wipe_provider_users_threshold', 0)
+    '#default_value' => variable_get('wipe_provider_users_threshold', 0),
   );
 
   return system_settings_form($build);
