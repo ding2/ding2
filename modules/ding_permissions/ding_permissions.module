@@ -1055,6 +1055,22 @@ function ding_permissions_secure_permissions($role) {
     ),
   );
 
+  // Add permissions based on the created taxonomy term.
+  $voc = taxonomy_vocabulary_machine_name_load('section');
+  $vid = !empty($voc->vid) ? $voc->vid : FALSE;
+  if ($vid) {
+    $roles = array(
+      'administrators',
+      'editor',
+      'local administrator',
+      'local editor',
+    );
+    foreach ($roles as $r) {
+      $permissions[$r][] = 'edit terms in ' . $vid;
+      $permissions[$r][] = 'delete terms in ' . $vid;
+    }
+  }
+
   // Add editor specific permissions by node type,
   // using override node options module permissions.
   $node_types = node_permissions_get_configured_types();
