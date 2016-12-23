@@ -26,14 +26,6 @@ function ting_search_carousel_uninstall() {
 }
 
 /**
- * Delete obsolete variables.
- */
-function ting_search_carousel_update_7001() {
-  variable_del('ting_search_carousel_tabs_position');
-  variable_del('ting_search_carousel_server_render');
-}
-
-/**
  * Add a shortcut for configuring ting_search_carousel.
  */
 function ting_search_carousel_add_shortcut() {
@@ -62,4 +54,12 @@ function ting_search_carousel_update_7001() {
     ->execute();
 
   ting_search_carousel_add_shortcut();
+}
+
+/**
+ * Delete obsolete variables.
+ */
+function ting_search_carousel_update_7002() {
+  variable_del('ting_search_carousel_tabs_position');
+  variable_del('ting_search_carousel_server_render');
 }
