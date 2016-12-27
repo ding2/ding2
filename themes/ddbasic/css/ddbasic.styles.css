@@ -8619,6 +8619,9 @@ input#edit-search-block-form--2.spinner {
   font-size: 16px; }
   .ding-item-list-item .item-cover {
     float: left; }
+  .ding-item-list-item .ting-cover:before {
+    left: 0;
+    right: 0; }
   .ding-item-list-item .item-details {
     margin-left: 65px; }
     .ding-item-list-item .item-details .item-author {
@@ -8627,6 +8630,7 @@ input#edit-search-block-form--2.spinner {
       font-weight: normal; }
     .ding-item-list-item .item-details .reserve-button {
       margin-left: 10px;
+      padding: 8px 10px;
       font-size: 100%; }
     .ding-item-list-item .item-details .item-loan,
     .ding-item-list-item .item-details .item-loan a {

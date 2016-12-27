@@ -56,7 +56,10 @@
   .item-cover {
     float: left;
   }
-
+  .ting-cover:before {
+    left: 0;
+    right: 0;
+  }
   .item-details {
     margin-left: 65px;
 
@@ -71,6 +74,7 @@
     .reserve-button {
       @extend %button;
       margin-left: 10px;
+      padding: 8px 10px;
       font-size: $font-size-reset;
     }
     .item-loan {
