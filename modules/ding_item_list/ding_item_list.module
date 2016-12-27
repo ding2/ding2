@@ -110,7 +110,7 @@ function ding_item_list_get_objects($query = '', $count = 0, $no_cover = FALSE, 
         if (!$no_cover) {
           if (!isset($covers_service_na)) {
             try {
-              $cover_exists = ding_item_list_check_cover($search_item->localId);
+              $cover_exists = ding_item_list_check_cover($search_item->id);
             }
             catch (AdditionalInformationServiceException $e) {
               // Service unavailable, do not ask for covers any more.
@@ -262,61 +262,16 @@ function ding_item_list_search_ting($query = '', $page = 1, $records = 10, $sort
 /**
  * Check for cover existence.
  *
- * @param string $local_id
- *   Ting item local id.
+ * @param string $id
+ *   Ting item id.
  *
  * @return bool
  *   TRUE if item has a cover, FALSE otherwise.
  */
-function ding_item_list_check_cover($local_id, $style = 'ding_item_list') {
-  module_load_include('pages.inc', 'ting_covers');
-  $cover_settings = array(
-    $local_id => array(
-      'owner_id' => '',
-      'local_id' => $local_id,
-      'image_style' => $style,
-    ),
-  );
-  $covers = ting_covers_objects(FALSE, $cover_settings);
+function ding_item_list_check_cover($id) {
+  $covers = ting_covers_get(array($id));
 
   return !empty($covers);
-}
-
-/**
- * Create missed covers.
- *
- * @param array $items
- *   Set of ting objects.
- */
-function ding_item_list_create_missed_covers(array &$items) {
-  foreach ($items as $item_id => $item) {
-    $filepath = drupal_realpath($item->image);
-    if (!file_exists($filepath)) {
-      $missing_images_ids[] = $item_id;
-    }
-  }
-  if (!empty($missing_images_ids)) {
-    ding_item_list_get_images($items, $missing_images_ids);
-  }
-}
-
-/**
- * Get images from ADDI web-service.
- *
- * @param array $items
- *   Set of ting objects.
- * @param array $missing_images_local_ids
- *   Array of ting items id's with missing covers.
- */
-function ding_item_list_get_images(array &$items, array $missing_images_local_ids) {
-  $ids = array_map(function ($item) use ($items) {
-    return $items[$item]->id;
-  }, $missing_images_local_ids);
-  $covers = ting_covers_get($ids);
-
-  array_walk($missing_images_local_ids, function($item) use ($covers, &$items) {
-    $items[$item]->image = !empty($covers[$item->id]) ? $covers[$item->id] : '';
-  });
 }
 
 /**
@@ -426,20 +381,13 @@ function ding_item_list_get_content($query, $count, $sort) {
   $cache = cache_get($cid, 'cache_ding_item');
 
   if (!$cache) {
-    $objects = ding_item_list_get_objects($query, $count, TRUE, $sort);
+    $objects = ding_item_list_get_objects($query, $count, FALSE, $sort);
 
     cache_set($cid, $objects, 'cache_ding_item', time() + DING_ITEM_LIST_CACHE_TLL * 3600);
   }
   else {
-    $objects = $cache->data;
-  }
-
-  // Check if cover images are physically present.
-  try {
-    ding_item_list_create_missed_covers($objects);
-  }
-  catch (Exception $e) {
-    // No special handling at the moment.
+//    $objects = $cache->data;
+    $objects = ding_item_list_get_objects($query, $count, FALSE, $sort);
   }
 
   $output = array();
