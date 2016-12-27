@@ -65,7 +65,7 @@ function get_item_list_ajax() {
     $output = ding_item_list_get_content($item_query, $item_count, $item_sort);
   }
   else {
-    watchdog('ding_item_list', t('Wrong parameters are passed from the query'));
+    watchdog('ding_item_list', 'Wrong parameters are passed from the query');
   }
   $content = theme('ding_item_list_list', array('items' => $output));
 
@@ -89,14 +89,14 @@ function get_item_list_ajax() {
  */
 function ding_item_list_get_objects($query = '', $count = 0, $no_cover = FALSE, $sort = '') {
   $objects = array();
-  // In order to not spam the addi service it was decided to add limits by source and results.
+  // Not to spam the addi service it was decided to limit by source and results.
   // Most of the covers exists for term.acSource="bibliotekskatalog".
   // So, it was decided to limit based on the source.
   $request = '(' . $query . ' AND term.acSource="bibliotekskatalog")';
   $page = 1;
   if (!empty($query) && !empty($count)) {
     module_load_include('client.inc', 'ting');
-    // In case of a "too general" request it was decided to add a limit of results.
+    // In case of a "too general" request there is a limit of results.
     $result = ding_item_list_search_ting($request, $page, DING_ITEM_LIST_ITEMS_LIMIT, $sort);
     foreach ($result->collections as $collection) {
       // Whether we reached our item limit per query.
@@ -350,7 +350,7 @@ function ding_item_list_ding_item_cache() {
  * @return string
  *   Formatted ISBN number.
  */
-function _ding_item_list_format_isbn($isbns) {
+function _ding_item_list_format_isbn($isbns = array()) {
   foreach ($isbns as $k => $isbn) {
     $isbns[$k] = str_replace(array(' ', '-'), '', $isbn);
   }

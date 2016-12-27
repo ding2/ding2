@@ -44,7 +44,7 @@ function ding_item_list_plugin_render($subtype, $conf, $panel_args, $context) {
             'sort' => $item_sort,
           ),
         ),
-        'type' => 'setting'
+        'type' => 'setting',
       ),
     ),
   );
