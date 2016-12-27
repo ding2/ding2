@@ -386,8 +386,7 @@ function ding_item_list_get_content($query, $count, $sort) {
     cache_set($cid, $objects, 'cache_ding_item', time() + DING_ITEM_LIST_CACHE_TLL * 3600);
   }
   else {
-//    $objects = $cache->data;
-    $objects = ding_item_list_get_objects($query, $count, FALSE, $sort);
+    $objects = $cache->data;
   }
 
   $output = array();
