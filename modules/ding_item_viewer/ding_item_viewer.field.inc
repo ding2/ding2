@@ -218,23 +218,10 @@ function ding_item_viewer_field_formatter_view($entity_type, $entity, $field, $i
         break;
 
       case 'ting_cover_ding_item_viewer':
-        module_load_include('inc', 'ting_covers', 'ting_covers.pages');
-        list($owner_id, $local_id) = explode(':', $entity->ding_entity_id);
-        $cover_data = array(
-          array(
-            'image_style' => $display['settings']['image_style'],
-            'local_id' => $local_id,
-            'owner_id' => $owner_id,
-          ),
-        );
-        $images = ting_covers_objects(FALSE, $cover_data);
         $element[$delta] = array(
-          '#theme' => 'image',
-          '#path' => $images[0]['url'],
-          '#width' => '',
-          '#height' => '',
-          '#alt' => '',
-          '#title' => '',
+          '#theme' => 'ting_object_cover',
+          '#image_style' => $display['settings']['image_style'],
+          '#object' => $entity,
         );
         break;
     }

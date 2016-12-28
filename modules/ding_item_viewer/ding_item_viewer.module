@@ -182,32 +182,13 @@ function ding_item_viewer_block_view($delta) {
  * @param array $ids
  *   Items faust number.
  *
- * @return array
- *   Set of results, keyed by id with boolean values.
+ * @return bool
+ *   TRUE if item has a cover, FALSE otherwise.
  */
 function ding_item_viewer_check_covers(array $ids) {
-  module_load_include('inc', 'ting_covers', 'ting_covers.pages');
+  $covers = ting_covers_get($ids);
 
-  $cover_data = array();
-  array_walk($ids, function($v) use (&$cover_data) {
-    $local_id = explode(':', $v);
-
-    $cover_data[$local_id[1]] = array(
-      'local_id' => $local_id[1],
-      'owner_id' => $local_id[0],
-      'image_style' => 'large',
-    );
-  });
-
-  $covers = ting_covers_objects(FALSE, $cover_data);
-
-  $result = array();
-  array_walk($covers, function($v) use (&$result, $cover_data) {
-    $faust_number = $cover_data[$v['local_id']]['owner_id'] . ':' . $cover_data[$v['local_id']]['local_id'];
-    $result[$faust_number] = TRUE;
-  });
-
-  return $result;
+  return !empty($covers);
 }
 
 /**
@@ -530,7 +511,7 @@ function _ding_item_viewer_query_form($index, $item = array()) {
   $form['title'] = array(
     '#type' => 'textfield',
     '#title' => t('Title'),
-    '#description' => t('The title of the search is used for the tab in the browsebar. Keep it short.'),
+    '#description' => t('The title of the search is used for the tab in the browse bar. Keep it short.'),
     '#default_value' => isset($item['title']) ? $item['title'] : '',
   );
 
@@ -577,11 +558,13 @@ function theme_ding_item_viewer_queries($variables) {
     );
   }
 
-  $output = theme_table(array(
-                          'header' => $header,
-                          'rows' => $rows,
-                          'attributes' => array('id' => 'ding-item-viewer-queries'),
-                        ));
+  $output = theme_table(
+    array(
+      'header' => $header,
+      'rows' => $rows,
+      'attributes' => array('id' => 'ding-item-viewer-queries'),
+    )
+  );
 
   $output .= drupal_render_children($form);
 
@@ -664,19 +647,23 @@ function ding_item_viewer_content_type_edit_form_submit($form, &$form_state) {
  *   Current item viewer searches.
  * @param array $settings
  *   Current item viewer configuration.
+ *
+ * @return array
+ *   Found ting items.
  */
 function ding_item_viewer_build_searches(array $search, array $settings) {
   $sort = $settings['ding_item_viewer_item_sorting'];
+  $items = array();
   try {
     $search_result = ding_item_viewer_search_ting($search['query'], 1, 50, $sort);
 
     $count_search_results = $search_result->numTotalCollections;
     if ($count_search_results > 0) {
       $collection_ids = array_keys($search_result->collections);
-      $cover_exists = ding_item_viewer_check_covers($collection_ids);
+
+      $cover_exists = ting_covers_get($collection_ids);
       $item_ids = array_keys($cover_exists);
       $objects = ding_entity_load_multiple($item_ids);
-      $items = array();
       foreach ($objects as $item) {
         $build = ting_object_view($item, 'ding_item_viewer_big');
         $big = drupal_render($build);
@@ -693,8 +680,9 @@ function ding_item_viewer_build_searches(array $search, array $settings) {
   }
   catch (Exception $ex) {
     watchdog('ding_item_viewer', $ex);
-    return array();
   }
+
+  return $items;
 }
 
 /**
