@@ -109,13 +109,13 @@ $base-font-weight-bold:           600;
       margin: 8px 0 0 0;
       color: $black;
     }
-
     img {
       position: relative;
       float: left;
       overflow: hidden;
       width: 120px;
       max-height: 193px;
+      z-index: 0;
     }
 
     &.active {

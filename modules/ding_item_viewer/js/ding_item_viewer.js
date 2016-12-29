@@ -147,7 +147,8 @@
        * Slides ding item viewer.
        */
       function slide() {
-        var tabs = $('li', container);
+        var tabs = $('li', $(container).find('ul.ui-tabs-nav'));
+
         if (tabs.length > 1) {
           var current = $('li.active a.tab', container);
           var next = $(current).parent().next();

@@ -8487,7 +8487,8 @@ input#edit-search-block-form--2.spinner {
       float: left;
       overflow: hidden;
       width: 120px;
-      max-height: 193px; }
+      max-height: 193px;
+      z-index: 0; }
     .ding-item-viewer .browsebar-item.active {
       max-height: 410px;
       height: auto;
