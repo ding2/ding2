@@ -44,6 +44,7 @@ function ting_ctools_plugin_directory($owner, $plugin_type) {
  */
 function ting_ctools_plugin_type() {
   return array(
+    'access' => array(),
     'tasks' => array(),
     'content_types' => array(),
     'task_handlers' => array(),

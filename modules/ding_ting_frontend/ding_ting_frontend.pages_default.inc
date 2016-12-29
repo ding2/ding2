@@ -633,6 +633,86 @@ search/ting
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
+  $handler->name = 'ting_object__panel_context_c776fccd-7433-4e02-912b-2a31f550dc8f';
+  $handler->task = 'ting_object';
+  $handler->subtask = '';
+  $handler->handler = 'panel_context';
+  $handler->weight = 1;
+  $handler->conf = array(
+    'title' => 'Default',
+    'no_blocks' => 0,
+    'pipeline' => 'standard',
+    'body_classes_to_remove' => '',
+    'body_classes_to_add' => '',
+    'css_id' => '',
+    'css' => '',
+    'contexts' => array(),
+    'relationships' => array(),
+    'name' => '',
+  );
+  $display = new panels_display();
+  $display->layout = '25_50_25';
+  $display->layout_settings = array();
+  $display->panel_settings = array(
+    'style_settings' => array(
+      'default' => NULL,
+      'left_sidebar' => NULL,
+      'main_content' => NULL,
+      'right_sidebar' => NULL,
+      'attachment_4_1' => NULL,
+      'attachment_4_2' => NULL,
+      'attachment_4_3' => NULL,
+      'attachment_4_4' => NULL,
+      'attachment_3_1' => NULL,
+      'attachment_3_2' => NULL,
+      'attachment_3_3' => NULL,
+      'attachment_2_1' => NULL,
+      'attachment_2_2' => NULL,
+      'attachment_1_1' => NULL,
+    ),
+  );
+  $display->cache = array();
+  $display->title = 'Not found';
+  $display->uuid = '28c5897a-e5af-45b9-b92f-8a40ff346cc2';
+  $display->content = array();
+  $display->panels = array();
+    $pane = new stdClass();
+    $pane->pid = 'new-c8474958-561b-45ed-86a6-4792106879d2';
+    $pane->panel = 'main_content';
+    $pane->type = 'node';
+    $pane->subtype = 'node';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'nid' => '1',
+      'links' => 1,
+      'leave_node_title' => 0,
+      'identifier' => '',
+      'build_mode' => 'full',
+      'link_node_title' => 0,
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 0;
+    $pane->locks = array();
+    $pane->uuid = 'c8474958-561b-45ed-86a6-4792106879d2';
+    $display->content['new-c8474958-561b-45ed-86a6-4792106879d2'] = $pane;
+    $display->panels['main_content'][0] = 'new-c8474958-561b-45ed-86a6-4792106879d2';
+  $display->hide_title = PANELS_TITLE_PANE;
+  $display->title_pane = 'new-c8474958-561b-45ed-86a6-4792106879d2';
+  $handler->conf['display'] = $display;
+  $export['ting_object__panel_context_c776fccd-7433-4e02-912b-2a31f550dc8f'] = $handler;
+
+  $handler = new stdClass();
+  $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
+  $handler->api_version = 1;
   $handler->name = 'ting_object_panel_context';
   $handler->task = 'ting_object';
   $handler->subtask = '';
@@ -653,6 +733,17 @@ search/ting
           'value' => 'Ting object | %ting_object:title_full | [current-page:pager][site:name]',
         ),
       ),
+    ),
+    'access' => array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'ting_object_exists',
+          'settings' => NULL,
+          'context' => 'argument_ting_object_id_17',
+          'not' => FALSE,
+        ),
+      ),
+      'logic' => 'and',
     ),
   );
   $display = new panels_display();
