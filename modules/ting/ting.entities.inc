@@ -11,12 +11,16 @@
 class TingRelation extends DingEntityBase {
   public $type = DingEntityBase::NULL;
   public $uri = DingEntityBase::NULL;
+  public $linkAccess = DingEntityBase::NULL;
   public $object = DingEntityBase::NULL;
 
-  public function __construct($type, $uri, $object = NULL) {
+  public function __construct($type, $uri, $linkAccess = NULL, $object = NULL) {
     parent::__construct();
     $this->properties['type'] = $type;
     $this->properties['uri'] = $uri;
+    if ($linkAccess) {
+      $this->properties['linkAccess'] = $linkAccess;
+    }
     if ($object) {
       $this->properties['object'] = $object;
     }
@@ -52,6 +56,7 @@ class TingEntity extends DingEntity {
   public $language = DingEntityBase::NULL;
   public $date = DingEntityBase::NULL;
   public $online_url = DingEntityBase::NULL;
+  public $link_access = DingEntityBase::NULL;
   public $ac_source = DingEntityBase::NULL;
   public $description = DingEntityBase::NULL;
   public $contributors = DingEntityBase::NULL;
@@ -233,7 +238,11 @@ class TingEntity extends DingEntity {
         }
       }
       foreach ($this->reply->relationsData as $record) {
-        $this->relations[] = new TingRelation($record->relationType, $record->relationUri, isset($relation_objects[$record->relationUri]) ? $relation_objects[$record->relationUri] : NULL);
+        $linkAccess = NULL;
+        if (!empty($record->linkAccess)) {
+          $linkAccess = $record->linkAccess;
+        }
+        $this->relations[] = new TingRelation($record->relationType, $record->relationUri, $linkAccess, isset($relation_objects[$record->relationUri]) ? $relation_objects[$record->relationUri] : NULL);
       }
     }
     return $this->relations;
@@ -315,6 +324,21 @@ class TingEntity extends DingEntity {
     }
 
     return $url;
+  }
+
+  /**
+   * Get linkObject access.
+   *
+   * @return string
+   */
+  function getLink_access() {
+    $link_access = '';
+    foreach ($this->relations as $key => $relation) {
+      if ($relation->type == 'dbcaddi:hasOnlineAccess') {
+        $link_access = $relation->linkAccess;
+      }
+    }
+    return $link_access;
   }
 
   function getAc_source() {
