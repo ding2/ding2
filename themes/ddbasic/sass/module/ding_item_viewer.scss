@@ -53,23 +53,23 @@ $base-font-weight-bold:           600;
   .browsebar-items-wrapper {
     width: 942px;
   }
-  
+
   .cover-wrapper {
     float: left;
     width: 160px;
   }
-  
+
   .properties-wrapper {
     float: left;
     margin-left: 5px;
     width: 195px;
   }
-  
+
   .cover-wrapper-inner {
     overflow: hidden;
     max-height: 250px;
   }
-  
+
   // Items
 
   .browsebar-item {
@@ -102,7 +102,6 @@ $base-font-weight-bold:           600;
       margin-top: 60px;
     }
     // Title
-
     h2 {
       font-weight: $base-font-weight-bold;
       font-size: $font-size-reset;
@@ -140,24 +139,24 @@ $base-font-weight-bold:           600;
           font-weight: $base-font-weight-bold;
         }
       }
-      
+
       .group-data {
         float: left;
         width: 200px;
       }
 
       // Cover
-      
+
       .field-type-ting-cover {
         float: left;
         margin-right: 10px;
         height: 100%;
       }
-      
+
       .image-wrapper {
         float: left;
       }
-      
+
       img {
         margin-right: 10px;
         margin-bottom: 8px;
@@ -172,7 +171,7 @@ $base-font-weight-bold:           600;
         margin: 0 0 8px 0;
         text-transform: uppercase;
       }
-      
+
       // Subject
       .subject {
         display: block;
@@ -238,7 +237,7 @@ $base-font-weight-bold:           600;
       white-space: nowrap;
       font-size: 13px;
       line-height: 30px;
-      
+
       a {
         position: static;
         color: $white;
