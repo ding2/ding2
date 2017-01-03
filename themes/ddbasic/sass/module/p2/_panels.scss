@@ -2,6 +2,15 @@
   margin-bottom: $large-spacing;
 }
 
+.pane-popular {
+  padding-top: 20px;
+  background-color: $white;
+
+  > h2 {
+    padding: 0 20px;
+  }
+}
+
 .page-taxonomy-term {
   .pane-page-content {
     // Small
