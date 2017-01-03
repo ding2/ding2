@@ -606,6 +606,7 @@ function ding_event_views_default_views() {
   /* Display: Library event list */
   $handler = $view->new_display('panel_pane', 'Library event list', 'ding_event_library_list');
   $handler->display->display_options['defaults']['use_more'] = FALSE;
+  $handler->display->display_options['use_more'] = TRUE;
   $handler->display->display_options['defaults']['link_display'] = FALSE;
   $handler->display->display_options['link_display'] = 'custom_url';
   $handler->display->display_options['link_url'] = 'arrangementer';
