@@ -3,10 +3,14 @@
  * Add specific link buttons to be tracked via Webtrends.
  */
 
+ /*global dcsMultiTrack */
+
 (function($) {
-  var hash = {};
+  "use strict";
+
   Drupal.behaviors.track_webtrends = {
-    attach: function (context) {
+    attach: function () {
+
       // Array of selectors for links to track via webtrends.
       var webtrendsAdd = [
         '.action-button.reserve-button',
@@ -22,12 +26,12 @@
           $(this).attr('webtrends_dcsuri', window.location.pathname + '/#group-holdings-available');
         }
         // Add "on click" event handler.
-        $(this).click(function (event) {
+        $(this).click(function () {
           var dcsuri = $(this).attr('href');
           if ($(this).attr('webtrends_dcsuri')) {
             dcsuri = $(this).attr('webtrends_dcsuri');
           }
-          dcsMultiTrack('DCS.dcsuri', dcsuri, 'WT.ti', $(this).text())
+          dcsMultiTrack('DCS.dcsuri', dcsuri, 'WT.ti', $(this).text());
         });
 
         // Ensure our event handler is fired first by popping and
