@@ -1,3 +1,40 @@
 #media-tab-media_default--media_browser_my_files > div.form-actions.form-wrapper > a {
-    display: none;
+  display: none;
+}
+
+.ui-dialog-titlebar {
+  width: 100%;
+  overflow: hidden;
+}
+
+.ui-dialog .ui-dialog-titlebar span.ui-dialog-title {
+  width: 90%;
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  text-overflow: ellipsis;;
+  float: left;
+}
+
+.ding-popup-content video {
+  width: 100% !important;
+}
+
+#media-browser-library-list li {
+  width: 23%;
+}
+
+#media-browser-library-list .media-item {
+  float: left;
+  width: 90%;
+}
+#media-browser-library-list .media-item .file {
+  float: left;
+  height: 16px;
+}
+#media-browser-library-list .media-item .file a {
+  display: none;
+}
+#media-browser-library-list .media-item .label-wrapper {
+  left: 25px;
+  text-align: left;
 }

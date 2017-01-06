@@ -3,6 +3,7 @@
  */
 
 (function ($) {
+  "use strict";
   Drupal.behaviors.ding_dams = {
     attach: function (context) {
 
@@ -13,36 +14,58 @@
         if (ele.hasClass('ui-state-active')) {
           ele.addClass('active');
         }
-      });
-      $('#media-tabs-wrapper > ul > li.ui-state-active').addClass('active');
 
-      $('.form-actions #track-media-button', context).remove();
-      $('.form-actions #edit-media-button', context).remove();
+        // Remove selection of previously selected item(s).
+        $('.media-item').removeClass('selected');
+        // Hide the Edit and Track buttons when switching tabs
+        // since these buttons are added on every tab when a
+        // media image is selected.
+        $('.form-actions a#edit-media-button').hide();
+        $('.form-actions a#track-media-button').hide();
+      });
+
       // Catch the click on a media item
-      $('.media-item', context).bind('click', function (e) {
-        var empty_settings = [];
-        // Remove all currently selected files
+      $('.media-item', context).bind('click', function () {
+        // Remove selection from any selected item.
         $('.media-item').removeClass('selected');
         // Set the current item to active
         $(this).addClass('selected');
         // Add this FID to the array of selected files
         var fid = $(this).attr('data-fid');
 
-        // Edit button
-        var x = $('<a>');
-        x.addClass('button').attr('href', '/file/' + fid + '/edit').attr('id', 'edit-media-button').html('Edit');
-        x.attr('target', '_blank');
-        $('.form-actions', context).append(x);
-        $('.form-actions #edit-media-button', context).show();
+        // Edit button.
+        var edit_button_href = '/file/' + fid + '/edit';
+        var $edit_button = $('.form-actions a#edit-media-button');
 
-        Drupal.behaviors.AJAX.attach(x, empty_settings);
+        if ($edit_button.length === 0) {
+          $edit_button = $('<a>')
+            .addClass('button')
+            .attr('id', 'edit-media-button')
+            .attr('target', '_blank')
+            .html(Drupal.t('Edit'))
+            .appendTo('.form-actions');
+        }
 
-        // Track button
-        var y = $('<a>');
-        y.addClass('button').attr('id', 'track-media-button').attr('href', '/file/' + fid + '/usage').attr('target','_blank').html('Track');
-        $('.form-actions', context).append(y);
-        $('.form-actions #track-media-button', context).show();
-        Drupal.behaviors.AJAX.attach(y, empty_settings);
+        $edit_button
+          .attr('href', edit_button_href)
+          .show();
+
+        // Track button.
+        var track_button_href = '/file/' + fid + '/usage';
+        var $track_button = $('.form-actions a#track-media-button');
+
+        if ($track_button.length === 0) {
+          $track_button = $('<a>')
+            .addClass('button')
+            .attr('id', 'track-media-button')
+            .attr('target', '_blank')
+            .html(Drupal.t('Track'))
+            .appendTo('.form-actions');
+        }
+
+        $track_button
+          .attr('href', track_button_href)
+          .show();
       });
 
     }
@@ -50,7 +73,7 @@
 
   $(document).ready(function() {
     // Set youtube tab as default if search was made.
-    if (window.location.hash.length > 0 && window.location.hash == '#media-youtube-search-tab') {
+    if (window.location.hash.length > 0 && window.location.hash === '#media-youtube-search-tab') {
       $('[href="#media-tab-youtube"]').click();
       window.location.hash = '';
     }

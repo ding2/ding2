@@ -5,7 +5,7 @@
  */
 
 /**
- * Implementation of WYSIWYG's hook_INCLUDE_plugin().
+ * Implements hook_INCLUDE_plugin().
  */
 function ding_dams_ding_dams_plugin() {
   // Include the required browser JS.
@@ -14,7 +14,7 @@ function ding_dams_ding_dams_plugin() {
   // @see http://drupal.org/node/1039076
   ding_dams_include_browser_js();
 
-  // Insert document only plugin definition
+  // Insert document only plugin definition.
   $plugins['dams_document'] = array(
     'title' => t('Ding DAMS Document Plugin'),
     'icon path' => drupal_get_path('module', 'ding_dams') . '/wysiwyg_plugins/images',
@@ -38,7 +38,7 @@ function ding_dams_ding_dams_plugin() {
     ),
   );
 
-  // Insert video only plugin definition
+  // Insert video only plugin definition.
   $plugins['dams_video'] = array(
     'title' => t('Ding DAMS Video Plugin'),
     'icon path' => drupal_get_path('module', 'ding_dams') . '/wysiwyg_plugins/images',
@@ -62,7 +62,7 @@ function ding_dams_ding_dams_plugin() {
     ),
   );
 
-  // Insert audio only plugin definition
+  // Insert audio only plugin definition.
   $plugins['dams_audio'] = array(
     'title' => t('Ding DAMS Audio Plugin'),
     'icon path' => drupal_get_path('module', 'ding_dams') . '/wysiwyg_plugins/images',
@@ -86,7 +86,7 @@ function ding_dams_ding_dams_plugin() {
     ),
   );
 
-  // Insert image only plugin definition
+  // Insert image only plugin definition.
   $plugins['dams_image'] = array(
     'title' => t('Ding DAMS Image Plugin'),
     'icon path' => drupal_get_path('module', 'ding_dams') . '/wysiwyg_plugins/images',
@@ -105,9 +105,6 @@ function ding_dams_ding_dams_plugin() {
           'upload' => 'upload',
           'dams_media_browser--media_browser_2' => 'dams_media_browser--media_browser_2',
         ),
-//        'dialog' => array(
-//          'buttons' => array('edit' => 'edit')
-//        ),
         'file_extensions' => 'jpg gif png jpeg',
       ),
     ),
@@ -135,7 +132,8 @@ function ding_dams_include_browser_js() {
       // Since the arguments to pass are variable, use call_user_func_array().
       // This will not handle all potential drupal_add_*() functions directly
       // but covers the js and library needed here, which are unlikely to be
-      // expanded since this function is only a workaround for a wysiwyg limitation.
+      // expanded since this function is only a workaround
+      // for a wysiwyg limitation.
       call_user_func_array($function, $definition);
     }
   }

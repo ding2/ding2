@@ -9,7 +9,6 @@ Class DamsTest extends PHPUnit_Extensions_SeleniumTestCase {
 
     $this->setBrowser($this->config->getBrowser());
     $this->setBrowserUrl($this->config->getUrl());
-    // resetState($this->config->getLms());
   }
 
   /**
@@ -31,7 +30,6 @@ Class DamsTest extends PHPUnit_Extensions_SeleniumTestCase {
       $this->click("id=edit-submit");
       sleep(5);
       $this->click("id=edit-submit");
-      // $this->assertElementPresent('css=input[checked="checked"]');
     }
     else {
       $this->assertTrue($this->isElementPresent('css=input[checked="checked"][name="modules[Ding][ding_dams][enable]"]'));
@@ -51,18 +49,13 @@ $element = $this->isElementPresent('css=input[checked="checked"][name="buttons[d
       $this->click("id=edit-buttons-drupal-dams-audio");
       $this->click("id=edit-buttons-drupal-dams-video");
       $this->click("id=edit-submit");
-    
     }
     else {
       $this->assertTrue($this->isElementPresent('css=input[checked="checked"][name="buttons[drupal][dams_document]"]'));
     }
-     $this->open("/node/add/ding-event");
+    $this->open("/node/add/ding-event");
     $this->click("css=span.cke_button_icon.cke_button__media_icon");
     sleep(5);
-    // $this->selectFrame("");
-    // $this->click("id=ui-id-2");
     $this->click("xpath=(//a[contains(text(),'Cancel')])[2]");
-    // $this->selectWindow("name=cookie-agreed");
-    // $this->click("xpath=(//button[@type='button'])[2]");
  }
 }

@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * ding_dams.file_default_displays.inc
+ * Exported default file displays.
  */
 
 /**

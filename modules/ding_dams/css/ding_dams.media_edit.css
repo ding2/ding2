@@ -1,21 +1,3 @@
-/* @TODO: Fix !important styles, cause they are a fast hack for it to work. */
-div.ctools-modal-content {
-  /* @TODO: Disallow !important - Use of !important. */
-  width: 710px !important;
-  /* @TODO: Disallow !important - Use of !important. */
-  height: 330px !important;
-}
-div#modal-content {
-  display:block;
-  /* @TODO: Disallow !important - Use of !important. */
-  width: 700px !important;
-  /* @TODO: Disallow !important - Use of !important. */
-  height: 330px !important;
-  /* @TODO: Disallow !important - Use of !important. */
-  margin: 0 !important;
-  /* @TODO: Disallow !important - Use of !important. */
-  padding: 0 5px !important;
-}
 div#modal-content form.file-form div.file-preview {
   position: absolute;
   top: 10px;

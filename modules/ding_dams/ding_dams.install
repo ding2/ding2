@@ -1,26 +1,15 @@
 <?php
-
 /**
  * @file
- * Install routine file.
+ * Represents logic related to (un)installing of module.
  */
 
 /**
- * Implements hook_install().
+ * Implements hook_schema().
  */
-function ding_dams_install() {
-  // Disable default media module view.
-  module_load_include('inc', 'media', 'views/media_default.view');
-  $default_views = array_keys(module_invoke('media', 'views_default_views'));
-  $views_status = variable_get('views_defaults', array());
-
-  foreach ($default_views as $view_name) {
-    if ($view_name == 'media_default') {
-      $views_status[$view_name] = TRUE;
-      break;
-    }
-  }
-
-  variable_set('views_defaults', $views_status);
+function ding_dams_schema() {
+  // It is needed for correct execution of hook media_wysiwyg_token_to_markup.
+  db_query("UPDATE system 
+              SET weight = (SELECT q.w FROM (SELECT (weight + 2) w  FROM system WHERE name = 'media_wysiwyg_view_mode') q) 
+              WHERE name = 'ding_dams'");
 }
-
