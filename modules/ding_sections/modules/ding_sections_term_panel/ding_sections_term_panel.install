@@ -17,6 +17,7 @@ function ding_sections_term_panel_install() {
  */
 function ding_sections_term_panel_uninstall() {
   ding_sections_term_panel_purge_field();
+  ding_sections_term_panel_purge_variant();
 }
 
 /**
@@ -368,4 +369,14 @@ function ding_sections_term_panel_create_variant() {
   $handler->conf['display'] = $display;
 
   page_manager_save_task_handler($handler);
+}
+
+/**
+ * Purge the custom term panel variant.
+ */
+function ding_sections_term_panel_purge_variant() {
+  $handler = page_manager_load_task_handler('term_view', '', 'term_section_panel_context');
+  if ($handler) {
+    page_manager_delete_task_handler($handler);
+  }
 }
