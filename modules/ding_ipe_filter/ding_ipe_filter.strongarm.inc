@@ -64,13 +64,6 @@ function ding_ipe_filter_strongarm() {
       'type' => 'carousel',
       'subtype' => 'carousel',
     ),
-    'ding_tabroll' => array(
-      'value' => 1,
-      'category' => 'views',
-      'delta' => 'Ding frontpage tabroll',
-      'type' => 'views',
-      'subtype' => 'ding_tabroll',
-    ),
   );
   $export['ding_ipe_filter_table'] = $strongarm;
 
