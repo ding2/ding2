@@ -652,6 +652,7 @@ function ding_permissions_secure_permissions($role) {
       'view the administration theme',
     ),
     'guest blogger' => array(
+      'access administration menu',
       'access environment indicator',
       'access environment indicator development',
       'access environment indicator default_environment',
@@ -1001,12 +1002,10 @@ function ding_permissions_secure_permissions($role) {
  * Implements hook_preprocess_HOOK().
  */
 function ding_permissions_preprocess_html(&$variables) {
-  global $user;
-
-  if (in_array('editor', $user->roles) && isset($variables['page']['page_bottom']['admin_menu'])) {
+  if (user_access('access administration menu') && !user_access('access administration pages')) {
     unset($variables['page']['page_bottom']['admin_menu']);
   }
-  elseif (isset($variables['page']['page_top']['toolbar'])) {
+  else {
     unset($variables['page']['page_top']['toolbar']);
   }
 }
