@@ -19,6 +19,10 @@ function ting_search_carousel_uninstall() {
   @drupal_rmdir('public://ting_search_carousel');
   variable_del('ting_carousel_search_queries_hidden');
   variable_del('ting_carousel_search_queries');
+  variable_del('ting_search_carousel_tabs_position');
+  variable_del('ting_search_carousel_description_toggle');
+  variable_del('ting_search_carousel_transition');
+  variable_del('ting_search_carousel_server_render');
 }
 
 /**
@@ -50,4 +54,12 @@ function ting_search_carousel_update_7001() {
     ->execute();
 
   ting_search_carousel_add_shortcut();
+}
+
+/**
+ * Delete obsolete variables.
+ */
+function ting_search_carousel_update_7002() {
+  variable_del('ting_search_carousel_tabs_position');
+  variable_del('ting_search_carousel_server_render');
 }

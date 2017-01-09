@@ -1,10 +1,6 @@
 /**
  * Carousel
- *
- * @author magnify
  */
-
-
 
 /* Variables
    ========================================================================== */
@@ -18,76 +14,52 @@ $carousel-tab-color:                       $white;
 
 
 
-/* Wrapper, load and inner
+/* Wrapper
    ========================================================================== */
 
-.rs-carousel-wrapper {
-  @include zen-grid-container;
-}
-
-.rs-carousel {
-  @include zen-grid-item(12, 1);
-
-  padding: 0;
-
-  .ajax-loader {
-    @include border-radius(12px);
-
-    border: 1px solid transparentize($black, .5);
-    padding: 5px;
-    top: 100px;
-  }
-
-  .rs-carousel-items {
-    background-color: transparent;
-  }
-}
-
-.rs-carousel-inner {
+.ting-search-carousel {
   background-color: $carousel-background-color;
   min-height: 225px;
   padding-top: 20px;
-  padding-right: 20px;
+  padding-right: 10px;
   padding-bottom: 30px;
-  padding-left: 20px;
+  padding-left: 10px;
 
   @include small-medium() {
-    background-color: transparent;
+    background-color: $red;
     min-height: 150px;
     padding-top: 20px;
-    padding-right: 20px;
+    padding-right: 10px;
     padding-bottom: 20px;
-    padding-left: 20px;
+    padding-left: 10px;
   }
 }
 
-
-
-/* Pagination and previous and next buttons
-   ========================================================================== */
-
-.rs-carousel-pagination {
-  display: none;
-}
-
-.rs-carousel-action-prev,
-.rs-carousel-action-next {
-  @include opacity(.25);
-
-  &.rs-carousel-action-active {
-    @include opacity(1);
-  }
+.carousel-tabs {
+  background-color: $carousel-background-color;
 
   @include small-medium() {
-    display: none;
+    background-color: $red;
   }
 }
 
-.rs-carousel-action-prev {
+
+/* Previous and next buttons
+   ========================================================================== */
+
+.ting-search-carousel .slick-arrow {
+  @include opacity(1);
+}
+
+.ting-search-carousel .slick-arrow.slick-disabled {
+  @include opacity(.25);
+}
+
+.ting-search-carousel .slick-prev {
   left: 20px;
 }
 
-.rs-carousel-action-next {
+.ting-search-carousel .slick-next {
   right: 20px;
 }
 
@@ -96,7 +68,7 @@ $carousel-tab-color:                       $white;
 /* Carousel content, mask, title etc.
    ========================================================================== */
 
-.rs-carousel-title {
+.ting-search-carousel .description {
   @include box-sizing(border-box);
   @include font-bold();
 
@@ -113,14 +85,17 @@ $carousel-tab-color:                       $white;
   }
 }
 
-.rs-carousel-items {
+.ting-search-carousel .carousel-tab {
   ul {
+    overflow: hidden;
+
     li {
       list-style: none;
     }
   }
   li {
-    margin-right: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
     position: relative;
     width: $carousel-image-width;
 
@@ -130,22 +105,21 @@ $carousel-tab-color:                       $white;
     }
 
     &:hover {
-      .rs-carousel-item-title {
+      .carousel-item-title {
         background-color: $black;
         text-decoration: none;
       }
     }
 
-    a {
-      max-height: $carousel-image-max-height;
-      width: $carousel-image-width;
+    .carousel-item-title {
+      width: 100%;
 
       &:hover {
         text-decoration: none;
       }
     }
 
-    .rs-carousel-item-title {
+    .carousel-item-title {
       @include box-sizing(border-box);
 
       background-color: transparentize($black, .25);
@@ -164,36 +138,26 @@ $carousel-tab-color:                       $white;
     li {
       width: $carousel-image-width;
 
-      a {
-        max-height: $carousel-image-max-height / 2;
-        width: $carousel-image-width / 2;
-      }
-
-      .rs-carousel-item-title {
+      .carousel-item-title {
         display: none;
       }
     }
   }
 }
 
-.rs-carousel-runner {
-  padding-left: 0;
-}
-
-
-
 /* Carousel tabs
    ========================================================================== */
 
-.rs-carousel-tabs {
-  .rs-carousel-list-tabs {
+.carousel-tabs {
+  ul {
     margin: 0;
     padding: 0;
     position: relative;
     text-align: center;
 
-    .rs-carousel-item {
+    li {
       @extend .icon-chevron-down;
+      position: relative;
 
       a {
         background-color: $carousel-tab-background-color;
@@ -227,7 +191,7 @@ $carousel-tab-color:                       $white;
     }
   }
 
-  .rs-carousel-select-tabs {
+  select {
     display: none;
   }
 
@@ -238,11 +202,11 @@ $carousel-tab-color:                       $white;
     padding-bottom: 20px;
     padding-left: 20px;
 
-    .rs-carousel-list-tabs {
+    ul {
       display: none;
     }
 
-    .rs-carousel-select-tabs {
+    select {
       display: block;
       width: 100%;
 

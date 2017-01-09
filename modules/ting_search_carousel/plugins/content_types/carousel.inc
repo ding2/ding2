@@ -27,16 +27,14 @@ function ting_search_carousel_carousel_content_type_render($subtype, $conf, $pan
         'path' => 'ting_search_carousel/results/ajax/' . $index,
         'content' => $chunk['collections'],
         'offset' => $chunk['next_offset'],
+        'placeholders' => TING_SEARCH_CAROUSEL_CHUNK_SIZE,
       );
     }
 
-    $tab_position = variable_get('ting_search_carousel_tabs_position');
-
     $vars = array(
       'tabs' => $tabs,
-      'tab_position' => $tab_position,
       'transition' => variable_get('ting_search_carousel_transition', 'fade'),
-      'preload' => variable_get('ting_search_carousel_server_render', 5),
+      'show_description' => variable_get('ting_search_carousel_description_toggle', FALSE),
     );
     $block->content = theme('ting_search_carousel', $vars);
   }

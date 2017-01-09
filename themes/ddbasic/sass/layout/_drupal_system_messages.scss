@@ -14,8 +14,9 @@
   margin-bottom: 20px;
 }
 
-/* Using zen-grids on messages require that tabs get a clear */
-.pane-page-tabs {
+/* Using zen-grids on messages require that tabs or page-content get a clear */
+.pane-page-tabs,
+.pane-page-content {
   @include zen-clear();
 }
 

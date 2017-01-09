@@ -2653,7 +2653,7 @@ ul.icons {
 .icon-chevron-up:before {
   content: "\f077"; }
 
-.icon-chevron-down:before, .footer .pane-title:before, .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item:before {
+.icon-chevron-down:before, .footer .pane-title:before, .carousel-tabs ul li:before {
   content: "\f078"; }
 
 .icon-retweet:before {
@@ -4087,8 +4087,9 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
   _overflow-y: visible;
   margin-bottom: 20px; }
 
-/* Using zen-grids on messages require that tabs get a clear */
-.pane-page-tabs {
+/* Using zen-grids on messages require that tabs or page-content get a clear */
+.pane-page-tabs,
+.pane-page-content {
   clear: left; }
 
 .messages {
@@ -5459,92 +5460,52 @@ input#edit-search-block-form--2.spinner {
 
 /**
  * Carousel
- *
- * @author magnify
  */
 /* Variables
    ========================================================================== */
-/* Wrapper, load and inner
+/* Wrapper
    ========================================================================== */
-.rs-carousel-wrapper {
-  *position: relative;
-  *zoom: 1; }
-  .rs-carousel-wrapper:before, .rs-carousel-wrapper:after {
-    content: "";
-    display: table; }
-  .rs-carousel-wrapper:after {
-    clear: both; }
-
-.rs-carousel {
-  float: left;
-  width: 100%;
-  margin-left: 0%;
-  margin-right: -100%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -ms-box-sizing: border-box;
-  box-sizing: border-box;
-  word-wrap: break-word;
-  *behavior: url("/profiles/ding2/themes/ddbasic/scripts/boxsizing.htc");
-  _display: inline;
-  _overflow: hidden;
-  _overflow-y: visible;
-  padding: 0; }
-  .rs-carousel .ajax-loader {
-    -webkit-border-radius: 12px;
-    -moz-border-radius: 12px;
-    border-radius: 12px;
-    border: 1px solid rgba(0, 0, 0, 0.5);
-    padding: 5px;
-    top: 100px; }
-  .rs-carousel .rs-carousel-items {
-    background-color: transparent; }
-
-.rs-carousel-inner {
+.ting-search-carousel {
   background-color: #fff;
   min-height: 225px;
   padding-top: 20px;
-  padding-right: 20px;
+  padding-right: 10px;
   padding-bottom: 30px;
-  padding-left: 20px; }
+  padding-left: 10px; }
   @media only screen and (max-width: 768px) {
-    .rs-carousel-inner {
-      background-color: transparent;
+    .ting-search-carousel {
+      background-color: #a32e10;
       min-height: 150px;
       padding-top: 20px;
-      padding-right: 20px;
+      padding-right: 10px;
       padding-bottom: 20px;
-      padding-left: 20px; } }
+      padding-left: 10px; } }
 
-/* Pagination and previous and next buttons
+.carousel-tabs {
+  background-color: #fff; }
+  @media only screen and (max-width: 768px) {
+    .carousel-tabs {
+      background-color: #a32e10; } }
+
+/* Previous and next buttons
    ========================================================================== */
-.rs-carousel-pagination {
-  display: none; }
+.ting-search-carousel .slick-arrow {
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1; }
 
-.rs-carousel-action-prev,
-.rs-carousel-action-next {
+.ting-search-carousel .slick-arrow.slick-disabled {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=25);
   opacity: 0.25; }
-  .rs-carousel-action-prev.rs-carousel-action-active,
-  .rs-carousel-action-next.rs-carousel-action-active {
-    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
-    opacity: 1; }
-  @media only screen and (max-width: 768px) {
-    .rs-carousel-action-prev,
-    .rs-carousel-action-next {
-      display: none; } }
 
-.rs-carousel-action-prev {
+.ting-search-carousel .slick-prev {
   left: 20px; }
 
-.rs-carousel-action-next {
+.ting-search-carousel .slick-next {
   right: 20px; }
 
 /* Carousel content, mask, title etc.
    ========================================================================== */
-.rs-carousel-title {
+.ting-search-carousel .description {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -5554,31 +5515,33 @@ input#edit-search-block-form--2.spinner {
   font-size: 160%;
   margin-bottom: 20px; }
   @media only screen and (max-width: 480px) {
-    .rs-carousel-title {
+    .ting-search-carousel .description {
       font-size: 180%; } }
   @media only screen and (max-width: 768px) {
-    .rs-carousel-title {
+    .ting-search-carousel .description {
       color: #fff; } }
 
-.rs-carousel-items ul li {
-  list-style: none; }
+.ting-search-carousel .carousel-tab ul {
+  overflow: hidden; }
+  .ting-search-carousel .carousel-tab ul li {
+    list-style: none; }
 
-.rs-carousel-items li {
-  margin-right: 20px;
+.ting-search-carousel .carousel-tab li {
+  margin-left: 10px;
+  margin-right: 10px;
   position: relative;
   width: 200px; }
-  .rs-carousel-items li img {
+  .ting-search-carousel .carousel-tab li img {
     min-width: 100%;
     padding: 0; }
-  .rs-carousel-items li:hover .rs-carousel-item-title {
+  .ting-search-carousel .carousel-tab li:hover .carousel-item-title {
     background-color: #000;
     text-decoration: none; }
-  .rs-carousel-items li a {
-    max-height: 250px;
-    width: 200px; }
-    .rs-carousel-items li a:hover {
+  .ting-search-carousel .carousel-tab li .carousel-item-title {
+    width: 100%; }
+    .ting-search-carousel .carousel-tab li .carousel-item-title:hover {
       text-decoration: none; }
-  .rs-carousel-items li .rs-carousel-item-title {
+  .ting-search-carousel .carousel-tab li .carousel-item-title {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -5593,68 +5556,64 @@ input#edit-search-block-form--2.spinner {
     position: absolute; }
 
 @media only screen and (max-width: 480px) {
-  .rs-carousel-items li {
+  .ting-search-carousel .carousel-tab li {
     width: 200px; }
-    .rs-carousel-items li a {
-      max-height: 125px;
-      width: 100px; }
-    .rs-carousel-items li .rs-carousel-item-title {
+    .ting-search-carousel .carousel-tab li .carousel-item-title {
       display: none; } }
-
-.rs-carousel-runner {
-  padding-left: 0; }
 
 /* Carousel tabs
    ========================================================================== */
-.rs-carousel-tabs .rs-carousel-list-tabs {
+.carousel-tabs ul {
   margin: 0;
   padding: 0;
   position: relative;
   text-align: center; }
-  .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item a {
-    background-color: rgba(0, 0, 0, 0.5);
-    color: #fff;
-    display: block;
-    margin-right: 1px;
-    padding-top: 15px;
-    padding-bottom: 15px; }
-    .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item a:hover {
-      background-color: #000;
-      text-decoration: none; }
-  .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item.active a {
-    font-family: "SourceSansProSemibold";
-    font-weight: normal;
-    background-color: #000; }
-    .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item.active a:before {
-      border: 10px solid transparent;
-      content: "";
-      height: 0;
-      position: absolute;
-      width: 0;
-      top: -20px;
-      border-bottom-color: #000;
-      margin-left: -10px;
-      left: 50%; }
-  .rs-carousel-tabs .rs-carousel-list-tabs .rs-carousel-item:before {
-    display: none; }
+  .carousel-tabs ul li {
+    position: relative; }
+    .carousel-tabs ul li a {
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      display: block;
+      margin-right: 1px;
+      padding-top: 15px;
+      padding-bottom: 15px; }
+      .carousel-tabs ul li a:hover {
+        background-color: #000;
+        text-decoration: none; }
+    .carousel-tabs ul li.active a {
+      font-family: "SourceSansProSemibold";
+      font-weight: normal;
+      background-color: #000; }
+      .carousel-tabs ul li.active a:before {
+        border: 10px solid transparent;
+        content: "";
+        height: 0;
+        position: absolute;
+        width: 0;
+        top: -20px;
+        border-bottom-color: #000;
+        margin-left: -10px;
+        left: 50%; }
+    .carousel-tabs ul li:before {
+      display: none; }
 
-.rs-carousel-tabs .rs-carousel-select-tabs {
+.carousel-tabs select {
   display: none; }
 
 @media only screen and (max-width: 768px) {
-  .rs-carousel-tabs {
+  .carousel-tabs {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     padding-right: 20px;
     padding-bottom: 20px;
     padding-left: 20px; }
-    .rs-carousel-tabs .rs-carousel-list-tabs {
+    .carousel-tabs ul {
       display: none; }
-    .rs-carousel-tabs .rs-carousel-select-tabs {
+    .carousel-tabs select {
       display: block;
       width: 100%; }
-      .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item {
+      .carousel-tabs select .rs-carousel-item {
         -webkit-border-radius: 12px;
         -moz-border-radius: 12px;
         border-radius: 12px;
@@ -5663,7 +5622,7 @@ input#edit-search-block-form--2.spinner {
         color: #000;
         padding-left: 20px;
         text-align: left; }
-        .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item:before {
+        .carousel-tabs select .rs-carousel-item:before {
           -webkit-border-radius: 12px;
           -moz-border-radius: 12px;
           border-radius: 12px;
@@ -5679,9 +5638,9 @@ input#edit-search-block-form--2.spinner {
           position: absolute;
           right: 0;
           z-index: 99; }
-        .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item.js-tab-hidden {
+        .carousel-tabs select .rs-carousel-item.js-tab-hidden {
           display: none; }
-        .rs-carousel-tabs .rs-carousel-select-tabs .rs-carousel-item.js-tab-visible {
+        .carousel-tabs select .rs-carousel-item.js-tab-visible {
           display: block; } }
 
 /**
