@@ -345,14 +345,18 @@ function ding_entity_rating_build_theme_list($rating) {
  *   The average rating of the given entity.
  */
 function ding_entity_rating_get_average($entity) {
-  $query = db_select('field_data_field_weight', 'w');
-  $query->join('eck_ding_type', 'dt', 'w.entity_id = dt.id');
-  $query->join('field_data_field_value', 'v', 'w.entity_id = v.entity_id');
-  $query->condition('v.field_value_value', $entity->ding_entity_id)
-    ->addExpression('AVG(w.field_weight_value)', 'avg_count');
-  $result = $query->execute();
+  if (!isset($entity->ding_entity_rating_average)) {
+    $query = db_select('field_data_field_weight', 'w');
+    $query->join('eck_ding_type', 'dt', 'w.entity_id = dt.id');
+    $query->join('field_data_field_value', 'v', 'w.entity_id = v.entity_id');
+    $query->condition('v.field_value_value', $entity->ding_entity_id)
+      ->addExpression('AVG(w.field_weight_value)', 'avg_count');
+    $result = $query->execute();
 
-  return $result->fetchField(0);
+    $entity->ding_entity_rating_average = $result->fetchField(0);
+  }
+
+  return $entity->ding_entity_rating_average;
 }
 
 /**
