@@ -774,7 +774,7 @@ function ding_provider_cron() {
   // Run daily.
   if ($last_cron_time < REQUEST_TIME - 86400) {
     // Remove inactive users.
-    $inactivity_threshold = variable_get('wipe_provider_users_threshold', 0);
+    $inactivity_threshold = variable_get('ding_provider_users_wipe_threshold', 0);
 
     if ($inactivity_threshold) {
       $query = db_select('users', 'u');

@@ -27,7 +27,7 @@ function ding_provider_admin_overview() {
     }
   }
 
-  $build['wipe_provider_users_threshold'] = array(
+  $build['ding_provider_users_wipe_threshold'] = array(
     '#type' => 'select',
     '#title' => t('Delete provider users that are inactive for:'),
     '#options' => array(
@@ -38,7 +38,7 @@ function ding_provider_admin_overview() {
       '126144000' => t('4 years'),
       '157680000' => t('5 years'),
     ),
-    '#default_value' => variable_get('wipe_provider_users_threshold', 0),
+    '#default_value' => variable_get('ding_provider_users_wipe_threshold', 0),
   );
 
   return system_settings_form($build);
