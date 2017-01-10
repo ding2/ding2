@@ -449,11 +449,13 @@ libraries[chosen][download][url] = "https://github.com/harvesthq/chosen/releases
 libraries[chosen][destination] = "libraries"
 
 libraries[guzzle][download][type] = "git"
-libraries[guzzle][download][url] = "git@github.com:guzzle/guzzle.git"
+libraries[guzzle][download][url] = "https://github.com/guzzle/guzzle.git"
+libraries[guzzle][download][tag] = "6.2.2"
 libraries[guzzle][destination] = "libraries"
 
 libraries[http-message][download][type] = "git"
-libraries[http-message][download][url] = "git@github.com:php-fig/http-message.git"
+libraries[http-message][download][url] = "https://github.com/php-fig/http-message.git"
+libraries[http-message][download][tag] = "1.0.1"
 libraries[http-message][destination] = "libraries"
 
 libraries[leaflet][download][type] = "get"
@@ -468,11 +470,13 @@ libraries[profiler][download][branch] = "7.x-2.0-beta1"
 libraries[profiler][patch][0] = "http://drupal.org/files/profiler-reverse.patch"
 
 libraries[promises][download][type] = "git"
-libraries[promises][download][url] = "git@github.com:guzzle/promises.git"
+libraries[promises][download][url] = "https://github.com/guzzle/promises.git"
+libraries[promises][download][tag] = "1.2.0"
 libraries[promises][destination] = "libraries"
 
 libraries[psr7][download][type] = "git"
-libraries[psr7][download][url] = "git@github.com:guzzle/psr7.git"
+libraries[psr7][download][url] = "https://github.com/guzzle/psr7.git"
+libraries[psr7][download][tag] = "1.3.1"
 libraries[psr7][destination] = "libraries"
 
 libraries[ting-client][download][type] = "git"
