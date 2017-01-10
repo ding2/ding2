@@ -383,7 +383,12 @@ function ding_serendipity_lists_author_from_lists_serendipity_add($context) {
       foreach ($results as & $item) {
         $item['info'] = array(
           'Query' => $query,
-          'description' => t('Because you have a list with materials by the author @author.', array('@author' => $author[0])),
+          'description' => t(
+            'Because you have a list with materials by the author !author.',
+            array(
+              '!author' => l($author[0], 'search/ting/phrase.creator="' . $author[0] . '"'),
+            )
+          ),
         );
       }
     }
