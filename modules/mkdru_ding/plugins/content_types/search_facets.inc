@@ -25,7 +25,12 @@ function mkdru_ding_search_facets_render($subtype, $conf, $args, $context) {
   $facets = empty($mkdru_config['facets']) ? array() : $mkdru_config['facets'];
   $block->content = '';
   foreach ($facets as $facet => $facet_options) {
-    $block->content .= theme('mkdru_block_facet', array('class' => 'mkdru-facet-' . $facet, 'name' => $facet_options['displayName']));
+    $element = array(
+      '#theme' => 'mkdru_block_facet',
+      '#class' => 'mkdru-facet-' . $facet,
+      '#display_name' => $facet_options['displayName'],
+    );
+    $block->content .= drupal_render($element);
   }
 
   return $block;

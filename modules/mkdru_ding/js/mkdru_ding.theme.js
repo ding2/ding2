@@ -1,5 +1,8 @@
+/* global mkdru, choose_url */
 (function ($) {
   'use strict';
+
+  var href = Drupal.settings.basePath + Drupal.settings.pathPrefix;
 
   Drupal.theme.mkdruShowFullDescr = function (id) {
     Drupal.TingSearchOverlay(false);
@@ -29,9 +32,8 @@
     return s;
   };
 
-  Drupal.theme.mkdruResult = function (hit, num, detailLink) {
+  Drupal.theme.mkdruResult = function (hit) {
     var link = choose_url(hit);
-    var basePath = Drupal.settings.basePath;
     var specific_author_field = "";
     var specific_subject_field = "";
     if (mkdru.settings) {
@@ -89,9 +91,9 @@
       var authors = hit["md-author"][0].split(';');
       html += '<div class="creator"><span class="byline">' + Drupal.t('By') + ' </span>';
       for (var i = 0; i < authors.length - 1; i++) {
-        html += '<a class="author" href="' + basePath + 'search/meta/' + specific_author_field + Drupal.theme.mkdruSafeTrim(authors[i]) + '">' + authors[i] + '</a> ;';
+        html += '<a class="author" href="' + href + 'search/meta/' + specific_author_field + Drupal.theme.mkdruSafeTrim(authors[i]) + '">' + authors[i] + '</a> ;';
       }
-      html += '<a class="author" href="' + basePath + 'search/meta/' + specific_author_field + Drupal.theme.mkdruSafeTrim(authors[authors.length - 1]) + '">' + authors[authors.length - 1] + '</a>';
+      html += '<a class="author" href="' + href + 'search/meta/' + specific_author_field + Drupal.theme.mkdruSafeTrim(authors[authors.length - 1]) + '">' + authors[authors.length - 1] + '</a>';
       if (hit['md-date']) {
         html += '<span class="date"> (' + hit['md-date'] + ')</span>';
       }
@@ -110,10 +112,10 @@
       html += '<div class="mkdru-result-subject"><p>';
       for (var i = 0; i < dhit["md-subject"].length - 1; i++) {
         search_query = 'su=&quot;' + specific_subject_field + dhit["md-subject"][i] + '&quot;';
-        html += '<a href="' + basePath + 'search/meta/' + search_query + '">' + dhit["md-subject"][i] + '</a> ';
+        html += '<a href="' + href + 'search/meta/' + search_query + '">' + dhit["md-subject"][i] + '</a> ';
       }
       search_query = 'su=&quot;' + specific_subject_field + dhit["md-subject"][dhit["md-subject"].length - 1] + '&quot;';
-      html += '<a href="' + basePath + 'search/meta/' + search_query + '">' + dhit["md-subject"][dhit["md-subject"].length - 1] + '</a></p></div>';
+      html += '<a href="' + href + 'search/meta/' + search_query + '">' + dhit["md-subject"][dhit["md-subject"].length - 1] + '</a></p></div>';
     }
     if (hit["md-description"]) {
       // limit description to 600 characters

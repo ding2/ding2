@@ -296,13 +296,23 @@ function ding_mkws_preprocess_ding_campaign(&$variables) {
     $hash = md5(implode('', $item));
 
     ding_mkws_include_all();
-    $markup = "<div data-hash='{$hash}'
-            data-process='ProcessDataForNodeWidget' 
-            data-template='dingMkwsNodeWidget' 
-            class='ding-mkws-widget ding-mkws-node-widget'>
-        </div>";
+
+    $markup = array(
+      '#type' => 'html_tag',
+      '#tag' => 'div',
+      '#attributes' => array(
+        'data-hash' => $hash,
+        'data-process' => 'ProcessDataForNodeWidget',
+        'data-template' => 'dingMkwsNodeWidget',
+        'class' => array(
+          'ding-mkws-widget',
+          'ding-mkws-node-widget',
+        ),
+      ),
+    );
+
     $variables['text'] = array(
-      '#markup' => $markup,
+      '#markup' => render($markup),
       '#attached' => array(
         'css' => array(drupal_get_path('module', 'ding_mkws') . '/css/ding_mkws.css'),
         'js' => array(

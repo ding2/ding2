@@ -148,7 +148,7 @@ a.cross:hover {
   top: 50%;
 }
 .page-search-meta .mkdru-result-list .search-result {
-  background-image: url("../images/pw_maze_white.png");
+  background-image: url("../../../themes/ddbasic/images/pw_maze_white.png");
   margin-bottom: 1em;
   padding: 15px;
   position: relative;

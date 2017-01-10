@@ -66,11 +66,22 @@ function ding_mkws_item_list_render($subtype, $conf, $panel_args, $context) {
   }
 
   $params['resources'] = (!empty($global_settings)) ? array_values($global_settings['resources']) : NULL;
-  $pane->content['#markup'] = "<div data-hash='{$hash}' 
-            data-process='ProcessDataForPaneWidget' 
-            data-template='dingMkwsPaneWidget' 
-            class='ding-mkws-widget ding-mkws-pane-widget'>
-        </div>";
+
+  $markup = array(
+    '#type' => 'html_tag',
+    '#tag' => 'div',
+    '#attributes' => array(
+      'data-hash' => $hash,
+      'data-process' => 'ProcessDataForPaneWidget',
+      'data-template' => 'dingMkwsPaneWidget',
+      'class' => array(
+        'ding-mkws-widget',
+        'ding-mkws-pane-widget',
+      ),
+    ),
+  );
+
+  $pane->content['#markup'] = render($markup);
   ding_mkws_include_all();
   $pane->content['#attached'] = array(
     'css' => array(

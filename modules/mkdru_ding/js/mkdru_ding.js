@@ -1,3 +1,4 @@
+/* global mkdru, pz2 */
 (function ($) {
   "use strict";
 
@@ -99,18 +100,22 @@
     mkdru.form.fromState();
     // only have to compare values since all keys are initialised
     for (var key in mkdru.state) {
-      var changed = (mkdru.state[key] != oldState[key]);
-      if (key.substring(0,5) === 'limit' && changed)
+      var changed = (mkdru.state[key] !== oldState[key]);
+      if (key.substring(0,5) === 'limit' && changed) {
         searchTrigger = true;
-      if (key === 'page' && changed)
-        mkdru.pz2.showPage(mkdru.state.page-1);
-      if (key === 'query' && changed)
+      }
+      if (key === 'page' && changed) {
+        mkdru.pz2.showPage(mkdru.state.page - 1);
+      }
+      if (key === 'query' && changed) {
         searchTrigger = true;
+      }
     }
-    if (searchTrigger)
+    if (searchTrigger) {
       mkdru.search();
+    }
     // request for record detail
-    if (mkdru.state.recid && (mkdru.state.recid != oldState.recid)) {
+    if (mkdru.state.recid && (mkdru.state.recid !== oldState.recid)) {
       mkdru.pz2.record(mkdru.state.recid);
     }
     else {

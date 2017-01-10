@@ -3,6 +3,8 @@
  * Represents core and access point of ding_mkws.
  */
 
+/* global pz2, pzHttpRequest, Element_getTextContent, ding_mkws_process */
+
 /**
  * Default config.
  */
@@ -10,21 +12,9 @@ var ding_mkws = {
   active: false,
   sort: 'retrieval',
   settings: {},
-  spinner: '<div class="ispinner large gray animating">' +
-  '<div class="ispinner-blade"></div>' +
-  '<div class="ispinner-blade"></div>' +
-  '<div class="ispinner-blade"></div>' +
-  '<div class="ispinner-blade"></div>' +
-  '<div class="ispinner-blade"></div>' +
-  '<div class="ispinner-blade"></div>' +
-  '<div class="ispinner-blade"></div>' +
-  '<div class="ispinner-blade"></div>' +
-  '<div class="ispinner-blade"></div>' +
-  '<div class="ispinner-blade"></div>' +
-  '<div class="ispinner-blade"></div>' +
-  '<div class="ispinner-blade"></div>' +
-  '</div>'
+  spinner: '<div class="icon-spinner icon-spin"></div>'
 };
+
 // Wrapper for storing requests.
 var ding_mkws_queue = {
   requests: [],
@@ -65,11 +55,13 @@ var ding_mkws_queue = {
       params.username = user;
       params.password = password;
     }
+
     var authReq = new pzHttpRequest(ding_mkws.settings.proxy, failCb);
     authReq.get(params,
       function (data) {
         var s = data.getElementsByTagName('status');
-        if (s.length && Element_getTextContent(s[0]) === "OK") {
+        var getTextContent = Element_getTextContent(s[0]);
+        if (s.length && getTextContent === "OK") {
           if (typeof successCb === "function") {
             successCb();
           }
@@ -78,7 +70,7 @@ var ding_mkws_queue = {
             failCb();
           }
           else {
-            alert(Drupal.t("Failed to authenticate against the metasearch gateway"));
+            window.alert(Drupal.t("Failed to authenticate against the metasearch gateway"));
           }
         }
       }
@@ -109,6 +101,7 @@ var ding_mkws_queue = {
     attach: function (context) {
       // Represents callback for handling errors.
       function OnFailCallback() {
+        var $this = $(this);
         $this.html(Drupal.t("Sorry, something goes wrong. Can't connect to server."));
       }
 

@@ -18,8 +18,8 @@ function ding_spt_statistics_menu() {
     'page callback' => 'ding_spt_statistics_redirect',
   );
   $items['admin/reports/spt-statistics'] = array(
-    'title' => 'Ding SPT statistics',
-    'description' => 'Count click and redirect to the external resource',
+    'title' => 'Digital Resources search statistics',
+    'description' => 'Display statistics data about navigation on digital resources search results.',
     'type' => MENU_NORMAL_ITEM,
     'access arguments' => array('view spt statistics'),
     'page callback' => 'drupal_get_form',

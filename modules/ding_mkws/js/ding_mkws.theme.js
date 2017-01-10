@@ -1,8 +1,10 @@
+/* exported ting_proxy */
 /**
  * @file
  * Represents functionality which relates to theme.
  */
 'use strict';
+
 var ding_mkws_process = {};
 
 /**
@@ -12,7 +14,7 @@ var ding_mkws_process = {};
  */
 Drupal.mkwsProcessExternalUrl = function (url, target) {
   var process_callbacks = Drupal.settings.mkwsPreprocessExternalUrlCallbacks;
-  process_callbacks.forEach(function(item, i, process_callbacks) {
+  process_callbacks.forEach(function(item) {
     var urlCallback = window[item];
 
     if (typeof urlCallback === 'function') {
@@ -29,7 +31,7 @@ Drupal.mkwsProcessExternalUrl = function (url, target) {
  * @param target
  * @returns {URL}
  */
-function ting_proxy(data, target) {
+function ting_proxy(data) {
   var url = document.createElement("a");
   url.href = data;
 
@@ -178,6 +180,8 @@ function ting_proxy(data, target) {
     return variables;
   };
 
+  var href = Drupal.settings.basePath + Drupal.settings.pathPrefix;
+
   $.templates("dingMkwsNodeWidget", "" +
     "<div class='ding-mkws-widget ding-mkws-widget-node'>" +
       "{{if title}}" +
@@ -260,7 +264,7 @@ function ting_proxy(data, target) {
           "</div>" +
         "</div>" +
       "</div>" +
-      "<a class='ding-mkws-more-link' href='/search/meta/{{:more_link}}'>{{:more_text}}</a>" +
+      "<a class='ding-mkws-more-link' href= '" + href + "search/meta/{{:more_link}}'>{{:more_text}}</a>" +
     "</div>");
 
   $.templates("dingMkwsPaneWidget", "" +
@@ -347,6 +351,6 @@ function ting_proxy(data, target) {
           "</div>" +
         "{{/for}}</div>" +
       "</div>" +
-      "<a href='/search/meta/{{:more_link}}'>{{:more_text}}</a>" +
+      "<a href='" + href + "search/meta/{{:more_link}}'>{{:more_text}}</a>" +
     "</div>");
 })(jQuery);
