@@ -831,6 +831,10 @@ function ding_list_mail($key, &$message, $params) {
       $message['body'][] = nl2br(t("Please use the following link to access this list.\nThe link is active for 7 days from today, after which it will be disabled for security reasons.\n\n!link.", array(
         '!link' => $params['link'],
       )));
+
+      if (!empty($user->mail)) {
+        $message['headers']['reply-to'] = $user->mail;
+      }
       break;
   }
 }
