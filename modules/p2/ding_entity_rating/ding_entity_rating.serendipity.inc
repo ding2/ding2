@@ -79,7 +79,12 @@ function ding_entity_rating_materials_by_rating_serendipity_add(array $context) 
         'Query' => $query,
         'description' => t(
           'Because you liked !item',
-          array('!item' => l($ting_object->getTitle(), entity_uri('ting_object', $ting_object)['path']))
+          array(
+            '!item' => l(
+              $ting_object->getTitle(),
+              entity_uri('ting_object', $ting_object)['path']
+            ),
+          )
         ),
       );
     }
