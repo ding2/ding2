@@ -77,6 +77,12 @@ projects[ding_related_content_search][download][type] = "git"
 projects[ding_related_content_search][download][url]  = "git@github.com:easySuite/ding_related_content_search.git"
 projects[ding_related_content_search][download][branch]  = "development"
 
+projects[ding_kultunaut_import][type]           = "module"
+projects[ding_kultunaut_import][subdir]         = ""
+projects[ding_kultunaut_import][download][type] = "git"
+projects[ding_kultunaut_import][download][url]  = "git@github.com:easySuite/ding_kultunaut_import.git"
+projects[ding_kultunaut_import][download][branch]  = "development"
+
 projects[ding_search_collection][type]           = "module"
 projects[ding_search_collection][subdir]         = ""
 projects[ding_search_collection][download][type] = "git"
