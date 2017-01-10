@@ -123,6 +123,7 @@ function ding_spt_statistics_date_picker_form($form, &$form_state) {
   $form['actions'] = array(
     '#type' => 'actions',
   );
+
   $form['actions']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Submit'),
@@ -137,7 +138,20 @@ function ding_spt_statistics_date_picker_form($form, &$form_state) {
     '#empty' => t('No content available.'),
   );
 
+  $form['actions']['reset'] = array(
+    '#type' => 'submit',
+    '#value' => t('Reset'),
+    '#submit' => array('ding_spt_statistics_reset'),
+  );
+
   return $form;
+}
+
+/**
+ * Resetting filtered by range form.
+ */
+function ding_spt_statistics_reset($form, &$form_state) {
+  $form_state['rebuild'] = FALSE;
 }
 
 /**
