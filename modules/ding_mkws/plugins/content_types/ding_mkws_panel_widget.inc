@@ -85,11 +85,21 @@ function ding_mkws_panel_widget_render($subtype, $conf, $args, $context) {
   // in order to prevent array to string conversion notice.
   $params['resources'] = (!empty($conf)) ? $conf['resources'] : array();
 
-  $pane->content['#markup'] = "<div data-hash='{$hash}' 
-                                data-process='ProcessDataForPaneWidget' 
-                                data-template='dingMkwsPaneWidget' 
-                                class='ding-mkws-widget ding-mkws-panel-widget'>
-                               </div>";
+  $markup = array(
+    '#type' => 'html_tag',
+    '#tag' => 'div',
+    '#attributes' => array(
+      'data-hash' => $hash,
+      'data-process' => 'ProcessDataForPaneWidget',
+      'data-template' => 'dingMkwsPaneWidget',
+      'class' => array(
+        'ding-mkws-widget',
+        'ding-mkws-panel-widget',
+      ),
+    ),
+  );
+
+  $pane->content['#markup'] = render($markup);
   ding_mkws_include_all();
   $pane->content['#attached'] = array(
     'css' => array(

@@ -31,7 +31,8 @@ function mkdru_ding_search_info() {
  * Implements hook_search_page().
  */
 function mkdru_ding_search_page($results) {
-  $output['prefix']['#markup'] = theme('mkdru_results');
+  $build = array('#theme' => 'mkdru_results');
+  $output['prefix']['#markup'] = drupal_render($build);
   $output['suffix']['#markup'] = '';
   return $output;
 }
@@ -56,8 +57,9 @@ function mkdru_ding_block_view($delta = '') {
 
   switch ($delta) {
     case 'mkdru_ding_search_results':
+      $build = array('#theme' => 'mkdru_search_results_wrapper');
       $block['subject'] = t('mkdru ding search results');
-      $block['content'] = '<div class="mkdru-pager"></div><div class="mkdru-counts"></div><p></p><div class="mkdru-result-list"></div><div class="mkdru-pager"></div><div class="mkdru-counts"></div>';
+      $block['content'] = drupal_render($build);
       break;
 
     case 'mkdru_search_form':
@@ -182,7 +184,11 @@ function mkdru_ding_theme() {
     ),
     'mkdru_block_facet' => array(
       'template' => 'templates/mkdru-block-facet',
-      'arguments' => array('class' => NULL),
+      'variables' => array('class' => NULL, 'display_name' => NULL),
+    ),
+    'mkdru_search_results_wrapper' => array(
+      'template' => 'templates/mkdru-ding-search-results-wrapper',
+      'variables' => array(),
     ),
   );
 }
@@ -261,14 +267,18 @@ function mkdru_ding_search_execute($keys = '', $conditions = NULL) {
 
   $mkdru_defaults = variable_get('mkdru_defaults', array());
   $path = drupal_get_path('module', 'mkdru_ding');
-  theme('mkdru_js', array(
-    'setting' => array(
+
+  $build = array(
+    '#theme' => 'mkdru_js',
+    '#setting' => array(
       'mkdru' => array(
         'settings' => json_encode($mkdru_defaults['settings']),
         'state' => $state,
       ),
     ),
-  ));
+  );
+
+  drupal_render($build);
 
   // Integrate ting_proxy features.
   $callbacks = array();

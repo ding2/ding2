@@ -1,3 +1,4 @@
+/* exported ting_proxy, choose_url, getUrlFromRecipe, getElectronicUrls, test_url_recipe */
 'use strict';
 
 /**
@@ -8,7 +9,7 @@
 Drupal.mkdruProcessExternalUrl = function (url) {
   var process_callbacks = Drupal.settings.mkdruPreprocessExternalUrlCallbacks;
 
-  process_callbacks.forEach(function(item, i, process_callbacks) {
+  process_callbacks.forEach(function(item) {
     var urlCallback = window[item];
 
     if (typeof urlCallback === 'function') {
@@ -180,5 +181,5 @@ function test_url_recipe() {
   var url_recipe = "http://www.indexdata.com/?title=${md-title[\\s+/+/g]}&author=${md-author}";
   var meta_data = { "md-title" : ["Art of Computer Programming"], "md-author" : ["Knuth"]};
   var final_url = prepare_url(url_recipe, meta_data);
-  alert(final_url);
+  window.alert(final_url);
 }

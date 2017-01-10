@@ -80,6 +80,7 @@ function ding_mkws_service_settings_form_validate($form, &$form_state) {
 function ding_mkws_service_settings_form_submit($form, &$form_state) {
   $pz2 = $form_state['values']['pz2'];
   variable_set('ding_mkws_settings', $pz2);
+  drupal_set_message(t('Your settings have been saved.'));
 }
 
 /**
@@ -201,6 +202,7 @@ function ding_mkws_widget_settings_form_submit($form, $form_state) {
   }
 
   variable_set('ding_mkws_global', $values);
+  drupal_set_message(t('Your settings have been saved.'));
 }
 
 /**
@@ -327,5 +329,6 @@ function ding_mkws_types_settings_form_submit($form, &$form_state) {
     }
   }
   variable_set('ding_mkws_types', $values['types']);
+  drupal_set_message(t('Your settings have been saved.'));
   $form_state['rebuild'] = TRUE;
 }

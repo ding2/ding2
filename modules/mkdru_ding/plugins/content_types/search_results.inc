@@ -37,7 +37,10 @@ function mkdru_ding_search_result_render($subtype, $conf, $args, $context) {
 
   // Collect the search results.
   $results = search_data($keys, $info['module'], $conditions);
-  $block->content = theme('mkdru_results');
+  $build = array(
+    '#theme' => 'mkdru_results',
+  );
+  $block->content = drupal_render($build);
 
   return $block;
 }
