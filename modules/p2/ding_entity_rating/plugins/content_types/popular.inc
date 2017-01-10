@@ -64,7 +64,7 @@ function ding_entity_rating_popular_content_type_render($subtype, $conf, $panel_
   $result = array();
   foreach ($keys as $delta => $key) {
     $obj = ding_entity_load($key, 'ting_object');
-    $obj->ding_entity_rating_average = $openlist_items[$delta]['average'];
+    ding_entity_rating_set_average($obj, $openlist_items[$delta]['average']);
 
     $result[] = ting_object_view($obj, 'compact');
   }
