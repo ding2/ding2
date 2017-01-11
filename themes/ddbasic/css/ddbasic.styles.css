@@ -8457,7 +8457,9 @@ tr.even .undercover {
 
 .view-public-lists > .view-content > .odd,
 .view-public-lists > .view-content > .even {
-  margin-bottom: 40px; }
+  margin-bottom: 40px;
+  padding-top: 20px;
+  background-color: #fff; }
   .view-public-lists > .view-content > .odd h2,
   .view-public-lists > .view-content > .even h2 {
     padding: 0 20px; }
@@ -8467,6 +8469,12 @@ a.tabledrag-handle .handle {
 
 .pane-carousel {
   margin-bottom: 20px; }
+
+.pane-popular {
+  padding-top: 20px;
+  background-color: #fff; }
+  .pane-popular > h2 {
+    padding: 0 20px; }
 
 @media only screen and (max-width: 480px) {
   .page-taxonomy-term .pane-page-content {
