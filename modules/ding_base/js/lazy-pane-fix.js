@@ -1,8 +1,16 @@
 /**
  * @file
- * A few fixes for the lazy pane ajax implementation.
+ * Fixes for the lazy pane ajax implementation.
  *
- * Might not be needed with future lazy pane versions.
+ * Instead of using the Drupal.ajax handler lazy_pane uses it's own custom ajax
+ * handler, which resembles the core handler.
+ * But the current lazy_pane handler only supports the 'insert' and 'settings'
+ * ajax command.
+ * This fix listens for lazy_pane ajax, and calls the core commands for the
+ * missing commands.
+ *
+ * The lazy_pane module doesn't expose it's own handler, which is why this
+ * listens for all jQuery ajaxSuccess events.
  */
 
 (function ($) {
