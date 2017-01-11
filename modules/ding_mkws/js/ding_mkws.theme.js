@@ -111,7 +111,6 @@ function ting_proxy(data) {
         variables.items[idx].push(out);
       }
     }
-
    return variables;
   };
 
@@ -186,85 +185,158 @@ function ting_proxy(data) {
     "<div class='ding-mkws-widget ding-mkws-widget-node'>" +
       "{{if title}}" +
       "<div class='ding-mkws-title'>{{:title}}</div>" +
-      "{{/if}}"+
+      "{{/if}}" +
+
       "<div class='ding-mkws-content'>" +
-        "<div class='ding-mkws-rows'>" +
-          "<div class='row'>" +
-            "{{if target}}" +
-              "<div class='left-label'>" +
-                "<p class='ding-mkws-target'>" +
-                  Drupal.t('Target') +
-                "</p>" +
-              "</div>" +
-            "{{/if}}" +
-            "{{if target}}" +
-            "<div class='right-value'>" +
-                "<p class='ding-mkws-target'>" +
-                  '{{:target}}' +
-                "</p>" +
-              "</div>" +
-            "{{/if}}" +
-          "</div>" +
-
-          "<div class='row'>" +
-            "{{if title}}" +
-              "<div class='left-label'>" +
-                "<p class='ding-mkws-title'>" +
-                  Drupal.t('Title') +
-                  "</p>" +
-              "</div>" +
-            "{{/if}}" +
-            "{{if title}}" +
-              "<div class='right-value'>" +
-                "{{if url}}" +
-                  "<a class='ding-mkws-title' href='{{:url}}' target='_blank'>" +
-                    '{{:title}}' +
-                  "</a>" +
-                  "{{else}}" +
-                    "<p class='ding-mkws-title'>" +
-                      '{{:title}}' +
+        "<div class='ding-mkws-left'>" +
+          "<ul>{{for items.left}}" +
+            "<li>" +
+            "<div class='ding-mkws-rows'>" +
+              "{{if target}}" +
+                "<div class='row'>" +
+                  "<div class='left-label'>" +
+                    "<p class='ding-mkws-target'>" +
+                      Drupal.t('Target') +
                     "</p>" +
-                "{{/if}}" +
-              "</div>" +
-            "{{/if}}" +
-          "</div>" +
+                  "</div>" +
+                  "<div class='right-value'>"+
+                    "<p class='ding-mkws-target'>" +
+                      '{{:target}}' +
+                    "</p>" +
+                  "</div>" +
+                "</div>" +
+              "{{/if}}" +
 
-          "<div class='row'>" +
-            "{{if author}}" +
-              "<div class='left-label'>" +
-                "<p class='ding-mkws-author'>" +
-                  Drupal.t('Author') +
-                  "</p>" +
-              "</div>" +
-            "{{/if}}" +
-            "{{if author}}" +
-              "<div class='right-value'>" +
-                  "<p class='ding-mkws-author'>" +
-                    '{{:author}}' +
-                  "</p>" +
-              "</div>" +
-            "{{/if}}" +
-          "</div>" +
+              "{{if title}}" +
+                "<div class='row'>" +
+                  "<div class='left-label'>" +
+                    "<p class='ding-mkws-title'>" +
+                      Drupal.t('Title') +
+                    "</p>" +
+                  "</div>" +
+                  "<div class='right-value'>"+
+                    "{{if url}}" +
+                      "<a class='ding-mkws-title' href='{{:url}}' target='_blank'>" +
+                        '{{:title}}' +
+                      "</a>" +
+                    "{{else}}" +
+                      "<p class='ding-mkws-title'>" +
+                        '{{:title}}' +
+                      "</p>" +
+                    "{{/if}}" +
+                  "</div>" +
+                "</div>" +
+              "{{/if}}" +
 
-          "<div class='row'>" +
-            "{{if date}}" +
-              "<div class='left-label'>" +
-                "<p class='ding-mkws-date'>" +
-                  Drupal.t('Date') +
-                "</p>" +
-              "</div>" +
-            "{{/if}}" +
-            "{{if date}}" +
-              "<div class='right-value'>"+
-                "<p class='ding-mkws-date'>" +
-                  '{{:date}}' +
-                "</p>" +
-              "</div>"+
-            "{{/if}}" +
-          "</div>" +
+              "{{if author}}" +
+                "<div class='row'>" +
+                  "<div class='left-label'>" +
+                    "<p class='ding-mkws-author'>" +
+                      Drupal.t('Author') +
+                    "</p>" +
+                  "</div>" +
+                  "<div class='right-value'>"+
+                    "<p class='ding-mkws-author'>" +
+                      '{{:author}}' +
+                    "</p>" +
+                  "</div>" +
+                "</div>" +
+              "{{/if}}" +
+
+              "{{if date}}" +
+                "<div class='row'>" +
+                  "<div class='left-label'>" +
+                    "<p class='ding-mkws-date'>" +
+                      Drupal.t('Target') +
+                    "</p>" +
+                  "</div>" +
+                  "<div class='right-value'>"+
+                    "<p class='ding-mkws-date'>" +
+                      '{{:date}}' +
+                    "</p>" +
+                  "</div>" +
+                "</div>" +
+              "{{/if}}" +
+            "</div>" +
+            "</li>" +
+          "{{/for}}</ul>" +
+        "</div>" +
+
+        "<div class='ding-mkws-right'>" +
+          "<ul>{{for items.right}}" +
+            "<li>" +
+            "<div class='ding-mkws-rows'>" +
+              "{{if target}}" +
+                "<div class='row'>" +
+                  "<div class='left-label'>" +
+                    "<p class='ding-mkws-target'>" +
+                      Drupal.t('Target') +
+                    "</p>" +
+                  "</div>" +
+                  "<div class='right-value'>"+
+                    "<p class='ding-mkws-target'>" +
+                      '{{:target}}' +
+                    "</p>" +
+                  "</div>" +
+                "</div>" +
+              "{{/if}}" +
+
+              "{{if title}}" +
+                "<div class='row'>" +
+                  "<div class='left-label'>" +
+                    "<p class='ding-mkws-title'>" +
+                      Drupal.t('Title') +
+                    "</p>" +
+                  "</div>" +
+                  "<div class='right-value'>"+
+                    "{{if url}}" +
+                      "<a class='ding-mkws-title' href='{{:url}}' target='_blank'>" +
+                        '{{:title}}' +
+                      "</a>" +
+                    "{{else}}" +
+                      "<p class='ding-mkws-title'>" +
+                        '{{:title}}' +
+                      "</p>" +
+                    "{{/if}}" +
+                  "</div>" +
+                "</div>" +
+              "{{/if}}" +
+
+              "{{if author}}" +
+                "<div class='row'>" +
+                  "<div class='left-label'>" +
+                    "<p class='ding-mkws-author'>" +
+                      Drupal.t('Author') +
+                    "</p>" +
+                  "</div>" +
+                  "<div class='right-value'>"+
+                    "<p class='ding-mkws-author'>" +
+                      '{{:author}}' +
+                    "</p>" +
+                  "</div>" +
+                "</div>" +
+              "{{/if}}" +
+
+              "{{if date}}" +
+                "<div class='row'>" +
+                  "<div class='left-label'>" +
+                    "<p class='ding-mkws-date'>" +
+                      Drupal.t('Target') +
+                    "</p>" +
+                  "</div>" +
+                  "<div class='right-value'>"+
+                    "<p class='ding-mkws-date'>" +
+                      '{{:date}}' +
+                    "</p>" +
+                  "</div>" +
+                "</div>" +
+              "{{/if}}" +
+            "</div>" +
+            "</li>" +
+          "{{/for}}</ul>" +
         "</div>" +
       "</div>" +
-      "<a class='ding-mkws-more-link' href= '" + href + "search/meta/{{:more_link}}'>{{:more_text}}</a>" +
+      "<a class='ding-mkws-more-link' href='" + href + "search/meta/{{:more_link}}'>{{:more_text}}</a>" +
     "</div>");
 
   $.templates("dingMkwsPaneWidget", "" +

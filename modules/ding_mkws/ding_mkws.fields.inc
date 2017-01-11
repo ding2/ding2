@@ -183,14 +183,15 @@ function ding_mkws_field_formatter_view($entity_type, $entity, $field, $instance
             ),
           ),
         );
+
         $element[0] = array(
-          '#markup' => render($markup),
+          '#markup' => drupal_render($markup),
           '#attached' => array(
             'css' => array(
               drupal_get_path('module', 'ding_mkws') . '/css/ding_mkws.css',
             ),
             'js' => array(
-              array(drupal_get_path('module', 'ding_mkws') . '/js/ding_mkws.js'),
+              drupal_get_path('module', 'ding_mkws') . '/js/ding_mkws.js',
               array(
                 'type' => 'setting',
                 'data' => array(
