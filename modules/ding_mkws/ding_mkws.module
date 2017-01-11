@@ -312,7 +312,7 @@ function ding_mkws_preprocess_ding_campaign(&$variables) {
     );
 
     $variables['text'] = array(
-      '#markup' => render($markup),
+      '#markup' => drupal_render($markup),
       '#attached' => array(
         'css' => array(drupal_get_path('module', 'ding_mkws') . '/css/ding_mkws.css'),
         'js' => array(
