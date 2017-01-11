@@ -117,7 +117,7 @@ function ting_search_carousel_ctools_plugin_directory($module, $plugin) {
  * Get front page entities.
  *
  * @param int $index
- *   The ting_carousel_search_queries index to get.
+ *   The ting_search_carousel_searches index to get.
  * @param int $start
  *   Start offset.
  * @param int $count
