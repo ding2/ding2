@@ -66,7 +66,7 @@ function ting_search_carousel_settings_admin_form($form, &$form_state) {
  */
 function ting_search_carousel_admin_form(array $form, array &$form_state) {
   $clicked_btn = '';
-  $remove_btn = null;
+  $remove_btn = NULL;
   $num_searches = (!empty($form_state['values']['num_searches']))
     ? $form_state['values']['num_searches']
     : 0;
@@ -157,12 +157,14 @@ function ting_search_carousel_admin_form(array $form, array &$form_state) {
 /**
  * Callback function for ajax add more searches.
  *
- * @see ting_search_carousel_admin_form
+ * @param array $form
+ *   Form.
+ * @param array $form_state
+ *   Form state.
  *
- * @param $form
- * @param $form_state
+ * @see ting_search_carousel_admin_form
  */
-function ting_search_carousel_add_more_add_one($form, &$form_state) {
+function ting_search_carousel_add_more_add_one(array $form, array &$form_state) {
   $form_state['values']['num_searches']++;
   $form_state['rebuild'] = TRUE;
 }
@@ -170,14 +172,17 @@ function ting_search_carousel_add_more_add_one($form, &$form_state) {
 /**
  * Callback for searches form.
  *
+ * @param array $form
+ *   Form.
+ * @param array $form_state
+ *   Form state.
+ *
  * @see ting_search_carousel_admin_form
  *
- * @param $form
- * @param $form_state
- *
- * @return mixed
+ * @return array
+ *   Form.
  */
-function ting_search_carousel_ajax_callback($form, $form_state) {
+function ting_search_carousel_ajax_callback(array $form, array $form_state) {
   return $form;
 }
 
@@ -325,7 +330,7 @@ function ting_search_carousel_admin_form_submit(array $form, array &$form_state)
       $searches[] = array(
         'title' => $queries[$key]['title'],
         'subtitle' => $queries[$key]['subtitle'],
-        'query' => $queries[$key]['query']
+        'query' => $queries[$key]['query'],
       );
     }
   }
