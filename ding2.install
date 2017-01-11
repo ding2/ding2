@@ -406,3 +406,10 @@ function ding2_update_7026() {
 function ding2_update_7027() {
   module_enable(array('lazy_pane'));
 }
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7028() {
+  ding2_translation_update();
+}
