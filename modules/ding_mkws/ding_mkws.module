@@ -292,40 +292,42 @@ function ding_mkws_preprocess_ding_campaign(&$variables) {
 
     $items = field_get_items('node', $value, 'field_mkws_node_widget');
 
-    $item = reset($items);
-    $hash = md5(implode('', $item));
+    if ($items) {
+      $item = reset($items);
+      $hash = md5(implode('', $item));
 
-    ding_mkws_include_all();
+      ding_mkws_include_all();
 
-    $markup = array(
-      '#type' => 'html_tag',
-      '#tag' => 'div',
-      '#attributes' => array(
-        'data-hash' => $hash,
-        'data-process' => 'ProcessDataForNodeWidget',
-        'data-template' => 'dingMkwsNodeWidget',
-        'class' => array(
-          'ding-mkws-widget',
-          'ding-mkws-node-widget',
+      $markup = array(
+        '#type' => 'html_tag',
+        '#tag' => 'div',
+        '#attributes' => array(
+          'data-hash' => $hash,
+          'data-process' => 'ProcessDataForPaneWidget',
+          'data-template' => 'dingMkwsPaneWidget',
+          'class' => array(
+            'ding-mkws-widget',
+            'ding-mkws-pane-widget',
+          ),
         ),
-      ),
-    );
+      );
 
-    $variables['text'] = array(
-      '#markup' => drupal_render($markup),
-      '#attached' => array(
-        'css' => array(drupal_get_path('module', 'ding_mkws') . '/css/ding_mkws.css'),
-        'js' => array(
-          drupal_get_path('module', 'ding_mkws') . '/js/ding_mkws.js',
-          array(
-            'type' => 'setting',
-            'data' => array(
-              $hash => $item,
+      $variables['text'] = array(
+        '#markup' => drupal_render($markup),
+        '#attached' => array(
+          'css' => array(drupal_get_path('module', 'ding_mkws') . '/css/ding_mkws.css'),
+          'js' => array(
+            drupal_get_path('module', 'ding_mkws') . '/js/ding_mkws.js',
+            array(
+              'type' => 'setting',
+              'data' => array(
+                $hash => $item,
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    }
   }
 }
 

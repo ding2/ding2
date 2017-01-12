@@ -42,7 +42,9 @@ function ding_mkws_field_widget_info() {
 function ding_mkws_field_is_empty($item, $field) {
   switch ($field['type']) {
     case 'ding_mkws_node':
-      return empty($item['wrapper']['term']) || empty($item['wrapper']['resources']);
+      return empty($item['wrapper']['term'])
+        || empty($item['wrapper']['resources'])
+        || empty($item['wrapper']['maxrecs']);
 
     default:
       return FALSE;
@@ -96,8 +98,7 @@ function ding_mkws_field_widget_form(&$form, &$form_state, $field, $instance, $l
       $element['wrapper']['maxrecs'] = array(
         '#type' => 'textfield',
         '#title' => t('Maxrecs'),
-        '#default_value' => !empty($item['maxrecs']) ? $item['maxrecs'] : '',
-        '#element_validate' => array('element_validate_integer_positive'),
+        '#default_value' => !empty($item['maxrecs']) ? $item['maxrecs'] : 0,
         '#size' => 6,
         '#maxlength' => 4,
       );
