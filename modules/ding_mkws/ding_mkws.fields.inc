@@ -42,9 +42,7 @@ function ding_mkws_field_widget_info() {
 function ding_mkws_field_is_empty($item, $field) {
   switch ($field['type']) {
     case 'ding_mkws_node':
-      return empty($item['wrapper']['term'])
-        || empty($item['wrapper']['resources'])
-        || empty($item['wrapper']['maxrecs']);
+      return empty($item['wrapper']['term']) || empty($item['wrapper']['resources']);
 
     default:
       return FALSE;
@@ -98,7 +96,7 @@ function ding_mkws_field_widget_form(&$form, &$form_state, $field, $instance, $l
       $element['wrapper']['maxrecs'] = array(
         '#type' => 'textfield',
         '#title' => t('Maxrecs'),
-        '#default_value' => !empty($item['maxrecs']) ? $item['maxrecs'] : 0,
+        '#default_value' => !empty($item['maxrecs']) ? $item['maxrecs'] : '',
         '#size' => 6,
         '#maxlength' => 4,
       );
@@ -124,6 +122,9 @@ function ding_mkws_field_presave($entity_type, $entity, $field, $instance, $lang
       foreach ($items as $delta => &$item) {
         $item = $item['wrapper'];
         $item['resources'] = serialize($item['resources']);
+        if (empty($item['maxrecs'])) {
+          $item['maxrecs'] = 0;
+        }
       }
       break;
   }
@@ -166,6 +167,9 @@ function ding_mkws_field_formatter_view($entity_type, $entity, $field, $instance
     switch ($display['type']) {
       case 'ding_mkws_node_formatter_default':
         $item = reset($items);
+        if (empty($item['maxrecs'])) {
+          unset($item['maxrecs']);
+        }
         $imploded = array_map(function ($i) {
           return is_array($i) ? implode('', $i) : $i;
         }, $item);
