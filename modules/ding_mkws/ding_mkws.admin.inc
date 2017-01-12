@@ -148,7 +148,7 @@ function ding_mkws_widget_settings_form($form, $form_state) {
     $form['opac'][$key]['maxrecs'] = array(
       '#type' => 'textfield',
       '#title' => t('Maxrecs'),
-      '#default_value' => !empty($settings['opac'][$key]['maxrecs']) ? $settings['opac'][$key]['maxrecs'] : '0',
+      '#default_value' => !empty($settings['opac'][$key]['maxrecs']) ? $settings['opac'][$key]['maxrecs'] : '',
     );
   }
 

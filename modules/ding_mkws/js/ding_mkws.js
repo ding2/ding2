@@ -40,7 +40,50 @@ var ding_mkws_queue = {
     return Object.keys(ding_mkws_queue.requests)[0];
   };
 
+  function _query_normalizer(str) {
+    var query;
+    var matches = [];
+    var newarray= [];
+    var splited = str.split(" ");
+    var get_cql_operators_regexp = '@ and | any | all | adj | or | not |=|\(|\)@i';
+
+    if (str.match(get_cql_operators_regexp)) {
+      splited.forEach(function (item) {
+        // Matching possible term arguments.
+        if (item.match(/"([^"]+)"/)) {
+          // console.log(item);
+          matches.push(item.match(/"([^"]+)"/)[1]);
+        }
+      });
+
+      // Filtering duplications.
+      var unique = matches.filter(function (item, i, allItems) {
+        return i === allItems.indexOf(item);
+      });
+
+      unique.forEach(function(item, i) {
+        if (item.match(/\d+/)) {
+          delete unique[i];
+
+          newarray.push(item);
+        }
+      });
+
+      unique = unique.concat(newarray.pop());
+      unique = unique.filter(function (item) { return item !== undefined; });
+      unique = unique.join(' ');
+
+      query = unique.replace(/[^\w\s]/gi, '');
+    }
+    else {
+      query = str;
+    }
+
+    return query;
+  }
+
   ding_mkws.search = function (query, amount, filter, params) {
+    query = _query_normalizer(query);
     ding_mkws.pz2.search(query, amount, ding_mkws.sort, filter, null, params);
     ding_mkws.active = true;
   };
@@ -114,8 +157,9 @@ var ding_mkws_queue = {
          */
         var params = {
           title: Drupal.t(settings.title),
-          query: settings.term
+          query: _query_normalizer(settings.term)
         };
+
         var variables = ding_mkws_process[settings.process](data, params);
         var html = $.templates[settings.template](variables);
         settings.element.html(html);

@@ -75,7 +75,7 @@ function ding_mkws_panel_widget_render($subtype, $conf, $args, $context) {
     'type' => $subtype,
     'term' => (!empty($conf)) ? $conf['term'] : '',
     'amount' => (!empty($conf)) ? $conf['amount'] : '0',
-    'maxrecs' => (!empty($conf)) ? $conf['maxrecs'] : '0',
+    'maxrecs' => (!empty($conf)) ? $conf['maxrecs'] : '',
   );
 
   $hash = md5(implode('', $params));
@@ -83,6 +83,9 @@ function ding_mkws_panel_widget_render($subtype, $conf, $args, $context) {
   // Add resources after hash is generated
   // in order to prevent array to string conversion notice.
   $params['resources'] = (!empty($conf)) ? $conf['resources'] : array();
+  if (empty($params['maxrecs'])) {
+    unset($params['maxrecs']);
+  }
 
   $markup = array(
     '#type' => 'html_tag',
@@ -115,7 +118,5 @@ function ding_mkws_panel_widget_render($subtype, $conf, $args, $context) {
     ),
   );
 
-  if (!empty($params['maxrecs'])) {
-    return $pane;
-  }
+  return $pane;
 }

@@ -27,7 +27,7 @@ function ding_mkws_item_list_render($subtype, $conf, $panel_args, $context) {
   $params = array(
     'type' => $subtype,
     'amount' => (!empty($global_settings)) ? $global_settings['amount'] : '0',
-    'maxrecs' => (!empty($global_settings)) ? $global_settings['maxrecs'] : '0',
+    'maxrecs' => (!empty($global_settings)) ? $global_settings['maxrecs'] : '',
     'scope' => $conf['scope'],
     'title' => $global_settings['title'],
   );
@@ -98,7 +98,5 @@ function ding_mkws_item_list_render($subtype, $conf, $panel_args, $context) {
     ),
   );
 
-  if (!empty($params['maxrecs'])) {
-    return $pane;
-  }
+  return $pane;
 }
