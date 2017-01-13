@@ -554,7 +554,7 @@ function ting_ding_entity_buttons($type, $entity) {
       'absolute' => TRUE,
       'attributes' => array(
         'class' => array('button-see-online'),
-        'target' => '_new',
+        'target' => '_blank',
       ),
     );
 
@@ -608,7 +608,7 @@ function ting_redirect_remote_link($ajax) {
       return array(
         '#type' => 'ajax',
         '#commands' => array(
-          ctools_ajax_command_redirect($url, array('external' => TRUE, 'target' => '_new')),
+          ctools_ajax_command_redirect($url, array('external' => TRUE, 'target' => '_blank')),
         ),
       );
     }
