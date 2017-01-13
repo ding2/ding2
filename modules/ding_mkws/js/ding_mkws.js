@@ -169,7 +169,7 @@ var ding_mkws_queue = {
         }
       }
 
-      var settings = null;
+      var settings = null; // jshint ignore:line
       $(document).on('ding_mkws_request_finished', function (event, key) {
         ding_mkws_queue.remove(key);
         key = ding_mkws_queue.next();
