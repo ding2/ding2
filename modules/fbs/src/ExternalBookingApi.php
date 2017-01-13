@@ -28,7 +28,7 @@ class ExternalBookingApi extends SwaggerApi
      */
     public function getBookings($agencyid, $patronid)
     {
-        $request = $this->newRequest("GET", "/external/v1/{agencyid}/patrons/{patronid}/bookings");
+        $request = $this->newRequest("GET", "/external/v2/{agencyid}/patrons/{patronid}/bookings");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("path", "patronid", $patronid);
 
@@ -72,7 +72,7 @@ class ExternalBookingApi extends SwaggerApi
      */
     public function createBookings($agencyid, $patronid, Model\CreateBookingBatch $batch)
     {
-        $request = $this->newRequest("POST", "/external/v1/{agencyid}/patrons/{patronid}/bookings");
+        $request = $this->newRequest("POST", "/external/v2/{agencyid}/patrons/{patronid}/bookings");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("path", "patronid", $patronid);
         $request->addParameter("body", "batch", $batch);
@@ -114,7 +114,7 @@ class ExternalBookingApi extends SwaggerApi
      */
     public function updateBookings($agencyid, $patronid, Model\UpdateBookingBatch $batch)
     {
-        $request = $this->newRequest("PUT", "/external/v1/{agencyid}/patrons/{patronid}/bookings");
+        $request = $this->newRequest("PUT", "/external/v2/{agencyid}/patrons/{patronid}/bookings");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("path", "patronid", $patronid);
         $request->addParameter("body", "batch", $batch);
@@ -141,7 +141,7 @@ class ExternalBookingApi extends SwaggerApi
      */
     public function deleteBookings($agencyid, $patronid)
     {
-        $request = $this->newRequest("DELETE", "/external/v1/{agencyid}/patrons/{patronid}/bookings");
+        $request = $this->newRequest("DELETE", "/external/v2/{agencyid}/patrons/{patronid}/bookings");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("path", "patronid", $patronid);
 

@@ -36,7 +36,7 @@ class ExternalPatronApi extends SwaggerApi
      */
     public function create($agencyid, Model\CreatePatronRequest $createPatronRequest)
     {
-        $request = $this->newRequest("POST", "/external/v1/{agencyid}/patrons");
+        $request = $this->newRequest("POST", "/external/v2/{agencyid}/patrons");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("body", "createPatronRequest", $createPatronRequest);
 
@@ -71,7 +71,7 @@ class ExternalPatronApi extends SwaggerApi
      */
     public function authenticate($agencyid, Model\AuthenticationRequest $authenticationRequest)
     {
-        $request = $this->newRequest("POST", "/external/v1/{agencyid}/patrons/authenticate");
+        $request = $this->newRequest("POST", "/external/v2/{agencyid}/patrons/authenticate");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("body", "authenticationRequest", $authenticationRequest);
 
@@ -106,7 +106,7 @@ class ExternalPatronApi extends SwaggerApi
      */
     public function getPreAuthenticatedPatron($agencyid, $cprNumber)
     {
-        $request = $this->newRequest("POST", "/external/v1/{agencyid}/patrons/preauthenticated");
+        $request = $this->newRequest("POST", "/external/v2/{agencyid}/patrons/preauthenticated");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("body", "cprNumber", $cprNumber);
 
@@ -141,7 +141,7 @@ class ExternalPatronApi extends SwaggerApi
      */
     public function getPreAuthenticatedPatronFromUNIClogin($agencyid, $unicUsername)
     {
-        $request = $this->newRequest("POST", "/external/v1/{agencyid}/patrons/preauthenticated/unic");
+        $request = $this->newRequest("POST", "/external/v2/{agencyid}/patrons/preauthenticated/unic");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("body", "unicUsername", $unicUsername);
 
@@ -178,7 +178,7 @@ class ExternalPatronApi extends SwaggerApi
      */
     public function update($agencyid, $patronid, Model\UpdatePatronRequest $updatePatron)
     {
-        $request = $this->newRequest("PUT", "/external/v1/{agencyid}/patrons/{patronid}");
+        $request = $this->newRequest("PUT", "/external/v2/{agencyid}/patrons/{patronid}");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("path", "patronid", $patronid);
         $request->addParameter("body", "updatePatron", $updatePatron);

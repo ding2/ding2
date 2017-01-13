@@ -61,7 +61,7 @@ class FBSFakeHttpClient implements HttpClient {
     );
 
     foreach ($pathes as $request_path => $method) {
-      if (preg_match('{/external/v1/' . $request_path . '$}', $path, $matches)) {
+      if (preg_match('{/external/v2/' . $request_path . '$}', $path, $matches)) {
         return $this->{$method}($request, $matches);
       }
     }
