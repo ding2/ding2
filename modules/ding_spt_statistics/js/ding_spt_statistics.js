@@ -9,7 +9,7 @@
  *
  * @param data
  */
-function dingSPTStatisticsUrlPreprocess(data) {
+function dingSPTStatisticsUrlPreprocess(data) { // jshint ignore:line
   var url = document.createElement("a");
   url.href = data;
   var params = {path: url.href};
