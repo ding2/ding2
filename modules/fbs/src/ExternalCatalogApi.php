@@ -20,7 +20,7 @@ class ExternalCatalogApi extends SwaggerApi
      */
     public function getAvailability($agencyid, $recordid, $exclude = null)
     {
-        $request = $this->newRequest("GET", "/external/v2/{agencyid}/catalog/availability");
+        $request = $this->newRequest("GET", "/external/v1/{agencyid}/catalog/availability");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("query", "recordid", $recordid);
         $request->addParameter("query", "exclude", $exclude);
@@ -59,7 +59,7 @@ class ExternalCatalogApi extends SwaggerApi
      */
     public function bookingInformation($agencyid, $recordid)
     {
-        $request = $this->newRequest("GET", "/external/v2/{agencyid}/catalog/bookingInformation/{recordid}");
+        $request = $this->newRequest("GET", "/external/v1/{agencyid}/catalog/bookingInformation/{recordid}");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("path", "recordid", $recordid);
 
@@ -86,7 +86,7 @@ class ExternalCatalogApi extends SwaggerApi
      */
     public function getHoldings($agencyid, $recordid, $exclude = null)
     {
-        $request = $this->newRequest("GET", "/external/v2/{agencyid}/catalog/holdings");
+        $request = $this->newRequest("GET", "/external/v1/{agencyid}/catalog/holdings");
         $request->addParameter("path", "agencyid", $agencyid);
         $request->addParameter("query", "recordid", $recordid);
         $request->addParameter("query", "exclude", $exclude);
