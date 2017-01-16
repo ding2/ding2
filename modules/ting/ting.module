@@ -632,10 +632,10 @@ function ting_ting_object_load($objects) {
  * Don't use this, use ding_entity_load(). Default menu callback load of ting
  * object.
  *
- * @param $id
+ * @param string $id
  *   Ting entity id.
  *
- * @return TingEntity|boolean
+ * @return TingEntity|bool
  *   Ting object or FALSE on failure.
  */
 function ting_object_load($id) {
@@ -657,10 +657,10 @@ function ting_object_load_multiple($ids) {
  * Don't use this, use ding_collection_load(). Default menu callback load of
  * ting collections.
  *
- * @param $id
+ * @param string $id
  *   Ting entity id.
  *
- * @return TingCollection|boolean
+ * @return TingCollection|bool
  *   Collection object or FALSE on failure.
  */
 function ting_collection_load($id) {
