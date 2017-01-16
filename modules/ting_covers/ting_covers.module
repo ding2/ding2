@@ -62,7 +62,6 @@ function ting_covers_theme() {
     'ting_object_cover' => array(
       'render element' => 'elements',
       'template' => 'templates/ting-covers-object',
-      'preprocess functions' => array('template_preprocess_ting_object_cover'),
       'attached' => array(
         'js' => array(drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js'),
       ),
@@ -146,7 +145,6 @@ function _ting_covers_delete_old_files($time = NULL) {
 /**
  * Return the path to the cover of the object.
  */
-function ting_covers_object_path($object_id, $type = 'detail') {
-  $ext = $type == 'backpage' ? 'pdf' : 'jpg';
-  return file_default_scheme() . '://ting' . DIRECTORY_SEPARATOR . 'covers' . DIRECTORY_SEPARATOR . $type . DIRECTORY_SEPARATOR . md5($object_id) . '.' . $ext;
+function ting_covers_object_path($object_id) {
+  return file_default_scheme() . '://ting' . DIRECTORY_SEPARATOR . 'covers' . DIRECTORY_SEPARATOR . base64_encode($object_id) . '.jpg';
 }

@@ -9,12 +9,4 @@
       <?php print drupal_render($elements['#image']) ?>
     </div>
   </div>
-  <div class="work-cover-selector clearfix">
-    <?php print drupal_render($elements['#front_cover_large_link']) ?>
-  </div>
-</div>
-
-<div id="reveal-cover-large-<?php print $elements['#id'] ?>" class="reveal-modal reveal-cover-large" data-reveal="">
-  <div class="reveal-cover-large-image"><?php print drupal_render($elements['#front_cover_large_image']) ?></div>
-  <?php print $close_button ?>
 </div>

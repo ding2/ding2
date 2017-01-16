@@ -27,7 +27,6 @@ function ting_covers_objects($http_request = TRUE, $cover_data = array()) {
     $urls = array(
       'detail',
       'thumbnail',
-      'backpage',
     );
 
     foreach ($urls as $type) {
@@ -64,7 +63,6 @@ function ting_covers_objects($http_request = TRUE, $cover_data = array()) {
         $urls = array(
           'detail' => $ai->detailUrl,
           'thumbnail' => $ai->thumbnailUrl,
-          'backpage' => $ai->backPageUrl,
         );
         $urls = array_filter($urls);
 
