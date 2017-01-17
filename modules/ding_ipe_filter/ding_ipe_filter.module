@@ -78,7 +78,7 @@ function theme_ding_ipe_filter_table($variables) {
   $content = array(
     'header' => $header,
     'rows' => array(),
-    'attributes' => array('id' => 'ipe-filter-table')
+    'attributes' => array('id' => 'ipe-filter-table'),
   );
   foreach (element_children($form) as $row_index) {
     if (isset($form[$row_index]['title'])) {
@@ -178,6 +178,7 @@ function _ding_ipe_filter_callback($variables = array()) {
  * Helper function to check availability of the IPE menu for super admin.
  *
  * @return bool
+ *   Show ipe menu for the super admin.
  */
 function _ding_ipe_filter_show_for_admin() {
   global $user;
@@ -185,7 +186,7 @@ function _ding_ipe_filter_show_for_admin() {
   $show_for_admin = FALSE;
   if ($user->uid == 1) {
     $configs = variable_get('ding_ipe_filter_settings', array());
-    $show_for_admin = !empty($configs['admin_display']) ? $configs['admin_display'] : 0;
+    $show_for_admin = !empty($configs['admin_display']) ? $configs['admin_display'] : FALSE;
   }
 
   return $show_for_admin;
