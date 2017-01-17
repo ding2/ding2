@@ -829,6 +829,7 @@ function ding_news_views_default_views() {
 
   /* Display: Library Feed */
   $handler = $view->new_display('feed', 'Library Feed', 'ding_news_library_feed');
+  $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['pager']['type'] = 'some';
   $handler->display->display_options['pager']['options']['items_per_page'] = '20';
   $handler->display->display_options['pager']['options']['offset'] = '0';
@@ -883,7 +884,7 @@ function ding_news_views_default_views() {
     'ding_news_list_library' => 0,
     'panel_pane_2' => 0,
   );
-  $handler->display->display_options['sitename_title'] = 1;
+  $handler->display->display_options['sitename_title'] = 0;
 
   /* Display: Feed */
   $handler = $view->new_display('feed', 'Feed', 'ding_news_feed');
@@ -1889,6 +1890,7 @@ function ding_news_views_default_views() {
     t('Library Feed'),
     t('Organic Groups medlemsskab fra indhold'),
     t('Group node from OG membership'),
+    t('%1'),
     t('Feed'),
     t('Simple news list'),
     t('News list (library)'),
