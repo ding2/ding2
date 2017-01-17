@@ -84,12 +84,20 @@ function ding_ipe_filter_admin_panes_form() {
 
   $form['save'] = array(
     '#type' => 'submit',
-    '#value' => t('Save configuration')
+    '#value' => t('Save configuration'),
   );
 
   return $form;
 }
 
+/**
+ * Filter variables and save form.
+ *
+ * @param array $form
+ *   Form associative array.
+ * @param array $form_state
+ *   State of the form after submit.
+ */
 function ding_ipe_filter_admin_panes_form_submit($form, &$form_state) {
   $table = $form_state['values']['ding_ipe_filter_table'];
 
