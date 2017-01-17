@@ -78,26 +78,26 @@ function theme_ding_ipe_filter_table($variables) {
   $content = array(
     'header' => $header,
     'rows' => array(),
+    'attributes' => array('id' => 'ipe-filter-table')
   );
   foreach (element_children($form) as $row_index) {
     if (isset($form[$row_index]['title'])) {
+      $form[$row_index]['weight']['#attributes']['class'] = array('ipe-filter-order-weight');
       $content['rows'][] = array(
-        drupal_render($form[$row_index]['title']),
-        drupal_render($form[$row_index]['value']),
-      );
-    }
-    else {
-      $content['rows'][] = array(
-        array(
-          'data' => drupal_render($form[$row_index]),
-          'colspan' => 2,
-          'header' => TRUE,
+        'data' => array(
+          array('class' => array('slide-cross')),
+          drupal_render($form[$row_index]['delta']),
+          drupal_render($form[$row_index]['value']),
+          drupal_render($form[$row_index]['weight']),
         ),
+        'class' => array('draggable'),
       );
     }
   }
   $output = theme('table', $content);
   $output .= drupal_render_children($form);
+
+  drupal_add_tabledrag('ipe-filter-table', 'order', 'sibling', 'ipe-filter-order-weight');
 
   return $output;
 }
@@ -138,9 +138,9 @@ function _ding_ipe_filter_callback($variables = array()) {
   );
 
   foreach ($settings as $subtype_name => $setting) {
-    $enabled_category = isset($categories[$setting['category']]['content'][$setting['delta']]);
+    $enabled_category = isset($categories[$setting['category']]['content'][$setting['title']]);
     if ($setting['value'] == 1 && $enabled_category) {
-      $buttons[] = l($setting['delta'], $renderer->get_url('add-pane', $region_id, $setting['type'], $setting['subtype']), array('attributes' => $attributes));
+      $buttons[] = l($setting['title'], $renderer->get_url('add-pane', $region_id, $setting['type'], $setting['subtype']), array('attributes' => $attributes));
     }
   }
 
@@ -163,7 +163,7 @@ function _ding_ipe_filter_callback($variables = array()) {
 
   // If user roles are not set then display default ipe modal window.
   $permissions = ding_ipe_filter_use_menu();
-  if (!empty($permissions)) {
+  if (_ding_ipe_filter_show_for_admin() || !empty($permissions)) {
     $attributes = array(
       'class' => array('panels-ipe-linkbar', 'inline'),
     );
@@ -172,4 +172,21 @@ function _ding_ipe_filter_callback($variables = array()) {
   }
 
   return '<div class="panels-ipe-newblock panels-ipe-on">' . $links . '</div>' . $buttons;
+}
+
+/**
+ * Helper function to check availability of the IPE menu for super admin.
+ *
+ * @return bool
+ */
+function _ding_ipe_filter_show_for_admin() {
+  global $user;
+
+  $show_for_admin = FALSE;
+  if ($user->uid == 1) {
+    $configs = variable_get('ding_ipe_filter_settings', array());
+    $show_for_admin = !empty($configs['admin_display']) ? $configs['admin_display'] : 0;
+  }
+
+  return $show_for_admin;
 }
