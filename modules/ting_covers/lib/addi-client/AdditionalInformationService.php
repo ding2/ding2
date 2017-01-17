@@ -121,7 +121,6 @@ class AdditionalInformationService {
     try {
       $offset = 0;
       $ids = array_slice($identifiers, $offset, 40);
-
       while (!empty($ids)) {
         $data = $client->moreInfo(array(
           'authentication' => $auth_info,
