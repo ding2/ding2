@@ -39,7 +39,7 @@ function ding_serendipity_fallback_ting_object_serendipity_add($context) {
   // ding_serendipity_search_string_final_description is used. Configuration
   // of such values such be set (and prefixed) with this module and not
   // ding_serendipity.
-  $query = variable_get('ding_serendipity_search_string_final');
+  $query = variable_get('ding_serendipity_search_string_final', DING_SERENDIPITY_DEFAULT_FALLBACK_STRING);
 
   if (!empty($query)) {
     try {
