@@ -93,9 +93,9 @@ function ding_ipe_filter_admin_panes_form() {
 /**
  * Filter variables and save form.
  *
- * @param array $form
+ * @param $form
  *   Form associative array.
- * @param array $form_state
+ * @param $form_state
  *   State of the form after submit.
  */
 function ding_ipe_filter_admin_panes_form_submit($form, &$form_state) {
