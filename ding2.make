@@ -458,10 +458,20 @@ libraries[http-message][download][url] = "https://github.com/php-fig/http-messag
 libraries[http-message][download][tag] = "1.0.1"
 libraries[http-message][destination] = "libraries"
 
+libraries[jsonmapper][download][type] = "git"
+libraries[jsonmapper][download][url] = "https://github.com/cweiske/jsonmapper"
+libraries[jsonmapper][download][tag] = "v0.4.4"
+libraries[jsonmapper][destination] = "libraries"
+
 libraries[leaflet][download][type] = "get"
 libraries[leaflet][download][url] = "http://cdn.leafletjs.com/downloads/leaflet-0.7.3.zip"
 libraries[leaflet][directory_name] = "leaflet"
 libraries[leaflet][destination] = "libraries"
+
+libraries[phly-http][download][type] = "git"
+libraries[phly-http][download][url] = "https://github.com/phly/http"
+libraries[phly-http][download][tag] = "0.14.1"
+libraries[phly-http][destination] = "libraries"
 
 libraries[profiler][download][type] = "git"
 libraries[profiler][download][url] = "http://git.drupal.org/project/profiler.git"

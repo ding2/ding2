@@ -14,12 +14,57 @@ if (function_exists('module_load_include')) {
 }
 
 /**
- * Implements hook_init().
- *
- * Register autoloader for our (non-Drupal) classes.
+ * Implements hook_xautoload().
  */
-function fbs_init() {
-  require_once dirname(__FILE__) . "/vendor/autoload.php";
+function fbs_xautoload($adapter) {
+  $adapter->absolute()->addPsr4('FBS\\', drupal_get_path('module', 'fbs') . '/src');
+  $adapter->absolute()->addPsr4('Reload\\Prancer\\', drupal_get_path('module', 'fbs') . '/prancer');
+}
+
+/**
+ * Implements hook_libraries_info().
+ *
+ * For defining external libraries.
+ */
+function fbs_libraries_info() {
+  return array(
+    'jsonmapper' => array(
+      'name' => 'JsonMapper',
+      'vendor url' => 'https://github.com/cweiske/jsonmapper',
+      'download url' => 'https://github.com/cweiske/jsonmapper',
+      'version' => 'v0.4.4',
+      'xautoload' => function ($adapter) {
+        // Would like to:
+        // $adapter->composerJson('composer.json');
+        // But xautoload can't figure it out.
+        $adapter->addClassMap(
+          array(
+            'JsonMapper' => 'src/JsonMapper.php',
+            'JsonMapper_Exception' => 'src/JsonMapper/Exception.php',
+          )
+        );
+
+      },
+    ),
+    'http-message' => array(
+      'name' => 'Common interface for HTTP messages',
+      'vendor url' => 'https://github.com/php-fig/http-message',
+      'download url' => 'https://github.com/php-fig/http-message',
+      'version' => '1.0',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
+    'phly-http' => array(
+      'name' => 'PSR-7 message implementation',
+      'vendor url' => 'https://github.com/phly/http',
+      'download url' => 'https://github.com/phly/http',
+      'version' => '0.11.1',
+      'xautoload' => function ($adapter) {
+        $adapter->composerJson('composer.json');
+      },
+    ),
+  );
 }
 
 /**
@@ -128,6 +173,16 @@ function fbs_service($agency_id = NULL, $endpoint = NULL, $client = NULL, $seria
   // No drupal_static. We want to be callable from tests.
   static $service;
   if (!$service || $reset) {
+    // Check that libraries are properly loaded. Just throwing an exception is a
+    // bit harsh, but we're in a hurry here.
+    foreach (array('jsonmapper', 'http-message', 'phly-http') as $lib) {
+      // Checking for FALSE, as it's actually a count of how many files was
+      // included, and none is included for our libraries.
+      if (!($library = libraries_load($lib)) || $library['loaded'] === FALSE) {
+        throw new Exception($lib . ' library not installed');
+      }
+    }
+
     $agency_id = !empty($agency_id) ? $agency_id : variable_get('fbs_agency', '');
     $endpoint = !empty($endpoint) ? $endpoint : variable_get('fbs_endpoint', '');
 
