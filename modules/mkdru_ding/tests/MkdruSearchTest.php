@@ -1,13 +1,8 @@
 <?php
 class MkdruSearch extends PHPUnit_Extensions_SeleniumTestCase {  
-  protected $config;
-
   protected function setUp() {
-    $this->config = new SPTTestConfig();
-
-    $this->setBrowser($this->config->getBrowser());
-    $this->setBrowserUrl($this->config->getUrl());
-    sleep(5);
+    $this->setBrowser("*firefox");
+    $this->setBrowserUrl("http://spt-v2.ddbcms.dev.inlead.dk/");
   }
 
   public function testMkdruSearch() {

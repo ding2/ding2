@@ -1,7 +1,6 @@
 <?php
 class FilterSpt extends PHPUnit_Extensions_SeleniumTestCase {
   const WAIT_FOR_ELEMENT = 15;
-  protected $config;
 
   public function waitForElement($selector, $time = self::WAIT_FOR_ELEMENT, $force = TRUE) {
     for ($second = 0; ; $second++) {
@@ -22,10 +21,8 @@ class FilterSpt extends PHPUnit_Extensions_SeleniumTestCase {
   }
 
   protected function setUp() {
-    $this->config = new SPTTestConfig();
-    $this->setBrowser($this->config->getBrowser());
-    $this->setBrowserUrl($this->config->getUrl());
-    sleep(5);
+    $this->setBrowser("*firefox");
+    $this->setBrowserUrl("http://spt-v2.ddbcms.dev.inlead.dk/");
   }
 
   public function testFilterSpt() {
