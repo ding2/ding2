@@ -14,7 +14,7 @@
       var facet_browsers = $(Drupal.settings.ding_facetbrowser.selector);
 
       // Hide extra facet groups (groups that have js-hidden class).
-      factet_browsers.once('ding-facetbrowser', function(index, facet_browser) {
+      facet_browsers.once('ding-facetbrowser', function(index, facet_browser) {
         // Create show more link.
         var show_more_groups = $('<a />', {
           href: '#',
@@ -89,7 +89,7 @@
     var facet_browser = $(Drupal.settings.ding_facetbrowser.selector);
 
     // Add show more button to each facet group and hide some terms.
-    factet_browser.find('fieldset.form-wrapper').once('ding-facetbrowser-group', function() {
+    facet_browser.find('fieldset.form-wrapper').once('ding-facetbrowser-group', function() {
       var facetGroup = $(this);
 
       // Limit the number of visible terms in the group.
