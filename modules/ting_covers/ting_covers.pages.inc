@@ -27,11 +27,10 @@ function ting_covers_objects($http_request = TRUE, $cover_data = array()) {
     $urls = array(
       'detail',
       'thumbnail',
-      'backpage',
     );
 
     foreach ($urls as $type) {
-      $path = ting_covers_object_path($cover_info['local_id'], $type);
+      $path = ting_covers_object_path($cover_info['local_id']);
       if (file_exists($path)) {
         $covers[$cover_info['local_id']] = array(
           'local_id' => $cover_info['local_id'],
@@ -64,7 +63,6 @@ function ting_covers_objects($http_request = TRUE, $cover_data = array()) {
         $urls = array(
           'detail' => $ai->detailUrl,
           'thumbnail' => $ai->thumbnailUrl,
-          'backpage' => $ai->backPageUrl,
         );
         $urls = array_filter($urls);
 
@@ -78,14 +76,9 @@ function ting_covers_objects($http_request = TRUE, $cover_data = array()) {
         );
         foreach ($urls as $type => $uri) {
           // Try to download the image locally.
-          if ($file = _ting_covers_pages_fetch_image(ting_covers_object_path($local_id->localIdentifier, $type), $uri)) {
+          if ($file = _ting_covers_pages_fetch_image(ting_covers_object_path($local_id->localIdentifier), $uri)) {
             // Generate a path corresponding to the downloaded image, styled.
-            if ($type == 'backpage') {
-              $covers[$local_id->localIdentifier]['urls'][$type] = file_create_url($file);
-            }
-            else {
-              $covers[$local_id->localIdentifier]['urls'][$type] = image_style_url($image_styles[$cover_info['local_id']], $file);
-            }
+            $covers[$local_id->localIdentifier]['urls'][$type] = image_style_url($image_styles[$cover_info['local_id']], $file);
           }
         }
       }

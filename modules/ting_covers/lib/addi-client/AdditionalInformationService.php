@@ -178,7 +178,6 @@ class AdditionalInformationService {
     foreach ($response->identifierInformation as $info) {
       $thumbnail_url = $detail_url = NULL;
       $cover_image = isset($info->coverImage) ? $info->coverImage : FALSE;
-      $back_page = isset($info->backPage->_) ? $info->backPage->_ : FALSE;
 
       if (isset($info->identifierKnown) && $info->identifierKnown) {
         if ($cover_image) {
@@ -202,7 +201,7 @@ class AdditionalInformationService {
           }
         }
 
-        $additional_info = new AdditionalInformation($thumbnail_url, $detail_url, $back_page);
+        $additional_info = new AdditionalInformation($thumbnail_url, $detail_url);
         $additional_informations[$info->identifier->$id_name] = $additional_info;
 
       }

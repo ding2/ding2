@@ -22,26 +22,20 @@ function template_preprocess_ting_object_cover(&$variables) {
 
   $variables['elements']['#id'] = drupal_html_id(md5(implode($local_ids), TRUE));
   $variables['elements']['#front_cover_large_image'] = array('#markup' => 'fubar');
-  $variables['elements']['#back_cover_large_pdf'] = array('#markup' => 'fubar');
   $variables['elements']['#close_button'] = array(
     '#markup' => '<a class="reveal-cover close-reveal-modal">&#215;</a>',
   );
   // Set initial values required by the template, and check if there's an image available locally.
   $cover_file_path = FALSE;
-  $backcoverpdf_file_path = $backcoverpdf_local_id = FALSE;
   $variables['elements']['#classes'] = array(
     'ting-cover',
     'ting-cover-style-' . $image_style,
   );
   foreach ($local_ids as $key => $lid) {
     // If there's a cover in the file system, we'll use it. Otherwise, we'll get it by AJAX.
-    $file_path = ting_covers_object_path($lid, 'detail');
+    $file_path = ting_covers_object_path($lid);
     if (file_exists($file_path)) {
       $cover_file_path = $file_path;
-    }
-    $file_path = ting_covers_object_path($lid, 'backpage');
-    if (file_exists($file_path)) {
-      $backcoverpdf_file_path = $file_path;
     }
 
     if (!empty($lid)) {
@@ -112,9 +106,6 @@ function template_preprocess_ting_object_cover(&$variables) {
       'data-reveal-id' => 'reveal-cover-large-' . $variables['elements']['#id'],
     ),
   );
-  if (!file_exists($backcoverpdf_file_path)) {
-    $options['attributes']['style'] = 'display:none';
-  }
   $variables['elements']['#front_cover_large_link'] = array(
     '#type' => 'link',
     '#title' => '',
