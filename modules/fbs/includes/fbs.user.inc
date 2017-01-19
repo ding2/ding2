@@ -62,6 +62,7 @@ function fbs_user_authenticate($name, $pincode) {
     // We have to save the library card number/CPR number, as the pincode
     // change call uses it.
     $result['creds']['library_card_number'] = $name;
+    $result['creds']['pass'] = $pincode;
 
     $result['user'] = array(
       'mail' => $res->patron->emailAddress,
