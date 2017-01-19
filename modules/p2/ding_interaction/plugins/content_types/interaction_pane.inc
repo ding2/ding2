@@ -44,7 +44,7 @@ function ding_interaction_content_type_render($subtype, $conf, $panel_args, $con
   drupal_add_js(drupal_get_path('module', 'ding_interaction') . '/js/ding_interaction.js');
   drupal_add_css(drupal_get_path('module', 'ding_interaction') . '/css/ding_interaction.css');
   $data = ding_interaction_content(NULL, $conf['count']);
-  
+
   $output = new stdClass();
   if ($data) {
     $close_btn = l(t('Close'), '', array('attributes' => array('class' => array('close-btn'))));
@@ -67,6 +67,7 @@ function ding_interaction_content_type_render($subtype, $conf, $panel_args, $con
       'help_text' => $help_text,
     ));
     $output->css_class = isset($data['css_class']) ? $data['css_class'] : "default-interaction";
+    $output->css_class .= ' ding-interaction-true-pane';
   }
   return $output;
 }
