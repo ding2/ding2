@@ -59,6 +59,7 @@
 
     a {
       color: $gray-dark;
+      background-color: inherit;
 
       &.active {
         color: $link-color;
