@@ -430,9 +430,6 @@ projects[ask_vopros][download][type] = "git"
 projects[ask_vopros][download][url] = "git@github.com:vopros-dk/ask_vopros.git"
 projects[ask_vopros][download][tag] = "1.5"
 
-projects[xautoload][subdir] = "contrib"
-projects[xautoload][version] = "5.7"
-
 ; Libraries
 libraries[bpi-client][destination] = "modules/bpi/lib"
 libraries[bpi-client][download][type] = "git"
