@@ -572,7 +572,13 @@ function _ding_place2book_update_p2b_entities($entity, array $settings) {
     }
     catch (Exception $ex) {
       watchdog_exception('ding_place2book', $ex);
-      $items = array();
+      $items = array(
+        array(
+          'event_id' => $event_id,
+          'event_maker_id' => $event_maker_id,
+          'synchronize' => 1,
+        ),
+      );
       drupal_set_message($ex->getMessage(), 'error');
     }
   }
