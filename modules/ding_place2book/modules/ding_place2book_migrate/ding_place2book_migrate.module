@@ -38,15 +38,12 @@ function _ding_place2book_migrate_batch($events, &$context) {
     $node = node_load($event->nid);
     $event_maker_id = _ding_place2book_get_event_maker($node);
     if (!empty($event->place2book_id) && $event->place2book_id != -1) {
-      $new = new stdClass();
-      $new->nid = $node->nid;
-      $new->type = $node->type;
-      $new->field_place2book[LANGUAGE_NONE][0] = array(
+      $node->field_place2book[LANGUAGE_NONE][0] = array(
         'event_id' => $event->place2book_id,
         'event_maker_id' => $event_maker_id,
         'synchronize' => $event->maintain_copy,
       );
-      field_attach_update('node', $new);
+      node_save($node);
     }
     $context['message'] = t('Processing: <em>@title</em> (@current/@total).', array(
       '@title' => $node->title,
