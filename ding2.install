@@ -413,3 +413,10 @@ function ding2_update_7027() {
 function ding2_update_7028() {
   ding2_translation_update();
 }
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7029() {
+  ding2_translation_update();
+}
