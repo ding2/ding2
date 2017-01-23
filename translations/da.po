@@ -66633,7 +66633,7 @@ msgstr ""
 
 #: /index.php
 msgid "Events show the value ”Free” if text field is set to 0.\nTip: Indicate different ticket prices for more than one audience group by entering a lowest – highest price in text field fx. “30 - 50”"
-msgstr "Arrangementer viser værdien "Gratis" hvis tekstfeltet er sat til 0. Ved flere billettyper kan det angives ved at indsætte laveste - højeste pris i tekstfeltet f. eks. "30 - 50""
+msgstr "Arrangementer viser værdien "Gratis" hvis tekstfeltet er sat til 0. Ved flere billettyper kan det angives ved at indsætte laveste - højeste pris i tekstfeltet f. eks. \"30 - 50\""
 
 #: /node/add/ding-event?render=overlay
 msgid "Date, location and price"

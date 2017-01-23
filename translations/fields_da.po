@@ -1038,7 +1038,7 @@ msgstr "Place2book Billetter"
 #: field:field_place2book_tickets:ding_event:description
 msgctxt "field_place2book_tickets:ding_event:description"
 msgid "Placeholder for Place2book ticket information and/or order link"
-msgstr "Pladsholder for Place2book billetinformation og/eller ordre link. VÆRDIEN "PLACEHOLDER" BØR IKKE ÆNDRES!"
+msgstr "Pladsholder for Place2book billetinformation og/eller ordre link. VÆRDIEN \"PLACEHOLDER\" BØR IKKE ÆNDRES!"
 
 #: field:field_place2book_tickets:ding_event:default_value
 msgctxt "field_place2book_tickets:ding_event:default_value"
@@ -1471,4 +1471,4 @@ msgid ""
 "Events show the value ”Free” if text field is set to 0.\n"
 "Tip: Indicate different ticket prices for more than one audience group "
 "by entering a lowest – highest price in text field fx. “30 - 50”"
-msgstr "Arrangementer viser værdien "Gratis" hvis tekstfeltet er sat til 0. Ved flere billettyper kan det angives ved at indsætte laveste - højeste pris i tekstfeltet f. eks. "30 - 50""
+msgstr "Arrangementer viser værdien \"Gratis\" hvis tekstfeltet er sat til 0. Ved flere billettyper kan det angives ved at indsætte laveste - højeste pris i tekstfeltet f. eks. \"30 - 50\""
