@@ -67,6 +67,10 @@ function ding_interaction_content_type_render($subtype, $conf, $panel_args, $con
       'help_text' => $help_text,
     ));
     $output->css_class = isset($data['css_class']) ? $data['css_class'] : "default-interaction";
+
+    // The lazy_pane module adds a pane placeholder, with the default pane
+    // classes. This extra class is used to style the pane, only if it's
+    // actually adding content.
     $output->css_class .= ' ding-interaction-true-pane';
   }
   return $output;
