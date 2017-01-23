@@ -294,7 +294,7 @@ class P2b {
         'city' => FALSE,
         'phone' => FALSE,
         'country' => FALSE,
-        'name ' => FALSE,
+        'name' => FALSE,
       ),
     );
     $this->p2bCheckRequired($required, $data['event']);

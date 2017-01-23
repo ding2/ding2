@@ -466,51 +466,59 @@ function ding_place2book_field_formatter_view($entity_type, $entity, $field, $in
  *   Array of items for field_place2book.
  */
 function _ding_place2book_create_p2b_entities($entity, array $settings) {
-
   $items = array();
   $event_maker_id = _ding_place2book_get_event_maker($entity);
   if ($event_maker_id) {
+    $p2b = ding_place2book_instance();
+    // Collect data for creating event.
+    $prices = $settings['prices_wrapper']['prices'];
+    unset($settings['prices_wrapper']);
+    unset($settings['synchronize']);
+    unset($settings['event_id']);
+    unset($settings['event_maker_id']);
+    $options['event'] = ding_p2b_format_options($entity, $settings);
+
     try {
-      $p2b = ding_place2book_instance();
-      // Collect data for creating event.
-      $prices = $settings['prices_wrapper']['prices'];
-      unset($settings['prices_wrapper']);
-      unset($settings['synchronize']);
-      unset($settings['event_id']);
-      unset($settings['event_maker_id']);
-      $options['event'] = ding_p2b_format_options($entity, $settings);
       $event = $p2b->createEvent($event_maker_id, $options);
-
-      foreach ($prices as $price) {
-        if (empty($price['name']) || empty($price['value'])) {
-          continue;
-        }
-
-        $sale_begin = format_date(strtotime($price['sale_begin_at']), 'custom', 'Y-m-d\TH:i:sO', date_default_timezone());
-        $sale_end = format_date(strtotime($price['sale_end_at']), 'custom', 'Y-m-d\TH:i:sO', date_default_timezone());
-        $data = array(
-          'name' => $price['name'],
-          'value' => $price['value'],
-          'sale_begin_at' => $sale_begin,
-          'sale_end_at' => $sale_end,
-        );
-        $p2b->createPrice($event_maker_id, $event->id, array('price' => $data));
-      }
-      $items = array(
-        array(
-          'event_id' => $event->id,
-          'event_maker_id' => $event_maker_id,
-          'synchronize' => 1,
-        ),
-      );
-      drupal_set_message(t('Event was successfully created.'));
     }
     catch (Exception $ex) {
       watchdog_exception('ding_place2book', $ex);
-      $items = array();
       drupal_set_message($ex->getMessage(), 'error');
+      return $items;
     }
+
+    foreach ($prices as $price) {
+      if (empty($price['name']) || empty($price['value'])) {
+        continue;
+      }
+
+      $sale_begin = format_date(strtotime($price['sale_begin_at']), 'custom', 'Y-m-d\TH:i:sO', date_default_timezone());
+      $sale_end = format_date(strtotime($price['sale_end_at']), 'custom', 'Y-m-d\TH:i:sO', date_default_timezone());
+      $data = array(
+        'name' => $price['name'],
+        'value' => $price['value'],
+        'sale_begin_at' => $sale_begin,
+        'sale_end_at' => $sale_end,
+      );
+
+      try {
+        $p2b->createPrice($event_maker_id, $event->id, array('price' => $data));
+      }
+      catch (Exception $ex) {
+        watchdog_exception('ding_place2book', $ex);
+        drupal_set_message($ex->getMessage(), 'error');
+      }
+    }
+    $items = array(
+      array(
+        'event_id' => $event->id,
+        'event_maker_id' => $event_maker_id,
+        'synchronize' => 1,
+      ),
+    );
+    drupal_set_message(t('Event was successfully created.'));
   }
+
   return $items;
 }
 
@@ -527,54 +535,71 @@ function _ding_place2book_create_p2b_entities($entity, array $settings) {
  */
 function _ding_place2book_update_p2b_entities($entity, array $settings) {
   $p2b = ding_place2book_instance();
-  $items = array();
+
+  // Current state.
+  $items = array(
+    array(
+      'event_id' => $settings['event_id'],
+      'event_maker_id' => $settings['event_maker_id'],
+      'synchronize' => 1,
+    ),
+  );
+
   if ($settings['event_maker_id']) {
+    // Collect data for updating event.
+    $prices = $settings['prices_wrapper']['prices'];
+    $event_id = $settings['event_id'];
+    $event_maker_id = $settings['event_maker_id'];
+    unset($settings['prices_wrapper']);
+    unset($settings['synchronize']);
+    unset($settings['event_id']);
+    unset($settings['event_maker_id']);
+    $options['event'] = ding_p2b_format_options($entity, $settings);
     try {
-      // Collect data for updating event.
-      $prices = $settings['prices_wrapper']['prices'];
-      $event_id = $settings['event_id'];
-      $event_maker_id = $settings['event_maker_id'];
-      unset($settings['prices_wrapper']);
-      unset($settings['synchronize']);
-      unset($settings['event_id']);
-      unset($settings['event_maker_id']);
-      $options['event'] = ding_p2b_format_options($entity, $settings);
       $event = $p2b->updateEvent($event_maker_id, $event_id, $options);
+    }
+    catch (Exception $ex) {
+      watchdog_exception('ding_place2book', $ex);
+      drupal_set_message($ex->getMessage(), 'error');
+      return $items;
+    }
 
-      foreach ($prices as $key => $price) {
-        if (empty($price['name']) || empty($price['value'])) {
-          continue;
-        }
+    foreach ($prices as $key => $price) {
+      if (empty($price['name']) || empty($price['value'])) {
+        continue;
+      }
 
-        $sale_begin = format_date(strtotime($price['sale_begin_at']), 'custom', 'Y-m-d\TH:i:sO', date_default_timezone());
-        $sale_end = format_date(strtotime($price['sale_end_at']), 'custom', 'Y-m-d\TH:i:sO', date_default_timezone());
-        $data = array(
-          'name' => $price['name'],
-          'value' => $price['value'],
-          'sale_begin_at' => $sale_begin,
-          'sale_end_at' => $sale_end,
-        );
+      $sale_begin = format_date(strtotime($price['sale_begin_at']), 'custom', 'Y-m-d\TH:i:sO', date_default_timezone());
+      $sale_end = format_date(strtotime($price['sale_end_at']), 'custom', 'Y-m-d\TH:i:sO', date_default_timezone());
+      $data = array(
+        'name' => $price['name'],
+        'value' => $price['value'],
+        'sale_begin_at' => $sale_begin,
+        'sale_end_at' => $sale_end,
+      );
+
+      try {
         if (!empty($price['id'])) {
           $p2b->updatePrice($event_maker_id, $event->id, $price['id'], array('price' => $data));
         }
         else {
           $p2b->createPrice($event_maker_id, $event->id, array('price' => $data));
         }
-        $items = array(
-          array(
-            'event_id' => $event->id,
-            'event_maker_id' => $event_maker_id,
-            'synchronize' => 1,
-          ),
-        );
       }
-      drupal_set_message(t('Event was successfully updated.'));
+      catch (Exception $ex) {
+        watchdog_exception('ding_place2book', $ex);
+        drupal_set_message($ex->getMessage(), 'error');
+      }
+
+      $items = array(
+        array(
+          'event_id' => $event->id,
+          'event_maker_id' => $event_maker_id,
+          'synchronize' => 1,
+        ),
+      );
     }
-    catch (Exception $ex) {
-      watchdog_exception('ding_place2book', $ex);
-      $items = array();
-      drupal_set_message($ex->getMessage(), 'error');
-    }
+    drupal_set_message(t('Event was successfully updated.'));
   }
   return $items;
 }
