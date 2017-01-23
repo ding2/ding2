@@ -1,11 +1,11 @@
-.pane-interaction-pane {
+.ding-interaction-true-pane {
   position: relative;
   background: #fff;
   padding: 20px;
   margin-bottom:20px;
 }
 
-.ding-interaction-pane .close-btn {
+.ding-interaction-true-pane .close-btn {
   position: absolute;
   top: 20px;
   right: 20px;
