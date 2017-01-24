@@ -100,37 +100,12 @@
     }
 
     @include small-medium() {
-      .cover-front {
-        display: inline-block;
-        height: 20px;
-        margin-right: 10px;
-        width: 20px;
-
-        &:before {
-          content: "\f030";
-          display: inline-block;
-          font-family: FontAwesome;
-          font-size: 20px;
-          text-rendering: auto;
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-        }
+      .cover-front:before {
+        font-size: 20px;
       }
 
-      .cover-back {
-        display: inline-block;
-        height: 20px;
-        width: 20px;
-
-        &:before {
-          content: "\f02d";
-          display: inline-block;
-          font-family: FontAwesome;
-          font-size: 20px;
-          text-rendering: auto;
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-        }
+      .cover-back:before {
+        font-size: 20px;
       }
     }
   }
