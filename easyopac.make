@@ -41,6 +41,12 @@ projects[ding_collection_reservation][download][type] = "git"
 projects[ding_collection_reservation][download][url]  = "git@github.com:easySuite/ding_collection_reservation.git"
 projects[ding_collection_reservation][download][branch]  = "development"
 
+projects[ding_event_subscriptions][type]           = "module"
+projects[ding_event_subscriptions][subdir]         = ""
+projects[ding_event_subscriptions][download][type] = "git"
+projects[ding_event_subscriptions][download][url]  = "git@github.com:easySuite/ding_event_subscriptions.git"
+projects[ding_event_subscriptions][download][branch]  = "master"
+
 projects[ding_item_cache][type]           = "module"
 projects[ding_item_cache][subdir]         = ""
 projects[ding_item_cache][download][type] = "git"
