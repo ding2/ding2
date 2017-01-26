@@ -193,3 +193,15 @@ function fbs_user_create($cpr, $pin_code, $name, $mail, $branch_id) {
     throw $exception;
   }
 }
+
+/** 
+ * Implements clear_cache().
+ *
+ * This hook is only called from ding_dibs after a payment have been accepted.
+ *
+ * @param object $account
+ *   Drupal user account object.
+ */
+function fbs_user_clear_cache($account) {
+  // As the FBS currently only uses a static cache for debt... do nothing.
+}

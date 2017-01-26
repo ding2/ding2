@@ -393,7 +393,7 @@ msgstr "Tags"
 #: field:field_ding_event_target:ding_event:label
 msgctxt "field_ding_event_target:ding_event:label"
 msgid "Target"
-msgstr "Target"
+msgstr "Målgruppe"
 
 #: field:field_ding_event_title_image:ding_event:label
 msgctxt "field_ding_event_title_image:ding_event:label"
@@ -1038,7 +1038,7 @@ msgstr "Place2book Billetter"
 #: field:field_place2book_tickets:ding_event:description
 msgctxt "field_place2book_tickets:ding_event:description"
 msgid "Placeholder for Place2book ticket information and/or order link"
-msgstr ""
+msgstr "Pladsholder for Place2book billetinformation og/eller ordre link. VÆRDIEN \"PLACEHOLDER\" BØR IKKE ÆNDRES!"
 
 #: field:field_place2book_tickets:ding_event:default_value
 msgctxt "field_place2book_tickets:ding_event:default_value"
@@ -1464,3 +1464,11 @@ msgstr "Privat - Kun du har adgang til denne liste"
 msgctxt "ding_entity_rating_action:ting_object:label"
 msgid "Rate this"
 msgstr "Bedøm dette materiale"
+
+#: field:field_ding_event_price:ding_event:description
+msgctxt "field_ding_event_price:ding_event:description"
+msgid ""
+"Events show the value ”Free” if text field is set to 0.\n"
+"Tip: Indicate different ticket prices for more than one audience group "
+"by entering a lowest – highest price in text field fx. “30 - 50”"
+msgstr "Arrangementer viser værdien \"Gratis\" hvis tekstfeltet er sat til 0. Ved flere billettyper kan det angives ved at indsætte laveste - højeste pris i tekstfeltet f. eks. \"30 - 50\""
