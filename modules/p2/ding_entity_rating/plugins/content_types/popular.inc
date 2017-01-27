@@ -18,7 +18,7 @@ $plugin = array(
 function ding_entity_rating_popular_content_type_render($subtype, $conf, $panel_args, $context) {
   // Only show on front if serendipity is enabled for the frontpage.
   // See ding_frontpage config at /admin/config/ding/frontend.
-  if (drupal_is_front_page() && !variable_get('ding_entity_rating_popular_on_frontpage', TRUE)) {
+  if (drupal_is_front_page() && !variable_get('ding_entity_rating_popular_on_frontpage', FALSE)) {
     return;
   }
 
@@ -60,10 +60,11 @@ function ding_entity_rating_popular_content_type_render($subtype, $conf, $panel_
   }
 
   $keys = ding_serendipity_validate_materials($keys);
-  
+
   $result = array();
-  foreach ($keys as $key) {
+  foreach ($keys as $delta => $key) {
     $obj = ding_entity_load($key, 'ting_object');
+    ding_entity_rating_set_average($obj, $openlist_items[$delta]['average']);
 
     $result[] = ting_object_view($obj, 'compact');
   }

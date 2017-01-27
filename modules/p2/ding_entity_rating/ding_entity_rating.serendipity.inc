@@ -4,7 +4,7 @@
  * @file
  * This module provides serendipity functions based on user lists and loans
  */
- 
+
 /**
  * Implements hook_serendipity_info().
  */
@@ -46,7 +46,7 @@ function ding_entity_rating_materials_by_rating_serendipity_add(array $context) 
     // TODO what if rated_entity is not defined within the context? @MSD
     $ting_object = ding_entity_load($context['rated_entity'], 'ting_object');
   }
-  
+
   if (!empty($ting_object) && is_object($ting_object)) {
     $facets = array();
 
@@ -70,7 +70,7 @@ function ding_entity_rating_materials_by_rating_serendipity_add(array $context) 
     if (empty($query)) {
       return array();
     }
-    
+
     $results = ding_serendipity_do_search($query, array());
 
     foreach ($results as & $item) {
@@ -79,12 +79,17 @@ function ding_entity_rating_materials_by_rating_serendipity_add(array $context) 
         'Query' => $query,
         'description' => t(
           'Because you liked !item',
-          array('!item' => $ting_object->getTitle())
+          array(
+            '!item' => l(
+              $ting_object->getTitle(),
+              entity_uri('ting_object', $ting_object)['path']
+            ),
+          )
         ),
       );
     }
   }
-  
+
   return $results;
 }
 
@@ -100,20 +105,20 @@ function ding_entity_rating_materials_by_rating_serendipity_add(array $context) 
 function ding_entity_rating_get_material_by_rating() {
   // Load rating list.
   $list = ding_list_get_list(DING_ENTITY_RATING_LIST);
-  
+
   // Load elements.
   $elements = ding_list_load_elements($list);
   if (empty($elements)) {
     return NULL;
   }
-  
+
   // Order elements by rating.
   $ratings = array();
   foreach ($elements as $key => $element) {
     $weight = ding_list_get_list_element_weight($element);
     $ratings[$weight][] = $element;
   }
-  
+
   // Start at 5 (the max rating).
   // being the max rating in the codebase.
   $rating = DING_ENTITY_RATING_MAX_RATING;
@@ -128,7 +133,7 @@ function ding_entity_rating_get_material_by_rating() {
       $rated_element = $ratings[$rating][$random_key];
       break;
     }
-    
+
     $rating -= 1;
   }
 

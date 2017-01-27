@@ -630,3 +630,12 @@ function ding_base_get_items($entity_type, $entity, $field_name) {
   }
   return $items;
 }
+
+/**
+ * Implements hook_js_alter().
+ */
+function ding_base_js_alter(&$javascript) {
+  if (isset($javascript['profiles/ding2/modules/contrib/lazy_pane/js/lazy-pane.js'])) {
+    drupal_add_js(drupal_get_path('module', 'ding_base') . '/js/lazy-pane-fix.js');
+  }
+}
