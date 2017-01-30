@@ -109,20 +109,6 @@
         // Add first/last classes.
         content.find(':first').addClass('first');
         content.find(':last').addClass('last');
-
-        var ajax_ele = content.find('.use-ajax');
-        ajax_ele.each(function() {
-          var ele = $(this);
-          new Drupal.ajax('#' + ele.attr('id'), ele, {
-            url: ele.attr('href'),
-            effect: 'fade',
-            settings: {},
-            progress: {
-              type: 'throbber'
-            },
-            event: 'click tap'
-          });
-        });
       }
 
       /**
@@ -160,7 +146,7 @@
 
       // Convert seconds to miliseconds.
       interval = Drupal.settings.ding_item_viewer.interval * 1000;
-      
+
       // Load data from server.
       container = $(element);
       uri = 'ding_item_viewer/' + container.attr('data-hash');
@@ -206,7 +192,6 @@
               // Update cache.
               Drupal.DADB[id] = item;
             });
-            show_reservation_button();
           }
         });
 
