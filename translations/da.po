@@ -10334,10 +10334,6 @@ msgid "Import content using <em>Node export</em>."
 msgstr ""
 
 #: /node/add/ding-event?render=overlay /node/add/ding-event
-msgid "Date, location and price"
-msgstr ""
-
-#: /node/add/ding-event?render=overlay /node/add/ding-event
 msgid "Tagging"
 msgstr "Taksonomitermer"
 
@@ -48197,7 +48193,7 @@ msgstr "I denne liste kan du gemme materialer, som du vil huske på eller låne 
 
 #: /system/ajax
 msgid "@user has shared a personal list with you at @library"
-msgstr "@user har delt en personlig liste med dig på dit biblioteks hjemmeside"
+msgstr "@user har delt en personlig liste med dig på @library"
 
 #: /
 msgid "Create your own lists"
@@ -66638,3 +66634,15 @@ msgstr "Arrangementer viser værdien \"Gratis\" hvis tekstfeltet er sat til 0. V
 #: /node/add/ding-event?render=overlay
 msgid "Date, location and price"
 msgstr "Dato, sted og pris"
+
+#: /user/me/edit
+msgid "The old pincode confirm does not match."
+msgstr "Den indtastede gamle pinkode var ikke korrekt"
+
+#: /search/ting/hundehoved
+msgid "Search Materialer"
+msgstr "Søg i biblioteksbasen"
+
+#: /lazy-pane/ajax
+msgid "Because you have a list with materials by the author !author."
+msgstr "Fordi du har en liste med materialer af forfatteren !author"
