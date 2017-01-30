@@ -100,8 +100,12 @@
     }
 
     @include small-medium() {
-      .cover-front:before {
-        font-size: 20px;
+      .cover-front {
+        margin-right: 0px;
+
+        &:before {
+          font-size: 20px;
+        }
       }
 
       .cover-back:before {
