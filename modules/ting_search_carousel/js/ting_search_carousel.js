@@ -362,12 +362,12 @@
    * Start the carousel when the document is ready.
    */
   Drupal.behaviors.ting_search_carousel = {
-    attach: function (context, settings) {
-      if (typeof settings.ting_search_carousel !== 'undefined') {
-        $.each(settings.ting_search_carousel.carousels, function (id, carousel_settings) {
-          Drupal.TingSearchCarousel.init(id, carousel_settings);
-        });
-      }
+    attach: function () {
+      var settings = Drupal.settings;
+      var carousels = settings.ting_search_carousel.carousels;
+      $.each(carousels, function (id, carousel_settings) {
+        Drupal.TingSearchCarousel.init(id, carousel_settings);
+      });
     }
   };
 
