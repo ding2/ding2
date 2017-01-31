@@ -33,22 +33,6 @@
       }
 
       /**
-       * Display the reservation button for items that can be reserved.
-       */
-      function show_reservation_button() {
-        // Show reservation button.
-        var r_button = container.find('.reserve-button');
-        if (r_button.length > 0) {
-          var id = r_button.attr('id').match(/reservation-[0-9]+-[\w]+:(\w+)/);
-          if (typeof id[1] !== 'undefined' && typeof Drupal.DADB[id[1]] !== 'undefined') {
-            if (Drupal.DADB[id[1]].reservable === true) {
-              r_button.show();
-            }
-          }
-        }
-      }
-
-      /**
        * Show initial items.
        */
       function show_items() {
@@ -97,8 +81,6 @@
           item.find('img').wrap("<div class='image-wrapper'></div>");
           content.append(item);
         }
-
-        show_reservation_button();
 
         // Preload images for current tab.
         for (i = 0; i < tabs[current_tab].length; i++) {
