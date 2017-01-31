@@ -318,9 +318,8 @@ function ding_place2book_widget_validate($form, &$form_state) {
     if (!$place2book['passive'] && isset($place2book['prices_wrapper']['prices'])) {
       $prices = $place2book['prices_wrapper']['prices'];
       $prices = array_filter($prices, function ($i) {
-        return !empty($i['name']) && !empty($i['value']);
+        return !empty($i['name']) && (!empty($i['value']) || $i['value'] === '0');
       });
-
       if (empty($prices)) {
         form_set_error('field_place2book][und][place2book][prices_wrapper][prices', t('At least one price should exist.'));
       }
@@ -488,7 +487,7 @@ function _ding_place2book_create_p2b_entities($entity, array $settings) {
     }
 
     foreach ($prices as $price) {
-      if (empty($price['name']) || empty($price['value'])) {
+      if (empty($price['name']) || (empty($price['value']) && $price['value'] !== '0')) {
         continue;
       }
 
@@ -565,7 +564,7 @@ function _ding_place2book_update_p2b_entities($entity, array $settings) {
     }
 
     foreach ($prices as $key => $price) {
-      if (empty($price['name']) || empty($price['value'])) {
+      if (empty($price['name']) || (empty($price['value']) && $price['value'] !== '0')) {
         continue;
       }
 
