@@ -135,22 +135,22 @@ function ding_content_views_default_views() {
       'empty_column' => 0,
     ),
   );
-  /* Opførsel ved ingen resultater: Global: Tekstområde */
+  /* No results behavior: Global: Text area */
   $handler->display->display_options['empty']['area']['id'] = 'area';
   $handler->display->display_options['empty']['area']['table'] = 'views';
   $handler->display->display_options['empty']['area']['field'] = 'area';
   $handler->display->display_options['empty']['area']['content'] = 'Der er ikke noget indhold, som du kan redigere.';
   $handler->display->display_options['empty']['area']['format'] = 'plain_text';
-  /* Forbindelse: Indhold: Forfatter */
+  /* Relationship: Content: Author */
   $handler->display->display_options['relationships']['uid']['id'] = 'uid';
   $handler->display->display_options['relationships']['uid']['table'] = 'node';
   $handler->display->display_options['relationships']['uid']['field'] = 'uid';
-  /* Forbindelse: Entity Reference: Refereret entity */
+  /* Relationship: Entity Reference: Referenced Entity */
   $handler->display->display_options['relationships']['og_group_ref_target_id']['id'] = 'og_group_ref_target_id';
   $handler->display->display_options['relationships']['og_group_ref_target_id']['table'] = 'og_membership';
   $handler->display->display_options['relationships']['og_group_ref_target_id']['field'] = 'og_group_ref_target_id';
   $handler->display->display_options['relationships']['og_group_ref_target_id']['label'] = 'Bibliotek';
-  /* Forbindelse: Bruger: Profil */
+  /* Relationship: User: Profile */
   $handler->display->display_options['relationships']['profile']['id'] = 'profile';
   $handler->display->display_options['relationships']['profile']['table'] = 'users';
   $handler->display->display_options['relationships']['profile']['field'] = 'profile';
@@ -158,19 +158,19 @@ function ding_content_views_default_views() {
   $handler->display->display_options['relationships']['profile']['bundle_types'] = array(
     'ding_staff_profile' => 'ding_staff_profile',
   );
-  /* Felt: Indhold: titel */
+  /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  /* Felt: Indhold: Type */
+  /* Field: Content: Type */
   $handler->display->display_options['fields']['type']['id'] = 'type';
   $handler->display->display_options['fields']['type']['table'] = 'node';
   $handler->display->display_options['fields']['type']['field'] = 'type';
   $handler->display->display_options['fields']['type']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['type']['alter']['ellipsis'] = FALSE;
-  /* Felt: Indhold: Date */
+  /* Field: Content: Date */
   $handler->display->display_options['fields']['field_ding_event_date']['id'] = 'field_ding_event_date';
   $handler->display->display_options['fields']['field_ding_event_date']['table'] = 'field_data_field_ding_event_date';
   $handler->display->display_options['fields']['field_ding_event_date']['field'] = 'field_ding_event_date';
@@ -182,13 +182,13 @@ function ding_content_views_default_views() {
     'multiple_from' => '',
     'multiple_to' => '',
   );
-  /* Felt: Indhold: titel */
+  /* Field: Content: Title */
   $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
   $handler->display->display_options['fields']['title_1']['table'] = 'node';
   $handler->display->display_options['fields']['title_1']['field'] = 'title';
   $handler->display->display_options['fields']['title_1']['relationship'] = 'og_group_ref_target_id';
   $handler->display->display_options['fields']['title_1']['label'] = 'Bibliotek';
-  /* Felt: Bruger: Navn */
+  /* Field: User: Name */
   $handler->display->display_options['fields']['name']['id'] = 'name';
   $handler->display->display_options['fields']['name']['table'] = 'users';
   $handler->display->display_options['fields']['name']['field'] = 'name';
@@ -197,7 +197,7 @@ function ding_content_views_default_views() {
   $handler->display->display_options['fields']['name']['exclude'] = TRUE;
   $handler->display->display_options['fields']['name']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['name']['hide_alter_empty'] = FALSE;
-  /* Felt: Bruger: Uid */
+  /* Field: User: Uid */
   $handler->display->display_options['fields']['uid']['id'] = 'uid';
   $handler->display->display_options['fields']['uid']['table'] = 'users';
   $handler->display->display_options['fields']['uid']['field'] = 'uid';
@@ -206,7 +206,7 @@ function ding_content_views_default_views() {
   $handler->display->display_options['fields']['uid']['exclude'] = TRUE;
   $handler->display->display_options['fields']['uid']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['uid']['link_to_user'] = FALSE;
-  /* Felt: Profil: Forename */
+  /* Field: Profile: Forename */
   $handler->display->display_options['fields']['field_ding_staff_forename']['id'] = 'field_ding_staff_forename';
   $handler->display->display_options['fields']['field_ding_staff_forename']['table'] = 'field_data_field_ding_staff_forename';
   $handler->display->display_options['fields']['field_ding_staff_forename']['field'] = 'field_ding_staff_forename';
@@ -214,7 +214,7 @@ function ding_content_views_default_views() {
   $handler->display->display_options['fields']['field_ding_staff_forename']['label'] = '';
   $handler->display->display_options['fields']['field_ding_staff_forename']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_ding_staff_forename']['element_label_colon'] = FALSE;
-  /* Felt: Profil: Surname */
+  /* Field: Profile: Surname */
   $handler->display->display_options['fields']['field_ding_staff_surname']['id'] = 'field_ding_staff_surname';
   $handler->display->display_options['fields']['field_ding_staff_surname']['table'] = 'field_data_field_ding_staff_surname';
   $handler->display->display_options['fields']['field_ding_staff_surname']['field'] = 'field_ding_staff_surname';
@@ -226,12 +226,12 @@ function ding_content_views_default_views() {
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['path'] = 'user/[uid]';
   $handler->display->display_options['fields']['field_ding_staff_surname']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_staff_surname']['empty'] = '[name]';
-  /* Felt: Indhold: Udgivet */
+  /* Field: Content: Published */
   $handler->display->display_options['fields']['status']['id'] = 'status';
   $handler->display->display_options['fields']['status']['table'] = 'node';
   $handler->display->display_options['fields']['status']['field'] = 'status';
   $handler->display->display_options['fields']['status']['not'] = 0;
-  /* Felt: Indhold: Opdateringsdato */
+  /* Field: Content: Updated date */
   $handler->display->display_options['fields']['changed']['id'] = 'changed';
   $handler->display->display_options['fields']['changed']['table'] = 'node';
   $handler->display->display_options['fields']['changed']['field'] = 'changed';
@@ -240,11 +240,11 @@ function ding_content_views_default_views() {
   $handler->display->display_options['fields']['changed']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['changed']['date_format'] = 'short';
   $handler->display->display_options['fields']['changed']['second_date_format'] = 'ding_date_only';
-  /* Felt: Indhold: Sprog */
+  /* Field: Content: Language */
   $handler->display->display_options['fields']['language']['id'] = 'language';
   $handler->display->display_options['fields']['language']['table'] = 'node';
   $handler->display->display_options['fields']['language']['field'] = 'language';
-  /* Felt: Indhold: Redigér-link */
+  /* Field: Content: Edit link */
   $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
   $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
@@ -252,7 +252,7 @@ function ding_content_views_default_views() {
   $handler->display->display_options['fields']['edit_node']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['edit_node']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['edit_node']['text'] = 'redigér';
-  /* Sorteringskriterie: Indhold: Opdateringsdato */
+  /* Sort criterion: Content: Updated date */
   $handler->display->display_options['sorts']['changed']['id'] = 'changed';
   $handler->display->display_options['sorts']['changed']['table'] = 'node';
   $handler->display->display_options['sorts']['changed']['field'] = 'changed';
@@ -262,7 +262,7 @@ function ding_content_views_default_views() {
     3 => 'AND',
     2 => 'OR',
   );
-  /* Filterkriterie: Indhold: titel */
+  /* Filter criterion: Content: Title */
   $handler->display->display_options['filters']['title']['id'] = 'title';
   $handler->display->display_options['filters']['title']['table'] = 'node';
   $handler->display->display_options['filters']['title']['field'] = 'title';
@@ -272,7 +272,7 @@ function ding_content_views_default_views() {
   $handler->display->display_options['filters']['title']['expose']['label'] = 'titel';
   $handler->display->display_options['filters']['title']['expose']['identifier'] = 'title';
   $handler->display->display_options['filters']['title']['expose']['remember'] = TRUE;
-  /* Filterkriterie: Indhold: Type */
+  /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
@@ -281,7 +281,7 @@ function ding_content_views_default_views() {
   $handler->display->display_options['filters']['type']['expose']['label'] = 'Type';
   $handler->display->display_options['filters']['type']['expose']['identifier'] = 'type';
   $handler->display->display_options['filters']['type']['expose']['remember'] = TRUE;
-  /* Filterkriterie: Indhold: Udgivet */
+  /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
@@ -291,12 +291,12 @@ function ding_content_views_default_views() {
   $handler->display->display_options['filters']['status']['expose']['operator_id'] = '';
   $handler->display->display_options['filters']['status']['expose']['label'] = 'Udgivet';
   $handler->display->display_options['filters']['status']['expose']['identifier'] = 'published';
-  /* Filterkriterie: Indhold: Udgivet eller administrator */
+  /* Filter criterion: Content: Published or admin */
   $handler->display->display_options['filters']['status_extra']['id'] = 'status_extra';
   $handler->display->display_options['filters']['status_extra']['table'] = 'node';
   $handler->display->display_options['filters']['status_extra']['field'] = 'status_extra';
   $handler->display->display_options['filters']['status_extra']['group'] = 1;
-  /* Filterkriterie: Indhold: titel */
+  /* Filter criterion: Content: Title */
   $handler->display->display_options['filters']['title_1']['id'] = 'title_1';
   $handler->display->display_options['filters']['title_1']['table'] = 'node';
   $handler->display->display_options['filters']['title_1']['field'] = 'title';
@@ -320,13 +320,13 @@ function ding_content_views_default_views() {
     8 => 0,
     9 => 0,
   );
-  /* Filterkriterie: Felt: Library (og_group_ref) */
+  /* Filter criterion: Field: Library (og_group_ref) */
   $handler->display->display_options['filters']['og_group_ref_target_id']['id'] = 'og_group_ref_target_id';
   $handler->display->display_options['filters']['og_group_ref_target_id']['table'] = 'og_membership';
   $handler->display->display_options['filters']['og_group_ref_target_id']['field'] = 'og_group_ref_target_id';
   $handler->display->display_options['filters']['og_group_ref_target_id']['operator'] = 'empty';
   $handler->display->display_options['filters']['og_group_ref_target_id']['group'] = 2;
-  /* Filterkriterie: Indhold: Type */
+  /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type_1']['id'] = 'type_1';
   $handler->display->display_options['filters']['type_1']['table'] = 'node';
   $handler->display->display_options['filters']['type_1']['field'] = 'type';
@@ -335,7 +335,7 @@ function ding_content_views_default_views() {
     'ding_library' => 'ding_library',
   );
   $handler->display->display_options['filters']['type_1']['group'] = 2;
-  /* Filterkriterie: Profil: Forename (field_ding_staff_forename) */
+  /* Filter criterion: Profile: Forename (field_ding_staff_forename) */
   $handler->display->display_options['filters']['field_ding_staff_forename_value']['id'] = 'field_ding_staff_forename_value';
   $handler->display->display_options['filters']['field_ding_staff_forename_value']['table'] = 'field_data_field_ding_staff_forename';
   $handler->display->display_options['filters']['field_ding_staff_forename_value']['field'] = 'field_ding_staff_forename_value';
@@ -367,7 +367,7 @@ function ding_content_views_default_views() {
     2 => array(),
     3 => array(),
   );
-  /* Filterkriterie: Profil: Surname (field_ding_staff_surname) */
+  /* Filter criterion: Profile: Surname (field_ding_staff_surname) */
   $handler->display->display_options['filters']['field_ding_staff_surname_value']['id'] = 'field_ding_staff_surname_value';
   $handler->display->display_options['filters']['field_ding_staff_surname_value']['table'] = 'field_data_field_ding_staff_surname';
   $handler->display->display_options['filters']['field_ding_staff_surname_value']['field'] = 'field_ding_staff_surname_value';
@@ -417,13 +417,13 @@ function ding_content_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '10';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['defaults']['fields'] = FALSE;
-  /* Felt: Indhold: titel */
+  /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
   $handler->display->display_options['fields']['title']['field'] = 'title';
   $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
-  /* Felt: Indhold: Date */
+  /* Field: Content: Date */
   $handler->display->display_options['fields']['field_ding_event_date']['id'] = 'field_ding_event_date';
   $handler->display->display_options['fields']['field_ding_event_date']['table'] = 'field_data_field_ding_event_date';
   $handler->display->display_options['fields']['field_ding_event_date']['field'] = 'field_ding_event_date';
@@ -435,19 +435,19 @@ function ding_content_views_default_views() {
     'multiple_from' => '',
     'multiple_to' => '',
   );
-  /* Felt: Indhold: Type */
+  /* Field: Content: Type */
   $handler->display->display_options['fields']['type']['id'] = 'type';
   $handler->display->display_options['fields']['type']['table'] = 'node';
   $handler->display->display_options['fields']['type']['field'] = 'type';
   $handler->display->display_options['fields']['type']['alter']['word_boundary'] = FALSE;
   $handler->display->display_options['fields']['type']['alter']['ellipsis'] = FALSE;
-  /* Felt: Indhold: titel */
+  /* Field: Content: Title */
   $handler->display->display_options['fields']['title_1']['id'] = 'title_1';
   $handler->display->display_options['fields']['title_1']['table'] = 'node';
   $handler->display->display_options['fields']['title_1']['field'] = 'title';
   $handler->display->display_options['fields']['title_1']['relationship'] = 'og_group_ref_target_id';
   $handler->display->display_options['fields']['title_1']['label'] = 'Bibliotek';
-  /* Felt: Bruger: Navn */
+  /* Field: User: Name */
   $handler->display->display_options['fields']['name']['id'] = 'name';
   $handler->display->display_options['fields']['name']['table'] = 'users';
   $handler->display->display_options['fields']['name']['field'] = 'name';
@@ -456,7 +456,7 @@ function ding_content_views_default_views() {
   $handler->display->display_options['fields']['name']['exclude'] = TRUE;
   $handler->display->display_options['fields']['name']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['name']['hide_alter_empty'] = FALSE;
-  /* Felt: Bruger: Uid */
+  /* Field: User: Uid */
   $handler->display->display_options['fields']['uid']['id'] = 'uid';
   $handler->display->display_options['fields']['uid']['table'] = 'users';
   $handler->display->display_options['fields']['uid']['field'] = 'uid';
@@ -465,7 +465,7 @@ function ding_content_views_default_views() {
   $handler->display->display_options['fields']['uid']['exclude'] = TRUE;
   $handler->display->display_options['fields']['uid']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['uid']['link_to_user'] = FALSE;
-  /* Felt: Profil: Forename */
+  /* Field: Profile: Forename */
   $handler->display->display_options['fields']['field_ding_staff_forename']['id'] = 'field_ding_staff_forename';
   $handler->display->display_options['fields']['field_ding_staff_forename']['table'] = 'field_data_field_ding_staff_forename';
   $handler->display->display_options['fields']['field_ding_staff_forename']['field'] = 'field_ding_staff_forename';
@@ -473,7 +473,7 @@ function ding_content_views_default_views() {
   $handler->display->display_options['fields']['field_ding_staff_forename']['label'] = '';
   $handler->display->display_options['fields']['field_ding_staff_forename']['exclude'] = TRUE;
   $handler->display->display_options['fields']['field_ding_staff_forename']['element_label_colon'] = FALSE;
-  /* Felt: Profil: Surname */
+  /* Field: Profile: Surname */
   $handler->display->display_options['fields']['field_ding_staff_surname']['id'] = 'field_ding_staff_surname';
   $handler->display->display_options['fields']['field_ding_staff_surname']['table'] = 'field_data_field_ding_staff_surname';
   $handler->display->display_options['fields']['field_ding_staff_surname']['field'] = 'field_ding_staff_surname';
@@ -485,7 +485,7 @@ function ding_content_views_default_views() {
   $handler->display->display_options['fields']['field_ding_staff_surname']['alter']['path'] = 'user/[uid]';
   $handler->display->display_options['fields']['field_ding_staff_surname']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ding_staff_surname']['empty'] = '[name]';
-  /* Felt: Indhold: Opdateringsdato */
+  /* Field: Content: Updated date */
   $handler->display->display_options['fields']['changed']['id'] = 'changed';
   $handler->display->display_options['fields']['changed']['table'] = 'node';
   $handler->display->display_options['fields']['changed']['field'] = 'changed';
@@ -494,7 +494,7 @@ function ding_content_views_default_views() {
   $handler->display->display_options['fields']['changed']['alter']['ellipsis'] = FALSE;
   $handler->display->display_options['fields']['changed']['date_format'] = 'time ago';
   $handler->display->display_options['fields']['changed']['second_date_format'] = 'ding_date_only';
-  /* Felt: Indhold: Redigér-link */
+  /* Field: Content: Edit link */
   $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
   $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
@@ -508,7 +508,7 @@ function ding_content_views_default_views() {
     2 => 'OR',
   );
   $handler->display->display_options['defaults']['filters'] = FALSE;
-  /* Filterkriterie: Indhold: Udgivet eller administrator */
+  /* Filter criterion: Content: Published or admin */
   $handler->display->display_options['filters']['status_extra']['id'] = 'status_extra';
   $handler->display->display_options['filters']['status_extra']['table'] = 'node';
   $handler->display->display_options['filters']['status_extra']['field'] = 'status_extra';
@@ -541,25 +541,25 @@ function ding_content_views_default_views() {
     t('næste ›'),
     t('sidste »'),
     t('Der er ikke noget indhold, som du kan redigere.'),
-    t('forfatter'),
+    t('author'),
     t('Bibliotek'),
-    t('Profil'),
-    t('titel'),
+    t('Profile'),
+    t('Title'),
     t('Type'),
     t('Event date'),
     t('Forfatter'),
     t('[field_ding_staff_forename] [field_ding_staff_surname]'),
     t('[name]'),
-    t('Udgivet'),
+    t('Published'),
     t('Senest opdateret'),
-    t('Sprog'),
+    t('Language'),
     t('Handlinger'),
     t('redigér'),
     t('Author: Forename'),
     t('Forename (field_ding_staff_forename)'),
     t('Author: Surname'),
     t('Content list'),
-    t('mere'),
+    t('more'),
     t('Ding!'),
     t('Summary'),
   );
@@ -579,28 +579,15 @@ function ding_content_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['css_class'] = 'view-node-search-result';
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'mere';
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
   $handler->display->display_options['exposed_form']['type'] = 'basic';
-  $handler->display->display_options['exposed_form']['options']['submit_button'] = 'Udfør';
-  $handler->display->display_options['exposed_form']['options']['reset_button_label'] = 'Gendan';
-  $handler->display->display_options['exposed_form']['options']['exposed_sorts_label'] = 'Sortér efter';
-  $handler->display->display_options['exposed_form']['options']['sort_asc_label'] = 'Stigende';
-  $handler->display->display_options['exposed_form']['options']['sort_desc_label'] = 'Faldende';
   $handler->display->display_options['pager']['type'] = 'full';
   $handler->display->display_options['pager']['options']['items_per_page'] = '20';
   $handler->display->display_options['pager']['options']['offset'] = '0';
   $handler->display->display_options['pager']['options']['id'] = '0';
   $handler->display->display_options['pager']['options']['quantity'] = '9';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_label'] = 'Antal elementer';
-  $handler->display->display_options['pager']['options']['expose']['items_per_page_options_all_label'] = '- Alle -';
-  $handler->display->display_options['pager']['options']['expose']['offset_label'] = 'Forskydning';
-  $handler->display->display_options['pager']['options']['tags']['first'] = '« første';
-  $handler->display->display_options['pager']['options']['tags']['previous'] = '‹ forrige';
-  $handler->display->display_options['pager']['options']['tags']['next'] = 'næste ›';
-  $handler->display->display_options['pager']['options']['tags']['last'] = 'sidste »';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['style_options']['grouping'] = array(
     0 => array(
@@ -611,7 +598,7 @@ function ding_content_views_default_views() {
   );
   $handler->display->display_options['style_options']['uses_fields'] = TRUE;
   $handler->display->display_options['row_plugin'] = 'node';
-  /* Felt: Indhold: Type */
+  /* Field: Content: Type */
   $handler->display->display_options['fields']['type']['id'] = 'type';
   $handler->display->display_options['fields']['type']['table'] = 'node';
   $handler->display->display_options['fields']['type']['field'] = 'type';
@@ -619,27 +606,26 @@ function ding_content_views_default_views() {
   $handler->display->display_options['fields']['type']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['type']['alter']['text'] = '%1: [type]';
   $handler->display->display_options['fields']['type']['element_label_colon'] = FALSE;
-  /* Sorteringskriterie: Indhold: Type */
+  /* Sort criterion: Content: Type */
   $handler->display->display_options['sorts']['type']['id'] = 'type';
   $handler->display->display_options['sorts']['type']['table'] = 'node';
   $handler->display->display_options['sorts']['type']['field'] = 'type';
   $handler->display->display_options['sorts']['type']['order'] = 'DESC';
-  /* Sorteringskriterie: Indhold: Oprettelsesdato */
+  /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
   $handler->display->display_options['sorts']['created']['field'] = 'created';
   $handler->display->display_options['sorts']['created']['order'] = 'DESC';
-  /* Kontekstuelt filter: Indhold: Har taksonomiterm ID */
+  /* Contextual filter: Content: Has taxonomy term ID */
   $handler->display->display_options['arguments']['tid']['id'] = 'tid';
   $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
   $handler->display->display_options['arguments']['tid']['field'] = 'tid';
   $handler->display->display_options['arguments']['tid']['default_action'] = 'empty';
-  $handler->display->display_options['arguments']['tid']['exception']['title'] = 'Alle';
   $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'fixed';
   $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['tid']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['tid']['summary_options']['items_per_page'] = '25';
-  /* Filterkriterie: Indhold: Udgivet */
+  /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';
   $handler->display->display_options['filters']['status']['table'] = 'node';
   $handler->display->display_options['filters']['status']['field'] = 'status';
@@ -649,8 +635,8 @@ function ding_content_views_default_views() {
 
   /* Display: Tags */
   $handler = $view->new_display('panel_pane', 'Tags', 'ding_content_tags');
-  $handler->display->display_options['pane_title'] = 'Indhold baseret på tag';
-  $handler->display->display_options['pane_category']['name'] = 'Ord i ordforråd';
+  $handler->display->display_options['pane_title'] = 'Nodes based on tag';
+  $handler->display->display_options['pane_category']['name'] = 'Taxonomy term';
   $handler->display->display_options['pane_category']['weight'] = '0';
   $handler->display->display_options['argument_input'] = array(
     'tid' => array(
@@ -664,24 +650,24 @@ function ding_content_views_default_views() {
   );
   $translatables['tags_list'] = array(
     t('Master'),
-    t('mere'),
-    t('Udfør'),
-    t('Gendan'),
-    t('Sortér efter'),
-    t('Stigende'),
-    t('Faldende'),
-    t('Antal elementer'),
-    t('- Alle -'),
-    t('Forskydning'),
-    t('« første'),
-    t('‹ forrige'),
-    t('næste ›'),
-    t('sidste »'),
+    t('more'),
+    t('Apply'),
+    t('Reset'),
+    t('Sort by'),
+    t('Asc'),
+    t('Desc'),
+    t('Items per page'),
+    t('- All -'),
+    t('Offset'),
+    t('« first'),
+    t('‹ previous'),
+    t('next ›'),
+    t('last »'),
     t('%1: [type]'),
-    t('Alle'),
+    t('All'),
     t('Tags'),
-    t('Indhold baseret på tag'),
-    t('Ord i ordforråd'),
+    t('Nodes based on tag'),
+    t('Taxonomy term'),
   );
   $export['tags_list'] = $view;
 
