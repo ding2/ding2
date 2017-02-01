@@ -71,7 +71,6 @@ $base-font-weight-bold:           600;
   }
 
   // Items
-
   .browsebar-item {
     position: relative;
     float: left;
@@ -146,6 +145,9 @@ $base-font-weight-bold:           600;
       }
 
       // Cover
+      .ting-cover:before {
+        left: 30%;
+      }
 
       .field-type-ting-cover {
         float: left;

@@ -38,6 +38,7 @@
       function show_reservation_button() {
         // Show reservation button.
         var r_button = container.find('.reserve-button');
+        r_button.hide();
         if (r_button.length > 0) {
           var id = r_button.attr('id').match(/reservation-[0-9]+-[\w]+:(\w+)/);
           if (typeof id[1] !== 'undefined' && typeof Drupal.DADB[id[1]] !== 'undefined') {
@@ -97,6 +98,8 @@
           item.find('img').wrap("<div class='image-wrapper'></div>");
           content.append(item);
         }
+
+        show_reservation_button();
 
         // Preload images for current tab.
         for (i = 0; i < tabs[current_tab].length; i++) {
@@ -193,7 +196,6 @@
             show_reservation_button();
           }
         });
-
         // Get item container.
         content = container.find('.browsebar-items-wrapper');
       }
@@ -223,6 +225,20 @@
           starting_item = tabs[current_tab].length + starting_item;
         }
         show_items();
+
+        var ajax_ele = content.find('.use-ajax');
+        ajax_ele.each(function() {
+          var ele = $(this);
+          new Drupal.ajax('#' + ele.attr('id'), ele, {
+            url: ele.attr('href'),
+            effect: 'fade',
+            settings: {},
+            progress: {
+              type: 'throbber'
+            },
+            event: 'click tap'
+          });
+        });
 
         return false;
       }
