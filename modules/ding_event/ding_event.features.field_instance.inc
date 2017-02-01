@@ -83,7 +83,7 @@ function ding_event_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 7,
+      'weight' => 6,
     ),
   );
 
@@ -656,7 +656,8 @@ function ding_event_field_default_field_instances() {
     'bundle' => 'ding_event',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Events show the value ”Free” if text field is set to 0.
+Tip: Indicate different ticket prices for more than one audience group by entering a lowest – highest price in text field fx. “30 - 50”',
     'display' => array(
       'alternative_layout_full' => array(
         'label' => 'above',
@@ -665,22 +666,23 @@ function ding_event_field_default_field_instances() {
         'weight' => 0,
       ),
       'default' => array(
-        'label' => 'inline',
+        'label' => 'above',
+        'module' => 'text',
         'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 6,
+        'type' => 'text_default',
+        'weight' => 11,
       ),
       'search_result' => array(
-        'label' => 'hidden',
+        'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 12,
+        'weight' => 0,
       ),
       'teaser' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 10,
+        'weight' => 0,
       ),
       'teaser_highlight' => array(
         'label' => 'above',
@@ -690,23 +692,21 @@ function ding_event_field_default_field_instances() {
       ),
     ),
     'entity_type' => 'node',
-    'fences_wrapper' => 'div',
     'field_name' => 'field_ding_event_price',
     'label' => 'Price',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
-      'max' => '',
-      'min' => '',
-      'prefix' => '',
-      'suffix' => ' kr.',
+      'text_processing' => 0,
       'user_register_form' => FALSE,
     ),
     'widget' => array(
-      'active' => 0,
-      'module' => 'number',
-      'settings' => array(),
-      'type' => 'number',
-      'weight' => 5,
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 8,
     ),
   );
 
@@ -899,7 +899,7 @@ function ding_event_field_default_field_instances() {
       'module' => 'link',
       'settings' => array(),
       'type' => 'link_field',
-      'weight' => 8,
+      'weight' => 7,
     ),
   );
 
@@ -1144,7 +1144,7 @@ function ding_event_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 6,
+      'weight' => 5,
     ),
   );
 
@@ -1155,6 +1155,8 @@ function ding_event_field_default_field_instances() {
   t('Category');
   t('Date');
   t('Display this event in the selected group (temapage).');
+  t('Events show the value ”Free” if text field is set to 0.
+Tip: Indicate different ticket prices for more than one audience group by entering a lowest – highest price in text field fx. “30 - 50”');
   t('Files');
   t('Groups');
   t('Lead');
