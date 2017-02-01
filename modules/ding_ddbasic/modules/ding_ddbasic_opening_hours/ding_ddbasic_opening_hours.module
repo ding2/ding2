@@ -72,7 +72,7 @@ function ding_ddbasic_opening_hours_theme($existing, $type, $theme, $path) {
       'file' => 'ding_ddbasic_opening_hours.theme.inc',
       'variables' => array(
         'node' => NULL,
-        'categores' => array(),
+        'categories' => array(),
         'timespan' => array(),
       ),
     ),
