@@ -1,5 +1,4 @@
 /*jshint forin:false, jquery:true, browser:true, indent:2, trailing:true, unused:false */
-
 (function (scope, $) {
   'use strict';
 
@@ -48,6 +47,6 @@
     reset: function (identifier) {
       delete _bpi[identifier];
     }
-  }
+  };
 
 })(this, jQuery);

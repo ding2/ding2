@@ -1,4 +1,7 @@
+/*jshint forin:false, jquery:true, browser:true, indent:2, trailing:true, unused:false */
+/*globals ddbasic*/
 (function($) {
+  'use strict';
 
   Drupal.behaviors.account = {
     attach: function(context, settings) {
@@ -29,27 +32,28 @@
       //Renew all handler
       renew_all.on('click', function(event){
         //Select all
-        if(select_all_new.siblings('input').prop('checked') == false) {
+        if(select_all_new.siblings('input').prop('checked') === false) {
           select_all_new.click();
         }
         //Submit form
         $('#ding-loan-loans-form', context).submit();
-      })
+      });
 
       select_all_new.on('click', function(){
         var $this = $(this).siblings('input');
 
-        if($this.prop('checked') == true) { //deselect all
+        // Deselect all.
+        if ($this.prop('checked') === true) {
           all_select_all_checkboxes.each(function(){
             var $this = $(this);
-            if($this.siblings('input').prop('checked') == true) {
+            if($this.siblings('input').prop('checked') === true) {
               $this.click();
             }
           });
           $this.prop('checked', false);
           all_material_items_checkboxes.each(function(){
             var $this = $(this);
-            if($this.siblings('input').prop('checked') == true) {
+            if($this.siblings('input').prop('checked') === true) {
               $this.click();
             }
           });
@@ -58,13 +62,13 @@
         else { //select all
           all_material_items_checkboxes.each(function(){
             var $this = $(this);
-            if($this.siblings('input').prop('checked') == false) {
+            if($this.siblings('input').prop('checked') === false) {
               $this.click();
             }
           });
           all_select_all_checkboxes.each(function(){
             var $this = $(this);
-            if($this.siblings('input').prop('checked') == false) {
+            if($this.siblings('input').prop('checked') === false) {
               $this.click();
             }
           });
@@ -93,7 +97,7 @@
         checkbox = form.find('input[type="checkbox"]');
 
         checkbox.each(function( index ) {
-          if($(this).prop('checked') == false) {
+          if($(this).prop('checked') === false) {
             $(this).prop("checked", true);
           }
         });
@@ -118,10 +122,10 @@
 
     $(window).bind('resize.account_form', function (evt) {
 
-      if(ddbasic.breakpoint.is('mobile', 'mobile_out_account') == ddbasic.breakpoint.OUT) {
+      if(ddbasic.breakpoint.is('mobile', 'mobile_out_account') === ddbasic.breakpoint.OUT) {
         is_mobile = false;
       }
-      if(ddbasic.breakpoint.is('mobile', 'mobile_in_account') == ddbasic.breakpoint.IN) {
+      if(ddbasic.breakpoint.is('mobile', 'mobile_in_account') === ddbasic.breakpoint.IN) {
         is_mobile = true;
       }
 
@@ -132,7 +136,7 @@
         form_width = current.find('.pane-content > form').width();
         title_container_height = current.find('.title-container').height();
         title_container_offset = current.find('.title-container').offset();
-        if (is_mobile == false) {
+        if (is_mobile === false) {
           current.find('.actions-container').css({
             "position": "absolute",
             "top": title_container_height,
@@ -162,7 +166,7 @@
           var scroll = $(window).scrollTop(),
               action_container_position = title_container_offset.top + title_container_height - scroll;
 
-          if (is_mobile == false) {
+          if (is_mobile === false) {
 
             if (action_container_position < header_height) {
               current.find('.actions-container').css({
@@ -177,13 +181,15 @@
               });
             }
 
-            var current_offset = current.find('.actions-container').offset(),
-                current_height = current.find('.actions-container').outerHeight() + 20,
-                footer_offset = $('footer').offset(),
-                footer_position = footer_offset.top - scroll;
+            var
+              current_position = 0,
+              current_offset = current.find('.actions-container').offset(),
+              current_height = current.find('.actions-container').outerHeight() + 20,
+              footer_offset = $('footer').offset(),
+              footer_position = footer_offset.top - scroll;
 
             if(current_offset) {
-              var current_position = current_offset.top + current_height - scroll;
+              current_position = current_offset.top + current_height - scroll;
             }
 
             // If next sibling has action container
@@ -193,8 +199,7 @@
               if(current_offset && next_offset) {
                 var next_position = next_offset.top - scroll,
                     current_top = next_position - current_height;
-                console.log(current_position);
-                console.log(next_position);
+
                 if(current_position >= next_position) {
                   current.find('.actions-container').css({
                     "top": current_top,

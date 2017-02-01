@@ -1,1 +1,0 @@
-!function($){"use strict";$(function(){var e=navigator.userAgent.toLowerCase();/(ipad)/.exec(e)||/(iphone)/.exec(e)||/(android)/.exec(e)||/(windows phone)/.exec(e)?$("body").addClass("has-touch"):$("body").addClass("no-touch")})}(jQuery);

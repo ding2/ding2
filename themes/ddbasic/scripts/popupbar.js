@@ -86,7 +86,7 @@
           self.open();
         }, 16);
       }
-      
+
       $content.data('onclose', onclose);
 
       return $content;
@@ -99,12 +99,11 @@
       var
         $content = this.container().children('.' + POPUPBAR_CLASS_SELECTED),
         onclose = $content.data('onclose');
-      
-      if (typeof onclose === 'function'
-          && onclose() === false) {
+
+      if (typeof onclose === 'function' && onclose() === false) {
         return this;
       }
-      
+
       $('body').removeClass(POPUPBAR_CLASS_OPEN);
 
       return this;

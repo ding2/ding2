@@ -1,4 +1,7 @@
+/*jshint forin:false, jquery:true, browser:true, indent:2, trailing:true, unused:false */
 (function($) {
+  'use strict';
+
   // Profile dropdown
   Drupal.behaviors.profile_dropdown = {
     attach: function(context, settings) {
@@ -6,7 +9,7 @@
           my_account = $('a.topbar-link-user-account', context),
           body = $('body', context),
           second_menu_block = $('.pane-menu-block-main-menu-second-level', context);
-      
+
       //Open/close mobile menu on click
       my_account.on('click', function(event){
         if($('.is-tablet', context).is(':visible')) {
@@ -20,7 +23,7 @@
           }
         }
       });
-      
+
       //Open dropdown when mouse enters my account menu-link
       my_account.on('mouseenter', function(){
         if(!$('.is-tablet', context).is(':visible')) {
@@ -32,10 +35,10 @@
           my_account.addClass('js-active');
         }
       });
-      
+
       //Close dropdown when mouse leaves the dropdown
       dropdown.on('mouseleave', function(){
-        if(!$('.is-tablet', context).is(':visible')) { 
+        if(!$('.is-tablet', context).is(':visible')) {
           dropdown.css({
             'left': 0,
           });
@@ -43,7 +46,7 @@
           my_account.removeClass('js-active');
         }
       });
-      
+
       //Close dropdown when mouse leaves my-account menu-link from the sides
       my_account.on('mouseleave', function(event){
         if(!$('.is-tablet', context).is(':visible')) {
@@ -56,7 +59,7 @@
           }
         }
       });
-      
+
     }
   };
 
