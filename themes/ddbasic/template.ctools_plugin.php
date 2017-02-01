@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Ctools related preprocessors.
+ */
+
+/**
  * Implements hook_ctools_plugin_pre_alter().
  */
 function ddbasic_ctools_plugin_pre_alter(&$plugin, &$info) {
@@ -8,9 +13,11 @@ function ddbasic_ctools_plugin_pre_alter(&$plugin, &$info) {
     case 'ting_search search_result_count':
       $plugin['render callback'] = 'ddbasic_ctools_plugin__ting_search_result_count_content_type_render';
       break;
+
     case 'ding_library contact':
       $plugin['render callback'] = 'ddbasic_ctools_plugin__ding_library_contact_content_type_render';
       break;
+
     case 'ding_library address':
       $plugin['render callback'] = 'ddbasic_ctools_plugin__ding_library_address_content_type_render';
       break;
@@ -18,7 +25,7 @@ function ddbasic_ctools_plugin_pre_alter(&$plugin, &$info) {
 }
 
 /**
- * Render callback for the ting_search search_result_count pane.
+ * Override for ting_search search_result_count pane.
  */
 function ddbasic_ctools_plugin__ting_search_result_count_content_type_render($subtype, $conf, $panel_args, $context) {
   $block = new stdClass();
@@ -32,26 +39,29 @@ function ddbasic_ctools_plugin__ting_search_result_count_content_type_render($su
         '#theme' => 'html_tag',
         '#tag' => 'h1',
         '#attributes' => array('class' => array('page-title')),
-        '#value' => t('Search result')
+        '#value' => t('Search result'),
       ),
       'string' => array(
         '#theme' => 'html_tag',
         '#tag' => 'span',
         '#attributes' => array('class' => array('search-string')),
-        '#value' => '"' . $search_result->search_key . '"'
+        '#value' => '"' . $search_result->search_key . '"',
       ),
       'count' => array(
         '#theme' => 'html_tag',
         '#tag' => 'span',
         '#attributes' => array('class' => array('count')),
-        '#value' => '(' . format_plural($results, '1 Result', '@count Results') . ')'
-      )
+        '#value' => '(' . format_plural($results, '1 Result', '@count Results') . ')',
+      ),
     );
   }
 
   return $block;
 }
 
+/**
+ * Override for ding_library contact pane.
+ */
 function ddbasic_ctools_plugin__ding_library_contact_content_type_render($subtype, $conf, $panel_args, $context = NULL) {
   $block = new stdClass();
   if (empty($context->data)) {
@@ -91,6 +101,9 @@ function ddbasic_ctools_plugin__ding_library_contact_content_type_render($subtyp
   return $block;
 }
 
+/**
+ * Override for ding_library address.
+ */
 function ddbasic_ctools_plugin__ding_library_address_content_type_render($subtype, $conf, $panel_args, $context = NULL) {
   $block = new stdClass();
   if (empty($context->data)) {

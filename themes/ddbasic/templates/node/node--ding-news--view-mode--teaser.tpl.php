@@ -76,7 +76,6 @@
  * ddbasic specific variables:
  * - $ddbasic_updated: Information about latest update on the node created from
  *   $date during ddbasic_preprocess_node().
- * - $ddbasic_byline: outputs byline to be used before $name
  * - $news_full_submitted: Submitted date and time
  * - $news_full_changed: Changed date and time
  * - $news_submitted: Submitted date

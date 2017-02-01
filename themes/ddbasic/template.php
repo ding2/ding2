@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * @file
+ * Preprocessors.
+ */
+
 require_once __DIR__ . '/utils.inc';
 
 require_once __DIR__ . '/template.block.php';
@@ -22,7 +28,7 @@ function ddbasic_preprocess_html(&$vars) {
   // Clean up the lang attributes.
   $vars['html_attributes'] = 'lang="' . $language->language . '" dir="' . $language->dir . '"';
 
-  // Add additional body classes
+  // Add additional body classes.
   $vars['classes_array'] = array_merge($vars['classes_array'], ddbasic_body_class());
 
   if (ding_ddbasic_is_ting_search_extend_form()) {
@@ -41,7 +47,7 @@ function ddbasic_preprocess_html(&$vars) {
     }
   }
 
-  // If dynamic background
+  // If dynamic background.
   $image_conf = dynamic_background_load_image_configuration($vars);
 
   if (!empty($image_conf)) {
@@ -53,11 +59,11 @@ function ddbasic_preprocess_html(&$vars) {
 /**
  * Implements hook_process_html().
  *
- * Process variables for html.tpl.php
+ * Process variables for html.tpl.php.
  */
 function ddbasic_process_html(&$vars) {
   // Classes for body element. Allows advanced theming based on context
-  // (home page, node of certain type, etc.)
+  // (home page, node of certain type, etc.).
   if (!$vars['is_front']) {
     // Add unique class for each page.
     $path = drupal_get_path_alias($_GET['q']);
@@ -101,7 +107,7 @@ function ddbasic_preprocess_panels_pane(&$vars) {
 
   // Suggestions base on sub-type.
   $vars['theme_hook_suggestions'][] = 'panels_pane__' . str_replace('-', '__', $vars['pane']->subtype);
-  $vars['theme_hook_suggestions'][] = 'panels_pane__'  . $vars['pane']->panel . '__' . str_replace('-', '__', $vars['pane']->subtype);
+  $vars['theme_hook_suggestions'][] = 'panels_pane__' . $vars['pane']->panel . '__' . str_replace('-', '__', $vars['pane']->subtype);
 
   if (isset($vars['content'])) {
     if (isset($vars['content']['profile_ding_staff_profile']['#title']) && $vars['content']['profile_ding_staff_profile']['#title'] == 'Staff') {
@@ -133,8 +139,7 @@ function ddbasic_preprocess_panels_pane(&$vars) {
     }
   }
 
-
-  if($vars['pane']->subtype == 'menu_block-main_menu_second_level') {
+  if ($vars['pane']->subtype == 'menu_block-main_menu_second_level') {
     ddbasic_body_class('has-second-level-menu');
   }
 
@@ -195,7 +200,7 @@ function ddbasic_menu_tree__user_menu($vars) {
 /**
  * Implements hook_preprocess_views_view_unformatted().
  *
- * Overwrite views row classes
+ * Overwrite views row classes.
  */
 function ddbasic_preprocess_views_view(&$vars) {
   switch ($vars['name']) {
@@ -204,57 +209,61 @@ function ddbasic_preprocess_views_view(&$vars) {
         case 'ding_event_library_list':
         case 'ding_event_groups_list':
         case 'ding_event_list_same_tag':
-          // Add max-two-rows class
+          // Add max-two-rows class.
           $vars['classes_array'][] = 'max-two-rows';
           $vars['classes_array'][] = 'not-frontpage-view';
 
-        break;
+          break;
+
         case 'ding_event_list_frontpage':
-          // Add max-two-rows class
+          // Add max-two-rows class.
           $vars['classes_array'][] = 'max-two-rows';
           $vars['classes_array'][] = 'frontpage-view';
 
-          // Add event count setting as js variable
+          // Add event count setting as js variable.
           $count = variable_get('ding_frontpage_events_count', 6);
           drupal_add_js(array('number_of_events' => $count), 'setting');
 
-        break;
+          break;
       }
-    break;
+      break;
+
     case 'ding_news':
-       switch ($vars['view']->current_display) {
+      switch ($vars['view']->current_display) {
         case 'ding_news_groups_list':
         case 'ding_news_list_same_tag':
-          // Add slide-on-mobile class
+          // Add slide-on-mobile class.
           $vars['classes_array'][] = 'slide-on-mobile';
-        break;
+          break;
+
         case 'ding_news_frontpage_list':
-          // Add slide-on-mobile class
+          // Add slide-on-mobile class.
           $vars['classes_array'][] = 'slide-on-mobile';
-          // Add first-child-large class
+          // Add first-child-large class.
           $vars['classes_array'][] = 'first-child-large';
-        break;
+          break;
       }
-    break;
+      break;
+
     case 'ding_groups':
-       switch ($vars['view']->current_display) {
+      switch ($vars['view']->current_display) {
         case 'panel_pane_frontpage':
-          // Add slide-on-mobile class
+          // Add slide-on-mobile class.
           $vars['classes_array'][] = 'slide-on-mobile';
-        break;
+          break;
       }
-    break;
+      break;
   }
 }
 
 /**
  * Implements hook_preprocess_views_view_unformatted().
  *
- * Overwrite views row classes
+ * Overwrite views row classes.
  */
 function ddbasic_preprocess_views_view_unformatted(&$vars) {
-  // Add type class to tags_list view
-  if($vars['view']->name == 'tags_list') {
+  // Add type class to tags_list view.
+  if ($vars['view']->name == 'tags_list') {
     $nodes = array_values($vars['view']->style_plugin->row_plugin->nodes);
     reset($vars['rows']);
     $first_key = key($vars['rows']);
@@ -472,7 +481,7 @@ function ddbasic_menu_link__menu_tabs_menu($vars) {
       break;
   }
 
-   // For some unknown issue translation fails.
+  // For some unknown issue translation fails.
   $element['#title'] = t($element['#title']);
 
   $output = l($title_prefix . '<span>' . $element['#title'] . '</span>', $element['#href'], $element['#localized_options']);
@@ -657,7 +666,7 @@ function ddbasic_item_list($variables) {
  * Implements hook_process_page().
  */
 function ddbasic_process_page(&$vars) {
-  // Hook into color.module
+  // Hook into color.module.
   if (module_exists('color')) {
     _color_page_alter($vars);
   }
@@ -694,7 +703,7 @@ function ddbasic_preprocess_ting_object(&$vars) {
 
       switch ($vars['elements']['#view_mode']) {
 
-        // Teaser
+        // Teaser.
         case 'teaser':
           $vars['content']['group_text']['read_more_button'] = array(
             array(
@@ -766,19 +775,19 @@ function ddbasic_preprocess_ting_object(&$vars) {
 
           }
 
-          // Check if overlay is disabled and set class
-          if (ddbasic_theme_setting('ting_object_disable_overlay', false) == TRUE) {
+          // Check if overlay is disabled and set class.
+          if (ddbasic_theme_setting('ting_object_disable_overlay', FALSE) == TRUE) {
             $vars['classes_array'][] = 'no-overlay';
           }
 
-          // Check if teaser has rating function and remove abstract
+          // Check if teaser has rating function and remove abstract.
           if (!empty($vars['content']['group_text']['group_rating']['ding_entity_rating_action'])) {
             unset($vars['content']['group_text']['ting_abstract']);
           }
 
           break;
 
-        // Ting reference preview
+        // Ting reference preview.
         case 'ting_reference_preview':
           $vars['content']['buttons'] = array(
             '#prefix' => '<div class="buttons">',
@@ -868,7 +877,8 @@ function ddbasic_preprocess_ting_object(&$vars) {
       && in_array($vars['elements']['#view_mode'], array('search_result', 'collection_list'))) {
     if (isset($vars['content']['group_ting_right_col_search'])) {
       $right_col = 'group_ting_right_col_search';
-    } else {
+    }
+    else {
       $right_col = 'group_ting_right_col_collection';
     }
     $vars['content'][$right_col]['availability'] = field_view_field(
@@ -877,7 +887,7 @@ function ddbasic_preprocess_ting_object(&$vars) {
       'ting_collection_types',
       array(
         'type' => 'ding_availability_with_labels',
-        //'label' => 'hidden',
+        // 'label' => 'hidden',.
         'weight' => 9999,
       )
     );
@@ -983,7 +993,7 @@ function ddbasic_preprocess_ting_object(&$vars) {
  */
 function ddbasic_preprocess_material_item(&$variables) {
 
-  //Add label for styling to checkbox
+  // Add label for styling to checkbox.
   $element = $variables['element'];
 
   $element[$element['#id']]['#title'] = ".";
@@ -991,41 +1001,38 @@ function ddbasic_preprocess_material_item(&$variables) {
   // Render the checkbox.
   $variables['checkbox'] = drupal_render($element[$element['#id']]);
 
-  // Get url to ting object
+  // Get url to ting object.
   $variables['ting_object_url_object'] = $variables['element']['#information']['ting_object_url_object']['url'];
 
   $variables['information']['expiry']['#weight'] = 1;
-
-  //$variables['information']['ting_object_url_object']['#visibility'] = 'hidden';
 
   unset($variables['information']['ting_object_url_object']);
 }
 
 /**
- * Preprocess function form element
+ * Preprocess function form element.
  */
-
 function ddbasic_preprocess_form_element(&$variables) {
-  //remove label to profile date field
-  if($variables['element']['#id'] == 'edit-profile-provider-alma-field-alma-reservation-pause-und-0-value2') {
+  // Remove label to profile date field.
+  if ($variables['element']['#id'] == 'edit-profile-provider-alma-field-alma-reservation-pause-und-0-value2') {
     $variables['element']['#title'] = '';
   }
-  //Change label for date picker
-  if($variables['element']['#id'] == 'edit-profile-provider-alma-field-alma-reservation-pause-und-0-value2-datepicker-popup-0') {
+  // Change label for date picker.
+  if ($variables['element']['#id'] == 'edit-profile-provider-alma-field-alma-reservation-pause-und-0-value2-datepicker-popup-0') {
     $variables['element']['#title'] = 'Til dato:';
   }
-  //Change label for date picker
-  if($variables['element']['#id'] == 'edit-profile-provider-alma-field-alma-reservation-pause-und-0-value-datepicker-popup-0') {
+  // Change label for date picker.
+  if ($variables['element']['#id'] == 'edit-profile-provider-alma-field-alma-reservation-pause-und-0-value-datepicker-popup-0') {
     $variables['element']['#title'] = 'Fra dato:';
   }
 
 }
 
 /**
- * Implements hook_preprocess_ting_search_carousel
+ * Preprocess ting_searchj_carousel.
  */
 function ddbasic_preprocess_ting_search_carousel(&$variables) {
-  // Add ajax to make reserve links work
+  // Add ajax to make reserve links work.
   drupal_add_library('system', 'drupal.ajax');
 
   // The search carousel doesn't use the standard Drupal ajax API so it doesn't
@@ -1041,7 +1048,7 @@ function ddbasic_preprocess_ting_search_carousel_collection(&$variables) {
 }
 
 /**
- * Override theme_date_display_range()
+ * Override theme_date_display_range().
  */
 function ddbasic_date_display_range($variables) {
   $date1 = $variables['date1'];

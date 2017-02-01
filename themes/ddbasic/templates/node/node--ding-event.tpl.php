@@ -80,7 +80,6 @@
  * - $ddbasic_event_location: String containing adress info for either
  *   field_address or group_audience,
  *   as relevant for the event node
- * - $ddbasic_byline: outputs byline to be used before $name
  * - $event_date: Event date or period
  * - $event_time: Event time or time-span
  * - $event_price: Event price with 'kr.' suffix - if no price is set $event_price equals 'Free'

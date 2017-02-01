@@ -1,4 +1,5 @@
 (function($) {
+  'use strict';
 
   Drupal.behaviors.ding_carousel = {
     attach: function(context, settings) {

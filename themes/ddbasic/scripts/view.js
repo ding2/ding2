@@ -1,4 +1,5 @@
 (function($) {
+  'use strict';
 
   //
   // Group teasers and remove extra teasers in event max-two-rows views when other teasers has image
@@ -61,7 +62,7 @@
 
         case ddbasic.breakpoint.OUT:
 
-          if  (masonry_is_active == true) {
+          if  (masonry_is_active === true) {
             $('.view-ding-event.max-two-rows .view-elements').masonry('destroy');
           }
 
@@ -269,52 +270,6 @@
     }
   };
 
-  // Set flex order on rows in event max-two-rows views
-  $(function () {
-    $(window).bind('resize.ding_event_flex_order', function (evt) {
-
-      var is_tablet = ddbasic.breakpoint.is('tablet', 'flex-order');
-
-      if (is_tablet !== ddbasic.breakpoint.NOP) {
-        //$('.view-ding-event.max-two-rows .view-elements .view-elements-inner .group-row').each(function() {
-        //  var rows = $(this).children('.views-row'),
-        //    row_total = 0,
-        //    row_order = 0,
-        //    has_image;
-        //
-        //  if(rows.length < 4) {
-        //    $(this).addClass('no-flex');
-        //  }
-        //  else {
-        //    $(this).addClass('flex');
-        //    rows.each(function( index ) {
-        //      if ($(this).children('.node-teaser').hasClass('has-image')) {
-        //        row_total = row_total + 2;
-        //        has_image = true;
-        //      } else {
-        //        row_total = row_total + 1;
-        //        has_image = false;
-        //      }
-        //
-        //      // If odd and has image
-        //      if (row_total % (is_tablet == ddbasic.breakpoint.IN ? 3 : 2) == 1 && has_image == true) {
-        //        row_order = row_order - 1;
-        //      }
-        //      else {
-        //        row_order = row_order + 1;
-        //      }
-        //
-        //      // Set css order on rows
-        //      $(this).attr('style',  'order:' + row_order);
-        //
-        //    });
-        //  }
-        //});
-      }
-
-    }).triggerHandler('resize.ding_event_flex_order');
-  });
-
   $(function () {
     // Set and destroy slick slider on views
     var event_view_rows = $(".view-ding-event.max-two-rows .view-elements-inner .views-row");
@@ -367,6 +322,6 @@
       $('.ctools-auto-submit-full-form .form-type-date-popup input:text', context).filter(':not(.ctools-auto-submit-exclude)').unbind('keydown keyup');
 
     }
-  }
+  };
 
 })(jQuery);

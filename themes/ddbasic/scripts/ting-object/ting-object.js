@@ -1,4 +1,5 @@
 (function($) {
+  'use strict';
 
   // Ting search results, filter styling
   Drupal.behaviors.ding_ting_search_filters = {
@@ -122,6 +123,6 @@
       });
 
     }
-  }
+  };
 
 })(jQuery);

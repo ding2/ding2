@@ -1,13 +1,18 @@
 <?php
 
 /**
+ * @file
+ * Field related preprocessors.
+ */
+
+/**
  * Implements template_preprocess_field().
  */
 function ddbasic_preprocess_field(&$vars, $hook) {
 
-  // Remove titles from ting_entities
-  if($vars['element']['#field_name'] === 'ting_entities') {
-    foreach($vars['items'][0] as &$item) {
+  // Remove titles from ting_entities.
+  if ($vars['element']['#field_name'] === 'ting_entities') {
+    foreach ($vars['items'][0] as &$item) {
       unset($item['#prefix']);
     }
   }
@@ -58,27 +63,12 @@ function ddbasic_preprocess_field(&$vars, $hook) {
   if ($view_mode == 'search_result') {
     // Add suggestion that only hits the search result page.
     $vars['theme_hook_suggestions'][] = 'field__' . $vars['element']['#field_type'] . '__' . $view_mode;
-
-    // @B14 Outcommented by B14
-    //
-    //switch ($vars['element']['#field_name']) {
-    //  case 'ting_author':
-    //  case 'ting_abstract':
-    //  case 'ting_subjects':
-    //    $vars['classes_array'] = array('content');
-    //    break;
-    //
-    //  case 'ting_title':
-    //    $vars['classes_array'] = array('heading');
-    //    break;
-    //}
   }
-
 
   // Make suggestion for the availability on the search result page.
   if ($vars['element']['#field_type'] == 'ting_collection_types' &&
       $vars['element']['#formatter'] == 'ding_availability_with_labels') {
-      $vars['theme_hook_suggestions'][] = 'field__' . $vars['element']['#field_type'] . '__' . 'search_result';
+    $vars['theme_hook_suggestions'][] = 'field__' . $vars['element']['#field_type'] . '__' . 'search_result';
   }
 
   // Add class to library OG ref on staff profiles only.
@@ -110,7 +100,7 @@ function ddbasic_preprocess_field(&$vars, $hook) {
 }
 
 /**
- * Ting abstract
+ * Ting abstract.
  */
 function ddbasic_preprocess__field__ting_abstract(&$vars) {
   switch ($vars['element']['#view_mode']) {
@@ -118,10 +108,12 @@ function ddbasic_preprocess__field__ting_abstract(&$vars) {
       $text = $vars['items'][0]['#markup'];
       $vars['items'][0]['#markup'] = mb_strimwidth($text, 0, 120, "...");
       break;
+
     case 'teaser':
       $text = $vars['items'][0]['#markup'];
       $vars['items'][0]['#markup'] = mb_strimwidth($text, 0, 120, "...");
       break;
+
     case 'ting_reference_preview':
       $text = $vars['items'][0]['#markup'];
       $vars['items'][0]['#markup'] = mb_strimwidth($text, 0, 120, "...");
@@ -130,13 +122,13 @@ function ddbasic_preprocess__field__ting_abstract(&$vars) {
 }
 
 /**
- * Ting author
+ * Ting author.
  */
 function ddbasic_preprocess__field__ting_author(&$vars) {
 
   // In view mode teaser
   // We overwrite the markup so the creator is no longer a link,
-  // using the same method as in ting module
+  // using the same method as in ting module.
   if ($vars['element']['#view_mode'] == 'teaser') {
 
     $creators = array();
@@ -151,7 +143,7 @@ function ddbasic_preprocess__field__ting_author(&$vars) {
         $markup_string = t('By !author_link (@year)', array(
           '!author_link' => implode(', ', $creators),
           '@year' => $vars['element']['#object']->date,
-          ));
+        ));
       }
       else {
         $markup_string = t('By !author_link', array(
@@ -170,28 +162,28 @@ function ddbasic_preprocess__field__ting_author(&$vars) {
 }
 
 /**
- * Ding library list image
+ * Ding library list image.
  */
 function ddbasic_preprocess__field__field_ding_library_title_image(&$vars) {
   if ($vars['element']['#view_mode'] == 'teaser') {
-    // Set image styling class
+    // Set image styling class.
     $vars['classes_array'][] = 'image-styling-16-9';
   }
 }
 
 /**
- * Ding news list image
+ * Ding news list image.
  */
 function ddbasic_preprocess__field__field_ding_news_list_image(&$vars) {
-  // Set image styling class
+  // Set image styling class.
   $vars['classes_array'][] = 'image-styling-16-9';
 }
 
 /**
- * Ding news attachments
+ * Ding news attachments.
  */
 function ddbasic_preprocess__field__field_ding_news_files(&$vars) {
-  // Add filetype to output
+  // Add filetype to output.
   foreach ($vars['items'] as $delta => $item) {
     $uri = $item['#file']->uri;
     $file_type = pathinfo($uri, PATHINFO_EXTENSION);

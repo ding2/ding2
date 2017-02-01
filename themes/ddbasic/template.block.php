@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * @file
+ * Block related preprocessors.
+ */
+
 /**
  * Implements hook_block_view_alter().
  */
@@ -22,11 +28,13 @@ function ddbasic_block_view_alter(&$data, $block) {
             '#theme' => 'item_list',
             '#items' => $items,
           );
-        } else {
+        }
+        else {
           $data = FALSE;
         }
       }
       break;
+
     case 'ding_user_frontend__ding-user-loan-number':
       if (empty($data['content'])) {
         $data['content'] = t('You do not currently have any loans, reservations or debts.');
