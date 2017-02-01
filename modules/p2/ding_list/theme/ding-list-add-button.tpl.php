@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Ding List Add Button template.

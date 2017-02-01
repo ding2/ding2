@@ -493,7 +493,7 @@
     @include media($mobile) {
       .views-row {
         &:nth-child(n) { // Overwrite previous set nth children for all children
-          width: 100% ;
+          width: 100%;
           margin: 0 0 20px;
           clear: none;
         }

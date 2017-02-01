@@ -5,7 +5,7 @@
  * Ting search carousel collection template.
  *
  * Available variables:
- * - $content: Carousel content
+ * - $content: Carousel content.
  */
 ?>
 <li class="rs-carousel-item">

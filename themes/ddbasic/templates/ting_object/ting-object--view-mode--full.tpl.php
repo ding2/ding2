@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Template to render objects from the Ting database.

@@ -24,7 +24,7 @@
     &:last-child {
       margin-right: 10px;
     }
-    &:before {
+    &::before {
       content: "\e918";
       position: absolute;
       left: 0;
@@ -41,30 +41,30 @@
     }
     &.active,
     &.submitted {
-      &:before {
+      &::before {
         color: $color-primary;
       }
     }
     // On ting teaser
     .ting-object.view-mode-teaser & {
-      &:before {
+      &::before {
         color: $color-standard-text;
       }
       &.active,
       &.submitted {
-        &:before {
+        &::before {
           color: $color-primary;
         }
       }
     }
     // On ting search result
     .ting-object.view-mode-search-result & {
-      &:before {
+      &::before {
         color: $grey-medium;
       }
       &.active,
       &.submitted {
-        &:before {
+        &::before {
           color: $color-primary;
         }
       }

@@ -89,7 +89,7 @@
   <h1 class="page-title"><?php print $title; ?></h1>
 
   <?php
-    // Hide fields
+    // Hide fields.
     hide($content['comments']);
     hide($content['links']);
   ?>

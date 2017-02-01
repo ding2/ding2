@@ -1,7 +1,8 @@
 <?php
+
 /**
  * @file
- * Ding sharer
+ * Ding sharer.
  */
 
 /**
@@ -38,7 +39,7 @@ function ding_sharer_html_head_alter(&$head_elements) {
  */
 function ding_sharer_image_default_styles() {
   $styles = array();
-  
+
   $styles['ding_sharer'] = array(
     'name' => 'ding_sharer',
     'effects' => array(

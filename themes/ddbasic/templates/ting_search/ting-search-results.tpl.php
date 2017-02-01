@@ -18,7 +18,6 @@
  *   as "node" or "user".
  * - $pager: Pager for result-list
  *
- *
  * @see template_preprocess_search_results()
  */
 ?>

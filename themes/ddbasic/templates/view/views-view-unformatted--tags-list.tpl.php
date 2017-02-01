@@ -4,8 +4,8 @@
  * @file
  * Default simple view template to display a list of rows.
  *
- * ddbasic specific variables:
- * - $type_class: Content type class
+ * Ddbasic specific variables:
+ * - $type_class: Content type class.
  *
  * @ingroup views_templates
  */
@@ -16,12 +16,13 @@
       <div class="separator-title">
         <?php print $title; ?>
       </div>
-  <?php endif; ?>
+<?php endif; ?>
       <div class="view-elements">
         <div class="view-elements-inner">
           <?php foreach ($rows as $id => $row):?>
 
-            <div<?php if ($classes_array[$id]) { print ' class="' . $classes_array[$id] .'"';  } ?>>
+            <div<?php if ($classes_array[$id]) {print ' class="' . $classes_array[$id] . '"';
+           } ?>>
               <?php print $row; ?>
             </div>
           <?php endforeach; ?>
@@ -32,4 +33,4 @@
     </div>
   <?php if (!empty($title)): ?>
   </div>
-<?php endif; ?>
+  <?php endif; ?>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * ding_list_installer.views_default.inc

@@ -6,10 +6,10 @@
  */
 (function ($) {
   "use strict";
-  
+
   Drupal.behaviors.ding_sharer = {
     attach: function(context) {
-    
+
       $('a.sharer-button', context).bind('click', function (evt) {
         evt.preventDefault();
         var
@@ -17,9 +17,9 @@
           title = encodeURIComponent(document.title),
           options = {},
           window_name = 'socials',
-          
+
           url = '';
-          
+
         if ($(this).hasClass('sharer-facebook')) {
           url = 'http://www.facebook.com/sharer/sharer.php?' +
               'u=' + share_url +
@@ -34,7 +34,7 @@
           options.width = 720;
           options.height = 460;
         }
-        
+
         var window_features = [];
         for (var i in options) {
           window_features.push(i + '=' + options[i]);
@@ -44,5 +44,5 @@
       });
     }
   };
-  
+
 }(jQuery));

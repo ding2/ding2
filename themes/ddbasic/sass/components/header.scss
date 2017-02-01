@@ -491,7 +491,7 @@
     .search-form-extended.page-search.toolbar &,
     .search-form-extended.front.toolbar &,
     .search-form-extended.page-search.admin-menu-with-shortcuts &,
-    .search-form-extended.front.admin-menu-with-shortcuts &  {
+    .search-form-extended.front.admin-menu-with-shortcuts & {
       top: $topbar-height + $search-form-extended-height + $toolbar-height;
     }
     // Extended search open

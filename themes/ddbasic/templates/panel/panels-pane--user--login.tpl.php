@@ -1,7 +1,8 @@
 <?php
+
 /**
  * @file
- * Main panel pane template
+ * Main panel pane template.
  *
  * Variables available:
  * - $pane->type: the content type inside this pane
@@ -26,6 +27,3 @@
     <?php print render($content); ?>
   </div>
 </section>
-
-
-
