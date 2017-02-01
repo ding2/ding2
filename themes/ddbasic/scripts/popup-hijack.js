@@ -1,4 +1,5 @@
-/*jshint forin:false, jquery:true, browser:true, indent:2, trailing:true, unused:false */
+/*jshint forin:false, jquery:true, browser:true, indent:2, trailing:true, unused:false, -W084 */
+/*globals ddbasic*/
 
 (function (scope, $) {
   'use strict';
@@ -6,19 +7,19 @@
   var
     states = {},
     refresh = false;
-    
+
     window.sss = states;
 
   Drupal.ajax.prototype.commands.ding_popup = function (ajax, response, status) {
     var onclose;
-    
+
     if (response.refresh === true || (refresh === true && response.name !== 'ding_user')) {
       onclose = function () {
         location.reload(true);
         return false;
       };
     }
-    
+
     if (states[response.name] === undefined) {
       states[response.name] = [];
     }
@@ -40,9 +41,9 @@
       }
 
       // Add in extra post vars.
-      $.extend(state['orig_ajax'].options.data, state['extra_data']);
+      $.extend(state.orig_ajax.options.data, state.extra_data);
       // Call original ajax callback.
-      state['orig_ajax'].eventResponse(state['orig_ajax'], null);      
+      state.orig_ajax.eventResponse(state.orig_ajax, null);
     }
 
     ddbasic.popupbar.close();

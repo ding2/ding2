@@ -1,3 +1,5 @@
+/*jshint forin:false, jquery:true, browser:true, indent:2, trailing:true, unused:false */
+/*globals ddbasic*/
 (function($) {
   'use strict';
 
@@ -8,7 +10,7 @@
     var masonry_is_active = false;
 
     $(window).bind('resize.ding_event_grouping', function (evt) {
-      if(ddbasic.breakpoint.is('mobile', 'mobile_out_reset') == ddbasic.breakpoint.OUT) {
+      if(ddbasic.breakpoint.is('mobile', 'mobile_out_reset') === ddbasic.breakpoint.OUT) {
 
         ddbasic.breakpoint.reset('event_grouping');
 
@@ -16,7 +18,7 @@
       switch (ddbasic.breakpoint.is('tablet', 'event_grouping')) {
         case ddbasic.breakpoint.IN:
 
-          if(ddbasic.breakpoint.is('mobile') == ddbasic.breakpoint.OUT) {
+          if(ddbasic.breakpoint.is('mobile') === ddbasic.breakpoint.OUT) {
             $('.view-ding-event.max-two-rows .group-row .views-row').unwrap();
 
             var row_count = $('.view-ding-event.max-two-rows .views-row').length,
@@ -80,7 +82,7 @@
           // Frontpge view has special setting because row_count is a variable set in theme-settings
           $('.view-ding-event.max-two-rows.frontpage-view .views-row').each(function( index ) {
             // First element
-            if (teaser_number == 0) {
+            if (teaser_number === 0) {
               $(view_inner).append(first_group_element);
               current_group = $('.first-group-row');
             }
@@ -95,7 +97,7 @@
 
             if (row_count > 6) {
               // Start second group row
-              if (teaser_number > 6 && second_group_row == false) {
+              if (teaser_number > 6 && second_group_row === false) {
                 $(view_inner).append(second_group_element);
                 current_group = $('.second-group-row');
 
@@ -114,7 +116,7 @@
             }
             if (row_count > 12) {
               // Start third group row
-              if (teaser_number > 12 && third_group_row == false) {
+              if (teaser_number > 12 && third_group_row === false) {
                 $(view_inner).append(third_group_element);
                 current_group = $('.third-group-row');
 
@@ -156,7 +158,7 @@
           // Not frontpage views
           $('.view-ding-event.max-two-rows.not-frontpage-view .views-row').each(function( index ) {
             // First element
-            if (teaser_number == 0) {
+            if (teaser_number === 0) {
               $(view_inner).append(first_group_element);
               current_group = $('.first-group-row');
             }
@@ -201,7 +203,7 @@
                 }
 
                 // If odd and has image
-                if (row_total % 2 == 1 && has_image == true) {
+                if (row_total % 2 === 1 && has_image === true) {
                   row_order = row_order - 1;
                 }
                 else {
@@ -219,12 +221,10 @@
 
       switch (ddbasic.breakpoint.is('mobile', 'event_grouping_mobile')) {
         case ddbasic.breakpoint.IN:
-
-          if  (masonry_is_active == true) {
+          if  (masonry_is_active === true) {
             $('.view-ding-event.max-two-rows .view-elements').masonry('destroy');
           }
-
-        break;
+          break;
       }
     });
   });
@@ -244,7 +244,7 @@
     $(window).bind('resize.ding_event_masonry', function (evt) {
       switch (ddbasic.breakpoint.is('mobile', 'event_masonry')) {
         case ddbasic.breakpoint.IN:
-          if (masonry_is_active == true) {
+          if (masonry_is_active === true) {
             $('.view-ding-event .group-separator .view-elements, .view-tags-list .group-separator.ding-event .view-elements').masonry('destroy');
           }
           break;

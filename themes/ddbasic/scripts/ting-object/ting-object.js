@@ -1,3 +1,5 @@
+/*jshint forin:false, jquery:true, browser:true, indent:2, trailing:true, unused:false */
+/*globals ddbasic*/
 (function($) {
   'use strict';
 

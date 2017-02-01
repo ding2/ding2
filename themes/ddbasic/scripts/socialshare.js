@@ -1,6 +1,7 @@
 /*jshint forin:false, jquery:true, browser:true, indent:2, trailing:true, unused:false */
-
 (function (scope, $) {
+  'use strict';
+
   // Share code for social buttons
   Drupal.behaviors.social_share = {
     attach: function(context, settings) {
@@ -13,12 +14,12 @@
           options = {},
           window_name = 'socials';
 
-          url = 'https://twitter.com/share?'
-              + 'url=' + encodeURIComponent(url)
-              + '&amp;text=' + encodeURIComponent(document.title);
+          url = 'https://twitter.com/share?' +
+            'url=' + encodeURIComponent(url) +
+            '&amp;text=' + encodeURIComponent(document.title);
 
-          options['width'] = 720;
-          options['height'] = 460;
+          options.width = 720;
+          options.height = 460;
 
         var window_features = [];
         for (var i in options) {
@@ -26,7 +27,7 @@
         }
 
         window.open(url, window_name, window_features.join(','));
-        
+
       });
 
       $('a.fb-share', context).click(function (evt) {
@@ -39,12 +40,12 @@
           window_name = 'socials';
 
 
-            url = 'http://www.facebook.com/sharer/sharer.php?u='
-                + encodeURIComponent(url)
-                + '&amp;t=' + encodeURIComponent(document.title);
+            url = 'http://www.facebook.com/sharer/sharer.php?u=' +
+                encodeURIComponent(url) +
+                '&amp;t=' + encodeURIComponent(document.title);
 
-            options['width'] = 720;
-            options['height'] = 460;
+            options.width = 720;
+            options.height = 460;
 
         var window_features = [];
         for (var i in options) {
@@ -52,9 +53,9 @@
         }
 
         window.open(url, window_name, window_features.join(','));
-        
+
       });
-      
+
       $('a.mail-share', context).click(function (evt) {
         evt.preventDefault();
 
@@ -63,7 +64,7 @@
           url = location.href,
           window_name = 'socials',
           subject = "";
-          
+
           url = encodeURIComponent(url);
           subject = encodeURIComponent(document.title);
 
