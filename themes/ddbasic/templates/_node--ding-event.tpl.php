@@ -84,7 +84,6 @@
  * - $ddbasic_event_location: String containing adress info for either
  *   field_address or group_audience,
  *   as relevant for the event node
- * - $ddbasic_byline: outputs byline to be used before $name
  *
  * @see template_preprocess()
  * @see template_preprocess_node()

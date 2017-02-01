@@ -78,7 +78,6 @@
  *  from $date during ddbasic_preprocess_node().
  * - $ddbasic_ding_content_tags: Tags, as a comma-separated list of
  *  links with leading text "Tags: " as relevant for the event node
- * - $ddbasic_byline: outputs byline to be used before $name
  *
  * @see template_preprocess()
  * @see template_preprocess_node()
@@ -94,6 +93,6 @@
     hide($content['comments']);
     hide($content['links']);
   ?>
-  
+
   <?php print render($content); ?>
 </article>

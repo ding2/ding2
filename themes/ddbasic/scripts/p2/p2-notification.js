@@ -1,4 +1,5 @@
 (function($) {
+  'use strict';
 
   // Notification count
   Drupal.behaviors.ding_p2_notifications = {
@@ -8,7 +9,7 @@
 
       if(notification_count.length) {
         notification_count.each(function( index ) {
-          count = count + parseInt($(this).text(), 10);;
+          count = count + parseInt($(this).text(), 10);
         });
 
         if($('.topbar-link-user-account .topbar-link-user-account')) {

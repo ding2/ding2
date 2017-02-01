@@ -1,4 +1,5 @@
 (function($) {
+  'use strict';
 
   $(function () {
     // Set height for event teasers

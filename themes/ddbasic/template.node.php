@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Node related preprocessors.
+ */
+
+/**
  * Implements hook_preprocess_node().
  *
  * Override or insert variables into the node templates.
@@ -28,9 +33,6 @@ function ddbasic_preprocess_node(&$variables, $hook) {
       $variables['opening_hours'] = theme('ding_ddbasic_opening_hours_week', array('node' => $variables['node']));
     }
   }
-
-  // Add ddbasic_byline to variables.
-  $variables['ddbasic_byline'] = t('By: ');
 
   // Add event node specific ddbasic variables.
   if (isset($variables['content']['#bundle']) && $variables['content']['#bundle'] == 'ding_event') {
@@ -77,8 +79,8 @@ function ddbasic_preprocess_node(&$variables, $hook) {
       $format = '',
       $timezone = NULL,
       $langcode = NULL
-    ))
-  );
+    ),
+  ));
 
   // Modified submitted variable.
   if ($variables['display_submitted']) {
@@ -89,13 +91,13 @@ function ddbasic_preprocess_node(&$variables, $hook) {
         $format = '',
         $timezone = NULL,
         $langcode = NULL
-      ))
-    );
+      ),
+    ));
   }
 }
 
 /**
- * Ding news
+ * Ding news.
  */
 function ddbasic_preprocess__node__ding_news(&$variables) {
 
@@ -106,7 +108,7 @@ function ddbasic_preprocess__node__ding_news(&$variables) {
     case 'full':
       array_push($variables['classes_array'], 'node-full');
 
-      //Make social-share button
+      // Make social-share button.
       $share = '
         <div class="social-share-container">
           <div class="inner">
@@ -132,11 +134,12 @@ function ddbasic_preprocess__node__ding_news(&$variables) {
       );
       $variables['content']['group_right']['share_button'] = $share_button;
 
-    break;
+      break;
+
     case 'alternative_layout_full':
       array_push($variables['classes_array'], 'node-full', 'alternative-layout-full');
 
-      //Make social-share button
+      // Make social-share button.
       $share = '
         <div class="social-share-container">
           <div class="inner">
@@ -162,54 +165,59 @@ function ddbasic_preprocess__node__ding_news(&$variables) {
       );
       $variables['content']['group_left']['share_button'] = $share_button;
 
-    break;
+      break;
+
     case 'teaser':
       if (!empty($variables['field_ding_news_list_image'][0]['uri'])) {
-        // Get image url to use as background image
+        // Get image url to use as background image.
         $uri = $variables['field_ding_news_list_image'][0]['uri'];
 
         $image_title = $variables['field_ding_news_list_image'][0]['title'];
 
-        // If in view with large first teaser and first in view
+        // If in view with large first teaser and first in view.
         $current_view = $variables['view']->current_display;
         $views_with_large_first = array('ding_news_frontpage_list', 'ding_news_list');
-        if(in_array($current_view, $views_with_large_first) && $variables['view']->result[0]->nid == $variables['nid']) {
+        if (in_array($current_view, $views_with_large_first) && $variables['view']->result[0]->nid == $variables['nid']) {
           $img_url = image_style_url('ding_panorama_list_large_wide', $uri);
-        } else {
+        }
+        else {
           $img_url = image_style_url('ding_panorama_list_large', $uri);
         }
         if (!empty($image_title)) {
           $variables['news_teaser_image'] = '<div class="ding-news-list-image image-styling-16-9" style="background-image:url(' . $img_url . ')" title="' . $image_title . '"></div>';
-        } else {
+        }
+        else {
           $variables['news_teaser_image'] = '<div class="ding-news-list-image image-styling-16-9" style="background-image:url(' . $img_url . ')"></div>';
         }
-      } else {
+      }
+      else {
         $variables['news_teaser_image'] = '<div class="ding-news-list-image image-styling-16-9"></div>';
       }
-    break;
+      break;
   }
 }
 
 /**
- * Ding event
+ * Ding event.
  */
 function ddbasic_preprocess__node__ding_event(&$variables) {
   $date = field_get_items('node', $variables['node'], 'field_ding_event_date');
 
   $price = field_get_items('node', $variables['node'], 'field_ding_event_price');
-  if(!empty($price)) {
+  if (!empty($price)) {
     $variables['event_price'] = $price[0]['value'] . ' kr.';
-  } else {
+  }
+  else {
     $variables['event_price'] = t('Free');
   }
 
   switch ($variables['view_mode']) {
     case 'teaser':
-      // Add class if image
+      // Add class if image.
       if (!empty($variables['field_ding_event_list_image'])) {
         $variables['classes_array'][] = 'has-image';
       }
-      // Create image url
+      // Create image url.
       $uri = empty($variables['field_ding_event_list_image'][0]['uri']) ?
         "" : $variables['field_ding_event_list_image'][0]['uri'];
 
@@ -220,7 +228,7 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
       $variables['image_title'] = empty($variables['field_ding_event_list_image'][0]['title']) ?
         "" : 'title="' . $variables['field_ding_event_list_image'][0]['title'] . '"';
 
-      // Date
+      // Date.
       if (!empty($date)) {
         $start_date = strtotime($date[0]['value']);
         $end_date = strtotime($date[0]['value2']);
@@ -235,11 +243,11 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
           ),
         );
 
-        // If start and end date days are equal
+        // If start and end date days are equal.
         if (date('Ymd', $start_date) !== date('Ymd', $end_date)) {
           $variables['event_date'] .= ' - ' . format_date($end_date, 'ding_date_only_version2');
         }
-        // If start and end date days and time are not equal
+        // If start and end date days and time are not equal.
         if ($start_date !== $end_date) {
           $event_time_view_settings['settings']['fromto'] = 'both';
         }
@@ -248,25 +256,26 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
         $variables['event_time'] = $event_time_ra[0]['#markup'];
       }
 
-    break;
+      break;
+
     case 'full':
-     if (!empty($date)) {
-      array_push($variables['classes_array'], 'node-full');
+      if (!empty($date)) {
+        array_push($variables['classes_array'], 'node-full');
 
-      // Add event time to variables. A render array is created based on the date
-      // format "time_only".
-      $event_time_ra = field_view_field('node', $variables['node'], 'field_ding_event_date', array(
-        'label' => 'hidden',
-        'type' => 'date_default',
-        'settings' => array(
-          'format_type' => 'ding_time_only',
-          'fromto' => 'both',
-        ),
-      ));
-      $variables['event_time'] = $event_time_ra[0]['#markup'];
+        // Add event time to variables. A render array is created based on the
+        // date format "time_only".
+        $event_time_ra = field_view_field('node', $variables['node'], 'field_ding_event_date', array(
+          'label' => 'hidden',
+          'type' => 'date_default',
+          'settings' => array(
+            'format_type' => 'ding_time_only',
+            'fromto' => 'both',
+          ),
+        ));
+        $variables['event_time'] = $event_time_ra[0]['#markup'];
 
-      //Make social-share button
-      $share = '
+        // Make social-share button.
+        $share = '
         <div class="social-share-container">
           <div class="inner">
             <div class="label">' . t('Share this event') . '</div>
@@ -278,37 +287,42 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
           </div>
         </div>
       ';
-      $variables['share_button'] = $share;
+        $variables['share_button'] = $share;
 
-       //Make book/participate in event button
-       $price = $variables['field_ding_event_price']['und'][0]['value'];
-       $participate = t('Participate in the event');
-       $book = t('Book a ticket');
+        // Make book/participate in event button.
+        $price = $variables['field_ding_event_price']['und'][0]['value'];
+        $participate = t('Participate in the event');
+        $book = t('Book a ticket');
 
-       if ($price == null || $price == "0") {
-         $text = $participate;
-       } else {
-         $text = $book;
-       }
+        if ($price == NULL || $price == "0") {
+          $text = $participate;
+        }
+        else {
+          $text = $book;
+        }
 
-       $link_url = $variables['field_ding_event_ticket_link'][0]['url'];
+        $link_url = $variables['field_ding_event_ticket_link'][0]['url'];
 
-       if (!empty($link_url)) {
-         $variables['book_button'] = l($text, $link_url, array('attributes' => array('class' => array('ticket', 'button'), 'target'=>'_blank')));
-       }
+        if (!empty($link_url)) {
+          $variables['book_button'] = l($text, $link_url, array(
+            'attributes' => array(
+              'class' => array('ticket', 'button'),
+              'target' => '_blank',
+            ),
+          ));
+        }
 
-
-    }
-    break;
+      }
+      break;
   }
 }
 
 /**
- * Ding Library
+ * Ding Library.
  */
 function ddbasic_preprocess__node__ding_library(&$variables) {
 
-  // Google maps addition to library list
+  // Google maps addition to library list.
   $address = $variables['content']['group_ding_library_right_column']['field_ding_library_addresse'][0]['#address'];
 
   $street = $address['thoroughfare'];
@@ -317,7 +331,7 @@ function ddbasic_preprocess__node__ding_library(&$variables) {
   $city = $address['locality'];
   $country = $address['country'];
   $url = "http://www.google.com/maps/place/" . $street . "+" . $postal . "+" . $city . "+" . $country;
-  $link = l("Vis på kort", $url, array('attributes' => array('class' => 'maps-link', 'target' => '_blank')));
+  $link = l(t("Show on map"), $url, array('attributes' => array('class' => 'maps-link', 'target' => '_blank')));
 
   $variables['content']['group_ding_library_right_column']['maps_link']['#markup'] = $link;
   $variables['content']['group_ding_library_right_column']['maps_link']['#weight'] = 10;
@@ -325,7 +339,7 @@ function ddbasic_preprocess__node__ding_library(&$variables) {
 }
 
 /**
- * Ding Group
+ * Ding Group.
  */
 function ddbasic_preprocess__node__ding_group(&$variables) {
   switch ($variables['view_mode']) {
@@ -334,21 +348,22 @@ function ddbasic_preprocess__node__ding_group(&$variables) {
       if (!empty($img_uri)) {
         $variables['background_image'] = image_style_url('ding_panorama_list_large_desaturate', $img_uri);
       }
-    break;
+      break;
+
     case 'full':
       array_push($variables['classes_array'], 'node-full');
-    break;
+      break;
   }
 }
 
 /**
- * Ding E-resource
+ * Ding E-resource.
  */
 function ddbasic_preprocess__node__ding_eresource(&$variables) {
   switch ($variables['view_mode']) {
     case 'teaser':
       $variables['link_url'] = $variables['field_ding_eresource_link'][0]['url'];
-    break;
+      break;
 
   }
 }

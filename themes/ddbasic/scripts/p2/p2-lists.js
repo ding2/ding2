@@ -1,4 +1,5 @@
 (function($) {
+  'use strict';
 
   // P2 Ding list
   Drupal.behaviors.ding_p2_list = {

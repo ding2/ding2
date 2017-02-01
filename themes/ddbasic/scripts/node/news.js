@@ -1,4 +1,6 @@
 (function($) {
+  'use strict';
+
   /**
    * Hover first item in view ding news with class "first-child-large"
    */
