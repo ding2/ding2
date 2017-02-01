@@ -1,4 +1,6 @@
+/*jshint forin:false, jquery:true, browser:true, indent:2, trailing:true, unused:false */
 (function($) {
+  'use strict';
 
   /**
    * Toggle opening hours

@@ -1,6 +1,8 @@
-//MISC - genereal events, that doesnt belong to own file
+/*jshint forin:false, jquery:true, browser:true, indent:2, trailing:true, unused:false */
+/*globals ddbasic*/
 
 (function($) {
+  'use strict';
 
   Drupal.behaviors.misc = {
     attach: function(context, settings) {
@@ -29,8 +31,7 @@
           $('html, body').animate({
             scrollTop: pane_opening_hours.offset().top - 164}, 400);
         }
-      })
-
+      });
 
       //
       //Make sure facet browser is open when item is selected
@@ -59,8 +60,7 @@
 
       close_messages_button.on('click', function(){
         pane_messages.slideUp('fast');
-      })
-
+      });
     }
   };
 
