@@ -60,7 +60,6 @@ function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
   }
 
   usort($instances, 'ding_ddbasic_opening_hours_sort');
-
   // Add true NULL to the categories.
   if (in_array('_null', $variables['categories'])) {
     $variables['categories'][NULL] = NULL;
