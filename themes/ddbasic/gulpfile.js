@@ -18,7 +18,7 @@ var gdeb = require('gulp-debug');
 
 // We only want to process our own non-processed JavaScript files.
 // var jsPath = './scripts/ddbasic.!(*.min).js';
-var jsPath = ['./scripts/**/*.js', '!./scripts/contrib/*'];
+var jsPath = ['./scripts/**/*.js', '!./scripts/contrib/*', '!./scripts/min/**/*.js'];
 var sassPath = ['./sass/**/*.scss', '!./sass/contrib/**'];
 
 gulp.task('jshint', 'Run Javascript through JSHint',

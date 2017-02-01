@@ -25,4 +25,4 @@
  */
 ?>
 
-<?php print $profile_items; ?>
+<?php print $profile_items;
