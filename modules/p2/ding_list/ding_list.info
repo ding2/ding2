@@ -3,7 +3,6 @@ description = Base and API for personal lists
 package = Ding!
 core = 7.x
 php = 5.3
-files[] = ding_list.module
 
 dependencies[] = ding_user_consent
 dependencies[] = ding_base

@@ -1,7 +1,8 @@
 <?php
+
 /**
  * @file
- * Theme and preprocess files
+ * Theme and preprocess files.
  */
 
 /**
@@ -129,7 +130,7 @@ function theme_ding_list_followers($variables) {
 }
 
 /**
- * Ding list info theme
+ * Ding list info theme.
  */
 function theme_ding_list_info($variables) {
   $out = '';

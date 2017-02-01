@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Removed all field wrappers.
@@ -39,4 +40,3 @@
  */
 ?>
 <?php print render($items[0]); ?>
- 

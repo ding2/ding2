@@ -2,7 +2,6 @@
 
 /**
  * @file
- *
  * Admin forms.
  */
 
@@ -22,7 +21,7 @@ function ding_interaction_admin_overview($form, &$form_state) {
   );
 
   $form['ding_interaction_callbacks']['#process'][] = 'ding_interaction_process_options';
-  $info = ding_interaction_available_content(TRUE); 
+  $info = ding_interaction_available_content(TRUE);
   foreach ($info as $key => $value) {
     $form['ding_interaction_callbacks']['#options'][$key] = array(
       'title' => $value['title'],
@@ -54,8 +53,8 @@ function ding_interaction_admin_overview($form, &$form_state) {
     '#options' => range(1, 20),
     '#default_value' => variable_get('ding_interaction_page_count', 5),
     '#required' => TRUE,
-  );  
-  
+  );
+
   return system_settings_form($form);
 }
 
@@ -88,8 +87,8 @@ function ding_interaction_process_options($element) {
           $title = '';
           if (!empty($element['#options'][$key]['title']['data']['#title'])) {
             $title = t('Update @title', array(
-                '@title' => $element['#options'][$key]['title']['data']['#title'],
-              ));
+              '@title' => $element['#options'][$key]['title']['data']['#title'],
+            ));
           }
           $element[$key] = array(
             '#type' => 'checkbox',

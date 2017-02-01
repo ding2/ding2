@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * DDBasic's theme implementation to display eresource nodes.
@@ -79,19 +80,19 @@
 ?>
 <article class="<?php print $classes; ?> node-full"<?php print $attributes; ?>>
   <div class="inner">
-  	<div class="left">
-  		<?php print render($content['group_left']); ?>
-  	</div>
-  	<div class="right">
-  		<h1><?php print $title; ?></h1>
-  		<?php print render($content['group_right']['field_ding_eresource_category']); ?>
-  		<div class="section meta">
-  			<?php print render($content['group_right']['field_ding_eresource_access']); ?>
-  		</div>
-  		<?php print render($content['group_right']); ?>
-  	</div>
-  	<div class="buttons">
-    	<?php print l(t('E-resources'), 'e-materialer'); ?>
-  	</div>
+      <div class="left">
+          <?php print render($content['group_left']); ?>
+      </div>
+      <div class="right">
+          <h1><?php print $title; ?></h1>
+          <?php print render($content['group_right']['field_ding_eresource_category']); ?>
+          <div class="section meta">
+              <?php print render($content['group_right']['field_ding_eresource_access']); ?>
+          </div>
+          <?php print render($content['group_right']); ?>
+      </div>
+      <div class="buttons">
+        <?php print l(t('E-resources'), 'e-materialer'); ?>
+      </div>
   </div>
 </article>

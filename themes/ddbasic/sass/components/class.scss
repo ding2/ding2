@@ -593,8 +593,8 @@ ul.tabs.primary {
 
     // Mobile
     @include media($mobile) {
-      padding: 30px 80px 20px;
       @include transform(translate(-122px, -105px));
+      padding: 30px 80px 20px;
     }
   }
   .icon-spinner {

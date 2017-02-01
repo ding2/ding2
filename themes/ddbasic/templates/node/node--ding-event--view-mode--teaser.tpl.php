@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * DDBasic's theme implementation to display event nodes.

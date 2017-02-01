@@ -7,7 +7,7 @@
  * Variables available:
  * - $title: The view title
  * - $rows: Array of view rows
- * - $classes_array: Array of classes for the rows
+ * - $classes_array: Array of classes for the rows.
  *
  * @ingroup views_templates
  */
@@ -21,7 +21,8 @@
   <div class="view-elements">
     <div class="view-elements-inner">
       <?php foreach ($rows as $id => $row): ?>
-        <div<?php if ($classes_array[$id]) { print ' class="' . $classes_array[$id] .'"';  } ?>>
+        <div<?php if ($classes_array[$id]) {print ' class="' . $classes_array[$id] . '"';
+       } ?>>
           <?php print $row; ?>
         </div>
       <?php endforeach; ?>

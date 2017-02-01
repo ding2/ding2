@@ -75,7 +75,7 @@
         float: right;
         color: $white;
         cursor: pointer;
-        &:after {
+        &::after {
           right: -20px;
         }
       }

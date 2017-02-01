@@ -1,7 +1,8 @@
 <?php
+
 /**
  * @file
- * Material item template
+ * Material item template.
  *
  * Variables available:
  * - $zebra: odd/even class
@@ -9,8 +10,7 @@
  * - $ting_object_url_object: Url to Ting object
  * - $cover: Cover-image for material
  * - $information: Array of informations
- * - $material_message: Material message
- *
+ * - $material_message: Material message.
  */
 ?>
 <div class="material-item <?php print $zebra; ?>">
@@ -21,7 +21,8 @@
     </a>
   </div>
   <div class="right-column">
-    <h3 id="<?php print $availability_id; ?>" class="item-title<?php if (isset($material_message)) : ?> has-message <?php endif; ?>"><?php print $title; ?></h3>
+    <h3 id="<?php print $availability_id; ?>" class="item-title<?php if (isset($material_message)) : ?> has-message <?php
+   endif; ?>"><?php print $title; ?></h3>
     <ul class="item-information-list">
       <?php foreach ($information as $info) : ?>
         <li class="item-information <?php isset($info['class']) ? print $info['class'] : print ''; ?>">

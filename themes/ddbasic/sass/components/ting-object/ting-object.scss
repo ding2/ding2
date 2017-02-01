@@ -59,7 +59,7 @@
         .group_inner {
           position: relative;
           background: linear-gradient($charcoal 0%, $charcoal-opacity-extra-dark 100%);
-          &:after {
+          &::after {
             @include transition(opacity $speed $ease);
             content: '';
             position: absolute;
@@ -69,6 +69,7 @@
             height: 30px;
             background-image: url(../../../images/ting-object-gradient.png);
             opacity: 1;
+
             @include hidpi() {
               background-image: url(../../../images/ting-object-gradient@x2.png);
               background-size: auto 100%;
@@ -159,7 +160,7 @@
             background: $charcoal;
             box-shadow: $box-shadow;
             .group_inner {
-              &:after {
+              &::after {
                 @include transition(
                   opacity $speed-fast $hover-delay $ease
                 );
@@ -390,6 +391,7 @@
         }
       }
     }
+
     @include media($mobile) {
       .ting-object-right {
         @include span-columns(6 of 8);

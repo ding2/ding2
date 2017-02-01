@@ -839,7 +839,6 @@ The link is active for 7 days from today, after which it will be disabled for se
   }
 }
 
-
 /**
  * Implements hook_ding_interaction_info().
  */
@@ -852,6 +851,7 @@ function ding_list_ding_interaction_info() {
     'active' => $active,
   );
 }
+
 /**
  * Implements hook_ding_interaction_view().
  */
@@ -866,6 +866,9 @@ function ding_list_ding_interaction_view() {
   return '';
 }
 
+/**
+ * Theme function for ding_list_promote_lists.
+ */
 function theme_ding_list_promote_lists() {
   return "<div class='description'>" .
     t("Did you know you can create your own lists and add objects to them?") .

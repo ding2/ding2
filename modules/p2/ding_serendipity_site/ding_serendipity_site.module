@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Ding Serendipity plugin.
@@ -37,7 +38,7 @@ function ding_serendipity_site_serendipity_info() {
 /**
  * Implements hook_PLUGIN_NAME_serendipity_add().
  *
- * Fetch objects via field_materials
+ * Fetch objects via field_materials.
  */
 function ding_serendipity_site_field_related_material_serendipity_add($context) {
   $results = array();
@@ -60,7 +61,7 @@ function ding_serendipity_site_field_related_material_serendipity_add($context) 
       foreach ($relations as $relation) {
         $etids[] = $relation->endpoints['und'][1]['entity_id'];
       }
-      
+
       // Load ting_objects related to the entity id's.
       $ting_objects = entity_load('ting_object', $etids);
       $count = 0;
@@ -78,14 +79,14 @@ function ding_serendipity_site_field_related_material_serendipity_add($context) 
       }
     }
   }
-  
+
   return $results;
 }
 
 /**
  * Implements hook_PLUGIN_NAME_serendipity_add().
  *
- * Adds nodes via field_related_content
+ * Adds nodes via field_related_content.
  */
 function ding_serendipity_site_field_related_content_serendipity_add($context) {
   $results = array();

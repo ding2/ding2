@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Admin related functionality.
@@ -79,7 +80,7 @@ function ting_openlist_settings_form($form, &$form_state) {
     '#description' => t('Send the developer cookie to the service.'),
     '#default_value' => variable_get('ting_openlist_developer', FALSE),
   );
-  
+
   $form['debugging']['ting_openlist_no_wsdl_cache'] = array(
     '#type' => 'checkbox',
     '#title' => t('Disable WSDL caching'),

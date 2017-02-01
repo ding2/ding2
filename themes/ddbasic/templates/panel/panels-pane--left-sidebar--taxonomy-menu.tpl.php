@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Panel pane for display of taxonomy menus.
@@ -15,7 +16,7 @@
  * - $feeds: Any feed icons or associated with the content
  * - $display: The complete panels display object containing all kinds of
  *   data including the contexts and all of the other panes being displayed.
- * 
+ *
  * Changed: Add menu classes.
  */
 ?>

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * This module provides serendipity functions based on user lists and loans
+ * This module provides serendipity functions based on user lists and loans.
  */
 
 /**
@@ -31,7 +31,7 @@ function ding_entity_rating_serendipity_info() {
  */
 function ding_entity_rating_materials_by_rating_serendipity_add(array $context) {
   global $user;
-  // TODO why do we return an empty array is we are not on the frontpage? @MSD
+  // TODO why do we return an empty array is we are not on the frontpage? @MSD.
   if (!$context['frontpage'] || !ding_user_is_provider_user($user)) {
     return array();
   }
@@ -43,7 +43,7 @@ function ding_entity_rating_materials_by_rating_serendipity_add(array $context) 
   }
   else {
     // Get entity from context.
-    // TODO what if rated_entity is not defined within the context? @MSD
+    // TODO what if rated_entity is not defined within the context? @MSD.
     $ting_object = ding_entity_load($context['rated_entity'], 'ting_object');
   }
 
@@ -75,7 +75,7 @@ function ding_entity_rating_materials_by_rating_serendipity_add(array $context) 
 
     foreach ($results as & $item) {
       $item['info'] = array(
-        // TODO is it intentional that Query is uppercase? @MSD
+        // TODO is it intentional that Query is uppercase? @MSD.
         'Query' => $query,
         'description' => t(
           'Because you liked !item',

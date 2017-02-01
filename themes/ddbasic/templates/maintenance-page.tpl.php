@@ -66,7 +66,8 @@
             <div class="empty-sidebars panel-content-wrapper">
               <div class="primary-content">
                 <div class="grid-inner">
-                  <?php if (!empty($messages)): print $messages; endif; ?>
+                  <?php if (!empty($messages)): print $messages;
+                  endif; ?>
                   <article>
                     <header class="page-header">
                       <h1 class="page-title"><?php print $title; ?></h1>

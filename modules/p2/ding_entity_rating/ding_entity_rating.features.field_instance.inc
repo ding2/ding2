@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * ding_entity_rating.features.field_instance.inc
@@ -10,7 +11,7 @@
 function ding_entity_rating_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'ting_object-ting_object-ding_entity_rating_action'
+  // Exported field_instance: 'ting_object-ting_object-ding_entity_rating_action'.
   $field_instances['ting_object-ting_object-ding_entity_rating_action'] = array(
     'bundle' => 'ting_object',
     'default_value' => NULL,
@@ -86,7 +87,7 @@ function ding_entity_rating_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ting_object-ting_object-ding_entity_rating_result'
+  // Exported field_instance: 'ting_object-ting_object-ding_entity_rating_result'.
   $field_instances['ting_object-ting_object-ding_entity_rating_result'] = array(
     'bundle' => 'ting_object',
     'default_value' => NULL,
