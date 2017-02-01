@@ -163,12 +163,14 @@ function ddbasic_panels_default_style_render_region($vars) {
 function ddbasic_menu_tree__menu_block__1($vars) {
   return '<ul class="main-menu">' . $vars['tree'] . '</ul>';
 }
+
 /**
  * Implements theme_menu_tree().
  */
 function ddbasic_menu_tree__menu_block__main_menu_second_level($vars) {
   return '<ul class="main-menu-second-level">' . $vars['tree'] . '</ul>';
 }
+
 /**
  * Implements theme_menu_tree().
  */
@@ -272,7 +274,7 @@ function ddbasic_preprocess_views_view_unformatted(&$vars) {
   }
   // Class names for overwriting.
   $row_first = "first";
-  $row_last  = "last";
+  $row_last = "last";
 
   $view = $vars['view'];
   $rows = $vars['rows'];
@@ -335,14 +337,12 @@ function ddbasic_link($variables) {
   return '<a href="' . check_plain(url($variables['path'], $variables['options'])) . '"' . drupal_attributes($variables['options']['attributes']) . '>' . ($variables['options']['html'] ? $variables['text'] : check_plain($variables['text'])) . '</a>';
 }
 
-
 /**
  * Implements template_preprocess_user_profile().
  */
 function ddbasic_preprocess_user_profile(&$variables) {
   $variables['user_profile']['summary']['member_for']['#access'] = FALSE;
 }
-
 
 /**
  * Implements template_preprocess_entity().
@@ -355,7 +355,6 @@ function ddbasic_preprocess_entity(&$variables, $hook) {
     $function($variables, $hook);
   }
 }
-
 
 /**
  * Profile2 specific implementation of template_preprocess_entity().
@@ -401,7 +400,6 @@ function ddbasic_menu_link($vars) {
 
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $link . $sub_menu . "</li>\n";
 }
-
 
 /**
  * Implements theme_menu_link().
@@ -1039,6 +1037,7 @@ function ddbasic_preprocess_ting_search_carousel(&$variables) {
   // automatically include the ting-covers.js.
   drupal_add_js(drupal_get_path('module', 'ting_covers') . '/js/ting-covers.js');
 }
+
 /**
  * Implements hook_preprocess_ting_search_carousel_collection().
  */

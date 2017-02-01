@@ -24,7 +24,7 @@ tr.draggable {
       height: 20px;
       margin: 0;
       padding: 0;
-      &:before {
+      &::before {
         content: "\e917";
         position: absolute;
         right: 0;
@@ -51,8 +51,8 @@ tr.draggable {
     display: none;
   }
   .views-field-rendered-entity {
-    width: getColumn(7 of 8);
     @include omega();
+    width: getColumn(7 of 8);
     .ting-object.view-mode-ting-reference-preview,
     .ding-message-link,
     > .entity-ding-type > .content > a,
@@ -95,7 +95,7 @@ tr.draggable {
       a {
         display: block;
         float: left;
-        &:before {
+        &::before {
           content: 'Nyt';
           display: block;
           margin-top: 10px;
@@ -118,7 +118,7 @@ tr.draggable {
 // ==========================================================================
 // View public lists
 // ==========================================================================
-.view-public-lists.view-id-public_lists{
+.view-public-lists.view-id-public_lists {
   .ding-type-ding-list {
     > h2 {
       @include font('header-large');

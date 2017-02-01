@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * ding_interaction_manual.features.inc

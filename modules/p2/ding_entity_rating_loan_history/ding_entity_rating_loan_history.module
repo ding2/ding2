@@ -24,9 +24,9 @@ function ding_entity_rating_loan_history_ding_interaction_info() {
       );
     }
   }
-  
+
   $translatables = ding_entity_rating_loan_history_translatables();
-  
+
   return array(
     'title' => $translatables['title'],
     'translatables' => $translatables,

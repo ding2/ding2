@@ -88,17 +88,17 @@
 <article class="<?php print $classes; ?>"<?php print $attributes; ?>>
   <div class="inner">
     <div class="right">
-  		<h1><?php print $title; ?></h1>
-  		<?php print render($content['group_right']); ?>
-  	</div>
-  	<div class="left">
-    	<?php print render($content['group_left']['field_ding_news_title_image']); ?>
-    	<div class="section meta">
-  			<div class="author"><?php print t("By"); ?> <?php print $name; ?></div>
-  			<div class="created"><?php print $news_full_submitted ?> (<?php print t('Updated')?> <?php print $news_full_changed ?>)</div>
-  		</div>
-  		<?php print render($content['group_left']); ?>
-  	</div>
+          <h1><?php print $title; ?></h1>
+          <?php print render($content['group_right']); ?>
+      </div>
+      <div class="left">
+        <?php print render($content['group_left']['field_ding_news_title_image']); ?>
+        <div class="section meta">
+              <div class="author"><?php print t("By"); ?> <?php print $name; ?></div>
+              <div class="created"><?php print $news_full_submitted ?> (<?php print t('Updated')?> <?php print $news_full_changed ?>)</div>
+          </div>
+          <?php print render($content['group_left']); ?>
+      </div>
     <?php print render($content); ?>
   </div>
 </article>

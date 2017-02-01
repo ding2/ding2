@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * ding_interaction_manual.features.field_base.inc
@@ -10,7 +11,7 @@
 function ding_interaction_manual_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_ding_interaction_body'
+  // Exported field_base: 'field_ding_interaction_body'.
   $field_bases['field_ding_interaction_body'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -39,7 +40,7 @@ function ding_interaction_manual_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_ding_interaction_links'
+  // Exported field_base: 'field_ding_interaction_links'.
   $field_bases['field_ding_interaction_links'] = array(
     'active' => 1,
     'cardinality' => -1,
@@ -70,7 +71,7 @@ function ding_interaction_manual_field_default_field_bases() {
     'type' => 'link_field',
   );
 
-  // Exported field_base: 'field_ding_interaction_status'
+  // Exported field_base: 'field_ding_interaction_status'.
   $field_bases['field_ding_interaction_status'] = array(
     'active' => 1,
     'cardinality' => 1,

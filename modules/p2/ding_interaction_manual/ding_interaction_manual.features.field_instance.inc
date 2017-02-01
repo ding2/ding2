@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * ding_interaction_manual.features.field_instance.inc
@@ -10,7 +11,7 @@
 function ding_interaction_manual_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'ding_type-ding_interaction-field_ding_interaction_body'
+  // Exported field_instance: 'ding_type-ding_interaction-field_ding_interaction_body'.
   $field_instances['ding_type-ding_interaction-field_ding_interaction_body'] = array(
     'bundle' => 'ding_interaction',
     'default_value' => NULL,
@@ -57,7 +58,7 @@ function ding_interaction_manual_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ding_type-ding_interaction-field_ding_interaction_links'
+  // Exported field_instance: 'ding_type-ding_interaction-field_ding_interaction_links'.
   $field_instances['ding_type-ding_interaction-field_ding_interaction_links'] = array(
     'bundle' => 'ding_interaction',
     'default_value' => NULL,
@@ -118,7 +119,7 @@ function ding_interaction_manual_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ding_type-ding_interaction-field_ding_interaction_status'
+  // Exported field_instance: 'ding_type-ding_interaction-field_ding_interaction_status'.
   $field_instances['ding_type-ding_interaction-field_ding_interaction_status'] = array(
     'bundle' => 'ding_interaction',
     'default_value' => array(

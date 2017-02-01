@@ -1,7 +1,8 @@
 <?php
+
 /**
  * @file
- * Main panel pane template
+ * Main panel pane template.
  *
  * Variables available:
  * - $pane->type: the content type inside this pane
@@ -18,7 +19,6 @@
  *
  * Changed: Add t() function to pane title.
  */
-
 ?>
 
 <?php if ($pane_prefix): ?>

@@ -33,10 +33,10 @@
     <?php print render($content['group_left']); ?>
   </div>
   <div class="right">
-		<h1>
-  		<?php print render($content['group_right']['field_ding_staff_forename']); ?>
-  		<?php print render($content['group_right']['field_ding_staff_surname']); ?>
-		</h1>
-		<?php print render($content['group_right']); ?>
-	</div>
+        <h1>
+          <?php print render($content['group_right']['field_ding_staff_forename']); ?>
+          <?php print render($content['group_right']['field_ding_staff_surname']); ?>
+        </h1>
+        <?php print render($content['group_right']); ?>
+    </div>
 </div>

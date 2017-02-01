@@ -1,7 +1,8 @@
 <?php
+
 /**
  * @file
- * Main panel pane template
+ * Main panel pane template.
  *
  * Variables available:
  * - $pane->type: the content type inside this pane
@@ -15,7 +16,7 @@
  * - $feeds: Any feed icons or associated with the content
  * - $display: The complete panels display object containing all kinds of
  *   data including the contexts and all of the other panes being displayed.
- * 
+ *
  * Clean out the divs and matched the design.
  */
 ?>

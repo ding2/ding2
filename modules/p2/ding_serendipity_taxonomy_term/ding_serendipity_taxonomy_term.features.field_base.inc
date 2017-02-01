@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * ding_serendipity_taxonomy_term.features.field_base.inc
@@ -10,7 +11,7 @@
 function ding_serendipity_taxonomy_term_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_taxonomy_ting_objects'
+  // Exported field_base: 'field_taxonomy_ting_objects'.
   $field_bases['field_taxonomy_ting_objects'] = array(
     'active' => 1,
     'cardinality' => -1,

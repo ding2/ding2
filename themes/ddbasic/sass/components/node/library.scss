@@ -136,11 +136,11 @@
       float: right;
       .field-item {
         display: inline-block;
-        &:after {
+        &::after {
           content: ',';
         }
         &:last-child {
-          &:after {
+          &::after {
             content: none;
           }
         }
