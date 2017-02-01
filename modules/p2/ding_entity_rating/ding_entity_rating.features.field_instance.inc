@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * ding_entity_rating.features.field_instance.inc
@@ -10,7 +11,7 @@
 function ding_entity_rating_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'ting_object-ting_object-ding_entity_rating_action'
+  // Exported field_instance: 'ting_object-ting_object-ding_entity_rating_action'.
   $field_instances['ting_object-ting_object-ding_entity_rating_action'] = array(
     'bundle' => 'ting_object',
     'default_value' => NULL,
@@ -38,25 +39,25 @@ function ding_entity_rating_field_default_field_instances() {
         'weight' => 2,
       ),
       'default' => array(
-        'label' => 'hidden',
+        'label' => 'above',
         'module' => 'ding_entity_rating',
         'settings' => array(),
         'type' => 'ding_entity_rating_action_default',
-        'weight' => 7,
+        'weight' => 79,
       ),
       'search_result' => array(
         'label' => 'hidden',
         'module' => 'ding_entity_rating',
         'settings' => array(),
         'type' => 'ding_entity_rating_action_default',
-        'weight' => 20,
+        'weight' => 2,
       ),
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'ding_entity_rating',
         'settings' => array(),
         'type' => 'ding_entity_rating_action_default',
-        'weight' => 8,
+        'weight' => 46,
       ),
       'ting_reference_preview' => array(
         'label' => 'above',
@@ -86,7 +87,7 @@ function ding_entity_rating_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ting_object-ting_object-ding_entity_rating_result'
+  // Exported field_instance: 'ting_object-ting_object-ding_entity_rating_result'.
   $field_instances['ting_object-ting_object-ding_entity_rating_result'] = array(
     'bundle' => 'ting_object',
     'default_value' => NULL,
@@ -113,25 +114,25 @@ function ding_entity_rating_field_default_field_instances() {
         'weight' => 4,
       ),
       'default' => array(
-        'label' => 'hidden',
+        'label' => 'above',
         'module' => 'ding_entity_rating',
         'settings' => array(),
         'type' => 'ding_entity_rating_result_default',
-        'weight' => 8,
+        'weight' => 80,
       ),
       'search_result' => array(
         'label' => 'hidden',
         'module' => 'ding_entity_rating',
         'settings' => array(),
         'type' => 'ding_entity_rating_result_default',
-        'weight' => 21,
+        'weight' => 3,
       ),
       'teaser' => array(
         'label' => 'hidden',
         'module' => 'ding_entity_rating',
         'settings' => array(),
         'type' => 'ding_entity_rating_result_default',
-        'weight' => 9,
+        'weight' => 47,
       ),
       'ting_reference_preview' => array(
         'label' => 'above',

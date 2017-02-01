@@ -172,6 +172,6 @@ function ding_notifications_get_top_menu_options() {
     'ready_to_pickup' => t('Ready to pickup'),
     'dept' => t('Dept'),
   );
-  
+
   return $options;
 }

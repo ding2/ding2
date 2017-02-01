@@ -1,0 +1,40 @@
+//
+// Add Fonts
+
+@import "../base.scss";
+
+@font-face {
+  font-family: 'FaktPro-Normal';
+  src: url('../../fonts/FaktPro-Normal.eot');
+  src:
+    url('../../fonts/FaktPro-Normal.eot?#iefix') format('embedded-opentype'),
+    url('../../fonts/FaktPro-Normal.woff') format('woff'),
+    url('../../fonts/FaktPro-Normal_web.ttf')  format('truetype'),
+    url('../../fonts/FaktPro-Normal.otf') format('opentype');
+  font-weight: $weight-normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'FaktPro-SemiBold';
+  src: url('../../fonts/FaktPro-SemiBold.eot');
+  src:
+    url('../../fonts/FaktPro-SemiBold.eot?#iefix') format('embedded-opentype'),
+    url('../../fonts/FaktPro-SemiBold.woff') format('woff'),
+    url('../../fonts/FaktPro-SemiBold_web.ttf')  format('truetype'),
+    url('../../fonts/FaktPro-SemiBold.otf') format('opentype');
+  font-weight: $weight-normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'FaktPro-Light';
+  src: url('../../fonts/FaktPro-Light.eot');
+  src:
+    url('../../fonts/FaktPro-Light.eot?#iefix') format('embedded-opentype'),
+    url('../../fonts/FaktPro-Light.woff') format('woff'),
+    url('../../fonts/FaktPro-Light_web.ttf')  format('truetype'),
+    url('../../fonts/FaktPro-Light.otf') format('opentype');
+  font-weight: $weight-normal;
+  font-style: normal;
+}

@@ -1,0 +1,166 @@
+<?php
+/**
+ * @file
+ * Extending opening hours to match the ddbasic theme.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function ding_ddbasic_opening_hours_menu() {
+  $items = array();
+
+  $items['admin/config/ding/ddbasic-opening-hours'] = array(
+    'title' => 'Ding DDBasic opening hours',
+    'description' => 'Opening hours settings for the DDBasic theme',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_ddbasic_opening_hours_settings_form'),
+    'access arguments' => array('administer site configuration'),
+    'file' => 'ding_ddbasic_opening_hours.admin.inc',
+  );
+
+  $items['ding-ddbasic/opening-hours/week/%node/%/%'] = $items['ding-ddbasic/opening-hours/week/%node/%/%/%'] = array(
+    'title' => 'Opening hours',
+    'page callback' => 'ding_ddbasic_opening_hours_week_callback',
+    'page arguments' => array(3, 4, 5),
+    'delivery callback' => 'ajax_deliver',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+    'file' => 'ding_ddbasic_opening_hours.pages.inc',
+  );
+  $items['ding-ddbasic/opening-hours/week/%node/%/%/%']['page arguments'][] = 6;
+
+  return $items;
+}
+
+/**
+ * Implements hook_init().
+ */
+function ding_ddbasic_opening_hours_init() {
+  $item = menu_get_item();
+  if ($item['path'] === 'node/%') {
+    $node = menu_get_object();
+    if ($node->type === 'ding_library' && variable_get('ding_ddbasic_opening_hours_expand_on_library', FALSE)) {
+      drupal_add_js(array('ding_ddbasic_opening_hours_expand_on_library' => TRUE), 'setting');
+    }
+  }
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ */
+function ding_ddbasic_opening_hours_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
+ * Implements hook_theme().
+ *
+ * - All opening hours theme.
+ */
+function ding_ddbasic_opening_hours_theme($existing, $type, $theme, $path) {
+  return array(
+    'ding_ddbasic_opening_hours_all' => array(
+      'file' => 'ding_ddbasic_opening_hours.theme.inc',
+      'variables' => array(
+        'today' => NULL,
+      ),
+    ),
+    'ding_ddbasic_opening_hours_week' => array(
+      'file' => 'ding_ddbasic_opening_hours.theme.inc',
+      'variables' => array(
+        'node' => NULL,
+        'categories' => array(),
+        'timespan' => array(),
+      ),
+    ),
+  );
+}
+
+/**
+ * Turn a structrued "opening hours" array into a table theme render array.
+ */
+function ding_ddbasic_opening_hours_table($title, $categories, $structured) {
+  $table = array(
+    '#theme' => 'table',
+    '#header' => array_merge(array($title), $categories),
+    '#rows' => array(),
+    '#attributes' => array('class' => array('opening-hours-table')),
+    '#sticky' => FALSE,
+  );
+
+  foreach ($structured as $label => $row) {
+    if (!isset($row['name'])) {
+      $cols = array($label);
+    }
+    else {
+      $cols = array($row['name']);
+    }
+
+    foreach ($categories as $category_weight => $header) {
+      if (!empty($row['cols'][$category_weight])) {
+        $col = array(
+          'data' => $row['cols'][$category_weight],
+          'data-label' => $header,
+        );
+      }
+      else {
+        $col = array('class' => array('empty'));
+      }
+
+      $cols[] = $col;
+    }
+
+    $table['#rows'][] = array('data' => $cols) + $row['extra'];
+  }
+
+  return $table;
+}
+
+/**
+ * Get name of an opening hours category tid.
+ */
+function ding_ddbasic_opening_hours_get_category_name($category_tid) {
+  $name = &drupal_static(__FUNCTION__, array());
+
+  if (!isset($name[$category_tid])) {
+    if ($category_tid === NULL) {
+      $name[$category_tid] = t('Opening hours');
+    }
+    else {
+      $name[$category_tid] = taxonomy_term_load($category_tid)->name;
+    }
+  }
+
+  return $name[$category_tid];
+}
+
+/**
+ * Get weight of an opening hours category tid.
+ */
+function ding_ddbasic_opening_hours_get_category_weight($category_tid) {
+  $weight = &drupal_static(__FUNCTION__, array());
+
+  if (!isset($weight[$category_tid])) {
+    if ($category_tid === NULL) {
+      $weight[$category_tid] = -1;
+    }
+    else {
+      $weight[$category_tid] = taxonomy_term_load($category_tid)->weight;
+    }
+  }
+  return $weight[$category_tid];
+}
+
+/**
+ * Array sort function.
+ *
+ * Sort opening hours instances in an array, by date and category weight.
+ */
+function ding_ddbasic_opening_hours_sort($a, $b) {
+  return $a->date > $b->date ?
+    1 : ($a->date < $b->date ?
+    -1 : ding_ddbasic_opening_hours_get_category_weight($a->category_tid) > ding_ddbasic_opening_hours_get_category_weight($b->category_tid));
+}

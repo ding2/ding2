@@ -1,0 +1,79 @@
+//
+// Styling of p2 rating
+
+@import '../base.scss';
+
+.ding-entity-rating-avg {
+  float: left;
+  margin-top: 5px;
+}
+
+// Overwrites for font-awsome
+.ding-entity-rating {
+  width: 100%;
+  float: left;
+  .fa-star-o {
+    position: relative;
+    display: block;
+    float: left;
+    width: 25px;
+    height: 25px;
+    &:first-child {
+      margin-left: -2px;
+    }
+    &:last-child {
+      margin-right: 10px;
+    }
+    &::before {
+      content: "\e918";
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-family: 'icomoon';
+      font-size: 25px;
+      speak: none;
+      font-style: normal;
+      font-weight: normal;
+      font-variant: normal;
+      text-transform: none;
+      line-height: 1;
+      color: $grey-medium;
+    }
+    &.active,
+    &.submitted {
+      &::before {
+        color: $color-primary;
+      }
+    }
+    // On ting teaser
+    .ting-object.view-mode-teaser & {
+      &::before {
+        color: $color-standard-text;
+      }
+      &.active,
+      &.submitted {
+        &::before {
+          color: $color-primary;
+        }
+      }
+    }
+    // On ting search result
+    .ting-object.view-mode-search-result & {
+      &::before {
+        color: $grey-medium;
+      }
+      &.active,
+      &.submitted {
+        &::before {
+          color: $color-primary;
+        }
+      }
+    }
+    // Hover
+    .no-touch & {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}

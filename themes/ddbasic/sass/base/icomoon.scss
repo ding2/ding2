@@ -1,0 +1,17 @@
+//
+// Add icomoon font used for icons
+
+@import "../base.scss";
+
+@font-face {
+  font-family: 'icomoon';
+  src: url('../../fonts/icomoon/icomoon.eot?pehhuu');
+
+  src:
+    url('../../fonts/icomoon/icomoon.eot?pehhuu#iefix') format('embedded-opentype'),
+    url('../../fonts/icomoon/icomoon.ttf?pehhuu') format('truetype'),
+    url('../../fonts/icomoon/icomoon.woff?pehhuu') format('woff'),
+    url('../../fonts/icomoon/icomoon.svg?pehhuu#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}

@@ -1,7 +1,8 @@
 <?php
+
 /**
  * @file
- * Serendipity entity ctools content_type
+ * Serendipity entity ctools content_type.
  */
 
 $plugin = array(

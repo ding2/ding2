@@ -5,7 +5,7 @@
  * Ding Serendipity is a proxy module that assembles serendipity.
  *
  * DS implements panes that collects a variety of personalised serendipity for
- * the user. See plugins/content_types for available panes
+ * the user. See plugins/content_types for available panes.
  *
  * Example1:
  *   The frontpage presents ting_object suggestions for the user based on
@@ -141,7 +141,10 @@ function ding_serendipity_ajax_callback() {
     $tmp[] = $item;
   }
 
-  $rendered_content = theme('ting_carousel', array('objects' => $tmp));
+  $rendered_content = theme('ting_carousel', array(
+    'items' => $tmp,
+    'item_type' => 'items',
+  ));
   $commands = array();
   $commands[] = ajax_command_html('.pane-serendipity-ting-object .pane-content', $rendered_content);
 
@@ -374,7 +377,6 @@ function ding_serendipity_fetch(array $context = NULL) {
   return $results;
 }
 
-
 /**
  * Remove invalid materials from keys.
  *
@@ -417,7 +419,7 @@ function ding_serendipity_user_cache_clear($uid) {
 }
 
 /**
- * Flush serendipity cache of a list element owner when the element is presaved
+ * Flush serendipity cache of a list element owner when the element is presaved.
  */
 function ding_serendipity_entity_presave($entity, $type) {
   if (isset($entity->type) && $entity->type == "ding_list_element" && isset($entity->uid)) {
@@ -437,7 +439,7 @@ function ding_serendipity_entity_presave($entity, $type) {
  * @return bool
  *   Return TRUE if all the values in the keys array are present in the array.
  */
-function ding_serendipity_access($context = array(), $keys = array()) {
+function ding_serendipity_access(array $context = array(), array $keys = array()) {
   $result = array_intersect(array_keys($context), $keys);
   return (!empty($result) && count($result) == count($keys));
 }
@@ -581,7 +583,7 @@ function ding_serendipity_render(array $context = NULL) {
         $content = $function($object, $context['view_mode']);
       }
 
-      // Extract optional source information ( via ?debug=s )
+      // Extract optional source information ( via ?debug=s ).
       if (isset($source['info']) && isset($source['info']['description'])) {
         $content['#serendipity_info'] = $source['info']['description'];
       }
@@ -792,7 +794,7 @@ function ding_serendipity_entity_view($entity, $type, $view_mode, $langcode) {
  *    - limit: Max number of items.
  *    - shuffle: Randomize the items.
  */
-function ding_serendipity_do_search($query, $options = array()) {
+function ding_serendipity_do_search($query, array $options = array()) {
   $results = array();
   // Fill in the default options.
   $options += array(
@@ -926,7 +928,7 @@ function ding_serendipity_form_base($form_state) {
 }
 
 /**
- * Add plugin key selection to forms
+ * Add plugin key selection to forms.
  */
 function ding_serendipity_form_base_keys($form_state) {
 
@@ -974,7 +976,7 @@ function ding_serendipity_form_base_submit(&$form_state) {
  * @param mixed $excludes
  *   Array or id of material(s) to exclude.
  */
-function ding_serendipity_exclude(&$list, $excludes) {
+function ding_serendipity_exclude(array &$list, $excludes) {
 
   if (empty($excludes)) {
     return;

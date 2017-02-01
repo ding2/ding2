@@ -45,5 +45,3 @@ Ding Serendipity collectes personalized serendipity based on all sorts of vector
 Enable desired serendipity plugins here:
 
 /admin/config/ding/serendipity/key_overview
-
-

@@ -13,7 +13,7 @@ function ding_content_file_default_displays() {
   $file_display = new stdClass();
   $file_display->api_version = 1;
   $file_display->name = 'video__default__file_field_media_large_icon';
-  $file_display->weight = -45;
+  $file_display->weight = -50;
   $file_display->status = FALSE;
   $file_display->settings = '';
   $export['video__default__file_field_media_large_icon'] = $file_display;

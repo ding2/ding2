@@ -1,6 +1,7 @@
 <?php
+
 /**
- * @file field--ddbasic-tags--search-result.tpl.php
+ * @file
  * Changed default field wrapper class.
  *
  * Available variables:

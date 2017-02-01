@@ -5,7 +5,7 @@
 
 (function ($) {
   "use strict";
-  
+
   function get_url_parameter(sParam) {
     var sPageURL = window.location.search.substring(1);
     var sURLVariables = sPageURL.split('&');
@@ -41,7 +41,7 @@
           $(this).removeClass('new-content-pending');
           if($(this).attr('data-ting-object-id') === latestId) {
             return false;
-          }            
+          }
         }
       });
       if(latestId && $('.ding-message-item', context).size() > 0) {

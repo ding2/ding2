@@ -1,0 +1,167 @@
+//
+// Styling of opening hours
+
+@import '../base.scss';
+
+// Opening hours in animation
+@include keyframes(opening-hours-in) {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.js-opening-hours-toggle-element {
+  display: none;
+}
+
+.opening-hours-week {
+  padding: 0;
+  .button-previous,
+  .button-next {
+    position: relative;
+    float: right;
+    width: 68px;
+    height: 54px;
+    text-indent: -9999px;
+    margin-top: 20px;
+    &::after {
+      top: 0;
+      text-indent: 0;
+    }
+    // Mobile
+    @include media($mobile) {
+      width: 54px;
+    }
+  }
+  .opening-hours-title {
+    @include animation(opening-hours-in 1s $ease-out-sine);
+    display: none;
+
+    @include media($mobile) {
+      @include font('base-bold');
+      display: block;
+      float: left;
+      line-height: 54px;
+      margin-top: 20px;
+    }
+  }
+  .button-previous {
+    @include arrow-button(arrow-left, $color-secondary);
+    margin-right: 12px;
+  }
+  .button-next {
+    @include arrow-button(arrow-right, $color-secondary);
+  }
+}
+
+.opening-hours-table {
+  // Animate the opening-hours in, so the user get a response when fetching the
+  // previous or next.
+  @include animation(opening-hours-in 1s $ease-out-sine);
+
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+  // The default Drupal theme_table() doesn't support adding attributes to the
+  // thead or thead > tr element, so we need to style these directly on their
+  // element selectors.
+  thead {
+    width: 100%;
+    float: left;
+  }
+  th {
+    @include span-columns(3);
+    // In library teaser and primary content
+    .node-ding-library.node-teaser &,
+    .left-and-main-content .primary-content & {
+      @include span-columns(2 of 8);
+
+      // Tablet
+      @include media($tablet) {
+        display: none;
+        &:first-child {
+          @include font('base-bold');
+          display: block;
+          width: 100%;
+        }
+      }
+    }
+
+    // Tablet
+    @include media($tablet) {
+      display: none;
+      &:first-child {
+        @include font('base-bold');
+        display: block;
+        width: 100%;
+      }
+    }
+  }
+  tr {
+    width: 100%;
+    float: left;
+
+    // Tablet
+    @include media($tablet) {
+      &.even {
+        background: $grey;
+        padding: 20px;
+      }
+      &.odd {
+        background: $white;
+        padding: 20px;
+      }
+    }
+  }
+  td {
+    @include span-columns(3);
+    .notice {
+      display: block;
+      color: $charcoal-opacity-dark;
+    }
+    // In library teaser and primary content
+    .node-ding-library.node-teaser &,
+    .left-and-main-content .primary-content & {
+      @include span-columns(2 of 8);
+
+      // Tablet
+      @include media($tablet) {
+        @include span-columns(8 of 8);
+      }
+    }
+
+    // Tablet
+    @include media($tablet) {
+      display: block;
+      width: 100%;
+      padding: 0;
+      margin-top: 10px;
+      &:first-child {
+        color: $color-primary;
+        margin-bottom: 0;
+        padding: 0;
+      }
+      &.empty {
+        display: none !important;
+      }
+      &::before {
+        @include font('base-bold');
+        display: block;
+        content: attr(data-label) " ";
+      }
+    }
+  }
+
+  // Tablet
+  @include media($tablet) {
+    margin-top: 20px;
+  }
+}
