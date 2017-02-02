@@ -8508,8 +8508,11 @@ input#edit-search-block-form--2.spinner {
       .ding-item-viewer .browsebar-item.active .group-data {
         float: left;
         width: 200px; }
-      .ding-item-viewer .browsebar-item.active .ting-cover:before {
-        left: 30%; }
+      .ding-item-viewer .browsebar-item.active .ting-cover {
+        min-height: 0; }
+        .ding-item-viewer .browsebar-item.active .ting-cover:before {
+          left: 30%;
+          bottom: 40%; }
       .ding-item-viewer .browsebar-item.active .field-type-ting-cover {
         float: left;
         margin-right: 10px;
