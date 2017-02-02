@@ -217,7 +217,6 @@ function ding_gatewayf_callback() {
   $attributes = $_POST;
   ding_gatewayf_security_check($attributes);
 
-
   // Check if the login was successful and the users information was returned.
   if (!empty($attributes['schacPersonalUniqueID'])) {
     $config = _ding_gatewayf_load_configuration();
@@ -249,11 +248,10 @@ function ding_gatewayf_callback() {
 /**
  * Do a check on the checksum given from gatewayf.
  *
- * @param $attributes
- * @return null
+ * @param array $attributes
  */
 function ding_gatewayf_security_check($attributes) {
-  // Check attributes.
+  //Check attributes.
   if (empty($attributes['schacPersonalUniqueID']) || empty($attributes['eduPersonTargetedID'])) {
     // We expect alway to get these two attributes.
     watchdog('ding_gatewayf', 'Neccesary attributes missing', array(), WATCHDOG_ERROR);
@@ -263,7 +261,7 @@ function ding_gatewayf_security_check($attributes) {
 
   $gateway_checksum = isset($attributes['hash'][0]) ? $attributes['hash'][0] : NULL;
   if (!isset($gateway_checksum)) {
-    // This is an error from gatewayf - checksum should always be in attributes.
+    //This is an error from gatewayf - checksum should always be in attributes.
     watchdog('ding_gatewayf', 'No checksum from gatewayf', array(), WATCHDOG_ERROR);
     drupal_set_message('Sorry login failed - contact site administrator', 'warning');
     ding_gatewayf_user_logout();
@@ -271,10 +269,10 @@ function ding_gatewayf_security_check($attributes) {
 
   $fixed_params = array(
     $attributes['schacPersonalUniqueID'][0],
-    $attributes['eduPersonTargetedID'][0]
+    $attributes['eduPersonTargetedID'][0],
   );
   $key = ding_gatewayf_key_from_attributes($fixed_params);
-  // Get salt from settings $conf.
+  //Get salt from settings $conf.
   $salt = variable_get('ding_gatewayf_salt', NULL);
   if (empty($salt)) {
     //This is a configuration error.
@@ -284,7 +282,7 @@ function ding_gatewayf_security_check($attributes) {
   }
   $ding_checksum = md5($key . $salt);
   if ($ding_checksum !== $gateway_checksum) {
-    // Somebody has changed something - abort.
+    //Somebody has changed something - abort.
     watchdog('ding_gatewayf', 'checksum from gatewayf did not match', array(), WATCHDOG_ERROR);
     ding_gatewayf_user_logout();
   }
@@ -295,11 +293,13 @@ function ding_gatewayf_security_check($attributes) {
  *
  * @param array $params
  * @param string $ret
- **/
+ *
+ * @return string
+ */
 function ding_gatewayf_key_from_attributes($params, $ret = '') {
   foreach ($params as $key => $value) {
     if (is_array($value)) {
-      // Recursive.
+      //Recursive.
       $ret = ding_gatewayf_key_from_attributes($value, $ret);
     }
     else {
