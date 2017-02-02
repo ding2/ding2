@@ -145,8 +145,13 @@ $base-font-weight-bold:           600;
       }
 
       // Cover
-      .ting-cover:before {
-        left: 30%;
+      .ting-cover {
+        min-height: 0;
+
+        &:before {
+          left: 30%;
+          bottom: 40%;
+        }
       }
 
       .field-type-ting-cover {
