@@ -37,6 +37,12 @@ function ding_list_install() {
   $mail_settings = variable_get('mail_system', array());
   $mail_settings['ding_list_share'] = "HTMLMailSystem";
   variable_set('mail_system', $mail_settings);
+
+  module_load_include('inc', 'page_manager', 'plugins/tasks/page');
+  $page = page_manager_page_load('user_bookmarks');
+  if (!empty($page)) {
+    page_manager_page_delete($page);
+  }
 }
 
 /**
@@ -53,4 +59,15 @@ function ding_list_update_7001() {
   $mail_settings = variable_get('mail_system', array());
   $mail_settings['ding_list_share'] = "HTMLMailSystem";
   variable_set('mail_system', $mail_settings);
+}
+
+/**
+ * Remove the bookmarks page, if it's been overridden.
+ */
+function ding_list_update_7002() {
+  module_load_include('inc', 'page_manager', 'plugins/tasks/page');
+  $page = page_manager_page_load('user_bookmarks');
+  if (!empty($page)) {
+    page_manager_page_delete($page);
+  }
 }
