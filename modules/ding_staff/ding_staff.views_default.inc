@@ -542,7 +542,6 @@ function ding_staff_views_default_views() {
   $handler = $view->new_display('default', 'Master', 'default');
   $handler->display->display_options['title'] = 'People (D!ng users)';
   $handler->display->display_options['use_more_always'] = FALSE;
-  $handler->display->display_options['use_more_text'] = 'mere';
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
   $handler->display->display_options['query']['type'] = 'views_query';
@@ -651,7 +650,7 @@ function ding_staff_views_default_views() {
   $handler->display->display_options['empty']['area_text_custom']['table'] = 'views';
   $handler->display->display_options['empty']['area_text_custom']['field'] = 'area_text_custom';
   $handler->display->display_options['empty']['area_text_custom']['empty'] = TRUE;
-  $handler->display->display_options['empty']['area_text_custom']['content'] = 'Ingen brugere tilgængelige.';
+  $handler->display->display_options['empty']['area_text_custom']['content'] = 'No users available.';
   /* Relationship: Profile: staff */
   $handler->display->display_options['relationships']['profile']['id'] = 'profile';
   $handler->display->display_options['relationships']['profile']['table'] = 'users';
@@ -987,7 +986,7 @@ function ding_staff_views_default_views() {
   $translatables['ding_staff_admin_users'] = array(
     t('Master'),
     t('People (D!ng users)'),
-    t('mere'),
+    t('more'),
     t('Apply'),
     t('Reset'),
     t('Sort by'),
@@ -1000,7 +999,7 @@ function ding_staff_views_default_views() {
     t('‹ previous'),
     t('next ›'),
     t('last »'),
-    t('Ingen brugere tilgængelige.'),
+    t('No users available.'),
     t('Profile'),
     t('User'),
     t('- Choose an operation -'),
@@ -1023,7 +1022,6 @@ function ding_staff_views_default_views() {
     t('Rolle'),
     t('Forename (Staff)'),
     t('Page'),
-    t('more'),
   );
   $export['ding_staff_admin_users'] = $view;
 
