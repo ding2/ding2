@@ -255,7 +255,7 @@ function ding_gatewayf_callback() {
 function ding_gatewayf_security_check($attributes) {
   // Check attributes.
   if (empty($attributes['schacPersonalUniqueID']) || empty($attributes['eduPersonTargetedID'])) {
-    // we expect alway to get these two attributes
+    // We expect alway to get these two attributes.
     watchdog('ding_gatewayf', 'Neccesary attributes missing', array(), WATCHDOG_ERROR);
     drupal_set_message('Sorry login failed - contact site administrator', 'warning');
     ding_gatewayf_user_logout();
