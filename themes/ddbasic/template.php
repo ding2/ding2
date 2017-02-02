@@ -14,7 +14,7 @@ function ddbasic_preprocess_html(&$vars) {
   if (in_array('html__node__newsletter', $vars['theme_hook_suggestions'])) {
     $vars['newsletter'] = $vars['page']['content']['system_main']['main']['#markup'];
   }
-  
+
   // Load responsive.js file
   $file_name = drupal_get_path('theme', 'ddbasic') . '/scripts/responsive.js';
   drupal_add_js(
@@ -224,7 +224,7 @@ function ddbasic_preprocess_panels_pane(&$vars) {
       // Menu-block.
       $vars['content']['#content']['#theme_wrappers'] = array('menu_tree__sub_menu');
     }
-    else {
+    elseif(is_array($vars['content'])) {
       // OG menu.
       $vars['content']['#theme_wrappers'] = array('menu_tree__sub_menu');
     }
