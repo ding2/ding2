@@ -81,7 +81,7 @@ function ting_search_carousel_admin_form(array $form, array &$form_state) {
     '#theme' => 'ting_search_carousel_admin_form',
   );
 
-  if (empty($form_state['num_searches'])) {
+  if (!isset($form_state['num_searches'])) {
     $ids = array_keys($searches);
     if (!empty($ids)) {
       $form_state['num_searches'] = array_combine($ids, $ids);
