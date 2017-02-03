@@ -1004,67 +1004,6 @@ Tip: Indicate different ticket prices for more than one audience group by enteri
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_place2book_tickets'
-  $field_instances['node-ding_event-field_place2book_tickets'] = array(
-    'bundle' => 'ding_event',
-    'default_value' => array(
-      0 => array(
-        'value' => 'placeholder',
-      ),
-    ),
-    'deleted' => 0,
-    'description' => 'Placeholder for Place2book ticket information and/or order link',
-    'display' => array(
-      'alternative_layout_full' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'default' => array(
-        'label' => 'hidden',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 6,
-      ),
-      'search_result' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 5,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 6,
-      ),
-      'teaser_highlight' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'field_name' => 'field_place2book_tickets',
-    'label' => 'Place2book Tickets',
-    'required' => TRUE,
-    'settings' => array(
-      'text_processing' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'module' => 'text',
-      'settings' => array(
-        'size' => 60,
-      ),
-      'type' => 'text_textfield',
-      'weight' => 14,
-    ),
-  );
-
   // Exported field_instance: 'node-ding_event-og_group_ref'
   $field_instances['node-ding_event-og_group_ref'] = array(
     'bundle' => 'ding_event',
@@ -1165,8 +1104,6 @@ Tip: Indicate different ticket prices for more than one audience group by enteri
   t('Location');
   t('Materials');
   t('Optional. If provided, the location address will be shown instead of the address of the associated library when presenting info on the event.');
-  t('Place2book Tickets');
-  t('Placeholder for Place2book ticket information and/or order link');
   t('Price');
   t('Select the libraries this content should be associated with.');
   t('Tags');
