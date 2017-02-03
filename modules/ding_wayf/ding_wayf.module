@@ -370,6 +370,7 @@ function ding_wayf_get_saml_connection() {
 
 /**
  * Check that simpleSAMLphp is installed at the location given.
+ * 
  * @return bool|string
  *   The path to SimpleSAMLphp if it is a local installation else TRUE if
  *   gateway class exists else FALSE.
@@ -507,7 +508,7 @@ function ding_wayf_get_credentials() {
   $saml_attributes = $saml->getAttributes();
 
   // Check security - we need to do it here, it is the only place where we
-  // have (unspoiled) attributes directly from gatewayf
+  // have (unspoiled) attributes directly from gatewayf.
   $status = ding_wayf_security_check($saml_attributes);
   /** @var bool $status */
   if (!$status) {
