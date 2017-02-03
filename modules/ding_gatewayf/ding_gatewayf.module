@@ -252,6 +252,7 @@ function ding_gatewayf_callback() {
  *   The generated salt to return.
  *
  * @return string
+ *   The salt.
  */
 function ding_gatewayf_key_from_attributes(array $params, $ret = '') {
   foreach ($params as $key => $value) {
@@ -285,9 +286,10 @@ function ding_gatewayf_ding_provider_user() {
  * Do a check on the checksum given from gatewayf.
  *
  * @param array $attributes
- *   The attributes from gatewayf
+ *   The attributes from gatewayf.
  *
  * @return bool
+ *   Safe or not.
  */
 function ding_gatewayf_security_check(array $attributes) {
   // Check attributes.
