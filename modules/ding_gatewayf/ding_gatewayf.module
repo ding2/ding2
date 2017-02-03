@@ -253,12 +253,9 @@ function ding_gatewayf_callback() {
  *
  * @return string
  */
-function ding_gatewayf_key_from_attributes($params, $ret = '') {
-  /**
-   * @var  string $key
-   * @var array $value
-   */
+function ding_gatewayf_key_from_attributes(array $params, $ret = '') {
   foreach ($params as $key => $value) {
+    /** @var array $value */
     if (is_array($value)) {
       // Recursive.
       $ret = ding_gatewayf_key_from_attributes($value, $ret);
@@ -288,8 +285,11 @@ function ding_gatewayf_ding_provider_user() {
  * Do a check on the checksum given from gatewayf.
  *
  * @param array $attributes
+ *   The attributes from gatewayf
+ *
+ * @return bool
  */
-function ding_gatewayf_security_check($attributes) {
+function ding_gatewayf_security_check(array $attributes) {
   // Check attributes.
   if (empty($attributes['schacPersonalUniqueID']) || empty($attributes['eduPersonTargetedID'])) {
     // We expect alway to get these two attributes.
@@ -300,7 +300,7 @@ function ding_gatewayf_security_check($attributes) {
 
   $gateway_checksum = isset($attributes['hash'][0]) ? $attributes['hash'][0] : NULL;
   if (!isset($gateway_checksum)) {
-    //This is an error from gatewayf - checksum should always be in attributes.
+    // This is an error from gatewayf - checksum should always be in attributes.
     watchdog('ding_gatewayf', 'No checksum from gatewayf', array(), WATCHDOG_ERROR);
     return FALSE;
   }
@@ -548,16 +548,17 @@ function _ding_gatewayf_extract_data($data, $field = '') {
  *   The configuration with valid default values.
  */
 function _ding_gatewayf_load_configuration() {
-  $config = variable_get('ding_gatewayf', array()) + array(
-      'service' => array(
-        'endpoint' => 'https://bibliotek.dk/gatewayf/gatewayf.php',
-      ),
-      // The development configuration array is wrapped in the variable get to
-      // allow developers to set the configutation in settings.php.
-      'development' => variable_get('ding_gatewayf_development', array(
-        'log_auth_data' => FALSE,
-      )),
-    );
+  $config = variable_get('ding_gatewayf', array());
+  $config += array(
+    'service' => array(
+      'endpoint' => 'https://bibliotek.dk/gatewayf/gatewayf.php',
+    ),
+    // The development configuration array is wrapped in the variable get to
+    // allow developers to set the configutation in settings.php.
+    'development' => variable_get('ding_gatewayf_development', array(
+      'log_auth_data' => FALSE,
+    )),
+  );
 
   // Extend configuration with hard-coded values.
   $config['service'] += array(
