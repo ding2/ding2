@@ -17,12 +17,17 @@ function ding_place2book_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'hidden',
-        'module' => 'ding_place2book',
         'settings' => array(),
-        'type' => 'ding_p2b_formatter_default',
-        'weight' => 14,
+        'type' => 'hidden',
+        'weight' => 5,
       ),
       'search_result' => array(
         'label' => 'above',
@@ -59,9 +64,72 @@ function ding_place2book_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'node-ding_event-field_place2book_tickets'
+  $field_instances['node-ding_event-field_place2book_tickets'] = array(
+    'bundle' => 'ding_event',
+    'default_value' => array(
+      0 => array(
+        'value' => 'placeholder',
+      ),
+    ),
+    'deleted' => 0,
+    'description' => 'Placeholder for Place2book ticket information and/or order link',
+    'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 6,
+      ),
+      'search_result' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 5,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 6,
+      ),
+      'teaser_highlight' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'field_name' => 'field_place2book_tickets',
+    'label' => 'Place2book Tickets',
+    'required' => TRUE,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 14,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Place2book');
+  t('Place2book Tickets');
+  t('Placeholder for Place2book ticket information and/or order link');
 
   return $field_instances;
 }
