@@ -945,7 +945,7 @@ search/node',
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $export['site_template_panel_context'] = $handler;
-  
+
   $handler = new stdClass();
   $handler->disabled = FALSE; /* Edit this to true to make a default handler disabled initially */
   $handler->api_version = 1;
