@@ -244,17 +244,23 @@ function ding_gatewayf_callback() {
 }
 
 /**
- * Make a cachekey based on request parameters.
+ * Make a salt based on request parameters.
  *
  * @param array $params
+ *   The values to extract from.
  * @param string $ret
+ *   The generated salt to return.
  *
  * @return string
  */
 function ding_gatewayf_key_from_attributes($params, $ret = '') {
+  /**
+   * @var  string $key
+   * @var array $value
+   */
   foreach ($params as $key => $value) {
     if (is_array($value)) {
-      //Recursive.
+      // Recursive.
       $ret = ding_gatewayf_key_from_attributes($value, $ret);
     }
     else {
@@ -284,19 +290,19 @@ function ding_gatewayf_ding_provider_user() {
  * @param array $attributes
  */
 function ding_gatewayf_security_check($attributes) {
-  //Check attributes.
+  // Check attributes.
   if (empty($attributes['schacPersonalUniqueID']) || empty($attributes['eduPersonTargetedID'])) {
     // We expect alway to get these two attributes.
     watchdog('ding_gatewayf', 'Neccesary attributes missing', array(), WATCHDOG_ERROR);
     drupal_set_message('Sorry login failed - contact site administrator', 'warning');
-    return false;
+    return FALSE;
   }
 
   $gateway_checksum = isset($attributes['hash'][0]) ? $attributes['hash'][0] : NULL;
   if (!isset($gateway_checksum)) {
     //This is an error from gatewayf - checksum should always be in attributes.
     watchdog('ding_gatewayf', 'No checksum from gatewayf', array(), WATCHDOG_ERROR);
-    return false;
+    return FALSE;
   }
 
   $fixed_params = array(
@@ -305,21 +311,21 @@ function ding_gatewayf_security_check($attributes) {
   );
 
   $key = ding_gatewayf_key_from_attributes($fixed_params);
-  //Get salt from settings $conf.
+  // Get salt from settings $conf.
   $salt = variable_get('ding_gatewayf_salt', NULL);
   if (empty($salt)) {
-    //This is a configuration error.
+    // This is a configuration error.
     watchdog('ding_gatewayf', 'No salt has been defined - wayf login is disabled for security', array(), WATCHDOG_ERROR);
-    return false;
+    return FALSE;
   }
   $ding_checksum = md5($key . $salt);
   if ($ding_checksum !== $gateway_checksum) {
-    //Somebody has changed something - abort.
+    // Somebody has changed something - abort.
     watchdog('ding_gatewayf', 'checksum from gatewayf did not match', array(), WATCHDOG_ERROR);
-    return false;
+    return FALSE;
   }
 
-  return true;
+  return TRUE;
 }
 
 /**
@@ -330,7 +336,7 @@ function ding_gatewayf_security_check($attributes) {
  */
 function _ding_gatewayf_provider_login(array $attributes) {
   $status = ding_gatewayf_security_check($attributes);
-  if(!$status){
+  if (!$status) {
     drupal_set_message(t('Sorry login failed - please contact site administrator'), 'warning');
     ding_gatewayf_user_logout();
   }
