@@ -81,12 +81,15 @@ function ding_groups_strongarm() {
         'custom_settings' => FALSE,
       ),
       'search_result' => array(
-        'custom_settings' => TRUE,
+        'custom_settings' => FALSE,
       ),
       'diff_standard' => array(
         'custom_settings' => FALSE,
       ),
       'token' => array(
+        'custom_settings' => FALSE,
+      ),
+      'workflow_tab' => array(
         'custom_settings' => FALSE,
       ),
     ),
@@ -138,7 +141,7 @@ function ding_groups_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'node_preview_ding_group';
-  $strongarm->value = '1';
+  $strongarm->value = '0';
   $export['node_preview_ding_group'] = $strongarm;
 
   $strongarm = new stdClass();
