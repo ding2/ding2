@@ -53,7 +53,6 @@ function ddbasic_preprocess_html(&$vars) {
   if (!empty($image_conf)) {
     $vars['classes_array'][] = 'has-dynamic-background';
   }
-
 }
 
 /**
@@ -97,6 +96,11 @@ function ddbasic_process_html(&$vars) {
         $vars['classes_array'][] = 'page-panels';
         break;
     }
+  }
+
+  // Hook into color.module.
+  if (module_exists('color')) {
+    _color_html_alter($vars);
   }
 }
 

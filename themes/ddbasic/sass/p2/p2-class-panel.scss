@@ -127,7 +127,7 @@
         .signature-label {
           @include font('header-small');
           //Right arrow
-          &:::after {
+          &::after {
             position: absolute;
             right: 10px;
             top: 50%;

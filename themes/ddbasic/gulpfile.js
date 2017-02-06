@@ -89,7 +89,6 @@ gulp.task('sass', 'Process SCSS using libsass',
       }))
       .pipe(sass({outputStyle: 'compressed'})
         .on('error', sass.logError))
-      .pipe(concatCss("bundle.css"))
       .pipe(cleanCSS())
       .pipe(gulp.dest('./sass_css'));
   }
