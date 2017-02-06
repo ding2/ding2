@@ -17,6 +17,12 @@ function ding_tabroll_field_default_field_instances() {
     'deleted' => 0,
     'description' => 'If you rather want an external link or a link to a menu, use this field. It will only be used if the previous link is empty.',
     'display' => array(
+      'alternative_layout_full' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'link',
@@ -142,8 +148,8 @@ function ding_tabroll_field_default_field_instances() {
           'public' => 'public',
         ),
         'allowed_types' => array(
-          'audio' => 0,
           0 => 0,
+          'audio' => 0,
           'document' => 0,
           'image' => 'image',
           'video' => 0,
