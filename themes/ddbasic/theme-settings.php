@@ -8,60 +8,6 @@
  * Implements form_system_theme_settings_alter().
  */
 function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
-  // CSS class and markup.
-  // Colors.
-  $form['ddbasic_settings']['colors'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Colors'),
-  );
-
-  $form['ddbasic_settings']['colors']['color_primary'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Primary color'),
-    '#description' => t('Use hex (4d898e)') . '<br />' . t('Is used e.g. as background-color for the main menu, checkboxes and radio-buttons'),
-    '#default_value' => ddbasic_theme_setting('color_primary', '4d898e'),
-  );
-
-  $form['ddbasic_settings']['colors']['color_secondary'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Secondary color'),
-    '#description' => t('Use hex (f66d70)') . '<br />' . t('Is used e.g. as background-color for the log-in button, read-more buttons'),
-    '#default_value' => ddbasic_theme_setting('color_secondary', 'f66d70'),
-  );
-
-  $form['ddbasic_settings']['colors']['color_text'] = array(
-    '#type' => 'select',
-    '#title' => t('Text color'),
-    '#description' => t('Choose a color that is legible on a white background') . '<br />' . t('Is used e.g. for text-links and panel headers'),
-    '#default_value' => ddbasic_theme_setting('color_text', 'primary'),
-    '#options' => array(
-      'primary' => t('Primary'),
-      'secondary' => t('Secondary'),
-      '000000' => t('black'),
-    ),
-  );
-
-  $form['ddbasic_settings']['colors']['color_text_on_primary'] = array(
-    '#type' => 'select',
-    '#title' => t('Text on primary color'),
-    '#description' => t('Choose a color that is legible on the primary color'),
-    '#default_value' => ddbasic_theme_setting('color_text_on_primary', 'white'),
-    '#options' => array(
-      'fff' => t('white'),
-      '000' => t('black'),
-    ),
-  );
-  $form['ddbasic_settings']['colors']['color_text_on_secondary'] = array(
-    '#type' => 'select',
-    '#title' => t('Text on secondary color'),
-    '#description' => t('Choose a color that is legible on the secondary color'),
-    '#default_value' => ddbasic_theme_setting('color_text_on_secondary', 'white'),
-    '#options' => array(
-      'fff' => t('white'),
-      '000' => t('black'),
-    ),
-  );
-
   // Number of news in list.
   $form['ddbasic_settings']['news_list'] = array(
     '#type' => 'fieldset',
@@ -169,43 +115,18 @@ function ddbasic_form_system_theme_settings_alter(&$form, $form_state) {
  * Custom validation for the theme_settings form.
  */
 function ddbasic_form_system_theme_settings_validate($form, &$form_state) {
-  $pattern_hex = '/^[a-f0-9]{6}$/i';
-  if (!preg_match($pattern_hex, $form_state['values']['color_primary'])) {
-    form_set_error('color_primary', t('Only hex colors is allowed'));
-  }
-  if (!preg_match($pattern_hex, $form_state['values']['color_secondary'])) {
-    form_set_error('color_primary', t('Only hex colors is allowed'));
-  }
-
   if (!empty($form_state['values']['user_signup_link'])) {
     if (!(0 === strpos($form_state['values']['user_signup_link'], 'http'))) {
       form_set_error('user_signup_link', t('User signup link must start with "http"'));
     }
   }
 
-  $theme_path = drupal_get_path('theme', 'ddbasic');
-  $cssfiles = array_merge(
-    file_scan_directory($theme_path . '/css', '/\.css$/'),
-    file_scan_directory($theme_path . '/sass_css', '/\.css$/')
-  );
-  $form_state['cssfiles'] = array();
+  switch ($form_state['values']['palette']['text']) {
+    case 'primary': $form_state['values']['palette']['text'] = $form_state['values']['palette']['primary'];
+      break;
 
-  $not_writable = array();
-  foreach ($cssfiles as $cssfile) {
-    $form_state['cssfiles'][$cssfile->uri] = drupal_realpath($cssfile->uri);
-    if (!is_writable($form_state['cssfiles'][$cssfile->uri])) {
-      $not_writable[] = $form_state['cssfiles'][$cssfile->uri];
-    }
-  }
-
-  if (!empty($not_writable)) {
-    form_set_error(
-      'ddbasic_settings',
-      theme('item_list', array(
-        'title' => t('Make the following files writable, for the coloring to work.'),
-        'items' => $not_writable,
-      ))
-    );
+    case 'secondary': $form_state['values']['palette']['text'] = $form_state['values']['palette']['secondary'];
+      break;
   }
 }
 
@@ -213,19 +134,15 @@ function ddbasic_form_system_theme_settings_validate($form, &$form_state) {
  * Custom submit for the theme_settings form.
  */
 function ddbasic_form_system_theme_settings_submit($form, &$form_state) {
-  switch ($form_state['values']['color_text']) {
-    case 'primary': $form_state['values']['color_text'] = $form_state['values']['color_primary'];
-      break;
+  $theme_name = $form_state['build_info']['args'][0];
 
-    case 'secondary': $form_state['values']['color_text'] = $form_state['values']['color_secondary'];
-      break;
+  // Add all the css files to the color module info array.
+  $theme_path = drupal_realpath(drupal_get_path('theme', $theme_name)) . '/';
+  $cssfiles = array_merge(
+    file_scan_directory($theme_path . '/sass_css', '/\.css$/')
+  );
+  $form_state['values']['info']['css'] = array();
+  foreach ($cssfiles as $cssfile) {
+    $form_state['values']['info']['css'][] = str_replace($theme_path, '', drupal_realpath($cssfile->uri));
   }
-
-  $colors = array();
-  foreach ($form_state['values'] as $key => $value) {
-    if (strpos($key, 'color_') === 0) {
-      $colors[substr($key, 6)] = $value;
-    }
-  }
-  ding_ddbasic_colorize_css($form_state['cssfiles'], $colors);
 }
