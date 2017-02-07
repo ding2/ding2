@@ -139,7 +139,6 @@ function ding_wayf_security_check(array $attributes) {
   if (empty($attributes['schacPersonalUniqueID']) || empty($attributes['eduPersonTargetedID'])) {
     // We expect alway to get these two attributes.
     watchdog('ding_gatewayf', 'Neccesary attributes missing', array(), WATCHDOG_ERROR);
-    drupal_set_message('Sorry login failed - contact site administrator', 'warning');
     return FALSE;
   }
 
@@ -174,7 +173,7 @@ function ding_wayf_security_check(array $attributes) {
 }
 
 /**
- * Make a salt based on request parameters.
+ * Make a string based on request parameters.
  *
  * @param array $params
  *   The values to extract from.
