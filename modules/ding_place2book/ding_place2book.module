@@ -214,7 +214,7 @@ function ding_p2b_format_options($node, array $additional) {
       array_pop($option);
       $option[] = 'timezone_db';
       $timezone = $options[$name] = (string) drupal_array_get_nested_value($data, $option);
-      $options[$name] = format_date(strtotime($date), 'custom', 'Y-m-d\TH:i:sO', $timezone);
+      $options[$name] = format_date(strtotime($date . ' ' . $timezone), 'custom', 'Y-m-d\TH:i:sO');
     }
     else {
       $options[$name] = (string) drupal_array_get_nested_value($data, $option);
