@@ -352,8 +352,7 @@ function ddbasic_theme_setting($name, $default = FALSE) {
  * Is ting search form extended.
  */
 function ding_ddbasic_is_ting_search_extend_form() {
-  return variable_get('ting_search_extend_form', FALSE) ||
-    menu_get_item()['path'] === 'search/ting/%';
+  return variable_get('ting_search_extend_form', FALSE);
 }
 
 /**
