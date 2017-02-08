@@ -74,7 +74,7 @@ function ding_user_frontend_default_page_manager_handlers() {
     ),
   );
   $display->cache = array();
-  $display->title = 'Rediger profil';
+  $display->title = '';
   $display->uuid = '554649f4-0529-4783-9b86-51026c768269';
   $display->content = array();
   $display->panels = array();
@@ -104,7 +104,7 @@ function ding_user_frontend_default_page_manager_handlers() {
     $pane->uuid = '8bf84cda-201b-4d35-8df9-54edaf360565';
     $display->content['new-8bf84cda-201b-4d35-8df9-54edaf360565'] = $pane;
     $display->panels['main_content'][0] = 'new-8bf84cda-201b-4d35-8df9-54edaf360565';
-  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $export['user_edit_panel_context'] = $handler;
@@ -257,7 +257,7 @@ function ding_user_frontend_default_page_manager_handlers() {
     $pane->uuid = '7a8a1910-8380-44a6-9b6e-6e1fe10cbc2d';
     $display->content['new-7a8a1910-8380-44a6-9b6e-6e1fe10cbc2d'] = $pane;
     $display->panels['main_content'][1] = 'new-7a8a1910-8380-44a6-9b6e-6e1fe10cbc2d';
-  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $export['user_edit_panel_context_2'] = $handler;
@@ -520,7 +520,7 @@ function ding_user_frontend_default_page_manager_handlers() {
     $pane->uuid = 'd8e66878-81ac-4da6-9c30-eb876b25af49';
     $display->content['new-d8e66878-81ac-4da6-9c30-eb876b25af49'] = $pane;
     $display->panels['main_content'][1] = 'new-d8e66878-81ac-4da6-9c30-eb876b25af49';
-  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $export['user_view_panel_context_2'] = $handler;
@@ -644,7 +644,7 @@ function ding_user_frontend_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = 'Mine udeståender';
+  $display->title = '';
   $display->uuid = '7df426ee-6800-4124-b929-4391f02d19bd';
   $display->content = array();
   $display->panels = array();
@@ -741,7 +741,7 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->uuid = '6de0581e-da74-4598-8800-395eee76efdd';
     $display->content['new-6de0581e-da74-4598-8800-395eee76efdd'] = $pane;
     $display->panels['main_content'][2] = 'new-6de0581e-da74-4598-8800-395eee76efdd';
-  $display->hide_title = PANELS_TITLE_PANE;
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = 'new-e2022ee9-76c6-459f-a099-31e801455557';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
@@ -859,7 +859,7 @@ function ding_user_frontend_default_page_manager_pages() {
     ),
   );
   $display->cache = array();
-  $display->title = 'Mine hjemlån';
+  $display->title = '';
   $display->uuid = '846ee609-1e6e-4c1e-ada9-7009f8684530';
   $display->content = array();
   $display->panels = array();
@@ -912,7 +912,7 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->uuid = '375a2a68-afd4-4852-8e12-0b6af310c47a';
     $display->content['new-375a2a68-afd4-4852-8e12-0b6af310c47a'] = $pane;
     $display->panels['main_content'][0] = 'new-375a2a68-afd4-4852-8e12-0b6af310c47a';
-  $display->hide_title = PANELS_TITLE_FIXED;
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = '0';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;
@@ -1133,7 +1133,7 @@ function ding_user_frontend_default_page_manager_pages() {
     $pane->uuid = '8947b7ce-b3b4-4a9a-8068-9eac82ea9dd3';
     $display->content['new-8947b7ce-b3b4-4a9a-8068-9eac82ea9dd3'] = $pane;
     $display->panels['main_content'][1] = 'new-8947b7ce-b3b4-4a9a-8068-9eac82ea9dd3';
-  $display->hide_title = PANELS_TITLE_PANE;
+  $display->hide_title = PANELS_TITLE_NONE;
   $display->title_pane = 'new-422dddfe-35fd-4a5b-824a-cbcc7c68a86e';
   $handler->conf['display'] = $display;
   $page->default_handlers[$handler->name] = $handler;

@@ -919,6 +919,7 @@ function ting_search_submit($form, &$form_state) {
     'creator' => 'term.creator',
     'title' => 'term.title',
     'subject' => 'term.subject',
+    'type' => 'term.type',
   );
 
   foreach ($extended_fields as $name => $index) {
@@ -945,6 +946,10 @@ function ting_search_submit($form, &$form_state) {
   $s = $form_state['values']['size'];
   if ($s != "") {
     $controls['size'] = $s;
+  }
+
+  if (!empty($form_state['extra_query_parameters'])) {
+    $controls += $form_state['extra_query_parameters'];
   }
 
   // Check to see if the form was submitted empty.

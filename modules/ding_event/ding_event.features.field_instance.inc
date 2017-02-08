@@ -872,7 +872,7 @@ Tip: Indicate different ticket prices for more than one audience group by enteri
     ),
     'entity_type' => 'node',
     'field_name' => 'field_ding_event_ticket_link',
-    'label' => 'Book billet/Deltag i arrangement',
+    'label' => 'Book ticket/Participate in event',
     'required' => 0,
     'settings' => array(
       'attributes' => array(
@@ -1090,7 +1090,7 @@ Tip: Indicate different ticket prices for more than one audience group by enteri
   // Translatables
   // Included for use with string extractors like potx.
   t('Body');
-  t('Book billet/Deltag i arrangement');
+  t('Book ticket/Participate in event');
   t('Category');
   t('Date');
   t('Display this event in the selected group (temapage).');
