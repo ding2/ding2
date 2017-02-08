@@ -47944,10 +47944,6 @@ msgstr "Ventetiden er i øjeblikket ca.: <strong>@wait</strong>."
 msgid "Create user"
 msgstr "Opret bruger"
 
-#: /gatewayf/callback?destination=ding_frontpage?eduPersonTargetedID=WAYF-DK-e767c06edaad0f8d23e785bbc470e7f37ad03e8d&mail=&logintype=nemlogin
-msgid "You do not have an user account at the public library. If you wish to create an user account !user_url . You are still logged in at WAYF, so you can !logout to logout of WAYF."
-msgstr "<p>Du er ikke låner ved biblioteket. Hvis du ønsker at oprette dig som låner kan du !user_url.</p>\r<p>Du er stadig logget ind ved NemID, så du kan !logout for at logge ud.</p>"
-
 #: /search/ting/+.net
 msgid "Best match on title"
 msgstr "Jeg leder efter en titel"
@@ -48042,7 +48038,7 @@ msgstr "NemID logo"
 
 #: /gatewayf/callback?destination=ding_frontpage?eduPersonTargetedID=WAYF-DK-e767c06edaad0f8d23e785bbc470e7f37ad03e8d&mail=&logintype=nemlogin
 msgid "click here"
-msgstr "Klik her"
+msgstr "klik her"
 
 #: /gatewayf/registration/acceptance
 msgid "Your full name."
@@ -48069,7 +48065,7 @@ msgstr "Bedøm dette materiale"
 
 #: /?autologout_timeout=1
 msgid "Because you liked !item"
-msgstr "Fordi du tidligere har anbefalet !item"
+msgstr "Fordi du har bedømt !item"
 
 #: /index.php
 msgid "Ratings"
@@ -59227,10 +59223,6 @@ msgstr ""
 msgid "\"Control when the browser's internal cache of the current page should \"expire. The date must to be an <a \"href=\"http://www.csgnetwork.com/timerfc1123calc.html\">RFC-1123</a>-compliant \"date string that is represented in Greenwich Mean Time (GMT), e.g. \"'Mon, 07 Nov 2016 13:12:12 GMT'. Set to '0' to stop the page being \"cached entirely."
 msgstr ""
 
-#: /system/ajax
-msgid "\"Please use the following link to access this list. The link is active for 7 days from today, after which it will be \"disabled for security reasons. link"
-msgstr "Følg linket !link for at få adgang til listen. </br> Linket er aktivt i 7 dage fra dags dato, hvorefter det vil blive inaktivt af sikkerhedshensyn."
-
 #: /admin/structure/panels
 msgid "Custom layout"
 msgstr ""
@@ -65727,10 +65719,6 @@ msgstr "\"Tilknyttede materialer til dit indhold deles. OBS: Katalogposter \"(lo
 msgid "\"If checked the content will be marked as not editable (It is not \"enforced but only recommanded that the content is not changed after \"syndication)."
 msgstr "Det delte indhold må redigeres."
 
-#: /gatewayf/callback?destination=ding_frontpage?eduPersonTargetedID=WAYF-DK-e767c06edaad0f8d23e785bbc470e7f37ad03e8d&mail=&logintype=nemlogin
-msgid "\"You do not have an user account at the public library. If you wish to \"create an user account !user_url . You are still logged in at WAYF, so \"you can !logout to logout of WAYF."
-msgstr "\"<p>Du er ikke låner ved biblioteket. Hvis du ønsker at oprette dig \"som låner kan du !user_url.</p>\r n\" <p>Du er stadig logget ind ved NemID, så du kan !logout for at logge \"ud.</p>"
-
 #: /admin/config/ding/gatewayf?render=overlay
 msgid "\"Please read the library's regulations for usage before you use self \"registration."
 msgstr "\"<p>Her kan du oprette dig som bruger ved biblioteket.</p><p>For at \"oprette dig skal du bruge dit NemID, og du skal være:<ol><li>fyldt 18 \"år</li><li>godkende at have læst og accepteret bibliotekets \"reglement og takster</li></ol></p><p>Du kan selvfølgelig stadig \"oprette dig som bruger ved personlig henvendelse.</p>"
@@ -66127,10 +66115,6 @@ msgstr "Beskriv listetypen"
 msgid "You need to login to view the list."
 msgstr "Login for at se listen"
 
-#: ding_list/ding_list.module:833
-msgid "Please use the following link to access this list.\nThe link is active for 7 days from today, after which it will be disabled for security reasons.\n\n!link"
-msgstr "Benyt dette link til at se listen.\nLinket er aktiv i 7 dage fra idag hvorefter det deaktiveres af sikkerhedsmæssige årsager."
-
 #: ding_list/ding_list.module:176
 msgid "Detach elements callback"
 msgstr "Detach elements callback"
@@ -66430,7 +66414,7 @@ msgstr "Materialetyper som ADHL må benytte"
 
 #: ding_serendipity_ting_entity/ding_serendipity_ting_entity.module:124
 msgid "This material has been selected based on the authors of the material you are viewing."
-msgstr "Fordi forfatteren relaterer til det materiale du står på."
+msgstr "Fordi forfatteren relaterer til det materiale du kigger på."
 
 #: ding_serendipity_ting_entity/plugins/content_types/serendipity_entity.inc:46
 msgid "Site content"
@@ -66603,8 +66587,8 @@ msgid ""
 "shed</em> will often show more results than <em>bike shed</em>.</li>\n"
 "</ul>"
 msgstr ""
-"<p>Din søgning desværre ikke gav noget resultat, men vi vil gerne hjælpe dig med at komme videre!</p>""
-"<p>Spørg os på biblioteket eller få hjælp på <a href="http://biblioteksvagten.dk/">Biblioteksvagten.dk</a></p>""
+"<p>Din søgning desværre ikke gav noget resultat, men vi vil gerne hjælpe dig med at komme videre!</p>"
+"<p>Spørg os på biblioteket eller få hjælp på <a href="http://biblioteksvagten.dk/">Biblioteksvagten.dk</a></p>"
 "<p>Du kan også søge videre på <a href="http://bibliotek.dk/">Bibliotek.dk</a></p>"
 
 #: /admin/config/ding/interaction
@@ -66646,3 +66630,26 @@ msgstr "Søg i biblioteksbasen"
 #: /lazy-pane/ajax
 msgid "Because you have a list with materials by the author !author."
 msgstr "Fordi du har en liste med materialer af forfatteren !author"
+
+#: /system/ajax
+msgid ""
+"Please use the following link to access this list.\n"
+"The link is active for 7 days from today, after which it will be "
+"disabled for security reasons.\n"
+"\n"
+"!link."
+msgstr ""
+"Åbn !link for at få adgang til listen. \r\n"
+"Linket er aktivt i 7 dage, hvorefter det vil blive deaktiveret af "
+"sikkerhedshensyn."
+
+#: /gatewayf/callback?destination=ding_frontpage?eduPersonTargetedID=WAYF-DK-e767c06edaad0f8d23e785bbc470e7f37ad03e8d&mail=&logintype=nemlogin
+msgid ""
+"You do not have an user account at the public library. If you wish you "
+"can create an user account below. You are still logged in at WAYF, so "
+"you can !logout to logout of WAYF."
+msgstr ""
+"Du er ikke oprettet som låner på dette bibliotek. Hvis du ønsker det"
+"kan du oprette dig som låner nedenfor.</br>\r\n"
+"Du er stadig logget ind ved NemID. Hvis du vil logge ud så "
+"!logout."

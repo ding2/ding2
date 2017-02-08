@@ -162,6 +162,12 @@ function ding2_translation_update() {
   $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/fields_da.po';
   $file->filename = basename($file->uri);
   _locale_import_po($file, 'da', LOCALE_IMPORT_KEEP, 'field');
+
+  // Update metatag translation group.
+  $file = new stdClass();
+  $file->uri = DRUPAL_ROOT . '/profiles/ding2/translations/metatags_da.po';
+  $file->filename = basename($file->uri);
+  _locale_import_po($file, 'da', LOCALE_IMPORT_KEEP, 'metatag');
 }
 
 /**
@@ -425,5 +431,12 @@ function ding2_update_7029() {
  * Update our own translations.
  */
 function ding2_update_7030() {
+  ding2_translation_update();
+}
+
+/**
+ * Update our own translations.
+ */
+function ding2_update_7031() {
   ding2_translation_update();
 }
