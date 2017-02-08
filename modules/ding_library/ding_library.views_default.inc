@@ -63,16 +63,6 @@ function ding_library_views_default_views() {
   $handler->display->display_options['fields']['title']['element_wrapper_type'] = '0';
   $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
   $handler->display->display_options['fields']['title']['hide_alter_empty'] = FALSE;
-  /* Field: Broken/missing handler */
-  $handler->display->display_options['fields']['field_ding_library_list_image']['id'] = 'field_ding_library_list_image';
-  $handler->display->display_options['fields']['field_ding_library_list_image']['table'] = 'field_data_field_ding_library_list_image';
-  $handler->display->display_options['fields']['field_ding_library_list_image']['field'] = 'field_ding_library_list_image';
-  $handler->display->display_options['fields']['field_ding_library_list_image']['ui_name'] = 'List image';
-  $handler->display->display_options['fields']['field_ding_library_list_image']['label'] = '';
-  $handler->display->display_options['fields']['field_ding_library_list_image']['element_class'] = 'photo';
-  $handler->display->display_options['fields']['field_ding_library_list_image']['element_label_colon'] = FALSE;
-  $handler->display->display_options['fields']['field_ding_library_list_image']['element_wrapper_type'] = '0';
-  $handler->display->display_options['fields']['field_ding_library_list_image']['element_default_classes'] = FALSE;
   /* Field: Content: Address */
   $handler->display->display_options['fields']['field_ding_library_addresse']['id'] = 'field_ding_library_addresse';
   $handler->display->display_options['fields']['field_ding_library_addresse']['table'] = 'field_data_field_ding_library_addresse';

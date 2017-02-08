@@ -93,7 +93,7 @@ function ding_groups_node_info() {
       'base' => 'node_content',
       'description' => t('Create and new group that can be used to group related content together (temapages)'),
       'has_title' => '1',
-      'title_label' => t('titel'),
+      'title_label' => t('Title'),
       'help' => '',
     ),
   );

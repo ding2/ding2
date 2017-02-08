@@ -257,7 +257,7 @@ function ding_content_views_default_views() {
   $handler->display->display_options['filters']['title']['operator'] = 'contains';
   $handler->display->display_options['filters']['title']['group'] = 1;
   $handler->display->display_options['filters']['title']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['title']['expose']['label'] = 'titel';
+  $handler->display->display_options['filters']['title']['expose']['label'] = 'Title';
   $handler->display->display_options['filters']['title']['expose']['identifier'] = 'title';
   $handler->display->display_options['filters']['title']['expose']['remember'] = TRUE;
   /* Filter criterion: Content: Type */
@@ -543,7 +543,7 @@ function ding_content_views_default_views() {
     t('Language'),
     t('Actions'),
     t('edit'),
-    t('titel'),
+    t('Title'),
     t('Published'),
     t('Author: Forename'),
     t('Forename (field_ding_staff_forename)'),

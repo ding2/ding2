@@ -216,7 +216,7 @@ function ding_ddbasic_form_search_block_form_alter(&$form, &$form_state) {
 }
 
 /**
- * Pre submit action for form_search_block_form().
+ * Prepended submit action for form_search_block_form().
  */
 function ding_ddbasic_form_search_block_form_submit($form, &$form_state) {
   if (!empty($form_state['values']['material_type'])) {
