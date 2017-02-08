@@ -285,9 +285,11 @@ function ding_gatewayf_ding_provider_user() {
 /**
  * Do a check on the checksum given from gatewayf.
  *
- * To protect against malicious attempts to login through gatewayf the response contains a checksum which can be used to verify the data:
+ * To protect against malicious attempts to login through gatewayf
+ * the response contains a checksum which can be used to verify the data:
  *
- * 1.Take specific values from the attributes (schacPersonalUniqueID, eduPersonTargetedID)
+ * 1.Take specific values from the
+ *   attributes (schacPersonalUniqueID, eduPersonTargetedID)
  * 2.Concatenate into a single string
  * 3.Append a shared salt
  * 4.Hash the string using using MD5
