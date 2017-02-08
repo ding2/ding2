@@ -9321,17 +9321,17 @@ ul.actions {
 
 /* This part should be moved. Ding Interactives
    ========================================================================== */
-.complete-info {
+.ding-interaction-true-pane.complete-info {
   background: #006FB9;
   color: #fff;
   padding: 30px; }
-  .complete-info .pane-title {
+  .ding-interaction-true-pane.complete-info .pane-title {
     font-size: 130%;
     margin-bottom: 1em; }
-  .complete-info .user-barometer-tip {
+  .ding-interaction-true-pane.complete-info .user-barometer-tip {
     font-family: "SourceSansProLight";
     font-size: 130%; }
-    .complete-info .user-barometer-tip a {
+    .ding-interaction-true-pane.complete-info .user-barometer-tip a {
       -webkit-border-radius: 8px;
       -moz-border-radius: 8px;
       border-radius: 8px;
@@ -9344,7 +9344,7 @@ ul.actions {
       display: inline-block;
       margin-right: 20px;
       color: #fff; }
-      .complete-info .user-barometer-tip a:hover {
+      .ding-interaction-true-pane.complete-info .user-barometer-tip a:hover {
         background: #fff;
         color: #006FB9; }
 
