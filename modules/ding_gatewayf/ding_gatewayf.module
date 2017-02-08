@@ -174,6 +174,10 @@ function ding_gatewayf_logout() {
     unset($_SESSION[DING_GATEWAYF_IS_LOGGED_IN]);
   }
 
+  if (!empty($_SESSION[DING_GATEWAYF_ATTRIBUTES])) {
+    unset($_SESSION[DING_GATEWAYF_ATTRIBUTES]);
+  }
+
   drupal_set_message(t('You are now logged out of WAYF.'));
 
   // Get the logout url for the site, which is used to redirect the user after
@@ -211,7 +215,6 @@ function ding_gatewayf_callback() {
   }
 
   $attributes = $_POST;
-
   // Check if the login was successful and the users information was returned.
   if (!empty($attributes['schacPersonalUniqueID'])) {
     $config = _ding_gatewayf_load_configuration();
@@ -241,6 +244,31 @@ function ding_gatewayf_callback() {
 }
 
 /**
+ * Make a string based on request parameters.
+ *
+ * @param array $params
+ *   The values to extract from.
+ * @param string $ret
+ *   The generated salt to return.
+ *
+ * @return string
+ *   The salt.
+ */
+function ding_gatewayf_key_from_attributes(array $params, $ret = '') {
+  foreach ($params as $key => $value) {
+    /** @var array $value */
+    if (is_array($value)) {
+      // Recursive.
+      $ret = ding_gatewayf_key_from_attributes($value, $ret);
+    }
+    else {
+      $ret .= $value;
+    }
+  }
+  return $ret;
+}
+
+/**
  * Implements hook_ding_provider_user().
  *
  * This module requires that the provider has WAYF support.
@@ -255,12 +283,75 @@ function ding_gatewayf_ding_provider_user() {
 }
 
 /**
+ * Do a check on the checksum given from gatewayf.
+ *
+ * To protect against malicious attempts to login through gatewayf
+ * the response contains a checksum which can be used to verify the data:
+ *
+ * 1.Take specific values from the
+ *   attributes (schacPersonalUniqueID, eduPersonTargetedID)
+ * 2.Concatenate into a single string
+ * 3.Append a shared salt
+ * 4.Hash the string using using MD5
+ * 5.Compare the hash with the checksum from gatewayf
+ *
+ * @param array $attributes
+ *   The attributes from gatewayf.
+ *
+ * @return bool
+ *   Safe or not.
+ */
+function ding_gatewayf_security_check(array $attributes) {
+  // Check attributes.
+  if (empty($attributes['schacPersonalUniqueID']) || empty($attributes['eduPersonTargetedID'])) {
+    // We expect alway to get these two attributes.
+    watchdog('ding_gatewayf', 'Neccesary attributes missing', array(), WATCHDOG_ERROR);
+    return FALSE;
+  }
+
+  $gateway_checksum = isset($attributes['hash'][0]) ? $attributes['hash'][0] : NULL;
+  if (!isset($gateway_checksum)) {
+    // This is an error from gatewayf - checksum should always be in attributes.
+    watchdog('ding_gatewayf', 'No checksum from gatewayf', array(), WATCHDOG_ERROR);
+    return FALSE;
+  }
+
+  $fixed_params = array(
+    $attributes['schacPersonalUniqueID'][0],
+    $attributes['eduPersonTargetedID'][0],
+  );
+
+  $key = ding_gatewayf_key_from_attributes($fixed_params);
+  // Get salt from settings $conf.
+  $salt = variable_get('ding_gatewayf_salt', NULL);
+  if (empty($salt)) {
+    // This is a configuration error.
+    watchdog('ding_gatewayf', 'No salt has been defined - wayf login is disabled for security', array(), WATCHDOG_ERROR);
+    return FALSE;
+  }
+  $ding_checksum = md5($key . $salt);
+  if ($ding_checksum !== $gateway_checksum) {
+    // Somebody has changed something - abort.
+    watchdog('ding_gatewayf', 'checksum from gatewayf did not match', array(), WATCHDOG_ERROR);
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**
  * Login user to the library system and Drupal.
  *
  * @param array $attributes
  *   Attributes returned by gatewayf service.
  */
 function _ding_gatewayf_provider_login(array $attributes) {
+  $status = ding_gatewayf_security_check($attributes);
+  if (!$status) {
+    drupal_set_message(t('Sorry login failed - please contact site administrator'), 'warning');
+    ding_gatewayf_user_logout();
+  }
+
   if (ding_provider_implements('wayf', 'login_credentials')) {
     // Parse the attributes required by the current provider.
     $required_attr = _ding_gatewayf_get_credentials($attributes);
@@ -468,7 +559,8 @@ function _ding_gatewayf_extract_data($data, $field = '') {
  *   The configuration with valid default values.
  */
 function _ding_gatewayf_load_configuration() {
-  $config = variable_get('ding_gatewayf', array()) + array(
+  $config = variable_get('ding_gatewayf', array());
+  $config += array(
     'service' => array(
       'endpoint' => 'https://bibliotek.dk/gatewayf/gatewayf.php',
     ),
