@@ -1,6 +1,0 @@
-name = Ding Place2book migrate
-description = Migration content from old to API to newest
-core = 7.x
-package = Ding!
-dependencies[] = ding_place2book
-configure = admin/config/ding/place2book/migrate
