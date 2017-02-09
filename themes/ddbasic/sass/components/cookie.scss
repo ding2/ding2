@@ -44,13 +44,20 @@
       .find-more-button {
         @extend %button;
         @include font('base');
-        background: $charcoal;
-        color: white;
+        background: $color-secondary;
+        color: $color-text-on-secondary;
         float: left;
         margin-right: 20px;
         text-shadow: none;
         border: none;
         box-shadow: none;
+        .no-touch & {
+          &:hover {
+            background: none;
+            background-color: $grey-dark;
+            color: $white;
+          }
+        }
 
         // Mobile
         @include media($mobile) {
