@@ -72,7 +72,9 @@ function ting_search_carousel_admin_form(array $form, array &$form_state) {
     '#title' => t('Searches'),
   );
 
-  $searches = variable_get('ting_search_carousel_searches', array());
+  if (empty($form_state['num_searches'])) {
+    $form_state['existing_searches'] = variable_get('ting_search_carousel_searches', array());
+  }
 
   $form['ting_search_carousel']['ting_searches'] = array(
     '#type' => 'container',
@@ -82,7 +84,7 @@ function ting_search_carousel_admin_form(array $form, array &$form_state) {
   );
 
   if (!isset($form_state['num_searches'])) {
-    $ids = array_keys($searches);
+    $ids = array_keys($form_state['existing_searches']);
     if (!empty($ids)) {
       $form_state['num_searches'] = array_combine($ids, $ids);
     }
@@ -92,7 +94,7 @@ function ting_search_carousel_admin_form(array $form, array &$form_state) {
   }
 
   foreach ($form_state['num_searches'] as $i) {
-    $form['ting_search_carousel']['ting_searches'][$i] = ting_search_carousel_query_form($searches[$i], $i);
+    $form['ting_search_carousel']['ting_searches'][$i] = ting_search_carousel_query_form($form_state['existing_searches'][$i], $i);
   }
 
   $form['ting_search_carousel']['add_search'] = array(
@@ -142,6 +144,7 @@ function ting_search_carousel_add_more_add_one(array $form, array &$form_state) 
 function ting_search_carousel_remove_submit(array $form, array &$form_state) {
   $elem = $form_state['triggering_element'];
   unset($form_state['num_searches'][$elem['#search_id']]);
+  unset($form_state['existing_searches'][$elem['#search_id']]);
   $form_state['rebuild'] = TRUE;
 }
 
@@ -257,24 +260,26 @@ function ting_search_carousel_query_form($item = array(), $index = 0) {
     '#default_value' => isset($item['query']) ? $item['query'] : '',
   );
 
-  $form['data']['remove'] = array(
-    '#type' => 'submit',
-    '#value' => t('Remove'),
-    '#name' => 'ting_search_carousel_remove_' . $index,
-    '#search_id' => $index,
-    '#attributes' => array(
-      'class' => array(
-        'remove',
+  if ($index != 0) {
+    $form['data']['remove'] = array(
+      '#type' => 'submit',
+      '#value' => t('Remove'),
+      '#name' => 'ting_search_carousel_remove_' . $index,
+      '#search_id' => $index,
+      '#attributes' => array(
+        'class' => array(
+          'remove',
+        ),
       ),
-    ),
-    '#submit' => array('ting_search_carousel_remove_submit'),
-    '#ajax' => array(
-      'callback' => 'ting_search_carousel_ajax_callback',
-      'wrapper' => 'ting-search-carousel-wrapper',
-      'method' => 'replace',
-      'effect' => 'fade',
-    ),
-  );
+      '#submit' => array('ting_search_carousel_remove_submit'),
+      '#ajax' => array(
+        'callback' => 'ting_search_carousel_ajax_callback',
+        'wrapper' => 'ting-search-carousel-wrapper',
+        'method' => 'replace',
+        'effect' => 'fade',
+      ),
+    );
+  }
 
   return $form;
 }
