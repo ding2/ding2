@@ -42,7 +42,7 @@ $modal-border-radius:             12px;
 
 .ui-dialog-title {
   @extend .page-title;
-  
+
   color: $dialog-text;
 }
 
@@ -69,9 +69,8 @@ $modal-border-radius:             12px;
   .ui-dialog-titlebar {
     .ui-dialog-titlebar-close {
       float: right;
-      right: $small-spacing;
+      right: 10%;
       padding: 0;
-      top: $medium-spacing;
       width: auto;
       background: none;
       border: none;
@@ -143,4 +142,8 @@ $modal-border-radius:             12px;
 .ui-widget-header .ui-state-focus {
   background: none;
   border: 0;
+}
+
+.ding-popup-content {
+  display: inline-block;
 }

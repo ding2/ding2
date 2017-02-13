@@ -1993,9 +1993,8 @@ button.button {
     outline: none; }
   .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-close {
     float: right;
-    right: 5px;
+    right: 10%;
     padding: 0;
-    top: 10px;
     width: auto;
     background: none;
     border: none; }
@@ -2041,6 +2040,9 @@ button.button {
 .ui-widget-header .ui-state-focus {
   background: none;
   border: 0; }
+
+.ding-popup-content {
+  display: inline-block; }
 
 /*!
  *  Font Awesome 3.0.1
