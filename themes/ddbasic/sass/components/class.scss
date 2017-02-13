@@ -426,6 +426,12 @@ ul.pager {
         }
       }
     }
+    // Mobile
+    @include media($mobile) {
+      &.pager-first {
+        display: none;
+      }
+    }
   }
 }
 

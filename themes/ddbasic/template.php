@@ -1076,3 +1076,180 @@ function ddbasic_date_display_range($variables) {
     '!end-date' => $end_date,
   ));
 }
+
+/**
+ * Ting search pager.
+ */
+function ddbasic_ting_search_pager($variables) {
+
+  if(!empty($_GET['size'])) {
+    $results_per_page = $_GET['size'];
+  } else {
+    $results_per_page = variable_get('ting_search_results_per_page', 10);
+  }
+
+  $tags = $variables['tags'];
+  $element = $variables['element'];
+  $parameters = $variables['parameters'];
+  //$quantity = $variables['quantity'];
+  $quantity = 3;
+  $hide_list = isset($variables['hide_list']) ? $variables['hide_list'] : FALSE;
+  global $pager_page_array, $pager_total;
+
+  // Calculate various markers within this pager piece:
+  // Middle is used to "center" pages around the current page.
+  $pager_middle = ceil($quantity / 2);
+  // Current is the page we are currently paged to.
+  $pager_current = $pager_page_array[$element] + 1;
+  // First is the first page listed by this pager piece (re quantity).
+  $pager_first = $pager_current - $pager_middle + 1;
+  // Last is the last page listed by this pager piece (re quantity).
+  $pager_last = $pager_current + $quantity - $pager_middle;
+  // Max is the maximum page number.
+  $pager_max = $pager_total[$element];
+
+  // Prepare for generation loop.
+  $i = $pager_first;
+  if ($pager_last > $pager_max) {
+    // Adjust "center" if at end of query.
+    $i = $i + ($pager_max - $pager_last);
+    $pager_last = $pager_max;
+  }
+  if ($i <= 0) {
+    // Adjust "center" if at start of query.
+    $pager_last = $pager_last + (1 - $i);
+    $i = 1;
+  }
+
+  $li_previous = theme('pager_previous', array(
+    'text' => isset($tags[1]) ? $tags[1] : t('‹ previous'),
+    'element' => $element,
+    'interval' => 1,
+    'parameters' => $parameters,
+  ));
+
+  if (empty($li_previous)) {
+    $li_previous = "&nbsp;";
+  }
+
+  $li_first = theme('pager_first', array(
+    'text' => isset($tags[0]) ? $tags[0] : t('« first'),
+    'element' => $element,
+    'parameters' => $parameters,
+  ));
+
+  if (empty($li_first)) {
+    $li_first = "&nbsp;";
+  }
+
+  $li_next = theme('pager_next', array(
+    'text' => isset($tags[3]) ? $tags[3] : t('next ›'),
+    'element' => $element,
+    'interval' => 1,
+    'parameters' => $parameters,
+  ));
+  if (empty($li_next)) {
+    $li_next = "&nbsp;";
+  }
+
+  $li_last = theme('pager_last', array(
+    'text' => isset($tags[4]) ? $tags[4] : t('last »'),
+    'element' => $element,
+    'parameters' => $parameters,
+  ));
+
+  if (empty($li_last)) {
+    $li_last = "&nbsp;";
+  }
+
+  if ($pager_total[$element] > 1) {
+    if ($pager_current > 2) {
+      $items[] = array(
+        'class' => array('pager-first'),
+        'data' => $li_first,
+      );
+    }
+
+    $items[] = array(
+      'class' => array('pager-previous'),
+      'data' => $li_previous,
+    );
+
+    // When there is more than one page, create the pager list.
+    if (!$hide_list && $i != $pager_max) {
+      if ($i > 1) {
+        $items[] = array(
+          'class' => array('pager-ellipsis'),
+          'data' => '…',
+        );
+      }
+      // Now generate the actual pager piece.
+      for (; $i <= $pager_last && $i <= $pager_max; $i++) {
+        if ($i < $pager_current) {
+          $items[] = array(
+            'class' => array('pager-item'),
+            'data' => theme('pager_previous', array(
+              'text' => $i * $results_per_page - $results_per_page + 1  . '-' . $i * $results_per_page,
+              'element' => $element,
+              'interval' => ($pager_current - $i),
+              'parameters' => $parameters,
+            )),
+          );
+        }
+        if ($i == $pager_current) {
+          $items[] = array(
+            'class' => array('pager-current'),
+            'data' => $i * $results_per_page - $results_per_page + 1  . '-' . $i * $results_per_page,
+          );
+        }
+        if ($i > $pager_current) {
+          $items[] = array(
+            'class' => array('pager-item'),
+            'data' => theme('pager_next', array(
+              'text' => $i * $results_per_page - $results_per_page + 1  . '-' . $i * $results_per_page,
+              'element' => $element,
+              'interval' => ($i - $pager_current),
+              'parameters' => $parameters,
+            )),
+          );
+        }
+        if ($i > $pager_current) {
+          $items[] = array(
+            'class' => array('pager-ellipsis'),
+            'data' => '…',
+          );
+        }
+      }
+      if ($i < $pager_max) {
+        $items[] = array(
+          'class' => array('pager-ellipsis'),
+          'data' => '…',
+        );
+      }
+    }
+    else {
+      $items[] = array(
+        'class' => array('pager-current'),
+        'data' => $pager_current,
+      );
+    }
+
+    $items[] = array(
+      'class' => array('pager-next'),
+      'data' => $li_next,
+    );
+    if ($pager_current + 1 < $pager_max && $li_last) {
+      $items[] = array(
+        'class' => array('pager-last'),
+        'data' => $li_last,
+      );
+    }
+    return theme('item_list', array(
+      'items' => $items,
+      'type' => 'ul',
+      'attributes' => array(
+        'class' => array('pager'),
+      ),
+    ));
+  }
+}
