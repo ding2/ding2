@@ -116,7 +116,7 @@ $info = array(
 
   // CSS files (excluding @import) to rewrite with new color scheme.
   'css' => array(
-    'css/ddbasic.styles.css',
+    'css/ddbasic.styles.min.css',
   ),
 
   // Color areas to fill (x, y, width, height).

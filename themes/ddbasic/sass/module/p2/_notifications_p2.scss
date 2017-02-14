@@ -21,6 +21,11 @@
     margin-left: 0;
     margin-top: 15px;
   }
+  .pane-notifications-top-menu {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
   //@include respond-to('small-medium') {
   //  margin-top: 16px;
   //  float: left;
@@ -303,7 +308,7 @@ ul.actions {
 /* This part should be moved. Ding Interactives
    ========================================================================== */
 
-.complete-info {
+.ding-interaction-true-pane.complete-info {
   background: $interests-blue;
   color: $white;
   padding: 30px;
@@ -469,4 +474,3 @@ ul.actions {
     }
   }
 }
-

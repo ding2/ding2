@@ -292,11 +292,6 @@ function theme_ding_entity_rating_display($variables) {
 
   $output .= ding_entity_rating_build_theme_list($variables['rating']);
 
-  // Add average value if the entity has ratings already.
-  if (!empty($variables['avg'])) {
-    $output .= '<span class="ding-entity-rating-avg">' . t('Average:') . ' ' . round($variables['avg'], 2) . '</span>';
-  }
-
   return $output . '</div>';
 }
 
@@ -339,20 +334,60 @@ function ding_entity_rating_build_theme_list($rating) {
  * Retrieve the average rating of a ting object entity.
  *
  * @param object $entity
- *   The ting object entity to remove from the rating list.
+ *   The ting object entity to get rating for.
  *
  * @return int
  *   The average rating of the given entity.
  */
 function ding_entity_rating_get_average($entity) {
-  $query = db_select('field_data_field_weight', 'w');
-  $query->join('eck_ding_type', 'dt', 'w.entity_id = dt.id');
-  $query->join('field_data_field_value', 'v', 'w.entity_id = v.entity_id');
-  $query->condition('v.field_value_value', $entity->ding_entity_id)
-    ->addExpression('AVG(w.field_weight_value)', 'avg_count');
-  $result = $query->execute();
+  return ding_entity_rating_average($entity);
+}
 
-  return $result->fetchField(0);
+/**
+ * Set the average rating of a ting object entity.
+ *
+ * @param object $entity
+ *   The ting object entity to set rating for.
+ * @param mixed $value
+ *   The average value.
+ *
+ * @return int
+ *   The average rating of the given entity.
+ */
+function ding_entity_rating_set_average($entity, $value) {
+  return ding_entity_rating_average($entity, $value);
+}
+
+/**
+ * Get / Set average rating of a ting object.
+ *
+ * @param object $entity
+ *   The ting object entity to work with.
+ * @param mixed $value
+ *   Set the average if this value is set.
+ *
+ * @return int
+ *   The average rating of the given entity.
+ */
+function ding_entity_rating_average($entity, $value = NULL) {
+  $averages = &drupal_static(__FUNCTION__, array());
+  $id = $entity->ding_entity_id;
+
+  if ($value !== NULL) {
+    $averages[$id] = $value;
+  }
+  elseif (!isset($averages[$id])) {
+    $query = db_select('field_data_field_weight', 'w');
+    $query->join('eck_ding_type', 'dt', 'w.entity_id = dt.id');
+    $query->join('field_data_field_value', 'v', 'w.entity_id = v.entity_id');
+    $query->condition('v.field_value_value', $id)
+      ->addExpression('AVG(w.field_weight_value)', 'avg_count');
+    $result = $query->execute();
+
+    $averages[$id] = $result->fetchField(0);
+  }
+
+  return $averages[$id];
 }
 
 /**

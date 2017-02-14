@@ -28,6 +28,11 @@ include_once 'ding_serendipity.features.inc';
 define('DING_SERENDIPITY_FUNCTION_POSTFIX', '_serendipity_add');
 
 /**
+ * Default fallback search string.
+ */
+define('DING_SERENDIPITY_DEFAULT_FALLBACK_STRING', 'facet.type=bog');
+
+/**
  * Implements hook_menu().
  */
 function ding_serendipity_menu() {

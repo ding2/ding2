@@ -31,7 +31,7 @@ function ding_entity_rating_field_default_field_instances() {
         'weight' => 0,
       ),
       'compact' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'ding_entity_rating',
         'settings' => array(),
         'type' => 'ding_entity_rating_action_default',
@@ -45,14 +45,14 @@ function ding_entity_rating_field_default_field_instances() {
         'weight' => 7,
       ),
       'search_result' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'ding_entity_rating',
         'settings' => array(),
         'type' => 'ding_entity_rating_action_default',
         'weight' => 20,
       ),
       'teaser' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'ding_entity_rating',
         'settings' => array(),
         'type' => 'ding_entity_rating_action_default',
@@ -120,14 +120,14 @@ function ding_entity_rating_field_default_field_instances() {
         'weight' => 8,
       ),
       'search_result' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'ding_entity_rating',
         'settings' => array(),
         'type' => 'ding_entity_rating_result_default',
         'weight' => 21,
       ),
       'teaser' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'ding_entity_rating',
         'settings' => array(),
         'type' => 'ding_entity_rating_result_default',

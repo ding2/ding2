@@ -39,15 +39,31 @@ gulp.task('uglify', 'Minify JavaScript using Uglify',
 
 gulp.task('sass', 'Process SCSS using libsass',
   function () {
+    var includePaths = [
+      'node_modules/compass-mixins/lib',
+      // Zen grids is downloaded as a library using drush make.
+      '../../libraries/zen-grids/stylesheets'
+    ];
+
+    // Reference version of compiled files.
+    // These can be used for debugging or determining changes.
+    gulp.src(sassPath)
+      .pipe(sass({
+        // The nested output style is the most verbose one.
+        outputStyle: 'nested',
+        includePaths: includePaths
+      }).on('error', sass.logError))
+      .pipe(gulp.dest('./css'));
+    // Production version of compiled files. These are used by default.
     gulp.src(sassPath)
       .pipe(sass({
         outputStyle: 'compressed',
-        includePaths: [
-          'node_modules/compass-mixins/lib',
-          // Zen grids is downloaded as a library using drush make.
-          '../../libraries/zen-grids/stylesheets'
-        ]
+        includePaths: includePaths
       }).on('error', sass.logError))
+      // Add a .min to compiled files to separate them from the verbose set.
+      .pipe(rename(function (path) {
+        path.extname = '.min.css';
+      }))
       .pipe(gulp.dest('./css'));
   }
 );

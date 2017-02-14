@@ -2,6 +2,15 @@
   margin-bottom: $large-spacing;
 }
 
+.pane-popular {
+  padding-top: 20px;
+  background-color: $white;
+
+  > h2 {
+    padding: 0 20px;
+  }
+}
+
 .page-taxonomy-term {
   .pane-page-content {
     // Small
@@ -97,6 +106,20 @@
         display: none;
       }
     }
+  }
+}
+
+/* Ding Interactive
+   ========================================================================== */
+.pane-interaction-pane {
+  position: relative;
+  h2 {
+    width: calc(100% - 70px);
+  }
+  .close-btn {
+    position: absolute;
+    top: 30px;
+    right: 30px;
   }
 }
 

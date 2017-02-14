@@ -45,7 +45,7 @@ class ExternalReservationsApi extends SwaggerApi
         $request->addParameter("path", "patronid", $patronid);
 
         $request->defineResponse(200, "", array('\\FBS\\Model\\ReservationDetails'));
-        $request->defineResponse("400", 'bad request', '\\FBS\\Model\\RestException');
+        $request->defineResponse("400", 'bad request', null);
         $request->defineResponse("401", 'client unauthorized', null);
 
         return $request->execute();
@@ -91,7 +91,7 @@ class ExternalReservationsApi extends SwaggerApi
         $request->addParameter("body", "createReservationBatch", $createReservationBatch);
 
         $request->defineResponse(200, "", array('\\FBS\\Model\\ReservationDetails'));
-        $request->defineResponse("400", 'bad request', '\\FBS\\Model\\RestException');
+        $request->defineResponse("400", 'bad request', null);
         $request->defineResponse("401", 'client unauthorized', null);
         $request->defineResponse("404", 'patron not found', null);
 
@@ -133,7 +133,7 @@ class ExternalReservationsApi extends SwaggerApi
         $request->addParameter("body", "reservations", $reservations);
 
         $request->defineResponse(200, "", array('\\FBS\\Model\\ReservationDetails'));
-        $request->defineResponse("400", 'bad request', '\\FBS\\Model\\RestException');
+        $request->defineResponse("400", 'bad request', null);
         $request->defineResponse("401", 'client unauthorized', null);
 
         return $request->execute();
@@ -157,7 +157,7 @@ class ExternalReservationsApi extends SwaggerApi
         $request->addParameter("query", "reservationid", $reservationid);
 
         $request->defineResponse(204, "", null);
-        $request->defineResponse("400", 'bad request', '\\FBS\\Model\\RestException');
+        $request->defineResponse("400", 'bad request', null);
         $request->defineResponse("401", 'client unauthorized', null);
 
         return $request->execute();
@@ -228,7 +228,7 @@ class ExternalReservationsApi extends SwaggerApi
         $request->addParameter("body", "createReservationBatch", $createReservationBatch);
 
         $request->defineResponse(200, "", '\\FBS\\Model\\ReservationResponse');
-        $request->defineResponse("400", 'bad request', '\\FBS\\Model\\RestException');
+        $request->defineResponse("400", 'bad request', null);
         $request->defineResponse("401", 'client unauthorized', null);
         $request->defineResponse("404", 'patron not found', null);
 

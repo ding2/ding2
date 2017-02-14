@@ -30,7 +30,7 @@ class ExternalAuthenticationApi extends SwaggerApi
         $request->addParameter("body", "login", $login);
 
         $request->defineResponse(200, "", '\\FBS\\Model\\ExternalAPIUserInfo');
-        $request->defineResponse("400", 'bad request', '\\FBS\\Model\\RestException');
+        $request->defineResponse("400", 'bad request', null);
         $request->defineResponse("403", 'invalid client credentials', null);
 
         return $request->execute();

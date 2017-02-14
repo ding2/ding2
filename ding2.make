@@ -340,9 +340,14 @@ projects[services_views][version] = "1.1"
 
 projects[search_api][subdir] = "contrib"
 projects[search_api][version] = "1.16"
+; Fix search_api warnings and notices. should be removed when upgrading to 1.17.
+projects[search_api][patch][] = "https://www.drupal.org/files/issues/2563793-9--multiple_types_issues.patch"
 
 projects[search_api_multi][subdir] = "contrib"
 projects[search_api_multi][version] = "1.3"
+; Fix incompatibility with Multiple types indexes
+; https://www.drupal.org/node/2580975
+projects[search_api_multi][patch][] = "https://www.drupal.org/files/issues/2580975-2--fix_multi_type_index_incompatibilities.patch"
 
 projects[search_api_db][subdir] = "contrib"
 projects[search_api_db][version] = "1.5"
@@ -444,17 +449,29 @@ libraries[chosen][download][url] = "https://github.com/harvesthq/chosen/releases
 libraries[chosen][destination] = "libraries"
 
 libraries[guzzle][download][type] = "git"
-libraries[guzzle][download][url] = "git@github.com:guzzle/guzzle.git"
+libraries[guzzle][download][url] = "https://github.com/guzzle/guzzle.git"
+libraries[guzzle][download][tag] = "6.2.2"
 libraries[guzzle][destination] = "libraries"
 
 libraries[http-message][download][type] = "git"
-libraries[http-message][download][url] = "git@github.com:php-fig/http-message.git"
+libraries[http-message][download][url] = "https://github.com/php-fig/http-message.git"
+libraries[http-message][download][tag] = "1.0.1"
 libraries[http-message][destination] = "libraries"
+
+libraries[jsonmapper][download][type] = "git"
+libraries[jsonmapper][download][url] = "https://github.com/cweiske/jsonmapper"
+libraries[jsonmapper][download][tag] = "v0.4.4"
+libraries[jsonmapper][destination] = "libraries"
 
 libraries[leaflet][download][type] = "get"
 libraries[leaflet][download][url] = "http://cdn.leafletjs.com/downloads/leaflet-0.7.3.zip"
 libraries[leaflet][directory_name] = "leaflet"
 libraries[leaflet][destination] = "libraries"
+
+libraries[phly-http][download][type] = "git"
+libraries[phly-http][download][url] = "https://github.com/phly/http"
+libraries[phly-http][download][tag] = "0.14.1"
+libraries[phly-http][destination] = "libraries"
 
 libraries[profiler][download][type] = "git"
 libraries[profiler][download][url] = "http://git.drupal.org/project/profiler.git"
@@ -463,11 +480,13 @@ libraries[profiler][download][branch] = "7.x-2.0-beta1"
 libraries[profiler][patch][0] = "http://drupal.org/files/profiler-reverse.patch"
 
 libraries[promises][download][type] = "git"
-libraries[promises][download][url] = "git@github.com:guzzle/promises.git"
+libraries[promises][download][url] = "https://github.com/guzzle/promises.git"
+libraries[promises][download][tag] = "1.2.0"
 libraries[promises][destination] = "libraries"
 
 libraries[psr7][download][type] = "git"
-libraries[psr7][download][url] = "git@github.com:guzzle/psr7.git"
+libraries[psr7][download][url] = "https://github.com/guzzle/psr7.git"
+libraries[psr7][download][tag] = "1.3.1"
 libraries[psr7][destination] = "libraries"
 
 libraries[ting-client][download][type] = "git"
