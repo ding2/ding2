@@ -73,10 +73,8 @@ var ding_mkws_queue = {
 
       unique = unique.concat(newarray.pop());
       unique = unique.filter(function (item) { return item !== undefined; });
-      unique = unique.join(' ');
-
-      query = unique.replace(/[\s]/gi, '');
-    }
+      query = unique.join(' ');
+     }
     else {
       query = str;
     }
