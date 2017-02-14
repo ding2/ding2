@@ -51,8 +51,10 @@ var ding_mkws_queue = {
       splited.forEach(function (item) {
         // Matching possible term arguments.
         if (item.match(/"([^"]+)"/)) {
-          // console.log(item);
           matches.push(item.match(/"([^"]+)"/)[1]);
+        }
+        else {
+          matches.push(item);
         }
       });
 
@@ -73,7 +75,7 @@ var ding_mkws_queue = {
       unique = unique.filter(function (item) { return item !== undefined; });
       unique = unique.join(' ');
 
-      query = unique.replace(/[^\w\s]/gi, '');
+      query = unique.replace(/[\s]/gi, '');
     }
     else {
       query = str;
