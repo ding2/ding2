@@ -294,10 +294,24 @@ function ding_mkws_preprocess_ding_campaign(&$variables) {
 
     if ($items) {
       $item = reset($items);
-      $hash = md5(implode('', $item));
+
+      // Validate item before the processing.
+      if (empty($item['maxrecs'])) {
+        unset($item['maxrecs']);
+      }
+
+      $hash = md5(
+        implode(
+          '',
+          array(
+            $item['term'],
+            $item['amount'],
+            implode(',', $item['resources'])
+          )
+        )
+      );
 
       ding_mkws_include_all();
-
       $markup = array(
         '#type' => 'html_tag',
         '#tag' => 'div',
