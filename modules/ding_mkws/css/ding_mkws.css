@@ -183,6 +183,8 @@
   margin-top: 10px;
 }
 .ding-mkws-widget .ding-mkws-content {
+  float: left;
+  width: 100%;
   margin: 0;
   padding: 0;
 }
@@ -198,6 +200,12 @@
 .ding-mkws-widget .ding-mkws-content .ding-mkws-rows:nth-child(odd) {
   background-color: #e8e8e8;
 }
+.ding-mkws-widget .ding-mkws-content .ding-mkws-rows .row {
+  display: inline-block;
+  float: left;
+  clear: left;
+  width: 100%;
+}
 .ding-mkws-widget .ding-mkws-content .ding-mkws-rows .left-label {
   float: left;
   width: 33.33333%;
@@ -208,7 +216,6 @@
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  width: 100px;
 }
 .ding-mkws-widget .ding-mkws-content .ding-mkws-rows .left-label .ding-mkws-target,
 .ding-mkws-widget .ding-mkws-content .ding-mkws-rows .left-label .ding-mkws-name,
@@ -227,7 +234,6 @@
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  width: 180px;
 }
 .ding-mkws-widget .ding-mkws-content .ding-mkws-rows .right-value .ding-mkws-target,
 .ding-mkws-widget .ding-mkws-content .ding-mkws-rows .right-value .ding-mkws-title,
@@ -239,9 +245,6 @@
   display: inline-block;
   height: auto;
   white-space: inherit;
-}
-.ding-mkws-widget .ding-mkws-content .ding-mkws-rows .row {
-  display: inline-block;
 }
 .ding-mkws-widget .ding-mkws-content .ding-mkws-rows p {
   margin: 0 0 5px 0;
@@ -256,10 +259,10 @@
   white-space: nowrap;
 }
 
-.page-node .ding-mkws-widget {
+.ding-mkws-node-widget .ding-mkws-widget {
   overflow: hidden;
 }
-.page-node .ding-mkws-widget .ding-mkws-left {
+.ding-mkws-node-widget .ding-mkws-widget .ding-mkws-left {
   float: left;
   width: 50%;
   margin-left: 0%;
@@ -270,8 +273,9 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   margin-left: -10px;
+  padding-right: 0;
 }
-.page-node .ding-mkws-widget .ding-mkws-right {
+.ding-mkws-node-widget .ding-mkws-widget .ding-mkws-right {
   float: right;
   width: 50%;
   margin-right: 0%;
@@ -281,15 +285,18 @@
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  margin-right: -10px;
+  padding-right: 0;
 }
-.page-node .ding-mkws-widget ul {
+.ding-mkws-node-widget .ding-mkws-widget ul {
   margin: 0;
   padding: 0;
 }
-.page-node .ding-mkws-widget .ding-mkws-content .left-label {
+.ding-mkws-node-widget .ding-mkws-widget ul li {
+  list-style: none;
+}
+.ding-mkws-node-widget .ding-mkws-widget .ding-mkws-content .left-label {
   float: left;
-  width: 25%;
+  width: 16.66667%;
   margin-left: 0%;
   margin-right: -100%;
   padding-left: 10px;
@@ -297,11 +304,10 @@
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  width: 100px;
 }
-.page-node .ding-mkws-widget .ding-mkws-content .right-value {
+.ding-mkws-node-widget .ding-mkws-widget .ding-mkws-content .right-value {
   float: right;
-  width: 75%;
+  width: 83.33333%;
   margin-right: 0%;
   margin-left: -100%;
   padding-left: 10px;
@@ -309,9 +315,8 @@
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  width: 180px;
 }
-.page-node .ding-mkws-widget .left-label {
+.ding-mkws-node-widget .ding-mkws-widget .left-label {
   float: left;
   width: 50%;
   margin-left: 0%;
@@ -326,7 +331,7 @@
   width: 100px;
 }
 @media only screen and (max-width: 768px) {
-  .page-node .ding-mkws-widget .left-label {
+  .ding-mkws-node-widget .ding-mkws-widget .left-label {
     float: left;
     width: 100%;
     margin-left: 0%;
@@ -340,7 +345,7 @@
     margin-left: 0;
   }
 }
-.page-node .ding-mkws-widget .right-value {
+.ding-mkws-node-widget .ding-mkws-widget .right-value {
   float: right;
   width: 50%;
   margin-right: 0%;
@@ -355,7 +360,7 @@
   width: 180px;
 }
 @media only screen and (max-width: 768px) {
-  .page-node .ding-mkws-widget .right-value {
+  .ding-mkws-node-widget .ding-mkws-widget .right-value {
     float: left;
     width: 100%;
     margin-left: 0%;
@@ -369,34 +374,13 @@
     margin-right: 0;
   }
 }
-.page-node .ding-mkws-widget p, .page-node .ding-mkws-widget a {
+.ding-mkws-node-widget .ding-mkws-widget p, .ding-mkws-node-widget .ding-mkws-widget a {
   display: block;
   height: 22px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.page-node .ding-mkws-widget .ding-mkws-more-link {
+.ding-mkws-node-widget .ding-mkws-widget .ding-mkws-more-link {
   clear: left;
-}
-
-.ding-campaign--content {
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-.page-node .ding-campaign--content .ding-mkws-rows .left-label,
-.page-node .ding-campaign--content .ding-mkws-rows .right-value {
-  float: left;
-  width: 100%;
-  margin-left: 0%;
-  margin-right: -100%;
-  padding-left: 10px;
-  padding-right: 10px;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  clear: both;
-  margin-right: -10px;
-  margin-left: -10px;
 }
