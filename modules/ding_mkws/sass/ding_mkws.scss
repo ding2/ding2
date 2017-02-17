@@ -3,8 +3,6 @@
 @import "susy";
 @import "zen-grids";
 
-
-
 $zen-columns:             12;
 $zen-gutters:             20px;
 
@@ -22,6 +20,8 @@ $zen-gutters:             20px;
   }
 
   .ding-mkws-content {
+    float: left;
+    width: 100%;
     margin: 0;
     padding: 0;
 
@@ -39,9 +39,15 @@ $zen-gutters:             20px;
         background-color: #e8e8e8;
       }
 
+      .row {
+        display: inline-block;
+        float: left;
+        clear: left;
+        width: 100%;
+      }
+
       .left-label {
         @include zen-grid-item(4, 1);
-        width: 100px;
 
         .ding-mkws-target,
         .ding-mkws-name,
@@ -54,7 +60,6 @@ $zen-gutters:             20px;
 
       .right-value {
         @include zen-grid-item(8, 1, right);
-        width: 180px;
 
         .ding-mkws-target,
         .ding-mkws-title,
@@ -68,10 +73,6 @@ $zen-gutters:             20px;
           height: auto;
           white-space: inherit;
         }
-      }
-
-      .row {
-        display: inline-block;
       }
 
       p {
@@ -91,33 +92,36 @@ $zen-gutters:             20px;
   }
 }
 
-.page-node {
+.ding-mkws-node-widget {
   .ding-mkws-widget {
     overflow: hidden;
 
     .ding-mkws-left {
       @include zen-grid-item(6, 1);
       margin-left: -10px;
+      padding-right: 0;
     }
 
     .ding-mkws-right {
       @include zen-grid-item(6, 1, right);
-      margin-right: -10px;
+      padding-right: 0;
     }
 
     ul {
       margin: 0;
       padding: 0;
+
+      li {
+        list-style: none;
+      }
     }
 
     .ding-mkws-content .left-label {
-      @include zen-grid-item(3, 1);
-      width: 100px;
+      @include zen-grid-item(2, 1);
     }
 
     .ding-mkws-content .right-value {
-      @include zen-grid-item(9, 1, right);
-      width: 180px;
+      @include zen-grid-item(10, 1, right);
     }
 
     .left-label {
@@ -160,20 +164,3 @@ $zen-gutters:             20px;
     }
   }
 }
-
-.ding-campaign--content {
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-.page-node .ding-campaign--content .ding-mkws-rows {
-  .left-label,
-  .right-value {
-    @include zen-grid-item(12, 1);
-
-    clear: both;
-    margin-right: -10px;
-    margin-left: -10px;
-  }
-}
-
