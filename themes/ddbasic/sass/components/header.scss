@@ -70,7 +70,7 @@
         width: 100%;
       }
       .site-name {
-        @include font('header-small');
+        @include font('display-small');
         line-height: 44px;
         color: $charcoal;
       }

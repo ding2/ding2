@@ -169,7 +169,7 @@
       }
     }
     h1 {
-      @include font('header');
+      @include font('display');
       margin-bottom: 0;
       color: $charcoal;
     }

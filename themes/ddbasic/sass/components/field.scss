@@ -116,7 +116,7 @@
   .node-ding-news .inner > & {
     padding-top: 20px;
     > .field-label {
-      @include font('header-large');
+      @include font('display-large');
       color: $color-text;
       margin-bottom: 20px;
       // Mobile

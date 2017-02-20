@@ -48,7 +48,7 @@
           }
           // Tablet
           @include media($tablet) {
-            @include font('header-small');
+            @include font('display-small');
           }
         }
         p {
@@ -95,7 +95,7 @@
             margin-right: 0;
           }
           h2 {
-            @include font('header-small');
+            @include font('display-small');
             color: $charcoal;
           }
           ul.sub-menu {

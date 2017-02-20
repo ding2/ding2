@@ -12,7 +12,7 @@
   float: left;
   margin-bottom: 30px;
   h2 {
-    @include font('header-large');
+    @include font('display-large');
     color: $color-text;
   }
   .content {

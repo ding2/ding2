@@ -65,7 +65,7 @@
       }
     }
     .date {
-      @include font('header-small');
+      @include font('display-small');
       clear: left;
       color: $color-text;
     }
@@ -255,13 +255,13 @@
     }
 
     h1 {
-      @include font('header');
+      @include font('display');
       margin-bottom: 0;
       color: $charcoal;
     }
 
     h2 {
-      @include font('header-small');
+      @include font('display-small');
       margin: 20px 0 5px;
     }
 
@@ -333,7 +333,7 @@
     }
 
     .field-name-field-ding-event-date {
-      @include font('header');
+      @include font('display');
       padding-bottom: 15px;
       margin-bottom: 30px;
       border-bottom: 1px solid $grey-medium;

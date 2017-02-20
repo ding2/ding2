@@ -556,7 +556,7 @@ a.js-opening-hours-toggle {
 // ==========================================================================
 
 .sub-menu-title {
-  @include font('header-small');
+  @include font('display-small');
   margin-top: 10px;
   margin-bottom: 20px;
   a {
@@ -652,7 +652,7 @@ ul.tabs.primary {
   border-radius: $round-corner;
   margin-bottom: 10px;
 
-  @include font('header-small');
+  @include font('display-small');
   background-color: $grey-dark;
   color: $white;
 
@@ -867,4 +867,76 @@ body {
       }
     }
   }
+}
+
+// ==========================================================================
+// Colors
+// ==========================================================================
+
+// Color classes
+//
+// Use these classes to apply theme colors to elements
+//
+// Markup:
+// <div class="color-text">Color text</div>
+// <div class="color-text-on-primary background-color-primary">Color text on primary and Background color primary</div>
+// <div class="color-text-on-secondary background-color-secondary">Color text on primary and Background color primary</div>
+//
+//Styleguide 2.1.8
+
+.color-text {
+  color: $color-text;
+}
+
+.color-text-on-primary {
+  color: $color-text-on-primary;
+}
+
+.color-text-on-secondary {
+  color: $color-text-on-secondary;
+}
+
+.background-color-primary {
+  background-color: $color-primary;
+}
+
+.background-color-secondary {
+  background-color: $color-secondary;
+}
+
+// ==========================================================================
+// Fonts
+// ==========================================================================
+
+// Font classes
+//
+// Use these classes to apply font style elements
+//
+// Markup:
+// <div class="font-base">Font base</div>
+// <div class="font-base-bold">Font base bold</div>
+// <div class="font-display-large">Font display large</div>
+// <div class="font-display">Font display</div>
+// <div class="font-display-small">Font display small</div>
+//
+//Styleguide 2.1.9
+
+.font-base {
+  @include font('base');
+}
+
+.font-base-bold {
+  @include font('base-bold');
+}
+
+.font-display-large {
+  @include font('display-large');
+}
+
+.font-display {
+  @include font('display');
+}
+
+.font-display-small {
+  @include font('display-small');
 }

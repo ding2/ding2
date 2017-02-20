@@ -9,7 +9,7 @@
 
 .pane-content {
   .pane-title {
-    @include font('header-large');
+    @include font('display-large');
     color: $color-text;
     margin-bottom: 20px;
     // Mobile
@@ -93,7 +93,7 @@
   &.ding-library-contact {
     margin-bottom: 40px;
     .pane-title {
-      @include font('header-small');
+      @include font('display-small');
       padding-bottom: 20px;
       border-bottom: 1px solid $charcoal-opacity-light;
       margin-bottom: 25px;
@@ -200,7 +200,7 @@
 .panel-pane.pane-menu-title,
 .panel-pane.pane-page-title {
   h2 {
-    @include font('header-large');
+    @include font('display-large');
     color: $color-text;
     .secondary-content & {
       margin-top: 15px;
@@ -235,7 +235,7 @@
   }
   .search-string,
   .count {
-    @include font('header-small');
+    @include font('display-small');
   }
 
   .count {
@@ -257,7 +257,7 @@
   }
   .material-title,
   .count {
-    @include font('header-small');
+    @include font('display-small');
   }
 
   .count {
@@ -285,7 +285,7 @@
   padding: 40px 0;
   border-top: 1px solid $charcoal-opacity-light;
   .pane-title {
-    @include font('header-small');
+    @include font('display-small');
     color: $charcoal;
     margin-bottom: 0;
   }
@@ -382,7 +382,7 @@
     text-align: right;
   }
   .pane-content {
-    @include font('header-small');
+    @include font('display-small');
     text-align: right;
     color: $color-text;
   }
@@ -430,7 +430,7 @@
 
 .pane-node-title {
   h2 {
-    @include font('header-large');
+    @include font('display-large');
     color: $color-text;
   }
 }
@@ -504,7 +504,7 @@
   .pane-content {
     padding: 0;
     strong {
-      @include font('header-small');
+      @include font('display-small');
     }
   }
 }
@@ -594,7 +594,7 @@
     @include omega();
   }
   label {
-    @include font('header-small');
+    @include font('display-small');
     font-weight: normal;
     margin-bottom: 20px;
 

@@ -18,9 +18,9 @@ $weight-normal: 400;
 // $name  - Name of typography setting - is a string, possible string-values are:
 //        - 'base'
 //        - 'base-bold'
-//        - 'header-large'
-//        - 'header'
-//        - 'header-small'
+//        - 'display-large'
+//        - 'display'
+//        - 'display-small'
 //
 // Styleguide 3.1.1
 
@@ -37,7 +37,7 @@ $weight-normal: 400;
     font-family: $font-family-bold;
   }
 
-  @if $name == 'header-large' {
+  @if $name == 'display-large' {
     font-family: $font-family-light;
     font-size: 40px;
     line-height: 44px;
@@ -48,7 +48,7 @@ $weight-normal: 400;
     }
   }
 
-  @if $name == 'header' {
+  @if $name == 'display' {
     font-family: $font-family-bold;
     font-size: 30px;
     line-height: 34px;
@@ -59,7 +59,7 @@ $weight-normal: 400;
     }
   }
 
-  @if $name == 'header-small' {
+  @if $name == 'display-small' {
     font-family: $font-family-bold;
     font-size: 18px;
     line-height: 24px;

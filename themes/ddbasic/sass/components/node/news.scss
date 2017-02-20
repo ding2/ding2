@@ -91,7 +91,7 @@
         padding: 25px 15px 5px;
       }
       h3.title {
-        @include font('header');
+        @include font('display');
         margin-top: 0;
         color: $white;
       }
@@ -101,7 +101,7 @@
       }
       .field-name-field-ding-news-lead {
         @include span-columns(6 of 8);
-        @include font('header-small');
+        @include font('display-small');
         @include transition(
           height $speed $ease,
           opacity $speed $ease
@@ -128,7 +128,7 @@
           padding: 25px 15px 5px;
         }
         h3.title {
-          @include font('header');
+          @include font('display');
           margin-top: 0;
           color: $white;
         }
@@ -142,7 +142,7 @@
         }
         .field-name-field-ding-news-lead {
           @include span-columns(6 of 8);
-          @include font('header-small');
+          @include font('display-small');
           @include transition(
             height $speed $ease,
             opacity $speed $ease
@@ -247,12 +247,12 @@
       }
     }
     h1 {
-      @include font('header');
+      @include font('display');
       margin-bottom: 0;
       color: $charcoal;
     }
     h2 {
-      @include font('header-small');
+      @include font('display-small');
       margin: 20px 0 5px;
     }
     .meta,

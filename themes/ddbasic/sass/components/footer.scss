@@ -30,7 +30,7 @@
     @include omega(4n);
     margin-bottom: 50px;
     .pane-title {
-      @include font('header-small');
+      @include font('display-small');
       @include arrow-button(arrow-down);
       pointer-events: none;
       &.js-toggled { // js toggled arrow colors on hover

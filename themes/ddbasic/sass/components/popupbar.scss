@@ -71,7 +71,7 @@
     .intro-text {
       @include span-columns(5);
       .lead {
-        @include font('header-small');
+        @include font('display-small');
         margin-bottom: 20px;
       }
 

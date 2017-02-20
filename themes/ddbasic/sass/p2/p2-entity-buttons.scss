@@ -62,7 +62,7 @@
         }
       }
       h2 {
-        @include font('header-large');
+        @include font('display-large');
         width: calc(100% - 100px);
         float: left;
         color: $white;
@@ -91,7 +91,7 @@
           }
           > span,
           a {
-            @include font('header-small');
+            @include font('display-small');
           }
         }
       }

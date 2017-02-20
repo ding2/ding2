@@ -89,7 +89,7 @@
     }
   }
   .page-title {
-    @include font('header-small');
+    @include font('display-small');
     margin: 5px 0 15px;
     a {
       color: $charcoal;

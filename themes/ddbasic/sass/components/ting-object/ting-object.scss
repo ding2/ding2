@@ -89,7 +89,7 @@
       .field-name-ting-title {
         h2 {
           @include transition(width $speed $ease);
-          @include font('header-small');
+          @include font('display-small');
           width: 100%;
           margin-bottom: 0;
           padding: 0 20px;
@@ -98,7 +98,7 @@
       }
       .field-name-ting-author {
         @include transition(width $speed $ease);
-        @include font('header-small');
+        @include font('display-small');
         width: 100%;
         padding: 0 20px;
         color: $color-primary;
@@ -364,7 +364,7 @@
     .field-name-ting-title {
       margin-top: 5px;
       h2 {
-        @include font('header-small');
+        @include font('display-small');
         margin-bottom: 0;
         a {
           color: $charcoal;
@@ -515,11 +515,11 @@
         }
       }
       .field-name-ting-title h2 {
-        @include font('header');
+        @include font('display');
         margin-bottom: 5px;
       }
       .field-name-ting-author {
-        @include font('header-small');
+        @include font('display-small');
       }
       .field-name-ting-abstract {
         margin: 30px 0;

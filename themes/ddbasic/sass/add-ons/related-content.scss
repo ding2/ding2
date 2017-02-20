@@ -18,7 +18,7 @@
       @include span-columns(3);
       @include omega(4n);
       h2 {
-        @include font('header-small');
+        @include font('display-small');
         color: $charcoal;
         margin-top: 10px;
         margin-bottom: 30px;

@@ -20,7 +20,7 @@
       p {
         margin: 0;
         &:nth-child(1) {
-          @include font('header-small');
+          @include font('display-small');
         }
         a {
           color: $white;

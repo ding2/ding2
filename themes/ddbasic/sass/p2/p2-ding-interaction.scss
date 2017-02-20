@@ -5,7 +5,7 @@
 
 .pane-interaction-pane {
   h2 {
-    @include font('header-large');
+    @include font('display-large');
     width: calc(100% - 40px);
     color: $color-text;
     margin-bottom: 20px;
