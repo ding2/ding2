@@ -172,7 +172,7 @@ function ding_event_field_group_info() {
     'label' => 'Ting',
     'weight' => '6',
     'children' => array(
-      0 => 'field_ding_event_material',
+      0 => 'field_ding_event_materials',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(

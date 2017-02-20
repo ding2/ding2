@@ -561,8 +561,8 @@ function ding_event_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-ding_event-field_ding_event_material'
-  $field_instances['node-ding_event-field_ding_event_material'] = array(
+  // Exported field_instance: 'node-ding_event-field_ding_event_materials'
+  $field_instances['node-ding_event-field_ding_event_materials'] = array(
     'bundle' => 'ding_event',
     'default_value' => NULL,
     'deleted' => 0,
@@ -598,7 +598,7 @@ function ding_event_field_default_field_instances() {
     ),
     'entity_type' => 'node',
     'fences_wrapper' => 'div',
-    'field_name' => 'field_ding_event_material',
+    'field_name' => 'field_ding_event_materials',
     'label' => 'Materials',
     'required' => 0,
     'settings' => array(

@@ -1,13 +1,14 @@
 /**
  * @file
- * Handles the carousels loading of content and changes between tabs. There are
- * two selectors to change tabs based on breaks points (which is handle by the
- * theme).
+ * Handles the carousels loading of content and changes between tabs.
+ *
+ * There are two selectors to change tabs based on breaks points
+ * (which is handle by the theme).
  *
  * For large screens the normal tab list (ul -> li) is used while on small
  * screens (mobile/tables) a select dropdown is used.
- *
  */
+
 (function ($) {
   "use strict";
 

@@ -106,7 +106,7 @@ function ding_news_field_group_info() {
     'label' => 'Data well',
     'weight' => '4',
     'children' => array(
-      0 => 'field_ding_news_material',
+      0 => 'field_ding_news_materials',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
