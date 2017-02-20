@@ -77,16 +77,16 @@ tr.draggable {
         display: none;
       }
       h2 {
-        @include font('header-small');
+        @include font('display-small');
       }
     }
     .ding-message-link,
     > .entity-ding-type > .content > a {
-      @include font('header-small');
+      @include font('display-small');
     }
     .ding-type-ding-list {
       h2 {
-        @include font('header-small');
+        @include font('display-small');
         margin-bottom: 0;
       }
     }
@@ -121,7 +121,7 @@ tr.draggable {
 .view-public-lists.view-id-public_lists {
   .ding-type-ding-list {
     > h2 {
-      @include font('header-large');
+      @include font('display-large');
     }
   }
 }

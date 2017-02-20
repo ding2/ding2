@@ -11,7 +11,7 @@
   position: relative;
   // Title
   .rs-carousel-title {
-    @include font('header-large');
+    @include font('display-large');
     color: $color-text;
     min-height: 44px; // Prevent page from jumping when content is loaded in (If title is more than one line - page will still jump)
     margin-bottom: 60px;

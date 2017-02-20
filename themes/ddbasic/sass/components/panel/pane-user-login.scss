@@ -47,7 +47,7 @@
     @include span-columns(5);
     margin-top: 55px;
     .lead {
-      @include font('header-small');
+      @include font('display-small');
       margin-bottom: 20px;
     }
     // Mobile

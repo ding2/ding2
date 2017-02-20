@@ -139,7 +139,7 @@
         transparent 0%,
         $charcoal-opacity-extra-dark 100%
       );
-      @include font('header-small');
+      @include font('display-small');
       position: absolute;
       bottom: 0;
       left: 0;
@@ -147,7 +147,7 @@
       color: $white;
       padding-bottom: 25px;
       h3 {
-        @include font('header');
+        @include font('display');
         @include span-columns(6);
         margin-bottom: 0;
 

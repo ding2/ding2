@@ -66,7 +66,7 @@
   .adhl-header {
     .adhl-title {
       h2 {
-        @include font('header-large');
+        @include font('display-large');
         color: $color-text;
         margin-bottom: 20px;
         // Mobile

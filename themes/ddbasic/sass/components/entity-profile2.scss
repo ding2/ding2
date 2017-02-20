@@ -8,7 +8,7 @@
 // ==========================================================================
 .entity-profile2 {
   .field-name-field-ding-staff-position {
-    @include font('header-small');
+    @include font('display-small');
     @include span-columns(4 of 4);
     float: none;
     padding-bottom: 20px;

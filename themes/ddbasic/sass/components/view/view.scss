@@ -294,7 +294,7 @@
 .view-ding-event {
   .group-separator {
     .separator-title {
-      @include font('header-large');
+      @include font('display-large');
       width: 100%;
       float: left;
       padding: 15px 15px 10px;
@@ -519,7 +519,7 @@
       position: relative;
       padding: 40px 0 30px;
       .separator-title {
-        @include font('header-large');
+        @include font('display-large');
         color: $color-primary;
         margin-bottom: 30px;
       }
@@ -549,7 +549,7 @@
 
 .view-ding-staff {
   .staff-department-head {
-    @include font('header-large');
+    @include font('display-large');
     float: left;
     width: 100%;
     margin-top: 20px;

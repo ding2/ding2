@@ -28,7 +28,7 @@
           background-color $speed $ease,
           color $speed $ease
         );
-        @include font('header-small');
+        @include font('display-small');
         display: block;
         padding: $box-padding $box-padding 40px $box-padding;
         background-color: $grey;

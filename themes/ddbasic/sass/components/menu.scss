@@ -68,7 +68,7 @@ ul {
 // ==========================================================================
 .main-menu-wrapper {
   > ul.main-menu {
-    @include font('header-small');
+    @include font('display-small');
 
     // Notebook
     @include media($notebook) {
@@ -485,7 +485,7 @@ ul.topbar-menu {
 
     // Tablet
     @include media($tablet) {
-      @include font('header-small');
+      @include font('display-small');
       //Reset desktop styles
       display: block;
       width: auto;

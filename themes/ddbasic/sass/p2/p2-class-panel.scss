@@ -92,7 +92,7 @@
 .pane-lists {
   .ding-user-lists {
     h3 {
-      @include font('header-large');
+      @include font('display-large');
       color: $color-text;
       margin-bottom: 20px;
 
@@ -125,7 +125,7 @@
           }
         }
         .signature-label {
-          @include font('header-small');
+          @include font('display-small');
           //Right arrow
           &::after {
             position: absolute;
@@ -166,7 +166,7 @@
             background-color: transparent;
           }
           .signature-label {
-            @include font('header-small');
+            @include font('display-small');
             display: block;
             position: relative;
             width: 100%;
@@ -210,7 +210,7 @@
             }
           }
           .label {
-            @include font('header-small');
+            @include font('display-small');
             position: absolute;
             top: 30px;
             left: 20px;

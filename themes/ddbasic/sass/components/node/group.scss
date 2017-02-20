@@ -51,7 +51,7 @@
       border-bottom-left-radius: $round-corner;
     }
     h3.title {
-      @include font('header-small');
+      @include font('display-small');
       margin-bottom: 0;
     }
     .field-name-field-ding-group-lead {
@@ -61,10 +61,10 @@
     .view-ding-groups .views-row:nth-child(1) &,
     .view-ding-groups .views-row:nth-child(2) & {
       h3.title {
-        @include font('header');
+        @include font('display');
         // Tablet
         @include media($tablet) {
-          @include font('header-small');
+          @include font('display-small');
         }
       }
       .field-name-field-ding-group-lead {
