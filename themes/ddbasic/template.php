@@ -168,7 +168,7 @@ function ddbasic_preprocess_panels_pane(&$vars) {
       // Menu-block.
       $vars['content']['#content']['#theme_wrappers'] = array('menu_tree__sub_menu');
     }
-    else {
+    elseif (isset($vars['content']['#theme_wrappers'])) {
       // OG menu.
       $vars['content']['#theme_wrappers'] = array('menu_tree__sub_menu');
     }
