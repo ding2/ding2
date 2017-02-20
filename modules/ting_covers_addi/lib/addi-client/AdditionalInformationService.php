@@ -179,32 +179,33 @@ class AdditionalInformationService {
       $thumbnail_url = $detail_url = NULL;
       $cover_image = isset($info->coverImage) ? $info->coverImage : FALSE;
 
-      if (isset($info->identifierKnown) && $info->identifierKnown && $cover_image) {
-        if (!is_array($cover_image)) {
-          $cover_image = array($cover_image);
-        }
+      if (isset($info->identifierKnown) && $info->identifierKnown) {
+        if ($cover_image) {
+          if (!is_array($cover_image)) {
+            $cover_image = array($cover_image);
+          }
+          foreach ($cover_image as $image) {
+            switch ($image->imageSize) {
+              case 'thumbnail':
+                $thumbnail_url = $image->_;
+                break;
 
-        foreach ($cover_image as $image) {
-          switch ($image->imageSize) {
-            case 'thumbnail':
-              $thumbnail_url = $image->_;
-              break;
+              case 'detail':
+                $detail_url = $image->_;
+                break;
 
-            case 'detail':
-              $detail_url = $image->_;
-              break;
-
-            default:
-              // Do nothing other image sizes may appear but ignore them for
-              // now.
+              default:
+                // Do nothing other image sizes may appear but ignore them for
+                // now.
+            }
           }
         }
 
         $additional_info = new AdditionalInformation($thumbnail_url, $detail_url);
         $additional_informations[$info->identifier->$id_name] = $additional_info;
+
       }
     }
-
     return $additional_informations;
   }
 }

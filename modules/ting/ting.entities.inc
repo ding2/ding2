@@ -5,6 +5,8 @@
  * Entity classes for ting objects and collections.
  */
 
+define('TING_OBJ_DESCRIPTION_LENGTH', 180);
+
 /**
  * Object representing a relation between TingEntites.
  */
@@ -264,7 +266,20 @@ class TingEntity extends DingEntity {
   }
 
   function getLanguage() {
-    return !empty($this->reply->record['dc:language'][''][0]) ? $this->reply->record['dc:language'][''][0] : FALSE;
+    if (!isset($this->reply->record['dc:language'])) {
+      return FALSE;
+    }
+
+    $languages = $this->reply->record['dc:language'];
+    $languages_string = '';
+    foreach (reset($languages) as $key => $lang) {
+      if ($lang == 'mul') {
+        continue;
+      }
+      $languages_string .= ', ' . $languages[''][$key];
+    }
+    $languages_string = (!empty($languages_string)) ? ltrim($languages_string, ', ') : FALSE;
+    return $languages_string;
   }
 
   function getDate() {
@@ -322,7 +337,17 @@ class TingEntity extends DingEntity {
   }
 
   function getDescription() {
-    return !empty($this->reply->record['dc:description'][''][0]) ? $this->reply->record['dc:description'][''][0] : FALSE;
+    $description = FALSE;
+    if (!empty($this->reply->record['dc:description'][''][0])) {
+      $description = $this->reply->record['dc:description'][''][0];
+      if (drupal_strlen($description) > TING_OBJ_DESCRIPTION_LENGTH) {
+        $description = truncate_utf8($description, TING_OBJ_DESCRIPTION_LENGTH, TRUE, TRUE);
+      }
+      else {
+        $description .= t('...');
+      }
+    }
+    return $description;
   }
 
   /**

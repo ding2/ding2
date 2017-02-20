@@ -12,68 +12,48 @@ function template_preprocess_ting_search_carousel(&$vars, $hook) {
   // Add JavaScript and CSS using wrapper functions.
   _ting_search_carousel_add_javascript();
   _ting_search_carousel_add_css();
+}
 
-  $css_id = drupal_html_id('ting_search_carousel');
-  $vars['id'] = $css_id;
-  $vars['content'] = '';
 
-  foreach ($vars['tabs'] as $index => $tab) {
-    $tab += array(
-      'title' => '',
-      'subtitle' => '',
-      'path' => '',
-      'offset' => empty($tab['path']) ? -1 : 0,
-    );
-
-    // Render the items.
-    $rendered = array();
-    foreach ($tab['content'] as $item) {
-      $rendered[] = theme('ting_search_carousel_collection', array('collection' => $item));
-    }
-
-    if ($rendered) {
-      // Add in the content of the first tab, as it's rendered by the server.
-      if ($index == 0) {
-        $preload = !empty($vars['preload']) ? $vars['preload'] : 5;
-        // Render the first part in the template and add the rest to the JS.
-        $vars['content'] = implode('', array_slice($rendered, 0, $preload));
-        $tab['content'] = implode('', array_slice($rendered, $preload));
-      }
-      else {
-        $tab['content'] = implode('', $rendered);
-      }
-    }
-    if ($index == 0) {
-      $vars['subtitle'] = $tab['subtitle'];
-    }
-    $vars['tabs'][$index] = $tab;
-  }
-
-  $transition = 'fade';
-  $transitions = ting_search_carousel_transitions();
-  if (!empty($vars['transition']) &&
-    isset($transitions[$vars['transition']])) {
-    $transition = $vars['transition'];
-    if (!empty($transitions[$vars['transition']]['file'])) {
-      drupal_add_js($transitions[$vars['transition']]['file']);
-    }
-  }
-
-  // Load toggle configuration.
-  $toggle = variable_get('ting_search_carousel_description_toggle', FALSE);
-  $settings = array(
-    'ting_search_carousel' => array(
-      'show_description' => $toggle,
-      'carousels' => array(
-        $css_id => array(
-          'tabs' => $vars['tabs'],
-          'transition' => $transition,
-        ),
-      ),
-    ),
+/**
+ * Implements hook_preprocess_ting_object_cover_simple().
+ */
+function template_preprocess_ting_object_cover_simple(&$variables) {
+  $object = $variables['object'] = $variables['elements']['#object'];
+  $variables['image_style'] = $variables['elements']['#image_style'];
+  // Set initial values required by the template.
+  $variables['classes'] = array(
+    'ting-cover',
+    'ting-cover-object-id-' . $object->localId,
+    'ting-cover-style-' . $variables['image_style'],
+    'ting-cover-owner-id-' . $object->ownerId,
   );
-  drupal_add_js($settings, 'setting');
+  $variables['image'] = '';
+  // If we already have the image available locally then just use it.
+  $path = ting_covers_object_path($object->localId);
+  if (file_exists($path)) {
+    // Generate an alt tag.
+    $alt = implode(', ', $object->creators) . ': ' . $object->title;
+    $variables['image'] = theme('image_style', array(
+      'style_name' => $variables['image_style'],
+      'path' => $path,
+      'alt' => $alt,
+    ));
+    // Avoid further javascript processing.
+    $variables['classes'][] = 'ting-cover-processed';
+  }
+  elseif (cache_get('ting_covers:' . $object->localId)) {
+    // We know that there is no cover available for this object so avoid
+    // further javascript processing.
+    $variables['classes'][] = 'ting-cover-processed';
+  }
+}
 
-  $vars['toggle_description'] = $toggle;
-
+/**
+ * Implements theme_ting_object_cover().
+ *
+ * Default theme function implementation.
+ */
+function theme_ting_object_cover_simple($variables) {
+  return '<div class="' . implode(' ', $variables['classes']) . '">' . $variables['image'] . '</div>';
 }

@@ -15,7 +15,7 @@
       // If the user clicked the active link, close it instead.
       if ($('.topbar-menu .leaf .topbar-link-search').hasClass('active')) {
         $('.topbar-menu .leaf .topbar-link-search').toggleClass('active');
-        $('.js-topbar-search').css("display", "none");
+        $('.site-header .js-topbar-search').css("display", "none");
       }
       else {
         // Display the element.
@@ -25,7 +25,7 @@
     }
     else {
       $('.topbar-menu .leaf .topbar-link-search').removeClass('active');
-      $('.js-topbar-search').css("display", "none");
+      $('.site-header .js-topbar-search').css("display", "none");
     }
   }
 
@@ -108,7 +108,7 @@
    */
   $(document).ready(function () {
     // Open search as default on front page, close on others.
-    $('.js-topbar-search').css("display", "none");
+    $('.site-header .js-topbar-search').css("display", "none");
     $('.front .js-topbar-search').css("display", "block");
 
     //Hide user login on load.

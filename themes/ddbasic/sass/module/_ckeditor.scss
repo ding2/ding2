@@ -1,0 +1,17 @@
+/**
+ * CK editor styles
+ *
+ * @author magnify
+ */
+
+.page-bibliotek .pane-content,
+.page-node .field-type-text-long {
+  @include small() {
+    img {
+      height: auto !important;
+      max-width: 100%;
+      padding: 0;
+      width: 100% !important;
+    }
+  }
+}

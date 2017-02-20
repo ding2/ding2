@@ -76,6 +76,10 @@
  * @see template_preprocess_node()
  * @see template_process()
  */
+if (isset($content['field_editorial_base'])) {
+  $content['group_right_col_search']['field_editorial_base'] = $content['field_editorial_base'];
+  unset($content['field_editorial_base']);
+}
 ?>
 <div class="<?php print $classes; ?>">
   <div class="content"<?php print $content_attributes; ?>>

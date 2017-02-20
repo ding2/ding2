@@ -2,10 +2,12 @@
    ting search carousel styling
    ========================================================================== */
 .rs-carousel,
+.rs-carousel-mask,
 .rs-carousel-runner {
   position: relative;
 }
 
+.rs-carousel-mask,
 .rs-carousel-runner {
   overflow: hidden;
 }
@@ -68,18 +70,22 @@ rs-carousel-runner {
   width: 220px;
 }
 
-.rs-carousel-items ul {
+.rs-carousel-mask,
+.rs-carousel-mask ul {
   display: inline-block;
   vertical-align: top;
 }
 
-.rs-carousel-items ul {
+.rs-carousel-mask {
+  width: 100%;
+}
+
+.rs-carousel-mask ul {
   margin: 0;
-  padding: 0;
   list-style: none;
 }
 
-.rs-carousel-items li {
+.rs-carousel-mask li {
   float: left;
   width: 100px;
   text-align: center;
@@ -98,18 +104,18 @@ rs-carousel-runner {
 
 /* Carousel tabs
    ========================================================================== */
-.rs-carousel-tabs ul {
+.rs-carousel-tabs .ting-search-carousel-tabs ul {
   margin: 0;
   position: relative;
   text-align: center;
 }
 
-.rs-carousel-tabs ul li {
+.rs-carousel-tabs .ting-search-carousel-tabs ul li {
   display: table-cell;
   vertical-align: top;
   text-align: center;
 }
 
-.rs-carousel-tabs ul li.active a {
+.rs-carousel-tabs .ting-search-carousel-tabs ul li.active a {
   position: relative;
 }

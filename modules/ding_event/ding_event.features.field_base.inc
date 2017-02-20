@@ -315,25 +315,19 @@ function ding_event_field_default_field_bases() {
     'type' => 'addressfield',
   );
 
-  // Exported field_base: 'field_ding_event_materials'
-  $field_bases['field_ding_event_materials'] = array(
+  // Exported field_base: 'field_ding_event_material'
+  $field_bases['field_ding_event_material'] = array(
     'active' => 1,
-    'cardinality' => -1,
+    'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_ding_event_materials',
+    'field_name' => 'field_ding_event_material',
     'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'ting_reference',
     'settings' => array(
       'profile2_private' => FALSE,
-    ),
-    'storage' => array(
-      'active' => 1,
-      'module' => 'virtual_field',
-      'settings' => array(),
-      'type' => 'virtual_field',
     ),
     'translatable' => 0,
     'type' => 'ting_reference',
@@ -468,6 +462,41 @@ function ding_event_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'image',
+  );
+
+  // Exported field_base: 'field_ding_event_rooms'
+  $field_bases['field_ding_event_rooms'] = array(
+    'active' => 1,
+    'cardinality' => -1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_ding_event_rooms',
+    'foreign keys' => array(
+      'tid' => array(
+        'columns' => array(
+          'tid' => 'tid',
+        ),
+        'table' => 'taxonomy_term_data',
+      ),
+    ),
+    'indexes' => array(
+      'tid' => array(
+        0 => 'tid',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'taxonomy',
+    'settings' => array(
+      'allowed_values' => array(
+        0 => array(
+          'vocabulary' => 'rooms',
+          'parent' => 0,
+        ),
+      ),
+      'profile2_private' => FALSE,
+    ),
+    'translatable' => 0,
+    'type' => 'taxonomy_term_reference',
   );
 
   // Exported field_base: 'og_group_ref'

@@ -1,0 +1,21 @@
+/**
+ * Ding search related
+ *
+ * @author ac
+ */
+
+.view-ting-search-related-content {
+  background-color: $list-item-background-color-odd;
+  
+  .views-field-title {
+    font-size: $font-size-large;
+    font-weight: 700;
+    
+    a:link,
+    a:hover,
+    a:visited {
+      color: $font-color-primary;
+    }
+  }
+}
+

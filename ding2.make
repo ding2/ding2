@@ -28,6 +28,9 @@ projects[block_access][version] = "1.5"
 projects[cache_actions][subdir] = "contrib"
 projects[cache_actions][version] = "2.0-alpha5"
 
+projects[ckeditor_link][subdir] = "contrib"
+projects[ckeditor_link][version] = "2.4"
+
 projects[conditional_styles][subdir] = "contrib"
 projects[conditional_styles][version] = "2.2"
 
@@ -49,6 +52,21 @@ projects[dibs][patch][] = "http://drupal.org/files/dibs-2107389-2.patch"
 
 projects[diff][subdir] = "contrib"
 projects[diff][version] = "3.2"
+
+projects[domain][subdir] = "contrib"
+projects[domain][version] = "3.12"
+
+projects[domain_ctools][subdir] = "contrib"
+projects[domain_ctools][version] = "1.3"
+
+projects[domain_menu_access][subdir] = "contrib"
+projects[domain_menu_access][version] = "1.2"
+
+projects[domain_variable][subdir] = "contrib"
+projects[domain_variable][version] = "1.1"
+
+projects[domain_views][subdir] = "contrib"
+projects[domain_views][version] = "1.5"
 
 ; The patch ensures that file upload patch is created on file upload. It normally
 ; created on settings form save, but as we use feature this do not work.
@@ -508,3 +526,42 @@ libraries[jquery.imagesloaded][download][type] = "get"
 libraries[jquery.imagesloaded][download][url] = https://github.com/desandro/imagesloaded/archive/v2.1.2.tar.gz
 libraries[jquery.imagesloaded][directory_name] = "jquery.imagesloaded"
 libraries[jquery.imagesloaded][destination] = "libraries"
+
+; easyDDB contribution modules
+projects[extlink][version]                  = "1.18"
+projects[extlink][subdir]                   = "contrib"
+
+projects[opengraph_meta][version]           = "1.3"
+projects[opengraph_meta][subdir]            = "contrib"
+
+projects[features_override][version]        = "2.0-rc1"
+projects[features_override][subdir]         = "contrib"
+
+projects[field_reference_delete][version]   = "1.0-beta1"
+projects[field_reference_delete][subdir]    = "contrib"
+
+projects[memcache_storage][version]         = "1.4"
+projects[memcache_storage][subdir]          = "contrib"
+
+projects[search404][version]                = "1.3"
+projects[search404][subdir]                 = "contrib"
+
+projects[xmlsitemap][version]               = "2.0"
+projects[xmlsitemap][subdir]                = "contrib"
+
+projects[references][version]               = "2.1"
+projects[references][subdir]                = "contrib"
+
+projects[taxonomy_menu][version]            = "1.4"
+projects[taxonomy_menu][subdir]             = "contrib"
+projects[taxonomy_menu][patch][]            = "http://drupal.org/files/issues/taxonomy_menu-variable-and-array-check.patch"
+
+projects[linkchecker][version]              = "1.2"
+projects[linkchecker][subdir]               = "contrib"
+
+projects[httprl][version]                   = "1.14"
+projects[httprl][subdir]                    = "contrib"
+
+projects[imagemagick][subdir]               = "contrib"
+projects[imagemagick][version]              = "1.0"
+

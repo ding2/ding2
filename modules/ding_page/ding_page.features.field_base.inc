@@ -183,25 +183,19 @@ function ding_page_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_ding_page_materials'
-  $field_bases['field_ding_page_materials'] = array(
+  // Exported field_base: 'field_ding_page_material'
+  $field_bases['field_ding_page_material'] = array(
     'active' => 1,
-    'cardinality' => -1,
+    'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
-    'field_name' => 'field_ding_page_materials',
+    'field_name' => 'field_ding_page_material',
     'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'ting_reference',
     'settings' => array(
       'profile2_private' => FALSE,
-    ),
-    'storage' => array(
-      'active' => 1,
-      'module' => 'virtual_field',
-      'settings' => array(),
-      'type' => 'virtual_field',
     ),
     'translatable' => 0,
     'type' => 'ting_reference',

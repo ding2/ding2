@@ -11,7 +11,7 @@
  *   Array of ting object ids (faust).
  *
  * @return array
- *   Avaliability info.
+ *   Availability info.
  */
 function fbs_availability_items($provider_ids) {
   $avails = array();
@@ -94,11 +94,11 @@ function fbs_availability_holdings($provider_ids) {
         if ($material->periodical) {
           // Add to issues.
           $key = (!empty($material->periodical->volumeYear) ?
-                  $material->periodical->volumeYear : '') . ':' .
-               $material->periodical->volume . ':' .
-               (!empty($material->periodical->volumeNumber) ?
-               $material->periodical->volumeNumber : '') . ':' .
-               $placement_string;
+              $material->periodical->volumeYear : '') . ':' .
+            $material->periodical->volume . ':' .
+            (!empty($material->periodical->volumeNumber) ?
+              $material->periodical->volumeNumber : '') . ':' .
+            $placement_string;
           if (isset($tmp_issues[$key])) {
             $tmp_issues[$key]['available'] += $material->available ? 1 : 0;
             $tmp_issues[$key]['total'] += 1;
@@ -149,4 +149,5 @@ function fbs_availability_holdings($provider_ids) {
   }
 
   return $result;
+
 }

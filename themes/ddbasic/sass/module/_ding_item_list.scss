@@ -1,0 +1,11 @@
+
+.pane-ding-item-list {
+  background-color: $content-background-color;
+}
+
+.alma-item-list,
+.ding-item-list-item {
+  .reserve-button {
+    @extend %button-action;
+  }
+}
