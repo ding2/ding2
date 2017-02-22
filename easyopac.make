@@ -167,6 +167,12 @@ projects[ding_easyscreen_search][download][type] = "git"
 projects[ding_easyscreen_search][download][url]  = "git@github.com:easySuite/ding_easyscreen_search_d7.git"
 projects[ding_easyscreen_search][download][tag]  = "7.x-1.1"
 
+projects[ding_easyscreen_teaser][type]              = "module"
+projects[ding_easyscreen_teaser][subdir]            = ""
+projects[ding_easyscreen_teaser][download][type]    = "git"
+projects[ding_easyscreen_teaser][download][url]     = "git@github.com:easySuite/ding_easyscreen_teaser.git"
+projects[ding_easyscreen_teaser][download][branch]  = "development"
+
 projects[ding_event_calendar][type]           = "module"
 projects[ding_event_calendar][subdir]         = ""
 projects[ding_event_calendar][download][type] = "git"
