@@ -303,11 +303,11 @@ function ding_mobilesearch_ding_mobilesearch_node_export_mapping($node) {
           $mapping['fields'][$machine_name]['value']['materials'] = $item;
         }
 
-        $ting_object_ids = ting_reference_get_relations($field['entity_type'], $node);
-        foreach ($ting_object_ids as $tid) {
-          if (!empty($mapping['fields'][$machine_name]['value']['search'])) {
-            $mapping['fields'][$machine_name]['value']['search'][] += $tid;
-          }
+        if (!empty($mapping['fields'][$machine_name]['value']['materials'])) {
+          $relations = ting_reference_get_relations($field['entity_type'], $node);
+          $ting_objects_ids = ting_reference_get_object_ids($relations);
+
+          $mapping['fields'][$machine_name]['value']['materials'] = $ting_objects_ids;
         }
         break;
 
