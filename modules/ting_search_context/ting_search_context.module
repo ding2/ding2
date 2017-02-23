@@ -1,0 +1,1089 @@
+<?php
+
+/**
+ * @file
+ * Module file for the Ting search context module.
+ */
+
+define('TING_SEARCH_CONTEXT_MAX_RATING', 10);
+
+include_once 'ting_search_context.features.inc';
+
+/**
+ * Implements hook_menu().
+ */
+function ting_search_context_menu() {
+  $items['admin/content/ting-search-context'] = array(
+    'title' => 'Search context',
+    'description' => 'Manage the state of the context rating system.',
+    'page callback' => 'ting_search_context_admin_rate_nodes',
+    'access arguments' => array('administer ting search context ratings'),
+    'type' => MENU_LOCAL_TASK | MENU_NORMAL_ITEM,
+    'file' => 'ting_search_context.admin.inc',
+  );
+  $items['ting/ting_search_context/content/ajax'] = array(
+    'title' => 'Show content related to search context in carousel',
+    'page callback' => 'ting_search_context_content',
+    'access arguments' => array('access content'),
+    'file' => 'ting_search_context.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+  $items['admin/config/ting/ting-search-context'] = array(
+    'title' => 'Search context',
+    'description' => 'Manage settings for the Ting search context module.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_search_context_admin_settings_form'),
+    'access arguments' => array('administer ting search context'),
+    'file' => 'ting_search_context.admin.inc',
+  );
+  $items['admin/config/ting/ting-search-context/frontend'] = array(
+    'title' => 'Frontend',
+    'description' => 'Choose location of related content on search page',
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'weight' => -10,
+  );
+  $items['admin/config/ting/ting-search-context/fallback-images'] = array(
+    'title' => 'Fallback images',
+    'description' => 'Select which images to use when showing rated content.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_search_context_admin_fallback_images'),
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'ting_search_context.admin.inc',
+    'weight' => -5,
+  );
+  $items['admin/config/ting/ting-search-context/contexts'] = array(
+    'title' => 'Contexts',
+    'description' => 'Create new contexts and edit/delete existing ones',
+    'page callback' => 'ting_search_context_admin_contexts',
+    'access arguments' => array('administer ting search context'),
+    'type' => MENU_LOCAL_TASK,
+    'file' => 'ting_search_context.admin.inc',
+  );
+  $items['admin/config/ting/ting-search-context/contexts/add'] = array(
+    'title' => 'Add context',
+    'description' => 'Add a new subject or search type context to the system',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_search_context_admin_context_form_add'),
+    'access arguments' => array('administer ting search context'),
+    'type' => MENU_LOCAL_ACTION,
+    'file' => 'ting_search_context.admin.inc',
+  );
+  $items['admin/config/ting/ting-search-context/contexts/%ting_search_context/edit'] = array(
+    'title' => 'Edit context',
+    'description' => 'Edit an existing subject or search type context',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_search_context_admin_context_form_edit', 5),
+    'access arguments' => array('administer ting search context'),
+    'file' => 'ting_search_context.admin.inc',
+  );
+  $items['admin/config/ting/ting-search-context/contexts/%ting_search_context/delete'] = array(
+    'title' => 'Delete context',
+    'description' => 'Delete a subject or search type context',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ting_search_context_admin_context_delete_confirm_form', 5),
+    'access arguments' => array('administer ting search context'),
+    'file' => 'ting_search_context.admin.inc',
+  );
+  $items['ting-search-context/autocomplete'] = array(
+    'title' => 'Context autocomplete',
+    'page callback' => 'ting_search_context_autocomplete',
+    'access arguments' => array('administer ting search context ratings'),
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function ting_search_context_theme($existing, $type, $theme, $path) {
+  return array(
+    'ting_search_context' => array(
+      'variables' => array('context' => NULL, 'position' => NULL),
+      'template' => '/templates/ting_search_context',
+      'file' => 'ting_search_context.theme.inc',
+    ),
+    'ting_search_context_content' => array(
+      'variables' => array('node' => NULL),
+      'template'  => '/templates/ting_search_context_content',
+      'file' => 'ting_search_context.theme.inc',
+    ),
+    'views_view_field__ting_search_context_rate_nodes__title' => array(
+      'variables' => array('view' => NULL, 'options' => NULL, 'row' => NULL),
+      'template' => 'views-view-field--ting-search-context-rate-nodes--title',
+      'base hook' => 'views_views_field',
+      'path' => $path . '/templates',
+      'preprocess functions' => array(
+        'template_preprocess',
+        'template_preprocess_views_view_field',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_forms().
+ */
+function ting_search_context_forms() {
+  $forms = array();
+  $forms['ting_search_context_admin_context_form_add'] = array(
+    'callback' => 'ting_search_context_admin_context_form',
+  );
+  $forms['ting_search_context_admin_context_form_edit'] = array(
+    'callback' => 'ting_search_context_admin_context_form',
+  );
+  return $forms;
+}
+
+/**
+ * Implements hook_ctools_plugin_directory().
+ *
+ * It simply tells panels where to find the .inc files that define various
+ * args, contexts, content_types.
+ */
+function ting_search_context_ctools_plugin_directory($module, $plugin) {
+  if ($module == 'ctools' && !empty($plugin)) {
+    return "plugins/$plugin";
+  }
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ting_search_context_permission() {
+  return array(
+    'administer ting search context ratings' => array(
+      'title' => t('Administer ratings'),
+      'description' => t('Rate and unrate nodes in search contexts.'),
+    ),
+    'administer ting search context' => array(
+      'title' => t('Administer ting search context'),
+      'description' => t('Administer contexts and settings for Ting search context.'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_secure_permissions().
+ */
+function ting_search_context_secure_permissions($role) {
+  $permissions = array(
+    'administrators' => array(
+      'administer ting search context ratings',
+      'administer ting search context',
+      'delete any ding_search_context_link content',
+      'delete own ding_search_context_link content',
+      'create ding_search_context_link content',
+      'edit own ding_search_context_link content',
+      'edit any ding_search_context_link content',
+    ),
+    'local administrator' => array(
+      'administer ting search context ratings',
+      'administer ting search context',
+      'delete any ding_search_context_link content',
+      'delete own ding_search_context_link content',
+      'create ding_search_context_link content',
+      'edit own ding_search_context_link content',
+      'edit any ding_search_context_link content',
+    ),
+    'editor' => array(
+      'administer ting search context ratings',
+      'delete any ding_search_context_link content',
+      'delete own ding_search_context_link content',
+      'create ding_search_context_link content',
+      'edit own ding_search_context_link content',
+      'edit any ding_search_context_link content',
+    ),
+    'local editor' => array(
+      'delete own ding_search_context_link content',
+      'create ding_search_context_link content',
+      'edit own ding_search_context_link content',
+      'edit any ding_search_context_link content',
+    ),
+  );
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
+}
+
+/**
+ * Implements hook_ting_pre_execute().
+ *
+ * To properly determine the context of a search result, we need certain facets
+ * to be returned from the well. Here we ensure that they are added to every
+ * Ting search request. It won't have any effect on the facetbrowser, since it
+ * only adds its own configured facets.
+ */
+function ting_search_context_ting_pre_execute($request) {
+  // Collection requests extends search requests, so we use get_class.
+  if (get_class($request) === 'TingClientSearchRequest') {
+    $required_facets = array(
+      'facet.type' => 'facet.type',
+      'facet.category' => 'facet.category',
+      'facet.genreCategory' => 'facet.genreCategory',
+      'facet.fictionSubject' => 'facet.fictionSubject',
+    );
+
+    $facets = array_flip($request->getFacets()) + $required_facets;
+    $request->setFacets(array_keys($facets));
+  }
+}
+
+/**
+ * Helper function to get field_name for specified node type.
+ */
+function ting_search_context_get_image_field_name($node) {
+  $field_names = &drupal_static(__FUNCTION__);
+
+  if (!isset($field_names)) {
+    $field_names = module_invoke_all('ting_search_context_field_name');
+  }
+
+  $type = $node->type;
+  return isset($field_names[$type]) ? $field_names[$type] : FALSE;
+}
+
+/**
+ * Implements hook_ting_search_context_field_name().
+ */
+function ting_search_context_ting_search_context_field_name() {
+  return array(
+    'ding_news' => 'field_ding_news_list_image',
+    'ding_event' => 'field_ding_event_list_image',
+    'ding_page' => 'field_ding_page_list_image',
+    // These should probably be moved to respective modules.
+    'ding_eresource' => 'field_ding_eresource_list_image',
+    'genre_page' => 'field_genre_page_list_image',
+    'ding_search_context_link' => 'field_search_context_list_image',
+  );
+}
+
+/**
+ * Handler for the autocomplete field on the VBO-configuration form.
+ *
+ * Searches for at context by the human-readable name. Will output a JSON-array
+ * with the name and the identifying id in paranthesis, so that we can fectch
+ * the correct context in the validate handler.
+ */
+function ting_search_context_autocomplete($string = '') {
+  $matches = array();
+
+  $result = db_select('ting_search_context_contexts', 'tsc')
+    ->fields('tsc')
+    ->condition('name', '%' . db_like($string) . '%', 'LIKE')
+  // Note: this could be a setting.
+    ->range(0, 10)
+    ->execute();
+
+  foreach ($result as $context) {
+    $id = $context->context_id;
+    $name = check_plain($context->name);
+    $matches[$name . " ($id)"] = $name . " ($id)";
+  }
+
+  drupal_json_output($matches);
+}
+
+/**
+ * Implements hook_action_info().
+ */
+function ting_search_context_action_info() {
+  return array(
+    'ting_search_context_rate_node_action' => array(
+      'type' => 'node',
+      'label' => t('Rate a node in the search context rating system'),
+      'configurable' => TRUE,
+      'vbo_configurable' => TRUE,
+      'triggers' => array('any'),
+    ),
+    'ting_search_context_unrate_node_action' => array(
+      'type' => 'node',
+      'label' => t('Unrate a node in the search context rating system (completely)'),
+      // Appearently we need these to avoid PHP notice.
+      'configurable' => FALSE,
+      'vbo_configurable' => FALSE,
+      'triggers' => array('any'),
+    ),
+  );
+}
+
+/**
+ * Callback for our rate node action.
+ */
+function ting_search_context_rate_node_action(&$node, $context) {
+  $search_context = ting_search_context_load($context['context']);
+  $rating = $context['rating'];
+
+  // Perform the rating.
+  ting_search_context_rate_node($search_context->context_id, $node->nid, $rating);
+
+  $message = t('Rated %node in %context with a rating of %rating', array(
+    '%node' => check_plain($node->title),
+    '%context' => check_plain($search_context->name),
+    '%rating' => $rating,
+  ));
+  drupal_set_message($message);
+}
+
+/**
+ * Callback for our unrate node action.
+ */
+function ting_search_context_unrate_node_action(&$node, $context) {
+  // Perform the unrating.
+  $num_deleted = ting_search_context_unrate_node($node->nid);
+
+  $message = format_plural($num_deleted,
+    'Unrated %node. 1 rating was deleted.',
+    'Unrated %node. @count ratings was deleted.',
+    array('%node' => check_plain($node->title))
+  );
+  drupal_set_message($message);
+}
+
+/**
+ * Form builder.
+ *
+ * Form builder for VBO per-bulk configuration form and Drupal core standard
+ * advanced action form. Enables administrators to select the context and rating
+ * for the nodes.
+ */
+function ting_search_context_rate_node_action_form($settings, &$form_state = NULL) {
+  // Setup options arrays for the select-boxes.
+  $contexts = ting_search_context_get_all_contexts();
+  $context_options = array();
+  foreach ($contexts as $context) {
+    $context_options[$context->context_id] = $context->name;
+  }
+  $rating_options = drupal_map_assoc(range(1, TING_SEARCH_CONTEXT_MAX_RATING));
+
+  // Allow the adminstrator to choose between different selection mehods.
+  $form_context['method'] = array(
+    '#type' => 'radios',
+    '#title' => t('Selection method'),
+    '#default_value' => 0,
+    '#options' => array(0 => t('Selection'), 1 => t('Autocomplete')),
+  );
+  $form_context['select'] = array(
+    '#type' => 'select',
+    '#options' => $context_options,
+    '#empty_option' => t('- Choose a context -'),
+    '#default_value' => isset($settings['context']) ? $settings['context'] : '',
+    '#states' => array(
+      'visible' => array(
+        'input[name="method"]' => array('value' => 0),
+      ),
+      'required' => array(
+        'input[name="method"]' => array('value' => 0),
+      ),
+    ),
+  );
+  $form_context['autocomplete'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Search for a context'),
+    '#autocomplete_path' => 'ting-search-context/autocomplete',
+    '#states' => array(
+      'visible' => array(
+        'input[name="method"]' => array('value' => 1),
+      ),
+      'required' => array(
+        'input[name="method"]' => array('value' => 1),
+      ),
+    ),
+  );
+
+  $form_rating = array(
+    '#type' => 'select',
+    '#options' => $rating_options,
+    '#empty_option' => t('- Choose a rating -'),
+    '#default_value' => isset($settings['rating']) ? $settings['rating'] : '',
+    '#required' => TRUE,
+  );
+
+  $form = array();
+
+  // This is VBO per-bulk configuration form since form_state parameter is
+  // passed. In this case we provide a special more user friendly form with
+  // the selected nodes displayed.
+  if (isset($form_state) && !empty($form_state['selection'])) {
+    $form['rating'] = $form_rating;
+    $form['rating']['#prefix'] = '<h3>' . t('In what degree (rating):') . '</h3>';
+    $selected_nodes = node_load_multiple($form_state['selection']);
+    $items = array();
+    foreach ($selected_nodes as $node) {
+      $items[] = check_plain($node->title);
+    }
+    $form['selected_nodes'] = array(
+      '#theme' => 'item_list',
+      '#items' => $items,
+      '#title' => t('Does the following content:'),
+      '#attributes' => array('class' => 'ting-search-context-selected-nodes'),
+    );
+    $form['context'] = $form_context;
+    $form['context']['#prefix'] = '<h3 class="context-header">' . t('Relate to (select a context) :') . '</h3>';
+  }
+  // Else it's an advanced action form and we just return a standard form with
+  // 2 select-boxes.
+  else {
+    $form['context']['select']['#title'] = t('Context');
+    $form['rating']['#title'] = t('Rating');
+    $form['context'] = $form_context;
+    $form['rating'] = $form_rating;
+  }
+
+  return $form;
+}
+
+/**
+ * Validate handler for rate node action form.
+ */
+function ting_search_context_rate_node_action_validate($form, &$form_state) {
+  // Autocomplete.
+  if ($form_state['values']['method']) {
+    $name = $form_state['values']['autocomplete'];
+    $matches = array();
+    $context_id = 0;
+
+    // Look for the context_id in the paraenthesis at the end of input string.
+    $result = preg_match('/\(([0-9]+)\)$/', $name, $matches);
+    if ($result) {
+      $input_id = $matches[$result];
+
+      // Try to load to see if it exists.
+      if (ting_search_context_load($input_id)) {
+        $context_id = $input_id;
+      }
+    }
+
+    if (!empty($context_id)) {
+      $form_state['values']['context'] = $context_id;
+    }
+    else {
+      form_set_error('autocomplete', t('No context found for: %name', array(
+        '%name' => $name,
+      )));
+    }
+  }
+  // Select.
+  else {
+    $form_state['values']['context'] = $form_state['values']['select'];
+  }
+}
+
+/**
+ * Submit function for the rate node action form.
+ */
+function ting_search_context_rate_node_action_submit($form, &$form_state) {
+  return array(
+    'context' => $form_state['values']['context'],
+    'rating' => $form_state['values']['rating'],
+  );
+}
+
+/**
+ * Implements hook_views_bulk_operations_form_alter().
+ */
+function ting_search_context_views_bulk_operations_form_alter(&$form, &$form_state, $vbo) {
+  // Only do something if we're altering our own VBO view.
+  if ($vbo->view->name == 'ting_search_context_rate_nodes') {
+    // Add CSS here since this is called for both vbo forms.
+    $path = drupal_get_path('module', 'ting_search_context');
+    $form['#attached']['css'][] = $path . '/css/ting_search_context.admin.css';
+
+    // Add a class if this is the first step (per-bulk form).
+    if ($form_state['step'] == 'views_form_views_form') {
+      $form['#attributes']['class'][] = 'ting-search-context-rate-nodes-first-step';
+    }
+
+    // Alter the confirm form which comes after the per-bulk form.
+    elseif ($form_state['step'] == 'views_bulk_operations_confirm_form') {
+      $selected_nodes = node_load_multiple($form_state['selection']);
+      $items = array();
+
+      // Since VBO isn't using a render array we unset the description and
+      // add our own form elements.
+      unset($form['description']);
+
+      // Extract operation.
+      $operation = '';
+      if (isset($form_state['operation'])) {
+        $prefix = 'action::';
+        $operation = $form_state['operation'];
+        if (substr($operation->operationId, 0, strlen($prefix)) === $prefix) {
+          $operation = substr($operation->operationId, strlen($prefix));
+        }
+        else {
+          $operation = $operation->operationId;
+        }
+      }
+
+      // Rate action: show selected nodes, context and rating.
+      if ($operation == 'ting_search_context_rate_node_action') {
+        $context = ting_search_context_load($form_state['values']['context']);
+        $rating = $form_state['values']['rating'];
+
+        foreach ($selected_nodes as $node) {
+          $items[] = check_plain($node->title);
+        }
+
+        $form['selected_nodes'] = array(
+          '#theme' => 'item_list',
+          '#items' => $items,
+          '#title' => t('You selected the following content:'),
+          '#attributes' => array('class' => 'ting-search-context-selected-nodes'),
+        );
+        $form['selected_context'] = array(
+          '#theme' => 'html_tag',
+          '#tag' => 'h3',
+          '#value' => t('To be rated in the context: %context', array(
+            '%context' => $context->name,
+          )),
+        );
+        $form['selected_rating'] = array(
+          '#theme' => 'html_tag',
+          '#tag' => 'h3',
+          '#value' => t('With a rating of: %rating', array(
+            '%rating' => $rating,
+          )),
+        );
+      }
+
+      // Unrate action: show all ratings grouped by each selected node.
+      elseif ($operation == 'ting_search_context_unrate_node_action') {
+        foreach ($selected_nodes as $node) {
+          $item = array();
+          $item['data'] = '<strong>' . check_plain($node->title) . '</strong>';
+
+          // Loads all ratings for the node.
+          $ratings = ting_search_context_ratings_load(NULL, $node->nid);
+          foreach ($ratings as $rating) {
+            $context = ting_search_context_load($rating->context_id);
+            $item['children'][] = check_plain($context->name) . " ($rating->rating)";
+          }
+
+          // Add to main list.
+          $items[] = $item;
+        }
+
+        $form['selected_nodes'] = array(
+          '#theme' => 'item_list',
+          '#items' => $items,
+          '#title' => t('The following ratings will be removed:'),
+        );
+      }
+
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Fix for the exposed filter form overlay bug (breaks on submit).
+ * See https://www.drupal.org/node/1116326 for more info.
+ */
+function ting_search_context_form_views_exposed_form_alter(&$form, &$form_state) {
+  $name = $form_state['view']->name;
+
+  // Only do something if this is our view.
+  if ($name == 'ting_search_context_rate_nodes' || $name == 'ting_search_context_contexts') {
+    // If the overlay is being used, add the hidden form element.
+    if (isset($_REQUEST['render']) && $_REQUEST['render'] == 'overlay') {
+      $form['render'] = array(
+        '#type' => 'hidden',
+        '#value' => 'overlay',
+      );
+    }
+  }
+}
+
+/**
+ * Randomly selects nodes rated in the specified context.
+ *
+ * Randomly selects nodes rated in the specified context, such that nodes with
+ * a higher rating has a chance of being selected.
+ * Note: Nodes with max rating of 10 will be prefered. This allows
+ * administrators to push very relevant content to the users.
+ *
+ * @param int $context_id
+ *   The ID of the context to search in.
+ * @param int $count
+ *   The max number of nodes to return. Defaults to 5. (optional).
+ * @param mixed $node_types
+ *   Can either be a string with a single node type, or an array of node types.
+ *   Defaults to 'all' which returns nodes of all types. (optional).
+ *
+ * @return array
+ *   An array of node objects keyd by nid.
+ */
+function ting_search_context_get_nodes($context_id, $count = 5, $node_types = 'all') {
+  $return = array();
+  // No need to conteniue with the following input.
+  if (empty($node_types) || $count < 1) {
+    return $return;
+  }
+
+  // Setup a common query.
+  $query = db_select('node', 'n');
+  $nr_alias = $query->join(
+        'ting_search_context_nodes_rated',
+        'nr',
+        'n.nid = %alias.nid'
+  );
+  $query->addField('n', 'nid', 'nid');
+  $query->addField($nr_alias, 'rating', 'rating');
+  $query->condition($nr_alias . '.context_id', $context_id)
+    ->condition('n.status', 1, '=')
+    ->orderRandom()
+        // Lets node access modules alter the query.
+        // See: https://www.drupal.org/node/310077 and hook_query_TAG_alter().
+    ->addTag('node_access');
+
+  // Add constraints on node types if specified.
+  if ($node_types !== 'all') {
+    $node_types = is_array($node_types) ? $node_types : array($node_types);
+    $node_types_condition = db_or();
+    foreach ($node_types as $node_type) {
+      $node_types_condition->condition('n.type', $node_type);
+    }
+    $query->condition($node_types_condition);
+  }
+
+  // Fetch nodes with max rating.
+  $query_max = clone $query;
+  $query_max_result = $query_max->condition($nr_alias . '.rating', 10)
+    ->range(0, $count)
+    ->execute();
+  foreach ($query_max_result as $record) {
+    $return[$record->nid] = node_load($record->nid);
+  }
+  $count -= $query_max->countQuery()->execute()->fetchField();
+
+  // If there's room for more, look for nodes with less than max rating.
+  if ($count > 0) {
+    $query_less = clone $query;
+    $query_less->condition($nr_alias . '.rating', 10, '<');
+    // Only pick random if there's more nodes than we need.
+    if ($query_less->countQuery()->execute()->fetchField() > $count) {
+      $query_less_result = $query_less->execute();
+
+      // Build array to randomly pick nodes from.
+      $nodes = array();
+      foreach ($query_less_result as $record) {
+        $rating = $record->rating;
+        for ($i = 0; $i < $rating; $i++) {
+          $nodes[] = $record->nid;
+        }
+      }
+
+      while ($count-- > 0) {
+        $random_key = array_rand($nodes);
+        $nid = $nodes[$random_key];
+        $return[$nid] = node_load($nid);
+        // Remove the node completely from the array.
+        $nodes = array_diff_key($nodes, array_flip(array_keys($nodes, $nid)));
+      }
+    }
+    // Else include all nodes.
+    else {
+      // Todo move above if statement.
+      $query_less_result = $query_less->execute();
+      foreach ($query_less_result as $record) {
+        $return[$record->nid] = node_load($record->nid);
+      }
+    }
+  }
+
+  return $return;
+}
+
+/**
+ * Implements hook_node_delete().
+ *
+ * When a node is deleted, ensure that any associated ratings is deleted from
+ * the database.
+ */
+function ting_search_context_node_delete($node) {
+  ting_search_context_unrate_node($node->nid);
+}
+
+/**
+ * Unrates a node by completely deleting all accosiated ratings.
+ *
+ * @param int $nid
+ *   The ID of the node to unrate.
+ *
+ * @return int
+ *   The number of deleted rows in the nodes_rated table.
+ */
+function ting_search_context_unrate_node($nid) {
+  return db_delete('ting_search_context_nodes_rated')
+    ->condition('nid', $nid)
+    ->execute();
+}
+
+/**
+ * Saves a node rating in the database.
+ *
+ * @param int $context_id
+ *   The ID of the context to rate in.
+ * @param int $nid
+ *   The ID of node to rate.
+ * @param int $rating
+ *   The number of the rating (E.g. 1 - 10).
+ *
+ * @return undefined
+ *   (https://www.drupal.org/node/310079)
+ */
+function ting_search_context_rate_node($context_id, $nid, $rating) {
+  // Merge query ensures that nodes isn't rated in the same context twice.
+  return db_merge('ting_search_context_nodes_rated')
+    ->key(array(
+      'context_id' => $context_id,
+      'nid' => $nid,
+    ))
+    ->fields(array(
+      'rating' => $rating,
+    ))
+    ->execute();
+}
+
+/**
+ * Checks search string context.
+ *
+ * Checks to see if a search string context with an identical $search_string
+ * already exists in the database.
+ *
+ * @param string $search_string
+ *   The search string to check for.
+ *
+ * @return mixed
+ *   A context object if an identical search string context was found.
+ *   FALSE otherwise.
+ */
+function ting_search_context_search_string_context_exists($search_string) {
+  $search_string = mb_strtolower($search_string, 'UTF-8');
+
+  // We can't be sure that the DB's string manipulation is compatible with PHP's
+  // so we load all search string contexts and compare in code.
+  $search_string_contexts = ting_search_context_get_all_contexts('search');
+
+  foreach ($search_string_contexts as $search_string_context) {
+    if ($search_string === mb_strtolower($search_string_context->search, 'UTF-8')) {
+      return $search_string_context;
+    }
+  }
+  return FALSE;
+}
+
+/**
+ * Checks to see if an identical subject context already exists.
+ *
+ * @param array $subjects
+ *   The subjects the search for. The order doesn't matter.
+ */
+function ting_search_context_subject_context_exists($subjects) {
+  $subject_contexts = ting_search_context_get_all_contexts('subject');
+
+  foreach ($subject_contexts as $subject_context) {
+    $db_subjects = explode(', ', $subject_context->subjects);
+    // Since we make sure the user can't create contexts with duplicate subjects
+    // it's easy to check for identical contexts. If this wasn't the case, we
+    // would have to take a more advanced appproach:
+    // http://stackoverflow.com/questions/4519847/comparing-arrays-in-php-without-caring-for-the-order
+    if (count($db_subjects) == count($subjects) && array_diff($db_subjects, $subjects) == array()) {
+      return $subject_context;
+    }
+  }
+  return FALSE;
+}
+
+/**
+ * Deletes ratings associatied with one or more contexts.
+ *
+ * @param mixed $context_ids
+ *   A string containing a single context_id or an array of context_ids.
+ */
+function ting_search_context_ratings_delete($context_ids) {
+  return db_delete('ting_search_context_nodes_rated')
+    ->condition('context_id', $context_ids)
+    ->execute();
+}
+
+/**
+ * Ratings loader.
+ *
+ * @param mixed $context_ids
+ *   A string containing a single context_id or an array of context_ids.
+ * @param mixed $nids
+ *   A string containing a single nid or an array of nids.
+ *
+ * @return mixed $ratings
+ *   An array of ratings keyed by nids if $context_ids was set or by context_ids
+ *   if $nids was set (and $context_ids not).
+ *   A result set with all ratings if no parameter was set.
+ */
+function ting_search_context_ratings_load($context_ids = NULL, $nids = NULL) {
+  $query = db_select('ting_search_context_nodes_rated', 'nr')->fields('nr');
+
+  if (isset($context_ids)) {
+    $query->condition('context_id', $context_ids);
+    // All ratings for a context. key by nid.
+    if (is_int($context_ids)) {
+      return $query->execute()->fetchAllAssoc('nid');
+    }
+  }
+  if (isset($nids)) {
+    $query->condition('nid', $nids);
+    // All ratings for a node. key by context_id.
+    if (is_int($nids)) {
+      return $query->execute()->fetchAllAssoc('context_id');
+    }
+  }
+
+  return $query->execute();
+}
+
+
+/**
+ * Saves or updates a context.
+ *
+ * @param object $context
+ *   The context-object to be saved.
+ *   If $context->context_id is omitted a new context will be saved in the db.
+ *
+ * @return mixed
+ *   FALSE if the insert or updated failed.
+ *   Otherwise SAVED_NEW or SAVED_UPDATED depending on the operation performed.
+ *
+ * @see ting_search_context_schema()
+ * @see ting_search_context_load()
+ * @see ting_search_context_load_multiple()
+ */
+function ting_search_context_save($context) {
+  try {
+    // Determine if this is a new or an existing context.
+    $id = empty($context->context_id) ? array() : 'context_id';
+
+    return drupal_write_record('ting_search_context_contexts', $context, $id);
+  }
+  catch (Exception $e) {
+    watchdog_exception('ting_search_context', $e);
+    return FALSE;
+  }
+}
+
+/**
+ * Deletes a context and any associated ratings.
+ *
+ * @param int $context_id
+ *   The ID of the context to delete.
+ *
+ * @return mixed
+ *   TRUE if deletion was successful.
+ *   FALSE if something went wrong or nothing was deleted.
+ */
+function ting_search_context_delete($context_id) {
+  return ting_search_context_delete_multiple(array($context_id));
+}
+
+/**
+ * Deletes multiple contexts and any associated ratings.
+ *
+ * @param array $context_ids
+ *   And array with ids of the contexts to delete.
+ *
+ * @return mixed
+ *   int. The number of contexts deleted.
+ *   False if something went wrong or nothing was deleted.
+ */
+function ting_search_context_delete_multiple($context_ids) {
+  // We're also deleting associated ratings, so use a transaction.
+  $transaction = db_transaction();
+
+  $result = FALSE;
+  if (!empty($context_ids)) {
+    try {
+      // Delete associated ratings. They're useless when serial ID is removed.
+      $result_ratings = ting_search_context_ratings_delete($context_ids);
+
+      // Delete the contexts.
+      $result = db_delete('ting_search_context_contexts')
+        ->condition('context_id', $context_ids, 'IN')
+        ->execute();
+
+      if ($result) {
+        // Reset the load_multiple static cache.
+        drupal_static_reset('ting_search_context_load_multiple');
+      }
+    }
+    catch (Exception $e) {
+      $transaction->rollback();
+      watchdog_exception('ting_search_context', $e);
+    }
+  }
+
+  return $result;
+}
+
+/**
+ * Loads a single context from the database.
+ *
+ * @param int $context_id
+ *   The ID of context to fetch.
+ * @param bool $reset
+ *   Whether to reset the internal context cache.
+ */
+function ting_search_context_load($context_id = NULL, $reset = FALSE) {
+  $context_ids = isset($context_id) ? array($context_id) : array();
+  $context = ting_search_context_load_multiple($context_ids, $reset);
+  return reset($context);
+}
+
+/**
+ * Loads multiple contexts from the database.
+ *
+ * @param array $context_ids
+ *   An array of Context IDs.
+ * @param bool $reset
+ *   Whether to reset the internal context cache.
+ *
+ * @return array
+ *   An array of context objects keyed by context_id.
+ *   Empty array if nothing was found.
+ */
+function ting_search_context_load_multiple($context_ids = array(), $reset = FALSE) {
+  // First consult the static cache.
+  $cached_contexts = &drupal_static(__FUNCTION__);
+
+  // Ensure $cached_contexts is initialized as array
+  // Initialize array if a cache reset was requested.
+  if (!isset($cached_contexts) || $reset) {
+    $cached_contexts = array();
+  }
+
+  // Determine if we have to query the datatbase.
+  $missing = array_diff($context_ids, array_keys($cached_contexts));
+
+  // Get the contexts that wasn't found in the static cache.
+  if (!empty($missing)) {
+    $cached_contexts += db_select('ting_search_context_contexts', 'tsc')
+      ->fields('tsc')
+      ->condition('tsc.context_id', $missing, 'IN')
+      ->execute()->fetchAllAssoc('context_id');
+  }
+
+  return array_intersect_key($cached_contexts, array_flip($context_ids));
+}
+
+/**
+ * Get all contexts.
+ *
+ * Get all contexts in the system or all contexts of a specific type if the
+ * $type parameter is supplied.
+ *
+ * @param string $type
+ *   Constrain the returned contexts to a specific type. (optional).
+ *
+ * @return array
+ *   Array representing the context.
+ *   Empty array if nothing was found.
+ *
+ * @see ting_search_context_schema()
+ */
+function ting_search_context_get_all_contexts($type = NULL) {
+  $query = db_select('ting_search_context_contexts', 'tsc')
+    ->fields('tsc');
+
+  if (isset($type)) {
+    $query->condition('tsc.type', $type);
+  }
+
+  return $query->execute()->fetchAll();
+}
+
+/**
+ * Defines the positions for placing the related content on the search page.
+ *
+ * @return array
+ *   Indexed by position name.
+ */
+function ting_search_context_get_positions() {
+  return array(
+    'js-below-search-result' => t('Below search result'),
+    'js-below-facets' => t('Below facets'),
+    'js-above-search-result' => t('Above search result'),
+  );
+}
+
+/**
+ * Defines the context types we support.
+ */
+function ting_search_context_get_types() {
+  return array(
+    'system' => t('System context'),
+    'subject' => t('Subject context'),
+    'search' => t('Search string context'),
+  );
+}
+
+/**
+ * Implements hook_image_default_styles().
+ */
+function ting_search_context_image_default_styles() {
+  return array(
+    'ting_search_context' => array(
+      'name' => 'ting_search_context',
+      'effects' => array(
+        array(
+          'label' => 'Scale and crop',
+          'effect callback' => 'image_scale_and_crop_effect',
+          'dimensions callback' => 'image_resize_dimensions',
+          'module' => 'image',
+          'name' => 'image_scale_and_crop',
+          'data' => array(
+            'width' => '540',
+            'height' => '405',
+          ),
+          'weight' => '1',
+        ),
+      ),
+    ),
+    'ting_search_context_thumbnail' => array(
+      'name' => 'ting_search_context',
+      'effects' => array(
+        array(
+          'label' => 'Scale and crop',
+          'effect callback' => 'image_scale_and_crop_effect',
+          'dimensions callback' => 'image_resize_dimensions',
+          'module' => 'image',
+          'name' => 'image_scale_and_crop',
+          'data' => array(
+            // The same ratio as the one used in frontend.
+            'width' => '108',
+            'height' => '81',
+          ),
+          'weight' => '1',
+        ),
+      ),
+    ),
+  );
+}
+
+/**
+ * Wrapper function that adds the modules JavaScript.
+ */
+function _ting_search_context_add_javascript() {
+  $path = drupal_get_path('module', 'ting_search_context');
+  drupal_add_library('system', 'ui.widget');
+  drupal_add_js($path . '/js/jquery.rs.carousel.js');
+  drupal_add_js($path . '/js/ting_search_context.js');
+}
+
+/**
+ * Wrapper function that adds the modules css.
+ */
+function _ting_search_context_add_css() {
+  $path = drupal_get_path('module', 'ting_search_context');
+  drupal_add_css($path . '/css/ting_search_context.base.css');
+}

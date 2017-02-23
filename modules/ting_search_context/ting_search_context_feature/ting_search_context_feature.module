@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Ting search context feature.
+ */
+
+include_once 'ting_search_context_feature.features.inc';
