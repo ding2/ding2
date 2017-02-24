@@ -15,7 +15,6 @@
     "gulp-sass": "^3.1.0",
     "gulp-uglify": "^2.0.1",
     "gulp-util": "^3.0.6",
-    "gulp-kss": "^0.0.2",
     "jshint-stylish": "^2.0.1",
     "gulp-clean-css": "^3.0.3",
     "gulp-concat-css": "^2.3.0",
@@ -25,7 +24,7 @@
 
   },
   "devDependencies": {
-    "kss": "^3.0.0-beta.14"
+    "kss": "^3.0.0-beta.18"
   },
   "stylelint": {
     "extends": "stylelint-config-standard",
