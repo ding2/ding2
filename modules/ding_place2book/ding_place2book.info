@@ -26,4 +26,3 @@ features[variable][] = ding_p2b_default_passive
 features[variable][] = ding_p2b_default_price_name
 features[variable][] = ding_p2b_default_synchronize
 mtime = 1479737495
-required = 1
