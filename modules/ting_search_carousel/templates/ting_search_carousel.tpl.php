@@ -16,11 +16,13 @@
        ting-search-carousel-autoplay="<?php echo $autoplay; ?>"
   >
     <?php foreach ($searches as $i => $search): ?>
-      <?php foreach ($search['search_items'] as $item_id => $item): ?>
-        <div class="ting-search-carousel-item index-<?php echo $i; ?>">
-          <?php echo $item; ?>
-        </div>
-      <?php endforeach; ?>
+      <?php if (!empty($search['search_items'])) : ?>
+        <?php foreach ($search['search_items'] as $item_id => $item): ?>
+          <div class="ting-search-carousel-item index-<?php echo $i; ?>">
+            <?php echo $item; ?>
+          </div>
+        <?php endforeach; ?>
+      <?php endif; ?>
     <?php endforeach; ?>
   </div>
 

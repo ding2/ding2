@@ -24,13 +24,12 @@ function template_preprocess_ting_object_cover_simple(&$variables) {
   // Set initial values required by the template.
   $variables['classes'] = array(
     'ting-cover',
-    'ting-cover-object-id-' . $object->localId,
+    'ting-cover-object-id-' . $object->ding_entity_id,
     'ting-cover-style-' . $variables['image_style'],
-    'ting-cover-owner-id-' . $object->ownerId,
   );
   $variables['image'] = '';
   // If we already have the image available locally then just use it.
-  $path = ting_covers_object_path($object->localId);
+  $path = ting_covers_object_path($object->ding_entity_id);
   if (file_exists($path)) {
     // Generate an alt tag.
     $alt = implode(', ', $object->creators) . ': ' . $object->title;
