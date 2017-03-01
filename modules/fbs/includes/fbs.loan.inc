@@ -15,10 +15,15 @@
  *   Loan information.
  */
 function fbs_loan_list($account) {
+  $res = array();
+  try {
+    $res = fbs_service()->MaterialLoans->getLoans(fbs_service()->agencyId, fbs_patron_id($account));
+  }
+  catch (Exception $e) {
+    watchdog_exception('fbs', $e);
+  }
+
   $result = array();
-
-  $res = fbs_service()->MaterialLoans->getLoans(fbs_service()->agencyId, fbs_patron_id($account));
-
   foreach ($res as $loan) {
     $id = $loan->loanDetails->loanId;
 
@@ -68,10 +73,15 @@ function fbs_loan_list($account) {
  *   Result of revewals.
  */
 function fbs_loan_renew($account, $loans) {
+  $res = array();
+  try {
+    $res = fbs_service()->MaterialLoans->renewLoans(fbs_service()->agencyId, fbs_patron_id($account), $loans);
+  }
+  catch (Exception $e) {
+    watchdog_exception('fbs', $e);
+  }
+
   $result = array();
-
-  $res = fbs_service()->MaterialLoans->renewLoans(fbs_service()->agencyId, fbs_patron_id($account), $loans);
-
   foreach ($res as $loan) {
     // Using an array for renewalStatus is an odd choice, but we'll only
     // consider the loan renewed if 'renewed' is the only status.

@@ -36,7 +36,7 @@ function ding_sharer_html_head_alter(&$head_elements) {
 /**
  * Implements hook_image_default_styles().
  */
-function ding_campaign_image_default_styles() {
+function ding_sharer_image_default_styles() {
   $styles = array();
   
   $styles['ding_sharer'] = array(

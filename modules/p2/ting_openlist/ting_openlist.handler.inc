@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * The provider functions.
@@ -59,7 +58,7 @@ function ting_openlist_handler_get_user($openlist_uid) {
  *   The user account to update.
  */
 function ting_openlist_handler_update_user($account) {
-  return ting_openlist_update_user($account);
+  ting_openlist_update_user($account);
 }
 
 /**

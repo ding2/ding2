@@ -25,7 +25,7 @@ class ExternalPatronGroupApi extends SwaggerApi
         $request->addParameter("path", "agencyid", $agencyid);
 
         $request->defineResponse(200, "", '\\FBS\\Model\\PatronGroup');
-        $request->defineResponse("400", 'bad request', '\\FBS\\Model\\RestException');
+        $request->defineResponse("400", 'bad request', null);
         $request->defineResponse("401", 'client unauthorized', null);
 
         return $request->execute();

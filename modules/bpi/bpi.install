@@ -54,6 +54,14 @@ function bpi_schema() {
 }
 
 /**
+ * Implements hook_install().
+ */
+function bpi_install() {
+  // Disable view 'admin_views_node' (cf. bpi_update_7003).
+  bpi_update_7003();
+}
+
+/**
  * Add BPI data blob to db table.
  */
 function bpi_update_7001() {

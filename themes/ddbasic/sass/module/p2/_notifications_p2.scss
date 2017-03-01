@@ -3,20 +3,28 @@
 
 .pane-notifications-top-menu {
   @include zen-grid-item(5, 5, right);
+  margin-right: 350px;
   margin-top: 45px;
   text-align: right;
   @include large() {
     @include zen-grid-item(5, 6, right);
+    margin-right: 350px;
   }
   @include small-medium() {
     //@include zen-grid-item(5, 7, right);
+    margin-right: 220px;
     padding: 0;
     margin-top: 10px;
   }
   @include small() {
-    float: left;
+    margin-right: 180px;
     margin-left: 0;
     margin-top: 15px;
+  }
+  .pane-notifications-top-menu {
+    width: 100%;
+    padding: 0;
+    margin: 0;
   }
   //@include respond-to('small-medium') {
   //  margin-top: 16px;
@@ -24,7 +32,7 @@
   //  margin-left: 0;
   //  margin-right: 0;
   //}
-  
+
   .pane-title {
     display: none;
   }
@@ -77,11 +85,11 @@
     }
     @include medium-large {
       @include zen-grid-item(9, 1);
-    }    
+    }
     @include zen-grid-item(8, 1);
     margin-bottom: 2em;
     border: none;
-    
+
     tr.fines .label {
       background-color: $notification-style-red;
     }
@@ -101,7 +109,7 @@
   }
 }
 
-/* Ding Interests Overview Page 
+/* Ding Interests Overview Page
    ========================================================================== */
 
 .page-ding-interests-overview {
@@ -111,18 +119,18 @@
     @include zen-clear();
     @include zen-grid-container();
     padding-bottom: 2em;
-    
+
     .item {
       @include zen-grid-item(6, 1);
       margin: 0 0px $medium-spacing 0;
-      
+
       h2 {
         border-top: 1px solid $gray;
         padding-top: 1em;
         font-size: $font-size-large;
         margin-bottom: 0;
         a:visited {
-          color: $link-color;        
+          color: $link-color;
         }
         a {
           color: $link-color;
@@ -133,14 +141,14 @@
           }
         }
       }
-      
+
       ul {
         padding: 0 0 .5em 0;
         li {
           display: inline;
           margin-right: 2%;
           a:visited {
-            color: $link-color;        
+            color: $link-color;
           }
           &.last {
             margin-right: 0;
@@ -170,7 +178,7 @@
     .field-name-ting-series {
       margin-bottom: 5px;
     }
-    
+
   }
 }
 
@@ -184,23 +192,32 @@
     top: 0px;
     right: 0px;
     text-align: right;
+    @include small() {
+      top: auto;
+      bottom: 0;
+    }
+  }
+  @include small() {
+    width: 100%;
+    float: left;
+    padding-bottom: 50px;
   }
 }
 
 
-/* Ding Interests Term Tree 
+/* Ding Interests Term Tree
    ========================================================================== */
 
 .pane-term-tree {
 
   .item {
     margin: 0 0px $medium-spacing 0;
-    
+
     h2 {
       font-size: $font-size-large;
       margin-bottom: 0;
       a:visited {
-        color: $link-color;        
+        color: $link-color;
       }
       a {
         color: $link-color;
@@ -210,7 +227,7 @@
         }
       }
     }
-    
+
     ul {
       padding: 0 0 .5em 0;
       padding-bottom: 1em;
@@ -221,7 +238,7 @@
           margin-right: 0;
         }
         a:visited {
-          color: $link-color;        
+          color: $link-color;
         }
       }
     }
@@ -237,7 +254,7 @@ ul.actions {
   margin: 1.5em 0 0 0;
   padding: 0;
   list-style: none;
-  
+
   li {
     display: inline-block;
     a {
@@ -291,11 +308,11 @@ ul.actions {
 /* This part should be moved. Ding Interactives
    ========================================================================== */
 
-.complete-info {
+.ding-interaction-true-pane.complete-info {
   background: $interests-blue;
   color: $white;
   padding: 30px;
-  
+
   .pane-title {
     font-size: $font-size-large;
     margin-bottom: 1em;
@@ -328,16 +345,16 @@ ul.actions {
   h2 {
     display: none;
   }
-  
+
   .pane-title {
     font-size: $font-size-large;
     margin-bottom: 1em;
   }
-  
+
   a {
     color: $white;
   }
-  
+
   a.transparent-button {
     @include transparent-button;
     display: inline-block;
@@ -357,19 +374,19 @@ ul.actions {
       color: $white;
     }
   }
-  
+
   .teaser-text {
     font-family: $font-light;
   }
-  
+
   .teaser-text, .term-link {
     font-size: $font-size-large;
   }
-  
+
   .all-interests {
     margin-top: 5px;
   }
-    
+
   a.transparent-button.yes:hover {
     background: $interests-green;
     border-color: $interests-green;
@@ -378,13 +395,13 @@ ul.actions {
     background: $interests-red;
     border-color: $interests-red;
   }
-    
+
 }
 
 
 /* Ding Interactives Default: Yes No
    ========================================================================== */
-   
+
 .pane-interaction-pane.default-interaction {
 
   .terms {
@@ -409,7 +426,7 @@ ul.actions {
       background: $interests-red;
       border-color: $interests-red;
     }
-    
+
     h2 {
       display: none;
     }
@@ -424,15 +441,15 @@ ul.actions {
         color: $white;
       }
     }
-    
+
     .teaser-text {
       font-family: $font-light;
     }
-    
+
     .teaser-text, .term-link {
       font-size: $font-size-large;
     }
-    
+
     .all-interests {
       margin-top: 5px;
     }
@@ -457,4 +474,3 @@ ul.actions {
     }
   }
 }
-

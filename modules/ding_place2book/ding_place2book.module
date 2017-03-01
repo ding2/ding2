@@ -157,30 +157,6 @@ function ding_place2book_theme($existing, $type, $theme, $path) {
 }
 
 /**
- * Implements hook_node_view_alter().
- */
-function ding_place2book_node_view_alter(&$build) {
-  if ($build['#entity_type'] == 'node' && $build['#bundle'] == 'ding_event') {
-    if (!empty($build['field_place2book'])) {
-      $place2book = field_get_items('node', $build['field_place2book']['#object'], 'field_place2book');
-      list($event_id, $event_maker_id) = array_values($place2book[0]);
-      try {
-        $p2b = ding_place2book_instance();
-        $prices = $p2b->getPrices($event_maker_id, $event_id);
-        $output = '';
-        foreach ($prices as $price) {
-          $output .= "<p><i class='icon-tag'></i>{$price->name} {$price->value} kr.</p>";
-        }
-        $build['place2book_event_prices'] = $output;
-      }
-      catch (Exception $ex) {
-        watchdog_exception('ding_place2book', $ex);
-      }
-    }
-  }
-}
-
-/**
  * Implements hook_node_delete().
  */
 function ding_place2book_node_delete($node) {
@@ -214,7 +190,7 @@ function ding_place2book_node_delete($node) {
  */
 function ding_place2book_instance() {
   $p2b = drupal_static(__FUNCTION__, NULL);
-  if (empty($settings)) {
+  if (empty($p2b)) {
     $settings = variable_get('ding_place2book_settings', array());
     $p2b = P2b::getInstance($settings);
   }
@@ -335,6 +311,12 @@ function _ding_p2b_get_address_data($node) {
       0,
       'value',
     ),
+    "name" => array(
+      'field_ding_event_location',
+      LANGUAGE_NONE,
+      0,
+      'name_line',
+    ),
   );
 
   $data = array();
@@ -342,12 +324,17 @@ function _ding_p2b_get_address_data($node) {
     $result = NULL;
     $data[$name] = drupal_array_get_nested_value($node, $option, $result);
     if (($result === FALSE || empty($data[$name])) && $lib) {
-      $option[0] = 'field_ding_library_addresse';
+      if ($name == 'name') {
+        $option = array('title');
+      }
+      else {
+        $option[0] = 'field_ding_library_addresse';
+      }
       $data[$name] = drupal_array_get_nested_value($lib, $option);
     }
   }
   $data['phone'] = empty($data['phone']) ? t('None') : $data['phone'];
-  $data['address2'] = empty($data['address2']) ? t('None') : $data['address2'];
+  $data['address2'] = '';
 
   return $data;
 }
@@ -435,6 +422,7 @@ function theme_ding_p2b_prices_table($variables) {
     'rows' => $rows,
     'header' => $header,
     'empty' => t('Click to add more for adding a row.'),
+    'attributes' => array('id' => 'p2b-prices-table'),
   ));
   $output .= drupal_render_children($form);
   return $output;

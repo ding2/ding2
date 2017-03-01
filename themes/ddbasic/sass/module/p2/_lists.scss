@@ -9,10 +9,12 @@
 }
 .ding-type-ding-list-element {
   h2 {
-    //padding-right: 160px;
+    padding-right: 160px;
     font-size: 130%;
     padding-top: 4px;
-    max-width: 80%;
+    @include small() {
+      padding-right: 0;
+    }
   }
   .ding-message-link {
     float: left;
@@ -45,6 +47,9 @@
     > .odd,
     > .even {
       margin-bottom: 40px;
+      padding-top: 20px;
+      background-color: $white;
+
       h2 {
         padding: 0 20px;
       }

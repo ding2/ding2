@@ -54,6 +54,9 @@
               ding_availability_update_holdings(id, entity_ids);
             }
           });
+        },
+        error: function () {
+          $('div.loader').remove();
         }
       });
     }

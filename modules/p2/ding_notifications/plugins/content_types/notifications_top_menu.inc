@@ -68,6 +68,7 @@ function ding_notifications_content_type_render($subtype, $conf, $panel_args, $c
     $link_text_t = sprintf('<div data-count="%d" class="notifications-count">%d</div>', $num_notifications, $num_notifications);
     $attr = array(
       'html' => TRUE,
+      'fragment' => 'userlists',
       'attributes' => array(
         'title' => t('Notifications: @count', array('@count' => $num_notifications)),
         'class' => array($classes),

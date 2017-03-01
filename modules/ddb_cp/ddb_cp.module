@@ -6,6 +6,8 @@
  * DDB CMS is a Drupal based frontend in use by Danish public libraries.
  */
 
+include_once 'ddb_cp.features.inc';
+
 // Standard error message when the webservice does not respond.
 define('DDB_CP_MSG_ERROR_NO_WEB_SERVICE', 'Cannot communicate with the DDB Webservice.');
 

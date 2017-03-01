@@ -70,7 +70,7 @@ function ding_list_add_element_form($form, &$form_state, $type, $value, $title =
   $options = ding_list_get_add_to_list_data($type, $value);
   if (count($options) > 1) {
     $submit_title = $title;
-    
+
     $form['list'] = array(
       '#type' => 'select',
       '#options' => array(),
@@ -187,6 +187,8 @@ function ding_list_add_element_form_callback($form, &$form_state) {
  *   This is the existing ding_list object.
  */
 function ding_list_create_list_form($form, &$form_state, $existing = FALSE) {
+  global $user;
+
   if ($existing !== FALSE) {
     $form_state['existing'] = $existing->id;
 
@@ -195,9 +197,9 @@ function ding_list_create_list_form($form, &$form_state, $existing = FALSE) {
 
       $tmp = confirm_form(
         $form,
-        t('Do you really want to delete !list?', array('!list' => $existing->title)),
+        t('Do you really want to delete !list?', array('!list' => check_plain($existing->title))),
         current_path(),
-        t('Do you really want to delete !list?', array('!list' => $existing->title))
+        t('Do you really want to delete !list?', array('!list' => check_plain($existing->title)))
       );
 
       return $tmp;
@@ -216,13 +218,13 @@ function ding_list_create_list_form($form, &$form_state, $existing = FALSE) {
     '#type' => 'textfield',
     '#title' => t('Title'),
     '#required' => TRUE,
-    '#default_value' => isset($existing->title) ? filter_xss($existing->title) : '',
+    '#default_value' => isset($existing->title) ? $existing->title : '',
   );
 
   $form['notes'] = array(
     '#type' => 'textarea',
     '#title' => t('Note'),
-    '#default_value' => isset($note) ? filter_xss($note) : '',
+    '#default_value' => isset($note) ? $note : '',
   );
 
   if ($existing) {
@@ -236,8 +238,13 @@ function ding_list_create_list_form($form, &$form_state, $existing = FALSE) {
       $form['actions']['delete_list'] = array(
         '#type' => 'submit',
         '#value' => t('Delete list'),
-        '#submit' => array('ding_list_create_list_form_submit_delete'),
       );
+      if ($existing->uid == $user->uid) {
+        $form['actions']['delete_list']['#submit'] = array('ding_list_create_list_form_submit_delete');
+      }
+      else {
+        $form['actions']['delete_list']['#submit'] = array('ding_list_create_list_form_submit_delete_share');
+      }
     }
   }
   else {
@@ -305,6 +312,16 @@ function ding_list_create_list_form_submit_delete($form, &$form_state) {
 }
 
 /**
+ * Remove share from list.
+ */
+function ding_list_list_permissions_form_unfollow_shared($form, &$form_state) {
+  $permission = ding_list_get_permission($form_state['build_info']['args'][0]);
+  ding_list_remove_permission($permission);
+
+  $form_state['redirect'] = 'user/' . $GLOBALS['user']->uid . '/dinglists';
+}
+
+/**
  * The create_list_form submit handler.
  */
 function ding_list_create_list_form_submit($form, &$form_state) {
@@ -329,7 +346,7 @@ function ding_list_create_list_form_submit($form, &$form_state) {
       drupal_set_message(t("An error occurred, your list wasn't created. Please contact the administrator if this problem persists."), 'error');
       return;
     }
-    
+
     drupal_set_message(t(
         "You've create the list !list.<br/>Read more about how you use the lists !help",
         array(
@@ -369,12 +386,29 @@ function ding_list_create_list_form_submit($form, &$form_state) {
  * This is a pure ajax interface form.
  */
 function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
+  if (!ding_list_user_has_access($list, 'owner')) {
+    $form['unfollow_shared'] = array(
+      '#type' => 'submit',
+      '#value' => t('Unfollowed shared list'),
+      '#submit' => array('ding_list_list_permissions_form_unfollow_shared'),
+    );
+
+    return $form;
+  }
+
   // Get the status options from the field_ding_list_status allowed values.
   $status = field_info_field('field_ding_list_status');
   $status = $status['settings']['allowed_values'];
+
+  // Translate the allowed values.
+  foreach ($status as $key => &$value) {
+    $value = i18n_string('field:field_ding_list_status:#allowed_values:' . $key, $value);
+  }
+
   $form['status'] = array(
     '#type' => 'select',
     '#title' => t('Status'),
+    '#description' => t('Please note: When you share a list, your name will be displayed with the list.'),
     '#options' => $status,
     '#default_value' => ding_base_get_value('ding_type', $list, 'field_ding_list_status', 'value', 'private'),
     '#ajax' => array(
@@ -401,7 +435,7 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
     'view' => t('Allow to view this list'),
     'edit' => t('Allow to view and edit this list'),
   );
-  
+
   $form['sharer']['permission'] = array(
     '#type' => 'select',
     '#title' => t('Select which type of access to share'),
@@ -439,6 +473,7 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
   $form['mail_sharer']['email'] = array(
     '#type' => 'textfield',
     '#title' => t('Send invitation to this email adress:'),
+    '#description' => t('At the moment only users at this library can share your lists.'),
   );
 
   $form['mail_sharer']['share'] = array(
@@ -456,7 +491,7 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
     foreach ($permissions as $permission) {
       $keys[] = $permission['target_id'];
     }
-    
+
     // Load all permission entities.
     $permissions = entity_load('ding_type', $keys);
     $form['mail_sharer']['shared'] = array(
@@ -488,7 +523,7 @@ function ding_list_list_permissions_form($form, $form_state, $list = FALSE) {
       $form['mail_sharer']['shared'][$permission->id]['user'] = array(
         '#markup' => $user_account->mail,
       );
-      
+
       $permission_options['remove'] = t('Revoke access to this list');
       $form['mail_sharer']['shared'][$permission->id]['permission'] = array(
         '#type' => 'select',
@@ -539,7 +574,7 @@ function theme_ding_list_shared_permissions_table($variables) {
 function ding_list_list_permissions_form_set_permission_callback($form, &$form_state) {
   // Get the permission entity id, from the triggering elements parents.
   // The array parents will look  like: ["mail_sharer", "shared", ID,
-  // "permission"]
+  // "permission"].
   $permission_id = array_slice($form_state['triggering_element']['#array_parents'], -2, 1);
   $permission_id = $permission_id[0];
   $entity = entity_load_single('ding_type', $permission_id);
@@ -584,10 +619,10 @@ function ding_list_list_permissions_form_state_callback($form, &$form_state) {
 
   $output = array(
     'shared' => t('Your list is now shared.'),
-    'public' => t('Your list is now public.'),
+    'public' => t('Your list is now public. You can find it under !link', array('!link' => l(t('Public lists'), 'public-lists'))),
     'private' => t('Your list is now private.'),
   );
-  
+
   return theme('ding_list_permission_description', array('message' => $output[$form_state['values']['status']]));
 }
 
@@ -597,22 +632,27 @@ function ding_list_list_permissions_form_state_callback($form, &$form_state) {
 function ding_list_list_permissions_form_share_callback($form, &$form_state) {
   global $language;
 
-  $list = $form_state['build_info']['args'][0];
-
   $response = array(
     '#type' => 'ajax',
     '#commands' => array(),
   );
 
+  if (empty($form_state['values']['email'])) {
+    $response['#commands'][] = ajax_command_ding_popup('ding_list', t('The emails field is required to send out invitations.'), t('No mails send.'));
+    return $response;
+  }
+
+  $list = $form_state['build_info']['args'][0];
+
   $uri = entity_uri('ding_type', $list);
   $token = ding_list_share_token($form_state['build_info']['args'][0], $form_state['values']['permission']);
 
-  $link = url($uri['path'], array('absolute' => TRUE, 'query' => array('token' => $token)));
+  $link = l($list->title, $uri['path'], array('absolute' => TRUE, 'query' => array('token' => $token)));
 
   drupal_mail('ding_list', 'share', $form_state['values']['email'], $language, array(
-      'link' => $link,
-      'list' => $list,
-    ));
+    'link' => $link,
+    'list' => $list,
+  ));
 
   // Get generated message.
   $html = theme('ding_list_message', array('message' => t('Mail sent')));

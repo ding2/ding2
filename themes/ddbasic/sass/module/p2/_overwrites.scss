@@ -16,29 +16,11 @@
   }
 }
 
-.ting-object.view-mode-compact {
-  .contentbox {
-    overflow: hidden;
-  }
-  .field-name-ting-title h2 {
-    font-size: 100%;
-    padding-top: 10px;
-    padding-right: 15px;
-    padding-bottom: 10px;
-    padding-left: 15px;
-    @include box-sizing(border-box);
-    a {
-      color: $white;
-    }
-  }
-  
-}
-
 .draggable {
   > .views-field-id {
     // Small
     @include small() {
-      display: none; 
+      display: none;
     }
   }
 }

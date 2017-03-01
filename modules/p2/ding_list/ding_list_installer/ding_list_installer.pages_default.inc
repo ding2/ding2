@@ -16,7 +16,19 @@ function ding_list_installer_default_page_manager_pages() {
   $page->admin_title = 'Page Ding List Create';
   $page->admin_description = '';
   $page->path = 'list/create';
-  $page->access = array();
+  $page->access = array(
+    'plugins' => array(
+      0 => array(
+        'name' => 'external_user',
+        'settings' => NULL,
+        'context' => array(
+          0 => 'logged-in-user',
+        ),
+        'not' => FALSE,
+      ),
+    ),
+    'logic' => 'and',
+  );
   $page->menu = array(
     'type' => 'action',
     'title' => 'asf',
@@ -281,7 +293,7 @@ function ding_list_installer_default_page_manager_pages() {
       0 => array(
         'name' => 'user_list',
         'settings' => array(
-          'visibility_settings' => 'owner',
+          'visibility_settings' => 'view',
         ),
         'context' => array(
           0 => 'logged-in-user',
@@ -324,19 +336,7 @@ function ding_list_installer_default_page_manager_pages() {
     'contexts' => array(),
     'relationships' => array(),
     'access' => array(
-      'plugins' => array(
-        0 => array(
-          'name' => 'user_list',
-          'settings' => array(
-            'visibility_settings' => 'edit',
-          ),
-          'context' => array(
-            0 => 'logged-in-user',
-            1 => 'argument_entity_id:ding_type_1',
-          ),
-          'not' => FALSE,
-        ),
-      ),
+      'plugins' => array(),
       'logic' => 'and',
     ),
   );
@@ -889,25 +889,6 @@ function ding_list_installer_default_page_manager_pages() {
     $display->content['new-e1195ffb-63fb-4b67-9ee9-6d20d0c0ead0'] = $pane;
     $display->panels['main_content'][1] = 'new-e1195ffb-63fb-4b67-9ee9-6d20d0c0ead0';
     $pane = new stdClass();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     $pane->pid = 'new-f0e76ffa-abea-407f-a468-692229c54e81';
     $pane->panel = 'main_content';
     $pane->type = 'add_list';
@@ -921,7 +902,6 @@ function ding_list_installer_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-
     $pane->position = 2;
     $pane->locks = array();
     $pane->uuid = 'f0e76ffa-abea-407f-a468-692229c54e81';
@@ -933,7 +913,27 @@ function ding_list_installer_default_page_manager_pages() {
     $pane->type = 'sharer_pane';
     $pane->subtype = 'sharer_pane';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'entity_field_value:ding_type:ding_list:field_ding_list_status',
+          'settings' => array(
+            'field_ding_list_status' => array(
+              'und' => array(
+                0 => array(
+                  'value' => 'public',
+                ),
+              ),
+            ),
+            'field_ding_list_status_value' => array(
+              0 => 'public',
+            ),
+          ),
+          'context' => 'argument_entity_id:ding_type_1',
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array(
       'count' => '5',
       'override_title' => 0,
@@ -949,12 +949,59 @@ function ding_list_installer_default_page_manager_pages() {
     );
     $pane->css = array();
     $pane->extras = array();
-
     $pane->position = 3;
     $pane->locks = array();
     $pane->uuid = 'be8eb5bc-a163-4123-97a3-7df269deff17';
     $display->content['new-be8eb5bc-a163-4123-97a3-7df269deff17'] = $pane;
     $display->panels['main_content'][3] = 'new-be8eb5bc-a163-4123-97a3-7df269deff17';
+    $pane = new stdClass();
+    $pane->pid = 'new-b8ce1ce7-690b-426b-9331-363e945cd3c4';
+    $pane->panel = 'main_content';
+    $pane->type = 'private_share';
+    $pane->subtype = 'private_share';
+    $pane->shown = TRUE;
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'entity_field_value:ding_type:ding_list:field_ding_list_status',
+          'settings' => array(
+            'field_ding_list_status' => array(
+              'und' => array(
+                0 => array(
+                  'value' => 'public',
+                ),
+              ),
+            ),
+            'field_ding_list_status_value' => array(
+              0 => 'public',
+            ),
+          ),
+          'context' => 'argument_entity_id:ding_type_1',
+          'not' => TRUE,
+        ),
+      ),
+    );
+    $pane->configuration = array(
+      'communities' => array(
+        'facebook' => 'facebook',
+        'twitter' => 'twitter',
+      ),
+      'context' => 'argument_entity_id:ding_type_1',
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 4;
+    $pane->locks = array();
+    $pane->uuid = 'b8ce1ce7-690b-426b-9331-363e945cd3c4';
+    $display->content['new-b8ce1ce7-690b-426b-9331-363e945cd3c4'] = $pane;
+    $display->panels['main_content'][4] = 'new-b8ce1ce7-690b-426b-9331-363e945cd3c4';
   $display->hide_title = PANELS_TITLE_PANE;
   $display->title_pane = 'new-aea07c96-ad88-4e14-80a7-23264747e203';
   $handler->conf['display'] = $display;

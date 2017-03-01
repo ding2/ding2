@@ -10,7 +10,7 @@
 function ding_list_installer_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'ding_type-ding_list-field_content_status'.
+  // Exported field_instance: 'ding_type-ding_list-field_content_status'
   $field_instances['ding_type-ding_list-field_content_status'] = array(
     'bundle' => 'ding_list',
     'default_value' => NULL,
@@ -52,7 +52,7 @@ function ding_list_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ding_type-ding_list-field_ding_content_tags'.
+  // Exported field_instance: 'ding_type-ding_list-field_ding_content_tags'
   $field_instances['ding_type-ding_list-field_ding_content_tags'] = array(
     'bundle' => 'ding_list',
     'default_value' => NULL,
@@ -94,7 +94,7 @@ function ding_list_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ding_type-ding_list-field_ding_list_permissions'.
+  // Exported field_instance: 'ding_type-ding_list-field_ding_list_permissions'
   $field_instances['ding_type-ding_list-field_ding_list_permissions'] = array(
     'bundle' => 'ding_list',
     'default_value' => NULL,
@@ -140,7 +140,7 @@ function ding_list_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ding_type-ding_list-field_ding_list_status'.
+  // Exported field_instance: 'ding_type-ding_list-field_ding_list_status'
   $field_instances['ding_type-ding_list-field_ding_list_status'] = array(
     'bundle' => 'ding_list',
     'default_value' => array(
@@ -186,7 +186,7 @@ function ding_list_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ding_type-ding_list-field_list_objects'.
+  // Exported field_instance: 'ding_type-ding_list-field_list_objects'
   $field_instances['ding_type-ding_list-field_list_objects'] = array(
     'bundle' => 'ding_list',
     'default_value' => NULL,
@@ -269,7 +269,7 @@ function ding_list_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ding_type-ding_list-field_list_type'.
+  // Exported field_instance: 'ding_type-ding_list-field_list_type'
   $field_instances['ding_type-ding_list-field_list_type'] = array(
     'bundle' => 'ding_list',
     'default_value' => NULL,
@@ -350,7 +350,7 @@ function ding_list_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ding_type-ding_list-field_notes'.
+  // Exported field_instance: 'ding_type-ding_list-field_notes'
   $field_instances['ding_type-ding_list-field_notes'] = array(
     'bundle' => 'ding_list',
     'default_value' => NULL,
@@ -432,7 +432,7 @@ function ding_list_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ding_type-ding_list_element-field_ding_list'.
+  // Exported field_instance: 'ding_type-ding_list_element-field_ding_list'
   $field_instances['ding_type-ding_list_element-field_ding_list'] = array(
     'bundle' => 'ding_list_element',
     'default_value' => NULL,
@@ -478,8 +478,7 @@ function ding_list_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance:
-  // 'ding_type-ding_list_element-field_ding_list_user'.
+  // Exported field_instance: 'ding_type-ding_list_element-field_ding_list_user'
   $field_instances['ding_type-ding_list_element-field_ding_list_user'] = array(
     'bundle' => 'ding_list_element',
     'default_value' => NULL,
@@ -525,7 +524,7 @@ function ding_list_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ding_type-ding_list_element-field_element_type'.
+  // Exported field_instance: 'ding_type-ding_list_element-field_element_type'
   $field_instances['ding_type-ding_list_element-field_element_type'] = array(
     'bundle' => 'ding_list_element',
     'default_value' => NULL,
@@ -614,7 +613,7 @@ function ding_list_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ding_type-ding_list_element-field_note'.
+  // Exported field_instance: 'ding_type-ding_list_element-field_note'
   $field_instances['ding_type-ding_list_element-field_note'] = array(
     'bundle' => 'ding_list_element',
     'default_value' => NULL,
@@ -660,7 +659,7 @@ function ding_list_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ding_type-ding_list_element-field_search_query'.
+  // Exported field_instance: 'ding_type-ding_list_element-field_search_query'
   $field_instances['ding_type-ding_list_element-field_search_query'] = array(
     'bundle' => 'ding_list_element',
     'default_value' => NULL,
@@ -706,7 +705,7 @@ function ding_list_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ding_type-ding_list_element-field_search_title'.
+  // Exported field_instance: 'ding_type-ding_list_element-field_search_title'
   $field_instances['ding_type-ding_list_element-field_search_title'] = array(
     'bundle' => 'ding_list_element',
     'default_value' => NULL,
@@ -752,7 +751,7 @@ function ding_list_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ding_type-ding_list_element-field_state'.
+  // Exported field_instance: 'ding_type-ding_list_element-field_state'
   $field_instances['ding_type-ding_list_element-field_state'] = array(
     'bundle' => 'ding_list_element',
     'default_value' => NULL,
@@ -798,7 +797,7 @@ function ding_list_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ding_type-ding_list_element-field_taxonomy_term'.
+  // Exported field_instance: 'ding_type-ding_list_element-field_taxonomy_term'
   $field_instances['ding_type-ding_list_element-field_taxonomy_term'] = array(
     'bundle' => 'ding_list_element',
     'default_value' => NULL,
@@ -881,7 +880,7 @@ function ding_list_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ding_type-ding_list_element-field_ting_object'.
+  // Exported field_instance: 'ding_type-ding_list_element-field_ting_object'
   $field_instances['ding_type-ding_list_element-field_ting_object'] = array(
     'bundle' => 'ding_list_element',
     'default_value' => NULL,
@@ -970,7 +969,7 @@ function ding_list_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ding_type-ding_list_element-field_value'.
+  // Exported field_instance: 'ding_type-ding_list_element-field_value'
   $field_instances['ding_type-ding_list_element-field_value'] = array(
     'bundle' => 'ding_list_element',
     'default_value' => NULL,
@@ -1016,7 +1015,7 @@ function ding_list_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ding_type-ding_list_element-field_weight'.
+  // Exported field_instance: 'ding_type-ding_list_element-field_weight'
   $field_instances['ding_type-ding_list_element-field_weight'] = array(
     'bundle' => 'ding_list_element',
     'default_value' => NULL,
@@ -1068,7 +1067,7 @@ function ding_list_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ding_type-permission-field_ding_list_permission'.
+  // Exported field_instance: 'ding_type-permission-field_ding_list_permission'
   $field_instances['ding_type-permission-field_ding_list_permission'] = array(
     'bundle' => 'permission',
     'default_value' => array(
@@ -1115,7 +1114,7 @@ function ding_list_installer_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'ding_type-permission-field_ding_list_user'.
+  // Exported field_instance: 'ding_type-permission-field_ding_list_user'
   $field_instances['ding_type-permission-field_ding_list_user'] = array(
     'bundle' => 'permission',
     'default_value' => NULL,

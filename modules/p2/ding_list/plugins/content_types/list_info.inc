@@ -22,7 +22,7 @@ function ding_list_list_info_content_type_render($subtype, $conf, $panel_args, $
   $list = $context->data;
 
   $block = new stdClass();
-  $block->title = entity_label('ding_type', $list);
+  $block->title = check_plain(entity_label('ding_type', $list));
   $block->content = array('#theme' => 'ding_list_info', '#list' => $list);
 
   return $block;

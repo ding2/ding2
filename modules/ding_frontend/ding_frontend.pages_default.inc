@@ -547,6 +547,40 @@ search/node',
     $display->content['new-10bf5aa9-f209-42b0-bba4-cc6ba8aee079'] = $pane;
     $display->panels['branding'][1] = 'new-10bf5aa9-f209-42b0-bba4-cc6ba8aee079';
     $pane = new stdClass();
+    $pane->pid = 'new-192e7974-28a5-423a-874d-19f0945a1e5f';
+    $pane->panel = 'branding';
+    $pane->type = 'notifications_top_menu';
+    $pane->subtype = 'notifications_top_menu';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'top_menu_items' => array(
+        'ready_to_pickup' => 'ready_to_pickup',
+        'dept' => 'dept',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array(
+      'method' => 'lazy',
+      'settings' => array(
+        'load_strategy' => 'pane-visible',
+        'show_spinner' => 0,
+        'load_text' => '',
+      ),
+    );
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $pane->uuid = '192e7974-28a5-423a-874d-19f0945a1e5f';
+    $display->content['new-192e7974-28a5-423a-874d-19f0945a1e5f'] = $pane;
+    $display->panels['branding'][2] = 'new-192e7974-28a5-423a-874d-19f0945a1e5f';
+    $pane = new stdClass();
     $pane->pid = 'new-1769a64d-2cbe-490d-87aa-a2c3ee082997';
     $pane->panel = 'content';
     $pane->type = 'page_messages';

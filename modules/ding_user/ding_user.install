@@ -114,3 +114,19 @@ function ding_user_update_7007(&$sandbox) {
       ->execute();
   }
 }
+
+/**
+ * Remove all aliases for provider users.
+ */
+function ding_user_update_7008(&$sandbox) {
+  db_query("DELETE a.* FROM url_alias a INNER JOIN ( SELECT concat('user/', u.uid) s FROM users u INNER JOIN authmap a ON u.uid=a.uid ) b ON a.source=b.s;")
+    ->execute();
+}
+
+/**
+ * Remove all redirects for provider users.
+ */
+function ding_user_update_7009(&$sandbox) {
+  db_query("DELETE a.* FROM redirect a INNER JOIN ( SELECT concat('user/', u.uid) s FROM users u INNER JOIN authmap a ON u.uid=a.uid ) b ON a.redirect=b.s;")
+    ->execute();
+}

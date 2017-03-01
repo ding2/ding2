@@ -8,4 +8,3 @@ dependencies[] = ding_list
 dependencies[] = ding_loan
 dependencies[] = ding_provider
 dependencies[] = ding_serendipity
-dependencies[] = ding_interests

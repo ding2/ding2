@@ -61,7 +61,7 @@ function ding_campaign_menu() {
 function ding_campaign_rules_access($nid) {
   $node = node_load($nid);
 
-  return is_object($node) && $node->type == 'ding_campaign';
+  return is_object($node) && $node->type == 'ding_campaign' && user_access('access campaign rules');
 }
 
 /**
@@ -432,24 +432,6 @@ function ding_campaign_form_alter(&$form, &$form_state, $form_id) {
 
     $form['#validate'] = array('ding_campaign_campaign_node_form_validate');
   }
-  else {
-    $enabled_types = variable_get('ding_campaign_node_types', array());
-
-    // Alter the specific node form, mentioned in Campaign settings.
-    if (isset($form['#node']) && isset($enabled_types[$form['#form_id']]) && ($enabled_types[$form['#form_id']] === $form['#form_id'])) {
-      $form['ding_campaigns_wrap'] = array(
-        '#type' => 'fieldset',
-        '#title' => 'Available campaigns',
-      );
-
-      $form['ding_campaigns_wrap']['ding_campaigns'] = array(
-        '#type' => 'checkboxes',
-        '#default_value' => isset($form['#node']->ding_campaigns) ? $form['#node']->ding_campaigns : array(),
-        '#options' => ding_campaign_get_list(),
-        '#description' => 'Select campaigns asociated with this node.',
-      );
-    }
-  }
 }
 
 /**
@@ -470,6 +452,11 @@ function ding_campaign_form_ding_campaign_node_form_alter(&$form, &$form_state) 
   $form['field_camp_image']['#states'] = array(
     'visible' => array(
       ':input[name="field_camp_settings[und]"]' => array('value' => 'image'),
+    ),
+  );
+  $form['field_camp_link']['#states'] = array(
+    'visible' => array(
+      ':input[name"field_camp_settings[und]"]' => array('value' => 'image'),
     ),
   );
   array_unshift($form['actions']['submit']['#submit'], 'ding_campaign_form_ding_campaign_node_form_submit');
@@ -696,9 +683,9 @@ function ding_campaign_ctools_plugin_directory($module, $plugin) {
 }
 
 function ding_campaign_campaign_node_form_validate($form, &$form_state) {
-  if ($form_state['input']['field_camp_settings'][$form['field_camp_settings']['#language']] == 'plain' || $form_state['input']['field_camp_settings'][$form['field_camp_settings']['#language']] == 'image') {
+  if ($form_state['input']['field_camp_settings'][$form['field_camp_settings']['#language']] == 'image') {
     if (empty($form_state['input']['field_camp_link'][$form['field_camp_link']['#language']][0]['value'])) {
-      form_set_error('field_camp_link', 'Empty links are not allowed for plain text and image type campaigns.');
+      form_set_error('field_camp_link', 'Empty links are not allowed for image type campaigns.');
     }
   }
 }

@@ -80,11 +80,11 @@ function alma_ding_provider() {
       ),
       'user_consent' => array(
         'prefix' => 'user_consent',
-        'file' => $path . '/includes/alma.user_consent.inc',
+        'file' => 'includes/alma.user_consent.inc',
       ),
       'historical_loans' => array(
         'prefix' => 'historical_loans',
-        'file' => $path . '/includes/alma.historical_loans.inc',
+        'file' => 'includes/alma.historical_loans.inc',
       ),
       'wayf' => array(
         'prefix' => 'wayf',
@@ -596,7 +596,8 @@ function alma_update_provider($changes, $entity) {
     // Delete the email from ALMA and database.
     global $user;
 
-    if (isset($user->mail) && empty($changes['mail'])) {
+    $res = TRUE;
+    if (!empty($user->mail) && empty($changes['mail'])) {
       $res = alma_client_invoke('remove_email_address', $creds['name'], $creds['pass'], $user->mail);
     }
 

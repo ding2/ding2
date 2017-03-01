@@ -18,10 +18,10 @@ $plugin = array(
 function ding_entity_rating_popular_content_type_render($subtype, $conf, $panel_args, $context) {
   // Only show on front if serendipity is enabled for the frontpage.
   // See ding_frontpage config at /admin/config/ding/frontend.
-  if (drupal_is_front_page() && !variable_get('ding_frontpage_serendipity') && variable_get('ding_frontpage_promoter') != 'serendipity') {
+  if (drupal_is_front_page() && !variable_get('ding_entity_rating_popular_on_frontpage', FALSE)) {
     return;
   }
-  
+
   $block = new stdClass();
 
   $month = $conf['month'];
@@ -39,12 +39,16 @@ function ding_entity_rating_popular_content_type_render($subtype, $conf, $panel_
 
   $openlist_items = array();
   try {
-    $openlist_items = ding_provider_invoke('openlist', 'call_module', 'TingObjectRating', 'getPopular', array($month, $libcode, 10));
+    $openlist_items = ding_provider_invoke('openlist', 'call_module', 'TingObjectRating', 'getPopular', array(
+      $month,
+      $libcode,
+      10,
+    ));
   }
   catch (Exception $e) {
     watchdog_exception('ding_entity_rating', $e);
   }
-  
+
   if (empty($openlist_items)) {
     return FALSE;
   }
@@ -55,15 +59,18 @@ function ding_entity_rating_popular_content_type_render($subtype, $conf, $panel_
     $keys[] = $id;
   }
 
+  $keys = ding_serendipity_validate_materials($keys);
+
   $result = array();
-  foreach ($keys as $key) {
+  foreach ($keys as $delta => $key) {
     $obj = ding_entity_load($key, 'ting_object');
+    ding_entity_rating_set_average($obj, $openlist_items[$delta]['average']);
 
     $result[] = ting_object_view($obj, 'compact');
   }
 
   $block->content = theme('ting_carousel', array('objects' => $result));
-  
+
   return $block;
 }
 
@@ -96,7 +103,7 @@ function ding_entity_rating_popular_content_type_edit_form_validate($form, &$for
   if (empty($form_state['values']['month'])) {
     return;
   }
-  
+
   $date = DateTime::createFromFormat('Y-m', $form_state['values']['month']);
   $error = !$date || $date->format('Y-m') != $form_state['values']['month'];
 

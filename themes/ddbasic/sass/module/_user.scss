@@ -41,6 +41,11 @@
     }
   }
 
+  .item-material-type {
+    line-height: 1.6em;
+    text-align: left;
+  }
+
   .total-amount {
     background-color: $gray;
     font-size: $font-size-large;
@@ -62,8 +67,8 @@
 
     &:before {
       font-size: 200%;
-      left: 25%;
-      top: 5%;
+      left: 50%;
+      top: 40%;
     }
   }
 

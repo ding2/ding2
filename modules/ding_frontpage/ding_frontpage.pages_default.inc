@@ -158,6 +158,107 @@ function ding_frontpage_default_page_manager_pages() {
     $display->content['new-18cfc092-1d0f-42e4-bde8-8a6e314c9bd0'] = $pane;
     $display->panels['primary'][1] = 'new-18cfc092-1d0f-42e4-bde8-8a6e314c9bd0';
     $pane = new stdClass();
+    $pane->pid = 'new-89ac7869-8f53-4b2d-a1b6-0c30726134b6';
+    $pane->panel = 'primary';
+    $pane->type = 'interaction_pane';
+    $pane->subtype = 'interaction_pane';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'count' => '5',
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array(
+      'method' => 'lazy',
+      'settings' => array(
+        'load_strategy' => 'page-loaded',
+        'show_spinner' => 0,
+        'load_text' => '',
+      ),
+    );
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 2;
+    $pane->locks = array();
+    $pane->uuid = '89ac7869-8f53-4b2d-a1b6-0c30726134b6';
+    $display->content['new-89ac7869-8f53-4b2d-a1b6-0c30726134b6'] = $pane;
+    $display->panels['primary'][2] = 'new-89ac7869-8f53-4b2d-a1b6-0c30726134b6';
+    $pane = new stdClass();
+    $pane->pid = 'new-1ced497e-329b-4f00-a19e-60b0d55029e4';
+    $pane->panel = 'primary';
+    $pane->type = 'serendipity_ting_object';
+    $pane->subtype = 'serendipity_ting_object';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'view_mode' => 'compact',
+      'sort_weight' => FALSE,
+      'max' => '20',
+      'min' => '10',
+      'random' => 1,
+      'selected_keys' => array(
+        'ting_object' => 'ting_object',
+        'frontpage' => 'frontpage',
+      ),
+      'context' => array(
+        0 => 'empty',
+        1 => 'empty',
+        2 => 'empty',
+        3 => 'empty',
+      ),
+      'override_title' => 0,
+      'override_title_text' => '',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array(
+      'method' => 'lazy',
+      'settings' => array(
+        'load_strategy' => 'page-loaded',
+        'show_spinner' => 0,
+        'load_text' => '',
+      ),
+    );
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 3;
+    $pane->locks = array();
+    $pane->uuid = '1ced497e-329b-4f00-a19e-60b0d55029e4';
+    $display->content['new-1ced497e-329b-4f00-a19e-60b0d55029e4'] = $pane;
+    $display->panels['primary'][3] = 'new-1ced497e-329b-4f00-a19e-60b0d55029e4';
+    $pane = new stdClass();
+    $pane->pid = 'new-de39b33a-c18b-4584-b58d-ac5503bd2e8f';
+    $pane->panel = 'primary';
+    $pane->type = 'popular';
+    $pane->subtype = 'popular';
+    $pane->shown = TRUE;
+    $pane->access = array();
+    $pane->configuration = array(
+      'month' => '',
+      'libcode' => 0,
+      'override_title' => 1,
+      'override_title_text' => 'Månedens populæreste titler',
+      'override_title_heading' => 'h2',
+    );
+    $pane->cache = array();
+    $pane->style = array(
+      'settings' => NULL,
+    );
+    $pane->css = array();
+    $pane->extras = array();
+    $pane->position = 4;
+    $pane->locks = array();
+    $pane->uuid = 'de39b33a-c18b-4584-b58d-ac5503bd2e8f';
+    $display->content['new-de39b33a-c18b-4584-b58d-ac5503bd2e8f'] = $pane;
+    $display->panels['primary'][4] = 'new-de39b33a-c18b-4584-b58d-ac5503bd2e8f';
+    $pane = new stdClass();
     $pane->pid = 'new-20a8af4e-90a0-42a4-be60-89cb72e44127';
     $pane->panel = 'secondary';
     $pane->type = 'views_panes';

@@ -97,19 +97,6 @@ function ding_frontend_install_footer_address_block_shortcut() {
   );
 
   shortcut_set_save($shortcut_set);
-
-
-  // Add shortcut to carousel.
-  $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
-  $shortcut_set->links = array(
-    array(
-      'link_path' => 'admin/config/ting/ting_search_carousel',
-      'link_title' => st('Configure carousel'),
-      'weight' => -14,
-    ),
-  );
-
-  shortcut_set_save($shortcut_set);
 }
 
 /**
@@ -186,20 +173,4 @@ function ding_frontend_update_7002(&$sandbox) {
  */
 function ding_frontend_update_7003() {
   module_enable(array('manualcrop'));
-}
-
-/**
- * Add shortcut to carousel.
- */
-function ding_frontend_update_7004() {
-  $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
-  $shortcut_set->links = array(
-    array(
-      'link_path' => 'admin/config/ting/ting_search_carousel',
-      'link_title' => st('Configure carousel'),
-      'weight' => -14,
-    ),
-  );
-
-  shortcut_set_save($shortcut_set);
 }

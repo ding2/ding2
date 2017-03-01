@@ -15,26 +15,26 @@ function ding_serendipity_admin_form($form, &$form_state) {
     '#description' => t('Allow the serendipity functionality to cache results to boost performance.'),
     '#default_value' => variable_get('ding_serendipity_enable_cache', 0),
   );
-  
+
   $form['ding_serendipity_cache_lifetime'] = array(
     '#type' => 'textfield',
     '#title' => t('Cache lifetime'),
     '#description' => t('Enter the amount of seconds you want the serendipity cache to last.'),
     '#default_value' => variable_get('ding_serendipity_cache_lifetime', 600),
   );
-  
+
   $form['ding_serendipity_isslow_timeout'] = array(
     '#type' => 'textfield',
     '#title' => t('Is slow limit'),
     '#description' => t('Enter the amount of seconds you want the serendipity functionality to be limited to.'),
     '#default_value' => variable_get('ding_serendipity_isslow_timeout', 10),
   );
-  
+
   $form['ding_serendipity_search_string_final'] = array(
     '#type' => 'textfield',
     '#title' => t('Serendipity final fallback search string'),
     '#description' => t('Should all other serendipity plugins fail to deliver enough materials, this search string provides a final list of materials'),
-    '#default_value' => variable_get('ding_serendipity_search_string_final', 'facet.type=bog'),
+    '#default_value' => variable_get('ding_serendipity_search_string_final', DING_SERENDIPITY_DEFAULT_FALLBACK_STRING),
     '#size' => 160,
     '#maxlength' => 300,
   );
@@ -81,7 +81,7 @@ function ding_serendipity_admin_overview($form, &$form_state) {
         '#attributes' => array('disabled' => TRUE, 'header' => TRUE),
       );
     }
-    
+
     $weight = isset($value['weight']) ? $value['weight'] : 30;
     $form['ding_serendipity_callbacks']['#options'][$key] = array(
       'title' => $value['title'] . '<div class="description">' . $value['description'] . '</div>',
@@ -98,7 +98,7 @@ function ding_serendipity_admin_overview($form, &$form_state) {
       ),
       'settings' => '',
     );
-    
+
     if (isset($value['settings']) && $value['settings']) {
       $settings = $value['settings'];
       $form['ding_serendipity_callbacks']['#options'][$key]['settings'] = array(
@@ -110,11 +110,11 @@ function ding_serendipity_admin_overview($form, &$form_state) {
       );
     }
   }
-  
+
   $form['ding_serendipity_weights'] = array(
     '#type' => 'value',
   );
-  
+
   $form['context'] = array(
     '#type' => 'fieldset',
     '#title' => t('keys'),
@@ -132,7 +132,7 @@ function ding_serendipity_admin_overview($form, &$form_state) {
       }
     }
   }
-  
+
   return system_settings_form($form);
 }
 
@@ -206,7 +206,7 @@ function ding_serendipity_process_options($element) {
   foreach ($info as $key => $value) {
     $element[$value['module']]['#disabled'] = TRUE;
   }
-  
+
   return $element;
 }
 

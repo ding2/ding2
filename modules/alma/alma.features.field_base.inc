@@ -155,7 +155,6 @@ function alma_field_default_field_bases() {
         90 => '3 months',
         180 => '6 months',
         360 => '12 months',
-        720 => '24 months',
       ),
       'allowed_values_function' => '',
       'profile2_private' => 0,

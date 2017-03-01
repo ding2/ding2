@@ -22,17 +22,6 @@
   // We add a star to show that the content is new.
   Drupal.behaviors.ding_message = {
     attach: function (context) {
-      $('.ding-message a, a.ding-message-link', context).each(function() {
-        $(this).on('click',function() {
-          var $id = $(this).attr('data-item-id');
-          $.ajax({
-            url: '/ding_message/status/change',
-            type: "POST",
-            data: { 'mid' : $id },
-          });
-        });
-      });
-
       var
         isSet = false,
         latestId = get_url_parameter('message');

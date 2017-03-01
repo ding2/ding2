@@ -4,13 +4,15 @@
  * @file
  * Ding entity rating module.
  *
- * User rating of ting_objects with storage in OpenList
+ * User rating of ting_objects with storage in OpenList.
  */
 
 include_once 'ding_entity_rating.serendipity.inc';
 
 // Ding rating list.
 define('DING_ENTITY_RATING_LIST', 'ratings');
+
+define('DING_ENTITY_RATING_MAX_RATING', 5);
 
 /**
  * Implements hook_ctools_plugin_directory().
@@ -26,20 +28,20 @@ function ding_entity_rating_ctools_plugin_directory($owner, $plugin_type) {
  */
 function ding_entity_rating_menu() {
   $items = array();
-  
+
   // Add to list callback.
-  $items['ding_entity_rating/%ctools_js/%ting_object/%user/%'] = array(
+  $items['ding_entity_rating/%ting_object/%'] = array(
     'title' => 'Ding entity rating add to list',
     'page callback' => 'ding_entity_rating_add_to_list_callback',
-    'page arguments' => array(1, 2, 3, 4),
-    'access arguments' => array(3),
-    'access callback' => 'ding_entity_rating_access',
+    'page arguments' => array(1, 2),
+    'access callback' => TRUE,
+    'delivery callback' => 'ajax_deliver',
   );
-  
+
   $items['ding_entity_rating/get'] = array(
     'title' => 'Ding entity get rating',
     'page callback' => 'ding_entity_rating_get_user_rating_callback',
-    'access arguments' => array('use personalisation'),
+    'access callback' => TRUE,
   );
 
   return $items;
@@ -50,11 +52,11 @@ function ding_entity_rating_menu() {
  */
 function ding_entity_rating_get_user_rating_callback() {
   $ratings = array();
-  
+
   foreach (ding_entity_load_multiple($_GET['ids']) as $object) {
     $ratings[$object->ding_entity_id] = ding_entity_rating_get_user_rating($object);
   }
-  
+
   echo drupal_json_encode($ratings);
   drupal_exit();
 }
@@ -67,37 +69,42 @@ function ding_entity_rating_access($account) {
 /**
  * Add to list callback.
  *
- * @param bool $ajax
- *   If it's an ajax call or not.
  * @param object $entity
  *   The ting object to rate.
- * @param object $account
- *   The user account.
  * @param int $rating
  *   The given rating / weight.
  */
-function ding_entity_rating_add_to_list_callback($ajax, $entity, $account, $rating) {
-  // Access check for permission.
+function ding_entity_rating_add_to_list_callback($entity, $rating) {
   global $user;
-  if ($user->uid != $account->uid) {
-    return '';
+
+  $commands = array();
+
+  // Grabbed from ding_reservation_reserve_ajax()
+  if (!user_is_logged_in()) {
+    // Trigger log-in (the link will be triggered on success).
+    $commands[] = ajax_command_ding_user_authenticate('');
   }
-  
-  if ($ajax) {
-    // Add to rated materials list.
-    ding_entity_rating_add_to_list($entity, $account, $rating);
-    
-    // Build response.
-    $output = theme('ding_entity_rating_thank_you', array());
-    
-    // Return response.
-    print $output;
-    drupal_exit();
+  elseif (!ding_user_is_provider_user($user)) {
+    // Error not library user.
+    $commands[] = ajax_command_ding_popup('ding_reservation', t('Error'), '<p>' . t('Only provider users can rate materials.') . '</p>');
   }
   else {
-    // Only ajax supported.
-    return '';
+    ding_entity_rating_add_to_list($entity, $user, $rating);
+
+    $message = array(
+      '#theme' => 'ding_entity_rating_thank_you',
+      '#prefix' => '<p>',
+      '#suffix' => '</p>',
+    );
+
+    $commands[] = ajax_command_ding_popup(
+      'ding_reservation',
+      t('Rated'),
+      drupal_render($message)
+    );
   }
+
+  return array('#type' => 'ajax', '#commands' => $commands);
 }
 
 /**
@@ -129,7 +136,7 @@ function ding_entity_rating_field_info() {
       'default_widget' => 'hidden',
       'default_formatter' => 'ding_entity_rating_result_default',
     ),
-    
+
     'ding_entity_rating_action' => array(
       'label' => t('Rate this'),
       'description' => t('Enables the users to rate this entity'),
@@ -138,7 +145,7 @@ function ding_entity_rating_field_info() {
     ),
   );
 
-  return $extra;  
+  return $extra;
 }
 
 /**
@@ -220,7 +227,7 @@ function ding_entity_rating_get_user_rating($entity) {
   if ($element !== FALSE) {
     $result = ding_base_get_value('ding_type', $element, 'field_weight');
   }
-  
+
   return $result;
 }
 
@@ -237,10 +244,11 @@ function ding_entity_rating_theme($existing, $type, $theme, $path) {
     ),
     'ding_entity_rating_thank_you' => array(
       'variables' => array(),
-    ),    
-    'ding_entity_rating_ding_user_complete_description' => array(
+    ),
+    'ding_entity_rating_promote_ratings' => array(
       'variables' => array('history_list' => NULL, 'account' => NULL),
     ),
+
   );
 }
 
@@ -252,39 +260,25 @@ function theme_ding_entity_rating_thank_you($variables) {
 }
 
 /**
- * Theme function for theme_ding_entity_rating_ding_user_complete_description.
- */
-function theme_ding_entity_rating_ding_user_complete_description($variables) {
-  $uid = $variables['account']->uid;
-  $history_button = isset($variables['history_list']) ? "<li>" . l(t("Rate previous loans"), "list/" . $variables['history_list']->id) . "</li>" : "";
-  
-  return "<div class='description'>" .
-    t('You could rate materials to give us an idea of your preferences.') .
-    "</div><ul class='actions'><li>" . l(t("Rate your current loans"), "user/$uid/status/loans") . "</li>" .
-    $history_button .
-    "</ul>";
-}
-
-/**
  * Preprocessor for ding_entity_rating_display.
  */
 function template_preprocess_ding_entity_rating_display(&$variables) {
-  global $user;
   $entity = $variables['entity'];
-  
+
   // Add styling and javascript.
   // Since we don't use render here, we attach them old fashioned way.
+  drupal_add_library('system', 'drupal.ajax');
   $module_path = drupal_get_path('module', 'ding_entity_rating');
   drupal_add_css($module_path . '/css/ding_entity_rating.css');
   drupal_add_js($module_path . '/js/ding_entity_rating.js');
-  
+
   $variables['classes_array'][] = 'ding-entity-rating';
 
   if (user_access('use personalisation')) {
     $variables['classes_array'][] = 'rateable';
   }
 
-  $variables['path'] = $entity->ding_entity_id . '/' . $user->uid;
+  $variables['path'] = $entity->ding_entity_id;
 
   $variables['avg'] = ding_entity_rating_get_average($entity);
   $variables['rating'] = ($variables['avg']) ? round($variables['avg']) : -1;
@@ -295,14 +289,9 @@ function template_preprocess_ding_entity_rating_display(&$variables) {
  */
 function theme_ding_entity_rating_display($variables) {
   $output = '<div class="' . implode(' ', $variables['classes_array']) . '" data-ding-entity-rating-id="' . $variables['entity']->ding_entity_id . '" data-ding-entity-rating-path="' . $variables['path'] . '">';
-  
+
   $output .= ding_entity_rating_build_theme_list($variables['rating']);
-  
-  // Add average value if the entity has ratings already.
-  if (!empty($variables['avg'])) {
-    $output .= '<span class="ding-entity-rating-avg">' . t('Average:') . ' ' . round($variables['avg'], 2) . '</span>';
-  }
-  
+
   return $output . '</div>';
 }
 
@@ -337,7 +326,7 @@ function ding_entity_rating_build_theme_list($rating) {
     }
     $output .= '<i class="' . implode(' ', $classes) . '"></i>';
   }
-  
+
   return $output;
 }
 
@@ -345,20 +334,60 @@ function ding_entity_rating_build_theme_list($rating) {
  * Retrieve the average rating of a ting object entity.
  *
  * @param object $entity
- *   The ting object entity to remove from the rating list.
+ *   The ting object entity to get rating for.
  *
  * @return int
  *   The average rating of the given entity.
  */
 function ding_entity_rating_get_average($entity) {
-  $query = db_select('field_data_field_weight', 'w');
-  $query->join('eck_ding_type', 'dt', 'w.entity_id = dt.id');
-  $query->join('field_data_field_value', 'v', 'w.entity_id = v.entity_id');
-  $query->condition('v.field_value_value', $entity->ding_entity_id)
-    ->addExpression('AVG(w.field_weight_value)', 'avg_count');
-  $result = $query->execute();
+  return ding_entity_rating_average($entity);
+}
 
-  return $result->fetchField(0);
+/**
+ * Set the average rating of a ting object entity.
+ *
+ * @param object $entity
+ *   The ting object entity to set rating for.
+ * @param mixed $value
+ *   The average value.
+ *
+ * @return int
+ *   The average rating of the given entity.
+ */
+function ding_entity_rating_set_average($entity, $value) {
+  return ding_entity_rating_average($entity, $value);
+}
+
+/**
+ * Get / Set average rating of a ting object.
+ *
+ * @param object $entity
+ *   The ting object entity to work with.
+ * @param mixed $value
+ *   Set the average if this value is set.
+ *
+ * @return int
+ *   The average rating of the given entity.
+ */
+function ding_entity_rating_average($entity, $value = NULL) {
+  $averages = &drupal_static(__FUNCTION__, array());
+  $id = $entity->ding_entity_id;
+
+  if ($value !== NULL) {
+    $averages[$id] = $value;
+  }
+  elseif (!isset($averages[$id])) {
+    $query = db_select('field_data_field_weight', 'w');
+    $query->join('eck_ding_type', 'dt', 'w.entity_id = dt.id');
+    $query->join('field_data_field_value', 'v', 'w.entity_id = v.entity_id');
+    $query->condition('v.field_value_value', $id)
+      ->addExpression('AVG(w.field_weight_value)', 'avg_count');
+    $result = $query->execute();
+
+    $averages[$id] = $result->fetchField(0);
+  }
+
+  return $averages[$id];
 }
 
 /**
@@ -403,7 +432,7 @@ function ding_entity_rating_add_to_list($entity, $account, $rating) {
  *   The user account who's rating list to use.
  *
  * @return bool
- *   Return TRUE if entity was successfully removed, FALSE if not. 
+ *   Return TRUE if entity was successfully removed, FALSE if not.
  */
 function ding_entity_rating_remove_from_list($entity, $account) {
   // Get the rating list.
@@ -417,25 +446,81 @@ function ding_entity_rating_remove_from_list($entity, $account) {
   }
 }
 
-/**
- * Implements hook_ding_user_complete().
- */
-function ding_entity_rating_ding_user_complete() {
-  $complete = FALSE;
-
-  $user_history_list = ding_list_get_lists(DING_LIST_TYPE_LOAN_HISTORY);
-  $history_list = current($user_history_list);
+function ding_entity_rating_ding_interaction_info() {
   global $user;
-  
+
+  $activity = ding_user_is_provider_user($user);
+
+  if ($activity) {
+    $has_loans = count(ding_provider_invoke('loan', 'list', $user)) > 0;
+
+    $history_list = ding_list_get_list(DING_LIST_TYPE_LOAN_HISTORY);
+    $has_history = ding_user_consent_has_consent('loan_history_store')
+      && $history_list
+      && field_get_items('ding_type', $history_list, 'field_list_objects');
+
+    $activity = $has_loans || $has_history;
+  }
+
+  $translatables = ding_entity_rating_translatables();
+
   return array(
-    'ding_entity_rating' => array(
-      'title' => t('It pays to judge'),
-      'points' => 3,
-      'completed' => $complete,
-      'markup' => theme('ding_entity_rating_ding_user_complete_description', array('history_list' => $history_list, 'account' => $user)),
-    ),
+    'title' => $translatables['title'],
+    'translatables' => $translatables,
+    'description' => t('If the user has not rated any materials yet, ' .
+    'suggest this can be done for instance in the loan history.'),
+    'active' => $activity,
+    'css_class' => 'complete-info',
   );
 }
+
+/**
+ * Get array of translatables.
+ *
+ * @return array
+ *   An array of strings that can be translated for this module.
+ */
+function ding_entity_rating_translatables() {
+  return array(
+    'title' => t('Rate materials and get better serendipity'),
+    'current_loans' => t("Rate your current loans"),
+    'previous_loans' => t("Rate previous loans"),
+  );
+}
+
+
+/**
+ * Implements hook_ding_interaction_view().
+ */
+function ding_entity_rating_ding_interaction_view() {
+  global $user;
+  $history_list = ding_list_get_list(DING_LIST_TYPE_LOAN_HISTORY);
+
+  return theme('ding_entity_rating_promote_ratings', array('history_list' => $history_list, 'account' => $user));
+}
+
+/**
+ * Theme function for theme_ding_entity_rating_promote_ratings.
+ */
+function theme_ding_entity_rating_promote_ratings($variables) {
+  $uid = $variables['account']->uid;
+  $loan_button = '';
+  $history_button = '';
+  $translatables = ding_entity_rating_ding_interaction_view();
+
+  if (count(ding_provider_invoke_page('loan', 'list', $variables['account'])) > 0) {
+    $loan_button = "<li>" . l($translatables['current_loans'], "user/$uid/status/loans") . "</li>";
+  }
+
+  if (isset($variables['history_list']) && field_get_items('ding_type', $variables['history_list'], 'field_list_objects')) {
+    $history_button = "<li>" . l($translatables['previous_loans'], "list/" . $variables['history_list']->id) . "</li>";
+  }
+
+  return "<div class='description'>" .
+    t('You could rate materials to give us an idea of your preferences.') .
+    "</div><ul class='actions'>" . $loan_button . $history_button . "</ul>";
+}
+
 
 /**
  * Return a list of loans not yet rated.
@@ -456,4 +541,43 @@ function ding_entity_rating_get_loans_not_rated() {
     }
   }
   return $unrated;
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Add serendipity config to frontpage admin config.
+ */
+function ding_entity_rating_form_ding_frontpage_admin_settings_alter(&$form, &$form_state, $form_id) {
+  $form['ding_frontpage']['ding_entity_rating_popular_on_frontpage'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Show this months popular elements on the frontpage.'),
+    '#default_value' => variable_get('ding_entity_rating_popular_on_frontpage', FALSE),
+    '#description' => t('Toggle popular on or off.'),
+  );
+
+  $form['#submit'][] = 'ding_entity_rating_frontpage_submit';
+}
+
+/**
+ * Submit handler for ding serendipity frontpage options.
+ */
+function ding_entity_rating_frontpage_submit($form, $form_state) {
+  variable_set(
+    'ding_entity_rating_popular_on_frontpage',
+    $form_state['values']['ding_entity_rating_popular_on_frontpage']
+  );
+}
+
+/**
+ * Preprocess materials_item.
+ */
+function ding_entity_rating_preprocess_material_item(&$variables) {
+  if (isset($variables['element']['#loan'])) {
+    $variables['information']['ding_entity_rating'] = array(
+      'label' => t('Rate'),
+      'data' => theme('ding_entity_rating_display', array('entity' => $variables['element']['#loan']->entity)),
+      'class' => 'class',
+    );
+  }
 }

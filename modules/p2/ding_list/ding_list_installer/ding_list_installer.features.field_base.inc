@@ -10,13 +10,21 @@
 function ding_list_installer_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_content_status'.
+  // Exported field_base: 'field_content_status'
   $field_bases['field_content_status'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_content_status',
+    'foreign keys' => array(
+      'tid' => array(
+        'columns' => array(
+          'tid' => 'tid',
+        ),
+        'table' => 'taxonomy_term_data',
+      ),
+    ),
     'indexes' => array(
       'tid' => array(
         0 => 'tid',
@@ -37,13 +45,21 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_ding_content_tags'.
+  // Exported field_base: 'field_ding_content_tags'
   $field_bases['field_ding_content_tags'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_content_tags',
+    'foreign keys' => array(
+      'tid' => array(
+        'columns' => array(
+          'tid' => 'tid',
+        ),
+        'table' => 'taxonomy_term_data',
+      ),
+    ),
     'indexes' => array(
       'tid' => array(
         0 => 'tid',
@@ -64,13 +80,21 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
-  // Exported field_base: 'field_ding_list'.
+  // Exported field_base: 'field_ding_list'
   $field_bases['field_ding_list'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_list',
+    'foreign keys' => array(
+      'format' => array(
+        'columns' => array(
+          'format' => 'format',
+        ),
+        'table' => 'filter_format',
+      ),
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -86,13 +110,14 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_ding_list_permission'.
+  // Exported field_base: 'field_ding_list_permission'
   $field_bases['field_ding_list_permission'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_list_permission',
+    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -112,13 +137,21 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_ding_list_permissions'.
+  // Exported field_base: 'field_ding_list_permissions'
   $field_bases['field_ding_list_permissions'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_list_permissions',
+    'foreign keys' => array(
+      'eck_ding_type' => array(
+        'columns' => array(
+          'target_id' => 'id',
+        ),
+        'table' => 'eck_ding_type',
+      ),
+    ),
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
@@ -148,13 +181,14 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'field_ding_list_status'.
+  // Exported field_base: 'field_ding_list_status'
   $field_bases['field_ding_list_status'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_list_status',
+    'foreign keys' => array(),
     'indexes' => array(
       'value' => array(
         0 => 'value',
@@ -164,7 +198,7 @@ function ding_list_installer_field_default_field_bases() {
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
-        'private' => 'Private - The list is only accesible to you',
+        'private' => 'Private - The list is only accessible to you',
         'shared' => 'Shared - Users with the secret link can view or edit your list',
         'public' => 'Public - Anybody can view your list from the public link',
       ),
@@ -175,13 +209,21 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'list_text',
   );
 
-  // Exported field_base: 'field_ding_list_user'.
+  // Exported field_base: 'field_ding_list_user'
   $field_bases['field_ding_list_user'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ding_list_user',
+    'foreign keys' => array(
+      'format' => array(
+        'columns' => array(
+          'format' => 'format',
+        ),
+        'table' => 'filter_format',
+      ),
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -197,13 +239,21 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_element_type'.
+  // Exported field_base: 'field_element_type'
   $field_bases['field_element_type'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_element_type',
+    'foreign keys' => array(
+      'format' => array(
+        'columns' => array(
+          'format' => 'format',
+        ),
+        'table' => 'filter_format',
+      ),
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -219,13 +269,21 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_list_objects'.
+  // Exported field_base: 'field_list_objects'
   $field_bases['field_list_objects'] = array(
     'active' => 1,
     'cardinality' => -1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_list_objects',
+    'foreign keys' => array(
+      'eck_ding_type' => array(
+        'columns' => array(
+          'target_id' => 'id',
+        ),
+        'table' => 'eck_ding_type',
+      ),
+    ),
     'indexes' => array(
       'target_id' => array(
         0 => 'target_id',
@@ -259,13 +317,21 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'entityreference',
   );
 
-  // Exported field_base: 'field_list_type'.
+  // Exported field_base: 'field_list_type'
   $field_bases['field_list_type'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_list_type',
+    'foreign keys' => array(
+      'format' => array(
+        'columns' => array(
+          'format' => 'format',
+        ),
+        'table' => 'filter_format',
+      ),
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -281,13 +347,21 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_note'.
+  // Exported field_base: 'field_note'
   $field_bases['field_note'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_note',
+    'foreign keys' => array(
+      'format' => array(
+        'columns' => array(
+          'format' => 'format',
+        ),
+        'table' => 'filter_format',
+      ),
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -302,13 +376,21 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_notes'.
+  // Exported field_base: 'field_notes'
   $field_bases['field_notes'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_notes',
+    'foreign keys' => array(
+      'format' => array(
+        'columns' => array(
+          'format' => 'format',
+        ),
+        'table' => 'filter_format',
+      ),
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -321,13 +403,21 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_search_query'.
+  // Exported field_base: 'field_search_query'
   $field_bases['field_search_query'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_search_query',
+    'foreign keys' => array(
+      'format' => array(
+        'columns' => array(
+          'format' => 'format',
+        ),
+        'table' => 'filter_format',
+      ),
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -343,13 +433,21 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_search_title'.
+  // Exported field_base: 'field_search_title'
   $field_bases['field_search_title'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_search_title',
+    'foreign keys' => array(
+      'format' => array(
+        'columns' => array(
+          'format' => 'format',
+        ),
+        'table' => 'filter_format',
+      ),
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -364,35 +462,21 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_state'.
-  $field_bases['field_state'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_state',
-    'indexes' => array(
-      'format' => array(
-        0 => 'format',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'text',
-    'settings' => array(
-      'max_length' => 255,
-      'profile2_private' => FALSE,
-    ),
-    'translatable' => 0,
-    'type' => 'text',
-  );
-
-  // Exported field_base: 'field_taxonomy_term'.
+  // Exported field_base: 'field_taxonomy_term'
   $field_bases['field_taxonomy_term'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_taxonomy_term',
+    'foreign keys' => array(
+      'format' => array(
+        'columns' => array(
+          'format' => 'format',
+        ),
+        'table' => 'filter_format',
+      ),
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -408,13 +492,21 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_ting_object'.
+  // Exported field_base: 'field_ting_object'
   $field_bases['field_ting_object'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_ting_object',
+    'foreign keys' => array(
+      'format' => array(
+        'columns' => array(
+          'format' => 'format',
+        ),
+        'table' => 'filter_format',
+      ),
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -430,13 +522,21 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'text',
   );
 
-  // Exported field_base: 'field_value'.
+  // Exported field_base: 'field_value'
   $field_bases['field_value'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_value',
+    'foreign keys' => array(
+      'format' => array(
+        'columns' => array(
+          'format' => 'format',
+        ),
+        'table' => 'filter_format',
+      ),
+    ),
     'indexes' => array(
       'format' => array(
         0 => 'format',
@@ -451,13 +551,14 @@ function ding_list_installer_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_weight'.
+  // Exported field_base: 'field_weight'
   $field_bases['field_weight'] = array(
     'active' => 1,
     'cardinality' => 1,
     'deleted' => 0,
     'entity_types' => array(),
     'field_name' => 'field_weight',
+    'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
     'module' => 'number',

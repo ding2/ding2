@@ -7,16 +7,6 @@
 require_once 'includes/TingSearchCqlDoctor.class.inc';
 
 /**
- * Implements hook_init().
- *
- * Make the ting search overlay available for all other JavaScripts around the
- * site.
- */
-function ting_search_init() {
-  drupal_add_js(drupal_get_path('module', 'ting_search') . '/js/ting_search_overlay.js');
-}
-
-/**
  * Implements hook_ctools_plugin_directory().
  *
  * It simply tells panels where to find the .inc files that define various

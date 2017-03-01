@@ -7,8 +7,11 @@ defaults[projects][subdir] = "contrib"
 projects[addressfield][subdir] = "contrib"
 projects[addressfield][version] = "1.0-beta5"
 
+projects[admin_menu][subdir] = "contrib"
+projects[admin_menu][version] = "3.0-rc5"
+
 projects[admin_views][subdir] = "contrib"
-projects[admin_views][version] = "1.4"
+projects[admin_views][version] = "1.6"
 
 projects[apc][subdir] = "contrib"
 projects[apc][version] = "1.0-beta4"
@@ -74,6 +77,9 @@ projects[entityreference][version] = "1.1"
 projects[eu_cookie_compliance][subdir] = "contrib"
 projects[eu_cookie_compliance][version] = "1.14"
 
+projects[environment_indicator][subdir] = "contrib"
+projects[environment_indicator][version] = "2.8"
+
 projects[expire][subdir] = "contrib"
 projects[expire][version] = "2.0-rc4"
 
@@ -125,6 +131,9 @@ projects[globalredirect][patch][] = "http://drupal.org/files/language_redirect_v
 projects[google_analytics][subdir] = "contrib"
 projects[google_analytics][version] = "1.3"
 
+projects[htmlmail][subdir] = "contrib"
+projects[htmlmail][version] = "2.65"
+
 projects[honeypot][subdir] = "contrib"
 projects[honeypot][version] = "1.21"
 
@@ -166,6 +175,9 @@ projects[i18n][version] = "1.11"
 projects[manualcrop][subdir] = "contrib"
 projects[manualcrop][version] = "1.5"
 
+projects[mailsystem][subdir] = "contrib"
+projects[mailsystem][version] = "2.34"
+
 projects[maintenance_mode_api][subdir] = "contrib"
 projects[maintenance_mode_api][version] = "1.0-beta1"
 
@@ -189,7 +201,7 @@ projects[media_youtube][download][revision] = "ca46aba"
 projects[media_youtube][patch][] = "http://drupal.org/files/issues/provide-access-wrapper-1823376-6.patch"
 
 projects[memcache][subdir] = "contrib"
-projects[memcache][version] = "1.0"
+projects[memcache][version] = "1.5"
 
 ; Get a this special version that has support for features export.
 projects[menu_block][type] = "module"
@@ -210,6 +222,9 @@ projects[message][version] = "1.10"
 
 projects[metatag][subdir] = "contrib"
 projects[metatag][version] "1.10"
+
+projects[mmeu][subdir] = "contrib"
+projects[mmeu][version] = "1.0"
 
 projects[module_filter][subdir] = "contrib"
 projects[module_filter][version] = "1.8"
@@ -256,6 +271,9 @@ projects[opening_hours][patch][] = "http://www.drupal.org/files/issues/Issue620-
 ; Support series longer than a year.
 ; https://www.drupal.org/node/2194867
 projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/opening_hours-2194867-D7.patch"
+; Add "hide if empty" option to field settings.
+; https://www.drupal.org/node/2820005
+projects[opening_hours][patch][] = "https://www.drupal.org/files/issues/opening-hours-2820005-hide-field-if-empty.patch"
 
 projects[override_node_options][subdir] = "contrib"
 projects[override_node_options][version] = "1.13"
@@ -317,11 +335,19 @@ projects[secure_permissions][patch][] = "http://drupal.org/files/issues/secure_p
 projects[services][subdir] = "contrib"
 projects[services][version] = "3.14"
 
+projects[services_views][subdir] = "contrib"
+projects[services_views][version] = "1.1"
+
 projects[search_api][subdir] = "contrib"
 projects[search_api][version] = "1.16"
+; Fix search_api warnings and notices. should be removed when upgrading to 1.17.
+projects[search_api][patch][] = "https://www.drupal.org/files/issues/2563793-9--multiple_types_issues.patch"
 
 projects[search_api_multi][subdir] = "contrib"
 projects[search_api_multi][version] = "1.3"
+; Fix incompatibility with Multiple types indexes
+; https://www.drupal.org/node/2580975
+projects[search_api_multi][patch][] = "https://www.drupal.org/files/issues/2580975-2--fix_multi_type_index_incompatibilities.patch"
 
 projects[search_api_db][subdir] = "contrib"
 projects[search_api_db][version] = "1.5"
@@ -386,7 +412,10 @@ projects[workbench][subdir] = "contrib"
 projects[workbench][version] = "1.2"
 
 projects[workflow][subdir] = "contrib"
-projects[workflow][version] = "2.7"
+projects[workflow][version] = "2.5"
+projects[workflow][patch][] = "http://www.drupal.org/files/issues/features_import-2484297-10.patch"
+; Prevent fatal errors on cron when using Scheduler, https://www.drupal.org/node/2499193.
+projects[workflow][patch][] = "https://www.drupal.org/files/issues/workflow-php_fatal_error_call-2499193-7-2.5.patch"
 
 ; This revision support the CKEditor 4.x, and can be used until a new version is tagged.
 projects[wysiwyg][type] = "module"
@@ -399,7 +428,7 @@ projects[ask_vopros][type] = "module"
 projects[ask_vopros][subdir] = "contrib"
 projects[ask_vopros][download][type] = "git"
 projects[ask_vopros][download][url] = "git@github.com:vopros-dk/ask_vopros.git"
-projects[ask_vopros][download][tag] = "1.4"
+projects[ask_vopros][download][tag] = "1.5"
 
 projects[xautoload][subdir] = "contrib"
 projects[xautoload][version] = "5.7"
@@ -420,17 +449,29 @@ libraries[chosen][download][url] = "https://github.com/harvesthq/chosen/releases
 libraries[chosen][destination] = "libraries"
 
 libraries[guzzle][download][type] = "git"
-libraries[guzzle][download][url] = "git@github.com:guzzle/guzzle.git"
+libraries[guzzle][download][url] = "https://github.com/guzzle/guzzle.git"
+libraries[guzzle][download][tag] = "6.2.2"
 libraries[guzzle][destination] = "libraries"
 
 libraries[http-message][download][type] = "git"
-libraries[http-message][download][url] = "git@github.com:php-fig/http-message.git"
+libraries[http-message][download][url] = "https://github.com/php-fig/http-message.git"
+libraries[http-message][download][tag] = "1.0.1"
 libraries[http-message][destination] = "libraries"
+
+libraries[jsonmapper][download][type] = "git"
+libraries[jsonmapper][download][url] = "https://github.com/cweiske/jsonmapper"
+libraries[jsonmapper][download][tag] = "v0.4.4"
+libraries[jsonmapper][destination] = "libraries"
 
 libraries[leaflet][download][type] = "get"
 libraries[leaflet][download][url] = "http://cdn.leafletjs.com/downloads/leaflet-0.7.3.zip"
 libraries[leaflet][directory_name] = "leaflet"
 libraries[leaflet][destination] = "libraries"
+
+libraries[phly-http][download][type] = "git"
+libraries[phly-http][download][url] = "https://github.com/phly/http"
+libraries[phly-http][download][tag] = "0.14.1"
+libraries[phly-http][destination] = "libraries"
 
 libraries[profiler][download][type] = "git"
 libraries[profiler][download][url] = "http://git.drupal.org/project/profiler.git"
@@ -439,11 +480,13 @@ libraries[profiler][download][branch] = "7.x-2.0-beta1"
 libraries[profiler][patch][0] = "http://drupal.org/files/profiler-reverse.patch"
 
 libraries[promises][download][type] = "git"
-libraries[promises][download][url] = "git@github.com:guzzle/promises.git"
+libraries[promises][download][url] = "https://github.com/guzzle/promises.git"
+libraries[promises][download][tag] = "1.2.0"
 libraries[promises][destination] = "libraries"
 
 libraries[psr7][download][type] = "git"
-libraries[psr7][download][url] = "git@github.com:guzzle/psr7.git"
+libraries[psr7][download][url] = "https://github.com/guzzle/psr7.git"
+libraries[psr7][download][tag] = "1.3.1"
 libraries[psr7][destination] = "libraries"
 
 libraries[ting-client][download][type] = "git"

@@ -5,34 +5,9 @@
  */
 
 /**
- * Implements hook_requirements().
- *
- * Give a warning in the status report if the module is not configured.
- */
-function ting_openlist_requirements($phase) {
-  if ($phase == 'runtime') {
-    $a = variable_get('ting_openlist_wsdl');
-    $b = variable_get('ting_library_code');
-    if (!$a || !$b) {
-      $requirements['ting_openlist'] = array(
-        'title' => 'Ting Openlist',
-        'description' => t('Ting Openlist is not configured, please configure the module @here before continuing.', array(
-          '@here' => l(t('here'), 'admin/config/ding/provider/ting_openlist'),
-        )),
-        'value' => t('Not configured'),
-        'severity' => REQUIREMENT_ERROR,
-      );
-      return $requirements;
-    }
-  }
-}
-
-/**
  * Implements hook_ding_provider().
  */
 function ting_openlist_ding_provider() {
-  $path = drupal_get_path('module', 'ting_openlist');
-
   return array(
     'title' => 'Ting Openlist provider',
     // Notice we set the file path in hook_menu_alter()
@@ -41,20 +16,10 @@ function ting_openlist_ding_provider() {
     'provides' => array(
       'openlist' => array(
         'prefix' => 'handler',
-        'file' => $path . '/ting_openlist.handler.inc',
+        'file' => 'ting_openlist.handler.inc',
       ),
     ),
   );
-}
-
-/**
- * Implements hook_menu_alter().
- *
- * This fixes the ding_provider menu, without the need to do any changes
- * to the core module (although the ding_provider module should get fixed)
- */
-function ting_openlist_menu_alter(&$items) {
-  $items['admin/config/ding/provider/ting_openlist']['file path'] = drupal_get_path('module', 'ting_openlist');
 }
 
 /**
@@ -102,7 +67,7 @@ function ting_openlist_field_widget_form(&$form, &$form_state, $field, $instance
           '#description' => t('Search for a public openlist list.'),
           '#element_validate' => array('ting_openlist_field_validate'),
         );
-        
+
         $element['ting_openlist_add'] = array(
           '#type' => 'submit',
           '#value' => t('Add openlist elements'),
@@ -174,7 +139,7 @@ function ting_openlist_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
- * Autocomplete callback for searching after a list directly in openlist.
+ * Auto-complete callback for searching after a list directly in openlist.
  */
 function ting_openlist_autocomplete_list($string) {
   $buffer = array();
