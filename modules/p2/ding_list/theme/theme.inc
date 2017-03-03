@@ -59,7 +59,7 @@ function template_preprocess_ding_list_add_button(&$variables) {
   }
 
   if ($variables['type'] == 'ting_object') {
-    $options[] = array(
+    $new_list = array(
       'custom' => array(
         'title' => t('Add to new list'),
         'href' => 'list/create',
@@ -70,6 +70,13 @@ function template_preprocess_ding_list_add_button(&$variables) {
         'html' => TRUE,
       ),
     );
+
+    if (!user_is_logged_in()) {
+      $new_list['custom']['attributes']['class'][] = 'use-ajax';
+      $new_list['custom']['href'] = 'ding-list/login-create';
+    }
+
+    $options[] = $new_list;
   }
   foreach ($options as $option) {
     if (!isset($option['custom'])) {
