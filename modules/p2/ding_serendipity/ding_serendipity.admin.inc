@@ -115,24 +115,6 @@ function ding_serendipity_admin_overview($form, &$form_state) {
     '#type' => 'value',
   );
 
-  $form['context'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('keys'),
-    '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
-  );
-  foreach ($info as $key => $value) {
-    foreach ($value['keys'] as $context) {
-      if (empty($form['context'][$context])) {
-        $form['context'][$context] = array(
-          '#type' => 'checkbox',
-          '#title' => check_plain($context),
-          '#default_value' => (!empty($form_state[$context])) ? $form_state[$context] : 1,
-        );
-      }
-    }
-  }
-
   return system_settings_form($form);
 }
 
