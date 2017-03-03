@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * ding_interaction_manual.features.inc
@@ -15,6 +14,7 @@ function ding_interaction_manual_eck_bundle_info() {
       'entity_type' => 'ding_type',
       'name' => 'ding_interaction',
       'label' => 'Ding Interaction',
+      'config' => array(),
     ),
   );
   return $items;

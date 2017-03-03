@@ -455,7 +455,7 @@ function ding_user_consent_get_description_link() {
 function ding_user_consent_ding_interaction_info() {
   global $user;
 
-  $active = user_is_logged_in()
+  $active = ding_user_is_provider_user($user)
     && !ding_user_consent_has_consent(DING_USER_CONSENT_LOAN_HISTORY_STORE)
     && !ding_user_consent_previously_displayed($user);
 
