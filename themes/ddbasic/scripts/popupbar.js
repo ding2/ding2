@@ -132,4 +132,13 @@
     }
   };
 
+  Drupal.behaviors.popupbar = {
+    attach: function(context, settings) {
+      $('.close-popupbar', context).on('click', function (evt) {
+        evt.preventDefault();
+        scope.ddbasic.popupbar.close();
+      });
+    }
+  };
+
 })(this, jQuery);

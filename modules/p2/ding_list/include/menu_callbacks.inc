@@ -168,20 +168,53 @@ function ding_list_delete_list_callback($list_id) {
  *   Ajax commands, with information about the process.
  */
 function ding_list_private_share_message_callback($list_id) {
-  $list = ding_list_get_list($list_id);
-
   $commands = array();
+
+  drupal_add_js(drupal_get_path('module', 'ding_list') . '/js/ding-list-private-sharer.js');
 
   $commands[] = ajax_command_ding_popup(
     'ding_list',
     t('Info'),
-    '<p>' . t("You can only share public lists.") . '<br>' .
-      l(t('Click here and set this list status to public'), 'list/' . $list->id . '/share')
-    . '</p>'
+    '<p>' . t('You need to make your list public, before you can share it on social media.') . '</p>' .
+    '<p>' . l(t('Yes - make my list public, and share it.'), '', array(
+      'attributes' => array(
+        'class' => array('private-sharer'),
+        'data-community' => 'facebook',
+        'data-list-id' => $list_id,
+      ),
+    )) . '<br/>' .
+    l(t('No - not right now.'), $_GET['q'], array('attributes' => array('class' => array('close-popupbar')))) . '</p>'
   );
 
   return array(
     '#type' => 'ajax',
     '#commands' => $commands,
   );
+}
+
+/**
+ * Set a list share permissions.
+ */
+function ding_list_share_list_callback($permission, $list_id) {
+  drupal_add_http_header('Content-Type', 'application/json; charset=utf-8');
+
+  $list = ding_list_get_list($list_id);
+
+  ding_list_edit_ding_list(
+    $list,
+    $list->title,
+    NULL,
+    TRUE,
+    array(
+      array(
+        'name' => 'field_ding_list_status',
+        'value_type' => 'value',
+        'value' => $permission,
+      ),
+    )
+  );
+
+  echo drupal_json_encode(TRUE);
+  ajax_footer();
+  drupal_exit();
 }

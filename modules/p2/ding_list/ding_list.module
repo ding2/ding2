@@ -190,6 +190,13 @@ function ding_list_menu() {
     'page arguments' => array(2),
   ));
 
+  $items['ding-list/share-list/%/%'] = array_merge($edit_list_base, array(
+    'title' => 'Share list',
+    'page callback' => 'ding_list_share_list_callback',
+    'page arguments' => array(2, 3),
+    'access arguments' => array(3),
+  ));
+
   return $items;
 }
 

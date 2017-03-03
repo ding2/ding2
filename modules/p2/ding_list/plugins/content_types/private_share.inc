@@ -28,6 +28,7 @@ function ding_list_private_share_content_type_render($subtype, $conf, $panel_arg
     return FALSE;
   }
 
+  drupal_add_js(drupal_get_path('module', 'ding_sharer') . '/ding-sharer.js');
   drupal_add_css(drupal_get_path('module', 'ding_sharer') . '/ding-sharer.css');
 
   $output = new stdClass();
@@ -51,6 +52,7 @@ function ding_list_private_share_content_type_render($subtype, $conf, $panel_arg
           'attributes' => array(
             'class' => array(
               'sharer-button', 'sharer-' . $community, 'use-ajax',
+              'sharer-noshare',
             ),
           ),
         )
