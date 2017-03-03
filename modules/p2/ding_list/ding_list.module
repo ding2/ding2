@@ -889,18 +889,12 @@ function ding_list_mail($key, &$message, $params) {
         }
       }
 
-      $list = $params['list'];
-      $message['subject'] = t('@user has shared a personal list with you at @library', array(
-        '@user' => $username,
-        '@library' => variable_get('site_name', ''),
-      ));
-      $message['body'][] = nl2br(t("Please use the following link to access this list.\nThe link is active for 7 days from today, after which it will be disabled for security reasons.\n\n!link.", array(
-        '!link' => $params['link'],
-      )));
-
       if (!empty($user->mail)) {
         $message['headers']['reply-to'] = $user->mail;
       }
+
+      $message['subject'] = $params['subject'];
+      $message['body'][] = $params['text'];
       break;
   }
 }
