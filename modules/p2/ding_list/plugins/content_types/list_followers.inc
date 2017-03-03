@@ -33,6 +33,13 @@ function ding_list_list_followers_content_type_render($subtype, $conf, $panel_ar
       '#value' => check_plain(entity_label('ding_type', $list)),
     ),
     array('#theme' => 'ding_list_followers', '#list' => $list),
+    array(
+      '#prefix' => '<div>',
+      '#suffix' => '</div>',
+      '#markup' => t('Read more about how you use the lists !help', array(
+        '!help' => l(t('Here'), 'help/lists'),
+      )),
+    ),
   );
 
   return $block;
