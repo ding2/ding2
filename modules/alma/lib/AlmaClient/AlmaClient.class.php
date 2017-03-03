@@ -400,14 +400,25 @@ class AlmaClient {
    * Get a list of historical loans.
    */
   public function get_historical_loans($borr_card, $from = 0) {
-    $doc = $this->request('patron/loans/historical', array('borrCard' => $borr_card, 'fromDate' => date('Y-m-d', $from)));
+    $doc = $this->request('patron/loans/historical', array(
+      'borrCard' => $borr_card,
+      'fromDate' => date('Y-m-d', $from),
+    ));
 
     $loans = array();
     foreach ($doc->getElementsByTagName('catalogueRecord') as $item) {
-      $loans[] = array(
+      $loan_item = array(
         'id' => $item->getAttribute('id'),
-        'loan_date' => strtotime($item->parentNode->getAttribute('loanDate'))
+        'loan_date' => strtotime($item->parentNode->getAttribute('loanDate')),
+        'note' => '',
       );
+
+      $note = $item->parentNode->getElementsByTagName('note');
+      if (!empty($note) && $note->length > 0) {
+        $loan_item['note'] = $note->item(0)->getAttribute('value');
+      }
+
+      $loans[] = $loan_item;
     }
 
     return $loans;
@@ -1162,4 +1173,3 @@ class AlmaClientUserAlreadyExistsError extends Exception { }
 class AlmaClientBorrCardNotFound extends Exception { }
 
 class AlmaClientReservationNotFound extends Exception { }
-

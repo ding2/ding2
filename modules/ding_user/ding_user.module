@@ -1014,7 +1014,7 @@ function ding_user_name() {
  * @param object $account
  *   The user account to check.
  * @param bool $reset
- *   If TRUE static cache is ignored else FALSE. Default FALSE.
+ *   If TRUE static cache of the specific account is reset. Default FALSE.
  *
  * @return bool
  *   TRUE if account is a provider account else FALSE.
@@ -1025,17 +1025,20 @@ function ding_user_is_provider_user($account, $reset = FALSE) {
   if (!isset($account->uid)) {
     return FALSE;
   }
-  if (!$reset) {
-    $names = &drupal_static(__FUNCTION__);
+  $names = &drupal_static(__FUNCTION__, array());
+
+  if ($reset === TRUE) {
+    unset($names[$account->uid]);
   }
-  if (!isset($names)) {
-    $names = db_select('authmap')
+
+  if (!isset($names[$account->uid])) {
+    $names[$account->uid] = db_select('authmap')
       ->fields('authmap', array('authname'))
       ->condition('module', 'ding_user')
       ->condition('uid', $account->uid)
       ->execute()->fetchAll();
   }
-  return !empty($names);
+  return !empty($names[$account->uid]);
 }
 
 /**

@@ -695,7 +695,18 @@ function ding_list_preprocess_entity(&$variables) {
             $ting_id = ding_list_get_list_element_value($element);
             $ting_id = ding_list_convert_cql($ting_id);
             $ting_object = ting_object_load($ting_id);
+            $note_data = unserialize(ding_base_get_value('ding_type', $element, 'field_note'));
             $variables['content']['item'] = ting_object_view($ting_object, 'ting_reference_preview');
+            if (!empty($note_data['note'])) {
+              $variables['content']['item']['note'] = array(
+                '#markup' => t('Note: @note', array('@note' => $note_data['note'])),
+                '#prefix' => '<div class="note">',
+                '#suffix' => '</div>',
+                '#weight' => 999,
+              );
+              $variables['content']['item']['#groups']['group_text']->children[] = 'note';
+            }
+
             break;
 
           // Display link to the search query.
