@@ -440,13 +440,3 @@ function ding2_update_7030() {
 function ding2_update_7031() {
   ding2_translation_update();
 }
-
-/**
- * Set SSL version to TLS for ALMA.
- */
-function ding2_update_7032() {
-  if (module_exists('alma')) {
-    // Set TLS as SSL version.
-    variable_set('alma_ssl_version', 'tls');
-  }
-}
