@@ -270,10 +270,6 @@ function ddbasic_preprocess_views_view_field(&$vars) {
     if (empty($ding_event_price)) {
       $vars['output'] = t('Free');
     }
-    else {
-      $currency = variable_get('ding_event_currency_type', 'Kr');
-      $vars['output'] .= " {$currency}";
-    }
   }
 }
 
@@ -308,8 +304,7 @@ function ddbasic_preprocess_node(&$variables, $hook) {
 
     // Add event location variables.
     if (!empty($variables['content']['field_ding_event_location'][0]['#address']['name_line'])) {
-      $location = $variables['content']['field_ding_event_location'][0]['#address'];
-      $variables['ddbasic_event_location'] = $location['name_line'] . '<br/>' . $location['thoroughfare'] . ', ' . $location['postal_code'] . ', ' . $location['locality'];
+      $variables['ddbasic_event_location'] = $variables['content']['field_ding_event_location'][0]['#address']['name_line'] . '<br/>' . $variables['content']['field_ding_event_location'][0]['#address']['thoroughfare'] . ', ' . $variables['content']['field_ding_event_location'][0]['#address']['locality'];
     }
     else {
       // User OG group ref to link back to library.
@@ -348,10 +343,6 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     // field preprocess.
     if (empty($variables['content']['field_ding_event_price']['#items'][0]['value'])) {
       $variables['content']['field_ding_event_price'][0]['#markup'] = t('Free');
-    }
-    else {
-      $currency = variable_get('ding_event_currency_type', 'Kr');
-      $variables['content']['field_ding_event_price'][0]['#markup'] .= " {$currency}";
     }
   }
 
