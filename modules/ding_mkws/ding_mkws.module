@@ -306,7 +306,7 @@ function ding_mkws_preprocess_ding_campaign(&$variables) {
           array(
             $item['term'],
             $item['amount'],
-            implode(',', $item['resources'])
+            implode(',', $item['resources']),
           )
         )
       );
