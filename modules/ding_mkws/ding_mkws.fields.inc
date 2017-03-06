@@ -120,7 +120,7 @@ function ding_mkws_field_presave($entity_type, $entity, $field, $instance, $lang
   switch ($instance['widget']['type']) {
     case 'ding_mkws_node_widget_default':
       foreach ($items as $delta => &$item) {
-        $item = $item['wrapper'];
+        $item = (!empty($item['wrapper'])) ? $item['wrapper'] : $item;
         $item['resources'] = serialize($item['resources']);
         if (empty($item['maxrecs'])) {
           $item['maxrecs'] = 0;
