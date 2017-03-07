@@ -617,7 +617,7 @@ function ding_provider_get_pseudo_entity($ding_entity_id) {
  *   The PID for the faust in the data well.
  */
 function ding_provider_build_entity_id($id) {
-  $obj = ting_do_search($id . ' AND facet.acSource=bibliotekskatalog');
+  $obj = ting_do_search('rec.id=' . $id . ' AND facet.acSource=bibliotekskatalog');
   $entity_id = ($obj) ? key($obj->collections) : FALSE;
 
   return $entity_id;
