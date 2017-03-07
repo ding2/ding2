@@ -103,8 +103,6 @@ function alma_update_7004() {
  * Set SSL version to TLS for ALMA.
  */
 function alma_update_7005() {
-  if (module_exists('alma')) {
-    // Set TLS as SSL version.
-    variable_set('alma_ssl_version', 'tls');
-  }
+  // Set TLS as SSL version.
+  variable_set('alma_ssl_version', 'tls');
 }
