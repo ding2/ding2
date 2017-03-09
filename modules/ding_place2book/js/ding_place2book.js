@@ -1,6 +1,5 @@
 /**
  * @file
- *
  * Provide event nodes/pages with ticket info from Place2book
  */
 (function ($) {
@@ -24,5 +23,5 @@
   var ding_place2book_insert = function(ding_place2book) {
     $(".place2book-ticketinfo[data-ticket='" + ding_place2book.nid + "']").replaceWith(ding_place2book.markup);
   };
- 
+
 })(jQuery);
