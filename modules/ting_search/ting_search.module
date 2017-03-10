@@ -156,6 +156,13 @@ function ting_search_get_extended_actions() {
 }
 
 /**
+ * Should the search form show the material types selection.
+ */
+function ting_search_form_show_types() {
+  return menu_get_item()['path'] !== 'search/ting/%';
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  *
  * For the form search_block_form.
@@ -267,6 +274,32 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
       );
     }
   }
+
+  if (variable_get('ting_search_extend_form', FALSE)) {
+    $form['search_field'] = array(
+      '#type' => 'container',
+      '#weight' => 5,
+      '#attributes' => array('class' => array('search-field')),
+      'search_block_form' => $form['search_block_form'],
+      'actions' => $form['actions'],
+    );
+    unset($form['search_block_form'], $form['actions']);
+
+    $form['search_extended_open_button'] = array(
+      '#markup' => '<a href="#" class="search-extended-button">Search extended button</a>',
+    );
+
+    if (ting_search_form_show_types()) {
+      $form['material_type'] = array(
+        '#type' => 'select',
+        '#empty_option' => t('All material types'),
+        '#options' => drupal_map_assoc(array_keys(_ting_fetch_well_types())),
+        '#weight' => 10,
+        '#default_value' => 'bog',
+      );
+    }
+  }
+
   $form['#submit'] = array('ting_search_submit');
 
   // This submits the form to a blank page and prevents the search to be
@@ -914,6 +947,19 @@ function ting_search_submit($form, &$form_state) {
   $form_id = $form['form_id']['#value'];
   $keys = $form_state['values'][$form_id];
   $fields = array();
+
+  if (!empty($form_state['values']['material_type'])) {
+    if (!empty($keys)) {
+      $controls['facets'] = array('facet.type:' . $form_state['values']['material_type']);
+    }
+    // If there's no search string, add the facet.type search to the actual
+    // string, or the search would return no results.
+    else {
+      $keys = 'facet.type="' . $form_state['values']['material_type'] . '"';
+      $controls['sort'] = 'date_descending';
+    }
+
+  }
 
   $extended_fields = array(
     'creator' => 'term.creator',

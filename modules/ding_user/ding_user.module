@@ -88,7 +88,27 @@ function ding_user_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['admin/config/ding/user'] = array(
+    'title' => 'Ding user settings',
+    'description' => 'Administer user settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ding_user_admin_setting_form'),
+    'access arguments' => array('administer user settings'),
+    'file' => 'ding_user.admin.inc',
+  );
+
   return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function ding_user_permission() {
+  return array(
+    'administer user settings' => array(
+      'title' => t('Administer user settings'),
+    ),
+  );
 }
 
 /**
@@ -105,8 +125,8 @@ function ding_user_menu_alter(&$items) {
     }
   }
 
-  $items['user/%user/view']['title'] = t('User profile');
-  $items['user/%user/edit']['title'] = t('Edit user profile');
+  $items['user/%user/view']['title'] = t('My account');
+  $items['user/%user/edit']['title'] = t('User profile');
   $items['user/%pm_arg/status']['title'] = t('User status');
 
   // Limit access to provider users page.
