@@ -77,6 +77,12 @@ projects[ding_reading_club][download][type] = "git"
 projects[ding_reading_club][download][url]  = "git@github.com:easySuite/ding_reading_club.git"
 projects[ding_reading_club][download][branch]  = "development"
 
+projects[ding_redia_variables][type]              = "module"
+projects[ding_redia_variables][subdir]            = ""
+projects[ding_redia_variables][download][type]    = "git"
+projects[ding_redia_variables][download][url]     = "git@github.com:easySuite/ding_redia_variables.git"
+projects[ding_redia_variables][download][branch]  = "development"
+
 projects[ding_related_content_search][type]           = "module"
 projects[ding_related_content_search][subdir]         = ""
 projects[ding_related_content_search][download][type] = "git"
