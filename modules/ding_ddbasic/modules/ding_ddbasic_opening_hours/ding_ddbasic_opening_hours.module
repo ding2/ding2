@@ -34,19 +34,6 @@ function ding_ddbasic_opening_hours_menu() {
 }
 
 /**
- * Implements hook_init().
- */
-function ding_ddbasic_opening_hours_init() {
-  $item = menu_get_item();
-  if ($item['path'] === 'node/%') {
-    $node = menu_get_object();
-    if ($node->type === 'ding_library' && variable_get('ding_ddbasic_opening_hours_expand_on_library', FALSE)) {
-      drupal_add_js(array('ding_ddbasic_opening_hours_expand_on_library' => TRUE), 'setting');
-    }
-  }
-}
-
-/**
  * Implements hook_ctools_plugin_directory().
  */
 function ding_ddbasic_opening_hours_ctools_plugin_directory($module, $plugin) {
@@ -81,6 +68,24 @@ function ding_ddbasic_opening_hours_theme($existing, $type, $theme, $path) {
 
 /**
  * Turn a structrued "opening hours" array into a table theme render array.
+ *
+ * @param string $title
+ *   Title of the opening hours table. In this case it's the value of the first
+ *   column in the header row.
+ * @param array $categories
+ *   The opening hours categories included in this display.
+ * @param array $structured
+ *   An associative array describing the structure.
+ *   - rows: Each row has the following keys (note if name is not filled the
+ *     key of the row will be used as the name).
+ *     - name: First column of the row.
+ *     - cols: An associative array with the columns, the keys matches the keys
+ *       of the $categories, and outputs them in the order of the categories.
+ *     - extra: An array added to the row of the table theme row. See the
+ *       theme_table documentation for more information.
+ *
+ * @return array
+ *   The Table render array.
  */
 function ding_ddbasic_opening_hours_table($title, $categories, $structured) {
   $table = array(

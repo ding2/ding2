@@ -153,6 +153,10 @@ function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
 
   $variables['classes_array'][] = 'opening-hours-week-' . $variables['node']->nid;
   $variables['classes_array'][] = 'opening-hours-week';
+
+  if (variable_get('ding_ddbasic_opening_hours_expand_on_library', FALSE)) {
+    drupal_add_js(array('ding_ddbasic_opening_hours' => array('expand_on_library' => TRUE)), 'setting');
+  }
 }
 
 /**
@@ -177,7 +181,8 @@ function template_preprocess_ding_ddbasic_opening_hours_all(&$variables) {
 
   // TODO Get rid of the magical nodequeue number.
   $order = array();
-  foreach (nodequeue_load_nodes(1, FALSE, 0, FALSE) as $node) {
+  $queue = nodequeue_load_queue_by_name('ding_library_listing');
+  foreach (nodequeue_load_nodes($queue->qid, FALSE, 0, FALSE) as $node) {
     $order[$node->title] = $node->nid;
   }
 
