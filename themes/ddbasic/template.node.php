@@ -335,7 +335,6 @@ function ddbasic_preprocess__node__ding_library(&$variables) {
 
   $variables['content']['group_ding_library_right_column']['maps_link']['#markup'] = $link;
   $variables['content']['group_ding_library_right_column']['maps_link']['#weight'] = 10;
-
 }
 
 /**

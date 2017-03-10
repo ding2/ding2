@@ -256,7 +256,15 @@ function ding_frontpage_default_page_manager_pages() {
     $pane->type = 'all_opening_hours';
     $pane->subtype = 'all_opening_hours';
     $pane->shown = TRUE;
-    $pane->access = array();
+    $pane->access = array(
+      'plugins' => array(
+        0 => array(
+          'name' => 'opening_hours_frontpage',
+          'settings' => NULL,
+          'not' => FALSE,
+        ),
+      ),
+    );
     $pane->configuration = array();
     $pane->cache = array();
     $pane->style = array(

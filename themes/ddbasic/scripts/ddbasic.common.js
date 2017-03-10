@@ -51,7 +51,7 @@
     });
 
     // Expand opening hours on library pages.
-    if (Drupal.settings.ding_ddbasic_opening_hours_expand_on_library) {
+    if (Drupal.settings.ding_ddbasic_opening_hours && Drupal.settings.ding_ddbasic_opening_hours.expand_on_library) {
       element.triggerHandler('click');
     }
   }

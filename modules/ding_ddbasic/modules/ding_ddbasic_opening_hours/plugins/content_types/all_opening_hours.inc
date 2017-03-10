@@ -19,9 +19,6 @@ $plugin = array(
  * Render the block.
  */
 function ding_ddbasic_opening_hours_all_opening_hours_content_type_render($subtype, $conf, $panel_args, $context) {
-  if (!variable_get('ding_ddbasic_opening_hours_on_frontpage', FALSE)) {
-    return FALSE;
-  }
   $block = new stdClass();
 
   $block->title = t('Opening hours');
