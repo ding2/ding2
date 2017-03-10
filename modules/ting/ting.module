@@ -535,19 +535,41 @@ function ting_ding_entity_is($object, $class) {
  * Implements hook_ding_entity_buttons().
  */
 function ting_ding_entity_buttons($type, $entity) {
-  if ($entity instanceof TingEntity && $entity->online_url) {
-    $settings = variable_get('ting_url_labels', _ting_default_url_labels());
-    $type = drupal_strtolower($entity->type);
-    $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
-    return array(
-      // The link can't use l() as it will encode the url from ting_proxy. Use
-      // get online as the dc:identifier in $entity->online is not always the
-      // correct url.
-      array(
-        '#type' => 'markup',
-        '#markup' => '<a class="button-see-online" target="_new" href="' . $entity->getOnline_url() . '">' . $label . '</a>',
-      ),
-    );
+  if ($entity instanceof TingEntity) {
+    $buttons = array();
+
+    if ($entity->online_url) {
+      $settings = variable_get('ting_url_labels', _ting_default_url_labels());
+      $type = drupal_strtolower($entity->type);
+      $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
+      $buttons[] = array(
+        // The link can't use l() as it will encode the url from ting_proxy. Use
+        // get online as the dc:identifier in $entity->online is not always the
+        // correct url.
+        array(
+          '#type' => 'markup',
+          '#markup' => '<a class="button-see-online" target="_new" href="' . $entity->getOnline_url() . '">' . $label . '</a>',
+        ),
+      );
+    }
+
+    $collection = ting_collection_load($entity->id);
+    if (count($collection->types) > 1) {
+      $buttons[] = array(
+        '#theme' => 'link',
+        '#text' => t('Other formats'),
+        '#path' => '#',
+        '#options' => array(
+          'attributes' => array(
+            'class' => array('action-button', 'other-formats'),
+          ),
+          'html' => FALSE,
+          'external' => TRUE,
+        ),
+      );
+    }
+
+    return $buttons;
   }
 }
 

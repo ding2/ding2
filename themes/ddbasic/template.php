@@ -31,7 +31,7 @@ function ddbasic_preprocess_html(&$vars) {
   // Add additional body classes.
   $vars['classes_array'] = array_merge($vars['classes_array'], ddbasic_body_class());
 
-  if (ding_ddbasic_is_ting_search_extend_form()) {
+  if (variable_get('ting_search_extend_form', FALSE)) {
     $vars['classes_array'][] = 'search-form-extended';
 
     if (variable_get('ting_search_extend_form', FALSE)) {
@@ -42,7 +42,7 @@ function ddbasic_preprocess_html(&$vars) {
       $vars['classes_array'][] = 'extended-search-is-open';
     }
 
-    if (!ding_ddbasic_is_search_form_extended()) {
+    if (!ting_search_form_show_types()) {
       $vars['classes_array'][] = 'search-form-no-materials';
     }
   }
@@ -778,7 +778,7 @@ function ddbasic_preprocess_ting_object(&$vars) {
           }
 
           // Check if overlay is disabled and set class.
-          if (ddbasic_theme_setting('ting_object_disable_overlay', FALSE) == TRUE) {
+          if (theme_get_setting('ting_object_disable_overlay') == TRUE) {
             $vars['classes_array'][] = 'no-overlay';
           }
 

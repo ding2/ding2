@@ -39,6 +39,38 @@ function ddbasic_form_alter(&$form, &$form_state, $form_id) {
 /**
  * Implements hook_form_FORM_ID_alter().
  */
+function ddbasic_form_views_exposed_form_alter(&$form, &$form_state) {
+  if ($form_state['view']->name == 'ding_event' && $form_state['view']->current_display == 'ding_event_list') {
+
+    // Add placeholder to title field.
+    if (!empty($form['title'])) {
+      $form['title']['#attributes']['placeholder'] = t('Search for an event');
+    }
+
+    // Hide reset button if there's nothing to reset.
+    foreach ($form_state['view']->exposed_input as $exposed_input) {
+      $input = $exposed_input;
+    }
+    if (empty($input)) {
+      $form['reset']['#access'] = FALSE;
+    }
+  }
+}
+
+/**
+ * Implements hook date_popup_process_alter().
+ */
+function ddbasic_date_popup_process_alter(&$element, &$form_state, $context) {
+  // Add placeholder in event view.
+  if (isset($form_state['view']) && $form_state['view']->name == 'ding_event' && $form_state['view']->current_display == 'ding_event_list') {
+    $element['date']['#attributes']['placeholder'] = t('Select a date');
+  }
+}
+
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
 function ddbasic_form_ding_library_library_list_select_library_alter(&$form, &$form_state, $form_id) {
   $links = array();
 
@@ -75,7 +107,7 @@ function ddbasic_form_search_block_form_alter(&$form, &$form_state, $form_id) {
   $form['search_block_form']['#title'] = t('Search the library database and the website');
 
   // Placeholder on extended form.
-  if (ding_ddbasic_is_ting_search_extend_form()) {
+  if (variable_get('ting_search_extend_form', FALSE)) {
     $form['search_field']['search_block_form']['#attributes']['placeholder'] = t('Search the library');
   }
 }
@@ -89,7 +121,7 @@ function ddbasic_form_user_login_block_alter(&$form, &$form_state, $form_id) {
 
   $form['intro_text']['#markup'] = '<div class="intro-text"><div class="lead">' . t('If you want to see what you have borrowed, reserve books or edit your user profile, you must be logged in.') . '</div>';
 
-  $user_signup_link = ddbasic_theme_setting('user_signup_link');
+  $user_signup_link = variable_get('ding_user_signup_link', '');
   if (!empty($user_signup_link)) {
     $form['intro_text']['#markup'] .= '<div class="text">'
       . t('If you are not a registered user, you can register !link, or you can sign up in person at your local library.', array(
@@ -145,7 +177,7 @@ function ddbasic_form_user_login_alter(&$form, &$form_state, $form_id) {
 
   $form['intro_text']['#markup'] = '<div class="intro-text"><div class="lead">' . t('If you want to see what you have borrowed, reserve books or edit your user profile, you must be logged in.') . '</div>';
 
-  $user_signup_link = ddbasic_theme_setting('user_signup_link');
+  $user_signup_link = variable_get('ding_user_signup_link', '');
   if (!empty($user_signup_link)) {
     $form['intro_text']['#markup'] .= '<div class="text">'
       . t('If you are not a registered user, you can register !link, or you can sign up in person at your local library.', array(

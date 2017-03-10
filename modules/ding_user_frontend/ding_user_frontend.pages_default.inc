@@ -539,7 +539,7 @@ function ding_user_frontend_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'User debts';
   $page->admin_description = '';
-  $page->path = 'user/%user/status/debts';
+  $page->path = 'user/%user/status-debts';
   $page->access = array(
     'plugins' => array(
       0 => array(
@@ -570,7 +570,7 @@ function ding_user_frontend_default_page_manager_pages() {
     'type' => 'tab',
     'title' => 'Mine bøder',
     'name' => 'navigation',
-    'weight' => '42',
+    'weight' => '5',
     'parent' => array(
       'type' => 'tab',
       'title' => 'Min side',
@@ -754,7 +754,7 @@ function ding_user_frontend_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'User loans';
   $page->admin_description = '';
-  $page->path = 'user/%user/status/loans';
+  $page->path = 'user/%user/status-loans';
   $page->access = array(
     'plugins' => array(
       0 => array(
@@ -782,10 +782,10 @@ function ding_user_frontend_default_page_manager_pages() {
     'settings' => NULL,
   );
   $page->menu = array(
-    'type' => 'default tab',
+    'type' => 'tab',
     'title' => 'Mine hjemlån',
     'name' => 'navigation',
-    'weight' => '0',
+    'weight' => '3',
     'parent' => array(
       'type' => 'tab',
       'title' => 'Min side',
@@ -925,7 +925,7 @@ function ding_user_frontend_default_page_manager_pages() {
   $page->task = 'page';
   $page->admin_title = 'User reservations';
   $page->admin_description = '';
-  $page->path = 'user/%user/status/reservations';
+  $page->path = 'user/%user/status-reservations';
   $page->access = array(
     'plugins' => array(
       0 => array(
@@ -956,7 +956,7 @@ function ding_user_frontend_default_page_manager_pages() {
     'type' => 'tab',
     'title' => 'Mine reserveringer',
     'name' => 'navigation',
-    'weight' => '0',
+    'weight' => '4',
     'parent' => array(
       'type' => 'tab',
       'title' => 'Min side',
