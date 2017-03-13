@@ -11,7 +11,6 @@ require_once __DIR__ . '/template.block.php';
 require_once __DIR__ . '/template.form.php';
 require_once __DIR__ . '/template.node.php';
 require_once __DIR__ . '/template.field.php';
-require_once __DIR__ . '/template.ctools_plugin.php';
 
 /**
  * Implements hook_preprocess_html().
