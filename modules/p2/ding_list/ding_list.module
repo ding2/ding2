@@ -523,9 +523,7 @@ function ding_list_theme($existing, $type, $theme, $path) {
       'variables' => array(
         'type' => NULL,
         'value' => NULL,
-        // Don't run the title through the translator, because it's translated
-        // in the preprocessor.
-        'title' => 'Add to list',
+        'title' => NULL,
         'value_title' => FALSE,
         'options' => FALSE,
       ),
@@ -835,6 +833,10 @@ function ding_list_mail($key, &$message, $params) {
 The link is active for 7 days from today, after which it will be disabled for security reasons.
 
 !link', array('!link' => $params['link']));
+
+      if (!empty($user->mail)) {
+        $message['headers']['reply-to'] = $user->mail;
+      }
       break;
   }
 }
