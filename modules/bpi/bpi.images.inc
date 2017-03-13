@@ -298,5 +298,8 @@ function bpi_get_image_display_name($image_type) {
     'list_image' => t('List image'),
     'title_image' => t('Title image'),
   );
-  return isset($types[$image_type]) ? $types[$image_type] : t($image_type);
+
+  return isset($types[$image_type])
+    ? $types[$image_type]
+    : t('@image_type', array('@image_type' => check_plain($image_type)));
 }
