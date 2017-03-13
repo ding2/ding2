@@ -538,17 +538,6 @@ function ddbasic_remove_default_link_classes($classes) {
 }
 
 /**
- * Implements hook_js_alter().
- */
-function ddbasic_js_alter(&$javascript) {
-  // Set the ding_popup.js to the popup-hijack.js instead.
-  $ding_popup = drupal_get_path('module', 'ding_popup') . '/ding_popup.js';
-  if (isset($javascript[$ding_popup])) {
-    $javascript[$ding_popup]['data'] = drupal_get_path('theme', 'ddbasic') . '/scripts/popup-hijack.js';
-  }
-}
-
-/**
  * Implements hook_theme_script().
  *
  * Since Drupal 7 does not (yet) support the 'browser' option in drupal_add_js()

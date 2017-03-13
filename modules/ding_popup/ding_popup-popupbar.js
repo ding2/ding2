@@ -4,16 +4,17 @@
   'use strict';
 
   var
-    /** */
     POPUPBAR_CLASS_OPEN = 'popupbar-is-open',
-
-    /** */
     POPUPBAR_CLASS_SELECTED = 'selected',
 
-    /** */
+    /**
+     * The jQuery popupbar object.
+     */
     _$popupbar = null,
 
-    /** */
+    /**
+     * The jQuery container object.
+     */
     _$container = null;
 
   if (scope.ddbasic === undefined) {
@@ -21,9 +22,12 @@
   }
 
   /**
-   *
+   * The popupbar object.
    */
   scope.ddbasic.popupbar = {
+    /**
+     * Get the popupbar jQuery object.
+     */
     bar: function () {
       if (_$popupbar === null) {
         _$popupbar = $('#popupbar');
@@ -37,7 +41,7 @@
     },
 
     /**
-     *
+     * Get the popupbar container jQuery object.
      */
     container: function () {
       if (_$container === null) {
@@ -60,7 +64,23 @@
     },
 
     /**
+     * Set the content of the popupbar.
      *
+     * This actually sets the content of a specific popupbar-content element
+     * keyed by it's name.
+     *
+     * @param {string} name
+     *   Identifier of the popup content.
+     * @param {jQuery} $element
+     *   The content of the popup.
+     * @param {boolean} dont_open [description]
+     *   Automatically open upthe popupbar.
+     * @param {function} onclose   [description]
+     *   function to be called when popupbar is closed while displaying this
+     *   specific content.
+     *
+     * @return {jQuery}
+     *   The popupbar content jQuery object.
      */
     set: function (name, $element, dont_open, onclose) {
       var
@@ -93,7 +113,7 @@
     },
 
     /**
-     *
+     * Close the popupbar.
      */
     close: function () {
       var
@@ -110,7 +130,7 @@
     },
 
     /**
-     *
+     * Open the popupbar.
      */
     open: function () {
       $('body').addClass(POPUPBAR_CLASS_OPEN);
@@ -119,7 +139,7 @@
     },
 
     /**
-     *
+     * Toggle the popupbar.
      */
     toggle: function () {
       if (!$('body').hasClass(POPUPBAR_CLASS_OPEN)) {
