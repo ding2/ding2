@@ -1,4 +1,3 @@
-/*jshint forin:false, jquery:true, browser:true, indent:2, trailing:true, unused:false */
 /*globals require*/
 'use strict';
 
@@ -11,9 +10,9 @@ var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var sass = require('gulp-sass');
 var cleanCSS = require('gulp-clean-css');
-var concatCss = require('gulp-concat-css');
+var concat = require('gulp-concat');
 var gulpStylelint = require('gulp-stylelint');
-
+var argv = require('yargs').argv;
 
 // We only want to process our own non-processed JavaScript files.
 // var jsPath = './scripts/ddbasic.!(*.min).js';
@@ -35,11 +34,6 @@ gulp.task('uglify', 'Minify JavaScript using Uglify',
         // Preserve the $ variable name.
         mangle: { except: ['$'] }
       }).on('error', gutil.log))
-      // Use gulp-rename to change the name of processed files.
-      // We keep them in the same folder as the originals.
-      // .pipe(rename(function (path) {
-        // path.extname = '.min.js';
-      // }))
       .pipe(gulp.dest('./scripts/min'));
   }
 );
@@ -55,9 +49,7 @@ gulp.task('uglify', 'Minify JavaScript using Uglify',
   * foldername - Optional foldername to check just a single folder
   *
   */
-gulp.task('validate-sass', function lintCssTask() {
-  var gulpStylelint = require('gulp-stylelint');
-  var argv = require('yargs').argv;
+gulp.task('validate-sass', 'Validate the SCSS', function () {
   var testPath = argv.dir ? ['./sass/' + argv.dir + "/*.scss"] : sassPath;
   return gulp
     .src(testPath)
@@ -79,15 +71,11 @@ gulp.task('validate-sass', function lintCssTask() {
 gulp.task('sass', 'Process SCSS using libsass',
   function () {
     gulp.src(sassPath)
-      .pipe(gulpStylelint({
-        syntax: 'scss',
-        failAfterError: false,
-        reporters: [
-          {formatter: 'string', console: true},
-        ]
-      }))
-      .pipe(sass({outputStyle: 'compressed'})
+      .pipe(sass({outputStyle: 'nested'})
         .on('error', sass.logError))
+      // Save verbose output for testing purposes.
+      .pipe(gulp.dest('./sass_css/verbose_output'))
+      // Minify the css and save it.
       .pipe(cleanCSS())
       .pipe(gulp.dest('./sass_css'));
   }
@@ -109,6 +97,12 @@ gulp.task('kss', 'Process SCSS using KSS / kss-node',
         source: './sass',
         css: '../sass_css/bundle.css'
     };
+
+    // Create the bundle.css
+    gulp.src('./sass_css/**/*.css')
+      .pipe(concat('bundle.css'))
+      .pipe(gulp.dest('./sass_css'));
+
     return kss(styleGuide);
   }
 );
@@ -123,8 +117,8 @@ gulp.task('kss', 'Process SCSS using KSS / kss-node',
 gulp.task('watch', 'Watch and process JS and SCSS files', ['uglify', 'sass'],
   function() {
     gulp.watch(jsPath, ['jshint', 'uglify']);
-    gulp.watch(sassPath, ['sass']);
-    }
+    gulp.watch(sassPath, ['validate-sass', 'sass']);
+  }
 );
 
 gulp.task('default', ['help']);
