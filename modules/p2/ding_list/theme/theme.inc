@@ -33,7 +33,7 @@ function template_preprocess_ding_list_list(&$variables) {
  */
 function template_preprocess_ding_list_add_button(&$variables) {
   if (empty($variables['title'])) {
-    $variables['title'] = t('More...');
+    $variables['title'] = t('Add to list');
   }
 
   $path = drupal_get_path('module', 'ding_list');
