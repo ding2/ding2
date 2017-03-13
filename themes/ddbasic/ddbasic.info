@@ -89,17 +89,11 @@
   scripts[] = scripts/contrib/respond.min.js
   scripts[] = scripts/contrib/jquery.scrollto.js
   scripts[] = scripts/contrib/html5shiv.js
-  _scripts[] = scripts/contrib/equalize.min.js
-  _scripts[] = scripts/contrib/scalefix.js
   scripts[] = scripts/contrib/selectivizr-min.js
 
   scripts[] = scripts/flexmenu.js
   scripts[] = scripts/site.js
-  _scripts[] = scripts/ddbasic.topbar.menu.min.js
-  _scripts[] = scripts/ddbasic.common.min.js
   scripts[] = scripts/ddbasic.common.js
-  _scripts[] = scripts/ddbasic.facet.min.js
-  _scripts[] = scripts/ddbasic.search.min.js
 
   scripts[] = scripts/account.js
   scripts[] = scripts/popupbar.js

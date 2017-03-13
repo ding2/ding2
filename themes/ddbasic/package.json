@@ -9,19 +9,17 @@
   "homepage": "https://github.com/ding2/ding2",
   "dependencies": {
     "gulp": "^3.9.0",
+    "gulp-clean-css": "^3.0.3",
+    "gulp-concat": "^2.6.1",
     "gulp-help": "^1.6.1",
     "gulp-jshint": "^1.11.2",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^3.1.0",
+    "gulp-stylelint": "^3.9.0",
     "gulp-uglify": "^2.0.1",
     "gulp-util": "^3.0.6",
     "jshint-stylish": "^2.0.1",
-    "gulp-clean-css": "^3.0.3",
-    "gulp-concat-css": "^2.3.0",
-    "gulp-stylelint": "^3.9.0",
-    "stylelint-config-standard":"^16.0.0",
-    "gulp-filter": "^5.0.0"
-
+    "stylelint-config-standard": "^16.0.0"
   },
   "devDependencies": {
     "kss": "^3.0.0-beta.18"
