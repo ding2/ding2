@@ -51,7 +51,6 @@ function ting_get_object($object_id, $collection = FALSE, $with_relations = FALS
         // a search request.
         $request = ting_get_request_factory()->getCollectionRequest();
         $request->setAllObjects(FALSE);
-        $request->setFilterLocalHoldings(variable_get('ting_filter_by_local_holdings', 0));
       }
       $request->setObjectId($object_id);
 
@@ -169,7 +168,6 @@ function ting_get_objects($ids) {
     $request = ting_get_request_factory()->getSearchRequest();
     if ($agency) {
       $request->setAgency($agency);
-      $request->setFilterLocalHoldings(variable_get('ting_filter_by_local_holdings', 0));
     }
     $profile = variable_get('ting_search_profile', '');
     if (!empty($profile) && method_exists($request, 'setProfile')) {
@@ -232,7 +230,6 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
   $request->setQuery($query);
   if ($agency = variable_get('ting_agency', FALSE)) {
     $request->setAgency($agency);
-    $request->setFilterLocalHoldings(variable_get('ting_filter_by_local_holdings', 0));
   }
   $request->setStart($results_per_page * ($page - 1) + 1);
   $request->setNumResults($results_per_page);
