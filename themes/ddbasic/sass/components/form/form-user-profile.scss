@@ -13,6 +13,9 @@
     border-radius: 0;
     background-color: $grey;
     color: $charcoal;
+    &:focus {
+      box-shadow: 0 0 10px $grey-dark;
+    }
   }
   label {
     color: $color-text;
@@ -139,6 +142,9 @@
                 width: 100%;
                 background-color: transparent;
                 cursor: pointer;
+                &:focus {
+                  box-shadow: none;
+                }
               }
               > label {
                 position: absolute;
