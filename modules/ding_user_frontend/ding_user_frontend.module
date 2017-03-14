@@ -189,6 +189,10 @@ function ding_user_frontend_block_view($delta) {
         );
       }
 
+      if (empty($data['content'])) {
+        $data['content'] = t('You do not currently have any loans, reservations or debts.');
+      }
+
       // Build the block.
       $block['subject'] = t('Your user loan status');
       $block['content'] = $content;

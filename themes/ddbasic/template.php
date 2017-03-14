@@ -7,7 +7,6 @@
 
 require_once __DIR__ . '/utils.inc';
 
-require_once __DIR__ . '/template.block.php';
 require_once __DIR__ . '/template.node.php';
 require_once __DIR__ . '/template.field.php';
 
