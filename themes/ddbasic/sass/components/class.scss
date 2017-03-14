@@ -15,10 +15,6 @@
 //
 // Styleguide 2.1
 
-*:focus {
-  outline: none !important;
-}
-
 body {
   &::after {
     @include transition(

@@ -116,6 +116,7 @@ input[type="email"] {
   line-height: 1em;
   &:focus {
     outline: none;
+    box-shadow: 0 0 10px $grey-medium;
   }
 }
 
@@ -346,5 +347,9 @@ input[type="submit"] {
   cursor: pointer;
   &:hover {
     background-color: $grey-dark;
+  }
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 10px $grey-medium;
   }
 }

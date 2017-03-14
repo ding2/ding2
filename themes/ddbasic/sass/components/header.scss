@@ -206,6 +206,7 @@
           float: right;
           &:focus {
             width: getColumn(4 of 2);
+            box-shadow: none;
           }
         }
 
