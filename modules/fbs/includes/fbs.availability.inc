@@ -65,7 +65,13 @@ function fbs_availability_holdings($provider_ids) {
       'is_periodical' => FALSE,
     );
 
-    $placement_parts = array('branch', 'department', 'location', 'sublocation');
+    $placement_parts = array(
+      'branch',
+      'department',
+      'location',
+      'sublocation',
+      'materials',
+    );
     foreach ($item->holdings as $item_holding) {
       $result_holding = array(
         'available_count' => 0,
@@ -81,7 +87,28 @@ function fbs_availability_holdings($provider_ids) {
           $result_holding['placement'][] = $item_holding->{$part}->title;
         }
       }
+
+      // Add material description.
+      $material_description = $item_holding->materials;
+      if (variable_get('show_material_group', 0) && $material_description[0]) {
+        $result_holding['placement'][] = $material_description[0]->materialGroupName;
+      }
+
+      // Load entity by the provider id.
+      $entity = ding_entity_load(ding_provider_build_entity_id($provider_ids[0]));
+
+      // Get DK5 classification.
+      if (variable_get('show_dk5_classification', 0) && $classification = $entity->getClassification()) {
+        $result_holding['placement'][] = $classification;
+      }
+
+      // Get inverted author.
+      if (variable_get('show_inverted_creator', 0) && $creator = $entity->getInvertedCreators()) {
+        $result_holding['placement'][] = $creator[0];
+      }
+
       $placement_string = implode(' > ', $result_holding['placement']);
+
       // Count available materials.
       foreach ($item_holding->materials as $material) {
         $result[$item->recordId]['total_count']++;
