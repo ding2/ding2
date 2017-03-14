@@ -7,19 +7,22 @@
 
   Drupal.behaviors.ding_place2book = {
     attach: function (context, settings) {
-      $('.place2book', context).once('place2book', function () {
-        var $this = $(this);
-        var event_id = $this.data('event-id');
-        var event_maker_id = $this.data('event-maker-id');
-        $.ajax({
-          url: Drupal.settings.basePath + 'ding/p2b/event_maker/' + event_maker_id + '/event/' + event_id,
-          type: 'GET',
-          success: function (data) {
-            $('.place2book', context).html(JSON.parse(data));
-          }
+      $('.place2book-ticketinfo').once('place2book-button', function() {
+        var request = $.ajax({
+          url: Drupal.settings.basePath + 'ding/place2book/ticketinfo/' + this.value,
+          type: 'POST',
+          dataType: 'json',
+          success: ding_place2book_insert,
         });
       });
     }
   };
 
+  /**
+   * Replace placeholder with place2book data.
+   */
+  var ding_place2book_insert = function(ding_place2book) {
+    $(".place2book-ticketinfo[data-ticket='" + ding_place2book.nid + "']").replaceWith(ding_place2book.markup);
+  };
+ 
 })(jQuery);

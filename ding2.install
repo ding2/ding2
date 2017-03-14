@@ -440,3 +440,10 @@ function ding2_update_7030() {
 function ding2_update_7031() {
   ding2_translation_update();
 }
+
+/**
+ * Enable Campaign module.
+ */
+function ding2_update_7032() {
+  module_enable(array('ding_campaign'));
+}

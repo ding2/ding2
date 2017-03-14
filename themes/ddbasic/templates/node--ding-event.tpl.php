@@ -123,8 +123,8 @@
         <p itemprop="price"><i class="icon-tag"></i> <?php print render($content['field_ding_event_price']); ?></p>
     <?php endif; ?>
 
-    <?php if (isset($content['field_place2book'])): ?>
-      <div><?php print render($content['field_place2book']); ?></div>
+    <?php if (isset($content['field_place2book_tickets'])): ?>
+      <div><?php print render($content['field_place2book_tickets']); ?></div>
     <?php endif; ?>
 
     <?php if (isset($content['field_ding_event_subscriptions'])): ?>

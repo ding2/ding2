@@ -903,8 +903,8 @@ tr.odd {
 .pane-bookmarks .update-reservations .form-submit,
 .pane-bookmarks .renew-loan-button .form-submit,
 .pane-social-services-lists .update-reservations .form-submit,
-.pane-social-services-lists .renew-loan-button .form-submit, .pane-debts .pay-button .form-submit, .place2book a, .place2book a:active, .place2book a:hover, .place2book a:visited, .alma-item-list .reserve-button,
-.ding-item-list-item .reserve-button, .ticket-info, .place2book.info, .pane-reservations .renew-loan-button .not-renewable,
+.pane-social-services-lists .renew-loan-button .form-submit, .pane-debts .pay-button .form-submit, .alma-item-list .reserve-button,
+.ding-item-list-item .reserve-button, .ticket-info, .pane-reservations .renew-loan-button .not-renewable,
 .pane-loans .renew-loan-button .not-renewable,
 .pane-debts .renew-loan-button .not-renewable,
 .pane-bookmarks .renew-loan-button .not-renewable,
@@ -920,7 +920,7 @@ tr.odd {
 .pane-social-services-lists .delete-reservations .form-submit, #ding-bookmark-remove-form .form-submit, .material-item .action-button.reserve-button.unavailable.reservable,
 .field-name-ding-entity-buttons .reserve-button.unavailable.reservable,
 .ding-periodical-issues .reserve-button.unavailable.reservable, .pane-ting-collection .form-submit, .pane-ting-object .form-submit,
-.pane-ting-collection .ding-entity-button, .pane-ting-object .ding-entity-button, .place2book.info:hover {
+.pane-ting-collection .ding-entity-button, .pane-ting-object .ding-entity-button {
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   -ms-border-radius: 8px;
@@ -954,8 +954,8 @@ tr.odd {
   .pane-bookmarks .update-reservations .form-submit:focus,
   .pane-bookmarks .renew-loan-button .form-submit:focus,
   .pane-social-services-lists .update-reservations .form-submit:focus,
-  .pane-social-services-lists .renew-loan-button .form-submit:focus, .pane-debts .pay-button .form-submit:focus, .place2book a:focus, .alma-item-list .reserve-button:focus,
-  .ding-item-list-item .reserve-button:focus, .ticket-info:focus, .place2book.info:focus, .pane-reservations .renew-loan-button .not-renewable:focus,
+  .pane-social-services-lists .renew-loan-button .form-submit:focus, .pane-debts .pay-button .form-submit:focus, .alma-item-list .reserve-button:focus,
+  .ding-item-list-item .reserve-button:focus, .ticket-info:focus, .pane-reservations .renew-loan-button .not-renewable:focus,
   .pane-loans .renew-loan-button .not-renewable:focus,
   .pane-debts .renew-loan-button .not-renewable:focus,
   .pane-bookmarks .renew-loan-button .not-renewable:focus,
@@ -990,8 +990,8 @@ tr.odd {
   .pane-bookmarks .update-reservations .form-submit:hover,
   .pane-bookmarks .renew-loan-button .form-submit:hover,
   .pane-social-services-lists .update-reservations .form-submit:hover,
-  .pane-social-services-lists .renew-loan-button .form-submit:hover, .pane-debts .pay-button .form-submit:hover, .place2book a:hover, .alma-item-list .reserve-button:hover,
-  .ding-item-list-item .reserve-button:hover, .ticket-info:hover, .place2book.info:hover, .pane-reservations .renew-loan-button .not-renewable:hover,
+  .pane-social-services-lists .renew-loan-button .form-submit:hover, .pane-debts .pay-button .form-submit:hover, .alma-item-list .reserve-button:hover,
+  .ding-item-list-item .reserve-button:hover, .ticket-info:hover, .pane-reservations .renew-loan-button .not-renewable:hover,
   .pane-loans .renew-loan-button .not-renewable:hover,
   .pane-debts .renew-loan-button .not-renewable:hover,
   .pane-bookmarks .renew-loan-button .not-renewable:hover,
@@ -1026,8 +1026,8 @@ tr.odd {
   .pane-bookmarks .update-reservations .form-submit:active,
   .pane-bookmarks .renew-loan-button .form-submit:active,
   .pane-social-services-lists .update-reservations .form-submit:active,
-  .pane-social-services-lists .renew-loan-button .form-submit:active, .pane-debts .pay-button .form-submit:active, .place2book a:active, .alma-item-list .reserve-button:active,
-  .ding-item-list-item .reserve-button:active, .ticket-info:active, .place2book.info:active, .pane-reservations .renew-loan-button .not-renewable:active,
+  .pane-social-services-lists .renew-loan-button .form-submit:active, .pane-debts .pay-button .form-submit:active, .alma-item-list .reserve-button:active,
+  .ding-item-list-item .reserve-button:active, .ticket-info:active, .pane-reservations .renew-loan-button .not-renewable:active,
   .pane-loans .renew-loan-button .not-renewable:active,
   .pane-debts .renew-loan-button .not-renewable:active,
   .pane-bookmarks .renew-loan-button .not-renewable:active,
@@ -1064,8 +1064,8 @@ tr.odd {
   .pane-bookmarks .update-reservations .disabled.form-submit,
   .pane-bookmarks .renew-loan-button .disabled.form-submit,
   .pane-social-services-lists .update-reservations .disabled.form-submit,
-  .pane-social-services-lists .renew-loan-button .disabled.form-submit, .pane-debts .pay-button .disabled.form-submit, .place2book a.disabled, .alma-item-list .disabled.reserve-button,
-  .ding-item-list-item .disabled.reserve-button, .disabled.ticket-info, .disabled.place2book.info, .pane-reservations .renew-loan-button .disabled.not-renewable,
+  .pane-social-services-lists .renew-loan-button .disabled.form-submit, .pane-debts .pay-button .disabled.form-submit, .alma-item-list .disabled.reserve-button,
+  .ding-item-list-item .disabled.reserve-button, .disabled.ticket-info, .pane-reservations .renew-loan-button .disabled.not-renewable,
   .pane-loans .renew-loan-button .disabled.not-renewable,
   .pane-debts .renew-loan-button .disabled.not-renewable,
   .pane-bookmarks .renew-loan-button .disabled.not-renewable,
@@ -1100,8 +1100,8 @@ tr.odd {
   .pane-bookmarks .update-reservations [disabled].form-submit,
   .pane-bookmarks .renew-loan-button [disabled].form-submit,
   .pane-social-services-lists .update-reservations [disabled].form-submit,
-  .pane-social-services-lists .renew-loan-button [disabled].form-submit, .pane-debts .pay-button [disabled].form-submit, .place2book a[disabled], .alma-item-list [disabled].reserve-button,
-  .ding-item-list-item [disabled].reserve-button, [disabled].ticket-info, [disabled].place2book.info, .pane-reservations .renew-loan-button [disabled].not-renewable,
+  .pane-social-services-lists .renew-loan-button [disabled].form-submit, .pane-debts .pay-button [disabled].form-submit, .alma-item-list [disabled].reserve-button,
+  .ding-item-list-item [disabled].reserve-button, [disabled].ticket-info, .pane-reservations .renew-loan-button [disabled].not-renewable,
   .pane-loans .renew-loan-button [disabled].not-renewable,
   .pane-debts .renew-loan-button [disabled].not-renewable,
   .pane-bookmarks .renew-loan-button [disabled].not-renewable,
@@ -1251,7 +1251,7 @@ a.button,
 .pane-bookmarks .update-reservations .form-submit,
 .pane-bookmarks .renew-loan-button .form-submit,
 .pane-social-services-lists .update-reservations .form-submit,
-.pane-social-services-lists .renew-loan-button .form-submit, .pane-debts .pay-button .form-submit, .place2book a, .place2book a:active, .place2book a:hover, .place2book a:visited, .alma-item-list .reserve-button,
+.pane-social-services-lists .renew-loan-button .form-submit, .pane-debts .pay-button .form-submit, .alma-item-list .reserve-button,
 .ding-item-list-item .reserve-button {
   background: -owg-linear-gradient(#60a500, #335900);
   background: -webkit-linear-gradient(#60a500, #335900);
@@ -1280,7 +1280,7 @@ a.button,
   .pane-bookmarks .update-reservations .form-submit:link,
   .pane-bookmarks .renew-loan-button .form-submit:link,
   .pane-social-services-lists .update-reservations .form-submit:link,
-  .pane-social-services-lists .renew-loan-button .form-submit:link, .pane-debts .pay-button .form-submit:link, .place2book a:link, .alma-item-list .reserve-button:link,
+  .pane-social-services-lists .renew-loan-button .form-submit:link, .pane-debts .pay-button .form-submit:link, .alma-item-list .reserve-button:link,
   .ding-item-list-item .reserve-button:link, .field-name-ding-entity-buttons .reserve-button:visited, .button-see-online:visited, .ticket-available:visited, .pane-reservations .renew-loan-button .renewable:visited,
   .pane-loans .renew-loan-button .renewable:visited,
   .pane-debts .renew-loan-button .renewable:visited,
@@ -1298,7 +1298,7 @@ a.button,
   .pane-bookmarks .update-reservations .form-submit:visited,
   .pane-bookmarks .renew-loan-button .form-submit:visited,
   .pane-social-services-lists .update-reservations .form-submit:visited,
-  .pane-social-services-lists .renew-loan-button .form-submit:visited, .pane-debts .pay-button .form-submit:visited, .place2book a:visited, .alma-item-list .reserve-button:visited,
+  .pane-social-services-lists .renew-loan-button .form-submit:visited, .pane-debts .pay-button .form-submit:visited, .alma-item-list .reserve-button:visited,
   .ding-item-list-item .reserve-button:visited {
     color: #fff; }
   .field-name-ding-entity-buttons .reserve-button:link, .button-see-online:link, .ticket-available:link, .pane-reservations .renew-loan-button .renewable:link,
@@ -1318,7 +1318,7 @@ a.button,
   .pane-bookmarks .update-reservations .form-submit:link,
   .pane-bookmarks .renew-loan-button .form-submit:link,
   .pane-social-services-lists .update-reservations .form-submit:link,
-  .pane-social-services-lists .renew-loan-button .form-submit:link, .pane-debts .pay-button .form-submit:link, .place2book a:link, .alma-item-list .reserve-button:link,
+  .pane-social-services-lists .renew-loan-button .form-submit:link, .pane-debts .pay-button .form-submit:link, .alma-item-list .reserve-button:link,
   .ding-item-list-item .reserve-button:link, .field-name-ding-entity-buttons .reserve-button:visited, .button-see-online:visited, .ticket-available:visited, .pane-reservations .renew-loan-button .renewable:visited,
   .pane-loans .renew-loan-button .renewable:visited,
   .pane-debts .renew-loan-button .renewable:visited,
@@ -1336,7 +1336,7 @@ a.button,
   .pane-bookmarks .update-reservations .form-submit:visited,
   .pane-bookmarks .renew-loan-button .form-submit:visited,
   .pane-social-services-lists .update-reservations .form-submit:visited,
-  .pane-social-services-lists .renew-loan-button .form-submit:visited, .pane-debts .pay-button .form-submit:visited, .place2book a:visited, .alma-item-list .reserve-button:visited,
+  .pane-social-services-lists .renew-loan-button .form-submit:visited, .pane-debts .pay-button .form-submit:visited, .alma-item-list .reserve-button:visited,
   .ding-item-list-item .reserve-button:visited, .field-name-ding-entity-buttons .reserve-button:focus, .button-see-online:focus, .ticket-available:focus, .pane-reservations .renew-loan-button .renewable:focus,
   .pane-loans .renew-loan-button .renewable:focus,
   .pane-debts .renew-loan-button .renewable:focus,
@@ -1354,7 +1354,7 @@ a.button,
   .pane-bookmarks .update-reservations .form-submit:focus,
   .pane-bookmarks .renew-loan-button .form-submit:focus,
   .pane-social-services-lists .update-reservations .form-submit:focus,
-  .pane-social-services-lists .renew-loan-button .form-submit:focus, .pane-debts .pay-button .form-submit:focus, .place2book a:focus, .alma-item-list .reserve-button:focus,
+  .pane-social-services-lists .renew-loan-button .form-submit:focus, .pane-debts .pay-button .form-submit:focus, .alma-item-list .reserve-button:focus,
   .ding-item-list-item .reserve-button:focus, .field-name-ding-entity-buttons .reserve-button:hover, .button-see-online:hover, .ticket-available:hover, .pane-reservations .renew-loan-button .renewable:hover,
   .pane-loans .renew-loan-button .renewable:hover,
   .pane-debts .renew-loan-button .renewable:hover,
@@ -1372,7 +1372,7 @@ a.button,
   .pane-bookmarks .update-reservations .form-submit:hover,
   .pane-bookmarks .renew-loan-button .form-submit:hover,
   .pane-social-services-lists .update-reservations .form-submit:hover,
-  .pane-social-services-lists .renew-loan-button .form-submit:hover, .pane-debts .pay-button .form-submit:hover, .place2book a:hover, .alma-item-list .reserve-button:hover,
+  .pane-social-services-lists .renew-loan-button .form-submit:hover, .pane-debts .pay-button .form-submit:hover, .alma-item-list .reserve-button:hover,
   .ding-item-list-item .reserve-button:hover, .field-name-ding-entity-buttons .reserve-button:active, .button-see-online:active, .ticket-available:active, .pane-reservations .renew-loan-button .renewable:active,
   .pane-loans .renew-loan-button .renewable:active,
   .pane-debts .renew-loan-button .renewable:active,
@@ -1390,7 +1390,7 @@ a.button,
   .pane-bookmarks .update-reservations .form-submit:active,
   .pane-bookmarks .renew-loan-button .form-submit:active,
   .pane-social-services-lists .update-reservations .form-submit:active,
-  .pane-social-services-lists .renew-loan-button .form-submit:active, .pane-debts .pay-button .form-submit:active, .place2book a:active, .alma-item-list .reserve-button:active,
+  .pane-social-services-lists .renew-loan-button .form-submit:active, .pane-debts .pay-button .form-submit:active, .alma-item-list .reserve-button:active,
   .ding-item-list-item .reserve-button:active {
     background: -owg-linear-gradient(#518c00, #253f00);
     background: -webkit-linear-gradient(#518c00, #253f00);
@@ -1401,7 +1401,7 @@ a.button,
     background-color: #335900; }
 
 /* Warning button */
-.ticket-info, .place2book.info {
+.ticket-info {
   background: -owg-linear-gradient(#f6d346, #e4b90b);
   background: -webkit-linear-gradient(#f6d346, #e4b90b);
   background: -moz-linear-gradient(#f6d346, #e4b90b);
@@ -1412,9 +1412,9 @@ a.button,
   background-color: #f6d346;
   border: 0;
   color: #000; }
-  .ticket-info:link, .place2book.info:link, .ticket-info:visited, .place2book.info:visited {
+  .ticket-info:link, .ticket-info:visited {
     color: #000; }
-  .ticket-info:link, .place2book.info:link, .ticket-info:visited, .place2book.info:visited, .ticket-info:focus, .place2book.info:focus, .ticket-info:hover, .place2book.info:hover, .ticket-info:active, .place2book.info:active {
+  .ticket-info:link, .ticket-info:visited, .ticket-info:focus, .ticket-info:hover, .ticket-info:active {
     background: -owg-linear-gradient(#f5cd2e, #cca50a);
     background: -webkit-linear-gradient(#f5cd2e, #cca50a);
     background: -moz-linear-gradient(#f5cd2e, #cca50a);
@@ -9657,41 +9657,6 @@ div[class^="collection-bg"] {
 
 .webform-confirmation + .links {
   margin-bottom: 20px; }
-
-.field-name-field-place2book {
-  padding-left: 20px; }
-  @media only screen and (max-width: 768px) {
-    .field-name-field-place2book {
-      margin: 20px 0;
-      padding-left: 0; } }
-
-.place2book a, .place2book a:active, .place2book a:hover, .place2book a:visited, .place2book a:hover, .place2book a:active {
-  display: block; }
-
-.place2book.info {
-  display: block; }
-  .place2book.info:hover {
-    background: -owg-linear-gradient(#f6d346, #f4c715);
-    background: -webkit-linear-gradient(#f6d346, #f4c715);
-    background: -moz-linear-gradient(#f6d346, #f4c715);
-    background: -o-linear-gradient(#f6d346, #f4c715);
-    -pie-background: -pie-linear-gradient(#f6d346, #f4c715);
-    background: linear-gradient(#f6d346, #f4c715);
-    /* Make sure buttons get a background color in IE */
-    background-color: #f6d346;
-    border: 0;
-    color: #000;
-    cursor: default; }
-    .place2book.info:hover:link, .place2book.info:hover:visited {
-      color: #000; }
-    .place2book.info:hover:link, .place2book.info:hover:visited, .place2book.info:hover:focus, .place2book.info:hover:hover, .place2book.info:hover:active {
-      background: -owg-linear-gradient(#f5cd2e, #e4b90b);
-      background: -webkit-linear-gradient(#f5cd2e, #e4b90b);
-      background: -moz-linear-gradient(#f5cd2e, #e4b90b);
-      background: -o-linear-gradient(#f5cd2e, #e4b90b);
-      -pie-background: -pie-linear-gradient(#f5cd2e, #e4b90b);
-      background: linear-gradient(#f5cd2e, #e4b90b);
-      background-color: #f4c715; }
 
 /* Base tables
    ========================================================================== */
