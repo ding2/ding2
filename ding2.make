@@ -221,7 +221,7 @@ projects[message][subdir] = "contrib"
 projects[message][version] = "1.10"
 
 projects[metatag][subdir] = "contrib"
-projects[metatag][version] "1.10"
+projects[metatag][version] = "1.10"
 
 projects[mmeu][subdir] = "contrib"
 projects[mmeu][version] = "1.0"
