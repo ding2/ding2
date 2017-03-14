@@ -26,7 +26,7 @@
       }
       // First child large
       .view-ding-news.first-child-large .views-row:first-child & {
-        padding-top: 40.909%;
+        @include aspect-ratio-background-image(22, 9);
         overflow: hidden;
         background-size: cover;
         &::after {
@@ -45,13 +45,14 @@
         // Make all rows like first child large in slide-on-mobile views
         .view-ding-news.slide-on-mobile .views-row &,
         .view-ding-news.slide-on-mobile .views-row:first-child & {
-          padding-top: 55.909%;
+          @include aspect-ratio-background-image(16, 9);
           overflow: hidden;
           background-size: cover;
         }
         // Make first child like other teaser in views without slide-on-mobile class
         .view-ding-news.first-child-large:not(.slide-on-mobile) .views-row:first-child & {
-          padding-top: 55.909%;
+          @include aspect-ratio-background-image(16, 9);
+          background-size: cover;
         }
       }
     }

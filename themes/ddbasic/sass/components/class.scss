@@ -338,23 +338,23 @@ a.print-button {
 // Styleguide 2.1.5
 
 .image-styling-16-9 {
-  display: block;
-  position: relative;
-  background-color: $grey;
-  padding-top: 56.25%; // Creates a 16:9 format
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center center;
-  img {
-    @include transform(translate(-50%, -50%));
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    max-height: 100%;
-    max-width: 100%;
-    height: auto;
-    width: auto;
-  }
+  @include aspect-ratio-image(16, 9);
+}
+
+
+// Background image styling 16:9
+//
+// The class image-styling-16-9 keeps a 16:9 format for images even if the image is another format.
+// This is done by adding a box around the image.
+// The class can also be used on an element with a background-image
+//
+// Markup:
+// <div class="background-image-styling-16-9"></div>
+//
+// Styleguide 2.1.6
+
+.background-image-styling-16-9 {
+  @include aspect-ratio-background-image(16, 9);
 }
 
 // ==========================================================================
@@ -372,7 +372,7 @@ a.print-button {
 //  <li class="pager-next"><a>next</a></li>
 // </ul>
 //
-// Styleguide 2.1.6
+// Styleguide 2.1.7
 
 ul.pager {
   float: left;
@@ -715,7 +715,7 @@ ul.tabs.primary {
 //  </div>
 // </div>
 //
-// Styleguide 2.1.7
+// Styleguide 2.1.8
 
 .social-share-container {
   width: 100%;
@@ -878,7 +878,7 @@ body {
 // <div class="color-text-on-primary background-color-primary">Color text on primary and Background color primary</div>
 // <div class="color-text-on-secondary background-color-secondary">Color text on primary and Background color primary</div>
 //
-//Styleguide 2.1.8
+//Styleguide 2.1.9
 
 .color-text {
   color: $color-text;
@@ -915,7 +915,7 @@ body {
 // <div class="font-display">Font display</div>
 // <div class="font-display-small">Font display small</div>
 //
-//Styleguide 2.1.9
+//Styleguide 2.1.10
 
 .font-base {
   @include font('base');

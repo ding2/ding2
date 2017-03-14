@@ -11,12 +11,8 @@
 
   &.node-teaser {
     a {
-      display: block;
-      position: relative;
-      padding-top: 56.25%;
-      background-color: $grey; // Fallback if no background-image
-      background-size: cover;
-      background-position: center center;
+      @include aspect-ratio-background-image(16, 9);
+
       border-radius: $round-corner;
       &::before {
         @include transition(background-color $speed $ease);
