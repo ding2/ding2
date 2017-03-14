@@ -8,7 +8,6 @@
 require_once __DIR__ . '/utils.inc';
 
 require_once __DIR__ . '/template.block.php';
-require_once __DIR__ . '/template.form.php';
 require_once __DIR__ . '/template.node.php';
 require_once __DIR__ . '/template.field.php';
 
@@ -982,12 +981,7 @@ function ddbasic_preprocess_material_item(&$variables) {
   // Render the checkbox.
   $variables['checkbox'] = drupal_render($element[$element['#id']]);
 
-  // Get url to ting object.
-  $variables['ting_object_url_object'] = $variables['element']['#information']['ting_object_url_object']['url'];
-
   $variables['information']['expiry']['#weight'] = 1;
-
-  unset($variables['information']['ting_object_url_object']);
 }
 
 /**
@@ -1231,4 +1225,17 @@ function ddbasic_ting_search_pager($variables) {
       ),
     ));
   }
+}
+
+/**
+ * Overrides theme_select().
+ *
+ * Adds wrapper div to all select form elements, for better styling in FF.
+ */
+function ddbasic_select($variables) {
+  $element = $variables['element'];
+  element_set_attributes($element, array('id', 'name', 'size'));
+  _form_set_class($element, array('form-select'));
+
+  return '<div class="select-wrapper"><select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select></div>';
 }

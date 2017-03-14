@@ -233,6 +233,10 @@ function ting_search_form_search_block_form_alter(&$form, &$form_state, $form_id
     drupal_get_path('module', 'ting_search') . '/js/ting_search.js',
   );
 
+  // Set the placeholder.
+  // $form['search_block_form']['#attributes']['placeholder'] = t('Search the library');
+  $form['search_block_form']['#attributes']['placeholder'] = t('Search the library');
+
   $form['sort'] = array(
     '#type' => 'hidden',
     '#default_value' => isset($_GET['sort']) ? check_plain($_GET['sort']) : FALSE,

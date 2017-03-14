@@ -108,6 +108,14 @@
         float: left;
       }
     }
+    // When form has Nemid button
+    &.has-nemid-login {
+      .user-login-container {
+        .form-actions {
+          min-width: 190px;
+        }
+      }
+    }
   }
   form:not(.user-login-form) {
     a {

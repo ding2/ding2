@@ -94,7 +94,7 @@ function ding_notifications_content_type_render($subtype, $conf, $panel_args, $c
         'class' => array($classes),
       ),
     );
-    $content[] = l($ready_to_pickup_count_t, $uri['path'] . '/status/reservations', $attr);
+    $content[] = l($ready_to_pickup_count_t, $uri['path'] . '/status-reservations', $attr);
   }
 
   if (isset($defaults['dept'])) {

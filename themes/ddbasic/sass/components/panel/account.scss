@@ -49,6 +49,18 @@
       // Mobile
       @include media($mobile) {
         margin-top: 0;
+
+        @at-root .pane-loans#{&} {
+          margin-top: 0;
+        }
+
+        @at-root .pane-bookmarks#{&} {
+          margin-top: 0;
+        }
+
+        @at-root .pane-reservations#{&} {
+          margin-top: 0;
+        }
       }
     }
   }
@@ -59,31 +71,29 @@
     z-index: $z-above;
     width: 100%;
     padding: 10px;
-
     background-color: $grey-dark;
 
-    .select-all {
+    // Mobile
+    @include media($mobile) {
+      float: left;
+    }
+
+    .form-item {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+
+      @include transform(translateY(-50%));
+
+      // Mobile
       @include media($mobile) {
-        width: 100%;
-        float: left;
+        position: static;
+
+        @include transform(translateY(0%));
       }
-      .form-item {
-        position: absolute;
-        left: 20px;
-        top: 50%;
 
-        @include transform(translateY(-50%));
-
-        // Mobile
-        @include media($mobile) {
-          position: static;
-
-          @include transform(translateY(0%));
-        }
-
-        label {
-          color: $white;
-        }
+      label {
+        color: $white;
       }
     }
 
@@ -101,8 +111,9 @@
         width: 100%;
         float: left;
       }
-      > div {
+      .action-button {
         @include span-columns(6);
+        padding: 0;
         &:nth-child(2) {
           margin-right: 0;
         }
@@ -118,7 +129,6 @@
           }
         }
         &.action-all {
-          padding: 0;
           a {
             @include font('base');
             @include transition(background-color $speed $ease, color $speed $ease);
@@ -164,10 +174,18 @@
         }
       }
     }
+
+    .select-all {
+      // Mobile
+      @include media($mobile) {
+        width: 100%;
+        float: left;
+      }
+    }
   }
   .action-buttons {
     float: left;
-    > div {
+    .action-button {
       background: none;
       &.delete-reservations,
       &.delete-bookmarks {
