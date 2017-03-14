@@ -84,29 +84,6 @@
       all_select_all_checkboxes.on('click', function(){ //reset select all btn
         select_all_new.siblings('input').prop('checked', false);
       });
-
-
-      // Reservations - delete all
-      var delete_all = $('.delete-all', context),
-          form,
-          checkbox;
-
-      delete_all.on('click', function(event){
-        event.preventDefault();
-        form = $(this).closest('form');
-        checkbox = form.find('input[type="checkbox"]');
-
-        checkbox.each(function( index ) {
-          if($(this).prop('checked') === false) {
-            $(this).prop("checked", true);
-          }
-        });
-        //Submit form
-        form.find('.action-buttons .delete-reservations input').removeAttr('disabled');
-        // On
-        form.find('.action-buttons .delete-reservations input').trigger('mousedown');
-        form.find('.action-buttons .delete-reservations input').trigger('click');
-      });
     }
   };
 

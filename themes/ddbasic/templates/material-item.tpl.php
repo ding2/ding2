@@ -16,9 +16,7 @@
 <div class="material-item <?php print $zebra; ?>">
   <div class="left-column">
     <div class="item-checkbox"><?php print $checkbox; ?></div>
-    <a href="<?php print $ting_object_url_object; ?>">
-      <?php print $cover; ?>
-    </a>
+    <?php print $cover; ?>
   </div>
   <div class="right-column">
     <h3 id="<?php print $availability_id; ?>" class="item-title<?php if (isset($material_message)) : ?> has-message <?php

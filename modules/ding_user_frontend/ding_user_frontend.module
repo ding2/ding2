@@ -152,7 +152,7 @@ function ding_user_frontend_block_view($delta) {
             'class' => 'user-status-ready-pickup',
             'label' => format_plural($count, 'Reservation ready for pick-up', 'Reservations ready for pick-up'),
             'count' => $count,
-            'link' => url($uri['path'] . '/status/reservations'),
+            'link' => url($uri['path'] . '/status-reservations'),
           ),
         );
       }
@@ -184,7 +184,7 @@ function ding_user_frontend_block_view($delta) {
             'class' => 'user-status-reservation',
             'label' => format_plural($count, 'Reservation', 'Reservations'),
             'count' => $count,
-            'link' => url($uri['path'] . '/status/reservations'),
+            'link' => url($uri['path'] . '/status-reservations'),
           ),
         );
       }

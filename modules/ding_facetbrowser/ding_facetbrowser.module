@@ -116,6 +116,8 @@ function ding_facetbrowser_form($form, &$form_state, $facets = FALSE, $search = 
         $form[$facet->name] = array(
           '#type' => 'fieldset',
           '#title' => check_plain($configured_facet['title']),
+          '#collapsible' => TRUE,
+          '#collapsed' => TRUE,
           '#attributes'  => array(
             'id' => str_replace('.', '-', $facet->name),
             'data' => array(
@@ -358,4 +360,3 @@ function ding_facetbrowser_block_view($delta = FALSE) {
 
   return $block;
 }
-

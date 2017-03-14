@@ -128,7 +128,7 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
 
       // Add creator(s).
       $creators = $entity->creators;
- 
+
       // Add type.
       $mat_type = $entity->type;
 
@@ -209,6 +209,13 @@ function ding_loan_loans_form($form, &$form_state, $account, $loans = array()) {
     '#type' => 'submit',
     '#prefix' => '<div class="renew-loan-button action-button">',
     '#value' => t('Renew selected (@count)', array('@count' => 0)),
+    '#suffix' => '</div>',
+  );
+
+  $form['actions_top']['renew_all'] = array(
+    '#type' => 'markup',
+    '#prefix' => '<div class="renew-all action-all action-button">',
+    '#markup' => '<a href="#">' . t('Forny alle') . '</a>',
     '#suffix' => '</div>',
   );
 

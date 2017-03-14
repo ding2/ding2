@@ -145,7 +145,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
     if ($readys > 0) {
       $groups['specials']['lists']['special_reservations_ready'][] = array(
         'data' =>
-        '<a href="' . url($uri['path'] . '/status/reservations') . '" class="signature-label"><span class="icon"></span>' . t('Reservations ready for pick-up') . '</a>' . '<span class="label ready">' . $readys . '</span>',
+        '<a href="' . url($uri['path'] . '/status-reservations') . '" class="signature-label"><span class="icon"></span>' . t('Reservations ready for pick-up') . '</a>' . '<span class="label ready">' . $readys . '</span>',
         'class' => array('ready'),
       );
     }
@@ -157,7 +157,7 @@ function ding_list_lists_content_type_render($subtype, $conf, $panel_args, $cont
     $count = $readys + count(ding_provider_invoke('reservation', 'list', $account, DING_RESERVATION_NOT_READY));
     $groups['specials']['lists']['special_reservations'][] = array(
       'data' =>
-      '<a href="' . url($uri['path'] . '/status/reservations') . '" class="signature-label"><span class="icon"></span>' . t('Reservations') . '</a>' . '<span class="label">' . $count . '</span>',
+      '<a href="' . url($uri['path'] . '/status-reservations') . '" class="signature-label"><span class="icon"></span>' . t('Reservations') . '</a>' . '<span class="label">' . $count . '</span>',
       'class' => array('reservations'),
     );
 
