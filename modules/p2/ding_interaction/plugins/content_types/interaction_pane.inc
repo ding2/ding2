@@ -42,7 +42,6 @@ function ding_interaction_content_type_render($subtype, $conf, $panel_args, $con
   ctools_include('ajax');
   // @TODO Change $output to render array and use #attached for files.
   drupal_add_js(drupal_get_path('module', 'ding_interaction') . '/js/ding_interaction.js');
-  drupal_add_css(drupal_get_path('module', 'ding_interaction') . '/css/ding_interaction.css');
   $data = ding_interaction_content(NULL, $conf['count']);
 
   $output = new stdClass();
