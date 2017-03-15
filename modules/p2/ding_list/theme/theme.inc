@@ -45,8 +45,6 @@ function template_preprocess_ding_list_add_button(&$variables) {
     ),
     '#attached' => array(
       'library' => array(array('system', 'drupal.ajax')),
-      'css' => array($path . '/css/ding-list-add-button.css'),
-      'js' => array($path . '/js/ding-list-add-button.js'),
     ),
   );
 
