@@ -635,7 +635,7 @@ taxonomy/term/%term:tid',
     ),
   );
   $display->cache = array();
-  $display->title = 'Nyheder for %term:name';
+  $display->title = '';
   $display->uuid = 'e44759b7-363f-497d-8677-2af8a2e33b70';
   $display->content = array();
   $display->panels = array();
@@ -651,7 +651,7 @@ taxonomy/term/%term:tid',
       'class' => '',
       'id' => '',
       'override_title' => 1,
-      'override_title_text' => 'Nyheder',
+      'override_title_text' => 'News',
       'override_title_heading' => 'h2',
     );
     $pane->cache = array();
@@ -665,29 +665,6 @@ taxonomy/term/%term:tid',
     $pane->uuid = 'af0b4dab-20c3-42c8-b489-aebf3fda7a8c';
     $display->content['new-af0b4dab-20c3-42c8-b489-aebf3fda7a8c'] = $pane;
     $display->panels['left_sidebar'][0] = 'new-af0b4dab-20c3-42c8-b489-aebf3fda7a8c';
-    $pane = new stdClass();
-    $pane->pid = 'new-1b5092b3-c40d-4e8a-8608-0828852e43dd';
-    $pane->panel = 'left_sidebar';
-    $pane->type = 'menu_title';
-    $pane->subtype = 'menu_title';
-    $pane->shown = FALSE;
-    $pane->access = array();
-    $pane->configuration = array(
-      'override_title' => 1,
-      'override_title_text' => 'Nyheder',
-      'override_title_heading' => 'h2',
-    );
-    $pane->cache = array();
-    $pane->style = array(
-      'settings' => NULL,
-    );
-    $pane->css = array();
-    $pane->extras = array();
-    $pane->position = 1;
-    $pane->locks = array();
-    $pane->uuid = '1b5092b3-c40d-4e8a-8608-0828852e43dd';
-    $display->content['new-1b5092b3-c40d-4e8a-8608-0828852e43dd'] = $pane;
-    $display->panels['left_sidebar'][1] = 'new-1b5092b3-c40d-4e8a-8608-0828852e43dd';
     $pane = new stdClass();
     $pane->pid = 'new-64a515e4-fb15-435d-bcf6-241785791333';
     $pane->panel = 'left_sidebar';
@@ -717,11 +694,11 @@ taxonomy/term/%term:tid',
       'css_class' => '',
     );
     $pane->extras = array();
-    $pane->position = 2;
+    $pane->position = 1;
     $pane->locks = array();
     $pane->uuid = '64a515e4-fb15-435d-bcf6-241785791333';
     $display->content['new-64a515e4-fb15-435d-bcf6-241785791333'] = $pane;
-    $display->panels['left_sidebar'][2] = 'new-64a515e4-fb15-435d-bcf6-241785791333';
+    $display->panels['left_sidebar'][1] = 'new-64a515e4-fb15-435d-bcf6-241785791333';
     $pane = new stdClass();
     $pane->pid = 'new-a92ba7cb-7cd3-4a24-90c0-7fc52c30bc11';
     $pane->panel = 'left_sidebar';
@@ -745,11 +722,11 @@ taxonomy/term/%term:tid',
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 3;
+    $pane->position = 2;
     $pane->locks = array();
     $pane->uuid = 'a92ba7cb-7cd3-4a24-90c0-7fc52c30bc11';
     $display->content['new-a92ba7cb-7cd3-4a24-90c0-7fc52c30bc11'] = $pane;
-    $display->panels['left_sidebar'][3] = 'new-a92ba7cb-7cd3-4a24-90c0-7fc52c30bc11';
+    $display->panels['left_sidebar'][2] = 'new-a92ba7cb-7cd3-4a24-90c0-7fc52c30bc11';
     $pane = new stdClass();
     $pane->pid = 'new-f761af87-a40a-4bcf-99c2-0320ab254d4e';
     $pane->panel = 'left_sidebar';
@@ -775,11 +752,11 @@ taxonomy/term/%term:tid',
     );
     $pane->css = array();
     $pane->extras = array();
-    $pane->position = 4;
+    $pane->position = 3;
     $pane->locks = array();
     $pane->uuid = 'f761af87-a40a-4bcf-99c2-0320ab254d4e';
     $display->content['new-f761af87-a40a-4bcf-99c2-0320ab254d4e'] = $pane;
-    $display->panels['left_sidebar'][4] = 'new-f761af87-a40a-4bcf-99c2-0320ab254d4e';
+    $display->panels['left_sidebar'][3] = 'new-f761af87-a40a-4bcf-99c2-0320ab254d4e';
     $pane = new stdClass();
     $pane->pid = 'new-26d16112-d9b0-4d46-8192-b301259f9e3c';
     $pane->panel = 'main_content';
@@ -807,7 +784,7 @@ taxonomy/term/%term:tid',
     $display->content['new-26d16112-d9b0-4d46-8192-b301259f9e3c'] = $pane;
     $display->panels['main_content'][0] = 'new-26d16112-d9b0-4d46-8192-b301259f9e3c';
   $display->hide_title = PANELS_TITLE_NONE;
-  $display->title_pane = '0';
+  $display->title_pane = 'new-26d16112-d9b0-4d46-8192-b301259f9e3c';
   $handler->conf['display'] = $display;
   $export['term_view_panel_context_2'] = $handler;
 
