@@ -25,14 +25,13 @@ function ding_social_links_social_links_content_type_render($subtype, $conf, $pa
 
   $block->content = '';
   $social_links = array(
-    array('Facebook', 'ding_social_links_facebook'),
-    array('Twitter', 'ding_social_links_twitter'),
-    array('Instagram', 'ding_social_links_instagram'),
+    'ding_social_links_facebook' => 'Facebook',
+    'ding_social_links_twitter' => 'Twitter',
+    'ding_social_links_instagram' => 'Instagram',
   );
 
-  foreach ($social_links as $social_link) {
-    $link = variable_get($social_link[1]);
-    $text = $social_link[0];
+  foreach ($social_links as $variable_name => $text) {
+    $link = variable_get($variable_name);
     $class = drupal_html_class($text);
     if (!empty($link)) {
       $empty = FALSE;
