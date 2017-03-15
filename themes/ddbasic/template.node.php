@@ -34,26 +34,6 @@ function ddbasic_preprocess_node(&$variables, $hook) {
     }
   }
 
-  // Add event node specific ddbasic variables.
-  if (isset($variables['content']['#bundle']) && $variables['content']['#bundle'] == 'ding_event') {
-
-    // Add event location variables.
-    if (!empty($variables['content']['field_ding_event_location'][0]['#address']['name_line'])) {
-      $variables['ddbasic_event_location'] = $variables['content']['field_ding_event_location'][0]['#address']['name_line'] . '<br/>' . $variables['content']['field_ding_event_location'][0]['#address']['thoroughfare'] . ', ' . $variables['content']['field_ding_event_location'][0]['#address']['locality'];
-    }
-    else {
-      // User OG group ref to link back to library.
-      if (isset($variables['content']['og_group_ref'])) {
-        $variables['ddbasic_event_location'] = $variables['content']['og_group_ref'];
-      }
-    }
-  }
-
-  // Add tpl suggestions for node view modes.
-  if (isset($variables['view_mode'])) {
-    $variables['theme_hook_suggestions'][] = 'node__view_mode__' . $variables['view_mode'];
-  }
-
   // For search result view mode move title into left col. group.
   if (isset($variables['content']['group_right_col_search'])) {
     $variables['content']['group_right_col_search']['title'] = array(
@@ -72,27 +52,11 @@ function ddbasic_preprocess_node(&$variables, $hook) {
   }
 
   // Add updated to variables.
-  $variables['ddbasic_updated'] = t('!datetime', array(
-    '!datetime' => format_date(
-      $variables['node']->changed,
-      $type = 'long',
-      $format = '',
-      $timezone = NULL,
-      $langcode = NULL
-    ),
-  ));
+  $variables['ddbasic_updated'] = format_date($variables['node']->changed, 'long');
 
   // Modified submitted variable.
   if ($variables['display_submitted']) {
-    $variables['submitted'] = t('!datetime', array(
-      '!datetime' => format_date(
-        $variables['created'],
-        $type = 'long',
-        $format = '',
-        $timezone = NULL,
-        $langcode = NULL
-      ),
-    ));
+    $variables['submitted'] = format_date($variables['node']->changed, 'long');
   }
 }
 
@@ -109,30 +73,10 @@ function ddbasic_preprocess__node__ding_news(&$variables) {
       array_push($variables['classes_array'], 'node-full');
 
       // Make social-share button.
-      $share = '
-        <div class="social-share-container">
-          <div class="inner">
-            <div class="label">' . t('Share this news') . '</div>
-            <div class="share-buttons">
-              <a href="#" class="fb-share">Facebook</a>
-              <a href="#" class="twitter-share">Twitter</a>
-              <a href="#" class="mail-share">E-mail</a>
-            </div>
-          </div>
-        </div>
-      ';
-      $share_button = array(
-        '#theme' => 'field',
-        '#selected_theme_hook' => 'simple',
-        '#field_name' => 'share_button',
-        '#field_type' => 'fake',
-        '#label_display' => 'hidden',
-        '#bundle' => 'fake',
-        '#items' => array('0' => $share),
-        '0' => array('#markup' => $share),
-        '#weight' => 1,
+      $variables['content']['group_right']['share_button'] = array(
+        '#theme' => 'ding_sharer',
+        '#label' => t('Share this news'),
       );
-      $variables['content']['group_right']['share_button'] = $share_button;
 
       break;
 
@@ -140,30 +84,10 @@ function ddbasic_preprocess__node__ding_news(&$variables) {
       array_push($variables['classes_array'], 'node-full', 'alternative-layout-full');
 
       // Make social-share button.
-      $share = '
-        <div class="social-share-container">
-          <div class="inner">
-            <div class="label">' . t('Share this news') . '</div>
-            <div class="share-buttons">
-              <a href="#" class="fb-share">Facebook</a>
-              <a href="#" class="twitter-share">Twitter</a>
-              <a href="#" class="mail-share">E-mail</a>
-            </div>
-          </div>
-        </div>
-      ';
-      $share_button = array(
-        '#theme' => 'field',
-        '#selected_theme_hook' => 'simple',
-        '#field_name' => 'share_button',
-        '#field_type' => 'fake',
-        '#label_display' => 'hidden',
-        '#bundle' => 'fake',
-        '#items' => array('0' => $share),
-        '0' => array('#markup' => $share),
-        '#weight' => 2,
+      $variables['content']['group_right']['share_button'] = array(
+        '#theme' => 'ding_sharer',
+        '#label' => t('Share this news'),
       );
-      $variables['content']['group_left']['share_button'] = $share_button;
 
       break;
 
@@ -275,33 +199,24 @@ function ddbasic_preprocess__node__ding_event(&$variables) {
         $variables['event_time'] = $event_time_ra[0]['#markup'];
 
         // Make social-share button.
-        $share = '
-        <div class="social-share-container">
-          <div class="inner">
-            <div class="label">' . t('Share this event') . '</div>
-            <div class="share-buttons">
-              <a href="#" class="fb-share">Facebook</a>
-              <a href="#" class="twitter-share">Twitter</a>
-              <a href="#" class="mail-share">E-mail</a>
-            </div>
-          </div>
-        </div>
-      ';
-        $variables['share_button'] = $share;
+        $variables['share_button'] = array(
+          '#theme' => 'ding_sharer',
+          '#label' => t('Share this event'),
+        );;
 
         // Make book/participate in event button.
-        $price = $variables['field_ding_event_price']['und'][0]['value'];
+        $price = ding_base_get_value('node', $variables['node'], 'field_ding_event_price');
         $participate = t('Participate in the event');
         $book = t('Book a ticket');
 
-        if ($price == NULL || $price == "0") {
+        if (empty($price)) {
           $text = $participate;
         }
         else {
           $text = $book;
         }
 
-        $link_url = $variables['field_ding_event_ticket_link'][0]['url'];
+        $link_url = ding_base_get_value('node', $variables['node'], 'field_ding_event_ticket_link', 'url');
 
         if (!empty($link_url)) {
           $variables['book_button'] = l($text, $link_url, array(
