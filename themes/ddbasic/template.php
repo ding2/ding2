@@ -703,55 +703,18 @@ function ddbasic_preprocess_ting_object(&$vars) {
           );
 
           if ($vars['object']->is('reservable')) {
-
-            drupal_add_library('system', 'drupal.ajax');
-
-            $vars['content']['group_text']['reserve_button'] = array(
-              array(
-                '#theme' => 'link',
-                '#text' => t('Reserve'),
-                '#path' => 'ting/object/' . $vars['object']->id . '/reserve',
-                '#options' => array(
-                  'attributes' => array(
-                    'class' => array(
-                      'action-button',
-                      'reserve-button',
-                      'use-ajax',
-                    ),
-                    'id' => 'reservation-' . $vars['object']->id,
-                  ),
-                  'html' => FALSE,
-                ),
-              ),
-              '#weight' => 9999,
+            $vars['content']['group_text']['reserve_button'] = ding_reservation_ding_entity_buttons(
+              'ding_entity',
+              $vars['object'],
+              'ajax'
             );
           }
           if ($vars['object']->online_url) {
-
-            $settings = variable_get('ting_url_labels', _ting_default_url_labels());
-            $type = drupal_strtolower($vars['object']->type);
-            $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
-
-            $vars['content']['group_text']['online_link'] = array(
-              array(
-                '#theme' => 'link',
-                '#text' => $label,
-                '#path' => $vars['object']->getOnline_url(),
-                '#options' => array(
-                  'attributes' => array(
-                    'class' => array(
-                      'action-button',
-                      'button-see-online',
-                    ),
-                    'target' => '_blank',
-                  ),
-                  'html' => FALSE,
-                  'external' => TRUE,
-                ),
-              ),
-              '#weight' => 9999,
-            );
-
+            // Slice the output, so it only usese the online link button.
+            $vars['content']['group_text']['online_link'] = array_slice(ting_ding_entity_buttons(
+              'ding_entity',
+              $vars['object']
+            ), 0, 1);
           }
 
           // Check if overlay is disabled and set class.
@@ -792,55 +755,18 @@ function ddbasic_preprocess_ting_object(&$vars) {
           );
 
           if ($vars['object']->is('reservable')) {
-
-            drupal_add_library('system', 'drupal.ajax');
-
-            $vars['content']['buttons']['reserve_button'] = array(
-              array(
-                '#theme' => 'link',
-                '#text' => t('Reserve'),
-                '#path' => 'ting/object/' . $vars['object']->id . '/reserve',
-                '#options' => array(
-                  'attributes' => array(
-                    'class' => array(
-                      'action-button',
-                      'reserve-button',
-                      'use-ajax',
-                    ),
-                    'id' => 'reservation-' . $vars['object']->id,
-                  ),
-                  'html' => FALSE,
-                ),
-              ),
-              '#weight' => 9999,
+            $vars['content']['group_text']['reserve_button'] = ding_reservation_ding_entity_buttons(
+              'ding_entity',
+              $vars['object'],
+              'ajax'
             );
           }
           if ($vars['object']->online_url) {
-
-            $settings = variable_get('ting_url_labels', _ting_default_url_labels());
-            $type = drupal_strtolower($vars['object']->type);
-            $label = isset($settings[$type]) && $settings[$type] ? $settings[$type] : $settings['_default'];
-
-            $vars['content']['buttons']['online_link'] = array(
-              array(
-                '#theme' => 'link',
-                '#text' => $label,
-                '#path' => $vars['object']->getOnline_url(),
-                '#options' => array(
-                  'attributes' => array(
-                    'class' => array(
-                      'action-button',
-                      'button-see-online',
-                    ),
-                    'target' => '_blank',
-                  ),
-                  'html' => FALSE,
-                  'external' => TRUE,
-                ),
-              ),
-              '#weight' => 9999,
-            );
-
+            // Slice the output, so it only usese the online link button.
+            $vars['content']['group_text']['online_link'] = array_slice(ting_ding_entity_buttons(
+              'ding_entity',
+              $vars['object']
+            ), 0, 1);
           }
 
           break;
@@ -1053,17 +979,16 @@ function ddbasic_date_display_range($variables) {
  * Ting search pager.
  */
 function ddbasic_ting_search_pager($variables) {
-
-  if(!empty($_GET['size'])) {
+  if (!empty($_GET['size'])) {
     $results_per_page = $_GET['size'];
-  } else {
+  }
+  else {
     $results_per_page = variable_get('ting_search_results_per_page', 10);
   }
 
   $tags = $variables['tags'];
   $element = $variables['element'];
   $parameters = $variables['parameters'];
-  //$quantity = $variables['quantity'];
   $quantity = 3;
   $hide_list = isset($variables['hide_list']) ? $variables['hide_list'] : FALSE;
   global $pager_page_array, $pager_total;
@@ -1161,7 +1086,7 @@ function ddbasic_ting_search_pager($variables) {
           $items[] = array(
             'class' => array('pager-item'),
             'data' => theme('pager_previous', array(
-              'text' => $i * $results_per_page - $results_per_page + 1  . '-' . $i * $results_per_page,
+              'text' => $i * $results_per_page - $results_per_page + 1 . '-' . $i * $results_per_page,
               'element' => $element,
               'interval' => ($pager_current - $i),
               'parameters' => $parameters,
@@ -1171,14 +1096,14 @@ function ddbasic_ting_search_pager($variables) {
         if ($i == $pager_current) {
           $items[] = array(
             'class' => array('pager-current'),
-            'data' => $i * $results_per_page - $results_per_page + 1  . '-' . $i * $results_per_page,
+            'data' => $i * $results_per_page - $results_per_page + 1 . '-' . $i * $results_per_page,
           );
         }
         if ($i > $pager_current) {
           $items[] = array(
             'class' => array('pager-item'),
             'data' => theme('pager_next', array(
-              'text' => $i * $results_per_page - $results_per_page + 1  . '-' . $i * $results_per_page,
+              'text' => $i * $results_per_page - $results_per_page + 1 . '-' . $i * $results_per_page,
               'element' => $element,
               'interval' => ($i - $pager_current),
               'parameters' => $parameters,

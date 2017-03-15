@@ -96,8 +96,6 @@
   scripts[] = scripts/ddbasic.common.js
 
   scripts[] = scripts/account.js
-  scripts[] = scripts/popupbar.js
-  scripts[] = scripts/socialshare.js
   scripts[] = scripts/utils.js
   scripts[] = scripts/menu.js
   scripts[] = scripts/profile-dropdown.js
