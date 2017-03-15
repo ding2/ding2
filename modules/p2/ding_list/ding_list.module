@@ -918,7 +918,6 @@ function ding_list_preprocess_views_view_table(&$vars) {
       drupal_add_tabledrag($table_id, 'order', 'sibling', 'views-field-delta');
       drupal_add_js($path . '/js/ding_list_tabledrag.js');
       drupal_add_css($path . '/css/ding-list-tabledrag.css');
-      drupal_add_css($path . '/css/ding-list-view.css');
     }
     // Hide dragging fields if dragging is not enabled.
     else {

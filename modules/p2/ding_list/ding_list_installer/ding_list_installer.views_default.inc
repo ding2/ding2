@@ -110,7 +110,7 @@ function ding_list_installer_views_default_views() {
   );
 
   /* Display: Content pane: Default list */
-  $handler = $view->new_display('panel_pane', 'Content pane: Default list', 'panel_pane_1');
+  $handler = $view->new_display('panel_pane', 'Content pane: Default list', 'default_list');
   $handler->display->display_options['allow']['use_pager'] = 'use_pager';
   $handler->display->display_options['allow']['items_per_page'] = 'items_per_page';
   $handler->display->display_options['allow']['offset'] = 'offset';
@@ -122,7 +122,7 @@ function ding_list_installer_views_default_views() {
   $handler->display->display_options['allow']['fields_override'] = 0;
 
   /* Display: Content pane: With state */
-  $handler = $view->new_display('panel_pane', 'Content pane: With state', 'panel_pane_2');
+  $handler = $view->new_display('panel_pane', 'Content pane: With state', 'with_states');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'List with state';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
@@ -229,7 +229,7 @@ function ding_list_installer_views_default_views() {
   $handler->display->display_options['allow']['fields_override'] = 0;
 
   /* Display: Content pane: With weight */
-  $handler = $view->new_display('panel_pane', 'Content pane: With weight', 'panel_pane_3');
+  $handler = $view->new_display('panel_pane', 'Content pane: With weight', 'with_weight');
   $handler->display->display_options['defaults']['title'] = FALSE;
   $handler->display->display_options['title'] = 'List with weight';
   $handler->display->display_options['defaults']['fields'] = FALSE;
