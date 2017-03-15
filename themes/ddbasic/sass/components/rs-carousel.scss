@@ -184,7 +184,8 @@
     }
     .rs-carousel-select {
       display: none;
-      width: calc(100% - 160px);
+      width: 100%;
+      padding-right: 160px;
       float: left;
       margin-top: -54px;
 
@@ -195,7 +196,7 @@
 
       // Mobile
       @include media($mobile) {
-        width: calc(100% - 128px);
+        padding-right: 0;
       }
     }
   }
