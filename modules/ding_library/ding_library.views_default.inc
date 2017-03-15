@@ -152,6 +152,8 @@ function ding_library_views_default_views() {
 
   /* Display: Libraries list */
   $handler = $view->new_display('panel_pane', 'Libraries list', 'ding_library_libraries_list');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Libraries';
   $handler->display->display_options['defaults']['style_plugin'] = FALSE;
   $handler->display->display_options['style_plugin'] = 'list';
   $handler->display->display_options['style_options']['row_class'] = 'js-library-opening-hours-target';
@@ -309,6 +311,7 @@ function ding_library_views_default_views() {
     t('E-mail'),
     t('<i class="icon-chevron-right"></i> [title_1]'),
     t('Libraries list'),
+    t('Libraries'),
     t('more'),
     t('queue'),
     t('Library panes'),
