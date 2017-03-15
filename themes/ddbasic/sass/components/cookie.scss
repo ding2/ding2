@@ -34,7 +34,6 @@
       @include media($mobile) {
         float: left;
         padding-bottom: 10px;
-        width: calc(100% - 40px);
       }
     }
     #popup-buttons {

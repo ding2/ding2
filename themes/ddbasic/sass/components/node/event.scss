@@ -82,7 +82,7 @@
       @include transition(
         opacity $speed $ease
       );
-      width: calc(100% + 15px);
+      width: 100%;
       opacity: 0;
       height: 0;
 
@@ -98,7 +98,8 @@
     }
     .info-bottom {
       float: left;
-      width: calc(115% - 156px);
+      width: 100%;
+      padding-right: 156px;
       min-height: 60px;
       color: $color-text;
 
@@ -206,7 +207,9 @@
 
         // Mobile
         @include media($mobile) {
-          @include span-columns(12);
+          width: 100%;
+          margin-right: 0;
+          margin-bottom: 40px;
         }
 
         h2 {
@@ -275,8 +278,12 @@
     }
     .field-label-inline {
       position: relative;
+      width: 100%;
+      float: left;
       .field-label {
-        float: left;
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100px;
 
         // Tablet
@@ -286,8 +293,13 @@
       }
 
       .field-item {
-        float: left;
-        width: calc(100% - 100px);
+        width: 100%;
+        padding-left: 100px;
+
+        // Tablet
+        @include media($tablet) {
+          padding-left: getColumn(2 of 5);
+        }
       }
     }
     .field-name-field-ding-event-files {

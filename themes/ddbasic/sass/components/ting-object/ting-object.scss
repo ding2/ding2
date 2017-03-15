@@ -120,7 +120,7 @@
       .action-button {
         position: absolute;
         bottom: 20px;
-        width: calc(50% - 30px);
+        width: 42%;
         padding-right: 0;
         opacity: 0;
 
@@ -129,7 +129,7 @@
         }
         &.reserve-button,
         &.button-see-online {
-          left: calc(50% + 10px);
+          right: 20px;
         }
       }
 
@@ -251,7 +251,7 @@
 
         // Tablet
         @include media($tablet) {
-          width: calc(50% - 20px);
+          width: 42%;
           &:first-child {
             margin: 0 10px 0 15px;
           }
@@ -267,7 +267,7 @@
 
         // Tablet
         @include media($tablet) {
-          width: calc(50% - 20px);
+          width: 42%;
         }
       }
     }

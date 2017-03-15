@@ -63,13 +63,17 @@
       }
       h2 {
         @include font('display-large');
-        width: calc(100% - 100px);
+        width: 100%;
+        padding-right: 100px;
         float: left;
         color: $white;
         margin-bottom: 20px;
       }
       .close {
         @include place-icon(close, $white);
+        position: absolute;
+        top: 0;
+        right: 0;
         padding-top: 20px;
         padding-right: 44px;
         float: right;

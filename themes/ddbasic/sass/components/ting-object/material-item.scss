@@ -23,7 +23,7 @@
 
   .left-column {
     float: left;
-    min-width: 130px;
+    width: 20%;
     min-height: 28px;
 
     // Mobile
@@ -65,8 +65,8 @@
   }
   .ting-cover {
     float: left;
-    width: 70px;
-    margin-left: 60px;
+    width: 100%;
+    padding-left: 60px;
 
     // Mobile
     @include media($mobile) {
@@ -76,7 +76,7 @@
 
   .right-column {
     float: left;
-    width: calc(100% - 130px);
+    width: 80%;
     padding-left: 30px;
 
     // Mobile
@@ -95,7 +95,7 @@
     text-overflow: ellipsis;
     color: $color-primary;
     &.has-message {
-      width: calc(100% - 190px);
+      padding-right: 190px;
 
       // Mobile
       @include media($mobile) {
@@ -103,7 +103,7 @@
       }
     }
     #ding-bookmark-remove-form & {
-      width: calc(100% - 170px);
+      padding-right: 170px;
 
       // Mobile
       @include media($mobile) {
@@ -150,7 +150,7 @@
     margin: 0;
     padding: 0;
     #ding-bookmark-remove-form & {
-      width: calc(100% - 170px);
+      padding-right: 170px;
 
       // Mobile
       @include media($mobile) {

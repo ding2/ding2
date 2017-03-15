@@ -751,11 +751,10 @@ function ddbasic_preprocess_ting_object(&$vars) {
                 'html' => FALSE,
               ),
             ),
-            '#weight' => 9998,
           );
 
           if ($vars['object']->is('reservable')) {
-            $vars['content']['group_text']['reserve_button'] = ding_reservation_ding_entity_buttons(
+            $vars['content']['buttons']['reserve_button'] = ding_reservation_ding_entity_buttons(
               'ding_entity',
               $vars['object'],
               'ajax'
@@ -763,7 +762,7 @@ function ddbasic_preprocess_ting_object(&$vars) {
           }
           if ($vars['object']->online_url) {
             // Slice the output, so it only usese the online link button.
-            $vars['content']['group_text']['online_link'] = array_slice(ting_ding_entity_buttons(
+            $vars['content']['buttons']['online_link'] = array_slice(ting_ding_entity_buttons(
               'ding_entity',
               $vars['object']
             ), 0, 1);
