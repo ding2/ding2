@@ -21,20 +21,6 @@ function ddbasic_preprocess_field(&$vars, $hook) {
   $view_mode = $vars['element']['#view_mode'];
   $field_name = $vars['element']['#field_name'];
 
-  // Add suggestion for ddbasic specific field.
-  $vars['theme_hook_suggestions'][] = 'field__ddbasic';
-
-  // Add suggestion for ddbasic field with specific name.
-  $vars['theme_hook_suggestions'][] = 'field__ddbasic_' . $field_name;
-
-  // Add suggestion for ddbasic field in specific view mode.
-  $vars['theme_hook_suggestions'][] = 'field__ddbasic_' . $view_mode;
-
-  // Stream line tags in view modes using the same tpl.
-  if ($vars['element']['#field_type'] == 'taxonomy_term_reference') {
-    $vars['theme_hook_suggestions'][] = 'field__ddbasic_tags__' . $view_mode;
-  }
-
   //
   // Call our own custom preprocess functions.
   $preprocess_function = 'ddbasic_preprocess__field__' . $vars['element']['#field_name'];
@@ -106,17 +92,17 @@ function ddbasic_preprocess__field__ting_abstract(&$vars) {
   switch ($vars['element']['#view_mode']) {
     case 'search_result':
       $text = $vars['items'][0]['#markup'];
-      $vars['items'][0]['#markup'] = mb_strimwidth($text, 0, 120, "...");
+      $vars['items'][0]['#markup'] = truncate_utf8($text, 120, FALSE, TRUE);
       break;
 
     case 'teaser':
       $text = $vars['items'][0]['#markup'];
-      $vars['items'][0]['#markup'] = mb_strimwidth($text, 0, 120, "...");
+      $vars['items'][0]['#markup'] = truncate_utf8($text, 120, FALSE, TRUE);
       break;
 
     case 'ting_reference_preview':
       $text = $vars['items'][0]['#markup'];
-      $vars['items'][0]['#markup'] = mb_strimwidth($text, 0, 120, "...");
+      $vars['items'][0]['#markup'] = truncate_utf8($text, 120, FALSE, TRUE);
       break;
   }
 }
