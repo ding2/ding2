@@ -43,18 +43,25 @@ function ding_ddbasic_opening_hours_weekly_opening_hours_content_type_render($su
 }
 
 /**
- * Settings form for the content type.
+ * Get all the libraries as an associated array.
+ *
+ * Where they key is the node nid and value the title.
  */
-function ding_ddbasic_opening_hours_weekly_opening_hours_content_type_edit_form($form, &$form_state) {
-  $nodes = db_select('node', 'n')
+function ding_ddbasic_opening_hours_weekly_opening_hours_library_list() {
+  return db_select('node', 'n')
     ->fields('n', array('nid', 'title'))
     ->condition('n.type', 'ding_library')
     ->execute()->fetchAllKeyed();
+}
 
+/**
+ * Settings form for the content type.
+ */
+function ding_ddbasic_opening_hours_weekly_opening_hours_content_type_edit_form($form, &$form_state) {
   $form['node'] = array(
     '#type' => 'select',
     '#title' => t('Node ID'),
-    '#options' => $nodes,
+    '#options' => ding_ddbasic_opening_hours_weekly_opening_hours_library_list(),
     '#default_value' => !(empty($form_state['conf']['node'])) ? $form_state['conf']['node'] : NULL,
     '#states' => array(
       'visible' => array(
@@ -67,9 +74,9 @@ function ding_ddbasic_opening_hours_weekly_opening_hours_content_type_edit_form(
   );
 
   $options = array(
-    '_null' => t('Opening hours'),
+    DING_DDBASIC_OPENING_HOURS_NO_CATEGORY => t('Opening hours'),
   );
-  $machine_name = variable_get('opening_hours_category_vocabulary_' . 'ding_library', 0);
+  $machine_name = variable_get('opening_hours_category_vocabulary_ding_library', 0);
   if (!empty($machine_name)) {
     $vocabulary = taxonomy_vocabulary_machine_name_load($machine_name);
 

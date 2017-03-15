@@ -60,9 +60,11 @@ function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
   }
 
   usort($instances, 'ding_ddbasic_opening_hours_sort');
-  // Add true NULL to the categories.
-  if (in_array('_null', $variables['categories'])) {
-    $variables['categories'][NULL] = NULL;
+
+  // Add NULL to the categories, if the the NO_CATEGORY category is selected.
+  // So an empty category_tid of the instance matches the selected categories.
+  if (in_array(DING_DDBASIC_OPENING_HOURS_NO_CATEGORY, $variables['categories'])) {
+    $variables['categories'][''] = NULL;
   }
 
   // Insert the instances into the structured array.
@@ -179,7 +181,6 @@ function template_preprocess_ding_ddbasic_opening_hours_all(&$variables) {
   $structured = array();
   $categories = array();
 
-  // TODO Get rid of the magical nodequeue number.
   $order = array();
   $queue = nodequeue_load_queue_by_name('ding_library_listing');
   foreach (nodequeue_load_nodes($queue->qid, FALSE, 0, FALSE) as $node) {

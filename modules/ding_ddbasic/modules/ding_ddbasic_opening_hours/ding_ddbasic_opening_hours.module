@@ -4,6 +4,8 @@
  * Extending opening hours to match the ddbasic theme.
  */
 
+define('DING_DDBASIC_OPENING_HOURS_NO_CATEGORY', 'no_category');
+
 /**
  * Implements hook_menu().
  */
