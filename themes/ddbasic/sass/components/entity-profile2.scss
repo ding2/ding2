@@ -20,14 +20,18 @@
   .field-name-field-ding-staff-email,
   .field-name-field-ding-staff-phone,
   .field-name-field-ding-staff-work-areas {
+    position: relative;
+    width: 100%;
+    float: left;
     .field-label {
       @include font('base-bold');
-      float: left;
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 120px;
     }
     .field-items {
-      float: left;
-      width: calc(100% - 120px);
+      padding-left: 120px;
       word-break: break-all;
     }
   }
