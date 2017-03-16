@@ -3,20 +3,18 @@
 (function($) {
   'use strict';
 
-  // Ting search results, filter styling
-  Drupal.behaviors.ding_ting_search_filters = {
-    attach: function(context, settings) {
-      $("<div class='expand-search'>Afgræns din søgning</div>").insertAfter($( ".pane-search-result-count" ));
-      $('.page-search-ting').find('.mobile-hide').wrapAll("<div class='hide-wrap'></div>");
+  // Ting search results, filter styling.
+  $(function () {
+    $("<div class='expand-search'>" + Drupal.t('Limit search to') + "</div>").insertAfter($( ".pane-search-result-count"));
+    $('.page-search-ting').find('.mobile-hide').wrapAll("<div class='hide-wrap'></div>");
 
-      $('.expand-search', context).click(function(){
-          $(this).toggleClass('expanded');
-          $(this).parent().find('.hide-wrap').slideToggle("fast");
-      });
-    }
-  };
+    $('.expand-search').click(function(){
+        $(this).toggleClass('expanded');
+        $(this).parent().find('.hide-wrap').slideToggle("fast");
+    });
+  });
 
-  // Hover functions for ting object teasers
+  // Hover functions for ting object teasers.
   function ting_teaser_hover(element_to_hover){
     element_to_hover.mouseenter( function() {
       if($('body').hasClass('has-touch')) {
@@ -25,13 +23,15 @@
       var hovered = $(this),
           window_width = $(window).width(),
           position_of_hovered = hovered.offset();
-      // If hovered element is left of window center
+
+      // If hovered element is left of window center.
       if(position_of_hovered.left < (window_width / 2)) {
         hovered.find('.group-text').css('left', '100%');
       } else {
         hovered.find('.group-text').css('left', '-158.53659%');
       }
-      // Set timeout to make shure element is still above while it animates out
+
+      // Set timeout to make shure element is still above while it animates out.
       setTimeout(function(){
         element_to_hover.css('z-index', '');
         hovered.css('z-index', '2');
@@ -41,11 +41,9 @@
       $(this).find('.group-text').css('left', '0');
     });
   }
-  $(document).ajaxComplete(function() {
-    ting_teaser_hover($('.ting-object.view-mode-teaser > .inner'));
-  });
   Drupal.behaviors.ding_ting_teaser_hover = {
     attach: function(context, settings) {
+      console.log(context);
       ting_teaser_hover($('.ting-object.view-mode-teaser > .inner', context));
     }
   };
@@ -63,8 +61,7 @@
     return str.length > (max - 3) ? str.substring(0,max-3) + '...' : str;
   }
 
-
-  // Ting teaser image proportions
+  // Ting teaser image proportions.
   function adapt_images(images){
     $(images).each(function() {
       var image = new Image();
@@ -74,7 +71,8 @@
         var img_height = this.height;
         var img_width = this.width;
         var img_format = img_width/img_height;
-        var standart_form = 0.7692; /* format of our container */
+        // Format of our container.
+        var standart_form = 0.7692;
 
         if(img_format >= standart_form) {
           that.addClass('scale-height');
@@ -84,10 +82,6 @@
       };
     });
   }
-  $(document).ajaxComplete(function() {
-    adapt_images($('.ting-object.view-mode-teaser img'));
-  });
-
   Drupal.behaviors.ding_ting_teaser_image_width = {
     attach: function(context, settings) {
       adapt_images($('.ting-object.view-mode-teaser img'));

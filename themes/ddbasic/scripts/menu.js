@@ -3,48 +3,37 @@
   'use strict';
 
   // Hide and show header on mobile
-  var didScroll,
-      lastScrollTop = 0,
-      delta = 100,
-      topbarHeight = 148;
-
+  var last_scroll_top = 0,
+      scroll_delta = 100,
+      topbar_height = 148;
   $(window).on('scroll.header', function() {
     // If mobile
-    if ($('.is-mobile').is(':visible')) {
-      didScroll = true;
+    if (ddbasic.breakpoint.is('mobile')) {
+      var st = $(window).scrollTop();
+
+      // Make sure they scroll more than delta.
+      if(Math.abs(last_scroll_top - st) <= scroll_delta) {
+        return;
+      }
+
+      // If they scrolled down and are past the topbar, add class .topbar-up.
+      if(st > last_scroll_top && st > topbar_height) {
+          // Scroll Down
+          $('header.site-header').addClass('topbar-up');
+      } else {
+          // Scroll Up
+          if(st + $(window).height() < $(document).height()) {
+            $('header.site-header').removeClass('topbar-up');
+          }
+      }
+
+      last_scroll_top = st;
     }
   });
 
-  setInterval(function() {
-    if (didScroll) {
-      hasScrolled();
-      didScroll = false;
-    }
-  }, 250);
-
-  function hasScrolled() {
-    var st = $(window).scrollTop();
-
-    // Make sure they scroll more than delta
-    if(Math.abs(lastScrollTop - st) <= delta) {
-      return;
-    }
-
-    // If they scrolled down and are past the topbar, add class .topbar-up.
-    if(st > lastScrollTop && st > topbarHeight) {
-        // Scroll Down
-        $('header.site-header').addClass('topbar-up');
-    } else {
-        // Scroll Up
-        if(st + $(window).height() < $(document).height()) {
-          $('header.site-header').removeClass('topbar-up');
-        }
-    }
-
-    lastScrollTop = st;
-  }
-
-
+  /**
+   * Menu functionality.
+   */
   Drupal.behaviors.menu = {
     attach: function(context, settings) {
       var topbar_link_user = $('a.topbar-link-user', context),
@@ -120,10 +109,10 @@
       });
 
       // Tablet/mobile menu logout
-      // Logout-link is created with after-element
-      // We check if after-element is clicked by checking if clicked point has a larger y position than the menu itself
+      // Logout-link is created with after-element.
+      // We check if after-element is clicked by checking if clicked point has a
+      // larger y position than the menu itself.
       $('.header-wrapper .navigation-inner > ul.main-menu-third-level').click(function(evt) {
-        console.log('click');
         if($('.is-tablet').is(':visible')) {
           var menu_offset = $('.header-wrapper .navigation-inner > ul.main-menu-third-level').offset(),
               menu_item = $('.header-wrapper .navigation-inner > ul.main-menu-third-level > li'),
@@ -140,12 +129,15 @@
     }
   };
 
+  /**
+   * Add flex menu to second level.
+   */
   Drupal.behaviors.second_level_menu = {
     attach: function(context, settings) {
       $('ul.main-menu-second-level').flexMenu({
-          linkText: 'Mere...',
-          popupAbsolute: false,
-          cutoff: 1
+        linkText: Drupal.t('More') + '...',
+        popupAbsolute: false,
+        cutoff: 1
       });
     }
   };

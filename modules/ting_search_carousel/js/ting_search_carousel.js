@@ -157,10 +157,6 @@
               }
             }
           });
-
-          // Hide navigation arrows.
-          $('.rs-carousel-action-prev', tab.wrapper).hide();
-          $('.rs-carousel-action-next', tab.wrapper).hide();
         });
       }
     }
@@ -270,9 +266,12 @@
       // Disable updates while updating.
       tabs[index].offset = -1;
       _fetch(index, offset, function (data) {
+        var content = $(data.content);
+        Drupal.attachBehaviors(content);
+
         tabs[index].offset = data.offset;
         tabs[index].wrapper.find('.rs-title').append(data.subtitle);
-        tabs[index].carousel.find('.rs-carousel-runner').append(data.content);
+        tabs[index].carousel.find('.rs-carousel-runner').append(content);
         tabs[index].carousel.carousel('refresh');
       });
     }

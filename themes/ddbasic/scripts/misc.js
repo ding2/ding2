@@ -6,11 +6,7 @@
 
   Drupal.behaviors.misc = {
     attach: function(context, settings) {
-
-      //
-      //Add Event handler to frontpage openinghours on mobile
-      //
-
+      //Add Event handler to frontpage openinghours on mobile.
       var pane_opening_hours = $('.front .pane-all-opening-hours .pane-title', context);
       pane_opening_hours
         .on('click', function(){
@@ -20,12 +16,9 @@
         })
         .siblings('.pane-content');
 
-      //Topbar openinghours button
+      //Topbar openinghours button.
       var opening_hours_button = $('.topbar-menu a.topbar-link-opening-hours', context);
-
-
       opening_hours_button.on('click', function(event){
-        // if($('body').hasClass('front')) {
         if (pane_opening_hours.length > 0) {
           event.preventDefault();
           $('html, body').animate({
@@ -33,11 +26,8 @@
         }
       });
 
-      //
       //Make sure facet browser is open when item is selected
-      //
       var facet_items = $('.js-facet-browser-toggle input[type=checkbox]');
-
       facet_items.each(function(){
         var $this = $(this);
         if($this.is(':checked')) {
@@ -51,10 +41,7 @@
         }
       });
 
-      //
       //Close messages
-      //
-
       var pane_messages = $('.pane-page-messages'),
           close_messages_button = $('.close-messages-button', context);
 

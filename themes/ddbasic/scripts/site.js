@@ -1,10 +1,8 @@
 (function($) {
   "use strict";
-  
-  //
-  // Add classes for touch and no touch
+
+  // Add classes for touch and no touch.
   $(function () {
-    // Touch
     var ua = navigator.userAgent.toLowerCase();
     if (
       /(ipad)/.exec(ua) ||

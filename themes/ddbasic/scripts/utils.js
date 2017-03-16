@@ -3,7 +3,9 @@
   'use strict';
 
   var
-    /** Breakpoint identifiers. */
+    /**
+     * Holder for the breakpoint identifiers.
+     */
     _bpi = {};
 
   if (scope.ddbasic === undefined) {
@@ -14,16 +16,34 @@
    * Helper for only running code once when entering or leaving a breakpoint.
    */
   scope.ddbasic.breakpoint = {
-    /** Moving into the breakpoint. */
+    /**
+     * Moving into the breakpoint.
+     */
     IN: true,
 
-    /** Moving out of the breakpoint. */
+    /**
+     * Moving out of the breakpoint.
+     */
     OUT: false,
 
-    /** Breakpoint already tested. */
+    /**
+     * Breakpoint already tested.
+     * Meaning it's not changing "state".
+     */
     NOP: null,
 
-    /** Check if  */
+    /**
+     * Check if the specific breakpoint is activated.
+     *
+     * @param string breakpoint
+     *   The breakpoint to check for.
+     * @param string identifier
+     *   The identifier/context.
+     *
+     * @return mixed
+     *   Returns if the breakpoint is activated (IN), deactivated (OUT) or
+     *   it hasn't changed (NOP), in reference to the identifier.
+     */
     is: function (breakpoint, identifier) {
       var
         $checker = $('.is-' + breakpoint),
@@ -42,7 +62,10 @@
     },
 
     /**
+     * Reset an identifier.
      *
+     * @param string identifier
+     *   The identifier/context.
      */
     reset: function (identifier) {
       delete _bpi[identifier];

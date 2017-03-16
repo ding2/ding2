@@ -96,7 +96,6 @@
   scripts[] = scripts/utils.js
   scripts[] = scripts/menu.js
   scripts[] = scripts/profile-dropdown.js
-  scripts[] = scripts/cookies.js
   scripts[] = scripts/footer.js
   scripts[] = scripts/misc.js
 
