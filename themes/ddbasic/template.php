@@ -50,6 +50,9 @@ function ddbasic_preprocess_html(&$vars) {
   if (!empty($image_conf)) {
     $vars['classes_array'][] = 'has-dynamic-background';
   }
+
+  // Include the slick library.
+  libraries_load('slick');
 }
 
 /**
@@ -1161,4 +1164,25 @@ function ddbasic_select($variables) {
   _form_set_class($element, array('form-select'));
 
   return '<div class="select-wrapper"><select' . drupal_attributes($element['#attributes']) . '>' . form_select_options($element) . '</select></div>';
+}
+
+/**
+ * Implements hook_libraries_info().
+ */
+function ddbasic_libraries_info() {
+  return array(
+    'slick' => array(
+      'name' => 'Slick',
+      'vendor url' => 'http://kenwheeler.github.io/slick/',
+      'download url' => 'https://github.com/kenwheeler/slick/archive/1.6.0.zip',
+      'version arguments' => array(
+        'file' => 'slick/slick.min.js',
+        'pattern' => '/Version:\s([0-9a-zA-Z\.-]+)/',
+      ),
+      'files' => array(
+        'css' => array('slick/slick.css'),
+        'js' => array('slick/slick.min.js'),
+      ),
+    ),
+  );
 }

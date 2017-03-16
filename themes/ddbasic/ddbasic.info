@@ -76,14 +76,11 @@
   stylesheets[all][] = sass_css/add-ons/related-content.css
   stylesheets[all][] = sass_css/add-ons/servicemeddelelse-list.css
 
-  stylesheets[all][] = scripts/contrib/slick.css
-
   stylesheets[print][] = sass_css/print.css
 
 ;----------// JavaScripts
   scripts[] = scripts/contrib/imagesloaded.pkgd.min.js
   scripts[] = scripts/contrib/masonry.pkgd.min.js
-  scripts[] = scripts/contrib/slick.min.js
 
   scripts[] = scripts/contrib/jquery.cookie.js
   scripts[] = scripts/contrib/respond.min.js

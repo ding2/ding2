@@ -21,6 +21,27 @@ function ting_carousel_theme($existing, $type, $theme, $path) {
 }
 
 /**
+ * Implements hook_libraries_info().
+ */
+function ting_carousel_libraries_info() {
+  return array(
+    'slick' => array(
+      'name' => 'Slick',
+      'vendor url' => 'http://kenwheeler.github.io/slick/',
+      'download url' => 'https://github.com/kenwheeler/slick/archive/1.6.0.zip',
+      'version arguments' => array(
+        'file' => 'slick/slick.min.js',
+        'pattern' => '/Version:\s([0-9a-zA-Z\.-]+)/',
+      ),
+      'files' => array(
+        'css' => array('slick/slick.css'),
+        'js' => array('slick/slick.min.js'),
+      ),
+    ),
+  );
+}
+
+/**
  * Implements hook_field_formatter_info().
  */
 function ting_carousel_field_formatter_info() {
@@ -73,9 +94,6 @@ function ting_carousel_preprocess_field(&$variables) {
  * Add all the js and css needed for the carousel to work.
  */
 function ting_carousel_add_externals() {
-  $module_path = drupal_get_path('module', 'ting_carousel');
-  $slick_path = $module_path . '/slick';
-  drupal_add_js($slick_path . '/slick.min.js');
-  drupal_add_js($module_path . '/js/ting-carousel.js');
-  drupal_add_css($slick_path . '/slick.ccs');
+  drupal_add_js(drupal_get_path('module', 'ting_carousel') . '/js/ting-carousel.js');
+  libraries_load('slick');
 }
