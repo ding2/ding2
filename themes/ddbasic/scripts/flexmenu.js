@@ -1,5 +1,5 @@
-/* Flexmenu plugin with B14 changes	
-  
+/* Flexmenu plugin with B14 changes
+
   jQuery.flexMenu 1.2
 	https://github.com/352Media/flexMenu
 	Description: If a list is too long for all items to fit on one line, display a popup menu instead.
@@ -79,14 +79,14 @@
 				more_link,
         flex_container,
         popup_heigh;
-        
+
 			function needsMenu($itemOfInterest) {
 				var result = (Math.ceil($itemOfInterest.offset().top) >= (firstItemTop + firstItemHeight)) ? true : false;
 				// Values may be calculated from em and give us something other than round numbers. Browsers may round these inconsistently. So, let's round numbers to make it easier to trigger flexMenu.
 				return result;
 			}
 			if (needsMenu($lastItem) && numItems > s.threshold && !s.undo && $this.is(':visible')) {
-				var $popup = $('<ul class="flexMenu-popup" style="display:none;' + ((s.popupAbsolute) ? ' position: absolute;' : '') + '"></ul>'),
+				var $popup = $('<ul class="flexMenu-popup"' + ((s.popupAbsolute) ? ' position: absolute;' : '') + '"></ul>'),
 				// Move all list items after the first to this new popup ul
 					firstItemOffset = $firstItem.offset().top;
 				for (i = numItems; i > 1; i--) {
@@ -118,18 +118,18 @@
 				// Our popup menu is currently in reverse order. Let's fix that.
 				$popup.children().each(function (i, li) {
 					$popup.prepend(li);
-					
+
 				});
 				$moreItem.append($popup);
 				$moreMenu = $('ul.flexMenu-popup');
-				
+
 				// B14 change - added flex-container
 				$moreMenu.wrap( "<div class='flex-container'></div>" );
-		
-				
+
+
 				//
 				// Lines below commentet out by B14
-				
+
 				//$moreLink.click(function (e) {
 				//	// Collapsing any other open flexMenu
 				//	collapseAllExcept($moreItem);
@@ -149,11 +149,11 @@
 				//			$(this).removeClass('active');
 				//		});
 				//}
-				
+
 				//
 				// B14 changes below - hover function
 				more_link = $('.flexMenu-viewMore'),
-        
+
         // Hover
         more_link.bind('mouseenter', function(evt) {
           $(this).addClass('active');
@@ -163,10 +163,10 @@
           $(this).find('.flexMenu-viewMore').addClass('in-active');
           $(this).find('.flexMenu-viewMore').removeClass('active');
         });
-        
 
-				
-				
+
+
+
 			} else if (s.undo && $this.find('ul.flexMenu-popup')) {
 				$menu = $this.find('ul.flexMenu-popup');
 				numToRemove = $menu.find('li').length;

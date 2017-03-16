@@ -12,10 +12,6 @@
     float: left;
     width: 100%;
 
-    // Mobile
-    @include media($mobile) {
-      height: 200px !important;
-    }
     a {
       position: absolute;
       width: 100%;
@@ -91,11 +87,6 @@
         display: none;
       }
     }
-
-    // Mobile
-    @include media($mobile) {
-      min-height: 50px !important; //overwrite jquery height animation on mobile
-    }
     .info-bottom {
       float: left;
       width: 100%;
@@ -106,6 +97,7 @@
       // Mobile
       @include media($mobile) {
         width: 100%;
+        padding-right: 0;
       }
     }
     .event-list-image {
@@ -120,6 +112,14 @@
       // Mobile
       @include media($mobile) {
         display: none;
+      }
+    }
+    .library {
+      .field-item {
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
     &.has-image {

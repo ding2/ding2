@@ -4,7 +4,7 @@
 @import '../base.scss';
 
 #ui-datepicker-div {
-  z-index: $z-overlay !important;
+  z-index: $z-overlay !important; // Z-index is set as a inline style to 1 by, which is not enough
   border: none;
   background-color: $grey-light;
   padding: 5px 8px;

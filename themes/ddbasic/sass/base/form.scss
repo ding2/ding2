@@ -22,8 +22,10 @@ fieldset {
     padding: 28px 0 26px;
 
     .fieldset-legend {
-      padding-left: 0 !important;
-      background: none !important;
+      html .content-wrapper & { // System module sets padding and background for this, which we need to overwrite - hence the extra nesting
+        padding-left: 0;
+        background: none;
+      }
 
       a {
         color: $black;
@@ -49,7 +51,9 @@ fieldset {
 
     // Collapsed
     &.collapsed {
-      height: 75px !important;
+      html & { // System module sets a height for this, which we need to overwrite - hence the extra nesting
+        height: 75px;
+      }
       .fieldset-title {
         &::after {
           content: "\e901";

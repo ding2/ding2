@@ -491,8 +491,8 @@ a.js-opening-hours-toggle {
       }
     }
   }
-  > div {
-    width: 100% !important;
+  .field-group-format-wrapper {
+    width: 100% !important; // field_group module uses toggle to show and hide content. We use !important here to avoid the width to animate
     margin-top: 40px;
   }
   &.collapsed {
