@@ -114,7 +114,7 @@
         a {
           display: block;
           float: left;
-          max-width: calc(100% - 40px);
+          padding-right: 40px;
           &::after {
             @include transition(color $speed $ease);
           }

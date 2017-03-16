@@ -18,8 +18,8 @@
     width: 100%;
 
     h2.pane-title {
-      width: calc(100% - 184px);
       float: left;
+      padding-right: 184px;
 
       // Mobile
       @include media($mobile) {
@@ -98,12 +98,12 @@
     }
 
     .action-buttons {
-      width: calc(100% - 180px);
-      float: right;
+      width: 100%;
+      padding-left: 180px;
 
       // Tablet
       @include media($tablet) {
-        width: calc(100% - 130px);
+        padding-left: 130px;
       }
 
       // Mobile
