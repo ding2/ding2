@@ -98,7 +98,7 @@
 
       $('.search-result--heading-type', context).click(function(){
         if(ddbasic.breakpoint.is('mobile')) {
-          $(this).toggleClass('js-toggled');
+          $(this).toggleClass('js-toggled toggled');
           $(this).parent().parent().find('.hide-wrap').slideToggle("fast");
         }
       });

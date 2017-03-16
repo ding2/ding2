@@ -335,7 +335,7 @@
     .search-result--heading-type {
       @include arrow-button(arrow-down);
 
-      &.js-toggled {
+      &.toggled {
         @include arrow-button(arrow-up); //arrow turns up on click
         &::after {
           display: none; //hide arrow up button on desktop
@@ -354,7 +354,7 @@
           cursor: pointer;
         }
 
-        &.js-toggled {
+        &.toggled {
           &::after {
             display: block; //show arrow up button on mobile
           }
@@ -393,8 +393,10 @@
     }
 
     @include media($mobile) {
-      .ting-object-right {
-        @include span-columns(6 of 8);
+      > .inner {
+        .ting-object-right {
+          @include span-columns(6 of 8);
+        }
       }
       .ting-object-left { display: none; }
       .field-name-ting-title { margin-top: 0; }

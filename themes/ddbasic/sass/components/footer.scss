@@ -33,7 +33,7 @@
       @include font('display-small');
       @include arrow-button(arrow-down);
       pointer-events: none;
-      &.js-toggled { // js toggled arrow colors on hover
+      &.open {
         @include arrow-button(arrow-up);
         &::after {
           background-color: $black;
@@ -89,7 +89,7 @@
           background: $black;
           color: $white;
         }
-        &.js-toggled { // js toggled arrow colors on hover
+        &.open { // js toggled arrow colors on hover
           &::after {
             display: inline;
           }

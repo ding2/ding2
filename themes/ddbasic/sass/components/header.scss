@@ -144,7 +144,7 @@
   .header-inner {
     @include wrapper;
     position: relative;
-    .js-mobile-user-menu {
+    .pane-user-menu {
       position: fixed;
       z-index: $z-header + 1;
       top: 0;
@@ -651,7 +651,7 @@
     }
     > .header-wrapper {
       > .header-inner {
-        .js-mobile-user-menu,
+        .pane-user-menu,
         .pane-search-form {
           // Mobile
           @include media($mobile) {

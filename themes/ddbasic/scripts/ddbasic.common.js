@@ -21,7 +21,7 @@
       }
 
       $('<a />', {
-        'class' : 'opening-hours-toggle js-opening-hours-toggle js-collapsed',
+        'class' : 'opening-hours-toggle js-opening-hours-toggle js-collapsed collapsed',
         'href' : Drupal.t('#toggle-opening-hours'),
         'text' : text.join(', ')
       }).insertBefore(this);
@@ -40,7 +40,7 @@
       $(this).next('.js-opening-hours-toggle-element').slideToggle('fast', function() {
         // Toggle class
         $(element)
-          .toggleClass('js-collapsed js-expanded')
+          .toggleClass('js-collapsed js-expanded collapsed')
 
           // Remove focus from link
           .blur();
