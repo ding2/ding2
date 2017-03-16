@@ -8,6 +8,14 @@
 // ==========================================================================
 
 .pane-ding-facetbrowser {
+  .pane-title {
+    @include font('display-small');
+    color: $color-standard-text;
+    // Tablet
+    @include media($tablet) {
+      display: none;
+    }
+  }
   fieldset {
     > .expand {
       @include place-icon(plus, $size: 8px);
