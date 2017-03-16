@@ -61,13 +61,6 @@
     // Toggle opening hours.
     toggle_opening_hours();
 
-    // Toggle footer menu.
-    $('.footer .pane-title').on('click', function() {
-      var element = $(this).parent();
-      $('.menu', element).toggle();
-      $(this).toggleClass('js-toggled');
-    });
-
     // Check an organic group and library content.
     // If a group does not contain both news and events
     // then add an additional class to the content lists.

@@ -150,7 +150,7 @@
         padding: 0;
       }
       &.empty {
-        display: none !important;
+        display: none;
       }
       &::before {
         @include font('base-bold');

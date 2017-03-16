@@ -177,27 +177,22 @@ ul.main-menu-second-level {
       background-color: $charcoal;
       box-shadow: $box-shadow;
       border-top: 1px solid $black;
-      .flexMenu-popup {
-        @include wrapper;
-        margin-bottom: 0;
-        li {
-          position: relative;
-          float: left;
-          padding: 20px 0;
-          margin-right: 20px;
-        }
+    }
+    .flexMenu-popup {
+      @include wrapper;
+      margin-bottom: 0;
+      display: none;
+      li {
+        position: relative;
+        float: left;
+        padding: 20px 0;
+        margin-right: 20px;
       }
     }
     // Active
     &.active {
       .flexMenu-popup {
-        display: block !important;
-      }
-    }
-    // In-active
-    &.in-active {
-      .flexMenu-popup {
-        display: none !important;
+        display: block;
       }
     }
   }

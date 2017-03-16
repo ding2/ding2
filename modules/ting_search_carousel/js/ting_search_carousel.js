@@ -103,34 +103,6 @@
     var navigation;
 
     /**
-     * Private: Ensures that the tabs have the same size.
-     *
-     * This is purly a design thing.
-     */
-    function _equal_tab_width(tabsList) {
-      // Get the list of tabs and the number of tabs in the list.
-      var childCount = tabsList.children('li').length;
-
-      // Only do somehting if there actually is tabs.
-      if (childCount > 0) {
-
-        // Get the width of the <ul> list element.
-        var parentWidth = tabsList.width();
-
-        // Calculate the width of the <li>'s.
-        var childWidth = Math.floor(parentWidth / childCount);
-
-        // Calculate the last <li> width to combined childrens width it self not
-        // included.
-        var childWidthLast = parentWidth - (childWidth * (childCount - 1));
-
-        // Set the tabs css widths.
-        tabsList.children().css({'width' : childWidth + 'px'});
-        tabsList.children(':last-child').css({'width' : childWidthLast + 'px'});
-      }
-    }
-
-    /**
      * Private: Handler activated when the user changes tab.
      */
     function _change_tab(index) {
@@ -216,15 +188,6 @@
       });
 
       element.find('.rs-carousel').append(navigation);
-      // Set equal with on the tab navigation menu. We have to do this
-      // after inserting the menu as else jQuery can't calculate the
-      // size.
-      _equal_tab_width(navigation.find('.rs-carousel-list-tabs'));
-
-      // Resize the tabs if the window size changes.
-      $(window).bind('resize', function () {
-        _equal_tab_width(navigation.find('.rs-carousel-list-tabs'));
-      });
 
       // Highlight the default tab.
       $(navigation.find('li')[0]).addClass('active');
