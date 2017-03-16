@@ -277,7 +277,7 @@ a.topbar-link-user-account {
   @extend .button;
   padding-right: 14px;
   background-color: $white;
-  &.js-active {
+  &.active {
     @extend .button:hover;
   }
 }
@@ -435,7 +435,7 @@ ul.pager {
 // Opening hours collapsible
 // ==========================================================================
 
-a.js-opening-hours-toggle {
+a.opening-hours-toggle {
   @include arrow-button(arrow-up);
   position: relative;
   float: left;
@@ -446,7 +446,7 @@ a.js-opening-hours-toggle {
     background-color: $grey-dark;
     color: $white-opacity-dark;
   }
-  &.js-collapsed {
+  &.collapsed {
     &::after {
       content: "\e901";
       background-color: $grey;

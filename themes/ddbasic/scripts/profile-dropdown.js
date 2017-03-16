@@ -32,7 +32,7 @@
             'left': my_account.position().left - (dropdown.width() - my_account.width()),
           });
           body.addClass('mobile-usermenu-is-open');
-          my_account.addClass('js-active');
+          my_account.addClass('js-active active');
         }
       });
 
@@ -43,7 +43,7 @@
             'left': 0,
           });
           body.removeClass('mobile-usermenu-is-open');
-          my_account.removeClass('js-active');
+          my_account.removeClass('js-active active');
         }
       });
 
@@ -55,7 +55,7 @@
               'left': 0,
             });
             body.removeClass('mobile-usermenu-is-open');
-            my_account.removeClass('js-active');
+            my_account.removeClass('js-active active');
           }
         }
       });
