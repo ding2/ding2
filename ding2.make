@@ -508,3 +508,8 @@ libraries[jquery.imagesloaded][download][type] = "get"
 libraries[jquery.imagesloaded][download][url] = https://github.com/desandro/imagesloaded/archive/v2.1.2.tar.gz
 libraries[jquery.imagesloaded][directory_name] = "jquery.imagesloaded"
 libraries[jquery.imagesloaded][destination] = "libraries"
+
+libraries[slick][download][type] = "get"
+libraries[slick][download][url] = https://github.com/kenwheeler/slick/archive/1.6.0.zip
+libraries[slick][directory_name] = "slick"
+libraries[slick][destination] = "libraries"
