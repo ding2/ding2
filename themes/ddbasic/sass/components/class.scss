@@ -106,19 +106,12 @@ body > .ding2-site-template {
     // Mobile
     @include media($mobile) {
       padding: 20px 20px 14px 15px; //@TODO padding should be like this for all buttons, mobile
-      text-indent: 100%;
+      width: 120px;
       white-space: nowrap;
       overflow: hidden;
-      width: 96px;
+      text-overflow: ellipsis;
       &::after {
         display: none; // hide arrow on mobile
-      }
-      &::before {
-        text-indent: 0%;
-        content: "Se alle";
-        display: inline-block;
-        position: absolute;
-        left: 15px;
       }
     }
   }
