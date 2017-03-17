@@ -89,6 +89,7 @@
         background-image: none;
         margin-top: 0;
         opacity: $disabled;
+        cursor: default;
 
         // Mobile
         @include media($mobile) {
@@ -101,13 +102,25 @@
           height: 100%;
           text-indent: 0;
         }
-        // Hover
-        &:not(.rs-carousel-action-active) {
+        // Hover for non touch devices
+        .no-touch & {
           &:hover {
-            cursor: default;
             &::after {
               background-color: $color-secondary;
               color: $charcoal-opacity-dark;
+            }
+          }
+        }
+        // Hover
+        &.rs-carousel-action-active {
+          // Hover for non touch devices
+          .no-touch & {
+            &:hover {
+              cursor: pointer;
+              &::after {
+                background-color: $grey-dark;
+                color: $white;
+              }
             }
           }
         }

@@ -8,13 +8,20 @@
 // ==========================================================================
 
 #user-profile-form {
-  input[type=text]:not(.date-clear),
+  input[type=text],
   input[type=password] {
     border-radius: 0;
     background-color: $grey;
     color: $charcoal;
     &:focus {
       box-shadow: 0 0 10px $grey-dark;
+    }
+    &.date-clear {
+      border-radius: $round-corner;
+      background-color: transparent;
+      &:focus {
+        box-shadow: none;
+      }
     }
   }
   label {
