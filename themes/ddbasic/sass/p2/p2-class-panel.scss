@@ -127,6 +127,8 @@
         .signature-label {
           @include font('display-small');
           @include place-icon('arrow-right', $charcoal-opacity-dark, 54px);
+          position: static;
+
           //Right arrow
           &::after {
             @include transform(translateY(-50%));
