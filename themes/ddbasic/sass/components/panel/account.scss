@@ -30,52 +30,34 @@
 
   .pane-content {
     clear: both;
+    
     > form {
+      position: relative;
       float: left;
       width: 100%;
-
-      @at-root .pane-loans#{&} {
-        margin-top: 104px;
-      }
-
-      @at-root .pane-bookmarks#{&} {
-        margin-top: 104px;
-      }
-
-      @at-root .pane-reservations#{&} {
-        margin-top: 158px;
-      }
-
-      // Mobile
-      @include media($mobile) {
-        margin-top: 0;
-
-        @at-root .pane-loans#{&} {
-          margin-top: 0;
-        }
-
-        @at-root .pane-bookmarks#{&} {
-          margin-top: 0;
-        }
-
-        @at-root .pane-reservations#{&} {
-          margin-top: 0;
-        }
-      }
     }
   }
 
   .actions-container {
     position: absolute;
-    top: 64px;
+    top: 0;
     z-index: $z-above;
-    width: 100%;
     padding: 10px;
     background-color: $grey-dark;
 
+    &.is-bottom {
+      top: auto;
+      bottom: 0;
+    }
+
+    &.is-fixed {
+      position: fixed;
+    }
+
     // Mobile
     @include media($mobile) {
-      float: left;
+      @include clearfix;
+      position: relative;
     }
 
     .form-item {
@@ -184,7 +166,8 @@
     }
   }
   .action-buttons {
-    float: left;
+    @include clearfix;
+
     .action-button {
       background: none;
       &.delete-reservations,
