@@ -50,7 +50,7 @@
           background-size: cover;
         }
         // Make first child like other teaser in views without slide-on-mobile class
-        .view-ding-news.first-child-large:not(.slide-on-mobile) .views-row:first-child & {
+        .view-ding-news.first-child-large .views-row:first-child & {
           @include aspect-ratio-background-image(16, 9);
           background-size: cover;
         }
@@ -115,6 +115,33 @@
 
     // Mobile
     @include media($mobile) {
+      // Make first child like other teaser in views without slide-on-mobile class
+      .view-ding-news.first-child-large .views-row:first-child & {
+        .news-text {
+          @include linear-gradient(
+            transparent 0%,
+            transparent 100%
+          );
+          position: static;
+          padding: 0;
+        }
+        h3.title {
+          margin: 10px 0 5px;
+          color: $charcoal;
+        }
+        .category-and-submitted {
+          float: left;
+          width: 100%;
+          margin-bottom: 0;
+          color: $charcoal-opacity-dark;
+          > div {
+            float: left;
+          }
+        }
+        .field-name-field-ding-news-lead {
+          display: none;
+        }
+      }
       // Make all rows like first child large in slide-on-mobile views
       .view-ding-news.slide-on-mobile .views-row:first-child &,
       .view-ding-news.slide-on-mobile .views-row & {
@@ -151,33 +178,6 @@
           position: static;
           height: 0;
           padding: 0;
-        }
-      }
-      // Make first child like other teaser in views without slide-on-mobile class
-      .view-ding-news.first-child-large:not(.slide-on-mobile) .views-row:first-child & {
-        .news-text {
-          @include linear-gradient(
-            transparent 0%,
-            transparent 100%
-          );
-          position: static;
-          padding: 0;
-        }
-        h3.title {
-          margin: 10px 0 5px;
-          color: $charcoal;
-        }
-        .category-and-submitted {
-          float: left;
-          width: 100%;
-          margin-bottom: 0;
-          color: $charcoal-opacity-dark;
-          > div {
-            float: left;
-          }
-        }
-        .field-name-field-ding-news-lead {
-          display: none;
         }
       }
     }

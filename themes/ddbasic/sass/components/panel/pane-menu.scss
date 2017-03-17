@@ -91,9 +91,12 @@
     }
   }
 
-  &:last-child:not(.pane-og-menu-og-single-menu-block) {
+  &:last-child {
     @include media($tablet) {
       border-bottom: 1px solid $charcoal-opacity-light;
+      &.pane-og-menu-og-single-menu-block {
+        border-bottom: none;
+      }
     }
   }
 }

@@ -88,8 +88,12 @@
 
     .ding2-site-template {
       .panel-pane {
-        &:not(.no-gradient) {
-          @include linear-gradient(to top, $white 30px, $grey-light 100%);
+        @include linear-gradient(to top, $white 30px, $grey-light 100%);
+        &.no-gradient {
+          background-image: none;
+          .panel-pane-inner {
+            padding-top: 20px;
+          }
         }
         // Has dynamic background
         .has-dynamic-background & {
@@ -100,12 +104,6 @@
           @include wrapper;
           position: relative; // Is set to relative to position absolute elements inside panels correct
           padding: 40px 0 30px;
-        }
-        &.no-gradient {
-          background-color: $white;
-          .panel-pane-inner {
-            padding-top: 20px;
-          }
         }
       }
     }
@@ -173,22 +171,32 @@
         }
       }
       .attachments-wrapper {
-        .panel-pane:not(.pane-tags-list-ding-content-tags) {
-          &:not(.no-gradient) {
-            @include linear-gradient(to top, $white 30px, $grey-light 100%);
+        .panel-pane {
+          @include linear-gradient(to top, $white 30px, $grey-light 100%);
+          &.no-gradient {
+            background-image: none;
           }
           // Has dynamic background
           .has-dynamic-background & {
             max-width: $dynamic-background-width;
             margin: 0 auto;
           }
-          &.no-gradient {
-            background-color: $white;
-          }
           .panel-pane-inner {
             @include wrapper;
             position: relative; // Is set to relative to position absolute elements inside panels correct
             padding: 40px 0 30px;
+          }
+          &.pane-tags-list-ding-content-tags {
+            background-image: none;
+            // Has dynamic background
+            .has-dynamic-background & {
+              max-width: none;
+            }
+            .panel-pane-inner {
+              max-width: none;
+              width: 100%;
+              padding: 0;
+            }
           }
         }
       }
