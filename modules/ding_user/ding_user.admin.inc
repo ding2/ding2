@@ -11,7 +11,7 @@ function ding_user_admin_setting_form($form, &$form_state) {
   $form['ding_user_signup_link'] = array(
     '#type' => 'textfield',
     '#title' => t('Link'),
-    '#default_value' => variable_get('user_signup_link', ''),
+    '#default_value' => variable_get('ding_user_signup_link', ''),
     '#description' => t('The link is used in the text next to the log-in form'),
   );
 
