@@ -167,7 +167,7 @@ function theme_ding_list_lists($variables) {
       'items' => $rows,
       'title' => $group['title'],
       'type' => 'ul',
-      'attributes' => array(),
+      'attributes' => array('class' => array('list-links')),
     ));
   }
 
