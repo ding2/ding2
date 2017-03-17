@@ -95,9 +95,7 @@ tr.draggable {
       a {
         display: block;
         float: left;
-        &::before {
-          content: 'Nyt';
-          display: block;
+        .text {
           margin-top: 10px;
           color: $charcoal-opacity-dark;
         }
