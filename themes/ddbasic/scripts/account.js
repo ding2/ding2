@@ -3,115 +3,86 @@
 (function($) {
   'use strict';
 
+  // Make actions-container sticky when it hits header.
   $(function() {
-    // Make actions-container sticky when it hits header.
-    var current,
-        is_mobile,
-        form_width,
-        header_height,
-        title_container_height,
-        title_container_offset;
+    var
+      offset,
+      is_mobile;
 
-    $(window).bind('resize.account_form', function (evt) {
-      if (ddbasic.breakpoint.is('mobile', 'mobile_out_account') === ddbasic.breakpoint.OUT) {
-        is_mobile = false;
-      }
-      if (ddbasic.breakpoint.is('mobile', 'mobile_in_account') === ddbasic.breakpoint.IN) {
-        is_mobile = true;
-      }
+    $(window)
+      .bind('resize.actions_container', function (evt) {
+        offset = $('.content-wrapper').offset().top;
+        is_mobile = ddbasic.breakpoint.is('mobile');
 
-      header_height = $('.site-header .topbar').height() + $('.site-header > .navigation-wrapper').height();
+        // Set the width of the container, so it matches the form.
+        $('.actions-container').each(function() {
+          var container = $(this),
+            form = container.closest('form');
 
-      $('.default-account-panel-layout').each(function(index) {
-        current = $(this);
-        form_width = current.find('.pane-content > form').width();
-        title_container_height = current.find('.title-container').height();
-        title_container_offset = current.find('.title-container').offset();
-
-        if (is_mobile === false) {
-          current.find('.actions-container').css({
-            "position": "absolute",
-            "top": title_container_height,
-            "width": form_width
-          });
-        } else {
-          current.find('.actions-container').css({
-            "position": "relative",
-            "top": 0,
-            "width": form_width
-          });
-        }
-      });
-
-    }).triggerHandler('resize.account_form');
-
-    // Scroll event.
-    $(window).bind('scroll.actions_container', function (evt) {
-
-      if (title_container_offset) {
-        $('.default-account-panel-layout').each(function(index) {
-          current = $(this);
-          form_width = current.find('.pane-content > form').width();
-          title_container_height = current.find('.title-container').height();
-          title_container_offset = current.find('.title-container').offset();
-
-          var scroll = $(window).scrollTop(),
-              action_container_position = title_container_offset.top + title_container_height - scroll;
-
-          if (is_mobile === false) {
-
-            if (action_container_position < header_height) {
-              current.find('.actions-container').css({
-                "position": "fixed",
-                "top": header_height,
+          // The container is not fixed on mobile, so reset it.
+          if (is_mobile === true) {
+            form.css('padding-top', '');
+            container
+              .removeClass('is-fixed', 'is-bottom')
+              .css({
+                width: '',
+                top: ''
               });
-
-            } else {
-              current.find('.actions-container').css({
-                "position": "absolute",
-                "top": title_container_height,
-              });
-            }
-
-            var
-              current_position = 0,
-              current_offset = current.find('.actions-container').offset(),
-              current_height = current.find('.actions-container').outerHeight() + 20,
-              footer_offset = $('footer').offset(),
-              footer_position = footer_offset.top - scroll;
-
-            if(current_offset) {
-              current_position = current_offset.top + current_height - scroll;
-            }
-
-            // If next sibling has action container.
-            if (current.next('.default-account-panel-layout').find('.actions-container').length) {
-              var next_offset = current.next().find('.actions-container').offset();
-
-              if(current_offset && next_offset) {
-                var next_position = next_offset.top - scroll,
-                    current_top = next_position - current_height;
-
-                if(current_position >= next_position) {
-                  current.find('.actions-container').css({
-                    "top": current_top,
-                  });
-                }
-              }
-            }
-
-            // If scrolled to footer.
-            if (current_position >= footer_position) {
-              var current_top = footer_position - current_height;
-              current.find('.actions-container').css({
-                "top": current_top,
-              });
-            }
-
+          }
+          else {
+            // The container is either absolute or fixed, so we need to add the
+            // height as a padding to it's form.
+            form.css('padding-top', container.outerHeight(true));
+            container.css('width', form.width());
           }
         });
-      }
-    });
+
+        // Position the container in the scroll event.
+        $(window).triggerHandler('scroll.actions_container');
+      })
+      .bind('scroll.actions_container', function (evt) {
+        if (is_mobile) {
+          return;
+        }
+
+        // The mark where the container starts sticking.
+        var mark = $(window).scrollTop() + offset;
+
+        $('.actions-container').each(function() {
+          var container = $(this),
+            form = container.closest('form'),
+            form_top = form.offset().top;
+
+          if (form_top < mark) {
+            // If the user has scrolled past the form set the container to the
+            // bottom of the form.
+            if (form_top + form.height() < mark) {
+              if (!container.hasClass('is-bottom')) {
+                container
+                  .removeClass('is-fixed')
+                  .addClass('is-bottom')
+                  .css('top', '');
+              }
+            }
+            // Stick it to the top.
+            else {
+              if (!container.hasClass('is-fixed')) {
+                container
+                  .addClass('is-fixed')
+                  .removeClass('is-bottom')
+                  .css('top', offset);
+              }
+            }
+          }
+          // Reset the top and any other modifiers if mark has not been reached.
+          else if (container.hasClass('is-bottom') || container.hasClass('is-fixed')) {
+            container
+              .removeClass('is-bottom is-fixed')
+              .css('top', '');
+          }
+        });
+      })
+      .triggerHandler('resize.actions_container');
   });
 
 })(jQuery);
