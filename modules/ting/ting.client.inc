@@ -340,6 +340,36 @@ function ting_do_search($query, $page = 1, $results_per_page = 10, $options = ar
 }
 
 /**
+ * Get a ting object from the well in marcxchange format.
+ *
+ * @param string $object_id
+ *   Object identifier.
+ */
+function ting_get_object_marcxchange($object_id) {
+  $cache_key = 'marcxchange:' . $object_id;
+  $object = ting_cache_get($cache_key, TING_CACHE_TING_OBJECT, FALSE);
+
+  if ($object != TING_CACHE_EMPTY_ENTRY && !$object) {
+    ting_cache_set($cache_key, TING_CACHE_EMPTY_ENTRY, TING_CACHE_TING_OBJECT);
+
+    $request = ting_get_request_factory()->getMarcXchangeRequest();
+
+    $request->setAgency(variable_get('ting_agency'));
+    $request->setProfile(variable_get('ting_search_profile'));
+    $request->setIdentifier($object_id);
+
+    // Have to use ting_execute directly since marc objects might collide with
+    // normal dkabm objects in the cache.
+    $object = ting_execute($request);
+    if ($object) {
+      ting_cache_set($cache_key, $object, TING_CACHE_TING_OBJECT);
+    }
+  }
+
+  return $object;
+}
+
+/**
  * Calls ting_execute() and caches the result.
  *
  * Executes the request and caches sub-objects.
