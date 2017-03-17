@@ -84,7 +84,7 @@ function ddbasic_preprocess__node__ding_news(&$variables) {
       array_push($variables['classes_array'], 'node-full', 'alternative-layout-full');
 
       // Make social-share button.
-      $variables['content']['group_right']['share_button'] = array(
+      $variables['content']['group_left']['share_button'] = array(
         '#theme' => 'ding_sharer',
         '#label' => t('Share this news'),
       );
