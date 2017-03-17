@@ -137,32 +137,6 @@
   float: left;
 }
 
-.panel-pane.js-opening-hours-toggle-element {
-  width: 100%;
-  float: left;
-  margin-top: 20px;
-  margin-bottom: 30px;
-  .pane-title {
-    display: none;
-  }
-  // When placed in primary content of default panel layout
-  .default-panel-layout .primary-content & {
-    .day {
-      .name {
-        @include span-columns(2 of 8);
-      }
-      .times {
-        @include span-columns(6 of 8);
-        @include omega();
-        .instance {
-          @include span-columns(2 of 6);
-          @include omega(3n);
-        }
-      }
-    }
-  }
-}
-
 .panel-pane.pane-all-opening-hours {
   table.opening-hours-table {
     margin-bottom: 30px;
