@@ -37,7 +37,7 @@
 //
 // place-icon($icon, $color, $size)
 //
-// $icon  - Name of icon to be placed - is a string, see _mixin.scss for icon names
+// $icon  - Name of icon to be placed - is a string, see _extend.scss for icon names
 // $color - Color of icon - default is $charcoal-opacity-dark
 // $size  - Size of icon - default is 54px
 //
@@ -50,15 +50,10 @@
   position: relative;
   &::after {
     @extend %icon-#{$icon};
-    font-family: 'icomoon';
+    @extend %icomoon-base;
     font-size: $size;
-    color: $color;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
     line-height: 1;
+    color: $color;
     display: block;
     position: absolute;
     top: 0;
@@ -72,14 +67,9 @@
   position: relative;
   &::before {
     @extend %icon-#{$icon};
-    font-family: 'icomoon';
+    @extend %icomoon-base;
     font-size: $size;
     color: $color;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
     line-height: 15px;
     display: block;
     position: absolute;
@@ -152,6 +142,7 @@
 ) {
   &::after {
     @extend %icon-#{$icon};
+    @extend %icomoon-base;
     @include transition(
       background-color $speed $ease,
       color $speed $ease
@@ -160,13 +151,7 @@
     display: block;
     width: 68px;
     height: 54px;
-    font-family: 'icomoon';
     font-size: 54px;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
     line-height: 1;
     text-align: center;
     background-color: $background-color;

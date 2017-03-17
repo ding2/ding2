@@ -13,6 +13,7 @@
   width: 100%;
   float: left;
   .fa-star-o {
+    @include place-icon('star', $grey-medium, 25px);
     position: relative;
     display: block;
     float: left;
@@ -25,46 +26,34 @@
       margin-right: 10px;
     }
     &::before {
-      content: "\e918";
-      position: absolute;
-      left: 0;
-      top: 0;
-      font-family: 'icomoon';
-      font-size: 25px;
-      speak: none;
-      font-style: normal;
-      font-weight: normal;
-      font-variant: normal;
-      text-transform: none;
-      line-height: 1;
-      color: $grey-medium;
+      display: none;
     }
     &.active,
     &.submitted {
-      &::before {
+      &::after {
         color: $color-primary;
       }
     }
     // On ting teaser
     .ting-object.view-mode-teaser & {
-      &::before {
+      &::after {
         color: $color-standard-text;
       }
       &.active,
       &.submitted {
-        &::before {
+        &::after {
           color: $color-primary;
         }
       }
     }
     // On ting search result
     .ting-object.view-mode-search-result & {
-      &::before {
+      &::after {
         color: $grey-medium;
       }
       &.active,
       &.submitted {
-        &::before {
+        &::after {
           color: $color-primary;
         }
       }
