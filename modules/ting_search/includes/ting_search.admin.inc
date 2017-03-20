@@ -75,10 +75,15 @@ function ting_search_admin_settings($form_state) {
     '#description' => t('The limit at wich the message is to be displayed.'),
   );
 
-  $form['ting_search']['ting_search_extend_form'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Extend search form.'),
-    '#default_value' => variable_get('ting_search_extend_form', FALSE),
+  $form['ting_search']['ting_search_form_style'] = array(
+    '#type' => 'select',
+    '#title' => t('Search form style'),
+    '#options' => array(
+      TING_SEARCH_FORM_STYLE_NORMAL => t('Normal'),
+      TING_SEARCH_FORM_STYLE_EXTENDED => t('Extended'),
+      TING_SEARCH_FORM_STYLE_EXTENDED_WITH_TYPES => t('Extended with material types'),
+    ),
+    '#default_value' => variable_get('ting_search_form_style', TING_SEARCH_FORM_STYLE_NORMAL),
   );
 
   return system_settings_form($form);

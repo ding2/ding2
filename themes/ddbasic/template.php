@@ -28,20 +28,23 @@ function ddbasic_preprocess_html(&$vars) {
   // Add additional body classes.
   $vars['classes_array'] = array_merge($vars['classes_array'], ddbasic_body_class());
 
-  if (variable_get('ting_search_extend_form', FALSE)) {
-    $vars['classes_array'][] = 'search-form-extended';
-
-    if (variable_get('ting_search_extend_form', FALSE)) {
-      $vars['classes_array'][] = 'show-secondary-menu';
-    }
-
-    if (menu_get_item()['path'] === 'search/ting/%') {
-      $vars['classes_array'][] = 'extended-search-is-open';
-    }
-
-    if (!ting_search_form_show_types()) {
+  // Search form style.
+  switch (variable_get('ting_search_form_style', TING_SEARCH_FORM_STYLE_NORMAL)) {
+    case TING_SEARCH_FORM_STYLE_EXTENDED:
       $vars['classes_array'][] = 'search-form-no-materials';
-    }
+
+    case TING_SEARCH_FORM_STYLE_EXTENDED_WITH_TYPES:
+      $vars['classes_array'][] = 'search-form-extended';
+      $vars['classes_array'][] = 'show-secondary-menu';
+
+      if (menu_get_item()['path'] === 'search/ting/%') {
+        $vars['classes_array'][] = 'extended-search-is-open';
+      }
+
+      if (!ting_search_form_show_types()) {
+        $vars['classes_array'][] = 'search-form-no-materials';
+      }
+      break;
   }
 
   // If dynamic background.
