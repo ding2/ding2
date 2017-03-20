@@ -1,8 +1,6 @@
 //
 // Set variables
 
-@import 'colors';
-
 // ==========================================================================
 // Color
 // ==========================================================================
@@ -32,6 +30,15 @@ $red: #e22045;
 $red-text: $red;
 $yellow: #ffca5f;
 $yellow-text: darken($yellow, 15);
+
+// The color-module is dependent on the following five variables and their specific values. Therefore they may not be altered.
+
+$color-primary: #4d898e;
+$color-secondary: #f66d70;
+
+$color-text: #01ff01;
+$color-text-on-primary: #02ff02;
+$color-text-on-secondary: #03ff03;
 
 // ==========================================================================
 // Distance
