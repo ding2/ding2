@@ -36,7 +36,7 @@ function template_preprocess_ding_ddbasic_opening_hours_week(&$variables) {
   );
 
   // Add closed days.
-  for ($day = $timespan[0]; $day <= $timespan[1]; $day += 86400) {
+  for ($day = $timespan[0]; $day <= $timespan[1]; $day += DING_DDBASIC_OPENING_HOURS_ONE_DAY) {
     $date = date('Y-m-d', $day);
     $closed = TRUE;
     foreach ($instances as $instance) {

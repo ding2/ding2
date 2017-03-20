@@ -5,6 +5,7 @@
  */
 
 define('DING_DDBASIC_OPENING_HOURS_NO_CATEGORY', 'no_category');
+define('DING_DDBASIC_OPENING_HOURS_ONE_DAY', 86400);
 
 /**
  * Implements hook_menu().
