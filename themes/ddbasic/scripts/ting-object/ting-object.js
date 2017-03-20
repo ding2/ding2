@@ -26,19 +26,21 @@
 
       // If hovered element is left of window center.
       if(position_of_hovered.left < (window_width / 2)) {
-        hovered.find('.group-text').css('left', '100%');
+        hovered.addClass('move-right');
       } else {
-        hovered.find('.group-text').css('left', '-158.53659%');
+        hovered.addClass('move-left');
       }
 
       // Set timeout to make shure element is still above while it animates out.
       setTimeout(function(){
-        element_to_hover.css('z-index', '');
-        hovered.css('z-index', '2');
+        element_to_hover.removeClass('is-hovered');
+        hovered.addClass('is-hovered');
+
       }, 300);
     });
     element_to_hover.mouseleave(function() {
-      $(this).find('.group-text').css('left', '0');
+      $(this).removeClass('move-left');
+      $(this).removeClass('move-right');
     });
   }
   Drupal.behaviors.ding_ting_teaser_hover = {

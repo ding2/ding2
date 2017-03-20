@@ -11,7 +11,9 @@
     position: relative;
     float: left;
     width: 100%;
-
+    &.is-hovered {
+      z-index: 2;
+    }
     a {
       position: absolute;
       width: 100%;

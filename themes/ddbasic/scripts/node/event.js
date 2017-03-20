@@ -36,8 +36,8 @@
         // out.
         hovered = $(this);
         setTimeout(function(){
-          $('.node-ding-event.node-teaser').css('z-index', '');
-          hovered.css('z-index', '2');
+          $('.node-ding-event.node-teaser').removeClass('is-hovered');
+          hovered.addClass('is-hovered');
         }, 300);
       });
       $('.node-ding-event.node-teaser', context).mouseleave(function() {

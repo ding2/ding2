@@ -32,10 +32,6 @@
         var $this = $(this);
         if($this.is(':checked')) {
           $this
-            .closest('.fieldset-wrapper')
-            .css({
-              'display':'block',
-            })
             .closest('fieldset')
             .removeClass('collapsed');
         }

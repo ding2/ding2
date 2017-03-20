@@ -82,6 +82,19 @@
           opacity: 0;
         }
       }
+      &.is-hovered {
+        z-index: 2;
+      }
+      &.move-right {
+        .group_text {
+          left: 100%;
+        }
+      }
+      &.move-left {
+        .group_text {
+          left: -158.53659%;
+        }
+      }
       .field-name-ting-details-type {
         color: $white;
         padding: 20px 20px 0;
