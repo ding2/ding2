@@ -18,13 +18,13 @@
 .ding-campaign-wrapper {
   @include small() {
     .ding-campaign--image {
-      width: 100% ;
+      width: 100%;
     }
   }
 
   @include medium() {
     .ding-campaign--image {
-      width: 85% ;
+      width: 85%;
       margin: 0 auto;
     }
   }
