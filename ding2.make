@@ -92,6 +92,9 @@ projects[features_extra][version] = "1.0-beta1"
 projects[feeds][subdir] = "contrib"
 projects[feeds][version] = "2.0-alpha8"
 
+projects[feeds_ex][subdir] = "contrib"
+projects[feeds_ex][version] = "1.0-beta2"
+
 projects[fences][type] = "module"
 projects[fences][subdir] = "contrib"
 projects[fences][version] = "1.0"
