@@ -16,8 +16,17 @@
 }
 
 .ding-campaign-wrapper {
-  @include small-medium() {
-    display: none;
+  @include small() {
+    .ding-campaign--image {
+      width: 100%;
+    }
+  }
+
+  @include medium() {
+    .ding-campaign--image {
+      width: 85%;
+      margin: 0 auto;
+    }
   }
 
   .ding-campaign {
