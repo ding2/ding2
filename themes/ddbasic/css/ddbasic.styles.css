@@ -5196,9 +5196,14 @@ html.js .search input.form-autocomplete, html.js .search-field-in-content input.
 .pane-campaign {
   margin-top: 25px; }
 
-@media only screen and (max-width: 768px) {
-  .ding-campaign-wrapper {
-    display: none; } }
+@media only screen and (max-width: 480px) {
+  .ding-campaign-wrapper .ding-campaign--image {
+    width: 100%; } }
+
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+  .ding-campaign-wrapper .ding-campaign--image {
+    width: 85%;
+    margin: 0 auto; } }
 
 .ding-campaign-wrapper .ding-campaign {
   background-color: #fff;
