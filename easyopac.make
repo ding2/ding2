@@ -23,6 +23,12 @@ projects[bibdk_subject_hierarchy][download][type] = "git"
 projects[bibdk_subject_hierarchy][download][url]  = "git@github.com:easySuite/bibdk_subject_hierarchy.git"
 projects[bibdk_subject_hierarchy][download][branch]  = "development"
 
+projects[ding_billetexpressen_import][type]           = "module"
+projects[ding_billetexpressen_import][subdir]         = ""
+projects[ding_billetexpressen_import][download][type] = "git"
+projects[ding_billetexpressen_import][download][url]  = "git@github.com:easySuite/ding_billetexpressen_import.git"
+projects[ding_billetexpressen_import][download][branch]  = "development"
+
 projects[ding_bibliotek_info][type]           = "module"
 projects[ding_bibliotek_info][subdir]         = ""
 projects[ding_bibliotek_info][download][type] = "git"
