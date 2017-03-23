@@ -22,7 +22,7 @@ function ting_subsearch_secondary_ting_search_results($keys, $conditions, $resul
     return $messages;
   }
 
-  if ($results->numTotalObjects > variable_get('secondary_min', 10) && $results->numTotalObjects < variable_get('secondary_max', 100)) {
+  if ($results->numTotalObjects > variable_get('ting_subsearch_secondary_min', 10) && $results->numTotalObjects < variable_get('ting_subsearch_secondary_max', 100)) {
 
     // If any of fiction or non fiction is empty we cannot do the calculation.
     // Simply exit for now.
@@ -32,7 +32,7 @@ function ting_subsearch_secondary_ting_search_results($keys, $conditions, $resul
       return $messages;
     }
 
-    if (empty(variable_get('secondary_agency', '')) || empty(variable_get('secondary_profile', ''))) {
+    if (empty(variable_get('ting_subsearch_secondary_agency', '')) || empty(variable_get('ting_subsearch_secondary_profile', ''))) {
       watchdog('subsearch_subsearch', 'Missing secondary agency or profile.', array(), WATCHDOG_WARNING);
       return $messages;
     }
@@ -41,17 +41,17 @@ function ting_subsearch_secondary_ting_search_results($keys, $conditions, $resul
     $fiction = $results->facets['facet.genreCategory']->terms['fiktion'];
 
     // Less than half fiction of nonfiction.
-    if (($nonfiction / variable_get('secondary_factor', 2)) > $fiction) {
+    if (($nonfiction / variable_get('ting_subsearch_secondary_factor', 2)) > $fiction) {
 
       $secondary_result = ting_subsearch_common_do_secondary_search($keys, array(
-        'agency' => variable_get('secondary_agency', ''),
-        'profile' => variable_get('secondary_profile', ''),
+        'agency' => variable_get('ting_subsearch_secondary_agency', ''),
+        'profile' => variable_get('ting_subsearch_secondary_profile', ''),
       ));
 
-      if ($secondary_result->numTotalObjects > variable_get('secondary_result_min', 100)) {
+      if ($secondary_result->numTotalObjects > variable_get('ting_subsearch_secondary_result_min', 100)) {
         $items = array();
 
-        $number_of_records_to_show = variable_get('number_of_results', 4);
+        $number_of_records_to_show = variable_get('ting_subsearch_secondary_number_of_results', 4);
         foreach ($secondary_result->collections as &$collection) {
           if ($number_of_records_to_show == 0) {
             continue;
@@ -65,8 +65,8 @@ function ting_subsearch_secondary_ting_search_results($keys, $conditions, $resul
 
         $msg = t('If you search for "!keys" on <a href="!link">!link-text</a> instead you will get !bibdk-num-results where some of them is the following: !examples',
           array(
-            '!link' => str_replace('[keys]', $keys, variable_get('secondary_search_link', '')),
-            '!link-text' => variable_get('secondary_search_link_text', ''),
+            '!link' => str_replace('[keys]', $keys, variable_get('ting_subsearch_secondary_search_link', '')),
+            '!link-text' => variable_get('ting_subsearch_secondary_search_link_text', ''),
             '!keys' => $keys,
             '!num-results' => $results->numTotalObjects,
             '!bibdk-num-results' => $secondary_result->numTotalObjects,
